@@ -2,84 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF62628E00
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC2E628DD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:59:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouirJ-0004k5-OB; Mon, 14 Nov 2022 18:27:21 -0500
+	id 1ouiob-0000aS-Ti; Mon, 14 Nov 2022 18:24:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ouihg-0001B0-Ml
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:17:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ouig9-0006Od-1i
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ouQuV-00023P-0K
- for qemu-devel@nongnu.org; Sun, 13 Nov 2022 23:17:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ouQw1-000277-OD
+ for qemu-devel@nongnu.org; Sun, 13 Nov 2022 23:19:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668399445;
+ s=mimecast20190719; t=1668399540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9vqAMp0DUmLPn4XVVL19O4WprDpgMruLTi+YgrCdbwI=;
- b=Sk/qYQWZ3rEvH33AkTPLVDzLiznVNUhuK/WQcgrrHXwUKmeZ4PzxGvSiD5RTO3jb/0lN+6
- HDsRe56KR2F6FFZbqCrFP1LFy8sP8VlY8urogp4iPw+OPsLOhh+FpPGyFjJATGXX8UOKD/
- vAVNZKoL5OZLH27/Bsv9IZSHndhuUR8=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QJJ3PB0BcSyOgmHfEoCo6xAB6agfK9XINjLTBq9Xr3I=;
+ b=EfBmjDzmKfRAqC6YB+0FJy/tVOW5JtZiwZ/Eg0Aj1Urrv+L4r0O5fDrYY19Rbc9fQbFOAE
+ wqOo4AHQOZfUazAXCNbYZ74nq/SdVl5sw/QGsVpVr6eG6mMaabSfgYYX1KAe6XblzQ5I9e
+ +f5C/2H4YmsvSwpIw0qkrnPmx4xiDIY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-606-MGhbPLnhMKWg06utb6PzVQ-1; Sun, 13 Nov 2022 23:17:21 -0500
-X-MC-Unique: MGhbPLnhMKWg06utb6PzVQ-1
-Received: by mail-ot1-f69.google.com with SMTP id
- a22-20020a0568300b9600b0065c0cef3662so5688846otv.14
- for <qemu-devel@nongnu.org>; Sun, 13 Nov 2022 20:17:20 -0800 (PST)
+ us-mta-417-e5lCra_hPc6DbMYM0z7uIA-1; Sun, 13 Nov 2022 23:18:59 -0500
+X-MC-Unique: e5lCra_hPc6DbMYM0z7uIA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ x2-20020a05620a448200b006fa7dad5c1cso10149577qkp.10
+ for <qemu-devel@nongnu.org>; Sun, 13 Nov 2022 20:18:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9vqAMp0DUmLPn4XVVL19O4WprDpgMruLTi+YgrCdbwI=;
- b=s/6PlHHycuHYsXRNIHgRfOt/TGVe8ruqggNojqOnw3ZaNG6t4qKBRvlERdfb1Q+PF4
- Q3ETElT6PVnJBhfzAgcoAdzXzshNf+0GqvKEHm8HFPOwCzYVUbwU9WACAIxPONAWePOz
- 2G53m1+VwTJQ/jPR7ZREto1XNhyF7ZBeV8RzBLiOv1z2xaIIeod06sV5EHPUF1u3j1FA
- EIVAsGUdYxZQNlCQtUAAqD0fmfQIQuyZ2N2J9fMWxM6i4jlPM/a+PXc5LB337biBNY4w
- U4FDmpvKVnfl8nn2p32TNL7TVIbvNEaFub9QRHLCl95DNT5M8NEZ2tKwImwO2qvFI96f
- 8NLg==
-X-Gm-Message-State: ANoB5pk0R15PuJr2LH5lmWwIt6C7tW/tNS/rMscnDlIPVn2vXJll9aRA
- dcK5Yn/4mV5KjRAYqM5kqnmIBDKvbd3uGGqiHORQuQIbylgBANRDanxz/53rIXz9mFvLR/HlS9J
- dUdMOGBQrCbJH3G1avoHWD2439KQVKLU=
-X-Received: by 2002:a05:6808:22a1:b0:359:f5eb:82ec with SMTP id
- bo33-20020a05680822a100b00359f5eb82ecmr4874797oib.280.1668399440306; 
- Sun, 13 Nov 2022 20:17:20 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7yMqUL9qZWqeJENZ9uTSuueNF65km5NvgcAUceTkHv3wuW3x/pJLkwLqfPBHczj6/WDTs2A1k7kjwKsmFWsUs=
-X-Received: by 2002:a05:6808:22a1:b0:359:f5eb:82ec with SMTP id
- bo33-20020a05680822a100b00359f5eb82ecmr4874791oib.280.1668399440107; Sun, 13
- Nov 2022 20:17:20 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QJJ3PB0BcSyOgmHfEoCo6xAB6agfK9XINjLTBq9Xr3I=;
+ b=k2jHHp8gu78Se7jqIEUGTKEMzPqAMCq4qf7w1AlQ38JgdaPSo7ylhiTsqMdK7/0vPr
+ um23eub0DrKimIrH3UxzjIoxoWViarMEAuOzl2Z8uB3duQujkzcHLqZtbQvlsUD7/buH
+ HR1Rl7gLP+OpPIRW3+hZsRalYMGhJDtsrTMGMaFEvvq8fGiul8O+DOm7jqlX0NZ5Qzmy
+ BFFl1HuyyfSo4imADISARoGhNuF+3Gn8ZUr33OSPJ4bryBFzCYRTCHOXSJJoe0T3c8i2
+ x4ed5zWLJiMtWXfoLkdVfknisqm4qWRnK//j8XtivriN6O1U6QCzqnGxKMG0WsnhwqS8
+ qDqg==
+X-Gm-Message-State: ANoB5plX5eqEKwC6OTFyjhHzrsIJcZ8BnilZD22Dnv+/7B2uk1/bGiAw
+ naZULHPNxrI8WaFZKKczi+1FmsdhTIWe4Q2GlF6lE3aouoTn1a7ck2QuomiCVyftuvcTZDrU2jQ
+ J6ZXarzLu8YZG3Qc=
+X-Received: by 2002:ac8:4258:0:b0:39c:df33:c189 with SMTP id
+ r24-20020ac84258000000b0039cdf33c189mr10936628qtm.498.1668399538531; 
+ Sun, 13 Nov 2022 20:18:58 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4c7kSc8WUIe9KX63u64aXvOhLO+JpiLid78aaU0Kwa2jIMJBrzq2MezzOVFbOEWEzKU+SKlQ==
+X-Received: by 2002:ac8:4258:0:b0:39c:df33:c189 with SMTP id
+ r24-20020ac84258000000b0039cdf33c189mr10936613qtm.498.1668399538268; 
+ Sun, 13 Nov 2022 20:18:58 -0800 (PST)
+Received: from [192.168.8.100] (tmo-084-81.customers.d1-online.com.
+ [80.187.84.81]) by smtp.gmail.com with ESMTPSA id
+ bi31-20020a05620a319f00b006bb366779a4sm5866521qkb.6.2022.11.13.20.18.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Nov 2022 20:18:57 -0800 (PST)
+Message-ID: <ebf26a93-761d-ad29-2f74-08d77b003010@redhat.com>
+Date: Mon, 14 Nov 2022 05:18:53 +0100
 MIME-Version: 1.0
-References: <20221112144013.1349-1-longpeng2@huawei.com>
- <20221112144013.1349-6-longpeng2@huawei.com>
-In-Reply-To: <20221112144013.1349-6-longpeng2@huawei.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 14 Nov 2022 12:17:08 +0800
-Message-ID: <CACGkMEtMKfO5XX=CAuTJk-tKBRMKT0pr0nZB=6kCChoN2NTKSg@mail.gmail.com>
-Subject: Re: [PATCH v9 5/5] docs: Add generic vhost-vdpa device documentation
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Cc: stefanha@redhat.com, mst@redhat.com, sgarzare@redhat.com, 
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com, 
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org, 
- xiehong@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] s390x: Fix spelling errors
+Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
+References: <20221111182828.282251-1-thuth@redhat.com>
+ <501d0b54-41b6-9b7a-9b15-dc59c1ca0b82@weilnetz.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <501d0b54-41b6-9b7a-9b15-dc59c1ca0b82@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,77 +103,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Nov 12, 2022 at 10:40 PM Longpeng(Mike) <longpeng2@huawei.com> wrote:
->
-> From: Longpeng <longpeng2@huawei.com>
->
-> Signed-off-by: Longpeng <longpeng2@huawei.com>
-> ---
->  .../devices/vhost-vdpa-generic-device.rst     | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
->  create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
->
-> diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst b/docs/system/devices/vhost-vdpa-generic-device.rst
-> new file mode 100644
-> index 0000000000..d6db9af755
-> --- /dev/null
-> +++ b/docs/system/devices/vhost-vdpa-generic-device.rst
-> @@ -0,0 +1,46 @@
-> +
-> +=========================
-> +vhost-vDPA generic device
-> +=========================
-> +
-> +This document explains the usage of the vhost-vDPA generic device.
-> +
-> +Description
-> +-----------
-> +
-> +vDPA(virtio data path acceleration) device is a device that uses a datapath
-> +which complies with the virtio specifications with vendor specific control
-> +path.
-> +
-> +QEMU provides two types of vhost-vDPA devices to enable the vDPA device, one
-> +is type sensitive which means QEMU needs to know the actual device type
-> +(e.g. net, blk, scsi) and another is called "vhost-vDPA generic device" which
-> +is type insensitive.
-> +
-> +The vhost-vDPA generic device builds on the vhost-vdpa subsystem and virtio
-> +subsystem. It is quite small, but it can support any type of virtio device.
-> +
-> +Examples
-> +--------
-> +
-> +Prepare the vhost-vDPA backends first:
+On 11/11/2022 19.38, Stefan Weil wrote:
+> Am 11.11.22 um 19:28 schrieb Thomas Huth:
+> 
+>> Fix typos (discovered with the 'codespell' utility).
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   hw/s390x/ipl.h                      | 2 +-
+>>   pc-bios/s390-ccw/cio.h              | 2 +-
+>>   pc-bios/s390-ccw/iplb.h             | 2 +-
+>>   target/s390x/cpu_models.h           | 4 ++--
+>>   hw/s390x/s390-pci-vfio.c            | 2 +-
+>>   hw/s390x/s390-virtio-ccw.c          | 6 +++---
+>>   target/s390x/ioinst.c               | 2 +-
+>>   target/s390x/tcg/excp_helper.c      | 2 +-
+>>   target/s390x/tcg/fpu_helper.c       | 2 +-
+>>   target/s390x/tcg/misc_helper.c      | 2 +-
+>>   target/s390x/tcg/translate.c        | 4 ++--
+>>   target/s390x/tcg/translate_vx.c.inc | 6 +++---
+>>   pc-bios/s390-ccw/start.S            | 2 +-
+>>   13 files changed, 19 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+>> index dfc6dfd89c..7fc86e7905 100644
+>> --- a/hw/s390x/ipl.h
+>> +++ b/hw/s390x/ipl.h
+>> @@ -140,7 +140,7 @@ void s390_ipl_clear_reset_request(void);
+>>    * have an offset of 4 + n * 8 bytes within the struct in order
+>>    * to keep it double-word aligned.
+>>    * The total size of the struct must never exceed 28 bytes.
+>> - * This definition must be kept in sync with the defininition
+>> + * This definition must be kept in sync with the definition
+>>    * in pc-bios/s390-ccw/iplb.h.
+>>    */
+>>   struct QemuIplParameters {
+>> diff --git a/pc-bios/s390-ccw/cio.h b/pc-bios/s390-ccw/cio.h
+>> index 1e5d4e92e1..88a88adfd2 100644
+>> --- a/pc-bios/s390-ccw/cio.h
+>> +++ b/pc-bios/s390-ccw/cio.h
+>> @@ -20,7 +20,7 @@ struct pmcw {
+>>       __u32 intparm;      /* interruption parameter */
+>>       __u32 qf:1;         /* qdio facility */
+>>       __u32 w:1;
+>> -    __u32 isc:3;        /* interruption sublass */
+>> +    __u32 isc:3;        /* interruption subclass */
+>>       __u32 res5:3;       /* reserved zeros */
+>>       __u32 ena:1;        /* enabled */
+>>       __u32 lm:2;         /* limit mode */
+>> diff --git a/pc-bios/s390-ccw/iplb.h b/pc-bios/s390-ccw/iplb.h
+>> index 772d5c57c9..cb6ac8a880 100644
+>> --- a/pc-bios/s390-ccw/iplb.h
+>> +++ b/pc-bios/s390-ccw/iplb.h
+>> @@ -81,7 +81,7 @@ extern IplParameterBlock iplb 
+>> __attribute__((__aligned__(PAGE_SIZE)));
+>>   #define QIPL_FLAG_BM_OPTS_ZIPL  0x40
+>>   /*
+>> - * This definition must be kept in sync with the defininition
+>> + * This definition must be kept in sync with the definition
+>>    * in hw/s390x/ipl.h
+>>    */
+>>   struct QemuIplParameters {
+>> diff --git a/target/s390x/cpu_models.h b/target/s390x/cpu_models.h
+>> index 74d1f87e4f..15c0f0dcfe 100644
+>> --- a/target/s390x/cpu_models.h
+>> +++ b/target/s390x/cpu_models.h
+>> @@ -24,13 +24,13 @@ struct S390CPUDef {
+>>       uint8_t gen;            /* hw generation identification */
+>>       uint16_t type;          /* cpu type identification */
+>>       uint8_t ec_ga;          /* EC GA version (on which also the BC is 
+>> based) */
+>> -    uint8_t mha_pow;        /* Maximum Host Adress Power, mha = 2^pow-1 */
+>> +    uint8_t mha_pow;        /* Maximum Host Address Power, mha = 2^pow-1 */
+> 
+> 
+> This comment could use lower case words.
 
-Nit: here we'd better first say, it needs some vendor specific steps
-to provision vDPA and bind it to vhost-vDPA driver. Then we can see
-that in under dev directory.
+I thought so, too, but I guess the author used capital letters on purpose to 
+make sure to explain the "mha" acronym this way ...
 
-Thanks
+Anyway, I don't mind, we can also switch to lower case here, if that's 
+preferred.
 
-> +
-> +::
-> +  host# ls -l /dev/vhost-vdpa-*
-> +  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
-> +
-> +Start QEMU with virtio-mmio bus:
-> +
-> +::
-> +  host# qemu-system                                                  \
-> +      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
-> +      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
-> +      ...
-> +
-> +Start QEMU with virtio-pci bus:
-> +
-> +::
-> +  host# qemu-system                                                  \
-> +      -M pc -m 512 -smp 2                                            \
-> +      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
-> +      ...
-> --
-> 2.23.0
->
+
+>> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+>> index 2aefa508a0..5f0adb0b4a 100644
+>> --- a/hw/s390x/s390-pci-vfio.c
+>> +++ b/hw/s390x/s390-pci-vfio.c
+>> @@ -313,7 +313,7 @@ retry:
+>>   /*
+>>    * Get the host function handle from the vfio CLP capabilities chain.  
+>> Returns
+>>    * true if a fh value was placed into the provided buffer.  Returns false
+>> - * if a fh could not be obtained (ioctl failed or capabilitiy version does
+>> + * if a fh could not be obtained (ioctl failed or capability version does
+>>    * not include the fh)
+>>    */
+>>   bool s390_pci_get_host_fh(S390PCIBusDevice *pbdev, uint32_t *fh)
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index 7d80bc1837..2e64ffab45 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -354,7 +354,7 @@ static int s390_machine_protect(S390CcwMachineState *ms)
+>>       }
+>>       error_setg(&pv_mig_blocker,
+>> -               "protected VMs are currently not migrateable.");
+>> +               "protected VMs are currently not migratable.");
+> 
+> 
+> This might again be a different British / American spelling.
+
+Maybe ... I did some internet search but I did not found anything reliable 
+apart from some few pages saying that "migrateable" is an alternative 
+spelling for "migratable". Anyway, the latter seems much more common, so I 
+think we should switch to it - also to silence codespell here in future runs.
+
+  Thomas
 
 
