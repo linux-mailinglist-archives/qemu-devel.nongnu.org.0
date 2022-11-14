@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2BD628DC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:55:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A71E628DB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:46:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouidt-0001s8-Gx; Mon, 14 Nov 2022 18:13:29 -0500
+	id 1ouidn-0001jg-Tj; Mon, 14 Nov 2022 18:13:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidn-0001eb-U3
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidk-0001eb-Ms
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJJ-00035i-ES
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:52:21 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJS-00038u-Nr
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:52:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668466331;
+ s=mimecast20190719; t=1668466342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dn4u5c7k0NDmH+fmkZZ9nPfDWOXKvhaM7RFY3LonV6A=;
- b=bzi2uBHoR4qBFJuZZU0amtG1HsRB54Q3APCPPzu3XkNGwzhqics0YBGNVBaj+a6As0PGwb
- 5Jdww+hl49xkYBwuAcgpyFK3258IuW1iq6P3mgsYX2Fqm/oQw/cChvdXvKuNsJ8qt8AF6J
- 2Ij5oycwpuSMKPMwlwn6qWJR1J3QkKc=
+ bh=w2cD56WaAJ/IvhRPrOPQ2JyhwwZRuIKdCJRpznOMdqs=;
+ b=FZlsDZrGm9yJisr0X18TOHW4Fy261oaQqRvAnvd3wgZm0hBS97Mj47afeD4WojLff9//MK
+ 0maeYVIkv4R96BrQN6za2Z2DPUuPn2dARAZ4p5NnVcVahrqDsZSz5ITPHwywqUx+M1DWVa
+ YOMmbqp9ZVMjUq/xRleWesGdB1GozQc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-383-eKppC75POrCF_C0b4JsMYg-1; Mon, 14 Nov 2022 17:52:10 -0500
-X-MC-Unique: eKppC75POrCF_C0b4JsMYg-1
+ us-mta-262-pPoxq3Q7M4KEOuKG6EuL0w-1; Mon, 14 Nov 2022 17:52:10 -0500
+X-MC-Unique: pPoxq3Q7M4KEOuKG6EuL0w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA35F858F13;
- Mon, 14 Nov 2022 22:52:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E0CD101E148;
+ Mon, 14 Nov 2022 22:52:10 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84FCF40E9786;
- Mon, 14 Nov 2022 22:52:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A2CA40E9786;
+ Mon, 14 Nov 2022 22:52:10 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: libguestfs@redhat.com
 Cc: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org,
 	nbd@other.debian.org
-Subject: [libnbd PATCH v2 14/23] info: Expose extended-headers support through
- nbdinfo
-Date: Mon, 14 Nov 2022 16:51:49 -0600
-Message-Id: <20221114225158.2186742-15-eblake@redhat.com>
+Subject: [libnbd PATCH v2 15/23] info: Update nbdinfo --map to use 64-bit
+ block status
+Date: Mon, 14 Nov 2022 16:51:50 -0600
+Message-Id: <20221114225158.2186742-16-eblake@redhat.com>
 In-Reply-To: <20221114225158.2186742-1-eblake@redhat.com>
 References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
  <20221114225158.2186742-1-eblake@redhat.com>
@@ -56,15 +56,15 @@ MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,191 +80,240 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add another bit of overall server information, as well as a '--can
-extended-headers' silent query.  For now, the testsuite is written
-assuming that when nbdkit finally adds extended headers support, it
-will also add a --no-eh kill switch comparable to its existing --no-sr
-switch.
+Although we usually map "base:allocation" which doesn't require the
+use of the 64-bit API for flags, this application IS intended to map
+out other metacontexts that might have 64-bit flags.  And when
+extended headers are in use, we might as well ask for the server to
+give us extents as large as it wants, rather than breaking things up
+at 4G boundaries.
 ---
- info/nbdinfo.pod     | 11 ++++++++++-
- info/can.c           |  9 +++++++++
- info/info-can.sh     | 27 +++++++++++++++++++++++++++
- info/info-packets.sh | 17 ++++++++++++++++-
- info/main.c          |  7 ++++++-
- 5 files changed, 68 insertions(+), 3 deletions(-)
+ info/map.c | 67 ++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 35 insertions(+), 32 deletions(-)
 
-diff --git a/info/nbdinfo.pod b/info/nbdinfo.pod
-index c47e5175..2455e1c0 100644
---- a/info/nbdinfo.pod
-+++ b/info/nbdinfo.pod
-@@ -86,6 +86,7 @@ the I<--json> parameter:
-    "protocol": "newstyle-fixed",
-    "TLS": false,
-    "structured": true,
-+   "extended": false,
-    "exports": [
-      {
-        "export-name": "",
-@@ -165,6 +166,11 @@ Test if the NBD URI connection is using TLS.
- Test if server can respond with structured replies (a prerequisite
- for supporting block status commands).
+diff --git a/info/map.c b/info/map.c
+index a5aad955..ffa53b81 100644
+--- a/info/map.c
++++ b/info/map.c
+@@ -1,5 +1,5 @@
+ /* NBD client library in userspace
+- * Copyright (C) 2020-2021 Red Hat Inc.
++ * Copyright (C) 2020-2022 Red Hat Inc.
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+@@ -36,13 +36,13 @@
 
-+=item nbdinfo --can extended-headers URI
-+
-+Test if server supports extended headers (a prerequisite for
-+supporting 64-bit commands; implies structured replies as well).
-+
- =item nbdinfo --is rotational URI
+ #include "nbdinfo.h"
 
- Test if the server export is backed by something which behaves like a
-@@ -312,6 +318,8 @@ Display brief command line help and exit.
+-DEFINE_VECTOR_TYPE (uint32_vector, uint32_t)
++DEFINE_VECTOR_TYPE (uint64_vector, uint64_t)
 
- =item B<--can df>
+-static void print_extents (uint32_vector *entries);
+-static void print_totals (uint32_vector *entries, int64_t size);
++static void print_extents (uint64_vector *entries);
++static void print_totals (uint64_vector *entries, int64_t size);
+ static int extent_callback (void *user_data, const char *metacontext,
+                             uint64_t offset,
+-                            uint32_t *entries, size_t nr_entries,
++                            nbd_extent *entries, size_t nr_entries,
+                             int *error);
 
-+=item B<--can extended-headers>
-+
- =item B<--can fast-zero>
+ void
+@@ -50,7 +50,7 @@ do_map (void)
+ {
+   size_t i;
+   int64_t size;
+-  uint32_vector entries = empty_vector;
++  uint64_vector entries = empty_vector;
+   uint64_t offset, align, max_len;
+   size_t prev_entries_size;
 
- =item B<--can flush>
-@@ -341,7 +349,8 @@ and the following libnbd functions: L<nbd_can_cache(3)>,
- L<nbd_can_df(3)>, L<nbd_can_fast_zero(3)>, L<nbd_can_flush(3)>,
- L<nbd_can_fua(3)>, L<nbd_can_multi_conn(3)>, L<nbd_can_trim(3)>,
- L<nbd_can_zero(3)>, L<nbd_is_read_only(3)>,
--L<nbd_get_structured_replies_negotiated(3)>.
-+L<nbd_get_structured_replies_negotiated(3)>,
-+L<nbd_get_extended_headers_negotiated(3)>.
+@@ -69,14 +69,16 @@ do_map (void)
+     fprintf (stderr, "%s: %s\n", progname, nbd_get_error ());
+     exit (EXIT_FAILURE);
+   }
++  if (nbd_get_extended_headers_negotiated (nbd) == 1)
++    max_len = size;
 
- =item B<--color>
+   for (offset = 0; offset < size;) {
+     prev_entries_size = entries.len;
+-    if (nbd_block_status (nbd, MIN (size - offset, max_len), offset,
+-                          (nbd_extent_callback) {
+-                            .callback = extent_callback,
+-                            .user_data = &entries },
+-                          0) == -1) {
++    if (nbd_block_status_64 (nbd, MIN (size - offset, max_len), offset,
++                             (nbd_extent64_callback) {
++                               .callback = extent_callback,
++                               .user_data = &entries },
++                             0) == -1) {
+       fprintf (stderr, "%s: %s\n", progname, nbd_get_error ());
+       exit (EXIT_FAILURE);
+     }
+@@ -99,18 +101,18 @@ do_map (void)
+ }
 
-diff --git a/info/can.c b/info/can.c
-index 08d6bcd5..f602ffce 100644
---- a/info/can.c
-+++ b/info/can.c
-@@ -50,6 +50,15 @@ do_can (void)
-            strcasecmp (can, "structured_replies") == 0)
-     feature = nbd_get_structured_replies_negotiated (nbd);
+ /* Callback handling --map. */
+-static void print_one_extent (uint64_t offset, uint64_t len, uint32_t type);
+-static void extent_description (const char *metacontext, uint32_t type,
++static void print_one_extent (uint64_t offset, uint64_t len, uint64_t type);
++static void extent_description (const char *metacontext, uint64_t type,
+                                 char **descr, bool *free_descr,
+                                 const char **fg, const char **bg);
 
-+  else if (strcasecmp (can, "eh") == 0 ||
-+           strcasecmp (can, "extended header") == 0 ||
-+           strcasecmp (can, "extended-header") == 0 ||
-+           strcasecmp (can, "extended_header") == 0 ||
-+           strcasecmp (can, "extended headers") == 0 ||
-+           strcasecmp (can, "extended-headers") == 0 ||
-+           strcasecmp (can, "extended_headers") == 0)
-+    feature = nbd_get_extended_headers_negotiated (nbd);
-+
-   else if (strcasecmp (can, "readonly") == 0 ||
-            strcasecmp (can, "read-only") == 0 ||
-            strcasecmp (can, "read_only") == 0)
-diff --git a/info/info-can.sh b/info/info-can.sh
-index 3edc3948..e5f6a44b 100755
---- a/info/info-can.sh
-+++ b/info/info-can.sh
-@@ -61,6 +61,33 @@ esac
- EOF
- test $st = 2
+ static int
+ extent_callback (void *user_data, const char *metacontext,
+                  uint64_t offset,
+-                 uint32_t *entries, size_t nr_entries,
++                 nbd_extent *entries, size_t nr_entries,
+                  int *error)
+ {
+-  uint32_vector *list = user_data;
++  uint64_vector *list = user_data;
+   size_t i;
 
-+# --can extended-headers cannot be positively tested until nbdkit gains
-+# --no-eh support.  Otherwise, it is similar to --can structured-reply.
-+
-+no_eh=
-+if nbdkit --no-eh --help >/dev/null 2>/dev/null; then
-+    no_eh=--no-eh
-+    nbdkit -v -U - sh - \
-+           --run '$VG nbdinfo --can extended-headers "nbd+unix:///?socket=$unixsocket"' <<'EOF'
-+case "$1" in
-+  get_size) echo 1024 ;;
-+  pread) ;;
-+  *) exit 2 ;;
-+esac
-+EOF
-+fi
-+
-+st=0
-+nbdkit -v -U - $no_eh sh - \
-+       --run '$VG nbdinfo --can extended-headers "nbd+unix:///?socket=$unixsocket"' <<'EOF' || st=$?
-+case "$1" in
-+  get_size) echo 1024 ;;
-+  pread) ;;
-+  *) exit 2 ;;
-+esac
-+EOF
-+test $st = 2
-+
- # --can cache and --can fua require special handling because in
- # nbdkit-sh-plugin we must print "native" or "none".  Also the can_fua
- # flag is only sent if the export is writable (hence can_write below).
-diff --git a/info/info-packets.sh b/info/info-packets.sh
-index 82bb526c..a6b307a0 100755
---- a/info/info-packets.sh
-+++ b/info/info-packets.sh
-@@ -27,12 +27,27 @@ requires nbdkit --no-sr memory --version
- out=info-packets.out
- cleanup_fn rm -f $out
+   if (strcmp (metacontext, map) != 0)
+@@ -120,7 +122,8 @@ extent_callback (void *user_data, const char *metacontext,
+    * print_extents below.
+    */
+   for (i = 0; i < nr_entries; ++i) {
+-    if (uint32_vector_append (list, entries[i]) == -1) {
++    if (uint64_vector_append (list, entries[i].length) == -1 ||
++        uint64_vector_append (list, entries[i].flags) == -1) {
+       perror ("realloc");
+       exit (EXIT_FAILURE);
+     }
+@@ -129,7 +132,7 @@ extent_callback (void *user_data, const char *metacontext,
+ }
 
-+# Older nbdkit does not support extended headers; --no-eh is a reliable
-+# witness of whether nbdkit is new enough.
-+
-+no_eh=
-+if nbdkit --no-eh --help >/dev/null 2>/dev/null; then
-+    no_eh=--no-eh
-+fi
-+
- nbdkit --no-sr -U - memory size=1M \
-        --run '$VG nbdinfo "nbd+unix:///?socket=$unixsocket"' > $out
- cat $out
- grep "protocol: .*using simple packets" $out
+ static void
+-print_extents (uint32_vector *entries)
++print_extents (uint64_vector *entries)
+ {
+   size_t i, j;
+   uint64_t offset = 0;          /* end of last extent printed + 1 */
+@@ -138,7 +141,7 @@ print_extents (uint32_vector *entries)
+   if (json_output) fprintf (fp, "[\n");
 
--nbdkit -U - memory size=1M \
-+nbdkit $no_eh -U - memory size=1M \
-        --run '$VG nbdinfo "nbd+unix:///?socket=$unixsocket"' > $out
- cat $out
- grep "protocol: .*using structured packets" $out
-+
-+if test x != "x$no_eh"; then
-+    nbdkit -U - memory size=1M \
-+           --run '$VG nbdinfo "nbd+unix:///?socket=$unixsocket"' > $out
-+    cat $out
-+    grep "protocol: .*using extended packets" $out
-+fi
-diff --git a/info/main.c b/info/main.c
-index 5cd91fe1..9794c109 100644
---- a/info/main.c
-+++ b/info/main.c
-@@ -302,11 +302,13 @@ main (int argc, char *argv[])
-     const char *protocol;
-     int tls_negotiated;
-     int sr_negotiated;
-+    int eh_negotiated;
+   for (i = 0; i < entries->len; i += 2) {
+-    uint32_t type = entries->ptr[last+1];
++    uint64_t type = entries->ptr[last+1];
 
-     /* Print per-connection fields. */
-     protocol = nbd_get_protocol (nbd);
-     tls_negotiated = nbd_get_tls_negotiated (nbd);
-     sr_negotiated = nbd_get_structured_replies_negotiated (nbd);
-+    eh_negotiated = nbd_get_extended_headers_negotiated (nbd);
+     /* If we're coalescing and the current type is different from the
+      * previous one then we should print everything up to this entry.
+@@ -157,7 +160,7 @@ print_extents (uint32_vector *entries)
 
-     if (!json_output) {
-       if (protocol) {
-@@ -314,8 +316,9 @@ main (int argc, char *argv[])
-         fprintf (fp, "protocol: %s", protocol);
-         if (tls_negotiated >= 0)
-           fprintf (fp, " %s TLS", tls_negotiated ? "with" : "without");
--        if (sr_negotiated >= 0)
-+        if (eh_negotiated >= 0 && sr_negotiated >= 0)
-           fprintf (fp, ", using %s packets",
-+                   eh_negotiated ? "extended" :
-                    sr_negotiated ? "structured" : "simple");
-         fprintf (fp, "\n");
-         ansi_restore (fp);
-@@ -333,6 +336,8 @@ main (int argc, char *argv[])
-         fprintf (fp, "\"TLS\": %s,\n", tls_negotiated ? "true" : "false");
-       if (sr_negotiated >= 0)
-         fprintf (fp, "\"structured\": %s,\n", sr_negotiated ? "true" : "false");
-+      if (eh_negotiated >= 0)
-+        fprintf (fp, "\"extended\": %s,\n", eh_negotiated ? "true" : "false");
+   /* Print the last extent if there is one. */
+   if (last != i) {
+-    uint32_t type = entries->ptr[last+1];
++    uint64_t type = entries->ptr[last+1];
+     uint64_t len;
+
+     for (j = last, len = 0; j < i; j += 2)
+@@ -169,7 +172,7 @@ print_extents (uint32_vector *entries)
+ }
+
+ static void
+-print_one_extent (uint64_t offset, uint64_t len, uint32_t type)
++print_one_extent (uint64_t offset, uint64_t len, uint64_t type)
+ {
+   static bool comma = false;
+   char *descr;
+@@ -185,7 +188,7 @@ print_one_extent (uint64_t offset, uint64_t len, uint32_t type)
+       ansi_colour (bg, fp);
+     fprintf (fp, "%10" PRIu64 "  "
+              "%10" PRIu64 "  "
+-             "%3" PRIu32,
++             "%3" PRIu64,
+              offset, len, type);
+     if (descr)
+       fprintf (fp, "  %s", descr);
+@@ -199,7 +202,7 @@ print_one_extent (uint64_t offset, uint64_t len, uint32_t type)
+
+     fprintf (fp, "{ \"offset\": %" PRIu64 ", "
+              "\"length\": %" PRIu64 ", "
+-             "\"type\": %" PRIu32,
++             "\"type\": %" PRIu64,
+              offset, len, type);
+     if (descr) {
+       fprintf (fp, ", \"description\": ");
+@@ -215,9 +218,9 @@ print_one_extent (uint64_t offset, uint64_t len, uint32_t type)
+
+ /* --map --totals suboption */
+ static void
+-print_totals (uint32_vector *entries, int64_t size)
++print_totals (uint64_vector *entries, int64_t size)
+ {
+-  uint32_t type;
++  uint64_t type;
+   bool comma = false;
+
+   /* This is necessary to avoid a divide by zero below, but if the
+@@ -237,16 +240,16 @@ print_totals (uint32_vector *entries, int64_t size)
+    */
+   type = 0;
+   for (;;) {
+-    uint64_t next_type = (uint64_t)UINT32_MAX + 1;
++    uint64_t next_type = 0;
+     uint64_t c = 0;
+     size_t i;
+
+     for (i = 0; i < entries->len; i += 2) {
+-      uint32_t t = entries->ptr[i+1];
++      uint64_t t = entries->ptr[i+1];
+
+       if (t == type)
+         c += entries->ptr[i];
+-      else if (type < t && t < next_type)
++      else if (type < t && (next_type == 0 || t < next_type))
+         next_type = t;
      }
 
-     if (!list_all)
+@@ -263,7 +266,7 @@ print_totals (uint32_vector *entries, int64_t size)
+           ansi_colour (fg, fp);
+         if (bg)
+           ansi_colour (bg, fp);
+-        fprintf (fp, "%10" PRIu64 " %5.1f%% %3" PRIu32,
++        fprintf (fp, "%10" PRIu64 " %5.1f%% %3" PRIu64,
+                  c, percent, type);
+         if (descr)
+           fprintf (fp, " %s", descr);
+@@ -278,7 +281,7 @@ print_totals (uint32_vector *entries, int64_t size)
+         fprintf (fp,
+                  "{ \"size\": %" PRIu64 ", "
+                  "\"percent\": %g, "
+-                 "\"type\": %" PRIu32,
++                 "\"type\": %" PRIu64,
+                  c, percent, type);
+         if (descr) {
+           fprintf (fp, ", \"description\": ");
+@@ -292,7 +295,7 @@ print_totals (uint32_vector *entries, int64_t size)
+         free (descr);
+     }
+
+-    if (next_type == (uint64_t)UINT32_MAX + 1)
++    if (next_type == 0)
+       break;
+     type = next_type;
+   }
+@@ -301,7 +304,7 @@ print_totals (uint32_vector *entries, int64_t size)
+ }
+
+ static void
+-extent_description (const char *metacontext, uint32_t type,
++extent_description (const char *metacontext, uint64_t type,
+                     char **descr, bool *free_descr,
+                     const char **fg, const char **bg)
+ {
+@@ -348,7 +351,7 @@ extent_description (const char *metacontext, uint32_t type,
+       *fg = ANSI_FG_BRIGHT_WHITE; *bg = ANSI_BG_BLACK;
+       return;
+     default:
+-      if (asprintf (descr, "backing depth %u", type) == -1) {
++      if (asprintf (descr, "backing depth %" PRIu64, type) == -1) {
+         perror ("asprintf");
+         exit (EXIT_FAILURE);
+       }
 -- 
 2.38.1
 
