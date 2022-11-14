@@ -2,63 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D66628EC5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724E4628DB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:45:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouip3-0001UD-09; Mon, 14 Nov 2022 18:25:01 -0500
+	id 1ouiof-0000bn-O6; Mon, 14 Nov 2022 18:24:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouih4-0004o9-Er
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:16:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouXVX-0003ZB-BY
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 06:20:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668424806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Y/xFgp+yTMu8r/Cbj/tsEuyKYwcMzP9XzakLvJX6Bfo=;
- b=EcffNLqkmJ5bsfoVdkG6wpIkn47s0w03drjEUJhmctBTLFhy5ic5GmfQqMCzwL6VpFdHfO
- eBfXy0gGKtAqO7USgP4XRqeWmNu7hSFwKCgSJw156PQ+brs8nmcDaNuJILN9I60TBhIu0s
- 5faaDi6eCrRxDK5l+5JuzXQ/H8KrPBQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-W9xFBgQ7MECjpr3kekVD_g-1; Mon, 14 Nov 2022 06:19:59 -0500
-X-MC-Unique: W9xFBgQ7MECjpr3kekVD_g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6363786EB20;
- Mon, 14 Nov 2022 11:19:59 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0EDFC15BA4;
- Mon, 14 Nov 2022 11:19:58 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	stefanha@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PULL v2 00/11] Block layer patches
-Date: Mon, 14 Nov 2022 12:19:54 +0100
-Message-Id: <20221114111954.37281-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ouifd-0004xE-1K
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:19 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ouY2d-0007Wc-1c
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 06:54:21 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id p16so7294337wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 03:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
+ b=EUoeLavTVlHYdJZCNph9EHvSI+oEmosznJ6f/upKgsdxBCVKAD+wKTTxF2HefZF4aJ
+ +voBzLkimQpEK0QSkfAiC1ct7gmCt04TDRoYbiQk2+ZrURn8qyzn7B8NaLHEY4CnDGm6
+ 2jfadRSEAwkAURqUwVqJzHS0olixUeaFGq8/b2tw1FpYy5tfyimf03hvtmiBkAGD8Dwl
+ b0COvNcSFazcgu2nDWFiq0ZFNQbDFye/UqRwXqYAyjzv+ihl5HvLX0qY0nWmYQKPF5Em
+ ZwJAftOJ9dK9vLfL3ce4f68mG7VbwAJZ0JD+C1zsDfb08VanEK8T+D9r6Jo/S49b7wiV
+ j91A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
+ b=KMkjD7Trt/RRq5YiwczXUmRzT6wLcPcGYVYbKasLtE2CeTo1IFSFxHC3q1IbUxGncD
+ nXLmR2Dkgw1FGeR/y8/UAvmPOrA5dgWUyF+ouZvEqX9CBKQiR2o5L/NMF9g++/AAF2qD
+ dhtscB47h4aEoXrAHMRz+mKOg1O6OoKz1w1RTY+8YcgxGuLody2kw6mbTE+2+zMTjJ9J
+ vHfzcTYk5+X1l7qT5Ci2Ru/U32CHL6OZw2AZbaL7/r1R7J3LI5Hb5sbJz6BTSNMC8m0K
+ VwMiMA195IW6wUlqQ0ftFICVIN1SBy84WCxIcLTnOy233dVY9Wv1qXZge67o7iNW/9JI
+ Bitg==
+X-Gm-Message-State: ANoB5pn8+61SuheIOdsYMu/skHeLD30XGZ5WnLcuSUK6HlBWTUb9qzvx
+ 04H6S/BFS9JwSi5ulTMwn7X+YA==
+X-Google-Smtp-Source: AA0mqf403V0vwqaE+mnyncg76u8ir3wUv9Nm7KTIlaElnQNtqjHebbBnqedRs9sCRLI9w2BMk0/32Q==
+X-Received: by 2002:a05:600c:2315:b0:3cf:ae53:918f with SMTP id
+ 21-20020a05600c231500b003cfae53918fmr7727329wmo.131.1668426851811; 
+ Mon, 14 Nov 2022 03:54:11 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ c17-20020adffb11000000b002417f35767asm6097766wrr.40.2022.11.14.03.54.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Nov 2022 03:54:11 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E6971FFB7;
+ Mon, 14 Nov 2022 11:54:10 +0000 (GMT)
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+User-agent: mu4e 1.9.2; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Vitaly
+ Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim
+ Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J .
+ Bruce Fields" <bfields@fieldses.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Steven Price <steven.price@arm.com>, "Maciej S .
+ Szmigiero" <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>,
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang
+ <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ tabba@google.com, Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com, Viresh Kumar
+ <viresh.kumar@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ AKASHI Takahiro <takahiro.akashi@linaro.org>
+Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
+Date: Mon, 14 Nov 2022 11:43:37 +0000
+In-reply-to: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+Message-ID: <87k03xbvkt.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,58 +116,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 2ccad61746ca7de5dd3e25146062264387e43bd4:
 
-  Merge tag 'pull-tcg-20221109' of https://gitlab.com/rth7680/qemu into staging (2022-11-09 13:26:45 -0500)
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-are available in the Git repository at:
+<snip>
+> Introduction
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> KVM userspace being able to crash the host is horrible. Under current
+> KVM architecture, all guest memory is inherently accessible from KVM
+> userspace and is exposed to the mentioned crash issue. The goal of this
+> series is to provide a solution to align mm and KVM, on a userspace
+> inaccessible approach of exposing guest memory.=20
+>
+> Normally, KVM populates secondary page table (e.g. EPT) by using a host
+> virtual address (hva) from core mm page table (e.g. x86 userspace page
+> table). This requires guest memory being mmaped into KVM userspace, but
+> this is also the source where the mentioned crash issue can happen. In
+> theory, apart from those 'shared' memory for device emulation etc, guest
+> memory doesn't have to be mmaped into KVM userspace.
+>
+> This series introduces fd-based guest memory which will not be mmaped
+> into KVM userspace. KVM populates secondary page table by using a
+> fd/offset pair backed by a memory file system. The fd can be created
+> from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
+> directly interact with them with newly introduced in-kernel interface,
+> therefore remove the KVM userspace from the path of accessing/mmaping
+> the guest memory.=20
+>
+> Kirill had a patch [2] to address the same issue in a different way. It
+> tracks guest encrypted memory at the 'struct page' level and relies on
+> HWPOISON to reject the userspace access. The patch has been discussed in
+> several online and offline threads and resulted in a design document [3]
+> which is also the original proposal for this series. Later this patch
+> series evolved as more comments received in community but the major
+> concepts in [3] still hold true so recommend reading.
+>
+> The patch series may also be useful for other usages, for example, pure
+> software approach may use it to harden itself against unintentional
+> access to guest memory. This series is designed with these usages in
+> mind but doesn't have code directly support them and extension might be
+> needed.
 
-  https://repo.or.cz/qemu/kevin.git tags/for-upstream
+There are a couple of additional use cases where having a consistent
+memory interface with the kernel would be useful.
 
-for you to fetch changes up to 46530d3560b6fd5de38b6f4e45ce7d7135b9add7:
+  - Xen DomU guests providing other domains with VirtIO backends
 
-  tests/stream-under-throttle: New test (2022-11-14 11:31:52 +0100)
+  Xen by default doesn't give other domains special access to a domains
+  memory. The guest can grant access to regions of its memory to other
+  domains for this purpose.=20
 
-----------------------------------------------------------------
-Block layer patches
+  - pKVM on ARM
 
-- Fix deadlock in graph modification with iothreads
-- mirror: Fix non-converging cases for active mirror
-- qapi: Fix BlockdevOptionsNvmeIoUring @path description
-- blkio: Set BlockDriver::has_variable_length to false
+  Similar to Xen, pKVM moves the management of the page tables into the
+  hypervisor and again doesn't allow those domains to share memory by
+  default.
 
-----------------------------------------------------------------
-Alberto Faria (2):
-      qapi/block-core: Fix BlockdevOptionsNvmeIoUring @path description
-      block/blkio: Set BlockDriver::has_variable_length to false
+  - VirtIO loopback
 
-Hanna Reitz (9):
-      block/mirror: Do not wait for active writes
-      block/mirror: Drop mirror_wait_for_any_operation()
-      block/mirror: Fix NULL s->job in active writes
-      iotests/151: Test that active mirror progresses
-      iotests/151: Test active requests on mirror start
-      block: Make bdrv_child_get_parent_aio_context I/O
-      block-backend: Update ctx immediately after root
-      block: Start/end drain on correct AioContext
-      tests/stream-under-throttle: New test
+  This allows for VirtIO devices for the host kernel to be serviced by
+  backends running in userspace. Obviously the memory userspace is
+  allowed to access is strictly limited to the buffers and queues
+  because giving userspace unrestricted access to the host kernel would
+  have consequences.
 
- qapi/block-core.json                               |   2 +-
- include/block/block-global-state.h                 |   1 -
- include/block/block-io.h                           |   2 +
- include/block/block_int-common.h                   |   4 +-
- block.c                                            |   2 +-
- block/blkio.c                                      |   1 -
- block/block-backend.c                              |   9 +-
- block/io.c                                         |   6 +-
- block/mirror.c                                     |  78 ++++---
- blockjob.c                                         |   3 +-
- tests/qemu-iotests/151                             | 227 ++++++++++++++++++++-
- tests/qemu-iotests/151.out                         |   4 +-
- tests/qemu-iotests/tests/stream-under-throttle     | 121 +++++++++++
- tests/qemu-iotests/tests/stream-under-throttle.out |   5 +
- 14 files changed, 424 insertions(+), 41 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/stream-under-throttle
- create mode 100644 tests/qemu-iotests/tests/stream-under-throttle.out
+All of these VirtIO backends work with vhost-user which uses memfds to
+pass references to guest memory from the VMM to the backend
+implementation.
 
+> mm change
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Introduces a new memfd_restricted system call which can create memory
+> file that is restricted from userspace access via normal MMU operations
+> like read(), write() or mmap() etc and the only way to use it is
+> passing it to a third kernel module like KVM and relying on it to
+> access the fd through the newly added restrictedmem kernel interface.
+> The restrictedmem interface bridges the memory file subsystems
+> (tmpfs/hugetlbfs etc) and their users (KVM in this case) and provides
+> bi-directional communication between them.=20
+>
+>
+> KVM change
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Extends the KVM memslot to provide guest private (encrypted) memory from
+> a fd. With this extension, a single memslot can maintain both private
+> memory through private fd (restricted_fd/restricted_offset) and shared
+> (unencrypted) memory through userspace mmaped host virtual address
+> (userspace_addr). For a particular guest page, the corresponding page in
+> KVM memslot can be only either private or shared and only one of the
+> shared/private parts of the memslot is visible to guest. For how this
+> new extension is used in QEMU, please refer to kvm_set_phys_mem() in
+> below TDX-enabled QEMU repo.
+>
+> Introduces new KVM_EXIT_MEMORY_FAULT exit to allow userspace to get the
+> chance on decision-making for shared <-> private memory conversion. The
+> exit can be an implicit conversion in KVM page fault handler or an
+> explicit conversion from guest OS.
+>
+> Extends existing SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to
+> convert a guest page between private <-> shared. The data maintained in
+> these ioctls tells the truth whether a guest page is private or shared
+> and this information will be used in KVM page fault handler to decide
+> whether the private or the shared part of the memslot is visible to
+> guest.
+>
+<snip>
+
+--=20
+Alex Benn=C3=A9e
 
