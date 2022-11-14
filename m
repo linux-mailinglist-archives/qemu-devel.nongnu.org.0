@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0390628DC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D93628EA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:46:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinf-0007vJ-V0; Mon, 14 Nov 2022 18:23:37 -0500
+	id 1ouir8-0004Je-E5; Mon, 14 Nov 2022 18:27:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ouifo-0006LX-Q7
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:30 -0500
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouigz-0006aC-P4
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:16:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ouVXO-0001LS-5y
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 04:13:55 -0500
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 49F3D4025E;
- Mon, 14 Nov 2022 12:13:49 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 397AB30C;
- Mon, 14 Nov 2022 12:13:55 +0300 (MSK)
-Message-ID: <be197f59-ee50-caac-ecc5-aa1398b2bad3@msgid.tls.msk.ru>
-Date: Mon, 14 Nov 2022 12:13:48 +0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouVhZ-0004He-Oe
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 04:24:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668417864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=kbl99lguRL8jSDVXEVrxyWrPp8EOVduq8tRektrEYaE=;
+ b=hFgCH0+VSKpRgIhn2uhBv9tr+57ZFRZ6ZiN04C0ABHM8gdXdm6uWxhafOwUpVcr6ngljEX
+ //GJTSjO3Uq/1Ic1CgDoPPyfafWMJ8BVr1rV6lMyr9zyi7fURS6fjmKfNdksLtw9SD0Pl8
+ bqyQO5p2FYEPhJ4vnT0PRGg5QLrV6qw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-6-8PNE-l7TNXuTVXW0VzO3bw-1; Mon, 14 Nov 2022 04:24:21 -0500
+X-MC-Unique: 8PNE-l7TNXuTVXW0VzO3bw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFD6785A5B6;
+ Mon, 14 Nov 2022 09:24:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC0862166B2B;
+ Mon, 14 Nov 2022 09:24:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 76F8821E6921; Mon, 14 Nov 2022 10:24:17 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Crosthwaite <peter.crosthwaite@xilinx.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Ugly QOM property names: paths within paths
+Date: Mon, 14 Nov 2022 10:24:17 +0100
+Message-ID: <87iljh51oe.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2] capstone: use <capstone/capstone.h> instead of
- <capstone.h>
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20221113200942.18882-1-mjt@msgid.tls.msk.ru>
- <Y3IDCbr/ZgsSuzkh@redhat.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-In-Reply-To: <Y3IDCbr/ZgsSuzkh@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,48 +77,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-14.11.2022 11:58, Daniel P. Berrangé wrote:
-..
->> On current systems, using <capstone/capstone.h> works
->> now (despite the pkg-config-supplied -I/usr/include/capstone) -
->> since on all systems capstone headers are put into capstone/
->> subdirectory of a system include dir. So this change is
->> compatible with both the obsolete way of including it
->> and the only future way.
-> 
-> AFAIR, macOS HomeBrew does not put anything into the system
-> include dir, and always requires -I flags to be correct.
+I noticed this the other day:
 
-Does it work with the capstone-supplied --cflags and the proposed
-include path?  What does pkg-config --cflags capstone return there?
+    (qemu) info qom-tree 
+    /machine (pc-i440fx-7.2-machine)
+      /fw_cfg (fw_cfg_io)
+        /\x2from@etc\x2facpi\x2frsdp[0] (memory-region)b
+        /\x2from@etc\x2facpi\x2ftables[0] (memory-region)
+        /\x2from@etc\x2ftable-loader[0] (memory-region)
+        /fwcfg.dma[0] (memory-region)
+        /fwcfg[0] (memory-region)
+    [...]
 
-..
->> -  if capstone.found() and not cc.compiles('#include <capstone.h>',
->> +  if capstone.found() and not cc.compiles('#include <capstone/capstone.h>',
->>                                             dependencies: [capstone])
-> 
-> To retain back compat this could probe for both ways
-> 
->      if capstone.found()
->          if cc.compiles('#include <capstone/capstone.h>',
-> 	               dependencies: [capstone])
->             ...
->          else if cc.compiles('#include <capstone.h>',
-> 	                    dependencies: [capstone])
->             ...
->          
-> then, the source file can try the correct #include based on what
-> we detect works here.
+It took me a minute to realize that the "\x2" in these property names
+are escaped forms of '/'.  I.e. the unescaped path components of the
+first property path are
 
-I don't think this deserves the complexity really, unless there *is*
-a system out there which actually needs this.
+    machine
+    fw_cfg
+    /from@etc/facpi/frsdp[0]
 
-I mean, these little compat tweaks, - it becomes twisty with time,
-and no one knows which code paths and config variables are needed
-for what, and whole thing slowly becomes unmanageable... If it's
-easy to make it unconditional, it should be done. IMHO anyway :)
+We're embedding paths within paths.  Ugh!
 
-Thanks!
+The escaping happens in memory_region_init():
 
-/mjt
+    static bool memory_region_need_escape(char c)
+    {
+        return c == '/' || c == '[' || c == '\\' || c == ']';
+    }
+
+    static char *memory_region_escape_name(const char *name)
+    {
+        const char *p;
+        char *escaped, *q;
+        uint8_t c;
+        size_t bytes = 0;
+
+        for (p = name; *p; p++) {
+            bytes += memory_region_need_escape(*p) ? 4 : 1;
+        }
+        if (bytes == p - name) {
+           return g_memdup(name, bytes + 1);
+        }
+
+        escaped = g_malloc(bytes + 1);
+        for (p = name, q = escaped; *p; p++) {
+            c = *p;
+            if (unlikely(memory_region_need_escape(c))) {
+                *q++ = '\\';
+                *q++ = 'x';
+                *q++ = "0123456789abcdef"[c >> 4];
+                c = "0123456789abcdef"[c & 15];
+            }
+            *q++ = c;
+        }
+        *q = 0;
+        return escaped;
+    }
+
+    static void memory_region_do_init(MemoryRegion *mr,
+                                      Object *owner,
+                                      const char *name,
+                                      uint64_t size)
+    {
+        mr->size = int128_make64(size);
+        if (size == UINT64_MAX) {
+            mr->size = int128_2_64();
+        }
+        mr->name = g_strdup(name);
+        mr->owner = owner;
+        mr->ram_block = NULL;
+
+        if (name) {
+            char *escaped_name = memory_region_escape_name(name);
+            char *name_array = g_strdup_printf("%s[*]", escaped_name);
+
+            if (!owner) {
+                owner = container_get(qdev_get_machine(), "/unattached");
+            }
+
+            object_property_add_child(owner, name_array, OBJECT(mr));
+            object_unref(OBJECT(mr));
+            g_free(name_array);
+            g_free(escaped_name);
+        }
+    }
+
+    void memory_region_init(MemoryRegion *mr,
+                            Object *owner,
+                            const char *name,
+                            uint64_t size)
+    {
+        object_initialize(mr, sizeof(*mr), TYPE_MEMORY_REGION);
+        memory_region_do_init(mr, owner, name, size);
+    }
+
+Goes back to
+
+    commit b4fefef9d52003b6d09866501275a9a57995c6b0
+    Author: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
+    Date:   Thu Jun 5 23:15:52 2014 -0700
+
+        memory: MemoryRegion: QOMify
+
+        QOMify memory regions as an Object. The former init() and destroy()
+        routines become instance_init() and instance_finalize() resp.
+
+        memory_region_init() is re-implemented to be:
+        object_initialize() + set fields
+
+        memory_region_destroy() is re-implemented to call unparent().
+
+        Signed-off-by: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
+        [Add newly-created MR as child, unparent on destruction. - Paolo]
+        Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+No mention of the escapery.
+
+Questions:
+
+1. Do we really want to embed slash-separated paths into slash-separated
+   paths?
+
+2. As far as I can tell, object.c does not guard against "funny"
+   characters such as '/' in path components.  Should it?  For what it's
+   worth, the kernel doesn't permit '/' in filenames.
+
+3. Should the escapery live in object.c instead of memory.c?
+
 
