@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695D3628E7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:38:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E787B628E47
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:26:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouijr-0004QB-Au; Mon, 14 Nov 2022 18:19:39 -0500
+	id 1ouij0-0002c4-CW; Mon, 14 Nov 2022 18:18:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ouieb-0003YX-7r
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:13 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oudNZ-00082r-DN
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 12:36:18 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id q71so10840813pgq.8
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 09:36:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UNcWyo4dEsCdrEF658NodGVxPzjNzPqCMlk3Adm9N8k=;
- b=MagfRO+ZmzLQXhw9sniE8KwxzKYiECG7mCmvNdkhyslPcWX6P1ys4LVBs0U+z7zcVK
- 9W0fdPVOVApQwabxHFmrew9s/CMByBv5kqZJYobmHVfWfWfoLHEsUMok+xU1JGW+eE7I
- Ch5sO8W5AQrnbNMdCOA08IOB/cHurnS8nkUK2pxdRinmqcfNhshmul6pPQNu5gukYmqw
- UsHJcxPbREKfEeVOM+uCUbrmVa+E/L2QaKQXNxte1/kVLBxBZnjsYJDVutNqhSQ000V+
- m7a1PkP4ajDiUhhD41Mh/23fSIOQi8Q1jd/q5dtdFWJd0b0oRmDE7AN0uaSYd6BNqHVf
- UwEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UNcWyo4dEsCdrEF658NodGVxPzjNzPqCMlk3Adm9N8k=;
- b=A+ijAUfXEMQN8sCgEJH+yIrC/cMTHft+1OXvTGMRJo7bNB3aaO2XdVkx5i7kgRUHi0
- WVdQrOqL9aMhMdnuJShDeGZOVTIXkaCGqq19ODKjurQARI0Xj6Ya7Z1FRVVoVZpj3iqB
- BYvpqVRPQTQu2tn/F6SOV4TQmhzldlAdSFa1U2SFIom4xhRXPeQeGa2ihUJIAScsg4x2
- 3VvD7QOHioN0alW8SK5Q/WlKtDCjHJn5MoK13SStZIZl/A8vZFuXYhw41+3pYrZ2CBG2
- gTouRdDghjn3Xae96NFeCsD8TlxlzE84aFjD/IcobLqIjSB9TdNaf16LNimYcE+Sqhb1
- 3wZQ==
-X-Gm-Message-State: ANoB5pmiBfbVbQzYRq5bYusE1FLwP9hWTL++tB3PZQHLSmwwcgxV+kM+
- LQzKf2gp58K0psZ0it51n3uWF63c35s0zLHni3B8Og==
-X-Google-Smtp-Source: AA0mqf4JIU56ntym5JbyKmKGpmVlGpJJVu3NafvQtnvrzqvAALKG0fU+Tr77yHxGB7l4Sekr3BeRIDO+YSUeDBvKhA0=
-X-Received: by 2002:a63:535e:0:b0:43c:7da:e64b with SMTP id
- t30-20020a63535e000000b0043c07dae64bmr12830159pgl.231.1668447375689; Mon, 14
- Nov 2022 09:36:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ouieY-0003Lu-RH
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:11 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oudef-00089t-GI
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 12:54:00 -0500
+Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N9xgr6DZGz6864S;
+ Tue, 15 Nov 2022 01:51:20 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 14 Nov 2022 18:53:43 +0100
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 14 Nov
+ 2022 17:53:42 +0000
+Date: Mon, 14 Nov 2022 17:53:41 +0000
+To: Gregory Price <gourry.memverge@gmail.com>
+CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <imammedo@redhat.com>, <ani@anisinha.ca>,
+ <alison.schofield@intel.com>, <dave@stgolabs.net>,
+ <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
+ <gregory.price@memverge.com>, <hchkuo@avery-design.com.tw>,
+ <cbrowy@avery-design.com>, <ira.weiny@intel.com>
+Subject: Re: [PATCH 3/4] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
+ and Persistent)
+Message-ID: <20221114175341.000036c4@Huawei.com>
+In-Reply-To: <20221026004737.3646-4-gregory.price@memverge.com>
+References: <20221026004737.3646-1-gregory.price@memverge.com>
+ <20221026004737.3646-4-gregory.price@memverge.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20221112214900.24152-1-strahinja.p.jankovic@gmail.com>
- <CAFEAcA_F0jcjviRGjgmb4J_Kos22+UE0vPbcXoTbPCP7xz-nXA@mail.gmail.com>
- <CABtshVRnwQiTypOFaOqVE69+1wbVoVJEy_x7ELez8Mo6aXT=Yg@mail.gmail.com>
-In-Reply-To: <CABtshVRnwQiTypOFaOqVE69+1wbVoVJEy_x7ELez8Mo6aXT=Yg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Nov 2022 17:36:03 +0000
-Message-ID: <CAFEAcA-s9a2zCy6O0j6=OXZOcYbj=_mS=aa2vxbKbuSMKNjMoQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd: Fix sun4i allwinner-sdhost for U-Boot
-To: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- Beniamino Galvani <b.galvani@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,136 +72,444 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 14 Nov 2022 at 17:29, Strahinja Jankovic
-<strahinjapjankovic@gmail.com> wrote:
->
-> Hi,
->
-> Thank you for your reply.
->
-> On Mon, Nov 14, 2022 at 4:42 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Sat, 12 Nov 2022 at 21:49, Strahinja Jankovic
-> > <strahinjapjankovic@gmail.com> wrote:
-> > >
-> > > Trying to run U-Boot for Cubieboard (Allwinner A10) fails because it cannot
-> > > access SD card. The problem is that FIFO register in current
-> > > allwinner-sdhost implementation is at the address corresponding to
-> > > Allwinner H3, but not A10.
-> > > Linux kernel is not affected since Linux driver uses DMA access and does
-> > > not use FIFO register for reading/writing.
-> > >
-> > > This patch adds new class parameter `is_sun4i` and based on that
-> > > parameter uses register at offset 0x100 either as FIFO register (if
-> > > sun4i) or as threshold register (if not sun4i; in this case register at
-> > > 0x200 is FIFO register).
-> > >
-> > > Tested with U-Boot and Linux kernel image built for Cubieboard and
-> > > OrangePi PC.
-> > >
-> > > Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> > > ---
-> > >  hw/sd/allwinner-sdhost.c         | 67 ++++++++++++++++++++++----------
-> > >  include/hw/sd/allwinner-sdhost.h |  1 +
-> > >  2 files changed, 47 insertions(+), 21 deletions(-)
-> > >
-> > > diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-> > > index 455d6eabf6..51e5e90830 100644
-> > > --- a/hw/sd/allwinner-sdhost.c
-> > > +++ b/hw/sd/allwinner-sdhost.c
-> > > @@ -65,7 +65,7 @@ enum {
-> > >      REG_SD_DLBA       = 0x84,  /* Descriptor List Base Address */
-> > >      REG_SD_IDST       = 0x88,  /* Internal DMA Controller Status */
-> > >      REG_SD_IDIE       = 0x8C,  /* Internal DMA Controller IRQ Enable */
-> > > -    REG_SD_THLDC      = 0x100, /* Card Threshold Control */
-> > > +    REG_SD_THLDC      = 0x100, /* Card Threshold Control / FIFO (sun4i only)*/
-> > >      REG_SD_DSBD       = 0x10C, /* eMMC DDR Start Bit Detection Control */
-> > >      REG_SD_RES_CRC    = 0x110, /* Response CRC from card/eMMC */
-> > >      REG_SD_DATA7_CRC  = 0x114, /* CRC Data 7 from card/eMMC */
-> > > @@ -415,10 +415,29 @@ static void allwinner_sdhost_dma(AwSdHostState *s)
-> > >      }
-> > >  }
-> > >
-> > > +static uint32_t allwinner_sdhost_fifo_read(AwSdHostState *s)
-> > > +{
-> > > +    uint32_t res = 0;
-> > > +
-> > > +    if (sdbus_data_ready(&s->sdbus)) {
-> > > +        sdbus_read_data(&s->sdbus, &res, sizeof(uint32_t));
-> > > +        le32_to_cpus(&res);
-> > > +        allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
-> > > +        allwinner_sdhost_auto_stop(s);
-> > > +        allwinner_sdhost_update_irq(s);
-> > > +    } else {
-> > > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: no data ready on SD bus\n",
-> > > +                      __func__);
-> > > +    }
-> > > +
-> > > +    return res;
-> > > +}
-> > > +
-> > >  static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-> > >                                        unsigned size)
-> > >  {
-> > >      AwSdHostState *s = AW_SDHOST(opaque);
-> > > +    AwSdHostClass *sc = AW_SDHOST_GET_CLASS(s);
-> > >      uint32_t res = 0;
-> > >
-> > >      switch (offset) {
-> > > @@ -508,8 +527,12 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-> > >      case REG_SD_IDIE:      /* Internal DMA Controller Interrupt Enable */
-> > >          res = s->dmac_irq;
-> > >          break;
-> > > -    case REG_SD_THLDC:     /* Card Threshold Control */
-> > > -        res = s->card_threshold;
-> > > +    case REG_SD_THLDC:     /* Card Threshold Control or FIFO register (sun4i) */
-> > > +        if (sc->is_sun4i) {
-> > > +            res = allwinner_sdhost_fifo_read(s);
-> > > +        } else {
-> > > +            res = s->card_threshold;
-> > > +        }
-> > >          break;
-> > >      case REG_SD_DSBD:      /* eMMC DDR Start Bit Detection Control */
-> > >          res = s->startbit_detect;
-> > > @@ -531,16 +554,7 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-> > >          res = s->status_crc;
-> > >          break;
-> > >      case REG_SD_FIFO:      /* Read/Write FIFO */
-> > > -        if (sdbus_data_ready(&s->sdbus)) {
-> > > -            sdbus_read_data(&s->sdbus, &res, sizeof(uint32_t));
-> > > -            le32_to_cpus(&res);
-> > > -            allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
-> > > -            allwinner_sdhost_auto_stop(s);
-> > > -            allwinner_sdhost_update_irq(s);
-> > > -        } else {
-> > > -            qemu_log_mask(LOG_GUEST_ERROR, "%s: no data ready on SD bus\n",
-> > > -                          __func__);
-> > > -        }
-> > > +        res = allwinner_sdhost_fifo_read(s);
-> >
-> > Does the sun4i really have the FIFO at both addresses, or should
-> > this one do something else for sun4i ?
->
-> The sun4i sdhost actually has no registers with offset higher than
-> 0x100 (offset of REG_SD_THLDC in patch), so REG_SD_DSBD, all
-> REG_SD_*_CRC, REG_SD_CRC_STA and REG_SD_FIFO@0x200 should not be
-> accessed from application code meant to run on sun4i. That is why I
-> only changed the FIFO/THLDC (offset 0x100) register behavior, since
-> that change makes U-Boot work.
->
-> I could update the patch so all of these registers with offset bigger
-> than 0x100 log error if sun4i is selected, so that is more clear.
-> Would that be ok?
+On Tue, 25 Oct 2022 20:47:36 -0400
+Gregory Price <gourry.memverge@gmail.com> wrote:
 
-Yes, I think that's a good idea, but let's do that change as a
-separate patch, so we can keep this one as it is as the bugfix.
+> This commit enables each CXL Type-3 device to contain one volatile
+> memory region and one persistent region.
+> 
+> Two new properties have been added to cxl-type3 device initialization:
+>     [volatile-memdev] and [persistent-memdev]
+> 
+> The existing [memdev] property has been deprecated and will default the
+> memory region to a persistent memory region (although a user may assign
+> the region to a ram or file backed region). It cannot be used in
+> combination with the new [persistent-memdev] property.
+> 
+> Partitioning volatile memory from persistent memory is not yet supported.
+> 
+> Volatile memory is mapped at DPA(0x0), while Persistent memory is mapped
+> at DPA(vmem->size), per CXL Spec 8.2.9.8.2.0 - Get Partition Info.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-For this patch,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Gregory,
 
-thanks
--- PMM
+I've not been rushing on this purely because we are after the feature
+freeze for this QEMU cycle so no great rush to line up new features
+(and there was some fun with the pull request the previous set of QEMU
+CXL features were in - unrelated to those patches).
+
+A few comments inline.
+
+Once I've chased down a segfault on power down of my qemu setup (that
+seems to have nothing to do with the CXL support. *sigh*) I'll push out
+an updated tree with this on it for testing purposes.
+
+Thanks,
+
+Jonathan
+
+> ---
+>  docs/system/devices/cxl.rst |  53 +++++--
+>  hw/cxl/cxl-mailbox-utils.c  |  21 ++-
+>  hw/mem/cxl_type3.c          | 274 +++++++++++++++++++++++++++---------
+>  include/hw/cxl/cxl_device.h |  11 +-
+>  tests/qtest/cxl-test.c      | 111 +++++++++++----
+>  5 files changed, 348 insertions(+), 122 deletions(-)
+> 
+> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+> index f25783a4ec..9e165064c8 100644
+> --- a/docs/system/devices/cxl.rst
+> +++ b/docs/system/devices/cxl.rst
+> @@ -300,15 +300,36 @@ Example topology involving a switch::
+>  
+>  Example command lines
+>  ---------------------
+> -A very simple setup with just one directly attached CXL Type 3 device::
+> +A very simple setup with just one directly attached CXL Type 3 Persistent Memory device::
+>  
+>    qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
+>    ...
+> -  -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+> -  -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
+> +  -object memory-backend-file,pmem=true,id=pmem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+> +  -object memory-backend-file,pmem=true,id=cxl-lsa0,share=on,mem-path=/tmp/lsa.raw,size=256M \
+
+Why make the pmem=true change in here? If we want to do that I think it should be in a
+separate patch with explanation.
+
+> +  -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+> +  -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+> +  -device cxl-type3,bus=root_port13,persistent-memdev=pmem0,lsa=cxl-lsa1,id=cxl-pmem0 \
+> +  -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+> +
+> +A very simple setup with just one directly attached CXL Type 3 Volatile Memory device::
+> +
+> +  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
+> +  ...
+> +  -object memory-backend-ram,id=vmem0,share=on,size=256M \
+>    -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+>    -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+> -  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
+> +  -device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0 \
+> +  -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+
+...
+
+
+> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> index d7543fd5b4..c1183614b9 100644
+> --- a/hw/cxl/cxl-mailbox-utils.c
+> +++ b/hw/cxl/cxl-mailbox-utils.c
+> @@ -269,7 +269,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+>      } QEMU_PACKED *fw_info;
+>      QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
+>  
+> -    if (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER) {
+> +    if (cxl_dstate->mem_size < CXL_CAPACITY_MULTIPLIER) {
+
+I think this is also true of the individual types. Should we check each of them instead
+much like we do below for cmd_identify_memoyr_Device.
+
+>          return CXL_MBOX_INTERNAL_ERROR;
+>      }
+>  
+> @@ -412,20 +412,20 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+>  
+>      CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
+>      CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
+> -    uint64_t size = cxl_dstate->pmem_size;
+>  
+> -    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
+> +    if ((!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, CXL_CAPACITY_MULTIPLIER)) ||
+> +        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, CXL_CAPACITY_MULTIPLIER))) {
+>          return CXL_MBOX_INTERNAL_ERROR;
+>      }
+...
+
+
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index 0317bd96a6..21e866dcaf 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -32,7 +32,8 @@ enum {
+>  };
+>  
+
+...
+
+>  
+> @@ -151,33 +152,67 @@ static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
+>  static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
+>  {
+>      g_autofree CDATSubHeader **table = NULL;
+> -    MemoryRegion *nonvolatile_mr;
+>      CXLType3Dev *ct3d = priv;
+> +    MemoryRegion *volatile_mr = NULL, *nonvolatile_mr = NULL;
+>      int dsmad_handle = 0;
+> +    int cur_ent = 0;
+> +    int len = 0;
+>      int rc;
+>  
+> -    if (!ct3d->hostmem) {
+> +    if (!ct3d->hostpmem && !ct3d->hostvmem) {
+>          return 0;
+>      }
+>  
+> -    nonvolatile_mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!nonvolatile_mr) {
+> -        return -EINVAL;
+> +    if (ct3d->hostvmem) {
+> +        volatile_mr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +        if (!volatile_mr) {
+> +            return -EINVAL;
+> +        }
+> +        len += CT3_CDAT_NUM_ENTRIES;
+> +    }
+> +
+> +    if (ct3d->hostpmem) {
+> +        nonvolatile_mr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +        if (!nonvolatile_mr) {
+> +            return -EINVAL;
+> +        }
+> +        len += CT3_CDAT_NUM_ENTRIES;
+>      }
+>  
+> -    table = g_malloc0(CT3_CDAT_NUM_ENTRIES * sizeof(*table));
+> +    table = g_malloc0(len * sizeof(*table));
+>      if (!table) {
+>          return -ENOMEM;
+>      }
+>  
+> -    rc = ct3_build_cdat_entries_for_mr(table, dsmad_handle++, nonvolatile_mr);
+> -    if (rc < 0) {
+> -        return rc;
+> +    /* Now fill them in */
+> +    if (volatile_mr) {
+> +        rc = ct3_build_cdat_entries_for_mr(table, dsmad_handle++, volatile_mr,
+> +                true, 0);
+
+Align second line of parameters with ( would look nicer.
+
+> +        if (rc < 0) {
+> +            return rc;
+> +        }
+> +        cur_ent = CT3_CDAT_NUM_ENTRIES;
+> +    }
+> +
+> +    if (nonvolatile_mr) {
+> +        rc = ct3_build_cdat_entries_for_mr(&(table[cur_ent]), dsmad_handle++,
+> +                nonvolatile_mr, true, (volatile_mr ? volatile_mr->size : 0));
+> +        if (rc < 0) {
+> +            goto error_cleanup;
+> +        }
+> +        cur_ent += CT3_CDAT_NUM_ENTRIES;
+>      }
+> +    assert(len == cur_ent);
+>  
+>      *cdat_table = g_steal_pointer(&table);
+>  
+> -    return CT3_CDAT_NUM_ENTRIES;
+> +    return len;
+> +error_cleanup:
+> +    int i;
+> +    for (i = 0; i < cur_ent; i++) {
+> +        g_free(*cdat_table[i]);
+
+Until the steal pointer above, *cdata_table not set to anything.
+Possibly gfree(table[i])?
+
+
+> +    }
+> +    return rc;
+>  }
+>  
+>  static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
+> @@ -378,16 +413,48 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+>      CXLDVSECRegisterLocator *regloc_dvsec;
+>      uint8_t *dvsec;
+>      int i;
+> +    uint32_t range1_size_hi = 0, range1_size_lo = 0,
+> +             range1_base_hi = 0, range1_base_lo = 0,
+
+range1 values always set, so no need to initialize. Hopefully the compiler can
+see that.
+
+> +             range2_size_hi = 0, range2_size_lo = 0,
+> +             range2_base_hi = 0, range2_base_lo = 0;
+> +
+> +    /*
+> +     * Volatile memory is mapped as (0x0)
+> +     * Persistent memory is mapped at (volatile->size)
+> +     */
+> +    if (ct3d->hostvmem && ct3d->hostpmem) {
+> +        range1_size_hi = ct3d->hostvmem->size >> 32;
+> +        range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> +                         (ct3d->hostvmem->size & 0xF0000000);
+> +        range1_base_hi = 0;
+> +        range1_base_lo = 0;
+> +        range2_size_hi = ct3d->hostpmem->size >> 32;
+> +        range2_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> +                         (ct3d->hostpmem->size & 0xF0000000);
+> +        range2_base_hi = ct3d->hostvmem->size >> 32;
+> +        range2_base_lo = ct3d->hostvmem->size & 0xF0000000;
+> +    } else {
+> +        HostMemoryBackend *hmbe = ct3d->hostvmem ?
+> +                                  ct3d->hostvmem : ct3d->hostpmem;
+> +        range1_size_hi = hmbe->size >> 32;
+> +        range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> +                         (hmbe->size & 0xF0000000);
+> +        range1_base_hi = 0;
+> +        range1_base_lo = 0;
+> +    }
+
+Hmm. I wonder if this is simpler done as below. Both look fine
+to me though so up to you for next version.  Trade off between
+slightly ugly nested logic, and the readability always lost when
+a ternary operator puts in an appearance.
+
+    if (ct3d->hostvmem) {
+        range1_size_hi = ct3d->hostvmem->size >> 32;
+        range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+                         (ct3d->hostvmem->size & 0xF0000000);
+        range1_base_hi = 0;
+        range1_base_lo = 0;
+	if (ct3d->hostpmem) {
+            range2_size_hi = ct3d->hostpmem->size >> 32;
+            range2_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+                             (ct3d->hostpmem->size & 0xF0000000);
+            range2_base_hi = ct3d->hostvmem->size >> 32;
+            range2_base_lo = ct3d->hostvmem->size & 0xF0000000;
+       }
+   } else {
+       range1_size_hi = hostpmem->size >> 32;
+       range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+                        (hostpmem->size & 0xF0000000);
+       range1_base_hi = 0;
+       range1_base_lo = 0;
+   }
+
+
+>  
+>      dvsec = (uint8_t *)&(CXLDVSECDevice){
+>          .cap = 0x1e,
+>          .ctrl = 0x2,
+>          .status2 = 0x2,
+> -        .range1_size_hi = ct3d->hostmem->size >> 32,
+> -        .range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> -        (ct3d->hostmem->size & 0xF0000000),
+> -        .range1_base_hi = 0,
+> -        .range1_base_lo = 0,
+> +        .range1_size_hi = range1_size_hi,
+> +        .range1_size_lo = range1_size_lo,
+> +        .range1_base_hi = range1_base_hi,
+> +        .range1_base_lo = range1_base_lo,
+> +        .range2_size_hi = range2_size_hi,
+> +        .range2_size_lo = range2_size_lo,
+> +        .range2_base_hi = range2_base_hi,
+> +        .range2_base_lo = range2_base_lo
+>      };
+>      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+>                                 PCIE_CXL_DEVICE_DVSEC_LENGTH,
+> @@ -475,33 +542,62 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+>      MemoryRegion *mr;
+>      char *name;
+
+
+>  MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
+> @@ -687,10 +801,17 @@ MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
+>  {
+>      CXLType3Dev *ct3d = CXL_TYPE3(d);
+>      uint64_t dpa_offset;
+> -    MemoryRegion *mr;
+> +    MemoryRegion *vmr = NULL, *pmr = NULL;
+> +    AddressSpace *as;
+> +
+> +    if (ct3d->hostvmem) {
+> +        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +    }
+> +    if (ct3d->hostpmem) {
+> +        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +    }
+>  
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> +    if (!vmr && !pmr) {
+>          return MEMTX_OK;
+>      }
+>  
+> @@ -698,11 +819,13 @@ MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
+>          return MEMTX_OK;
+>      }
+>  
+> -    if (dpa_offset > int128_get64(mr->size)) {
+> +    if (dpa_offset > int128_get64(ct3d->cxl_dstate.mem_size)) {
+>          return MEMTX_OK;
+>      }
+> -    return address_space_write(&ct3d->hostmem_as, dpa_offset, attrs,
+> -                               &data, size);
+> +
+> +    as = (vmr && (dpa_offset <= int128_get64(vmr->size))) ?
+> +         &ct3d->hostvmem_as : &ct3d->hostpmem_as;
+> +    return address_space_write(as, dpa_offset, attrs, &data, size);
+
+If we have both volatile and persistent and yet still only have our one HDM
+decoder, then I think a write into the persistent range will have the wrong offset.
+
+dpa_offset == address space offset when we only had one region. Not so much any more.
+For persistent i think we'll need to subtract the size of the volatile region
+(possibly taking care with alignment - I need to check that).
+
+...
+
+> diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+> index 6baed747fa..a05ddc0c7b 100644
+> --- a/tests/qtest/cxl-test.c
+> +++ b/tests/qtest/cxl-test.c
+> @@ -34,29 +34,46 @@
+>                   "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
+>                   "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
+>  
+> -#define QEMU_T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> -                 "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> -                 "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
+> -
+> -#define QEMU_2T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> -                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
+> -
+> -#define QEMU_4T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> -                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> -                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
+> -                  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
+> -                  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
+
+If re-indenting makes sense (I'm really convinced it is worth the noise) then do it
+in a precusor no-op patch so we can more easily see what is new here.)
+
+ 
+> +#define QEMU_T3D_DEPRECATED \
+> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
+> +
+> +#define QEMU_T3D_PMEM \
+> +  "-object memory-backend-file,id=m0,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp0,persistent-memdev=cxl-m0,lsa=lsa0,id=pmem0 "
+> +
+> +#define QEMU_T3D_VMEM \
+> +  "-object memory-backend-ram,id=mem0,size=256M " \
+> +  "-device cxl-type3,bus=rp0,volatile-memdev=mem0,id=mem0 "
+> +
+> +#define QEMU_T3D_VMEM_LSA \
+> +  "-object memory-backend-ram,id=mem0,size=256M " \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp0,volatile-memdev=mem0,lsa=lsa0,id=mem0 "
+> +
+> +#define QEMU_2T3D \
+> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp0,persistent-memdev=cxl-mem0,lsa=lsa0,id=pmem0 " \
+> +  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
+> +  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp1,persistent-memdev=cxl-mem1,lsa=lsa1,id=pmem1 "
+> +
+> +#define QEMU_4T3D \
+> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp0,persistent-memdev=cxl-mem0,lsa=lsa0,id=pmem0 " \
+> +  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
+> +  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp1,persistent-memdev=cxl-mem1,lsa=lsa1,id=pmem1 " \
+> +  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
+> +  "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp2,persistent-memdev=cxl-mem2,lsa=lsa2,id=pmem2 " \
+> +  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
+> +  "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp3,persistent-memdev=cxl-mem3,lsa=lsa3,id=pmem3 "
+>  
+>  static void cxl_basic_hb(void)
+>  {
+> @@ -95,14 +112,53 @@ static void cxl_2root_port(void)
+>  }
+>  
+
+
 
