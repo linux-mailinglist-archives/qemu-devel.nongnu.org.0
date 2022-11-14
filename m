@@ -2,121 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240A0628E2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6E7628D8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:39:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouik0-0004eo-9x; Mon, 14 Nov 2022 18:19:48 -0500
+	id 1ouiky-0005Kq-1p; Mon, 14 Nov 2022 18:20:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1ouif5-0001eb-I2
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ouif5-0001df-FV
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:43 -0500
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1oubOK-0006RE-5p
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 10:28:57 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id BD4962B067C3;
- Mon, 14 Nov 2022 10:28:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 14 Nov 2022 10:28:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1668439728; x=1668446928; bh=Nk
- bbGytzJ7I7fdZjJ8Fl0BV2oDQacMuRT8wrkqNypwg=; b=L+fg9psCjGWR+Q4jar
- Mh8WPN0CCVKtE8QULFZl/REBBGfEYLOoG5tTfwzN2fLvRfihDZ0CUPaHxOTUYHgN
- +f0XudZX5n2uU9Zk262NyzcpFGRRDtJoWAoc8JwvaQmfWt8ENHQA6z/bl7D7zv1j
- stjmAjSQgumSVaN7IVmX7VjTeL7anz0EPhVYEJbMwNJF0wgd5r6RGPz80nDeGRIS
- 5U9ySXNkmdE/w/yBigY3Rx3yFbACIc4cb0hBrdw/YOLobVtkqXvHu1Wc+/Tc+Mo0
- TsAi0HYkU2U+JWkiZhU99J/Rd1WejZwmC3+i8aR3e2dYkVY3CF08l1y9hbmQUXj5
- XQoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668439728; x=1668446928; bh=NkbbGytzJ7I7fdZjJ8Fl0BV2oDQa
- cMuRT8wrkqNypwg=; b=OSToxW/AKRZaXNJ4BEd/AfCajCfbDqN1unwhNaXMlb9t
- gBO67tNkQ7mqXA1AQ+PhqQadLiKZ6cu5xEbfTKv1UtTrVeWL9sP4ytoewiuSj1Ks
- BBC694bRwD2HHIJeQSaeEBV2jt9gSr7nEGve1a7AVzb3q2yf7pOa1kMcencyzD/z
- 3DFaSyJ7bmfdtINjvmK8PGAsAt9Yq9t5XdVVz6oLDmHHq+3tD+atDSuLlkEUfNWG
- r0CU0ehV3Oq8cdxwsBSBfEkWuWaYR8G1HRnSlk1MucqsgCqrtCknz01vR9JGWymU
- ec23kvRXthssYr0nlcCFXMk42bb8tf09b03GWaO3aQ==
-X-ME-Sender: <xms:r15yY_0QRYhyAkn-aGlVslxWDhm_9bvHMBd6L_bA6_qmkRguiYaqfg>
- <xme:r15yY-Gl3WluqhzR5HczYZyXS396xm8TKAb-aw0uzyy_Lwjlq_FFDx78c9GcSLxVg
- omFr3Xg_KAP38qJKcY>
-X-ME-Received: <xmr:r15yY_4eNDfu6njZp1k19j2OAE3egUL8KFpHjFGbrTkXA6fmmfh5gR4fdxZPNA5MVmYq0A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedvgdehtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
- lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
- hmvgeqnecuggftrfgrthhtvghrnhephfeigefhtdefhedtfedthefghedutddvueehtedt
- tdehjeeukeejgeeuiedvkedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:r15yY03SFHC1V2ev4RxYj9TRgPZ9wbV1HZ2kMPfVye6Ouoozly-5pA>
- <xmx:r15yYyF9Dk-M3xacDgcx9XiIc2UyNRI_n1wX8zQbg2MGr7E4GWvUYA>
- <xmx:r15yY1-J6Sa29ay92N9akyCSYEV3nNXagqOnIPGeHpRBz_8zvlV44w>
- <xmx:sF5yY3QIa2TGTJD3XJpjfYjCXVPw48yakbN9YPL0_2IRk6C7cvZVbImWW3U>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Nov 2022 10:28:46 -0500 (EST)
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id 18B2A109875; Mon, 14 Nov 2022 18:28:43 +0300 (+03)
-Date: Mon, 14 Nov 2022 18:28:43 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Michael Roth <michael.roth@amd.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
- Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
- dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
- tabba@google.com,	mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,	wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221114152843.ylxe4dis254vrj5u@box.shutemov.name>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221031174738.fklhlia5fmaiinpe@amd.com>
- <20221101113729.GA4015495@chaop.bj.intel.com>
- <20221101151944.rhpav47pdulsew7l@amd.com>
- <20a11042-2cfb-8f42-9d80-6672e155ca2c@suse.cz>
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oubUw-0000ou-AR
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 10:35:50 -0500
+HMM_SOURCE_IP: 172.18.0.48:55964.16140356
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.138.181.236 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 0C09B28009D;
+ Mon, 14 Nov 2022 23:35:28 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([182.138.181.236])
+ by app0024 with ESMTP id 505465bd3b1041ac81a476e6f5b29a95 for mst@redhat.com; 
+ Mon, 14 Nov 2022 23:35:34 CST
+X-Transaction-ID: 505465bd3b1041ac81a476e6f5b29a95
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 182.138.181.236
+X-MEDUSA-Status: 0
+Message-ID: <fc4c24eb-239b-8e6e-a534-64effe845ca5@chinatelecom.cn>
+Date: Mon, 14 Nov 2022 23:35:30 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20a11042-2cfb-8f42-9d80-6672e155ca2c@suse.cz>
-Received-SPF: pass client-ip=64.147.123.17; envelope-from=kirill@shutemov.name;
- helo=wnew3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v3 2/2] vhost-net: Fix the virtio features negotiation flaw
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Guoyi Tu <tugy@chinatelecom.cn>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <cover.1667136717.git.huangy81@chinatelecom.cn>
+ <2560bb4e8cabc550da07162c520aff3669a8f56f.1667136717.git.huangy81@chinatelecom.cn>
+ <20221110141415-mutt-send-email-mst@kernel.org>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <20221110141415-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.226;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -132,68 +72,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 14, 2022 at 03:02:37PM +0100, Vlastimil Babka wrote:
-> On 11/1/22 16:19, Michael Roth wrote:
-> > On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
-> >> > 
-> >> >   1) restoring kernel directmap:
-> >> > 
-> >> >      Currently SNP (and I believe TDX) need to either split or remove kernel
-> >> >      direct mappings for restricted PFNs, since there is no guarantee that
-> >> >      other PFNs within a 2MB range won't be used for non-restricted
-> >> >      (which will cause an RMP #PF in the case of SNP since the 2MB
-> >> >      mapping overlaps with guest-owned pages)
-> >> 
-> >> Has the splitting and restoring been a well-discussed direction? I'm
-> >> just curious whether there is other options to solve this issue.
-> > 
-> > For SNP it's been discussed for quite some time, and either splitting or
-> > removing private entries from directmap are the well-discussed way I'm
-> > aware of to avoid RMP violations due to some other kernel process using
-> > a 2MB mapping to access shared memory if there are private pages that
-> > happen to be within that range.
-> > 
-> > In both cases the issue of how to restore directmap as 2M becomes a
-> > problem.
-> > 
-> > I was also under the impression TDX had similar requirements. If so,
-> > do you know what the plan is for handling this for TDX?
-> > 
-> > There are also 2 potential alternatives I'm aware of, but these haven't
-> > been discussed in much detail AFAIK:
-> > 
-> > a) Ensure confidential guests are backed by 2MB pages. shmem has a way to
-> >    request 2MB THP pages, but I'm not sure how reliably we can guarantee
-> >    that enough THPs are available, so if we went that route we'd probably
-> >    be better off requiring the use of hugetlbfs as the backing store. But
-> >    obviously that's a bit limiting and it would be nice to have the option
-> >    of using normal pages as well. One nice thing with invalidation
-> >    scheme proposed here is that this would "Just Work" if implement
-> >    hugetlbfs support, so an admin that doesn't want any directmap
-> >    splitting has this option available, otherwise it's done as a
-> >    best-effort.
-> > 
-> > b) Implement general support for restoring directmap as 2M even when
-> >    subpages might be in use by other kernel threads. This would be the
-> >    most flexible approach since it requires no special handling during
-> >    invalidations, but I think it's only possible if all the CPA
-> >    attributes for the 2M range are the same at the time the mapping is
-> >    restored/unsplit, so some potential locking issues there and still
-> >    chance for splitting directmap over time.
+
+
+在 2022/11/11 3:17, Michael S. Tsirkin 写道:
+> On Sun, Oct 30, 2022 at 09:52:39PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Save the acked_features once it be configured by guest
+>> virtio driver so it can't miss any features.
+>>
+>> Note that this patch also change the features saving logic
+>> in chr_closed_bh, which originally backup features no matter
+>> whether the features are 0 or not, but now do it only if
+>> features aren't 0.
+>>
+>> As to reset acked_features to 0 if needed, Qemu always
+>> keeping the backup acked_features up-to-date, and save the
+>> acked_features after virtio_net_set_features in advance,
+>> including reset acked_features to 0, so the behavior is
+>> also covered.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+>> ---
+>>   hw/net/vhost_net.c      | 9 +++++++++
+>>   hw/net/virtio-net.c     | 5 +++++
+>>   include/net/vhost_net.h | 2 ++
+>>   net/vhost-user.c        | 6 +-----
+>>   4 files changed, 17 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index d28f8b9..2bffc27 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -141,6 +141,15 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net)
+>>       return net->dev.acked_features;
+>>   }
+>>   
+>> +void vhost_net_save_acked_features(NetClientState *nc)
+>> +{
+>> +    if (nc->info->type != NET_CLIENT_DRIVER_VHOST_USER) {
+>> +        return;
+>> +    }
+>> +
+>> +    vhost_user_save_acked_features(nc, false);
+>> +}
+>> +
+>>   static int vhost_net_get_fd(NetClientState *backend)
+>>   {
+>>       switch (backend->info->type) {
+>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>> index e9f696b..5f8f788 100644
+>> --- a/hw/net/virtio-net.c
+>> +++ b/hw/net/virtio-net.c
+>> @@ -924,6 +924,11 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+>>               continue;
+>>           }
+>>           vhost_net_ack_features(get_vhost_net(nc->peer), features);
+>> +        /*
+>> +         * keep acked_features in NetVhostUserState up-to-date so it
+>> +         * can't miss any features configured by guest virtio driver.
+>> +         */
+>> +        vhost_net_save_acked_features(nc->peer);
+>>       }
+>>   
+>>       if (virtio_has_feature(features, VIRTIO_NET_F_CTRL_VLAN)) {
 > 
-> I've been hoping that
+> So when do you want to ack features but *not* save them?
+When openvswitch restart and reconnect and Qemu start the vhost_dev， 
+acked_features in vhost_dev Qemu need to be initialized and the 
+initialized value be fetched from acked_features int NetVhostUserState.
+At this time, acked_features  may not be up-to-date but we want it.
 > 
-> c) using a mechanism such as [1] [2] where the goal is to group together
-> these small allocations that need to increase directmap granularity so
-> maximum number of large mappings are preserved.
+> Is the effect of this patch, fundamentally, that guest features
+> from virtio are always copied to vhost-user?
+> Do we even need an extra copy in vhost user then?
+> 
+I'm trying to explain this from my view, please point out the mistake 
+if i failed. :)
 
-As I mentioned in the other thread the restricted memfd can be backed by
-secretmem instead of plain memfd. It already handles directmap with care.
+When socket used by vhost-user device disconnectted from openvswitch,
+Qemu will stop the vhost-user and clean up the whole struct of 
+vhost_dev(include vm's memory region and acked_features), once socket is 
+reconnected from openvswitch, Qemu will collect vm's memory region 
+dynamically but as to acked_features, IMHO, Qemu can not fetch it from 
+guest features of virtio-net, because acked_features are kind of 
+different from guest features(bit 30 is different at least)，so Qemu 
+need an extra copy.
 
-But I don't think it has to be part of initial restricted memfd
-implementation. It is SEV-specific requirement and AMD folks can extend
-implementation as needed later.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+> 
+> all this came in with:
+> 
+> commit a463215b087c41d7ca94e51aa347cde523831873
+> Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Date:   Mon Jun 6 18:45:05 2016 +0200
+> 
+>      vhost-net: save & restore vhost-user acked features
+> 
+> Marc-André do you remember why we have a copy of features in vhost-user
+> and not just reuse the features from virtio?
+> 
+> 
+>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>> index 387e913..3a5579b 100644
+>> --- a/include/net/vhost_net.h
+>> +++ b/include/net/vhost_net.h
+>> @@ -46,6 +46,8 @@ int vhost_set_vring_enable(NetClientState * nc, int enable);
+>>   
+>>   uint64_t vhost_net_get_acked_features(VHostNetState *net);
+>>   
+>> +void vhost_net_save_acked_features(NetClientState *nc);
+>> +
+>>   int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>>   
+>>   #endif
+>> diff --git a/net/vhost-user.c b/net/vhost-user.c
+>> index 74f349c..c512cc9 100644
+>> --- a/net/vhost-user.c
+>> +++ b/net/vhost-user.c
+>> @@ -258,11 +258,7 @@ static void chr_closed_bh(void *opaque)
+>>       s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
+>>   
+>>       for (i = queues -1; i >= 0; i--) {
+>> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
+>> -
+>> -        if (s->vhost_net) {
+>> -            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
+>> -        }
+>> +        vhost_user_save_acked_features(ncs[i], false);
+>>       }
+>>   
+>>       qmp_set_link(name, false, &err);
+>> -- 
+>> 1.8.3.1
+> 
 
