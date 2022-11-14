@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A11E628ED0
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF62628E00
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:10:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouirT-0004px-0O; Mon, 14 Nov 2022 18:27:31 -0500
+	id 1ouirJ-0004k5-OB; Mon, 14 Nov 2022 18:27:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ouihh-0004sK-0a; Mon, 14 Nov 2022 18:17:25 -0500
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ouQTD-00051S-GY; Sun, 13 Nov 2022 22:49:17 -0500
-Received: by mail-vs1-xe2d.google.com with SMTP id t14so10256387vsr.9;
- Sun, 13 Nov 2022 19:49:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Tj0OglJFYBK6ir0ZAItWmnnVwojk+hPz9GAH8lBZy1w=;
- b=PvmHsEGdmk25aEM1blp/oppyKxnxT1/TTmxMYOgJ1MeeTuRBf8kecJJKKYpnQm1wjn
- KoRoBOx/R/SZBL9zY8cKkFslLvgePCr7c7JfFtQ8RyncaOhPKJl89sVsC+dRjWUvQVTO
- Oav8LhVeGBqhzsHKI3fAiOJmPo+R2cUbFEJ6zTRVDzl9Gsz0Ut+7/g1kamRGO3eKaJQ+
- +MlIViEU8jWdD9EmJGerAO0RHOCePf5DYJ+lI0HELGSyljbA6gWWf4DBOmSxL6VeEAKe
- 6M7Z96aOM4m31ve6DVpoxf+s9OTukxrVh0GrkCXRBr3S6SgFysWrxB9woI1EzKBX0RnR
- LQsg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ouihg-0001B0-Ml
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:17:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ouQuV-00023P-0K
+ for qemu-devel@nongnu.org; Sun, 13 Nov 2022 23:17:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668399445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9vqAMp0DUmLPn4XVVL19O4WprDpgMruLTi+YgrCdbwI=;
+ b=Sk/qYQWZ3rEvH33AkTPLVDzLiznVNUhuK/WQcgrrHXwUKmeZ4PzxGvSiD5RTO3jb/0lN+6
+ HDsRe56KR2F6FFZbqCrFP1LFy8sP8VlY8urogp4iPw+OPsLOhh+FpPGyFjJATGXX8UOKD/
+ vAVNZKoL5OZLH27/Bsv9IZSHndhuUR8=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-606-MGhbPLnhMKWg06utb6PzVQ-1; Sun, 13 Nov 2022 23:17:21 -0500
+X-MC-Unique: MGhbPLnhMKWg06utb6PzVQ-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ a22-20020a0568300b9600b0065c0cef3662so5688846otv.14
+ for <qemu-devel@nongnu.org>; Sun, 13 Nov 2022 20:17:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Tj0OglJFYBK6ir0ZAItWmnnVwojk+hPz9GAH8lBZy1w=;
- b=vUWnsCfoNVVkNXCiUDz42dIBedFmjkab5wY57krvEoXFgplkemeTNAWaHL66wyMBwy
- Wko7eUWNf/VPGaAREDLaLciX4VX2Hb/uON36n89LUWlFHimEHipyCXuJk0ACazE2TRky
- 3Af8Wqr8hvVoo4LqFvXmaTnAfDSuDwqd4PV58cN7kwJAbDmtfE8F+8PRXoRObfIjlEGm
- lej0DHjwWIKHCKno7Ghq6DLIWr80Bt8oDGjnr37Sl2bGAig5txJOSlfW9TCT2GNjmmap
- 5G7Jkj4mOj0V8p5PfJHlezFVqCPlwPjz1IffHxACGZ5jWC3eM1kBxaVysr5CCIg7BSvx
- G1zQ==
-X-Gm-Message-State: ANoB5pma42hxXFMULKPL/G+QfXdlNLbfkwiVhavo+QHtBRt7Ic/KX5DG
- PbHTO5W7EdHbZubJjTpKSVp3NQMJ29xifqIkCMZbZONjZl7zNQ==
-X-Google-Smtp-Source: AA0mqf5djTgaRD+AW0QZiWsTOdCxT87uWSmdziuABCCDlo8sLns8Lxfti/wTjT/Fxj2sSpvWRxBa6aehZs0kNPneQfc=
-X-Received: by 2002:a67:fb19:0:b0:3a6:fde0:cf74 with SMTP id
- d25-20020a67fb19000000b003a6fde0cf74mr4791379vsr.73.1668397753965; Sun, 13
- Nov 2022 19:49:13 -0800 (PST)
+ bh=9vqAMp0DUmLPn4XVVL19O4WprDpgMruLTi+YgrCdbwI=;
+ b=s/6PlHHycuHYsXRNIHgRfOt/TGVe8ruqggNojqOnw3ZaNG6t4qKBRvlERdfb1Q+PF4
+ Q3ETElT6PVnJBhfzAgcoAdzXzshNf+0GqvKEHm8HFPOwCzYVUbwU9WACAIxPONAWePOz
+ 2G53m1+VwTJQ/jPR7ZREto1XNhyF7ZBeV8RzBLiOv1z2xaIIeod06sV5EHPUF1u3j1FA
+ EIVAsGUdYxZQNlCQtUAAqD0fmfQIQuyZ2N2J9fMWxM6i4jlPM/a+PXc5LB337biBNY4w
+ U4FDmpvKVnfl8nn2p32TNL7TVIbvNEaFub9QRHLCl95DNT5M8NEZ2tKwImwO2qvFI96f
+ 8NLg==
+X-Gm-Message-State: ANoB5pk0R15PuJr2LH5lmWwIt6C7tW/tNS/rMscnDlIPVn2vXJll9aRA
+ dcK5Yn/4mV5KjRAYqM5kqnmIBDKvbd3uGGqiHORQuQIbylgBANRDanxz/53rIXz9mFvLR/HlS9J
+ dUdMOGBQrCbJH3G1avoHWD2439KQVKLU=
+X-Received: by 2002:a05:6808:22a1:b0:359:f5eb:82ec with SMTP id
+ bo33-20020a05680822a100b00359f5eb82ecmr4874797oib.280.1668399440306; 
+ Sun, 13 Nov 2022 20:17:20 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7yMqUL9qZWqeJENZ9uTSuueNF65km5NvgcAUceTkHv3wuW3x/pJLkwLqfPBHczj6/WDTs2A1k7kjwKsmFWsUs=
+X-Received: by 2002:a05:6808:22a1:b0:359:f5eb:82ec with SMTP id
+ bo33-20020a05680822a100b00359f5eb82ecmr4874791oib.280.1668399440107; Sun, 13
+ Nov 2022 20:17:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20221027054649.69228-1-mchitale@ventanamicro.com>
- <20221027054649.69228-4-mchitale@ventanamicro.com>
-In-Reply-To: <20221027054649.69228-4-mchitale@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 14 Nov 2022 13:48:47 +1000
-Message-ID: <CAKmqyKOpCvVUwdaKDdTWw7kpw_xp2+iJAtCGd6EimDCTye_aEw@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] target/riscv: kvm: Support selecting VCPU
- extensions
-To: Mayuresh Chitale <mchitale@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+References: <20221112144013.1349-1-longpeng2@huawei.com>
+ <20221112144013.1349-6-longpeng2@huawei.com>
+In-Reply-To: <20221112144013.1349-6-longpeng2@huawei.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 14 Nov 2022 12:17:08 +0800
+Message-ID: <CACGkMEtMKfO5XX=CAuTJk-tKBRMKT0pr0nZB=6kCChoN2NTKSg@mail.gmail.com>
+Subject: Re: [PATCH v9 5/5] docs: Add generic vhost-vdpa device documentation
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: stefanha@redhat.com, mst@redhat.com, sgarzare@redhat.com, 
+ cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com, 
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org, 
+ xiehong@huawei.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,175 +95,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 3:53 PM Mayuresh Chitale
-<mchitale@ventanamicro.com> wrote:
+On Sat, Nov 12, 2022 at 10:40 PM Longpeng(Mike) <longpeng2@huawei.com> wrote:
 >
-> Set the state of each ISA extension on the vcpu depending on what
-> is set in the CPU property and what is allowed by KVM for that extension.
+> From: Longpeng <longpeng2@huawei.com>
 >
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
 > ---
->  target/riscv/cpu.c       | 11 ++++-
->  target/riscv/kvm.c       | 88 ++++++++++++++++++++++++++++++++++------
->  target/riscv/kvm_riscv.h |  2 +-
->  3 files changed, 87 insertions(+), 14 deletions(-)
+>  .../devices/vhost-vdpa-generic-device.rst     | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 35320a8547..e52577d59d 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1191,10 +1191,19 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str)
->  {
->      char *old = *isa_str;
->      char *new = *isa_str;
-> -    int i;
-> +    int i, offset;
->
->      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
->          if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-> +            offset = isa_edata_arr[i].ext_enable_offset;
-> +            if (kvm_enabled() && !kvm_riscv_ext_supported(offset)) {
-> +#ifndef CONFIG_USER_ONLY
-> +                info_report("disabling %s extension for hart 0x%lx because "
-> +                            "kvm does not support it", isa_edata_arr[i].name,
-> +                            (unsigned long)cpu->env.mhartid);
-> +#endif
-> +                    continue;
-> +            }
->              if (isa_edata_arr[i].multi_letter) {
->                  if (cpu->cfg.short_isa_string) {
->                      continue;
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> index 30f21453d6..ea0715c9e4 100644
-> --- a/target/riscv/kvm.c
-> +++ b/target/riscv/kvm.c
-> @@ -42,6 +42,29 @@
->  #include "migration/migration.h"
->  #include "sysemu/runstate.h"
->
-> +struct isa_ext_info {
-> +    const char *name;
-> +    target_ulong misa_bit;
-> +    int ext_enable_offset;
-> +};
+> diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst b/docs/system/devices/vhost-vdpa-generic-device.rst
+> new file mode 100644
+> index 0000000000..d6db9af755
+> --- /dev/null
+> +++ b/docs/system/devices/vhost-vdpa-generic-device.rst
+> @@ -0,0 +1,46 @@
 > +
-> +#define ISA_EXT_DATA_ENTRY(_name, _bit, _prop) \
-> +    {#_name, _bit, offsetof(struct RISCVCPUConfig, _prop)}
+> +=========================
+> +vhost-vDPA generic device
+> +=========================
 > +
-> +static const struct isa_ext_info isa_info_arr[] = {
-> +    ISA_EXT_DATA_ENTRY(a, RVA, ext_a),
-> +    ISA_EXT_DATA_ENTRY(c, RVC, ext_c),
-> +    ISA_EXT_DATA_ENTRY(d, RVD, ext_d),
-> +    ISA_EXT_DATA_ENTRY(f, RVF, ext_f),
-> +    ISA_EXT_DATA_ENTRY(h, RVH, ext_h),
-> +    ISA_EXT_DATA_ENTRY(i, RVI, ext_i),
-> +    ISA_EXT_DATA_ENTRY(m, RVM, ext_m),
-> +    ISA_EXT_DATA_ENTRY(svpbmt, 0, ext_svpbmt),
-> +    ISA_EXT_DATA_ENTRY(sstc, 0, ext_sstc),
-> +    ISA_EXT_DATA_ENTRY(svinval, 0, ext_svinval),
-> +    ISA_EXT_DATA_ENTRY(zihintpause, 0, ext_zihintpause),
-> +};
+> +This document explains the usage of the vhost-vDPA generic device.
 > +
->  static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
->                                   uint64_t idx)
->  {
-> @@ -394,25 +417,66 @@ void kvm_arch_init_irq_routing(KVMState *s)
->  {
->  }
->
-> +bool kvm_riscv_ext_supported(int offset)
-> +{
-> +    int i;
+> +Description
+> +-----------
 > +
-> +    for (i = 0; i < KVM_RISCV_ISA_EXT_MAX; ++i) {
-> +        if (isa_info_arr[i].ext_enable_offset == offset) {
-> +            return true;
-> +        }
-> +    }
-> +    return false;
-> +}
+> +vDPA(virtio data path acceleration) device is a device that uses a datapath
+> +which complies with the virtio specifications with vendor specific control
+> +path.
 > +
-> +static void kvm_riscv_set_isa_ext(CPUState *cs, CPURISCVState *env)
-> +{
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    unsigned long isa_ext_out;
-> +    bool *ext_state;
-> +    uint64_t id;
-> +    int i, ret;
+> +QEMU provides two types of vhost-vDPA devices to enable the vDPA device, one
+> +is type sensitive which means QEMU needs to know the actual device type
+> +(e.g. net, blk, scsi) and another is called "vhost-vDPA generic device" which
+> +is type insensitive.
 > +
-> +    env->misa_ext = 0;
-> +    for (i = 0; i < ARRAY_SIZE(isa_info_arr); i++) {
-> +        ext_state = (void *)&cpu->cfg + isa_info_arr[i].ext_enable_offset;
-> +        id = kvm_riscv_reg_id(env, KVM_REG_RISCV_ISA_EXT, i);
-> +        ret = kvm_get_one_reg(cs, id, &isa_ext_out);
-> +        if (ret) {
-> +            warn_report("Disabling ext %s due to failure.",
-> +                        isa_info_arr[i].name);
-> +            *ext_state = false;
-> +            continue;
-> +        }
-> +        if (isa_ext_out != (*ext_state)) {
-> +            isa_ext_out = *ext_state;
-> +            ret = kvm_set_one_reg(cs, id, &isa_ext_out);
-> +            if (ret) {
-> +                warn_report("Could not %s ext %s.",
-> +                            (isa_ext_out ? "enable" : "disable"),
-> +                            isa_info_arr[i].name);
-> +                *ext_state = !isa_ext_out;
-> +            }
-> +        }
-> +        /*
-> +         * If the sigle letter extension is supported by KVM then set
-> +         * the corresponding misa bit for the guest vcpu.
-> +         */
-> +        if (isa_info_arr[i].misa_bit && (*ext_state)) {
-> +            env->misa_ext |= isa_info_arr[i].misa_bit;
-> +        }
-> +    }
-> +}
+> +The vhost-vDPA generic device builds on the vhost-vdpa subsystem and virtio
+> +subsystem. It is quite small, but it can support any type of virtio device.
 > +
->  int kvm_arch_init_vcpu(CPUState *cs)
->  {
-> -    int ret = 0;
-> -    target_ulong isa;
->      RISCVCPU *cpu = RISCV_CPU(cs);
->      CPURISCVState *env = &cpu->env;
-> -    uint64_t id;
->
->      qemu_add_vm_change_state_handler(kvm_riscv_vm_state_change, cs);
->
-> -    id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG,
-> -                          KVM_REG_RISCV_CONFIG_REG(isa));
-> -    ret = kvm_get_one_reg(cs, id, &isa);
-> -    if (ret) {
-> -        return ret;
-> -    }
-> -    env->misa_ext = isa;
-> -
-> -    return ret;
-> +    kvm_riscv_set_isa_ext(cs, env);
-> +    return 0;
->  }
->
->  int kvm_arch_msi_data_to_gsi(uint32_t data)
-> diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
-> index ed281bdce0..bdcccc0da4 100644
-> --- a/target/riscv/kvm_riscv.h
-> +++ b/target/riscv/kvm_riscv.h
-> @@ -21,5 +21,5 @@
->
->  void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
->  void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
-> -
-> +bool kvm_riscv_ext_supported(int offset);
->  #endif
+> +Examples
+> +--------
+> +
+> +Prepare the vhost-vDPA backends first:
+
+Nit: here we'd better first say, it needs some vendor specific steps
+to provision vDPA and bind it to vhost-vDPA driver. Then we can see
+that in under dev directory.
+
+Thanks
+
+> +
+> +::
+> +  host# ls -l /dev/vhost-vdpa-*
+> +  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
+> +
+> +Start QEMU with virtio-mmio bus:
+> +
+> +::
+> +  host# qemu-system                                                  \
+> +      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
+> +      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
+> +      ...
+> +
+> +Start QEMU with virtio-pci bus:
+> +
+> +::
+> +  host# qemu-system                                                  \
+> +      -M pc -m 512 -smp 2                                            \
+> +      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
+> +      ...
 > --
-> 2.34.1
+> 2.23.0
 >
->
+
 
