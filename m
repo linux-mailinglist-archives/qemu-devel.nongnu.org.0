@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D12628E05
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFB0628E44
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:24:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinE-0007Jy-Ps; Mon, 14 Nov 2022 18:23:08 -0500
+	id 1ouilE-0005pk-8i; Mon, 14 Nov 2022 18:21:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouifU-0003B9-31
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:09 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ouifQ-0002Di-Bc
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:04 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouYvO-0006KG-MD
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 07:50:56 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- c3-20020a1c3503000000b003bd21e3dd7aso10606131wma.1
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 04:50:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ouZMT-0001Ic-UY
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 08:18:55 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id k5so10288645pjo.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 05:18:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K/N6XgrlezBHG44HZLs2j4eqnFbGgwxyj3DJ9JZ0HCw=;
- b=IQDmhwCxJwP0bS6hbMWNC9ci0h0DTjuUpUoeIUlxwf70ykxA4PAWpi6x5GBv2SYDkC
- 604UW7to9cWbsGN4mH4daogApnLhBll+X0msl1hrO4iT6xZM9yJ0I89VsEaGntEUfsRM
- 4qValgel1Q5xu4ylVOcm0azVFZm2EFfgMlq8VKEGvababmoCO6m8j2Ez4aif+KO+dxK1
- tN0YIAwd8H+WqTSWfgzlxwZf4IgQj0NHDuEwQv3ztst+s8vvyOQm3DNAmQ7bHWPr21WU
- IbCyyKIQUUdLgtQhjej1qg9SFjKna1MbDKRi4ZJVbAEnefPngYptJGZfvPMwcZcnlh/2
- gdZg==
+ bh=A78MonTqUVj6SW0ZTqjKXzSGKlFKvo8xINRWkrlof5A=;
+ b=hiqdPmFRWf4Ykt+K7C5jCW4TX2bbJOY2VxJqGwpbnJckLKGoYHFq6WbtKZZR3HHA5B
+ 8/C0vHRmYga9jwO8unhJBUmahOMqEiK9SipfCmCTPBbfL/tclD0vnkMHzsu6IcsHmyuS
+ 6/b+nGWY3ueiERE4f9wp2oX0HYaHe0msBNThqrnYZtomvYD+3yu/1W5Tz3tbPLVjJP8q
+ 0nSOwZzfdLK1DSVA9v/WMG6kkGJg5gFRchN5PTlXdcTkNQIEJZIuFVX9ZgJ0ACyJ2mR/
+ JF1KvZv8NbFppQQnJbCvx1IFeRhHLW4WUsCib+gCEr4znfsFcOi34Ol8neJ7PJAnz6M4
+ eBhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=K/N6XgrlezBHG44HZLs2j4eqnFbGgwxyj3DJ9JZ0HCw=;
- b=jMzrQ6Aw6lPTSGiL6iItpk+HHVn8TrzpEOGeXR7g5M0tWqfBP9YwwXF4KV5lMxdVYA
- 00fmcXi683j0rPpwyoiRqFBR873kbsGxDTAYL7JX5Rq8vSmsYRhv9NxxKo9xod1stcgu
- 6DnJo6ZqM3UpEWPKQ/SUO4EZW3t3+BF0QF8DYgNTE3ipcEs1Ym/qJpRSU/eFcFG+F8id
- p/6ho9Chh0+SfxEzmYcTnXU3sqMR57Pdm6laovaTItdSXrmQNbb4zUYmUUQLl0s1VtNT
- t5Muc7M69ou69Qcd3SI1o4IOINmxj0dZ+q6MbY9a4pc3jqRGW7kzIp3P28JWIhyT0O+R
- DMXw==
-X-Gm-Message-State: ANoB5pllNGUF6Vs6VFbZrknGkM1F0s/qJcAmwfOq2LuKd4KyNOhoFKVF
- wQMAT4csfMVKCardLdvI/Mm4/Q==
-X-Google-Smtp-Source: AA0mqf6bsRYZr45mdHhnmWXM7KFOQJUa7ZuRmPjM9kcgJEmleav5jtccy9tWyvlw+J0WB5O9Aa5iXQ==
-X-Received: by 2002:a05:600c:3c93:b0:3cf:cfcd:1e0 with SMTP id
- bg19-20020a05600c3c9300b003cfcfcd01e0mr7906373wmb.166.1668430252220; 
- Mon, 14 Nov 2022 04:50:52 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- b11-20020a5d550b000000b0023659925b2asm9381234wrv.51.2022.11.14.04.50.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 04:50:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 69C201FFB7;
- Mon, 14 Nov 2022 12:50:50 +0000 (GMT)
-References: <20221111145529.4020801-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH for 7.2-rc1 v2 00/12] testing, docs, plugins, arm pre-PR
-Date: Mon, 14 Nov 2022 12:47:24 +0000
-In-reply-to: <20221111145529.4020801-1-alex.bennee@linaro.org>
-Message-ID: <87bkp9bsyd.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=A78MonTqUVj6SW0ZTqjKXzSGKlFKvo8xINRWkrlof5A=;
+ b=eCxHFeKIPLsLf8ioEpnLv9CdhC1+Hs2rRP5bFCeI6vtK7OXqH9GULMnWnYtjL6Bg3Y
+ 3ndsnrMs5qS1y46wfkjxpMSqRUxVlkRAc0bagCDKE3wDDv9JXuEkfa7wdOGKD7IBPwNi
+ 6erXUFSlWYGyH3eqrobwAX/sMbGB4zkhceilRGf+cGPYC1jzYDV6XQ3aNfJMc8OAAIev
+ Eb7MpzJpX0ujHcCX+bBjnX4wImhTZ/CJrDHGi1k6vbLljIqikjJyK6Nk1vZxrfN2A/jp
+ mko5/4ngbOsQEwEcNcJr2rOYGvNN+KdmY8N8avbYeGc4Sj+aCtw5KAPX77supPhuMrpO
+ 3S6g==
+X-Gm-Message-State: ANoB5pnA2wmXipfbWgjCAx5qU/STYP3O5RTtVwMaWPrSsOAHL6mWng+/
+ P0q8iUV0kZjy27lgWbBFst48ueAgdPzLLFaN7gqKDg==
+X-Google-Smtp-Source: AA0mqf6I7SqcmQY2M7gFiqrPTl2RTqGiqf6Vx6Bc12y/PxjCloYbwkopPD8yqtFkzkfxmS/1nLV21tos/C/BX9tlkK8=
+X-Received: by 2002:a17:902:ea91:b0:185:4ec3:c708 with SMTP id
+ x17-20020a170902ea9100b001854ec3c708mr13726401plb.60.1668431931940; Mon, 14
+ Nov 2022 05:18:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20221111145529.4020801-1-alex.bennee@linaro.org>
+ <20221111145529.4020801-13-alex.bennee@linaro.org>
+In-Reply-To: <20221111145529.4020801-13-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Nov 2022 13:18:40 +0000
+Message-ID: <CAFEAcA_HoysKQ83rNUn-3X0gdUMjEaq9Xg-scCGnDb18C3MJOw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/12] hw/intc: add implementation of GICD_IIDR to Arm
+ GIC
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com, 
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com, 
+ stefanha@redhat.com, crosa@redhat.com, 
+ "open list:ARM cores" <qemu-arm@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,24 +89,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
-> Hi,
+On Fri, 11 Nov 2022 at 14:55, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> This is my pre-PR series for the pull request I'm going to send on
-> Monday in time for Tuesday tagging of rc1. Anything not reviewed will
-> get dropped from the PR (which probably includes the GICD_IIDR which
-> was just an annoyance I noticed while debugging Xen for another
-> series). The following still need review:
+> a66a24585f (hw/intc/arm_gic: Implement read of GICC_IIDR) implemented
+> this for the CPU interface register. The fact we don't implement it
+> shows up when running Xen with -d guest_error which is definitely
+> wrong because the guest is perfectly entitled to read it.
 >
->  - hw/intc: add implementation of GICD_IIDR to Arm GIC
->  - gitlab: integrate coverage report (1 acks, 1 sobs)
->  - tests/plugins: add a new vcpu state tracking plugin
->  - tests/docker: allow user to override check target
+> Lightly re-factor this region of registers and also add a comment to
+> the function in case anyway was under the illusion we only return
+> bytes from a function called readb.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> ---
+> v2
+>   - checkpatch fixes.
+> ---
+>  hw/intc/arm_gic.c | 44 ++++++++++++++++++++++++++++++--------------
+>  1 file changed, 30 insertions(+), 14 deletions(-)
+>
+> diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
+> index 492b2421ab..65b1ef7151 100644
+> --- a/hw/intc/arm_gic.c
+> +++ b/hw/intc/arm_gic.c
+> @@ -941,6 +941,10 @@ static void gic_complete_irq(GICState *s, int cpu, i=
+nt irq, MemTxAttrs attrs)
+>      gic_update(s);
+>  }
+>
+> +/*
+> + * Although this is named a byte read we don't always return bytes and
+> + * rely on the calling function oring bits together.
+> + */
 
-Any more before I roll the PR?
+Rather than documenting this, maybe it would be better to
+fix the weirdness? We only do this for exactly one register,
+the GICD_TYPER. Everything else is naturally byte-based.
+(The GICD_CTLR looks like it is also doing this, but the
+only non-zero bits are in the low byte, so it isn't really.)
 
---=20
-Alex Benn=C3=A9e
+The GICD_TYPER returning bigger than a byte's worth of
+data I think is a bug we introduced in commit 5543d1abb6e2
+when we added the security extensions support -- before that
+all the bits we needed to return were in the low byte. So
+I think we can fix this with just (untested):
+
+--- a/hw/intc/arm_gic.c
++++ b/hw/intc/arm_gic.c
+@@ -955,6 +955,7 @@ static uint32_t gic_dist_readb(void *opaque,
+hwaddr offset, MemTxAttrs attrs)
+     cm =3D 1 << cpu;
+     if (offset < 0x100) {
+         if (offset =3D=3D 0) {      /* GICD_CTLR */
++            /* We rely here on the only non-zero bits being in byte 0 */
+             if (s->security_extn && !attrs.secure) {
+                 /* The NS bank of this register is just an alias of the
+                  * EnableGrp1 bit in the S bank version.
+@@ -964,11 +965,14 @@ static uint32_t gic_dist_readb(void *opaque,
+hwaddr offset, MemTxAttrs attrs)
+                 return s->ctlr;
+             }
+         }
+-        if (offset =3D=3D 4)
+-            /* Interrupt Controller Type Register */
+-            return ((s->num_irq / 32) - 1)
+-                    | ((s->num_cpu - 1) << 5)
+-                    | (s->security_extn << 10);
++        if (offset =3D=3D 4) {
++            /* GICD_TYPER byte 0 */
++            return ((s->num_irq / 32) - 1) | ((s->num_cpu - 1) << 5);
++        }
++        if (offset =3D=3D 5) {
++            /* GICD_TYPER byte 1 */
++            return (s->security_extn << 2);
++        }
+         if (offset < 0x08)
+             return 0;
+         if (offset >=3D 0x80) {
+
+
+(you can add my Signed-off-by: if you want to turn that into a proper patch=
+.)
+
+thanks
+-- PMM
 
