@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBD2628DBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:48:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7F2628E48
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:27:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouie1-0002A4-V4; Mon, 14 Nov 2022 18:13:38 -0500
+	id 1ouie5-0002K0-KY; Mon, 14 Nov 2022 18:13:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidp-0001df-1z
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidp-0001df-Cd
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:25 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJE-000344-0b
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:52:12 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJD-00033o-C3
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:52:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668466327;
+ s=mimecast20190719; t=1668466326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L7tAutWYxsCeeX40NRb/7ZHQ/rU/csbg541R8KjQ+DU=;
- b=b5u1Qc6Vmc7LPW/FP3z4EBe1IYhIEYaWP4OkrGN+BP39HlTR0GYG1Et1NOkt+Q938IRh9O
- QuevlvcpY7FzbjEBrG9BujmK2/MBsStkxlW+n3F19UAjymQaYf1B9QvYUVKNX2E186/RwS
- Kt2+fIEDpeQEpE1M7iotne1OpQiJv6Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=itFgoH2I2cGNg7DbBiWhL/3P3BGjy13hUa55jZr1NR0=;
+ b=JSeA/9zxOHOeExPVXW5/jN07KJRgrO92g9iOlwIQNIgSV7eNDaVE1qAAXZUy62SvKLwxZN
+ KU6G8KFe1rwRnxFldHmphTqs7F3h8aQgEJW4iA9Y4DH5tsxkuIElAZ2qyuPFtC/910hmpY
+ s8qmrpnpnKUh+9hvgV++DKepFdnBwzM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-p1pO5aOMP_O9Ow7IFKOVBg-1; Mon, 14 Nov 2022 17:52:02 -0500
-X-MC-Unique: p1pO5aOMP_O9Ow7IFKOVBg-1
+ us-mta-29-RAA1NospNMKeMPDEcxcqIg-1; Mon, 14 Nov 2022 17:52:03 -0500
+X-MC-Unique: RAA1NospNMKeMPDEcxcqIg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67CC6811E7A;
- Mon, 14 Nov 2022 22:52:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B3DF1C075A6;
+ Mon, 14 Nov 2022 22:52:03 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04B9340E9786;
- Mon, 14 Nov 2022 22:52:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C14840E9786;
+ Mon, 14 Nov 2022 22:52:02 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: libguestfs@redhat.com
 Cc: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org,
 	nbd@other.debian.org
-Subject: [libnbd PATCH v2 01/23] block_status: Refactor array storage
-Date: Mon, 14 Nov 2022 16:51:36 -0600
-Message-Id: <20221114225158.2186742-2-eblake@redhat.com>
+Subject: [libnbd PATCH v2 02/23] internal: Refactor layout of replies in sbuf
+Date: Mon, 14 Nov 2022 16:51:37 -0600
+Message-Id: <20221114225158.2186742-3-eblake@redhat.com>
 In-Reply-To: <20221114225158.2186742-1-eblake@redhat.com>
 References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
  <20221114225158.2186742-1-eblake@redhat.com>
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,202 +79,466 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For 32-bit block status, we were able to cheat and use an array with
-an odd number of elements, with array[0] holding the context id, and
-passing &array[1] to the user's callback.  But once we have 64-bit
-extents, we can no longer abuse array element 0 like that, for two
-reasons: 64-bit extents contain uint64_t which might not be
-alignment-compatible with an array of uint32_t on all architectures,
-and the new NBD_REPLY_TYPE_BLOCK_STATUS_EXT adds an additional count
-field before the array.
+In order to more easily add a third reply type with an even larger
+header, but where the payload will look the same for both structured
+and extended replies, it is nicer if simple and structured replies are
+nested inside the same layer of sbuf.reply.hdr.  While at it, note
+that while .or and .sr are structs declared within the overall sbuf
+union, we never read into both halves of those structs at the same
+time, so it does not matter if their two halves are consecutive.
+Dropping the packed notation on those structs means the compiler can
+align .payload more naturally, which may slightly improve performance
+on some platforms, even if it makes the overall union a few bytes
+larger due to padding.
 
-Split out a new state STRUCTURED_REPLY.BS_HEADER to receive the
-context id (and eventually the new count field for 64-bit replies)
-separately from the extents array, and add another structured_reply
-type in the payload section for tracking it.  No behavioral change,
-other than the rare possibility of landing in the new state.
+Visually, this patch changes the layout from:
+
+ offset  simple                structured
++------------------------------------------------------------+
+|     union sbuf                                             |
+|     +---------------------+------------------------------+ |
+|     | struct simple_reply | union sr                     | |
+|     | +-----------------+ | +--------------------------+ | |
+|     | |                 | | | struct structured_reply  | | |
+|     | |                 | | | +----------------------+ | | |
+|  0  | | uint32_t magic  | | | | uint32_t magic       | | | |
+|  4  | | uint32_t error  | | | | uint16_t flags       | | | |
+|  6  | |                 | | | | uint16_t type        | | | |
+|  8  | | uint64_t handle | | | | uint64_t handle      | | | |
+|     | +-----------------+ | | |                      | | | |
+| 16  | [padding]           | | | uint32_t length      | | | |
+|     |                     | | +----------------------+ | | |
+|     |                     | | union payload            | | |
+|     |                     | | +-----------+----------+ | | |
+| 20  |                     | | | ...       | ...      | | | |
+|     |                     | | +-----------+----------+ | | |
+|     |                     | +--------------------------+ | |
+|     +---------------------+------------------------------+ |
++------------------------------------------------------------+
+
+to:
+
+ offset  simple                structured
++-------------------------------------------------------------+
+|     union sbuf                                              |
+|     +-----------------------------------------------------+ |
+|     | struct reply                                        | |
+|     | +-------------------------------------------------+ | |
+|     | | union hdr                                       | | |
+|     | | +--------------------+------------------------+ | | |
+|     | | | struct simple      | struct structured      | | | |
+|     | | | +----------------+ | +--------------------+ | | | |
+|  0  | | | | uint32_t magic | | | uint32_t magic     | | | | |
+|  4  | | | | uint32_t error | | | uint16_t flags     | | | | |
+|  6  | | | |                | | | uint16_t type      | | | | |
+|  8  | | | | uint64_t handle| | | uint64_t handle    | | | | |
+|     | | | +----------------+ | |                    | | | | |
+| 16  | | | [padding]          | | uint32_t length    | | | | |
+|     | | |                    | +--------------------+ | | | |
+| 20  | | |                    | [padding]              | | | |
+|     | | +--------------------+------------------------+ | | |
+|     | | union payload                                   | | |
+|     | | +--------------------+------------------------+ | | |
+| 24  | | | ...                | ...                    | | | |
+|     | | +--------------------+------------------------+ | | |
+|     | +-------------------------------------------------+ | |
+|     +-----------------------------------------------------+ |
++-------------------------------------------------------------+
+
+Technically, whether the payload union offset moves to byte 24 (with
+20-23 now padding) or stays at 20 depends on compiler ABI; but many
+systems prefer that any struct with a uint64_t provide 8-byte
+alignment to its containing union.
+
+The commit is largely mechanical, and there should be no semantic
+change.
 ---
- lib/internal.h                      |  1 +
- lib/nbd-protocol.h                  | 19 ++++++----
- generator/state_machine.ml          |  9 ++++-
- generator/states-reply-structured.c | 56 ++++++++++++++++++++---------
- 4 files changed, 61 insertions(+), 24 deletions(-)
+ lib/internal.h                      |  12 ++--
+ generator/states-reply-simple.c     |   4 +-
+ generator/states-reply-structured.c | 103 ++++++++++++++--------------
+ generator/states-reply.c            |  10 +--
+ 4 files changed, 66 insertions(+), 63 deletions(-)
 
 diff --git a/lib/internal.h b/lib/internal.h
-index bbbd2639..fe81f1a0 100644
+index fe81f1a0..f81c41ba 100644
 --- a/lib/internal.h
 +++ b/lib/internal.h
-@@ -241,6 +241,7 @@ struct nbd_handle {
+@@ -230,14 +230,16 @@ struct nbd_handle {
+         struct {
+           struct nbd_fixed_new_option_reply_meta_context context;
+           char str[NBD_MAX_STRING];
+-        }  __attribute__((packed)) context;
++        } __attribute__((packed)) context;
+         char err_msg[NBD_MAX_STRING];
+       } payload;
+-    }  __attribute__((packed)) or;
++    } or;
+     struct nbd_export_name_option_reply export_name_reply;
+-    struct nbd_simple_reply simple_reply;
+     struct {
+-      struct nbd_structured_reply structured_reply;
++      union {
++        struct nbd_simple_reply simple;
++        struct nbd_structured_reply structured;
++      } hdr;
        union {
          struct nbd_structured_reply_offset_data offset_data;
          struct nbd_structured_reply_offset_hole offset_hole;
-+        struct nbd_structured_reply_block_status_hdr bs_hdr;
-         struct {
-           struct nbd_structured_reply_error error;
-           char msg[NBD_MAX_STRING]; /* Common to all error types */
-diff --git a/lib/nbd-protocol.h b/lib/nbd-protocol.h
-index e5d6404b..4400d3ab 100644
---- a/lib/nbd-protocol.h
-+++ b/lib/nbd-protocol.h
-@@ -1,5 +1,5 @@
- /* nbdkit
-- * Copyright (C) 2013-2020 Red Hat Inc.
-+ * Copyright (C) 2013-2022 Red Hat Inc.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-@@ -182,12 +182,6 @@ struct nbd_fixed_new_option_reply_meta_context {
-   /* followed by a string */
- } NBD_ATTRIBUTE_PACKED;
+@@ -248,7 +250,7 @@ struct nbd_handle {
+           uint64_t offset; /* Only used for NBD_REPLY_TYPE_ERROR_OFFSET */
+         } __attribute__((packed)) error;
+       } payload;
+-    }  __attribute__((packed)) sr;
++    } reply;
+     uint16_t gflags;
+     uint32_t cflags;
+     uint32_t len;
+diff --git a/generator/states-reply-simple.c b/generator/states-reply-simple.c
+index a43d61dd..f390b5a5 100644
+--- a/generator/states-reply-simple.c
++++ b/generator/states-reply-simple.c
+@@ -23,7 +23,7 @@  REPLY.SIMPLE_REPLY.START:
+   struct command *cmd = h->reply_cmd;
+   uint32_t error;
 
--/* NBD_REPLY_TYPE_BLOCK_STATUS block descriptor. */
--struct nbd_block_descriptor {
--  uint32_t length;              /* length of block */
--  uint32_t status_flags;        /* block type (hole etc) */
--} NBD_ATTRIBUTE_PACKED;
--
- /* Request (client -> server). */
- struct nbd_request {
-   uint32_t magic;               /* NBD_REQUEST_MAGIC. */
-@@ -224,6 +218,17 @@ struct nbd_structured_reply_offset_hole {
-   uint32_t length;              /* Length of hole. */
- } NBD_ATTRIBUTE_PACKED;
+-  error = be32toh (h->sbuf.simple_reply.error);
++  error = be32toh (h->sbuf.reply.hdr.simple.error);
 
-+/* NBD_REPLY_TYPE_BLOCK_STATUS block descriptor. */
-+struct nbd_block_descriptor {
-+  uint32_t length;              /* length of block */
-+  uint32_t status_flags;        /* block type (hole etc) */
-+} NBD_ATTRIBUTE_PACKED;
-+
-+struct nbd_structured_reply_block_status_hdr {
-+  uint32_t context_id;          /* metadata context ID */
-+  /* followed by array of nbd_block_descriptor extents */
-+} NBD_ATTRIBUTE_PACKED;
-+
- struct nbd_structured_reply_error {
-   uint32_t error;               /* NBD_E* error number */
-   uint16_t len;                 /* Length of human readable error. */
-diff --git a/generator/state_machine.ml b/generator/state_machine.ml
-index 257cb4f4..d2c326f3 100644
---- a/generator/state_machine.ml
-+++ b/generator/state_machine.ml
-@@ -871,10 +871,17 @@ and
-     external_events = [];
-   };
-
-+  State {
-+    default_state with
-+    name = "RECV_BS_HEADER";
-+    comment = "Receive header of structured reply block-status payload";
-+    external_events = [];
-+  };
-+
-   State {
-     default_state with
-     name = "RECV_BS_ENTRIES";
--    comment = "Receive a structured reply block-status payload";
-+    comment = "Receive entries array of structured reply block-status payload";
-     external_events = [];
-   };
-
+   if (cmd == NULL) {
+     /* Unexpected reply.  If error was set or we have structured
+@@ -39,7 +39,7 @@  REPLY.SIMPLE_REPLY.START:
+     if (error || h->structured_replies)
+       SET_NEXT_STATE (%^FINISH_COMMAND);
+     else {
+-      uint64_t cookie = be64toh (h->sbuf.simple_reply.handle);
++      uint64_t cookie = be64toh (h->sbuf.reply.hdr.simple.handle);
+       SET_NEXT_STATE (%.DEAD);
+       set_error (EPROTO,
+                  "no matching cookie %" PRIu64 " found for server reply, "
 diff --git a/generator/states-reply-structured.c b/generator/states-reply-structured.c
-index 2456e6da..bbd3de0c 100644
+index bbd3de0c..7587d856 100644
 --- a/generator/states-reply-structured.c
 +++ b/generator/states-reply-structured.c
-@@ -126,19 +126,10 @@  REPLY.STRUCTURED_REPLY.CHECK:
-         length < 12 || ((length-4) & 7) != 0)
-       goto resync;
-     assert (CALLBACK_IS_NOT_NULL (cmd->cb.fn.extent));
--    /* We read the context ID followed by all the entries into a
--     * single array and deal with it at the end.
--     */
--    free (h->bs_entries);
--    h->bs_entries = malloc (length);
--    if (h->bs_entries == NULL) {
--      SET_NEXT_STATE (%.DEAD);
--      set_error (errno, "malloc");
--      break;
--    }
--    h->rbuf = h->bs_entries;
--    h->rlen = length;
--    SET_NEXT_STATE (%RECV_BS_ENTRIES);
-+    /* Start by reading the context ID. */
-+    h->rbuf = &h->sbuf.sr.payload.bs_hdr;
-+    h->rlen = sizeof h->sbuf.sr.payload.bs_hdr;
-+    SET_NEXT_STATE (%RECV_BS_HEADER);
-     break;
-
-   default:
-@@ -424,9 +415,41 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
-   }
+@@ -49,9 +49,9 @@  REPLY.STRUCTURED_REPLY.START:
+    * so read the remaining part.
+    */
+   h->rbuf = &h->sbuf;
+-  h->rbuf = (char *) h->rbuf + sizeof h->sbuf.simple_reply;
+-  h->rlen = sizeof h->sbuf.sr.structured_reply;
+-  h->rlen -= sizeof h->sbuf.simple_reply;
++  h->rbuf = (char *) h->rbuf + sizeof h->sbuf.reply.hdr.simple;
++  h->rlen = sizeof h->sbuf.reply.hdr.structured;
++  h->rlen -= sizeof h->sbuf.reply.hdr.simple;
+   SET_NEXT_STATE (%RECV_REMAINING);
    return 0;
 
-+ REPLY.STRUCTURED_REPLY.RECV_BS_HEADER:
-+  struct command *cmd = h->reply_cmd;
-+  uint32_t length;
-+
-+  switch (recv_into_rbuf (h)) {
-+  case -1: SET_NEXT_STATE (%.DEAD); return 0;
-+  case 1:
-+    save_reply_state (h);
-+    SET_NEXT_STATE (%.READY);
-+    return 0;
-+  case 0:
-+    length = be32toh (h->sbuf.sr.structured_reply.length);
-+
-+    assert (cmd); /* guaranteed by CHECK */
-+    assert (cmd->type == NBD_CMD_BLOCK_STATUS);
-+    assert (length >= 12);
-+    length -= sizeof h->sbuf.sr.payload.bs_hdr;
-+
-+    free (h->bs_entries);
-+    h->bs_entries = malloc (length);
-+    if (h->bs_entries == NULL) {
-+      SET_NEXT_STATE (%.DEAD);
-+      set_error (errno, "malloc");
-+      return 0;
-+    }
-+    h->rbuf = h->bs_entries;
-+    h->rlen = length;
-+    SET_NEXT_STATE (%RECV_BS_ENTRIES);
-+  }
-+  return 0;
-+
-  REPLY.STRUCTURED_REPLY.RECV_BS_ENTRIES:
-   struct command *cmd = h->reply_cmd;
+@@ -71,9 +71,9 @@  REPLY.STRUCTURED_REPLY.CHECK:
+   uint16_t flags, type;
    uint32_t length;
-+  uint32_t count;
-   size_t i;
-   uint32_t context_id;
 
-@@ -445,15 +468,16 @@  REPLY.STRUCTURED_REPLY.RECV_BS_ENTRIES:
+-  flags = be16toh (h->sbuf.sr.structured_reply.flags);
+-  type = be16toh (h->sbuf.sr.structured_reply.type);
+-  length = be32toh (h->sbuf.sr.structured_reply.length);
++  flags = be16toh (h->sbuf.reply.hdr.structured.flags);
++  type = be16toh (h->sbuf.reply.hdr.structured.type);
++  length = be32toh (h->sbuf.reply.hdr.structured.length);
+
+   /* Reject a server that replies with too much information, but don't
+    * reject a single structured reply to NBD_CMD_READ on the largest
+@@ -82,7 +82,7 @@  REPLY.STRUCTURED_REPLY.CHECK:
+    * oversized reply is going to take long enough to resync that it is
+    * not worth keeping the connection alive.
+    */
+-  if (length > MAX_REQUEST_SIZE + sizeof h->sbuf.sr.payload.offset_data) {
++  if (length > MAX_REQUEST_SIZE + sizeof h->sbuf.reply.payload.offset_data) {
+     set_error (0, "invalid server reply length %" PRIu32, length);
+     SET_NEXT_STATE (%.DEAD);
+     return 0;
+@@ -105,19 +105,19 @@  REPLY.STRUCTURED_REPLY.CHECK:
+      * them as an extension, so we use < instead of <=.
+      */
+     if (cmd->type != NBD_CMD_READ ||
+-        length < sizeof h->sbuf.sr.payload.offset_data)
++        length < sizeof h->sbuf.reply.payload.offset_data)
+       goto resync;
+-    h->rbuf = &h->sbuf.sr.payload.offset_data;
+-    h->rlen = sizeof h->sbuf.sr.payload.offset_data;
++    h->rbuf = &h->sbuf.reply.payload.offset_data;
++    h->rlen = sizeof h->sbuf.reply.payload.offset_data;
+     SET_NEXT_STATE (%RECV_OFFSET_DATA);
+     break;
+
+   case NBD_REPLY_TYPE_OFFSET_HOLE:
+     if (cmd->type != NBD_CMD_READ ||
+-        length != sizeof h->sbuf.sr.payload.offset_hole)
++        length != sizeof h->sbuf.reply.payload.offset_hole)
+       goto resync;
+-    h->rbuf = &h->sbuf.sr.payload.offset_hole;
+-    h->rlen = sizeof h->sbuf.sr.payload.offset_hole;
++    h->rbuf = &h->sbuf.reply.payload.offset_hole;
++    h->rlen = sizeof h->sbuf.reply.payload.offset_hole;
+     SET_NEXT_STATE (%RECV_OFFSET_HOLE);
+     break;
+
+@@ -127,8 +127,8 @@  REPLY.STRUCTURED_REPLY.CHECK:
+       goto resync;
+     assert (CALLBACK_IS_NOT_NULL (cmd->cb.fn.extent));
+     /* Start by reading the context ID. */
+-    h->rbuf = &h->sbuf.sr.payload.bs_hdr;
+-    h->rlen = sizeof h->sbuf.sr.payload.bs_hdr;
++    h->rbuf = &h->sbuf.reply.payload.bs_hdr;
++    h->rlen = sizeof h->sbuf.reply.payload.bs_hdr;
+     SET_NEXT_STATE (%RECV_BS_HEADER);
+     break;
+
+@@ -139,10 +139,10 @@  REPLY.STRUCTURED_REPLY.CHECK:
+        * compliant, will favor the wire error over EPROTO during more
+        * length checks in RECV_ERROR_MESSAGE and RECV_ERROR_TAIL.
+        */
+-      if (length < sizeof h->sbuf.sr.payload.error.error.error)
++      if (length < sizeof h->sbuf.reply.payload.error.error.error)
+         goto resync;
+-      h->rbuf = &h->sbuf.sr.payload.error.error;
+-      h->rlen = MIN (length, sizeof h->sbuf.sr.payload.error.error);
++      h->rbuf = &h->sbuf.reply.payload.error.error;
++      h->rlen = MIN (length, sizeof h->sbuf.reply.payload.error.error);
+       SET_NEXT_STATE (%RECV_ERROR);
+     }
+     else
+@@ -168,19 +168,19 @@  REPLY.STRUCTURED_REPLY.RECV_ERROR:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    length = be32toh (h->sbuf.sr.structured_reply.length);
+-    assert (length >= sizeof h->sbuf.sr.payload.error.error.error);
++    length = be32toh (h->sbuf.reply.hdr.structured.length);
++    assert (length >= sizeof h->sbuf.reply.payload.error.error.error);
+     assert (cmd);
+
+-    if (length < sizeof h->sbuf.sr.payload.error.error)
++    if (length < sizeof h->sbuf.reply.payload.error.error)
+       goto resync;
+
+-    msglen = be16toh (h->sbuf.sr.payload.error.error.len);
+-    if (msglen > length - sizeof h->sbuf.sr.payload.error.error ||
+-        msglen > sizeof h->sbuf.sr.payload.error.msg)
++    msglen = be16toh (h->sbuf.reply.payload.error.error.len);
++    if (msglen > length - sizeof h->sbuf.reply.payload.error.error ||
++        msglen > sizeof h->sbuf.reply.payload.error.msg)
+       goto resync;
+
+-    h->rbuf = h->sbuf.sr.payload.error.msg;
++    h->rbuf = h->sbuf.reply.payload.error.msg;
+     h->rlen = msglen;
+     SET_NEXT_STATE (%RECV_ERROR_MESSAGE);
+   }
+@@ -188,11 +188,11 @@  REPLY.STRUCTURED_REPLY.RECV_ERROR:
+
+  resync:
+   /* Favor the error packet's errno over RESYNC's EPROTO. */
+-  error = be32toh (h->sbuf.sr.payload.error.error.error);
++  error = be32toh (h->sbuf.reply.payload.error.error.error);
+   if (cmd->error == 0)
+     cmd->error = nbd_internal_errno_of_nbd_error (error);
+   h->rbuf = NULL;
+-  h->rlen = length - MIN (length, sizeof h->sbuf.sr.payload.error.error);
++  h->rlen = length - MIN (length, sizeof h->sbuf.reply.payload.error.error);
+   SET_NEXT_STATE (%RESYNC);
+   return 0;
+
+@@ -207,15 +207,15 @@  REPLY.STRUCTURED_REPLY.RECV_ERROR_MESSAGE:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    length = be32toh (h->sbuf.sr.structured_reply.length);
+-    msglen = be16toh (h->sbuf.sr.payload.error.error.len);
+-    type = be16toh (h->sbuf.sr.structured_reply.type);
++    length = be32toh (h->sbuf.reply.hdr.structured.length);
++    msglen = be16toh (h->sbuf.reply.payload.error.error.len);
++    type = be16toh (h->sbuf.reply.hdr.structured.type);
+
+-    length -= sizeof h->sbuf.sr.payload.error.error + msglen;
++    length -= sizeof h->sbuf.reply.payload.error.error + msglen;
+
+     if (msglen)
+       debug (h, "structured error server message: %.*s", (int) msglen,
+-             h->sbuf.sr.payload.error.msg);
++             h->sbuf.reply.payload.error.msg);
+
+     /* Special case two specific errors; silently ignore tail for all others */
+     h->rbuf = NULL;
+@@ -227,11 +227,11 @@  REPLY.STRUCTURED_REPLY.RECV_ERROR_MESSAGE:
+                "the server may have a bug");
+       break;
+     case NBD_REPLY_TYPE_ERROR_OFFSET:
+-      if (length != sizeof h->sbuf.sr.payload.error.offset)
++      if (length != sizeof h->sbuf.reply.payload.error.offset)
+         debug (h, "unable to safely extract error offset, "
+                "the server may have a bug");
+       else
+-        h->rbuf = &h->sbuf.sr.payload.error.offset;
++        h->rbuf = &h->sbuf.reply.payload.error.offset;
+       break;
+     }
+     SET_NEXT_STATE (%RECV_ERROR_TAIL);
+@@ -250,8 +250,8 @@  REPLY.STRUCTURED_REPLY.RECV_ERROR_TAIL:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    error = be32toh (h->sbuf.sr.payload.error.error.error);
+-    type = be16toh (h->sbuf.sr.structured_reply.type);
++    error = be32toh (h->sbuf.reply.payload.error.error.error);
++    type = be16toh (h->sbuf.reply.hdr.structured.type);
+
+     assert (cmd); /* guaranteed by CHECK */
+
+@@ -266,7 +266,7 @@  REPLY.STRUCTURED_REPLY.RECV_ERROR_TAIL:
+      * user callback if present.  Ignore the offset if it was bogus.
+      */
+     if (type == NBD_REPLY_TYPE_ERROR_OFFSET && h->rbuf) {
+-      uint64_t offset = be64toh (h->sbuf.sr.payload.error.offset);
++      uint64_t offset = be64toh (h->sbuf.reply.payload.error.offset);
+       if (structured_reply_in_bounds (offset, 0, cmd) &&
+           cmd->type == NBD_CMD_READ &&
+           CALLBACK_IS_NOT_NULL (cmd->cb.fn.chunk)) {
+@@ -307,8 +307,8 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_DATA:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    length = be32toh (h->sbuf.sr.structured_reply.length);
+-    offset = be64toh (h->sbuf.sr.payload.offset_data.offset);
++    length = be32toh (h->sbuf.reply.hdr.structured.length);
++    offset = be64toh (h->sbuf.reply.payload.offset_data.offset);
+
+     assert (cmd); /* guaranteed by CHECK */
+
+@@ -346,8 +346,8 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_DATA_DATA:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    length = be32toh (h->sbuf.sr.structured_reply.length);
+-    offset = be64toh (h->sbuf.sr.payload.offset_data.offset);
++    length = be32toh (h->sbuf.reply.hdr.structured.length);
++    offset = be64toh (h->sbuf.reply.payload.offset_data.offset);
+
+     assert (cmd); /* guaranteed by CHECK */
+     if (CALLBACK_IS_NOT_NULL (cmd->cb.fn.chunk)) {
+@@ -377,8 +377,8 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    offset = be64toh (h->sbuf.sr.payload.offset_hole.offset);
+-    length = be32toh (h->sbuf.sr.payload.offset_hole.length);
++    offset = be64toh (h->sbuf.reply.payload.offset_hole.offset);
++    length = be32toh (h->sbuf.reply.payload.offset_hole.length);
+
+     assert (cmd); /* guaranteed by CHECK */
+
+@@ -426,12 +426,12 @@  REPLY.STRUCTURED_REPLY.RECV_BS_HEADER:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    length = be32toh (h->sbuf.sr.structured_reply.length);
++    length = be32toh (h->sbuf.reply.hdr.structured.length);
+
+     assert (cmd); /* guaranteed by CHECK */
+     assert (cmd->type == NBD_CMD_BLOCK_STATUS);
+     assert (length >= 12);
+-    length -= sizeof h->sbuf.sr.payload.bs_hdr;
++    length -= sizeof h->sbuf.reply.payload.bs_hdr;
+
+     free (h->bs_entries);
+     h->bs_entries = malloc (length);
+@@ -460,7 +460,7 @@  REPLY.STRUCTURED_REPLY.RECV_BS_ENTRIES:
+     SET_NEXT_STATE (%.READY);
+     return 0;
+   case 0:
+-    length = be32toh (h->sbuf.sr.structured_reply.length);
++    length = be32toh (h->sbuf.reply.hdr.structured.length);
+
+     assert (cmd); /* guaranteed by CHECK */
+     assert (cmd->type == NBD_CMD_BLOCK_STATUS);
+@@ -468,7 +468,8 @@  REPLY.STRUCTURED_REPLY.RECV_BS_ENTRIES:
      assert (h->bs_entries);
      assert (length >= 12);
      assert (h->meta_valid);
-+    count = (length - sizeof h->sbuf.sr.payload.bs_hdr) / sizeof *h->bs_entries;
+-    count = (length - sizeof h->sbuf.sr.payload.bs_hdr) / sizeof *h->bs_entries;
++    count = (length - sizeof h->sbuf.reply.payload.bs_hdr) /
++      sizeof *h->bs_entries;
 
      /* Need to byte-swap the entries returned, but apart from that we
       * don't validate them.
-      */
--    for (i = 0; i < length/4; ++i)
-+    for (i = 0; i < count; ++i)
+@@ -477,7 +478,7 @@  REPLY.STRUCTURED_REPLY.RECV_BS_ENTRIES:
        h->bs_entries[i] = be32toh (h->bs_entries[i]);
 
      /* Look up the context ID. */
--    context_id = h->bs_entries[0];
-+    context_id = be32toh (h->sbuf.sr.payload.bs_hdr.context_id);
+-    context_id = be32toh (h->sbuf.sr.payload.bs_hdr.context_id);
++    context_id = be32toh (h->sbuf.reply.payload.bs_hdr.context_id);
      for (i = 0; i < h->meta_contexts.len; ++i)
        if (context_id == h->meta_contexts.ptr[i].context_id)
          break;
-@@ -464,7 +488,7 @@  REPLY.STRUCTURED_REPLY.RECV_BS_ENTRIES:
+@@ -524,8 +525,8 @@  REPLY.STRUCTURED_REPLY.RESYNC:
+       SET_NEXT_STATE (%^FINISH_COMMAND);
+       return 0;
+     }
+-    type = be16toh (h->sbuf.sr.structured_reply.type);
+-    length = be32toh (h->sbuf.sr.structured_reply.length);
++    type = be16toh (h->sbuf.reply.hdr.structured.type);
++    length = be32toh (h->sbuf.reply.hdr.structured.length);
+     debug (h, "unexpected reply type %u or payload length %" PRIu32
+            " for cookie %" PRIu64 " and command %" PRIu32
+            ", this is probably a server bug",
+@@ -539,7 +540,7 @@  REPLY.STRUCTURED_REPLY.RESYNC:
+  REPLY.STRUCTURED_REPLY.FINISH:
+   uint16_t flags;
 
-       if (CALL_CALLBACK (cmd->cb.fn.extent,
-                          h->meta_contexts.ptr[i].name, cmd->offset,
--                         &h->bs_entries[1], (length-4) / 4,
-+                         h->bs_entries, count,
-                          &error) == -1)
-         if (cmd->error == 0)
-           cmd->error = error ? error : EPROTO;
+-  flags = be16toh (h->sbuf.sr.structured_reply.flags);
++  flags = be16toh (h->sbuf.reply.hdr.structured.flags);
+   if (flags & NBD_REPLY_FLAG_DONE) {
+     SET_NEXT_STATE (%^FINISH_COMMAND);
+   }
+diff --git a/generator/states-reply.c b/generator/states-reply.c
+index b53409e4..845973a4 100644
+--- a/generator/states-reply.c
++++ b/generator/states-reply.c
+@@ -69,8 +69,8 @@  REPLY.START:
+   assert (h->reply_cmd == NULL);
+   assert (h->rlen == 0);
+
+-  h->rbuf = &h->sbuf;
+-  h->rlen = sizeof h->sbuf.simple_reply;
++  h->rbuf = &h->sbuf.reply.hdr;
++  h->rlen = sizeof h->sbuf.reply.hdr.simple;
+
+   r = h->sock->ops->recv (h, h->sock, h->rbuf, h->rlen);
+   if (r == -1) {
+@@ -115,7 +115,7 @@  REPLY.CHECK_SIMPLE_OR_STRUCTURED_REPLY:
+   uint32_t magic;
+   uint64_t cookie;
+
+-  magic = be32toh (h->sbuf.simple_reply.magic);
++  magic = be32toh (h->sbuf.reply.hdr.simple.magic);
+   if (magic == NBD_SIMPLE_REPLY_MAGIC) {
+     SET_NEXT_STATE (%SIMPLE_REPLY.START);
+   }
+@@ -132,7 +132,7 @@  REPLY.CHECK_SIMPLE_OR_STRUCTURED_REPLY:
+    * handle (our cookie) is stored at the same offset.
+    */
+   h->chunks_received++;
+-  cookie = be64toh (h->sbuf.simple_reply.handle);
++  cookie = be64toh (h->sbuf.reply.hdr.simple.handle);
+   /* Find the command amongst the commands in flight. If the server sends
+    * a reply for an unknown cookie, FINISH will diagnose that later.
+    */
+@@ -151,7 +151,7 @@  REPLY.FINISH_COMMAND:
+   /* NB: This works for both simple and structured replies because the
+    * handle (our cookie) is stored at the same offset.
+    */
+-  cookie = be64toh (h->sbuf.simple_reply.handle);
++  cookie = be64toh (h->sbuf.reply.hdr.simple.handle);
+   /* Find the command amongst the commands in flight. */
+   for (cmd = h->cmds_in_flight, prev_cmd = NULL;
+        cmd != NULL;
 -- 
 2.38.1
 
