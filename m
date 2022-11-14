@@ -2,110 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA71628DC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:53:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D98628E21
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:17:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinH-0007Nt-08; Mon, 14 Nov 2022 18:23:11 -0500
+	id 1ouik6-0004th-I3; Mon, 14 Nov 2022 18:19:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1ouiew-0003Da-MU; Mon, 14 Nov 2022 18:14:36 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1ouiew-0004p5-IW
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:36 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1oucBG-0003HO-R5; Mon, 14 Nov 2022 11:19:32 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.5) with ESMTP id
- 2AEGDtSh014932; Mon, 14 Nov 2022 16:19:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=NAm2s+uEP4b1diyhZWf0MPGS2Y2i+RzBI2nlcBy+gSc=;
- b=Egchlb991HSGg8Nk+4nR5R+Iv9N/zt0MqWauzLFUNmnlWZ3GYXuJsRUAVfL0OQ4Bv1H+
- ZTJDpWTCabqDGKEJc5Lm9K3aDEc6Ot44Da7fEks+PXF1RWvO4D9L5CF7YQkUVQbowpgq
- N7YNuCwdBcSXkNBUBK39VD4N0we0nLJjGxdwEXkI0XKvsDWVCFg3rXpbVqSqH0pE2VmP
- JiyKTwvNxVIRhasWVJXsrM0wFwnvd7cOW/NE5OM4RrdiWm2gcZ0RlsIh7BqMBkFrRDqt
- hqiSHqERjTt5SB7A0CjJbP84X+3CAfeWZien4ftrK10Lmu9/zGW7e/QgQCZOAu78q1WD PA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kus0q84ba-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Nov 2022 16:18:59 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AEGDrBV014878;
- Mon, 14 Nov 2022 16:18:59 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kus0q84ah-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Nov 2022 16:18:59 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AEG6Nri030383;
- Mon, 14 Nov 2022 16:18:57 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma02fra.de.ibm.com with ESMTP id 3kt34922td-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Nov 2022 16:18:56 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AEGIso35898958
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Nov 2022 16:18:54 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AC2F75204E;
- Mon, 14 Nov 2022 16:18:54 +0000 (GMT)
-Received: from [9.171.78.143] (unknown [9.171.78.143])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id DCAAF52050;
- Mon, 14 Nov 2022 16:18:53 +0000 (GMT)
-Message-ID: <2277569a-c218-30d1-4d88-9b77d3604513@linux.ibm.com>
-Date: Mon, 14 Nov 2022 17:18:53 +0100
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oucHR-0006oe-N5
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 11:25:55 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 8642E3200999;
+ Mon, 14 Nov 2022 11:25:50 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 14 Nov 2022 11:25:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm2; t=1668443150; x=1668529550; bh=R2ce4iD8BNlySRNpj4s+MTeji
+ A2IFCfe6kBUiWEZonM=; b=CuWNolySNQXyK0v/kd2GzshYcYIPQzxccy5fPvTIU
+ CW+rysSid/kWeSZGgBg+xsqH8nG0N/YdqcFOkKwzTScRZanolF2T5x3b2U7UEsY7
+ ENRj7iAk2KXamFMpGtgpo4Lb1wrvLy0EOfGm5G7f3TQDW6v+kdoF9UD1aTPLChzf
+ QWQb4TrM4Gc1L0gw4Ysz0Pdr2Sylo/vuoRfUiQF4Qu/J/ZcFsXf7NSKJH4zCWLcE
+ d+iHRnnq2fPFMvfVSL6rNHlfkY6DPDKRfYysgZLY4/a3JHvcgyB3z4elzWqvcSZW
+ jkyFKyH3uDISwZe8X1xnSPehsSsoE2u8Ssh/fTipe8V7Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1668443150; x=1668529550; bh=R2ce4iD8BNlySRNpj4s+MTejiA2IFCfe6kB
+ UiWEZonM=; b=uKD99qa0WSMhvoCQgF0b2RrePAKd0y5IhdBJCPTTshqXZZgE3ts
+ sqKrgTpxlawa+erb5xQ0wkVdnitF+BF7WJt8zORZbOcIZr21/atbdf5K3stTcWKQ
+ 8sYHZb5g6u7cNhjboZx7ZSyfD+vVVtzpVp/TdB5tEfzA8lDkY09xa9OTAMRsPSFk
+ 1i8BKYIENEztm1UXKnS500dDYNnaS0zzzuu9pprdnNY0f5pDzpVmZ/5D4LUOmcM4
+ MfQhP9N0aXdRqPn5Z3v9FBmazPDCJhBABk4B7T50IeE9go7NgR428SeNXcrD1AuY
+ u5B6N29JKXcBrM6sZ9FwzMFnoolIQ8qL9QQ==
+X-ME-Sender: <xms:DWxyY7rARKxFm02AMCzB_QOU17W_oDgA895zKiCbgMD8-MPqWOwlmQ>
+ <xme:DWxyY1pH2131QkHgPM6M0ipaeqpe4u6oXZFIVUjpd0h2-CDvJ1K9WHbL-jKL_qTyD
+ 5_yAl8se0W9vlU_eJ4>
+X-ME-Received: <xmr:DWxyY4OV0MKXF5YYb8NOX6p_foUaIGZWd2TDIuqS_aHsDWZotfRNYxIF_fs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedvgdeiudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+ dttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehf
+ lhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpefhtedutdduveeileejjeetff
+ ehueejudehgfffjeduhfeuleeludfffefgffevkeenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorg
+ htrdgtohhm
+X-ME-Proxy: <xmx:DWxyY-7GygzCflRNjaqVlzmMc82__Sydc_B-gPeYleXKnVxVmcf5Gw>
+ <xmx:DWxyY65LvKT1qwPxaVs6pi-_RUq_XcqSqxP2PrY5TVUEK0Mmt7GU5w>
+ <xmx:DWxyY2gpeXk-gOJvJOPCZWOU9SiedLO9pn2U69aXrbPYVQ1DHbvo0g>
+ <xmx:DmxyYwSCbkXEDcjwyCiDrZKc_ZxoCXfDES1J_lJoEXdN2iIt9DdKwA>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Nov 2022 11:25:49 -0500 (EST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH] target/mips: Properly set C0_CMGCRBase after CPU reset
+Date: Mon, 14 Nov 2022 16:25:26 +0000
+Message-Id: <20221114162526.355652-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.37.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v1 5/9] hw/virtio: introduce virtio_device_should_start
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
- pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, Kevin Wolf
- <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "open list:virtiofs" <virtio-fs@redhat.com>
-References: <20221108092308.1717426-1-alex.bennee@linaro.org>
- <20221108092308.1717426-6-alex.bennee@linaro.org>
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20221108092308.1717426-6-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Ws8wuQ0bk_xhtOL_IaGAp5SVt8p67WcQ
-X-Proofpoint-GUID: 2zEIF0liqgsvtWjIfLYPDp9I1nIXvlRp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-14_12,2022-11-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0
- adultscore=0 lowpriorityscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 spamscore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211140114
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=64.147.123.21;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,32 +98,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 08.11.22 um 10:23 schrieb Alex Bennée:
-> The previous fix to virtio_device_started revealed a problem in its
-> use by both the core and the device code. The core code should be able
-> to handle the device "starting" while the VM isn't running to handle
-> the restoration of migration state. To solve this dual use introduce a
-> new helper for use by the vhost-user backends who all use it to feed a
-> should_start variable.
-> 
-> We can also pick up a change vhost_user_blk_set_status while we are at
-> it which follows the same pattern.
-> 
-> Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-> Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Value of C0_CMGCRBase will be reseted to default when cpu reset
+happens. In some cases software may move GCR base and then initiate
+a CPU reset, this will leave C0_CMGCRBase of reseted core incorrect.
 
-Hmmm, is this
-commit 259d69c00b67c02a67f3bdbeeea71c2c0af76c35
-Author:     Alex Bennée <alex.bennee@linaro.org>
-AuthorDate: Mon Nov 7 12:14:07 2022 +0000
-Commit:     Michael S. Tsirkin <mst@redhat.com>
-CommitDate: Mon Nov 7 14:08:18 2022 -0500
+Implement a callback in CMGCR device to allow C0_CMGCRBase and other
+global states to be overriden after CPU reset.
 
-     hw/virtio: introduce virtio_device_should_start
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+This fixes SMP boot for Boston board.
+I'm not sure if it's the best palce to make such a callback,
+but we can add more global states such as BEV here in future.
+---
+ hw/mips/cps.c        | 3 ++-
+ hw/misc/mips_cmgcr.c | 5 +++++
+ target/mips/cpu.c    | 4 +++-
+ target/mips/cpu.h    | 4 ++++
+ 4 files changed, 14 insertions(+), 2 deletions(-)
 
-and older version?
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index 2b436700ce..29b10ff8d0 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -98,6 +98,7 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+         cpu_mips_clock_init(cpu);
+ 
+         env = &cpu->env;
++        env->gcr = &s->gcr;
+         if (cpu_mips_itu_supported(env)) {
+             itu_present = true;
+             /* Attach ITC Tag to the VP */
+@@ -158,7 +159,7 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+                             sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->gic), 0));
+ 
+     /* Global Configuration Registers */
+-    gcr_base = env->CP0_CMGCRBase << 4;
++    gcr_base = GCR_BASE_ADDR;
+ 
+     object_initialize_child(OBJECT(dev), "gcr", &s->gcr, TYPE_MIPS_GCR);
+     object_property_set_int(OBJECT(&s->gcr), "num-vp", s->num_vp,
+diff --git a/hw/misc/mips_cmgcr.c b/hw/misc/mips_cmgcr.c
+index 3c8b37f700..f2108b7d32 100644
+--- a/hw/misc/mips_cmgcr.c
++++ b/hw/misc/mips_cmgcr.c
+@@ -19,6 +19,11 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/intc/mips_gic.h"
+ 
++void gcr_cpu_reset(struct MIPSGCRState *s, CPUMIPSState *env)
++{
++    env->CP0_CMGCRBase = s->gcr_base >> 4;
++}
++
+ static inline bool is_cpc_connected(MIPSGCRState *s)
+ {
+     return s->cpc_mr != NULL;
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index e997c1b9cb..d0a76b95f7 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -297,7 +297,9 @@ static void mips_cpu_reset(DeviceState *dev)
+         env->CP0_EBase |= (int32_t)0x80000000;
+     }
+     if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
+-        env->CP0_CMGCRBase = 0x1fbf8000 >> 4;
++        if (env->gcr) {
++            gcr_cpu_reset(env->gcr, env);
++        }
+     }
+     env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
+             0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 0a085643a3..c345e6b1c7 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1154,6 +1154,7 @@ typedef struct CPUArchState {
+     CPUMIPSTLBContext *tlb;
+     void *irq[8];
+     struct MIPSITUState *itu;
++    struct MIPSGCRState *gcr;
+     MemoryRegion *itc_tag; /* ITC Configuration Tags */
+ #endif
+ 
+@@ -1310,6 +1311,9 @@ void cpu_mips_soft_irq(CPUMIPSState *env, int irq, int level);
+ /* mips_itu.c */
+ void itc_reconfigure(struct MIPSITUState *tag);
+ 
++/* mips_cmgcr.c */
++void gcr_cpu_reset(struct MIPSGCRState *s, CPUMIPSState *env);
++
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ /* helper.c */
+-- 
+2.37.4
 
-This does not seem to fix the regression that I have reported.
 
