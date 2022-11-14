@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C396628E0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4857628E4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:27:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouiob-0000Zx-By; Mon, 14 Nov 2022 18:24:33 -0500
+	id 1ouinO-0007aZ-DH; Mon, 14 Nov 2022 18:23:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouifk-0004ws-2q
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:27 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ouifd-0002E1-2Z
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouXwm-0005Bc-0c
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 06:48:17 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ouY9e-0002dQ-8e
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 07:01:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668426494;
+ s=mimecast20190719; t=1668427292;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type; bh=ucfH+X8twl2Ws47Bs6a6DYYXobksfor7Ckp6hH8bzJw=;
- b=Gf/oSEzzP2RjEKks9ZgN8LF7YrFy54y++0O0vef6KYkKYGyG5DlU8lblCtw/Wyao1WoAp3
- RS7zVHmeyFsOl1b5zL4yF4AZXSTomyYjh6f9Vrl+FCMcT/cB7OH2kSVuJTLOOI5SkD7CJy
- MGoL6wCcdfRkxhkD3vCuT9uq2JxlqtQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-232-z7Uya3PuP1mAYxLM7oMysA-1; Mon, 14 Nov 2022 06:48:13 -0500
-X-MC-Unique: z7Uya3PuP1mAYxLM7oMysA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c10-20020a7bc84a000000b003cf81c2d3efso2833957wml.7
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 03:48:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ucfH+X8twl2Ws47Bs6a6DYYXobksfor7Ckp6hH8bzJw=;
- b=xLoq4in9sc/F+neVCrd2BhHZaHrmYu7du+Y/FZN65yISxrQXJ0tlwadx3b5XjRA0WE
- FJJy686DykkbChhceemfw5pE1EN5tGV8HkH1QltrZ4UC5YHXjBejSOJujTmaUUVQF5oR
- s+vi1SL70JnF/U7ubc4PKxqPd1/uhW/Y/Ibp+vjEydYGHSyJYBvrOLaakXtioJFxOTrq
- UNFEZGnr7hDH41Ekj9w46V1bpVcDM8s8EomtXY/PdBEjXyf9iZ1OvFlWGx/QTXdrUVX4
- z9qeZZD2x0+CrLLMFenbwKDm+DAsrGTWpG5n9PmXxXJqvsPqaJDIU+xwrRqmclwaeGyQ
- rZ4g==
-X-Gm-Message-State: ANoB5pnkygRkwPO8vdpjxzI/OkwO+adsZmjE8oN0tObViGUb357m84dN
- JIGNIFvZZRD6YsVr5Xs0fJnom5EQ7SKmXBRpgEwu2WzcONMucZzyA/ywm2dY0fPwIo3uZWqoC5l
- f5Kyy5CFGoI3WTRk=
-X-Received: by 2002:adf:e70e:0:b0:22c:d758:6fcb with SMTP id
- c14-20020adfe70e000000b0022cd7586fcbmr7229535wrm.542.1668426492455; 
- Mon, 14 Nov 2022 03:48:12 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf70T+oDUKXKgT3/zn6chPDyqo6Da2/XgYL1A0ufFkEJaA2cqrJ6CIz9B9Su0cIS62L6m6VueQ==
-X-Received: by 2002:adf:e70e:0:b0:22c:d758:6fcb with SMTP id
- c14-20020adfe70e000000b0022cd7586fcbmr7229527wrm.542.1668426492262; 
- Mon, 14 Nov 2022 03:48:12 -0800 (PST)
-Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
- q9-20020a5d61c9000000b0023c508a1c24sm9245591wrv.26.2022.11.14.03.48.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 03:48:11 -0800 (PST)
-From: quintela@redhat.com
-X-Google-Original-From: Juan Quintela <quintela@redhat.com>, Andre Beausoleil
- <abeausol@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-Subject: KVM call for 2022-11-15
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 14 Nov 2022 12:47:40 +0100
-Message-ID: <87o7t969lv.fsf@secure.mitica>
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ZTe2u3nPv41zOdZiuII3ib/dq56dqwWZ9nCF9HyHqkw=;
+ b=X1AwG2pUIbvHSLf4Fw6VOlHqoCNZKudEyTuBRKKNjPCO+nAS68idxRUBtac/EYVkTpVIOl
+ Oju/KK9ZXE91wv/x63yG/92xTKbYF+5OqEG+9vhbGvN7KPT1hC6o5AcVGFiYicPspaBXNl
+ Tcf/0P5rdKRpI5q5cELXM93s1dj1MhQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-20-NiDAMouyPrOk8-lSXxNSYw-1; Mon, 14 Nov 2022 07:01:28 -0500
+X-MC-Unique: NiDAMouyPrOk8-lSXxNSYw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BD8838164C6;
+ Mon, 14 Nov 2022 12:01:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C924492B05;
+ Mon, 14 Nov 2022 12:01:27 +0000 (UTC)
+Date: Mon, 14 Nov 2022 12:01:22 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2] capstone: use <capstone/capstone.h> instead of
+ <capstone.h>
+Message-ID: <Y3IuEntg2gZmRzfe@redhat.com>
+References: <20221113200942.18882-1-mjt@msgid.tls.msk.ru>
+ <CAFEAcA_aGiukDWQBAjj=Ln_u02wEbMNxOsHRZcBOm+jOz6HU2Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_aGiukDWQBAjj=Ln_u02wEbMNxOsHRZcBOm+jOz6HU2Q@mail.gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,38 +78,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Nov 14, 2022 at 11:59:31AM +0000, Peter Maydell wrote:
+> On Sun, 13 Nov 2022 at 20:10, Michael Tokarev <mjt@tls.msk.ru> wrote:
+> >
+> > The upcoming capstone 5.0 drops support for the old way
+> > of including its header, due to this change:
+> > https://github.com/capstone-engine/capstone/commit/6656bcb63ab4e87dc6079bd6b6b12cc8dd9b2ad8
+> > The official way is to use <capstone/capstone.h>
+> >
+> > This change has already been proposed before, see
+> > https://patchwork.kernel.org/project/qemu-devel/patch/20180215173539.11033-1-f4bug@amsat.org/
+> > but it didn't find its way into qemu at that time.
+> >
+> > On current systems, using <capstone/capstone.h> works
+> > now (despite the pkg-config-supplied -I/usr/include/capstone) -
+> > since on all systems capstone headers are put into capstone/
+> > subdirectory of a system include dir. So this change is
+> > compatible with both the obsolete way of including it
+> > and the only future way.
+> 
+> That's only true if capstone happened to be installed
+> into a system include directory subdirectory. That
+> is probably true for most distros, but it isn't
+> necessarily true when an end user has built and
+> installed capstone locally themselves.
+> 
+> In other words, this is a breaking non-back-compatible
+> change by capstone upstream, which we now need to work
+> around somehow :-(
+> 
+> 
+> > diff --git a/include/disas/capstone.h b/include/disas/capstone.h
+> > index e29068dd97..d8fdc5d537 100644
+> > --- a/include/disas/capstone.h
+> > +++ b/include/disas/capstone.h
+> > @@ -3,7 +3,7 @@
+> >
+> >  #ifdef CONFIG_CAPSTONE
+> >
+> > -#include <capstone.h>
+> > +#include <capstone/capstone.h>
+> >
+> >  #else
+> >
+> > diff --git a/meson.build b/meson.build
+> > index cf3e517e56..6f34c963f7 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -2680,12 +2680,7 @@ if not get_option('capstone').auto() or have_system or have_user
+> >    capstone = dependency('capstone', version: '>=3.0.5',
+> >                          kwargs: static_kwargs, method: 'pkg-config',
+> >                          required: get_option('capstone'))
+> > -
+> > -  # Some versions of capstone have broken pkg-config file
+> > -  # that reports a wrong -I path, causing the #include to
+> > -  # fail later. If the system has such a broken version
+> > -  # do not use it.
+> > -  if capstone.found() and not cc.compiles('#include <capstone.h>',
+> > +  if capstone.found() and not cc.compiles('#include <capstone/capstone.h>',
+> >                                            dependencies: [capstone])
+> >      capstone = not_found
+> >      if get_option('capstone').enabled()
+> 
+> We can do something like
+> 
+> config_host_data.set('HAVE_CAPSTONE_CAPSTONE_H',
+> cc.has_header('capstone/capstone.h', depedencies: [capstone])
+> 
+> to check that this capstone really does have capstone/capstone.h,
+> for instance.
+> 
+> Dan: is there a reason why in commit 8f4aea712ffc4 you wrote
+> the "check that capstone.h really exists" check with cc.compiles
+> rather than cc.has_header ?
 
-Hi
+I was probably just unaware of 'has_header' existing
 
-Please, send any topic that you are interested in covering.
-
-We already have some topics:
-Re agenda, see below topics our team would like to discuss:
-
-   - QEMU support for kernel/vfio V2 live migration patches
-   - acceptance of changes required for Grace/Hopper passthrough and vGPU
-   support
-      - the migration support is now looking like it will converge on the
-      6.2 kernel
-   - tuning GPU migration performance on QEMU/vfio, beyond what the V2 work
-   delivers
-
-
- Call details:
-
-By popular demand, a google calendar public entry with it
-
-  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-
-(Let me know if you have any problems with the calendar entry.  I just
-gave up about getting right at the same time CEST, CET, EDT and DST).
-
-If you need phone number details,  contact me privately
-
-Thanks, Juan.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
