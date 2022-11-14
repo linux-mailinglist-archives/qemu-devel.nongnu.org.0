@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1C3628EF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F69628F12
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:17:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouidp-0001lq-3H; Mon, 14 Nov 2022 18:13:25 -0500
+	id 1oujB2-0001Vb-US; Mon, 14 Nov 2022 18:47:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidl-0001X6-AU
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ppolawsk@redhat.com>)
+ id 1ouidh-0001X6-Ar
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJP-00037n-LI
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:52:30 -0500
+ (Exim 4.90_1) (envelope-from <ppolawsk@redhat.com>)
+ id 1ouiQB-0003uf-J4
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:59:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668466339;
+ s=mimecast20190719; t=1668466758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rcnm5aMG/LUSV6x9rNqQu6bpIiyneV26ZG6lhU9ZMh4=;
- b=CRDAnxw0S/pi0R0B+/5L91ot8F2rRy30m5lZM+d19Ld1bFDbshJkv6CkKn/FL/v/5gMDpB
- SW6n6wxA2otf0jF9Yp2Xm2IwldsVCp+2riLYuVO5av+zWJAejOTr/R8BkcnUmQ3X0J4VD3
- CKYWIVhlYwOMnAryK6hEHfa2EFfc7IE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-148-YsK2a6_mOtqnkpn016mR8Q-1; Mon, 14 Nov 2022 17:52:15 -0500
-X-MC-Unique: YsK2a6_mOtqnkpn016mR8Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F29D2811E81;
- Mon, 14 Nov 2022 22:52:14 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E02540E9786;
- Mon, 14 Nov 2022 22:52:14 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: libguestfs@redhat.com
-Cc: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org,
-	nbd@other.debian.org
-Subject: [libnbd PATCH v2 23/23] RFC: pread: Accept 64-bit holes
-Date: Mon, 14 Nov 2022 16:51:58 -0600
-Message-Id: <20221114225158.2186742-24-eblake@redhat.com>
-In-Reply-To: <20221114225158.2186742-1-eblake@redhat.com>
-References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
- <20221114225158.2186742-1-eblake@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=2VIvflBMWgyN4h43g14YAxJaVuIVonMkn+8nOvEeCEc=;
+ b=UXFgq8nJUxzNm9bkdty/DIsQyj1dGtfosItfamsXA6aHjOylSKwwOnyxXR+DvhitScO9T5
+ w50X6rDAMJPvL9iBKfkR6mnZNZOS9diLgSP8gd878GC+VC73SD1/tRKcCnqF9I3YjxOnFv
+ rKno/xg1XHqDFxWHBFuwa452yYXbhKA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-250-zM4uougPPEyt2UShheidpA-1; Mon, 14 Nov 2022 17:58:13 -0500
+X-MC-Unique: zM4uougPPEyt2UShheidpA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i9-20020a1c3b09000000b003cfbaa32cfdso4603771wma.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 14:58:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2VIvflBMWgyN4h43g14YAxJaVuIVonMkn+8nOvEeCEc=;
+ b=2/0wUDkyUTL4LWBhlRL5EDkemD446tSY0DP0JOrnjyGNvcRlQnpkKpkE2IYCQ7Swi3
+ mbyGsoUWg6VYcQeHHE2UTsQ2RUTd03692xINNQKPsEgCsgB1Aml8cp49zw/dsVMBG/dI
+ xfm97/7tcQu1Qq42DAaTrNHk1lQrN6bdvLnlgPcbKCy1ZoYA23KA3Bjjbby6ZFEw3vLx
+ MXgyG7l4Tp7BbVq9l5WJOu4Vj+prYnqpyMc+qpzkCBkY3x83FM5tw/VMzVJ5KHT6S5cm
+ GJvI6raI6QQmnfkjJmJfyTjJ/39Dp3AgPC7+oIaGkqOIPNxFgvP9aAfp7uPDT8HiXerC
+ Gn6A==
+X-Gm-Message-State: ANoB5pmPQSVDkHLPUQKCKZMKXgh4DKpH5GZYM8FOhN95AeM2vG/oe6i3
+ CLmmEtdRNaUtz8eRPvlNAQhvyxA330dahLg5FiWyF5re0AXK3FJPmndfoPpQcBpWAxHXEsRRJKm
+ J+UrtpOJNAG5t23QioMknIFRLe2t8WJw=
+X-Received: by 2002:a5d:4301:0:b0:236:8130:56e7 with SMTP id
+ h1-20020a5d4301000000b00236813056e7mr8853824wrq.309.1668466691810; 
+ Mon, 14 Nov 2022 14:58:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4JLMQ0lHpR/OadUTPPCfYXMwxqRsP4RqhDoWDPoGuDcTmWRLjeMbDW+GV0h6ELNUGKIc66YxvfK62/pFzRlvA=
+X-Received: by 2002:a5d:4301:0:b0:236:8130:56e7 with SMTP id
+ h1-20020a5d4301000000b00236813056e7mr8853815wrq.309.1668466691468; Mon, 14
+ Nov 2022 14:58:11 -0800 (PST)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+From: Pawel Polawski <ppolawsk@redhat.com>
+Date: Mon, 14 Nov 2022 23:58:00 +0100
+Message-ID: <CABchEG2dNgOPnm9K6AJsiWb8z=dOaKe0yjrvxqyU3gdWygQaNw@mail.gmail.com>
+Subject: [qemu-devel]
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000771c9305ed762c30"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=ppolawsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_REMOTE_IMAGE=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 14 Nov 2022 18:47:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,161 +88,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Even though we don't currently allow the user to request NBD_CMD_READ
-with more than 64M (and even if we did, our API signature caps us at
-SIZE_MAX, which is 32 bits on a 32-bit machine), upstream NBD commit
-XXX[*] states that for symmetry with 64-bit requests, extended header
-clients must be prepared for a server response with a 64-bit hole,
-even if the client never makes a read request that large.  Note that
-we don't have to change the signature of the callback for
-nbd_pread_structured; nor is it worth adding a 64-bit counterpart to
-LIBNBD_READ_HOLE, because it is unlikely that a user callback will
-ever need to distinguish between which size was sent over the wire,
-when the value is always less than 32 bits.  Also note that the recent
-NBD spec changes to add 64-bits did state that servers may allow
-clients to request a read of larger than the max block size, but if
-such read is not rejected with EOVERFLOW or EINVAL, then the reply
-will be divided into chunks so that no chunk sends more than a max
-block size payload.
+--000000000000771c9305ed762c30
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-While we cannot guarantee which size structured reply the server will
-use, it is easy enough to handle both sizes, but tag the read with
-EPROTO for a non-compliant server that sends wide replies when
-extended headers were not negotiated.  A more likely reason that a
-server may choose to send 64-bit hole chunks even for a 32-bit hole is
-because the extended hole payload has nicer power-of-2 sizing.
+Hi Everyone,
 
----
+I am trying to check qemu virtual cpu boundaries when running a custom
+edk2 based firmware build. For that purpose I want to run qemu with more
+than 1024 vCPU:
+$QEMU
+-accel kvm
+-m 4G
+-M q35,kernel-irqchip=3Don,smm=3Don
+-smp cpus=3D1025,maxcpus=3D1025 -global mch.extended-tseg-mbytes=3D128
+-drive if=3Dpflash,format=3Draw,file=3D${CODE},readonly=3Don
+-drive if=3Dpflash,format=3Draw,file=3D${VARS}
+-chardev stdio,id=3Dfwlog
+-device isa-debugcon,iobase=3D0x402,chardev=3Dfwlog "$@"
 
-[*] FIXME: Update this with the actual commit id, if upstream NBD even
-goes with this option.
----
- lib/internal.h                      |  1 +
- lib/nbd-protocol.h                  |  6 +++++
- generator/states-reply-structured.c | 36 ++++++++++++++++++++++++-----
- 3 files changed, 37 insertions(+), 6 deletions(-)
+The result is as follows:
+QEMU emulator version 7.0.50 (v7.0.0-1651-g9cc1bf1ebc-dirty)
+Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
+qemu-system-x86_64: -accel kvm: warning: Number of SMP cpus requested
+(1025) exceeds the recommended cpus supported by KVM (8)
+Number of SMP cpus requested (1025) exceeds the maximum cpus supported by
+KVM (1024)
 
-diff --git a/lib/internal.h b/lib/internal.h
-index ac8d99c4..64d1941c 100644
---- a/lib/internal.h
-+++ b/lib/internal.h
-@@ -250,6 +250,7 @@ struct nbd_handle {
-       union {
-         struct nbd_structured_reply_offset_data offset_data;
-         struct nbd_structured_reply_offset_hole offset_hole;
-+        struct nbd_structured_reply_offset_hole_ext offset_hole_ext;
-         struct nbd_structured_reply_block_status_hdr bs_hdr;
-         struct nbd_structured_reply_block_status_ext_hdr bs_ext_hdr;
-         struct {
-diff --git a/lib/nbd-protocol.h b/lib/nbd-protocol.h
-index 2d1fabd0..2d1a3202 100644
---- a/lib/nbd-protocol.h
-+++ b/lib/nbd-protocol.h
-@@ -247,6 +247,11 @@ struct nbd_structured_reply_offset_hole {
-   uint32_t length;              /* Length of hole. */
- } NBD_ATTRIBUTE_PACKED;
+It is not clear to me if I am hitting qemu limitation or KVM limitation
+here.
+I have changed hardcoded 1024 limits in hw/i386/* files but the limitation
+is still presented.
 
-+struct nbd_structured_reply_offset_hole_ext {
-+  uint64_t offset;
-+  uint64_t length;              /* Length of hole. */
-+} NBD_ATTRIBUTE_PACKED;
-+
- /* NBD_REPLY_TYPE_BLOCK_STATUS block descriptor. */
- struct nbd_block_descriptor {
-   uint32_t length;              /* length of block */
-@@ -292,6 +297,7 @@ struct nbd_structured_reply_error {
- #define NBD_REPLY_TYPE_NONE             0
- #define NBD_REPLY_TYPE_OFFSET_DATA      1
- #define NBD_REPLY_TYPE_OFFSET_HOLE      2
-+#define NBD_REPLY_TYPE_OFFSET_HOLE_EXT  3
- #define NBD_REPLY_TYPE_BLOCK_STATUS     5
- #define NBD_REPLY_TYPE_BLOCK_STATUS_EXT 6
- #define NBD_REPLY_TYPE_ERROR            NBD_REPLY_TYPE_ERR (1)
-diff --git a/generator/states-reply-structured.c b/generator/states-reply-structured.c
-index 7e313b5a..e338bf74 100644
---- a/generator/states-reply-structured.c
-+++ b/generator/states-reply-structured.c
-@@ -28,15 +28,16 @@
-  * requesting command.
-  */
- static bool
--structured_reply_in_bounds (uint64_t offset, uint32_t length,
-+structured_reply_in_bounds (uint64_t offset, uint64_t length,
-                             const struct command *cmd)
- {
-   if (offset < cmd->offset ||
-       offset >= cmd->offset + cmd->count ||
--      offset + length > cmd->offset + cmd->count) {
-+      length > cmd->offset + cmd->count ||
-+      offset > cmd->offset + cmd->count - length) {
-     set_error (0, "range of structured reply is out of bounds, "
-                "offset=%" PRIu64 ", cmd->offset=%" PRIu64 ", "
--               "length=%" PRIu32 ", cmd->count=%" PRIu64 ": "
-+               "length=%" PRIu64 ", cmd->count=%" PRIu64 ": "
-                "this is likely to be a bug in the NBD server",
-                offset, cmd->offset, length, cmd->count);
-     return false;
-@@ -141,6 +142,21 @@  REPLY.STRUCTURED_REPLY.CHECK:
-     SET_NEXT_STATE (%RECV_OFFSET_HOLE);
-     break;
+Can someone advise what I should debug next looking for those vCPU limits?
 
-+  case NBD_REPLY_TYPE_OFFSET_HOLE_EXT:
-+    if (cmd->type != NBD_CMD_READ ||
-+        length != sizeof h->sbuf.reply.payload.offset_hole_ext)
-+      goto resync;
-+    if (!h->extended_headers) {
-+      debug (h, "unexpected 64-bit hole without extended headers, "
-+             "this is probably a server bug");
-+      if (cmd->error == 0)
-+        cmd->error = EPROTO;
-+    }
-+    h->rbuf = &h->sbuf.reply.payload.offset_hole_ext;
-+    h->rlen = sizeof h->sbuf.reply.payload.offset_hole_ext;
-+    SET_NEXT_STATE (%RECV_OFFSET_HOLE);
-+    break;
-+
-   case NBD_REPLY_TYPE_BLOCK_STATUS:
-     if (cmd->type != NBD_CMD_BLOCK_STATUS ||
-         length < 12 || ((length-4) & 7) != 0)
-@@ -406,7 +422,8 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_DATA_DATA:
-  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
-   struct command *cmd = h->reply_cmd;
-   uint64_t offset;
--  uint32_t length;
-+  uint64_t length;
-+  uint16_t type;
+Best regards,
+Pawel
 
-   switch (recv_into_rbuf (h)) {
-   case -1: SET_NEXT_STATE (%.DEAD); return 0;
-@@ -416,10 +433,14 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
-     return 0;
-   case 0:
-     offset = be64toh (h->sbuf.reply.payload.offset_hole.offset);
--    length = be32toh (h->sbuf.reply.payload.offset_hole.length);
-+    type = be16toh (h->sbuf.reply.hdr.structured.type);
-+
-+    if (type == NBD_REPLY_TYPE_OFFSET_HOLE)
-+      length = be32toh (h->sbuf.reply.payload.offset_hole.length);
-+    else
-+      length = be64toh (h->sbuf.reply.payload.offset_hole_ext.length);
+--=20
 
-     assert (cmd); /* guaranteed by CHECK */
--
-     assert (cmd->data && cmd->type == NBD_CMD_READ);
+Pawe=C5=82 Po=C5=82awski
 
-     /* Is the data within bounds? */
-@@ -435,7 +456,10 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
-     /* The spec states that 0-length requests are unspecified, but
-      * 0-length replies are broken. Still, it's easy enough to support
-      * them as an extension, and this works even when length == 0.
-+     * Although length is 64 bits, the bounds check above ensures that
-+     * it is no larger than the 64M cap we put on NBD_CMD_READ.
-      */
-+    assert (length <= SIZE_MAX);
-     if (!cmd->initialized)
-       memset ((char *) cmd->data + offset, 0, length);
-     if (CALLBACK_IS_NOT_NULL (cmd->cb.fn.chunk)) {
--- 
-2.38.1
+Red Hat <https://www.redhat.com/> Virtualization
+
+ppolawsk@redhat.com
+@RedHat <https://twitter.com/redhat>   Red Hat
+<https://www.linkedin.com/company/red-hat>  Red Hat
+<https://www.facebook.com/RedHatInc>
+<https://red.ht/sig>
+
+--000000000000771c9305ed762c30
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Everyone,</div><div><br></div><div>I am trying to =
+check qemu virtual cpu boundaries when running a custom</div><div>edk2 base=
+d firmware build. For that purpose I want to run qemu with more than 1024 v=
+CPU:<br></div><div>$QEMU</div><div>-accel kvm</div><div>-m 4G</div><div>-M =
+q35,kernel-irqchip=3Don,smm=3Don</div><div>-smp cpus=3D1025,maxcpus=3D1025 =
+-global mch.extended-tseg-mbytes=3D128</div><div>-drive if=3Dpflash,format=
+=3Draw,file=3D${CODE},readonly=3Don</div><div>-drive if=3Dpflash,format=3Dr=
+aw,file=3D${VARS}</div><div>-chardev stdio,id=3Dfwlog</div><div>-device isa=
+-debugcon,iobase=3D0x402,chardev=3Dfwlog &quot;$@&quot;<br></div><div><br><=
+/div><div>The result is as follows:<br></div><div>QEMU emulator version 7.0=
+.50 (v7.0.0-1651-g9cc1bf1ebc-dirty)<br>Copyright (c) 2003-2022 Fabrice Bell=
+ard and the QEMU Project developers<br>qemu-system-x86_64: -accel kvm: warn=
+ing: Number of SMP cpus requested (1025) exceeds the recommended cpus suppo=
+rted by KVM (8)<br>Number of SMP cpus requested (1025) exceeds the maximum =
+cpus supported by KVM (1024)</div><div><br></div><div>It is not clear to me=
+ if I am hitting qemu limitation or KVM limitation here.</div><div>I have c=
+hanged hardcoded 1024 limits in hw/i386/* files but the limitation is still=
+ presented.</div><div><br></div><div>Can someone advise what I should debug=
+ next looking for those vCPU limits?</div><div><br></div><div>Best regards,=
+</div><div>Pawel<br></div><div><br>-- <br><div dir=3D"ltr" class=3D"gmail_s=
+ignature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><p style=3D"c=
+olor:rgb(0,0,0);font-family:RedHatText,sans-serif;font-weight:bold;margin:0=
+px;padding:0px;font-size:14px;text-transform:capitalize"><span>Pawe=C5=82 P=
+o=C5=82awski</span><span style=3D"text-transform:uppercase;color:rgb(170,17=
+0,170);margin:0px"></span></p><p style=3D"color:rgb(0,0,0);font-family:RedH=
+atText,sans-serif;font-size:12px;margin:0px;text-transform:capitalize"><spa=
+n><span><span><a href=3D"https://www.redhat.com/" target=3D"_blank">Red Hat=
+</a> Virtualization<br></span></span></span></p><p style=3D"color:rgb(0,0,0=
+);font-family:RedHatText,sans-serif;margin:0px;font-size:12px"><span style=
+=3D"margin:0px;padding:0px"><a href=3D"mailto:ppolawsk@redhat.com" style=3D=
+"color:rgb(0,0,0);margin:0px" target=3D"_blank">ppolawsk@redhat.com</a>=C2=
+=A0 =C2=A0</span> <span><br></span></p><div style=3D"color:rgb(0,0,0);font-=
+family:RedHatText,sans-serif;font-size:12px;margin-bottom:8px"><div><a href=
+=3D"https://twitter.com/redhat" title=3D"twitter" style=3D"background:trans=
+parent url(&quot;https://marketing-outfit-prod-images.s3-us-west-2.amazonaw=
+s.com/3780bd4ede961ef3cd4108b8c0e80186/web-icon-twitter.png&quot;) no-repea=
+t scroll 0px 50%/13px auto;color:rgb(0,0,0);display:inline-block;line-heigh=
+t:20px;padding-left:13px" target=3D"_blank"><span style=3D"margin-left:2px"=
+>@RedHat</span></a>=C2=A0=C2=A0=C2=A0<a href=3D"https://www.linkedin.com/co=
+mpany/red-hat" title=3D"LinkedIn" style=3D"background:transparent url(&quot=
+;https://marketing-outfit-prod-images.s3-us-west-2.amazonaws.com/8d3507e3c6=
+b6c9ad10e301accf1a4af0/web-icon-linkedin.png&quot;) no-repeat scroll 0px 50=
+%/12px auto;color:rgb(0,0,0);display:inline-block;line-height:20px;padding-=
+left:12px;margin:0px 4px 0px 3px;padding-top:1px" target=3D"_blank"><span s=
+tyle=3D"margin-left:4px">Red Hat</span></a>=C2=A0=C2=A0<a href=3D"https://w=
+ww.facebook.com/RedHatInc" title=3D"Facebook" style=3D"background:transpare=
+nt url(&quot;https://marketing-outfit-prod-images.s3-us-west-2.amazonaws.co=
+m/220b85e2f100025e94cb1bcd993bd51d/web-icon-facebook.png&quot;) no-repeat s=
+croll 0px 50%/11px auto;color:rgb(0,0,0);display:inline-block;line-height:2=
+0px;padding-left:13px" target=3D"_blank"><span>Red Hat</span></a></div></di=
+v><a href=3D"https://red.ht/sig" target=3D"_blank"><img src=3D"https://stat=
+ic.redhat.com/libs/redhat/brand-assets/latest/corp/logo.png" width=3D"90" h=
+eight=3D"auto"></a><br></div></div></div></div>
+
+--000000000000771c9305ed762c30--
 
 
