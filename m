@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FEC628E74
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A11E628ED0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:59:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouioo-0000qD-7w; Mon, 14 Nov 2022 18:24:46 -0500
+	id 1ouirT-0004px-0O; Mon, 14 Nov 2022 18:27:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ouigH-0005tn-IJ; Mon, 14 Nov 2022 18:16:07 -0500
-Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ouPyh-0008Cx-22; Sun, 13 Nov 2022 22:17:46 -0500
-Received: from [192.168.3.6] (unknown [180.165.240.202])
- by APP-05 (Coremail) with SMTP id zQCowAD3_LRIs3Fj0Kl6CQ--.45314S2;
- Mon, 14 Nov 2022 11:17:30 +0800 (CST)
-Message-ID: <abd875a9-7dda-8c73-8481-47d383ddc0c8@iscas.ac.cn>
-Date: Mon, 14 Nov 2022 11:17:27 +0800
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ouihh-0004sK-0a; Mon, 14 Nov 2022 18:17:25 -0500
+Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ouQTD-00051S-GY; Sun, 13 Nov 2022 22:49:17 -0500
+Received: by mail-vs1-xe2d.google.com with SMTP id t14so10256387vsr.9;
+ Sun, 13 Nov 2022 19:49:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tj0OglJFYBK6ir0ZAItWmnnVwojk+hPz9GAH8lBZy1w=;
+ b=PvmHsEGdmk25aEM1blp/oppyKxnxT1/TTmxMYOgJ1MeeTuRBf8kecJJKKYpnQm1wjn
+ KoRoBOx/R/SZBL9zY8cKkFslLvgePCr7c7JfFtQ8RyncaOhPKJl89sVsC+dRjWUvQVTO
+ Oav8LhVeGBqhzsHKI3fAiOJmPo+R2cUbFEJ6zTRVDzl9Gsz0Ut+7/g1kamRGO3eKaJQ+
+ +MlIViEU8jWdD9EmJGerAO0RHOCePf5DYJ+lI0HELGSyljbA6gWWf4DBOmSxL6VeEAKe
+ 6M7Z96aOM4m31ve6DVpoxf+s9OTukxrVh0GrkCXRBr3S6SgFysWrxB9woI1EzKBX0RnR
+ LQsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Tj0OglJFYBK6ir0ZAItWmnnVwojk+hPz9GAH8lBZy1w=;
+ b=vUWnsCfoNVVkNXCiUDz42dIBedFmjkab5wY57krvEoXFgplkemeTNAWaHL66wyMBwy
+ Wko7eUWNf/VPGaAREDLaLciX4VX2Hb/uON36n89LUWlFHimEHipyCXuJk0ACazE2TRky
+ 3Af8Wqr8hvVoo4LqFvXmaTnAfDSuDwqd4PV58cN7kwJAbDmtfE8F+8PRXoRObfIjlEGm
+ lej0DHjwWIKHCKno7Ghq6DLIWr80Bt8oDGjnr37Sl2bGAig5txJOSlfW9TCT2GNjmmap
+ 5G7Jkj4mOj0V8p5PfJHlezFVqCPlwPjz1IffHxACGZ5jWC3eM1kBxaVysr5CCIg7BSvx
+ G1zQ==
+X-Gm-Message-State: ANoB5pma42hxXFMULKPL/G+QfXdlNLbfkwiVhavo+QHtBRt7Ic/KX5DG
+ PbHTO5W7EdHbZubJjTpKSVp3NQMJ29xifqIkCMZbZONjZl7zNQ==
+X-Google-Smtp-Source: AA0mqf5djTgaRD+AW0QZiWsTOdCxT87uWSmdziuABCCDlo8sLns8Lxfti/wTjT/Fxj2sSpvWRxBa6aehZs0kNPneQfc=
+X-Received: by 2002:a67:fb19:0:b0:3a6:fde0:cf74 with SMTP id
+ d25-20020a67fb19000000b003a6fde0cf74mr4791379vsr.73.1668397753965; Sun, 13
+ Nov 2022 19:49:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Cc: liweiwei@iscas.ac.cn, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH v2 2/8] target/riscv: add support for Zca and Zcf
+References: <20221027054649.69228-1-mchitale@ventanamicro.com>
+ <20221027054649.69228-4-mchitale@ventanamicro.com>
+In-Reply-To: <20221027054649.69228-4-mchitale@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 14 Nov 2022 13:48:47 +1000
+Message-ID: <CAKmqyKOpCvVUwdaKDdTWw7kpw_xp2+iJAtCGd6EimDCTye_aEw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] target/riscv: kvm: Support selecting VCPU
  extensions
-To: Richard Henderson <richard.henderson@linaro.org>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
- <20221113023251.11047-3-liweiwei@iscas.ac.cn>
- <f41a1fe4-a564-5ca6-b52c-c3c4256ad241@linaro.org>
-Content-Language: en-US
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <f41a1fe4-a564-5ca6-b52c-c3c4256ad241@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD3_LRIs3Fj0Kl6CQ--.45314S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrur4xZFWxGr48Cw4Utw43ZFb_yoWfuFc_Jr
- 4UGr1UXw1jvr4rtr17Gr1UXry7Cr1jyw4Utr4Yya18XF1UJFn8Aws8C3s5Ar1UKa15Jr17
- Cr15Ja13JF1UtjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb48FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
- 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
- v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
- c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
- MIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUU
- U==
-X-Originating-IP: [180.165.240.202]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+To: Mayuresh Chitale <mchitale@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,32 +83,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 2022/11/14 05:40, Richard Henderson wrote:
-> On 11/13/22 12:32, Weiwei Li wrote:
->> +        } else if ((get_xl_max(ctx) == MXL_RV32) &&
->> +            !ctx->cfg_ptr->ext_zcf &&
->> +            (((opcode & 0xe003) == 0x6000) ||
->> +             ((opcode & 0xe003) == 0x6002) ||
->> +             ((opcode & 0xe003) == 0xe000) ||
->> +             ((opcode & 0xe003) == 0xe002))) {
->>               gen_exception_illegal(ctx);
+On Thu, Oct 27, 2022 at 3:53 PM Mayuresh Chitale
+<mchitale@ventanamicro.com> wrote:
 >
-> Why aren't you using the same c_flw solution that you do for Zcd?
-Yeah, it's OK for zcf intructions to use the c_flw solution.
+> Set the state of each ISA extension on the vcpu depending on what
+> is set in the CPU property and what is allowed by KVM for that extension.
+>
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
 
-I tried to remain the original logic for Zcf and Zcd instructions, 
-However, this way is not suitable for Zcd instructions
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-since zcmp/zcmt instructions will overlap their encodings(but not the 
-same).  So I changed the way of Zcd instructions.
+Alistair
 
-Regards,
-
-Weiwei Li
-
+> ---
+>  target/riscv/cpu.c       | 11 ++++-
+>  target/riscv/kvm.c       | 88 ++++++++++++++++++++++++++++++++++------
+>  target/riscv/kvm_riscv.h |  2 +-
+>  3 files changed, 87 insertions(+), 14 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 35320a8547..e52577d59d 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1191,10 +1191,19 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str)
+>  {
+>      char *old = *isa_str;
+>      char *new = *isa_str;
+> -    int i;
+> +    int i, offset;
+>
+>      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+>          if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
+> +            offset = isa_edata_arr[i].ext_enable_offset;
+> +            if (kvm_enabled() && !kvm_riscv_ext_supported(offset)) {
+> +#ifndef CONFIG_USER_ONLY
+> +                info_report("disabling %s extension for hart 0x%lx because "
+> +                            "kvm does not support it", isa_edata_arr[i].name,
+> +                            (unsigned long)cpu->env.mhartid);
+> +#endif
+> +                    continue;
+> +            }
+>              if (isa_edata_arr[i].multi_letter) {
+>                  if (cpu->cfg.short_isa_string) {
+>                      continue;
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index 30f21453d6..ea0715c9e4 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -42,6 +42,29 @@
+>  #include "migration/migration.h"
+>  #include "sysemu/runstate.h"
+>
+> +struct isa_ext_info {
+> +    const char *name;
+> +    target_ulong misa_bit;
+> +    int ext_enable_offset;
+> +};
+> +
+> +#define ISA_EXT_DATA_ENTRY(_name, _bit, _prop) \
+> +    {#_name, _bit, offsetof(struct RISCVCPUConfig, _prop)}
+> +
+> +static const struct isa_ext_info isa_info_arr[] = {
+> +    ISA_EXT_DATA_ENTRY(a, RVA, ext_a),
+> +    ISA_EXT_DATA_ENTRY(c, RVC, ext_c),
+> +    ISA_EXT_DATA_ENTRY(d, RVD, ext_d),
+> +    ISA_EXT_DATA_ENTRY(f, RVF, ext_f),
+> +    ISA_EXT_DATA_ENTRY(h, RVH, ext_h),
+> +    ISA_EXT_DATA_ENTRY(i, RVI, ext_i),
+> +    ISA_EXT_DATA_ENTRY(m, RVM, ext_m),
+> +    ISA_EXT_DATA_ENTRY(svpbmt, 0, ext_svpbmt),
+> +    ISA_EXT_DATA_ENTRY(sstc, 0, ext_sstc),
+> +    ISA_EXT_DATA_ENTRY(svinval, 0, ext_svinval),
+> +    ISA_EXT_DATA_ENTRY(zihintpause, 0, ext_zihintpause),
+> +};
+> +
+>  static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
+>                                   uint64_t idx)
+>  {
+> @@ -394,25 +417,66 @@ void kvm_arch_init_irq_routing(KVMState *s)
+>  {
+>  }
+>
+> +bool kvm_riscv_ext_supported(int offset)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < KVM_RISCV_ISA_EXT_MAX; ++i) {
+> +        if (isa_info_arr[i].ext_enable_offset == offset) {
+> +            return true;
+> +        }
+> +    }
+> +    return false;
+> +}
+> +
+> +static void kvm_riscv_set_isa_ext(CPUState *cs, CPURISCVState *env)
+> +{
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    unsigned long isa_ext_out;
+> +    bool *ext_state;
+> +    uint64_t id;
+> +    int i, ret;
+> +
+> +    env->misa_ext = 0;
+> +    for (i = 0; i < ARRAY_SIZE(isa_info_arr); i++) {
+> +        ext_state = (void *)&cpu->cfg + isa_info_arr[i].ext_enable_offset;
+> +        id = kvm_riscv_reg_id(env, KVM_REG_RISCV_ISA_EXT, i);
+> +        ret = kvm_get_one_reg(cs, id, &isa_ext_out);
+> +        if (ret) {
+> +            warn_report("Disabling ext %s due to failure.",
+> +                        isa_info_arr[i].name);
+> +            *ext_state = false;
+> +            continue;
+> +        }
+> +        if (isa_ext_out != (*ext_state)) {
+> +            isa_ext_out = *ext_state;
+> +            ret = kvm_set_one_reg(cs, id, &isa_ext_out);
+> +            if (ret) {
+> +                warn_report("Could not %s ext %s.",
+> +                            (isa_ext_out ? "enable" : "disable"),
+> +                            isa_info_arr[i].name);
+> +                *ext_state = !isa_ext_out;
+> +            }
+> +        }
+> +        /*
+> +         * If the sigle letter extension is supported by KVM then set
+> +         * the corresponding misa bit for the guest vcpu.
+> +         */
+> +        if (isa_info_arr[i].misa_bit && (*ext_state)) {
+> +            env->misa_ext |= isa_info_arr[i].misa_bit;
+> +        }
+> +    }
+> +}
+> +
+>  int kvm_arch_init_vcpu(CPUState *cs)
+>  {
+> -    int ret = 0;
+> -    target_ulong isa;
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+>      CPURISCVState *env = &cpu->env;
+> -    uint64_t id;
+>
+>      qemu_add_vm_change_state_handler(kvm_riscv_vm_state_change, cs);
+>
+> -    id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG,
+> -                          KVM_REG_RISCV_CONFIG_REG(isa));
+> -    ret = kvm_get_one_reg(cs, id, &isa);
+> -    if (ret) {
+> -        return ret;
+> -    }
+> -    env->misa_ext = isa;
+> -
+> -    return ret;
+> +    kvm_riscv_set_isa_ext(cs, env);
+> +    return 0;
+>  }
+>
+>  int kvm_arch_msi_data_to_gsi(uint32_t data)
+> diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
+> index ed281bdce0..bdcccc0da4 100644
+> --- a/target/riscv/kvm_riscv.h
+> +++ b/target/riscv/kvm_riscv.h
+> @@ -21,5 +21,5 @@
+>
+>  void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
+>  void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
+> -
+> +bool kvm_riscv_ext_supported(int offset);
+>  #endif
+> --
+> 2.34.1
 >
 >
-> r~
-
 
