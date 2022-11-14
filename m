@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD63628EE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:05:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74729628F59
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:35:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinP-0007d5-SB; Mon, 14 Nov 2022 18:23:19 -0500
+	id 1ouinL-0007UX-31; Mon, 14 Nov 2022 18:23:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouif7-0004K8-RE
+ id 1ouif7-00025D-Qs
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oub3f-0005tF-2g
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 10:07:36 -0500
+ id 1oub4G-0005us-W0
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 10:08:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668438453;
+ s=mimecast20190719; t=1668438492;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=SZx96w5KTHbNUjt4Uf3tLWUD1dxtmWXFCsDVmfXSxWk=;
- b=btwGyzKEByS8M2/Wv7ZFOpNdRADyRxJHSTu0w3xPdRm9Fi5fCzF6cJK2wPrMt0lR95yA6a
- BkF/W8EEXvy2pHtIHz4PeQiNlz7O3fbejKmjR1vRQeOCb9uUWGLo6bEcAl/hlCz3Y8+9aW
- 6bLhXqbS5o0G8mWwrtbqIg/s+TDmTvw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=02cW1j40zMidMANC8sJqfqdpprGVmyUomfTbTUlD5CU=;
+ b=fGQjJaYkDrT3p/Ah7Le0xvFEh4VCGE65XUAkj/x2oDIZtJ+Tm5d6UecEohzY98F51+1+0K
+ 5RR/pPAQu0G+Vm04hk9HoV4AVXDMif9edHkquF8+FE/tyARS95qgfbIa5KvsXtjp9capYX
+ ravc+XpVmTTOT+0G1a6ir5tNbmzn/2Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-601-12Qw54xbN7Wcgcs5EgZo_Q-1; Mon, 14 Nov 2022 10:07:23 -0500
-X-MC-Unique: 12Qw54xbN7Wcgcs5EgZo_Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- r4-20020adfbb04000000b00236639438e9so2119522wrg.11
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 07:07:22 -0800 (PST)
+ us-mta-322-sSysN1CUMO6CIRTrwouEdg-1; Mon, 14 Nov 2022 10:08:10 -0500
+X-MC-Unique: sSysN1CUMO6CIRTrwouEdg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m14-20020a7bcb8e000000b003cfcff0057eso1975977wmi.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 07:08:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SZx96w5KTHbNUjt4Uf3tLWUD1dxtmWXFCsDVmfXSxWk=;
- b=JHlpQb4T5dUFrRZCMLTVraJOu37SyoX0cF+pUDwNiG8ywaQK4kCUDsO9qPPgDny65M
- FDJ+v0XoG7z6Y8ISWlqma58oAkG3JuYAIipU47pGxLDBUL+nxx3wtJcK8+8BD9eGc/ky
- 87xddISisutmnunrRyh8ErWXuXKpJ38A7MkvxgCj23z/wZJR3y7sty+LHiavsiW8nwyj
- QeV6OVwC+pXQlDqlzJqZ06v5glhkEMqJeLDYVR3Y8qKsDAEnN0QZP9kBVmPvYjUEJLjM
- hAHhYhWfPCvwR+lMTLHl/mNJMF0A27ek5pxsuns1oa/Up+SDs6tmaAQS4szFfzipAepC
- d66A==
-X-Gm-Message-State: ANoB5plgu/8IkXAJQaVWLJGdtgEhz2PBrMUWJ9h4gcxIZtWr1wrJELx4
- +yox6sPrqasBVLgY0cyr05Hy6yfTxIyGG13jtPVYIgFrHnWOkXIqVfBZPXlT7Sl9s7XyXBpJq72
- Vyz4ao/k3upshUvs=
-X-Received: by 2002:a05:6000:511:b0:236:64ce:2c0a with SMTP id
- a17-20020a056000051100b0023664ce2c0amr7844138wrf.230.1668438441996; 
- Mon, 14 Nov 2022 07:07:21 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5jzfr7oGOUgObe/8OCDV+tn6kWALI4FEdHS+VXKGvBxpVDaiuu2NQ9AcHgiM3Zf5Y7XXfnUw==
-X-Received: by 2002:a05:6000:511:b0:236:64ce:2c0a with SMTP id
- a17-20020a056000051100b0023664ce2c0amr7844123wrf.230.1668438441764; 
- Mon, 14 Nov 2022 07:07:21 -0800 (PST)
+ bh=02cW1j40zMidMANC8sJqfqdpprGVmyUomfTbTUlD5CU=;
+ b=Yh4iA5p5YVjjXDdalJKSKKaS6lzNGHU8XqS3wbsrhvjgLR7tTdR3YK0Q+ZtUBYULoZ
+ veZmetZMcjujTi8ocOlcuGKWTv6+RLYOCQBUAga8ZU6VSkSkPtrJmA/uTeP8z9UPUUUQ
+ XEoIV2PsgLnn5RXRLHUxHG3b8TOCpQtxFNyCfFZYcnTy++ux6VXVxhvhxRGXRVEaRPx1
+ fPMIHioHXEgNoPTDRA18DNsHlWuqgYqjQpHJZKmn1wFZA5VFWCVRoGAMd0FBDOlFHlex
+ +rlEcQ1uGOYcUmueIMdg7IKChwh9m6+VMMN+o1+m5H5a7NBko02UAPDztip9fd+ZwZVJ
+ LS/Q==
+X-Gm-Message-State: ANoB5pmk9Nn/BnxcO4M/LbanWMM+sfP6HHtrSSGt0+naxwojz0iEO6ZN
+ fzgP+aTMb3wAM5P0Riti8PIMblYlbI4sVRsZjsiEpaT2bDo/4yVLQmixZbRt1aWB9f21j6iqTsl
+ 0mTSBaTC5EpDMMpg=
+X-Received: by 2002:a5d:690f:0:b0:235:1b3a:8d34 with SMTP id
+ t15-20020a5d690f000000b002351b3a8d34mr8140316wru.113.1668438489541; 
+ Mon, 14 Nov 2022 07:08:09 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6uTUSVJ9q1L4aUv1osxRrXH+R+8nBcIFHBrv7UcXg1whNVBzm1EKiEMY7tEXYCAuphTC08uw==
+X-Received: by 2002:a5d:690f:0:b0:235:1b3a:8d34 with SMTP id
+ t15-20020a5d690f000000b002351b3a8d34mr8140302wru.113.1668438489345; 
+ Mon, 14 Nov 2022 07:08:09 -0800 (PST)
 Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
- h5-20020a1ccc05000000b003cf7292c553sm12386948wmb.13.2022.11.14.07.07.20
+ v11-20020a05600c444b00b003c70191f267sm19856916wmn.39.2022.11.14.07.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 07:07:21 -0800 (PST)
+ Mon, 14 Nov 2022 07:08:08 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>,  ani@anisinha.ca,  Leonardo
  Bras Soares Passos <lsoaresp@redhat.com>,  Manish Mishra
  <manish.mishra@nutanix.com>
-Subject: Re: [PATCH v2 02/15] migration: Add postcopy_preempt_active()
-In-Reply-To: <20221011215559.602584-3-peterx@redhat.com> (Peter Xu's message
- of "Tue, 11 Oct 2022 17:55:46 -0400")
+Subject: Re: [PATCH v2 03/15] migration: Cleanup xbzrle zero page cache
+ update logic
+In-Reply-To: <20221011215559.602584-4-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 11 Oct 2022 17:55:47 -0400")
 References: <20221011215559.602584-1-peterx@redhat.com>
- <20221011215559.602584-3-peterx@redhat.com>
+ <20221011215559.602584-4-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 14 Nov 2022 16:07:19 +0100
-Message-ID: <87a64tbmmw.fsf@secure.mitica>
+Date: Mon, 14 Nov 2022 16:08:07 +0100
+Message-ID: <875yfhbmlk.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,7 +104,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> Add the helper to show that postcopy preempt enabled, meanwhile active.
+> The major change is to replace "!save_page_use_compression()" with
+> "xbzrle_enabled" to make it clear.
+>
+> Reasonings:
+>
+> (1) When compression enabled, "!save_page_use_compression()" is exactly the
+>     same as checking "xbzrle_enabled".
+>
+> (2) When compression disabled, "!save_page_use_compression()" always return
+>     true.  We used to try calling the xbzrle code, but after this change we
+>     won't, and we shouldn't need to.
+>
+> Since at it, drop the xbzrle_enabled check in xbzrle_cache_zero_page()
+> because with this change it's not needed anymore.
 >
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
