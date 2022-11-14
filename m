@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BA4628D62
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719BF628E8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:42:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouieD-0002jr-Dp; Mon, 14 Nov 2022 18:13:49 -0500
+	id 1ouie5-0002Lh-UB; Mon, 14 Nov 2022 18:13:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidt-0001eb-7r
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:29 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouids-0001eb-SA
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiG8-0002LC-1z
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:48:57 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiGC-0002Lv-BW
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:49:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668466135;
+ s=mimecast20190719; t=1668466139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XRP8SoUQK2UbFrLAVubx17NxzDIvuhaHb/czom7cG6I=;
- b=J35HLLCgoh3+8inij35H/Fhw9mUn98AygQ7YRdUEg6TnCxRzzK6xw0gQPY8JNpB4/asIHw
- pLK6Bnw/qmVcv1LC8Xd6O0zJ8fmMlIkf0vc+tp9HQikqpMw90r17oWJjZXawjDMj5aAwA2
- E3mcOky659tuFqbv5n1kQ7zaGfGX/S8=
+ bh=kzTEBYqs7XYX4CjhiYRYgBnv2AzlV5X742T2Py1Whn8=;
+ b=DiLJIHkJ17SkiiDpKQAyedNJApetQB/rkfXCxxT1/jFEKv41vmQXMcEiCCoPRmkX4wBYPo
+ kiueSPyT1PBjUlzbEkromRc579zuvzIFfIUvUWrQsuLYNWtSZ1TPgJmyfQJy3W8PHeIF6F
+ 34e8f6n3yfIr+/qLH0wVAlqXJxvNdRs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-456-c4HjLoCZOEmVs2jUUNRfvQ-1; Mon, 14 Nov 2022 17:48:52 -0500
-X-MC-Unique: c4HjLoCZOEmVs2jUUNRfvQ-1
+ us-mta-584-2mtY7N2BO5aHhvGgVXZN8g-1; Mon, 14 Nov 2022 17:48:55 -0500
+X-MC-Unique: 2mtY7N2BO5aHhvGgVXZN8g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 187FB87B2A1;
- Mon, 14 Nov 2022 22:48:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B2BC85A59D;
+ Mon, 14 Nov 2022 22:48:55 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A524340B48EA;
- Mon, 14 Nov 2022 22:48:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B91940B48EA;
+ Mon, 14 Nov 2022 22:48:54 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org,
-	libguestfs@redhat.com,
-	nbd@other.debian.org
-Subject: [PATCH v2 00/15] qemu patches for 64-bit NBD extensions
-Date: Mon, 14 Nov 2022 16:48:33 -0600
-Message-Id: <20221114224848.2186298-1-eblake@redhat.com>
-In-Reply-To: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+Cc: qemu-block@nongnu.org, libguestfs@redhat.com, nbd@other.debian.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PATCH v2 01/15] nbd/client: Add safety check on chunk payload length
+Date: Mon, 14 Nov 2022 16:48:34 -0600
+Message-Id: <20221114224848.2186298-2-eblake@redhat.com>
+In-Reply-To: <20221114224848.2186298-1-eblake@redhat.com>
 References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+ <20221114224848.2186298-1-eblake@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -78,47 +78,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series implements the spec changes in a counterpart NBD series,
-and has been tested to be interoperable with libnbd implementing the
-same spec.  I'm not too happy with the RFC patch at the end, but
-implemented it for discussion.  Given the release timing, this would
-be qemu 8.0 material if we are happy with the direction the spec is
-headed in.
+Our existing use of structured replies either reads into a qiov capped
+at 32M (NBD_CMD_READ) or caps allocation to 1000 bytes (see
+NBD_MAX_MALLOC_PAYLOAD in block/nbd.c).  But the existing length
+checks are rather late; if we encounter a buggy (or malicious) server
+that sends a super-large payload length, we should drop the connection
+right then rather than assuming the layer on top will be careful.
+This becomes more important when we permit 64-bit lengths which are
+even more likely to have the potential for attempted denial of service
+abuse.
 
-Eric Blake (15):
-  nbd/client: Add safety check on chunk payload length
-  nbd/server: Prepare for alternate-size headers
-  nbd: Prepare for 64-bit request effect lengths
-  nbd: Add types for extended headers
-  nbd/server: Refactor handling of request payload
-  nbd/server: Refactor to pass full request around
-  nbd/server: Initial support for extended headers
-  nbd/server: Support 64-bit block status
-  nbd/client: Initial support for extended headers
-  nbd/client: Accept 64-bit block status chunks
-  nbd/client: Request extended headers during negotiation
-  nbd/server: Prepare for per-request filtering of BLOCK_STATUS
-  nbd/server: Add FLAG_PAYLOAD support to CMD_BLOCK_STATUS
-  RFC: nbd/client: Accept 64-bit hole chunks
-  RFC: nbd/server: Send 64-bit hole chunk
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ nbd/client.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
- docs/interop/nbd.txt                          |   1 +
- include/block/nbd.h                           | 163 +++--
- nbd/nbd-internal.h                            |   8 +-
- block/nbd.c                                   | 102 ++-
- nbd/client-connection.c                       |   1 +
- nbd/client.c                                  | 132 +++-
- nbd/common.c                                  |  14 +-
- nbd/server.c                                  | 636 +++++++++++++-----
- qemu-nbd.c                                    |   3 +
- block/trace-events                            |   1 +
- nbd/trace-events                              |  11 +-
- tests/qemu-iotests/223.out                    |  18 +-
- tests/qemu-iotests/233.out                    |   5 +
- tests/qemu-iotests/241.out                    |   3 +
- tests/qemu-iotests/307.out                    |  15 +-
- .../tests/nbd-qemu-allocation.out             |   3 +-
- 16 files changed, 797 insertions(+), 319 deletions(-)
+diff --git a/nbd/client.c b/nbd/client.c
+index 90a6b7b38b..cd97a2aa09 100644
+--- a/nbd/client.c
++++ b/nbd/client.c
+@@ -1412,6 +1412,18 @@ static int nbd_receive_structured_reply_chunk(QIOChannel *ioc,
+     chunk->handle = be64_to_cpu(chunk->handle);
+     chunk->length = be32_to_cpu(chunk->length);
+
++    /*
++     * Because we use BLOCK_STATUS with REQ_ONE, and cap READ requests
++     * at 32M, no valid server should send us payload larger than
++     * this.  Even if we stopped using REQ_ONE, sane servers will cap
++     * the number of extents they return for block status.
++     */
++    if (chunk->length > NBD_MAX_BUFFER_SIZE + sizeof(NBDStructuredReadData)) {
++        error_setg(errp, "server chunk %" PRIu32 " (%s) payload is too long",
++                   chunk->type, nbd_rep_lookup(chunk->type));
++        return -EINVAL;
++    }
++
+     return 0;
+ }
 
 -- 
 2.38.1
