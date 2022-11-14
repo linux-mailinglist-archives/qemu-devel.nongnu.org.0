@@ -2,135 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AED628F31
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F046628EF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:13:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouiho-0001W2-F2; Mon, 14 Nov 2022 18:17:32 -0500
+	id 1ouieh-0004JT-CN; Mon, 14 Nov 2022 18:14:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1ouidz-0001X6-1P
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:35 -0500
-Received: from mail-dm6nam12on2060e.outbound.protection.outlook.com
- ([2a01:111:f400:fe59::60e]
- helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidu-0001o2-7d
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1ouhlN-0006ZV-K2
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:17:12 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NEQFH4XNEXfuTsYWdTscAUSjPJJi1NVOnOzyar8RyTnvMonJVbowMKNEtiEt+xgk197/aqp+dyWlMfwVcAqsLC8HCes43rpM92FzXUld87AFvlvvtpQ1fsPFxtx48S1slF7dEOEwee7vpsXmCaqdKA88FBxJwuuxjxVVDy+FinZU3S5naeBarp8ca1ZwoHK6Xtawuk3sShNTF8sKm3Jxu7a/6WZdmmHVvqV5KMyfvJSP+cD5wPMTG5DGjEQrDkKQ2qkym9DFMHCjDTU7L8TEtAVP5l6hlQc6dW/6VGcF2+Uq2NHkbuOCWhYmooUzK/kdIG0Si6JrhIAJXJFgWT2nzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V263XsirVYEAXt3LlFbznJtLX/k6bQ/ZmYJY3BrLdh4=;
- b=Jg8tdWopLvubATC82KN8z3XrTPAJM8ggSDqaYl7GocZoAWRN8x+LPJlECABBuRLE7FuSogtUacj+50UWbLLu9YC9KSSv+tbFJNImWro0qJX2F4fyp1zpgkkBkh4su3BwM8RDCNe8/3EkZS8q+NlyBDqFwJvJEStf+LV3Of/jgtfACRgqU6FMppWGDKbvxO4Mk40pH6sOXkOA6BHUEaEGDWjEhZvL3SugW9+avuJ5c3vZy/iwUgLkauhGRNl302RUGgdpV2CWSPpc7J7Yv0+F+IGae+2JxFOSYYZU0GzU3OzQUG+QsrEgmTjd3tHn4D7Ub8bv25SyibMHnfv6W77J8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=shutemov.name smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V263XsirVYEAXt3LlFbznJtLX/k6bQ/ZmYJY3BrLdh4=;
- b=bjxbgtsvfgNu+8WCr1l+i06Ye+u9kpAx5onyymdtsuTgxhM9BxsUOI6cNFEPJWULrtdDLzCPpGEFlECno28i2EivB07sXzL2hkSDSbJxIfiP/3t+gwDjiXcXaJt3dj5+G6Z/hoQo01OcEUKNj4itbnYnrfd8iWwGD2Nm4HkEe3g=
-Received: from DS7PR05CA0079.namprd05.prod.outlook.com (2603:10b6:8:57::9) by
- BN9PR12MB5244.namprd12.prod.outlook.com (2603:10b6:408:101::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Mon, 14 Nov
- 2022 22:17:02 +0000
-Received: from DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:57:cafe::a6) by DS7PR05CA0079.outlook.office365.com
- (2603:10b6:8:57::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.8 via Frontend
- Transport; Mon, 14 Nov 2022 22:17:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT013.mail.protection.outlook.com (10.13.173.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5813.12 via Frontend Transport; Mon, 14 Nov 2022 22:17:02 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 14 Nov
- 2022 16:17:01 -0600
-Date: Mon, 14 Nov 2022 16:16:32 -0600
-From: Michael Roth <michael.roth@amd.com>
-To: "Kirill A. Shutemov" <kirill@shutemov.name>
-CC: Vlastimil Babka <vbabka@suse.cz>, Chao Peng <chao.p.peng@linux.intel.com>, 
- <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov
- <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim Mattson
- <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>, Hugh
- Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J . Bruce
- Fields" <bfields@fieldses.org>, Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>, Steven Price
- <steven.price@arm.com>, "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang
- <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
- <kirill.shutemov@linux.intel.com>, <luto@kernel.org>,
- <jun.nakajima@intel.com>, <dave.hansen@intel.com>, <ak@linux.intel.com>,
- <david@redhat.com>, <aarcange@redhat.com>, <ddutile@redhat.com>,
- <dhildenb@redhat.com>, Quentin Perret <qperret@google.com>,
- <tabba@google.com>, <mhocko@suse.com>, Muchun Song
- <songmuchun@bytedance.com>, <wei.w.wang@intel.com>
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221114221632.5xaz24adkghfjr2q@amd.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221031174738.fklhlia5fmaiinpe@amd.com>
- <20221101113729.GA4015495@chaop.bj.intel.com>
- <20221101151944.rhpav47pdulsew7l@amd.com>
- <20a11042-2cfb-8f42-9d80-6672e155ca2c@suse.cz>
- <20221114152843.ylxe4dis254vrj5u@box.shutemov.name>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiEJ-0002Bm-M8
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:47:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668466023;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gby92iyFLBUX8D4aDGzFb6Y56Yr37tYcymxCW49Mvac=;
+ b=iTuICV/GYZgtQ92FqgK91lNect5XJqgIZkeCJfy5ohFS1vdhYINtmtUp8lfBd02f/Lgeln
+ UAKuLO7nN51dZbgUr1/ORB2/H2zDHHHqHC+ZE6cuvvX+yLwyvhW11pSxCbUUoQjJvXBuNi
+ sf2jddHR68R67B8v7zFxSeJ8hJoUzNM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-416-gfeITTyvNcmYc4o97zyKOg-1; Mon, 14 Nov 2022 17:46:59 -0500
+X-MC-Unique: gfeITTyvNcmYc4o97zyKOg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 684D387B2A0;
+ Mon, 14 Nov 2022 22:46:59 +0000 (UTC)
+Received: from green.redhat.com (unknown [10.2.16.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E52412024CC0;
+ Mon, 14 Nov 2022 22:46:58 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: nbd@other.debian.org
+Cc: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org,
+	libguestfs@redhat.com
+Subject: [PATCH v2 1/6] spec: Recommend cap on NBD_REPLY_TYPE_BLOCK_STATUS
+ length
+Date: Mon, 14 Nov 2022 16:46:50 -0600
+Message-Id: <20221114224655.2186173-2-eblake@redhat.com>
+In-Reply-To: <20221114224655.2186173-1-eblake@redhat.com>
+References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+ <20221114224655.2186173-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221114152843.ylxe4dis254vrj5u@box.shutemov.name>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT013:EE_|BN9PR12MB5244:EE_
-X-MS-Office365-Filtering-Correlation-Id: b6cee322-9008-4610-fa69-08dac68df47e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9BY3zSEoSRZKSh2wRev1auNh/P6OFerGFjzhoOrcPX1T5R9uqvGV/3ga/CWspUlvYlSwVSM7pdl07edr+1YCWV7IkOlcyKIm/ytcxs6bBjgIO5wokGGK2WonExKAf6E2n6rQ5WlIdcU0IJDeJ7zd9NseIyZWHhVFqrHkhWP6jV1zEX2bteHtggeOk46jmcWFBIgoRD3NRKj4Gcu0lUsUQtucjJNiTQ0MUOq96tG4XeQ3T91HhTR7kzH9G29Jv4jCqNNQufnluCWk1ulOluD3OpB/11cx5+fs8ylm9TNrJHYrKmm0JrwrW9sUqMEYJ/J+Fr/sn4S4zp6dALBootMdnM1wRYUsYEV/yt36eaIvYdsL1gJsYTJjuMmJN/P5Wm/bYsxvCWc/9M9TZ7BxqKfyZSe3zEhNjG4S1URS7a+8vCTnPrdMT7QQ49RnmvhCPaMbEaYeMPWJ1usW/kUZTCseb/jeIYrbHpj06eBWiTC9uObY4wqWhj7ns7/mjOOhtSK5+TpHMadt2wBddpgF+KkFmP8Y5rMkc/kae2EGxYDg6vNDycTLDeyviJQn8fVBX9gT9hYN9Zu3rB9mW382Lbffqyq65iklgEm0ZY6tZQjIyHFSoRMiojnWpVc4bUec4LPlmS2xI2RpsQnYdBpPoASMzg88QxAA1bQ4v4FiV8KNUUIsjI8eTGi9t6/4uSakNT6DTRghYUNKUt7NUHWlJZZvBlOtYosfO95lA7cPogHDJsiaNL/4xna0qJFo4RWDZH+kAT13ncYvqgvLicN9qIQDe7pMLttDrHTnptBv2nsV/n+0C4VH6ssK66jmnYqlwhUs
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(39860400002)(451199015)(36840700001)(46966006)(40470700004)(47076005)(186003)(5660300002)(6916009)(54906003)(36860700001)(83380400001)(316002)(2906002)(53546011)(40460700003)(41300700001)(1076003)(44832011)(8936002)(36756003)(16526019)(2616005)(7416002)(336012)(426003)(7406005)(40480700001)(8676002)(70586007)(4326008)(26005)(70206006)(66899015)(82310400005)(478600001)(6666004)(86362001)(82740400003)(81166007)(356005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2022 22:17:02.0059 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6cee322-9008-4610-fa69-08dac68df47e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5244
-Received-SPF: softfail client-ip=2a01:111:f400:fe59::60e;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -147,97 +80,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 14, 2022 at 06:28:43PM +0300, Kirill A. Shutemov wrote:
-> On Mon, Nov 14, 2022 at 03:02:37PM +0100, Vlastimil Babka wrote:
-> > On 11/1/22 16:19, Michael Roth wrote:
-> > > On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
-> > >> > 
-> > >> >   1) restoring kernel directmap:
-> > >> > 
-> > >> >      Currently SNP (and I believe TDX) need to either split or remove kernel
-> > >> >      direct mappings for restricted PFNs, since there is no guarantee that
-> > >> >      other PFNs within a 2MB range won't be used for non-restricted
-> > >> >      (which will cause an RMP #PF in the case of SNP since the 2MB
-> > >> >      mapping overlaps with guest-owned pages)
-> > >> 
-> > >> Has the splitting and restoring been a well-discussed direction? I'm
-> > >> just curious whether there is other options to solve this issue.
-> > > 
-> > > For SNP it's been discussed for quite some time, and either splitting or
-> > > removing private entries from directmap are the well-discussed way I'm
-> > > aware of to avoid RMP violations due to some other kernel process using
-> > > a 2MB mapping to access shared memory if there are private pages that
-> > > happen to be within that range.
-> > > 
-> > > In both cases the issue of how to restore directmap as 2M becomes a
-> > > problem.
-> > > 
-> > > I was also under the impression TDX had similar requirements. If so,
-> > > do you know what the plan is for handling this for TDX?
-> > > 
-> > > There are also 2 potential alternatives I'm aware of, but these haven't
-> > > been discussed in much detail AFAIK:
-> > > 
-> > > a) Ensure confidential guests are backed by 2MB pages. shmem has a way to
-> > >    request 2MB THP pages, but I'm not sure how reliably we can guarantee
-> > >    that enough THPs are available, so if we went that route we'd probably
-> > >    be better off requiring the use of hugetlbfs as the backing store. But
-> > >    obviously that's a bit limiting and it would be nice to have the option
-> > >    of using normal pages as well. One nice thing with invalidation
-> > >    scheme proposed here is that this would "Just Work" if implement
-> > >    hugetlbfs support, so an admin that doesn't want any directmap
-> > >    splitting has this option available, otherwise it's done as a
-> > >    best-effort.
-> > > 
-> > > b) Implement general support for restoring directmap as 2M even when
-> > >    subpages might be in use by other kernel threads. This would be the
-> > >    most flexible approach since it requires no special handling during
-> > >    invalidations, but I think it's only possible if all the CPA
-> > >    attributes for the 2M range are the same at the time the mapping is
-> > >    restored/unsplit, so some potential locking issues there and still
-> > >    chance for splitting directmap over time.
-> > 
-> > I've been hoping that
-> > 
-> > c) using a mechanism such as [1] [2] where the goal is to group together
-> > these small allocations that need to increase directmap granularity so
-> > maximum number of large mappings are preserved.
-> 
-> As I mentioned in the other thread the restricted memfd can be backed by
-> secretmem instead of plain memfd. It already handles directmap with care.
+The spec was silent on how many extents a server could reply with.
+However, both qemu and nbdkit (the two server implementations known to
+have implemented the NBD_CMD_BLOCK_STATUS extension) implement a hard
+cap, and will truncate the amount of extents in a reply to avoid
+sending a client a reply so large that the client would treat it as a
+denial of service attack.  Clients currently have no way during
+negotiation to request such a limit of the server, so it is easier to
+just document this as a restriction on viable server implementations
+than to add yet another round of handshaking.  Also, mentioning
+amplification effects is worthwhile.
 
-It looks like it would handle direct unmapping/cleanup nicely, but it
-seems to lack fallocate(PUNCH_HOLE) support which we'd probably want to
-avoid additional memory requirements. I think once we added that we'd
-still end up needing some sort of handling for the invalidations.
+When qemu first implemented NBD_CMD_BLOCK_STATUS for the
+base:allocation context (qemu commit e7b1948d51, Mar 2018), it behaved
+as if NBD_CMD_FLAG_REQ_ONE were always passed by the client, and never
+responded with more than one extent.  Later, when adding its
+qemu:dirty-bitmap:XYZ context extension (qemu commit 3d068aff16, Jun
+2018), it added a cap to 128k extents (1M+4 bytes), and that cap was
+applied to base:allocation once qemu started sending multiple extents
+for that context as well (qemu commit fb7afc797e, Jul 2018).  Qemu
+extents are never smaller than 512 bytes (other than an exception at
+the end of a file whose size is not aligned to 512), but even so, a
+request for just under 4G of block status could produce 8M extents,
+resulting in a reply of 64M if it were not capped smaller.
 
-Also, I know Chao has been considering hugetlbfs support, I assume by
-leveraging the support that already exists in shmem. Ideally SNP would
-be able to make use of that support as well, but relying on a separate
-backend seems likely to result in more complications getting there
-later.
+When nbdkit first implemented NBD_CMD_BLOCK_STATUS (nbdkit 4ca66f70a5,
+Mar 2019), it did not impose any restriction on the number of extents
+in the reply chunk.  But because it allows extents as small as one
+byte, it is easy to write a server that can amplify a client's request
+of status over 1M of the image into a reply over 8M in size, and it
+was very easy to demonstrate that a hard cap was needed to avoid
+crashing clients or otherwise killing the connection (a bad server
+impacting the client negatively).  So nbdkit enforced a bound of 1M
+extents (8M+4 bytes, nbdkit commit 6e0dc839ea, Jun 2019).  [Unrelated
+to this patch, but worth noting for history: nbdkit's situation also
+has to deal with the fact that it is designed for plugin server
+implementations; and not capping the number of extents in a reply also
+posed a problem to nbdkit as the server, where a plugin could exhaust
+memory and kill the server, unrelated to any size constraints enforced
+by a client.]
 
-> 
-> But I don't think it has to be part of initial restricted memfd
-> implementation. It is SEV-specific requirement and AMD folks can extend
-> implementation as needed later.
+Since the limit chosen by these two implementations is different, and
+since nbdkit has versions that were not limited, add this as a SHOULD
+NOT instead of MUST NOT constraint on servers implementing block
+status.  It does not matter that qemu picked a smaller limit that it
+truncates to, since we have already documented that the server may
+truncate for other reasons (such as it being inefficient to collect
+that many extents in the first place).  But documenting the limit now
+becomes even more important in the face of a future addition of 64-bit
+requests, where a client's request is no longer bounded to 4G and
+could thereby produce even more than 8M extents for the corner case
+when every 512 bytes is a new extent, if it were not for this
+recommendation.
 
-Admittedly the suggested changes to the invalidation mechanism made a
-lot more sense to me when I was under the impression that TDX would have
-similar requirements and we might end up with a common hook. Since that
-doesn't actually seem to be the case, it makes sense to try to do it as
-a platform-specific hook for SNP.
+---
+v2: Add wording about amplification effect
+---
+ doc/proto.md | 51 +++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
 
-I think, given a memslot, a GFN range, and kvm_restricted_mem_get_pfn(),
-we should be able to get the same information needed to figure out whether
-the range is backed by huge pages or not. I'll see how that works out
-instead.
+diff --git a/doc/proto.md b/doc/proto.md
+index 3a96703..8f08583 100644
+--- a/doc/proto.md
++++ b/doc/proto.md
+@@ -1818,6 +1818,12 @@ MUST initiate a hard disconnect.
+   the different contexts need not have the same number of extents or
+   cumulative extent length.
 
-Thanks,
++  Servers SHOULD NOT send more than 2^20 extents in a single reply
++  chunk; in other words, the size of
++  `NBD_REPLY_TYPE_BLOCK_STATUS` should not be more than 4 + 8*2^20
++  (8,388,612 bytes), even if this requires that the server truncate
++  the response in relation to the *length* requested by the client.
++
+   Even if the client did not use the `NBD_CMD_FLAG_REQ_ONE` flag in
+   its request, the server MAY return fewer descriptors in the reply
+   than would be required to fully specify the whole range of requested
+@@ -2180,26 +2186,31 @@ The following request types exist:
+     `NBD_REPLY_TYPE_BLOCK_STATUS` chunk represent consecutive portions
+     of the file starting from specified *offset*.  If the client used
+     the `NBD_CMD_FLAG_REQ_ONE` flag, each chunk contains exactly one
+-    descriptor where the *length* of the descriptor MUST NOT be greater
+-    than the *length* of the request; otherwise, a chunk MAY contain
+-    multiple descriptors, and the final descriptor MAY extend beyond
+-    the original requested size if the server can determine a larger
+-    length without additional effort.  On the other hand, the server MAY
+-    return less data than requested. However the server MUST return at
+-    least one status descriptor (and since each status descriptor has
+-    a non-zero length, a client can always make progress on a
+-    successful return).  The server SHOULD use different *status*
+-    values between consecutive descriptors where feasible, although
+-    the client SHOULD be prepared to handle consecutive descriptors
+-    with the same *status* value.  The server SHOULD use descriptor
+-    lengths that are an integer multiple of 512 bytes where possible
+-    (the first and last descriptor of an unaligned query being the
+-    most obvious places for an exception), and MUST use descriptor
+-    lengths that are an integer multiple of any advertised minimum
+-    block size. The status flags are intentionally defined so that a
+-    server MAY always safely report a status of 0 for any block,
+-    although the server SHOULD return additional status values when
+-    they can be easily detected.
++    descriptor where the *length* of the descriptor MUST NOT be
++    greater than the *length* of the request; otherwise, a chunk MAY
++    contain multiple descriptors, and the final descriptor MAY extend
++    beyond the original requested size if the server can determine a
++    larger length without additional effort.  On the other hand, the
++    server MAY return less data than requested.  In particular, a
++    server SHOULD NOT send more than 2^20 status descriptors in a
++    single chunk.  However the server MUST return at least one status
++    descriptor, and since each status descriptor has a non-zero
++    length, a client can always make progress on a successful return.
++
++    The server SHOULD use different *status* values between
++    consecutive descriptors where feasible, although the client SHOULD
++    be prepared to handle consecutive descriptors with the same
++    *status* value.  The server SHOULD use descriptor lengths that are
++    an integer multiple of 512 bytes where possible (the first and
++    last descriptor of an unaligned query being the most obvious
++    places for an exception), in part to avoid an amplification effect
++    where a series of smaller descriptors can cause the server's reply
++    to occupy more bytes than the *length* of the client's request.
++    The server MUST use descriptor lengths that are an integer
++    multiple of any advertised minimum block size. The status flags
++    are intentionally defined so that a server MAY always safely
++    report a status of 0 for any block, although the server SHOULD
++    return additional status values when they can be easily detected.
 
-Mike
+     If an error occurs, the server SHOULD set the appropriate error
+     code in the error field of an error chunk. However, if the error
+-- 
+2.38.1
 
-> 
-> -- 
->   Kiryl Shutsemau / Kirill A. Shutemov
 
