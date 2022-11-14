@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E23628DB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B506628E93
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:43:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouiku-0005IW-9a; Mon, 14 Nov 2022 18:20:44 -0500
+	id 1ouil7-0005av-7u; Mon, 14 Nov 2022 18:20:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouifF-0004xE-Ai
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:54 -0500
+ id 1ouifE-0001m0-Ac
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oua3C-0003Mo-HO
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 09:03:03 -0500
+ id 1oua3O-0003O0-St
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 09:03:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668434581;
+ s=mimecast20190719; t=1668434594;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=HZtTKrPDKwy8tNoHsKI078jfw2o2V5VL35QRiOhd3Ug=;
- b=a+ySw6foB2a2WMweueJGv9wvuhV6/Q0ZIL/911i+ximjjIm9/Z5k85ZFP8A5u14ULHoTRZ
- /3ndL7X8Ik2IcB3C4V5syYcGiBucEQRdM10lVGp8iBV4TAgQeJbfee2XuUoX1WeGbTLE8U
- qbJ+Q2pR/G9BhHr82M5iT+ljRmOTMuk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6djcBLeZHsAOT9OdfnJNXgJkHw2V1eJ7/lmfmBtxX3Q=;
+ b=FLYZkRaDC0BKLt8/P/hEvp8ZvqjTZbkc7gG3917x0JYGU78jmSmBN1kR9rHedxTb5Zg3is
+ KlOz630ywRuEKlBPd+Mqqqvt72bvnt8fMW5imVuGCw+1pukHaEeDrNaFU1QuikUE9jeWhe
+ y1eg2/TGE9QqqpM8VDLHi9ekWpf1GkU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-136-NuMl90rTN8Gf-V9JcNiuEg-1; Mon, 14 Nov 2022 09:02:58 -0500
-X-MC-Unique: NuMl90rTN8Gf-V9JcNiuEg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- m24-20020adfa3d8000000b00236774fd74aso2006916wrb.8
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 06:02:57 -0800 (PST)
+ us-mta-462-qV_-gzrTPDWmXjo8LWRlMw-1; Mon, 14 Nov 2022 09:03:12 -0500
+X-MC-Unique: qV_-gzrTPDWmXjo8LWRlMw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r4-20020adfbb04000000b00236639438e9so2048023wrg.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 06:03:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HZtTKrPDKwy8tNoHsKI078jfw2o2V5VL35QRiOhd3Ug=;
- b=LW9InNx6I/9BX+i9u2wmnSyzp1RHQ1qYtw7e8Dr0UZ7tF1YkduvhaXJhdqhwOmYjpD
- dKPVjYacPuWM2YVYI8PqxemB3zEzJPgGlvUkBhsntxgOFx2qsmNyyrW0+79JIWGVmFBc
- 369C931HyPG/XxbeyGQEsA39an9uwtOJsYb55sWx/yLszFduOafsjNVCT5ve4rqe7UhB
- 7AHtdP0eDH3xi3XcDRHAZeiRc6HhZ6uryvlkcID5xndxkMXeJkfGys6vNMRRvKUivsXD
- hWdcEARWsNlVN5Or1LGB1avcWYIXMuhZImuJyc5jv9IZ6n/R3j4DWoF0hdfxjeMltI58
- qHzw==
-X-Gm-Message-State: ANoB5pnc0dXyUh1iSCBmO7vZuI2OzWOAplYo2wPrI6EcahX0g2AAjct7
- Hv9gC/oiTdn6EMsPu2Z5hPhRE9pZEijwNSIErQ/VENedTDIWfVvHwpBEJlkkHs0se2eq1KV5ITf
- FM86MdJQSeLABFSA=
-X-Received: by 2002:adf:e0ce:0:b0:236:4c14:4e4c with SMTP id
- m14-20020adfe0ce000000b002364c144e4cmr7666808wri.634.1668434576912; 
- Mon, 14 Nov 2022 06:02:56 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5u9MRKs2i0jGjLbQEHS6s/CdIp1ZaAfBqQsduYd0n3JQ70Al7s+Wup5bueyQNbTR9LIH39LQ==
-X-Received: by 2002:adf:e0ce:0:b0:236:4c14:4e4c with SMTP id
- m14-20020adfe0ce000000b002364c144e4cmr7666797wri.634.1668434576701; 
- Mon, 14 Nov 2022 06:02:56 -0800 (PST)
+ bh=6djcBLeZHsAOT9OdfnJNXgJkHw2V1eJ7/lmfmBtxX3Q=;
+ b=t4bkoQVaXaJPV5VyL7wrA7OEqnIjdBf0ZX1b+5CldxhWIdQYSVayWu1swTUNzK/FB5
+ 4Ed8ZTd5PgpHcZqv28z4+mH9X+hKZB863ikn79Q41zpbKkMQmm9KK9hudLBe9MZB4RUg
+ iIUkfr2KOd9zu0VtYOYEyOaGakpyntRVZ9ZeEsL3+OzA2aWhvT8VBz7KUjPiHB9YANG4
+ vZqbV4psI7VyPXL2dQBN6NMaxza4Huz+GYj4hwV05NUSFlKRSZIOeEWvS00X7eFstJvk
+ 0/bwNZcQpAIwwyaLTqtAdmCIAq5Bl3Mw+efUU0zwBbkm17pQ7j9PLDT0x7BsVPY8nFez
+ i+rg==
+X-Gm-Message-State: ANoB5pn+PMhI0sojwE0zC/YO/m3qFJS1sHJikvfNE+IeM3aq83GZzkWc
+ 8H+dqQTqlaQIfEAWE+QdOHEWy4S/ymJUTyaEgqAky/A2nOdyCMAIXvMIgyE1wfsWoIkPIXREQBn
+ C3ZYoDbWiVQYlmdE=
+X-Received: by 2002:a5d:4ed2:0:b0:230:f0d2:e36 with SMTP id
+ s18-20020a5d4ed2000000b00230f0d20e36mr7551781wrv.191.1668434591376; 
+ Mon, 14 Nov 2022 06:03:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4dge2JqgmgbadYlU2qGsFqqwZEokll84SIdAdLlH0WvyMmDcXEgGD9yR+uz0zKyIe/cU+tWQ==
+X-Received: by 2002:a5d:4ed2:0:b0:230:f0d2:e36 with SMTP id
+ s18-20020a5d4ed2000000b00230f0d20e36mr7551759wrv.191.1668434591166; 
+ Mon, 14 Nov 2022 06:03:11 -0800 (PST)
 Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
- l26-20020a05600c2cda00b003cf774c31a0sm19373801wmc.16.2022.11.14.06.02.55
+ v9-20020a5d6109000000b0023655e51c33sm9710700wrt.4.2022.11.14.06.03.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 06:02:56 -0800 (PST)
+ Mon, 14 Nov 2022 06:03:10 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  "Daniel P . Berrange" <berrange@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>,  "Dr . David Alan
  Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 2/5] migration: Fix race on qemu_file_shutdown()
-In-Reply-To: <20221004182430.97638-3-peterx@redhat.com> (Peter Xu's message of
- "Tue, 4 Oct 2022 14:24:27 -0400")
+Subject: Re: [PATCH v2 3/5] migration: Disallow postcopy preempt to be used
+ with compress
+In-Reply-To: <20221004182430.97638-4-peterx@redhat.com> (Peter Xu's message of
+ "Tue, 4 Oct 2022 14:24:28 -0400")
 References: <20221004182430.97638-1-peterx@redhat.com>
- <20221004182430.97638-3-peterx@redhat.com>
+ <20221004182430.97638-4-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 14 Nov 2022 15:02:50 +0100
-Message-ID: <87v8nhbpmd.fsf@secure.mitica>
+Date: Mon, 14 Nov 2022 15:03:09 +0100
+Message-ID: <87r0y5bplu.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -102,38 +103,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> In qemu_file_shutdown(), there's a possible race if with current order of
-> operation.  There're two major things to do:
+> The preempt mode requires the capability to assign channel for each of the
+> page, while the compression logic will currently assign pages to different
+> compress thread/local-channel so potentially they're incompatible.
 >
->   (1) Do real shutdown() (e.g. shutdown() syscall on socket)
->   (2) Update qemufile's last_error
->
-> We must do (2) before (1) otherwise there can be a race condition like:
->
->       page receiver                     other thread
->       -------------                     ------------
->       qemu_get_buffer()
->                                         do shutdown()
->         returns 0 (buffer all zero)
->         (meanwhile we didn't check this retcode)
->       try to detect IO error
->         last_error==NULL, IO okay
->       install ALL-ZERO page
->                                         set last_error
->       --> guest crash!
->
-> To fix this, we can also check retval of qemu_get_buffer(), but not all
-> APIs can be properly checked and ultimately we still need to go back to
-> qemu_file_get_error().  E.g. qemu_get_byte() doesn't return error.
->
-> Maybe some day a rework of qemufile API is really needed, but for now keep
-> using qemu_file_get_error() and fix it by not allowing that race condition
-> to happen.  Here shutdown() is indeed special because the last_error was
-> emulated.  For real -EIO errors it'll always be set when e.g. sendmsg()
-> error triggers so we won't miss those ones, only shutdown() is a bit tricky
-> here.
->
-> Cc: Daniel P. Berrange <berrange@redhat.com>
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
