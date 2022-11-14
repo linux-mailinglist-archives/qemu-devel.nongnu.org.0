@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2D0628F27
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C716F628EDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:05:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouie8-0002UN-Ok; Mon, 14 Nov 2022 18:13:45 -0500
+	id 1ouie2-00029X-1j; Mon, 14 Nov 2022 18:13:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidt-0001X6-Q3
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:29 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidp-0001hU-E4
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:25 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiEM-0002Cj-Lp
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:47:08 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJD-00033h-2u
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:52:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668466026;
+ s=mimecast20190719; t=1668466326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cUuI1u+i3cvmWB9fVPbXaz+lkryi7TPySGp8A7zlIVg=;
- b=ALon9Ou5AD6MWEbAjdvaUPxGDzBqcn3kgxIBRd6DiTyoqvfrrUVW1rSJyqxZXCfdl7qcog
- Djk81QLG8GSpNBXSDbHgYMHlyif/n+xwu3l5M3aNmx8ikAVluAZ9pSPtrurNKWzzVHVAnT
- SenbX3SdyhORtRSGaGCFQZvsyG08Qt4=
+ bh=ke/C9mzfSwkCq8UrXJ5GbnBHrV042sMz47vbHjQG3zw=;
+ b=fO9hMp/fnwXMVf7yYUsRanRudG1NnW1dzJAJs/aB92/5/2PFfM7QoPTe81xmL/AsM6gQES
+ ++NrmDpusGqamUszwEAOvcy2/tHFFd5jZlBdL8otMcDa3smHwzg2TYtuHO0HGUGJNBYuxt
+ f4niCxhl5N4C/89O6fhTRafXdHgvg7o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513-3Xmdd-qCO4yChnr5xGo6sg-1; Mon, 14 Nov 2022 17:47:02 -0500
-X-MC-Unique: 3Xmdd-qCO4yChnr5xGo6sg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-85-KsX07whzO0-Ztc0ZUNGaqA-1; Mon, 14 Nov 2022 17:52:03 -0500
+X-MC-Unique: KsX07whzO0-Ztc0ZUNGaqA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3ADBB101AA79;
- Mon, 14 Nov 2022 22:47:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9465B87B2A4;
+ Mon, 14 Nov 2022 22:52:03 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C795C2024CC0;
- Mon, 14 Nov 2022 22:47:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 302DE40E9786;
+ Mon, 14 Nov 2022 22:52:03 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
-To: nbd@other.debian.org
+To: libguestfs@redhat.com
 Cc: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org,
-	libguestfs@redhat.com
-Subject: [PATCH v2 6/6] RFC: spec: Introduce NBD_REPLY_TYPE_OFFSET_HOLE_EXT
-Date: Mon, 14 Nov 2022 16:46:55 -0600
-Message-Id: <20221114224655.2186173-7-eblake@redhat.com>
-In-Reply-To: <20221114224655.2186173-1-eblake@redhat.com>
+	nbd@other.debian.org
+Subject: [libnbd PATCH v2 03/23] protocol: Add definitions for extended headers
+Date: Mon, 14 Nov 2022 16:51:38 -0600
+Message-Id: <20221114225158.2186742-4-eblake@redhat.com>
+In-Reply-To: <20221114225158.2186742-1-eblake@redhat.com>
 References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
- <20221114224655.2186173-1-eblake@redhat.com>
+ <20221114225158.2186742-1-eblake@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,123 +79,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rather than requiring all servers and clients to have a 32-bit limit
-on maximum NBD_CMD_READ/WRITE sizes, we can choose to standardize
-support for a 64-bit single I/O transaction now.
-NBD_REPLY_TYPE_OFFSET_DATA can already handle a large reply, but
-NBD_REPLY_TYPE_OFFSET_HOLE needs a 64-bit counterpart.
-
-By standardizing this, all clients must be prepared to support both
-types of hole type replies, even though most server implementations of
-extended replies are likely to only send one hole type.
+Add the magic numbers and new structs necessary to implement the NBD
+protocol extension of extended headers providing 64-bit lengths.  This
+corresponds to upstream nbd commits XXX-XXX[*].
 
 ---
-
-As this may mean a corner-case that gets less testing, I have
-separated it into a separate optional patch.  I implemented it in my
-proof-of-concept, but am happy to drop this patch for what actually
-goes upstream.
-
-In particular, if we foresee clients and servers that WANT to support
-a payload larger than 4G, it may be worth introducing an NBD_INFO_*
-that supplies 64-bit block sizing information, rather than our current
-inherent 32-bit limit of NBD_INFO_BLOCK_SIZE, at the same time as we
-introduce this reply type.
+[*] FIXME update commit ids before pushing
 ---
- doc/proto.md | 73 ++++++++++++++++++++++++++++------------------------
- 1 file changed, 40 insertions(+), 33 deletions(-)
+ lib/nbd-protocol.h | 66 ++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 14 deletions(-)
 
-diff --git a/doc/proto.md b/doc/proto.md
-index 645a736..9c04411 100644
---- a/doc/proto.md
-+++ b/doc/proto.md
-@@ -2008,19 +2008,25 @@ size.
-   64 bits: offset (unsigned)  
-   32 bits: hole size (unsigned, MUST be nonzero)  
+diff --git a/lib/nbd-protocol.h b/lib/nbd-protocol.h
+index 4400d3ab..ac569a11 100644
+--- a/lib/nbd-protocol.h
++++ b/lib/nbd-protocol.h
+@@ -124,6 +124,7 @@ struct nbd_fixed_new_option_reply {
+ #define NBD_OPT_STRUCTURED_REPLY   8
+ #define NBD_OPT_LIST_META_CONTEXT  9
+ #define NBD_OPT_SET_META_CONTEXT   10
++#define NBD_OPT_EXTENDED_HEADERS   11
 
--  At this time, although servers that support extended headers are
--  permitted to accept client requests for `NBD_CMD_READ` with an
--  effect length larger than any advertised maximum block payload size
--  by splitting the reply into multiple chunks, portable clients SHOULD
--  NOT request a read *length* larger than 32 bits (corresponding to
--  the maximum block payload constraint implied by
--  `NBD_INFO_BLOCK_SIZE`), and therefore a 32-bit constraint on the
--  *hole size* does not represent an arbitrary limitation.  Should a
--  future scenario arise where it can be demonstrated that a client and
--  server would benefit from an extension allowing a maximum block
--  payload size to be larger than 32 bits, that extension would also
--  introduce a counterpart reply type that can express a 64-bit *hole
--  size*.
-+* `NBD_REPLY_TYPE_OFFSET_HOLE_EXT` (3)
+ #define NBD_REP_ERR(val) (0x80000000 | (val))
+ #define NBD_REP_IS_ERR(val) (!!((val) & 0x80000000))
+@@ -141,6 +142,7 @@ struct nbd_fixed_new_option_reply {
+ #define NBD_REP_ERR_SHUTDOWN         NBD_REP_ERR (7)
+ #define NBD_REP_ERR_BLOCK_SIZE_REQD  NBD_REP_ERR (8)
+ #define NBD_REP_ERR_TOO_BIG          NBD_REP_ERR (9)
++#define NBD_REP_ERR_EXT_HEADER_REQD  NBD_REP_ERR (10)
+
+ #define NBD_INFO_EXPORT      0
+ #define NBD_INFO_NAME        1
+@@ -182,16 +184,26 @@ struct nbd_fixed_new_option_reply_meta_context {
+   /* followed by a string */
+ } NBD_ATTRIBUTE_PACKED;
+
+-/* Request (client -> server). */
++/* Compact request (client -> server). */
+ struct nbd_request {
+   uint32_t magic;               /* NBD_REQUEST_MAGIC. */
+-  uint16_t flags;               /* Request flags. */
+-  uint16_t type;                /* Request type. */
++  uint16_t flags;               /* Request flags: NBD_CMD_FLAG_*. */
++  uint16_t type;                /* Request type: NBD_CMD_*. */
+   uint64_t handle;              /* Opaque handle. */
+   uint64_t offset;              /* Request offset. */
+   uint32_t count;               /* Request length. */
+ } NBD_ATTRIBUTE_PACKED;
+
++/* Extended request (client -> server). */
++struct nbd_request_ext {
++  uint32_t magic;               /* NBD_EXTENDED_REQUEST_MAGIC. */
++  uint16_t flags;               /* Request flags: NBD_CMD_FLAG_*. */
++  uint16_t type;                /* Request type: NBD_CMD_*. */
++  uint64_t handle;              /* Opaque handle. */
++  uint64_t offset;              /* Request offset. */
++  uint64_t count;               /* Request effect or payload length. */
++} NBD_ATTRIBUTE_PACKED;
 +
-+  This chunk type is in the content chunk category.  *length* MUST be
-+  exactly 16.  The semantics of this chunk mirror those of
-+  `NBD_REPLY_TYPE_OFFSET_HOLE`, other than the use of a larger *hole
-+  size* field.  This chunk type MUST NOT be used unless extended
-+  headers were negotiated with `NBD_OPT_EXTENDED_HEADERS`.
+ /* Simple reply (server -> client). */
+ struct nbd_simple_reply {
+   uint32_t magic;               /* NBD_SIMPLE_REPLY_MAGIC. */
+@@ -208,6 +220,16 @@ struct nbd_structured_reply {
+   uint32_t length;              /* Length of payload which follows. */
+ } NBD_ATTRIBUTE_PACKED;
+
++/* Extended reply (server -> client). */
++struct nbd_extended_reply {
++  uint32_t magic;               /* NBD_EXTENDED_REPLY_MAGIC. */
++  uint16_t flags;               /* NBD_REPLY_FLAG_* */
++  uint16_t type;                /* NBD_REPLY_TYPE_* */
++  uint64_t handle;              /* Opaque handle. */
++  uint64_t offset;              /* Client's offset. */
++  uint64_t length;              /* Length of payload which follows. */
++} NBD_ATTRIBUTE_PACKED;
 +
-+  The payload is structured as:
+ struct nbd_structured_reply_offset_data {
+   uint64_t offset;              /* offset */
+   /* Followed by data. */
+@@ -224,11 +246,23 @@ struct nbd_block_descriptor {
+   uint32_t status_flags;        /* block type (hole etc) */
+ } NBD_ATTRIBUTE_PACKED;
+
++/* NBD_REPLY_TYPE_BLOCK_STATUS_EXT block descriptor. */
++struct nbd_block_descriptor_ext {
++  uint64_t length;              /* length of block */
++  uint64_t status_flags;        /* block type (hole etc) */
++} NBD_ATTRIBUTE_PACKED;
 +
-+  64 bits: offset (unsigned)  
-+  64 bits: hole size (unsigned, MUST be nonzero)  
+ struct nbd_structured_reply_block_status_hdr {
+   uint32_t context_id;          /* metadata context ID */
+   /* followed by array of nbd_block_descriptor extents */
+ } NBD_ATTRIBUTE_PACKED;
+
++struct nbd_structured_reply_block_status_ext_hdr {
++  uint32_t context_id;          /* metadata context ID */
++  uint32_t count;               /* 0, or length of following array */
++  /* followed by array of nbd_block_descriptor_ext extents */
++} NBD_ATTRIBUTE_PACKED;
 +
-+  Note that even though extended headers are in use, a server may
-+  enforce a maximum block size that is smaller than 32 bits, in which
-+  case no valid `NBD_CMD_READ` will have a *length* large enough to
-+  require the use of this chunk type.  However, a client using
-+  extended headers MUST be prepared for the server to use either the
-+  compact or extended chunk type.
+ struct nbd_structured_reply_error {
+   uint32_t error;               /* NBD_E* error number */
+   uint16_t len;                 /* Length of human readable error. */
+@@ -236,8 +270,10 @@ struct nbd_structured_reply_error {
+ } NBD_ATTRIBUTE_PACKED;
 
- * `NBD_REPLY_TYPE_BLOCK_STATUS` (5)
+ #define NBD_REQUEST_MAGIC           0x25609513
++#define NBD_EXTENDED_REQUEST_MAGIC  0x21e41c71
+ #define NBD_SIMPLE_REPLY_MAGIC      0x67446698
+ #define NBD_STRUCTURED_REPLY_MAGIC  0x668e33ef
++#define NBD_EXTENDED_REPLY_MAGIC    0x6e8a278c
 
-@@ -2218,26 +2224,27 @@ The following request types exist:
-     the following additional constraints.
+ /* Structured reply flags. */
+ #define NBD_REPLY_FLAG_DONE         (1<<0)
+@@ -246,12 +282,13 @@ struct nbd_structured_reply_error {
+ #define NBD_REPLY_TYPE_IS_ERR(val) (!!((val) & (1<<15)))
 
-     The server MAY split the reply into any number of content chunks
--    (`NBD_REPLY_TYPE_OFFSET_DATA` and `NBD_REPLY_TYPE_OFFSET_HOLE`);
--    each chunk MUST describe at least one byte, although to minimize
--    overhead, the server SHOULD use chunks with lengths and offsets as
--    an integer multiple of 512 bytes, where possible (the first and
--    last chunk of an unaligned read being the most obvious places for
--    an exception).  The server MUST NOT send content chunks that
--    overlap with any earlier content or error chunk, and MUST NOT send
--    chunks that describe data outside the offset and length of the
--    request, but MAY send the content chunks in any order (the client
--    MUST reassemble content chunks into the correct order), and MAY
--    send additional content chunks even after reporting an error
--    chunk.  A server MAY support read requests larger than the maximum
--    block payload size by splitting the response across multiple
--    chunks (in particular, if extended headers are not in use, a
--    request for more than 2^32 - 8 bytes containing data rather than
--    holes MUST be split to avoid overflowing the 32-bit
--    `NBD_REPLY_TYPE_OFFSET_DATA` length field); however, the server is
--    also permitted to reject large read requests up front, so a client
--    should be prepared to retry with smaller requests if a large
--    request fails.
-+    (`NBD_REPLY_TYPE_OFFSET_DATA` and `NBD_REPLY_TYPE_OFFSET_HOLE` for
-+    structured replies, additionally `NBD_REPLY_TYPE_OFFSET_HOLE_EXT`
-+    for extended headers); each chunk MUST describe at least one byte,
-+    although to minimize overhead, the server SHOULD use chunks with
-+    lengths and offsets as an integer multiple of 512 bytes, where
-+    possible (the first and last chunk of an unaligned read being the
-+    most obvious places for an exception).  The server MUST NOT send
-+    content chunks that overlap with any earlier content or error
-+    chunk, and MUST NOT send chunks that describe data outside the
-+    offset and length of the request, but MAY send the content chunks
-+    in any order (the client MUST reassemble content chunks into the
-+    correct order), and MAY send additional content chunks even after
-+    reporting an error chunk.  A server MAY support read requests
-+    larger than the maximum block payload size by splitting the
-+    response across multiple chunks (in particular, if extended
-+    headers are not in use, a request for more than 2^32 - 8 bytes
-+    containing data rather than holes MUST be split to avoid
-+    overflowing the 32-bit `NBD_REPLY_TYPE_OFFSET_DATA` length field);
-+    however, the server is also permitted to reject large read
-+    requests up front, so a client should be prepared to retry with
-+    smaller requests if a large request fails.
+ /* Structured reply types. */
+-#define NBD_REPLY_TYPE_NONE         0
+-#define NBD_REPLY_TYPE_OFFSET_DATA  1
+-#define NBD_REPLY_TYPE_OFFSET_HOLE  2
+-#define NBD_REPLY_TYPE_BLOCK_STATUS 5
+-#define NBD_REPLY_TYPE_ERROR        NBD_REPLY_TYPE_ERR (1)
+-#define NBD_REPLY_TYPE_ERROR_OFFSET NBD_REPLY_TYPE_ERR (2)
++#define NBD_REPLY_TYPE_NONE             0
++#define NBD_REPLY_TYPE_OFFSET_DATA      1
++#define NBD_REPLY_TYPE_OFFSET_HOLE      2
++#define NBD_REPLY_TYPE_BLOCK_STATUS     5
++#define NBD_REPLY_TYPE_BLOCK_STATUS_EXT 6
++#define NBD_REPLY_TYPE_ERROR            NBD_REPLY_TYPE_ERR (1)
++#define NBD_REPLY_TYPE_ERROR_OFFSET     NBD_REPLY_TYPE_ERR (2)
 
-     When no error is detected, the server MUST send enough data chunks
-     to cover the entire region described by the offset and length of
+ /* NBD commands. */
+ #define NBD_CMD_READ              0
+@@ -263,11 +300,12 @@ struct nbd_structured_reply_error {
+ #define NBD_CMD_WRITE_ZEROES      6
+ #define NBD_CMD_BLOCK_STATUS      7
+
+-#define NBD_CMD_FLAG_FUA       (1<<0)
+-#define NBD_CMD_FLAG_NO_HOLE   (1<<1)
+-#define NBD_CMD_FLAG_DF        (1<<2)
+-#define NBD_CMD_FLAG_REQ_ONE   (1<<3)
+-#define NBD_CMD_FLAG_FAST_ZERO (1<<4)
++#define NBD_CMD_FLAG_FUA         (1<<0)
++#define NBD_CMD_FLAG_NO_HOLE     (1<<1)
++#define NBD_CMD_FLAG_DF          (1<<2)
++#define NBD_CMD_FLAG_REQ_ONE     (1<<3)
++#define NBD_CMD_FLAG_FAST_ZERO   (1<<4)
++#define NBD_CMD_FLAG_PAYLOAD_LEN (1<<5)
+
+ /* NBD error codes. */
+ #define NBD_SUCCESS     0
 -- 
 2.38.1
 
