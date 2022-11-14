@@ -2,87 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AFE628EF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:11:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2B1628F1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:18:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinr-00087F-RK; Mon, 14 Nov 2022 18:23:47 -0500
+	id 1oujB2-0001V2-8M; Mon, 14 Nov 2022 18:47:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouifG-0004Q9-DW
+ (Exim 4.90_1) (envelope-from <j.granados@samsung.com>)
+ id 1ouifG-000361-4d
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:55 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouZqd-000637-Ek
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 08:50:05 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so7962733wmb.0
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 05:50:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NessA7feBX5JaP44J04zcRgMiQOjCRQhmP6PzLSK3Mw=;
- b=MBqohNsmPGnZjZTDlfySJF8dgGl8w/6k8MAi6IpCM6rHKUswogzR8jyKQFqdaVS7p9
- WB2Jzl5tesNfFggZB3RcHrvuPSE+iXD8SLvNEr4jpwlxXLNKh7Vdtx2nUCA/KxeNO5Ei
- OWM8js8r8tkLwM7U9OVzQJbDRBaatDjOJqMbdBKTYtzxpdDOVt+NVjXSOkJLILQKHreM
- f7pjPobl6ClrO5RviyObiJ2SH+ei6SOmEmvpjPNfktastqT7B59EF48GD50mjsJiAlmW
- QzCwOgGxQZ8ajbBPoz4Ju5tCSb7ZOuzSBXfrae2eiw1AGyS8XnE5dU/yfQBH6/0o7VbX
- qcUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NessA7feBX5JaP44J04zcRgMiQOjCRQhmP6PzLSK3Mw=;
- b=ttzGr/1GMcr+qoxy7tHW7YUW8WXjWvMLEbuH40cDDrosew0sftKzYkcam/HjLwPRkC
- A3f5oBX92QY7XQXktpOAhefCMegl/u/sk3nrMz6nv2vkdy9pbCNyXT79MWojh/t+cb07
- Vw/pp488eamm0LAUJL4jvOS/JcI6PBJgDwA9DRiV4PbL6tzqXiFYd2a4unzEG3IYqpVg
- jG+GqjZqxcIuTX7FgFpI3mV+aeqYLl3ADu1XrcyUaegzkWVVndlYikShO4r0Mc7hF3S6
- zTrbCu2+tdq85GCuzLFzRj3fr1uXxLCUBIVjzASRqhMpx0K84YRqmH9O6xcGqvaRNCXl
- 0CPQ==
-X-Gm-Message-State: ANoB5plPfu6IO+FyYGM3ReXMGT/w0gq+yxnZJCWdJ69AIuhIWwtx6BI/
- I75RiwnkaL1n7wr7pcvGlIjH5w==
-X-Google-Smtp-Source: AA0mqf4dIgbWAVawB0Sacw0WK6m5sd8lQ78Bi46PhFit48xpZuH/qNSm8S3zfsqr8ed+xogGA3guaA==
-X-Received: by 2002:a1c:26c1:0:b0:3cf:b1c2:c911 with SMTP id
- m184-20020a1c26c1000000b003cfb1c2c911mr7819038wmm.16.1668433801430; 
- Mon, 14 Nov 2022 05:50:01 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- n4-20020a7bc5c4000000b003c6c182bef9sm22195137wmk.36.2022.11.14.05.49.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 05:50:00 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 67D401FFB7;
- Mon, 14 Nov 2022 13:49:59 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
- pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH] gitlab: add new dynamic check-gcov target for coverage
-Date: Mon, 14 Nov 2022 13:49:54 +0000
-Message-Id: <20221114134954.1670860-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <j.granados@samsung.com>)
+ id 1ouZv1-00081u-SU
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 08:54:38 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20221114135426euoutp01b44f6da96788c5b9fe44c24efc7f8507~nd-Ggn8xm1806518065euoutp01z
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 13:54:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20221114135426euoutp01b44f6da96788c5b9fe44c24efc7f8507~nd-Ggn8xm1806518065euoutp01z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1668434066;
+ bh=WGCzzVtP5qdB5iZIleZb21Kph54VqPVDCcgbd2+W4p0=;
+ h=From:To:CC:Subject:Date:References:From;
+ b=N98FrfwBVP+53DJvlN1BbGM37row8qEzvzaN3rjboAbVYo0g3x3Gm47kk8fCm8RZH
+ sD4X6XZ/mBOrzKw4CxaGq3fvpf461Iulebg9Ce5JWZzX1OZacT2vGY95TMdneHc5Z+
+ OUtE3C8CWV0CaTnl3qyN3YcBDaxUCLOgt/HKpHeA=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20221114135426eucas1p2525c4fb6b37bc504c494bfbcb8d10758~nd-GV1OH_2884528845eucas1p2K;
+ Mon, 14 Nov 2022 13:54:26 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 0B.28.10112.29842736; Mon, 14
+ Nov 2022 13:54:26 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0~nd-F_WyOh2263122631eucas1p2k;
+ Mon, 14 Nov 2022 13:54:26 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20221114135426eusmtrp29de2f42ec3652ecad90519de25129ea8~nd-F9zePx0116501165eusmtrp2z;
+ Mon, 14 Nov 2022 13:54:26 +0000 (GMT)
+X-AuditID: cbfec7f4-cf3ff70000002780-29-637248925ce8
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id F5.D3.08916.19842736; Mon, 14
+ Nov 2022 13:54:25 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20221114135425eusmtip2012c3eb434f6d01972e003f0ab18616f~nd-FxgvCr1823218232eusmtip2I;
+ Mon, 14 Nov 2022 13:54:25 +0000 (GMT)
+Received: from localhost (106.110.32.33) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 14 Nov 2022 13:54:24 +0000
+From: Joel Granados <j.granados@samsung.com>
+To: <k.jensen@samsung.com>, <qemu-devel@nongnu.org>, <qemu-block@nongnu.org>
+CC: Joel Granados <j.granados@samsung.com>
+Subject: [PATCH v2 0/3] Add OCP extended log to nvme QEMU
+Date: Mon, 14 Nov 2022 14:50:40 +0100
+Message-ID: <20221114135043.2958100-1-j.granados@samsung.com>
+X-Mailer: git-send-email 2.30.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [106.110.32.33]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7djPc7qTPIqSDX7OFraY9a6dzeJ47w4W
+ ByaPJ9c2MwUwRnHZpKTmZJalFunbJXBlNCyYylbwlbdi9pe7LA2ML7i6GDk4JARMJHZN4+5i
+ 5OIQEljBKPHu70VWCOcLo8TU921MEM5nRonrZ24ydjFygnV0nH0OZgsJLGeUuNYqAVfU/WcH
+ I4SzmVFi6+I3YFVsAjoS59/cYQaxRQR8JFbMXssEYjMLaEnc+HwErEZYwFKi5eV1VhCbRUBV
+ 4tbUW+wgNq+ArcTh3TdYIDbLS7Rdn84IcjezgKbE+l36ECWCEidnPmGBGCkv0bx1NjNEuaLE
+ ljnfWSHsWom1x86wg9wmITCRQ+LtghtQCReJVz/nsUPYwhKvjm+BsmUk/u+czwRhZ0vsnLIL
+ amiBxKyTU9kgYWct0XcmByLsKPHszztWiDCfxI23ghDn8ElM2jadGSLMK9HRJgRRrSaxo2kr
+ 4wRG5VkIv8xC8sssJL8sYGRexSieWlqcm55abJSXWq5XnJhbXJqXrpecn7uJEZgOTv87/mUH
+ 4/JXH/UOMTJxMB5ilOBgVhLhnSeTnyzEm5JYWZValB9fVJqTWnyIUZqDRUmcl22GVrKQQHpi
+ SWp2ampBahFMlomDU6qBaYN+QsmqFo/KP5EuM1lua32V12ZU4d6T8vzAaZPyk/pNXZPVWMSS
+ tk8X6H7HeoFtb3+YaN/XtTtqw59+P/D+VOJc6WiOjyfv9GZ8fvBUcJGf+ZFdq9muM0v3NNiX
+ LloZOb/nj/HeSc9CtnHeTGB+8f/zfYkbX7w+nIn5VZYYsNP9ioSP3V2rXF/vN/X79t22LrU/
+ v6hy2fM3X/+3O/VLOdh/4Q6deak17nTxHNbfh3773OdxzD33+VW445w/B2P2i7YnXRHku7Vq
+ d8WFRq/MCbwbL9yc5XZhj+St6f5rI1geOUbxCCQ6Vb6dvyzu7764M/+qfuk+klea8O1gqOqh
+ RMMdp6+bbT7G0LOx8uGWh2pKLMUZiYZazEXFiQC2olnudgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGLMWRmVeSWpSXmKPExsVy+t/xe7oTPYqSDf6ft7SY9a6dzeJ47w4W
+ ByaPJ9c2MwUwRunZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJal
+ FunbJehlNCyYylbwlbdi9pe7LA2ML7i6GDk5JARMJDrOPmcEsYUEljJKHL0qDhGXkfh05SM7
+ hC0s8edaF1sXIxdQzUdGib9Lm6CczYwSDafmglWxCehInH9zhxnEFhHwkVgxey0TiM0soCVx
+ 4/MRsA3CApYSLS+vs4LYLAKqErem3gLr5RWwlTi8+wYLxDZ5ibbr04HqOYB6NSXW79KHKBGU
+ ODnzCQvESHmJ5q2zmSHKFSW2zPnOCmHXSry6v5txAqPQLITuWUi6ZyHpXsDIvIpRJLW0ODc9
+ t9hQrzgxt7g0L10vOT93EyMwArYd+7l5B+O8Vx/1DjEycTAeYpTgYFYS4Z0nk58sxJuSWFmV
+ WpQfX1Sak1p8iNEU6JuJzFKiyfnAGMwriTc0MzA1NDGzNDC1NDNWEuf1LOhIFBJITyxJzU5N
+ LUgtgulj4uCUamDyYH3RwWx1hmtX5CEXhkol8dNLpvL7z33574FMf4qZ7NUpETcPLBDjeDlf
+ Jd35i6bp7hcH3f1DF/L+uS+ZlCbFfXjzrm3NbJI9RkcXZ2iFvtqyVTVySeNL61U7H188tlLJ
+ 9Edx2Rt/7/nRCXcSt12PPzR7ydZjgRtZdqdOb1t5qlTeSLhAIOnbgvmn5n54G7jI5q0Dg17Z
+ o9jtElVh740lF738tb/rgvKbWxZ3/gUvkMx81Vrw+HVEwCnR3ScaVKos5gUun7tFKH/r4ocN
+ 562mflII8W8+o/jy9CGVnn1nz7y1123a+k0p3GHdMZbyS5ECkYu57NYERS9s4UtIOyK5bpvF
+ kn7LBV5PtOwrGWs+KrEUZyQaajEXFScCAH8a294JAwAA
+X-CMS-MailID: 20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0
+X-Msg-Generator: CA
+X-RootMTR: 20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0
+References: <CGME20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0@eucas1p2.samsung.com>
+Received-SPF: pass client-ip=210.118.77.11;
+ envelope-from=j.granados@samsung.com; helo=mailout1.w1.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 14 Nov 2022 18:47:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,161 +131,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The aim of this was to expand the coverage checking to only target
-builds affected by the current branch. Unfortunately first time out
-the build falls over at the asset uploading stage exceeding some size
-limit.
+The motivation and description are contained in the last patch in this set.
+Will copy paste it here for convenience:
 
-So for now I'm posting this as a proof-of-concept until I can figure
-out a better way forward. The highlighting of which changes are tested
-in the GitLab UI is quite nice though.
+    In order to evaluate write amplification factor (WAF) within the storage
+    stack it is important to know the number of bytes written to the
+    controller. The existing SMART log value of Data Units Written is too
+    coarse (given in units of 500 Kb) and so we add the SMART health
+    information extended from the OCP specification (given in units of bytes).
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.d/buildtest.yml   | 24 ++++++++--
- .gitlab-ci.d/pick-targets.py | 87 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 107 insertions(+), 4 deletions(-)
- create mode 100755 .gitlab-ci.d/pick-targets.py
+    To accommodate different vendor specific specifications like OCP, we add a
+    multiplexing function (nvme_vendor_specific_log) which will route to the
+    different log functions based on arguments and log ids. We only return the
+    OCP extended smart log when the command is 0xC0 and ocp has been turned on
+    in the args.
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index d21b4a1fd4..aa2c52ab11 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -479,20 +479,36 @@ build-gprof-gcov:
-   variables:
-     IMAGE: ubuntu2004
-     CONFIGURE_ARGS: --enable-gprof --enable-gcov
--    TARGETS: aarch64-softmmu ppc64-softmmu s390x-softmmu x86_64-softmmu
-+    TARGETS: aarch64-softmmu ppc64-linux-user
-   artifacts:
-     expire_in: 1 days
-     paths:
-       - build
- 
--check-gprof-gcov:
-+# This is special as the target list is dynamic
-+build-gcov:
-+  extends: .native_build_job_template
-+  needs:
-+    job: amd64-ubuntu2004-container
-+  before_script:
-+    - TARGETS=$(.gitlab-ci.d/pick-targets.py)
-+  variables:
-+    IMAGE: ubuntu2004
-+    CONFIGURE_ARGS: --enable-gcov
-+  artifacts:
-+    expire_in: 1 days
-+    paths:
-+      - build
-+      
-+# This is special
-+check-gcov:
-   extends: .native_test_job_template
-   needs:
--    - job: build-gprof-gcov
-+    - job: build-gcov
-       artifacts: true
-   variables:
-     IMAGE: ubuntu2004
--    MAKE_CHECK_ARGS: check
-+    MAKE_CHECK_ARGS: check check-avocado
-   after_script:
-     - cd build
-     - gcovr --xml-pretty --exclude-unreachable-branches --print-summary
-diff --git a/.gitlab-ci.d/pick-targets.py b/.gitlab-ci.d/pick-targets.py
-new file mode 100755
-index 0000000000..db1eff0119
---- /dev/null
-+++ b/.gitlab-ci.d/pick-targets.py
-@@ -0,0 +1,87 @@
-+#!/usr/bin/env python3
-+#
-+# pick-targets: pick a set of targets that are worth testing.
-+#
-+# Running code coverage is too expensive to run over all the builds.
-+# Try and figure out a subset of targets that would be worth running
-+# for the files touched between origin/master and the current HEAD.
-+#
-+# Copyright (C) 2022 Linaro Ltd
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+import os.path
-+import sys
-+import subprocess
-+
-+# Dumb mapping from a target directory name to a list of
-+# targets. Should we bother for those we know we don't have compilers for?
-+multi_targets = {
-+    'arm'        : ['arm', 'aarch64'],
-+    'i386'       : ['i386', 'x86_64'],
-+    'microblaze' : ['microblaze' ], # no softmmu, 'microblazel' ],
-+    'mips'       : ['mips', 'mips64', 'mips64el', 'mipsel' ],
-+    'ppc'        : ['ppc', 'ppc64' ],
-+    'riscv'      : ['riscv32', 'riscv64'],
-+    'sh4'        : ['sh4', 'sh4eb'],
-+    'sparc'      : ['sparc', 'sparc64'],
-+    'xtensa'     : ['xtensa', 'xtensaeb']
-+}
-+
-+def map_dir_to_targets(name):
-+    if name in multi_targets:
-+        return multi_targets[name]
-+    else:
-+        return name
-+
-+namespace = "qemu-project"
-+if len(sys.argv) >= 2:
-+    namespace = sys.argv[1]
-+
-+cwd = os.getcwd()
-+reponame = os.path.basename(cwd)
-+repourl = f"https://gitlab.com/{namespace}/{reponame}"
-+
-+# Add remote, fetch master and save the common ancestor
-+subprocess.check_call(["git", "remote", "add", "pick-target", repourl])
-+subprocess.check_call(["git", "fetch", "pick-target", "master"],
-+                      stdout=subprocess.DEVNULL,
-+                      stderr=subprocess.DEVNULL)
-+
-+ancestor = subprocess.check_output(["git", "merge-base",
-+                                    "pick-target/master", "HEAD"],
-+                                   universal_newlines=True)
-+
-+ancestor = ancestor.strip()
-+
-+subprocess.check_call(["git", "remote", "rm", "pick-target"])
-+
-+# calculate the diff and extract list of touched files
-+diff = subprocess.check_output(["git", "diff", "--numstat",
-+                                 f"{ancestor}..HEAD"])
-+
-+files = [l.split("\t")[2] for l in diff.decode().split("\n") if "\t" in l]
-+
-+# Build options to track
-+system = False
-+user = False
-+targets = []
-+
-+for f in files:
-+    if f.startswith("hw"):
-+        system = True
-+    if f.startswith("linux-user"):
-+        user = True
-+    if f.startswith("target"):
-+        t = f.split("/")[1]
-+        targets.extend(map_dir_to_targets(t))
-+
-+target_list = []
-+for t in sorted(set(targets)):
-+    if system:
-+        target_list.append(f"{t}-softmmu")
-+    if user:
-+        target_list.append(f"{t}-linux-user")
-+
-+print(" ".join(target_list))
+    Though we add the whole nvme smart log extended structure, we only populate
+    the physical_media_units_{read,written}, log_page_version and
+    log_page_uuid.
+
+V1 changes:
+1. I moved the ocp parameter from the namespace to the subsystem as it is
+   defined there in the OCP specification
+2. I now accumulate statistics from all namespaces and report them back on
+   the extended log as per the spec.
+3. I removed the default case in the switch in nvme_vendor_specific_log as
+   it does not have any special function.
+
+Joel Granados (3):
+  nvme: Move adjustment of data_units{read,written}
+  nvme: Add ocp to the subsys
+  nvme: Add physical writes/reads from OCP log
+
+ hw/nvme/ctrl.c       | 70 ++++++++++++++++++++++++++++++++++++++++----
+ hw/nvme/nvme.h       |  1 +
+ hw/nvme/subsys.c     |  4 +--
+ include/block/nvme.h | 36 +++++++++++++++++++++++
+ 4 files changed, 103 insertions(+), 8 deletions(-)
+
 -- 
-2.34.1
+2.30.2
 
 
