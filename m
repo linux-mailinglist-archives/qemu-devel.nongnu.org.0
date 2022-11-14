@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7AB628EF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14569628F6A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:40:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouijq-0004Ny-7N; Mon, 14 Nov 2022 18:19:38 -0500
+	id 1ouijn-0004JR-Qv; Mon, 14 Nov 2022 18:19:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ouiem-0001yn-R4
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oucga-0002GR-Kr
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 11:51:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668444710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Y+MMUIvEeHUT7UgHWhTTfhsRefNtB2Pk5zbgknHjzcY=;
- b=N/tFVCJYnKOzT38pLrcca0vZXvOyOwasUfUg6+s97s74LZjc+NWYzvfXdzrdjPCmtGx913
- Z3nwRpsDjz8JUyNlSgfNNtueGOUMhJ0/8n8wAScAiHlI2Ou85wf1fMfTwKda1nauabsr0q
- p1v44CqL/TJxzEYFIc5SarLPBiDxuks=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-633-fjX2VqTOPBm6M_sWiA5w5w-1; Mon, 14 Nov 2022 11:51:49 -0500
-X-MC-Unique: fjX2VqTOPBm6M_sWiA5w5w-1
-Received: by mail-qk1-f200.google.com with SMTP id
- ay43-20020a05620a17ab00b006fa30ed61fdso11384788qkb.5
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 08:51:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ouiek-000389-SZ
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:23 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ouctV-00004w-6T
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 12:05:14 -0500
+Received: by mail-pf1-x435.google.com with SMTP id b29so11551725pfp.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 09:05:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xu8CgGI9akiUZzN8tF2fCR+h3eiN7WdREbzfqaDwGKg=;
+ b=I6538fHcvXwQmfZqtrvzwAH0XinzX+/2gQMnSMQh9r355FAJcq8AoLEJHfyGpIrQTx
+ pkusj+maNRtdrEeQOG2qpxUtLssp06eHQh6z9ju+wY/qWNELSvXTT0+Tazjr4VXNipkc
+ 91Qvc54SpzUsL99qxgLHZzgm2lK19heGwhZwBhrai3sG6LCIbO7B3d4s6JGwFpu97Z7q
+ qJ9ZSt2hDOHggCEdilv2eIayZjJWRccggV0nY+QOuaWXuE3E8iJm1R+qopxmlLIZwTMB
+ NSnb2rVpxhoxpt7+hufSg5TQyscZf6bSp8vGZMB3vqKU9bsKFXtwXy8wPgzkTu/B8hyW
+ 4edQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Y+MMUIvEeHUT7UgHWhTTfhsRefNtB2Pk5zbgknHjzcY=;
- b=1niFQOF5d0bNkZz8te7IorhGYqbeyuPauHyWJo289D8Az8BmjiE4UliEl7I1i1pTRf
- sYlZfYaNp8+8VYj9GQgRbS53np3UQir3bY2us549uxYyrwPAmUF4DfeN4b27fyM6Mfvw
- NRxf2BGmAOD/RBeFE0+3nZRYgPdp4g2NbzQpsZin1IZ2pE4kvrqSzVO6kgFDnqprZLfq
- LKd9CyOKoOKFJ0LDkyyXBlCQJYHwsCy4ZDrnzuNAvy/1/i2+cpIFcOHQEUE5+PMRE9uH
- I3khZr5Uono3cDLX3lWVxOE4ITv2dIZ/ozUXwB1rJDQvMIY8HiqtVAwPbqX2wyT4dUbU
- hu4A==
-X-Gm-Message-State: ANoB5pn70fVl+veSvju0f1PQa7qnrS7yDCzj8E+4VFbtZ4x8hPYB7kJb
- PZMKZd4lcih63RybULIF3qlDaiCfX5wwO2SKUSugc51cUx0eyyy6MSYxs0ej0ADRiAlhn1h8o7O
- VYUnmjfNj27rlDy4=
-X-Received: by 2002:a05:622a:40cd:b0:39c:e98b:ea12 with SMTP id
- ch13-20020a05622a40cd00b0039ce98bea12mr12939551qtb.151.1668444709145; 
- Mon, 14 Nov 2022 08:51:49 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4fNyKB5do4kl0qNGt4TQnSJaZ5qLQnkY4v8DIcogj2/Rn5ME6l1rR9ugOb+9A+/+x/TCAVfQ==
-X-Received: by 2002:a05:622a:40cd:b0:39c:e98b:ea12 with SMTP id
- ch13-20020a05622a40cd00b0039ce98bea12mr12939539qtb.151.1668444708882; 
- Mon, 14 Nov 2022 08:51:48 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- l19-20020a05620a28d300b006cfaee39ccesm6798085qkp.114.2022.11.14.08.51.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 08:51:48 -0800 (PST)
-Date: Mon, 14 Nov 2022 11:51:42 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Prerna Saxena <prerna.saxena@nutanix.com>
-Subject: Re: [PATCH] migration: check magic value for deciding the mapping of
- channels
-Message-ID: <Y3JyHlemh9Jn9Lqq@x1n>
-References: <Y2EyVkdLMln7CX15@redhat.com>
- <9faf2604-f0b9-f3c3-5ac8-e4deeeebc424@nutanix.com>
- <Y2E+/WZgWXQQgdY5@redhat.com>
- <e5f69a86-f625-3cdb-4a25-065a0612548e@nutanix.com>
- <Y2OKCel2FlMQw+bI@redhat.com>
- <cf399da1-8558-06f9-2865-98abe45ddcda@nutanix.com>
- <Y2P6FMs42GLzkKl/@redhat.com>
- <0ad51209-817e-4f7b-3f93-e0ee231aade4@nutanix.com>
- <Y2QA93CGE6tyD4vT@redhat.com>
- <1646041e-bf4b-8697-7450-43fd17fe0dd1@nutanix.com>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xu8CgGI9akiUZzN8tF2fCR+h3eiN7WdREbzfqaDwGKg=;
+ b=A6iXHKuS1W+S7erEKUr0jTmc3zPMcZTI/gB4Xtbs7mslMdiBUJlkulsZ1aXO1KajNp
+ xfIAAG9CbLKc15aPVtZhHFkjE4WlPxF4WjIfyClEKKGJjEQtXI8cebfqspbB7yslJCO1
+ YwFUXHdrsdIHxduPlyCkTuPx5UvwGtHIIuCRej5IO4dsAVsH5v7ALnHK9mKvAIr6XMhz
+ UTK0+QoEHHza1wfK6P968J80O6r+bfqwC96yuh3GbV06mCKqzkxrdraJHl33bWZK/CW6
+ P1/5Hj6LQvu7cPD+Pkhh1+JCza5wDK0ufQIVZa9WMQGlg7BdGcEU3RdCUy4AZTr48gWK
+ M68A==
+X-Gm-Message-State: ANoB5plJ0v08SXYuoVY3X+Yiz9TcpvxuR4a3bOb2UqTY44i1iN5nlLHR
+ AjLge4w0rJzg0ssOeeQeiN7ARPk2le6D2esqdWvTVw==
+X-Google-Smtp-Source: AA0mqf4vrL/OPoPPqCEb5FoPSniXfe5dqaeDp2+g/gEavodm9U2aqJetR3TckmHaEuGuF/l3OOpzTJOIzJTXXdz/Hkc=
+X-Received: by 2002:a65:63c2:0:b0:46b:2753:2a60 with SMTP id
+ n2-20020a6563c2000000b0046b27532a60mr12419195pgv.192.1668445511378; Mon, 14
+ Nov 2022 09:05:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1646041e-bf4b-8697-7450-43fd17fe0dd1@nutanix.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221023153659.121138-1-tobias.roehmel@rwth-aachen.de>
+ <20221023153659.121138-3-tobias.roehmel@rwth-aachen.de>
+In-Reply-To: <20221023153659.121138-3-tobias.roehmel@rwth-aachen.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Nov 2022 17:04:59 +0000
+Message-ID: <CAFEAcA8+7yNaq7VdRZd-GoY9UrKx1Ph4J1sdAZW0zhOD3d8YCA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/7] target/arm: Make RVBAR available for all ARMv8 CPUs
+To: tobias.roehmel@rwth-aachen.de
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,24 +85,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Manish,
+On Sun, 23 Oct 2022 at 16:37, <tobias.roehmel@rwth-aachen.de> wrote:
+>
+> From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
+>
+> RVBAR shadows RVBAR_ELx where x is the highest exception
+> level if the highest EL is not EL3. This patch also allows
+> ARMv8 CPUs to change the reset address with
+> the rvbar property.
+>
+> Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 
-On Thu, Nov 03, 2022 at 11:47:51PM +0530, manish.mishra wrote:
-> Yes, but if we try to read early on main channel with tls enabled case it is an issue. Sorry i may not have put above comment cleary. I will try to put scenario step wise.
-> 1. main channel is created and tls handshake is done for main channel.
-> 2. Destionation side tries to read magic early on main channel in migration_ioc_process_incoming but it is not yet sent by source.
-> 3. Source has written magic to main channel file buffer but it is not yet flushed, it is flushed first time in ram_save_setup, i mean data is sent on channel only if qemu file buffer is full or explicitly flushed.
-> 4. Source side blocks on multifd_send_sync_main in ram_save_setup before flushing qemu file. But multifd_send_sync_main is blocked for sem_sync until handshake is done for multiFD channels.
-> 5. Destination side is still waiting for reading magic on main channel, so unless we return from migration_ioc_process_incoming we can not accept new channel, so handshake of multiFD channel is blocked.
-> 6. So basically source is blocked on multiFD channels handshake before sending data on main channel, but destination is blocked waiting for data before it can acknowledge multiFD channels and do handshake, so it kind of creates a deadlock situation.
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 3c517356e1..2e9e420d4e 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -7768,8 +7768,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>          if (!arm_feature(env, ARM_FEATURE_EL3) &&
+>              !arm_feature(env, ARM_FEATURE_EL2)) {
+>              ARMCPRegInfo rvbar =3D {
+> -                .name =3D "RVBAR_EL1", .state =3D ARM_CP_STATE_AA64,
+> -                .opc0 =3D 3, .opc1 =3D 0, .crn =3D 12, .crm =3D 0, .opc2=
+ =3D 1,
+> +                .name =3D "RVBAR_EL1", .state =3D ARM_CP_STATE_BOTH,
+> +                .opc0 =3D 3, .cp =3D 15, .opc1 =3D 0, .crn =3D 12, .crm =
+=3D 0, .opc2 =3D 1,
 
-Why is this issue only happening with TLS?  It sounds like it'll happen as
-long as multifd enabled.
+You don't need to specify .cp for a STATE_BOTH register: 15
+is the default.
 
-I'm also thinking whether we should flush in qemu_savevm_state_header() so
-at least upgraded src qemu will always flush the headers if it never hurts.
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
--- 
-Peter Xu
-
+thanks
+-- PMM
 
