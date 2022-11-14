@@ -2,96 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76204628EB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2739E628E3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:24:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouik5-0004sf-NK; Mon, 14 Nov 2022 18:19:53 -0500
+	id 1ouinJ-0007P3-6z; Mon, 14 Nov 2022 18:23:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ouieq-0002E1-MI
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1ouiep-0001X6-1C
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:30 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oucSa-0004DQ-9T
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 11:37:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668443843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Kx9qo4i7+SQ44WJxdrCr0m34Bz5yVQReSG1yAzwGCuk=;
- b=Rg8yiUki0mQSMo9h50k+9SAzjbkBDF52yVG5yPjnojbyrxZkxojq88eQaU+MGP33QbGqjg
- o9+0rRBvXkg0/cBproFx7vKRofpMcWGv3/19tLvDSF3U6lHWf0L0+C/hKrIdoAaK8Us3Dd
- 6dNo7l0s+0RKVtJ6VhZTofm8iHmoQA0=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-81-hfLQkLyQOMSETy5ZGq7MXw-1; Mon, 14 Nov 2022 11:37:21 -0500
-X-MC-Unique: hfLQkLyQOMSETy5ZGq7MXw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- w13-20020a05620a424d00b006e833c4fb0dso11313476qko.2
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 08:37:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Kx9qo4i7+SQ44WJxdrCr0m34Bz5yVQReSG1yAzwGCuk=;
- b=Nmo5Acp85phVAlsLR1e5Sz7L1YjLvfgKWJ9KA3qS72uaVQdGT0VJ2fwcHgsbRP+j5Y
- k+NXrkAObHIEH/TTzav62MQPvX/jOZ8P/gXLG/81AlQF8xSD/TyHk/JaPJz9yymjlN6E
- bEld72dYBS0QUz8a6YtQzcnFQIcPsltyYdSWsLptH88FOVqrBesAJs2APUJzrEpqKkYr
- cxFlSHpUPplVcG5yga+0/qIjC6aif0JV6UzuAZJswFsF+ARWcDvd6msivfrQ5g89Faqc
- o5PUiF19yzvDaUvPELReRh2YxQvAnMhVUBQ7ZQpgLN+32oNhlX6tto0NK3Mo2kW+upTK
- z7mQ==
-X-Gm-Message-State: ANoB5pnL27pQbFldQukMcjjbGXyENluY0ML1kq2KNisAI8PwEe3kc+NR
- 8dC3LYuJbh794jjPiooxXrW0XfRmK5E/TrTW2NaL3gh2uBbbROKzOI3+PFqKlxacW45Wt5U2xQs
- bldtivjF/sxmh8QM=
-X-Received: by 2002:a37:aec3:0:b0:6fa:2ff9:e9ca with SMTP id
- x186-20020a37aec3000000b006fa2ff9e9camr12054375qke.29.1668443841309; 
- Mon, 14 Nov 2022 08:37:21 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf67F7JFxZvxrsoeBAE3w+RfnhcUF4ZOxFI6+30dKfUOyY6GqjFwEOm5U4qcjihaUuC2WGvfVA==
-X-Received: by 2002:a37:aec3:0:b0:6fa:2ff9:e9ca with SMTP id
- x186-20020a37aec3000000b006fa2ff9e9camr12054346qke.29.1668443841056; 
- Mon, 14 Nov 2022 08:37:21 -0800 (PST)
-Received: from redhat.com ([37.19.196.93]) by smtp.gmail.com with ESMTPSA id
- n81-20020a374054000000b006cf38fd659asm6641072qka.103.2022.11.14.08.37.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 08:37:20 -0800 (PST)
-Date: Mon, 14 Nov 2022 11:37:13 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "open list:virtiofs" <virtio-fs@redhat.com>
-Subject: Re: [PATCH v1 5/9] hw/virtio: introduce virtio_device_should_start
-Message-ID: <20221114113518-mutt-send-email-mst@kernel.org>
-References: <20221108092308.1717426-1-alex.bennee@linaro.org>
- <20221108092308.1717426-6-alex.bennee@linaro.org>
- <2277569a-c218-30d1-4d88-9b77d3604513@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oucVm-0005lf-Oj
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 11:40:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=y/4ptXtJc6aafBvWP7KgPOS8GLtgtZ5IEVhRoHNv6yk=; b=wA18nIYebjOCymPT8URr9Z7HLf
+ wAWw1/qxqibQkxNXqlcioIsDw089a69jbz8SBib/xaW94oDGQvOmHIrzlqO5lyD5UXSTkgqQKdSkT
+ OlAvt5x8OysqCqvfjrXjTZZtY73w8Cu7xQvWwDZfv0XO6vK1/gBQwWWj0zXFOFnPv9tA7Z89cqUl2
+ yCYaFJSrJSfDrkGtRZLFTn+u6oM2nT23rvd1MBxPVHJlv/709mm5SVNTYl0nGcdjj6HxWpn8Ad3by
+ i6x/tKBHxR7UYTK2F0ehS790yggBTy+1Aalhj8ntOX0riRSJAk45eOiAqFDIc5PGaQs8SZZskFAmT
+ s2sOE9fEWytw+L6K0RIVBcTlVIUVUzCF6elqhIFFhDe74+ArmNMh93ocVh1liPLtM72lKW/wJCv1p
+ zlKmo4Q9WvJfjC838b48VJw/oT5/C4NrrPi02cpBAfURDxlncx1Z+ZG5RAyaUw9lqK2BQwpwpdvzX
+ ODBSp9wndrhWSHoR/S7jU4nT/9fI+lUtnQuL0gq5mldMDeWgQu0v4FB1uc2sAYQ4WY3eKIORR7uMB
+ wmiONNqzl6rsYKAYGw+xIBlMiIN0emfGjDDaBV79FxisPcIwTg/1A3/Nulf8XYuMgRmtRuPylm5uW
+ 6/gJsHIdUWcU0nfuGWqRj36YARRluXRkfgtTEYD/k=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Guohuai Shi <guohuai.shi@windriver.com>, Greg Kurz <groug@kaod.org>,
+ Bin Meng <bin.meng@windriver.com>
+Subject: Re: [PATCH v2 06/19] hw/9pfs: Add missing definitions for Windows
+Date: Mon, 14 Nov 2022 17:40:36 +0100
+Message-ID: <6443328.Q0H0RdsSbn@silver>
+In-Reply-To: <20221111042225.1115931-7-bin.meng@windriver.com>
+References: <20221111042225.1115931-1-bin.meng@windriver.com>
+ <20221111042225.1115931-7-bin.meng@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2277569a-c218-30d1-4d88-9b77d3604513@linux.ibm.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,46 +68,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 14, 2022 at 05:18:53PM +0100, Christian Borntraeger wrote:
-> Am 08.11.22 um 10:23 schrieb Alex Bennée:
-> > The previous fix to virtio_device_started revealed a problem in its
-> > use by both the core and the device code. The core code should be able
-> > to handle the device "starting" while the VM isn't running to handle
-> > the restoration of migration state. To solve this dual use introduce a
-> > new helper for use by the vhost-user backends who all use it to feed a
-> > should_start variable.
-> > 
-> > We can also pick up a change vhost_user_blk_set_status while we are at
-> > it which follows the same pattern.
-> > 
-> > Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-> > Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
-> > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> > Cc: "Michael S. Tsirkin" <mst@redhat.com>
+On Friday, November 11, 2022 5:22:12 AM CET Bin Meng wrote:
+> From: Guohuai Shi <guohuai.shi@windriver.com>
 > 
-> Hmmm, is this
-> commit 259d69c00b67c02a67f3bdbeeea71c2c0af76c35
-> Author:     Alex Bennée <alex.bennee@linaro.org>
-> AuthorDate: Mon Nov 7 12:14:07 2022 +0000
-> Commit:     Michael S. Tsirkin <mst@redhat.com>
-> CommitDate: Mon Nov 7 14:08:18 2022 -0500
+> Some definitions currently used by the 9pfs codes are only available
+> on POSIX platforms. Let's add our own ones in preparation to adding
+> 9pfs support for Windows.
 > 
->     hw/virtio: introduce virtio_device_should_start
+> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > 
-> and older version?
+> ---
+> 
+> Changes in v2:
+> - Add S_IFLNK related macros to support symbolic link
+> 
+>  fsdev/file-op-9p.h | 33 +++++++++++++++++++++++++++++++++
+>  hw/9pfs/9p.h       | 33 +++++++++++++++++++++++++++++++++
+>  2 files changed, 66 insertions(+)
+> 
+> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+> index 4997677460..7d9a736b66 100644
+> --- a/fsdev/file-op-9p.h
+> +++ b/fsdev/file-op-9p.h
+> @@ -27,6 +27,39 @@
+>  # include <sys/mount.h>
+>  #endif
+>  
+> +#ifdef CONFIG_WIN32
+> +
+> +/* POSIX structure not defined in Windows */
+> +
+> +typedef uint32_t uid_t;
+> +typedef uint32_t gid_t;
+> +
+> +/* from http://man7.org/linux/man-pages/man2/statfs.2.html */
+> +typedef uint32_t __fsword_t;
+> +typedef uint32_t fsblkcnt_t;
+> +typedef uint32_t fsfilcnt_t;
+> +
+> +/* from linux/include/uapi/asm-generic/posix_types.h */
+> +typedef struct {
+> +    long __val[2];
+> +} fsid_t;
+> +
+> +struct statfs {
+> +    __fsword_t f_type;
+> +    __fsword_t f_bsize;
+> +    fsblkcnt_t f_blocks;
+> +    fsblkcnt_t f_bfree;
+> +    fsblkcnt_t f_bavail;
+> +    fsfilcnt_t f_files;
+> +    fsfilcnt_t f_ffree;
+> +    fsid_t f_fsid;
+> +    __fsword_t f_namelen;
+> +    __fsword_t f_frsize;
+> +    __fsword_t f_flags;
+> +};
+> +
 
-This is what got merged:
-https://lore.kernel.org/r/20221107121407.1010913-1-alex.bennee%40linaro.org
-This patch was sent after I merged the RFC.
-I think the only difference is the commit log but I might be missing
-something.
+Does it make sense to define all of these, even though not being used?
 
-> This does not seem to fix the regression that I have reported.
+> +#endif /* CONFIG_WIN32 */
+> +
+>  #define SM_LOCAL_MODE_BITS    0600
+>  #define SM_LOCAL_DIR_MODE_BITS    0700
+>  
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 2fce4140d1..957a7e4ccc 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -3,13 +3,46 @@
+>  
+>  #include <dirent.h>
+>  #include <utime.h>
+> +#ifndef CONFIG_WIN32
+>  #include <sys/resource.h>
+> +#endif
+>  #include "fsdev/file-op-9p.h"
+>  #include "fsdev/9p-iov-marshal.h"
+>  #include "qemu/thread.h"
+>  #include "qemu/coroutine.h"
+>  #include "qemu/qht.h"
+>  
+> +#ifdef CONFIG_WIN32
+> +
+> +#define NAME_MAX            MAX_PATH
 
-This was applied on top of 9f6bcfd99f which IIUC does, right?
+That's not quite the same. MAX_PATH on Windows corresponds to PATH_MAX on
+POSIX, which is the max. length of an entire path (i.e. drive, multiple
+directory names, filename, backslashes). AFAICS MAX_PATH is 260 on Windows.
 
+The max. length of a single filename component OTOH is 255 on Windows by
+default. I don't know if there is a macro for the latter, if not, maybe
+just hard coding it here for now?
 
--- 
-MST
+> +
+> +/* macros required for build, values do not matter */
+> +#define AT_SYMLINK_NOFOLLOW 0x100   /* Do not follow symbolic links */
+> +#define AT_REMOVEDIR        0x200   /* Remove directory instead of file */
+> +#define O_DIRECTORY         02000000
+> +
+> +#define makedev(major, minor)   \
+> +        ((dev_t)((((major) & 0xfff) << 8) | ((minor) & 0xff)))
+> +#define major(dev)  ((unsigned int)(((dev) >> 8) & 0xfff))
+> +#define minor(dev)  ((unsigned int)(((dev) & 0xff)))
+> +
+> +#ifndef S_IFLNK
+> +/*
+> + * Currenlty Windows/MinGW does not provide the following flag macros,
+> + * so define them here for 9p codes.
+> + *
+> + * Once Windows/MinGW provides them, remove the defines to prevent conflicts.
+> + */
+> +#define S_IFLNK         0xA000
+> +#define S_ISUID         0x0800
+> +#define S_ISGID         0x0400
+> +#define S_ISVTX         0x0200
+> +
+> +#define S_ISLNK(mode)   ((mode & S_IFMT) == S_IFLNK)
+> +#endif /* S_IFLNK */
+> +
+> +#endif /* CONFIG_WIN32 */
+> +
+>  enum {
+>      P9_TLERROR = 6,
+>      P9_RLERROR,
+> 
+
 
 
