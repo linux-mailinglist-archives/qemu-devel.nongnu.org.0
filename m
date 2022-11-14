@@ -2,73 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF55628EE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6159628F33
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:29:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinP-0007dQ-U3; Mon, 14 Nov 2022 18:23:19 -0500
+	id 1ouioX-0000V2-Sc; Mon, 14 Nov 2022 18:24:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ouifd-0004bQ-5o
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouifZ-00068G-Bx
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:19 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ouY7t-00021N-Bm
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 06:59:46 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id y203so10778118pfb.4
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 03:59:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=AWqWs6FSDUDWzKp9FdboTRUd+23ZKvkmWeYD+TgCRXI=;
- b=Dr7b2qzcku95xyoF49bLwQw0JtpvoghiFsHJV1T6DUd02UH8hPBNy/DoQDwjtPMrCL
- CAHyrH53HYIEagTUrHXdS9H1IeOSy87gmmLQJazUMuaxhb/KyWUU8idbyLc6y9YtjKE7
- wXTFT096VDqjD67/A2KcdRUPWmoZOqas+P6v/RbrVPLosa2DrGQf47vfzK2zPSWUnEKV
- WqTReOoqttHcxORocftoperNzbQz1ocYVKlxakNMGVc0QFocWBbfF2/w8aibdTup8jF5
- HopdqXmNXCeeEEGYFxKoQliILP0swLgH3od+hjX1gBm6oG8ExZXSBCmBVDKJtqYbE12S
- 2i1Q==
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouYHM-00067T-EL
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 07:09:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668427771;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XhCcojzPYzlDKTGphSiLuMvrsiNTFjFFhhyaeZDuaf4=;
+ b=ZTXhH6oJISAMAuUqqWL/0zemgXNXTrJKOTYztTLgOEqVTf7CUKzKyLp4jlXn0/F1qa3DZ2
+ uUNe7bSeWCofNDSU59iUHa4W+lYaH2GA8ROh5nS0zY2AHs0YNyPSu9hgFXSeBvTPWtcyy5
+ 4YoQ0Iz51cQvFJVxv4AJic5t1BL6fXU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-571-9363vEwoNxi-Xhd0wTaHaw-1; Mon, 14 Nov 2022 07:09:30 -0500
+X-MC-Unique: 9363vEwoNxi-Xhd0wTaHaw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i14-20020adfa50e000000b0023652707418so1935452wrb.20
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 04:09:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AWqWs6FSDUDWzKp9FdboTRUd+23ZKvkmWeYD+TgCRXI=;
- b=iEr9Aipu0fDk/2L2ka1MEY0rJnOBfpiXGuji68Wn/WE5YXhJ9VyMXYybCxExhjd+44
- ew8TiXMHFzIUSOb2HNLzAIzaIy59eh+hNxr3IaRpbtL8fRzblA8d4iuHv4Wh198502hW
- X32y2icliw1CGR1T1iUSmiNCear2jswwpLcuzJbVejYVUglyp/kW3vKVJHHs9kRIT+az
- Z0v87IUbezNMY/sH1YI8/I/xvr/2Wim3rrssjMtm50rWeJhA4F4Isyrq0dZI2p/tQPQV
- 1x8UBLE75aF4HGV7QZDyeEKdQB1Y4YY7iaQQyjf7zuBkVbtxuZiWIhmrhbtqm5Qi+C5X
- l/RQ==
-X-Gm-Message-State: ANoB5pn4geGUvw9rg90lrhXqenMQdKtxJG+NVSCEoGdc9BTQYVNzxY8U
- m7qcw2fh/sek7cbqmKlqxeHJxXfP3WZB5HLYv/Jz9Q==
-X-Google-Smtp-Source: AA0mqf6mIEOUmYX5JWv9qM6BJAbiHjprDMBP/P+sC7k2NS8quSaY8jYkv56P4nwAprL0IaoB0KaOFXiYPdjiaiZ0q1U=
-X-Received: by 2002:a63:1665:0:b0:426:9c23:9f94 with SMTP id
- 37-20020a631665000000b004269c239f94mr11415084pgw.105.1668427183382; Mon, 14
- Nov 2022 03:59:43 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XhCcojzPYzlDKTGphSiLuMvrsiNTFjFFhhyaeZDuaf4=;
+ b=UdEJfdMyAtCsp7UG8W8CuHCQVKe59O7Dh+tqhIPem/VwT0W2e4v/U514kiAoPPPbJJ
+ k/5H5ZY0ej1ITnp4i2tmc9/p34XX47IisBFM/VJj5EXZDrnDueazEAoHA0OZPKG8OBzG
+ mT0/Y2Dqk/6VejpcgziqKXB0sn6LdWYthtA2QDzd/MTJK2amVM8XBf/CWzp5vXKg06GY
+ 7pheJUq5bIpZHdFHuDu4Xi/djWSiyaZwhAVH+1t+cEYHsgkYj2XB5MFnE17pcwSfQhpp
+ 2ZcmTWRqB82T9Xfk9PPIhTysW34c1s6dc8rfDQkZQNQGuTL6upgVbFLCwT9HOuDYR74s
+ XJnw==
+X-Gm-Message-State: ANoB5pndmnzNy483W70NRywLHfcQDDYvSCtgInmt0/CLeSQ2JZDRZRyH
+ 1fkuiDlxD0N13mHBOc/dGxJpxfjqKBoUdXa8NH9Ep3DhpYNiMFwdXJOSYOtHSiG0/n1tcVdPtWk
+ kn3HLJB59RiVppxQ=
+X-Received: by 2002:a5d:5242:0:b0:236:e271:c64e with SMTP id
+ k2-20020a5d5242000000b00236e271c64emr7232686wrc.490.1668427768848; 
+ Mon, 14 Nov 2022 04:09:28 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5BJPI9JCSYTCu3HE+rCby44yh/WnmX99tQD2RHjg+0RYVoi32gZsZSVTxEXBRhKw8Arl/7Fg==
+X-Received: by 2002:a5d:5242:0:b0:236:e271:c64e with SMTP id
+ k2-20020a5d5242000000b00236e271c64emr7232663wrc.490.1668427768604; 
+ Mon, 14 Nov 2022 04:09:28 -0800 (PST)
+Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
+ z11-20020a5d4d0b000000b0022e6178bd84sm9460210wrt.8.2022.11.14.04.09.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Nov 2022 04:09:28 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
+Cc: qemu-devel@nongnu.org,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  Eric Blake <eblake@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Yanan Wang
+ <wangyanan55@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>,  Eduardo Habkost
+ <eduardo@habkost.net>
+Subject: Re: [PATCH v7 10/12] multifd: Support for zero pages transmission
+In-Reply-To: <815debf445a2d3003ab2a2900f182554f0c99b3e.camel@redhat.com>
+ ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Fri, 02 Sep 2022 10:27:25
+ -0300")
+References: <20220802063907.18882-1-quintela@redhat.com>
+ <20220802063907.18882-11-quintela@redhat.com>
+ <815debf445a2d3003ab2a2900f182554f0c99b3e.camel@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Mon, 14 Nov 2022 13:09:26 +0100
+Message-ID: <87h6z168ll.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20221113200942.18882-1-mjt@msgid.tls.msk.ru>
-In-Reply-To: <20221113200942.18882-1-mjt@msgid.tls.msk.ru>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Nov 2022 11:59:31 +0000
-Message-ID: <CAFEAcA_aGiukDWQBAjj=Ln_u02wEbMNxOsHRZcBOm+jOz6HU2Q@mail.gmail.com>
-Subject: Re: [PATCH v2] capstone: use <capstone/capstone.h> instead of
- <capstone.h>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- "Daniel P. Berrange" <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,82 +106,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 13 Nov 2022 at 20:10, Michael Tokarev <mjt@tls.msk.ru> wrote:
+Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
+
+...
+
+>> @@ -712,6 +726,7 @@ static void *multifd_send_thread(void *opaque)
+>>              qemu_mutex_lock(&p->mutex);
+>>              p->num_packets++;
+>>              p->total_normal_pages +=3D p->normal_num;
+>> +            p->total_zero_pages +=3D p->zero_num;
 >
-> The upcoming capstone 5.0 drops support for the old way
-> of including its header, due to this change:
-> https://github.com/capstone-engine/capstone/commit/6656bcb63ab4e87dc6079bd6b6b12cc8dd9b2ad8
-> The official way is to use <capstone/capstone.h>
->
-> This change has already been proposed before, see
-> https://patchwork.kernel.org/project/qemu-devel/patch/20180215173539.11033-1-f4bug@amsat.org/
-> but it didn't find its way into qemu at that time.
->
-> On current systems, using <capstone/capstone.h> works
-> now (despite the pkg-config-supplied -I/usr/include/capstone) -
-> since on all systems capstone headers are put into capstone/
-> subdirectory of a system include dir. So this change is
-> compatible with both the obsolete way of including it
-> and the only future way.
+> I can see it getting declared, incremented and used. But where is it init=
+ialized
+> in zero? I mean, should it not have 'p->total_normal_pages =3D 0;' somewh=
+ere in
+> setup?
 
-That's only true if capstone happened to be installed
-into a system include directory subdirectory. That
-is probably true for most distros, but it isn't
-necessarily true when an end user has built and
-installed capstone locally themselves.
+int multifd_save_setup(Error **errp)
+{
+    ....
 
-In other words, this is a breaking non-back-compatible
-change by capstone upstream, which we now need to work
-around somehow :-(
+    thread_count =3D migrate_multifd_channels();
+    multifd_send_state =3D g_malloc0(sizeof(*multifd_send_state));
+    multifd_send_state->params =3D g_new0(MultiFDSendParams, thread_count);
+
+You can see here, that we setup everything to zero.  We only need to
+initialize explicitely whatever is not zero.
 
 
-> diff --git a/include/disas/capstone.h b/include/disas/capstone.h
-> index e29068dd97..d8fdc5d537 100644
-> --- a/include/disas/capstone.h
-> +++ b/include/disas/capstone.h
-> @@ -3,7 +3,7 @@
->
->  #ifdef CONFIG_CAPSTONE
->
-> -#include <capstone.h>
-> +#include <capstone/capstone.h>
->
->  #else
->
-> diff --git a/meson.build b/meson.build
-> index cf3e517e56..6f34c963f7 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2680,12 +2680,7 @@ if not get_option('capstone').auto() or have_system or have_user
->    capstone = dependency('capstone', version: '>=3.0.5',
->                          kwargs: static_kwargs, method: 'pkg-config',
->                          required: get_option('capstone'))
-> -
-> -  # Some versions of capstone have broken pkg-config file
-> -  # that reports a wrong -I path, causing the #include to
-> -  # fail later. If the system has such a broken version
-> -  # do not use it.
-> -  if capstone.found() and not cc.compiles('#include <capstone.h>',
-> +  if capstone.found() and not cc.compiles('#include <capstone/capstone.h>',
->                                            dependencies: [capstone])
->      capstone = not_found
->      if get_option('capstone').enabled()
+> (I understand multifd_save_setup() allocates a multifd_send_state->params=
+ with
+> g_new0(),but other variables are zeroed there, like p->pending_job and=C2=
+=A0
+> p->write_flags, so why not?)=20=20=20
 
-We can do something like
+Humm, I think that it is better to do it the other way around.  Remove
+the initilazations that are not zero.  That way we only put whatever is
+not zero.
 
-config_host_data.set('HAVE_CAPSTONE_CAPSTONE_H',
-cc.has_header('capstone/capstone.h', depedencies: [capstone])
 
-to check that this capstone really does have capstone/capstone.h,
-for instance.
+Thanks, Juan.
 
-Dan: is there a reason why in commit 8f4aea712ffc4 you wrote
-the "check that capstone.h really exists" check with cc.compiles
-rather than cc.has_header ?
-
-thanks
--- PMM
 
