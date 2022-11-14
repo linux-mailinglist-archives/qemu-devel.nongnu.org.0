@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C20C628EC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F72628DD8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:59:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouj2P-0005Od-SX; Mon, 14 Nov 2022 18:38:50 -0500
+	id 1ouj2U-0005Xh-8U; Mon, 14 Nov 2022 18:38:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ouj2H-0005F9-Sc
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:38:41 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ id 1ouj2R-0005UX-AE
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:38:52 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ouj2F-0006oe-QP
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:38:41 -0500
-Received: by mail-pg1-x532.google.com with SMTP id o13so11645722pgu.7
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 15:38:39 -0800 (PST)
+ id 1ouj2I-0006p3-PA
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:38:44 -0500
+Received: by mail-pf1-x436.google.com with SMTP id y13so12535592pfp.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 15:38:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6M3iRFNhKVd0TwGrz26oDC6xvInu5XUK/efCOgi0W1w=;
- b=aA5U+tCInAObFo1LyOSZpM3+wsxg4D0Lkht7YvchqpVUvAY9B7aDsL7PuOqHgogPA+
- avtNCtoZnXmEy/oU8xBalegfRCEZAKqjs9KvK2R2qZ11cn/+gNqKmbJwYEE6sY6fvcf3
- TKR8cn5+EOnleCoxALGfb1JUpHs9EqANx5kgpzfntoqoKMRkvO5lB+J/YL3CchuMhtow
- sUWTsx5M0Bqr2JgceyEGIuUPasYawDHSvm6HjCsslfWrRoS1NMLYinIrvl+Iu4q7Xe+I
- NlVOO5JLt7XrgD9FyWvDpQzflNVWyusDgu+2/EmkVBrdsrgO0hon2mPHJtY2W6uUk146
- Jzfw==
+ bh=HIjPHkRH18chkLBXKE8P4bOXjlUnO+BcLL5w7iG1TVY=;
+ b=iegvts+xVMEC1hcdFzPmaJRW9bQpiZkOjY/BEWmhnitmkYayykjw7bFH9O7OAgrHmT
+ 720w+MWOSBi/iaMwHAs11jEqOENW0gi2No3WUPP/aGo5/wBuI8cbarkDjDqxD9YM2+qg
+ U2nobYU0Whc1tRHTuWYBrgtlhjNBTqHOVf1GLRAiO1JRr1gelSSh0GQzWSvuZYxpSaF1
+ inX3GD/7mLmoyFq1afqZekznL4xLwqkkiM9hVXmQOFAUzw/4y4DY9w2Dp1b6YsfVx8aB
+ RICOM8hRJEr1d3JeCZMQnldGmC/9aVapDSLOVABNJsNLWe/Ax4Ma6XQRjj9/NxvZGzk+
+ HpzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6M3iRFNhKVd0TwGrz26oDC6xvInu5XUK/efCOgi0W1w=;
- b=dC+t9zlHAduQZVDdzeDR7hKugLj5suecZGDeUpkZv8dU4lcl0z+WS/R8AQwvFb9X6H
- COJKN94Xjdp9d4cqfZLhgM/nYd9FA+hzYe+er4KltxIzd6zpbhInQ6a/qrm0HozSCiAL
- GksIagOYK2DhghDbvmekPLo6iOmylZJflqQwl+hXd4Qv4pfxRQTOtjURcLt2+ITW05QR
- +XaWOpYlOBzySMD3YpcCkDTbu1XWDaE2xiHbnohJpVWsPbAEJ865+v62oni6Qcd9Tb8B
- 0yT5wyP8tBX1Ml+2KS4Gh4RJn15NoyfcX4R2kMtbmd1A3OGseCNtg056017U6yvqCR6Z
- ZRyg==
-X-Gm-Message-State: ANoB5pn6mYHjOo1mfzYoUEZ2aQaJX0qIjJZAwDHfDYtSi+II0GfamDRr
- ZfwVR5/YwLJ4JEo7f4Fj6HBHoA2bCPtLtdbm
-X-Google-Smtp-Source: AA0mqf42T4tPCQVzKrTjIC+JqbdlEjKKdTkhFBTki2i9GR1S2Efp1wd3uopsAg8/ajI0R626M5KZDQ==
-X-Received: by 2002:a65:58c7:0:b0:439:3c55:3df1 with SMTP id
- e7-20020a6558c7000000b004393c553df1mr13405505pgu.606.1668469118378; 
- Mon, 14 Nov 2022 15:38:38 -0800 (PST)
+ bh=HIjPHkRH18chkLBXKE8P4bOXjlUnO+BcLL5w7iG1TVY=;
+ b=e9C9ZiTrdEdLDGVUG9/sK43LnE5YkEjekirLhFY/fx6bcAA07QiSM8zu7EPuOPAsPf
+ Y0CR+3jKgPjZNTOVeaIVRByx+t1lUMOCFmGLal0DO0XtVD7UM/wpADBQpyDJb3C/7pfM
+ u6c20W/FtjutnOKNG8ZcwfhrBfGRAnmYoRJl9XE2JaJOBPWPYJt/TgsfCXx4ghZIB4oZ
+ ax3VQc2dJuaS67HZZDbs113rdPAHXCzHf1i1wABC7mAisQxQBJaaprMg0L7DwuH3/rYo
+ 1qIYiYU43JtrIZT6+OePWv53MjKMmsD4lEpHXLRZyIB7NNekIBtT1ZtKvabtExslBIjY
+ j3PA==
+X-Gm-Message-State: ANoB5pkfMNqw8xWfqtKaJBqNr9eGdwwTk7eAOTokY4yg3b2D+WKUCq7n
+ T1gyk2o7GYZs+mqWINbVYvAQy5fPkW7olAI4
+X-Google-Smtp-Source: AA0mqf4HWCdsdCm4t6Y57hs6gvZqtT2tPeLNqs3sg6Je3Pn/w3G75QgGYc9pm970QwrUbDde0dL/rA==
+X-Received: by 2002:a63:c009:0:b0:46e:bcc1:28df with SMTP id
+ h9-20020a63c009000000b0046ebcc128dfmr13406824pgg.187.1668469121254; 
+ Mon, 14 Nov 2022 15:38:41 -0800 (PST)
 Received: from stoup.. (119-18-35-77.771223.bne.static.aussiebb.net.
  [119.18.35.77]) by smtp.gmail.com with ESMTPSA id
- cp16-20020a170902e79000b00176dc67df44sm8120268plb.132.2022.11.14.15.38.35
+ cp16-20020a170902e79000b00176dc67df44sm8120268plb.132.2022.11.14.15.38.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 15:38:37 -0800 (PST)
+ Mon, 14 Nov 2022 15:38:40 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 1/2] target/i386: fix cmpxchg with 32-bit register destination
-Date: Tue, 15 Nov 2022 09:38:28 +1000
-Message-Id: <20221114233829.3329805-2-richard.henderson@linaro.org>
+Subject: [PULL 2/2] target/i386: hardcode R_EAX as destination register for
+ LAHF/SAHF
+Date: Tue, 15 Nov 2022 09:38:29 +1000
+Message-Id: <20221114233829.3329805-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221114233829.3329805-1-richard.henderson@linaro.org>
 References: <20221114233829.3329805-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,233 +93,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Unlike the memory case, where "the destination operand receives a write
-cycle without regard to the result of the comparison", rm must not be
-touched altogether if the write fails, including not zero-extending
-it on 64-bit processors.  This is not how the movcond currently works,
-because it is always followed by a gen_op_mov_reg_v to rm.
+When translating code that is using LAHF and SAHF in combination with the
+REX prefix, the instructions should not use any other register than AH;
+however, QEMU selects SPL (SP being register 4, just like AH) if the
+REX prefix is present.  To fix this, use deposit directly without
+going through gen_op_mov_v_reg and gen_op_mov_reg_v.
 
-To fix it, introduce a new function that is similar to gen_op_mov_reg_v
-but writes to a TCG temporary.
-
-Considering that gen_extu(ot, oldv) is not needed in the memory case
-either, the two cases for register and memory destinations are different
-enough that one might as well fuse the two "if (mod == 3)" into one.
-So do that too.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/508
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/130
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-[rth: Add a test case ]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c      | 82 ++++++++++++++++++++++----------
- tests/tcg/x86_64/cmpxchg.c       | 42 ++++++++++++++++
- tests/tcg/x86_64/Makefile.target |  1 +
- 3 files changed, 99 insertions(+), 26 deletions(-)
- create mode 100644 tests/tcg/x86_64/cmpxchg.c
+ target/i386/tcg/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 28a4e6dc1d..dbd6492778 100644
+index dbd6492778..7e0b2a709a 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -439,32 +439,51 @@ static inline MemOp mo_b_d32(int b, MemOp ot)
-     return b & 1 ? (ot == MO_16 ? MO_16 : MO_32) : MO_8;
- }
- 
--static void gen_op_mov_reg_v(DisasContext *s, MemOp ot, int reg, TCGv t0)
-+/* Compute the result of writing t0 to the OT-sized register REG.
-+ *
-+ * If DEST is NULL, store the result into the register and return the
-+ * register's TCGv.
-+ *
-+ * If DEST is not NULL, store the result into DEST and return the
-+ * register's TCGv.
-+ */
-+static TCGv gen_op_deposit_reg_v(DisasContext *s, MemOp ot, int reg, TCGv dest, TCGv t0)
- {
-     switch(ot) {
-     case MO_8:
--        if (!byte_reg_is_xH(s, reg)) {
--            tcg_gen_deposit_tl(cpu_regs[reg], cpu_regs[reg], t0, 0, 8);
--        } else {
--            tcg_gen_deposit_tl(cpu_regs[reg - 4], cpu_regs[reg - 4], t0, 8, 8);
-+        if (byte_reg_is_xH(s, reg)) {
-+            dest = dest ? dest : cpu_regs[reg - 4];
-+            tcg_gen_deposit_tl(dest, cpu_regs[reg - 4], t0, 8, 8);
-+            return cpu_regs[reg - 4];
-         }
-+        dest = dest ? dest : cpu_regs[reg];
-+        tcg_gen_deposit_tl(dest, cpu_regs[reg], t0, 0, 8);
+@@ -5230,7 +5230,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x9e: /* sahf */
+         if (CODE64(s) && !(s->cpuid_ext3_features & CPUID_EXT3_LAHF_LM))
+             goto illegal_op;
+-        gen_op_mov_v_reg(s, MO_8, s->T0, R_AH);
++        tcg_gen_shri_tl(s->T0, cpu_regs[R_EAX], 8);
+         gen_compute_eflags(s);
+         tcg_gen_andi_tl(cpu_cc_src, cpu_cc_src, CC_O);
+         tcg_gen_andi_tl(s->T0, s->T0, CC_S | CC_Z | CC_A | CC_P | CC_C);
+@@ -5242,7 +5242,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+         gen_compute_eflags(s);
+         /* Note: gen_compute_eflags() only gives the condition codes */
+         tcg_gen_ori_tl(s->T0, cpu_cc_src, 0x02);
+-        gen_op_mov_reg_v(s, MO_8, R_AH, s->T0);
++        tcg_gen_deposit_tl(cpu_regs[R_EAX], cpu_regs[R_EAX], s->T0, 8, 8);
          break;
-     case MO_16:
--        tcg_gen_deposit_tl(cpu_regs[reg], cpu_regs[reg], t0, 0, 16);
-+        dest = dest ? dest : cpu_regs[reg];
-+        tcg_gen_deposit_tl(dest, cpu_regs[reg], t0, 0, 16);
-         break;
-     case MO_32:
-         /* For x86_64, this sets the higher half of register to zero.
-            For i386, this is equivalent to a mov. */
--        tcg_gen_ext32u_tl(cpu_regs[reg], t0);
-+        dest = dest ? dest : cpu_regs[reg];
-+        tcg_gen_ext32u_tl(dest, t0);
-         break;
- #ifdef TARGET_X86_64
-     case MO_64:
--        tcg_gen_mov_tl(cpu_regs[reg], t0);
-+        dest = dest ? dest : cpu_regs[reg];
-+        tcg_gen_mov_tl(dest, t0);
-         break;
- #endif
-     default:
-         tcg_abort();
-     }
-+    return cpu_regs[reg];
-+}
-+
-+static void gen_op_mov_reg_v(DisasContext *s, MemOp ot, int reg, TCGv t0)
-+{
-+    gen_op_deposit_reg_v(s, ot, reg, NULL, t0);
- }
- 
- static inline
-@@ -3747,7 +3766,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x1b0:
-     case 0x1b1: /* cmpxchg Ev, Gv */
-         {
--            TCGv oldv, newv, cmpv;
-+            TCGv oldv, newv, cmpv, dest;
- 
-             ot = mo_b_d(b, dflag);
-             modrm = x86_ldub_code(env, s);
-@@ -3758,7 +3777,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             cmpv = tcg_temp_new();
-             gen_op_mov_v_reg(s, ot, newv, reg);
-             tcg_gen_mov_tl(cmpv, cpu_regs[R_EAX]);
--
-+            gen_extu(ot, cmpv);
-             if (s->prefix & PREFIX_LOCK) {
-                 if (mod == 3) {
-                     goto illegal_op;
-@@ -3766,32 +3785,43 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                 gen_lea_modrm(env, s, modrm);
-                 tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
-                                           s->mem_index, ot | MO_LE);
--                gen_op_mov_reg_v(s, ot, R_EAX, oldv);
-             } else {
-                 if (mod == 3) {
-                     rm = (modrm & 7) | REX_B(s);
-                     gen_op_mov_v_reg(s, ot, oldv, rm);
-+                    gen_extu(ot, oldv);
-+
-+                    /*
-+                     * Unlike the memory case, where "the destination operand receives
-+                     * a write cycle without regard to the result of the comparison",
-+                     * rm must not be touched altogether if the write fails, including
-+                     * not zero-extending it on 64-bit processors.  So, precompute
-+                     * the result of a successful writeback and perform the movcond
-+                     * directly on cpu_regs.  Also need to write accumulator first, in
-+                     * case rm is part of RAX too.
-+                     */
-+                    dest = gen_op_deposit_reg_v(s, ot, rm, newv, newv);
-+                    tcg_gen_movcond_tl(TCG_COND_EQ, dest, oldv, cmpv, newv, dest);
-                 } else {
-                     gen_lea_modrm(env, s, modrm);
-                     gen_op_ld_v(s, ot, oldv, s->A0);
--                    rm = 0; /* avoid warning */
--                }
--                gen_extu(ot, oldv);
--                gen_extu(ot, cmpv);
--                /* store value = (old == cmp ? new : old);  */
--                tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
--                if (mod == 3) {
--                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
--                    gen_op_mov_reg_v(s, ot, rm, newv);
--                } else {
--                    /* Perform an unconditional store cycle like physical cpu;
--                       must be before changing accumulator to ensure
--                       idempotency if the store faults and the instruction
--                       is restarted */
-+
-+                    /*
-+                     * Perform an unconditional store cycle like physical cpu;
-+                     * must be before changing accumulator to ensure
-+                     * idempotency if the store faults and the instruction
-+                     * is restarted
-+                     */
-+                    tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
-                     gen_op_st_v(s, ot, newv, s->A0);
--                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
-                 }
-             }
-+	    /*
-+	     * Write EAX only if the cmpxchg fails; reuse newv as the destination,
-+	     * since it's dead here.
-+	     */
-+            dest = gen_op_deposit_reg_v(s, ot, R_EAX, newv, oldv);
-+            tcg_gen_movcond_tl(TCG_COND_EQ, dest, oldv, cmpv, dest, newv);
-             tcg_gen_mov_tl(cpu_cc_src, oldv);
-             tcg_gen_mov_tl(s->cc_srcT, cmpv);
-             tcg_gen_sub_tl(cpu_cc_dst, cmpv, oldv);
-diff --git a/tests/tcg/x86_64/cmpxchg.c b/tests/tcg/x86_64/cmpxchg.c
-new file mode 100644
-index 0000000000..5891735161
---- /dev/null
-+++ b/tests/tcg/x86_64/cmpxchg.c
-@@ -0,0 +1,42 @@
-+#include <assert.h>
-+
-+static int mem;
-+
-+static unsigned long test_cmpxchgb(unsigned long orig)
-+{
-+  unsigned long ret;
-+  mem = orig;
-+  asm("cmpxchgb %b[cmp],%[mem]"
-+      : [ mem ] "+m"(mem), [ rax ] "=a"(ret)
-+      : [ cmp ] "r"(0x77), "a"(orig));
-+  return ret;
-+}
-+
-+static unsigned long test_cmpxchgw(unsigned long orig)
-+{
-+  unsigned long ret;
-+  mem = orig;
-+  asm("cmpxchgw %w[cmp],%[mem]"
-+      : [ mem ] "+m"(mem), [ rax ] "=a"(ret)
-+      : [ cmp ] "r"(0x7777), "a"(orig));
-+  return ret;
-+}
-+
-+static unsigned long test_cmpxchgl(unsigned long orig)
-+{
-+  unsigned long ret;
-+  mem = orig;
-+  asm("cmpxchgl %[cmp],%[mem]"
-+      : [ mem ] "+m"(mem), [ rax ] "=a"(ret)
-+      : [ cmp ] "r"(0x77777777u), "a"(orig));
-+  return ret;
-+}
-+
-+int main()
-+{
-+  unsigned long test = 0xdeadbeef12345678ull;
-+  assert(test == test_cmpxchgb(test));
-+  assert(test == test_cmpxchgw(test));
-+  assert(test == test_cmpxchgl(test));
-+  return 0;
-+}
-diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
-index 6895db1c43..4eac78293f 100644
---- a/tests/tcg/x86_64/Makefile.target
-+++ b/tests/tcg/x86_64/Makefile.target
-@@ -11,6 +11,7 @@ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
- ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
- X86_64_TESTS += vsyscall
- X86_64_TESTS += noexec
-+X86_64_TESTS += cmpxchg
- TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
- else
- TESTS=$(MULTIARCH_TESTS)
+     case 0xf5: /* cmc */
+         gen_compute_eflags(s);
 -- 
 2.34.1
 
