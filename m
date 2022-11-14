@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3DA628DBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFE5628E92
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:43:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouijV-0003UX-5v; Mon, 14 Nov 2022 18:19:17 -0500
+	id 1ouijp-0004N9-Qa; Mon, 14 Nov 2022 18:19:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ouieV-00039s-9h
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1ouieS-00039s-OP; Mon, 14 Nov 2022 18:14:05 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oue7Z-0006bo-G5
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 13:23:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668450229;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x8ZTOXoqtNZPTikrzFboxUxSsp/TRG0qf+nuZCqnQAE=;
- b=M7Ismo9YHl0FztGt8SS3r13qtqWVbWpWQC5GwGzjLNlOOxf3fOdfe6CKJG5kWTFHp8OmTJ
- DwFh8VMznlGD7hCFT4QPpkiw5LSV/6xXTTIwC4macOJ5kJbchmJJNxKQSj2Sj1M6wmscWb
- Df5T7hXmncgmrbvuSH0s2B1lvDoYEEQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-hWySRrQdP3yWI13dq4roCw-1; Mon, 14 Nov 2022 13:23:47 -0500
-X-MC-Unique: hWySRrQdP3yWI13dq4roCw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w4-20020a05640234c400b004631f8923baso8719841edc.5
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 10:23:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=x8ZTOXoqtNZPTikrzFboxUxSsp/TRG0qf+nuZCqnQAE=;
- b=DMuOcY5HRxwQBnK2lJACjBhZp3+/9qdcX1UalR2hPltMK9mD14IvqZ4xZjbSuq+Epp
- Nf04S1Zgf21NhaaEn+nyM5pRC50iiF1Xae8LaFh0PyDuMTyzrf2D9gYCJzzWkEkxrRb1
- 7MlLjMHEgyT3NG4uG7S/WbvOYzsou5Vn9HnLvKSH42oX0+inWPFm/l3D9TREWW80oFbv
- /CioC8l0KFGTu3Azv9+327yTfKXB3PdJN51WQeRR815CvyZ+ruh2SQooe1krVmYtU7Mj
- 77Ljazs8rYyXlx4eBJFj3ol12kdJ6FX93VwD6uv82JdvGunolgz4Nb5vCTE1flldKFuQ
- nb+Q==
-X-Gm-Message-State: ANoB5pniA2pCmAsNjR/3w44FZ6Z1Xd5qMYt1/MM5hdLGpgqGZptPD9zz
- RnJDH8/GrwSmAnYgFT+Qi9WMIt2aQeV1ABOtRYNdmJsBZpNmpKVBT4hDqZ3lXIlUI0kHV68O8Xl
- ZO3LGNHjTZbe9MKo=
-X-Received: by 2002:a17:906:ae98:b0:7ad:d7a5:6c2a with SMTP id
- md24-20020a170906ae9800b007add7a56c2amr10938372ejb.138.1668450226448; 
- Mon, 14 Nov 2022 10:23:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6DPAG2VKtgJIqWgGYZytPc+pMlxgHI++PfRJgnARp0wihxK+cpxFW51d5aBsJRjMbKZEN3YA==
-X-Received: by 2002:a17:906:ae98:b0:7ad:d7a5:6c2a with SMTP id
- md24-20020a170906ae9800b007add7a56c2amr10938362ejb.138.1668450226295; 
- Mon, 14 Nov 2022 10:23:46 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- la11-20020a170907780b00b007030c97ae62sm4437365ejc.191.2022.11.14.10.23.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Nov 2022 10:23:45 -0800 (PST)
-Message-ID: <74fe3b4c-6aa6-0a46-46be-ed91126a003e@redhat.com>
-Date: Mon, 14 Nov 2022 19:23:45 +0100
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oueop-0006QX-Ra; Mon, 14 Nov 2022 14:08:34 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7EA585C01AD;
+ Mon, 14 Nov 2022 14:08:26 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 14 Nov 2022 14:08:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm2; t=1668452906; x=1668539306; bh=+EkW7niIO2ESJMZsyiMB8bPKJ
+ w80De6Ug4FFIbb56Cc=; b=NdSsaCykkPMJshpRdbZvg4ZDxD73xqeQWmueu9Kwt
+ GGUi+Gj24ncwh6yT2tO/rccVuWzNoPxZ/o9gnNsoPEBizh2HJBYDg5JyrlVPrd9O
+ Iy7TdMNWBMoBW4dieH8I4JD/X2lwJCtUihS2+3rYgRfI6DPJaErtZAYDWAGq1SRu
+ N+8Bmw+Jx8bGfB8U29r89rHGv/1KLBsSAVBjT0GTwmW3ePZp/CmZ/KyA4YJe0c3G
+ XGqjh0rP6JdCG6T9qbyR+b9bzn3FKLXOZrPx+/WpHJ/g55fR3BUPky5iVz3dIPZw
+ 0Ah9Du51XWI/Vvx/hiONghI5Mrf1JIdGStBAej2YC7dcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1668452906; x=1668539306; bh=+EkW7niIO2ESJMZsyiMB8bPKJw80De6Ug4F
+ FIbb56Cc=; b=nNqpAgu0gevnLtD1Hw1kyUg5lm23zX6/03tRB7Lvaz6BeY/2VcN
+ 2hpVf1FiHXT5BLLKSQG6uMB8cfXnnUW5nN4iD8L48CZN6c3yV510ByJq0S0ZGtnn
+ UyKdHZznupsTdzQYVxSqaYckz6PYECzIOjCcvGPg+uRDmjKg66Vy0QKA20foZYjK
+ j/q0RpDTqo8iBIttZfhfUut8Ak83y0Ixsj+WTntmbDdK/z6ToDHVj/e0vFyfR23/
+ ClQwmuqgFYw/xqf9pxInwJbNgxspQCRQIKeajvJ9fqNul+XpvL0wbuGy/vlN47PF
+ hDvGIzKC4nNQZNBmQPQ1zgFJX+v1kUIQaQw==
+X-ME-Sender: <xms:KpJyY7VryfWq882jD3ZQ7N4ztST38vDc1CMiAUUzIWCXiu7Ak9TqKg>
+ <xme:KpJyYzmWWSYNXR3qkZwgAH3Aq2iD2RlS1hysqfedbxXnPvc0d_JyH6QCmzo0KCBcZ
+ 96XwAy0YQcYWCEI0Eg>
+X-ME-Received: <xmr:KpJyY3aECLOWg8kSaNNlA5EXxN7OV3_sp-mH_w5RT6m0mwnaVZJqqpyyqdeBOQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedvgdelfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecumhhishhsihhnghcuvffquchfihgvlhguucdlfedtmd
+ enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrvghtvghr
+ ucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrghtth
+ gvrhhnpedvjeeghfekjeejiedtuddtvdeugeehheefleetffeugeejuddttefgvdegveei
+ geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvg
+ htvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:KpJyY2XWTZdF2z8O0K-LopwYgykXv0qBjI_Gi_FUGDpZVCijGzfYHQ>
+ <xmx:KpJyY1nLItJCGif6Tuw4PeyGPn1Wgi_xrg3jyO8L1QGEgzMqGgRllw>
+ <xmx:KpJyYzcndeDsa-eGujdrwo9XSMI_g8Y2t4xVxLhIhc3-EDC1qu3jsg>
+ <xmx:KpJyYzYobVSssZ3lVNJmKmG_2fWia6NQDUnR4s6UJ0GzN4LRfG9ErA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Nov 2022 14:08:25 -0500 (EST)
+From: Peter Delevoryas <peter@pjd.dev>
+To: 
+Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, peter@pjd.dev,
+ patrick@stwcx.xyz
+Subject: [PATCH 0/1] hw/arm/aspeed: Automatically zero-extend flash images
+Date: Mon, 14 Nov 2022 11:08:22 -0800
+Message-Id: <20221114190823.1888691-1-peter@pjd.dev>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 11/13] block: Remove ignore_bds_parents parameter from
- drain functions
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: eesposit@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org
-References: <20221108123738.530873-1-kwolf@redhat.com>
- <20221108123738.530873-12-kwolf@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20221108123738.530873-12-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=peter@pjd.dev;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,16 +97,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 08.11.22 13:37, Kevin Wolf wrote:
-> ignore_bds_parents is now ignored, so we can just remove it.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   include/block/block-io.h | 10 ++----
->   block.c                  |  4 +--
->   block/io.c               | 78 +++++++++++++++-------------------------
->   3 files changed, 32 insertions(+), 60 deletions(-)
+I've been using this patch for a long time so that I don't have to use
+dd to zero-extend stuff all the time. It's just doing what people are
+doing already, right? I hope it's not controversial.
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+One note: I couldn't figure out how to make it work without changing the
+permissions on the block device to allow truncation. If somebody knows
+how to avoid the `blk_get_perm`, `blk_set_perm` calls here, let me know!
+
+Thanks,
+Peter
+
+Peter Delevoryas (1):
+  hw/arm/aspeed: Automatically zero-extend flash images
+
+ hw/arm/aspeed.c | 40 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
+
+-- 
+2.38.1
 
 
