@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEA662A078
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 18:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE3762A07B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 18:37:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouzpr-0003g9-9u; Tue, 15 Nov 2022 12:34:59 -0500
+	id 1ouzrU-0004VA-9f; Tue, 15 Nov 2022 12:36:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1ouzpo-0003fw-0H; Tue, 15 Nov 2022 12:34:56 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1ouzpm-0002sw-7D; Tue, 15 Nov 2022 12:34:55 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id s12so22894201edd.5;
- Tue, 15 Nov 2022 09:34:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=piJ+BIEoN62h1AWglLPWSOxNhM1gtJBl7aTpRt//xQI=;
- b=B/KTpL5ylmbLTaXdPt/4PDOyMvSp1Js5LGZzZI3SdAzPOxNNB5v2PFANKafiygv4J/
- 3I/27zH4xeI4wpnnCk1cMO0mpPsdaj5vw8pLdXqPKie7MW5EPszH3P3tfzzkIzisPGmR
- Pp3v3Q6bKZqvt50xMnL9xZU1m4h8hYYrdvABlpmnI7tD7gFWI8Q9pzaQCbCF+k7Jp5xT
- RqowaYWQvHaxBNSQpEoF46q2cxC+TPIx2ST0WZWWdqTEQe0VtREWbS/K9tkJXmcqMqbY
- dDycvMR5KhWYUn02/t2MM4yJSqX6XjSDYKOdZW9QTrh9J9vB0vIwbXHCGyzwU7+aXzFm
- aV4A==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ouzrL-0004UP-0r
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 12:36:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ouzrH-0003Au-A7
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 12:36:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668533785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RyhhcClFaDhCjk3eMQIwjC7MmEs6HeUDcu+iOdObC0s=;
+ b=bc7zU8iNxEf+n/HnuYmj6obVYjZGVEQZArGOo8RFsfGhy5kbGlogCEbNdvGXmS5bi1IkIl
+ kmBZpigg9t6gzucGCUL+hCzfOvNADOolsCNbHNjSt6Tz+1ZcTC64el0mH4YC471x34uTTl
+ WvkKumXj86zaPcFZT2UGz7pbzLIjugw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-421-CCPaMjihOCq_9kcQJCyDPw-1; Tue, 15 Nov 2022 12:36:24 -0500
+X-MC-Unique: CCPaMjihOCq_9kcQJCyDPw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bi42-20020a05620a31aa00b006faaa1664b9so14183423qkb.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 09:36:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=piJ+BIEoN62h1AWglLPWSOxNhM1gtJBl7aTpRt//xQI=;
- b=dcrPRrT8pJlO0nEuCmCE1V7DbmiIjo16MLeh3FXxVcPr0/xNIIHrbRzOrJA9m73Y+d
- L/EGs9/15c4Jcpu2gRn1aR7UPFw9LyikPxpiAjag/ct8McuWQn3TZtCuZdbDpcpyaeBN
- nyx5ngOV8ZFyXjQS1zge6JsYO8hCsLyIvkZJBxJwsEGpTL04jWrW10Dl85/enFWXe3gt
- UekXLGBQ05IkvupNyqqdglMhDu3nNVEUEVrSjbUnnoUlzzzwQxpf+5GjJ2mMww839mx4
- nWdPYe5K70byh7nbDi8hDWpdkI075CYkIEcXTK7Kxr8wPOKvWT3HY703sKycnasivFu6
- sHUA==
-X-Gm-Message-State: ANoB5pn4Q6qkBNM+z1hGXu16PSBkRJQbeLMQ5gkRvvuvJKc6zSMDyNX+
- cCX2JajdAtSmIHBqd5ZFtbTVXTEmC5XVInR8fhw=
-X-Google-Smtp-Source: AA0mqf68r5FOBQRBqdi0EA3IgdpUWmCS7yKXsX+rbb/NpOIhTe1TcMoH0ZMct/gcDJLPnXsgEaN6tLf0aIwRB1G91ZQ=
-X-Received: by 2002:a05:6402:5a:b0:45a:1bfa:98bf with SMTP id
- f26-20020a056402005a00b0045a1bfa98bfmr16051826edu.413.1668533691954; Tue, 15
- Nov 2022 09:34:51 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RyhhcClFaDhCjk3eMQIwjC7MmEs6HeUDcu+iOdObC0s=;
+ b=5nyc/MEtkuxYOkiEp2wUvzVNxlXdp0+GRGMTudTYTio0CjMTvjEJPHOgUFnJnq6wAR
+ bxYHc7Jz7lo4AjVVjLpMvPESI/mgLzVtfgO9dC+UB8YcuxohlLMHIwwpq6+6BbNRd25S
+ uId3HTPqkjW6LVlX3l5zHPOPOqk9RrMSCESpnSlJ5JvI2MGfNs/fH+yJFGKrtnZTtJAp
+ yIQib13sHTVKIRi8d9uqCkdjUIXjlRaolVg3wkuRxCaWATvhSS6iJlwLj1T6v7eHB4tU
+ sx5oczk92Wsybct32UOQ0IY28AhpjxtsCjGgw7KVgKVl1bnTlbyl1BR6Pb9cuKEN7wOg
+ zDow==
+X-Gm-Message-State: ANoB5pkaWeWyVz3f4+RDIMP5DVxHmK690jlrdJvRUKudBVvefsLjpU7q
+ H4uGfCI3/T8sh6Y67XqIJs02yfGfl9RRC3WAubOUsafatLZ8WNVW38lkyCwgB2XzmqZxoX6UdD+
+ AkCAVo3ELUNAkraw=
+X-Received: by 2002:a05:622a:130b:b0:3a5:a41:728e with SMTP id
+ v11-20020a05622a130b00b003a50a41728emr17331428qtk.46.1668533783361; 
+ Tue, 15 Nov 2022 09:36:23 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf67/Ooh2vTj1txviI8S+J5SNHuDnC0sY4Q5DOUWxEHUdUa9nnuwsVpv5H2QGGXxCd5OqykRuw==
+X-Received: by 2002:a05:622a:130b:b0:3a5:a41:728e with SMTP id
+ v11-20020a05622a130b00b003a50a41728emr17331399qtk.46.1668533783001; 
+ Tue, 15 Nov 2022 09:36:23 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ w15-20020a05620a424f00b006fa4cac54a4sm8507089qko.133.2022.11.15.09.36.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Nov 2022 09:36:22 -0800 (PST)
+Date: Tue, 15 Nov 2022 12:36:21 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
+ quintela@redhat.com
+Subject: Re: [PATCH v2] migration: check magic value for deciding the mapping
+ of channels
+Message-ID: <Y3POFd+LFuxW8w21@x1n>
+References: <20221107165159.49534-1-manish.mishra@nutanix.com>
 MIME-Version: 1.0
-References: <20221115122527.2896476-1-oro@il.ibm.com>
-In-Reply-To: <20221115122527.2896476-1-oro@il.ibm.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Tue, 15 Nov 2022 18:34:40 +0100
-Message-ID: <CAOi1vP-k4rvd659e4sTmKw1BCNZzmBVPQw7z0_f66ov8vDTraQ@mail.gmail.com>
-Subject: Re: [PATCH v3] block/rbd: Add support for layered encryption
-To: Or Ozeri <oro@il.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, dannyh@il.ibm.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=idryomov@gmail.com; helo=mail-ed1-x52a.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221107165159.49534-1-manish.mishra@nutanix.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,160 +99,387 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 1:25 PM Or Ozeri <oro@il.ibm.com> wrote:
->
-> Starting from ceph Reef, RBD has built-in support for layered encryption,
-> where each ancestor image (in a cloned image setting) can be possibly
-> encrypted using a unique passphrase.
->
-> A new function, rbd_encryption_load2, was added to librbd API.
-> This new function supports an array of passphrases (via "spec" structs).
->
-> This commit extends the qemu rbd driver API to use this new librbd API,
-> in order to support this new layered encryption feature.
->
-> Signed-off-by: Or Ozeri <oro@il.ibm.com>
+Hi, Manish,
+
+On Mon, Nov 07, 2022 at 04:51:59PM +0000, manish.mishra wrote:
+> Current logic assumes that channel connections on the destination side are
+> always established in the same order as the source and the first one will
+> always be the main channel followed by the multifid or post-copy
+> preemption channel. This may not be always true, as even if a channel has a
+> connection established on the source side it can be in the pending state on
+> the destination side and a newer connection can be established first.
+> Basically causing out of order mapping of channels on the destination side.
+> Currently, all channels except post-copy preempt send a magic number, this
+> patch uses that magic number to decide the type of channel. This logic is
+> applicable only for precopy(multifd) live migration, as mentioned, the
+> post-copy preempt channel does not send any magic number. Also, tls live
+> migrations already does tls handshake before creating other channels, so
+> this issue is not possible with tls, hence this logic is avoided for tls
+> live migrations. This patch uses MSG_PEEK to check the magic number of
+> channels so that current data/control stream management remains
+> un-effected.
+> 
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> 
+> v2:
+>   TLS does not support MSG_PEEK, so V1 was broken for tls live
+>   migrations. For tls live migration, while initializing main channel
+>   tls handshake is done before we can create other channels, so this
+>   issue is not possible for tls live migrations. In V2 added a check
+>   to avoid checking magic number for tls live migration and fallback
+>   to older method to decide mapping of channels on destination side.
 > ---
-> v3: further nit fixes suggested by @idryomov
-> v2: nit fixes suggested by @idryomov
-> ---
->  block/rbd.c          | 119 ++++++++++++++++++++++++++++++++++++++++++-
->  qapi/block-core.json |  35 +++++++++++--
->  2 files changed, 150 insertions(+), 4 deletions(-)
->
-> diff --git a/block/rbd.c b/block/rbd.c
-> index f826410f40..ce017c29b5 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -71,6 +71,16 @@ static const char rbd_luks2_header_verification[
->      'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 2
->  };
->
-> +static const char rbd_layered_luks_header_verification[
-> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
-> +    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 1
-> +};
+>  include/io/channel.h     | 25 +++++++++++++++++++++++
+>  io/channel-socket.c      | 27 ++++++++++++++++++++++++
+>  io/channel.c             | 39 +++++++++++++++++++++++++++++++++++
+>  migration/migration.c    | 44 +++++++++++++++++++++++++++++-----------
+>  migration/multifd.c      | 12 ++++-------
+>  migration/multifd.h      |  2 +-
+>  migration/postcopy-ram.c |  5 +----
+>  migration/postcopy-ram.h |  2 +-
+>  8 files changed, 130 insertions(+), 26 deletions(-)
+> 
+> diff --git a/include/io/channel.h b/include/io/channel.h
+> index c680ee7480..74177aeeea 100644
+> --- a/include/io/channel.h
+> +++ b/include/io/channel.h
+> @@ -115,6 +115,10 @@ struct QIOChannelClass {
+>                          int **fds,
+>                          size_t *nfds,
+>                          Error **errp);
+> +    ssize_t (*io_read_peek)(QIOChannel *ioc,
+> +                            void *buf,
+> +                            size_t nbytes,
+> +                            Error **errp);
+>      int (*io_close)(QIOChannel *ioc,
+>                      Error **errp);
+>      GSource * (*io_create_watch)(QIOChannel *ioc,
+> @@ -475,6 +479,27 @@ int qio_channel_write_all(QIOChannel *ioc,
+>                            size_t buflen,
+>                            Error **errp);
+>  
+> +/**
+> + * qio_channel_read_peek_all:
+> + * @ioc: the channel object
+> + * @buf: the memory region to read in data
+> + * @nbytes: the number of bytes to read
+> + * @errp: pointer to a NULL-initialized error object
+> + *
+> + * Read given @nbytes data from peek of channel into
+> + * memory region @buf.
+> + *
+> + * The function will be blocked until read size is
+> + * equal to requested size.
+> + *
+> + * Returns: 1 if all bytes were read, 0 if end-of-file
+> + *          occurs without data, or -1 on error
+> + */
+> +int qio_channel_read_peek_all(QIOChannel *ioc,
+> +                              void* buf,
+> +                              size_t nbytes,
+> +                              Error **errp);
 > +
-> +static const char rbd_layered_luks2_header_verification[
-> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
-> +    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 2
-> +};
-> +
->  typedef enum {
->      RBD_AIO_READ,
->      RBD_AIO_WRITE,
-> @@ -470,6 +480,9 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
->      size_t passphrase_len;
->      rbd_encryption_luks1_format_options_t luks_opts;
->      rbd_encryption_luks2_format_options_t luks2_opts;
-> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-> +    rbd_encryption_luks_format_options_t luks_any_opts;
-> +#endif
->      rbd_encryption_format_t format;
->      rbd_encryption_options_t opts;
->      size_t opts_size;
-> @@ -505,6 +518,23 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
->              luks2_opts.passphrase_size = passphrase_len;
->              break;
->          }
-> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-> +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ANY: {
-> +            memset(&luks_any_opts, 0, sizeof(luks_any_opts));
-> +            format = RBD_ENCRYPTION_FORMAT_LUKS;
-> +            opts = &luks_any_opts;
-> +            opts_size = sizeof(luks_any_opts);
-> +            r = qemu_rbd_convert_luks_options(
-> +                    qapi_RbdEncryptionOptionsLUKSAny_base(&encrypt->u.luks_any),
-> +                    &passphrase, &passphrase_len, errp);
-> +            if (r < 0) {
-> +                return r;
-> +            }
-> +            luks_any_opts.passphrase = passphrase;
-> +            luks_any_opts.passphrase_size = passphrase_len;
-> +            break;
-> +        }
-> +#endif
->          default: {
->              r = -ENOTSUP;
->              error_setg_errno(
-> @@ -522,6 +552,74 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
->
->      return 0;
+>  /**
+>   * qio_channel_set_blocking:
+>   * @ioc: the channel object
+> diff --git a/io/channel-socket.c b/io/channel-socket.c
+> index b76dca9cc1..b99f5dfda6 100644
+> --- a/io/channel-socket.c
+> +++ b/io/channel-socket.c
+> @@ -705,6 +705,32 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
 >  }
-> +
-> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-> +static int qemu_rbd_encryption_load2(rbd_image_t image,
-> +                                     RbdEncryptionOptions *encrypt,
-> +                                     Error **errp)
+>  #endif /* WIN32 */
+>  
+> +static ssize_t qio_channel_socket_read_peek(QIOChannel *ioc,
+> +                                            void *buf,
+> +                                            size_t nbytes,
+> +                                            Error **errp)
 > +{
-> +    int r = 0;
-> +    int encrypt_count = 1;
-> +    int i;
-> +    RbdEncryptionOptions *curr_encrypt;
-> +    rbd_encryption_spec_t *specs;
-> +    rbd_encryption_luks_format_options_t* luks_any_opts;
+> +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
+> +    ssize_t bytes = 0;
 > +
-> +    /* count encryption options */
-> +    for (curr_encrypt = encrypt; curr_encrypt->has_parent;
-> +         curr_encrypt = curr_encrypt->parent) {
-> +        ++encrypt_count;
-> +    }
+> +retry:
+> +    bytes = recv(sioc->fd, buf, nbytes, MSG_PEEK);
 > +
-> +    specs = g_new0(rbd_encryption_spec_t, encrypt_count);
-> +
-> +    curr_encrypt = encrypt;
-> +    for (i = 0; i < encrypt_count; ++i) {
-> +        if (curr_encrypt->format != RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ANY) {
-> +            r = -ENOTSUP;
-> +            error_setg_errno(
-> +                    errp, -r, "unknown image encryption format: %u",
-> +                    curr_encrypt->format);
-> +            goto exit;
+> +    if (bytes < 0) {
+> +        if (errno == EINTR) {
+> +            goto retry;
+> +        }
+> +        if (errno == EAGAIN) {
+> +            return QIO_CHANNEL_ERR_BLOCK;
 > +        }
 > +
-> +        specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS;
-> +        specs[i].opts_size = sizeof(rbd_encryption_luks_format_options_t);
-> +
-> +        luks_any_opts = g_new0(rbd_encryption_luks_format_options_t, 1);
-> +        specs[i].opts = luks_any_opts;
-> +
-> +        r = qemu_rbd_convert_luks_options(
-> +                qapi_RbdEncryptionOptionsLUKSAny_base(
-> +                        &curr_encrypt->u.luks_any),
-> +                (char**)&luks_any_opts->passphrase,
-
-Nit: I would change qemu_rbd_convert_luks_options() to take
-const char **passphrase and eliminate this cast.  It's a trivial
-fixup so it can be folded into this patch with no explanation.
-
-> +                &luks_any_opts->passphrase_size,
-> +                errp);
-> +        if (r < 0) {
-> +            goto exit;
-> +        }
-> +
-> +        curr_encrypt = curr_encrypt->parent;
+> +        error_setg_errno(errp, errno,
+> +                         "Unable to read from peek of socket");
+> +        return -1;
 > +    }
 > +
-> +    r = rbd_encryption_load2(image, specs, encrypt_count);
-> +    if (r < 0) {
-> +        error_setg_errno(errp, -r, "layered encryption load fail");
-> +        goto exit;
-> +    }
+> +    return bytes;
+> +}
+>  
+>  #ifdef QEMU_MSG_ZEROCOPY
+>  static int qio_channel_socket_flush(QIOChannel *ioc,
+> @@ -902,6 +928,7 @@ static void qio_channel_socket_class_init(ObjectClass *klass,
+>  
+>      ioc_klass->io_writev = qio_channel_socket_writev;
+>      ioc_klass->io_readv = qio_channel_socket_readv;
+> +    ioc_klass->io_read_peek = qio_channel_socket_read_peek;
+>      ioc_klass->io_set_blocking = qio_channel_socket_set_blocking;
+>      ioc_klass->io_close = qio_channel_socket_close;
+>      ioc_klass->io_shutdown = qio_channel_socket_shutdown;
+> diff --git a/io/channel.c b/io/channel.c
+> index 0640941ac5..a2d9b96f3f 100644
+> --- a/io/channel.c
+> +++ b/io/channel.c
+> @@ -346,6 +346,45 @@ int qio_channel_write_all(QIOChannel *ioc,
+>      return qio_channel_writev_all(ioc, &iov, 1, errp);
+>  }
+>  
+> +int qio_channel_read_peek_all(QIOChannel *ioc,
+> +                              void* buf,
+> +                              size_t nbytes,
+> +                              Error **errp)
+> +{
+> +   QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+> +   ssize_t bytes = 0;
 > +
-> +exit:
-> +    for (i = 0; i < encrypt_count; ++i) {
-> +        luks_any_opts = specs[i].opts;
-> +        if (luks_any_opts) {
-> +            g_free((char*)luks_any_opts->passphrase);
+> +   if (!klass->io_read_peek) {
+> +       error_setg(errp, "Channel does not support read peek");
+> +       return -1;
+> +   }
+> +
+> +   while (bytes < nbytes) {
+> +       bytes = klass->io_read_peek(ioc,
+> +                                   buf,
+> +                                   nbytes,
+> +                                   errp);
 
-Nit: when resorting to a cast, cast to the actual expected type.
-In case of free(), that's void *.
+IIUC here you need to accumulate bytes rather than directly reusing it, so
+e.g. two reads on 2 bytes each will satisfy a 4 bytes read.
 
-free() should have been specified to take const void * but that
-ship has sailed.  Too bad GLib didn't fix this for g_free()...
+> +
+> +       if (bytes == QIO_CHANNEL_ERR_BLOCK) {
+> +            if (qemu_in_coroutine()) {
+> +                qio_channel_yield(ioc, G_IO_OUT);
+
+G_IO_IN?  Same question for two lines after.
+
+> +            } else {
+> +                qio_channel_wait(ioc, G_IO_OUT);
+> +            }
+> +            continue;
+> +       }
+> +       if (bytes == 0) {
+> +           error_setg(errp,
+> +                      "Unexpected end-of-file on channel");
+
+IIUC for a generic API we should still allow the peek to get a close event
+on the socket.  Then we can return 0 safely and let the caller decide,
+rather than always assuming it's a fault.
+
+> +           return 0;
+> +       }
+> +       if (bytes < 0) {
+> +           return -1;
+> +       }
+> +   }
+> +
+> +   return 1;
+> +}
+>  
+>  int qio_channel_set_blocking(QIOChannel *ioc,
+>                                bool enabled,
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 739bb683f3..406a9e2f72 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -733,31 +733,51 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+>  {
+>      MigrationIncomingState *mis = migration_incoming_get_current();
+>      Error *local_err = NULL;
+> -    bool start_migration;
+>      QEMUFile *f;
+> +    bool default_channel = true;
+> +    uint32_t channel_magic = 0;
+> +    int ret = 0;
+>  
+> -    if (!mis->from_src_file) {
+> -        /* The first connection (multifd may have multiple) */
+> +    if (migrate_use_multifd() && !migration_in_postcopy() &&
+
+It's weird to check postcopy status here.  Do you perhaps want to use
+migrate_postcopy_ram() or migrate_postcopy_preempt()?
+
+Note that I am tempted to disable multifd with postcopy in general before a
+full support is implemented, I'm not the only one who thinks so..  But
+that'll need to be discussed elsewhere, and yeah it's always safe now to
+check with either above (not migration_in_postcopy, though).
+
+> +        !migrate_use_tls()) {
+
+I'd rather don't check TLS explicitly.  Can we perhaps try to detect the
+peek capability and then fallback to old method if peek() is not supported
+on the channel?  Below comment would still be nice to have though, and I
+also agree TLS seems to be safe.
 
 Thanks,
 
-                Ilya
+> +        /*
+> +         * With multiple channels, it is possible that we receive channels
+> +         * out of order on destination side, causing incorrect mapping of
+> +         * source channels on destination side. Check channel MAGIC to
+> +         * decide type of channel. Please note this is best effort, postcopy
+> +         * preempt channel does not send any magic number so avoid it for
+> +         * postcopy live migration. Also tls live migration already does
+> +         * tls handshake while initializing main channel so with tls this
+> +         * issue is not possible.
+> +         */
+> +        ret = qio_channel_read_peek_all(ioc, (void *)&channel_magic,
+> +                                        sizeof(channel_magic), &local_err);
+> +
+> +        if (ret != 1) {
+> +            error_propagate(errp, local_err);
+> +            return;
+> +        }
+> +
+> +        default_channel = (channel_magic == cpu_to_be32(QEMU_VM_FILE_MAGIC));
+> +    } else {
+> +        default_channel = !mis->from_src_file;
+> +    }
+> +
+> +    if (default_channel) {
+>          f = qemu_file_new_input(ioc);
+>  
+>          if (!migration_incoming_setup(f, errp)) {
+>              return;
+>          }
+> -
+> -        /*
+> -         * Common migration only needs one channel, so we can start
+> -         * right now.  Some features need more than one channel, we wait.
+> -         */
+> -        start_migration = !migration_needs_multiple_sockets();
+>      } else {
+>          /* Multiple connections */
+>          assert(migration_needs_multiple_sockets());
+>          if (migrate_use_multifd()) {
+> -            start_migration = multifd_recv_new_channel(ioc, &local_err);
+> +            multifd_recv_new_channel(ioc, &local_err);
+>          } else {
+>              assert(migrate_postcopy_preempt());
+>              f = qemu_file_new_input(ioc);
+> -            start_migration = postcopy_preempt_new_channel(mis, f);
+> +            postcopy_preempt_new_channel(mis, f);
+>          }
+>          if (local_err) {
+>              error_propagate(errp, local_err);
+> @@ -765,7 +785,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+>          }
+>      }
+>  
+> -    if (start_migration) {
+> +    if (migration_has_all_channels()) {
+>          /* If it's a recovery, we're done */
+>          if (postcopy_try_recover()) {
+>              return;
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 586ddc9d65..be86a4d07f 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -1220,11 +1220,9 @@ bool multifd_recv_all_channels_created(void)
+>  
+>  /*
+>   * Try to receive all multifd channels to get ready for the migration.
+> - * - Return true and do not set @errp when correctly receiving all channels;
+> - * - Return false and do not set @errp when correctly receiving the current one;
+> - * - Return false and set @errp when failing to receive the current channel.
+> + * Sets @errp when failing to receive the current channel.
+>   */
+> -bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+> +void multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+>  {
+>      MultiFDRecvParams *p;
+>      Error *local_err = NULL;
+> @@ -1237,7 +1235,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+>                                  "failed to receive packet"
+>                                  " via multifd channel %d: ",
+>                                  qatomic_read(&multifd_recv_state->count));
+> -        return false;
+> +        return;
+>      }
+>      trace_multifd_recv_new_channel(id);
+>  
+> @@ -1247,7 +1245,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+>                     id);
+>          multifd_recv_terminate_threads(local_err);
+>          error_propagate(errp, local_err);
+> -        return false;
+> +        return;
+>      }
+>      p->c = ioc;
+>      object_ref(OBJECT(ioc));
+> @@ -1258,6 +1256,4 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+>      qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
+>                         QEMU_THREAD_JOINABLE);
+>      qatomic_inc(&multifd_recv_state->count);
+> -    return qatomic_read(&multifd_recv_state->count) ==
+> -           migrate_multifd_channels();
+>  }
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index 519f498643..913e4ba274 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -18,7 +18,7 @@ void multifd_save_cleanup(void);
+>  int multifd_load_setup(Error **errp);
+>  int multifd_load_cleanup(Error **errp);
+>  bool multifd_recv_all_channels_created(void);
+> -bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
+> +void multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
+>  void multifd_recv_sync_main(void);
+>  int multifd_send_sync_main(QEMUFile *f);
+>  int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index b9a37ef255..f84f783ab4 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -1539,7 +1539,7 @@ void postcopy_unregister_shared_ufd(struct PostCopyFD *pcfd)
+>      }
+>  }
+>  
+> -bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+> +void postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+>  {
+>      /*
+>       * The new loading channel has its own threads, so it needs to be
+> @@ -1548,9 +1548,6 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+>      qemu_file_set_blocking(file, true);
+>      mis->postcopy_qemufile_dst = file;
+>      trace_postcopy_preempt_new_channel();
+> -
+> -    /* Start the migration immediately */
+> -    return true;
+>  }
+>  
+>  /*
+> diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+> index 6147bf7d1d..25881c4127 100644
+> --- a/migration/postcopy-ram.h
+> +++ b/migration/postcopy-ram.h
+> @@ -190,7 +190,7 @@ enum PostcopyChannels {
+>      RAM_CHANNEL_MAX,
+>  };
+>  
+> -bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
+> +void postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
+>  int postcopy_preempt_setup(MigrationState *s, Error **errp);
+>  int postcopy_preempt_wait_channel(MigrationState *s);
+>  
+> -- 
+> 2.22.3
+> 
+
+-- 
+Peter Xu
+
 
