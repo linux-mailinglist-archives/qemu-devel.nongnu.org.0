@@ -2,95 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B25462A283
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 21:09:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4590F62A41E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 22:29:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov2El-0000oa-DZ; Tue, 15 Nov 2022 15:08:51 -0500
+	id 1ov3Tb-0003XH-72; Tue, 15 Nov 2022 16:28:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1ov2Eh-0000nv-Au; Tue, 15 Nov 2022 15:08:47 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ov3TY-0003X6-5Z
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 16:28:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1ov2Ef-00006b-1I; Tue, 15 Nov 2022 15:08:46 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id C64B8320090B;
- Tue, 15 Nov 2022 15:08:41 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 15 Nov 2022 15:08:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1668542921; x=
- 1668629321; bh=91RTlUlBAcBpsLSH9w39LnCZGBo5dAZ1yTkneUGdJnY=; b=A
- 0U4H/Py6QAmtu93JF7G4jU4UjxnlrVlDhmMqNki+YS84SKVSnd9P8iZgABAOY5CP
- tQ2j7E6U2E1uGo+DvLsojlhUtWs/IeIIdI1hKJGUrG5EmxNWbQEEQZWVBb4/aZkG
- QM4P90o2fKWrc8ioTIj5iGJPcnzGc4QTXSRudI8omsXhVQM6hsbZHSiFWCs5GRuK
- drQFuqgiNT3DY9SMmzgYC5DX9GVUmgyn3HuWCTpDESytGTmM0dnUliPGUXHj9k0M
- 4xLWFQrsIASKZlzl+Smg/pvIi+JZ7E27DCo+Pej4AJqAcQXCVxOZPjc8e4iGYhJm
- lwa8bKdkraIWESrRED2qg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668542921; x=
- 1668629321; bh=91RTlUlBAcBpsLSH9w39LnCZGBo5dAZ1yTkneUGdJnY=; b=S
- ync1QQoQWwcvL0icS/OJ3pFTrkeIX+VSNuNohMQ5woZOQBDZtYXLXPckehvkj2kM
- E6bbJm8tuzstAgC6+XYWcaRJVcN6fyNvT1MqPr73+ye42dgvzkE5ZjkkanMbHI4W
- SL57pSqgLaU4sHEbtAXXgARxyrRL1K6opz3U0q9Cmrx7rsPGlVMj0RcsqcStCXOD
- 4GAxqBWuWJlEovB3qzoBKyHZSrF03wGsbHHIew5vl1/8A5zPH0veGZZXDkiszsM7
- VsGFU5D08XUvj7aLM0PIiCsUg90Mk3tYAlfPgVkbQW86ABU5wn21ji5hhhZyc5q+
- 98XYl3K4WkNRMm/w0sj0A==
-X-ME-Sender: <xms:yfFzY3iJZ7hyCYOI0lde0Zy2190yUMDjPCPTBoN-eJd7xfjCFDzjSg>
- <xme:yfFzY0B0LZyZroVVCSyhPCYBOjQognZ8vliMHG8dg0A1K47QXPZ8Y0X3pQzBJtUuV
- keBUMVi2ZvDEx21Sxw>
-X-ME-Received: <xmr:yfFzY3FXLPj4uav9ZAiJcj45gL5jLLANmP46IvXY9Rqbae7n6znvnDdTGwUz0cp_TIPeeabXeDto>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddufeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpefhgeffvedufeevteegkeetieejhffhudeujedvgedvheffheejveethffh
- ffefueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:yfFzY0QtgGBgGUq7QBeXx53MsX_FBPeE2aSiWV9OFHqNhmpaPVgbLA>
- <xmx:yfFzY0wiMi49jcZnqQWMPV7nC2KqskaOO5dTlznYHoBVLeq1V8becw>
- <xmx:yfFzY65-H71HvVFuuf31cy1RNP0sKpWCMt2kFnfZ2uQATkFjMBq3EA>
- <xmx:yfFzY3yO3KEcnWCm1J8ix8ee4WU8_m_RWDDI5pFG96myj4ykSW4igA>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Nov 2022 15:08:40 -0500 (EST)
-Date: Tue, 15 Nov 2022 12:08:38 -0800
-From: Peter Delevoryas <peter@pjd.dev>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size does
- not match the device
-Message-ID: <Y3Pxxh3IeNg0GF/q@pdel-fedora-MJ0HJWH9>
-References: <20221115151000.2080833-1-clg@kaod.org>
- <c0f160c6-b0db-e518-bd9f-0328ddaa9278@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ov3TW-0000sV-A9
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 16:28:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668547685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ICxglQun5+3M6+RhBS2aQ8UJIohaCK8pYlKLF5ceosI=;
+ b=blg+hepIoWsupNWEHaweF/DvwMan4e1Jkk00Wxpcl9O3oZXe7J132+tT4i9PWhhm4dYmLz
+ ErOFZgX6wVk/8EI6sr9Ymgk9Z/cvhdsoxLjL0O0StCuk5WrzMWPATSsqhJQaJVDD9lwech
+ fYo8AYKV3MQF7lsAdWIsWbpVWfjpK0Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-626-EQU7cT93PzOTRhN67CJX9Q-1; Tue, 15 Nov 2022 16:28:02 -0500
+X-MC-Unique: EQU7cT93PzOTRhN67CJX9Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02C7D833A0E;
+ Tue, 15 Nov 2022 21:28:02 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.32.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E3C92028DC1;
+ Tue, 15 Nov 2022 21:28:01 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, Beraldo Leal <bleal@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Subject: [PATCH] tests/avocado: configure acpi-bits to use avocado timeout
+Date: Tue, 15 Nov 2022 16:27:59 -0500
+Message-Id: <20221115212759.3095751-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c0f160c6-b0db-e518-bd9f-0328ddaa9278@linaro.org>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=peter@pjd.dev;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,25 +76,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 04:50:11PM +0100, Philippe Mathieu-Daudé wrote:
-> On 15/11/22 16:10, Cédric Le Goater wrote:
-> > Currently, when a block backend is attached to a m25p80 device and the
-> > associated file size does not match the flash model, QEMU complains
-> > with the error message "failed to read the initial flash content".
-> > This is confusing for the user.
-> > 
-> > Use blk_check_size_and_read_all() instead of blk_pread() to improve
-> > the reported error.
-> > 
-> > Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> > ---
-> >   hw/block/m25p80.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
+Instead of using a hardcoded timeout, just rely on Avocado's built-in
+test case timeout. This helps avoid timeout issues on machines where 60
+seconds is not sufficient.
 
-Thanks Cedric!
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ tests/avocado/acpi-bits.py | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+index 8745a58a766..ac13e22dc93 100644
+--- a/tests/avocado/acpi-bits.py
++++ b/tests/avocado/acpi-bits.py
+@@ -385,12 +385,6 @@ def test_acpi_smbios_bits(self):
+         self._vm.launch()
+         # biosbits has been configured to run all the specified test suites
+         # in batch mode and then automatically initiate a vm shutdown.
+-        # sleep for maximum of one minute
+-        max_sleep_time = time.monotonic() + 60
+-        while self._vm.is_running() and time.monotonic() < max_sleep_time:
+-            time.sleep(1)
+-
+-        self.assertFalse(time.monotonic() > max_sleep_time,
+-                         'The VM seems to have failed to shutdown in time')
+-
++        # Rely on avocado's unit test timeout.
++        self._vm.wait(timeout=None)
+         self.parse_log()
+-- 
+2.37.3
+
 
