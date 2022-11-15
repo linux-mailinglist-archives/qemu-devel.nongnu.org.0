@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F0F629545
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 11:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD160629547
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 11:07:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ousoz-0007dI-JM; Tue, 15 Nov 2022 05:05:37 -0500
+	id 1ousqV-00088f-IQ; Tue, 15 Nov 2022 05:07:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ousor-0007ck-BR
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:05:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ousop-00060i-OA
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:05:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668506727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5yzttf4sGJE7DMQxwefGn10Pa6Fuj2qXqTmf1L5F/KA=;
- b=aseAu9L0y5R7UTbFH+7yr7ZC2tJu89W+u9yZ8lLVxgRYw0byt8OxxzV3tQiDhV0qJ6lkHK
- cCweTGtYCaetuDKO/h0w72bZjYaF6nN3TEpXS9cw6l+DtpA9cIViSsxYld7LGIIn2GuKvf
- 7Wy3uW+pm5AAUfNsGIlYkWzWnX+x5PM=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-138-jz__-fezO_Sc6dTOZ4OmOw-1; Tue, 15 Nov 2022 05:05:25 -0500
-X-MC-Unique: jz__-fezO_Sc6dTOZ4OmOw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- ln3-20020a0562145a8300b004b8c29a7d50so10263349qvb.15
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 02:05:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ousqK-00084q-G4
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:07:08 -0500
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ousqI-0006By-Kn
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:07:00 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id e189so10297778iof.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 02:06:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ik8UX9elKP5xdLDxMAFMNvYzYTqfIf538Ox8MCm+rKU=;
+ b=Mzjy6YCA95LCq+iWEhpWLl6Qtri4JzQYaCYYIbzOaB836JNqCvxGOkmf7ah4uHJd0Y
+ miMa+69HIRSiH2pMbrF5SQ9zF3fAXv4f2K5t8IQC5XurtYqCcIOAl8aqfwbTYdxDWbNq
+ /qDu8wIaqtiOlcXprN7jBUs19FmpauhgRsad0rXKdh/zw0TEKnnoa+kJ68TElw5oFC4c
+ tXYysAcuvd0C5lmt125PtH5QHjk2oVcehd1GDhtdlFbGX1OkEAAX6g4DlfSLuGjr7EzK
+ IDq/r1Qbsz5zLlbM+0w8SYE9Vb/c7iT023QzgJiXOkotXrx8aY79W1+jystaoaT7zJQr
+ BrLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5yzttf4sGJE7DMQxwefGn10Pa6Fuj2qXqTmf1L5F/KA=;
- b=oweV5aYvemlN8gW1EWMFcy1CsDOCsSYQBUj+28/uXNJ5Y86kCsOy+7fqis2skuPfSi
- shQJBEWimX9gTioqS4NxK960PK3kL+NX3YRh5A7mnCvHDDYTH3KDuQ+9YvFgbd1hlQp6
- mhXs/Nzy7+QB8EVNj5V9lEnGWl7WC+bFagcSOlZMzTLoquRnnUADl03ipePN9rgzFIB3
- 2QFLxOIhXWCXpRRNKp0dsqP1+JBMhU9RhJ5qBwGBrTMAQ88EPJu5mxYX851h9p1D4wR7
- riK8sZ/NWIy/oubRAdrMfWNFgtxSgvsdZUZhfG7+SEXfu3PPtr/ItJDNkjIwNFynYPjF
- eFLg==
-X-Gm-Message-State: ANoB5pnqpvXFbP9JXcguJ5Q8gmsIC4M4xR7+C6mQd4YsxsfnfWCUCNP1
- BoEn7KEWuB3R+hdy+mVcfs0J/TxZjLvqfukHMygNSX7wf7Pisis2Y39tYNTSCzpBI7YPDobPHdh
- gcoSNTU44cfRezDI=
-X-Received: by 2002:a37:c247:0:b0:6fa:8c15:652c with SMTP id
- j7-20020a37c247000000b006fa8c15652cmr14539063qkm.399.1668506724779; 
- Tue, 15 Nov 2022 02:05:24 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf46O43/6keECY+sQug584iITRt/1FpvQvYTx6SLqwgrtH0v5BrDs+shVmOmjV2LT231LUPjlw==
-X-Received: by 2002:a37:c247:0:b0:6fa:8c15:652c with SMTP id
- j7-20020a37c247000000b006fa8c15652cmr14539048qkm.399.1668506724534; 
- Tue, 15 Nov 2022 02:05:24 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-177-149.web.vodafone.de.
- [109.43.177.149]) by smtp.gmail.com with ESMTPSA id
- d16-20020a05622a15d000b003a540320070sm7093065qty.6.2022.11.15.02.05.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 02:05:24 -0800 (PST)
-Message-ID: <c111811c-07e9-b602-0bfe-09eaa4ddabba@redhat.com>
-Date: Tue, 15 Nov 2022 11:05:21 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ik8UX9elKP5xdLDxMAFMNvYzYTqfIf538Ox8MCm+rKU=;
+ b=PCs2oIiHQnznXCU2ta6bV/wJcSzVXArXgXb/Sr9I6EHXppMcZw00Pd8X/EZCPO8ru4
+ R1s4fVLXmaugeJ/0UaVIHhfhKRqAGznqsbmaC9J6w9BwW0zPaCdld9WyudBA8EAA45l6
+ J0MOEUsthcDLJBlDdmmJBHShse84iy6hFlCYDjQitstnnBN3BJADSL+Mtd37irxDvvFy
+ KkFeKMAbEFK/1PmiyKDU40kpXcPvnKfQ4HedPW22x0O6GYvqaWY8P3YOb6PV0wJp+Dkz
+ 5HsJHTu5ZSuFsmJ1/EXhFKWi6asOwQp/JMOBzPA8K64MweYIkSZgVFsnd9sglrMafd1R
+ lc8Q==
+X-Gm-Message-State: ANoB5pnvYVvrNDxM+YALmQWWbhA20F1Hz2MTBHX1J3+pSdcb8H14bkcc
+ /0svxMiKc/non89kfvHYYHj0a8KurzId4+sHvK3qTg==
+X-Google-Smtp-Source: AA0mqf5Zh047liNfmquOQSynIGGGF/YKHJTutXE/TVZNVFFDIBT7QoyoFns4xB2LlrVi8VM6aW/3ORMBxA00AkJp5kc=
+X-Received: by 2002:a5d:9a12:0:b0:6dd:e590:6628 with SMTP id
+ s18-20020a5d9a12000000b006dde5906628mr6516831iol.3.1668506816817; Tue, 15 Nov
+ 2022 02:06:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] docs/system/s390x: Document the "loadparm" machine
- property
-Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Collin Walling <walling@linux.ibm.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- Eric Farman <farman@linux.ibm.com>, "Jason J . Herne"
- <jjherne@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>
-References: <20221114132502.110213-1-thuth@redhat.com>
- <a6b76605-b599-1666-293a-4fc70f9ffcdb@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <a6b76605-b599-1666-293a-4fc70f9ffcdb@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <CAFn=p-YFQdO+ZfAYVw+T1b16kA2jBVZB7Tpy7J68XYbqgT7UZw@mail.gmail.com>
+ <CAARzgwyzQ-k5Ek-kpFfvLdgD=TLe2EsW6XcBKJqNvUNYN5Qq=g@mail.gmail.com>
+ <CAFn=p-ZP8_mZa4nmTFFas8pJUsCqvh+VoWWYFHVXRUBm1HZrOA@mail.gmail.com>
+ <CAARzgwxBu+FnM49Mg5Vq+E-VSjvPZTY+i3QP-WbD4oOLzTViPw@mail.gmail.com>
+In-Reply-To: <CAARzgwxBu+FnM49Mg5Vq+E-VSjvPZTY+i3QP-WbD4oOLzTViPw@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 15 Nov 2022 15:36:45 +0530
+Message-ID: <CAARzgwzwv3u22jaBroHPFQfCvS5ohekiqBqM6dEBX17LX=fV1g@mail.gmail.com>
+Subject: Re: biosbits test failing on origin/master
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,55 +83,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/11/2022 09.41, Janosch Frank wrote:
-> On 11/14/22 14:25, Thomas Huth wrote:
->> The "loadparm" machine property is useful for selecting alternative
->> kernels on the disk of the guest, but so far we do not tell the users
->> yet how to use it. Add some documentation to fill this gap.
->>
->> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2128235
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   docs/system/s390x/bootdevices.rst | 26 ++++++++++++++++++++++++++
->>   1 file changed, 26 insertions(+)
->>
->> diff --git a/docs/system/s390x/bootdevices.rst 
->> b/docs/system/s390x/bootdevices.rst
->> index b5950133e8..40089c35a9 100644
->> --- a/docs/system/s390x/bootdevices.rst
->> +++ b/docs/system/s390x/bootdevices.rst
->> @@ -53,6 +53,32 @@ recommended to specify a CD-ROM device via ``-device 
->> scsi-cd`` (as mentioned
->>   above) instead.
->> +Selecting kernels with the ``loadparm`` property
->> +------------------------------------------------
->> +
->> +The ``s390-ccw-virtio`` machine supports the so-called ``loadparm`` 
->> parameter
->> +which can be used to select the kernel on the disk of the guest that the
->> +s390-ccw bios should boot. When starting QEMU, it can be specified like 
->> this::
->> +
->> + qemu-system-s390x -machine s390-ccw-virtio,loadparm=<string>
->> +
->> +The first way to use this parameter is to use the word ``PROMPT`` as the
->> +``<string>`` here. In that case the s390-ccw bios will show a list of
->> +installed kernels on the disk of the guest and ask the user to enter a 
->> number
->> +to chose which kernel should be booted -- similar to what can be achieved by
->> +specifying the ``-boot menu=on`` option when starting QEMU. Note that the 
->> menu
->> +list will only show the names of the installed kernels when using a 
->> DASD-like
->> +disk image with 4k byte sectors, on normal SCSI-style disks with 512-byte
->> +sectors, there is not enough space for the zipl loader on the disk to store
->> +the kernel names, so you only get a list without names here.
-> 
-> I'd suggest splitting the last sentence into two so there's a clear 
-> separation between DASD and SCSI.
+On Tue, Nov 15, 2022 at 9:07 AM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> On Tue, Nov 15, 2022 at 5:13 AM John Snow <jsnow@redhat.com> wrote:
+> >
+> > On Thu, Nov 10, 2022 at 11:22 PM Ani Sinha <ani@anisinha.ca> wrote:
+> > >
+> > > On Thu, Nov 10, 2022 at 11:37 PM John Snow <jsnow@redhat.com> wrote:
+> > > >
+> > > > Hiya, on today's origin/master
+> > > > (2ccad61746ca7de5dd3e25146062264387e43bd4) I'm finding that "make
+> > > > check-avocado" is failing on the new biosbits test on my local
+> > > > development machine:
+> > > >
+> > > >  (001/193) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> > > > FAIL: True is not false : The VM seems to have failed to shutdown in
+> > > > time (83.65 s)
+> > > >
+> > > > Is this a known issue, or should I begin to investigate it?
+> > >
+> > > In my test environment it does pass.
+> > >
+> > > $ ./tests/venv/bin/avocado run -t acpi tests/avocado
+> > > Fetching asset from
+> > > tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+> > > JOB ID     : 35726df7d3c2e0f41847822620c78195ba45b9b9
+> > > JOB LOG    : /home/anisinha/avocado/job-results/job-2022-11-11T09.42-35726df/job.log
+> > >  (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> > > PASS (57.57 s)
+> > > RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
+> > > | CANCEL 0
+> > > JOB TIME   : 63.82 s
+> > >
+> > > However, I have seen that on certain slower test machines or when run
+> > > within a virtual machine, the test can take longer to complete and 60
+> > > secs may not always be enough. In those cases raising the maximum
+> > > completion time to 90 secs helps. Perhaps you can try this and let me
+> > > know if it helps:
+> >
+> > Hmm - I'm running on a fairly modern machine and not in a VM. Do you
+> > have an invocation to share that exists outside of the avocado
+> > machinery
+>
+> If you pass V=1 in the environment then it dumps the QEMU command line
+> that was used to run the test. You also need to comment out the line
+> > shutil.rmtree(self._workDir)
+> in tearDown() so that the iso is not cleaned up.
 
-Yes, makes sense, I'll replace the "," with a "." there.
+Maybe I will send out this patch once we have figured out what is
+going on with your environment:
+https://gitlab.com/anisinha/qemu/-/commit/5e8c629fdecc7cb650e4acaad8a8fcc2b248434e
 
-  Thomas
-
+I ran the test on another box sitting in my office running centos7.9
+and it passed as well.
 
