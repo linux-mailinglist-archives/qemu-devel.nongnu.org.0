@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A4B629AEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 14:45:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DB2629B1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 14:50:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouwEs-0008UR-C5; Tue, 15 Nov 2022 08:44:34 -0500
+	id 1ouwIv-00035e-6m; Tue, 15 Nov 2022 08:48:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ouwEq-0008Sl-Ar
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:44:32 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ouwEo-00064S-Nr
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:44:32 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id o7so13371834pjj.1
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 05:44:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mzS68UimMW9fo+GAmYC11Uqd9MCO+hbECaAOBmmClvo=;
- b=EhFnihoL4/e+N+I4WUgfmF9OeWBKSPpnV6BEwqTLe0+POy1T7yppdZDXjBtOKvxXBl
- F1qWvz9XUjpROu5vVRtAapIC2TJMj4sR/oTY44a2FFqRkfGY6Xe2pDQTFqlDfNz3qs4E
- AMKc/Yy62yN3allSvw0bzrxV9EGInh53DCydvJTRiuuDRRLAtegMbG3VnUCouFQ+mFnH
- ep8sr7KLbIFlXRSWZyrbdYWct6OavCP+8Z4wkSRFCpk+1z520WOnltu3FmxERPA4STJ8
- StGIViZrqC1Vh6oQ9JX5/oWMjc6d0ufK4ZEmq6fem3hQFThmPlxfdgd7ISz4oA9eG7fk
- cT1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mzS68UimMW9fo+GAmYC11Uqd9MCO+hbECaAOBmmClvo=;
- b=iy5T3CS1RG/J4kTMdkjwVSipOuLlP1LbcVbhx7ho0MmlzhlWDvrisYowSkk4lOzZVi
- 3q9+Cixt+HDoWuBWWHA2hQGH1TPeonXL4eSSX4S4uUYQSTyuOV9wX/Oc735M0xwgJc8O
- HH2BWR0dSM4nJNAWniqoyyOH/XXRYEQHMEOV9Uj7Nm9MIerN0UNkQ4yLJ4x3ptIu5Eng
- MV/ecF8ZpDyVGb5q67ekRujm2aRWg0yvxQF57JQQ+Ctfjc9+4wgJkEU6d/TSMsQI3nWo
- q3WnMCXsrAbfi0TDdGjymGdI/eJS5KHwMqns1kRdpsLlySvSM3CCigscY8qyrGCQxvg2
- sAjA==
-X-Gm-Message-State: ANoB5pkKp+L6wew28mOZI3uniEScLsLf9u8kokhs7U/NOPBWLvmEJ3Gg
- awH15VfKdLtbCFA6JZ9a5C+ehQ==
-X-Google-Smtp-Source: AA0mqf4zmbxuE5ldXMSRABg+SUxcabeOI5LMDAF5iF9E+AcgHgPG/gVDYoX0sexfPM2Ugq+W8WLDWA==
-X-Received: by 2002:a17:90a:fd06:b0:213:5c5f:f440 with SMTP id
- cv6-20020a17090afd0600b002135c5ff440mr2400187pjb.15.1668519867696; 
- Tue, 15 Nov 2022 05:44:27 -0800 (PST)
-Received: from [10.0.0.228] (119-18-35-77.771223.bne.static.aussiebb.net.
- [119.18.35.77]) by smtp.gmail.com with ESMTPSA id
- h13-20020a170902f54d00b0017f7c4e2604sm9862159plf.296.2022.11.15.05.44.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 05:44:27 -0800 (PST)
-Message-ID: <9713c707-2828-5436-dbd4-60fbd18985f6@linaro.org>
-Date: Tue, 15 Nov 2022 23:44:19 +1000
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouwIt-00034a-2V
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:48:43 -0500
+Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouwId-0006tr-F7
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:48:42 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9007223D65;
+ Tue, 15 Nov 2022 13:48:22 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
+ 2022 14:48:21 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005bb55cdf2-9856-4aa8-a050-ccf5654acd50,
+ 4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b5540c7e-3c06-565a-6571-55c167ec347b@kaod.org>
+Date: Tue, 15 Nov 2022 14:48:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 5/8] target/riscv: add support for Zcmp extension
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v11 09/11] s390x/cpu topology: add topology machine
+ property
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
- <20221113023251.11047-6-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221113023251.11047-6-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <scgl@linux.ibm.com>, <frankja@linux.ibm.com>,
+ <berrange@redhat.com>
+References: <20221103170150.20789-1-pmorel@linux.ibm.com>
+ <20221103170150.20789-10-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221103170150.20789-10-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 757e0c7c-2a11-4284-8ce8-938ac63e83e2
+X-Ovh-Tracer-Id: 10999479142332009427
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkefhvefhheeiffduvefhfeeitefhleevudfgkedujeduieetfeffgfffvdelueelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhstghglheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkh
+ hvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
+ helo=4.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,49 +80,248 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/13/22 12:32, Weiwei Li wrote:
->   {
->     sq              101  ... ... .. ... 10 @c_sqsp
->     c_fsd           101   ......  ..... 10 @c_sdsp
+On 11/3/22 18:01, Pierre Morel wrote:
+> We keep the possibility to switch on/off the topology on newer
+> machines with the property topology=[on|off].
+
+The code has changed. You will need to rebase. May be after the
+8.0 machine is introduced, or include Cornelia's patch in the
+respin.
+
+https://lore.kernel.org/qemu-devel/20221111124534.129111-1-cohuck@redhat.com/
+
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   include/hw/boards.h                |  3 +++
+>   include/hw/s390x/cpu-topology.h    |  8 +++-----
+>   include/hw/s390x/s390-virtio-ccw.h |  1 +
+>   hw/core/machine.c                  |  3 +++
+>   hw/s390x/cpu-topology.c            | 19 +++++++++++++++++++
+>   hw/s390x/s390-virtio-ccw.c         | 28 ++++++++++++++++++++++++++++
+>   util/qemu-config.c                 |  4 ++++
+>   qemu-options.hx                    |  6 +++++-
+>   8 files changed, 66 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 311ed17e18..67147c47bf 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -379,6 +379,9 @@ struct MachineState {
+>       } \
+>       type_init(machine_initfn##_register_types)
+>   
+> +extern GlobalProperty hw_compat_7_2[];
+> +extern const size_t hw_compat_7_2_len;
 > +
-> +  # *** RV64 and RV32 Zcmp Extension ***
-> +  cm_push         101  11000  .... .. 10 @zcmp
-> +  cm_pop          101  11010  .... .. 10 @zcmp
-> +  cm_popret       101  11110  .... .. 10 @zcmp
-> +  cm_popretz      101  11100  .... .. 10 @zcmp
-> +  cm_mva01s       101  011 ... 11 ... 10 @cm_mv
-> +  cm_mvsa01       101  011 ... 01 ... 10 @cm_mv
+>   extern GlobalProperty hw_compat_7_1[];
+>   extern const size_t hw_compat_7_1_len;
+>   
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> index 6fec10e032..f566394302 100644
+> --- a/include/hw/s390x/cpu-topology.h
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -12,6 +12,8 @@
+>   
+>   #include "hw/qdev-core.h"
+>   #include "qom/object.h"
+> +#include "cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
+>   
+>   #define S390_TOPOLOGY_CPU_IFL 0x03
+>   #define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
+> @@ -38,10 +40,6 @@ struct S390Topology {
+>   OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
+>   
+>   void s390_topology_new_cpu(S390CPU *cpu);
+> -
+> -static inline bool s390_has_topology(void)
+> -{
+> -    return false;
+> -}
+> +bool s390_has_topology(void);
+>   
+>   #endif
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 89fca3f79f..d7602aedda 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
+>       bool dea_key_wrap;
+>       bool pv;
+>       bool zpcii_disable;
+> +    bool cpu_topology;
+>       uint8_t loadparm[8];
+>       void *topology;
+>   };
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index aa520e74a8..4f46d4ef23 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -40,6 +40,9 @@
+>   #include "hw/virtio/virtio-pci.h"
+>   #include "qom/object_interfaces.h"
+>   
+> +GlobalProperty hw_compat_7_2[] = {};
+> +const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+> +
+>   GlobalProperty hw_compat_7_1[] = {};
+>   const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+>   
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index fc220bd8ac..c1550cc1e8 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -73,6 +73,25 @@ void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
+>       }
 >   }
+>   
+> +bool s390_has_topology(void)
+> +{
+> +    static S390CcwMachineState *ccw;
+> +    Object *obj;
+> +
+> +    if (ccw) {
+> +        return ccw->cpu_topology;
 
-There is no overlap in these, so they should be within nested [].
+Shouldn't we test the capability also ?
+
+	return s390mc->topology_capable && ccw->cpu_topology;
+
+> +    }
+> +
+> +    /* we have to bail out for the "none" machine */
+> +    obj = object_dynamic_cast(qdev_get_machine(),
+> +                              TYPE_S390_CCW_MACHINE);
+> +    if (!obj) {
+> +        return false;
+> +    }
+
+Should be an assert I think.
+
+> +    ccw = S390_CCW_MACHINE(obj);
+> +    return ccw->cpu_topology;
+> +}
+> +
+>   /*
+>    * s390_topology_new_cpu:
+>    * @cpu: a pointer to the new CPU
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index f1a9d6e793..ebb5615337 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -710,6 +710,26 @@ bool hpage_1m_allowed(void)
+>       return get_machine_class()->hpage_1m_allowed;
+>   }
+>   
+> +static inline bool machine_get_topology(Object *obj, Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +
+> +    return ms->cpu_topology;
+> +}
+> +
+> +static inline void machine_set_topology(Object *obj, bool value, Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+
+You could introduce :
+
+        S390CcwMachineClass *s390mc = S390_CCW_MACHINE_GET_CLASS(ms);
 
 
-> diff --git a/target/riscv/zce_helper.c b/target/riscv/zce_helper.c
-> new file mode 100644
-> index 0000000000..1346de1367
-> --- /dev/null
-> +++ b/target/riscv/zce_helper.c
-> @@ -0,0 +1,210 @@
-> +/*
-> + * RISC-V Zc* extension Helpers for QEMU.
-> + *
-> + * Copyright (c) 2021-2022 PLCT Lab
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
+> +
+> +    if (!get_machine_class()->topology_capable) {
 
-The entire contents of this helper file should be handled at translation time.
+and
+             !s390mc->topology_capable
+
+> +        error_setg(errp, "Property cpu-topology not available on machine %s",
+> +                   get_machine_class()->parent_class.name);
+> +        return;
+> +    }
+> +
+> +    ms->cpu_topology = value;
+> +}
+> +
+>   static void machine_get_loadparm(Object *obj, Visitor *v,
+>                                    const char *name, void *opaque,
+>                                    Error **errp)
+> @@ -809,6 +829,12 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+>                                      machine_set_zpcii_disable);
+>       object_class_property_set_description(oc, "zpcii-disable",
+>               "disable zPCI interpretation facilties");
+> +
+> +    object_class_property_add_bool(oc, "topology",
+> +                                   machine_get_topology,
+> +                                   machine_set_topology);
+> +    object_class_property_set_description(oc, "topology",
+> +            "enable CPU topology");
+>   }
+>   
+>   static inline void s390_machine_initfn(Object *obj)
+> @@ -818,6 +844,7 @@ static inline void s390_machine_initfn(Object *obj)
+>       ms->aes_key_wrap = true;
+>       ms->dea_key_wrap = true;
+>       ms->zpcii_disable = false;
+> +    ms->cpu_topology = true;
+>   }
+>   
+>   static const TypeInfo ccw_machine_info = {
+> @@ -888,6 +915,7 @@ static void ccw_machine_7_1_instance_options(MachineState *machine)
+>       s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
+>       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+>       ms->zpcii_disable = true;
+> +    ms->cpu_topology = true;
+
+shouldn't this be false ?
 
 
-r~
+Thanks,
+
+C.
+
+>   }
+>   
+>   static void ccw_machine_7_1_class_options(MachineClass *mc)
+> diff --git a/util/qemu-config.c b/util/qemu-config.c
+> index 5325f6bf80..0a040552bd 100644
+> --- a/util/qemu-config.c
+> +++ b/util/qemu-config.c
+> @@ -240,6 +240,10 @@ static QemuOptsList machine_opts = {
+>               .name = "zpcii-disable",
+>               .type = QEMU_OPT_BOOL,
+>               .help = "disable zPCI interpretation facilities",
+> +        },{
+> +            .name = "topology",
+> +            .type = QEMU_OPT_BOOL,
+> +            .help = "disable CPU topology",
+>           },
+>           { /* End of list */ }
+>       }
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index eb38e5dc40..ef59b28a03 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -38,7 +38,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+>       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+>       "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
+> -    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
+> +    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n"
+> +    "                topology=on|off disables CPU topology (default=off)\n",
+>       QEMU_ARCH_ALL)
+>   SRST
+>   ``-machine [type=]name[,prop=value[,...]]``
+> @@ -163,6 +164,9 @@ SRST
+>           Disables zPCI interpretation facilties on s390-ccw hosts.
+>           This feature can be used to disable hardware virtual assists
+>           related to zPCI devices. The default is off.
+> +
+> +    ``topology=on|off``
+> +        Disables CPU topology on for S390 machines starting with s390-ccw-virtio-7.3.
+>   ERST
+>   
+>   DEF("M", HAS_ARG, QEMU_OPTION_M,
+
 
