@@ -2,102 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0F3629DFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A05629E40
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:58:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouy47-0002CU-Tc; Tue, 15 Nov 2022 10:41:35 -0500
+	id 1ouyCy-0004NY-26; Tue, 15 Nov 2022 10:50:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ouy45-00029j-9G
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:41:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ouy43-00013H-5l
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:41:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668526889;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kJeR2khdByDU1V8nZjruIHXRsqmbWWTeIbxi+/xCxB8=;
- b=QFCMML0LNVOg2PqJpJyTSBPDugLu4AbVR3fB5O9CT0lxEQjTbXB2j6UMSgxqFrJwDwwW56
- Ze1LrQ5K6tDXsYpCp5d1uR8mEItCmESwuVEnx/+IMtfqpXdFSqs/0nOKgVQHgWyukYKxSC
- 6K/YmyQrEMxns8+Q1PesWLteBM4Yd8c=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-El8nkG5zNMuVVc1pYXGYpg-1; Tue, 15 Nov 2022 10:41:28 -0500
-X-MC-Unique: El8nkG5zNMuVVc1pYXGYpg-1
-Received: by mail-qv1-f72.google.com with SMTP id
- ns11-20020a056214380b00b004c64784249eso3271635qvb.7
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 07:41:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouyCY-0004KC-3C
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:50:18 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouyCW-0002YQ-1N
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:50:17 -0500
+Received: by mail-ej1-x630.google.com with SMTP id y14so37086820ejd.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 07:50:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=z8Amn4wlCWSmwyTMb5KbZC4LNC9nUFj+alUUHvoUfPI=;
+ b=Qw5kptD2nKlrlqAKLuMsbGFcUcqFYiX2gbO1rGr6PgMtFlfB6iyHZ/Oe60Cae11/n+
+ 3cH3ro4Y+r8fjR+SkIHFjGFDmYAy+xAJ3O+ZHBpf3kHmlVkNSGzpRqZCRCNCUMyx29eT
+ DQVo5dBnQYctR8i040821Bdm1cK7qDMNHQ2623pdR1gqDqSuC4W7MHzGcyvR5mnwwEui
+ zKWHg9ASeEkhxmn+r2Ip2Kuxh9efAN7A0GobjsxI1+0c/PzddWJFWU54M69XVkc+N4IM
+ d+bnGS9lhdJGMOQ06PwdT9SXBXZklOEjDo2+jNyZtqWHX1ndE49E6OEpOUWtv7heuIV/
+ DfoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kJeR2khdByDU1V8nZjruIHXRsqmbWWTeIbxi+/xCxB8=;
- b=7C9oc/629UDMxG25ZvHIBmFlIl9aaLXn/TQDnrvmLvlZrhNwaryV1trOeE8X2swHPE
- 40cGyOb0GQlJLWzNDKyqJ20pfHrI3fYQrTXFxEeODb7c2kaHT+gLSzd+M1ivezigV+SD
- sF4dCqEeS7eZVbDIuNKB7QCi5eT2pVXRDG3/0C5ZatEvhYeWm3+TP0wbBx33TubIsGgK
- sl25ypt5TAMNfXMPjwQVJnZuLQthS65Oczpbt58zul5CKq6UQ0wp3iVzIpD/oSQwBx1h
- s2aEAEHiZs83ZnxGIvPqWnGmyDIGvXC/RCBnBg31+YApo3SRjK53nI80BqhHw2/pR7Ke
- U3Kg==
-X-Gm-Message-State: ANoB5pmQjoaMGXvY5WBtfxK+ajDYoaTFJzMd2tKU/m76i52jqz4u2W9o
- 0CiUhgwgNgoLgB6g7d92Sp4sdtC/O9woKZ5usmfW0rrNhG6Ez2L1pvvZto2rlrvpT/o5uL7Cex1
- yyRmJ+Q4Pr/ym1NA=
-X-Received: by 2002:ac8:5c02:0:b0:39c:c7a1:9aca with SMTP id
- i2-20020ac85c02000000b0039cc7a19acamr17072181qti.158.1668526887601; 
- Tue, 15 Nov 2022 07:41:27 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5HZQ4n7mpwDEpuw3EOj5EF0uOOKvfbFvoeKt6Y28AFDPjr3FUnKl4RNUbXkXg0c14CwBn3lg==
-X-Received: by 2002:ac8:5c02:0:b0:39c:c7a1:9aca with SMTP id
- i2-20020ac85c02000000b0039cc7a19acamr17072157qti.158.1668526887359; 
- Tue, 15 Nov 2022 07:41:27 -0800 (PST)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ bh=z8Amn4wlCWSmwyTMb5KbZC4LNC9nUFj+alUUHvoUfPI=;
+ b=JZZwBexceTdShV9+Ybf51zrq3ay59kLcRsx+wqoNIExbAWg2i/XcJllsG5xwoA6xX3
+ nxWTMhBKF+ZvPgvEtUU01h5+wXmQ4fhTSs0TpYnd7mnySRi0CG8fKrcBjO/7OOQF73St
+ uL+2FHqL/F+LXfCcHYPidmskcDJXzlsex1E8qt+9sbQqjaRoh6CzINgMR5U/AV/8IrO7
+ Tvc20tN8wquXWD3GLxac9WE9KC5Gxlf2p/FOfSUlRJxq8ZB3BsVclLmagQaJMImjBElB
+ y7QWKf5jGe9GR6a5Uoe2693RUrNXNBtb+XHAGdrONTfT0koksfTFc+wpybRIRgMgN5l5
+ 4vYw==
+X-Gm-Message-State: ANoB5pnCjVwKAzIOU+CfH3T/CrV/hR+aVEEdpj1431BrKPRtUhUczhVG
+ s0fidAG26kR9Z0ugWiZ7Lq63pg==
+X-Google-Smtp-Source: AA0mqf7tZ5qc86W2q/VklxOF3f0KYjmpLrTrW98KwZ1KSPU6qPyklxGRG+2iKZPCwns7du+nk+ZiaA==
+X-Received: by 2002:a17:906:66da:b0:7a5:f8a5:6f84 with SMTP id
+ k26-20020a17090666da00b007a5f8a56f84mr13860617ejp.569.1668527413673; 
+ Tue, 15 Nov 2022 07:50:13 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f9-20020a05620a280900b006eeb3165554sm8232273qkp.19.2022.11.15.07.41.25
+ ek10-20020a056402370a00b00461cdda400esm6372024edb.4.2022.11.15.07.50.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 07:41:26 -0800 (PST)
-Message-ID: <15a00149-a6b2-3d03-db56-d05f3906196f@redhat.com>
-Date: Tue, 15 Nov 2022 16:41:24 +0100
+ Tue, 15 Nov 2022 07:50:13 -0800 (PST)
+Message-ID: <c0f160c6-b0db-e518-bd9f-0328ddaa9278@linaro.org>
+Date: Tue, 15 Nov 2022 16:50:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 2/9] block-copy: add missing coroutine_fn annotations
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size does
+ not match the device
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Alberto Faria <afaria@redhat.com>
-References: <20221104095700.4117433-1-eesposit@redhat.com>
- <20221104095700.4117433-3-eesposit@redhat.com>
- <197f2a27-4c3f-a62b-535c-d1db9ba22a32@yandex-team.ru>
- <88f02d19-84d8-d1a7-4250-416fd32f1435@redhat.com>
- <711f6d68-888e-bca0-972e-a05503a039c5@yandex-team.ru>
- <460d096e-c642-166c-a4fd-77f953bfe33a@redhat.com>
- <CABgObfazW2eiiyffz_odFmbQXx8-Yu7fi1RdDwxKOEzocp0Eeg@mail.gmail.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <CABgObfazW2eiiyffz_odFmbQXx8-Yu7fi1RdDwxKOEzocp0Eeg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alistair Francis <alistair@alistair23.me>
+Cc: Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20221115151000.2080833-1-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221115151000.2080833-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,83 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To sum up on what was discussed in this serie, I don't really see any
-strong objection against these patches, so I will soon send v3 which is
-pretty much the same except for patch 1, which will be removed.
+On 15/11/22 16:10, Cédric Le Goater wrote:
+> Currently, when a block backend is attached to a m25p80 device and the
+> associated file size does not match the flash model, QEMU complains
+> with the error message "failed to read the initial flash content".
+> This is confusing for the user.
+> 
+> Use blk_check_size_and_read_all() instead of blk_pread() to improve
+> the reported error.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   hw/block/m25p80.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-I think these patches are useful and will be even more meaningful to the
-reviewer when in the next few days I send all the rwlock patches.
-
-What has been discussed so far (using QEMU_IN_COROUTINE, using some sort
-of tool to automate everything, etc.) has been noted and as I understand
-will be researched by Alberto.
-
-Thank you,
-Emanuele
-
-Am 10/11/2022 um 11:52 schrieb Paolo Bonzini:
-> On Wed, Nov 9, 2022 at 1:24 PM Emanuele Giuseppe Esposito
-> <eesposit@redhat.com> wrote:
->>>> What I do know is that it's extremely confusing to understand if a
->>>> function that is *not* marked as coroutine_fn is actually being called
->>>> also from coroutines or not.
-> 
-> Agreed. This is a huge point in favor of pushing coroutine wrappers as
-> far up in the call stack as possible, because it means more
-> coroutine_fns and fewer mixed functions.
-> 
->>> This is a lot better than our "coroutine_fn" sign, which actually do no
->>> check (and can't do). Don't you plan to swap a "coroutine_fn" noop
->>> marker with more meaningful IN_COROUTINE(); (or something like this,
->>> which just do assert(qemu_in_coroutine())) at start of the function? It
->>> would be a lot safer.
->>
->> CCing also Alberto and Paolo
->>
->> So basically I think what we need is something that scans the whole
->> block layer code and puts the right coroutine_fn annotations (or
->> assertions, if you want) in the right places.
-> 
-> coroutine_fn markers are done by Alberto's static analyzer, which I
-> used to add coroutine_fn pretty much everywhere in the code base where
-> they are *needed*. My rules are simple:
-> 
-> * there MUST be no calls from non-coroutine_fn to coroutine_fn, this is obvious
-> 
-> * there MUST be no blocking in coroutine_fn
-> 
-> * there SHOULD be no calls from coroutine_fn to generated_co_wrapper;
-> use the wrapped *_co_* function directly instead.
-> 
-> To catch the last one, or possibly the last two, Alberto added
-> no_coroutine_fn. In a perfect world non-marked functions would be
-> "valid either in coroutine or non-coroutine function": they would call
-> neither coroutine_fns nor no_coroutine_fns.
-> 
-> This is unfortunately easier said than done, but in order to move
-> towards that case, I think we can look again at vrc and extend it with
-> new commands. Alberto's work covers *local* tests, looking at one
-> caller and one callee at a time. With vrc's knowledge of the global
-> call graph, we can find *all* paths from a coroutine_fn to a
-> generated_co_wrapper, including those that go through unmarked
-> functions. Then there are two cases:
-> 
-> * if the unmarked function is never called from outside a coroutine,
-> call the wrapped function and change it to coroutine_fn
-> 
-> * if the unmarked function can be called from outside a coroutine,
-> change it to a coroutine_fn (renaming it) and add a
-> generated_co_wrapper. Rinse and repeat.
-> 
->> However, it would be nice to assign this to someone and do this
->> automatically, not doing it by hand. I am not sure if Alberto static
->> analyzer is currently capable of doing that.
-> 
-> I think the first step has to be done by hand, because it entails
-> creating new generated_co_wrappers. Checking for regressions can then
-> be done automatically though.
-> 
-> Paolo
-> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
