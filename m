@@ -2,98 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7F0629075
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 04:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9366290E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 04:40:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oumFu-0002Vo-Aw; Mon, 14 Nov 2022 22:04:58 -0500
+	id 1oummU-0005FN-J8; Mon, 14 Nov 2022 22:38:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oumFr-0002VA-Ks
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:04:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oumFn-0001B9-Pa
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:04:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668481488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TPEi0usGMVReui2aXbySt3V7GWIisbVdd+LlCaPrijg=;
- b=gpeerZ6e61QN9sipUuWD3gAA9pwcYuI0IhE+fzS1HKFIPusc09hRS40/9wpQ2NXiwNznnF
- AkrI4E8k40HrIHW/RYBqaxg3MrqEhC2UAV3QYKz9Mbv9eFmT3yxB0vkRE4SXr5FahVsDCv
- /TaS2hS4EEhvmzNMjzMUhEaj/ALTeO0=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-562-HwAY3nOSPfW11vtaKn-Zjw-1; Mon, 14 Nov 2022 22:04:46 -0500
-X-MC-Unique: HwAY3nOSPfW11vtaKn-Zjw-1
-Received: by mail-oo1-f69.google.com with SMTP id
- d23-20020a4a3c17000000b0049f46b4313aso3190032ooa.17
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 19:04:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oummR-0005F1-KY
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:38:35 -0500
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oummP-00072Y-1d
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:38:35 -0500
+Received: by mail-il1-x12c.google.com with SMTP id l6so6802768ilq.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 19:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=coYXnd2+ZH0rdRIKYFfyki1UeIvgAh5cE61HpYlO2Z8=;
+ b=F1C7bg2VlF30VQsv5Ufcr3/HIpXJh2RXH2tiU0+qur0WBNpWi6A5tQgmzjRPh0HdZj
+ WY+1wPbLge/FtxO6pjXiPmLnC2qs31ED43rtYwMp+Vj/1QNpQGQISSGEXpb+q37sjbwz
+ E+igAqIkg6RR2zuZkRivxqpyfXMPqFG2u2jB4ZD6Nv+MGGKMLuelJoRATC3l9jPrlD95
+ EmRSyOvQ4E9ABezynoHfBqIAXCa1K6v2njTt7sf7puCDdEpCXHNwVRdmBlRyOOejJPa9
+ EkGAcMqbDwuIKKVWL1vCjcZqc/0r2bYjItXmtU/xR54DNjCa1WWEr1U6Zmzs3GPUa9Dh
+ 2Fsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TPEi0usGMVReui2aXbySt3V7GWIisbVdd+LlCaPrijg=;
- b=h1/W+SZXwSQsx8aeBDcYDF4TBHDyobGdZVokC9qDjswQjZAqamXmrq0teeiQSZrttO
- kXP+b4omz4jjLRHAzsMKezL89SWfLCCODUOycM1nHweqMgumznfhpsk9OdVtNK3Q+ClQ
- 67FQCm04CXzsdl35B9W33SBwl5SUx+hWOC2j6Wu1RPP1NiZYh3yx3iwDOsjffUlQ9Beg
- tguXmMzfbzgn0paJHSiIqFPs1xLAtC62Dpr2pvLQp30eGn03UUWspXjJj7QL6n4xwwyd
- Bx+Ll6lvJpgK4havmB/Bztt4lalBxRo4HxJyTmMqbiS2gAWv4Ad3dyw1i1H9TAiQk2hr
- Z+/Q==
-X-Gm-Message-State: ANoB5pm9iqC40NKXRJypl/5OMB+B6CeRSNUOFzVeMz/0hZlerTRn75kC
- Es3NY0XRcD+GR1vqXUk2p/SSunqL7pNd7LATVpx3WLTy2TIRmFN8ENomBTXaG7/r4HCuKA2GzXz
- v9ulMqGE7wHOX5g8MVqoqX7YyC8B11Ug=
-X-Received: by 2002:a05:6870:638b:b0:132:7b3:29ac with SMTP id
- t11-20020a056870638b00b0013207b329acmr65578oap.35.1668481485593; 
- Mon, 14 Nov 2022 19:04:45 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5VfCdjrBEXCPrNojCexj/pFRt/7FxQnvBgNNhH0zyiley/G6sv5N4FKrqrRnhS+Q80zSRvz7zL/w44nQ1f0ps=
-X-Received: by 2002:a05:6870:638b:b0:132:7b3:29ac with SMTP id
- t11-20020a056870638b00b0013207b329acmr65553oap.35.1668481485346; Mon, 14 Nov
- 2022 19:04:45 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=coYXnd2+ZH0rdRIKYFfyki1UeIvgAh5cE61HpYlO2Z8=;
+ b=sIlRnuaKE7Xg/gw8sYOFooUAxPbWkcPgVfTHFPQgBXArbSDuW8e7am7IUI52In5ng6
+ 7mCSMzQA7J1kMfE24g/kcagLuDXx3b5jV5JT5zJY3xfs9HXzR9o3r6rYcAVqj7O+hdhQ
+ 156DbGoT/Yx20RHuClVCUF1YhXl/MqeKeGDO0T1QPdoPXGY/He9gxaYyfBeIzAU8KkH2
+ L/wDxf8/zFs07xMDCtyR3prfk2ZGQFLNvhGG5VWG9yx+vkvXkDda6AVs/xoCwJCyTWKv
+ Tbe6+e3XSd0by5vkHvvu6Um6jRQvmQFD7ZyhtvPHJS9ll5Fkh2cfzXUPAFITtP1ygi3r
+ Yfxg==
+X-Gm-Message-State: ANoB5pnY6HxiLWbWVK5yjhcOuVI8ZMF2R8nDBq6kLvveNzNPeZ8g7uBu
+ 18IWR7o22C9HbQLlMI1Haa970YTrz6yr01v5Ld5Zfw==
+X-Google-Smtp-Source: AA0mqf558hW/E9AQ7Jkh9XFmftLwYbZIJDLJ2HuN5cHxyjEQdi/UrlKF5OhHOynk2lhvbviofwEBXx0cV6SU61Z7KR0=
+X-Received: by 2002:a92:ddc3:0:b0:302:3521:41e1 with SMTP id
+ d3-20020a92ddc3000000b00302352141e1mr7519139ilr.54.1668483491064; Mon, 14 Nov
+ 2022 19:38:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108170755.92768-1-eperezma@redhat.com>
- <20221108170755.92768-10-eperezma@redhat.com>
- <CACGkMEsr=fpbbOpUBHawt5DR+nTWcK1uMzXgorEcbijso1wsMQ@mail.gmail.com>
- <CAJaqyWemKoRNd6_uvFc79qYe+7pbavJSjnZuczxk5uxSZZdZ2Q@mail.gmail.com>
- <be553273-7c06-78f7-4d23-de9f46a210b1@redhat.com>
- <CAJaqyWeZWQgGm7XZ-+DBHNS4XW_-GgWeeOqTb82v__jS8ONRyQ@mail.gmail.com>
- <6a35e659-698e-ff71-fe9b-06e15809c9e4@redhat.com>
- <CAJaqyWeF7bNuu-e6g4RghBkc-5oqEAuaEVbJ9uDgGPWWsP36Lg@mail.gmail.com>
-In-Reply-To: <CAJaqyWeF7bNuu-e6g4RghBkc-5oqEAuaEVbJ9uDgGPWWsP36Lg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 15 Nov 2022 11:04:34 +0800
-Message-ID: <CACGkMEvvjC21XjMEwcv6QP=WKTH2Vh-3dfZkR6vVFi67SWYYvw@mail.gmail.com>
-Subject: Re: [PATCH v6 09/10] vdpa: Add listener_shadow_vq to vhost_vdpa
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <CAFn=p-YFQdO+ZfAYVw+T1b16kA2jBVZB7Tpy7J68XYbqgT7UZw@mail.gmail.com>
+ <CAARzgwyzQ-k5Ek-kpFfvLdgD=TLe2EsW6XcBKJqNvUNYN5Qq=g@mail.gmail.com>
+ <CAFn=p-ZP8_mZa4nmTFFas8pJUsCqvh+VoWWYFHVXRUBm1HZrOA@mail.gmail.com>
+In-Reply-To: <CAFn=p-ZP8_mZa4nmTFFas8pJUsCqvh+VoWWYFHVXRUBm1HZrOA@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 15 Nov 2022 09:07:59 +0530
+Message-ID: <CAARzgwxBu+FnM49Mg5Vq+E-VSjvPZTY+i3QP-WbD4oOLzTViPw@mail.gmail.com>
+Subject: Re: biosbits test failing on origin/master
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,152 +82,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 12:31 AM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Tue, Nov 15, 2022 at 5:13 AM John Snow <jsnow@redhat.com> wrote:
 >
-> On Mon, Nov 14, 2022 at 5:30 AM Jason Wang <jasowang@redhat.com> wrote:
+> On Thu, Nov 10, 2022 at 11:22 PM Ani Sinha <ani@anisinha.ca> wrote:
 > >
-> >
-> > =E5=9C=A8 2022/11/11 21:12, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > > On Fri, Nov 11, 2022 at 8:49 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > >>
-> > >> =E5=9C=A8 2022/11/10 21:47, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > >>> On Thu, Nov 10, 2022 at 7:01 AM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > >>>> On Wed, Nov 9, 2022 at 1:08 AM Eugenio P=C3=A9rez <eperezma@redhat=
-.com> wrote:
-> > >>>>> The memory listener that thells the device how to convert GPA to =
-qemu's
-> > >>>>> va is registered against CVQ vhost_vdpa. This series try to map t=
-he
-> > >>>>> memory listener translations to ASID 0, while it maps the CVQ one=
-s to
-> > >>>>> ASID 1.
-> > >>>>>
-> > >>>>> Let's tell the listener if it needs to register them on iova tree=
- or
-> > >>>>> not.
-> > >>>>>
-> > >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >>>>> ---
-> > >>>>> v5: Solve conflict about vhost_iova_tree_remove accepting mem_reg=
-ion by
-> > >>>>>       value.
-> > >>>>> ---
-> > >>>>>    include/hw/virtio/vhost-vdpa.h | 2 ++
-> > >>>>>    hw/virtio/vhost-vdpa.c         | 6 +++---
-> > >>>>>    net/vhost-vdpa.c               | 1 +
-> > >>>>>    3 files changed, 6 insertions(+), 3 deletions(-)
-> > >>>>>
-> > >>>>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/v=
-host-vdpa.h
-> > >>>>> index 6560bb9d78..0c3ed2d69b 100644
-> > >>>>> --- a/include/hw/virtio/vhost-vdpa.h
-> > >>>>> +++ b/include/hw/virtio/vhost-vdpa.h
-> > >>>>> @@ -34,6 +34,8 @@ typedef struct vhost_vdpa {
-> > >>>>>        struct vhost_vdpa_iova_range iova_range;
-> > >>>>>        uint64_t acked_features;
-> > >>>>>        bool shadow_vqs_enabled;
-> > >>>>> +    /* The listener must send iova tree addresses, not GPA */
-> > >>
-> > >> Btw, cindy's vIOMMU series will make it not necessarily GPA any more=
-.
-> > >>
-> > > Yes, this comment should be tuned then. But the SVQ iova_tree will no=
-t
-> > > be equal to vIOMMU one because shadow vrings.
+> > On Thu, Nov 10, 2022 at 11:37 PM John Snow <jsnow@redhat.com> wrote:
 > > >
-> > > But maybe SVQ can inspect both instead of having all the duplicated e=
-ntries.
+> > > Hiya, on today's origin/master
+> > > (2ccad61746ca7de5dd3e25146062264387e43bd4) I'm finding that "make
+> > > check-avocado" is failing on the new biosbits test on my local
+> > > development machine:
 > > >
-> > >>>>> +    bool listener_shadow_vq;
-> > >>>>>        /* IOVA mapping used by the Shadow Virtqueue */
-> > >>>>>        VhostIOVATree *iova_tree;
-> > >>>>>        GPtrArray *shadow_vqs;
-> > >>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > >>>>> index 8fd32ba32b..e3914fa40e 100644
-> > >>>>> --- a/hw/virtio/vhost-vdpa.c
-> > >>>>> +++ b/hw/virtio/vhost-vdpa.c
-> > >>>>> @@ -220,7 +220,7 @@ static void vhost_vdpa_listener_region_add(Me=
-moryListener *listener,
-> > >>>>>                                             vaddr, section->reado=
-nly);
-> > >>>>>
-> > >>>>>        llsize =3D int128_sub(llend, int128_make64(iova));
-> > >>>>> -    if (v->shadow_vqs_enabled) {
-> > >>>>> +    if (v->listener_shadow_vq) {
-> > >>>>>            int r;
-> > >>>>>
-> > >>>>>            mem_region.translated_addr =3D (hwaddr)(uintptr_t)vadd=
-r,
-> > >>>>> @@ -247,7 +247,7 @@ static void vhost_vdpa_listener_region_add(Me=
-moryListener *listener,
-> > >>>>>        return;
-> > >>>>>
-> > >>>>>    fail_map:
-> > >>>>> -    if (v->shadow_vqs_enabled) {
-> > >>>>> +    if (v->listener_shadow_vq) {
-> > >>>>>            vhost_iova_tree_remove(v->iova_tree, mem_region);
-> > >>>>>        }
-> > >>>>>
-> > >>>>> @@ -292,7 +292,7 @@ static void vhost_vdpa_listener_region_del(Me=
-moryListener *listener,
-> > >>>>>
-> > >>>>>        llsize =3D int128_sub(llend, int128_make64(iova));
-> > >>>>>
-> > >>>>> -    if (v->shadow_vqs_enabled) {
-> > >>>>> +    if (v->listener_shadow_vq) {
-> > >>>>>            const DMAMap *result;
-> > >>>>>            const void *vaddr =3D memory_region_get_ram_ptr(sectio=
-n->mr) +
-> > >>>>>                section->offset_within_region +
-> > >>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > >>>>> index 85a318faca..02780ee37b 100644
-> > >>>>> --- a/net/vhost-vdpa.c
-> > >>>>> +++ b/net/vhost-vdpa.c
-> > >>>>> @@ -570,6 +570,7 @@ static NetClientState *net_vhost_vdpa_init(Ne=
-tClientState *peer,
-> > >>>>>        s->vhost_vdpa.index =3D queue_pair_index;
-> > >>>>>        s->always_svq =3D svq;
-> > >>>>>        s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> > >>>>> +    s->vhost_vdpa.listener_shadow_vq =3D svq;
-> > >>>> Any chance those above two can differ?
-> > >>>>
-> > >>> If CVQ is shadowed but data VQs are not, shadow_vqs_enabled is true
-> > >>> but listener_shadow_vq is not.
-> > >>>
-> > >>> It is more clear in the next commit, where only shadow_vqs_enabled =
-is
-> > >>> set to true at vhost_vdpa_net_cvq_start.
-> > >>
-> > >> Ok, the name looks a little bit confusing. I wonder if it's better t=
-o
-> > >> use shadow_cvq and shadow_data ?
-> > >>
-> > > I'm ok with renaming it, but struct vhost_vdpa is generic across all
-> > > kind of devices, and it does not know if it is a datapath or not for
-> > > the moment.
+> > >  (001/193) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> > > FAIL: True is not false : The VM seems to have failed to shutdown in
+> > > time (83.65 s)
 > > >
-> > > Maybe listener_uses_iova_tree?
+> > > Is this a known issue, or should I begin to investigate it?
 > >
+> > In my test environment it does pass.
 > >
-> > I think "iova_tree" is something that is internal to svq implementation=
-,
-> > it's better to define the name from the view of vhost_vdpa level.
+> > $ ./tests/venv/bin/avocado run -t acpi tests/avocado
+> > Fetching asset from
+> > tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+> > JOB ID     : 35726df7d3c2e0f41847822620c78195ba45b9b9
+> > JOB LOG    : /home/anisinha/avocado/job-results/job-2022-11-11T09.42-35726df/job.log
+> >  (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> > PASS (57.57 s)
+> > RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
+> > | CANCEL 0
+> > JOB TIME   : 63.82 s
+> >
+> > However, I have seen that on certain slower test machines or when run
+> > within a virtual machine, the test can take longer to complete and 60
+> > secs may not always be enough. In those cases raising the maximum
+> > completion time to 90 secs helps. Perhaps you can try this and let me
+> > know if it helps:
+>
+> Hmm - I'm running on a fairly modern machine and not in a VM. Do you
+> have an invocation to share that exists outside of the avocado
+> machinery
+
+If you pass V=1 in the environment then it dumps the QEMU command line
+that was used to run the test. You also need to comment out the line
+> shutil.rmtree(self._workDir)
+in tearDown() so that the iso is not cleaned up.
+
+diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+index a67d30d583..2060e3b84f 100644
+--- a/tests/avocado/acpi-bits.py
++++ b/tests/avocado/acpi-bits.py
+@@ -357,7 +357,7 @@ def tearDown(self):
+         if self._vm:
+             self.assertFalse(not self._vm.is_running)
+         self.logger.info('removing the work directory %s', self._workDir)
+-        shutil.rmtree(self._workDir)
++        # shutil.rmtree(self._workDir)
+         super().tearDown()
+
+     def test_acpi_smbios_bits(self):
+
+while you are at it, it might makes sense to check the vnc for the VM
+to see what it is doing.
+
+ where I could test this individually and see how long it
+> might take to complete if I just let it run? I am worried that it's
+> getting wedged instead of just taking a long time, but it's hard to
+> tell.
+>
+> --js
+>
+> >
+> > diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+> > index 8745a58a76..b11fe39350 100644
+> > --- a/tests/avocado/acpi-bits.py
+> > +++ b/tests/avocado/acpi-bits.py
+> > @@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
+> >          self._vm.launch()
+> >          # biosbits has been configured to run all the specified test suites
+> >          # in batch mode and then automatically initiate a vm shutdown.
+> > -        # sleep for maximum of one minute
+> > -        max_sleep_time = time.monotonic() + 60
+> > +        # sleep for a maximum of one and half minutes to accommodate
+> > running this
+> > +        # even on slower machines.
+> > +        max_sleep_time = time.monotonic() + 90
+> >          while self._vm.is_running() and time.monotonic() < max_sleep_time:
+> >              time.sleep(1)
 > >
 >
-> I don't get this, vhost_vdpa struct already has a pointer to its iova_tre=
-e.
-
-Yes, this is a suggestion to improve the readability of the code. So
-what I meant is to have a name to demonstrate why we need to use
-iova_tree instead of "uses_iova_tree".
-
-Thanks
-
->
-> Thanks!
->
-
 
