@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48238629BE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67357629BF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:22:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouwoH-00050T-G2; Tue, 15 Nov 2022 09:21:09 -0500
+	id 1ouwpf-0005Yv-5A; Tue, 15 Nov 2022 09:22:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ouwo8-0004yF-Pl
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:21:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <SRS0=jlKb=3P=kaod.org=clg@ozlabs.org>)
+ id 1ouwpO-0005Uw-45; Tue, 15 Nov 2022 09:22:18 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ouwo6-0004MP-IR
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:21:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668522057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MxhEeGIO72CIjIIW8/BVkg0HIpFF7EnOI/XoQqDbPoM=;
- b=TpHnKmWjD3h6gQoVGKgOoHhwT+iWXB/ZZFeXKJT28gJFGrLqKJghrdU4JNlAn7ei+ouFpN
- pH/Y35FZShDO6w6WJELHRL3mDRgWFRiqUeYbsXKdV0OKlMpr5MuxXl2+MQtsomeNhXQtR2
- IxzV2cym3rBLtEdl0CxcVGK4X+8FYz0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-O_vV0dhNNP28MiV2BH9pLg-1; Tue, 15 Nov 2022 09:20:56 -0500
-X-MC-Unique: O_vV0dhNNP28MiV2BH9pLg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <SRS0=jlKb=3P=kaod.org=clg@ozlabs.org>)
+ id 1ouwpL-0004Xh-LA; Tue, 15 Nov 2022 09:22:17 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4NBSzv04wcz4xYV;
+ Wed, 16 Nov 2022 01:22:03 +1100 (AEDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD309886067;
- Tue, 15 Nov 2022 14:20:55 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4984A492B1C;
- Tue, 15 Nov 2022 14:20:55 +0000 (UTC)
-Date: Tue, 15 Nov 2022 09:20:51 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, kwolf@redhat.com, stefanha@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PULL v2 00/11] Block layer patches
-Message-ID: <Y3OgQ1FPvio3aV0O@fedora>
-References: <20221114111954.37281-1-kwolf@redhat.com>
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NBSzq3dmhz4xTg;
+ Wed, 16 Nov 2022 01:21:59 +1100 (AEDT)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Alistair Francis <alistair@alistair23.me>
+Cc: Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH] m25p80: Warn the user when the backend file is too small for
+ the device
+Date: Tue, 15 Nov 2022 15:21:41 +0100
+Message-Id: <20221115142141.2073761-1-clg@kaod.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qJezQRwXBTSKA/AL"
-Content-Disposition: inline
-In-Reply-To: <20221114111954.37281-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=jlKb=3P=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,30 +65,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Currently, when a block backend is attached to a m25p80 device and the
+associated file size does not match the flash model, QEMU complains
+with the error message "failed to read the initial flash content".
+This is confusing for the user.
 
---qJezQRwXBTSKA/AL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Improve the reported error with a new message regarding the file size.
 
-Applied, thanks.
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ hw/block/m25p80.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---qJezQRwXBTSKA/AL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNzoEMACgkQnKSrs4Gr
-c8gFHQgAvEnOZKbrE40/1b//CewmZwyRfJWkPAZvEE2CabU67M7DvM0P7ymkvilm
-/fcCTq93p2ETc55iYSPmXPe19geT/yCU5otv6Hq9ZWa6Vh6m2f6iVnMHpXYfTyv0
-oJfvzDQ9hie/7V+QqE3Toz68hT0BOF1MGQk/i6tYzUykIxGDsO5ONytEqOGWJSiy
-zBrEMWUG9I2Dum/HjNO0IBHS+pGQGLh0R96dLAk4LEuR8QHXTomszXHtcXCfjBW3
-EtBEFcLWWmrNa4kPORhbLK3NricEPMphN5RkZuiurjg+FSsYJUC5Bx+74xtbaOls
-TlVa7oafwyh+EyxrYWLD1MtETl5/7Q==
-=zmUT
------END PGP SIGNATURE-----
-
---qJezQRwXBTSKA/AL--
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 02adc87527..e0515e2a1e 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -1606,6 +1606,14 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
+     if (s->blk) {
+         uint64_t perm = BLK_PERM_CONSISTENT_READ |
+                         (blk_supports_write_perm(s->blk) ? BLK_PERM_WRITE : 0);
++
++        if (blk_getlength(s->blk) < s->size) {
++            error_setg(errp,
++                       "backend file is too small for flash device %s (%d MB)",
++                       object_class_get_name(OBJECT_CLASS(mc)), s->size >> 20);
++            return;
++        }
++
+         ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
+         if (ret < 0) {
+             return;
+-- 
+2.38.1
 
 
