@@ -2,97 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584DA6294E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:54:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1C86294EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:55:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ousdU-0007wV-Ge; Tue, 15 Nov 2022 04:53:44 -0500
+	id 1ouseb-0003Gj-OH; Tue, 15 Nov 2022 04:54:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ousdE-0007Xp-Df
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:53:30 -0500
-Received: from mga03.intel.com ([134.134.136.65])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ouseY-00038R-Rf
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:54:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ousdB-00040Y-L4
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:53:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668506005; x=1700042005;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=4aNJ2YOK3rk2Xxfz14Mm6Z9Et6IN8H9Ru4xzr7aFyfQ=;
- b=c9KHcTmVgcMKBhXOIABPH8y7MklGIdYyo6Gs6zZwJVv4s8i2XaKtAnew
- jksPvoHN3BM6Maluv5NxUs1FJu3qgKJ92o9jYWbQTGdBLOlPO4NYK2xO4
- Udw6gCu2XOqdkP6L+jaGB9hFUEnwOjL6Fmh2en5hlM8Lda6JdAZvkkWxT
- eddT3n2FXhLp1BzB2jjkUm/3yCVOImJzGAp0tI4aL90EFaRhAeGyElnTX
- lZpcRrj+i7A0a9th09xsLt8xfX72nFqvTBDYgHy7rKAqfWTLlnjdzgtgO
- GPNRZUsdrPOurZSY9KJMwWAFNYx+1iThnSEGDjvdmANmkuZ0AD4upGmfb g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="314021392"
-X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; d="scan'208";a="314021392"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2022 01:53:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="702376949"
-X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; d="scan'208";a="702376949"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga008.fm.intel.com with ESMTP; 15 Nov 2022 01:53:11 -0800
-Date: Tue, 15 Nov 2022 17:48:46 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Michael Roth <michael.roth@amd.com>
-Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
- Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
- wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221115094846.GB338422@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221031174738.fklhlia5fmaiinpe@amd.com>
- <20221101113729.GA4015495@chaop.bj.intel.com>
- <20221101151944.rhpav47pdulsew7l@amd.com>
- <20a11042-2cfb-8f42-9d80-6672e155ca2c@suse.cz>
- <20221114152843.ylxe4dis254vrj5u@box.shutemov.name>
- <20221114221632.5xaz24adkghfjr2q@amd.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ouseW-00047C-34
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:54:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668506087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LmeGLWXWb5yKPLKhU2XpcoYiHsqoRNqQ4QZX+kUWASU=;
+ b=folZ23OlWH2xDlYmGsa4Iz1zXd69CgOJreAs8XOlArUd3Vo25hJy10vJIEFRYh/vvfcFd3
+ hW2IhUyUxpoFa3Q/zKhZG9cj3pCleY7hpTqP9n9JnVlEl4Tz1aLkatlYPVWEr3qVuAHFGJ
+ ATYkT6lF6lRbqiPdPf/9+T6zRJjrWjk=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-215-d1NJOgdvMN6IA8BYoG91hw-1; Tue, 15 Nov 2022 04:54:45 -0500
+X-MC-Unique: d1NJOgdvMN6IA8BYoG91hw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ns11-20020a056214380b00b004c64784249eso2667392qvb.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 01:54:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LmeGLWXWb5yKPLKhU2XpcoYiHsqoRNqQ4QZX+kUWASU=;
+ b=SstMgYD8VGhRvFlfjbhnvEglJta1QkmNWI58JprPkzFsy8HK1fGR+eHMrip8xhOOs7
+ TlBxhRjOCeOyTc4biNx1ouXn9/AH3OiPjzHp89FguXQia2RC4a79PB7KvsPYkne3L+X7
+ uyZVNKJj72uOagWDaALqt8zQ6emGgskRnXyIRnblv2jjxGwsvAaer7+vM26ReW+LGnlp
+ C/YyMnJKU79lpCNwdxyFSuQty4abcq8GSK+vIWuz0VpwfGSwxzLrClTyl0W/xYAxeDoE
+ heC0GPNZL8nJNuh9Mapx6NaK8KWf7litC6bxGc0bv8x1/sDaz/SxzQ3w93gdVbddkHED
+ zSgw==
+X-Gm-Message-State: ANoB5pm6tPF3NgAJzaof3y7pGbJmZvq9maNd6EdEMKg3GscituiUTAP+
+ qkrNBTtSIjCzvmNz4Bjc1ONa1ZozLH0dNqPL5dLaAMj8xmext9MFYt3m28/QEDbLXOVhyS/BcUG
+ LUYLRjK3r6PVBPao=
+X-Received: by 2002:a37:bf46:0:b0:6ec:5409:5eaf with SMTP id
+ p67-20020a37bf46000000b006ec54095eafmr14160521qkf.404.1668506084900; 
+ Tue, 15 Nov 2022 01:54:44 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7nM0DE2/7ktK+jLDobdCQpl3MBvMWxacBVkf70IbzdDyPXClOp0MVW1w+qAmQn5e5hxSVZ6g==
+X-Received: by 2002:a37:bf46:0:b0:6ec:5409:5eaf with SMTP id
+ p67-20020a37bf46000000b006ec54095eafmr14160496qkf.404.1668506084663; 
+ Tue, 15 Nov 2022 01:54:44 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-177-149.web.vodafone.de.
+ [109.43.177.149]) by smtp.gmail.com with ESMTPSA id
+ x26-20020ac86b5a000000b003a51e8ef03dsm6878464qts.62.2022.11.15.01.54.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 01:54:44 -0800 (PST)
+Message-ID: <602ae031-1336-2c41-0bad-9ff999fe7d98@redhat.com>
+Date: Tue, 15 Nov 2022 10:54:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221114221632.5xaz24adkghfjr2q@amd.com>
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH for-8.0] hw: Add compat machines for 8.0
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20221111124534.129111-1-cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221111124534.129111-1-cohuck@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,111 +111,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 14, 2022 at 04:16:32PM -0600, Michael Roth wrote:
-> On Mon, Nov 14, 2022 at 06:28:43PM +0300, Kirill A. Shutemov wrote:
-> > On Mon, Nov 14, 2022 at 03:02:37PM +0100, Vlastimil Babka wrote:
-> > > On 11/1/22 16:19, Michael Roth wrote:
-> > > > On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
-> > > >> > 
-> > > >> >   1) restoring kernel directmap:
-> > > >> > 
-> > > >> >      Currently SNP (and I believe TDX) need to either split or remove kernel
-> > > >> >      direct mappings for restricted PFNs, since there is no guarantee that
-> > > >> >      other PFNs within a 2MB range won't be used for non-restricted
-> > > >> >      (which will cause an RMP #PF in the case of SNP since the 2MB
-> > > >> >      mapping overlaps with guest-owned pages)
-> > > >> 
-> > > >> Has the splitting and restoring been a well-discussed direction? I'm
-> > > >> just curious whether there is other options to solve this issue.
-> > > > 
-> > > > For SNP it's been discussed for quite some time, and either splitting or
-> > > > removing private entries from directmap are the well-discussed way I'm
-> > > > aware of to avoid RMP violations due to some other kernel process using
-> > > > a 2MB mapping to access shared memory if there are private pages that
-> > > > happen to be within that range.
-> > > > 
-> > > > In both cases the issue of how to restore directmap as 2M becomes a
-> > > > problem.
-> > > > 
-> > > > I was also under the impression TDX had similar requirements. If so,
-> > > > do you know what the plan is for handling this for TDX?
-> > > > 
-> > > > There are also 2 potential alternatives I'm aware of, but these haven't
-> > > > been discussed in much detail AFAIK:
-> > > > 
-> > > > a) Ensure confidential guests are backed by 2MB pages. shmem has a way to
-> > > >    request 2MB THP pages, but I'm not sure how reliably we can guarantee
-> > > >    that enough THPs are available, so if we went that route we'd probably
-> > > >    be better off requiring the use of hugetlbfs as the backing store. But
-> > > >    obviously that's a bit limiting and it would be nice to have the option
-> > > >    of using normal pages as well. One nice thing with invalidation
-> > > >    scheme proposed here is that this would "Just Work" if implement
-> > > >    hugetlbfs support, so an admin that doesn't want any directmap
-> > > >    splitting has this option available, otherwise it's done as a
-> > > >    best-effort.
-> > > > 
-> > > > b) Implement general support for restoring directmap as 2M even when
-> > > >    subpages might be in use by other kernel threads. This would be the
-> > > >    most flexible approach since it requires no special handling during
-> > > >    invalidations, but I think it's only possible if all the CPA
-> > > >    attributes for the 2M range are the same at the time the mapping is
-> > > >    restored/unsplit, so some potential locking issues there and still
-> > > >    chance for splitting directmap over time.
-> > > 
-> > > I've been hoping that
-> > > 
-> > > c) using a mechanism such as [1] [2] where the goal is to group together
-> > > these small allocations that need to increase directmap granularity so
-> > > maximum number of large mappings are preserved.
-> > 
-> > As I mentioned in the other thread the restricted memfd can be backed by
-> > secretmem instead of plain memfd. It already handles directmap with care.
+On 11/11/2022 13.45, Cornelia Huck wrote:
+> Add 8.0 machine types for arm/i440fx/m68k/q35/s390x/spapr.
 > 
-> It looks like it would handle direct unmapping/cleanup nicely, but it
-> seems to lack fallocate(PUNCH_HOLE) support which we'd probably want to
-> avoid additional memory requirements. I think once we added that we'd
-> still end up needing some sort of handling for the invalidations.
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>   hw/arm/virt.c              |  9 ++++++++-
+>   hw/core/machine.c          |  3 +++
+>   hw/i386/pc.c               |  3 +++
+>   hw/i386/pc_piix.c          | 14 +++++++++++++-
+>   hw/i386/pc_q35.c           | 13 ++++++++++++-
+>   hw/m68k/virt.c             |  9 ++++++++-
+>   hw/ppc/spapr.c             | 15 +++++++++++++--
+>   hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>   include/hw/boards.h        |  3 +++
+>   include/hw/i386/pc.h       |  3 +++
+>   10 files changed, 79 insertions(+), 7 deletions(-)
 > 
-> Also, I know Chao has been considering hugetlbfs support, I assume by
-> leveraging the support that already exists in shmem. Ideally SNP would
-> be able to make use of that support as well, but relying on a separate
-> backend seems likely to result in more complications getting there
-> later.
-> 
-> > 
-> > But I don't think it has to be part of initial restricted memfd
-> > implementation. It is SEV-specific requirement and AMD folks can extend
-> > implementation as needed later.
-> 
-> Admittedly the suggested changes to the invalidation mechanism made a
-> lot more sense to me when I was under the impression that TDX would have
-> similar requirements and we might end up with a common hook. Since that
-> doesn't actually seem to be the case, it makes sense to try to do it as
-> a platform-specific hook for SNP.
-> 
-> I think, given a memslot, a GFN range, and kvm_restricted_mem_get_pfn(),
-> we should be able to get the same information needed to figure out whether
-> the range is backed by huge pages or not. I'll see how that works out
-> instead.
 
-Sounds a viable solution, just that kvm_restricted_mem_get_pfn() will
-only give you the ability to check a page, not a range. But you can
-still call it many times I think.
+For the s390x part:
 
-The invalidation callback will be still needed, it gives you the chance
-to do the restoring.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Chao
-> 
-> Thanks,
-> 
-> Mike
-> 
-> > 
-> > -- 
-> >   Kiryl Shutsemau / Kirill A. Shutemov
 
