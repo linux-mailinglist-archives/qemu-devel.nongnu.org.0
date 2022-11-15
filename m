@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DB062963B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 11:49:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C39962967E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 11:57:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1outUz-0005MO-2B; Tue, 15 Nov 2022 05:49:01 -0500
+	id 1outbb-0000Kd-U1; Tue, 15 Nov 2022 05:55:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1outUw-0005Lz-IR
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:48:58 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ id 1outbX-0000KN-AK
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:55:48 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1outUr-0005tQ-Bu
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:48:58 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id 130so12922853pgc.5
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 02:48:52 -0800 (PST)
+ id 1outbV-0007FP-TL
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:55:47 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id b11so12993343pjp.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 02:55:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BOo7tIQW1jJVU3f8wXs7fkjVNUba58r/CytY7zMfiP8=;
- b=B3JRgU8D6xf3f1AWEb1lr4e7o6NGJsXF3eLZ6g3FSoeYex7D2cgEKX0mngZE3JwpF3
- LAKqRTOUyd+rV9zXYGcvE8S6CrXN0z5CTiwMjkIIU/9eTCEMqKPXqAZsf5gQHiV78U/X
- busvY3DnDZ7YzSRcJHrtlmdNEaOfXqgXJWJbo6Plby6QoR7bnAF7nsM6wmBOUYtc8jAe
- pbe3C3r7OgJVRBl/p8mSo3lBXLWv2+iXilEQ9TFZAji0LnOLV7x5rapHdSSproaFDnDe
- Up2jx/c7A/3iBI6eHddZhQoQ62bmt+mxtptyhe+jA5r26/zSndAj/yl/fFH+Q3F7knnN
- JJAA==
+ bh=ilae6EJHd0JOvbCn47mo6j+e1JeeTiYhirJZLywve7s=;
+ b=ibOjyYOf/6Z6YiAHLqrACa/hnd+kBMNsqJdLzTPPqvio4IYtXr/QCpxkUEhcpkZLnB
+ qKzVR4nVuY7b06J6jU6S5sK0knEFEkaqNCm/+VLhDeGYZw8wDiyj4gsVxZ7vyMLcxG1P
+ BpvPVCjmQKk+oOhw9ki90IFafCImh/uU6CtdYSRyWGvaCmS7Yx0mR9kQeUtnyBz25xsE
+ isg6rWO4WbgIY4Bejzk8Mjw8Hd3CA43aKuRDgzbd0/gAbcaTWIzmXJUcfZzWaMqa6VAD
+ OSiyv27mIQORLVCfL/CBCcmQj/1OJjll5bSDtWIWKEoKI/A6L0sTtJS3/cRpDxFMl/uE
+ Mb5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=BOo7tIQW1jJVU3f8wXs7fkjVNUba58r/CytY7zMfiP8=;
- b=uxd5N85Owx/rvTjl+5xbJw6MKKZwlv2l6mAh90SLCO8mDmF3RczrvIqHOsEaMs0yDy
- zPFotcoxt3ZnHr7eIklCAqC+0i58DFj3pLI20fg8wXQ3C5iygH2llgoprDUkA4XU9I2p
- szKS8oEdtvweFOTlgEb7CYTRBtoqopynPUE98H2M1jQm21YQQObLV8z8Ra2hcFLYf3ig
- c2jxpVRwJDJOrFeiuz9FaRutgfJfQI5BGzGBANCr23wzOL/5P0IhTRKSWs1RBYt0767n
- nVGzLVX7aLrACISbzu9kQVoWFcJdH1CxDAYgSZruexVMLfM1STYwtT/vVMgvDRQIJdeo
- b8+Q==
-X-Gm-Message-State: ANoB5pkwubqJQZ1WSDRtSRsn5xoz+dB2CP68l/+eGEa4T/r4wDr+xiu4
- hPaRUlTFcKYr0Iv7anKZ8OWLkcLkPZ0y45jX3wCpRQ==
-X-Google-Smtp-Source: AA0mqf4gUNT5aGYmYCBp7Vy1FKyqoejEq/gU5lFUViypQatA5Q5eYywIGk2Hxu6uAyXzdtUBVYFlnvubW7F/HFccBWk=
-X-Received: by 2002:a62:6001:0:b0:571:8549:89c3 with SMTP id
- u1-20020a626001000000b00571854989c3mr17692749pfb.26.1668509331563; Tue, 15
- Nov 2022 02:48:51 -0800 (PST)
+ bh=ilae6EJHd0JOvbCn47mo6j+e1JeeTiYhirJZLywve7s=;
+ b=fpEkOKnHU5QjYlgS8Rxkev1iSt+iK7XWioDYZ8dpvamen+filYi3KdQAI8O27Kd/7P
+ Gdlj1jo03Pzo9MbiPuve5uTv7xDI8KHHVh3DvLbXO0XI5OBYKeDhBPVbwCAigYqlWY/x
+ yXF5UzbRA5mRrYlhacqYpRyZAXFKnR/UiiyuZ2By3SvTGJy3DzeYkvyfq/z5O5oIScbw
+ znT3K/WSV2c3Ohx9WiMVXHQKxu4CBZBijKdWBqV+YMtlK/bky5bh3rS3ud54eCROnhJ9
+ WIiK+2Rpm0fplFA1CV42C+u2Jx7o/F7LuMbzsJ/pwWB2tuZcBi+yRDUSnuaswPEALByy
+ +1IA==
+X-Gm-Message-State: ANoB5pnY7h/OGogfjMdCSsz804HQKYs8E4kq0RWRyFtHISvhOJVZxkr/
+ t2jHtKdwRvOpiiGJcYjt7sH/ppApySr/jfwmjxTcAA==
+X-Google-Smtp-Source: AA0mqf6Q0rwE93N3Re+laxjhnoDhaVF1soYKMz5Sl6WF6DYBtDLiGp9wDUO8mBz2ZPOYLtBQks11lXGUNo90bIZWVZY=
+X-Received: by 2002:a17:90a:bd0a:b0:212:f169:140e with SMTP id
+ y10-20020a17090abd0a00b00212f169140emr1552924pjr.215.1668509742804; Tue, 15
+ Nov 2022 02:55:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20221114190823.1888691-1-peter@pjd.dev>
-In-Reply-To: <20221114190823.1888691-1-peter@pjd.dev>
+References: <20221115071935.1020799-1-sw@weilnetz.de>
+In-Reply-To: <20221115071935.1020799-1-sw@weilnetz.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Nov 2022 10:48:40 +0000
-Message-ID: <CAFEAcA9itEDTrznX1KRVEza__Dch95aBpPzbdTJ0-tuxwiHtoQ@mail.gmail.com>
-Subject: Re: [PATCH 0/1] hw/arm/aspeed: Automatically zero-extend flash images
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: clg@kaod.org, andrew@aj.id.au, joel@jms.id.au, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org, patrick@stwcx.xyz, 
- Markus Armbruster <armbru@redhat.com>
+Date: Tue, 15 Nov 2022 10:55:30 +0000
+Message-ID: <CAFEAcA_SHaP-pPLEA_RKaF9L-9gdyG-XZ+hDuzDEKVqPQ1fbaA@mail.gmail.com>
+Subject: Re: [PATCH for-7.2] Add G_GNUC_PRINTF to function qemu_set_info_str
+ and fix related issues
+To: Stefan Weil <sw@weilnetz.de>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,22 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 14 Nov 2022 at 19:08, Peter Delevoryas <peter@pjd.dev> wrote:
+On Tue, 15 Nov 2022 at 07:20, Stefan Weil via <qemu-devel@nongnu.org> wrote:
 >
-> I've been using this patch for a long time so that I don't have to use
-> dd to zero-extend stuff all the time. It's just doing what people are
-> doing already, right? I hope it's not controversial.
+> With the G_GNUC_PRINTF function attribute the compiler detects
+> two potential insecure format strings:
+>
+> ../../../net/stream.c:248:31: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+>     qemu_set_info_str(&s->nc, uri);
+>                               ^~~
+> ../../../net/stream.c:322:31: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+>     qemu_set_info_str(&s->nc, uri);
+>                               ^~~
+>
+> There are also two other warnings:
+>
+> ../../../net/socket.c:182:35: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+>   182 |         qemu_set_info_str(&s->nc, "");
+>       |                                   ^~
+> ../../../net/stream.c:170:35: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+>   170 |         qemu_set_info_str(&s->nc, "");
+>
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
 
-We just had a thread about this kind of thing for one of the
-riscv boards (although there the attempted approach was to
-change the size of the flash device to match the provided
-file, rather than changing the file to match the flash device):
-https://lore.kernel.org/qemu-devel/20221107130217.2243815-1-sunilvl@ventanamicro.com/
-
-The short summary is (a) yes, it's controversial and
-(b) if we do something for this we need to have a standard
-approach that we do on all boards, not "some boards do
-some weird magic in different ways from everything else"...
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
