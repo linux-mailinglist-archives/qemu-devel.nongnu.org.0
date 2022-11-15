@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DB2629B1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 14:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB613629B65
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:02:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouwIv-00035e-6m; Tue, 15 Nov 2022 08:48:45 -0500
+	id 1ouwV7-0008Ma-67; Tue, 15 Nov 2022 09:01:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouwIt-00034a-2V
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:48:43 -0500
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouwId-0006tr-F7
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:48:42 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9007223D65;
- Tue, 15 Nov 2022 13:48:22 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
- 2022 14:48:21 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005bb55cdf2-9856-4aa8-a050-ccf5654acd50,
- 4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b5540c7e-3c06-565a-6571-55c167ec347b@kaod.org>
-Date: Tue, 15 Nov 2022 14:48:20 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouwV2-0008GS-Sa
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:01:17 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouwV1-0000sf-5A
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:01:16 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id v27so22016144eda.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 06:01:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LQPjKOgvgBjp/wUMLmKV2j8XaNOmcagCOprDHauNf1E=;
+ b=X9wZrkjzUZcqIQ+aeD0KvQMiFmjZD8vdzuSNeYL4onV9q6fSnfImr+UZhponzF4gAc
+ e08+lxLss3Lh5AT0nNCLCis08N5eiHNpicqddPEjSm9ZOgT53FuRXV4ZTYopbKevKcdT
+ 8DUL04fh0V3l0NSfBjdR3TMQzktumkbKpuryyaE4HUABZT2iytpMifUxXHKAbusgkiqW
+ b8x0FRHg3JhqapIyd3+vmLNwxc+2EB5Kdk4XPe2Cac+jJZlGRf/hL8Cf/ThztYihvH6I
+ dK1k8AyBSMmt2Aenp/HAiPOfZOnoL1W92lBB6Zux+cFmaXnFq2kCudqYZPdfsokfhnlJ
+ oyFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LQPjKOgvgBjp/wUMLmKV2j8XaNOmcagCOprDHauNf1E=;
+ b=MnVIPJvJ8JGmN0pN5mFJ8LMU5X8/rCzh+WZ78cFM72JziRi0iEFPVJaQI1qgn536uW
+ BsMZTrzNwIDvzzq3NcbPuClLwTFJKEbLcq+5yxyRj2lXM1HY7eOQKVx0e6/Pe/UtEhHk
+ IntEQ8f8RSEay1uX7EGFsIgywdAGRO0JNdda0YjKKK6cIS97GnP3vi2m5cLGN4FW24Wp
+ 0N6AONH9st4tb7jSM8c8sSfZ+adsAmFKnaDV4lrXwLjm9KWFrJwQRryNdAzTxIrw0IUa
+ M8YaKi62mgrthohUsDooZQMUlkrfw1/6oBfaNcFTndhv/8DGEbQknsYZ7CqEODm29l9Q
+ zFQw==
+X-Gm-Message-State: ANoB5plrcRk7qGkTh4stxQmAO6CA6Pz247yHvG6rG6715rVIFtlbcv3g
+ zZIK7ruVQAW4ujLdCcfFlw4x3w==
+X-Google-Smtp-Source: AA0mqf6tSOcv9TfAzBk4a/8GBh03Yw/8/BPC7ZIqbgqacx2PaMfF6iRjdgwCG9k+rAy0103cUFO5zQ==
+X-Received: by 2002:a05:6402:1a49:b0:463:2d3c:ad37 with SMTP id
+ bf9-20020a0564021a4900b004632d3cad37mr14938036edb.164.1668520869603; 
+ Tue, 15 Nov 2022 06:01:09 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ wl6-20020a170907310600b007add28659b0sm5626547ejb.140.2022.11.15.06.01.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 06:01:08 -0800 (PST)
+Message-ID: <8ab63a14-606e-0205-508e-2d0c6003f0fe@linaro.org>
+Date: Tue, 15 Nov 2022 15:01:06 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v11 09/11] s390x/cpu topology: add topology machine
- property
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PULL v4 00/83] pci,pc,virtio: features, tests, fixes, cleanups
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <scgl@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-10-pmorel@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221103170150.20789-10-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
+References: <20221107224600.934080-1-mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221107224600.934080-1-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 757e0c7c-2a11-4284-8ce8-938ac63e83e2
-X-Ovh-Tracer-Id: 10999479142332009427
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkefhvefhheeiffduvefhfeeitefhleevudfgkedujeduieetfeffgfffvdelueelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhstghglheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkh
- hvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,248 +91,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/22 18:01, Pierre Morel wrote:
-> We keep the possibility to switch on/off the topology on newer
-> machines with the property topology=[on|off].
+Hi,
 
-The code has changed. You will need to rebase. May be after the
-8.0 machine is introduced, or include Cornelia's patch in the
-respin.
+On 7/11/22 23:47, Michael S. Tsirkin wrote:
 
-https://lore.kernel.org/qemu-devel/20221111124534.129111-1-cohuck@redhat.com/
-
+> ----------------------------------------------------------------
+> pci,pc,virtio: features, tests, fixes, cleanups
 > 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   include/hw/boards.h                |  3 +++
->   include/hw/s390x/cpu-topology.h    |  8 +++-----
->   include/hw/s390x/s390-virtio-ccw.h |  1 +
->   hw/core/machine.c                  |  3 +++
->   hw/s390x/cpu-topology.c            | 19 +++++++++++++++++++
->   hw/s390x/s390-virtio-ccw.c         | 28 ++++++++++++++++++++++++++++
->   util/qemu-config.c                 |  4 ++++
->   qemu-options.hx                    |  6 +++++-
->   8 files changed, 66 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 311ed17e18..67147c47bf 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -379,6 +379,9 @@ struct MachineState {
->       } \
->       type_init(machine_initfn##_register_types)
->   
-> +extern GlobalProperty hw_compat_7_2[];
-> +extern const size_t hw_compat_7_2_len;
-> +
->   extern GlobalProperty hw_compat_7_1[];
->   extern const size_t hw_compat_7_1_len;
->   
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> index 6fec10e032..f566394302 100644
-> --- a/include/hw/s390x/cpu-topology.h
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -12,6 +12,8 @@
->   
->   #include "hw/qdev-core.h"
->   #include "qom/object.h"
-> +#include "cpu.h"
-> +#include "hw/s390x/s390-virtio-ccw.h"
->   
->   #define S390_TOPOLOGY_CPU_IFL 0x03
->   #define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
-> @@ -38,10 +40,6 @@ struct S390Topology {
->   OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
->   
->   void s390_topology_new_cpu(S390CPU *cpu);
-> -
-> -static inline bool s390_has_topology(void)
-> -{
-> -    return false;
-> -}
-> +bool s390_has_topology(void);
->   
->   #endif
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index 89fca3f79f..d7602aedda 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
->       bool dea_key_wrap;
->       bool pv;
->       bool zpcii_disable;
-> +    bool cpu_topology;
->       uint8_t loadparm[8];
->       void *topology;
->   };
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index aa520e74a8..4f46d4ef23 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -40,6 +40,9 @@
->   #include "hw/virtio/virtio-pci.h"
->   #include "qom/object_interfaces.h"
->   
-> +GlobalProperty hw_compat_7_2[] = {};
-> +const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
-> +
->   GlobalProperty hw_compat_7_1[] = {};
->   const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
->   
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index fc220bd8ac..c1550cc1e8 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -73,6 +73,25 @@ void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
->       }
->   }
->   
-> +bool s390_has_topology(void)
-> +{
-> +    static S390CcwMachineState *ccw;
-> +    Object *obj;
-> +
-> +    if (ccw) {
-> +        return ccw->cpu_topology;
+> lots of acpi rework
+> first version of biosbits infrastructure
+> ASID support in vhost-vdpa
+> core_count2 support in smbios
+> PCIe DOE emulation
+> virtio vq reset
+> HMAT support
+> part of infrastructure for viommu support in vhost-vdpa
+> VTD PASID support
+> fixes, tests all over the place
+Apparently unrelated to these fixes, but going from 6295a58ad1 to
+v7.2.0-rc0 triggered rebuilding ACPI files and I now get:
 
-Shouldn't we test the capability also ?
+  45/510 qemu:qtest+qtest-i386 / qtest-i386/bios-tables-test 
+           ERROR          14.73s   killed by signal 6 SIGABRT
+  74/510 qemu:qtest+qtest-x86_64 / qtest-x86_64/bios-tables-test 
+           ERROR          12.56s   killed by signal 6 SIGABRT
 
-	return s390mc->topology_capable && ccw->cpu_topology;
+Running manually:
 
-> +    }
-> +
-> +    /* we have to bail out for the "none" machine */
-> +    obj = object_dynamic_cast(qdev_get_machine(),
-> +                              TYPE_S390_CCW_MACHINE);
-> +    if (!obj) {
-> +        return false;
-> +    }
+$ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/bios-tables-test
+...
+# starting QEMU: exec ./qemu-system-x86_64 -qtest 
+unix:/tmp/qtest-239233.sock -qtest-log /dev/null -chardev 
+socket,path=/tmp/qtest-239233.qmp,id=char0 -mon 
+chardev=char0,mode=control -display none -machine pc -accel kvm -accel 
+tcg -net none -machine smm=off -drive 
+id=hd0,if=none,file=tests/acpi-test-disk-QmvOOR,format=raw -device 
+ide-hd,drive=hd0  -accel qtest
+Could not access KVM kernel module: Permission denied
+qemu-system-x86_64: -accel kvm: failed to initialize kvm: Permission denied
+acpi-test: Warning! DSDT binary file mismatch. Actual 
+[aml:/tmp/aml-Y06RV1], Expected [aml:tests/data/acpi/pc/DSDT.nosmm].
+See source file tests/qtest/bios-tables-test.c for instructions on how 
+to update expected files.
+to see ASL diff between mismatched files install IASL, rebuild QEMU from 
+scratch and re-run tests with V=1 environment variable set**
+ERROR:../../tests/qtest/bios-tables-test.c:533:test_acpi_asl: assertion 
+failed: (all_tables_match)
+Bail out! ERROR:../../tests/qtest/bios-tables-test.c:533:test_acpi_asl: 
+assertion failed: (all_tables_match)
+Aborted
 
-Should be an assert I think.
+I blew/recreated my build directory and can reproduce.
 
-> +    ccw = S390_CCW_MACHINE(obj);
-> +    return ccw->cpu_topology;
-> +}
-> +
->   /*
->    * s390_topology_new_cpu:
->    * @cpu: a pointer to the new CPU
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index f1a9d6e793..ebb5615337 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -710,6 +710,26 @@ bool hpage_1m_allowed(void)
->       return get_machine_class()->hpage_1m_allowed;
->   }
->   
-> +static inline bool machine_get_topology(Object *obj, Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> +
-> +    return ms->cpu_topology;
-> +}
-> +
-> +static inline void machine_set_topology(Object *obj, bool value, Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+$ uname -sm
+Linux x86_64
 
-You could introduce :
-
-        S390CcwMachineClass *s390mc = S390_CCW_MACHINE_GET_CLASS(ms);
-
-
-> +
-> +    if (!get_machine_class()->topology_capable) {
-
-and
-             !s390mc->topology_capable
-
-> +        error_setg(errp, "Property cpu-topology not available on machine %s",
-> +                   get_machine_class()->parent_class.name);
-> +        return;
-> +    }
-> +
-> +    ms->cpu_topology = value;
-> +}
-> +
->   static void machine_get_loadparm(Object *obj, Visitor *v,
->                                    const char *name, void *opaque,
->                                    Error **errp)
-> @@ -809,6 +829,12 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
->                                      machine_set_zpcii_disable);
->       object_class_property_set_description(oc, "zpcii-disable",
->               "disable zPCI interpretation facilties");
-> +
-> +    object_class_property_add_bool(oc, "topology",
-> +                                   machine_get_topology,
-> +                                   machine_set_topology);
-> +    object_class_property_set_description(oc, "topology",
-> +            "enable CPU topology");
->   }
->   
->   static inline void s390_machine_initfn(Object *obj)
-> @@ -818,6 +844,7 @@ static inline void s390_machine_initfn(Object *obj)
->       ms->aes_key_wrap = true;
->       ms->dea_key_wrap = true;
->       ms->zpcii_disable = false;
-> +    ms->cpu_topology = true;
->   }
->   
->   static const TypeInfo ccw_machine_info = {
-> @@ -888,6 +915,7 @@ static void ccw_machine_7_1_instance_options(MachineState *machine)
->       s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
->       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
->       ms->zpcii_disable = true;
-> +    ms->cpu_topology = true;
-
-shouldn't this be false ?
-
-
-Thanks,
-
-C.
-
->   }
->   
->   static void ccw_machine_7_1_class_options(MachineClass *mc)
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index 5325f6bf80..0a040552bd 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -240,6 +240,10 @@ static QemuOptsList machine_opts = {
->               .name = "zpcii-disable",
->               .type = QEMU_OPT_BOOL,
->               .help = "disable zPCI interpretation facilities",
-> +        },{
-> +            .name = "topology",
-> +            .type = QEMU_OPT_BOOL,
-> +            .help = "disable CPU topology",
->           },
->           { /* End of list */ }
->       }
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index eb38e5dc40..ef59b28a03 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -38,7 +38,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
->       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
->       "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
-> -    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
-> +    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n"
-> +    "                topology=on|off disables CPU topology (default=off)\n",
->       QEMU_ARCH_ALL)
->   SRST
->   ``-machine [type=]name[,prop=value[,...]]``
-> @@ -163,6 +164,9 @@ SRST
->           Disables zPCI interpretation facilties on s390-ccw hosts.
->           This feature can be used to disable hardware virtual assists
->           related to zPCI devices. The default is off.
-> +
-> +    ``topology=on|off``
-> +        Disables CPU topology on for S390 machines starting with s390-ccw-virtio-7.3.
->   ERST
->   
->   DEF("M", HAS_ARG, QEMU_OPTION_M,
-
+Any clue?
 
