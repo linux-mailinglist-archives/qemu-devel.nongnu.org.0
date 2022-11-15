@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBBE629BFB
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB15629BFC
 	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:24:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouwqw-00072l-Gm; Tue, 15 Nov 2022 09:23:54 -0500
+	id 1ouwqv-0006zB-6M; Tue, 15 Nov 2022 09:23:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=Pw4Z=3P=lse.epita.fr=xdbob@cri.epita.fr>)
- id 1ouwqt-0006wZ-Mh
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:23:51 -0500
+ id 1ouwqs-0006u4-H3
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:23:50 -0500
 Received: from mail.cri.epita.fr ([91.243.117.197]
  helo=mail-2.srv.cri.epita.fr)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=Pw4Z=3P=lse.epita.fr=xdbob@cri.epita.fr>)
- id 1ouwqq-0004j2-Mw
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:23:51 -0500
+ id 1ouwqq-0004j6-Mc
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:23:50 -0500
 Received: from localhost (unknown [185.123.26.202])
  (Authenticated sender: damhet_a)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 2E9123FB8A;
- Tue, 15 Nov 2022 15:23:41 +0100 (CET)
+ by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 4D9D23FC81;
+ Tue, 15 Nov 2022 15:23:43 +0100 (CET)
 From: antoine.damhet@shadow.tech
 To: qemu-devel@nongnu.org
-Cc: vm@shadow.tech,
-	Antoine Damhet <antoine.damhet@shadow.tech>
-Subject: [PATCH 0/2] TLS: fix read stall with large buffers
-Date: Tue, 15 Nov 2022 15:23:27 +0100
-Message-Id: <20221115142329.92524-1-antoine.damhet@shadow.tech>
+Cc: vm@shadow.tech, Antoine Damhet <antoine.damhet@shadow.tech>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 1/2] crypto: TLS: introduce `check_pending`
+Date: Tue, 15 Nov 2022 15:23:28 +0100
+Message-Id: <20221115142329.92524-2-antoine.damhet@shadow.tech>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221115142329.92524-1-antoine.damhet@shadow.tech>
+References: <20221115142329.92524-1-antoine.damhet@shadow.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=91.243.117.197;
@@ -61,52 +63,70 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Antoine Damhet <antoine.damhet@shadow.tech>
 
-At least with the TCP backend the tls implementation can stall because
-the current notification mechanism is based on the readyness status of
-the underlying file descriptor but gnutls can read all the data
-available while the consumer has only handled part (eg: the TCP
-implementation is capped to 4096 bytes per read).
+The new `qcrypto_tls_session_check_pending` function allows the caller
+to know if data have already been consumed from the backend and is
+already available.
 
-We encountered the bug on the real world using encrypted
-USB-redirection but we could reproduce it with virtio-serial.
+Signed-off-by: Antoine Damhet <antoine.damhet@shadow.tech>
+---
+ crypto/tlssession.c         | 14 ++++++++++++++
+ include/crypto/tlssession.h | 11 +++++++++++
+ 2 files changed, 25 insertions(+)
 
-On the host side:
-
-```
-$ mkdir /tmp/tls-test
-$ echo 'test:8e6da54b954357236ec2eed1df0dc3542163dd03bf9c94f2d90781a3a3e443c9' > /tmp/tls-test/keys.psk
-$ qemu-system-x86_64 -m 4G -enable-kvm -device virtio-serial \
-	-object tls-creds-psk,id=tls0,endpoint=server,dir=/tmp/tls-test \
-	-chardev socket,server=on,wait=off,id=serial-sock,port=4242,host=127.0.0.1,tls-creds=tls0 \
-	-device virtserialport,chardev=serial-sock,name=test.serial \
-	-cdrom archlinux-2022.11.01-x86_64.iso
-# The sleep is to keep the socket open during the test
-$ python -c 'print(8192 * "a"); import time; time.sleep(600);' | \
-	openssl s_client -connect 127.0.0.1:4242 \
-	-psk 8e6da54b954357236ec2eed1df0dc3542163dd03bf9c94f2d90781a3a3e443c9 \
-	-psk_identity test
-```
-
-On the guest side:
-
-```
-# The socket is forced open, we stop cat manually
-$ cat /dev/virtio-ports/test.serial > test.data
-^C
-# only part of the data was readable
-$ wc -c test.data
-4096
-```
-
-Antoine Damhet (2):
-  crypto: TLS: introduce `check_pending`
-  io/channel-tls: fix handling of bigger read buffers
-
- crypto/tlssession.c         | 14 ++++++++
- include/crypto/tlssession.h | 11 +++++++
- io/channel-tls.c            | 66 ++++++++++++++++++++++++++++++++++++-
- 3 files changed, 90 insertions(+), 1 deletion(-)
-
+diff --git a/crypto/tlssession.c b/crypto/tlssession.c
+index b302d835d2..1e98f44e0d 100644
+--- a/crypto/tlssession.c
++++ b/crypto/tlssession.c
+@@ -493,6 +493,13 @@ qcrypto_tls_session_read(QCryptoTLSSession *session,
+ }
+ 
+ 
++size_t
++qcrypto_tls_session_check_pending(QCryptoTLSSession *session)
++{
++    return gnutls_record_check_pending(session->handle);
++}
++
++
+ int
+ qcrypto_tls_session_handshake(QCryptoTLSSession *session,
+                               Error **errp)
+@@ -615,6 +622,13 @@ qcrypto_tls_session_read(QCryptoTLSSession *sess,
+ }
+ 
+ 
++size_t
++qcrypto_tls_session_check_pending(QCryptoTLSSession *session)
++{
++    return 0;
++}
++
++
+ int
+ qcrypto_tls_session_handshake(QCryptoTLSSession *sess,
+                               Error **errp)
+diff --git a/include/crypto/tlssession.h b/include/crypto/tlssession.h
+index 15b9cef086..571049bd0e 100644
+--- a/include/crypto/tlssession.h
++++ b/include/crypto/tlssession.h
+@@ -248,6 +248,17 @@ ssize_t qcrypto_tls_session_read(QCryptoTLSSession *sess,
+                                  char *buf,
+                                  size_t len);
+ 
++/**
++ * qcrypto_tls_session_check_pending:
++ * @sess: the TLS session object
++ *
++ * Check if there are unread data in the TLS buffers that have
++ * already been read from the underlying data source.
++ *
++ * Returns: the number of bytes available or zero
++ */
++size_t qcrypto_tls_session_check_pending(QCryptoTLSSession *sess);
++
+ /**
+  * qcrypto_tls_session_handshake:
+  * @sess: the TLS session object
 -- 
 2.38.1
 
