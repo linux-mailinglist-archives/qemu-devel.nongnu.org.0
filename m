@@ -2,77 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5018E629C2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D23629C35
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:37:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oux1V-0004fd-Dl; Tue, 15 Nov 2022 09:34:51 -0500
+	id 1oux3w-0005rw-KD; Tue, 15 Nov 2022 09:37:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oux1A-0004d0-8M
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:34:30 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oux18-0006JI-8w
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:34:27 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id k22so14276865pfd.3
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 06:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VyIozUxRyN9z/nuVqumh80hdOoSlS2ynRIioWn0ImSY=;
- b=DK/5rykTk6Vxd2y/QUl1ePLjt+MksZmcpVfLNoLL3YMAVcw/oRIDYoJbbPpZhEjxHz
- dN3RI2Squ/U5eTv35WJoys246F9RYRrsnpmTvPgzOsgikVonZiCuzBMme90yFy8qYfZi
- hJBEF2LRlY7w4DA5Cyimu16Y43tlFX3j7bccSmZKecRmD06WZTQlGmmjePEyjMYgf4Gx
- d+hb/AVtuAu0bS7LgGYs8i1O8c1W0lx7BMTHCqHdDxF0cFF5AbBGAkgzpqpM8ME0Bw+S
- C8n820p2UgRTnrA8JMq11q9Z1xK/dpQhLH6/P75rxS3PsSPzjUGC9/5s1/iAzy5Ik8uV
- IWxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VyIozUxRyN9z/nuVqumh80hdOoSlS2ynRIioWn0ImSY=;
- b=4O7F0+XL/DxB4feIPATl7tepRF+tpILwf52JgAbDLiWNEmUJUYp/X1QoOBN2O13b4b
- hmRREyO7mUE5bVbUW+9b2skNx+981JlfWNS7RBLAy4UnF2b4UHAcOl/nYDuv4Avb2Jnn
- PQlytpZM2FtEAK6b+E5udD7oVFUbD7+wYS+ZbJ3jleCdP2KeOPUjm1oGfMcYr+ZL9GAB
- g98T3URpbBcb6B5EQQx6ZLS7FkU5ZvVXVnKb7y8ppHcd2rIWu0wW4gz0la9FN4iZRYbR
- QLugXoId4W3TBJj6EPBb1sKcc/y0psOrUbMneZcxbxaTjBy2EM8nS7CSGsDlk+TmeLGd
- ZIEA==
-X-Gm-Message-State: ANoB5pmFzLNkWu1WCD+VXT7Dz2LwRq64gXQ0vDtv1pNkPX6D3Fb8etCL
- okXZGSDmfJuO03OXzYoPSiF5Rx/X9M8Rzk5DygMDLA==
-X-Google-Smtp-Source: AA0mqf6/J1qhG55xbzaSIEj3ZbbykBQZPkk3MUgFJ1DiNFC6NMmW1tWsjf+6e18BVTHdCdRxCqnS12zpJHynmgXjr9Q=
-X-Received: by 2002:a65:63c2:0:b0:46b:2753:2a60 with SMTP id
- n2-20020a6563c2000000b0046b27532a60mr16145886pgv.192.1668522852895; Tue, 15
- Nov 2022 06:34:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oux3m-0005pp-R8
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:37:17 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oux3i-0006rz-TH
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:37:10 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id CBBF72B066D4;
+ Tue, 15 Nov 2022 09:37:00 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 15 Nov 2022 09:37:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1668523020; x=1668530220; bh=Ad
+ wHQwvOiKtA9P6Y0u9jZFsfpkfO0GgABx1clW0axSM=; b=b1yM/7FEcClWE/shk7
+ Ikib6jlxMdJrJr/Np4NeX2vDsT0AQEo7W07O2V0AaFy5qOOmVENeqdMC1eOTss/x
+ gRTEG1I0SEPeGT2VXeUG6zIbnD6dHdscBUIuGCJQevQzFC+UUbeDEQzmVWYglSbN
+ V6l8IX93vkcm6THTPmR2V23AmrGLkx3Uw0BSgusDSjHt07Pe6LYtFORGK17dDOyJ
+ mUAC7eH0TebAPnCXT78QyJejukQ4RmIG9X+xYUcryppXfcRiROQsTbMI4sAO7EDC
+ CudXWZVJtpcFPN0el9OFhJUGGjVAjTjCWR1BAxqgAUQSMDvc16NjQvgP8x4GEFW+
+ vcqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668523020; x=1668530220; bh=AdwHQwvOiKtA9P6Y0u9jZFsfpkfO
+ 0GgABx1clW0axSM=; b=TDFbZVnuyahpqh8vT886YvKR1Ol2nKo8U+/J2ZElxrSQ
+ n2E5oSia7W6dD5yqxCZIxtzirSEFghTFlB7mAZp87wZnlFZbGO46OQUsMT2osyl9
+ yPocZOwpYwDL035DaZVzu2fC+ZQ9iYm406ihwqwdqNIfGftbDX8htxDt5TxRGBCF
+ +t23+33E4F1FO6nCpO9HhFlan0REtgnmZubj2wzg+HGVJNuF0NRuofZSdV1AscI9
+ wZM2jrp9pfXmJMsJLubXwhmDN9eZtg4PyMSFlT3Df9EGLoL+1pB420R3iPOlGcpK
+ lO65lG2pvjcQkovGbuVTllzqbhbtgdDPLNEsVzpDog==
+X-ME-Sender: <xms:CqRzY68BT2_MOQCpJaG-rHi3ZvX2DPUi1AORdEmnduWa6W-16sqpUQ>
+ <xme:CqRzY6sNcfcHf50KqgQ8kjcZzIU9uf7mU-dKtVHD2JzEBS25E00gx7lMBqWe_yZZn
+ CIXpJ3thavR8r76dE4>
+X-ME-Received: <xmr:CqRzYwDMbsjb5gxiP2OVgmcfVzPPyfJPLm1H0JkcrIAuZCoD9aYl6xTxWo_PDgIpjBv9KQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdeiiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
+ lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
+ hmvgeqnecuggftrfgrthhtvghrnhephfeigefhtdefhedtfedthefghedutddvueehtedt
+ tdehjeeukeejgeeuiedvkedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:CqRzYydIWDcubtT3THtqv8FWKHCS--BtaBzbgq3OhwTX20vuyo-laQ>
+ <xmx:CqRzY_OGoXMgKcwLte8bRp93aLlKDKHNuTTJfy3wCFsePEWbCpapGw>
+ <xmx:CqRzY8lj7_1L0OWPwtgl65FvZmhL0RNn1SNgP5_j7hMUObZk6dJuAg>
+ <xmx:DKRzYycI2DAmg3G1dRRamPnUVJyM4m05tNWQKBXs1AUq7Ug2T3ZwfJ76r9Y>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Nov 2022 09:36:57 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id CAA2F10997B; Tue, 15 Nov 2022 17:36:54 +0300 (+03)
+Date: Tue, 15 Nov 2022 17:36:54 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Isaku Yamahata <isaku.yamahata@gmail.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, Hugh Dickins <hughd@google.com>
+Cc: Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>,	Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
+ dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
+ tabba@google.com,	Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20221115143654.rqpf72hzdtrd3xyw@box.shutemov.name>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <CAGtprH-av3K6YxUbz1cAsQp4w2ce35UrfBF-u7Q_qCuTNMdvzQ@mail.gmail.com>
+ <20221108004141.GF1063309@ls.amr.corp.intel.com>
+ <20221109155404.istawiyvwr3yffag@box.shutemov.name>
 MIME-Version: 1.0
-References: <20221115142141.2073761-1-clg@kaod.org>
-In-Reply-To: <20221115142141.2073761-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Nov 2022 14:34:01 +0000
-Message-ID: <CAFEAcA9OiNsX4-O60zKXL8WoEJbOH2TQr3LwDFJH4SOS8EPTMg@mail.gmail.com>
-Subject: Re: [PATCH] m25p80: Warn the user when the backend file is too small
- for the device
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <frasse.iglesias@gmail.com>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Peter Delevoryas <peter@pjd.dev>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221109155404.istawiyvwr3yffag@box.shutemov.name>
+Received-SPF: pass client-ip=64.147.123.26; envelope-from=kirill@shutemov.name;
+ helo=wnew1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,59 +128,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 15 Nov 2022 at 14:22, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Currently, when a block backend is attached to a m25p80 device and the
-> associated file size does not match the flash model, QEMU complains
-> with the error message "failed to read the initial flash content".
-> This is confusing for the user.
+On Wed, Nov 09, 2022 at 06:54:04PM +0300, Kirill A. Shutemov wrote:
+> On Mon, Nov 07, 2022 at 04:41:41PM -0800, Isaku Yamahata wrote:
+> > On Thu, Nov 03, 2022 at 05:43:52PM +0530,
+> > Vishal Annapurve <vannapurve@google.com> wrote:
+> > 
+> > > On Tue, Oct 25, 2022 at 8:48 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > > >
+> > > > This patch series implements KVM guest private memory for confidential
+> > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > TDX-protected guest memory, machine check can happen which can further
+> > > > crash the running host system, this is terrible for multi-tenant
+> > > > configurations. The host accesses include those from KVM userspace like
+> > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > via a fd-based approach, but it can never access the guest memory
+> > > > content.
+> > > >
+> > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > reviews are always welcome.
+> > > >   - 01: mm change, target for mm tree
+> > > >   - 02-08: KVM change, target for KVM tree
+> > > >
+> > > > Given KVM is the only current user for the mm part, I have chatted with
+> > > > Paolo and he is OK to merge the mm change through KVM tree, but
+> > > > reviewed-by/acked-by is still expected from the mm people.
+> > > >
+> > > > The patches have been verified in Intel TDX environment, but Vishal has
+> > > > done an excellent work on the selftests[4] which are dedicated for this
+> > > > series, making it possible to test this series without innovative
+> > > > hardware and fancy steps of building a VM environment. See Test section
+> > > > below for more info.
+> > > >
+> > > >
+> > > > Introduction
+> > > > ============
+> > > > KVM userspace being able to crash the host is horrible. Under current
+> > > > KVM architecture, all guest memory is inherently accessible from KVM
+> > > > userspace and is exposed to the mentioned crash issue. The goal of this
+> > > > series is to provide a solution to align mm and KVM, on a userspace
+> > > > inaccessible approach of exposing guest memory.
+> > > >
+> > > > Normally, KVM populates secondary page table (e.g. EPT) by using a host
+> > > > virtual address (hva) from core mm page table (e.g. x86 userspace page
+> > > > table). This requires guest memory being mmaped into KVM userspace, but
+> > > > this is also the source where the mentioned crash issue can happen. In
+> > > > theory, apart from those 'shared' memory for device emulation etc, guest
+> > > > memory doesn't have to be mmaped into KVM userspace.
+> > > >
+> > > > This series introduces fd-based guest memory which will not be mmaped
+> > > > into KVM userspace. KVM populates secondary page table by using a
+> > > 
+> > > With no mappings in place for userspace VMM, IIUC, looks like the host
+> > > kernel will not be able to find the culprit userspace process in case
+> > > of Machine check error on guest private memory. As implemented in
+> > > hwpoison_user_mappings, host kernel tries to look at the processes
+> > > which have mapped the pfns with hardware error.
+> > > 
+> > > Is there a modification needed in mce handling logic of the host
+> > > kernel to immediately send a signal to the vcpu thread accessing
+> > > faulting pfn backing guest private memory?
+> > 
+> > mce_register_decode_chain() can be used.  MCE physical address(p->mce_addr)
+> > includes host key id in addition to real physical address.  By searching used
+> > hkid by KVM, we can determine if the page is assigned to guest TD or not. If
+> > yes, send SIGBUS.
+> > 
+> > kvm_machine_check() can be enhanced for KVM specific use.  This is before
+> > memory_failure() is called, though.
+> > 
+> > any other ideas?
+> 
+> That's too KVM-centric. It will not work for other possible user of
+> restricted memfd.
+> 
+> I tried to find a way to get it right: we need to get restricted memfd
+> code info about corrupted page so it can invalidate its users. On the next
+> request of the page the user will see an error. In case of KVM, the error
+> will likely escalate to SIGBUS.
+> 
+> The problem is that core-mm code that handles memory failure knows nothing
+> about restricted memfd. It only sees that the page belongs to a normal
+> memfd.
+> 
+> AFAICS, there's no way to get it intercepted from the shim level. shmem
+> code has to be patches. shmem_error_remove_page() has to call into
+> restricted memfd code.
+> 
+> Hugh, are you okay with this? Or maybe you have a better idea?
 
-The commit message says we get an unhelpful error if the
-file size "does not match"...
+Okay, here is what I've come up with. It doesn't touch shmem code, but
+hooks up directly into memory-failure.c. It is still ugly, but should be
+tolerable.
 
-> Improve the reported error with a new message regarding the file size.
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  hw/block/m25p80.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 02adc87527..e0515e2a1e 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -1606,6 +1606,14 @@ static void m25p80_realize(SSIPeripheral *ss, Erro=
-r **errp)
->      if (s->blk) {
->          uint64_t perm =3D BLK_PERM_CONSISTENT_READ |
->                          (blk_supports_write_perm(s->blk) ? BLK_PERM_WRIT=
-E : 0);
-> +
-> +        if (blk_getlength(s->blk) < s->size) {
+restrictedmem_error_page() loops over all restrictedmem inodes. It is
+slow, but memory failure is not hot path (I hope).
 
-...but the code change is only checking for "too small".
+Only build-tested. Chao, could you hook up ->error for KVM and get it
+tested?
 
-What happens if the user provides a backing file that is too large ?
-
-> +            error_setg(errp,
-> +                       "backend file is too small for flash device %s (%=
-d MB)",
-> +                       object_class_get_name(OBJECT_CLASS(mc)), s->size =
->> 20);
-
-This potentially reports to the user a size which isn't the
-right one for them to use to set the size of the backing file,
-if that required size isn't an exact number of MB.
-
-> +            return;
-> +        }
-> +
->          ret =3D blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
->          if (ret < 0) {
->              return;
-> --
-> 2.38.1
-
-thanks
--- PMM
+diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
+index 9c37c3ea3180..c2700c5daa43 100644
+--- a/include/linux/restrictedmem.h
++++ b/include/linux/restrictedmem.h
+@@ -12,6 +12,8 @@ struct restrictedmem_notifier_ops {
+ 				 pgoff_t start, pgoff_t end);
+ 	void (*invalidate_end)(struct restrictedmem_notifier *notifier,
+ 			       pgoff_t start, pgoff_t end);
++	void (*error)(struct restrictedmem_notifier *notifier,
++			       pgoff_t start, pgoff_t end);
+ };
+ 
+ struct restrictedmem_notifier {
+@@ -34,6 +36,8 @@ static inline bool file_is_restrictedmem(struct file *file)
+ 	return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
+ }
+ 
++void restrictedmem_error_page(struct page *page, struct address_space *mapping);
++
+ #else
+ 
+ static inline void restrictedmem_register_notifier(struct file *file,
+@@ -57,6 +61,11 @@ static inline bool file_is_restrictedmem(struct file *file)
+ 	return false;
+ }
+ 
++static inline void restrictedmem_error_page(struct page *page,
++					    struct address_space *mapping)
++{
++}
++
+ #endif /* CONFIG_RESTRICTEDMEM */
+ 
+ #endif /* _LINUX_RESTRICTEDMEM_H */
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index e7ac570dda75..ee85e46c6992 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -62,6 +62,7 @@
+ #include <linux/page-isolation.h>
+ #include <linux/pagewalk.h>
+ #include <linux/shmem_fs.h>
++#include <linux/restrictedmem.h>
+ #include "swap.h"
+ #include "internal.h"
+ #include "ras/ras_event.h"
+@@ -939,6 +940,8 @@ static int me_pagecache_clean(struct page_state *ps, struct page *p)
+ 		goto out;
+ 	}
+ 
++	restrictedmem_error_page(p, mapping);
++
+ 	/*
+ 	 * The shmem page is kept in page cache instead of truncating
+ 	 * so is expected to have an extra refcount after error-handling.
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index e5bf8907e0f8..0dcdff0d8055 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -29,6 +29,18 @@ static void restrictedmem_notifier_invalidate(struct restrictedmem_data *data,
+ 	mutex_unlock(&data->lock);
+ }
+ 
++static void restrictedmem_notifier_error(struct restrictedmem_data *data,
++				 pgoff_t start, pgoff_t end)
++{
++	struct restrictedmem_notifier *notifier;
++
++	mutex_lock(&data->lock);
++	list_for_each_entry(notifier, &data->notifiers, list) {
++			notifier->ops->error(notifier, start, end);
++	}
++	mutex_unlock(&data->lock);
++}
++
+ static int restrictedmem_release(struct inode *inode, struct file *file)
+ {
+ 	struct restrictedmem_data *data = inode->i_mapping->private_data;
+@@ -248,3 +260,30 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(restrictedmem_get_page);
++
++void restrictedmem_error_page(struct page *page, struct address_space *mapping)
++{
++	struct super_block *sb = restrictedmem_mnt->mnt_sb;
++	struct inode *inode, *next;
++
++	if (!shmem_mapping(mapping))
++		return;
++
++	spin_lock(&sb->s_inode_list_lock);
++	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
++		struct restrictedmem_data *data = inode->i_mapping->private_data;
++		struct file *memfd = data->memfd;
++
++		if (memfd->f_mapping == mapping) {
++			pgoff_t start, end;
++
++			spin_unlock(&sb->s_inode_list_lock);
++
++			start = page->index;
++			end = start + thp_nr_pages(page);
++			restrictedmem_notifier_error(data, start, end);
++			return;
++		}
++	}
++	spin_unlock(&sb->s_inode_list_lock);
++}
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
