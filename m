@@ -2,84 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DF9628FF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 03:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7F0629075
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 04:06:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oulkk-0001DE-Bl; Mon, 14 Nov 2022 21:32:46 -0500
+	id 1oumFu-0002Vo-Aw; Mon, 14 Nov 2022 22:04:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1oulkj-0001D4-39
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 21:32:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oumFr-0002VA-Ks
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:04:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1oulkg-0004tP-QB
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 21:32:44 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oumFn-0001B9-Pa
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:04:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668479560;
+ s=mimecast20190719; t=1668481488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w85QKWpEMO/yjbpiVurlPLDrweJ17knttlk76Put+XY=;
- b=dlqJF+i4MHwDhCbbxKnXEsdriXHsKTPyQvpTGgveIpw2fbhdURL+nqsyn87sJ7vN/XAsq7
- LcnFDBfOfMZaeEjIMJ0gPMiQxxNlT3BKbcrjRuNMwnZrTCkqn3aikjsZSUJ6XyjxH96M69
- d6Hi1a3Hf0b/PF8QJy4LfswSALc57gs=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TPEi0usGMVReui2aXbySt3V7GWIisbVdd+LlCaPrijg=;
+ b=gpeerZ6e61QN9sipUuWD3gAA9pwcYuI0IhE+fzS1HKFIPusc09hRS40/9wpQ2NXiwNznnF
+ AkrI4E8k40HrIHW/RYBqaxg3MrqEhC2UAV3QYKz9Mbv9eFmT3yxB0vkRE4SXr5FahVsDCv
+ /TaS2hS4EEhvmzNMjzMUhEaj/ALTeO0=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-hDyFPy6GNZCPIR5Ht5ivDg-1; Mon, 14 Nov 2022 21:32:38 -0500
-X-MC-Unique: hDyFPy6GNZCPIR5Ht5ivDg-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-3697bd55974so122276237b3.15
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 18:32:38 -0800 (PST)
+ us-mta-562-HwAY3nOSPfW11vtaKn-Zjw-1; Mon, 14 Nov 2022 22:04:46 -0500
+X-MC-Unique: HwAY3nOSPfW11vtaKn-Zjw-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ d23-20020a4a3c17000000b0049f46b4313aso3190032ooa.17
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 19:04:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w85QKWpEMO/yjbpiVurlPLDrweJ17knttlk76Put+XY=;
- b=rm8VQ6dEMqIGjoDvvnUeGVokiSAAE3ex69XzRz4a62tkMFsNKHik8OoRli+aj+FVPt
- +wxuD0mKovPDrBtbwWIgrEQLabVUmlICswhlzPHzTghokr3X2mB7SDVox4xVwLZZFGCH
- ozWnu079X1skigv4qHJBLQXMpdZBwv7BAWABs3dOzxw44LBQZfzFd+wB6xrXBKW9tvSi
- OQCl2Fb4YA1XQfrZr3XF9mJt8jrFfPnvf6KB68xkKw8iwwOyLpOwtUj1ujgbw+mkAPMS
- VwvPVs7IMA7sYqUwL/N134AscrPDcYvJBuZkOv5qHLmmTOYFffDBKu8he1keQ2TlPWCH
- lYJQ==
-X-Gm-Message-State: ANoB5pmYq2ruaN9OqkRHe4AL5zyE7CxIgcRn87D3luuTCMUtZVH4y0b+
- R6J6TUhqxPfwXVpoV18OrRdc1zGSM4oYuBf6aWR2bvlhZtti0klCstzXAfAosRxYMWtXneh1KPi
- vW8HHrXdJPRB8Ki8G+QN7g/DOxtIDDy0=
-X-Received: by 2002:a05:6902:1342:b0:6dd:9de8:b408 with SMTP id
- g2-20020a056902134200b006dd9de8b408mr14357990ybu.268.1668479557807; 
- Mon, 14 Nov 2022 18:32:37 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7bW2k29hQgYKNdy6f/SZRksa3jDLiO6psVaQiEhERTZZR/nTkHLJ0HI/bUF2nNWJdiwh57MYkWzllS72XRBg8=
-X-Received: by 2002:a05:6902:1342:b0:6dd:9de8:b408 with SMTP id
- g2-20020a056902134200b006dd9de8b408mr14357975ybu.268.1668479557523; Mon, 14
- Nov 2022 18:32:37 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TPEi0usGMVReui2aXbySt3V7GWIisbVdd+LlCaPrijg=;
+ b=h1/W+SZXwSQsx8aeBDcYDF4TBHDyobGdZVokC9qDjswQjZAqamXmrq0teeiQSZrttO
+ kXP+b4omz4jjLRHAzsMKezL89SWfLCCODUOycM1nHweqMgumznfhpsk9OdVtNK3Q+ClQ
+ 67FQCm04CXzsdl35B9W33SBwl5SUx+hWOC2j6Wu1RPP1NiZYh3yx3iwDOsjffUlQ9Beg
+ tguXmMzfbzgn0paJHSiIqFPs1xLAtC62Dpr2pvLQp30eGn03UUWspXjJj7QL6n4xwwyd
+ Bx+Ll6lvJpgK4havmB/Bztt4lalBxRo4HxJyTmMqbiS2gAWv4Ad3dyw1i1H9TAiQk2hr
+ Z+/Q==
+X-Gm-Message-State: ANoB5pm9iqC40NKXRJypl/5OMB+B6CeRSNUOFzVeMz/0hZlerTRn75kC
+ Es3NY0XRcD+GR1vqXUk2p/SSunqL7pNd7LATVpx3WLTy2TIRmFN8ENomBTXaG7/r4HCuKA2GzXz
+ v9ulMqGE7wHOX5g8MVqoqX7YyC8B11Ug=
+X-Received: by 2002:a05:6870:638b:b0:132:7b3:29ac with SMTP id
+ t11-20020a056870638b00b0013207b329acmr65578oap.35.1668481485593; 
+ Mon, 14 Nov 2022 19:04:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5VfCdjrBEXCPrNojCexj/pFRt/7FxQnvBgNNhH0zyiley/G6sv5N4FKrqrRnhS+Q80zSRvz7zL/w44nQ1f0ps=
+X-Received: by 2002:a05:6870:638b:b0:132:7b3:29ac with SMTP id
+ t11-20020a056870638b00b0013207b329acmr65553oap.35.1668481485346; Mon, 14 Nov
+ 2022 19:04:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20221109055629.789795-1-leobras@redhat.com>
- <87tu362a5y.fsf@secure.mitica>
-In-Reply-To: <87tu362a5y.fsf@secure.mitica>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Mon, 14 Nov 2022 23:32:26 -0300
-Message-ID: <CAJ6HWG5rwLiVZaJ6oMQQa-UJP3fGHqdQcx63xgJYP+Y1KfR_nA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] migration: Fix yank on postcopy multifd crashing
- guest after migration
-To: quintela@redhat.com
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org, 
- Li Xiaohui <xiaohli@redhat.com>
+References: <20221108170755.92768-1-eperezma@redhat.com>
+ <20221108170755.92768-10-eperezma@redhat.com>
+ <CACGkMEsr=fpbbOpUBHawt5DR+nTWcK1uMzXgorEcbijso1wsMQ@mail.gmail.com>
+ <CAJaqyWemKoRNd6_uvFc79qYe+7pbavJSjnZuczxk5uxSZZdZ2Q@mail.gmail.com>
+ <be553273-7c06-78f7-4d23-de9f46a210b1@redhat.com>
+ <CAJaqyWeZWQgGm7XZ-+DBHNS4XW_-GgWeeOqTb82v__jS8ONRyQ@mail.gmail.com>
+ <6a35e659-698e-ff71-fe9b-06e15809c9e4@redhat.com>
+ <CAJaqyWeF7bNuu-e6g4RghBkc-5oqEAuaEVbJ9uDgGPWWsP36Lg@mail.gmail.com>
+In-Reply-To: <CAJaqyWeF7bNuu-e6g4RghBkc-5oqEAuaEVbJ9uDgGPWWsP36Lg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 15 Nov 2022 11:04:34 +0800
+Message-ID: <CACGkMEvvjC21XjMEwcv6QP=WKTH2Vh-3dfZkR6vVFi67SWYYvw@mail.gmail.com>
+Subject: Re: [PATCH v6 09/10] vdpa: Add listener_shadow_vq to vhost_vdpa
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Cornelia Huck <cohuck@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URG_BIZ=0.573 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,132 +109,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 10, 2022 at 10:48 AM Juan Quintela <quintela@redhat.com> wrote:
+On Tue, Nov 15, 2022 at 12:31 AM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
-> Leonardo Bras <leobras@redhat.com> wrote:
-> D> When multifd and postcopy-ram capabilities are enabled, if a
-> > migrate-start-postcopy is attempted, the migration will finish sending the
-> > memory pages and then crash with the following error:
+> On Mon, Nov 14, 2022 at 5:30 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > qemu-system-x86_64: ../util/yank.c:107: yank_unregister_instance: Assertion
-> > `QLIST_EMPTY(&entry->yankfns)' failed.
 > >
-> > This happens because even though all multifd channels could
-> > yank_register_function(), none of them could unregister it before
-> > unregistering the MIGRATION_YANK_INSTANCE, causing the assert to fail.
+> > =E5=9C=A8 2022/11/11 21:12, Eugenio Perez Martin =E5=86=99=E9=81=93:
+> > > On Fri, Nov 11, 2022 at 8:49 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > >>
+> > >> =E5=9C=A8 2022/11/10 21:47, Eugenio Perez Martin =E5=86=99=E9=81=93:
+> > >>> On Thu, Nov 10, 2022 at 7:01 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > >>>> On Wed, Nov 9, 2022 at 1:08 AM Eugenio P=C3=A9rez <eperezma@redhat=
+.com> wrote:
+> > >>>>> The memory listener that thells the device how to convert GPA to =
+qemu's
+> > >>>>> va is registered against CVQ vhost_vdpa. This series try to map t=
+he
+> > >>>>> memory listener translations to ASID 0, while it maps the CVQ one=
+s to
+> > >>>>> ASID 1.
+> > >>>>>
+> > >>>>> Let's tell the listener if it needs to register them on iova tree=
+ or
+> > >>>>> not.
+> > >>>>>
+> > >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >>>>> ---
+> > >>>>> v5: Solve conflict about vhost_iova_tree_remove accepting mem_reg=
+ion by
+> > >>>>>       value.
+> > >>>>> ---
+> > >>>>>    include/hw/virtio/vhost-vdpa.h | 2 ++
+> > >>>>>    hw/virtio/vhost-vdpa.c         | 6 +++---
+> > >>>>>    net/vhost-vdpa.c               | 1 +
+> > >>>>>    3 files changed, 6 insertions(+), 3 deletions(-)
+> > >>>>>
+> > >>>>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/v=
+host-vdpa.h
+> > >>>>> index 6560bb9d78..0c3ed2d69b 100644
+> > >>>>> --- a/include/hw/virtio/vhost-vdpa.h
+> > >>>>> +++ b/include/hw/virtio/vhost-vdpa.h
+> > >>>>> @@ -34,6 +34,8 @@ typedef struct vhost_vdpa {
+> > >>>>>        struct vhost_vdpa_iova_range iova_range;
+> > >>>>>        uint64_t acked_features;
+> > >>>>>        bool shadow_vqs_enabled;
+> > >>>>> +    /* The listener must send iova tree addresses, not GPA */
+> > >>
+> > >> Btw, cindy's vIOMMU series will make it not necessarily GPA any more=
+.
+> > >>
+> > > Yes, this comment should be tuned then. But the SVQ iova_tree will no=
+t
+> > > be equal to vIOMMU one because shadow vrings.
+> > >
+> > > But maybe SVQ can inspect both instead of having all the duplicated e=
+ntries.
+> > >
+> > >>>>> +    bool listener_shadow_vq;
+> > >>>>>        /* IOVA mapping used by the Shadow Virtqueue */
+> > >>>>>        VhostIOVATree *iova_tree;
+> > >>>>>        GPtrArray *shadow_vqs;
+> > >>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > >>>>> index 8fd32ba32b..e3914fa40e 100644
+> > >>>>> --- a/hw/virtio/vhost-vdpa.c
+> > >>>>> +++ b/hw/virtio/vhost-vdpa.c
+> > >>>>> @@ -220,7 +220,7 @@ static void vhost_vdpa_listener_region_add(Me=
+moryListener *listener,
+> > >>>>>                                             vaddr, section->reado=
+nly);
+> > >>>>>
+> > >>>>>        llsize =3D int128_sub(llend, int128_make64(iova));
+> > >>>>> -    if (v->shadow_vqs_enabled) {
+> > >>>>> +    if (v->listener_shadow_vq) {
+> > >>>>>            int r;
+> > >>>>>
+> > >>>>>            mem_region.translated_addr =3D (hwaddr)(uintptr_t)vadd=
+r,
+> > >>>>> @@ -247,7 +247,7 @@ static void vhost_vdpa_listener_region_add(Me=
+moryListener *listener,
+> > >>>>>        return;
+> > >>>>>
+> > >>>>>    fail_map:
+> > >>>>> -    if (v->shadow_vqs_enabled) {
+> > >>>>> +    if (v->listener_shadow_vq) {
+> > >>>>>            vhost_iova_tree_remove(v->iova_tree, mem_region);
+> > >>>>>        }
+> > >>>>>
+> > >>>>> @@ -292,7 +292,7 @@ static void vhost_vdpa_listener_region_del(Me=
+moryListener *listener,
+> > >>>>>
+> > >>>>>        llsize =3D int128_sub(llend, int128_make64(iova));
+> > >>>>>
+> > >>>>> -    if (v->shadow_vqs_enabled) {
+> > >>>>> +    if (v->listener_shadow_vq) {
+> > >>>>>            const DMAMap *result;
+> > >>>>>            const void *vaddr =3D memory_region_get_ram_ptr(sectio=
+n->mr) +
+> > >>>>>                section->offset_within_region +
+> > >>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > >>>>> index 85a318faca..02780ee37b 100644
+> > >>>>> --- a/net/vhost-vdpa.c
+> > >>>>> +++ b/net/vhost-vdpa.c
+> > >>>>> @@ -570,6 +570,7 @@ static NetClientState *net_vhost_vdpa_init(Ne=
+tClientState *peer,
+> > >>>>>        s->vhost_vdpa.index =3D queue_pair_index;
+> > >>>>>        s->always_svq =3D svq;
+> > >>>>>        s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> > >>>>> +    s->vhost_vdpa.listener_shadow_vq =3D svq;
+> > >>>> Any chance those above two can differ?
+> > >>>>
+> > >>> If CVQ is shadowed but data VQs are not, shadow_vqs_enabled is true
+> > >>> but listener_shadow_vq is not.
+> > >>>
+> > >>> It is more clear in the next commit, where only shadow_vqs_enabled =
+is
+> > >>> set to true at vhost_vdpa_net_cvq_start.
+> > >>
+> > >> Ok, the name looks a little bit confusing. I wonder if it's better t=
+o
+> > >> use shadow_cvq and shadow_data ?
+> > >>
+> > > I'm ok with renaming it, but struct vhost_vdpa is generic across all
+> > > kind of devices, and it does not know if it is a datapath or not for
+> > > the moment.
+> > >
+> > > Maybe listener_uses_iova_tree?
 > >
-> > Fix that by calling multifd_load_cleanup() on postcopy_ram_listen_thread()
-> > before MIGRATION_YANK_INSTANCE is unregistered.
+> >
+> > I think "iova_tree" is something that is internal to svq implementation=
+,
+> > it's better to define the name from the view of vhost_vdpa level.
+> >
 >
-> Hi
->
-> One question,
-> What warantees that migration_load_cleanup() is not called twice?
->
-> I can't see anything that provides that here?  Or does postcopy have
-> never done the cleanup of multifd channels before?
+> I don't get this, vhost_vdpa struct already has a pointer to its iova_tre=
+e.
 
-IIUC, postcopy is not doing multifd cleanup for a while, at least
-since 6.0.0-rc2.
-That is as far as I went back testing, and by fixing other (build)
-bugs, I could get the yank to abort the target qemu after the
-migration finished on multifd + postcopy scenario.
+Yes, this is a suggestion to improve the readability of the code. So
+what I meant is to have a name to demonstrate why we need to use
+iova_tree instead of "uses_iova_tree".
 
-
->
-> Later, Juan.
->
->
-> > Fixes: b5eea99ec2 ("migration: Add yank feature")
-> > Reported-by: Li Xiaohui <xiaohli@redhat.com>
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > ---
-> >  migration/migration.h |  1 +
-> >  migration/migration.c | 18 +++++++++++++-----
-> >  migration/savevm.c    |  2 ++
-> >  3 files changed, 16 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/migration/migration.h b/migration/migration.h
-> > index cdad8aceaa..240f64efb0 100644
-> > --- a/migration/migration.h
-> > +++ b/migration/migration.h
-> > @@ -473,6 +473,7 @@ void migration_make_urgent_request(void);
-> >  void migration_consume_urgent_request(void);
-> >  bool migration_rate_limit(void);
-> >  void migration_cancel(const Error *error);
-> > +bool migration_load_cleanup(void);
-> >
-> >  void populate_vfio_info(MigrationInfo *info);
-> >  void postcopy_temp_page_reset(PostcopyTmpPage *tmp_page);
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index 739bb683f3..4f363b2a95 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -486,6 +486,17 @@ void migrate_add_address(SocketAddress *address)
-> >                        QAPI_CLONE(SocketAddress, address));
-> >  }
-> >
-> > +bool migration_load_cleanup(void)
-> > +{
-> > +    Error *local_err = NULL;
-> > +
-> > +    if (multifd_load_cleanup(&local_err)) {
-> > +        error_report_err(local_err);
-> > +        return true;
-> > +    }
-> > +    return false;
-> > +}
-> > +
-> >  static void qemu_start_incoming_migration(const char *uri, Error **errp)
-> >  {
-> >      const char *p = NULL;
-> > @@ -540,8 +551,7 @@ static void process_incoming_migration_bh(void *opaque)
-> >       */
-> >      qemu_announce_self(&mis->announce_timer, migrate_announce_params());
-> >
-> > -    if (multifd_load_cleanup(&local_err) != 0) {
-> > -        error_report_err(local_err);
-> > +    if (migration_load_cleanup()) {
-> >          autostart = false;
-> >      }
-> >      /* If global state section was not received or we are in running
-> > @@ -646,9 +656,7 @@ fail:
-> >      migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-> >                        MIGRATION_STATUS_FAILED);
-> >      qemu_fclose(mis->from_src_file);
-> > -    if (multifd_load_cleanup(&local_err) != 0) {
-> > -        error_report_err(local_err);
-> > -    }
-> > +    migration_load_cleanup();
-> >      exit(EXIT_FAILURE);
-> >  }
-> >
-> > diff --git a/migration/savevm.c b/migration/savevm.c
-> > index a0cdb714f7..250caff7f4 100644
-> > --- a/migration/savevm.c
-> > +++ b/migration/savevm.c
-> > @@ -1889,6 +1889,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
-> >          exit(EXIT_FAILURE);
-> >      }
-> >
-> > +    migration_load_cleanup();
-> > +
->
-> This addition is the one that I don't understand why it was not
-> needed/done before.
-
-Please see the above comment, but tl;dr, it was not done before.
-
-
-Thanks you for reviewing,
-Leo
+Thanks
 
 >
-> >      migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
-> >                                     MIGRATION_STATUS_COMPLETED);
-> >      /*
->
-> Later, Juan.
+> Thanks!
 >
 
 
