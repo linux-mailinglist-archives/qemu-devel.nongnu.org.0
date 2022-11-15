@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713A86296CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EE76296CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:10:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1outpO-0007EP-UT; Tue, 15 Nov 2022 06:10:06 -0500
+	id 1outpQ-0007GK-9j; Tue, 15 Nov 2022 06:10:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1outpM-0007EA-LQ; Tue, 15 Nov 2022 06:10:04 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1outpK-000176-96; Tue, 15 Nov 2022 06:10:04 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 308783200A2E;
- Tue, 15 Nov 2022 06:09:56 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 15 Nov 2022 06:09:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668510595; x=1668596995; bh=Vo
- 6gBC+3tmyhqnof+o/wOzHrQVenEny1VJlgboracCo=; b=EoWbyS9Ueqc+eDgayr
- 7EEhxOzzFlZ6iA5Rt71lkoKRKXT7WHYnTHI+NNDNrsIB0OJBesMsgPmpdAyDZ78B
- 5B5mgMaILzA37Y25xsjlPsBbkzYcbwUIGyI6C1BSlgvU/7UHmFWdec5S382/P2wx
- 3TqJy8hmSjzh4KOXsNMtda0NlX5AiaESSOL84o3IZOGgLsJF0hnh16m6f8PjxMSW
- 6PbyGmIx5tvpkgu8PMfHnx/QZH5paSfFPjJ60ye3ro/v80cNhkLa0Y+6fB+5k033
- I8rPuLjX0h1TcPBvy6QzsAyFheHYAX07oXOeEr4P1AVI8pUC97oDufXTlFidrtpM
- DetA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668510595; x=1668596995; bh=Vo6gBC+3tmyhqnof+o/wOzHrQVen
- Eny1VJlgboracCo=; b=waXoVC0dQCDwJ8fuZlJAK+Xhf58gfGMzrZSwLabqs7i9
- DzvWywq745MGBf2ayxFnaZfwvVi3hPyXKQPa7BUIG0/qXpmKV32vxUTLhy7tKkUX
- nb39ULuu+nmgveDxkmz06TB/zoMTI3OPnmL2CW3iY6PAHeJJb5zBOX7g0CU+BN1i
- QudrmDZeZm0iRLR4f5PHHc40CzH/1YOSH2BKgUOsL4dVO2L28U6b8Hj5nDpDWl1q
- HgrECc3MeBu6dVd/UgEs9z8jZHhhclFI4fSAkmaPSE39fdwG4ZPsSbAovMsAxlY4
- B0UgPB4AkpE0eJo+dNFdfYCR6aGkoc0+z6QyYJi9Gw==
-X-ME-Sender: <xms:g3NzY8b3Ph_PlPisPow135LHwYTOcyBiOlRNNan50qJxbbPQ4KDjIg>
- <xme:g3NzY3Z_6UbamllC6D3kfIEqB5DmEA3Tdb6h4-_5BN9PVD3TBRu4SXPMUvd4uK_FD
- JmULCzq2N0p8VEnaIM>
-X-ME-Received: <xmr:g3NzY2-hF8YCag4N0BhoqdujaePCvl5s7qugbfOmdMeJ-vq9H6tjzq71He_2u8cS3wHCWXzeJwqv3KRsWham8S5LeDCoGQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddvhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:g3NzY2riUOzPN5Ccorkp96mJ1lOzpRfV8PFdUgomaHosKZNWgoiwfw>
- <xmx:g3NzY3pn1ytJJHPjioCLyLCZAebuP-g1-23TNwsNBC_KxdXaihFNHw>
- <xmx:g3NzY0RHDeP2GU0ivSAKICQcb2arV-5OHUcNSWGxRIT0UAsCS5lgzQ>
- <xmx:g3NzY2XRdfK8LRBUsoFO7nRlM8zDC7lQyfenQoHLfjCbUKBjgX-EWA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Nov 2022 06:09:54 -0500 (EST)
-Date: Tue, 15 Nov 2022 12:09:52 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Joel Granados <j.granados@samsung.com>
-Cc: k.jensen@samsung.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH v2 1/3] nvme: Move adjustment of data_units{read,written}
-Message-ID: <Y3NzgHYczS+K2KFR@cormorant.local>
-References: <20221114135043.2958100-1-j.granados@samsung.com>
- <CGME20221114135427eucas1p1159db5cc4719af64f8a8449853815c4b@eucas1p1.samsung.com>
- <20221114135043.2958100-2-j.granados@samsung.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1outpO-0007Et-MN
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:10:06 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1outpN-0001IR-53
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:10:06 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id n12so35094939eja.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 03:10:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9xFxXJhQ39n0aPrBTpD7+Mel5nRfKn3zYfUTuIoFkiQ=;
+ b=iKOPjpSZY6xVcdx3cWBnu8HtbGcT5vO88A3CTKMrkz6CAd0MA7R0nIM1adqsupqS9K
+ dYrRpcQY4pA2W+ky97S4lVI1kyZqzyM5s/1Bd69XZrOQLMzEJgTba+UuSevv0P6qiU/j
+ hNz8WKMJBQZ+rcMsbIgACm30zXbji2YwqFKacl8XEX9fMn2aSe7CTcNJOb27DfCSW0wE
+ 7l7JID3sc6RmXSx9DeIqJXV4ddEXF6/xaaffI4JAxh8tfI/rSe0TsGWYqr7LpQU9stS9
+ RTuFsBx/W/EDDOyyZhaZJnrUfXzfoI5r9nQF+JlO8AiwUkTVI88TSPSHLwejqmuvlcVU
+ hhmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9xFxXJhQ39n0aPrBTpD7+Mel5nRfKn3zYfUTuIoFkiQ=;
+ b=y+8KXfQq+jjTJ/fgi/FsSq4/4vTwVNZ+iLnIJN5DMW6Yp9w5xQ/qgnGs9Dj/tlbITC
+ fpUqNZAlkp9INWDOmUXN6Fqgz6CvCUCNa7EUTAgJ+WuZIv6nEDVzqgGTGIjEeDQONYss
+ 5BVJR1/MTa/2Pye6KRFhX4sEEXEElW97ybwxDaAsfTkg9Yr82cP/83He3jINxQpnMK6g
+ rOnnynTd2OJ4da4iBX/P/+4cn2fuSx4Q8BJbvbTEc6WxfTdN721RCfOJrQ0mI66QHXX0
+ GPknKl8YA4ltyfW4m0b3QoiSfQUcyRtiX/UBrlUrPpHINVz1tFbL7UR7+X2J1M84YXOe
+ LLOA==
+X-Gm-Message-State: ANoB5pkQYE1GvOv7/Ql02D7xc2BUbvnA3OGN76WgZ1X2oifT966JFbjt
+ Q6iKe8kPq1KaKonooM98BdOC7Q==
+X-Google-Smtp-Source: AA0mqf6cS138HUSLrySA4LpcPWTt1cWvG9ed+WpJD6RJpBsf2cHA01ll3tYVIPt+fHmFbVn4vyA7Ww==
+X-Received: by 2002:a17:906:4911:b0:7ad:9891:8756 with SMTP id
+ b17-20020a170906491100b007ad98918756mr13730279ejq.203.1668510603185; 
+ Tue, 15 Nov 2022 03:10:03 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020a1709063d2900b0077a11b79b9bsm5391687ejf.133.2022.11.15.03.10.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 03:10:02 -0800 (PST)
+Message-ID: <228fca21-8627-013a-c447-35535c563489@linaro.org>
+Date: Tue, 15 Nov 2022 12:10:00 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="367ruM66y82KG2la"
-Content-Disposition: inline
-In-Reply-To: <20221114135043.2958100-2-j.granados@samsung.com>
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH for-7.2] Add G_GNUC_PRINTF to function qemu_set_info_str
+ and fix related issues
+Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>
+References: <20221115071935.1020799-1-sw@weilnetz.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221115071935.1020799-1-sw@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,82 +91,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---367ruM66y82KG2la
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Nov 14 14:50, Joel Granados wrote:
-> In order to return the units_{read/written} required by the SMART log we
-> need to shift the number of bytes value by BDRV_SECTORS_BITS and multiply
-> by 1000. This is a prep patch that moves this adjustment to where the SMA=
-RT
-> log is calculated in order to use the stats struct for calculating OCP
-> extended smart log values.
->=20
-> Signed-off-by: Joel Granados <j.granados@samsung.com>
+On 15/11/22 08:19, Stefan Weil via wrote:
+> With the G_GNUC_PRINTF function attribute the compiler detects
+> two potential insecure format strings:
+> 
+> ../../../net/stream.c:248:31: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+>      qemu_set_info_str(&s->nc, uri);
+>                                ^~~
+> ../../../net/stream.c:322:31: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+>      qemu_set_info_str(&s->nc, uri);
+>                                ^~~
+> 
+> There are also two other warnings:
+> 
+> ../../../net/socket.c:182:35: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+>    182 |         qemu_set_info_str(&s->nc, "");
+>        |                                   ^~
+> ../../../net/stream.c:170:35: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+>    170 |         qemu_set_info_str(&s->nc, "");
+> 
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
 > ---
->  hw/nvme/ctrl.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 87aeba0564..220683201a 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -4449,8 +4449,8 @@ static void nvme_set_blk_stats(NvmeNamespace *ns, s=
-truct nvme_stats *stats)
->  {
->      BlockAcctStats *s =3D blk_get_stats(ns->blkconf.blk);
-> =20
-> -    stats->units_read +=3D s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_B=
-ITS;
-> -    stats->units_written +=3D s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECT=
-OR_BITS;
-> +    stats->units_read +=3D s->nr_bytes[BLOCK_ACCT_READ];
-> +    stats->units_written +=3D s->nr_bytes[BLOCK_ACCT_WRITE];
->      stats->read_commands +=3D s->nr_ops[BLOCK_ACCT_READ];
->      stats->write_commands +=3D s->nr_ops[BLOCK_ACCT_WRITE];
->  }
-> @@ -4490,10 +4490,12 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint=
-8_t rae, uint32_t buf_len,
->      trans_len =3D MIN(sizeof(smart) - off, buf_len);
->      smart.critical_warning =3D n->smart_critical_warning;
-> =20
-> -    smart.data_units_read[0] =3D cpu_to_le64(DIV_ROUND_UP(stats.units_re=
-ad,
-> -                                                        1000));
-> -    smart.data_units_written[0] =3D cpu_to_le64(DIV_ROUND_UP(stats.units=
-_written,
-> -                                                           1000));
-> +    smart.data_units_read[0] =3D cpu_to_le64(DIV_ROUND_UP(
-> +                                           stats.units_read >> BDRV_SECT=
-OR_BITS,
-> +                                           1000));
-> +    smart.data_units_written[0] =3D cpu_to_le64(DIV_ROUND_UP(
-> +                                              stats.units_written >> BDR=
-V_SECTOR_BITS,
-> +                                              1000));
->      smart.host_read_commands[0] =3D cpu_to_le64(stats.read_commands);
->      smart.host_write_commands[0] =3D cpu_to_le64(stats.write_commands);
-> =20
+>   include/net/net.h | 3 ++-
+>   net/socket.c      | 2 +-
+>   net/stream.c      | 6 +++---
+>   3 files changed, 6 insertions(+), 5 deletions(-)
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
---367ruM66y82KG2la
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNzc38ACgkQTeGvMW1P
-DenMIQgArRbgqeFFmE0l0mts27gllpZYQdWr3Mfda46/Wt6ftbwbbPReTg5OhUug
-JWMdIe/PdUvJrnbCa/fVyslK5BpJC+vex7nqPOkMU4J78BTM3v+AdoWXObNtbP7B
-fCFce4E1YB7vkoTwduU4Bma/f2c8+NsYvnng3MbZ/N7dzWakPYUVHxRYNo7txpXi
-hhFKOoGbV4aZDU4CyHlx2OKHcga9fYsOVEGSq2HsZJ7L272Us+Bi/DlkNiiET1jW
-teDNElWIHaHA7p6Xiyb+eZBbaSO2ClYHALYQTH8hP66PDhBBu14EGEozS/PQhlRZ
-EvWcZKxuOcrXsCbJo2Sx56cMn7912Q==
-=B3WP
------END PGP SIGNATURE-----
-
---367ruM66y82KG2la--
 
