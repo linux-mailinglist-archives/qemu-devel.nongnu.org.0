@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F42A629DD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C08A629E29
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:55:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouxzz-0006wP-P7; Tue, 15 Nov 2022 10:37:19 -0500
+	id 1ouxzx-0006r8-9g; Tue, 15 Nov 2022 10:37:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouxzj-0006a3-Vb
+ id 1ouxzn-0006aj-1n
  for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:37:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouxzd-0000Mv-KH
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:37:00 -0500
+ id 1ouxzf-0000NY-L2
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:37:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668526615;
+ s=mimecast20190719; t=1668526619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VYCaAlY9TAGcGYJDBiGWmUeI/l8eOnSvx8conJALnKU=;
- b=Ki3DSl3wkDX+U54LTf49RZkU3aRBuylAoTPe81kchqjVaV5CAto4VqSykLNrzPvTADW6L7
- 5rPGRgFbw5Xf4ZAFGIMFebj85oCJAnsLhmKgIfqdeK/dEvwZqzAkjJTYRt47WfUCU+bCCf
- Ihq0HdsHPB8yPMfiujh6dx4JQv5i2XE=
+ bh=shYvfY1m4aFGTKlg3Ec60OJ8M+Vs1dd+K/kBHRLF7PM=;
+ b=aYoFRRjG/+lp+/aGWL/dFw1rJeZl3aZ/yIHbN6LuF5/Pro7y/1gIDVQuWNT/fWscMdSsrk
+ RYwJa9RwzY7sadLrYxwWnsDAJhh0n2VX+OVMSGoI/VMjx3aVPp3nDzzpuWxylitKmUKRnT
+ 1ycd1hY9KhIzPNm9odTBhQjsKj0MdF4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-155-8aT-yC5oPQeze9gCuFZ4QA-1; Tue, 15 Nov 2022 10:36:52 -0500
-X-MC-Unique: 8aT-yC5oPQeze9gCuFZ4QA-1
+ us-mta-451-onBYmOvePEeY8T-9yrgpEw-1; Tue, 15 Nov 2022 10:36:55 -0500
+X-MC-Unique: onBYmOvePEeY8T-9yrgpEw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 916CA185A792;
- Tue, 15 Nov 2022 15:36:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 658F8811E75;
+ Tue, 15 Nov 2022 15:36:54 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.195.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E11712166B2B;
- Tue, 15 Nov 2022 15:36:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D99982166B2B;
+ Tue, 15 Nov 2022 15:36:51 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Michael Tokarev <mjt@tls.msk.ru>,
@@ -55,9 +55,9 @@ Cc: Michael Tokarev <mjt@tls.msk.ru>,
  qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Fam Zheng <fam@euphon.net>
-Subject: [PULL 29/30] migration: Drop rs->f
-Date: Tue, 15 Nov 2022 16:35:13 +0100
-Message-Id: <20221115153514.28003-30-quintela@redhat.com>
+Subject: [PULL 30/30] migration: Block migration comment or code is wrong
+Date: Tue, 15 Nov 2022 16:35:14 +0100
+Message-Id: <20221115153514.28003-31-quintela@redhat.com>
 In-Reply-To: <20221115153514.28003-1-quintela@redhat.com>
 References: <20221115153514.28003-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -87,84 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+And it appears that what is wrong is the code. During bulk stage we
+need to make sure that some block is dirty, but no games with
+max_size at all.
 
-Now with rs->pss we can already cache channels in pss->pss_channels.  That
-pss_channel contains more infromation than rs->f because it's per-channel.
-So rs->f could be replaced by rss->pss[RAM_CHANNEL_PRECOPY].pss_channel,
-while rs->f itself is a bit vague now.
-
-Note that vanilla postcopy still send pages via pss[RAM_CHANNEL_PRECOPY],
-that's slightly confusing but it reflects the reality.
-
-Then, after the replacement we can safely drop rs->f.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- migration/ram.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ migration/block.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 88e61b0aeb..29e413b97b 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -351,8 +351,6 @@ struct RAMSrcPageRequest {
+diff --git a/migration/block.c b/migration/block.c
+index 3577c815a9..4347da1526 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -880,8 +880,8 @@ static void block_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+     blk_mig_unlock();
  
- /* State of RAM for migration */
- struct RAMState {
--    /* QEMUFile used for this migration */
--    QEMUFile *f;
-     /*
-      * PageSearchStatus structures for the channels when send pages.
-      * Protected by the bitmap_mutex.
-@@ -2560,8 +2558,6 @@ static int ram_find_and_save_block(RAMState *rs)
-         }
- 
-         if (found) {
--            /* Cache rs->f in pss_channel (TODO: remove rs->f) */
--            pss->pss_channel = rs->f;
-             pages = ram_save_host_page(rs, pss);
-         }
-     } while (!pages && again);
-@@ -3117,7 +3113,7 @@ static void ram_state_resume_prepare(RAMState *rs, QEMUFile *out)
-     ram_state_reset(rs);
- 
-     /* Update RAMState cache of output QEMUFile */
--    rs->f = out;
-+    rs->pss[RAM_CHANNEL_PRECOPY].pss_channel = out;
- 
-     trace_ram_state_resume_prepare(pages);
- }
-@@ -3208,7 +3204,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-             return -1;
-         }
-     }
--    (*rsp)->f = f;
-+    (*rsp)->pss[RAM_CHANNEL_PRECOPY].pss_channel = f;
- 
-     WITH_RCU_READ_LOCK_GUARD() {
-         qemu_put_be64(f, ram_bytes_total_common(true) | RAM_SAVE_FLAG_MEM_SIZE);
-@@ -3343,7 +3339,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        ret = multifd_send_sync_main(rs->f);
-+        ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -3413,7 +3409,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         return ret;
+     /* Report at least one block pending during bulk phase */
+-    if (pending <= max_size && !block_mig_state.bulk_completed) {
+-        pending = max_size + BLK_MIG_BLOCK_SIZE;
++    if (!pending && !block_mig_state.bulk_completed) {
++        pending = BLK_MIG_BLOCK_SIZE;
      }
  
--    ret = multifd_send_sync_main(rs->f);
-+    ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-     if (ret < 0) {
-         return ret;
-     }
+     trace_migration_block_save_pending(pending);
 -- 
 2.38.1
 
