@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94BB6296ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:14:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3348B6296FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:16:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1outst-0000yA-Dy; Tue, 15 Nov 2022 06:13:43 -0500
+	id 1outuV-000253-5R; Tue, 15 Nov 2022 06:15:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1outsq-0000xy-Tk
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:13:40 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1outsm-0001yt-8e
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:13:40 -0500
-Received: by mail-ej1-x634.google.com with SMTP id ud5so35223626ejc.4
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 03:13:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uSAeOXOBQqvCmGzwruIa9vg/uorhgIM7zq2WUJrTCwU=;
- b=ePC4Uw+e2x8gwIuxPzNicUOCZG8lkOEp07mN7ydyj7VFRUzZ6hvv/D+/sb839cA5YY
- 8ZC3Xnp8QQuuL3nb8ptauI7Jm8Ai3i3MqAp/pmEKW135AKLFGxYvhwJglkfHBe8s0rCM
- IHuX5DdPS/+nP+jRUhgU+aaqXCg1ZL7xWeZGwmDZ2jXrmjW5nOzcqhiqS7+0EdM9P+VP
- Fp3tULL+5dPZku/fWkQeunvxhapepOz7xvraIWh8KGkQR4dPnpjtHhLTio6KVuaSCZRf
- dbVrx83F6j7w/wJjDjO1B8uSSlu7hraNGoAI2mXkqq2bb3XYGnJRHgbqXkbkn1P2Q9Tw
- 4pBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uSAeOXOBQqvCmGzwruIa9vg/uorhgIM7zq2WUJrTCwU=;
- b=PR1658yX7iI+0ZPbeKLGIjs1lBq/d1J8kSLVNg0jsOpbb+MwUkPZMS7BzZj2vRtLl6
- VG1isj0SKDszDO7AHjp8dDscHWHNfRZ/SaafjxvbW1IZ1FL06glunxn0RrdcfPuEyy7p
- xzf6ve48bYycSlfCZT024Ji9y0fyXtkAOePqNmIRgPopK3nErFSko6EbBrVWakLRtLdF
- R11IXGYZYP/tHMP2Xll5xdJvp1jQHHLJdp30uuqj1+MajUYTeqkNUtb1H2dAcSe4EDwu
- n9Ra8412WpOdyZWlljzBGfDcVKgijSVil073t1NM54N7xsaE5LLntn9KxDPVsLV+QleH
- DVaA==
-X-Gm-Message-State: ANoB5pnCEpCzoicjYkQ7+ksIGUjOZx8IHHt0iOAEJOFbPuxE5RL5hQkz
- rufXLIRRMC8932JvToDOU8rdhg==
-X-Google-Smtp-Source: AA0mqf6FvlsxuH/XqaQCK/txyBUKecAaTgonP4hODYNMgEv5RegCp+5kObQeoscF7r4VcHn4NZdzEQ==
-X-Received: by 2002:a17:906:d8d:b0:7af:883:ec72 with SMTP id
- m13-20020a1709060d8d00b007af0883ec72mr5215519eji.727.1668510813899; 
- Tue, 15 Nov 2022 03:13:33 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- u9-20020aa7d549000000b0044dbecdcd29sm5984065edr.12.2022.11.15.03.13.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 03:13:32 -0800 (PST)
-Message-ID: <d984ce52-4fc3-8c22-83bb-93e901a67ce6@linaro.org>
-Date: Tue, 15 Nov 2022 12:13:31 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1outuN-000247-W9
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:15:17 -0500
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1outuL-0002Nv-Jv
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:15:15 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.108])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5C1C827F40;
+ Tue, 15 Nov 2022 11:15:09 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
+ 2022 12:15:07 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0053beee538-249c-4d51-b025-826842a5553e,
+ 4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a21a6342-1fe2-e6c0-61f9-6bb68cbd2574@kaod.org>
+Date: Tue, 15 Nov 2022 12:15:06 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: tests/avocado/machine_s390_ccw_virtio: Fedora test failing
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v11 03/11] s390x/cpu topology: core_id sets s390x CPU
+ topology
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>
-References: <0245aa92-e9a0-5c1f-cd62-65002ba2ef81@linaro.org>
- <3b848b0f-4040-c281-58ad-2d6c8dff1998@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <3b848b0f-4040-c281-58ad-2d6c8dff1998@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <scgl@linux.ibm.com>, <frankja@linux.ibm.com>,
+ <berrange@redhat.com>
+References: <20221103170150.20789-1-pmorel@linux.ibm.com>
+ <20221103170150.20789-4-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221103170150.20789-4-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: ff84348d-889c-4b94-8a5b-f5c585d56d4a
+X-Ovh-Tracer-Id: 8411598208145001427
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpshgtghhlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+ hfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,53 +81,354 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/11/22 12:05, Thomas Huth wrote:
-> On 15/11/2022 12.03, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> As of v7.2.0-rc0 I am getting:
->>
->>   (101/198) 
->> tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_fedora: FAIL (23.51 s)
+Hello Pierre,
+
+On 11/3/22 18:01, Pierre Morel wrote:
+> In the S390x CPU topology the core_id specifies the CPU address
+> and the position of the core withing the topology.
 > 
-> Is it 100% reproducible? ... the test is known to be a little bit shaky, 
-> that's also why it is disabled in the gitlab CI.
+> Let's build the topology based on the core_id.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   include/hw/s390x/cpu-topology.h    |  41 ++++++++++
+>   include/hw/s390x/s390-virtio-ccw.h |   1 +
+>   target/s390x/cpu.h                 |   2 +
+>   hw/s390x/cpu-topology.c            | 125 +++++++++++++++++++++++++++++
+>   hw/s390x/s390-virtio-ccw.c         |  23 ++++++
+>   hw/s390x/meson.build               |   1 +
+>   6 files changed, 193 insertions(+)
+>   create mode 100644 include/hw/s390x/cpu-topology.h
+>   create mode 100644 hw/s390x/cpu-topology.c
+> 
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> new file mode 100644
+> index 0000000000..4e16a2153d
+> --- /dev/null
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -0,0 +1,41 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#ifndef HW_S390X_CPU_TOPOLOGY_H
+> +#define HW_S390X_CPU_TOPOLOGY_H
+> +
+> +#include "hw/qdev-core.h"
+> +#include "qom/object.h"
+> +
+> +#define S390_TOPOLOGY_CPU_IFL 0x03
+> +#define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
+> +
+> +typedef struct S390TopoSocket {
+> +    int active_count;
+> +    uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
+> +} S390TopoSocket;
+> +
+> +struct S390Topology {
+> +    SysBusDevice parent_obj;
+> +    uint32_t nr_cpus;
+> +    uint32_t nr_sockets;
+> +    S390TopoSocket *socket;
+> +};
+> +
+> +#define TYPE_S390_CPU_TOPOLOGY "s390-topology"
+> +OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
+> +
+> +void s390_topology_new_cpu(S390CPU *cpu);
+> +
+> +static inline bool s390_has_topology(void)
+> +{
+> +    return false;
+> +}
+> +
+> +#endif
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 4f8a39abda..23b472708d 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -29,6 +29,7 @@ struct S390CcwMachineState {
+>       bool pv;
+>       bool zpcii_disable;
+>       uint8_t loadparm[8];
+> +    void *topology;
 
-I am running it on my workstation, not GitLab.
+I think it is safe to use 'DeviceState *' or 'Object *' for the pointer
+under machine. What is most practical.
 
-  (1/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_devices: 
-PASS (7.69 s)
-  (2/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_fedora: 
-FAIL (23.07 s)
+>   };
+>   
+>   struct S390CcwMachineClass {
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 7d6d01325b..c9066b2496 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -175,6 +175,8 @@ struct ArchCPU {
+>       /* needed for live migration */
+>       void *irqstate;
+>       uint32_t irqstate_saved_size;
+> +    /* Topology this CPU belongs too */
+> +    void *topology;
 
-  (1/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_devices: 
-PASS (6.63 s)
-  (2/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_fedora: 
-FAIL (24.27 s)
+However, under the CPU, we don't know what the future changes reserve
+for us and I would call the attribute 'opaque' or 'machine_data'.
 
-  (1/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_devices: 
-PASS (5.39 s)
-  (2/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_fedora: 
-FAIL (24.23 s)
+For now, it only holds a reference to the S390Topology device model
+but it could become a struct with time.
+  
 
-  (1/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_devices: 
-PASS (6.65 s)
-  (2/2) 
-tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_fedora: 
-FAIL (23.55 s)
+>   };
+>   
+>   
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> new file mode 100644
+> index 0000000000..6af41d3d7b
+> --- /dev/null
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -0,0 +1,125 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> +
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/boards.h"
+> +#include "qemu/typedefs.h"
+> +#include "target/s390x/cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +
+> +/*
+> + * s390_topology_new_cpu:
+> + * @cpu: a pointer to the new CPU
+> + *
+> + * The topology pointed by S390CPU, gives us the CPU topology
+> + * established by the -smp QEMU aruments.
+> + * The core-id is used to calculate the position of the CPU inside
+> + * the topology:
+> + *  - the socket, container TLE, containing the CPU, we have one socket
+> + *    for every nr_cpus (nr_cpus = smp.cores * smp.threads)
+> + *  - the CPU TLE inside the socket, we have potentionly up to 4 CPU TLE
+> + *    in a container TLE with the assumption that all CPU are identical
+> + *    with the same polarity and entitlement because we have maximum 256
+> + *    CPUs and each TLE can hold up to 64 identical CPUs.
+> + *  - the bit in the 64 bit CPU TLE core mask
+> + */
+> +void s390_topology_new_cpu(S390CPU *cpu)
+> +{
+> +    S390Topology *topo = (S390Topology *)cpu->topology;
 
-5/5 failures. I'll skip it locally (no need to send a patch) and we can
-have a look after the release.
+where is cpu->topology set ?
 
-Regards,
+> +    int core_id = cpu->env.core_id;
+> +    int bit, origin;
+> +    int socket_id;
+> +
+> +    socket_id = core_id / topo->nr_cpus;
+> +
+> +    /*
+> +     * At the core level, each CPU is represented by a bit in a 64bit
+> +     * uint64_t which represent the presence of a CPU.
+> +     * The firmware assume that all CPU in a CPU TLE have the same
+> +     * type, polarization and are all dedicated or shared.
+> +     * In that case the origin variable represents the offset of the first
+> +     * CPU in the CPU container.
+> +     * More than 64 CPUs per socket are represented in several CPU containers
+> +     * inside the socket container.
+> +     * The only reason to have several S390TopologyCores inside a socket is
+> +     * to have more than 64 CPUs.
+> +     * In that case the origin variable represents the offset of the first CPU
+> +     * in the CPU container. More than 64 CPUs per socket are represented in
+> +     * several CPU containers inside the socket container.
+> +     */
+> +    bit = core_id;
+> +    origin = bit / 64;
+> +    bit %= 64;
+> +    bit = 63 - bit;
+> +
+> +    topo->socket[socket_id].active_count++;
+> +    set_bit(bit, &topo->socket[socket_id].mask[origin]);
+> +}
+> +
+> +/**
+> + * s390_topology_realize:
+> + * @dev: the device state
+> + * @errp: the error pointer (not used)
+> + *
+> + * During realize the machine CPU topology is initialized with the
+> + * QEMU -smp parameters.
+> + * The maximum count of CPU TLE in the all Topology can not be greater
+> + * than the maximum CPUs.
+> + */
+> +static void s390_topology_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(qdev_get_machine());
 
-Phil.
+hmm,
+
+> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
+> +
+> +    topo->nr_cpus = ms->smp.cores * ms->smp.threads;
+> +    topo->nr_sockets = ms->smp.sockets;
+
+These properties should be set in s390_init_topology() with :
+
+   object_property_set_int(OBJECT(dev), "num-cpus",
+                           ms->smp.cores * ms->smp.threads, errp);
+
+   object_property_set_int(OBJECT(dev), "num-sockets",
+                           ms->smp.sockets, errp);
+
+before calling sysbus_realize_and_unref()
+
+
+> +    topo->socket = g_new0(S390TopoSocket, topo->nr_sockets);
+
+For consistency, you could add an unrealize handler to free the array.
+
+> +}
+> +
+> +static Property s390_topology_properties[] = {
+> +    DEFINE_PROP_UINT32("nr_cpus", S390Topology, nr_cpus, 1),
+> +    DEFINE_PROP_UINT32("nr_sockets", S390Topology, nr_sockets, 1),
+
+A quick audit of the property names in QEMU code shows that a "num-" prefix
+is usually preferred.
+
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +/**
+> + * topology_class_init:
+> + * @oc: Object class
+> + * @data: (not used)
+> + *
+> + * A very simple object we will need for reset and migration.
+> + */
+> +static void topology_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = s390_topology_realize;
+> +    device_class_set_props(dc, s390_topology_properties);
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> +}
+> +
+> +static const TypeInfo cpu_topology_info = {
+> +    .name          = TYPE_S390_CPU_TOPOLOGY,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(S390Topology),
+> +    .class_init    = topology_class_init,
+> +};
+> +
+> +static void topology_register(void)
+> +{
+> +    type_register_static(&cpu_topology_info);
+> +}
+> +type_init(topology_register);
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 9ab91df5b1..5776d3e58f 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -44,6 +44,7 @@
+>   #include "hw/s390x/pv.h"
+>   #include "migration/blocker.h"
+>   #include "qapi/visitor.h"
+> +#include "hw/s390x/cpu-topology.h"
+>   
+>   static Error *pv_mig_blocker;
+>   
+> @@ -102,6 +103,19 @@ static void s390_init_cpus(MachineState *machine)
+>       }
+>   }
+>   
+> +static void s390_init_topology(MachineState *machine)
+> +{
+> +    DeviceState *dev;
+> +
+> +    if (s390_has_topology()) {
+
+I would move the s390_has_topology() check in the caller.
+
+> +        dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
+> +        object_property_add_child(&machine->parent_obj,
+> +                                  TYPE_S390_CPU_TOPOLOGY, OBJECT(dev));
+> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +        S390_CCW_MACHINE(machine)->topology = dev;
+
+and I would move the assignment in the caller also.
+
+> +    }
+> +}
+> +
+>   static const char *const reset_dev_types[] = {
+>       TYPE_VIRTUAL_CSS_BRIDGE,
+>       "s390-sclp-event-facility",
+> @@ -252,6 +266,9 @@ static void ccw_init(MachineState *machine)
+>       /* init memory + setup max page size. Required for the CPU model */
+>       s390_memory_init(machine->ram);
+>   
+> +    /* Adding the topology must be done before CPU initialization */
+> +    s390_init_topology(machine);
+> +
+>       /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+>       s390_init_cpus(machine);
+>   
+> @@ -314,6 +331,12 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
+>       g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
+>       ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
+>   
+> +    /* Inserting the CPU in the Topology can not fail */
+> +    if (S390_CCW_MACHINE(ms)->topology) {
+> +        cpu->topology = S390_CCW_MACHINE(ms)->topology;
+
+Two QOM cast. One should be enough. Please introduce a local variable.
+
+> +        s390_topology_new_cpu(cpu);
+
+I would pass the 'topology' object as a parameter of s390_topology_new_cpu()
+and do the cpu->topology assignment in the same routine.
+
+May be rename it also to :
+
+   void s390_topology_add_cpu(S390Topology *topo, S390CPU *cpu)
+
+
+Thanks,
+
+C.
+  
+> +    }
+> +
+>       if (dev->hotplugged) {
+>           raise_irq_cpu_hotplug();
+>       }
+> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+> index f291016fee..653f6ab488 100644
+> --- a/hw/s390x/meson.build
+> +++ b/hw/s390x/meson.build
+> @@ -2,6 +2,7 @@ s390x_ss = ss.source_set()
+>   s390x_ss.add(files(
+>     'ap-bridge.c',
+>     'ap-device.c',
+> +  'cpu-topology.c',
+>     'ccw-device.c',
+>     'css-bridge.c',
+>     'css.c',
 
 
