@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4581D629DAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6158629E28
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:55:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouxyx-00063d-Ol; Tue, 15 Nov 2022 10:36:15 -0500
+	id 1ouxyw-00063A-K8; Tue, 15 Nov 2022 10:36:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouxyu-0005z9-2H
+ id 1ouxyt-0005yt-Pd
  for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:36:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouxyo-0008OW-Ji
+ id 1ouxyp-0008Od-SN
  for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:36:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668526566;
+ s=mimecast20190719; t=1668526567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZlQ9DFV5GZb35HrLiQSeerG6Q9JfAHXY/TevqMaHCpQ=;
- b=ayLSFjsPw9SUDaEyF5KclRlPUfzRRY/r+Z/f3rf7uXVLVf8xWIhiqd4uMew9EBoeSfmMmK
- rXOrPQmKuad3bNVkNedIvmlemGew4/VzmC2ZpUmwYquxnVYWkVgSnpBqr05JGw+R67YwfL
- abl+6qoTAjJnjYWKoDEU0e2w03NtyQ4=
+ bh=4j3dbCKGLbNDGAn+c9H7VpwArQIYSq5GKQxPanVzcRI=;
+ b=MV9SJVAGRh+5+poi6m3rXYogzwfGprq8hd09bmT7MOPdKrXd7x89i33ilIeMDI/VwRUJda
+ J1juMOsg6PSZo23mWKEza8WyO5OEzGsUsnP6lKRj6U2zDNSWxfxlbUp91dPuWvRM2NpkHl
+ +zmI/WbiY3Gn8b4v4emq3MNO1aj0gQ4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-FJCKyW-yPtCJUOGE1Yj42w-1; Tue, 15 Nov 2022 10:36:02 -0500
-X-MC-Unique: FJCKyW-yPtCJUOGE1Yj42w-1
+ us-mta-197-my1_ThKENq6pBGElsRbJMQ-1; Tue, 15 Nov 2022 10:36:04 -0500
+X-MC-Unique: my1_ThKENq6pBGElsRbJMQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30F1D87A9EA;
- Tue, 15 Nov 2022 15:36:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DDD5857FB0;
+ Tue, 15 Nov 2022 15:36:03 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.195.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83F7A2166B2C;
- Tue, 15 Nov 2022 15:35:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7574F2166B2C;
+ Tue, 15 Nov 2022 15:36:00 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Michael Tokarev <mjt@tls.msk.ru>,
@@ -55,10 +55,9 @@ Cc: Michael Tokarev <mjt@tls.msk.ru>,
  qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Fam Zheng <fam@euphon.net>
-Subject: [PULL 12/30] migration: Disallow postcopy preempt to be used with
- compress
-Date: Tue, 15 Nov 2022 16:34:56 +0100
-Message-Id: <20221115153514.28003-13-quintela@redhat.com>
+Subject: [PULL 13/30] migration: Use non-atomic ops for clear log bitmap
+Date: Tue, 15 Nov 2022 16:34:57 +0100
+Message-Id: <20221115153514.28003-14-quintela@redhat.com>
 In-Reply-To: <20221115153514.28003-1-quintela@redhat.com>
 References: <20221115153514.28003-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -72,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,40 +89,147 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Xu <peterx@redhat.com>
 
-The preempt mode requires the capability to assign channel for each of the
-page, while the compression logic will currently assign pages to different
-compress thread/local-channel so potentially they're incompatible.
+Since we already have bitmap_mutex to protect either the dirty bitmap or
+the clear log bitmap, we don't need atomic operations to set/clear/test on
+the clear log bitmap.  Switching all ops from atomic to non-atomic
+versions, meanwhile touch up the comments to show which lock is in charge.
+
+Introduced non-atomic version of bitmap_test_and_clear_atomic(), mostly the
+same as the atomic version but simplified a few places, e.g. dropped the
+"old_bits" variable, and also the explicit memory barriers.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/exec/ram_addr.h | 11 +++++-----
+ include/exec/ramblock.h |  3 +++
+ include/qemu/bitmap.h   |  1 +
+ util/bitmap.c           | 45 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 55 insertions(+), 5 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 406a9e2f72..0bc3fce4b7 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1357,6 +1357,17 @@ static bool migrate_caps_check(bool *cap_list,
-             error_setg(errp, "Postcopy preempt requires postcopy-ram");
-             return false;
-         }
-+
-+        /*
-+         * Preempt mode requires urgent pages to be sent in separate
-+         * channel, OTOH compression logic will disorder all pages into
-+         * different compression channels, which is not compatible with the
-+         * preempt assumptions on channel assignments.
-+         */
-+        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
-+            error_setg(errp, "Postcopy preempt not compatible with compress");
-+            return false;
-+        }
-     }
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 1500680458..f4fb6a2111 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -42,7 +42,8 @@ static inline long clear_bmap_size(uint64_t pages, uint8_t shift)
+ }
  
-     return true;
+ /**
+- * clear_bmap_set: set clear bitmap for the page range
++ * clear_bmap_set: set clear bitmap for the page range.  Must be with
++ * bitmap_mutex held.
+  *
+  * @rb: the ramblock to operate on
+  * @start: the start page number
+@@ -55,12 +56,12 @@ static inline void clear_bmap_set(RAMBlock *rb, uint64_t start,
+ {
+     uint8_t shift = rb->clear_bmap_shift;
+ 
+-    bitmap_set_atomic(rb->clear_bmap, start >> shift,
+-                      clear_bmap_size(npages, shift));
++    bitmap_set(rb->clear_bmap, start >> shift, clear_bmap_size(npages, shift));
+ }
+ 
+ /**
+- * clear_bmap_test_and_clear: test clear bitmap for the page, clear if set
++ * clear_bmap_test_and_clear: test clear bitmap for the page, clear if set.
++ * Must be with bitmap_mutex held.
+  *
+  * @rb: the ramblock to operate on
+  * @page: the page number to check
+@@ -71,7 +72,7 @@ static inline bool clear_bmap_test_and_clear(RAMBlock *rb, uint64_t page)
+ {
+     uint8_t shift = rb->clear_bmap_shift;
+ 
+-    return bitmap_test_and_clear_atomic(rb->clear_bmap, page >> shift, 1);
++    return bitmap_test_and_clear(rb->clear_bmap, page >> shift, 1);
+ }
+ 
+ static inline bool offset_in_ramblock(RAMBlock *b, ram_addr_t offset)
+diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+index 6cbedf9e0c..adc03df59c 100644
+--- a/include/exec/ramblock.h
++++ b/include/exec/ramblock.h
+@@ -53,6 +53,9 @@ struct RAMBlock {
+      * and split clearing of dirty bitmap on the remote node (e.g.,
+      * KVM).  The bitmap will be set only when doing global sync.
+      *
++     * It is only used during src side of ram migration, and it is
++     * protected by the global ram_state.bitmap_mutex.
++     *
+      * NOTE: this bitmap is different comparing to the other bitmaps
+      * in that one bit can represent multiple guest pages (which is
+      * decided by the `clear_bmap_shift' variable below).  On
+diff --git a/include/qemu/bitmap.h b/include/qemu/bitmap.h
+index 82a1d2f41f..3ccb00865f 100644
+--- a/include/qemu/bitmap.h
++++ b/include/qemu/bitmap.h
+@@ -253,6 +253,7 @@ void bitmap_set(unsigned long *map, long i, long len);
+ void bitmap_set_atomic(unsigned long *map, long i, long len);
+ void bitmap_clear(unsigned long *map, long start, long nr);
+ bool bitmap_test_and_clear_atomic(unsigned long *map, long start, long nr);
++bool bitmap_test_and_clear(unsigned long *map, long start, long nr);
+ void bitmap_copy_and_clear_atomic(unsigned long *dst, unsigned long *src,
+                                   long nr);
+ unsigned long bitmap_find_next_zero_area(unsigned long *map,
+diff --git a/util/bitmap.c b/util/bitmap.c
+index f81d8057a7..8d12e90a5a 100644
+--- a/util/bitmap.c
++++ b/util/bitmap.c
+@@ -240,6 +240,51 @@ void bitmap_clear(unsigned long *map, long start, long nr)
+     }
+ }
+ 
++bool bitmap_test_and_clear(unsigned long *map, long start, long nr)
++{
++    unsigned long *p = map + BIT_WORD(start);
++    const long size = start + nr;
++    int bits_to_clear = BITS_PER_LONG - (start % BITS_PER_LONG);
++    unsigned long mask_to_clear = BITMAP_FIRST_WORD_MASK(start);
++    bool dirty = false;
++
++    assert(start >= 0 && nr >= 0);
++
++    /* First word */
++    if (nr - bits_to_clear > 0) {
++        if ((*p) & mask_to_clear) {
++            dirty = true;
++        }
++        *p &= ~mask_to_clear;
++        nr -= bits_to_clear;
++        bits_to_clear = BITS_PER_LONG;
++        p++;
++    }
++
++    /* Full words */
++    if (bits_to_clear == BITS_PER_LONG) {
++        while (nr >= BITS_PER_LONG) {
++            if (*p) {
++                dirty = true;
++                *p = 0;
++            }
++            nr -= BITS_PER_LONG;
++            p++;
++        }
++    }
++
++    /* Last word */
++    if (nr) {
++        mask_to_clear &= BITMAP_LAST_WORD_MASK(size);
++        if ((*p) & mask_to_clear) {
++            dirty = true;
++        }
++        *p &= ~mask_to_clear;
++    }
++
++    return dirty;
++}
++
+ bool bitmap_test_and_clear_atomic(unsigned long *map, long start, long nr)
+ {
+     unsigned long *p = map + BIT_WORD(start);
 -- 
 2.38.1
 
