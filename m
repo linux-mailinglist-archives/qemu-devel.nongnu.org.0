@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36AD628F91
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DF9628FF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 03:34:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oul7l-0006Z0-PG; Mon, 14 Nov 2022 20:52:29 -0500
+	id 1oulkk-0001DE-Bl; Mon, 14 Nov 2022 21:32:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1oul7j-0006Yd-LG
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 20:52:27 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1oul7g-0006DB-Jt
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 20:52:27 -0500
-Received: by mail-pl1-x633.google.com with SMTP id p12so11806952plq.4
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 17:52:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pGN7jbnPNb1XVzcbq8HrvmmgVcfF+XM/hNeHfbSHSuM=;
- b=UYQFsDk7s4/Xn01m4OnM7B0wWPe+wUN4Wt28HRd8r8cD6ZeIJkHk7WnrjJaEhEHgqi
- ki1ZBYsx02OgZVHv6S8qGEdp97y+kwGYbKEFRegOe9TsMzisrlbEcJQQEyNpJTZDRiYY
- s+YBcuLDIEfzmdG3vn2gmV0iEI1TME4lF/aWbevK/QT6uT5Io6+XJ5KJnjiV6P5deQkf
- qBjkBGgNCqkmqy21ipuyvPQzCcj4PDHHLig1Z2s6JPxzx2HrHrkXblKsCbLBTiUefRNv
- oTT0o+rJQl2VzvdLul7jdpliEAMyjOPga1iwEgcTPh/GIiyX2iMy3zqqDigB0jyOK5zr
- oqjQ==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1oulkj-0001D4-39
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 21:32:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1oulkg-0004tP-QB
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 21:32:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668479560;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=w85QKWpEMO/yjbpiVurlPLDrweJ17knttlk76Put+XY=;
+ b=dlqJF+i4MHwDhCbbxKnXEsdriXHsKTPyQvpTGgveIpw2fbhdURL+nqsyn87sJ7vN/XAsq7
+ LcnFDBfOfMZaeEjIMJ0gPMiQxxNlT3BKbcrjRuNMwnZrTCkqn3aikjsZSUJ6XyjxH96M69
+ d6Hi1a3Hf0b/PF8QJy4LfswSALc57gs=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-187-hDyFPy6GNZCPIR5Ht5ivDg-1; Mon, 14 Nov 2022 21:32:38 -0500
+X-MC-Unique: hDyFPy6GNZCPIR5Ht5ivDg-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-3697bd55974so122276237b3.15
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 18:32:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pGN7jbnPNb1XVzcbq8HrvmmgVcfF+XM/hNeHfbSHSuM=;
- b=vcHkqX3Mu9M57zRGx8pTvBFYNp/uza6c+YmOPSBZBwQ4kPLlfUmkafsP4f6mqb4NXV
- FThUGVFIejGVE/E2uBTZJUTXGOfR/91ajE+TlADiOsEtHATdmaIydjSaqjWkN8Xogkzz
- mtnSbUeWSt0RMfkfQcSUnEZqIpY6M99No8Yic3iqMWbxV4rFWnkBQ9qf5ezv9wfBMMli
- L2hiXMLc4L4rrcP/MPxNg0VEzTczxUjN0/QlpMEJbxJ601h5uOGZq/PXE1tX9LQ8K/mJ
- R+6GZ9LkSJiptXPeaD/rtDT/XNzUKDmYMZDlaQhCbV65ea/zANHrP8ASpzFT5gk3F2y+
- uH2Q==
-X-Gm-Message-State: ANoB5pkcGAZb3pHKr1H2e+2VNGUtT3r2GgghDfC7QM8WsrUs1NV0bIUp
- cnI29y+kGm6Vqi1LrBPwWQaHxw==
-X-Google-Smtp-Source: AA0mqf40G9a1NrBSLsflq9uKqU7M79Pg/Y10qj8beq13E4J/9SgjCsGAhukjtMPQvcCiVZ6LYjqA1g==
-X-Received: by 2002:a17:90a:e610:b0:20a:78b7:9210 with SMTP id
- j16-20020a17090ae61000b0020a78b79210mr15637257pjy.138.1668477142104; 
- Mon, 14 Nov 2022 17:52:22 -0800 (PST)
-Received: from [10.3.43.196] ([63.216.146.186])
- by smtp.gmail.com with ESMTPSA id
- q12-20020a170902a3cc00b00186748fe6ccsm8229384plb.214.2022.11.14.17.52.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Nov 2022 17:52:21 -0800 (PST)
-Message-ID: <a5f10b1f-2b2b-d407-1218-80a3791f08f6@bytedance.com>
-Date: Tue, 15 Nov 2022 09:51:11 +0800
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w85QKWpEMO/yjbpiVurlPLDrweJ17knttlk76Put+XY=;
+ b=rm8VQ6dEMqIGjoDvvnUeGVokiSAAE3ex69XzRz4a62tkMFsNKHik8OoRli+aj+FVPt
+ +wxuD0mKovPDrBtbwWIgrEQLabVUmlICswhlzPHzTghokr3X2mB7SDVox4xVwLZZFGCH
+ ozWnu079X1skigv4qHJBLQXMpdZBwv7BAWABs3dOzxw44LBQZfzFd+wB6xrXBKW9tvSi
+ OQCl2Fb4YA1XQfrZr3XF9mJt8jrFfPnvf6KB68xkKw8iwwOyLpOwtUj1ujgbw+mkAPMS
+ VwvPVs7IMA7sYqUwL/N134AscrPDcYvJBuZkOv5qHLmmTOYFffDBKu8he1keQ2TlPWCH
+ lYJQ==
+X-Gm-Message-State: ANoB5pmYq2ruaN9OqkRHe4AL5zyE7CxIgcRn87D3luuTCMUtZVH4y0b+
+ R6J6TUhqxPfwXVpoV18OrRdc1zGSM4oYuBf6aWR2bvlhZtti0klCstzXAfAosRxYMWtXneh1KPi
+ vW8HHrXdJPRB8Ki8G+QN7g/DOxtIDDy0=
+X-Received: by 2002:a05:6902:1342:b0:6dd:9de8:b408 with SMTP id
+ g2-20020a056902134200b006dd9de8b408mr14357990ybu.268.1668479557807; 
+ Mon, 14 Nov 2022 18:32:37 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7bW2k29hQgYKNdy6f/SZRksa3jDLiO6psVaQiEhERTZZR/nTkHLJ0HI/bUF2nNWJdiwh57MYkWzllS72XRBg8=
+X-Received: by 2002:a05:6902:1342:b0:6dd:9de8:b408 with SMTP id
+ g2-20020a056902134200b006dd9de8b408mr14357975ybu.268.1668479557523; Mon, 14
+ Nov 2022 18:32:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Re: [PATCH for 8.0 8/8] hmp: add cryptodev info command
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: arei.gonglei@huawei.com, mst@redhat.com, eblake@redhat.com,
- armbru@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org
-References: <20221111064553.246932-1-pizhenwei@bytedance.com>
- <20221111064553.246932-9-pizhenwei@bytedance.com> <Y3KGBiYh3QpzhVOX@work-vm>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <Y3KGBiYh3QpzhVOX@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221109055629.789795-1-leobras@redhat.com>
+ <87tu362a5y.fsf@secure.mitica>
+In-Reply-To: <87tu362a5y.fsf@secure.mitica>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Mon, 14 Nov 2022 23:32:26 -0300
+Message-ID: <CAJ6HWG5rwLiVZaJ6oMQQa-UJP3fGHqdQcx63xgJYP+Y1KfR_nA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] migration: Fix yank on postcopy multifd crashing
+ guest after migration
+To: quintela@redhat.com
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org, 
+ Li Xiaohui <xiaohli@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URG_BIZ=0.573 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,135 +95,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Nov 10, 2022 at 10:48 AM Juan Quintela <quintela@redhat.com> wrote:
+>
+> Leonardo Bras <leobras@redhat.com> wrote:
+> D> When multifd and postcopy-ram capabilities are enabled, if a
+> > migrate-start-postcopy is attempted, the migration will finish sending the
+> > memory pages and then crash with the following error:
+> >
+> > qemu-system-x86_64: ../util/yank.c:107: yank_unregister_instance: Assertion
+> > `QLIST_EMPTY(&entry->yankfns)' failed.
+> >
+> > This happens because even though all multifd channels could
+> > yank_register_function(), none of them could unregister it before
+> > unregistering the MIGRATION_YANK_INSTANCE, causing the assert to fail.
+> >
+> > Fix that by calling multifd_load_cleanup() on postcopy_ram_listen_thread()
+> > before MIGRATION_YANK_INSTANCE is unregistered.
+>
+> Hi
+>
+> One question,
+> What warantees that migration_load_cleanup() is not called twice?
+>
+> I can't see anything that provides that here?  Or does postcopy have
+> never done the cleanup of multifd channels before?
+
+IIUC, postcopy is not doing multifd cleanup for a while, at least
+since 6.0.0-rc2.
+That is as far as I went back testing, and by fixing other (build)
+bugs, I could get the yank to abort the target qemu after the
+migration finished on multifd + postcopy scenario.
 
 
-On 11/15/22 02:16, Dr. David Alan Gilbert wrote:
-> * zhenwei pi (pizhenwei@bytedance.com) wrote:
->> Example of this command:
->>   # virsh qemu-monitor-command vm --hmp info cryptodev
->> cryptodev1: service=[akcipher|mac|hash|cipher]
->>      queue 0: type=builtin
->> cryptodev0: service=[akcipher]
->>      queue 0: type=lkcf
->>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>   hmp-commands-info.hx  | 14 ++++++++++++++
->>   include/monitor/hmp.h |  1 +
->>   monitor/hmp-cmds.c    | 36 ++++++++++++++++++++++++++++++++++++
->>   3 files changed, 51 insertions(+)
->>
->> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->> index 754b1e8408..47d63d26db 100644
->> --- a/hmp-commands-info.hx
->> +++ b/hmp-commands-info.hx
->> @@ -993,3 +993,17 @@ SRST
->>     ``info virtio-queue-element`` *path* *queue* [*index*]
->>       Display element of a given virtio queue
->>   ERST
->> +
->> +    {
->> +        .name       = "cryptodev",
->> +        .args_type  = "",
->> +        .params     = "",
->> +        .help       = "show the crypto devices",
->> +        .cmd        = hmp_info_cryptodev,
->> +        .flags      = "p",
->> +    },
->> +
->> +SRST
->> +  ``info cryptodev``
->> +    Show the crypto devices.
->> +ERST
->> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
->> index dfbc0c9a2f..b6b2b49202 100644
->> --- a/include/monitor/hmp.h
->> +++ b/include/monitor/hmp.h
->> @@ -143,5 +143,6 @@ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->>   void hmp_human_readable_text_helper(Monitor *mon,
->>                                       HumanReadableText *(*qmp_handler)(Error **));
->>   void hmp_info_stats(Monitor *mon, const QDict *qdict);
->> +void hmp_info_cryptodev(Monitor *mon, const QDict *qdict);
->>   
->>   #endif
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index 01b789a79e..3f1054aa1e 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -33,6 +33,7 @@
->>   #include "qapi/qapi-commands-block.h"
->>   #include "qapi/qapi-commands-char.h"
->>   #include "qapi/qapi-commands-control.h"
->> +#include "qapi/qapi-commands-cryptodev.h"
->>   #include "qapi/qapi-commands-machine.h"
->>   #include "qapi/qapi-commands-migration.h"
->>   #include "qapi/qapi-commands-misc.h"
->> @@ -2761,3 +2762,38 @@ void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict)
->>   
->>       qapi_free_VirtioQueueElement(e);
->>   }
->> +
->> +void hmp_info_cryptodev(Monitor *mon, const QDict *qdict)
->> +{
->> +    CryptodevInfoList *info_list;
->> +    CryptodevInfo *info;
->> +    QCryptodevBackendServiceTypeList *service_list;
->> +    CryptodevBackendClientList *client_list;
->> +    CryptodevBackendClient *client;
->> +    char services[128] = {};
-> 
-> I'd rather avoid magic length buffers; the magic is always the wrong
-> number!
-> 
->> +    int len;
->> +
->> +    info_list = qmp_query_cryptodev(NULL);
->> +    for ( ; info_list; info_list = info_list->next) {
-> 
-> maybe:
->   for ( info_list = qmp_query_cryptodev(NULL);
->         info_list;
->         info_list = info_list->next) {
-> 
->> +        info = info_list->value;
->> +
->> +        service_list = info->service;
->> +        for (len = 0; service_list; service_list = service_list->next) {
->> +            len += snprintf(services + len, sizeof(services) - len, "%s|",
->> +                QCryptodevBackendServiceType_str(service_list->value));
-> 
-> Consider using a dynamically allocated string and then just using
-> g_strconcat or g_strjoin() to glue them all together.
-> 
->      new_services = g_strjoin("|", services,  NULL);   ?
->      g_free(services);
->      services = new_services;
-> 
-> Maybe?
-> 
-Hi, I'll fix these in the next version, thanks!
+>
+> Later, Juan.
+>
+>
+> > Fixes: b5eea99ec2 ("migration: Add yank feature")
+> > Reported-by: Li Xiaohui <xiaohli@redhat.com>
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > ---
+> >  migration/migration.h |  1 +
+> >  migration/migration.c | 18 +++++++++++++-----
+> >  migration/savevm.c    |  2 ++
+> >  3 files changed, 16 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/migration/migration.h b/migration/migration.h
+> > index cdad8aceaa..240f64efb0 100644
+> > --- a/migration/migration.h
+> > +++ b/migration/migration.h
+> > @@ -473,6 +473,7 @@ void migration_make_urgent_request(void);
+> >  void migration_consume_urgent_request(void);
+> >  bool migration_rate_limit(void);
+> >  void migration_cancel(const Error *error);
+> > +bool migration_load_cleanup(void);
+> >
+> >  void populate_vfio_info(MigrationInfo *info);
+> >  void postcopy_temp_page_reset(PostcopyTmpPage *tmp_page);
+> > diff --git a/migration/migration.c b/migration/migration.c
+> > index 739bb683f3..4f363b2a95 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -486,6 +486,17 @@ void migrate_add_address(SocketAddress *address)
+> >                        QAPI_CLONE(SocketAddress, address));
+> >  }
+> >
+> > +bool migration_load_cleanup(void)
+> > +{
+> > +    Error *local_err = NULL;
+> > +
+> > +    if (multifd_load_cleanup(&local_err)) {
+> > +        error_report_err(local_err);
+> > +        return true;
+> > +    }
+> > +    return false;
+> > +}
+> > +
+> >  static void qemu_start_incoming_migration(const char *uri, Error **errp)
+> >  {
+> >      const char *p = NULL;
+> > @@ -540,8 +551,7 @@ static void process_incoming_migration_bh(void *opaque)
+> >       */
+> >      qemu_announce_self(&mis->announce_timer, migrate_announce_params());
+> >
+> > -    if (multifd_load_cleanup(&local_err) != 0) {
+> > -        error_report_err(local_err);
+> > +    if (migration_load_cleanup()) {
+> >          autostart = false;
+> >      }
+> >      /* If global state section was not received or we are in running
+> > @@ -646,9 +656,7 @@ fail:
+> >      migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
+> >                        MIGRATION_STATUS_FAILED);
+> >      qemu_fclose(mis->from_src_file);
+> > -    if (multifd_load_cleanup(&local_err) != 0) {
+> > -        error_report_err(local_err);
+> > -    }
+> > +    migration_load_cleanup();
+> >      exit(EXIT_FAILURE);
+> >  }
+> >
+> > diff --git a/migration/savevm.c b/migration/savevm.c
+> > index a0cdb714f7..250caff7f4 100644
+> > --- a/migration/savevm.c
+> > +++ b/migration/savevm.c
+> > @@ -1889,6 +1889,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> >          exit(EXIT_FAILURE);
+> >      }
+> >
+> > +    migration_load_cleanup();
+> > +
+>
+> This addition is the one that I don't understand why it was not
+> needed/done before.
 
-> 
->> +        }
->> +        if (len) {
->> +            services[len - 1] = '\0'; /* strip last char '|' */
->> +        }
->> +        monitor_printf(mon, "%s: service=[%s]\n", info->id, services);
->> +
->> +        client_list = info->client;
->> +        for ( ; client_list; client_list = client_list->next) {
->> +            client = client_list->value;
->> +            monitor_printf(mon, "    queue %ld: type=%s\n", client->queue,
->> +                          QCryptodevBackendType_str(client->type));
->> +        }
->> +    }
->> +
->> +    qapi_free_CryptodevInfoList(info_list);
->> +}
->> -- 
->> 2.20.1
->>
+Please see the above comment, but tl;dr, it was not done before.
 
--- 
-zhenwei pi
+
+Thanks you for reviewing,
+Leo
+
+>
+> >      migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+> >                                     MIGRATION_STATUS_COMPLETED);
+> >      /*
+>
+> Later, Juan.
+>
+
 
