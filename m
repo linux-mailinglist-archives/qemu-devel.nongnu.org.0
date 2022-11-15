@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1506D62975F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720E0629799
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:39:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouu7c-0001Yz-Lh; Tue, 15 Nov 2022 06:28:56 -0500
+	id 1ouuGN-0003gH-Ud; Tue, 15 Nov 2022 06:38:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouu7a-0001UC-I8
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:28:54 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouuGH-0003dw-2F
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:37:54 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouu7Y-0005Xa-RX
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:28:54 -0500
-Received: by mail-ej1-x635.google.com with SMTP id k2so35301323ejr.2
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 03:28:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouuGF-0006wI-54
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:37:52 -0500
+Received: by mail-ed1-x535.google.com with SMTP id i21so21451450edj.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 03:37:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Gi35BK4XzZJmIycnEjm0yvCkTNe5l82Czar2qiGnxbw=;
- b=Xj3caSzwqq3/RRIy0fe40D/VCidA9o1XM5Yu1sYWNZLHfnI+Xh9PafB8br1iS/0PcJ
- swlGbdDHNBGUT/P4USmpGcy2laeJ7yFamtYyDPTN34qbO2sdB0juoPDOFeVT76zpdZn6
- rn7oVwOqdZQqHeJjXQhH0am2PliWj3DakZt8UqR7PH+/VzhqSe6+1T4uSon1OPGR0WAs
- QgKCmlTTXLpKT4Jhdq4VHxTRMZOwGOxlQ+Grk7/xUeL2EZyk4wIuKfFW8O7TLmXfyaDv
- PV5pArntmOTUApoQYzzioOPrQpqsiqoP8bHRv2zqZW7iDt5xBK94PaMtEWCh/3w1ZBz/
- mihg==
+ bh=UGd9AR2ra5VOSNrKQ4PCvDdPIDeHM4zy5g18m02XjWY=;
+ b=V8lROYTN3SOZ4Y1pWLKkIc6zZ6b/cK43EW55eRRoqqivM1PvlWIGGbrSB/LSXwGtTy
+ 5HlANkA4LajjDVrku01a9qcVxShQRPK6BD5W3kRcpMh0p2aDKi3VFW8bv+YTkQdcHBG2
+ JL0aDsQuG4j+CbR57ufSYFITa/SFgteumUzFmCEFXbCwh+zqOnmZW/RlE3mLxtPMK2e9
+ 0j9IGTFCIZJJ4X5Rr9od/suW5tDaqo8EMMGS0fuWI6lWaN0HCq/uFQvE94jMBRGQbwmH
+ FqlgR1OJnj4xaezRwfctO0ZKykoi9eK3Uvzbn1mQt0tkhtk8oN81asjdLqexoIHYrMcP
+ wSEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Gi35BK4XzZJmIycnEjm0yvCkTNe5l82Czar2qiGnxbw=;
- b=uO8J1wR6cDpTGZ+nLCZ5fhwKc3nIojjVxKpI0Y3821kpvUd/FVkNsC6+s33jCehDHF
- bAajlcJg1DAKVsg4l+4I8oV44kK4BuDURzKXAO6X6B3OU7MP3h+wGCkFhXau/3kKTuIK
- OrhpArv1nwpIN9CsyZJMp0AKpRFMIXLTDPu+8PrSwmNRLXoWH/SUujoyZrsYAPMbAxZE
- s2EIr0SqTmALzgcNDyQlIV9D+1ebZms+pNTiUetu7pLNiSxARR6dqmYhZclUo2IWrcGE
- EabRXMtlbx+PwWjIJr3PsieA1bPiGo7xVmFOBTYBxY3BsvlizkK2k9g1+VODZHrA8iWi
- dnLQ==
-X-Gm-Message-State: ANoB5pl5FVMcFi/fLFtnFxEp6ubm8RbjvBSqeqtmmP7E0VNNnyf6ilJ7
- J610jF6HGhyUkHjNm8f4Vglapg==
-X-Google-Smtp-Source: AA0mqf4zz3KC+xI+cocf+4eVLxTF2O7POjOFvGUs2VPqJmAJ20Zli0yZERGUXdZtDXHE1VRNXBsDRw==
-X-Received: by 2002:a17:906:d791:b0:78d:48ac:9044 with SMTP id
- pj17-20020a170906d79100b0078d48ac9044mr12559474ejb.613.1668511730994; 
- Tue, 15 Nov 2022 03:28:50 -0800 (PST)
+ bh=UGd9AR2ra5VOSNrKQ4PCvDdPIDeHM4zy5g18m02XjWY=;
+ b=BtjzjgD7/1+/zWO2nfCT8twsVatCmSoH+ZcuyfOclOfF87vBMwbCptS0bDFF2ysuJ6
+ /3KCp8mh4x5JxBE+046m+9MUkWpi4BUQe4x6olWjz4p47zYVjZmMGRsjes4zLg+HWVvX
+ G9pI1g4OYk2q4pSFSPsJT0WADW4p27uMaFFdtJ7WHrNDC7/UHMDWMCdCDEy9dsXSLNBw
+ W4uVftDEteh5ZX6XIEtBPGY16NHW83fA5Zee9eT9mritzr4QTxcveFwLl3mV5VukOQ+8
+ CD3VIIkUev88/Dfe06Mm4Ls3zTCnh0txUgG12yIV0Yf9iLb7vrWRnTb4fRYVTGY7ZUDP
+ 3KaQ==
+X-Gm-Message-State: ANoB5pm5HmcvPFWCl8YWA/NUvT36X3/M8W+EBwmCqS6jsH2Z3oa/bNNP
+ 57bGLd4nU70NVCNRJe+0fvpbNQ==
+X-Google-Smtp-Source: AA0mqf66JqkBKUxfDlsacQQEaTXUENplOMj+JkocOvS4Kw1nVZFCfQ/SABiPT0JyNQDsSGJ/ExsbcQ==
+X-Received: by 2002:a05:6402:380c:b0:467:481e:9e2 with SMTP id
+ es12-20020a056402380c00b00467481e09e2mr14810882edb.352.1668512269517; 
+ Tue, 15 Nov 2022 03:37:49 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- k26-20020aa7d2da000000b00467c3cbab6fsm3310333edr.77.2022.11.15.03.28.48
+ e15-20020a170906314f00b007aea50205a0sm5345759eje.187.2022.11.15.03.37.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 03:28:49 -0800 (PST)
-Message-ID: <a94ce3c2-79e1-fae0-a5e2-31510e9aa1fb@linaro.org>
-Date: Tue, 15 Nov 2022 12:28:47 +0100
+ Tue, 15 Nov 2022 03:37:47 -0800 (PST)
+Message-ID: <e1da1500-f8c7-48ec-52bb-d3ac49d07a4e@linaro.org>
+Date: Tue, 15 Nov 2022 12:37:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v3 0/7] memory: prevent dma-reentracy issues
+Subject: Re: [PATCH v4 4/7] target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>
-References: <20221028191648.964076-1-alxndr@bu.edu>
- <CAJSP0QXf3ZiNOQc7ok8Wq6C5np+Q7SDuXu6jmuMivxq6RkGFQA@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, tobias.roehmel@rwth-aachen.de,
+ Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20221023153659.121138-1-tobias.roehmel@rwth-aachen.de>
+ <20221023153659.121138-5-tobias.roehmel@rwth-aachen.de>
+ <CAFEAcA-kCEySTWUGXwqA=aw4E+TBjbUaewsLe5ExtXj0xja0Vg@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAJSP0QXf3ZiNOQc7ok8Wq6C5np+Q7SDuXu6jmuMivxq6RkGFQA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-kCEySTWUGXwqA=aw4E+TBjbUaewsLe5ExtXj0xja0Vg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x635.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,29 +94,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/22 21:50, Stefan Hajnoczi wrote:
-> Preventing this class of bugs is important but QEMU is currently
-> frozen for the 7.2 release. I'm a little concerned about regressions
-> in a patch series that changes core device emulation code.
-
-I'm waiting for Alex's MemTxRequesterType field addition in
-MemTxAttrs [1] lands to rework my previous approach using
-flatview_access_allowed() instead of access_with_adjusted_size()
-[2]. I haven't looked at this series in detail, but since the
-permission check is done on the Memory API layer, I might have
-missed something in my previous intent (by using the FlatView
-layer).
-
-[1] 
-https://lore.kernel.org/qemu-devel/20221111182535.64844-2-alex.bennee@linaro.org/
-[2] 
-https://lore.kernel.org/qemu-devel/20211215182421.418374-4-philmd@redhat.com/
-
-> I'll review the series on Monday and if anyone has strong opinions on
-> whether to merge this into 7.2, please say so. My thoughts are that
-> this should be merged in the 7.3 release cycle so there's time to work
-> out any issues.
+On 14/11/22 18:19, Peter Maydell wrote:
+> On Sun, 23 Oct 2022 at 16:37, <tobias.roehmel@rwth-aachen.de> wrote:
+>>
+>> From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+>>
+>> ARMv8-R AArch32 CPUs behave as if TTBCR.EAE is always 1 even
+>> tough they don't have the TTBCR register.
+>> See ARM Architecture Reference Manual Supplement - ARMv8, for the ARMv8-R
+>> AArch32 architecture profile Version:A.c section C1.2.
+>>
+>> Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+>> ---
+>>   target/arm/debug_helper.c | 3 +++
+>>   target/arm/internals.h    | 4 ++++
+>>   target/arm/tlb_helper.c   | 3 +++
+>>   3 files changed, 10 insertions(+)
+>>
+>> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+>> index c21739242c..73665f988b 100644
+>> --- a/target/arm/debug_helper.c
+>> +++ b/target/arm/debug_helper.c
+>> @@ -437,6 +437,9 @@ static uint32_t arm_debug_exception_fsr(CPUARMState *env)
+>>
+>>       if (target_el == 2 || arm_el_is_aa64(env, target_el)) {
+>>           using_lpae = true;
+>> +    } else if (arm_feature(env, ARM_FEATURE_PMSA)
+>> +            && arm_feature(env, ARM_FEATURE_V8)) {
 > 
-> Stefan
+> Indentation looks wrong here. Generally the second line of a
+> multiline if (...) condition starts in the column after the '(',
+> so it lines up with the first part of the condition.
+> 
+>> +        using_lpae = true;
+>>       } else {
+>>           if (arm_feature(env, ARM_FEATURE_LPAE) &&
+>>               (env->cp15.tcr_el[target_el] & TTBCR_EAE)) {
+> 
+> For instance this is an example in the existing code.
+> 
+> We are inconsistent about whether we put operators like '&&' at
+> the end of the first line or beginning of the second line, so
+> pick whichever you like best, I guess.
+Personally I find the operator at the end aesthetically nicer, but
+few years ago Eric Blake reasoned that moving it at the beginning
+was more explicit (to reviewers) thus safer, and I now I tend to
+place it at the beginning.
+Maybe part of the justification was cases where copy/pasting new
+conditions in pre-existing could introduce a bug when the operator
+is at the end?
 
++Eric/Daniel who usually give such good style advises :)
 
