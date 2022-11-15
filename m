@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545B26297E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 13:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 499E86297E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 13:01:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouubM-0005gE-Fp; Tue, 15 Nov 2022 06:59:40 -0500
+	id 1ouucB-0005zu-Si; Tue, 15 Nov 2022 07:00:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ouubK-0005g5-4y
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:59:38 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1ouubz-0005xh-JM; Tue, 15 Nov 2022 07:00:21 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ouubH-0001OM-IQ
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:59:37 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- d59-20020a17090a6f4100b00213202d77e1so16700812pjk.2
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 03:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1ouubh-0001RX-Kt; Tue, 15 Nov 2022 07:00:17 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ft34so35370464ejc.12;
+ Tue, 15 Nov 2022 04:00:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lDxjoTM+IKi/jtEMS5ce/FPBkDe3kYTDXyiuyv4cfvM=;
- b=nOAJ2nUJ9abmBcnk9WguUIDp5ROTMcrb2E1FLqTRmtmxwlSIo3hWzFdg+3hFRT6u8H
- OHowMvYjlscrPAp46y8q0Iwz4uRR6rME5oXdXE9qwpnPNz+hti3VZ7i0Ki6QEh2FQ6+Q
- 7ERHcX7hJs0OgXwIYHCK43kkCdOpIEw27rqdPPNZWKyDB62uv0DCM3jhPJoSeZG1y0f2
- YT4Q1U5vCtW4C7yobziDzaalq5OjfBXwZdbv5aCPPS40VeG/Byc9v1FWcCPuzexBbA+V
- fAyEoGqOzdFs0xWsAVz+Ex/KoNu537bauw5Izuq3KlxlgtoQEEkSvZ42tTPkJiQddG6Q
- Z3mA==
+ bh=YXXH4jAat53xfCfYxLFI7um3ixpxE+03p6jkKw/M/Hw=;
+ b=Dt7Gssbg9/adHcHmVLrvxMhTjGDQlt4SfL72itUYqNLjFDHAlcR6XWwOT1DRbSbpVs
+ BcqpOZxb4gwoEw+iuS1FmfQop3QlbFHlDDYULOsyfbddrOZIwI5KbRaB41j1PESg2RC6
+ Are8i2HIwczrYDjJta2akr1g+ZzoJpSMZF0Uu5GJxiWvHptjjEz6qwNO1GQCSKIz95r3
+ RBFSG7co2z5iYtAaK4Mm3dG7gewBQEYXttc0UpAY1mYDRmHATA6T4DdKwZLBq0dUfcl+
+ fgAm47GKMtcaZlXGwBe/HelOSJ5PoTve9xJq4JSqgnoWjlrmIz/96OfaQjGIbmIoEPJs
+ YY5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=lDxjoTM+IKi/jtEMS5ce/FPBkDe3kYTDXyiuyv4cfvM=;
- b=z5uHDvdJQ8n9LJU8Hveh7n+6fb7z9yLs67iR6mmxCk+adxiX5RZ8aRNWGNXYWBJNPb
- gRQ7PLFvSqP8JMgoX/HTwsLlsjxKCs2pfS+wcxHJFI8zqeX5So/wA/+Ccm7YFw4a0fpP
- hNyuk5DJn/yF6mNSrLDrxAwzIsXgxWqlLsaSGQY20AeuE+lhPsT9PyBTJOf//k9xwgN7
- cKeI665BnA1HwmJrYs9lnptgtF1ovsWT1NynO+4lw55fHWA7cit3HIO0NfXl9g/DIZII
- 1EMTWiPKH5Kq0r71CqZDzHIzEXHcArwCtKddeA+kEjAgeyVAPMAg1ObtQLh8Dh+t8bob
- PXtQ==
-X-Gm-Message-State: ANoB5pk9lb/4kCM8bs8cMQ1TOZ1OUOmG3k1OEh+PBCcps9fIIJmeOhzC
- dxPi7yV6HUt9uDVMZU+EjhvpIQXsuyAQe6N5YR72vQ==
-X-Google-Smtp-Source: AA0mqf704r0+TG3znv5nQZ1DjtZqutIt2LTl9X0RYqXU1uuWBrAqLyri5VossLUljY6qY4eJleYrA8XAdwnuXnS/QVg=
-X-Received: by 2002:a17:902:cf03:b0:186:9295:2012 with SMTP id
- i3-20020a170902cf0300b0018692952012mr3701830plg.19.1668513573662; Tue, 15 Nov
- 2022 03:59:33 -0800 (PST)
+ bh=YXXH4jAat53xfCfYxLFI7um3ixpxE+03p6jkKw/M/Hw=;
+ b=N0pHCbJKypW3dGlbx12PeTJ98486o1t0lpRWB2ftU1vWz1Y+n64CQYdQ6FQndeWYBB
+ +wb3OwiSb1klUSNKzBsaJyUdoG70JwDA7jdD1xPwaBXlIB08kK1ZqhwPthz3D9SixOdZ
+ GMhVZ0pXRioc4GDjqvRY412ePJNq0a09B8okqmp6PZBYGHweuQnTtwXU3Df1YSlqAFy8
+ 7PsRdV8CIGjS61pCcU0wZ54LUirf6B/z1nt6ZQ93Ohv62j1nNqfy3F/F7Nlfa6L3cf6f
+ qeUdmjofN5N2d6N4L3PTvcxTFLFhhMuVYuZDiPwq3aCc5+C3kgfBjUtYNdfsjzNvNg4i
+ aFYQ==
+X-Gm-Message-State: ANoB5pkIvmpjRlQHrGVL6S1f2lQYLO5PR30QYMwGgAKVnOmEV4LFKyb4
+ PSkrtq0G2UhgoWtwRt8K0mqTTf3/weevVw8iR7g=
+X-Google-Smtp-Source: AA0mqf7rpfdpfUEs4HjhtY2xydNYNA+RqQAJC5xRUdsrhglsZPw6EGWsjYrYGrfrlVMf5dMUzf32JvlZJF8vR4eoxUo=
+X-Received: by 2002:a17:906:66da:b0:7a5:f8a5:6f84 with SMTP id
+ k26-20020a17090666da00b007a5f8a56f84mr13038933ejp.569.1668513599189; Tue, 15
+ Nov 2022 03:59:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115115552.77242-1-mjt@msgid.tls.msk.ru>
-In-Reply-To: <20221115115552.77242-1-mjt@msgid.tls.msk.ru>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Nov 2022 11:59:21 +0000
-Message-ID: <CAFEAcA9nLr67TJMLHXYmofdNUrq9_oufvxoDwFmzUMZ-2LxZQQ@mail.gmail.com>
-Subject: Re: [PATCH v2] disas: recognize either <capstone.h> or
- <capstone/capstone.h>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+References: <20221026084836.1819572-1-oro@il.ibm.com>
+ <CAOi1vP8X6xeuYmPwTS=LivU=XeCM-WDERrCOAySWJauvsOs_iA@mail.gmail.com>
+ <MN2PR15MB34884E9308FA492030A81E3A8A029@MN2PR15MB3488.namprd15.prod.outlook.com>
+In-Reply-To: <MN2PR15MB34884E9308FA492030A81E3A8A029@MN2PR15MB3488.namprd15.prod.outlook.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Tue, 15 Nov 2022 12:59:47 +0100
+Message-ID: <CAOi1vP8eddYYCCuJrPOn_10Du9rG1eAiGDLZtdsaaRFepq8dsQ@mail.gmail.com>
+Subject: Re: [PATCH v1] block/rbd: Add support for layered encryption
+To: Or Ozeri <ORO@il.ibm.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, 
+ Danny Harnik <DANNYH@il.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,24 +83,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 15 Nov 2022 at 11:55, Michael Tokarev <mjt@tls.msk.ru> wrote:
+On Sun, Nov 13, 2022 at 11:16 AM Or Ozeri <ORO@il.ibm.com> wrote:
 >
-> Historically, capstone varies in requiring either <capstone.h>
-> or <capstone/capstone.h> include depending on version and the
-> way how it has been installed.  This has already been an issue
-> before, and will likely become an issue again with capstone
-> 5.0 which seem to have changed this aspect once again.
 >
-> Recognize both ways in the meson check, but prefer <capstone.h>
-> so it's easy to override which capstone to use by
-> pkgconfig's --cflags (or --extra-cflags).
 >
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> ---
-> v2: use cc.has_header, not cc.compile (pm215)
+> > -----Original Message-----
+> > From: Ilya Dryomov <idryomov@gmail.com>
+> > Sent: 11 November 2022 15:01
+> > To: Or Ozeri <ORO@il.ibm.com>
+> > Cc: qemu-devel@nongnu.org; qemu-block@nongnu.org; Danny Harnik
+> > <DANNYH@il.ibm.com>
+> > Subject: [EXTERNAL] Re: [PATCH v1] block/rbd: Add support for layered
+> > encryption
+> >
+> > I don't understand the need for this char* array.  Is there a problem with
+> > putting the blob directly into luks_all_opts->passphrase just like the size is
+> > put into luks_all_opts->passphrase_size?
+> >
+>
+> luks_all_opts->passphrase has a const modifier.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Or,
 
-thanks
--- PMM
+That's really not a reason to make a dynamic memory allocation.  You
+can just cast that const away but I suspect that the underlying issue
+is that a const is missing somewhere else.  At the end of the day, QEMU
+allocates a buffer for the passphrase when it's fetched via the secret
+API -- that pointer should assign to const char* just fine.
+
+Thanks,
+
+                Ilya
 
