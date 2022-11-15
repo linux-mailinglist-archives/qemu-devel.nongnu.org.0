@@ -2,75 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9166294F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F0F629545
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 11:07:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouseu-0004Cu-4F; Tue, 15 Nov 2022 04:55:12 -0500
+	id 1ousoz-0007dI-JM; Tue, 15 Nov 2022 05:05:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouseq-00048n-CQ
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:55:08 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ousor-0007ck-BR
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:05:33 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouseo-0004KZ-Kt
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:55:08 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ousop-00060i-OA
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:05:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668506105;
+ s=mimecast20190719; t=1668506727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DMBaKZLZ0orKVFkO4sUbEngzZwASBejwvETfCmH7ofE=;
- b=cW5nnBRndcLZazWm/Z90Ymbwk0uu1xGbhmMNUjzy0PQZ2LC0PanIIYU7NJWKlckQHjcXTv
- FZ9+4/FsV5/BN8nthKADv9CcxXXqPF45uVyVwY0850+QYM8MnE6dIn6D1tLMmVCGldMXNt
- xfBO4iYBYw8fIIUQhYAshbf2spp7+xo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-510-qW1QW_m3Oq2Vstxb2UrvCQ-1; Tue, 15 Nov 2022 04:54:59 -0500
-X-MC-Unique: qW1QW_m3Oq2Vstxb2UrvCQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AEE53817A64;
- Tue, 15 Nov 2022 09:54:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F4C2C15E76;
- Tue, 15 Nov 2022 09:54:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1510721E6921; Tue, 15 Nov 2022 10:54:56 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,  qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org,  Matthew Rosato <mjrosato@linux.ibm.com>,  Tony
- Krowiak <akrowiak@linux.ibm.com>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v2] util/qemu-config: Fix "query-command-line-options"
- to provide the right values
-References: <20221111141323.246267-1-thuth@redhat.com>
- <875yflbl0u.fsf@pond.sub.org>
- <b8c5f7c4-cf91-1278-1af4-9449b2043e13@redhat.com>
- <87leocwt4x.fsf@pond.sub.org>
- <27387844-bdfd-445b-63b7-86e3acdab859@redhat.com>
-Date: Tue, 15 Nov 2022 10:54:56 +0100
-In-Reply-To: <27387844-bdfd-445b-63b7-86e3acdab859@redhat.com> (Thomas Huth's
- message of "Tue, 15 Nov 2022 09:05:57 +0100")
-Message-ID: <87cz9ov8y7.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=5yzttf4sGJE7DMQxwefGn10Pa6Fuj2qXqTmf1L5F/KA=;
+ b=aseAu9L0y5R7UTbFH+7yr7ZC2tJu89W+u9yZ8lLVxgRYw0byt8OxxzV3tQiDhV0qJ6lkHK
+ cCweTGtYCaetuDKO/h0w72bZjYaF6nN3TEpXS9cw6l+DtpA9cIViSsxYld7LGIIn2GuKvf
+ 7Wy3uW+pm5AAUfNsGIlYkWzWnX+x5PM=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-138-jz__-fezO_Sc6dTOZ4OmOw-1; Tue, 15 Nov 2022 05:05:25 -0500
+X-MC-Unique: jz__-fezO_Sc6dTOZ4OmOw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ln3-20020a0562145a8300b004b8c29a7d50so10263349qvb.15
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 02:05:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5yzttf4sGJE7DMQxwefGn10Pa6Fuj2qXqTmf1L5F/KA=;
+ b=oweV5aYvemlN8gW1EWMFcy1CsDOCsSYQBUj+28/uXNJ5Y86kCsOy+7fqis2skuPfSi
+ shQJBEWimX9gTioqS4NxK960PK3kL+NX3YRh5A7mnCvHDDYTH3KDuQ+9YvFgbd1hlQp6
+ mhXs/Nzy7+QB8EVNj5V9lEnGWl7WC+bFagcSOlZMzTLoquRnnUADl03ipePN9rgzFIB3
+ 2QFLxOIhXWCXpRRNKp0dsqP1+JBMhU9RhJ5qBwGBrTMAQ88EPJu5mxYX851h9p1D4wR7
+ riK8sZ/NWIy/oubRAdrMfWNFgtxSgvsdZUZhfG7+SEXfu3PPtr/ItJDNkjIwNFynYPjF
+ eFLg==
+X-Gm-Message-State: ANoB5pnqpvXFbP9JXcguJ5Q8gmsIC4M4xR7+C6mQd4YsxsfnfWCUCNP1
+ BoEn7KEWuB3R+hdy+mVcfs0J/TxZjLvqfukHMygNSX7wf7Pisis2Y39tYNTSCzpBI7YPDobPHdh
+ gcoSNTU44cfRezDI=
+X-Received: by 2002:a37:c247:0:b0:6fa:8c15:652c with SMTP id
+ j7-20020a37c247000000b006fa8c15652cmr14539063qkm.399.1668506724779; 
+ Tue, 15 Nov 2022 02:05:24 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf46O43/6keECY+sQug584iITRt/1FpvQvYTx6SLqwgrtH0v5BrDs+shVmOmjV2LT231LUPjlw==
+X-Received: by 2002:a37:c247:0:b0:6fa:8c15:652c with SMTP id
+ j7-20020a37c247000000b006fa8c15652cmr14539048qkm.399.1668506724534; 
+ Tue, 15 Nov 2022 02:05:24 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-177-149.web.vodafone.de.
+ [109.43.177.149]) by smtp.gmail.com with ESMTPSA id
+ d16-20020a05622a15d000b003a540320070sm7093065qty.6.2022.11.15.02.05.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 02:05:24 -0800 (PST)
+Message-ID: <c111811c-07e9-b602-0bfe-09eaa4ddabba@redhat.com>
+Date: Tue, 15 Nov 2022 11:05:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] docs/system/s390x: Document the "loadparm" machine
+ property
+Content-Language: en-US
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Collin Walling <walling@linux.ibm.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, "Jason J . Herne"
+ <jjherne@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>
+References: <20221114132502.110213-1-thuth@redhat.com>
+ <a6b76605-b599-1666-293a-4fc70f9ffcdb@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <a6b76605-b599-1666-293a-4fc70f9ffcdb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,54 +105,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> writes:
+On 15/11/2022 09.41, Janosch Frank wrote:
+> On 11/14/22 14:25, Thomas Huth wrote:
+>> The "loadparm" machine property is useful for selecting alternative
+>> kernels on the disk of the guest, but so far we do not tell the users
+>> yet how to use it. Add some documentation to fill this gap.
+>>
+>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2128235
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   docs/system/s390x/bootdevices.rst | 26 ++++++++++++++++++++++++++
+>>   1 file changed, 26 insertions(+)
+>>
+>> diff --git a/docs/system/s390x/bootdevices.rst 
+>> b/docs/system/s390x/bootdevices.rst
+>> index b5950133e8..40089c35a9 100644
+>> --- a/docs/system/s390x/bootdevices.rst
+>> +++ b/docs/system/s390x/bootdevices.rst
+>> @@ -53,6 +53,32 @@ recommended to specify a CD-ROM device via ``-device 
+>> scsi-cd`` (as mentioned
+>>   above) instead.
+>> +Selecting kernels with the ``loadparm`` property
+>> +------------------------------------------------
+>> +
+>> +The ``s390-ccw-virtio`` machine supports the so-called ``loadparm`` 
+>> parameter
+>> +which can be used to select the kernel on the disk of the guest that the
+>> +s390-ccw bios should boot. When starting QEMU, it can be specified like 
+>> this::
+>> +
+>> + qemu-system-s390x -machine s390-ccw-virtio,loadparm=<string>
+>> +
+>> +The first way to use this parameter is to use the word ``PROMPT`` as the
+>> +``<string>`` here. In that case the s390-ccw bios will show a list of
+>> +installed kernels on the disk of the guest and ask the user to enter a 
+>> number
+>> +to chose which kernel should be booted -- similar to what can be achieved by
+>> +specifying the ``-boot menu=on`` option when starting QEMU. Note that the 
+>> menu
+>> +list will only show the names of the installed kernels when using a 
+>> DASD-like
+>> +disk image with 4k byte sectors, on normal SCSI-style disks with 512-byte
+>> +sectors, there is not enough space for the zipl loader on the disk to store
+>> +the kernel names, so you only get a list without names here.
+> 
+> I'd suggest splitting the last sentence into two so there's a clear 
+> separation between DASD and SCSI.
 
-> On 15/11/2022 08.53, Markus Armbruster wrote:
->> Thomas Huth <thuth@redhat.com> writes:
->> 
->>> On 11/11/2022 15.53, Markus Armbruster wrote:
->>>> Thomas Huth <thuth@redhat.com> writes:
->>>>
->>>>> The "query-command-line-options" command uses a hand-crafted list
->>>>> of options that should be returned for the "machine" parameter.
->>>>> This is pretty much out of sync with reality, for example settings
->>>>> like "kvm_shadow_mem" or "accel" are not parameters for the machine
->>>>> anymore. Also, there is no distinction between the targets here, so
->>>>> e.g. the s390x-specific values like "loadparm" in this list also
->>>>> show up with the other targets like x86_64.
->>>>>
->>>>> Let's fix this now by geting rid of the hand-crafted list and by
->>>>> querying the properties of the machine classes instead to assemble
->>>>> the list.
->>>>
->>>> Do we know what uses this command, and how these users are
->>>> inconvenienced by the flaw you're fixing?
->>>> I'm asking because the command is pretty much out of sync with reality
->>>> by (mis-)design.
->>>
->>> libvirt apparently queries this data (see the various tests/qemucapabilitiesdata/*.replies files in their repository), but since
->>> it's so much out-of-sync with reality, it's not of a big use there yet.
->>>
->>> See for example here:
->>>
->>> https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00581.html
->>>
->>> If we finally fix this problem with "query-command-line-options" in QEMU, it should be much easier to deprecate -no-hpet in QEMU, too.
->> 
->> For a value of "fix".  While we can fix certain concrete issues with
->> q-c-l-o, which may be wortwhile, the overarching issue is (in my
->> opinion) unfixable: it can only tell us about QemuOpts.
->> 
->> QemuOpts is only part of the truth.  Last time I checked, it worked for
->> one out of five CLI options.
->
-> Well, that's another problem. For this patch here, can we please focus on 
-> getting rid of that stupid hard-coded and outdated list in our source code? 
-> Or do you have something better almost ready that will replace this stuff in 
-> the very near future?
+Yes, makes sense, I'll replace the "," with a "." there.
 
-I'm not objecting to fixing "concrete issues with q-c-l-o, which may be
-worthwhile", such as this patch, as long as something actually makes use
-of the fixes, now or in the immediate future.
+  Thomas
 
 
