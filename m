@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE3B62A1A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 20:00:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18F262A250
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 20:58:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov1AD-0001vf-RZ; Tue, 15 Nov 2022 14:00:05 -0500
+	id 1ov23Z-0004bg-Uz; Tue, 15 Nov 2022 14:57:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ov1AA-0001sd-Nt; Tue, 15 Nov 2022 14:00:02 -0500
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31])
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1ov23U-0004Zc-6d; Tue, 15 Nov 2022 14:57:12 -0500
+Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ov1A8-0002M4-Vn; Tue, 15 Nov 2022 14:00:02 -0500
-Received: by mail-yb1-xb31.google.com with SMTP id j2so18267089ybb.6;
- Tue, 15 Nov 2022 10:59:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1ov23S-0006e2-T4; Tue, 15 Nov 2022 14:57:11 -0500
+Received: by mail-vs1-xe33.google.com with SMTP id q127so15810729vsa.7;
+ Tue, 15 Nov 2022 11:57:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LbApaizAwtpC2gsR0z8rGmWvV6/ZKJUomwK/oJup0sE=;
- b=lJt2M18LXicADriY1LEIp2fvDlLg0TN0hvIsVHLegox09cEOJ4WxbeoqaoZPyK8w8D
- /uzornnytm+kyIm1WNmDlz4+ujJdEEMrFjiuqY1tf0NUoQnWPty6QTy14SEA3dazwN70
- j7gq14garFMhsELZ04z7THUOzF7LeX1vZeXC0qMvw9Aha/M8XgbkxsCoXr6rQxDnDo4a
- KzOQRnplcmipcBNGqT3FMeYTnDC0SzXaiBTfQ45Z9zb08R3N/vmiiolQOgGBf3VoV607
- qMS52YRKn7TMv/OZ/WbFNyiJadmJ0c0cdYMuBGbbiXzCcEEntnf5xGxMeyDnqmDgJRnu
- GANA==
+ bh=N6lct/cnuL4mEz8iz8Ae5IE7veauZLzUQBQIM6RKlh4=;
+ b=KJENdecFk91hDF5YBx/EWNXn16oVUk86pVxVBrR+loKTh/F/MIFZUOu6VMylbNBE4W
+ Ch62DR4HBHtd+MNN3FzRwbo5/JxQhvm+sdIQZtH3UmDAn75lWDE25aZru5Syo6WvEE7m
+ Du2ToNs2VdviGy9/ZBPrQSCLAkYCE5udvmPXoxihbpKZwrYOV4lW3l+hL85MqhQzuxgN
+ tvUyTMbpza1eU/oXPljrENoabbo0CMtKsgeaMzvsNN8yHWIaHc+c/HV9kAES4GleX7UE
+ RVJPUj6q3y9C2ALFDY3knh9u+koNzl8Q9TCVAeaGlszqTRWi47M40AhP6liRa6UlEibQ
+ SUUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LbApaizAwtpC2gsR0z8rGmWvV6/ZKJUomwK/oJup0sE=;
- b=ePOanlvBOs0mLzJDuDvdmBAj17Teoe4iru3oaOUhjZHnGrK36/5OW4pY7+H64mcTHK
- i32HmScBQnwkH0OpXXoDd6Wnwaqjwx8USGeGelECXSz1ykOVLsEWaU4BN3/9PupVU5h8
- tpX1D8mZM7U6ePoimJo/xCOaeLoPePyqLM+TtIyvjUpST9acv7uIntiPgSSktk+ibUJ0
- LMcUKcqqydLhUjuLyB8L6M+N8RNI+bNWfD1soj2Lu+QpyTT3H0i8FGrjp3KMQEsvWvAo
- hLXLstj5okXPZQEooUdTCzT2iczZ0vkkBlA12lYbn+FrSY60I0g2CWSMvyl0fe7qT3DB
- 2xCw==
-X-Gm-Message-State: ANoB5pk78Ydr17G7JbdLrcTMg4e0vgyx7KcYDvGvsOi5XEa9nHBt7vEq
- yzrlybFMnKn0pzsZWYPwBRQ/GKf6PiDwVfvYseY=
-X-Google-Smtp-Source: AA0mqf4jeqF7TClMj8CIX4aC/UWjNtRkjL5yUhbso94LQeDT8BzsHRxEB2AJdcJPwmNvelTCNw3P/anTyrp87iUXh6E=
-X-Received: by 2002:a25:698a:0:b0:6e4:f81:707b with SMTP id
- e132-20020a25698a000000b006e40f81707bmr3864473ybc.366.1668538799275; Tue, 15
- Nov 2022 10:59:59 -0800 (PST)
+ bh=N6lct/cnuL4mEz8iz8Ae5IE7veauZLzUQBQIM6RKlh4=;
+ b=6nP/Nn9zlsNM+ZKoaIEtcS2rtZf6K4O12+kR9xDgfnUmy0sAnlsqW0cDdLoYIZ0AZG
+ Vw1VEddtW0Pc8o8Siev6+0dZU7spCCLT000xZKzBGnP/npsh2M21mV+YrIDy+8MVXN5G
+ gs3tM0zZSxQB7G26r3LDmbuSZwUUtqRcZbkG9OIvxRwolJpyD0dADYzZd9MebXpc9GDW
+ M/OHQCl2dU8kB2N7uW/73fJBEk0jQnNdQ6rRlUEA1D5KO9wS8dVMxXsYTfCFFOWjLSL9
+ eJcH/PAWTvPLHQT/T+9OZtxZeb6A70ABsuOK3+NeeW2MXzBMmt2T19AYrMQt6oBLWlhc
+ 5fhA==
+X-Gm-Message-State: ANoB5plPAtI0kXcvqDWa724Dk73GQgcvFOwvIkyeO+WqljVMpaPW0swD
+ 6beCPtlLUMnm7KbuLYmS8HY2Qzbmr/4sTJHFF/I=
+X-Google-Smtp-Source: AA0mqf65AWCnS+RGF341TbJTfvR1TJHDOpWer2/d2bjJxfuxTg4xlmg/uujUIJ/jp4skNycK8Dh8gPzlFXpMYL4TRDc=
+X-Received: by 2002:a67:ea4e:0:b0:3aa:1249:73d3 with SMTP id
+ r14-20020a67ea4e000000b003aa124973d3mr8910231vso.5.1668542229362; Tue, 15 Nov
+ 2022 11:57:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115153514.28003-1-quintela@redhat.com>
-In-Reply-To: <20221115153514.28003-1-quintela@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 15 Nov 2022 13:59:47 -0500
-Message-ID: <CAJSP0QUV-Pv25bV=TS9q2=Chr-E8=Sh4e=oZboPcyvMx7i4a4g@mail.gmail.com>
-Subject: Re: [PULL 00/30] Next patches
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- David Hildenbrand <david@redhat.com>, Laurent Vivier <laurent@vivier.eu>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Fam Zheng <fam@euphon.net>
+References: <20221112214900.24152-1-strahinja.p.jankovic@gmail.com>
+ <CAFEAcA_F0jcjviRGjgmb4J_Kos22+UE0vPbcXoTbPCP7xz-nXA@mail.gmail.com>
+ <CABtshVRnwQiTypOFaOqVE69+1wbVoVJEy_x7ELez8Mo6aXT=Yg@mail.gmail.com>
+ <CAFEAcA-s9a2zCy6O0j6=OXZOcYbj=_mS=aa2vxbKbuSMKNjMoQ@mail.gmail.com>
+ <CABtshVRjHMwoN+itKsty-==J8OpZFzuGUB5SsJ+UFPrZ97d6uw@mail.gmail.com>
+ <CAFEAcA9e+--A-8-1S-sgvEhCwhsMB3ALAN3XO5NTKs+B7R7fJw@mail.gmail.com>
+In-Reply-To: <CAFEAcA9e+--A-8-1S-sgvEhCwhsMB3ALAN3XO5NTKs+B7R7fJw@mail.gmail.com>
+From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
+Date: Tue, 15 Nov 2022 20:56:57 +0100
+Message-ID: <CABtshVSNU0SBAry+DOfBNQWjgccGWTKQCa6ibLBd=kOb36Cgsw@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd: Fix sun4i allwinner-sdhost for U-Boot
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Beniamino Galvani <b.galvani@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-vs1-xe33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,9 +86,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Please only include bug fixes for 7.2 in pull requests during QEMU
-hard freeze. The AVX2 support has issues (see my other email) and
-anything else that isn't a bug fix should be dropped too.
+On Tue, Nov 15, 2022 at 5:02 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 14 Nov 2022 at 19:22, Strahinja Jankovic
+> <strahinjapjankovic@gmail.com> wrote:
+> > Ok, I will start preparing that separate patch for error logging for sun4i.
+> >
+> > Since this is my first time submitting a patch, is there anything else
+> > I need to do with this one? Thanks!
+>
+> No, I'll take the patch from here. Since this is a bug fix
+> and we're not yet at rc2 I think we'll be able to get it
+> into the upcoming 7.2 release.
+>
+> Thanks for submitting the patch!
 
-Stefan
+That sounds great, thank you very much!
+
+Best regards,
+Strahinja
+
+>
+> -- PMM
 
