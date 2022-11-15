@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43156629AD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 14:41:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B432C629AD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 14:42:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouwBd-0004Ol-SS; Tue, 15 Nov 2022 08:41:13 -0500
+	id 1ouwCP-0005DG-N8; Tue, 15 Nov 2022 08:42:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouwBL-0004FV-Ej
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:40:58 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <jens.wiklander@linaro.org>)
+ id 1ouwC8-00054w-FS
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:41:44 -0500
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouwBI-0005Vz-S4
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:40:55 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id w14so24308783wru.8
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 05:40:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jens.wiklander@linaro.org>)
+ id 1ouwC4-0005Zc-Il
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:41:43 -0500
+Received: by mail-il1-x12d.google.com with SMTP id bp12so7385192ilb.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 05:41:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1MhvfRmBaRDx5xt7ahUGxraOYYXK+G1So5sDIUTQUPY=;
- b=emnq3gzideqq7t07PZIp/jPPj6/XF6BEME7KQvRYnKNTD/1bHl95AGCi9eVjBKWX9h
- 0r5cCo6meC5r0sLrqGOKSNzVRFqTOYa8U4HJ4aYk8D13FagmZQAo1Fj7K4ifIPfpoXSl
- XEOvrKq4kg8c+OopZ2wRzwqhRlFntVcJAqrqLY+qw+fglBE5OWY2/OPPI/aTAySdukKM
- 0qHKp4iRwMbfCsFwNfqfTNBSuOiOyVGUu525JMXqrgte4+oL9Dais0uCFEGZWqRTYVut
- HSHJmXHnXsnvWryN5fYPSTqGZbHjlKqSiJEctzrxrdJ2pPpJrCDPE6wf/LQR4m0c/4R4
- IvxA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vblbFXfdkSdKCoGculSe8yCKBSot76GDc0dadartqgo=;
+ b=Czff3eA4ZXkgiiYgLE3Lnez/o6e/brKSxD6A6hY86yWv/AI0x1oY/N9ofIK0Ee3Ja8
+ am+AMGXRLNvPZkPw2SYdzpntWQjobZmmeIskpTuEwjesNO64CH8szxfeV4sk5ILthDrj
+ Z+A8FzFfuaLngw1So92nIum811a12tZhHHN9TGFMPbDR1r4xP4U/vUCXW+1eotdi4Y1T
+ uldvCLaiaB6Hl67n808gr0Cvo2AemTEIEQDROZ+idXZlh0knxAn7gSBNELehIXEsvA3F
+ 1TpmjGdljJbJffKBM2iPYjw0i30of07lcS+cpQgU4cN32JJgpWs5jm0QAWQDHTHboWHn
+ 5eHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1MhvfRmBaRDx5xt7ahUGxraOYYXK+G1So5sDIUTQUPY=;
- b=HQ10JmFFEnectrdl8ZgOsOlb6b1I9eIKZ/CiaQdjBxVREFquHDY893+EY6V0FPWbSy
- KQSv+2SfvDGPBlBLk/yd2UaU+1+Rg6XRFo4F1SEA4dATsEODH7D9iwNsiGuG1c+KOV3c
- 75VsYtbVJP1QUROiVp9/ZIoswdV4BrzDBL4U6eDRdTTIK6zbtIlPeCxDwL3niV5/lrII
- mKnkeCMMP6cjmNFprUxooYNTZ/I7sJ6t06KcMiVeXhmKq5L3SMiTRet0UXVv7edaZLx4
- EGcNgUdtH7931QUffWRCk5b+y1dUTKFV1y1uoFlMoJj4Su9891kVppDUlZZhDLVVbTHP
- b+dw==
-X-Gm-Message-State: ANoB5pk19kHru9ZO28h72r8Ou4DVCcDznKvAni4P3GPymAFsT2R9a7WM
- rrYFjE1eKQmBBz8l1adaNa8MMg==
-X-Google-Smtp-Source: AA0mqf7U8NuGsyUa1BRZqkR5RULyhN+4tWQczCZm+QciEq0ZU45KN+/4EEH75aVyCJYPOiUr83X1BQ==
-X-Received: by 2002:adf:e752:0:b0:234:3e14:ea66 with SMTP id
- c18-20020adfe752000000b002343e14ea66mr10919533wrn.272.1668519650601; 
- Tue, 15 Nov 2022 05:40:50 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- az11-20020a05600c600b00b003b4cba4ef71sm22407183wmb.41.2022.11.15.05.40.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Nov 2022 05:40:49 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C7E891FFBA;
- Tue, 15 Nov 2022 13:40:48 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 2/2] hw/intc: add implementation of GICD_IIDR to Arm GIC
-Date: Tue, 15 Nov 2022 13:40:48 +0000
-Message-Id: <20221115134048.2352715-3-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221115134048.2352715-1-alex.bennee@linaro.org>
-References: <20221115134048.2352715-1-alex.bennee@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vblbFXfdkSdKCoGculSe8yCKBSot76GDc0dadartqgo=;
+ b=tIuSgNHD+r0jS+EZAsQoTdmcZBF4yUYQA7yEwYXdIS8OMEeNTohYeuI9gnB1NxXPhx
+ EFEqWsM0Pyf3KiIWpRxqWrkdAQ5JZhCXFwBVNDmXMUjKYPZMiMrNuWXvVNyk0W5kOorL
+ O3D9EhwdowKQCLJvdMDD5rnPPEBaWH6CaDLdx9Fux65K/dqJ4KdQdTACUnKrBt45ZwFE
+ LDJNuFtTrk7PPQuim6pvwFqFkY2zRJVPmi58tgR8A6kGDwKQQKxHlrA444LT1oCr6Bz/
+ zgULt2ajnsXMnSLS39j8U2tKuV1kWWECbQEB2Qje3kdKR5cljaxPnfye4ySpRYqQEtP5
+ ODBA==
+X-Gm-Message-State: ANoB5pnBuo9kVKzt2ZpW3SFgJItWT8yyrodZkJqUqJNQnJgL98AxVp/w
+ R5/vO1BSkTT48D9QC3ThxzSjzQCK1gCfXFfN3eGRc7fd1eW+9w==
+X-Google-Smtp-Source: AA0mqf400++hQbiJx4ytevxqNTuK4Lp6iKyxo2Y736JLYsM0ftbbFDpDH+6CD6HKkU3KHZAd2mi6Ew/3rrd8r9okh0o=
+X-Received: by 2002:a92:cf02:0:b0:2fc:81e8:db26 with SMTP id
+ c2-20020a92cf02000000b002fc81e8db26mr7872788ilo.73.1668519698778; Tue, 15 Nov
+ 2022 05:41:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+References: <20221114133257.1752176-1-jens.wiklander@linaro.org>
+ <CAFEAcA-ECwzbojxcjbbAketMa8NkJXg=0xsqPWisKKfiuZGPNg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-ECwzbojxcjbbAketMa8NkJXg=0xsqPWisKKfiuZGPNg@mail.gmail.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 15 Nov 2022 14:41:27 +0100
+Message-ID: <CAHUa44E9sjxLLmNZFo5fS3SUESsYttzP1jxa+a87O8ahQ67SOg@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc/arm_gicv3: fix prio masking on pmr write
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=jens.wiklander@linaro.org; helo=mail-il1-x12d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,51 +83,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-a66a24585f (hw/intc/arm_gic: Implement read of GICC_IIDR) implemented
-this for the CPU interface register. The fact we don't implement it
-shows up when running Xen with -d guest_error which is definitely
-wrong because the guest is perfectly entitled to read it.
+On Mon, Nov 14, 2022 at 3:43 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 14 Nov 2022 at 13:33, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> >
+> > With commit 39f29e599355 ("hw/intc/arm_gicv3: Use correct number of
+> > priority bits for the CPU") the number of priority bits was changed from
+> > the maximum value 8 to typically 5. As a consequence a few of the lowest
+> > bits in ICC_PMR_EL1 becomes RAZ/WI. However prior to this patch one of
+> > these bits was still used since the supplied priority value is masked
+> > before it's eventually right shifted with one bit. So the bit is not
+> > lost as one might expect when the register is read again.
+> >
+> > The Linux kernel depends on lowest valid bit to be reset to zero, see
+> > commit 33625282adaa ("irqchip/gic-v3: Probe for SCR_EL3 being clear
+> > before resetting AP0Rn") for details.
+> >
+> > So fix this by masking the priority value after it may have been right
+> > shifted by one bit.
+> >
+> > Fixes: 39f29e599355 ("hw/intc/arm_gicv3: Use correct number of priority bits for the CPU")
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+>
+> Thanks for the fix; applied to target-arm.next for 7.2.
 
-Lightly re-factor this region of registers and also add a comment to
-the function in case anyway was under the illusion we only return
-bytes from a function called readb.
+Great, thanks.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>
+> > I've only tested this patch on top of v7.1.0 since I couldn't get current
+> > to run in my test setup.
+> >
+> > In case anyone wonders what I'm testing, it's a setup with Hafnium at
+> > S-EL2, OP-TEE at S-EL1 and the Linux kernel at NS-EL1 (no NS-EL2 for
+> > simplicity).
+>
+> Now is a good time to figure out what's not working with current
+> QEMU, so that if it's a bug in QEMU we can fix it before the
+> 7.2 release. Could you try a bisect of QEMU to see where it broke?
+> Alternatively, if you have repro instructions and prebuilt image
+> files I can have a look.
 
----
-v2
-  - checkpatch fixes.
-v3
-  - re-base on re-flow with if
----
- hw/intc/arm_gic.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+I've bisected and learned this:
+# No output at all, hangs in TF-A bl1:
+bad commit 48da29e485af ("target/arm: Add ptw_idx to S1Translate")
+# bl1 works again, but TF-A bl2 (at S-EL1 if I've understood it right)
+fails to load some binary:
+commit cead7fa4c060 ("target/arm: Two fixes for secure ptw")
 
-diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-index 1a04144c38..7a34bc0998 100644
---- a/hw/intc/arm_gic.c
-+++ b/hw/intc/arm_gic.c
-@@ -973,8 +973,18 @@ static uint8_t gic_dist_readb(void *opaque, hwaddr offset, MemTxAttrs attrs)
-             /* GICD_TYPER byte 1 */
-             return (s->security_extn << 2);
-         }
--        if (offset < 0x08)
-+        if (offset == 8) {
-+            /* GICD_IIDR byte 0 */
-+            return 0x3b; /* Arm JEP106 identity */
-+        }
-+        if (offset == 9) {
-+            /* GICD_IIDR byte 1 */
-+            return 0x04; /* Arm JEP106 identity */
-+        }
-+        if (offset < 0x0c) {
-+            /* All other bytes in this range are RAZ */
-             return 0;
-+        }
-         if (offset >= 0x80) {
-             /* Interrupt Group Registers: these RAZ/WI if this is an NS
-              * access to a GIC with the security extensions, or if the GIC
--- 
-2.34.1
+I'm using semihosting to load binaries and in this case it might be
+that QEMU refuses to load the binary into the memory pointed at by
+BL2.
 
+I can share the binaries (~50 meg) privately, to test with if needed.
+Or if you'd like instructions to build it I can provide that too.
+
+I don't mind doing further testing if that helps.
+
+Cheers,
+Jens
 
