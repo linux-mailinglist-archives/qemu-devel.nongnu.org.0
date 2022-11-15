@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434CC629D96
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADFF629D9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:33:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouxtn-0003Aa-NZ; Tue, 15 Nov 2022 10:30:55 -0500
+	id 1ouxvp-00048L-Sj; Tue, 15 Nov 2022 10:33:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ouxtl-0003AE-V6
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:30:53 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ouxtk-0007cL-Bj
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:30:53 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id y4so13481857plb.2
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 07:30:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ENXLXfZD2kh0LsP8cqYu2QnzNIzmJHd/emWlPGbkRRU=;
- b=DGino0ygI/z5O7SJZQUQDzC9WK3QPnJxFQ4Npludzyx7rRIGi+SXpZzXW+OiX7BGIe
- mSJhjmuMJo9ENxpAKO38Ho7bZKC4j3/KVYvH8NwYirJI/+FMZ8IKmhUgLFlK9zXtNa9p
- rfFuJg9PD5RjFIdu4qrm1aUR3VfgQ9gJJakMvupSHNAt5gM7IuIjRG5g/ikG3qZdEvKW
- 4PgUsUKxuX6HkFPum6FkKlu9Sow9CF1Q7H7o3yWIP9PvfWiYNbnX1sJP4fJtVWeVvnKF
- Rop3+W9dFrvtIUa2nRgSuLDcmSNm94sSsAVVyZeb1UflgA9cCK3gGEO51Fg3gkYYdjl7
- i+/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ENXLXfZD2kh0LsP8cqYu2QnzNIzmJHd/emWlPGbkRRU=;
- b=LtP7wc04X7fSmI6vjnqW2wcp+/8HG3c6YNT3pVNr5NJkyVJWvJGcKzadM2Kd6S/eNx
- 5+fpa1Zi1NS86NqiQ8dFrQ1h0gTFi9lCBNmJUCpEO0Ix5rJ9yMvLj0WQm7/kKgJ3lrLd
- UUYTnuRz0xyzOB0EfJ3GfkhJCv6i67NprL8nUvO0Yzjg/+R7qy34DJPwkzm16hBrl5gl
- GlDA6Qo6T3ujVIuUIF3fLhjcr6r8Si+6u6A9UkL1VtIuu7IPI4J7j74NOtp74oM2o2hT
- aXhHExDXH7WmmKLwcc/yKGVnoYXa6G7gse2tMmlur1XdW88jfR96f7ShGalpCI8P8e2h
- K0SA==
-X-Gm-Message-State: ANoB5pkzbTrGI67MAcNsxVBzwEa6In8UybwQvFH53P0WVDCm32rmhQ5P
- l/5UNVcraKtpizj6Ca5rs6lNtyPsCggh7VKbpExOaQ==
-X-Google-Smtp-Source: AA0mqf6+u4zZ5Hed8OoUY2al6yrziJJWYoaFW5z9jyqrHFKOAbZ/n+rlD71Rz9IZveQbZsZR1It30MhoSDrwU1u/7Ls=
-X-Received: by 2002:a17:90a:1a13:b0:212:d62a:aeb8 with SMTP id
- 19-20020a17090a1a1300b00212d62aaeb8mr973586pjk.221.1668526250105; Tue, 15 Nov
- 2022 07:30:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouxvk-00046p-4I
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:32:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouxvU-0007mr-1y
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:32:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668526354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aO23dwFpQE3RNJSvLoJzZ2HmqVNqNjWb8g7D6YymGd8=;
+ b=WMw7NV2TEsFnP0h42qBmbsLk39d6G2bXrCiDTxTjeY00BzXNhJL+YTOSupN3W8esqnDX/I
+ 4RZMqjbidzeBRTK3DLlVPmk975XPyW7HRB+9DzRsYZDXITTeZU/66TMI6JSUOL5YddN0AX
+ cU7vI3YiS6DZvB3qKFpWCY5nD6TKnFU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-483-lvgiuppfMzakVDjnEjTVlA-1; Tue, 15 Nov 2022 10:32:31 -0500
+X-MC-Unique: lvgiuppfMzakVDjnEjTVlA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34B2E1C09B6B;
+ Tue, 15 Nov 2022 15:32:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 399B840C83BA;
+ Tue, 15 Nov 2022 15:32:30 +0000 (UTC)
+Date: Tue, 15 Nov 2022 16:32:26 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-block@nongnu.org, stefanha@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PULL 00/11] Block layer patches
+Message-ID: <Y3OxCvpI+fRkxptR@redhat.com>
+References: <20221111152744.261358-1-kwolf@redhat.com>
+ <CAJSP0QVgzEAEdzrBd2Q3KsPBmCPTwzdO1dOb6KrY729esKLkZA@mail.gmail.com>
+ <Y3Ie4aH6Da4qgWbU@redhat.com>
+ <CAFn=p-YnmrM4X0sbYsVq=GY-7y8kwevqW=jxWV79twTx+sxmGw@mail.gmail.com>
+ <Y3NmoCvJ+PJoLeLK@redhat.com>
+ <74564d3a-2867-891c-07bf-7746abc121de@redhat.com>
 MIME-Version: 1.0
-References: <20221115151000.2080833-1-clg@kaod.org>
-In-Reply-To: <20221115151000.2080833-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Nov 2022 15:30:38 +0000
-Message-ID: <CAFEAcA-4omeOGcxAU1GKrvpT3LrL8Zk3QnMLZe1oD+EiWpT2kg@mail.gmail.com>
-Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size does
- not match the device
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <frasse.iglesias@gmail.com>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Peter Delevoryas <peter@pjd.dev>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <74564d3a-2867-891c-07bf-7746abc121de@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,51 +83,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 15 Nov 2022 at 15:10, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Currently, when a block backend is attached to a m25p80 device and the
-> associated file size does not match the flash model, QEMU complains
-> with the error message "failed to read the initial flash content".
-> This is confusing for the user.
->
-> Use blk_check_size_and_read_all() instead of blk_pread() to improve
-> the reported error.
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  hw/block/m25p80.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 02adc87527..68a757abf3 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -24,6 +24,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
->  #include "sysemu/block-backend.h"
-> +#include "hw/block/block.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/qdev-properties-system.h"
->  #include "hw/ssi/ssi.h"
-> @@ -1614,8 +1615,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error=
- **errp)
->          trace_m25p80_binding(s);
->          s->storage =3D blk_blockalign(s->blk, s->size);
->
-> -        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
-> -            error_setg(errp, "failed to read the initial flash content")=
-;
-> +        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, er=
-rp)) {
->              return;
->          }
->      } else {
-> --
-> 2.38.1
+Am 15.11.2022 um 11:21 hat Hanna Reitz geschrieben:
+> On 15.11.22 11:14, Kevin Wolf wrote:
+> > Am 15.11.2022 um 00:58 hat John Snow geschrieben:
+> > > On Mon, Nov 14, 2022 at 5:56 AM Kevin Wolf <kwolf@redhat.com> wrote:
+> > > > Am 11.11.2022 um 20:20 hat Stefan Hajnoczi geschrieben:
+> > > > > > Hanna Reitz (9):
+> > > > > >        block/mirror: Do not wait for active writes
+> > > > > >        block/mirror: Drop mirror_wait_for_any_operation()
+> > > > > >        block/mirror: Fix NULL s->job in active writes
+> > > > > >        iotests/151: Test that active mirror progresses
+> > > > > >        iotests/151: Test active requests on mirror start
+> > > > > >        block: Make bdrv_child_get_parent_aio_context I/O
+> > > > > >        block-backend: Update ctx immediately after root
+> > > > > >        block: Start/end drain on correct AioContext
+> > > > > >        tests/stream-under-throttle: New test
+> > > > > Hi Hanna,
+> > > > > This test is broken, probably due to the minimum Python version:
+> > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3311521303
+> > > > This is exactly the problem I saw with running linters in a gating CI,
+> > > > but not during 'make check'. And of course, we're hitting it during the
+> > > > -rc phase now. :-(
+> > > I mean. I'd love to have it run in make check too. The alternative was
+> > > never seeing this *anywhere* ...
+> > What is the problem with running it in 'make check'? The additional
+> > dependencies? If so, can we run it automatically if the dependencies
+> > happen to be fulfilled and just skip it otherwise?
+> > 
+> > If I have to run 'make -C python check-pipenv' manually, I can guarantee
+> > you that I'll forget it more often than I'll run it.
+> > 
+> > > ...but I'm sorry it's taken me so long to figure out how to get this
+> > > stuff to work in "make check" and also from manual iotests runs
+> > > without adding any kind of setup that you have to manage. It's just
+> > > fiddly, sorry :(
+> > > 
+> > > > But yes, it seems that asyncio.TimeoutError should be used instead of
+> > > > asyncio.exceptions.TimeoutError, and Python 3.6 has only the former.
+> > > > I'll fix this up and send a v2 if it fixes check-python-pipenv.
+> > > Hopefully this goes away when we drop 3.6. I want to, but I recall
+> > > there was some question about some platforms that don't support 3.7+
+> > > "by default" and how annoying that was or wasn't. We're almost a year
+> > > out from 3.6 being EOL, so maybe after this release it's worth a crack
+> > > to see how painful it is to move on.
+> > If I understand the documentation right, asyncio.TimeoutError is what
+> > you should be using either way. That it happens to be a re-export from
+> > the internal module asyncio.exceptions seems to be more of an
+> > implementation detail, not the official interface.
+> 
+> Oh, so I understood
+> https://docs.python.org/3/library/asyncio-exceptions.html wrong.  I took
+> that to mean that as of 3.11, `asyncio.TimeoutError` is a deprecated alias
+> for `asyncio.exceptions.TimeoutError`, but it’s actually become an alias for
+> the now-built-in `TimeoutError` exception.  I think.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Not just "now-built-in", it has been built in before (starting from
+3.3). But AIUI, asyncio used to use its own separate exception class
+(asyncio.TimeoutError, in some versions re-exported from the exceptions
+submodule) instead of the built-in one, and in 3.11 it now reuses the
+built-in one instead of defining a separate custom one.
 
-thanks
--- PMM
+Kevin
+
 
