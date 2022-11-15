@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9366290E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 04:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370F6629113
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 05:05:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oummU-0005FN-J8; Mon, 14 Nov 2022 22:38:38 -0500
+	id 1ounAk-0005Lk-Ap; Mon, 14 Nov 2022 23:03:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oummR-0005F1-KY
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:38:35 -0500
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ounAi-0005LX-9j; Mon, 14 Nov 2022 23:03:40 -0500
+Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oummP-00072Y-1d
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 22:38:35 -0500
-Received: by mail-il1-x12c.google.com with SMTP id l6so6802768ilq.3
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 19:38:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=coYXnd2+ZH0rdRIKYFfyki1UeIvgAh5cE61HpYlO2Z8=;
- b=F1C7bg2VlF30VQsv5Ufcr3/HIpXJh2RXH2tiU0+qur0WBNpWi6A5tQgmzjRPh0HdZj
- WY+1wPbLge/FtxO6pjXiPmLnC2qs31ED43rtYwMp+Vj/1QNpQGQISSGEXpb+q37sjbwz
- E+igAqIkg6RR2zuZkRivxqpyfXMPqFG2u2jB4ZD6Nv+MGGKMLuelJoRATC3l9jPrlD95
- EmRSyOvQ4E9ABezynoHfBqIAXCa1K6v2njTt7sf7puCDdEpCXHNwVRdmBlRyOOejJPa9
- EkGAcMqbDwuIKKVWL1vCjcZqc/0r2bYjItXmtU/xR54DNjCa1WWEr1U6Zmzs3GPUa9Dh
- 2Fsg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ounAh-0002G8-0V; Mon, 14 Nov 2022 23:03:40 -0500
+Received: by mail-vk1-xa31.google.com with SMTP id g16so5994311vkl.11;
+ Mon, 14 Nov 2022 20:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=H6nTkbLyaFYTmiH8HhHmv6xAMnUzme0LMawLHlYhgjA=;
+ b=p8Y9O4Sm/WsU7AnVTSImq3OYyq0q/XFpGkBbCbZBHQdxW5GSijDCmswaXlFlfOioEj
+ 4z+mR0SRMB+IH4jLgIGAGq33UZmoQaehuQnosJQGKMd8t7wWFWN7HC50EAV0hEso7Mcn
+ gEfb//yOfB1e3q97K6iPmTkLggLc/BU8EOkEobnBUvM8JqdQk8M7mJNpX0daxcumHUQ0
+ rUzEjJKYvO3PR+ZFE3t7I7o0x5XPfs8qHbsTAmlxjRpDQRDx6fuQ9163HzU6pTgJJPIx
+ OEcjNTx+MEaD+L2LdGqcdXs+ZoeCbT0ajnNfHLePrh1w0qKJebulsLRZMfaUkG/abCQ0
+ pejA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=coYXnd2+ZH0rdRIKYFfyki1UeIvgAh5cE61HpYlO2Z8=;
- b=sIlRnuaKE7Xg/gw8sYOFooUAxPbWkcPgVfTHFPQgBXArbSDuW8e7am7IUI52In5ng6
- 7mCSMzQA7J1kMfE24g/kcagLuDXx3b5jV5JT5zJY3xfs9HXzR9o3r6rYcAVqj7O+hdhQ
- 156DbGoT/Yx20RHuClVCUF1YhXl/MqeKeGDO0T1QPdoPXGY/He9gxaYyfBeIzAU8KkH2
- L/wDxf8/zFs07xMDCtyR3prfk2ZGQFLNvhGG5VWG9yx+vkvXkDda6AVs/xoCwJCyTWKv
- Tbe6+e3XSd0by5vkHvvu6Um6jRQvmQFD7ZyhtvPHJS9ll5Fkh2cfzXUPAFITtP1ygi3r
- Yfxg==
-X-Gm-Message-State: ANoB5pnY6HxiLWbWVK5yjhcOuVI8ZMF2R8nDBq6kLvveNzNPeZ8g7uBu
- 18IWR7o22C9HbQLlMI1Haa970YTrz6yr01v5Ld5Zfw==
-X-Google-Smtp-Source: AA0mqf558hW/E9AQ7Jkh9XFmftLwYbZIJDLJ2HuN5cHxyjEQdi/UrlKF5OhHOynk2lhvbviofwEBXx0cV6SU61Z7KR0=
-X-Received: by 2002:a92:ddc3:0:b0:302:3521:41e1 with SMTP id
- d3-20020a92ddc3000000b00302352141e1mr7519139ilr.54.1668483491064; Mon, 14 Nov
- 2022 19:38:11 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=H6nTkbLyaFYTmiH8HhHmv6xAMnUzme0LMawLHlYhgjA=;
+ b=nVBEf6wjLtQX+RGqC1rccPWdDjDkESpSHEegBzXAX/bGMOvmaGdnoGjbxjwJG1VVO3
+ NDdB9wXaOSy1L6trV8in6+gJ7gBk5nSbn5Hh+IsiImXDAzAIhvv3cSLSZBnHVGpRSDkJ
+ Cj4KwKKfNzqs/O/Xst90/Qaui7KvHAS2roCZZn5V+iIavguFvUsh/0E2XlOQk8GAYCb6
+ IyG3G5kJvk9t32OxtV0OWl6wTbKGOmZP7ZnzGAkdxwVfk9UMmH2gXzmRawkMRdKbJk/S
+ MmvhY+A3QEBtvYA6s5oohmp6+pBzN4WFZpbEa5opdaGo67PFqe0I4Y+0lSnTlfxes2P/
+ dRHg==
+X-Gm-Message-State: ANoB5pljqIbDGaOuolpaZ21KNS5UwrgVa1Q06mTkkKiUeMVnb407fWXx
+ IacohQvtETwyIQrazbwBnp2oPFAuM07546AuuXk=
+X-Google-Smtp-Source: AA0mqf7E41CgGA8SuiCMEjO7CesLNM0aM/iCXeq0MlTIX2Lz5q+rjW4CAH4/eI7rSZPMNMS/ld9mG8b+YqlcxyHj1Kg=
+X-Received: by 2002:a1f:9fcb:0:b0:3bb:eb83:7ab7 with SMTP id
+ i194-20020a1f9fcb000000b003bbeb837ab7mr7601996vke.30.1668485017109; Mon, 14
+ Nov 2022 20:03:37 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFn=p-YFQdO+ZfAYVw+T1b16kA2jBVZB7Tpy7J68XYbqgT7UZw@mail.gmail.com>
- <CAARzgwyzQ-k5Ek-kpFfvLdgD=TLe2EsW6XcBKJqNvUNYN5Qq=g@mail.gmail.com>
- <CAFn=p-ZP8_mZa4nmTFFas8pJUsCqvh+VoWWYFHVXRUBm1HZrOA@mail.gmail.com>
-In-Reply-To: <CAFn=p-ZP8_mZa4nmTFFas8pJUsCqvh+VoWWYFHVXRUBm1HZrOA@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 15 Nov 2022 09:07:59 +0530
-Message-ID: <CAARzgwxBu+FnM49Mg5Vq+E-VSjvPZTY+i3QP-WbD4oOLzTViPw@mail.gmail.com>
-Subject: Re: biosbits test failing on origin/master
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+References: <20221111121913.1531030-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <48729f3f-80eb-8c7b-7bbb-7cd6bfa65a3e@linaro.org>
+ <d87890a7-023f-ba7c-4a61-aa085d0134de@univ-grenoble-alpes.fr>
+ <ed19482f-e825-ac35-544d-1d2d102d2837@linaro.org>
+In-Reply-To: <ed19482f-e825-ac35-544d-1d2d102d2837@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 15 Nov 2022 14:03:10 +1000
+Message-ID: <CAKmqyKNiqTfrX_4DkPGTpka3eXgpky6VeW=gKi0iE_3PHgfwWg@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: sifive_plic: Renumber the S irqs for numa support
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, 
+ Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com, 
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
- envelope-from=ani@anisinha.ca; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,92 +89,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 5:13 AM John Snow <jsnow@redhat.com> wrote:
+On Tue, Nov 15, 2022 at 9:56 AM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
 >
-> On Thu, Nov 10, 2022 at 11:22 PM Ani Sinha <ani@anisinha.ca> wrote:
-> >
-> > On Thu, Nov 10, 2022 at 11:37 PM John Snow <jsnow@redhat.com> wrote:
-> > >
-> > > Hiya, on today's origin/master
-> > > (2ccad61746ca7de5dd3e25146062264387e43bd4) I'm finding that "make
-> > > check-avocado" is failing on the new biosbits test on my local
-> > > development machine:
-> > >
-> > >  (001/193) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
-> > > FAIL: True is not false : The VM seems to have failed to shutdown in
-> > > time (83.65 s)
-> > >
-> > > Is this a known issue, or should I begin to investigate it?
-> >
-> > In my test environment it does pass.
-> >
-> > $ ./tests/venv/bin/avocado run -t acpi tests/avocado
-> > Fetching asset from
-> > tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
-> > JOB ID     : 35726df7d3c2e0f41847822620c78195ba45b9b9
-> > JOB LOG    : /home/anisinha/avocado/job-results/job-2022-11-11T09.42-35726df/job.log
-> >  (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
-> > PASS (57.57 s)
-> > RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
-> > | CANCEL 0
-> > JOB TIME   : 63.82 s
-> >
-> > However, I have seen that on certain slower test machines or when run
-> > within a virtual machine, the test can take longer to complete and 60
-> > secs may not always be enough. In those cases raising the maximum
-> > completion time to 90 secs helps. Perhaps you can try this and let me
-> > know if it helps:
+> On 14/11/22 11:34, Fr=C3=A9d=C3=A9ric P=C3=A9trot wrote:
+> > Le 14/11/2022 =C3=A0 09:40, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit :
+> >> On 11/11/22 13:19, Fr=C3=A9d=C3=A9ric P=C3=A9trot wrote:
 >
-> Hmm - I'm running on a fairly modern machine and not in a VM. Do you
-> have an invocation to share that exists outside of the avocado
-> machinery
-
-If you pass V=1 in the environment then it dumps the QEMU command line
-that was used to run the test. You also need to comment out the line
-> shutil.rmtree(self._workDir)
-in tearDown() so that the iso is not cleaned up.
-
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index a67d30d583..2060e3b84f 100644
---- a/tests/avocado/acpi-bits.py
-+++ b/tests/avocado/acpi-bits.py
-@@ -357,7 +357,7 @@ def tearDown(self):
-         if self._vm:
-             self.assertFalse(not self._vm.is_running)
-         self.logger.info('removing the work directory %s', self._workDir)
--        shutil.rmtree(self._workDir)
-+        # shutil.rmtree(self._workDir)
-         super().tearDown()
-
-     def test_acpi_smbios_bits(self):
-
-while you are at it, it might makes sense to check the vnc for the VM
-to see what it is doing.
-
- where I could test this individually and see how long it
-> might take to complete if I just let it run? I am worried that it's
-> getting wedged instead of just taking a long time, but it's hard to
-> tell.
 >
-> --js
+> >> Eventually we could unify the style:
+> >>
+> >> -- >8 --
+> >> @@ -476,11 +476,11 @@ DeviceState *sifive_plic_create(hwaddr addr,
+> >> char *hart_config,
+> >>           CPUState *cpu =3D qemu_get_cpu(cpu_num);
+> >>
+> >>           if (plic->addr_config[i].mode =3D=3D PLICMode_M) {
+> >> -            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base
+> >> + cpu_num,
+> >> +            qdev_connect_gpio_out(dev, cpu_num - hartid_base +
+> >> num_harts,
+> >>                                     qdev_get_gpio_in(DEVICE(cpu),
+> >> IRQ_M_EXT));
+> >>           }
+> >>           if (plic->addr_config[i].mode =3D=3D PLICMode_S) {
+> >> -            qdev_connect_gpio_out(dev, cpu_num,
+> >> +            qdev_connect_gpio_out(dev, cpu_num - hartid_base,hartid_b=
+ase
+> >>                                     qdev_get_gpio_in(DEVICE(cpu),
+> >> IRQ_S_EXT));
+> >>           }
+> >>       }
+> >> ---
+> >
+> >    IIUC hartid_base is used to set plic->hartid_base, so agreed, along
+> > with the
+> >    style unification.
+> >    I'll send a v2, then.
+> >    Since Alistair already queued the patch, how shall I proceed?
 >
-> >
-> > diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-> > index 8745a58a76..b11fe39350 100644
-> > --- a/tests/avocado/acpi-bits.py
-> > +++ b/tests/avocado/acpi-bits.py
-> > @@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
-> >          self._vm.launch()
-> >          # biosbits has been configured to run all the specified test suites
-> >          # in batch mode and then automatically initiate a vm shutdown.
-> > -        # sleep for maximum of one minute
-> > -        max_sleep_time = time.monotonic() + 60
-> > +        # sleep for a maximum of one and half minutes to accommodate
-> > running this
-> > +        # even on slower machines.
-> > +        max_sleep_time = time.monotonic() + 90
-> >          while self._vm.is_running() and time.monotonic() < max_sleep_time:
-> >              time.sleep(1)
-> >
+> I didn't notice Alistair queued (he usually send a notification by
+> responding "queued" to the patches). If it is queued, then too late
+> (and not a big deal) -- you can still post the v2 and let him pick
+> it :)
+
+Yep! I'll drop it from my queue and take the v2
+
+Alistair
+
 >
 
