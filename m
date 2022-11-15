@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADFF629D9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:33:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7C1629DD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:42:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouxvp-00048L-Sj; Tue, 15 Nov 2022 10:33:01 -0500
+	id 1ouxym-0005oH-8y; Tue, 15 Nov 2022 10:36:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouxvk-00046p-4I
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:32:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouxy8-0005dn-OH
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:35:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouxvU-0007mr-1y
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:32:55 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouxy6-0008GP-VD
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 10:35:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668526354;
+ s=mimecast20190719; t=1668526522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aO23dwFpQE3RNJSvLoJzZ2HmqVNqNjWb8g7D6YymGd8=;
- b=WMw7NV2TEsFnP0h42qBmbsLk39d6G2bXrCiDTxTjeY00BzXNhJL+YTOSupN3W8esqnDX/I
- 4RZMqjbidzeBRTK3DLlVPmk975XPyW7HRB+9DzRsYZDXITTeZU/66TMI6JSUOL5YddN0AX
- cU7vI3YiS6DZvB3qKFpWCY5nD6TKnFU=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BQy5nBG9AKO1amfe211UX8Kes/UkPPPygbGkDvYfLRE=;
+ b=SXRgOewO/+69/1YL6xAhFjnjAUabLubYlqa68BWEqzurExmgoDWmwD87cNvyfjK0vTPp46
+ nkgiLfDe1aHibWLE9eas82QsQ5DlUSsgV/vBbBfLnvPGRd50Uc4Wscn9Xz1y8gThJD65yd
+ 63U4BZ5kCtXVbQNEmw8vP4MjMcMWvvs=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-lvgiuppfMzakVDjnEjTVlA-1; Tue, 15 Nov 2022 10:32:31 -0500
-X-MC-Unique: lvgiuppfMzakVDjnEjTVlA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-500-fwIMNnDAOzqkqOM107_ShA-1; Tue, 15 Nov 2022 10:35:20 -0500
+X-MC-Unique: fwIMNnDAOzqkqOM107_ShA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34B2E1C09B6B;
- Tue, 15 Nov 2022 15:32:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 399B840C83BA;
- Tue, 15 Nov 2022 15:32:30 +0000 (UTC)
-Date: Tue, 15 Nov 2022 16:32:26 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-block@nongnu.org, stefanha@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PULL 00/11] Block layer patches
-Message-ID: <Y3OxCvpI+fRkxptR@redhat.com>
-References: <20221111152744.261358-1-kwolf@redhat.com>
- <CAJSP0QVgzEAEdzrBd2Q3KsPBmCPTwzdO1dOb6KrY729esKLkZA@mail.gmail.com>
- <Y3Ie4aH6Da4qgWbU@redhat.com>
- <CAFn=p-YnmrM4X0sbYsVq=GY-7y8kwevqW=jxWV79twTx+sxmGw@mail.gmail.com>
- <Y3NmoCvJ+PJoLeLK@redhat.com>
- <74564d3a-2867-891c-07bf-7746abc121de@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 657DE3817A64;
+ Tue, 15 Nov 2022 15:35:20 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.195.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 885122166B2B;
+ Tue, 15 Nov 2022 15:35:17 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Fam Zheng <fam@euphon.net>
+Subject: [PULL 00/30] Next patches
+Date: Tue, 15 Nov 2022 16:34:44 +0100
+Message-Id: <20221115153514.28003-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <74564d3a-2867-891c-07bf-7746abc121de@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,66 +85,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 15.11.2022 um 11:21 hat Hanna Reitz geschrieben:
-> On 15.11.22 11:14, Kevin Wolf wrote:
-> > Am 15.11.2022 um 00:58 hat John Snow geschrieben:
-> > > On Mon, Nov 14, 2022 at 5:56 AM Kevin Wolf <kwolf@redhat.com> wrote:
-> > > > Am 11.11.2022 um 20:20 hat Stefan Hajnoczi geschrieben:
-> > > > > > Hanna Reitz (9):
-> > > > > >        block/mirror: Do not wait for active writes
-> > > > > >        block/mirror: Drop mirror_wait_for_any_operation()
-> > > > > >        block/mirror: Fix NULL s->job in active writes
-> > > > > >        iotests/151: Test that active mirror progresses
-> > > > > >        iotests/151: Test active requests on mirror start
-> > > > > >        block: Make bdrv_child_get_parent_aio_context I/O
-> > > > > >        block-backend: Update ctx immediately after root
-> > > > > >        block: Start/end drain on correct AioContext
-> > > > > >        tests/stream-under-throttle: New test
-> > > > > Hi Hanna,
-> > > > > This test is broken, probably due to the minimum Python version:
-> > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3311521303
-> > > > This is exactly the problem I saw with running linters in a gating CI,
-> > > > but not during 'make check'. And of course, we're hitting it during the
-> > > > -rc phase now. :-(
-> > > I mean. I'd love to have it run in make check too. The alternative was
-> > > never seeing this *anywhere* ...
-> > What is the problem with running it in 'make check'? The additional
-> > dependencies? If so, can we run it automatically if the dependencies
-> > happen to be fulfilled and just skip it otherwise?
-> > 
-> > If I have to run 'make -C python check-pipenv' manually, I can guarantee
-> > you that I'll forget it more often than I'll run it.
-> > 
-> > > ...but I'm sorry it's taken me so long to figure out how to get this
-> > > stuff to work in "make check" and also from manual iotests runs
-> > > without adding any kind of setup that you have to manage. It's just
-> > > fiddly, sorry :(
-> > > 
-> > > > But yes, it seems that asyncio.TimeoutError should be used instead of
-> > > > asyncio.exceptions.TimeoutError, and Python 3.6 has only the former.
-> > > > I'll fix this up and send a v2 if it fixes check-python-pipenv.
-> > > Hopefully this goes away when we drop 3.6. I want to, but I recall
-> > > there was some question about some platforms that don't support 3.7+
-> > > "by default" and how annoying that was or wasn't. We're almost a year
-> > > out from 3.6 being EOL, so maybe after this release it's worth a crack
-> > > to see how painful it is to move on.
-> > If I understand the documentation right, asyncio.TimeoutError is what
-> > you should be using either way. That it happens to be a re-export from
-> > the internal module asyncio.exceptions seems to be more of an
-> > implementation detail, not the official interface.
-> 
-> Oh, so I understood
-> https://docs.python.org/3/library/asyncio-exceptions.html wrong.  I took
-> that to mean that as of 3.11, `asyncio.TimeoutError` is a deprecated alias
-> for `asyncio.exceptions.TimeoutError`, but it’s actually become an alias for
-> the now-built-in `TimeoutError` exception.  I think.
+The following changes since commit 98f10f0e2613ba1ac2ad3f57a5174014f6dcb03d:
 
-Not just "now-built-in", it has been built in before (starting from
-3.3). But AIUI, asyncio used to use its own separate exception class
-(asyncio.TimeoutError, in some versions re-exported from the exceptions
-submodule) instead of the built-in one, and in 3.11 it now reuses the
-built-in one instead of defining a separate custom one.
+  Merge tag 'pull-target-arm-20221114' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-11-14 13:31:17 -0500)
 
-Kevin
+are available in the Git repository at:
+
+  https://gitlab.com/juan.quintela/qemu.git tags/next-pull-request
+
+for you to fetch changes up to d896a7a40db13fc2d05828c94ddda2747530089c:
+
+  migration: Block migration comment or code is wrong (2022-11-15 10:31:06 +0100)
+
+----------------------------------------------------------------
+Migration PULL request (take 2)
+
+Hi
+
+This time properly signed.
+
+[take 1]
+It includes:
+- Leonardo fix for zero_copy flush
+- Fiona fix for return value of readv/writev
+- Peter Xu cleanups
+- Peter Xu preempt patches
+- Patches ready from zero page (me)
+- AVX2 support (ling)
+- fix for slow networking and reordering of first packets (manish)
+
+Please, apply.
+
+----------------------------------------------------------------
+
+Fiona Ebner (1):
+  migration/channel-block: fix return value for
+    qio_channel_block_{readv,writev}
+
+Juan Quintela (5):
+  multifd: Create page_size fields into both MultiFD{Recv,Send}Params
+  multifd: Create page_count fields into both MultiFD{Recv,Send}Params
+  migration: Export ram_transferred_ram()
+  migration: Export ram_release_page()
+  migration: Block migration comment or code is wrong
+
+Leonardo Bras (1):
+  migration/multifd/zero-copy: Create helper function for flushing
+
+Peter Xu (20):
+  migration: Fix possible infinite loop of ram save process
+  migration: Fix race on qemu_file_shutdown()
+  migration: Disallow postcopy preempt to be used with compress
+  migration: Use non-atomic ops for clear log bitmap
+  migration: Disable multifd explicitly with compression
+  migration: Take bitmap mutex when completing ram migration
+  migration: Add postcopy_preempt_active()
+  migration: Cleanup xbzrle zero page cache update logic
+  migration: Trivial cleanup save_page_header() on same block check
+  migration: Remove RAMState.f references in compression code
+  migration: Yield bitmap_mutex properly when sending/sleeping
+  migration: Use atomic ops properly for page accountings
+  migration: Teach PSS about host page
+  migration: Introduce pss_channel
+  migration: Add pss_init()
+  migration: Make PageSearchStatus part of RAMState
+  migration: Move last_sent_block into PageSearchStatus
+  migration: Send requested page directly in rp-return thread
+  migration: Remove old preempt code around state maintainance
+  migration: Drop rs->f
+
+ling xu (2):
+  Update AVX512 support for xbzrle_encode_buffer
+  Unit test code and benchmark code
+
+manish.mishra (1):
+  migration: check magic value for deciding the mapping of channels
+
+ meson.build                   |  16 +
+ include/exec/ram_addr.h       |  11 +-
+ include/exec/ramblock.h       |   3 +
+ include/io/channel.h          |  25 ++
+ include/qemu/bitmap.h         |   1 +
+ migration/migration.h         |   7 -
+ migration/multifd.h           |  10 +-
+ migration/postcopy-ram.h      |   2 +-
+ migration/ram.h               |  23 +
+ migration/xbzrle.h            |   4 +
+ io/channel-socket.c           |  27 ++
+ io/channel.c                  |  39 ++
+ migration/block.c             |   4 +-
+ migration/channel-block.c     |   6 +-
+ migration/migration.c         | 109 +++--
+ migration/multifd-zlib.c      |  14 +-
+ migration/multifd-zstd.c      |  12 +-
+ migration/multifd.c           |  69 +--
+ migration/postcopy-ram.c      |   5 +-
+ migration/qemu-file.c         |  27 +-
+ migration/ram.c               | 794 +++++++++++++++++-----------------
+ migration/xbzrle.c            | 124 ++++++
+ tests/bench/xbzrle-bench.c    | 465 ++++++++++++++++++++
+ tests/unit/test-xbzrle.c      |  39 +-
+ util/bitmap.c                 |  45 ++
+ meson_options.txt             |   2 +
+ scripts/meson-buildoptions.sh |  14 +-
+ tests/bench/meson.build       |   4 +
+ 28 files changed, 1379 insertions(+), 522 deletions(-)
+ create mode 100644 tests/bench/xbzrle-bench.c
+
+-- 
+2.38.1
 
 
