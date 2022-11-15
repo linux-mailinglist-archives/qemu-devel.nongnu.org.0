@@ -2,103 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1C86294EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9166294F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:55:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouseb-0003Gj-OH; Tue, 15 Nov 2022 04:54:54 -0500
+	id 1ouseu-0004Cu-4F; Tue, 15 Nov 2022 04:55:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ouseY-00038R-Rf
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:54:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouseq-00048n-CQ
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:55:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ouseW-00047C-34
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:54:50 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouseo-0004KZ-Kt
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:55:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668506087;
+ s=mimecast20190719; t=1668506105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LmeGLWXWb5yKPLKhU2XpcoYiHsqoRNqQ4QZX+kUWASU=;
- b=folZ23OlWH2xDlYmGsa4Iz1zXd69CgOJreAs8XOlArUd3Vo25hJy10vJIEFRYh/vvfcFd3
- hW2IhUyUxpoFa3Q/zKhZG9cj3pCleY7hpTqP9n9JnVlEl4Tz1aLkatlYPVWEr3qVuAHFGJ
- ATYkT6lF6lRbqiPdPf/9+T6zRJjrWjk=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-215-d1NJOgdvMN6IA8BYoG91hw-1; Tue, 15 Nov 2022 04:54:45 -0500
-X-MC-Unique: d1NJOgdvMN6IA8BYoG91hw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- ns11-20020a056214380b00b004c64784249eso2667392qvb.7
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 01:54:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LmeGLWXWb5yKPLKhU2XpcoYiHsqoRNqQ4QZX+kUWASU=;
- b=SstMgYD8VGhRvFlfjbhnvEglJta1QkmNWI58JprPkzFsy8HK1fGR+eHMrip8xhOOs7
- TlBxhRjOCeOyTc4biNx1ouXn9/AH3OiPjzHp89FguXQia2RC4a79PB7KvsPYkne3L+X7
- uyZVNKJj72uOagWDaALqt8zQ6emGgskRnXyIRnblv2jjxGwsvAaer7+vM26ReW+LGnlp
- C/YyMnJKU79lpCNwdxyFSuQty4abcq8GSK+vIWuz0VpwfGSwxzLrClTyl0W/xYAxeDoE
- heC0GPNZL8nJNuh9Mapx6NaK8KWf7litC6bxGc0bv8x1/sDaz/SxzQ3w93gdVbddkHED
- zSgw==
-X-Gm-Message-State: ANoB5pm6tPF3NgAJzaof3y7pGbJmZvq9maNd6EdEMKg3GscituiUTAP+
- qkrNBTtSIjCzvmNz4Bjc1ONa1ZozLH0dNqPL5dLaAMj8xmext9MFYt3m28/QEDbLXOVhyS/BcUG
- LUYLRjK3r6PVBPao=
-X-Received: by 2002:a37:bf46:0:b0:6ec:5409:5eaf with SMTP id
- p67-20020a37bf46000000b006ec54095eafmr14160521qkf.404.1668506084900; 
- Tue, 15 Nov 2022 01:54:44 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7nM0DE2/7ktK+jLDobdCQpl3MBvMWxacBVkf70IbzdDyPXClOp0MVW1w+qAmQn5e5hxSVZ6g==
-X-Received: by 2002:a37:bf46:0:b0:6ec:5409:5eaf with SMTP id
- p67-20020a37bf46000000b006ec54095eafmr14160496qkf.404.1668506084663; 
- Tue, 15 Nov 2022 01:54:44 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-177-149.web.vodafone.de.
- [109.43.177.149]) by smtp.gmail.com with ESMTPSA id
- x26-20020ac86b5a000000b003a51e8ef03dsm6878464qts.62.2022.11.15.01.54.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 01:54:44 -0800 (PST)
-Message-ID: <602ae031-1336-2c41-0bad-9ff999fe7d98@redhat.com>
-Date: Tue, 15 Nov 2022 10:54:39 +0100
+ bh=DMBaKZLZ0orKVFkO4sUbEngzZwASBejwvETfCmH7ofE=;
+ b=cW5nnBRndcLZazWm/Z90Ymbwk0uu1xGbhmMNUjzy0PQZ2LC0PanIIYU7NJWKlckQHjcXTv
+ FZ9+4/FsV5/BN8nthKADv9CcxXXqPF45uVyVwY0850+QYM8MnE6dIn6D1tLMmVCGldMXNt
+ xfBO4iYBYw8fIIUQhYAshbf2spp7+xo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-510-qW1QW_m3Oq2Vstxb2UrvCQ-1; Tue, 15 Nov 2022 04:54:59 -0500
+X-MC-Unique: qW1QW_m3Oq2Vstxb2UrvCQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AEE53817A64;
+ Tue, 15 Nov 2022 09:54:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F4C2C15E76;
+ Tue, 15 Nov 2022 09:54:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1510721E6921; Tue, 15 Nov 2022 10:54:56 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,  qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org,  Matthew Rosato <mjrosato@linux.ibm.com>,  Tony
+ Krowiak <akrowiak@linux.ibm.com>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH v2] util/qemu-config: Fix "query-command-line-options"
+ to provide the right values
+References: <20221111141323.246267-1-thuth@redhat.com>
+ <875yflbl0u.fsf@pond.sub.org>
+ <b8c5f7c4-cf91-1278-1af4-9449b2043e13@redhat.com>
+ <87leocwt4x.fsf@pond.sub.org>
+ <27387844-bdfd-445b-63b7-86e3acdab859@redhat.com>
+Date: Tue, 15 Nov 2022 10:54:56 +0100
+In-Reply-To: <27387844-bdfd-445b-63b7-86e3acdab859@redhat.com> (Thomas Huth's
+ message of "Tue, 15 Nov 2022 09:05:57 +0100")
+Message-ID: <87cz9ov8y7.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH for-8.0] hw: Add compat machines for 8.0
-Content-Language: en-US
-To: Cornelia Huck <cohuck@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20221111124534.129111-1-cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221111124534.129111-1-cohuck@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,26 +86,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/2022 13.45, Cornelia Huck wrote:
-> Add 8.0 machine types for arm/i440fx/m68k/q35/s390x/spapr.
-> 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->   hw/arm/virt.c              |  9 ++++++++-
->   hw/core/machine.c          |  3 +++
->   hw/i386/pc.c               |  3 +++
->   hw/i386/pc_piix.c          | 14 +++++++++++++-
->   hw/i386/pc_q35.c           | 13 ++++++++++++-
->   hw/m68k/virt.c             |  9 ++++++++-
->   hw/ppc/spapr.c             | 15 +++++++++++++--
->   hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
->   include/hw/boards.h        |  3 +++
->   include/hw/i386/pc.h       |  3 +++
->   10 files changed, 79 insertions(+), 7 deletions(-)
-> 
+Thomas Huth <thuth@redhat.com> writes:
 
-For the s390x part:
+> On 15/11/2022 08.53, Markus Armbruster wrote:
+>> Thomas Huth <thuth@redhat.com> writes:
+>> 
+>>> On 11/11/2022 15.53, Markus Armbruster wrote:
+>>>> Thomas Huth <thuth@redhat.com> writes:
+>>>>
+>>>>> The "query-command-line-options" command uses a hand-crafted list
+>>>>> of options that should be returned for the "machine" parameter.
+>>>>> This is pretty much out of sync with reality, for example settings
+>>>>> like "kvm_shadow_mem" or "accel" are not parameters for the machine
+>>>>> anymore. Also, there is no distinction between the targets here, so
+>>>>> e.g. the s390x-specific values like "loadparm" in this list also
+>>>>> show up with the other targets like x86_64.
+>>>>>
+>>>>> Let's fix this now by geting rid of the hand-crafted list and by
+>>>>> querying the properties of the machine classes instead to assemble
+>>>>> the list.
+>>>>
+>>>> Do we know what uses this command, and how these users are
+>>>> inconvenienced by the flaw you're fixing?
+>>>> I'm asking because the command is pretty much out of sync with reality
+>>>> by (mis-)design.
+>>>
+>>> libvirt apparently queries this data (see the various tests/qemucapabilitiesdata/*.replies files in their repository), but since
+>>> it's so much out-of-sync with reality, it's not of a big use there yet.
+>>>
+>>> See for example here:
+>>>
+>>> https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00581.html
+>>>
+>>> If we finally fix this problem with "query-command-line-options" in QEMU, it should be much easier to deprecate -no-hpet in QEMU, too.
+>> 
+>> For a value of "fix".  While we can fix certain concrete issues with
+>> q-c-l-o, which may be wortwhile, the overarching issue is (in my
+>> opinion) unfixable: it can only tell us about QemuOpts.
+>> 
+>> QemuOpts is only part of the truth.  Last time I checked, it worked for
+>> one out of five CLI options.
+>
+> Well, that's another problem. For this patch here, can we please focus on 
+> getting rid of that stupid hard-coded and outdated list in our source code? 
+> Or do you have something better almost ready that will replace this stuff in 
+> the very near future?
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I'm not objecting to fixing "concrete issues with q-c-l-o, which may be
+worthwhile", such as this patch, as long as something actually makes use
+of the fixes, now or in the immediate future.
 
 
