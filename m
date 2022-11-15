@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4530A6293E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52233629430
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:21:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ourvg-0006v2-LQ; Tue, 15 Nov 2022 04:08:29 -0500
+	id 1ous6h-0007ah-BC; Tue, 15 Nov 2022 04:19:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ourvP-0006rH-Hv
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:08:13 -0500
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ous6e-0007Wc-7B
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:19:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ourvA-00022s-0Q
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:08:11 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.58])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9F82A20574;
- Tue, 15 Nov 2022 09:07:35 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
- 2022 10:07:34 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0045a193e4c-d70f-48b0-844a-6fd3c97aa405,
- 4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <2e9b0f16-0016-760a-b498-d584515127fe@kaod.org>
-Date: Tue, 15 Nov 2022 10:07:34 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ous6c-0004ob-9Q
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:19:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668503985;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=nPAmylOoEwlBBRK7L/VHpaIWyynNrrSlD4Sx6EILJ8c=;
+ b=S43hElKU/qlApmoPbOUoH1ODL5IImc9tJsI1AOBXmr9lCkFpMicboAXMb04W3Ya1o0pQXs
+ /kpgxCJVhBBgV25azblvVxtLlV91OCu7qbyrAUuapqboovXypA6nKid8Q97hXyZYzdymSM
+ FUNG+/GC/R7efqbvGXZ5i8ssZj1JckU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-639-768_9fIEPNeKHnkGT-8BfA-1; Tue, 15 Nov 2022 04:19:43 -0500
+X-MC-Unique: 768_9fIEPNeKHnkGT-8BfA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ c18-20020adfa312000000b002364fabf2ceso2563124wrb.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 01:19:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nPAmylOoEwlBBRK7L/VHpaIWyynNrrSlD4Sx6EILJ8c=;
+ b=Qcgyb6/3cEv0Vpe8vpSAGP/Pp0T/c7/9mPcIYDG63/s7xPoeJgJUVdC/VXh7zBG2mU
+ MZaNsavF9Fgc3+yPQMkdqFxbX3ClJl2Jj9gpw8/4G9+avuimRLd7XnDyvsCAfJvNCeKT
+ 4RZ/z8lB2p/0OLLBv36bxWnoFMeLcGoGkLPkql/N9lGGZxK+P9adTiU4asH582OHP1Ac
+ RsoyFt0/Ro1LRuqUGEbfjgtn7hJYTvJRRNt3SVaKofC2nu3Rj4Da5t5kQH7+HqRcxfmL
+ jFM2xusEXSF8ffuTrrJlO+N+MjPmKnBSQucVIMjqh9PdY5ttrjxmK2S1Lou226G+U4uw
+ doNg==
+X-Gm-Message-State: ANoB5pk76pMlb476ocOVytUtsjoimF8jkr/pvhDbkrHYTT3r0cTSnbDy
+ WS/hE9Th9qgff+f75UqSgETA2IevOFy+ukVXYcavR4yCpUDM+djbplRIIBVh47lPPeXNLSU6d8n
+ j7AeJCmfl/71wf/g=
+X-Received: by 2002:a5d:528c:0:b0:22f:da60:345 with SMTP id
+ c12-20020a5d528c000000b0022fda600345mr9936884wrv.218.1668503982382; 
+ Tue, 15 Nov 2022 01:19:42 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7dByMplU4mRwMsWi/CN744Q6UVV9zdpYUw5qNjqnvmUtG/RYg8BGo7ysMoALU7+zLM097MeA==
+X-Received: by 2002:a5d:528c:0:b0:22f:da60:345 with SMTP id
+ c12-20020a5d528c000000b0022fda600345mr9936868wrv.218.1668503982143; 
+ Tue, 15 Nov 2022 01:19:42 -0800 (PST)
+Received: from localhost ([31.4.176.165]) by smtp.gmail.com with ESMTPSA id
+ g16-20020a7bc4d0000000b003cf75f56105sm17054070wmk.41.2022.11.15.01.19.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Nov 2022 01:19:41 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  qemu-devel@nongnu.org,
+ "Daniel P . Berrange" <berrange@redhat.com>,  ani@anisinha.ca,  Leonardo
+ Bras Soares Passos <lsoaresp@redhat.com>,  Manish Mishra
+ <manish.mishra@nutanix.com>
+Subject: Re: [PATCH v2 06/15] migration: Yield bitmap_mutex properly when
+ sending/sleeping
+In-Reply-To: <Y0g6i6z3K4mglmPb@x1n> (Peter Xu's message of "Thu, 13 Oct 2022
+ 12:19:23 -0400")
+References: <20221011215559.602584-1-peterx@redhat.com>
+ <20221011215559.602584-7-peterx@redhat.com> <Y0buySbboE3xOVoQ@work-vm>
+ <Y0b+i6vliRkBC2MI@x1n> <Y0g6i6z3K4mglmPb@x1n>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Tue, 15 Nov 2022 10:19:40 +0100
+Message-ID: <8735akh8wj.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH for-8.0] hw: Add compat machines for 8.0
-To: Cornelia Huck <cohuck@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, Yanan Wang
- <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, David Gibson <david@gibson.dropbear.id.au>, Greg
- Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>, David Hildenbrand
- <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Halil Pasic
- <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>,
- <qemu-s390x@nongnu.org>
-References: <20221111124534.129111-1-cohuck@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221111124534.129111-1-cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 6682b270-5844-4c4a-bf6a-6a35cf18fa0e
-X-Ovh-Tracer-Id: 6257470209121225625
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeefgdduvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheptghohhhutghksehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhqvg
- hmuhdqphhptgesnhhonhhgnhhurdhorhhgpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhlrghurhgvnhhtsehvihhvihgvrhdrvghupdhmshhtsehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdifrghnghihrghnrghnheehsehhuhgrfigvihdrtghomhdpphhhihhlmhgusehlihhnrghrohdrohhrghdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvughurghrughosehhrggskhhoshhtrdhnvghtpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomhdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,32 +100,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/22 13:45, Cornelia Huck wrote:
-> Add 8.0 machine types for arm/i440fx/m68k/q35/s390x/spapr.
-> 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->   hw/arm/virt.c              |  9 ++++++++-
->   hw/core/machine.c          |  3 +++
->   hw/i386/pc.c               |  3 +++
->   hw/i386/pc_piix.c          | 14 +++++++++++++-
->   hw/i386/pc_q35.c           | 13 ++++++++++++-
->   hw/m68k/virt.c             |  9 ++++++++-
->   hw/ppc/spapr.c             | 15 +++++++++++++--
->   hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
->   include/hw/boards.h        |  3 +++
->   include/hw/i386/pc.h       |  3 +++
->   10 files changed, 79 insertions(+), 7 deletions(-)
-> 
+Peter Xu <peterx@redhat.com> wrote:
+> On Wed, Oct 12, 2022 at 01:51:07PM -0400, Peter Xu wrote:
+>> On Wed, Oct 12, 2022 at 05:43:53PM +0100, Dr. David Alan Gilbert wrote:
+>> > * Peter Xu (peterx@redhat.com) wrote:
+>> > > Don't take the bitmap mutex when sending pages, or when being throttled by
+>> > > migration_rate_limit() (which is a bit tricky to call it here in ram code,
+>> > > but seems still helpful).
+>> > > 
+>> > > It prepares for the possibility of concurrently sending pages in >1 threads
+>> > > using the function ram_save_host_page() because all threads may need the
+>> > > bitmap_mutex to operate on bitmaps, so that either sendmsg() or any kind of
+>> > > qemu_sem_wait() blocking for one thread will not block the other from
+>> > > progressing.
+>> > > 
+>> > > Signed-off-by: Peter Xu <peterx@redhat.com>
+>> > 
+>> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> > 
+>> > although a comment above the reclaration of ram_save_host_pages saying
+>> > it can drop the lock would be veyr good.
+>> 
+>> Let me add that.  Thanks,
+>
+> A fixup to this patch attached to touch up the comment for
+> ram_save_host_page().
 
-For ppc,
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
 
