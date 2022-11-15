@@ -2,45 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F3D629487
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:39:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F946294B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:46:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ousOa-0008KM-Tu; Tue, 15 Nov 2022 04:38:21 -0500
+	id 1ousVj-0002Me-Cc; Tue, 15 Nov 2022 04:45:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ousOU-0008JZ-0d
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:38:15 -0500
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ousVU-0002Jh-Df
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:45:33 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ousOS-0001dv-9M
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:38:13 -0500
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ousVR-0002pU-OD
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:45:27 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id A924C402A0;
- Tue, 15 Nov 2022 12:38:09 +0300 (MSK)
-Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 0F60F3B9;
- Tue, 15 Nov 2022 12:38:09 +0300 (MSK)
-Received: (nullmailer pid 52100 invoked by uid 1000);
- Tue, 15 Nov 2022 09:38:09 -0000
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH] disas: recognize either <capstone.h> or <capstone/capstone.h>
-Date: Tue, 15 Nov 2022 12:38:03 +0300
-Message-Id: <20221115093803.52050-1-mjt@msgid.tls.msk.ru>
-X-Mailer: git-send-email 2.30.2
+ by isrv.corpit.ru (Postfix) with ESMTP id 2E675402A5;
+ Tue, 15 Nov 2022 12:45:21 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 7F29C3B9;
+ Tue, 15 Nov 2022 12:45:20 +0300 (MSK)
+Message-ID: <a679b2b1-044b-b130-0d0d-4d50bc7d28c5@msgid.tls.msk.ru>
+Date: Tue, 15 Nov 2022 12:45:20 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH] disas: recognize either <capstone.h> or
+ <capstone/capstone.h>
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20221115093803.52050-1-mjt@tls.msk.ru>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <20221115093803.52050-1-mjt@tls.msk.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
 X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,73 +61,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Historically, capstone varies in requiring either <capstone.h>
-or <capstone/capstone.h> include depending on version and the
-way how it has been installed.  This has already been an issue
-before, and will likely become an issue again with capstone
-5.0 which seem to have changed this aspect once again.
+15.11.2022 12:38, Michael Tokarev wrote:
+..
+> Recognize both ways in the meson check, but prefer <capstone.h>
+> so it's easily to override which capstone to use by
 
-Recognize both ways in the meson check, but prefer <capstone.h>
-so it's easily to override which capstone to use by
-pkgconfig's --cflags (or --extra-cflags).
+With the obvious typo fix, "easy" :)
 
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
----
- include/disas/capstone.h |  5 +++++
- meson.build              | 22 ++++++++++++----------
- 2 files changed, 17 insertions(+), 10 deletions(-)
-
-diff --git a/include/disas/capstone.h b/include/disas/capstone.h
-index e29068dd97..406132a63c 100644
---- a/include/disas/capstone.h
-+++ b/include/disas/capstone.h
-@@ -3,7 +3,12 @@
- 
- #ifdef CONFIG_CAPSTONE
- 
-+#ifdef HAVE_CAPSTONE_CAPSTONE_H
-+#include <capstone/capstone.h>
-+#else
- #include <capstone.h>
-+#endif
-+
- 
- #else
- 
-diff --git a/meson.build b/meson.build
-index cf3e517e56..2a3ae65d76 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2680,16 +2680,18 @@ if not get_option('capstone').auto() or have_system or have_user
-   capstone = dependency('capstone', version: '>=3.0.5',
-                         kwargs: static_kwargs, method: 'pkg-config',
-                         required: get_option('capstone'))
--
--  # Some versions of capstone have broken pkg-config file
--  # that reports a wrong -I path, causing the #include to
--  # fail later. If the system has such a broken version
--  # do not use it.
--  if capstone.found() and not cc.compiles('#include <capstone.h>',
--                                          dependencies: [capstone])
--    capstone = not_found
--    if get_option('capstone').enabled()
--      error('capstone requested, but it does not appear to work')
-+  if capstone.found()
-+    # capstone works either with <capstone.h> or <capstone/capstone.h>
-+    # determine which one do we have here, prefer first one with pkg-config's --cflags
-+    if cc.compiles('#include <capstone.h>', dependencies: [capstone])
-+      # nothing to be done here (see include/disas/capstone.h)
-+    elif cc.compiles('#include <capstone/capstone.h>', dependencies: [capstone])
-+      config_host_data.set('HAVE_CAPSTONE_CAPSTONE_H', 1)
-+    else
-+      capstone = not_found
-+      if get_option('capstone').enabled()
-+        error('capstone requested, but it does not appear to work')
-+      endif
-     endif
-   endif
- endif
--- 
-2.30.2
-
+/mjt
 
