@@ -2,82 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1AB6293C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E23AB6293E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 10:08:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ourph-0003ln-RW; Tue, 15 Nov 2022 04:02:17 -0500
+	id 1ourtw-0005fw-NG; Tue, 15 Nov 2022 04:06:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppolawsk@redhat.com>)
- id 1ourpd-0003lC-BE
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:02:13 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oursw-0005PB-8W
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:05:49 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppolawsk@redhat.com>)
- id 1ourpV-0008RJ-7w
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:02:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oursZ-0000RO-82
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 04:05:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668502920;
+ s=mimecast20190719; t=1668503114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yc4GxpTnTiSXXXF7uviFsPJ6I0zVHbRaUQI1UQyjzaE=;
- b=NS1NsTThCtnJpc8qK/Xa0UIB02sI30EBMNk4G/oXFEmkbqOIFuatpbeUXh6NSI9fq8zc1n
- aXlm0yEuV2d2U/xBVqcfI2J0Gfu4Fpp7oSt6LmDMomJs5Fk/Rjmp/sJvW7uIgCbgh09ZT4
- hT4XCg1Fb6KsOKMRzRsMJT4tM8vLCf8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hdK7EXxyE13Z5sIlLW7nvKsJiG/CDN0lb0pOWJ7v+ew=;
+ b=c57WBy/gMdtx1o+74ORnwJT9QRElvSr/8/RSoYioj9ZTjZlCdrnEjddWlBpknBF3vl3x5G
+ 65BnT8eASkneU71mhYpE9VSUdYgPecxTZQ3YFEhnlESXBVXhDdheC3R/8zI1Er2omHGCb8
+ sIeuCis5wXQ6m+ImN6O6O8ZeRUqYff8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-550-_kbIJrLaPL2PfuYnCqxU0A-1; Tue, 15 Nov 2022 04:01:56 -0500
-X-MC-Unique: _kbIJrLaPL2PfuYnCqxU0A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j2-20020a05600c1c0200b003cf7397fc9bso8039855wms.5
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 01:01:56 -0800 (PST)
+ us-mta-662-s1Pp7aUdMEOHKQ5w8AicqQ-1; Tue, 15 Nov 2022 04:05:12 -0500
+X-MC-Unique: s1Pp7aUdMEOHKQ5w8AicqQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ e8-20020a05600c218800b003cf634f5280so3550553wme.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 01:05:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yc4GxpTnTiSXXXF7uviFsPJ6I0zVHbRaUQI1UQyjzaE=;
- b=c1a29iWoq9D5wTCEyVDPswVwGJ4g0k0UHLisfqtXFKZp9D4lV2LFHLDpe8lZClMmDd
- 6rmFIts+QJbe9TYbdzj6gZ6EwxlbZnt8cpuDvX1Qtng3agaPhldPu6ebNUO6Euj+9JXN
- 1IkQ07ZAaDJ7JiqbnSwMbDnKzNzx/VSCdwGJLsgt8ICihMjYqfWLyVasMOBZaBffhDxR
- TLAT2JKl/jhmDGlCqLBO3dEOgV6kvj2loGN+JKqwUlsBjHxxt2zTsUb6h0kPmknSOoCp
- GSibp0CGg/1pYSaZ18k6N/ZSL035HA8LRi1qMV1ZcD9TZ20H6uuMAhW6SXl3pnGXR+gI
- QOVA==
-X-Gm-Message-State: ANoB5pmZny73ZwHYTgWCCQ3OnXQ7bv85PhJRFUnSUGWnhtC8x7CdhsLI
- AT+j9i+9SByjMCIHuf92ZfHnT2Zb79U65OiFyaAU9Tc/7YimBUzDXlezQ/LcpXdwggS4BKDAFou
- VVIutPibDyqMit6/dZzlE/CFU1icMXjk=
-X-Received: by 2002:a5d:4301:0:b0:236:8130:56e7 with SMTP id
- h1-20020a5d4301000000b00236813056e7mr9759790wrq.309.1668502915656; 
- Tue, 15 Nov 2022 01:01:55 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5CkcqWi9r++qt6HkyIEL0co+khXg2CEU27m0eWEv7fzc7fTCxOaRkjsT6NI/wRgpA7OOxoX4tLNJQ4GMnqP9s=
-X-Received: by 2002:a5d:4301:0:b0:236:8130:56e7 with SMTP id
- h1-20020a5d4301000000b00236813056e7mr9759777wrq.309.1668502915394; Tue, 15
- Nov 2022 01:01:55 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hdK7EXxyE13Z5sIlLW7nvKsJiG/CDN0lb0pOWJ7v+ew=;
+ b=ZYwgr0rbHpASzVGzj141t5XEHWVEA9mtN3Bp2ycsSwi4ssne+l1gxS2fPBNdxqiuTw
+ CUYoDwVATM5hTi4AmQCMabN5d7romRXRv0g3M/0VkDM+gNq6w0exJFE8CIkZZk9xnz4F
+ HZwWWlh31Jr86ODzRq6q2f9jQHwAkJLPCUu3QqwtSaTc5ie9cxSGvEdYW7e4k0Wd+Djl
+ zakJc+pZ9SF8yDMkdMLR8zQwCJ4lEDKxQfK1A4YbCRCvvkPQJGcU4j1vEJxRf7Dly7gf
+ W6YvfBg2DDv+/OMdfJ/q5U9oQCVzGwM2r3mcrbBjakYPznVoiBvKTqacHNV9PH3XV6Qb
+ eyCg==
+X-Gm-Message-State: ANoB5pk1QsnmUa2G/Onv9z85wQG+wVeXOGFvqg9J1LG5TMU4I2MP5P9W
+ Gy9B0wba3UWkZjq+fmGSl17LiFhHf8nmA4qZnKGtFvujLS0ftz6dkLNVGqF7tG318PA3VzrW0Jc
+ +S/E3aIgDhWvB7U0=
+X-Received: by 2002:adf:d846:0:b0:236:73af:f9ae with SMTP id
+ k6-20020adfd846000000b0023673aff9aemr10045047wrl.344.1668503111039; 
+ Tue, 15 Nov 2022 01:05:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7P8AmOBix7ELh/YoRP45r3l73eb1CbYA1omk1uRbXvrLAOc8y5yv4aTZdg8xqLcYhTpPGpiQ==
+X-Received: by 2002:adf:d846:0:b0:236:73af:f9ae with SMTP id
+ k6-20020adfd846000000b0023673aff9aemr10045018wrl.344.1668503110676; 
+ Tue, 15 Nov 2022 01:05:10 -0800 (PST)
+Received: from redhat.com ([2.52.131.207]) by smtp.gmail.com with ESMTPSA id
+ n10-20020adff08a000000b002368f6b56desm13970966wro.18.2022.11.15.01.05.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Nov 2022 01:05:09 -0800 (PST)
+Date: Tue, 15 Nov 2022 04:05:05 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "open list:virtiofs" <virtio-fs@redhat.com>
+Subject: Re: [PATCH v1 5/9] hw/virtio: introduce virtio_device_should_start
+Message-ID: <20221115035522-mutt-send-email-mst@kernel.org>
+References: <20221108092308.1717426-1-alex.bennee@linaro.org>
+ <20221108092308.1717426-6-alex.bennee@linaro.org>
+ <2277569a-c218-30d1-4d88-9b77d3604513@linux.ibm.com>
+ <20221114113518-mutt-send-email-mst@kernel.org>
+ <aaae3f2a-c5bb-8e62-09d4-4f6f43efe37b@linux.ibm.com>
+ <20221114115549-mutt-send-email-mst@kernel.org>
+ <2bd5f801-a203-2598-3e6e-ed8f5dad5159@linux.ibm.com>
+ <20221114121959-mutt-send-email-mst@kernel.org>
+ <69fbc17f-cd78-a849-f7fc-31f8b3945ded@linux.ibm.com>
 MIME-Version: 1.0
-References: <CABchEG2dNgOPnm9K6AJsiWb8z=dOaKe0yjrvxqyU3gdWygQaNw@mail.gmail.com>
- <13a59cf1-cb58-4a79-2182-64c53ac41a3f@redhat.com>
-In-Reply-To: <13a59cf1-cb58-4a79-2182-64c53ac41a3f@redhat.com>
-From: Pawel Polawski <ppolawsk@redhat.com>
-Date: Tue, 15 Nov 2022 10:01:44 +0100
-Message-ID: <CABchEG3WcThs-8sH1gX6Jm35Q8D6BWQw7Y2iTVZdSuUwyh1eVg@mail.gmail.com>
-Subject: Re: [qemu-devel]
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, KVM <kvm@vger.kernel.org>
-Content-Type: multipart/alternative; boundary="00000000000094498205ed7e9bfc"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ppolawsk@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <69fbc17f-cd78-a849-f7fc-31f8b3945ded@linux.ibm.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, T_REMOTE_IMAGE=0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,193 +114,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000094498205ed7e9bfc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, Nov 15, 2022 at 09:18:27AM +0100, Christian Borntraeger wrote:
+> 
+> Am 14.11.22 um 18:20 schrieb Michael S. Tsirkin:
+> > On Mon, Nov 14, 2022 at 06:15:30PM +0100, Christian Borntraeger wrote:
+> > > 
+> > > 
+> > > Am 14.11.22 um 18:10 schrieb Michael S. Tsirkin:
+> > > > On Mon, Nov 14, 2022 at 05:55:09PM +0100, Christian Borntraeger wrote:
+> > > > > 
+> > > > > 
+> > > > > Am 14.11.22 um 17:37 schrieb Michael S. Tsirkin:
+> > > > > > On Mon, Nov 14, 2022 at 05:18:53PM +0100, Christian Borntraeger wrote:
+> > > > > > > Am 08.11.22 um 10:23 schrieb Alex Bennée:
+> > > > > > > > The previous fix to virtio_device_started revealed a problem in its
+> > > > > > > > use by both the core and the device code. The core code should be able
+> > > > > > > > to handle the device "starting" while the VM isn't running to handle
+> > > > > > > > the restoration of migration state. To solve this dual use introduce a
+> > > > > > > > new helper for use by the vhost-user backends who all use it to feed a
+> > > > > > > > should_start variable.
+> > > > > > > > 
+> > > > > > > > We can also pick up a change vhost_user_blk_set_status while we are at
+> > > > > > > > it which follows the same pattern.
+> > > > > > > > 
+> > > > > > > > Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+> > > > > > > > Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
+> > > > > > > > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > > > > > > > Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> > > > > > > 
+> > > > > > > Hmmm, is this
+> > > > > > > commit 259d69c00b67c02a67f3bdbeeea71c2c0af76c35
+> > > > > > > Author:     Alex Bennée <alex.bennee@linaro.org>
+> > > > > > > AuthorDate: Mon Nov 7 12:14:07 2022 +0000
+> > > > > > > Commit:     Michael S. Tsirkin <mst@redhat.com>
+> > > > > > > CommitDate: Mon Nov 7 14:08:18 2022 -0500
+> > > > > > > 
+> > > > > > >        hw/virtio: introduce virtio_device_should_start
+> > > > > > > 
+> > > > > > > and older version?
+> > > > > > 
+> > > > > > This is what got merged:
+> > > > > > https://lore.kernel.org/r/20221107121407.1010913-1-alex.bennee%40linaro.org
+> > > > > > This patch was sent after I merged the RFC.
+> > > > > > I think the only difference is the commit log but I might be missing
+> > > > > > something.
+> > > > > > 
+> > > > > > > This does not seem to fix the regression that I have reported.
+> > > > > > 
+> > > > > > This was applied on top of 9f6bcfd99f which IIUC does, right?
+> > > > > > 
+> > > > > > 
+> > > > > 
+> > > > > QEMU master still fails for me for suspend/resume to disk:
+> > > > > 
+> > > > > #0  0x000003ff8e3980a6 in __pthread_kill_implementation () at /lib64/libc.so.6
+> > > > > #1  0x000003ff8e348580 in raise () at /lib64/libc.so.6
+> > > > > #2  0x000003ff8e32b5c0 in abort () at /lib64/libc.so.6
+> > > > > #3  0x000003ff8e3409da in __assert_fail_base () at /lib64/libc.so.6
+> > > > > #4  0x000003ff8e340a4e in  () at /lib64/libc.so.6
+> > > > > #5  0x000002aa1ffa8966 in vhost_vsock_common_pre_save (opaque=<optimized out>) at ../hw/virtio/vhost-vsock-common.c:203
+> > > > > #6  0x000002aa1fe5e0ee in vmstate_save_state_v
+> > > > >       (f=f@entry=0x2aa21bdc170, vmsd=0x2aa204ac5f0 <vmstate_virtio_vhost_vsock>, opaque=0x2aa21bac9f8, vmdesc=vmdesc@entry=0x3fddc08eb30, version_id=version_id@entry=0) at ../migration/vmstate.c:329
+> > > > > #7  0x000002aa1fe5ebf8 in vmstate_save_state (f=f@entry=0x2aa21bdc170, vmsd=<optimized out>, opaque=<optimized out>, vmdesc_id=vmdesc_id@entry=0x3fddc08eb30) at ../migration/vmstate.c:317
+> > > > > #8  0x000002aa1fe75bd0 in vmstate_save (f=f@entry=0x2aa21bdc170, se=se@entry=0x2aa21bdbe90, vmdesc=vmdesc@entry=0x3fddc08eb30) at ../migration/savevm.c:908
+> > > > > #9  0x000002aa1fe79584 in qemu_savevm_state_complete_precopy_non_iterable (f=f@entry=0x2aa21bdc170, in_postcopy=in_postcopy@entry=false, inactivate_disks=inactivate_disks@entry=true)
+> > > > >       at ../migration/savevm.c:1393
+> > > > > #10 0x000002aa1fe79a96 in qemu_savevm_state_complete_precopy (f=0x2aa21bdc170, iterable_only=iterable_only@entry=false, inactivate_disks=inactivate_disks@entry=true) at ../migration/savevm.c:1459
+> > > > > #11 0x000002aa1fe6d6ee in migration_completion (s=0x2aa218ef600) at ../migration/migration.c:3314
+> > > > > #12 migration_iteration_run (s=0x2aa218ef600) at ../migration/migration.c:3761
+> > > > > #13 migration_thread (opaque=opaque@entry=0x2aa218ef600) at ../migration/migration.c:3989
+> > > > > #14 0x000002aa201f0b8c in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:505
+> > > > > #15 0x000003ff8e396248 in start_thread () at /lib64/libc.so.6
+> > > > > #16 0x000003ff8e41183e in thread_start () at /lib64/libc.so.6
+> > > > > 
+> > > > > Michael, your previous branch did work if I recall correctly.
+> > > > 
+> > > > That one was failing under github CI though (for reasons we didn't
+> > > > really address, such as disconnect during stop causing a recursive
+> > > > call to stop, but there you are).
+> > > Even the double revert of everything?
+> > 
+> > I don't remember at this point.
+> > 
+> > > So how do we proceed now?
+> > 
+> > I'm hopeful Alex will come up with a fix.
+> 
+> 
+> The initial fix changed to qemu/master does still work for me
+> 
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index a973811cbfc6..fb3072838119 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -411,14 +411,14 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+>   */
+>  static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
+>  {
+> -    if (vdev->use_started) {
+> -        return vdev->started;
+> -    }
+> -
+>      if (!vdev->vm_running) {
+>          return false;
+>      }
+> +    if (vdev->use_started) {
+> +        return vdev->started;
+> +    }
+> +
+>      return status & VIRTIO_CONFIG_S_DRIVER_OK;
+>  }
 
-Hi Thomas,
+Hmm this makes sense to me. And with the new API the
+follout should be minimal. Let's see how it behaves on github.
+It would be nice to fix the recursive stop problem properly
+too but I"m not optimistic on that for this release.
 
-Thank you for the suggestion about the next step.
-Do you know if there is an option to change this parameter in the runtime?
-While looking for answer I found this presentation from 2008 which makes me
-think that this may not
-be the only limit:
-https://www.linux-kvm.org/images/b/be/KvmForum2008%24kdf2008_6.pdf
-I will try to change this value in the kernel code, rebuild it and see if
-it works.
-
-PS: Just realized that my original message has split for some reason and
-there are two copies on the mailing list,
-each with different subjects.
-
-Best,
-Pawel
-
-On Tue, Nov 15, 2022 at 8:44 AM Thomas Huth <thuth@redhat.com> wrote:
-
-> On 14/11/2022 23.58, Pawel Polawski wrote:
-> > Hi Everyone,
-> >
-> > I am trying to check qemu virtual cpu boundaries when running a custom
-> > edk2 based firmware build. For that purpose I want to run qemu with mor=
-e
-> > than 1024 vCPU:
-> > $QEMU
-> > -accel kvm
-> > -m 4G
-> > -M q35,kernel-irqchip=3Don,smm=3Don
-> > -smp cpus=3D1025,maxcpus=3D1025 -global mch.extended-tseg-mbytes=3D128
-> > -drive if=3Dpflash,format=3Draw,file=3D${CODE},readonly=3Don
-> > -drive if=3Dpflash,format=3Draw,file=3D${VARS}
-> > -chardev stdio,id=3Dfwlog
-> > -device isa-debugcon,iobase=3D0x402,chardev=3Dfwlog "$@"
-> >
-> > The result is as follows:
-> > QEMU emulator version 7.0.50 (v7.0.0-1651-g9cc1bf1ebc-dirty)
-> > Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
-> > qemu-system-x86_64: -accel kvm: warning: Number of SMP cpus requested
-> (1025)
-> > exceeds the recommended cpus supported by KVM (8)
-> > Number of SMP cpus requested (1025) exceeds the maximum cpus supported
-> by
-> > KVM (1024)
-> >
-> > It is not clear to me if I am hitting qemu limitation or KVM limitation
-> here.
-> > I have changed hardcoded 1024 limits in hw/i386/* files but the
-> limitation
-> > is still presented.
-> >
-> > Can someone advise what I should debug next looking for those vCPU
-> limits?
->
-> Well, the error message says it: There is a limitation in KVM, i.e. in th=
-e
-> kernel code, too. I think it is KVM_MAX_VCPUS in the file
-> arch/x86/include/asm/kvm_host.h of the Linux kernel sources... so if
-> you're
-> brave, you might want to increase that value there and rebuild your own
-> kernel. Not sure whether that works, though.
->
->   Thomas
->
->
-
---=20
-
-Pawe=C5=82 Po=C5=82awski
-
-Red Hat <https://www.redhat.com/> Virtualization
-
-ppolawsk@redhat.com
-@RedHat <https://twitter.com/redhat>   Red Hat
-<https://www.linkedin.com/company/red-hat>  Red Hat
-<https://www.facebook.com/RedHatInc>
-<https://red.ht/sig>
-
---00000000000094498205ed7e9bfc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Thomas,</div><div><br></div><div>Thank you for the=
- suggestion about the next step.</div><div>Do you know if there is an optio=
-n to change this parameter in the runtime?</div><div>While looking for answ=
-er I found this presentation from 2008 which makes me think that this may n=
-ot</div><div>be the only limit: <a href=3D"https://www.linux-kvm.org/images=
-/b/be/KvmForum2008%24kdf2008_6.pdf">https://www.linux-kvm.org/images/b/be/K=
-vmForum2008%24kdf2008_6.pdf</a></div><div>I will try to change this value i=
-n the kernel code, rebuild it and see if it=C2=A0works.</div><div><br></div=
-><div>PS: Just realized that my original message has split for some reason =
-and there are two copies on the mailing list,</div><div>each with different=
- subjects.<br></div><div><br></div><div>Best,</div><div>Pawel<br></div></di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On T=
-ue, Nov 15, 2022 at 8:44 AM Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.=
-com">thuth@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On 14/11/2022 23.58, Pawel Polawski wrote:<br>
-&gt; Hi Everyone,<br>
-&gt; <br>
-&gt; I am trying to check qemu virtual cpu boundaries when running a custom=
-<br>
-&gt; edk2 based firmware build. For that purpose I want to run qemu with mo=
-re <br>
-&gt; than 1024 vCPU:<br>
-&gt; $QEMU<br>
-&gt; -accel kvm<br>
-&gt; -m 4G<br>
-&gt; -M q35,kernel-irqchip=3Don,smm=3Don<br>
-&gt; -smp cpus=3D1025,maxcpus=3D1025 -global mch.extended-tseg-mbytes=3D128=
-<br>
-&gt; -drive if=3Dpflash,format=3Draw,file=3D${CODE},readonly=3Don<br>
-&gt; -drive if=3Dpflash,format=3Draw,file=3D${VARS}<br>
-&gt; -chardev stdio,id=3Dfwlog<br>
-&gt; -device isa-debugcon,iobase=3D0x402,chardev=3Dfwlog &quot;$@&quot;<br>
-&gt; <br>
-&gt; The result is as follows:<br>
-&gt; QEMU emulator version 7.0.50 (v7.0.0-1651-g9cc1bf1ebc-dirty)<br>
-&gt; Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developer=
-s<br>
-&gt; qemu-system-x86_64: -accel kvm: warning: Number of SMP cpus requested =
-(1025) <br>
-&gt; exceeds the recommended cpus supported by KVM (8)<br>
-&gt; Number of SMP cpus requested (1025) exceeds the maximum cpus supported=
- by <br>
-&gt; KVM (1024)<br>
-&gt; <br>
-&gt; It is not clear to me if I am hitting qemu limitation or KVM limitatio=
-n here.<br>
-&gt; I have changed hardcoded 1024 limits in hw/i386/* files but the limita=
-tion <br>
-&gt; is still presented.<br>
-&gt; <br>
-&gt; Can someone advise what I should debug next looking for those vCPU lim=
-its?<br>
-<br>
-Well, the error message says it: There is a limitation in KVM, i.e. in the =
-<br>
-kernel code, too. I think it is KVM_MAX_VCPUS in the file <br>
-arch/x86/include/asm/kvm_host.h of the Linux kernel sources... so if you&#3=
-9;re <br>
-brave, you might want to increase that value there and rebuild your own <br=
->
-kernel. Not sure whether that works, though.<br>
-<br>
-=C2=A0 Thomas<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><p style=3D"color:rgb(0,0,0);font-family:R=
-edHatText,sans-serif;font-weight:bold;margin:0px;padding:0px;font-size:14px=
-;text-transform:capitalize"><span>Pawe=C5=82 Po=C5=82awski</span><span styl=
-e=3D"text-transform:uppercase;color:rgb(170,170,170);margin:0px"></span></p=
-><p style=3D"color:rgb(0,0,0);font-family:RedHatText,sans-serif;font-size:1=
-2px;margin:0px;text-transform:capitalize"><span><span><span><a href=3D"http=
-s://www.redhat.com/" target=3D"_blank">Red Hat</a> Virtualization<br></span=
-></span></span></p><p style=3D"color:rgb(0,0,0);font-family:RedHatText,sans=
--serif;margin:0px;font-size:12px"><span style=3D"margin:0px;padding:0px"><a=
- href=3D"mailto:ppolawsk@redhat.com" style=3D"color:rgb(0,0,0);margin:0px" =
-target=3D"_blank">ppolawsk@redhat.com</a>=C2=A0 =C2=A0</span> <span><br></s=
-pan></p><div style=3D"color:rgb(0,0,0);font-family:RedHatText,sans-serif;fo=
-nt-size:12px;margin-bottom:8px"><div><a href=3D"https://twitter.com/redhat"=
- title=3D"twitter" style=3D"background:transparent url(&quot;https://market=
-ing-outfit-prod-images.s3-us-west-2.amazonaws.com/3780bd4ede961ef3cd4108b8c=
-0e80186/web-icon-twitter.png&quot;) 0px 50%/13px no-repeat;color:rgb(0,0,0)=
-;display:inline-block;line-height:20px;padding-left:13px" target=3D"_blank"=
-><span style=3D"margin-left:2px">@RedHat</span></a>=C2=A0=C2=A0=C2=A0<a hre=
-f=3D"https://www.linkedin.com/company/red-hat" title=3D"LinkedIn" style=3D"=
-background:transparent url(&quot;https://marketing-outfit-prod-images.s3-us=
--west-2.amazonaws.com/8d3507e3c6b6c9ad10e301accf1a4af0/web-icon-linkedin.pn=
-g&quot;) 0px 50%/12px no-repeat;color:rgb(0,0,0);display:inline-block;line-=
-height:20px;padding-left:12px;margin:0px 4px 0px 3px;padding-top:1px" targe=
-t=3D"_blank"><span style=3D"margin-left:4px">Red Hat</span></a>=C2=A0=C2=A0=
-<a href=3D"https://www.facebook.com/RedHatInc" title=3D"Facebook" style=3D"=
-background:transparent url(&quot;https://marketing-outfit-prod-images.s3-us=
--west-2.amazonaws.com/220b85e2f100025e94cb1bcd993bd51d/web-icon-facebook.pn=
-g&quot;) 0px 50%/11px no-repeat;color:rgb(0,0,0);display:inline-block;line-=
-height:20px;padding-left:13px" target=3D"_blank"><span>Red Hat</span></a></=
-div></div><a href=3D"https://red.ht/sig" target=3D"_blank"><img src=3D"http=
-s://static.redhat.com/libs/redhat/brand-assets/latest/corp/logo.png" width=
-=3D"90" height=3D"auto"></a><br></div></div>
-
---00000000000094498205ed7e9bfc--
+-- 
+MST
 
 
