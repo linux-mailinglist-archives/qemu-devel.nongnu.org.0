@@ -2,69 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BDA629CC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D188629D0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 16:12:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouxN8-0005kp-Il; Tue, 15 Nov 2022 09:57:10 -0500
+	id 1ouxa7-00039R-G4; Tue, 15 Nov 2022 10:10:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouxN6-0005ib-Rm
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:57:08 -0500
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1ouxZt-00036A-JJ; Tue, 15 Nov 2022 10:10:23 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouxN4-0001aH-8j
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:57:08 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.183])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D8C0920916;
- Tue, 15 Nov 2022 14:57:01 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
- 2022 15:57:01 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003ca4d6c3c-d703-443d-9008-e83b9050eb54,
- 4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <c0a8e901-d8d7-1d77-526c-210660516280@kaod.org>
-Date: Tue, 15 Nov 2022 15:56:55 +0100
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1ouxZn-00045f-Jy; Tue, 15 Nov 2022 10:10:19 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AFEc0Ao027033; Tue, 15 Nov 2022 15:09:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=TOYvz3EB7sMd3H7EZhr6b6EdS8yX7w7WSEaVSIoJZ2Y=;
+ b=VF3qGhgt01AbIfQEJyDPaGXgucSM7ZyxBklzbdLRIkfOZOteuOr3R5UvFKV53I0E5Xbf
+ VkbuQyMgtYmkEZDUpl4VXvhpLdvDI5dHpeUZQKzE9JVGszuZrlt6e4usXgoixgA4Ohjh
+ 6HkqvbN59TSVUl5v8VSVUhsqeNvx2DaX5zY7POqZM+lNNLHhqu9Q4+Xh7xzxaSPoYUdI
+ bSRoO/TibTovkJjykT+BHb3on4lioLibk4/D3tR4wm/wRt2Te2oWyZbNBqC7s/9TqWHv
+ n2h4ZOWcSV4nNhCnm9Gv3HXx1fTEiY1Z7PhwNHy5jLO7e8g6zNVtUH6OR8x33bnBOzP2 wQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kvcpy8xu6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Nov 2022 15:09:48 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AFEd6YQ002720;
+ Tue, 15 Nov 2022 15:09:47 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kvcpy8xt9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Nov 2022 15:09:47 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AFF6jf3030194;
+ Tue, 15 Nov 2022 15:09:45 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3kt348vhft-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Nov 2022 15:09:45 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AFF9gah6881970
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 15 Nov 2022 15:09:42 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9E93C42042;
+ Tue, 15 Nov 2022 15:09:42 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CB1884203F;
+ Tue, 15 Nov 2022 15:09:41 +0000 (GMT)
+Received: from [9.171.2.61] (unknown [9.171.2.61])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 15 Nov 2022 15:09:41 +0000 (GMT)
+Message-ID: <26b4e8d8-784d-d1ce-67a3-b61896701bf7@linux.ibm.com>
+Date: Tue, 15 Nov 2022 16:09:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] m25p80: Warn the user when the backend file is too small
- for the device
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v1 5/9] hw/virtio: introduce virtio_device_should_start
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: Alistair Francis <alistair@alistair23.me>, Francisco Iglesias
- <frasse.iglesias@gmail.com>, Kevin Wolf <kwolf@redhat.com>, Hanna Reitz
- <hreitz@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
- <qemu-block@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20221115142141.2073761-1-clg@kaod.org>
- <CAFEAcA9OiNsX4-O60zKXL8WoEJbOH2TQr3LwDFJH4SOS8EPTMg@mail.gmail.com>
- <566a0720-f732-cb27-a98f-367e1981a02f@kaod.org>
- <CAFEAcA8AoQKGNEYwmw5SiDykRR+XWEvH0og_at-HTAiTZo=jag@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA8AoQKGNEYwmw5SiDykRR+XWEvH0og_at-HTAiTZo=jag@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, Kevin Wolf
+ <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "open list:virtiofs" <virtio-fs@redhat.com>
+References: <20221108092308.1717426-1-alex.bennee@linaro.org>
+ <20221108092308.1717426-6-alex.bennee@linaro.org>
+ <2277569a-c218-30d1-4d88-9b77d3604513@linux.ibm.com>
+ <20221114113518-mutt-send-email-mst@kernel.org>
+ <aaae3f2a-c5bb-8e62-09d4-4f6f43efe37b@linux.ibm.com>
+ <20221114115549-mutt-send-email-mst@kernel.org>
+ <2bd5f801-a203-2598-3e6e-ed8f5dad5159@linux.ibm.com>
+ <20221114121959-mutt-send-email-mst@kernel.org> <87tu309tlk.fsf@linaro.org>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <87tu309tlk.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 7rGcGrW37-UC0YzkOKMsBl0-Ret_GJbW
+X-Proofpoint-GUID: 1YoiOpsJ67mCfyTeCPKoHK797oTVlw0_
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 2888a883-cbab-4024-91be-4fd279cfb01c
-X-Ovh-Tracer-Id: 12158874570260908847
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgdpfhhrrghsshgvrdhighhlvghsihgrshesghhmrghilhdrtghomhdpkhifohhlfhesrhgvughhrghtrdgtohhmpdhhrhgvihhtiiesrhgvughhrghtrdgtohhmpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhpvghtvghrsehpjhgurdguvghvpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorh
- hgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-15_08,2022-11-15_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=999 mlxscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 suspectscore=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2211150101
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,55 +131,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/15/22 15:55, Peter Maydell wrote:
-> On Tue, 15 Nov 2022 at 14:51, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> On 11/15/22 15:34, Peter Maydell wrote:
->>> On Tue, 15 Nov 2022 at 14:22, Cédric Le Goater <clg@kaod.org> wrote:
->>>>
->>>> Currently, when a block backend is attached to a m25p80 device and the
->>>> associated file size does not match the flash model, QEMU complains
->>>> with the error message "failed to read the initial flash content".
->>>> This is confusing for the user.
->>>
->>> The commit message says we get an unhelpful error if the
->>> file size "does not match"...
->>>
->>>> Improve the reported error with a new message regarding the file size.
->>>>
->>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>> ---
->>>>    hw/block/m25p80.c | 8 ++++++++
->>>>    1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
->>>> index 02adc87527..e0515e2a1e 100644
->>>> --- a/hw/block/m25p80.c
->>>> +++ b/hw/block/m25p80.c
->>>> @@ -1606,6 +1606,14 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->>>>        if (s->blk) {
->>>>            uint64_t perm = BLK_PERM_CONSISTENT_READ |
->>>>                            (blk_supports_write_perm(s->blk) ? BLK_PERM_WRITE : 0);
->>>> +
->>>> +        if (blk_getlength(s->blk) < s->size) {
->>>
->>> ...but the code change is only checking for "too small".
->>>
->>> What happens if the user provides a backing file that is too large ?
->>
->> That's ok because the blk_pread() call following, which loads in RAM
->> the initial data, won't fail.
->>
->> It might be better to enforce a strict check on the size to avoid
->> further confusion ? and change the error message to be clear.
+
+
+Am 15.11.22 um 15:31 schrieb Alex Bennée:
 > 
-> Can we use blk_check_size_and_read_all() here rather than
-> a manual "check size, and then pread" ? That will take care
-> of the error message for you and make this device behave
-> the same way as other flash devices which use block backends.
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
+> 
+>> On Mon, Nov 14, 2022 at 06:15:30PM +0100, Christian Borntraeger wrote:
+>>>
+>>>
+>>> Am 14.11.22 um 18:10 schrieb Michael S. Tsirkin:
+>>>> On Mon, Nov 14, 2022 at 05:55:09PM +0100, Christian Borntraeger wrote:
+>>>>>
+>>>>>
+>>>>> Am 14.11.22 um 17:37 schrieb Michael S. Tsirkin:
+>>>>>> On Mon, Nov 14, 2022 at 05:18:53PM +0100, Christian Borntraeger wrote:
+>>>>>>> Am 08.11.22 um 10:23 schrieb Alex Bennée:
+>>>>>>>> The previous fix to virtio_device_started revealed a problem in its
+>>>>>>>> use by both the core and the device code. The core code should be able
+>>>>>>>> to handle the device "starting" while the VM isn't running to handle
+>>>>>>>> the restoration of migration state. To solve this dual use introduce a
+>>>>>>>> new helper for use by the vhost-user backends who all use it to feed a
+>>>>>>>> should_start variable.
+>>>>>>>>
+>>>>>>>> We can also pick up a change vhost_user_blk_set_status while we are at
+>>>>>>>> it which follows the same pattern.
+>>>>>>>>
+>>>>>>>> Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+>>>>>>>> Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
+>>>>>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>>>>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>>>>>>>
+>>>>>>> Hmmm, is this
+>>>>>>> commit 259d69c00b67c02a67f3bdbeeea71c2c0af76c35
+>>>>>>> Author:     Alex Bennée <alex.bennee@linaro.org>
+>>>>>>> AuthorDate: Mon Nov 7 12:14:07 2022 +0000
+>>>>>>> Commit:     Michael S. Tsirkin <mst@redhat.com>
+>>>>>>> CommitDate: Mon Nov 7 14:08:18 2022 -0500
+>>>>>>>
+>>>>>>>        hw/virtio: introduce virtio_device_should_start
+>>>>>>>
+>>>>>>> and older version?
+>>>>>>
+>>>>>> This is what got merged:
+>>>>>> https://lore.kernel.org/r/20221107121407.1010913-1-alex.bennee%40linaro.org
+>>>>>> This patch was sent after I merged the RFC.
+>>>>>> I think the only difference is the commit log but I might be missing
+>>>>>> something.
+>>>>>>
+>>>>>>> This does not seem to fix the regression that I have reported.
+>>>>>>
+>>>>>> This was applied on top of 9f6bcfd99f which IIUC does, right?
+>>>>>>
+>>>>>>
+>>>>>
+>>>>> QEMU master still fails for me for suspend/resume to disk:
+>>>>>
+>>>>> #0  0x000003ff8e3980a6 in __pthread_kill_implementation () at /lib64/libc.so.6
+>>>>> #1  0x000003ff8e348580 in raise () at /lib64/libc.so.6
+>>>>> #2  0x000003ff8e32b5c0 in abort () at /lib64/libc.so.6
+>>>>> #3  0x000003ff8e3409da in __assert_fail_base () at /lib64/libc.so.6
+>>>>> #4  0x000003ff8e340a4e in  () at /lib64/libc.so.6
+>>>>> #5 0x000002aa1ffa8966 in vhost_vsock_common_pre_save
+>>>>> (opaque=<optimized out>) at
+>>>>> ../hw/virtio/vhost-vsock-common.c:203
+>>>>> #6  0x000002aa1fe5e0ee in vmstate_save_state_v
+>>>>>       (f=f@entry=0x2aa21bdc170, vmsd=0x2aa204ac5f0
+>>>>> <vmstate_virtio_vhost_vsock>, opaque=0x2aa21bac9f8,
+>>>>> vmdesc=vmdesc@entry=0x3fddc08eb30,
+>>>>> version_id=version_id@entry=0) at ../migration/vmstate.c:329
+>>>>> #7 0x000002aa1fe5ebf8 in vmstate_save_state
+>>>>> (f=f@entry=0x2aa21bdc170, vmsd=<optimized out>,
+>>>>> opaque=<optimized out>, vmdesc_id=vmdesc_id@entry=0x3fddc08eb30)
+>>>>> at ../migration/vmstate.c:317
+>>>>> #8 0x000002aa1fe75bd0 in vmstate_save (f=f@entry=0x2aa21bdc170,
+>>>>> se=se@entry=0x2aa21bdbe90, vmdesc=vmdesc@entry=0x3fddc08eb30) at
+>>>>> ../migration/savevm.c:908
+>>>>> #9 0x000002aa1fe79584 in
+>>>>> qemu_savevm_state_complete_precopy_non_iterable
+>>>>> (f=f@entry=0x2aa21bdc170, in_postcopy=in_postcopy@entry=false,
+>>>>> inactivate_disks=inactivate_disks@entry=true)
+>>>>>       at ../migration/savevm.c:1393
+>>>>> #10 0x000002aa1fe79a96 in qemu_savevm_state_complete_precopy
+>>>>> (f=0x2aa21bdc170, iterable_only=iterable_only@entry=false,
+>>>>> inactivate_disks=inactivate_disks@entry=true) at
+>>>>> ../migration/savevm.c:1459
+>>>>> #11 0x000002aa1fe6d6ee in migration_completion (s=0x2aa218ef600) at ../migration/migration.c:3314
+>>>>> #12 migration_iteration_run (s=0x2aa218ef600) at ../migration/migration.c:3761
+>>>>> #13 migration_thread (opaque=opaque@entry=0x2aa218ef600) at ../migration/migration.c:3989
+>>>>> #14 0x000002aa201f0b8c in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:505
+>>>>> #15 0x000003ff8e396248 in start_thread () at /lib64/libc.so.6
+>>>>> #16 0x000003ff8e41183e in thread_start () at /lib64/libc.so.6
+>>>>>
+>>>>> Michael, your previous branch did work if I recall correctly.
+>>>>
+>>>> That one was failing under github CI though (for reasons we didn't
+>>>> really address, such as disconnect during stop causing a recursive
+>>>> call to stop, but there you are).
+>>> Even the double revert of everything?
+>>
+>> I don't remember at this point.
+>>
+>>> So how do we proceed now?
+>>
+>> I'm hopeful Alex will come up with a fix.
+> 
+> I need to replicate the failing test for that. Which test is failing?
 
-ok. I wasn't aware of this routine. I will check.
 
-Thanks,
-C.
+Pretty much the same as before. guest with vsock, managedsave and restore.
 
