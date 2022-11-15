@@ -2,91 +2,156 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFC9629E75
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 17:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D3D629EC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 17:18:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouyRq-0002KU-9u; Tue, 15 Nov 2022 11:06:06 -0500
+	id 1ouycR-0006V9-DY; Tue, 15 Nov 2022 11:17:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouyRl-0002Hk-HD
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:06:01 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouyRj-0005Qe-7c
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:06:01 -0500
-Received: by mail-wr1-x432.google.com with SMTP id cl5so25068063wrb.9
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 08:05:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6FrAOMTYOu0TkZEfIz9xUZ6R3ix7uaO/Ijo+WidGHtw=;
- b=JsgGYV46WLAUyjOgWIgFUM5oQGj7IKCL/tRjCxu6EqSJk8Bg2kp2Jb7VRv4VWhKOOp
- JX+lJ9U24k3DSlkG1vc0PDtk2v6+oz8NjdF1kwy3nkExUWH1TYIpyDIgYQ08Zz/9L5qI
- QIbMGBGgvR9E4caa0/AgZLhIuwFZp4pi7ExUppHOSN5jSWX/wSIi+FgL8uTjroeD+tAN
- ML+gnXReNXpIdsJFiVfnuktbvgY7Hsd7YJtZgDtp3v2SkfDB0ZQRLi1rvpQJ5jcpdZjU
- SzshmKM2XmSzX7ezU77e92IEPQOQtxl2xMU3sDoHjklGIdHbCCOBbozyqMjHhMSf6WWI
- 84wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=6FrAOMTYOu0TkZEfIz9xUZ6R3ix7uaO/Ijo+WidGHtw=;
- b=MpQ564hgqrv6mea1A9ZSHQQwA0b99J7GEXs4A5JWAMfpIhfGyUclKs0G7Mcb/ATYGr
- HJra8UjBVO6xWM4vXY9ckQrASLi4kTrGxIjEjmOV+Ys4SfPowR+B8KklYbnZHAuRSPgO
- daublAVqI8vh5L469c9NvxPeqpdQlwFRzitnLTrwkcopY36SgvhiZlK33GKawS91nP6d
- E/zsFR53HyJTVk5lXBD9fBiRwXPjITKd4OPzC5RDVM6uSyMk6uSrW36NgunQctu9/XBI
- ik9xAfnyToZHjEKkT4DGmxMG7BupCG+BVT8w11MXMjs3sM/iN0AcLYjWs0M4vTIFOKTV
- F5Wg==
-X-Gm-Message-State: ANoB5pnOay0OTd7nC8cHks4W6emRCSEXBnhcn/j3t1L17+09ItQkWB7q
- 4SIh6RJ5gF/Tp25ajD5ZPs2EHQ==
-X-Google-Smtp-Source: AA0mqf6XTFYjOR0HNKZOww07+JIYDDtOAjHgPaBe2Wu1QwHSvrk+aC+P2hMaEwv6zGUGznF/i2BgDg==
-X-Received: by 2002:adf:ec92:0:b0:236:78d0:5223 with SMTP id
- z18-20020adfec92000000b0023678d05223mr11510961wrn.250.1668528356563; 
- Tue, 15 Nov 2022 08:05:56 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- n41-20020a05600c502900b003c65c9a36dfsm16505344wmr.48.2022.11.15.08.05.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Nov 2022 08:05:55 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 564531FFB7;
- Tue, 15 Nov 2022 16:05:55 +0000 (GMT)
-References: <20221108092308.1717426-1-alex.bennee@linaro.org>
- <20221108092308.1717426-6-alex.bennee@linaro.org>
- <2277569a-c218-30d1-4d88-9b77d3604513@linux.ibm.com>
- <20221114113518-mutt-send-email-mst@kernel.org>
- <aaae3f2a-c5bb-8e62-09d4-4f6f43efe37b@linux.ibm.com>
- <20221114115549-mutt-send-email-mst@kernel.org>
- <2bd5f801-a203-2598-3e6e-ed8f5dad5159@linux.ibm.com>
- <20221114121959-mutt-send-email-mst@kernel.org>
- <87tu309tlk.fsf@linaro.org>
- <26b4e8d8-784d-d1ce-67a3-b61896701bf7@linux.ibm.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Raphael Norwitz <raphael.norwitz@nutanix.com>, Kevin
- Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, "open list:Block layer core"
- <qemu-block@nongnu.org>, "open list:virtiofs" <virtio-fs@redhat.com>
-Subject: Re: [PATCH v1 5/9] hw/virtio: introduce virtio_device_should_start
-Date: Tue, 15 Nov 2022 16:05:29 +0000
-In-reply-to: <26b4e8d8-784d-d1ce-67a3-b61896701bf7@linux.ibm.com>
-Message-ID: <87leoc9p98.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1ouycF-0006TT-Io
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:16:51 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1ouycD-0007Fu-Mj
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:16:51 -0500
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AFD9J86000410; Tue, 15 Nov 2022 16:16:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=sllV+0SLvTmjdjC/63vimOjJ2nqSetpFJmDjXMIfKTE=;
+ b=k6JSktp2yiVPZU01PJWmwDFFp57Aps5a+q99HynsRqljZSybxU/mxUDyaB5LQNsgEPzT
+ QNcptlvODukl9xoKcn3MfAkVUzzax7FcA8MxG3E5tY3PHFlhVKYxdD9iILZqmiD41fQL
+ 9Jw4u3CNdohl+z8xhwmiP5zL4CAApl/WlkfuUs6d3GDW1kw5vAajKaIiLpAdsEuQyp/0
+ yKUoBvyifHNwYtL3cLhclQL4w0Q9ULmk8+y+nYRHlO41PyQTSnz9FK/ewGcqAvaH2MKG
+ wRKo81EA11GNbJvfi0cDcbSZtFBRW/H+YhFlcieq9F6XIvb59KnKqTYF5X9lty61Bs9+ sQ== 
+Received: from nam04-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04lp2172.outbound.protection.outlook.com [104.47.73.172])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kv33ej1v6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Nov 2022 16:16:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=apyGLX0BYRpJnz36BP9FuN1HvCiPB/6j+iTg52r8c06jbI5/EdbpXzkih1seU1U9BuUYk7z/r5yexUTf/SVdvcsmZubHrxuDetnBR8EPblm4qLLHTgnAC8ZvzYrJQa4tNh6pa5x59JcfC4VK9sKfIiuAtWXyqgNpHd+3NVAgjI6+8xKcUgfWfQTyZx5LSj4zKfFAtdWMqSXYXOINTCZltGqWPcr2yCKJRwjPFeIsxZOTdrgZILKEEE6c5Ccd0Rsqi5YzKCPO3krMy/sL47MtrICNcXZ1Hxj4qbXaL+3U8TmHZkZJdHmaYRx4JpYwodhFhVL+/U8x+o0micY3kSDQKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sllV+0SLvTmjdjC/63vimOjJ2nqSetpFJmDjXMIfKTE=;
+ b=VJhIoVtq9XKdtdEmctRAO6QVVmMjzT/4aqutoEio6YCIv6vsrQ+0P1Dg3995Ttft7GCDpNRHov7Bfvr0oKjtU4B2aSGJLMNOFNGGJ3FtrrifCZ3AoIsDX/+pYd8BhQFvO1V38x/Gi6ehe5Wgev+L8Y3df+JTyi/41TuMpV9Yotxwn2wyx11rQVVqEX8EUYmVvEe+xK2ZZFrs4i5Q6pJqFKJlRujRbGQfCh34EQ4DGVXcZo2IGiGSlLiiey48e4LqrkRtvtBo3tqLw4S4BEDM9f+hUXR1m9LVFS20yIWZdoFWZZJ8iBvsaj1ss2AaQO47WFbWOYI8/kIO9XBLdrAAgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by SA2PR02MB7690.namprd02.prod.outlook.com
+ (2603:10b6:806:134::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Tue, 15 Nov
+ 2022 16:16:36 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::caac:2d02:279d:4270]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::caac:2d02:279d:4270%9]) with mapi id 15.20.5813.016; Tue, 15 Nov 2022
+ 16:16:36 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "philmd@linaro.org" <philmd@linaro.org>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, Brian Cain <bcain@quicinc.com>, "Matheus
+ Bernardino (QUIC)" <quic_mathbern@quicinc.com>, "stefanha@redhat.com"
+ <stefanha@redhat.com>
+Subject: RE: [PULL 00/11] Hexagon bug fixes and performance improvement
+Thread-Topic: [PULL 00/11] Hexagon bug fixes and performance improvement
+Thread-Index: AQHY9WfcwYv7SUoFVkGu3TtRUWjXoK446PeAgAdHS6A=
+Date: Tue, 15 Nov 2022 16:16:36 +0000
+Message-ID: <SN4PR0201MB8808E53696703AA2AA339763DE049@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20221111005214.22764-1-tsimpson@quicinc.com>
+ <CAJSP0QXYdLGuX=dRUw2y4qn04K-SCn0eWjWfC2T+gnsq2_+OKQ@mail.gmail.com>
+In-Reply-To: <CAJSP0QXYdLGuX=dRUw2y4qn04K-SCn0eWjWfC2T+gnsq2_+OKQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|SA2PR02MB7690:EE_
+x-ms-office365-filtering-correlation-id: 33fcc915-118c-4898-22c5-08dac724c4e8
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dL5P7xbmxrRyMAh2VIaNh1V+BI1CE7yp/AGn3h+ehyNO9Ogy7MzMAcx85eysDxxuPvg0g6uTi0g5nyHhDNDyJZaBW8cgU2OmPO6ZJyPnC6Q9v8fQW/vhML6tfb6EYx42he3bF+JJteQiRE0GU7EFytuvM/Onjq6wdl2TEZ2qPa44Ut9Hi/Hbcmea16WUCR1ZX0OYuohBHVUqdCv5T6MIcfySuA9x6wAz7PQYTGbhcOSE2shyUJ6AAjhUCKrcnWr4smG+S8fBuc5FcmjmFcSCCnhhVx1/w92AZA+klykmPfqFJvJNBRUe9akvalBWfKxp07pr1dWjZQocAiBPE/YYCZx0NcRE3X4+70hmDLmLGdMScZtML8kLNXefX6G6THsWO+tfI4iE2wt28L7gmpz3PbLiP6drhD+YgOEHJSMGZaPkl6PsLfaVWu9s7Bu3Yxs/nODbC3RJD8+SepKnAHuWTkc61LySqcPPgPxui6XWTThAUrlHOrZhIiTp/PVqIo+dRg2Tu5G7W9p4Qs1aA8kfNpilDlOZmla8OxDi0drIQ+c6nYZACM63+Rmv8+JM7qszAOlPARgPOBTXSQz0Hviy2JDd/LXcV39NUgvnG2iImPv2cDA5Y8T71IyLP7N0O89mhLMJASATft2/RBJbMWmXA/6/MViCqOTxuoO22dSAoPmOch4QCjqetzyDT03SchAmJHFvA3WVHDYtmwrNOAH2S1aNwAlkYzaeM6DO1P3teu8gswSBiRT+2mFHi2UD6xhd8V8GDTIuyiQ2glN5+V4w3DCGaXyUEqqlpiFb3H1eVxg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(366004)(396003)(39860400002)(346002)(451199015)(86362001)(33656002)(2906002)(38100700002)(122000001)(4744005)(8936002)(52536014)(83380400001)(38070700005)(478600001)(186003)(6916009)(54906003)(316002)(5660300002)(55016003)(966005)(66446008)(53546011)(64756008)(76116006)(66946007)(41300700001)(4326008)(8676002)(66556008)(26005)(7696005)(9686003)(6506007)(66476007)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bFBmUlF1K1JGRFI4L1BBRjUwRkFSTUtKZ29zY0NuL1pFY3dyblBuWlBCeVdv?=
+ =?utf-8?B?aUU3bE84RW1EQ1JmT3VCZ3MrdDRPbVpnRFNwUjg0NzlrdEdVUEE4TGhneC9u?=
+ =?utf-8?B?ZnVURko0bDA0WTF2RzJnN1FpR0NWd2ovOHdzWkptT0dhdG1UeEU1OXF3eGpl?=
+ =?utf-8?B?cHp4Uys4ZU1wVThHbWI0bndlTUFYb1ZkdjZuRS9IeDRUYWVzMFY5M2EyS3ZX?=
+ =?utf-8?B?MTVkRlhYNEk0cTUvNjhtQ3d4eDBYckd3c0VBVEJJSStNNkQyMkY3dktscXNy?=
+ =?utf-8?B?VzlRL1hTeU55ZUhCSDRYR2NNMGZBZUdYcWZadVVzVGdDLzNPMTFrc05UVHlp?=
+ =?utf-8?B?YTh3WTJwYmJhMzJoeUx3Z0RwRmYzRWNVYlI4VmhuZkZaRnZqK0ZtbG5MaW1X?=
+ =?utf-8?B?bjBtbXk5djRxMGVxRGZYKzlBcE0vRmE0cTZLRjAyaGpkNUg3VkxQVW9QbUtT?=
+ =?utf-8?B?V2tteTRxWUZlaUcvYmxKaTVFaHlpNzRkTDByR1JsZkFGQksvRE1KelJZbmp6?=
+ =?utf-8?B?NHRHaHIybXNYY0VkYzBMUXhwMDl4K3RlL1NrODBHRjEvY3A0dG5IdkdKY3lW?=
+ =?utf-8?B?OUlCTmxib2o4TEFrR2tYTkRjQlJhSVpqRWU0NW0rTjJxZ1RRdllGZXhrQlVj?=
+ =?utf-8?B?eHpyVWYrT1ZsQ0d1VkFBL2JRNlRxYTV0RUVNVkM0MHJHRm1vS3lZQStXVnBq?=
+ =?utf-8?B?MDcvTW1uckl1ME9RbDdsaVlXWm96WXk5d3lzQXpSWXNJZ3hYZktNNitmaU1n?=
+ =?utf-8?B?cEdEN2JuNUQ4T2J2dUJZdS9sMmdsYmZLcWRuVitoME4yT2hRd2F3dElrMjhD?=
+ =?utf-8?B?dkVjb1p5NW91U1Njd1UrM1J2NUNBUGFHa3NsT0U2QlBHditycG5YdXZwRHRX?=
+ =?utf-8?B?Z1A1VVpNRFVOb0o2eWsvRGVoOXExUGlEeTZ4ck4xdWJGRm9XaU0vYmVCZkRt?=
+ =?utf-8?B?ZmhpU2MvcDkyQ2xZV1VDa1dZNmdXaWFaL0c1bWp4VTNqeENDa2RKdlY0eXBo?=
+ =?utf-8?B?eHhzYlEvQ3BXZWJ4WUVKdTd5bnlHZU5JTHQwT2E1SzljZDNRL0kzWGpybm1y?=
+ =?utf-8?B?MkplWTBIYzZRbisyOGd4V0U4K1ErUnF3MjNlNTdxTTVhaHB0WnNFcW1KSHd3?=
+ =?utf-8?B?aStmcXZUSFpleEw0aEoyWHJsZlhURTRXc0FOVG42Kzg4VHVjQ0U2TEgyWVl4?=
+ =?utf-8?B?ZUVIT0xHaGg5ZU9xTEk5d3VCbTdjdkVuaXhSUm5NOEpnd1lUMGsxL081alJQ?=
+ =?utf-8?B?dy9OV0ZyRWhlSENGYUFHcGJxYXd0cE5kVVJQUGVpM2NFblpDazFUM2pYZ0M5?=
+ =?utf-8?B?TTR2NCthcU1YNmNTQ2xXV3hyU1RXRHNLYmJ5M2xuZTBxcFFtMm1lb2xIL0lP?=
+ =?utf-8?B?VzJQcUhnRnJyaUxlbWFqVm1uemxwSkpsRlN2YTJuanN6Ym94czdsUHNRRFZO?=
+ =?utf-8?B?bThqanRmZStocSsxUk1tU3Era2JRNWowTFdRaTNvKy9UaHk1WlM3ckh4WmJw?=
+ =?utf-8?B?WnMrWHRQSHNWN2d3eW5tQ3ovalZ5MG5CNWc4QW9Db3A1RXZ0VmVJSjNzR3R2?=
+ =?utf-8?B?dk45Z3dSN2tuTFFkR1BDWmpGRWRVZkEvMnp4bmFLRGxRUWwyc00xOEpGNmFK?=
+ =?utf-8?B?cGpWQ0FvN21ORk5ORlN3TjZ4M3BsZUNScHNxNVdUMjAvQ3AwdnpvRk95VnBx?=
+ =?utf-8?B?ajZSbEpBd0JLTTd0eG1rZGh1a2lIRmcrMFZqQ2ZUVXRPS1h4LzAzc01PeHZV?=
+ =?utf-8?B?bkhuUUMyRkM0bDc1dXIyRnhYZ09ESWFwMFhTTk8yZXdPcTgxVmM5M3lnVXNu?=
+ =?utf-8?B?cWp2T1ptRjJmV25pZTBFTVUza0xGNE5uUDY4NzN6b1BQYXBjenh5b2ltaWVQ?=
+ =?utf-8?B?QVMyajdhUStTeHgyZm13L2IyTCtmWlN0STJNZ2dCdlNrcDQ3dWdQT1BWWml4?=
+ =?utf-8?B?NG53emRQa3A4NXUzTDYvbmJjaE5IQUIzaU9yQVNBNndjOFdBSUpDdGd2MVMv?=
+ =?utf-8?B?bUIzRkRLTGw1ZTRKTlV6cElRMEFqcWw3OUtpc3I4YmFBS2ZNZ1pjb0k4ZjZS?=
+ =?utf-8?B?R3dET3Facmt2OGVFRFBuK2IwRVJ0YVJvamErTmJyN0xXamFQUjVsdkZ1Uk5t?=
+ =?utf-8?Q?XZ4awk6rywnOl3FWSjHW8PtqW?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: a+qoTTC+BqafBI4BKXDj6kKjMvTriJOcFbbM9tvlCtGrhHSzmY/H/6VCCt8V1J10L3Q5r7WZdvivCwILHDT7qLNwj3wWlA9d32/o51S2z40Kd7zMQpXGxNOK8DGRkkLcLEo2plgBldwa82RdewKgQFYbxNLuxu6EI6seIiCZjfV+5H1JXiFbE4ygtYuSq9RWhdsOkQmjEM8hteUR5pNSqIt/OqeCErhAsKJnIV+B0IF5LS8dLSHACrasRdt1bzu92K8p/2/o+/1PiRlEn6ajNE41H9a6n//RIwa6JPlHhRG7iCNlEqUbnSURwuC68QaRczpooOAQIKowIB5wea7MdXzmHIdVWRMFFeC2UdoKdJEogDxB8lKasJymdh6Yzj0oAAL8X7s/q2ZkAY9Wsb8Sw7rVG4tS1LTZGD2lmKtp/jIx3X20AtXwxuKJrA/YVs+mw/tyjY2QK4COy/XwLTwgRayEN/oYMCNW2aqmzGXzjQwdnqEiGqtPf5s4X8o5nPAu0dY/XLagZAzBzP0jhq6cOZdt5tgqqpiEdfchR3YBnrzGE326nqaVr+7YUsHgTqmgxQGxX4F3Pz/yk0cUDSH7hHtGzJCQMLXPyuiF3OJHM1+Gl4ne1o2d+AfkX/Xral8h7gfZ07dY9981pHxAj3fKh7mEzoidtJmRmYaaEEdVTtzGRRvdMitSwXjptAM5RDj8uKqQPj3EbBmII79vH6IsMTBM46Py6SbTPM0cE33BQV0QHZFeoU4eY1J0ipjXngXCYuwKzxjFNt6diDlnxXW8X/QE5aATh9l1cTNxggFl2vSH5MuSyNSnLqT4506LwRTBAhnY2Xz1wItRPWDTJJPmw7eUP464WBrgvT0J1XHKKXJt2/DiAIEclVFZMPHWHssyoh5wn1k5X754RnJwFhCCuEtahmhmXBinvqYt76BtjyE=
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33fcc915-118c-4898-22c5-08dac724c4e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2022 16:16:36.2487 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: b0wo1KKcMisytg4tABzyvwSqSqd54ufIloP0osIZQEABVuwhtWneuaBxorG1UrclovhGnuAz33S4galF9VxNUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7690
+X-Proofpoint-GUID: R_rhurxfG-z6fw8S6NRLhSTNTF1yEgeh
+X-Proofpoint-ORIG-GUID: R_rhurxfG-z6fw8S6NRLhSTNTF1yEgeh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-15_08,2022-11-15_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ malwarescore=0 clxscore=1011 mlxlogscore=797 impostorscore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211150110
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -109,137 +174,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Christian Borntraeger <borntraeger@linux.ibm.com> writes:
-
-> Am 15.11.22 um 15:31 schrieb Alex Benn=C3=A9e:
->> "Michael S. Tsirkin" <mst@redhat.com> writes:
->>=20
->>> On Mon, Nov 14, 2022 at 06:15:30PM +0100, Christian Borntraeger wrote:
->>>>
->>>>
->>>> Am 14.11.22 um 18:10 schrieb Michael S. Tsirkin:
->>>>> On Mon, Nov 14, 2022 at 05:55:09PM +0100, Christian Borntraeger wrote:
->>>>>>
->>>>>>
->>>>>> Am 14.11.22 um 17:37 schrieb Michael S. Tsirkin:
->>>>>>> On Mon, Nov 14, 2022 at 05:18:53PM +0100, Christian Borntraeger wro=
-te:
->>>>>>>> Am 08.11.22 um 10:23 schrieb Alex Benn=C3=A9e:
->>>>>>>>> The previous fix to virtio_device_started revealed a problem in i=
-ts
->>>>>>>>> use by both the core and the device code. The core code should be=
- able
->>>>>>>>> to handle the device "starting" while the VM isn't running to han=
-dle
->>>>>>>>> the restoration of migration state. To solve this dual use introd=
-uce a
->>>>>>>>> new helper for use by the vhost-user backends who all use it to f=
-eed a
->>>>>>>>> should_start variable.
->>>>>>>>>
->>>>>>>>> We can also pick up a change vhost_user_blk_set_status while we a=
-re at
->>>>>>>>> it which follows the same pattern.
->>>>>>>>>
->>>>>>>>> Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_dev=
-ice_started)
->>>>>>>>> Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio=
- device)
->>>>>>>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>>>>>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->>>>>>>>
->>>>>>>> Hmmm, is this
->>>>>>>> commit 259d69c00b67c02a67f3bdbeeea71c2c0af76c35
->>>>>>>> Author:     Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>>>>>> AuthorDate: Mon Nov 7 12:14:07 2022 +0000
->>>>>>>> Commit:     Michael S. Tsirkin <mst@redhat.com>
->>>>>>>> CommitDate: Mon Nov 7 14:08:18 2022 -0500
->>>>>>>>
->>>>>>>>        hw/virtio: introduce virtio_device_should_start
->>>>>>>>
->>>>>>>> and older version?
->>>>>>>
->>>>>>> This is what got merged:
->>>>>>> https://lore.kernel.org/r/20221107121407.1010913-1-alex.bennee%40li=
-naro.org
->>>>>>> This patch was sent after I merged the RFC.
->>>>>>> I think the only difference is the commit log but I might be missing
->>>>>>> something.
->>>>>>>
->>>>>>>> This does not seem to fix the regression that I have reported.
->>>>>>>
->>>>>>> This was applied on top of 9f6bcfd99f which IIUC does, right?
->>>>>>>
->>>>>>>
->>>>>>
->>>>>> QEMU master still fails for me for suspend/resume to disk:
->>>>>>
->>>>>> #0  0x000003ff8e3980a6 in __pthread_kill_implementation () at /lib64=
-/libc.so.6
->>>>>> #1  0x000003ff8e348580 in raise () at /lib64/libc.so.6
->>>>>> #2  0x000003ff8e32b5c0 in abort () at /lib64/libc.so.6
->>>>>> #3  0x000003ff8e3409da in __assert_fail_base () at /lib64/libc.so.6
->>>>>> #4  0x000003ff8e340a4e in  () at /lib64/libc.so.6
->>>>>> #5 0x000002aa1ffa8966 in vhost_vsock_common_pre_save
->>>>>> (opaque=3D<optimized out>) at
->>>>>> ../hw/virtio/vhost-vsock-common.c:203
->>>>>> #6  0x000002aa1fe5e0ee in vmstate_save_state_v
->>>>>>       (f=3Df@entry=3D0x2aa21bdc170, vmsd=3D0x2aa204ac5f0
->>>>>> <vmstate_virtio_vhost_vsock>, opaque=3D0x2aa21bac9f8,
->>>>>> vmdesc=3Dvmdesc@entry=3D0x3fddc08eb30,
->>>>>> version_id=3Dversion_id@entry=3D0) at ../migration/vmstate.c:329
->>>>>> #7 0x000002aa1fe5ebf8 in vmstate_save_state
->>>>>> (f=3Df@entry=3D0x2aa21bdc170, vmsd=3D<optimized out>,
->>>>>> opaque=3D<optimized out>, vmdesc_id=3Dvmdesc_id@entry=3D0x3fddc08eb3=
-0)
->>>>>> at ../migration/vmstate.c:317
->>>>>> #8 0x000002aa1fe75bd0 in vmstate_save (f=3Df@entry=3D0x2aa21bdc170,
->>>>>> se=3Dse@entry=3D0x2aa21bdbe90, vmdesc=3Dvmdesc@entry=3D0x3fddc08eb30=
-) at
->>>>>> ../migration/savevm.c:908
->>>>>> #9 0x000002aa1fe79584 in
->>>>>> qemu_savevm_state_complete_precopy_non_iterable
->>>>>> (f=3Df@entry=3D0x2aa21bdc170, in_postcopy=3Din_postcopy@entry=3Dfals=
-e,
->>>>>> inactivate_disks=3Dinactivate_disks@entry=3Dtrue)
->>>>>>       at ../migration/savevm.c:1393
->>>>>> #10 0x000002aa1fe79a96 in qemu_savevm_state_complete_precopy
->>>>>> (f=3D0x2aa21bdc170, iterable_only=3Diterable_only@entry=3Dfalse,
->>>>>> inactivate_disks=3Dinactivate_disks@entry=3Dtrue) at
->>>>>> ../migration/savevm.c:1459
->>>>>> #11 0x000002aa1fe6d6ee in migration_completion (s=3D0x2aa218ef600) a=
-t ../migration/migration.c:3314
->>>>>> #12 migration_iteration_run (s=3D0x2aa218ef600) at ../migration/migr=
-ation.c:3761
->>>>>> #13 migration_thread (opaque=3Dopaque@entry=3D0x2aa218ef600) at ../m=
-igration/migration.c:3989
->>>>>> #14 0x000002aa201f0b8c in qemu_thread_start (args=3D<optimized out>)=
- at ../util/qemu-thread-posix.c:505
->>>>>> #15 0x000003ff8e396248 in start_thread () at /lib64/libc.so.6
->>>>>> #16 0x000003ff8e41183e in thread_start () at /lib64/libc.so.6
->>>>>>
->>>>>> Michael, your previous branch did work if I recall correctly.
->>>>>
->>>>> That one was failing under github CI though (for reasons we didn't
->>>>> really address, such as disconnect during stop causing a recursive
->>>>> call to stop, but there you are).
->>>> Even the double revert of everything?
->>>
->>> I don't remember at this point.
->>>
->>>> So how do we proceed now?
->>>
->>> I'm hopeful Alex will come up with a fix.
->> I need to replicate the failing test for that. Which test is
->> failing?
->
->
-> Pretty much the same as before. guest with vsock, managedsave and
-> restore.
-
-If this isn't in our test suite I'm going to need exact steps.
-
---=20
-Alex Benn=C3=A9e
+T0suICBJIHdhc24ndCBzdXJlIGlmIHBlcmZvcm1hbmNlIGltcHJvdmVtZW50cyB3b3VsZCBiZSBj
+b25zaWRlcmVkIG5ldyBmZWF0dXJlcyBvciBub3QuDQoNClRheWxvcg0KDQoNCj4gLS0tLS1Pcmln
+aW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUBnbWFp
+bC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBOb3ZlbWJlciAxMCwgMjAyMiA3OjA3IFBNDQo+IFRv
+OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+DQo+IENjOiBxZW11LWRldmVs
+QG5vbmdudS5vcmc7IHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc7DQo+IHBoaWxtZEBsaW5h
+cm8ub3JnOyBwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc7IEJyaWFuIENhaW4NCj4gPGJjYWluQHF1
+aWNpbmMuY29tPjsgTWF0aGV1cyBCZXJuYXJkaW5vIChRVUlDKQ0KPiA8cXVpY19tYXRoYmVybkBx
+dWljaW5jLmNvbT47IHN0ZWZhbmhhQHJlZGhhdC5jb20NCj4gU3ViamVjdDogUmU6IFtQVUxMIDAw
+LzExXSBIZXhhZ29uIGJ1ZyBmaXhlcyBhbmQgcGVyZm9ybWFuY2UgaW1wcm92ZW1lbnQNCj4gDQo+
+IEhpIFRheWxvciwNCj4gUUVNVSBpcyBmcm96ZW4gZm9yIHRoZSA3LjIgcmVsZWFzZSBjeWNsZS4g
+T25seSBidWcgZml4ZXMgY2FuIGJlIG1lcmdlZCBhcyB0aGUNCj4gdHJlZSBpcyBiZWluZyBzdGFi
+aWxpemVkLiBZb3UgY2FuIGZpbmQgdGhlIHJlbGVhc2Ugc2NoZWR1bGUNCj4gaGVyZToNCj4gaHR0
+cHM6Ly93aWtpLnFlbXUub3JnL1BsYW5uaW5nLzcuMg0KPiANCj4gUGxlYXNlIHJlc2VuZCB3aXRo
+IG9ubHkgdGhlIGJ1ZyBmaXhlcyBuZWVkZWQgZm9yIHRoZSA3LjIgcmVsZWFzZS4gVGhhbmtzIQ0K
+PiANCj4gU3RlZmFuDQo=
 
