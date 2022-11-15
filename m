@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46068629BD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48238629BE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:21:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouwkR-00036L-84; Tue, 15 Nov 2022 09:17:11 -0500
+	id 1ouwoH-00050T-G2; Tue, 15 Nov 2022 09:21:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouwkN-00035Q-RF
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:17:08 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ouwo8-0004yF-Pl
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:21:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouwkL-0003e5-My
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:17:07 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 1B99922A22;
- Tue, 15 Nov 2022 14:17:00 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
- 2022 15:16:59 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S0012ac8cfce-dd9e-4663-b561-bed5d819356e,
- 4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <199aba7e-2ded-0309-45fd-d51c87c8eb5c@kaod.org>
-Date: Tue, 15 Nov 2022 15:16:53 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ouwo6-0004MP-IR
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:21:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668522057;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MxhEeGIO72CIjIIW8/BVkg0HIpFF7EnOI/XoQqDbPoM=;
+ b=TpHnKmWjD3h6gQoVGKgOoHhwT+iWXB/ZZFeXKJT28gJFGrLqKJghrdU4JNlAn7ei+ouFpN
+ pH/Y35FZShDO6w6WJELHRL3mDRgWFRiqUeYbsXKdV0OKlMpr5MuxXl2+MQtsomeNhXQtR2
+ IxzV2cym3rBLtEdl0CxcVGK4X+8FYz0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-270-O_vV0dhNNP28MiV2BH9pLg-1; Tue, 15 Nov 2022 09:20:56 -0500
+X-MC-Unique: O_vV0dhNNP28MiV2BH9pLg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD309886067;
+ Tue, 15 Nov 2022 14:20:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4984A492B1C;
+ Tue, 15 Nov 2022 14:20:55 +0000 (UTC)
+Date: Tue, 15 Nov 2022 09:20:51 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, kwolf@redhat.com, stefanha@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PULL v2 00/11] Block layer patches
+Message-ID: <Y3OgQ1FPvio3aV0O@fedora>
+References: <20221114111954.37281-1-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 0/1] hw/arm/aspeed: Automatically zero-extend flash images
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, Peter
- Delevoryas <peter@pjd.dev>
-CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, <patrick@stwcx.xyz>,
- Francisco Iglesias <frasse.iglesias@gmail.com>, Alistair Francis
- <alistair@alistair23.me>
-References: <20221114190823.1888691-1-peter@pjd.dev>
- <890395fe-ed58-8a5d-be76-b28d99e6289a@kaod.org>
- <58687845-716a-76d0-a294-ffa26114ada0@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <58687845-716a-76d0-a294-ffa26114ada0@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 5fef1503-4b94-47fc-b607-f0c363d28edd
-X-Ovh-Tracer-Id: 11482771675897236402
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdeifecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhpvghtvghrsehpjhgurdguvghvpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhprghtrhhitghksehsthiftgigrdighiiipdhfrhgrshhsvgdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdgrlhhishhtrghirh
- esrghlihhsthgrihhrvdefrdhmvgdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qJezQRwXBTSKA/AL"
+Content-Disposition: inline
+In-Reply-To: <20221114111954.37281-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,39 +79,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/15/22 15:06, Philippe Mathieu-Daudé wrote:
-> On 15/11/22 14:06, Cédric Le Goater wrote:
->> Hello Peter,
->>
->> On 11/14/22 20:08, Peter Delevoryas wrote:
->>> I've been using this patch for a long time so that I don't have to use
->>> dd to zero-extend stuff all the time. It's just doing what people are
->>> doing already, right? I hope it's not controversial.
->>
->> I simply run :
->>
->>     truncate --size <size>
->>
->> on the FW file when needed and it is rare because most FW image builders
->> know the flash size of the target.
->>
->> However, the current error message is confusing and the following could
->> be an improvement :
->>
->> @@ -1606,6 +1606,13 @@ static void m25p80_realize(SSIPeripheral
->>       if (s->blk) {
->>           uint64_t perm = BLK_PERM_CONSISTENT_READ |
->>                           (blk_supports_write_perm(s->blk) ? BLK_PERM_WRITE : 0);
->> +
->> +        if (blk_getlength(s->blk) != s->size) {
-> 
-> '!=' -> '<' ?
 
-Hey. yes :)
+--qJezQRwXBTSKA/AL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I will send a patch. I am not sure this is 7.2 material though.
+Applied, thanks.
 
-Thanks,
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
 
-C.
+--qJezQRwXBTSKA/AL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNzoEMACgkQnKSrs4Gr
+c8gFHQgAvEnOZKbrE40/1b//CewmZwyRfJWkPAZvEE2CabU67M7DvM0P7ymkvilm
+/fcCTq93p2ETc55iYSPmXPe19geT/yCU5otv6Hq9ZWa6Vh6m2f6iVnMHpXYfTyv0
+oJfvzDQ9hie/7V+QqE3Toz68hT0BOF1MGQk/i6tYzUykIxGDsO5ONytEqOGWJSiy
+zBrEMWUG9I2Dum/HjNO0IBHS+pGQGLh0R96dLAk4LEuR8QHXTomszXHtcXCfjBW3
+EtBEFcLWWmrNa4kPORhbLK3NricEPMphN5RkZuiurjg+FSsYJUC5Bx+74xtbaOls
+TlVa7oafwyh+EyxrYWLD1MtETl5/7Q==
+=zmUT
+-----END PGP SIGNATURE-----
+
+--qJezQRwXBTSKA/AL--
+
 
