@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B432C629AD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 14:42:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A4B629AEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 14:45:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouwCP-0005DG-N8; Tue, 15 Nov 2022 08:42:01 -0500
+	id 1ouwEs-0008UR-C5; Tue, 15 Nov 2022 08:44:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jens.wiklander@linaro.org>)
- id 1ouwC8-00054w-FS
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:41:44 -0500
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ouwEq-0008Sl-Ar
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:44:32 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jens.wiklander@linaro.org>)
- id 1ouwC4-0005Zc-Il
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:41:43 -0500
-Received: by mail-il1-x12d.google.com with SMTP id bp12so7385192ilb.9
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 05:41:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ouwEo-00064S-Nr
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 08:44:32 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id o7so13371834pjj.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 05:44:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vblbFXfdkSdKCoGculSe8yCKBSot76GDc0dadartqgo=;
- b=Czff3eA4ZXkgiiYgLE3Lnez/o6e/brKSxD6A6hY86yWv/AI0x1oY/N9ofIK0Ee3Ja8
- am+AMGXRLNvPZkPw2SYdzpntWQjobZmmeIskpTuEwjesNO64CH8szxfeV4sk5ILthDrj
- Z+A8FzFfuaLngw1So92nIum811a12tZhHHN9TGFMPbDR1r4xP4U/vUCXW+1eotdi4Y1T
- uldvCLaiaB6Hl67n808gr0Cvo2AemTEIEQDROZ+idXZlh0knxAn7gSBNELehIXEsvA3F
- 1TpmjGdljJbJffKBM2iPYjw0i30of07lcS+cpQgU4cN32JJgpWs5jm0QAWQDHTHboWHn
- 5eHQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mzS68UimMW9fo+GAmYC11Uqd9MCO+hbECaAOBmmClvo=;
+ b=EhFnihoL4/e+N+I4WUgfmF9OeWBKSPpnV6BEwqTLe0+POy1T7yppdZDXjBtOKvxXBl
+ F1qWvz9XUjpROu5vVRtAapIC2TJMj4sR/oTY44a2FFqRkfGY6Xe2pDQTFqlDfNz3qs4E
+ AMKc/Yy62yN3allSvw0bzrxV9EGInh53DCydvJTRiuuDRRLAtegMbG3VnUCouFQ+mFnH
+ ep8sr7KLbIFlXRSWZyrbdYWct6OavCP+8Z4wkSRFCpk+1z520WOnltu3FmxERPA4STJ8
+ StGIViZrqC1Vh6oQ9JX5/oWMjc6d0ufK4ZEmq6fem3hQFThmPlxfdgd7ISz4oA9eG7fk
+ cT1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vblbFXfdkSdKCoGculSe8yCKBSot76GDc0dadartqgo=;
- b=tIuSgNHD+r0jS+EZAsQoTdmcZBF4yUYQA7yEwYXdIS8OMEeNTohYeuI9gnB1NxXPhx
- EFEqWsM0Pyf3KiIWpRxqWrkdAQ5JZhCXFwBVNDmXMUjKYPZMiMrNuWXvVNyk0W5kOorL
- O3D9EhwdowKQCLJvdMDD5rnPPEBaWH6CaDLdx9Fux65K/dqJ4KdQdTACUnKrBt45ZwFE
- LDJNuFtTrk7PPQuim6pvwFqFkY2zRJVPmi58tgR8A6kGDwKQQKxHlrA444LT1oCr6Bz/
- zgULt2ajnsXMnSLS39j8U2tKuV1kWWECbQEB2Qje3kdKR5cljaxPnfye4ySpRYqQEtP5
- ODBA==
-X-Gm-Message-State: ANoB5pnBuo9kVKzt2ZpW3SFgJItWT8yyrodZkJqUqJNQnJgL98AxVp/w
- R5/vO1BSkTT48D9QC3ThxzSjzQCK1gCfXFfN3eGRc7fd1eW+9w==
-X-Google-Smtp-Source: AA0mqf400++hQbiJx4ytevxqNTuK4Lp6iKyxo2Y736JLYsM0ftbbFDpDH+6CD6HKkU3KHZAd2mi6Ew/3rrd8r9okh0o=
-X-Received: by 2002:a92:cf02:0:b0:2fc:81e8:db26 with SMTP id
- c2-20020a92cf02000000b002fc81e8db26mr7872788ilo.73.1668519698778; Tue, 15 Nov
- 2022 05:41:38 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mzS68UimMW9fo+GAmYC11Uqd9MCO+hbECaAOBmmClvo=;
+ b=iy5T3CS1RG/J4kTMdkjwVSipOuLlP1LbcVbhx7ho0MmlzhlWDvrisYowSkk4lOzZVi
+ 3q9+Cixt+HDoWuBWWHA2hQGH1TPeonXL4eSSX4S4uUYQSTyuOV9wX/Oc735M0xwgJc8O
+ HH2BWR0dSM4nJNAWniqoyyOH/XXRYEQHMEOV9Uj7Nm9MIerN0UNkQ4yLJ4x3ptIu5Eng
+ MV/ecF8ZpDyVGb5q67ekRujm2aRWg0yvxQF57JQQ+Ctfjc9+4wgJkEU6d/TSMsQI3nWo
+ q3WnMCXsrAbfi0TDdGjymGdI/eJS5KHwMqns1kRdpsLlySvSM3CCigscY8qyrGCQxvg2
+ sAjA==
+X-Gm-Message-State: ANoB5pkKp+L6wew28mOZI3uniEScLsLf9u8kokhs7U/NOPBWLvmEJ3Gg
+ awH15VfKdLtbCFA6JZ9a5C+ehQ==
+X-Google-Smtp-Source: AA0mqf4zmbxuE5ldXMSRABg+SUxcabeOI5LMDAF5iF9E+AcgHgPG/gVDYoX0sexfPM2Ugq+W8WLDWA==
+X-Received: by 2002:a17:90a:fd06:b0:213:5c5f:f440 with SMTP id
+ cv6-20020a17090afd0600b002135c5ff440mr2400187pjb.15.1668519867696; 
+ Tue, 15 Nov 2022 05:44:27 -0800 (PST)
+Received: from [10.0.0.228] (119-18-35-77.771223.bne.static.aussiebb.net.
+ [119.18.35.77]) by smtp.gmail.com with ESMTPSA id
+ h13-20020a170902f54d00b0017f7c4e2604sm9862159plf.296.2022.11.15.05.44.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 05:44:27 -0800 (PST)
+Message-ID: <9713c707-2828-5436-dbd4-60fbd18985f6@linaro.org>
+Date: Tue, 15 Nov 2022 23:44:19 +1000
 MIME-Version: 1.0
-References: <20221114133257.1752176-1-jens.wiklander@linaro.org>
- <CAFEAcA-ECwzbojxcjbbAketMa8NkJXg=0xsqPWisKKfiuZGPNg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-ECwzbojxcjbbAketMa8NkJXg=0xsqPWisKKfiuZGPNg@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 15 Nov 2022 14:41:27 +0100
-Message-ID: <CAHUa44E9sjxLLmNZFo5fS3SUESsYttzP1jxa+a87O8ahQ67SOg@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/arm_gicv3: fix prio masking on pmr write
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=jens.wiklander@linaro.org; helo=mail-il1-x12d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 5/8] target/riscv: add support for Zcmp extension
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
+ <20221113023251.11047-6-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221113023251.11047-6-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,62 +95,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 14, 2022 at 3:43 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 14 Nov 2022 at 13:33, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> >
-> > With commit 39f29e599355 ("hw/intc/arm_gicv3: Use correct number of
-> > priority bits for the CPU") the number of priority bits was changed from
-> > the maximum value 8 to typically 5. As a consequence a few of the lowest
-> > bits in ICC_PMR_EL1 becomes RAZ/WI. However prior to this patch one of
-> > these bits was still used since the supplied priority value is masked
-> > before it's eventually right shifted with one bit. So the bit is not
-> > lost as one might expect when the register is read again.
-> >
-> > The Linux kernel depends on lowest valid bit to be reset to zero, see
-> > commit 33625282adaa ("irqchip/gic-v3: Probe for SCR_EL3 being clear
-> > before resetting AP0Rn") for details.
-> >
-> > So fix this by masking the priority value after it may have been right
-> > shifted by one bit.
-> >
-> > Fixes: 39f29e599355 ("hw/intc/arm_gicv3: Use correct number of priority bits for the CPU")
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
->
-> Thanks for the fix; applied to target-arm.next for 7.2.
+On 11/13/22 12:32, Weiwei Li wrote:
+>   {
+>     sq              101  ... ... .. ... 10 @c_sqsp
+>     c_fsd           101   ......  ..... 10 @c_sdsp
+> +
+> +  # *** RV64 and RV32 Zcmp Extension ***
+> +  cm_push         101  11000  .... .. 10 @zcmp
+> +  cm_pop          101  11010  .... .. 10 @zcmp
+> +  cm_popret       101  11110  .... .. 10 @zcmp
+> +  cm_popretz      101  11100  .... .. 10 @zcmp
+> +  cm_mva01s       101  011 ... 11 ... 10 @cm_mv
+> +  cm_mvsa01       101  011 ... 01 ... 10 @cm_mv
+>   }
 
-Great, thanks.
+There is no overlap in these, so they should be within nested [].
 
->
-> > I've only tested this patch on top of v7.1.0 since I couldn't get current
-> > to run in my test setup.
-> >
-> > In case anyone wonders what I'm testing, it's a setup with Hafnium at
-> > S-EL2, OP-TEE at S-EL1 and the Linux kernel at NS-EL1 (no NS-EL2 for
-> > simplicity).
->
-> Now is a good time to figure out what's not working with current
-> QEMU, so that if it's a bug in QEMU we can fix it before the
-> 7.2 release. Could you try a bisect of QEMU to see where it broke?
-> Alternatively, if you have repro instructions and prebuilt image
-> files I can have a look.
 
-I've bisected and learned this:
-# No output at all, hangs in TF-A bl1:
-bad commit 48da29e485af ("target/arm: Add ptw_idx to S1Translate")
-# bl1 works again, but TF-A bl2 (at S-EL1 if I've understood it right)
-fails to load some binary:
-commit cead7fa4c060 ("target/arm: Two fixes for secure ptw")
+> diff --git a/target/riscv/zce_helper.c b/target/riscv/zce_helper.c
+> new file mode 100644
+> index 0000000000..1346de1367
+> --- /dev/null
+> +++ b/target/riscv/zce_helper.c
+> @@ -0,0 +1,210 @@
+> +/*
+> + * RISC-V Zc* extension Helpers for QEMU.
+> + *
+> + * Copyright (c) 2021-2022 PLCT Lab
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
 
-I'm using semihosting to load binaries and in this case it might be
-that QEMU refuses to load the binary into the memory pointed at by
-BL2.
+The entire contents of this helper file should be handled at translation time.
 
-I can share the binaries (~50 meg) privately, to test with if needed.
-Or if you'd like instructions to build it I can provide that too.
 
-I don't mind doing further testing if that helps.
-
-Cheers,
-Jens
+r~
 
