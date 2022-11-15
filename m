@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E10629CB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:56:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BDA629CC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 15:57:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouxM6-00041G-DA; Tue, 15 Nov 2022 09:56:08 -0500
+	id 1ouxN8-0005kp-Il; Tue, 15 Nov 2022 09:57:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ouxLp-0003uF-Kn; Tue, 15 Nov 2022 09:55:50 -0500
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ouxLo-0001Pv-8u; Tue, 15 Nov 2022 09:55:49 -0500
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-368edbc2c18so138869457b3.13; 
- Tue, 15 Nov 2022 06:55:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+BaSPsNjfiZWjhXMwtnu5/Z/I1lgcaUpsl/n7Zhqfqg=;
- b=R6NhuomeXdodJCS389aRm6QcJ/F5UY+Mzh125LtNWR4xyRnDvqQRpzIxWoGIXjwDUU
- xrtKPM/hbH0ovZ+0g3qNY5XjhC+Tg5jYOuIZr+nzjl1skK8BtRCYyrzMlRk3oXBZhvsI
- UzwOsb69Z/XAFxCkm+EGcrlDQCUlXiY08Y5ls3Duq9Bk4M7HYWSl8PQ0nPhISPqDAvMI
- UJh01E0skDjmeAdWLf9xzwIHWKBXN5gfBwVDy9z4GGJzOWISy6JPLHFwWcn8Q7cm4c7K
- r8Kv3eK/N3IpO8w1yAOOle5lNRQmffR5n/Jnrg/zvQhyVQ5rlxlEBpSmSUY46m+xpFjw
- thfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+BaSPsNjfiZWjhXMwtnu5/Z/I1lgcaUpsl/n7Zhqfqg=;
- b=6uLa1pQZ7KCdiAf1fsX8+IuEAZhifBKd0QQdV6PGCyXfm2eLrMxGPfd8gWemfwn8qT
- IJWZdues8dY/7+aHXHgRr4VZ5g3rmU1UvVD/i+/Mld1huwroJBYt1OT7Woi0hjKCO58G
- EZGVhOidDjZ60M9mt8HIMFxehmjNM37AK5WmNemnVpkXauIlzz4rINvMkYfUz5RPnogP
- 5LwFzKUnakgvVyidSUFiYXXgIa1AnBbmQibRuYNw1DPWidZUIoQTyVPRyJEe9+Y7vXDE
- B+YAw3F3Gp6Et/jT4o0E7Wp3HekgsnAJ5nZ8rSNeejzdZpVxQl92BRT8ql6b3BqtWjjA
- r9ug==
-X-Gm-Message-State: ANoB5plvAIQUx2UNPegyq2cUoXa+jr988uScYhsf4o7abkj44FAuH4Wh
- INg3CH/pLsB/6fXw+HjPp1eBbUsfPy3tsmBSEfs=
-X-Google-Smtp-Source: AA0mqf6djBZmRylQ/Hn8zqeJqDuZUd8KZjpgO0aUMpLDp9pawnzh4vxdAK+E4qtm57IV1l6p3ko1H3vpxI6dtW42ImU=
-X-Received: by 2002:a05:690c:a9c:b0:388:a098:bb1a with SMTP id
- ci28-20020a05690c0a9c00b00388a098bb1amr697359ywb.111.1668524145968; Tue, 15
- Nov 2022 06:55:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouxN6-0005ib-Rm
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:57:08 -0500
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouxN4-0001aH-8j
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 09:57:08 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.183])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D8C0920916;
+ Tue, 15 Nov 2022 14:57:01 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
+ 2022 15:57:01 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003ca4d6c3c-d703-443d-9008-e83b9050eb54,
+ 4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c0a8e901-d8d7-1d77-526c-210660516280@kaod.org>
+Date: Tue, 15 Nov 2022 15:56:55 +0100
 MIME-Version: 1.0
-References: <20221115121226.26609-1-quintela@redhat.com>
-In-Reply-To: <20221115121226.26609-1-quintela@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 15 Nov 2022 09:55:34 -0500
-Message-ID: <CAJSP0QUS3t3Qse-Fm+hShc_qYaVf+D=ojoovcEc3pYqxUNAbhw@mail.gmail.com>
-Subject: Re: [PATCH 00/30] Migration PULL request
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- David Hildenbrand <david@redhat.com>, Laurent Vivier <laurent@vivier.eu>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Peter Xu <peterx@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] m25p80: Warn the user when the backend file is too small
+ for the device
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: Alistair Francis <alistair@alistair23.me>, Francisco Iglesias
+ <frasse.iglesias@gmail.com>, Kevin Wolf <kwolf@redhat.com>, Hanna Reitz
+ <hreitz@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
+ <qemu-block@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20221115142141.2073761-1-clg@kaod.org>
+ <CAFEAcA9OiNsX4-O60zKXL8WoEJbOH2TQr3LwDFJH4SOS8EPTMg@mail.gmail.com>
+ <566a0720-f732-cb27-a98f-367e1981a02f@kaod.org>
+ <CAFEAcA8AoQKGNEYwmw5SiDykRR+XWEvH0og_at-HTAiTZo=jag@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAFEAcA8AoQKGNEYwmw5SiDykRR+XWEvH0og_at-HTAiTZo=jag@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 2888a883-cbab-4024-91be-4fd279cfb01c
+X-Ovh-Tracer-Id: 12158874570260908847
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgdpfhhrrghsshgvrdhighhlvghsihgrshesghhmrghilhdrtghomhdpkhifohhlfhesrhgvughhrghtrdgtohhmpdhhrhgvihhtiiesrhgvughhrghtrdgtohhmpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhpvghtvghrsehpjhgurdguvghvpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorh
+ hgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,8 +81,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Please resend as a GPG-signed pull request instead of as a patch series.
+On 11/15/22 15:55, Peter Maydell wrote:
+> On Tue, 15 Nov 2022 at 14:51, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> On 11/15/22 15:34, Peter Maydell wrote:
+>>> On Tue, 15 Nov 2022 at 14:22, Cédric Le Goater <clg@kaod.org> wrote:
+>>>>
+>>>> Currently, when a block backend is attached to a m25p80 device and the
+>>>> associated file size does not match the flash model, QEMU complains
+>>>> with the error message "failed to read the initial flash content".
+>>>> This is confusing for the user.
+>>>
+>>> The commit message says we get an unhelpful error if the
+>>> file size "does not match"...
+>>>
+>>>> Improve the reported error with a new message regarding the file size.
+>>>>
+>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>>> ---
+>>>>    hw/block/m25p80.c | 8 ++++++++
+>>>>    1 file changed, 8 insertions(+)
+>>>>
+>>>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+>>>> index 02adc87527..e0515e2a1e 100644
+>>>> --- a/hw/block/m25p80.c
+>>>> +++ b/hw/block/m25p80.c
+>>>> @@ -1606,6 +1606,14 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
+>>>>        if (s->blk) {
+>>>>            uint64_t perm = BLK_PERM_CONSISTENT_READ |
+>>>>                            (blk_supports_write_perm(s->blk) ? BLK_PERM_WRITE : 0);
+>>>> +
+>>>> +        if (blk_getlength(s->blk) < s->size) {
+>>>
+>>> ...but the code change is only checking for "too small".
+>>>
+>>> What happens if the user provides a backing file that is too large ?
+>>
+>> That's ok because the blk_pread() call following, which loads in RAM
+>> the initial data, won't fail.
+>>
+>> It might be better to enforce a strict check on the size to avoid
+>> further confusion ? and change the error message to be clear.
+> 
+> Can we use blk_check_size_and_read_all() here rather than
+> a manual "check size, and then pread" ? That will take care
+> of the error message for you and make this device behave
+> the same way as other flash devices which use block backends.
+
+ok. I wasn't aware of this routine. I will check.
 
 Thanks,
-Stefan
+C.
 
