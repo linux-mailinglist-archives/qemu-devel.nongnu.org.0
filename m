@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3348B6296FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55EE629749
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:22:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1outuV-000253-5R; Tue, 15 Nov 2022 06:15:24 -0500
+	id 1ouu0b-00044m-47; Tue, 15 Nov 2022 06:21:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1outuN-000247-W9
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:15:17 -0500
-Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouu0Y-000443-QL
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:21:38 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1outuL-0002Nv-Jv
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:15:15 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.108])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5C1C827F40;
- Tue, 15 Nov 2022 11:15:09 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ouu0S-0003vn-FN
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:21:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.111])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A3B9C13ECD2B1;
+ Tue, 15 Nov 2022 12:21:26 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 15 Nov
- 2022 12:15:07 +0100
+ 2022 12:21:25 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0053beee538-249c-4d51-b025-826842a5553e,
+ (GARM-102R0042edbf7ec-9577-408d-b2b2-3fc11dfe2b36,
  4108EF7A520F6C47CD43A20CA0BA38D18DA47D40) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a21a6342-1fe2-e6c0-61f9-6bb68cbd2574@kaod.org>
-Date: Tue, 15 Nov 2022 12:15:06 +0100
+Message-ID: <10b55b2a-e736-6aeb-8265-6758ca83213c@kaod.org>
+Date: Tue, 15 Nov 2022 12:21:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH v11 03/11] s390x/cpu topology: core_id sets s390x CPU
- topology
+Subject: Re: [PATCH v11 04/11] s390x/cpu topology: reporting the CPU topology
+ to the guest
 Content-Language: en-US
 To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
 CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
@@ -44,28 +44,27 @@ CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>,
  <nrb@linux.ibm.com>, <scgl@linux.ibm.com>, <frankja@linux.ibm.com>,
  <berrange@redhat.com>
 References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-4-pmorel@linux.ibm.com>
+ <20221103170150.20789-5-pmorel@linux.ibm.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221103170150.20789-4-pmorel@linux.ibm.com>
+In-Reply-To: <20221103170150.20789-5-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: ff84348d-889c-4b94-8a5b-f5c585d56d4a
-X-Ovh-Tracer-Id: 8411598208145001427
+X-Ovh-Tracer-GUID: 0acc4f91-31ea-496a-bcd8-e8dbc2a3d87a
+X-Ovh-Tracer-Id: 8517995748307471315
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpshgtghhlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
- hfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
- helo=6.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddvjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpshgtghhlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+ hfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,351 +83,309 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Hello Pierre,
 
 On 11/3/22 18:01, Pierre Morel wrote:
-> In the S390x CPU topology the core_id specifies the CPU address
-> and the position of the core withing the topology.
+> The guest can use the STSI instruction to get a buffer filled
+> with the CPU topology description.
 > 
-> Let's build the topology based on the core_id.
+> Let us implement the STSI instruction for the basis CPU topology
+> level, level 2.
 > 
 > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->   include/hw/s390x/cpu-topology.h    |  41 ++++++++++
->   include/hw/s390x/s390-virtio-ccw.h |   1 +
->   target/s390x/cpu.h                 |   2 +
->   hw/s390x/cpu-topology.c            | 125 +++++++++++++++++++++++++++++
->   hw/s390x/s390-virtio-ccw.c         |  23 ++++++
->   hw/s390x/meson.build               |   1 +
->   6 files changed, 193 insertions(+)
->   create mode 100644 include/hw/s390x/cpu-topology.h
->   create mode 100644 hw/s390x/cpu-topology.c
+>   include/hw/s390x/cpu-topology.h |   6 ++
+>   target/s390x/cpu.h              |  77 ++++++++++++++++++++++++
+>   hw/s390x/cpu-topology.c         |   1 -
+>   target/s390x/cpu_topology.c     | 100 ++++++++++++++++++++++++++++++++
+>   target/s390x/kvm/kvm.c          |   6 +-
+>   target/s390x/meson.build        |   1 +
+>   6 files changed, 189 insertions(+), 2 deletions(-)
+>   create mode 100644 target/s390x/cpu_topology.c
 > 
 > diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> new file mode 100644
-> index 0000000000..4e16a2153d
-> --- /dev/null
+> index 4e16a2153d..6fec10e032 100644
+> --- a/include/hw/s390x/cpu-topology.h
 > +++ b/include/hw/s390x/cpu-topology.h
-> @@ -0,0 +1,41 @@
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +#ifndef HW_S390X_CPU_TOPOLOGY_H
-> +#define HW_S390X_CPU_TOPOLOGY_H
+> @@ -16,6 +16,11 @@
+>   #define S390_TOPOLOGY_CPU_IFL 0x03
+>   #define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
+>   
+> +#define S390_TOPOLOGY_POLARITY_HORIZONTAL      0x00
+> +#define S390_TOPOLOGY_POLARITY_VERTICAL_LOW    0x01
+> +#define S390_TOPOLOGY_POLARITY_VERTICAL_MEDIUM 0x02
+> +#define S390_TOPOLOGY_POLARITY_VERTICAL_HIGH   0x03
 > +
-> +#include "hw/qdev-core.h"
-> +#include "qom/object.h"
-> +
-> +#define S390_TOPOLOGY_CPU_IFL 0x03
-> +#define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
-> +
-> +typedef struct S390TopoSocket {
-> +    int active_count;
-> +    uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
-> +} S390TopoSocket;
-> +
-> +struct S390Topology {
-> +    SysBusDevice parent_obj;
-> +    uint32_t nr_cpus;
-> +    uint32_t nr_sockets;
-> +    S390TopoSocket *socket;
-> +};
-> +
-> +#define TYPE_S390_CPU_TOPOLOGY "s390-topology"
-> +OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
-> +
-> +void s390_topology_new_cpu(S390CPU *cpu);
-> +
-> +static inline bool s390_has_topology(void)
-> +{
-> +    return false;
-> +}
-> +
-> +#endif
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index 4f8a39abda..23b472708d 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -29,6 +29,7 @@ struct S390CcwMachineState {
->       bool pv;
->       bool zpcii_disable;
->       uint8_t loadparm[8];
-> +    void *topology;
+>   typedef struct S390TopoSocket {
+>       int active_count;
+>       uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
+> @@ -26,6 +31,7 @@ struct S390Topology {
+>       uint32_t nr_cpus;
+>       uint32_t nr_sockets;
+>       S390TopoSocket *socket;
+> +    bool topology_needed;
 
-I think it is safe to use 'DeviceState *' or 'Object *' for the pointer
-under machine. What is most practical.
 
+This is unused in this patch. Introduced too soon ?
+
+  
 >   };
 >   
->   struct S390CcwMachineClass {
+>   #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
 > diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 7d6d01325b..c9066b2496 100644
+> index c9066b2496..69a7523146 100644
 > --- a/target/s390x/cpu.h
 > +++ b/target/s390x/cpu.h
-> @@ -175,6 +175,8 @@ struct ArchCPU {
->       /* needed for live migration */
->       void *irqstate;
->       uint32_t irqstate_saved_size;
-> +    /* Topology this CPU belongs too */
-> +    void *topology;
-
-However, under the CPU, we don't know what the future changes reserve
-for us and I would call the attribute 'opaque' or 'machine_data'.
-
-For now, it only holds a reference to the S390Topology device model
-but it could become a struct with time.
-  
-
->   };
+> @@ -567,6 +567,81 @@ typedef union SysIB {
+>   } SysIB;
+>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
 >   
+> +/*
+> + * CPU Topology List provided by STSI with fc=15 provides a list
+> + * of two different Topology List Entries (TLE) types to specify
+> + * the topology hierarchy.
+> + *
+> + * - Container Topology List Entry
+> + *   Defines a container to contain other Topology List Entries
+> + *   of any type, nested containers or CPU.
+> + * - CPU Topology List Entry
+> + *   Specifies the CPUs position, type, entitlement and polarization
+> + *   of the CPUs contained in the last Container TLE.
+> + *
+> + * There can be theoretically up to five levels of containers, QEMU
+> + * uses only one level, the socket level.
+> + *
+> + * A container of with a nesting level (NL) greater than 1 can only
+> + * contain another container of nesting level NL-1.
+> + *
+> + * A container of nesting level 1 (socket), contains as many CPU TLE
+> + * as needed to describe the position and qualities of all CPUs inside
+> + * the container.
+> + * The qualities of a CPU are polarization, entitlement and type.
+> + *
+> + * The CPU TLE defines the position of the CPUs of identical qualities
+> + * using a 64bits mask which first bit has its offset defined by
+> + * the CPU address orgin field of the CPU TLE like in:
+> + * CPU address = origin * 64 + bit position within the mask
+> + *
+> + */
+> +/* Container type Topology List Entry */
+> +typedef struct SysIBTl_container {
+> +        uint8_t nl;
+> +        uint8_t reserved[6];
+> +        uint8_t id;
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+> +
+> +/* CPU type Topology List Entry */
+> +typedef struct SysIBTl_cpu {
+> +        uint8_t nl;
+> +        uint8_t reserved0[3];
+> +        uint8_t reserved1:5;
+> +        uint8_t dedicated:1;
+> +        uint8_t polarity:2;
+> +        uint8_t type;
+> +        uint16_t origin;
+> +        uint64_t mask;
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+> +
+> +#define S390_TOPOLOGY_MAG  6
+> +#define S390_TOPOLOGY_MAG6 0
+> +#define S390_TOPOLOGY_MAG5 1
+> +#define S390_TOPOLOGY_MAG4 2
+> +#define S390_TOPOLOGY_MAG3 3
+> +#define S390_TOPOLOGY_MAG2 4
+> +#define S390_TOPOLOGY_MAG1 5
+> +/* Configuration topology */
+> +typedef struct SysIB_151x {
+> +    uint8_t  reserved0[2];
+> +    uint16_t length;
+> +    uint8_t  mag[S390_TOPOLOGY_MAG];
+> +    uint8_t  reserved1;
+> +    uint8_t  mnest;
+> +    uint32_t reserved2;
+> +    char tle[0];
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+> +
+> +/* Max size of a SYSIB structure is when all CPU are alone in a container */
+> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
+> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
+> +                                                   sizeof(SysIBTl_cpu)))
+> +
+> +
+>   /* MMU defines */
+>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+>   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
+> @@ -845,4 +920,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
 >   
+>   #include "exec/cpu-all.h"
+>   
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+> +
+>   #endif
 > diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> new file mode 100644
-> index 0000000000..6af41d3d7b
-> --- /dev/null
+> index 6af41d3d7b..9fa8ca1261 100644
+> --- a/hw/s390x/cpu-topology.c
 > +++ b/hw/s390x/cpu-topology.c
-> @@ -0,0 +1,125 @@
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> +
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/boards.h"
-> +#include "qemu/typedefs.h"
-> +#include "target/s390x/cpu.h"
-> +#include "hw/s390x/s390-virtio-ccw.h"
-> +#include "hw/s390x/cpu-topology.h"
-> +
-> +/*
-> + * s390_topology_new_cpu:
-> + * @cpu: a pointer to the new CPU
-> + *
-> + * The topology pointed by S390CPU, gives us the CPU topology
-> + * established by the -smp QEMU aruments.
-> + * The core-id is used to calculate the position of the CPU inside
-> + * the topology:
-> + *  - the socket, container TLE, containing the CPU, we have one socket
-> + *    for every nr_cpus (nr_cpus = smp.cores * smp.threads)
-> + *  - the CPU TLE inside the socket, we have potentionly up to 4 CPU TLE
-> + *    in a container TLE with the assumption that all CPU are identical
-> + *    with the same polarity and entitlement because we have maximum 256
-> + *    CPUs and each TLE can hold up to 64 identical CPUs.
-> + *  - the bit in the 64 bit CPU TLE core mask
-> + */
-> +void s390_topology_new_cpu(S390CPU *cpu)
-> +{
-> +    S390Topology *topo = (S390Topology *)cpu->topology;
-
-where is cpu->topology set ?
-
-> +    int core_id = cpu->env.core_id;
-> +    int bit, origin;
-> +    int socket_id;
-> +
-> +    socket_id = core_id / topo->nr_cpus;
-> +
-> +    /*
-> +     * At the core level, each CPU is represented by a bit in a 64bit
-> +     * uint64_t which represent the presence of a CPU.
-> +     * The firmware assume that all CPU in a CPU TLE have the same
-> +     * type, polarization and are all dedicated or shared.
-> +     * In that case the origin variable represents the offset of the first
-> +     * CPU in the CPU container.
-> +     * More than 64 CPUs per socket are represented in several CPU containers
-> +     * inside the socket container.
-> +     * The only reason to have several S390TopologyCores inside a socket is
-> +     * to have more than 64 CPUs.
-> +     * In that case the origin variable represents the offset of the first CPU
-> +     * in the CPU container. More than 64 CPUs per socket are represented in
-> +     * several CPU containers inside the socket container.
-> +     */
-> +    bit = core_id;
-> +    origin = bit / 64;
-> +    bit %= 64;
-> +    bit = 63 - bit;
-> +
-> +    topo->socket[socket_id].active_count++;
-> +    set_bit(bit, &topo->socket[socket_id].mask[origin]);
-> +}
-> +
-> +/**
-> + * s390_topology_realize:
-> + * @dev: the device state
-> + * @errp: the error pointer (not used)
-> + *
-> + * During realize the machine CPU topology is initialized with the
-> + * QEMU -smp parameters.
-> + * The maximum count of CPU TLE in the all Topology can not be greater
-> + * than the maximum CPUs.
-> + */
-> +static void s390_topology_realize(DeviceState *dev, Error **errp)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-
-hmm,
-
-> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
-> +
-> +    topo->nr_cpus = ms->smp.cores * ms->smp.threads;
-> +    topo->nr_sockets = ms->smp.sockets;
-
-These properties should be set in s390_init_topology() with :
-
-   object_property_set_int(OBJECT(dev), "num-cpus",
-                           ms->smp.cores * ms->smp.threads, errp);
-
-   object_property_set_int(OBJECT(dev), "num-sockets",
-                           ms->smp.sockets, errp);
-
-before calling sysbus_realize_and_unref()
-
-
-> +    topo->socket = g_new0(S390TopoSocket, topo->nr_sockets);
-
-For consistency, you could add an unrealize handler to free the array.
-
-> +}
-> +
-> +static Property s390_topology_properties[] = {
-> +    DEFINE_PROP_UINT32("nr_cpus", S390Topology, nr_cpus, 1),
-> +    DEFINE_PROP_UINT32("nr_sockets", S390Topology, nr_sockets, 1),
-
-A quick audit of the property names in QEMU code shows that a "num-" prefix
-is usually preferred.
-
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +/**
-> + * topology_class_init:
-> + * @oc: Object class
-> + * @data: (not used)
-> + *
-> + * A very simple object we will need for reset and migration.
-> + */
-> +static void topology_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = s390_topology_realize;
-> +    device_class_set_props(dc, s390_topology_properties);
-> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-> +}
-> +
-> +static const TypeInfo cpu_topology_info = {
-> +    .name          = TYPE_S390_CPU_TOPOLOGY,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(S390Topology),
-> +    .class_init    = topology_class_init,
-> +};
-> +
-> +static void topology_register(void)
-> +{
-> +    type_register_static(&cpu_topology_info);
-> +}
-> +type_init(topology_register);
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 9ab91df5b1..5776d3e58f 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -44,6 +44,7 @@
->   #include "hw/s390x/pv.h"
->   #include "migration/blocker.h"
->   #include "qapi/visitor.h"
-> +#include "hw/s390x/cpu-topology.h"
+> @@ -44,7 +44,6 @@ void s390_topology_new_cpu(S390CPU *cpu)
+>       int socket_id;
 >   
->   static Error *pv_mig_blocker;
->   
-> @@ -102,6 +103,19 @@ static void s390_init_cpus(MachineState *machine)
->       }
->   }
->   
-> +static void s390_init_topology(MachineState *machine)
-> +{
-> +    DeviceState *dev;
-> +
-> +    if (s390_has_topology()) {
+>       socket_id = core_id / topo->nr_cpus;
+> -
 
-I would move the s390_has_topology() check in the caller.
-
-> +        dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
-> +        object_property_add_child(&machine->parent_obj,
-> +                                  TYPE_S390_CPU_TOPOLOGY, OBJECT(dev));
-> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +        S390_CCW_MACHINE(machine)->topology = dev;
-
-and I would move the assignment in the caller also.
-
-> +    }
-> +}
-> +
->   static const char *const reset_dev_types[] = {
->       TYPE_VIRTUAL_CSS_BRIDGE,
->       "s390-sclp-event-facility",
-> @@ -252,6 +266,9 @@ static void ccw_init(MachineState *machine)
->       /* init memory + setup max page size. Required for the CPU model */
->       s390_memory_init(machine->ram);
->   
-> +    /* Adding the topology must be done before CPU initialization */
-> +    s390_init_topology(machine);
-> +
->       /* init CPUs (incl. CPU model) early so s390_has_feature() works */
->       s390_init_cpus(machine);
->   
-> @@ -314,6 +331,12 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
->       g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
->       ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
->   
-> +    /* Inserting the CPU in the Topology can not fail */
-> +    if (S390_CCW_MACHINE(ms)->topology) {
-> +        cpu->topology = S390_CCW_MACHINE(ms)->topology;
-
-Two QOM cast. One should be enough. Please introduce a local variable.
-
-> +        s390_topology_new_cpu(cpu);
-
-I would pass the 'topology' object as a parameter of s390_topology_new_cpu()
-and do the cpu->topology assignment in the same routine.
-
-May be rename it also to :
-
-   void s390_topology_add_cpu(S390Topology *topo, S390CPU *cpu)
-
+Unnecessary change.
 
 Thanks,
 
 C.
-  
+
+
+
+>       /*
+>        * At the core level, each CPU is represented by a bit in a 64bit
+>        * uint64_t which represent the presence of a CPU.
+> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+> new file mode 100644
+> index 0000000000..a1179d8e95
+> --- /dev/null
+> +++ b/target/s390x/cpu_topology.c
+> @@ -0,0 +1,100 @@
+> +/*
+> + * QEMU S390x CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "hw/s390x/pv.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +#include "hw/s390x/sclp.h"
+> +
+> +static char *fill_container(char *p, int level, int id)
+> +{
+> +    SysIBTl_container *tle = (SysIBTl_container *)p;
+> +
+> +    tle->nl = level;
+> +    tle->id = id;
+> +    return p + sizeof(*tle);
+> +}
+> +
+> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
+> +{
+> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
+> +
+> +    tle->nl = 0;
+> +    tle->dedicated = 1;
+> +    tle->polarity = S390_TOPOLOGY_POLARITY_HORIZONTAL;
+> +    tle->type = S390_TOPOLOGY_CPU_IFL;
+> +    tle->origin = cpu_to_be64(origin * 64);
+> +    tle->mask = cpu_to_be64(mask);
+> +    return p + sizeof(*tle);
+> +}
+> +
+> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+> +{
+> +    int i, origin;
+> +
+> +    for (i = 0; i < topo->nr_sockets; i++) {
+> +        if (!topo->socket[i].active_count) {
+> +            continue;
+> +        }
+> +        p = fill_container(p, 1, i);
+> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
+> +            uint64_t mask = 0L;
+> +
+> +            mask = topo->socket[i].mask[origin];
+> +            if (mask) {
+> +                p = fill_tle_cpu(p, mask, origin);
+> +            }
+> +        }
+> +    }
+> +    return p;
+> +}
+> +
+> +static int setup_stsi(S390CPU *cpu, SysIB_151x *sysib, int level)
+> +{
+> +    S390Topology *topo = (S390Topology *)cpu->topology;
+> +    char *p = sysib->tle;
+> +
+> +    sysib->mnest = level;
+> +    switch (level) {
+> +    case 2:
+> +        sysib->mag[S390_TOPOLOGY_MAG2] = topo->nr_sockets;
+> +        sysib->mag[S390_TOPOLOGY_MAG1] = topo->nr_cpus;
+> +        p = s390_top_set_level2(topo, p);
+> +        break;
 > +    }
 > +
->       if (dev->hotplugged) {
->           raise_irq_cpu_hotplug();
+> +    return p - (char *)sysib;
+> +}
+> +
+> +#define S390_TOPOLOGY_MAX_MNEST 2
+> +
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+> +{
+> +    union {
+> +        char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
+> +        SysIB_151x sysib;
+> +    } buffer QEMU_ALIGNED(8);
+> +    int len;
+> +
+> +    if (s390_is_pv() || !s390_has_topology() ||
+> +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
+> +        setcc(cpu, 3);
+> +        return;
+> +    }
+> +
+> +    len = setup_stsi(cpu, &buffer.sysib, sel2);
+> +
+> +    buffer.sysib.length = cpu_to_be16(len);
+> +    s390_cpu_virt_mem_write(cpu, addr, ar, &buffer.sysib, len);
+> +    setcc(cpu, 0);
+> +}
+> +
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index 3ac7ec9acf..7dc96f3663 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -51,6 +51,7 @@
+>   #include "hw/s390x/s390-virtio-ccw.h"
+>   #include "hw/s390x/s390-virtio-hcall.h"
+>   #include "hw/s390x/pv.h"
+> +#include "hw/s390x/cpu-topology.h"
+>   
+>   #ifndef DEBUG_KVM
+>   #define DEBUG_KVM  0
+> @@ -1919,9 +1920,12 @@ static int handle_stsi(S390CPU *cpu)
+>           if (run->s390_stsi.sel1 != 2 || run->s390_stsi.sel2 != 2) {
+>               return 0;
+>           }
+> -        /* Only sysib 3.2.2 needs post-handling for now. */
+>           insert_stsi_3_2_2(cpu, run->s390_stsi.addr, run->s390_stsi.ar);
+>           return 0;
+> +    case 15:
+> +        insert_stsi_15_1_x(cpu, run->s390_stsi.sel2, run->s390_stsi.addr,
+> +                           run->s390_stsi.ar);
+> +        return 0;
+>       default:
+>           return 0;
 >       }
-> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> index f291016fee..653f6ab488 100644
-> --- a/hw/s390x/meson.build
-> +++ b/hw/s390x/meson.build
-> @@ -2,6 +2,7 @@ s390x_ss = ss.source_set()
->   s390x_ss.add(files(
->     'ap-bridge.c',
->     'ap-device.c',
-> +  'cpu-topology.c',
->     'ccw-device.c',
->     'css-bridge.c',
->     'css.c',
+> diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+> index 84c1402a6a..890ccfa789 100644
+> --- a/target/s390x/meson.build
+> +++ b/target/s390x/meson.build
+> @@ -29,6 +29,7 @@ s390x_softmmu_ss.add(files(
+>     'sigp.c',
+>     'cpu-sysemu.c',
+>     'cpu_models_sysemu.c',
+> +  'cpu_topology.c',
+>   ))
+>   
+>   s390x_user_ss = ss.source_set()
 
 
