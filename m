@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5572629F18
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 17:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30DB7629F2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 17:39:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouyoL-00053c-IX; Tue, 15 Nov 2022 11:29:21 -0500
+	id 1ouywE-0008NZ-LI; Tue, 15 Nov 2022 11:37:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouyoH-00051f-BE
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:29:17 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouyoF-0000xz-34
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:29:16 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id z18so22623686edb.9
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 08:29:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MKL3A5WWwBVEhqir2rijShdxdWvx2zhjv421ik5RtUM=;
- b=Hxq2xX/MlLrNE4iMwA2StkrnsVLuThl+Z7oqIdnMm9yGVygynvqAIu0aaqWI2bWCyP
- IfCl8GSJmPgGdW2tcI8jJr2g+IZa6LYFwZWxASVExhuaoMVp6NptewKbWpUnvzJqBZ6t
- LQzVuuF0nOR1q7Cc2g2yUcRTzQZBgjfiiVHCHNFWAqw+Kat6g+MUBGsKaG8DUfLBd3Jd
- Plxv8B1ODbu/ovv67qeAst8sEXJv4erB5QzR0qxYxVnsUSUAO/rQzTEctJkrsjQ+fR7t
- r5W2PVkqCwXpFZNBBTyJooA/0fzifW/AyCZWIH4dK69B45vCtAFhh1qdMdq3vKCWCH/j
- 4Eeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MKL3A5WWwBVEhqir2rijShdxdWvx2zhjv421ik5RtUM=;
- b=0zVy+KXsG4KJazQClpypZcOQB+OcymcnlinOghoAsrShsTdzPHeYfIL9jZbyRjTqA4
- YLd3wgHsBVysiVZgnXEi4UbzSpm+tD9E8wWH/PGuKmp0k7KCoW6XcAuXo/YoGYbygClS
- i9WEwoOZh4DfKU5/FSnT/mEKSVF8bO/ByQnQubLBH2Je2JIwatL1fFtL3ofFvEhf3Nb7
- lgn9PiLHsZeOH+6F8ttKyVWSCpbk1kXY4SggJmT5aGg6TWGEHciBrgHLS6hdze0OQSfv
- i28hANjCUY+LGpqzQLlH+NOoKMRbBi+hYiVXyHXDjNKgwtfQkYTm/JvSH5iJQ+0imZ7U
- DXaA==
-X-Gm-Message-State: ANoB5pl270cJBfWWhESf/48ww8p/hf02paF4+f2CVY9zVe4ZuRPkgArR
- 0qC2HGIwRff25Mh809zZeJOXBQ==
-X-Google-Smtp-Source: AA0mqf5l3PgmU/vgOwiOvYtESKDlz9hoD9KPPSAQllImcSXWob0zhVuyKmGOIkHWTbJM0FFs4kfm+A==
-X-Received: by 2002:aa7:d798:0:b0:458:ed79:ed5 with SMTP id
- s24-20020aa7d798000000b00458ed790ed5mr15708209edq.374.1668529752508; 
- Tue, 15 Nov 2022 08:29:12 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 18-20020a170906201200b0079800b81709sm5655788ejo.219.2022.11.15.08.29.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 08:29:11 -0800 (PST)
-Message-ID: <8900f3f8-0993-b479-8080-0276d20b0c4b@linaro.org>
-Date: Tue, 15 Nov 2022 17:29:10 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ouywB-0008Kl-MB
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:37:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ouyw9-0002Ol-3S
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 11:37:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668530244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0V9FW4XgRhJvhlV4mqFDlfCynvDX4A/FbUDSpDmXChc=;
+ b=AFRyQA/QHxmkEADSpdbbzgMTLrcQlm7JSnoG7xOCP/GwGFtUBCr2C0xbPwLCFudivkNFU6
+ 6jVTF4QM2sH3BeBmHApdtZzqu3ZkVBRGwgf7LWOLyLz4chS8ZOL2jvPZWWM6JnpxZD8ZAQ
+ zrQVOXiksoNsD3+W4HgifzAx5FOa0ow=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-549-goINLCQPNi2SEylKk-NQRg-1; Tue, 15 Nov 2022 11:37:20 -0500
+X-MC-Unique: goINLCQPNi2SEylKk-NQRg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D90CB101A528;
+ Tue, 15 Nov 2022 16:37:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28D6E40C835A;
+ Tue, 15 Nov 2022 16:37:18 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: jasowang@redhat.com, qemu-stable@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Tobias Fiebig <tobias+git@fiebig.nl>
+Subject: [PATCH for-7.2] rtl8139: honor large send MSS value
+Date: Tue, 15 Nov 2022 11:36:59 -0500
+Message-Id: <20221115163659.1595865-1-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v2 2/2] hw/intc: add implementation of GICD_IIDR to Arm GIC
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20221115161736.2425584-1-alex.bennee@linaro.org>
- <20221115161736.2425584-3-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221115161736.2425584-3-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52f.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,55 +77,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/11/22 17:17, Alex Bennée wrote:
-> a66a24585f (hw/intc/arm_gic: Implement read of GICC_IIDR) implemented
-> this for the CPU interface register. The fact we don't implement it
-> shows up when running Xen with -d guest_error which is definitely
-> wrong because the guest is perfectly entitled to read it.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v2
->    - checkpatch fixes.
-> v3
->    - re-base on re-flow with if
-> v4
->    - fix the commit message
-> ---
->   hw/intc/arm_gic.c | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-> index 1a04144c38..7a34bc0998 100644
-> --- a/hw/intc/arm_gic.c
-> +++ b/hw/intc/arm_gic.c
-> @@ -973,8 +973,18 @@ static uint8_t gic_dist_readb(void *opaque, hwaddr offset, MemTxAttrs attrs)
->               /* GICD_TYPER byte 1 */
->               return (s->security_extn << 2);
->           }
-> -        if (offset < 0x08)
-> +        if (offset == 8) {
-> +            /* GICD_IIDR byte 0 */
-> +            return 0x3b; /* Arm JEP106 identity */
-> +        }
-> +        if (offset == 9) {
-> +            /* GICD_IIDR byte 1 */
-> +            return 0x04; /* Arm JEP106 identity */
+The Large-Send Task Offload Tx Descriptor (9.2.1 Transmit) has a
+Large-Send MSS value where the driver specifies the MSS. See the
+datasheet here:
+http://realtek.info/pdf/rtl8139cp.pdf
 
-Possible future cleanup, define JEP106_ID_ARM:
+The code ignores this value and uses a hardcoded MSS of 1500 bytes
+instead. When the MTU is less than 1500 bytes the hardcoded value
+results in IP fragmentation and poor performance.
 
-$ git grep 0x43b
-hw/intc/arm_gic.c:1671:            *data = (s->revision << 16) | 0x43b;
-hw/intc/gicv3_internal.h:743:    return 0x43b;
-hw/misc/armv7m_ras.c:26:        *data = 0x43b;
+Use the Large-Send MSS value to correctly size Large-Send packets.
 
-> +        }
-> +        if (offset < 0x0c) {
-> +            /* All other bytes in this range are RAZ */
->               return 0;
-> +        }
+This issue was discussed in the past here:
+https://lore.kernel.org/all/20161114162505.GD26664@stefanha-x1.localdomain/
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reported-by: Russell King - ARM Linux <linux@armlinux.org.uk>
+Reported-by: Tobias Fiebig <tobias+git@fiebig.nl>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1312
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ hw/net/rtl8139.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+Tobias: Please test this fix. Thanks!
+
+diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
+index e6643e3c9d..ecc4dcb07f 100644
+--- a/hw/net/rtl8139.c
++++ b/hw/net/rtl8139.c
+@@ -77,7 +77,6 @@
+     ( ( input ) & ( size - 1 )  )
+ 
+ #define ETHER_TYPE_LEN 2
+-#define ETH_MTU     1500
+ 
+ #define VLAN_TCI_LEN 2
+ #define VLAN_HLEN (ETHER_TYPE_LEN + VLAN_TCI_LEN)
+@@ -2151,8 +2150,8 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
+ 
+                 int large_send_mss = (txdw0 >> 16) & CP_TC_LGSEN_MSS_MASK;
+ 
+-                DPRINTF("+++ C+ mode offloaded task TSO MTU=%d IP data %d "
+-                    "frame data %d specified MSS=%d\n", ETH_MTU,
++                DPRINTF("+++ C+ mode offloaded task TSO IP data %d "
++                    "frame data %d specified MSS=%d\n",
+                     ip_data_len, saved_size - ETH_HLEN, large_send_mss);
+ 
+                 int tcp_send_offset = 0;
+@@ -2177,9 +2176,13 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
+                     goto skip_offload;
+                 }
+ 
+-                /* ETH_MTU = ip header len + tcp header len + payload */
++                /* MSS too small? */
++                if (tcp_hlen + hlen >= large_send_mss) {
++                    goto skip_offload;
++                }
++
+                 int tcp_data_len = ip_data_len - tcp_hlen;
+-                int tcp_chunk_size = ETH_MTU - hlen - tcp_hlen;
++                int tcp_chunk_size = large_send_mss - hlen - tcp_hlen;
+ 
+                 DPRINTF("+++ C+ mode TSO IP data len %d TCP hlen %d TCP "
+                     "data len %d TCP chunk size %d\n", ip_data_len,
+-- 
+2.38.1
 
 
