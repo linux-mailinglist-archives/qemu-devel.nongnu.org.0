@@ -2,87 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E24062A27D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 21:08:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B25462A283
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 21:09:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov2Cq-0007u9-Ne; Tue, 15 Nov 2022 15:06:52 -0500
+	id 1ov2El-0000oa-DZ; Tue, 15 Nov 2022 15:08:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ov2Cl-0007td-4g
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 15:06:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1ov2Eh-0000nv-Au; Tue, 15 Nov 2022 15:08:47 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ov2Cj-0008NC-89
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 15:06:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668542804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v31ltKFzqAUneYBsE3bYMw79yZCJ5MhRDD9m7YOii30=;
- b=AnQnBhZeeN7SYkCZBEI5v6n8F7OQ6FzJ8V/RSExmzP1JcSHu+fpZC4I3lysHYS7v3nQIzj
- yLYL/U1z2/1yj10DVKUpcozEaA9OBoZa9a09xbk1anP/UVTMw0DGnR0v/GqbrjP4d6KDo5
- nEbLWMTQ1Ck85oSlgQkqsMHhMzmFj8o=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-370-VpDLYIlYPh6xjLo8EZgU8Q-1; Tue, 15 Nov 2022 15:06:40 -0500
-X-MC-Unique: VpDLYIlYPh6xjLo8EZgU8Q-1
-Received: by mail-qv1-f72.google.com with SMTP id
- do17-20020a056214097100b004c6183e6ce4so9697213qvb.11
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 12:06:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=v31ltKFzqAUneYBsE3bYMw79yZCJ5MhRDD9m7YOii30=;
- b=HTojtY/cFToZr+Yozt6XDuOV+LbphZh22h/9ojx+zMHx4KKfEmTtqSxy4RF30VpfXn
- uQjHAd6a309AaEtV05T6F+jUuFf5tVt3ltNIbdiaBA+19SUs60JQlfBW+5pihVAZF4N/
- UdO4zCQ1KeHLEPaMHhyhkD4rCRQ+UcRsXvz0F90ekQE8MgwtpcvgkwDUAmStUvvBNSrA
- Tmf3Icbor32cY/95YMf7HVSKoCXpFj/medO2ICnDpA5K9yv6iIR0nTgOCgmJgDcPOfN9
- pw0Z5M3WTXF5pbXz6roi1N6UQHZ26Bjlc0LtpV8tleb5fuwP8MG2jAtEtGFmHuJMbkwe
- I4cA==
-X-Gm-Message-State: ANoB5plxkqCm/qgvmwXRaavgz/uDEFn7bPUiYnQpyqmzghn2hv/LUcXd
- SSXQ/fhfG1ZbsOU2VHMWHvEEE7sDBSMve0qjp/eQUItFwYBFmHJ+ItpzSIofOegcYc1IHfcCRup
- whqyu/zWPuXdEzQ0=
-X-Received: by 2002:a05:620a:4449:b0:6fa:d2f3:76fc with SMTP id
- w9-20020a05620a444900b006fad2f376fcmr16461864qkp.252.1668542800320; 
- Tue, 15 Nov 2022 12:06:40 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4SYiVDeTaQILJRb39J5iz6I8lIZbtckdEfDRVVJicObflHWPsmvXPEPhKgokSkLxyNA9VnEw==
-X-Received: by 2002:a05:620a:4449:b0:6fa:d2f3:76fc with SMTP id
- w9-20020a05620a444900b006fad2f376fcmr16461851qkp.252.1668542800081; 
- Tue, 15 Nov 2022 12:06:40 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- y11-20020a05620a25cb00b006ef1a8f1b81sm8842578qko.5.2022.11.15.12.06.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Nov 2022 12:06:39 -0800 (PST)
-Date: Tue, 15 Nov 2022 15:06:38 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com
-Subject: Re: [PATCH v2] migration: check magic value for deciding the mapping
- of channels
-Message-ID: <Y3PxTgrkU96ir000@x1n>
-References: <20221107165159.49534-1-manish.mishra@nutanix.com>
- <Y3POFd+LFuxW8w21@x1n>
- <a027006d-48f7-4d8d-465a-a726bbdc6fbf@nutanix.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1ov2Ef-00006b-1I; Tue, 15 Nov 2022 15:08:46 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id C64B8320090B;
+ Tue, 15 Nov 2022 15:08:41 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 15 Nov 2022 15:08:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1668542921; x=
+ 1668629321; bh=91RTlUlBAcBpsLSH9w39LnCZGBo5dAZ1yTkneUGdJnY=; b=A
+ 0U4H/Py6QAmtu93JF7G4jU4UjxnlrVlDhmMqNki+YS84SKVSnd9P8iZgABAOY5CP
+ tQ2j7E6U2E1uGo+DvLsojlhUtWs/IeIIdI1hKJGUrG5EmxNWbQEEQZWVBb4/aZkG
+ QM4P90o2fKWrc8ioTIj5iGJPcnzGc4QTXSRudI8omsXhVQM6hsbZHSiFWCs5GRuK
+ drQFuqgiNT3DY9SMmzgYC5DX9GVUmgyn3HuWCTpDESytGTmM0dnUliPGUXHj9k0M
+ 4xLWFQrsIASKZlzl+Smg/pvIi+JZ7E27DCo+Pej4AJqAcQXCVxOZPjc8e4iGYhJm
+ lwa8bKdkraIWESrRED2qg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668542921; x=
+ 1668629321; bh=91RTlUlBAcBpsLSH9w39LnCZGBo5dAZ1yTkneUGdJnY=; b=S
+ ync1QQoQWwcvL0icS/OJ3pFTrkeIX+VSNuNohMQ5woZOQBDZtYXLXPckehvkj2kM
+ E6bbJm8tuzstAgC6+XYWcaRJVcN6fyNvT1MqPr73+ye42dgvzkE5ZjkkanMbHI4W
+ SL57pSqgLaU4sHEbtAXXgARxyrRL1K6opz3U0q9Cmrx7rsPGlVMj0RcsqcStCXOD
+ 4GAxqBWuWJlEovB3qzoBKyHZSrF03wGsbHHIew5vl1/8A5zPH0veGZZXDkiszsM7
+ VsGFU5D08XUvj7aLM0PIiCsUg90Mk3tYAlfPgVkbQW86ABU5wn21ji5hhhZyc5q+
+ 98XYl3K4WkNRMm/w0sj0A==
+X-ME-Sender: <xms:yfFzY3iJZ7hyCYOI0lde0Zy2190yUMDjPCPTBoN-eJd7xfjCFDzjSg>
+ <xme:yfFzY0B0LZyZroVVCSyhPCYBOjQognZ8vliMHG8dg0A1K47QXPZ8Y0X3pQzBJtUuV
+ keBUMVi2ZvDEx21Sxw>
+X-ME-Received: <xmr:yfFzY3FXLPj4uav9ZAiJcj45gL5jLLANmP46IvXY9Rqbae7n6znvnDdTGwUz0cp_TIPeeabXeDto>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddufeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpefhgeffvedufeevteegkeetieejhffhudeujedvgedvheffheejveethffh
+ ffefueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:yfFzY0QtgGBgGUq7QBeXx53MsX_FBPeE2aSiWV9OFHqNhmpaPVgbLA>
+ <xmx:yfFzY0wiMi49jcZnqQWMPV7nC2KqskaOO5dTlznYHoBVLeq1V8becw>
+ <xmx:yfFzY65-H71HvVFuuf31cy1RNP0sKpWCMt2kFnfZ2uQATkFjMBq3EA>
+ <xmx:yfFzY3yO3KEcnWCm1J8ix8ee4WU8_m_RWDDI5pFG96myj4ykSW4igA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Nov 2022 15:08:40 -0500 (EST)
+Date: Tue, 15 Nov 2022 12:08:38 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size does
+ not match the device
+Message-ID: <Y3Pxxh3IeNg0GF/q@pdel-fedora-MJ0HJWH9>
+References: <20221115151000.2080833-1-clg@kaod.org>
+ <c0f160c6-b0db-e518-bd9f-0328ddaa9278@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <a027006d-48f7-4d8d-465a-a726bbdc6fbf@nutanix.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c0f160c6-b0db-e518-bd9f-0328ddaa9278@linaro.org>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=peter@pjd.dev;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,33 +107,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 11:29:13PM +0530, manish.mishra wrote:
-> > > +   while (bytes < nbytes) {
-> > > +       bytes = klass->io_read_peek(ioc,
-> > > +                                   buf,
-> > > +                                   nbytes,
-> > > +                                   errp);
-> > IIUC here you need to accumulate bytes rather than directly reusing it, so
-> > e.g. two reads on 2 bytes each will satisfy a 4 bytes read.
+On Tue, Nov 15, 2022 at 04:50:11PM +0100, Philippe Mathieu-Daudé wrote:
+> On 15/11/22 16:10, Cédric Le Goater wrote:
+> > Currently, when a block backend is attached to a m25p80 device and the
+> > associated file size does not match the flash model, QEMU complains
+> > with the error message "failed to read the initial flash content".
+> > This is confusing for the user.
+> > 
+> > Use blk_check_size_and_read_all() instead of blk_pread() to improve
+> > the reported error.
+> > 
+> > Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> > ---
+> >   hw/block/m25p80.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Actually peek always reads from top so even if there are multile reads it
-> does not accumulate.
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
 
-Fair enough.
+Thanks Cedric!
 
-[...]
-
-> Thank you Peter for review. I see this patch is included by Juan too in
-> some other patch series of 30 patches, so how it will work. Do i need to
-> send a independent V3 for this? Or it should be reviewed in that series.
-
-From what I see right now, feel free to rework on new versions.  Please
-also consider copying Dave (dgilbert@redhat.com) and Leonardo
-(lsoaresp@redhat.com) on future posts.
-
-Thanks,
-
--- 
-Peter Xu
-
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 
