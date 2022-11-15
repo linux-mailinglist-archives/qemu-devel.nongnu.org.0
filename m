@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C39962967E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 11:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93DFC629697
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:01:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1outbb-0000Kd-U1; Tue, 15 Nov 2022 05:55:51 -0500
+	id 1outgM-0002CX-0r; Tue, 15 Nov 2022 06:00:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1outbX-0000KN-AK
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:55:48 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1outgJ-0002BI-FV
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:00:43 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1outbV-0007FP-TL
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 05:55:47 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id b11so12993343pjp.2
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 02:55:43 -0800 (PST)
+ id 1outgH-0007z5-EL
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:00:43 -0500
+Received: by mail-pf1-x435.google.com with SMTP id 130so13772815pfu.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 03:00:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ilae6EJHd0JOvbCn47mo6j+e1JeeTiYhirJZLywve7s=;
- b=ibOjyYOf/6Z6YiAHLqrACa/hnd+kBMNsqJdLzTPPqvio4IYtXr/QCpxkUEhcpkZLnB
- qKzVR4nVuY7b06J6jU6S5sK0knEFEkaqNCm/+VLhDeGYZw8wDiyj4gsVxZ7vyMLcxG1P
- BpvPVCjmQKk+oOhw9ki90IFafCImh/uU6CtdYSRyWGvaCmS7Yx0mR9kQeUtnyBz25xsE
- isg6rWO4WbgIY4Bejzk8Mjw8Hd3CA43aKuRDgzbd0/gAbcaTWIzmXJUcfZzWaMqa6VAD
- OSiyv27mIQORLVCfL/CBCcmQj/1OJjll5bSDtWIWKEoKI/A6L0sTtJS3/cRpDxFMl/uE
- Mb5A==
+ bh=9QqjCk2L+nj7eIZ356yG8jgjIu0kGvUmz8Q+GD6hdHs=;
+ b=tqRGH3piQSSnGs1iqO6uJnSWeUfMbJVKDxTgC+nRaFT40Eh4+QkaYU2anfwoYqthW0
+ ZUIb9C+kkLDjUWAXyCX/Ej2FgA4sSTQ8XKICdB0wcBjbxChPanM11NE1YlAt2QpiJmyw
+ qsGQppxO1Z7XjPdqF5nnXqzXlFmIW/d1OrJGZ7RF+BAvPjvfVVCTwgYdatkVyaic/P13
+ pW4JcGIPJ8xxGZKqD0gCMM/VDvyzC25AB1M9QCUQFJuvE2zcbBwfv8ttQc/0Sv7xSpWw
+ uFDJ+EdUllNHbAP6BCri9wJCnt1QOjm6tpgaUrqzgwC8Or29hCS+MNpGIHoCqTE5pJV4
+ 4Ffg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ilae6EJHd0JOvbCn47mo6j+e1JeeTiYhirJZLywve7s=;
- b=fpEkOKnHU5QjYlgS8Rxkev1iSt+iK7XWioDYZ8dpvamen+filYi3KdQAI8O27Kd/7P
- Gdlj1jo03Pzo9MbiPuve5uTv7xDI8KHHVh3DvLbXO0XI5OBYKeDhBPVbwCAigYqlWY/x
- yXF5UzbRA5mRrYlhacqYpRyZAXFKnR/UiiyuZ2By3SvTGJy3DzeYkvyfq/z5O5oIScbw
- znT3K/WSV2c3Ohx9WiMVXHQKxu4CBZBijKdWBqV+YMtlK/bky5bh3rS3ud54eCROnhJ9
- WIiK+2Rpm0fplFA1CV42C+u2Jx7o/F7LuMbzsJ/pwWB2tuZcBi+yRDUSnuaswPEALByy
- +1IA==
-X-Gm-Message-State: ANoB5pnY7h/OGogfjMdCSsz804HQKYs8E4kq0RWRyFtHISvhOJVZxkr/
- t2jHtKdwRvOpiiGJcYjt7sH/ppApySr/jfwmjxTcAA==
-X-Google-Smtp-Source: AA0mqf6Q0rwE93N3Re+laxjhnoDhaVF1soYKMz5Sl6WF6DYBtDLiGp9wDUO8mBz2ZPOYLtBQks11lXGUNo90bIZWVZY=
-X-Received: by 2002:a17:90a:bd0a:b0:212:f169:140e with SMTP id
- y10-20020a17090abd0a00b00212f169140emr1552924pjr.215.1668509742804; Tue, 15
- Nov 2022 02:55:42 -0800 (PST)
+ bh=9QqjCk2L+nj7eIZ356yG8jgjIu0kGvUmz8Q+GD6hdHs=;
+ b=xg8pe1PPpH3GWa7gWnf6Kn2jqgOAVf29W8KkuZe66Wk3AwVwVLfOYUs4AuPiXvKgzn
+ qCdbG/JW6KMpECsvPUPj+sV8ikP9hpMh1UKx762LIrKQvQAvPkgUp6dspj2o4KLKRDh7
+ XQDK96HKdCjciGn2UFAhY+w3aZh51qEczONJm08deDxgAOokvUTDE6MuIpqjmkzcufZB
+ 5jZ9PUgCTRbcZUnOQcFjTZwovZsVX7NeMIDfr/Ri3FW0vpmJs3rkIbCVt62DfmSKhGh8
+ IrPujZbG5AGRDetmPj1yARfCG2YN1MaVQDArtMN8Y4+vs6s2SAISjoVnoS0IfNHXDbAN
+ MbjA==
+X-Gm-Message-State: ANoB5pk1cQICddmlnl/QNC1ENNtZrvuz2jsmy7PhKs+BtN+2T7ARvFZK
+ h3iND0gU+JRbb77cDR8gG3J6d9AkAfjvuyGblKQ6rQ==
+X-Google-Smtp-Source: AA0mqf67y6qMTyrEPFMJ/fcEG6gi0NYymUeV56EBJ5tbKSY2jGdDjLIAl4SzpuzQP39201t22YksB25hcHYLGBn9adQ=
+X-Received: by 2002:a63:1665:0:b0:426:9c23:9f94 with SMTP id
+ 37-20020a631665000000b004269c239f94mr15364821pgw.105.1668510039749; Tue, 15
+ Nov 2022 03:00:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115071935.1020799-1-sw@weilnetz.de>
-In-Reply-To: <20221115071935.1020799-1-sw@weilnetz.de>
+References: <20221113200942.18882-1-mjt@msgid.tls.msk.ru>
+ <CAFEAcA_aGiukDWQBAjj=Ln_u02wEbMNxOsHRZcBOm+jOz6HU2Q@mail.gmail.com>
+ <ba8aee1e-4b53-4c28-d77d-41782b56a5e0@msgid.tls.msk.ru>
+In-Reply-To: <ba8aee1e-4b53-4c28-d77d-41782b56a5e0@msgid.tls.msk.ru>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Nov 2022 10:55:30 +0000
-Message-ID: <CAFEAcA_SHaP-pPLEA_RKaF9L-9gdyG-XZ+hDuzDEKVqPQ1fbaA@mail.gmail.com>
-Subject: Re: [PATCH for-7.2] Add G_GNUC_PRINTF to function qemu_set_info_str
- and fix related issues
-To: Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+Date: Tue, 15 Nov 2022 11:00:28 +0000
+Message-ID: <CAFEAcA9z564UNPqaMyuAemp_ctmh6eTZbSi5zR6w46Ndkq4u3Q@mail.gmail.com>
+Subject: Re: [PATCH v2] capstone: use <capstone/capstone.h> instead of
+ <capstone.h>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ "Daniel P. Berrange" <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,31 +87,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 15 Nov 2022 at 07:20, Stefan Weil via <qemu-devel@nongnu.org> wrote:
+On Tue, 15 Nov 2022 at 09:25, Michael Tokarev <mjt@tls.msk.ru> wrote:
 >
-> With the G_GNUC_PRINTF function attribute the compiler detects
-> two potential insecure format strings:
+> 14.11.2022 14:59, Peter Maydell wrote:
+> ..
+> > We can do something like
+> >
+> > config_host_data.set('HAVE_CAPSTONE_CAPSTONE_H',
+> > cc.has_header('capstone/capstone.h', depedencies: [capstone])
 >
-> ../../../net/stream.c:248:31: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
->     qemu_set_info_str(&s->nc, uri);
->                               ^~~
-> ../../../net/stream.c:322:31: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
->     qemu_set_info_str(&s->nc, uri);
->                               ^~~
->
-> There are also two other warnings:
->
-> ../../../net/socket.c:182:35: warning: zero-length gnu_printf format string [-Wformat-zero-length]
->   182 |         qemu_set_info_str(&s->nc, "");
->       |                                   ^~
-> ../../../net/stream.c:170:35: warning: zero-length gnu_printf format string [-Wformat-zero-length]
->   170 |         qemu_set_info_str(&s->nc, "");
->
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
+> This doesn't work, because has_header does not have "dependencies"
+> argument.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+That's odd, the Meson documentation says it does:
 
-thanks
+https://mesonbuild.com/Reference-manual_returned_compiler.html#compilerhas_header
+
+"dependencies dep | list[dep]
+ Additionally dependencies required for compiling and / or linking."
+and it's not marked with a "since version xxx" tag...
+
 -- PMM
 
