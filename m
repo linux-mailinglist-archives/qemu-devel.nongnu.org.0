@@ -2,83 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720E0629799
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:39:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADE662979E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 12:39:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouuGN-0003gH-Ud; Tue, 15 Nov 2022 06:38:00 -0500
+	id 1ouuHA-0004Q7-UH; Tue, 15 Nov 2022 06:38:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouuGH-0003dw-2F
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:37:54 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouuGF-0006wI-54
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:37:52 -0500
-Received: by mail-ed1-x535.google.com with SMTP id i21so21451450edj.10
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 03:37:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UGd9AR2ra5VOSNrKQ4PCvDdPIDeHM4zy5g18m02XjWY=;
- b=V8lROYTN3SOZ4Y1pWLKkIc6zZ6b/cK43EW55eRRoqqivM1PvlWIGGbrSB/LSXwGtTy
- 5HlANkA4LajjDVrku01a9qcVxShQRPK6BD5W3kRcpMh0p2aDKi3VFW8bv+YTkQdcHBG2
- JL0aDsQuG4j+CbR57ufSYFITa/SFgteumUzFmCEFXbCwh+zqOnmZW/RlE3mLxtPMK2e9
- 0j9IGTFCIZJJ4X5Rr9od/suW5tDaqo8EMMGS0fuWI6lWaN0HCq/uFQvE94jMBRGQbwmH
- FqlgR1OJnj4xaezRwfctO0ZKykoi9eK3Uvzbn1mQt0tkhtk8oN81asjdLqexoIHYrMcP
- wSEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UGd9AR2ra5VOSNrKQ4PCvDdPIDeHM4zy5g18m02XjWY=;
- b=BtjzjgD7/1+/zWO2nfCT8twsVatCmSoH+ZcuyfOclOfF87vBMwbCptS0bDFF2ysuJ6
- /3KCp8mh4x5JxBE+046m+9MUkWpi4BUQe4x6olWjz4p47zYVjZmMGRsjes4zLg+HWVvX
- G9pI1g4OYk2q4pSFSPsJT0WADW4p27uMaFFdtJ7WHrNDC7/UHMDWMCdCDEy9dsXSLNBw
- W4uVftDEteh5ZX6XIEtBPGY16NHW83fA5Zee9eT9mritzr4QTxcveFwLl3mV5VukOQ+8
- CD3VIIkUev88/Dfe06Mm4Ls3zTCnh0txUgG12yIV0Yf9iLb7vrWRnTb4fRYVTGY7ZUDP
- 3KaQ==
-X-Gm-Message-State: ANoB5pm5HmcvPFWCl8YWA/NUvT36X3/M8W+EBwmCqS6jsH2Z3oa/bNNP
- 57bGLd4nU70NVCNRJe+0fvpbNQ==
-X-Google-Smtp-Source: AA0mqf66JqkBKUxfDlsacQQEaTXUENplOMj+JkocOvS4Kw1nVZFCfQ/SABiPT0JyNQDsSGJ/ExsbcQ==
-X-Received: by 2002:a05:6402:380c:b0:467:481e:9e2 with SMTP id
- es12-20020a056402380c00b00467481e09e2mr14810882edb.352.1668512269517; 
- Tue, 15 Nov 2022 03:37:49 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- e15-20020a170906314f00b007aea50205a0sm5345759eje.187.2022.11.15.03.37.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 03:37:47 -0800 (PST)
-Message-ID: <e1da1500-f8c7-48ec-52bb-d3ac49d07a4e@linaro.org>
-Date: Tue, 15 Nov 2022 12:37:45 +0100
+ (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
+ id 1ouuH6-0004Nt-3k
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:38:46 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
+ id 1ouuH4-00071i-6W
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 06:38:43 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 822635C0120;
+ Tue, 15 Nov 2022 06:38:41 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 15 Nov 2022 06:38:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ invisiblethingslab.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1668512321; x=
+ 1668598721; bh=Jxo4IkBy5DIaegqe/RAVUhtnEdJPJXh23XEzegecNQs=; b=l
+ 5QT+DF59k9EAsNiskPsQEF486fgMzxSC7HHmyllCU+VhwfxJ/VRLHQJ3BH+7LST/
+ vXmJ0R5moNCc4PCUBkSgDDcFARE08NuzmCOrbp0ljqhPi7JmQwUmvC+DYS3eNicN
+ NvQOadz2LdwfmhJ+D/qJphr3OH1kXcUUJk+/ns5qzECsSJr16cKmrvaAL4uagabH
+ uekJSpO5Pfebox/y9XLK6mz3aDwl7N/zNHBlukthb2IF8JViNsQXifemNPv5Livu
+ feagrwn2L3Y7aEaXeHMft1gFfUOEGLo10Ww0QAlz4DCtJJ2hqNSNRYczvVhMp4x9
+ 84m0duEcVOoBKVy2XY9wA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668512321; x=1668598721; bh=Jxo4IkBy5DIaegqe/RAVUhtnEdJP
+ JXh23XEzegecNQs=; b=sl/OykJkqXee2YpcNCgxo6NH1+bjCJIbqkW6Jj57hB1C
+ 6QMPRsJ3psw+zXdCdFn3x/Tx4ox+Ew6A8hAbPpjNNrgV0AOoPZ22Q5arj3f8jQ9U
+ +VZi27xpgEFFt4LZAtk8YYH0sLzjqT+jY0PrAfW8Odl6W6sIXOaxmh/3OUsHf2vW
+ jiStlqkEg1c8ZOR9vXJxfobqGFZPvUbeY6OP+MRmnImTTa7uInvqqTMwnI048xkc
+ DqVgFyMp66asHbFlo0jDP9Q+EZgPuZeQyi32YKq3P2YW8wdbkIk7+giGguy+a6fL
+ yhUwyPrOrCA9mtx7dOGAbulgrXdpZd+1h2NXh+DW1Q==
+X-ME-Sender: <xms:QXpzY_EGxQF0AhqQZ-M5akQbCVQOWMLmpeV9hD1MHs6pZCjBbfijSg>
+ <xme:QXpzY8WWQnElLB0GEgAfnATjPmnbFbx_k9cKWOfEaLMfdolJpAqB7DeriKBnDpzp1
+ I_9wwjtqKe1rw>
+X-ME-Received: <xmr:QXpzYxKIy9dDoRFCXIhMsjwTVjuUMIs7eepO28AdlUIJin14AKXNv5DnqAfbnJfWagg-akiyUmUPahB0EdtEuYxDXxtBm-piAQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdefudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforghrvghk
+ ucforghrtgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrghrmhgrrhgvkhesihhnvh
+ hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpefgudel
+ teefvefhfeehieetleeihfejhfeludevteetkeevtedtvdegueetfeejudenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrghrmhgrrhgvkhes
+ ihhnvhhishhisghlvghthhhinhhgshhlrggsrdgtohhm
+X-ME-Proxy: <xmx:QXpzY9GHZA8PsOe_rspROjh9iFyLtp2lGUY_izfCfST9ckhE2Wq9nQ>
+ <xmx:QXpzY1Vew46dJ-_0UiACnJU_PMxRacU-aznWtNHT9weVgPPHCaMdyA>
+ <xmx:QXpzY4MkMn12Ogvay_NhlJ76z-e7bRz68vNL_H9vj1Mba9_BvqyhMQ>
+ <xmx:QXpzY4R3u9GMz-GvUaAlJ_fiY8J6LIG2gAYbCgNHHKJILSgDAfawgQ>
+Feedback-ID: i1568416f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Nov 2022 06:38:40 -0500 (EST)
+Date: Tue, 15 Nov 2022 12:38:37 +0100
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
+To: Jan Beulich <jbeulich@suse.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] Do not access /dev/mem in MSI-X PCI passthrough on Xen
+Message-ID: <Y3N6PZN0AnldeQdQ@mail-itl>
+References: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
+ <20221114192011.1539233-2-marmarek@invisiblethingslab.com>
+ <dc3472e9-d73e-9540-deb2-b47a527000a2@suse.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v4 4/7] target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, tobias.roehmel@rwth-aachen.de,
- Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20221023153659.121138-1-tobias.roehmel@rwth-aachen.de>
- <20221023153659.121138-5-tobias.roehmel@rwth-aachen.de>
- <CAFEAcA-kCEySTWUGXwqA=aw4E+TBjbUaewsLe5ExtXj0xja0Vg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAFEAcA-kCEySTWUGXwqA=aw4E+TBjbUaewsLe5ExtXj0xja0Vg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fP+2vUV7w+NDnUJ4"
+Content-Disposition: inline
+In-Reply-To: <dc3472e9-d73e-9540-deb2-b47a527000a2@suse.com>
+Received-SPF: none client-ip=66.111.4.26;
+ envelope-from=marmarek@invisiblethingslab.com;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,55 +109,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/11/22 18:19, Peter Maydell wrote:
-> On Sun, 23 Oct 2022 at 16:37, <tobias.roehmel@rwth-aachen.de> wrote:
->>
->> From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
->>
->> ARMv8-R AArch32 CPUs behave as if TTBCR.EAE is always 1 even
->> tough they don't have the TTBCR register.
->> See ARM Architecture Reference Manual Supplement - ARMv8, for the ARMv8-R
->> AArch32 architecture profile Version:A.c section C1.2.
->>
->> Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
->> ---
->>   target/arm/debug_helper.c | 3 +++
->>   target/arm/internals.h    | 4 ++++
->>   target/arm/tlb_helper.c   | 3 +++
->>   3 files changed, 10 insertions(+)
->>
->> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
->> index c21739242c..73665f988b 100644
->> --- a/target/arm/debug_helper.c
->> +++ b/target/arm/debug_helper.c
->> @@ -437,6 +437,9 @@ static uint32_t arm_debug_exception_fsr(CPUARMState *env)
->>
->>       if (target_el == 2 || arm_el_is_aa64(env, target_el)) {
->>           using_lpae = true;
->> +    } else if (arm_feature(env, ARM_FEATURE_PMSA)
->> +            && arm_feature(env, ARM_FEATURE_V8)) {
-> 
-> Indentation looks wrong here. Generally the second line of a
-> multiline if (...) condition starts in the column after the '(',
-> so it lines up with the first part of the condition.
-> 
->> +        using_lpae = true;
->>       } else {
->>           if (arm_feature(env, ARM_FEATURE_LPAE) &&
->>               (env->cp15.tcr_el[target_el] & TTBCR_EAE)) {
-> 
-> For instance this is an example in the existing code.
-> 
-> We are inconsistent about whether we put operators like '&&' at
-> the end of the first line or beginning of the second line, so
-> pick whichever you like best, I guess.
-Personally I find the operator at the end aesthetically nicer, but
-few years ago Eric Blake reasoned that moving it at the beginning
-was more explicit (to reviewers) thus safer, and I now I tend to
-place it at the beginning.
-Maybe part of the justification was cases where copy/pasting new
-conditions in pre-existing could introduce a bug when the operator
-is at the end?
 
-+Eric/Daniel who usually give such good style advises :)
+--fP+2vUV7w+NDnUJ4
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Nov 2022 12:38:37 +0100
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+To: Jan Beulich <jbeulich@suse.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+	Anthony Perard <anthony.perard@citrix.com>,
+	Paul Durrant <paul@xen.org>,
+	"open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+	qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] Do not access /dev/mem in MSI-X PCI passthrough on
+ Xen
+
+On Tue, Nov 15, 2022 at 09:14:07AM +0100, Jan Beulich wrote:
+> On 14.11.2022 20:20, Marek Marczykowski-G=C3=B3recki wrote:
+> > The /dev/mem is used for two purposes:
+> >  - reading PCI_MSIX_ENTRY_CTRL_MASKBIT
+> >  - reading Pending Bit Array (PBA)
+> >=20
+> > The first one was originally done because when Xen did not send all
+> > vector ctrl writes to the device model, so QEMU might have outdated old
+> > register value. This has been changed in Xen, so QEMU can now use its
+> > cached value of the register instead.
+> >=20
+> > The Pending Bit Array (PBA) handling is for the case where it lives on
+> > the same page as the MSI-X table itself. Xen has been extended to handle
+> > this case too (as well as other registers that may live on those pages),
+> > so QEMU handling is not necessary anymore.
+>=20
+> Don't you need to check for new enough Xen for both aspects?
+
+Yes, see my response to Andrew in the thread. I'm open for suggestions
+what to check specifically (Xen version directly?).=20
+
+--=20
+Best Regards,
+Marek Marczykowski-G=C3=B3recki
+Invisible Things Lab
+
+--fP+2vUV7w+NDnUJ4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmNzej0ACgkQ24/THMrX
+1ywIwQf/UFUun8P7OUjaX2Ec/IHmNYzkkRwq3iQjfLPLZBwaFQQptqOqE4wf6XLq
+YaBlINhTIW4WnYziauBQnANTna4e2guNyungBS+ELjXqziZJ0vY/yMtg0/Z0Ajy0
+cGg9Rt6swEvK8GBqAo21juYlZcOgtq7LvisGWh2mRb6+xnT1m6Iiq9UurGomHIwk
+m8F5Q5dqV7gu3zS4C3AxaqHdttR1YcNmnpa5GrZYWt2MVpJ6LRChAKXRUXhlsqGP
+180DHGlF5vVobPqMIOL9SBewp1X+kK0Qy9fN06hG+CAGvreZjBIVLMr7XmoGUQhG
+mZ1tumxTGC3+T/b4l3C814kUOSnA/w==
+=UW15
+-----END PGP SIGNATURE-----
+
+--fP+2vUV7w+NDnUJ4--
 
