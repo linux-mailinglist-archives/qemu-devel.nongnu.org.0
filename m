@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329406292C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 08:54:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024966292CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 08:57:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouqln-0000Rr-9R; Tue, 15 Nov 2022 02:54:11 -0500
+	id 1ouqoi-0001aW-2j; Tue, 15 Nov 2022 02:57:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouqlO-0000RH-Ah
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 02:53:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1ouqoe-0001aF-4h
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 02:57:08 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouqlM-00040O-Qu
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 02:53:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668498822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JTlm0oXYFlORn4gYuJM6c7Tb1hIYFjULgTZQkrjiQvs=;
- b=CjLv9TerspwFheAR1IL+h9SAZn4+S/5IMIVbSUZLgP6IW1o7aGF5y/AqiX3BkGH1WJ3iOn
- ljBoDmbm7MQMEun9phmGKMDdX7ADDdgTTPKjR4B9yO+pZYDg1rGaLJpayNkFkuTJf50238
- 0iv6QnbjDilxbljrIxz5jabBBhOqsQo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-wpvmBZdbNXiaSN9eRvAs6Q-1; Tue, 15 Nov 2022 02:53:38 -0500
-X-MC-Unique: wpvmBZdbNXiaSN9eRvAs6Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 080D6185A794;
- Tue, 15 Nov 2022 07:53:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C897D2166B41;
- Tue, 15 Nov 2022 07:53:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AD5A621E6921; Tue, 15 Nov 2022 08:53:34 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,  qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org,  Matthew Rosato <mjrosato@linux.ibm.com>,  Tony
- Krowiak <akrowiak@linux.ibm.com>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v2] util/qemu-config: Fix "query-command-line-options"
- to provide the right values
-References: <20221111141323.246267-1-thuth@redhat.com>
- <875yflbl0u.fsf@pond.sub.org>
- <b8c5f7c4-cf91-1278-1af4-9449b2043e13@redhat.com>
-Date: Tue, 15 Nov 2022 08:53:34 +0100
-In-Reply-To: <b8c5f7c4-cf91-1278-1af4-9449b2043e13@redhat.com> (Thomas Huth's
- message of "Fri, 11 Nov 2022 17:36:18 +0100")
-Message-ID: <87leocwt4x.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1ouqob-0004aH-Rn
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 02:57:07 -0500
+Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NBJQz5M5Rz15Mfv;
+ Tue, 15 Nov 2022 15:56:27 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 15:56:14 +0800
+Subject: Re: [PATCH] KVM: Add system call KVM_VERIFY_MSI to verify MSI vector
+To: Marc Zyngier <maz@kernel.org>
+References: <1667894937-175291-1-git-send-email-chenxiang66@hisilicon.com>
+ <86wn85pq8f.wl-maz@kernel.org>
+ <a55310da-2ed3-f837-71c2-d09764f83538@hisilicon.com>
+ <86r0ybp0h1.wl-maz@kernel.org>
+CC: <alex.williamson@redhat.com>, <kvm@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <linuxarm@huawei.com>
+Message-ID: <743db0b1-bd20-ac4e-3a2c-c7a617acf8c7@hisilicon.com>
+Date: Tue, 15 Nov 2022 15:56:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <86r0ybp0h1.wl-maz@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500016.china.huawei.com (7.221.188.220)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,48 +65,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
+From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> writes:
+Hi Marc,
 
-> On 11/11/2022 15.53, Markus Armbruster wrote:
->> Thomas Huth <thuth@redhat.com> writes:
->> 
->>> The "query-command-line-options" command uses a hand-crafted list
->>> of options that should be returned for the "machine" parameter.
->>> This is pretty much out of sync with reality, for example settings
->>> like "kvm_shadow_mem" or "accel" are not parameters for the machine
->>> anymore. Also, there is no distinction between the targets here, so
->>> e.g. the s390x-specific values like "loadparm" in this list also
->>> show up with the other targets like x86_64.
+
+在 2022/11/10 18:28, Marc Zyngier 写道:
+> On Wed, 09 Nov 2022 06:21:18 +0000,
+> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+>> Hi Marc,
+>>
+>>
+>> 在 2022/11/8 20:47, Marc Zyngier 写道:
+>>> On Tue, 08 Nov 2022 08:08:57 +0000,
+>>> chenxiang <chenxiang66@hisilicon.com> wrote:
+>>>> From: Xiang Chen <chenxiang66@hisilicon.com>
+>>>>
+>>>> Currently the numbers of MSI vectors come from register PCI_MSI_FLAGS
+>>>> which should be power-of-2, but in some scenaries it is not the same as
+>>>> the number that driver requires in guest, for example, a PCI driver wants
+>>>> to allocate 6 MSI vecotrs in guest, but as the limitation, it will allocate
+>>>> 8 MSI vectors. So it requires 8 MSI vectors in qemu while the driver in
+>>>> guest only wants to allocate 6 MSI vectors.
+>>>>
+>>>> When GICv4.1 is enabled, we can see some exception print as following for
+>>>> above scenaro:
+>>>> vfio-pci 0000:3a:00.1: irq bypass producer (token 000000008f08224d) registration fails:66311
+>>>>
+>>>> In order to verify whether a MSI vector is valid, add KVM_VERIFY_MSI to do
+>>>> that. If there is a mapping, return 0, otherwise return negative value.
+>>>>
+>>>> This is the kernel part of adding system call KVM_VERIFY_MSI.
+>>> Exposing something that is an internal implementation detail to
+>>> userspace feels like the absolute wrong way to solve this issue.
 >>>
->>> Let's fix this now by geting rid of the hand-crafted list and by
->>> querying the properties of the machine classes instead to assemble
->>> the list.
->> Do we know what uses this command, and how these users are
->> inconvenienced by the flaw you're fixing?
->> I'm asking because the command is pretty much out of sync with reality
->> by (mis-)design.
+>>> Can you please characterise the issue you're having? Is it that vfio
+>>> tries to enable an interrupt for which there is no virtual ITS
+>>> mapping? Shouldn't we instead try and manage this in the kernel?
+>> Before i reported the issue to community, you gave a suggestion about
+>> the issue, but not sure whether i misundertood your meaning.
+>> You can refer to the link for more details about the issue.
+>> https://lkml.kernel.org/lkml/87cze9lcut.wl-maz@kernel.org/T/
+> Right. It would have been helpful to mention this earlier. Anyway, I
+> would really like this to be done without involving userspace at all.
 >
-> libvirt apparently queries this data (see the various tests/qemucapabilitiesdata/*.replies files in their repository), but since 
-> it's so much out-of-sync with reality, it's not of a big use there yet.
->
-> See for example here:
->
-> https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00581.html
->
-> If we finally fix this problem with "query-command-line-options" in QEMU, it should be much easier to deprecate -no-hpet in QEMU, too.
+> But first, can you please confirm that the VM works as expected
+> despite the message?
+Yes, it works well except the message.
 
-For a value of "fix".  While we can fix certain concrete issues with
-q-c-l-o, which may be wortwhile, the overarching issue is (in my
-opinion) unfixable: it can only tell us about QemuOpts.
+> If that's the case, we only need to handle the
+> case where this is a multi-MSI setup, and I think this can be done in
+> VFIO, without involving userspace.
 
-QemuOpts is only part of the truth.  Last time I checked, it worked for
-one out of five CLI options.
+It seems we can verify every kvm_msi for multi-MSI setup in function 
+vfio_pci_set_msi_trigger().
+If it is a invalid MSI vector, then we can decrease the numer of MSI 
+vectors before  calling vfio_msi_set_block().
 
-Moreover, our needs have long outgrown QemuOpts' design limitations,
-which has led to a bunch of bolted-on hacks, none of them represented in
-q-c-l-o.
+>
+> Thanks,
+>
+> 	M.
+>
 
 
