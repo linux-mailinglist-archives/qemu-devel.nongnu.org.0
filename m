@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED256298C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 13:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B0862984D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 13:14:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouuob-0004DG-Jy; Tue, 15 Nov 2022 07:13:21 -0500
+	id 1ouuoc-0004Eg-BV; Tue, 15 Nov 2022 07:13:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouuoU-000460-Co
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:13:17 -0500
+ id 1ouuoY-00048o-8l
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:13:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouuoS-0004cy-Ue
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:13:14 -0500
+ id 1ouuoW-0004do-EZ
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:13:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668514392;
+ s=mimecast20190719; t=1668514395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8sTZ2tLPTwfI8PVRQNhye5uLdMdQcsdyAavf636xeAI=;
- b=E3oFS/X4rohgISzyTZ8AhlWUM0QN4Qj1TilZEFkGIOjYOz/XCd4jSWXoAORFjAU8+TFSLP
- Wu7Uakz49iRwltsFVKao4ODhuMpFVCnaGOvStY8GOv8eBCjrCPPv+Wt2C0/W1IqJ8ugFhC
- EgL8rzfCknMSCnOX/GNXR+F34jQsxCw=
+ bh=lv4vZEI7OQUfHArHUOc7UL/dhPGExU7enAwFsaFQkm8=;
+ b=fdIzwec43MBrefhoLYgAmoxsaGzw767AltZtNUZkfeM9iLvBYg9/xd1kw6ufowdGDTexaW
+ ItXbicEG1gvLO/uh/NyC4TurdwbCDtCpVliLetoIdYDAv6hVQLDghl/3fLnq9v6bnU2Xgz
+ e4nZdDRZOm8dqvS6KT3zQygPrF3TCsU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-_8tfqTi3PW-qJrKLiwU84A-1; Tue, 15 Nov 2022 07:13:09 -0500
-X-MC-Unique: _8tfqTi3PW-qJrKLiwU84A-1
+ us-mta-639-K1RqAlkVPm2dDWalcZetkg-1; Tue, 15 Nov 2022 07:13:11 -0500
+X-MC-Unique: K1RqAlkVPm2dDWalcZetkg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77BEA811E75;
- Tue, 15 Nov 2022 12:13:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49148803481;
+ Tue, 15 Nov 2022 12:13:11 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.195.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE63F492B05;
- Tue, 15 Nov 2022 12:13:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BFCDE492B05;
+ Tue, 15 Nov 2022 12:13:08 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
@@ -54,10 +54,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
-Subject: [PATCH 10/30] migration: Fix possible infinite loop of ram save
- process
-Date: Tue, 15 Nov 2022 13:12:06 +0100
-Message-Id: <20221115121226.26609-11-quintela@redhat.com>
+Subject: [PATCH 11/30] migration: Fix race on qemu_file_shutdown()
+Date: Tue, 15 Nov 2022 13:12:07 +0100
+Message-Id: <20221115121226.26609-12-quintela@redhat.com>
 In-Reply-To: <20221115121226.26609-1-quintela@redhat.com>
 References: <20221115121226.26609-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -89,54 +88,91 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Xu <peterx@redhat.com>
 
-When starting ram saving procedure (especially at the completion phase),
-always set last_seen_block to non-NULL to make sure we can always correctly
-detect the case where "we've migrated all the dirty pages".
+In qemu_file_shutdown(), there's a possible race if with current order of
+operation.  There're two major things to do:
 
-Then we'll guarantee both last_seen_block and pss.block will be valid
-always before the loop starts.
+  (1) Do real shutdown() (e.g. shutdown() syscall on socket)
+  (2) Update qemufile's last_error
 
-See the comment in the code for some details.
+We must do (2) before (1) otherwise there can be a race condition like:
 
+      page receiver                     other thread
+      -------------                     ------------
+      qemu_get_buffer()
+                                        do shutdown()
+        returns 0 (buffer all zero)
+        (meanwhile we didn't check this retcode)
+      try to detect IO error
+        last_error==NULL, IO okay
+      install ALL-ZERO page
+                                        set last_error
+      --> guest crash!
+
+To fix this, we can also check retval of qemu_get_buffer(), but not all
+APIs can be properly checked and ultimately we still need to go back to
+qemu_file_get_error().  E.g. qemu_get_byte() doesn't return error.
+
+Maybe some day a rework of qemufile API is really needed, but for now keep
+using qemu_file_get_error() and fix it by not allowing that race condition
+to happen.  Here shutdown() is indeed special because the last_error was
+emulated.  For real -EIO errors it'll always be set when e.g. sendmsg()
+error triggers so we won't miss those ones, only shutdown() is a bit tricky
+here.
+
+Cc: Daniel P. Berrange <berrange@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ migration/qemu-file.c | 27 ++++++++++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index bb4f08bfed..c0f5d6d287 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2574,14 +2574,22 @@ static int ram_find_and_save_block(RAMState *rs)
-         return pages;
-     }
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 4f400c2e52..2d5f74ffc2 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -79,6 +79,30 @@ int qemu_file_shutdown(QEMUFile *f)
+     int ret = 0;
  
+     f->shutdown = true;
++
 +    /*
-+     * Always keep last_seen_block/last_page valid during this procedure,
-+     * because find_dirty_block() relies on these values (e.g., we compare
-+     * last_seen_block with pss.block to see whether we searched all the
-+     * ramblocks) to detect the completion of migration.  Having NULL value
-+     * of last_seen_block can conditionally cause below loop to run forever.
++     * We must set qemufile error before the real shutdown(), otherwise
++     * there can be a race window where we thought IO all went though
++     * (because last_error==NULL) but actually IO has already stopped.
++     *
++     * If without correct ordering, the race can happen like this:
++     *
++     *      page receiver                     other thread
++     *      -------------                     ------------
++     *      qemu_get_buffer()
++     *                                        do shutdown()
++     *        returns 0 (buffer all zero)
++     *        (we didn't check this retcode)
++     *      try to detect IO error
++     *        last_error==NULL, IO okay
++     *      install ALL-ZERO page
++     *                                        set last_error
++     *      --> guest crash!
 +     */
-+    if (!rs->last_seen_block) {
-+        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
-+        rs->last_page = 0;
++    if (!f->last_error) {
++        qemu_file_set_error(f, -EIO);
 +    }
 +
-     pss.block = rs->last_seen_block;
-     pss.page = rs->last_page;
-     pss.complete_round = false;
+     if (!qio_channel_has_feature(f->ioc,
+                                  QIO_CHANNEL_FEATURE_SHUTDOWN)) {
+         return -ENOSYS;
+@@ -88,9 +112,6 @@ int qemu_file_shutdown(QEMUFile *f)
+         ret = -EIO;
+     }
  
--    if (!pss.block) {
--        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
+-    if (!f->last_error) {
+-        qemu_file_set_error(f, -EIO);
 -    }
--
-     do {
-         again = true;
-         found = get_queued_page(rs, &pss);
+     return ret;
+ }
+ 
 -- 
 2.38.1
 
