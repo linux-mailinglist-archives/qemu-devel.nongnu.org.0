@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955FA629837
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 13:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B30D62984A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 13:14:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouumC-0002ry-P3; Tue, 15 Nov 2022 07:10:52 -0500
+	id 1ouuo3-0003lc-7P; Tue, 15 Nov 2022 07:12:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouulv-0002oY-L1
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:10:45 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouult-00049z-Gl
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:10:35 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id m22so35454535eji.10
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 04:10:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sBPjlQSfg1/Xl8y7dzJVsS49yOnDA28C7pGmbfRj6/I=;
- b=OdKXZhodcfMeK7abHLo/WRGs/qI2wNs5/6f/24mxN+hHe6yLAyRyw5Z+Fkoa17y10A
- S9NhqChZ8rVoaoagNBzl9g5SBMLRuUj7imi8lDRsJ+uW60BPqR3GFnZQRK+wuUWLf/cn
- hpVz1X5TCd4bcsMnPS4Rs7r9NDhXHzctFMR43Lfo6syAynsiUaeTL1OYgtcriUOdG5hP
- Wr3uXBTpmN74hfFaUBIKUKM5nDdfM1hClpne96C5hDLeVpVvQtGDvyYO/sJgVoldgjRm
- c2FxOPm7e2wdh+p5ejB/QL8/daWyXd7C29csE1K/WnI4WU8KBAMeu4ORLPFuNVKrq66e
- Xh3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sBPjlQSfg1/Xl8y7dzJVsS49yOnDA28C7pGmbfRj6/I=;
- b=jwEJkC71a1X1sX9se+LkY/gW5m1h6E0v5X49Pk+4xcLUBjTK/TPEt8fniqh4VBmElm
- e4kqPnI05XvZQg0WioayfKwBA8TPp42Z4vLhDTSoBPMOfKDLv0ddQOkAWpGf3EP/ZKgV
- 35oJHOUxbfsMrp8F0sLTp+oHAXmpcMpkjUvFJ9XHC1RPEVFrXIT+pz74L4Tp4c2YN/GV
- R0j+emipuwwI1kDI8wQoR5Gj5GjSCC1dBKjsLJ5xHsvXTQG+71LC9XSG6da7B36OL8sp
- vw/8SO1PiEFeZTm1b76flpEiC2RxbW/YQYdUCIkvCJN3xp6nxg58GJDm9MxR5cx1+4cc
- egcQ==
-X-Gm-Message-State: ANoB5pnSV5k/ripN3Fcd1bYfiQpQQusnXnd6XjZe80rK4c28+u0sxZkW
- nxsLvBnEeI174QQ8qV1Z0mFnHyz1dYHlAg==
-X-Google-Smtp-Source: AA0mqf7tN/rp4FqrCTVtpU+0kRaI+/j2vbNVq96eXVnE7bUxINGi1NIn8MowCg9QduzgQ0PSDSCIZg==
-X-Received: by 2002:a17:906:c7c8:b0:78d:e7c0:a2b with SMTP id
- dc8-20020a170906c7c800b0078de7c00a2bmr13784187ejb.273.1668514231908; 
- Tue, 15 Nov 2022 04:10:31 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- q17-20020a170906a09100b0077909095acasm5481834ejy.143.2022.11.15.04.10.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 04:10:31 -0800 (PST)
-Message-ID: <2f381d06-842f-ac8b-085c-0419675a4872@linaro.org>
-Date: Tue, 15 Nov 2022 13:10:29 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouuo1-0003kc-Ap
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:12:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouuny-0004Vo-E4
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 07:12:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668514361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oWrJC0+VdEIgyt9X5NwWkoMHxeS9COlWnKDyxb5Erco=;
+ b=QvVmbee4ZoFEoyX8yVVB4iFE3hoY74TVVqcym9Jd5HhNibURDjsvvUSm2R73EkF11r7r5h
+ vDxcmKHwd4VuIUS+FXiQvbjFVpA5IpGvCy3767r/+YhWyYjepuKlxI6AnSaqGvsxKtl5ei
+ SVxw3/Sm+kgikvyyvhjDh9dzw5EC44g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-nkFDvZ4zPkGgF5k6iBEd5Q-1; Tue, 15 Nov 2022 07:12:38 -0500
+X-MC-Unique: nkFDvZ4zPkGgF5k6iBEd5Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 669742999B33;
+ Tue, 15 Nov 2022 12:12:37 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.195.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CC2C492B05;
+ Tue, 15 Nov 2022 12:12:34 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
+Subject: [PATCH 00/30] Migration PULL request
+Date: Tue, 15 Nov 2022 13:11:56 +0100
+Message-Id: <20221115121226.26609-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH] hw/loongarch: Add cfi01 pflash device
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
-References: <20221115115645.3372746-1-yangxiaojuan@loongson.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221115115645.3372746-1-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,62 +84,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/11/22 12:56, Xiaojuan Yang wrote:
-> Add cfi01 pflash device for LoongArch virt machine
+Hi
 
-So the subject prefix should be "hw/loongarch/virt:".
+It includes:
+- Leonardo fix for zero_copy flush
+- Fiona fix for return value of readv/writev
+- Peter Xu cleanups
+- Peter Xu preempt patches
+- Patches ready from zero page (me)
+- AVX2 support (ling)
+- fix for slow networking and reordering of first packets (manish)
 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> ---
->   hw/loongarch/Kconfig        |   1 +
->   hw/loongarch/acpi-build.c   |  39 +++++++++++
->   hw/loongarch/virt.c         | 130 +++++++++++++++++++++++++++++++++---
->   include/hw/loongarch/virt.h |   7 ++
->   4 files changed, 168 insertions(+), 9 deletions(-)
+Please, apply.
 
->   static bool memhp_type_supported(DeviceState *dev)
-> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-> index 45c383f5a7..4ec4a7b4fe 100644
-> --- a/include/hw/loongarch/virt.h
-> +++ b/include/hw/loongarch/virt.h
-> @@ -12,6 +12,7 @@
->   #include "hw/boards.h"
->   #include "qemu/queue.h"
->   #include "hw/intc/loongarch_ipi.h"
-> +#include "hw/block/flash.h"
->   
->   #define LOONGARCH_MAX_VCPUS     4
->   
-> @@ -20,6 +21,11 @@
->   #define VIRT_FWCFG_BASE         0x1e020000UL
->   #define VIRT_BIOS_BASE          0x1c000000UL
->   #define VIRT_BIOS_SIZE          (4 * MiB)
-> +#define VIRT_FLASH_SECTOR_SIZE  (128 * KiB)
-> +#define VIRT_FLASH0_BASE        VIRT_BIOS_BASE
-> +#define VIRT_FLASH0_SIZE        (4 * MiB)
-> +#define VIRT_FLASH1_BASE        (VIRT_FLASH0_BASE + VIRT_FLASH0_SIZE)
-> +#define VIRT_FLASH1_SIZE        (4 * MiB)
->   
->   #define VIRT_LOWMEM_BASE        0
->   #define VIRT_LOWMEM_SIZE        0x10000000
-> @@ -48,6 +54,7 @@ struct LoongArchMachineState {
->       int          fdt_size;
->       DeviceState *platform_bus_dev;
->       PCIBus       *pci_bus;
-> +    PFlashCFI01  *flash[2];
->   };
+Fiona Ebner (1):
+  migration/channel-block: fix return value for
+    qio_channel_block_{readv,writev}
 
-Since you are starting a virtual machine from scratch, you should take
-the opportunity to learn from other early mistakes. X86 ended that way
-due to 1/ old firmwares back-compability and 2/ QEMU pflash block
-protections not being implemented. IIUC if we were starting with a
-UEFI firmware today, the layout design (still using QEMU) would be
-to map the CODE area in a dumb ROM device, and the VARSTORE area
-in a PFlash device. Since Virt machines don't need to use Capsule
-update, having the CODE area in ROM drastically simplifies the design
-and maintainance.
+Juan Quintela (5):
+  multifd: Create page_size fields into both MultiFD{Recv,Send}Params
+  multifd: Create page_count fields into both MultiFD{Recv,Send}Params
+  migration: Export ram_transferred_ram()
+  migration: Export ram_release_page()
+  migration: Block migration comment or code is wrong
 
-Regards,
+Leonardo Bras (1):
+  migration/multifd/zero-copy: Create helper function for flushing
 
-Phil.
+Peter Xu (20):
+  migration: Fix possible infinite loop of ram save process
+  migration: Fix race on qemu_file_shutdown()
+  migration: Disallow postcopy preempt to be used with compress
+  migration: Use non-atomic ops for clear log bitmap
+  migration: Disable multifd explicitly with compression
+  migration: Take bitmap mutex when completing ram migration
+  migration: Add postcopy_preempt_active()
+  migration: Cleanup xbzrle zero page cache update logic
+  migration: Trivial cleanup save_page_header() on same block check
+  migration: Remove RAMState.f references in compression code
+  migration: Yield bitmap_mutex properly when sending/sleeping
+  migration: Use atomic ops properly for page accountings
+  migration: Teach PSS about host page
+  migration: Introduce pss_channel
+  migration: Add pss_init()
+  migration: Make PageSearchStatus part of RAMState
+  migration: Move last_sent_block into PageSearchStatus
+  migration: Send requested page directly in rp-return thread
+  migration: Remove old preempt code around state maintainance
+  migration: Drop rs->f
+
+ling xu (2):
+  Update AVX512 support for xbzrle_encode_buffer
+  Unit test code and benchmark code
+
+manish.mishra (1):
+  migration: check magic value for deciding the mapping of channels
+
+ meson.build                   |  16 +
+ include/exec/ram_addr.h       |  11 +-
+ include/exec/ramblock.h       |   3 +
+ include/io/channel.h          |  25 ++
+ include/qemu/bitmap.h         |   1 +
+ migration/migration.h         |   7 -
+ migration/multifd.h           |  10 +-
+ migration/postcopy-ram.h      |   2 +-
+ migration/ram.h               |  23 +
+ migration/xbzrle.h            |   4 +
+ io/channel-socket.c           |  27 ++
+ io/channel.c                  |  39 ++
+ migration/block.c             |   4 +-
+ migration/channel-block.c     |   6 +-
+ migration/migration.c         | 109 +++--
+ migration/multifd-zlib.c      |  14 +-
+ migration/multifd-zstd.c      |  12 +-
+ migration/multifd.c           |  69 +--
+ migration/postcopy-ram.c      |   5 +-
+ migration/qemu-file.c         |  27 +-
+ migration/ram.c               | 794 +++++++++++++++++-----------------
+ migration/xbzrle.c            | 124 ++++++
+ tests/bench/xbzrle-bench.c    | 465 ++++++++++++++++++++
+ tests/unit/test-xbzrle.c      |  39 +-
+ util/bitmap.c                 |  45 ++
+ meson_options.txt             |   2 +
+ scripts/meson-buildoptions.sh |  14 +-
+ tests/bench/meson.build       |   4 +
+ 28 files changed, 1379 insertions(+), 522 deletions(-)
+ create mode 100644 tests/bench/xbzrle-bench.c
+
+-- 
+2.38.1
+
 
