@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BA862C088
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 15:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D782E62C0A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 15:14:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovJ57-0001Gd-0B; Wed, 16 Nov 2022 09:08:01 -0500
+	id 1ovJ54-0001C0-OK; Wed, 16 Nov 2022 09:07:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovJ4z-0000uL-KL
+ id 1ovJ4z-0000uA-6W
  for qemu-devel@nongnu.org; Wed, 16 Nov 2022 09:07:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovJ4q-00069H-Po
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 09:07:53 -0500
+ id 1ovJ4s-0006AW-Aj
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 09:07:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668607663;
+ s=mimecast20190719; t=1668607665;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hwngj/ABa/x3wWMfoUyD4dyNgWdM0OqY2IrBe1CnYOo=;
- b=b4LXxP2KLBDXbF4Bz+1QMbjnAlG22LgrNDdOhDp1qS2Vv2aVV3B4ZZ5Vu2//EP0Lugo2/V
- 5UqHlIVUoFLXpWi5FMr6Qd/lEzUTUraEZdsqdYYYs6Xs4QUMnEJB3oQtxAEXaNcKPN7uZh
- 51QjLoBFTkb5+VjY7XfQSsciUbbehm4=
+ bh=NIsX+LPvxRYdxR0WN9B7+AR2K5URUVD5+nusU62oPIo=;
+ b=NhFaRuMx9N3ETx5nULzl88uONKiML77BaH3J40yBVMBOf+qgL3FKx4SHp71WaChP8gkSD/
+ ZQDGHFWupPLa3991qaanBky/xi17CJ8FBATbSre/j+YtE1RcI5W2npKfSU3l5LZL6vQYl2
+ WY3u4mqHdmd/j/UT66Y7BmzkFl7QSC0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-9rHptg98Mgi-ImvoAFtazw-1; Wed, 16 Nov 2022 09:07:40 -0500
-X-MC-Unique: 9rHptg98Mgi-ImvoAFtazw-1
+ us-mta-643-jR_agOcFOGG-hWRiMA4KzA-1; Wed, 16 Nov 2022 09:07:40 -0500
+X-MC-Unique: jR_agOcFOGG-hWRiMA4KzA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D107286F132;
- Wed, 16 Nov 2022 14:07:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CED0101A52A;
+ Wed, 16 Nov 2022 14:07:39 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4026CC1908A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB4DFC1908A;
  Wed, 16 Nov 2022 14:07:38 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -60,9 +60,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, Jeff Cody <codyprime@gmail.com>,
  Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
  integration@gluster.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 07/15] block: convert bdrv_get_info in generated_co_wrapper
-Date: Wed, 16 Nov 2022 09:07:22 -0500
-Message-Id: <20221116140730.3056048-8-eesposit@redhat.com>
+Subject: [PATCH 08/15] block: convert bdrv_is_inserted in
+ generated_co_wrapper_simple
+Date: Wed, 16 Nov 2022 09:07:23 -0500
+Message-Id: <20221116140730.3056048-9-eesposit@redhat.com>
 In-Reply-To: <20221116140730.3056048-1-eesposit@redhat.com>
 References: <20221116140730.3056048-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -92,199 +93,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-BlockDriver->bdrv_get_info is categorized as IO callback, and
+BlockDriver->bdrv_is_inserted is categorized as IO callback, and
 it currently doesn't run in a coroutine.
 This makes very difficult to add the graph rdlock, since the
 callback traverses the block nodes graph.
 
-Therefore use generated_co_wrapper to automatically
-create a wrapper with the same name.
-Unfortunately we cannot use a generated_co_wrapper_simple,
-because the function is called by mixed functions that run both
-in coroutine and non-coroutine context (for example block_load
-in migration/block.c).
+Therefore use generated_co_wrapper_simple to automatically
+creates a wrapper with the same name that will take care of
+always calling the function in a coroutine.
+This is a generated_co_wrapper_simple callback, which means
+it assumes that bdrv_is_inserted is never caled in a coroutine
+context.
+
+At the same time, add also blk_is_inserted as g_c_w, since it
+is called in both coroutine and non contexts.
+
+Because now this function creates a new coroutine and polls,
+we need to take the AioContext lock where it is missing,
+for the only reason that internally g_c_w calls AIO_WAIT_WHILE
+and it expects to release the AioContext lock.
+Once the rwlock is ultimated and placed in every place it needs
+to be, we will poll using AIO_WAIT_WHILE_UNLOCKED and remove
+the AioContext lock.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c                          |  6 ++++--
- block/crypto.c                   |  2 +-
- block/io.c                       |  8 ++++----
- block/mirror.c                   | 10 +++++++---
- block/raw-format.c               |  2 +-
- block/stream.c                   |  4 +++-
- include/block/block-io.h         |  6 +++++-
- include/block/block_int-common.h |  4 +++-
- 8 files changed, 28 insertions(+), 14 deletions(-)
+ block.c                           |  5 +++--
+ block/block-backend.c             |  5 +++--
+ block/io.c                        | 12 ++++++------
+ blockdev.c                        |  8 +++++++-
+ include/block/block-io.h          |  5 ++++-
+ include/block/block_int-common.h  |  4 ++--
+ include/sysemu/block-backend-io.h |  5 ++++-
+ 7 files changed, 29 insertions(+), 15 deletions(-)
 
 diff --git a/block.c b/block.c
-index 5650d6fe63..2cdede9c01 100644
+index 2cdede9c01..4205735308 100644
 --- a/block.c
 +++ b/block.c
-@@ -6279,11 +6279,13 @@ void bdrv_get_backing_filename(BlockDriverState *bs,
-     pstrcpy(filename, filename_size, bs->backing_file);
- }
- 
--int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-+int coroutine_fn bdrv_co_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+@@ -6778,11 +6778,12 @@ out:
+ /**
+  * Return TRUE if the media is present
+  */
+-bool bdrv_is_inserted(BlockDriverState *bs)
++bool coroutine_fn bdrv_co_is_inserted(BlockDriverState *bs)
  {
-     int ret;
      BlockDriver *drv = bs->drv;
+     BdrvChild *child;
      IO_CODE();
 +    assert_bdrv_graph_readable();
-+
-     /* if bs->drv == NULL, bs is closed, so there's nothing to do here */
-     if (!drv) {
-         return -ENOMEDIUM;
-@@ -6291,7 +6293,7 @@ int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-     if (!drv->bdrv_get_info) {
-         BlockDriverState *filtered = bdrv_filter_bs(bs);
-         if (filtered) {
--            return bdrv_get_info(filtered, bdi);
-+            return bdrv_co_get_info(filtered, bdi);
-         }
-         return -ENOTSUP;
-     }
-diff --git a/block/crypto.c b/block/crypto.c
-index 2fb8add458..12a84dd1cd 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -743,7 +743,7 @@ static int block_crypto_get_info_luks(BlockDriverState *bs,
-     BlockDriverInfo subbdi;
-     int ret;
  
--    ret = bdrv_get_info(bs->file->bs, &subbdi);
-+    ret = bdrv_co_get_info(bs->file->bs, &subbdi);
-     if (ret != 0) {
-         return ret;
+     if (!drv) {
+         return false;
+@@ -6791,7 +6792,7 @@ bool bdrv_is_inserted(BlockDriverState *bs)
+         return drv->bdrv_is_inserted(bs);
      }
+     QLIST_FOREACH(child, &bs->children, next) {
+-        if (!bdrv_is_inserted(child->bs)) {
++        if (!bdrv_co_is_inserted(child->bs)) {
+             return false;
+         }
+     }
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 6a84a2a019..9a500fdde3 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1994,12 +1994,13 @@ void blk_activate(BlockBackend *blk, Error **errp)
+     bdrv_activate(bs, errp);
+ }
+ 
+-bool blk_is_inserted(BlockBackend *blk)
++bool coroutine_fn blk_co_is_inserted(BlockBackend *blk)
+ {
+     BlockDriverState *bs = blk_bs(blk);
+     IO_CODE();
++    assert_bdrv_graph_readable();
+ 
+-    return bs && bdrv_is_inserted(bs);
++    return bs && bdrv_co_is_inserted(bs);
+ }
+ 
+ bool blk_is_available(BlockBackend *blk)
 diff --git a/block/io.c b/block/io.c
-index 3f65c57f82..99ef9a8cb9 100644
+index 99ef9a8cb9..88da9470c3 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -694,14 +694,14 @@ BdrvTrackedRequest *coroutine_fn bdrv_co_get_self_request(BlockDriverState *bs)
- /**
-  * Round a region to cluster boundaries
-  */
--void bdrv_round_to_clusters(BlockDriverState *bs,
-+void coroutine_fn bdrv_round_to_clusters(BlockDriverState *bs,
-                             int64_t offset, int64_t bytes,
-                             int64_t *cluster_offset,
-                             int64_t *cluster_bytes)
- {
-     BlockDriverInfo bdi;
+@@ -1598,7 +1598,7 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
+ 
+     trace_bdrv_co_preadv_part(bs, offset, bytes, flags);
+ 
+-    if (!bdrv_is_inserted(bs)) {
++    if (!bdrv_co_is_inserted(bs)) {
+         return -ENOMEDIUM;
+     }
+ 
+@@ -2044,7 +2044,7 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
+ 
+     trace_bdrv_co_pwritev_part(child->bs, offset, bytes, flags);
+ 
+-    if (!bdrv_is_inserted(bs)) {
++    if (!bdrv_co_is_inserted(bs)) {
+         return -ENOMEDIUM;
+     }
+ 
+@@ -2764,7 +2764,7 @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
+     assert_bdrv_graph_readable();
+     bdrv_inc_in_flight(bs);
+ 
+-    if (!bdrv_is_inserted(bs) || bdrv_is_read_only(bs) ||
++    if (!bdrv_co_is_inserted(bs) || bdrv_is_read_only(bs) ||
+         bdrv_is_sg(bs)) {
+         goto early_exit;
+     }
+@@ -2889,7 +2889,7 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
      IO_CODE();
--    if (bdrv_get_info(bs, &bdi) < 0 || bdi.cluster_size == 0) {
-+    if (bdrv_co_get_info(bs, &bdi) < 0 || bdi.cluster_size == 0) {
-         *cluster_offset = offset;
-         *cluster_bytes = bytes;
-     } else {
-@@ -711,12 +711,12 @@ void bdrv_round_to_clusters(BlockDriverState *bs,
+     assert_bdrv_graph_readable();
+ 
+-    if (!bs || !bs->drv || !bdrv_is_inserted(bs)) {
++    if (!bs || !bs->drv || !bdrv_co_is_inserted(bs)) {
+         return -ENOMEDIUM;
      }
+ 
+@@ -3173,7 +3173,7 @@ static int coroutine_fn bdrv_co_copy_range_internal(
+     assert(!(read_flags & BDRV_REQ_NO_WAIT));
+     assert(!(write_flags & BDRV_REQ_NO_WAIT));
+ 
+-    if (!dst || !dst->bs || !bdrv_is_inserted(dst->bs)) {
++    if (!dst || !dst->bs || !bdrv_co_is_inserted(dst->bs)) {
+         return -ENOMEDIUM;
+     }
+     ret = bdrv_check_request32(dst_offset, bytes, NULL, 0);
+@@ -3184,7 +3184,7 @@ static int coroutine_fn bdrv_co_copy_range_internal(
+         return bdrv_co_pwrite_zeroes(dst, dst_offset, bytes, write_flags);
+     }
+ 
+-    if (!src || !src->bs || !bdrv_is_inserted(src->bs)) {
++    if (!src || !src->bs || !bdrv_co_is_inserted(src->bs)) {
+         return -ENOMEDIUM;
+     }
+     ret = bdrv_check_request32(src_offset, bytes, NULL, 0);
+diff --git a/blockdev.c b/blockdev.c
+index 8ffb3d9537..bbe5207e8f 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1023,6 +1023,7 @@ fail:
+ static BlockDriverState *qmp_get_root_bs(const char *name, Error **errp)
+ {
+     BlockDriverState *bs;
++    AioContext *aio_context;
+ 
+     bs = bdrv_lookup_bs(name, name, errp);
+     if (bs == NULL) {
+@@ -1034,11 +1035,16 @@ static BlockDriverState *qmp_get_root_bs(const char *name, Error **errp)
+         return NULL;
+     }
+ 
++    aio_context = bdrv_get_aio_context(bs);
++    aio_context_acquire(aio_context);
++
+     if (!bdrv_is_inserted(bs)) {
+         error_setg(errp, "Device has no medium");
+-        return NULL;
++        bs = NULL;
+     }
+ 
++    aio_context_release(aio_context);
++
+     return bs;
  }
  
--static int bdrv_get_cluster_size(BlockDriverState *bs)
-+static coroutine_fn int bdrv_get_cluster_size(BlockDriverState *bs)
- {
-     BlockDriverInfo bdi;
-     int ret;
- 
--    ret = bdrv_get_info(bs, &bdi);
-+    ret = bdrv_co_get_info(bs, &bdi);
-     if (ret < 0 || bdi.cluster_size == 0) {
-         return bs->bl.request_alignment;
-     } else {
-diff --git a/block/mirror.c b/block/mirror.c
-index aecc895b73..8dc136ebbe 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -576,8 +576,10 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlockJob *s)
-         } else if (ret >= 0 && !(ret & BDRV_BLOCK_DATA)) {
-             int64_t target_offset;
-             int64_t target_bytes;
--            bdrv_round_to_clusters(blk_bs(s->target), offset, io_bytes,
--                                   &target_offset, &target_bytes);
-+            WITH_GRAPH_RDLOCK_GUARD() {
-+                bdrv_round_to_clusters(blk_bs(s->target), offset, io_bytes,
-+                                       &target_offset, &target_bytes);
-+            }
-             if (target_offset == offset &&
-                 target_bytes == io_bytes) {
-                 mirror_method = ret & BDRV_BLOCK_ZERO ?
-@@ -965,11 +967,13 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-      */
-     bdrv_get_backing_filename(target_bs, backing_filename,
-                               sizeof(backing_filename));
--    if (!bdrv_get_info(target_bs, &bdi) && bdi.cluster_size) {
-+    bdrv_graph_co_rdlock();
-+    if (!bdrv_co_get_info(target_bs, &bdi) && bdi.cluster_size) {
-         s->target_cluster_size = bdi.cluster_size;
-     } else {
-         s->target_cluster_size = BDRV_SECTOR_SIZE;
-     }
-+    bdrv_graph_co_rdunlock();
-     if (backing_filename[0] && !bdrv_backing_chain_next(target_bs) &&
-         s->granularity < s->target_cluster_size) {
-         s->buf_size = MAX(s->buf_size, s->target_cluster_size);
-diff --git a/block/raw-format.c b/block/raw-format.c
-index a68014ef0b..4773bf9cda 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -369,7 +369,7 @@ static BlockMeasureInfo *raw_measure(QemuOpts *opts, BlockDriverState *in_bs,
- 
- static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
- {
--    return bdrv_get_info(bs->file->bs, bdi);
-+    return bdrv_co_get_info(bs->file->bs, bdi);
- }
- 
- static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
-diff --git a/block/stream.c b/block/stream.c
-index 22368ce186..6c9d0eefd1 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -141,7 +141,9 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         return 0;
-     }
- 
--    len = bdrv_getlength(s->target_bs);
-+    WITH_GRAPH_RDLOCK_GUARD() {
-+        len = bdrv_getlength(s->target_bs);
-+    }
-     if (len < 0) {
-         return len;
-     }
 diff --git a/include/block/block-io.h b/include/block/block-io.h
-index ac509c461f..ba60ffa43b 100644
+index ba60ffa43b..3432e6ad3e 100644
 --- a/include/block/block-io.h
 +++ b/include/block/block-io.h
-@@ -129,7 +129,11 @@ bool bdrv_supports_compressed_writes(BlockDriverState *bs);
- const char *bdrv_get_node_name(const BlockDriverState *bs);
- const char *bdrv_get_device_name(const BlockDriverState *bs);
- const char *bdrv_get_device_or_node_name(const BlockDriverState *bs);
--int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi);
+@@ -120,7 +120,10 @@ bool bdrv_is_read_only(BlockDriverState *bs);
+ bool bdrv_is_writable(BlockDriverState *bs);
+ bool bdrv_is_sg(BlockDriverState *bs);
+ int bdrv_get_flags(BlockDriverState *bs);
+-bool bdrv_is_inserted(BlockDriverState *bs);
 +
-+int coroutine_fn bdrv_co_get_info(BlockDriverState *bs, BlockDriverInfo *bdi);
-+int generated_co_wrapper bdrv_get_info(BlockDriverState *bs,
-+                                       BlockDriverInfo *bdi);
++bool coroutine_fn bdrv_co_is_inserted(BlockDriverState *bs);
++bool generated_co_wrapper_simple bdrv_is_inserted(BlockDriverState *bs);
 +
- ImageInfoSpecific *bdrv_get_specific_info(BlockDriverState *bs,
-                                           Error **errp);
- BlockStatsSpecific *bdrv_get_specific_stats(BlockDriverState *bs);
+ void bdrv_lock_medium(BlockDriverState *bs, bool locked);
+ void bdrv_eject(BlockDriverState *bs, bool eject_flag);
+ const char *bdrv_get_format_name(BlockDriverState *bs);
 diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 42daf86c65..5874531617 100644
+index 5874531617..4cad48b2ad 100644
 --- a/include/block/block_int-common.h
 +++ b/include/block/block_int-common.h
-@@ -740,7 +740,9 @@ struct BlockDriver {
-         int64_t offset, int64_t bytes, QEMUIOVector *qiov,
-         size_t qiov_offset);
+@@ -759,8 +759,8 @@ struct BlockDriver {
+                                           QEMUIOVector *qiov,
+                                           int64_t pos);
  
--    int (*bdrv_get_info)(BlockDriverState *bs, BlockDriverInfo *bdi);
-+    /* Called with graph rdlock held. */
-+    int coroutine_fn (*bdrv_get_info)(BlockDriverState *bs,
-+                                      BlockDriverInfo *bdi);
+-    /* removable device specific */
+-    bool (*bdrv_is_inserted)(BlockDriverState *bs);
++    /* removable device specific. Called with graph rdlock held. */
++    bool coroutine_fn (*bdrv_is_inserted)(BlockDriverState *bs);
+     void (*bdrv_eject)(BlockDriverState *bs, bool eject_flag);
+     void (*bdrv_lock_medium)(BlockDriverState *bs, bool locked);
  
-     /* Does not need graph rdlock, since it does not traverse the graph */
-     ImageInfoSpecific *(*bdrv_get_specific_info)(BlockDriverState *bs,
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index 5456822b07..bf88f7699e 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -53,7 +53,10 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *buf,
+ 
+ void blk_inc_in_flight(BlockBackend *blk);
+ void blk_dec_in_flight(BlockBackend *blk);
+-bool blk_is_inserted(BlockBackend *blk);
++
++bool coroutine_fn blk_co_is_inserted(BlockBackend *blk);
++bool generated_co_wrapper blk_is_inserted(BlockBackend *blk);
++
+ bool blk_is_available(BlockBackend *blk);
+ void blk_lock_medium(BlockBackend *blk, bool locked);
+ void blk_eject(BlockBackend *blk, bool eject_flag);
 -- 
 2.31.1
 
