@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E8D62B0F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 03:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A6462B125
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 03:15:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov7hL-0007mI-Pc; Tue, 15 Nov 2022 20:58:43 -0500
+	id 1ov7vz-0002pV-Ao; Tue, 15 Nov 2022 21:13:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ov7hH-0007lV-HH; Tue, 15 Nov 2022 20:58:39 -0500
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1ov7vx-0002pH-7q
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 21:13:49 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ov7hF-00037S-5X; Tue, 15 Nov 2022 20:58:39 -0500
-Received: by mail-vs1-xe32.google.com with SMTP id i2so12156582vsc.1;
- Tue, 15 Nov 2022 17:58:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=d6qpH61rfLjNx2L8hpRSbpPoIBI6gA5qy+Cyt0Xmw3E=;
- b=GxBY4Cne9fRrfIpGpX3fLEgrKzYaWUzilVwDGRZUFAOmD9RSxVaL01C6Bj3CEZMBM6
- X6QJAD7Os6D1q2hyKiqta1a8weVg+P7YbIFPxfHRdv0yzM9MQcE54X5KtkjH8+nIkniQ
- sDn/XC0necC42TZ3yZYf571ddWl2AWsxQcVL1dCtZiEV53IbKRatPhdP5TKrqIBIjlOd
- XXnGV6QNVSQ6pn1gKNcWTGtlTRU/8JM0YkHWU+6xxLfJu237brh2r+fduY3q5ERxJGhu
- jsFE/KSMVEQhncT07ZAUHopZ5KrBA/S74RJp2Z6QTu29zJvdUd9JEuWID1z4ei3V94k0
- 7jxQ==
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1ov7vt-0006Id-JT
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 21:13:48 -0500
+Received: by mail-pg1-x530.google.com with SMTP id n17so7705699pgh.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 18:13:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZbNRtacG1oIgWGu2Y8PacwLvqasw3FamfK/2rjQDAhY=;
+ b=fidLkiL9EwQhq6ivBDVOHfgyTOuadQnRtNXB3BXHQtwht0Naat4VxUUxBYkRjW1F5+
+ ubKq+0FtzmXa+P75G1n2AS97XV9ahmruE7V0FOtSlO1+VbP8+UsCR27PBgtHjaGz6YVT
+ u+fpiNB16iNCNKULhulEisX7J4Y8kqoYEBrtISW2W+Y9/dQH2peRwuATUR8rn8n2TBQp
+ fnPxMGzkdkO2zz5cGo7uJAvFcEcWVhCzVsxfSiJetuBK5DAf5aUm1ynVQT2ozV50WAiM
+ ZztwI66Wj4wV+qFCxzlAub/3ZIFBHt8vSX6TP1kHCAFVBvW7pngPlJlOkYQRSTnows1+
+ rTQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=d6qpH61rfLjNx2L8hpRSbpPoIBI6gA5qy+Cyt0Xmw3E=;
- b=0TzZyB6WHbbnMWPCxCeGi/0Lj2xMWbTxru+zVPomvmlMiAZ0A5YqmIQd594OkXWvce
- 1PK1wiu7TU+Bt424tcHNrIh/t6zEt2qiLVZTqfCPLXf8OkvwHCNfQFDhy5KoyMhh6/q1
- TpSF21gimCZxZgbUa4AmeEuWynOMAEbmmYt3JCiSkXb6JB73MWwd5GTSkoVoODscgcv6
- HO3ls8wFROXaWhyxL8QPs0kCXPkNHvktRV7e/dgX/mCh/V47LO3zzn4noi8NOXIVhRoJ
- nPMATSX2yjTnQKblF5sqtamqiqbbRcPQhmEPlhh6MRGB5gqgoF2EJCaY/xDtQPp31WZz
- YJqg==
-X-Gm-Message-State: ANoB5pkXyRF22N0bMjGMkUcRp29y99MR6Sqflta2g8EdSaHJMnhBmqef
- y1BXf08UcMl/J5OwVqfMMnAGjNQhZrbOXbVYR/Y=
-X-Google-Smtp-Source: AA0mqf48X1enJzvaMo8cgP7iVNhSbILnMDv3h2Ew4fzIccfabZNbI+Ie0fYznYmwqWYXMPoDGjkWuH5D6hFOMk1bKgM=
-X-Received: by 2002:a05:6102:f07:b0:3ad:c930:b9bb with SMTP id
- v7-20020a0561020f0700b003adc930b9bbmr10485419vss.10.1668563915691; Tue, 15
- Nov 2022 17:58:35 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZbNRtacG1oIgWGu2Y8PacwLvqasw3FamfK/2rjQDAhY=;
+ b=PblLsXDl0cEoBlJnzCUEVEsw0YT1InDDg0JJJu/Ft1oiEZAFO6ldy7NATvyehZtgcA
+ TDtdyUNlsiDYbxYjVCYr4b35eB5FUP1uskn3OGVo29APeASdiVpec+FKjc0NOIeSJSZH
+ xK44KRrISuA+uoflUu/xcFyE7Y2gKkNSSdmzuRqozVimMxxLgp+X3jDCTDcvGHj61ji4
+ 0J8l5FTEQEv9OHp0BafHXeuNyk6/ROEeBSuFEtHK25v6z4SGRMXIOWUxn4wXPr07e8Px
+ iTJP2UmuJOcaazUe6bGBGH5zZhzVzCxVJx99wKevO3kvRt+e1mNksYoA/jTbjZd1Rftu
+ V+aA==
+X-Gm-Message-State: ANoB5plBid0zY1QnUg7+dPDo4XXIXOJciTJs+X5ode3t6GabdqV0He7P
+ OtS1tlpHb7IF0cYd/EV70ocqWg==
+X-Google-Smtp-Source: AA0mqf6GWGpZoEFePw3WISVTRajPvPV+CCsMiC0lJpj4CuUfyyvOdSc//CooWwGcozBckw4v5oB/zQ==
+X-Received: by 2002:a05:6a00:1f13:b0:567:546c:718b with SMTP id
+ be19-20020a056a001f1300b00567546c718bmr21129806pfb.17.1668564822989; 
+ Tue, 15 Nov 2022 18:13:42 -0800 (PST)
+Received: from [10.255.131.232] ([139.177.225.246])
+ by smtp.gmail.com with ESMTPSA id
+ 12-20020a630c4c000000b0047063eb4098sm8487325pgm.37.2022.11.15.18.13.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 18:13:42 -0800 (PST)
+Message-ID: <d9715f21-6751-85b9-c02a-5edaaf9cade5@bytedance.com>
+Date: Wed, 16 Nov 2022 10:17:16 +0800
 MIME-Version: 1.0
-References: <20221115151000.2080833-1-clg@kaod.org>
-In-Reply-To: <20221115151000.2080833-1-clg@kaod.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 16 Nov 2022 11:58:09 +1000
-Message-ID: <CAKmqyKPna6u6BAwseZf_scqHnarhJjwHno3Up7zs+WTrA+Ddmg@mail.gmail.com>
-Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size does
- not match the device
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <frasse.iglesias@gmail.com>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: PING: [PATCH for 8.0 0/8] Refactor cryptodev
+To: arei.gonglei@huawei.com
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, eblake@redhat.com,
+ michael.roth@amd.com, armbru@redhat.com, mst@redhat.com
+References: <20221111064553.246932-1-pizhenwei@bytedance.com>
+Content-Language: en-US
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <20221111064553.246932-1-pizhenwei@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,53 +93,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 1:13 AM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Currently, when a block backend is attached to a m25p80 device and the
-> associated file size does not match the flash model, QEMU complains
-> with the error message "failed to read the initial flash content".
-> This is confusing for the user.
->
-> Use blk_check_size_and_read_all() instead of blk_pread() to improve
-> the reported error.
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Hi, Lei
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Dr. David Alan Gilbert has already reviewed the hmp part, could you 
+please review the cryptodev/virtio-crypto part?
 
-Alistair
+I volunteer to co-maintain the cryptodev part, I'd like to add myself as 
+cryptodev maintainer in the next version, do you have any suggestion?
 
-> ---
->  hw/block/m25p80.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 02adc87527..68a757abf3 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -24,6 +24,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
->  #include "sysemu/block-backend.h"
-> +#include "hw/block/block.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/qdev-properties-system.h"
->  #include "hw/ssi/ssi.h"
-> @@ -1614,8 +1615,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error=
- **errp)
->          trace_m25p80_binding(s);
->          s->storage =3D blk_blockalign(s->blk, s->size);
->
-> -        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
-> -            error_setg(errp, "failed to read the initial flash content")=
-;
-> +        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, er=
-rp)) {
->              return;
->          }
->      } else {
-> --
-> 2.38.1
->
->
+On 11/11/22 14:45, zhenwei pi wrote:
+> The main changes in this series:
+> - introduce cryptodev.json to describe the attributes of crypto device, then
+>    drop duplicated type declare, remove some virtio related dependence.
+> - add statistics: OPS and bandwidth.
+> - add QMP command: query-cryptodev
+> - add HMP info command: cryptodev
+> - misc fix: detect akcipher capability instead of exposing akcipher service
+>    unconditionally.
+> 
+> Zhenwei Pi (8):
+>    cryptodev: Introduce cryptodev.json
+>    cryptodev: Remove 'name' & 'model' fields
+>    cryptodev: Introduce cryptodev alg type in QAPI
+>    cryptodev: Introduce server type in QAPI
+>    cryptodev: Introduce 'query-cryptodev' QMP command
+>    cryptodev: Support statistics
+>    cryptodev-builtin: Detect akcipher capability
+>    hmp: add cryptodev info command
+> 
+>   MAINTAINERS                     |   1 +
+>   backends/cryptodev-builtin.c    |  46 +++++++---
+>   backends/cryptodev-lkcf.c       |  11 +--
+>   backends/cryptodev-vhost-user.c |  13 ++-
+>   backends/cryptodev-vhost.c      |   4 +-
+>   backends/cryptodev.c            | 101 ++++++++++++++++++----
+>   hmp-commands-info.hx            |  14 ++++
+>   hw/virtio/virtio-crypto.c       |  41 +++++++--
+>   include/monitor/hmp.h           |   1 +
+>   include/sysemu/cryptodev.h      |  61 ++++++++------
+>   monitor/hmp-cmds.c              |  36 ++++++++
+>   qapi/cryptodev.json             | 144 ++++++++++++++++++++++++++++++++
+>   qapi/meson.build                |   1 +
+>   qapi/qapi-schema.json           |   1 +
+>   14 files changed, 401 insertions(+), 74 deletions(-)
+>   create mode 100644 qapi/cryptodev.json
+> 
+
+-- 
+zhenwei pi
 
