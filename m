@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5F862B0BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 02:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B25F62B07C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 02:23:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov7WS-000368-Ku; Tue, 15 Nov 2022 20:47:28 -0500
+	id 1ov78I-0004rl-Cv; Tue, 15 Nov 2022 20:22:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias@fiebig.nl>)
- id 1ov5Tq-0003Xo-Ax; Tue, 15 Nov 2022 18:36:38 -0500
-Received: from mail.aperture-labs.org ([195.191.197.3])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <tobias@fiebig.nl>)
- id 1ov5To-0008PC-0O; Tue, 15 Nov 2022 18:36:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fiebig.nl; s=key01;
- t=1668555387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZkFFPTz7QU53bs4OGnL0n5gvoi86dZcQTUHcM22CXkM=;
- b=M+EJBhnSXf/7XYqiT5S9mlyujOCVnmL9NR2yzJRkBQAmgaHKp8L+z35bqmFAV8pMWPLUOZ
- zYLCa9yUPahb2qXw+PY7AmCaHRMs17XDbsOF4iBF+J0BOdljP3ootFO0m6pjF228DPvM9y
- kU9rOscYbWCOpO1XPk3nNlgY00cL8lBT5+isOPTBZ7XbWSdhwG3ew/eCKLBE6LdOnupjV5
- 4wKs+TH+rHwqGRcAkKV8jIP9WnSZ2UAZ1h2xXW5mi06tqu+rh/wUVcmLTIJwGJUL3c/fRO
- 224wTa5R1EVrZkl7bFqcINit/1LwaNHU9exqOAwr47cNX4EPtvCWAXW2sIUwhg==
-Received: from DESKTOP1J9BJ88 (<unknown> [2a06:d1c1:a:0:d0f7:15f4:7842:c716])
- by mail.aperture-labs.org (OpenSMTPD) with ESMTPSA id 89ed3f44
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
- Tue, 15 Nov 2022 23:36:27 +0000 (UTC)
-From: "Tobias Fiebig" <tobias@fiebig.nl>
-To: "'Stefan Hajnoczi'" <stefanha@redhat.com>,
-	<qemu-devel@nongnu.org>
-Cc: <jasowang@redhat.com>, <qemu-stable@nongnu.org>,
- "'Russell King - ARM Linux'" <linux@armlinux.org.uk>
-References: <20221115163659.1595865-1-stefanha@redhat.com>
-In-Reply-To: <20221115163659.1595865-1-stefanha@redhat.com>
-Subject: RE: [PATCH for-7.2] rtl8139: honor large send MSS value
-Date: Wed, 16 Nov 2022 00:36:25 +0100
-Message-ID: <010001d8f94b$13bd5bf0$3b3813d0$@fiebig.nl>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ov78F-0004p1-8T; Tue, 15 Nov 2022 20:22:27 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ov78B-0001XO-3j; Tue, 15 Nov 2022 20:22:26 -0500
+Received: from [192.168.3.6] (unknown [61.165.37.238])
+ by APP-01 (Coremail) with SMTP id qwCowAB3fY1AO3RjvSD3CQ--.4578S2;
+ Wed, 16 Nov 2022 09:22:09 +0800 (CST)
+Message-ID: <fded6fe8-0e16-73ed-e071-359b483d792a@iscas.ac.cn>
+Date: Wed, 16 Nov 2022 09:22:07 +0800
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIsokZAyfqueh54+bOmp3YoqNF9QK2ZUOoA
-Content-Language: en-nl
-Received-SPF: pass client-ip=195.191.197.3; envelope-from=tobias@fiebig.nl;
- helo=mail.aperture-labs.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Cc: liweiwei@iscas.ac.cn, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [PATCH v2 5/8] target/riscv: add support for Zcmp extension
+To: Richard Henderson <richard.henderson@linaro.org>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
+ <20221113023251.11047-6-liweiwei@iscas.ac.cn>
+ <9713c707-2828-5436-dbd4-60fbd18985f6@linaro.org>
+Content-Language: en-US
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <9713c707-2828-5436-dbd4-60fbd18985f6@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAB3fY1AO3RjvSD3CQ--.4578S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1kCF48uFy7tw15ur1xKrg_yoW8CFyxpF
+ y8CrW7GFWkAw1rA3W09F15t347ArnrJ3WUtw13WF1UJrW5JFyjgrn5W3ya9w4DJFs7Xr4j
+ vF4YvrWDZF98ZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+ Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
+ zVAYIcxG8wCY02Avz4vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+ W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+ 1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+ IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+ x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnU
+ UI43ZEXa7VUbLiSPUUUUU==
+X-Originating-IP: [61.165.37.238]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 15 Nov 2022 20:47:22 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,99 +79,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Heho,
-Just to keep you in the loop; Just applied the patch, but things didn't =
-really get better; I am currently doing a 'make clean; make' for good =
-measure (had built head first), and will also double-check that there is =
-no accidental use of system-qemu libs.=20
 
-If that still doesn't show an effect, I'll hold tcpdump to the wire =
-again.
+On 2022/11/15 21:44, Richard Henderson wrote:
+> On 11/13/22 12:32, Weiwei Li wrote:
+>>   {
+>>     sq              101  ... ... .. ... 10 @c_sqsp
+>>     c_fsd           101   ......  ..... 10 @c_sdsp
+>> +
+>> +  # *** RV64 and RV32 Zcmp Extension ***
+>> +  cm_push         101  11000  .... .. 10 @zcmp
+>> +  cm_pop          101  11010  .... .. 10 @zcmp
+>> +  cm_popret       101  11110  .... .. 10 @zcmp
+>> +  cm_popretz      101  11100  .... .. 10 @zcmp
+>> +  cm_mva01s       101  011 ... 11 ... 10 @cm_mv
+>> +  cm_mvsa01       101  011 ... 01 ... 10 @cm_mv
+>>   }
+>
+> There is no overlap in these, so they should be within nested [].
+OK. I'll update these in next version.
+>
+>
+>> diff --git a/target/riscv/zce_helper.c b/target/riscv/zce_helper.c
+>> new file mode 100644
+>> index 0000000000..1346de1367
+>> --- /dev/null
+>> +++ b/target/riscv/zce_helper.c
+>> @@ -0,0 +1,210 @@
+>> +/*
+>> + * RISC-V Zc* extension Helpers for QEMU.
+>> + *
+>> + * Copyright (c) 2021-2022 PLCT Lab
+>> + *
+>> + * This program is free software; you can redistribute it and/or 
+>> modify it
+>> + * under the terms and conditions of the GNU General Public License,
+>> + * version 2 or later, as published by the Free Software Foundation.
+>> + *
+>> + * This program is distributed in the hope it will be useful, but 
+>> WITHOUT
+>> + * ANY WARRANTY; without even the implied warranty of 
+>> MERCHANTABILITY or
+>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public 
+>> License for
+>> + * more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License 
+>> along with
+>> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+>> + */
+>
+> The entire contents of this helper file should be handled at 
+> translation time.
+>
+>
+OK. I'll try to translate them in next version.
 
-With best regards,
-Tobias=20
+Regards,
 
------Original Message-----
-From: Stefan Hajnoczi <stefanha@redhat.com>=20
-Sent: Tuesday, 15 November 2022 17:37
-To: qemu-devel@nongnu.org
-Cc: jasowang@redhat.com; qemu-stable@nongnu.org; Stefan Hajnoczi =
-<stefanha@redhat.com>; Russell King - ARM Linux <linux@armlinux.org.uk>; =
-Tobias Fiebig <tobias+git@fiebig.nl>
-Subject: [PATCH for-7.2] rtl8139: honor large send MSS value
+Weiwei Li
 
-The Large-Send Task Offload Tx Descriptor (9.2.1 Transmit) has a =
-Large-Send MSS value where the driver specifies the MSS. See the =
-datasheet here:
-http://realtek.info/pdf/rtl8139cp.pdf
-
-The code ignores this value and uses a hardcoded MSS of 1500 bytes =
-instead. When the MTU is less than 1500 bytes the hardcoded value =
-results in IP fragmentation and poor performance.
-
-Use the Large-Send MSS value to correctly size Large-Send packets.
-
-This issue was discussed in the past here:
-https://lore.kernel.org/all/20161114162505.GD26664@stefanha-x1.localdomai=
-n/
-
-Reported-by: Russell King - ARM Linux <linux@armlinux.org.uk>
-Reported-by: Tobias Fiebig <tobias+git@fiebig.nl>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1312
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/net/rtl8139.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-Tobias: Please test this fix. Thanks!
-
-diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c index =
-e6643e3c9d..ecc4dcb07f 100644
---- a/hw/net/rtl8139.c
-+++ b/hw/net/rtl8139.c
-@@ -77,7 +77,6 @@
-     ( ( input ) & ( size - 1 )  )
-=20
- #define ETHER_TYPE_LEN 2
--#define ETH_MTU     1500
-=20
- #define VLAN_TCI_LEN 2
- #define VLAN_HLEN (ETHER_TYPE_LEN + VLAN_TCI_LEN) @@ -2151,8 +2150,8 @@ =
-static int rtl8139_cplus_transmit_one(RTL8139State *s)
-=20
-                 int large_send_mss =3D (txdw0 >> 16) & =
-CP_TC_LGSEN_MSS_MASK;
-=20
--                DPRINTF("+++ C+ mode offloaded task TSO MTU=3D%d IP =
-data %d "
--                    "frame data %d specified MSS=3D%d\n", ETH_MTU,
-+                DPRINTF("+++ C+ mode offloaded task TSO IP data %d "
-+                    "frame data %d specified MSS=3D%d\n",
-                     ip_data_len, saved_size - ETH_HLEN, =
-large_send_mss);
-=20
-                 int tcp_send_offset =3D 0; @@ -2177,9 +2176,13 @@ =
-static int rtl8139_cplus_transmit_one(RTL8139State *s)
-                     goto skip_offload;
-                 }
-=20
--                /* ETH_MTU =3D ip header len + tcp header len + payload =
-*/
-+                /* MSS too small? */
-+                if (tcp_hlen + hlen >=3D large_send_mss) {
-+                    goto skip_offload;
-+                }
-+
-                 int tcp_data_len =3D ip_data_len - tcp_hlen;
--                int tcp_chunk_size =3D ETH_MTU - hlen - tcp_hlen;
-+                int tcp_chunk_size =3D large_send_mss - hlen - =
-tcp_hlen;
-=20
-                 DPRINTF("+++ C+ mode TSO IP data len %d TCP hlen %d TCP =
-"
-                     "data len %d TCP chunk size %d\n", ip_data_len,
---
-2.38.1
-
+> r~
 
 
