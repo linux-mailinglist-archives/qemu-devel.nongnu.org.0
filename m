@@ -2,107 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB76362C57C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 17:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E3862C5EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 18:08:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovLf6-0006Aj-Hn; Wed, 16 Nov 2022 11:53:20 -0500
+	id 1ovLoT-0002ob-UP; Wed, 16 Nov 2022 12:03:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1ovLf2-00067y-SB; Wed, 16 Nov 2022 11:53:17 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1ovLf0-00051K-Iz; Wed, 16 Nov 2022 11:53:16 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AGGmAlS004170; Wed, 16 Nov 2022 16:51:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=a4xd5IvN05qgG/J49mCe9rXuFnit7YXgygEfv2XXef4=;
- b=nk/c/jTU0jhHGZkkWa2pdMGJh5uyZBJIPnYm25N30HMszxy1uzk7Un2PDetsd/zH/oWG
- JHpjaX+ftRpf9dEFjDKuiqG9Fl49um9GdowGfRzA++x71c+6Am0z++dVAa5xK3RAGi4G
- 0ynHowuP+8bnD0v+uAtpKD1vAGqf9oM4kuS4D8GgNVxlZb6Nv2G2GlyLlgS0MA24BAMW
- f4kDA4LohNhZI3qipNReEieA2preGl2D7MJd7xz/Lh466oyLK/Gpll3fcgqts16PC/gW
- MD6ZWG5zfL6qqh2P08KdbAfXVK4i7sxixu9qe5iqJoIL6VHkEcOhk769jURo6nGCnOE9 Rw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kw3q1r36p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Nov 2022 16:51:51 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AGGmcno005830;
- Wed, 16 Nov 2022 16:51:51 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kw3q1r360-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Nov 2022 16:51:50 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AGGo6r6032686;
- Wed, 16 Nov 2022 16:51:49 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 3ktbd9mcwv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Nov 2022 16:51:49 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AGGpkaS5898842
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Nov 2022 16:51:46 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0499D11C04A;
- Wed, 16 Nov 2022 16:51:46 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C9B411C050;
- Wed, 16 Nov 2022 16:51:45 +0000 (GMT)
-Received: from [9.171.75.44] (unknown [9.171.75.44])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 16 Nov 2022 16:51:45 +0000 (GMT)
-Message-ID: <a2ddbba2-9e52-8ed8-fdbc-a587b8286576@de.ibm.com>
-Date: Wed, 16 Nov 2022 17:51:44 +0100
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1ovLoK-0002lH-Us; Wed, 16 Nov 2022 12:02:54 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1ovLnu-0007Az-MQ; Wed, 16 Nov 2022 12:02:48 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id i10so36962796ejg.6;
+ Wed, 16 Nov 2022 09:02:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9ayxYq3qjX1o9OZR7ijO5EjOfbyohDPQS/RHENmLPlA=;
+ b=m/us6Xnmblr9bACXw5c465uvjB8tbKQ+Dw9RTbdIHPkHBV/o25fWMRzRHdlKrYiluB
+ jewXhTdHCbI8sHho4FHJynZ4CNC8gp1YsVrunZXEMe/p7rnn/MUB+wftn0G6/rm0UHAK
+ h1ZseDxkF9wS7P/dd/KiqGIpFfWFjA6+1Cgd0sfrAZx28pAZRRYkx/Obt6u64ZqPTLRK
+ 5Q5WgkD7UzGVS4oQFgcV5SMbSmNxIsf9344/5ZA1zLSMgYItuwWfjJJPezkl7ccFIwAw
+ L04qw1gRJ3GAOua0FDKr0WBnVJJo6jfIdis07B7KEEHYndR56vkidIk55tsDdCTy1hRZ
+ afVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9ayxYq3qjX1o9OZR7ijO5EjOfbyohDPQS/RHENmLPlA=;
+ b=oQhaRjT12hmeb92cyR4A3j7vw4ucoSqDnxt/Xju4YaiuZXa4oSO/Npn6yFK3MYTtKF
+ 3nD7tWlEW0PqZYxl6dOTIp9ae29RRQvRD5iS0xApnkj6mE49IeOcwYTVVB474Ax1+UKQ
+ Dl5Y2u7ou16qHeXgaFl7AacSOi8DNPwAvF9TjE05hQ83mMys1uoqospyEBNIJps9tosc
+ EnWcTf0/+fRAl4cNO22m84SdWHFHpDlypfv3wNPkThwO0WcngSZgt5s2HN1kEwExoPcj
+ bRPzqNRTQ/JAaq/rBCA0bIHwcSkzNSRNa3G0O5GxSj+YYR1PhWvrUxRFPMQSMUSsobvX
+ 4WFg==
+X-Gm-Message-State: ANoB5pnv0F8TZOUfWBR5KMJpJo/1YVe1nb6yhSDb2GvEPUGaULK0orDZ
+ TUUWE0VvGD24BCOnklFyNpOCtJaa4J6fGIfQuRQ=
+X-Google-Smtp-Source: AA0mqf6vW3kA3CEkWOJygoQORM7+QD6Fb3Tcgx8v85TEaqWTW+8tA7cs6iU9Ucbj3/94t1imQpnZGFL8vqVeg2o+rO0=
+X-Received: by 2002:a17:906:66da:b0:7a5:f8a5:6f84 with SMTP id
+ k26-20020a17090666da00b007a5f8a56f84mr17784730ejp.569.1668618144127; Wed, 16
+ Nov 2022 09:02:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v9 00/10] s390x: CPU Topology
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, pasic@linux.ibm.com, richard.henderson@linaro.org, 
- david@redhat.com, thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, frankja@linux.ibm.com
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <20220902075531.188916-1-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: EOWPqYYjA5fSIEK3fusWU8yjdMlcJyLY
-X-Proofpoint-GUID: 7PSQOZON3XbnEcOQhYTBAzovGLZpUtx1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-16_03,2022-11-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- priorityscore=1501 mlxscore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0 clxscore=1011
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211160115
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20221115122527.2896476-1-oro@il.ibm.com>
+ <Y3PQj/MBztn8SobQ@redhat.com>
+ <MN2PR15MB34886DD5A9D0F5D64A248AA08A079@MN2PR15MB3488.namprd15.prod.outlook.com>
+ <Y3S6OGqGFovAyRWw@redhat.com> <Y3TGO6AEAAOux8FH@redhat.com>
+In-Reply-To: <Y3TGO6AEAAOux8FH@redhat.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Wed, 16 Nov 2022 18:02:12 +0100
+Message-ID: <CAOi1vP9FPZruCBrSbgn_78j+9gz3z6HqKJ+VaCU5mucmSc4rvQ@mail.gmail.com>
+Subject: Re: [PATCH v3] block/rbd: Add support for layered encryption
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Or Ozeri <ORO@il.ibm.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Danny Harnik <DANNYH@il.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,84 +86,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 02.09.22 um 09:55 schrieb Pierre Morel:
-> Hi,
-> 
-> The implementation of the CPU Topology in QEMU has been drastically
-> modified since the last patch series and the number of LOCs has been
-> greatly reduced.
-> 
-> Unnecessary objects have been removed, only a single S390Topology object
-> is created to support migration and reset.
-> 
-> Also a documentation has been added to the series.
-> 
-> 
-> To use these patches, you will need Linux V6-rc1 or newer.
-> 
-> Mainline patches needed are:
-> 
-> f5ecfee94493 2022-07-20 KVM: s390: resetting the Topology-Change-Report
-> 24fe0195bc19 2022-07-20 KVM: s390: guest support for topology function
-> 0130337ec45b 2022-07-20 KVM: s390: Cleanup ipte lock access and SIIF fac..
-> 
-> Currently this code is for KVM only, I have no idea if it is interesting
-> to provide a TCG patch. If ever it will be done in another series.
-> 
-> To have a better understanding of the S390x CPU Topology and its
-> implementation in QEMU you can have a look at the documentation in the
-> last patch.
-> 
-> New in this series
-> ==================
-> 
->    s390x/cpus: Make absence of multithreading clear
-> 
-> This patch makes clear that CPU-multithreading is not supported in
-> the guest.
-> 
->    s390x/cpu topology: core_id sets s390x CPU topology
-> 
-> This patch uses the core_id to build the container topology
-> and the placement of the CPU inside the container.
-> 
->    s390x/cpu topology: reporting the CPU topology to the guest
-> 
-> This patch is based on the fact that the CPU type for guests
-> is always IFL, CPUs are always dedicated and the polarity is
-> always horizontal.
-> This may change in the future.
-> 
->    hw/core: introducing drawer and books for s390x
->    s390x/cpu: reporting drawers and books topology to the guest
-> 
-> These two patches extend the topology handling to add two
-> new containers levels above sockets: books and drawers.
-> 
-> The subject of the last patches is clear enough (I hope).
-> 
-> Regards,
-> Pierre
-> 
-> Pierre Morel (10):
->    s390x/cpus: Make absence of multithreading clear
->    s390x/cpu topology: core_id sets s390x CPU topology
->    s390x/cpu topology: reporting the CPU topology to the guest
->    hw/core: introducing drawer and books for s390x
->    s390x/cpu: reporting drawers and books topology to the guest
->    s390x/cpu_topology: resetting the Topology-Change-Report
->    s390x/cpu_topology: CPU topology migration
->    target/s390x: interception of PTF instruction
->    s390x/cpu_topology: activating CPU topology
+On Wed, Nov 16, 2022 at 12:15 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
+>
+> On Wed, Nov 16, 2022 at 10:23:52AM +0000, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Nov 16, 2022 at 09:03:31AM +0000, Or Ozeri wrote:
+> > > > -----Original Message-----
+> > > > From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > > > Sent: 15 November 2022 19:47
+> > > > To: Or Ozeri <ORO@il.ibm.com>
+> > > > Cc: qemu-devel@nongnu.org; qemu-block@nongnu.org; Danny Harnik
+> > > > <DANNYH@il.ibm.com>; idryomov@gmail.com
+> > > > Subject: [EXTERNAL] Re: [PATCH v3] block/rbd: Add support for layer=
+ed
+> > > > encryption
+> > > >
+> > > > AFAICT, supporting layered encryption shouldn't require anything ot=
+her than
+> > > > the 'parent' addition.
+> > > >
+> > >
+> > > Since the layered encryption API is new in librbd, we don't have to
+> > > support "luks" and "luks2" at all.
+> > > In librbd we are actually deprecating the use of "luks" and "luks2",
+> > > and instead ask users to use "luks-any".
+> >
+> > Deprecating that is a bad idea. The security characteristics and
+> > feature set of LUKSv1 and LUKSv2 can be quite different. If a mgmt
+> > app is expecting the volume to be protected with LUKSv2, it should
+> > be stating that explicitly and not permit a silent downgrade if
+> > the volume was unexpectedly using LUKSv1.
+> >
+> > > If we don't add "luks-any" here, we will need to implement
+> > > explicit cases for "luks" and "luks2" in the qemu_rbd_encryption_load=
+2.
+> > > This looks like a kind of wasteful coding that won't be actually used
+> > > by users of the rbd driver in qemu.
+> >
+> > It isn't wasteful - supporting the formats explicitly is desirable
+> > to prevent format downgrades.
+> >
+> > > Anyhow, we need the "luks-any" option for our use-case, so if you
+> > > insist, I will first submit a patch to add "luks-any", before this
+> > > patch.
+> >
+> > I'm pretty wary of any kind of automatic encryption format detection
+> > in QEMU. The automatic block driver format probing has been a long
+> > standing source of CVEs in QEMU and every single mgmt app above QEMU.
+>
+> Having said that, normal linux LUKS tools like cryptsetup or systemd
+> LUKS integration will auto-detect  luks1 vs luks2. All cryptsetup
+> commands also have an option to explicitly specify the format version.
+>
+> So with that precedent I guess it is ok to add 'luks-any'.
 
+Yeah, I think we may need to reconsider the intent to deprecate
+LUKS1 and LUKS2 options for loading encryption in librbd in favor
+of a generic LUKS(-ANY) option.  But, just on its own, LUKS(-ANY)
+is definitely a thing and having it exposed in QEMU seems natural.
 
-Do we really need a machine property? As far as I can see, old QEMU
-cannot  activate the ctop facility with old and new kernel unless it
-enables CAP_S390_CPU_TOPOLOGY. I do get
-oldqemu .... -cpu z14,ctop=on
-qemu-system-s390x: Some features requested in the CPU model are not available in the configuration: ctop
+Thanks,
 
-With the newer QEMU we can. So maybe we can simply have a topology (and
-then a cpu model feature) in new QEMUs and non in old. the cpu model
-would then also fence migration from enabled to disabled.
+                Ilya
 
