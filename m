@@ -2,96 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A1662B999
+	by mail.lfdr.de (Postfix) with ESMTPS id 515A162B998
 	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 11:43:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovFrq-00036q-6s; Wed, 16 Nov 2022 05:42:06 -0500
+	id 1ovFsM-0003Gx-5H; Wed, 16 Nov 2022 05:42:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovFrj-00035q-7E
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:41:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ovFsK-0003Go-KR
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:42:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovFrh-0001qQ-EU
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:41:58 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ovFsJ-0001vI-40
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:42:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668595316;
+ s=mimecast20190719; t=1668595354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=soOJ3pnGlE3Un5hA+o3GwfNr+vbPsAXTO4blSLG9NoM=;
- b=gWKuwbo19JnX681A+4U293GxLNtzc99j2s/6xnHniu+Raemx8wW5XNi+cSchKULSEtmn6Q
- j8eveV0GdrCGeCZHNnlZC+cJOjhVMhrJ7/uskATXE5D9HKiDW6IkH3ISaM7sYbRzcUL7xI
- J+L7as1lkm6+ESk35BOXaauOIk/hPoA=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GYDtXMw5mEoHUxjRApVo/hir59WCTqlsdZ/f5OT4j+w=;
+ b=L/Rt8Z95Qfhbah8ImXXGyLxNhIYs6VqT1bLwFfGw+HucFyNMPNYToG7/Tkw160p484GNr1
+ cqDgdcEFKyEB1VVZQ9Na+nsEjFf0uYVNUQvqfRa3GGn8cFYn7icvUbU/M7Uytb9hD8wo/9
+ nPO/UkfCqKGUCpGBGTj4iIKzNPF8cX0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-5-hmCKZxeTNWa7mZcLAxXuOg-1; Wed, 16 Nov 2022 05:41:53 -0500
-X-MC-Unique: hmCKZxeTNWa7mZcLAxXuOg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- nh17-20020a056214391100b004bb6c16bd4dso12985774qvb.17
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 02:41:53 -0800 (PST)
+ us-mta-152-CT9s7RYRP4OECEf-jtexUA-1; Wed, 16 Nov 2022 05:42:32 -0500
+X-MC-Unique: CT9s7RYRP4OECEf-jtexUA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y18-20020a056402359200b004635f8b1bfbso12088485edc.17
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 02:42:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=soOJ3pnGlE3Un5hA+o3GwfNr+vbPsAXTO4blSLG9NoM=;
- b=yrRt+72NENUWKCqiK2/kKZ5J/ovB6ge7Al00NPUHlADkZL7Q304oYuvN1PNbXXUTsI
- V6+uIl+iFZ+9G3UUgq+W5ck34SWtSezaeXK35CtLAUInXJyDdENJQt4tFllLp/9BlwAH
- qRCyn01bMQZxIXRDpErsyULbzVp2nbrK1qDV7BJ7wK2IvfleGVJBnOuCDCxNaXnJqz1+
- dKnC0AIadXxC1l09fX9AYm5Zfz+iWOrZillglJHuPfEe0hQTgoH/fRc33CBZ9lJb4qet
- X8ZSdR9MXmcxT+SgpPhiOg0nnr1JuNEjj0IBfR3rrTXt3bkcCCiMFsz6iqkB3gD8kdfa
- tyKw==
-X-Gm-Message-State: ANoB5pkwgq2FQP7S2pG9jR446BDm5EvI1UHIveO8C1Sy6XVGUCoZzgNJ
- P2KjpCz/8LjbsWROdZOcR36jN1cg9eggG1VXmmWRJ3ojTNYetTg/dNmyWF5lIPk1V5mmYYbfjQd
- B2rwfUuyWEyUUhxI=
-X-Received: by 2002:a05:620a:130c:b0:6fa:330f:77a5 with SMTP id
- o12-20020a05620a130c00b006fa330f77a5mr18114929qkj.361.1668595313392; 
- Wed, 16 Nov 2022 02:41:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6DPc1U+WKf3rBIvXeCeI5V747FbUTkMA2ZInlsVOPzVW42/AfFajImTlVhtYOXgvvBRd43OA==
-X-Received: by 2002:a05:620a:130c:b0:6fa:330f:77a5 with SMTP id
- o12-20020a05620a130c00b006fa330f77a5mr18114913qkj.361.1668595313159; 
- Wed, 16 Nov 2022 02:41:53 -0800 (PST)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- n7-20020ac86747000000b00399ad646794sm8454029qtp.41.2022.11.16.02.41.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Nov 2022 02:41:52 -0800 (PST)
-Message-ID: <fefd924d-27be-54d1-2068-e25c060e384d@redhat.com>
-Date: Wed, 16 Nov 2022 11:41:48 +0100
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GYDtXMw5mEoHUxjRApVo/hir59WCTqlsdZ/f5OT4j+w=;
+ b=RCyWPjCnlt4LDe3FMPMBRgRU+iTw6xBfnshaGfpKxQM58/4xHqHNqLV4aivla/rcgS
+ w6v0Nmwjnw5NjlDnitvjd7hm3XrHw2nsP7dd+bcEAjS/zkG2M/LjlAmq/EqSP4jkOPUU
+ z+nj2UGFOjdO69bUD7mmszIdt+WaeK8ctlV3BXiu1wHXRqsxhROxFoCtuUgDirqYbA8J
+ 3hkTFZYXtIfGIy525gjb8YnI9xOrWxklI5uO+2JRw2VNE4x4h5slVcGsO2PPsQ5hQM/f
+ m6xSNvX8K20FWKYxxzLzhbxjZ9mzkngU2c2e3Xn3YhwWTGtmCj2/SYG+L39gVcIyDD9F
+ W+8A==
+X-Gm-Message-State: ANoB5pmor/Cva8UHdyNUZGKexiaqFgqAbE0mOnUV5Uu7WHWUCNwPZqhq
+ lmlWW5q7h46OETEg8604CXymi+heFLgY1IKCOep02XWZ1gKO2gycITGmAbhhRaW8y2rInZ3s3tN
+ Vteq8Yl2s7J7WdGQ=
+X-Received: by 2002:a17:906:7ca:b0:7ad:934e:95d3 with SMTP id
+ m10-20020a17090607ca00b007ad934e95d3mr17185930ejc.393.1668595351145; 
+ Wed, 16 Nov 2022 02:42:31 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5pyaftb3Z2LQcSQ9JQSsADXO7WzAWNZQsCVnKJDaygn0iXjPjtoQO/hfU2d8v+ZJ94G1a90g==
+X-Received: by 2002:a17:906:7ca:b0:7ad:934e:95d3 with SMTP id
+ m10-20020a17090607ca00b007ad934e95d3mr17185915ejc.393.1668595350916; 
+ Wed, 16 Nov 2022 02:42:30 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ g18-20020a17090604d200b0078a543e9301sm6566815eja.200.2022.11.16.02.42.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Nov 2022 02:42:30 -0800 (PST)
+Date: Wed, 16 Nov 2022 11:42:29 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, Peter
+ Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PULL v4 00/83] pci,pc,virtio: features, tests, fixes, cleanups
+Message-ID: <20221116114229.58683047@imammedo.users.ipa.redhat.com>
+In-Reply-To: <8ab63a14-606e-0205-508e-2d0c6003f0fe@linaro.org>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <8ab63a14-606e-0205-508e-2d0c6003f0fe@linaro.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 0/8] Still more coroutine and various fixes in block
- layer
-Content-Language: en-US
-To: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20221116085050.2295179-1-eesposit@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20221116085050.2295179-1-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,60 +101,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I apologize, as discussed also in v2 I just realized I could introduce
-generated_co_wrapper_simple already here and simplify patches 6 and 8.
+On Tue, 15 Nov 2022 15:01:06 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
 
-Also I think commit messages are the old ones from v1.
+> Hi,
+>=20
+> On 7/11/22 23:47, Michael S. Tsirkin wrote:
+>=20
+> > ----------------------------------------------------------------
+> > pci,pc,virtio: features, tests, fixes, cleanups
+> >=20
+> > lots of acpi rework
+> > first version of biosbits infrastructure
+> > ASID support in vhost-vdpa
+> > core_count2 support in smbios
+> > PCIe DOE emulation
+> > virtio vq reset
+> > HMAT support
+> > part of infrastructure for viommu support in vhost-vdpa
+> > VTD PASID support
+> > fixes, tests all over the place =20
+> Apparently unrelated to these fixes, but going from 6295a58ad1 to
+> v7.2.0-rc0 triggered rebuilding ACPI files and I now get:
+>=20
+>   45/510 qemu:qtest+qtest-i386 / qtest-i386/bios-tables-test=20
+>            ERROR          14.73s   killed by signal 6 SIGABRT
+>   74/510 qemu:qtest+qtest-x86_64 / qtest-x86_64/bios-tables-test=20
+>            ERROR          12.56s   killed by signal 6 SIGABRT
+>=20
+> Running manually:
+>=20
+> $ QTEST_QEMU_BINARY=3D./qemu-system-x86_64 tests/qtest/bios-tables-test
+> ...
+> # starting QEMU: exec ./qemu-system-x86_64 -qtest=20
+> unix:/tmp/qtest-239233.sock -qtest-log /dev/null -chardev=20
+> socket,path=3D/tmp/qtest-239233.qmp,id=3Dchar0 -mon=20
+> chardev=3Dchar0,mode=3Dcontrol -display none -machine pc -accel kvm -acce=
+l=20
+> tcg -net none -machine smm=3Doff -drive=20
+> id=3Dhd0,if=3Dnone,file=3Dtests/acpi-test-disk-QmvOOR,format=3Draw -devic=
+e=20
+> ide-hd,drive=3Dhd0  -accel qtest
+> Could not access KVM kernel module: Permission denied
+> qemu-system-x86_64: -accel kvm: failed to initialize kvm: Permission deni=
+ed
+> acpi-test: Warning! DSDT binary file mismatch. Actual=20
+> [aml:/tmp/aml-Y06RV1], Expected [aml:tests/data/acpi/pc/DSDT.nosmm].
+> See source file tests/qtest/bios-tables-test.c for instructions on how=20
+> to update expected files.
+> to see ASL diff between mismatched files install IASL, rebuild QEMU from=
+=20
+> scratch and re-run tests with V=3D1 environment variable set**
+> ERROR:../../tests/qtest/bios-tables-test.c:533:test_acpi_asl: assertion=20
+> failed: (all_tables_match)
+> Bail out! ERROR:../../tests/qtest/bios-tables-test.c:533:test_acpi_asl:=20
+> assertion failed: (all_tables_match)
+> Aborted
+>=20
+> I blew/recreated my build directory and can reproduce.
 
-I'll resend. Please ignore this serie.
+it works for me with KVM and without it on RHEL 8.7 x86 host.
+It looks like stale file (though you are saying that you've recreated direc=
+tory)=20
 
-Emanuele
+>=20
+> $ uname -sm
+> Linux x86_64
+>=20
+> Any clue?
 
-Am 16/11/2022 um 09:50 schrieb Emanuele Giuseppe Esposito:
-> This is a dump of all minor coroutine-related fixes found while looking
-> around and testing various things in the QEMU block layer.
-> 
-> Patches aim to:
-> - add missing coroutine_fn annotation to the functions
-> - simplify to avoid the typical "if in coroutine: fn()
->   // else create_coroutine(fn)" already present in generated_co_wraper
->   functions.
-> - make sure that if a BlockDriver callback is defined as coroutine_fn, then
->   it is always running in a coroutine.
-> 
-> This serie is based on Kevin Wolf's series "block: Simplify drain".
-> 
-> Based-on: <20221108123738.530873-1-kwolf@redhat.com>
-> 
-> Emanuele
-> ---
-> v3:
-> * Remove patch 1, base on kevin "drain semplification serie"
-> 
-> v2:
-> * clarified commit message in patches 2/3/6 on why we add coroutine_fn
-> 
-> Emanuele Giuseppe Esposito (8):
->   block-copy: add missing coroutine_fn annotations
->   nbd/server.c: add missing coroutine_fn annotations
->   block-backend: replace bdrv_*_above with blk_*_above
->   block: distinguish between bdrv_create running in coroutine and not
->   block/vmdk: add missing coroutine_fn annotations
->   block: bdrv_create_file is a coroutine_fn
->   block: bdrv_create is never called in coroutine context
->   block/dirty-bitmap: remove unnecessary qemu_in_coroutine() case
-> 
->  block.c                            | 75 ++++++++++++++----------------
->  block/block-backend.c              | 21 +++++++++
->  block/block-copy.c                 | 15 +++---
->  block/commit.c                     |  4 +-
->  block/dirty-bitmap.c               | 66 ++++++++++++--------------
->  block/vmdk.c                       | 36 +++++++-------
->  include/block/block-global-state.h |  3 +-
->  include/sysemu/block-backend-io.h  |  9 ++++
->  nbd/server.c                       | 43 +++++++++--------
->  qemu-img.c                         |  4 +-
->  10 files changed, 151 insertions(+), 125 deletions(-)
-> 
+just to be sure can you make fresh tree clone and build that?
+
+if that won't work, make sure you have IASL installed and run test
+manually with V=3D1 env var, that should print diff on failure=20
 
 
