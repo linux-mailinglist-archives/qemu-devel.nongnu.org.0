@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D6762C084
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 15:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF7F62BF31
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 14:17:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovJ3N-0007CY-GI; Wed, 16 Nov 2022 09:06:13 -0500
+	id 1ovIG4-00008l-2Z; Wed, 16 Nov 2022 08:15:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
- id 1ovEZL-0008G9-ES; Wed, 16 Nov 2022 04:18:55 -0500
-Received: from pi.codeconstruct.com.au ([203.29.241.158]
- helo=codeconstruct.com.au)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
- id 1ovEZI-0003wL-Mr; Wed, 16 Nov 2022 04:18:55 -0500
-Received: from pecola.lan (unknown [159.196.93.152])
- by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 18C9320031;
- Wed, 16 Nov 2022 17:18:36 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=codeconstruct.com.au; s=2022a; t=1668590320;
- bh=1FjLSTPAGobxT1O5ZX56IXyw3raFqKvtitqrRpog/DQ=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References;
- b=KRUBcILeqd4juqrDCGkGRYTHmjqxCVcevf7l1Huk9wXAKKzlrtOJrLgMTmoF7L0Ag
- iZ0RrzqHemAVlJ45D6Qaf6oIgntB0qR4Tbu3yDvU0TL1des7zimjEw5CU6LY2T9a/+
- y7FfI/OPcwKUG1CqbcqA7pfz9Z6+duYdnYAfyJXfi+DhPZF3miXUwSid2J9g1rYxJc
- fWHoBuzsawMWVWijF6HYeKpgIGLBbqQaRS3xk+KWqrZovotG5Mq9hL77I1OfWmljx+
- GXtjj1juNhwtxrxhX+aDhcWp8aBRZTMtDXLV/gYiDZQwhHy3JH2dZOdk2f3FsNASvQ
- MnXEn6IKDka4w==
-Message-ID: <32acd8cb29f23013ec203cb635e7fc161ad2e5a6.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 0/3] hw/{i2c,nvme}: mctp endpoint, nvme management
- interface model
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-Cc: Andrew Jeffery <andrew@aj.id.au>, Keith Busch <kbusch@kernel.org>, Corey
- Minyard <cminyard@mvista.com>, Peter Delevoryas <peter@pjd.dev>,
- qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>, 
- =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, Klaus Jensen
- <k.jensen@samsung.com>, Matt Johnston <matt@codeconstruct.com.au>
-Date: Wed, 16 Nov 2022 17:18:35 +0800
-In-Reply-To: <20221116084312.35808-1-its@irrelevant.dk>
-References: <20221116084312.35808-1-its@irrelevant.dk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-1 
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ovIG2-00008T-8C
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:15:14 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ovIG0-0006iQ-67
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:15:14 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id d20so16367307plr.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 05:15:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FlwqcxVGEX1FCQ+JbGFYqIHtt5TjFucWhfYOApa1LaM=;
+ b=H/BiymSScL0Wnd2WAYROsNcmgG71Gndmvi5mX513N4eCay30BZS0cy/oDAp7Np/6AI
+ BnAPLGx7EA5tyc1n+h5+T6gp7LfmC7HqN8Ds40VFDrD77JDSDQgaqSO6XOrdpvtdYd+j
+ pqEtuzYrTb4aEj2uXhGU3jTlxH54vIijGVxPMwGb8vxKaO3cc/f58pz0eGEBkKjyo98p
+ 64ZXRVPgLDw3q9j1BIoNK5SIVmmxbkZ2n0P6QhHh2Wn7i4srYQZG1SMvHXsEXtdWmYNr
+ lpBB2xjN+rDLSLZVltgXDdEKLmZZiQ1lWt66/qIEo/KTXrepXSBu9RSCS/4uOBlwudgc
+ IDwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FlwqcxVGEX1FCQ+JbGFYqIHtt5TjFucWhfYOApa1LaM=;
+ b=x67Z4Ld5Jvct1TSFGibQ/pD93sPjBuNS5hwUMHdFxpC+xdcBsvfzTrTlrkDKYzQQtW
+ 2ETUgZ+SZ4NCo34zCdD5dsA0H5B4XzUh2djAPzLFpiurJLR2AF4IiWdsV07S9l5HowdC
+ ic92QZYQLAzd+JPeUGAx3oZK3Iw2slC2umYJItk+QNJzwiQzH2GbdUmaVxpjLIpFY5CQ
+ FQXoYQqxBW3twVQHBnr75iHP/vv256m0bdCa2ZR5Oh0VBK5ooBD2rWvP+ZnLaxTJhz/X
+ AQQZ/seIpLPRG5IIf1hoB9PaCgRReP+DVt3dMCY3YswpKG519poQu1S26DJKG4yWUjy7
+ 3j2g==
+X-Gm-Message-State: ANoB5plmgguY2gfPWMG2JPhckzcKVZGWLkBnwIunH2GeSdQrcC26m1Ab
+ IQFWxR+tNofJPYW0LAlaWkDWCWzpAVoett+IxWP+ow==
+X-Google-Smtp-Source: AA0mqf7lbvqARA9CKWPNGL2RH4UiW2uwF1FAAYVyLgpfbVbbXbPpW/FRcED5gvX0iD9bUwWJOzT7Ntb9kjSRbmDdnr4=
+X-Received: by 2002:a17:90a:cb8b:b0:205:edfd:13f7 with SMTP id
+ a11-20020a17090acb8b00b00205edfd13f7mr3747790pju.19.1668604510144; Wed, 16
+ Nov 2022 05:15:10 -0800 (PST)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=203.29.241.158;
- envelope-from=jk@codeconstruct.com.au; helo=codeconstruct.com.au
+References: <20221108023542.17557-1-schspa@gmail.com>
+ <87fsetg5xh.fsf@linaro.org>
+ <CAMA88Tqt-7rCTC38OhZGmCZyO4rFz+HHBNtDjaVCbhna01yScQ@mail.gmail.com>
+ <CAFEAcA8J2Tx4gW5Y2q6qtkJ0BPpM4iWkt3nz0uezV+kiz6m_Ag@mail.gmail.com>
+ <CAFEAcA8KnNE90tHQjRNEVny=s7YLD5Wmff9R8ZyLxxz47bwRGA@mail.gmail.com>
+ <875yfpbg38.fsf@gmail.com>
+ <CAFEAcA_5_78qUNFdgpYGnS0tS3QWD4cJokJCzMC6Tq270bYbJg@mail.gmail.com>
+ <m2edu3ig2s.fsf@gmail.com>
+In-Reply-To: <m2edu3ig2s.fsf@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 16 Nov 2022 13:14:58 +0000
+Message-ID: <CAFEAcA9k5a8O02zT6x1tqFvo11NmYupX9mfe2YdSwebBHKSdbw@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/boot: set initrd parameters to 64bit in fdt
+To: Schspa Shi <schspa@gmail.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 16 Nov 2022 09:06:11 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,49 +90,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Klaus,
+On Wed, 16 Nov 2022 at 06:11, Schspa Shi <schspa@gmail.com> wrote:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Tue, 8 Nov 2022 at 15:50, Schspa Shi <schspa@gmail.com> wrote:
+> >>
+> >>
+> >> Peter Maydell <peter.maydell@linaro.org> writes:
+> >>
+> >> > On Tue, 8 Nov 2022 at 13:54, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >> >>
+> >> >> On Tue, 8 Nov 2022 at 12:52, Schspa Shi <schspa@gmail.com> wrote:
+> >> >> > I think this lowmem does not mean below 4GB. and it is to make sure
+> >> >> > the initrd_start > memblock_start_of_DRAM for Linux address range check.
+> >> >>
+> >> >> The wording of this comment pre-dates 64-bit CPU support: it
+> >> >> is talking about the requirement in the 32-bit booting doc
+> >> >> https://www.kernel.org/doc/Documentation/arm/Booting
+> >> >> that says
+> >> >> "If an initramfs is in use then, as with the dtb, it must be placed in
+> >> >> a region of memory where the kernel decompressor will not overwrite it
+> >> >> while also with the region which will be covered by the kernel's
+> >> >> low-memory mapping."
+> >> >>
+> >> >> So it does mean "below 4GB", because you can't boot a 32-bit kernel
+> >> >> if you don't put the kernel, initrd, etc below 4GB.
+> >> >
+> >> > A kernel person corrects me on the meaning of "lowmem" here -- the
+> >> > kernel means by it "within the first 768MB of RAM". There is also
+> >> > an implicit requirement that everything be within the bottom 32-bits
+> >> > of the physical address space.
+> >> >
+> >>
+> >> Thanks for your comment.
+> >>
+> >> In this view, initrd shouldn't be placed higher than 4GB ? But it
+> >> seems the Linux kernel can boot when there is no memory below 4GB.
+> >
+> > A *32 bit* kernel cannot -- it is completely unable to access
+> > anything above the 4GB mark when the MMU is off, as it is on
+> > initial boot. This QEMU code handles both 32 bit and 64 bit
+> > kernel boot. These days of course there is 64-bit only hardware,
+> > and that might choose to put its RAM above the 4GB mark,
+> > because it isn't ever going to boot a 32-bit kernel anyway.
+> >
+>
+> Yes, I think we should accept this patch, because it will not affect
+> 32-bit devices, and provides support for 64-bit devices to put initrd
+> above 4GB.
 
-[+CC Matt]
+Yes, I agree. However since it doesn't cause a problem for any
+of the machine models in upstream QEMU, I think we should leave
+it until after the in-progress 7.2 release, so that we have
+plenty of time to investigate just in case it does cause an
+unexpected issue on 32-bit boards.
 
-> This adds a generic MCTP endpoint model that other devices may derive
-> from. I'm not 100% happy with the design of the class methods, but
-> it's a start.
+This patch is on my list to review and deal with when 7.2
+goes out and development reopens for 8.0 (should be in about
+four weeks).
 
-Thanks for posting these! I'll have a more thorough look through soon,
-but wanted to tackle some of the larger design-points first (and we've
-already spoken a bit about these, but rehashing a little of that for
-others CCed too).
-
-For me, the big decision here is where we want to run the NVMe-MI
-device model. Doing it in the qemu process certainly makes things
-easier to set up, and we can just configure the machine+nvme-mi device
-as the one operation.
-
-The alternative would be to have the NVMe-MI model run as an external
-process, and not part of the qemu tree; it looks like Peter D is going
-for that approach with [1]. The advantage there is that we would be
-able to test against closer-to-reality "MI firmware" (say, a device
-vendor running their NVMe-MI firmware directly in another emulator? are
-folks interested in doing that?)
-
-The complexity around the latter approach will be where we split the
-processes, and arrange for IPC. [1] suggests at the i2c layer, but that
-does seem to have complexities with i2c controller model compatibility;
-we could certainly extend that to a "generic" i2c-over-something
-protocol (which would also be handy for other things), or go higher up
-and use MCTP directly as the transport (say, the serial binding over a
-chardev). The former would be more useful for direct firmware
-emulation.
-
-My interest is mainly in testing the software stack, so either approach
-is fine; I assume your interest is from the device implementation side?
-
-Cheers,
-
-
-Jeremy
-
-[1]: https://github.com/facebook/openbmc/blob/helium/common/recipes-devtool=
-s/qemu/qemu/0007-hw-misc-Add-i2c-netdev-device.patch
-
+thanks
+-- PMM
 
