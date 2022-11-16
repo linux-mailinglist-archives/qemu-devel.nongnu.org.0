@@ -2,82 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A565B62B247
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 05:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF2362B296
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 06:07:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov9tz-0004dq-Qj; Tue, 15 Nov 2022 23:19:55 -0500
+	id 1ovAbl-0006Vi-6a; Wed, 16 Nov 2022 00:05:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ov9tx-0004dR-R8
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 23:19:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ovAbh-0006VL-TD
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 00:05:05 -0500
+Received: from mga09.intel.com ([134.134.136.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ov9tv-0005tH-S7
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 23:19:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668572390;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=affmViKJ097WeEnUj66Ajgyu//xZ1I5d2ln3nHfVzb8=;
- b=aAoTo+7T7UhSJzLJCWjUbo42+WGhS+qD9+FZGdT443DP8gD2BJZArVr43R47v+S49pjhtN
- RK8JvJeIRFrswoq7aOkxdxjoT+yRIRP7HzAOqDG04+FBV6XQDEjUJYEz8JmmqiTA4ZjJOT
- sTAUC+arIOHWQlxCa+5SO+vqBGCeIqM=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-217-DaTolcUtN3anVgfdTMKMPA-1; Tue, 15 Nov 2022 23:19:47 -0500
-X-MC-Unique: DaTolcUtN3anVgfdTMKMPA-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-13ba8947e4cso7572910fac.6
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 20:19:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=affmViKJ097WeEnUj66Ajgyu//xZ1I5d2ln3nHfVzb8=;
- b=Q1jY2V8XVURi8i0YMxhqbpkHtUWom3MpRNR8NPytKLpYWZT0fjgyNRttpMzEaU/RSZ
- Xqg9jt1PladiII3LDLT8hBjHNOEw9NZ7nEVK8rbmJSGEtkYhtjFg8IhQ2e29Q5isk5ck
- 5oxP75hTJILomSr1LBGv4uedTRDZu/JvTEQd/eKwE6tXWWY+FTpDGYVHuCIS+TRrcxO/
- uP+TywHdqTlw9AC5envTRkndJgjE5zPfao3qmzwQt2uJ8iJPbBSiptjYIV7vb1zpvCeg
- roNtz14VB70U1h+FlYx2A29AaDF5h476PGMVMOxOUwXlHpxk8RJTDcXDEHoJjPPxn06h
- +WnQ==
-X-Gm-Message-State: ANoB5pkNe15T5dDhz4m/AHF4nDqIwNslsNuyR2KOY6wkBm0Dt4fR+noy
- 3d9dPn9CJh3pqhwjuCwJVGm1tla374kErs3zNHpxDPPxwEMb556Ybn3R7HZgmjQSPrHCqu8sdmE
- aA5y/5co1NeurrP5qCCQwmbKcGbB+RfM=
-X-Received: by 2002:aca:906:0:b0:354:68aa:9c59 with SMTP id
- 6-20020aca0906000000b0035468aa9c59mr737435oij.35.1668572386470; 
- Tue, 15 Nov 2022 20:19:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6naCBzuCv23NMNyuutTEAd4yeNrW+pi+csTxOmW4BwNFlk8u/g8OKdImQ1oHdZ9MsTo8KYoCXPdKAp+9sNd8g=
-X-Received: by 2002:aca:906:0:b0:354:68aa:9c59 with SMTP id
- 6-20020aca0906000000b0035468aa9c59mr737430oij.35.1668572386250; Tue, 15 Nov
- 2022 20:19:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ovAbe-0002RV-5y
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 00:05:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668575102; x=1700111102;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=foUP09rbOFmy8/q+NFuW/TBTGS2xITtwfC1ci5ozoPE=;
+ b=HkfM+lh87Pdv9IqYREjjiPlQZkgx+RwkfOy9WQeyRCebmAgVL5UBjtoS
+ LgArpTdyOMX5dCoe2UeKfqS8JP+skCuoU6AMxT/Py4PBKZdXvAbkTHDn0
+ cwqjCxrSXqMKIXz5LkjZrA1KRMAqff2U+N3puBaUl/lSdAImwxYqjIgNJ
+ nQI8ZQkCIUbH749OF1QA2tcWbsX/xz4uQ8AuFh+jsN0w0SPd7O8R4R0Vf
+ vhNUnXuRmfhKv8HHVCxY+Bk8JHFqR+OkJKyzyD23bEr0BeMF6OMccEg/+
+ M++ECX2U/mWJhH1tcUDysU9Ru98ZU1aB7MW2ogj4MonxVQgNrjEmd8UXa Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="313601780"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="313601780"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2022 21:04:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="708008436"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="708008436"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga004.fm.intel.com with ESMTP; 15 Nov 2022 21:04:47 -0800
+Date: Wed, 16 Nov 2022 13:00:22 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ AKASHI Takahiro <takahiro.akashi@linaro.org>
+Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20221116050022.GC364614@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <87k03xbvkt.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20221115163659.1595865-1-stefanha@redhat.com>
- <010001d8f94b$13bd5bf0$3b3813d0$@fiebig.nl>
-In-Reply-To: <010001d8f94b$13bd5bf0$3b3813d0$@fiebig.nl>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 16 Nov 2022 12:19:35 +0800
-Message-ID: <CACGkMEtZCZf-qEhqzMATk1skV0_ZmfDsQu=46qbmoCpd_LUN+g@mail.gmail.com>
-Subject: Re: [PATCH for-7.2] rtl8139: honor large send MSS value
-To: Tobias Fiebig <tobias@fiebig.nl>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Russell King - ARM Linux <linux@armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87k03xbvkt.fsf@linaro.org>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,91 +101,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 7:43 AM Tobias Fiebig <tobias@fiebig.nl> wrote:
->
-> Heho,
-> Just to keep you in the loop; Just applied the patch, but things didn't really get better; I am currently doing a 'make clean; make' for good measure (had built head first), and will also double-check that there is no accidental use of system-qemu libs.
->
-> If that still doesn't show an effect, I'll hold tcpdump to the wire again.
->
-> With best regards,
-> Tobias
+On Mon, Nov 14, 2022 at 11:43:37AM +0000, Alex Bennée wrote:
+> 
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> 
+> <snip>
+> > Introduction
+> > ============
+> > KVM userspace being able to crash the host is horrible. Under current
+> > KVM architecture, all guest memory is inherently accessible from KVM
+> > userspace and is exposed to the mentioned crash issue. The goal of this
+> > series is to provide a solution to align mm and KVM, on a userspace
+> > inaccessible approach of exposing guest memory. 
+> >
+> > Normally, KVM populates secondary page table (e.g. EPT) by using a host
+> > virtual address (hva) from core mm page table (e.g. x86 userspace page
+> > table). This requires guest memory being mmaped into KVM userspace, but
+> > this is also the source where the mentioned crash issue can happen. In
+> > theory, apart from those 'shared' memory for device emulation etc, guest
+> > memory doesn't have to be mmaped into KVM userspace.
+> >
+> > This series introduces fd-based guest memory which will not be mmaped
+> > into KVM userspace. KVM populates secondary page table by using a
+> > fd/offset pair backed by a memory file system. The fd can be created
+> > from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
+> > directly interact with them with newly introduced in-kernel interface,
+> > therefore remove the KVM userspace from the path of accessing/mmaping
+> > the guest memory. 
+> >
+> > Kirill had a patch [2] to address the same issue in a different way. It
+> > tracks guest encrypted memory at the 'struct page' level and relies on
+> > HWPOISON to reject the userspace access. The patch has been discussed in
+> > several online and offline threads and resulted in a design document [3]
+> > which is also the original proposal for this series. Later this patch
+> > series evolved as more comments received in community but the major
+> > concepts in [3] still hold true so recommend reading.
+> >
+> > The patch series may also be useful for other usages, for example, pure
+> > software approach may use it to harden itself against unintentional
+> > access to guest memory. This series is designed with these usages in
+> > mind but doesn't have code directly support them and extension might be
+> > needed.
+> 
+> There are a couple of additional use cases where having a consistent
+> memory interface with the kernel would be useful.
 
-It might be also helpful to dump mss saw by Qemu to see if it really
-changes or differs a lot from 1500.
+Thanks very much for the info. But I'm not so confident that the current
+memfd_restricted() implementation can be useful for all these usages. 
 
-Thanks
+> 
+>   - Xen DomU guests providing other domains with VirtIO backends
+> 
+>   Xen by default doesn't give other domains special access to a domains
+>   memory. The guest can grant access to regions of its memory to other
+>   domains for this purpose. 
 
->
-> -----Original Message-----
-> From: Stefan Hajnoczi <stefanha@redhat.com>
-> Sent: Tuesday, 15 November 2022 17:37
-> To: qemu-devel@nongnu.org
-> Cc: jasowang@redhat.com; qemu-stable@nongnu.org; Stefan Hajnoczi <stefanha@redhat.com>; Russell King - ARM Linux <linux@armlinux.org.uk>; Tobias Fiebig <tobias+git@fiebig.nl>
-> Subject: [PATCH for-7.2] rtl8139: honor large send MSS value
->
-> The Large-Send Task Offload Tx Descriptor (9.2.1 Transmit) has a Large-Send MSS value where the driver specifies the MSS. See the datasheet here:
-> http://realtek.info/pdf/rtl8139cp.pdf
->
-> The code ignores this value and uses a hardcoded MSS of 1500 bytes instead. When the MTU is less than 1500 bytes the hardcoded value results in IP fragmentation and poor performance.
->
-> Use the Large-Send MSS value to correctly size Large-Send packets.
->
-> This issue was discussed in the past here:
-> https://lore.kernel.org/all/20161114162505.GD26664@stefanha-x1.localdomain/
->
-> Reported-by: Russell King - ARM Linux <linux@armlinux.org.uk>
-> Reported-by: Tobias Fiebig <tobias+git@fiebig.nl>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1312
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  hw/net/rtl8139.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> Tobias: Please test this fix. Thanks!
->
-> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c index e6643e3c9d..ecc4dcb07f 100644
-> --- a/hw/net/rtl8139.c
-> +++ b/hw/net/rtl8139.c
-> @@ -77,7 +77,6 @@
->      ( ( input ) & ( size - 1 )  )
->
->  #define ETHER_TYPE_LEN 2
-> -#define ETH_MTU     1500
->
->  #define VLAN_TCI_LEN 2
->  #define VLAN_HLEN (ETHER_TYPE_LEN + VLAN_TCI_LEN) @@ -2151,8 +2150,8 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->
->                  int large_send_mss = (txdw0 >> 16) & CP_TC_LGSEN_MSS_MASK;
->
-> -                DPRINTF("+++ C+ mode offloaded task TSO MTU=%d IP data %d "
-> -                    "frame data %d specified MSS=%d\n", ETH_MTU,
-> +                DPRINTF("+++ C+ mode offloaded task TSO IP data %d "
-> +                    "frame data %d specified MSS=%d\n",
->                      ip_data_len, saved_size - ETH_HLEN, large_send_mss);
->
->                  int tcp_send_offset = 0; @@ -2177,9 +2176,13 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->                      goto skip_offload;
->                  }
->
-> -                /* ETH_MTU = ip header len + tcp header len + payload */
-> +                /* MSS too small? */
-> +                if (tcp_hlen + hlen >= large_send_mss) {
-> +                    goto skip_offload;
-> +                }
-> +
->                  int tcp_data_len = ip_data_len - tcp_hlen;
-> -                int tcp_chunk_size = ETH_MTU - hlen - tcp_hlen;
-> +                int tcp_chunk_size = large_send_mss - hlen - tcp_hlen;
->
->                  DPRINTF("+++ C+ mode TSO IP data len %d TCP hlen %d TCP "
->                      "data len %d TCP chunk size %d\n", ip_data_len,
-> --
-> 2.38.1
->
->
+I'm trying to form my understanding on how this could work and what's
+the benefit for a DomU guest to provide memory through memfd_restricted().
+AFAICS, memfd_restricted() can help to hide the memory from DomU userspace,
+but I assume VirtIO backends are still in DomU uerspace and need access
+that memory, right?
 
+> 
+>   - pKVM on ARM
+> 
+>   Similar to Xen, pKVM moves the management of the page tables into the
+>   hypervisor and again doesn't allow those domains to share memory by
+>   default.
+
+Right, we already had some discussions on this in the past versions.
+
+> 
+>   - VirtIO loopback
+> 
+>   This allows for VirtIO devices for the host kernel to be serviced by
+>   backends running in userspace. Obviously the memory userspace is
+>   allowed to access is strictly limited to the buffers and queues
+>   because giving userspace unrestricted access to the host kernel would
+>   have consequences.
+
+Okay, but normal memfd_create() should work for it, right? And
+memfd_restricted() instead may not work as it unmaps the memory from
+userspace.
+
+> 
+> All of these VirtIO backends work with vhost-user which uses memfds to
+> pass references to guest memory from the VMM to the backend
+> implementation.
+
+Sounds to me these are the places where normal memfd_create() can act on.
+VirtIO backends work on the mmap-ed memory which currently is not the
+case for memfd_restricted(). memfd_restricted() has different design
+purpose that unmaps the memory from userspace and employs some kernel
+callbacks so other kernel modules can make use of the memory with these
+callbacks instead of userspace virtual address.
+
+Chao
+> 
+> > mm change
+> > =========
+> > Introduces a new memfd_restricted system call which can create memory
+> > file that is restricted from userspace access via normal MMU operations
+> > like read(), write() or mmap() etc and the only way to use it is
+> > passing it to a third kernel module like KVM and relying on it to
+> > access the fd through the newly added restrictedmem kernel interface.
+> > The restrictedmem interface bridges the memory file subsystems
+> > (tmpfs/hugetlbfs etc) and their users (KVM in this case) and provides
+> > bi-directional communication between them. 
+> >
+> >
+> > KVM change
+> > ==========
+> > Extends the KVM memslot to provide guest private (encrypted) memory from
+> > a fd. With this extension, a single memslot can maintain both private
+> > memory through private fd (restricted_fd/restricted_offset) and shared
+> > (unencrypted) memory through userspace mmaped host virtual address
+> > (userspace_addr). For a particular guest page, the corresponding page in
+> > KVM memslot can be only either private or shared and only one of the
+> > shared/private parts of the memslot is visible to guest. For how this
+> > new extension is used in QEMU, please refer to kvm_set_phys_mem() in
+> > below TDX-enabled QEMU repo.
+> >
+> > Introduces new KVM_EXIT_MEMORY_FAULT exit to allow userspace to get the
+> > chance on decision-making for shared <-> private memory conversion. The
+> > exit can be an implicit conversion in KVM page fault handler or an
+> > explicit conversion from guest OS.
+> >
+> > Extends existing SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to
+> > convert a guest page between private <-> shared. The data maintained in
+> > these ioctls tells the truth whether a guest page is private or shared
+> > and this information will be used in KVM page fault handler to decide
+> > whether the private or the shared part of the memslot is visible to
+> > guest.
+> >
+> <snip>
+> 
+> -- 
+> Alex Bennée
 
