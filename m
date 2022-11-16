@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FD262C884
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9E162C886
 	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 19:57:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovNZp-00029A-DL; Wed, 16 Nov 2022 13:56:01 -0500
+	id 1ovNZs-0002BZ-Oa; Wed, 16 Nov 2022 13:56:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ovNZY-00027v-Uo
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ovNZb-000288-4b
  for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:55:48 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ovNZV-0002nh-ER
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:55:43 -0500
-Received: by mail-ej1-x633.google.com with SMTP id kt23so46389693ejc.7
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 10:55:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ovNZX-0002nn-7O
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:55:44 -0500
+Received: by mail-ej1-x634.google.com with SMTP id m22so46334611eji.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 10:55:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eJ+AvO1YFDSaeaJt9VdWDzBH4lBrPoDLbIi1ngo1iDI=;
- b=CnkB7FZ36qcbBLYwP+Q0/kdM+F18AA4ySE6O10p8yr2ujM+vTzdeWC1fvb1FOcT0Wh
- nM5stlVuCxO4HZvGd3VqBrQM6guiLwC2gExYPyDc2h/2M9FNQ7I1vnADx3TsHVFAQOlA
- 2qW3mq7PGXMsLt8FrUPqvLWEcWBqEDaBkeIYrHUz7SiSKMcpm+BOH/RIb6Y5uCbLa7He
- gzlp68Ja2V1vxr+cAxvnUf91wOi0znotPkrhaaoK5iM4LcbzKSkzN/2/xMGavwresC+G
- dHcqdF5N2JQPwBJ1iraawGEyLisXhBCZrXf7wb+ILpYiYKLTdRDHGp1AAXcPFlOmq9KP
- 5f3w==
+ bh=LnajS2HAtBtCuFF8nCQ1JHCjDhZ/Yqc5s6hptxZ5o5Q=;
+ b=fM3smxcl0soHebTDhrJvoS+A3gzjpJLKe1KdmHb4ONE50DKVMYE2ABZXUoO33UUarw
+ TwJqkggnuoiZB4QATuF41shR/wdw4U+J5IcMjHfzeQ5ofhPSR3B7U2Lyv3yRyr40ya56
+ bPDN6sFRddsFMa9Ju2LdalnVJ9mjZOOyCAJzlSUCJHROk29oPlanAxS9e1NS6feazLlz
+ JI20vYeTK/qp5Lr/4bzQ5ktW6Cn5df95Qv1bX3A9vHUIb103kp9SI8to+WvmM/KSsLDh
+ 1SPjJQS7k983cg8xmI0w3xFrZuy22otXTWqFh2d+hF0Ve2yXAVjehlfV8kWieMsFbGCf
+ Chxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eJ+AvO1YFDSaeaJt9VdWDzBH4lBrPoDLbIi1ngo1iDI=;
- b=OmGqupylQF9oNWPMIi17l5Plfq1YQnme4GHdrq95DEgQ9N6MKUe2TIL8XWPHpbJvS4
- Nbdw6V8VJ47c9pPeOMlzKqoExaMHwdwMLTVvXK7SRq05jEep2Yu940jFYoO7DFdLdSh2
- vi5cDPmjYgQBNxqSSplF9ukApbuva9oIprJKWaGm8+70Ih5zEBKkPuUw+PmYoqoe80HQ
- mkj61NuVmYtCP4yIg61/ZoCHBngjr2qE7Qyp6ZoXfW6HiLpptVvZ3sSekb+RBRMOUonz
- VPtpuSxX1iNDNCNNA2L7XgrFIJzv6vJ4o3z/9KSg+yyaDSH3G1/Ek9n3TKTAkdva3XWV
- w9kw==
-X-Gm-Message-State: ANoB5pkHb/8egMwwXwMVZ3wmD7Aco9fKRphgnbITsnQrD81mctx5xeo/
- omLIPFO5nsla4eQbGpYhDmLe8asjU34=
-X-Google-Smtp-Source: AA0mqf6h51S/Q9q5dwi8K5If3FQdh3MMgSC2lJ4Vd1VlHGZcBWxguw2QckPYiIERofHN8POuzw0c7Q==
-X-Received: by 2002:a17:906:c56:b0:7ad:88f8:68fb with SMTP id
- t22-20020a1709060c5600b007ad88f868fbmr19124001ejf.277.1668624939503; 
- Wed, 16 Nov 2022 10:55:39 -0800 (PST)
+ bh=LnajS2HAtBtCuFF8nCQ1JHCjDhZ/Yqc5s6hptxZ5o5Q=;
+ b=cjuPvKW2QfceOMuT09f2LGDJtqc7Ff7X89ZVLijS0dBpoTKRB00wncONxQ6oVi112N
+ i12FjBiW7+JCg2vXY1VU2CVgfAbUx6WH+nXnvjx1X8sB5nhnDeODkDteucwDNpJOqH0E
+ i5hwAV6PFLHMljAhjiBTwZkUcqqzTbxglye49KaMjY7jtf1O0Etha5VTyPQXHaC7Ldan
+ UnNIAKkBCXAjNbk6p6Q/W7IPHWpFRWWJrxpp5/ohHxyjddd1lc/bR/W9d/wsWgNDPLH8
+ 5U5SvZOAcSJ+64fI0LEir8bm4fke8Pebz4XbHJfyLifwa/RX3b4xbGGR6D6+hCN86cLH
+ aDzw==
+X-Gm-Message-State: ANoB5placTrL8UVIMmg5mYtjkIts6HTJdfVEtWPL33/dBRvALbJF7iAu
+ K0jRQvsa+YieHKvjVcHK8ZeIOcIiyHQ=
+X-Google-Smtp-Source: AA0mqf4apN/fsvHEJx8CIQmzBzIoMrZP/d7o4YPibIEuw6/WiigsEbOMrjE8LPumuNurG6RkA906qQ==
+X-Received: by 2002:a17:906:a386:b0:78d:3f96:b7aa with SMTP id
+ k6-20020a170906a38600b0078d3f96b7aamr18354735ejz.74.1668624940674; 
+ Wed, 16 Nov 2022 10:55:40 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-013-007-153.77.13.pool.telefonica.de. [77.13.7.153])
  by smtp.gmail.com with ESMTPSA id
- de30-20020a1709069bde00b0073d796a1043sm7135444ejc.123.2022.11.16.10.55.38
+ de30-20020a1709069bde00b0073d796a1043sm7135444ejc.123.2022.11.16.10.55.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 10:55:39 -0800 (PST)
+ Wed, 16 Nov 2022 10:55:40 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -64,17 +64,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
-Subject: [RFC PATCH 1/3] hw/isa/piix3: Decouple INTx-to-LNKx routing which is
+Subject: [RFC PATCH 2/3] hw/isa/piix4: Decouple INTx-to-LNKx routing which is
  board-specific
-Date: Wed, 16 Nov 2022 19:54:58 +0100
-Message-Id: <20221116185500.84019-2-shentey@gmail.com>
+Date: Wed, 16 Nov 2022 19:54:59 +0100
+Message-Id: <20221116185500.84019-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221116185500.84019-1-shentey@gmail.com>
 References: <20221116185500.84019-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,106 +97,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-pci_map_irq_fn's in general seem to be board-specific. So move PIIX3's
-pci_slot_get_pirq() to board code to not have PIIX3 make assuptions
-about its board.
+pci_map_irq_fn's in general seem to be board-specific, and PIIX4's
+pci_slot_get_pirq() in particular seems very Malta-specific. So move the
+latter to malta.c to 1/ keep the board logic in one place and 2/ avoid
+PIIX4 to make assumptions about its board.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/i386/pc_piix.c | 17 +++++++++++++++++
- hw/isa/piix3.c    | 16 +++-------------
- 2 files changed, 20 insertions(+), 13 deletions(-)
+ hw/isa/piix4.c  | 28 ++--------------------------
+ hw/mips/malta.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+), 26 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 0ad0ed1603..07aa38081a 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -47,6 +47,7 @@
- #include "hw/sysbus.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/xen/xen-x86.h"
-+#include "hw/xen/xen.h"
- #include "exec/memory.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/piix4.h"
-@@ -73,6 +74,17 @@ static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
- static const int ide_irq[MAX_IDE_BUS] = { 14, 15 };
- #endif
- 
-+/*
-+ * Return the global irq number corresponding to a given device irq
-+ * pin. We could also use the bus number to have a more precise mapping.
-+ */
-+static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
-+{
-+    int slot_addend;
-+    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
-+    return (pci_intx + slot_addend) & 3;
-+}
-+
- /* PC hardware initialisation */
- static void pc_init1(MachineState *machine,
-                      const char *host_type, const char *pci_type)
-@@ -223,6 +235,11 @@ static void pc_init1(MachineState *machine,
-         piix3->pic = x86ms->gsi;
-         piix3_devfn = piix3->dev.devfn;
-         isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
-+
-+        pci_bus_irqs(pci_bus, pci_bus->set_irq,
-+                     xen_enabled() ? xen_pci_slot_get_pirq
-+                                   : pci_slot_get_pirq,
-+                     pci_dev, pci_bus->nirq);
-     } else {
-         pci_bus = NULL;
-         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index f9b4af5c05..83a6e3be72 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -29,6 +29,7 @@
- #include "hw/southbridge/piix.h"
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 8fc1db6dc9..709dd901c2 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -28,6 +28,7 @@
  #include "hw/irq.h"
- #include "hw/isa/isa.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/pci/pci.h"
 +#include "hw/pci/pci_bus.h"
- #include "hw/xen/xen.h"
- #include "sysemu/runstate.h"
- #include "migration/vmstate.h"
-@@ -79,17 +80,6 @@ static void piix3_set_irq(void *opaque, int pirq, int level)
-     piix3_set_irq_level(piix3, pirq, level);
+ #include "hw/ide/piix.h"
+ #include "hw/isa/isa.h"
+ #include "hw/intc/i8259.h"
+@@ -79,31 +80,6 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+     }
  }
  
--/*
-- * Return the global irq number corresponding to a given device irq
-- * pin. We could also use the bus number to have a more precise mapping.
-- */
--static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
+-static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
 -{
--    int slot_addend;
--    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
--    return (pci_intx + slot_addend) & 3;
+-    int slot;
+-
+-    slot = PCI_SLOT(pci_dev->devfn);
+-
+-    switch (slot) {
+-    /* PIIX4 USB */
+-    case 10:
+-        return 3;
+-    /* AMD 79C973 Ethernet */
+-    case 11:
+-        return 1;
+-    /* Crystal 4281 Sound */
+-    case 12:
+-        return 2;
+-    /* PCI slot 1 to 4 */
+-    case 18 ... 21:
+-        return ((slot - 18) + irq_num) & 0x03;
+-    /* Unknown device, don't do any translation */
+-    default:
+-        return irq_num;
+-    }
 -}
 -
- static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
+ static void piix4_isa_reset(DeviceState *dev)
  {
-     PIIX3State *piix3 = opaque;
-@@ -388,7 +378,7 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
-         return;
+     PIIX4State *d = PIIX4_PCI_DEVICE(dev);
+@@ -271,7 +247,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
      }
+     qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
  
--    pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
-+    pci_bus_irqs(pci_bus, piix3_set_irq, pci_bus->map_irq,
-                  piix3, PIIX_NUM_PIRQS);
-     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
- }
-@@ -424,7 +414,7 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
-      * connected to the IOAPIC directly.
-      * These additional routes can be discovered through ACPI.
-      */
--    pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
-+    pci_bus_irqs(pci_bus, xen_piix3_set_irq, pci_bus->map_irq,
-                  piix3, XEN_PIIX_NUM_PIRQS);
+-    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
++    pci_bus_irqs(pci_bus, piix4_set_irq, pci_bus->map_irq, s, PIIX_NUM_PIRQS);
  }
  
+ static void piix4_init(Object *obj)
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index c0a2e0ab04..8a6b66e759 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -39,6 +39,7 @@
+ #include "hw/mips/bootloader.h"
+ #include "hw/mips/cpudevs.h"
+ #include "hw/pci/pci.h"
++#include "hw/pci/pci_bus.h"
+ #include "qemu/log.h"
+ #include "hw/mips/bios.h"
+ #include "hw/ide/pci.h"
+@@ -1140,6 +1141,31 @@ static void malta_mips_config(MIPSCPU *cpu)
+     }
+ }
+ 
++static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
++{
++    int slot;
++
++    slot = PCI_SLOT(pci_dev->devfn);
++
++    switch (slot) {
++    /* PIIX4 USB */
++    case 10:
++        return 3;
++    /* AMD 79C973 Ethernet */
++    case 11:
++        return 1;
++    /* Crystal 4281 Sound */
++    case 12:
++        return 2;
++    /* PCI slot 1 to 4 */
++    case 18 ... 21:
++        return ((slot - 18) + irq_num) & 0x03;
++    /* Unknown device, don't do any translation */
++    default:
++        return irq_num;
++    }
++}
++
+ static void main_cpu_reset(void *opaque)
+ {
+     MIPSCPU *cpu = opaque;
+@@ -1411,6 +1437,9 @@ void mips_malta_init(MachineState *machine)
+     /* Interrupt controller */
+     qdev_connect_gpio_out_named(DEVICE(piix4), "intr", 0, i8259_irq);
+ 
++    pci_bus_irqs(pci_bus, pci_bus->set_irq, pci_slot_get_pirq,
++                 piix4, pci_bus->nirq);
++
+     /* generate SPD EEPROM data */
+     dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
+     smbus = I2C_BUS(qdev_get_child_bus(dev, "i2c"));
 -- 
 2.38.1
 
