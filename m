@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6D162C0A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 15:14:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B07762C09D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 15:12:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovJ54-0001C6-Sp; Wed, 16 Nov 2022 09:07:58 -0500
+	id 1ovJ56-0001Ea-0h; Wed, 16 Nov 2022 09:08:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovJ4t-0000lB-Ch
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 09:07:47 -0500
+ id 1ovJ4v-0000pT-4I
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 09:07:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovJ4q-00068E-1i
+ id 1ovJ4q-00067t-2D
  for qemu-devel@nongnu.org; Wed, 16 Nov 2022 09:07:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1668607660;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=3nn12dYvnBBU1wbiddzqJM3Jff1Cp69IQIljbBzGRKI=;
- b=Y6RmF6qeJ6ApMIaEBeMAT181SBkvwW+3jf3mxNEJ/f8JfC3Crt433GXGT8aAir5dp9Yb2B
- yCg9ZtsfkxL11vHh5FWp6jTGMMp/IkYbJADdWx2IZ7TzIMBUSvSVNiGfkjzwBQ3sWtFQNx
- 60WVkCYcbR6xkzTLohfoe19Ydm5HBl8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VqdJNgSPR2iME7QV2e49ms+m6C5NJ4Lp+mVdOpZtzx8=;
+ b=JZh21jJB+Ll1WQ5e15+aXAGgYvcl68C3e9FXeZxMM6tR056WiDa9GNoaB9AqRNPmtV97YX
+ faVSbYlkJVjltXqi0OOPy6c/yfTiTGweuKhmZFSsaMVzmNXTfWQO9IvTKAKTrWXF5QWQPt
+ 7peRb7ymlZpyEjU/7GQ6j2v7QBYoL+Q=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-372-l4EDTprMPRGwvYXx0Uulew-1; Wed, 16 Nov 2022 09:07:35 -0500
-X-MC-Unique: l4EDTprMPRGwvYXx0Uulew-1
+ us-mta-520-8F8lMmVYM1mLHYfgabJSSQ-1; Wed, 16 Nov 2022 09:07:35 -0500
+X-MC-Unique: 8F8lMmVYM1mLHYfgabJSSQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 333743C10147;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC8053810D3E;
  Wed, 16 Nov 2022 14:07:34 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 11AF1C158CF;
- Wed, 16 Nov 2022 14:07:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C54BC2C8C7;
+ Wed, 16 Nov 2022 14:07:34 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -59,9 +60,12 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, Jeff Cody <codyprime@gmail.com>,
  Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
  integration@gluster.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 00/15] Protect the block layer with a rwlock: part 3
-Date: Wed, 16 Nov 2022 09:07:15 -0500
-Message-Id: <20221116140730.3056048-1-eesposit@redhat.com>
+Subject: [PATCH 01/15] block/qed: add missing graph rdlock in
+ qed_need_check_timer_entry
+Date: Wed, 16 Nov 2022 09:07:16 -0500
+Message-Id: <20221116140730.3056048-2-eesposit@redhat.com>
+In-Reply-To: <20221116140730.3056048-1-eesposit@redhat.com>
+References: <20221116140730.3056048-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
@@ -89,101 +93,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Please read "Protect the block layer with a rwlock: part 1" and
-"Protect the block layer with a rwlock: part 2" for an
-additional introduction and aim of this series.
+This function is called in two different places:
+- timer callback, which does not take the graph rdlock.
+- bdrv_qed_drain_begin(), which is a .bdrv_drain_begin()
+  callback that will soon take the lock.
 
-In this serie, we cover the remaining BlockDriver IO callbacks that were not
-running in coroutine, therefore not using the graph rdlock.
-Therefore convert them to coroutines, using either g_c_w or a new
-variant introduced in this serie (see below).
+Since it calls recursive functions that traverse the
+graph, we need to protect them with the graph rdlock.
 
-We need to convert these callbacks into coroutine because non-coroutine code
-is tied to the main thread, even though it will still delegate I/O accesses to
-the iothread (via the bdrv_coroutine_enter call in generated_co_wrappers).
-Making callbacks run in coroutines provides more flexibility, because they run
-entirely in iothreads and can use CoMutexes for mutual exclusion.
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ block/qed.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Here we introduce generated_co_wrapper_simple, a simplification of g_c_w that
-only considers the case where the caller is not in a coroutine.
-This simplifies and clarifies a lot when the caller is a coroutine or not, and
-in the future will hopefully replace g_c_w.
-
-While we are at it, try to directly call the _co_ counterpart of a g_c_w when
-we know already that the function always run in a coroutine.
-
-Based-on: <20221116135331.3052923-1-eesposit@redhat.com>
-
-Thank you,
-Emanuele
-
-Emanuele Giuseppe Esposito (15):
-  block/qed: add missing graph rdlock in qed_need_check_timer_entry
-  block: rename refresh_total_sectors in bdrv_refresh_total_sectors
-  block-backend: use bdrv_getlength instead of blk_getlength
-  block: convert bdrv_refresh_total_sectors in generated_co_wrapper
-  block: use bdrv_co_refresh_total_sectors when possible
-  block: convert bdrv_get_allocated_file_size in
-    generated_co_wrapper_simple
-  block: convert bdrv_get_info in generated_co_wrapper
-  block: convert bdrv_is_inserted in generated_co_wrapper_simple
-  block-coroutine-wrapper: support void functions
-  block: convert bdrv_eject in generated_co_wrapper_simple
-  block: convert bdrv_lock_medium in generated_co_wrapper_simple
-  block: convert bdrv_debug_event in generated_co_wrapper
-  block: convert bdrv_io_plug in generated_co_wrapper_simple
-  block: convert bdrv_io_unplug in generated_co_wrapper_simple
-  block: rename newly converted BlockDriver IO coroutine functions
-
- block.c                            | 93 +++++++++++++++++++-----------
- block/blkdebug.c                   |  4 +-
- block/blkio.c                      |  6 +-
- block/blklogwrites.c               |  2 +-
- block/blkreplay.c                  |  2 +-
- block/blkverify.c                  |  2 +-
- block/block-backend.c              | 43 ++++++++------
- block/commit.c                     |  4 +-
- block/copy-on-read.c               | 12 ++--
- block/crypto.c                     |  6 +-
- block/curl.c                       |  8 +--
- block/file-posix.c                 | 48 +++++++--------
- block/file-win32.c                 |  8 +--
- block/filter-compress.c            | 10 ++--
- block/gluster.c                    | 16 ++---
- block/io.c                         | 78 +++++++++++++------------
- block/iscsi.c                      |  8 +--
- block/meson.build                  |  1 +
- block/mirror.c                     | 17 ++++--
- block/nbd.c                        |  6 +-
- block/nfs.c                        |  2 +-
- block/null.c                       |  8 +--
- block/nvme.c                       |  6 +-
- block/preallocate.c                |  2 +-
- block/qcow.c                       |  2 +-
- block/qcow2-refcount.c             |  2 +-
- block/qcow2.c                      |  6 +-
- block/qed.c                        |  7 ++-
- block/quorum.c                     |  2 +-
- block/raw-format.c                 | 14 ++---
- block/rbd.c                        |  4 +-
- block/replication.c                |  2 +-
- block/ssh.c                        |  2 +-
- block/stream.c                     |  4 +-
- block/throttle.c                   |  2 +-
- block/vdi.c                        |  2 +-
- block/vhdx.c                       |  2 +-
- block/vmdk.c                       |  4 +-
- block/vpc.c                        |  2 +-
- blockdev.c                         |  8 ++-
- hw/scsi/scsi-disk.c                |  5 ++
- include/block/block-io.h           | 40 +++++++++----
- include/block/block_int-common.h   | 37 +++++++-----
- include/block/block_int-io.h       |  5 +-
- include/sysemu/block-backend-io.h  | 32 +++++++---
- scripts/block-coroutine-wrapper.py | 19 ++++--
- tests/unit/test-block-iothread.c   |  7 +++
- 47 files changed, 364 insertions(+), 238 deletions(-)
-
+diff --git a/block/qed.c b/block/qed.c
+index c2691a85b1..778b23d0f6 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -282,11 +282,13 @@ static void coroutine_fn qed_unplug_allocating_write_reqs(BDRVQEDState *s)
+     qemu_co_mutex_unlock(&s->table_lock);
+ }
+ 
++/* Called with graph rdlock taken */
+ static void coroutine_fn qed_need_check_timer(BDRVQEDState *s)
+ {
+     int ret;
+ 
+     trace_qed_need_check_timer_cb(s);
++    assert_bdrv_graph_readable();
+ 
+     if (!qed_plug_allocating_write_reqs(s)) {
+         return;
+@@ -312,6 +314,7 @@ static void coroutine_fn qed_need_check_timer(BDRVQEDState *s)
+ static void coroutine_fn qed_need_check_timer_entry(void *opaque)
+ {
+     BDRVQEDState *s = opaque;
++    GRAPH_RDLOCK_GUARD();
+ 
+     qed_need_check_timer(opaque);
+     bdrv_dec_in_flight(s->bs);
 -- 
 2.31.1
 
