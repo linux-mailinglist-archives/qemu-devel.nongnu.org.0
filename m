@@ -2,110 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C2062BE66
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 13:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1060F62BE83
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 13:46:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovHi7-0003Hb-0I; Wed, 16 Nov 2022 07:40:13 -0500
+	id 1ovHn0-0005Nj-FH; Wed, 16 Nov 2022 07:45:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ovHhj-0003E9-R6; Wed, 16 Nov 2022 07:39:50 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ovHhe-0004Hd-BO; Wed, 16 Nov 2022 07:39:45 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AGBdYap009661; Wed, 16 Nov 2022 12:39:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=m6WiBs7GyAPFVARgKy/MKSARc9RK6vbpu7hf/mZYE3M=;
- b=G81yPu799OJ3ixa5FsWmjk8SHOhNPhMn4nMODTiDw9xssjosU6LsrenLKNWHRH31O8wM
- 0oR/EnVFSrOP8Kl+LcbkqOn1IAq6siNwm1o/CcKiMYvDeaU1pto5zDoxIJWho/jOzaA6
- 9DdBqrd2X9PEZ/5EEjpdoRFmCQMMk3CSaVpIX5+6+Jr/ECAg462prPu3MG8p2SXa7+Sk
- XXi4boHm82gLyD4vEWSEzRl3WT01I3BvTiGeLvEiMy4y6Gz9nzt7OjMIosmSRfFLlvEL
- aiYTHQLNxWDOjg8Ox8dLgIyVNw8AxnfDBdsjLh45SW9PJAhN7KCNV6tQiJw1AvIoTz5Y Iw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kvy639h93-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Nov 2022 12:39:31 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AGBeMnw011433;
- Wed, 16 Nov 2022 12:39:31 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kvy639h89-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Nov 2022 12:39:31 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AGCYtST025701;
- Wed, 16 Nov 2022 12:39:29 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma05fra.de.ibm.com with ESMTP id 3kt3494drj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Nov 2022 12:39:29 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AGCdQbN39452962
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Nov 2022 12:39:26 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0F1085204F;
- Wed, 16 Nov 2022 12:39:26 +0000 (GMT)
-Received: from [9.152.222.245] (unknown [9.152.222.245])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 711575204E;
- Wed, 16 Nov 2022 12:39:25 +0000 (GMT)
-Message-ID: <757660a9-97e7-5529-dcf2-a575c19cee28@linux.ibm.com>
-Date: Wed, 16 Nov 2022 13:39:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v11 09/11] s390x/cpu topology: add topology machine
- property
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-10-pmorel@linux.ibm.com>
- <b5540c7e-3c06-565a-6571-55c167ec347b@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <b5540c7e-3c06-565a-6571-55c167ec347b@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7MB61aTf8Ve4-jmELiPFXgnmzrhmUmGQ
-X-Proofpoint-ORIG-GUID: E1LjSLgDsEcE5AX7RYTEoSSrmBI7vgrX
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ovHmx-0005N0-AH
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:45:11 -0500
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ovHmv-0005e2-8z
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:45:10 -0500
+Received: by mail-il1-x135.google.com with SMTP id d3so9080058ils.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 04:45:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NpjGMoNZmE6Su2TOkv92n62+R5wGyuae081F1iadB+Y=;
+ b=GPWwHXeXlNbS11KaSU520YbtFOKkNXScBIOaCQmYKitgoBT2buP9U5+L3Tn9mRcymQ
+ ms243yqICWonWVNGif9xyKlW7IUJtmnZgfyB01IOHRXa3hNiU7aHC6uvVgLgDAuxlZjM
+ RxsX2N/NX18FKpQKPVDR2T0YedSp/KQ0x6Zbg+vgi54ovICMuH+tnSW835dG8RjsEEHw
+ 7+YHFuKKK7fE8qShPdpE4Lk8FM8g8eh5FlG9IWKILu7GjMcqvtCjahG34Gx49MNJ2G8o
+ soqmcfMZJclLGwJWUdUR1BXDjYfRa6dFJ8x1OyZW6xqdD6UH5CgW84xjZ2bz4Wq0Vzjl
+ uufg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NpjGMoNZmE6Su2TOkv92n62+R5wGyuae081F1iadB+Y=;
+ b=d/gU6K5xjfTaphzk5QIgFy5nM3kkMnjenlxfWWgMei/BVVGd/cl+dIz3IdRRuSL1R7
+ WvajQkCDkJQIvMy5EZvrVPakTKlIWlFdqXnEOgV9uaRJxvZ/kQucfMb6zlaxNy/X4m+W
+ 188k4IWHtDE3a9NpK3XVsuLne+4wLsWvALFFf6q7O35PzyeqSKINzmO+YXxbQ1E1pUJM
+ K5tohoi3EiZxHBgGs1cAiIxd5NPmiV8uR9s/22NbsLTO/IhV6V2mQlMySvGKyRdJ1UDz
+ 8ztHfCVG1c7TrjvJUwEOKj3ULv9X54MMWzdBlIviBfGdigE6DiZaq2yqPQVYk3Z6h1/D
+ iYKg==
+X-Gm-Message-State: ANoB5pkUSR5HsX0LHQ5pxu5tO+qGzAJBrNfvcFj86g5ln1DUj3BxngWF
+ ZS0+9dNn46Alb5R4eGVYWveGVxAFiaaN3Bcz3ogX5g==
+X-Google-Smtp-Source: AA0mqf6/kJHpi20IEqMKTAmobUFyDY+bYolE9QsSTOTG+Y8DF1cRWSKQ31zJ1KMgMauxmIrmwDMDvzjHyhe8rA8P/Hc=
+X-Received: by 2002:a92:cec3:0:b0:300:ef0e:9388 with SMTP id
+ z3-20020a92cec3000000b00300ef0e9388mr10972148ilq.262.1668602707373; Wed, 16
+ Nov 2022 04:45:07 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-16_03,2022-11-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211160087
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221115212759.3095751-1-jsnow@redhat.com>
+ <874juzal7m.fsf@linaro.org>
+ <CAARzgwziPg+u17FjWLmXDU9W6jAAMf9nHO-WrSpytUoea1xkxw@mail.gmail.com>
+ <87zgcr8cki.fsf@linaro.org>
+ <CAARzgwyXt=FmTNHaKY5Q9=OLjJKh2-MSn8JukCp6k9SCL-PttQ@mail.gmail.com>
+In-Reply-To: <CAARzgwyXt=FmTNHaKY5Q9=OLjJKh2-MSn8JukCp6k9SCL-PttQ@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 16 Nov 2022 18:14:56 +0530
+Message-ID: <CAARzgwx-=Ye5gXcW3YoqXevD=_g5e6iNTaQnd_F7VRKYZtf1yw@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: configure acpi-bits to use avocado timeout
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::135;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x135.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,216 +89,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Nov 16, 2022 at 6:02 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> On Wed, Nov 16, 2022 at 3:07 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+> >
+> >
+> > Ani Sinha <ani@anisinha.ca> writes:
+> >
+> > > On Wed, Nov 16, 2022 at 4:17 AM Alex Benn=C3=A9e <alex.bennee@linaro.=
+org> wrote:
+> > >>
+> > >>
+> > >> John Snow <jsnow@redhat.com> writes:
+> > >>
+> > >> > Instead of using a hardcoded timeout, just rely on Avocado's built=
+-in
+> > >> > test case timeout. This helps avoid timeout issues on machines whe=
+re 60
+> > >> > seconds is not sufficient.
+> > >> >
+> > >> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > >> > ---
+> > >> >  tests/avocado/acpi-bits.py | 10 ++--------
+> > >> >  1 file changed, 2 insertions(+), 8 deletions(-)
+> > >> >
+> > >> > diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.=
+py
+> > >> > index 8745a58a766..ac13e22dc93 100644
+> > >> > --- a/tests/avocado/acpi-bits.py
+> > >> > +++ b/tests/avocado/acpi-bits.py
+> > >> > @@ -385,12 +385,6 @@ def test_acpi_smbios_bits(self):
+> > >> >          self._vm.launch()
+> > >> >          # biosbits has been configured to run all the specified t=
+est suites
+> > >> >          # in batch mode and then automatically initiate a vm shut=
+down.
+> > >> > -        # sleep for maximum of one minute
+> > >> > -        max_sleep_time =3D time.monotonic() + 60
+> > >> > -        while self._vm.is_running() and time.monotonic() < max_sl=
+eep_time:
+> > >> > -            time.sleep(1)
+> > >> > -
+> > >> > -        self.assertFalse(time.monotonic() > max_sleep_time,
+> > >> > -                         'The VM seems to have failed to shutdown=
+ in time')
+> > >> > -
+> > >>
+> > >> We might want some wait for consoles as well depending on what is ou=
+tput
+> > >> during the run.
+> > >
+> > > actually I think you won't get anything on the console since grub is
+> > > not configured to use the serial console.  I tried "-serial stdio" a
+> > > while back without any output.
+> >
+> > Grub is certainly capable of serial output but I think the grub.cfg
+> > needs changes to support that. It would definitely be an improvement if
+> > we could enable serial output because currently the test is totally mut=
+e
+> > while running which is unlike every other test in avocado.
+>
+> sounds reasonable. bits seems to have its own way to set up grub
+> serial port redirect and I tried something quickly but it didn't quite
+> work. Need to spend more time looking at it.
 
+just when I wrote this, it seems my hack finally worked! Will need
+more testing before pushing.
 
-On 11/15/22 14:48, Cédric Le Goater wrote:
-> On 11/3/22 18:01, Pierre Morel wrote:
->> We keep the possibility to switch on/off the topology on newer
->> machines with the property topology=[on|off].
-> 
-> The code has changed. You will need to rebase. May be after the
-> 8.0 machine is introduced, or include Cornelia's patch in the
-> respin.
-> 
-> https://lore.kernel.org/qemu-devel/20221111124534.129111-1-cohuck@redhat.com/
-> 
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/boards.h                |  3 +++
->>   include/hw/s390x/cpu-topology.h    |  8 +++-----
->>   include/hw/s390x/s390-virtio-ccw.h |  1 +
->>   hw/core/machine.c                  |  3 +++
->>   hw/s390x/cpu-topology.c            | 19 +++++++++++++++++++
->>   hw/s390x/s390-virtio-ccw.c         | 28 ++++++++++++++++++++++++++++
->>   util/qemu-config.c                 |  4 ++++
->>   qemu-options.hx                    |  6 +++++-
->>   8 files changed, 66 insertions(+), 6 deletions(-)
->>
->> diff --git a/include/hw/boards.h b/include/hw/boards.h
->> index 311ed17e18..67147c47bf 100644
->> --- a/include/hw/boards.h
->> +++ b/include/hw/boards.h
->> @@ -379,6 +379,9 @@ struct MachineState {
->>       } \
->>       type_init(machine_initfn##_register_types)
->> +extern GlobalProperty hw_compat_7_2[];
->> +extern const size_t hw_compat_7_2_len;
->> +
->>   extern GlobalProperty hw_compat_7_1[];
->>   extern const size_t hw_compat_7_1_len;
->> diff --git a/include/hw/s390x/cpu-topology.h 
->> b/include/hw/s390x/cpu-topology.h
->> index 6fec10e032..f566394302 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -12,6 +12,8 @@
->>   #include "hw/qdev-core.h"
->>   #include "qom/object.h"
->> +#include "cpu.h"
->> +#include "hw/s390x/s390-virtio-ccw.h"
->>   #define S390_TOPOLOGY_CPU_IFL 0x03
->>   #define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
->> @@ -38,10 +40,6 @@ struct S390Topology {
->>   OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
->>   void s390_topology_new_cpu(S390CPU *cpu);
->> -
->> -static inline bool s390_has_topology(void)
->> -{
->> -    return false;
->> -}
->> +bool s390_has_topology(void);
->>   #endif
->> diff --git a/include/hw/s390x/s390-virtio-ccw.h 
->> b/include/hw/s390x/s390-virtio-ccw.h
->> index 89fca3f79f..d7602aedda 100644
->> --- a/include/hw/s390x/s390-virtio-ccw.h
->> +++ b/include/hw/s390x/s390-virtio-ccw.h
->> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
->>       bool dea_key_wrap;
->>       bool pv;
->>       bool zpcii_disable;
->> +    bool cpu_topology;
->>       uint8_t loadparm[8];
->>       void *topology;
->>   };
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index aa520e74a8..4f46d4ef23 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -40,6 +40,9 @@
->>   #include "hw/virtio/virtio-pci.h"
->>   #include "qom/object_interfaces.h"
->> +GlobalProperty hw_compat_7_2[] = {};
->> +const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
->> +
->>   GlobalProperty hw_compat_7_1[] = {};
->>   const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index fc220bd8ac..c1550cc1e8 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -73,6 +73,25 @@ void s390_handle_ptf(S390CPU *cpu, uint8_t r1, 
->> uintptr_t ra)
->>       }
->>   }
->> +bool s390_has_topology(void)
->> +{
->> +    static S390CcwMachineState *ccw;
->> +    Object *obj;
->> +
->> +    if (ccw) {
->> +        return ccw->cpu_topology;
-> 
-> Shouldn't we test the capability also ?
-> 
->      return s390mc->topology_capable && ccw->cpu_topology;
+commit 58513f19ac7b537da0769a732ff0d93d6d93d3b0 (HEAD -> qemu-bits)
+Author: Ani Sinha <ani@anisinha.ca>
+Date:   Wed Nov 16 17:37:51 2022 +0530
 
-yes thanks
+    serial port redirection test
 
-> 
->> +    }
->> +
->> +    /* we have to bail out for the "none" machine */
->> +    obj = object_dynamic_cast(qdev_get_machine(),
->> +                              TYPE_S390_CCW_MACHINE);
->> +    if (!obj) {
->> +        return false;
->> +    }
-> 
-> Should be an assert I think.
+    Signed-off-by: Ani Sinha <ani@anisinha.ca>
 
-OK
-
-> 
->> +    ccw = S390_CCW_MACHINE(obj);
->> +    return ccw->cpu_topology;
->> +}
->> +
->>   /*
->>    * s390_topology_new_cpu:
->>    * @cpu: a pointer to the new CPU
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index f1a9d6e793..ebb5615337 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -710,6 +710,26 @@ bool hpage_1m_allowed(void)
->>       return get_machine_class()->hpage_1m_allowed;
->>   }
->> +static inline bool machine_get_topology(Object *obj, Error **errp)
->> +{
->> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
->> +
->> +    return ms->cpu_topology;
->> +}
->> +
->> +static inline void machine_set_topology(Object *obj, bool value, 
->> Error **errp)
->> +{
->> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> 
-> You could introduce :
-> 
->         S390CcwMachineClass *s390mc = S390_CCW_MACHINE_GET_CLASS(ms);
-
-Yes thanks
-
-> 
-> 
->> +
->> +    if (!get_machine_class()->topology_capable) {
-> 
-> and
->              !s390mc->topology_capable
-> 
->> +        error_setg(errp, "Property cpu-topology not available on 
->> machine %s",
->> +                   get_machine_class()->parent_class.name);
->> +        return;
->> +    }
->> +
->> +    ms->cpu_topology = value;
->> +}
->> +
->>   static void machine_get_loadparm(Object *obj, Visitor *v,
->>                                    const char *name, void *opaque,
->>                                    Error **errp)
->> @@ -809,6 +829,12 @@ static void ccw_machine_class_init(ObjectClass 
->> *oc, void *data)
->>                                      machine_set_zpcii_disable);
->>       object_class_property_set_description(oc, "zpcii-disable",
->>               "disable zPCI interpretation facilties");
->> +
->> +    object_class_property_add_bool(oc, "topology",
->> +                                   machine_get_topology,
->> +                                   machine_set_topology);
->> +    object_class_property_set_description(oc, "topology",
->> +            "enable CPU topology");
->>   }
->>   static inline void s390_machine_initfn(Object *obj)
->> @@ -818,6 +844,7 @@ static inline void s390_machine_initfn(Object *obj)
->>       ms->aes_key_wrap = true;
->>       ms->dea_key_wrap = true;
->>       ms->zpcii_disable = false;
->> +    ms->cpu_topology = true;
->>   }
->>   static const TypeInfo ccw_machine_info = {
->> @@ -888,6 +915,7 @@ static void 
->> ccw_machine_7_1_instance_options(MachineState *machine)
->>       s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
->>       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
->>       ms->zpcii_disable = true;
->> +    ms->cpu_topology = true;
-> 
-> shouldn't this be false ?
-
-:) yes
-I forgot to change this when I change the logic.
-
-Thanks,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+diff --git a/python/init.py b/python/init.py
+index 8fde344..1e36d51 100644
+--- a/python/init.py
++++ b/python/init.py
+@@ -85,7 +85,7 @@ def early_init():
+         except Exception as e:
+             print "Error parsing Serial Port Console Redirect (SPCR) table=
+:"
+             print e
+-
++    serial_cmd =3D "serial --speed=3D115200 --unit=3D0 --word=3D8 --parity=
+=3Dno --stop=3D1"
+     with import_annotation("os"):
+         import os
+     with init_annotation("os"):
 
