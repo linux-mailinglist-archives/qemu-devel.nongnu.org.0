@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827EC62C260
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 16:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5168662C27E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 16:28:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovKDZ-0000iv-Q2; Wed, 16 Nov 2022 10:20:50 -0500
+	id 1ovKKF-0003oH-TQ; Wed, 16 Nov 2022 10:27:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ovKDX-0000i7-PA
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:20:47 -0500
-Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ovKKE-0003nr-FB
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:27:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ovKDU-0002qS-6T
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:20:46 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.144])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id AA325293AA;
- Wed, 16 Nov 2022 15:20:32 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 16 Nov
- 2022 16:20:31 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S00169ed0103-b021-4210-b355-055f42446ca6,
- 05BFD173BFC32032A37E1D5DF151F249ADEF9212) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 16 Nov 2022 16:20:25 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-CC: <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>,
- <david@gibson.dropbear.id.au>, <clg@kaod.org>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, "Kowshik Jois B S" <kowsjois@linux.ibm.com>
-Subject: Re: [PATCH] target/ppc: Fix build warnings when building with
- 'disable-tcg'
-Message-ID: <20221116162025.330e5a4f@bahia>
-In-Reply-To: <20221116131743.658708-1-vaibhav@linux.ibm.com>
-References: <20221116131743.658708-1-vaibhav@linux.ibm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ovKKC-0004Cn-PS
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:27:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668612459;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eHcjr1G5UsgFNqeXRp0WTxS47bfofFg325Nhqy6ODP4=;
+ b=C6XWElcLWyXe61t14j29vBWrLlmJsmlzF5m0qrdBklC0/PNFNfFT8HZfuEqfeNVTx6VWem
+ BJQ9s0UyD2BaYEFEOYFRTfV1Op8lz+ur+CBYiBH9RL+pY47s0M4259IOLru0+oeCEPQ82i
+ EiWHYYatDvt+bnYHa86F8zTMGlLmge0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-224-l75-cGLROqGjhV2Hdj6rKw-1; Wed, 16 Nov 2022 10:27:35 -0500
+X-MC-Unique: l75-cGLROqGjhV2Hdj6rKw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9125A3810794;
+ Wed, 16 Nov 2022 15:27:34 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq2.redhat.com
+ (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C25C112132C;
+ Wed, 16 Nov 2022 15:27:32 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, ani@anisinha.ca, pbonzini@redhat.com,
+ richard.henderson@linaro.org, mark.cave-ayland@ilande.co.uk,
+ peter.maydell@linaro.org, andrew.smirnov@gmail.com, paulburton@kernel.org,
+ aleksandar.rikalo@syrmia.com, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au, groug@kaod.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org
+Subject: [PATCH 0/2] remove redundant field PCIDeviceClass::is_bridge
+Date: Wed, 16 Nov 2022 16:27:28 +0100
+Message-Id: <20221116152730.3691347-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 7f3abd74-02ff-438d-bc7c-3231644c32c6
-X-Ovh-Tracer-Id: 18428729677405919593
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeigdejhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeludeltdejkeduveeiuedthfelueefkeeuiefhieehvedtjeejtdffiefhfeeuveenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehvrghisghhrghvsehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhkohifshhjohhisheslhhinhhugidrihgsmhdrtghomhdptghlgheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmoh
- guvgepshhmthhpohhuth
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=groug@kaod.org;
- helo=6.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,90 +81,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Vaibhav,
 
-Nice to see some people are still building QEMU at IBM ;-)
+Igor Mammedov (2):
+  remove DEC 21154 PCI bridge
+  pci: drop redundant PCIDeviceClass::is_bridge field
 
-On Wed, 16 Nov 2022 18:47:43 +0530
-Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+ hw/pci-bridge/dec.h                |   9 --
+ include/hw/pci/pci.h               |  11 +-
+ include/hw/pci/pci_bridge.h        |   1 +
+ include/hw/pci/pci_ids.h           |   1 -
+ hw/acpi/pcihp.c                    |   3 +-
+ hw/i386/acpi-build.c               |   5 +-
+ hw/pci-bridge/cxl_downstream.c     |   1 -
+ hw/pci-bridge/cxl_upstream.c       |   1 -
+ hw/pci-bridge/dec.c                | 164 -----------------------------
+ hw/pci-bridge/i82801b11.c          |   1 -
+ hw/pci-bridge/meson.build          |   2 -
+ hw/pci-bridge/pci_bridge_dev.c     |   1 -
+ hw/pci-bridge/pcie_pci_bridge.c    |   1 -
+ hw/pci-bridge/pcie_root_port.c     |   1 -
+ hw/pci-bridge/simba.c              |   1 -
+ hw/pci-bridge/xio3130_downstream.c |   1 -
+ hw/pci-bridge/xio3130_upstream.c   |   1 -
+ hw/pci-host/designware.c           |   1 -
+ hw/pci-host/uninorth.c             |   6 --
+ hw/pci-host/xilinx-pcie.c          |   1 -
+ hw/pci/pci.c                       |  20 ++--
+ hw/ppc/spapr_pci.c                 |  15 +--
+ 22 files changed, 19 insertions(+), 229 deletions(-)
+ delete mode 100644 hw/pci-bridge/dec.h
+ delete mode 100644 hw/pci-bridge/dec.c
 
-> Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
-> target is failing due to following build warnings:
-> 
-> <snip>
->  ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
->  7018 | static void ppc_restore_state_to_opc(CPUState *cs,
-> <snip>
-> 
-> Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
-> they are only defined if qemu is compiled with '--enable-tcg'
-> 
-> Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-This was introduced by a recent commit.
-
-Fixes: 61bd1d29421a ("target/ppc: Convert to tcg_ops restore_state_to_opc")
-
-
-Vaibhav,
-
-This is serious enough it should get fixed in 7.2. Please fill up an
-issue as explain in [1].
-
-Cheers,
-
---
-Greg
-
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg00137.html
-
->  target/ppc/cpu_init.c    | 2 ++
->  target/ppc/excp_helper.c | 2 ++
->  2 files changed, 4 insertions(+)
-> 
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 32e94153d1..cbf0081374 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
->      return cpu->env.nip;
->  }
->  
-> +#ifdef CONFIG_TCG
->  static void ppc_restore_state_to_opc(CPUState *cs,
->                                       const TranslationBlock *tb,
->                                       const uint64_t *data)
-> @@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
->  
->      cpu->env.nip = data[0];
->  }
-> +#endif /* CONFIG_TCG */
->  
->  static bool ppc_cpu_has_work(CPUState *cs)
->  {
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index a05a2ed595..94adcb766b 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
->  #endif
->  #endif
->  
-> +#ifdef CONFIG_TCG
->  static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
->  {
->      const uint16_t c = 0xfffc;
-> @@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
->  HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
->  HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
->  HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-> +#endif /* CONFIG_TCG */
->  
->  #if !defined(CONFIG_USER_ONLY)
->  
+-- 
+2.31.1
 
 
