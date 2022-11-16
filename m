@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8722E62BDB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 13:24:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E809962BE2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 13:35:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovHRO-0000dq-Ur; Wed, 16 Nov 2022 07:22:55 -0500
+	id 1ovHRa-0000iR-4l; Wed, 16 Nov 2022 07:23:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovHRK-0000c9-F4
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:50 -0500
+ id 1ovHRN-0000dR-4F
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovHRH-0000tj-GE
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:49 -0500
+ id 1ovHRJ-0000uM-Uk
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668601366;
+ s=mimecast20190719; t=1668601368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=usEflojspUSxYZ/sKc23VDOA7vhKiKjbIp0hRmhxNoY=;
- b=IDztvB0/SD0XPRGT8tIqrT16ujtcMPh9LR+w8KYKqqrZ0p3ckc7aU4BMcLNGhCPwqn24Gl
- bnSBQ5J0F+vlO0ldzj3DhTWnbhfFMV2780HgR2jQ0KQxJekfFC7OBdyaM9+g9VHa3wM5iK
- HtuAbuhpd4rj9CF9/KUtAHzNBk0v3x0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CqI1u5ra27yhYXgdDyITKa7+J+uNHbpH9ovZo1Jgq+o=;
+ b=NM6jLc/wvBJ1ROJFfubWowlzjYkhwN1rnPmypEuv6JG9DoE7zVKnM59RF07R3gUOh+owpa
+ EVOkvPhETqt8DlUKk/KARpUwHI4BqY7R3u1g3fV6QedEIpU70HAmieEmxzjacYhlWD2uP+
+ W7sRHq96mSr5hLprYzFa4gk48vzW3Qs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-GKwmG4zqNNu65GZEpYp9Cw-1; Wed, 16 Nov 2022 07:22:45 -0500
-X-MC-Unique: GKwmG4zqNNu65GZEpYp9Cw-1
+ us-mta-633-DkFlK0EAONSN1dCFirIPKQ-1; Wed, 16 Nov 2022 07:22:45 -0500
+X-MC-Unique: DkFlK0EAONSN1dCFirIPKQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB146811E67;
- Wed, 16 Nov 2022 12:22:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C4533C1022F;
+ Wed, 16 Nov 2022 12:22:45 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F7889E70;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4A2F9E70;
  Wed, 16 Nov 2022 12:22:44 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -50,9 +50,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v4 03/11] block-backend: replace bdrv_*_above with blk_*_above
-Date: Wed, 16 Nov 2022 07:22:33 -0500
-Message-Id: <20221116122241.2856527-4-eesposit@redhat.com>
+Subject: [PATCH v4 04/11] block-coroutine-wrapper.py: introduce
+ generated_co_wrapper_simple
+Date: Wed, 16 Nov 2022 07:22:34 -0500
+Message-Id: <20221116122241.2856527-5-eesposit@redhat.com>
 In-Reply-To: <20221116122241.2856527-1-eesposit@redhat.com>
 References: <20221116122241.2856527-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -82,202 +83,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Avoid mixing bdrv_* functions with blk_*, so create blk_* counterparts
-for:
-- bdrv_block_status_above
-- bdrv_is_allocated_above
+This new annotation creates just a function wrapper that creates
+a new coroutine. It assumes the caller is not a coroutine.
+
+This is much better as g_c_w, because it is clear if the caller
+is a coroutine or not, and provides the advantage of automating
+the code creation. In the future all g_c_w functions will be
+substituted on g_c_w_simple.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/block-backend.c             | 21 +++++++++++++++++++++
- block/commit.c                    |  4 ++--
- include/sysemu/block-backend-io.h |  9 +++++++++
- nbd/server.c                      | 28 ++++++++++++++--------------
- qemu-img.c                        |  4 ++--
- 5 files changed, 48 insertions(+), 18 deletions(-)
+ include/block/block-common.h       |  1 +
+ scripts/block-coroutine-wrapper.py | 87 ++++++++++++++++++++++--------
+ 2 files changed, 66 insertions(+), 22 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 742efa7955..333d50fb3f 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1424,6 +1424,27 @@ int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
-     return blk_co_pwritev_part(blk, offset, bytes, qiov, 0, flags);
- }
- 
-+int coroutine_fn blk_block_status_above(BlockBackend *blk,
-+                                        BlockDriverState *base,
-+                                        int64_t offset, int64_t bytes,
-+                                        int64_t *pnum, int64_t *map,
-+                                        BlockDriverState **file)
-+{
-+    IO_CODE();
-+    return bdrv_block_status_above(blk_bs(blk), base, offset, bytes, pnum, map,
-+                                   file);
-+}
-+
-+int coroutine_fn blk_is_allocated_above(BlockBackend *blk,
-+                                        BlockDriverState *base,
-+                                        bool include_base, int64_t offset,
-+                                        int64_t bytes, int64_t *pnum)
-+{
-+    IO_CODE();
-+    return bdrv_is_allocated_above(blk_bs(blk), base, include_base, offset,
-+                                   bytes, pnum);
-+}
-+
- typedef struct BlkRwCo {
-     BlockBackend *blk;
-     int64_t offset;
-diff --git a/block/commit.c b/block/commit.c
-index 0029b31944..9d4d908344 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -155,8 +155,8 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
-             break;
-         }
-         /* Copy if allocated above the base */
--        ret = bdrv_is_allocated_above(blk_bs(s->top), s->base_overlay, true,
--                                      offset, COMMIT_BUFFER_SIZE, &n);
-+        ret = blk_is_allocated_above(s->top, s->base_overlay, true,
-+                                     offset, COMMIT_BUFFER_SIZE, &n);
-         copy = (ret > 0);
-         trace_commit_one_iteration(s, offset, n, ret);
-         if (copy) {
-diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-index 50f5aa2e07..a47cb825e5 100644
---- a/include/sysemu/block-backend-io.h
-+++ b/include/sysemu/block-backend-io.h
-@@ -92,6 +92,15 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-                                    int64_t bytes, BdrvRequestFlags read_flags,
-                                    BdrvRequestFlags write_flags);
- 
-+int coroutine_fn blk_block_status_above(BlockBackend *blk,
-+                                        BlockDriverState *base,
-+                                        int64_t offset, int64_t bytes,
-+                                        int64_t *pnum, int64_t *map,
-+                                        BlockDriverState **file);
-+int coroutine_fn blk_is_allocated_above(BlockBackend *blk,
-+                                        BlockDriverState *base,
-+                                        bool include_base, int64_t offset,
-+                                        int64_t bytes, int64_t *pnum);
- 
- /*
-  * "I/O or GS" API functions. These functions can run without
-diff --git a/nbd/server.c b/nbd/server.c
-index e2eec0cf46..6389b46396 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1991,7 +1991,7 @@ static int coroutine_fn nbd_co_send_structured_error(NBDClient *client,
- }
- 
- /* Do a sparse read and send the structured reply to the client.
-- * Returns -errno if sending fails. bdrv_block_status_above() failure is
-+ * Returns -errno if sending fails. blk_block_status_above() failure is
-  * reported to the client, at which point this function succeeds.
+diff --git a/include/block/block-common.h b/include/block/block-common.h
+index 297704c1e9..8ae750c7cf 100644
+--- a/include/block/block-common.h
++++ b/include/block/block-common.h
+@@ -43,6 +43,7 @@
+  * Read more in docs/devel/block-coroutine-wrapper.rst
   */
- static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
-@@ -2007,10 +2007,10 @@ static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
+ #define generated_co_wrapper
++#define generated_co_wrapper_simple
  
-     while (progress < size) {
-         int64_t pnum;
--        int status = bdrv_block_status_above(blk_bs(exp->common.blk), NULL,
--                                             offset + progress,
--                                             size - progress, &pnum, NULL,
--                                             NULL);
-+        int status = blk_block_status_above(exp->common.blk, NULL,
-+                                            offset + progress,
-+                                            size - progress, &pnum, NULL,
-+                                            NULL);
-         bool final;
+ /* block.c */
+ typedef struct BlockDriver BlockDriver;
+diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
+index 08be813407..f88ef53964 100644
+--- a/scripts/block-coroutine-wrapper.py
++++ b/scripts/block-coroutine-wrapper.py
+@@ -62,10 +62,15 @@ def __init__(self, param_decl: str) -> None:
  
-         if (status < 0) {
-@@ -2141,14 +2141,14 @@ static int nbd_extent_array_add(NBDExtentArray *ea,
-     return 0;
- }
  
--static int coroutine_fn blockstatus_to_extents(BlockDriverState *bs,
-+static int coroutine_fn blockstatus_to_extents(BlockBackend *blk,
-                                                uint64_t offset, uint64_t bytes,
-                                                NBDExtentArray *ea)
- {
-     while (bytes) {
-         uint32_t flags;
-         int64_t num;
--        int ret = bdrv_block_status_above(bs, NULL, offset, bytes, &num,
-+        int ret = blk_block_status_above(blk, NULL, offset, bytes, &num,
-                                           NULL, NULL);
+ class FuncDecl:
+-    def __init__(self, return_type: str, name: str, args: str) -> None:
++    def __init__(self, return_type: str, name: str, args: str,
++                 variant: str) -> None:
+         self.return_type = return_type.strip()
+         self.name = name.strip()
+         self.args = [ParamDecl(arg.strip()) for arg in args.split(',')]
++        self.create_only_co = False
++
++        if variant == '_simple':
++            self.create_only_co = True
  
-         if (ret < 0) {
-@@ -2169,13 +2169,13 @@ static int coroutine_fn blockstatus_to_extents(BlockDriverState *bs,
-     return 0;
- }
+     def gen_list(self, format: str) -> str:
+         return ', '.join(format.format_map(arg.__dict__) for arg in self.args)
+@@ -75,7 +80,8 @@ def gen_block(self, format: str) -> str:
  
--static int coroutine_fn blockalloc_to_extents(BlockDriverState *bs,
-+static int coroutine_fn blockalloc_to_extents(BlockBackend *blk,
-                                               uint64_t offset, uint64_t bytes,
-                                               NBDExtentArray *ea)
- {
-     while (bytes) {
-         int64_t num;
--        int ret = bdrv_is_allocated_above(bs, NULL, false, offset, bytes,
-+        int ret = blk_is_allocated_above(blk, NULL, false, offset, bytes,
-                                           &num);
  
-         if (ret < 0) {
-@@ -2224,7 +2224,7 @@ static int nbd_co_send_extents(NBDClient *client, uint64_t handle,
- /* Get block status from the exported device and send it to the client */
- static int
- coroutine_fn nbd_co_send_block_status(NBDClient *client, uint64_t handle,
--                                      BlockDriverState *bs, uint64_t offset,
-+                                      BlockBackend *blk, uint64_t offset,
-                                       uint32_t length, bool dont_fragment,
-                                       bool last, uint32_t context_id,
-                                       Error **errp)
-@@ -2234,9 +2234,9 @@ coroutine_fn nbd_co_send_block_status(NBDClient *client, uint64_t handle,
-     g_autoptr(NBDExtentArray) ea = nbd_extent_array_new(nb_extents);
+ # Match wrappers declared with a generated_co_wrapper mark
+-func_decl_re = re.compile(r'^int\s*generated_co_wrapper\s*'
++func_decl_re = re.compile(r'^int\s*generated_co_wrapper'
++                          r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
+                           r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
+                           r'\((?P<args>[^)]*)\);$', re.MULTILINE)
  
-     if (context_id == NBD_META_ID_BASE_ALLOCATION) {
--        ret = blockstatus_to_extents(bs, offset, length, ea);
-+        ret = blockstatus_to_extents(blk, offset, length, ea);
-     } else {
--        ret = blockalloc_to_extents(bs, offset, length, ea);
-+        ret = blockalloc_to_extents(blk, offset, length, ea);
-     }
-     if (ret < 0) {
-         return nbd_co_send_structured_error(
-@@ -2563,7 +2563,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
+@@ -84,7 +90,8 @@ def func_decl_iter(text: str) -> Iterator:
+     for m in func_decl_re.finditer(text):
+         yield FuncDecl(return_type='int',
+                        name=m.group('wrapper_name'),
+-                       args=m.group('args'))
++                       args=m.group('args'),
++                       variant=m.group('variant'))
  
-             if (client->export_meta.base_allocation) {
-                 ret = nbd_co_send_block_status(client, request->handle,
--                                               blk_bs(exp->common.blk),
-+                                               exp->common.blk,
-                                                request->from,
-                                                request->len, dont_fragment,
-                                                !--contexts_remaining,
-@@ -2576,7 +2576,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
  
-             if (client->export_meta.allocation_depth) {
-                 ret = nbd_co_send_block_status(client, request->handle,
--                                               blk_bs(exp->common.blk),
-+                                               exp->common.blk,
-                                                request->from, request->len,
-                                                dont_fragment,
-                                                !--contexts_remaining,
-diff --git a/qemu-img.c b/qemu-img.c
-index a3b64c88af..4282a34bc0 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -1730,8 +1730,8 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
-         do {
-             count = n * BDRV_SECTOR_SIZE;
+ def snake_to_camel(func_name: str) -> str:
+@@ -97,6 +104,51 @@ def snake_to_camel(func_name: str) -> str:
+     return ''.join(words)
  
--            ret = bdrv_block_status_above(src_bs, base, offset, count, &count,
--                                          NULL, NULL);
-+            ret = bdrv_block_status_above(src_bs, base, offset, count,
-+                                          &count, NULL, NULL);
  
-             if (ret < 0) {
-                 if (s->salvage) {
++# Checks if we are already in coroutine
++def create_g_c_w(func: FuncDecl) -> str:
++    name = func.co_name
++    struct_name = func.struct_name
++    return f"""\
++int {func.name}({ func.gen_list('{decl}') })
++{{
++    if (qemu_in_coroutine()) {{
++        return {name}({ func.gen_list('{name}') });
++    }} else {{
++        {struct_name} s = {{
++            .poll_state.bs = {func.bs},
++            .poll_state.in_progress = true,
++
++{ func.gen_block('            .{name} = {name},') }
++        }};
++
++        s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
++
++        return bdrv_poll_co(&s.poll_state);
++    }}
++}}"""
++
++
++# Assumes we are not in coroutine, and creates one
++def create_coroutine_only(func: FuncDecl) -> str:
++    name = func.co_name
++    struct_name = func.struct_name
++    return f"""\
++int {func.name}({ func.gen_list('{decl}') })
++{{
++    assert(!qemu_in_coroutine());
++    {struct_name} s = {{
++        .poll_state.bs = {func.bs},
++        .poll_state.in_progress = true,
++
++{ func.gen_block('        .{name} = {name},') }
++    }};
++
++    s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
++
++    return bdrv_poll_co(&s.poll_state);
++}}"""
++
++
+ def gen_wrapper(func: FuncDecl) -> str:
+     assert not '_co_' in func.name
+     assert func.return_type == 'int'
+@@ -105,7 +157,8 @@ def gen_wrapper(func: FuncDecl) -> str:
+ 
+     subsystem, subname = func.name.split('_', 1)
+ 
+-    name = f'{subsystem}_co_{subname}'
++    func.co_name = f'{subsystem}_co_{subname}'
++    name = func.co_name
+ 
+     t = func.args[0].type
+     if t == 'BlockDriverState *':
+@@ -114,7 +167,13 @@ def gen_wrapper(func: FuncDecl) -> str:
+         bs = 'child->bs'
+     else:
+         bs = 'blk_bs(blk)'
+-    struct_name = snake_to_camel(name)
++    func.bs = bs
++    func.struct_name = snake_to_camel(func.name)
++    struct_name = func.struct_name
++
++    creation_function = create_g_c_w
++    if func.create_only_co:
++        creation_function = create_coroutine_only
+ 
+     return f"""\
+ /*
+@@ -136,23 +195,7 @@ def gen_wrapper(func: FuncDecl) -> str:
+     aio_wait_kick();
+ }}
+ 
+-int {func.name}({ func.gen_list('{decl}') })
+-{{
+-    if (qemu_in_coroutine()) {{
+-        return {name}({ func.gen_list('{name}') });
+-    }} else {{
+-        {struct_name} s = {{
+-            .poll_state.bs = {bs},
+-            .poll_state.in_progress = true,
+-
+-{ func.gen_block('            .{name} = {name},') }
+-        }};
+-
+-        s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
+-
+-        return bdrv_poll_co(&s.poll_state);
+-    }}
+-}}"""
++{creation_function(func)}"""
+ 
+ 
+ def gen_wrappers(input_code: str) -> str:
 -- 
 2.31.1
 
