@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5665F62C27F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 16:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A1E62C281
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 16:29:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovKKU-00044H-Lb; Wed, 16 Nov 2022 10:27:58 -0500
+	id 1ovKKM-0003wk-Lv; Wed, 16 Nov 2022 10:27:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ovKKS-00043A-Iu
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:27:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ovKKK-0003vV-2E
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:27:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ovKKQ-0004Hv-NE
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:27:56 -0500
+ id 1ovKKH-0004Dv-JH
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:27:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668612474;
+ s=mimecast20190719; t=1668612463;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JUWH3WxspJk9XBw6BKQbeBxZInjjhvIPm2oPe6C/t4I=;
- b=FbLsD2exA9/u+M0Y9F5SRfBuYnZ1lb8dGNrke63ulFGYb0aG1nefZD5qRNRuQlb6xR9OiK
- V/p59e+v9czVosnO4wTVXBX8/S3qtLkjJw3iYG5kL+m5sRqwdJVSo29XM0EdwoCDF997Vp
- 1uLx5B5tKy4hqjj1RqbtVJNTmdh42s8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2pVN6prRKi5m46fL5ZeECg/Q5oH/J1WYQ+RVRdNP4iI=;
+ b=dQn6AFgQ8ckFl2GPNWURoK2GcTDDNDElSy1tb2JgCZf9LBVVpm0O0HsbmjrQ6D6EIvpK4l
+ wgDud1snCAMTH5oI0BmppHQL64rEoxXPCSoV8KoHobDl4H+4TwseytKA7mpW7NBNXUJXNQ
+ 38PvElN577DyvbUXV6Kkt5q8knzg9zU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-VHV9phTwN92pSRmrPHhhOg-1; Wed, 16 Nov 2022 10:27:37 -0500
-X-MC-Unique: VHV9phTwN92pSRmrPHhhOg-1
+ us-mta-588-RT2sq0PpPVupuNwGTJr_2w-1; Wed, 16 Nov 2022 10:27:39 -0500
+X-MC-Unique: RT2sq0PpPVupuNwGTJr_2w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF04C3C0F66D;
- Wed, 16 Nov 2022 15:27:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDD1F85A59D;
+ Wed, 16 Nov 2022 15:27:38 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0E281121325;
- Wed, 16 Nov 2022 15:27:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF5E31121325;
+ Wed, 16 Nov 2022 15:27:36 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, ani@anisinha.ca, pbonzini@redhat.com,
@@ -51,16 +51,16 @@ Cc: mst@redhat.com, ani@anisinha.ca, pbonzini@redhat.com,
  aleksandar.rikalo@syrmia.com, danielhb413@gmail.com, clg@kaod.org,
  david@gibson.dropbear.id.au, groug@kaod.org, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org
-Subject: [PATCH 1/2] remove DEC 21154 PCI bridge
-Date: Wed, 16 Nov 2022 16:27:29 +0100
-Message-Id: <20221116152730.3691347-2-imammedo@redhat.com>
+Subject: [PATCH 2/2] pci: drop redundant PCIDeviceClass::is_bridge field
+Date: Wed, 16 Nov 2022 16:27:30 +0100
+Message-Id: <20221116152730.3691347-3-imammedo@redhat.com>
 In-Reply-To: <20221116152730.3691347-1-imammedo@redhat.com>
 References: <20221116152730.3691347-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,259 +84,423 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Code has not been used practically since its inception (2004)
-  f2aa58c6f4a20 UniNorth PCI bridge support
-or maybe even earlier, but it was consuming contributors time
-as QEMU was being rewritten.
-Drop it for now. Whomever would like to actually
-use the thing, can make sure it actually works/reintroduce
-it back when there is a user.
-
-PS:
-I've stumbled upon this when replacing PCIDeviceClass::is_bridge
-field with QOM cast to PCI_BRIDGE type. Unused DEC 21154
-was the only one trying to use the field with plain PCIDevice.
-It's not worth keeping the field around for the sake of the code
-that was commented out 'forever'.
+and use cast to TYPE_PCI_BRIDGE instead.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/pci-bridge/dec.h       |   9 ---
- include/hw/pci/pci_ids.h  |   1 -
- hw/pci-bridge/dec.c       | 164 --------------------------------------
- hw/pci-bridge/meson.build |   2 -
- hw/pci-host/uninorth.c    |   6 --
- 5 files changed, 182 deletions(-)
- delete mode 100644 hw/pci-bridge/dec.h
- delete mode 100644 hw/pci-bridge/dec.c
+ include/hw/pci/pci.h               | 11 +----------
+ include/hw/pci/pci_bridge.h        |  1 +
+ hw/acpi/pcihp.c                    |  3 +--
+ hw/i386/acpi-build.c               |  5 ++---
+ hw/pci-bridge/cxl_downstream.c     |  1 -
+ hw/pci-bridge/cxl_upstream.c       |  1 -
+ hw/pci-bridge/i82801b11.c          |  1 -
+ hw/pci-bridge/pci_bridge_dev.c     |  1 -
+ hw/pci-bridge/pcie_pci_bridge.c    |  1 -
+ hw/pci-bridge/pcie_root_port.c     |  1 -
+ hw/pci-bridge/simba.c              |  1 -
+ hw/pci-bridge/xio3130_downstream.c |  1 -
+ hw/pci-bridge/xio3130_upstream.c   |  1 -
+ hw/pci-host/designware.c           |  1 -
+ hw/pci-host/xilinx-pcie.c          |  1 -
+ hw/pci/pci.c                       | 20 +++++++++-----------
+ hw/ppc/spapr_pci.c                 | 15 +++++----------
+ 17 files changed, 19 insertions(+), 47 deletions(-)
 
-diff --git a/hw/pci-bridge/dec.h b/hw/pci-bridge/dec.h
-deleted file mode 100644
-index 869e90b136..0000000000
---- a/hw/pci-bridge/dec.h
-+++ /dev/null
-@@ -1,9 +0,0 @@
--#ifndef HW_PCI_BRIDGE_DEC_H
--#define HW_PCI_BRIDGE_DEC_H
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 6ccaaf5154..8b3a8571bf 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -250,16 +250,7 @@ struct PCIDeviceClass {
+     uint16_t class_id;
+     uint16_t subsystem_vendor_id;       /* only for header type = 0 */
+     uint16_t subsystem_id;              /* only for header type = 0 */
 -
--
--#define TYPE_DEC_21154 "dec-21154-sysbus"
--
--PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn);
--
--#endif
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index bc9f834fd1..e4386ebb20 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -169,7 +169,6 @@
- 
- #define PCI_VENDOR_ID_DEC                0x1011
- #define PCI_DEVICE_ID_DEC_21143          0x0019
--#define PCI_DEVICE_ID_DEC_21154          0x0026
- 
- #define PCI_VENDOR_ID_CIRRUS             0x1013
- 
-diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
-deleted file mode 100644
-index 4773d07e6d..0000000000
---- a/hw/pci-bridge/dec.c
-+++ /dev/null
-@@ -1,164 +0,0 @@
--/*
-- * QEMU DEC 21154 PCI bridge
-- *
-- * Copyright (c) 2006-2007 Fabrice Bellard
-- * Copyright (c) 2007 Jocelyn Mayer
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#include "qemu/osdep.h"
--#include "dec.h"
--#include "hw/sysbus.h"
--#include "qapi/error.h"
--#include "qemu/module.h"
--#include "hw/pci/pci.h"
--#include "hw/pci/pci_host.h"
--#include "hw/pci/pci_bridge.h"
--#include "hw/pci/pci_bus.h"
--#include "qom/object.h"
--
--OBJECT_DECLARE_SIMPLE_TYPE(DECState, DEC_21154)
--
--struct DECState {
--    PCIHostState parent_obj;
--};
--
--static int dec_map_irq(PCIDevice *pci_dev, int irq_num)
--{
--    return irq_num;
--}
--
--static void dec_pci_bridge_realize(PCIDevice *pci_dev, Error **errp)
--{
--    pci_bridge_initfn(pci_dev, TYPE_PCI_BUS);
--}
--
--static void dec_21154_pci_bridge_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--
--    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
--    k->realize = dec_pci_bridge_realize;
--    k->exit = pci_bridge_exitfn;
--    k->vendor_id = PCI_VENDOR_ID_DEC;
--    k->device_id = PCI_DEVICE_ID_DEC_21154;
--    k->config_write = pci_bridge_write_config;
--    k->is_bridge = true;
--    dc->desc = "DEC 21154 PCI-PCI bridge";
--    dc->reset = pci_bridge_reset;
--    dc->vmsd = &vmstate_pci_device;
--}
--
--static const TypeInfo dec_21154_pci_bridge_info = {
--    .name          = "dec-21154-p2p-bridge",
--    .parent        = TYPE_PCI_BRIDGE,
--    .instance_size = sizeof(PCIBridge),
--    .class_init    = dec_21154_pci_bridge_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
--};
--
--PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn)
--{
--    PCIDevice *dev;
--    PCIBridge *br;
--
--    dev = pci_new_multifunction(devfn, false, "dec-21154-p2p-bridge");
--    br = PCI_BRIDGE(dev);
--    pci_bridge_map_irq(br, "DEC 21154 PCI-PCI bridge", dec_map_irq);
--    pci_realize_and_unref(dev, parent_bus, &error_fatal);
--    return pci_bridge_get_sec_bus(br);
--}
--
--static void pci_dec_21154_device_realize(DeviceState *dev, Error **errp)
--{
--    PCIHostState *phb;
--    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--
--    phb = PCI_HOST_BRIDGE(dev);
--
--    memory_region_init_io(&phb->conf_mem, OBJECT(dev), &pci_host_conf_le_ops,
--                          dev, "pci-conf-idx", 0x1000);
--    memory_region_init_io(&phb->data_mem, OBJECT(dev), &pci_host_data_le_ops,
--                          dev, "pci-data-idx", 0x1000);
--    sysbus_init_mmio(sbd, &phb->conf_mem);
--    sysbus_init_mmio(sbd, &phb->data_mem);
--}
--
--static void dec_21154_pci_host_realize(PCIDevice *d, Error **errp)
--{
--    /* PCI2PCI bridge same values as PearPC - check this */
--}
--
--static void dec_21154_pci_host_class_init(ObjectClass *klass, void *data)
--{
--    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
--    k->realize = dec_21154_pci_host_realize;
--    k->vendor_id = PCI_VENDOR_ID_DEC;
--    k->device_id = PCI_DEVICE_ID_DEC_21154;
--    k->revision = 0x02;
--    k->class_id = PCI_CLASS_BRIDGE_PCI;
--    k->is_bridge = true;
 -    /*
--     * PCI-facing part of the host bridge, not usable without the
--     * host-facing part, which can't be device_add'ed, yet.
+-     * pci-to-pci bridge or normal device.
+-     * This doesn't mean pci host switch.
+-     * When card bus bridge is supported, this would be enhanced.
 -     */
--    dc->user_creatable = false;
--}
+-    bool is_bridge;
 -
--static const TypeInfo dec_21154_pci_host_info = {
--    .name          = "dec-21154",
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PCIDevice),
--    .class_init    = dec_21154_pci_host_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
--};
--
--static void pci_dec_21154_device_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = pci_dec_21154_device_realize;
--}
--
--static const TypeInfo pci_dec_21154_device_info = {
--    .name          = TYPE_DEC_21154,
--    .parent        = TYPE_PCI_HOST_BRIDGE,
--    .instance_size = sizeof(DECState),
--    .class_init    = pci_dec_21154_device_class_init,
--};
--
--static void dec_register_types(void)
--{
--    type_register_static(&pci_dec_21154_device_info);
--    type_register_static(&dec_21154_pci_host_info);
--    type_register_static(&dec_21154_pci_bridge_info);
--}
--
--type_init(dec_register_types)
-diff --git a/hw/pci-bridge/meson.build b/hw/pci-bridge/meson.build
-index 243ceeda50..fe92d43de6 100644
---- a/hw/pci-bridge/meson.build
-+++ b/hw/pci-bridge/meson.build
-@@ -8,8 +8,6 @@ pci_ss.add(when: 'CONFIG_PXB', if_true: files('pci_expander_bridge.c'),
- pci_ss.add(when: 'CONFIG_XIO3130', if_true: files('xio3130_upstream.c', 'xio3130_downstream.c'))
- pci_ss.add(when: 'CONFIG_CXL', if_true: files('cxl_root_port.c', 'cxl_upstream.c', 'cxl_downstream.c'))
+-    /* rom bar */
+-    const char *romfile;
++    const char *romfile;                /* rom bar */
+ };
  
--# NewWorld PowerMac
--pci_ss.add(when: 'CONFIG_DEC_PCI', if_true: files('dec.c'))
- # Sun4u
- pci_ss.add(when: 'CONFIG_SIMBA', if_true: files('simba.c'))
+ typedef void (*PCIINTxRoutingNotifier)(PCIDevice *dev);
+diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+index ba4bafac7c..ca6caf487e 100644
+--- a/include/hw/pci/pci_bridge.h
++++ b/include/hw/pci/pci_bridge.h
+@@ -53,6 +53,7 @@ struct PCIBridgeWindows {
  
-diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
-index aebd44d265..5c617e86c1 100644
---- a/hw/pci-host/uninorth.c
-+++ b/hw/pci-host/uninorth.c
-@@ -127,12 +127,6 @@ static void pci_unin_main_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
+ #define TYPE_PCI_BRIDGE "base-pci-bridge"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCIBridge, PCI_BRIDGE)
++#define IS_PCI_BRIDGE(dev) object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)
  
-     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-pci");
--
--    /* DEC 21154 bridge */
--#if 0
--    /* XXX: not activated as PPC BIOS doesn't handle multiple buses properly */
--    pci_create_simple(h->bus, PCI_DEVFN(12, 0), "dec-21154");
--#endif
+ struct PCIBridge {
+     /*< private >*/
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 84d75e6b84..99a898d9ae 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -186,7 +186,6 @@ static PCIBus *acpi_pcihp_find_hotplug_bus(AcpiPciHpState *s, int bsel)
+ 
+ static bool acpi_pcihp_pc_no_hotplug(AcpiPciHpState *s, PCIDevice *dev)
+ {
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
+     DeviceClass *dc = DEVICE_GET_CLASS(dev);
+     /*
+      * ACPI doesn't allow hotplug of bridge devices.  Don't allow
+@@ -196,7 +195,7 @@ static bool acpi_pcihp_pc_no_hotplug(AcpiPciHpState *s, PCIDevice *dev)
+      * Don't allow hot-unplug of SR-IOV Virtual Functions, as they
+      * will be removed implicitly, when Physical Function is unplugged.
+      */
+-    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable ||
++    return (IS_PCI_BRIDGE(dev) && !dev->qdev.hotplugged) || !dc->hotpluggable ||
+            pci_is_vf(dev);
  }
  
- static void pci_unin_main_init(Object *obj)
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index d9eaa5fc4d..aa15b11cde 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -403,7 +403,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+ 
+     for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
+         DeviceClass *dc;
+-        PCIDeviceClass *pc;
+         PCIDevice *pdev = bus->devices[devfn];
+         int slot = PCI_SLOT(devfn);
+         int func = PCI_FUNC(devfn);
+@@ -414,14 +413,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         bool cold_plugged_bridge = false;
+ 
+         if (pdev) {
+-            pc = PCI_DEVICE_GET_CLASS(pdev);
+             dc = DEVICE_GET_CLASS(pdev);
+ 
+             /*
+              * Cold plugged bridges aren't themselves hot-pluggable.
+              * Hotplugged bridges *are* hot-pluggable.
+              */
+-            cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
++            cold_plugged_bridge = IS_PCI_BRIDGE(pdev) &&
++                                  !DEVICE(pdev)->hotplugged;
+             bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
+ 
+             hotpluggbale_slot = bsel && dc->hotpluggable &&
+diff --git a/hw/pci-bridge/cxl_downstream.c b/hw/pci-bridge/cxl_downstream.c
+index a361e519d0..3d4e6b59cd 100644
+--- a/hw/pci-bridge/cxl_downstream.c
++++ b/hw/pci-bridge/cxl_downstream.c
+@@ -217,7 +217,6 @@ static void cxl_dsp_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(oc);
+ 
+-    k->is_bridge = true;
+     k->config_write = cxl_dsp_config_write;
+     k->realize = cxl_dsp_realize;
+     k->exit = cxl_dsp_exitfn;
+diff --git a/hw/pci-bridge/cxl_upstream.c b/hw/pci-bridge/cxl_upstream.c
+index 9b8b57df9d..9df436cb73 100644
+--- a/hw/pci-bridge/cxl_upstream.c
++++ b/hw/pci-bridge/cxl_upstream.c
+@@ -375,7 +375,6 @@ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(oc);
+ 
+-    k->is_bridge = true;
+     k->config_write = cxl_usp_write_config;
+     k->config_read = cxl_usp_read_config;
+     k->realize = cxl_usp_realize;
+diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
+index f28181e210..d9f224818b 100644
+--- a/hw/pci-bridge/i82801b11.c
++++ b/hw/pci-bridge/i82801b11.c
+@@ -92,7 +92,6 @@ static void i82801b11_bridge_class_init(ObjectClass *klass, void *data)
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+-    k->is_bridge = true;
+     k->vendor_id = PCI_VENDOR_ID_INTEL;
+     k->device_id = PCI_DEVICE_ID_INTEL_82801BA_11;
+     k->revision = ICH9_D2P_A2_REVISION;
+diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
+index 657a06ddbe..3435df8d73 100644
+--- a/hw/pci-bridge/pci_bridge_dev.c
++++ b/hw/pci-bridge/pci_bridge_dev.c
+@@ -254,7 +254,6 @@ static void pci_bridge_dev_class_init(ObjectClass *klass, void *data)
+     k->vendor_id = PCI_VENDOR_ID_REDHAT;
+     k->device_id = PCI_DEVICE_ID_REDHAT_BRIDGE;
+     k->class_id = PCI_CLASS_BRIDGE_PCI;
+-    k->is_bridge = true;
+     dc->desc = "Standard PCI Bridge";
+     dc->reset = qdev_pci_bridge_dev_reset;
+     device_class_set_props(dc, pci_bridge_dev_properties);
+diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
+index 1cd917a459..2301b2ca0b 100644
+--- a/hw/pci-bridge/pcie_pci_bridge.c
++++ b/hw/pci-bridge/pcie_pci_bridge.c
+@@ -145,7 +145,6 @@ static void pcie_pci_bridge_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
+ 
+-    k->is_bridge = true;
+     k->vendor_id = PCI_VENDOR_ID_REDHAT;
+     k->device_id = PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE;
+     k->realize = pcie_pci_bridge_realize;
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
+index 460e48269d..e0a7a036f5 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -172,7 +172,6 @@ static void rp_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+-    k->is_bridge = true;
+     k->config_write = rp_write_config;
+     k->realize = rp_realize;
+     k->exit = rp_exit;
+diff --git a/hw/pci-bridge/simba.c b/hw/pci-bridge/simba.c
+index ba55ab1939..17aa0d7b21 100644
+--- a/hw/pci-bridge/simba.c
++++ b/hw/pci-bridge/simba.c
+@@ -77,7 +77,6 @@ static void simba_pci_bridge_class_init(ObjectClass *klass, void *data)
+     k->device_id = PCI_DEVICE_ID_SUN_SIMBA;
+     k->revision = 0x11;
+     k->config_write = pci_bridge_write_config;
+-    k->is_bridge = true;
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->reset = pci_bridge_reset;
+     dc->vmsd = &vmstate_pci_device;
+diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
+index 05e2b06c0c..38a2361fa2 100644
+--- a/hw/pci-bridge/xio3130_downstream.c
++++ b/hw/pci-bridge/xio3130_downstream.c
+@@ -159,7 +159,6 @@ static void xio3130_downstream_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+-    k->is_bridge = true;
+     k->config_write = xio3130_downstream_write_config;
+     k->realize = xio3130_downstream_realize;
+     k->exit = xio3130_downstream_exitfn;
+diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c
+index 5ff46ef050..a48bfe3bc5 100644
+--- a/hw/pci-bridge/xio3130_upstream.c
++++ b/hw/pci-bridge/xio3130_upstream.c
+@@ -128,7 +128,6 @@ static void xio3130_upstream_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+-    k->is_bridge = true;
+     k->config_write = xio3130_upstream_write_config;
+     k->realize = xio3130_upstream_realize;
+     k->exit = xio3130_upstream_exitfn;
+diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
+index bde3a343a2..9e183caa48 100644
+--- a/hw/pci-host/designware.c
++++ b/hw/pci-host/designware.c
+@@ -600,7 +600,6 @@ static void designware_pcie_root_class_init(ObjectClass *klass, void *data)
+     k->device_id = 0xABCD;
+     k->revision = 0;
+     k->class_id = PCI_CLASS_BRIDGE_PCI;
+-    k->is_bridge = true;
+     k->exit = pci_bridge_exitfn;
+     k->realize = designware_pcie_root_realize;
+     k->config_read = designware_pcie_root_config_read;
+diff --git a/hw/pci-host/xilinx-pcie.c b/hw/pci-host/xilinx-pcie.c
+index 38d5901a45..c9ab7052f4 100644
+--- a/hw/pci-host/xilinx-pcie.c
++++ b/hw/pci-host/xilinx-pcie.c
+@@ -298,7 +298,6 @@ static void xilinx_pcie_root_class_init(ObjectClass *klass, void *data)
+     k->device_id = 0x7021;
+     k->revision = 0;
+     k->class_id = PCI_CLASS_BRIDGE_HOST;
+-    k->is_bridge = true;
+     k->realize = xilinx_pcie_root_realize;
+     k->exit = pci_bridge_exitfn;
+     dc->reset = pci_bridge_reset;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 2f450f6a72..e93daab9f0 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -576,7 +576,7 @@ void pci_bus_range(PCIBus *bus, int *min_bus, int *max_bus)
+     for (i = 0; i < ARRAY_SIZE(bus->devices); ++i) {
+         PCIDevice *dev = bus->devices[i];
+ 
+-        if (dev && PCI_DEVICE_GET_CLASS(dev)->is_bridge) {
++        if (dev && IS_PCI_BRIDGE(dev)) {
+             *min_bus = MIN(*min_bus, dev->config[PCI_SECONDARY_BUS]);
+             *max_bus = MAX(*max_bus, dev->config[PCI_SUBORDINATE_BUS]);
+         }
+@@ -592,7 +592,6 @@ static int get_pci_config_device(QEMUFile *f, void *pv, size_t size,
+                                  const VMStateField *field)
+ {
+     PCIDevice *s = container_of(pv, PCIDevice, config);
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(s);
+     uint8_t *config;
+     int i;
+ 
+@@ -614,9 +613,8 @@ static int get_pci_config_device(QEMUFile *f, void *pv, size_t size,
+     memcpy(s->config, config, size);
+ 
+     pci_update_mappings(s);
+-    if (pc->is_bridge) {
+-        PCIBridge *b = PCI_BRIDGE(s);
+-        pci_bridge_update_mappings(b);
++    if (IS_PCI_BRIDGE(s)) {
++        pci_bridge_update_mappings(PCI_BRIDGE(s));
+     }
+ 
+     memory_region_set_enabled(&s->bus_master_enable_region,
+@@ -1090,9 +1088,10 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+     Error *local_err = NULL;
+     DeviceState *dev = DEVICE(pci_dev);
+     PCIBus *bus = pci_get_bus(pci_dev);
++    bool is_bridge = IS_PCI_BRIDGE(pci_dev);
+ 
+     /* Only pci bridges can be attached to extra PCI root buses */
+-    if (pci_bus_is_root(bus) && bus->parent_dev && !pc->is_bridge) {
++    if (pci_bus_is_root(bus) && bus->parent_dev && !IS_PCI_BRIDGE(pci_dev)) {
+         error_setg(errp,
+                    "PCI: Only PCI/PCIe bridges can be plugged into %s",
+                     bus->parent_dev->name);
+@@ -1154,7 +1153,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+     pci_config_set_revision(pci_dev->config, pc->revision);
+     pci_config_set_class(pci_dev->config, pc->class_id);
+ 
+-    if (!pc->is_bridge) {
++    if (!is_bridge) {
+         if (pc->subsystem_vendor_id || pc->subsystem_id) {
+             pci_set_word(pci_dev->config + PCI_SUBSYSTEM_VENDOR_ID,
+                          pc->subsystem_vendor_id);
+@@ -1171,7 +1170,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+     pci_init_cmask(pci_dev);
+     pci_init_wmask(pci_dev);
+     pci_init_w1cmask(pci_dev);
+-    if (pc->is_bridge) {
++    if (is_bridge) {
+         pci_init_mask_bridge(pci_dev);
+     }
+     pci_init_multifunction(bus, pci_dev, &local_err);
+@@ -2096,7 +2095,7 @@ static bool pci_root_bus_in_range(PCIBus *bus, int bus_num)
+     for (i = 0; i < ARRAY_SIZE(bus->devices); ++i) {
+         PCIDevice *dev = bus->devices[i];
+ 
+-        if (dev && PCI_DEVICE_GET_CLASS(dev)->is_bridge) {
++        if (dev && IS_PCI_BRIDGE(dev)) {
+             if (pci_secondary_bus_in_range(dev, bus_num)) {
+                 return true;
+             }
+@@ -2841,7 +2840,6 @@ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque)
+ static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+ {
+     Range *range = opaque;
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
+     uint16_t cmd = pci_get_word(dev->config + PCI_COMMAND);
+     int i;
+ 
+@@ -2849,7 +2847,7 @@ static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+         return;
+     }
+ 
+-    if (pc->is_bridge) {
++    if (IS_PCI_BRIDGE(dev)) {
+         pcibus_t base = pci_bridge_get_base(dev, PCI_BASE_ADDRESS_MEM_PREFETCH);
+         pcibus_t limit = pci_bridge_get_limit(dev, PCI_BASE_ADDRESS_MEM_PREFETCH);
+ 
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 7b7618d5da..75aacda65a 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1361,7 +1361,6 @@ static int spapr_dt_pci_device(SpaprPhbState *sphb, PCIDevice *dev,
+ {
+     int offset;
+     g_autofree gchar *nodename = spapr_pci_fw_dev_name(dev);
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
+     ResourceProps rp;
+     SpaprDrc *drc = drc_from_dev(sphb, dev);
+     uint32_t vendor_id = pci_default_read_config(dev, PCI_VENDOR_ID, 2);
+@@ -1446,7 +1445,7 @@ static int spapr_dt_pci_device(SpaprPhbState *sphb, PCIDevice *dev,
+ 
+     spapr_phb_nvgpu_populate_pcidev_dt(dev, fdt, offset, sphb);
+ 
+-    if (!pc->is_bridge) {
++    if (!IS_PCI_BRIDGE(dev)) {
+         /* Properties only for non-bridges */
+         uint32_t min_grant = pci_default_read_config(dev, PCI_MIN_GNT, 1);
+         uint32_t max_latency = pci_default_read_config(dev, PCI_MAX_LAT, 1);
+@@ -1544,7 +1543,6 @@ static void spapr_pci_pre_plug(HotplugHandler *plug_handler,
+ {
+     SpaprPhbState *phb = SPAPR_PCI_HOST_BRIDGE(DEVICE(plug_handler));
+     PCIDevice *pdev = PCI_DEVICE(plugged_dev);
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(plugged_dev);
+     SpaprDrc *drc = drc_from_dev(phb, pdev);
+     PCIBus *bus = PCI_BUS(qdev_get_parent_bus(DEVICE(pdev)));
+     uint32_t slotnr = PCI_SLOT(pdev->devfn);
+@@ -1560,7 +1558,7 @@ static void spapr_pci_pre_plug(HotplugHandler *plug_handler,
+         }
+     }
+ 
+-    if (pc->is_bridge) {
++    if (IS_PCI_BRIDGE(plugged_dev)) {
+         if (!bridge_has_valid_chassis_nr(OBJECT(plugged_dev), errp)) {
+             return;
+         }
+@@ -1589,7 +1587,6 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
+ {
+     SpaprPhbState *phb = SPAPR_PCI_HOST_BRIDGE(DEVICE(plug_handler));
+     PCIDevice *pdev = PCI_DEVICE(plugged_dev);
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(plugged_dev);
+     SpaprDrc *drc = drc_from_dev(phb, pdev);
+     uint32_t slotnr = PCI_SLOT(pdev->devfn);
+ 
+@@ -1603,7 +1600,7 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
+ 
+     g_assert(drc);
+ 
+-    if (pc->is_bridge) {
++    if (IS_PCI_BRIDGE(plugged_dev)) {
+         spapr_pci_bridge_plug(phb, PCI_BRIDGE(plugged_dev));
+     }
+ 
+@@ -1646,7 +1643,6 @@ static void spapr_pci_bridge_unplug(SpaprPhbState *phb,
+ static void spapr_pci_unplug(HotplugHandler *plug_handler,
+                              DeviceState *plugged_dev, Error **errp)
+ {
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(plugged_dev);
+     SpaprPhbState *phb = SPAPR_PCI_HOST_BRIDGE(DEVICE(plug_handler));
+ 
+     /* some version guests do not wait for completion of a device
+@@ -1661,7 +1657,7 @@ static void spapr_pci_unplug(HotplugHandler *plug_handler,
+      */
+     pci_device_reset(PCI_DEVICE(plugged_dev));
+ 
+-    if (pc->is_bridge) {
++    if (IS_PCI_BRIDGE(plugged_dev)) {
+         spapr_pci_bridge_unplug(phb, PCI_BRIDGE(plugged_dev));
+         return;
+     }
+@@ -1686,7 +1682,6 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
+     g_assert(drc->dev == plugged_dev);
+ 
+     if (!spapr_drc_unplug_requested(drc)) {
+-        PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(plugged_dev);
+         uint32_t slotnr = PCI_SLOT(pdev->devfn);
+         SpaprDrc *func_drc;
+         SpaprDrcClass *func_drck;
+@@ -1694,7 +1689,7 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
+         int i;
+         uint8_t chassis = chassis_from_bus(pci_get_bus(pdev));
+ 
+-        if (pc->is_bridge) {
++        if (IS_PCI_BRIDGE(plugged_dev)) {
+             error_setg(errp, "PCI: Hot unplug of PCI bridges not supported");
+             return;
+         }
 -- 
 2.31.1
 
