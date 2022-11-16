@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1AB62B9D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 11:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AED262BA2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 11:53:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovFup-0004jx-54; Wed, 16 Nov 2022 05:45:11 -0500
+	id 1ovG1y-0006LR-NL; Wed, 16 Nov 2022 05:52:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ovFum-0004jh-B9
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:45:08 -0500
+ id 1ovG1w-0006LI-Si
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:52:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ovFuk-0002OE-LA
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:45:08 -0500
+ id 1ovG1v-0004BF-BT
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 05:52:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668595506;
+ s=mimecast20190719; t=1668595950;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GccVArZKtdm+y76D/ipDtowEvPaCtnPA3cu2BhowCzg=;
- b=eBxBkv4Dpie7K0VpsPcnkcjk48QFHk3ldw9F7040nTB8s1Oz/STGigqZk9BO1AwM3jSuwr
- 6L+vhk3csOvF78MbN8zz0iBBahQtJHrx+8RYInB+AiRuG9ZTLIe5XoPUHzVXNWUrPc7D22
- I+0zoL+WCWHbhblqGW6VPqW4F8PaR4I=
+ bh=QVm7vLE3rau21s+9IzAbhtR9o7sMF1qG5Hv3g4Mi8lM=;
+ b=e/uRUDYnqH34+3aWEQfaoU8Cf7KwbF/FNcfjpVv56hdxJKjh6nM5hIxU2AN7vdXqO3THYl
+ jvx4K2U8aLlGO0+5uX2GcCnRQk8T1ZpNCCrWQnHDJQKHhOttuepgOPPf8NGJO9qVvEb7Oi
+ QlFNTSBdxTC9L9krfuT4Xr3yCFJpxd0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-kN0V8LNjNdmiBq0Jggh4UQ-1; Wed, 16 Nov 2022 05:45:02 -0500
-X-MC-Unique: kN0V8LNjNdmiBq0Jggh4UQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-423-3K0HaMvXNGusvZYYn1j-kw-1; Wed, 16 Nov 2022 05:52:26 -0500
+X-MC-Unique: 3K0HaMvXNGusvZYYn1j-kw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2616F85A59D;
- Wed, 16 Nov 2022 10:45:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E203185A78B;
+ Wed, 16 Nov 2022 10:52:26 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 80832140EBF3;
- Wed, 16 Nov 2022 10:45:01 +0000 (UTC)
-Date: Wed, 16 Nov 2022 10:44:57 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1617D2166B29;
+ Wed, 16 Nov 2022 10:52:24 +0000 (UTC)
+Date: Wed, 16 Nov 2022 10:52:20 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: antoine.damhet@shadow.tech
-Cc: qemu-devel@nongnu.org, vm@shadow.tech
-Subject: Re: [PATCH 1/2] crypto: TLS: introduce `check_pending`
-Message-ID: <Y3S/KQ8SIvGKOOWQ@redhat.com>
+Cc: qemu-devel@nongnu.org, vm@shadow.tech,
+ Charles Frey <charles.frey@shadow.tech>
+Subject: Re: [PATCH 2/2] io/channel-tls: fix handling of bigger read buffers
+Message-ID: <Y3TA5LLIZFVHrNBM@redhat.com>
 References: <20221115142329.92524-1-antoine.damhet@shadow.tech>
- <20221115142329.92524-2-antoine.damhet@shadow.tech>
+ <20221115142329.92524-3-antoine.damhet@shadow.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221115142329.92524-2-antoine.damhet@shadow.tech>
+In-Reply-To: <20221115142329.92524-3-antoine.damhet@shadow.tech>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -83,18 +84,18 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 03:23:28PM +0100, antoine.damhet@shadow.tech wrote:
+On Tue, Nov 15, 2022 at 03:23:29PM +0100, antoine.damhet@shadow.tech wrote:
 > From: Antoine Damhet <antoine.damhet@shadow.tech>
 > 
-> The new `qcrypto_tls_session_check_pending` function allows the caller
-> to know if data have already been consumed from the backend and is
-> already available.
+> Since the TLS backend can read more data from the underlying QIOChannel
+> we introduce a minimal child GSource to notify if we still have more
+> data available to be read.
 > 
 > Signed-off-by: Antoine Damhet <antoine.damhet@shadow.tech>
+> Signed-off-by: Charles Frey <charles.frey@shadow.tech>
 > ---
->  crypto/tlssession.c         | 14 ++++++++++++++
->  include/crypto/tlssession.h | 11 +++++++++++
->  2 files changed, 25 insertions(+)
+>  io/channel-tls.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 65 insertions(+), 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
