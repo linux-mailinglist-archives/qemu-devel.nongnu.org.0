@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF9162C8EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 20:27:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD7162C919
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 20:41:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovO3R-0005m2-Jc; Wed, 16 Nov 2022 14:26:37 -0500
+	id 1ovOGb-00067d-AQ; Wed, 16 Nov 2022 14:40:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ovO3P-0005lp-Fn
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:26:35 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ovOGM-0005zE-Tw; Wed, 16 Nov 2022 14:40:00 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ovO3N-0002Zs-Pk
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:26:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=97bRaQrwuMMxwytQLuB0HfHXzzW1zMqW8QHyv/UwGZs=; b=FFU3d+MkECSWHh/VEcoP4PxL5d
- tp1lavmxZw/PVn2+tW4sc5zS2AcyiRmgLPZB6TRJ4vcC4ifbnTdRp3RW8uBixpJA2lPPXpNE8gqdn
- GItkk+NARLUMXpu0n2DclQjuA9vz7ENWBbFSSgk4gO6JJE45VGj9eO5o04LOPJvUu0mKzKByI3NOY
- CdTST6waUKjWpfqKN3NqsqxLw/GAv6qjJa42oxvMgnCA4LoJW6lvgK/dtuLFFceY3iF8H9zCDbicU
- AiNbrt/8reuRgVeegbXJCZUqnGYxSwBoWveoDgEg07wCOUvlhmaZFRjFX0tncAjS38iJBJNY7cN3W
- pXg/Nn2R3BWa9Zd+Yn0HIXFzXQBw7QvzVP3rmQm0j8pK1Zk4iDdUaTr7wm7OgN1df25uu8dmWhtD9
- 5PTBITxWHNfOWbJ7a44R7A2BImqJ1Lw35Z3Tw0oUeR5soQLsWRiOCiQ5JJng5cfz3wokS4uXtn669
- 4+XPhV92b8LyhrImMbi3P16Bw+Nlo6XxxjoyK1T2CFRP05ZWL18kkQyQgZ6TMV1zZPw3FFvf/2ad6
- UryXPbK0q/JGsK4as8gFrB+EMuVvoQ83VJLyFMW385dIWsu4LEeYVyP/HllDLl9e11hguiBvTmBRr
- ODeIWJcrWjd4hjfFTjHioFJADc1ycASo4+8nCB2iA=;
-Received: from [2a00:23c4:8ba9:3700:6d79:9193:91dc:35ee]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ovO3B-00096H-3a; Wed, 16 Nov 2022 19:26:25 +0000
-Message-ID: <55f74ddf-47eb-d783-26f9-85dd3e95e413@ilande.co.uk>
-Date: Wed, 16 Nov 2022 19:26:20 +0000
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ovOGG-0005Xc-M6; Wed, 16 Nov 2022 14:39:56 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id D0EAC74638A;
+ Wed, 16 Nov 2022 20:39:29 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 75CF9746335; Wed, 16 Nov 2022 20:39:29 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 70E6874632C;
+ Wed, 16 Nov 2022 20:39:29 +0100 (CET)
+Date: Wed, 16 Nov 2022 20:39:29 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Igor Mammedov <imammedo@redhat.com>
+cc: qemu-devel@nongnu.org, mst@redhat.com, ani@anisinha.ca, 
+ pbonzini@redhat.com, richard.henderson@linaro.org, 
+ mark.cave-ayland@ilande.co.uk, peter.maydell@linaro.org, 
+ andrew.smirnov@gmail.com, paulburton@kernel.org, 
+ aleksandar.rikalo@syrmia.com, danielhb413@gmail.com, clg@kaod.org, 
+ david@gibson.dropbear.id.au, groug@kaod.org, qemu-arm@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 1/2] remove DEC 21154 PCI bridge
+In-Reply-To: <20221116152730.3691347-2-imammedo@redhat.com>
+Message-ID: <79ad881d-ac77-5bca-bd5f-ba6290b2c830@eik.bme.hu>
+References: <20221116152730.3691347-1-imammedo@redhat.com>
+ <20221116152730.3691347-2-imammedo@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu-daude@linaro.org>,
- John Snow <jsnow@redhat.com>
-References: <20221115133439.2348929-1-alex.bennee@linaro.org>
- <CAJSP0QVigz1nDq7JO2ABquzReGWkqY5dwXKrEaufw+FXnvsvkg@mail.gmail.com>
- <87r0y29287.fsf@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <87r0y29287.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba9:3700:6d79:9193:91dc:35ee
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: Failure analysis (was Re: [PULL for 7.2 00/10] testing and doc
- updates)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,87 +64,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/11/2022 18:20, Alex Bennée wrote:
-
-> Stefan Hajnoczi <stefanha@gmail.com> writes:
-> 
->> This pull request causes the following CI failure:
->>
->> https://gitlab.com/qemu-project/qemu/-/jobs/3328449477
->>
->> I haven't figured out the root cause of the failure. Maybe the pull
->> request just exposes a latent failure. Please take a look and we can
->> try again for -rc2.
-> 
-> OK after a lot of digging I've come to the following conclusion:
-> 
->    * the Fuloong 2E machine never enables the FIFO on the 16550 (s->fcr & UART_FCR_FE)
->    * as a result if qemu_chr_fe_write(&s->chr, &s->tsr, 1) fails with -EAGAIN
->      - a serial_watch_cb is queued
->      - s->tsr_retry++
->    * additional serial_ioport_write's overwrite s->thr
->    * the console output gets corrupted
-> 
-> You can see the effect by comparing the serial write and xmit values:
-> 
->    ➜  grep serial_write alex.log | cut -d ' ' -f 6 | xxd -r -p | head -n 10
->    [    0.000000] Initializing cgroup subsys cpuset
->    [    0.000000] Initializing cgroup subsys cpu
->    [    0.000000] Initializing cgroup subsys cpuacct
->    [    0.000000] Linux version 3.16.0-6-loongson-2e (debian-kernel@lists.debian.org) (gcc version 4.8.4 (Debian 4.8.4-1) ) #1 Debian 3.16.56-1+deb8u1 (2018-05-08)
->    [    0.000000] memsize=256, highmemsize=0
->    [    0.000000] CpuClock = 533080000
->    [    0.000000] bootconsole [early0] enabled
->    [    0.000000] CPU0 revision is: 00006302 (ICT Loongson-2)
->    [    0.000000] FPU revision is: 00000501
->    [    0.000000] Checking for the multiply/shift bug... no.
->    🕙18:27:17 alex@zen:qemu.git/builds/all  on  pr/141122-misc-for-7.2-1 [$!?⇕]
->    ➜  grep serial_xmit alex.log | cut -d ' ' -f 2 | xxd -r -p | head -n 10
->    [    0.000000] Initializing cgroup subsys cpuset
->    [    0.000000] Initializing cgroup subsys cpu
->    [    0.000000] Initializing cgroup subsys cpuacct
->    [    0.000000] Linux version 3.16.0-6-loongson-2e (debian-kernel@lists.debian.org) (gcc version 4.8.4 (Debian 4.8.4-1) ) #1 Debian 33 0.000000] bootconsole [early0] enabled
->    [    0.000000] CPU0 revision is: 00006302 (ICT Loongson-2)
->    [    0.000000] FPU revision is: 00000501
->    [    0.000000] Checking for the multiply/shift bug... no.
->    [    0.000000] Checking for the daddiu bug... no.
->    [    0.000000] Determined physical RAM map:
->    [    0.000000]  memory: 000
-> 
-> As a result the check for the pattern fails:
-> 
->          console_pattern = 'Kernel command line: %s' % kernel_command_line
->          self.wait_for_console_pattern(console_pattern)
-> 
-> resulting in a timeout and test fail.
-> 
-> In effect the configuration makes the output dependent on how fast the
-> avocado test can drain the socket as there is no buffering elsewhere in
-> the system. The changes in:
-> 
->    Subject: [PULL 02/10] tests/avocado: improve behaviour waiting for login prompts
-> 
-> makes this failure more likely to happen - I think because the .peek() and
-> .readline() behaviour have different buffering strategies. Options
-> include:
-> 
->    - enable the 16550 FIFO for the Loognson kernel (command line option?)
->    - increase the buffering of the python socket.socket() code
-> 
-> I can get it to pass by shuffling the time.sleep() and a few other
-> checks around but that seems flaky at best.
-
-Nice work! This is the well-known problem whereby the kernel sometimes expects the 
-BIOS to have pre-configured the serial ports, which of course never happens when 
-booting directly with -kernel.
-
-Given that the fuloong2e machine already has a mini "trampoline" bootloader, would it 
-be possible to tweak write_bootloader() at 
-https://gitlab.com/qemu-project/qemu/-/blob/master/hw/mips/fuloong2e.c#L166 to set 
-UART_FCR_FE on the available UARTs before jumping into the kernel?
 
 
-ATB,
+On Wed, 16 Nov 2022, Igor Mammedov wrote:
 
-Mark.
+> Code has not been used practically since its inception (2004)
+>  f2aa58c6f4a20 UniNorth PCI bridge support
+> or maybe even earlier, but it was consuming contributors time
+> as QEMU was being rewritten.
+> Drop it for now. Whomever would like to actually
+> use the thing, can make sure it actually works/reintroduce
+> it back when there is a user.
+>
+> PS:
+> I've stumbled upon this when replacing PCIDeviceClass::is_bridge
+> field with QOM cast to PCI_BRIDGE type. Unused DEC 21154
+> was the only one trying to use the field with plain PCIDevice.
+> It's not worth keeping the field around for the sake of the code
+> that was commented out 'forever'.
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> hw/pci-bridge/dec.h       |   9 ---
+> include/hw/pci/pci_ids.h  |   1 -
+> hw/pci-bridge/dec.c       | 164 --------------------------------------
+> hw/pci-bridge/meson.build |   2 -
+> hw/pci-host/uninorth.c    |   6 --
+> 5 files changed, 182 deletions(-)
+> delete mode 100644 hw/pci-bridge/dec.h
+> delete mode 100644 hw/pci-bridge/dec.c
+>
+> diff --git a/hw/pci-bridge/dec.h b/hw/pci-bridge/dec.h
+> deleted file mode 100644
+> index 869e90b136..0000000000
+> --- a/hw/pci-bridge/dec.h
+> +++ /dev/null
+> @@ -1,9 +0,0 @@
+> -#ifndef HW_PCI_BRIDGE_DEC_H
+> -#define HW_PCI_BRIDGE_DEC_H
+> -
+> -
+> -#define TYPE_DEC_21154 "dec-21154-sysbus"
+> -
+> -PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn);
+> -
+> -#endif
+> diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+> index bc9f834fd1..e4386ebb20 100644
+> --- a/include/hw/pci/pci_ids.h
+> +++ b/include/hw/pci/pci_ids.h
+> @@ -169,7 +169,6 @@
+>
+> #define PCI_VENDOR_ID_DEC                0x1011
+> #define PCI_DEVICE_ID_DEC_21143          0x0019
+> -#define PCI_DEVICE_ID_DEC_21154          0x0026
+>
+> #define PCI_VENDOR_ID_CIRRUS             0x1013
+>
+> diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
+> deleted file mode 100644
+> index 4773d07e6d..0000000000
+> --- a/hw/pci-bridge/dec.c
+> +++ /dev/null
+> @@ -1,164 +0,0 @@
+> -/*
+> - * QEMU DEC 21154 PCI bridge
+> - *
+> - * Copyright (c) 2006-2007 Fabrice Bellard
+> - * Copyright (c) 2007 Jocelyn Mayer
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a copy
+> - * of this software and associated documentation files (the "Software"), to deal
+> - * in the Software without restriction, including without limitation the rights
+> - * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> - * copies of the Software, and to permit persons to whom the Software is
+> - * furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice shall be included in
+> - * all copies or substantial portions of the Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> - * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> - * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> - * THE SOFTWARE.
+> - */
+> -
+> -#include "qemu/osdep.h"
+> -#include "dec.h"
+> -#include "hw/sysbus.h"
+> -#include "qapi/error.h"
+> -#include "qemu/module.h"
+> -#include "hw/pci/pci.h"
+> -#include "hw/pci/pci_host.h"
+> -#include "hw/pci/pci_bridge.h"
+> -#include "hw/pci/pci_bus.h"
+> -#include "qom/object.h"
+> -
+> -OBJECT_DECLARE_SIMPLE_TYPE(DECState, DEC_21154)
+> -
+> -struct DECState {
+> -    PCIHostState parent_obj;
+> -};
+> -
+> -static int dec_map_irq(PCIDevice *pci_dev, int irq_num)
+> -{
+> -    return irq_num;
+> -}
+> -
+> -static void dec_pci_bridge_realize(PCIDevice *pci_dev, Error **errp)
+> -{
+> -    pci_bridge_initfn(pci_dev, TYPE_PCI_BUS);
+> -}
+> -
+> -static void dec_21154_pci_bridge_class_init(ObjectClass *klass, void *data)
+> -{
+> -    DeviceClass *dc = DEVICE_CLASS(klass);
+> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> -
+> -    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> -    k->realize = dec_pci_bridge_realize;
+> -    k->exit = pci_bridge_exitfn;
+> -    k->vendor_id = PCI_VENDOR_ID_DEC;
+> -    k->device_id = PCI_DEVICE_ID_DEC_21154;
+> -    k->config_write = pci_bridge_write_config;
+> -    k->is_bridge = true;
+> -    dc->desc = "DEC 21154 PCI-PCI bridge";
+> -    dc->reset = pci_bridge_reset;
+> -    dc->vmsd = &vmstate_pci_device;
+> -}
+> -
+> -static const TypeInfo dec_21154_pci_bridge_info = {
+> -    .name          = "dec-21154-p2p-bridge",
+> -    .parent        = TYPE_PCI_BRIDGE,
+> -    .instance_size = sizeof(PCIBridge),
+> -    .class_init    = dec_21154_pci_bridge_class_init,
+> -    .interfaces = (InterfaceInfo[]) {
+> -        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> -        { },
+> -    },
+> -};
+> -
+> -PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn)
+> -{
+> -    PCIDevice *dev;
+> -    PCIBridge *br;
+> -
+> -    dev = pci_new_multifunction(devfn, false, "dec-21154-p2p-bridge");
+> -    br = PCI_BRIDGE(dev);
+> -    pci_bridge_map_irq(br, "DEC 21154 PCI-PCI bridge", dec_map_irq);
+> -    pci_realize_and_unref(dev, parent_bus, &error_fatal);
+> -    return pci_bridge_get_sec_bus(br);
+> -}
+> -
+> -static void pci_dec_21154_device_realize(DeviceState *dev, Error **errp)
+> -{
+> -    PCIHostState *phb;
+> -    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> -
+> -    phb = PCI_HOST_BRIDGE(dev);
+> -
+> -    memory_region_init_io(&phb->conf_mem, OBJECT(dev), &pci_host_conf_le_ops,
+> -                          dev, "pci-conf-idx", 0x1000);
+> -    memory_region_init_io(&phb->data_mem, OBJECT(dev), &pci_host_data_le_ops,
+> -                          dev, "pci-data-idx", 0x1000);
+> -    sysbus_init_mmio(sbd, &phb->conf_mem);
+> -    sysbus_init_mmio(sbd, &phb->data_mem);
+> -}
+> -
+> -static void dec_21154_pci_host_realize(PCIDevice *d, Error **errp)
+> -{
+> -    /* PCI2PCI bridge same values as PearPC - check this */
+> -}
+> -
+> -static void dec_21154_pci_host_class_init(ObjectClass *klass, void *data)
+> -{
+> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> -    DeviceClass *dc = DEVICE_CLASS(klass);
+> -
+> -    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> -    k->realize = dec_21154_pci_host_realize;
+> -    k->vendor_id = PCI_VENDOR_ID_DEC;
+> -    k->device_id = PCI_DEVICE_ID_DEC_21154;
+> -    k->revision = 0x02;
+> -    k->class_id = PCI_CLASS_BRIDGE_PCI;
+> -    k->is_bridge = true;
+> -    /*
+> -     * PCI-facing part of the host bridge, not usable without the
+> -     * host-facing part, which can't be device_add'ed, yet.
+> -     */
+> -    dc->user_creatable = false;
+> -}
+> -
+> -static const TypeInfo dec_21154_pci_host_info = {
+> -    .name          = "dec-21154",
+> -    .parent        = TYPE_PCI_DEVICE,
+> -    .instance_size = sizeof(PCIDevice),
+> -    .class_init    = dec_21154_pci_host_class_init,
+> -    .interfaces = (InterfaceInfo[]) {
+> -        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> -        { },
+> -    },
+> -};
+> -
+> -static void pci_dec_21154_device_class_init(ObjectClass *klass, void *data)
+> -{
+> -    DeviceClass *dc = DEVICE_CLASS(klass);
+> -
+> -    dc->realize = pci_dec_21154_device_realize;
+> -}
+> -
+> -static const TypeInfo pci_dec_21154_device_info = {
+> -    .name          = TYPE_DEC_21154,
+> -    .parent        = TYPE_PCI_HOST_BRIDGE,
+> -    .instance_size = sizeof(DECState),
+> -    .class_init    = pci_dec_21154_device_class_init,
+> -};
+> -
+> -static void dec_register_types(void)
+> -{
+> -    type_register_static(&pci_dec_21154_device_info);
+> -    type_register_static(&dec_21154_pci_host_info);
+> -    type_register_static(&dec_21154_pci_bridge_info);
+> -}
+> -
+> -type_init(dec_register_types)
+> diff --git a/hw/pci-bridge/meson.build b/hw/pci-bridge/meson.build
+> index 243ceeda50..fe92d43de6 100644
+> --- a/hw/pci-bridge/meson.build
+> +++ b/hw/pci-bridge/meson.build
+> @@ -8,8 +8,6 @@ pci_ss.add(when: 'CONFIG_PXB', if_true: files('pci_expander_bridge.c'),
+> pci_ss.add(when: 'CONFIG_XIO3130', if_true: files('xio3130_upstream.c', 'xio3130_downstream.c'))
+> pci_ss.add(when: 'CONFIG_CXL', if_true: files('cxl_root_port.c', 'cxl_upstream.c', 'cxl_downstream.c'))
+>
+> -# NewWorld PowerMac
+> -pci_ss.add(when: 'CONFIG_DEC_PCI', if_true: files('dec.c'))
+> # Sun4u
+> pci_ss.add(when: 'CONFIG_SIMBA', if_true: files('simba.c'))
+>
+> diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
+> index aebd44d265..5c617e86c1 100644
+> --- a/hw/pci-host/uninorth.c
+> +++ b/hw/pci-host/uninorth.c
+> @@ -127,12 +127,6 @@ static void pci_unin_main_realize(DeviceState *dev, Error **errp)
+>                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
+>
+>     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-pci");
+> -
+> -    /* DEC 21154 bridge */
+> -#if 0
+> -    /* XXX: not activated as PPC BIOS doesn't handle multiple buses properly */
+
+I think real hardware has this bridge and QEMU could emulate it but 
+OpenBIOS can't handle more than one PCI bus or this bridge yet so this was 
+disabled for that reason. Maybe leave the comment around as a reminder 
+that this could be brought back from git history if somebody wants to fix 
+it in the future, otherwise this may be forgotten and reimplemented from 
+scratch.
+
+Regards,
+BALATON Zoltan
+
+> -    pci_create_simple(h->bus, PCI_DEVFN(12, 0), "dec-21154");
+> -#endif
+> }
+>
+> static void pci_unin_main_init(Object *obj)
+>
 
