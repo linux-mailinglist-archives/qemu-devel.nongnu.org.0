@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF7F62BF31
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 14:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF6E62BF32
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 14:17:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovIG4-00008l-2Z; Wed, 16 Nov 2022 08:15:16 -0500
+	id 1ovIHz-0001Re-LA; Wed, 16 Nov 2022 08:17:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ovIG2-00008T-8C
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:15:14 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1ovIHx-0001OA-DT
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:17:13 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ovIG0-0006iQ-67
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:15:14 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id d20so16367307plr.10
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 05:15:11 -0800 (PST)
+ id 1ovIHv-00079u-47
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:17:13 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ r61-20020a17090a43c300b00212f4e9cccdso2217192pjg.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 05:17:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FlwqcxVGEX1FCQ+JbGFYqIHtt5TjFucWhfYOApa1LaM=;
- b=H/BiymSScL0Wnd2WAYROsNcmgG71Gndmvi5mX513N4eCay30BZS0cy/oDAp7Np/6AI
- BnAPLGx7EA5tyc1n+h5+T6gp7LfmC7HqN8Ds40VFDrD77JDSDQgaqSO6XOrdpvtdYd+j
- pqEtuzYrTb4aEj2uXhGU3jTlxH54vIijGVxPMwGb8vxKaO3cc/f58pz0eGEBkKjyo98p
- 64ZXRVPgLDw3q9j1BIoNK5SIVmmxbkZ2n0P6QhHh2Wn7i4srYQZG1SMvHXsEXtdWmYNr
- lpBB2xjN+rDLSLZVltgXDdEKLmZZiQ1lWt66/qIEo/KTXrepXSBu9RSCS/4uOBlwudgc
- IDwg==
+ bh=xu28lO4QIE+TLFhOU8ekeNoat5ZVAGAMjjQLvhkqAZk=;
+ b=S0GyCJcCtysMXrxw38VVzEqQ+2bAi1nZj7aOIN0WF1uU58EpCuzfuKW9s3NdrB9G+L
+ 8wEzLSJuQELrGwP3zChNlzDNqFNba6F4LcK6lU9CIqZ7DF1rOSXQA7HApCb5+VnFqC5w
+ UtGa7DttHZnDHEY9tMwvIGYlSQ4CCLACtjgW0BpcsUBdVa1m0hpGS0BwK0VxdYv77vIb
+ MM0rloQHQ/8YmIfW7MqBSN3l6vcCpZYncHUkqos/D/tlTtpztppBGuf1WfS1vfUj0aAC
+ m5kV2hUYzmSYPJlWYQ8Ua09T4dFezpLy7XFXwUD1oQcJPP13uwCzPkzBcTBZPTZNaWyQ
+ AUbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=FlwqcxVGEX1FCQ+JbGFYqIHtt5TjFucWhfYOApa1LaM=;
- b=x67Z4Ld5Jvct1TSFGibQ/pD93sPjBuNS5hwUMHdFxpC+xdcBsvfzTrTlrkDKYzQQtW
- 2ETUgZ+SZ4NCo34zCdD5dsA0H5B4XzUh2djAPzLFpiurJLR2AF4IiWdsV07S9l5HowdC
- ic92QZYQLAzd+JPeUGAx3oZK3Iw2slC2umYJItk+QNJzwiQzH2GbdUmaVxpjLIpFY5CQ
- FQXoYQqxBW3twVQHBnr75iHP/vv256m0bdCa2ZR5Oh0VBK5ooBD2rWvP+ZnLaxTJhz/X
- AQQZ/seIpLPRG5IIf1hoB9PaCgRReP+DVt3dMCY3YswpKG519poQu1S26DJKG4yWUjy7
- 3j2g==
-X-Gm-Message-State: ANoB5plmgguY2gfPWMG2JPhckzcKVZGWLkBnwIunH2GeSdQrcC26m1Ab
- IQFWxR+tNofJPYW0LAlaWkDWCWzpAVoett+IxWP+ow==
-X-Google-Smtp-Source: AA0mqf7lbvqARA9CKWPNGL2RH4UiW2uwF1FAAYVyLgpfbVbbXbPpW/FRcED5gvX0iD9bUwWJOzT7Ntb9kjSRbmDdnr4=
-X-Received: by 2002:a17:90a:cb8b:b0:205:edfd:13f7 with SMTP id
- a11-20020a17090acb8b00b00205edfd13f7mr3747790pju.19.1668604510144; Wed, 16
- Nov 2022 05:15:10 -0800 (PST)
+ bh=xu28lO4QIE+TLFhOU8ekeNoat5ZVAGAMjjQLvhkqAZk=;
+ b=jXOqy+Ukv/KsJH97rg/AEninQZqoEhuLdqXZver2aQk6BZshxuFd7OajVpEaGRkeqA
+ w04fn8H1s5keaxdy/he9BNHMm0Xruo96V3kfXPmY+ty0WJBuwbzjva7fEzladJhzq4KE
+ itGkVv+C9GfyPCjTLT9PDOX2TNrVkCJwko66mwlNZpG5o2JyTdRinTyH6nVsNM6DqUTG
+ kaXU5GxqsG+UrWcxhNcz0nNyXVkXsWQ91wPhWzBkaimqeqttQ7DBIGLk1sz0zWuVag5b
+ gpovZO7U7cBslEvWgU8Ur+QAgjhDlRpWF4q/+eNW8STID6yJIphHWzfmIxbSwqA2NcDB
+ dD1w==
+X-Gm-Message-State: ANoB5plCEQSBfT0KK6NJx9otOxE6eQEULC3t+BNhbmJIeeb2X+cSJMAG
+ oqM2zK/Bm5oOQvgXdTd4Vpi1Biv035C0FkKuGMGRFa7wk5c=
+X-Google-Smtp-Source: AA0mqf4spgfA2BxxfZh+vVL4EzApMLDOltjQwynJtn2QIKNlG4hqECnGnSM/kFp9xzmJxvP0ZnOl5gmndGYEd4mTRKU=
+X-Received: by 2002:a17:90a:df03:b0:212:f169:140e with SMTP id
+ gp3-20020a17090adf0300b00212f169140emr3570912pjb.215.1668604629392; Wed, 16
+ Nov 2022 05:17:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108023542.17557-1-schspa@gmail.com>
- <87fsetg5xh.fsf@linaro.org>
- <CAMA88Tqt-7rCTC38OhZGmCZyO4rFz+HHBNtDjaVCbhna01yScQ@mail.gmail.com>
- <CAFEAcA8J2Tx4gW5Y2q6qtkJ0BPpM4iWkt3nz0uezV+kiz6m_Ag@mail.gmail.com>
- <CAFEAcA8KnNE90tHQjRNEVny=s7YLD5Wmff9R8ZyLxxz47bwRGA@mail.gmail.com>
- <875yfpbg38.fsf@gmail.com>
- <CAFEAcA_5_78qUNFdgpYGnS0tS3QWD4cJokJCzMC6Tq270bYbJg@mail.gmail.com>
- <m2edu3ig2s.fsf@gmail.com>
-In-Reply-To: <m2edu3ig2s.fsf@gmail.com>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+ <20221116084312.35808-2-its@irrelevant.dk>
+In-Reply-To: <20221116084312.35808-2-its@irrelevant.dk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Nov 2022 13:14:58 +0000
-Message-ID: <CAFEAcA9k5a8O02zT6x1tqFvo11NmYupX9mfe2YdSwebBHKSdbw@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/boot: set initrd parameters to 64bit in fdt
-To: Schspa Shi <schspa@gmail.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Date: Wed, 16 Nov 2022 13:16:58 +0000
+Message-ID: <CAFEAcA_4i_V49FLcm=x64bJh--Y4sNQgLJQZ-a2aXr7-si7rDw@mail.gmail.com>
+Subject: Re: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when
+ bus is idle
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Keith Busch <kbusch@kernel.org>, 
+ Corey Minyard <cminyard@mvista.com>, Peter Delevoryas <peter@pjd.dev>,
+ qemu-arm@nongnu.org, 
+ qemu-block@nongnu.org, Jeremy Kerr <jk@codeconstruct.com.au>, 
+ Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Klaus Jensen <k.jensen@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,66 +91,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 16 Nov 2022 at 06:11, Schspa Shi <schspa@gmail.com> wrote:
+On Wed, 16 Nov 2022 at 08:43, Klaus Jensen <its@irrelevant.dk> wrote:
 >
+> From: Klaus Jensen <k.jensen@samsung.com>
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
+> It is not given that the current master will release the bus after a
+> transfer ends. Only schedule a pending master if the bus is idle.
 >
-> > On Tue, 8 Nov 2022 at 15:50, Schspa Shi <schspa@gmail.com> wrote:
-> >>
-> >>
-> >> Peter Maydell <peter.maydell@linaro.org> writes:
-> >>
-> >> > On Tue, 8 Nov 2022 at 13:54, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >> >>
-> >> >> On Tue, 8 Nov 2022 at 12:52, Schspa Shi <schspa@gmail.com> wrote:
-> >> >> > I think this lowmem does not mean below 4GB. and it is to make sure
-> >> >> > the initrd_start > memblock_start_of_DRAM for Linux address range check.
-> >> >>
-> >> >> The wording of this comment pre-dates 64-bit CPU support: it
-> >> >> is talking about the requirement in the 32-bit booting doc
-> >> >> https://www.kernel.org/doc/Documentation/arm/Booting
-> >> >> that says
-> >> >> "If an initramfs is in use then, as with the dtb, it must be placed in
-> >> >> a region of memory where the kernel decompressor will not overwrite it
-> >> >> while also with the region which will be covered by the kernel's
-> >> >> low-memory mapping."
-> >> >>
-> >> >> So it does mean "below 4GB", because you can't boot a 32-bit kernel
-> >> >> if you don't put the kernel, initrd, etc below 4GB.
-> >> >
-> >> > A kernel person corrects me on the meaning of "lowmem" here -- the
-> >> > kernel means by it "within the first 768MB of RAM". There is also
-> >> > an implicit requirement that everything be within the bottom 32-bits
-> >> > of the physical address space.
-> >> >
-> >>
-> >> Thanks for your comment.
-> >>
-> >> In this view, initrd shouldn't be placed higher than 4GB ? But it
-> >> seems the Linux kernel can boot when there is no memory below 4GB.
-> >
-> > A *32 bit* kernel cannot -- it is completely unable to access
-> > anything above the 4GB mark when the MMU is off, as it is on
-> > initial boot. This QEMU code handles both 32 bit and 64 bit
-> > kernel boot. These days of course there is 64-bit only hardware,
-> > and that might choose to put its RAM above the 4GB mark,
-> > because it isn't ever going to boot a 32-bit kernel anyway.
-> >
->
-> Yes, I think we should accept this patch, because it will not affect
-> 32-bit devices, and provides support for 64-bit devices to put initrd
-> above 4GB.
+> Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
-Yes, I agree. However since it doesn't cause a problem for any
-of the machine models in upstream QEMU, I think we should leave
-it until after the in-progress 7.2 release, so that we have
-plenty of time to investigate just in case it does cause an
-unexpected issue on 32-bit boards.
-
-This patch is on my list to review and deal with when 7.2
-goes out and development reopens for 8.0 (should be in about
-four weeks).
+If this is a bug fix we should consider for 7.2, you should
+send it as a separate patch with a commit message that
+describes the consequences of the bug (e.g. whether it
+affects common workloads or if it's just an odd corner case).
+As one patch in an otherwise RFC series it's going to get lost
+otherwise.
 
 thanks
 -- PMM
