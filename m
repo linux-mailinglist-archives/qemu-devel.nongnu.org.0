@@ -2,105 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1612062C7C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 19:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C935A62C82D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 19:50:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovNHQ-0003Wr-3Q; Wed, 16 Nov 2022 13:37:00 -0500
+	id 1ovNT5-0000Mw-VD; Wed, 16 Nov 2022 13:49:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ovNHO-0003VN-7K
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:36:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ovNHM-0005kZ-HW
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:36:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668623815;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CYsnuKhEL4yu7eTlMb9cekb2VY00icYi2uD2cYF7+Fw=;
- b=G2CGDF36PJiZLotnkw5NvIvWksRZRPFEp2VVmICf7BcJqeYO4dQAErqnjpv+BopMz2Udjo
- YuQd4vgZFM72uMi+iElgP+zxEZ2ZVHmhY9VuDPjqI/cCDC7fxCwuvdb9u/5IFuOpPoKe2W
- Gf6ys/Hslt9rvWvWK5MvpV9nVOKH6JQ=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-278-3_UYWpUwOsibd3VEVOs3BA-1; Wed, 16 Nov 2022 13:36:54 -0500
-X-MC-Unique: 3_UYWpUwOsibd3VEVOs3BA-1
-Received: by mail-io1-f69.google.com with SMTP id
- bf14-20020a056602368e00b006ce86e80414so9116314iob.7
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 10:36:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ovNT1-0000LM-AF
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:49:01 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ovNSs-00005J-FE
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:48:52 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so3206244pji.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 10:48:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=A0w6P3/5rWNmrPimfeWShNgQxfD7eWOB8psbtgB4eNM=;
+ b=iuHU2XySbRBXDBvmb7KGdjsTrJ11MtKm8XUWbJgiH+mJZH0mrNKnmVkYWIqEN8KH+D
+ TMTSgskSxS+dz6pqJQ/6lU5YOrdG2ZlIZWDOaRJRiQwsbQA3PrerGAmObwm4ynhLdSAK
+ ipQyS23YgpxwcwZ6vh4k2Bq/MDUW0MakaENRTi4n4z7trqezhQAU1VBvvRliz6hMutEA
+ 9nByJ3f7EiBHZeDsD30/pNhrYplPoCDi15C49ph/4Z5Ug6emFwiauN/3keUjTSc8xjjS
+ 9rhI8o2gCdwKZQMaSLBrQFcQ5PC0p5wqf3PICwkpXgJE4dUBiCSgdG/Zg1bcsS/uJXqa
+ 0yLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CYsnuKhEL4yu7eTlMb9cekb2VY00icYi2uD2cYF7+Fw=;
- b=NR64Dva4yJnmv2Bnj+dUT0Vxkkh5OStHVum/8Z8LXuHi1FI81ffPWyJPvm6QYQ7vS9
- qF7IcL6Ze3SXQOBfDp/C51zcuhde/ZdpqEAvPAfEJbPeq5gzksSXJtwYAzc33rovzG00
- T9n5q36bR4JSpbo42ZLSOTn8/4ALNaeFRCauoeZW4+n8VU4afRW4g3vmPcftIGEhmXTH
- vH+6UQLpCMXPqR0dkYClMXjXaYobKScjkOmp0uyXCVofyWrt+kfHPVzS8QPT7elECz5d
- jMKGHYW3jlLDs1uVJcghP2q4qUGwI3m4waFIuLye1vtvyrtaFohDXQ/z0jrrgdm0XlIC
- HfVA==
-X-Gm-Message-State: ANoB5pkl6+pO2hFKa1HC4wLtzqs4iA6Fi4iT675P2yKlpwVSnjji3jVl
- K3RR7BZcoeivirBN3CZeuJ5uKgOpfdYS6qWrnaH65JNuEnFbB90D1vzpXR/UsJibbzSpfNTox3C
- vRtq6Uv0FC8dIjS0=
-X-Received: by 2002:a02:cb0d:0:b0:375:fd9e:b9d3 with SMTP id
- j13-20020a02cb0d000000b00375fd9eb9d3mr10507268jap.35.1668623813685; 
- Wed, 16 Nov 2022 10:36:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6gtQ/jztQMQZpltlESVsp9UrS2Jc20LLtlJnZO2B/KgCRV4XySsHf2HaRPQtI0HyECRudLhQ==
-X-Received: by 2002:a02:cb0d:0:b0:375:fd9e:b9d3 with SMTP id
- j13-20020a02cb0d000000b00375fd9eb9d3mr10507241jap.35.1668623813413; 
- Wed, 16 Nov 2022 10:36:53 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- o15-20020a056602124f00b006bba42f7822sm6760239iou.52.2022.11.16.10.36.52
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=A0w6P3/5rWNmrPimfeWShNgQxfD7eWOB8psbtgB4eNM=;
+ b=ZLtWEs9VOZ+w+cHt4INT0QjaQpssx2ngVd8yBCyaGQRBsj4g/D6smnT0/XtkK9ku6r
+ P2bZWdWL1VMrHG+mm93aFVYtQbHNa+IKMUZ0GOlYgg+SF1UFfNgUc5/n3FkXmxJuRCRL
+ EIUclf9frVELa7phsAzftX0WtpQ3Hj9TIneXjy0vC9uGXkQIwSFKsst3dc1tA7nGq8Di
+ bHbdovDEB9EzbztKtkw+//OSlPr0zna1CmVAjKYv4vgkFLAfoBzSDqrCZLtmAgl+8zPD
+ IzYQRxCjF/ZFihanwhhkKk3tEw5wkHWGsNgCNREqlVd0FslZxlm4vbcsMiFLOuIOI8KR
+ ODsw==
+X-Gm-Message-State: ANoB5pnNbapkajBghcxTSBH1qhGSFif3bQKaxgUSmT/ozP1FTz2UuAMJ
+ 1Bwtw3YkVYno9lCHKP8dM7wx3g==
+X-Google-Smtp-Source: AA0mqf7gsXMWPLCwPxYnb+HvqYNLX3WPvDWV8mKDKQpAZsMJhL2t5iqRN/vftj6zV72w0hUj24psag==
+X-Received: by 2002:a17:90b:3c0d:b0:20d:478a:9d75 with SMTP id
+ pb13-20020a17090b3c0d00b0020d478a9d75mr5030085pjb.149.1668624527166; 
+ Wed, 16 Nov 2022 10:48:47 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ 7-20020a621507000000b0056c0b98617esm11265827pfv.0.2022.11.16.10.48.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 10:36:52 -0800 (PST)
-Date: Wed, 16 Nov 2022 11:36:51 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, "Ilya Leoshkevich"
- <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, "Juan Quintela"
- <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
- <jsnow@redhat.com>, <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>,
- Kunkun Jiang <jiangkunkun@huawei.com>, "Zhang, Chen"
- <chen.zhang@intel.com>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Shay Drory
- <shayd@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 14/17] vfio/migration: Reset device if setting
- recover state fails
-Message-ID: <20221116113651.0bdcfea1.alex.williamson@redhat.com>
-In-Reply-To: <20221103161620.13120-15-avihaih@nvidia.com>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-15-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ Wed, 16 Nov 2022 10:48:46 -0800 (PST)
+Date: Wed, 16 Nov 2022 18:48:43 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, Fuad Tabba <tabba@google.com>,
+ Michael Roth <michael.roth@amd.com>, Michal Hocko <mhocko@suse.com>,
+ Muchun Song <songmuchun@bytedance.com>, Wei W Wang <wei.w.wang@intel.com>
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Message-ID: <Y3Uwi2lc4NDrdzML@google.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,51 +117,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 3 Nov 2022 18:16:17 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
-
-> If vfio_migration_set_state() fails to set the device in the requested
-> state it tries to put it in a recover state. If setting the device in
-> the recover state fails as well, hw_error is triggered and the VM is
-> aborted.
+On Wed, Nov 16, 2022, Andy Lutomirski wrote:
 > 
-> To improve user experience and avoid VM data loss, reset the device with
-> VFIO_RESET_DEVICE instead of aborting the VM.
 > 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->  hw/vfio/migration.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
+> On Tue, Oct 25, 2022, at 8:13 AM, Chao Peng wrote:
+> > diff --git a/Documentation/virt/kvm/api.rst 
+> > b/Documentation/virt/kvm/api.rst
+> > index f3fa75649a78..975688912b8c 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -6537,6 +6537,29 @@ array field represents return values. The 
+> > userspace should update the return
+> >  values of SBI call before resuming the VCPU. For more details on 
+> > RISC-V SBI
+> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
+> > 
+> > +::
+> > +
+> > +		/* KVM_EXIT_MEMORY_FAULT */
+> > +		struct {
+> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> > +			__u32 flags;
+> > +			__u32 padding;
+> > +			__u64 gpa;
+> > +			__u64 size;
+> > +		} memory;
+> > +
 > 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index f8c3228314..e8068b9147 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -92,8 +92,18 @@ static int vfio_migration_set_state(VFIODevice *vbasedev,
->  
->          mig_state->device_state = recover_state;
->          if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
-> -            hw_error("%s: Failed setting device in recover state, err: %s",
-> -                     vbasedev->name, strerror(errno));
-> +            error_report(
-> +                "%s: Failed setting device in recover state, err: %s. Resetting device",
-> +                         vbasedev->name, strerror(errno));
-> +
-> +            if (ioctl(vbasedev->fd, VFIO_DEVICE_RESET)) {
-> +                hw_error("%s: Failed resetting device, err: %s", vbasedev->name,
-> +                         strerror(errno));
-> +            }
-> +
-> +            migration->device_state = VFIO_DEVICE_STATE_RUNNING;
-> +
-> +            return -1;
->          }
->  
->          migration->device_state = recover_state;
+> Would it make sense to also have a field for the access type (read, write,
+> execute, etc)?  I realize that shared <-> private conversion doesn't strictly
+> need this, but it seems like it could be useful for logging failures and also
+> for avoiding a second immediate fault if the type gets converted but doesn't
+> have the right protection yet.
 
-This addresses one of my comments on 12/ and should probably be rolled
-in there.  Thanks,
+I don't think a separate field is necessary, that info can be conveyed via flags.
+Though maybe we should go straight to a u64 for flags.  Hmm, and maybe avoid bits
+0-3 so that if/when RWX info is conveyed the flags can align with
+PROT_{READ,WRITE,EXEC} and the EPT flags, e.g.
 
-Alex
+	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
+	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
+	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
 
+> (Obviously, if this were changed, KVM would need the ability to report that
+> it doesn't actually know the mode.)
+> 
+> --Andy
 
