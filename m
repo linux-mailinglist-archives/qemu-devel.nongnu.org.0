@@ -2,83 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB6A62C887
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 19:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92F262C8C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 20:08:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovNZr-0002BO-0z; Wed, 16 Nov 2022 13:56:03 -0500
+	id 1ovNkZ-0006xY-Lj; Wed, 16 Nov 2022 14:07:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ovNZa-000289-Rr
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:55:49 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ovNkX-0006wo-Q3
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:07:05 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ovNZX-0002nu-NW
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:55:45 -0500
-Received: by mail-ed1-x536.google.com with SMTP id x2so28010999edd.2
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 10:55:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ovNkU-0004pj-HI
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:07:05 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ v124-20020a1cac82000000b003cf7a4ea2caso2378639wme.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 11:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EKNazlDq9nIDadZbva3J08DFDrHk0q5LukLVArHPMcI=;
- b=BROvhtuhuX4EJLOpb8dQVab7whOuSi9UATRAP6mFjeUUAyoOH7bIZ/Nabi7dog3ER6
- kCmMO4OCbp0niwu78++kbSngDTQjZltqEOAYUj5/eekFmEikHpTtZxndcJQOt1GccTzT
- m8c7rIgu+LYoO/L5jAaNo49masMXpRLWGy4mx/2fLHkQd1sVWdHKhB2emAb3iC6gMsSA
- RB+8oa5iBN/klx9GExwXSCd/6hN4cwXnSaS+bjHH3TapVnvTM4vN7++gNkrYQm25sJ18
- 6IuWLnzzPwB4j83r9RJyz+mgta/Bvnu8/bmnz08oIpggO5T4J5ahcjeiuTF4tTkPaF3e
- ow1A==
+ bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
+ b=Jx3yqn06j6rS5Fs5NvtNZW3afRbtKDAjyYZ/cbyT5J0fw+x5DSiBa34zecJ2zXBEP6
+ dXVq49aZkpeYNlw8FZCjejz+X8sYE98oXGoc760qT01ItS+LpGXs0KR6luYi6XidGGnJ
+ izQy2tFtJsUmRdujni2tPVUtXn9CPZshGLwHnmOZlDGECGPB/n+QnPoJLt8dAH9evwNe
+ fhOCmkSkLWIbZ04JJ1cM5aaZNcxxY3L6QunV484wNTFteoVmyskDXedR8UqBBpqCdgYP
+ ARhbe6kOrZMHvVRuGOwhLHdlqHzOAwDs9awbU2PksEIQB6p43e6EtlScRKP2mnLQYKXa
+ PFRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EKNazlDq9nIDadZbva3J08DFDrHk0q5LukLVArHPMcI=;
- b=lDcd4zx9sZ4AouUSLuOV+iV+3Cpj/OHeUwn70HT58nk/sk18yBC4VjCftgJOOrq2ig
- MledMhiuhpSC6JSn+1QGeYL+IpZwwOI3OmxDqvbX6PpTvzyey1ih2exrlCkuHHOrhnmr
- XuR5w3iLj1wk+kmB6B+vMkkmdziB3Pd3aZVPfr2x3P4NKOWuk2Ka8fEbIVisDIJfjhkY
- NkYGrACh+f16XjrGGl/UWmaUEovGAF3IVrJLv27x5bYrYlmoxA3kbxyinffloKFL036G
- 7sEr7Bx8oC3dBlsIm04xxQiN2XAIfrUZ8UsHR2+9vvAhYQBdLbKJpojqUiCL/2uFshll
- 8PsA==
-X-Gm-Message-State: ANoB5pnkrLlN1Y4xDxS9QxNEkqHGgL5kuIQOuIb3TWrfXuaEVWTHHWL5
- PKslbg9i2RRAbYR6guCCJn5q5tisLjg=
-X-Google-Smtp-Source: AA0mqf7UJMnwiCYMh6oADKniXXsQbGXI+EShOFgnQUvUu1VqyoTaLmqbuQVJeucizZndB0xjW04YFQ==
-X-Received: by 2002:a50:fb03:0:b0:467:621f:879e with SMTP id
- d3-20020a50fb03000000b00467621f879emr20252382edq.380.1668624942073; 
- Wed, 16 Nov 2022 10:55:42 -0800 (PST)
-Received: from localhost.localdomain
- (dynamic-077-013-007-153.77.13.pool.telefonica.de. [77.13.7.153])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
+ b=UT0Y5d85LDKjixxAgvPXzjeSfZYHN32eFayseg2wsaTTJ9fi/DtIiMBuzhDVFJNLpP
+ dJpjBWMaKTrxAjHsp9ca3hy3Vmwj+0tenaWJkXsq1l5HFFxLtPzRNChEKWH1A6tHKy0+
+ PWz8L72h39Rh8FpuHm5hgV1FqeX6r8tikRWrGPmalQVTRsBLab4OeJkpJrr6lRI7wA5w
+ W1HhbGoy7wr27qvvtNGO7Ii1sLHnj05yxPTh91+MznGi5ZawnyF1PJnfRBF9/Ixh+wN0
+ gq+/xeZxlAuOoQBGHLzQFs2MvkviY+1egBE5NWOC/soHbMyAqLK+aLG5AYPOsU5BMzkH
+ b4oQ==
+X-Gm-Message-State: ANoB5plo/ySvYlO7h9AgcR/D8FRiDP551RCRMO8kFU11OL9EDdXbiwqN
+ qRnfr026sEqDq0HEHDLc2AGXuA==
+X-Google-Smtp-Source: AA0mqf5UxIGeoP/5D5Yx/z21S7fh+uGiPqn06sMVoycK8I50cpSvwpmmKvt4/Ece9ChnPUGalp4tAQ==
+X-Received: by 2002:a05:600c:3d0c:b0:3cf:f66c:9246 with SMTP id
+ bh12-20020a05600c3d0c00b003cff66c9246mr2115368wmb.27.1668625620910; 
+ Wed, 16 Nov 2022 11:07:00 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- de30-20020a1709069bde00b0073d796a1043sm7135444ejc.123.2022.11.16.10.55.40
+ p13-20020adfe60d000000b00236e9755c02sm15976702wrm.111.2022.11.16.11.07.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 10:55:41 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
-Subject: [RFC PATCH 3/3] hw/isa/vt82c686: Implement PIRQ routing
-Date: Wed, 16 Nov 2022 19:55:00 +0100
-Message-Id: <20221116185500.84019-4-shentey@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221116185500.84019-1-shentey@gmail.com>
-References: <20221116185500.84019-1-shentey@gmail.com>
+ Wed, 16 Nov 2022 11:07:00 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BDA921FFB7;
+ Wed, 16 Nov 2022 19:06:59 +0000 (GMT)
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
+User-agent: mu4e 1.9.2; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Vitaly
+ Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim
+ Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J .
+ Bruce Fields" <bfields@fieldses.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Steven Price <steven.price@arm.com>, "Maciej S .
+ Szmigiero" <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>,
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang
+ <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ tabba@google.com, Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Date: Wed, 16 Nov 2022 19:03:49 +0000
+In-reply-to: <20221116031441.GA364614@chaop.bj.intel.com>
+Message-ID: <87mt8q90rw.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,89 +117,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Both VIA south bridges allow system software to configure the routing of
-PCI interrupts to ISA interrupts. Implement this to model the real
-hardware more closely.
 
-The implementation is based on hw/isa/piix4.c.
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/vt82c686.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+> On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> Chao Peng <chao.p.peng@linux.intel.com> writes:
+>>=20
+>> > This new KVM exit allows userspace to handle memory-related errors. It
+>> > indicates an error happens in KVM at guest memory range [gpa, gpa+size=
+).
+>> > The flags includes additional information for userspace to handle the
+>> > error. Currently bit 0 is defined as 'private memory' where '1'
+>> > indicates error happens due to private memory access and '0' indicates
+>> > error happens due to shared memory access.
+>> >
+>> > When private memory is enabled, this new exit will be used for KVM to
+>> > exit to userspace for shared <-> private memory conversion in memory
+>> > encryption usage. In such usage, typically there are two kind of memory
+>> > conversions:
+>> >   - explicit conversion: happens when guest explicitly calls into KVM
+>> >     to map a range (as private or shared), KVM then exits to userspace
+>> >     to perform the map/unmap operations.
+>> >   - implicit conversion: happens in KVM page fault handler where KVM
+>> >     exits to userspace for an implicit conversion when the page is in a
+>> >     different state than requested (private or shared).
+>> >
+>> > Suggested-by: Sean Christopherson <seanjc@google.com>
+>> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+>> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+>> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+>> > ---
+>> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+>> >  include/uapi/linux/kvm.h       |  9 +++++++++
+>> >  2 files changed, 32 insertions(+)
+>> >
+>> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/a=
+pi.rst
+>> > index f3fa75649a78..975688912b8c 100644
+>> > --- a/Documentation/virt/kvm/api.rst
+>> > +++ b/Documentation/virt/kvm/api.rst
+>> > @@ -6537,6 +6537,29 @@ array field represents return values. The users=
+pace should update the return
+>> >  values of SBI call before resuming the VCPU. For more details on RISC=
+-V SBI
+>> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
+>> >=20=20
+>> > +::
+>> > +
+>> > +		/* KVM_EXIT_MEMORY_FAULT */
+>> > +		struct {
+>> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+>> > +			__u32 flags;
+>> > +			__u32 padding;
+>> > +			__u64 gpa;
+>> > +			__u64 size;
+>> > +		} memory;
+>> > +
+>> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VC=
+PU has
+>> > +encountered a memory error which is not handled by KVM kernel module =
+and
+>> > +userspace may choose to handle it. The 'flags' field indicates the me=
+mory
+>> > +properties of the exit.
+>> > +
+>> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is cause=
+d by
+>> > +   private memory access when the bit is set. Otherwise the memory er=
+ror is
+>> > +   caused by shared memory access when the bit is clear.
+>>=20
+>> What does a shared memory access failure entail?
+>
+> In the context of confidential computing usages, guest can issue a
+> shared memory access while the memory is actually private from the host
+> point of view. This exit with bit 0 cleared gives userspace a chance to
+> convert the private memory to shared memory on host.
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 3f9bd0c04d..21157c669b 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -16,6 +16,7 @@
- #include "qemu/osdep.h"
- #include "hw/isa/vt82c686.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bus.h"
- #include "hw/qdev-properties.h"
- #include "hw/ide/pci.h"
- #include "hw/isa/isa.h"
-@@ -604,6 +605,48 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
-     qemu_set_irq(s->cpu_intr, level);
- }
- 
-+static int via_isa_get_pic_irq(const ViaISAState *s, int irq_num)
-+{
-+    switch (irq_num) {
-+    case 0:
-+        return s->dev.config[0x55] >> 4;
-+
-+    case 1:
-+        return s->dev.config[0x56] & 0xf;
-+
-+    case 2:
-+        return s->dev.config[0x56] >> 4;
-+
-+    case 3:
-+        return s->dev.config[0x57] >> 4;
-+    }
-+
-+    return 0;
-+}
-+
-+static void via_isa_set_pic_irq(void *opaque, int irq_num, int level)
-+{
-+    ViaISAState *s = opaque;
-+    PCIBus *bus = pci_get_bus(&s->dev);
-+    int pic_irq;
-+
-+    /* now we change the pic irq level according to the via irq mappings */
-+    /* XXX: optimize */
-+    pic_irq = via_isa_get_pic_irq(s, irq_num);
-+    if (pic_irq < ISA_NUM_IRQS) {
-+        int i, pic_level;
-+
-+        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-+        pic_level = 0;
-+        for (i = 0; i < PCI_NUM_PINS; i++) {
-+            if (pic_irq == via_isa_get_pic_irq(s, i)) {
-+                pic_level |= pci_bus_get_irq_level(bus, i);
-+            }
-+        }
-+        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
-+    }
-+}
-+
- static void via_isa_realize(PCIDevice *d, Error **errp)
- {
-     ViaISAState *s = VIA_ISA(d);
-@@ -676,6 +719,9 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
-         return;
-     }
-+
-+    pci_bus_irqs(pci_bus, via_isa_set_pic_irq, pci_bus->map_irq,
-+                 s, ISA_NUM_IRQS);
- }
- 
- /* TYPE_VT82C686B_ISA */
--- 
-2.38.1
+I think this should be explicit rather than implied by the absence of
+another flag. Sean suggested you might want flags for RWX failures so
+maybe something like:
 
+	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
+	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
+	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
+        KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+
+which would allow you to signal the various failure modes of the shared
+region, or that you had accessed private memory.
+
+>
+>>=20
+>> If you envision any other failure modes it might be worth making it
+>> explicit with additional flags.
+>
+> Sean mentioned some more usages[1][]2] other than the memory conversion
+> for confidential usage. But I would leave those flags being added in the
+> future after those usages being well discussed.
+>
+> [1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
+> [2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
+>
+>> I also wonder if a bitmask makes sense if
+>> there can only be one reason for a failure? Maybe all that is needed is
+>> a reason enum?
+>
+> Tough we only have one reason right now but we still want to leave room
+> for future extension. Enum can express a single value at once well but
+> bitmask makes it possible to express multiple orthogonal flags.
+
+I agree if multiple orthogonal failures can occur at once a bitmask is
+the right choice.
+
+>
+> Chao
+>>=20
+>> > +
+>> > +'gpa' and 'size' indicate the memory range the error occurs at. The u=
+serspace
+>> > +may handle the error and return to KVM to retry the previous memory a=
+ccess.
+>> > +
+>> >  ::
+>> >=20=20
+>> >      /* KVM_EXIT_NOTIFY */
+>> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+>> > index f1ae45c10c94..fa60b032a405 100644
+>> > --- a/include/uapi/linux/kvm.h
+>> > +++ b/include/uapi/linux/kvm.h
+>> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
+>> >  #define KVM_EXIT_RISCV_SBI        35
+>> >  #define KVM_EXIT_RISCV_CSR        36
+>> >  #define KVM_EXIT_NOTIFY           37
+>> > +#define KVM_EXIT_MEMORY_FAULT     38
+>> >=20=20
+>> >  /* For KVM_EXIT_INTERNAL_ERROR */
+>> >  /* Emulate instruction failed. */
+>> > @@ -538,6 +539,14 @@ struct kvm_run {
+>> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
+>> >  			__u32 flags;
+>> >  		} notify;
+>> > +		/* KVM_EXIT_MEMORY_FAULT */
+>> > +		struct {
+>> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+>> > +			__u32 flags;
+>> > +			__u32 padding;
+>> > +			__u64 gpa;
+>> > +			__u64 size;
+>> > +		} memory;
+>> >  		/* Fix the size of the union. */
+>> >  		char padding[256];
+>> >  	};
+>>=20
+>>=20
+>> --=20
+>> Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
