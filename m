@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BA962BB32
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 12:16:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A6562BB38
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 12:17:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovGO4-0004zL-Ez; Wed, 16 Nov 2022 06:15:24 -0500
+	id 1ovGPQ-0005Wl-M3; Wed, 16 Nov 2022 06:16:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ovGO2-0004z2-3I
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 06:15:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ovGO0-0004iR-Dc
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 06:15:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668597319;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s1u7F3AALR0mkUUQUhPUq/G+IXRWSOEZhUmS0ypflS0=;
- b=N0i4Ov/oevwxObwL0FlVq2aZONMnAd5KbjoQB/VJZhXJOibP0DJrpxvop+1nMOVYjdFqUe
- kG8LRmrc1YLYIHtszho9KYqVg11PBjCjPBdNjMyLlcQoqxV92CrsV0H/BPLExzhRuylKGQ
- om3+xWxtJvWNQX6gXPbQ93MXT1zHA6w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-qmaa5Y8nP1uR4C3_vT-yag-1; Wed, 16 Nov 2022 06:15:14 -0500
-X-MC-Unique: qmaa5Y8nP1uR4C3_vT-yag-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8923833AEC;
- Wed, 16 Nov 2022 11:15:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD9061121325;
- Wed, 16 Nov 2022 11:15:12 +0000 (UTC)
-Date: Wed, 16 Nov 2022 11:15:07 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Or Ozeri <ORO@il.ibm.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Danny Harnik <DANNYH@il.ibm.com>, "idryomov@gmail.com" <idryomov@gmail.com>
-Subject: Re: [PATCH v3] block/rbd: Add support for layered encryption
-Message-ID: <Y3TGO6AEAAOux8FH@redhat.com>
-References: <20221115122527.2896476-1-oro@il.ibm.com>
- <Y3PQj/MBztn8SobQ@redhat.com>
- <MN2PR15MB34886DD5A9D0F5D64A248AA08A079@MN2PR15MB3488.namprd15.prod.outlook.com>
- <Y3S6OGqGFovAyRWw@redhat.com>
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ovGPF-0005VN-1u; Wed, 16 Nov 2022 06:16:38 -0500
+Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ovGPC-0004wV-BY; Wed, 16 Nov 2022 06:16:36 -0500
+Received: by mail-lj1-x22d.google.com with SMTP id h12so21390484ljg.9;
+ Wed, 16 Nov 2022 03:16:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iP+wSlR8sYrwK9dTJPTqyMwyqUccDFKapiqtUi6QaVU=;
+ b=ihC0+mmlQGIzi/8aymsKQXgKjSCE+QWOgCCGckIqDePZbOqR1yyCI8a7yGbcAm5dfJ
+ DFxkGFLyVx0Y/gyllrqAJKUOKBPhNIzajiCbvwe9qLEV3b0bTDDSVQEuHUz253Ji32nY
+ WFA9Sop0uQm90rz+rBUDqJN43SEXXFHAuxjs/IC99Rtz4EkloJrBDGEjZuhoIU75gJaz
+ SaIq9vU9Tz99MeqmHCPVraLr/DbwCz552EOHAob9wmZjSTqn/9g/YSDLAEF8Wmbt+wSp
+ 8lxM0MobZYO7duyY3SWWXVOMhzsuDfTCXV36Nky9o51viE7orbjj5pN3gjQ2jlRQ++a5
+ vdvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iP+wSlR8sYrwK9dTJPTqyMwyqUccDFKapiqtUi6QaVU=;
+ b=YXoZnUGMI3/kCg/0AZOXb7iKfHWGcHV9AmB2A3nT/uEVeA2h5u/1DgF4l4hn32viLF
+ AUYIIBrzXB52FPTBn/fWl3SmdPj367+E01IhdL4t9rxMPkiP8ExgpazAQ4ycDBYASfBp
+ KSf5oVTjDyEk1t/mfmCo0cZY8wp1fjfFrDyj7iMuo9kussciXvaBnbiZnWTOU3Z+pmOv
+ 1vQXIxGRdEr2zxZw2OUYVXkSJYZaSAAxY4yvLioyrz3ue9+I/7XQOnLYosuSVfAOO2t1
+ i9UXXA5BO9sliRa2I1wouMyUGTpVPXSUD2fohjitnewl2/Dy6NDvoe1sN8DWkhasRQJ3
+ LMEw==
+X-Gm-Message-State: ANoB5pkPccT0SOYei4yZvot3eU/1EvP+k7fmE2s6+FVvKX5bBDGgr9nB
+ bDfxGqgEAcb77sdHbN5bUk0=
+X-Google-Smtp-Source: AA0mqf5pM0ab1Xcu3x3DLlhM9N+IgwGERobb82ch2wWFoGR+ZTDhj9rosAKNqDJwM53kbzhn7J8M9g==
+X-Received: by 2002:a05:651c:1023:b0:26b:ddca:8642 with SMTP id
+ w3-20020a05651c102300b0026bddca8642mr7189267ljm.149.1668597390360; 
+ Wed, 16 Nov 2022 03:16:30 -0800 (PST)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ v3-20020a056512348300b004a6f66eed7fsm2552305lfr.165.2022.11.16.03.16.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Nov 2022 03:16:29 -0800 (PST)
+Date: Wed, 16 Nov 2022 12:16:28 +0100
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Peter Delevoryas <peter@pjd.dev>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size does
+ not match the device
+Message-ID: <20221116111627.GA10185@fralle-msi>
+References: <20221115151000.2080833-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y3S6OGqGFovAyRWw@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20221115151000.2080833-1-clg@kaod.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x22d.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,63 +94,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 10:23:52AM +0000, Daniel P. Berrang√© wrote:
-> On Wed, Nov 16, 2022 at 09:03:31AM +0000, Or Ozeri wrote:
-> > > -----Original Message-----
-> > > From: Daniel P. Berrang√© <berrange@redhat.com>
-> > > Sent: 15 November 2022 19:47
-> > > To: Or Ozeri <ORO@il.ibm.com>
-> > > Cc: qemu-devel@nongnu.org; qemu-block@nongnu.org; Danny Harnik
-> > > <DANNYH@il.ibm.com>; idryomov@gmail.com
-> > > Subject: [EXTERNAL] Re: [PATCH v3] block/rbd: Add support for layered
-> > > encryption
-> > > 
-> > > AFAICT, supporting layered encryption shouldn't require anything other than
-> > > the 'parent' addition.
-> > > 
-> > 
-> > Since the layered encryption API is new in librbd, we don't have to
-> > support "luks" and "luks2" at all.
-> > In librbd we are actually deprecating the use of "luks" and "luks2",
-> > and instead ask users to use "luks-any".
+On [2022 Nov 15] Tue 16:10:00, CÈdric Le Goater wrote:
+> Currently, when a block backend is attached to a m25p80 device and the
+> associated file size does not match the flash model, QEMU complains
+> with the error message "failed to read the initial flash content".
+> This is confusing for the user.
 > 
-> Deprecating that is a bad idea. The security characteristics and
-> feature set of LUKSv1 and LUKSv2 can be quite different. If a mgmt
-> app is expecting the volume to be protected with LUKSv2, it should
-> be stating that explicitly and not permit a silent downgrade if
-> the volume was unexpectedly using LUKSv1.
+> Use blk_check_size_and_read_all() instead of blk_pread() to improve
+> the reported error.
 > 
-> > If we don't add "luks-any" here, we will need to implement
-> > explicit cases for "luks" and "luks2" in the qemu_rbd_encryption_load2.
-> > This looks like a kind of wasteful coding that won't be actually used
-> > by users of the rbd driver in qemu.
-> 
-> It isn't wasteful - supporting the formats explicitly is desirable
-> to prevent format downgrades.
-> 
-> > Anyhow, we need the "luks-any" option for our use-case, so if you
-> > insist, I will first submit a patch to add "luks-any", before this
-> > patch.
-> 
-> I'm pretty wary of any kind of automatic encryption format detection
-> in QEMU. The automatic block driver format probing has been a long
-> standing source of CVEs in QEMU and every single mgmt app above QEMU.
+> Signed-off-by: CÈdric Le Goater <clg@kaod.org>
 
-Having said that, normal linux LUKS tools like cryptsetup or systemd
-LUKS integration will auto-detect  luks1 vs luks2. All cryptsetup
-commands also have an option to explicitly specify the format version.
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
-So with that precedent I guess it is ok to add 'luks-any'.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> ---
+>  hw/block/m25p80.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 02adc87527..68a757abf3 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "sysemu/block-backend.h"
+> +#include "hw/block/block.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "hw/ssi/ssi.h"
+> @@ -1614,8 +1615,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
+>          trace_m25p80_binding(s);
+>          s->storage = blk_blockalign(s->blk, s->size);
+>  
+> -        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
+> -            error_setg(errp, "failed to read the initial flash content");
+> +        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, errp)) {
+>              return;
+>          }
+>      } else {
+> -- 
+> 2.38.1
+> 
 
