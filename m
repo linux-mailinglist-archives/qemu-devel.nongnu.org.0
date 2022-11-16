@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B25F62B07C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 02:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E8D62B0F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 03:00:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov78I-0004rl-Cv; Tue, 15 Nov 2022 20:22:30 -0500
+	id 1ov7hL-0007mI-Pc; Tue, 15 Nov 2022 20:58:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ov78F-0004p1-8T; Tue, 15 Nov 2022 20:22:27 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ov78B-0001XO-3j; Tue, 15 Nov 2022 20:22:26 -0500
-Received: from [192.168.3.6] (unknown [61.165.37.238])
- by APP-01 (Coremail) with SMTP id qwCowAB3fY1AO3RjvSD3CQ--.4578S2;
- Wed, 16 Nov 2022 09:22:09 +0800 (CST)
-Message-ID: <fded6fe8-0e16-73ed-e071-359b483d792a@iscas.ac.cn>
-Date: Wed, 16 Nov 2022 09:22:07 +0800
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ov7hH-0007lV-HH; Tue, 15 Nov 2022 20:58:39 -0500
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ov7hF-00037S-5X; Tue, 15 Nov 2022 20:58:39 -0500
+Received: by mail-vs1-xe32.google.com with SMTP id i2so12156582vsc.1;
+ Tue, 15 Nov 2022 17:58:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d6qpH61rfLjNx2L8hpRSbpPoIBI6gA5qy+Cyt0Xmw3E=;
+ b=GxBY4Cne9fRrfIpGpX3fLEgrKzYaWUzilVwDGRZUFAOmD9RSxVaL01C6Bj3CEZMBM6
+ X6QJAD7Os6D1q2hyKiqta1a8weVg+P7YbIFPxfHRdv0yzM9MQcE54X5KtkjH8+nIkniQ
+ sDn/XC0necC42TZ3yZYf571ddWl2AWsxQcVL1dCtZiEV53IbKRatPhdP5TKrqIBIjlOd
+ XXnGV6QNVSQ6pn1gKNcWTGtlTRU/8JM0YkHWU+6xxLfJu237brh2r+fduY3q5ERxJGhu
+ jsFE/KSMVEQhncT07ZAUHopZ5KrBA/S74RJp2Z6QTu29zJvdUd9JEuWID1z4ei3V94k0
+ 7jxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=d6qpH61rfLjNx2L8hpRSbpPoIBI6gA5qy+Cyt0Xmw3E=;
+ b=0TzZyB6WHbbnMWPCxCeGi/0Lj2xMWbTxru+zVPomvmlMiAZ0A5YqmIQd594OkXWvce
+ 1PK1wiu7TU+Bt424tcHNrIh/t6zEt2qiLVZTqfCPLXf8OkvwHCNfQFDhy5KoyMhh6/q1
+ TpSF21gimCZxZgbUa4AmeEuWynOMAEbmmYt3JCiSkXb6JB73MWwd5GTSkoVoODscgcv6
+ HO3ls8wFROXaWhyxL8QPs0kCXPkNHvktRV7e/dgX/mCh/V47LO3zzn4noi8NOXIVhRoJ
+ nPMATSX2yjTnQKblF5sqtamqiqbbRcPQhmEPlhh6MRGB5gqgoF2EJCaY/xDtQPp31WZz
+ YJqg==
+X-Gm-Message-State: ANoB5pkXyRF22N0bMjGMkUcRp29y99MR6Sqflta2g8EdSaHJMnhBmqef
+ y1BXf08UcMl/J5OwVqfMMnAGjNQhZrbOXbVYR/Y=
+X-Google-Smtp-Source: AA0mqf48X1enJzvaMo8cgP7iVNhSbILnMDv3h2Ew4fzIccfabZNbI+Ie0fYznYmwqWYXMPoDGjkWuH5D6hFOMk1bKgM=
+X-Received: by 2002:a05:6102:f07:b0:3ad:c930:b9bb with SMTP id
+ v7-20020a0561020f0700b003adc930b9bbmr10485419vss.10.1668563915691; Tue, 15
+ Nov 2022 17:58:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Cc: liweiwei@iscas.ac.cn, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH v2 5/8] target/riscv: add support for Zcmp extension
-To: Richard Henderson <richard.henderson@linaro.org>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
- <20221113023251.11047-6-liweiwei@iscas.ac.cn>
- <9713c707-2828-5436-dbd4-60fbd18985f6@linaro.org>
-Content-Language: en-US
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <9713c707-2828-5436-dbd4-60fbd18985f6@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAB3fY1AO3RjvSD3CQ--.4578S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1kCF48uFy7tw15ur1xKrg_yoW8CFyxpF
- y8CrW7GFWkAw1rA3W09F15t347ArnrJ3WUtw13WF1UJrW5JFyjgrn5W3ya9w4DJFs7Xr4j
- vF4YvrWDZF98ZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
- 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
- zVAYIcxG8wCY02Avz4vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
- W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
- 1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
- IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
- x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnU
- UI43ZEXa7VUbLiSPUUUUU==
-X-Originating-IP: [61.165.37.238]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <20221115151000.2080833-1-clg@kaod.org>
+In-Reply-To: <20221115151000.2080833-1-clg@kaod.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 16 Nov 2022 11:58:09 +1000
+Message-ID: <CAKmqyKPna6u6BAwseZf_scqHnarhJjwHno3Up7zs+WTrA+Ddmg@mail.gmail.com>
+Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size does
+ not match the device
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,65 +89,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Nov 16, 2022 at 1:13 AM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> Currently, when a block backend is attached to a m25p80 device and the
+> associated file size does not match the flash model, QEMU complains
+> with the error message "failed to read the initial flash content".
+> This is confusing for the user.
+>
+> Use blk_check_size_and_read_all() instead of blk_pread() to improve
+> the reported error.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-On 2022/11/15 21:44, Richard Henderson wrote:
-> On 11/13/22 12:32, Weiwei Li wrote:
->>   {
->>     sq              101  ... ... .. ... 10 @c_sqsp
->>     c_fsd           101   ......  ..... 10 @c_sdsp
->> +
->> +  # *** RV64 and RV32 Zcmp Extension ***
->> +  cm_push         101  11000  .... .. 10 @zcmp
->> +  cm_pop          101  11010  .... .. 10 @zcmp
->> +  cm_popret       101  11110  .... .. 10 @zcmp
->> +  cm_popretz      101  11100  .... .. 10 @zcmp
->> +  cm_mva01s       101  011 ... 11 ... 10 @cm_mv
->> +  cm_mvsa01       101  011 ... 01 ... 10 @cm_mv
->>   }
->
-> There is no overlap in these, so they should be within nested [].
-OK. I'll update these in next version.
->
->
->> diff --git a/target/riscv/zce_helper.c b/target/riscv/zce_helper.c
->> new file mode 100644
->> index 0000000000..1346de1367
->> --- /dev/null
->> +++ b/target/riscv/zce_helper.c
->> @@ -0,0 +1,210 @@
->> +/*
->> + * RISC-V Zc* extension Helpers for QEMU.
->> + *
->> + * Copyright (c) 2021-2022 PLCT Lab
->> + *
->> + * This program is free software; you can redistribute it and/or 
->> modify it
->> + * under the terms and conditions of the GNU General Public License,
->> + * version 2 or later, as published by the Free Software Foundation.
->> + *
->> + * This program is distributed in the hope it will be useful, but 
->> WITHOUT
->> + * ANY WARRANTY; without even the implied warranty of 
->> MERCHANTABILITY or
->> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public 
->> License for
->> + * more details.
->> + *
->> + * You should have received a copy of the GNU General Public License 
->> along with
->> + * this program.  If not, see <http://www.gnu.org/licenses/>.
->> + */
->
-> The entire contents of this helper file should be handled at 
-> translation time.
->
->
-OK. I'll try to translate them in next version.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Regards,
+Alistair
 
-Weiwei Li
-
-> r~
-
+> ---
+>  hw/block/m25p80.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 02adc87527..68a757abf3 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "sysemu/block-backend.h"
+> +#include "hw/block/block.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "hw/ssi/ssi.h"
+> @@ -1614,8 +1615,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error=
+ **errp)
+>          trace_m25p80_binding(s);
+>          s->storage =3D blk_blockalign(s->blk, s->size);
+>
+> -        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
+> -            error_setg(errp, "failed to read the initial flash content")=
+;
+> +        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, er=
+rp)) {
+>              return;
+>          }
+>      } else {
+> --
+> 2.38.1
+>
+>
 
