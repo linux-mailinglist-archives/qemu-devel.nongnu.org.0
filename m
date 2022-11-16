@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4861962C017
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 14:51:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2EA62C02C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 14:54:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovImx-0000lP-Lx; Wed, 16 Nov 2022 08:49:15 -0500
+	id 1ovImx-0000lj-VL; Wed, 16 Nov 2022 08:49:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovImv-0000k2-6J
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:49:13 -0500
+ id 1ovImr-0000gR-Tc
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:49:11 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovImm-00080G-6g
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:49:12 -0500
+ id 1ovImk-0007yp-F6
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:49:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668606538;
+ s=mimecast20190719; t=1668606535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EoqI+zJNibzmtJd5D/R+ymj0Tnap71pP+qX6lyvpoVk=;
- b=UUoKkGP0BZqH3tFOsw31yriiWXF9eNJ3+Ddx6LTHCBboyQRggeRnZMM92m/PA7BofnFJ/r
- cJZaDI8Wh9ep4vWVhsgQ3YlvHOxg+sbvS8oNdYi+J17oSKud4JKcDIJMA52dNgJ0pYwHIE
- VL8D/rosG2Z1CziYOeXAUglqAP3oRnY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=g2+GJnkrBcVYy0m4pv+5qDBSIXbZhzgA3Sjaa/O5BJY=;
+ b=Kc5qxzOu65nPeoWVS05MofTF19z5nXQo+VS+PxgLXpuWctNhg9Dz1MCPec0yxj+nwaou9z
+ wjmRNaTrS/XKfi/3ppNfREAAUumALSLcCKPombYps2VptdiCOM0TESTh26PPDHxfxi6eqC
+ 1YUvvZfbYaol5X9kgDUAtnn9uA714FU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-672-XdazSs1qPay5Zj0ECQCwEg-1; Wed, 16 Nov 2022 08:48:53 -0500
-X-MC-Unique: XdazSs1qPay5Zj0ECQCwEg-1
+ us-mta-16--PatpK5XOoqoxuZxSP6Tdw-1; Wed, 16 Nov 2022 08:48:53 -0500
+X-MC-Unique: -PatpK5XOoqoxuZxSP6Tdw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3541C1C09B6B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B110811E67;
  Wed, 16 Nov 2022 13:48:53 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCFA24A9254;
- Wed, 16 Nov 2022 13:48:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DF894A9265;
+ Wed, 16 Nov 2022 13:48:53 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
  Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 03/20] async: register/unregister aiocontext in graph lock list
-Date: Wed, 16 Nov 2022 08:48:33 -0500
-Message-Id: <20221116134850.3051419-4-eesposit@redhat.com>
+Subject: [PATCH 04/20] block.c: wrlock in bdrv_replace_child_noperm
+Date: Wed, 16 Nov 2022 08:48:34 -0500
+Message-Id: <20221116134850.3051419-5-eesposit@redhat.com>
 In-Reply-To: <20221116134850.3051419-1-eesposit@redhat.com>
 References: <20221116134850.3051419-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -83,56 +83,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add/remove the AioContext in aio_context_list in graph-lock.c only when
-it is being effectively created/destroyed.
+Protect the main function where graph is modified.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- util/async.c     | 4 ++++
- util/meson.build | 1 +
- 2 files changed, 5 insertions(+)
+ block.c                          | 6 ++++--
+ include/block/block_int-common.h | 1 +
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/util/async.c b/util/async.c
-index 63434ddae4..14d63b3091 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -27,6 +27,7 @@
- #include "qapi/error.h"
- #include "block/aio.h"
- #include "block/thread-pool.h"
-+#include "block/graph-lock.h"
- #include "qemu/main-loop.h"
- #include "qemu/atomic.h"
- #include "qemu/rcu_queue.h"
-@@ -376,6 +377,7 @@ aio_ctx_finalize(GSource     *source)
-     qemu_rec_mutex_destroy(&ctx->lock);
-     qemu_lockcnt_destroy(&ctx->list_lock);
-     timerlistgroup_deinit(&ctx->tlg);
-+    unregister_aiocontext(ctx);
-     aio_context_destroy(ctx);
- }
+diff --git a/block.c b/block.c
+index d3e168408a..4ef537a9f2 100644
+--- a/block.c
++++ b/block.c
+@@ -1416,6 +1416,7 @@ static void bdrv_child_cb_attach(BdrvChild *child)
  
-@@ -574,6 +576,8 @@ AioContext *aio_context_new(Error **errp)
-     ctx->thread_pool_min = 0;
-     ctx->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
- 
-+    register_aiocontext(ctx);
+     assert_bdrv_graph_writable(bs);
+     QLIST_INSERT_HEAD(&bs->children, child, next);
 +
-     return ctx;
- fail:
-     g_source_destroy(&ctx->source);
-diff --git a/util/meson.build b/util/meson.build
-index 59c1f467bb..ecee2ba899 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -70,6 +70,7 @@ endif
+     if (bs->drv->is_filter || (child->role & BDRV_CHILD_FILTERED)) {
+         /*
+          * Here we handle filters and block/raw-format.c when it behave like
+@@ -2829,24 +2830,25 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+         assert(bdrv_get_aio_context(old_bs) == bdrv_get_aio_context(new_bs));
+     }
  
- if have_block
-   util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
-+  util_ss.add(files('../block/graph-lock.c'))
-   util_ss.add(files('base64.c'))
-   util_ss.add(files('buffer.c'))
-   util_ss.add(files('bufferiszero.c'))
++    bdrv_graph_wrlock();
+     if (old_bs) {
+         if (child->klass->detach) {
+             child->klass->detach(child);
+         }
+-        assert_bdrv_graph_writable(old_bs);
++
+         QLIST_REMOVE(child, next_parent);
+     }
+ 
+     child->bs = new_bs;
+ 
+     if (new_bs) {
+-        assert_bdrv_graph_writable(new_bs);
+         QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
+ 
+         if (child->klass->attach) {
+             child->klass->attach(child);
+         }
+     }
++    bdrv_graph_wrunlock();
+ 
+     /*
+      * If the old child node was drained but the new one is not, allow
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 791dddfd7d..fd9f40a815 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -71,6 +71,7 @@ enum BdrvTrackedRequestType {
+     BDRV_TRACKED_TRUNCATE,
+ };
+ 
++
+ /*
+  * That is not quite good that BdrvTrackedRequest structure is public,
+  * as block/io.c is very careful about incoming offset/bytes being
 -- 
 2.31.1
 
