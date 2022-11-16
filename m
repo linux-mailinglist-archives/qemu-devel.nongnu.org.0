@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4334162BDA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 13:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51F062BDAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 13:24:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovHRS-0000fd-JT; Wed, 16 Nov 2022 07:22:58 -0500
+	id 1ovHRS-0000fN-Jb; Wed, 16 Nov 2022 07:22:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovHRO-0000du-6A
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:54 -0500
+ id 1ovHRM-0000dQ-Tl
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovHRK-0000vb-Vc
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:53 -0500
+ id 1ovHRK-0000uE-2D
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:22:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668601370;
+ s=mimecast20190719; t=1668601368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e/icbMw3vJn19CWAA2NfbCl2FqeUTzb2udfDHum2cnc=;
- b=On7e4dBQXlUmMKg2nKJAM+wb9rlK3sNS8clrILlvEF3TELym0QpC/L4Y8I47hJB2QqMPal
- wDqlUPDYgpJ/2xz+aWLW2cuYTONt9AX/cKTWxdfnR/NzW3c1l4JtdXRBzNNjdc9bE98Rdt
- ZkQ1veqzXzkCkQF1vMvIyRJGRGD59xw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qw9glPwvAFH4PaG9gpOC8GJVR/OQjC3FLOWikmUfLto=;
+ b=F3FCL+jUwmim6EQ2u9GPJ02hQt8TNOOxcAywMliCeZEza61G1NnskKzCuFR5s2BYihm4+P
+ xyAenHtVkzfitDtf+tUQ3v7oqkxhyj9Q4LXe/83vHd+P0descPJM3H3Cao+eKPB38S3AIw
+ dtGB47Tux97RhMqSZkCZx2cKO4NzCUg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-BFxCPF49MpmfQdX9hja7HA-1; Wed, 16 Nov 2022 07:22:46 -0500
-X-MC-Unique: BFxCPF49MpmfQdX9hja7HA-1
+ us-mta-464-PDliOkPCPwe9BSLblYGHMA-1; Wed, 16 Nov 2022 07:22:47 -0500
+X-MC-Unique: PDliOkPCPwe9BSLblYGHMA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7277C882820;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B778A3C10222;
  Wed, 16 Nov 2022 12:22:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36DD89E70;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BC8D9E70;
  Wed, 16 Nov 2022 12:22:46 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -50,9 +50,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v4 09/11] block: bdrv_create_file is a coroutine_fn
-Date: Wed, 16 Nov 2022 07:22:39 -0500
-Message-Id: <20221116122241.2856527-10-eesposit@redhat.com>
+Subject: [PATCH v4 10/11] block: convert bdrv_create to
+ generated_co_wrapper_simple
+Date: Wed, 16 Nov 2022 07:22:40 -0500
+Message-Id: <20221116122241.2856527-11-eesposit@redhat.com>
 In-Reply-To: <20221116122241.2856527-1-eesposit@redhat.com>
 References: <20221116122241.2856527-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -82,60 +83,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is always called in coroutine_fn callbacks, therefore
-it can directly call bdrv_co_create().
+This function is never called in coroutine context, therefore
+instead of manually creating a new coroutine, delegate it to the
+block-coroutine-wrapper script, defining it as g_c_w_simple.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c                            | 6 ++++--
- include/block/block-global-state.h | 3 ++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ block.c                            | 38 +-----------------------------
+ include/block/block-global-state.h | 10 ++++++--
+ 2 files changed, 9 insertions(+), 39 deletions(-)
 
 diff --git a/block.c b/block.c
-index c610a32e77..7a4c3eb540 100644
+index 7a4c3eb540..d3e168408a 100644
 --- a/block.c
 +++ b/block.c
-@@ -534,6 +534,7 @@ static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
-     int ret;
-     char *filename_copy;
-     GLOBAL_STATE_CODE();
-+    assert(qemu_in_coroutine());
-     assert(*errp == NULL);
-     assert(drv);
+@@ -528,7 +528,7 @@ typedef struct CreateCo {
+     Error *err;
+ } CreateCo;
  
-@@ -725,7 +726,8 @@ out:
+-static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
++int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+                                        QemuOpts *opts, Error **errp)
+ {
+     int ret;
+@@ -555,42 +555,6 @@ static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
      return ret;
  }
  
--int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
-+int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
-+                                  Error **errp)
- {
-     QemuOpts *protocol_opts;
-     BlockDriver *drv;
-@@ -766,7 +768,7 @@ int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
-         goto out;
-     }
- 
--    ret = bdrv_create(drv, filename, protocol_opts, errp);
-+    ret = bdrv_co_create(drv, filename, protocol_opts, errp);
- out:
-     qemu_opts_del(protocol_opts);
-     qobject_unref(qdict);
+-static void coroutine_fn bdrv_create_co_entry(void *opaque)
+-{
+-    CreateCo *cco = opaque;
+-    GLOBAL_STATE_CODE();
+-
+-    cco->ret = bdrv_co_create(cco->drv, cco->filename, cco->opts, &cco->err);
+-}
+-
+-int bdrv_create(BlockDriver *drv, const char* filename,
+-                QemuOpts *opts, Error **errp)
+-{
+-    GLOBAL_STATE_CODE();
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        return bdrv_co_create(drv, filename, opts, errp);
+-    } else {
+-        Coroutine *co;
+-        CreateCo cco = {
+-            .drv = drv,
+-            .filename = filename,
+-            .opts = opts,
+-            .ret = NOT_DONE,
+-            .err = NULL,
+-        };
+-
+-        co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
+-        qemu_coroutine_enter(co);
+-        while (cco.ret == NOT_DONE) {
+-            aio_poll(qemu_get_aio_context(), true);
+-        }
+-        error_propagate(errp, cco.err);
+-        return cco.ret;
+-    }
+-}
+-
+ /**
+  * Helper function for bdrv_create_file_fallback(): Resize @blk to at
+  * least the given @minimum_size.
 diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 00e0cf8aea..6f35ed99e3 100644
+index 6f35ed99e3..305336bdb9 100644
 --- a/include/block/block-global-state.h
 +++ b/include/block/block-global-state.h
-@@ -57,7 +57,8 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+@@ -55,8 +55,14 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+                                 bool allow_protocol_prefix,
+                                 Error **errp);
  BlockDriver *bdrv_find_format(const char *format_name);
- int bdrv_create(BlockDriver *drv, const char* filename,
-                 QemuOpts *opts, Error **errp);
--int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
-+int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
-+                                  Error **errp);
+-int bdrv_create(BlockDriver *drv, const char* filename,
+-                QemuOpts *opts, Error **errp);
++
++int coroutine_fn bdrv_co_create(BlockDriver *drv, const char* filename,
++                                QemuOpts *opts, Error **errp);
++int generated_co_wrapper_simple bdrv_create(BlockDriver *drv,
++                                            const char* filename,
++                                            QemuOpts *opts,
++                                            Error **errp);
++
+ int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
+                                   Error **errp);
  
- BlockDriverState *bdrv_new(void);
- int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
 -- 
 2.31.1
 
