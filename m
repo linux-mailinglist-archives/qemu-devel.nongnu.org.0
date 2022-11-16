@@ -2,114 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88A062C779
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 19:18:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56EA62C7B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 19:37:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovMxR-0003nQ-U3; Wed, 16 Nov 2022 13:16:21 -0500
+	id 1ovNGD-0002oq-0f; Wed, 16 Nov 2022 13:35:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ovMxO-0003kA-Nl
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:16:18 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ovMxM-0008D5-JE
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:16:18 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9D992B81E4F;
- Wed, 16 Nov 2022 18:16:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95388C433D7;
- Wed, 16 Nov 2022 18:16:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668622570;
- bh=HzuBDu3c95vDubumkqmlUpDyU7sgxHKyh2YYcB7elbo=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=tbSKt+iS+ArJZH7FJKEexbX35zrcPf5QqKW8WsaNMDoUMljvV4CnKDVuRLpX9W2iv
- 15K3gQ6Sazx5/d5rYurnP+MMEMRjokB86JMqO3jOjCTCB8z1pvbGY3dv7FCI9nP1ps
- rAEqZZRiMjfiisvPGNC3vjIX64/k/R7N8dDCBRgZdkSVw8R+ldRw/X2cZB5oDfAJyC
- rhtRTHH8ACQoCJlnFKbO7SInkxlE5Bwp3USwXCxYvVZhKBJHumvuSoKAH+AvNDoq6w
- auk1tOJXDeTflHsBnt8/O1XvrvlGLzkF5hppy/IoFox5xibLs0oERMPaSFZlr9/Px0
- 8Dh3Hn3B1OpTw==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailauth.nyi.internal (Postfix) with ESMTP id 6393627C0054;
- Wed, 16 Nov 2022 13:16:07 -0500 (EST)
-Received: from imap48 ([10.202.2.98])
- by compute2.internal (MEProxy); Wed, 16 Nov 2022 13:16:07 -0500
-X-ME-Sender: <xms:5Sh1Y1NrfbI5X60nb4Gnx7ZV-ilL_3Li9-02p3BGix6vTEUY6DE_ow>
- <xme:5Sh1Y39gTeCLKOCzug-TrCeNVC4YoC8WfbmUemSekyuZO7jW0yxaosHjfxs2FreUr
- 1Wmi2-yJfT7zuogWes>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeigdduuddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
- ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
- ftrfgrthhtvghrnhepgedugedtledtieduteffveevhfefheeuhfegfeduvdeltdeugeet
- veeliedvfeehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhguhidomhgvshhmthhprghu
- thhhphgvrhhsohhnrghlihhthidqudduiedukeehieefvddqvdeifeduieeitdekqdhluh
- htoheppehkvghrnhgvlhdrohhrgheslhhinhhugidrlhhuthhordhush
-X-ME-Proxy: <xmx:5Sh1Y0SIGBRWjHPgw0gZVUynVki-ebrw0n7pcfImaqgmn1uZIAHRmQ>
- <xmx:5Sh1YxuJcnTST-m2004h2nObDbtvT6QkQqCgfbQ9D9aR2LZz9UsGMw>
- <xmx:5Sh1Y9dmGoebp-r9bA8soBDwFTUbJiblLXWqMZC-TzWcIOk-u2j3Lw>
- <xmx:5yh1Y1ZRsN15NhtPIZ3lY35CZ-2Br2ATLP2xtPKtZnCXnnhu5KIb2_qAs6M>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 4E7E831A0063; Wed, 16 Nov 2022 13:16:05 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
-Mime-Version: 1.0
-Message-Id: <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
-In-Reply-To: <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
-Date: Wed, 16 Nov 2022 10:15:44 -0800
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "Chao Peng" <chao.p.peng@linux.intel.com>,
- "kvm list" <kvm@vger.kernel.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, "Linux API" <linux-api@vger.kernel.org>,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org
-Cc: "Paolo Bonzini" <pbonzini@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Sean Christopherson" <seanjc@google.com>,
- "Vitaly Kuznetsov" <vkuznets@redhat.com>,
- "Wanpeng Li" <wanpengli@tencent.com>,
- "Jim Mattson" <jmattson@google.com>, "Joerg Roedel" <joro@8bytes.org>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "the arch/x86 maintainers" <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, "Hugh Dickins" <hughd@google.com>,
- "Jeff Layton" <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
- "Steven Price" <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- "Vlastimil Babka" <vbabka@suse.cz>,
- "Vishal Annapurve" <vannapurve@google.com>,
- "Yu Zhang" <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, "Nakajima,
- Jun" <jun.nakajima@intel.com>, "Dave Hansen" <dave.hansen@intel.com>,
- "Andi Kleen" <ak@linux.intel.com>,
- "David Hildenbrand" <david@redhat.com>, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- "Quentin Perret" <qperret@google.com>, "Fuad Tabba" <tabba@google.com>,
- "Michael Roth" <michael.roth@amd.com>, "Michal Hocko" <mhocko@suse.com>,
- "Muchun Song" <songmuchun@bytedance.com>,
- "Wei W Wang" <wei.w.wang@intel.com>
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Content-Type: text/plain
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=luto@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ovNG9-0002oW-Ms
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:35:41 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ovNG7-0005TY-Mo
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 13:35:41 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ fn7-20020a05600c688700b003b4fb113b86so2130595wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 10:35:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PJpN7lsfPfOCg1p6uwC/6QQV4QcyNVqT4EIUAV0HIuA=;
+ b=XramKMFM3lqasBKBTWBDt5hvWCsjo0mO+bKcSra3bl4bPjad+YcTX3KW+Y8FOa7GP3
+ 5+RA/pW9bPY5l5draI11LiFoQbDmJDp2EJPTw5y8mmCMnLnMZ+Qv/pUgucjOjzi4l9jS
+ jla6qaWDttFBbfJaZqeX/VOZcWEDf+w/t6hZ1o9Sx+bich8Hhnv/HMrQF04jRu+AD7sk
+ zfZgtvyxmeoy+5omdVyL6Zk2iwCurY8QrgD1VP0C8Y8lh3uQ6MroPC85rlbE30oyefUM
+ /p7nJt1VoKUqApkZ6EDnbZ8pxu68gj2RVigcOGaCEL5SmrvMW+Y2GkCX3tOmYGGBAiH4
+ QRjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PJpN7lsfPfOCg1p6uwC/6QQV4QcyNVqT4EIUAV0HIuA=;
+ b=jv2Q0lvb+6VV3Ps+0APfCrvf2OA33sLysDyGuCac3d8hARzXLFmoSG5uRYTvpg09+9
+ xqXGvOwT/FCFkedWGUsa1BNEcmCf6R57ShrtuCZTEK0OJLZYT+Oh6Wc6UVPX6P0LZTsD
+ AZQsamrRa5M3NDR7VJkBQdkgGdPvwTBEj0Y4gFu3jI6z1C9CoDD+Nk0GsW5tEa18c7T6
+ PazFuv+hpw1+7DZXX0x08wu/iZt+a9tWVHJOvNdtVC9x0PF++anHqOI9oPGC17tZdLAe
+ 5F6pfqPKS6WAmy2VUh04la5ZK2pDnVvoLoX863vpDmD7sPpIx4L+niWU9AwVXLlCCtLi
+ ZYAA==
+X-Gm-Message-State: ANoB5pkuGCiI4wuyRVzVzLMEz3L6tMYTllxjIZLeKBkJUQtERLDfDmyJ
+ TxkLPd1r3/NzcunmyskWSjSG/Q==
+X-Google-Smtp-Source: AA0mqf5az4EOpTfmnQG5kC8FRElVSWqWLrOCsp79uhuFjby6f4LOcY2c/3M64WsG8T98mEFI4YS09A==
+X-Received: by 2002:a05:600c:1f1b:b0:3cf:35c8:289f with SMTP id
+ bd27-20020a05600c1f1b00b003cf35c8289fmr3092939wmb.153.1668623737104; 
+ Wed, 16 Nov 2022 10:35:37 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ n14-20020a05600c3b8e00b003b4c979e6bcsm3351506wms.10.2022.11.16.10.35.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Nov 2022 10:35:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3829A1FFB7;
+ Wed, 16 Nov 2022 18:35:36 +0000 (GMT)
+References: <20221115133439.2348929-1-alex.bennee@linaro.org>
+ <CAJSP0QVigz1nDq7JO2ABquzReGWkqY5dwXKrEaufw+FXnvsvkg@mail.gmail.com>
+User-agent: mu4e 1.9.2; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, Paolo Bonzini
+ <pbonzini@redhat.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Huacai Chen <chenhuacai@kernel.org>, Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <philippe.mathieu-daude@linaro.org>, John Snow <jsnow@redhat.com>
+Subject: Failure analysis (was Re: [PULL for 7.2 00/10] testing and doc
+ updates)
+Date: Wed, 16 Nov 2022 18:20:10 +0000
+In-reply-to: <CAJSP0QVigz1nDq7JO2ABquzReGWkqY5dwXKrEaufw+FXnvsvkg@mail.gmail.com>
+Message-ID: <87r0y29287.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -127,61 +101,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+Stefan Hajnoczi <stefanha@gmail.com> writes:
 
-On Tue, Oct 25, 2022, at 8:13 AM, Chao Peng wrote:
-> This new KVM exit allows userspace to handle memory-related errors. It
-> indicates an error happens in KVM at guest memory range [gpa, gpa+size).
-> The flags includes additional information for userspace to handle the
-> error. Currently bit 0 is defined as 'private memory' where '1'
-> indicates error happens due to private memory access and '0' indicates
-> error happens due to shared memory access.
+> This pull request causes the following CI failure:
 >
-> When private memory is enabled, this new exit will be used for KVM to
-> exit to userspace for shared <-> private memory conversion in memory
-> encryption usage. In such usage, typically there are two kind of memory
-> conversions:
->   - explicit conversion: happens when guest explicitly calls into KVM
->     to map a range (as private or shared), KVM then exits to userspace
->     to perform the map/unmap operations.
->   - implicit conversion: happens in KVM page fault handler where KVM
->     exits to userspace for an implicit conversion when the page is in a
->     different state than requested (private or shared).
+> https://gitlab.com/qemu-project/qemu/-/jobs/3328449477
 >
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
->  include/uapi/linux/kvm.h       |  9 +++++++++
->  2 files changed, 32 insertions(+)
->
-> diff --git a/Documentation/virt/kvm/api.rst 
-> b/Documentation/virt/kvm/api.rst
-> index f3fa75649a78..975688912b8c 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6537,6 +6537,29 @@ array field represents return values. The 
-> userspace should update the return
->  values of SBI call before resuming the VCPU. For more details on 
-> RISC-V SBI
->  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> 
-> +::
-> +
-> +		/* KVM_EXIT_MEMORY_FAULT */
-> +		struct {
-> +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-> +			__u32 flags;
-> +			__u32 padding;
-> +			__u64 gpa;
-> +			__u64 size;
-> +		} memory;
-> +
+> I haven't figured out the root cause of the failure. Maybe the pull
+> request just exposes a latent failure. Please take a look and we can
+> try again for -rc2.
 
-Would it make sense to also have a field for the access type (read, write, execute, etc)?  I realize that shared <-> private conversion doesn't strictly need this, but it seems like it could be useful for logging failures and also for avoiding a second immediate fault if the type gets converted but doesn't have the right protection yet.
+OK after a lot of digging I've come to the following conclusion:
 
-(Obviously, if this were changed, KVM would need the ability to report that it doesn't actually know the mode.)
+  * the Fuloong 2E machine never enables the FIFO on the 16550 (s->fcr & UA=
+RT_FCR_FE)
+  * as a result if qemu_chr_fe_write(&s->chr, &s->tsr, 1) fails with -EAGAIN
+    - a serial_watch_cb is queued
+    - s->tsr_retry++
+  * additional serial_ioport_write's overwrite s->thr
+  * the console output gets corrupted
 
---Andy
+You can see the effect by comparing the serial write and xmit values:
+
+  =E2=9E=9C  grep serial_write alex.log | cut -d ' ' -f 6 | xxd -r -p | hea=
+d -n 10
+  [    0.000000] Initializing cgroup subsys cpuset
+  [    0.000000] Initializing cgroup subsys cpu
+  [    0.000000] Initializing cgroup subsys cpuacct
+  [    0.000000] Linux version 3.16.0-6-loongson-2e (debian-kernel@lists.de=
+bian.org) (gcc version 4.8.4 (Debian 4.8.4-1) ) #1 Debian 3.16.56-1+deb8u1 =
+(2018-05-08)
+  [    0.000000] memsize=3D256, highmemsize=3D0
+  [    0.000000] CpuClock =3D 533080000
+  [    0.000000] bootconsole [early0] enabled
+  [    0.000000] CPU0 revision is: 00006302 (ICT Loongson-2)
+  [    0.000000] FPU revision is: 00000501
+  [    0.000000] Checking for the multiply/shift bug... no.
+  =F0=9F=95=9918:27:17 alex@zen:qemu.git/builds/all  on =EE=82=A0 pr/141122=
+-misc-for-7.2-1 [$!?=E2=87=95]=20
+  =E2=9E=9C  grep serial_xmit alex.log | cut -d ' ' -f 2 | xxd -r -p | head=
+ -n 10
+  [    0.000000] Initializing cgroup subsys cpuset
+  [    0.000000] Initializing cgroup subsys cpu
+  [    0.000000] Initializing cgroup subsys cpuacct
+  [    0.000000] Linux version 3.16.0-6-loongson-2e (debian-kernel@lists.de=
+bian.org) (gcc version 4.8.4 (Debian 4.8.4-1) ) #1 Debian 33 0.000000] boot=
+console [early0] enabled
+  [    0.000000] CPU0 revision is: 00006302 (ICT Loongson-2)
+  [    0.000000] FPU revision is: 00000501
+  [    0.000000] Checking for the multiply/shift bug... no.
+  [    0.000000] Checking for the daddiu bug... no.
+  [    0.000000] Determined physical RAM map:
+  [    0.000000]  memory: 000
+
+As a result the check for the pattern fails:
+
+        console_pattern =3D 'Kernel command line: %s' % kernel_command_line
+        self.wait_for_console_pattern(console_pattern)
+
+resulting in a timeout and test fail.
+
+In effect the configuration makes the output dependent on how fast the
+avocado test can drain the socket as there is no buffering elsewhere in
+the system. The changes in:
+
+  Subject: [PULL 02/10] tests/avocado: improve behaviour waiting for login =
+prompts
+
+makes this failure more likely to happen - I think because the .peek() and
+.readline() behaviour have different buffering strategies. Options
+include:
+
+  - enable the 16550 FIFO for the Loognson kernel (command line option?)
+  - increase the buffering of the python socket.socket() code
+
+I can get it to pass by shuffling the time.sleep() and a few other
+checks around but that seems flaky at best.
+
+--=20
+Alex Benn=C3=A9e
 
