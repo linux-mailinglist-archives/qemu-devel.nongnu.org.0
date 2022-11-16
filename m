@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4FC62BEBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 13:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D6762C084
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 15:08:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovHuh-0007Sb-EJ; Wed, 16 Nov 2022 07:53:11 -0500
+	id 1ovJ3N-0007CY-GI; Wed, 16 Nov 2022 09:06:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ovHub-0007Rs-EM
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:53:05 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229])
+ (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
+ id 1ovEZL-0008G9-ES; Wed, 16 Nov 2022 04:18:55 -0500
+Received: from pi.codeconstruct.com.au ([203.29.241.158]
+ helo=codeconstruct.com.au)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ovHuZ-0000Nv-I3
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 07:53:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Y32HGv7zsoCdtNOhRXEtZ3/2mfEtOEkb5O1+39he2kk=; b=JjFNhQIhnsw1feJCM7lY+7fJ9n
- bMAVfz1FfOqeEW4Vx4s+t0DvVKqNuBZ1fN1TaqUN785JZ+zz5rmpPG9oGVP2bL+KJnkliC1451umj
- Wt1nAY5+6+syV8Eo5MC82TXNUwm6RG+rTqkeN83loYzSIPJWR9mO9lJ4jPYzR7Z394WhUpdr8FOVr
- E999yqVvriVdjePBQPEpUOyAKjbGNnpdDlyJ8ri3ZY9R9Jl1gGOESNafIFoRXPHHLNSGAl5HwpiJN
- 976461XEfUQAWADQyFVlVSqDl0PHwLfRU+kkgMSOU3GK9AM/8iWeiwlNcqXZYUgRsl+h6C2V7H9Wy
- WNCqPU2RSnzKkf3xs1z0N8PuQ8wtkLJopy5HFtXEhPBoOzkwXKDpKQsmJVCT65sK74JluWCLPxYYy
- 5UWaWBSFtYKb8MyHWJYpjqtK5/caAVrX0LJHcnnq5ie9fx64OVX4JG5Qv5cSs9GHM9GNR01r0u6lm
- d+0brwaHrvsYwYLy+HB+NwPH+Eb8V/QXbprQ9+ds1Ujf4sWY0yugYeqaHBFFljvWccCak5BS7olT3
- T8r/J3aBXUToAMyhjjztXgLdVR/kb3KGqmPGomjih/e2HZy5C2rXv9kCihBKURW7Swx/rvwLlh+vJ
- fhyLZgcaylkMwW/Gt0biK0dfosR4NFThMi0cnUGzk=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, "Meng, Bin" <Bin.Meng@windriver.com>,
- "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-Subject: Re: [PATCH v2 06/19] hw/9pfs: Add missing definitions for Windows
-Date: Wed, 16 Nov 2022 13:52:58 +0100
-Message-ID: <46351566.9J2vZs0v1x@silver>
-In-Reply-To: <MN2PR11MB417389F84C0A0448A29593A8EF079@MN2PR11MB4173.namprd11.prod.outlook.com>
-References: <20221111042225.1115931-1-bin.meng@windriver.com>
- <6443328.Q0H0RdsSbn@silver>
- <MN2PR11MB417389F84C0A0448A29593A8EF079@MN2PR11MB4173.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
+ id 1ovEZI-0003wL-Mr; Wed, 16 Nov 2022 04:18:55 -0500
+Received: from pecola.lan (unknown [159.196.93.152])
+ by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 18C9320031;
+ Wed, 16 Nov 2022 17:18:36 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=codeconstruct.com.au; s=2022a; t=1668590320;
+ bh=1FjLSTPAGobxT1O5ZX56IXyw3raFqKvtitqrRpog/DQ=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References;
+ b=KRUBcILeqd4juqrDCGkGRYTHmjqxCVcevf7l1Huk9wXAKKzlrtOJrLgMTmoF7L0Ag
+ iZ0RrzqHemAVlJ45D6Qaf6oIgntB0qR4Tbu3yDvU0TL1des7zimjEw5CU6LY2T9a/+
+ y7FfI/OPcwKUG1CqbcqA7pfz9Z6+duYdnYAfyJXfi+DhPZF3miXUwSid2J9g1rYxJc
+ fWHoBuzsawMWVWijF6HYeKpgIGLBbqQaRS3xk+KWqrZovotG5Mq9hL77I1OfWmljx+
+ GXtjj1juNhwtxrxhX+aDhcWp8aBRZTMtDXLV/gYiDZQwhHy3JH2dZOdk2f3FsNASvQ
+ MnXEn6IKDka4w==
+Message-ID: <32acd8cb29f23013ec203cb635e7fc161ad2e5a6.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 0/3] hw/{i2c,nvme}: mctp endpoint, nvme management
+ interface model
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, Keith Busch <kbusch@kernel.org>, Corey
+ Minyard <cminyard@mvista.com>, Peter Delevoryas <peter@pjd.dev>,
+ qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>, 
+ =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, Klaus Jensen
+ <k.jensen@samsung.com>, Matt Johnston <matt@codeconstruct.com.au>
+Date: Wed, 16 Nov 2022 17:18:35 +0800
+In-Reply-To: <20221116084312.35808-1-its@irrelevant.dk>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Received-SPF: pass client-ip=203.29.241.158;
+ envelope-from=jk@codeconstruct.com.au; helo=codeconstruct.com.au
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 16 Nov 2022 09:06:11 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +72,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wednesday, November 16, 2022 10:01:39 AM CET Shi, Guohuai wrote:
-[...]
-> > > diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h index
-> > > 4997677460..7d9a736b66 100644
-> > > --- a/fsdev/file-op-9p.h
-> > > +++ b/fsdev/file-op-9p.h
-> > > @@ -27,6 +27,39 @@
-> > >  # include <sys/mount.h>
-> > >  #endif
-> > >
-> > > +#ifdef CONFIG_WIN32
-> > > +
-> > > +/* POSIX structure not defined in Windows */
-> > > +
-> > > +typedef uint32_t uid_t;
-> > > +typedef uint32_t gid_t;
-> > > +
-> > > +/* from http://man7.org/linux/man-pages/man2/statfs.2.html */ typedef
-> > > +uint32_t __fsword_t; typedef uint32_t fsblkcnt_t; typedef uint32_t
-> > > +fsfilcnt_t;
-> > > +
-> > > +/* from linux/include/uapi/asm-generic/posix_types.h */ typedef
-> > > +struct {
-> > > +    long __val[2];
-> > > +} fsid_t;
-> > > +
-> > > +struct statfs {
-> > > +    __fsword_t f_type;
-> > > +    __fsword_t f_bsize;
-> > > +    fsblkcnt_t f_blocks;
-> > > +    fsblkcnt_t f_bfree;
-> > > +    fsblkcnt_t f_bavail;
-> > > +    fsfilcnt_t f_files;
-> > > +    fsfilcnt_t f_ffree;
-> > > +    fsid_t f_fsid;
-> > > +    __fsword_t f_namelen;
-> > > +    __fsword_t f_frsize;
-> > > +    __fsword_t f_flags;
-> > > +};
-> > > +
-> > 
-> > Does it make sense to define all of these, even though not being used?
-> 
-> Windows does not have this definition, so use Linux definition can make less impact to 9pfs code.
-> If not, need to add many macro "#ifdef CONFIG_WIN32" in other places to disable the unsupported code.
+Hi Klaus,
 
-My bad, I thought most of these were not referenced in code at all, but I just
-realized they are indeed. Only exception is probably `f_flags`, but I haven't
-checked yet whether you are using that for something new in your patches.
+[+CC Matt]
 
-The previous patches LGTM BTW. I still have to look at all following patches
-though. So better wait some more days before posting a v3.
+> This adds a generic MCTP endpoint model that other devices may derive
+> from. I'm not 100% happy with the design of the class methods, but
+> it's a start.
 
-Best regards,
-Christian Schoenebeck
+Thanks for posting these! I'll have a more thorough look through soon,
+but wanted to tackle some of the larger design-points first (and we've
+already spoken a bit about these, but rehashing a little of that for
+others CCed too).
 
+For me, the big decision here is where we want to run the NVMe-MI
+device model. Doing it in the qemu process certainly makes things
+easier to set up, and we can just configure the machine+nvme-mi device
+as the one operation.
+
+The alternative would be to have the NVMe-MI model run as an external
+process, and not part of the qemu tree; it looks like Peter D is going
+for that approach with [1]. The advantage there is that we would be
+able to test against closer-to-reality "MI firmware" (say, a device
+vendor running their NVMe-MI firmware directly in another emulator? are
+folks interested in doing that?)
+
+The complexity around the latter approach will be where we split the
+processes, and arrange for IPC. [1] suggests at the i2c layer, but that
+does seem to have complexities with i2c controller model compatibility;
+we could certainly extend that to a "generic" i2c-over-something
+protocol (which would also be handy for other things), or go higher up
+and use MCTP directly as the transport (say, the serial binding over a
+chardev). The former would be more useful for direct firmware
+emulation.
+
+My interest is mainly in testing the software stack, so either approach
+is fine; I assume your interest is from the device implementation side?
+
+Cheers,
+
+
+Jeremy
+
+[1]: https://github.com/facebook/openbmc/blob/helium/common/recipes-devtool=
+s/qemu/qemu/0007-hw-misc-Add-i2c-netdev-device.patch
 
 
