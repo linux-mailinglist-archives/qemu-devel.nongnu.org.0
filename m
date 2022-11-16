@@ -2,94 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3AD62C2F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 16:49:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9458A62C34A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 17:00:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovKea-0004Y6-ER; Wed, 16 Nov 2022 10:48:44 -0500
+	id 1ovKoo-0001yE-9d; Wed, 16 Nov 2022 10:59:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ovKeU-0004TX-55
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:48:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ovKom-0001x4-64; Wed, 16 Nov 2022 10:59:16 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ovKeS-0002Jv-9R
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 10:48:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668613715;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dpszX8NAsdctKP7zqYiaMTdy749Jmnwnn12XCX7WItg=;
- b=XCVV38My4sn8KOQUeoIFMPKGcU3p9rl+Br2prQgbgzCUGr64eDaQ53ar0t+S3CpTvFYTrq
- JSlZ05qU6FPLAyuhxzpOHH4si+8Zm93XPZEsmiJr2UkL/Sx+QihWm2cQu656+F/0FiPfMW
- 7HKnG//2pcVEfhBXUMmTUb1dSAT9H+8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-638-NxshHgtXMTi7VKEitEu_bg-1; Wed, 16 Nov 2022 10:48:34 -0500
-X-MC-Unique: NxshHgtXMTi7VKEitEu_bg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- g14-20020a056402090e00b0046790cd9082so8333911edz.21
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 07:48:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dpszX8NAsdctKP7zqYiaMTdy749Jmnwnn12XCX7WItg=;
- b=3JeDq+OOtLcGexmDxat8RD8xYz2X3sSdTvnqDQbjmAY4l8gY+sOMt2KUXtd745rAa0
- K6YoVrs68wYkptM2xwYDVVnPMQXmgGcgi9X7tg95pvmm0hwWzucskvche+1/eXX6D4Rm
- V51/3ipCKzf7unjIRWJ4l8v29npSx4Xa+OHmIkCQ54L6poxWJlelGQEauQQUh6kza4eB
- OOaYb3oj0tZxooLYNYiasXnB+w4u5Va7BZN7NDzci/hTl49swWE+4OsUs5JkZXFkN9rX
- 9/4c6SHJCrhCEYh70JQC6RWoHcvzFkVcry4q0R0Lkm8/JPexRdCp9IER0c5YbQ6ngaXP
- aW6A==
-X-Gm-Message-State: ANoB5plyIkE8HZd3kOmKTSWAyW/uRhbNwIJCfceEHLLCvC3GaEKGAxnm
- m8oYeeeNvQa/9xTS2pJepE2m2FFWTq/7YHP2Egk1G8RC4kdRoaPbYRuDmzVOVoDzMiJ1DAjYeXt
- bgnQdJ5dHvjNZIPI=
-X-Received: by 2002:a17:906:b181:b0:7ad:69eb:90c3 with SMTP id
- w1-20020a170906b18100b007ad69eb90c3mr18676141ejy.285.1668613712944; 
- Wed, 16 Nov 2022 07:48:32 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4iD2AS+527xj/vRPLeg42So8Wyc/RymbCTlBvANG8/DE9CKacLFzUwtBMGVsv4l7Ivuh6zsg==
-X-Received: by 2002:a17:906:b181:b0:7ad:69eb:90c3 with SMTP id
- w1-20020a170906b18100b007ad69eb90c3mr18676117ejy.285.1668613712737; 
- Wed, 16 Nov 2022 07:48:32 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- 18-20020a170906201200b0079800b81709sm6953778ejo.219.2022.11.16.07.48.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 07:48:32 -0800 (PST)
-Date: Wed, 16 Nov 2022 16:48:31 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, ani@anisinha.ca,
- pbonzini@redhat.com, richard.henderson@linaro.org,
- mark.cave-ayland@ilande.co.uk, peter.maydell@linaro.org,
- andrew.smirnov@gmail.com, paulburton@kernel.org,
- aleksandar.rikalo@syrmia.com, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au, groug@kaod.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH 2/2] pci: drop redundant PCIDeviceClass::is_bridge field
-Message-ID: <20221116164831.4f4266cd@imammedo.users.ipa.redhat.com>
-In-Reply-To: <894b767d-b071-a37a-db61-9538d63e00dc@linaro.org>
-References: <20221116152730.3691347-1-imammedo@redhat.com>
- <20221116152730.3691347-3-imammedo@redhat.com>
- <894b767d-b071-a37a-db61-9538d63e00dc@linaro.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ovKoi-0005FQ-8B; Wed, 16 Nov 2022 10:59:15 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.162])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9245013F7D6C9;
+ Wed, 16 Nov 2022 16:58:57 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 16 Nov
+ 2022 16:58:56 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0059ddd4271-9002-4a00-8c95-c3c9d6cb56fb,
+ 02E7B4D3E773D69B5537C3086E449D6A4A510449) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <8dd9ed34-93c3-0638-e152-f619f9e097e6@kaod.org>
+Date: Wed, 16 Nov 2022 16:58:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when
+ bus is idle
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>, <qemu-devel@nongnu.org>
+CC: Andrew Jeffery <andrew@aj.id.au>, Keith Busch <kbusch@kernel.org>, Corey
+ Minyard <cminyard@mvista.com>, Peter Delevoryas <peter@pjd.dev>,
+ <qemu-arm@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>,
+ <qemu-block@nongnu.org>, Jeremy Kerr <jk@codeconstruct.com.au>, Joel Stanley
+ <joel@jms.id.au>, Klaus Jensen <k.jensen@samsung.com>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+ <20221116084312.35808-2-its@irrelevant.dk>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221116084312.35808-2-its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 852acac2-f7a8-4d34-b566-aff0b8989f7d
+X-Ovh-Tracer-Id: 630785426529815544
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeigdekvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehithhssehirhhrvghlvghvrghnthdrughkpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhksghushgthheskhgvrhhnvghlrdhorhhgpdgtmhhinhihrghrugesmhhvihhsthgrrdgtohhmpdhpvghtvghrsehpjhgurdguvghvpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpjhhksegtohguvg
+ gtohhnshhtrhhutghtrdgtohhmrdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhkrdhjvghnshgvnhesshgrmhhsuhhnghdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -107,54 +79,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 16 Nov 2022 16:35:10 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+On 11/16/22 09:43, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> It is not given that the current master will release the bus after a
+> transfer ends. Only schedule a pending master if the bus is idle.
+> 
+> Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>   hw/i2c/aspeed_i2c.c  |  2 ++
+>   hw/i2c/core.c        | 37 ++++++++++++++++++++++---------------
+>   include/hw/i2c/i2c.h |  2 ++
+>   3 files changed, 26 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+> index c166fd20fa11..1f071a3811f7 100644
+> --- a/hw/i2c/aspeed_i2c.c
+> +++ b/hw/i2c/aspeed_i2c.c
+> @@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+>           }
+>           SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_STOP_CMD, 0);
+>           aspeed_i2c_set_state(bus, I2CD_IDLE);
+> +
+> +        i2c_schedule_pending_master(bus->bus);
 
-> On 16/11/22 16:27, Igor Mammedov wrote:
-> > and use cast to TYPE_PCI_BRIDGE instead.
-> >=20
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >   include/hw/pci/pci.h               | 11 +----------
-> >   include/hw/pci/pci_bridge.h        |  1 +
-> >   hw/acpi/pcihp.c                    |  3 +--
-> >   hw/i386/acpi-build.c               |  5 ++---
-> >   hw/pci-bridge/cxl_downstream.c     |  1 -
-> >   hw/pci-bridge/cxl_upstream.c       |  1 -
-> >   hw/pci-bridge/i82801b11.c          |  1 -
-> >   hw/pci-bridge/pci_bridge_dev.c     |  1 -
-> >   hw/pci-bridge/pcie_pci_bridge.c    |  1 -
-> >   hw/pci-bridge/pcie_root_port.c     |  1 -
-> >   hw/pci-bridge/simba.c              |  1 -
-> >   hw/pci-bridge/xio3130_downstream.c |  1 -
-> >   hw/pci-bridge/xio3130_upstream.c   |  1 -
-> >   hw/pci-host/designware.c           |  1 -
-> >   hw/pci-host/xilinx-pcie.c          |  1 -
-> >   hw/pci/pci.c                       | 20 +++++++++-----------
-> >   hw/ppc/spapr_pci.c                 | 15 +++++----------
-> >   17 files changed, 19 insertions(+), 47 deletions(-) =20
->=20
-> > @@ -1090,9 +1088,10 @@ static PCIDevice *do_pci_register_device(PCIDevi=
-ce *pci_dev,
-> >       Error *local_err =3D NULL;
-> >       DeviceState *dev =3D DEVICE(pci_dev);
-> >       PCIBus *bus =3D pci_get_bus(pci_dev);
-> > +    bool is_bridge =3D IS_PCI_BRIDGE(pci_dev);
-> >  =20
-> >       /* Only pci bridges can be attached to extra PCI root buses */
-> > -    if (pci_bus_is_root(bus) && bus->parent_dev && !pc->is_bridge) {
-> > +    if (pci_bus_is_root(bus) && bus->parent_dev && !IS_PCI_BRIDGE(pci_=
-dev)) { =20
->=20
-> Can we use the recently assigned 'is_bridge' variable?
+Shouldn't it be i2c_bus_release() ?
 
-yep, that was an intention behind the variable.
-I'll fix it up on respin.
+Thanks,
 
->=20
-> Otherwise:
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->=20
+C.
+
+
+>       }
+>   
+>       if (aspeed_i2c_bus_pkt_mode_en(bus)) {
+> diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+> index d4ba8146bffb..bed594fe599b 100644
+> --- a/hw/i2c/core.c
+> +++ b/hw/i2c/core.c
+> @@ -185,22 +185,39 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
+>   
+>   void i2c_bus_master(I2CBus *bus, QEMUBH *bh)
+>   {
+> +    I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
+> +    node->bh = bh;
+> +
+> +    QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
+> +}
+> +
+> +void i2c_schedule_pending_master(I2CBus *bus)
+> +{
+> +    I2CPendingMaster *node;
+> +
+>       if (i2c_bus_busy(bus)) {
+> -        I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
+> -        node->bh = bh;
+> -
+> -        QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
+> +        /* someone is already controlling the bus; wait for it to release it */
+> +        return;
+> +    }
+>   
+> +    if (QSIMPLEQ_EMPTY(&bus->pending_masters)) {
+>           return;
+>       }
+>   
+> -    bus->bh = bh;
+> +    node = QSIMPLEQ_FIRST(&bus->pending_masters);
+> +    bus->bh = node->bh;
+> +
+> +    QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
+> +    g_free(node);
+> +
+>       qemu_bh_schedule(bus->bh);
+>   }
+>   
+>   void i2c_bus_release(I2CBus *bus)
+>   {
+>       bus->bh = NULL;
+> +
+> +    i2c_schedule_pending_master(bus);
+>   }
+>   
+>   int i2c_start_recv(I2CBus *bus, uint8_t address)
+> @@ -234,16 +251,6 @@ void i2c_end_transfer(I2CBus *bus)
+>           g_free(node);
+>       }
+>       bus->broadcast = false;
+> -
+> -    if (!QSIMPLEQ_EMPTY(&bus->pending_masters)) {
+> -        I2CPendingMaster *node = QSIMPLEQ_FIRST(&bus->pending_masters);
+> -        bus->bh = node->bh;
+> -
+> -        QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
+> -        g_free(node);
+> -
+> -        qemu_bh_schedule(bus->bh);
+> -    }
+>   }
+>   
+>   int i2c_send(I2CBus *bus, uint8_t data)
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index 9b9581d23097..2a3abacd1ba6 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -141,6 +141,8 @@ int i2c_start_send(I2CBus *bus, uint8_t address);
+>    */
+>   int i2c_start_send_async(I2CBus *bus, uint8_t address);
+>   
+> +void i2c_schedule_pending_master(I2CBus *bus);
+> +
+>   void i2c_end_transfer(I2CBus *bus);
+>   void i2c_nack(I2CBus *bus);
+>   void i2c_ack(I2CBus *bus);
 
 
