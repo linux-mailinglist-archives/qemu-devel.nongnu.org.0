@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4ED62B570
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 09:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BD162B56E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 09:44:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovE16-0005GL-9x; Wed, 16 Nov 2022 03:43:32 -0500
+	id 1ovE15-0005Br-Gd; Wed, 16 Nov 2022 03:43:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovE0y-00058Z-86; Wed, 16 Nov 2022 03:43:24 -0500
+ id 1ovE0x-00058T-VM; Wed, 16 Nov 2022 03:43:24 -0500
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovE0v-0001sT-M8; Wed, 16 Nov 2022 03:43:23 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id DFCB45C0274;
- Wed, 16 Nov 2022 03:43:17 -0500 (EST)
+ id 1ovE0v-0001sW-Na; Wed, 16 Nov 2022 03:43:23 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id D90125C0277;
+ Wed, 16 Nov 2022 03:43:19 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 16 Nov 2022 03:43:17 -0500
+ by compute5.internal (MEProxy); Wed, 16 Nov 2022 03:43:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668588197; x=1668674597; bh=/r
- N0rTF1X6pDkPhtLRcyqE/sj87c+jJLVjcU88yM6/s=; b=V6aPY9FFn/Y2SAkcuS
- ox0mgzEl0xZ3zjFc40rbv+WPnLLwq0StK5WlEIpJo20jTRBK+l2ZoDTOyMs5YHbw
- BfubvC8RA461prrkys8VXOfkuOvv2toG055tOuCsMPbAFKZji4P6LQhBUlqEFrOx
- ontqSUU1InXRNqtWv2dZf9fsGZo3x5oHLlvXlNf65SMM5uKf/zXUyivZLkoexvxX
- PE2YytW3+XuZjUB4D8mB7i53KMCnUgXQbmQNxVbwp52wViHD9VvRYVB8h5aPSZjd
- jy+el643+aT84toiSg8dFbl6VMh3JmD63ls9cS9OVGLQkJ1k+iJBaurjDfPoiH3F
- yIQg==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1668588199; x=
+ 1668674599; bh=Cs8VdeXGOWhZrwhzmc8K/BTaHo9gT/9IJ81cljyfUPY=; b=T
+ Z+DOlax0QBXWQgCEQjhkok5vEr4lyc8FGU2Th+8KrwOVe721UQu2j8c7TqNm8NFt
+ cgC0JgxyhOcHfAFiebYPAFjPK45EsHtd954V/+kP8vF9AW7PX/H/xwQmUIReX4UQ
+ n8hLq/uhwaWDrraI9aCqXzKLrj0MvmRfAH6HiXSStMdNZe0D7cyIEdJsTDRvBWeU
+ Gou6KFj8ohh/t4gl3CeIsXALb4+knw/NbQjGNf8YfLSt7rq2ePCNSfi6mz9okhJp
+ QHzxaW7PShJYKmxI4Looedh3CI2Pr9JoLeTkUdSWECnZS8G4lY9A/mPUnVdSW0Xa
+ NNymL8/up3aDMJHrxreoQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1668588197; x=1668674597; bh=/rN0rTF1X6pDk
- PhtLRcyqE/sj87c+jJLVjcU88yM6/s=; b=DnlDX8X2UAjIRc817PNzKSf1knwT8
- b0Mcdbwg6r1a7oHF5uX3dblj+niRhX+x/u57JkDA3RRoBD8GdgwB3XDbVGKFoaPO
- zpmbJbAc+apIPgi9IWsFhx2fuzM834qfu2Hx/Bkn5Bv1cCGZUVdilwaJUp4ACM0R
- 2FiVo00TOmi5PvS4D5wOSS6uKzfCVjpUD/hmBbVtqDpH47kObgA+2tyT3+4aBa8i
- bUXZ3sxzg9N+p0H3AFYKCbH9iTrecArJOsiqPJ42n4IS45+cgmgAdlc/13E041DT
- LmY7KdIMxRbm4BzMMt0uMf5vm/mItWLIdWP73TSHVBvyhAzCJdkUa/vCQ==
-X-ME-Sender: <xms:o6J0Yx4yJ6kVWPgRJLIrissPY41yeP4BCRiqMsMRm39jzHSjEjahYQ>
- <xme:o6J0Y-5mVbz7h9Xk1zlVcXSgJKLLq8zCVUYaR9dmrBXvTkINXH2z5m5i2IiXHKHxQ
- nVCnlj9rD8uCO42Vu0>
-X-ME-Received: <xmr:o6J0Y4f_nilOPJgEfTKib72bGnHPkjawdurTiNnFJLrGuoamGninr7UI28s5dL_oIWYJ_fWNkJE>
+ :x-sasl-enc; s=fm1; t=1668588199; x=1668674599; bh=Cs8VdeXGOWhZr
+ whzmc8K/BTaHo9gT/9IJ81cljyfUPY=; b=RwHFHO3RnsF23K5CddTxGaqinFrca
+ TBAhp+/ou1rWgJaR9GT1tol/Fd93ZhL2K9ZhWinUsXfTydk4iLRC44Dj7fZlpsub
+ VYoRxtLFJTwXUWIIzh0NjDTDmPP86l4RBTqmO8EXIyxbARvsSzfAj5WMhGXMUxne
+ /5MfmNBifvzr8lKKKseqjg35p/Vcs1mhaH8Q+rEZannd9ZYnyYRr9CaZqGxl8nEx
+ PJXu9tJrOSqu4QOY+HUbZJ2pRpx1W+E4Btbl2WEcxdWFcUkUtuKvRKBErPdwDXWp
+ K3Qi2vc+tp1Gt2bmxOuI855I9k2OtZy7qOSwPd8sJ4ZZpjeqlthScy9AA==
+X-ME-Sender: <xms:p6J0YwQNwBY1jeRbKaX8ZeWK3rALf8yGolUBY10mZxT5xprF2IJABQ>
+ <xme:p6J0Y9w-HfuxmoCRxsTG_7-omefQq3aHyXuQYgYwG9Im_zMUNCZ3FEfeWpJ-jyVKo
+ zow9UD8PelSL7AyhpE>
+X-ME-Received: <xmr:p6J0Y93DHeTUM6_Dh5gdM6_B3y58ogMn9UoOSEeSx-gS3vMB13iui-3_CCTQ4sotW8jqyFp8Ukk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeehgdduvddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeefgfehudefjedvgffhheelvddvvdehfffgtedvffeugeeigefggffggefhieej
- leenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:o6J0Y6KCnXld6AwbENW_bfZK6PHY-dYcJiMBBCqhx4YYyOhn2BgGPg>
- <xmx:o6J0Y1LvCXGHvuSr0VkbVxIDivYozbIZSiTPSBBbEkRlZMY11imxMw>
- <xmx:o6J0YzwuvUph8nYyb6YfoJY4Ubez9HS0ylhp7mwYuD6MmUFQkPBcoA>
- <xmx:paJ0Y_xHKybBGiYn2AULJ6z30lBeadHLEj4VFIdtHG2Go6dTOYRjpQ>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
+ udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:p6J0Y0BfRFk3svCp1W-xxgwB4Ry8yDd7jch1x1IoAP-dAA93oSp8Tw>
+ <xmx:p6J0Y5jS8_qFu31d_90HJJ9onxmDu8qYabSpXWHtus05fg66oYKn7g>
+ <xmx:p6J0YwrXC17QRRYLp28Jy9jHRjNZCCI8-wxFcRUweh9NoxVrL6wPCw>
+ <xmx:p6J0Y0rAzWfiQAzs759eu5kKgz3zos43ADtPjRWTrrv_ANPukogI6A>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Nov 2022 03:43:14 -0500 (EST)
+ 16 Nov 2022 03:43:18 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: Andrew Jeffery <andrew@aj.id.au>, Keith Busch <kbusch@kernel.org>,
@@ -72,22 +72,23 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, Keith Busch <kbusch@kernel.org>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 0/3] hw/{i2c, nvme}: mctp endpoint,
- nvme management interface model
-Date: Wed, 16 Nov 2022 09:43:09 +0100
-Message-Id: <20221116084312.35808-1-its@irrelevant.dk>
+Subject: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when bus
+ is idle
+Date: Wed, 16 Nov 2022 09:43:10 +0100
+Message-Id: <20221116084312.35808-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20221116084312.35808-1-its@irrelevant.dk>
+References: <20221116084312.35808-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2299; i=k.jensen@samsung.com;
- h=from:subject; bh=5WsFbZ8a27QXful4UaRPUhwUDZbOAa8X3pRMgQLNeMk=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGN0oqD3dCoJIC8AFxEw49QLYPy6sG0UWVW55I7T
- 0Yf5Os4cOYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjdKKgAAoJEE3hrzFtTw3pj+
- YH+wRg1Os0qiqHxrNvMmIsndNCsWi8L7a41312+vsu/RNcRmltuWYAaTjSmAVq/r/3pXvlvbeF4lOM
- jEVVXbinkJ55UylODdiO6RuaF74t3v4NKjrxY1NGKfnevSPm3YIoC3ZrNeqsqWHnVpSUBAfzbuRLjE
- IboxMMzF+xbIh2JTSuJUmt5y69bd741qq5L2iA1m61uM6zciYRP/cAFvPxTAqjKi5dAw27Eu9cBNUb
- TQu/8PZ6OrSQbmwnBczDIe6RCfzj/BN1IIUnCJeVPSyMkmABq8fHc2G0Tkq8epNMKlfnikN42F6Il4
- G9heLVILAuORkKRizXmjL65tqJr+a6F+kRdqjB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3129; i=k.jensen@samsung.com;
+ h=from:subject; bh=T5ZXUEf7MEBpxo1GSb5s2xLGSwC+XetAjLEbhTf2BsU=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGN0oqAU7M5T0BUVO974KIuUsAkvaYO8XxAx5wiT
+ WpczTpYtVYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjdKKgAAoJEE3hrzFtTw3pPd
+ kIAL7FJld6jQ2z7l8iKdg6i1oPJlJVoR90O1vnTBtCk6eNKOm8iJxWxyxe3eOByoiBKIacZ6Uf84sG
+ bl0Qd9cZhWF+vElLGFNWDvvN1LZo3bkn0tHzdLuHC4N7j5G9bnEf/5L406ULtf3phGMPIYbHQ95Ck7
+ l9C7KWF0M8Mx0AdfQykLDpSp4pMmhDaTQIJvk4VsSZPQU8AJvefehkn8CsX2EZxg+bXRoTzyeNH9/u
+ rq7bialrcq6ZP86gqhKiG9whkoyVeNqTuF1K7IJD4N/wTpYJoqgEw7hU+4fkb4tkrim510a2sWGi3p
+ MNZ4f2n36zzEfNlOBxwjrtHNPrPQu6ypV9wKhV
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -117,72 +118,109 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-This adds a generic MCTP endpoint model that other devices may derive
-from. I'm not 100% happy with the design of the class methods, but it's
-a start.
+It is not given that the current master will release the bus after a
+transfer ends. Only schedule a pending master if the bus is idle.
 
-Patch 1 is a bug fix, but since there are currently no in-tree users of
-the API, it is not critical. I'd like to have Peter verify the fix with
-his netdev code as well.
+Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/i2c/aspeed_i2c.c  |  2 ++
+ hw/i2c/core.c        | 37 ++++++++++++++++++++++---------------
+ include/hw/i2c/i2c.h |  2 ++
+ 3 files changed, 26 insertions(+), 15 deletions(-)
 
-Also included is a very basic implementation of an NVMe-MI device,
-supporting only a small subset of the required commands.
-
-Since this all relies on i2c target mode, this can currently only be
-used with an SoC that includes the Aspeed I2C controller.
-
-The easiest way to get up and running with this, is to grab my buildroot
-overlay[1]. It includes modified a modified dts as well as a couple of
-required packages.
-
-QEMU can then be launched along these lines:
-
-  qemu-system-arm \
-    -nographic \
-    -M ast2600-evb \
-    -kernel output/images/zImage \
-    -initrd output/images/rootfs.cpio \
-    -dtb output/images/aspeed-ast2600-evb-nmi.dtb \
-    -nic user,hostfwd=tcp::2222-:22 \
-    -device nmi-i2c,address=0x3a \
-    -serial mon:stdio
-
-From within the booted system,
-
-  mctp addr add 8 dev mctpi2c15
-  mctp link set mctpi2c15 up
-  mctp route add 9 via mctpi2c15
-  mctp neigh add 9 dev mctpi2c15 lladdr 0x3a
-  mi-mctp 1 9 info
-
-Comments are very welcome!
-
-  [1]: https://github.com/birkelund/buildroots/tree/main/mctp-i2c
-
-Klaus Jensen (3):
-  hw/i2c: only schedule pending master when bus is idle
-  hw/i2c: add mctp core
-  hw/nvme: add nvme management interface model
-
- hw/arm/Kconfig         |   1 +
- hw/i2c/Kconfig         |   4 +
- hw/i2c/aspeed_i2c.c    |   2 +
- hw/i2c/core.c          |  37 ++--
- hw/i2c/mctp.c          | 365 +++++++++++++++++++++++++++++++++++++++
- hw/i2c/meson.build     |   1 +
- hw/i2c/trace-events    |  12 ++
- hw/nvme/meson.build    |   1 +
- hw/nvme/nmi-i2c.c      | 381 +++++++++++++++++++++++++++++++++++++++++
- hw/nvme/trace-events   |   6 +
- include/hw/i2c/i2c.h   |   2 +
- include/hw/i2c/mctp.h  |  83 +++++++++
- include/hw/misc/mctp.h |  43 +++++
- 13 files changed, 923 insertions(+), 15 deletions(-)
- create mode 100644 hw/i2c/mctp.c
- create mode 100644 hw/nvme/nmi-i2c.c
- create mode 100644 include/hw/i2c/mctp.h
- create mode 100644 include/hw/misc/mctp.h
-
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index c166fd20fa11..1f071a3811f7 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+         }
+         SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_STOP_CMD, 0);
+         aspeed_i2c_set_state(bus, I2CD_IDLE);
++
++        i2c_schedule_pending_master(bus->bus);
+     }
+ 
+     if (aspeed_i2c_bus_pkt_mode_en(bus)) {
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index d4ba8146bffb..bed594fe599b 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -185,22 +185,39 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
+ 
+ void i2c_bus_master(I2CBus *bus, QEMUBH *bh)
+ {
++    I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
++    node->bh = bh;
++
++    QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
++}
++
++void i2c_schedule_pending_master(I2CBus *bus)
++{
++    I2CPendingMaster *node;
++
+     if (i2c_bus_busy(bus)) {
+-        I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
+-        node->bh = bh;
+-
+-        QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
++        /* someone is already controlling the bus; wait for it to release it */
++        return;
++    }
+ 
++    if (QSIMPLEQ_EMPTY(&bus->pending_masters)) {
+         return;
+     }
+ 
+-    bus->bh = bh;
++    node = QSIMPLEQ_FIRST(&bus->pending_masters);
++    bus->bh = node->bh;
++
++    QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
++    g_free(node);
++
+     qemu_bh_schedule(bus->bh);
+ }
+ 
+ void i2c_bus_release(I2CBus *bus)
+ {
+     bus->bh = NULL;
++
++    i2c_schedule_pending_master(bus);
+ }
+ 
+ int i2c_start_recv(I2CBus *bus, uint8_t address)
+@@ -234,16 +251,6 @@ void i2c_end_transfer(I2CBus *bus)
+         g_free(node);
+     }
+     bus->broadcast = false;
+-
+-    if (!QSIMPLEQ_EMPTY(&bus->pending_masters)) {
+-        I2CPendingMaster *node = QSIMPLEQ_FIRST(&bus->pending_masters);
+-        bus->bh = node->bh;
+-
+-        QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
+-        g_free(node);
+-
+-        qemu_bh_schedule(bus->bh);
+-    }
+ }
+ 
+ int i2c_send(I2CBus *bus, uint8_t data)
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 9b9581d23097..2a3abacd1ba6 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -141,6 +141,8 @@ int i2c_start_send(I2CBus *bus, uint8_t address);
+  */
+ int i2c_start_send_async(I2CBus *bus, uint8_t address);
+ 
++void i2c_schedule_pending_master(I2CBus *bus);
++
+ void i2c_end_transfer(I2CBus *bus);
+ void i2c_nack(I2CBus *bus);
+ void i2c_ack(I2CBus *bus);
 -- 
 2.38.1
 
