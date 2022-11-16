@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523AF62B390
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 07:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB32462B391
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 07:56:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovCJk-0006OS-Q7; Wed, 16 Nov 2022 01:54:41 -0500
+	id 1ovCLM-0007Db-Qp; Wed, 16 Nov 2022 01:56:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ovCJj-0006OC-Dy
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 01:54:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ovCLJ-0007DG-Lc
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 01:56:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ovCJh-0006SN-Nk
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 01:54:39 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ovCLI-0006zK-A2
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 01:56:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668581676;
+ s=mimecast20190719; t=1668581774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/k0/U9n66+/sIAJ1q6cJjvTakoSLBw6e0l19T6VF6Do=;
- b=AS2yuJGHil6z9TjSu9HsjD2MNnHTKVtUegspYuwiH1/K/75XN7qH5FEYgZpyoSNeL9qvyy
- eDxTdzLkov3Lo8HA2jaECCm5/lkmt+IZl+YBeYFIyOWdqSStrPvh4Xihv64XzIkea/fqW9
- iMm/IAfOBpqvacuMY0pggGok7uVfRT4=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-480-YEUaqNWuPD62iaNl2PF4PA-1; Wed, 16 Nov 2022 01:54:34 -0500
-X-MC-Unique: YEUaqNWuPD62iaNl2PF4PA-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-13b041fd3cbso7707510fac.16
- for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 22:54:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/k0/U9n66+/sIAJ1q6cJjvTakoSLBw6e0l19T6VF6Do=;
- b=0xB30F9GDCVdrjGsXyVP05Uys373GtJ07DLW/WiWwNFLtDMVyZw/I+C0GAYJyim+OJ
- FvSM/PCB46tbvpMUdAlSIRnC6J7u5DXUQkKDQznaTGr3iSYhUATcXvyqj5X2ZKIkEq/P
- tg3jlVuwqQx463c1xJQQ/bw+xmb+kGzLZN87MlkRvSh/6FRLp8h1wEA8ZE7MbOqXY7zy
- xq/2a0Tdwxl7qht6pYBqYM5Nki7OYqK4lFh01LgcmKoiE/jiVCLuRbRMp1YXK5re/Vxm
- 23rBvtrNxYRDKEu7ItiefaQdTMzNTrVmTD7iMHPkFspsUHq70Kkgns3RHwWoNAannJWN
- hSPA==
-X-Gm-Message-State: ANoB5pkBltpdLAm4fKkKPxw54a+W1fHON46NrNqtRRKiEusE0Qs9kO6z
- dNSuABkV/ZFmMAXtMpAgcE8Y6sm4qxJBvqdH5FoDS6mNzs3+qMvVvVBzw3b/+josqiSCP2Tvd+C
- DG7TuE09W4r62nAq/AWAYw2GA8HwLWO4=
-X-Received: by 2002:aca:906:0:b0:354:68aa:9c59 with SMTP id
- 6-20020aca0906000000b0035468aa9c59mr903362oij.35.1668581673722; 
- Tue, 15 Nov 2022 22:54:33 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6VMKDo44HYizDPzqO8Co7L7mKwKS1/MVgual/InSE0rM2hEeBij5kEHZdHMOGhuHrPdQg6nzmux1eS07+rlvk=
-X-Received: by 2002:aca:906:0:b0:354:68aa:9c59 with SMTP id
- 6-20020aca0906000000b0035468aa9c59mr903357oij.35.1668581673510; Tue, 15 Nov
- 2022 22:54:33 -0800 (PST)
+ bh=1oDGat731PN6265FvJVXWWD0XIZm07U/AtGxzPhl13o=;
+ b=ICL7Xb82+dhQvXTq5LZPPnAba8xnDQ/79+KXUMrbkIJ1tdeTP2l1Af7Z+YzCS4v11BsfQ8
+ XbkYBkj+srtLkPJ8ref1ZeFfoEyHUuH6XYnFDjGHrb+ovA0nqNlIzhZdKR8aemONCHGoDZ
+ h/m+BCXhD9xZmuh+AMM1h/+PEFvCC/4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-433-gpwSa007MSWopQJvNv_KnA-1; Wed, 16 Nov 2022 01:56:12 -0500
+X-MC-Unique: gpwSa007MSWopQJvNv_KnA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B6A5185A78F;
+ Wed, 16 Nov 2022 06:56:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AC49112131E;
+ Wed, 16 Nov 2022 06:56:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EA5A321E6921; Wed, 16 Nov 2022 07:56:07 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: Alistair Francis <alistair@alistair23.me>,  Francisco Iglesias
+ <frasse.iglesias@gmail.com>,  Kevin Wolf <kwolf@redhat.com>,  Hanna Reitz
+ <hreitz@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Peter Delevoryas <peter@pjd.dev>,
+ qemu-block@nongnu.org,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] m25p80: Improve error when the backend file size
+ does not match the device
+References: <20221115151000.2080833-1-clg@kaod.org>
+Date: Wed, 16 Nov 2022 07:56:07 +0100
+In-Reply-To: <20221115151000.2080833-1-clg@kaod.org> (=?utf-8?Q?=22C=C3=A9?=
+ =?utf-8?Q?dric?= Le Goater"'s
+ message of "Tue, 15 Nov 2022 16:10:00 +0100")
+Message-ID: <87edu3o0ag.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20221115163659.1595865-1-stefanha@redhat.com>
- <011801d8f967$5dad0f00$19072d00$@fiebig.nl>
-In-Reply-To: <011801d8f967$5dad0f00$19072d00$@fiebig.nl>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 16 Nov 2022 14:54:22 +0800
-Message-ID: <CACGkMEtJ2+2yhHgD33wiWvUEREei2ThQAkRNFWzRrDt5D50u+g@mail.gmail.com>
-Subject: Re: [PATCH for-7.2] rtl8139: honor large send MSS value
-To: Tobias Fiebig <tobias@fiebig.nl>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Russell King - ARM Linux <linux@armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,48 +87,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 10:59 AM Tobias Fiebig <tobias@fiebig.nl> wrote:
->
-> Heho,
-> I just tested around with the patch;
-> Good news: Certainly my builds are being executed. Also, if I patch the old code to have a MAX_MTU <= the max MTU on my path, throughput is ok.
->
-> Bad news: Something is wrong with getting the MSS in the patch you shared. When enabling DPRINT, values are off (sent MSS vs. printed MSS):
-> 600 2060
-> 800 2308
-> 1000 2316
-> 1023 2307
-> 1200 3076
-> 1400 3340 (most likely clamped to 1320)
->
-> Fiddling around a bit more, I found txdw0 printed earlier in the stack as hex (sent MSS, txdw0):
-> 769 900502f5
-> 1000 900503dc
-> 1280 900504f4
-> 1281 900504f5
-> 1301 90050509
-> 1317 90050519
-> 1320 9005051c
->
-> This maps rather well to:
-> MSS = txdw0 - 2416246772
-> MSS = txdw0 - 9004FFF4
->
-> Sadly, my C is 'non-existent' and it is kind-of 4AM, so also not in the brainspace to fill those gaps. But if one of you could look at the patch again, that would be nice. Otherwise, I should have some brainspace for this tomorrow night (UTC) again.
->
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-Ok, I think I found at least one issue:
-
-/* large send MSS mask, bits 16...25 */
-#define CP_TC_LGSEN_MSS_MASK ((1 << 12) - 1)
-
-First, MSS occupies 11 bits from 16 to 26
-Second, the mask is wrong it should be ((1 << 11) - 1)
-
-Thanks
-
-> With best regards,
-> Tobias
+> Currently, when a block backend is attached to a m25p80 device and the
+> associated file size does not match the flash model, QEMU complains
+> with the error message "failed to read the initial flash content".
+> This is confusing for the user.
 >
+> Use blk_check_size_and_read_all() instead of blk_pread() to improve
+> the reported error.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  hw/block/m25p80.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 02adc87527..68a757abf3 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "sysemu/block-backend.h"
+> +#include "hw/block/block.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "hw/ssi/ssi.h"
+> @@ -1614,8 +1615,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error=
+ **errp)
+>          trace_m25p80_binding(s);
+>          s->storage =3D blk_blockalign(s->blk, s->size);
+>=20=20
+> -        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
+> -            error_setg(errp, "failed to read the initial flash content");
+> +        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, er=
+rp)) {
+>              return;
+>          }
+>      } else {
+
+Ignorant question: what does blk_pread() on short read?  Does it fail?
+Or does it succeed, returning how much it read?  I tried to find an
+answer in function comments, no luck.
+
+Are there more instances of "we fill some fixed-size memory (such as a
+ROM or flash) from a block backend?"
 
 
