@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4000662B1CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 04:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831BC62B1CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 04:26:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ov8xT-0002if-Ox; Tue, 15 Nov 2022 22:19:27 -0500
+	id 1ov92f-0005QD-9t; Tue, 15 Nov 2022 22:24:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ov8xR-0002iM-1h
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 22:19:25 -0500
-Received: from mga12.intel.com ([192.55.52.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ov8xN-00014N-53
- for qemu-devel@nongnu.org; Tue, 15 Nov 2022 22:19:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668568761; x=1700104761;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=I/nWquwbUx6Foszq8Q3bav+jUHNq3BtFcT49kSsIgfs=;
- b=IvV15vANS2gUj1YTu25ZIt6mYSHL8Xl5vjplDb1KgoX/H7KM9CzbYon1
- FFnrn0kssCP1syfVMdf3HK5cPPczViUDyGlBiulAoBscKRY4jbwxMa4HS
- aP5soNfl+zK4gtDjqvGUPSsMXZALM7tLMTWW5yXBQcHlTVKwDXpocJaN5
- ks/uQH08e4kD1b6AWLgjJRUdImMuYZ4OhA891KDPdqB05UZ41C7u2xo/Z
- C3EKSsM8Nx9yjlwmnnaIIHR6oICvOmU/3oCN9S53Ej/BVE8IhIFFAVWim
- F2FwlmRp5FAuDv21saebVqmNB3v7hxP4yzrKDuWkB5CwXsQ2JXZh0/WJb A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="292142619"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="292142619"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2022 19:19:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="633472721"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="633472721"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 15 Nov 2022 19:19:05 -0800
-Date: Wed, 16 Nov 2022 11:14:41 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <20221116031441.GA364614@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ov92b-0005Pf-Tn
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 22:24:46 -0500
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ov92V-0002FM-9M
+ for qemu-devel@nongnu.org; Tue, 15 Nov 2022 22:24:41 -0500
+Received: by mail-io1-xd33.google.com with SMTP id h206so12290076iof.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Nov 2022 19:24:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fpN9hQ5HBb/wxraiFgGq2YXyqZYRUWVwDLejvnWyAJI=;
+ b=r07xFSZmUIXY8ZXAh92ooH27omx0O8ZagENhfHHaH6/3NLAaYzmnzE+x3wkLY4DOA4
+ cp7KGHU3LLvD20tTjtWYRNITS0s6nBVW6gv0ujE+glbuN/cuULcrXT4Zh3NheiI+NEQ1
+ zzcXMGFXb+GqLydg7rAoQzP353nG1LP9YKsAKbz4bT6wsw3/vamHnjupm8FVOiZ1gL1G
+ DXWOQ4hFO9dm4yFQQ9Omxp8/tOZVTY2szthRKTmo44M4a4KOt/DEBX6+JX3ceZeFadak
+ I2odFqdK+g6VB5aQwYxB6lA8+iy0aS1x6olFKypOZ4HDTPJhkaVdhQCHocV644scrlN0
+ 18OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fpN9hQ5HBb/wxraiFgGq2YXyqZYRUWVwDLejvnWyAJI=;
+ b=tIkS/P+LenHaqoR+gGBkEVYO0+CLziVpkWM28PrpU9PeTiLPEWuO3JDF7HWuwxbIOE
+ GGsvhAOKIzJdFmHGAs4J4bnsJD5Zlu2DYS/geb+RzXl6MwjdPcqew+KLiPTfg3ISboSq
+ Z5MvUvrGhNdykBM12d/EoxFiJ9N5d9L70bj8bYCSS8J5/dP1BrPX8K9venaOf7rplPT3
+ 5Bmfc9fTNtGd6XijReIIarAYvEeGXnDfP2tYQ+1IOX+fu5Ype6/mFxHfKJSjP3QT649Y
+ 0ESmO79YJaBkICsh2Wd5YypIl7ydG/ZwLRYJm0dB50+pWFQdx7t2+jXUtA/YTGjMTnQn
+ BzDg==
+X-Gm-Message-State: ANoB5plazoZwveP/fjvGb/za1gdKan7LQBoSYbW3B+IGRqCAQdqzQ1ce
+ Qjmdf7tWWBcKZ3TIsFdTTPzuzT/Pqt5IrNWwpVe7NA==
+X-Google-Smtp-Source: AA0mqf6zOoGshIGT68gMHDJ3WXrb6ASuboghjOCTR/SU1yskmZ4VPD8I7tAspZBQHWpTtfzKQS40j3aEP9yvzyTSyhU=
+X-Received: by 2002:a6b:ef0e:0:b0:6c0:3ade:1c3e with SMTP id
+ k14-20020a6bef0e000000b006c03ade1c3emr8939393ioh.63.1668569077458; Tue, 15
+ Nov 2022 19:24:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cz9o9mr8.fsf@linaro.org>
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221115212759.3095751-1-jsnow@redhat.com>
+In-Reply-To: <20221115212759.3095751-1-jsnow@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 16 Nov 2022 08:54:26 +0530
+Message-ID: <CAARzgwxaVyQf424PeUOO=efyPHdiMK9nF7g+pHuKufqU1cg1-g@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: configure acpi-bits to use avocado timeout
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,133 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Bennée wrote:
-> 
-> Chao Peng <chao.p.peng@linux.intel.com> writes:
-> 
-> > This new KVM exit allows userspace to handle memory-related errors. It
-> > indicates an error happens in KVM at guest memory range [gpa, gpa+size).
-> > The flags includes additional information for userspace to handle the
-> > error. Currently bit 0 is defined as 'private memory' where '1'
-> > indicates error happens due to private memory access and '0' indicates
-> > error happens due to shared memory access.
-> >
-> > When private memory is enabled, this new exit will be used for KVM to
-> > exit to userspace for shared <-> private memory conversion in memory
-> > encryption usage. In such usage, typically there are two kind of memory
-> > conversions:
-> >   - explicit conversion: happens when guest explicitly calls into KVM
-> >     to map a range (as private or shared), KVM then exits to userspace
-> >     to perform the map/unmap operations.
-> >   - implicit conversion: happens in KVM page fault handler where KVM
-> >     exits to userspace for an implicit conversion when the page is in a
-> >     different state than requested (private or shared).
-> >
-> > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
-> >  include/uapi/linux/kvm.h       |  9 +++++++++
-> >  2 files changed, 32 insertions(+)
-> >
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > index f3fa75649a78..975688912b8c 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -6537,6 +6537,29 @@ array field represents return values. The userspace should update the return
-> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
-> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> >  
-> > +::
-> > +
-> > +		/* KVM_EXIT_MEMORY_FAULT */
-> > +		struct {
-> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-> > +			__u32 flags;
-> > +			__u32 padding;
-> > +			__u64 gpa;
-> > +			__u64 size;
-> > +		} memory;
-> > +
-> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
-> > +encountered a memory error which is not handled by KVM kernel module and
-> > +userspace may choose to handle it. The 'flags' field indicates the memory
-> > +properties of the exit.
-> > +
-> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-> > +   private memory access when the bit is set. Otherwise the memory error is
-> > +   caused by shared memory access when the bit is clear.
-> 
-> What does a shared memory access failure entail?
+On Wed, Nov 16, 2022 at 2:58 AM John Snow <jsnow@redhat.com> wrote:
+>
+> Instead of using a hardcoded timeout, just rely on Avocado's built-in
+> test case timeout. This helps avoid timeout issues on machines where 60
+> seconds is not sufficient.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-In the context of confidential computing usages, guest can issue a
-shared memory access while the memory is actually private from the host
-point of view. This exit with bit 0 cleared gives userspace a chance to
-convert the private memory to shared memory on host.
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-> 
-> If you envision any other failure modes it might be worth making it
-> explicit with additional flags.
+> ---
+>  tests/avocado/acpi-bits.py | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+> index 8745a58a766..ac13e22dc93 100644
+> --- a/tests/avocado/acpi-bits.py
+> +++ b/tests/avocado/acpi-bits.py
+> @@ -385,12 +385,6 @@ def test_acpi_smbios_bits(self):
+>          self._vm.launch()
+>          # biosbits has been configured to run all the specified test suites
+>          # in batch mode and then automatically initiate a vm shutdown.
+> -        # sleep for maximum of one minute
+> -        max_sleep_time = time.monotonic() + 60
+> -        while self._vm.is_running() and time.monotonic() < max_sleep_time:
+> -            time.sleep(1)
+> -
+> -        self.assertFalse(time.monotonic() > max_sleep_time,
+> -                         'The VM seems to have failed to shutdown in time')
+> -
+> +        # Rely on avocado's unit test timeout.
+> +        self._vm.wait(timeout=None)
 
-Sean mentioned some more usages[1][]2] other than the memory conversion
-for confidential usage. But I would leave those flags being added in the
-future after those usages being well discussed.
+I think this is fine. This just waits until the VM is shutdown on its
+own and relies on the avocado framework to timeout if it doesn't. We
+do not need to look into the console. The test issues a shutdown from
+the VM itself once its done with the batch operations.
 
-[1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
-[2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
-
-> I also wonder if a bitmask makes sense if
-> there can only be one reason for a failure? Maybe all that is needed is
-> a reason enum?
-
-Tough we only have one reason right now but we still want to leave room
-for future extension. Enum can express a single value at once well but
-bitmask makes it possible to express multiple orthogonal flags.
-
-Chao
-> 
-> > +
-> > +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
-> > +may handle the error and return to KVM to retry the previous memory access.
-> > +
-> >  ::
-> >  
-> >      /* KVM_EXIT_NOTIFY */
-> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > index f1ae45c10c94..fa60b032a405 100644
-> > --- a/include/uapi/linux/kvm.h
-> > +++ b/include/uapi/linux/kvm.h
-> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
-> >  #define KVM_EXIT_RISCV_SBI        35
-> >  #define KVM_EXIT_RISCV_CSR        36
-> >  #define KVM_EXIT_NOTIFY           37
-> > +#define KVM_EXIT_MEMORY_FAULT     38
-> >  
-> >  /* For KVM_EXIT_INTERNAL_ERROR */
-> >  /* Emulate instruction failed. */
-> > @@ -538,6 +539,14 @@ struct kvm_run {
-> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
-> >  			__u32 flags;
-> >  		} notify;
-> > +		/* KVM_EXIT_MEMORY_FAULT */
-> > +		struct {
-> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-> > +			__u32 flags;
-> > +			__u32 padding;
-> > +			__u64 gpa;
-> > +			__u64 size;
-> > +		} memory;
-> >  		/* Fix the size of the union. */
-> >  		char padding[256];
-> >  	};
-> 
-> 
-> -- 
-> Alex Bennée
+>          self.parse_log()
+> --
+> 2.37.3
+>
 
