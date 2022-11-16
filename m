@@ -2,104 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92F262C8C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 20:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71FDB62C8D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 20:17:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovNkZ-0006xY-Lj; Wed, 16 Nov 2022 14:07:07 -0500
+	id 1ovNsz-0000hh-NY; Wed, 16 Nov 2022 14:15:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovNkX-0006wo-Q3
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:07:05 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1ovNsr-0000fu-Mr
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:15:43 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovNkU-0004pj-HI
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:07:05 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso2378639wme.5
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 11:07:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1ovNsm-0006a9-QF
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 14:15:41 -0500
+Received: by mail-ed1-x535.google.com with SMTP id u24so28010824edd.13
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 11:15:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
- b=Jx3yqn06j6rS5Fs5NvtNZW3afRbtKDAjyYZ/cbyT5J0fw+x5DSiBa34zecJ2zXBEP6
- dXVq49aZkpeYNlw8FZCjejz+X8sYE98oXGoc760qT01ItS+LpGXs0KR6luYi6XidGGnJ
- izQy2tFtJsUmRdujni2tPVUtXn9CPZshGLwHnmOZlDGECGPB/n+QnPoJLt8dAH9evwNe
- fhOCmkSkLWIbZ04JJ1cM5aaZNcxxY3L6QunV484wNTFteoVmyskDXedR8UqBBpqCdgYP
- ARhbe6kOrZMHvVRuGOwhLHdlqHzOAwDs9awbU2PksEIQB6p43e6EtlScRKP2mnLQYKXa
- PFRg==
+ bh=L9qI+icUfecGM5aEXi1wLqFbcmy/8kfIaJ2CdGEr+qY=;
+ b=pp08S/M4nd8Tjj7HnvOL2k/2yxOseTicNANPQqj1LsB2RCtM7K68HZcK4ruJ7zBLaa
+ 2V4rHUU4qtKg76l7LaozxgXlyZHzu5LCIMvzEFQIYf4u/nT7v+GKTYjATzrAf/mgV21B
+ p6ySG1lTvBwzIx/vFU+FuKpYKSK6R+zqW77J227TMq0Jj8sLb/2+zoh29YhE+NExG2NN
+ BUJR3I5ZaYWEOGdh6j8tpUMUx/iVagV9hcdqJZYvCqRculJiFlagl1vU8pF4dSFfeLnX
+ tNvlVGOt1oMuWbe0kqQmgJupRO3VNz8UTg79zAVm9nwTn2JxykxnRCeYxWWQSAhvex57
+ K61g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
- b=UT0Y5d85LDKjixxAgvPXzjeSfZYHN32eFayseg2wsaTTJ9fi/DtIiMBuzhDVFJNLpP
- dJpjBWMaKTrxAjHsp9ca3hy3Vmwj+0tenaWJkXsq1l5HFFxLtPzRNChEKWH1A6tHKy0+
- PWz8L72h39Rh8FpuHm5hgV1FqeX6r8tikRWrGPmalQVTRsBLab4OeJkpJrr6lRI7wA5w
- W1HhbGoy7wr27qvvtNGO7Ii1sLHnj05yxPTh91+MznGi5ZawnyF1PJnfRBF9/Ixh+wN0
- gq+/xeZxlAuOoQBGHLzQFs2MvkviY+1egBE5NWOC/soHbMyAqLK+aLG5AYPOsU5BMzkH
- b4oQ==
-X-Gm-Message-State: ANoB5plo/ySvYlO7h9AgcR/D8FRiDP551RCRMO8kFU11OL9EDdXbiwqN
- qRnfr026sEqDq0HEHDLc2AGXuA==
-X-Google-Smtp-Source: AA0mqf5UxIGeoP/5D5Yx/z21S7fh+uGiPqn06sMVoycK8I50cpSvwpmmKvt4/Ece9ChnPUGalp4tAQ==
-X-Received: by 2002:a05:600c:3d0c:b0:3cf:f66c:9246 with SMTP id
- bh12-20020a05600c3d0c00b003cff66c9246mr2115368wmb.27.1668625620910; 
- Wed, 16 Nov 2022 11:07:00 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- p13-20020adfe60d000000b00236e9755c02sm15976702wrm.111.2022.11.16.11.07.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 11:07:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BDA921FFB7;
- Wed, 16 Nov 2022 19:06:59 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Vitaly
- Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim
- Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas
- Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J .
- Bruce Fields" <bfields@fieldses.org>, Andrew Morton
- <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Steven Price <steven.price@arm.com>, "Maciej S .
- Szmigiero" <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>,
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang
- <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
- <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- tabba@google.com, Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Date: Wed, 16 Nov 2022 19:03:49 +0000
-In-reply-to: <20221116031441.GA364614@chaop.bj.intel.com>
-Message-ID: <87mt8q90rw.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=L9qI+icUfecGM5aEXi1wLqFbcmy/8kfIaJ2CdGEr+qY=;
+ b=ZveO5JphyPG8M5fz/TeJdk8ZiDUSc7oEQrSYUyYQSeXcnKYutzaawcgukD0DWb6dwx
+ jGmuC8SBV3Tq+vYcBavUZkwcAIK8l4ERgcRWvlan/lYbx48p7fiLhD53tovddosrxj/1
+ H+HtQKOIk7cr9ybIjogvKJrFts8pF8Gfj1UPpjgQmLkMWUIeG0F62/HZAIPdcsiCgk3A
+ 7tXyGvpm6V9OPGA4QvYn4lzrmJrwfZmuaQrHwkUGIZUJx65g0FX8ka2D/N72irkHkBSR
+ XGw5ydY/WSMNhb3H9Lcd0HdThozgBcehCVwU8k/MykN5qjAf4MiNBLKXCOVTgS6S9/eW
+ eVxg==
+X-Gm-Message-State: ANoB5pmrdyrEmSLZFtReFxM5M1Su0d9XVnmJhlhcGeBiQic2Yfw92e7+
+ gxwosM4rvbqhUYfE2uZzRPGDW/ALMsUvg1VsaXc=
+X-Google-Smtp-Source: AA0mqf460KZmOzPdB65VsL8WstVQNNL/kkGB4YpwZ1HtXGdIP15UNObEbaawGu1MRfPB5+lI836EXhqkCxAOgiIZPO8=
+X-Received: by 2002:a05:6402:229b:b0:457:d794:f5ee with SMTP id
+ cw27-20020a056402229b00b00457d794f5eemr20852477edb.227.1668626134584; Wed, 16
+ Nov 2022 11:15:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
+ <20221114192011.1539233-2-marmarek@invisiblethingslab.com>
+In-Reply-To: <20221114192011.1539233-2-marmarek@invisiblethingslab.com>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Wed, 16 Nov 2022 14:15:22 -0500
+Message-ID: <CAKf6xpvpsJuMZx98vLJ7CAmUWG-vW91Am0L8817eD8nmAN4NUw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Do not access /dev/mem in MSI-X PCI passthrough on Xen
+To: =?UTF-8?Q?Marek_Marczykowski=2DG=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>, 
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=jandryuk@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -117,164 +88,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Chao Peng <chao.p.peng@linux.intel.com> writes:
-
-> On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> Chao Peng <chao.p.peng@linux.intel.com> writes:
->>=20
->> > This new KVM exit allows userspace to handle memory-related errors. It
->> > indicates an error happens in KVM at guest memory range [gpa, gpa+size=
-).
->> > The flags includes additional information for userspace to handle the
->> > error. Currently bit 0 is defined as 'private memory' where '1'
->> > indicates error happens due to private memory access and '0' indicates
->> > error happens due to shared memory access.
->> >
->> > When private memory is enabled, this new exit will be used for KVM to
->> > exit to userspace for shared <-> private memory conversion in memory
->> > encryption usage. In such usage, typically there are two kind of memory
->> > conversions:
->> >   - explicit conversion: happens when guest explicitly calls into KVM
->> >     to map a range (as private or shared), KVM then exits to userspace
->> >     to perform the map/unmap operations.
->> >   - implicit conversion: happens in KVM page fault handler where KVM
->> >     exits to userspace for an implicit conversion when the page is in a
->> >     different state than requested (private or shared).
->> >
->> > Suggested-by: Sean Christopherson <seanjc@google.com>
->> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
->> > ---
->> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
->> >  include/uapi/linux/kvm.h       |  9 +++++++++
->> >  2 files changed, 32 insertions(+)
->> >
->> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/a=
-pi.rst
->> > index f3fa75649a78..975688912b8c 100644
->> > --- a/Documentation/virt/kvm/api.rst
->> > +++ b/Documentation/virt/kvm/api.rst
->> > @@ -6537,6 +6537,29 @@ array field represents return values. The users=
-pace should update the return
->> >  values of SBI call before resuming the VCPU. For more details on RISC=
--V SBI
->> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
->> >=20=20
->> > +::
->> > +
->> > +		/* KVM_EXIT_MEMORY_FAULT */
->> > +		struct {
->> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> > +			__u32 flags;
->> > +			__u32 padding;
->> > +			__u64 gpa;
->> > +			__u64 size;
->> > +		} memory;
->> > +
->> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VC=
-PU has
->> > +encountered a memory error which is not handled by KVM kernel module =
-and
->> > +userspace may choose to handle it. The 'flags' field indicates the me=
-mory
->> > +properties of the exit.
->> > +
->> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is cause=
-d by
->> > +   private memory access when the bit is set. Otherwise the memory er=
-ror is
->> > +   caused by shared memory access when the bit is clear.
->>=20
->> What does a shared memory access failure entail?
+On Mon, Nov 14, 2022 at 2:21 PM Marek Marczykowski-G=C3=B3recki
+<marmarek@invisiblethingslab.com> wrote:
 >
-> In the context of confidential computing usages, guest can issue a
-> shared memory access while the memory is actually private from the host
-> point of view. This exit with bit 0 cleared gives userspace a chance to
-> convert the private memory to shared memory on host.
-
-I think this should be explicit rather than implied by the absence of
-another flag. Sean suggested you might want flags for RWX failures so
-maybe something like:
-
-	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
-	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
-	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
-        KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
-
-which would allow you to signal the various failure modes of the shared
-region, or that you had accessed private memory.
-
+> The /dev/mem is used for two purposes:
+>  - reading PCI_MSIX_ENTRY_CTRL_MASKBIT
+>  - reading Pending Bit Array (PBA)
 >
->>=20
->> If you envision any other failure modes it might be worth making it
->> explicit with additional flags.
+> The first one was originally done because when Xen did not send all
+> vector ctrl writes to the device model, so QEMU might have outdated old
+> register value. This has been changed in Xen, so QEMU can now use its
+> cached value of the register instead.
 >
-> Sean mentioned some more usages[1][]2] other than the memory conversion
-> for confidential usage. But I would leave those flags being added in the
-> future after those usages being well discussed.
+> The Pending Bit Array (PBA) handling is for the case where it lives on
+> the same page as the MSI-X table itself. Xen has been extended to handle
+> this case too (as well as other registers that may live on those pages),
+> so QEMU handling is not necessary anymore.
 >
-> [1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
-> [2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
+> Removing /dev/mem access is useful to work within stubdomain, and
+> necessary when dom0 kernel runs in lockdown mode.
 >
->> I also wonder if a bitmask makes sense if
->> there can only be one reason for a failure? Maybe all that is needed is
->> a reason enum?
->
-> Tough we only have one reason right now but we still want to leave room
-> for future extension. Enum can express a single value at once well but
-> bitmask makes it possible to express multiple orthogonal flags.
+> Signed-off-by: Marek Marczykowski-G=C3=B3recki <marmarek@invisiblethingsl=
+ab.com>
 
-I agree if multiple orthogonal failures can occur at once a bitmask is
-the right choice.
+I put the Xen, QEMU, and xen-pciback patches into OpenXT and gave a
+little test.  When pci_permissive=3D0, iwlwifi fails to load its
+firmware.  With pci_permissive=3D1, it looks like MSI-X is enabled. (I
+previously included your libxl allow_interrupt_control patch - that
+seemed to get regular MSIs working prior to the MSI-X patches.)  I
+also removed the OpenXT equivalent of 0005-Disable-MSI-X-caps.patch.
+I am testing with Linux 5.4.y, so that could be another factor.
 
->
-> Chao
->>=20
->> > +
->> > +'gpa' and 'size' indicate the memory range the error occurs at. The u=
-serspace
->> > +may handle the error and return to KVM to retry the previous memory a=
-ccess.
->> > +
->> >  ::
->> >=20=20
->> >      /* KVM_EXIT_NOTIFY */
->> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> > index f1ae45c10c94..fa60b032a405 100644
->> > --- a/include/uapi/linux/kvm.h
->> > +++ b/include/uapi/linux/kvm.h
->> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
->> >  #define KVM_EXIT_RISCV_SBI        35
->> >  #define KVM_EXIT_RISCV_CSR        36
->> >  #define KVM_EXIT_NOTIFY           37
->> > +#define KVM_EXIT_MEMORY_FAULT     38
->> >=20=20
->> >  /* For KVM_EXIT_INTERNAL_ERROR */
->> >  /* Emulate instruction failed. */
->> > @@ -538,6 +539,14 @@ struct kvm_run {
->> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
->> >  			__u32 flags;
->> >  		} notify;
->> > +		/* KVM_EXIT_MEMORY_FAULT */
->> > +		struct {
->> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> > +			__u32 flags;
->> > +			__u32 padding;
->> > +			__u64 gpa;
->> > +			__u64 size;
->> > +		} memory;
->> >  		/* Fix the size of the union. */
->> >  		char padding[256];
->> >  	};
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
+One strange thing is the lspci output.  Dom0 shows MSI-X enabled.
+Meanwhile NDVM (sys-net) does not show the MSI-X capability.  If you
+`hexdump -C /sys/bus/pci/devices/$dev/config` you can see MSI-X
+enabled, but you also see that the MSI capability has 00 as the next
+pointer, so lspci stops parsing.
 
+MSI cap stubdom:
+00000040  10 00 92 00 c0 0e 00 00  10 0c 10 00 00 00 00 00  |..............=
+..|
+0x41 -> next 0x00
+MSI cap dom0:
+00000040  10 80 92 00 c0 0e 00 10  10 0c 10 00 00 00 00 00  |..............=
+..|
+0x41 -> next 0x80
 
---=20
-Alex Benn=C3=A9e
+MSI-X:
+00000080  11 00 0f 80 00 20 00 00  00 30 00 00 00 00 00 00
+
+AFAIU, the value 0x80 at offset 0x83 is MSI-X Enabled.
+
+I had a boot where assignment failed with the hypervisor printing:
+d12: assign (0000:00:14.3) failed (-16)
+Rebooting the laptop seemed to clear that.
+
+Regards,
+Jason
 
