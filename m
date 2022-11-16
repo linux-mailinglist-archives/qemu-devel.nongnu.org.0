@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBEC62BFB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 14:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5810B62BFE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Nov 2022 14:44:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovIeO-00042R-NH; Wed, 16 Nov 2022 08:40:24 -0500
+	id 1ovIiB-0006Cs-3K; Wed, 16 Nov 2022 08:44:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovIeL-0003wY-Rk
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:40:22 -0500
+ id 1ovIi9-0006CM-6X
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:44:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ovIeJ-0005tb-Ks
- for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:40:21 -0500
+ id 1ovIi7-0006e4-De
+ for qemu-devel@nongnu.org; Wed, 16 Nov 2022 08:44:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668606018;
+ s=mimecast20190719; t=1668606254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
  bh=hzuVg1JoQt1Jv9OxtU1sf1xQ6cxH/J5SAqaUbLqo/0o=;
- b=GdEUDd6+IQe75WiA+ZiNcvfgPrZ9MJf9FQtuBDWSt0Q7GKGeTl1JhuHqpXgNg5MR9AU0JP
- TmZsx2i0neGhy48uT067RrA2nvL0ZWg6V7EqvTqEFA3rUiCK7djKpCFcT+kzIV3hNprn2P
- n4iZOZU3HPcVN5kcwdYw3VplEGXWkQ0=
+ b=PZrrAofak36PtmdKaGEnnxpScnLswvr2H/0Ar2fVlin1TX53OYsmkvTCTBmlR1WAOyHOe+
+ 5bXRHL/MbzSyIFjbOzIbnNiWsekinhN4WHWAkP3I/EuNL1LhfLXOZxDCI2piR55GdeRi8z
+ Z7ik2+8PdyxUrI0hj937lvfds9dpArw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-OfFfL3n-O7qEM2WcxAJG_Q-1; Wed, 16 Nov 2022 08:40:15 -0500
-X-MC-Unique: OfFfL3n-O7qEM2WcxAJG_Q-1
+ us-mta-647-AIAbfhR0N2Kg7n48o2EMRw-1; Wed, 16 Nov 2022 08:44:10 -0500
+X-MC-Unique: AIAbfhR0N2Kg7n48o2EMRw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2420B85A5A6;
- Wed, 16 Nov 2022 13:40:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85E4C811E75;
+ Wed, 16 Nov 2022 13:44:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A798640C83AA;
- Wed, 16 Nov 2022 13:40:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34CD040C2086;
+ Wed, 16 Nov 2022 13:44:10 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -51,8 +51,8 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Subject: [PATCH 00/20] Protect the block layer with a rwlock: part 1
-Date: Wed, 16 Nov 2022 08:39:52 -0500
-Message-Id: <20221116134012.3050724-1-eesposit@redhat.com>
+Date: Wed, 16 Nov 2022 08:43:43 -0500
+Message-Id: <20221116134403.3051127-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
@@ -64,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
