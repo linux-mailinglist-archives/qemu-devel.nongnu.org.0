@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFBA62DDDF
+	by mail.lfdr.de (Postfix) with ESMTPS id 2649B62DDE0
 	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 15:22:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovfm1-0004hu-ID; Thu, 17 Nov 2022 09:21:49 -0500
+	id 1ovfly-0004hP-3c; Thu, 17 Nov 2022 09:21:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovflp-0004gz-5o
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:21:40 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovflm-00024u-Pg
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:21:36 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id d9so4063579wrm.13
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 06:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=R9/oLhaDdfTSr4h7QqG0xgdOKlLXwDZuLsIbO4wEv8g=;
- b=aq5i8oGBSABsMuJwu8983xDDPsbOXd5KhvZM8kJQKczJ+9w7SAfld3+3uOyVO1MXqw
- XenRbRDe8CJXnrYGaFAEUiYcYfR0uovQ4HoP1X4ZIKImMnfq1XxFQhv3u+o/kEzG+9fK
- TtlmKu8yG2U0tyGU7RQCDbVojLAZiRlWYlSKuuH7Ce7OgHe5cTU7Px8Imx309TSWz0oc
- VzpYEup3N9bcMJDuyOweMkgEFQWsadI+EBu112UKyUNmElyXda6KwMfFEN+DXH/CuV9i
- P0/roR6e7/HqV3IWjbLyXo4WAPHmnTDPWN4qXrJ9qDKvzlkw8qi6jG/tl67KKbSs8agU
- rVfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=R9/oLhaDdfTSr4h7QqG0xgdOKlLXwDZuLsIbO4wEv8g=;
- b=ecuIqEgqK2qZIiZJwxuc8669BiS+0x3mHQmSSvg3tLGnHYDa0Lxb3cTa3Jq16ajWmF
- IpAf7lJmE7HVxubl5j4H7/Qn1+8VJQCrLiVnXJG+aiqcPm9Uw3OTpkWru8Y8esg9bxP4
- VoXAwh054t/pQCEOOeu+QEIDGwiuL+Av4cIdESa+X2BCarP3B8C72zWBmHDYOT6a7CDx
- gtcTN9t6OmCXdrDtQJzm/szPdVAMwp6d9pwC1qlbiZieUEzXmaOSWvfYzGFmVbxlwwJi
- GE9Txw8JIpLTNpRNkzwq9FLwScjPmwtLYKMb3KZ+mXNGbIGUj8RUMEoqf+imsDPv0AZC
- TmYw==
-X-Gm-Message-State: ANoB5pmOeaIXi/nj1o0BH0ptfv2rTZlcO/0oCSfGW9ea4puiFClJeQ3g
- HLaNUa5R49PyEj5GJ4QAYJhlAg==
-X-Google-Smtp-Source: AA0mqf6tCCwFke7Wlwcm0QNHmM/SA5vWHoYERk7jlRKUfkXQWdJY9uhyC1Mz4xIbZ4MxCMd4hnL8jA==
-X-Received: by 2002:adf:dd81:0:b0:236:88a2:f072 with SMTP id
- x1-20020adfdd81000000b0023688a2f072mr1618757wrl.516.1668694891669; 
- Thu, 17 Nov 2022 06:21:31 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- j18-20020a05600c191200b003c83465ccbfsm6568141wmq.35.2022.11.17.06.21.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 06:21:31 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CC9531FFB7;
- Thu, 17 Nov 2022 14:21:30 +0000 (GMT)
-References: <20221111145529.4020801-1-alex.bennee@linaro.org>
- <20221111145529.4020801-3-alex.bennee@linaro.org>
- <33e63f5c-8a32-8093-6ce8-2641d0d8e325@kaod.org>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH v2 02/12] tests/avocado: improve behaviour waiting for
- login prompts
-Date: Thu, 17 Nov 2022 14:04:29 +0000
-In-reply-to: <33e63f5c-8a32-8093-6ce8-2641d0d8e325@kaod.org>
-Message-ID: <87edu18xw5.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ovflm-0004gs-Vl
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:21:37 -0500
+Received: from mga05.intel.com ([192.55.52.43])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ovflk-00024U-1w
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:21:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668694892; x=1700230892;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=QAS2h8V2dfght1SJU/Na0JcJSN/AEZSVl08JRBsGjdI=;
+ b=mmNwdM0exxVN1RNscmLhQVNrvP1H0RspgB+xJ1I1y+LpoJ36CPo2bHjB
+ 7ye+FUrfoHQTAFbgSXPlsSfY9jrtGLJ9NTUpQNmO/EBUvJ+0DFgximNe7
+ NWzmgsUvPmHkwitIAZg1iqI0thzSUDfCsD+C/vY/rMO1C7YIeb0ZaS0Ic
+ PgY3WlBUJypQLmzdUis9XEn0sCrsFXeQ0sUedPLR06By0UnBxn4/2WWOu
+ eXCxttmNbCLL9biXmJNxg16RA/xe2QDgshH3vgXOHyvJAtTti1gr5NzSV
+ lheCcyta+uas4LoRi8XAlBBNfwp509MHdtBG1hnY7hPQO6MhruF4HX2sz Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="399149914"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="399149914"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2022 06:21:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="634066426"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="634066426"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 17 Nov 2022 06:21:17 -0800
+Date: Thu, 17 Nov 2022 22:16:53 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ AKASHI Takahiro <takahiro.akashi@linaro.org>
+Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20221117141653.GE422408@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <87k03xbvkt.fsf@linaro.org>
+ <20221116050022.GC364614@chaop.bj.intel.com>
+ <87v8nf8bte.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87v8nf8bte.fsf@linaro.org>
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga05.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,214 +102,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Nov 16, 2022 at 09:40:23AM +0000, Alex Bennée wrote:
+> 
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> 
+> > On Mon, Nov 14, 2022 at 11:43:37AM +0000, Alex Bennée wrote:
+> >> 
+> >> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> >> 
+> >> <snip>
+> >> > Introduction
+> >> > ============
+> >> > KVM userspace being able to crash the host is horrible. Under current
+> >> > KVM architecture, all guest memory is inherently accessible from KVM
+> >> > userspace and is exposed to the mentioned crash issue. The goal of this
+> >> > series is to provide a solution to align mm and KVM, on a userspace
+> >> > inaccessible approach of exposing guest memory. 
+> >> >
+> >> > Normally, KVM populates secondary page table (e.g. EPT) by using a host
+> >> > virtual address (hva) from core mm page table (e.g. x86 userspace page
+> >> > table). This requires guest memory being mmaped into KVM userspace, but
+> >> > this is also the source where the mentioned crash issue can happen. In
+> >> > theory, apart from those 'shared' memory for device emulation etc, guest
+> >> > memory doesn't have to be mmaped into KVM userspace.
+> >> >
+> >> > This series introduces fd-based guest memory which will not be mmaped
+> >> > into KVM userspace. KVM populates secondary page table by using a
+> >> > fd/offset pair backed by a memory file system. The fd can be created
+> >> > from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
+> >> > directly interact with them with newly introduced in-kernel interface,
+> >> > therefore remove the KVM userspace from the path of accessing/mmaping
+> >> > the guest memory. 
+> >> >
+> >> > Kirill had a patch [2] to address the same issue in a different way. It
+> >> > tracks guest encrypted memory at the 'struct page' level and relies on
+> >> > HWPOISON to reject the userspace access. The patch has been discussed in
+> >> > several online and offline threads and resulted in a design document [3]
+> >> > which is also the original proposal for this series. Later this patch
+> >> > series evolved as more comments received in community but the major
+> >> > concepts in [3] still hold true so recommend reading.
+> >> >
+> >> > The patch series may also be useful for other usages, for example, pure
+> >> > software approach may use it to harden itself against unintentional
+> >> > access to guest memory. This series is designed with these usages in
+> >> > mind but doesn't have code directly support them and extension might be
+> >> > needed.
+> >> 
+> >> There are a couple of additional use cases where having a consistent
+> >> memory interface with the kernel would be useful.
+> >
+> > Thanks very much for the info. But I'm not so confident that the current
+> > memfd_restricted() implementation can be useful for all these usages. 
+> >
+> >> 
+> >>   - Xen DomU guests providing other domains with VirtIO backends
+> >> 
+> >>   Xen by default doesn't give other domains special access to a domains
+> >>   memory. The guest can grant access to regions of its memory to other
+> >>   domains for this purpose. 
+> >
+> > I'm trying to form my understanding on how this could work and what's
+> > the benefit for a DomU guest to provide memory through memfd_restricted().
+> > AFAICS, memfd_restricted() can help to hide the memory from DomU userspace,
+> > but I assume VirtIO backends are still in DomU uerspace and need access
+> > that memory, right?
+> 
+> They need access to parts of the memory. At the moment you run your
+> VirtIO domains in the Dom0 and give them access to the whole of a DomU's
+> address space - however the Xen model is by default the guests memory is
+> inaccessible to other domains on the system. The DomU guest uses the Xen
+> grant model to expose portions of its address space to other domains -
+> namely for the VirtIO queues themselves and any pages containing buffers
+> involved in the VirtIO transaction. My thought was that looks like a
+> guest memory interface which is mostly inaccessible (private) with some
+> holes in it where memory is being explicitly shared with other domains.
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+Yes, similar in conception. For KVM, memfd_restricted() is used by host
+OS, guest will issue conversion between private and shared for its
+memory range. This is similar to Xen DomU guest grants its memory to
+other domains. Similarly, I guess to make memfd_restricted() being really
+useful for Xen, it should be run on the VirtIO backend domain (e.g.
+equivalent to the host position for KVM).
 
-> Hello Alex,
->
-> On 11/11/22 15:55, Alex Benn=C3=A9e wrote:
->> This attempts to deal with the problem of login prompts not being
->> guaranteed to be terminated with a newline. The solution to this is to
->> peek at the incoming data looking to see if we see an up-coming match
->> before we fall back to the old readline() logic. The reason to mostly
->> rely on readline is because I am occasionally seeing the peek stalling
->> despite data being there.
->> This seems kinda hacky and gross so I'm open to alternative
->> approaches
->> and cleaner python code.
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->
-> I have pulled this patch in the aspeed tree hoping it would improve tests:
->
->   AST2x00MachineSDK.test_arm_ast2500_evb_sdk
->   AST2x00MachineSDK.test_arm_ast2600_evb_sdk
->
-> but the failure rate has increased :/ I have seen failures in these also :
->
->   AST2x00Machine.test_arm_ast2500_evb_buildroot
->   AST2x00Machine.test_arm_ast2600_evb_buildroot
->
-> which used to be quite stable.
->
-> Sorry, this is not of much help. the issue might be elsewhere.
+> 
+> What I want to achieve is a common userspace API with defined semantics
+> for what happens when private and shared regions are accessed. Because
+> having each hypervisor/confidential computing architecture define its
+> own special API for accessing this memory is just a recipe for
+> fragmentation and makes sharing common VirtIO backends impossible.
 
-Do you see what is happening in the logs? I've made a couple of tweaks
-since and it gets through the negotiation but then timesout:
+Yes, I agree. That's interesting to explore.
 
-  console: looking for 22:(ast2600-default login:), sending None (always=3D=
-False)
-  /console: [    0.939039] aspeed-pcie 1e7700c0.pcie: [1] : tx idle timeout=
- [0]
-  -console: [    1.385144] spi-nor spi0.1: unrecognized JEDEC id bytes: 00 =
-00 00 00 00 00
-  console: [    1.413028] spi-nor spi2.0: unrecognized JEDEC id bytes: 00 0=
-0 00 00 00 00=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-  console: [    1.617539] aspeed-rtc 1e781000.rtc: hctosys: unable to read =
-the hardware clock
-  -console: rofs =3D mtd4 squashfs rwfs =3D mtd5 jffs2
-  /console: [   14.563495] systemd[1]: Failed to find module 'autofs4'=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-  -console: [   18.034371] systemd[176]: /lib/systemd/system-generators/sys=
-temd-gpt-auto-generator failed with exit status 1.
-  |console: [FAILED] Failed to start Intel Power Control for the Host 0.
-  /console: [FAILED] Failed to start Phosphor C=E2=80=A6istening on device =
-/dev/ttyS2.
-  console: [DEPEND] Dependency failed for Host logger for ttyS2.
-  -console: Phosphor OpenBMC (Phosphor OpenBMC Project Reference Distro) no=
-distro.0 ast2600-default ttyS4
-  console: ast2600-default login:
-   (always=3DFalse)g for 9:(Password:), sending root
-  console: root
-  |console: Password:
-   (always=3DFalse)g for 23:(root@ast2600-default:~#), sending 0penBmc
-  console: Login timed out after 60 seconds.
-  |console: Phosphor OpenBMC (Phosphor OpenBMC Project Reference Distro) no=
-distro.0 ast2600-default ttyS4
-  /avocado.test:
+> 
+> >
+> >> 
+> >>   - pKVM on ARM
+> >> 
+> >>   Similar to Xen, pKVM moves the management of the page tables into the
+> >>   hypervisor and again doesn't allow those domains to share memory by
+> >>   default.
+> >
+> > Right, we already had some discussions on this in the past versions.
+> >
+> >> 
+> >>   - VirtIO loopback
+> >> 
+> >>   This allows for VirtIO devices for the host kernel to be serviced by
+> >>   backends running in userspace. Obviously the memory userspace is
+> >>   allowed to access is strictly limited to the buffers and queues
+> >>   because giving userspace unrestricted access to the host kernel would
+> >>   have consequences.
+> >
+> > Okay, but normal memfd_create() should work for it, right? And
+> > memfd_restricted() instead may not work as it unmaps the memory from
+> > userspace.
+> >
+> >> 
+> >> All of these VirtIO backends work with vhost-user which uses memfds to
+> >> pass references to guest memory from the VMM to the backend
+> >> implementation.
+> >
+> > Sounds to me these are the places where normal memfd_create() can act on.
+> > VirtIO backends work on the mmap-ed memory which currently is not the
+> > case for memfd_restricted(). memfd_restricted() has different design
+> > purpose that unmaps the memory from userspace and employs some kernel
+> > callbacks so other kernel modules can make use of the memory with these
+> > callbacks instead of userspace virtual address.
+> 
+> Maybe my understanding is backwards then. Are you saying a guest starts
+> with all its memory exposed and then selectively unmaps the private
+> regions? Is this driven by the VMM or the guest itself?
 
->
-> Thanks for the time you spend on this.
->
-> C.
->
->
->> ---
->> v2
->>    - remove superfluous /r/n
->> ---
->>   tests/avocado/avocado_qemu/__init__.py | 89 +++++++++++++++++++++++++-
->>   1 file changed, 88 insertions(+), 1 deletion(-)
->> diff --git a/tests/avocado/avocado_qemu/__init__.py
->> b/tests/avocado/avocado_qemu/__init__.py
->> index 910f3ba1ea..20cba57161 100644
->> --- a/tests/avocado/avocado_qemu/__init__.py
->> +++ b/tests/avocado/avocado_qemu/__init__.py
->> @@ -131,6 +131,58 @@ def pick_default_qemu_bin(bin_prefix=3D'qemu-system=
--', arch=3DNone):
->>               return path
->>       return None
->>   +def _peek_ahead(console, min_match, success_message):
->> +    """
->> +    peek ahead in the console stream keeping an eye out for the
->> +    success message.
->> +
->> +    Returns some message to process or None, indicating the normal
->> +    readline should occur.
->> +    """
->> +    console_logger =3D logging.getLogger('console')
->> +    peek_len =3D 0
->> +    retries =3D 0
->> +
->> +    while True:
->> +        try:
->> +            old_peek_len =3D peek_len
->> +            peek_ahead =3D console.peek(min_match).decode()
->> +            peek_len =3D len(peek_ahead)
->> +
->> +            # if we get stuck too long lets just fallback to readline
->> +            if peek_len <=3D old_peek_len:
->> +                retries +=3D 1
->> +                if retries > 10:
->> +                    return None
->> +
->> +            # if we see a newline in the peek we can let safely bail
->> +            # and let the normal readline() deal with it
->> +            if peek_ahead.endswith(('\n', '\r')):
->> +                return None
->> +
->> +            # if we haven't seen enough for the whole message but the
->> +            # first part matches lets just loop again
->> +            if len(peek_ahead) < min_match and \
->> +               success_message[:peek_len] in peek_ahead:
->> +                continue
->> +
->> +            # if we see the whole success_message we are done, consume
->> +            # it and pass back so we can exit to the user
->> +            if success_message in peek_ahead:
->> +                return console.read(peek_len).decode()
->> +
->> +            # of course if we've seen enough then this line probably
->> +            # doesn't contain what we are looking for, fallback
->> +            if peek_len > min_match:
->> +                return None
->> +
->> +        except UnicodeDecodeError:
->> +            console_logger.log("error in decode of peek")
->> +            return None
->> +
->> +    # we should never get here
->> +    return None
->> +
->>     def _console_interaction(test, success_message, failure_message,
->>                            send_string, keep_sending=3DFalse, vm=3DNone):
->> @@ -139,17 +191,52 @@ def _console_interaction(test, success_message, fa=
-ilure_message,
->>           vm =3D test.vm
->>       console =3D vm.console_socket.makefile(mode=3D'rb', encoding=3D'ut=
-f-8')
->>       console_logger =3D logging.getLogger('console')
->> +
->> +    # Establish the minimum number of bytes we would need to
->> +    # potentially match against success_message
->> +    if success_message is not None:
->> +        min_match =3D len(success_message)
->> +    else:
->> +        min_match =3D 0
->> +
->> +    console_logger.debug("looking for %d:(%s), sending %s (always=3D%s)=
-",
->> +                         min_match, success_message, send_string, keep_=
-sending)
->> +
->>       while True:
->> +        msg =3D None
->> +
->> +        # First send our string, optionally repeating the send next
->> +        # cycle.
->>           if send_string:
->>               vm.console_socket.sendall(send_string.encode())
->>               if not keep_sending:
->>                   send_string =3D None # send only once
->> +
->> +        # If the console has no data to read we briefly
->> +        # sleep before continuing.
->> +        if not console.readable():
->> +            time.sleep(0.1)
->> +            continue
->> +
->>           try:
->> -            msg =3D console.readline().decode().strip()
->> +
->> +            # First we shall peek ahead for a potential match to cover =
-waiting
->> +            # for lines without any newlines.
->> +            if min_match > 0:
->> +                msg =3D _peek_ahead(console, min_match, success_message)
->> +
->> +            # otherwise we block here for a full line
->> +            if not msg:
->> +                msg =3D console.readline().decode().strip()
->> +
->>           except UnicodeDecodeError:
->> +            console_logger.debug("skipped unicode error")
->>               msg =3D None
->> +
->> +        # if nothing came out we continue and try again
->>           if not msg:
->>               continue
->> +
->>           console_logger.debug(msg)
->>           if success_message is None or success_message in msg:
->>               break
+For confidential computing usages, normally guest starts with all guest
+memory being private, e.g,  cannot be accessed by host. The memory will
+be lived in memfd_restricted() memory and not exposed to host userspace
+VMM like QEMU. Guest then can selectively map its private sub regions
+(e.g. VirtIO queue in the guest VirtIO frontend driver) as shared so
+host backend driver in QEMU can see it. When this happens, new shared
+mapping will be established in KVM and the new memory will be provided
+from normal mmap-able memory, then QEMU can do whatever it can do for
+the device emulation.
 
-
---=20
-Alex Benn=C3=A9e
+Thanks,
+Chao
+> 
+> -- 
+> Alex Bennée
 
