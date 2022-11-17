@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C9D62E9EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 01:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3542562EA43
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 01:28:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovomC-0002UL-CH; Thu, 17 Nov 2022 18:58:36 -0500
+	id 1ovpDy-0000Px-0Y; Thu, 17 Nov 2022 19:27:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1ovom9-0002Tp-OL
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 18:58:33 -0500
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1ovom6-0004ep-F0
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 18:58:33 -0500
-Received: by mail-oi1-x233.google.com with SMTP id n205so3704752oib.1
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 15:58:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1ovpDv-0000Pl-Qs; Thu, 17 Nov 2022 19:27:15 -0500
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1ovpDs-00016u-8L; Thu, 17 Nov 2022 19:27:15 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4NCyJz3CMyz4xZg; Fri, 18 Nov 2022 11:26:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bCqTk7TcXULkTXWsEcW2EUD9lyDXvr12u5TzN2SDjy8=;
- b=bU/t+V0FsFRdltpX+p9sOEsRmcbdD69KPf35lISpsoZpufVAk23lcy0juVNOwLbY8V
- o68T2UNZaZFnj3fjAunGcsJEi/76DPBsC7uOOIH13PX/5u0EE9jDNLqewvzSHA5Zz96V
- gflZMye2HDXVTn7hk9Udi6KHt057MPKQnvRa0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bCqTk7TcXULkTXWsEcW2EUD9lyDXvr12u5TzN2SDjy8=;
- b=F606VbS2FHqRVtu0XxdQgIdMcSEiwYv1Sp1TmvouFk04ArjWnQgnmU+8Sl4Tb8HQP3
- yL7WjIEsh188r2CU0ixdTjyewJjUr9gSxsEVdJJuhQJDIpt4j8kZiyJrvIuzv0ZCRgXX
- gqQBpmR1oPPMwxSeKBzHb6lIHUAgJlYs5zzaVqLOYcVLzEc00IWHOx2VY5YRYa5401Vi
- 97Hg3gCv/pa1ZhkBb6yQjkTaVPR5XgwHvG6XjJs8EGLwJeC77jPgc29k77a0//bj9ClY
- MwxDy9IHNyysye5c5m3oAuO+TgEDXl+XzhUTXNKNUsTurVfPCVzWe99JlKsbab1ZEDlL
- VAIA==
-X-Gm-Message-State: ANoB5plL1Com9aScK7WGbNmrsw8cAOREw5+TTVT7M3NL0FDDqI1qBZyB
- +h0p4m/bxtuJcyuZ3AgVzSfgmPnPA4Kpj2Mpemha
-X-Google-Smtp-Source: AA0mqf5n9aTxdHG+IyX1Svyq/nKPup/72gcoAEmTUcAqyup+erHzQOBFTAb6bcZNlHvf+7QbydtwEKv6B6W3FfGjYHc=
-X-Received: by 2002:a05:6808:f09:b0:354:8922:4a1a with SMTP id
- m9-20020a0568080f0900b0035489224a1amr2322692oiw.181.1668729507977; Thu, 17
- Nov 2022 15:58:27 -0800 (PST)
+ d=gibson.dropbear.id.au; s=201602; t=1668731219;
+ bh=Mxzy6itV4VLihxx/aNi+shOKSTi2rb3xQfOMatJ0zZo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BTDc8AydKuMxX2A+KTurGS6ldW3S0NCsD894R49u5sLia4AIxCqCgP4uAi10XBIta
+ DwkbXvhBiPSMb/IqKWNUAYKaU9IKyy9q64d3/j+XFaWmYEZazjtzQKxyiQXZriLLP2
+ UfmCA/gjlp3tJQ+WdCYHrpEv7rwCYW0TP0l35JcQ=
+Date: Fri, 18 Nov 2022 10:59:47 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH for-8.0] MAINTAINERS: downgrade PPC KVM/TCG CPUs and
+ pSeries to 'Odd Fixes'
+Message-ID: <Y3bK8zd2QIf7W54v@yekko>
+References: <20221117153218.182835-1-danielhb413@gmail.com>
+ <20221117180633.4264cc1d@bahia>
 MIME-Version: 1.0
-References: <20221117072841.240839-1-alexghiti@rivosinc.com>
-In-Reply-To: <20221117072841.240839-1-alexghiti@rivosinc.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Thu, 17 Nov 2022 15:58:17 -0800
-Message-ID: <CAOnJCU+U-X-T_EsU8_jO8BPU43yCG76m3etofBhmTpGKQNHUBg@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Add RISCVCPUConfig.satp_mode to set sv48, sv57,
- etc.
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Ludovic Henry <git@ludovic.dev>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=atishp@atishpatra.org; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FskqNVLQcFS9ZwSP"
+Content-Disposition: inline
+In-Reply-To: <20221117180633.4264cc1d@bahia>
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,171 +65,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 11:29 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
->
-> RISC-V specifies multiple sizes for addressable memory and Linux probes for
-> the machine's support at startup via the satp CSR register (done in
-> csr.c:validate_vm).
->
-> As per the specification, sv64 must support sv57, which in turn must
-> support sv48...etc. So we can restrict machine support by simply setting the
-> "highest" supported mode in the satp_mode property. And the bare mode is
-> always supported.
->
-> You can set this new property as follows:
-> -cpu rv64,satp-mode=sv48 # Linux will boot using sv48 scheme
-> -cpu rv64,satp-mode=sv39 # Linux will boot using sv39 scheme
->
-> In addition, we now correctly set the device-tree entry 'mmu-type' using
-> this new satp_mode property.
->
-> Co-Developed-by: Ludovic Henry <git@ludovic.dev>
-> Signed-off-by: Ludovic Henry <git@ludovic.dev>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  hw/riscv/virt.c    | 15 ++++++---------
->  target/riscv/cpu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
->  target/riscv/cpu.h |  3 +++
->  target/riscv/csr.c |  6 ++++--
->  4 files changed, 58 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index a5bc7353b4..77484b5cae 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -228,7 +228,7 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->      int cpu;
->      uint32_t cpu_phandle;
->      MachineState *mc = MACHINE(s);
-> -    char *name, *cpu_name, *core_name, *intc_name;
-> +    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
->
->      for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
->          cpu_phandle = (*phandle)++;
-> @@ -236,14 +236,11 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->          cpu_name = g_strdup_printf("/cpus/cpu@%d",
->              s->soc[socket].hartid_base + cpu);
->          qemu_fdt_add_subnode(mc->fdt, cpu_name);
-> -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> -                          RISCV_FEATURE_MMU)) {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
-> -        } else {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    "riscv,none");
-> -        }
-> +
-> +        sv_name = g_strdup_printf("riscv,%s",
-> +                                  s->soc[socket].harts[cpu].cfg.satp_mode_str);
-> +        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-> +
->          name = riscv_isa_string(&s->soc[socket].harts[cpu]);
->          qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
->          g_free(name);
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index d14e95c9dc..efdb530ad9 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -907,6 +907,48 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       }
->  #endif
->
-> +    /*
-> +     * Either a cpu sets its supported satp_mode in XXX_cpu_init
-> +     * or the user sets this value using satp_mode property.
-> +     */
-> +    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> +    if (cpu->cfg.satp_mode_str) {
-> +        if (!g_strcmp0(cpu->cfg.satp_mode_str, "none"))
-> +            cpu->cfg.satp_mode = VM_1_10_MBARE;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv32") && rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV32;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv39") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV39;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv48") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV48;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv57") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV57;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv64") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV64;
-> +        else {
-> +            error_report("Unknown option for satp_mode: %s",
-> +                         cpu->cfg.satp_mode_str);
-> +            exit(EXIT_FAILURE);
-> +        }
-> +    } else {
-> +        /*
-> +         * If unset by both the user and the cpu, we fallback to sv32 for 32-bit
-> +         * or sv57 for 64-bit when a MMU is present, and bare otherwise.
-> +         */
-> +        if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-> +            if (rv32) {
-> +                cpu->cfg.satp_mode_str = g_strdup("sv32");
-> +                cpu->cfg.satp_mode = VM_1_10_SV32;
-> +            } else {
-> +                cpu->cfg.satp_mode_str = g_strdup("sv57");
-> +                cpu->cfg.satp_mode = VM_1_10_SV57;
-> +            }
-> +        } else {
-> +            cpu->cfg.satp_mode_str = g_strdup("none");
-> +            cpu->cfg.satp_mode = VM_1_10_MBARE;
-> +        }
-> +    }
-> +
->      riscv_cpu_register_gdb_regs_for_features(cs);
->
->      qemu_init_vcpu(cs);
-> @@ -1094,6 +1136,9 @@ static Property riscv_cpu_properties[] = {
->
->      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
->      DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-> +
-> +    DEFINE_PROP_STRING("satp-mode", RISCVCPU, cfg.satp_mode_str),
-> +
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 3a9e25053f..a6c229470b 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -480,6 +480,9 @@ struct RISCVCPUConfig {
->      bool debug;
->
->      bool short_isa_string;
-> +
-> +    uint8_t satp_mode;
-> +    char *satp_mode_str;
->  };
->
->  typedef struct RISCVCPUConfig RISCVCPUConfig;
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 5c9a7ee287..d26b830f1a 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1109,10 +1109,12 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
->
->  static int validate_vm(CPURISCVState *env, target_ulong vm)
->  {
-> +    vm &= 0xf;
-> +
->      if (riscv_cpu_mxl(env) == MXL_RV32) {
-> -        return valid_vm_1_10_32[vm & 0xf];
-> +        return valid_vm_1_10_32[vm] && (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
->      } else {
-> -        return valid_vm_1_10_64[vm & 0xf];
-> +        return valid_vm_1_10_64[vm] && (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
->      }
->  }
->
-> --
-> 2.37.2
->
->
-LGTM.
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
--- 
-Regards,
-Atish
+--FskqNVLQcFS9ZwSP
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Nov 17, 2022 at 06:06:33PM +0100, Greg Kurz wrote:
+> On Thu, 17 Nov 2022 12:32:18 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+>=20
+> > The maintainer is no longer being paid to maintain these components. All
+> > maintainership work is being done in his personal time since the middle
+> > of the 7.2 development cycle.
+> >=20
+>=20
+> Great thanks Daniel for all your contributions over
+> the years, and for being the one steering the vessel
+> to the dry dock. This is it.
+
+Seconded.
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+>=20
+> > Change the status of PPC KVM CPUs, PPC TCG CPUs and the pSeries machine
+> > to 'Odd Fixes', reflecting that the maintainer no longer has exclusive
+> > time to dedicate to them. It'll also (hopefully) keep expectations under
+> > check when/if these components are used in a customer product.
+> >=20
+> > Cc: C=E9dric Le Goater <clg@kaod.org>
+> > Cc: David Gibson <david@gibson.dropbear.id.au>
+> > Cc: Greg Kurz <groug@kaod.org>
+> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > ---
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> >  MAINTAINERS | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index be151f0024..1d43153e5f 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -264,7 +264,7 @@ R: C=E9dric Le Goater <clg@kaod.org>
+> >  R: David Gibson <david@gibson.dropbear.id.au>
+> >  R: Greg Kurz <groug@kaod.org>
+> >  L: qemu-ppc@nongnu.org
+> > -S: Maintained
+> > +S: Odd Fixes
+> >  F: target/ppc/
+> >  F: hw/ppc/ppc.c
+> >  F: hw/ppc/ppc_booke.c
+> > @@ -389,7 +389,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
+> >  R: C=E9dric Le Goater <clg@kaod.org>
+> >  R: David Gibson <david@gibson.dropbear.id.au>
+> >  R: Greg Kurz <groug@kaod.org>
+> > -S: Maintained
+> > +S: Odd Fixes
+> >  F: target/ppc/kvm.c
+> > =20
+> >  S390 KVM CPUs
+> > @@ -1367,7 +1367,7 @@ R: C=E9dric Le Goater <clg@kaod.org>
+> >  R: David Gibson <david@gibson.dropbear.id.au>
+> >  R: Greg Kurz <groug@kaod.org>
+> >  L: qemu-ppc@nongnu.org
+> > -S: Maintained
+> > +S: Odd Fixes
+> >  F: hw/*/spapr*
+> >  F: include/hw/*/spapr*
+> >  F: hw/*/xics*
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--FskqNVLQcFS9ZwSP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmN2yu0ACgkQgypY4gEw
+YSLQDQ/9HDDdU76QXV1EiyrXruWUtYr6seKeFWwF0gNoM09czUobQM5ucQqvl7W7
+fVBC2GuS9e7xojZDuid4xECuFKcnZ/1Wrv4Y7kMqYV69j6idawNncI3+ytFQN3G4
+OfXRA0pzRnsyNxek1W3M3DVqn+6PIQsr+d0C6IhOGV7alRc0CPENPOOnQeU31OQU
+oXLexzTPBlZkibfmguYolC6j/vCUsqTI+KHxC1a50WMrDCiSgR59CMpULrtMFGGW
+ry/lpGRPu1eiM6ibifag47d/9SjTY1KekwglLMoiVxHOHIpplb/ZIC6Fn738EEaL
+ITOmZDOJl26dskLL9SvaOFWeqVYQfV6P8T0RqQKzabUPfixxEZmV0ZGf1TNwRIzL
+Py1aPjhenvsaHxxM/FtRc5XLyozYVXr1XgKLV4GzaDL38HNJyFfj2GTZIFXaCgSF
+gLQe7C+UVCOiLdfCwAeOlw3hPQIFKeB/4w4g9zmphoMWFYxFOAp4Dejl/LdxTc9d
+bWp0NX4z6sE6daK+jq5gsQgFLGWPE8F8zBEgIs7onhgd80ySizaisiU+zN7sDRIj
+AdAzbRaTtUuhsdSJvRCh+mhiJnOReqKg7XhQtMLeyATrKNbTxYckiw2DvDqMpejC
+u2tcf+bveFT8QzetyzNNrty3wdKYeYs5785MZlOFQtDHnnUw1LM=
+=sKzg
+-----END PGP SIGNATURE-----
+
+--FskqNVLQcFS9ZwSP--
 
