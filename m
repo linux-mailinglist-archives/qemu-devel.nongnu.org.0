@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF9162DCB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA9C62DCD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:31:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovetU-0007BN-VQ; Thu, 17 Nov 2022 08:25:28 -0500
+	id 1oveyP-0000lZ-6k; Thu, 17 Nov 2022 08:30:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ovetI-0007Aw-Qw
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:25:18 -0500
-Received: from mga14.intel.com ([192.55.52.115])
+ id 1oveyM-0000lC-L3
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:30:30 -0500
+Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ovetE-0007By-Uf
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:25:15 -0500
+ id 1oveyK-0008VG-G1
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:30:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668691512; x=1700227512;
+ t=1668691828; x=1700227828;
  h=date:from:to:cc:subject:message-id:reply-to:references:
  mime-version:in-reply-to;
- bh=5axGlSLhPtmuHt4PaXeWSd8Q7yJdQcmlwNx/L+JedqY=;
- b=TW5qsVFzxzDnAA6BRMsCOZQv6ieA67rMUDDyDmYBFBS4IKB8UeS6S4Cw
- T25ZJj+0pNllCAJ3e3TiLCENAIQgpHXIiNgpa59zGISKheNxmFZX9PvPB
- 6jehqGlfWs62IUoIcdil++fPMKamXUTugPcmaMfbk5Dm1fl22b7jONG2+
- //OhMev20h51SHs5LKUJHIfSIrUHr25t2f7tlvyJhsEdmNpqUDNZtZhSJ
- SBr40SL3kHILOnwbkUyIxZ1ILkkljE01+qM7rgEaTZscwDI66IiXQ/a2k
- CMvlJIuKpuqaiXoM/8LLWsWBp2XGPMMuyDLj+PgEx6XbV1Hb+2lbVdGQW A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="312861087"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="312861087"
+ bh=kkui0TYDb/IbaSu7o0K1fhPB2oH/R5viDFHkl5cBAL8=;
+ b=AeGwAgechVjPHLrA0D/IH/Kjzu7hPUPW7D/BB1KA3Ae5KApu4JLwkEHY
+ Ipqxp2fHGFYYWJ2YE6okiktp1mBvUlUzkvWNNYZJhuRGXgezLhNmNkmuK
+ /XM2OAIs4A8lUiwAuXL43aYVIuLapWZQlxHTxjqbume2ZWoSJkP2Sim0U
+ b+ALT1Ah3ZwgiC6QmP97h735i+ZgLIvdm04T7EPbTkB96/HfAEnc0cwYM
+ l/gzQceDxq+JbdbcTdhvq4vFC4QfvVdeUtHwVDp1gPXRccJMjIXq5+K/y
+ asH8mqXHHbE//RjCYkFz8Zu2xPSPjed5xH6qtrwT9q8hblYrm5gfkHV6j w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="300382402"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="300382402"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 05:25:06 -0800
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2022 05:30:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="703331041"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="703331041"
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="703332498"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="703332498"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2022 05:24:56 -0800
-Date: Thu, 17 Nov 2022 21:20:32 +0800
+ by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2022 05:30:16 -0800
+Date: Thu, 17 Nov 2022 21:25:51 +0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <20221117132032.GA422408@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
- <Y3VjCxCiujCOLP7x@google.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, aarcange@redhat.com,
+ ak@linux.intel.com, akpm@linux-foundation.org, bfields@fieldses.org,
+ bp@alien8.de, corbet@lwn.net, dave.hansen@intel.com,
+ david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+ hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+ jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
+ kirill.shutemov@linux.intel.com, kvm@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
+ mail@maciej.szmigiero.name, mhocko@suse.com, michael.roth@amd.com,
+ mingo@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ qperret@google.com, rppt@kernel.org, shuah@kernel.org,
+ songmuchun@bytedance.com, steven.price@arm.com, tabba@google.com,
+ tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz,
+ vkuznets@redhat.com, wanpengli@tencent.com, wei.w.wang@intel.com,
+ x86@kernel.org, yu.c.zhang@linux.intel.com
+Subject: Re: [PATCH v9 7/8] KVM: Handle page fault for private memory
+Message-ID: <20221117132551.GB422408@chaop.bj.intel.com>
+References: <20221025151344.3784230-8-chao.p.peng@linux.intel.com>
+ <20221116205025.1510291-1-ackerleytng@google.com>
+ <Y3Vgc5KrNRA8r6vh@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3VjCxCiujCOLP7x@google.com>
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <Y3Vgc5KrNRA8r6vh@google.com>
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,100 +94,125 @@ Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 10:24:11PM +0000, Sean Christopherson wrote:
-> On Tue, Oct 25, 2022, Chao Peng wrote:
-> > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
-> > +				     bool is_private)
-> > +{
-> > +	gfn_t start, end;
-> > +	unsigned long i;
-> > +	void *entry;
-> > +	int idx;
-> > +	int r = 0;
-> > +
-> > +	if (size == 0 || gpa + size < gpa)
-> > +		return -EINVAL;
-> > +	if (gpa & (PAGE_SIZE - 1) || size & (PAGE_SIZE - 1))
-> > +		return -EINVAL;
-> > +
-> > +	start = gpa >> PAGE_SHIFT;
-> > +	end = (gpa + size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> > +
-> > +	/*
-> > +	 * Guest memory defaults to private, kvm->mem_attr_array only stores
-> > +	 * shared memory.
-> > +	 */
-> > +	entry = is_private ? NULL : xa_mk_value(KVM_MEM_ATTR_SHARED);
-> > +
-> > +	idx = srcu_read_lock(&kvm->srcu);
-> > +	KVM_MMU_LOCK(kvm);
-> > +	kvm_mmu_invalidate_begin(kvm, start, end);
-> > +
-> > +	for (i = start; i < end; i++) {
-> > +		r = xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> > +				    GFP_KERNEL_ACCOUNT));
-> > +		if (r)
-> > +			goto err;
-> > +	}
-> > +
-> > +	kvm_unmap_mem_range(kvm, start, end);
-> > +
-> > +	goto ret;
-> > +err:
-> > +	for (; i > start; i--)
-> > +		xa_erase(&kvm->mem_attr_array, i);
+On Wed, Nov 16, 2022 at 10:13:07PM +0000, Sean Christopherson wrote:
+> On Wed, Nov 16, 2022, Ackerley Tng wrote:
+> > >@@ -4173,6 +4203,22 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+> > > 			return RET_PF_EMULATE;
+> > > 	}
+> > >
+> > >+	if (kvm_slot_can_be_private(slot) &&
+> > >+	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
+> > >+		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
+> > >+		if (fault->is_private)
+> > >+			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
+> > >+		else
+> > >+			vcpu->run->memory.flags = 0;
+> > >+		vcpu->run->memory.padding = 0;
+> > >+		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
+> > >+		vcpu->run->memory.size = PAGE_SIZE;
+> > >+		return RET_PF_USER;
+> > >+	}
+> > >+
+> > >+	if (fault->is_private)
+> > >+		return kvm_faultin_pfn_private(fault);
+> > >+
+> > 
+> > Since each memslot may also not be backed by restricted memory, we
+> > should also check if the memslot has been set up for private memory
+> > with
+> > 
+> > 	if (fault->is_private && kvm_slot_can_be_private(slot))
+> > 		return kvm_faultin_pfn_private(fault);
+> > 
+> > Without this check, restrictedmem_get_page will get called with NULL
+> > in slot->restricted_file, which causes a NULL pointer dereference.
 > 
-> I don't think deleting previous entries is correct.  To unwind, the correct thing
-> to do is restore the original values.  E.g. if userspace space is mapping a large
-> range as shared, and some of the previous entries were shared, deleting them would
-> incorrectly "convert" those entries to private.
+> Hmm, silently skipping the faultin would result in KVM faulting in the shared
+> portion of the memslot, and I believe would end up mapping that pfn as private,
+> i.e. would map a non-UPM PFN as a private mapping.  For TDX and SNP, that would
+> be double ungood as it would let the host access memory that is mapped private,
+> i.e. lead to #MC or #PF(RMP) in the host.
 
-Ah, right!
+That's correct.
 
 > 
-> Tracking the previous state likely isn't the best approach, e.g. it would require
-> speculatively allocating extra memory for a rare condition that is likely going to
-> lead to OOM anyways.
+> I believe the correct solution is to drop the "can be private" check from the
+> above check, and instead handle that in kvm_faultin_pfn_private().  That would fix
+> another bug, e.g. if the fault is shared, the slot can't be private, but for
+> whatever reason userspace marked the gfn as private.  Even though KVM might be
+> able service the fault, the correct thing to do in that case is to exit to userspace.
 
-Agree.
-
-> 
-> Instead of trying to unwind, what about updating the ioctl() params such that
-> retrying with the updated addr+size would Just Work?  E.g.
-
-Looks good to me. Thanks!
+It makes sense to me.
 
 Chao
 > 
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 55b07aae67cc..f1de592a1a06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -1015,15 +1015,12 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
->  
->         kvm_unmap_mem_range(kvm, start, end, attr);
->  
-> -       goto ret;
-> -err:
-> -       for (; i > start; i--)
-> -               xa_erase(&kvm->mem_attr_array, i);
-> -ret:
->         kvm_mmu_invalidate_end(kvm, start, end);
->         KVM_MMU_UNLOCK(kvm);
->         srcu_read_unlock(&kvm->srcu, idx);
->  
-> +       <update gpa and size>
-> +
->         return r;
+> E.g.
+> 
+> ---
+>  arch/x86/kvm/mmu/mmu.c | 36 ++++++++++++++++++++++--------------
+>  1 file changed, 22 insertions(+), 14 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 10017a9f26ee..e2ac8873938e 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -4158,11 +4158,29 @@ static inline u8 order_to_level(int order)
+>  	return PG_LEVEL_4K;
 >  }
->  #endif /* CONFIG_KVM_GENERIC_PRIVATE_MEM */
-> @@ -4989,6 +4986,8 @@ static long kvm_vm_ioctl(struct file *filp,
 >  
->                 r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
->                                               region.size, set);
-> +               if (copy_to_user(argp, &region, sizeof(region)) && !r)
-> +                       r = -EFAULT
->                 break;
->         }
->  #endif
+> -static int kvm_faultin_pfn_private(struct kvm_page_fault *fault)
+> +static int kvm_do_memory_fault_exit(struct kvm_vcpu *vcpu,
+> +					struct kvm_page_fault *fault)
+> +{
+> +	vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
+> +	if (fault->is_private)
+> +		vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
+> +	else
+> +		vcpu->run->memory.flags = 0;
+> +	vcpu->run->memory.padding = 0;
+> +	vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
+> +	vcpu->run->memory.size = PAGE_SIZE;
+> +	return RET_PF_USER;
+> +}
+> +
+> +static int kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
+> +				   struct kvm_page_fault *fault)
+>  {
+>  	int order;
+>  	struct kvm_memory_slot *slot = fault->slot;
+>  
+> +	if (kvm_slot_can_be_private(slot))
+> +		return kvm_do_memory_fault_exit(vcpu, fault);
+> +
+>  	if (kvm_restricted_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
+>  		return RET_PF_RETRY;
+>  
+> @@ -4203,21 +4221,11 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+>  			return RET_PF_EMULATE;
+>  	}
+>  
+> -	if (kvm_slot_can_be_private(slot) &&
+> -	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
+> -		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
+> -		if (fault->is_private)
+> -			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
+> -		else
+> -			vcpu->run->memory.flags = 0;
+> -		vcpu->run->memory.padding = 0;
+> -		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
+> -		vcpu->run->memory.size = PAGE_SIZE;
+> -		return RET_PF_USER;
+> -	}
+> +	if (fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn))
+> +		return kvm_do_memory_fault_exit(vcpu, fault);
+>  
+>  	if (fault->is_private)
+> -		return kvm_faultin_pfn_private(fault);
+> +		return kvm_faultin_pfn_private(vcpu, fault);
+>  
+>  	async = false;
+>  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
+> 
+> base-commit: 969d761bb7b8654605937f31ae76123dcb7f15a3
+> -- 
 
