@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6C962D3AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 07:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DDF62D3D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 08:09:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovYp5-0001SY-2L; Thu, 17 Nov 2022 01:56:31 -0500
+	id 1ovYy5-0005Pu-Ge; Thu, 17 Nov 2022 02:05:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ovYox-0001RF-OO; Thu, 17 Nov 2022 01:56:24 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ovYov-00087D-0b; Thu, 17 Nov 2022 01:56:23 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.216])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 35C9113FC88E5;
- Thu, 17 Nov 2022 07:56:14 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 17 Nov
- 2022 07:56:11 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005e4ea5eb1-7e02-4635-96d8-8f15bbaf77e8,
- AE5717285A2AC47C671D2CB192D1CF6730B7D7F3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <6bfe7b2e-2e4f-c286-530a-b0342f9107a0@kaod.org>
-Date: Thu, 17 Nov 2022 07:56:03 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ovYxh-0005IT-Qb; Thu, 17 Nov 2022 02:05:25 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ovYxc-0000z9-Mm; Thu, 17 Nov 2022 02:05:25 -0500
+Received: from localhost.localdomain (unknown [180.165.240.202])
+ by APP-01 (Coremail) with SMTP id qwCowABnbvIh3XVjJEYjCg--.9312S2;
+ Thu, 17 Nov 2022 15:05:07 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v3 0/9] support subsets of code size reduction extension
+Date: Thu, 17 Nov 2022 15:03:07 +0800
+Message-Id: <20221117070316.58447-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when
- bus is idle
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>
-CC: <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>, Keith Busch
- <kbusch@kernel.org>, Corey Minyard <cminyard@mvista.com>, Peter Delevoryas
- <peter@pjd.dev>, <qemu-arm@nongnu.org>, Peter Maydell
- <peter.maydell@linaro.org>, <qemu-block@nongnu.org>, Jeremy Kerr
- <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, Klaus Jensen
- <k.jensen@samsung.com>
-References: <20221116084312.35808-1-its@irrelevant.dk>
- <20221116084312.35808-2-its@irrelevant.dk>
- <8dd9ed34-93c3-0638-e152-f619f9e097e6@kaod.org>
- <Y3XXcWUnntBrIXq+@cormorant.local>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <Y3XXcWUnntBrIXq+@cormorant.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: e24ac3a2-0f0f-44dc-b818-24372699c8c9
-X-Ovh-Tracer-Id: 15784553746249649144
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeejgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepihhtshesihhrrhgvlhgvvhgrnhhtrdgukhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpkhgsuhhstghhsehkvghrnhgvlhdrohhrghdptghmihhnhigrrhgusehmvhhishhtrgdrtghomhdpphgvthgvrhesphhjugdruggvvhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhjkhestghoug
- gvtghonhhsthhruhgtthdrtghomhdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: qwCowABnbvIh3XVjJEYjCg--.9312S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryDKFW5KryrWw4xWF48JFb_yoW8tFWkpr
+ 4rC3yakrZ8tFWxJw4ftF1DJw15Ar4rWr45Awn7tw1kJa13ArW5Jrn7K3W3K3W7JF18WrnF
+ 93WUCr13u3y5JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
+ I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+ xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+ jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+ 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.165.240.202]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,55 +70,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/17/22 07:40, Klaus Jensen wrote:
-> On Nov 16 16:58, Cédric Le Goater wrote:
->> On 11/16/22 09:43, Klaus Jensen wrote:
->>> From: Klaus Jensen <k.jensen@samsung.com>
->>>
->>> It is not given that the current master will release the bus after a
->>> transfer ends. Only schedule a pending master if the bus is idle.
->>>
->>> Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
->>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->>> ---
->>>    hw/i2c/aspeed_i2c.c  |  2 ++
->>>    hw/i2c/core.c        | 37 ++++++++++++++++++++++---------------
->>>    include/hw/i2c/i2c.h |  2 ++
->>>    3 files changed, 26 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
->>> index c166fd20fa11..1f071a3811f7 100644
->>> --- a/hw/i2c/aspeed_i2c.c
->>> +++ b/hw/i2c/aspeed_i2c.c
->>> @@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
->>>            }
->>>            SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_STOP_CMD, 0);
->>>            aspeed_i2c_set_state(bus, I2CD_IDLE);
->>> +
->>> +        i2c_schedule_pending_master(bus->bus);
->>
->> Shouldn't it be i2c_bus_release() ?
->>
-> 
-> The reason for having both i2c_bus_release() and
-> i2c_schedule_pending_master() is that i2c_bus_release() sort of pairs
-> with i2c_bus_master(). They either set or clear the bus->bh member.
-> 
-> In the current design, the controller (in this case the Aspeed I2C) is
-> an "implicit" master (it does not have a bottom half driving it), so
-> there is no bus->bh to clear.
->
-> I should (and will) write some documentation on the asynchronous API.
+This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions. 
 
-I found the routine names confusing. Thanks for the clarification.
+Specification:
+https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
 
-Maybe we could do this rename  :
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v3
 
-   i2c_bus_release()             -> i2c_bus_release_and_clear()
-   i2c_schedule_pending_master() -> i2c_bus_release()
+To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extension support. 
 
-and keep i2c_schedule_pending_master() internal the I2C core subsystem.
+This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
 
-C.
+v3:
+* update the solution for Zcf to the way of Zcd
+* update Zcb to reuse gen_load/store
+* use trans function instead of helper for push/pop
+
+v2:
+* add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
+* separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
+
+Weiwei Li (9):
+  target/riscv: add cfg properties for Zc* extension
+  target/riscv: add support for Zca extension
+  target/riscv: add support for Zcf extension
+  target/riscv: add support for Zcd extension
+  target/riscv: add support for Zcb extension
+  target/riscv: add support for Zcmp extension
+  target/riscv: add support for Zcmt extension
+  target/riscv: expose properties for Zc* extension
+  disas/riscv.c: add disasm support for Zc*
+
+ disas/riscv.c                             | 287 ++++++++++++++++-
+ target/riscv/cpu.c                        |  56 ++++
+ target/riscv/cpu.h                        |   8 +
+ target/riscv/cpu_bits.h                   |   7 +
+ target/riscv/csr.c                        |  35 +++
+ target/riscv/helper.h                     |   3 +
+ target/riscv/insn16.decode                |  63 +++-
+ target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvf.c.inc   |  26 +-
+ target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+ target/riscv/insn_trans/trans_rvzce.c.inc | 367 ++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvzfh.c.inc |   6 +-
+ target/riscv/machine.c                    |  19 ++
+ target/riscv/meson.build                  |   3 +-
+ target/riscv/translate.c                  |  15 +-
+ target/riscv/zce_helper.c                 |  57 ++++
+ 16 files changed, 953 insertions(+), 21 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+ create mode 100644 target/riscv/zce_helper.c
+
+-- 
+2.25.1
 
 
