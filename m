@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD99262DCFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B361E62DD01
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:41:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovf6S-00046G-Ko; Thu, 17 Nov 2022 08:38:52 -0500
+	id 1ovf8B-0004ru-R7; Thu, 17 Nov 2022 08:40:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovf6H-00044d-FG
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:38:41 -0500
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ovf89-0004r6-B0; Thu, 17 Nov 2022 08:40:37 -0500
 Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovf6A-0001VD-V8
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:38:37 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.3])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EDEF113FFAADC;
- Thu, 17 Nov 2022 14:38:29 +0100 (CET)
-Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ovf87-0001xA-CC; Thu, 17 Nov 2022 08:40:37 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.235])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A849F13FFB3E6;
+ Thu, 17 Nov 2022 14:40:30 +0100 (CET)
+Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 17 Nov
- 2022 14:38:28 +0100
+ 2022 14:40:29 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0033e3bc4ca-bdd9-4517-8a55-f7a3a266e2d4,
+ (GARM-96R0015ea10662-7451-4875-8c3e-4ed45b66f22d,
  AE5717285A2AC47C671D2CB192D1CF6730B7D7F3) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <33e63f5c-8a32-8093-6ce8-2641d0d8e325@kaod.org>
-Date: Thu, 17 Nov 2022 14:38:20 +0100
+Message-ID: <15100caa-4c03-a166-7ce3-fe1d30471a30@kaod.org>
+Date: Thu, 17 Nov 2022 14:40:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH v2 02/12] tests/avocado: improve behaviour waiting for
- login prompts
+Subject: Re: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when
+ bus is idle
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- <qemu-devel@nongnu.org>
-CC: <fam@euphon.net>, <berrange@redhat.com>, <f4bug@amsat.org>,
- <aurelien@aurel32.net>, <pbonzini@redhat.com>, <stefanha@redhat.com>,
- <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221111145529.4020801-1-alex.bennee@linaro.org>
- <20221111145529.4020801-3-alex.bennee@linaro.org>
+To: Klaus Jensen <its@irrelevant.dk>
+CC: <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>, Keith Busch
+ <kbusch@kernel.org>, Corey Minyard <cminyard@mvista.com>, Peter Delevoryas
+ <peter@pjd.dev>, <qemu-arm@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, <qemu-block@nongnu.org>, Jeremy Kerr
+ <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, Klaus Jensen
+ <k.jensen@samsung.com>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+ <20221116084312.35808-2-its@irrelevant.dk>
+ <8dd9ed34-93c3-0638-e152-f619f9e097e6@kaod.org>
+ <Y3XXcWUnntBrIXq+@cormorant.local>
+ <6bfe7b2e-2e4f-c286-530a-b0342f9107a0@kaod.org>
+ <Y3Xktt8b85RvJ89A@cormorant.local>
+ <465b2d2e-5958-d63f-02dc-cf96dd1d459e@kaod.org>
+ <Y3YiAhXX1FKuYMoc@cormorant.local>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221111145529.4020801-3-alex.bennee@linaro.org>
+In-Reply-To: <Y3YiAhXX1FKuYMoc@cormorant.local>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: e76b071b-d5c1-408a-ba90-bd348d7dfc1a
-X-Ovh-Tracer-Id: 4131208236202101752
+X-Ovh-Tracer-GUID: 9fc5d7ef-695d-4cfa-8d39-8e04ae33fd2c
+X-Ovh-Tracer-Id: 4165266707627674616
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdehfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhfrghmsegvuhhphhhonhdrnhgvthdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpfhegsghughesrghmshgrthdrohhrghdprghurhgvlhhivghnsegruhhrvghlfedvrdhnvghtpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpphhhihhlmhgusehlih
- hnrghrohdrohhrghdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomhdpsghlvggrlhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepihhtshesihhrrhgvlhgvvhgrnhhtrdgukhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpkhgsuhhstghhsehkvghrnhgvlhdrohhrghdptghmihhnhigrrhgusehmvhhishhtrgdrtghomhdpphgvthgvrhesphhjugdruggvvhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhjkhestghouggvtg
+ honhhsthhruhgtthdrtghomhdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
 Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
  helo=smtpout2.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
@@ -80,164 +86,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Alex,
-
-On 11/11/22 15:55, Alex Bennée wrote:
-> This attempts to deal with the problem of login prompts not being
-> guaranteed to be terminated with a newline. The solution to this is to
-> peek at the incoming data looking to see if we see an up-coming match
-> before we fall back to the old readline() logic. The reason to mostly
-> rely on readline is because I am occasionally seeing the peek stalling
-> despite data being there.
+On 11/17/22 12:58, Klaus Jensen wrote:
+> On Nov 17 09:01, Cédric Le Goater wrote:
+>> On 11/17/22 08:37, Klaus Jensen wrote:
+>>> On Nov 17 07:56, Cédric Le Goater wrote:
+>>>> On 11/17/22 07:40, Klaus Jensen wrote:
+>>>>> On Nov 16 16:58, Cédric Le Goater wrote:
+>>>>>> On 11/16/22 09:43, Klaus Jensen wrote:
+>>>>>>> From: Klaus Jensen <k.jensen@samsung.com>
+>>>>>>>
+>>>>>>> It is not given that the current master will release the bus after a
+>>>>>>> transfer ends. Only schedule a pending master if the bus is idle.
+>>>>>>>
+>>>>>>> Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
+>>>>>>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>>>>>>> ---
+>>>>>>>      hw/i2c/aspeed_i2c.c  |  2 ++
+>>>>>>>      hw/i2c/core.c        | 37 ++++++++++++++++++++++---------------
+>>>>>>>      include/hw/i2c/i2c.h |  2 ++
+>>>>>>>      3 files changed, 26 insertions(+), 15 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+>>>>>>> index c166fd20fa11..1f071a3811f7 100644
+>>>>>>> --- a/hw/i2c/aspeed_i2c.c
+>>>>>>> +++ b/hw/i2c/aspeed_i2c.c
+>>>>>>> @@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+>>>>>>>              }
+>>>>>>>              SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_STOP_CMD, 0);
+>>>>>>>              aspeed_i2c_set_state(bus, I2CD_IDLE);
+>>>>>>> +
+>>>>>>> +        i2c_schedule_pending_master(bus->bus);
+>>>>>>
+>>>>>> Shouldn't it be i2c_bus_release() ?
+>>>>>>
+>>>>>
+>>>>> The reason for having both i2c_bus_release() and
+>>>>> i2c_schedule_pending_master() is that i2c_bus_release() sort of pairs
+>>>>> with i2c_bus_master(). They either set or clear the bus->bh member.
+>>>>>
+>>>>> In the current design, the controller (in this case the Aspeed I2C) is
+>>>>> an "implicit" master (it does not have a bottom half driving it), so
+>>>>> there is no bus->bh to clear.
+>>>>>
+>>>>> I should (and will) write some documentation on the asynchronous API.
+>>>>
+>>>> I found the routine names confusing. Thanks for the clarification.
+>>>>
+>>>> Maybe we could do this rename  :
+>>>>
+>>>>     i2c_bus_release()             -> i2c_bus_release_and_clear()
+>>>>     i2c_schedule_pending_master() -> i2c_bus_release()
+>>>>
+>>>> and keep i2c_schedule_pending_master() internal the I2C core subsystem.
+>>>>
+>>>
+>>> How about renaming i2c_bus_master to i2c_bus_acquire() such that it
+>>> pairs with i2c_bus_release().
+>>
+>> Looks good to me.
+>>
+>>> And then add an i2c_bus_yield() to be used by the controller? I think we
+>>> should be able to assert in i2c_bus_yield() that bus->bh is NULL. But
+>>> I'll take a closer look at that.
+>>
+>> I am using your i2c-echo slave device to track regressions in the Aspeed
+>> machines. May be we could merge it for tests ?
+>>
 > 
-> This seems kinda hacky and gross so I'm open to alternative approaches
-> and cleaner python code.
+> Oh, cool.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Sure, I'd be happy to help "maintain" it ;)
 
-I have pulled this patch in the aspeed tree hoping it would improve tests:
+And so, I am seeing errors with the little POC you sent.
 
-   AST2x00MachineSDK.test_arm_ast2500_evb_sdk
-   AST2x00MachineSDK.test_arm_ast2600_evb_sdk
+without:
+   
+   console: echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_device
+   console: # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_device
+   console: [    4.252431] i2c i2c-3: new_device: Instantiated device slave-24c02 at 0x64
+   console: i2cset -y 3 0x42 0x64 0x00 0xaa i
+   /console: # i2cset -y 3 0x42 0x64 0x00 0xaa i
+   console: # hexdump /sys/bus/i2c/devices/3-1064/slave-eeprom
+   console: 0000000 ffaa ffff ffff ffff ffff ffff ffff ffff
+   console: poweroff
+   console: 0000010 ffff ffff ffff ffff ffff ffff ffff ffff
+   console: *
+   console: 0000100
 
-but the failure rate has increased :/ I have seen failures in these also :
-
-   AST2x00Machine.test_arm_ast2500_evb_buildroot
-   AST2x00Machine.test_arm_ast2600_evb_buildroot
-
-which used to be quite stable.
-
-Sorry, this is not of much help. the issue might be elsewhere.
-
-Thanks for the time you spend on this.
-
+with:
+   
+   console: echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_device
+   console: # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_device
+   console: [    4.413210] i2c i2c-3: new_device: Instantiated device slave-24c02 at 0x64
+   console: i2cset -y 3 0x42 0x64 0x00 0xaa i
+   console: # i2cset -y 3 0x42 0x64 0x00 0xaa i
+   console: # hexdump /sys/bus/i2c/devices/3-1064/slave-eeprom
+   console: 0000000 ffff ffff ffff ffff ffff ffff ffff ffff
+   console: *
+   console: 0000100
+   
 C.
-
-
-> ---
-> v2
->    - remove superfluous /r/n
-> ---
->   tests/avocado/avocado_qemu/__init__.py | 89 +++++++++++++++++++++++++-
->   1 file changed, 88 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-> index 910f3ba1ea..20cba57161 100644
-> --- a/tests/avocado/avocado_qemu/__init__.py
-> +++ b/tests/avocado/avocado_qemu/__init__.py
-> @@ -131,6 +131,58 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
->               return path
->       return None
->   
-> +def _peek_ahead(console, min_match, success_message):
-> +    """
-> +    peek ahead in the console stream keeping an eye out for the
-> +    success message.
-> +
-> +    Returns some message to process or None, indicating the normal
-> +    readline should occur.
-> +    """
-> +    console_logger = logging.getLogger('console')
-> +    peek_len = 0
-> +    retries = 0
-> +
-> +    while True:
-> +        try:
-> +            old_peek_len = peek_len
-> +            peek_ahead = console.peek(min_match).decode()
-> +            peek_len = len(peek_ahead)
-> +
-> +            # if we get stuck too long lets just fallback to readline
-> +            if peek_len <= old_peek_len:
-> +                retries += 1
-> +                if retries > 10:
-> +                    return None
-> +
-> +            # if we see a newline in the peek we can let safely bail
-> +            # and let the normal readline() deal with it
-> +            if peek_ahead.endswith(('\n', '\r')):
-> +                return None
-> +
-> +            # if we haven't seen enough for the whole message but the
-> +            # first part matches lets just loop again
-> +            if len(peek_ahead) < min_match and \
-> +               success_message[:peek_len] in peek_ahead:
-> +                continue
-> +
-> +            # if we see the whole success_message we are done, consume
-> +            # it and pass back so we can exit to the user
-> +            if success_message in peek_ahead:
-> +                return console.read(peek_len).decode()
-> +
-> +            # of course if we've seen enough then this line probably
-> +            # doesn't contain what we are looking for, fallback
-> +            if peek_len > min_match:
-> +                return None
-> +
-> +        except UnicodeDecodeError:
-> +            console_logger.log("error in decode of peek")
-> +            return None
-> +
-> +    # we should never get here
-> +    return None
-> +
->   
->   def _console_interaction(test, success_message, failure_message,
->                            send_string, keep_sending=False, vm=None):
-> @@ -139,17 +191,52 @@ def _console_interaction(test, success_message, failure_message,
->           vm = test.vm
->       console = vm.console_socket.makefile(mode='rb', encoding='utf-8')
->       console_logger = logging.getLogger('console')
-> +
-> +    # Establish the minimum number of bytes we would need to
-> +    # potentially match against success_message
-> +    if success_message is not None:
-> +        min_match = len(success_message)
-> +    else:
-> +        min_match = 0
-> +
-> +    console_logger.debug("looking for %d:(%s), sending %s (always=%s)",
-> +                         min_match, success_message, send_string, keep_sending)
-> +
->       while True:
-> +        msg = None
-> +
-> +        # First send our string, optionally repeating the send next
-> +        # cycle.
->           if send_string:
->               vm.console_socket.sendall(send_string.encode())
->               if not keep_sending:
->                   send_string = None # send only once
-> +
-> +        # If the console has no data to read we briefly
-> +        # sleep before continuing.
-> +        if not console.readable():
-> +            time.sleep(0.1)
-> +            continue
-> +
->           try:
-> -            msg = console.readline().decode().strip()
-> +
-> +            # First we shall peek ahead for a potential match to cover waiting
-> +            # for lines without any newlines.
-> +            if min_match > 0:
-> +                msg = _peek_ahead(console, min_match, success_message)
-> +
-> +            # otherwise we block here for a full line
-> +            if not msg:
-> +                msg = console.readline().decode().strip()
-> +
->           except UnicodeDecodeError:
-> +            console_logger.debug("skipped unicode error")
->               msg = None
-> +
-> +        # if nothing came out we continue and try again
->           if not msg:
->               continue
-> +
->           console_logger.debug(msg)
->           if success_message is None or success_message in msg:
->               break
-
 
