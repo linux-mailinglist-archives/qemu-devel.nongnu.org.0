@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D05F62DD27
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:48:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDF362DD0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:46:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovfEq-0007lE-5C; Thu, 17 Nov 2022 08:47:32 -0500
+	id 1ovfCH-0006Ov-AD; Thu, 17 Nov 2022 08:44:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ovfEo-0007l0-GA
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:47:30 -0500
-Received: from mga04.intel.com ([192.55.52.120])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ovfCG-0006Oe-4L
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:44:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ovfEl-00032o-9k
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:47:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668692847; x=1700228847;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=Q9f7oXH6jx2XN9/kuSzGlUsyVFF0nM+veoTgLTKHR8Y=;
- b=A0ifJgAxgq5qM88GJuZlOtnTwwd1SX6OV2BOCeJy1q1ncr2Y+H8CxVay
- eYl2CwrKyq7fH+r4z9zzXOiJpiIK6upqS/mmZPHaLgTtDWYHwrfqRsGqx
- CtZJ/HrEQEBl5r5em0+NiWXkpjA7rdGwZZd0ttfKX1Zp9a1ECVQ4d+dne
- kla9J5ffagTbGsMz97YPzScemjquwA/LE4B5p13mM8xVxY9dKvAjo6dAE
- cerbE8dhLca0vaSZMu7pKihKrrAi1178DegHoGekD7POeV3ZrHFP9htd4
- uAsMzvdUEZkeD75suCJlqMQO5HFQzqU+rp8bzoFb500cbu0Xn1TJ6V+ez A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="311556854"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="311556854"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 05:47:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="670927116"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="670927116"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga008.jf.intel.com with ESMTP; 17 Nov 2022 05:47:14 -0800
-Date: Thu, 17 Nov 2022 21:42:50 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Andy Lutomirski <luto@kernel.org>, kvm list <kvm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- the arch/x86 maintainers <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, Fuad Tabba <tabba@google.com>,
- Michael Roth <michael.roth@amd.com>, Michal Hocko <mhocko@suse.com>,
- Muchun Song <songmuchun@bytedance.com>, Wei W Wang <wei.w.wang@intel.com>
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <20221117134250.GC422408@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
- <Y3Uwi2lc4NDrdzML@google.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ovfCE-0002Ve-BT
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:44:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668692688;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DtwWcIYPo6ErocRTIyZStk58GcacysT+X8X8h8hdbok=;
+ b=WufRvJzC0XVdPwOS3BdSIeoqsFuzT5EfIjQSlIsh8M4FWoxFabhdvjVAY+yif1wL6mR+E5
+ 1C9+423l+fZ9jIQ18jWnPMwTJYDb1aCXMH0P51Vl0Rv1Fk3S+7iD+WE0+e5rsTFOj6lMg6
+ cfnJvAYMMKotaNtylvxePe2NzaTLNiM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-424-wZJQH9QdOiOMO-5NvWXpfQ-1; Thu, 17 Nov 2022 08:44:47 -0500
+X-MC-Unique: wZJQH9QdOiOMO-5NvWXpfQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v14-20020adf8b4e000000b0024174021277so723743wra.13
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 05:44:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DtwWcIYPo6ErocRTIyZStk58GcacysT+X8X8h8hdbok=;
+ b=FBZVVTCiO1PQHpJvlnIthJmc2xqjMkCKd4kXxH4DmJn/GdFr1MnwrHat1kWepmKO07
+ Xu4ubPt+z9c2u5uFGOYrp5VL8Makz4wLVU69glM2HfPPmU07RaB6OValaXwnVfQpNBLt
+ xyYEZSu2CZ+xISrgUM3Zewhi+fVn7GSuqVAF+i/1AGXE2KIP8tjA7sKkDxCf6Ge0joNf
+ y7q1q0isqk8Ys1Vw7V4ko5IN6CXzS6OTPXPg91DQcS1bou2Y96WYKRue8ZWFBVfkwrwB
+ WDVh303UvuzrnTP2QXGBjU1uDZZzf1ToB1XnPvpX2i+BXARuoH3hcKIjAVK1Hn5cY8G1
+ NbDA==
+X-Gm-Message-State: ANoB5pkREH6YC47rOqMPh5v2i0u3TPKvCRUzi58O75HjnAzWCvrzcP/v
+ HPPXSLdas1oLEEqZ4qef7XGOMWGCecX0gHlGGG15rW9HhkPyjHQ95uKc3n2gDrREwXeLdurTI2s
+ PO0H2hfhKjw/OYdE=
+X-Received: by 2002:a7b:c852:0:b0:3c6:a8c7:755e with SMTP id
+ c18-20020a7bc852000000b003c6a8c7755emr1701746wml.167.1668692686509; 
+ Thu, 17 Nov 2022 05:44:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6ol33xMADEQQmc0h1ZDbWFq0oTi+62O5GJOtU4CRY6yLLFaf0EWzNsIe5H17RT3rMY8otVRg==
+X-Received: by 2002:a7b:c852:0:b0:3c6:a8c7:755e with SMTP id
+ c18-20020a7bc852000000b003c6a8c7755emr1701731wml.167.1668692686300; 
+ Thu, 17 Nov 2022 05:44:46 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-177-4.web.vodafone.de. [109.43.177.4])
+ by smtp.gmail.com with ESMTPSA id
+ w17-20020adfcd11000000b0022e653f5abbsm1065339wrm.69.2022.11.17.05.44.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 05:44:45 -0800 (PST)
+Message-ID: <324b78bd-39ee-4f24-6b7c-c80b89a483f6@redhat.com>
+Date: Thu, 17 Nov 2022 14:44:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3Uwi2lc4NDrdzML@google.com>
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH for-7.2] tests/avocado/boot_linux: Increase the timeout of
+ the ppc64 test
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-trivial@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Greg Kurz <groug@kaod.org>
+References: <20221117124634.574180-1-thuth@redhat.com>
+ <CAFEAcA8i5GXNKEK+75drx-YqqRxFTFiuwQFvX1sNPjFE0Ckp0g@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAFEAcA8i5GXNKEK+75drx-YqqRxFTFiuwQFvX1sNPjFE0Ckp0g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,64 +102,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 06:48:43PM +0000, Sean Christopherson wrote:
-> On Wed, Nov 16, 2022, Andy Lutomirski wrote:
-> > 
-> > 
-> > On Tue, Oct 25, 2022, at 8:13 AM, Chao Peng wrote:
-> > > diff --git a/Documentation/virt/kvm/api.rst 
-> > > b/Documentation/virt/kvm/api.rst
-> > > index f3fa75649a78..975688912b8c 100644
-> > > --- a/Documentation/virt/kvm/api.rst
-> > > +++ b/Documentation/virt/kvm/api.rst
-> > > @@ -6537,6 +6537,29 @@ array field represents return values. The 
-> > > userspace should update the return
-> > >  values of SBI call before resuming the VCPU. For more details on 
-> > > RISC-V SBI
-> > >  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> > > 
-> > > +::
-> > > +
-> > > +		/* KVM_EXIT_MEMORY_FAULT */
-> > > +		struct {
-> > > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-> > > +			__u32 flags;
-> > > +			__u32 padding;
-> > > +			__u64 gpa;
-> > > +			__u64 size;
-> > > +		} memory;
-> > > +
-> > 
-> > Would it make sense to also have a field for the access type (read, write,
-> > execute, etc)?  I realize that shared <-> private conversion doesn't strictly
-> > need this, but it seems like it could be useful for logging failures and also
-> > for avoiding a second immediate fault if the type gets converted but doesn't
-> > have the right protection yet.
+On 17/11/2022 13.55, Peter Maydell wrote:
+> On Thu, 17 Nov 2022 at 12:46, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> The BootLinuxPPC64.test_pseries_tcg test currently times out in
+>> the gitlab-CI or when building QEMU with --enable-debug. It takes
+>> way more than 300 seconds to finish the test in such environments,
+>> so let's bump the timeout to a more appropriate value.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > 
-> I don't think a separate field is necessary, that info can be conveyed via flags.
-> Though maybe we should go straight to a u64 for flags.
+> I sent a patch for this one last week:
+> https://patchew.org/QEMU/20221110142901.3832318-1-peter.maydell@linaro.org/
+> (although it only pushes the timeout up to 360, not 420).
 
-Yeah, I can do that.
+Ah, great, and Alex also already queued it? Then let's go with your patch. 
+360 seconds should hopefully be enough, too.
 
-> Hmm, and maybe avoid bits
-> 0-3 so that if/when RWX info is conveyed the flags can align with
-> PROT_{READ,WRITE,EXEC} and the EPT flags, e.g.
+  Thomas
 
-You mean avoiding bits 0-2, right, bit3 is not so special and can be used
-for KVM_MEMORY_EXIT_FLAG_PRIVATE.
-
-Chao
-> 
-> 	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
-> 	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
-> 	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
-> 
-> > (Obviously, if this were changed, KVM would need the ability to report that
-> > it doesn't actually know the mode.)
-> > 
-> > --Andy
 
