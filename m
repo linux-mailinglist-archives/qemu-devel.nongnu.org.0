@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D1962D2E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 06:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7BD62D2E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 06:46:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovXil-00030l-RH; Thu, 17 Nov 2022 00:45:55 -0500
+	id 1ovXix-0003P4-34; Thu, 17 Nov 2022 00:46:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ovXi6-0002nn-NM
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:45:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ovXis-0003Ma-U1
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:46:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ovXi2-0000La-WA
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:45:12 -0500
+ id 1ovXir-0000Y3-0P
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:46:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668663910;
+ s=mimecast20190719; t=1668663960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=56i049Aed0JKBuVol4TWmhK7+K9RgEQ60fNagERMDS8=;
- b=L9gI5UFZU0Vim0LGmQcH2qkEkpsf8Iakva392QEElv0ov54E3Ae7yyeQyyuXK+xsMi5BuJ
- BA9wSL9Bi9oytNncRq3dv4rewnsFovoE2P6SF9xyWvcEgynLiU+lCBLRvNybApjVBsNTbQ
- D+Qz1T466eAGQnocCeqGoWyGeeLNbc8=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BtdoskQjcoHK0Pmy3hXWFgBFDBh739YMepNJmtBpfAY=;
+ b=LEtYfdTO+IyB3s6ZnTL2SyXA/+Sosarpxzm7zbfRkooNBgTmdgKfmVlwuExK1Lmo7Shghr
+ 8P2wYWiI7+jiwCOpLyC/XyDc1+9Pqi0NzpWphFdV80EF/muKbX/gGAloTg5Nq0bsekOgOb
+ IU44eDYV3JqILwCHuo1nuDUzN5J79vA=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-379-XQ3xzOPNM4KM8_2kb4IaBQ-1; Thu, 17 Nov 2022 00:45:08 -0500
-X-MC-Unique: XQ3xzOPNM4KM8_2kb4IaBQ-1
-Received: by mail-oi1-f198.google.com with SMTP id
- z15-20020a056808048f00b0035a08170a97so417942oid.2
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 21:45:08 -0800 (PST)
+ us-mta-332--7bFGhydOX-2r7nIHXOeGQ-1; Thu, 17 Nov 2022 00:45:58 -0500
+X-MC-Unique: -7bFGhydOX-2r7nIHXOeGQ-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-13bb98bb80fso363594fac.23
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 21:45:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=56i049Aed0JKBuVol4TWmhK7+K9RgEQ60fNagERMDS8=;
- b=To3g3XDjIwQKT/Zh/t+QDQgPLD2buaqiwk5PXKFarfVyd8ZIuzl1mbGohI8nnZNo25
- a4ufIc8dT2+FYvgQDfK0WiKkzVm9VdjhK+fMPCscA8g2+vyRwbAWSfLWs6iqa/1FYANu
- gCaVoK3O+PVNSyyYRDg77Oo98YFZZEYWVsK8vQzsx3AkLsoZu0zBNSJgVA+suG1nJ7Cm
- s+9pIFjq5NfmlNXc/SN3n1DJyZbKg5gQVeY4RH5m7exZQVFWeRl+CG3XtzVLOAVHI/I4
- QXp5Up66iKUf5/8IBsZWvuCmWHkmT+A3jATukoOv2HJC2Sv3NG1bacKYTcox3Cd0xYEi
- vzgw==
-X-Gm-Message-State: ANoB5plyYAMGNoO76qeCPiVE5AEX4sUzwyR0fp1jOg5nLdEGwdlEkdZL
- zdDYkTKadX5jcIkWqUze06syk5CKa4quACFUvGenfWAGPWVH3uxCjfss0P5n1gmOUu09zUA2q7c
- h0HlVvEnzFfzvK+2Fn/LfbXm1v6YwWv0=
-X-Received: by 2002:a05:6808:220b:b0:359:f5eb:82ec with SMTP id
- bd11-20020a056808220b00b00359f5eb82ecmr416039oib.280.1668663907743; 
- Wed, 16 Nov 2022 21:45:07 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf76rMnpgnQjp6/ZhWLOS0qNtuIB6e3PWR7W+GcYDBtIVg+L09dpqBCuDpSDlzQEO/Uy3jtO6xdLIcbXnqVgd8o=
-X-Received: by 2002:a05:6808:220b:b0:359:f5eb:82ec with SMTP id
- bd11-20020a056808220b00b00359f5eb82ecmr416026oib.280.1668663907571; Wed, 16
- Nov 2022 21:45:07 -0800 (PST)
+ bh=BtdoskQjcoHK0Pmy3hXWFgBFDBh739YMepNJmtBpfAY=;
+ b=NZBunH3hC7jKzmBV8JKIUCNW8/dYfxt0NeyOmGHF/7YwiAJWkugrDSFysMx7zHXu7I
+ HYe7cpYKx1YEFT7Gwzh/u5+39uApnpkpHSmimTQbYglrCTYbZZTYxaBAO91vAaVpbz3I
+ YcIkwD0G92Xc1Xa0Aho06qjKVILQTzHvhMMwRss6DqC/nV5LTN5eyyLYqK6NTAO8iZQD
+ UIRmyVb4H4WjPMxV5aQEQCc8yS3Ui7gBiPj1Q+4WAWy/Rx7YdQAUrZ7BaRUmR2iy1yK9
+ oM8i+Hsp55QgaElQv0QMjpul0a1Cj7MgIyAPRqVN4c41ffYoJyDkbdbHGj0YdCRZQUik
+ ynAQ==
+X-Gm-Message-State: ANoB5pmN+djbw82cToMlVjdmaKudTkEGLUvYl4Foy+Rl48LLOguFYmiJ
+ GsktyEW+okOJEgGHLuzbiSOPodA73aD6nJ4w9QRSylCSx6MuObTwupfOieC46X2Ea914/cifhyd
+ +jeSM9ujOB1sX9msCdidc2gM8x+2NpbM=
+X-Received: by 2002:a05:6870:1e83:b0:132:7b3:29ac with SMTP id
+ pb3-20020a0568701e8300b0013207b329acmr3468105oab.35.1668663958044; 
+ Wed, 16 Nov 2022 21:45:58 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5o3A2pk1Ig3u4EljJ3Sz0sNmrXrwr3drFgESi7p9ocxigUf/Tl1iiOYbvT/ESQXGSC5bMSg3vfYXbKkE3liA0=
+X-Received: by 2002:a05:6870:1e83:b0:132:7b3:29ac with SMTP id
+ pb3-20020a0568701e8300b0013207b329acmr3468093oab.35.1668663957764; Wed, 16
+ Nov 2022 21:45:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20221116150556.1294049-1-eperezma@redhat.com>
- <20221116150556.1294049-7-eperezma@redhat.com>
-In-Reply-To: <20221116150556.1294049-7-eperezma@redhat.com>
+ <20221116150556.1294049-8-eperezma@redhat.com>
+In-Reply-To: <20221116150556.1294049-8-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 17 Nov 2022 13:44:56 +0800
-Message-ID: <CACGkMEv1D5eMz=j6CRYPc2Quve5Z3-ikDCeLcObiFYctnhYGLg@mail.gmail.com>
-Subject: Re: [PATCH for 8.0 v7 06/10] vdpa: Allocate SVQ unconditionally
+Date: Thu, 17 Nov 2022 13:45:46 +0800
+Message-ID: <CACGkMEsVdDS52T_qDe6St5-vZuQc4vOkm0zR0FxS+YUxPLWPHw@mail.gmail.com>
+Subject: Re: [PATCH for 8.0 v7 07/10] vdpa: Add asid parameter to
+ vhost_vdpa_dma_map/unmap
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>, 
  Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
@@ -79,7 +80,7 @@ Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,11 +107,13 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Wed, Nov 16, 2022 at 11:06 PM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
 rote:
 >
-> SVQ may run or not in a device depending on runtime conditions (for
-> example, if the device can move CVQ to its own group or not).
+> So the caller can choose which ASID is destined.
 >
-> Allocate the SVQ array unconditionally at startup, since its hard to
-> move this allocation elsewhere.
+> No need to update the batch functions as they will always be called from
+> memory listener updates at the moment. Memory listener updates will
+> always update ASID 0, as it's the passthrough ASID.
+>
+> All vhost devices's ASID are 0 at this moment.
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
@@ -119,25 +122,246 @@ Acked-by: Jason Wang <jasowang@redhat.com>
 Thanks
 
 > ---
->  hw/virtio/vhost-vdpa.c | 4 ----
->  1 file changed, 4 deletions(-)
+> v7:
+> * Move comment on zero initailization of vhost_vdpa_dma_map above the
+>   functions.
+> * Add VHOST_VDPA_GUEST_PA_ASID macro.
 >
+> v5:
+> * Solve conflict, now vhost_vdpa_svq_unmap_ring returns void
+> * Change comment on zero initialization.
+>
+> v4: Add comment specifying behavior if device does not support _F_ASID
+>
+> v3: Deleted unneeded space
+> ---
+>  include/hw/virtio/vhost-vdpa.h | 14 ++++++++++---
+>  hw/virtio/vhost-vdpa.c         | 36 +++++++++++++++++++++++-----------
+>  net/vhost-vdpa.c               |  6 +++---
+>  hw/virtio/trace-events         |  4 ++--
+>  4 files changed, 41 insertions(+), 19 deletions(-)
+>
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index 1111d85643..e57dfa1fd1 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -19,6 +19,12 @@
+>  #include "hw/virtio/virtio.h"
+>  #include "standard-headers/linux/vhost_types.h"
+>
+> +/*
+> + * ASID dedicated to map guest's addresses.  If SVQ is disabled it maps =
+GPA to
+> + * qemu's IOVA.  If SVQ is enabled it maps also the SVQ vring here
+> + */
+> +#define VHOST_VDPA_GUEST_PA_ASID 0
+> +
+>  typedef struct VhostVDPAHostNotifier {
+>      MemoryRegion mr;
+>      void *addr;
+> @@ -29,6 +35,7 @@ typedef struct vhost_vdpa {
+>      int index;
+>      uint32_t msg_type;
+>      bool iotlb_batch_begin_sent;
+> +    uint32_t address_space_id;
+>      MemoryListener listener;
+>      struct vhost_vdpa_iova_range iova_range;
+>      uint64_t acked_features;
+> @@ -42,8 +49,9 @@ typedef struct vhost_vdpa {
+>      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+>  } VhostVDPA;
+>
+> -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+> -                       void *vaddr, bool readonly);
+> -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size)=
+;
+> +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> +                       hwaddr size, void *vaddr, bool readonly);
+> +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
+a,
+> +                         hwaddr size);
+>
+>  #endif
 > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 146f0dcb40..23efb8f49d 100644
+> index 23efb8f49d..1e4e1cb523 100644
 > --- a/hw/virtio/vhost-vdpa.c
 > +++ b/hw/virtio/vhost-vdpa.c
-> @@ -547,10 +547,6 @@ static void vhost_vdpa_svq_cleanup(struct vhost_dev =
-*dev)
->      struct vhost_vdpa *v =3D dev->opaque;
->      size_t idx;
+> @@ -72,22 +72,28 @@ static bool vhost_vdpa_listener_skipped_section(Memor=
+yRegionSection *section,
+>      return false;
+>  }
 >
-> -    if (!v->shadow_vqs) {
-> -        return;
-> -    }
-> -
->      for (idx =3D 0; idx < v->shadow_vqs->len; ++idx) {
->          vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, idx));
+> -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+> -                       void *vaddr, bool readonly)
+> +/*
+> + * The caller must set asid =3D 0 if the device does not support asid.
+> + * This is not an ABI break since it is set to 0 by the initializer anyw=
+ay.
+> + */
+> +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> +                       hwaddr size, void *vaddr, bool readonly)
+>  {
+>      struct vhost_msg_v2 msg =3D {};
+>      int fd =3D v->device_fd;
+>      int ret =3D 0;
+>
+>      msg.type =3D v->msg_type;
+> +    msg.asid =3D asid;
+>      msg.iotlb.iova =3D iova;
+>      msg.iotlb.size =3D size;
+>      msg.iotlb.uaddr =3D (uint64_t)(uintptr_t)vaddr;
+>      msg.iotlb.perm =3D readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
+>      msg.iotlb.type =3D VHOST_IOTLB_UPDATE;
+>
+> -   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb.s=
+ize,
+> -                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb.t=
+ype);
+> +    trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.asid, msg.iotlb.iova,
+> +                             msg.iotlb.size, msg.iotlb.uaddr, msg.iotlb.=
+perm,
+> +                             msg.iotlb.type);
+>
+>      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
+>          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
+> @@ -98,18 +104,24 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr =
+iova, hwaddr size,
+>      return ret;
+>  }
+>
+> -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size)
+> +/*
+> + * The caller must set asid =3D 0 if the device does not support asid.
+> + * This is not an ABI break since it is set to 0 by the initializer anyw=
+ay.
+> + */
+> +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
+a,
+> +                         hwaddr size)
+>  {
+>      struct vhost_msg_v2 msg =3D {};
+>      int fd =3D v->device_fd;
+>      int ret =3D 0;
+>
+>      msg.type =3D v->msg_type;
+> +    msg.asid =3D asid;
+>      msg.iotlb.iova =3D iova;
+>      msg.iotlb.size =3D size;
+>      msg.iotlb.type =3D VHOST_IOTLB_INVALIDATE;
+>
+> -    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
+> +    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.asid, msg.iotlb.iova=
+,
+>                                 msg.iotlb.size, msg.iotlb.type);
+>
+>      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
+> @@ -229,8 +241,8 @@ static void vhost_vdpa_listener_region_add(MemoryList=
+ener *listener,
 >      }
+>
+>      vhost_vdpa_iotlb_batch_begin_once(v);
+> -    ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+> -                             vaddr, section->readonly);
+> +    ret =3D vhost_vdpa_dma_map(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+> +                             int128_get64(llsize), vaddr, section->reado=
+nly);
+>      if (ret) {
+>          error_report("vhost vdpa map fail!");
+>          goto fail_map;
+> @@ -303,7 +315,8 @@ static void vhost_vdpa_listener_region_del(MemoryList=
+ener *listener,
+>          vhost_iova_tree_remove(v->iova_tree, *result);
+>      }
+>      vhost_vdpa_iotlb_batch_begin_once(v);
+> -    ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+> +    ret =3D vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+> +                               int128_get64(llsize));
+>      if (ret) {
+>          error_report("vhost_vdpa dma unmap error!");
+>      }
+> @@ -884,7 +897,7 @@ static void vhost_vdpa_svq_unmap_ring(struct vhost_vd=
+pa *v, hwaddr addr)
+>      }
+>
+>      size =3D ROUND_UP(result->size, qemu_real_host_page_size());
+> -    r =3D vhost_vdpa_dma_unmap(v, result->iova, size);
+> +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, result->iova, siz=
+e);
+>      if (unlikely(r < 0)) {
+>          error_report("Unable to unmap SVQ vring: %s (%d)", g_strerror(-r=
+), -r);
+>          return;
+> @@ -924,7 +937,8 @@ static bool vhost_vdpa_svq_map_ring(struct vhost_vdpa=
+ *v, DMAMap *needle,
+>          return false;
+>      }
+>
+> -    r =3D vhost_vdpa_dma_map(v, needle->iova, needle->size + 1,
+> +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, needle->iova,
+> +                           needle->size + 1,
+>                             (void *)(uintptr_t)needle->translated_addr,
+>                             needle->perm =3D=3D IOMMU_RO);
+>      if (unlikely(r !=3D 0)) {
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index dd9cea42d0..89b01fcaec 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -258,7 +258,7 @@ static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdp=
+a *v, void *addr)
+>          return;
+>      }
+>
+> -    r =3D vhost_vdpa_dma_unmap(v, map->iova, map->size + 1);
+> +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, map->iova, map->s=
+ize + 1);
+>      if (unlikely(r !=3D 0)) {
+>          error_report("Device cannot unmap: %s(%d)", g_strerror(r), r);
+>      }
+> @@ -298,8 +298,8 @@ static int vhost_vdpa_cvq_map_buf(struct vhost_vdpa *=
+v, void *buf, size_t size,
+>          return r;
+>      }
+>
+> -    r =3D vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_le=
+n(), buf,
+> -                           !write);
+> +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, map.iova,
+> +                           vhost_vdpa_net_cvq_cmd_page_len(), buf, !writ=
+e);
+>      if (unlikely(r < 0)) {
+>          goto dma_map_err;
+>      }
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index 820dadc26c..0ad9390307 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -30,8 +30,8 @@ vhost_user_write(uint32_t req, uint32_t flags) "req:%d =
+flags:0x%"PRIx32""
+>  vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
+>
+>  # vhost-vdpa.c
+> -vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova,=
+ uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d=
+ msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64"=
+ perm: 0x%"PRIx8" type: %"PRIu8
+> -vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iov=
+a, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0=
+x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
+> +vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asid,=
+ uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) =
+"vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size:=
+ 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+> +vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t asi=
+d, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"=
+PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
+>  vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint=
+8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+>  vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t t=
+ype)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+>  vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend=
+, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" =
+vaddr: %p read-only: %d"
 > --
 > 2.31.1
 >
