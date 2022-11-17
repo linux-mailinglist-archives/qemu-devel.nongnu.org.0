@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0AC62DD57
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AC562DD7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 15:03:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovfM3-000389-5F; Thu, 17 Nov 2022 08:55:00 -0500
+	id 1ovfSq-0006IM-E2; Thu, 17 Nov 2022 09:02:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ovfLU-00036L-AL
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:54:26 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ovfSk-0006HJ-6X
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:01:54 -0500
+Received: from mr85p00im-zteg06011501.me.com ([17.58.23.182])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ovfLR-00046A-OM
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:54:24 -0500
-Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NChCf00Kyz689QS;
- Thu, 17 Nov 2022 21:51:25 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 17 Nov 2022 14:53:52 +0100
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 17 Nov
- 2022 13:53:52 +0000
-Date: Thu, 17 Nov 2022 13:53:51 +0000
-To: Gregory Price <gregory.price@memverge.com>
-CC: Gregory Price <gourry.memverge@gmail.com>, <qemu-devel@nongnu.org>,
- <linux-cxl@vger.kernel.org>, <mst@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <imammedo@redhat.com>, <ani@anisinha.ca>, <alison.schofield@intel.com>,
- <dave@stgolabs.net>, <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
- <hchkuo@avery-design.com.tw>, <cbrowy@avery-design.com>,
- <ira.weiny@intel.com>
-Subject: Re: [PATCH 3/4] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
- and Persistent)
-Message-ID: <20221117135351.00003609@Huawei.com>
-In-Reply-To: <Y3LIq0CvRMI5i4U3@memverge.com>
-References: <20221026004737.3646-1-gregory.price@memverge.com>
- <20221026004737.3646-4-gregory.price@memverge.com>
- <20221114175341.000036c4@Huawei.com>
- <Y3LIq0CvRMI5i4U3@memverge.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ovfSg-0006Ac-6b
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:01:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1668693700; bh=tYCNi8aTBNQGFX0N6hMYLcRuoK+1KrW9zCSzQ+V9Z1U=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=DL/8Id8bvEvuJtE5w/jVVUtvWA22DOMcoOJ8CT+gR4LVDV0xtx+E4HAF5GxxrZsyj
+ n9S4p06eq44kwVZgzADgP8IvI25dsUNbbJz2NGhWf8s1kkoPBSYqjE7/ub9r3Mxh7H
+ cRW9LKKCSEA369uT4S1VVHWy8qirWvC306NbfJE5nQ1s7StWJ7bWmlCY/w1YHCx+yK
+ b2sfl8VHiq06uoTm3ZvIA0RWqgrKva7ABuTPjJneGt/M6e1zS9zykxU9DrFtEyTAAB
+ Tu22d+fjES6HWTh7q6wmDA/2jj1gdOAjjk7sIbXGQkTb/BOD8MqHrmdOPJXREgs852
+ /k+4IqhAmf1tA==
+Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.152.18])
+ by mr85p00im-zteg06011501.me.com (Postfix) with ESMTPSA id F19E9480BEA;
+ Thu, 17 Nov 2022 14:01:37 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH v2 3/3] hvf: handle writes of MDSCR_EL1 and DBG*_EL1
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <20221116174749.65175-4-fcagnin@quarkslab.com>
+Date: Thu, 17 Nov 2022 15:01:25 +0100
+Cc: qemu-devel@nongnu.org, dirty@apple.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>,
+ Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Francesco Cagnin <fcagnin@quarkslab.com>
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-Id: <F49251B5-72CD-47FD-AE00-E6F8DA1E9D03@ynddal.dk>
+References: <20221116174749.65175-1-fcagnin@quarkslab.com>
+ <20221116174749.65175-4-fcagnin@quarkslab.com>
+To: francesco.cagnin@gmail.com
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+X-Proofpoint-GUID: FgiAPOLU39HsHLIUQwgzl9pJ7bmlDTYS
+X-Proofpoint-ORIG-GUID: FgiAPOLU39HsHLIUQwgzl9pJ7bmlDTYS
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=331
+ malwarescore=0 adultscore=0 spamscore=0 bulkscore=0 clxscore=1030
+ suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2211170106
+Received-SPF: pass client-ip=17.58.23.182; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-zteg06011501.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,53 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 14 Nov 2022 18:00:59 -0500
-Gregory Price <gregory.price@memverge.com> wrote:
 
-> On Mon, Nov 14, 2022 at 05:53:41PM +0000, Jonathan Cameron wrote:
-> > Hi Gregory,
-> > 
-> > I've not been rushing on this purely because we are after the feature
-> > freeze for this QEMU cycle so no great rush to line up new features
-> > (and there was some fun with the pull request the previous set of QEMU
-> > CXL features were in - unrelated to those patches).
-> > 
-> > A few comments inline.
-> > 
-> > Once I've chased down a segfault on power down of my qemu setup (that
-> > seems to have nothing to do with the CXL support. *sigh*) I'll push out
-> > an updated tree with this on it for testing purposes.
-> > 
-> > Thanks,
-> > 
-> > Jonathan
-> >   
+> On 16 Nov 2022, at 18.47, francesco.cagnin@gmail.com wrote:
 > 
-> All good, I've been wrapped up in other work.  Just ping me when you are
-> pushing a new branch and i'll gladly rebased and address the notes.
-
-https://gitlab.com/jic23/qemu/-/tree/cxl-2022-11-17
-
-Has two patches from this series on top currently.  I'll switch those out
-for your next version when available.
-
-There is a segmentation fault on powering down the qemu VMs at the moment,
-but it's not connected to the cxl code, but rather just memory backends
-(happens with upstream, including when cxl is turned off and the memory
-backends aren't being used).
-
-I'm not currently carrying Ira's error injection series yet but otherwise this
-has pretty much everything that is in flight.
-
-Jonathan
-
+> From: Francesco Cagnin <fcagnin@quarkslab.com>
 > 
-> Regards
-> Gregory
+> This proved to be required when debugging the Linux kernel's initial
+> code, as the Hypervisor framework was triggering 'EC_SYSTEMREGISTERTRAP'
+> VM exits after enabling trap exceptions with
+> 'hv_vcpu_set_trap_debug_exceptions()'.
+> 
+> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
+> ---
+> target/arm/hvf/hvf.c | 140 +++++++++++++++++++++++++++++++++++++++++++
+> 1 file changed, 140 insertions(+)
 
+Looks good to me.
+
+Reviewed-by: Mads Ynddal <mads@ynddal.dk>
 
