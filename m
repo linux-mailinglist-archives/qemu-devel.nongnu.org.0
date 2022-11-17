@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6ED62DE15
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 15:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705BB62DE76
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 15:42:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovfsJ-00023P-1u; Thu, 17 Nov 2022 09:28:19 -0500
+	id 1ovg2z-0003q9-NB; Thu, 17 Nov 2022 09:39:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ovfs5-00022r-J2; Thu, 17 Nov 2022 09:28:07 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovg2w-0003pt-3w
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:39:18 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ovfs3-0003ZU-ON; Thu, 17 Nov 2022 09:28:05 -0500
-Received: by mail-oi1-x234.google.com with SMTP id q83so2001040oib.10;
- Thu, 17 Nov 2022 06:28:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovg2p-0005W5-II
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 09:39:17 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ m7-20020a05600c090700b003cf8a105d9eso1927266wmp.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 06:39:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=AQzSZWDK6EIuNW/7xsxaVVYkKt/fw6PerIxrd9PGlVU=;
- b=TYfDigcl6SS5y9eX0dZeKMV1IX10z0l+sWrt33GEDDVGDxwj0i1Fpc4OhxYa+nSslF
- hSt6MSkZtgM7VgOShRvcbdPrNwIXjsFgJfadKkjigiFh1zbhM8bixA6l3/hiiBSWDqs/
- oYweNz2iegRwRjn4slsGnScGhJEfzeEcCZX1rvB6cPp+/uYFVLjXYMk+U/A5OAZfS4xt
- bSfsy+2y8kU7jcXEc+kI4x9DmuQnaPJ35Pn9EXTGH3+xQDOxW7rs/zeQbKUeTuKMp1q5
- IIWPPkNvOYmBs1t4cTKCHmRqrjiJQpjJf7FM/skHnx0lXiYxf4xP0KjggLpqtg2J0Vdx
- Ud8A==
+ bh=1Z2yMoxwJqfO8CgJseTWmkltnNsVcju6Iirm4iV07Yc=;
+ b=Wxd2X+J9kZCgomJTB5UyVuVmqRUblCM5DenGzs7M5Gu2tRxbJGKOK7Gjw0F8CAfVQv
+ IX6lh9xHEx6k5mLms2y07GhFdyYSKo5L5bassWvz3NEXRuG8B8Ps1wQUXGs7touEZvrK
+ DRG6ZYayGsSiAmzkSzlvsoqfXPzte5qc4yGEDx7j6Dr/0oWx3SQoKmK+pJISE19yGF0Y
+ JUDAl/FcPIxddbxbiWxwdCxzz97UTPPNdeihusQ4YM4k6cUF6t7BiB/vj9qDwvet4iVd
+ 4gAlfxTXVIaey2rWeV8f5LxezYHNvwTPwG7TFkoMqnggQt0/hBxbYacjuMkZ20dEvY8c
+ MMJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AQzSZWDK6EIuNW/7xsxaVVYkKt/fw6PerIxrd9PGlVU=;
- b=p+7jBnSAj5mY8gax4k+vtEa9wYnFymqWST8VK6eEnkLU+K71zji74yJuwKmtKmR/ov
- q8q+0WN4n620GjH31z0bra2LJv05J+M2smGqfPmkoFJ1TrMbaCOOqIVOLAWC+ZYeBIxZ
- VISprb6uJrUj65JIVIgyurhOiPQev1SqsjJNMIzoD7FKOiimnADWIoedQwVvtzbGot+l
- Q5wZjkfYPlrzjYN0AMPgDds82WGpxDMtUYwGF89lNyNL5rheZBj8iAaFIf/V2iZx4dy2
- v9GXIl6TEw/sXOPdKFZzvWcvBGrPIhXxaiMrqvNh6FVpdBKy5/1pEWOMQlwuVJoRNYt+
- UZ5w==
-X-Gm-Message-State: ANoB5pk3iQykyKqeEM2ajn0Kqb5RwcwWf05FlfxlznyndFFIJDjWIjfI
- QP/DutSPOYRBRTlKVoG6BoA=
-X-Google-Smtp-Source: AA0mqf5Ge67PD4RUhQs+8TNWwXWPOI1xxHCwdGioWgJfzcQzTuUpEBKq+EBNqZELhpBxVxkTY4a5eg==
-X-Received: by 2002:a05:6808:57:b0:344:e634:14c5 with SMTP id
- v23-20020a056808005700b00344e63414c5mr1263556oic.252.1668695282080; 
- Thu, 17 Nov 2022 06:28:02 -0800 (PST)
-Received: from [192.168.10.102] ([177.139.31.146])
- by smtp.gmail.com with ESMTPSA id
- b2-20020a9d4782000000b0066193df8edasm367294otf.34.2022.11.17.06.27.59
+ bh=1Z2yMoxwJqfO8CgJseTWmkltnNsVcju6Iirm4iV07Yc=;
+ b=waeZ1BDpEcwthti8JqM0MRD5FmGd/jflTqvGW6t9ICHtHR9CmtFhWUV/0zJbIFcxg0
+ IFqJP8BurRucZ1NjaJSYVkLuNyi8wV7PLa/MCbZmO85UQKk6BgfKu6mERrglM1V85D7/
+ t9d/5zw///1AzSciqacJgfs82G0Lw4lJl1mD5OkqtvIYGoUdOeCih2X/0rZfcq9+XnjB
+ BEc2bXxcXP96dwk7kPD3OjJ4gGDhcjO7mlvLm2ZhNdHAnGfHdSU0E41OBXMERNJSJP9G
+ lGM7FSYDhpK8nmZT6r8PB41a0UKm0/pULjAo6DoU0//sdrjnnCM94RTEffwSWVvtT6Xc
+ 1psA==
+X-Gm-Message-State: ANoB5pl9y+bqG/1FvlYwvzeF5TGd96xsKKiPfbjnryt2YK4abzivmqQ2
+ U42L34OMJVwWJgooFO50M1O+WA==
+X-Google-Smtp-Source: AA0mqf6WlpAlkK2ngNII9Xm1U/PsynPQW4Fq0Qr4nPKszZJsX+aFbH84yLod5jlIWf7+sDH1YAFKqw==
+X-Received: by 2002:a7b:ce8c:0:b0:3cf:8b2d:8cbc with SMTP id
+ q12-20020a7bce8c000000b003cf8b2d8cbcmr1993694wmj.89.1668695949448; 
+ Thu, 17 Nov 2022 06:39:09 -0800 (PST)
+Received: from [192.168.189.175] (58.red-88-29-172.dynamicip.rima-tde.net.
+ [88.29.172.58]) by smtp.gmail.com with ESMTPSA id
+ bi18-20020a05600c3d9200b003cfd42821dasm1502259wmb.3.2022.11.17.06.39.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 06:28:01 -0800 (PST)
-Message-ID: <2f4c6e2c-9915-6aba-66c7-f28eee9e52ea@gmail.com>
-Date: Thu, 17 Nov 2022 11:27:58 -0300
+ Thu, 17 Nov 2022 06:39:09 -0800 (PST)
+Message-ID: <5dd7eb50-3d80-81f1-7e40-f75a258852ec@linaro.org>
+Date: Thu, 17 Nov 2022 15:39:07 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] target/ppc: Fix build warnings when building with
- 'disable-tcg'
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH] ci: replace x86_64 macos-11 with aarch64 macos-12
 Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
- Kowshik Jois B S <kowsjois@linux.ibm.com>
-References: <20221116131743.658708-1-vaibhav@linux.ibm.com>
- <9b92deef-e0ef-101d-8f7e-2b4634bde6de@gmail.com>
- <20221117115005.4b23a318@bahia>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221117115005.4b23a318@bahia>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20221116175023.80627-1-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221116175023.80627-1-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,129 +94,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 16/11/22 18:50, Daniel P. Berrangé wrote:
+> The Cirrus CI service has announced the intent to discontinue
+> support for x86_64 macOS CI runners. They already have aarch64
+> runners available and require all projects to switch to these
+> images before Jan 1st 2023. The different architecture is
+> merely determined by the image name requested.
+> 
+> For aarch64 they only support macOS 12 onwards. At the same
+> time our support policy only guarantees the most recent 2
+> major versions, so macOS 12 is already technically our min
+> version.
+> 
+> https://cirrus-ci.org/blog/2022/11/08/sunsetting-intel-macos-instances/
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   .gitlab-ci.d/cirrus.yml                              | 12 ++++++------
+>   .gitlab-ci.d/cirrus/{macos-11.vars => macos-12.vars} | 12 ++++++------
+>   tests/lcitool/libvirt-ci                             |  2 +-
+>   tests/lcitool/refresh                                |  2 +-
+>   4 files changed, 14 insertions(+), 14 deletions(-)
+>   rename .gitlab-ci.d/cirrus/{macos-11.vars => macos-12.vars} (74%)
 
+Thanks!
 
-On 11/17/22 07:50, Greg Kurz wrote:
-> On Thu, 17 Nov 2022 07:11:51 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> 
->> Queued in gitlab.com/danielhb/qemu/tree/ppc-next with the following tags:
->>
-> 
-> You are planning a PR before 7.2-rc2, right ?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-I'll send it today.
-
-> 
->>
->>       Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
->>       Fixes: 61bd1d2942 ("target/ppc: Convert to tcg_ops restore_state_to_opc")
->>       Fixes: 670f1da374 ("target/ppc: Implement hashst and hashchk")
-> 
-> The guard macro also covers the following two, introduced by yet another commit.
-> 
->    HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
->    HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-> 
-> Fixes: 53ae2aeb9407 ("target/ppc: Implement hashstp and hashchkp")
-
-
-Added this tag in-tree as well:
-
-
-     Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
-     Fixes: 61bd1d2942 ("target/ppc: Convert to tcg_ops restore_state_to_opc")
-     Fixes: 670f1da374 ("target/ppc: Implement hashst and hashchk")
-     Fixes: 53ae2aeb94 ("target/ppc: Implement hashstp and hashchkp")
-     Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1319
-     Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-     Reviewed-by: Greg Kurz <groug@kaod.org>
-     Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-     Tested-by: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
-
-
-Daniel
-
-> 
->>       Resolves: https://gitlab.com/qemu-project/qemu/-/issues/377
-> 
-> Err... I don't see any relation with this issue.
-> 
-> Cedric ?
-> 
-> But this resolves the issue created by Vaibhav for 7.2 :
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1319
-> 
->>       Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
->>       Reviewed-by: Greg Kurz <groug@kaod.org>
->>       Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>       Tested-by: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->> On 11/16/22 10:17, Vaibhav Jain wrote:
->>> Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
->>> target is failing due to following build warnings:
->>>
->>> <snip>
->>>    ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
->>>    7018 | static void ppc_restore_state_to_opc(CPUState *cs,
->>> <snip>
->>>
->>> Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
->>> they are only defined if qemu is compiled with '--enable-tcg'
->>>
->>> Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
->>> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
->>> ---
->>>    target/ppc/cpu_init.c    | 2 ++
->>>    target/ppc/excp_helper.c | 2 ++
->>>    2 files changed, 4 insertions(+)
->>>
->>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->>> index 32e94153d1..cbf0081374 100644
->>> --- a/target/ppc/cpu_init.c
->>> +++ b/target/ppc/cpu_init.c
->>> @@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
->>>        return cpu->env.nip;
->>>    }
->>>    
->>> +#ifdef CONFIG_TCG
->>>    static void ppc_restore_state_to_opc(CPUState *cs,
->>>                                         const TranslationBlock *tb,
->>>                                         const uint64_t *data)
->>> @@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
->>>    
->>>        cpu->env.nip = data[0];
->>>    }
->>> +#endif /* CONFIG_TCG */
->>>    
->>>    static bool ppc_cpu_has_work(CPUState *cs)
->>>    {
->>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->>> index a05a2ed595..94adcb766b 100644
->>> --- a/target/ppc/excp_helper.c
->>> +++ b/target/ppc/excp_helper.c
->>> @@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
->>>    #endif
->>>    #endif
->>>    
->>> +#ifdef CONFIG_TCG
->>>    static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
->>>    {
->>>        const uint16_t c = 0xfffc;
->>> @@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
->>>    HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
->>>    HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
->>>    HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
->>> +#endif /* CONFIG_TCG */
->>>    
->>>    #if !defined(CONFIG_USER_ONLY)
->>>    
-> 
 
