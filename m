@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD6262D421
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 08:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DB162D43A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 08:39:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovZMX-0005zL-8r; Thu, 17 Nov 2022 02:31:05 -0500
+	id 1ovZSs-0001IW-TH; Thu, 17 Nov 2022 02:37:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovZML-0005y4-Ny; Thu, 17 Nov 2022 02:30:53 -0500
+ id 1ovZSo-0001HN-8Y; Thu, 17 Nov 2022 02:37:34 -0500
 Received: from out3-smtp.messagingengine.com ([66.111.4.27])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovZMJ-0006Zz-Dc; Thu, 17 Nov 2022 02:30:53 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id EF7455C0045;
- Thu, 17 Nov 2022 02:30:49 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 17 Nov 2022 02:30:49 -0500
+ id 1ovZSm-0007j8-59; Thu, 17 Nov 2022 02:37:34 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 88B115C02D2;
+ Thu, 17 Nov 2022 02:37:30 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 17 Nov 2022 02:37:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668670249; x=1668756649; bh=qt
- saj5Vl84LygA67Dgou+dD/dfpePaIpq6gWYqq2Kgs=; b=AQUtVDVfbTm6qYjLVU
- THzC6DSnZlOMtGemXbnnLGBkWI0+SG3t0EtOBJcvYz0JqUKbChJdqlIv/afRkL0V
- GeoedqseLnHyoN8GVARC5BoiOs2hs2FXh4w4k4FitjqqaeXyHAVFUryVmaBai6fY
- R0WyJSX/vRmv2bcpTCmuScxJgk3UWBB+4L5/yrm/X6TcrXzKF3p6J+EdFF6xWW90
- voa8YmJnDP8gNiN75uSlv46AS6axxrNRja8bF8kJU0oRpxk0S/9y/kY/OAt+iWmB
- /i3WZtFf6Feu7/ePn51zbNCI8z6T8MgsbETKUXwbhEgobTVnGLYKOO7/T4tjO5SK
- svaQ==
+ :subject:subject:to:to; s=fm3; t=1668670650; x=1668757050; bh=89
+ 1SjVv0/f5vxwmIG406zhFqC14wW+Cyk4cKtiURAcM=; b=YrpY+NGFwUGWLAOqJp
+ C1EK8xbSHUn5O7WKHBd2AuafZaj0/NhbeySdwlVGmi1LlKqo+mU3RQpi2BMRwAF2
+ AqLpSZIBJEViTic4sM4BKuRYkGj1e/roTWVQ8oTJVUadky+eVM2PGNk0GuqAkgOY
+ lrqr9q7LED5Mis5JOVB8ld57tyTlADemGy28EQVInRSsV/t439uoLlsnX1MjXEpN
+ g825wbZbd8UKqkwTmh6rBrELIRmw8VabCfYTVf0K4U8tXocsJhc0OfNB/SEHXbz4
+ h2CKlDIHCe4QtEyntejRRivOgDICE2Q9+PuISqpR7k3l48zgMbz+8alAtka0Ui3Q
+ UMOA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668670249; x=1668756649; bh=qtsaj5Vl84LygA67Dgou+dD/dfpe
- PaIpq6gWYqq2Kgs=; b=WzaceZJhYcNxYl2rdjWNO0g8fe6Yy0H55UhcjWedythx
- 6htOdhYQJxwDYTr6T8egUOWgT2Rwm2ORvpb9n1rAChhnklhzKpDwf1bp/wmcpXoi
- zUXCKqfhmgI3+xWae9Wa+UxozZCn7WYYZ2YOfLjv/v7RR7toXfCrrlxPL7J6BVz9
- YGBGkjHihXfRKm8ExXWrKRNWEAoBy5AkzGhysTY0/8wrFzcjiYQler3yfTPKROJ/
- rE9McKuBcPOyT0A+AUema/uW8/H0k9nYcO+tZXQty4FuZiSsGWmgoFLqIzIfkg7M
- Q1O0+D+GVP4r1gGWtVFY6QCahoGqXrXMZ5bg4pvJmg==
-X-ME-Sender: <xms:KeN1Y15NOpAshUhv_KEq6qPSd0wfXciSO7jOhU-mARYmjCG4KAUr5Q>
- <xme:KeN1Yy6B8-g1eVAYjXpw-Y9__CuLUYxxkizkph0QjIPGMGMUMR-3pvZztM0UJDmA3
- c4ajZymI1FlSxbTe2A>
-X-ME-Received: <xmr:KeN1Y8eshefK6bOT5msWW-ozTDX47BuIJc76-JLVL30W9pQVDa--6djY99yDXAJJGvh_LkQ4YI6t5UMZWPu3okips1VY7w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeejgdduuddtucetufdoteggodetrfdotf
+ fm1; t=1668670650; x=1668757050; bh=891SjVv0/f5vxwmIG406zhFqC14w
+ W+Cyk4cKtiURAcM=; b=nGdZyTA0RkNfAWHcLQIYpB0NGCfoVHTCBMNCGLucm55Y
+ GOzUxbUius4IJ7eUTW7Y0UHYhPrGkDaINgPNWIbjVWH0FYPl2I+LGZl6h5elkRBS
+ CZRYIB+tQlr+Eolrn/fHf+fGXdIIPyIskF1xcIct7EObEHB0vfwLlzSdR2S/H/EN
+ iMBNkjzQFpewiDAol5/gzJWxnu+jgqU/5zVoC6cnPlo2007QcefzCQwaS5da5qqe
+ /8RnkYcG1DjyLpNE311xtvFoXnZxuf6bXS4UnKANv9AlrOLiyXLliUdlTjLPL5+A
+ cHcPnqIbRe4BOGnAR/2hctwbJ/bRnIXWmR0XhP17ng==
+X-ME-Sender: <xms:ueR1Y4pZr45ArH9yDu3455OKP4IntkH_nJzR45b9vHDDHOdcKkOsZg>
+ <xme:ueR1Y-o3ScqgLSFtJPTMhvLGpL6-SfX-h5tnOVrzJX05-soNmpnCaNBtMe7UUl7GQ
+ gALNr-XVvPfpALBikQ>
+X-ME-Received: <xmr:ueR1Y9NigViKTyW7p_7iW5DrJ_R83Qa7Esfovfi0ehoknIHVd0HuCeke9lKfdQDQ4l39qAvaJZkpxo_Dk6VeJiCCQPdtQA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeejgdduudduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
@@ -56,27 +56,35 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeejgdduuddtucetufdoteggod
  htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
  jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:KeN1Y-LGfMseaM_7gcZm5y82l8D7LLeizpwPBGkcDZePfaCxiekCkA>
- <xmx:KeN1Y5J-a0--GeKjeQOQqhqTUrKQNpmbpEE8dM3NIKjiP6LTDmyhUA>
- <xmx:KeN1Y3ys-i8th6mmqPbzR19muq50uDcfvBmx1t6I1OH01TEoyg_FlQ>
- <xmx:KeN1Y52lBbjFmr_IG-npUdOCoNfGivWaq6y0Wt0WaSRvytCFePD1HQ>
+X-ME-Proxy: <xmx:ueR1Y_4RSEckmNSYu_JReRQZ30HsVSM9NTeXx67daeXKzhfF2LmAgQ>
+ <xmx:ueR1Y36hRTBFGsfpDkzScDqETIfZ4OwqOyN7m1vDx46IaIPRB1MAMA>
+ <xmx:ueR1Y_iSy8HkBrI8bFCwlHUOlwUZ3dVGic369gIOwJZDhvnZfONIzw>
+ <xmx:uuR1Y7hTzKLYEnQ-mmYwxxB5XgtPekediVGOTM5U733kwQu6S63H0g>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Nov 2022 02:30:48 -0500 (EST)
-Date: Thu, 17 Nov 2022 08:30:46 +0100
+ 17 Nov 2022 02:37:27 -0500 (EST)
+Date: Thu, 17 Nov 2022 08:37:26 +0100
 From: Klaus Jensen <its@irrelevant.dk>
-To: Joel Granados <j.granados@samsung.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, k.jensen@samsung.com
-Subject: Re: [PATCH v3 2/2] nvme: Add physical writes/reads from OCP log
-Message-ID: <Y3XjJiE87sp1hy7f@cormorant.local>
-References: <20221116171455.3401086-1-j.granados@samsung.com>
- <CGME20221116171836eucas1p1dfaeb8826ca901f20ede7567ec2623e3@eucas1p1.samsung.com>
- <20221116171455.3401086-3-j.granados@samsung.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Keith Busch <kbusch@kernel.org>, Corey Minyard <cminyard@mvista.com>,
+ Peter Delevoryas <peter@pjd.dev>, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Jeremy Kerr <jk@codeconstruct.com.au>,
+ Joel Stanley <joel@jms.id.au>, Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when
+ bus is idle
+Message-ID: <Y3Xktt8b85RvJ89A@cormorant.local>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+ <20221116084312.35808-2-its@irrelevant.dk>
+ <8dd9ed34-93c3-0638-e152-f619f9e097e6@kaod.org>
+ <Y3XXcWUnntBrIXq+@cormorant.local>
+ <6bfe7b2e-2e4f-c286-530a-b0342f9107a0@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="CtJlmsF9ZnjKfs8T"
+ protocol="application/pgp-signature"; boundary="O22X86+JsKrlo8Eb"
 Content-Disposition: inline
-In-Reply-To: <20221116171455.3401086-3-j.granados@samsung.com>
+In-Reply-To: <6bfe7b2e-2e4f-c286-530a-b0342f9107a0@kaod.org>
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
  helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -102,134 +110,85 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---CtJlmsF9ZnjKfs8T
+--O22X86+JsKrlo8Eb
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Nov 16 18:14, Joel Granados wrote:
-> In order to evaluate write amplification factor (WAF) within the storage
-> stack it is important to know the number of bytes written to the
-> controller. The existing SMART log value of Data Units Written is too
-> coarse (given in units of 500 Kb) and so we add the SMART health
-> information extended from the OCP specification (given in units of bytes)
+On Nov 17 07:56, C=C3=A9dric Le Goater wrote:
+> On 11/17/22 07:40, Klaus Jensen wrote:
+> > On Nov 16 16:58, C=C3=A9dric Le Goater wrote:
+> > > On 11/16/22 09:43, Klaus Jensen wrote:
+> > > > From: Klaus Jensen <k.jensen@samsung.com>
+> > > >=20
+> > > > It is not given that the current master will release the bus after a
+> > > > transfer ends. Only schedule a pending master if the bus is idle.
+> > > >=20
+> > > > Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
+> > > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > > > ---
+> > > >    hw/i2c/aspeed_i2c.c  |  2 ++
+> > > >    hw/i2c/core.c        | 37 ++++++++++++++++++++++---------------
+> > > >    include/hw/i2c/i2c.h |  2 ++
+> > > >    3 files changed, 26 insertions(+), 15 deletions(-)
+> > > >=20
+> > > > diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+> > > > index c166fd20fa11..1f071a3811f7 100644
+> > > > --- a/hw/i2c/aspeed_i2c.c
+> > > > +++ b/hw/i2c/aspeed_i2c.c
+> > > > @@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2C=
+Bus *bus, uint64_t value)
+> > > >            }
+> > > >            SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_STOP_CMD, =
+0);
+> > > >            aspeed_i2c_set_state(bus, I2CD_IDLE);
+> > > > +
+> > > > +        i2c_schedule_pending_master(bus->bus);
+> > >=20
+> > > Shouldn't it be i2c_bus_release() ?
+> > >=20
+> >=20
+> > The reason for having both i2c_bus_release() and
+> > i2c_schedule_pending_master() is that i2c_bus_release() sort of pairs
+> > with i2c_bus_master(). They either set or clear the bus->bh member.
+> >=20
+> > In the current design, the controller (in this case the Aspeed I2C) is
+> > an "implicit" master (it does not have a bottom half driving it), so
+> > there is no bus->bh to clear.
+> >=20
+> > I should (and will) write some documentation on the asynchronous API.
 >=20
-> We add a controller argument (ocp) that toggles on/off the SMART log
-> extended structure.  To accommodate different vendor specific specificati=
-ons
-> like OCP, we add a multiplexing function (nvme_vendor_specific_log) which
-> will route to the different log functions based on arguments and log ids.
-> We only return the OCP extended SMART log when the command is 0xC0 and ocp
-> has been turned on in the args.
+> I found the routine names confusing. Thanks for the clarification.
 >=20
-> Though we add the whole nvme SMART log extended structure, we only popula=
-te
-> the physical_media_units_{read,written}, log_page_version and
-> log_page_uuid.
+> Maybe we could do this rename  :
 >=20
-> Signed-off-by: Joel Granados <j.granados@samsung.com>
-> ---
->  docs/system/devices/nvme.rst |  7 +++++
->  hw/nvme/ctrl.c               | 55 ++++++++++++++++++++++++++++++++++++
->  hw/nvme/nvme.h               |  1 +
->  include/block/nvme.h         | 36 +++++++++++++++++++++++
->  4 files changed, 99 insertions(+)
+>   i2c_bus_release()             -> i2c_bus_release_and_clear()
+>   i2c_schedule_pending_master() -> i2c_bus_release()
 >=20
-> diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
-> index 30f841ef62..1cc5e52c00 100644
-> --- a/docs/system/devices/nvme.rst
-> +++ b/docs/system/devices/nvme.rst
-> @@ -53,6 +53,13 @@ parameters.
->    Vendor ID. Set this to ``on`` to revert to the unallocated Intel ID
->    previously used.
-> =20
-> +``ocp`` (default: ``off``)
-> +  The Open Compute Project defines the Datacenter NVMe SSD Specification=
- that
-> +  sits on top of NVMe. It describes additional commands and NVMe behavio=
-rs
-> +  specific for the Datacenter. When this option is ``on`` OCP features s=
-uch as
-> +  the SMART / Health information extended log become available in the
-> +  controller.
-> +
->  Additional Namespaces
->  ---------------------
-> =20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index bf291f7ffe..c7215a4ed1 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -4455,6 +4455,41 @@ static void nvme_set_blk_stats(NvmeNamespace *ns, =
-struct nvme_stats *stats)
->      stats->write_commands +=3D s->nr_ops[BLOCK_ACCT_WRITE];
->  }
-> =20
-> +static uint16_t nvme_ocp_extended_smart_info(NvmeCtrl *n, uint8_t rae,
-> +                                             uint32_t buf_len, uint64_t =
-off,
-> +                                             NvmeRequest *req)
-> +{
-> +    NvmeNamespace *ns =3D NULL;
-> +    NvmeSmartLogExtended smart_l =3D { 0 };
-> +    struct nvme_stats stats =3D { 0 };
-> +    uint32_t trans_len;
-> +
-> +    if (off >=3D sizeof(smart_l)) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    /* accumulate all stats from all namespaces */
-> +    for (int i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
-> +        ns =3D nvme_ns(n, i);
-> +        if (ns) {
-> +            nvme_set_blk_stats(ns, &stats);
-> +        }
-> +    }
-> +
-> +    smart_l.physical_media_units_written[0] =3D cpu_to_le32(stats.units_=
-written);
-> +    smart_l.physical_media_units_read[0] =3D cpu_to_le32(stats.units_rea=
-d);
+> and keep i2c_schedule_pending_master() internal the I2C core subsystem.
+>=20
 
-These are uint64s, so should be cpu_to_le64().
+How about renaming i2c_bus_master to i2c_bus_acquire() such that it
+pairs with i2c_bus_release().
 
-> +    smart_l.log_page_version =3D 0x0003;
-> +    smart_l.log_page_uuid[0] =3D 0xA4F2BFEA2810AFC5;
-> +    smart_l.log_page_uuid[1] =3D 0xAFD514C97C6F4F9C;
+And then add an i2c_bus_yield() to be used by the controller? I think we
+should be able to assert in i2c_bus_yield() that bus->bh is NULL. But
+I'll take a closer look at that.
 
-Technically the field is called the "Log Page GUID", not the UUID.
-Perhaps this is a bit of Microsoft leaking in, or it is to differentiate
-it from the UUID Index functionality, who knows.
-
-It looks like you byte swapped the two 64 bit parts, but not the
-individual bytes. It's super confusing when the spec just says "shall be
-set to VALUE". Is that VALUE already in little endian? Sigh.
-
-Anyway, I think it is fair to assume that, so just make
-log_page_uuid/guid a uint8_t 16-array and do something like:
-
-	static const uint8_t uuid[16] =3D {
-		0xAF, 0xD5, 0x14, 0xC9, 0x7C, 0x6F, 0x4F, 0x9C,
-		0xA4, 0xF2, 0xBF, 0xEA, 0x28, 0x10, 0xAF, 0xC5,
-	};
-
-	memcpy(smart_l.log_page_guid, uuid, sizeof(smart_l.log_page_guid));
-
---CtJlmsF9ZnjKfs8T
+--O22X86+JsKrlo8Eb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmN14yUACgkQTeGvMW1P
-DelsXggApFq5oXbrtfKHrqIwWnblYwkFhGJJD3vVic9X/WGFrJH+wRVWN8nTIaMX
-QEHO6JmVzWvVr2EFaFNB41I4ZZtHS857Pg13JDVL9R10R1WgTPhnkt51xcXuAW9z
-wfaVEECaR/V4DNgroBq+ai5k11OYFsXVwm0t9EIA6g1PBOL0vNV5YB0rzfT+h/SL
-5Ij+h5HQCGgXGw5kdb8uy0l1ablskfyXvX9GqzQVKrB1oqH34Od8KZ1iIoxLvbz8
-3RAO+wvz4Y95n8+sGV0CvrpZSoRJjKY9w0tyL9eFThtcVFHh7GcOb3u9veu5D0e9
-4T2gl5aqiQBG5jwCx+rAlNWBAYvQFg==
-=5xYb
+iQEyBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmN15LYACgkQTeGvMW1P
+DemWVQf1H8EPM1jJeL1GjMLKuTuHo+FyVgRc6ED7Os4iGvg3A27BI85bvrpG5Vc9
+JnlQKRiMvxdT+ekwsyE/PPU4wTJ3gikmoipsER+WZw+3jGtrG1MqDKGQaq9v2UyG
+oi6osjz2x/NGLmY5oXvRC2fQ39LaqPWASPeXS0BuXnH2YqOoGLRFKzbCE/ysU4Bx
+par92B9t8LckDnKObIhvHTIBzJoBLHF2mYCpaoXOxN1iRGkuALE/qyay449eYWVZ
+m/HFOtvMY1AVZMjoqxmqyoEj/SBC0oF+4VYXgR/dnzkMkCirv6OnhOX6LHmHd8GR
+AqhtyMGjTOfUVlp8qi6zGT2Ehfrz
+=w1bz
 -----END PGP SIGNATURE-----
 
---CtJlmsF9ZnjKfs8T--
+--O22X86+JsKrlo8Eb--
 
