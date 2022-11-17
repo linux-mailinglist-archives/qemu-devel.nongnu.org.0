@@ -2,100 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D33E62D3A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 07:52:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4FA62D3A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 07:53:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovYkx-0006zh-JF; Thu, 17 Nov 2022 01:52:15 -0500
+	id 1ovYkw-0006wc-Ms; Thu, 17 Nov 2022 01:52:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ovYkm-0006wX-Pn
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 01:52:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ovYkk-0006vy-Nt; Thu, 17 Nov 2022 01:52:02 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ovYkk-0006t8-EU
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 01:52:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668667919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rbU31RtGVYLfg4O3Trb1BvKjAcaXkSmbmDSuqwJzErA=;
- b=V31YEzY1q69b/Gg/YmqP7NqYMGqn7iaML0u+ceKQCB58CQuGj+10bB4l4smj+sW6dApF7E
- mVh8C6n+Rkd24BDmFUTOTsiIBz7Xfc8DTdetr4NVJiyDCdke6l3ECrFbiEnae/2GJ7i5k1
- vg93EzNr3wvu7Jset9SglvZAiBXhyNY=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-623-ekThRq93NAymtFDPsZzQ4g-1; Thu, 17 Nov 2022 01:51:57 -0500
-X-MC-Unique: ekThRq93NAymtFDPsZzQ4g-1
-Received: by mail-pl1-f198.google.com with SMTP id
- n12-20020a170902e54c00b00188515e81a6so742698plf.23
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 22:51:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rbU31RtGVYLfg4O3Trb1BvKjAcaXkSmbmDSuqwJzErA=;
- b=S6gcktKoRTJ5aWZfPCpcnJKurf2NXAWwKPZORkJfdS9x8vxapTqqeSXF4B7h+z3hkF
- v1AHn4iPIGnuvPLCYD59dtQ7EY58OPk1nyND0Mqz+RDECRMqJpuxtmTqu5l/471oTpLh
- J79i9e8110K9R8XJoK+p1oc6kuTj4euksBrRleBgF817YpGYF9a+sw8znRMfpM8nSa6U
- KWV3S+xMj25ZxsaEhEH3Vu4FYD97tmmUwDvuqYLc7f8nFhvNduDe1wERGQkhS88C4WJ4
- rf3HuOCIb/5G/CnQsp6onGBnaSCYTUqAmo7Sfchmd+HYe8o0coWNbXgiEp6TeB4qLY//
- lsQg==
-X-Gm-Message-State: ANoB5pmGOxA4em8PEFAP4T1tGlK6aDIytBhqSfw3SoZvF6uzDZNGtXWX
- NkLblX9pSrMTCqUc5kDouTHArXM3TSSHRTq2bhw4X7/8nonIKQF4XqBI8LOrIxetOrud+PHig8p
- GHiJtJSVHBpo50og=
-X-Received: by 2002:a63:4b07:0:b0:46e:9363:d96e with SMTP id
- y7-20020a634b07000000b0046e9363d96emr930541pga.85.1668667915800; 
- Wed, 16 Nov 2022 22:51:55 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7uEPMxxM20WDRomEVyVlJvMpsYi2YDb+yv5Lw+UkIN9h3fUtxBJTPQfhOnfza8hl3OXmmISg==
-X-Received: by 2002:a63:4b07:0:b0:46e:9363:d96e with SMTP id
- y7-20020a634b07000000b0046e9363d96emr930507pga.85.1668667915476; 
- Wed, 16 Nov 2022 22:51:55 -0800 (PST)
-Received: from [10.72.13.24] ([43.228.180.230])
- by smtp.gmail.com with ESMTPSA id
- z7-20020aa79f87000000b005625d5ae760sm271304pfr.11.2022.11.16.22.51.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Nov 2022 22:51:55 -0800 (PST)
-Message-ID: <f22d530b-3c5e-5b94-948d-594608668687@redhat.com>
-Date: Thu, 17 Nov 2022 14:51:46 +0800
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ovYki-0006sk-12; Thu, 17 Nov 2022 01:52:02 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1DEBA5C04BF;
+ Thu, 17 Nov 2022 01:51:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 17 Nov 2022 01:51:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1668667917; x=1668754317; bh=kB
+ sEAOEFyHQb1BU8moJih3vzxz2wvB5tnw+p6EM17zM=; b=VQnlPcu2ZX4K3vtwma
+ Y6/eNCa2bS+ILkfSDKyFXrpTmCPHG3PKnlpOox4OImgQFz1Ah13tVpg4Xv8novid
+ 5QjaSLoyjDMdic1DlSjuIZSiXU8xi8b6MQPR0niqtI4QqyGQ1wHz/xCcxUPwY2Dr
+ iHzW79Zen3kiN/kcSv1t7M6WlUSC82aMFVXqK4kvCqcrWC55PjO5HYOHU4mTA3uB
+ opUcxVx81ZCORYwOdYjxIvtCiWz+0MxGEtg5AboOzVCCbBKcV/oYcED5MJpTlTjE
+ qZPDIlGlLR/jtOxBvwZkTIr/RuY7ormnK0PE3yWURkI2Yq2XSzwa3PDfzdjZh65f
+ BKEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668667917; x=1668754317; bh=kBsEAOEFyHQb1BU8moJih3vzxz2w
+ vB5tnw+p6EM17zM=; b=WBkixprlj4AJhtjDQTQ/bvFS1VwjDyXByjAUs00vzz3T
+ AnzLEBoCi/4ohJiZUiKp36xy3oJLJJ+vx8NvS5uFa1KGpfvJUHRcPApHDVP3bEHy
+ rmu4OGJlUcmt5ReryPI3Tq5Z5zNMygq+xT6NAS8POQQ+dXio+2Jll3LX18Jsa4u3
+ xe7tCv9nYDUNm8gEcSxb8vpxSlLiFNEqTrK2q55tK10lOIC3q4DtirIZk3491yW5
+ 5lvc0ARlgevBFJDUS8G5g9RfP5axknvg1fsKP3JQc4vYe1iifL5jsf1PsSY9KSwK
+ uKmc9dlJRz4iy8o2Y0z4NNHLNKZJadrz0gqS065y7Q==
+X-ME-Sender: <xms:DNp1Y8Y65xiRT-W54qkEeM6TW1DT5r9uIp9YBxGbMO_rR431CV1Cbw>
+ <xme:DNp1Y3YGwIOSQO7zUTNoMqR5bc3mBbtRkO0ewW3DrUAak1JPgK1hsz3DyB5PbM8Cf
+ O88kiKILvH51fhPcXM>
+X-ME-Received: <xmr:DNp1Y28cud69nbw7hlz-8Mc0M7o8G3Iv74hYKv4943vMc-yu5_SbqWxjtqVhhGV2jtuIXcKfas6nCbWJwAFKj1xyCW3wcg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeejgddutddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepffduvdfhheejudfgieejueeileegveduvdelhfekhffgteetffdtvdekveei
+ leefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:DNp1Y2pBlOFIotYvKI2_Mnwp0corG3fXyP5lE9ba-5qHifzTaoDTGw>
+ <xmx:DNp1Y3ra4LS0aUYkig8tUDrRyMM1LHrNLumGwTlegnLqQKNVDEWl2g>
+ <xmx:DNp1Y0Q-Zb2nnGBetserj1boP6iH18xlSTKcG0ar2JYz_gUJ4V668A>
+ <xmx:Ddp1Y1g_MoRwt8CFi5RJJh1uJ810VThi146UoW0bmPARoApev5zR1w>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 17 Nov 2022 01:51:54 -0500 (EST)
+Date: Thu, 17 Nov 2022 07:51:52 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Corey Minyard <minyard@acm.org>
+Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Keith Busch <kbusch@kernel.org>, Corey Minyard <cminyard@mvista.com>,
+ Peter Delevoryas <peter@pjd.dev>, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Jeremy Kerr <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH RFC 2/3] hw/i2c: add mctp core
+Message-ID: <Y3XaCMMhYOPiZf+q@cormorant.local>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+ <20221116084312.35808-3-its@irrelevant.dk>
+ <Y3TzYnSmB+UDD6st@minyard.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH for 8.0 v7 10/10] vdpa: Always start CVQ in SVQ mode if
- possible
-Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Cornelia Huck <cohuck@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Parav Pandit
- <parav@mellanox.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org
-References: <20221116150556.1294049-1-eperezma@redhat.com>
- <20221116150556.1294049-11-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20221116150556.1294049-11-eperezma@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wH64PgJcF3tmjIVo"
+Content-Disposition: inline
+In-Reply-To: <Y3TzYnSmB+UDD6st@minyard.net>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,243 +108,388 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2022/11/16 23:05, Eugenio Pérez 写道:
-> Isolate control virtqueue in its own group, allowing to intercept control
-> commands but letting dataplane run totally passthrough to the guest.
->
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
-> v7:
-> * Never ask for number of address spaces, just react if isolation is not
->    possible.
-> * Return ASID ioctl errors instead of masking them as if the device has
->    no asid.
-> * Simplify net_init_vhost_vdpa logic
-> * Add "if possible" suffix
->
-> v6:
-> * Disable control SVQ if the device does not support it because of
-> features.
->
-> v5:
-> * Fixing the not adding cvq buffers when x-svq=on is specified.
-> * Move vring state in vhost_vdpa_get_vring_group instead of using a
->    parameter.
-> * Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID
->
-> v4:
-> * Squash vhost_vdpa_cvq_group_is_independent.
-> * Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
-> * Do not check for cvq index on vhost_vdpa_net_prepare, we only have one
->    that callback registered in that NetClientInfo.
->
-> v3:
-> * Make asid related queries print a warning instead of returning an
->    error and stop the start of qemu.
-> ---
->   hw/virtio/vhost-vdpa.c |   3 +-
->   net/vhost-vdpa.c       | 117 +++++++++++++++++++++++++++++++++++++++--
->   2 files changed, 114 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 852baf8b2c..a29a18a6a9 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -653,7 +653,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
->   {
->       uint64_t features;
->       uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
-> -        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-> +        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
-> +        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
->       int r;
->   
->       if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index a9c864741a..dc13a49311 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -101,6 +101,8 @@ static const uint64_t vdpa_svq_device_features =
->       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
->       BIT_ULL(VIRTIO_NET_F_STANDBY);
->   
-> +#define VHOST_VDPA_NET_CVQ_ASID 1
-> +
->   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
->   {
->       VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-> @@ -242,6 +244,40 @@ static NetClientInfo net_vhost_vdpa_info = {
->           .check_peer_type = vhost_vdpa_check_peer_type,
->   };
->   
-> +static int64_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
-> +{
-> +    struct vhost_vring_state state = {
-> +        .index = vq_index,
-> +    };
-> +    int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
-> +
-> +    if (unlikely(r < 0)) {
-> +        error_report("Cannot get VQ %u group: %s", vq_index,
-> +                     g_strerror(errno));
-> +        return r;
-> +    }
-> +
-> +    return state.num;
-> +}
-> +
-> +static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
-> +                                           unsigned vq_group,
-> +                                           unsigned asid_num)
-> +{
-> +    struct vhost_vring_state asid = {
-> +        .index = vq_group,
-> +        .num = asid_num,
-> +    };
-> +    int r;
-> +
-> +    r = ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-> +    if (unlikely(r < 0)) {
-> +        error_report("Can't set vq group %u asid %u, errno=%d (%s)",
-> +                     asid.index, asid.num, errno, g_strerror(errno));
-> +    }
-> +    return r;
-> +}
-> +
->   static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
->   {
->       VhostIOVATree *tree = v->iova_tree;
-> @@ -316,11 +352,69 @@ dma_map_err:
->   static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->   {
->       VhostVDPAState *s;
-> -    int r;
-> +    struct vhost_vdpa *v;
-> +    uint64_t backend_features;
-> +    int64_t cvq_group;
-> +    int cvq_index, r;
->   
->       assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->   
->       s = DO_UPCAST(VhostVDPAState, nc, nc);
-> +    v = &s->vhost_vdpa;
-> +
-> +    v->shadow_data = s->always_svq;
-> +    v->shadow_vqs_enabled = s->always_svq;
-> +    s->vhost_vdpa.address_space_id = VHOST_VDPA_GUEST_PA_ASID;
-> +
-> +    if (s->always_svq) {
-> +        goto out;
-> +    }
-> +
-> +    /* Backend features are not available in v->dev yet. */
-> +    r = ioctl(v->device_fd, VHOST_GET_BACKEND_FEATURES, &backend_features);
-> +    if (unlikely(r < 0)) {
-> +        error_report("Cannot get vdpa backend_features: %s(%d)",
-> +            g_strerror(errno), errno);
-> +        return -1;
-> +    }
-> +    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
-> +        !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+--wH64PgJcF3tmjIVo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Nov 16 08:27, Corey Minyard wrote:
+> On Wed, Nov 16, 2022 at 09:43:11AM +0100, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Add an abstract MCTP over I2C endpoint model. This implements MCTP
+> > control message handling as well as handling the actual I2C transport
+> > (packetization).
+> >=20
+> > Devices are intended to derive from this and implement the class
+> > methods.
+> >=20
+> > Parts of this implementation is inspired by code[1] previously posted by
+> > Jonathan Cameron.
+>=20
+> I have some comments inline, mostly about buffer handling.  Buffer
+> handling is scary to me, so you might see some paranoia here :-).
+>=20
 
-I think there should be some logic to block migration in this case?
+Totally understood :) Thanks for the review!
 
+> >=20
+> >   [1]: https://lore.kernel.org/qemu-devel/20220520170128.4436-1-Jonatha=
+n.Cameron@huawei.com/
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/arm/Kconfig         |   1 +
+> >  hw/i2c/Kconfig         |   4 +
+> >  hw/i2c/mctp.c          | 365 +++++++++++++++++++++++++++++++++++++++++
+> >  hw/i2c/meson.build     |   1 +
+> >  hw/i2c/trace-events    |  12 ++
+> >  include/hw/i2c/mctp.h  |  83 ++++++++++
+> >  include/hw/misc/mctp.h |  43 +++++
+> >  7 files changed, 509 insertions(+)
+> >  create mode 100644 hw/i2c/mctp.c
+> >  create mode 100644 include/hw/i2c/mctp.h
+> >  create mode 100644 include/hw/misc/mctp.h
+> >=20
+> > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> > index 17fcde8e1ccc..3233bdc193d7 100644
+> > --- a/hw/arm/Kconfig
+> > +++ b/hw/arm/Kconfig
+> > @@ -444,6 +444,7 @@ config ASPEED_SOC
+> >      select DS1338
+> >      select FTGMAC100
+> >      select I2C
+> > +    select MCTP_I2C
+> >      select DPS310
+> >      select PCA9552
+> >      select SERIAL
+> > diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
+> > index 9bb8870517f8..5dd43d550c32 100644
+> > --- a/hw/i2c/Kconfig
+> > +++ b/hw/i2c/Kconfig
+> > @@ -41,3 +41,7 @@ config PCA954X
+> >  config PMBUS
+> >      bool
+> >      select SMBUS
+> > +
+> > +config MCTP_I2C
+> > +    bool
+> > +    select I2C
+> > diff --git a/hw/i2c/mctp.c b/hw/i2c/mctp.c
+> > new file mode 100644
+> > index 000000000000..46376de95a98
+> > --- /dev/null
+> > +++ b/hw/i2c/mctp.c
+> > @@ -0,0 +1,365 @@
+> > +/*
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + * SPDX-FileCopyrightText: Copyright (c) 2022 Samsung Electronics Co.,=
+ Ltd.
+> > + * SPDX-FileContributor: Klaus Jensen <k.jensen@samsung.com>
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/main-loop.h"
+> > +
+> > +#include "hw/qdev-properties.h"
+> > +#include "hw/i2c/i2c.h"
+> > +#include "hw/i2c/mctp.h"
+> > +
+> > +#include "trace.h"
+> > +
+> > +static uint8_t crc8(uint16_t data)
+> > +{
+> > +#define POLY (0x1070U << 3)
+> > +    int i;
+> > +
+> > +    for (i =3D 0; i < 8; i++) {
+> > +        if (data & 0x8000) {
+> > +            data =3D data ^ POLY;
+> > +        }
+> > +
+> > +        data =3D data << 1;
+> > +    }
+> > +
+> > +    return (uint8_t)(data >> 8);
+> > +#undef POLY
+> > +}
+> > +
+> > +static uint8_t i2c_smbus_pec(uint8_t crc, uint8_t *buf, size_t len)
+> > +{
+> > +    int i;
+> > +
+> > +    for (i =3D 0; i < len; i++) {
+> > +        crc =3D crc8((crc ^ buf[i]) << 8);
+> > +    }
+> > +
+> > +    return crc;
+> > +}
+>=20
+> The PEC calculation probably belongs in it's own smbus.c file, since
+> it's generic, so someone looking will find it.
+>=20
 
-> +        return 0;
-> +    }
-> +
-> +    /**
-> +     * Check if all the virtqueues of the virtio device are in a different vq
-> +     * than the last vq. VQ group of last group passed in cvq_group.
-> +     */
-> +    cvq_index = v->dev->vq_index_end - 1;
-> +    cvq_group = vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
-> +    if (unlikely(cvq_group < 0)) {
-> +        return cvq_group;x
-> +    }
-> +    for (int i = 0; i < cvq_index; ++i) {
-> +        int64_t group = vhost_vdpa_get_vring_group(v->device_fd, i);
-> +
-> +        if (unlikely(group < 0)) {
-> +            return group;
-> +        }
-> +
-> +        if (unlikely(group == cvq_group)) {
-> +            warn_report(
-> +                "CVQ %"PRId64" group is the same as VQ %d one (%"PRId64")",
-> +                cvq_group, i, group);
-> +            return 0;
+Makes sense. I'll move it.
 
+> > +
+> > +void i2c_mctp_schedule_send(MCTPI2CEndpoint *mctp)
+> > +{
+> > +    I2CBus *i2c =3D I2C_BUS(qdev_get_parent_bus(DEVICE(mctp)));
+> > +
+> > +    mctp->tx.state =3D I2C_MCTP_STATE_TX_START_SEND;
+> > +
+> > +    i2c_bus_master(i2c, mctp->tx.bh);
+> > +}
+> > +
+> > +static void i2c_mctp_tx(void *opaque)
+> > +{
+> > +    DeviceState *dev =3D DEVICE(opaque);
+> > +    I2CBus *i2c =3D I2C_BUS(qdev_get_parent_bus(dev));
+> > +    I2CSlave *slave =3D I2C_SLAVE(dev);
+> > +    MCTPI2CEndpoint *mctp =3D MCTP_I2C_ENDPOINT(dev);
+> > +    MCTPI2CEndpointClass *mc =3D MCTP_I2C_ENDPOINT_GET_CLASS(mctp);
+> > +    MCTPI2CPacket *pkt =3D (MCTPI2CPacket *)mctp->buffer;
+> > +    uint8_t flags =3D 0;
+> > +
+> > +    switch (mctp->tx.state) {
+> > +    case I2C_MCTP_STATE_TX_SEND_BYTE:
+> > +        if (mctp->pos < mctp->len) {
+> > +            uint8_t byte =3D mctp->buffer[mctp->pos];
+> > +
+> > +            trace_i2c_mctp_tx_send_byte(mctp->pos, byte);
+> > +
+> > +            /* send next byte */
+> > +            i2c_send_async(i2c, byte);
+> > +
+> > +            mctp->pos++;
+> > +
+> > +            break;
+> > +        }
+> > +
+> > +        /* packet sent */
+> > +        i2c_end_transfer(i2c);
+> > +
+> > +        /* fall through */
+> > +
+> > +    case I2C_MCTP_STATE_TX_START_SEND:
+> > +        if (mctp->tx.is_control) {
+> > +            /* packet payload is already in buffer */
+> > +            flags |=3D MCTP_H_FLAGS_SOM | MCTP_H_FLAGS_EOM;
+> > +        } else {
+> > +            /* get message bytes from derived device */
+> > +            mctp->len =3D mc->get_message_bytes(mctp, pkt->mctp.payloa=
+d,
+> > +                                              I2C_MCTP_MAXMTU, &flags);
+> > +        }
+> > +
+> > +        if (!mctp->len) {
+> > +            trace_i2c_mctp_tx_done();
+> > +
+> > +            /* no more packets needed; release the bus */
+> > +            i2c_bus_release(i2c);
+> > +
+> > +            mctp->state =3D I2C_MCTP_STATE_IDLE;
+> > +            mctp->tx.is_control =3D false;
+> > +
+> > +            break;
+> > +        }
+> > +
+> > +        mctp->state =3D I2C_MCTP_STATE_TX;
+> > +
+> > +        pkt->i2c =3D (MCTPI2CPacketHeader) {
+> > +            .dest =3D mctp->tx.addr & ~0x1,
+> > +            .prot =3D 0xf,
+> > +            .byte_count =3D 5 + mctp->len,
+> > +            .source =3D slave->address << 1 | 0x1,
+> > +        };
+> > +
+> > +        pkt->mctp.hdr =3D (MCTPPacketHeader) {
+> > +            .version =3D 0x1,
+> > +            .eid.dest =3D mctp->tx.eid,
+> > +            .eid.source =3D mctp->my_eid,
+> > +            .flags =3D flags | (mctp->tx.pktseq++ & 0x3) << 4 | mctp->=
+tx.flags,
+> > +        };
+> > +
+> > +        mctp->len +=3D sizeof(MCTPI2CPacket);
+>=20
+> Do you need overflow checking here?  There are lots of increments of
+> mctp->len in the code that might or might not need overflow checks.
+> It does seem like you have pre-calculated everything so it fits; I worry
+> more about later changes that might violate those assumptions.
+> You could use something like i2c_mctp_send_cb() to send all data.  Not
+> sure, but something to think about.
+>=20
 
-Ditto.
+I agree. It would be better to be a bit defensive here. I'll rework it.
 
+> > +        mctp->buffer[mctp->len] =3D i2c_smbus_pec(0, mctp->buffer, mct=
+p->len);
+> > +        mctp->len++;
+> > +
+> > +        trace_i2c_mctp_tx_start_send(mctp->len);
+> > +
+> > +        i2c_start_send_async(i2c, pkt->i2c.dest >> 1);
+> > +
+> > +        /* already "sent" the destination slave address */
+> > +        mctp->pos =3D 1;
+> > +
+> > +        mctp->tx.state =3D I2C_MCTP_STATE_TX_SEND_BYTE;
+> > +
+> > +        break;
+> > +    }
+> > +}
+> > +
+> > +#define i2c_mctp_control_data(buf) \
+> > +    (i2c_mctp_payload(buf) + offsetof(MCTPControlMessage, data))
+> > +
+> > +static void i2c_mctp_handle_control_set_eid(MCTPI2CEndpoint *mctp, uin=
+t8_t eid)
+> > +{
+> > +    mctp->my_eid =3D eid;
+> > +
+> > +    uint8_t buf[] =3D {
+> > +        0x0, 0x0, eid, 0x0,
+> > +    };
+> > +
+> > +    memcpy(i2c_mctp_control_data(mctp->buffer), buf, sizeof(buf));
+> > +    mctp->len +=3D sizeof(buf);
+> > +}
+> > +
+> > +static void i2c_mctp_handle_control_get_eid(MCTPI2CEndpoint *mctp)
+> > +{
+> > +    uint8_t buf[] =3D {
+> > +        0x0, mctp->my_eid, 0x0, 0x0,
+> > +    };
+> > +
+> > +    memcpy(i2c_mctp_control_data(mctp->buffer), buf, sizeof(buf));
+> > +    mctp->len +=3D sizeof(buf);
+> > +}
+> > +
+> > +static void i2c_mctp_handle_control_get_version(MCTPI2CEndpoint *mctp)
+> > +{
+> > +    uint8_t buf[] =3D {
+> > +        0x0, 0x1, 0x0, 0x1, 0x3, 0x1,
+> > +    };
+> > +
+> > +    memcpy(i2c_mctp_control_data(mctp->buffer), buf, sizeof(buf));
+> > +    mctp->len +=3D sizeof(buf);
+> > +}
+> > +
+> > +enum {
+> > +    MCTP_CONTROL_SET_EID                    =3D 0x01,
+> > +    MCTP_CONTROL_GET_EID                    =3D 0x02,
+> > +    MCTP_CONTROL_GET_VERSION                =3D 0x04,
+> > +    MCTP_CONTROL_GET_MESSAGE_TYPE_SUPPORT   =3D 0x05,
+> > +};
+> > +
+> > +static void i2c_mctp_handle_control(MCTPI2CEndpoint *mctp)
+> > +{
+> > +    MCTPI2CEndpointClass *mc =3D MCTP_I2C_ENDPOINT_GET_CLASS(mctp);
+> > +    MCTPControlMessage *msg =3D (MCTPControlMessage *)i2c_mctp_payload=
+(mctp->buffer);
+> > +
+> > +    /* clear Rq/D */
+> > +    msg->flags &=3D 0x1f;
+> > +
+> > +    mctp->len =3D offsetof(MCTPControlMessage, data);
+> > +
+> > +    trace_i2c_mctp_handle_control(msg->command);
+> > +
+> > +    switch (msg->command) {
+> > +    case MCTP_CONTROL_SET_EID:
+> > +        i2c_mctp_handle_control_set_eid(mctp, msg->data[1]);
+> > +        break;
+> > +
+> > +    case MCTP_CONTROL_GET_EID:
+> > +        i2c_mctp_handle_control_get_eid(mctp);
+> > +        break;
+> > +
+> > +    case MCTP_CONTROL_GET_VERSION:
+> > +        i2c_mctp_handle_control_get_version(mctp);
+> > +        break;
+> > +
+> > +    case MCTP_CONTROL_GET_MESSAGE_TYPE_SUPPORT:
+> > +        mctp->len +=3D mc->get_message_types(mctp, i2c_mctp_control_da=
+ta(mctp->buffer));
+>=20
+> You don't pass in how much data is available for the subclass to use.
+> That's generally good API behavior.
+>=20
 
-> +        }
-> +    }
-> +
-> +    r = vhost_vdpa_set_address_space_id(v, cvq_group, VHOST_VDPA_NET_CVQ_ASID);
-> +    if (unlikely(r < 0)) {
-> +        return r;
-> +    } else {
-> +        v->shadow_vqs_enabled = true;
-> +        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
-> +    }
-> +
-> +out:
->       if (!s->vhost_vdpa.shadow_vqs_enabled) {
->           return 0;
->       }
-> @@ -652,6 +746,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->       g_autoptr(VhostIOVATree) iova_tree = NULL;
->       NetClientState *nc;
->       int queue_pairs, r, i = 0, has_cvq = 0;
-> +    bool svq_cvq;
->   
->       assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->       opts = &netdev->u.vhost_vdpa;
-> @@ -693,12 +788,24 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->           return queue_pairs;
->       }
->   
-> -    if (opts->x_svq) {
-> -        struct vhost_vdpa_iova_range iova_range;
-> +    svq_cvq = opts->x_svq || has_cvq;
-> +    if (svq_cvq) {
-> +        Error *warn = NULL;
->   
-> -        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
-> -            goto err_svq;
-> +        svq_cvq = vhost_vdpa_net_valid_svq_features(features,
-> +                                                   opts->x_svq ? errp : &warn);
-> +        if (!svq_cvq) {
-> +            if (opts->x_svq) {
-> +                goto err_svq;
-> +            } else {
-> +                warn_reportf_err(warn, "Cannot shadow CVQ: ");
+True, I'll fix it up.
 
+> > +        break;
+> > +
+> > +    default:
+> > +        trace_i2c_mctp_unhandled_control(msg->command);
+> > +
+> > +        msg->data[0] =3D MCTP_CONTROL_ERROR_UNSUPPORTED_CMD;
+> > +        mctp->len++;
+> > +
+> > +        break;
+> > +    }
+> > +
+> > +    i2c_mctp_schedule_send(mctp);
+> > +}
+> > +
+> > +static int i2c_mctp_event_cb(I2CSlave *i2c, enum i2c_event event)
+> > +{
+> > +    MCTPI2CEndpoint *mctp =3D MCTP_I2C_ENDPOINT(i2c);
+> > +    MCTPI2CEndpointClass *mc =3D MCTP_I2C_ENDPOINT_GET_CLASS(mctp);
+> > +    MCTPI2CPacket *pkt =3D (MCTPI2CPacket *)mctp->buffer;
+> > +    size_t payload_len;
+> > +    uint8_t pec;
+> > +
+> > +    switch (event) {
+> > +    case I2C_START_SEND:
+> > +        if (mctp->state !=3D I2C_MCTP_STATE_IDLE) {
+> > +            return -1;
+> > +        }
+> > +
+> > +        /* the i2c core eats the slave address, so put it back in */
+> > +        pkt->i2c.dest =3D i2c->address << 1;
+>=20
+> This seems like a bit of a hack since pkt->i2c.dest never seems to be
+> used.  I guess it's ok, since it's matching what the specifications say,
+> but it seems a bit odd since you don't need it.
+>=20
 
-This seems suspicious, we reach here we we can't just use svq for cvq.
+Yeah it is definitely a hack around the i2c core. I need it to calculate
+the PEC, so I have to put it into the buffer at some point. I think the
+smbus implementation would suffer from this as well. We could maybe fold
+that into the i2c_smbus_pec() call instead. I'll see what I can come up
+with.
 
+> > +        mctp->len =3D 1;
+> > +
+> > +        mctp->state =3D I2C_MCTP_STATE_RX_STARTED;
+> > +
+> > +        return 0;
+> > +
+> > +    case I2C_FINISH:
+> > +        payload_len =3D mctp->len - (1 + offsetof(MCTPI2CPacket, mctp.=
+payload));
+>=20
+> Is there a way this can underflow?
+>=20
 
+Hmm. Potentially. I'll audit it.
 
-> +            }
->           }
+--wH64PgJcF3tmjIVo
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-The above logic is not easy to follow. I guess the root cause is the 
-variable name. It looks to me svq_cvq is better to be renamed as "svq"?
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmN12gcACgkQTeGvMW1P
+DenxZwf/aW7VQl3FhwhNNlCOZdfecm+bE0oa4UEHyqximFB/PiqvcJGPqOp5t5yZ
+0qAo21GmNHoXTzkbmGouOvaTPn4Em5nyVGkEgZOrDB3uUUIHV3kx9I8E703p/N2s
+p6c8VbyAaDC0nAOgMqFti3p6CJNZU1wf5fvSzvBRBLVbRDz89GxBrTkAAbnxok/e
+mzImRmPhIxL5KmN39juMeEeiFm68Cs0QAfcUMGueHLFaHVOiSYJUS7NXhqtxb5Lr
+vIj31it4P19nschekeLhPxA3OAJSDau1g6r7+p3ZE9HsbJD0YQbn6FVEJpIwn1gE
+2aqnu4/ao5LFEpuY1Lb6FW3v5v731A==
+=OpLV
+-----END PGP SIGNATURE-----
 
-Thanks
-
-
-> +    }
-> +
-> +    if (svq_cvq) {
-> +        /* Allocate a common iova tree if there is a possibility of SVQ */
-> +        struct vhost_vdpa_iova_range iova_range;
->   
->           vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
->           iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-
+--wH64PgJcF3tmjIVo--
 
