@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4055762D60D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 10:11:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD9162D614
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 10:11:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovauT-0007Wv-Rk; Thu, 17 Nov 2022 04:10:13 -0500
+	id 1ovaub-0007YX-NB; Thu, 17 Nov 2022 04:10:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovauR-0007VE-Ir
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:10:11 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovauO-0001pw-BJ
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:10:10 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id o7so1120909pjj.1
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 01:10:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=76xVWsykw3cpvuY5v5DngD6NoCppogf8t6KYZkfJ0nI=;
- b=hta9fu4L/Hh6noK1HfhOCFm5ph8CguNY8DoTrtpr4i+mprVF95JbdrrFCk9/pV4nBG
- spPgVnzkInrHwPQeB/ZDndf4elfSVgZY+ChjesrcVHFGrJiYLO7cluWXAtmxa26/7oXu
- 1jKNd9y8EazhQQUH47CMPCLv9iddEDphioGoBz5IrL4yS1kfhG5uUDA1s77e5YR+r5hz
- ONv3Oj+2Y6nN7El35T5vD0lAPz07c5S6NSZCsO6HlLGYdNVFMzP/nfPbbFtpFA0bSssR
- R0tCSjf7C6eR+ixZV6h4VZu+XfHnEca411LuBoLwWLz9zlziuoiabLE9fV0RKi2Suxc0
- d2Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=76xVWsykw3cpvuY5v5DngD6NoCppogf8t6KYZkfJ0nI=;
- b=H9wQf8+/gRd6HqYGfDyO4jrGQ2yeM708GkMWjGpZ2SDOiO+wpk8TN942qmpBKfXM6D
- g+p4PoXp/3Br8q1uz8ttby9mv5cnY8FxMuRoWYtEDLphW5k1srQhXlCKgSoEZsThSqqA
- RlFLK/qw5o5RORHDY7AebSwi//5TbOo/VpSwgNljA5hH958GwGEecl9V0KEcRA0pg6jo
- 1b75HioJWd1KTohM9ZN8GNwJtLn/K9imFfQO3LeYPUeK80/NsxZqyEdFMtHNN/2Ce6eb
- 9wZHNnHOvu+4UCvb69nsr0Mk3lw4vK3GRF7SoIgYPYiAfAuublwu4fhQrAlIr3GyGvYh
- Zq6g==
-X-Gm-Message-State: ANoB5pncR/reA9Hpx/hbFc8TPcJuxuSn90N0eRAYl3ZyEKWdm7k0GDCu
- lh/xOX9AAcZ5trsh+uRIUV2MHA==
-X-Google-Smtp-Source: AA0mqf5guqj/j66NBin5JfIQ4bDvsqGkTvfuVwQ2p3xD4jstk1Zu32zTetdhzoJKnXavWYkUQr88iQ==
-X-Received: by 2002:a17:90a:39c9:b0:218:499b:bee9 with SMTP id
- k9-20020a17090a39c900b00218499bbee9mr1895873pjf.171.1668676206404; 
- Thu, 17 Nov 2022 01:10:06 -0800 (PST)
-Received: from ?IPV6:2602:47:d48a:1201:b354:386:82db:58e7?
- ([2602:47:d48a:1201:b354:386:82db:58e7])
- by smtp.gmail.com with ESMTPSA id
- z6-20020aa79906000000b0056b8af5d46esm525631pff.168.2022.11.17.01.10.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 01:10:05 -0800 (PST)
-Message-ID: <47d0245c-5e61-85a5-0015-ea1e187b37f1@linaro.org>
-Date: Thu, 17 Nov 2022 01:10:04 -0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ovauZ-0007Xy-2J
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:10:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ovauX-0001rL-D7
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:10:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668676216;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1vASfgmJy6tlSODj6TlYRO8X2w/hgsd933UsScQK70g=;
+ b=f9du15chCVqZW/efRej5IQOnUfqdpG7xjlD6kF8hUjt3O9RI00kOLQte2xLPeyP5GKP2rr
+ ojoepcbWArE1yX+KveiUtTrJt+L1aWiC/aswFd6pGPD+pT1Uf1DAWlx2frFMaQK1JDgxBj
+ H2/b4FFzAZSC58Vq1a2aMqxAaAY6/3E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-616-TdcYwA5iPJSSzYNy0T5zvA-1; Thu, 17 Nov 2022 04:10:14 -0500
+X-MC-Unique: TdcYwA5iPJSSzYNy0T5zvA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 570E43802B82
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 09:10:14 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AB952027064;
+ Thu, 17 Nov 2022 09:10:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PULL 2/4] docs/system/s390x: Document the "loadparm" machine property
+Date: Thu, 17 Nov 2022 10:10:04 +0100
+Message-Id: <20221117091006.525072-3-thuth@redhat.com>
+In-Reply-To: <20221117091006.525072-1-thuth@redhat.com>
+References: <20221117091006.525072-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 5/9] target/riscv: add support for Zcb extension
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20221117070316.58447-1-liweiwei@iscas.ac.cn>
- <20221117070316.58447-6-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221117070316.58447-6-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,19 +75,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/16/22 23:03, Weiwei Li wrote:
-> Add encode and trans* functions support for Zcb instructions
-> 
-> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
-> ---
->   target/riscv/insn16.decode                |  24 ++++++
->   target/riscv/insn_trans/trans_rvzce.c.inc | 100 ++++++++++++++++++++++
->   target/riscv/translate.c                  |   2 +
->   3 files changed, 126 insertions(+)
->   create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+The "loadparm" machine property is useful for selecting alternative
+kernels on the disk of the guest, but so far we do not tell the users
+yet how to use it. Add some documentation to fill this gap.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2128235
+Message-Id: <20221114132502.110213-1-thuth@redhat.com>
+Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/system/s390x/bootdevices.rst | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-r~
+diff --git a/docs/system/s390x/bootdevices.rst b/docs/system/s390x/bootdevices.rst
+index b5950133e8..1a7a18b43b 100644
+--- a/docs/system/s390x/bootdevices.rst
++++ b/docs/system/s390x/bootdevices.rst
+@@ -53,6 +53,32 @@ recommended to specify a CD-ROM device via ``-device scsi-cd`` (as mentioned
+ above) instead.
+ 
+ 
++Selecting kernels with the ``loadparm`` property
++------------------------------------------------
++
++The ``s390-ccw-virtio`` machine supports the so-called ``loadparm`` parameter
++which can be used to select the kernel on the disk of the guest that the
++s390-ccw bios should boot. When starting QEMU, it can be specified like this::
++
++ qemu-system-s390x -machine s390-ccw-virtio,loadparm=<string>
++
++The first way to use this parameter is to use the word ``PROMPT`` as the
++``<string>`` here. In that case the s390-ccw bios will show a list of
++installed kernels on the disk of the guest and ask the user to enter a number
++to chose which kernel should be booted -- similar to what can be achieved by
++specifying the ``-boot menu=on`` option when starting QEMU. Note that the menu
++list will only show the names of the installed kernels when using a DASD-like
++disk image with 4k byte sectors. On normal SCSI-style disks with 512-byte
++sectors, there is not enough space for the zipl loader on the disk to store
++the kernel names, so you only get a list without names here.
++
++The second way to use this parameter is to use a number in the range from 0
++to 31. The numbers that can be used here correspond to the numbers that are
++shown when using the ``PROMPT`` option, and the s390-ccw bios will then try
++to automatically boot the kernel that is associated with the given number.
++Note that ``0`` can be used to boot the default entry.
++
++
+ Booting from a network device
+ -----------------------------
+ 
+-- 
+2.31.1
+
 
