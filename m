@@ -2,79 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F4262DE03
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C6862DE04
 	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 15:25:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovfoc-0007VT-47; Thu, 17 Nov 2022 09:24:30 -0500
+	id 1ovfoc-0007VU-97; Thu, 17 Nov 2022 09:24:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1ovZKm-000532-Es
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 02:29:18 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1ovZKf-00063L-Vd
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 02:29:14 -0500
-Received: by mail-wr1-x430.google.com with SMTP id j15so1688532wrq.3
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 23:28:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tUo/HWJ9DTBOSNb6YtT6Nn4j7jMqb3um6nY4jQGK85k=;
- b=SWhaER9lC1qGfL3nViTlHYje7/39CwbSg98IDqKUR9DOPt4xS7IR0IdhefBOfby/BY
- ON30eABjOgcAEnwr/bIP3OfBTq9sx6Ks9q/luOH0OX66Es4sIvPOf//jANYdFcS/+8Mx
- GyR15Y8qYJ0Iem7SgWAtQPUMUYJplfbJa+7Gqlqrg+BTquUjMKBF/vOp8uNMa0/+KudZ
- QcsZUHeS5ioCOWyCzDlyYDKIyYM3vd8jl2gVVHghX6zgsFLUdmqDmPl1kJhvbs81XL5P
- Z88+qNZaFg74z96xByKFIJJNo0SOIHT8qUCvwsV91WeFucBUTgu44TEdZP1VPSDsqLja
- xMtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tUo/HWJ9DTBOSNb6YtT6Nn4j7jMqb3um6nY4jQGK85k=;
- b=wd6lf6pQyeOe7Si5gODV6OtNC6/y/TLkVOvs8s6Cmqt2R/eRJHxIvVuu+IDbCfOtYH
- ziqZK1lVHGKffupYRZLuiN+vmbHNDlWHTJSbK0rKpLEUk2G44L9EukHwemuAlZc2q6Ni
- vixlDg1YAFJgss8QMcydYqCbqfauY+SYvUxr5DQnBai8jdwoQFV1VHe7liD1/y5CYqe1
- BLXLRmJSOhHQLqNnd5xXAwfBOo/d+EuJkjO0eiZkBJsnIoopz4Y6TlO1kdvqfvSaDrHO
- QKEx71H3Rs+q9X45zUHAQ7YXQw7Lg4kg32VKStN5lMbV+wOt5SWVenW89cVKMmJnoznY
- 7aGg==
-X-Gm-Message-State: ANoB5pkFWFnxRIyTNhxX131RqqQSCmFxrqyZxQI/YmhS/S8MMdnjazGz
- ZQk23V8Whdm9r22Yz2C83lCwZQ==
-X-Google-Smtp-Source: AA0mqf6U2NvdyYCS3S4/TVkL77Hr1kFBjkTzcYicRp84NALtAXIYewlNs5KFCOnndgKvsqnOb07F5Q==
-X-Received: by 2002:a5d:6642:0:b0:236:6a28:eeda with SMTP id
- f2-20020a5d6642000000b002366a28eedamr604611wrw.315.1668670128667; 
- Wed, 16 Nov 2022 23:28:48 -0800 (PST)
-Received: from alex-rivos.ba.rivosinc.com
- (lfbn-gre-1-201-46.w90-112.abo.wanadoo.fr. [90.112.163.46])
- by smtp.gmail.com with ESMTPSA id
- r4-20020adfce84000000b0023691d62cffsm134085wrn.70.2022.11.16.23.28.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 23:28:48 -0800 (PST)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, Ludovic Henry <git@ludovic.dev>
-Subject: [PATCH] riscv: Add RISCVCPUConfig.satp_mode to set sv48, sv57, etc.
-Date: Thu, 17 Nov 2022 08:28:41 +0100
-Message-Id: <20221117072841.240839-1-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <kowsjois@linux.vnet.ibm.com>)
+ id 1ovZQG-0008DT-JB; Thu, 17 Nov 2022 02:34:56 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kowsjois@linux.vnet.ibm.com>)
+ id 1ovZQE-00079q-NX; Thu, 17 Nov 2022 02:34:56 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AH7RZBF008886; Thu, 17 Nov 2022 07:34:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=A2lLtzHUXYq/3UhrHLLI7Tol54hG8Mv+3jy93CXxVJ4=;
+ b=nzU2g1r8Op5tqxPghsPopy2qlW9wxo/MI8s4R7LoI8l1pKl8yJJD6/UD+6YRIXNkc0G6
+ LRpbpIfrLq2/pwiVNw86AG7mHJSE3NmiiBbOgaTP+/93gtFrWngHotWUXYkpPZj/jPEc
+ Qx4y2ssMIxueUeVAM7h6Vxn4YZPiIT+MEr782sgMFygnOnz/hkwd5ijDoUPfzuZA5/fn
+ CJqGse5D/ZiWPBYzzAZ/F4lh4M50cqljrJ7TLVSUGJkelL1TAtRPYPpRohBqWwt1ZrP7
+ e+GvQhpSRkI5OSk2gpH8tfGOwGhXLeMAtAInHXDotUgqD/QsLwC27MlvFIliiC9vsg+S nA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwgk188jq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Nov 2022 07:34:44 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AH7SBGX011062;
+ Thu, 17 Nov 2022 07:34:44 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwgk188gf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Nov 2022 07:34:44 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AH7K0WR014594;
+ Thu, 17 Nov 2022 07:34:41 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma02fra.de.ibm.com with ESMTP id 3kt3495cct-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Nov 2022 07:34:41 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AH7Ydrm5898752
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Nov 2022 07:34:39 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72C35A4054;
+ Thu, 17 Nov 2022 07:34:39 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1781FA405B;
+ Thu, 17 Nov 2022 07:34:37 +0000 (GMT)
+Received: from [9.43.10.198] (unknown [9.43.10.198])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Nov 2022 07:34:36 +0000 (GMT)
+Message-ID: <10a0ee1c-cf89-1fb1-24c2-622f51e6dfe3@linux.vnet.ibm.com>
+Date: Thu, 17 Nov 2022 13:04:35 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] target/ppc: Fix build warnings when building with
+ 'disable-tcg'
+Content-Language: en-US
+To: Vaibhav Jain <vaibhav@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: david@gibson.dropbear.id.au, clg@kaod.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org
+References: <20221116131743.658708-1-vaibhav@linux.ibm.com>
+From: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
+In-Reply-To: <20221116131743.658708-1-vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8t3pktZq1nIiztDINr5CqkAWR6i7YK4S
+X-Proofpoint-ORIG-GUID: eealgyq4_3YHGRNY_EOocLAaMpVztnqi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-17_03,2022-11-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211170056
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=kowsjois@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Thu, 17 Nov 2022 09:24:27 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,162 +118,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RISC-V specifies multiple sizes for addressable memory and Linux probes for
-the machine's support at startup via the satp CSR register (done in
-csr.c:validate_vm).
+Hello Vaibhav,
 
-As per the specification, sv64 must support sv57, which in turn must
-support sv48...etc. So we can restrict machine support by simply setting the
-"highest" supported mode in the satp_mode property. And the bare mode is
-always supported.
+Thanks for the quick resolution. I have applied and tested the patch. 
+Everything is smooth. Thank you.
 
-You can set this new property as follows:
--cpu rv64,satp-mode=sv48 # Linux will boot using sv48 scheme
--cpu rv64,satp-mode=sv39 # Linux will boot using sv39 scheme
+Regards,
+Kowshik Jois
 
-In addition, we now correctly set the device-tree entry 'mmu-type' using
-this new satp_mode property.
+On 16/11/22 18:47, Vaibhav Jain wrote:
+> Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
+> target is failing due to following build warnings:
+>
+> <snip>
+>   ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
+>   7018 | static void ppc_restore_state_to_opc(CPUState *cs,
+> <snip>
+>
+> Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
+> they are only defined if qemu is compiled with '--enable-tcg'
+>
+> Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
+> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> ---
+>   target/ppc/cpu_init.c    | 2 ++
+>   target/ppc/excp_helper.c | 2 ++
+>   2 files changed, 4 insertions(+)
+>
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index 32e94153d1..cbf0081374 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
+>       return cpu->env.nip;
+>   }
+>   
+> +#ifdef CONFIG_TCG
+>   static void ppc_restore_state_to_opc(CPUState *cs,
+>                                        const TranslationBlock *tb,
+>                                        const uint64_t *data)
+> @@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
+>   
+>       cpu->env.nip = data[0];
+>   }
+> +#endif /* CONFIG_TCG */
+>   
+>   static bool ppc_cpu_has_work(CPUState *cs)
+>   {
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index a05a2ed595..94adcb766b 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
+>   #endif
+>   #endif
+>   
+> +#ifdef CONFIG_TCG
+>   static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
+>   {
+>       const uint16_t c = 0xfffc;
+> @@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
+>   HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
+>   HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
+>   HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
+> +#endif /* CONFIG_TCG */
+>   
+>   #if !defined(CONFIG_USER_ONLY)
+>   
 
-Co-Developed-by: Ludovic Henry <git@ludovic.dev>
-Signed-off-by: Ludovic Henry <git@ludovic.dev>
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- hw/riscv/virt.c    | 15 ++++++---------
- target/riscv/cpu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
- target/riscv/cpu.h |  3 +++
- target/riscv/csr.c |  6 ++++--
- 4 files changed, 58 insertions(+), 11 deletions(-)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index a5bc7353b4..77484b5cae 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -228,7 +228,7 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-     int cpu;
-     uint32_t cpu_phandle;
-     MachineState *mc = MACHINE(s);
--    char *name, *cpu_name, *core_name, *intc_name;
-+    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
- 
-     for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
-         cpu_phandle = (*phandle)++;
-@@ -236,14 +236,11 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-         cpu_name = g_strdup_printf("/cpus/cpu@%d",
-             s->soc[socket].hartid_base + cpu);
-         qemu_fdt_add_subnode(mc->fdt, cpu_name);
--        if (riscv_feature(&s->soc[socket].harts[cpu].env,
--                          RISCV_FEATURE_MMU)) {
--            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
--                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
--        } else {
--            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
--                                    "riscv,none");
--        }
-+
-+        sv_name = g_strdup_printf("riscv,%s",
-+                                  s->soc[socket].harts[cpu].cfg.satp_mode_str);
-+        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-+
-         name = riscv_isa_string(&s->soc[socket].harts[cpu]);
-         qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
-         g_free(name);
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d14e95c9dc..efdb530ad9 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -907,6 +907,48 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-      }
- #endif
- 
-+    /*
-+     * Either a cpu sets its supported satp_mode in XXX_cpu_init
-+     * or the user sets this value using satp_mode property.
-+     */
-+    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-+    if (cpu->cfg.satp_mode_str) {
-+        if (!g_strcmp0(cpu->cfg.satp_mode_str, "none"))
-+            cpu->cfg.satp_mode = VM_1_10_MBARE;
-+        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv32") && rv32)
-+            cpu->cfg.satp_mode = VM_1_10_SV32;
-+        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv39") && !rv32)
-+            cpu->cfg.satp_mode = VM_1_10_SV39;
-+        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv48") && !rv32)
-+            cpu->cfg.satp_mode = VM_1_10_SV48;
-+        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv57") && !rv32)
-+            cpu->cfg.satp_mode = VM_1_10_SV57;
-+        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv64") && !rv32)
-+            cpu->cfg.satp_mode = VM_1_10_SV64;
-+        else {
-+            error_report("Unknown option for satp_mode: %s",
-+                         cpu->cfg.satp_mode_str);
-+            exit(EXIT_FAILURE);
-+        }
-+    } else {
-+        /*
-+         * If unset by both the user and the cpu, we fallback to sv32 for 32-bit
-+         * or sv57 for 64-bit when a MMU is present, and bare otherwise.
-+         */
-+        if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-+            if (rv32) {
-+                cpu->cfg.satp_mode_str = g_strdup("sv32");
-+                cpu->cfg.satp_mode = VM_1_10_SV32;
-+            } else {
-+                cpu->cfg.satp_mode_str = g_strdup("sv57");
-+                cpu->cfg.satp_mode = VM_1_10_SV57;
-+            }
-+        } else {
-+            cpu->cfg.satp_mode_str = g_strdup("none");
-+            cpu->cfg.satp_mode = VM_1_10_MBARE;
-+        }
-+    }
-+
-     riscv_cpu_register_gdb_regs_for_features(cs);
- 
-     qemu_init_vcpu(cs);
-@@ -1094,6 +1136,9 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-     DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-+
-+    DEFINE_PROP_STRING("satp-mode", RISCVCPU, cfg.satp_mode_str),
-+
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 3a9e25053f..a6c229470b 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -480,6 +480,9 @@ struct RISCVCPUConfig {
-     bool debug;
- 
-     bool short_isa_string;
-+
-+    uint8_t satp_mode;
-+    char *satp_mode_str;
- };
- 
- typedef struct RISCVCPUConfig RISCVCPUConfig;
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 5c9a7ee287..d26b830f1a 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1109,10 +1109,12 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
- 
- static int validate_vm(CPURISCVState *env, target_ulong vm)
- {
-+    vm &= 0xf;
-+
-     if (riscv_cpu_mxl(env) == MXL_RV32) {
--        return valid_vm_1_10_32[vm & 0xf];
-+        return valid_vm_1_10_32[vm] && (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
-     } else {
--        return valid_vm_1_10_64[vm & 0xf];
-+        return valid_vm_1_10_64[vm] && (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
-     }
- }
- 
--- 
-2.37.2
 
 
