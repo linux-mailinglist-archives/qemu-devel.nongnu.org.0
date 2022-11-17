@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7484862D93B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 12:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D1162D965
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 12:29:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovctI-0005Z5-TA; Thu, 17 Nov 2022 06:17:08 -0500
+	id 1ovd31-0001w3-8j; Thu, 17 Nov 2022 06:27:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ovcsl-0005Jb-OV
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 06:16:43 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ovcsj-0003yz-51
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 06:16:34 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id l14so3295732wrw.2
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 03:16:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fzi4KYJh/qM2ppaYMaOLMZPqnWLshUFWMV6nz7L5wKg=;
- b=ti5j5fwTtqWWItxhCUTVFwgAsrXmeM+uEpoTiAqHlzdMWUUteqqXjzZu40NlHs9bPz
- pCc7db2mVXnq6upuC8CzP9sBtCECSMLth478X4YKIP5aanRNy7NHd0H4g49/SiMle1Fw
- jmPzGI3aEFcC/7majFh+ZNUcCDV/l/f0JxqCmOXxhYIY72l4OHJ0ausWYTpfeWgYJD7A
- +jhzUJ2mksJkvz0gAiV3Y2pHb9Uxfb6bYkYngFKPDF+pJqpMuunR43c2lx/F8oDdhjXD
- BWBbzsXg72OBxF4cGvpLIZ4PNFyqNJg+vnZcxdSJ1rxZcx4Z6rSDlNw1hMvQwl7XaLc5
- jFPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fzi4KYJh/qM2ppaYMaOLMZPqnWLshUFWMV6nz7L5wKg=;
- b=JWZI5uIO0FHnwR/lDpCmXIbetVDiNR+6ZLNym2uKzmJZFg1A3QuKdQ3gpQtAKsi/4/
- /xjRpYddDBlMlIiQs9dqM746OZOarupdyOkuIAxuNkLOfxx22aTwi/1UGmNk95aqwxXp
- PMYRwfZ6uQaskwv6Pm6QG1klCyDb5FlKkTTpqR1EpetLFTUOXxU4b/4rTHA5dE0fXDyc
- bz5v3YGRgJmiYtyxCeJEqHKukE4/uqrw6YJl1yujZxjfZB1Xpbz/OfUL3cXROcKlncGS
- s6Tcs3w8ql9Yt8pe9VU9+2PomowPIvruT36jFWhIV+6colZr5u35hCvNhhVesIpR9AgW
- aHUQ==
-X-Gm-Message-State: ANoB5pmhA4JWKK70OtZreuh7b5ZC6UJx0nA95eetW3eIH8B1fU5vyPqp
- USz3XmP7CH5ybvLyC83Cf0pkyw==
-X-Google-Smtp-Source: AA0mqf7DcdEiu1BjgcBKZP3l6QzsIPjpG1Mh6uMlk3FaxiUAp5ZD51mQab6ZbOswOQmZcfugVx+E+w==
-X-Received: by 2002:a5d:5144:0:b0:22d:d4c:e99c with SMTP id
- u4-20020a5d5144000000b0022d0d4ce99cmr1131147wrt.582.1668683791366; 
- Thu, 17 Nov 2022 03:16:31 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- bg21-20020a05600c3c9500b003b497138093sm991144wmb.47.2022.11.17.03.16.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 03:16:30 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH for-7.2] tests/avocado/boot_linux.py: Bump aarch64 virt test
- timeout to 720s
-Date: Thu, 17 Nov 2022 11:16:28 +0000
-Message-Id: <20221117111628.911686-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <tobias@fiebig.nl>)
+ id 1ovd2v-0001vB-PC; Thu, 17 Nov 2022 06:27:08 -0500
+Received: from mail.aperture-labs.org ([195.191.197.3])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <tobias@fiebig.nl>)
+ id 1ovd2t-0006p8-3D; Thu, 17 Nov 2022 06:27:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fiebig.nl; s=key01;
+ t=1668684418;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w1eZ1DmzeiIIofhlxiSiymNMYc4S62m+sVAPLfMZv1Y=;
+ b=WtaN+BJOIy5z7oPQT8iGp57iKwdBd2f0RfNKszENx8ajTgAlKOD1evlKjMCqeJd32+okqz
+ GaGwONA5MqsD/qpjd9ra+cMJlrjAqpnqGKNWPhib4fc0U7QFK9wVd87OY5nzcVF9zHRXPe
+ KPFxHbHw+jQ2ExXEl4aUe1NS1lToasdwlvU0v3vLU15ch5KxvZPCUWMYM+fUiwZ/Lbr1Hb
+ jEhhyc/MD51g7tCijIbFtv5Soh19fkAMz57naBpGOGmxPQPeIVhpVEWEhWYX7BjZIglSTt
+ B4nn770wxFtMAyrY0hoFPYUNH4PRNZjEuN/91carZJ1En0JpoXoGVyJE8IFPow==
+Received: from DESKTOP1J9BJ88 (<unknown> [2a06:d1c1:a:0:d0f7:15f4:7842:c716])
+ by mail.aperture-labs.org (OpenSMTPD) with ESMTPSA id 566de064
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
+ Thu, 17 Nov 2022 11:26:58 +0000 (UTC)
+From: "Tobias Fiebig" <tobias@fiebig.nl>
+To: "'Stefan Hajnoczi'" <stefanha@gmail.com>
+Cc: "'Jason Wang'" <jasowang@redhat.com>,
+ "'Stefan Hajnoczi'" <stefanha@redhat.com>, <qemu-devel@nongnu.org>,
+ <qemu-stable@nongnu.org>,
+ "'Russell King - ARM Linux'" <linux@armlinux.org.uk>
+References: <20221115163659.1595865-1-stefanha@redhat.com>
+ <011801d8f967$5dad0f00$19072d00$@fiebig.nl>
+ <CACGkMEtJ2+2yhHgD33wiWvUEREei2ThQAkRNFWzRrDt5D50u+g@mail.gmail.com>
+ <008c01d8f9ad$6ba58e20$42f0aa60$@fiebig.nl>
+ <CAJSP0QUcYkKjJ1NMvKcs=03Z0Yjm+SD6H0wScJ-Zx62sXb6egQ@mail.gmail.com>
+ <01e701d8fa2f$4124d750$c36e85f0$@fiebig.nl>
+ <CAJSP0QX_PCNU6PFd8svnGJq5U9-0+weAN6MyiyYqWHkssY4QPA@mail.gmail.com>
+ <CAJSP0QW76L82s=LM=RpWEwiFPFaNBe4J4AXBi6jtDR2h8dE1UQ@mail.gmail.com>
+In-Reply-To: <CAJSP0QW76L82s=LM=RpWEwiFPFaNBe4J4AXBi6jtDR2h8dE1UQ@mail.gmail.com>
+Subject: RE: [PATCH for-7.2] rtl8139: honor large send MSS value
+Date: Thu, 17 Nov 2022 12:26:57 +0100
+Message-ID: <004f01d8fa77$80cfe4b0$826fae10$@fiebig.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIsokZAyfqueh54+bOmp3YoqNF9QAEWPJjQAkWwLFsBcAFz4wIIdbmQApZ4LIEBfw6SlgLLtpjbrS371lA=
+Content-Language: en-nl
+Received-SPF: pass client-ip=195.191.197.3; envelope-from=tobias@fiebig.nl;
+ helo=mail.aperture-labs.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,40 +80,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The two tests
-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2
-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3
+Heho,
+Ok, that explains a lot. I was also thinking that the vlan bit seem to =
+overlap with the MTU field, and wanted to look at that later today.
 
-take quite a long time to run, and the current timeout of 240s
-is not enough for the tests to complete on slow machines:
-we've seen these tests time out in the gitlab CI in the
-'avocado-system-alpine' CI job, for instance. The timeout
-is also insufficient for running the test with a debug build
-of QEMU: on my machine the tests take over 10 minutes to run
-in that config.
+Re the 12b: IIRC, the standard 1500 MTU for ethernet is already without =
+the ethernet header; That can have up to 26b (18b basis, 4b 802.1q, 4b =
+802.1ad), but leads to a total frame length of 1526 (with other =
+additions (MPLS) also just making the frame bigger, without touching the =
+MTU/MSS). MSS than as usual -40 for v4 and ~ -60 for v6.
 
-Push the timeout up to 720s so that the test definitely has
-enough time to complete.
+So I doubt that those 12b are subtracted for the ethernet header.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- tests/avocado/boot_linux.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Does somebody still have an RTL8139 around, to test how the real =
+hardware behaved?
 
-diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-index 571d33882ae..32adae6ff6a 100644
---- a/tests/avocado/boot_linux.py
-+++ b/tests/avocado/boot_linux.py
-@@ -64,7 +64,7 @@ class BootLinuxAarch64(LinuxTest):
-     :avocado: tags=machine:virt
-     :avocado: tags=machine:gic-version=2
-     """
--    timeout = 240
-+    timeout = 720
- 
-     def add_common_args(self):
-         self.vm.add_args('-bios',
--- 
-2.25.1
+With best regards,
+Tobias
+
+-----Original Message-----
+From: Stefan Hajnoczi <stefanha@gmail.com>=20
+Sent: Thursday, 17 November 2022 12:16
+To: Tobias Fiebig <tobias@fiebig.nl>
+Cc: Jason Wang <jasowang@redhat.com>; Stefan Hajnoczi =
+<stefanha@redhat.com>; qemu-devel@nongnu.org; qemu-stable@nongnu.org; =
+Russell King - ARM Linux <linux@armlinux.org.uk>
+Subject: Re: [PATCH for-7.2] rtl8139: honor large send MSS value
+
+After looking more closely at txdw0 it seems that the code mixes "Tx =
+command mode 0", "Tx command mode 1", and "Tx status mode". The bits =
+have different meanings in each mode, so this leads to confusion :).
+
+Stefan
 
 
