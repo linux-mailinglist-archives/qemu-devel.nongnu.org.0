@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B713D62DBE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 13:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C4362DBEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 13:50:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oveIZ-0004cQ-1U; Thu, 17 Nov 2022 07:47:19 -0500
+	id 1oveKQ-0005VU-Je; Thu, 17 Nov 2022 07:49:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oveIW-0004bt-0A
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 07:47:16 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oveKK-0005Uc-8i
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 07:49:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oveIE-0007Zg-EY
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 07:47:15 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oveKI-0007oy-K7
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 07:49:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668689217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=rMxCKqAV71564HGnNR36f8Idcl4XY3xcqGRiqrcChbo=;
- b=ZlFasKqyI6SYIAnEQNgCYRisWQbW8UJw2bsg1CBesQUYrkVBnhbr4S1T1c5aXjf+SmR1GO
- +Z3IJqaY4ZbqXzfTdNoaCqHYnI5mXkZ8IyJReZ4m5/paJqFY+xR8z3daIVt97GE0BMJZzW
- TumgfbeGU7c6oXmBIh2no5b5LCTWNUU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1668689346;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SOMRD+u0F6y3B8+Y8cqOvzN3Oi/P17JwkeGdIg7jU/k=;
+ b=JWHiZPhBG/PAUTIZTgknMhhS0YZlEY9ApE7AUIr3s5Rgk6lrTSSfQuP1TA40lpxenbGen/
+ BNX02GooIPbqOX6E2NELQxC0Esqk2fN++XVvraoy4szYQHYLaxDbFbT3Bby0OBhv2EwNdQ
+ hRjTYgyM+lY9+t/GZPYwcjmP0Ha2etk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-253-AJCaouaDNoacnCFuN8PK7A-1; Thu, 17 Nov 2022 07:46:46 -0500
-X-MC-Unique: AJCaouaDNoacnCFuN8PK7A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-195-i4s8SFQRNzeW-w3weyNXkw-1; Thu, 17 Nov 2022 07:49:04 -0500
+X-MC-Unique: i4s8SFQRNzeW-w3weyNXkw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B13EA85A588;
- Thu, 17 Nov 2022 12:46:45 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 995E0111E3FF;
- Thu, 17 Nov 2022 12:46:43 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- peter.maydell@linaro.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Greg Kurz <groug@kaod.org>
-Subject: [PATCH for-7.2] tests/avocado/boot_linux: Increase the timeout of the
- ppc64 test
-Date: Thu, 17 Nov 2022 13:46:34 +0100
-Message-Id: <20221117124634.574180-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CE8229DD992;
+ Thu, 17 Nov 2022 12:49:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 558B918EB4;
+ Thu, 17 Nov 2022 12:49:02 +0000 (UTC)
+Date: Thu, 17 Nov 2022 12:48:56 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Or Ozeri <ORO@il.ibm.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Danny Harnik <DANNYH@il.ibm.com>, "idryomov@gmail.com" <idryomov@gmail.com>
+Subject: Re: [PATCH v3] block/rbd: Add support for layered encryption
+Message-ID: <Y3YtuDXUxdQhq73r@redhat.com>
+References: <20221115122527.2896476-1-oro@il.ibm.com>
+ <Y3PQj/MBztn8SobQ@redhat.com>
+ <MN2PR15MB34886DD5A9D0F5D64A248AA08A079@MN2PR15MB3488.namprd15.prod.outlook.com>
+ <Y3S6OGqGFovAyRWw@redhat.com> <Y3TGO6AEAAOux8FH@redhat.com>
+ <MN2PR15MB3488DA644C772F708108977E8A069@MN2PR15MB3488.namprd15.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <MN2PR15MB3488DA644C772F708108977E8A069@MN2PR15MB3488.namprd15.prod.outlook.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,33 +84,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The BootLinuxPPC64.test_pseries_tcg test currently times out in
-the gitlab-CI or when building QEMU with --enable-debug. It takes
-way more than 300 seconds to finish the test in such environments,
-so let's bump the timeout to a more appropriate value.
+On Thu, Nov 17, 2022 at 12:42:04PM +0000, Or Ozeri wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Daniel P. Berrangé <berrange@redhat.com>
+> > Sent: 16 November 2022 13:15
+> > To: Or Ozeri <ORO@il.ibm.com>; qemu-devel@nongnu.org; qemu-
+> > block@nongnu.org; Danny Harnik <DANNYH@il.ibm.com>;
+> > idryomov@gmail.com
+> > Subject: [EXTERNAL] Re: [PATCH v3] block/rbd: Add support for layered
+> > encryption
+> > 
+> > On Wed, Nov 16, 2022 at 10:23:52AM +0000, Daniel P. Berrangé wrote:
+> > 
+> > So with that precedent I guess it is ok to add 'luks-any'.
+> > 
+> 
+> So is it OK to leave the "luks-any" changes to this commit?
+> If not, is it ok to split this to 2 commits, in the same "patch-series"?
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/avocado/boot_linux.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It is conceptually separate from the layered encryption so
+should be a separate commit, in a series.
 
-diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-index 571d33882a..1a66393df7 100644
---- a/tests/avocado/boot_linux.py
-+++ b/tests/avocado/boot_linux.py
-@@ -116,7 +116,7 @@ class BootLinuxPPC64(LinuxTest):
-     :avocado: tags=arch:ppc64
-     """
- 
--    timeout = 180
-+    timeout = 420
- 
-     def test_pseries_tcg(self):
-         """
+> BTW is there a possibility this will actually make it to 7.2?
+
+QEMU is in freeze now, which means we only take bug fixes, not
+new features, until 8.0 opens up after release. It is fine to
+send patches, as the maintainer can queue them until the tree
+opens.
+
+With regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
