@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D7062D595
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 09:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F7462D594
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 09:55:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovafZ-0001Ky-FX; Thu, 17 Nov 2022 03:54:49 -0500
+	id 1ovafa-0001M4-Qm; Thu, 17 Nov 2022 03:54:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ovafO-0001IG-3m
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ovafP-0001J2-NC
  for qemu-devel@nongnu.org; Thu, 17 Nov 2022 03:54:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ovafL-0007Rp-Bu
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 03:54:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668675273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=535f4ELHsrUpM7xjQCT3Gl+XJ9xDjs7whDbTSmkhrV0=;
- b=FSpoyjWSejvieOIZG5QdvP5LNnUGZfLWc2kpKXYngLILnBichtSI0CMwozceq8PYb9ZKz1
- lnGu6qpl1Qfzj30+nhKwr4BO5BoePywTZybtiGDSJ4Xuxfv0AuFnZUbhh62hosAQ2sEj+q
- 6AUts19k2QcBapYs8wZIPz7CS4+t1fI=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-610-zXNZSxgrNPi0MMU_BNyKEQ-1; Thu, 17 Nov 2022 03:54:31 -0500
-X-MC-Unique: zXNZSxgrNPi0MMU_BNyKEQ-1
-Received: by mail-io1-f69.google.com with SMTP id
- j17-20020a5d93d1000000b006bcdc6b49cbso586326ioo.22
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 00:54:31 -0800 (PST)
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ovafN-0007S6-Md
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 03:54:39 -0500
+Received: by mail-pl1-x631.google.com with SMTP id b21so1000052plc.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 00:54:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sScTS9wwWNfD5ANdJdzCfTW32hgLopR1E6sdykoOMX8=;
+ b=hmV9+MCufcT0e/pGkE2Con038jOi9Hn30fRR2Cl5oEgfetRz19QfmHxZ3FUejfQHCN
+ MG5IfFLU5NOCdZ+3PH28NHS1hHK1N7T8wqkuUGtVy2Ds1N0QUcsnNHeIzmNcQSHosWYT
+ a/XbICxcCAaPlsmhBYshFroll2lNOmm+FTrx+e4X2xDmlT/b16i7QPMgG9rFiWEEpLbh
+ /3mzjUBmV6Ir263mXBmakMBu1nOyGH7yHAu1V911T9Xrr64IGX1Ql93hKTPtx9ZimJNS
+ oo+x1eEBf+IVetSC86JZlMlcgCwbXcY5Be1ka4BZfOEZsauOecuy2WpKLI0LlqhZz44L
+ I4/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=535f4ELHsrUpM7xjQCT3Gl+XJ9xDjs7whDbTSmkhrV0=;
- b=XETO6QVwMzv1FFuGyKXrET84K27uWN+2WbdZ9Z3Ei720zwEo0HLQMXIZvjejf/oQ/T
- yvF8JwCLrgXyKweIJoivZ4tOnu4bTGAq+V0IMLhlDnaONp+SXKTn1bkPHsGcFumzDI9q
- znFO2X4wbYnJRacnMFF8xHSy8DpVOzDiest3C6klmeebz2NrVaDn9/FiN4D1vmSV8qPW
- Ib7qLFsaw4Y7SQJ0lYuc+GUFnnqZ0NMVymXpxhg8SsC54EosA8XGZEVuVenT3HNkfqdk
- wb55aix2T2k+5e14YrCQ4ErOqg7dvFbgM8KwMJLxh0BGAY0jRbpNOhb5X94F+W5rH21L
- 9Bow==
-X-Gm-Message-State: ANoB5plcMIIQmMtfgAOi5wX/gZohs6Qz4ouyGgqttP7FcMsKJVif0AUp
- mQimor0QoczAStytoelRaQta0WpfrTkTfa3GxwghsbPjdVAG0Xi4c9wycMySiiPbWrYiI5J3o6+
- gNBWzjIOb75ropaq+I+f0HODOUwidlG0=
-X-Received: by 2002:a92:870f:0:b0:302:501a:a25d with SMTP id
- m15-20020a92870f000000b00302501aa25dmr757903ild.311.1668675270986; 
- Thu, 17 Nov 2022 00:54:30 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf79iGZ1g+Xa6Lx369MrPffdLkXhoekvE64xae7AleeOfBm8GG3xP6ElPMn+OzSX5QAzxLVyrmnSxYrcRPRSll4=
-X-Received: by 2002:a92:870f:0:b0:302:501a:a25d with SMTP id
- m15-20020a92870f000000b00302501aa25dmr757900ild.311.1668675270762; Thu, 17
- Nov 2022 00:54:30 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sScTS9wwWNfD5ANdJdzCfTW32hgLopR1E6sdykoOMX8=;
+ b=OK3dlpxEVOrJF1q9I19EvorVUQHepRAqZnGnlnRLio1GyxFuxN4rV3aEkhC15l0r4L
+ 0MLrp9/5UgC+CBGwh9s0WCkfZsZNC68MRmCisMmjhuAQMzVvBRxwg+rOemS1qOAIlALl
+ 7ewXtG4XWrItiqdVJwbfzbrQNdW2ljQ8fphmhbLzLRRnfQTJakI7yBzJ1PIgm7jhdOb7
+ AZHOEwhppS8aDanPGBDCFO2XgjKgO2IrC+i8JzMezXYlZlAIZTrBgD1YOB3M7PCAB+mK
+ B53VpvuKZM/uu6Dh1Aa4eO6qbiVHyhSBDrFaLJWxo09INMu/G8mccxxNOzAtuwkQCa5s
+ eBPQ==
+X-Gm-Message-State: ANoB5pnBwPlyi9vIa7yngU6HINbe6/SpF3erytccLFnlJV1hrE6RMxPX
+ 0M9UQMCKGUrHQds3TFv1m+x4Ow==
+X-Google-Smtp-Source: AA0mqf6gPEQ5ORP46KkXoBwAru7mrRo8G5mJ2IcYSURb6adsnkzEfbAF0lkDH89nZdZEEJvcecF2bg==
+X-Received: by 2002:a17:90b:3d0d:b0:1fd:5b5d:f09d with SMTP id
+ pt13-20020a17090b3d0d00b001fd5b5df09dmr1899162pjb.69.1668675276075; 
+ Thu, 17 Nov 2022 00:54:36 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:b354:386:82db:58e7?
+ ([2602:47:d48a:1201:b354:386:82db:58e7])
+ by smtp.gmail.com with ESMTPSA id
+ f8-20020a170902684800b00186e34524e3sm672660pln.136.2022.11.17.00.54.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 00:54:35 -0800 (PST)
+Message-ID: <fc43ae17-3908-9c44-9f00-95e617e9dea6@linaro.org>
+Date: Thu, 17 Nov 2022 00:54:33 -0800
 MIME-Version: 1.0
-References: <20221115184600.747961-1-alexander.ivanov@virtuozzo.com>
- <20221115184600.747961-2-alexander.ivanov@virtuozzo.com>
-In-Reply-To: <20221115184600.747961-2-alexander.ivanov@virtuozzo.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Thu, 17 Nov 2022 10:54:19 +0200
-Message-ID: <CAPMcbCrrzK97JTnrXtK_Y+CN4uEH47j+YhK0e4mOfwUK1_YGDw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] qga: Move FS TRIM code to commands-linux.c
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-Cc: qemu-devel@nongnu.org, den@virtuozzo.com, michael.roth@amd.com, 
- marcandre.lureau@gmail.com
-Content-Type: multipart/alternative; boundary="000000000000c278ab05eda6bc54"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 1/9] target/riscv: add cfg properties for Zc* extension
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20221117070316.58447-1-liweiwei@iscas.ac.cn>
+ <20221117070316.58447-2-liweiwei@iscas.ac.cn>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221117070316.58447-2-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,436 +96,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c278ab05eda6bc54
-Content-Type: text/plain; charset="UTF-8"
-
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-
-On Tue, Nov 15, 2022 at 8:46 PM Alexander Ivanov <
-alexander.ivanov@virtuozzo.com> wrote:
-
-> In the next patch ZFS TRIM support for FreeBSD will be added. Move
-> Linux-specific TRIM code to commands-linux.c file.
->
-> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+On 11/16/22 23:03, Weiwei Li wrote:
+> Add properties for Zca,Zcb,Zcf,Zcd,Zcmp,Zcmt extension
+> Add check for these properties
+> 
+> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
+> Cc: Alistair Francis<alistair.francis@wdc.com>
 > ---
->  qga/commands-linux.c | 73 ++++++++++++++++++++++++++++++++++++++++++++
->  qga/commands-posix.c | 72 -------------------------------------------
->  2 files changed, 73 insertions(+), 72 deletions(-)
->
-> diff --git a/qga/commands-linux.c b/qga/commands-linux.c
-> index 214e408fcd..fb01114153 100644
-> --- a/qga/commands-linux.c
-> +++ b/qga/commands-linux.c
-> @@ -13,6 +13,7 @@
->
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +#include "qga-qapi-commands.h"
->  #include "commands-common.h"
->  #include "cutils.h"
->  #include <mntent.h>
-> @@ -284,3 +285,75 @@ int qmp_guest_fsfreeze_do_thaw(Error **errp)
->      return i;
->  }
->  #endif /* CONFIG_FSFREEZE */
-> +
-> +#if defined(CONFIG_FSTRIM)
-> +/*
-> + * Walk list of mounted file systems in the guest, and trim them.
-> + */
-> +GuestFilesystemTrimResponse *
-> +qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
-> +{
-> +    GuestFilesystemTrimResponse *response;
-> +    GuestFilesystemTrimResult *result;
-> +    int ret = 0;
-> +    FsMountList mounts;
-> +    struct FsMount *mount;
-> +    int fd;
-> +    struct fstrim_range r;
-> +
-> +    slog("guest-fstrim called");
-> +
-> +    QTAILQ_INIT(&mounts);
-> +    if (!build_fs_mount_list(&mounts, errp)) {
-> +        return NULL;
-> +    }
-> +
-> +    response = g_malloc0(sizeof(*response));
-> +
-> +    QTAILQ_FOREACH(mount, &mounts, next) {
-> +        result = g_malloc0(sizeof(*result));
-> +        result->path = g_strdup(mount->dirname);
-> +
-> +        QAPI_LIST_PREPEND(response->paths, result);
-> +
-> +        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-> +        if (fd == -1) {
-> +            result->error = g_strdup_printf("failed to open: %s",
-> +                                            strerror(errno));
-> +            result->has_error = true;
-> +            continue;
-> +        }
-> +
-> +        /* We try to cull filesystems we know won't work in advance, but
-> other
-> +         * filesystems may not implement fstrim for less obvious reasons.
-> +         * These will report EOPNOTSUPP; while in some other cases ENOTTY
-> +         * will be reported (e.g. CD-ROMs).
-> +         * Any other error means an unexpected error.
-> +         */
-> +        r.start = 0;
-> +        r.len = -1;
-> +        r.minlen = has_minimum ? minimum : 0;
-> +        ret = ioctl(fd, FITRIM, &r);
-> +        if (ret == -1) {
-> +            result->has_error = true;
-> +            if (errno == ENOTTY || errno == EOPNOTSUPP) {
-> +                result->error = g_strdup("trim not supported");
-> +            } else {
-> +                result->error = g_strdup_printf("failed to trim: %s",
-> +                                                strerror(errno));
-> +            }
-> +            close(fd);
-> +            continue;
-> +        }
-> +
-> +        result->has_minimum = true;
-> +        result->minimum = r.minlen;
-> +        result->has_trimmed = true;
-> +        result->trimmed = r.len;
-> +        close(fd);
-> +    }
-> +
-> +    free_fs_mount_list(&mounts);
-> +    return response;
-> +}
-> +#endif /* CONFIG_FSTRIM */
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 32493d6383..b2a6d8b227 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1607,78 +1607,6 @@ GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error
-> **errp)
->  }
->  #endif /* CONFIG_FSFREEZE */
->
-> -#if defined(CONFIG_FSTRIM)
-> -/*
-> - * Walk list of mounted file systems in the guest, and trim them.
-> - */
-> -GuestFilesystemTrimResponse *
-> -qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
-> -{
-> -    GuestFilesystemTrimResponse *response;
-> -    GuestFilesystemTrimResult *result;
-> -    int ret = 0;
-> -    FsMountList mounts;
-> -    struct FsMount *mount;
-> -    int fd;
-> -    struct fstrim_range r;
-> -
-> -    slog("guest-fstrim called");
-> -
-> -    QTAILQ_INIT(&mounts);
-> -    if (!build_fs_mount_list(&mounts, errp)) {
-> -        return NULL;
-> -    }
-> -
-> -    response = g_malloc0(sizeof(*response));
-> -
-> -    QTAILQ_FOREACH(mount, &mounts, next) {
-> -        result = g_malloc0(sizeof(*result));
-> -        result->path = g_strdup(mount->dirname);
-> -
-> -        QAPI_LIST_PREPEND(response->paths, result);
-> -
-> -        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-> -        if (fd == -1) {
-> -            result->error = g_strdup_printf("failed to open: %s",
-> -                                            strerror(errno));
-> -            result->has_error = true;
-> -            continue;
-> -        }
-> -
-> -        /* We try to cull filesystems we know won't work in advance, but
-> other
-> -         * filesystems may not implement fstrim for less obvious reasons.
-> -         * These will report EOPNOTSUPP; while in some other cases ENOTTY
-> -         * will be reported (e.g. CD-ROMs).
-> -         * Any other error means an unexpected error.
-> -         */
-> -        r.start = 0;
-> -        r.len = -1;
-> -        r.minlen = has_minimum ? minimum : 0;
-> -        ret = ioctl(fd, FITRIM, &r);
-> -        if (ret == -1) {
-> -            result->has_error = true;
-> -            if (errno == ENOTTY || errno == EOPNOTSUPP) {
-> -                result->error = g_strdup("trim not supported");
-> -            } else {
-> -                result->error = g_strdup_printf("failed to trim: %s",
-> -                                                strerror(errno));
-> -            }
-> -            close(fd);
-> -            continue;
-> -        }
-> -
-> -        result->has_minimum = true;
-> -        result->minimum = r.minlen;
-> -        result->has_trimmed = true;
-> -        result->trimmed = r.len;
-> -        close(fd);
-> -    }
-> -
-> -    free_fs_mount_list(&mounts);
-> -    return response;
-> -}
-> -#endif /* CONFIG_FSTRIM */
-> -
->
->  #define LINUX_SYS_STATE_FILE "/sys/power/state"
->  #define SUSPEND_SUPPORTED 0
-> --
-> 2.34.1
->
->
+>   target/riscv/cpu.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+>   target/riscv/cpu.h |  6 ++++++
+>   2 files changed, 49 insertions(+)
 
---000000000000c278ab05eda6bc54
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 1=
-5, 2022 at 8:46 PM Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@=
-virtuozzo.com">alexander.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">In the next patch ZFS TRIM sup=
-port for FreeBSD will be added. Move<br>
-Linux-specific TRIM code to commands-linux.c file.<br>
-<br>
-Signed-off-by: Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virt=
-uozzo.com" target=3D"_blank">alexander.ivanov@virtuozzo.com</a>&gt;<br>
----<br>
-=C2=A0qga/commands-linux.c | 73 +++++++++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0qga/commands-posix.c | 72 -------------------------------------------=
-<br>
-=C2=A02 files changed, 73 insertions(+), 72 deletions(-)<br>
-<br>
-diff --git a/qga/commands-linux.c b/qga/commands-linux.c<br>
-index 214e408fcd..fb01114153 100644<br>
---- a/qga/commands-linux.c<br>
-+++ b/qga/commands-linux.c<br>
-@@ -13,6 +13,7 @@<br>
-<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-=C2=A0#include &quot;qapi/error.h&quot;<br>
-+#include &quot;qga-qapi-commands.h&quot;<br>
-=C2=A0#include &quot;commands-common.h&quot;<br>
-=C2=A0#include &quot;cutils.h&quot;<br>
-=C2=A0#include &lt;mntent.h&gt;<br>
-@@ -284,3 +285,75 @@ int qmp_guest_fsfreeze_do_thaw(Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return i;<br>
-=C2=A0}<br>
-=C2=A0#endif /* CONFIG_FSFREEZE */<br>
-+<br>
-+#if defined(CONFIG_FSTRIM)<br>
-+/*<br>
-+ * Walk list of mounted file systems in the guest, and trim them.<br>
-+ */<br>
-+GuestFilesystemTrimResponse *<br>
-+qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 GuestFilesystemTrimResponse *response;<br>
-+=C2=A0 =C2=A0 GuestFilesystemTrimResult *result;<br>
-+=C2=A0 =C2=A0 int ret =3D 0;<br>
-+=C2=A0 =C2=A0 FsMountList mounts;<br>
-+=C2=A0 =C2=A0 struct FsMount *mount;<br>
-+=C2=A0 =C2=A0 int fd;<br>
-+=C2=A0 =C2=A0 struct fstrim_range r;<br>
-+<br>
-+=C2=A0 =C2=A0 slog(&quot;guest-fstrim called&quot;);<br>
-+<br>
-+=C2=A0 =C2=A0 QTAILQ_INIT(&amp;mounts);<br>
-+=C2=A0 =C2=A0 if (!build_fs_mount_list(&amp;mounts, errp)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 response =3D g_malloc0(sizeof(*response));<br>
-+<br>
-+=C2=A0 =C2=A0 QTAILQ_FOREACH(mount, &amp;mounts, next) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D g_malloc0(sizeof(*result));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;path =3D g_strdup(mount-&gt;dirname=
-);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_PREPEND(response-&gt;paths, result);=
-<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qga_open_cloexec(mount-&gt;dirname, O_R=
-DONLY, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =3D g_strdup_pr=
-intf(&quot;failed to open: %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 strerror(errno));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_error =3D true;<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* We try to cull filesystems we know won&#39;=
-t work in advance, but other<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* filesystems may not implement fstrim f=
-or less obvious reasons.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* These will report EOPNOTSUPP; while in=
- some other cases ENOTTY<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* will be reported (e.g. CD-ROMs).<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Any other error means an unexpected er=
-ror.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r.start =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r.len =3D -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r.minlen =3D has_minimum ? minimum : 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(fd, FITRIM, &amp;r);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_error =3D true;<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D ENOTTY || errno=
- =3D=3D EOPNOTSUPP) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =
-=3D g_strdup(&quot;trim not supported&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =
-=3D g_strdup_printf(&quot;failed to trim: %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 strerror(errno));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_minimum =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;minimum =3D r.minlen;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_trimmed =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;trimmed =3D r.len;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 free_fs_mount_list(&amp;mounts);<br>
-+=C2=A0 =C2=A0 return response;<br>
-+}<br>
-+#endif /* CONFIG_FSTRIM */<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 32493d6383..b2a6d8b227 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -1607,78 +1607,6 @@ GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error =
-**errp)<br>
-=C2=A0}<br>
-=C2=A0#endif /* CONFIG_FSFREEZE */<br>
-<br>
--#if defined(CONFIG_FSTRIM)<br>
--/*<br>
-- * Walk list of mounted file systems in the guest, and trim them.<br>
-- */<br>
--GuestFilesystemTrimResponse *<br>
--qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)<br>
--{<br>
--=C2=A0 =C2=A0 GuestFilesystemTrimResponse *response;<br>
--=C2=A0 =C2=A0 GuestFilesystemTrimResult *result;<br>
--=C2=A0 =C2=A0 int ret =3D 0;<br>
--=C2=A0 =C2=A0 FsMountList mounts;<br>
--=C2=A0 =C2=A0 struct FsMount *mount;<br>
--=C2=A0 =C2=A0 int fd;<br>
--=C2=A0 =C2=A0 struct fstrim_range r;<br>
--<br>
--=C2=A0 =C2=A0 slog(&quot;guest-fstrim called&quot;);<br>
--<br>
--=C2=A0 =C2=A0 QTAILQ_INIT(&amp;mounts);<br>
--=C2=A0 =C2=A0 if (!build_fs_mount_list(&amp;mounts, errp)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 response =3D g_malloc0(sizeof(*response));<br>
--<br>
--=C2=A0 =C2=A0 QTAILQ_FOREACH(mount, &amp;mounts, next) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D g_malloc0(sizeof(*result));<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;path =3D g_strdup(mount-&gt;dirname=
-);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_PREPEND(response-&gt;paths, result);=
-<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qga_open_cloexec(mount-&gt;dirname, O_R=
-DONLY, 0);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =3D g_strdup_pr=
-intf(&quot;failed to open: %s&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 strerror(errno));<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_error =3D true;<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* We try to cull filesystems we know won&#39;=
-t work in advance, but other<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* filesystems may not implement fstrim f=
-or less obvious reasons.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* These will report EOPNOTSUPP; while in=
- some other cases ENOTTY<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* will be reported (e.g. CD-ROMs).<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Any other error means an unexpected er=
-ror.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 r.start =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 r.len =3D -1;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 r.minlen =3D has_minimum ? minimum : 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(fd, FITRIM, &amp;r);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_error =3D true;<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D ENOTTY || errno=
- =3D=3D EOPNOTSUPP) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =
-=3D g_strdup(&quot;trim not supported&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =
-=3D g_strdup_printf(&quot;failed to trim: %s&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 strerror(errno));<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_minimum =3D true;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;minimum =3D r.minlen;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_trimmed =3D true;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;trimmed =3D r.len;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 free_fs_mount_list(&amp;mounts);<br>
--=C2=A0 =C2=A0 return response;<br>
--}<br>
--#endif /* CONFIG_FSTRIM */<br>
--<br>
-<br>
-=C2=A0#define LINUX_SYS_STATE_FILE &quot;/sys/power/state&quot;<br>
-=C2=A0#define SUSPEND_SUPPORTED 0<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div>
-
---000000000000c278ab05eda6bc54--
-
+r~
 
