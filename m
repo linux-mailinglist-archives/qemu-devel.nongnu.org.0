@@ -2,63 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F59162E123
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 17:11:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E3062E124
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 17:12:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovhSq-0002pL-Lk; Thu, 17 Nov 2022 11:10:08 -0500
+	id 1ovhUV-0003kW-0f; Thu, 17 Nov 2022 11:11:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovhSk-0002oZ-88
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 11:10:02 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovhSi-0006Il-IL
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 11:10:01 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 243DF1400F3BF;
- Thu, 17 Nov 2022 17:09:47 +0100 (CET)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 17 Nov
- 2022 17:09:46 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001e5771bad-94b4-4de6-a678-74d6f7be063b,
- AE5717285A2AC47C671D2CB192D1CF6730B7D7F3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <1b9e9c89-f9d0-7914-30b6-2ba0ea43c7ac@kaod.org>
-Date: Thu, 17 Nov 2022 17:09:45 +0100
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1ovhUR-0003jl-78
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 11:11:47 -0500
+Received: from mail.ispras.ru ([83.149.199.84])
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1ovhUO-0006c5-QU
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 11:11:46 -0500
+Received: from [127.0.1.1] (unknown [85.249.20.11])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 38C7140737C4;
+ Thu, 17 Nov 2022 16:11:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 38C7140737C4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1668701475;
+ bh=8MflozZ6XLkLgbcAsLDCsYrT/ZwAGQdtEXbzMpRfR3E=;
+ h=Subject:From:To:Cc:Date:From;
+ b=HfJmcfNIxPQYHZITvztom0+nA2g4U2tF/NmVrNF4+02eW+7r18EKVRewQwwRZtgyF
+ IhLqQzikHf2XUMQUZERh+W1bAk6om7Ml3ArrbVxB/zTlNdovpJ2OhQMX3P/kXLPWke
+ kOOUQXQZFyEilBlRUCtJg/ttLzGHtDe8B/olNe0k=
+Subject: [PATCH] target/avr: fix long address calculation
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: qemu-devel@nongnu.org
+Cc: pavel.dovgalyuk@ispras.ru, mrolnik@gmail.com, philmd@linaro.org
+Date: Thu, 17 Nov 2022 19:11:14 +0300
+Message-ID: <166870147452.1401333.9619815077606562766.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH for-8.0] MAINTAINERS: downgrade PPC KVM/TCG CPUs and
- pSeries to 'Odd Fixes'
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>, Greg
- Kurz <groug@kaod.org>
-References: <20221117153218.182835-1-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221117153218.182835-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 5abac170-f7a1-41b4-a121-251cdc1316cb
-X-Ovh-Tracer-Id: 6686438073125211043
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,61 +62,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/17/22 16:32, Daniel Henrique Barboza wrote:
-> The maintainer is no longer being paid to maintain these components. All
-> maintainership work is being done in his personal time since the middle
-> of the 7.2 development cycle.
+AVR ELPMX instruction (and some others) use three registers to
+form long 24-bit address from RAMPZ and two 8-bit registers.
+RAMPZ stores shifted 8 bits like ff0000 to simplify address calculation.
+This patch fixes full address calculation in function gen_get_addr
+by changing the mess in offsets of deposit tcg instructions.
 
-Thanks to you, Daniel. It was great work !
-  
-> Change the status of PPC KVM CPUs, PPC TCG CPUs and the pSeries machine
-> to 'Odd Fixes', reflecting that the maintainer no longer has exclusive
-> time to dedicate to them. It'll also (hopefully) keep expectations under
-> check when/if these components are used in a customer product.
-> 
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+---
+ target/avr/translate.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-C.
-
-> ---
->   MAINTAINERS | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index be151f0024..1d43153e5f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -264,7 +264,7 @@ R: Cédric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
-> -S: Maintained
-> +S: Odd Fixes
->   F: target/ppc/
->   F: hw/ppc/ppc.c
->   F: hw/ppc/ppc_booke.c
-> @@ -389,7 +389,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
->   R: Cédric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
-> -S: Maintained
-> +S: Odd Fixes
->   F: target/ppc/kvm.c
->   
->   S390 KVM CPUs
-> @@ -1367,7 +1367,7 @@ R: Cédric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
-> -S: Maintained
-> +S: Odd Fixes
->   F: hw/*/spapr*
->   F: include/hw/*/spapr*
->   F: hw/*/xics*
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index e65b6008c0..c9a0a39c2d 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -1572,8 +1572,8 @@ static TCGv gen_get_addr(TCGv H, TCGv M, TCGv L)
+ {
+     TCGv addr = tcg_temp_new_i32();
+ 
+-    tcg_gen_deposit_tl(addr, M, H, 8, 8);
+-    tcg_gen_deposit_tl(addr, L, addr, 8, 16);
++    tcg_gen_deposit_tl(addr, H, M, 8, 8);
++    tcg_gen_deposit_tl(addr, addr, L, 0, 8);
+ 
+     return addr;
+ }
 
 
