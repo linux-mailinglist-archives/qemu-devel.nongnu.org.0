@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2329D62E30A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 18:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFAD62E301
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 18:28:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovieE-0006Pe-KK; Thu, 17 Nov 2022 12:25:58 -0500
+	id 1ovieE-0006PN-45; Thu, 17 Nov 2022 12:25:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovie2-0006KW-Bs
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:25:48 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1ovie2-0006KT-AW
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:25:47 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovidw-0006EO-GI
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:25:43 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- ja4-20020a05600c556400b003cf6e77f89cso5026175wmb.0
+ id 1ovidw-0006ES-BO
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:25:42 -0500
+Received: by mail-wr1-x433.google.com with SMTP id y16so4938807wrt.12
  for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 09:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=a1Pj8Pcso9OCC5jDWRBbmf7M1aOUY8qcP9iBCC6JI9I=;
- b=BIXXAqCRgV8XLbwgfKsl5T7yi/UBZBzUZ/EyDas9cEVyUzgSjKEf1jq8fnETxjjwlu
- nzLIQmUfep6Ok2/NvcbQKNd6Q96B4hr98o+H+qJ8e1SDeZsLVm6ERzkcXpIe7lqsIlcW
- BqRoIwTkxo1EiBfYpmjhE/mMLYV+hxbs+4LbHwp1rr8df6PVnkZvG/C2yBfXq9CYNcwa
- r5iPl/cGIPQc5feDGMOctp/eCizw5uOykmS8U8JXXHeMfheM1NQdMvQ3xPZRoS1u+oBH
- lpe4CEn02TVw3ecfy/29ZdcXhoISO8fLzcT61bJ6bNVBt64EtbH0CThjuFaeICJx7WTM
- yqYw==
+ bh=r0gPi4afo9I5YmqQbfJD2lj3D8+SZO0B+Jf+mMaPF0M=;
+ b=IK6HqqXH4W+Z+SESWgOgyKL4VJlhgoQrJwo1tlKBWpaN2FEmg0KcJdykUePY5uHv9I
+ OA3TYA6zBCqHs6rBgQ4V963SQJJVG3U0reoSiz/d4AH2esKqR8Yjtn3DN1syUsdD8Rzu
+ zOOTSRyBYtJV0fySCj0n3f2DlVGpHTvL2vc0sor1ChIOfmv2sAnx/izSh/ASrDaSYrOX
+ j5wxLuTG9gu85yIkHuCtF1a8rb7DVdIm/7z3A6qPcGj4wqAWr5HsHHDPHd0H8qRf9y4d
+ xjztEJCPj+k/2OJw/yccEawdrwXFyceDKCQVvnVB/OfPBh0lWUlrfi/rhZskms3f1S2h
+ 8h1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a1Pj8Pcso9OCC5jDWRBbmf7M1aOUY8qcP9iBCC6JI9I=;
- b=jcznV/sWfukc+tsT47UPQy+9DfLcptT0Q7so1qNMPxnDm3vgKN3CSlK9m55xZJJZQW
- CYJvoGF+MeREVucNI0QrhKchwdBqdDYlSsWvbCNdSY0vxMFGH6wB/k+3evcDFdhY+vaN
- Ca0wwxhvcby5J1EnBJL6zG9JeaLdYZnn7gyEzn7QDGvlMpDP/UPK3u6GzVcxFxyY+T8j
- w3jYV4gvgW9O1W84O6sIE/+TaJ/RdDVJYnAXI4sKIrzIfz6r1x5z+0APnDzW6Lozhp2o
- J43gSDz8KSGaEiIopLxz2emdKJ6lpnkxq7s9HG04sDSER5bm7d5QkGyLzZJ2Gn0/2LKk
- BTRw==
-X-Gm-Message-State: ANoB5pmoJaSJZ0b/FwGVpjfDEW8EQ5WmssBOunwbUND2b93cXQ7btyqG
- 2msNox1PuWkTDH/CFTGzAfcRFg==
-X-Google-Smtp-Source: AA0mqf56+aODP8jDjDjOWvExZJAkrK64R3TjrQX/+W1HpVJ46V2xqbqVIG98QMdJSoPb+ddliyG6ow==
-X-Received: by 2002:a05:600c:3b1e:b0:3c6:c182:b125 with SMTP id
- m30-20020a05600c3b1e00b003c6c182b125mr2433826wms.145.1668705938326; 
+ bh=r0gPi4afo9I5YmqQbfJD2lj3D8+SZO0B+Jf+mMaPF0M=;
+ b=5EWVnLNKohc0DbivcGD06rw+jcR4MU8FaFUOqshLQmYfZvK2s7G4N+2ckYEqAThoRR
+ AyTZTbsWNaARBAx6yJ4dHM780FWvbH2mRr3WJ1XM8pGTZ4mp7U7L07LzZnPuM7cMu3G0
+ IW8CZGPe7/GaAMfRnPKACA9drS1pd26OdDQDTHxkAnvZ1HtRUGwXw6D6Sz3rbJbZneu5
+ bHTZKBThZwQpLL2OaiHowQlmIVL/66JuWLwdR3KsF8zTieNb9mOPUSxucSHLSnnnbOEy
+ 07dbBkLWBGej880UyZjj2PX9OYhA6VfKDJmbbSIajXfLDyWlWW59xnpRi8DHB3+F/6d+
+ Q1dA==
+X-Gm-Message-State: ANoB5plCC7fdRGR7ohadw2XRYeV9oFDBZiiIEjgXROoflDSGuC2W/ckH
+ punovaeMGGCAD/z+Mgh/+vMJIYgojDtBxQ==
+X-Google-Smtp-Source: AA0mqf6bv0wd6xECNqc/BhQ9d30g2soJqQODk5MAgSDN44MUCAbAhvEhgytpcpptIzK8EUYI82zx8g==
+X-Received: by 2002:adf:f601:0:b0:236:55a7:348f with SMTP id
+ t1-20020adff601000000b0023655a7348fmr2164163wrp.331.1668705938658; 
  Thu, 17 Nov 2022 09:25:38 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- e16-20020adffd10000000b00241b933f8cesm1473859wrr.74.2022.11.17.09.25.34
+ c15-20020a05600c0acf00b003c21ba7d7d6sm1825646wmr.44.2022.11.17.09.25.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Nov 2022 09:25:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 857EF1FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 9CAF81FFC0;
  Thu, 17 Nov 2022 17:25:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v3 07/13] docs/devel: try and improve the language around
- patch review
-Date: Thu, 17 Nov 2022 17:25:26 +0000
-Message-Id: <20221117172532.538149-8-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v3 08/13] tests/avocado: Raise timeout for
+ boot_linux.py:BootLinuxPPC64.test_pseries_tcg
+Date: Thu, 17 Nov 2022 17:25:27 +0000
+Message-Id: <20221117172532.538149-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221117172532.538149-1-alex.bennee@linaro.org>
 References: <20221117172532.538149-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,49 +100,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is important that contributors take the review process seriously
-and we collaborate in a respectful way while avoiding personal
-attacks. Try and make this clear in the language.
+From: Peter Maydell <peter.maydell@linaro.org>
 
+On my machine, a debug build of QEMU takes about 260 seconds to
+complete this test, so with the current timeout value of 180 seconds
+it always times out.  Double the timeout value to 360 so the test
+definitely has enough time to complete.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20221111145529.4020801-9-alex.bennee@linaro.org>
+Message-Id: <20221110142901.3832318-1-peter.maydell@linaro.org>
+Message-Id: <20221111145529.4020801-11-alex.bennee@linaro.org>
 ---
- docs/devel/submitting-a-patch.rst | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ tests/avocado/boot_linux.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
-index 1f2bde0625..80e8693bb6 100644
---- a/docs/devel/submitting-a-patch.rst
-+++ b/docs/devel/submitting-a-patch.rst
-@@ -434,14 +434,20 @@ developers will identify bugs, or suggest a cleaner approach, or even
- just point out code style issues or commit message typos. You'll need to
- respond to these, and then send a second version of your patches with
- the issues fixed. This takes a little time and effort on your part, but
--if you don't do it then your changes will never get into QEMU. It's also
--just polite -- it is quite disheartening for a developer to spend time
--reviewing your code and suggesting improvements, only to find that
--you're not going to do anything further and it was all wasted effort.
-+if you don't do it then your changes will never get into QEMU.
-+
-+Remember that a maintainer is under no obligation to take your
-+patches. If someone has spent the time reviewing your code and
-+suggesting improvements and you simply re-post without either
-+addressing the comment directly or providing additional justification
-+for the change then it becomes wasted effort. You cannot demand others
-+merge and then fix up your code after the fact.
+diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+index 571d33882a..2be4be395d 100644
+--- a/tests/avocado/boot_linux.py
++++ b/tests/avocado/boot_linux.py
+@@ -116,7 +116,7 @@ class BootLinuxPPC64(LinuxTest):
+     :avocado: tags=arch:ppc64
+     """
  
- When replying to comments on your patches **reply to all and not just
- the sender** -- keeping discussion on the mailing list means everybody
--can follow it.
-+can follow it. Remember the spirit of the :ref:`code_of_conduct` and
-+keep discussions respectful and collaborative and avoid making
-+personal comments.
+-    timeout = 180
++    timeout = 360
  
- .. _pay_attention_to_review_comments:
- 
+     def test_pseries_tcg(self):
+         """
 -- 
 2.34.1
 
