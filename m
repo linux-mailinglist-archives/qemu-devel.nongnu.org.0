@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7055C62D75F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 10:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D5362D794
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 10:57:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovbT2-0001WT-9X; Thu, 17 Nov 2022 04:45:56 -0500
+	id 1ovbdM-0006Kz-EF; Thu, 17 Nov 2022 04:56:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ovbSk-0001Ut-UP
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:45:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ovbSh-0001O4-Sr
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:45:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668678334;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3YkYbvlE+1kiMJaviTFb4tHXZf+dYDKuklY2iBNzCX4=;
- b=EBoNsjy8uYIfMHv8j11LsIgHewmE+dXw1ZpmGIhnykvg42+KpPfeuguKPK3pw0Z2+YNHhU
- 2TpUGqpUwRrzfFmLMKnhJRFIent4tC/nn92U28p0nhOBjmrFyvoBdrunHiyBTEwKUxJ88o
- /LuepZNblREkV47P1hA+F9/NVHUZn88=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-UKioKDOZNiCDJ-XjzAY3fQ-1; Thu, 17 Nov 2022 04:45:33 -0500
-X-MC-Unique: UKioKDOZNiCDJ-XjzAY3fQ-1
-Received: by mail-il1-f199.google.com with SMTP id
- w9-20020a056e021c8900b0030247910269so904151ill.4
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 01:45:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ovbdC-0006FP-Os
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:56:27 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ovbdA-0003wa-BM
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:56:25 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ d13-20020a17090a3b0d00b00213519dfe4aso1472086pjc.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 01:56:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GzTnhzIhJS+/PB69gfYozqf/3ToKRi62K1AS1wbFMPo=;
+ b=cu+56jv6EXCjd0qk3K4k77Y09/Tdh+n9VKPv1MFhLceHYj+cJAyl6+RQcdAv9SODL7
+ nIn5ETB47violTPviARPTe+X/kiRDkHblhhleIBvJV9QcbrD5b9E0NRmcERnbGEEYjz6
+ BQ83ck5v9xYIGTmFlQtOCfU/mjnww2tYN1LyiCu/X6eLu4XymxT5r5/IixopoNDuFFQj
+ qqy6ZwKVbvS6HRTW3zY+Y8wih5a5jkbKQvu9UydMdut1MrVOIM1bEkEfgPGsMXLpUqpC
+ M3Q8Z2a62rlEPcHrEmtsiU4LsBn0t8RKBRO4+VO8n5ypw7NPR/XoKgCnpKyaVGoFluER
+ OCqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3YkYbvlE+1kiMJaviTFb4tHXZf+dYDKuklY2iBNzCX4=;
- b=C2Rtbev2/DjW+7c7DIauW/ymGciz0zj2ZNVcILlHIgIAdZkxz9MV60BCch8zClDaHF
- cXLz+dZiCPkkC6l6OtD+Q6Hs/OIBJafTo3c/FcwmDxn0EJc41uFT2JP0O7s6zLgfdbev
- 4Cl4kAxA51xq0UBcmLjUnU3z5qlM9pjYDSoxPawMivjnFObE9TYy1z4fVHASM5u4wEYI
- JyPdJAaijnPchT9p+kHx0LV+7nagBqiAkODtdVL2LUQc0UJhXgzTMvPGHKFAhb7bvBJj
- yMlnnZm0LGF9LTZcQsD8komb/gIu/43y+5U2jdghuxtrQQvUP5dJJ5ZDiwv7UJ358wbE
- huuQ==
-X-Gm-Message-State: ANoB5pntmdF/ojNdFIaqNWG2ejdozyO8MmNSIl47iv+Tca+gpzLXmZgj
- y7MOP+a9ovMNpJEivgY6yI0XzA7Sj+dx60WseIXnvyizAG5XFf2NYiTsiSMzOdxibutL0XyB+6M
- 2MDyqY6A0FOn/ZShb1J2r/X5ivKugHQU=
-X-Received: by 2002:a5e:aa15:0:b0:6cd:cea6:28af with SMTP id
- s21-20020a5eaa15000000b006cdcea628afmr970990ioe.151.1668678332440; 
- Thu, 17 Nov 2022 01:45:32 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5eWqXcmAqIp107vE6AkWwsjT8VcjymYdqrueques4PBB0zqdenSR9EMOsz70AcHgYTcOm4DC30TnoOBq8NG0Y=
-X-Received: by 2002:a5e:aa15:0:b0:6cd:cea6:28af with SMTP id
- s21-20020a5eaa15000000b006cdcea628afmr970981ioe.151.1668678332194; Thu, 17
- Nov 2022 01:45:32 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GzTnhzIhJS+/PB69gfYozqf/3ToKRi62K1AS1wbFMPo=;
+ b=0w22BvKrbxlfyQLQCfKhN3jOGH5nlLf1LDBG7hRVs1u4gdlTzYzFBmsAKy90SuSwWt
+ KefPHccphks14N1uY5zUKnr+mhUL/BBXdsDHPTZOg+/EP7SK1o4GemHjrIevNtH1ev3k
+ Ix4CLN5V6HUo3JLQSPwBJiUlUbG7UVhAc56OKIzay5mMbqslXkn2FxvH3ZqoyJsWSO6p
+ shKcjy5ZEpqLmVisEkPQ9mSSko3Mc2irD6LZ3nTjTPiOdPXKvI4OG2N0bVpLo1dhH8KK
+ MhhcTyZgfDVh6xN6zdG9XL3vGMVPN0eVQey1EbJDXnQauz89rQISCi0CEc1NciCTsBIB
+ LJyA==
+X-Gm-Message-State: ANoB5pl5hze6AD/oO0BzRDeYrmB731RDK1qXFaWZ4TZdhPYPXQAfE+Uj
+ Cb/qAtYold5Mkvw7FbAEgJOebw==
+X-Google-Smtp-Source: AA0mqf7s8N+jVqkmm0VNi7pCsal0soGsdfbT9sLbyI988tuQ8Ip7aeQ6Qdk0Zi1tQJu6/bMuK7tqKA==
+X-Received: by 2002:a17:90b:a15:b0:212:8f7:acf with SMTP id
+ gg21-20020a17090b0a1500b0021208f70acfmr2029043pjb.13.1668678982786; 
+ Thu, 17 Nov 2022 01:56:22 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:b354:386:82db:58e7?
+ ([2602:47:d48a:1201:b354:386:82db:58e7])
+ by smtp.gmail.com with ESMTPSA id
+ 84-20020a621957000000b0056c5aee2d6esm636260pfz.213.2022.11.17.01.56.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 01:56:22 -0800 (PST)
+Message-ID: <da87af96-b8e0-d6d1-02d3-a4d3afe8edf0@linaro.org>
+Date: Thu, 17 Nov 2022 01:56:20 -0800
 MIME-Version: 1.0
-References: <20221110100629.61496-1-akihiko.odaki@daynix.com>
- <20221110100629.61496-2-akihiko.odaki@daynix.com>
-In-Reply-To: <20221110100629.61496-2-akihiko.odaki@daynix.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Thu, 17 Nov 2022 11:45:21 +0200
-Message-ID: <CAPMcbCrGkXzeZex_veDYV8HSMMzH8d=zy1jkf21t4qFekGmDpg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] qga: Remove platform GUID definitions
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, virtio-fs@redhat.com, 
- Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Yan Vugenfirer <yan@daynix.com>
-Content-Type: multipart/alternative; boundary="0000000000003c364405eda773b4"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 7/9] target/riscv: add support for Zcmt extension
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20221117070316.58447-1-liweiwei@iscas.ac.cn>
+ <20221117070316.58447-8-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221117070316.58447-8-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,97 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000003c364405eda773b4
-Content-Type: text/plain; charset="UTF-8"
+On 11/16/22 23:03, Weiwei Li wrote:
+> +target_ulong HELPER(cm_jalt)(CPURISCVState *env, target_ulong index,
+> +                             target_ulong next_pc)
+> +{
+> +    target_ulong target = next_pc;
+> +    target_ulong val = 0;
+> +    int xlen = riscv_cpu_xlen(env);
+> +
+> +    val = env->jvt;
+> +
+> +    uint8_t mode = get_field(val, JVT_MODE);
+> +    target_ulong base = get_field(val, JVT_BASE);
+> +
+> +    target_ulong t0;
+> +
+> +    if (mode != 0) {
+> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+> +    }
+> +
+> +    if (xlen == 32) {
+> +        t0 = base + (index << 2);
+> +        target = cpu_ldl_code(env, t0);
+> +    } else {
+> +        t0 = base + (index << 3);
+> +        target = cpu_ldq_code(env, t0);
+> +    }
+> +
+> +    /* index >= 32 for cm.jalt, otherwise for cm.jt */
+> +    if (index >= 32) {
+> +        env->gpr[1] = next_pc;
+> +    }
+> +
+> +    return target & ~0x1;
+> +}
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Missing a smstateen_check.  Not mentioned in the instruction description itself, but it is 
+within the State Enable section of JVT.
 
-Will merge this patch in QGA series
 
-On Thu, Nov 10, 2022 at 12:06 PM Akihiko Odaki <akihiko.odaki@daynix.com>
-wrote:
-
-> GUID_DEVINTERFACE_DISK and GUID_DEVINTERFACE_STORAGEPORT are already
-> defined by MinGW-w64. They are not only unnecessary, but can lead to
-> duplicate definition errors at link time with some unknown condition.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->  qga/commands-win32.c | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index ec9f55b453..dde5d401bb 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -506,13 +506,6 @@ static GuestDiskBusType
-> find_bus_type(STORAGE_BUS_TYPE bus)
->      return win2qemu[(int)bus];
->  }
->
-> -DEFINE_GUID(GUID_DEVINTERFACE_DISK,
-> -        0x53f56307L, 0xb6bf, 0x11d0, 0x94, 0xf2,
-> -        0x00, 0xa0, 0xc9, 0x1e, 0xfb, 0x8b);
-> -DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
-> -        0x2accfe60L, 0xc130, 0x11d2, 0xb0, 0x82,
-> -        0x00, 0xa0, 0xc9, 0x1e, 0xfb, 0x8b);
-> -
->  static void get_pci_address_for_device(GuestPCIAddress *pci,
->                                         HDEVINFO dev_info)
->  {
-> --
-> 2.38.1
->
->
-
---0000000000003c364405eda773b4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto=
-:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><d=
-iv><br></div><div>Will merge this patch in QGA series <br></div></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov=
- 10, 2022 at 12:06 PM Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@day=
-nix.com">akihiko.odaki@daynix.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">GUID_DEVINTERFACE_DISK and GUID_DEVINTERFA=
-CE_STORAGEPORT are already<br>
-defined by MinGW-w64. They are not only unnecessary, but can lead to<br>
-duplicate definition errors at link time with some unknown condition.<br>
-<br>
-Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@daynix.com=
-" target=3D"_blank">akihiko.odaki@daynix.com</a>&gt;<br>
----<br>
-=C2=A0qga/commands-win32.c | 7 -------<br>
-=C2=A01 file changed, 7 deletions(-)<br>
-<br>
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index ec9f55b453..dde5d401bb 100644<br>
---- a/qga/commands-win32.c<br>
-+++ b/qga/commands-win32.c<br>
-@@ -506,13 +506,6 @@ static GuestDiskBusType find_bus_type(STORAGE_BUS_TYPE=
- bus)<br>
-=C2=A0 =C2=A0 =C2=A0return win2qemu[(int)bus];<br>
-=C2=A0}<br>
-<br>
--DEFINE_GUID(GUID_DEVINTERFACE_DISK,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x53f56307L, 0xb6bf, 0x11d0, 0x94, 0xf2,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00, 0xa0, 0xc9, 0x1e, 0xfb, 0x8b);<br>
--DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x2accfe60L, 0xc130, 0x11d2, 0xb0, 0x82,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00, 0xa0, 0xc9, 0x1e, 0xfb, 0x8b);<br>
--<br>
-=C2=A0static void get_pci_address_for_device(GuestPCIAddress *pci,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 HDEVINFO=
- dev_info)<br>
-=C2=A0{<br>
--- <br>
-2.38.1<br>
-<br>
-</blockquote></div>
-
---0000000000003c364405eda773b4--
-
+r~
 
