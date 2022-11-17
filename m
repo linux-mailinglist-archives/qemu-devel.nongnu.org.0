@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9391632474
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8946163247E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:57:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox7Hk-0000YC-Uf; Mon, 21 Nov 2022 08:56:32 -0500
+	id 1ox7Hl-0000a2-QO; Mon, 21 Nov 2022 08:56:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ox7Hh-0000QE-E8
+ id 1ox7Hi-0000Vi-Lk
  for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:56:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ox7Hf-0003uz-LP
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:56:29 -0500
+ id 1ox7Hh-0003v9-4M
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:56:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669038986;
+ s=mimecast20190719; t=1669038988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZRHQNCT/APIGrHuivW1Fro0IPRmZIL/vDs+eJUWrwSw=;
- b=J6bKHkqYL7tbMNBHVw9WdbL5QcYj0NS4PYaIXqIS8H6VYRgJHBp+j+VnjZcgjEayH4YeiZ
- bcL1DrRRR42jrrnjj2jzXNQlDsA/p9M2X5kST+Y6e5LVg94Ca1S4PVa/XhKGmbRUjUjJ7v
- k71QCIXFnXBjLG8+S0AhPRa2SC85EhY=
+ bh=KHE5p4h4Dy7zD9rPBdnU5nUsIJCBI4chxk1PHEBoSEM=;
+ b=eK42ee0V/b4ud8oFUF1/9zVDapZZhVHT/xyHeZCTSgjrWiDdswgYVU37dnr/oRzWaz/7Gu
+ jkw5j2jkVBgZcwsIGbYF7TxiLkvcobK6cgR5LAnEravGLAG0ThW447dMIPuzZwOQ+K9WeZ
+ jFkIAtFImistDmTdOlQGQ0J2MGK/67Q=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-ebsRlmvbOMiq1bI0SlurAA-1; Mon, 21 Nov 2022 08:56:22 -0500
-X-MC-Unique: ebsRlmvbOMiq1bI0SlurAA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-385-CeJv3NnwOw-lJV4JV_VlAg-1; Mon, 21 Nov 2022 08:56:26 -0500
+X-MC-Unique: CeJv3NnwOw-lJV4JV_VlAg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A0D687B2A4
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:56:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E893811E7A;
+ Mon, 21 Nov 2022 13:56:26 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13F7C17585;
- Mon, 21 Nov 2022 13:56:21 +0000 (UTC)
-Date: Thu, 17 Nov 2022 15:07:49 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9AB6111E41D;
+ Mon, 21 Nov 2022 13:56:25 +0000 (UTC)
+Date: Thu, 17 Nov 2022 15:08:01 -0500
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PULL 0/4] Some small s390x and testing fixes
-Message-ID: <Y3aUlVhy2lEtNXzE@fedora>
-References: <20221117091006.525072-1-thuth@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, stefanha@redhat.com,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PULL 0/1] ppc queue
+Message-ID: <Y3aUoRLbASdjz5d7@fedora>
+References: <20221117151657.182061-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6dShjj9Y+wwW59EP"
+ protocol="application/pgp-signature"; boundary="ACPe7LLwt2AzpZNE"
 Content-Disposition: inline
-In-Reply-To: <20221117091006.525072-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+In-Reply-To: <20221117151657.182061-1-danielhb413@gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,7 +80,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---6dShjj9Y+wwW59EP
+--ACPe7LLwt2AzpZNE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -87,21 +88,21 @@ Applied, thanks.
 
 Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
 
---6dShjj9Y+wwW59EP
+--ACPe7LLwt2AzpZNE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmN2lJUACgkQnKSrs4Gr
-c8iOfwf+NY4Fo+R+aDTeQyga/f993rxd+iSNckswmM+IVxzc0rqh582BAumg1sB7
-vNJcbIITTmmBDJLWC0W9sQ7B+BaXv01NPx6K2tMuYRpN/NA2EpF/a8z3T/60p+yq
-PX2DXDHNHwxIvD6hwZ6b0whICBxzUAqnf0PuBuDn6Q+gOorZ3qdrgqGQE++6dE2l
-wJUtl7V9S2uACqXa4QjgS2yZF3403fzGjEavTpriI2DctbALAB25qbwz7wRLs73Q
-awHMPfr/C6D4jShCeuLfv+pD+j4qc1IXpU2xS+fu6iRatGZ4VOc9kgT4Uhmr+LhU
-mRA2ndZ7xoZ6SJTWU+cyYSu28cvqmQ==
-=GmHX
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmN2lKEACgkQnKSrs4Gr
+c8jMwAf9HFc8HfCuy2aiIXwgeCrlacB7nGGw1BEo9QaPVT7CGoCn0PpRrx1dhlIh
+lSb96AuJafO6LxqEKwvG+9TpDpF7qYMqCl0W2NKLY+XOWwwMkev3SZrZoVefM+es
+oQJVASv07nWKkpqgiRmDxZBDkb0HqakkzNqD3LqWtMopn9kZjmzWQGocxgC6yRlJ
+PuXYe3flVB0EP4iJQkUCQuvnGSHWn/IVoRhEm6tiA2WOytDdP4dayryDWAgehW9v
+pYQ8YHuwGIdgVaMXRI8d2ZrwfpkabvTOlpaNXbSq3yQLFlDpxz5vR50VDnKp49Fb
+Ht9rOh5fT2lxO3+XTSPUJcblBKrT1A==
+=HL93
 -----END PGP SIGNATURE-----
 
---6dShjj9Y+wwW59EP--
+--ACPe7LLwt2AzpZNE--
 
 
