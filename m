@@ -2,77 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602DB62E512
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 20:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B8562E53C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 20:28:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovkJG-0002ey-12; Thu, 17 Nov 2022 14:12:26 -0500
+	id 1ovkXa-0007p5-KE; Thu, 17 Nov 2022 14:27:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ovkJE-0002aH-3U
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 14:12:24 -0500
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ovkJC-00012t-0L
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 14:12:23 -0500
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-369426664f9so28041687b3.12
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 11:12:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G0pgX3cCJhuBnabOubGseMWW6vchW4TCs1JSFdIOawY=;
- b=JAfrCFANPmOlmsWej1xZquvczB3Gv52oBLB2jaqH+hhSWizY/TjXQS1RLROu7JUG23
- HKdH+grv7sToQUMpXvH7lnxbSOEQfL8qSUYxbdcARHLC1XL0I3mh2l4OlrG5IfV043B4
- BGMPY4naN9lgBdu+do1l/9/SkjKyrg8RCb8feF0KSvqSAyRzx0hwCqwx7Kgdg1WkaFqZ
- Mki4kQnCAhzTfPwHt7ziPVHqKVSVIPcQQSFy9h8vPDcatWoJ+7ygauOBdALiz7+w7hML
- NpH8ycDF5wESouw+ZIRdmBAvhvTlJMoAaExykwTAa+kwnpu89Ybiqabs7jX8J5tGq+Dt
- 6GGA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ovkXY-0007oe-RG
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 14:27:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ovkXW-00043d-Rv
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 14:27:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668713229;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CCGejm4H6jUhB5nUPWvzJPFgNnOlz+t2gtXDuwkn3kM=;
+ b=NMo4gO4cO+W0Hb5Yoww+6mXtvkJ4c7Mv5qAUqtS0ktMmfF7tad3WnGnMLSvp3KPlaiJN4r
+ tpcR9J9P9ftZg9oa2WeZvScxfKch9txX49E2V6nRIGn0kMNxVO8XuTz22Iq9GMikqFwvHr
+ i8NmrFcEkGYEgP9jOzxfYy9uz2Hh1Ag=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-536-FkeSOV3nN6SNdgov-uYmnQ-1; Thu, 17 Nov 2022 14:27:07 -0500
+X-MC-Unique: FkeSOV3nN6SNdgov-uYmnQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h26-20020adfaa9a000000b002364ad63bbcso1001954wrc.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 11:27:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G0pgX3cCJhuBnabOubGseMWW6vchW4TCs1JSFdIOawY=;
- b=t2cODiaFJ5xzzeapX5LqRHYAJjeIL8m3eG0k2nDA6OfkgpKLLJMPnKuisazZs2eQhp
- PpZUpeC2ptOLKH+S0mDTdkneJDyAHiXDhEsE9oWZnI4z2kK7Bj1xGvIO9FWz19uPUa4q
- rV1K5E8j2akVtYpezUBcuTncbxzy9FKmqYgGFRGv7IfFiU8+noHeIH058B/CGik6gcEt
- Gv+yyczh4B1I9Y9Ry8MQlGIHLRrTo3jixoeo4l6rbwGVKpmIhMnUPH5usRT9LvyW8lQt
- dXAm7RMaVG7aKblu2EYbZh88gRgERJ9wfYkEwfHNj6B9zHC9PkyGrBK/awT1EYQrhgxa
- mSTw==
-X-Gm-Message-State: ANoB5pnQ1jgG2YazILfPm13XXWnLVN9lvUr6jNrA+dCKp3LJtu6OS9bK
- UOWv+V64RFGG77Be0H/i1sBbbs5Kdjc7HrFDkow=
-X-Google-Smtp-Source: AA0mqf7bJTWv01JZcLUWk0BkL2gOKfhFP4SmNkNjBeDVmgH9f5XXFBvNbRRyyep5ULAYpsT3fQ1JjurRukCge4mNnSk=
-X-Received: by 2002:a81:5309:0:b0:38f:80d5:f22d with SMTP id
- h9-20020a815309000000b0038f80d5f22dmr3451199ywb.296.1668712340926; Thu, 17
- Nov 2022 11:12:20 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CCGejm4H6jUhB5nUPWvzJPFgNnOlz+t2gtXDuwkn3kM=;
+ b=PAsFhTzhmMwtgs0HsgP0EgIXHkPSidza+aCLWcft7AAzhzYQKNq5zUAvVSNKsCi/mA
+ yCoORdBXUXpZrUYrsle4LcER4co/s5+5wz5FS3xKQm9OE4c8lavoD/zERKV89cSyo+Yt
+ ZD6l5l5NZ+lDDEjZNUbWdZR7s/onwDtivUlBguDg/tQ/V8H/+eiQwdrdt5luXK9Be0HI
+ kyw00HdCCx0tL36bE4Txy+1nQq/ITQsQrqj25lsKtK0Vu5hpSsXElW8w/2z1jflGhZk4
+ 5wo/0nU4TXmx0+rydd/mRlSdm0wILcYggfICEAQBS+mV2kcLm7Ne0ZYw07uueUw4B/Ei
+ r1aQ==
+X-Gm-Message-State: ANoB5pnEtbVO9FLYRTemeYjg2EjqwfH1z7PEDdpwvn8PeeQ49oPDsBnb
+ JS4H0yfd4ozIoAaHXqk8HKPk3xw5wYDiILEHzEpiD5u+LBHzZDmgginc5KziZuhnvnO5cZkCvMq
+ 7j1z2N1662F4NqAM=
+X-Received: by 2002:a05:600c:21d2:b0:3cf:b2b1:3c7 with SMTP id
+ x18-20020a05600c21d200b003cfb2b103c7mr6212966wmj.176.1668713225734; 
+ Thu, 17 Nov 2022 11:27:05 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4z7fgvECPb0vsHQ4kEvE/oJxvyNe046/uFz9ieGX7DY4/GbnzIbO4zVAekqsR7mu0Qcrigqw==
+X-Received: by 2002:a05:600c:21d2:b0:3cf:b2b1:3c7 with SMTP id
+ x18-20020a05600c21d200b003cfb2b103c7mr6212950wmj.176.1668713225318; 
+ Thu, 17 Nov 2022 11:27:05 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:5200:39a9:b834:27c1:4ede?
+ (p200300cbc707520039a9b83427c14ede.dip0.t-ipconnect.de.
+ [2003:cb:c707:5200:39a9:b834:27c1:4ede])
+ by smtp.gmail.com with ESMTPSA id
+ k17-20020a5d6291000000b0022e66749437sm1693816wru.93.2022.11.17.11.27.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 11:27:04 -0800 (PST)
+Message-ID: <8a7521c2-2335-4070-8555-954aa2a71422@redhat.com>
+Date: Thu, 17 Nov 2022 20:27:03 +0100
 MIME-Version: 1.0
-References: <20221117064444.20648-1-faithilikerun@gmail.com>
- <CAAAx-8JHmxe=9GuoZ+T1yqtLrrzk+-6_HL5EJ6LBJ+twOKp8sA@mail.gmail.com>
-In-Reply-To: <CAAAx-8JHmxe=9GuoZ+T1yqtLrrzk+-6_HL5EJ6LBJ+twOKp8sA@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 17 Nov 2022 14:12:07 -0500
-Message-ID: <CAJSP0QX3j9SbKW7tL6_vc9Ru518qWEG=288gkd+ArkHF05Vgsg@mail.gmail.com>
-Subject: Re: [qemu-web PATCH] Add a blog post about zoned storage emulation
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, hare@suse.de, Paolo Bonzini <pbonzini@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, dmitry.fomichev@wdc.com, 
- damien.lemoal@opensource.wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 2/3] KVM: keep track of running ioctls
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, kvm@vger.kernel.org
+References: <20221111154758.1372674-1-eesposit@redhat.com>
+ <20221111154758.1372674-3-eesposit@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221111154758.1372674-3-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,171 +109,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Sam,
-Please send a git repo URL so Thomas can fetch the commit without
-email/file size limitations.
+On 11.11.22 16:47, Emanuele Giuseppe Esposito wrote:
+> Using the new accel-blocker API, mark where ioctls are being called
+> in KVM. Next, we will implement the critical section that will take
+> care of performing memslots modifications atomically, therefore
+> preventing any new ioctl from running and allowing the running ones
+> to finish.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-> diff --git a/_posts/2022-11-17-zoned-emulation.md b/_posts/2022-11-17-zon=
-ed-emulation.md
-> new file mode 100644
-> index 0000000..69ce4d7
-> --- /dev/null
-> +++ b/_posts/2022-11-17-zoned-emulation.md
-> @@ -0,0 +1,45 @@
-> +---
-> +layout: post
-> +title:  "Introduction to Zoned Storage Emulation"
-> +date:   2022-11-17
-> +author: Sam Li
-> +categories: [storage, gsoc, outreachy, internships]
-> +---
-> +
-> +## Zoned block devices
-> +
-> +Aimed for at-scale data infrastructures,
+You might want to drop that and instead mention something like "This 
+patch is based on a protoype patch by David Hildenbrand".
 
-I don't know what at-scale data infrastructure is. Is it something
-readers can relate to? Otherwise there's a risk that readers will
-decide this doesn't apply to them and stop reading.
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   accel/kvm/kvm-all.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index f99b0becd8..ff660fd469 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2310,6 +2310,7 @@ static int kvm_init(MachineState *ms)
+>       assert(TARGET_PAGE_SIZE <= qemu_real_host_page_size());
+>   
+>       s->sigmask_len = 8;
+> +    accel_blocker_init();
+>   
+>   #ifdef KVM_CAP_SET_GUEST_DEBUG
+>       QTAILQ_INIT(&s->kvm_sw_breakpoints);
+> @@ -3014,7 +3015,9 @@ int kvm_vm_ioctl(KVMState *s, int type, ...)
+>       va_end(ap);
+>   
+>       trace_kvm_vm_ioctl(type, arg);
+> +    accel_ioctl_begin();
+>       ret = ioctl(s->vmfd, type, arg);
+> +    accel_ioctl_end();
+>       if (ret == -1) {
+>           ret = -errno;
+>       }
+> @@ -3032,7 +3035,9 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type, ...)
+>       va_end(ap);
+>   
+>       trace_kvm_vcpu_ioctl(cpu->cpu_index, type, arg);
+> +    accel_cpu_ioctl_begin(cpu);
+>       ret = ioctl(cpu->kvm_fd, type, arg);
+> +    accel_cpu_ioctl_end(cpu);
+>       if (ret == -1) {
+>           ret = -errno;
+>       }
+> @@ -3050,7 +3055,9 @@ int kvm_device_ioctl(int fd, int type, ...)
+>       va_end(ap);
+>   
+>       trace_kvm_device_ioctl(fd, type, arg);
+> +    accel_ioctl_begin();
+>       ret = ioctl(fd, type, arg);
+> +    accel_ioctl_end();
+>       if (ret == -1) {
+>           ret = -errno;
+>       }
 
-> zoned block devices (ZBDs) divide the LBA space into block regions called=
- zones that are larger than the LBA size.
+I recall that I had some additional patches that tried to catch some of 
+more calls:
 
-LBA is not defined and also not used again after this sentence.
-Readers will be familiar with disks but may not know what an LBA is.
-Since the concept isn't used again I suggest dropping it:
+https://lore.kernel.org/qemu-devel/20200312161217.3590-2-david@redhat.com/
 
-  zoned block devices (ZBDs) are divided into regions called zones
-that can only be written sequentially.
+https://lore.kernel.org/qemu-devel/20200312161217.3590-3-david@redhat.com/
 
-> By only allowing sequential writes, it can reduce write amplification in =
-SSDs,
+Do they still apply? Is there more?
 
-This sounds more natural:
-
-  By only allowing sequential writes, SSD write amplification can be reduce=
-d
-
-It might also be nice to provide a little bit of extra context:
-
-  ... reduced by eliminating the need for a <a
-href=3D"https://en.wikipedia.org/wiki/Flash_translation_layer">Flash
-Translation Layer</a>
-
-> and potentially lead to higher throughput and increased capacity. Providi=
-ng new storage software stack,
-
-s/Providing new/Providing a new/
-
-> zoned storage concept is standardized as ZBC(SCSI standard), ZAC(ATA stan=
-dard), ZNS(NVMe).
-
-Small tweaks:
-
-  zoned storage concepts are standardized in ZBC (SCSI standard), ZAC
-(ATA standard), ZNS (NVMe).
-
-There is a space before opening parentheses: hello (world) instead of
-hello(world). Please check the rest of the article for more instances
-of this.
-
-It would be nice to include links but I didn't find good pages for
-ZBC/ZAC/ZNS aside from the full standards that they are part of.
-
-This intro section would be a good place to link to https://zonedstorage.io=
-/!
-
-> Meanwhile, the virtio protocol for block devices(virtio-blk) should also =
-be aware of ZBDs instead of taking them as regular block devices. It should=
- be able to pass such devices through to the guest. An overview of necessar=
-y work is as follows:
-> +
-> +1. Virtio protocol: [extend virtio-blk protocol with main zoned storage =
-concept](https://lwn.net/Articles/914377/), Dmitry Fomichev
-> +2. Linux: [implement the virtio specification extensions](https://www.sp=
-inics.net/lists/linux-block/msg91944.html), Dmitry Fomichev
-> +3. QEMU: add zoned emulation support to virtio-blk, Sam Li, [Outreachy 2=
-022 project](https://wiki.qemu.org/Internships/ProjectIdeas/VirtIOBlkZonedB=
-lockDevices)
-
-You could split the QEMU work into 2 points if you like:
-3. QEMU: add zoned storage APIs to the block layer, Sam Li
-4. QEMU: implement zoned storage support in virtio-blk emulation, Sam Li
-
-> +
-> +<img src=3D"/screenshots/zbd.png" alt=3D"zbd" style=3D"zoom:50%;" />
-> +
-> +## Zoned emulation
-> +
-> +Currently, QEMU can support zoned devices by virtio-scsi or PCI device p=
-assthrough. It needs to specify the device type it is talking to. While sto=
-rage controller emulation uses block layer APIs instead of directly accessi=
-ng disk images. Extending virtio-blk emulation avoids code duplication and =
-simplify the support by hiding the device types under a unified zoned stora=
-ge interface, simplifying VM deployment for different type of zoned devices=
-.
-
-Another advantages that come to mind:
-1. virtio-blk can be implemented in hardware. If those devices wish to
-follow the zoned storage model then the virtio-blk specification needs
-to natively support zoned storage.
-2. Individual NVMe namespaces or anything that is a zoned Linux block
-device can be exposed to the guest without passing through a full
-device.
-
-> +
-> +For zoned storage emulation, zoned storage APIs support three zoned mode=
-ls(conventional, host-managed, host-aware) , four zone management commands(=
-Report Zone, Open Zone, Close Zone, Finish Zone), and Append Zone.  QEMU bl=
-ock storage
-
-Maybe:
-s/QEMU block storage/The QEMU block layer/
-
-> has a BlockDriverState graph that propagates device information inside bl=
-ock layer. A root pointer at BlockBackend points to the graph. There are th=
-ree type of block driver nodes: filter node, format node, protocol node. Fi=
-le-posix driver is the lowest level within the graph where zoned storage AP=
-Is reside.
-
-Is it possible to remove "A root pointer at BlockBackend points to the
-graph. There are three type of block driver nodes: filter node, format
-node, protocol node." so there are fewer new concepts? I didn't see
-further use of BlockBackend or filter/format nodes in the text.
-
-> +
-> +<img src=3D"/screenshots/storage_overview.png" alt=3D"storage_overview" =
-style=3D"zoom: 50%;" />
-> +
-> +After receiving the block driver states, Virtio-blk emulation recognizes=
- zoned devices and sends the zoned feature bit to guest. Then the guest can=
- see the zoned device in the host. When the guest executes zoned operations=
-, virtio-blk driver issues corresponding requests that will be captured by =
-virito-blk
-
-s/virito/virtio/
-
-> device inside QEMU. Afterwards, virtio-blk device sends the requests to f=
-ile-posix driver which will perform zoned operations.
-> +
-> +Unlike zone management operations, Linux doesn't have a user API
-
-The Linux userspace API (<linux/blkzoned.h>) hasn't been mentioned
-before. Maybe the previous paragraph should explain that file-posix
-performs zoned operations using <linux/blkzoned.h> ioctls? Then this
-sentence will be easier to understand.
-
-> to issue zone append requests to zoned devices from user space. With the =
-help of write pointer emulation tracking locations of write pointer of each=
- zone, QEMU block layer performs append writes by modifying regular writes.=
- Write pointer locks guarantee the execution of requests. Upon failure it m=
-ust not update the write pointer location which is only got updated when th=
-e request is successfully finished.
-> +
-> +Problems can always be sovled
-
-s/sovled/solved/
-
+-- 
 Thanks,
-Stefan
+
+David / dhildenb
+
 
