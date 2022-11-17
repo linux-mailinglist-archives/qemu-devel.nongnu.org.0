@@ -2,79 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D5262E30B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 18:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8937A62E34E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 18:40:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovihu-0004Lb-Pc; Thu, 17 Nov 2022 12:29:46 -0500
+	id 1oviqV-0001yg-Ny; Thu, 17 Nov 2022 12:38:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1oviht-0004Hg-4z
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:29:45 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1ovihr-0006mL-7U
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:29:44 -0500
-Received: by mail-ed1-x534.google.com with SMTP id z20so2095666edc.13
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 09:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TB5FFKRpQ7rnDeXlHhmH631sUw/6iJ8VNXXhcQXAT5M=;
- b=g8wW3qSpWDpCyE6eXNfSLmHqp4ZvYuiGEl4RFpc5fppbP/Azb2L/g126PdCr2yDVn6
- F5Z6/qxn7Jmy6csPxI7pT2DRmjvSpIGpftKe21UyXdsOVtdqhaun0RzEDjrtQ1AgafaD
- GHsG/mPHxjY5cGUuBi/67OeV5iB2FKyQ7aDMdYA7fUe3YXEGMBs+FXizhFB1pROMN1hQ
- igbkoh6mfcbwqajkQIQH0IuqCznyek9ul+dn3KyBcO+dSfLblTZDiftJjHL1nhHROals
- 0flgjYRWE5xGIz1Gd958MyTEk+fEXOETruMzN81HapkNI+o7C0cBT+1ZcBegJabDuhn3
- KtzQ==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1oviqT-0001yE-GY
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:38:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1oviqR-0008P8-MC
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 12:38:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668706714;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vc6t4s5bYtkVfxeQcEnvPzxcYv/bPjboCLqPsAwhIl4=;
+ b=dYcht2aC7SSEflT+zgOTJY2ryQQx+qbHeTzT9VXLFnCL1GYwX/z8nmVwcbN7dV19qY7Llt
+ 543XP9So1lAdaHPX0YINVZNXJiZnFFL/0S7bBntp+fk1P1Do1lQ7MCsHuEvOWESJnZk7b+
+ qU1vtgADRM0k2m3pFHvp4hY9iZRa5J0=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-183-RJKLqJTEOkOYRP4Fhmgygw-1; Thu, 17 Nov 2022 12:38:33 -0500
+X-MC-Unique: RJKLqJTEOkOYRP4Fhmgygw-1
+Received: by mail-il1-f198.google.com with SMTP id
+ c4-20020a056e020bc400b0030098df879dso1648430ilu.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 09:38:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TB5FFKRpQ7rnDeXlHhmH631sUw/6iJ8VNXXhcQXAT5M=;
- b=RVVi4zkgH8tVSSvSAUrbk20SFldnWjROa9SAxUPU73sB7LfKJo04uZLdt6x/deHGmK
- 1uZvYInALMw5YVmhxVWuLtZueo4Z8sXrfGIyzko8zXiE9S/JJzBobNxEQFCVcWHfycc7
- hg8uIm7zLbvXhrISb+1d536hTR+8hN7U7Su+nBYJr6FpvCpeMCcMifHH+cJr7hC76gi7
- PvvnhSZ9JR1MNXYEGyBN7SWgIP5yqBGboa0BawsY8VUE+dEsj6PVF9WfbZXO7KIZYQTQ
- /zBCuQmngGjchB9zZu1ZVj2bwi5c9MldjcdNPBvo/lq2hxfxxcB3oyvt3ldZrdOORXGh
- yCUg==
-X-Gm-Message-State: ANoB5pl73uFTGIdWHMG9iw994N+MDXc1crLVszf0g85bOFvPvmjPSIgL
- 3XLQ6pxHTWfQRLdqzoxzf0weumZyWByAiXt36UU=
-X-Google-Smtp-Source: AA0mqf6KaqVpH+ImDPySUJ23DCoYBB0J1GBgFFOvIG7NYpCP4vdBtBO1aWsAJh8lAZRX+SqcYKI1CFpCifxU1WRsb9w=
-X-Received: by 2002:a05:6402:541a:b0:463:be84:5283 with SMTP id
- ev26-20020a056402541a00b00463be845283mr3037015edb.7.1668706181480; Thu, 17
- Nov 2022 09:29:41 -0800 (PST)
+ bh=vc6t4s5bYtkVfxeQcEnvPzxcYv/bPjboCLqPsAwhIl4=;
+ b=VmtHtXggVvc37pDKuKSYqs+wkRJB7gJcn4PuHmAusG+QzemGkedfUik2rwfp0ubgq8
+ cTXpJp0MsPDoqlFA6T/CGpnk5YV7BwNOwvZP22tRRIIPIQHjhQElWbhNVhm57P7Q3Khd
+ loZNbU6iPbTb7yyEtQYrUeqbrBgWrPWelkhxxhARSEPzXOdcEc6AmsFeDm4EGGk8y0B8
+ I6yOVL+vDuYrr030a2W5AcHbBQYU7gB+xnZqsmGaS40TsjxlKjg+qwrSMZ+lEJck/D5k
+ 7k0igZ3oHz6poo9fwN6/F33CeslzIk3Hxhgx4AYJrnKCp5L8YddyRMU9Q60ezKByPTj/
+ EZRQ==
+X-Gm-Message-State: ANoB5plmOxZ8huDo1HgEKB+B+yKIxK9fEmh0kxp4x0iwqrTg9sv442Ih
+ O7HajNlh209VKc7zl3T1LbPOJ2GP159TwvdKXX5qrbRD+D42xM1FchVGM1QAm2WoQmKXepJaX+K
+ Llb4tqPIHvoDPrf8=
+X-Received: by 2002:a05:6638:3e13:b0:374:32e6:4b3c with SMTP id
+ co19-20020a0566383e1300b0037432e64b3cmr1519695jab.197.1668706712467; 
+ Thu, 17 Nov 2022 09:38:32 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7rgnLSoXbLZSqzvd9mV+u3lDQDDM/BtCjAtBjF+kiIYa3NP7M/uPY2CTruytcAaV9jwCwDCA==
+X-Received: by 2002:a05:6638:3e13:b0:374:32e6:4b3c with SMTP id
+ co19-20020a0566383e1300b0037432e64b3cmr1519675jab.197.1668706712132; 
+ Thu, 17 Nov 2022 09:38:32 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ o137-20020a02228f000000b003748d3552e1sm419651jao.154.2022.11.17.09.38.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 09:38:31 -0800 (PST)
+Date: Thu, 17 Nov 2022 10:38:29 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng
+ <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
+ <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org, Kunkun
+ Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor
+ Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
+ <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
+ protocol v2
+Message-ID: <20221117103829.18feab7a.alex.williamson@redhat.com>
+In-Reply-To: <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
+References: <20221103161620.13120-1-avihaih@nvidia.com>
+ <20221103161620.13120-13-avihaih@nvidia.com>
+ <20221116112935.23118a30.alex.williamson@redhat.com>
+ <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
- <20221114192011.1539233-2-marmarek@invisiblethingslab.com>
- <CAKf6xpvpsJuMZx98vLJ7CAmUWG-vW91Am0L8817eD8nmAN4NUw@mail.gmail.com>
- <Y3VYs/sS4VddrBCK@mail-itl> <Y3WruE/VOBZFfHfi@mail-itl>
-In-Reply-To: <Y3WruE/VOBZFfHfi@mail-itl>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Thu, 17 Nov 2022 12:29:29 -0500
-Message-ID: <CAKf6xptPLFT-Jp=wEsvSDkCFZd78enO9s51YjZ4Fi2bNnesxww@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Do not access /dev/mem in MSI-X PCI passthrough on Xen
-To: =?UTF-8?Q?Marek_Marczykowski=2DG=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-Cc: Jan Beulich <jbeulich@suse.com>, qemu-devel@nongnu.org, 
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=jandryuk@gmail.com; helo=mail-ed1-x534.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,92 +118,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 16, 2022 at 10:34 PM Marek Marczykowski-G=C3=B3recki
-<marmarek@invisiblethingslab.com> wrote:
->
-> On Wed, Nov 16, 2022 at 10:40:02PM +0100, Marek Marczykowski-G=C3=B3recki=
- wrote:
-> > On Wed, Nov 16, 2022 at 02:15:22PM -0500, Jason Andryuk wrote:
-> > > On Mon, Nov 14, 2022 at 2:21 PM Marek Marczykowski-G=C3=B3recki
-> > > <marmarek@invisiblethingslab.com> wrote:
-> > > >
-> > > > The /dev/mem is used for two purposes:
-> > > >  - reading PCI_MSIX_ENTRY_CTRL_MASKBIT
-> > > >  - reading Pending Bit Array (PBA)
-> > > >
-> > > > The first one was originally done because when Xen did not send all
-> > > > vector ctrl writes to the device model, so QEMU might have outdated=
- old
-> > > > register value. This has been changed in Xen, so QEMU can now use i=
-ts
-> > > > cached value of the register instead.
-> > > >
-> > > > The Pending Bit Array (PBA) handling is for the case where it lives=
- on
-> > > > the same page as the MSI-X table itself. Xen has been extended to h=
-andle
-> > > > this case too (as well as other registers that may live on those pa=
-ges),
-> > > > so QEMU handling is not necessary anymore.
-> > > >
-> > > > Removing /dev/mem access is useful to work within stubdomain, and
-> > > > necessary when dom0 kernel runs in lockdown mode.
-> > > >
-> > > > Signed-off-by: Marek Marczykowski-G=C3=B3recki <marmarek@invisiblet=
-hingslab.com>
-> > >
-> > > I put the Xen, QEMU, and xen-pciback patches into OpenXT and gave a
-> > > little test.  When pci_permissive=3D0, iwlwifi fails to load its
-> > > firmware.  With pci_permissive=3D1, it looks like MSI-X is enabled. (=
-I
-> > > previously included your libxl allow_interrupt_control patch - that
-> > > seemed to get regular MSIs working prior to the MSI-X patches.)  I
-> > > also removed the OpenXT equivalent of 0005-Disable-MSI-X-caps.patch.
-> > > I am testing with Linux 5.4.y, so that could be another factor.
-> >
-> > Can you confirm the allow_interrupt_control is set by libxl? Also,
-> > vanilla 5.4 doesn't have the allow_interrupt_control patch at all, and =
-you
-> > may have an earlier version that had "allow_msi_enable" as the sysfs
-> > file name.
+On Thu, 17 Nov 2022 19:07:10 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
+> On 16/11/2022 20:29, Alex Williamson wrote:
+> > On Thu, 3 Nov 2022 18:16:15 +0200
+> > Avihai Horon <avihaih@nvidia.com> wrote:
+> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> >> index e784374453..62afc23a8c 100644
+> >> --- a/hw/vfio/migration.c
+> >> +++ b/hw/vfio/migration.c
+> >> @@ -44,8 +44,84 @@
+> >>   #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+> >>   #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+> >>
+> >> +#define VFIO_MIG_DATA_BUFFER_SIZE (1024 * 1024)  
+> > Add comment explaining heuristic of this size.  
+> 
+> This is an arbitrary size we picked with mlx5 state size in mind.
+> Increasing this size to higher values (128M, 1G) didn't improve 
+> performance in our testing.
+> 
+> How about this comment:
+> This is an initial value that doesn't consume much memory and provides 
+> good performance.
+> 
+> Do you have other suggestion?
 
-I backported allow_interrupt_control to 5.4 and that is set properly.
+I'd lean more towards your description above, ex:
 
-> Ok, I found what is wrong. Enabling MSI-X is refused, because INTx isn't
-> disabled at this point yet. And apparently I was testing this with
-> permissive=3D1...
->
-> Linux does this:
-> https://github.com/torvalds/linux/blob/master/drivers/pci/msi/msi.c#L611
-> In short:
-> 1. Enable MSI-X with MASKALL=3D1
-> 2. Setup MSI-X table
-> 3. Disable INTx
-> 4. Set MASKALL=3D0
->
-> This patch on top should fix this:
-> ----8<----
-> diff --git a/drivers/xen/xen-pciback/conf_space_capability.c b/drivers/xe=
-n/xen-pciback/conf_space_capability.c
-> index 097316a74126..f4c4381de76e 100644
-> --- a/drivers/xen/xen-pciback/conf_space_capability.c
-> +++ b/drivers/xen/xen-pciback/conf_space_capability.c
-> @@ -235,7 +235,7 @@ static int msi_msix_flags_write(struct pci_dev *dev, =
-int offset, u16 new_value,
->             (new_value ^ old_value) & ~field_config->allowed_bits)
->                 return PCIBIOS_SET_FAILED;
->
-> -       if (new_value & field_config->enable_bit) {
-> +       if ((new_value & field_config->allowed_bits) =3D=3D field_config-=
->enable_bit) {
->                 /* don't allow enabling together with other interrupt typ=
-es */
->                 int int_type =3D xen_pcibk_get_interrupt_type(dev);
->
-> ----8<----
+/*
+ * This is an arbitrary size based on migration of mlx5 devices, where
+ * the worst case total device migration size is on the order of 100s
+ * of MB.  Testing with larger values, ex. 128MB and 1GB, did not show
+ * a performance improvement.
+ */
 
-FWIW, I can confirm this allows enabling MSI-X with permissive=3D0 for me.
+I think that provides sufficient information for someone who might come
+later to have an understanding of the basis if they want to try to
+optimize further.
 
-Thanks,
-Jason
+> >> @@ -804,34 +1090,51 @@ static int vfio_migration_init(VFIODevice *vbasedev)
+> >>           return -EINVAL;
+> >>       }
+> >>
+> >> -    ret = vfio_get_dev_region_info(vbasedev,
+> >> -                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
+> >> -                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
+> >> -                                   &info);
+> >> -    if (ret) {
+> >> -        return ret;
+> >> -    }
+> >> +    ret = vfio_migration_query_flags(vbasedev, &mig_flags);
+> >> +    if (!ret) {
+> >> +        /* Migration v2 */
+> >> +        /* Basic migration functionality must be supported */
+> >> +        if (!(mig_flags & VFIO_MIGRATION_STOP_COPY)) {
+> >> +            return -EOPNOTSUPP;
+> >> +        }
+> >> +        vbasedev->migration = g_new0(VFIOMigration, 1);
+> >> +        vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
+> >> +        vbasedev->migration->data_buffer_size = VFIO_MIG_DATA_BUFFER_SIZE;
+> >> +        vbasedev->migration->data_buffer =
+> >> +            g_malloc0(vbasedev->migration->data_buffer_size);  
+> > So VFIO_MIG_DATA_BUFFER_SIZE is our chunk size, but why doesn't the
+> > later addition of estimated device data size make any changes here?
+> > I'd think we'd want to scale the buffer to the minimum of the reported
+> > data size and some well documented heuristic for an upper bound.  
+> 
+> As I wrote above, increasing this size to higher values (128M, 1G) 
+> didn't improve performance in our testing.
+> We can always change it later on if some other heuristics are proven to 
+> improve performance.
+
+Note that I'm asking about a minimum buffer size, for example if
+hisi_acc reports only 10s of KB for an estimated device size, why would
+we still allocate VFIO_MIG_DATA_BUFFER_SIZE here?  Thanks,
+
+Alex
+
 
