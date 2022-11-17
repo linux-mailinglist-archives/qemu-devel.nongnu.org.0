@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CF562E25C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 17:58:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207D462E27E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 18:03:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oviCh-0007JW-FY; Thu, 17 Nov 2022 11:57:31 -0500
+	id 1oviFM-0001yW-V7; Thu, 17 Nov 2022 12:00:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oviCf-0007Ep-F0
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 11:57:29 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oviCd-00080W-BP
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 11:57:29 -0500
-Received: by mail-wr1-x430.google.com with SMTP id bs21so4849125wrb.4
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 08:57:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jBSQo/2wgXCdFBlpTr8kzwWNsIYuz0LA64eki3qI5so=;
- b=PMZln2IU08ppTt9fmgLG0C5Q4xnNiIIdJps3rQo6wY4X6z1Of3yc8Fi1vWFt6IFlQ0
- aY61MhtqfBhU2x8uJPtI6kRJc/dIoi6f6QeCZLkezyTm4nZBQc5TWm40kqoHjEVLs7da
- 5Zukogt9FljWC05vl9XGqOCRN0cOJPSQkM4EjFYWCVC9rb3jwowsBodAA0zBZdb61JpW
- 8H5JdkL/PxBoish+YZksWN9JvQRmX53MNVSATbWoI3Nf5Sei6r8IE9n+vAZG4E3hNr8F
- C/Hawyc/gFzD6nylqhO9t1SVi6kwiRWMfSfAtPn+pInn7cV5hC6GCR+laQbQ6IEdthVt
- 52NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=jBSQo/2wgXCdFBlpTr8kzwWNsIYuz0LA64eki3qI5so=;
- b=eXhTHyTjZMmRMjdW7e7uyI2hdRQE0uvZbZFiXtN7w1/Myo40t9NdUwis6ZM9lwYw4M
- S2Jq40ObKQ8nOGDqNG0pl0M1UAcf1UvHMaZF5LZgWqXYsrnFBDi3Vxrtpyc69v9xb9bA
- 2bGJXQl6mbO8x4PAs8U5NjFWj81Km2HE42tPGuumHaqoEnukC0WObalGUntX4+EMQ27W
- s+xeMOhnGd66P4svGsIBlky94GZ1BUijFlWfv05ZtsgtynMsJgsoKypKYbEYSA+yUBBr
- sAkJOfNH3LFwS+7jnjXhps5cqpfu62Ek4WuPraF7wDwQrPMp7FZl0WRTwYXEMeIFVcaA
- /8HA==
-X-Gm-Message-State: ANoB5pltT1LgrH81BULtxQHzoK53rNbEIEFMiYyZFeCPiDYqEfmJMQbf
- xgiy53D6W7SeUqK7NZDK8gZ+fw==
-X-Google-Smtp-Source: AA0mqf5pYl9gxLwn3JTf16KUKymRb/SoSRAKlCyXy3tr7x+P6wirBcybYLCnQ0HXuOo113YMWyNwFg==
-X-Received: by 2002:a05:6000:1d97:b0:241:b99a:949f with SMTP id
- bk23-20020a0560001d9700b00241b99a949fmr1547776wrb.599.1668704240908; 
- Thu, 17 Nov 2022 08:57:20 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- q1-20020a1ce901000000b003cfa80443a0sm1677446wmc.35.2022.11.17.08.57.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 08:57:20 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8DED81FFB7;
- Thu, 17 Nov 2022 16:57:19 +0000 (GMT)
-References: <20221117111628.911686-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-7.2] tests/avocado/boot_linux.py: Bump aarch64 virt
- test timeout to 720s
-Date: Thu, 17 Nov 2022 16:57:14 +0000
-In-reply-to: <20221117111628.911686-1-peter.maydell@linaro.org>
-Message-ID: <871qq18qog.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1oviFL-0001xv-Cv; Thu, 17 Nov 2022 12:00:15 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1oviFJ-0000Ev-0p; Thu, 17 Nov 2022 12:00:15 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6F9D4621A1;
+ Thu, 17 Nov 2022 17:00:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8065EC433D7;
+ Thu, 17 Nov 2022 17:00:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1668704406;
+ bh=WSzp2HD6EV0TOSVuzbXCtm0CcBgXSU7UrD8WzPPc7zc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZpG/pouqP0Mc/GX/fR2PHYRXHNm7c/nJeVA54huDqhDJ59+oJBC0h5tDzILHkHHZJ
+ LM88R2oPXkPDEuufAHND2SJgzi5yRiv5XwsAz/JUAH4NXpPQuf/TgOfcEzcw9h9BnE
+ leFP0ayJH043ZBzSqQdUYsjzGrwdLAyqCULyU/3TKuYV+3QLigjMsBRZd8cUGRH+5c
+ detN9gnrW8yAIOYVVeXQCfrGMWzwvHyZMtCEmqfQXXuIChccXDFYxl4uRgrU91fpL1
+ JRQFt7If5vQLn2cM0h1oXiqvKH9P2JOFY1KRx2i2qpWwix8WRwpkEyHtmQrmAoD7QK
+ yp6AvMG5jYyFw==
+Date: Thu, 17 Nov 2022 17:00:03 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 3/3] hw/{misc, riscv}: pfsoc: add system controller as
+ unimplemented
+Message-ID: <Y3ZokxEWl64iIIp/@spud>
+References: <20221112133414.262448-1-conor@kernel.org>
+ <20221112133414.262448-4-conor@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221112133414.262448-4-conor@kernel.org>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=conor@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,45 +73,265 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> The two tests
-> tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2
-> tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3
->
-> take quite a long time to run, and the current timeout of 240s
-> is not enough for the tests to complete on slow machines:
-> we've seen these tests time out in the gitlab CI in the
-> 'avocado-system-alpine' CI job, for instance. The timeout
-> is also insufficient for running the test with a debug build
-> of QEMU: on my machine the tests take over 10 minutes to run
-> in that config.
->
-> Push the timeout up to 720s so that the test definitely has
-> enough time to complete.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Sat, Nov 12, 2022 at 01:34:15PM +0000, Conor Dooley wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
+> 
+> The system controller on PolarFire SoC is access via a mailbox. The
+> control registers for this mailbox lie in the "IOSCB" region & the
+> interrupt is cleared via write to the "SYSREG" region. It also has a
+> QSPI controller, usually connected to a flash chip, that is used for
+> storing FPGA bitstreams and used for In-Application Programming (IAP).
+> 
+> Linux has an implementation of the system controller, through which the
+> hwrng is accessed, leading to load/store access faults.
+> 
+> Add the QSPI as unimplemented and a very basic (effectively
+> unimplemented) version of the system controller's mailbox. Rather than
+> purely marking the regions as unimplemented, service the mailbox
+> requests by reporting failures and raising the interrupt so a guest can
+> better handle the lack of support.
+> 
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
->  tests/avocado/boot_linux.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-> index 571d33882ae..32adae6ff6a 100644
-> --- a/tests/avocado/boot_linux.py
-> +++ b/tests/avocado/boot_linux.py
-> @@ -64,7 +64,7 @@ class BootLinuxAarch64(LinuxTest):
->      :avocado: tags=3Dmachine:virt
->      :avocado: tags=3Dmachine:gic-version=3D2
->      """
-> -    timeout =3D 240
-> +    timeout =3D 720
->=20=20
->      def add_common_args(self):
->          self.vm.add_args('-bios',
+>  hw/misc/mchp_pfsoc_ioscb.c          | 59 ++++++++++++++++++++++++++++-
+>  hw/misc/mchp_pfsoc_sysreg.c         | 19 ++++++++--
+>  hw/riscv/microchip_pfsoc.c          |  6 +++
+>  include/hw/misc/mchp_pfsoc_ioscb.h  |  3 ++
+>  include/hw/misc/mchp_pfsoc_sysreg.h |  1 +
+>  include/hw/riscv/microchip_pfsoc.h  |  1 +
+>  6 files changed, 83 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/misc/mchp_pfsoc_ioscb.c b/hw/misc/mchp_pfsoc_ioscb.c
+> index f976e42f72..d7f27b4402 100644
+> --- a/hw/misc/mchp_pfsoc_ioscb.c
+> +++ b/hw/misc/mchp_pfsoc_ioscb.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/bitops.h"
+>  #include "qemu/log.h"
+>  #include "qapi/error.h"
+> +#include "hw/irq.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/misc/mchp_pfsoc_ioscb.h"
+>  
+> @@ -34,6 +35,9 @@
+>  #define IOSCB_WHOLE_REG_SIZE        0x10000000
+>  #define IOSCB_SUBMOD_REG_SIZE       0x1000
+>  #define IOSCB_CCC_REG_SIZE          0x2000000
+> +#define IOSCB_CTRL_REG_SIZE         0x800
+> +#define IOSCB_QSPIXIP_REG_SIZE      0x200
+> +
+>  
+>  /*
+>   * There are many sub-modules in the IOSCB module.
+> @@ -45,6 +49,8 @@
+>  #define IOSCB_LANE01_BASE           0x06500000
+>  #define IOSCB_LANE23_BASE           0x06510000
+>  #define IOSCB_CTRL_BASE             0x07020000
+> +#define IOSCB_QSPIXIP_BASE          0x07020100
+> +#define IOSCB_MAILBOX_BASE          0x07020800
+>  #define IOSCB_CFG_BASE              0x07080000
+>  #define IOSCB_CCC_BASE              0x08000000
+>  #define IOSCB_PLL_MSS_BASE          0x0E001000
+> @@ -143,6 +149,45 @@ static const MemoryRegionOps mchp_pfsoc_io_calib_ddr_ops = {
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>  };
+>  
+> +#define SERVICES_SR 0x54
+> +
+> +static uint64_t mchp_pfsoc_ctrl_read(void *opaque, hwaddr offset,
+> +                                     unsigned size)
+> +{
+> +    MchpPfSoCIoscbState *s = opaque;
+> +    uint32_t val = 0;
+> +
+> +    switch (offset) {
+> +    case SERVICES_SR:
+> +        /*
+> +         * Although some services have no error codes, most do. All services
+> +         * that do implement errors, begin their error codes at 1. Treat all
+> +         * service requests as failures & return 1.
+> +         * See the "PolarFire® FPGA and PolarFire SoC FPGA System Services"
+> +         * user guide for more information on service error codes.
+> +         */
+> +        val = 1;
 
-Queued to for-7.2/misc-fixes, thanks.
+Another issue I just spotted here, this should not be returning 1, but
+rather 1 << 16. The status bits are 31:16 & I was just getting lucky
+b/c of something wrong with the Linux driver exercising it!
 
---=20
-Alex Benn=C3=A9e
+> +        qemu_irq_raise(s->irq);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
+> +                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
+> +                      __func__, size, offset);
+> +    }
+> +
+> +    return val;
+> +}
+> +
+> +/*
+> + * use the dummy write, since we are always going to report a failed message
+> + * and therefore do not care what service is actually requested
+> + */
+> +static const MemoryRegionOps mchp_pfsoc_ctrl_ops = {
+> +    .read = mchp_pfsoc_ctrl_read,
+> +    .write = mchp_pfsoc_dummy_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+>  static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
+>  {
+>      MchpPfSoCIoscbState *s = MCHP_PFSOC_IOSCB(dev);
+> @@ -162,10 +207,18 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
+>                            "mchp.pfsoc.ioscb.lane23", IOSCB_SUBMOD_REG_SIZE);
+>      memory_region_add_subregion(&s->container, IOSCB_LANE23_BASE, &s->lane23);
+>  
+> -    memory_region_init_io(&s->ctrl, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
+> -                          "mchp.pfsoc.ioscb.ctrl", IOSCB_SUBMOD_REG_SIZE);
+> +    memory_region_init_io(&s->ctrl, OBJECT(s), &mchp_pfsoc_ctrl_ops, s,
+> +                          "mchp.pfsoc.ioscb.ctrl", IOSCB_CTRL_REG_SIZE);
+>      memory_region_add_subregion(&s->container, IOSCB_CTRL_BASE, &s->ctrl);
+>  
+> +    memory_region_init_io(&s->qspixip, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
+> +                          "mchp.pfsoc.ioscb.qspixip", IOSCB_QSPIXIP_REG_SIZE);
+> +    memory_region_add_subregion(&s->container, IOSCB_QSPIXIP_BASE, &s->qspixip);
+> +
+> +    memory_region_init_io(&s->mailbox, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
+> +                          "mchp.pfsoc.ioscb.mailbox", IOSCB_SUBMOD_REG_SIZE);
+> +    memory_region_add_subregion(&s->container, IOSCB_MAILBOX_BASE, &s->mailbox);
+> +
+>      memory_region_init_io(&s->cfg, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
+>                            "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE);
+>      memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
+> @@ -222,6 +275,8 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
+>                            IOSCB_SUBMOD_REG_SIZE);
+>      memory_region_add_subregion(&s->container, IOSCB_IO_CALIB_SGMII_BASE,
+>                                  &s->io_calib_sgmii);
+> +
+> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+>  }
+>  
+>  static void mchp_pfsoc_ioscb_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/misc/mchp_pfsoc_sysreg.c b/hw/misc/mchp_pfsoc_sysreg.c
+> index 89571eded5..9822fb05fd 100644
+> --- a/hw/misc/mchp_pfsoc_sysreg.c
+> +++ b/hw/misc/mchp_pfsoc_sysreg.c
+> @@ -24,10 +24,12 @@
+>  #include "qemu/bitops.h"
+>  #include "qemu/log.h"
+>  #include "qapi/error.h"
+> +#include "hw/irq.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/misc/mchp_pfsoc_sysreg.h"
+>  
+>  #define ENVM_CR         0xb8
+> +#define MESSAGE_INT     0x118c
+>  
+>  static uint64_t mchp_pfsoc_sysreg_read(void *opaque, hwaddr offset,
+>                                         unsigned size)
+> @@ -52,10 +54,18 @@ static uint64_t mchp_pfsoc_sysreg_read(void *opaque, hwaddr offset,
+>  static void mchp_pfsoc_sysreg_write(void *opaque, hwaddr offset,
+>                                      uint64_t value, unsigned size)
+>  {
+> -    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
+> -                  "(size %d, value 0x%" PRIx64
+> -                  ", offset 0x%" HWADDR_PRIx ")\n",
+> -                  __func__, size, value, offset);
+> +    MchpPfSoCSysregState *s = opaque;
+> +    qemu_irq_lower(s->irq);
+> +    switch (offset) {
+> +    case MESSAGE_INT:
+> +        qemu_irq_lower(s->irq);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
+> +                      "(size %d, value 0x%" PRIx64
+> +                      ", offset 0x%" HWADDR_PRIx ")\n",
+> +                      __func__, size, value, offset);
+> +    }
+>  }
+>  
+>  static const MemoryRegionOps mchp_pfsoc_sysreg_ops = {
+> @@ -73,6 +83,7 @@ static void mchp_pfsoc_sysreg_realize(DeviceState *dev, Error **errp)
+>                            "mchp.pfsoc.sysreg",
+>                            MCHP_PFSOC_SYSREG_REG_SIZE);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->sysreg);
+> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+>  }
+>  
+>  static void mchp_pfsoc_sysreg_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 2a24e3437a..b10321b564 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -306,6 +306,9 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>      sysbus_realize(SYS_BUS_DEVICE(&s->sysreg), errp);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysreg), 0,
+>                      memmap[MICROCHIP_PFSOC_SYSREG].base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sysreg), 0,
+> +                       qdev_get_gpio_in(DEVICE(s->plic),
+> +                       MICROCHIP_PFSOC_MAILBOX_IRQ));
+>  
+>      /* AXISW */
+>      create_unimplemented_device("microchip.pfsoc.axisw",
+> @@ -459,6 +462,9 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>      sysbus_realize(SYS_BUS_DEVICE(&s->ioscb), errp);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->ioscb), 0,
+>                      memmap[MICROCHIP_PFSOC_IOSCB].base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->ioscb), 0,
+> +                       qdev_get_gpio_in(DEVICE(s->plic),
+> +                       MICROCHIP_PFSOC_MAILBOX_IRQ));
+>  
+>      /* FPGA Fabric */
+>      create_unimplemented_device("microchip.pfsoc.fabricfic3",
+> diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pfsoc_ioscb.h
+> index 687b213742..a1104862c8 100644
+> --- a/include/hw/misc/mchp_pfsoc_ioscb.h
+> +++ b/include/hw/misc/mchp_pfsoc_ioscb.h
+> @@ -29,6 +29,8 @@ typedef struct MchpPfSoCIoscbState {
+>      MemoryRegion lane01;
+>      MemoryRegion lane23;
+>      MemoryRegion ctrl;
+> +    MemoryRegion qspixip;
+> +    MemoryRegion mailbox;
+>      MemoryRegion cfg;
+>      MemoryRegion ccc;
+>      MemoryRegion pll_mss;
+> @@ -41,6 +43,7 @@ typedef struct MchpPfSoCIoscbState {
+>      MemoryRegion cfm_sgmii;
+>      MemoryRegion bc_sgmii;
+>      MemoryRegion io_calib_sgmii;
+> +    qemu_irq irq;
+>  } MchpPfSoCIoscbState;
+>  
+>  #define TYPE_MCHP_PFSOC_IOSCB "mchp.pfsoc.ioscb"
+> diff --git a/include/hw/misc/mchp_pfsoc_sysreg.h b/include/hw/misc/mchp_pfsoc_sysreg.h
+> index 546ba68f6a..3cebe40ea9 100644
+> --- a/include/hw/misc/mchp_pfsoc_sysreg.h
+> +++ b/include/hw/misc/mchp_pfsoc_sysreg.h
+> @@ -28,6 +28,7 @@
+>  typedef struct MchpPfSoCSysregState {
+>      SysBusDevice parent;
+>      MemoryRegion sysreg;
+> +    qemu_irq irq;
+>  } MchpPfSoCSysregState;
+>  
+>  #define TYPE_MCHP_PFSOC_SYSREG "mchp.pfsoc.sysreg"
+> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+> index 7e7950dd36..69a686b54a 100644
+> --- a/include/hw/riscv/microchip_pfsoc.h
+> +++ b/include/hw/riscv/microchip_pfsoc.h
+> @@ -147,6 +147,7 @@ enum {
+>      MICROCHIP_PFSOC_MMUART2_IRQ = 92,
+>      MICROCHIP_PFSOC_MMUART3_IRQ = 93,
+>      MICROCHIP_PFSOC_MMUART4_IRQ = 94,
+> +    MICROCHIP_PFSOC_MAILBOX_IRQ = 96,
+>  };
+>  
+>  #define MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT    1
+> -- 
+> 2.37.2
+> 
+> 
 
