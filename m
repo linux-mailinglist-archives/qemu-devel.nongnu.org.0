@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54CE62E753
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 22:53:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6DF62E8C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 23:53:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovmnl-0004H0-UZ; Thu, 17 Nov 2022 16:52:05 -0500
+	id 1ovnjQ-00007w-JO; Thu, 17 Nov 2022 17:51:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1ovmnj-0004Gc-3O
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 16:52:03 -0500
-Received: from mailout06.t-online.de ([194.25.134.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1ovmnh-0005MJ-4w
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 16:52:02 -0500
-Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
- by mailout06.t-online.de (Postfix) with SMTP id 0C1C1178EA;
- Thu, 17 Nov 2022 22:51:55 +0100 (CET)
-Received: from [192.168.211.200] ([84.175.228.229]) by fwd85.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1ovmnT-0mBxQX0; Thu, 17 Nov 2022 22:51:47 +0100
-Message-ID: <d1e1b4a5-1200-dad7-4e82-eacdbd71b92d@t-online.de>
-Date: Thu, 17 Nov 2022 22:51:46 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ovnjN-00007j-SI; Thu, 17 Nov 2022 17:51:37 -0500
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ovnjK-0006pV-8L; Thu, 17 Nov 2022 17:51:36 -0500
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-369426664f9so33285527b3.12; 
+ Thu, 17 Nov 2022 14:51:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SqoGB5jdvmowJ3qhXST5N54oA6J4YoX9EMCdPYrqBkc=;
+ b=Wz8slORoEHYSvCVEx1oDwTmz4zG4q7oU7i3GNOlHpXDGu0KGdU5rXZ2klr/x4FcnLY
+ Lq5ys9F36TW8v5E5OmazgW/lgWvIJwEqvXr7WZS0OIyXha5jXEELQJ1LjAk2eA/xj0l0
+ +AyiQfs7kG3AM9JPaO2CBv8DuVNyE9y+T3GuVIG80TEO/V81wUoTaChVFiFFancSEd2G
+ UMXgbLVZMK5oV9myUOz+P9aplJ+Shr1PE+Eqz+mSQVL2JPbVCezcHPi+3FeRiP79UMev
+ sOl6yhQXywDvKu/hbrRBAp0S7rZiYS9djl/qdBNO3gLpEbm6kH5XQR7+YAyfUzm0RMDO
+ WVKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SqoGB5jdvmowJ3qhXST5N54oA6J4YoX9EMCdPYrqBkc=;
+ b=h3+tq4ygysWfUDK7yPXyhmHL3y0fMuRPfJC4Y8Hmia1KXq9w5EZd5Vq9KhPPawOjjM
+ C+c04DsTlZ1hU+Vw3lGulo8+jZq9jl4Nn1QhSbk8VE3pGLkVNljgh2EHWEfipGaGjOrE
+ n+dakHo06r0h+nT28iiQmE09GBA+s1BqKOlS63MYcOzrrnyakuFiI8YQLGYUh/EmwrQT
+ GbKydjx0j5NknGAIQrtbwI/NSewgto4h1ZI7yLaBmnZixm8uR4hF/qjpAE57lX3nue9N
+ +jEhbLK9McS82O7NzIUk9KWAar1if+JFBJEiduhSyDoHpGrsM8pxdClyWJStWV3Q2tQR
+ CoLQ==
+X-Gm-Message-State: ANoB5pldPAjARE3VZcSriFagdc//1l0d2TMXnLVvnFaJr0OysIj/d/aq
+ eQgGg8hZ6EiNlMjZlaLP470qAJJCAjFifPAtgt0=
+X-Google-Smtp-Source: AA0mqf7NNINPQjH+PsPnEEFIEfIvGhVkM9wwqgrAkJpHoDkm7hnlm89vC1iKkgMR43xR7VOIOMACsI8duWQDw3QB3UQ=
+X-Received: by 2002:a0d:d202:0:b0:370:1a06:1b4a with SMTP id
+ u2-20020a0dd202000000b003701a061b4amr4095389ywd.206.1668725491999; Thu, 17
+ Nov 2022 14:51:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PULL v4 46/83] acpi: pc/q35: drop ad-hoc PCI-ISA bridge AML
- routines and let bus ennumeration generate AML
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-47-mst@redhat.com>
-Content-Language: en-US
-In-Reply-To: <20221107224600.934080-47-mst@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TOI-EXPURGATEID: 150726::1668721907-2E8B5EA1-6CCCAC03/0/0 CLEAN NORMAL
-X-TOI-MSGID: d3db0adf-eefd-439e-a80a-fd45eac9e7e1
-Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
- helo=mailout06.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221115163659.1595865-1-stefanha@redhat.com>
+ <011801d8f967$5dad0f00$19072d00$@fiebig.nl>
+ <CACGkMEtJ2+2yhHgD33wiWvUEREei2ThQAkRNFWzRrDt5D50u+g@mail.gmail.com>
+ <008c01d8f9ad$6ba58e20$42f0aa60$@fiebig.nl>
+ <CAJSP0QUcYkKjJ1NMvKcs=03Z0Yjm+SD6H0wScJ-Zx62sXb6egQ@mail.gmail.com>
+ <01e701d8fa2f$4124d750$c36e85f0$@fiebig.nl>
+ <CAJSP0QX_PCNU6PFd8svnGJq5U9-0+weAN6MyiyYqWHkssY4QPA@mail.gmail.com>
+ <CAJSP0QW76L82s=LM=RpWEwiFPFaNBe4J4AXBi6jtDR2h8dE1UQ@mail.gmail.com>
+ <004f01d8fa77$80cfe4b0$826fae10$@fiebig.nl>
+ <CAJSP0QVPVhCYKw2vT_un3r=L3xhow5E5OX84xp4uoJUb-1=jFg@mail.gmail.com>
+ <014101d8fac5$2cad8420$86088c60$@fiebig.nl>
+In-Reply-To: <014101d8fac5$2cad8420$86088c60$@fiebig.nl>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 17 Nov 2022 17:51:20 -0500
+Message-ID: <CAJSP0QXK=boxdrWgoD9FAkzxH6UK9qKS425km8YHX0FgQfwvHg@mail.gmail.com>
+Subject: Re: [PATCH for-7.2] rtl8139: honor large send MSS value
+To: Tobias Fiebig <tobias@fiebig.nl>
+Cc: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ qemu-devel <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>, 
+ Russell King - ARM Linux <linux@armlinux.org.uk>
+Content-Type: multipart/alternative; boundary="0000000000002da81e05edb26e94"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,67 +93,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> From: Igor Mammedov<imammedo@redhat.com>
+--0000000000002da81e05edb26e94
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Nov 17, 2022, 15:42 Tobias Fiebig <tobias@fiebig.nl> wrote:
+
+> Heho,
+> I gave v3 a shot and it performs as expected; For a requested MSS of 1320,
+> TSO consistently uses a 1308 MSS. So for me, this patch works. Thanks for
+> fixing this. :-)
 >
-> PCI-ISA bridges that are built in PIIX/Q35 are building its own AML
-> using AcpiDevAmlIf interface. Now build_append_pci_bus_devices()
-> gained AcpiDevAmlIf interface support to get AML of devices atached
-> to PCI slots.
-> So drop ad-hoc build_q35_isa_bridge()/build_piix4_isa_bridge()
-> and let PCI bus enumeration to include PCI-ISA bridge AML
-> when it's enumerated by build_append_pci_bus_devices().
+> Sadly, I do not have boxes to test with .1q around; If none of you has
+> either, and that should be tested as well, I can give it a shot in the
+> coming days, but it might take some time.
 >
-> AML change is mostly contextual, which moves whole ISA hierarchy
-> directly under PCI host bridge instead of it being described
-> as separate \SB.PCI0.ISA block.
+
+Awesome, thanks for your help! I don't have a .1q setup on hand.
+
+Stefan
+
+
+> Side note: I found the 'missing' 12b in 12b of TCP options being added.
+> :-| So sorry for that noise.
 >
-> Note:
-> If bus/slot that hosts ISA bridge has BSEL set, it will gain new
-> ASUN and _DMS entries (i.e. acpi-index support, but it should not
-> cause any functional change and that is fine from PCI Firmware
-> spec point of view), potentially it's possible to suppress that
-> by adding a flag to PCIDevice but I don't see a reason to do that
-> yet, I'd rather treat bridge just as any other PCI device if it's
-> possible.
+> With best regards,
+> Tobias
 >
-> Signed-off-by: Igor Mammedov<imammedo@redhat.com>
-> Message-Id:<20221017102146.2254096-4-imammedo@redhat.com>
-> Reviewed-by: Michael S. Tsirkin<mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin<mst@redhat.com>
-> ---
->   hw/i386/acpi-build.c | 75 --------------------------------------------
->   hw/isa/lpc_ich9.c    | 23 ++++++++++++++
->   hw/isa/piix3.c       | 17 +++++++++-
->   3 files changed, 39 insertions(+), 76 deletions(-)
+> MTU1500
+> RTL8139: +++ C+ mode offloaded task TSO IP data 7272 frame data 7292
+> specified MSS=1448
+> RTL8139: +++ C+ mode offloaded task TSO IP data 8720 frame data 8740
+> specified MSS=1448
+> RTL8139: +++ C+ mode offloaded task TSO IP data 8720 frame data 8740
+> specified MSS=1448
+> RTL8139: +++ C+ mode offloaded task TSO IP data 10168 frame data 10188
+> specified MSS=1448
+>
+> MTU1320
+> RTL8139: +++ C+ mode offloaded task TSO IP data 2648 frame data 2668
+> specified MSS=1308
+> RTL8139: +++ C+ mode offloaded task TSO IP data 10496 frame data 10516
+> specified MSS=1308
+> RTL8139: +++ C+ mode offloaded task TSO IP data 6572 frame data 6592
+> specified MSS=1308
+> RTL8139: +++ C+ mode offloaded task TSO IP data 6572 frame data 6592
+> specified MSS=1308
+>
+>
 
-Hi Igor,
+--0000000000002da81e05edb26e94
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-since this patch SeaBIOS no longer detects the PS/2 keyboard. This means 
-there's no keyboard in SeaBIOS, GRUB or FreeDOS. OVMF and Linux detect 
-the PS/2 keyboard without issues.
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Nov 17, 2022, 15:42 Tobias Fiebig &lt;<a href=
+=3D"mailto:tobias@fiebig.nl">tobias@fiebig.nl</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">Heho,<br>
+I gave v3 a shot and it performs as expected; For a requested MSS of 1320, =
+TSO consistently uses a 1308 MSS. So for me, this patch works. Thanks for f=
+ixing this. :-)<br>
+<br>
+Sadly, I do not have boxes to test with .1q around; If none of you has eith=
+er, and that should be tested as well, I can give it a shot in the coming d=
+ays, but it might take some time.<br></blockquote></div></div><div dir=3D"a=
+uto"><br></div><div dir=3D"auto">Awesome, thanks for your help! I don&#39;t=
+ have a .1q setup on hand.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">Stefan</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"=
+gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">
+<br>
+Side note: I found the &#39;missing&#39; 12b in 12b of TCP options being ad=
+ded. :-| So sorry for that noise.<br>
+<br>
+With best regards,<br>
+Tobias<br>
+<br>
+MTU1500<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 7272 frame data 7292 specif=
+ied MSS=3D1448<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 8720 frame data 8740 specif=
+ied MSS=3D1448<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 8720 frame data 8740 specif=
+ied MSS=3D1448<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 10168 frame data 10188 spec=
+ified MSS=3D1448<br>
+<br>
+MTU1320<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 2648 frame data 2668 specif=
+ied MSS=3D1308<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 10496 frame data 10516 spec=
+ified MSS=3D1308<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 6572 frame data 6592 specif=
+ied MSS=3D1308<br>
+RTL8139: +++ C+ mode offloaded task TSO IP data 6572 frame data 6592 specif=
+ied MSS=3D1308<br>
+<br>
+</blockquote></div></div></div>
 
-Here are a few lines from the SeaBIOS debug log.
-
-table(50434146)=0x007e1971 (via rsdt)
-ACPI: parse DSDT at 0x007e0040 (len 6449)
-parse_termlist: parse error, skip from 92/465
-Scan for VGA option rom
-Running option rom at c000:0003
-Start SeaVGABIOS (version rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org)
-
-and later
-
-SeaBIOS (version rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org)
-ACPI: no PS/2 keyboard present
-
-It doesn't matter if the machine type is pc or q35.
-
-If I revert this patch, the PS/2 keyboard works again.
-
-With best regards,
-Volker
-
-
-
-
+--0000000000002da81e05edb26e94--
 
