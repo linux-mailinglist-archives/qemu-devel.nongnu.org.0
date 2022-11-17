@@ -2,107 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A5F62D718
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 10:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE44D62D744
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 10:42:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovbGB-0001ub-U6; Thu, 17 Nov 2022 04:32:40 -0500
+	id 1ovbOB-0007Xv-9m; Thu, 17 Nov 2022 04:40:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ovbG7-0001oC-02; Thu, 17 Nov 2022 04:32:36 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
+ id 1ovbNi-0007Nw-AS
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:40:28 -0500
+Received: from mail-vi1eur05on2110.outbound.protection.outlook.com
+ ([40.107.21.110] helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ovbFp-0006kS-VE; Thu, 17 Nov 2022 04:32:33 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AH8w9OD009057; Thu, 17 Nov 2022 09:32:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=AjOjO4XNzYqGhibj4p19QMedpqHORsCip0m6ZZFBkco=;
- b=mikOLBIf0AqiINWO72Zm6+yLwj6dJPWFLB1pKiXYS1Tgi0Q7JZeKcT/FMbtjyscbhrfq
- YXHMF3u+zwfjyC8PnwfnumEJbN8lFbo7v+T2ZFQnpdrgdtqzKkwUP2RUJ843kukVXiOP
- XCL+UVoJQ+QWgrJqMhW4prACvoe4znyb31xIYksFXgxeAtCtbVH3hIUH6lfNljoKgooL
- AdcupYCW+zaH78QP+hwc9NCQngjc+JERz7br/UUbScuw4tqL//caLgf1iR4QqBONO4Aw
- sKtbX94A9OV4C7azriBJMsR+zLruFF6YcOwEAXRJHL/FXmYSjPrDAsjJDOEiqdIFkfIa lQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwhwqh56a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 09:32:10 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AH8wR5T009942;
- Thu, 17 Nov 2022 09:32:10 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwhwqh555-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 09:32:09 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AH9Nphx024744;
- Thu, 17 Nov 2022 09:32:07 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06fra.de.ibm.com with ESMTP id 3kt2rj5g8e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 09:32:07 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AH9W3RF48300386
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Nov 2022 09:32:04 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E19D15204E;
- Thu, 17 Nov 2022 09:32:03 +0000 (GMT)
-Received: from [9.171.46.61] (unknown [9.171.46.61])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id DC0F252054;
- Thu, 17 Nov 2022 09:32:02 +0000 (GMT)
-Message-ID: <34caa4c4-0b94-1729-fe88-77d9b4240f04@linux.ibm.com>
-Date: Thu, 17 Nov 2022 10:32:02 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v11 04/11] s390x/cpu topology: reporting the CPU topology
- to the guest
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-5-pmorel@linux.ibm.com>
- <1888d31f-227f-7edf-4cc8-dd88a9b19435@kaod.org>
+ (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
+ id 1ovbNc-0007zu-CQ
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 04:40:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CA3Kz3heW/Z5AuwTR6T/bmBOtlyZXYuKKUqQG/qr9/K2HmOX1UPdEH4LWEak1xmAqoELxgW6RQFe8Bd1yi8RfhshQEJKesSGUEU42mNWNUaym1pnuao+B0R47ol0FkmFM6N9aLHjgC08jklrurJxLLDRrlXDambF9YyMqA7Klu05c3SKOyjZ1igh/vmO7ZRyj8S3f5moMAklaWI4QRKKcLfcaWJ8gwVe/6Xfb//0XWqV+znQv2zFhDWOKYIFV5SWBKewWKn8dHIUjzqSEW5mmOlq799N5+jcqJK88RWZDH3c6tYeqOInX363KWWSLpj3knLV/0hfgR0f8VVkHP+rqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eImlYdAmaZYdkfp8mkf/W0Ij2i9dv2trWUISyOQJCOM=;
+ b=DfOcXUqoRiOWV92LfmIbndpKMYr1Apt5mJeXdyaHmZCGoTYxUfEsA02N26240B7JI+328ipZjLB+JdCCclsRZoA6Oskk4QhT1okYk4BL2VkN16cl8IEoQic6OyLD9h0ukvz77TsKJTEyejlV8GXbRut2KttdHIerEOaJLANEstMtTXaOvcjhcvh+fMwS1edbV+wWMTrTHLEWyDnd9uEANGSOF9yY4YwK9MTqXgwgDit+47nHOaj48gq7+QL8HsyXskQy/NtDHRRPl3VW2Kbdl5FAI0UDiglRWAUZxg//egQxmwvQqeFP7l+2WKYQjOBY4wsJfeawoPVawS0czN3rTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eImlYdAmaZYdkfp8mkf/W0Ij2i9dv2trWUISyOQJCOM=;
+ b=LTMUihoHZzjVMTPdlwl6IgOq3UhtU8s+GJg7TUD+cwT0CxNkvYiQxvV5JTRdYm9K7tEJTOP+7rWBat7wSNbe9QcjFd4lbKCgx8KzPZZ6rgMItILCC/MtKOn5ctjaFr3fnJS1Qy7ftTU5pbkoC63H04roRIt4lvYya/EOrCDn/T8=
+Received: from PAVPR03MB9678.eurprd03.prod.outlook.com (2603:10a6:102:318::20)
+ by DB9PR03MB7433.eurprd03.prod.outlook.com (2603:10a6:10:1fc::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.13; Thu, 17 Nov
+ 2022 09:35:10 +0000
+Received: from PAVPR03MB9678.eurprd03.prod.outlook.com
+ ([fe80::364:f02b:cd43:7f3b]) by PAVPR03MB9678.eurprd03.prod.outlook.com
+ ([fe80::364:f02b:cd43:7f3b%3]) with mapi id 15.20.5813.018; Thu, 17 Nov 2022
+ 09:35:10 +0000
+From: Milica Lazarevic <Milica.Lazarevic@Syrmia.com>
+To: =?iso-8859-9?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Richard Henderson <richard.henderson@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Markus Armbruster
+ <armbru@redhat.com>, Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+Subject: Re: [PATCH] MAINTAINERS: Inherit from nanoMIPS
+Thread-Topic: [PATCH] MAINTAINERS: Inherit from nanoMIPS
+Thread-Index: AQHY7LH2jReORC0J40WpQ1lmk50NPK5C9jb3
+Date: Thu, 17 Nov 2022 09:35:10 +0000
+Message-ID: <PAVPR03MB96784D39EC71F71C86ABAE81F8069@PAVPR03MB9678.eurprd03.prod.outlook.com>
+References: <20221030225006.43203-1-philmd@linaro.org>
+In-Reply-To: <20221030225006.43203-1-philmd@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <1888d31f-227f-7edf-4cc8-dd88a9b19435@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: CZ1XZWcwmZ3V0-8dFjZI3GocC4yn3eiD
-X-Proofpoint-GUID: BjQenOlUiMX1NgZgxsqgnCkBdMIIUanj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-17_05,2022-11-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- mlxscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211170072
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=Syrmia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAVPR03MB9678:EE_|DB9PR03MB7433:EE_
+x-ms-office365-filtering-correlation-id: d7aa6d21-3d71-472f-525d-08dac87f059b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +kD+ExKwDP0CIjwpDp24ifU7XO+5VF+VbdheAa1CdbHLLGQlA6PFBt2ZbQGg+pgybnCshnmJ8PfJyT/GqY7ri1vGkDmFJznsmsJyMI8bhYDecvCjqnugrykJx987RugCb2UwiXNtaHHYIwUxYzH8FmmDAExbqNts196NaWQZXFAoT05346FJrNgOXgFSSa3t2EyJAXReaL/Ijj5JNITUkuDtc74vcMX8mgSLczVTeQ2AkhgDxvCS8m/ZGTdE6VAUVA2wnwOTCBlxkw/hka9aocrXmRZCqDNsWs9B5TViP7CJBlPPtO8X+OBpvwp/jVhrt8Ms+Z8j00fRREpfRfO//iFb7Ia7BWwS0o0CYQpRbrRJWA6YSE9taviRN0tQBaLNaRcV6q2KzN18cC5rVkN9ZVIyJfRBll/50LdupEGI/5VtVi8Cr84j05Ah7V7Ylf9oSlTm3LsPY0HaVHA0XV25u5qltoA0QkyS2iJWTwgaFLG8T11MZ/LvI4hM09mlN/STOo5qknn8Nv/aYZeIItUbJaoDMBo5w5F3uRKGl9DS/+He/RK2kyWLYyJWe7BcxxPj+4RCNbXUXBAcwcJ7btwkOiB2r/STzHR/Ch5EMvBxNeRj1IFWlpBaa/UaI1YwvSVHj6lf5FCRhi9UFdFyEmbvDxWBjIPyS2a+Io25Nt3GYiD0RHcv4Nlee2qi96tR5ib/hFlu77u7bCQQk+M00R0sq6CNhlqvU/mRm1sclamN5nA=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAVPR03MB9678.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39840400004)(136003)(366004)(396003)(376002)(346002)(451199015)(186003)(33656002)(5660300002)(53546011)(316002)(6506007)(7696005)(110136005)(54906003)(41300700001)(8936002)(52536014)(26005)(9686003)(4326008)(8676002)(91956017)(76116006)(66946007)(66556008)(66476007)(66446008)(64756008)(122000001)(166002)(38070700005)(38100700002)(2906002)(83380400001)(55016003)(86362001)(478600001)(45080400002)(19627405001)(966005)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-9?Q?Ua4owFLHOqG7OKBONCMizG1g1Fhl/uNmflK1RqqL/OKQoWS5h7nlKMyYD8?=
+ =?iso-8859-9?Q?SjPUb/WhFoLNo+J+ly5750m58+SVVKxFTZWs02K1NalLfZWsDbBD4UTZCu?=
+ =?iso-8859-9?Q?IbMldcl56eCcjJ5vynzearT2oVOp071U2VLM1lti4cu/X23L02tvbGBfAV?=
+ =?iso-8859-9?Q?hYls6tYZqVr7XnA3FRt4dWMmgmz1yWdwnX4yqR8QgLrE/RQPA91HSNks3a?=
+ =?iso-8859-9?Q?DYhs5j/ATABwdTTHJFql2sBSCFGMIEuyiqk8iy/HqDfmVdGAocWN1oL6Lc?=
+ =?iso-8859-9?Q?ODhuHV/jNDGna25jm/OpN13VC+plrWTHHYtaiI0Y2kS4SNxfk9WrMbDiiT?=
+ =?iso-8859-9?Q?NN0UXkFecmWUSZ5JdU3Ct2rucSsx2nqwuDnnqPC+Qdje8UyWmAJXg174lk?=
+ =?iso-8859-9?Q?MN/mMGB72EY4u+btXbGppHxj1EW7f2anoqcEBwG1iptt1pvFaFAKmTFyqB?=
+ =?iso-8859-9?Q?taJ0EQVpPualJSeyLhB6PGAfhlN7HGAvZ8Gmfi6anATSn+CndElE+w19Il?=
+ =?iso-8859-9?Q?Z7QU1HjuCDv90G2pU+98tS9m84XxVbDpAyoMMnR1gaV4zVrSvkbA9G/f38?=
+ =?iso-8859-9?Q?zQPnH8KI4REaouVvrcrKCLy09SA12Paz9M4uvNtSKB/Ni6CuCdaU7WK1jm?=
+ =?iso-8859-9?Q?6JR752ArzzBHV2SP8JbFUGuwj1h/F2rEN+gB3VMW+EID29lCv3hAxi5NPC?=
+ =?iso-8859-9?Q?745zlRKghv80fTilQgBdDosWhiD/j6sktGbdo1l3gGSKpGFrCqoU+e0ve4?=
+ =?iso-8859-9?Q?SV8uSE8ufZTo9mqrkgzM0BmRRNSPrTK8xSPYweGT6F/ITcSmvnf4TaJMb/?=
+ =?iso-8859-9?Q?2ibcx5dK2+uLqtAwtadda0fANs36Fty6hXP5VbfK5MWiasK4+FMCskWFJt?=
+ =?iso-8859-9?Q?UeNlt82PO+p9GvGnwZbWWacTkgeDDHCLnhZ3JESa1fbHX2gi91+0iOBD9k?=
+ =?iso-8859-9?Q?wT01BUsjV1IBqf4cPwZKkhoNsxhZ1O/pNuKmj1Zvhrky5jlgjZj4RpLdze?=
+ =?iso-8859-9?Q?WSVkfOVHg/bEgvngowzzFLHHxdwCdtWTYyGptvZdQ3Mn2EtFt7+KPCxvPo?=
+ =?iso-8859-9?Q?rHo1CpFFDcSfViZguohKiJw7RGGyATnhS1tjAT/N9hLIcjzO0jdJyK65FM?=
+ =?iso-8859-9?Q?lz1jL1z31KLz/tQPzpNa+Ap1/hMHlCcnRZgzoMu1YZbLUgvsmRTUWyh53h?=
+ =?iso-8859-9?Q?NHjv/vFUEEtvRbDig4uCF2WeQgO+9/JPVRiyixUlO3Gcb4sDddFBK6bGFU?=
+ =?iso-8859-9?Q?XN9Gx3YU9uHbFo5rVFC0RiqlVQ/ulFQblyhWF9uls5Uc042K7bXg96Nysx?=
+ =?iso-8859-9?Q?v5nKEEUmoGuOCyjlzAb+34RMQkrhDTZhPxMkr1TuO4Fb60cYic3CfJ68hB?=
+ =?iso-8859-9?Q?a1IEfwD7DGuXU49Tb54YwYDw4y1fuUgfRswiTciKUp1XXoH26He6otj0zG?=
+ =?iso-8859-9?Q?TIXns0qyZ3jVsiSxQU75MVZV8urlMGjkiy9TPfg9oKxDBXed2pU3YpC8iw?=
+ =?iso-8859-9?Q?G3G5+OjNkKbygCbEl/KZasFwoCVf2nspZsxQiLRfcx7YJ0cFSoG1QxAcw/?=
+ =?iso-8859-9?Q?NvrljoWi+AKK2AM7wdJxtvEjoDYo8xZrOQU8jtVVqC1XHHYtnOtwQ2j51l?=
+ =?iso-8859-9?Q?ToMyhm1qPg+R38rVwEDIh3iJnvIq0BpgIh?=
+Content-Type: multipart/alternative;
+ boundary="_000_PAVPR03MB96784D39EC71F71C86ABAE81F8069PAVPR03MB9678eurp_"
+MIME-Version: 1.0
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAVPR03MB9678.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7aa6d21-3d71-472f-525d-08dac87f059b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2022 09:35:10.6501 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: soPnAuY6MEy9itOAHAvlt7NX0J5AbD0RutL0iHP5U+84k/Z39r20ymEtFH+5LjlzGoFRCV7Z6gqT6mfJfBok89+WsTQwr3WLogmgAB3+2D0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB7433
+Received-SPF: pass client-ip=40.107.21.110;
+ envelope-from=Milica.Lazarevic@Syrmia.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,338 +141,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--_000_PAVPR03MB96784D39EC71F71C86ABAE81F8069PAVPR03MB9678eurp_
+Content-Type: text/plain; charset="iso-8859-9"
+Content-Transfer-Encoding: quoted-printable
 
 
-On 11/17/22 09:40, Cédric Le Goater wrote:
-> On 11/3/22 18:01, Pierre Morel wrote:
->> The guest can use the STSI instruction to get a buffer filled
->> with the CPU topology description.
->>
->> Let us implement the STSI instruction for the basis CPU topology
->> level, level 2.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/s390x/cpu-topology.h |   6 ++
->>   target/s390x/cpu.h              |  77 ++++++++++++++++++++++++
->>   hw/s390x/cpu-topology.c         |   1 -
->>   target/s390x/cpu_topology.c     | 100 ++++++++++++++++++++++++++++++++
->>   target/s390x/kvm/kvm.c          |   6 +-
->>   target/s390x/meson.build        |   1 +
->>   6 files changed, 189 insertions(+), 2 deletions(-)
->>   create mode 100644 target/s390x/cpu_topology.c
->>
->> diff --git a/include/hw/s390x/cpu-topology.h 
->> b/include/hw/s390x/cpu-topology.h
->> index 4e16a2153d..6fec10e032 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -16,6 +16,11 @@
->>   #define S390_TOPOLOGY_CPU_IFL 0x03
->>   #define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
->> +#define S390_TOPOLOGY_POLARITY_HORIZONTAL      0x00
->> +#define S390_TOPOLOGY_POLARITY_VERTICAL_LOW    0x01
->> +#define S390_TOPOLOGY_POLARITY_VERTICAL_MEDIUM 0x02
->> +#define S390_TOPOLOGY_POLARITY_VERTICAL_HIGH   0x03
->> +
->>   typedef struct S390TopoSocket {
->>       int active_count;
->>       uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
->> @@ -26,6 +31,7 @@ struct S390Topology {
->>       uint32_t nr_cpus;
->>       uint32_t nr_sockets;
->>       S390TopoSocket *socket;
->> +    bool topology_needed;
->>   };
->>   #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index c9066b2496..69a7523146 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -567,6 +567,81 @@ typedef union SysIB {
->>   } SysIB;
->>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
->> +/*
->> + * CPU Topology List provided by STSI with fc=15 provides a list
->> + * of two different Topology List Entries (TLE) types to specify
->> + * the topology hierarchy.
->> + *
->> + * - Container Topology List Entry
->> + *   Defines a container to contain other Topology List Entries
->> + *   of any type, nested containers or CPU.
->> + * - CPU Topology List Entry
->> + *   Specifies the CPUs position, type, entitlement and polarization
->> + *   of the CPUs contained in the last Container TLE.
->> + *
->> + * There can be theoretically up to five levels of containers, QEMU
->> + * uses only one level, the socket level.
->> + *
->> + * A container of with a nesting level (NL) greater than 1 can only
->> + * contain another container of nesting level NL-1.
->> + *
->> + * A container of nesting level 1 (socket), contains as many CPU TLE
->> + * as needed to describe the position and qualities of all CPUs inside
->> + * the container.
->> + * The qualities of a CPU are polarization, entitlement and type.
->> + *
->> + * The CPU TLE defines the position of the CPUs of identical qualities
->> + * using a 64bits mask which first bit has its offset defined by
->> + * the CPU address orgin field of the CPU TLE like in:
->> + * CPU address = origin * 64 + bit position within the mask
->> + *
->> + */
->> +/* Container type Topology List Entry */
->> +typedef struct SysIBTl_container {
->> +        uint8_t nl;
->> +        uint8_t reserved[6];
->> +        uint8_t id;
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
->> +
->> +/* CPU type Topology List Entry */
->> +typedef struct SysIBTl_cpu {
->> +        uint8_t nl;
->> +        uint8_t reserved0[3];
->> +        uint8_t reserved1:5;
->> +        uint8_t dedicated:1;
->> +        uint8_t polarity:2;
->> +        uint8_t type;
->> +        uint16_t origin;
->> +        uint64_t mask;
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
->> +
->> +#define S390_TOPOLOGY_MAG  6
->> +#define S390_TOPOLOGY_MAG6 0
->> +#define S390_TOPOLOGY_MAG5 1
->> +#define S390_TOPOLOGY_MAG4 2
->> +#define S390_TOPOLOGY_MAG3 3
->> +#define S390_TOPOLOGY_MAG2 4
->> +#define S390_TOPOLOGY_MAG1 5
->> +/* Configuration topology */
->> +typedef struct SysIB_151x {
->> +    uint8_t  reserved0[2];
->> +    uint16_t length;
->> +    uint8_t  mag[S390_TOPOLOGY_MAG];
->> +    uint8_t  reserved1;
->> +    uint8_t  mnest;
->> +    uint32_t reserved2;
->> +    char tle[0];
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
->> +
->> +/* Max size of a SYSIB structure is when all CPU are alone in a 
->> container */
->> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) 
->> +                         \
->> +                                  S390_MAX_CPUS * 
->> (sizeof(SysIBTl_container) + \
->> +                                                   sizeof(SysIBTl_cpu)))
->> +
->> +
->>   /* MMU defines */
->>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table 
->> origin             */
->>   #define ASCE_SUBSPACE         0x200       /* subspace group 
->> control           */
->> @@ -845,4 +920,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
->>   #include "exec/cpu-all.h"
->> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
->> +
->>   #endif
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index 6af41d3d7b..9fa8ca1261 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -44,7 +44,6 @@ void s390_topology_new_cpu(S390CPU *cpu)
->>       int socket_id;
->>       socket_id = core_id / topo->nr_cpus;
->> -
->>       /*
->>        * At the core level, each CPU is represented by a bit in a 64bit
->>        * uint64_t which represent the presence of a CPU.
->> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
->> new file mode 100644
->> index 0000000000..a1179d8e95
->> --- /dev/null
->> +++ b/target/s390x/cpu_topology.c
->> @@ -0,0 +1,100 @@
->> +/*
->> + * QEMU S390x CPU Topology
->> + *
->> + * Copyright IBM Corp. 2022
->> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or 
->> (at
->> + * your option) any later version. See the COPYING file in the top-level
->> + * directory.
->> + */
->> +#include "qemu/osdep.h"
->> +#include "cpu.h"
->> +#include "hw/s390x/pv.h"
->> +#include "hw/sysbus.h"
->> +#include "hw/s390x/cpu-topology.h"
->> +#include "hw/s390x/sclp.h"
->> +
->> +static char *fill_container(char *p, int level, int id)
->> +{
->> +    SysIBTl_container *tle = (SysIBTl_container *)p;
->> +
->> +    tle->nl = level;
->> +    tle->id = id;
->> +    return p + sizeof(*tle);
->> +}
->> +
->> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
->> +{
->> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
->> +
->> +    tle->nl = 0;
->> +    tle->dedicated = 1;
->> +    tle->polarity = S390_TOPOLOGY_POLARITY_HORIZONTAL;
->> +    tle->type = S390_TOPOLOGY_CPU_IFL;
->> +    tle->origin = cpu_to_be64(origin * 64);
->> +    tle->mask = cpu_to_be64(mask);
->> +    return p + sizeof(*tle);
->> +}
->> +
->> +static char *s390_top_set_level2(S390Topology *topo, char *p)
->> +{
->> +    int i, origin;
->> +
->> +    for (i = 0; i < topo->nr_sockets; i++) {
->> +        if (!topo->socket[i].active_count) {
->> +            continue;
->> +        }
->> +        p = fill_container(p, 1, i);
->> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
->> +            uint64_t mask = 0L;
->> +
->> +            mask = topo->socket[i].mask[origin];
->> +            if (mask) {
->> +                p = fill_tle_cpu(p, mask, origin);
->> +            }
->> +        }
->> +    }
->> +    return p;
->> +}
-> 
-> Why is it not possible to compute this topo information at "runtime",
-> when stsi is called, without maintaining state in an extra S390Topology
-> object ? Couldn't we loop on the CPU list to gather the topology bits
-> for the same result ?
-> 
-> It would greatly simplify the feature.
-> 
-> C.
-> 
+6 months ago Stefan Pejic stepped in as nanoMIPS maintainer
+(see commit a 8e0e23445a "target/mips: Undeprecate nanoMIPS
+ISA support in QEMU"), however today his email is bouncing:
 
-The vCPU are not stored in order of creation in the CPU list and not in 
-a topology order.
-To be able to build the SYSIB we need an intermediate structure to 
-reorder the CPUs per container.
+** Message blocked **
 
-We can do this re-ordering during the STSI interception but the idea was 
-to keep this instruction as fast as possible.
+Your message to stefan.pejic@syrmia.com has been blocked. See technical det=
+ails below for more information.
 
-The second reason is to have a structure ready for the QEMU migration 
-when we introduce vCPU migration from a socket to another socket, having 
-then a different internal representation of the topology.
+Hi,
 
-
-However, if as discussed yesterday we use a new cpu flag we would not 
-need any special migration structure in the current series.
-
-So it only stays the first reason to do the re-ordering preparation 
-during the plugging of a vCPU, to optimize the STSI instruction.
-
-If we think the optimization is not worth it or do not bring enough to 
-be consider, we can do everything during the STSI interception.
+Stefan is no longer working with us, but I will be more than happy to take =
+maintaining the nanoMIPS ISA on me!
 
 Regards,
-Pierre
+Milica
+________________________________
+From: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
+Sent: Sunday, October 30, 2022 11:50 PM
+To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+Cc: Philippe Mathieu-Daud=E9 <philmd@linaro.org>; Richard Henderson <richar=
+d.henderson@linaro.org>; Milica Lazarevic <Milica.Lazarevic@Syrmia.com>; Th=
+omas Huth <thuth@redhat.com>; Jiaxun Yang <jiaxun.yang@flygoat.com>; Markus=
+ Armbruster <armbru@redhat.com>; Vince Del Vecchio <Vince.DelVecchio@mediat=
+ek.com>
+Subject: [PATCH] MAINTAINERS: Inherit from nanoMIPS
 
->> +static int setup_stsi(S390CPU *cpu, SysIB_151x *sysib, int level)
->> +{
->> +    S390Topology *topo = (S390Topology *)cpu->topology;
->> +    char *p = sysib->tle;
->> +
->> +    sysib->mnest = level;
->> +    switch (level) {
->> +    case 2:
->> +        sysib->mag[S390_TOPOLOGY_MAG2] = topo->nr_sockets;
->> +        sysib->mag[S390_TOPOLOGY_MAG1] = topo->nr_cpus;
->> +        p = s390_top_set_level2(topo, p);
->> +        break;
->> +    }
->> +
->> +    return p - (char *)sysib;
->> +}
->> +
->> +#define S390_TOPOLOGY_MAX_MNEST 2
->> +
->> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
->> +{
->> +    union {
->> +        char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
->> +        SysIB_151x sysib;
->> +    } buffer QEMU_ALIGNED(8);
->> +    int len;
->> +
->> +    if (s390_is_pv() || !s390_has_topology() ||
->> +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
->> +        setcc(cpu, 3);
->> +        return;
->> +    }
->> +
->> +    len = setup_stsi(cpu, &buffer.sysib, sel2);
->> +
->> +    buffer.sysib.length = cpu_to_be16(len);
->> +    s390_cpu_virt_mem_write(cpu, addr, ar, &buffer.sysib, len);
->> +    setcc(cpu, 0);
->> +}
->> +
->> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->> index 3ac7ec9acf..7dc96f3663 100644
->> --- a/target/s390x/kvm/kvm.c
->> +++ b/target/s390x/kvm/kvm.c
->> @@ -51,6 +51,7 @@
->>   #include "hw/s390x/s390-virtio-ccw.h"
->>   #include "hw/s390x/s390-virtio-hcall.h"
->>   #include "hw/s390x/pv.h"
->> +#include "hw/s390x/cpu-topology.h"
->>   #ifndef DEBUG_KVM
->>   #define DEBUG_KVM  0
->> @@ -1919,9 +1920,12 @@ static int handle_stsi(S390CPU *cpu)
->>           if (run->s390_stsi.sel1 != 2 || run->s390_stsi.sel2 != 2) {
->>               return 0;
->>           }
->> -        /* Only sysib 3.2.2 needs post-handling for now. */
->>           insert_stsi_3_2_2(cpu, run->s390_stsi.addr, run->s390_stsi.ar);
->>           return 0;
->> +    case 15:
->> +        insert_stsi_15_1_x(cpu, run->s390_stsi.sel2, 
->> run->s390_stsi.addr,
->> +                           run->s390_stsi.ar);
->> +        return 0;
->>       default:
->>           return 0;
->>       }
->> diff --git a/target/s390x/meson.build b/target/s390x/meson.build
->> index 84c1402a6a..890ccfa789 100644
->> --- a/target/s390x/meson.build
->> +++ b/target/s390x/meson.build
->> @@ -29,6 +29,7 @@ s390x_softmmu_ss.add(files(
->>     'sigp.c',
->>     'cpu-sysemu.c',
->>     'cpu_models_sysemu.c',
->> +  'cpu_topology.c',
->>   ))
->>   s390x_user_ss = ss.source_set()
-> 
+6 months ago Stefan Pejic stepped in as nanoMIPS maintainer
+(see commit a 8e0e23445a "target/mips: Undeprecate nanoMIPS
+ISA support in QEMU"), however today his email is bouncing:
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+  ** Message blocked **
+
+  Your message to stefan.pejic@syrmia.com has been blocked. See technical d=
+etails below for more information.
+
+  The response from the remote server was:
+  550 5.4.1 Recipient address rejected: Access denied. AS(201806281) [DBAEU=
+R03FT030.eop-EUR03.prod.protection.outlook.com]
+
+To avoid unmaintained code, I feel forced to merge this code
+back with the generic MIPS section.
+
+Historical references:
+- https://lore.kernel.org/qemu-devel/TY0PR03MB679726901BD6C6BE40114A2FE2A79=
+@TY0PR03MB6797.apcprd03.prod.outlook.com/
+- https://lore.kernel.org/qemu-devel/b858a20e97b74e7b90a94948314d0008@MTKMB=
+S62N2.mediatek.inc/
+
+Cc: Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
+---
+ MAINTAINERS | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 32e495e165..0ba3b589bf 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -239,16 +239,10 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Odd Fixes
+ F: target/mips/
+-F: disas/mips.c
++F: disas/*mips.c
+ F: docs/system/cpu-models-mips.rst.inc
+ F: tests/tcg/mips/
+
+-MIPS TCG CPUs (nanoMIPS ISA)
+-M: Stefan Pejic <stefan.pejic@syrmia.com>
+-S: Maintained
+-F: disas/nanomips.*
+-F: target/mips/tcg/*nanomips*
+-
+ NiosII TCG CPUs
+ M: Chris Wulff <crwulff@gmail.com>
+ M: Marek Vasut <marex@denx.de>
+--
+2.37.3
+
+
+--_000_PAVPR03MB96784D39EC71F71C86ABAE81F8069PAVPR03MB9678eurp_
+Content-Type: text/html; charset="iso-8859-9"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+9">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof ContentPasted0">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<div><br>
+<blockquote class=3D"userQuote" style=3D"border-left: 3px solid rgb(200, 20=
+0, 200); padding-left: 1ex; margin-left: 0.8ex; color: rgb(102, 102, 102);"=
+ itemscope=3D"" itemtype=3D"https://schemas.microsoft.com/QuotedText">
+6 months ago Stefan Pejic stepped in as nanoMIPS maintainer<br>
+(see commit a 8e0e23445a &quot;target/mips: Undeprecate nanoMIPS<br>
+ISA support in QEMU&quot;), however today his email is bouncing:<br>
+<br>
+** Message blocked **<br>
+<br>
+Your message to stefan.pejic@syrmia.com has been blocked. See technical det=
+ails below for more information.</blockquote>
+<br>
+</div>
+</div>
+Hi,
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">Stefan is no longer working with us, but I wi=
+ll be more than happy to take maintaining the nanoMIPS ISA on me!
+</div>
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">Regards, </div>
+Milica<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Philippe Mathieu-Daud=
+=E9 &lt;philmd@linaro.org&gt;<br>
+<b>Sent:</b> Sunday, October 30, 2022 11:50 PM<br>
+<b>To:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;<br>
+<b>Cc:</b> Philippe Mathieu-Daud=E9 &lt;philmd@linaro.org&gt;; Richard Hend=
+erson &lt;richard.henderson@linaro.org&gt;; Milica Lazarevic &lt;Milica.Laz=
+arevic@Syrmia.com&gt;; Thomas Huth &lt;thuth@redhat.com&gt;; Jiaxun Yang &l=
+t;jiaxun.yang@flygoat.com&gt;; Markus Armbruster &lt;armbru@redhat.com&gt;;
+ Vince Del Vecchio &lt;Vince.DelVecchio@mediatek.com&gt;<br>
+<b>Subject:</b> [PATCH] MAINTAINERS: Inherit from nanoMIPS</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">6 months ago Stefan Pejic stepped in as nanoMIPS m=
+aintainer<br>
+(see commit a 8e0e23445a &quot;target/mips: Undeprecate nanoMIPS<br>
+ISA support in QEMU&quot;), however today his email is bouncing:<br>
+<br>
+&nbsp; ** Message blocked **<br>
+<br>
+&nbsp; Your message to stefan.pejic@syrmia.com has been blocked. See techni=
+cal details below for more information.<br>
+<br>
+&nbsp; The response from the remote server was:<br>
+&nbsp; 550 5.4.1 Recipient address rejected: Access denied. AS(201806281) [=
+DBAEUR03FT030.eop-EUR03.prod.protection.outlook.com]<br>
+<br>
+To avoid unmaintained code, I feel forced to merge this code<br>
+back with the generic MIPS section.<br>
+<br>
+Historical references:<br>
+- <a href=3D"https://lore.kernel.org/qemu-devel/TY0PR03MB679726901BD6C6BE40=
+114A2FE2A79@TY0PR03MB6797.apcprd03.prod.outlook.com/">
+https://lore.kernel.org/qemu-devel/TY0PR03MB679726901BD6C6BE40114A2FE2A79@T=
+Y0PR03MB6797.apcprd03.prod.outlook.com/</a><br>
+- <a href=3D"https://lore.kernel.org/qemu-devel/b858a20e97b74e7b90a94948314=
+d0008@MTKMBS62N2.mediatek.inc/">
+https://lore.kernel.org/qemu-devel/b858a20e97b74e7b90a94948314d0008@MTKMBS6=
+2N2.mediatek.inc/</a><br>
+<br>
+Cc: Vince Del Vecchio &lt;Vince.DelVecchio@mediatek.com&gt;<br>
+Signed-off-by: Philippe Mathieu-Daud=E9 &lt;philmd@linaro.org&gt;<br>
+---<br>
+&nbsp;MAINTAINERS | 8 +-------<br>
+&nbsp;1 file changed, 1 insertion(+), 7 deletions(-)<br>
+<br>
+diff --git a/MAINTAINERS b/MAINTAINERS<br>
+index 32e495e165..0ba3b589bf 100644<br>
+--- a/MAINTAINERS<br>
++++ b/MAINTAINERS<br>
+@@ -239,16 +239,10 @@ R: Jiaxun Yang &lt;jiaxun.yang@flygoat.com&gt;<br>
+&nbsp;R: Aleksandar Rikalo &lt;aleksandar.rikalo@syrmia.com&gt;<br>
+&nbsp;S: Odd Fixes<br>
+&nbsp;F: target/mips/<br>
+-F: disas/mips.c<br>
++F: disas/*mips.c<br>
+&nbsp;F: docs/system/cpu-models-mips.rst.inc<br>
+&nbsp;F: tests/tcg/mips/<br>
+&nbsp;<br>
+-MIPS TCG CPUs (nanoMIPS ISA)<br>
+-M: Stefan Pejic &lt;stefan.pejic@syrmia.com&gt;<br>
+-S: Maintained<br>
+-F: disas/nanomips.*<br>
+-F: target/mips/tcg/*nanomips*<br>
+-<br>
+&nbsp;NiosII TCG CPUs<br>
+&nbsp;M: Chris Wulff &lt;crwulff@gmail.com&gt;<br>
+&nbsp;M: Marek Vasut &lt;marex@denx.de&gt;<br>
+-- <br>
+2.37.3<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_PAVPR03MB96784D39EC71F71C86ABAE81F8069PAVPR03MB9678eurp_--
 
