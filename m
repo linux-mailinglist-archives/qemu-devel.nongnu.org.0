@@ -2,85 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16DD62DF73
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 16:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5099862DFBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 16:22:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovgdd-0000T5-ST; Thu, 17 Nov 2022 10:17:13 -0500
+	id 1ovghk-0002t8-Kk; Thu, 17 Nov 2022 10:21:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ovgda-0000SL-AX; Thu, 17 Nov 2022 10:17:10 -0500
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ovgdY-0004qN-J0; Thu, 17 Nov 2022 10:17:10 -0500
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-14263779059so1675762fac.1; 
- Thu, 17 Nov 2022 07:17:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KW8qyJw9+BwOequ/igbnYDwU1KGG6p1xzQ1NgHCaNuc=;
- b=TSlFcnwYpWBmu4kOam4qitvnZQopmWBjcJcFRhV3SX0wL1aykxVb+Sd7NjBxL6jRQ+
- G7CTmQ6JaCFjsLvUH5ab18OgLynr6QQnzetBYzVMRMXHZQhHXte1e+9kjLVCL+ZTE3d/
- LhCO/BXLcrOR5VnZKKIDGJ/K8lcotgZvhEN00x0d1vtR9NYqxzaPJ4dtq8dCmt2S4IYa
- JbxuZOfTxYI7IahORwZwLLfWG07548qYmm8kxnJpYgGsFV+qhVZxDhrx77G7hvUWGzbU
- sMmzSp2izrXyG2B3XAurE5grbrzutYWQ6Qi4CO8wosxXWqNF1jbQR28PPsiIWEPkjqSO
- iw9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KW8qyJw9+BwOequ/igbnYDwU1KGG6p1xzQ1NgHCaNuc=;
- b=ftwdCU+HPjhruTe8ywK4I/LTsCvDSlIUG0plhnapRHOH2q35OaDf4cLzlb2ou8fzFw
- ZRjuPtU3y9BR/J4lbw45PjVjcCuRvboBWoV4NZMRrS/1mLISjpGbzaCr5qk5hV6vvAcI
- PouKm9w+GQH3GDJqKprfqwOz6DOk8LvuzAv0wHvI0rORTUdGV4hKgMrJLqOAWptd4g6t
- d0mdr2SUCYXklK+Fg0dOwNooOn4EUg/rJaOEqUXAQwCcJXcAetCtjTUQCUPTFIlrDywV
- at1WMRzodi3CX01emzy+nXtprXdaiROpQrQ8UxX47lyKv1vl0j6+PR1/X2aRDn2UIjoS
- 7AJg==
-X-Gm-Message-State: ANoB5pmSZXmOa8Z69km1ipbkiSrtQPGKsSgjXKzsduDVFu2c5+fyYHtP
- oH13MgAKZhHcKhm75a//EypsuOxvBxw=
-X-Google-Smtp-Source: AA0mqf6Yznt0xY3BuqOmSSEuNv2dWX4g0t1utF99ffRuZ8MW900sjxPfBE2ussXxwmp5Scs5clMt1w==
-X-Received: by 2002:a05:6870:c34f:b0:13b:96fc:18c1 with SMTP id
- e15-20020a056870c34f00b0013b96fc18c1mr4541684oak.291.1668698226846; 
- Thu, 17 Nov 2022 07:17:06 -0800 (PST)
-Received: from balboa.ibmuc.com ([177.139.31.146])
- by smtp.gmail.com with ESMTPSA id
- q11-20020a9d630b000000b0066da36d2c45sm430328otk.22.2022.11.17.07.17.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 07:17:06 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- Vaibhav Jain <vaibhav@linux.ibm.com>,
- Kowshik Jois B S <kowsjois@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 1/1] target/ppc: Fix build warnings when building with
- 'disable-tcg'
-Date: Thu, 17 Nov 2022 12:16:57 -0300
-Message-Id: <20221117151657.182061-2-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221117151657.182061-1-danielhb413@gmail.com>
-References: <20221117151657.182061-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <j.granados@samsung.com>)
+ id 1ovghd-0002nn-Jz; Thu, 17 Nov 2022 10:21:24 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <j.granados@samsung.com>)
+ id 1ovghX-00065n-BJ; Thu, 17 Nov 2022 10:21:21 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20221117152102euoutp02336aa70ed76e44f8c47aef7be8576ea9~oaGkTYFhg2865428654euoutp029;
+ Thu, 17 Nov 2022 15:21:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20221117152102euoutp02336aa70ed76e44f8c47aef7be8576ea9~oaGkTYFhg2865428654euoutp029
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1668698462;
+ bh=fWdqwzz89qRvf627l6XAeLtEO1pc2otmm0PZCdV4Zsk=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=sn256Cwvk7508k4+fHC8YmSr7JumFLL7K+W+MIIUtop+se8E6MmX8SBR5DGEh/DiP
+ Mem5+GqYBgX/NBAtPG+SqvPdEAS/eoUJ5864KXbvFphM0mFrd4hkyk64ve3l51hJ6D
+ m5TS8BdoYBM7HQMRfDu6uZB8koBA6NpPXMef83tA=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20221117152102eucas1p1de44e264e2aec445923a4f95474f39ca~oaGkKtZEH0363003630eucas1p1N;
+ Thu, 17 Nov 2022 15:21:02 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id F2.2F.09561.E5156736; Thu, 17
+ Nov 2022 15:21:02 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20221117152101eucas1p1d77e4839f870beb2cf47cef5e90105c7~oaGjtoIas2136021360eucas1p1r;
+ Thu, 17 Nov 2022 15:21:01 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20221117152101eusmtrp1cbd0ca07ed4d0c83e881abfda0c1828a~oaGjs9VcN1385213852eusmtrp10;
+ Thu, 17 Nov 2022 15:21:01 +0000 (GMT)
+X-AuditID: cbfec7f2-0c9ff70000002559-66-6376515e7250
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id B4.FF.09026.D5156736; Thu, 17
+ Nov 2022 15:21:01 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20221117152101eusmtip18d321e749bd84a97c9dadaf849ab2bcf~oaGjQk4Ns0136501365eusmtip1p;
+ Thu, 17 Nov 2022 15:21:01 +0000 (GMT)
+Received: from localhost (106.210.248.19) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 17 Nov 2022 15:21:00 +0000
+Date: Thu, 17 Nov 2022 16:20:59 +0100
+From: Joel Granados <j.granados@samsung.com>
+To: Klaus Jensen <its@irrelevant.dk>
+CC: <qemu-block@nongnu.org>, <qemu-devel@nongnu.org>, <k.jensen@samsung.com>
+Subject: Re: [PATCH v3 2/2] nvme: Add physical writes/reads from OCP log
+Message-ID: <20221117152059.lwqf5ctjlfhndtu3@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg="pgp-sha512";
+ protocol="application/pgp-signature"; boundary="p5mjc5xuadc4ujwt"
+Content-Disposition: inline
+In-Reply-To: <Y3XjJiE87sp1hy7f@cormorant.local>
+X-Originating-IP: [106.210.248.19]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA2WSWUwTURSGc2em7dBYMh1QTlojWusSRMCoEUWNRh+QKOoDwWhEa5kAQlvS
+ UkTjggvWVCGoaKFqhFLAaATBDffQYCtSwF02g0txKa5sxqAow9Vo4tt3vvOf3HOSS5NsqUBG
+ J2nTOL1WlaIQiqlLzm+NU+NWpqvDThXT4bdq+gXh1o8mYbgru5paQEY2VjeJIj1PzhMriNXi
+ ufFcSlI6pw+dv16c2D9wmUp9ODOjJbeAyERXg8zIhwZmBhTnt4vMSEyzzCkE7/ObCVz0IqgY
+ uC7ARQ+C3vvnhH9GHuU8I3GjDEHf2y4B3xhOldQlYL6AoCUbeKaYCfCi9gDFs5AJhqb37STP
+ /owSOgdvDHuSWQo17q5h78dEwo9bfUOepiXMLOgzRfFawkihrsDzO54BrXf4OD3EcigbpHnt
+ w4RC234TgddUwOtKiwDzNjjrdIswP6fBlaXGvBg+Oq8gzH7gdV34nRkN9YfxxsAkw5W8qyTm
+ VLDWHRHyzwITATnuFKwXQtFeiwhrX2j+IMVL+sKhSxYSawns28vi9ESo3nUR5aLx1n/Osv5z
+ lvXvWVgHQ+G1buF/egqUFvFpnudBefknqhCJTqMAzmjQJHCGaVpuU4hBpTEYtQkhap2mCg19
+ n/pBV3c1OuH9EuJABI0cSDk0/PLcmXtIRml1Wk7hL9HcN6pZSbxq8xZOr1unN6ZwBgeS05Qi
+ QCLMD1KzTIIqjUvmuFRO/6dL0D6yTIIa++LkjUDPpOVNt+1SYtb3npjcrwdbD9uV47tLxOm5
+ zlGPtnU5ApNKlKKKPQNek3nfl+zYzySryusI61SPdI+ojI6w2B7Ij9lybvZHx7Sw3lZ779hl
+ 3MYC/555xW/Q06P3wk/QlRWP37kLR5qm21yWEa889rdRW7tqtnSUT9/anNU2uCPSNnmRRif/
+ vkpVN7fCaC+bMC4uShprjk0L9s0abYtYs6j2Q2dG/UTW1vFG1+fffTfpU86Mtpbj4+StSLNk
+ 86SdfvGHVh2NUu92zk5s2G2QBW5oL8qMqbqdl/l6jqNB6vHaVpZulzT8lJkDE9daD6Talc39
+ IT/HhGrZ6LO1CsqQqJoWROoNql9jO2N3uQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRmVeSWpSXmKPExsVy+t/xu7qxgWXJBluvSlnsP/iN1WLWu3Y2
+ i+O9O1gcmD3O7TjP7vHk2mamAKYoPZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsj
+ UyV9O5uU1JzMstQifbsEvYw396+zFlw0rbhx8jVbA+MOrS5GTg4JAROJK313mbsYuTiEBJYy
+ Skxr38MIkZCR+HTlIzuELSzx51oXG4gtJPCRUWLrJzUIewujxOlnzCA2i4CqxMMjPSwgNpuA
+ jsT5N3fA4iICKhJP/+0FizML+EgcPPMaLC4s4CHxd/9XoDgHB6+AucTXdi+IG14xSlxqaQHb
+ xSsgKHFy5hOo3jKJNQdXsYPUMwtISyz/xwES5hTQl7jd3c4EcaaSxLON01kh7FqJV/d3M05g
+ FJ6FZNIsJJNmIUyCCGtJ3Pj3kglDWFti2cLXzBC2rcS6de9ZFjCyr2IUSS0tzk3PLTbSK07M
+ LS7NS9dLzs/dxAiMxG3Hfm7Zwbjy1Ue9Q4xMHIyHGFWAOh9tWH2BUYolLz8vVUmEN/diabIQ
+ b0piZVVqUX58UWlOavEhRlNgIE5klhJNzgemiLySeEMzA1NDEzNLA1NLM2MlcV7Pgo5EIYH0
+ xJLU7NTUgtQimD4mDk6pBib90swXNSf41O6u2s1vaXTjqZbthjdSMpM3ed6v3NfZGPWX47C5
+ nF/37uV+MsfnH3XTun8pqWmayDWVbxtFSg23+jecyytN6+9UCXwsrNu1nWOn4bn6yk7b58mV
+ +x/1St2eWalR9nHZLIuVCw+55x/64ijXcDuCuzhb+6ar9wcmXbFpGxnDxLicDga1yLwyWnBf
+ 5d4+zopXsR4ej+7kNi3ni1dqWT5RtvavVyzDIYfmehe1M5/K90SpG62I21u14Vjc1QdPZhiK
+ m9V9WLS45OUbhwf7L2xKn+L0Ky1K7STn1bkR9ZtP9zZl/BBderrh0zIbhrOKkydv39va9mW5
+ ubYFd0xIx3K5GCb+6MMtdkosxRmJhlrMRcWJAMOUKqBZAwAA
+X-CMS-MailID: 20221117152101eucas1p1d77e4839f870beb2cf47cef5e90105c7
+X-Msg-Generator: CA
+X-RootMTR: 20221116171836eucas1p1dfaeb8826ca901f20ede7567ec2623e3
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221116171836eucas1p1dfaeb8826ca901f20ede7567ec2623e3
+References: <20221116171455.3401086-1-j.granados@samsung.com>
+ <CGME20221116171836eucas1p1dfaeb8826ca901f20ede7567ec2623e3@eucas1p1.samsung.com>
+ <20221116171455.3401086-3-j.granados@samsung.com>
+ <Y3XjJiE87sp1hy7f@cormorant.local>
+Received-SPF: pass client-ip=210.118.77.12;
+ envelope-from=j.granados@samsung.com; helo=mailout2.w1.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,76 +134,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
+--p5mjc5xuadc4ujwt
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
-target is failing due to following build warnings:
+On Thu, Nov 17, 2022 at 08:30:46AM +0100, Klaus Jensen wrote:
+> On Nov 16 18:14, Joel Granados wrote:
+> > In order to evaluate write amplification factor (WAF) within the storage
+> > stack it is important to know the number of bytes written to the
+> > controller. The existing SMART log value of Data Units Written is too
+> > coarse (given in units of 500 Kb) and so we add the SMART health
+> > information extended from the OCP specification (given in units of byte=
+s)
+> >=20
+> > We add a controller argument (ocp) that toggles on/off the SMART log
+> > extended structure.  To accommodate different vendor specific specifica=
+tions
+> > like OCP, we add a multiplexing function (nvme_vendor_specific_log) whi=
+ch
+> > will route to the different log functions based on arguments and log id=
+s.
+> > We only return the OCP extended SMART log when the command is 0xC0 and =
+ocp
+> > has been turned on in the args.
+> >=20
+> > Though we add the whole nvme SMART log extended structure, we only popu=
+late
+> > the physical_media_units_{read,written}, log_page_version and
+> > log_page_uuid.
+> >=20
+> > Signed-off-by: Joel Granados <j.granados@samsung.com>
+> > ---
+> >  docs/system/devices/nvme.rst |  7 +++++
+> >  hw/nvme/ctrl.c               | 55 ++++++++++++++++++++++++++++++++++++
+> >  hw/nvme/nvme.h               |  1 +
+> >  include/block/nvme.h         | 36 +++++++++++++++++++++++
+> >  4 files changed, 99 insertions(+)
+> >=20
+> > diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
+> > index 30f841ef62..1cc5e52c00 100644
+> > --- a/docs/system/devices/nvme.rst
+> > +++ b/docs/system/devices/nvme.rst
+> > @@ -53,6 +53,13 @@ parameters.
+> >    Vendor ID. Set this to ``on`` to revert to the unallocated Intel ID
+> >    previously used.
+> > =20
+> > +``ocp`` (default: ``off``)
+> > +  The Open Compute Project defines the Datacenter NVMe SSD Specificati=
+on that
+> > +  sits on top of NVMe. It describes additional commands and NVMe behav=
+iors
+> > +  specific for the Datacenter. When this option is ``on`` OCP features=
+ such as
+> > +  the SMART / Health information extended log become available in the
+> > +  controller.
+> > +
+> >  Additional Namespaces
+> >  ---------------------
+> > =20
+> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> > index bf291f7ffe..c7215a4ed1 100644
+> > --- a/hw/nvme/ctrl.c
+> > +++ b/hw/nvme/ctrl.c
+> > @@ -4455,6 +4455,41 @@ static void nvme_set_blk_stats(NvmeNamespace *ns=
+, struct nvme_stats *stats)
+> >      stats->write_commands +=3D s->nr_ops[BLOCK_ACCT_WRITE];
+> >  }
+> > =20
+> > +static uint16_t nvme_ocp_extended_smart_info(NvmeCtrl *n, uint8_t rae,
+> > +                                             uint32_t buf_len, uint64_=
+t off,
+> > +                                             NvmeRequest *req)
+> > +{
+> > +    NvmeNamespace *ns =3D NULL;
+> > +    NvmeSmartLogExtended smart_l =3D { 0 };
+> > +    struct nvme_stats stats =3D { 0 };
+> > +    uint32_t trans_len;
+> > +
+> > +    if (off >=3D sizeof(smart_l)) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +
+> > +    /* accumulate all stats from all namespaces */
+> > +    for (int i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
+> > +        ns =3D nvme_ns(n, i);
+> > +        if (ns) {
+> > +            nvme_set_blk_stats(ns, &stats);
+> > +        }
+> > +    }
+> > +
+> > +    smart_l.physical_media_units_written[0] =3D cpu_to_le32(stats.unit=
+s_written);
+> > +    smart_l.physical_media_units_read[0] =3D cpu_to_le32(stats.units_r=
+ead);
+>=20
+> These are uint64s, so should be cpu_to_le64().
+Good catch
 
-<snip>
- ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
- 7018 | static void ppc_restore_state_to_opc(CPUState *cs,
-<snip>
+>=20
+> > +    smart_l.log_page_version =3D 0x0003;
+> > +    smart_l.log_page_uuid[0] =3D 0xA4F2BFEA2810AFC5;
+> > +    smart_l.log_page_uuid[1] =3D 0xAFD514C97C6F4F9C;
+>=20
+> Technically the field is called the "Log Page GUID", not the UUID.
+Yep, that was all me. My brain just automatically completed UUID. Sorry
+about that.
+> Perhaps this is a bit of Microsoft leaking in, or it is to differentiate
+> it from the UUID Index functionality, who knows.
+>=20
+> It looks like you byte swapped the two 64 bit parts, but not the
+> individual bytes. It's super confusing when the spec just says "shall be
+Individual bytes are also swapped. I actually tested this with nvme cli
+and it successfully checks these 128 bytes. I got inspired by nvme-cli
+(plugins/ocp/ocp-nvme.c) where the opc number appears.
 
-Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
-they are only defined if qemu is compiled with '--enable-tcg'
+> set to VALUE". Is that VALUE already in little endian? Sigh.
+The spec says "All values in logs shall be little endian format". Which
+still does not say if the value that appears in the pdf is in little or
+big endian. Yes a bit confusing, see my final comment
 
-Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
-Fixes: 61bd1d2942 ("target/ppc: Convert to tcg_ops restore_state_to_opc")
-Fixes: 670f1da374 ("target/ppc: Implement hashst and hashchk")
-Fixes: 53ae2aeb94 ("target/ppc: Implement hashstp and hashchkp")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1319
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
-Message-Id: <20221116131743.658708-1-vaibhav@linux.ibm.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/cpu_init.c    | 2 ++
- target/ppc/excp_helper.c | 2 ++
- 2 files changed, 4 insertions(+)
+>=20
+> Anyway, I think it is fair to assume that, so just make
+> log_page_uuid/guid a uint8_t 16-array and do something like:
+>=20
+> 	static const uint8_t uuid[16] =3D {
+> 		0xAF, 0xD5, 0x14, 0xC9, 0x7C, 0x6F, 0x4F, 0x9C,
+> 		0xA4, 0xF2, 0xBF, 0xEA, 0x28, 0x10, 0xAF, 0xC5,
+> 	};
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 32e94153d1..cbf0081374 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
-     return cpu->env.nip;
- }
- 
-+#ifdef CONFIG_TCG
- static void ppc_restore_state_to_opc(CPUState *cs,
-                                      const TranslationBlock *tb,
-                                      const uint64_t *data)
-@@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
- 
-     cpu->env.nip = data[0];
- }
-+#endif /* CONFIG_TCG */
- 
- static bool ppc_cpu_has_work(CPUState *cs)
- {
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a05a2ed595..94adcb766b 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
- #endif
- #endif
- 
-+#ifdef CONFIG_TCG
- static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
- {
-     const uint16_t c = 0xfffc;
-@@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
- HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
- HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
- HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-+#endif /* CONFIG_TCG */
- 
- #if !defined(CONFIG_USER_ONLY)
- 
--- 
-2.38.1
+If I use this order the nvme-cli command will fail.
+The order should be this one to be consistent with nvme-cli:
 
+{
+0xC5, 0xAF, 0x10, 0x28, 0xEA, 0xBF, 0xF2, 0xA4,
+0x9C, 0x4F, 0x6F, 0x7C, 0xC9, 0x14, 0xD5, 0xAF
+}
+
+This means that nvme-cli interpreted the value that appeared on the spec
+pdf as big endian and then changed it to little endian following the
+spec. Another thing that could have been done is to interpret what appears =
+in
+the PDF as little endian just push it through without swapping it.
+Is there something in the spec that can give clarity as to what endianess
+the values in the pdf should be by default?
+
+I see two options here:
+1. We go with the interpretation of nvme-cli (big endian in pdf, little
+   endian in code)
+2. or we change nvme-cli (little endian in pdf, little endian in code)
+
+What do you think?
+
+
+>=20
+> 	memcpy(smart_l.log_page_guid, uuid, sizeof(smart_l.log_page_guid));
+
+
+
+--p5mjc5xuadc4ujwt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmN2UVgACgkQupfNUreW
+QU/aBAv/TfjOFTRvnCNB1LHT8WwtUdheTy3ROOtMM+vPGgonGPMWU2sPmPERUDgy
+oRxkfD6/2XeQ4zQEr7t/FzIkc8S70hakcrP5lE1FW2fRL0otTJdrJ8WzEE5drlsz
+0FdZqDxaN//ATxHaWYiutrsNiz+U8A3e11Se5EiZio3Z+xXCj5KbFL25hr6M2q1Y
+8BND9C/klAqbBhMsqc3paKQYZR9rJ8U5+U9WbP5BqEiURNRZxMzJee/IT+AxBI+0
+SiNbfdwFqEBvYL9Ypn6UQI60fR+pdG7QCF4FhtCBd0PeNPHu5uEeeKSd82akZG3B
+XZAjdtKVYx6di3ZMOlcGKdNn81JoYI4ibvFmoddGBIx4sKu62AZXCak3HsTC6SNt
+NYtCm5uMkPnYPX14oEo2/vexeA3RuexEVgxFHaB9GHXIf8D0N24PEKIvqz9n1gxt
+F/7Ccm57Y1UfoKXDkJX7xU6XvCEZZUkr9nUEBg8P/lG5mRrcN1fDhZBAZQMtLqLL
+fZ7S2xNI
+=l5xR
+-----END PGP SIGNATURE-----
+
+--p5mjc5xuadc4ujwt--
 
