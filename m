@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF26262DFCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 16:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FB862DFEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 16:33:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovgnR-0004o0-Gy; Thu, 17 Nov 2022 10:27:21 -0500
+	id 1ovgsW-0008Kg-Ma; Thu, 17 Nov 2022 10:32:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1ovgnO-0004nh-2b
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 10:27:18 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ovgsT-0008GO-MZ; Thu, 17 Nov 2022 10:32:33 -0500
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1ovgnM-0006yO-Cr
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 10:27:17 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D6AE3227B1;
- Thu, 17 Nov 2022 15:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1668698832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yiQ+jJbzCLMGT3lkua+Xlj6uV79txTYfKoDg0mk3yEw=;
- b=FNBKjqvR01fs2OKBXqG6V67Avir+sG+8soB0MpJAZ0vWiXdbUURcXh40KHz/viVP3rItP5
- 0DaZdlqM9JzZzHndsQb/BlQimS7hKHa7hxopK4/vzPJ1ARt1mzxnVD7kIeTBtQjEmdILZP
- FmFUmS7+0Gv8W1+we1DFisCw9gJZ1x8=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92E4F13A12;
- Thu, 17 Nov 2022 15:27:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ujOxIdBSdmPaIwAAMHmgww
- (envelope-from <dfaggioli@suse.com>); Thu, 17 Nov 2022 15:27:12 +0000
-Subject: [PATCH] pc: q35: Bump max_cpus to 1024
-From: Dario Faggioli <dfaggioli@suse.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ovgsP-0008IJ-Ir; Thu, 17 Nov 2022 10:32:30 -0500
+Received: by mail-oi1-x232.google.com with SMTP id v81so2228212oie.5;
+ Thu, 17 Nov 2022 07:32:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=aNqpua9R0OBNt+rcCWjGPp8woJ9ev2EZpj/FO2ZChaQ=;
+ b=mWe/iJLDF2p03AAPRJozuOHUsHLp4JDfEklZ6LtnwL+EAryOVuu3A6oq2rstGm6X4d
+ TrcsBVnSBIbADoQHBfneu2llEjrMe0IgrUXgxqqhOefOnf68f0fy1TuaruPApxqIzUTZ
+ uwByAa6ToYmh+/xtGb7mYpffBJSUPa8GgYUAYMoHYXjQS0LVFD2Ii5NHZfln17RN42EG
+ 1QQpn0VB/bPmuBq+JRIc+c4OqGcdsU2QkrCNWYG9I44Qf1LWNax5IMLaCuZANng7iFRb
+ gDoGhiJb222coO3nzf+ScgEPUeSRrYxF4AaWRIhXtagwj51UQ4F5Vd4qnZ9o6zhvhaLY
+ n+pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aNqpua9R0OBNt+rcCWjGPp8woJ9ev2EZpj/FO2ZChaQ=;
+ b=zZy3LgTX80LD6jtoUB/AiuNlCc8WdjqTLVhHoetjHL0h2Yn+haWZg8Kt8xFr1JNym7
+ q6RMZWIn7Yu8qy6ax0Ux2jIT7ADtpFoy7nK3muahOTEEiKaC6agreVKTXyBp9++6T05w
+ dn9/9TpA+AXnRvjHB4Rd/DxPfjpNWdBURhAHMaZJ5jAcX8xM65yrWNbKCeWoR/oQmZNt
+ kT32d59F7COFn0tMF6x3nzUbKHI9UQNk4UEyFq6ZlMADHfkSQub/kPKtljfV3WrFM49u
+ ya2KKr2xRS/XZt6aK+TQfluwsxUIoxbtuxEdE6FL3/HrMHzgp4glXd9ZlC0ATx+5dKIx
+ KAvw==
+X-Gm-Message-State: ANoB5plyNvpoi7fPYFLvddzZt0T19BId3qEZDH809fc9VD5gWJOFD7JQ
+ Yv6MVL/tpEhX5u/Eu6+VMNuG/Of5WWk=
+X-Google-Smtp-Source: AA0mqf69OAnYuye18DDwqBo9wwgRClbOQzDSUSKUkyZq4c8dlwQm+8wMs5TnjqodrZfD0mp5ikMPIQ==
+X-Received: by 2002:aca:6546:0:b0:35a:2d32:8442 with SMTP id
+ j6-20020aca6546000000b0035a2d328442mr4343013oiw.88.1668699147566; 
+ Thu, 17 Nov 2022 07:32:27 -0800 (PST)
+Received: from balboa.ibmuc.com ([177.139.31.146])
+ by smtp.gmail.com with ESMTPSA id
+ bd32-20020a056870d7a000b0013d6d924995sm548850oab.19.2022.11.17.07.32.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 07:32:27 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Thu, 17 Nov 2022 16:27:11 +0100
-Message-ID: <166869883160.17656.1212026522016331235.stgit@tumbleweed.Wayrath>
-User-Agent: StGit/1.5
+Cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH for-8.0] MAINTAINERS: downgrade PPC KVM/TCG CPUs and pSeries
+ to 'Odd Fixes'
+Date: Thu, 17 Nov 2022 12:32:18 -0300
+Message-Id: <20221117153218.182835-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=dfaggioli@suse.com;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,52 +89,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Keep the old limit of 288 for machine versions 7.2 and earlier.
+The maintainer is no longer being paid to maintain these components. All
+maintainership work is being done in his personal time since the middle
+of the 7.2 development cycle.
 
-Signed-off-by: Dario Faggioli <dfaggioli@suse.com>
+Change the status of PPC KVM CPUs, PPC TCG CPUs and the pSeries machine
+to 'Odd Fixes', reflecting that the maintainer no longer has exclusive
+time to dedicate to them. It'll also (hopefully) keep expectations under
+check when/if these components are used in a customer product.
+
+Cc: Cédric Le Goater <clg@kaod.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Greg Kurz <groug@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
----
-This is related to:
+ MAINTAINERS | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-https://lore.kernel.org/qemu-devel/c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com/
-
-With this applied to QEMU, I've been able to start a VM with as high as
-980 vCPUs (even if I was on an host with 384 pCPUs, so everything was
-super slow!). After that, I started to see messages like this:
-
-"SMBIOS 2.1 table length 66822 exceeds 65535"
-
-Thanks and Regards
----
- hw/i386/pc_q35.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index a496bd6e74..d2a567a71f 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -367,7 +367,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
--    m->max_cpus = 288;
-+    m->max_cpus = 1024;
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index be151f0024..1d43153e5f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -264,7 +264,7 @@ R: Cédric Le Goater <clg@kaod.org>
+ R: David Gibson <david@gibson.dropbear.id.au>
+ R: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+-S: Maintained
++S: Odd Fixes
+ F: target/ppc/
+ F: hw/ppc/ppc.c
+ F: hw/ppc/ppc_booke.c
+@@ -389,7 +389,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
+ R: Cédric Le Goater <clg@kaod.org>
+ R: David Gibson <david@gibson.dropbear.id.au>
+ R: Greg Kurz <groug@kaod.org>
+-S: Maintained
++S: Odd Fixes
+ F: target/ppc/kvm.c
  
- static void pc_q35_7_2_machine_options(MachineClass *m)
-@@ -386,6 +386,7 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_7_2_machine_options(m);
-     m->alias = NULL;
-+    m->max_cpus = 288;
-     pcmc->legacy_no_rng_seed = true;
-     compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-     compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
-
+ S390 KVM CPUs
+@@ -1367,7 +1367,7 @@ R: Cédric Le Goater <clg@kaod.org>
+ R: David Gibson <david@gibson.dropbear.id.au>
+ R: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+-S: Maintained
++S: Odd Fixes
+ F: hw/*/spapr*
+ F: include/hw/*/spapr*
+ F: hw/*/xics*
+-- 
+2.38.1
 
 
