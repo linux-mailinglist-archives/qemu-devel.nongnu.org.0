@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7F062DC4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF9162DCB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:27:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oved6-0003N5-UB; Thu, 17 Nov 2022 08:08:32 -0500
+	id 1ovetU-0007BN-VQ; Thu, 17 Nov 2022 08:25:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovecn-0003Jq-2J
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:08:13 -0500
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ovetI-0007Aw-Qw
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:25:18 -0500
+Received: from mga14.intel.com ([192.55.52.115])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovecj-0003QD-PG
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:08:12 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.26])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D50DA232C0;
- Thu, 17 Nov 2022 13:08:05 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 17 Nov
- 2022 14:08:04 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002b979bdd4-0e91-4ab4-9fd0-0a5eeb2a3b6e,
- AE5717285A2AC47C671D2CB192D1CF6730B7D7F3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <aefa494a-cc63-aa77-9716-15b1ae74e9bb@kaod.org>
-Date: Thu, 17 Nov 2022 14:08:04 +0100
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ovetE-0007By-Uf
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:25:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668691512; x=1700227512;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=5axGlSLhPtmuHt4PaXeWSd8Q7yJdQcmlwNx/L+JedqY=;
+ b=TW5qsVFzxzDnAA6BRMsCOZQv6ieA67rMUDDyDmYBFBS4IKB8UeS6S4Cw
+ T25ZJj+0pNllCAJ3e3TiLCENAIQgpHXIiNgpa59zGISKheNxmFZX9PvPB
+ 6jehqGlfWs62IUoIcdil++fPMKamXUTugPcmaMfbk5Dm1fl22b7jONG2+
+ //OhMev20h51SHs5LKUJHIfSIrUHr25t2f7tlvyJhsEdmNpqUDNZtZhSJ
+ SBr40SL3kHILOnwbkUyIxZ1ILkkljE01+qM7rgEaTZscwDI66IiXQ/a2k
+ CMvlJIuKpuqaiXoM/8LLWsWBp2XGPMMuyDLj+PgEx6XbV1Hb+2lbVdGQW A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="312861087"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="312861087"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2022 05:25:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="703331041"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="703331041"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2022 05:24:56 -0800
+Date: Thu, 17 Nov 2022 21:20:32 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
+ regions
+Message-ID: <20221117132032.GA422408@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
+ <Y3VjCxCiujCOLP7x@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] target/ppc: Fix build warnings when building with
- 'disable-tcg'
-Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
-CC: Vaibhav Jain <vaibhav@linux.ibm.com>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>, <david@gibson.dropbear.id.au>, Kowshik Jois B S
- <kowsjois@linux.ibm.com>
-References: <20221116131743.658708-1-vaibhav@linux.ibm.com>
- <9b92deef-e0ef-101d-8f7e-2b4634bde6de@gmail.com>
- <20221117115005.4b23a318@bahia>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221117115005.4b23a318@bahia>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 4715a588-61e6-4e20-b570-5bebf389f51b
-X-Ovh-Tracer-Id: 3617797877971651433
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeugfdtteetfefgiefhfefgueduveefieehgfevvdetiedugeeghfehtdehvdffnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhvrghisghhrghvsehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhkohifshhjohhisheslhhinhhugidrihgsmhdrtghomhdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehge
- ekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3VjCxCiujCOLP7x@google.com>
+Received-SPF: none client-ip=192.55.52.115;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,118 +98,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/17/22 11:50, Greg Kurz wrote:
-> On Thu, 17 Nov 2022 07:11:51 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Wed, Nov 16, 2022 at 10:24:11PM +0000, Sean Christopherson wrote:
+> On Tue, Oct 25, 2022, Chao Peng wrote:
+> > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> > +				     bool is_private)
+> > +{
+> > +	gfn_t start, end;
+> > +	unsigned long i;
+> > +	void *entry;
+> > +	int idx;
+> > +	int r = 0;
+> > +
+> > +	if (size == 0 || gpa + size < gpa)
+> > +		return -EINVAL;
+> > +	if (gpa & (PAGE_SIZE - 1) || size & (PAGE_SIZE - 1))
+> > +		return -EINVAL;
+> > +
+> > +	start = gpa >> PAGE_SHIFT;
+> > +	end = (gpa + size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> > +
+> > +	/*
+> > +	 * Guest memory defaults to private, kvm->mem_attr_array only stores
+> > +	 * shared memory.
+> > +	 */
+> > +	entry = is_private ? NULL : xa_mk_value(KVM_MEM_ATTR_SHARED);
+> > +
+> > +	idx = srcu_read_lock(&kvm->srcu);
+> > +	KVM_MMU_LOCK(kvm);
+> > +	kvm_mmu_invalidate_begin(kvm, start, end);
+> > +
+> > +	for (i = start; i < end; i++) {
+> > +		r = xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> > +				    GFP_KERNEL_ACCOUNT));
+> > +		if (r)
+> > +			goto err;
+> > +	}
+> > +
+> > +	kvm_unmap_mem_range(kvm, start, end);
+> > +
+> > +	goto ret;
+> > +err:
+> > +	for (; i > start; i--)
+> > +		xa_erase(&kvm->mem_attr_array, i);
 > 
->> Queued in gitlab.com/danielhb/qemu/tree/ppc-next with the following tags:
->>
-> 
-> You are planning a PR before 7.2-rc2, right ?
-> 
->>
->>       Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
->>       Fixes: 61bd1d2942 ("target/ppc: Convert to tcg_ops restore_state_to_opc")
->>       Fixes: 670f1da374 ("target/ppc: Implement hashst and hashchk")
-> 
-> The guard macro also covers the following two, introduced by yet another commit.
-> 
->    HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
->    HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-> 
-> Fixes: 53ae2aeb9407 ("target/ppc: Implement hashstp and hashchkp")
-> 
->>       Resolves: https://gitlab.com/qemu-project/qemu/-/issues/377
-> 
-> Err... I don't see any relation with this issue.
-> 
-> Cedric ?
+> I don't think deleting previous entries is correct.  To unwind, the correct thing
+> to do is restore the original values.  E.g. if userspace space is mapping a large
+> range as shared, and some of the previous entries were shared, deleting them would
+> incorrectly "convert" those entries to private.
 
-bad copy paste. Sorry about that.
-
-  
-> But this resolves the issue created by Vaibhav for 7.2 :
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1319
-
-yes.
-
-C.
+Ah, right!
 
 > 
->>       Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
->>       Reviewed-by: Greg Kurz <groug@kaod.org>
->>       Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>       Tested-by: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->> On 11/16/22 10:17, Vaibhav Jain wrote:
->>> Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
->>> target is failing due to following build warnings:
->>>
->>> <snip>
->>>    ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
->>>    7018 | static void ppc_restore_state_to_opc(CPUState *cs,
->>> <snip>
->>>
->>> Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
->>> they are only defined if qemu is compiled with '--enable-tcg'
->>>
->>> Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
->>> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
->>> ---
->>>    target/ppc/cpu_init.c    | 2 ++
->>>    target/ppc/excp_helper.c | 2 ++
->>>    2 files changed, 4 insertions(+)
->>>
->>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->>> index 32e94153d1..cbf0081374 100644
->>> --- a/target/ppc/cpu_init.c
->>> +++ b/target/ppc/cpu_init.c
->>> @@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
->>>        return cpu->env.nip;
->>>    }
->>>    
->>> +#ifdef CONFIG_TCG
->>>    static void ppc_restore_state_to_opc(CPUState *cs,
->>>                                         const TranslationBlock *tb,
->>>                                         const uint64_t *data)
->>> @@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
->>>    
->>>        cpu->env.nip = data[0];
->>>    }
->>> +#endif /* CONFIG_TCG */
->>>    
->>>    static bool ppc_cpu_has_work(CPUState *cs)
->>>    {
->>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->>> index a05a2ed595..94adcb766b 100644
->>> --- a/target/ppc/excp_helper.c
->>> +++ b/target/ppc/excp_helper.c
->>> @@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
->>>    #endif
->>>    #endif
->>>    
->>> +#ifdef CONFIG_TCG
->>>    static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
->>>    {
->>>        const uint16_t c = 0xfffc;
->>> @@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
->>>    HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
->>>    HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
->>>    HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
->>> +#endif /* CONFIG_TCG */
->>>    
->>>    #if !defined(CONFIG_USER_ONLY)
->>>    
-> 
+> Tracking the previous state likely isn't the best approach, e.g. it would require
+> speculatively allocating extra memory for a rare condition that is likely going to
+> lead to OOM anyways.
 
+Agree.
+
+> 
+> Instead of trying to unwind, what about updating the ioctl() params such that
+> retrying with the updated addr+size would Just Work?  E.g.
+
+Looks good to me. Thanks!
+
+Chao
+> 
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 55b07aae67cc..f1de592a1a06 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -1015,15 +1015,12 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+>  
+>         kvm_unmap_mem_range(kvm, start, end, attr);
+>  
+> -       goto ret;
+> -err:
+> -       for (; i > start; i--)
+> -               xa_erase(&kvm->mem_attr_array, i);
+> -ret:
+>         kvm_mmu_invalidate_end(kvm, start, end);
+>         KVM_MMU_UNLOCK(kvm);
+>         srcu_read_unlock(&kvm->srcu, idx);
+>  
+> +       <update gpa and size>
+> +
+>         return r;
+>  }
+>  #endif /* CONFIG_KVM_GENERIC_PRIVATE_MEM */
+> @@ -4989,6 +4986,8 @@ static long kvm_vm_ioctl(struct file *filp,
+>  
+>                 r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
+>                                               region.size, set);
+> +               if (copy_to_user(argp, &region, sizeof(region)) && !r)
+> +                       r = -EFAULT
+>                 break;
+>         }
+>  #endif
 
