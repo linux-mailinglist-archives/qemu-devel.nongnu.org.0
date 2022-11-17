@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E231662D2D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 06:38:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4643A62D2D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 06:44:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovXaF-0005gc-Iu; Thu, 17 Nov 2022 00:37:07 -0500
+	id 1ovXgQ-0001Pt-Fr; Thu, 17 Nov 2022 00:43:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ovXa9-0005fa-NZ
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:37:01 -0500
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ovXa7-00072v-TK
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:37:01 -0500
-Received: by mail-qv1-xf36.google.com with SMTP id h10so543630qvq.7
- for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 21:36:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=PNJskpCv5bZH7FJsEWQg4Ok2Mg4NZEtrtXSnwsK7iFg=;
- b=RwaXxBJymzsMH4BU6IC0jKI483hLzpcbTyBcWCGq339LGPH8P1sLHOfe87XC0yszsj
- I8PJT7eEj8+1sL9prdlM4z0hbwCNHM0X6wNoB+X2J+J7Ns3EA9G2xKA22JduS0VNtCWp
- yweASgUia7gyBWejkB6cyb6gqbFjtbSo33lb3dR5GNZ9KSLcnslga/QK4edTGVnwXh70
- cfnFl2WijFUET5I/aPlh1lfzL5qEURa2jzPTopONHYiSNgOMv9WqKDejEIbn2aZvtEzN
- b7GxF56kkmRhFxW6HyU2n/pzVRbyKP4z4sDzYzv0qYRzGqwQDB8YF/MgKhJoHeG4XU96
- Gg1Q==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ovXgO-0001Pj-Nn
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:43:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ovXgM-000863-Vt
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 00:43:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668663805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PBMBfEnnPEN2MZOvERqsCSnzi4edcJDo9R6V1rzv/vQ=;
+ b=XqJnhH2Kp3yTmlsZEI8b0PcwDfjVlp5DiW0GS53lu0nHmoFlOAQRs+c9U0/ov+yzJxJYfr
+ 2nG/z4EV8VsX00PyhWxvDrji6YxldpAVHPXIdwDuYqZS83dHuLxW7DPPQs0/17YG7wJToX
+ IPb5RV7W7S/8A/EAMMnT/BKonzwzJUg=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-442-W1gaa_eMMgGvPFbSYgj9uw-1; Thu, 17 Nov 2022 00:43:23 -0500
+X-MC-Unique: W1gaa_eMMgGvPFbSYgj9uw-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-13cbfc38be2so387111fac.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Nov 2022 21:43:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PNJskpCv5bZH7FJsEWQg4Ok2Mg4NZEtrtXSnwsK7iFg=;
- b=lrhXubiv15+Vpf1W8BOM8VhVR+/e2fXt4SEDZk2clEfouExt83PsLMT/Vqyb+MMiD6
- w03Lqyy/PPCwv5dDZK1WTjN4ndh2RQr8mUs/XXpf9ICrMdMldC68F7rpLjAMzwlretb8
- 94JElr5N9LKxwOcBuYooBsrDXUzn14CAdaajmTYPIf0d6UBCnIZpKL8S8dvLp3PS545M
- qvRWrzc72Xp3z7igHx/TCMNhp7d0uFhfKDFtQFNMEm3yvnL164CZun4k+H8h3JwQoQcW
- YYdPgMiso0UAsPDht2i/+Mti4mo/Rj6399ouF+EBgkFaBbNQ6nj8rXEX2AgpgThVKYZy
- 0ETg==
-X-Gm-Message-State: ANoB5pm+f/7LenTUw5DDVGdMqbwE3Q2kZX0gC9yLSrpHOwrMZTBmeVI9
- Q1bGGaX3P18iP0QceK0KhZ9pyg==
-X-Google-Smtp-Source: AA0mqf5ShAm7t9HHtz7qYe1g4YDE9LcUUU1K+iOJ/S+qS5p13V1FaynjrGxCeksJjCGXQclQizzriw==
-X-Received: by 2002:a0c:f208:0:b0:4b1:ae16:ee41 with SMTP id
- h8-20020a0cf208000000b004b1ae16ee41mr1366133qvk.0.1668663418499; 
- Wed, 16 Nov 2022 21:36:58 -0800 (PST)
-Received: from anisinha-lenovo.apac.nsn-net.net ([131.228.104.90])
- by smtp.googlemail.com with ESMTPSA id
- de43-20020a05620a372b00b006fbb4b98a25sm1708299qkb.109.2022.11.16.21.36.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 21:36:58 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v5] acpi/tests/avocado/bits: some misc fixes
-Date: Thu, 17 Nov 2022 11:06:44 +0530
-Message-Id: <20221117053644.516649-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.34.1
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PBMBfEnnPEN2MZOvERqsCSnzi4edcJDo9R6V1rzv/vQ=;
+ b=zLeGvH4vgoKuUosddcnfU3whFYUzW6pp4JhQCgFWZQhrLV84jovbfGnr+ES02uBZ5t
+ MEi+XzOZygr5qAxhCGFLOHyQZ7l6qAw2e578A3V7mlzyZLZsJxfmWp3sWCfRb1QN8L4w
+ Y0sXUvpRksZ68p12onCVEp9npsDo28tyXof53QSNIbDwIlh1qu2fCKqIFJo0sZuCOg4q
+ LoWGTQEAnpMym1bjfdr/jxwOQtkq1AldDsq7qs/Pm29QWi46qnsvh0C17LJNtG66bPqS
+ fYcaRtC7XbDY19ydlNiXRq4ImZkSNGkXqbR0k5RHLd+zFEZxFoVwx0beNKWZnogRqJtv
+ AIqw==
+X-Gm-Message-State: ANoB5pmHYn1mqtAvO6b/WEf+eEULuZW6abEhwixfGweNSusG+nEZbOdB
+ levZfwunfQrSEkuTDwQCKbPefh4T77MQcoSQfBrG++sjz+DH7NnWi0fHArxxzVLKuSqbMjLTMsB
+ jwMauhjl1wUiz+ZSZcQSzUBcAYET2/wk=
+X-Received: by 2002:a4a:b145:0:b0:49f:449a:5f6c with SMTP id
+ e5-20020a4ab145000000b0049f449a5f6cmr651051ooo.93.1668663803179; 
+ Wed, 16 Nov 2022 21:43:23 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4aIyM6TQSblqvB9prdwXIJgcHUZgakb0mFfB8niYk1S+XlF3oniGqAO2+JrimF9hW+GatROlPxinUOMcF7NN0=
+X-Received: by 2002:a4a:b145:0:b0:49f:449a:5f6c with SMTP id
+ e5-20020a4ab145000000b0049f449a5f6cmr651042ooo.93.1668663802991; Wed, 16 Nov
+ 2022 21:43:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::f36;
- envelope-from=ani@anisinha.ca; helo=mail-qv1-xf36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221116150556.1294049-1-eperezma@redhat.com>
+ <20221116150556.1294049-2-eperezma@redhat.com>
+In-Reply-To: <20221116150556.1294049-2-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 17 Nov 2022 13:43:11 +0800
+Message-ID: <CACGkMEtJ4aWS4J-5nrOzMLxDqZHUT0rb3qnjVJuN-TXZDebYSQ@mail.gmail.com>
+Subject: Re: [PATCH for 8.0 v7 01/10] vdpa: Use v->shadow_vqs_enabled in
+ vhost_vdpa_svqs_start & stop
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Parav Pandit <parav@mellanox.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,74 +104,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Most of the changes are trivial. The bits test timeout has now been increased
-to 200 seconds in order to accommodate slower systems and fewer unnecessary
-failures. Removed of the reference to non-existent README file in docs. Some
-minor corrections in the doc file.
+On Wed, Nov 16, 2022 at 11:06 PM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
+>
+> This function used to trust in v->shadow_vqs !=3D NULL to know if it must
+> start svq or not.
+>
+> This is not going to be valid anymore, as qemu is going to allocate svq
+> unconditionally (but it will only start them conditionally).
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-CC: Thomas Huth <thuth@redhat.com>
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC: qemu-trivial@nongnu.org
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
- docs/devel/acpi-bits.rst   | 12 ++++--------
- tests/avocado/acpi-bits.py |  3 +++
- 2 files changed, 7 insertions(+), 8 deletions(-)
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-changes from v1: address Thomas' suggestions.
-changes from v2: more minor corrections in doc, tags added.
-changes from v3: raised timeout to 200 secs overriding the default
-avocado timeout of 120 secs.
-changes from v4: rebased to adjust for changes from john's patch 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg921975.html
+Thanks
 
-diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-index c9564d871a..56e76338c3 100644
---- a/docs/devel/acpi-bits.rst
-+++ b/docs/devel/acpi-bits.rst
-@@ -16,11 +16,8 @@ end user. The other is that we have more control of what we wanted to test
- and how by directly using acpica interpreter on top of the bios on a running
- system. More details on the inspiration for developing biosbits and its real
- life uses can be found in [#a]_ and [#b]_.
--This directory contains tests written in python using avocado framework that
--exercises the QEMU bios components using biosbits and reports test failures.
- For QEMU, we maintain a fork of bios bits in gitlab along with all the
--dependent submodules:
--https://gitlab.com/qemu-project/biosbits-bits
-+dependent submodules here: https://gitlab.com/qemu-project/biosbits-bits
- This fork contains numerous fixes, a newer acpica and changes specific to
- running this avocado QEMU tests using bits. The author of this document
- is the sole maintainer of the QEMU fork of bios bits repo.
-@@ -38,10 +35,9 @@ Under ``tests/avocado/`` as the root we have:
-    │ ├── bits-config
-    │ │ └── bits-cfg.txt
-    │ ├── bits-tests
--   │ │ ├── smbios.py2
--   │ │ ├── testacpi.py2
--   │ │ └── testcpuid.py2
--   │ └── README
-+   │   ├── smbios.py2
-+   │   ├── testacpi.py2
-+   │   └── testcpuid.py2
-    ├── acpi-bits.py
- 
- * ``tests/avocado``:
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index dd1f238ae2..ec2261893d 100644
---- a/tests/avocado/acpi-bits.py
-+++ b/tests/avocado/acpi-bits.py
-@@ -134,6 +134,9 @@ class AcpiBitsTest(QemuBaseTest): #pylint: disable=too-many-instance-attributes
-     :avocado: tags=acpi
- 
-     """
-+    # in slower systems the test can take as long as 3 minutes to complete.
-+    timeout = 200
-+
-     def __init__(self, *args, **kwargs):
-         super().__init__(*args, **kwargs)
-         self._vm = None
--- 
-2.34.1
+> ---
+>  hw/virtio/vhost-vdpa.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 7468e44b87..7f0ff4df5b 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -1029,7 +1029,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev =
+*dev)
+>      Error *err =3D NULL;
+>      unsigned i;
+>
+> -    if (!v->shadow_vqs) {
+> +    if (!v->shadow_vqs_enabled) {
+>          return true;
+>      }
+>
+> @@ -1082,7 +1082,7 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *=
+dev)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+>
+> -    if (!v->shadow_vqs) {
+> +    if (!v->shadow_vqs_enabled) {
+>          return;
+>      }
+>
+> --
+> 2.31.1
+>
 
 
