@@ -2,106 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797D962E3F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 19:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602DB62E512
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 20:13:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovjTL-0008GV-3l; Thu, 17 Nov 2022 13:18:47 -0500
+	id 1ovkJG-0002ey-12; Thu, 17 Nov 2022 14:12:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ovjTI-0008FO-2d
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 13:18:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ovjTA-000800-PJ
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 13:18:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668709115;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CK9ZEL6gspyOFTlYS+fvuT9NHJXGygSGWOvlvqgzk98=;
- b=FMYbpjnFC3Shf1vc4iY7c532lsWdUWGfqBZrSYhgcfEz8xMrUOXcfxNHiwFwxp8kM9IsmR
- Dx0S5RyF2cz5x37roRv7ZE9wnX26RHJsu/LJZH5Zu1SukDUzIrBdZM64yf3RKqa+jYvkgh
- wN/K+AdBcV+bkuxHOD/BcXljLzKTMyM=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-352-edTcUtAuMkWwkbWOVByP6g-1; Thu, 17 Nov 2022 13:18:32 -0500
-X-MC-Unique: edTcUtAuMkWwkbWOVByP6g-1
-Received: by mail-il1-f198.google.com with SMTP id
- q10-20020a056e0220ea00b00300f474693aso1732027ilv.23
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 10:18:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ovkJE-0002aH-3U
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 14:12:24 -0500
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ovkJC-00012t-0L
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 14:12:23 -0500
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-369426664f9so28041687b3.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 11:12:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G0pgX3cCJhuBnabOubGseMWW6vchW4TCs1JSFdIOawY=;
+ b=JAfrCFANPmOlmsWej1xZquvczB3Gv52oBLB2jaqH+hhSWizY/TjXQS1RLROu7JUG23
+ HKdH+grv7sToQUMpXvH7lnxbSOEQfL8qSUYxbdcARHLC1XL0I3mh2l4OlrG5IfV043B4
+ BGMPY4naN9lgBdu+do1l/9/SkjKyrg8RCb8feF0KSvqSAyRzx0hwCqwx7Kgdg1WkaFqZ
+ Mki4kQnCAhzTfPwHt7ziPVHqKVSVIPcQQSFy9h8vPDcatWoJ+7ygauOBdALiz7+w7hML
+ NpH8ycDF5wESouw+ZIRdmBAvhvTlJMoAaExykwTAa+kwnpu89Ybiqabs7jX8J5tGq+Dt
+ 6GGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CK9ZEL6gspyOFTlYS+fvuT9NHJXGygSGWOvlvqgzk98=;
- b=jEmtx9XKZwHbzsP1uOXf91GI4Ac5PskBuHLlU/zgwm+WJA9lk8y3dROUqgadjrKNeP
- Hmoi3xh2+Plv8Wr0phQSV2rzVq+b6vDaRZfgoi2ObT42ulwxP+qPr2HETMzHRKQLGcR7
- HYnZwzdgAI5gVnCnohQiUmCS+13nz3d6SiWZasaf6PlwCLmM7soKRJODT5hlTHoHGEGm
- Wi0VkSXv2WH5MmBlkyT9GqYgwO125SDcs8/7SEQtHiW0am/ssINkp+rK/IGFdPccmQ0R
- jLhQAdQH3q0HAycGS7kdDuWhgQRJAU7vF+UnCvSKs/9EK9+aGW1YvZwF2M/exMgc67zB
- YWeg==
-X-Gm-Message-State: ANoB5pmBqihcb0ZA99pCbXAh24cYs8EEROOuzAsu3qYgPnVF+fEL3XEV
- 3SUfTHPKJMT7y3VRWPqAhEkr0jX9tdMqaXfiYFihz/HS43NURucmySa+Jp6HMCufxepvbOtvrac
- RC+0yCO+jLYGK42M=
-X-Received: by 2002:a5e:d70a:0:b0:6bf:e736:22a with SMTP id
- v10-20020a5ed70a000000b006bfe736022amr1851382iom.94.1668709111312; 
- Thu, 17 Nov 2022 10:18:31 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6TAXZYaKGbV1LiJQE1RlyM7JsHx0iU/s1G2sl+n6/1HQUN/mSW5kT0tMJU2PFrGs3yfH2o7Q==
-X-Received: by 2002:a5e:d70a:0:b0:6bf:e736:22a with SMTP id
- v10-20020a5ed70a000000b006bfe736022amr1851342iom.94.1668709111076; 
- Thu, 17 Nov 2022 10:18:31 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- i9-20020a056e021d0900b002f9537986f3sm545327ila.24.2022.11.17.10.18.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 10:18:30 -0800 (PST)
-Date: Thu, 17 Nov 2022 11:18:28 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng
- <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
- <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org, Kunkun
- Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor
- Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 14/17] vfio/migration: Reset device if setting
- recover state fails
-Message-ID: <20221117111828.4b5641fc.alex.williamson@redhat.com>
-In-Reply-To: <2904a876-72c2-45d2-16a4-5a9733b432a7@nvidia.com>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-15-avihaih@nvidia.com>
- <20221116113651.0bdcfea1.alex.williamson@redhat.com>
- <2904a876-72c2-45d2-16a4-5a9733b432a7@nvidia.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ bh=G0pgX3cCJhuBnabOubGseMWW6vchW4TCs1JSFdIOawY=;
+ b=t2cODiaFJ5xzzeapX5LqRHYAJjeIL8m3eG0k2nDA6OfkgpKLLJMPnKuisazZs2eQhp
+ PpZUpeC2ptOLKH+S0mDTdkneJDyAHiXDhEsE9oWZnI4z2kK7Bj1xGvIO9FWz19uPUa4q
+ rV1K5E8j2akVtYpezUBcuTncbxzy9FKmqYgGFRGv7IfFiU8+noHeIH058B/CGik6gcEt
+ Gv+yyczh4B1I9Y9Ry8MQlGIHLRrTo3jixoeo4l6rbwGVKpmIhMnUPH5usRT9LvyW8lQt
+ dXAm7RMaVG7aKblu2EYbZh88gRgERJ9wfYkEwfHNj6B9zHC9PkyGrBK/awT1EYQrhgxa
+ mSTw==
+X-Gm-Message-State: ANoB5pnQ1jgG2YazILfPm13XXWnLVN9lvUr6jNrA+dCKp3LJtu6OS9bK
+ UOWv+V64RFGG77Be0H/i1sBbbs5Kdjc7HrFDkow=
+X-Google-Smtp-Source: AA0mqf7bJTWv01JZcLUWk0BkL2gOKfhFP4SmNkNjBeDVmgH9f5XXFBvNbRRyyep5ULAYpsT3fQ1JjurRukCge4mNnSk=
+X-Received: by 2002:a81:5309:0:b0:38f:80d5:f22d with SMTP id
+ h9-20020a815309000000b0038f80d5f22dmr3451199ywb.296.1668712340926; Thu, 17
+ Nov 2022 11:12:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221117064444.20648-1-faithilikerun@gmail.com>
+ <CAAAx-8JHmxe=9GuoZ+T1yqtLrrzk+-6_HL5EJ6LBJ+twOKp8sA@mail.gmail.com>
+In-Reply-To: <CAAAx-8JHmxe=9GuoZ+T1yqtLrrzk+-6_HL5EJ6LBJ+twOKp8sA@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 17 Nov 2022 14:12:07 -0500
+Message-ID: <CAJSP0QX3j9SbKW7tL6_vc9Ru518qWEG=288gkd+ArkHF05Vgsg@mail.gmail.com>
+Subject: Re: [qemu-web PATCH] Add a blog post about zoned storage emulation
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, hare@suse.de, Paolo Bonzini <pbonzini@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, dmitry.fomichev@wdc.com, 
+ damien.lemoal@opensource.wdc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,64 +88,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 17 Nov 2022 19:11:47 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+Hi Sam,
+Please send a git repo URL so Thomas can fetch the commit without
+email/file size limitations.
 
-> On 16/11/2022 20:36, Alex Williamson wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Thu, 3 Nov 2022 18:16:17 +0200
-> > Avihai Horon <avihaih@nvidia.com> wrote:
-> >  
-> >> If vfio_migration_set_state() fails to set the device in the requested
-> >> state it tries to put it in a recover state. If setting the device in
-> >> the recover state fails as well, hw_error is triggered and the VM is
-> >> aborted.
-> >>
-> >> To improve user experience and avoid VM data loss, reset the device with
-> >> VFIO_RESET_DEVICE instead of aborting the VM.
-> >>
-> >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> >> ---
-> >>   hw/vfio/migration.c | 14 ++++++++++++--
-> >>   1 file changed, 12 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> >> index f8c3228314..e8068b9147 100644
-> >> --- a/hw/vfio/migration.c
-> >> +++ b/hw/vfio/migration.c
-> >> @@ -92,8 +92,18 @@ static int vfio_migration_set_state(VFIODevice *vbasedev,
-> >>
-> >>           mig_state->device_state = recover_state;
-> >>           if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
-> >> -            hw_error("%s: Failed setting device in recover state, err: %s",
-> >> -                     vbasedev->name, strerror(errno));
-> >> +            error_report(
-> >> +                "%s: Failed setting device in recover state, err: %s. Resetting device",
-> >> +                         vbasedev->name, strerror(errno));
-> >> +
-> >> +            if (ioctl(vbasedev->fd, VFIO_DEVICE_RESET)) {
-> >> +                hw_error("%s: Failed resetting device, err: %s", vbasedev->name,
-> >> +                         strerror(errno));
-> >> +            }
-> >> +
-> >> +            migration->device_state = VFIO_DEVICE_STATE_RUNNING;
-> >> +
-> >> +            return -1;
-> >>           }
-> >>
-> >>           migration->device_state = recover_state;  
-> > This addresses one of my comments on 12/ and should probably be rolled
-> > in there.  
-> 
-> Not sure to which comment you refer to. Could you elaborate?
+> diff --git a/_posts/2022-11-17-zoned-emulation.md b/_posts/2022-11-17-zon=
+ed-emulation.md
+> new file mode 100644
+> index 0000000..69ce4d7
+> --- /dev/null
+> +++ b/_posts/2022-11-17-zoned-emulation.md
+> @@ -0,0 +1,45 @@
+> +---
+> +layout: post
+> +title:  "Introduction to Zoned Storage Emulation"
+> +date:   2022-11-17
+> +author: Sam Li
+> +categories: [storage, gsoc, outreachy, internships]
+> +---
+> +
+> +## Zoned block devices
+> +
+> +Aimed for at-scale data infrastructures,
 
-Hmm, I guess I thought this was in the section immediately following
-where I questioned going to recovery state.  I'm still not sure why
-this is a separate patch from the initial implementation of the
-function in 12/ though.  Thanks,
-'
-Alex
+I don't know what at-scale data infrastructure is. Is it something
+readers can relate to? Otherwise there's a risk that readers will
+decide this doesn't apply to them and stop reading.
 
+> zoned block devices (ZBDs) divide the LBA space into block regions called=
+ zones that are larger than the LBA size.
+
+LBA is not defined and also not used again after this sentence.
+Readers will be familiar with disks but may not know what an LBA is.
+Since the concept isn't used again I suggest dropping it:
+
+  zoned block devices (ZBDs) are divided into regions called zones
+that can only be written sequentially.
+
+> By only allowing sequential writes, it can reduce write amplification in =
+SSDs,
+
+This sounds more natural:
+
+  By only allowing sequential writes, SSD write amplification can be reduce=
+d
+
+It might also be nice to provide a little bit of extra context:
+
+  ... reduced by eliminating the need for a <a
+href=3D"https://en.wikipedia.org/wiki/Flash_translation_layer">Flash
+Translation Layer</a>
+
+> and potentially lead to higher throughput and increased capacity. Providi=
+ng new storage software stack,
+
+s/Providing new/Providing a new/
+
+> zoned storage concept is standardized as ZBC(SCSI standard), ZAC(ATA stan=
+dard), ZNS(NVMe).
+
+Small tweaks:
+
+  zoned storage concepts are standardized in ZBC (SCSI standard), ZAC
+(ATA standard), ZNS (NVMe).
+
+There is a space before opening parentheses: hello (world) instead of
+hello(world). Please check the rest of the article for more instances
+of this.
+
+It would be nice to include links but I didn't find good pages for
+ZBC/ZAC/ZNS aside from the full standards that they are part of.
+
+This intro section would be a good place to link to https://zonedstorage.io=
+/!
+
+> Meanwhile, the virtio protocol for block devices(virtio-blk) should also =
+be aware of ZBDs instead of taking them as regular block devices. It should=
+ be able to pass such devices through to the guest. An overview of necessar=
+y work is as follows:
+> +
+> +1. Virtio protocol: [extend virtio-blk protocol with main zoned storage =
+concept](https://lwn.net/Articles/914377/), Dmitry Fomichev
+> +2. Linux: [implement the virtio specification extensions](https://www.sp=
+inics.net/lists/linux-block/msg91944.html), Dmitry Fomichev
+> +3. QEMU: add zoned emulation support to virtio-blk, Sam Li, [Outreachy 2=
+022 project](https://wiki.qemu.org/Internships/ProjectIdeas/VirtIOBlkZonedB=
+lockDevices)
+
+You could split the QEMU work into 2 points if you like:
+3. QEMU: add zoned storage APIs to the block layer, Sam Li
+4. QEMU: implement zoned storage support in virtio-blk emulation, Sam Li
+
+> +
+> +<img src=3D"/screenshots/zbd.png" alt=3D"zbd" style=3D"zoom:50%;" />
+> +
+> +## Zoned emulation
+> +
+> +Currently, QEMU can support zoned devices by virtio-scsi or PCI device p=
+assthrough. It needs to specify the device type it is talking to. While sto=
+rage controller emulation uses block layer APIs instead of directly accessi=
+ng disk images. Extending virtio-blk emulation avoids code duplication and =
+simplify the support by hiding the device types under a unified zoned stora=
+ge interface, simplifying VM deployment for different type of zoned devices=
+.
+
+Another advantages that come to mind:
+1. virtio-blk can be implemented in hardware. If those devices wish to
+follow the zoned storage model then the virtio-blk specification needs
+to natively support zoned storage.
+2. Individual NVMe namespaces or anything that is a zoned Linux block
+device can be exposed to the guest without passing through a full
+device.
+
+> +
+> +For zoned storage emulation, zoned storage APIs support three zoned mode=
+ls(conventional, host-managed, host-aware) , four zone management commands(=
+Report Zone, Open Zone, Close Zone, Finish Zone), and Append Zone.  QEMU bl=
+ock storage
+
+Maybe:
+s/QEMU block storage/The QEMU block layer/
+
+> has a BlockDriverState graph that propagates device information inside bl=
+ock layer. A root pointer at BlockBackend points to the graph. There are th=
+ree type of block driver nodes: filter node, format node, protocol node. Fi=
+le-posix driver is the lowest level within the graph where zoned storage AP=
+Is reside.
+
+Is it possible to remove "A root pointer at BlockBackend points to the
+graph. There are three type of block driver nodes: filter node, format
+node, protocol node." so there are fewer new concepts? I didn't see
+further use of BlockBackend or filter/format nodes in the text.
+
+> +
+> +<img src=3D"/screenshots/storage_overview.png" alt=3D"storage_overview" =
+style=3D"zoom: 50%;" />
+> +
+> +After receiving the block driver states, Virtio-blk emulation recognizes=
+ zoned devices and sends the zoned feature bit to guest. Then the guest can=
+ see the zoned device in the host. When the guest executes zoned operations=
+, virtio-blk driver issues corresponding requests that will be captured by =
+virito-blk
+
+s/virito/virtio/
+
+> device inside QEMU. Afterwards, virtio-blk device sends the requests to f=
+ile-posix driver which will perform zoned operations.
+> +
+> +Unlike zone management operations, Linux doesn't have a user API
+
+The Linux userspace API (<linux/blkzoned.h>) hasn't been mentioned
+before. Maybe the previous paragraph should explain that file-posix
+performs zoned operations using <linux/blkzoned.h> ioctls? Then this
+sentence will be easier to understand.
+
+> to issue zone append requests to zoned devices from user space. With the =
+help of write pointer emulation tracking locations of write pointer of each=
+ zone, QEMU block layer performs append writes by modifying regular writes.=
+ Write pointer locks guarantee the execution of requests. Upon failure it m=
+ust not update the write pointer location which is only got updated when th=
+e request is successfully finished.
+> +
+> +Problems can always be sovled
+
+s/sovled/solved/
+
+Thanks,
+Stefan
 
