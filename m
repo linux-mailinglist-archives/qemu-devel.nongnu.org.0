@@ -2,72 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6059E62D48F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 09:02:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE6D62D4CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 09:10:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovZqN-0002Eq-Hl; Thu, 17 Nov 2022 03:01:55 -0500
+	id 1ovZyA-0003bQ-O8; Thu, 17 Nov 2022 03:09:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ovZq6-0002Cg-Vu; Thu, 17 Nov 2022 03:01:51 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
+ (Exim 4.90_1) (envelope-from <JBeulich@suse.com>) id 1ovZy7-0003bF-Kp
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 03:09:55 -0500
+Received: from mail-vi1eur03on2051.outbound.protection.outlook.com
+ ([40.107.103.51] helo=EUR03-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ovZq2-0004Td-RS; Thu, 17 Nov 2022 03:01:38 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.124])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3054113FCF361;
- Thu, 17 Nov 2022 09:01:24 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <JBeulich@suse.com>) id 1ovZy4-0005ax-FR
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 03:09:55 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UVtSU9oyzIg5xWOx+Ixg+YJlx0Pl2y+zuo1Ag6iyFDXxPCchr3L1Dqt+TPPD8tyqYUv63HPYtmRPvCHcbAXuBA3DpmN5eHBq400jRP68TDELBFdfYl/gwTWo6FehgZHLdebN/pg5RhBIyTmZktRklAGdE7Vf7H5olsjEMezJQaiGW481cQZ/zRB8/SJ6d2VPh5lozJsn7sQvz+3a7BT3VVRzZ/5iH4YPS0AEwgmhAfuXtPpXhlMIT62MRESdzS8ZPdQdkGUWEow0ZBhnyQ7OcKF9sFl0h05ds2Axb5sXSUDFQlK+OgZBczUnC8+wzZuAFT/z9HCwCzndtdI4Ec+Qnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RmJ7NlLjFIgEz8MPJs2nNMlsimgFsnOr/vd2T0Lnkng=;
+ b=WqC4RySg0cRJcTovDWNp9J1GqPKopB7J8qYo8SIyEn2cXo8Amn89l+VcVpZY04bqqhE80+X2tvnIpGkmu+lMil56IdDLpp4cjeMTFE/FWpNY3RarmORBrRvBzWR3kFjgWG5OQXpZ6AAJfiu3T+b+ulplgnfLO5tHuyhqHltM686ZIdqv+RPs4EWSmQEy9kKGeBQw/xUwDoC7vi9Zst5q0dWf4bZ6DxhVCHgFi1gvY5vXDKTY77Lwt0UR3v1nsvMmYySPkY93tFwV6iU+WtYHrANI+gDnU31JCjGUSHYK5bRYlV8gdpMKaelt1tSN9m/QWaRTwz04bGLLuv/RRwG/uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RmJ7NlLjFIgEz8MPJs2nNMlsimgFsnOr/vd2T0Lnkng=;
+ b=TEucqcZ6U1OehAXLYKBuwLAElEdUUJsu2pU3tr0HoetvicCSs5PoVjl94JQ+Ov/oXUpsUZqTM5QwNFA0nBWyr/T0sLNRQXD4M5eMNa7+kp2QGqYWqmQh7WJTuMuAsIt5fRxtAQRCWKtaPdxRM+gGln4fg55HDKEKNUhhaPeOuqj3yJe+8qebIaiv7cTWMrRudZIlbC4zDJByT8WGB6jR4tt/7Ww7F9Xsg61dYcggUBmMEg2Y8E8MXRs3iOV4LTbXI2vKvQMNqgsupXINBL4O1IypTkoUbYfvUinpQlLc54JuKPZGq8TalYxCYjaei29NHCU3iUmDKxQmmPORc0X6fA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from VE1PR04MB6560.eurprd04.prod.outlook.com (2603:10a6:803:122::25)
+ by AS8PR04MB7512.eurprd04.prod.outlook.com (2603:10a6:20b:29e::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 17 Nov
- 2022 09:01:23 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003c4f11eac-bf75-47b9-9550-d15f78110560,
- AE5717285A2AC47C671D2CB192D1CF6730B7D7F3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <465b2d2e-5958-d63f-02dc-cf96dd1d459e@kaod.org>
-Date: Thu, 17 Nov 2022 09:01:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when
- bus is idle
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.13; Thu, 17 Nov
+ 2022 08:04:42 +0000
+Received: from VE1PR04MB6560.eurprd04.prod.outlook.com
+ ([fe80::4da2:ea8b:e71e:b8d8]) by VE1PR04MB6560.eurprd04.prod.outlook.com
+ ([fe80::4da2:ea8b:e71e:b8d8%4]) with mapi id 15.20.5813.018; Thu, 17 Nov 2022
+ 08:04:42 +0000
+Message-ID: <1443e924-5b53-9ee0-00fb-4d790d404b08@suse.com>
+Date: Thu, 17 Nov 2022 09:04:40 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 2/2] Do not access /dev/mem in MSI-X PCI passthrough on Xen
 Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>
-CC: <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>, Keith Busch
- <kbusch@kernel.org>, Corey Minyard <cminyard@mvista.com>, Peter Delevoryas
- <peter@pjd.dev>, <qemu-arm@nongnu.org>, Peter Maydell
- <peter.maydell@linaro.org>, <qemu-block@nongnu.org>, Jeremy Kerr
- <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, Klaus Jensen
- <k.jensen@samsung.com>
-References: <20221116084312.35808-1-its@irrelevant.dk>
- <20221116084312.35808-2-its@irrelevant.dk>
- <8dd9ed34-93c3-0638-e152-f619f9e097e6@kaod.org>
- <Y3XXcWUnntBrIXq+@cormorant.local>
- <6bfe7b2e-2e4f-c286-530a-b0342f9107a0@kaod.org>
- <Y3Xktt8b85RvJ89A@cormorant.local>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <Y3Xktt8b85RvJ89A@cormorant.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
+ <marmarek@invisiblethingslab.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ Jason Andryuk <jandryuk@gmail.com>
+References: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
+ <20221114192011.1539233-2-marmarek@invisiblethingslab.com>
+ <CAKf6xpvpsJuMZx98vLJ7CAmUWG-vW91Am0L8817eD8nmAN4NUw@mail.gmail.com>
+ <Y3VYs/sS4VddrBCK@mail-itl> <Y3WruE/VOBZFfHfi@mail-itl>
+From: Jan Beulich <jbeulich@suse.com>
+In-Reply-To: <Y3WruE/VOBZFfHfi@mail-itl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 9fddcbc4-5a6f-4d65-a87c-270eabb9c85b
-X-Ovh-Tracer-Id: 16884839431422446584
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeejgdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepihhtshesihhrrhgvlhgvvhgrnhhtrdgukhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpkhgsuhhstghhsehkvghrnhgvlhdrohhrghdptghmihhnhigrrhgusehmvhhishhtrgdrtghomhdpphgvthgvrhesphhjugdruggvvhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhjkhestghoug
- gvtghonhhsthhruhgtthdrtghomhdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::6) To VE1PR04MB6560.eurprd04.prod.outlook.com
+ (2603:10a6:803:122::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6560:EE_|AS8PR04MB7512:EE_
+X-MS-Office365-Filtering-Correlation-Id: efef1481-c059-41a1-7917-08dac872621a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CtNnW0AssGTZLRN5igRC2+7AKg3NaV/5dR3uMD5WMpsp3bY+BLLIQD7c/X1kGRRBXGEWsGFJCIoF3Zhj+aZiDCURcdPrz4JkAsUdim9oOjvzaTNf1MH34CNIFheripyY/C0HAb5poMUWU+ls+qhN6Gn+1dAfLp/U5ViwLPm4QNc3AquvoR3NXx3Qv2SSWjeSljK4NoYrDLFAi4gzFMN7KMAgJ2xpnhaCvsxpW35Wdrfa5oRVQiEygzspmM9UojtWBymJZFUXRPsY3RNExPlV8MacFn/NDykmwAc+/MwxIMpbrgHJPFxDFiC4WxHDl3m0zkSwA1OoWi+lkRwuvqGMalwaZsbVtuN/bOgc5yz5ubtjay5ckLvDVxAUj5tm7l8pBty6HQQkbXTt6XenctmJoTS1tkokXpqVW1avZiGOym2VHE3Bq5zBPhN8dSYb5eVTun632TTH7tjcdgkGy1fIsvus2exGuTQWka/SwFGdFqJCTwQoyjSBO7T9GzFIiBrS0FBFXpPBsCTf9ZB1RcG+CMwhAhZbBtzQtzUs694x08E4PSopQ1Dqaxwp8d9q0C3s1Ayuy+MrVwOhA348DLJQS4yf76M4PtP3OlXTJWwOB8LKP76rinVLqg8okUxh+34mitqsUuHYxZ0pnIk1c1eyk6bIOIc3FBgE3lMpIJFpratxurAc2p3HhvffO4sV3eiO94v7JN+7EJKuL+gqipGI+shzgTCcNZ2jcovSDZD39vX33KUVj1g5ykGZXZ2FE2Ql
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR04MB6560.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(366004)(396003)(376002)(346002)(39860400002)(451199015)(186003)(5660300002)(53546011)(316002)(6506007)(54906003)(6916009)(41300700001)(2616005)(8936002)(26005)(6512007)(4326008)(8676002)(66946007)(66556008)(66476007)(36756003)(38100700002)(2906002)(83380400001)(66574015)(31696002)(86362001)(478600001)(966005)(31686004)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHJKZ1V5WWt3WTliS1dlK3gwTzVtOTlTOFdMSHpIQ1FxSUhnVGVLWDZFcUN2?=
+ =?utf-8?B?NEM4Zms5Y25RUkZ3TXVtN09nMFFOS1FNV21BVlhFWmNhUERyWVRkMkRyVXE2?=
+ =?utf-8?B?TmdzTWFhTU5ZWlc5aTJyK0NRV0tLY2VxRndQMXdhMkc2TklFZlpPTTZjWG9v?=
+ =?utf-8?B?aCtHUFBEMWtWb2dsam5Canlvb1IrQWJydHZ4WGJBZmpCTnRZWUdJQjBSeFVX?=
+ =?utf-8?B?QkVBbHdLT3FZdHRjd2pxMDcrYTllUWNUc0F3R0pGNUtmOW1EeURTdUlUbnIv?=
+ =?utf-8?B?aG1aRGdmRlRYdkc2WlBtSDZZM1lxSVMrSmtjM2pTdjMrcGJ4UVM5Mk8xVTQx?=
+ =?utf-8?B?ZHBRYkVmaXR0L29mcTZqb2FjcjhIeWpLUkJBa2toOWN1bjluaVFqRWtJM3dw?=
+ =?utf-8?B?dVMrMm0zTFhFOExUbDlWNk5Ob0lFSFpQRzRNdm92OEt2a1pvbWtDam9EVmt2?=
+ =?utf-8?B?QXh2NTM1N1VyVVdDaU1VYmNJV1BpVy8zekFQeHphNU13d1FiaWJXWTdXS01P?=
+ =?utf-8?B?bzVoSkFOellndEdGOE9sVHNDOTlCWXZnT2NsOVdUSTRCYkNFOVVCcG9aVi9y?=
+ =?utf-8?B?b0o0ZmN1eU9lOSs4b3ZwczA2OW1jUTRjNG9lUVE0RjB0L3hLZ2ovdDU3NjFO?=
+ =?utf-8?B?WmZYemVRZWx3Q0J5a0I3MVJSTHcxNmtGN2E5dm5EVG12NFZ1YXBOSVRlOW1t?=
+ =?utf-8?B?T2tkTW5udklReWUzbGFxdlZNSFRCMkFtajhERktQd2NxUGdEbE8xNENNSnYx?=
+ =?utf-8?B?clNtMERITE9lcERHaE1lQ1Zrdjg1cTZDMFp6ZytwQ2d6QkNXK2hTK2dqQmZ4?=
+ =?utf-8?B?VXZseHdIUFRtNTN4bDJCTDJTeHVGQmUyK0hBakNFUnJMc0hzQmVTTGRsQ1Vh?=
+ =?utf-8?B?ZUlvSmxCVm1UM0dBMlpUdjBJaWxDSEwzSEw4R3VCVGg3QVBpWmM2ZmdBc2FX?=
+ =?utf-8?B?R3FId0wvR0RyV0xsamJZVVpvOER2WVRlZTZLVDRWN2pvRXl4MDZPQmlZNENJ?=
+ =?utf-8?B?aS9hSGZtU25taTNPTnN4T3Q4d1RUd0VjcGxTQVR5cHVKQjdMU1pQaldQZTR4?=
+ =?utf-8?B?VDUzSFpLYkIxR3A0S0ZRKzlQU3JpWG1yYlBoYzBUbDNkZGZoZ0xDeWxYRHVL?=
+ =?utf-8?B?eC9HQlJOVlZRNnNobGRDRVJOdzFLVFkyREVEV2M5QVJ2L291OHBFMWxaMFYv?=
+ =?utf-8?B?ZDVXOFNzNEcvbWhwK2tjMWRSOXZPMFA4WkhERzZTSUhJNW9WWEY4L2JUakoy?=
+ =?utf-8?B?ek5FMVZQM090VHk1VFhaZG45U0YvODAwNE1UemtURHZ2WDViWnFaTmlhR1c4?=
+ =?utf-8?B?dkRoemd6RWgyQTVzTTV3QTlwQVloeXNva3JDY0dUaXhyejMrUmRqOCtIZzI0?=
+ =?utf-8?B?UjIvSEc2NHdZU0xIZnFqTFFLNWFtb3IvSTBqbTExSXFKeTZTdy82MlBObE1L?=
+ =?utf-8?B?MEdYUGxRKzBRZ3hBSjJJRGVQVG93WXZ6dUZDUW1WcTdnUW9wR1NMeFpwQWhB?=
+ =?utf-8?B?MlJ5bVlqMis1bmsrNVBOend4ZnY3d3hUc0xOWWRnNU9LVjFvT3RmUzNNRUtx?=
+ =?utf-8?B?aWtFRlFMWTBWelpjSk4xWlU0c1BiY0pVNHg4Mi9nV2NWT0tJVFN1TlNHcXM3?=
+ =?utf-8?B?VkZsL2FreWNlMVpDRXEwbGROL1d2Y2VQS0N4ZFR4cnlFVUNLcXNQL1hxLzlH?=
+ =?utf-8?B?OVN6blZZeE4xWVpFaVpoNzFuWUlkTm1FV3lJdnNLM0Z1dE9mSmNmNVVvQ0Jk?=
+ =?utf-8?B?K09PMjlGaFdQZlpXOEEwcU55NklFUFozdC94MnNibFlzL000YUUvS0pGYS96?=
+ =?utf-8?B?ckRjVk5ENGhJclRESkU1M3ZuS3owMTRrRFFZYTFlUEZweVJ1cWFXTVFEZ2pJ?=
+ =?utf-8?B?dWNiSGpLL2hMTzBzSDdXUCttUWZmT3ZJWnZkcHJpczYva040K0lUSXMrOGdw?=
+ =?utf-8?B?SHlzUnViT1p1VHNvcDlNV0UzN1Z2OGttNmJvVnhobFZZMmVSMzZmVkE2SlNx?=
+ =?utf-8?B?ZHZEdW9TZ1MwYWlweks3RnNCZk1pVnJuVjRnR2VUSHBoNXc5Zk5HZTNWMXpY?=
+ =?utf-8?B?OVQ5T3lNNzVOSHJ6Yi93eTc4SjJ1WkZ6VGxCd2VoWWZISlM2bWFuOEhha2ho?=
+ =?utf-8?Q?rr+cmWVSn24IarKlmZJ/45zg+?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efef1481-c059-41a1-7917-08dac872621a
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6560.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2022 08:04:42.5950 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kJqJ3IBJ8bvOuhWsyS0VNkVfK84L1WHUj1LswRvhSW7xrc8n5ogngu/dK+22727Cb99uHiawrnMRajCf1mmYXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7512
+Received-SPF: pass client-ip=40.107.103.51; envelope-from=JBeulich@suse.com;
+ helo=EUR03-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,71 +148,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/17/22 08:37, Klaus Jensen wrote:
-> On Nov 17 07:56, Cédric Le Goater wrote:
->> On 11/17/22 07:40, Klaus Jensen wrote:
->>> On Nov 16 16:58, Cédric Le Goater wrote:
->>>> On 11/16/22 09:43, Klaus Jensen wrote:
->>>>> From: Klaus Jensen <k.jensen@samsung.com>
->>>>>
->>>>> It is not given that the current master will release the bus after a
->>>>> transfer ends. Only schedule a pending master if the bus is idle.
->>>>>
->>>>> Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
->>>>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->>>>> ---
->>>>>     hw/i2c/aspeed_i2c.c  |  2 ++
->>>>>     hw/i2c/core.c        | 37 ++++++++++++++++++++++---------------
->>>>>     include/hw/i2c/i2c.h |  2 ++
->>>>>     3 files changed, 26 insertions(+), 15 deletions(-)
->>>>>
->>>>> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
->>>>> index c166fd20fa11..1f071a3811f7 100644
->>>>> --- a/hw/i2c/aspeed_i2c.c
->>>>> +++ b/hw/i2c/aspeed_i2c.c
->>>>> @@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
->>>>>             }
->>>>>             SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_STOP_CMD, 0);
->>>>>             aspeed_i2c_set_state(bus, I2CD_IDLE);
->>>>> +
->>>>> +        i2c_schedule_pending_master(bus->bus);
->>>>
->>>> Shouldn't it be i2c_bus_release() ?
->>>>
->>>
->>> The reason for having both i2c_bus_release() and
->>> i2c_schedule_pending_master() is that i2c_bus_release() sort of pairs
->>> with i2c_bus_master(). They either set or clear the bus->bh member.
->>>
->>> In the current design, the controller (in this case the Aspeed I2C) is
->>> an "implicit" master (it does not have a bottom half driving it), so
->>> there is no bus->bh to clear.
->>>
->>> I should (and will) write some documentation on the asynchronous API.
->>
->> I found the routine names confusing. Thanks for the clarification.
->>
->> Maybe we could do this rename  :
->>
->>    i2c_bus_release()             -> i2c_bus_release_and_clear()
->>    i2c_schedule_pending_master() -> i2c_bus_release()
->>
->> and keep i2c_schedule_pending_master() internal the I2C core subsystem.
->>
+On 17.11.2022 04:34, Marek Marczykowski-Górecki wrote:
+> Ok, I found what is wrong. Enabling MSI-X is refused, because INTx isn't
+> disabled at this point yet. And apparently I was testing this with
+> permissive=1...
 > 
-> How about renaming i2c_bus_master to i2c_bus_acquire() such that it
-> pairs with i2c_bus_release().
+> Linux does this:
+> https://github.com/torvalds/linux/blob/master/drivers/pci/msi/msi.c#L611
+> In short:
+> 1. Enable MSI-X with MASKALL=1
+> 2. Setup MSI-X table
+> 3. Disable INTx
+> 4. Set MASKALL=0
+> 
+> This patch on top should fix this:
+> ----8<----
+> diff --git a/drivers/xen/xen-pciback/conf_space_capability.c b/drivers/xen/xen-pciback/conf_space_capability.c
+> index 097316a74126..f4c4381de76e 100644
+> --- a/drivers/xen/xen-pciback/conf_space_capability.c
+> +++ b/drivers/xen/xen-pciback/conf_space_capability.c
+> @@ -235,7 +235,7 @@ static int msi_msix_flags_write(struct pci_dev *dev, int offset, u16 new_value,
+>  	    (new_value ^ old_value) & ~field_config->allowed_bits)
+>  		return PCIBIOS_SET_FAILED;
+>  
+> -	if (new_value & field_config->enable_bit) {
+> +	if ((new_value & field_config->allowed_bits) == field_config->enable_bit) {
+>  		/* don't allow enabling together with other interrupt types */
+>  		int int_type = xen_pcibk_get_interrupt_type(dev);
+>  
+> ----8<----
+> 
+> Jan, is the above safe? It should prevent clearing MASKALL if INTx isn't
+> disabled, unless I missed something? But also, it will allow enabling
+> MSI-X with MASKALL=1 together with MSI, which I'm not sure if should be
+> allowed.
 
-Looks good to me.
+While it would probably be okay with what we have now (after your earlier
+patch introducing allowed_bits), it's likely not going to be correct once
+further bits would be added to allowed_bits (which clearly is going to be
+wanted sooner or later, e.g. for multi-vector MSI). Hence I think ...
 
-> And then add an i2c_bus_yield() to be used by the controller? I think we
-> should be able to assert in i2c_bus_yield() that bus->bh is NULL. But
-> I'll take a closer look at that.
+> Alternatively to the above patch, I could allow specifically setting
+> MSIX_FLAGS_ENABLE + MSIX_FLAGS_MASKALL while INTx isn't disabled as a
+> single exception,
 
-I am using your i2c-echo slave device to track regressions in the Aspeed
-machines. May be we could merge it for tests ?
+... this is the way to go, and ...
 
-Thanks,
+> but at this point I'm not sure if some other driver or
+> OS wouldn't approach this in yet another way.
 
-C.
+... I guess we need to further add exceptions as needed - the one further
+approach I could see is to keep all entry's mask bits set until setting
+"INTx disable", without using MASKALL.
+
+I'd like to note though that the PCI spec has no such exception. It,
+however, also doesn't mandate setting "INTx disable" - that's merely a
+workaround for flawed hardware afaik. (In Xen we also only cross check
+MSI and MSI-X. IOW we rely on Dom0 anyway when it comes to driving
+"INTx disable".) Therefore in the end pciback looks to be going too far
+in enforcing such dependencies.
+
+Thinking of this - what about making the change in
+xen_pcibk_get_interrupt_type() instead, setting INTERRUPT_TYPE_MSIX only
+when MASKALL is clear (alongside ENABLE being set)? This would then also
+cover command_write().
+
+Jan
 
