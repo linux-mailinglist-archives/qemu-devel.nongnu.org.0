@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0652862DC4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7F062DC4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:09:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oveax-0002Vl-Lt; Thu, 17 Nov 2022 08:06:19 -0500
+	id 1oved6-0003N5-UB; Thu, 17 Nov 2022 08:08:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oveam-0002Us-II
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:06:09 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oveai-0003E0-Rd
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:06:08 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id f3so1929004pgc.2
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 05:06:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=N3hbbHG4CTwXtKeb/YtACWGOa4zTlUiCesH3Fm/c9OE=;
- b=DIYR5UNxqBFhYq8aRL6VmqokW2pLPTC3KdptUMKbZbAoHryWKl58tIdlHIqOsyKmNH
- 13kCOEr5f4ZgFH1Gx1NxO5fAIND+KrgIq/6upegt3fdpc/GsIamTciIxnOV6NGCCqRvI
- M7QXAxYwNiX7FvTv/e9s52L89qV66RyttSMQyRHntuE5Wz1hld2MN4bVKk6T6Ydmh1SV
- 7pVicAoUAP0DOD3faDJ4Ep7ElI5jmMwGlHs0peekDJh4wJrUPMKuEbGlxJbSJBrZ3hnx
- HcVxBD5w4rAZ888FaGNhhfLga49O/k7A6Lzxeu4FqBRBIpq5hsEhhUaqZ/bai4bTD6pV
- BbLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=N3hbbHG4CTwXtKeb/YtACWGOa4zTlUiCesH3Fm/c9OE=;
- b=eVHCkCIl8H9D+D/ipXN57+/x2uAIX3C4gwUu+S7H8KtpyrG+QqZpRJKVIEwpcToAWs
- d0ay3GwIP6tEIFZt2iokwOwDUFKhTgaoFAJV4uM+BIIshrMJCBybmu/GDk/Ov95soT7C
- p9LtEN7WcX/2yArbHpDyYO78hRbiPHSN8JRM6U0JLjmZ/QiBljzQUMKGoQ7LtEGEk02i
- qB6BZWWJthgnQ3wL4S4akl9+UHltskmBo7FXogNnZON9dKJZFDVs20pdNPDeYhVu3Sj8
- 7f24xOemj8opno2n8d830xXK4SNHSyHT61KKstJaKQabqtDy4MNzb69VHQixlbQjvCcy
- edGA==
-X-Gm-Message-State: ANoB5pnHKe4G7JjZ1NggIbUsa8IUkhhSGZRx2VGn3MH+9k1vlEv4aeW+
- Qf2Vtf8DNfLpEFLquxq5FPas6LNP/fgeTdOUz95sQZVMK7c=
-X-Google-Smtp-Source: AA0mqf6hy25fBgK4fOBtCEd7DkdX8hiG9aLnJYmKvm95H7pAgpOPOTkJs5PARywxP4zlXVUc0sv9lm6hVu+52cI6RuA=
-X-Received: by 2002:aa7:9ed0:0:b0:571:8549:89c3 with SMTP id
- r16-20020aa79ed0000000b00571854989c3mr2904527pfq.26.1668690362625; Thu, 17
- Nov 2022 05:06:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovecn-0003Jq-2J
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:08:13 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ovecj-0003QD-PG
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:08:12 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.26])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D50DA232C0;
+ Thu, 17 Nov 2022 13:08:05 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 17 Nov
+ 2022 14:08:04 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002b979bdd4-0e91-4ab4-9fd0-0a5eeb2a3b6e,
+ AE5717285A2AC47C671D2CB192D1CF6730B7D7F3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <aefa494a-cc63-aa77-9716-15b1ae74e9bb@kaod.org>
+Date: Thu, 17 Nov 2022 14:08:04 +0100
 MIME-Version: 1.0
-References: <CAFEAcA9tnOCij+OKV8Mpe37g9i5Sd4oYVTA4642SAY9MfCBLLg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9tnOCij+OKV8Mpe37g9i5Sd4oYVTA4642SAY9MfCBLLg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Nov 2022 13:05:51 +0000
-Message-ID: <CAFEAcA_gDzyucBEq2pQJVmgZkLEP5hhW7k6_LmY7_mO3gEGHhw@mail.gmail.com>
-Subject: Re: UI layer threading and locking strategy;
- memory_region_snapshot_and_clear_dirty() races
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] target/ppc: Fix build warnings when building with
+ 'disable-tcg'
+Content-Language: en-US
+To: Greg Kurz <groug@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
+CC: Vaibhav Jain <vaibhav@linux.ibm.com>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>, <david@gibson.dropbear.id.au>, Kowshik Jois B S
+ <kowsjois@linux.ibm.com>
+References: <20221116131743.658708-1-vaibhav@linux.ibm.com>
+ <9b92deef-e0ef-101d-8f7e-2b4634bde6de@gmail.com>
+ <20221117115005.4b23a318@bahia>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221117115005.4b23a318@bahia>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 4715a588-61e6-4e20-b570-5bebf389f51b
+X-Ovh-Tracer-Id: 3617797877971651433
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeugfdtteetfefgiefhfefgueduveefieehgfevvdetiedugeeghfehtdehvdffnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhvrghisghhrghvsehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhkohifshhjohhisheslhhinhhugidrihgsmhdrtghomhdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehge
+ ekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,69 +78,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 1 Nov 2022 at 14:17, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Hi; I'm trying to find out what the UI layer's threading and
-> locking strategy is, at least as far as it applies to display
-> device models.
+On 11/17/22 11:50, Greg Kurz wrote:
+> On Thu, 17 Nov 2022 07:11:51 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+>> Queued in gitlab.com/danielhb/qemu/tree/ppc-next with the following tags:
+>>
+> 
+> You are planning a PR before 7.2-rc2, right ?
+> 
+>>
+>>       Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
+>>       Fixes: 61bd1d2942 ("target/ppc: Convert to tcg_ops restore_state_to_opc")
+>>       Fixes: 670f1da374 ("target/ppc: Implement hashst and hashchk")
+> 
+> The guard macro also covers the following two, introduced by yet another commit.
+> 
+>    HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
+>    HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
+> 
+> Fixes: 53ae2aeb9407 ("target/ppc: Implement hashstp and hashchkp")
+> 
+>>       Resolves: https://gitlab.com/qemu-project/qemu/-/issues/377
+> 
+> Err... I don't see any relation with this issue.
+> 
+> Cedric ?
 
-Ping! :-) I'm still looking for information about this,
-and about what threads call_rcu() callbacks might be run on...
+bad copy paste. Sorry about that.
 
-thanks
--- PMM
+  
+> But this resolves the issue created by Vaibhav for 7.2 :
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1319
 
-> Specifically:
->  * is the device's GraphicHwOps::gfx_update method always called
->    from one specific thread, or might it be called from any thread?
->  * is that method called with any locks guaranteed held? (eg the
->    iothread lock)
->  * is the caller of the gfx_update method OK if an implementation
->    of the method drops the iothread lock temporarily while it is
->    executing? (my guess would be "no")
->  * for a gfx_update_async = true device, what are the requirements
->    on calling graphic_hw_update_done()? Does the caller need to hold
->    any particular lock? Does the call need to be done from any
->    particular thread?
->
-> The background to this is that I'm looking again at the race
-> condition involving the memory_region_snapshot_and_clear_dirty()
-> function, as described here:
->  https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/#u
->
-> Having worked through what is going on, as far as I can see:
->  (1) in order to be sure that we have the right data to match
->  the snapshotted dirty bitmap state, we must wait for all TCG
->  vCPUs to leave their current TB
->  (2) a vCPU might block waiting for the iothread lock mid-TB
->  (3) therefore we cannot wait for the TCG vCPUs without dropping
->  the iothread lock one way or another
->  (4) but none of the callers expect that and various things break
->
-> My tentative idea for a fix is a bit of an upheaval:
->  * have the display devices set gfx_update_async = true
->  * instead of doing everything synchronously in their gfx_update
->    method, they do the initial setup and call an 'async' version
->    of memory_region_snapshot_and_clear_dirty()
->  * that async version of the function will do what it does today,
->    but without trying to wait for TCG vCPUs
->  * instead the caller arranges (via call_rcu(), probably) a
->    callback that will happen once all the TCG CPUs have finished
->    executing their current TB
->  * that callback does the actual copy-from-guest-ram-to-display
->    and then calls graphic_hw_update_done()
->
-> This seems like an awful pain in the neck but I couldn't see
-> anything better :-(
->
-> Paolo: what (if any) guarantee does call_rcu() make about
-> which thread the callback function gets executed on, and what
-> locks are/are not held when it's called?
->
-> (I haven't looked at the migration code's use of
-> memory_global_after_dirty_log_sync() but I suspect it's
-> similarly broken.)
->
-> thanks
-> -- PMM
+yes.
+
+C.
+
+> 
+>>       Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+>>       Reviewed-by: Greg Kurz <groug@kaod.org>
+>>       Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>       Tested-by: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>> On 11/16/22 10:17, Vaibhav Jain wrote:
+>>> Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
+>>> target is failing due to following build warnings:
+>>>
+>>> <snip>
+>>>    ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
+>>>    7018 | static void ppc_restore_state_to_opc(CPUState *cs,
+>>> <snip>
+>>>
+>>> Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
+>>> they are only defined if qemu is compiled with '--enable-tcg'
+>>>
+>>> Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
+>>> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+>>> ---
+>>>    target/ppc/cpu_init.c    | 2 ++
+>>>    target/ppc/excp_helper.c | 2 ++
+>>>    2 files changed, 4 insertions(+)
+>>>
+>>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+>>> index 32e94153d1..cbf0081374 100644
+>>> --- a/target/ppc/cpu_init.c
+>>> +++ b/target/ppc/cpu_init.c
+>>> @@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
+>>>        return cpu->env.nip;
+>>>    }
+>>>    
+>>> +#ifdef CONFIG_TCG
+>>>    static void ppc_restore_state_to_opc(CPUState *cs,
+>>>                                         const TranslationBlock *tb,
+>>>                                         const uint64_t *data)
+>>> @@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
+>>>    
+>>>        cpu->env.nip = data[0];
+>>>    }
+>>> +#endif /* CONFIG_TCG */
+>>>    
+>>>    static bool ppc_cpu_has_work(CPUState *cs)
+>>>    {
+>>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>>> index a05a2ed595..94adcb766b 100644
+>>> --- a/target/ppc/excp_helper.c
+>>> +++ b/target/ppc/excp_helper.c
+>>> @@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
+>>>    #endif
+>>>    #endif
+>>>    
+>>> +#ifdef CONFIG_TCG
+>>>    static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
+>>>    {
+>>>        const uint16_t c = 0xfffc;
+>>> @@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
+>>>    HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
+>>>    HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
+>>>    HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
+>>> +#endif /* CONFIG_TCG */
+>>>    
+>>>    #if !defined(CONFIG_USER_ONLY)
+>>>    
+> 
+
 
