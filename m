@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9319A62D86E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 11:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215FC62D90B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 12:09:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovcTO-0005jo-Vt; Thu, 17 Nov 2022 05:50:23 -0500
+	id 1ovckL-0001Ju-9J; Thu, 17 Nov 2022 06:07:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1ovcTM-0005jQ-M9; Thu, 17 Nov 2022 05:50:20 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1ovcTK-0006ux-EW; Thu, 17 Nov 2022 05:50:20 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.193])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9081113FE649E;
- Thu, 17 Nov 2022 11:50:13 +0100 (CET)
-Received: from kaod.org (37.59.142.105) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 17 Nov
- 2022 11:50:12 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006fb0943b1-95f7-4e4d-bcdb-0c0e18157452,
- 247B43F2E41D7204BC7F135E5139F4EBEC0764F5) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 17 Nov 2022 11:50:05 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-CC: Vaibhav Jain <vaibhav@linux.ibm.com>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>, <david@gibson.dropbear.id.au>, <clg@kaod.org>,
- "Kowshik Jois B S" <kowsjois@linux.ibm.com>
-Subject: Re: [PATCH] target/ppc: Fix build warnings when building with
- 'disable-tcg'
-Message-ID: <20221117115005.4b23a318@bahia>
-In-Reply-To: <9b92deef-e0ef-101d-8f7e-2b4634bde6de@gmail.com>
-References: <20221116131743.658708-1-vaibhav@linux.ibm.com>
- <9b92deef-e0ef-101d-8f7e-2b4634bde6de@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ovckH-0001JX-LQ; Thu, 17 Nov 2022 06:07:49 -0500
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ovckE-000275-MY; Thu, 17 Nov 2022 06:07:49 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id f201so1417941yba.12;
+ Thu, 17 Nov 2022 03:07:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kFw1xy4A4HcDtj/gEJGnEi3wFkCtlr1/mNbpjzW4OFE=;
+ b=aN1524fYVJJ5czW5WAEAqz1/vKoG6GTiep4LVtf5Rd37Rzym63wt7E1J8ppit7AWZO
+ l4IG/qXTQJxFCXtB+VegSFrWZw/2H0Iz3JDfDdPFRzn8n3ZL8Yh6IecS5/5vqDJf5IdS
+ /1sOXktlWaW0rfhcKXjV9t8Y201qbu51N2mfp8uBhrU+7GHHeZ40e/VqY64TKcDSE77W
+ 2yKR5cI0zeZ/TaTLukdMrRmWuJnxIJEgxm0ACCM7snzaQVhh7EQWA82lZBizJvH+Vbuz
+ oh9GX7DkhxoCJx8mVYn7l+vkGrYmnA9ScafxNFWgbWQwHIcB0J9z2Uje3fxTtggkD9/E
+ Xc4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kFw1xy4A4HcDtj/gEJGnEi3wFkCtlr1/mNbpjzW4OFE=;
+ b=ipOkYYMs/kBp9M7TPHYkJIor5a8R2u7s8NW0N9gTcUpKcULA942sbhIc1e9UT0ZqA2
+ W4Ue9mzA2aZyO2zK7CiaM0tIuFzWj2F9doWZ/cfbew/xdbXnGFzLyPnwHAL6F0cvT61i
+ PnRUhwnJ7iW1SGTDheDFrO7vbfGs3AirAMC5miD+WldeVMzHINyRIWhOVczooe2EpPpf
+ 50gw7Xz2vxJt/tRZE2U67nYYm3dirXKyvdDRh0JYsowvb9TLQj/MOKnDr+55ge4Mm4Y8
+ IEZMo2fyeODKTPB3XpXGSCF5kJ/2kQd+l/rgw2vQICaQ8itt5Rvg9P7WUSebBu9JZDC/
+ W0Og==
+X-Gm-Message-State: ANoB5pmB7It+45N2X6ZYVcvbYKoHUbOPy2ae7avVQqDzE9E005DFeEFA
+ YLVWCZOGXTrJ6l4DxMWEJGEojAVpYh2Ios8f4SNy9MkgKnAmsA==
+X-Google-Smtp-Source: AA0mqf6MkYt2HyAffXnbEoC4Ds0JTWkfNjU8y3oZee5UJDCS+pQpEN6nLLEaqNTfQIoSsx0jHFLLEHMWXXztsu2qz1w=
+X-Received: by 2002:a25:cf8d:0:b0:6d7:5e6f:2a46 with SMTP id
+ f135-20020a25cf8d000000b006d75e6f2a46mr1710366ybg.118.1668683264677; Thu, 17
+ Nov 2022 03:07:44 -0800 (PST)
 MIME-Version: 1.0
+References: <20221115163659.1595865-1-stefanha@redhat.com>
+ <011801d8f967$5dad0f00$19072d00$@fiebig.nl>
+ <CACGkMEtJ2+2yhHgD33wiWvUEREei2ThQAkRNFWzRrDt5D50u+g@mail.gmail.com>
+ <008c01d8f9ad$6ba58e20$42f0aa60$@fiebig.nl>
+ <CAJSP0QUcYkKjJ1NMvKcs=03Z0Yjm+SD6H0wScJ-Zx62sXb6egQ@mail.gmail.com>
+ <01e701d8fa2f$4124d750$c36e85f0$@fiebig.nl>
+In-Reply-To: <01e701d8fa2f$4124d750$c36e85f0$@fiebig.nl>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 17 Nov 2022 06:07:32 -0500
+Message-ID: <CAJSP0QX_PCNU6PFd8svnGJq5U9-0+weAN6MyiyYqWHkssY4QPA@mail.gmail.com>
+Subject: Re: [PATCH for-7.2] rtl8139: honor large send MSS value
+To: Tobias Fiebig <tobias@fiebig.nl>
+Cc: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org, 
+ qemu-stable@nongnu.org, Russell King - ARM Linux <linux@armlinux.org.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 5abef19b-8e55-47b4-b6ea-b8e20822dd81
-X-Ovh-Tracer-Id: 1289436869567420777
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehhfevffdtffdvudeuvedvjedtkeffjedvledtvdejudejueetudejgeelheehvdenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhvrghisghhrghvsehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhkohifshhjohhisheslhhinhhugidrihgsmhdrtghomhdptghlgheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmoh
- guvgepshhmthhpohhuth
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,111 +89,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 17 Nov 2022 07:11:51 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Wed, 16 Nov 2022 at 21:49, Tobias Fiebig <tobias@fiebig.nl> wrote:
+>
+> Heho,
+> Ok, I just learned more C than I ever wanted to. There is a bit more amis=
+s here (ll from 7d7238c72b983cff5064734349d2d45be9c6282c):
+>
+> In line 1916 of rtl8139.c we set txdw0; If we calculate the MSS at this p=
+oint, it is consistently 12 below requested, but generally accurate. The bi=
+ts that flip re: -12 must happen somewhere in the Linux kernel driver (ll 7=
+64 in drivers/net/ethernet/realtek/8139cp.c?); Didn't look there in-depth y=
+et (and do not plan to, maybe one of you has more experience with this?) Gi=
+ven the consistency of this deviation, maybe just doing a +12 might be more=
+ straight forward.
+>
+> However, in ll2030ff we reset a couple of status indicators. These overla=
+p with the fields for the MSS, leading to inaccurate values being calculate=
+d later on; For example, requesting an MSS of 767 leads to an MSS of 3 bein=
+g calculated by your patch; Similarly, requesting 1000 leads to 268. At lea=
+st for the latter I see packets of that size being generated on the wire (w=
+hich should also not happen, as the MSS should never be below 536; maybe a =
+check could help here to make sure we are not trusting arbitrary values fro=
+m the driver, esp. given the bobble of sec issues around PMTUD/MSS; Technic=
+ally, now that MSS is defined earlier, we could also move this closer to th=
+e start of TSO large frame handling).
+>
+> Below is also a draft patch following my suggestions (save txdw0, +12, ch=
+eck for <536) and some examples for what I described above, which I can on =
+your last patch. Please note again that this is essentially the first time =
+I do anything in C; Also, I wasn't sure what has less perf impact (save the=
+ whole 32bit of txdw0 even though it might not be needed vs. also doing the=
+ shift/& even though it might not be needed).
+>
+> Apart from that, my patch seems to work, and the MSS gets set correctly; =
+Someone else testing would be nice, though:
+>
+> # MSS_requested=3D1320
+> RTL8139: +++ C+ mode offloaded task TSO IP data 2648 frame data 2668 spec=
+ified MSS=3D1320
+>
+> # MSS_requested=3D1000
+> RTL8139: +++ C+ mode offloaded task TSO IP data 2008 frame data 2028 spec=
+ified MSS=3D1000
+>
+> # MSS_requested=3D600
+> RTL8139: +++ C+ mode offloaded task TSO IP data 1796 frame data 1816 spec=
+ified MSS=3D600
+>
+> With best regards,
+> Tobias
+>
+> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
+> index e6643e3c9d..59321460b9 100644
+> --- a/hw/net/rtl8139.c
+> +++ b/hw/net/rtl8139.c
+> @@ -77,7 +77,6 @@
+>      ( ( input ) & ( size - 1 )  )
+>
+>  #define ETHER_TYPE_LEN 2
+> -#define ETH_MTU     1500
+>
+>  #define VLAN_TCI_LEN 2
+>  #define VLAN_HLEN (ETHER_TYPE_LEN + VLAN_TCI_LEN)
+> @@ -1934,8 +1933,9 @@ static int rtl8139_cplus_transmit_one(RTL8139State =
+*s)
+>  #define CP_TX_LS (1<<28)
+>  /* large send packet flag */
+>  #define CP_TX_LGSEN (1<<27)
+> -/* large send MSS mask, bits 16...25 */
+> -#define CP_TC_LGSEN_MSS_MASK ((1 << 12) - 1)
+> +/* large send MSS mask, bits 16...26 */
+> +#define CP_TC_LGSEN_MSS_SHIFT 16
+> +#define CP_TC_LGSEN_MSS_MASK ((1 << 11) - 1)
+>
+>  /* IP checksum offload flag */
+>  #define CP_TX_IPCS (1<<18)
+> @@ -2027,6 +2027,9 @@ static int rtl8139_cplus_transmit_one(RTL8139State =
+*s)
+>              s->currCPlusTxDesc =3D 0;
+>      }
+>
+> +    /* store unaltered txdw0 for later use in MSS calculation*/
+> +    uint32_t txdw0_save =3D txdw0;
+> +
+>      /* transfer ownership to target */
+>      txdw0 &=3D ~CP_TX_OWN;
+>
+> @@ -2149,10 +2152,12 @@ static int rtl8139_cplus_transmit_one(RTL8139Stat=
+e *s)
+>                      goto skip_offload;
+>                  }
+>
+> -                int large_send_mss =3D (txdw0 >> 16) & CP_TC_LGSEN_MSS_M=
+ASK;
+> +                /* set large_send_mss from txdw0 before overlapping mss =
+fields were cleared */
+> +                int large_send_mss =3D ((txdw0_save >> CP_TC_LGSEN_MSS_S=
+HIFT) &
+> +                    CP_TC_LGSEN_MSS_MASK) + 12;
 
-> Queued in gitlab.com/danielhb/qemu/tree/ppc-next with the following tags:
->=20
+Hi Tobias,
+Thanks for posting this information.
 
-You are planning a PR before 7.2-rc2, right ?
+12 bytes hapens to be the size of the Ethernet header:
+https://en.wikipedia.org/wiki/Ethernet_header#Structure
 
->=20
->      Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
->      Fixes: 61bd1d2942 ("target/ppc: Convert to tcg_ops restore_state_to_=
-opc")
->      Fixes: 670f1da374 ("target/ppc: Implement hashst and hashchk")
+That could be a clue. I'll try to investigate some more.
 
-The guard macro also covers the following two, introduced by yet another co=
-mmit.
+Stefan
 
-  HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
-  HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-
-Fixes: 53ae2aeb9407 ("target/ppc: Implement hashstp and hashchkp")
-
->      Resolves: https://gitlab.com/qemu-project/qemu/-/issues/377
-
-Err... I don't see any relation with this issue.
-
-Cedric ?
-
-But this resolves the issue created by Vaibhav for 7.2 :
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1319
-
->      Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
->      Reviewed-by: Greg Kurz <groug@kaod.org>
->      Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->      Tested-by: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
->=20
->=20
-> Thanks,
->=20
->=20
-> Daniel
->=20
-> On 11/16/22 10:17, Vaibhav Jain wrote:
-> > Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
-> > target is failing due to following build warnings:
-> >=20
-> > <snip>
-> >   ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' d=
-efined but not used [-Werror=3Dunused-function]
-> >   7018 | static void ppc_restore_state_to_opc(CPUState *cs,
-> > <snip>
-> >=20
-> > Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' s=
-o that
-> > they are only defined if qemu is compiled with '--enable-tcg'
-> >=20
-> > Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
-> > Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> > ---
-> >   target/ppc/cpu_init.c    | 2 ++
-> >   target/ppc/excp_helper.c | 2 ++
-> >   2 files changed, 4 insertions(+)
-> >=20
-> > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> > index 32e94153d1..cbf0081374 100644
-> > --- a/target/ppc/cpu_init.c
-> > +++ b/target/ppc/cpu_init.c
-> > @@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
-> >       return cpu->env.nip;
-> >   }
-> >  =20
-> > +#ifdef CONFIG_TCG
-> >   static void ppc_restore_state_to_opc(CPUState *cs,
-> >                                        const TranslationBlock *tb,
-> >                                        const uint64_t *data)
-> > @@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
-> >  =20
-> >       cpu->env.nip =3D data[0];
-> >   }
-> > +#endif /* CONFIG_TCG */
-> >  =20
-> >   static bool ppc_cpu_has_work(CPUState *cs)
-> >   {
-> > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> > index a05a2ed595..94adcb766b 100644
-> > --- a/target/ppc/excp_helper.c
-> > +++ b/target/ppc/excp_helper.c
-> > @@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg=
-1, target_ulong arg2,
-> >   #endif
-> >   #endif
-> >  =20
-> > +#ifdef CONFIG_TCG
-> >   static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uin=
-t32_t lane)
-> >   {
-> >       const uint16_t c =3D 0xfffc;
-> > @@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
-> >   HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
-> >   HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
-> >   HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-> > +#endif /* CONFIG_TCG */
-> >  =20
-> >   #if !defined(CONFIG_USER_ONLY)
-> >  =20
-
+>
+> -                DPRINTF("+++ C+ mode offloaded task TSO MTU=3D%d IP data=
+ %d "
+> -                    "frame data %d specified MSS=3D%d\n", ETH_MTU,
+> +                DPRINTF("+++ C+ mode offloaded task TSO IP data %d "
+> +                    "frame data %d specified MSS=3D%d\n",
+>                      ip_data_len, saved_size - ETH_HLEN, large_send_mss);
+>
+>                  int tcp_send_offset =3D 0;
+> @@ -2177,9 +2182,13 @@ static int rtl8139_cplus_transmit_one(RTL8139State=
+ *s)
+>                      goto skip_offload;
+>                  }
+>
+> -                /* ETH_MTU =3D ip header len + tcp header len + payload =
+*/
+> +                /* MSS too small? Min MSS =3D 536 */
+> +                if (tcp_hlen + hlen >=3D large_send_mss || 535 >=3D larg=
+e_send_mss) {
+> +                    goto skip_offload;
+> +                }
+> +
+>                  int tcp_data_len =3D ip_data_len - tcp_hlen;
+> -                int tcp_chunk_size =3D ETH_MTU - hlen - tcp_hlen;
+> +                int tcp_chunk_size =3D large_send_mss - hlen - tcp_hlen;
+>
+>                  DPRINTF("+++ C+ mode TSO IP data len %d TCP hlen %d TCP =
+"
+>                      "data len %d TCP chunk size %d\n", ip_data_len,
+>
+>
+>
+> Some examples (with additional DPRINT capturing txdw0/MSS at various plac=
+es; txdw0_0=3Dll1923, txdw0_4=3Dll2029, txdw0_5=3Dll2039, txdw0_cur=3Dll215=
+3):
+>
+> MSS_requested=3D556
+> +++ txdw0_cur=3D18000440 txdw0_cur_shift=3D1800 txdw0_cur_MSS=3D0;
+> +++ txdw0_0=3D9a200440 txdw0_0_shift=3D9a20 txdw0_0_MSS=3D544;
+> +++ txdw0_1=3D9a200440 txdw0_1_shift=3D9a20 txdw0_1_MSS=3D544;
+> +++ txdw0_2=3D9a200440 txdw0_2_shift=3D9a20 txdw0_2_MSS=3D544;
+> +++ txdw0_3=3D9a200440 txdw0_3_shift=3D9a20 txdw0_3_MSS=3D544;
+> +++ txdw0_4=3D9a200440 txdw0_4_shift=3D9a20 txdw0_4_MSS=3D544;
+> +++ txdw0_5=3D18000440 txdw0_5_shift=3D1800 txdw0_5_MSS=3D0;
+> +++ txdw0_6=3D18000440 txdw0_6_shift=3D1800 txdw0_6_MSS=3D0;
+> +++ txdw0_7=3D18000440 txdw0_7_shift=3D1800 txdw0_7_MSS=3D0;
+>
+> MSS_requested=3D800
+> +++ txdw0_0=3D9b140cab txdw0_0_shift=3D9b14 txdw0_0_MSS=3D788;
+> +++ txdw0_1=3D9b140cab txdw0_1_shift=3D9b14 txdw0_1_MSS=3D788;
+> +++ txdw0_2=3D9b140cab txdw0_2_shift=3D9b14 txdw0_2_MSS=3D788;
+> +++ txdw0_3=3D9b140cab txdw0_3_shift=3D9b14 txdw0_3_MSS=3D788;
+> +++ txdw0_4=3D9b140cab txdw0_4_shift=3D9b14 txdw0_4_MSS=3D788;
+> +++ txdw0_5=3D19040cab txdw0_5_shift=3D1904 txdw0_5_MSS=3D260;
+> +++ txdw0_6=3D19040cab txdw0_6_shift=3D1904 txdw0_6_MSS=3D260;
+> +++ txdw0_7=3D19040cab txdw0_7_shift=3D1904 txdw0_7_MSS=3D260;
+>
+> MSS_requested=3D1050
+> +++ txdw0_cur=3D1c0e07bf txdw0_cur_shift=3D1c0e txdw0_cur_MSS=3D1038;
+> +++ txdw0_0=3D9c0e07bf txdw0_0_shift=3D9c0e txdw0_0_MSS=3D1038;
+> +++ txdw0_1=3D9c0e07bf txdw0_1_shift=3D9c0e txdw0_1_MSS=3D1038;
+> +++ txdw0_2=3D9c0e07bf txdw0_2_shift=3D9c0e txdw0_2_MSS=3D1038;
+> +++ txdw0_3=3D9c0e07bf txdw0_3_shift=3D9c0e txdw0_3_MSS=3D1038;
+> +++ txdw0_4=3D9c0e07bf txdw0_4_shift=3D9c0e txdw0_4_MSS=3D1038;
+> +++ txdw0_5=3D1c0e07bf txdw0_5_shift=3D1c0e txdw0_5_MSS=3D1038;
+> +++ txdw0_6=3D1c0e07bf txdw0_6_shift=3D1c0e txdw0_6_MSS=3D1038;
+> +++ txdw0_7=3D1c0e07bf txdw0_7_shift=3D1c0e txdw0_7_MSS=3D1038;
+>
+> MSS_requested=3D1060
+> +++ txdw0_cur=3D1c0809ff txdw0_cur_shift=3D1c08 txdw0_cur_MSS=3D1032;
+> +++ txdw0_0=3D9c1809ff txdw0_0_shift=3D9c18 txdw0_0_MSS=3D1048;
+> +++ txdw0_1=3D9c1809ff txdw0_1_shift=3D9c18 txdw0_1_MSS=3D1048;
+> +++ txdw0_2=3D9c1809ff txdw0_2_shift=3D9c18 txdw0_2_MSS=3D1048;
+> +++ txdw0_3=3D9c1809ff txdw0_3_shift=3D9c18 txdw0_3_MSS=3D1048;
+> +++ txdw0_4=3D9c1809ff txdw0_4_shift=3D9c18 txdw0_4_MSS=3D1048;
+> +++ txdw0_5=3D1c0809ff txdw0_5_shift=3D1c08 txdw0_5_MSS=3D1032;
+> +++ txdw0_6=3D1c0809ff txdw0_6_shift=3D1c08 txdw0_6_MSS=3D1032;
+> +++ txdw0_7=3D1c0809ff txdw0_7_shift=3D1c08 txdw0_7_MSS=3D1032;
+>
+> MSS_requested=3D1320
+> +++ txdw0_cur=3D1d0c0b37 txdw0_cur_shift=3D1d0c txdw0_cur_MSS=3D1292;
+> +++ txdw0_0=3D9d1c0b37 txdw0_0_shift=3D9d1c txdw0_0_MSS=3D1308;
+> +++ txdw0_1=3D9d1c0b37 txdw0_1_shift=3D9d1c txdw0_1_MSS=3D1308;
+> +++ txdw0_2=3D9d1c0b37 txdw0_2_shift=3D9d1c txdw0_2_MSS=3D1308;
+> +++ txdw0_3=3D9d1c0b37 txdw0_3_shift=3D9d1c txdw0_3_MSS=3D1308;
+> +++ txdw0_4=3D9d1c0b37 txdw0_4_shift=3D9d1c txdw0_4_MSS=3D1308;
+> +++ txdw0_5=3D1d0c0b37 txdw0_5_shift=3D1d0c txdw0_5_MSS=3D1292;
+> +++ txdw0_6=3D1d0c0b37 txdw0_6_shift=3D1d0c txdw0_6_MSS=3D1292;
+> +++ txdw0_7=3D1d0c0b37 txdw0_7_shift=3D1d0c txdw0_7_MSS=3D1292;
+>
 
