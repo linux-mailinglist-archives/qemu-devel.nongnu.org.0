@@ -2,108 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C6862DE04
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 15:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0652862DC4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Nov 2022 14:08:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovfoc-0007VU-97; Thu, 17 Nov 2022 09:24:30 -0500
+	id 1oveax-0002Vl-Lt; Thu, 17 Nov 2022 08:06:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kowsjois@linux.vnet.ibm.com>)
- id 1ovZQG-0008DT-JB; Thu, 17 Nov 2022 02:34:56 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kowsjois@linux.vnet.ibm.com>)
- id 1ovZQE-00079q-NX; Thu, 17 Nov 2022 02:34:56 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AH7RZBF008886; Thu, 17 Nov 2022 07:34:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=A2lLtzHUXYq/3UhrHLLI7Tol54hG8Mv+3jy93CXxVJ4=;
- b=nzU2g1r8Op5tqxPghsPopy2qlW9wxo/MI8s4R7LoI8l1pKl8yJJD6/UD+6YRIXNkc0G6
- LRpbpIfrLq2/pwiVNw86AG7mHJSE3NmiiBbOgaTP+/93gtFrWngHotWUXYkpPZj/jPEc
- Qx4y2ssMIxueUeVAM7h6Vxn4YZPiIT+MEr782sgMFygnOnz/hkwd5ijDoUPfzuZA5/fn
- CJqGse5D/ZiWPBYzzAZ/F4lh4M50cqljrJ7TLVSUGJkelL1TAtRPYPpRohBqWwt1ZrP7
- e+GvQhpSRkI5OSk2gpH8tfGOwGhXLeMAtAInHXDotUgqD/QsLwC27MlvFIliiC9vsg+S nA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwgk188jq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 07:34:44 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AH7SBGX011062;
- Thu, 17 Nov 2022 07:34:44 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwgk188gf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 07:34:44 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AH7K0WR014594;
- Thu, 17 Nov 2022 07:34:41 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma02fra.de.ibm.com with ESMTP id 3kt3495cct-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 07:34:41 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AH7Ydrm5898752
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Nov 2022 07:34:39 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 72C35A4054;
- Thu, 17 Nov 2022 07:34:39 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1781FA405B;
- Thu, 17 Nov 2022 07:34:37 +0000 (GMT)
-Received: from [9.43.10.198] (unknown [9.43.10.198])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 17 Nov 2022 07:34:36 +0000 (GMT)
-Message-ID: <10a0ee1c-cf89-1fb1-24c2-622f51e6dfe3@linux.vnet.ibm.com>
-Date: Thu, 17 Nov 2022 13:04:35 +0530
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oveam-0002Us-II
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:06:09 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oveai-0003E0-Rd
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 08:06:08 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id f3so1929004pgc.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 05:06:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=N3hbbHG4CTwXtKeb/YtACWGOa4zTlUiCesH3Fm/c9OE=;
+ b=DIYR5UNxqBFhYq8aRL6VmqokW2pLPTC3KdptUMKbZbAoHryWKl58tIdlHIqOsyKmNH
+ 13kCOEr5f4ZgFH1Gx1NxO5fAIND+KrgIq/6upegt3fdpc/GsIamTciIxnOV6NGCCqRvI
+ M7QXAxYwNiX7FvTv/e9s52L89qV66RyttSMQyRHntuE5Wz1hld2MN4bVKk6T6Ydmh1SV
+ 7pVicAoUAP0DOD3faDJ4Ep7ElI5jmMwGlHs0peekDJh4wJrUPMKuEbGlxJbSJBrZ3hnx
+ HcVxBD5w4rAZ888FaGNhhfLga49O/k7A6Lzxeu4FqBRBIpq5hsEhhUaqZ/bai4bTD6pV
+ BbLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N3hbbHG4CTwXtKeb/YtACWGOa4zTlUiCesH3Fm/c9OE=;
+ b=eVHCkCIl8H9D+D/ipXN57+/x2uAIX3C4gwUu+S7H8KtpyrG+QqZpRJKVIEwpcToAWs
+ d0ay3GwIP6tEIFZt2iokwOwDUFKhTgaoFAJV4uM+BIIshrMJCBybmu/GDk/Ov95soT7C
+ p9LtEN7WcX/2yArbHpDyYO78hRbiPHSN8JRM6U0JLjmZ/QiBljzQUMKGoQ7LtEGEk02i
+ qB6BZWWJthgnQ3wL4S4akl9+UHltskmBo7FXogNnZON9dKJZFDVs20pdNPDeYhVu3Sj8
+ 7f24xOemj8opno2n8d830xXK4SNHSyHT61KKstJaKQabqtDy4MNzb69VHQixlbQjvCcy
+ edGA==
+X-Gm-Message-State: ANoB5pnHKe4G7JjZ1NggIbUsa8IUkhhSGZRx2VGn3MH+9k1vlEv4aeW+
+ Qf2Vtf8DNfLpEFLquxq5FPas6LNP/fgeTdOUz95sQZVMK7c=
+X-Google-Smtp-Source: AA0mqf6hy25fBgK4fOBtCEd7DkdX8hiG9aLnJYmKvm95H7pAgpOPOTkJs5PARywxP4zlXVUc0sv9lm6hVu+52cI6RuA=
+X-Received: by 2002:aa7:9ed0:0:b0:571:8549:89c3 with SMTP id
+ r16-20020aa79ed0000000b00571854989c3mr2904527pfq.26.1668690362625; Thu, 17
+ Nov 2022 05:06:02 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] target/ppc: Fix build warnings when building with
- 'disable-tcg'
-Content-Language: en-US
-To: Vaibhav Jain <vaibhav@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: david@gibson.dropbear.id.au, clg@kaod.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org
-References: <20221116131743.658708-1-vaibhav@linux.ibm.com>
-From: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
-In-Reply-To: <20221116131743.658708-1-vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 8t3pktZq1nIiztDINr5CqkAWR6i7YK4S
-X-Proofpoint-ORIG-GUID: eealgyq4_3YHGRNY_EOocLAaMpVztnqi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-17_03,2022-11-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 mlxlogscore=999 spamscore=0 phishscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211170056
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=kowsjois@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <CAFEAcA9tnOCij+OKV8Mpe37g9i5Sd4oYVTA4642SAY9MfCBLLg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9tnOCij+OKV8Mpe37g9i5Sd4oYVTA4642SAY9MfCBLLg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Nov 2022 13:05:51 +0000
+Message-ID: <CAFEAcA_gDzyucBEq2pQJVmgZkLEP5hhW7k6_LmY7_mO3gEGHhw@mail.gmail.com>
+Subject: Re: UI layer threading and locking strategy;
+ memory_region_snapshot_and_clear_dirty() races
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 17 Nov 2022 09:24:27 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,73 +84,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Vaibhav,
-
-Thanks for the quick resolution. I have applied and tested the patch. 
-Everything is smooth. Thank you.
-
-Regards,
-Kowshik Jois
-
-On 16/11/22 18:47, Vaibhav Jain wrote:
-> Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
-> target is failing due to following build warnings:
+On Tue, 1 Nov 2022 at 14:17, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> <snip>
->   ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
->   7018 | static void ppc_restore_state_to_opc(CPUState *cs,
-> <snip>
->
-> Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
-> they are only defined if qemu is compiled with '--enable-tcg'
->
-> Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> ---
->   target/ppc/cpu_init.c    | 2 ++
->   target/ppc/excp_helper.c | 2 ++
->   2 files changed, 4 insertions(+)
->
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 32e94153d1..cbf0081374 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
->       return cpu->env.nip;
->   }
->   
-> +#ifdef CONFIG_TCG
->   static void ppc_restore_state_to_opc(CPUState *cs,
->                                        const TranslationBlock *tb,
->                                        const uint64_t *data)
-> @@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
->   
->       cpu->env.nip = data[0];
->   }
-> +#endif /* CONFIG_TCG */
->   
->   static bool ppc_cpu_has_work(CPUState *cs)
->   {
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index a05a2ed595..94adcb766b 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
->   #endif
->   #endif
->   
-> +#ifdef CONFIG_TCG
->   static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
->   {
->       const uint16_t c = 0xfffc;
-> @@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
->   HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
->   HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
->   HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-> +#endif /* CONFIG_TCG */
->   
->   #if !defined(CONFIG_USER_ONLY)
->   
+> Hi; I'm trying to find out what the UI layer's threading and
+> locking strategy is, at least as far as it applies to display
+> device models.
 
+Ping! :-) I'm still looking for information about this,
+and about what threads call_rcu() callbacks might be run on...
 
+thanks
+-- PMM
+
+> Specifically:
+>  * is the device's GraphicHwOps::gfx_update method always called
+>    from one specific thread, or might it be called from any thread?
+>  * is that method called with any locks guaranteed held? (eg the
+>    iothread lock)
+>  * is the caller of the gfx_update method OK if an implementation
+>    of the method drops the iothread lock temporarily while it is
+>    executing? (my guess would be "no")
+>  * for a gfx_update_async = true device, what are the requirements
+>    on calling graphic_hw_update_done()? Does the caller need to hold
+>    any particular lock? Does the call need to be done from any
+>    particular thread?
+>
+> The background to this is that I'm looking again at the race
+> condition involving the memory_region_snapshot_and_clear_dirty()
+> function, as described here:
+>  https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/#u
+>
+> Having worked through what is going on, as far as I can see:
+>  (1) in order to be sure that we have the right data to match
+>  the snapshotted dirty bitmap state, we must wait for all TCG
+>  vCPUs to leave their current TB
+>  (2) a vCPU might block waiting for the iothread lock mid-TB
+>  (3) therefore we cannot wait for the TCG vCPUs without dropping
+>  the iothread lock one way or another
+>  (4) but none of the callers expect that and various things break
+>
+> My tentative idea for a fix is a bit of an upheaval:
+>  * have the display devices set gfx_update_async = true
+>  * instead of doing everything synchronously in their gfx_update
+>    method, they do the initial setup and call an 'async' version
+>    of memory_region_snapshot_and_clear_dirty()
+>  * that async version of the function will do what it does today,
+>    but without trying to wait for TCG vCPUs
+>  * instead the caller arranges (via call_rcu(), probably) a
+>    callback that will happen once all the TCG CPUs have finished
+>    executing their current TB
+>  * that callback does the actual copy-from-guest-ram-to-display
+>    and then calls graphic_hw_update_done()
+>
+> This seems like an awful pain in the neck but I couldn't see
+> anything better :-(
+>
+> Paolo: what (if any) guarantee does call_rcu() make about
+> which thread the callback function gets executed on, and what
+> locks are/are not held when it's called?
+>
+> (I haven't looked at the migration code's use of
+> memory_global_after_dirty_log_sync() but I suspect it's
+> similarly broken.)
+>
+> thanks
+> -- PMM
 
