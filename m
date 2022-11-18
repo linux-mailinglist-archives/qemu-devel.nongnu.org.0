@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3542562EA43
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 01:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F7F62EA62
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 01:34:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovpDy-0000Px-0Y; Thu, 17 Nov 2022 19:27:18 -0500
+	id 1ovpK1-0001ic-RQ; Thu, 17 Nov 2022 19:33:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ovpDv-0000Pl-Qs; Thu, 17 Nov 2022 19:27:15 -0500
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
- helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ovpDs-00016u-8L; Thu, 17 Nov 2022 19:27:15 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4NCyJz3CMyz4xZg; Fri, 18 Nov 2022 11:26:59 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1668731219;
- bh=Mxzy6itV4VLihxx/aNi+shOKSTi2rb3xQfOMatJ0zZo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BTDc8AydKuMxX2A+KTurGS6ldW3S0NCsD894R49u5sLia4AIxCqCgP4uAi10XBIta
- DwkbXvhBiPSMb/IqKWNUAYKaU9IKyy9q64d3/j+XFaWmYEZazjtzQKxyiQXZriLLP2
- UfmCA/gjlp3tJQ+WdCYHrpEv7rwCYW0TP0l35JcQ=
-Date: Fri, 18 Nov 2022 10:59:47 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH for-8.0] MAINTAINERS: downgrade PPC KVM/TCG CPUs and
- pSeries to 'Odd Fixes'
-Message-ID: <Y3bK8zd2QIf7W54v@yekko>
-References: <20221117153218.182835-1-danielhb413@gmail.com>
- <20221117180633.4264cc1d@bahia>
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1ovpJX-0001fh-Q9
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 19:33:23 -0500
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1ovpJV-000293-Gd
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 19:33:03 -0500
+Received: by mail-ua1-x92c.google.com with SMTP id y24so996533uaq.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 16:33:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uvJp+oKLjVQQYSDQ6yFWAZWraVSKN55mbCI3dSinkIw=;
+ b=N6faYeAmBHwqNIieAHDcQSPQeBY9RnZuAMlC1THqu8t87HZZ1Mr1RGCjryLNfEbaQf
+ EIU2saSzE1s7T0C1KbARg3/HuzJSTF6ox3Cfr7E7m+CQGY+x5MpAoWtfxcyRxqYuWQtv
+ s7QQl9ONDWAIwx1I34HRV3Ca6q6/oi9DTSdhuB3V3b053SrmrQkIuZruiNdg/+Gjhvyf
+ WtLAGlXx4vH15fL0+xFx3FHxNuZY0KRxaGuPvkxL9lKuXBL1BGSyh6c5zDZ7mqpMM/RR
+ 9Vt+d/P/9b0kqCgEJCZ5fXQ3Un0WM7SRDGKZumhuuWGbj84hGfUOWQKH7SwdfTCyhK1W
+ FzbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uvJp+oKLjVQQYSDQ6yFWAZWraVSKN55mbCI3dSinkIw=;
+ b=JX2LpQS8BYtoX+VzSKDmuG4XMrJWHttTgifesfy65ADUPKxB7Ru9lKmIaX2WH2STfk
+ wFz4dF7/naxSKkcSefgksRuwX9wd7AbG+zP0FIhdkO7IutuIlmHxHZ+//ohIUCbAh4dv
+ dL+4sA98WWHW/TdIcL0lmAbiOiMEFqCyvgxH2JE70GLVWNhLnN6+LC63cRvFITORbhTK
+ PbtJJTXGa3Ftzno7+AoUPIqtpBklHpdBwJxh+lJ7zXh/SLuVKd3NytF+bp8qvaZ75upY
+ JViV7Sm9N64licf9GxOzGO5TrymJvRjToKD+7ZkN8H6aFGaQ7dMEGcAQ6Gxji7qFDHdw
+ YZ/g==
+X-Gm-Message-State: ANoB5pmaenwraFz+orLQXKV2SllbOVQf7fMh89Bbmm1Lfnz/Dqd5z34p
+ bbfnfNjWhBwjOYb0a+TjMtybMZ2L+02o5ofS5ko=
+X-Google-Smtp-Source: AA0mqf5krzl4tjqR0afquj+ARdoszUlikKiqqb4hupC6qq7Hk+umAIEd3X/H9/iTRI3RHYZhZluvH2hxk+G3ptAYCnM=
+X-Received: by 2002:ab0:5657:0:b0:3d2:b:713f with SMTP id
+ z23-20020ab05657000000b003d2000b713fmr2721273uaa.116.1668731579714; 
+ Thu, 17 Nov 2022 16:32:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FskqNVLQcFS9ZwSP"
-Content-Disposition: inline
-In-Reply-To: <20221117180633.4264cc1d@bahia>
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <20221117064444.20648-1-faithilikerun@gmail.com>
+ <CAAAx-8JHmxe=9GuoZ+T1yqtLrrzk+-6_HL5EJ6LBJ+twOKp8sA@mail.gmail.com>
+ <CAJSP0QX3j9SbKW7tL6_vc9Ru518qWEG=288gkd+ArkHF05Vgsg@mail.gmail.com>
+In-Reply-To: <CAJSP0QX3j9SbKW7tL6_vc9Ru518qWEG=288gkd+ArkHF05Vgsg@mail.gmail.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Fri, 18 Nov 2022 08:33:10 +0800
+Message-ID: <CAAAx-8+bTxcWEbP2Q+pGOpxNAZFera31Js3wYUZt=nwqpJbG2w@mail.gmail.com>
+Subject: Re: [qemu-web PATCH] Add a blog post about zoned storage emulation
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, hare@suse.de, Paolo Bonzini <pbonzini@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, dmitry.fomichev@wdc.com, 
+ damien.lemoal@opensource.wdc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=faithilikerun@gmail.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,104 +88,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B411=E6=9C=8818=E6=
+=97=A5=E5=91=A8=E4=BA=94 03:12=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi Sam,
+> Please send a git repo URL so Thomas can fetch the commit without
+> email/file size limitations.
 
---FskqNVLQcFS9ZwSP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'll push it to the zbd branch after fixing the bellowing.
+https://github.com/sgzerolc/qemu-web/zbd
 
-On Thu, Nov 17, 2022 at 06:06:33PM +0100, Greg Kurz wrote:
-> On Thu, 17 Nov 2022 12:32:18 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
->=20
-> > The maintainer is no longer being paid to maintain these components. All
-> > maintainership work is being done in his personal time since the middle
-> > of the 7.2 development cycle.
-> >=20
->=20
-> Great thanks Daniel for all your contributions over
-> the years, and for being the one steering the vessel
-> to the dry dock. This is it.
+>
+> > diff --git a/_posts/2022-11-17-zoned-emulation.md b/_posts/2022-11-17-z=
+oned-emulation.md
+> > new file mode 100644
+> > index 0000000..69ce4d7
+> > --- /dev/null
+> > +++ b/_posts/2022-11-17-zoned-emulation.md
+> > @@ -0,0 +1,45 @@
+> > +---
+> > +layout: post
+> > +title:  "Introduction to Zoned Storage Emulation"
+> > +date:   2022-11-17
+> > +author: Sam Li
+> > +categories: [storage, gsoc, outreachy, internships]
+> > +---
+> > +
+> > +## Zoned block devices
+> > +
+> > +Aimed for at-scale data infrastructures,
+>
+> I don't know what at-scale data infrastructure is. Is it something
+> readers can relate to? Otherwise there's a risk that readers will
+> decide this doesn't apply to them and stop reading.
 
-Seconded.
+Yes, I'll remove it.
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+>
+> > zoned block devices (ZBDs) divide the LBA space into block regions call=
+ed zones that are larger than the LBA size.
+>
+> LBA is not defined and also not used again after this sentence.
+> Readers will be familiar with disks but may not know what an LBA is.
+> Since the concept isn't used again I suggest dropping it:
+>
+>   zoned block devices (ZBDs) are divided into regions called zones
+> that can only be written sequentially.
+>
+> > By only allowing sequential writes, it can reduce write amplification i=
+n SSDs,
+>
+> This sounds more natural:
+>
+>   By only allowing sequential writes, SSD write amplification can be redu=
+ced
+>
+> It might also be nice to provide a little bit of extra context:
+>
+>   ... reduced by eliminating the need for a <a
+> href=3D"https://en.wikipedia.org/wiki/Flash_translation_layer">Flash
+> Translation Layer</a>
+>
+> > and potentially lead to higher throughput and increased capacity. Provi=
+ding new storage software stack,
+>
+> s/Providing new/Providing a new/
+>
+> > zoned storage concept is standardized as ZBC(SCSI standard), ZAC(ATA st=
+andard), ZNS(NVMe).
+>
+> Small tweaks:
+>
+>   zoned storage concepts are standardized in ZBC (SCSI standard), ZAC
+> (ATA standard), ZNS (NVMe).
+>
+> There is a space before opening parentheses: hello (world) instead of
+> hello(world). Please check the rest of the article for more instances
+> of this.
+>
+> It would be nice to include links but I didn't find good pages for
+> ZBC/ZAC/ZNS aside from the full standards that they are part of.
+>
+> This intro section would be a good place to link to https://zonedstorage.=
+io/!
 
->=20
-> > Change the status of PPC KVM CPUs, PPC TCG CPUs and the pSeries machine
-> > to 'Odd Fixes', reflecting that the maintainer no longer has exclusive
-> > time to dedicate to them. It'll also (hopefully) keep expectations under
-> > check when/if these components are used in a customer product.
-> >=20
-> > Cc: C=E9dric Le Goater <clg@kaod.org>
-> > Cc: David Gibson <david@gibson.dropbear.id.au>
-> > Cc: Greg Kurz <groug@kaod.org>
-> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > ---
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
-> >  MAINTAINERS | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index be151f0024..1d43153e5f 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -264,7 +264,7 @@ R: C=E9dric Le Goater <clg@kaod.org>
-> >  R: David Gibson <david@gibson.dropbear.id.au>
-> >  R: Greg Kurz <groug@kaod.org>
-> >  L: qemu-ppc@nongnu.org
-> > -S: Maintained
-> > +S: Odd Fixes
-> >  F: target/ppc/
-> >  F: hw/ppc/ppc.c
-> >  F: hw/ppc/ppc_booke.c
-> > @@ -389,7 +389,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> >  R: C=E9dric Le Goater <clg@kaod.org>
-> >  R: David Gibson <david@gibson.dropbear.id.au>
-> >  R: Greg Kurz <groug@kaod.org>
-> > -S: Maintained
-> > +S: Odd Fixes
-> >  F: target/ppc/kvm.c
-> > =20
-> >  S390 KVM CPUs
-> > @@ -1367,7 +1367,7 @@ R: C=E9dric Le Goater <clg@kaod.org>
-> >  R: David Gibson <david@gibson.dropbear.id.au>
-> >  R: Greg Kurz <groug@kaod.org>
-> >  L: qemu-ppc@nongnu.org
-> > -S: Maintained
-> > +S: Odd Fixes
-> >  F: hw/*/spapr*
-> >  F: include/hw/*/spapr*
-> >  F: hw/*/xics*
->=20
+Good idea! Zoned storage site also has a brief introduction to those standa=
+rds.
+https://zonedstorage.io/docs/introduction/smr#governing-standards
+https://zonedstorage.io/docs/introduction/zns
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+>
+> > Meanwhile, the virtio protocol for block devices(virtio-blk) should als=
+o be aware of ZBDs instead of taking them as regular block devices. It shou=
+ld be able to pass such devices through to the guest. An overview of necess=
+ary work is as follows:
+> > +
+> > +1. Virtio protocol: [extend virtio-blk protocol with main zoned storag=
+e concept](https://lwn.net/Articles/914377/), Dmitry Fomichev
+> > +2. Linux: [implement the virtio specification extensions](https://www.=
+spinics.net/lists/linux-block/msg91944.html), Dmitry Fomichev
+> > +3. QEMU: add zoned emulation support to virtio-blk, Sam Li, [Outreachy=
+ 2022 project](https://wiki.qemu.org/Internships/ProjectIdeas/VirtIOBlkZone=
+dBlockDevices)
+>
+> You could split the QEMU work into 2 points if you like:
+> 3. QEMU: add zoned storage APIs to the block layer, Sam Li
+> 4. QEMU: implement zoned storage support in virtio-blk emulation, Sam Li
+>
+> > +
+> > +<img src=3D"/screenshots/zbd.png" alt=3D"zbd" style=3D"zoom:50%;" />
+> > +
+> > +## Zoned emulation
+> > +
+> > +Currently, QEMU can support zoned devices by virtio-scsi or PCI device=
+ passthrough. It needs to specify the device type it is talking to. While s=
+torage controller emulation uses block layer APIs instead of directly acces=
+sing disk images. Extending virtio-blk emulation avoids code duplication an=
+d simplify the support by hiding the device types under a unified zoned sto=
+rage interface, simplifying VM deployment for different type of zoned devic=
+es.
+>
+> Another advantages that come to mind:
+> 1. virtio-blk can be implemented in hardware. If those devices wish to
+> follow the zoned storage model then the virtio-blk specification needs
+> to natively support zoned storage.
+> 2. Individual NVMe namespaces or anything that is a zoned Linux block
+> device can be exposed to the guest without passing through a full
+> device.
 
---FskqNVLQcFS9ZwSP
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks!
 
------BEGIN PGP SIGNATURE-----
+>
+> > +
+> > +For zoned storage emulation, zoned storage APIs support three zoned mo=
+dels(conventional, host-managed, host-aware) , four zone management command=
+s(Report Zone, Open Zone, Close Zone, Finish Zone), and Append Zone.  QEMU =
+block storage
+>
+> Maybe:
+> s/QEMU block storage/The QEMU block layer/
+>
+> > has a BlockDriverState graph that propagates device information inside =
+block layer. A root pointer at BlockBackend points to the graph. There are =
+three type of block driver nodes: filter node, format node, protocol node. =
+File-posix driver is the lowest level within the graph where zoned storage =
+APIs reside.
+>
+> Is it possible to remove "A root pointer at BlockBackend points to the
+> graph. There are three type of block driver nodes: filter node, format
+> node, protocol node." so there are fewer new concepts? I didn't see
+> further use of BlockBackend or filter/format nodes in the text.
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmN2yu0ACgkQgypY4gEw
-YSLQDQ/9HDDdU76QXV1EiyrXruWUtYr6seKeFWwF0gNoM09czUobQM5ucQqvl7W7
-fVBC2GuS9e7xojZDuid4xECuFKcnZ/1Wrv4Y7kMqYV69j6idawNncI3+ytFQN3G4
-OfXRA0pzRnsyNxek1W3M3DVqn+6PIQsr+d0C6IhOGV7alRc0CPENPOOnQeU31OQU
-oXLexzTPBlZkibfmguYolC6j/vCUsqTI+KHxC1a50WMrDCiSgR59CMpULrtMFGGW
-ry/lpGRPu1eiM6ibifag47d/9SjTY1KekwglLMoiVxHOHIpplb/ZIC6Fn738EEaL
-ITOmZDOJl26dskLL9SvaOFWeqVYQfV6P8T0RqQKzabUPfixxEZmV0ZGf1TNwRIzL
-Py1aPjhenvsaHxxM/FtRc5XLyozYVXr1XgKLV4GzaDL38HNJyFfj2GTZIFXaCgSF
-gLQe7C+UVCOiLdfCwAeOlw3hPQIFKeB/4w4g9zmphoMWFYxFOAp4Dejl/LdxTc9d
-bWp0NX4z6sE6daK+jq5gsQgFLGWPE8F8zBEgIs7onhgd80ySizaisiU+zN7sDRIj
-AdAzbRaTtUuhsdSJvRCh+mhiJnOReqKg7XhQtMLeyATrKNbTxYckiw2DvDqMpejC
-u2tcf+bveFT8QzetyzNNrty3wdKYeYs5785MZlOFQtDHnnUw1LM=
-=sKzg
------END PGP SIGNATURE-----
+Yes, it can be removed.
 
---FskqNVLQcFS9ZwSP--
+>
+> > +
+> > +<img src=3D"/screenshots/storage_overview.png" alt=3D"storage_overview=
+" style=3D"zoom: 50%;" />
+> > +
+> > +After receiving the block driver states, Virtio-blk emulation recogniz=
+es zoned devices and sends the zoned feature bit to guest. Then the guest c=
+an see the zoned device in the host. When the guest executes zoned operatio=
+ns, virtio-blk driver issues corresponding requests that will be captured b=
+y virito-blk
+>
+> s/virito/virtio/
+>
+> > device inside QEMU. Afterwards, virtio-blk device sends the requests to=
+ file-posix driver which will perform zoned operations.
+> > +
+> > +Unlike zone management operations, Linux doesn't have a user API
+>
+> The Linux userspace API (<linux/blkzoned.h>) hasn't been mentioned
+> before. Maybe the previous paragraph should explain that file-posix
+> performs zoned operations using <linux/blkzoned.h> ioctls? Then this
+> sentence will be easier to understand.
+>
+> > to issue zone append requests to zoned devices from user space. With th=
+e help of write pointer emulation tracking locations of write pointer of ea=
+ch zone, QEMU block layer performs append writes by modifying regular write=
+s. Write pointer locks guarantee the execution of requests. Upon failure it=
+ must not update the write pointer location which is only got updated when =
+the request is successfully finished.
+> > +
+> > +Problems can always be sovled
+>
+> s/sovled/solved/
+
+Thanks for your comments,
+Sam
 
