@@ -2,62 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B953462F53E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 13:44:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E72962F545
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 13:47:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow0eH-0005tg-HI; Fri, 18 Nov 2022 07:39:14 -0500
+	id 1ow0k7-0002Nj-1P; Fri, 18 Nov 2022 07:45:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ow0dy-0005pH-98; Fri, 18 Nov 2022 07:38:54 -0500
-Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ow0ds-0007fZ-GG; Fri, 18 Nov 2022 07:38:54 -0500
-Received: from localhost.localdomain (unknown [180.165.240.202])
- by APP-05 (Coremail) with SMTP id zQCowACHj7fNfHdjlWwsCg--.62094S11;
- Fri, 18 Nov 2022 20:38:44 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v5 9/9] disas/riscv.c: add disasm support for Zc*
-Date: Fri, 18 Nov 2022 20:37:28 +0800
-Message-Id: <20221118123728.49319-10-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221118123728.49319-1-liweiwei@iscas.ac.cn>
-References: <20221118123728.49319-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ow0jt-0002HO-Q7
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 07:45:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ow0jr-0000HD-Pb
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 07:45:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668775499;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NcUGyXpWix3x5OCNUTtXV43ZVS0eiOCeLiFSNdHjqFc=;
+ b=C6Bsmwp4cRtvvhrICx1qvKKlgNYtaQpDl00ixcVBeWKSJXMvLnbnTs6RrIkvUwulsOGPeO
+ kDRUhzAnmuQVwnb752QF/yOO/FtGkOOaPL1Ji8CMl/FmG59Zc/tLnNRALNVJ7zCb7AR8m8
+ RbUwsiohcRiaCSaLY97dDHwGViURjsE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-564-IHGTmlZaNLyARfgSovSLrg-1; Fri, 18 Nov 2022 07:44:50 -0500
+X-MC-Unique: IHGTmlZaNLyARfgSovSLrg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ h9-20020a05640250c900b00461d8ee12e2so2928198edb.23
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 04:44:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NcUGyXpWix3x5OCNUTtXV43ZVS0eiOCeLiFSNdHjqFc=;
+ b=VoL6i5UlfJ1bRaHxANmTYms6Tfs5lVXLxqLYJFMoVyp3ITIaQnFgfsOVyruYPjtbwH
+ 8GuDG0gYnF07gr9c1gRkgua5OXdBCHlYhAZGb/bzbbasfJqQLdWK8uxfvgjyXQLvPgNr
+ wA1MM0+PiQwtDI8mdzU6e3fZ+vb8oHnCL+NeBjiaUyJD9QLQTzRrLy5nz+fjqnYTLq+9
+ c4NVVnj/iCOr8alD43JJZ/vmcUt9amC8Fyr3d/TorLYOjcTOMJHcpIosfTyAPj7sw/ny
+ JLJNCUsGSciCMhlZkDsacIr6P2vDG36eLI1x7DeoreeZyermjwX/yV+H7kWdlNQ77GQA
+ pJrA==
+X-Gm-Message-State: ANoB5plU58GMAZeCL+xuBNstrNDwmI93rSdh+Xr42qMdQiLVjYJrLX//
+ mcFgxJbwS7vDwXgMeiEJg2jAU/p3UC+sFmZh6Y1TsLGJjbAyhsIRtj9TBUj2S3PRSMO6uIBWkF8
+ zYoHBjwKOUIDIBNk=
+X-Received: by 2002:a17:907:75f3:b0:78d:b046:aaae with SMTP id
+ jz19-20020a17090775f300b0078db046aaaemr5638046ejc.218.1668775489308; 
+ Fri, 18 Nov 2022 04:44:49 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7P86gHbkkOY8EdEwfFpDPe05Ihqzd4NXt0/giD9NneEDDdLcJ548wrsiemjvlJWmBniKe9lQ==
+X-Received: by 2002:a17:907:75f3:b0:78d:b046:aaae with SMTP id
+ jz19-20020a17090775f300b0078db046aaaemr5638010ejc.218.1668775488903; 
+ Fri, 18 Nov 2022 04:44:48 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ kv9-20020a17090778c900b0078b03d57fa7sm1642795ejc.34.2022.11.18.04.44.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 04:44:48 -0800 (PST)
+Date: Fri, 18 Nov 2022 13:44:47 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, ani@anisinha.ca,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ mark.cave-ayland@ilande.co.uk, peter.maydell@linaro.org,
+ andrew.smirnov@gmail.com, paulburton@kernel.org,
+ aleksandar.rikalo@syrmia.com, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au, groug@kaod.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 1/2] remove DEC 21154 PCI bridge
+Message-ID: <20221118134447.6b13b791@imammedo.users.ipa.redhat.com>
+In-Reply-To: <79ad881d-ac77-5bca-bd5f-ba6290b2c830@eik.bme.hu>
+References: <20221116152730.3691347-1-imammedo@redhat.com>
+ <20221116152730.3691347-2-imammedo@redhat.com>
+ <79ad881d-ac77-5bca-bd5f-ba6290b2c830@eik.bme.hu>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACHj7fNfHdjlWwsCg--.62094S11
-X-Coremail-Antispam: 1UD129KBjvJXoW3trWrWr15WFW3AryUWF13twb_yoWDWr4DpF
- yrG343JrWj9a4Sq3WfAFW8AasxtrW8Wr47JaySy3Z5u3srZ34furyjq3yavFykG3y0kr47
- uFsxWF4jg3Z7JrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9E14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
- 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
- IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrw
- CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
- 14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
- IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAv
- wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14
- v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZX7UUUUU==
-X-Originating-IP: [180.165.240.202]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,405 +107,283 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Zcmp/Zcmt instructions will override disasm for c.fld*/c.fsd*
-instructions currently
+On Wed, 16 Nov 2022 20:39:29 +0100 (CET)
+BALATON Zoltan <balaton@eik.bme.hu> wrote:
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- disas/riscv.c | 287 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 286 insertions(+), 1 deletion(-)
+> On Wed, 16 Nov 2022, Igor Mammedov wrote:
+> 
+> > Code has not been used practically since its inception (2004)
+> >  f2aa58c6f4a20 UniNorth PCI bridge support
+> > or maybe even earlier, but it was consuming contributors time
+> > as QEMU was being rewritten.
+> > Drop it for now. Whomever would like to actually
+> > use the thing, can make sure it actually works/reintroduce
+> > it back when there is a user.
+> >
+> > PS:
+> > I've stumbled upon this when replacing PCIDeviceClass::is_bridge
+> > field with QOM cast to PCI_BRIDGE type. Unused DEC 21154
+> > was the only one trying to use the field with plain PCIDevice.
+> > It's not worth keeping the field around for the sake of the code
+> > that was commented out 'forever'.
+> >
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > hw/pci-bridge/dec.h       |   9 ---
+> > include/hw/pci/pci_ids.h  |   1 -
+> > hw/pci-bridge/dec.c       | 164 --------------------------------------
+> > hw/pci-bridge/meson.build |   2 -
+> > hw/pci-host/uninorth.c    |   6 --
+> > 5 files changed, 182 deletions(-)
+> > delete mode 100644 hw/pci-bridge/dec.h
+> > delete mode 100644 hw/pci-bridge/dec.c
+> >
+> > diff --git a/hw/pci-bridge/dec.h b/hw/pci-bridge/dec.h
+> > deleted file mode 100644
+> > index 869e90b136..0000000000
+> > --- a/hw/pci-bridge/dec.h
+> > +++ /dev/null
+> > @@ -1,9 +0,0 @@
+> > -#ifndef HW_PCI_BRIDGE_DEC_H
+> > -#define HW_PCI_BRIDGE_DEC_H
+> > -
+> > -
+> > -#define TYPE_DEC_21154 "dec-21154-sysbus"
+> > -
+> > -PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn);
+> > -
+> > -#endif
+> > diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+> > index bc9f834fd1..e4386ebb20 100644
+> > --- a/include/hw/pci/pci_ids.h
+> > +++ b/include/hw/pci/pci_ids.h
+> > @@ -169,7 +169,6 @@
+> >
+> > #define PCI_VENDOR_ID_DEC                0x1011
+> > #define PCI_DEVICE_ID_DEC_21143          0x0019
+> > -#define PCI_DEVICE_ID_DEC_21154          0x0026
+> >
+> > #define PCI_VENDOR_ID_CIRRUS             0x1013
+> >
+> > diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
+> > deleted file mode 100644
+> > index 4773d07e6d..0000000000
+> > --- a/hw/pci-bridge/dec.c
+> > +++ /dev/null
+> > @@ -1,164 +0,0 @@
+> > -/*
+> > - * QEMU DEC 21154 PCI bridge
+> > - *
+> > - * Copyright (c) 2006-2007 Fabrice Bellard
+> > - * Copyright (c) 2007 Jocelyn Mayer
+> > - *
+> > - * Permission is hereby granted, free of charge, to any person obtaining a copy
+> > - * of this software and associated documentation files (the "Software"), to deal
+> > - * in the Software without restriction, including without limitation the rights
+> > - * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> > - * copies of the Software, and to permit persons to whom the Software is
+> > - * furnished to do so, subject to the following conditions:
+> > - *
+> > - * The above copyright notice and this permission notice shall be included in
+> > - * all copies or substantial portions of the Software.
+> > - *
+> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> > - * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> > - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> > - * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> > - * THE SOFTWARE.
+> > - */
+> > -
+> > -#include "qemu/osdep.h"
+> > -#include "dec.h"
+> > -#include "hw/sysbus.h"
+> > -#include "qapi/error.h"
+> > -#include "qemu/module.h"
+> > -#include "hw/pci/pci.h"
+> > -#include "hw/pci/pci_host.h"
+> > -#include "hw/pci/pci_bridge.h"
+> > -#include "hw/pci/pci_bus.h"
+> > -#include "qom/object.h"
+> > -
+> > -OBJECT_DECLARE_SIMPLE_TYPE(DECState, DEC_21154)
+> > -
+> > -struct DECState {
+> > -    PCIHostState parent_obj;
+> > -};
+> > -
+> > -static int dec_map_irq(PCIDevice *pci_dev, int irq_num)
+> > -{
+> > -    return irq_num;
+> > -}
+> > -
+> > -static void dec_pci_bridge_realize(PCIDevice *pci_dev, Error **errp)
+> > -{
+> > -    pci_bridge_initfn(pci_dev, TYPE_PCI_BUS);
+> > -}
+> > -
+> > -static void dec_21154_pci_bridge_class_init(ObjectClass *klass, void *data)
+> > -{
+> > -    DeviceClass *dc = DEVICE_CLASS(klass);
+> > -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> > -
+> > -    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> > -    k->realize = dec_pci_bridge_realize;
+> > -    k->exit = pci_bridge_exitfn;
+> > -    k->vendor_id = PCI_VENDOR_ID_DEC;
+> > -    k->device_id = PCI_DEVICE_ID_DEC_21154;
+> > -    k->config_write = pci_bridge_write_config;
+> > -    k->is_bridge = true;
+> > -    dc->desc = "DEC 21154 PCI-PCI bridge";
+> > -    dc->reset = pci_bridge_reset;
+> > -    dc->vmsd = &vmstate_pci_device;
+> > -}
+> > -
+> > -static const TypeInfo dec_21154_pci_bridge_info = {
+> > -    .name          = "dec-21154-p2p-bridge",
+> > -    .parent        = TYPE_PCI_BRIDGE,
+> > -    .instance_size = sizeof(PCIBridge),
+> > -    .class_init    = dec_21154_pci_bridge_class_init,
+> > -    .interfaces = (InterfaceInfo[]) {
+> > -        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> > -        { },
+> > -    },
+> > -};
+> > -
+> > -PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn)
+> > -{
+> > -    PCIDevice *dev;
+> > -    PCIBridge *br;
+> > -
+> > -    dev = pci_new_multifunction(devfn, false, "dec-21154-p2p-bridge");
+> > -    br = PCI_BRIDGE(dev);
+> > -    pci_bridge_map_irq(br, "DEC 21154 PCI-PCI bridge", dec_map_irq);
+> > -    pci_realize_and_unref(dev, parent_bus, &error_fatal);
+> > -    return pci_bridge_get_sec_bus(br);
+> > -}
+> > -
+> > -static void pci_dec_21154_device_realize(DeviceState *dev, Error **errp)
+> > -{
+> > -    PCIHostState *phb;
+> > -    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> > -
+> > -    phb = PCI_HOST_BRIDGE(dev);
+> > -
+> > -    memory_region_init_io(&phb->conf_mem, OBJECT(dev), &pci_host_conf_le_ops,
+> > -                          dev, "pci-conf-idx", 0x1000);
+> > -    memory_region_init_io(&phb->data_mem, OBJECT(dev), &pci_host_data_le_ops,
+> > -                          dev, "pci-data-idx", 0x1000);
+> > -    sysbus_init_mmio(sbd, &phb->conf_mem);
+> > -    sysbus_init_mmio(sbd, &phb->data_mem);
+> > -}
+> > -
+> > -static void dec_21154_pci_host_realize(PCIDevice *d, Error **errp)
+> > -{
+> > -    /* PCI2PCI bridge same values as PearPC - check this */
+> > -}
+> > -
+> > -static void dec_21154_pci_host_class_init(ObjectClass *klass, void *data)
+> > -{
+> > -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> > -    DeviceClass *dc = DEVICE_CLASS(klass);
+> > -
+> > -    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> > -    k->realize = dec_21154_pci_host_realize;
+> > -    k->vendor_id = PCI_VENDOR_ID_DEC;
+> > -    k->device_id = PCI_DEVICE_ID_DEC_21154;
+> > -    k->revision = 0x02;
+> > -    k->class_id = PCI_CLASS_BRIDGE_PCI;
+> > -    k->is_bridge = true;
+> > -    /*
+> > -     * PCI-facing part of the host bridge, not usable without the
+> > -     * host-facing part, which can't be device_add'ed, yet.
+> > -     */
+> > -    dc->user_creatable = false;
+> > -}
+> > -
+> > -static const TypeInfo dec_21154_pci_host_info = {
+> > -    .name          = "dec-21154",
+> > -    .parent        = TYPE_PCI_DEVICE,
+> > -    .instance_size = sizeof(PCIDevice),
+> > -    .class_init    = dec_21154_pci_host_class_init,
+> > -    .interfaces = (InterfaceInfo[]) {
+> > -        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> > -        { },
+> > -    },
+> > -};
+> > -
+> > -static void pci_dec_21154_device_class_init(ObjectClass *klass, void *data)
+> > -{
+> > -    DeviceClass *dc = DEVICE_CLASS(klass);
+> > -
+> > -    dc->realize = pci_dec_21154_device_realize;
+> > -}
+> > -
+> > -static const TypeInfo pci_dec_21154_device_info = {
+> > -    .name          = TYPE_DEC_21154,
+> > -    .parent        = TYPE_PCI_HOST_BRIDGE,
+> > -    .instance_size = sizeof(DECState),
+> > -    .class_init    = pci_dec_21154_device_class_init,
+> > -};
+> > -
+> > -static void dec_register_types(void)
+> > -{
+> > -    type_register_static(&pci_dec_21154_device_info);
+> > -    type_register_static(&dec_21154_pci_host_info);
+> > -    type_register_static(&dec_21154_pci_bridge_info);
+> > -}
+> > -
+> > -type_init(dec_register_types)
+> > diff --git a/hw/pci-bridge/meson.build b/hw/pci-bridge/meson.build
+> > index 243ceeda50..fe92d43de6 100644
+> > --- a/hw/pci-bridge/meson.build
+> > +++ b/hw/pci-bridge/meson.build
+> > @@ -8,8 +8,6 @@ pci_ss.add(when: 'CONFIG_PXB', if_true: files('pci_expander_bridge.c'),
+> > pci_ss.add(when: 'CONFIG_XIO3130', if_true: files('xio3130_upstream.c', 'xio3130_downstream.c'))
+> > pci_ss.add(when: 'CONFIG_CXL', if_true: files('cxl_root_port.c', 'cxl_upstream.c', 'cxl_downstream.c'))
+> >
+> > -# NewWorld PowerMac
+> > -pci_ss.add(when: 'CONFIG_DEC_PCI', if_true: files('dec.c'))
+> > # Sun4u
+> > pci_ss.add(when: 'CONFIG_SIMBA', if_true: files('simba.c'))
+> >
+> > diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
+> > index aebd44d265..5c617e86c1 100644
+> > --- a/hw/pci-host/uninorth.c
+> > +++ b/hw/pci-host/uninorth.c
+> > @@ -127,12 +127,6 @@ static void pci_unin_main_realize(DeviceState *dev, Error **errp)
+> >                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
+> >
+> >     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-pci");
+> > -
+> > -    /* DEC 21154 bridge */
+> > -#if 0
+> > -    /* XXX: not activated as PPC BIOS doesn't handle multiple buses properly */  
+> 
+> I think real hardware has this bridge and QEMU could emulate it but 
+> OpenBIOS can't handle more than one PCI bus or this bridge yet so this was 
+> disabled for that reason. Maybe leave the comment around as a reminder 
+> that this could be brought back from git history if somebody wants to fix 
+> it in the future, otherwise this may be forgotten and reimplemented from 
+> scratch.
 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index d216b9c39b..81369063b5 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -163,6 +163,13 @@ typedef enum {
-     rv_codec_v_i,
-     rv_codec_vsetvli,
-     rv_codec_vsetivli,
-+    rv_codec_zcb_ext,
-+    rv_codec_zcb_mul,
-+    rv_codec_zcb_lb,
-+    rv_codec_zcb_lh,
-+    rv_codec_zcmp_cm_pushpop,
-+    rv_codec_zcmp_cm_mv,
-+    rv_codec_zcmt_jt,
- } rv_codec;
- 
- typedef enum {
-@@ -935,6 +942,26 @@ typedef enum {
-     rv_op_vsetvli = 766,
-     rv_op_vsetivli = 767,
-     rv_op_vsetvl = 768,
-+    rv_op_c_zext_b = 769,
-+    rv_op_c_sext_b = 770,
-+    rv_op_c_zext_h = 771,
-+    rv_op_c_sext_h = 772,
-+    rv_op_c_zext_w = 773,
-+    rv_op_c_not = 774,
-+    rv_op_c_mul = 775,
-+    rv_op_c_lbu = 776,
-+    rv_op_c_lhu = 777,
-+    rv_op_c_lh = 778,
-+    rv_op_c_sb = 779,
-+    rv_op_c_sh = 780,
-+    rv_op_cm_push = 781,
-+    rv_op_cm_pop = 782,
-+    rv_op_cm_popret = 783,
-+    rv_op_cm_popretz = 784,
-+    rv_op_cm_mva01s = 785,
-+    rv_op_cm_mvsa01 = 786,
-+    rv_op_cm_jt = 787,
-+    rv_op_cm_jalt = 788,
- } rv_op;
- 
- /* structures */
-@@ -958,6 +985,7 @@ typedef struct {
-     uint8_t   rnum;
-     uint8_t   vm;
-     uint32_t  vzimm;
-+    uint8_t   rlist;
- } rv_decode;
- 
- typedef struct {
-@@ -1070,6 +1098,10 @@ static const char rv_vreg_name_sym[32][4] = {
- #define rv_fmt_vd_vm                  "O\tDm"
- #define rv_fmt_vsetvli                "O\t0,1,v"
- #define rv_fmt_vsetivli               "O\t0,u,v"
-+#define rv_fmt_rs1_rs2_zce_ldst       "O\t2,i(1)"
-+#define rv_fmt_push_rlist             "O\tx,-i"
-+#define rv_fmt_pop_rlist              "O\tx,i"
-+#define rv_fmt_zcmt_index             "O\ti"
- 
- /* pseudo-instruction constraints */
- 
-@@ -2065,7 +2097,27 @@ const rv_opcode_data opcode_data[] = {
-     { "vsext.vf8", rv_codec_v_r, rv_fmt_vd_vs2_vm, NULL, rv_op_vsext_vf8, rv_op_vsext_vf8, 0 },
-     { "vsetvli", rv_codec_vsetvli, rv_fmt_vsetvli, NULL, rv_op_vsetvli, rv_op_vsetvli, 0 },
-     { "vsetivli", rv_codec_vsetivli, rv_fmt_vsetivli, NULL, rv_op_vsetivli, rv_op_vsetivli, 0 },
--    { "vsetvl", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, rv_op_vsetvl, rv_op_vsetvl, 0 }
-+    { "vsetvl", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, rv_op_vsetvl, rv_op_vsetvl, 0 },
-+    { "c.zext.b", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.sext.b", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.zext.h", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.sext.h", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.zext.w", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.not", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.mul", rv_codec_zcb_mul, rv_fmt_rd_rs2, NULL, 0, 0 },
-+    { "c.lbu", rv_codec_zcb_lb, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.lhu", rv_codec_zcb_lh, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.lh", rv_codec_zcb_lh, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.sb", rv_codec_zcb_lb, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.sh", rv_codec_zcb_lh, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "cm.push", rv_codec_zcmp_cm_pushpop, rv_fmt_push_rlist, NULL, 0, 0 },
-+    { "cm.pop", rv_codec_zcmp_cm_pushpop, rv_fmt_pop_rlist, NULL, 0, 0 },
-+    { "cm.popret", rv_codec_zcmp_cm_pushpop, rv_fmt_pop_rlist, NULL, 0, 0, 0 },
-+    { "cm.popretz", rv_codec_zcmp_cm_pushpop, rv_fmt_pop_rlist, NULL, 0, 0 },
-+    { "cm.mva01s", rv_codec_zcmp_cm_mv, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
-+    { "cm.mvsa01", rv_codec_zcmp_cm_mv, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
-+    { "cm.jt", rv_codec_zcmt_jt, rv_fmt_zcmt_index, NULL, 0 },
-+    { "cm.jalt", rv_codec_zcmt_jt, rv_fmt_zcmt_index, NULL, 0 },
- };
- 
- /* CSR names */
-@@ -2084,6 +2136,7 @@ static const char *csr_name(int csrno)
-     case 0x000a: return "vxrm";
-     case 0x000f: return "vcsr";
-     case 0x0015: return "seed";
-+    case 0x0017: return "jvt";
-     case 0x0040: return "uscratch";
-     case 0x0041: return "uepc";
-     case 0x0042: return "ucause";
-@@ -2306,6 +2359,24 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-                 op = rv_op_c_ld;
-             }
-             break;
-+        case 4:
-+            switch ((inst >> 10) & 0b111) {
-+            case 0: op = rv_op_c_lbu; break;
-+            case 1:
-+                if (((inst >> 6) & 1) == 0) {
-+                    op = rv_op_c_lhu;
-+                } else {
-+                    op = rv_op_c_lh;
-+                }
-+                break;
-+            case 2: op = rv_op_c_sb; break;
-+            case 3:
-+                if (((inst >> 6) & 1) == 0) {
-+                    op = rv_op_c_sh;
-+                }
-+                break;
-+            }
-+            break;
-         case 5:
-             if (isa == rv128) {
-                 op = rv_op_c_sq;
-@@ -2362,6 +2433,17 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-                 case 3: op = rv_op_c_and; break;
-                 case 4: op = rv_op_c_subw; break;
-                 case 5: op = rv_op_c_addw; break;
-+                case 6: op = rv_op_c_mul; break;
-+                case 7:
-+                    switch ((inst >> 2) & 0b111) {
-+                    case 0: op = rv_op_c_zext_b; break;
-+                    case 1: op = rv_op_c_sext_b; break;
-+                    case 2: op = rv_op_c_zext_h; break;
-+                    case 3: op = rv_op_c_sext_h; break;
-+                    case 4: op = rv_op_c_zext_w; break;
-+                    case 5: op = rv_op_c_not; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             }
-@@ -2417,6 +2499,30 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-                 op = rv_op_c_sqsp;
-             } else {
-                 op = rv_op_c_fsdsp;
-+                if (((inst >> 12) & 0b01)) {
-+                    switch ((inst >> 8) & 0b01111) {
-+                    case 8: op = rv_op_cm_push; break;
-+                    case 10: op = rv_op_cm_pop; break;
-+                    case 12: op = rv_op_cm_popretz; break;
-+                    case 14: op = rv_op_cm_popret; break;
-+                    }
-+                } else {
-+                    switch ((inst >> 10) & 0b011) {
-+                    case 0:
-+                        if (((inst >> 2) & 0xFF) >= 32) {
-+                            op = rv_op_cm_jalt;
-+                        } else {
-+                            op = rv_op_cm_jt;
-+                        }
-+                        break;
-+                    case 3:
-+                        switch ((inst >> 5) & 0b011) {
-+                        case 1: op = rv_op_cm_mvsa01; break;
-+                        case 3: op = rv_op_cm_mva01s; break;
-+                        }
-+                        break;
-+                    }
-+                }
-             }
-             break;
-         case 6: op = rv_op_c_swsp; break;
-@@ -3661,6 +3767,21 @@ static uint32_t operand_crs2q(rv_inst inst)
-     return (inst << 59) >> 61;
- }
- 
-+static uint32_t calculate_xreg(uint32_t sreg)
-+{
-+    return sreg < 2 ? sreg + 8 : sreg + 16;
-+}
-+
-+static uint32_t operand_sreg1(rv_inst inst)
-+{
-+    return calculate_xreg((inst << 54) >> 61);
-+}
-+
-+static uint32_t operand_sreg2(rv_inst inst)
-+{
-+    return calculate_xreg((inst << 59) >> 61);
-+}
-+
- static uint32_t operand_crd(rv_inst inst)
- {
-     return (inst << 52) >> 59;
-@@ -3883,6 +4004,97 @@ static uint32_t operand_vm(rv_inst inst)
-     return (inst << 38) >> 63;
- }
- 
-+static uint32_t operand_uimm_c_lb(rv_inst inst)
-+{
-+    return (((inst << 58) >> 63) << 1) |
-+        ((inst << 57) >> 63);
-+}
-+
-+static uint32_t operand_uimm_c_lh(rv_inst inst)
-+{
-+    return (((inst << 58) >> 63) << 1);
-+}
-+
-+static uint32_t operand_zcmp_spimm(rv_inst inst)
-+{
-+    return ((inst << 60) >> 62) << 4;
-+}
-+
-+static uint32_t operand_zcmp_rlist(rv_inst inst)
-+{
-+    return ((inst << 56) >> 60);
-+}
-+
-+static uint32_t calculate_stack_adj(rv_isa isa, uint32_t rlist, uint32_t spimm)
-+{
-+    uint32_t stack_adj_base = 0;
-+    if (isa == rv64) {
-+        switch (rlist) {
-+        case 15:
-+            stack_adj_base = 112;
-+            break;
-+        case 14:
-+            stack_adj_base = 96;
-+            break;
-+        case 13:
-+        case 12:
-+            stack_adj_base = 80;
-+            break;
-+        case 11:
-+        case 10:
-+            stack_adj_base = 64;
-+            break;
-+        case 9:
-+        case 8:
-+            stack_adj_base = 48;
-+            break;
-+        case 7:
-+        case 6:
-+            stack_adj_base = 32;
-+            break;
-+        case 5:
-+        case 4:
-+            stack_adj_base = 16;
-+            break;
-+        }
-+    } else {
-+        switch (rlist) {
-+        case 15:
-+            stack_adj_base = 64;
-+            break;
-+        case 14:
-+        case 13:
-+        case 12:
-+            stack_adj_base = 48;
-+            break;
-+        case 11:
-+        case 10:
-+        case 9:
-+        case 8:
-+            stack_adj_base = 32;
-+            break;
-+        case 7:
-+        case 6:
-+        case 5:
-+        case 4:
-+            stack_adj_base = 16;
-+            break;
-+        }
-+    }
-+    return stack_adj_base + spimm;
-+}
-+
-+static uint32_t operand_zcmp_stack_adj(rv_inst inst, rv_isa isa)
-+{
-+    return calculate_stack_adj(isa, operand_zcmp_rlist(inst),
-+                              operand_zcmp_spimm(inst));
-+}
-+
-+static uint32_t operand_tbl_index(rv_inst inst)
-+{
-+    return ((inst << 54) >> 56);
-+}
-+
- /* decode operands */
- 
- static void decode_inst_operands(rv_decode *dec, rv_isa isa)
-@@ -4199,6 +4411,34 @@ static void decode_inst_operands(rv_decode *dec, rv_isa isa)
-         dec->imm = operand_vimm(inst);
-         dec->vzimm = operand_vzimm10(inst);
-         break;
-+    case rv_codec_zcb_lb:
-+        dec->rs1 = operand_crs1q(inst) + 8;
-+        dec->rs2 = operand_crs2q(inst) + 8;
-+        dec->imm = operand_uimm_c_lb(inst);
-+        break;
-+    case rv_codec_zcb_lh:
-+        dec->rs1 = operand_crs1q(inst) + 8;
-+        dec->rs2 = operand_crs2q(inst) + 8;
-+        dec->imm = operand_uimm_c_lh(inst);
-+        break;
-+    case rv_codec_zcb_ext:
-+        dec->rd = operand_crs1q(inst) + 8;
-+        break;
-+    case rv_codec_zcb_mul:
-+        dec->rd = operand_crs1rdq(inst) + 8;
-+        dec->rs2 = operand_crs2q(inst) + 8;
-+        break;
-+    case rv_codec_zcmp_cm_pushpop:
-+        dec->imm = operand_zcmp_stack_adj(inst, isa);
-+        dec->rlist = operand_zcmp_rlist(inst);
-+        break;
-+    case rv_codec_zcmp_cm_mv:
-+        dec->rd = operand_sreg1(inst);
-+        dec->rs2 = operand_sreg2(inst);
-+        break;
-+    case rv_codec_zcmt_jt:
-+        dec->imm = operand_tbl_index(inst);
-+        break;
-     };
- }
- 
-@@ -4358,6 +4598,9 @@ static void format_inst(char *buf, size_t buflen, size_t tab, rv_decode *dec)
-         case ')':
-             append(buf, ")", buflen);
-             break;
-+        case '-':
-+            append(buf, "-", buflen);
-+            break;
-         case 'b':
-             snprintf(tmp, sizeof(tmp), "%d", dec->bs);
-             append(buf, tmp, buflen);
-@@ -4541,6 +4784,48 @@ static void format_inst(char *buf, size_t buflen, size_t tab, rv_decode *dec)
-             append(buf, vma, buflen);
-             break;
-         }
-+        case 'x': {
-+            switch(dec->rlist) {
-+            case 4:
-+                snprintf(tmp, sizeof(tmp), "{ra}");
-+                break;
-+            case 5:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0}");
-+                break;
-+            case 6:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s1}");
-+                break;
-+            case 7:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s2}");
-+                break;
-+            case 8:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s3}");
-+                break;
-+            case 9:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s4}");
-+                break;
-+            case 10:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s5}");
-+                break;
-+            case 11:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s6}");
-+                break;
-+            case 12:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s7}");
-+                break;
-+            case 13:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s8}");
-+                break;
-+            case 14:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s9}");
-+                break;
-+            case 15:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s11}");
-+                break;
-+            }
-+            append(buf, tmp, buflen);
-+            break;
-+        }
-         default:
-             break;
-         }
--- 
-2.25.1
+Ok, I'll leave/amend commend as you suggested on respin.
+
+On the other hand it might not be bad if it's re-implemented
+from scratch, but that could be looked into when someone tries
+to bring it back. 
+
+> 
+> Regards,
+> BALATON Zoltan
+> 
+> > -    pci_create_simple(h->bus, PCI_DEVFN(12, 0), "dec-21154");
+> > -#endif
+> > }
+> >
+> > static void pci_unin_main_init(Object *obj)
+> >  
+> 
 
 
