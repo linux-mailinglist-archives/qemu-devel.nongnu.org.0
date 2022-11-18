@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B7B62EB88
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 02:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B566662EB8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 03:00:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovqdo-0004uP-Hr; Thu, 17 Nov 2022 20:58:04 -0500
+	id 1ovqdp-0004ux-FV; Thu, 17 Nov 2022 20:58:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ovqdl-0004tl-Kk
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:01 -0500
+ id 1ovqdo-0004ul-Av
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:04 -0500
 Received: from mga04.intel.com ([192.55.52.120])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ovqdi-0007Pe-Ts
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:01 -0500
+ id 1ovqdm-0007Pp-Hl
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668736678; x=1700272678;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=XWd9nZUS3Lq+Iv9d6LNRHzC3pA1TJoxMmZQ26sjpUrE=;
- b=kHJpawNjl9dBfaJFTM5fv3ZHupeAdZ2gSsnjooh2AmC6dK8WBBPVqdOg
- ffqJ8vG3uqNQJhSze6+6/mfaOb2m5bUliwAz/tEMeqV/YE4ysgIRDgk+U
- xS1aTwEqZqtB+4RoCo0+FrKe9iJqNLzt3QmOn/51p7mnGymC5dzECrO5k
- YUvJCS5N0o+TERUc5aPupzAamNHAqzznTo1rjQbm8uH3w8XRoQNbdI2fv
- IDJpb2OtU2P1Z8W8p//HJjwYk0s+TBE6q8FqxLwy8jlAaHcr5I7TLsfNJ
- IbCq9jmkwpf8bwvrD5cGOlIkAcIu75TLzYTN2mA35eak7WTyBKZVIrlL9 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="311731509"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="311731509"
+ t=1668736682; x=1700272682;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=wKZwwxUFsMcgW4jsvA1xTPC8gB4fMwiqSqG6joE4a4U=;
+ b=gsvy21+JmUG6Cv2s1x2oniAM9j8v+E9FFmgksLEWd07Fht2tcxojm3Kw
+ BfzrGMU9DyMofl7WsPQTuD/S7v8I0nmRdR0kUZD2GdB0n7QBPCuQcx16p
+ nvDQD1jPCeabFUtIrVPQO0KwYA4C+h9yTdU3eaTfPbGT+ZXek1MN21ZBj
+ pr7whwsW/rCveL468zOdoJQ+yxf5qU8ka2iLebvhq3+HLOic5J8OCGwXs
+ QOqX2HwLReOr7mM/0SrXwqPP7cmRbEKHF9tN10tOiPDftcOKVio2FF88Z
+ swksojGzKAwkw+0Q/AuGavD4DNlqHODUux8DY9LNrkjc2MN4iezbyCDgE A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="311731510"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="311731510"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Nov 2022 17:57:53 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="708859340"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="708859340"
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="708859342"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="708859342"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Nov 2022 17:57:53 -0800
@@ -44,11 +44,12 @@ From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
  Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v1 0/2] virtio-gpu: Provide display position info (x,
- y) to the Guest
-Date: Thu, 17 Nov 2022 17:37:21 -0800
-Message-Id: <20221118013723.182424-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v1 1/2] virtio-gpu: Provide position info (x, y) to the Guest
+Date: Thu, 17 Nov 2022 17:37:22 -0800
+Message-Id: <20221118013723.182424-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20221118013723.182424-1-vivek.kasireddy@intel.com>
+References: <20221118013723.182424-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.120;
@@ -83,15 +84,24 @@ https://github.com/oasis-tcs/virtio-spec/blob/master/virtio-gpu.tex#L343
 
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ hw/display/virtio-gpu-base.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Vivek Kasireddy (2):
-  virtio-gpu: Provide position info (x, y) to the Guest
-  ui/gtk: Include the position info while setting the ui info
-
- hw/display/virtio-gpu-base.c |  2 ++
- ui/gtk.c                     | 20 ++++++++++++++++++++
- 2 files changed, 22 insertions(+)
-
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index a29f191aa8..3b6b480131 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -47,6 +47,8 @@ virtio_gpu_base_fill_display_info(VirtIOGPUBase *g,
+             dpy_info->pmodes[i].enabled = 1;
+             dpy_info->pmodes[i].r.width = cpu_to_le32(g->req_state[i].width);
+             dpy_info->pmodes[i].r.height = cpu_to_le32(g->req_state[i].height);
++            dpy_info->pmodes[i].r.x = cpu_to_le32(g->req_state[i].x);
++            dpy_info->pmodes[i].r.y = cpu_to_le32(g->req_state[i].y);
+         }
+     }
+ }
 -- 
 2.37.2
 
