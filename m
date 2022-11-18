@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70E762FBE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 18:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE3462FBFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 18:48:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow5Mp-00060s-G2; Fri, 18 Nov 2022 12:41:31 -0500
+	id 1ow5Mt-00067E-3x; Fri, 18 Nov 2022 12:41:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mm-0005w0-6l
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mr-00066A-8J
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mk-0002S4-K5
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:27 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mp-0002UP-Ak
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668793285;
+ s=mimecast20190719; t=1668793290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7qE+Pkpp/UganRMiSi+xneIMLzymZ0aUl0bpikXOjao=;
- b=a/c3nROt+n21vIuiRzBqlppf2ro4DDR95oqsDmNIihK0f5SBMUDD84f8zdJiu/HyYKOPBL
- d2Jc1Y9TkEZV+EsDsUMVwyydbvYNAeznc6F3vx013RMM7LFQTBW+2NwWBSdrq2UsExJ8r+
- TFBbSiOH82dto4ppHGcTmi835TCSDPs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7igsZ80em/jvdPAsQMaBYr1f54ZBJRQrM8K/jrwxC7w=;
+ b=iuooyYHJgtgGPTcVdtVUgSadY8cy/BXS5fU4g8MHpUpAGduA6pzIJpq0EXDA7DG9kwQvCD
+ vhZwqlctYfqjT9HgrqLFGJ9rahWJZ2OBLDGVGl/NiWPm0igQDoA96Pm+u1bmDQJ7kh+XIM
+ xaXtJOE9MPSZQ+QmEgFhMebSFQ5yBjs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-6rxRBnDlOqCmTv7HZkXHGg-1; Fri, 18 Nov 2022 12:41:24 -0500
-X-MC-Unique: 6rxRBnDlOqCmTv7HZkXHGg-1
+ us-mta-617-LMlOJZgKOLmB8rfV8q7sRA-1; Fri, 18 Nov 2022 12:41:26 -0500
+X-MC-Unique: LMlOJZgKOLmB8rfV8q7sRA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3EC3101A56C;
- Fri, 18 Nov 2022 17:41:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73B0738173C9;
+ Fri, 18 Nov 2022 17:41:26 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8CDB492B04;
- Fri, 18 Nov 2022 17:41:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39451492B04;
+ Fri, 18 Nov 2022 17:41:24 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
  hreitz@redhat.com, pbonzini@redhat.com, vsementsov@yandex-team.ru,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 02/15] test-bdrv-drain: Don't yield in
- .bdrv_co_drained_begin/end()
-Date: Fri, 18 Nov 2022 18:40:57 +0100
-Message-Id: <20221118174110.55183-3-kwolf@redhat.com>
+Subject: [PATCH v2 03/15] block: Revert .bdrv_drained_begin/end to
+ non-coroutine_fn
+Date: Fri, 18 Nov 2022 18:40:58 +0100
+Message-Id: <20221118174110.55183-4-kwolf@redhat.com>
 In-Reply-To: <20221118174110.55183-1-kwolf@redhat.com>
 References: <20221118174110.55183-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,138 +78,287 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We want to change .bdrv_co_drained_begin/end() back to be non-coroutine
-callbacks, so in preparation, avoid yielding in their implementation.
+Polling during bdrv_drained_end() can be problematic (and in the future,
+we may get cases for bdrv_drained_begin() where polling is forbidden,
+and we don't care about already in-flight requests, but just want to
+prevent new requests from arriving).
 
-This does almost the same as the existing logic in bdrv_drain_invoke(),
-by creating and entering coroutines internally. However, since the test
-case is by far the heaviest user of coroutine code in drain callbacks,
-it is preferable to have the complexity in the test case rather than the
-drain core, which is already complicated enough without this.
+The .bdrv_drained_begin/end callbacks running in a coroutine is the only
+reason why we have to do this polling, so make them non-coroutine
+callbacks again. None of the callers actually yield any more.
 
-The behaviour for bdrv_drain_begin() is unchanged because we increase
-bs->in_flight and this is still polled. However, bdrv_drain_end()
-doesn't wait for the spawned coroutine to complete any more. This is
-fine, we don't rely on bdrv_drain_end() restarting all operations
-immediately before the next aio_poll().
+This means that bdrv_drained_end() effectively doesn't poll any more,
+even if AIO_WAIT_WHILE() loops are still there (their condition is false
+from the beginning). This is generally not a problem, but in
+test-bdrv-drain, some additional explicit aio_poll() calls need to be
+added because the test case wants to verify the final state after BHs
+have executed.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/unit/test-bdrv-drain.c | 64 ++++++++++++++++++++++++++----------
- 1 file changed, 46 insertions(+), 18 deletions(-)
+ include/block/block_int-common.h | 10 ++++---
+ block.c                          |  4 +--
+ block/io.c                       | 49 +++++---------------------------
+ block/qed.c                      |  6 ++--
+ block/throttle.c                 |  8 +++---
+ tests/unit/test-bdrv-drain.c     | 18 ++++++------
+ 6 files changed, 32 insertions(+), 63 deletions(-)
 
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 31ae91e56e..40d646d1ed 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -735,17 +735,19 @@ struct BlockDriver {
+     void (*bdrv_io_unplug)(BlockDriverState *bs);
+ 
+     /**
+-     * bdrv_co_drain_begin is called if implemented in the beginning of a
++     * bdrv_drain_begin is called if implemented in the beginning of a
+      * drain operation to drain and stop any internal sources of requests in
+      * the driver.
+-     * bdrv_co_drain_end is called if implemented at the end of the drain.
++     * bdrv_drain_end is called if implemented at the end of the drain.
+      *
+      * They should be used by the driver to e.g. manage scheduled I/O
+      * requests, or toggle an internal state. After the end of the drain new
+      * requests will continue normally.
++     *
++     * Implementations of both functions must not call aio_poll().
+      */
+-    void coroutine_fn (*bdrv_co_drain_begin)(BlockDriverState *bs);
+-    void coroutine_fn (*bdrv_co_drain_end)(BlockDriverState *bs);
++    void (*bdrv_drain_begin)(BlockDriverState *bs);
++    void (*bdrv_drain_end)(BlockDriverState *bs);
+ 
+     bool (*bdrv_supports_persistent_dirty_bitmap)(BlockDriverState *bs);
+     bool coroutine_fn (*bdrv_co_can_store_new_dirty_bitmap)(
+diff --git a/block.c b/block.c
+index a18f052374..cbff7acd97 100644
+--- a/block.c
++++ b/block.c
+@@ -1715,8 +1715,8 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
+     assert(is_power_of_2(bs->bl.request_alignment));
+ 
+     for (i = 0; i < bs->quiesce_counter; i++) {
+-        if (drv->bdrv_co_drain_begin) {
+-            drv->bdrv_co_drain_begin(bs);
++        if (drv->bdrv_drain_begin) {
++            drv->bdrv_drain_begin(bs);
+         }
+     }
+ 
+diff --git a/block/io.c b/block/io.c
+index b9424024f9..c2ed4b2af9 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -252,55 +252,20 @@ typedef struct {
+     int *drained_end_counter;
+ } BdrvCoDrainData;
+ 
+-static void coroutine_fn bdrv_drain_invoke_entry(void *opaque)
+-{
+-    BdrvCoDrainData *data = opaque;
+-    BlockDriverState *bs = data->bs;
+-
+-    if (data->begin) {
+-        bs->drv->bdrv_co_drain_begin(bs);
+-    } else {
+-        bs->drv->bdrv_co_drain_end(bs);
+-    }
+-
+-    /* Set data->done and decrement drained_end_counter before bdrv_wakeup() */
+-    qatomic_mb_set(&data->done, true);
+-    if (!data->begin) {
+-        qatomic_dec(data->drained_end_counter);
+-    }
+-    bdrv_dec_in_flight(bs);
+-
+-    g_free(data);
+-}
+-
+-/* Recursively call BlockDriver.bdrv_co_drain_begin/end callbacks */
++/* Recursively call BlockDriver.bdrv_drain_begin/end callbacks */
+ static void bdrv_drain_invoke(BlockDriverState *bs, bool begin,
+                               int *drained_end_counter)
+ {
+-    BdrvCoDrainData *data;
+-
+-    if (!bs->drv || (begin && !bs->drv->bdrv_co_drain_begin) ||
+-            (!begin && !bs->drv->bdrv_co_drain_end)) {
++    if (!bs->drv || (begin && !bs->drv->bdrv_drain_begin) ||
++            (!begin && !bs->drv->bdrv_drain_end)) {
+         return;
+     }
+ 
+-    data = g_new(BdrvCoDrainData, 1);
+-    *data = (BdrvCoDrainData) {
+-        .bs = bs,
+-        .done = false,
+-        .begin = begin,
+-        .drained_end_counter = drained_end_counter,
+-    };
+-
+-    if (!begin) {
+-        qatomic_inc(drained_end_counter);
++    if (begin) {
++        bs->drv->bdrv_drain_begin(bs);
++    } else {
++        bs->drv->bdrv_drain_end(bs);
+     }
+-
+-    /* Make sure the driver callback completes during the polling phase for
+-     * drain_begin. */
+-    bdrv_inc_in_flight(bs);
+-    data->co = qemu_coroutine_create(bdrv_drain_invoke_entry, data);
+-    aio_co_schedule(bdrv_get_aio_context(bs), data->co);
+ }
+ 
+ /* Returns true if BDRV_POLL_WHILE() should go into a blocking aio_poll() */
+diff --git a/block/qed.c b/block/qed.c
+index 013f826c44..c2691a85b1 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -262,7 +262,7 @@ static bool coroutine_fn qed_plug_allocating_write_reqs(BDRVQEDState *s)
+     assert(!s->allocating_write_reqs_plugged);
+     if (s->allocating_acb != NULL) {
+         /* Another allocating write came concurrently.  This cannot happen
+-         * from bdrv_qed_co_drain_begin, but it can happen when the timer runs.
++         * from bdrv_qed_drain_begin, but it can happen when the timer runs.
+          */
+         qemu_co_mutex_unlock(&s->table_lock);
+         return false;
+@@ -365,7 +365,7 @@ static void bdrv_qed_attach_aio_context(BlockDriverState *bs,
+     }
+ }
+ 
+-static void coroutine_fn bdrv_qed_co_drain_begin(BlockDriverState *bs)
++static void bdrv_qed_drain_begin(BlockDriverState *bs)
+ {
+     BDRVQEDState *s = bs->opaque;
+ 
+@@ -1661,7 +1661,7 @@ static BlockDriver bdrv_qed = {
+     .bdrv_co_check            = bdrv_qed_co_check,
+     .bdrv_detach_aio_context  = bdrv_qed_detach_aio_context,
+     .bdrv_attach_aio_context  = bdrv_qed_attach_aio_context,
+-    .bdrv_co_drain_begin      = bdrv_qed_co_drain_begin,
++    .bdrv_drain_begin         = bdrv_qed_drain_begin,
+ };
+ 
+ static void bdrv_qed_init(void)
+diff --git a/block/throttle.c b/block/throttle.c
+index 131eba3ab4..88851c84f4 100644
+--- a/block/throttle.c
++++ b/block/throttle.c
+@@ -214,7 +214,7 @@ static void throttle_reopen_abort(BDRVReopenState *reopen_state)
+     reopen_state->opaque = NULL;
+ }
+ 
+-static void coroutine_fn throttle_co_drain_begin(BlockDriverState *bs)
++static void throttle_drain_begin(BlockDriverState *bs)
+ {
+     ThrottleGroupMember *tgm = bs->opaque;
+     if (qatomic_fetch_inc(&tgm->io_limits_disabled) == 0) {
+@@ -222,7 +222,7 @@ static void coroutine_fn throttle_co_drain_begin(BlockDriverState *bs)
+     }
+ }
+ 
+-static void coroutine_fn throttle_co_drain_end(BlockDriverState *bs)
++static void throttle_drain_end(BlockDriverState *bs)
+ {
+     ThrottleGroupMember *tgm = bs->opaque;
+     assert(tgm->io_limits_disabled);
+@@ -261,8 +261,8 @@ static BlockDriver bdrv_throttle = {
+     .bdrv_reopen_commit                 =   throttle_reopen_commit,
+     .bdrv_reopen_abort                  =   throttle_reopen_abort,
+ 
+-    .bdrv_co_drain_begin                =   throttle_co_drain_begin,
+-    .bdrv_co_drain_end                  =   throttle_co_drain_end,
++    .bdrv_drain_begin                   =   throttle_drain_begin,
++    .bdrv_drain_end                     =   throttle_drain_end,
+ 
+     .is_filter                          =   true,
+     .strong_runtime_opts                =   throttle_strong_runtime_opts,
 diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 09dc4a4891..24f34e24ad 100644
+index 24f34e24ad..695519ee02 100644
 --- a/tests/unit/test-bdrv-drain.c
 +++ b/tests/unit/test-bdrv-drain.c
-@@ -38,12 +38,22 @@ typedef struct BDRVTestState {
-     bool sleep_in_drain_begin;
- } BDRVTestState;
+@@ -46,7 +46,7 @@ static void coroutine_fn sleep_in_drain_begin(void *opaque)
+     bdrv_dec_in_flight(bs);
+ }
  
-+static void coroutine_fn sleep_in_drain_begin(void *opaque)
-+{
-+    BlockDriverState *bs = opaque;
-+
-+    qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 100000);
-+    bdrv_dec_in_flight(bs);
-+}
-+
- static void coroutine_fn bdrv_test_co_drain_begin(BlockDriverState *bs)
+-static void coroutine_fn bdrv_test_co_drain_begin(BlockDriverState *bs)
++static void bdrv_test_drain_begin(BlockDriverState *bs)
  {
      BDRVTestState *s = bs->opaque;
      s->drain_count++;
-     if (s->sleep_in_drain_begin) {
--        qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 100000);
-+        Coroutine *co = qemu_coroutine_create(sleep_in_drain_begin, bs);
-+        bdrv_inc_in_flight(bs);
-+        aio_co_enter(bdrv_get_aio_context(bs), co);
+@@ -57,7 +57,7 @@ static void coroutine_fn bdrv_test_co_drain_begin(BlockDriverState *bs)
      }
  }
  
-@@ -1916,6 +1926,21 @@ static int coroutine_fn bdrv_replace_test_co_preadv(BlockDriverState *bs,
-     return 0;
- }
+-static void coroutine_fn bdrv_test_co_drain_end(BlockDriverState *bs)
++static void bdrv_test_drain_end(BlockDriverState *bs)
+ {
+     BDRVTestState *s = bs->opaque;
+     s->drain_count--;
+@@ -111,8 +111,8 @@ static BlockDriver bdrv_test = {
+     .bdrv_close             = bdrv_test_close,
+     .bdrv_co_preadv         = bdrv_test_co_preadv,
  
-+static void coroutine_fn bdrv_replace_test_drain_co(void *opaque)
-+{
-+    BlockDriverState *bs = opaque;
-+    BDRVReplaceTestState *s = bs->opaque;
-+
-+    /* Keep waking io_co up until it is done */
-+    while (s->io_co) {
-+        aio_co_wake(s->io_co);
-+        s->io_co = NULL;
-+        qemu_coroutine_yield();
-+    }
-+    s->drain_co = NULL;
-+    bdrv_dec_in_flight(bs);
-+}
-+
- /**
-  * If .drain_count is 0, wake up .io_co if there is one; and set
+-    .bdrv_co_drain_begin    = bdrv_test_co_drain_begin,
+-    .bdrv_co_drain_end      = bdrv_test_co_drain_end,
++    .bdrv_drain_begin       = bdrv_test_drain_begin,
++    .bdrv_drain_end         = bdrv_test_drain_end,
+ 
+     .bdrv_child_perm        = bdrv_default_perms,
+ 
+@@ -1703,6 +1703,7 @@ static void test_blockjob_commit_by_drained_end(void)
+     bdrv_drained_begin(bs_child);
+     g_assert(!job_has_completed);
+     bdrv_drained_end(bs_child);
++    aio_poll(qemu_get_aio_context(), false);
+     g_assert(job_has_completed);
+ 
+     bdrv_unref(bs_parents[0]);
+@@ -1858,6 +1859,7 @@ static void test_drop_intermediate_poll(void)
+ 
+     g_assert(!job_has_completed);
+     ret = bdrv_drop_intermediate(chain[1], chain[0], NULL);
++    aio_poll(qemu_get_aio_context(), false);
+     g_assert(ret == 0);
+     g_assert(job_has_completed);
+ 
+@@ -1946,7 +1948,7 @@ static void coroutine_fn bdrv_replace_test_drain_co(void *opaque)
   * .was_drained.
-@@ -1926,20 +1951,27 @@ static void coroutine_fn bdrv_replace_test_co_drain_begin(BlockDriverState *bs)
+  * Increment .drain_count.
+  */
+-static void coroutine_fn bdrv_replace_test_co_drain_begin(BlockDriverState *bs)
++static void bdrv_replace_test_drain_begin(BlockDriverState *bs)
+ {
      BDRVReplaceTestState *s = bs->opaque;
  
-     if (!s->drain_count) {
--        /* Keep waking io_co up until it is done */
--        s->drain_co = qemu_coroutine_self();
--        while (s->io_co) {
--            aio_co_wake(s->io_co);
--            s->io_co = NULL;
--            qemu_coroutine_yield();
--        }
--        s->drain_co = NULL;
--
-+        s->drain_co = qemu_coroutine_create(bdrv_replace_test_drain_co, bs);
-+        bdrv_inc_in_flight(bs);
-+        aio_co_enter(bdrv_get_aio_context(bs), s->drain_co);
-         s->was_drained = true;
-     }
-     s->drain_count++;
- }
- 
-+static void coroutine_fn bdrv_replace_test_read_entry(void *opaque)
-+{
-+    BlockDriverState *bs = opaque;
-+    char data;
-+    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, &data, 1);
-+    int ret;
-+
-+    /* Queue a read request post-drain */
-+    ret = bdrv_replace_test_co_preadv(bs, 0, 1, &qiov, 0);
-+    g_assert(ret >= 0);
-+    bdrv_dec_in_flight(bs);
-+}
-+
- /**
-  * Reduce .drain_count, set .was_undrained once it reaches 0.
+@@ -1977,7 +1979,7 @@ static void coroutine_fn bdrv_replace_test_read_entry(void *opaque)
   * If .drain_count reaches 0 and the node has a backing file, issue a
-@@ -1951,17 +1983,13 @@ static void coroutine_fn bdrv_replace_test_co_drain_end(BlockDriverState *bs)
+  * read request.
+  */
+-static void coroutine_fn bdrv_replace_test_co_drain_end(BlockDriverState *bs)
++static void bdrv_replace_test_drain_end(BlockDriverState *bs)
+ {
+     BDRVReplaceTestState *s = bs->opaque;
  
-     g_assert(s->drain_count > 0);
-     if (!--s->drain_count) {
--        int ret;
--
-         s->was_undrained = true;
+@@ -2002,8 +2004,8 @@ static BlockDriver bdrv_replace_test = {
+     .bdrv_close             = bdrv_replace_test_close,
+     .bdrv_co_preadv         = bdrv_replace_test_co_preadv,
  
-         if (bs->backing) {
--            char data;
--            QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, &data, 1);
--
--            /* Queue a read request post-drain */
--            ret = bdrv_replace_test_co_preadv(bs, 0, 1, &qiov, 0);
--            g_assert(ret >= 0);
-+            Coroutine *co = qemu_coroutine_create(bdrv_replace_test_read_entry,
-+                                                  bs);
-+            bdrv_inc_in_flight(bs);
-+            aio_co_enter(bdrv_get_aio_context(bs), co);
-         }
-     }
- }
+-    .bdrv_co_drain_begin    = bdrv_replace_test_co_drain_begin,
+-    .bdrv_co_drain_end      = bdrv_replace_test_co_drain_end,
++    .bdrv_drain_begin       = bdrv_replace_test_drain_begin,
++    .bdrv_drain_end         = bdrv_replace_test_drain_end,
+ 
+     .bdrv_child_perm        = bdrv_default_perms,
+ };
 -- 
 2.38.1
 
