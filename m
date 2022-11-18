@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7715262F1FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 10:58:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD1962F1CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 10:49:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovxyr-00079x-OM; Fri, 18 Nov 2022 04:48:17 -0500
+	id 1ovxys-0007Ii-FT; Fri, 18 Nov 2022 04:48:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovxyh-00078C-1V
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:07 -0500
+ id 1ovxyj-00079t-5D
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:09 -0500
 Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovxyf-0001yy-5g
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:06 -0500
+ id 1ovxyh-0001z9-Bc
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:08 -0500
 Received: by mail-pj1-x1032.google.com with SMTP id
- e7-20020a17090a77c700b00216928a3917so7827609pjs.4
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 01:48:04 -0800 (PST)
+ q1-20020a17090a750100b002139ec1e999so4597777pjk.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 01:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=jzoBh6h+eW5YyC2mEGGgFAPiTTpJh3Si9+ZlAorRV5U=;
- b=pzaYTtPJT2oF6teLGdg6T2+ehBkQ3Y6ZKE3iHEmtOx8rrOiv2PdqCxSohgsZFmJozl
- /Zc0fxCuVQ4YBy3uH5JZXAwf4blwy7opOGu/cKumBWLx/nvmFjcm7XhK8hqyWzChJ2L1
- h14nWlqTKDZkaLPIoDEd3KWRG31zVu6mD/AOtlZH3NfEORHSWirwMH+rwhn8JMry95Ot
- GNJHbYm1QzVSPyocXUR4p+pHcRKw9Ql81sYeGtRgWaq7uyEYCfj3QZvGNBXxWIscOYpB
- VW8uvcw4YAbCs99wONxnJLwWP+dAzkdlHFSUSGM6wou6g3i1D1A5TBo7Kk0ePwRXgD5h
- 5kTw==
+ :reply-to; bh=R4W5HfqIPTFQiUbVPQ8+JyZxjEG1zccsHxXcJFvRJFQ=;
+ b=AUPCvJZgkyHggr4GwiYtzXI/wef3h8GChmtTVv58eyDohg1wDgcJU2LD0QEVfRQ7Eu
+ PkriiPhgzc4rtlPHb9yAYb466kkL8Ep/LgUaYYGOhl7PlL19DF2+W/QKxTfy9bsf8MvJ
+ +UuGBTYLC0OLvutxuLLz1sLbAeMsxWIq6Y/RnME6q+7x9+SgO5voMheLEAykCXOaDAjQ
+ StQSuNOjEu8d3KyVo0ZAF95ghjo8cxZULuqPxYmDR+PrzBuenN1cWcnm61dzWVllFCfd
+ MOIgeAMZxCkDuKneCJLMvVGKttPJplVKlPGWB05bJ5w2PfzXp+eJDPOQBVoxcKeuQCX0
+ hACg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jzoBh6h+eW5YyC2mEGGgFAPiTTpJh3Si9+ZlAorRV5U=;
- b=F2CbBTJ0886yTwH9DxqlQsQP8DDkESw4xjPeNvfTz+A8HUfKcuvA3KpomPC+aSiP0Z
- XvTYFjzsmmmCg4wVB5W8mH5FsPDjjUL2MuwijmtRhkHpT356SCgmNkg8HcMwq38Po3+U
- SygGtTokuVowXVJcUNbMsNtGZYOlFc1/yPG2ACGm52gxjFnsCjPEJ4wH9HoiCcx+q3RB
- Y2xT1v/kjo7Y7HMY+hss8zpEL1siqJgMU8Mcp1gb/HIO+x7HbfMkUIc/m9bhYvvkPBcI
- yQL+LJEYplvc9ZIdIrwKQD6PjFjYX+HhJk31xdttlzVQIO8aIer8IH5fAHKVAAUOAsJU
- kuPA==
-X-Gm-Message-State: ANoB5plZ/fVHCSG0dxW0RBPBkvLuNCim/4KCfXwIqBaNtGwUnJFZaI9A
- PSHY7shdHsao71su3m22K5HNCC07p/Csjg==
-X-Google-Smtp-Source: AA0mqf7/guSKdOeFaCPDJVJEf6bYhWyBNf+HXcdgRMxIq/EsovKOcbvlgqAAEuIX76rMQ0rAS1MybQ==
-X-Received: by 2002:a17:90a:ca96:b0:212:d404:5513 with SMTP id
- y22-20020a17090aca9600b00212d4045513mr13048674pjt.27.1668764883692; 
- Fri, 18 Nov 2022 01:48:03 -0800 (PST)
+ bh=R4W5HfqIPTFQiUbVPQ8+JyZxjEG1zccsHxXcJFvRJFQ=;
+ b=unkq5XOcBj1B++zZW8bJnCngrusH1AJrPBO6BRFezOeckyEnbPTaAQUQpumIo6pW8U
+ hUMFUAGEd5Kbi0d1WfBdbHX0alw0Ja5KBNNwck7f0Gkl+2FLsT8gjs1A/Oiax/Wj89nX
+ deBkwOCCLHoE5F5yA+e1+aemAvYmFuDflPWwfYdqfdEtYzzFaWqlgVRmKQkLhMlorPcm
+ WGXC2gIjxvEGuduC8aEmqtXZ9afihMs5HwuNj5yF05K84bo9PnzppwOnLbK3Hj9dlOqq
+ dQFDOPw5dsqXZchOfAtEINPgEvruyXsgDli+sEwU6WHXPp+H6Vuq0HIhfOBkWWxhXqWy
+ shBg==
+X-Gm-Message-State: ANoB5pllS5SMLjfK6v+eevODkZk4Xmz9sfMTqtP/q1OCqEcL+k0d/86x
+ ZDM8LTofpte9+dgKKDLl9e40+kB3DJCY3Q==
+X-Google-Smtp-Source: AA0mqf7kCOYlBEujdu5t7c5t+3/lenlXabcahXTlp1gMALLoIOo2f6q+gW2M1XXqA/2EEp2sOdjEGQ==
+X-Received: by 2002:a17:90b:3605:b0:213:3918:9be6 with SMTP id
+ ml5-20020a17090b360500b0021339189be6mr12682370pjb.183.1668764886073; 
+ Fri, 18 Nov 2022 01:48:06 -0800 (PST)
 Received: from stoup.. ([2602:47:d48a:1201:90b2:345f:bf0a:c412])
  by smtp.gmail.com with ESMTPSA id
- n12-20020a170902e54c00b0018862bb3976sm3115421plf.308.2022.11.18.01.47.59
+ n12-20020a170902e54c00b0018862bb3976sm3115421plf.308.2022.11.18.01.48.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 01:47:59 -0800 (PST)
+ Fri, 18 Nov 2022 01:48:04 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-8.0 02/29] include/exec/memop: Add bits describing
- atomicity
-Date: Fri, 18 Nov 2022 01:47:27 -0800
-Message-Id: <20221118094754.242910-3-richard.henderson@linaro.org>
+Subject: [PATCH for-8.0 03/29] accel/tcg: Add cpu_in_serial_context
+Date: Fri, 18 Nov 2022 01:47:28 -0800
+Message-Id: <20221118094754.242910-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221118094754.242910-1-richard.henderson@linaro.org>
 References: <20221118094754.242910-1-richard.henderson@linaro.org>
@@ -90,79 +89,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These bits may be used to describe the precise atomicity
-requirements of the guest, which may then be used to
-constrain the methods by which it may be emulated by the host.
+Like cpu_in_exclusive_context, but also true if
+there is no other cpu against which we could race.
 
-For instance, the AArch64 LDP (32-bit) instruction changes
-semantics with ARMv8.4 LSE2, from
-
-  MO_64 | MO_ATMAX_4 | MO_ATOM_IFALIGN
-  (64-bits, single-copy atomic only on 4 byte units,
-   nonatomic if not aligned by 4),
-
-to
-
-  MO_64 | MO_ATMAX_SIZE | MO_ATOM_WITHIN16
-  (64-bits, single-copy atomic within a 16 byte block)
-
-The former may be implemented with two 4 byte loads, or
-a single 8 byte load if that happens to be efficient on
-the host.  The latter may not, and may also require a
-helper when misaligned.
+Use it in tb_flush as a direct replacement.
+Use it in cpu_loop_exit_atomic to ensure that there
+is no loop against cpu_exec_step_atomic.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/memop.h | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ accel/tcg/internal.h        | 5 +++++
+ accel/tcg/cpu-exec-common.c | 3 +++
+ accel/tcg/tb-maint.c        | 2 +-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/exec/memop.h b/include/exec/memop.h
-index 25d027434a..04e4048f0b 100644
---- a/include/exec/memop.h
-+++ b/include/exec/memop.h
-@@ -81,6 +81,42 @@ typedef enum MemOp {
-     MO_ALIGN_32 = 5 << MO_ASHIFT,
-     MO_ALIGN_64 = 6 << MO_ASHIFT,
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index cb13bade4f..f06bf58e7a 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -119,4 +119,9 @@ static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
+ #endif
+ }
  
-+    /*
-+     * MO_ATOM_* describes that atomicity requirements of the operation:
-+     * MO_ATOM_IFALIGN: the operation must be single-copy atomic if and
-+     *    only if it is aligned; if unaligned there is no atomicity.
-+     * MO_ATOM_NONE: the operation has no atomicity requirements.
-+     * MO_ATOM_SUBALIGN: the operation is single-copy atomic by parts
-+     *    by the alignment.  E.g. if the address is 0 mod 4, then each
-+     *    4-byte subobject is single-copy atomic.
-+     *    This is the atomicity of IBM Power and S390X processors.
-+     * MO_ATOM_WITHIN16: the operation is single-copy atomic, even if it
-+     *    is unaligned, so long as it does not cross a 16-byte boundary;
-+     *    if it crosses a 16-byte boundary there is no atomicity.
-+     *    This is the atomicity of Arm FEAT_LSE2.
-+     *
-+     * MO_ATMAX_* describes the maximum atomicity unit required:
-+     * MO_ATMAX_SIZE: the entire operation, i.e. MO_SIZE.
-+     * MO_ATMAX_[248]: units of N bytes.
-+     *
-+     * Note the default (i.e. 0) values are single-copy atomic to the
-+     * size of the operation, if aligned.  This retains the behaviour
-+     * from before these were introduced.
-+     */
-+    MO_ATOM_SHIFT    = 8,
-+    MO_ATOM_MASK     = 0x3 << MO_ATOM_SHIFT,
-+    MO_ATOM_IFALIGN  = 0 << MO_ATOM_SHIFT,
-+    MO_ATOM_NONE     = 1 << MO_ATOM_SHIFT,
-+    MO_ATOM_SUBALIGN = 2 << MO_ATOM_SHIFT,
-+    MO_ATOM_WITHIN16 = 3 << MO_ATOM_SHIFT,
++static inline bool cpu_in_serial_context(CPUState *cs)
++{
++    return !(cs->tcg_cflags & CF_PARALLEL) || cpu_in_exclusive_context(cs);
++}
 +
-+    MO_ATMAX_SHIFT = 10,
-+    MO_ATMAX_MASK  = 0x3 << MO_ATMAX_SHIFT,
-+    MO_ATMAX_SIZE  = 0 << MO_ATMAX_SHIFT,
-+    MO_ATMAX_2     = 1 << MO_ATMAX_SHIFT,
-+    MO_ATMAX_4     = 2 << MO_ATMAX_SHIFT,
-+    MO_ATMAX_8     = 3 << MO_ATMAX_SHIFT,
-+
-     /* Combinations of the above, for ease of use.  */
-     MO_UB    = MO_8,
-     MO_UW    = MO_16,
+ #endif /* ACCEL_TCG_INTERNAL_H */
+diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
+index c7bc8c6efa..2fb4454c7a 100644
+--- a/accel/tcg/cpu-exec-common.c
++++ b/accel/tcg/cpu-exec-common.c
+@@ -21,6 +21,7 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/tcg.h"
+ #include "exec/exec-all.h"
++#include "internal.h"
+ 
+ bool tcg_allowed;
+ 
+@@ -78,6 +79,8 @@ void cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc)
+ 
+ void cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc)
+ {
++    /* Prevent looping if already executing in a serial context. */
++    g_assert(!cpu_in_serial_context(cpu));
+     cpu->exception_index = EXCP_ATOMIC;
+     cpu_loop_exit_restore(cpu, pc);
+ }
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index 0cdb35548c..a7c067628c 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -119,7 +119,7 @@ void tb_flush(CPUState *cpu)
+     if (tcg_enabled()) {
+         unsigned tb_flush_count = qatomic_mb_read(&tb_ctx.tb_flush_count);
+ 
+-        if (cpu_in_exclusive_context(cpu)) {
++        if (cpu_in_serial_context(cpu)) {
+             do_tb_flush(cpu, RUN_ON_CPU_HOST_INT(tb_flush_count));
+         } else {
+             async_safe_run_on_cpu(cpu, do_tb_flush,
 -- 
 2.34.1
 
