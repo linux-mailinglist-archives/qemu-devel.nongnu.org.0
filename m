@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0CDA62F9E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 17:07:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F190C62FA18
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 17:20:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow3sX-0000Ey-LB; Fri, 18 Nov 2022 11:06:11 -0500
+	id 1ow45N-0005te-5g; Fri, 18 Nov 2022 11:19:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ow3s9-000051-0B
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 11:05:46 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ow45L-0005sz-KF
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 11:19:23 -0500
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ow3s7-0004ng-2I
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 11:05:44 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- v4-20020a17090a088400b00212cb0ed97eso5442834pjc.5
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 08:05:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ow45J-0006XC-Hp
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 11:19:23 -0500
+Received: by mail-il1-x135.google.com with SMTP id z15so2748521ilp.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 08:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bi4ZAZJvkgJv41SrJLHt1DuZHHcsY5lnonEqW8hQ3j4=;
- b=uwAKI4WL2uvffHlebNWmcAOjzw+MDlMMSScYCOpnl2+hXnVon9THTUbV2FllNcd6TV
- S3C4GDsAgYjMEXi2N06ELYq8d/Ni/tIpcMEvvpTvHfZYv+83KAp1vCB2W7RHAMmyQgg6
- TMiEJtAI8YetF8ekEZxRTWxQtECQbx0tSPAPWK/UR3+yYc9wRGNPX9kXs4nyb3Zo1S6W
- yfGRD3cS/PF4fatPrG+zbkdJ7hDX3GcLy2jifTvkKUu2wI8oXn0WUxVmtSNIG1Akpnmz
- ULHSUCS9QzhZju4PNCvrP3xEK5cGTwhw++tX7mnRsKlyE6ssgZRjkAeyd+2UjlZMJq5C
- pNog==
+ bh=aCgFzlU0dbinsWyamKEVacHr/XS2reEDaPhYVKFCMU4=;
+ b=w0qHP0QwTlLcGNgYgCjxtR32XU3pOBvMQyxr98hkKMfNJ0KqQdgXYm5aF2X/36sjmM
+ eVQVcGFvUS30JIYR7uaXEeiCPLIXb0VRbprKuHEJP6oSVIwkzHgS5LHcGvmvrp0ELVuT
+ +ni8liCW+Q5VSvanop9ifUkv5pGYxZols1Fs+aV7AVRjM9m3UZcKVvsJ+KCBX6Jy2Q6M
+ brhnGXiGEf7jLx/8AevONfaSpmnC2/HgO5xQ4Wz7n/yZxVCE0qv9iS88IxeGVvb8BJXc
+ xJSCIjFjxWbG2uuM060tp63LekwPy7v1xDtv/R85wkWZk34QSN/YDjAtR91qz8wrzUec
+ 2mKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bi4ZAZJvkgJv41SrJLHt1DuZHHcsY5lnonEqW8hQ3j4=;
- b=KXk3WVDIF4Y0lvZ9ZEQMKJn8TMailIaBd7Y8CUou8vl7GRDEqV8IyZn8SZN8Jlf8Na
- t29tgMRjBqDxHeYz/Rs1WfR86CJpwyxxxFi+DSGfNBqq+30Q4ZPrnOaF6hlC9L1/Y6MO
- wCtczNSqlTecLFI4O3S3Gx5fE0ShGvBlE5PeSFtY2QtZ6gVFc0MKWQ6rnym3jVjlonhs
- uh9yd5qy1wpwEFE6oUlMdImvbQAlQZX3oUUgt97ph+mvr+ZgM4Yf/GQe6PoYry0amDpB
- Rg2h0zLXIO93HoEjm0iQaqVxfgLEnr4lU9gLPF4+BaGmHGCfvQnUxcLDD0afolS7LtiE
- 3Srw==
-X-Gm-Message-State: ANoB5plPmzjOn0ALsB4ih8x4j2Qx3Ovqf8ekE8GGgsWnj6ucUfnL23gR
- o9B3hhtdCHhNqULLfqKKvaUuuNXPOeEFp9CXZLkvpQ==
-X-Google-Smtp-Source: AA0mqf6e90FqjFIRIJpQazJhxvfhfYAKG8HvYdbaMVQ28T7p5PU6mFs3K5QLGOepQbtxIn1Iw86NGezeAgwzIyAO3MY=
-X-Received: by 2002:a17:902:e950:b0:188:bc8f:5fb2 with SMTP id
- b16-20020a170902e95000b00188bc8f5fb2mr213266pll.48.1668787541420; Fri, 18 Nov
- 2022 08:05:41 -0800 (PST)
+ bh=aCgFzlU0dbinsWyamKEVacHr/XS2reEDaPhYVKFCMU4=;
+ b=3u/PpjZkLQ95sX5Q49OsTQkbEBH+kaAUCrY9W4GdrnV6ZAWEi6/wgSmVOEmi1AeEac
+ Q1wFrJoZd6nmSOF4qluUd1BL9PUs+BIRuM/8jvvhBr7u8EcLfcJMm/GZKOGpn9pxUfgT
+ LkA0ON+Ph9kLKZRlswqCHewgYIz0ZiVLVa6s4S13oHCQ3iW+rozuCSTrHUhUz1mFlz7b
+ nw0icquAbo4TWKCLNC8vRyMXKQxnXPFqh4O6pqc2wAP+X2C07WrVgJuBExoLgrogVi8+
+ WXhFXhUSueHApBMyBO/5FD2nRbeUT2QYg2x+6+mNVzq6Vn/GekwVkFtBQn8M+hbjpvMs
+ Br8g==
+X-Gm-Message-State: ANoB5pnoMo0dDnBR5m55WLU9+o92NV/z6XG3jQWOhuCFiYBCoOJJ1EDw
+ KEUAIgOLJLL4UHVz7G5hIuncr9/e0TUIr2Nv9gr21w==
+X-Google-Smtp-Source: AA0mqf4Pa4mZ7KQhb/ZZQS0irXAaR3X68ikAWDu0LMUIwcC19C3pbwOx3a5aAwHN10iHKHgpwp3EVaTxgxwWwlnvzm4=
+X-Received: by 2002:a92:d80f:0:b0:302:a58c:52ce with SMTP id
+ y15-20020a92d80f000000b00302a58c52cemr2281212ilm.54.1668788359698; Fri, 18
+ Nov 2022 08:19:19 -0800 (PST)
 MIME-Version: 1.0
-References: <166783932395.3279.1096141058484230644-0@git.sr.ht>
- <166783932395.3279.1096141058484230644-7@git.sr.ht>
-In-Reply-To: <166783932395.3279.1096141058484230644-7@git.sr.ht>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Nov 2022 16:05:29 +0000
-Message-ID: <CAFEAcA-TcDhKLFJGpT67OJLq2PG3qk-2S9mbDix7BdviXDeyEg@mail.gmail.com>
-Subject: Re: [PATCH qemu.git v2 7/9] hw/timer/imx_epit: factor out register
- write handlers
-To: "~axelheider" <axelheider@gmx.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221115212759.3095751-1-jsnow@redhat.com>
+ <CAARzgwxaVyQf424PeUOO=efyPHdiMK9nF7g+pHuKufqU1cg1-g@mail.gmail.com>
+ <CAARzgwzYn8=vsWO+pEfRouJY3PWYn_XEZps9wurpHpVogxcEHg@mail.gmail.com>
+ <27365556-af01-1af2-b841-9fabc6a4369a@redhat.com>
+In-Reply-To: <27365556-af01-1af2-b841-9fabc6a4369a@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 18 Nov 2022 21:48:56 +0530
+Message-ID: <CAARzgwzNsDKrQ2y05K9-oRBBGRTJ5_kMWXHfqrBS6S236TWLTg@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: configure acpi-bits to use avocado timeout
+To: Thomas Huth <thuth@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::135;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x135.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,25 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 7 Nov 2022 at 16:42, ~axelheider <axelheider@git.sr.ht> wrote:
+On Fri, Nov 18, 2022 at 1:33 PM Thomas Huth <thuth@redhat.com> wrote:
 >
-> From: Axel Heider <axel.heider@hensoldt.net>
+> On 18/11/2022 05.05, Ani Sinha wrote:
+> > On Wed, Nov 16, 2022 at 8:54 AM Ani Sinha <ani@anisinha.ca> wrote:
+> >>
+> >> On Wed, Nov 16, 2022 at 2:58 AM John Snow <jsnow@redhat.com> wrote:
+> >>>
+> >>> Instead of using a hardcoded timeout, just rely on Avocado's built-in
+> >>> test case timeout. This helps avoid timeout issues on machines where 60
+> >>> seconds is not sufficient.
+> >>>
+> >>> Signed-off-by: John Snow <jsnow@redhat.com>
+> >>
+> >> Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> >>
+> >>> ---
+> >>>   tests/avocado/acpi-bits.py | 10 ++--------
+> >>>   1 file changed, 2 insertions(+), 8 deletions(-)
+> >
+> > Thomas, since you are picking up my other patch, maybe you want to
+> > also pick this one up as well if you have not sent out your PR
+> > already?
 >
-> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
-> ---
->  hw/timer/imx_epit.c | 211 ++++++++++++++++++++++++--------------------
->  1 file changed, 115 insertions(+), 96 deletions(-)
+> Sorry, too late, it's already merged:
+>
+> https://gitlab.com/qemu-project/qemu/-/commit/1b7a07c4414323d985e89c4e7
 
-Good idea (unfortunate that git diff has not shown the change
-in a very clear way, but it does that sometimes). I won't
-review this one for now because changes I've suggested for
-earlier patches are going to affect the detail on this one.
-
-(If you don't already, you might try setting
-   git config --global diff.algorithm histogram
-which I think often produces nicer patches. I don't know
-whether it will help in this particular case, though.)
-
-thanks
--- PMM
+Ok if you generate another PR with simple misc fixes, please let me know.
 
