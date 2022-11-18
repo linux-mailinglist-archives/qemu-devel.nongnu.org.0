@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C0762F0F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 10:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74A762F0ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 10:20:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovxX0-0001KS-43; Fri, 18 Nov 2022 04:19:30 -0500
+	id 1ovxX4-0001RL-AM; Fri, 18 Nov 2022 04:19:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovxWt-0001EP-W5
+ id 1ovxWu-0001EQ-4n
  for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:19:26 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovxWp-0005wa-Ql
+ id 1ovxWp-0005wh-R8
  for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:19:23 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- k2-20020a17090a4c8200b002187cce2f92so2577677pjh.2
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 01:19:12 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id y10so2865315plp.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 01:19:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=klMV9QcwxtW012k58NMnkKEYmz5AJ4MFhRIGSfHup4Y=;
- b=JXozbtKbs72AyOGMZJoXbfa/EJoyArSa+5fH/65HcnasY/JEmLkOWLG4DDwUOJfN88
- f+CgQTbVD3HMi9Mux6VCv+/r5ojYfu0m8NZVLFdl6fj+OoXjtc5vtJ9Y7OCthVcrRCxV
- +JBkq6aWT/+DHnbyeyfDlBgVxB6RIQZoAKAcTW8TYjyOBDPF79w/UCNayz+PnMPPuisa
- 3z6Il0OUMqL/DekcuigUlIF6DfY9POhnirEvqXDaLDzpQ/zxF78WJaWigk4xNOi31nwB
- PgbOzVc955842mG5ya/KeEJyPyoBi0oPxTtx2dwknYagztRGK5Ypttu98H4JEPo81UTJ
- bSgA==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=xTLomTDMGtupPpPOgZN/MPA3hVB5xteqtzEufUeeVc4=;
+ b=nBWVdlfG6jGTS4BPabqBGsFnyN8T/2fIUjbvNY5uhj45+YS35FEr7D7/CHU6CTxast
+ VYDALSnmODgbS4TbnsvC+Pzl0b6D2khMDzlO1Bmg+wb+v5xUMA0jYiuEdMoJ6hohvcPi
+ ZZNy4hWgoaAED25vEWCSmTVPFd4uuQIBHLf+uk8iBCR1sBpGVTR+h8+BdOmUtuQ2c+uk
+ L+v/cFlIGtGf0QoaFI0phmDfbvYkyV0mjxFRYzLym1h1IHISP4vi3qygUN3KEDD5uxCK
+ 3eYMbma2V8xbybp/3Ff+OqlkB1my8z2/DknrznzDy42iqveEZ+NrBR7WEpzjULriyZWl
+ 7Zuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=klMV9QcwxtW012k58NMnkKEYmz5AJ4MFhRIGSfHup4Y=;
- b=pai7Gs+h7uY71ISarRnk0OOio0yOrUh/UJGkSegujLiAonOAqn4PQz5OfY82ypw233
- dW3E8huiFxK7j8f4uPuz8vERWCv6vbGvfWzacY4YOOX/uEEUKdEpMMkJ4LjWApfZqy9n
- IUTvuEvpuzZFiyW6Sj5IH6DpJcoSHZqa2VYns6LBfmtOID1X9Di51reygLPNzOvAjCyi
- UbhIh4eK69xOj8awQwsea7GXEPYDEIP1JIhMXincEGzvCSM5DSo9GWX/J9sq23Nfnd9v
- 5ub4u5Y5Ztz0HzNCZbRDSNMq3s+3SUZU1Cuj7ZFMC4HyEVab7wUEkv7XMN6Jtsr8kEF3
- SAww==
-X-Gm-Message-State: ANoB5pk+OE8t0ZfL3+XgCGIGggW31PIPBSBovVhoIziEKmkSr56P6W/G
- BFfky8vaWIfdfboo+pmkBxmDwq9mxG6cog==
-X-Google-Smtp-Source: AA0mqf5AWh4QZsl2JIw6QUW3CUBbLjWE4FDPTrY/abDF+M10Cd7EU4KaRnUxvFZFz6YBakcXrUcOyQ==
-X-Received: by 2002:a17:90b:4d0b:b0:214:1329:dec7 with SMTP id
- mw11-20020a17090b4d0b00b002141329dec7mr12947722pjb.91.1668763151823; 
- Fri, 18 Nov 2022 01:19:11 -0800 (PST)
+ bh=xTLomTDMGtupPpPOgZN/MPA3hVB5xteqtzEufUeeVc4=;
+ b=EZmDsLk/UX4RO2AN6Ykhy6Rz+ygADHovoKuUOKeOCP74QG1zdiZu4knbIoUeq1IXBo
+ 4086QzeDbtaHsGEJepow+sDHpxgiGDv2N8PUsY17hhLBG6PtKX6tJsDU4+V44dK6oqqT
+ j235OdRssLPEZ93of6WpE+IVSsC/9zXr/2VCZphlNxGCM95hW2inNCfp0VSgsSaK5ort
+ sIzOa+dZjN9hD6xhJ3kPjihEGYXqaBGs2LFn7d7Qq7ubzLAv0FHFmOCAt7vlVDR10aBN
+ N+GRVKUalPWVuhwgdNpSQWeqp0gsR7A2aHEE3ibRHjhl+v2aQkPYLrUHkxSsPXmFCh5K
+ znsw==
+X-Gm-Message-State: ANoB5pkUU01eHDIeAaDgJSl0Ekd1RDxtxMDdCj/TAzpPVP9ArcQ2Nsnr
+ MrcDNh+EYhxlW8RjuFpCvCLuLqfgAy6AbA==
+X-Google-Smtp-Source: AA0mqf5BXFsWKVCUOQsEf9R1UDXJwuhjjKdyeLWl2KK9Hnlx3b92tVnAQE4OnV4lxlbumWCcYt36eQ==
+X-Received: by 2002:a17:902:70c3:b0:186:ba52:1dc7 with SMTP id
+ l3-20020a17090270c300b00186ba521dc7mr6670895plt.41.1668763153253; 
+ Fri, 18 Nov 2022 01:19:13 -0800 (PST)
 Received: from stoup.. ([2602:47:d48a:1201:90b2:345f:bf0a:c412])
  by smtp.gmail.com with ESMTPSA id
- a27-20020aa794bb000000b0056e8eb09d57sm2672305pfl.63.2022.11.18.01.19.10
+ a27-20020aa794bb000000b0056e8eb09d57sm2672305pfl.63.2022.11.18.01.19.11
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 01:19:11 -0800 (PST)
+ Fri, 18 Nov 2022 01:19:12 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 6/7] hw/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in
- ppc_set_irq
-Date: Fri, 18 Nov 2022 01:18:57 -0800
-Message-Id: <20221118091858.242569-7-richard.henderson@linaro.org>
+Subject: [PATCH for-8.0 7/7] accel/tcg: Use QEMU_IOTHREAD_LOCK_GUARD in
+ io_readx/io_writex
+Date: Fri, 18 Nov 2022 01:18:58 -0800
+Message-Id: <20221118091858.242569-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221118091858.242569-1-richard.henderson@linaro.org>
 References: <20221118091858.242569-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,43 +89,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Narrow the scope of the lock to the actual read/write,
+moving the cpu_transation_failed call outside the lock.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Cc: qemu-ppc@nongnu.org
----
- hw/ppc/ppc.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ accel/tcg/cputlb.c | 25 ++++++++-----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index dc86c1c7db..4e816c68c7 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -44,13 +44,9 @@ void ppc_set_irq(PowerPCCPU *cpu, int irq, int level)
- {
-     CPUPPCState *env = &cpu->env;
-     unsigned int old_pending;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 517b599c5f..d177afcad6 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1356,7 +1356,6 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
+     MemoryRegionSection *section;
+     MemoryRegion *mr;
+     uint64_t val;
 -    bool locked = false;
+     MemTxResult r;
  
-     /* We may already have the BQL if coming from the reset path */
+     section = iotlb_to_section(cpu, full->xlat_section, full->attrs);
+@@ -1367,11 +1366,11 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
+         cpu_io_recompile(cpu, retaddr);
+     }
+ 
 -    if (!qemu_mutex_iothread_locked()) {
--        locked = true;
 -        qemu_mutex_lock_iothread();
+-        locked = true;
++    {
++        QEMU_IOTHREAD_LOCK_GUARD();
++        r = memory_region_dispatch_read(mr, mr_offset, &val, op, full->attrs);
+     }
+-    r = memory_region_dispatch_read(mr, mr_offset, &val, op, full->attrs);
++
+     if (r != MEMTX_OK) {
+         hwaddr physaddr = mr_offset +
+             section->offset_within_address_space -
+@@ -1380,10 +1379,6 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
+         cpu_transaction_failed(cpu, physaddr, addr, memop_size(op), access_type,
+                                mmu_idx, full->attrs, r, retaddr);
+     }
+-    if (locked) {
+-        qemu_mutex_unlock_iothread();
 -    }
-+    QEMU_IOTHREAD_LOCK_GUARD();
- 
-     old_pending = env->pending_interrupts;
- 
-@@ -67,10 +63,6 @@ void ppc_set_irq(PowerPCCPU *cpu, int irq, int level)
- 
-     trace_ppc_irq_set_exit(env, irq, level, env->pending_interrupts,
-                            CPU(cpu)->interrupt_request);
 -
+     return val;
+ }
+ 
+@@ -1410,7 +1405,6 @@ static void io_writex(CPUArchState *env, CPUTLBEntryFull *full,
+     hwaddr mr_offset;
+     MemoryRegionSection *section;
+     MemoryRegion *mr;
+-    bool locked = false;
+     MemTxResult r;
+ 
+     section = iotlb_to_section(cpu, full->xlat_section, full->attrs);
+@@ -1427,11 +1421,11 @@ static void io_writex(CPUArchState *env, CPUTLBEntryFull *full,
+      */
+     save_iotlb_data(cpu, section, mr_offset);
+ 
+-    if (!qemu_mutex_iothread_locked()) {
+-        qemu_mutex_lock_iothread();
+-        locked = true;
++    {
++        QEMU_IOTHREAD_LOCK_GUARD();
++        r = memory_region_dispatch_write(mr, mr_offset, val, op, full->attrs);
+     }
+-    r = memory_region_dispatch_write(mr, mr_offset, val, op, full->attrs);
++
+     if (r != MEMTX_OK) {
+         hwaddr physaddr = mr_offset +
+             section->offset_within_address_space -
+@@ -1441,9 +1435,6 @@ static void io_writex(CPUArchState *env, CPUTLBEntryFull *full,
+                                MMU_DATA_STORE, mmu_idx, full->attrs, r,
+                                retaddr);
+     }
 -    if (locked) {
 -        qemu_mutex_unlock_iothread();
 -    }
  }
  
- /* PowerPC 6xx / 7xx internal IRQ controller */
+ static inline target_ulong tlb_read_ofs(CPUTLBEntry *entry, size_t ofs)
 -- 
 2.34.1
 
