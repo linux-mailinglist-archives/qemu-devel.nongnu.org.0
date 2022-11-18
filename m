@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C39B62EEE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 09:08:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F5262EFBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 09:38:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovwQ4-0002gb-86; Fri, 18 Nov 2022 03:08:17 -0500
+	id 1ovwsJ-0004Ch-Sg; Fri, 18 Nov 2022 03:37:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovwPu-0002ef-MF
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 03:08:09 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1ovwsH-0004CU-Ne
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 03:37:25 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovwPr-0003j7-Pk
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 03:08:05 -0500
-Received: by mail-wr1-x436.google.com with SMTP id w14so8051714wru.8
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 00:08:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/uusR8hX9DRZcwT6IBisqCU2ANhpQTocdOwgJEeveSY=;
- b=C9tDeq9KwYFmgO17SZPploQui199GPZ9K9YwyVi8E2IKbSD2dmjFUY9zENrLdMblnD
- 0D7Zpkpktj8/nu2KnRDFaG6v3rETLq1vRc+PcGNE+50EKJR+28kizeAe2z5cPUC5iB3b
- DmdGtm4Df2lQETSzywAXj2gHjH/m49Uo/qVrpGZml+87BYdUhYskU1Fk/zZin6qet5va
- s9ip8zdM/EBwj3V0p8Y4PWxiYBE8dP+wfoWXUu3oqwu+bWuNuCG+1UC+5BqBkE/yfg2L
- OM3h/1mJfAlbj8FsGeAFzAo3sdF2++JKh5sCHuz2rY7aAE/qeFvAOo0YWA95X8qYeYQz
- oiCg==
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1ovwsF-00085S-Fd
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 03:37:25 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ q1-20020a17090a750100b002139ec1e999so4442644pjk.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 00:37:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rhGQjfJqqUlqsThZPNRkO64w6Tz4zq2pcnx7WJ6Od6M=;
+ b=R4WWsJbxmY3xzF10uQ/c9BS5kk8WS7kVNW4EJp+3aExVVq3v3E/5gzKhq2IPcGjdJX
+ zWiopFSecGMAf+UTWSWJ4oAfumV/Uw6spsi6kf8f0+H/7qqInopQ8EErsVaG52JoQ26C
+ kDwVCtzcgKbanewFhJg2TajUeeD4Z1kzzln5cJXoJAiztsCHcUbLcD4+NihzAS3Nde9h
+ 1i78pWXXo4NovkGpoH+I/eja+lWUFjH/C1h12VhsYEoAmtNagfi19yyAoLqVAmRSst3N
+ YE72QMHTJWJF/ZUmImN68hY55h86eo3hVVcmU7nn9Xp5hQdpDZv9FkoSMuigAjC6YH3o
+ Go1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/uusR8hX9DRZcwT6IBisqCU2ANhpQTocdOwgJEeveSY=;
- b=Z57I3EcuXF/Fead2jz8o7rDZPDsK38LJkzyFnjT4Pwkha9YWRm/x2yFPZluLSGuw3g
- 1TnXoPgz3vh8lN2R1jA37Ku0CI/QImI1ivdfwgcR5MkhTnWkKs9XjDjmeimhotJbSWb7
- 62CcXLkM0tDIDZwYaH1ou77xqpKGhCyUHj8XO9YqHjKDO65NhCx+FmTtr+knZw7Sz7nN
- 5zYPed2rRgtkzx/OogqqhH55cSC1MmeH4w4oKdK/ZPU9ZDXTDtZZwwvbdC1eyCYKv5mN
- eWvZWiVGI0zhIAo2k+nW14xe11uJ8m3CGNfJYtE4//H8xRzs46Jz2/L6+8o2DUInpaji
- njqg==
-X-Gm-Message-State: ANoB5pm6vRrwkQ4tvlkEmJDi+YdqBmR4r9Ves203f0JpBoO3pwuz/tps
- QkAc5FnfEv9XYdqzGJTcaTBh7A==
-X-Google-Smtp-Source: AA0mqf42fB0Ttglpz/OKf0BYyVqjzYXLdr+Vc5/DOX9w9t99teu5lpSTDlTx7YOqfJZCDtc/42d3lQ==
-X-Received: by 2002:a5d:4538:0:b0:236:5270:8f17 with SMTP id
- j24-20020a5d4538000000b0023652708f17mr3811701wra.358.1668758882272; 
- Fri, 18 Nov 2022 00:08:02 -0800 (PST)
-Received: from [192.168.230.175] (34.red-88-29-175.dynamicip.rima-tde.net.
- [88.29.175.34]) by smtp.gmail.com with ESMTPSA id
- fn25-20020a05600c689900b003cf78aafdd7sm3577832wmb.39.2022.11.18.00.08.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 00:08:01 -0800 (PST)
-Message-ID: <ae8d0a01-9a08-3799-a5e8-0acea2dc44ca@linaro.org>
-Date: Fri, 18 Nov 2022 09:07:59 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rhGQjfJqqUlqsThZPNRkO64w6Tz4zq2pcnx7WJ6Od6M=;
+ b=MOw3p4sSo3t+hgTOAPE+moe7OqHQ5kl3X8sFAn51vIzU5+ciAsauq24mABNGOEnWO6
+ 3eXVzc5Hv9SU04L0KAogyqxGHJ//pXs0fzPtjClrFuwMPIolGgtpubzMgLUEh2Pff3MO
+ Cjd45H01t7rldTIowxePV0FtoeSrwmm44EtvUODRjJl1obTMyF1UbC3jKLwM0I5Qx/46
+ XCPtqHU/qiRtgwDgzzAMNSYDGiyCsU0VATWuLP5YJYyuIpd47B0OObFphQF18gu/s1Kh
+ tPf4qd5Tg/Gl39rxQdtDpR01dHyzgAO9KlIK5IS5uhuQegmwX2c27nzYDDSXwp3w38qO
+ SxkA==
+X-Gm-Message-State: ANoB5pkRgMBgmdkdx8SotZf7fJ3/JD7EelogV6sA4LEOvdb2VqGoLewd
+ oS6xK0omHg6LhxoN95ZEENXfmLYShymxgPLJ
+X-Google-Smtp-Source: AA0mqf6SZlYaO9P/M9etUdpuHvEGRAtFTpPM9ER6PZXEB2H6HuLbTTMaXGmowal3lid5ZAsSdjylDg==
+X-Received: by 2002:a17:902:f111:b0:188:ca57:8945 with SMTP id
+ e17-20020a170902f11100b00188ca578945mr6654798plb.116.1668760640871; 
+ Fri, 18 Nov 2022 00:37:20 -0800 (PST)
+Received: from n250-032-048.byted.org ([221.194.189.12])
+ by smtp.gmail.com with ESMTPSA id
+ c14-20020a624e0e000000b0056bd6b14144sm2533489pfb.180.2022.11.18.00.37.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 00:37:20 -0800 (PST)
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+To: qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, quintela@redhat.com, peterx@redhat.com,
+ zhouyibo@bytedance.com, Chuang Xu <xuchuangxclwt@bytedance.com>
+Subject: [RFC PATCH] migration: reduce time of loading non-iterable vmstate
+Date: Fri, 18 Nov 2022 16:36:48 +0800
+Message-Id: <20221118083648.2399615-1-xuchuangxclwt@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v3 12/13] tests/avocado/boot_linux.py: Bump aarch64 virt
- test timeout to 720s
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221117172532.538149-1-alex.bennee@linaro.org>
- <20221117172532.538149-13-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221117172532.538149-13-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,36 +89,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/11/22 18:25, Alex Bennée wrote:
-> From: Peter Maydell <peter.maydell@linaro.org>
-> 
-> The two tests
-> tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2
-> tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3
-> 
-> take quite a long time to run, and the current timeout of 240s
-> is not enough for the tests to complete on slow machines:
-> we've seen these tests time out in the gitlab CI in the
-> 'avocado-system-alpine' CI job, for instance. The timeout
+The duration of loading non-iterable vmstate accounts for a significant
+portion of downtime (starting with the timestamp of source qemu stop and
+ending with the timestamp of target qemu start). Most of the time is spent
+committing memory region changes repeatedly.
 
-The previous patches removed these jobs from GitLab CI, so
-this shouldn't be a problem there anymore, but the next part
-is still relevant:
+This patch packs all the changes to memory region during the period of
+loading non-iterable vmstate in a single memory transaction. With the
+increase of devices, this patch will greatly improve the performance.
 
-> is also insufficient for running the test with a debug build
-> of QEMU: on my machine the tests take over 10 minutes to run
-> in that config.
+Here are the test results:
+test vm info:
+- 32 CPUs 128GB RAM
+- 8 16-queue vhost-net device
+- 16 4-queue vhost-user-blk device.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+	time of loading non-iterable vmstate
+before		about 210 ms
+after		about 40 ms
 
-> Push the timeout up to 720s so that the test definitely has
-> enough time to complete.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20221117111628.911686-1-peter.maydell@linaro.org>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/avocado/boot_linux.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
+---
+ migration/migration.c | 1 +
+ migration/migration.h | 2 ++
+ migration/savevm.c    | 8 ++++++++
+ 3 files changed, 11 insertions(+)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index e6f8bc2478..ed20704552 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -224,6 +224,7 @@ void migration_object_init(void)
+     qemu_sem_init(&current_incoming->postcopy_pause_sem_fast_load, 0);
+     qemu_mutex_init(&current_incoming->page_request_mutex);
+     current_incoming->page_requested = g_tree_new(page_request_addr_cmp);
++    current_incoming->start_pack_mr_change = false;
+ 
+     migration_object_check(current_migration, &error_fatal);
+ 
+diff --git a/migration/migration.h b/migration/migration.h
+index 58b245b138..86597f5feb 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -186,6 +186,8 @@ struct MigrationIncomingState {
+      * contains valid information.
+      */
+     QemuMutex page_request_mutex;
++
++    bool start_pack_mr_change;
+ };
+ 
+ MigrationIncomingState *migration_incoming_get_current(void);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 48e85c052c..a073009a74 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2630,6 +2630,12 @@ retry:
+         switch (section_type) {
+         case QEMU_VM_SECTION_START:
+         case QEMU_VM_SECTION_FULL:
++            /* call memory_region_transaction_begin() before loading non-iterable vmstate */
++            if (section_type == QEMU_VM_SECTION_FULL && !mis->start_pack_mr_change) {
++                memory_region_transaction_begin();
++                mis->start_pack_mr_change = true;
++            }
++
+             ret = qemu_loadvm_section_start_full(f, mis);
+             if (ret < 0) {
+                 goto out;
+@@ -2650,6 +2656,8 @@ retry:
+             }
+             break;
+         case QEMU_VM_EOF:
++            /* call memory_region_transaction_commit() after loading non-iterable vmstate */
++            memory_region_transaction_commit();
+             /* This is the end of migration */
+             goto out;
+         default:
+-- 
+2.20.1
+
 
