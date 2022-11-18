@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8467662EE32
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:19:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E169962EE6E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:31:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovve6-0007C8-1L; Fri, 18 Nov 2022 02:18:42 -0500
+	id 1ovvkD-0004o7-Vi; Fri, 18 Nov 2022 02:25:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovvdu-000795-Ff
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:18:31 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovvkB-0004mj-P7
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:24:59 -0500
 Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovvdr-0004Fb-R7
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:18:29 -0500
-Received: by mail-wr1-x431.google.com with SMTP id k8so7954312wrh.1
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 23:18:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovvkA-0005FZ-1T
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:24:59 -0500
+Received: by mail-wr1-x431.google.com with SMTP id l14so7960547wrw.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 23:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=JfmGvxpkgdXUyU8IBujfPpSjqhqj4YJOYz/gDzZ9iqM=;
- b=PYdv1mUd4gwahsMyGRwMgL8DxGcnVkuYQhJSLrk2e/CuZzDKqtWYFCr3Odge0YairA
- w40EAWQwpYdTuHlpRDwIwEnQdtiuA5pnTMmOW7A2O90BHJ4nsEEDH69cLL+4qN6pdUbd
- jMGaiG8D3JBebA0hlaSGzPSgQFP9HXfe1FI3XyWJxbX7S4vt1r6FHpODiv0/quV1aVDD
- O6oJbY1xMjDUxllCjdqkpHqPe6AlsoMpnCLcg7W75H2ZbC032MIydJJ4tnnGdkLUsz9q
- MmabXrsumPvt9wM5domGq4YnDlZBABCNWVz/yyZZcUOBeGL3zhbh93TMqXGJwioAW5u1
- z61g==
+ bh=QFDGPU97Ix/lDYg1rerFQ4wq8bcbI0aQgCfebFCDcmQ=;
+ b=DIYNgIzCnN4EHnMAA6oOWCiHV9nxHifd1u5jRQDprrhHkFqlQugzxEBo0FJBu21BC0
+ xpanXlZ6mZYZahdYIW+KKYmqz1hZpNViOUGQzMWS3mskPf9MW7XyQDohKyKKUQNnGq9g
+ KZWR51ciHyIMC2J9wTIJbDYqwOgNtrFBYVpcwPsUGC0Dgu3CyAgd4tGoK0njFlvSZ8jA
+ 9/CJD40+3kVCF4j71WxIhSL1mG4mrJm/O0u95kE8aK1hgcecaPpul0QXOobHZZ0rprQp
+ dop7anA8lJctHZryqVyau2zXJBckYIY2LqZBTPRmK9UnnumUffbLt9ZkUM4AvzVaJ2o3
+ 9HTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JfmGvxpkgdXUyU8IBujfPpSjqhqj4YJOYz/gDzZ9iqM=;
- b=P9dHDM1x/JJSyrYwIjhHca3pfX3/KTd9N/5ZB+BtyYCdNAuNXqkIw69dGDGfbAg786
- 5LFYXpw6qOpRT97cP+giXe4NG09Jp6xcpWsD9lLFmS2u+fILymHFfG4VKEZi88mOHyDE
- ZuwsvBk2lcEpW6doXXljVP8gN+I10RQI1uR8WIBbZTFmypcElbqUam1VNtovyFdtSY15
- joC460RPq8OfeolxOPiW5J7IxwG76dBJhFkAkEnaI/qbn0j7NwUG2vey2TMF4f7V2Z7N
- jDKJoY4GXA6ow9AcQKvYEgDSjNmM8aLdhqQLefbRfZmMZG/5dTbtwu9tRY16NE4Q0VMF
- t1lw==
-X-Gm-Message-State: ANoB5pkMG8it/gYAE0uVZaU1ZmofbfrPLn5G5KheKnsMW3Gpxve0O1GJ
- E8oTnBTKiaIdQFxvZsoVxi1Z8Q==
-X-Google-Smtp-Source: AA0mqf5q+3he7AA1MkEHbL/bHJqwQpfsYFk7GYGB9U/uK7q0pupsv5s8spsEfURCy20YcQrJBQOCsw==
-X-Received: by 2002:adf:eb81:0:b0:236:4ba1:fb2d with SMTP id
- t1-20020adfeb81000000b002364ba1fb2dmr3531762wrn.570.1668755906111; 
- Thu, 17 Nov 2022 23:18:26 -0800 (PST)
+ bh=QFDGPU97Ix/lDYg1rerFQ4wq8bcbI0aQgCfebFCDcmQ=;
+ b=p0804JW9Uvf6NzMHLdjo1JnEfeDE7UsFZ5od2wDev0oWWkXphES6MsyVnTrAa/EllE
+ lp+3oyh0t9JQ2mUx9OrA72p7qDfUIEkg5OrADvrEe+9kNORKZPOAm+/7omrgnFoHRnbF
+ khGjQDHD+XK0khRGhaR+7aK4PPE8YSxzsfWfsm75IpGrBS65zbAbe7MVGumCD+56rHau
+ DEg4HAsJy+RbiI2hXFq56Sp3nz2HuQFDeF+eQbXvnKDxqo5ixMIJEVhcIU4+EDHLiB5V
+ VO7lc2bBTcVRG+KRYjmOExRj0QCxQN475eE2P7nc4g1sMglj+wJPZOo5dH+VV+1ix6Dt
+ WOSQ==
+X-Gm-Message-State: ANoB5pmKC+0CKSMT/w7UOKgZ6FLHQCrYqueqp0JZs/dtA2DVcfCMUVgO
+ 17NQ2+dgwVBjXzFoBsx1c6FZIg==
+X-Google-Smtp-Source: AA0mqf5cBSAJ3bHYEk9oGAUNpnrsc6uxNxBUT3NQzjCPv8YXKbbjv2umq74ivYx8lcSTKV1LPNti1A==
+X-Received: by 2002:adf:f70b:0:b0:241:792e:237a with SMTP id
+ r11-20020adff70b000000b00241792e237amr3505487wrp.511.1668756296230; 
+ Thu, 17 Nov 2022 23:24:56 -0800 (PST)
 Received: from [192.168.230.175] (34.red-88-29-175.dynamicip.rima-tde.net.
  [88.29.175.34]) by smtp.gmail.com with ESMTPSA id
- m6-20020a056000024600b00236705daefesm2793241wrz.39.2022.11.17.23.18.25
+ m28-20020a05600c3b1c00b003cfd0bd8c0asm4054220wms.30.2022.11.17.23.24.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 23:18:25 -0800 (PST)
-Message-ID: <a8f4c209-f697-5eb5-2853-5529c359b013@linaro.org>
-Date: Fri, 18 Nov 2022 08:18:24 +0100
+ Thu, 17 Nov 2022 23:24:55 -0800 (PST)
+Message-ID: <b6ea97e5-5b27-2765-cbb8-70a54fb1d268@linaro.org>
+Date: Fri, 18 Nov 2022 08:24:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH for-7.2 v3 1/3] rtl8139: avoid clobbering tx descriptor
- bits
+Subject: Re: [PATCH for-7.2 v3 3/3] rtl8139: honor large send MSS value
 Content-Language: en-US
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Cc: Tobias Fiebig <tobias+git@fiebig.nl>, Jason Wang <jasowang@redhat.com>,
- qemu-stable@nongnu.org
+ qemu-stable@nongnu.org, Russell King - ARM Linux <linux@armlinux.org.uk>
 References: <20221117165554.1773409-1-stefanha@redhat.com>
- <20221117165554.1773409-2-stefanha@redhat.com>
+ <20221117165554.1773409-4-stefanha@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221117165554.1773409-2-stefanha@redhat.com>
+In-Reply-To: <20221117165554.1773409-4-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::431;
@@ -94,25 +93,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 17/11/22 17:55, Stefan Hajnoczi wrote:
-> The device turns the Tx Descriptor into a Tx Status descriptor after
-> fully reading the descriptor. This involves clearing Tx Own (bit 31) to
-> indicate that the driver has ownership of the descriptor again as well
-> as several other bits.
+> The Large-Send Task Offload Tx Descriptor (9.2.1 Transmit) has a
+> Large-Send MSS value where the driver specifies the MSS. See the
+> datasheet here:
+> http://realtek.info/pdf/rtl8139cp.pdf
 > 
-> The code keeps the first dword of the Tx Descriptor in the txdw0 local
-> variable. txdw0 is reused to build the first word of the Tx Status
-> descriptor. Later on the code uses txdw0 again, incorrectly assuming
-> that it still contains the first dword of the Tx Descriptor. The tx
-> offloading code misbehaves because it sees bogus bits in txdw0.
+> The code ignores this value and uses a hardcoded MSS of 1500 bytes
+> instead. When the MTU is less than 1500 bytes the hardcoded value
+> results in IP fragmentation and poor performance.
 > 
-> Use a separate local variable for Tx Status and preserve Tx Descriptor
-> in txdw0.
+> Use the Large-Send MSS value to correctly size Large-Send packets.
 > 
+> Jason Wang <jasowang@redhat.com> noticed that the Large-Send MSS value
+> mask was incorrect so it is adjusted to match the datasheet and Linux
+> 8139cp driver.
+> 
+> This issue was discussed in the past here:
+> https://lore.kernel.org/all/20161114162505.GD26664@stefanha-x1.localdomain/
+> 
+> Reported-by: Russell King - ARM Linux <linux@armlinux.org.uk>
+> Reported-by: Tobias Fiebig <tobias+git@fiebig.nl>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1312
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   hw/net/rtl8139.c | 17 ++++++++++-------
->   1 file changed, 10 insertions(+), 7 deletions(-)
+>   hw/net/rtl8139.c | 26 ++++++++++++--------------
+>   1 file changed, 12 insertions(+), 14 deletions(-)
+
+>   /* IP checksum offload flag */
+>   #define CP_TX_IPCS (1<<18)
+> @@ -2152,10 +2152,11 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
+>                       goto skip_offload;
+>                   }
+>   
+> -                int large_send_mss = (txdw0 >> 16) & CP_TC_LGSEN_MSS_MASK;
+> +                int large_send_mss = (txdw0 >> CP_TC_LGSEN_MSS_SHIFT) &
+> +                                     CP_TC_LGSEN_MSS_MASK;
+
+Nitpicking/matter of style, the '&' is harder to miss if moved on the 
+next line just before the mask.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
 
