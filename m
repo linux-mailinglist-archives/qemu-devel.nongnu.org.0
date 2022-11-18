@@ -2,100 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0D762F606
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 14:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B803F62F65B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 14:37:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow1QK-0003tz-SX; Fri, 18 Nov 2022 08:28:52 -0500
+	id 1ow1XF-0005oL-Vr; Fri, 18 Nov 2022 08:36:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ow1QG-0003tl-C8
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 08:28:48 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1ow1XD-0005mv-Gr
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 08:35:59 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ow1QB-0000gK-2U
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 08:28:45 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id cl5so9239427wrb.9
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 05:28:42 -0800 (PST)
+ id 1ow1XB-0002AG-SU
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 08:35:59 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ l39-20020a05600c1d2700b003cf93c8156dso4035319wms.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 05:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
- b=X/gqqsl/WLpKtb9vOD4WiP4Oi7fWHjwjntx8mX7OxhsG5wzq+ZEu37/nMAgR/K0NTa
- w3qxyDj/5ysz05YJVpUs55kmmloX1IkC2zB1+/KzU94RHSvVV8QJIGUQUlri/5EUyK2r
- mGh3S7znVf5hxcm2FIq10hXZNhSXHhkk0XSUejjdU6tvjBJaDulCkhJ1yHJ5qUwTLhSd
- MoeZaDkThsztpF4G73yNPcJGkFAhdKPv1GGINAnUYMuW1RHIMFNHAh629fNId0Ygj6h4
- QlGc8/i2b3sseFW3mxLr72CnhypCMQDx+K68Ypw8eLM56TGZBoLoX2zeC77yyHo3GfeR
- z9tg==
+ bh=gfsl3Yd9BlilArSnhcbQL5hUY0D86GduvfNz5zHAm98=;
+ b=zqy09A9j+OhgRUgdvJbVPS1SQ7LucpQYIZuLyk0kD7PaxiIESkJKEe1WPf+Ql5zdq2
+ lGe9oBUK68EbgyGRM47p7bAYzN8Lig1m+prKkZdwV91j+bnSrIW+vzI9U2T6IkZn0UJb
+ 4rVw/c+435gX+Mg8iBmzTYNKylRIHIDHU+bf9s/zJhvAm/NPZ8Rq5LTKztEwzjPvHiMu
+ FnxeQ1Op5gBoVgwEBZx6rlquetr1DgMkjFN3rWs7ZOpN1x2LRZDjdLJUn6cl5e8ruZnK
+ V3mevSYwJeVzuBgBe9ini1/Hs7Rs3BfRjj5fBje/d2X6C2YAiUI9G9oEZUq8zLD9wDTr
+ BlAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
- b=T6P32VSZoNbc7hei1JrA+CfAxLw3btG+anBHwqBeymFOwe9nlI1pkcG9zZYeRmlBuD
- 1Mv7AsVi88QThLoVaKPWAHaAlzMmZX8ob7q/xUsqItQMaaJoKRgklxx2YgQE8JPkRjM8
- FxwPCObWaftdlf1ryNxwJgujEkV9dxeDateHZmp4+gmPfEclZh+dc7UqYU1ZUc+oTgsh
- Qxs89ouKeMHmLQL2J2+yMcHdrLqdrDscazQYcfoCvqsS3QOKlE7nsSQtTSdcL2vo9Aew
- A8c6LmHI6bHar/EMR6FKzoVjqcgEb0WPJK53zFPifjTt5Ofcq6Q7XNIK7d5mDCYAxvf2
- BVoQ==
-X-Gm-Message-State: ANoB5pkgBtJMeMiJWr8svmuplIkgngdYbVGsq+cnhEG4XV1D8MtiZOAu
- ByI5zlQ3Nff2lvVpXVDjgZd/hw==
-X-Google-Smtp-Source: AA0mqf6tYbIf5kiwBxBEeJpBK3Zoi0R3hbVIR4uxKZjI5EAk4XwJowCkhnyQfuyrbXxeKsj5OY9J7w==
-X-Received: by 2002:adf:aa91:0:b0:241:b2b2:a71d with SMTP id
- h17-20020adfaa91000000b00241b2b2a71dmr4389646wrc.326.1668778121454; 
- Fri, 18 Nov 2022 05:28:41 -0800 (PST)
+ bh=gfsl3Yd9BlilArSnhcbQL5hUY0D86GduvfNz5zHAm98=;
+ b=GE2vIao/5azBNcLtIsOSUvSswjGewjoanTAGsrn/jJoI10kVQlY4bUAgws/Zno5abr
+ HW7RbXq2wT+jYmrT/Wd9Gb0ntPw1LurUihL9Rf/hBCBSX310mCDlAus+AhND4wbdv6NG
+ wUm1vxdK58ONfiqY9WUFUJpo0dm14JjoLrX3UoxDaGi4wgDN9ckSFlOcK/Ll0QP8d4xL
+ IgSk+5tHSsrCAOuI8YnuDc2HoT2i3KrM4nw0RsX25HBrdXecMWaZ9EFqISR6UZR69jYy
+ hnuE4mUdvuDV4LZGzk4mQCuEJ27s6NYhWo2FZTdGT6uADJ/IiD3bAd1LqPcSpj0jrzTg
+ q9DA==
+X-Gm-Message-State: ANoB5pnB9isvNIly0hIUBZCPr2JE+nQDVb3i+Umxsr/JSzNi3cPkAkwF
+ mBRm8WaIfQRR0ZOrDZX6Yafydw==
+X-Google-Smtp-Source: AA0mqf51aDgf9MdnA+wsaNrjcQKnfBmIk9rOg3AB/3coQPB9byqc7Crpb4nOMxqS5Rf7vS4ZgYh86A==
+X-Received: by 2002:a7b:c5d1:0:b0:3cf:4c20:b1e4 with SMTP id
+ n17-20020a7bc5d1000000b003cf4c20b1e4mr8519803wmk.132.1668778555775; 
+ Fri, 18 Nov 2022 05:35:55 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- y10-20020adfe6ca000000b00236860e7e9esm3459102wrm.98.2022.11.18.05.28.40
+ x2-20020a1c7c02000000b003b4935f04a4sm5364008wmc.5.2022.11.18.05.35.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 05:28:40 -0800 (PST)
+ Fri, 18 Nov 2022 05:35:55 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 11C631FFB7;
- Fri, 18 Nov 2022 13:28:40 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org> <20221117134520.GD422408@chaop.bj.intel.com>
- <87a64p8vof.fsf@linaro.org> <20221118013201.GA456562@chaop.bj.intel.com>
+ by zen.linaroharston (Postfix) with ESMTP id 71A001FFB7;
+ Fri, 18 Nov 2022 13:35:54 +0000 (GMT)
+References: <20221118091858.242569-1-richard.henderson@linaro.org>
+ <20221118091858.242569-2-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.2; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Vitaly
- Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim
- Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas
- Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J .
- Bruce Fields" <bfields@fieldses.org>, Andrew Morton
- <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Steven Price <steven.price@arm.com>, "Maciej S .
- Szmigiero" <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>,
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang
- <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
- <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- tabba@google.com, Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Date: Fri, 18 Nov 2022 13:23:51 +0000
-In-reply-to: <20221118013201.GA456562@chaop.bj.intel.com>
-Message-ID: <87o7t475o7.fsf@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH for-8.0 1/7] qemu/main-loop: Introduce
+ QEMU_IOTHREAD_LOCK_GUARD
+Date: Fri, 18 Nov 2022 13:30:15 +0000
+In-reply-to: <20221118091858.242569-2-richard.henderson@linaro.org>
+Message-ID: <87k03s75c5.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -119,72 +97,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Benn=C3=A9e wrote:
->>=20
-<snip>
->> >> >> > +
->> >> >> > +		/* KVM_EXIT_MEMORY_FAULT */
->> >> >> > +		struct {
->> >> >> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> >> >> > +			__u32 flags;
->> >> >> > +			__u32 padding;
->> >> >> > +			__u64 gpa;
->> >> >> > +			__u64 size;
->> >> >> > +		} memory;
->> >> >> > +
->> >> >> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that =
-the VCPU has
->> >> >> > +encountered a memory error which is not handled by KVM kernel m=
-odule and
->> >> >> > +userspace may choose to handle it. The 'flags' field indicates =
-the memory
->> >> >> > +properties of the exit.
->> >> >> > +
->> >> >> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is=
- caused by
->> >> >> > +   private memory access when the bit is set. Otherwise the mem=
-ory error is
->> >> >> > +   caused by shared memory access when the bit is clear.
->> >> >>=20
->> >> >> What does a shared memory access failure entail?
->> >> >
->> >> > In the context of confidential computing usages, guest can issue a
->> >> > shared memory access while the memory is actually private from the =
-host
->> >> > point of view. This exit with bit 0 cleared gives userspace a chanc=
-e to
->> >> > convert the private memory to shared memory on host.
->> >>=20
->> >> I think this should be explicit rather than implied by the absence of
->> >> another flag. Sean suggested you might want flags for RWX failures so
->> >> maybe something like:
->> >>=20
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
->> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
->> >
->> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
->> > specific, private memory can also set them once introduced.
->>=20
->> OK so how about:
->>=20
->>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
->>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
->>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
->>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
->>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
+> Create a wrapper for locking/unlocking the iothread lock.
 >
-> We don't actually need a new bit, the opposite side of private is
-> shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
-> 'shared'.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> Cc: Paolo Bonzini <pbonzini@redhat.com> (maintainer:Main loop)
 
-If that is always true and we never expect a 3rd type of memory that is
-fine. But given we are leaving room for expansion having an explicit bit
-allows for that as well as making cases of forgetting to set the flags
-more obvious.
+You might want to review Paolo's comments from:
+
+  Subject: [RFC PATCH] main-loop: introduce WITH_QEMU_IOTHREAD_LOCK
+  Date: Mon, 24 Oct 2022 18:19:09 +0100
+  Message-Id: <20221024171909.434818-1-alex.bennee@linaro.org>
+
+So it would be worth having the WITH_QEMU_IOTHREAD_LOCK() and
+MAYBE_WITH_QEMU_IOTHREAD_LOCK() helpers for completeness.
+
+And of course the name cleanup.
+
+> ---
+>  include/qemu/main-loop.h | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>
+> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+> index 3c9a9a982d..c25f390696 100644
+> --- a/include/qemu/main-loop.h
+> +++ b/include/qemu/main-loop.h
+> @@ -343,6 +343,35 @@ void qemu_mutex_lock_iothread_impl(const char *file,=
+ int line);
+>   */
+>  void qemu_mutex_unlock_iothread(void);
+>=20=20
+> +/**
+> + * QEMU_IOTHREAD_LOCK_GUARD
+> + *
+> + * Wrap a block of code in a conditional qemu_mutex_{lock,unlock}_iothre=
+ad.
+> + */
+> +typedef struct IOThreadLockAuto IOThreadLockAuto;
+> +
+> +static inline IOThreadLockAuto *qemu_iothread_auto_lock(const char *file,
+> +                                                        int line)
+> +{
+> +    if (qemu_mutex_iothread_locked()) {
+> +        return NULL;
+> +    }
+> +    qemu_mutex_lock_iothread_impl(file, line);
+> +    /* Anything non-NULL causes the cleanup function to be called */
+> +    return (IOThreadLockAuto *)(uintptr_t)1;
+> +}
+> +
+> +static inline void qemu_iothread_auto_unlock(IOThreadLockAuto *l)
+> +{
+> +    qemu_mutex_unlock_iothread();
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(IOThreadLockAuto, qemu_iothread_auto_unloc=
+k)
+> +
+> +#define QEMU_IOTHREAD_LOCK_GUARD() \
+> +    g_autoptr(IOThreadLockAuto) _iothread_lock_auto __attribute__((unuse=
+d)) \
+> +        =3D qemu_iothread_auto_lock(__FILE__, __LINE__)
+> +
+>  /*
+>   * qemu_cond_wait_iothread: Wait on condition for the main loop mutex
+>   *
+
 
 --=20
 Alex Benn=C3=A9e
