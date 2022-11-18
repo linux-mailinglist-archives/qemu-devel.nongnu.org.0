@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0200E62FBF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 18:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94E462FBD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 18:43:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow5Mx-0006CW-IS; Fri, 18 Nov 2022 12:41:39 -0500
+	id 1ow5N0-0006EB-Ac; Fri, 18 Nov 2022 12:41:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mw-0006By-Ax
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:38 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mx-0006Ct-Nk
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mu-0002Vd-NU
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:38 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mw-0002W1-9M
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668793296;
+ s=mimecast20190719; t=1668793297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lzR397PIGOyMO0hbtKsuVbmeEt7kiD+YwcNj1BoEJdk=;
- b=Eox/mramtbccMgdga1DATCOiFcKxT0W1+7umK2dEYu/MTw5Zr14eUcNNPw+q16m31o0FtR
- RD/xN5e+YNxTRVH8+69PrnNGWa66ZYiOnzMOcKMp30fsoMY5wGfn6m9nl3+L/xfmg92b6e
- yVXEPptdEzTPOgIDF9Uz6+ewPCTpPVE=
+ bh=rl+fzsBx59LYW8sGc8ntS9i9ULrJiALOFToltQrQgj8=;
+ b=DFVwGqMzRLaO4amH87H3tMn2HP99QzdK88d54fhmOiTcWF5r3vstJbcMrpSm8h0Tm2NvXI
+ 7dCy2mbIFlFnsNBSJNcKB3IfRCtpEMyvKNRfJZZjQJ1YDrzXTqEKVC5yp+mfeGdYHN8qJD
+ CNF+d03SiF/5Qy9sYKnGvojB0W4H3Vc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-379-cBEkJ_QRNP-JWkjR_az3Mw-1; Fri, 18 Nov 2022 12:41:32 -0500
-X-MC-Unique: cBEkJ_QRNP-JWkjR_az3Mw-1
+ us-mta-339-1d6RdKQgODO3PrLkq8yvFA-1; Fri, 18 Nov 2022 12:41:34 -0500
+X-MC-Unique: 1d6RdKQgODO3PrLkq8yvFA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8057729AB3E9;
- Fri, 18 Nov 2022 17:41:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02AD23C10146;
+ Fri, 18 Nov 2022 17:41:34 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 473D9492B04;
- Fri, 18 Nov 2022 17:41:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB428492B04;
+ Fri, 18 Nov 2022 17:41:32 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
  hreitz@redhat.com, pbonzini@redhat.com, vsementsov@yandex-team.ru,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 07/15] block: Drain invidual nodes during reopen
-Date: Fri, 18 Nov 2022 18:41:02 +0100
-Message-Id: <20221118174110.55183-8-kwolf@redhat.com>
+Subject: [PATCH v2 08/15] block: Don't use subtree drains in
+ bdrv_drop_intermediate()
+Date: Fri, 18 Nov 2022 18:41:03 +0100
+Message-Id: <20221118174110.55183-9-kwolf@redhat.com>
 In-Reply-To: <20221118174110.55183-1-kwolf@redhat.com>
 References: <20221118174110.55183-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -77,141 +78,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_reopen() and friends use subtree drains as a lazy way of covering
-all the nodes they touch. Turns out that this lazy way is a lot more
-complicated than just draining the nodes individually, even not
-accounting for the additional complexity in the drain mechanism itself.
-
-Simplify the code by switching to draining the individual nodes that are
-already managed in the BlockReopenQueue anyway.
+Instead of using a subtree drain from the top node (which also drains
+child nodes of base that we're not even interested in), use a normal
+drain for base, which automatically drains all of the parents, too.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block.c             | 16 +++++++++-------
- block/replication.c |  6 ------
- blockdev.c          | 13 -------------
- 3 files changed, 9 insertions(+), 26 deletions(-)
+ block.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/block.c b/block.c
-index 191dfc5d0c..59eafcc54c 100644
+index 59eafcc54c..298954d514 100644
 --- a/block.c
 +++ b/block.c
-@@ -4152,7 +4152,7 @@ static bool bdrv_recurse_has_child(BlockDriverState *bs,
-  * returns a pointer to bs_queue, which is either the newly allocated
-  * bs_queue, or the existing bs_queue being used.
-  *
-- * bs must be drained between bdrv_reopen_queue() and bdrv_reopen_multiple().
-+ * bs is drained here and undrained by bdrv_reopen_queue_free().
-  *
-  * To be called with bs->aio_context locked.
-  */
-@@ -4174,12 +4174,10 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
-     int flags;
-     QemuOpts *opts;
- 
--    /* Make sure that the caller remembered to use a drained section. This is
--     * important to avoid graph changes between the recursive queuing here and
--     * bdrv_reopen_multiple(). */
--    assert(bs->quiesce_counter > 0);
+@@ -5599,7 +5599,7 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
      GLOBAL_STATE_CODE();
  
-+    bdrv_drained_begin(bs);
-+
-     if (bs_queue == NULL) {
-         bs_queue = g_new0(BlockReopenQueue, 1);
-         QTAILQ_INIT(bs_queue);
-@@ -4330,6 +4328,12 @@ void bdrv_reopen_queue_free(BlockReopenQueue *bs_queue)
-     if (bs_queue) {
-         BlockReopenQueueEntry *bs_entry, *next;
-         QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
-+            AioContext *ctx = bdrv_get_aio_context(bs_entry->state.bs);
-+
-+            aio_context_acquire(ctx);
-+            bdrv_drained_end(bs_entry->state.bs);
-+            aio_context_release(ctx);
-+
-             qobject_unref(bs_entry->state.explicit_options);
-             qobject_unref(bs_entry->state.options);
-             g_free(bs_entry);
-@@ -4477,7 +4481,6 @@ int bdrv_reopen(BlockDriverState *bs, QDict *opts, bool keep_old_opts,
+     bdrv_ref(top);
+-    bdrv_subtree_drained_begin(top);
++    bdrv_drained_begin(base);
  
-     GLOBAL_STATE_CODE();
+     if (!top->drv || !base->drv) {
+         goto exit;
+@@ -5672,7 +5672,7 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
  
--    bdrv_subtree_drained_begin(bs);
-     queue = bdrv_reopen_queue(NULL, bs, opts, keep_old_opts);
- 
-     if (ctx != qemu_get_aio_context()) {
-@@ -4488,7 +4491,6 @@ int bdrv_reopen(BlockDriverState *bs, QDict *opts, bool keep_old_opts,
-     if (ctx != qemu_get_aio_context()) {
-         aio_context_acquire(ctx);
-     }
--    bdrv_subtree_drained_end(bs);
- 
+     ret = 0;
+ exit:
+-    bdrv_subtree_drained_end(top);
++    bdrv_drained_end(base);
+     bdrv_unref(top);
      return ret;
  }
-diff --git a/block/replication.c b/block/replication.c
-index f1eed25e43..c62f48a874 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -374,9 +374,6 @@ static void reopen_backing_file(BlockDriverState *bs, bool writable,
-         s->orig_secondary_read_only = bdrv_is_read_only(secondary_disk->bs);
-     }
- 
--    bdrv_subtree_drained_begin(hidden_disk->bs);
--    bdrv_subtree_drained_begin(secondary_disk->bs);
--
-     if (s->orig_hidden_read_only) {
-         QDict *opts = qdict_new();
-         qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
-@@ -401,9 +398,6 @@ static void reopen_backing_file(BlockDriverState *bs, bool writable,
-             aio_context_acquire(ctx);
-         }
-     }
--
--    bdrv_subtree_drained_end(hidden_disk->bs);
--    bdrv_subtree_drained_end(secondary_disk->bs);
- }
- 
- static void backup_job_cleanup(BlockDriverState *bs)
-diff --git a/blockdev.c b/blockdev.c
-index 3f1dec6242..8ffb3d9537 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3547,8 +3547,6 @@ fail:
- void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
- {
-     BlockReopenQueue *queue = NULL;
--    GSList *drained = NULL;
--    GSList *p;
- 
-     /* Add each one of the BDS that we want to reopen to the queue */
-     for (; reopen_list != NULL; reopen_list = reopen_list->next) {
-@@ -3585,9 +3583,7 @@ void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
-         ctx = bdrv_get_aio_context(bs);
-         aio_context_acquire(ctx);
- 
--        bdrv_subtree_drained_begin(bs);
-         queue = bdrv_reopen_queue(queue, bs, qdict, false);
--        drained = g_slist_prepend(drained, bs);
- 
-         aio_context_release(ctx);
-     }
-@@ -3598,15 +3594,6 @@ void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
- 
- fail:
-     bdrv_reopen_queue_free(queue);
--    for (p = drained; p; p = p->next) {
--        BlockDriverState *bs = p->data;
--        AioContext *ctx = bdrv_get_aio_context(bs);
--
--        aio_context_acquire(ctx);
--        bdrv_subtree_drained_end(bs);
--        aio_context_release(ctx);
--    }
--    g_slist_free(drained);
- }
- 
- void qmp_blockdev_del(const char *node_name, Error **errp)
 -- 
 2.38.1
 
