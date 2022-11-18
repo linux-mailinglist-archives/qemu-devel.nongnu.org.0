@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6341A62FBD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 18:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B331962FC48
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 19:17:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow5Nz-0007ML-4j; Fri, 18 Nov 2022 12:42:43 -0500
+	id 1ow5tT-000576-De; Fri, 18 Nov 2022 13:15:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5NI-0006rQ-Mc
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:42:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5N9-0002Yv-BO
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:42:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668793310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xjw36sLhD0jdWx8N0NQKgoE6ortEtOlsf3vy73cWMg8=;
- b=YyntmQlwyWZpaQQykfriA588BhycewChRTYg7mNn0k+7srivSrqPZDh1TSNEkerGdddAW3
- DVU6r88l19vslyKY4t4Oolli2P+AFyee0IErd5zgEQ8kbbf9drHjb51CZlHBnAfUvNNekg
- QTsEJ338A2n5DfN0en9/7rNSZtMAxaM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-i9Z5KpMZNnqHAN72RDxLyg-1; Fri, 18 Nov 2022 12:41:45 -0500
-X-MC-Unique: i9Z5KpMZNnqHAN72RDxLyg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A870B1C05132;
- Fri, 18 Nov 2022 17:41:44 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72D9A492B04;
- Fri, 18 Nov 2022 17:41:43 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
- hreitz@redhat.com, pbonzini@redhat.com, vsementsov@yandex-team.ru,
- qemu-devel@nongnu.org
-Subject: [PATCH v2 15/15] block: Remove poll parameter from
- bdrv_parent_drained_begin_single()
-Date: Fri, 18 Nov 2022 18:41:10 +0100
-Message-Id: <20221118174110.55183-16-kwolf@redhat.com>
-In-Reply-To: <20221118174110.55183-1-kwolf@redhat.com>
-References: <20221118174110.55183-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ow5tN-00056l-V6
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 13:15:09 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ow5tM-0007Qc-EU
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 13:15:09 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id p12so5255559plq.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 10:15:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1cGgST06xt/arvH0sLsxOqHZvH2mcGsLLZ/U9QPctQw=;
+ b=htSSWmEL2f+gg/vKYN+/9ajLKQBqjQWh2hMJdhMUt6pF0Z8u2fUBqSF90yzPOamON2
+ KcO0m5nROjKnLrnz8y0cSBsJ8poWs2zvo0jjU1BKlUwI3Uc3GW9rMXb01OgQyV4jUwBI
+ f5OcByuG7WMV2L07JqnDVg+tT/cs6CNnE1AdkryQu25XI37YJVZ5zU4ALQhnfDlOIVIR
+ nqRsPb5BsFwnCDEuE1bo5j/ddpgIn7TUk9EK8e7LKcq3MbdAymCC9pfIhZPV5lyzJnHV
+ 9wvFX92+3Sgy3WudW6Q+C9pvx8aQzaU77RHI9A9SBy+Y7UV68cQ5Ui+rsIO8YF9zvvT5
+ wJNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1cGgST06xt/arvH0sLsxOqHZvH2mcGsLLZ/U9QPctQw=;
+ b=iKgN7PLQlRwlaKnmfRlEgOk/bUv2gwr0bBWTZw/rPmirOMRa1JGGcURISK9oG+bK4S
+ YiSZHX+qc1o+edgQlgd13z4YxT0CuO+ldc7mFp2ZwBGRl9FvX57vQ2NT5qwX/JQ8QDpl
+ tn8sMvNUp98Xf5PxdCKAq77+3Uq3TvUZFZho4oMI3iq4/jduj4eAZ/vR9ihgl0MFfzwJ
+ 9FIYLHrvJ9nrMjm/T8B9/WNp48kynR2mreTTDDlA4T7d86LUkIKDyn28sBK2yCitcTc5
+ NLxbm+U+TdNvywKOZy22e7bOURobnb/LyQk/ywCOUHD+8uiTP2NCGYlqXHZiuWf9NFBO
+ 8o3A==
+X-Gm-Message-State: ANoB5pmAau28xsi4oTgjbSCYZ1xUgOw6Qjgw+ktNczfmXSoDKgy2/Ic4
+ QVpTugAQAuVjBBb0rG49BvWLXQ==
+X-Google-Smtp-Source: AA0mqf6Ql6RZntzx/7JXx+YkAKjX4wPGWWOpflliCr36RGBzy7ObeFijJlO669gvx576/e1ZzHBt4A==
+X-Received: by 2002:a17:903:2112:b0:172:f5b1:e73b with SMTP id
+ o18-20020a170903211200b00172f5b1e73bmr677695ple.58.1668795306499; 
+ Fri, 18 Nov 2022 10:15:06 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:4328:d05:e646:9f25?
+ ([2602:47:d48a:1201:4328:d05:e646:9f25])
+ by smtp.gmail.com with ESMTPSA id
+ p2-20020a170902780200b0017a018221e2sm4015706pll.70.2022.11.18.10.15.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Nov 2022 10:15:05 -0800 (PST)
+Message-ID: <806e83c2-f630-6aec-257d-45ceebba9e94@linaro.org>
+Date: Fri, 18 Nov 2022 10:15:03 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 7/9] target/riscv: add support for Zcmt extension
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20221118123728.49319-1-liweiwei@iscas.ac.cn>
+ <20221118123728.49319-8-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221118123728.49319-8-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,90 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All callers of bdrv_parent_drained_begin_single() pass poll=false now,
-so we don't need the parameter any more.
+On 11/18/22 04:37, Weiwei Li wrote:
+> Add encode, trans* functions and helper functions support for Zcmt
+> instrutions
+> Add support for jvt csr
+> 
+> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/cpu.h                        |  4 ++
+>   target/riscv/cpu_bits.h                   |  7 +++
+>   target/riscv/csr.c                        | 38 +++++++++++++++-
+>   target/riscv/helper.h                     |  3 ++
+>   target/riscv/insn16.decode                |  7 ++-
+>   target/riscv/insn_trans/trans_rvzce.c.inc | 28 +++++++++++-
+>   target/riscv/machine.c                    | 19 ++++++++
+>   target/riscv/meson.build                  |  3 +-
+>   target/riscv/zce_helper.c                 | 55 +++++++++++++++++++++++
+>   9 files changed, 159 insertions(+), 5 deletions(-)
+>   create mode 100644 target/riscv/zce_helper.c
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/block/block-io.h | 5 ++---
- block.c                  | 4 ++--
- block/io.c               | 8 ++------
- 3 files changed, 6 insertions(+), 11 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 65e6d2569b..92aaa7c1e9 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -287,10 +287,9 @@ bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- /**
-  * bdrv_parent_drained_begin_single:
-  *
-- * Begin a quiesced section for the parent of @c. If @poll is true, wait for
-- * any pending activity to cease.
-+ * Begin a quiesced section for the parent of @c.
-  */
--void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll);
-+void bdrv_parent_drained_begin_single(BdrvChild *c);
- 
- /**
-  * bdrv_parent_drained_poll_single:
-diff --git a/block.c b/block.c
-index 3f12aba6ce..8c9f4ee37c 100644
---- a/block.c
-+++ b/block.c
-@@ -2419,7 +2419,7 @@ static void bdrv_replace_child_abort(void *opaque)
-          * new_bs drained when calling bdrv_replace_child_tran() is not a
-          * requirement any more.
-          */
--        bdrv_parent_drained_begin_single(s->child, false);
-+        bdrv_parent_drained_begin_single(s->child);
-         assert(!bdrv_parent_drained_poll_single(s->child));
-     }
-     assert(s->child->quiesced_parent);
-@@ -3061,7 +3061,7 @@ static BdrvChild *bdrv_attach_child_common(BlockDriverState *child_bs,
-      * a problem, we already did this), but it will still poll until the parent
-      * is fully quiesced, so it will not be negatively affected either.
-      */
--    bdrv_parent_drained_begin_single(new_child, false);
-+    bdrv_parent_drained_begin_single(new_child);
-     bdrv_replace_child_noperm(new_child, child_bs);
- 
-     BdrvAttachChildCommonState *s = g_new(BdrvAttachChildCommonState, 1);
-diff --git a/block/io.c b/block/io.c
-index ae64830eac..38e57d1f67 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -53,7 +53,7 @@ static void bdrv_parent_drained_begin(BlockDriverState *bs, BdrvChild *ignore)
-         if (c == ignore) {
-             continue;
-         }
--        bdrv_parent_drained_begin_single(c, false);
-+        bdrv_parent_drained_begin_single(c);
-     }
- }
- 
-@@ -105,9 +105,8 @@ static bool bdrv_parent_drained_poll(BlockDriverState *bs, BdrvChild *ignore,
-     return busy;
- }
- 
--void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
-+void bdrv_parent_drained_begin_single(BdrvChild *c)
- {
--    AioContext *ctx = bdrv_child_get_parent_aio_context(c);
-     IO_OR_GS_CODE();
- 
-     assert(!c->quiesced_parent);
-@@ -116,9 +115,6 @@ void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
-     if (c->klass->drained_begin) {
-         c->klass->drained_begin(c);
-     }
--    if (poll) {
--        AIO_WAIT_WHILE(ctx, bdrv_parent_drained_poll_single(c));
--    }
- }
- 
- static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
--- 
-2.38.1
-
+r~
 
