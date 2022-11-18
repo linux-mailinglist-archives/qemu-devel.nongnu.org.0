@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEDA62EC85
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 04:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D9D62ECC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 05:08:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovsQI-00015l-VP; Thu, 17 Nov 2022 22:52:14 -0500
+	id 1ovsda-0003QF-LH; Thu, 17 Nov 2022 23:05:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ovsQG-00015J-C4; Thu, 17 Nov 2022 22:52:12 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ovsQD-000843-Ni; Thu, 17 Nov 2022 22:52:12 -0500
-Received: from [192.168.3.6] (unknown [180.165.240.202])
- by APP-01 (Coremail) with SMTP id qwCowACHjXVfAXdjGJ9KCg--.27781S2;
- Fri, 18 Nov 2022 11:52:00 +0800 (CST)
-Message-ID: <40bb95cf-774f-f124-6a0c-774695ce5bcb@iscas.ac.cn>
-Date: Fri, 18 Nov 2022 11:51:58 +0800
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ovsdY-0003OZ-2e
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 23:05:56 -0500
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ovsdW-0001N1-GH
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 23:05:55 -0500
+Received: by mail-il1-x12a.google.com with SMTP id bp12so1976898ilb.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 20:05:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lp431cawiufDv++n+jFNmXiLMZNSqUZslP8AhmBOLWc=;
+ b=O1h0cR8RmkC3VNXjIzPv/Tib0jFaX/FVLBFB4jaK4SG/eHQotFUoGZ2Ix4NQa9NtGq
+ fihryD0UNucQgmbXRKPCu8VeWww+zMc5VQqogYfmyiNjsxpGWZOG8OsXOV/pkR1MwUWB
+ f16wmxWZ3lVFkp8YyT11PA7+kWnxh0Bq2UlNs21tm0BWtKIJhtTNNAy3TbaJbEs0L6cu
+ +MNdRDdMLE5TjfmmNckquUi4juAYmhyGoxDU/h+vBCEYqJ32RKXUcrufts94110voKUa
+ LP4ixmLtHNsHDNkOzl4RFyeVVqEravF9NtTVrBqAmaIALetPpY0tBWPUIF7Cy8/cH/SJ
+ Gv9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lp431cawiufDv++n+jFNmXiLMZNSqUZslP8AhmBOLWc=;
+ b=RKlT61Me4jbJUUiIGhK5xl5tpuV3dLkLTBSwSbgAvhiEu3zcdUqA59zefI1OPNCHGg
+ gHPKSG3FvDDmKS5aVpxoL9UPZD+RXMPHf3qLib2ahEZllNWOkcbBWo1/OyGn7Fv+fmuz
+ azxUtYuclJC2SR6a+QOXF9+OgpNns9sBRtHeQqQUO1Bvyzh4D1fhSZH02evoeE7JMNfT
+ 809jwCVJy58TmzDl8KbkFH8BNMf4MRYW6f3XLPtkARvMJi90b/SPsnTqhFHDBYRSdtTB
+ 9tOjCN+xJt3qIbmfE0iF6X1igZqSbIyBaXiH2vmSNoYOFTN7J+cqWCgaf3z7Z/wIL4ZL
+ 5dag==
+X-Gm-Message-State: ANoB5plKdTwAhstbwpSQIFSPviirLV3+IrohfQsqnwcvB5eslk0JJMrQ
+ HwiYaU3VgKXPH84O6OKLdA9UmEttG5qzL0boMin6iw==
+X-Google-Smtp-Source: AA0mqf5jle/iktZM5jVOApHPYFezPD24HBS88WmAhVQSvsq7vWU5vMwhctlD4IYTVG591MFpvfTOmTXsFTdN1wdWI4g=
+X-Received: by 2002:a05:6e02:f4f:b0:302:8a15:a01e with SMTP id
+ y15-20020a056e020f4f00b003028a15a01emr2626740ilj.20.1668744352838; Thu, 17
+ Nov 2022 20:05:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Cc: liweiwei@iscas.ac.cn, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH v3 7/9] target/riscv: add support for Zcmt extension
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, mchitale@ventanamicro.com
-References: <20221117070316.58447-1-liweiwei@iscas.ac.cn>
- <20221117070316.58447-8-liweiwei@iscas.ac.cn>
- <da87af96-b8e0-d6d1-02d3-a4d3afe8edf0@linaro.org>
- <c117741e-f804-6796-796d-da9cf73dfe8a@iscas.ac.cn>
- <6e529a49-9f1f-d561-e494-de62a0970a0f@linaro.org>
- <69b96731-6e36-bdf8-8a5e-e5ef4dff50b0@iscas.ac.cn>
- <78aac7ea-f204-d18e-1139-5b5785c25543@linaro.org>
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <78aac7ea-f204-d18e-1139-5b5785c25543@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACHjXVfAXdjGJ9KCg--.27781S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYg7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
- 6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
- kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
- cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87
- Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
- zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx
- 8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwAC
- I402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI4
- 8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
- wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
- v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20E
- Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
- AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.165.240.202]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221115212759.3095751-1-jsnow@redhat.com>
+ <CAARzgwxaVyQf424PeUOO=efyPHdiMK9nF7g+pHuKufqU1cg1-g@mail.gmail.com>
+In-Reply-To: <CAARzgwxaVyQf424PeUOO=efyPHdiMK9nF7g+pHuKufqU1cg1-g@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 18 Nov 2022 09:35:41 +0530
+Message-ID: <CAARzgwzYn8=vsWO+pEfRouJY3PWYn_XEZps9wurpHpVogxcEHg@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: configure acpi-bits to use avocado timeout
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,21 +84,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 2022/11/18 10:51, Richard Henderson wrote:
-> I don't think any processor will support overlapping, mutual exclusive 
-> extensions.  The decode within the processor would be wildly 
-> complicated by that.
+On Wed, Nov 16, 2022 at 8:54 AM Ani Sinha <ani@anisinha.ca> wrote:
 >
-> While you might be able to get away with returning false in this 
-> particular case right now, it's incorrect usage of the tool and might 
-> just come back to cause bugs in the future. 
+> On Wed, Nov 16, 2022 at 2:58 AM John Snow <jsnow@redhat.com> wrote:
+> >
+> > Instead of using a hardcoded timeout, just rely on Avocado's built-in
+> > test case timeout. This helps avoid timeout issues on machines where 60
+> > seconds is not sufficient.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> Reviewed-by: Ani Sinha <ani@anisinha.ca>
+>
+> > ---
+> >  tests/avocado/acpi-bits.py | 10 ++--------
+> >  1 file changed, 2 insertions(+), 8 deletions(-)
 
-  Yeah, my previous assumption seems not very reasonable.  I'll try to 
-take the check into the cm_jalt helper.
+Thomas, since you are picking up my other patch, maybe you want to
+also pick this one up as well if you have not sent out your PR
+already?
 
-Regards,
-
-Weiwei Li
-
+> >
+> > diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+> > index 8745a58a766..ac13e22dc93 100644
+> > --- a/tests/avocado/acpi-bits.py
+> > +++ b/tests/avocado/acpi-bits.py
+> > @@ -385,12 +385,6 @@ def test_acpi_smbios_bits(self):
+> >          self._vm.launch()
+> >          # biosbits has been configured to run all the specified test suites
+> >          # in batch mode and then automatically initiate a vm shutdown.
+> > -        # sleep for maximum of one minute
+> > -        max_sleep_time = time.monotonic() + 60
+> > -        while self._vm.is_running() and time.monotonic() < max_sleep_time:
+> > -            time.sleep(1)
+> > -
+> > -        self.assertFalse(time.monotonic() > max_sleep_time,
+> > -                         'The VM seems to have failed to shutdown in time')
+> > -
+> > +        # Rely on avocado's unit test timeout.
+> > +        self._vm.wait(timeout=None)
+>
+> I think this is fine. This just waits until the VM is shutdown on its
+> own and relies on the avocado framework to timeout if it doesn't. We
+> do not need to look into the console. The test issues a shutdown from
+> the VM itself once its done with the batch operations.
+>
+> >          self.parse_log()
+> > --
+> > 2.37.3
+> >
 
