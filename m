@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653B762FDC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 20:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319FC62FDC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 20:09:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow6gV-0003sg-4j; Fri, 18 Nov 2022 14:05:55 -0500
+	id 1ow6is-0004m0-Us; Fri, 18 Nov 2022 14:08:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow6gO-0003rm-5h
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 14:05:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow6ip-0004lB-LT
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 14:08:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow6gM-0006ee-4l
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 14:05:47 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow6io-0006nc-A6
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 14:08:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668798344;
+ s=mimecast20190719; t=1668798497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6MbCxK0BB1JWv6/yIBITTls29ZRBDud0I4SxVlg3Ke8=;
- b=iscUIrTckM9cWhbgIz9doQN0G/xsjYMCN8mwY7sIqWB3SUKDQGlKo/RBmfI0UiinkGrfg2
- cyV+4GUV6+43Zc72Case2UWrlIPoQOvus5C1A0bQpCN0xvhKmgqXdwxQhfvERPBGqcVgF+
- Y8Zkp6RqVPrGlkMkuN0R+kCCI401aJY=
+ bh=sD+HUCOT8JQ4jS7l4t2GSH1IFGXPWWh3XVjU+VE2/H4=;
+ b=YbxDtIBoiISMvMYmh7VlFszjvz8tQl9b5cZVlpN4+p0EYr609hzPE1hAT9z9+9zX+uSRv8
+ 990aRlAjsq7WoT2jKfe5Tq+KSoSnZsm7e9pXGiBxHC+27WG7ybwKxpk93Ra5PDyHLpQin3
+ FkwIvK8dDy+2eWezQV4nmV6hRY8CBpc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-hc_K6y-6NDyVT4q0Uwq_3A-1; Fri, 18 Nov 2022 14:05:43 -0500
-X-MC-Unique: hc_K6y-6NDyVT4q0Uwq_3A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-5-pzvUY96UNcCOQcvnozC1Zw-1; Fri, 18 Nov 2022 14:08:14 -0500
+X-MC-Unique: pzvUY96UNcCOQcvnozC1Zw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D574F185A792;
- Fri, 18 Nov 2022 19:05:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF2FF185A78B;
+ Fri, 18 Nov 2022 19:08:13 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CCC0140EBF3;
- Fri, 18 Nov 2022 19:05:41 +0000 (UTC)
-Date: Fri, 18 Nov 2022 20:05:37 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB6A01121325;
+ Fri, 18 Nov 2022 19:08:12 +0000 (UTC)
+Date: Fri, 18 Nov 2022 20:08:09 +0100
 From: Kevin Wolf <kwolf@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
@@ -47,16 +47,17 @@ Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 01/11] block-copy: add missing coroutine_fn annotations
-Message-ID: <Y3fXgfKe5H7j22aj@redhat.com>
+Subject: Re: [PATCH v4 02/11] nbd/server.c: add missing coroutine_fn
+ annotations
+Message-ID: <Y3fYGWTGo35lPBQ7@redhat.com>
 References: <20221116122241.2856527-1-eesposit@redhat.com>
- <20221116122241.2856527-2-eesposit@redhat.com>
+ <20221116122241.2856527-3-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221116122241.2856527-2-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+In-Reply-To: <20221116122241.2856527-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,8 +82,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
-> These functions end up calling bdrv_common_block_status_above(), a
-> generated_co_wrapper function.
+> These functions end up calling bdrv_*() implemented as generated_co_wrapper
+> functions.
 > In addition, they also happen to be always called in coroutine context,
 > meaning all callers are coroutine_fn.
 > This means that the g_c_w function will enter the qemu_in_coroutine()
@@ -91,30 +92,12 @@ Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
 > 
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Ideally, we'd convert them to new wrappers bdrv_co_is_allocated() and
-bdrv_co_block_status_above() instead of having to argue that they always
-take the coroutine path in g_c_w.
+Here, too, it would be better to convert the callers to new blk_co_*()
+wrappers instead of going through g_c_w even though we know that we are
+in coroutine context.
 
-> diff --git a/block/block-copy.c b/block/block-copy.c
-> index bb947afdda..f33ab1d0b6 100644
-> --- a/block/block-copy.c
-> +++ b/block/block-copy.c
-> @@ -669,8 +671,9 @@ void block_copy_reset(BlockCopyState *s, int64_t offset, int64_t bytes)
->   * @return 0 when the cluster at @offset was unallocated,
->   *         1 otherwise, and -ret on error.
->   */
-> -int64_t block_copy_reset_unallocated(BlockCopyState *s,
-> -                                     int64_t offset, int64_t *count)
-> +int64_t coroutine_fn block_copy_reset_unallocated(BlockCopyState *s,
-> +                                                  int64_t offset,
-> +                                                  int64_t *count)
->  {
->      int ret;
->      int64_t clusters, bytes;
+Doesn't make the patch less correct, though.
 
-This one is a public function. Its prototype in block-copy.h should be
-updated, too.
-
-Kevin
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
 
