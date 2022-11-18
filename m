@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D36062FBC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 18:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9D162FBEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 18:46:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow5Im-00041N-Dd; Fri, 18 Nov 2022 12:37:20 -0500
+	id 1ow5N0-0006Dg-4D; Fri, 18 Nov 2022 12:41:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1ow5Ik-000414-Gn; Fri, 18 Nov 2022 12:37:18 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mx-0006CY-9D
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1ow5Ii-0001po-BJ; Fri, 18 Nov 2022 12:37:18 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AIHUR9j006610; Fri, 18 Nov 2022 17:37:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id; s=corp-2022-7-12;
- bh=YrfFUlDUWcuew2ijWlrvXF09njEppQ/hXZffT94Y59E=;
- b=NFO5YLbkoJHSYW7k7gqdF1AwgauwzUcv65nHgK5x+Qh2IzqQcKXf/N9lva4qv2aVvihE
- hta96LrSnu4A0UrgM8DYz1vpuITb7m3iPKoAw5VTTyCdxrRv5SX8OpswcKNRoiLya+4b
- nm2cgAT4T+0cncYush5p03Os8PhiN0v0Pbc69aAICXFNb2UMRY0h+Aa67aGpku3g8e9e
- ZY+MErxngzsw4teiN8KB3lckvr71A1DukUBI5InHycpSF0dcMc34w7ielSNLscv4k0kL
- EXucUzXXA004rJZ61apg72C80uBGEZYgds3X6qjahfwz0/dXdJOK2bfDQdCszOPUexWg 1Q== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kx96994n4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Nov 2022 17:37:10 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 2AIGxNCC023190; Fri, 18 Nov 2022 17:37:10 GMT
-Received: from mihai.localdomain (ban25x6uut25.us.oracle.com [10.153.73.25])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3kt1xaucq3-1; Fri, 18 Nov 2022 17:37:10 +0000
-From: Mihai Carabas <mihai.carabas@oracle.com>
-To: qemu-arm@nongnu.org, peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: build smbios 19 table
-Date: Fri, 18 Nov 2022 18:30:29 +0200
-Message-Id: <1668789029-5432-1-git-send-email-mihai.carabas@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-18_06,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0 bulkscore=0
- mlxlogscore=999 spamscore=0 adultscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211180103
-X-Proofpoint-GUID: qLGqXmY8hO5fmVvpTRW7O6JKtti-H0DG
-X-Proofpoint-ORIG-GUID: qLGqXmY8hO5fmVvpTRW7O6JKtti-H0DG
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=mihai.carabas@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ow5Mv-0002Vn-Iv
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 12:41:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668793297;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cxLVscxm3sFBXLLXoL6MIAEjtipoQdAIzJWSXOZ9AOs=;
+ b=dTLA1kFbFluj88QqOOAYV2F04yRP1l01wreXhBDUDHxEaUENo0tZb5eK8zzmEbF8lo8VhM
+ c2YnmdaAeysiesSrcTZEIWYMTWLUC6VSorCcsQR4hU8YP6aOcEkd8kzRRxQFUMQxWfgkRr
+ nkJwrA6KZjvCnqCfWVW9mmqLutLsC28=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-388-l_IAsP9lOAOyK6M1qx3Zig-1; Fri, 18 Nov 2022 12:41:20 -0500
+X-MC-Unique: l_IAsP9lOAOyK6M1qx3Zig-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E1DB185A7A9;
+ Fri, 18 Nov 2022 17:41:20 +0000 (UTC)
+Received: from merkur.fritz.box (unknown [10.39.194.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8DACB492B04;
+ Fri, 18 Nov 2022 17:41:18 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
+ hreitz@redhat.com, pbonzini@redhat.com, vsementsov@yandex-team.ru,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2 00/15] block: Simplify drain
+Date: Fri, 18 Nov 2022 18:40:55 +0100
+Message-Id: <20221118174110.55183-1-kwolf@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,49 +75,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the base_memmap to build the SMBIOS 19 table which provides the address
-mapping for a Physical Memory Array (from spec [1] chapter 7.20).
+I'm aware that exactly nobody has been looking forward to a series with
+this title, but it has to be. The way drain works means that we need to
+poll in bdrv_replace_child_noperm() and that makes things rather messy
+with Emanuele's multiqueue work because you must not poll while you hold
+the graph lock.
 
-This was present on i386 from commit c97294ec1b9e36887e119589d456557d72ab37b5
-("SMBIOS: Build aggregate smbios tables and entry point").
+The other reason why it has to be is that drain is way too complex and
+there are too many different cases. Some simplification like this will
+hopefully make it considerably more maintainable. The diffstat probably
+tells something, too.
 
-[1] https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.5.0.pdf
+There are roughly speaking three parts in this series:
 
-Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
----
- hw/arm/virt.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+1. Make BlockDriver.bdrv_drained_begin/end() non-coroutine_fn again,
+   which allows us to not poll on bdrv_drained_end() any more.
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index cda9defe8f09..855b6982f363 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1607,9 +1607,11 @@ static void *machvirt_dtb(const struct arm_boot_info *binfo, int *fdt_size)
- static void virt_build_smbios(VirtMachineState *vms)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(vms);
-+    MachineState *ms = MACHINE(vms);
-     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-     uint8_t *smbios_tables, *smbios_anchor;
-     size_t smbios_tables_len, smbios_anchor_len;
-+    struct smbios_phys_mem_area mem_array;
-     const char *product = "QEMU Virtual Machine";
- 
-     if (kvm_enabled()) {
-@@ -1620,7 +1622,11 @@ static void virt_build_smbios(VirtMachineState *vms)
-                         vmc->smbios_old_sys_ver ? "1.0" : mc->name, false,
-                         true, SMBIOS_ENTRY_POINT_TYPE_64);
- 
--    smbios_get_tables(MACHINE(vms), NULL, 0,
-+    /* build the array of physical mem area from base_memmap */
-+    mem_array.address = vms->memmap[VIRT_MEM].base;
-+    mem_array.length = ms->ram_size;
-+
-+    smbios_get_tables(ms, &mem_array, 1,
-                       &smbios_tables, &smbios_tables_len,
-                       &smbios_anchor, &smbios_anchor_len,
-                       &error_fatal);
+2. Remove subtree drains. They are a considerable complication in the
+   whole drain machinery (in particular, they require polling in the
+   BdrvChildClass.attach/detach() callbacks that are called during
+   bdrv_replace_child_noperm()) and none of their users actually has a
+   good reason to use them.
+
+3. Finally get rid of polling in bdrv_replace_child_noperm() by
+   requiring that the child is already drained by the caller and calling
+   callbacks only once and not again for every nested drain section.
+
+If necessary, a prefix of this series can be merged that covers only the
+first or the first two parts and it would still make sense.
+
+v2:
+- Rebased on master
+- Patch 3: Removed left over _co parts in function names
+- Patch 4: Updated function comments to reflect that we're not polling
+  any more
+- Patch 6 (new): Fix inconsistent AioContext locking for reopen code
+- Patch 9 (was 8): Added comment to clarify when polling is allowed
+  and the graph may change again
+- Patch 11 (was 10):
+  * Reworded some comments and the commit message.
+  * Dropped a now unnecessary assertion that was dropped only in a later
+    patch in v1 of the series.
+  * Changed 'int parent_quiesce_counter' into 'bool quiesced_parent'
+- Patch 12 (was 11): Don't remove ignore_bds_parents from
+  bdrv_drain_poll(), it is actually still a valid optimisation there
+  that makes polling O(n) instead of O(n²)
+- Patch 13 (new): Instead of only removing assert(!qemu_in_coroutine())
+  like in v1 of the series, drop out of coroutine context in
+  bdrv_do_drained_begin_quiesce() just to be sure that we'll never get
+  coroutine surprises in drain code.
+- Patch 14 (was 12): More and reworded comments to make things hopefully
+  a bit clearer
+
+Kevin Wolf (15):
+  qed: Don't yield in bdrv_qed_co_drain_begin()
+  test-bdrv-drain: Don't yield in .bdrv_co_drained_begin/end()
+  block: Revert .bdrv_drained_begin/end to non-coroutine_fn
+  block: Remove drained_end_counter
+  block: Inline bdrv_drain_invoke()
+  block: Fix locking for bdrv_reopen_queue_child()
+  block: Drain invidual nodes during reopen
+  block: Don't use subtree drains in bdrv_drop_intermediate()
+  stream: Replace subtree drain with a single node drain
+  block: Remove subtree drains
+  block: Call drain callbacks only once
+  block: Remove ignore_bds_parents parameter from drain_begin/end.
+  block: Drop out of coroutine in bdrv_do_drained_begin_quiesce()
+  block: Don't poll in bdrv_replace_child_noperm()
+  block: Remove poll parameter from bdrv_parent_drained_begin_single()
+
+ include/block/block-global-state.h |   3 +
+ include/block/block-io.h           |  58 ++---
+ include/block/block_int-common.h   |  25 +-
+ include/block/block_int-io.h       |  12 -
+ block.c                            | 185 ++++++++++-----
+ block/block-backend.c              |   4 +-
+ block/io.c                         | 290 +++++------------------
+ block/qed.c                        |  26 +-
+ block/replication.c                |   6 -
+ block/stream.c                     |  26 +-
+ block/throttle.c                   |   8 +-
+ blockdev.c                         |  13 -
+ blockjob.c                         |   2 +-
+ tests/unit/test-bdrv-drain.c       | 369 +++++++----------------------
+ 14 files changed, 340 insertions(+), 687 deletions(-)
+
 -- 
-1.8.3.1
+2.38.1
 
 
