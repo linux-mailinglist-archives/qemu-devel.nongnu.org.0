@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B331962FC48
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 19:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5626362FC80
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 19:23:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow5tT-000576-De; Fri, 18 Nov 2022 13:15:15 -0500
+	id 1ow60K-0007ZX-2P; Fri, 18 Nov 2022 13:22:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ow5tN-00056l-V6
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 13:15:09 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1ow60H-0007YQ-TY
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 13:22:17 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ow5tM-0007Qc-EU
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 13:15:09 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id p12so5255559plq.4
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 10:15:07 -0800 (PST)
+ id 1ow60G-0008OD-5U
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 13:22:17 -0500
+Received: by mail-pg1-x534.google.com with SMTP id n17so5665465pgh.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 10:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=1cGgST06xt/arvH0sLsxOqHZvH2mcGsLLZ/U9QPctQw=;
- b=htSSWmEL2f+gg/vKYN+/9ajLKQBqjQWh2hMJdhMUt6pF0Z8u2fUBqSF90yzPOamON2
- KcO0m5nROjKnLrnz8y0cSBsJ8poWs2zvo0jjU1BKlUwI3Uc3GW9rMXb01OgQyV4jUwBI
- f5OcByuG7WMV2L07JqnDVg+tT/cs6CNnE1AdkryQu25XI37YJVZ5zU4ALQhnfDlOIVIR
- nqRsPb5BsFwnCDEuE1bo5j/ddpgIn7TUk9EK8e7LKcq3MbdAymCC9pfIhZPV5lyzJnHV
- 9wvFX92+3Sgy3WudW6Q+C9pvx8aQzaU77RHI9A9SBy+Y7UV68cQ5Ui+rsIO8YF9zvvT5
- wJNg==
+ bh=e/cAT/BkPIEqCpB0qbcCQUcpW2It3Qx/592wryD9iC4=;
+ b=Xs5xGkrcBres5Zcxe8cAB92S32ho6y/5uDkP5Z6EXl1c9Sd1haKvSFv+0WFwuFQ/GC
+ C0QR0N9wrQ9Xptao0iNSXwKy9ecJKoKZFOzcQJqa/FLfuzITHyw57Hp3dsquI29eKA9B
+ UvYUcXlRiydqnmUdTIkTRIPJzBCK0YCUc05GsGfG/d6GqW5ScnprqtdiSNPaSnm+vyfm
+ WAbwk7fbVgI8zqq1XWE+WJX5wq4FdAQVxmlwrjoVBPQtyG+hfHJ3tvyIn7RJL0+Nmsg8
+ acMH/YlYKd1PlF5eqjRn8MXepRHgN9VjR5JQLDrHadnMkraaTMptSWfgDivKYZIPhgLx
+ qGaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1cGgST06xt/arvH0sLsxOqHZvH2mcGsLLZ/U9QPctQw=;
- b=iKgN7PLQlRwlaKnmfRlEgOk/bUv2gwr0bBWTZw/rPmirOMRa1JGGcURISK9oG+bK4S
- YiSZHX+qc1o+edgQlgd13z4YxT0CuO+ldc7mFp2ZwBGRl9FvX57vQ2NT5qwX/JQ8QDpl
- tn8sMvNUp98Xf5PxdCKAq77+3Uq3TvUZFZho4oMI3iq4/jduj4eAZ/vR9ihgl0MFfzwJ
- 9FIYLHrvJ9nrMjm/T8B9/WNp48kynR2mreTTDDlA4T7d86LUkIKDyn28sBK2yCitcTc5
- NLxbm+U+TdNvywKOZy22e7bOURobnb/LyQk/ywCOUHD+8uiTP2NCGYlqXHZiuWf9NFBO
- 8o3A==
-X-Gm-Message-State: ANoB5pmAau28xsi4oTgjbSCYZ1xUgOw6Qjgw+ktNczfmXSoDKgy2/Ic4
- QVpTugAQAuVjBBb0rG49BvWLXQ==
-X-Google-Smtp-Source: AA0mqf6Ql6RZntzx/7JXx+YkAKjX4wPGWWOpflliCr36RGBzy7ObeFijJlO669gvx576/e1ZzHBt4A==
-X-Received: by 2002:a17:903:2112:b0:172:f5b1:e73b with SMTP id
- o18-20020a170903211200b00172f5b1e73bmr677695ple.58.1668795306499; 
- Fri, 18 Nov 2022 10:15:06 -0800 (PST)
+ bh=e/cAT/BkPIEqCpB0qbcCQUcpW2It3Qx/592wryD9iC4=;
+ b=sRov4TaYytklUK+LbaDHboDCzmkXoCApSEnwB9fmbw8KbZvNHO/QiZwaCjlyi2EiCZ
+ GOVJq8fIMKxPZZMgvrFbFdpWp+0sUi+rIhzkarjpipo3i57z5tev2Fjqxmvbj42OoK4m
+ X0A4tCseE2qrWMyrkbjjTpHPqlOqtjgjfk5L0J+eeWkXczP4bkr45gOyf5myT09sQl9+
+ tk/WZLPSvBHv/AsSzdFewwuBXz9sy3Mxzxlvn0FVpmizVub226C0Qwoud4S+KXVN4xXu
+ gVsQsdJmpYDMhZOdhRlikvtmKZBE4lbqDMtP/MguZYbUw5Az5J3EInLgfe7trZ57Ssez
+ v2mQ==
+X-Gm-Message-State: ANoB5pm12eOR1qxsCp5CI+5ghVpiI4F2crvgRFTjIy7qUikQcO9w9Fyv
+ NvEKEfVQ7CPA7RlzrDzGbcr+lA==
+X-Google-Smtp-Source: AA0mqf7Q6S1Rl749Oc4WpkUVNl2MLr3R85KObUqWrWKYviFFLKSbxvOSnUc8l0rsEab6fWcCDYeMNA==
+X-Received: by 2002:aa7:8610:0:b0:56c:ba99:8735 with SMTP id
+ p16-20020aa78610000000b0056cba998735mr8928989pfn.15.1668795734435; 
+ Fri, 18 Nov 2022 10:22:14 -0800 (PST)
 Received: from ?IPV6:2602:47:d48a:1201:4328:d05:e646:9f25?
  ([2602:47:d48a:1201:4328:d05:e646:9f25])
  by smtp.gmail.com with ESMTPSA id
- p2-20020a170902780200b0017a018221e2sm4015706pll.70.2022.11.18.10.15.05
+ c65-20020a621c44000000b0056bcd7e1e04sm3457179pfc.124.2022.11.18.10.22.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 10:15:05 -0800 (PST)
-Message-ID: <806e83c2-f630-6aec-257d-45ceebba9e94@linaro.org>
-Date: Fri, 18 Nov 2022 10:15:03 -0800
+ Fri, 18 Nov 2022 10:22:13 -0800 (PST)
+Message-ID: <63ae5761-e718-ba68-1fd4-0cf0c20e1cc7@linaro.org>
+Date: Fri, 18 Nov 2022 10:22:09 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v5 7/9] target/riscv: add support for Zcmt extension
+Subject: Re: [PATCH for-8.0 1/7] qemu/main-loop: Introduce
+ QEMU_IOTHREAD_LOCK_GUARD
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20221118123728.49319-1-liweiwei@iscas.ac.cn>
- <20221118123728.49319-8-liweiwei@iscas.ac.cn>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20221118091858.242569-1-richard.henderson@linaro.org>
+ <20221118091858.242569-2-richard.henderson@linaro.org>
+ <87fseg757a.fsf@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221118123728.49319-8-liweiwei@iscas.ac.cn>
+In-Reply-To: <87fseg757a.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,27 +96,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/18/22 04:37, Weiwei Li wrote:
-> Add encode, trans* functions and helper functions support for Zcmt
-> instrutions
-> Add support for jvt csr
+On 11/18/22 05:38, Alex Bennée wrote:
 > 
-> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
-> ---
->   target/riscv/cpu.h                        |  4 ++
->   target/riscv/cpu_bits.h                   |  7 +++
->   target/riscv/csr.c                        | 38 +++++++++++++++-
->   target/riscv/helper.h                     |  3 ++
->   target/riscv/insn16.decode                |  7 ++-
->   target/riscv/insn_trans/trans_rvzce.c.inc | 28 +++++++++++-
->   target/riscv/machine.c                    | 19 ++++++++
->   target/riscv/meson.build                  |  3 +-
->   target/riscv/zce_helper.c                 | 55 +++++++++++++++++++++++
->   9 files changed, 159 insertions(+), 5 deletions(-)
->   create mode 100644 target/riscv/zce_helper.c
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> Create a wrapper for locking/unlocking the iothread lock.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> Cc: Paolo Bonzini <pbonzini@redhat.com> (maintainer:Main loop)
+>> ---
+>>   include/qemu/main-loop.h | 29 +++++++++++++++++++++++++++++
+>>   1 file changed, 29 insertions(+)
+>>
+>> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+>> index 3c9a9a982d..c25f390696 100644
+>> --- a/include/qemu/main-loop.h
+>> +++ b/include/qemu/main-loop.h
+>> @@ -343,6 +343,35 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line);
+>>    */
+>>   void qemu_mutex_unlock_iothread(void);
+>>   
+>> +/**
+>> + * QEMU_IOTHREAD_LOCK_GUARD
+>> + *
+>> + * Wrap a block of code in a conditional qemu_mutex_{lock,unlock}_iothread.
+>> + */
+>> +typedef struct IOThreadLockAuto IOThreadLockAuto;
+>> +
+>> +static inline IOThreadLockAuto *qemu_iothread_auto_lock(const char *file,
+>> +                                                        int line)
+>> +{
+>> +    if (qemu_mutex_iothread_locked()) {
+>> +        return NULL;
+>> +    }
+>> +    qemu_mutex_lock_iothread_impl(file, line);
+>> +    /* Anything non-NULL causes the cleanup function to be called */
+>> +    return (IOThreadLockAuto *)(uintptr_t)1;
+> 
+> Oh hang on, what black magic is this. Does the compiler do a NULL check
+> before calling the cleanup?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Not the compiler, but...
+
+>> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(IOThreadLockAuto, qemu_iothread_auto_unlock)
+
+... this does.  Follow the macros down and you get
+
+>   static G_GNUC_UNUSED inline void _GLIB_AUTOPTR_CLEAR_FUNC_NAME(TypeName) (TypeName *_ptr)
+>     { if (_ptr) (cleanup) ((ParentName *) _ptr); }                                                       
 
 r~
+
 
