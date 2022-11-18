@@ -2,80 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14AB62EE1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF53B62EE34
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:19:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovvXJ-00085p-5A; Fri, 18 Nov 2022 02:11:42 -0500
+	id 1ovvdp-00073r-Bj; Fri, 18 Nov 2022 02:18:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovvXG-00084A-9n
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:11:38 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovvXB-000371-BX
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:11:37 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id i12so3996078wrb.0
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 23:11:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bJIqldr9vCQw100oCPzwTEAqCnScBO8Xj+5AbL6zT0M=;
- b=UH+F1Wf2QGwyKogYmeaLjQotIb2vHiJYaFzzhmZ8NmuJWz+rwSYbcIRUSFI47XauYJ
- UZhOA59gQEO/kg/7TkN9j6up6M2r6UsAyffRxr5KLwGxEqClvhdqafqe41UejQdUN9aE
- QxcWO2i0VWhNLc5OjML+p5EDkIbRyqugdDmCmPvkKkI88cBotPx29WbSvh3UXTCjQ+Yw
- v9HEkkqnHt1GXa/JxTrPNQCq9chcTRtGLvX/+d3QDifquOsOnXQBMCgxfvseE2pjt9Wg
- HEBtUFKA7wfQyu8oRyEBgkMqfYniDDqkHZis8RQNsZNQA6WMijBROZwjjbqWHRdT2Oiv
- ZmZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bJIqldr9vCQw100oCPzwTEAqCnScBO8Xj+5AbL6zT0M=;
- b=58VKgFl8JjyVgI0UV6JyhzV97lSCzU5O6MLH92gbR51wJYSXfBsX+vL0qrPvEoV5i6
- sPuJ73NG0OHc8JWmXfSiXWjbG9OsR6fZklFuGZtipMKNmlfO+RvGCdFECb490eezpZWp
- fODHod5QGFTkrXHvEqjR07jPLK35zt1RGJfOacEjkLONlhkT6fASBUgz5k6R809xuNa3
- 5/y6wOFwi1on+IWw7k1LiLaeY11YVvei6HGLTfr2UATM4WHNf+3cWoV1RUIVO30YiUwl
- mH0U4e87bHPUeNlvHCg+DZfGzWW6F2E9ZiWVXPoI7Zizrc5Tf+3Y2FDOzTIOqvtZ97Ax
- eNNA==
-X-Gm-Message-State: ANoB5plyP0H+cb0djPQ7VBXq3aQ+zTlkP7rl18IWHnUyDZKFzlLijT2M
- Aup5zMUG8JcaLWJYbH5TKmX2nQ==
-X-Google-Smtp-Source: AA0mqf4opOp1w8wDTSmcww646PtZr/L2Kkm1RXJZYIkFj+hMwGEuRVsr4Y+TAIsUVlyKT01ilgH6ZA==
-X-Received: by 2002:adf:f90d:0:b0:236:6efd:ed6a with SMTP id
- b13-20020adff90d000000b002366efded6amr3687016wrr.32.1668755491518; 
- Thu, 17 Nov 2022 23:11:31 -0800 (PST)
-Received: from [192.168.230.175] (34.red-88-29-175.dynamicip.rima-tde.net.
- [88.29.175.34]) by smtp.gmail.com with ESMTPSA id
- b6-20020a5d45c6000000b0022e3538d305sm3408351wrs.117.2022.11.17.23.11.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 23:11:30 -0800 (PST)
-Message-ID: <adeae784-ad13-7a8a-d474-0d7b47057c80@linaro.org>
-Date: Fri, 18 Nov 2022 08:11:29 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ovvcp-0006Tu-D7; Fri, 18 Nov 2022 02:17:26 -0500
+Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ovvcm-00046t-Hq; Fri, 18 Nov 2022 02:17:23 -0500
+Received: from localhost.localdomain (unknown [180.165.240.202])
+ by APP-05 (Coremail) with SMTP id zQCowAAHDbVzMXdjkmwiCg--.64051S2;
+ Fri, 18 Nov 2022 15:17:08 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v4 0/9] support subsets of code size reduction extension
+Date: Fri, 18 Nov 2022 15:16:55 +0800
+Message-Id: <20221118071704.26959-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v1 1/2] virtio-gpu: Provide position info (x, y) to the
- Guest
-Content-Language: en-US
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>, qemu-devel@nongnu.org
-Cc: Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20221118013723.182424-1-vivek.kasireddy@intel.com>
- <20221118013723.182424-2-vivek.kasireddy@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221118013723.182424-2-vivek.kasireddy@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: zQCowAAHDbVzMXdjkmwiCg--.64051S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryDKFW5KryrWw4xWF48JFb_yoW8Kr1rpr
+ WrC3yakrZ8tayxJw4ftF1DJw15Ar4rWr45A3s7tw1kJa13ArW5Jrn7Kw13K3W7JF18WrnF
+ 93WUCw13u3yUJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
+ r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.165.240.202]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,20 +70,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/11/22 02:37, Vivek Kasireddy wrote:
-> While filling out the display info such as width, height to
-> be provided to the Guest, make sure that the position information
-> (x, y) is also included. This position info corresponds with the
-> x and y fields mentioned in the spec:
-> https://github.com/oasis-tcs/virtio-spec/blob/master/virtio-gpu.tex#L343
-> 
-> Cc: Dongwon Kim <dongwon.kim@intel.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->   hw/display/virtio-gpu-base.c | 2 ++
->   1 file changed, 2 insertions(+)
+This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Specification:
+https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
+
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v4
+
+To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extension support.
+
+
+This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
+
+v4:
+* improve Zcmp suggested by Richard
+* fix stateen related check for Zcmt
+
+v3:
+* update the solution for Zcf to the way of Zcd
+* update Zcb to reuse gen_load/store
+* use trans function instead of helper for push/pop
+
+v2:
+* add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
+* separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
+
+Weiwei Li (9):
+  target/riscv: add cfg properties for Zc* extension
+  target/riscv: add support for Zca extension
+  target/riscv: add support for Zcf extension
+  target/riscv: add support for Zcd extension
+  target/riscv: add support for Zcb extension
+  target/riscv: add support for Zcmp extension
+  target/riscv: add support for Zcmt extension
+  target/riscv: expose properties for Zc* extension
+  disas/riscv.c: add disasm support for Zc*
+
+ disas/riscv.c                             | 287 +++++++++++++++++++-
+ target/riscv/cpu.c                        |  56 ++++
+ target/riscv/cpu.h                        |  10 +
+ target/riscv/cpu_bits.h                   |   7 +
+ target/riscv/csr.c                        |  38 ++-
+ target/riscv/helper.h                     |   3 +
+ target/riscv/insn16.decode                |  63 ++++-
+ target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+ target/riscv/insn_trans/trans_rvzce.c.inc | 310 ++++++++++++++++++++++
+ target/riscv/machine.c                    |  19 ++
+ target/riscv/meson.build                  |   3 +-
+ target/riscv/translate.c                  |  15 +-
+ target/riscv/zce_helper.c                 |  64 +++++
+ 15 files changed, 899 insertions(+), 16 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+ create mode 100644 target/riscv/zce_helper.c
+
+-- 
+2.25.1
 
 
