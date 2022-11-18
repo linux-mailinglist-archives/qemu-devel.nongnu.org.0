@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248E762EE0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:01:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C0962EE10
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:02:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovvM9-0002QD-Bv; Fri, 18 Nov 2022 02:00:09 -0500
+	id 1ovvOF-0003Vg-Td; Fri, 18 Nov 2022 02:02:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovvLj-0002Fd-Oa; Fri, 18 Nov 2022 01:59:44 -0500
+ id 1ovvNn-0003OQ-Mo; Fri, 18 Nov 2022 02:01:54 -0500
 Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovvLh-0001OS-5i; Fri, 18 Nov 2022 01:59:43 -0500
+ id 1ovvNk-0001yn-8c; Fri, 18 Nov 2022 02:01:50 -0500
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id E82FE3200932;
- Fri, 18 Nov 2022 01:59:34 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 6CB3032005C1;
+ Fri, 18 Nov 2022 02:01:45 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 18 Nov 2022 01:59:35 -0500
+ by compute2.internal (MEProxy); Fri, 18 Nov 2022 02:01:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668754774; x=1668841174; bh=pW
- 6Kgx4cj+nlQORhSJz95x6N6ZJaQS3qrgFFcVd4b28=; b=a06gxQ+pl1He0Dn20Q
- 3OxfN7T6oEVSHvyOOTQl+NX72SUu111gebauuurSb7HTNu/3mr23B6ZU6aZaEhtK
- KJMQR9i70gmDfY/byac4Gda546G7/M88wEoGdEz5hD6/5/LU85/DIR9U+ToPnWnC
- CaTw53NCqVqcjyPBGoSd1D6nteJjvQMS/LMygF6p/oDaQx/suPtGTwOMNa52iD6r
- vvBKoqYALje4BzvKKUQovDe1R1KH1Jbtniy+Hrakk7xw+BS0ZEcwTFQs/u1mAtb3
- +eKi0SZzT59EHGj+UUytIbc1iEMXJN+Uqk7znp4gAssDPa8UW+9Xq9WLR26+gRp7
- Tf0A==
+ :subject:subject:to:to; s=fm3; t=1668754905; x=1668841305; bh=4v
+ 4fQEQf83/Ze8lhFMGTOZ7QWBFmgaYZ5TXgaNKw8fg=; b=sHFux9gNKxwIRdAguP
+ kfUSOlq6nD/6fdJO/DPL8mn8xJF9yfO0j3GfLWJhiP7EMaIGEOD4dpCSPgsc//Gt
+ Gsc/YRlMIHJ2iWchYUJxd2rIEziAI3hr3MoxwUcpyKYi+uGDPqwCUAXXKke0qplx
+ F0o+6G8B/uxWtU2b+KW2OFgKf5haxFl91AhQ41ij0HFnl2o5OEPBf8k0G0D+e5u7
+ OJUJw+LE1va7pQ+fm2zg2JCjERtC4mCdkgefjBmpXmoYWmv2yhMB9LmGQFMc64GK
+ FuORquMDwknq92+qal7D94OC4k4rVjY6TVRWgyQIeqMok3fo/z7yfoVSekoOQoKD
+ J7Mw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668754774; x=1668841174; bh=pW6Kgx4cj+nlQORhSJz95x6N6ZJa
- QS3qrgFFcVd4b28=; b=eiaK6jn9TIEePt+yX/M3jgJvn9V8/gLP932gMgLaJ3C9
- IzjHWyelxDKXNuiEmpltlGNgpKKgc3gkXknTvWxren7X3jPmmVfDX0L5FUTFfxCa
- BcX+SyS7lTETe2PLyUFFp7JGKWO/HjerDsOXha3csxBudYEh6pNYWLtbW6VUWDdE
- Bpwb/6Q+GmMkF5lIQmSojDrPggVsxj4e1YBZVPRx+YZIydbH44ur8pcn40aRTm6H
- +yy/IMeUWpaFfiuHjl/PaQ90hu6gPaNg99cDgvwCE4Z2Tt7nr4Y7ZJfWrtg58GqT
- IQysrVe49aQt3Q3Re74xDMLhlIMEBcx9buV0tV6gZQ==
-X-ME-Sender: <xms:VS13Y9q000UpdFUh7eWJtWVYoXCJ7a9VgtaFwUiZ_GtGvwcHjLHbsA>
- <xme:VS13Y_r4jfw39phFJJ-PH7tYMKPzxTmWDc4K7Jp6p4eNV4mEqNQFUtY8zxzAHQ-U2
- k39eZB-6blJwPgRzho>
-X-ME-Received: <xmr:VS13Y6P2-1-6nzXfeUO_AXOWNO8IuzleNcf6B2hfMUoVC3TyXN5X7L5xjUsD498sHnbxBtL8CW-vFcoLKYgjAffVdLX4Vw>
+ fm1; t=1668754905; x=1668841305; bh=4v4fQEQf83/Ze8lhFMGTOZ7QWBFm
+ gaYZ5TXgaNKw8fg=; b=gBDEFxQmJ0QXhTP1myDJh/2k7wShp6VU+dhk12Ly5xpd
+ 45978o8di+9ily5onyqWtiJuU0aLvYp6O2cjSr9Kou/QCdA7WNdTWF9dr6gQqX3A
+ 4xL8MHNxN3VzVCvL4V8uHfKn/d7zAyMxzh1jQYnlLh2hqEcPi6OcnVbhHjkwi/qz
+ 8q0ucaEBO49KfFVoQaUNSOHzySL4XcOnYdkx9Jb0nUgKTQtUI8SXgoQXmrWfXQ3I
+ 8/Qru8PYnRTFolPhCaJQvHu61+04SHsjbT/Kg8e7X9/QJ/grrpl2Uw0O5KaER45z
+ SgQQ59MNa3cf6HmQ9n5JDDWU8Y4boQhK/CBBVIy3Bw==
+X-ME-Sender: <xms:2C13Y7auN3Hhf1l_16m0FPIXpJHI7dZD5YOZ1Z6XeVt6qqazrBlMAg>
+ <xme:2C13Y6YDa2cCy24sRg3Y6skpu2Q0zhNNjTpZmQQ7xDycUkjlq1ytEB3E6z7yZzQW5
+ JWmbV7ufI05kx9o6Ac>
+X-ME-Received: <xmr:2C13Y98JQHayTqgYNWOgIztL7PlrdsN886eYaUMdRX03HUx6vFevTNAdTxL_jMDDeGbMub4xtVE6jVwelq1ZJk0qdyYFCw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeelgddutddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ jeevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:VS13Y47hBTvN8gHzPYMtdu0LWmbHdiwIIlOhAz9QxAalfvn3acrDag>
- <xmx:VS13Y85hUrk-KpmfO9NIhVVzcSLZCm2iZ_80Bb9jhgbqdKJK0LnFjw>
- <xmx:VS13YwhVwTrq6IiHA7fISKlRsYcnjSmvXsjYOnhCzwqB-mpKZJdtQw>
- <xmx:Vi13Y8i59jN3naGkGmM67_-7l9XomxvOoDobjMr9yVacHe6pUA730Q>
+X-ME-Proxy: <xmx:2C13Yxr6maJaROB-YIBqvpQlDJicCLZ4U8AeuLKWFiJpBSOBFuR7hg>
+ <xmx:2C13Y2qdfuo6hcJ58c6iYSqH3h1_Gw4Ebfk7EeK5ZUhS1JSOVEMjGg>
+ <xmx:2C13Y3Te9CPZfAAsnmC9OrRHxi2zQLt3ddqLjJMltnpAjt_bkVmTZg>
+ <xmx:2S13Y8iPgsEKh5Con_BJL3fkfEDVg_mYFK_8hZCVmvnR-yDVBOQO1g>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Nov 2022 01:59:31 -0500 (EST)
-Date: Fri, 18 Nov 2022 07:59:29 +0100
+ 18 Nov 2022 02:01:42 -0500 (EST)
+Date: Fri, 18 Nov 2022 08:01:40 +0100
 From: Klaus Jensen <its@irrelevant.dk>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+To: Jeremy Kerr <jk@codeconstruct.com.au>
 Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
  Keith Busch <kbusch@kernel.org>, Corey Minyard <cminyard@mvista.com>,
  Peter Delevoryas <peter@pjd.dev>, qemu-arm@nongnu.org,
  Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Jeremy Kerr <jk@codeconstruct.com.au>,
- Joel Stanley <joel@jms.id.au>, Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH maybe-7.2 1/3] hw/i2c: only schedule pending master when
- bus is idle
-Message-ID: <Y3ctUbaowmewOQuc@cormorant.local>
+ Joel Stanley <joel@jms.id.au>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Matt Johnston <matt@codeconstruct.com.au>
+Subject: Re: [PATCH RFC 2/3] hw/i2c: add mctp core
+Message-ID: <Y3ct1OzQfPLGEQ1T@cormorant.local>
 References: <20221116084312.35808-1-its@irrelevant.dk>
- <20221116084312.35808-2-its@irrelevant.dk>
- <8dd9ed34-93c3-0638-e152-f619f9e097e6@kaod.org>
- <Y3XXcWUnntBrIXq+@cormorant.local>
- <6bfe7b2e-2e4f-c286-530a-b0342f9107a0@kaod.org>
- <Y3Xktt8b85RvJ89A@cormorant.local>
- <465b2d2e-5958-d63f-02dc-cf96dd1d459e@kaod.org>
- <Y3YiAhXX1FKuYMoc@cormorant.local>
- <15100caa-4c03-a166-7ce3-fe1d30471a30@kaod.org>
+ <20221116084312.35808-3-its@irrelevant.dk>
+ <d8a8549c6fc29650131046ee00b7968ebedf886b.camel@codeconstruct.com.au>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="JKoW8XXF55sI3fLG"
+ protocol="application/pgp-signature"; boundary="0+9N5QmAVCKw6LCu"
 Content-Disposition: inline
-In-Reply-To: <15100caa-4c03-a166-7ce3-fe1d30471a30@kaod.org>
+In-Reply-To: <d8a8549c6fc29650131046ee00b7968ebedf886b.camel@codeconstruct.com.au>
 Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
  helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -114,146 +109,280 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---JKoW8XXF55sI3fLG
+--0+9N5QmAVCKw6LCu
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Nov 17 14:40, C=C3=A9dric Le Goater wrote:
-> On 11/17/22 12:58, Klaus Jensen wrote:
-> > On Nov 17 09:01, C=C3=A9dric Le Goater wrote:
-> > > On 11/17/22 08:37, Klaus Jensen wrote:
-> > > > On Nov 17 07:56, C=C3=A9dric Le Goater wrote:
-> > > > > On 11/17/22 07:40, Klaus Jensen wrote:
-> > > > > > On Nov 16 16:58, C=C3=A9dric Le Goater wrote:
-> > > > > > > On 11/16/22 09:43, Klaus Jensen wrote:
-> > > > > > > > From: Klaus Jensen <k.jensen@samsung.com>
-> > > > > > > >=20
-> > > > > > > > It is not given that the current master will release the bu=
-s after a
-> > > > > > > > transfer ends. Only schedule a pending master if the bus is=
- idle.
-> > > > > > > >=20
-> > > > > > > > Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
-> > > > > > > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > > > > > > > ---
-> > > > > > > >      hw/i2c/aspeed_i2c.c  |  2 ++
-> > > > > > > >      hw/i2c/core.c        | 37 ++++++++++++++++++++++------=
----------
-> > > > > > > >      include/hw/i2c/i2c.h |  2 ++
-> > > > > > > >      3 files changed, 26 insertions(+), 15 deletions(-)
-> > > > > > > >=20
-> > > > > > > > diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-> > > > > > > > index c166fd20fa11..1f071a3811f7 100644
-> > > > > > > > --- a/hw/i2c/aspeed_i2c.c
-> > > > > > > > +++ b/hw/i2c/aspeed_i2c.c
-> > > > > > > > @@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(A=
-speedI2CBus *bus, uint64_t value)
-> > > > > > > >              }
-> > > > > > > >              SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_=
-STOP_CMD, 0);
-> > > > > > > >              aspeed_i2c_set_state(bus, I2CD_IDLE);
-> > > > > > > > +
-> > > > > > > > +        i2c_schedule_pending_master(bus->bus);
-> > > > > > >=20
-> > > > > > > Shouldn't it be i2c_bus_release() ?
-> > > > > > >=20
-> > > > > >=20
-> > > > > > The reason for having both i2c_bus_release() and
-> > > > > > i2c_schedule_pending_master() is that i2c_bus_release() sort of=
- pairs
-> > > > > > with i2c_bus_master(). They either set or clear the bus->bh mem=
-ber.
-> > > > > >=20
-> > > > > > In the current design, the controller (in this case the Aspeed =
-I2C) is
-> > > > > > an "implicit" master (it does not have a bottom half driving it=
-), so
-> > > > > > there is no bus->bh to clear.
-> > > > > >=20
-> > > > > > I should (and will) write some documentation on the asynchronou=
-s API.
-> > > > >=20
-> > > > > I found the routine names confusing. Thanks for the clarification.
-> > > > >=20
-> > > > > Maybe we could do this rename  :
-> > > > >=20
-> > > > >     i2c_bus_release()             -> i2c_bus_release_and_clear()
-> > > > >     i2c_schedule_pending_master() -> i2c_bus_release()
-> > > > >=20
-> > > > > and keep i2c_schedule_pending_master() internal the I2C core subs=
-ystem.
-> > > > >=20
-> > > >=20
-> > > > How about renaming i2c_bus_master to i2c_bus_acquire() such that it
-> > > > pairs with i2c_bus_release().
-> > >=20
-> > > Looks good to me.
-> > >=20
-> > > > And then add an i2c_bus_yield() to be used by the controller? I thi=
-nk we
-> > > > should be able to assert in i2c_bus_yield() that bus->bh is NULL. B=
-ut
-> > > > I'll take a closer look at that.
-> > >=20
-> > > I am using your i2c-echo slave device to track regressions in the Asp=
-eed
-> > > machines. May be we could merge it for tests ?
-> > >=20
+On Nov 18 13:56, Jeremy Kerr wrote:
+> Hi Klaus,
+>=20
+> > Add an abstract MCTP over I2C endpoint model. This implements MCTP
+> > control message handling as well as handling the actual I2C transport
+> > (packetization).
 > >=20
-> > Oh, cool.
-> >=20
-> > Sure, I'd be happy to help "maintain" it ;)
+> > Devices are intended to derive from this and implement the class
+> > methods.
 >=20
-> And so, I am seeing errors with the little POC you sent.
+> Looks good, nice to see how it's used by the nmi device later too.
 >=20
-> without:
->   console: echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_device
->   console: # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_dev=
-ice
->   console: [    4.252431] i2c i2c-3: new_device: Instantiated device slav=
-e-24c02 at 0x64
->   console: i2cset -y 3 0x42 0x64 0x00 0xaa i
->   /console: # i2cset -y 3 0x42 0x64 0x00 0xaa i
->   console: # hexdump /sys/bus/i2c/devices/3-1064/slave-eeprom
->   console: 0000000 ffaa ffff ffff ffff ffff ffff ffff ffff
->   console: poweroff
->   console: 0000010 ffff ffff ffff ffff ffff ffff ffff ffff
->   console: *
->   console: 0000100
+> A couple of issues with the state machine though, comments inline, and
+> a bit of a patch below.
 >=20
-> with:
->   console: echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_device
->   console: # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-3/new_dev=
-ice
->   console: [    4.413210] i2c i2c-3: new_device: Instantiated device slav=
-e-24c02 at 0x64
->   console: i2cset -y 3 0x42 0x64 0x00 0xaa i
->   console: # i2cset -y 3 0x42 0x64 0x00 0xaa i
->   console: # hexdump /sys/bus/i2c/devices/3-1064/slave-eeprom
->   console: 0000000 ffff ffff ffff ffff ffff ffff ffff ffff
->   console: *
->   console: 0000100
-> C.
+> > +static void i2c_mctp_tx(void *opaque)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D DEVICE(opaque);
+> > +=C2=A0=C2=A0=C2=A0 I2CBus *i2c =3D I2C_BUS(qdev_get_parent_bus(dev));
+> > +=C2=A0=C2=A0=C2=A0 I2CSlave *slave =3D I2C_SLAVE(dev);
+> > +=C2=A0=C2=A0=C2=A0 MCTPI2CEndpoint *mctp =3D MCTP_I2C_ENDPOINT(dev);
+> > +=C2=A0=C2=A0=C2=A0 MCTPI2CEndpointClass *mc =3D MCTP_I2C_ENDPOINT_GET_=
+CLASS(mctp);
+> > +=C2=A0=C2=A0=C2=A0 MCTPI2CPacket *pkt =3D (MCTPI2CPacket *)mctp->buffe=
+r;
+> > +=C2=A0=C2=A0=C2=A0 uint8_t flags =3D 0;
+> > +
+> > +=C2=A0=C2=A0=C2=A0 switch (mctp->tx.state) {
+> > +=C2=A0=C2=A0=C2=A0 case I2C_MCTP_STATE_TX_SEND_BYTE:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (mctp->pos < mctp->len) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uin=
+t8_t byte =3D mctp->buffer[mctp->pos];
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tra=
+ce_i2c_mctp_tx_send_byte(mctp->pos, byte);
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* =
+send next byte */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i2c=
+_send_async(i2c, byte);
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->pos++;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
+ak;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* packet sent */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i2c_end_transfer(i2c);
+>=20
+> If we're sending a control message, mctp->len will be set to the control
+> msg len here, then:
+>=20
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* fall through */
+> > +
+> > +=C2=A0=C2=A0=C2=A0 case I2C_MCTP_STATE_TX_START_SEND:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (mctp->tx.is_control) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* =
+packet payload is already in buffer */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fla=
+gs |=3D MCTP_H_FLAGS_SOM | MCTP_H_FLAGS_EOM;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* =
+get message bytes from derived device */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->len =3D mc->get_message_bytes(mctp, pkt->mctp.payload,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 I2C_MCTP_MAXMTU, &flags=
+);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+> ... it doesn't get cleared above, so:
+>=20
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!mctp->len) {
+>=20
+> ... we don't hit this conditional, and hence keep sending unlimited
+> bytes. This presents as continuous interrupts to the aspeed i2c driver
+> when replying to any control message.
+>=20
+> I think we need a mctp->len =3D 0 with the i2c_end_transfer(). With that,
+> I can get control protocol communication working with mctpd.
+>=20
+> > +static int i2c_mctp_event_cb(I2CSlave *i2c, enum i2c_event event)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0 MCTPI2CEndpoint *mctp =3D MCTP_I2C_ENDPOINT(i2c);
+> > +=C2=A0=C2=A0=C2=A0 MCTPI2CEndpointClass *mc =3D MCTP_I2C_ENDPOINT_GET_=
+CLASS(mctp);
+> > +=C2=A0=C2=A0=C2=A0 MCTPI2CPacket *pkt =3D (MCTPI2CPacket *)mctp->buffe=
+r;
+> > +=C2=A0=C2=A0=C2=A0 size_t payload_len;
+> > +=C2=A0=C2=A0=C2=A0 uint8_t pec;
+> > +
+> > +=C2=A0=C2=A0=C2=A0 switch (event) {
+> > +=C2=A0=C2=A0=C2=A0 case I2C_START_SEND:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (mctp->state !=3D I2C_MC=
+TP_STATE_IDLE) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+urn -1;
+>=20
+> mctp->state may (validly) be I2C_MCTP_STATE_RX here, if we're receiving
+> the start event for the second packet of a multi-packet message.
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* the i2c core eats the sl=
+ave address, so put it back in */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pkt->i2c.dest =3D i2c->addr=
+ess << 1;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mctp->len =3D 1;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mctp->state =3D I2C_MCTP_ST=
+ATE_RX_STARTED;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > +
+> > +=C2=A0=C2=A0=C2=A0 case I2C_FINISH:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 payload_len =3D mctp->len -=
+ (1 + offsetof(MCTPI2CPacket, mctp.payload));
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pkt->i2c.byte_count + 3=
+ !=3D mctp->len - 1) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tra=
+ce_i2c_mctp_drop_invalid_length(pkt->i2c.byte_count +
+> > 3,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mctp->len - 1);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 got=
+o drop;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pec =3D i2c_smbus_pec(0, mc=
+tp->buffer, mctp->len - 1);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (mctp->buffer[mctp->len =
+- 1] !=3D pec) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tra=
+ce_i2c_mctp_drop_invalid_pec(mctp->buffer[mctp->len - 1], pec);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 got=
+o drop;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pkt->mctp.hdr.eid.dest =
+!=3D mctp->my_eid) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tra=
+ce_i2c_mctp_drop_invalid_eid(pkt->mctp.hdr.eid.dest,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mctp->my_eid);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 got=
+o drop;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pkt->mctp.hdr.flags & M=
+CTP_H_FLAGS_SOM) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->tx.is_control =3D false;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+(mctp->state =3D=3D I2C_MCTP_STATE_RX) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 mc->reset_message(mctp);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->state =3D I2C_MCTP_STATE_RX;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->tx.addr =3D pkt->i2c.source;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->tx.eid =3D pkt->mctp.hdr.eid.source;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->tx.flags =3D pkt->mctp.hdr.flags & 0x7;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mct=
+p->tx.pktseq =3D (pkt->mctp.hdr.flags >> 4) & 0x3;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+((pkt->mctp.payload[0] & 0x7f) =3D=3D MCTP_MESSAGE_TYPE_CONTROL) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 mctp->tx.is_control =3D true;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 i2c_mctp_handle_control(mctp);
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (mctp->state =3D=
+=3D I2C_MCTP_STATE_RX_STARTED) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tra=
+ce_i2c_mctp_drop("expected SOM");
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 got=
+o drop;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (((pkt->mctp.hdr.=
+flags >> 4) & 0x3) !=3D (mctp->tx.pktseq++ & 0x3)) {
+>=20
+> The pktseq is the sequence number of the last packet seen, so you want a
+> pre-increment there: ++mctp->tx.pktseq & 0x3
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (((pkt->mctp.hdr.fla=
+gs >> 4) & 0x3) !=3D (++mctp->tx.pktseq & 0x3)) {
+>=20
+> With those changes, I can get control protocol going, and multi-packet
+> messages work. There's a couple of failures from unsupported commands,
+> but otherwise looks good:
+>=20
+>   # mctp addr add 8 dev mctpi2c6
+>   # mctp link set mctpi2c6 up
+>   # mctp link set mctpi2c6 mtu 254
+>   # systemctl restart mctpd
+>   # busctl --no-pager call xyz.openbmc_project.MCTP \
+>     /xyz/openbmc_project/mctp au.com.CodeConstruct.MCTP \
+>     SetupEndpoint say mctpi2c6 1 0x1d
+>   yisb 9 1 "/xyz/openbmc_project/mctp/1/9" true
+>   # mctp route del 9 via mctpi2c6
+>   # mctp route add 9 via mctpi2c6 mtu 68
+>   # mi-mctp 1 9 info
+>   nmi message type 0x2 not handled
+>   Identify Controller failed, no quirks applied
+>   NVMe MI subsys info:
+>    num ports: 1
+>    major ver: 1
+>    minor ver: 1
+>   NVMe MI port info:
+>     port 0
+>       type SMBus[2]
+>       MCTP MTU: 64
+>       MEB size: 0
+>       SMBus address: 0x00
+>       VPD access freq: 0x00
+>       MCTP address: 0x1d
+>       MCTP access freq: 0x01
+>       NVMe basic management: disabled
+>   nmi command 0x1 not handled
+>   mi-mctp: can't perform Health Status Poll operation: Success
+>   # mi-mctp 1 9 get-config 0
+>   nmi message type 0x2 not handled
+>   Identify Controller failed, no quirks applied
+>   SMBus access frequency (port 0): 100k [0x1]
+>   MCTP MTU (port 0): 64
+>=20
+> I've included a patch below, with some fixes for the above, in case that
+> helps.
+>=20
 
-Interesting,
+Thanks for the review and patch,
 
-I'll check it out.
+Definitely helps!
 
---JKoW8XXF55sI3fLG
+--0+9N5QmAVCKw6LCu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmN3LVAACgkQTeGvMW1P
-Del8XQf/dj8z2GjqEoRl6jvoylakl2FiY2HqBrfqJb82piBuK4LwJjQnY37uFZ+j
-aX92GiHjOFdC6rVYo5Hf0AOg3/j09o6G3tWtElaQwiFMALyguUzy0NOrc/iYln3K
-0TOJCLT7RGA9TuR5qR2CK7zAMryREYZhNjDf6rpeJjFW8n/m39O4Lw97X/B18+xV
-xDZfsj5GST2+kqnBZiXFR+eugEevqvTN04xJi2qAEcFK5o8vkTdtGlqZabpOrV0t
-1y3auwoNNb5Fl8iNR8F6M+XzbTP3ZkYcgLEu74tToq0APdD4Rn6Dz13BEEFiLzu8
-V1tQX8zcXQJn1NMZZbociADhyyYgbw==
-=pfee
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmN3LdQACgkQTeGvMW1P
+DelyOAf/acUJiYJrPvLnKdUrqx713+RANTqDPC9rQBe8QrUACkAOZVBxkwlx2kAe
+/HlCIjubWB4IsO1572xvM5RG1KU4g6a2ItUx5D9LdU72Z0I2f+HKjFYnFRL6PyYU
+ihGIKQnFXMLVEtxq/eS7pc7my9MrYboIylo/vAsQChnNE3u8M7RJE+yp8Og5XTIs
+YGoZ1GV2hgavSkDRPJAtv8WX9JUqzsUvn//urGuPNDIvsJaNM402nfKSBkZQpDD0
+yhn720xEk3uHOTD0Ea8EHG+Lgbsqhsnw9peES9EZA+0W8SzdVmkVcZlo7Gvb0YPi
+oYrgFYHeBe+/j4MF/Q05TlZ7Hm1UOQ==
+=TZ/3
 -----END PGP SIGNATURE-----
 
---JKoW8XXF55sI3fLG--
+--0+9N5QmAVCKw6LCu--
 
