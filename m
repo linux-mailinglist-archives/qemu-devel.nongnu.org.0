@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B04662F211
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 11:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEF862F240
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 11:13:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovyDY-0002Dr-MD; Fri, 18 Nov 2022 05:03:28 -0500
+	id 1ovyM7-0003rc-Lh; Fri, 18 Nov 2022 05:12:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovyDS-0002Be-39
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:03:22 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ovyM5-0003qv-SU; Fri, 18 Nov 2022 05:12:17 -0500
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovyDH-0004aP-HK
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:03:21 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id b11so4091719pjp.2
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 02:03:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ovyM0-0005w9-4Z; Fri, 18 Nov 2022 05:12:17 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id
+ a7-20020a056830008700b0066c82848060so2782370oto.4; 
+ Fri, 18 Nov 2022 02:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vJHSbecfHElT/9RaubhNbvT61TXsuX2A0QPk1VQBzWc=;
- b=HwoarAtaJxMSs2V+MVQ1n7g7sO1CYtGzE3X0xIpVLOeIVMuW/mAiI3MVIjVaIaXwkr
- zW3Cv8y7LnY9QDD9TMqH4hJhu+2cUoWt/dedGxa6zkiOvXbNHO9lZQ8Q5EjXCW3LqYcz
- AulXuZhKFl2eDqgIN0VH3KXoSAsLq2LNGddG+V58dw9jYwKsN+52hbJDnEwtgykYp96F
- kMdE84H7wOv7AZVeT+A0riUoh2iqhELyBplr9dumodf92TmBeLbPdK1FG6wNpEccjXhi
- t0wYH6t3Uk+GKTZDVlSyz4Qx5emW7IpVmvsPDtecf2HkKJnTRH4CRaZ5diSNg4Fg5wzY
- RuDg==
+ bh=BVKp1XhVZw0Sx+mRPvR614/5QX6uY4YZdN9mLvmlRd4=;
+ b=m9L0KUFSi730Kj0C7lKOaxK/dBONvoKh29eYmBxkSf33nk+FI4iS8dI6w53/YL3td0
+ RCsGGoJ9r8tNghA0oaU+ueeX5mYE08/hGDGEDFr63mbkI5DOEW62vli2W5ck7WTXs6HQ
+ zEqbOZKqEcgwigEod3iY5RD9omCHmHNMzGv5rj5r6awnsReeIztlKSil0cz84uOOh/+e
+ vQtImU4ukAfAXarTr+LESiJ9jLvruorUrQ1XkHcUidGwECEmRNTjSPPATPohwrABtJvS
+ 0VQj8vSNZotRWFI/ehRzdMUxUGVlOf0rKtd3vJXoHElW/EY4PizsnaF7JQW3t7Va67is
+ 5BEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vJHSbecfHElT/9RaubhNbvT61TXsuX2A0QPk1VQBzWc=;
- b=AGovj7ez3qHxhjlXoA/zoh+Chq6le9OISiMyita0ae+Vab5vPJbVhShMk/S0hvCLmE
- xoNNAX6t7RYF1m1hPCpCu6Qsr2Zsd3rEJnKuiCHHAtmB171dIk1VPnKtLBgJofEM23pc
- keGCcKuEfmuAGT2Y6LEghkr0DNxDZ0zrM8Nb7Lyk00eRrY92tLLlOVMg1Ks+X+6kDa7e
- eKFq7IljTfSxyvX2h4kBok/qvQTPmpN9LE4Zu2/S8T0AuXUIp27sJZiEvt/F1pAkjGF3
- 1JNyyax5oysT2KR6xkwKBGgmFTvU9lalVIbY9qV+oLnElUsS2fNtvSrrPgA4olzZq/ok
- +43w==
-X-Gm-Message-State: ANoB5pl5Tra52VCVawL5uZCbq0WiSe5DG4ubWWbpDClwrxwk4V8jbc+Q
- z0Vqp6Rtzk4d+zQC0z6SRZcjQw==
-X-Google-Smtp-Source: AA0mqf7OKaYnNIpDM/DyuD5M8mpZ6fFAMRqbn+3UODbnjN2oST08gJM6pdzBDbinq6BstAymmq2iFw==
-X-Received: by 2002:a17:90a:9c18:b0:212:fa9a:12df with SMTP id
- h24-20020a17090a9c1800b00212fa9a12dfmr13165248pjp.231.1668765781357; 
- Fri, 18 Nov 2022 02:03:01 -0800 (PST)
-Received: from ?IPV6:2602:47:d48a:1201:90b2:345f:bf0a:c412?
- ([2602:47:d48a:1201:90b2:345f:bf0a:c412])
+ bh=BVKp1XhVZw0Sx+mRPvR614/5QX6uY4YZdN9mLvmlRd4=;
+ b=ojy2ILoq4UP+vJTZ1perfjZxB4wRXQR3/s5Cj5OLbTmbWI+N25VOicGVHCLW24VEBo
+ 5bmoVRXP/MiqNV5FKlvXLV/AuK/0EiMuznxxcIo2PNXFqT4tbUyHO07DJnNMttys90En
+ /wgG9XYG/VwXaO70vlfrvldPs7bFPHoBIAOHf3d5ZDt72ZftOW96UxOQT/b90uEWCpws
+ QHRE+LKKR6ptVyRwA/hu97850KZdt4etISVPln5c9qb01UvY6iwCJHArsLRrqDyBBvVM
+ arqA33zxsuz0DWLpKI88zHrmIxVFf7iiHfCfl/51/2eRjlqqH/viqRYKvS0ONs174Vni
+ twZA==
+X-Gm-Message-State: ANoB5pmfqaRfLPdHfzRF+YH7PBLMO0e6lZtxAqqgSJy0YBV3ZnzlOxGh
+ /BbFjcfeehcGEIO+T2kcm8A=
+X-Google-Smtp-Source: AA0mqf4rQjsRJEgjR25xOxKFycNPF9Tf3azIdrbHKEP94HsFjPPhxl1BL3GF8AX1ua1gPqxMt3FaOA==
+X-Received: by 2002:a9d:347:0:b0:66c:9e9a:1f82 with SMTP id
+ 65-20020a9d0347000000b0066c9e9a1f82mr3255870otv.269.1668766329460; 
+ Fri, 18 Nov 2022 02:12:09 -0800 (PST)
+Received: from [192.168.10.102] ([177.139.31.146])
  by smtp.gmail.com with ESMTPSA id
- z6-20020aa79906000000b005613220346asm2684513pff.205.2022.11.18.02.02.59
+ s27-20020a056870ea9b00b001422f9b5c17sm1733980oap.8.2022.11.18.02.12.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 02:03:00 -0800 (PST)
-Message-ID: <9be5988b-8947-373c-3c48-6fd73eaa4653@linaro.org>
-Date: Fri, 18 Nov 2022 02:02:58 -0800
+ Fri, 18 Nov 2022 02:12:09 -0800 (PST)
+Message-ID: <dd651eff-ead2-b4c8-50c1-b175c943216a@gmail.com>
+Date: Fri, 18 Nov 2022 07:12:05 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 6/9] target/riscv: add support for Zcmp extension
+ Thunderbird/102.4.1
+Subject: Re: [PATCH for-8.0 3/7] target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in
+ ppc_maybe_interrupt
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org
+References: <20221118091858.242569-1-richard.henderson@linaro.org>
+ <20221118091858.242569-4-richard.henderson@linaro.org>
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20221118071704.26959-1-liweiwei@iscas.ac.cn>
- <20221118071704.26959-7-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221118071704.26959-7-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221118091858.242569-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,18 +94,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/17/22 23:17, Weiwei Li wrote:
-> Add encode, trans* functions for Zcmp instructions
-> 
-> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
+
+
+On 11/18/22 06:18, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/riscv/insn16.decode                |  18 +++
->   target/riscv/insn_trans/trans_rvzce.c.inc | 189 +++++++++++++++++++++-
->   target/riscv/translate.c                  |   5 +
->   3 files changed, 211 insertions(+), 1 deletion(-)
+> Cc: qemu-ppc@nongnu.org
+> ---
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   target/ppc/excp_helper.c | 11 +----------
+>   1 file changed, 1 insertion(+), 10 deletions(-)
+> 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 94adcb766b..8591bb3f73 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -2163,22 +2163,13 @@ static int ppc_next_unmasked_interrupt(CPUPPCState *env)
+>   void ppc_maybe_interrupt(CPUPPCState *env)
+>   {
+>       CPUState *cs = env_cpu(env);
+> -    bool locked = false;
+> -
+> -    if (!qemu_mutex_iothread_locked()) {
+> -        locked = true;
+> -        qemu_mutex_lock_iothread();
+> -    }
+> +    QEMU_IOTHREAD_LOCK_GUARD();
+>   
+>       if (ppc_next_unmasked_interrupt(env)) {
+>           cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+>       } else {
+>           cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+>       }
+> -
+> -    if (locked) {
+> -        qemu_mutex_unlock_iothread();
+> -    }
+>   }
+>   
+>   #if defined(TARGET_PPC64)
 
