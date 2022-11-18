@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2672F62EEC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:59:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1184D62EEDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 09:05:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovwGx-0005Y2-19; Fri, 18 Nov 2022 02:58:51 -0500
+	id 1ovwLV-0008Tz-6T; Fri, 18 Nov 2022 03:03:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovwGp-0005Ty-Nt; Fri, 18 Nov 2022 02:58:44 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ovwLS-0008Ti-I4
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 03:03:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ovwGi-00029W-2f; Fri, 18 Nov 2022 02:58:43 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 838C43200406;
- Fri, 18 Nov 2022 02:58:32 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 18 Nov 2022 02:58:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668758312; x=1668844712; bh=IF
- pvRnss92cokfHgBZzN5e63/3JL/0sAKClB9uMwWeA=; b=VcoLEiWDFvYtFfd+nb
- U4cSqSZPvNwSPralinFDis3uA8kvvI9s3RrBkj4bGn88pMxVfMvXLxrwS8v1IAVL
- FHHjrvEukDMUmzftUO/44SqhD2P5kK3282oZH+0kI69seCxfFgf0+91pTwuZQK8o
- fm15rK7pW52ySg3M0aEju+12tNepE8j1sHojjFDImZ6NzE6zUKbbDGYMQrYrgVFo
- hekRypLrAjXMs+FZqZ0C/KNPO8WLA8GbYjbyeTYKNtJ9Vdf/ix55un21tJyPcqTK
- zzj73w5fN9uL9SwM1J2r7O9tkV4zqfA/24BonbkRKCPTQibRrKJK4S4XJGIN3Rth
- lkiw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668758312; x=1668844712; bh=IFpvRnss92cokfHgBZzN5e63/3JL
- /0sAKClB9uMwWeA=; b=JiwwbCGsmdTUl3p38Z0QFLyM1Otl/U2rsfcq3/a6ni1N
- /o8ryvx2TstidFnsrUXTIUvwQNVNKk03Ecm0zrsMIGFpYllSmhxRlleyjxMfuiLQ
- DpWw8InyN3+28D4UPvPedsru66om3gxiG/T79T+QbaTPZTBve/80RxVucIK8TZKC
- 9qi6L3Ct9h7aHJGzHmNK3PzXp+D4PADsY2RNYIEAfX+l2NXZ3mPnN8imBZEtDTwc
- sWZqmHIvPfpiW1jhVL+aFgC4jn0VppRsqIJjHhmmGjUWqOKo8/7yeFEiFyssGcV4
- 3N9peLyXK2Sv33URvcrK4eCjjMTxruvhRClYBXBAHw==
-X-ME-Sender: <xms:Jzt3Y2BvIhoV7Hb0QwpcRNq4HqyJ1bCH1kEDY8P812ZtI5vfVFI-uA>
- <xme:Jzt3YwjIL0VQrYE1kfPnRmtiXc2v67pDqeE6wMJiAziZObezyJRu1Id6SE0kB7LhV
- 1_YA7ce2bZU0hqRFYs>
-X-ME-Received: <xmr:Jzt3Y5mzz7Ex7l4Aox7SAEdgh2QlYGV4rLfBfoQVKTln3UBV0GwMP-MpTMC7Z1dIEKOm1k9RyWr9hPe6l1MiibznvUsvHg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeelgdduudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Jzt3Y0xautTAHgtCusL9jkPIOI7figwfaJRH30wg2wcz91GdtWMGDA>
- <xmx:Jzt3Y7R-zGJxCIrK973-jho_Wpeb3FcedCz4uEKt9-qYCXjqVt_Ung>
- <xmx:Jzt3Y_ZGvjFvPNiSt9dy2sdoeLy-e9U170YzuWhSr1iYue7R6HDQ2g>
- <xmx:KDt3Y6Jl8ijShE15N1cvDRgPw1AoDWdzm7UTR3lvV2DjlhwtDoo4hg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Nov 2022 02:58:29 -0500 (EST)
-Date: Fri, 18 Nov 2022 08:58:27 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Keith Busch <kbusch@kernel.org>, Corey Minyard <cminyard@mvista.com>,
- Peter Delevoryas <peter@pjd.dev>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Jeremy Kerr <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH RFC 3/3] hw/nvme: add nvme management interface model
-Message-ID: <Y3c7I797OJ+GHz2o@cormorant.local>
-References: <20221116084312.35808-1-its@irrelevant.dk>
- <20221116084312.35808-4-its@irrelevant.dk>
- <ccb90b66-7e9c-1b6d-b9ce-e0ffd5e39011@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ovwLQ-00032w-Pu
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 03:03:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668758608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZpKUrW+dc9/6Ad+mUSp5jFqyq9ql8ti4y5uFCfACKEA=;
+ b=F7EA6cb2mDUg21Ak8rxm7eR9BMZpWcOsMIa8Zt1olGMK65Csl21mevJtbdrKUIyrK6sr5q
+ UB+W4qriX9MiZF+53C73T2OyR8xVqvSNGt4QQLS+RjfTLCGhEeoaxFWQ7Jj83iN1iQTfPF
+ Rzsn2/nVNyCBJ/UAJNmyQk0zl4x3v68=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-669-peGghYViPVuU0y8qOAlcyA-1; Fri, 18 Nov 2022 03:03:26 -0500
+X-MC-Unique: peGghYViPVuU0y8qOAlcyA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i12-20020adfaacc000000b0023cd08e3b56so1284665wrc.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 00:03:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZpKUrW+dc9/6Ad+mUSp5jFqyq9ql8ti4y5uFCfACKEA=;
+ b=T3noR0z+6h5vg6UkU6fv6kuRIVDlQjetFrehxElw0d3oWGx/m7AhNfhFhBhxiSTwY5
+ Klo+xeWF6QGNwp8IfjVUSMG4+mHNLH0Zxruh8phrzyEJnmlLU07HDGaRlUmps9/HskY/
+ FNXvfwPVAZHGAI6vwyZY54l6zdwGhsyJUoi2IqCcxo9pUbnWZQQ+HPv2a8GC4aMfVh+9
+ t4um/nKzhzCX32gwMG+fHiZD6ClK23EmYbZWNXP5M/KtFwuCqmIGdUbOoTwN91flnqlH
+ lHFuQJT2PGx1LqyOtqsJf2dJcP5uor5kFtK9Apvt5bRblG1jk96qW45+dGWWwTP/wC91
+ 1+9g==
+X-Gm-Message-State: ANoB5pnyAtQ5P7zajhQ6n1Vq4CZ7KnssILedxCizR7eDrZXbB4E3CRcc
+ ovhn3HOFulgHfHYk3glwe2Gt4jWLW9kpAuqEwzVmIKt1Nm4WGGgZfdU1iZkJL/0rklyiD0DT4j9
+ vCskA302llCR1I8Y=
+X-Received: by 2002:a5d:58f5:0:b0:241:bcae:98a9 with SMTP id
+ f21-20020a5d58f5000000b00241bcae98a9mr2444680wrd.54.1668758605044; 
+ Fri, 18 Nov 2022 00:03:25 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4tua9KQInRjLjOEaEEPr5HMY2XQvh8Reuciwj8YkPSxJb/8qHWXKvD4ci9WAlhmEmbZlnlBg==
+X-Received: by 2002:a5d:58f5:0:b0:241:bcae:98a9 with SMTP id
+ f21-20020a5d58f5000000b00241bcae98a9mr2444657wrd.54.1668758604769; 
+ Fri, 18 Nov 2022 00:03:24 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-177-78.web.vodafone.de.
+ [109.43.177.78]) by smtp.gmail.com with ESMTPSA id
+ m42-20020a05600c3b2a00b003cf47556f21sm8923774wms.2.2022.11.18.00.03.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Nov 2022 00:03:24 -0800 (PST)
+Message-ID: <27365556-af01-1af2-b841-9fabc6a4369a@redhat.com>
+Date: Fri, 18 Nov 2022 09:03:22 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dtq9lZqJG0EqOq0K"
-Content-Disposition: inline
-In-Reply-To: <ccb90b66-7e9c-1b6d-b9ce-e0ffd5e39011@linaro.org>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/avocado: configure acpi-bits to use avocado timeout
+Content-Language: en-US
+To: Ani Sinha <ani@anisinha.ca>, John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221115212759.3095751-1-jsnow@redhat.com>
+ <CAARzgwxaVyQf424PeUOO=efyPHdiMK9nF7g+pHuKufqU1cg1-g@mail.gmail.com>
+ <CAARzgwzYn8=vsWO+pEfRouJY3PWYn_XEZps9wurpHpVogxcEHg@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAARzgwzYn8=vsWO+pEfRouJY3PWYn_XEZps9wurpHpVogxcEHg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,56 +104,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 18/11/2022 05.05, Ani Sinha wrote:
+> On Wed, Nov 16, 2022 at 8:54 AM Ani Sinha <ani@anisinha.ca> wrote:
+>>
+>> On Wed, Nov 16, 2022 at 2:58 AM John Snow <jsnow@redhat.com> wrote:
+>>>
+>>> Instead of using a hardcoded timeout, just rely on Avocado's built-in
+>>> test case timeout. This helps avoid timeout issues on machines where 60
+>>> seconds is not sufficient.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>
+>> Reviewed-by: Ani Sinha <ani@anisinha.ca>
+>>
+>>> ---
+>>>   tests/avocado/acpi-bits.py | 10 ++--------
+>>>   1 file changed, 2 insertions(+), 8 deletions(-)
+> 
+> Thomas, since you are picking up my other patch, maybe you want to
+> also pick this one up as well if you have not sent out your PR
+> already?
 
---dtq9lZqJG0EqOq0K
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sorry, too late, it's already merged:
 
-On Nov 18 08:56, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 16/11/22 09:43, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Add the 'nmi-i2c' device that emulates an NVMe Management Interface
-> > controller.
-> >=20
-> > Initial support is very basic (Read NMI DS, Configuration Get).
-> >=20
-> > This is based on previously posted code by Padmakar Kalghatgi, Arun
-> > Kumar Agasar and Saurav Kumar.
-> >=20
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >   hw/nvme/meson.build  |   1 +
-> >   hw/nvme/nmi-i2c.c    | 381 +++++++++++++++++++++++++++++++++++++++++++
-> >   hw/nvme/trace-events |   6 +
-> >   3 files changed, 388 insertions(+)
-> >   create mode 100644 hw/nvme/nmi-i2c.c
->=20
-> > +++ b/hw/nvme/nmi-i2c.c
-> > @@ -0,0 +1,381 @@
-> > +/*
-> > + * SPDX-License-Identifier: GPL-2.0-only
->=20
-> Just curious, is this restricted license choice on purpose?
->=20
+https://gitlab.com/qemu-project/qemu/-/commit/1b7a07c4414323d985e89c4e7
 
-No! That is a mistake!
+  Thomas
 
---dtq9lZqJG0EqOq0K
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmN3OyIACgkQTeGvMW1P
-Dek9GQf/eutOJ+p8b3cLO9ew2T9qwJk4OS0lz3Eh8WiS+SSC2DX8XSICMi6UjFFs
-H5yHJ4WBg5t1WLv15/tZi1tNfGde3072LEKS//OV51YP9IhUAsP9OgtmDFd0YBsn
-AsvIc4/6zInJX4+mk3nOzSmBAwtFP1kHa0fFmOQ+Mqw6kIHunHVRmT+lxqNU8YTs
-LWU/EQVt0sAlBL/LH694EgliHlCzF31VtfmdCHLKCv4eOu+88BuQD9ajNP0YOshW
-x+Dhpi+2bD9JxJ6lOqKoSJz8Wis4Uk/UHAmfgZAAkzsMKTRWau14fOFRik7yZbxy
-Jx/COsjzp8Py90fEJmFNxYiKvgBcsw==
-=lb8i
------END PGP SIGNATURE-----
-
---dtq9lZqJG0EqOq0K--
 
