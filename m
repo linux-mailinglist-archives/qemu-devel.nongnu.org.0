@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63E962EEB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A1862EEBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 08:57:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovwEM-0002Jh-ND; Fri, 18 Nov 2022 02:56:10 -0500
+	id 1ovwFI-0003Sv-BL; Fri, 18 Nov 2022 02:57:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovwEI-0002GN-0E
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:56:06 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovwFG-0003QJ-Si
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:57:06 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovwED-0001ry-CS
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:56:02 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso6930374wme.5
- for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 23:56:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ovwFD-0001zf-0m
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 02:57:06 -0500
+Received: by mail-wr1-x429.google.com with SMTP id i12so4139461wrb.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 23:57:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=j0LhRr84JMVf/sIcEN4S8upklzU7fAjX4g5cgS3180Q=;
- b=blh2ZG/HN5l9sgZUNEWxeC3RVOCWK3oUpmcZkvjPXVUqGpEjm4X0V7ktEvPSN3Qwuj
- yra9uylvChr9jkriPIOGKpGxMAdlzPOGyqEwTl3ph8TF7tJOr5krWvOgyHZSF0Ad9gt2
- u7fBVExelIQ3N/oSIpn7ScBsFfaPxtm0RJJP2KHqt2/pvDYUaZ8Ur9gZ5/hj7kdhLbxd
- KN9FcLb2oT8ESesD1szdA/Mk+WSABRov0GYXkgzSBm8DsI0LwVfXEZ3CSnAg1QSGRMda
- I5SQwTLdRcS8WX/YSchTuMRHMj0srbg5pYQwt4z8cXpdB3bkgVEhAh56aMomDNYxhoY3
- Kh8w==
+ bh=/RnVMtPCD0meu3M2O6AH1t7clMNEhGA9cv5gt4zYXJo=;
+ b=A3Mam2DsHeCD7RpJQYk3oTWSq+SwLuFetkbfKaV3v24Tnoe3/KMNq2AqITXBE+JKk2
+ 2eJnHhqtYtebbppPXGYLLrxc7i1Bqu3JMBgT/3+oMDsy6QMYm66y4qkdI+8mDA3Irtcs
+ mc0ae2a4ZP7kh7HJJuT3lwBpJpVvIK1tmloa/UHPxs9E5sQFLXexA6WbN5Oayffip4ku
+ J0tNAxdDEePTF5rDoZYsfZQJD3IwmhYro+Ai4qmuKacm/L4/70z71jhAXAfnS3YsH5nW
+ QBOQrgU0K6ngA+7T3FymhQMWDjTfTwCld7SDTHG1wnvK+oU3Gk8rNl9ev8YTzryo8Mwt
+ wHIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j0LhRr84JMVf/sIcEN4S8upklzU7fAjX4g5cgS3180Q=;
- b=a1tb5/adjX6DNf9Lvs9jHLcuZv8CUSfBYUerboew7EzYIpZ4i+EbOS/D1Ypqkscs4w
- 4/APxiS8CNfeJ7I51bGj6WWMcp3CG7/my8nIRqdSyBkfmJkMb+aaUGyDH0ZAPiw4TdzI
- kA7JNWzqoPJzW4TlhLLeepeQ++JOlsa3b01sZjIPTHNqhN0fbq87Yq6CjkbYpCKuCUC8
- PcY7tOaJCZR3y5PqXhkuYe+iXEodVo2o1nSFAuAmEckSElm8EfeDe1wdqsJBHZucE/36
- kbii0AIKty20THz855EXilWOf/pBXw0Z2OQfjYiE+X53Lf05Kxjb6JE/jqcQa8DaQE8y
- +mKQ==
-X-Gm-Message-State: ANoB5pmebm0gnTX7kPKss+4jrZqu7Bs9RP2+iRPiRu3aUyLtzQVAUY+b
- KpLmgD3cvzEJht8vj3CMNkJuUA==
-X-Google-Smtp-Source: AA0mqf6Xs2qY11HrngXCQWYG1/SI8QWBrUHCWej+ewlSLYEynnhFBRSEOz8zsNpOm4RZUr/AWCAXdA==
-X-Received: by 2002:a05:600c:688:b0:3cf:a18d:39a4 with SMTP id
- a8-20020a05600c068800b003cfa18d39a4mr3910235wmn.125.1668758159701; 
- Thu, 17 Nov 2022 23:55:59 -0800 (PST)
+ bh=/RnVMtPCD0meu3M2O6AH1t7clMNEhGA9cv5gt4zYXJo=;
+ b=pKUp+C2jAQmVxTfNwucbQoA50CkaH4cBDt6nJJwHe+3OTjmqpAceNSVT60HSnKE9lJ
+ 8RdkXUKylWzOXy/LUv6hWZ6nIUScVERsq0voifcbVNgiB1w8o4VQdfq27WtmBblpQD7r
+ VNVIvVCMigbY6k1WqxLg37v5/PFcQ+0iXSw8ABwx/SjjT8idAlwVFd6LHAVuhZ1TkfaY
+ FkyOoodngmaVTNAl2CAjJIvLEaSxV126+VIKAkgsK1bBcgRhTAaeqBEnmVt4RA0zqMqr
+ LqLP0WUKXDUjjaINVBfL9oyzGbvV6pfh03M5fwAD5CTS8X0qUGgGGX0u0yorh7KeNsYf
+ 5v/A==
+X-Gm-Message-State: ANoB5pmTG1G4P9GK4t9AR7BIQnIkr0/5aiY644NsLQ30jMINiow3LMHO
+ dt7uqUPj/rFXPih3eV10UMp7ig==
+X-Google-Smtp-Source: AA0mqf5pHlyjH199sf90iJEe397c1DOsTM/NEHT8VFG9snskjjIRBsbb70sNx/BhV3UoAT8dqJwYUw==
+X-Received: by 2002:adf:d851:0:b0:236:5d2b:d71f with SMTP id
+ k17-20020adfd851000000b002365d2bd71fmr3530909wrl.492.1668758221558; 
+ Thu, 17 Nov 2022 23:57:01 -0800 (PST)
 Received: from [192.168.230.175] (34.red-88-29-175.dynamicip.rima-tde.net.
  [88.29.175.34]) by smtp.gmail.com with ESMTPSA id
- n24-20020a7bcbd8000000b003b4fdbb6319sm8057770wmi.21.2022.11.17.23.55.02
+ v11-20020adfebcb000000b002368424f89esm2903105wrn.67.2022.11.17.23.56.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 23:55:17 -0800 (PST)
-Message-ID: <d625c02a-dd84-2eac-82e5-ae4515647ddd@linaro.org>
-Date: Fri, 18 Nov 2022 08:55:02 +0100
+ Thu, 17 Nov 2022 23:56:35 -0800 (PST)
+Message-ID: <ccb90b66-7e9c-1b6d-b9ce-e0ffd5e39011@linaro.org>
+Date: Fri, 18 Nov 2022 08:56:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v3 06/13] docs/devel: simplify the minimal checklist
+Subject: Re: [PATCH RFC 3/3] hw/nvme: add nvme management interface model
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com
-References: <20221117172532.538149-1-alex.bennee@linaro.org>
- <20221117172532.538149-7-alex.bennee@linaro.org>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, Keith Busch <kbusch@kernel.org>,
+ Corey Minyard <cminyard@mvista.com>, Peter Delevoryas <peter@pjd.dev>,
+ qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Jeremy Kerr <jk@codeconstruct.com.au>,
+ Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Klaus Jensen <k.jensen@samsung.com>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+ <20221116084312.35808-4-its@irrelevant.dk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221117172532.538149-7-alex.bennee@linaro.org>
+In-Reply-To: <20221116084312.35808-4-its@irrelevant.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,19 +96,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/11/22 18:25, Alex Bennée wrote:
-> The bullet points are quite long and contain process tips. Move those
-> bits of the bullet to the relevant sections and link to them. Use a
-> table for nicer formatting of the checklist.
+On 16/11/22 09:43, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Message-Id: <20221111145529.4020801-8-alex.bennee@linaro.org>
+> Add the 'nmi-i2c' device that emulates an NVMe Management Interface
+> controller.
+> 
+> Initial support is very basic (Read NMI DS, Configuration Get).
+> 
+> This is based on previously posted code by Padmakar Kalghatgi, Arun
+> Kumar Agasar and Saurav Kumar.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->   docs/devel/submitting-a-patch.rst | 75 ++++++++++++++++++++-----------
->   1 file changed, 49 insertions(+), 26 deletions(-)
+>   hw/nvme/meson.build  |   1 +
+>   hw/nvme/nmi-i2c.c    | 381 +++++++++++++++++++++++++++++++++++++++++++
+>   hw/nvme/trace-events |   6 +
+>   3 files changed, 388 insertions(+)
+>   create mode 100644 hw/nvme/nmi-i2c.c
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> +++ b/hw/nvme/nmi-i2c.c
+> @@ -0,0 +1,381 @@
+> +/*
+> + * SPDX-License-Identifier: GPL-2.0-only
+
+Just curious, is this restricted license choice on purpose?
+
+> + *
+> + * SPDX-FileCopyrightText: Copyright (c) 2022 Samsung Electronics Co., Ltd.
+> + *
+> + * SPDX-FileContributor: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
+> + * SPDX-FileContributor: Arun Kumar Agasar <arun.kka@samsung.com>
+> + * SPDX-FileContributor: Saurav Kumar <saurav.29@partner.samsung.com>
+> + * SPDX-FileContributor: Klaus Jensen <k.jensen@samsung.com>
+> + */
 
 
