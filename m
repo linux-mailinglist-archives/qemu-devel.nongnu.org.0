@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0111C62FFB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 23:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAACB62FFAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 23:04:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow9TA-00084a-2X; Fri, 18 Nov 2022 17:04:20 -0500
+	id 1ow9S3-0007J9-Id; Fri, 18 Nov 2022 17:03:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1ow9T8-00083g-BU
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 17:04:18 -0500
-Received: from mail-dm6nam11on2115.outbound.protection.outlook.com
- ([40.107.223.115] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ id 1ow9Rr-0007IR-UL
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 17:03:00 -0500
+Received: from mail-bn8nam11on20700.outbound.protection.outlook.com
+ ([2a01:111:f400:7eae::700]
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1ow9T6-0007W7-Iv
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 17:04:18 -0500
+ id 1ow9Rq-0007TQ-BD
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 17:02:59 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FwXGWZfJ60fRm6gDZnb12z7Tg09V4i4VQukptwSQsHmDFcPGeWVFHZcPdBHvKyB+3dmfRmMIy+04N8COYiCutcCIuHeS9gJtUKpasVq4/NpZ+hyfrGHXnXO0hgrdo0mDR39qzrhEZ8hHdT9mBVGcR58XKx3PMiCczsOoepX69w7CkIYP1UXAUeOhnoDleRsSRqhq5Wfr8QnZa52rl8z3rV79cgQWVJBz+4aE1ccRc1RLlh9ivAo7iWKsmB7+pH70Hz630NJeVFrT7XD/KsKwW9JQCf1GZS5G9IBZqqGG0LDTjEzlDNYlTX+SN9wACpKOXUwwXgVlr2MZjeaHWmqzzA==
+ b=O0K54krdF27S0fBDbAzs3o7AQq/yyXDrv1mesAsFLe25cra/nqRiEv/PbqxEdjq9f+ZnZklY+MwT634TlJUDa5b+hOBideXzUYP7HcRtpmJzxwLQk1517Px5sANsDu+2pccuMTAvR53Fpb9INblrzQ3VHQrL+983KmlXb1m3Udc4Ut/NR0k3rr57nNbf3a1WQa48FyLhH3KKZh/O8izWntjTYEiQ4MG0KxkwWmlfJgZZg+XXXBxv5qXcZ1oSNnOLBDSBp/jLiooIGF6Vt7Te2rgZuC8/uUORSvPIomEayuZf4xyNk+fz9TZ4JB3iBxmyhwal2j2VnQtu4SX4KRFm9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pBtcRlPvKh8urO2pCi2baEeWFnThnehvTeRIn5L8S90=;
- b=BP7LLKVrMbhmH9a/6/vxDzQv6+75kf5th5sTfMxi8M4Ca/aQoivDUSKuCJfK0Ua2TA5OS0FrJTIMzNwnbF+33Fab7DrccVzP7Snogzf/clCXjXvDszf18DxNbEe+5hdorM9OhFIry/8nglfTvvpzOrhfMsbS21MFwzAjWH88hACeNsYjATJlOD2I3jU6oo1kD4XcYEQVr9N1D+nWD7DAkJIGIHNT/Z2Bj2uMhu4zREocG6evndYk1ly9l2rC/ZflFt1ono4SLkTkqRfSLb2jUywResrtPOkWdyxU/AdqOH7U+6StgOg+sLW6lspmIIv8g0kjMUqRDUqWi0oj/IhN1Q==
+ bh=+WrflZsmKVuPgNbcHw7V7qlZJsqKtIhHmdHN/pT3p3U=;
+ b=Keja8cwAe4SKki1a6mSWbaYInLvn1dhleB7vYvGYwbXoTCZ74UBFIBRpuQSB3HEmUtWUkCNGmLuRbpeBfRoA5wu6aIjGenY/LcNkzvrhwHOqh9PbVbSbs1cvPJX0CrI0BMVyiaf9j+gXiSAtV5yjTQz5xfAkjKi5/JUArCDpgND2U1LtvHMbGXxTlWMA4iJr3sugjidB40+R+egHNPtwhPKjn7CAd0kCY0DIqrP5+Cp/w9qZp8JyFhxrxEtzYkipdHwtKFbT6nSSwVd3OsWVh8THj/dj4WjiE48o4ie62YKghGVvcwNPQ7J1KxLfccUKRf81NmqE9vXr8DMeLtIrUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
  header.from=os.amperecomputing.com; dkim=pass
@@ -33,94 +34,94 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pBtcRlPvKh8urO2pCi2baEeWFnThnehvTeRIn5L8S90=;
- b=NmuHmtRihxwJSLe2YUGwncokjGb5LXXgGwKaK7IQ2VXmBVg64Id3CjUaS+9QUvVhqKbldrI6r1GRqirP5BuDSqNCaVOLV7g8w4jxXR0E8wj8XXThyDwfeyrHT944qD/N6EytncSubUmIyYEWqCG14Fw176sIydu91A+uWu3poFs=
+ bh=+WrflZsmKVuPgNbcHw7V7qlZJsqKtIhHmdHN/pT3p3U=;
+ b=Fbg17sQnFEY8HOSw7zf9aAnvmjI9TXfw5mVIBLzx67wyp2ialoa+WRuMYeifNMdkRQlvPxxUyQLR0bjLN7M2nCNOd8UHzgbuiJWPSGFKjEasKKvWr3V2jALoeju11IhgsN6ncYIyzJT5JtdrfVW22wLbVFrEH+7yEUkORi44hgU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
 Received: from CH0PR01MB7124.prod.exchangelabs.com (2603:10b6:610:f3::20) by
- SA0PR01MB6409.prod.exchangelabs.com (2603:10b6:806:e3::9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5813.12; Fri, 18 Nov 2022 21:59:09 +0000
+ BN6PR01MB2324.prod.exchangelabs.com (2603:10b6:404:3f::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5813.16; Fri, 18 Nov 2022 22:02:52 +0000
 Received: from CH0PR01MB7124.prod.exchangelabs.com
  ([fe80::24c2:adf2:5b97:f9a8]) by CH0PR01MB7124.prod.exchangelabs.com
  ([fe80::24c2:adf2:5b97:f9a8%9]) with mapi id 15.20.5813.017; Fri, 18 Nov 2022
- 21:59:09 +0000
-Date: Fri, 18 Nov 2022 16:58:56 -0500
+ 22:02:52 +0000
+Date: Fri, 18 Nov 2022 17:02:38 -0500
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
 To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>,
  Richard Henderson <richard.henderson@linaro.org>
 Subject: Re: Plugin Memory Callback Debugging
-Message-ID: <Y3gAIEythPY+z0q0@strawberry.localdomain>
+Message-ID: <Y3gA/i8bBkR7mgkQ@strawberry.localdomain>
 References: <Y3QNRWUK8BLRQlaQ@strawberry.localdomain>
  <878rkbalba.fsf@linaro.org>
-Content-Type: text/plain; charset=iso-8859-1
+ <Y3gAIEythPY+z0q0@strawberry.localdomain>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <878rkbalba.fsf@linaro.org>
-X-ClientProxiedBy: CH2PR07CA0041.namprd07.prod.outlook.com
- (2603:10b6:610:5b::15) To CH0PR01MB7124.prod.exchangelabs.com
+In-Reply-To: <Y3gAIEythPY+z0q0@strawberry.localdomain>
+X-ClientProxiedBy: CH0PR03CA0222.namprd03.prod.outlook.com
+ (2603:10b6:610:e7::17) To CH0PR01MB7124.prod.exchangelabs.com
  (2603:10b6:610:f3::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR01MB7124:EE_|SA0PR01MB6409:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbb0b7a0-f88f-4078-ad0e-08dac9b01e95
+X-MS-TrafficTypeDiagnostic: CH0PR01MB7124:EE_|BN6PR01MB2324:EE_
+X-MS-Office365-Filtering-Correlation-Id: aeaa79d6-ec7b-44cf-f6de-08dac9b0a365
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aMGcXz/14K+pwPnsxwzETYaMjieups4F0mC8OUeeKnhs5g//lI7ewcR8Dpc5sfqH4TvZE/NikJ3cbLqtnWSmDRMHhw9OyE+6wv05qfzvN35KRlovoAnn/Pc+MpQEltDPfmliE4sHpu2YVvdJammChFKjQix2oRk38oz7E6WEAlGsea9fJ+7dCVSlaDMBS4MRIVxHNUm3oVVeU/4yNQ7gmqyMu4QVydXP7R5SfOE50d0EW6FV62tvbgKbw86AVQ3BSTU2fAbnobPFzoF4gsUS4MPpROEPpC/ORLcDdewCxDqDGnM5520YYkp+Zr5B/z6LoH2aHdGhQA6pNQOMJbfasRjlo1s8hhdzwAGVs1qfU1WcdKHhHrBdXlz/BxNuuOerslBgYwvGRg9/k4IF4ZV+FZ/lREZLN03v4UtlAqS8HtQtl4bKovPMzgQu/AfIwcemrkVHCGvJPrv4mukWWlL0R+2KvDyKrW/ATYE6cVDGPgwXcM+o9KT7nnvOZo8//K/zexspMiVXjGLK6q0Xq3DEBPIz+tEhvXtI6kqJ2euUn6ZnJ/jIP9JRUaWfOfxe5i/OfzESAdEqbM7AHgTpv2U34F/muhZXDqrtZnYdSRn1R3Z3vuV4/ccfMXQstEiXjBSnP8Mjyl/0S9MrjpReBS5Nu3igpn6Ok/OJgzURy8iIv8ONc10978rHFv2HYlD+8EWdvnYgtQzvbdtIdiBlnx7iFg==
+X-Microsoft-Antispam-Message-Info: BUnuGzsbUgEn5mZgzzQiPzXn/Xxj8W3jvvkXy2uo8Rsh84xLMuXaUOdPJSt1yK3OZdp75p6bvc8TYmcStuXcx7bAjG8ksIZR84c/vGl+rIumTxAbMVdHMK+X38AcPQzdgSnr6DjpOpy4RlXZKMRLhvmtMmFbbKkDX9qd2hNw6Lrb/VdWfGD2eVrQhnZyIXlcsjr98dfblWYb1efN+L6QAk8D+1mbmDiczlS3pS9yYiNGREH3NEaZBfriVHFcy8/mIPSXUqu35BNMafNyyjcxUYTtAIbWL3BoYSGjbOAeZN1+DSxfZUlCZruECkJ9je8ROvP1G8CqTLcxcCOXUQR3lnYRulycdal38YlCoTlcpT2cjgnNVSoxEKAGu51LrGXS8jNiHY2Gf+Qt1K9oN4qgQj0CSZGHn1/DiSVmTCIzt2o1ajrba5C8kbLe6FhiU41OTJQfa23PQjGItEjHD9f5geFs99OtsZPwCLGzWY02SRmrRZVXSSplE1+7Ob0ZkoyxDwefLzEijVfBUvOyBNFSE3be0N5+N5J4+A6p96ff+xKF2o+4vSn1D2Xo4jH5k4Nv9E++7Zt3qkJ5qVLTYuXnLmh4s7JjUCOtuY3ohWkgat5vMO9aoe+WRO8IAxuC8P/4pYgyjCXT9dm5CcCBF1YSCA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH0PR01MB7124.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39850400004)(346002)(136003)(376002)(396003)(366004)(84040400005)(451199015)(9686003)(6506007)(6512007)(66574015)(26005)(186003)(38100700002)(3480700007)(5660300002)(2906002)(478600001)(6486002)(54906003)(6916009)(8936002)(66476007)(316002)(41300700001)(6666004)(966005)(8676002)(66556008)(66946007)(83380400001)(4326008)(66899015)(86362001)(67856001);
+ SFS:(13230022)(4636009)(376002)(366004)(396003)(39850400004)(346002)(136003)(451199015)(3480700007)(86362001)(38100700002)(54906003)(6916009)(316002)(6486002)(478600001)(66946007)(6666004)(4744005)(5660300002)(186003)(8936002)(2906002)(26005)(4326008)(8676002)(66476007)(6506007)(6512007)(9686003)(41300700001)(66556008);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?0/cu9mapEbO+IC6/S6oj2LYsvQGaAMNkLAuueSzUqsuaR5E8SRZR33bp0O?=
- =?iso-8859-1?Q?HDPG/6LG9Ej0ADtqnaTPorVDK1PavVuBqjrRlRFg5D+zgR1Ktbf7Gw5kFo?=
- =?iso-8859-1?Q?TMYDMoHwsqIogDO/6a8CdnfmTfXE1x2ln3YMG6ptuGR7zpuUHRt2NVpJbY?=
- =?iso-8859-1?Q?pHqezMIZRETE5wA6lpuY3mQIUSQPBcFU19edqU2rJbZHs8hmQ4Ch01U8Kk?=
- =?iso-8859-1?Q?31vfJzYhz+3+RKXUqgOUYgNWEgxBMhiHTN4XNPzXNfDZYOES/vytIeO7yZ?=
- =?iso-8859-1?Q?R5QQ4SmLourSaBLPbOJUqEvlqqOLpQrwR4L6iu077lWr5Qp7bGc7iyVxQ1?=
- =?iso-8859-1?Q?yG0Sqrphexy1hm9MEMB642tZQgs3uWLm9HPJng06fZ5rB00Ai5RKVRbV+b?=
- =?iso-8859-1?Q?RzVCVhRrYfG1/q+EId4HJ/zeW9vWCXhttpkrdvojGZggEN1BZzdUs4+5z4?=
- =?iso-8859-1?Q?jFRdgKThycGNbEMH7w0ElVCGVExfS/RJtiLAjN+adDj9Lf4KCDLon+JWXc?=
- =?iso-8859-1?Q?y4EpiC5tvYv+uM37o9mz0b6a2UFI8IaUvoOUBbc+0W439U5ptmukaeTtaR?=
- =?iso-8859-1?Q?j//i2ZOnc4piDiXLX4xmDgkCw7BMRMJfXxigf3qnRbtA2XVXcHinIGE/MF?=
- =?iso-8859-1?Q?w23+Uhw49DHMcy6v/O8CIn/Z4atU9fz4oBD4CXi8GxK5RhmV1uewH6rY4l?=
- =?iso-8859-1?Q?Sk6FIn2wlSfu563/HnJUYifIXsREEzIiPwqn84rUVhbI5CxL8J7dDXYfR9?=
- =?iso-8859-1?Q?s115GL2wNi0un1M1zfOitHzAx5fQJs0L5QdOvNdO46mtHCeh8Gz8b/3+YM?=
- =?iso-8859-1?Q?BiihavdjmbH7JjzoyTj/g10bip1rQJ1qPJSCNW/qBNn5X05sOlHvvH9YRi?=
- =?iso-8859-1?Q?zdgAtt11EBhxoTO9XZAdFW4Xcc84xarbw3tTwC+elaBk/HeKgeJ6hoyldZ?=
- =?iso-8859-1?Q?VjhtBDl1I8ZKpkV+TFxY+oJGIXNMJV6EoHy+rVQHS4aA4ZNFWRlY6b0Qyt?=
- =?iso-8859-1?Q?Af0W1HBOK5dIcZCnRTDQVBP/ArcrDA6/Iyy8U4qNCakRvgtoHkb50YJPwj?=
- =?iso-8859-1?Q?0RHb4cOhIZkUDi3OBdfrvdz2ut+n38AzWhwy2/ipQtROse/VY7zVAw2KVg?=
- =?iso-8859-1?Q?k7xW1CxjHOa5fed+5ZE0PRNBQpU3nTR4kL8cnLzUmH/t1Wfqa4zGLt9oX7?=
- =?iso-8859-1?Q?fyt9eRsS7rxYW/YRMTrT1zZ84zRTN45wb+ovvbtoAYG7KAv6/S1GVmhp8E?=
- =?iso-8859-1?Q?a6rOd1nGXlIaLzhmLS+4g0K5KUIPYFGS9OvNqccPM7kTjBHFx79eLNhcql?=
- =?iso-8859-1?Q?ONLYyc/PvO+ksM4C07C2gSknr9eozIrxTci3MBBIwzjjD8D5ERelo+e7di?=
- =?iso-8859-1?Q?0zOuu7GwMxSHvDvt+c3TVhljT/ZwDrvyiQE1CC4DWCOgH8c48m6zI73xQL?=
- =?iso-8859-1?Q?w8WN7N7ZUqido/KA6D7NOcNSO7GZ980/Fl9mDp8kj1dHuEvXV3RIWciClY?=
- =?iso-8859-1?Q?AKzhEmTseERA3wV1zA+aLZCCx+MCeoWdCJ8KOsaUVbufHVMu4a8LtPJuY4?=
- =?iso-8859-1?Q?QnWQDv/nPZl7jtpIeDtCe3d3X7pFX2I6wn1MK1h0aC0eY3gNjNYSQ1B6iD?=
- =?iso-8859-1?Q?HmwTs5Zf4JaQxWW4wuf2xL72YN+zsI9dkYAVPBUziMAtnmBDrAM6HBVQps?=
- =?iso-8859-1?Q?un/rOYHE4gk8wNT7DIs=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SFwjFwK3za7BoPx0K7g9lcNjDhtmsRCNqyWR0vEke85taBtTVmn9gFIuVkeW?=
+ =?us-ascii?Q?GVbMouUDHb0JEMhDPXUTmuQ7Z8hHIzLxI/hySkd2xt117x4vSCWNBXPWflfA?=
+ =?us-ascii?Q?kRlTVEEy9qEuU9G4m7dD/C6Z5WOe64gdhbkE4YAkDxmPBkiZcXFgInCMYhs/?=
+ =?us-ascii?Q?/FeyN5RskO/GpWt+uonCsYIlnBQ5J8fKN5VL+j3WC0e6vOU5hYqinT2NIx8J?=
+ =?us-ascii?Q?OOD2UTJXdoGbNmOuIF8cdJXG92dlF3UEdJSFSDgAdgZ7b/DiK8+k6oaG8c1G?=
+ =?us-ascii?Q?lST5pz3hwYiCyBRdCRs0E3XbZ4MsHoqJxi1WNHViBrxDEvAoNYKYUTT8VM8q?=
+ =?us-ascii?Q?P90OhgkdbWD17fepZwYUMwHf+dmZRtjICqPmURMvmNywisyN60wU8OnKXVH0?=
+ =?us-ascii?Q?Ysw2VARthlgv9Z4HZUsE18KMtIxCILEBQxqObPip/NH/TckxiWIxdbN62gYy?=
+ =?us-ascii?Q?deg1blE8xu72mEWkCTKBQmuhcda7JyO6tNq75q3k+JJG0CEkMR2s7m56FCHN?=
+ =?us-ascii?Q?SbGPgb3jnqOOEk3NG+D8kzrX7gj6Fm2veROPeIlFJl6/0x9J9AmpUfb8ydFt?=
+ =?us-ascii?Q?skBZSaMh/FGbbYXMfJ7hK4/6DN5LNNbu54ynFUIUKAkotY7Mjdgz9UqmtonT?=
+ =?us-ascii?Q?Qk/0YHF5IyNZoDfxp+TQXT5XvPQLj10CITpkPxXZpleJdeQ7MLO5eivJOpAn?=
+ =?us-ascii?Q?Hxw87alNBAMejz7bFekNPJ755JCyzzHMKraRWxa/R9UdLytJycWIoDh4II5I?=
+ =?us-ascii?Q?v4cLX/3ra9hO8xb6yc3gPEL3SKCOAaAQSe5gKt3vJSWJi6/nJyvL80mwozhB?=
+ =?us-ascii?Q?j7Q9CE5LViReaUHtBpxmbiAIbM/tu/xp/TLgqH+Jk4F+DsNhRc4/Q2SGBM/P?=
+ =?us-ascii?Q?DKG6r6sOt6Ag+liHZbNqOo+RZrBT+K3S+KEQcSX10j/j741g5U1Xii5DLTz9?=
+ =?us-ascii?Q?rALUSxtbWPrUN1tRFVZGKpzri4HwLaPATuvoTzK2TO8IswF3h1N9ym9Yd63S?=
+ =?us-ascii?Q?vVdGAI6JNFZjfA0Wh7A+tZaJOSAYvXn12G0yKiB9GLBtYRIcEk1SMgeCiEgS?=
+ =?us-ascii?Q?Xf2nwWc5ND/fRs7ARkIXdHcmWg4q9rxYSN7ujikzMcC7eesNu1YdUKWfJBD+?=
+ =?us-ascii?Q?1RCOvi+groADfudX7SC+kFvX3Nvk6wT5ALKBY5rIGQVwl510k+VKwaidcPhM?=
+ =?us-ascii?Q?HVfB8D5PQTpoblKFVSUxEagzWgy3E19KRvsbh1ieQLo8RqOKVsN3TEeUSEsn?=
+ =?us-ascii?Q?e1V3tyykPUMh1iV25V3WUnYW4SB9D+yO23eC332q3L+9oZDT5AXkNo/y0vk0?=
+ =?us-ascii?Q?MxXIDCftxy+E3XSFbWmhA/SpAO9ImN31Oulh3kdImpKNbyRnMtf+4wsNcPsR?=
+ =?us-ascii?Q?pXgQ1xR6phPIYgL+cqxwI9AfBp2v+0ax9kQAKz/QhsU2bqEQnDiwQ8dZKUcl?=
+ =?us-ascii?Q?SCuViOKqNkykQAiWjJkI+5tCaAPG/nosxm+ug684OnELW51nOt83skTcElQj?=
+ =?us-ascii?Q?oVr9WBITyAhI457L5wPFgWlyAnU5YIoBRdN6AIIzRXFY7PDm3Pf5LaibXYVl?=
+ =?us-ascii?Q?ZQKJceh7WoIlAECfhNw5+TjomotAC9cLoXdvFdyiakdfEnZ4oW4xSdxJvkw/?=
+ =?us-ascii?Q?JGPD0jVe7PMZ2WDu6ttZnjY=3D?=
 X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbb0b7a0-f88f-4078-ad0e-08dac9b01e95
+X-MS-Exchange-CrossTenant-Network-Message-Id: aeaa79d6-ec7b-44cf-f6de-08dac9b0a365
 X-MS-Exchange-CrossTenant-AuthSource: CH0PR01MB7124.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 21:59:09.3399 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 22:02:52.0235 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DKIEqXSAsusQ+xxifpG0ojdlzCmiy0a/h+S7qyDU+JvZS9/+UXKTpZWeU1mqUFGTg8JDQpKuNk7kyvr50Rc1Ww+1AF6KdA9yCd4SZOdLSIU98E9II/W76/JKGJ/DDi97
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR01MB6409
-Received-SPF: pass client-ip=40.107.223.115;
+X-MS-Exchange-CrossTenant-UserPrincipalName: ksDi7oC7b9s1IiGx05mHGfbEQbKzV3f2hPoScjGiRCPcDNXCnKg0XIOrK7yjih4qQXfbDGu6wHsNKBwF3EHT86NbH2ZbaPanzUp6nijUFXcMtplRqBHR+iH2zLH7+Tsy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR01MB2324
+Received-SPF: pass client-ip=2a01:111:f400:7eae::700;
  envelope-from=aaron@os.amperecomputing.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -133,118 +134,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Aaron Lindsay <aaron@os.amperecomputing.com>
-From:  Aaron Lindsay via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Nov 15 22:36, Alex Bennée wrote:
-> 
-> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
-> 
-> > Hello,
-> >
-> > I have been wrestling with what might be a bug in the plugin memory
-> > callbacks. The immediate error is that I hit the
-> > `g_assert_not_reached()` in the 'default:' case in
-> > qemu_plugin_vcpu_mem_cb, indicating the callback type was invalid. When
-> > breaking on this assertion in gdb, the contents of cpu->plugin_mem_cbs
-> > are obviously bogus (`len` was absurdly high, for example).  After doing
-> > some further digging/instrumenting, I eventually found that
-> > `free_dyn_cb_arr(void *p, ...)` is being called shortly before the
-> > assertion is hit with `p` pointing to the same address as
-> > `cpu->plugin_mem_cbs` will later hold at assertion-time. We are freeing
-> > the memory still pointed to by `cpu->plugin_mem_cbs`.
-> >
-> > I believe the code *should* always reset `cpu->plugin_mem_cbs` to NULL at the
-> > end of an instruction/TB's execution, so its not exactly clear to me how this
-> > is occurring. However, I suspect it may be relevant that we are calling
-> > `free_dyn_cb_arr()` because my plugin called `qemu_plugin_reset()`.
-> 
-> Hmm I'm going to have to remind myself about how this bit works.
-> 
-> >
-> > I have additionally found that the below addition allows me to run successfully
-> > without hitting the assert:
-> >
-> > diff --git a/plugins/core.c b/plugins/core.c
-> > --- a/plugins/core.c
-> > +++ b/plugins/core.c
-> > @@ -427,9 +427,14 @@ static bool free_dyn_cb_arr(void *p, uint32_t h, void *userp)
-> >
-> >  void qemu_plugin_flush_cb(void)
-> >  {
-> > +    CPUState *cpu;
-> >      qht_iter_remove(&plugin.dyn_cb_arr_ht, free_dyn_cb_arr, NULL);
-> >      qht_reset(&plugin.dyn_cb_arr_ht);
-> >
-> > +    CPU_FOREACH(cpu) {
-> > +        cpu->plugin_mem_cbs = NULL;
-> > +    }
-> > +
-> 
-> This is essentially qemu_plugin_disable_mem_helpers() but for all CPUs.
-> I think we should be able to treat the CPUs separately.
+Sorry, left off the very end of my timeline:
 
-I agree it's similar to qemu_plugin_disable_mem_helpers(), but for all
-CPUs. Though a perhaps important distinction is that its occurring
-unconditionally in conjunction with the event which flushes the TBs and
-frees the callback arrays.
+On Nov 18 16:58, Aaron Lindsay wrote:
+> I have, so far, discovered the following timeline:
+> 1. My plugin receives a instruction execution callback for a load
+>    instruction. At this time, cpu->plugin_mem_cbs points to the same
+>    memory which will later be freed
+> 2. During the handling of this callback, my plugin calls qemu_plugin_reset()
+> 3. Ostensibly something goes wrong here with the cleanup of
+>    cpu->plugin_mem_cbs??? 
+> 4. Step 2 triggers the TBs to be flushed, which frees the memory pointed
+>    to by cpu->plugin_mem_cbs 
 
-Isn't the code calling into qemu_plugin_flush_cb() already clearing TBs
-for all CPUs? Can you help me understand why treating the CPUs
-separately would be better?
-
-> >      plugin_cb__simple(QEMU_PLUGIN_EV_FLUSH);
-> >  }
-> >
-> > Unfortunately, the workload/setup I have encountered this bug with are
-> > difficult to reproduce in a way suitable for sharing upstream (admittedly
-> > potentially because I do not fully understand the conditions necessary to
-> > trigger it). It is also deep into a run
-> 
-> How many full TB flushes have there been? You only see
-> qemu_plugin_flush_cb when we flush whole translation buffer (which is
-> something we do more often when plugins exit).
-
-There have been maybe hundreds of TB flushes at this point (I, erm, use
-qemu_plugin_reset() somewhat liberally in this plugin). I believe it is
-the most recent such flush that is problematic - I observe the call to
-free_dyn_cb_arr() mentioned above as a result of it.
-
-> Does lowering tb-size make it easier to hit the failure mode?
-
-Hrm, interesting, I have not tried that. I'll poke at that if the rr
-debug doesn't pan out.
-
-> > , and I haven't found a good way
-> > to break in gdb immediately prior to it happening in order to inspect
-> > it, without perturbing it enough such that it doesn't happen...
-> 
-> This is exactly the sort of thing rr is great for. Can you trigger it in
-> that?
-> 
->   https://rr-project.org/
-
-I had not used rr before, thanks for the push to do so!
-
-I have, so far, discovered the following timeline:
-1. My plugin receives a instruction execution callback for a load
-   instruction. At this time, cpu->plugin_mem_cbs points to the same
-   memory which will later be freed
-2. During the handling of this callback, my plugin calls qemu_plugin_reset()
-3. Ostensibly something goes wrong here with the cleanup of
-   cpu->plugin_mem_cbs??? 
-4. Step 2 triggers the TBs to be flushed, which frees the memory pointed
-   to by cpu->plugin_mem_cbs 
-
-Since I have this nicely recorded now with rr, it ought to be easier to
-poke at, though I admit I'm not entirely sure how to poke at the
-generated code to see what's going wrong (i.e. why wouldn't the tb exit
-stuff be clearing this pointer like normal?).
-
-> > I welcome any feedback or insights on how to further nail down the
-> > failure case and/or help in working towards an appropriate solution.
+5. A store exclusive instruction is translated and then executed, which
+   requires the use of a helper. When executed, this helper checks
+   cpu->plugin_mem_cbs, which is non-null, so it attempts to dereference
+   and use it, resulting in the assertion. 
 
 -Aaron
 
