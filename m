@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B566662EB8A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 03:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9369162EB87
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 02:59:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovqdp-0004ux-FV; Thu, 17 Nov 2022 20:58:05 -0500
+	id 1ovqdp-0004ut-9s; Thu, 17 Nov 2022 20:58:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ovqdo-0004ul-Av
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:04 -0500
+ id 1ovqdn-0004tz-6T
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:03 -0500
 Received: from mga04.intel.com ([192.55.52.120])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ovqdm-0007Pp-Hl
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:04 -0500
+ id 1ovqdl-0007Pe-Lv
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 20:58:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668736682; x=1700272682;
+ t=1668736681; x=1700272681;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wKZwwxUFsMcgW4jsvA1xTPC8gB4fMwiqSqG6joE4a4U=;
- b=gsvy21+JmUG6Cv2s1x2oniAM9j8v+E9FFmgksLEWd07Fht2tcxojm3Kw
- BfzrGMU9DyMofl7WsPQTuD/S7v8I0nmRdR0kUZD2GdB0n7QBPCuQcx16p
- nvDQD1jPCeabFUtIrVPQO0KwYA4C+h9yTdU3eaTfPbGT+ZXek1MN21ZBj
- pr7whwsW/rCveL468zOdoJQ+yxf5qU8ka2iLebvhq3+HLOic5J8OCGwXs
- QOqX2HwLReOr7mM/0SrXwqPP7cmRbEKHF9tN10tOiPDftcOKVio2FF88Z
- swksojGzKAwkw+0Q/AuGavD4DNlqHODUux8DY9LNrkjc2MN4iezbyCDgE A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="311731510"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="311731510"
+ bh=oXuv0bqBvJSqJlVZ86xJBVuX2v+9XZpsn6wJkK1oPEc=;
+ b=NNM95T/ZVz1bamykNdbRERW1rXRuGAlta/53nC8lke36vgeBdI6wTKFJ
+ 4WWcK21sjjSKG+jRod9EQRC/bFgIWvTPWCwOlX/COXrOn9CXUUOXUlbpK
+ fRLXymFRskcST+kWs+r4soJ/vWxo+MeCB+MB0Zv1aIoW4WUhZigPqQCI8
+ iFTkKvfngHHHeYl4JsCqYK5M48gSbK1SHHBtWlPIXsJcRnevdGUp5a7zE
+ KqEAnAxxwU71Skk/L+AKrDkco7fV4g/gZ5rSTdx+ybqnkkgOOJmcmKf2d
+ kdVA2tOwV089/KN24UWl0zbQIYKuCgFNKtDfvqImUSDQN+xx8LkjmdPiy A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="311731511"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="311731511"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Nov 2022 17:57:53 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="708859342"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="708859342"
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="708859345"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="708859345"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Nov 2022 17:57:53 -0800
@@ -44,9 +44,10 @@ From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
  Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v1 1/2] virtio-gpu: Provide position info (x, y) to the Guest
-Date: Thu, 17 Nov 2022 17:37:22 -0800
-Message-Id: <20221118013723.182424-2-vivek.kasireddy@intel.com>
+Subject: [PATCH v1 2/2] ui/gtk: Include the position info while setting the ui
+ info
+Date: Thu, 17 Nov 2022 17:37:23 -0800
+Message-Id: <20221118013723.182424-3-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20221118013723.182424-1-vivek.kasireddy@intel.com>
 References: <20221118013723.182424-1-vivek.kasireddy@intel.com>
@@ -76,32 +77,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While filling out the display info such as width, height to
-be provided to the Guest, make sure that the position information
-(x, y) is also included. This position info corresponds with the
-x and y fields mentioned in the spec:
-https://github.com/oasis-tcs/virtio-spec/blob/master/virtio-gpu.tex#L343
+In situtations where the Guest uses multiple displays/outputs, this
+position info is useful for aligning the Guest's outputs with that of
+the Host's.
 
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- hw/display/virtio-gpu-base.c | 2 ++
- 1 file changed, 2 insertions(+)
+ ui/gtk.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index a29f191aa8..3b6b480131 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -47,6 +47,8 @@ virtio_gpu_base_fill_display_info(VirtIOGPUBase *g,
-             dpy_info->pmodes[i].enabled = 1;
-             dpy_info->pmodes[i].r.width = cpu_to_le32(g->req_state[i].width);
-             dpy_info->pmodes[i].r.height = cpu_to_le32(g->req_state[i].height);
-+            dpy_info->pmodes[i].r.x = cpu_to_le32(g->req_state[i].x);
-+            dpy_info->pmodes[i].r.y = cpu_to_le32(g->req_state[i].y);
-         }
-     }
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 92daaa6a6e..12b3bc6481 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -714,12 +714,31 @@ static gboolean gd_window_close(GtkWidget *widget, GdkEvent *event,
+     return TRUE;
  }
+ 
++static void gd_set_ui_window_position(VirtualConsole *vc, QemuUIInfo *info)
++{
++    GdkDisplay *dpy = gtk_widget_get_display(vc->gfx.drawing_area);
++    GdkWindow *window;
++    GdkMonitor *monitor;
++    GdkRectangle geometry;
++
++    if (!gtk_widget_get_realized(vc->gfx.drawing_area)) {
++        return;
++    }
++
++    window = gtk_widget_get_window(vc->gfx.drawing_area);
++    monitor = gdk_display_get_monitor_at_window(dpy, window);
++    gdk_monitor_get_geometry(monitor, &geometry);
++    info->xoff = geometry.x;
++    info->yoff = geometry.y;
++}
++
+ static void gd_set_ui_refresh_rate(VirtualConsole *vc, int refresh_rate)
+ {
+     QemuUIInfo info;
+ 
+     info = *dpy_get_ui_info(vc->gfx.dcl.con);
+     info.refresh_rate = refresh_rate;
++    gd_set_ui_window_position(vc, &info);
+     dpy_set_ui_info(vc->gfx.dcl.con, &info, true);
+ }
+ 
+@@ -730,6 +749,7 @@ static void gd_set_ui_size(VirtualConsole *vc, gint width, gint height)
+     info = *dpy_get_ui_info(vc->gfx.dcl.con);
+     info.width = width;
+     info.height = height;
++    gd_set_ui_window_position(vc, &info);
+     dpy_set_ui_info(vc->gfx.dcl.con, &info, true);
+ }
+ 
 -- 
 2.37.2
 
