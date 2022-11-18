@@ -2,103 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2ABB62F318
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 11:58:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DFE62F3CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 12:34:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovz3s-0002Ce-Av; Fri, 18 Nov 2022 05:57:32 -0500
+	id 1ovzcU-0002MM-N9; Fri, 18 Nov 2022 06:33:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ovz3p-0002Bp-O5
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:57:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ovz3n-0005Oj-Hb
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:57:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668769046;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oBIxByXGS4Hm5BQKHZL5NOAH0ihXHx1o+pZgwD5uaAw=;
- b=E+i4G4cdy+Px8+P6EwJPhborakUYzzkK8602/h9QBCxQNh3zo84NcvGyNes6ztLdI/6Bgj
- upx0xkS03b506/Dfk7Hf6TLOYbo1XsmiQtZjikhwc63KMKh0aJ8NNtvCfbm0cjs2jTbT1H
- 2RNgZs899+OzwCEFJu7B+d9paiipGZw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-104-UwbfRP8kN7-4WBS3x7sYFg-1; Fri, 18 Nov 2022 05:57:25 -0500
-X-MC-Unique: UwbfRP8kN7-4WBS3x7sYFg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d23-20020adfa417000000b002364a31b7c9so1436344wra.15
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 02:57:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ovzcS-0002Ll-S5
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 06:33:16 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ovzcR-0002xR-0I
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 06:33:16 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id l14so8877932wrw.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 03:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qULwiyV9C4bIT1QDUCkTK52AWSmcqnEMRqJzJ8/vEmQ=;
+ b=RZxzCznsyvGCbW8r5P46u67U4Mv4fmdlvaHeu6GQyH8r8bhbBXhyuzeHiJ5yXqAxld
+ /Zd0jE8F4fs8XGsUnKBcGIL9IXXsCX/VK2cbKjKB/31qcpuMouu+5gid7YTimaJYF2fg
+ c0jqhlaKjUJ8fJGdVSMOzhVv8lwncP8Slr/xgLQL0nXVCLPAHFUL9BMLNKovNb0cuKmo
+ Cx6nxhstb1St7RTvI9e75sZ0kxz4Ig9Zy8hluGd9WgHLrixwpr/lqcmEPn0RSdegJjI3
+ iyN+z+OoNJrwTiwfn1N0GeC2cXiILZYY4yjVmqJfrRaNzXWRyUoLfxJr04QnhbMi6j4e
+ hk+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oBIxByXGS4Hm5BQKHZL5NOAH0ihXHx1o+pZgwD5uaAw=;
- b=1rY5RG6tZEba8r/gK7PBvqeeWsH5q9fYMktFWuxZS2ZSLpOQw0MxAAoSJGyFrWRiZo
- 3EFpE28OwD4WgjogkHKUtve2c52Ad9sUtoesfeIy/OrOU22QC4ECrzlPs/nEHQN4JvE0
- xfZtM0YNnJFVG5zrwBjeVEYuAHPaE4meBuxBamWTVUSvwY0rXMi5Gq94Iv2K82MyuaRJ
- 45xLn8dtudZd7b5vu9uz5Cw57nCB/qjO8NIH1CyGEFg3k+JrPyPEBhAdhdGS0wvm+1f/
- +elcPFcggWfaUQcr2o9t+d0qia0TIA1sZGQMgbcNVeHOLurToUMX3042zuptLvCvN34D
- V+Rg==
-X-Gm-Message-State: ANoB5pkJ5zXwPdy8dlJ3eenVBAxJcTJH32HxVqOUIgscRdrcXkyb2Hu8
- z7eky1qvMZi0GE+KmL3BBdSmOrfJc7ZcMP2DaLGhxFCaxI/zz0zLySrFdtUD4+B7/otJ+ZLNZOh
- Wxcc9oz1hODFqvyE=
-X-Received: by 2002:adf:b342:0:b0:236:62ce:3db with SMTP id
- k2-20020adfb342000000b0023662ce03dbmr3938466wrd.687.1668769043827; 
- Fri, 18 Nov 2022 02:57:23 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf67VrFcOBz227guj/X14Vlu7lS50Rha/CXIXJUsMqay0v558IqF8dtod6ZEIFrkK3UNsoXIUQ==
-X-Received: by 2002:adf:b342:0:b0:236:62ce:3db with SMTP id
- k2-20020adfb342000000b0023662ce03dbmr3938434wrd.687.1668769043513; 
- Fri, 18 Nov 2022 02:57:23 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- w3-20020a5d6803000000b00228d67db06esm3290970wru.21.2022.11.18.02.57.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 02:57:22 -0800 (PST)
-Message-ID: <e218aa44-6c49-d53f-d377-58a90a84db46@redhat.com>
-Date: Fri, 18 Nov 2022 11:57:21 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qULwiyV9C4bIT1QDUCkTK52AWSmcqnEMRqJzJ8/vEmQ=;
+ b=gKZI6Gu1ZlX0gEiKVoVOcL4DAY4COyk1HTlRvROJNGT/0C36Zl7hCsdwCI4ukmzRJD
+ bLw9ZXrZlJkWdEa347KmLwu1yXa24yNF9QDPFXVDYdmNZmEv/yyUfRY1RWAMIjW7igVq
+ g/Q4uQy3dKXHkPqCIhIXuUQdU/z/cLLOyrURhFV9JjRYK7ViRWR6D4HXkDQSwcKPe+Xs
+ DisvSk+W9wZnwRtfHGd1qUeR/7/bO02GnqccDf4mhXn1ehtF2ACSkVSAvTyrYOWtBEsA
+ IAXmI9jo4JJw4pLJASKHVobCxciegjzcThDgeBvKfTQUmpfdwqN4hvRhsnVR1Mc0TIrt
+ lNYA==
+X-Gm-Message-State: ANoB5pli3Nkhr8X/RudhVcwRo7EcNpGj/GJ6ji0VU8opQH6zU6hCzE8u
+ uX34HZvz2rSyTwPP710X1AmZCA==
+X-Google-Smtp-Source: AA0mqf5UfRr3aY7DhOUM6YB/jUxUfKy5QiPeklKnBN6hl9YEIqgtwvT2ArjtCntzncLjBjLHsjBpMA==
+X-Received: by 2002:adf:f8d0:0:b0:22c:d1ad:3f9c with SMTP id
+ f16-20020adff8d0000000b0022cd1ad3f9cmr3873583wrq.445.1668771192905; 
+ Fri, 18 Nov 2022 03:33:12 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ c20-20020a7bc854000000b003b476cabf1csm4212138wml.26.2022.11.18.03.33.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 03:33:12 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AA10A1FFB7;
+ Fri, 18 Nov 2022 11:33:11 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, philmd@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
+Date: Fri, 18 Nov 2022 11:33:09 +0000
+Message-Id: <20221118113309.1057790-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 00/15] Protect the block layer with a rwlock: part 3
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Ari Sundholm <ari@tuxera.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Peter Lieven <pl@kamp.de>,
- Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Alberto Garcia <berto@igalia.com>,
- Ilya Dryomov <idryomov@gmail.com>, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- integration@gluster.org
-References: <20221116140730.3056048-1-eesposit@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20221116140730.3056048-1-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,31 +94,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/16/22 15:07, Emanuele Giuseppe Esposito wrote:
-> Here we introduce generated_co_wrapper_simple, a simplification of g_c_w that
-> only considers the case where the caller is not in a coroutine.
-> This simplifies and clarifies a lot when the caller is a coroutine or not, and
-> in the future will hopefully replace g_c_w.
+The old URL wasn't stable. I suspect the current URL will only be
+stable for a few months so maybe we need another strategy for hosting
+rootfs snapshots?
 
-This is a good idea!
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/avocado/boot_linux_console.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Just one thing, though it belongs more in the two series which 
-introduced generated_co_wrapper_simple and generated_co_wrapper_blk - I 
-would make this the "official" wrapper.  So perhaps:
-
-- generated_co_wrapper_simple -> coroutine_wrapper
-- generated_co_wrapper_blk -> coroutine_wrapper_mixed
-- generated_co_wrapper -> coroutine_wrapper_mixed_bdrv
-
-?  It is not clear to me yet if you will have bdrv_* functions that take 
-the rdlock as well - in which case however coroutine_wrapper_bdrv would 
-not be hard to add.
-
-Even without looking at the lock, the three series are going in the 
-right direction of ultimately having more "simple" coroutine wrappers at 
-the blk_* level and more coroutine functions (ultimately less wrappers, 
-too) at the bdrv_* level.
-
-Paolo
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 4c9d551f47..5a2923c423 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
+         dtb_path = '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
+         dtb_path = self.extract_from_deb(deb_path, dtb_path)
+         rootfs_url = ('http://storage.kernelci.org/images/rootfs/buildroot/'
+-                      'kci-2019.02/armel/base/rootfs.ext2.xz')
+-        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
++                      'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
++        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
+         rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
+         rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
+         archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
+-- 
+2.34.1
 
 
