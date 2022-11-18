@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DFE62F3CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 12:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AC362F426
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 13:01:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovzcU-0002MM-N9; Fri, 18 Nov 2022 06:33:18 -0500
+	id 1ow01i-0002Lw-TG; Fri, 18 Nov 2022 06:59:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovzcS-0002Ll-S5
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 06:33:16 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ovzcR-0002xR-0I
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 06:33:16 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id l14so8877932wrw.2
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 03:33:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qULwiyV9C4bIT1QDUCkTK52AWSmcqnEMRqJzJ8/vEmQ=;
- b=RZxzCznsyvGCbW8r5P46u67U4Mv4fmdlvaHeu6GQyH8r8bhbBXhyuzeHiJ5yXqAxld
- /Zd0jE8F4fs8XGsUnKBcGIL9IXXsCX/VK2cbKjKB/31qcpuMouu+5gid7YTimaJYF2fg
- c0jqhlaKjUJ8fJGdVSMOzhVv8lwncP8Slr/xgLQL0nXVCLPAHFUL9BMLNKovNb0cuKmo
- Cx6nxhstb1St7RTvI9e75sZ0kxz4Ig9Zy8hluGd9WgHLrixwpr/lqcmEPn0RSdegJjI3
- iyN+z+OoNJrwTiwfn1N0GeC2cXiILZYY4yjVmqJfrRaNzXWRyUoLfxJr04QnhbMi6j4e
- hk+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qULwiyV9C4bIT1QDUCkTK52AWSmcqnEMRqJzJ8/vEmQ=;
- b=gKZI6Gu1ZlX0gEiKVoVOcL4DAY4COyk1HTlRvROJNGT/0C36Zl7hCsdwCI4ukmzRJD
- bLw9ZXrZlJkWdEa347KmLwu1yXa24yNF9QDPFXVDYdmNZmEv/yyUfRY1RWAMIjW7igVq
- g/Q4uQy3dKXHkPqCIhIXuUQdU/z/cLLOyrURhFV9JjRYK7ViRWR6D4HXkDQSwcKPe+Xs
- DisvSk+W9wZnwRtfHGd1qUeR/7/bO02GnqccDf4mhXn1ehtF2ACSkVSAvTyrYOWtBEsA
- IAXmI9jo4JJw4pLJASKHVobCxciegjzcThDgeBvKfTQUmpfdwqN4hvRhsnVR1Mc0TIrt
- lNYA==
-X-Gm-Message-State: ANoB5pli3Nkhr8X/RudhVcwRo7EcNpGj/GJ6ji0VU8opQH6zU6hCzE8u
- uX34HZvz2rSyTwPP710X1AmZCA==
-X-Google-Smtp-Source: AA0mqf5UfRr3aY7DhOUM6YB/jUxUfKy5QiPeklKnBN6hl9YEIqgtwvT2ArjtCntzncLjBjLHsjBpMA==
-X-Received: by 2002:adf:f8d0:0:b0:22c:d1ad:3f9c with SMTP id
- f16-20020adff8d0000000b0022cd1ad3f9cmr3873583wrq.445.1668771192905; 
- Fri, 18 Nov 2022 03:33:12 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- c20-20020a7bc854000000b003b476cabf1csm4212138wml.26.2022.11.18.03.33.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 03:33:12 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA10A1FFB7;
- Fri, 18 Nov 2022 11:33:11 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, philmd@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
-Date: Fri, 18 Nov 2022 11:33:09 +0000
-Message-Id: <20221118113309.1057790-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ow01g-0002Lf-J7; Fri, 18 Nov 2022 06:59:20 -0500
+Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ow01d-0006yr-RL; Fri, 18 Nov 2022 06:59:20 -0500
+Received: from [192.168.3.6] (unknown [180.165.240.202])
+ by APP-05 (Coremail) with SMTP id zQCowABnbraKc3djYGkrCg--.21366S2;
+ Fri, 18 Nov 2022 19:59:08 +0800 (CST)
+Message-ID: <7af51b39-79b1-b2d8-a2a2-0d27a26b3701@iscas.ac.cn>
+Date: Fri, 18 Nov 2022 19:59:06 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 7/9] target/riscv: add support for Zcmt extension
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20221118071704.26959-1-liweiwei@iscas.ac.cn>
+ <20221118071704.26959-8-liweiwei@iscas.ac.cn>
+ <f3525752-ac4b-f355-7ed5-3e9cf88e3116@linaro.org>
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <f3525752-ac4b-f355-7ed5-3e9cf88e3116@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: zQCowABnbraKc3djYGkrCg--.21366S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWFyDXFyDGF4fKF4fJrW5KFg_yoW5WF1rpF
+ 1ktrWUAFWUJr95Xw1UGryDJFy5Ar18G3WUXr48XFyUJay7Ar1Fgr1UXrZ09r1UCr4kZr4U
+ AF15ZFnrur13XFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+ v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+ c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4U
+ MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
+ UUU
+X-Originating-IP: [180.165.240.202]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,31 +79,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old URL wasn't stable. I suspect the current URL will only be
-stable for a few months so maybe we need another strategy for hosting
-rootfs snapshots?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/avocado/boot_linux_console.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 2022/11/18 18:24, Richard Henderson wrote:
+> On 11/17/22 23:17, Weiwei Li wrote:
+>> +target_ulong HELPER(cm_jalt)(CPURISCVState *env, target_ulong index,
+>> +                             target_ulong next_pc)
+>> +{
+>> +
+>> +#if !defined(CONFIG_USER_ONLY)
+>> +    RISCVException ret = smstateen_acc_ok(env, 0, SMSTATEEN0_JVT);
+>> +    if (ret != RISCV_EXCP_NONE) {
+>> +        riscv_raise_exception(env, ret, GETPC());
+>> +    }
+>> +#endif
+>> +
+>> +    target_ulong target = next_pc;
+>> +    target_ulong val = 0;
+>> +    int xlen = riscv_cpu_xlen(env);
+>> +
+>> +    val = env->jvt;
+>> +
+>> +    uint8_t mode = get_field(val, JVT_MODE);
+>> +    target_ulong base = get_field(val, JVT_BASE);
+>> +    target_ulong t0;
+>> +
+>> +    if (mode != 0) {
+>> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+>> +    }
+>> +
+>> +    if (xlen == 32) {
+>> +        t0 = base + (index << 2);
+>> +        target = cpu_ldl_code(env, t0);
+>> +    } else {
+>> +        t0 = base + (index << 3);
+>> +        target = cpu_ldq_code(env, t0);
+>> +    }
+>
+> Much better.  The only problem is here where cpu_ld*_code does not 
+> have support for unwind from exception.  If this load faults, we won't 
+> update env->pc on the way out (we are normally loading for code during 
+> translation, where pc is perforce up to date).  I should have noticed 
+> this before.
+>
+> The way to fix this is to update cpu_pc to the current instruction 
+> before calling the helper.  At which point none of the other exception 
+> exits need to unwind either, so you can replace all of the GETPC() 
+> with 0.
+OK.  I'll fix it.
+>
+>> +
+>> +    /* index >= 32 for cm.jalt, otherwise for cm.jt */
+>> +    if (index >= 32) {
+>> +        env->gpr[1] = next_pc;
+>> +    }
+>
+> This is simple enough to do in the caller, and then you don't need to 
+> pass in next_pc.
+> And since you don't modify xRA in the helper you can do
+>
+> DEF_HELPER_FLAGS_3(cm_jt, TCG_CALL_NO_WG, tl, env, tl, tl)
+>
+> static bool trans_cm_jalt(DisasContext *ctx, arg_cm_jalt *a)
+> {
+>     REQUIRE_ZCMT(ctx);
+>
+>     /*
+>      * Update pc to current for the non-unwinding exception
+>      * that might come from cpu_ld*_code() in the helper.
+>      */
+>     tcg_gen_movi_tl(cpu_pc, s->base.pc_next);
+>     gen_helper_cm_jt(cpu_pc, cpu_env, tcg_constant_i32(a->index))
+>
+>     /* c.jt vs c.jalt depends on the index. */
+>     if (a->index >= 32) {
+>         gen_set_gpri(ctx, xRA, ctx->pc_succ_insn);
+>     }
+>     tcg_gen_lookup_and_goto_ptr();
+>     ctx->base.is_jmp = DISAS_NORETURN;
+>     return true;
+> }
+>
+OK. I'll update it. Thanks a lot.
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 4c9d551f47..5a2923c423 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
-         dtb_path = '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
-         dtb_path = self.extract_from_deb(deb_path, dtb_path)
-         rootfs_url = ('http://storage.kernelci.org/images/rootfs/buildroot/'
--                      'kci-2019.02/armel/base/rootfs.ext2.xz')
--        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
-+                      'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
-+        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
-         rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
-         rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
-         archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
--- 
-2.34.1
+Regards,
+
+Weiwei Li
+
+>
+> r~
 
 
