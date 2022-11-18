@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588A962F24C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 11:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424D162F285
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 11:26:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovyOS-0005iJ-WC; Fri, 18 Nov 2022 05:14:45 -0500
+	id 1ovyYJ-0002n9-6u; Fri, 18 Nov 2022 05:24:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ovyOQ-0005c7-Ge
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:14:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ovyON-0006Ca-U5
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:14:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668766479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UwF+hK0hYZHkUUTdtD+IwRx9BoEUDj8uehw69wK1ITM=;
- b=ZcRq4wq4zONs5aNQdCTHFYJepC+/n5ZpxF6ugnB4NNb+hCpsL/o8IZcpX84OyaUkGW9V9q
- odwKZZM1QRii9iLtCSvLi/aM1rmObsOtRwgOs1a7HDdQQDMtJPTvvPV240tdeDCZ+kEIKM
- Vb1867tYyJDF6r5pobY7cv/1VBcSYEA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-GPKWHuhbO_6o_JTy-Nu88A-1; Fri, 18 Nov 2022 05:14:34 -0500
-X-MC-Unique: GPKWHuhbO_6o_JTy-Nu88A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76728833A09;
- Fri, 18 Nov 2022 10:14:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D3F349BB67;
- Fri, 18 Nov 2022 10:14:31 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <philmd@linaro.org>, Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, =?utf-8?Q?C=C3=A9dric?= Le
- Goater
- <clg@kaod.org>, David Gibson <david@gibson.dropbear.id.au>, Greg Kurz
- <groug@kaod.org>, David Hildenbrand <david@redhat.com>, Ilya Leoshkevich
- <iii@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH for-8.0] hw: Add compat machines for 8.0
-In-Reply-To: <32f9a700-28f3-ada6-9526-c53cdcd3b5ac@redhat.com>
-Organization: Red Hat GmbH
-References: <20221111124534.129111-1-cohuck@redhat.com>
- <32f9a700-28f3-ada6-9526-c53cdcd3b5ac@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Fri, 18 Nov 2022 11:14:27 +0100
-Message-ID: <87pmdksh6k.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ovyYH-0002mu-Jp
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:24:53 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ovyYF-0007pA-Sh
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 05:24:53 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ l22-20020a17090a3f1600b00212fbbcfb78so7914306pjc.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 02:24:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uroZis+7jgNfXIzvLcargZzE2mwVuhtS6HFie8NStKw=;
+ b=GPma3PnQ+VJ7rtAHel8NKkRXbyYT10U+zKnfkBYWymeQp18VKDig628mVtx5b0SOMH
+ XAGfr0cs1Q2LWxsvJL7TLnmnCDpfZhn27OfnKEOZCg0mNSdOSyYd98ySeC6P9ETTBaY/
+ ZfY3pb4cji5UWtOvhN5EAoGeNstsBsDC/j6bIudT+s0L7QKnpI5mfPyuV4p2obVbKQsX
+ sGUaIxKqGvKhwAos6eTGWg7ggd4hRmvuhKqqPjCn7cNaepa/sdj0RO86XH72mMyM0qZ7
+ rD8BbBhbBfj3tdgNCcVXiDfMvbrIVXbathRGePJ8mWob9O6y6BvuKyKOPSZhZf29Bn+F
+ Mw4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uroZis+7jgNfXIzvLcargZzE2mwVuhtS6HFie8NStKw=;
+ b=CQOCazvMjXVmFYdMVheKNQ7vrQEdvRj7oeqz2/xUrA3Oo7h9QvgapmnmRW4h+1j6UT
+ nejB9LPHKUTjw9lgT+EifPri6/dzq3ZVqZYgA1qRtrVootNnl2srw8TieQwO77mz0gdC
+ 8WiWoRog4S8r48eFkvgdMT7R/VEvDew1LDR/R5e4YpNxR9fTL86H3GqXrcGslHWmvNRB
+ XOanTyMGqBh8haI3xYJcuSicqguL8BfAHqqKUXgpHQforyRvRzlQW/OS+oH9Q3x8xJVt
+ T1uwwl1N6CjUEzYCE1Lv20KsmY4qd6xW97eCu/wbG2apq5gIP027kpYwzyTwsvs/MM0G
+ I70w==
+X-Gm-Message-State: ANoB5pmV2+HFu3sfd8FgPrv7cKpef9KEuO01HOVK+i6d9+z4iriJ0hky
+ CK1QXFAhLHrxEIVk8NrOtm3Egg==
+X-Google-Smtp-Source: AA0mqf5az+zI+sBtmHdE3FeFCMLwfA0NbW9DKLqj3ugr/NEYW8IiUDB2TSMo5l0Auy3zpKsNsDFBKA==
+X-Received: by 2002:a17:90b:4390:b0:218:4d16:e0c7 with SMTP id
+ in16-20020a17090b439000b002184d16e0c7mr7209448pjb.105.1668767090068; 
+ Fri, 18 Nov 2022 02:24:50 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:90b2:345f:bf0a:c412?
+ ([2602:47:d48a:1201:90b2:345f:bf0a:c412])
+ by smtp.gmail.com with ESMTPSA id
+ e89-20020a17090a6fe200b002137d3da760sm5060350pjk.39.2022.11.18.02.24.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Nov 2022 02:24:49 -0800 (PST)
+Message-ID: <f3525752-ac4b-f355-7ed5-3e9cf88e3116@linaro.org>
+Date: Fri, 18 Nov 2022 02:24:47 -0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 7/9] target/riscv: add support for Zcmt extension
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20221118071704.26959-1-liweiwei@iscas.ac.cn>
+ <20221118071704.26959-8-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221118071704.26959-8-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,94 +97,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 18 2022, Thomas Huth <thuth@redhat.com> wrote:
+On 11/17/22 23:17, Weiwei Li wrote:
+> +target_ulong HELPER(cm_jalt)(CPURISCVState *env, target_ulong index,
+> +                             target_ulong next_pc)
+> +{
+> +
+> +#if !defined(CONFIG_USER_ONLY)
+> +    RISCVException ret = smstateen_acc_ok(env, 0, SMSTATEEN0_JVT);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        riscv_raise_exception(env, ret, GETPC());
+> +    }
+> +#endif
+> +
+> +    target_ulong target = next_pc;
+> +    target_ulong val = 0;
+> +    int xlen = riscv_cpu_xlen(env);
+> +
+> +    val = env->jvt;
+> +
+> +    uint8_t mode = get_field(val, JVT_MODE);
+> +    target_ulong base = get_field(val, JVT_BASE);
+> +    target_ulong t0;
+> +
+> +    if (mode != 0) {
+> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+> +    }
+> +
+> +    if (xlen == 32) {
+> +        t0 = base + (index << 2);
+> +        target = cpu_ldl_code(env, t0);
+> +    } else {
+> +        t0 = base + (index << 3);
+> +        target = cpu_ldq_code(env, t0);
+> +    }
 
-> On 11/11/2022 13.45, Cornelia Huck wrote:
->> Add 8.0 machine types for arm/i440fx/m68k/q35/s390x/spapr.
->> 
->> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->> ---
-> ...
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index 0ad0ed160387..1c0a7b83b545 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -435,7 +435,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
->>       machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
->>   }
->>   
->> -static void pc_i440fx_7_2_machine_options(MachineClass *m)
->> +static void pc_i440fx_8_0_machine_options(MachineClass *m)
->>   {
->>       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->>       pc_i440fx_machine_options(m);
->> @@ -444,6 +444,18 @@ static void pc_i440fx_7_2_machine_options(MachineClass *m)
->>       pcmc->default_cpu_version = 1;
->
-> Instead of renaming pc_i440fx_7_2_machine_options() and introducing a new 
-> pc_i440fx_7_2_machine_options() below, what about moving 
-> pcmc->default_cpu_version = 1 into pc_i440fx_machine_options() instead, like 
-> it is done with all other options? Then you could introduce a completely new 
-> pc_i440fx_8_0_machine_options() which would be way more logical (also when 
-> looking at this file with "git blame" later).
->
->>   }
->>   
->> +DEFINE_I440FX_MACHINE(v8_0, "pc-i440fx-8.0", NULL,
->> +                      pc_i440fx_8_0_machine_options);
->> +
->> +static void pc_i440fx_7_2_machine_options(MachineClass *m)
->> +{
->> +    pc_i440fx_8_0_machine_options(m);
->> +    m->alias = NULL;
->> +    m->is_default = false;
->> +    compat_props_add(m->compat_props, hw_compat_7_2, hw_compat_7_2_len);
->> +    compat_props_add(m->compat_props, pc_compat_7_2, pc_compat_7_2_len);
->> +}
->> +
->>   DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
->>                         pc_i440fx_7_2_machine_options);
->>   
->> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
->> index a496bd6e74f5..10bb49f679b0 100644
->> --- a/hw/i386/pc_q35.c
->> +++ b/hw/i386/pc_q35.c
->> @@ -370,7 +370,7 @@ static void pc_q35_machine_options(MachineClass *m)
->>       m->max_cpus = 288;
->>   }
->>   
->> -static void pc_q35_7_2_machine_options(MachineClass *m)
->> +static void pc_q35_8_0_machine_options(MachineClass *m)
->>   {
->>       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->>       pc_q35_machine_options(m);
->> @@ -378,6 +378,17 @@ static void pc_q35_7_2_machine_options(MachineClass *m)
->>       pcmc->default_cpu_version = 1;
->
-> dito
->
->>   }
->>   
->> +DEFINE_Q35_MACHINE(v8_0, "pc-q35-8.0", NULL,
->> +                   pc_q35_8_0_machine_options);
->> +
->> +static void pc_q35_7_2_machine_options(MachineClass *m)
->> +{
->> +    pc_q35_8_0_machine_options(m);
->> +    m->alias = NULL;
->> +    compat_props_add(m->compat_props, hw_compat_7_2, hw_compat_7_2_len);
->> +    compat_props_add(m->compat_props, pc_compat_7_2, pc_compat_7_2_len);
->> +}
->> +
->>   DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
->>                      pc_q35_7_2_machine_options);
->>   
->
-> Would it make sense to remove the m->alias = NULL from the 7.1 and earlier 
-> machine types now?
+Much better.  The only problem is here where cpu_ld*_code does not have support for unwind 
+from exception.  If this load faults, we won't update env->pc on the way out (we are 
+normally loading for code during translation, where pc is perforce up to date).  I should 
+have noticed this before.
 
-Hm, all of this is how we've done machine type updates for the last few
-years :) We can certainly clean up the redundant stuff, but I'd prefer
-to do that via a separate patch.
+The way to fix this is to update cpu_pc to the current instruction before calling the 
+helper.  At which point none of the other exception exits need to unwind either, so you 
+can replace all of the GETPC() with 0.
 
+> +
+> +    /* index >= 32 for cm.jalt, otherwise for cm.jt */
+> +    if (index >= 32) {
+> +        env->gpr[1] = next_pc;
+> +    }
+
+This is simple enough to do in the caller, and then you don't need to pass in next_pc.
+And since you don't modify xRA in the helper you can do
+
+DEF_HELPER_FLAGS_3(cm_jt, TCG_CALL_NO_WG, tl, env, tl, tl)
+
+static bool trans_cm_jalt(DisasContext *ctx, arg_cm_jalt *a)
+{
+     REQUIRE_ZCMT(ctx);
+
+     /*
+      * Update pc to current for the non-unwinding exception
+      * that might come from cpu_ld*_code() in the helper.
+      */
+     tcg_gen_movi_tl(cpu_pc, s->base.pc_next);
+     gen_helper_cm_jt(cpu_pc, cpu_env, tcg_constant_i32(a->index))
+
+     /* c.jt vs c.jalt depends on the index. */
+     if (a->index >= 32) {
+         gen_set_gpri(ctx, xRA, ctx->pc_succ_insn);
+     }
+     tcg_gen_lookup_and_goto_ptr();
+     ctx->base.is_jmp = DISAS_NORETURN;
+     return true;
+}
+
+
+r~
 
