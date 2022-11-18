@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C7D62F1D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 10:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7715262F1FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 10:58:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovxys-0007KC-US; Fri, 18 Nov 2022 04:48:18 -0500
+	id 1ovxyr-00079x-OM; Fri, 18 Nov 2022 04:48:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovxyc-000768-CA
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:06 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1ovxyh-00078C-1V
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:07 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ovxya-0001yU-OW
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:02 -0500
-Received: by mail-pl1-x636.google.com with SMTP id w23so4081102ply.12
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 01:48:00 -0800 (PST)
+ id 1ovxyf-0001yy-5g
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 04:48:06 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ e7-20020a17090a77c700b00216928a3917so7827609pjs.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 01:48:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=m/CUiseesWXfy8ONw/IKq3y2jtfhBMrDZnaeFnHh+EA=;
- b=cjh/Hx87JI2qBBTJFpWd6RW1YdLczPKK0Z5x3b2HhaOOGeojQtzNyujUjiOQfJqtcl
- emIBWCfRI3KcPqKLf9ZXUMzasGEUzlIwcSHp0WDQA0Ti8MoIMNY6hPcG4R9hSzngPA41
- 77ziaxPfUG5aAClDDQ5q1/YskGUIZBToXDMWKze5cjmpHQkZPg+uy97AMze8MuSy2JVK
- ESQSxMGi/MSI7uvmhhBmQxON/TmN+Bksw+qJLFamoLid2VSA4JA9KuPLWHk5yAElVNiN
- TNApMTDebrJLHk3GkyizZsqXboihv2Rzt56D0njAM2rzmrfrqFzrjjfpCjO8ifL7k49i
- 5y0Q==
+ :reply-to; bh=jzoBh6h+eW5YyC2mEGGgFAPiTTpJh3Si9+ZlAorRV5U=;
+ b=pzaYTtPJT2oF6teLGdg6T2+ehBkQ3Y6ZKE3iHEmtOx8rrOiv2PdqCxSohgsZFmJozl
+ /Zc0fxCuVQ4YBy3uH5JZXAwf4blwy7opOGu/cKumBWLx/nvmFjcm7XhK8hqyWzChJ2L1
+ h14nWlqTKDZkaLPIoDEd3KWRG31zVu6mD/AOtlZH3NfEORHSWirwMH+rwhn8JMry95Ot
+ GNJHbYm1QzVSPyocXUR4p+pHcRKw9Ql81sYeGtRgWaq7uyEYCfj3QZvGNBXxWIscOYpB
+ VW8uvcw4YAbCs99wONxnJLwWP+dAzkdlHFSUSGM6wou6g3i1D1A5TBo7Kk0ePwRXgD5h
+ 5kTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m/CUiseesWXfy8ONw/IKq3y2jtfhBMrDZnaeFnHh+EA=;
- b=cAesMA8nrJ3nG+y/mThia9KagQ+m7ZK/tAFc7lkgwXZxe9+1ynAn3gk4go8EeUEywd
- B9g7H9p3HJb80PA454Dm3rYBk3rzt1vp4xS7bosP97C1wx6mxLK8ErYR5Tsi2UkdMupU
- DxtuTF24aM7h6gX0A+p1P9ctxp2bbNhWMObVAL5oB6Lsj0g9XUmT3TC+c133HrcfZmdY
- OprjGW1jWXV1NGQftB2+LwGwuHZuD/Q7VuplkcGogBvthQzInAew1d6MhjWxz4voYYVg
- LYks31ss6ohryKByYZDsKIfjUeRWwgk4JAO0KC1KgJsbZFis3RtYrIKcmTJZxRrTAd6b
- rSJA==
-X-Gm-Message-State: ANoB5pn13E8ei7gldqbTsHiuG0GDREsuNrX1U5tTZ73WS8HeuUoWEl9U
- p3vdwAuZ6saX9+Yqi/Un/gikrN1NHfnNMQ==
-X-Google-Smtp-Source: AA0mqf4hGZpZ7fiLTaI3fOv4Zpf9lucHFl6AlBmOYQgULab8NwG/lBWCS/tdDcYpkeH61mKsxtzxFA==
-X-Received: by 2002:a17:90a:d145:b0:213:f465:14e7 with SMTP id
- t5-20020a17090ad14500b00213f46514e7mr6976294pjw.194.1668764879000; 
- Fri, 18 Nov 2022 01:47:59 -0800 (PST)
+ bh=jzoBh6h+eW5YyC2mEGGgFAPiTTpJh3Si9+ZlAorRV5U=;
+ b=F2CbBTJ0886yTwH9DxqlQsQP8DDkESw4xjPeNvfTz+A8HUfKcuvA3KpomPC+aSiP0Z
+ XvTYFjzsmmmCg4wVB5W8mH5FsPDjjUL2MuwijmtRhkHpT356SCgmNkg8HcMwq38Po3+U
+ SygGtTokuVowXVJcUNbMsNtGZYOlFc1/yPG2ACGm52gxjFnsCjPEJ4wH9HoiCcx+q3RB
+ Y2xT1v/kjo7Y7HMY+hss8zpEL1siqJgMU8Mcp1gb/HIO+x7HbfMkUIc/m9bhYvvkPBcI
+ yQL+LJEYplvc9ZIdIrwKQD6PjFjYX+HhJk31xdttlzVQIO8aIer8IH5fAHKVAAUOAsJU
+ kuPA==
+X-Gm-Message-State: ANoB5plZ/fVHCSG0dxW0RBPBkvLuNCim/4KCfXwIqBaNtGwUnJFZaI9A
+ PSHY7shdHsao71su3m22K5HNCC07p/Csjg==
+X-Google-Smtp-Source: AA0mqf7/guSKdOeFaCPDJVJEf6bYhWyBNf+HXcdgRMxIq/EsovKOcbvlgqAAEuIX76rMQ0rAS1MybQ==
+X-Received: by 2002:a17:90a:ca96:b0:212:d404:5513 with SMTP id
+ y22-20020a17090aca9600b00212d4045513mr13048674pjt.27.1668764883692; 
+ Fri, 18 Nov 2022 01:48:03 -0800 (PST)
 Received: from stoup.. ([2602:47:d48a:1201:90b2:345f:bf0a:c412])
  by smtp.gmail.com with ESMTPSA id
- n12-20020a170902e54c00b0018862bb3976sm3115421plf.308.2022.11.18.01.47.57
+ n12-20020a170902e54c00b0018862bb3976sm3115421plf.308.2022.11.18.01.47.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 01:47:58 -0800 (PST)
+ Fri, 18 Nov 2022 01:47:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-8.0 01/29] include/qemu/cpuid: Introduce xgetbv_low
-Date: Fri, 18 Nov 2022 01:47:26 -0800
-Message-Id: <20221118094754.242910-2-richard.henderson@linaro.org>
+Subject: [PATCH for-8.0 02/29] include/exec/memop: Add bits describing
+ atomicity
+Date: Fri, 18 Nov 2022 01:47:27 -0800
+Message-Id: <20221118094754.242910-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221118094754.242910-1-richard.henderson@linaro.org>
 References: <20221118094754.242910-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,77 +90,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Replace the two uses of asm to expand xgetbv with an inline function.
-Since one of the two has been using the mnemonic, assume that the
-comment about "older versions of the assember" is obsolete, as even
-that is 4 years old.
+These bits may be used to describe the precise atomicity
+requirements of the guest, which may then be used to
+constrain the methods by which it may be emulated by the host.
+
+For instance, the AArch64 LDP (32-bit) instruction changes
+semantics with ARMv8.4 LSE2, from
+
+  MO_64 | MO_ATMAX_4 | MO_ATOM_IFALIGN
+  (64-bits, single-copy atomic only on 4 byte units,
+   nonatomic if not aligned by 4),
+
+to
+
+  MO_64 | MO_ATMAX_SIZE | MO_ATOM_WITHIN16
+  (64-bits, single-copy atomic within a 16 byte block)
+
+The former may be implemented with two 4 byte loads, or
+a single 8 byte load if that happens to be efficient on
+the host.  The latter may not, and may also require a
+helper when misaligned.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/cpuid.h      |  7 +++++++
- util/bufferiszero.c       |  3 +--
- tcg/i386/tcg-target.c.inc | 11 ++++-------
- 3 files changed, 12 insertions(+), 9 deletions(-)
+ include/exec/memop.h | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 7adb12d320..1451e8ef2f 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -71,4 +71,11 @@
- #define bit_LZCNT       (1 << 5)
- #endif
+diff --git a/include/exec/memop.h b/include/exec/memop.h
+index 25d027434a..04e4048f0b 100644
+--- a/include/exec/memop.h
++++ b/include/exec/memop.h
+@@ -81,6 +81,42 @@ typedef enum MemOp {
+     MO_ALIGN_32 = 5 << MO_ASHIFT,
+     MO_ALIGN_64 = 6 << MO_ASHIFT,
  
-+static inline unsigned xgetbv_low(unsigned c)
-+{
-+    unsigned a, d;
-+    asm("xgetbv" : "=a"(a), "=d"(d) : "c"(c));
-+    return a;
-+}
++    /*
++     * MO_ATOM_* describes that atomicity requirements of the operation:
++     * MO_ATOM_IFALIGN: the operation must be single-copy atomic if and
++     *    only if it is aligned; if unaligned there is no atomicity.
++     * MO_ATOM_NONE: the operation has no atomicity requirements.
++     * MO_ATOM_SUBALIGN: the operation is single-copy atomic by parts
++     *    by the alignment.  E.g. if the address is 0 mod 4, then each
++     *    4-byte subobject is single-copy atomic.
++     *    This is the atomicity of IBM Power and S390X processors.
++     * MO_ATOM_WITHIN16: the operation is single-copy atomic, even if it
++     *    is unaligned, so long as it does not cross a 16-byte boundary;
++     *    if it crosses a 16-byte boundary there is no atomicity.
++     *    This is the atomicity of Arm FEAT_LSE2.
++     *
++     * MO_ATMAX_* describes the maximum atomicity unit required:
++     * MO_ATMAX_SIZE: the entire operation, i.e. MO_SIZE.
++     * MO_ATMAX_[248]: units of N bytes.
++     *
++     * Note the default (i.e. 0) values are single-copy atomic to the
++     * size of the operation, if aligned.  This retains the behaviour
++     * from before these were introduced.
++     */
++    MO_ATOM_SHIFT    = 8,
++    MO_ATOM_MASK     = 0x3 << MO_ATOM_SHIFT,
++    MO_ATOM_IFALIGN  = 0 << MO_ATOM_SHIFT,
++    MO_ATOM_NONE     = 1 << MO_ATOM_SHIFT,
++    MO_ATOM_SUBALIGN = 2 << MO_ATOM_SHIFT,
++    MO_ATOM_WITHIN16 = 3 << MO_ATOM_SHIFT,
 +
- #endif /* QEMU_CPUID_H */
-diff --git a/util/bufferiszero.c b/util/bufferiszero.c
-index ec3cd4ca15..b0660d484d 100644
---- a/util/bufferiszero.c
-+++ b/util/bufferiszero.c
-@@ -287,8 +287,7 @@ static void __attribute__((constructor)) init_cpuid_cache(void)
- 
-         /* We must check that AVX is not just available, but usable.  */
-         if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
--            int bv;
--            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-+            unsigned bv = xgetbv_low(0);
-             __cpuid_count(7, 0, a, b, c, d);
-             if ((bv & 0x6) == 0x6 && (b & bit_AVX2)) {
-                 cache |= CACHE_AVX2;
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index c96b5a6f43..1361960156 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -4148,12 +4148,9 @@ static void tcg_target_init(TCGContext *s)
-         /* There are a number of things we must check before we can be
-            sure of not hitting invalid opcode.  */
-         if (c & bit_OSXSAVE) {
--            unsigned xcrl, xcrh;
--            /* The xgetbv instruction is not available to older versions of
--             * the assembler, so we encode the instruction manually.
--             */
--            asm(".byte 0x0f, 0x01, 0xd0" : "=a" (xcrl), "=d" (xcrh) : "c" (0));
--            if ((xcrl & 6) == 6) {
-+            unsigned bv = xgetbv_low(0);
++    MO_ATMAX_SHIFT = 10,
++    MO_ATMAX_MASK  = 0x3 << MO_ATMAX_SHIFT,
++    MO_ATMAX_SIZE  = 0 << MO_ATMAX_SHIFT,
++    MO_ATMAX_2     = 1 << MO_ATMAX_SHIFT,
++    MO_ATMAX_4     = 2 << MO_ATMAX_SHIFT,
++    MO_ATMAX_8     = 3 << MO_ATMAX_SHIFT,
 +
-+            if ((bv & 6) == 6) {
-                 have_avx1 = (c & bit_AVX) != 0;
-                 have_avx2 = (b7 & bit_AVX2) != 0;
- 
-@@ -4164,7 +4161,7 @@ static void tcg_target_init(TCGContext *s)
-                  * check that OPMASK and all extended ZMM state are enabled
-                  * even if we're not using them -- the insns will fault.
-                  */
--                if ((xcrl & 0xe0) == 0xe0
-+                if ((bv & 0xe0) == 0xe0
-                     && (b7 & bit_AVX512F)
-                     && (b7 & bit_AVX512VL)) {
-                     have_avx512vl = true;
+     /* Combinations of the above, for ease of use.  */
+     MO_UB    = MO_8,
+     MO_UW    = MO_16,
 -- 
 2.34.1
 
