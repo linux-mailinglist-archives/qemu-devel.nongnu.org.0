@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6991362F90E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 16:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934BD62F969
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 16:37:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ow33V-0000qs-Q8; Fri, 18 Nov 2022 10:13:25 -0500
+	id 1ow3P4-0001A7-9c; Fri, 18 Nov 2022 10:35:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ow33T-0000qK-P4
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 10:13:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ow33R-0001t8-4M
- for qemu-devel@nongnu.org; Fri, 18 Nov 2022 10:13:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668784400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3LxWV64UKDAO92LV6RRRQ4AThTSmc/+ZIqOoHhLC1ys=;
- b=H1WayZAk64RJMjeUhjojMrslSkxEmTl8HbQ6NxHIzf4+ZJ4SXSBep1z0KxN7y7LXDfbpbd
- yQwgJqAZUtBYIBZuiqGz9oInACd4WLJIqsCiO4EEA47DPPBjjWG7LT9zGpOBQ9P93dgi0X
- rcJB1NdlUFGtXXDO+2Fr1jWqDd1Z+ZI=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-516-bxqn9rX3M2a54b7gaHHQ3g-1; Fri, 18 Nov 2022 10:13:18 -0500
-X-MC-Unique: bxqn9rX3M2a54b7gaHHQ3g-1
-Received: by mail-vs1-f71.google.com with SMTP id
- w127-20020a676285000000b003aa1ead065eso1447296vsb.16
- for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 07:13:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ow3Ou-00019g-Qj
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 10:35:33 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ow3Os-00082T-Vd
+ for qemu-devel@nongnu.org; Fri, 18 Nov 2022 10:35:32 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ l22-20020a17090a3f1600b00212fbbcfb78so8622293pjc.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Nov 2022 07:35:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lw5NODinhhYorcz0OqeiqHzIdlpb+FNWOMAn5anAcNM=;
+ b=VioNoOO7c1eVsVXz6+eRJ72VZ8fCwdxUxMHorTbYwC6veoZrN09tYeF2QFaDVZBvNI
+ 3OmaYnT1HwjYgNfhqNPTE10Qv4ynZc2fbwqNivmnG7PSLopYtHn+C0zgOew0d+9RUuKK
+ ZqRecoMxK5LW0CRnR3r69Bs5DZZzAkUK7sYsOBUNp3XBpVkZZHXF5mOsD/8mTDyQ6i6L
+ IsVDNIjJN1lFCU5bmoFhHcpsQeojvn204dxcJtFLln5VYZ6KcvZo/whY3uCfo8I1n1zD
+ TzaiMu2Jpict1CaIF6KanPYeDe0XKgmEggYCtVw+MeLerirDIp51w/IwWLGXSLrKShC9
+ qm2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3LxWV64UKDAO92LV6RRRQ4AThTSmc/+ZIqOoHhLC1ys=;
- b=gMQUquMi65SumjjZQfRD3ISCZBvxjqtC+6Z+2eFeP72wE5A/1Ft5PKc6utEWGTEOFX
- 097AAplaKNgGkO4kdZRjRQVp7eBzCyYIU86DdklZ6w5rYZnJ78P4m79FYFNNmBks8io/
- xtCc7j8z5v5xl55g7sMb5IgQgOc0lkT6K3+BUkadKcZItqvnMGFY355HcGJQq2p6VNIz
- iXaKifl7uGcTo+68MxhrDlpIwqqhFBzLjvUK7t27I4wiDWUbL2U/GPNBVeag7E8ypjP9
- 74/jEX4RTqC+AteZzt2cvY+H/vR2zEqZ14zx1DADv9wgVAXSYhSQ6qW0V1fKJBWa08KU
- o6cg==
-X-Gm-Message-State: ANoB5pmb1WvaSa5vdDK1IFEYya1CWGyWm48kOzQKxJtaSA0c2s+qk+Ro
- wa0eKJLI85L5n3G2c8l60REtpXUTKIANoA61KcXTe8NOBK/FF/BQEjcosxIJxTJ8lCswqA4DDF/
- vaEgbqFZ1CSwoIhxAvW2VprAB+wJdzJ4=
-X-Received: by 2002:a67:ce8d:0:b0:3aa:660:ffcf with SMTP id
- c13-20020a67ce8d000000b003aa0660ffcfmr4852470vse.42.1668784398232; 
- Fri, 18 Nov 2022 07:13:18 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5DJ02iQmhg/T9ehV4CwBKxRUoGVbV+DcyBHkQ2JIwlspZHYZMJgycY3gfB+rw5v4udszHC6EpJ+Tm1qT83FZU=
-X-Received: by 2002:a67:ce8d:0:b0:3aa:660:ffcf with SMTP id
- c13-20020a67ce8d000000b003aa0660ffcfmr4852424vse.42.1668784397702; Fri, 18
- Nov 2022 07:13:17 -0800 (PST)
+ bh=Lw5NODinhhYorcz0OqeiqHzIdlpb+FNWOMAn5anAcNM=;
+ b=dfFkhNeflZfA1mLF3IGm9cAFqXq2NTiac2baugOYVEl/WeCFqbZDPgES3iyJWG0b+X
+ dfWRIMdmbn7HfaMEAXX0VlQY5yTZX3kN/kKtHzEBO3vpO1FGtCrqugVFRR93h5b8jue8
+ EdhJ6ZLbI485IiJgtE0toa57HD3CC6usDzSTB75s/fli7Xjz6jeBuCO2CIGI6FVfTD6d
+ t6gdihJ3JDJWmkzSqoZ56kNntpWon+QebezwTu3Jydcl8JMjL31Y4EgKthLX0tMJZTFi
+ RUIDfcvEe04LloXbOJdgRW43864lONaeygaZl7RUtGS2n9g148S5j4zYZvu6Q67GrljT
+ Yq5A==
+X-Gm-Message-State: ANoB5pn8/nILj2rrDycoC0yf79r87b1KWjATx7UKLFo8Wf2TmLj5uBAm
+ /hKgmya76DGvPswt8d4Vwzor10JNXXNxVFs9ZE4xmw==
+X-Google-Smtp-Source: AA0mqf55MIc9KV3SEyVWAhQh4QmfNljfL15obD/yhdaAKeeNbdzITHRDiDyLBaTa2btzb4jhMK9oda4WH1BM7jkaWro=
+X-Received: by 2002:a17:90a:7004:b0:218:8757:8f2b with SMTP id
+ f4-20020a17090a700400b0021887578f2bmr3430431pjk.221.1668785729443; Fri, 18
+ Nov 2022 07:35:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20221116140730.3056048-1-eesposit@redhat.com>
- <e218aa44-6c49-d53f-d377-58a90a84db46@redhat.com>
- <a26e707d-0929-7a6b-6860-72edd32a54d9@redhat.com>
-In-Reply-To: <a26e707d-0929-7a6b-6860-72edd32a54d9@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 18 Nov 2022 16:13:06 +0100
-Message-ID: <CABgObfYOqQA3R0_=-WeJDbBr2ca492doYjr6DD+rX24PNdTGYA@mail.gmail.com>
-Subject: Re: [PATCH 00/15] Protect the block layer with a rwlock: part 3
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Ari Sundholm <ari@tuxera.com>, 
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, John Snow <jsnow@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Peter Lieven <pl@kamp.de>,
- Eric Blake <eblake@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Alberto Garcia <berto@igalia.com>, Ilya Dryomov <idryomov@gmail.com>, 
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, 
- "Richard W.M. Jones" <rjones@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Cleber Rosa <crosa@redhat.com>, 
- qemu-devel@nongnu.org, integration@gluster.org
+References: <166783932395.3279.1096141058484230644-0@git.sr.ht>
+ <166783932395.3279.1096141058484230644-1@git.sr.ht>
+In-Reply-To: <166783932395.3279.1096141058484230644-1@git.sr.ht>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Nov 2022 15:35:18 +0000
+Message-ID: <CAFEAcA_BHbfO+mz3-nXGtJFcft==h4Y1OxbpGV_Y-BYPOvEexQ@mail.gmail.com>
+Subject: Re: [PATCH qemu.git v2 1/9] hw/timer/imx_epit: improve comments
+To: "~axelheider" <axelheider@gmx.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,51 +84,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 18, 2022 at 4:01 PM Emanuele Giuseppe Esposito
-<eesposit@redhat.com> wrote:
-> > - generated_co_wrapper_simple -> coroutine_wrapper
-> > - generated_co_wrapper_blk -> coroutine_wrapper_mixed
-> > - generated_co_wrapper -> coroutine_wrapper_mixed_bdrv
-> >
-> > ?  It is not clear to me yet if you will have bdrv_* functions that take
-> > the rdlock as well - in which case however coroutine_wrapper_bdrv would
-> > not be hard to add.
+On Mon, 7 Nov 2022 at 16:42, ~axelheider <axelheider@git.sr.ht> wrote:
 >
-> Why _mixed? I thought _blk was a nice name to identify only the blk_*
-> API that have this slightly different behavior (ie do not take the
-> rwlock anywhere).
-
-_mixed means that they are callable from both coroutine and
-non-coroutine function, but (unlike "normal" functions) they will
-suspend if called in coroutine context.
-
-In fact we could also have a coroutine_mixed_fn static analysis
-annotation for functions that *call* coroutine_wrapper_mixed (so
-ultimately they can suspend when called from coroutine context, e.g.
-vhdx_log_write_and_flush or qcow2's update_refcount):
-
-- coroutine_fn can call coroutine_mixed_fn if needed, but cannot call
-any coroutine_wrapper*
-
-- coroutine_mixed_fn can call coroutine_mixed_fn or
-coroutine_wrapper_mixed{,_bdrv}, but cannot call coroutine_wrapper
-
-This of course is completely independent of your series, but since the
-naming is adjacent it would be nice to only change it once.
-
-> No, I don't think there will be bdrv_* functions that will behave as
-> blk_*, if that's what you mean.
+> From: Axel Heider <axel.heider@hensoldt.net>
 >
-> Regarding the bdrv_* functions in general, there are a couple of
-> additional places (which should be all in the main loop) where we need
-> to use assert_bdrv_grapg_readable. In those places we theoretically need
-> nothing, but if we use the automatic TSA locking checker that is being
-> tested by kevin, we need some sort of "placeholder" so that cc/gcc (I
-> don't remember anymore which) won't throw false positives.
+> Fix typos, add background information
+>
+> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
+> --
 
-clang. :)  That can be sorted out with review, but in general I think
-asserting is always okay.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Paolo
-
+thanks
+-- PMM
 
