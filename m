@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B9162EBE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 03:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004F462EC1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Nov 2022 03:51:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ovr24-0005l7-O7; Thu, 17 Nov 2022 21:23:08 -0500
+	id 1ovrRq-00048b-IT; Thu, 17 Nov 2022 21:49:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1ovr22-0005jd-Db
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 21:23:06 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1ovr1z-0002pW-GS
- for qemu-devel@nongnu.org; Thu, 17 Nov 2022 21:23:06 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8Dxfbd97HZjnH0IAA--.19011S3;
- Fri, 18 Nov 2022 10:22:53 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxFld87HZjo0cWAA--.40210S3; 
- Fri, 18 Nov 2022 10:22:52 +0800 (CST)
-Subject: Re: [PATCH] hw/loongarch: Add cfi01 pflash device
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
-References: <20221115115645.3372746-1-yangxiaojuan@loongson.cn>
- <2f381d06-842f-ac8b-085c-0419675a4872@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <0b8e14a9-fec5-7e82-0566-27af1ed85693@loongson.cn>
-Date: Fri, 18 Nov 2022 10:22:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
+ id 1ovrRo-000487-08
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 21:49:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
+ id 1ovrRl-0006va-Sy
+ for qemu-devel@nongnu.org; Thu, 17 Nov 2022 21:49:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668739780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NfEgF+YnDcrz58802Bnq+raRdyAza/2VDYqRFW7Z+cA=;
+ b=dSo9UEFMrsW1PdIM/46TkYdCRUgZJbSQEw1HSGVNueFddQ70Pdneas/9wbQM9z2ehwmDu0
+ URtlHJgMZtdw9AZAvDZUqdFvy/r4Kb1hOsUpK/PNEtdkwRKgQMrRB93dD+9BJsQXjslfLj
+ NC2sQC0v9G4vT3segxYfNjg6dJHlI0w=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-399-5MzCAGUjN3aPa1CFzOSRsg-1; Thu, 17 Nov 2022 21:49:38 -0500
+X-MC-Unique: 5MzCAGUjN3aPa1CFzOSRsg-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-13cce313cd3so1710229fac.20
+ for <qemu-devel@nongnu.org>; Thu, 17 Nov 2022 18:49:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NfEgF+YnDcrz58802Bnq+raRdyAza/2VDYqRFW7Z+cA=;
+ b=LondjZNf8pOzzcAplxU2locrvNcxryB3YqWCek0eiNQWMzXWQ8Hmm1nwU16aXsjP0G
+ Wl2RZlqSCxGDySKx6GnEIgDFI/JOPQekyvxovOAD4C3jmUB1gswXMlblxq7+QXXC9+KS
+ MPtCmUJ6RANQHXc2wfNoeEiVkr4o2Zj+mHGjf9xQg/YV84JIc+7al3tm2xz1ffI3Fqcj
+ IXKOuMYmPw5OWb82864kfhqkAmPu99F2/ZmF1YYEUGOrFhgdWqeEzGypmbPOi4r0u+zm
+ 9FZy8msTD+k+qGyLkZy3bDZfHPtgndxDvGehTaXeX8XjNSCCjiHKnRBEKj7hE28/AtJA
+ 2KlQ==
+X-Gm-Message-State: ANoB5pl5CpXNYHAm5v757x5bRI8S7SSIBiTciwu1jF3vjLsBN14kPzsE
+ Hf+Vq542hJYuvcF+DQAhB5SbFjR/MIfiP7zy93jNYt9peAgm6BvC6Cr0NEie1q3Fa5oAuKVNLEp
+ jec+cr4QhnogcH6yqiB7Z/TnoiZ5SrBI=
+X-Received: by 2002:a05:6808:7dd:b0:35a:cb43:413 with SMTP id
+ f29-20020a05680807dd00b0035acb430413mr5585778oij.84.1668739778108; 
+ Thu, 17 Nov 2022 18:49:38 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf74ZE9kqRS5uycMw5CzIXmoXv+bJ5/PDelpEBW4Z1YxKLmFvwlHjgHS4l2C66MIQfi1tRYPyhT4lI4Jc5D8Qxw=
+X-Received: by 2002:a05:6808:7dd:b0:35a:cb43:413 with SMTP id
+ f29-20020a05680807dd00b0035acb430413mr5585768oij.84.1668739777955; Thu, 17
+ Nov 2022 18:49:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2f381d06-842f-ac8b-085c-0419675a4872@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------771D9A4AC2CAA123C332B6BD"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxFld87HZjo0cWAA--.40210S3
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXFW3Kw13Wr18Gr1fZFyUtrb_yoW5Gry7pF
- y8CFnYgrWkGFs7Gr13X3W3WFy5Jrs7G3W7Xr1xZFy8AF1UGr1vqry0vws0gFyUXrs5Jr1I
- qFyktr95u3W5X3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- DUYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUUb4AYFVCjjxCrM7AC8VAFwI0_Jr0_
- Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFV
- AK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2
- z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJw
- A2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l
- 57IF6xkI12xvs2x26I8E6xACxx1lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14
- v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCjr7xvwVCIw2I0I7xG
- 6c02F41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvf
- C2KfnxnUUI43ZEXa7IU1Au4UUUUUU==
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
+References: <20221028160251.268607-1-eperezma@redhat.com>
+ <CACGkMEsHccBVEaruA5QKVmSsCsg0agedqrO2K8JEaBSP=Y1-Jg@mail.gmail.com>
+ <CAJFLiB+kQ9mjy6V7uKXwoONhJ9-uiw2O3v-7WoM-B5Zaiv-jXg@mail.gmail.com>
+In-Reply-To: <CAJFLiB+kQ9mjy6V7uKXwoONhJ9-uiw2O3v-7WoM-B5Zaiv-jXg@mail.gmail.com>
+From: Lei Yang <leiyang@redhat.com>
+Date: Fri, 18 Nov 2022 10:49:01 +0800
+Message-ID: <CAPpAL=wjbwLfzqgg62LZJCNsEOUJmTd+z4CDh4MUw-DPcyWHxw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Endianess and coding style fixes for SVQ event idx
+ support
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ philmd@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leiyang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,239 +98,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------771D9A4AC2CAA123C332B6BD
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+QE tries to test the parameter "event_idx=3Don". In both environments
+"virtio-vdpa + vp_vdpa" and "vhost_vdpa + vp_vdpa", there is no
+network connectivity issue after the guest boot up.
+
+Tested-by: Lei Yang <leiyang@redhat.com>
 
 
-在 2022/11/15 下午8:10, Philippe Mathieu-Daudé 写道:
-> On 15/11/22 12:56, Xiaojuan Yang wrote:
->> Add cfi01 pflash device for LoongArch virt machine
+> From: Jason Wang <jasowang@redhat.com>
+> Date: Tue, Nov 1, 2022 at 10:42 AM
+> Subject: Re: [PATCH 0/4] Endianess and coding style fixes for SVQ
+> event idx support
+> To: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> Cc: <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+> Michael S. Tsirkin <mst@redhat.com>
 >
-> So the subject prefix should be "hw/loongarch/virt:".
 >
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> ---
->>   hw/loongarch/Kconfig        |   1 +
->>   hw/loongarch/acpi-build.c   |  39 +++++++++++
->>   hw/loongarch/virt.c         | 130 +++++++++++++++++++++++++++++++++---
->>   include/hw/loongarch/virt.h |   7 ++
->>   4 files changed, 168 insertions(+), 9 deletions(-)
+> On Sat, Oct 29, 2022 at 12:02 AM Eugenio P=C3=A9rez <eperezma@redhat.com>=
+ wrote:
+> >
+> > Some fixes that did not get in time for the last net pull request.
+> >
+> > Eugenio P=C3=A9rez (4):
+> >   vhost: Delete useless casting
+> >   vhost: convert byte order on SVQ used event write
+> >   vhost: Fix lines over 80 characters
+> >   vhost: convert byte order on avail_event read
 >
->>   static bool memhp_type_supported(DeviceState *dev)
->> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
->> index 45c383f5a7..4ec4a7b4fe 100644
->> --- a/include/hw/loongarch/virt.h
->> +++ b/include/hw/loongarch/virt.h
->> @@ -12,6 +12,7 @@
->>   #include "hw/boards.h"
->>   #include "qemu/queue.h"
->>   #include "hw/intc/loongarch_ipi.h"
->> +#include "hw/block/flash.h"
->>     #define LOONGARCH_MAX_VCPUS     4
->>   @@ -20,6 +21,11 @@
->>   #define VIRT_FWCFG_BASE         0x1e020000UL
->>   #define VIRT_BIOS_BASE          0x1c000000UL
->>   #define VIRT_BIOS_SIZE          (4 * MiB)
->> +#define VIRT_FLASH_SECTOR_SIZE  (128 * KiB)
->> +#define VIRT_FLASH0_BASE        VIRT_BIOS_BASE
->> +#define VIRT_FLASH0_SIZE        (4 * MiB)
->> +#define VIRT_FLASH1_BASE        (VIRT_FLASH0_BASE + VIRT_FLASH0_SIZE)
->> +#define VIRT_FLASH1_SIZE        (4 * MiB)
->>     #define VIRT_LOWMEM_BASE        0
->>   #define VIRT_LOWMEM_SIZE        0x10000000
->> @@ -48,6 +54,7 @@ struct LoongArchMachineState {
->>       int          fdt_size;
->>       DeviceState *platform_bus_dev;
->>       PCIBus       *pci_bus;
->> +    PFlashCFI01  *flash[2];
->>   };
+> I've queued this for rc1.
 >
-> Since you are starting a virtual machine from scratch, you should take
-> the opportunity to learn from other early mistakes. X86 ended that way
-> due to 1/ old firmwares back-compability and 2/ QEMU pflash block
-> protections not being implemented. IIUC if we were starting with a
-> UEFI firmware today, the layout design (still using QEMU) would be
-> to map the CODE area in a dumb ROM device, and the VARSTORE area
-> in a PFlash device. Since Virt machines don't need to use Capsule
-> update, having the CODE area in ROM drastically simplifies the design
-> and maintainance.
+> Thanks
 >
-Thanks, we will  use only one pflash to save the VARS.bin, and use -bios 
-to load the CODE.bin.
-
-Thanks.
-XiaoJuan
-
---------------771D9A4AC2CAA123C332B6BD
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">在 2022/11/15 下午8:10, Philippe
-      Mathieu-Daudé 写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:2f381d06-842f-ac8b-085c-0419675a4872@linaro.org">On
-      15/11/22 12:56, Xiaojuan Yang wrote:
-      <br>
-      <blockquote type="cite">Add cfi01 pflash device for LoongArch virt
-        machine
-        <br>
-      </blockquote>
-      <br>
-      So the subject prefix should be "hw/loongarch/virt:".
-      <br>
-      <br>
-      <blockquote type="cite">Signed-off-by: Xiaojuan Yang
-        <a class="moz-txt-link-rfc2396E" href="mailto:yangxiaojuan@loongson.cn">&lt;yangxiaojuan@loongson.cn&gt;</a>
-        <br>
-        ---
-        <br>
-          hw/loongarch/Kconfig        |   1 +
-        <br>
-          hw/loongarch/acpi-build.c   |  39 +++++++++++
-        <br>
-          hw/loongarch/virt.c         | 130
-        +++++++++++++++++++++++++++++++++---
-        <br>
-          include/hw/loongarch/virt.h |   7 ++
-        <br>
-          4 files changed, 168 insertions(+), 9 deletions(-)
-        <br>
-      </blockquote>
-      <br>
-      <blockquote type="cite">  static bool
-        memhp_type_supported(DeviceState *dev)
-        <br>
-        diff --git a/include/hw/loongarch/virt.h
-        b/include/hw/loongarch/virt.h
-        <br>
-        index 45c383f5a7..4ec4a7b4fe 100644
-        <br>
-        --- a/include/hw/loongarch/virt.h
-        <br>
-        +++ b/include/hw/loongarch/virt.h
-        <br>
-        @@ -12,6 +12,7 @@
-        <br>
-          #include "hw/boards.h"
-        <br>
-          #include "qemu/queue.h"
-        <br>
-          #include "hw/intc/loongarch_ipi.h"
-        <br>
-        +#include "hw/block/flash.h"
-        <br>
-            #define LOONGARCH_MAX_VCPUS     4
-        <br>
-          @@ -20,6 +21,11 @@
-        <br>
-          #define VIRT_FWCFG_BASE         0x1e020000UL
-        <br>
-          #define VIRT_BIOS_BASE          0x1c000000UL
-        <br>
-          #define VIRT_BIOS_SIZE          (4 * MiB)
-        <br>
-        +#define VIRT_FLASH_SECTOR_SIZE  (128 * KiB)
-        <br>
-        +#define VIRT_FLASH0_BASE        VIRT_BIOS_BASE
-        <br>
-        +#define VIRT_FLASH0_SIZE        (4 * MiB)
-        <br>
-        +#define VIRT_FLASH1_BASE        (VIRT_FLASH0_BASE +
-        VIRT_FLASH0_SIZE)
-        <br>
-        +#define VIRT_FLASH1_SIZE        (4 * MiB)
-        <br>
-            #define VIRT_LOWMEM_BASE        0
-        <br>
-          #define VIRT_LOWMEM_SIZE        0x10000000
-        <br>
-        @@ -48,6 +54,7 @@ struct LoongArchMachineState {
-        <br>
-              int          fdt_size;
-        <br>
-              DeviceState *platform_bus_dev;
-        <br>
-              PCIBus       *pci_bus;
-        <br>
-        +    PFlashCFI01  *flash[2];
-        <br>
-          };
-        <br>
-      </blockquote>
-      <br>
-      Since you are starting a virtual machine from scratch, you should
-      take
-      <br>
-      the opportunity to learn from other early mistakes. X86 ended that
-      way
-      <br>
-      due to 1/ old firmwares back-compability and 2/ QEMU pflash block
-      <br>
-      protections not being implemented. IIUC if we were starting with a
-      <br>
-      UEFI firmware today, the layout design (still using QEMU) would be
-      <br>
-      to map the CODE area in a dumb ROM device, and the VARSTORE area
-      <br>
-      in a PFlash device. Since Virt machines don't need to use Capsule
-      <br>
-      update, having the CODE area in ROM drastically simplifies the
-      design
-      <br>
-      and maintainance.
-      <br>
-      <br>
-    </blockquote>
-    <span style="color: rgb(0, 0, 0); font-family: SimSun; font-size:
-      14px; font-style: normal; font-variant-ligatures: normal;
-      font-variant-caps: normal; font-weight: 400; letter-spacing:
-      normal; orphans: 2; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: 2;
-      word-spacing: 0px; -webkit-text-stroke-width: 0px;
-      text-decoration-thickness: initial; text-decoration-style:
-      initial; text-decoration-color: initial; display: inline
-      !important; float: none;">Thanks, we will  use only one pflash to
-      save the VARS.bin, and use -bios to load the CODE.bin. </span><br>
-    <span style="color: rgb(0, 0, 0); font-family: SimSun; font-size:
-      14px; font-style: normal; font-variant-ligatures: normal;
-      font-variant-caps: normal; font-weight: 400; letter-spacing:
-      normal; orphans: 2; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: 2;
-      word-spacing: 0px; -webkit-text-stroke-width: 0px;
-      text-decoration-thickness: initial; text-decoration-style:
-      initial; text-decoration-color: initial; display: inline
-      !important; float: none;"></span><br>
-    <span style="color: rgb(0, 0, 0); font-family: SimSun; font-size:
-      14px; font-style: normal; font-variant-ligatures: normal;
-      font-variant-caps: normal; font-weight: 400; letter-spacing:
-      normal; orphans: 2; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: 2;
-      word-spacing: 0px; -webkit-text-stroke-width: 0px;
-      text-decoration-thickness: initial; text-decoration-style:
-      initial; text-decoration-color: initial; display: inline
-      !important; float: none;">Thanks.</span><br>
-    <span style="color: rgb(0, 0, 0); font-family: SimSun; font-size:
-      14px; font-style: normal; font-variant-ligatures: normal;
-      font-variant-caps: normal; font-weight: 400; letter-spacing:
-      normal; orphans: 2; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: 2;
-      word-spacing: 0px; -webkit-text-stroke-width: 0px;
-      text-decoration-thickness: initial; text-decoration-style:
-      initial; text-decoration-color: initial; display: inline
-      !important; float: none;">XiaoJuan</span>
-  </body>
-</html>
-
---------------771D9A4AC2CAA123C332B6BD--
+> >
+> >  hw/virtio/vhost-shadow-virtqueue.c | 12 ++++++++----
+> >  1 file changed, 8 insertions(+), 4 deletions(-)
+> >
+> > --
+> > 2.31.1
+> >
+> >
+>
 
 
