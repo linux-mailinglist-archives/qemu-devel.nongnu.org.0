@@ -2,141 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0966B630DDC
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 10:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D52630DD8
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 10:38:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owKHj-0000PL-K5; Sat, 19 Nov 2022 04:37:15 -0500
+	id 1owKHk-0000Qk-Qs; Sat, 19 Nov 2022 04:37:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1owKHS-0000Gq-Go
+ id 1owKHS-0000Gr-HR
  for qemu-devel@nongnu.org; Sat, 19 Nov 2022 04:37:04 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68])
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1owKHO-0007AN-Kx
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 04:36:57 -0500
-Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AJ9Gd3i011879; Sat, 19 Nov 2022 01:36:51 -0800
+ id 1owKHQ-0007Ac-Bx
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 04:36:58 -0500
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AJ4h76Z000919; Sat, 19 Nov 2022 01:36:54 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=proofpoint20171006; bh=6CuVDQ1+saTVSzAH3SlPIZ6Y/EZOhdGH4CSk2dsCR/k=;
- b=GH1WB2R2a2reC7EaVbZZS8rbi3rCL3yKZWWtlQ4BYS8iID8kifbZZYAKLDS0PEMd6IVN
- Z5dR8rpLuMkZxee2Mv0coCKj23X6MVQ/hpf/T7WsLPtQZ7AZMZlkZmQYSTwm0WzrVgyq
- TmuqPSOP6CjYf8M8LZVifRtX6B9yvjRbIC+J5mosPGZJAQYRk6SQEhsfootQk3G1uEC2
- w/H25LWb79CbpKVqJIQ+E0d7qR+gT1ON5FQ42XxKfkxAWjJT4fWd41AijT+5SLIqmhUi
- Hy3gVwXqFusVtuqbIL2PO1ZK6TUA/iHcR+jOltA8ECq1ndtLM6neIQ9TvgJT8Z0V+QGd gQ== 
+ subject : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=xCG9ZZXNUO+mhbVy46fzfGFleVX6kL1wjFlYBP/CUeA=;
+ b=uaj/MzfWNZUoR9Uhv8Vg7YqPXAMhu50UoWB+nCEMu1QDFTHPIFNqw7qEw1PUrNxuGnaf
+ VfqblchWUgBRghQuZ1DTqMASqCG7X8FgtxG5RjQbhJsM19M8ueKMswlx6EurnNAhe2G/
+ VqLPC7aahaeZMUBiK1Nmqt7nAqiO0G8YjTU8tj4dWT4NtloOpKRaOTj8/qwcRRT2G2++
+ tDZ+GDHHQ7w7fyp0J5AiSrZcsw+dd3jiJkZMX729HWZekx3cz7CffsfUBsF3qu1C6YB4
+ ijIQVuSUzwlHAeE0Lf9oGIV/qdfSrFy02s83q1UFuweuDZIc1b4aCy0TT6JDMAOKtoEp Dw== 
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3kxvbxg0qy-1
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3kxrc60c2b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 19 Nov 2022 01:36:51 -0800
+ Sat, 19 Nov 2022 01:36:54 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fD49dxPaaZYFBBCCf9rrJUrs95DabN7/nV00iHM0FbGrBdc63ykbIvj+YFsyckQghFIPE94tbWpIeJlIKjoyXS6TX2KA7Qs5YWZPlYo2SMX3Q0BaYAg+MT+//Ph55OimGjP3ffhrhWAMZJDQAg0OkFJSLAc6Fw+CXFMV8mJ1oybUcAU6Ni8nztg2aE4WYUZ6ENgVGBREJuPRVtW6M4JaF8+jXg6aGsmSdihj9coRGCqFtutNaogW0WXhTXxdp/taALjaWbdLAJ9yva59rFlnaPK8qQreQ2DIna3F/Oftr0WxywyZVzAMnYGXSkInv3c5Cz8O+/+ZEvMwdnSsjCSiow==
+ b=DVsvVS6HLtti5JvqG2vYUvCyxPMQ8n5euGa/nEsvd37ywjK6Vlr4sg1HLe3n/yCaNgdhNUhuz7G5UpnazXltKMFHSzaEWNi+Lu5WSb3e5yRmzsLcnCHBf1v/gaL12FcXI544GxckpSwuIsSSiLG/ih8Ii2AYGzfg7tI5Em+XQ7e/WmF23/B5RFwLyEENGYVM6KxJGzm/Rl8ASd36pRF1bo/5/Xwq26kmp3SmPHd2KmXh1yKQ8V1i84EOoVwZul2ZS8rhYr7iC+/2pKmgNqkKvdLY620MUyj+GPp1ion7U54kxjHHLZGMRORCD4Y2DAkT9lYOHf1kpM45rwDBhYLchw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6CuVDQ1+saTVSzAH3SlPIZ6Y/EZOhdGH4CSk2dsCR/k=;
- b=TdUUDYa3l6MEQN/++IZocGz62CoIh2nfykiwfCm0RhYefXo5w8GXsFJ2WK4RvnIKKHmv7H1iFc+0nHews6CGar5Ym1NRXy4E4h9FNLeoCh/J5fnhobIFRakNB+hjX5em50xkAgXJM0Me4zS9MPN/y1du2Y+5/y+3miUpXRqVhcamVasEAfQIZtET9cb4iHURWxK1Ljw4hsjbJz+UaVOTPUHfH8Mr/mnCvBcWzKZORvWQclDuEWxVIqGcRYogNDfn1PHPAlTmMfBE5rq4HWCu4hC6O3NWP3BnnYpLcC2UgoS3v3I9Kplqblm6RsRDL+FGno+9da9xMmSuCW8h6aBCyg==
+ bh=xCG9ZZXNUO+mhbVy46fzfGFleVX6kL1wjFlYBP/CUeA=;
+ b=LT4+oUz5gmsMgWR6ASnWj8YRBNlQQNFfFKX1wOPG2S8ycB1OE0BXU0314Xt21CpgDXS6czN84/6zOwYD7VJ0UQUdlidvsdp8bRivpjnRRV1sqDWXwDh4WYEuurOfJ1gWfe48T/WvDf0b9HMwgAzgWxVECJbDNvOUA4wqEssoMWy0o3UubGD+lKit/n1frfVGo3Fod2X5Q+cPpGEX9oyD2NOje7v+Tviddmv2rbLevQyWZmvh7Jfbda2wK+K+vq339rLwXKy9tiB/1i+aO3aYoJU0yepk0XDcyWxkMTG9OpOEIzgiD01jOL3pXpMj706goiaaTmLZJdgOf2nxJQ3YKQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6CuVDQ1+saTVSzAH3SlPIZ6Y/EZOhdGH4CSk2dsCR/k=;
- b=FYJXHirutbu3zbAPp6AeDXAmEGbbGmlDXliPlArPx3NVccjrl/GOq26wkk7g2yOkxC6ayTUvYL1L0ncJ5wKnfLjF0pPeSJ9tmispnxXqCfgzTVlQLnFQNE+B7FI4LcMNeZL22NoKWSgymn4t8RfqKDcQjmtr1oRsPlMtn4z+WLvxaX2jI3fXAqBwDxjMApJlRFdL9k15qNOfu2uBEa8a7uZYUUsqQJgCtv+7urgYdcgfgnRCx83qLwJYRQZxhKUEFLr1c1UKn1ws79Mao8b9PN72is3yxGb+4cBHa04U24Xc3SgpPTWDDKOS+QCt6I9wjXofM+sOemL2l+qZBm5cmw==
+ bh=xCG9ZZXNUO+mhbVy46fzfGFleVX6kL1wjFlYBP/CUeA=;
+ b=CBlAavBq/kPynhiTWQT4NbA2vj8LdXmAj9SaU+kpwqDmE9kkMStvSCZ6abEobzJsUEcTjcEoHCOYOnzvGklZ3n05BkeldKO7hEPDg0s/l76ZkEknDvt1QDdgqmDg9BC5RYC0izHsmMylOP9yRI044Prmj6IleK72Tg8+274oVss6dR1W2s3tYDmM7Y0GzfNbL1HatDMLzl9RJ/2BvfW/iST9s511C+upPdN67QiBBJaWUh6H3ErsK0BA7BPJ1utV+VX1iB6NLyG4wRV983f5nDScXWf9YL5M/UFbWiapANn9ouUdfYZdgzFAR7Bht/piZYyfSt8p6D9pTlreqTYHZg==
 Received: from PH0PR02MB7384.namprd02.prod.outlook.com (2603:10b6:510:12::12)
  by PH0PR02MB7479.namprd02.prod.outlook.com (2603:10b6:510:a::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Sat, 19 Nov
- 2022 09:36:49 +0000
+ 2022 09:36:52 +0000
 Received: from PH0PR02MB7384.namprd02.prod.outlook.com
  ([fe80::dff2:2d3c:e182:fb66]) by PH0PR02MB7384.namprd02.prod.outlook.com
  ([fe80::dff2:2d3c:e182:fb66%3]) with mapi id 15.20.5834.009; Sat, 19 Nov 2022
- 09:36:49 +0000
+ 09:36:52 +0000
 From: "manish.mishra" <manish.mishra@nutanix.com>
 To: qemu-devel@nongnu.org
 Cc: berrange@redhat.com, peterx@redhat.com, prerna.saxena@nutanix.com,
  quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com,
  "manish.mishra" <manish.mishra@nutanix.com>
-Subject: [PATCH 2/2] migration: check magic value for deciding the mapping of
- channels
-Date: Sat, 19 Nov 2022 09:36:12 +0000
-Message-Id: <20221119093615.158072-2-manish.mishra@nutanix.com>
+Subject: check magic value for deciding the mapping of channels
+Date: Sat, 19 Nov 2022 09:36:13 +0000
+Message-Id: <20221119093615.158072-3-manish.mishra@nutanix.com>
 X-Mailer: git-send-email 2.22.3
 In-Reply-To: <20221119093615.158072-1-manish.mishra@nutanix.com>
 References: <20221119093615.158072-1-manish.mishra@nutanix.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: BYAPR01CA0058.prod.exchangelabs.com (2603:10b6:a03:94::35)
  To PH0PR02MB7384.namprd02.prod.outlook.com
  (2603:10b6:510:12::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR02MB7384:EE_|PH0PR02MB7479:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b1e181c-531a-46ef-0081-08daca119537
+X-MS-Office365-Filtering-Correlation-Id: 2e84e4c6-da7f-4001-c68b-08daca119737
 x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qRqmgvg+U9OIsCJUNa7vYbJV0pabA7rCJlSlq8FKKbytYL0AspeOQaNYL1FsfQiqSt616YrJ7eE13I55HLV036JwTR5xg5ZZd9tWehnkxhLxEM5/1+gYUn7cXd8YZ7s2H5wof3Y11GX7D3WyvInr4rO7c00OXv79WPRDv6PQogoTVWtMwdpuG/GBUX0YEd6qayRvkcLXypb5M70Nde0zAOOLDjjQ3ZJ/DpPrILbto9xX0/xoYMBXu6LLDd+5Eju3Nentr9E4GaCPb6SlCLnlQ/fdxXvDMjel5GFFeX8Vn96s9u28KWEcQfk7Qx2PyowadvZyPdMyF53J0EURzzu2IIX0ESSiS/str2A+Cc1jIzgmV4JbIvp2l7+wU+4DVtUNYLFrYIxOcbfNDGw4InZwL7Z97hk6aRsTgxC9yL5A0MzzgwRwM003tsyY8RGGslCa9rFBqAMRk1/8ASbpA49Z5NPBUxxWGnTdnKIZySf5Fwx5sZiMp9OMJGIPJjCrntNsmN0oFufQbiCV4Is/ycmE4PtiZJketPmBXDrU6yALc1VAfCmYFfEwxrPgLIT2qaGPTQCU6hnDqZv5EU2mwcYSurwVjBTUH9k2M+iB9GDapDIXD4yITq7sZrSJLUy6I/cAwvYNfKEZE2LAGH3cm4zpIgY3jCXojO14K3vGB5MwfWo4XAVShEZ/aP4hMKOX0WRKe+2glY8Qrr/Q2KNVVQnaMg==
+X-Microsoft-Antispam-Message-Info: NT93XgXL4F42W/SQ4cGjT8D75UfS6jZfkQUJ8/hpqPw+pQYQgldgZZguCbZmt2cwNq870jV286PPzU/hfOPf+8G+HoHyOBnI/tnfO+/ASN+blxS2dI709IKZ0EMisVYwcVwvA/Dfc6oMjWsz+tmxgUthw4+uYMlv/3ZQzvHyjHefqYX6LtsVilpwrlYWjJpThfryilNbef5/9DwmNM3S20IsprdPhyokbVBTNc0NoRZf2x6+bLFLyjYalfaiXDT1lUeliD4I1Jfd/IublHmrglpKQVimPQ99aP9rmcjFNI5qbHu5Yf6C9dhpu4ty0rlJvjJIuBGkA2ccr9ZRT6fEkSZtLymk1o0Tjs9uZaOfXLthHmRpfCbsxSo6G10JbHoY6xz7Tjm2W3EiB4GbPsaUhfzMpSAMULYuuANFMxnGpjL5bJ0tZv3ApF0apin50VTJKm2r1h4T/5CXFklrg5hAk9L1Cu/uBmFTtq1YAIeeisUY3Lx+7+jYWGKkPr9XGmkKdX9gbqAvTYjIvehAqeNA0GajdUcUfq1YhOyZgVtrUV7yKnIKfVCDuxA1HqeWU6lRKyWX07Ndx/AOg9Vn5I4EXh7XYjKADhqdL1YULTlKYS7xtqiuM3VoCUVkDgmynaU+UCwfnAbNHrcEKzaP96sUBYLY9Srf/MFUDuuIaLel4tyn8mKYqK4ZIlI9QmO7WUwMUdpV3F+ePsfkZep5EVuZzg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR02MB7384.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(39860400002)(396003)(366004)(346002)(136003)(376002)(451199015)(478600001)(6512007)(6506007)(6666004)(6486002)(52116002)(107886003)(86362001)(316002)(6916009)(38350700002)(38100700002)(66476007)(66556008)(66946007)(4326008)(8676002)(36756003)(26005)(2906002)(41300700001)(83380400001)(186003)(8936002)(1076003)(5660300002)(2616005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XVnCD6hhAK6dvQCPeZeltUlRuxRpy8jTymEmnLwe9AjHvZ+/YH1munI+CZ4i?=
- =?us-ascii?Q?gdXcay025yHjqwl+wR3lUyA19v4tTNKPpNKLwAEsFuo8U/SFu2xTSXC/xRPJ?=
- =?us-ascii?Q?foL/PVveW+Vt8GdYgoPlMNdM2lFcXPSSOy2CTIBL6XfE8F/E9junWEh5AKV1?=
- =?us-ascii?Q?OkU8CDyWPjZ7c62Ua7KtryrukaSBu6nKokhpdVH0bXCZ/nUq6J2cJ/f5i6Pk?=
- =?us-ascii?Q?S+gaRtz1dxf1s8gMCZJmtl86bEuFd5hoeopWJfZN8AF8fonu9TEfiq44STrN?=
- =?us-ascii?Q?48HmevcPwRrAmJ/ktHZopAVOEMBc3uXFmjZM04fGIWdIj5U1ny/GyUiFOuQM?=
- =?us-ascii?Q?SjZmzc2IteVZ2ksfCJv9NVsUltLV1tDcQSHO7Ivrkj6/rKwC3qJYzTc/Vw8R?=
- =?us-ascii?Q?AspgoC6Jw9hEumql/PmDt55nmXzqOPGWrwFPxS+huy3Jc9y9HejgL/fEndaF?=
- =?us-ascii?Q?vASJ+tSqzxR7Os8A2lKOeFB+2ob+LNuI3HbSQoGUicOaHSZpAFvTl3EOOJvb?=
- =?us-ascii?Q?8a2t1KuOlbJDDA3uiaECkk89RIQc0fPzvaA6X/sXaOn9CXE85NuMvvKnfsl2?=
- =?us-ascii?Q?KsU1qKVMGuoKeZLL/M/0PdKL4mCO6nK3kp+p14L3NvOtupy1h73p0KUZQFMN?=
- =?us-ascii?Q?b1Ges7sGxMj0jaYkH6/O8PbH2pau6I/dTz8SkZ2poF/HZZF6ICLJ8tPxkN2m?=
- =?us-ascii?Q?UKj8EhB6vhKd1KFgWC3nLi69ZXUmALwATi+F5HAthwl0Wz3KMUD2kvu6Fx5q?=
- =?us-ascii?Q?v3zWRDQ/2is39oVdmz4cFW/xmVfh4c17v2CTVRnvD+xPqr33V5hJd25M5Nsb?=
- =?us-ascii?Q?FrNdatBBpGPDzXYNyhucdNT1pQNl4wH8ACuSjadIicxdvJrdjCss7kfGDZGl?=
- =?us-ascii?Q?nAu6aZM8MOBMWM1jMzwYRp78MmXbI+Gdz3BJudI1MJeYNU5EEP3McH6XhBee?=
- =?us-ascii?Q?32kO5NCgLec4mQ10IZveuaxOfHL+qFg8ZzPQZpb2NWMbssjRKRUPB2hXe7ED?=
- =?us-ascii?Q?Um35Hl2rchg1AMFvWO+Rn/xcw34OmgJGRPFSGd22XzD8Gz9VgiOums/FKc+D?=
- =?us-ascii?Q?vcJRo57JM3XgoBXzHXvfmW3qk7UHHGemMjPzC02eFILq3mG3jYMmW6A9OfbD?=
- =?us-ascii?Q?SA70hQQMHWKum2Ta7XpFuRULloRgqyeDvPz9cG+Fv6INVf2D7xNy/phNnTvY?=
- =?us-ascii?Q?p3N2oZVGq2OLBkbB/Yy8MF+ffy89oS7iLuXwtD/MkkgLS0b5m7KhksICgjBl?=
- =?us-ascii?Q?lZPo8NWTWxT0QkxiI4Vz2IBWsnfL9c16Z2HfAOnns9B+LygEPkq5T84KNlzn?=
- =?us-ascii?Q?fEGxjDKRqRirnmBfIUsH0PqxkuEAR/OnCbNdazJcDklUkRCe0DM9Bgx+5fkc?=
- =?us-ascii?Q?fm6X+dP/FA7U4UXNUQhsZY7nrN3PWFainiRaSC/sfmckUr3Kcap50dQSJzqn?=
- =?us-ascii?Q?V6fzzUoFo53/qXTVIigqAKL8bK61yUM33pdUoaB86SD1LxiseFrZzYb5xlse?=
- =?us-ascii?Q?oek8jW8FopNUgSJr9/Q3Q1dXhU3MoFjtq+XaXj/9T8Za/g5P4hGAPz8wGOFe?=
- =?us-ascii?Q?aLbF7+oXx8Io0Wo/Ql7Xdz39kgf8QHPvil4uzx7J59Mq9JYJWA7PCNjTHWRA?=
- =?us-ascii?Q?7w=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b21NV0krK2FzVWU5U2UwS1VENEtheUhBQ0NoMmdzL2pkbXpkUm42S0xSS0xI?=
+ =?utf-8?B?UzFwMVM4M01UMjlIeGJ2TXNGdWc4amNaM1M5SEhwV1grMnNOT2R5M0htc2Yw?=
+ =?utf-8?B?RlliSEdmVVFzUE5ocldleVJQMjNuMzhGT1FXRUw1Z3lLbUZKZVliSGlsc2pj?=
+ =?utf-8?B?ZHYrZVFMeVJMT3dYMlAvQ3JLbGYyemhodXp2ZVdXbWVEb0lYaE5GRU5hR3VO?=
+ =?utf-8?B?Vi9leXNZNlRNcGlHeGJ0d0psRE9XcndhR3RiNC9YOHVWcFFENFBRQk5nLzFL?=
+ =?utf-8?B?Vld2NUwwMXRZZ21PRGxFYllZMHl1WXdLWGs4WmhHbURJRGZveS85SUppUmFI?=
+ =?utf-8?B?bWw2QVpWRUcyeE42UlhxUlJ1NDlacTl5RXd3YU5EV0N1dmRhb01nb2VwV3VK?=
+ =?utf-8?B?UEl5VjhDV05VR1Uxd3Y1TXE4SjhRVGJ5MXZlNThER3pad1MvelNZeWNjaHl2?=
+ =?utf-8?B?bitDQ2I0MVBTL1NjRDFTMTg1MU1ucnMxSjNrMEZXL2lTWWR4T25sQWo3UXlE?=
+ =?utf-8?B?WWltcG5jTHBnd2VkTDFZY0tTYXFrakxtVHZTZ0MvbWlHSjF2Um9SeU43bWFP?=
+ =?utf-8?B?eFlnK2RDNGhCRWYzTS95M1l3OGJSZFk3bFN3UjBDK2VhMFlDaHJaUGw3d01N?=
+ =?utf-8?B?a2JPSkkxcStmNTg5Y0xOajJycExMMFZQN1VyYnZVVVBrR0NKQUN1bTkrdENT?=
+ =?utf-8?B?M2t6WlJYYVlSdU5yVytSSFdzNlUrWnNta3EwRCt4WEV3N2VsaHpiazU3b1pS?=
+ =?utf-8?B?V0txdkgvWklmOFg4aldjZ1ZGWEx6Wm5RRnlPek9xblk2emZLMm5ybXA1ZnAz?=
+ =?utf-8?B?QmkxSzJ3NnJodDBuRFR4NlRqaG5rTlpYYUlITWpYS0cvdFowNU5BRlJRVFhz?=
+ =?utf-8?B?ckRKUFdqNndjS0YyN0JyL21iRUY2UHRwbFhISnc2S0xnbmlXejhITGxkUFRH?=
+ =?utf-8?B?N0toMlRXdHkrRHQrQ3ArL1BDYkYrQXVNVjFoTTRMTGxzTDA3NUlpKzJkNTBK?=
+ =?utf-8?B?eGtBNnd0WmJzcGJnUEE2T0pkTDl2OVFjR3g2K08wbmJ3Nk9McnIvejdiTkdh?=
+ =?utf-8?B?alRWOVF0QUpXRVdDajlYTXJJSDEwV2RlSlJla01hdEJXWTJULzF2bmVqb0xH?=
+ =?utf-8?B?a0Myak90WkRmVGxJOVpxQXRBMTMvdkZxZ3cranlXbU84T3dJelpycU9Hd2Rw?=
+ =?utf-8?B?bnJlYXdYMmJlV05BYWxmckJIbVZmSHl4U0g3ZnY2TDIrZGRJdlgwdTZZczY1?=
+ =?utf-8?B?d1lxbmlmUDViczdreThrZDJnZVN6NU9wTWNJdGhOeEM1c0xSTmZ4WGtobmZy?=
+ =?utf-8?B?NUt6UkQra0ZMWjFuTHhzamZpdmt6ODV0U3NsUytkdDQweVVrTUs2UEpVSzhI?=
+ =?utf-8?B?Q1h2ZFZJZTc5UUR3dWRobVIrdFZaZkFTclljRENqN0pvMk83NzhReVIyVy9S?=
+ =?utf-8?B?MlBmKzljVHM5UW16K1BUblJLSzFBbzZ3dU44L0NMZGQrb0MzeVVMRitQb01s?=
+ =?utf-8?B?a1A1YzJMYXdyWm9md1c0UDFLS1ZwWUI2YncxaUNrOThPV2lhUGlNT0dRN0NH?=
+ =?utf-8?B?WWpRZHVpZE9MMjE5cmg5QjZGTzBHdXkzZmo1Q24yaiswbFRUb05KQS9ZUmZE?=
+ =?utf-8?B?Skl5S3JCQ1VJQmFOdUQ4elZOUnFpNlk0di9PZWVWOXN1a1pZUkZKTHkvQmFG?=
+ =?utf-8?B?U1FvVHIxam92UkpHVVZ1ZzFWT0NaZGl3QmVpbk1kWm5JeTdDMXVQQWpiRjc3?=
+ =?utf-8?B?Y2w4RWkvbW9CNmtCSE93emJ1SzBhL1M4ZU0vd3dXU0t2N0liQm94K2JJdVZM?=
+ =?utf-8?B?ZTBlL1VGWlNOMExPTmwzWENBNmNqa0QvWGcxTjNLTW5KdDQzN1p1dUlob3JH?=
+ =?utf-8?B?aUVpTXhuTXlCTzM2R3VPaHJ6ZjNFWU9USHJKUjY4bzh1OStib1NrcWFwandC?=
+ =?utf-8?B?dWtGU2Z6Z3hrYkgzalhid3hvMldRR0RCajZFU0ptM21JY2lyNVJnM3h2TWVy?=
+ =?utf-8?B?bUFKUDd2YkxTSFAwUjRHT012UGFHNzc4enZueGpOMnA1a2tGQnRNZVBiQSs5?=
+ =?utf-8?B?TDlCcms4UTBZM2FqR2FoRGN2SHVURE03R1FYUWNYRTgvdndmVnBhTmNqaG5r?=
+ =?utf-8?B?ci9STDJFYm51ZXIwQ0xoREpTUFgzZ1ZkQTdKQ1pmVjlRcEh6UDVBYUYzaXoz?=
+ =?utf-8?B?dXc9PQ==?=
 X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b1e181c-531a-46ef-0081-08daca119537
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e84e4c6-da7f-4001-c68b-08daca119737
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7384.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2022 09:36:49.4416 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2022 09:36:52.8023 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hVI1nHxu5lgskiVBH/nnf0T2xqOw4hSCxB9N8NH3xxdWHDibXbdRbhGNszeKLc0Asl3zM/9KgcYvekPGd511TD2/9oDmKuXZcQkBmj1memI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: wdt7KApdhZiAWJbuOG1KVdS1vbU6wNY0gGRXOIdB/4va3tfkhiRUTqig9eIYLfmyFnA7nSuH/Qdl8pZqubgiplUWkxO1wRseP9/sHaZ6Ad4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7479
-X-Proofpoint-GUID: 5Py2Nbb2_8xIF1WLKstHagQvLwIPJrsC
-X-Proofpoint-ORIG-GUID: 5Py2Nbb2_8xIF1WLKstHagQvLwIPJrsC
+X-Proofpoint-GUID: TewyNVsQWQ2YQBm87E2ZcKUTjGMeTCTX
+X-Proofpoint-ORIG-GUID: TewyNVsQWQ2YQBm87E2ZcKUTjGMeTCTX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-18_08,2022-11-18_01,2022-06-22_01
 X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=manish.mishra@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=manish.mishra@nutanix.com; helo=mx0b-002c1b01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -171,185 +179,54 @@ applicable only for precopy(multifd) live migration, as mentioned, the
 post-copy preempt channel does not send any magic number. Also, tls live
 migrations already does tls handshake before creating other channels, so
 this issue is not possible with tls, hence this logic is avoided for tls
-live migrations. This patch uses read peek to check the magic number of
+live migrations. This patch uses MSG_PEEK to check the magic number of
 channels so that current data/control stream management remains
 un-effected.
----
- migration/migration.c    | 44 +++++++++++++++++++++++++++++-----------
- migration/multifd.c      | 12 ++++-------
- migration/multifd.h      |  2 +-
- migration/postcopy-ram.c |  5 +----
- migration/postcopy-ram.h |  2 +-
- 5 files changed, 39 insertions(+), 26 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 739bb683f3..787e678d48 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -733,31 +733,51 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
- {
-     MigrationIncomingState *mis = migration_incoming_get_current();
-     Error *local_err = NULL;
--    bool start_migration;
-     QEMUFile *f;
-+    bool default_channel = true;
-+    uint32_t channel_magic = 0;
-+    int ret = 0;
- 
--    if (!mis->from_src_file) {
--        /* The first connection (multifd may have multiple) */
-+    if (migrate_use_multifd() && !migrate_postcopy_ram() &&
-+        qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEEK)) {
-+        /*
-+         * With multiple channels, it is possible that we receive channels
-+         * out of order on destination side, causing incorrect mapping of
-+         * source channels on destination side. Check channel MAGIC to
-+         * decide type of channel. Please note this is best effort, postcopy
-+         * preempt channel does not send any magic number so avoid it for
-+         * postcopy live migration. Also tls live migration already does
-+         * tls handshake while initializing main channel so with tls this
-+         * issue is not possible.
-+         */
-+        ret = qio_channel_read_peek_all(ioc, (void *)&channel_magic,
-+                                        sizeof(channel_magic), &local_err);
-+
-+        if (ret != 0) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+
-+        default_channel = (channel_magic == cpu_to_be32(QEMU_VM_FILE_MAGIC));
-+    } else {
-+        default_channel = !mis->from_src_file;
-+    }
-+
-+    if (default_channel) {
-         f = qemu_file_new_input(ioc);
- 
-         if (!migration_incoming_setup(f, errp)) {
-             return;
-         }
--
--        /*
--         * Common migration only needs one channel, so we can start
--         * right now.  Some features need more than one channel, we wait.
--         */
--        start_migration = !migration_needs_multiple_sockets();
-     } else {
-         /* Multiple connections */
-         assert(migration_needs_multiple_sockets());
-         if (migrate_use_multifd()) {
--            start_migration = multifd_recv_new_channel(ioc, &local_err);
-+            multifd_recv_new_channel(ioc, &local_err);
-         } else {
-             assert(migrate_postcopy_preempt());
-             f = qemu_file_new_input(ioc);
--            start_migration = postcopy_preempt_new_channel(mis, f);
-+            postcopy_preempt_new_channel(mis, f);
-         }
-         if (local_err) {
-             error_propagate(errp, local_err);
-@@ -765,7 +785,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-         }
-     }
- 
--    if (start_migration) {
-+    if (migration_has_all_channels()) {
-         /* If it's a recovery, we're done */
-         if (postcopy_try_recover()) {
-             return;
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 586ddc9d65..be86a4d07f 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -1220,11 +1220,9 @@ bool multifd_recv_all_channels_created(void)
- 
- /*
-  * Try to receive all multifd channels to get ready for the migration.
-- * - Return true and do not set @errp when correctly receiving all channels;
-- * - Return false and do not set @errp when correctly receiving the current one;
-- * - Return false and set @errp when failing to receive the current channel.
-+ * Sets @errp when failing to receive the current channel.
-  */
--bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
-+void multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
- {
-     MultiFDRecvParams *p;
-     Error *local_err = NULL;
-@@ -1237,7 +1235,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
-                                 "failed to receive packet"
-                                 " via multifd channel %d: ",
-                                 qatomic_read(&multifd_recv_state->count));
--        return false;
-+        return;
-     }
-     trace_multifd_recv_new_channel(id);
- 
-@@ -1247,7 +1245,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
-                    id);
-         multifd_recv_terminate_threads(local_err);
-         error_propagate(errp, local_err);
--        return false;
-+        return;
-     }
-     p->c = ioc;
-     object_ref(OBJECT(ioc));
-@@ -1258,6 +1256,4 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
-     qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
-                        QEMU_THREAD_JOINABLE);
-     qatomic_inc(&multifd_recv_state->count);
--    return qatomic_read(&multifd_recv_state->count) ==
--           migrate_multifd_channels();
- }
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 519f498643..913e4ba274 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -18,7 +18,7 @@ void multifd_save_cleanup(void);
- int multifd_load_setup(Error **errp);
- int multifd_load_cleanup(Error **errp);
- bool multifd_recv_all_channels_created(void);
--bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
-+void multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
- void multifd_recv_sync_main(void);
- int multifd_send_sync_main(QEMUFile *f);
- int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index b9a37ef255..f84f783ab4 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -1539,7 +1539,7 @@ void postcopy_unregister_shared_ufd(struct PostCopyFD *pcfd)
-     }
- }
- 
--bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
-+void postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
- {
-     /*
-      * The new loading channel has its own threads, so it needs to be
-@@ -1548,9 +1548,6 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
-     qemu_file_set_blocking(file, true);
-     mis->postcopy_qemufile_dst = file;
-     trace_postcopy_preempt_new_channel();
--
--    /* Start the migration immediately */
--    return true;
- }
- 
- /*
-diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
-index 6147bf7d1d..25881c4127 100644
---- a/migration/postcopy-ram.h
-+++ b/migration/postcopy-ram.h
-@@ -190,7 +190,7 @@ enum PostcopyChannels {
-     RAM_CHANNEL_MAX,
- };
- 
--bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
-+void postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
- int postcopy_preempt_setup(MigrationState *s, Error **errp);
- int postcopy_preempt_wait_channel(MigrationState *s);
- 
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+
+v2:
+  TLS does not support MSG_PEEK, so V1 was broken for tls live
+  migrations. For tls live migration, while initializing main channel
+  tls handshake is done before we can create other channels, so this
+  issue is not possible for tls live migrations. In V2 added a check
+  to avoid checking magic number for tls live migration and fallback
+  to older method to decide mapping of channels on destination side.
+
+v3:
+  1. Split change in two patches, io patch for read_peek routines,
+     migration patch for migration related changes.
+  2. Add flags to io_readv calls to get extra read flags like
+     MSG_PEEK.
+  3. Some other minor fixes.
+
+manish.mishra (2):
+  io: Add support for MSG_PEEK for socket channel
+  migration: check magic value for deciding the mapping of channels
+
+ chardev/char-socket.c               |  4 +-
+ include/io/channel.h                | 83 +++++++++++++++++++++++++++++
+ io/channel-buffer.c                 |  1 +
+ io/channel-command.c                |  1 +
+ io/channel-file.c                   |  1 +
+ io/channel-null.c                   |  1 +
+ io/channel-socket.c                 | 16 +++++-
+ io/channel-tls.c                    |  1 +
+ io/channel-websock.c                |  1 +
+ io/channel.c                        | 73 +++++++++++++++++++++++--
+ migration/channel-block.c           |  1 +
+ migration/migration.c               | 44 ++++++++++-----
+ migration/multifd.c                 | 12 ++---
+ migration/multifd.h                 |  2 +-
+ migration/postcopy-ram.c            |  5 +-
+ migration/postcopy-ram.h            |  2 +-
+ scsi/qemu-pr-helper.c               |  2 +-
+ tests/qtest/tpm-emu.c               |  2 +-
+ tests/unit/test-io-channel-socket.c |  1 +
+ util/vhost-user-server.c            |  2 +-
+ 20 files changed, 218 insertions(+), 37 deletions(-)
+
 -- 
 2.22.3
 
