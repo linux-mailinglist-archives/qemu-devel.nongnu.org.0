@@ -2,156 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF05630DE1
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 10:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF52B630E12
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 11:21:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owKLu-0003o3-Li; Sat, 19 Nov 2022 04:41:34 -0500
+	id 1owKwj-0005Rz-Da; Sat, 19 Nov 2022 05:19:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1owKLn-0003mX-SD
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 04:41:28 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1owKwh-0005Rm-U6
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 05:19:35 -0500
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1owKLh-0008HW-EC
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 04:41:25 -0500
-Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AJ4ebsc016886; Sat, 19 Nov 2022 01:41:10 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=d12sskZVUxJRzTeH8seICK8opXoYiK069U+YU+Eutlc=;
- b=pQwfIEO31W7VBaC/PgqhVeJEUK6AthYnQ9MBzm77UR5v9qqdNqkxDdpNue9CyBfpsdkV
- r2zZhDfZOMb+8Os+RlsVZw88vuKTD+2EPnOTsne5ruVBQ5L83kpFJuriNe5v59t+FJni
- XdG9AzOMhLo6GjD8gnapcXRsoCpG4VFLVauTpXNEKJgM/ynLeAtQV3ZMd6nnewTG0Vwf
- r0BK0xKVGnGsmlwhNcca0fMmHNLlyUam/Q3MWewbNr/9f2n92UtzGn15+6TLMwW1C8Ll
- nxi3fb2dWXR/DmuPTWRKZTwHQbRUAtnReMwng4jEmiSR7CF7yDsIrKMHolDyz0ph1pQ7 PA== 
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2172.outbound.protection.outlook.com [104.47.56.172])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3kxraw0car-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 19 Nov 2022 01:41:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=obV5o9qCOCLP88PJxKilx7LtW125pXRb64JFBTlJfRmNFlbHkTYwpgb7IeROBTP0eHbg1YRIv1VE6Xed2WWlDsweMLBCA7DKC/9rQj9T3LO0hWVtAiqUnWQ+25ZpEjbbfO94EWAqeR+JgXqB2NjP8vW0hlUCRYTxzfNVgxn5tWQueeJn6pKab1DfT1u+WLN4+ghT9hW4uPN5B/t5R4+ipZRGoa8eFCy2Ty0N5+t8tuPrpAjGMI2TvNfBEUENQywTQwk+2KvoHeFNLAK1SPLNB2DC/2fF/3xqvl72+mcjFoZmOoPLSKpZIY7Rf//fmk0WAsybt++EQPF3/oPQt67NWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d12sskZVUxJRzTeH8seICK8opXoYiK069U+YU+Eutlc=;
- b=kD/LEEaNstqMoPS32udpjACq1F8IW/7FsN3lP7xYNb+rXpWx+3Yfs5CQa7D0Ej9eglM9dKDYgCnEv3aVxREXj1qPdT7O3RPAuhcoEX/U5shUkxYO724EoKyMWSO59Fg9RNyWKEvOubrjJcKhDxZEZhH/0Mk1Y5ciP7dxsr8saqJkKEIAmaSOjGAxEOl0M3Q6J9G7IMvvICgjWo1C9Q43BBrT3BejDh/qxJ2y30tCFXkqi1Q2ykwqLUlu6YrMp1ZTKQZRlxeSJ+Yupm+IKEPy5g69yIHczINdyRtp1FltWjVaqSX3XkODrrnuvLLjuOh5R5ri4FeWQqcu/2Y2gVbQpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d12sskZVUxJRzTeH8seICK8opXoYiK069U+YU+Eutlc=;
- b=hnNSnEXjpAeOXa/aVRDPxTsOhw8KF0xHLJS4s3ol127S/BkPkvTUDHEOhE9jBqkSt2FVV8aEwkbq+uXH75IOwFazORLAKVmeEZEynYhZcT5lJH0P38LdRoI+Zo8mvi6bL1KOZ/dbgdNKGEJyksBLW0FE/zZt1DvoqgYAMd/QlKKhdLQkbwW08Su2Hp60z73hs96YpK7ZrsVyKUXHdKd3eObLXWmUknp5C4PHhVfQcve+0hAfALuOpTZN0e+YsrmaETX7DdulKqXPqZ9Oubtx8lSziFPFWj9s386zWiscxb/nzh8oi5cDMhkkVkBcLNpqN0Rk4AvMYTln/gHKmnrXjQ==
-Received: from PH0PR02MB7384.namprd02.prod.outlook.com (2603:10b6:510:12::12)
- by CO6PR02MB7763.namprd02.prod.outlook.com (2603:10b6:303:a2::19)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1owKwd-0004hg-Ng
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 05:19:35 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.136])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 7104F2AEAD;
+ Sat, 19 Nov 2022 10:19:17 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG8EX2.mxp5.local (172.16.2.72)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Sat, 19 Nov
- 2022 09:41:06 +0000
-Received: from PH0PR02MB7384.namprd02.prod.outlook.com
- ([fe80::dff2:2d3c:e182:fb66]) by PH0PR02MB7384.namprd02.prod.outlook.com
- ([fe80::dff2:2d3c:e182:fb66%3]) with mapi id 15.20.5834.009; Sat, 19 Nov 2022
- 09:41:06 +0000
-Message-ID: <36c26e0c-cd1d-854f-f14d-e1935a84dae7@nutanix.com>
-Date: Sat, 19 Nov 2022 15:10:37 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH 1/2] io: Add support for MSG_PEEK for socket channel
-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, peterx@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-References: <20221119093615.158072-1-manish.mishra@nutanix.com>
-From: "manish.mishra" <manish.mishra@nutanix.com>
-In-Reply-To: <20221119093615.158072-1-manish.mishra@nutanix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA1PR01CA0164.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:71::34) To PH0PR02MB7384.namprd02.prod.outlook.com
- (2603:10b6:510:12::12)
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 19 Nov
+ 2022 11:19:16 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004044b76dd-85e5-498a-8fa7-6e2b32d1f2c5,
+ 3F8D1337C06BC7E92487BFC29CC52BE0C50D7DB5) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Sat, 19 Nov 2022 11:19:15 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+CC: Bin Meng <bin.meng@windriver.com>, <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 05/19] hw/9pfs: Update 9pfs to use the new QemuFd_t type
+Message-ID: <20221119111915.591afa58@bahia>
+In-Reply-To: <185421545.bPZoAotuqs@silver>
+References: <20221111042225.1115931-1-bin.meng@windriver.com>
+ <20221111042225.1115931-6-bin.meng@windriver.com>
+ <20221118102951.42d2ce1f@bahia> <185421545.bPZoAotuqs@silver>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR02MB7384:EE_|CO6PR02MB7763:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4426d1d-09ea-41e9-5b8f-08daca122e1c
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P/Q+VRmfHuZYlXd885fMzT5TPk/DR8e4IWXGWJ+XKRGgE786qS3JP/TIDZZmEtErfSWNh0NZeNeUTlx1bRaXPHLPs3U6qRxXU4dxxQMYYpATWWEjYpT8f/CUKfhlXc3M9k0OG7xendjbbpZYNh+5suwCRcIFHvAQK2fab27e4ep/MOaSdAihIC0NK2vDvM7TlkuIR93qw7/rBn+dB4jmTy8QZOVnauRKfVEjlFnbsy46EIr1+XEQrbkbyVNNypftjSCDlmoPn/18TngrJUFtU41dzoQbLMVwpM7KkmyNteJqcEfMf/ERu82ac4LbTKgRr0BrSVZ4eFnmRU1zdpKJKykZzIfFWHYHJuAzkUwSjTFse/NA9RQxdWOnyVF42B3C3h6CqxwQOgZqnbjU0knW+lSIb/tWIDhaHYs8eV/Ca8ZptXYsLulwklyZDDhtpjb1kfb+CzMmHht8i+BgG7rQSgkOGQfxfePjCL8gvQpcGSfSynUUDNtI7iJDvNrbbEbpS5eS4LFX5OwvxoVY1C2KU3oLTOYFWTBtfwkksT0ztOaKAPQ2qHgee5JhjonA1IDxCFV98mGaUNwO6LGvl85hIIMARSrQcfATtEAMw1CRKW2awCZ7F8qNKxJKf9uXk4ehyxnxlMa9UCIXbbnSTxueglyTJurD9cqwzvkw87oJz9yMU79rtDY3dThrtcr30jjB9bj6CbPO2s8QwQmnoYYDJ57uE5riLjAtFTVeQ3jLZiI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR02MB7384.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(396003)(366004)(346002)(39860400002)(136003)(451199015)(6506007)(316002)(6666004)(53546011)(6916009)(6486002)(4326008)(66556008)(66476007)(66946007)(26005)(8676002)(6512007)(478600001)(31686004)(186003)(8936002)(5660300002)(2616005)(83380400001)(2906002)(41300700001)(36756003)(30864003)(31696002)(38100700002)(86362001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0VUNVY1WjNTNnFCR05VZFFXcjBoaEpPalVyMU5YUDRLSGZ5TDNLT1NRR3BO?=
- =?utf-8?B?dW1ZdVNJMU5TT2tjbmFoZzFNbVJuVHlwL0s0bnJHRGZ2U2tEa0tJZVJ5a1BT?=
- =?utf-8?B?OXhRWUdreE5uQ1UrNTRmY042dzFtL3J0MzFhVlZ5WE1XUjk2Q21NYmU2QTF1?=
- =?utf-8?B?akxpbm1wbVRqSkNBVmc4dTgzcVd3R3FlR25GT09YN1A4NXVITCswWWpBb1E0?=
- =?utf-8?B?R1FseWpNTXN5bWM0cmM1enVsR3Q2dEpXVWoyT3pyNGtrWnd1TEI5VnpEM3JF?=
- =?utf-8?B?UTFlZU9nS2xaaUs0NnVVZHZrdnlnS1lzeDNERkdueXBiTlZOVjBBNUNRTmVQ?=
- =?utf-8?B?TjIxVkI4U0FxV2wwLzZiTXBXV0pDTXBsS3BhNDZQS2krdnVWSndnVW93bmVq?=
- =?utf-8?B?L1hTdVV4bVZ0QkduQ2s5YXlsZitnbkIzSmJ1VWxnYWIzTEF0eFVHSE9mclcr?=
- =?utf-8?B?dWxOMnVEUzZKZEVEd09aRVU0Z3NqbHFXRHIwamRqQlBseG9KVkxYUXVRSTh4?=
- =?utf-8?B?VlZWeGlOcG9TMUt2SFlhc3hHWlB6MklOb21aT0NwWkhtTGkwWFpGbk1HOXBK?=
- =?utf-8?B?NHJhaEU4bUNRTWlMMkF2alltRDNDekdabGNycW45NUczenU1ZkRmaHVIeUlW?=
- =?utf-8?B?K2tVeGRwd1FRYzBFM1FkSnY3VUxyMVAvTFBOOTU2dFJCL0Fyek04bmlYMFB6?=
- =?utf-8?B?Y3k2bENwNkg0UW91YXJSUGk0aWltalY4SHJRbDRTZG1FMkFFU3I3ak01aWY5?=
- =?utf-8?B?V1lsSjVIZDd5RmlPOTR0Yi9CRDRsekFDSDJaYjIrS1Vobmd2eE92Wkdsd3FP?=
- =?utf-8?B?QjdVNjZIZWh3NmhUYXVKNGVDNVZhUU9MZEdoZTZ2UHJ6ZXd2YVdKQ1U1Ujd2?=
- =?utf-8?B?MzNSeE9rQzY1d0hLeUtBNlI5MHBueHpTYkdMRVFnQ2x3aVhOcjUrNU9oTnZS?=
- =?utf-8?B?TW5Gb1V3WENESzZrMlA3WFppbWdsMFF0bzVUQkpjUkRWeWFKNERtOVA2d0dC?=
- =?utf-8?B?S3F5WTVvNVRheEpYc2lieUpLWVZBZ1NPVjJPNWludmE3SlIyVjhyVDRFU2NI?=
- =?utf-8?B?U0xxREZWUEFCWDVqZkhEcGszZmxwSlJmVEYzVTMwSERzN2dTdEVELzRhckV6?=
- =?utf-8?B?R0hyeCtQdjV5MjBQTmVBTFltZ0k2K2RPVHZpVDR2RkhaU0xHTVFFczgyOGsy?=
- =?utf-8?B?MzRIQ2d4dStBcEhGZ29oRjJyY0VMWHRpTjJnTWNSanEvK0VyZG5lWUVtQUlS?=
- =?utf-8?B?UVgxWjRmRnFKS3JHTHcxaDZsUlhrM3dmaVpwNkdaYjJGUGJTYWUxWDdWYklq?=
- =?utf-8?B?dkNsSkRVNXpNVTZYZGlScWUxOUs2WEtEVTZpRkNCQ0NHZzdzNjZoazhGY2xN?=
- =?utf-8?B?eXlDallBU09wSm12QlZUQnM0ZXExWmtpWUJoMUhKY3ZJWG5IVXlZaXpUaEcv?=
- =?utf-8?B?SmUvNVlTK3d5Nm9WSTlqaDdOZWZyVjRxeWMzdGM3WDVlazV0RUxLRFY3SFQ4?=
- =?utf-8?B?QXM0U1dSWm43VVZMRGdFK1VLZTNva1IyNHltMWZMeXRnbGVRc05VbFFjQlZY?=
- =?utf-8?B?UkE5Wm1BeW5jMnQ5TDlCRSttNTAreE1TZ3pyWms1ZUdCT2JwSzRaeFEwS2JC?=
- =?utf-8?B?WGR2RzZRKzlVY2hKclZWb0JBc1FrOWhKNGFmeWo0OFhWdjJ0RU9mOFVQTGFr?=
- =?utf-8?B?TGtBdWxvQnRiQUhndEJ4VkdiN245MWtaZDdiK2pOMTVOQkt0bXJ6YUx1OXRY?=
- =?utf-8?B?TkpjZHhuZ0lBdi83bHlwT1RWNURLUGdMcFBmc0dNdU5hL0pVYWxWY0lrNy9L?=
- =?utf-8?B?ZitIRit1RG05cEUvbldlalhTNDJ4ZlVvMXJYNEdmZ0ZDNWZ1NmYrNm1uZmtN?=
- =?utf-8?B?WURIWXJpZ282YW1JWVkwRDhFQ3U3VVlReEMxQjdVazlLOGNZd1hPQXFqWTB4?=
- =?utf-8?B?NUQxREJEZFJGcHZ4MUFRcjkwd251cDlla0JNdldqSDJQSEd4SlVzUWNOYUln?=
- =?utf-8?B?dmpuVmw1a21sOUF5SUpqTVN3cEpHQTF2ZjlaRWJLZTJzc3FMbDYwYlJkcEhJ?=
- =?utf-8?B?UjlMTjRQeTBUa3U5aG5qM3F5M011V0pzY1NWTUhoK3BiT3YwUWNKQktFSitV?=
- =?utf-8?B?SW5TbldublhzeDcxc1ZHbEcwZDlteTdHdnAzSFFZYTZtQWJteVJ0TzhIYUxm?=
- =?utf-8?B?Smc9PQ==?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4426d1d-09ea-41e9-5b8f-08daca122e1c
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7384.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2022 09:41:06.1940 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +TZOrg7e9ofvRYm1oi8HnuRKn1ugkM0Jwkbn2A626Q8yJXo7bUhtrE9WveUBOwSqYPKDFbCZXXx/gv4p3dnHlFe29lMmN2cqkPkE71CUxPs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7763
-X-Proofpoint-ORIG-GUID: lsZ_H5WriyS5TvQGlEgTgceTPFgXFoF1
-X-Proofpoint-GUID: lsZ_H5WriyS5TvQGlEgTgceTPFgXFoF1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-18_08,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=manish.mishra@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: a732f128-0d35-42bf-bb35-396438605927
+X-Ovh-Tracer-Id: 12512407140812102109
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrhedvgdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedtjeetteeujeeutefgtdegteeuvdeujefhiedtvdeuveejieffjeekhfefgeduvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhmihgtrhhoshhofhhtrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhgpohhsshestghruhguvggshihtvgdrtghomhdpsghinhdrmhgvnhhgseifihhnughrihhvvghrrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=groug@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -167,529 +71,981 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 18 Nov 2022 14:38:00 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-On 19/11/22 3:06 pm, manish.mishra wrote:
-> MSG_PEEK reads from the peek of channel, The data is treated as
-> unread and the next read shall still return this data. This
-> support is currently added only for socket class. Extra parameter
-> 'flags' is added to io_readv calls to pass extra read flags like
-> MSG_PEEK.
-> ---
->   chardev/char-socket.c               |  4 +-
->   include/io/channel.h                | 83 +++++++++++++++++++++++++++++
->   io/channel-buffer.c                 |  1 +
->   io/channel-command.c                |  1 +
->   io/channel-file.c                   |  1 +
->   io/channel-null.c                   |  1 +
->   io/channel-socket.c                 | 16 +++++-
->   io/channel-tls.c                    |  1 +
->   io/channel-websock.c                |  1 +
->   io/channel.c                        | 73 +++++++++++++++++++++++--
->   migration/channel-block.c           |  1 +
->   scsi/qemu-pr-helper.c               |  2 +-
->   tests/qtest/tpm-emu.c               |  2 +-
->   tests/unit/test-io-channel-socket.c |  1 +
->   util/vhost-user-server.c            |  2 +-
->   15 files changed, 179 insertions(+), 11 deletions(-)
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index 879564aa8a..5afce9a464 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -283,11 +283,11 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
->       if (qio_channel_has_feature(s->ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
->           ret = qio_channel_readv_full(s->ioc, &iov, 1,
->                                        &msgfds, &msgfds_num,
-> -                                     NULL);
-> +                                     0, NULL);
->       } else {
->           ret = qio_channel_readv_full(s->ioc, &iov, 1,
->                                        NULL, NULL,
-> -                                     NULL);
-> +                                     0, NULL);
->       }
->   
->       if (msgfds_num) {
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index c680ee7480..cbcde4b88f 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -34,6 +34,8 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
->   
->   #define QIO_CHANNEL_WRITE_FLAG_ZERO_COPY 0x1
->   
-> +#define QIO_CHANNEL_READ_FLAG_MSG_PEEK 0x1
-> +
->   typedef enum QIOChannelFeature QIOChannelFeature;
->   
->   enum QIOChannelFeature {
-> @@ -41,6 +43,7 @@ enum QIOChannelFeature {
->       QIO_CHANNEL_FEATURE_SHUTDOWN,
->       QIO_CHANNEL_FEATURE_LISTEN,
->       QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY,
-> +    QIO_CHANNEL_FEATURE_READ_MSG_PEEK,
->   };
->   
->   
-> @@ -114,6 +117,7 @@ struct QIOChannelClass {
->                           size_t niov,
->                           int **fds,
->                           size_t *nfds,
-> +                        int flags,
->                           Error **errp);
->       int (*io_close)(QIOChannel *ioc,
->                       Error **errp);
-> @@ -188,6 +192,7 @@ void qio_channel_set_name(QIOChannel *ioc,
->    * @niov: the length of the @iov array
->    * @fds: pointer to an array that will received file handles
->    * @nfds: pointer filled with number of elements in @fds on return
-> + * @flags: read flags (QIO_CHANNEL_READ_FLAG_*)
->    * @errp: pointer to a NULL-initialized error object
->    *
->    * Read data from the IO channel, storing it in the
-> @@ -224,6 +229,7 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->                                  size_t niov,
->                                  int **fds,
->                                  size_t *nfds,
-> +                               int flags,
->                                  Error **errp);
->   
->   
-> @@ -300,6 +306,34 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->                                 size_t niov,
->                                 Error **errp);
->   
-> +/**
-> + * qio_channel_readv_peek_all_eof:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to read data into
-> + * @niov: the length of the @iov array
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Read data from the peek of IO channel without
-> + * actually removing it from channel buffer, storing
-> + * it in the memory regions referenced by @iov. Each
-> + * element in the @iov will be fully populated with
-> + * data before the next one is used. The @niov
-> + * parameter specifies the total number of elements
-> + * in @iov.
-> + *
-> + * The function will wait for all requested data
-> + * to be read, yielding from the current coroutine
-> + * if required.
-> + *
-> + * Returns: 1 if all bytes were read, 0 if end-of-file
-> + *          occurs without data, or -1 on error
-> + */
-> +int qio_channel_readv_peek_all_eof(QIOChannel *ioc,
-> +                                   const struct iovec *iov,
-> +                                   size_t niov,
-> +                                   Error **errp);
-> +
-> +
->   /**
->    * qio_channel_readv_all:
->    * @ioc: the channel object
-> @@ -328,6 +362,34 @@ int qio_channel_readv_all(QIOChannel *ioc,
->                             Error **errp);
->   
->   
-> +/**
-> + * qio_channel_readv_peek_all:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to read data into
-> + * @niov: the length of the @iov array
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Read data from the the peek of IO channel without
-> + * removing from channel buffer, storing it in the
-> + * memory regions referenced by @iov. Each element
-> + * in the @iov will be fully populated with data
-> + * before the next one is used. The @niov parameter
-> + * specifies the total number of elements in @iov.
-> + *
-> + * The function will wait for all requested data
-> + * to be read, yielding from the current coroutine
-> + * if required.
-> + *
-> + * If end-of-file occurs before all requested data
-> + * has been read, an error will be reported.
-> + *
-> + * Returns: 0 if all bytes were read, or -1 on error
-> + */
-> +int qio_channel_readv_peek_all(QIOChannel *ioc,
-> +                               const struct iovec *iov,
-> +                               size_t niov,
-> +                               Error **errp);
-> +
->   /**
->    * qio_channel_writev_all:
->    * @ioc: the channel object
-> @@ -456,6 +518,27 @@ int qio_channel_read_all(QIOChannel *ioc,
->                            size_t buflen,
->                            Error **errp);
->   
-> +/**
-> + * qio_channel_read_peek_all:
-> + * @ioc: the channel object
-> + * @buf: the memory region to read data into
-> + * @buflen: the number of bytes to @buf
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Reads @buflen bytes from the peek of channel into @buf without
-> + * removing it from channel buffer, possibly blocking or (if the
-> + * channel is non-blocking) yielding from the current coroutine
-> + * multiple times until the entire content is read. If end-of-file
-> + * occurs it will return an error rather than a short-read. Otherwise
-> + * behaves as qio_channel_read().
-> + *
-> + * Returns: 0 if all bytes were read, or -1 on error
-> + */
-> +int qio_channel_read_peek_all(QIOChannel *ioc,
-> +                              const char *buf,
-> +                              size_t buflen,
-> +                              Error **errp);
-> +
->   /**
->    * qio_channel_write_all:
->    * @ioc: the channel object
-> diff --git a/io/channel-buffer.c b/io/channel-buffer.c
-> index bf52011be2..8096180f85 100644
-> --- a/io/channel-buffer.c
-> +++ b/io/channel-buffer.c
-> @@ -54,6 +54,7 @@ static ssize_t qio_channel_buffer_readv(QIOChannel *ioc,
->                                           size_t niov,
->                                           int **fds,
->                                           size_t *nfds,
-> +                                        int flags,
->                                           Error **errp)
->   {
->       QIOChannelBuffer *bioc = QIO_CHANNEL_BUFFER(ioc);
-> diff --git a/io/channel-command.c b/io/channel-command.c
-> index 74516252ba..e7edd091af 100644
-> --- a/io/channel-command.c
-> +++ b/io/channel-command.c
-> @@ -203,6 +203,7 @@ static ssize_t qio_channel_command_readv(QIOChannel *ioc,
->                                            size_t niov,
->                                            int **fds,
->                                            size_t *nfds,
-> +                                         int flags,
->                                            Error **errp)
->   {
->       QIOChannelCommand *cioc = QIO_CHANNEL_COMMAND(ioc);
-> diff --git a/io/channel-file.c b/io/channel-file.c
-> index b67687c2aa..d76663e6ae 100644
-> --- a/io/channel-file.c
-> +++ b/io/channel-file.c
-> @@ -86,6 +86,7 @@ static ssize_t qio_channel_file_readv(QIOChannel *ioc,
->                                         size_t niov,
->                                         int **fds,
->                                         size_t *nfds,
-> +                                      int flags,
->                                         Error **errp)
->   {
->       QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
-> diff --git a/io/channel-null.c b/io/channel-null.c
-> index 75e3781507..4fafdb770d 100644
-> --- a/io/channel-null.c
-> +++ b/io/channel-null.c
-> @@ -60,6 +60,7 @@ qio_channel_null_readv(QIOChannel *ioc,
->                          size_t niov,
->                          int **fds G_GNUC_UNUSED,
->                          size_t *nfds G_GNUC_UNUSED,
-> +                       int flags,
->                          Error **errp)
->   {
->       QIOChannelNull *nioc = QIO_CHANNEL_NULL(ioc);
-> diff --git a/io/channel-socket.c b/io/channel-socket.c
-> index b76dca9cc1..a06b24766d 100644
-> --- a/io/channel-socket.c
-> +++ b/io/channel-socket.c
-> @@ -406,6 +406,8 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
->       }
->   #endif /* WIN32 */
->   
-> +    qio_channel_set_feature(QIO_CHANNEL(cioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
-> +
->       trace_qio_channel_socket_accept_complete(ioc, cioc, cioc->fd);
->       return cioc;
->   
-> @@ -496,6 +498,7 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
->                                           size_t niov,
->                                           int **fds,
->                                           size_t *nfds,
-> +                                        int flags,
->                                           Error **errp)
->   {
->       QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-> @@ -517,6 +520,10 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
->   
->       }
->   
-> +    if (flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) {
-> +        sflags |= MSG_PEEK;
-> +    }
-> +
->    retry:
->       ret = recvmsg(sioc->fd, &msg, sflags);
->       if (ret < 0) {
-> @@ -624,11 +631,17 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
->                                           size_t niov,
->                                           int **fds,
->                                           size_t *nfds,
-> +                                        int flags,
->                                           Error **errp)
->   {
->       QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
->       ssize_t done = 0;
->       ssize_t i;
-> +    int sflags = 0;
-> +
-> +    if (flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) {
-> +        sflags |= MSG_PEEK;
-> +    }
->   
->       for (i = 0; i < niov; i++) {
->           ssize_t ret;
-> @@ -636,7 +649,7 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
->           ret = recv(sioc->fd,
->                      iov[i].iov_base,
->                      iov[i].iov_len,
-> -                   0);
-> +                   sflags);
->           if (ret < 0) {
->               if (errno == EAGAIN) {
->                   if (done) {
-> @@ -705,7 +718,6 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
->   }
->   #endif /* WIN32 */
->   
-> -
->   #ifdef QEMU_MSG_ZEROCOPY
->   static int qio_channel_socket_flush(QIOChannel *ioc,
->                                       Error **errp)
-> diff --git a/io/channel-tls.c b/io/channel-tls.c
-> index 4ce890a538..c730cb8ec5 100644
-> --- a/io/channel-tls.c
-> +++ b/io/channel-tls.c
-> @@ -260,6 +260,7 @@ static ssize_t qio_channel_tls_readv(QIOChannel *ioc,
->                                        size_t niov,
->                                        int **fds,
->                                        size_t *nfds,
-> +                                     int flags,
->                                        Error **errp)
->   {
->       QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
-> diff --git a/io/channel-websock.c b/io/channel-websock.c
-> index fb4932ade7..a12acc27cf 100644
-> --- a/io/channel-websock.c
-> +++ b/io/channel-websock.c
-> @@ -1081,6 +1081,7 @@ static ssize_t qio_channel_websock_readv(QIOChannel *ioc,
->                                            size_t niov,
->                                            int **fds,
->                                            size_t *nfds,
-> +                                         int flags,
->                                            Error **errp)
->   {
->       QIOChannelWebsock *wioc = QIO_CHANNEL_WEBSOCK(ioc);
-> diff --git a/io/channel.c b/io/channel.c
-> index 0640941ac5..23c8752918 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -52,6 +52,7 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->                                  size_t niov,
->                                  int **fds,
->                                  size_t *nfds,
-> +                               int flags,
->                                  Error **errp)
->   {
->       QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
-> @@ -63,7 +64,14 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->           return -1;
->       }
->   
-> -    return klass->io_readv(ioc, iov, niov, fds, nfds, errp);
-> +    if ((flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) &&
-> +        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEEK)) {
-> +        error_setg_errno(errp, EINVAL,
-> +                         "Channel does not support peek read");
-> +        return -1;
-> +    }
-> +
-> +    return klass->io_readv(ioc, iov, niov, fds, nfds, flags, errp);
->   }
->   
->   
-> @@ -109,6 +117,37 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->       return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
->   }
->   
-> +int qio_channel_readv_peek_all_eof(QIOChannel *ioc,
-> +                                   const struct iovec *iov,
-> +                                   size_t niov,
-> +                                   Error **errp)
-> +{
-> +   ssize_t len = 0;
-> +   ssize_t total = iov_size(iov, niov);
-> +
-> +   while (len < total) {
-> +       len = qio_channel_readv_full(ioc, iov, niov, NULL,
-> +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
-> +
-> +       if (len == QIO_CHANNEL_ERR_BLOCK) {
-> +            if (qemu_in_coroutine()) {
-> +                qio_channel_yield(ioc, G_IO_IN);
-> +            } else {
-> +                qio_channel_wait(ioc, G_IO_IN);
-> +            }
-> +            continue;
-> +       }
-> +       if (len == 0) {
-> +           return 0;
-> +       }
-> +       if (len < 0) {
-> +           return -1;
-> +       }
-> +   }
-> +
-> +   return 1;
-> +}
-> +
->   int qio_channel_readv_all(QIOChannel *ioc,
->                             const struct iovec *iov,
->                             size_t niov,
-> @@ -117,6 +156,24 @@ int qio_channel_readv_all(QIOChannel *ioc,
->       return qio_channel_readv_full_all(ioc, iov, niov, NULL, NULL, errp);
->   }
->   
-> +int qio_channel_readv_peek_all(QIOChannel *ioc,
-> +                               const struct iovec *iov,
-> +                               size_t niov,
-> +                               Error **errp)
-> +{
-> +    int ret = qio_channel_readv_peek_all_eof(ioc, iov, niov, errp);
-> +
-> +    if (ret == 0) {
-> +        error_setg(errp, "Unexpected end-of-file before all data were read");
-> +        return -1;
-> +    }
-> +    if (ret == 1) {
-> +        return 0;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->   int qio_channel_readv_full_all_eof(QIOChannel *ioc,
->                                      const struct iovec *iov,
->                                      size_t niov,
-> @@ -146,7 +203,7 @@ int qio_channel_readv_full_all_eof(QIOChannel *ioc,
->       while ((nlocal_iov > 0) || local_fds) {
->           ssize_t len;
->           len = qio_channel_readv_full(ioc, local_iov, nlocal_iov, local_fds,
-> -                                     local_nfds, errp);
-> +                                     local_nfds, 0, errp);
->           if (len == QIO_CHANNEL_ERR_BLOCK) {
->               if (qemu_in_coroutine()) {
->                   qio_channel_yield(ioc, G_IO_IN);
-> @@ -284,7 +341,7 @@ ssize_t qio_channel_readv(QIOChannel *ioc,
->                             size_t niov,
->                             Error **errp)
->   {
-> -    return qio_channel_readv_full(ioc, iov, niov, NULL, NULL, errp);
-> +    return qio_channel_readv_full(ioc, iov, niov, NULL, NULL, 0, errp);
->   }
->   
->   
-> @@ -303,7 +360,7 @@ ssize_t qio_channel_read(QIOChannel *ioc,
->                            Error **errp)
->   {
->       struct iovec iov = { .iov_base = buf, .iov_len = buflen };
-> -    return qio_channel_readv_full(ioc, &iov, 1, NULL, NULL, errp);
-> +    return qio_channel_readv_full(ioc, &iov, 1, NULL, NULL, 0, errp);
->   }
->   
->   
-> @@ -336,6 +393,14 @@ int qio_channel_read_all(QIOChannel *ioc,
->       return qio_channel_readv_all(ioc, &iov, 1, errp);
->   }
->   
-> +int qio_channel_read_peek_all(QIOChannel *ioc,
-> +                              const char *buf,
-> +                              size_t buflen,
-> +                              Error **errp)
-> +{
-> +    struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
-> +    return qio_channel_readv_peek_all(ioc, &iov, 1, errp);
-> +}
->   
->   int qio_channel_write_all(QIOChannel *ioc,
->                             const char *buf,
-> diff --git a/migration/channel-block.c b/migration/channel-block.c
-> index c55c8c93ce..0b0deeb919 100644
-> --- a/migration/channel-block.c
-> +++ b/migration/channel-block.c
-> @@ -53,6 +53,7 @@ qio_channel_block_readv(QIOChannel *ioc,
->                           size_t niov,
->                           int **fds,
->                           size_t *nfds,
-> +                        int flags,
->                           Error **errp)
->   {
->       QIOChannelBlock *bioc = QIO_CHANNEL_BLOCK(ioc);
-> diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-> index 196b78c00d..199227a556 100644
-> --- a/scsi/qemu-pr-helper.c
-> +++ b/scsi/qemu-pr-helper.c
-> @@ -614,7 +614,7 @@ static int coroutine_fn prh_read(PRHelperClient *client, void *buf, int sz,
->           iov.iov_base = buf;
->           iov.iov_len = sz;
->           n_read = qio_channel_readv_full(QIO_CHANNEL(client->ioc), &iov, 1,
-> -                                        &fds, &nfds, errp);
-> +                                        &fds, &nfds, 0, errp);
->   
->           if (n_read == QIO_CHANNEL_ERR_BLOCK) {
->               qio_channel_yield(QIO_CHANNEL(client->ioc), G_IO_IN);
-> diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
-> index 2994d1cf42..3cf1acaf7d 100644
-> --- a/tests/qtest/tpm-emu.c
-> +++ b/tests/qtest/tpm-emu.c
-> @@ -106,7 +106,7 @@ void *tpm_emu_ctrl_thread(void *data)
->           int *pfd = NULL;
->           size_t nfd = 0;
->   
-> -        qio_channel_readv_full(ioc, &iov, 1, &pfd, &nfd, &error_abort);
-> +        qio_channel_readv_full(ioc, &iov, 1, &pfd, &nfd, 0, &error_abort);
->           cmd = be32_to_cpu(cmd);
->           g_assert_cmpint(cmd, ==, CMD_SET_DATAFD);
->           g_assert_cmpint(nfd, ==, 1);
-> diff --git a/tests/unit/test-io-channel-socket.c b/tests/unit/test-io-channel-socket.c
-> index b36a5d972a..b964bb202d 100644
-> --- a/tests/unit/test-io-channel-socket.c
-> +++ b/tests/unit/test-io-channel-socket.c
-> @@ -460,6 +460,7 @@ static void test_io_channel_unix_fd_pass(void)
->                              G_N_ELEMENTS(iorecv),
->                              &fdrecv,
->                              &nfdrecv,
-> +                           0,
->                              &error_abort);
->   
->       g_assert(nfdrecv == G_N_ELEMENTS(fdsend));
-> diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
-> index 232984ace6..145eb17c08 100644
-> --- a/util/vhost-user-server.c
-> +++ b/util/vhost-user-server.c
-> @@ -116,7 +116,7 @@ vu_message_read(VuDev *vu_dev, int conn_fd, VhostUserMsg *vmsg)
->            * qio_channel_readv_full may have short reads, keeping calling it
->            * until getting VHOST_USER_HDR_SIZE or 0 bytes in total
->            */
-> -        rc = qio_channel_readv_full(ioc, &iov, 1, &fds, &nfds, &local_err);
-> +        rc = qio_channel_readv_full(ioc, &iov, 1, &fds, &nfds, 0, &local_err);
->           if (rc < 0) {
->               if (rc == QIO_CHANNEL_ERR_BLOCK) {
->                   assert(local_err == NULL);
+> On Friday, November 18, 2022 10:29:51 AM CET Greg Kurz wrote:
+> > On Fri, 11 Nov 2022 12:22:11 +0800
+> > Bin Meng <bin.meng@windriver.com> wrote:
+> > 
+> > > With this new QemuFd_t type, it significantly reduces the number of
+> > 
+> > I cannot find the definition of this type, nor the definition of
+> > qemu_fd_invalid(). Missing patch ?
+> 
+> It's in patch 4. Looks like we were not CCed on that patch. :(
+> 
 
+Oh I didn't check the numbering. I guess we were not CCed automatically...
 
-Sorry ignore this series, sent my mistake, there is another series tagged with V3.
+> https://lore.kernel.org/qemu-devel/20221111042225.1115931-5-bin.meng@windriver.com/
+> 
+
+... because this only touches include/qemu/osdep.h .
+
+Bin,
+
+Please ensure that the maintainers are in the Cc list for all
+patches in such a series, e.g. with explicit --cc arguments to
+git-send-email.
+
+> > Anyway, IIUC this type is an int for linux and a HANDLE for windows,
+> > right ?
+> > 
+> > According to win32 documentation at [1] :
+> > 
+> > HANDLE	
+> > A handle to an object.
+> > 
+> > This type is declared in WinNT.h as follows:
+> > 
+> > typedef PVOID HANDLE;
+> > 
+> > and
+> > 
+> > PVOID	
+> > A pointer to any type.
+> > 
+> > This type is declared in WinNT.h as follows:
+> > 
+> > typedef void *PVOID;
+> > 
+> > HANDLE is void *.
+> > 
+> > From docs/devel/style.rst:
+> > 
+> > Naming
+> > ======
+> > 
+> > Variables are lower_case_with_underscores; easy to type and read.  Structured
+> > type names are in CamelCase; harder to type but standing out.  Enum type
+> > names and function type names should also be in CamelCase.  Scalar type
+> > names are lower_case_with_underscores_ending_with_a_t, like the POSIX
+> > uint64_t and family.  Note that this last convention contradicts POSIX
+> > and is therefore likely to be changed.
+> > 
+> > Both int and void * are scalar types, so I'd rather name it qemu_fd_t,
+> > not using CamelCase at all so that it cannot be confused with a struct.
+> > 
+> > [1] https://learn.microsoft.com/en-us/windows/win32/winprog/windows-data-types
+> 
+> Not that I had a strong opinion about this issue (as in general with coding
+> style topics). It was one of my suggested type names. To make this type long-
+> term proof I suggested to handle it as if it was a truly opaque type in QEMU:
+> 
+
+A true opaque type in C is implemented with a structured type and pointers
+to this type.
+
+> https://lore.kernel.org/qemu-devel/4620086.XpUeK0iDWE@silver/
+> 
+> That is to explicitly not try to do things like:
+> 
+>     if (fd == -1)
+> 
+> at least not hard wired in user code. According to QEMU code style you should
+> probably then drop the trailing "_t" though.
+> 
+
+Yes, either one is fine I guess. Most important part is to provide
+a documented API to manipulate that type since, no matter the name,
+it is still a scalar type that can be manipulated as such.
+
+> > > deviated code paths when adding Windows support.
+> > > 
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > 
+> > > ---
+> > > 
+> > > Changes in v2:
+> > > - Use the new QemuFd_t type
+> > > 
+> > >  hw/9pfs/9p-local.h       |   6 +-
+> > >  hw/9pfs/9p-util.h        |  26 +++---
+> > >  hw/9pfs/9p-local.c       | 174 ++++++++++++++++++++-------------------
+> > >  hw/9pfs/9p-util-darwin.c |  14 ++--
+> > >  hw/9pfs/9p-util-linux.c  |  14 ++--
+> > >  hw/9pfs/9p-xattr.c       |  16 ++--
+> > >  6 files changed, 129 insertions(+), 121 deletions(-)
+> > > 
+> > > diff --git a/hw/9pfs/9p-local.h b/hw/9pfs/9p-local.h
+> > > index 32c72749d9..66a21316a0 100644
+> > > --- a/hw/9pfs/9p-local.h
+> > > +++ b/hw/9pfs/9p-local.h
+> > > @@ -13,8 +13,8 @@
+> > >  #ifndef QEMU_9P_LOCAL_H
+> > >  #define QEMU_9P_LOCAL_H
+> > >  
+> > > -int local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
+> > > -                        mode_t mode);
+> > > -int local_opendir_nofollow(FsContext *fs_ctx, const char *path);
+> > > +QemuFd_t local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
+> > > +                             mode_t mode);
+> > > +QemuFd_t local_opendir_nofollow(FsContext *fs_ctx, const char *path);
+> > >  
+> > >  #endif
+> > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> > > index c314cf381d..3d6bd1a51e 100644
+> > > --- a/hw/9pfs/9p-util.h
+> > > +++ b/hw/9pfs/9p-util.h
+> > > @@ -101,30 +101,31 @@ static inline int errno_to_dotl(int err) {
+> > >  #define qemu_utimensat  utimensat
+> > >  #define qemu_unlinkat   unlinkat
+> > >  
+> > > -static inline void close_preserve_errno(int fd)
+> > > +static inline void close_preserve_errno(QemuFd_t fd)
+> > >  {
+> > >      int serrno = errno;
+> > >      close(fd);
+> > >      errno = serrno;
+> > >  }
+> > >  
+> > > -static inline int openat_dir(int dirfd, const char *name)
+> > > +static inline QemuFd_t openat_dir(QemuFd_t dirfd, const char *name)
+> > >  {
+> > >      return qemu_openat(dirfd, name,
+> > >                         O_DIRECTORY | O_RDONLY | O_NOFOLLOW | O_PATH_9P_UTIL);
+> > >  }
+> > >  
+> > > -static inline int openat_file(int dirfd, const char *name, int flags,
+> > > -                              mode_t mode)
+> > > +static inline QemuFd_t openat_file(QemuFd_t dirfd, const char *name,
+> > > +                                   int flags, mode_t mode)
+> > >  {
+> > > -    int fd, serrno, ret;
+> > > +    int serrno, ret;
+> > > +    QemuFd_t fd;
+> > >  
+> > >  #ifndef CONFIG_DARWIN
+> > >  again:
+> > >  #endif
+> > >      fd = qemu_openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
+> > >                       mode);
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >  #ifndef CONFIG_DARWIN
+> > >          if (errno == EPERM && (flags & O_NOATIME)) {
+> > >              /*
+> > > @@ -155,13 +156,13 @@ again:
+> > >      return fd;
+> > >  }
+> > >  
+> > > -ssize_t fgetxattrat_nofollow(int dirfd, const char *path, const char *name,
+> > > -                             void *value, size_t size);
+> > > -int fsetxattrat_nofollow(int dirfd, const char *path, const char *name,
+> > > +ssize_t fgetxattrat_nofollow(QemuFd_t dirfd, const char *path,
+> > > +                             const char *name, void *value, size_t size);
+> > > +int fsetxattrat_nofollow(QemuFd_t dirfd, const char *path, const char *name,
+> > >                           void *value, size_t size, int flags);
+> > > -ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
+> > > +ssize_t flistxattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > >                                char *list, size_t size);
+> > > -ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
+> > > +ssize_t fremovexattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > >                                  const char *name);
+> > >  
+> > >  /*
+> > > @@ -219,6 +220,7 @@ static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
+> > >  #if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+> > >  int pthread_fchdir_np(int fd) __attribute__((weak_import));
+> > >  #endif
+> > > -int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
+> > > +int qemu_mknodat(QemuFd_t dirfd, const char *filename, mode_t mode,
+> > > +                 dev_t dev);
+> > >  
+> > >  #endif
+> > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> > > index d2246a3d7e..22377a3105 100644
+> > > --- a/hw/9pfs/9p-local.c
+> > > +++ b/hw/9pfs/9p-local.c
+> > > @@ -54,18 +54,18 @@
+> > >  #endif
+> > >  
+> > >  typedef struct {
+> > > -    int mountfd;
+> > > +    QemuFd_t mountfd;
+> > >  } LocalData;
+> > >  
+> > > -int local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
+> > > -                        mode_t mode)
+> > > +QemuFd_t local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
+> > > +                             mode_t mode)
+> > >  {
+> > >      LocalData *data = fs_ctx->private;
+> > > -    int fd = data->mountfd;
+> > > +    QemuFd_t fd = data->mountfd;
+> > >  
+> > > -    while (*path && fd != -1) {
+> > > +    while (*path && !qemu_fd_invalid(fd)) {
+> > >          const char *c;
+> > > -        int next_fd;
+> > > +        QemuFd_t next_fd;
+> > >          char *head;
+> > >  
+> > >          /* Only relative paths without consecutive slashes */
+> > > @@ -94,20 +94,21 @@ int local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
+> > >      return fd;
+> > >  }
+> > >  
+> > > -int local_opendir_nofollow(FsContext *fs_ctx, const char *path)
+> > > +QemuFd_t local_opendir_nofollow(FsContext *fs_ctx, const char *path)
+> > >  {
+> > >      return local_open_nofollow(fs_ctx, path, O_DIRECTORY | O_RDONLY, 0);
+> > >  }
+> > >  
+> > > -static void renameat_preserve_errno(int odirfd, const char *opath, int ndirfd,
+> > > -                                    const char *npath)
+> > > +static void renameat_preserve_errno(QemuFd_t odirfd, const char *opath,
+> > > +                                    QemuFd_t ndirfd, const char *npath)
+> > >  {
+> > >      int serrno = errno;
+> > >      qemu_renameat(odirfd, opath, ndirfd, npath);
+> > >      errno = serrno;
+> > >  }
+> > >  
+> > > -static void unlinkat_preserve_errno(int dirfd, const char *path, int flags)
+> > > +static void unlinkat_preserve_errno(QemuFd_t dirfd, const char *path,
+> > > +                                    int flags)
+> > >  {
+> > >      int serrno = errno;
+> > >      qemu_unlinkat(dirfd, path, flags);
+> > > @@ -117,9 +118,10 @@ static void unlinkat_preserve_errno(int dirfd, const char *path, int flags)
+> > >  #define VIRTFS_META_DIR ".virtfs_metadata"
+> > >  #define VIRTFS_META_ROOT_FILE VIRTFS_META_DIR "_root"
+> > >  
+> > > -static FILE *local_fopenat(int dirfd, const char *name, const char *mode)
+> > > +static FILE *local_fopenat(QemuFd_t dirfd, const char *name, const char *mode)
+> > >  {
+> > > -    int fd, o_mode = 0;
+> > > +    QemuFd_t fd;
+> > > +    int o_mode = 0;
+> > >      FILE *fp;
+> > >      int flags;
+> > >      /*
+> > > @@ -134,7 +136,7 @@ static FILE *local_fopenat(int dirfd, const char *name, const char *mode)
+> > >          return NULL;
+> > >      }
+> > >      fd = openat_file(dirfd, name, flags, o_mode);
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >          return NULL;
+> > >      }
+> > >      fp = fdopen(fd, mode);
+> > > @@ -145,16 +147,16 @@ static FILE *local_fopenat(int dirfd, const char *name, const char *mode)
+> > >  }
+> > >  
+> > >  #define ATTR_MAX 100
+> > > -static void local_mapped_file_attr(int dirfd, const char *name,
+> > > +static void local_mapped_file_attr(QemuFd_t dirfd, const char *name,
+> > >                                     struct stat *stbuf)
+> > >  {
+> > >      FILE *fp;
+> > >      char buf[ATTR_MAX];
+> > > -    int map_dirfd;
+> > > +    QemuFd_t map_dirfd;
+> > >  
+> > >      if (strcmp(name, ".")) {
+> > >          map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
+> > > -        if (map_dirfd == -1) {
+> > > +        if (qemu_fd_invalid(map_dirfd)) {
+> > >              return;
+> > >          }
+> > >  
+> > > @@ -187,10 +189,10 @@ static int local_lstat(FsContext *fs_ctx, V9fsPath *fs_path, struct stat *stbuf)
+> > >      int err = -1;
+> > >      char *dirpath = g_path_get_dirname(fs_path->data);
+> > >      char *name = g_path_get_basename(fs_path->data);
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      dirfd = local_opendir_nofollow(fs_ctx, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > > @@ -233,14 +235,14 @@ out:
+> > >      return err;
+> > >  }
+> > >  
+> > > -static int local_set_mapped_file_attrat(int dirfd, const char *name,
+> > > +static int local_set_mapped_file_attrat(QemuFd_t dirfd, const char *name,
+> > >                                          FsCred *credp)
+> > >  {
+> > >      FILE *fp;
+> > >      int ret;
+> > >      char buf[ATTR_MAX];
+> > >      int uid = -1, gid = -1, mode = -1, rdev = -1;
+> > > -    int map_dirfd = -1, map_fd;
+> > > +    QemuFd_t map_dirfd = QEMU_FD_INVALID, map_fd;
+> > >      bool is_root = !strcmp(name, ".");
+> > >  
+> > >      if (is_root) {
+> > > @@ -259,7 +261,7 @@ static int local_set_mapped_file_attrat(int dirfd, const char *name,
+> > >          }
+> > >  
+> > >          map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
+> > > -        if (map_dirfd == -1) {
+> > > +        if (qemu_fd_invalid(map_dirfd)) {
+> > >              return -1;
+> > >          }
+> > >  
+> > > @@ -296,7 +298,7 @@ update_map_file:
+> > >          /* We can't go this far with map_dirfd not being a valid file descriptor
+> > >           * but some versions of gcc aren't smart enough to see it.
+> > >           */
+> > > -        if (map_dirfd != -1) {
+> > > +        if (!qemu_fd_invalid(map_dirfd)) {
+> > >              close_preserve_errno(map_dirfd);
+> > >          }
+> > >      }
+> > > @@ -305,7 +307,7 @@ update_map_file:
+> > >      }
+> > >  
+> > >      map_fd = fileno(fp);
+> > > -    assert(map_fd != -1);
+> > > +    assert(!qemu_fd_invalid(map_fd));
+> > >      ret = fchmod(map_fd, 0600);
+> > >      assert(ret == 0);
+> > >  
+> > > @@ -339,10 +341,11 @@ update_map_file:
+> > >      return 0;
+> > >  }
+> > >  
+> > > -static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
+> > > +static int fchmodat_nofollow(QemuFd_t dirfd, const char *name, mode_t mode)
+> > >  {
+> > >      struct stat stbuf;
+> > > -    int fd, ret;
+> > > +    QemuFd_t fd;
+> > > +    int ret;
+> > >  
+> > >      /* FIXME: this should be handled with fchmodat(AT_SYMLINK_NOFOLLOW).
+> > >       * Unfortunately, the linux kernel doesn't implement it yet.
+> > > @@ -362,16 +365,16 @@ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
+> > >      /* Fallback for systems that don't support O_PATH: we depend on the file
+> > >       * being readable or writable.
+> > >       */
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >          /* In case the file is writable-only and isn't a directory. */
+> > >          if (errno == EACCES) {
+> > >              fd = openat_file(dirfd, name, O_WRONLY, 0);
+> > >          }
+> > > -        if (fd == -1 && errno == EISDIR) {
+> > > +        if (qemu_fd_invalid(fd) && errno == EISDIR) {
+> > >              errno = EACCES;
+> > >          }
+> > >      }
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >          return -1;
+> > >      }
+> > >      ret = fchmod(fd, mode);
+> > > @@ -380,7 +383,7 @@ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
+> > >       * link, O_PATH | O_NOFOLLOW causes openat(2) to return a file descriptor
+> > >       * referring to the symbolic link.
+> > >       */
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > > @@ -401,7 +404,7 @@ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
+> > >      return ret;
+> > >  }
+> > >  
+> > > -static int local_set_xattrat(int dirfd, const char *path, FsCred *credp)
+> > > +static int local_set_xattrat(QemuFd_t dirfd, const char *path, FsCred *credp)
+> > >  {
+> > >      int err;
+> > >  
+> > > @@ -440,7 +443,7 @@ static int local_set_xattrat(int dirfd, const char *path, FsCred *credp)
+> > >      return 0;
+> > >  }
+> > >  
+> > > -static int local_set_cred_passthrough(FsContext *fs_ctx, int dirfd,
+> > > +static int local_set_cred_passthrough(FsContext *fs_ctx, QemuFd_t dirfd,
+> > >                                        const char *name, FsCred *credp)
+> > >  {
+> > >      if (fchownat(dirfd, name, credp->fc_uid, credp->fc_gid,
+> > > @@ -464,10 +467,10 @@ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
+> > >  
+> > >      if ((fs_ctx->export_flags & V9FS_SM_MAPPED) ||
+> > >          (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE)) {
+> > > -        int fd;
+> > > +        QemuFd_t fd;
+> > >  
+> > >          fd = local_open_nofollow(fs_ctx, fs_path->data, O_RDONLY, 0);
+> > > -        if (fd == -1) {
+> > > +        if (qemu_fd_invalid(fd)) {
+> > >              return -1;
+> > >          }
+> > >          do {
+> > > @@ -478,10 +481,10 @@ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
+> > >                 (fs_ctx->export_flags & V9FS_SM_NONE)) {
+> > >          char *dirpath = g_path_get_dirname(fs_path->data);
+> > >          char *name = g_path_get_basename(fs_path->data);
+> > > -        int dirfd;
+> > > +        QemuFd_t dirfd;
+> > >  
+> > >          dirfd = local_opendir_nofollow(fs_ctx, dirpath);
+> > > -        if (dirfd == -1) {
+> > > +        if (qemu_fd_invalid(dirfd)) {
+> > >              goto out;
+> > >          }
+> > >  
+> > > @@ -507,10 +510,10 @@ static int local_closedir(FsContext *ctx, V9fsFidOpenState *fs)
+> > >  static int local_open(FsContext *ctx, V9fsPath *fs_path,
+> > >                        int flags, V9fsFidOpenState *fs)
+> > >  {
+> > > -    int fd;
+> > > +    QemuFd_t fd;
+> > >  
+> > >      fd = local_open_nofollow(ctx, fs_path->data, flags, 0);
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >          return -1;
+> > >      }
+> > >      fs->fd = fd;
+> > > @@ -520,11 +523,11 @@ static int local_open(FsContext *ctx, V9fsPath *fs_path,
+> > >  static int local_opendir(FsContext *ctx,
+> > >                           V9fsPath *fs_path, V9fsFidOpenState *fs)
+> > >  {
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >      DIR *stream;
+> > >  
+> > >      dirfd = local_opendir_nofollow(ctx, fs_path->data);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > > @@ -640,10 +643,10 @@ static int local_chmod(FsContext *fs_ctx, V9fsPath *fs_path, FsCred *credp)
+> > >      char *dirpath = g_path_get_dirname(fs_path->data);
+> > >      char *name = g_path_get_basename(fs_path->data);
+> > >      int ret = -1;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      dirfd = local_opendir_nofollow(fs_ctx, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > > @@ -667,7 +670,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+> > >                         const char *name, FsCred *credp)
+> > >  {
+> > >      int err = -1;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE &&
+> > >          local_is_mapped_file_metadata(fs_ctx, name)) {
+> > > @@ -676,7 +679,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+> > >      }
+> > >  
+> > >      dirfd = local_opendir_nofollow(fs_ctx, dir_path->data);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > > @@ -719,7 +722,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
+> > >                         const char *name, FsCred *credp)
+> > >  {
+> > >      int err = -1;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE &&
+> > >          local_is_mapped_file_metadata(fs_ctx, name)) {
+> > > @@ -728,7 +731,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
+> > >      }
+> > >  
+> > >      dirfd = local_opendir_nofollow(fs_ctx, dir_path->data);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > > @@ -816,9 +819,9 @@ static int local_fstat(FsContext *fs_ctx, int fid_type,
+> > >  static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+> > >                         int flags, FsCred *credp, V9fsFidOpenState *fs)
+> > >  {
+> > > -    int fd = -1;
+> > > +    QemuFd_t fd = QEMU_FD_INVALID;
+> > >      int err = -1;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE &&
+> > >          local_is_mapped_file_metadata(fs_ctx, name)) {
+> > > @@ -832,7 +835,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+> > >      flags |= O_NOFOLLOW;
+> > >  
+> > >      dirfd = local_opendir_nofollow(fs_ctx, dir_path->data);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > > @@ -840,7 +843,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+> > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > >          fd = openat_file(dirfd, name, flags, fs_ctx->fmode);
+> > > -        if (fd == -1) {
+> > > +        if (qemu_fd_invalid(fd)) {
+> > >              goto out;
+> > >          }
+> > >          credp->fc_mode = credp->fc_mode | S_IFREG;
+> > > @@ -856,7 +859,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+> > >      } else if ((fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
+> > >                 (fs_ctx->export_flags & V9FS_SM_NONE)) {
+> > >          fd = openat_file(dirfd, name, flags, credp->fc_mode);
+> > > -        if (fd == -1) {
+> > > +        if (qemu_fd_invalid(fd)) {
+> > >              goto out;
+> > >          }
+> > >          err = local_set_cred_passthrough(fs_ctx, dirfd, name, credp);
+> > > @@ -882,7 +885,7 @@ static int local_symlink(FsContext *fs_ctx, const char *oldpath,
+> > >                           V9fsPath *dir_path, const char *name, FsCred *credp)
+> > >  {
+> > >      int err = -1;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE &&
+> > >          local_is_mapped_file_metadata(fs_ctx, name)) {
+> > > @@ -891,19 +894,19 @@ static int local_symlink(FsContext *fs_ctx, const char *oldpath,
+> > >      }
+> > >  
+> > >      dirfd = local_opendir_nofollow(fs_ctx, dir_path->data);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > >      /* Determine the security model */
+> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+> > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > > -        int fd;
+> > > +        QemuFd_t fd;
+> > >          ssize_t oldpath_size, write_size;
+> > >  
+> > >          fd = openat_file(dirfd, name, O_CREAT | O_EXCL | O_RDWR,
+> > >                           fs_ctx->fmode);
+> > > -        if (fd == -1) {
+> > > +        if (qemu_fd_invalid(fd)) {
+> > >              goto out;
+> > >          }
+> > >          /* Write the oldpath (target) to the file. */
+> > > @@ -962,7 +965,7 @@ static int local_link(FsContext *ctx, V9fsPath *oldpath,
+> > >      char *odirpath = g_path_get_dirname(oldpath->data);
+> > >      char *oname = g_path_get_basename(oldpath->data);
+> > >      int ret = -1;
+> > > -    int odirfd, ndirfd;
+> > > +    QemuFd_t odirfd, ndirfd;
+> > >  
+> > >      if (ctx->export_flags & V9FS_SM_MAPPED_FILE &&
+> > >          local_is_mapped_file_metadata(ctx, name)) {
+> > > @@ -971,12 +974,12 @@ static int local_link(FsContext *ctx, V9fsPath *oldpath,
+> > >      }
+> > >  
+> > >      odirfd = local_opendir_nofollow(ctx, odirpath);
+> > > -    if (odirfd == -1) {
+> > > +    if (qemu_fd_invalid(odirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > >      ndirfd = local_opendir_nofollow(ctx, dirpath->data);
+> > > -    if (ndirfd == -1) {
+> > > +    if (qemu_fd_invalid(ndirfd)) {
+> > >          close_preserve_errno(odirfd);
+> > >          goto out;
+> > >      }
+> > > @@ -996,12 +999,12 @@ static int local_link(FsContext *ctx, V9fsPath *oldpath,
+> > >          }
+> > >  
+> > >          omap_dirfd = openat_dir(odirfd, VIRTFS_META_DIR);
+> > > -        if (omap_dirfd == -1) {
+> > > +        if (qemu_fd_invalid(omap_dirfd)) {
+> > >              goto err;
+> > >          }
+> > >  
+> > >          nmap_dirfd = openat_dir(ndirfd, VIRTFS_META_DIR);
+> > > -        if (nmap_dirfd == -1) {
+> > > +        if (qemu_fd_invalid(nmap_dirfd)) {
+> > >              close_preserve_errno(omap_dirfd);
+> > >              goto err;
+> > >          }
+> > > @@ -1032,10 +1035,11 @@ out:
+> > >  
+> > >  static int local_truncate(FsContext *ctx, V9fsPath *fs_path, off_t size)
+> > >  {
+> > > -    int fd, ret;
+> > > +    QemuFd_t fd;
+> > > +    int ret;
+> > >  
+> > >      fd = local_open_nofollow(ctx, fs_path->data, O_WRONLY, 0);
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >          return -1;
+> > >      }
+> > >      ret = ftruncate(fd, size);
+> > > @@ -1048,10 +1052,10 @@ static int local_chown(FsContext *fs_ctx, V9fsPath *fs_path, FsCred *credp)
+> > >      char *dirpath = g_path_get_dirname(fs_path->data);
+> > >      char *name = g_path_get_basename(fs_path->data);
+> > >      int ret = -1;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      dirfd = local_opendir_nofollow(fs_ctx, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > > @@ -1078,10 +1082,11 @@ static int local_utimensat(FsContext *s, V9fsPath *fs_path,
+> > >  {
+> > >      char *dirpath = g_path_get_dirname(fs_path->data);
+> > >      char *name = g_path_get_basename(fs_path->data);
+> > > -    int dirfd, ret = -1;
+> > > +    QemuFd_t dirfd;
+> > > +    int ret = -1;
+> > >  
+> > >      dirfd = local_opendir_nofollow(s, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > > @@ -1093,13 +1098,13 @@ out:
+> > >      return ret;
+> > >  }
+> > >  
+> > > -static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+> > > -                                 int flags)
+> > > +static int local_unlinkat_common(FsContext *ctx, QemuFd_t dirfd,
+> > > +                                 const char *name, int flags)
+> > >  {
+> > >      int ret;
+> > >  
+> > >      if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > > -        int map_dirfd;
+> > > +        QemuFd_t map_dirfd;
+> > >  
+> > >          /* We need to remove the metadata as well:
+> > >           * - the metadata directory if we're removing a directory
+> > > @@ -1110,10 +1115,10 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+> > >           * mode. We just ignore the error.
+> > >           */
+> > >          if (flags == AT_REMOVEDIR) {
+> > > -            int fd;
+> > > +            QemuFd_t fd;
+> > >  
+> > >              fd = openat_dir(dirfd, name);
+> > > -            if (fd == -1) {
+> > > +            if (qemu_fd_invalid(fd)) {
+> > >                  return -1;
+> > >              }
+> > >              ret = qemu_unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
+> > > @@ -1123,7 +1128,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+> > >              }
+> > >          }
+> > >          map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
+> > > -        if (map_dirfd != -1) {
+> > > +        if (!qemu_fd_invalid(map_dirfd)) {
+> > >              ret = qemu_unlinkat(map_dirfd, name, 0);
+> > >              close_preserve_errno(map_dirfd);
+> > >              if (ret < 0 && errno != ENOENT) {
+> > > @@ -1143,11 +1148,11 @@ static int local_remove(FsContext *ctx, const char *path)
+> > >      char *dirpath = g_path_get_dirname(path);
+> > >      char *name = g_path_get_basename(path);
+> > >      int flags = 0;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >      int err = -1;
+> > >  
+> > >      dirfd = local_opendir_nofollow(ctx, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > > @@ -1188,10 +1193,11 @@ static int local_fsync(FsContext *ctx, int fid_type,
+> > >  
+> > >  static int local_statfs(FsContext *s, V9fsPath *fs_path, struct statfs *stbuf)
+> > >  {
+> > > -    int fd, ret;
+> > > +    QemuFd_t fd;
+> > > +    int ret;
+> > >  
+> > >      fd = local_open_nofollow(s, fs_path->data, O_RDONLY, 0);
+> > > -    if (fd == -1) {
+> > > +    if (qemu_fd_invalid(fd)) {
+> > >          return -1;
+> > >      }
+> > >      ret = fstatfs(fd, stbuf);
+> > > @@ -1276,7 +1282,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
+> > >                            const char *new_name)
+> > >  {
+> > >      int ret;
+> > > -    int odirfd, ndirfd;
+> > > +    QemuFd_t odirfd, ndirfd;
+> > >  
+> > >      if (ctx->export_flags & V9FS_SM_MAPPED_FILE &&
+> > >          (local_is_mapped_file_metadata(ctx, old_name) ||
+> > > @@ -1286,12 +1292,12 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
+> > >      }
+> > >  
+> > >      odirfd = local_opendir_nofollow(ctx, olddir->data);
+> > > -    if (odirfd == -1) {
+> > > +    if (qemu_fd_invalid(odirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > >      ndirfd = local_opendir_nofollow(ctx, newdir->data);
+> > > -    if (ndirfd == -1) {
+> > > +    if (qemu_fd_invalid(ndirfd)) {
+> > >          close_preserve_errno(odirfd);
+> > >          return -1;
+> > >      }
+> > > @@ -1302,7 +1308,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
+> > >      }
+> > >  
+> > >      if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > > -        int omap_dirfd, nmap_dirfd;
+> > > +        QemuFd_t omap_dirfd, nmap_dirfd;
+> > >  
+> > >          ret = qemu_mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
+> > >          if (ret < 0 && errno != EEXIST) {
+> > > @@ -1310,12 +1316,12 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
+> > >          }
+> > >  
+> > >          omap_dirfd = openat_dir(odirfd, VIRTFS_META_DIR);
+> > > -        if (omap_dirfd == -1) {
+> > > +        if (qemu_fd_invalid(omap_dirfd)) {
+> > >              goto err;
+> > >          }
+> > >  
+> > >          nmap_dirfd = openat_dir(ndirfd, VIRTFS_META_DIR);
+> > > -        if (nmap_dirfd == -1) {
+> > > +        if (qemu_fd_invalid(nmap_dirfd)) {
+> > >              close_preserve_errno(omap_dirfd);
+> > >              goto err;
+> > >          }
+> > > @@ -1373,7 +1379,7 @@ static int local_unlinkat(FsContext *ctx, V9fsPath *dir,
+> > >                            const char *name, int flags)
+> > >  {
+> > >      int ret;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      if (ctx->export_flags & V9FS_SM_MAPPED_FILE &&
+> > >          local_is_mapped_file_metadata(ctx, name)) {
+> > > @@ -1382,7 +1388,7 @@ static int local_unlinkat(FsContext *ctx, V9fsPath *dir,
+> > >      }
+> > >  
+> > >      dirfd = local_opendir_nofollow(ctx, dir->data);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > > @@ -1446,7 +1452,7 @@ static int local_init(FsContext *ctx, Error **errp)
+> > >      LocalData *data = g_malloc(sizeof(*data));
+> > >  
+> > >      data->mountfd = open(ctx->fs_root, O_DIRECTORY | O_RDONLY);
+> > > -    if (data->mountfd == -1) {
+> > > +    if (qemu_fd_invalid(data->mountfd)) {
+> > >          error_setg_errno(errp, errno, "failed to open '%s'", ctx->fs_root);
+> > >          goto err;
+> > >      }
+> > > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> > > index 95146e7354..f85cfd26bb 100644
+> > > --- a/hw/9pfs/9p-util-darwin.c
+> > > +++ b/hw/9pfs/9p-util-darwin.c
+> > > @@ -11,8 +11,8 @@
+> > >  #include "qemu/error-report.h"
+> > >  #include "9p-util.h"
+> > >  
+> > > -ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> > > -                             void *value, size_t size)
+> > > +ssize_t fgetxattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > > +                             const char *name, void *value, size_t size)
+> > >  {
+> > >      int ret;
+> > >      int fd = openat_file(dirfd, filename,
+> > > @@ -25,7 +25,7 @@ ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> > >      return ret;
+> > >  }
+> > >  
+> > > -ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
+> > > +ssize_t flistxattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > >                                char *list, size_t size)
+> > >  {
+> > >      int ret;
+> > > @@ -39,7 +39,7 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
+> > >      return ret;
+> > >  }
+> > >  
+> > > -ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
+> > > +ssize_t fremovexattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > >                                  const char *name)
+> > >  {
+> > >      int ret;
+> > > @@ -52,8 +52,8 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
+> > >      return ret;
+> > >  }
+> > >  
+> > > -int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> > > -                         void *value, size_t size, int flags)
+> > > +int fsetxattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > > +                         const char *name, void *value, size_t size, int flags)
+> > >  {
+> > >      int ret;
+> > >      int fd = openat_file(dirfd, filename, O_PATH_9P_UTIL | O_NOFOLLOW, 0);
+> > > @@ -110,7 +110,7 @@ out:
+> > >      return err;
+> > >  }
+> > >  
+> > > -int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> > > +int qemu_mknodat(QemuFd_t dirfd, const char *filename, mode_t mode, dev_t dev)
+> > >  {
+> > >      int preserved_errno, err;
+> > >  
+> > > diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
+> > > index db451b0784..8dd9da10b6 100644
+> > > --- a/hw/9pfs/9p-util-linux.c
+> > > +++ b/hw/9pfs/9p-util-linux.c
+> > > @@ -19,8 +19,8 @@
+> > >  #include "qemu/xattr.h"
+> > >  #include "9p-util.h"
+> > >  
+> > > -ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> > > -                             void *value, size_t size)
+> > > +ssize_t fgetxattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > > +                             const char *name, void *value, size_t size)
+> > >  {
+> > >      char *proc_path = g_strdup_printf("/proc/self/fd/%d/%s", dirfd, filename);
+> > >      int ret;
+> > > @@ -30,7 +30,7 @@ ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> > >      return ret;
+> > >  }
+> > >  
+> > > -ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
+> > > +ssize_t flistxattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > >                                char *list, size_t size)
+> > >  {
+> > >      char *proc_path = g_strdup_printf("/proc/self/fd/%d/%s", dirfd, filename);
+> > > @@ -41,7 +41,7 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
+> > >      return ret;
+> > >  }
+> > >  
+> > > -ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
+> > > +ssize_t fremovexattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > >                                  const char *name)
+> > >  {
+> > >      char *proc_path = g_strdup_printf("/proc/self/fd/%d/%s", dirfd, filename);
+> > > @@ -52,8 +52,8 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
+> > >      return ret;
+> > >  }
+> > >  
+> > > -int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> > > -                         void *value, size_t size, int flags)
+> > > +int fsetxattrat_nofollow(QemuFd_t dirfd, const char *filename,
+> > > +                         const char *name, void *value, size_t size, int flags)
+> > >  {
+> > >      char *proc_path = g_strdup_printf("/proc/self/fd/%d/%s", dirfd, filename);
+> > >      int ret;
+> > > @@ -64,7 +64,7 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> > >  
+> > >  }
+> > >  
+> > > -int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> > > +int qemu_mknodat(QemuFd_t dirfd, const char *filename, mode_t mode, dev_t dev)
+> > >  {
+> > >      return mknodat(dirfd, filename, mode, dev);
+> > >  }
+> > > diff --git a/hw/9pfs/9p-xattr.c b/hw/9pfs/9p-xattr.c
+> > > index 9ae69dd8db..062bf2d1f0 100644
+> > > --- a/hw/9pfs/9p-xattr.c
+> > > +++ b/hw/9pfs/9p-xattr.c
+> > > @@ -78,13 +78,13 @@ ssize_t v9fs_list_xattr(FsContext *ctx, const char *path,
+> > >      char *orig_value, *orig_value_start;
+> > >      ssize_t xattr_len, parsed_len = 0, attr_len;
+> > >      char *dirpath, *name;
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >  
+> > >      /* Get the actual len */
+> > >      dirpath = g_path_get_dirname(path);
+> > >      dirfd = local_opendir_nofollow(ctx, dirpath);
+> > >      g_free(dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          return -1;
+> > >      }
+> > >  
+> > > @@ -168,11 +168,11 @@ ssize_t local_getxattr_nofollow(FsContext *ctx, const char *path,
+> > >  {
+> > >      char *dirpath = g_path_get_dirname(path);
+> > >      char *filename = g_path_get_basename(path);
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >      ssize_t ret = -1;
+> > >  
+> > >      dirfd = local_opendir_nofollow(ctx, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > > @@ -196,11 +196,11 @@ ssize_t local_setxattr_nofollow(FsContext *ctx, const char *path,
+> > >  {
+> > >      char *dirpath = g_path_get_dirname(path);
+> > >      char *filename = g_path_get_basename(path);
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >      ssize_t ret = -1;
+> > >  
+> > >      dirfd = local_opendir_nofollow(ctx, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > > @@ -223,11 +223,11 @@ ssize_t local_removexattr_nofollow(FsContext *ctx, const char *path,
+> > >  {
+> > >      char *dirpath = g_path_get_dirname(path);
+> > >      char *filename = g_path_get_basename(path);
+> > > -    int dirfd;
+> > > +    QemuFd_t dirfd;
+> > >      ssize_t ret = -1;
+> > >  
+> > >      dirfd = local_opendir_nofollow(ctx, dirpath);
+> > > -    if (dirfd == -1) {
+> > > +    if (qemu_fd_invalid(dirfd)) {
+> > >          goto out;
+> > >      }
+> > >  
+> > 
+> > 
+> > 
+> 
+> 
 
 
