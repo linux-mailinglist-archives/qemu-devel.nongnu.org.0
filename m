@@ -2,28 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8EC63F46A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB79B63F46E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:45:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0lhP-0005FC-BS; Thu, 01 Dec 2022 10:42:07 -0500
+	id 1p0lhV-0005IP-22; Thu, 01 Dec 2022 10:42:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhM-0005EA-7M; Thu, 01 Dec 2022 10:42:04 -0500
+ id 1p0lhO-0005Fx-HD; Thu, 01 Dec 2022 10:42:06 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhK-0004w1-HJ; Thu, 01 Dec 2022 10:42:03 -0500
+ id 1p0lhM-0004wl-KH; Thu, 01 Dec 2022 10:42:06 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 4BC6211F996;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 84CDB11F9A0;
  Thu,  1 Dec 2022 15:42:01 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Sat, 19 Nov 2022 15:59:40 +0100
-Subject: [PATCH qemu.git v3 3/8] hw/timer/imx_epit: define SR_OCIF
-Message-ID: <166990932074.29941.8709118178538288040-3@git.sr.ht>
+Date: Sat, 19 Nov 2022 17:09:59 +0100
+Subject: [PATCH qemu.git v3 5/8] hw/timer/imx_epit: hard reset initializes CR
+ with 0
+Message-ID: <166990932074.29941.8709118178538288040-5@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166990932074.29941.8709118178538288040-0@git.sr.ht>
 To: qemu-devel@nongnu.org
@@ -57,64 +58,65 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Axel Heider <axel.heider@hensoldt.net>
 
+Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c         | 12 ++++++------
- include/hw/timer/imx_epit.h |  2 ++
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ hw/timer/imx_epit.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index 661e9158e3..f148868b8c 100644
+index 7af3a8b10e..39f47222d0 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -66,7 +66,7 @@ static const IMXClk imx_epit_clocks[] =3D  {
+@@ -99,12 +99,14 @@ static void imx_epit_set_freq(IMXEPITState *s)
+ /*
+  * This is called both on hardware (device) reset and software reset.
   */
- static void imx_epit_update_int(IMXEPITState *s)
+-static void imx_epit_reset(DeviceState *dev)
++static void imx_epit_reset(IMXEPITState *s, bool is_hard_reset)
  {
--    if (s->sr && (s->cr & CR_OCIEN) && (s->cr & CR_EN)) {
-+    if ((s->sr & SR_OCIF) && (s->cr & CR_OCIEN) && (s->cr & CR_EN)) {
-         qemu_irq_raise(s->irq);
-     } else {
-         qemu_irq_lower(s->irq);
-@@ -256,9 +256,9 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
-int64_t value,
-         break;
-=20
-     case 1: /* SR - ACK*/
--        /* writing 1 to OCIF clears the OCIF bit */
--        if (value & 0x01) {
--            s->sr =3D 0;
-+        /* writing 1 to SR.OCIF clears this bit and turns the interrupt off =
-*/
-+        if (value & SR_OCIF) {
-+            s->sr =3D 0; /* SR.OCIF is the only bit in this register anyway =
-*/
-             imx_epit_update_int(s);
-         }
-         break;
-@@ -309,8 +309,8 @@ static void imx_epit_cmp(void *opaque)
-     IMXEPITState *s =3D IMX_EPIT(opaque);
-=20
-     DPRINTF("sr was %d\n", s->sr);
+-    IMXEPITState *s =3D IMX_EPIT(dev);
 -
--    s->sr =3D 1;
-+    /* Set interrupt status bit SR.OCIF and update the interrupt state */
-+    s->sr |=3D SR_OCIF;
-     imx_epit_update_int(s);
+     /* Soft reset doesn't touch some bits; hard reset clears them */
+-    s->cr &=3D (CR_EN|CR_ENMOD|CR_STOPEN|CR_DOZEN|CR_WAITEN|CR_DBGEN);
++    if (is_hard_reset) {
++        s->cr =3D 0;
++    } else {
++        s->cr &=3D (CR_EN|CR_ENMOD|CR_STOPEN|CR_DOZEN|CR_WAITEN|CR_DBGEN);
++    }
+     s->sr =3D 0;
+     s->lr =3D EPIT_TIMER_MAX;
+     s->cmp =3D 0;
+@@ -205,7 +207,7 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
+int64_t value,
+         s->cr =3D value & 0x03ffffff;
+         if (s->cr & CR_SWR) {
+             /* handle the reset */
+-            imx_epit_reset(DEVICE(s));
++            imx_epit_reset(s, false);
+         }
+=20
+         /*
+@@ -377,12 +379,18 @@ static void imx_epit_realize(DeviceState *dev, Error **=
+errp)
+     s->timer_cmp =3D ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
  }
 =20
-diff --git a/include/hw/timer/imx_epit.h b/include/hw/timer/imx_epit.h
-index e2cb96229b..783eaf0c3a 100644
---- a/include/hw/timer/imx_epit.h
-+++ b/include/hw/timer/imx_epit.h
-@@ -53,6 +53,8 @@
- #define CR_CLKSRC_SHIFT (24)
- #define CR_CLKSRC_BITS  (2)
-=20
-+#define SR_OCIF     (1 << 0)
++static void imx_epit_dev_reset(DeviceState *dev)
++{
++    IMXEPITState *s =3D IMX_EPIT(dev);
++    imx_epit_reset(s, true);
++}
 +
- #define EPIT_TIMER_MAX  0XFFFFFFFFUL
+ static void imx_epit_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc  =3D DEVICE_CLASS(klass);
 =20
- #define TYPE_IMX_EPIT "imx.epit"
+     dc->realize =3D imx_epit_realize;
+-    dc->reset =3D imx_epit_reset;
++    dc->reset =3D imx_epit_dev_reset;
+     dc->vmsd =3D &vmstate_imx_timer_epit;
+     dc->desc =3D "i.MX periodic timer";
+ }
 --=20
 2.34.5
 
