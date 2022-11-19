@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D9D630F2A
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 15:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7E5630F3E
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 16:20:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owOrh-00029n-Ht; Sat, 19 Nov 2022 09:30:42 -0500
+	id 1owPcj-0000Sy-7r; Sat, 19 Nov 2022 10:19:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1owOrL-00027R-71
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 09:30:19 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1owPch-0000Sk-IJ
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 10:19:15 -0500
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1owOrJ-0004wZ-Kh
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 09:30:18 -0500
-Received: by mail-pg1-x533.google.com with SMTP id q71so7387426pgq.8
- for <qemu-devel@nongnu.org>; Sat, 19 Nov 2022 06:30:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wqbhPy13cQ8a7cHLkKTIA9KBPlnCMqoxUjOkWYDYDHk=;
- b=fc+C2AETpuADUze4rZkBX9wQYlYDSIXlcB1B4ZifcwPJJbE1gOSdwY5AOmz9je6/ui
- F8qrKJNERKbQAFHy4Bp6TIavjQRGy8QI5S7SUBcEHwDQFyHEYowOel+Gco5HVW/hsN+0
- 5C7gPWmRQNwsm/09vtVtGJmX+H0zwby6kC4s1IgdajuW5LxkRsCMAwUsslFqzpgvGKkJ
- ya1zuC4B0bb9pmhOd2KDkIWRppeH7TD6hPrZLA8TLwll6S7FdfeGfGVXbsMIcY7REWwB
- JycBqwhCbTA80LHytfuO2n5i2Jw1HSqTROMJ18chTraBlfoDapnvyoZqd+BnsNupfAb1
- OddA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1owPcg-0001uf-6G
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 10:19:15 -0500
+Received: by mail-qt1-x831.google.com with SMTP id w9so4886649qtv.13
+ for <qemu-devel@nongnu.org>; Sat, 19 Nov 2022 07:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GE9jSno3asdy/QenyrWiBM9NnadDKeNbNv8c/yXnWbA=;
+ b=eLIn+M3EoEmxQ3YoP71xTDO07d+MVGfIXk5xQXLYcqSfaAJsYlNKbiRV0Hb7lc1J0T
+ 8aHlSAtHjGxJ8T9e5Sa+R4XgEfDdiAAk/AqCVNSXCwrzJYU9UXc16SvOUUQKNyrocgOI
+ MmSLeWTc5l/sRHfgmhtmVzxQRb4jqr+t0m0WSNIYqxHeP755O7xDhxL9MsI+g11oY85x
+ GZ1+Pthc/EptIwCtGHVdq3DT2V9NwUnM/vH/wFTydgHPu6qpQcjXNEyx67FZGIuttcAc
+ J2yX4LVNdPTrTdt/0YCPMPRS8zsr/9xpX+Jv9UUv0T1y8t7JnYmSPjp1kcB2dMaNrdk/
+ urFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wqbhPy13cQ8a7cHLkKTIA9KBPlnCMqoxUjOkWYDYDHk=;
- b=fu5NSN1cjX6Wk5oyfn6KrYuCw2YU8Z8cJREx3MjYCn6/bjRqt71OMCc0I0+GsB2mZK
- +WHd1cQyfy+DbGzewqFZ30MmqbVwahcgZoJrJV4e5YYOvtYexRBZqUkUL3SUAWClpFJi
- tIgAS5LApXNUNxF8oNJdGSDjnc9s3QDzuxdJmifQoxFM2WiFWcFit6gd1UXnEJoLRLxD
- uqAml9TlOYdByCYsZ/DZXYpUWeBaqCVvfqSUCPe8RF5vrPoOlca3itE5+8UlIo0CfXWQ
- xdC9BcwJgrwnow9g7nzBcavk17oUoAZ/XmAi+ZAdvVYkiNhxuVTPyovtHYfbyintVr5O
- dO/A==
-X-Gm-Message-State: ANoB5pkRbq3aZXats+Fesi21G6Um57HceyKHm47T7B6AzU3rSWx/ynQ4
- 0K/tgHh5O8QxclSbnncndmBSqu95KPEGqBiX3Y0+zw==
-X-Google-Smtp-Source: AA0mqf7Y8l07SgZohjLc7wAVhslKgOZVPnKi3SqXEV24PbmLkLqosxO8s9Cac9T/zNoh5qZwmDgvypcQKTTcKrP7c7U=
-X-Received: by 2002:a63:5fd0:0:b0:476:f69d:9f with SMTP id
- t199-20020a635fd0000000b00476f69d009fmr10649015pgb.105.1668868215582; 
- Sat, 19 Nov 2022 06:30:15 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GE9jSno3asdy/QenyrWiBM9NnadDKeNbNv8c/yXnWbA=;
+ b=qcvn63/LAUAFZppbjVUsKiezwjrKCUhtA2CNV9/aPCXgh8xSzGmePJ5yiXIiAmsq/J
+ 2Tgj0oe4fY13U5J+RL/1nL39Yhk8WcVhmgpiDCM+2cSD8kM3A2fkf65gDLwUBbNdWNmp
+ iz2TATMGKEufo0/jh/LdXjd/wTbnKHKbbrscEFnhpN3k5Lj2fohH2mRuC13h66r9D2Pk
+ tJHep2jQqeo/dc4MGs0S6KiNrjRTmRBpnuZOv7YNXiH0r9lwDTGcWSNw5jQvewoYHFwU
+ CyE2F10X6gEIiKZvM9Bymo6JGheOHr65mg5gbpRrgYLOyiPaWPLORPESk2E3U5pmP/Bd
+ 6r7A==
+X-Gm-Message-State: ANoB5pn0L1zlKfOuWMiWbXyinMgiUAGvN9u1G2rDKn7LtHf4SlG0+lBd
+ XAoPpcjnVKZlskxsVkymXAdlb+vBJPg+8UZVN8o=
+X-Google-Smtp-Source: AA0mqf5d1JCaOg5/rsul9qo3W/eVbt3QwVykiPWcuweRT7h00qJwR9H99ZWW2mQkRAYTcxjac8CE7ikyv7UqMayc6Kc=
+X-Received: by 2002:ac8:5299:0:b0:3a5:3623:17b2 with SMTP id
+ s25-20020ac85299000000b003a5362317b2mr11079675qtn.543.1668871152920; Sat, 19
+ Nov 2022 07:19:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108162324.23010-1-cfontana@suse.de>
- <980e2701-5271-8977-c574-f5b64e80e02b@suse.com>
-In-Reply-To: <980e2701-5271-8977-c574-f5b64e80e02b@suse.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 19 Nov 2022 14:30:03 +0000
-Message-ID: <CAFEAcA8e0j2J6hKvma=kPKK06wOEZTPssV6n775wmt7-cOezKw@mail.gmail.com>
-Subject: Re: [PATCH] gtk: disable GTK Clipboard with a new option
- 'gtk_clipboard'
-To: Jim Fehlig <jfehlig@suse.com>
-Cc: Claudio Fontana <cfontana@suse.de>, Gerd Hoffmann <kraxel@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org
+References: <20221025141015.612291-1-bin.meng@windriver.com>
+ <CAJ+F1CKueW5uhTe8CCdnthJmmaLO7vvHtANqZ4N6wUjGc9qpGQ@mail.gmail.com>
+ <CAEUhbmWhWhhXJeCuWGLS6JCHg-LoRiWKFCq7KRjGNA1cENYA8Q@mail.gmail.com>
+In-Reply-To: <CAEUhbmWhWhhXJeCuWGLS6JCHg-LoRiWKFCq7KRjGNA1cENYA8Q@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 19 Nov 2022 23:19:01 +0800
+Message-ID: <CAEUhbmXpmf6onx3XQLTPZo8xRcvkn=SwD3hGRYb2dvr-L6_Emw@mail.gmail.com>
+Subject: Re: [PATCH] chardev/char-win-stdio: Pass Ctrl+C to guest with a
+ multiplexed monitor
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x831.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,39 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 18 Nov 2022 at 22:26, Jim Fehlig <jfehlig@suse.com> wrote:
+On Fri, Nov 11, 2022 at 8:11 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> I should make myself useful around here on occasion when items are within my
-> skill set. But I already struggle to find time for that in the libvirt community
-> :-).
+> On Wed, Oct 26, 2022 at 3:39 PM Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > On Tue, Oct 25, 2022 at 6:15 PM Bin Meng <bin.meng@windriver.com> wrote=
+:
+> > >
+> > > At present when pressing Ctrl+C from a guest running on QEMU Windows
+> > > with a multiplexed monitor, e.g.: -serial mon:stdio, QEMU executable
+> > > just exits. This behavior is inconsistent with the Linux version.
+> > >
+> > > Such behavior is caused by unconditionally setting the input mode
+> > > ENABLE_PROCESSED_INPUT for a console's input buffer. Fix this by
+> > > testing whether the chardev is allowed to do so.
+> > >
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >
+> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
 >
-> On 11/8/22 09:23, Claudio Fontana wrote:
-> > The GTK Clipboard implementation may cause guest hangs.
-> >
-> > Therefore implement a new configure switch --enable-gtk-clipboard,
-> > disabled by default, as a meson option.
-> >
-> > Regenerate the meson build options to include it.
-> >
-> > The initialization of the clipboard is gtk.c, as well as the
-> > compilation of gtk-clipboard.c are now conditional on this new option
-> > to be set.
-
-> > diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> > index 2cb0de5601..a542853bfd 100644
-> > --- a/scripts/meson-buildoptions.sh
-> > +++ b/scripts/meson-buildoptions.sh
-> > @@ -93,6 +93,7 @@ meson_options_help() {
-> >     printf "%s\n" '  glusterfs       Glusterfs block device driver'
-> >     printf "%s\n" '  gnutls          GNUTLS cryptography support'
-> >     printf "%s\n" '  gtk             GTK+ user interface'
-> > +  printf "%s\n" '  gtk-clipboard   clipboard support for the gtk UI (EXPERIMENTAL, MAY HANG)'
+> Ping?
 >
-> Same here. None of the other options have such warning. Cant this be treated
-> like the others, just another option to be enabled or disabled? Whether or not
-> the option works is another matter.
+> Who is going to pick up this patch for 7.2?
+>
 
-Well, none of the other features have known bugs that cause QEMU to hang...
-
--- PMM
+Ping?
 
