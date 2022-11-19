@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13AF631017
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 18:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5418163111C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 22:27:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owRqQ-0000Bq-Ul; Sat, 19 Nov 2022 12:41:34 -0500
+	id 1owVL7-0008DE-Fq; Sat, 19 Nov 2022 16:25:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <axelheider@gmx.de>)
- id 1owRqO-0000Ap-R4; Sat, 19 Nov 2022 12:41:32 -0500
-Received: from mout.gmx.net ([212.227.15.18])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <axelheider@gmx.de>)
- id 1owRqM-0007wt-VM; Sat, 19 Nov 2022 12:41:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1668879687; bh=C8K9/vkFVctdtBSu2XoXRafqURPFkbueNFbYl1tUOvQ=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=Tw8Hu0v4WMOMxilW8Ak7TwW+yuuk07fHrpdsfEha8JOvMcQLh5FNB3vmgzWupHI3Q
- p9CVF8bxWySK1tHhUq9NcZjAE3fEWzeQ4kho2UmnkSkByMyXPr8zoEDUgzFMjdz9p+
- 4pXgAn8CNO8MWk/lQs07gqdGtspU5L5z9yYWbhG0htsll+GCQEDi+0qNmOrOg9+WaF
- 4dTKQnVMNNjmuXoWlXZ6PBFL1UZylvRxJTlqR8GFbklwDR2XoQNhMOwVKAjsX2s3m7
- al/FphLoOp5cGPD2lmdpGiJTF3gswIGXoVTWqR3F5E17lRpkQLopJZIfavaPXNQTNn
- nONpMGp7Vfs6A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost ([95.115.96.141]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MsHs0-1pCc9M3mfq-00th4y; Sat, 19
- Nov 2022 18:41:26 +0100
-Message-ID: <93e91610-86fe-4700-f143-d6b599d37521@gmx.de>
-Date: Sat, 19 Nov 2022 18:41:26 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1owVL4-0008CW-Vt
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 16:25:27 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1owVL1-0005u5-OF
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 16:25:26 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id 4so7481514pli.0
+ for <qemu-devel@nongnu.org>; Sat, 19 Nov 2022 13:25:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XnwfrRU2aVKsa7ZroPdrsTXdhfiHc9JNbuHnZa/YJ10=;
+ b=SnmD6Qs7iQhOMKEyCT8HIPNCsyWfT6dxct6Vl5kYVLIBX89rG5cVn3w9SdtpAWMlKw
+ iYxGiYqh+gxWQ9fVmuHlhBglsJ8mDlbwoDRi47Vxe4wsOtYJepvUVOGqUnNGIhXJo6c/
+ 9W8+Ff66gDSWdc/GwuNeEugWjIC2Cs43fBqSOQUiwO27K891RPAw7WzeOgUFec8mdFG2
+ 0XZUx4EsRH9lROh82sdPahldw1tDFRGt25tQHWrz++0HJP3vO71WbRY6j8jcUNGvwFam
+ Fghvm3/sglYD7gAXFFyquI8PEN+XGjUNq+r22Hl9LmMTlU1okYpVk7MPKK7sEtcq+bQH
+ F9cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XnwfrRU2aVKsa7ZroPdrsTXdhfiHc9JNbuHnZa/YJ10=;
+ b=k//LoFwwXfj5r1DYE1b2qKmw9wqztfloxNSyB30K7oiWZWomVU6POSBWZ/591BUsDX
+ bejThQ/lshdco4n3rL629UCd7FmN6stZcrToSqYdOShOWvLfEKlTuleNO+CzHR8BXf5M
+ y/baW6mRpbnQYGJI6owWP187Qriqwy8f3S3ZvXCNGbEiclIuD5YlCBBU8/g4fneteTYR
+ /ZrNXD3u0q+qFRG1KADEQNX3RZZDig4U3bzELpgbs6wjiUJMo/D/gc/1O5Md/TDYwlnq
+ t9gK67BoxwfhaHsyj/Ohwef9Kqw5IA3Nu3dH45JjMJHDK7wVrKbYUU0nnw/Cll84ijmw
+ oM0A==
+X-Gm-Message-State: ANoB5plEHzvoazrNDcMcJXSHqHq/M+olp33tsdlBb1gczqoi9Eeb7vgW
+ 9JKXrZ9pOYs9ugXV4rSIzQTthQ==
+X-Google-Smtp-Source: AA0mqf5CC1xcSafPSEQWquRv+bRmviYCbNDILShsGMR8LMGmCQAnXuQGcM/5Lx3nEL9uHZHvJUtvlg==
+X-Received: by 2002:a17:902:bb84:b0:184:e4db:e3e with SMTP id
+ m4-20020a170902bb8400b00184e4db0e3emr5250862pls.47.1668893121638; 
+ Sat, 19 Nov 2022 13:25:21 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:f672:736d:3dcb:29bc?
+ ([2602:47:d48a:1201:f672:736d:3dcb:29bc])
+ by smtp.gmail.com with ESMTPSA id
+ n13-20020a170903110d00b00176b63535adsm6217292plh.260.2022.11.19.13.25.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Nov 2022 13:25:20 -0800 (PST)
+Message-ID: <120b85db-4c05-6ea6-2f82-1281d633f8e9@linaro.org>
+Date: Sat, 19 Nov 2022 13:25:18 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH qemu.git v2 5/9] hw/timer/imx_epit: do not persist CR.SWR
- bit
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <166783932395.3279.1096141058484230644-0@git.sr.ht>
- <166783932395.3279.1096141058484230644-5@git.sr.ht>
- <CAFEAcA8tVAqf8aF2Gf=0KJGXmytv7aw10o4+RyfQLB4qO7KVvg@mail.gmail.com>
-Content-Language: de-DE
-From: Axel Heider <axelheider@gmx.de>
-In-Reply-To: <CAFEAcA8tVAqf8aF2Gf=0KJGXmytv7aw10o4+RyfQLB4qO7KVvg@mail.gmail.com>
+Subject: Re: Instruction concurrent modification issue of direct jump in
+ AArch64
+To: hev <r@hev.cc>, Richard Henderson <rth@twiddle.net>,
+ Pranith Kumar <bobby.prani@gmail.com>, Qi Hu <huqi@loongson.cn>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <CAHirt9id_Q8K33D4+2iF07e-BhUsjUBBhby9k+BZU2dYg=KToA@mail.gmail.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAHirt9id_Q8K33D4+2iF07e-BhUsjUBBhby9k+BZU2dYg=KToA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pwtknh/T6Ug1Sd8+ufwKZMKyN3ke74snq+0FTH+O4QL8T9dgSyW
- 0KSZMWN9jgu9ZD19lMmo2kFukCFA4+IvuK2vJ3cZvYaetmkuHg6O9c32Z+qabv00aqTtGXg
- ZLKTr4Nz94AsrkPJuShFcJqcNV8znK/D2AZpA83OJ2GcgUtUdrt1jk7hewiwGDiW+c7WbGv
- vI81nR4R5EjetYkmo6cAg==
-UI-OutboundReport: notjunk:1;M01:P0:8OpYL410iuA=;THiAjQpDrkPBMCZBqFC8Hr2DxHQ
- XfHdr9xnWMxZmu7NW1cRshckeNyB+01zb/ESyrivkFnOoxLTzD1zCkM7+SmudAt2o6ZtepP//
- Co94A/54CHCLKMWKkIsWpewgttfz6MKf833FBRqaFrES2gVyVKe1klkI7ThjbHQ8hsonsdGqu
- FqEM3wWvfKLWt/Z0djiBT0SjQ6Fu0asPjBA5hp7kEwC56cCurN2cgm0EMkR7QSJcWnXf2/DJR
- kAnw2yBxpBxpTbvtP4jZlQaJxqzXeHyCO3VQozwFUqT4PcVaqdrmzupUgUNdQicrLKo/0353z
- 2xeNZxM67tlxFWt75ARD0DNEu8jcgh3x8KztQwrB6L/8ezN090m7gXkXLxCdKWY+1nxnWfRT9
- YyoP15ANo1LEK+nYvorVQlOhpBzNsp3LefnNtGnIM9nj1ZUtKGcMjeNswShGFyTviqL2MJoeK
- 10OswUsFnQHDQNUS1AJzPn+7C8ni3TTGgt7vEdGkwdi4CvPGeqv5qOZEUqEZ2/3ihJe5eO7nv
- B4brHfz2gCIYgXFpl2B0IpG3CMfMaf1lG2hI4SPZju4d/K9attWPxQPU2PxtWcSbHOhxn9T9H
- rDqFh7BMeclo4+PNuLyFZofrZvz4jrRobo9FbZPlazugJcDD0ng6KUy40hm1X52/U/Yrc3Q49
- 2tzBtOiOCoEHU3tYHSIY5VrTKa7Dm3Re2dJ+OPRvjN6Me/u0d6A+AToj940LSY7GJGJMxIXpd
- VqDdhTbUbG5lHuK8EP5S55x/oYsnPsS7FCTddUa3UKJfIZIHl4qnA8k5ei3etd0zGs82eksMz
- hRBqWxLLseuhK+GyCTXUg8PatwlZ3qV+E+oqAUZ5Hb+A+fK2xxJsanCoFL5IyXx/vvV9tjT16
- QWKNEd1igkSL2JYHmiA13BG0rhdiafa7wNxDDTykr25yUogCNfOJ+8cyeexTXjkQBSJEqkbl9
- Gr9xSA==
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=axelheider@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,55 +95,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/19/22 00:19, hev wrote:
+> Hello,
+> 
+> I talked with Hu Qi about the risk of instruction concurrent
+> modification in TCG direct jump for LoongArch, and the conclusion is
+> that the implementation is correct.
+> 
+> Similarly, the AArch64 implementation doesn't seem to be quite
+> correct. IIUC, multiple instructions paired with an atomic write does
+> not guarantee atomic effects on the execution side.
+> 
+> For example, the issue in AArch64 is:
+> 
+> Instruction concurrent modification:
+> 
+> * Before:
+>    adrp
+>    addi
+>    br
+> 
+> * After
+>    b
+>    nop
+>    br
+> 
+> * May actually execution:
+>    adrp
+>    nop
+>    br
+> 
+> That will cause the jump to an unexpected address to execute, What do you think?
 
->>
->> From: Axel Heider <axel.heider@hensoldt.net>
->> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
->> ---
->>   hw/timer/imx_epit.c | 7 ++++---
->>   1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
->> index 5315d9633e..6af460946f 100644
->> --- a/hw/timer/imx_epit.c
->> +++ b/hw/timer/imx_epit.c
->> @@ -191,8 +191,9 @@ static void imx_epit_write(void *opaque, hwaddr off=
-set, uint64_t value,
->>       case 0: /* CR */
->>
->>           oldcr =3D s->cr;
->> -        s->cr =3D value & 0x03ffffff;
->> -        if (s->cr & CR_SWR) {
->> +        /* SWR bit is never persisted, it clears itself once reset is =
-done */
->> +        s->cr =3D (value & ~CR_SWR) & 0x03ffffff;
->> +        if (value & CR_SWR) {
->>               /* handle the reset */
->>               imx_epit_reset(DEVICE(s));
->>               /*
->>
->
-> There's a comment just below here that says "can we just 'break'
-> in this case?". That's there because last time we had to touch
-> this device we didn't have enough specific knowledge of the hardware
-> or test cases so we made a refactor that left the code with the same
-> probably-incorrect behaviour it had before the refactor. But, since
-> you're working on this device anyway: can we simply add the "break"
-> after imx_epit_reset() ?
->
-> If we can just say "if CR_SWR is set then the device resets like
-> a hardware reset", then this all simplifies out a lot and this
-> patch isn't necessary at all. (imx_epit_reset() clears the CR_SWR bit.)
-> I'm fairly sure we ought to be able to do that, and the missing 'break'
-> was just a bug...
+Yes, I agree this is a possible execution that I hadn't considered.  I *think* that it 
+requires that the thread be interrupted after the adrp, to resume with the refreshed 
+cacheline.  But an interrupt is certainly a valid sequence of events.
+
+Perhaps a better construction would be
+
+Before:
+	ldr	x30, [pc, -XXX]
+	br	x30
+
+After:
+	br	YYY
+	br	x30
+
+so that we only update 1 insn, and it goes between either a direct branch, or a 
+pc-relative load of the branch address from the TranslationBlock structure (which sits 
+right before the code, and we have a 1MB range on LDR (literal)).
+
+Although at the moment the backend hook doesn't have enough information to recreate the 
+LDR offset, so the quick fix would have to go between BR and NOP, and leave the LDR to follow.
 
 
-You are right, this patch is not needed. Actually, the refactoring in
-the other patches in this series makes this quite obvious then anyway.
-And you comment fully holds, eventually all the setup is skipped in
-case of a reset.
-
-I will drop this patch from the set. Thanks for the review.
-
-Axel
+r~
 
