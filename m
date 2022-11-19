@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7E5630F3E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 16:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C860630F41
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 16:24:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owPcj-0000Sy-7r; Sat, 19 Nov 2022 10:19:17 -0500
+	id 1owPgH-00022S-Jr; Sat, 19 Nov 2022 10:22:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1owPch-0000Sk-IJ
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 10:19:15 -0500
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
+ id 1owPgF-00021w-7k
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 10:22:55 -0500
+Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1owPcg-0001uf-6G
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 10:19:15 -0500
-Received: by mail-qt1-x831.google.com with SMTP id w9so4886649qtv.13
- for <qemu-devel@nongnu.org>; Sat, 19 Nov 2022 07:19:13 -0800 (PST)
+ id 1owPgD-000359-GK
+ for qemu-devel@nongnu.org; Sat, 19 Nov 2022 10:22:54 -0500
+Received: by mail-qv1-xf29.google.com with SMTP id n18so5287572qvt.11
+ for <qemu-devel@nongnu.org>; Sat, 19 Nov 2022 07:22:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GE9jSno3asdy/QenyrWiBM9NnadDKeNbNv8c/yXnWbA=;
- b=eLIn+M3EoEmxQ3YoP71xTDO07d+MVGfIXk5xQXLYcqSfaAJsYlNKbiRV0Hb7lc1J0T
- 8aHlSAtHjGxJ8T9e5Sa+R4XgEfDdiAAk/AqCVNSXCwrzJYU9UXc16SvOUUQKNyrocgOI
- MmSLeWTc5l/sRHfgmhtmVzxQRb4jqr+t0m0WSNIYqxHeP755O7xDhxL9MsI+g11oY85x
- GZ1+Pthc/EptIwCtGHVdq3DT2V9NwUnM/vH/wFTydgHPu6qpQcjXNEyx67FZGIuttcAc
- J2yX4LVNdPTrTdt/0YCPMPRS8zsr/9xpX+Jv9UUv0T1y8t7JnYmSPjp1kcB2dMaNrdk/
- urFg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=N/E3wb1/lxWEi3W+HL3YWq+ms6NZ4USV5NoIpiKeai4=;
+ b=jHqqjS4WiyAas908PkMbWOeBmr9D6rYCx5rX9qcM8Im6XZt0aRC/gJ90Ktw8POfBej
+ +t+/3jfmoyHKIyiin2I5MPbGt516LQK0CzGlq7dyQP952t6W8avT2V82ESf2zZ/Oaqi6
+ OHE6ESRzYISD+8ADj7k/OXZPyP2K9yzti+qu5PHcDg8HtlnQP9KzjR0rLIj++coScauA
+ ID+RbUMrPJg2/iwnqnLGc+wS5pn9D0oG/USsdati8cvnTrvAM2LvBAuOU1O+y2H/8z4r
+ ewzsiKetIFRFE+vkYQOXNB7XCMSitybt+LO4aHkwNxsRpYuPfLosVURteulwekfCpPMb
+ Tb1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GE9jSno3asdy/QenyrWiBM9NnadDKeNbNv8c/yXnWbA=;
- b=qcvn63/LAUAFZppbjVUsKiezwjrKCUhtA2CNV9/aPCXgh8xSzGmePJ5yiXIiAmsq/J
- 2Tgj0oe4fY13U5J+RL/1nL39Yhk8WcVhmgpiDCM+2cSD8kM3A2fkf65gDLwUBbNdWNmp
- iz2TATMGKEufo0/jh/LdXjd/wTbnKHKbbrscEFnhpN3k5Lj2fohH2mRuC13h66r9D2Pk
- tJHep2jQqeo/dc4MGs0S6KiNrjRTmRBpnuZOv7YNXiH0r9lwDTGcWSNw5jQvewoYHFwU
- CyE2F10X6gEIiKZvM9Bymo6JGheOHr65mg5gbpRrgYLOyiPaWPLORPESk2E3U5pmP/Bd
- 6r7A==
-X-Gm-Message-State: ANoB5pn0L1zlKfOuWMiWbXyinMgiUAGvN9u1G2rDKn7LtHf4SlG0+lBd
- XAoPpcjnVKZlskxsVkymXAdlb+vBJPg+8UZVN8o=
-X-Google-Smtp-Source: AA0mqf5d1JCaOg5/rsul9qo3W/eVbt3QwVykiPWcuweRT7h00qJwR9H99ZWW2mQkRAYTcxjac8CE7ikyv7UqMayc6Kc=
-X-Received: by 2002:ac8:5299:0:b0:3a5:3623:17b2 with SMTP id
- s25-20020ac85299000000b003a5362317b2mr11079675qtn.543.1668871152920; Sat, 19
- Nov 2022 07:19:12 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N/E3wb1/lxWEi3W+HL3YWq+ms6NZ4USV5NoIpiKeai4=;
+ b=1TAyPE0eBXKYLyRKpWAGxqTQerccQg8KP0vMXXo1Y3GcfcIAg4RWle50SOd30NZfFF
+ v/WDWuI8AIpAwUnb/6qMJGx9/HVvv1zzCAnROL9Atyjj0Ua9Nw2LiVheaLSm0w8Rnjct
+ njXn2WNeVvP/I0IEPQLKv6DsOCJRJNnFW4Wm0TAfP6KQtCUcqhvYoJkCr/CVJNZgR5uN
+ ItxWaFyJp805YlI8O2ho7FTv1fusPkYPLEIBZ1FoMKRK+IrDJdKyGHzMUz6GJECYcU7a
+ DG3TcwvMTmfo/NDGQa/nVDwUSXI/szMAjtizwF+uF82QQTicGJ7s0OdCwDrmFAR95RKK
+ hwxQ==
+X-Gm-Message-State: ANoB5pmDQB1bZkbIoqStwyk+fEwZwnTJM/kNNZ6E2e1yMKEtsrpngzch
+ rKAb7yQkJlZrhQRXG9j211EWHGUhDUYsACjjl9g6HUsG
+X-Google-Smtp-Source: AA0mqf4KTZimBVhRJJalcDVtDGmwxCuLBLT9q9hGaJ14CH4au+4mSOizvydkDiX/lOOsAHiDmV0KYGbIpQ3KhjydzrU=
+X-Received: by 2002:a0c:ff2c:0:b0:4c6:924e:30d2 with SMTP id
+ x12-20020a0cff2c000000b004c6924e30d2mr425970qvt.114.1668871371998; Sat, 19
+ Nov 2022 07:22:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20221025141015.612291-1-bin.meng@windriver.com>
- <CAJ+F1CKueW5uhTe8CCdnthJmmaLO7vvHtANqZ4N6wUjGc9qpGQ@mail.gmail.com>
- <CAEUhbmWhWhhXJeCuWGLS6JCHg-LoRiWKFCq7KRjGNA1cENYA8Q@mail.gmail.com>
-In-Reply-To: <CAEUhbmWhWhhXJeCuWGLS6JCHg-LoRiWKFCq7KRjGNA1cENYA8Q@mail.gmail.com>
+References: <20221111042225.1115931-1-bin.meng@windriver.com>
+ <20221111042225.1115931-6-bin.meng@windriver.com>
+ <20221118102951.42d2ce1f@bahia>
+ <185421545.bPZoAotuqs@silver> <20221119111915.591afa58@bahia>
+In-Reply-To: <20221119111915.591afa58@bahia>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 19 Nov 2022 23:19:01 +0800
-Message-ID: <CAEUhbmXpmf6onx3XQLTPZo8xRcvkn=SwD3hGRYb2dvr-L6_Emw@mail.gmail.com>
-Subject: Re: [PATCH] chardev/char-win-stdio: Pass Ctrl+C to guest with a
- multiplexed monitor
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>
+Date: Sat, 19 Nov 2022 23:22:41 +0800
+Message-ID: <CAEUhbmULPy42=_frBYAWvPzfB_95z=Rgc5Q6E2j6BLG7hAuAUQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/19] hw/9pfs: Update 9pfs to use the new QemuFd_t type
+To: Greg Kurz <groug@kaod.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x831.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,31 +86,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 11, 2022 at 8:11 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+Hi Greg,
+
+On Sat, Nov 19, 2022 at 6:20 PM Greg Kurz <groug@kaod.org> wrote:
 >
-> On Wed, Oct 26, 2022 at 3:39 PM Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@gmail.com> wrote:
+> On Fri, 18 Nov 2022 14:38:00 +0100
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+>
+> > On Friday, November 18, 2022 10:29:51 AM CET Greg Kurz wrote:
+> > > On Fri, 11 Nov 2022 12:22:11 +0800
+> > > Bin Meng <bin.meng@windriver.com> wrote:
+> > >
+> > > > With this new QemuFd_t type, it significantly reduces the number of
+> > >
+> > > I cannot find the definition of this type, nor the definition of
+> > > qemu_fd_invalid(). Missing patch ?
 > >
-> > On Tue, Oct 25, 2022 at 6:15 PM Bin Meng <bin.meng@windriver.com> wrote=
-:
-> > >
-> > > At present when pressing Ctrl+C from a guest running on QEMU Windows
-> > > with a multiplexed monitor, e.g.: -serial mon:stdio, QEMU executable
-> > > just exits. This behavior is inconsistent with the Linux version.
-> > >
-> > > Such behavior is caused by unconditionally setting the input mode
-> > > ENABLE_PROCESSED_INPUT for a console's input buffer. Fix this by
-> > > testing whether the chardev is allowed to do so.
-> > >
-> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > It's in patch 4. Looks like we were not CCed on that patch. :(
 > >
 >
-> Ping?
+> Oh I didn't check the numbering. I guess we were not CCed automatically...
 >
-> Who is going to pick up this patch for 7.2?
+> > https://lore.kernel.org/qemu-devel/20221111042225.1115931-5-bin.meng@windriver.com/
+> >
+>
+> ... because this only touches include/qemu/osdep.h .
+>
+> Bin,
+>
+> Please ensure that the maintainers are in the Cc list for all
+> patches in such a series, e.g. with explicit --cc arguments to
+> git-send-email.
+
+Sorry, I was only using the get maintainer script for each patch. Will
+cc you explicitly next time.
+
+>
+> > > Anyway, IIUC this type is an int for linux and a HANDLE for windows,
+> > > right ?
+> > >
+> > > According to win32 documentation at [1] :
+> > >
+> > > HANDLE
+> > > A handle to an object.
+> > >
+> > > This type is declared in WinNT.h as follows:
+> > >
+> > > typedef PVOID HANDLE;
+> > >
+> > > and
+> > >
+> > > PVOID
+> > > A pointer to any type.
+> > >
+> > > This type is declared in WinNT.h as follows:
+> > >
+> > > typedef void *PVOID;
+> > >
+> > > HANDLE is void *.
+> > >
+> > > From docs/devel/style.rst:
+> > >
+> > > Naming
+> > > ======
+> > >
+> > > Variables are lower_case_with_underscores; easy to type and read.  Structured
+> > > type names are in CamelCase; harder to type but standing out.  Enum type
+> > > names and function type names should also be in CamelCase.  Scalar type
+> > > names are lower_case_with_underscores_ending_with_a_t, like the POSIX
+> > > uint64_t and family.  Note that this last convention contradicts POSIX
+> > > and is therefore likely to be changed.
+> > >
+> > > Both int and void * are scalar types, so I'd rather name it qemu_fd_t,
+> > > not using CamelCase at all so that it cannot be confused with a struct.
+> > >
+> > > [1] https://learn.microsoft.com/en-us/windows/win32/winprog/windows-data-types
+> >
+> > Not that I had a strong opinion about this issue (as in general with coding
+> > style topics). It was one of my suggested type names. To make this type long-
+> > term proof I suggested to handle it as if it was a truly opaque type in QEMU:
+> >
+>
+> A true opaque type in C is implemented with a structured type and pointers
+> to this type.
+>
+> > https://lore.kernel.org/qemu-devel/4620086.XpUeK0iDWE@silver/
+> >
+> > That is to explicitly not try to do things like:
+> >
+> >     if (fd == -1)
+> >
+> > at least not hard wired in user code. According to QEMU code style you should
+> > probably then drop the trailing "_t" though.
+> >
+>
+> Yes, either one is fine I guess. Most important part is to provide
+> a documented API to manipulate that type since, no matter the name,
+> it is still a scalar type that can be manipulated as such.
 >
 
-Ping?
+This patch will be dropped in the next version, that means we still
+use the posix fd for the 9p helpers on different platforms, but on
+Windows it will be translated to Windows HANDLE internally in the
+helper.
+
+Regards,
+Bin
 
