@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFBD631749
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 00:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B65631759
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 00:32:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owtaH-0006ZA-9O; Sun, 20 Nov 2022 18:18:45 -0500
+	id 1owtmA-00087t-TG; Sun, 20 Nov 2022 18:31:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1owtaF-0006Yy-Sj; Sun, 20 Nov 2022 18:18:43 -0500
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1owtm8-000872-5v
+ for qemu-devel@nongnu.org; Sun, 20 Nov 2022 18:31:00 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1owtaE-00011r-E3; Sun, 20 Nov 2022 18:18:43 -0500
-Received: by mail-vs1-xe34.google.com with SMTP id i2so9696223vsc.1;
- Sun, 20 Nov 2022 15:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nRH3xzOacrcCG6lAxQ2xyNzBkLHbMcDLa574MWWnVyg=;
- b=f6y7TdLL7U/a3ToMsATtailShanbA1/GHEt0GVUs4ETylBej1cDzgtPUPT5k1gY/pc
- BYVRVF6caffMG2IlMFwCrUcVOkuv3/LT7oE6QVJoYfzN9d2PCnuXA53f/vGklWJUsZUM
- 9HNSssPeOGZa0KmWWuyRsg5aaGu7RVCRdmoM+7NUrtbBrYaASd5Ii/hKFPlJlzqo8DFG
- he8YWTMIbZfHnEyRY1/qMKHKVrLCpwa/nUB5NUwIy1YWm+JQzIcPesxmsdaKEdywr/tN
- yMYnO8FfP0+EDpNwucNR8fXlTjPo83lKmWXv8ZSt/m8GK+tqFtEcOiOYZgpwqUyn1yV2
- YdOg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1owtm6-0002wL-JS
+ for qemu-devel@nongnu.org; Sun, 20 Nov 2022 18:30:59 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 6so9662924pgm.6
+ for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 15:30:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WPrCWlJRpAJmaETVxpVAb6jxUrIkOnuqcJNzEb1dMeQ=;
+ b=OxS75qiozExAXIv12ryP0yILCuXrPqk1ia+T8Uef8kJP6UA3v2TTORJGYoN8jmStpg
+ 0tU58GJzLP37/eS/tByKQTkkEJUSqAf/NBXnGALhQhR6bervMMpBqIxHaPTySgvuTYko
+ WfYv3Kwuh7/BQjkYAGHA7YJhCdXywdIoTEDRVtxSK2DViFnn9PDIbgb8RcspeLpdPeIl
+ zuehRYG+55VqKr2ExOF7o4ptcovRpjA2A0yD7cO3ZbQl+OSmjmyaPIsMZNjiukt2YkEI
+ sxJa6uwIoURdSJMa4BWybgOUnb7PXf2kprp992kDxWB74KaMUaTkDVDhfantWc4amS0I
+ 1usw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nRH3xzOacrcCG6lAxQ2xyNzBkLHbMcDLa574MWWnVyg=;
- b=C1KYss1OAu1vrq81lITuQf1VZxTEDERda95+mbFyFJoH7QECiANE3l5SfwrkQaDWeH
- xCYPiA3FCS2RtnZoEzrFSMyRcroTVsx6wL/v3NtGO9cgPwRoB8gnlCp8n73/idK6H/DV
- Mr9pwACsKC0Yq6bdbrOSeDqNI7t6WnT0aZyqqwkjRtG1VZRv5sDfcRrhq9zW78FEE5jb
- lmyXWwnoziHoGdS5FNjXc50cenSgx/6bNTUwlkL8kDWJJuObczaYRfa0bi3nn7FCinYZ
- q6ebOAgvNdPnk76s70I3J4h46FTjHfAqpJFhNd4s/TSz9c0XvTwTlSIdxAiU8v9rgIMc
- 60IA==
-X-Gm-Message-State: ANoB5pmyXSJ/ErsF+eeD8wc3anTJcvimvxXRpx7eRkBfsMiAdoBAd83o
- /k41wu14RN42SdO/C1UMl3vBzSNU5OEyPUpcU8EdnkQNmMY=
-X-Google-Smtp-Source: AA0mqf5YYiESMOBIG2ef/gMc1efTn+wOrJ5JewHIz35XX3scQ74WJW7x2fO85g85OhYpgok11pHr6Sdn+0LyzHu9ZtQ=
-X-Received: by 2002:a05:6102:3bc1:b0:3a7:9b8c:2e4c with SMTP id
- a1-20020a0561023bc100b003a79b8c2e4cmr7707850vsv.72.1668986320712; Sun, 20 Nov
- 2022 15:18:40 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WPrCWlJRpAJmaETVxpVAb6jxUrIkOnuqcJNzEb1dMeQ=;
+ b=Mg7E3oxuJUEFiGksT8LRlsPDfKCLyqW7sRj2PH2sAufC2e5uC9cLN4vMRvYcvyTQsr
+ t8y17yHUWI2+wPB2D4oyD5zn4LMKgSAEoJYyUUqse7N/5AJ3/0bbJBYIt2s4qtdotxch
+ vBSi7y8JHBY3WkD2IcZh2aQwoiXSo8IByIjgPe2mPhdfHfO20IMtxr2jEkRx6BWfKflc
+ BccF567Yl78vWfwUivo/cv7XWEgZDRlz/sASGIfEmhhNbh2S9oD/0MleO1xlLqNSR2v6
+ RCHQvDZRFrULlLeVj6DadP4S9tf+vzivvsGqwo2EmadKR4gsj2AH56cjEUgEQo9WvS/7
+ /ATw==
+X-Gm-Message-State: ANoB5pmimoeqw4u83NOUOhnjDeW0dIbhexGSDwNviSgR+cDn+6RCkH52
+ 8kXHAAwH3eHpLBz3iyKQDzFdBA==
+X-Google-Smtp-Source: AA0mqf7+I+Jy9pyX+zChu22AceUlfhtWK69drAdPL6qop34Zdg7CuvlI/91vfuezkxJZNG81GOO+Ew==
+X-Received: by 2002:a63:5a02:0:b0:477:15c9:423b with SMTP id
+ o2-20020a635a02000000b0047715c9423bmr14196015pgb.374.1668987055508; 
+ Sun, 20 Nov 2022 15:30:55 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:ff2a:795d:f1df:2976?
+ ([2602:47:d48a:1201:ff2a:795d:f1df:2976])
+ by smtp.gmail.com with ESMTPSA id
+ q3-20020a17090311c300b00186a6b63525sm8177871plh.120.2022.11.20.15.30.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 20 Nov 2022 15:30:54 -0800 (PST)
+Message-ID: <702c1474-2dd1-1e09-935a-427b97a24652@linaro.org>
+Date: Sun, 20 Nov 2022 15:30:53 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH for-8.0 1/7] qemu/main-loop: Introduce
+ QEMU_IOTHREAD_LOCK_GUARD
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20221118091858.242569-1-richard.henderson@linaro.org>
- <20221118091858.242569-6-richard.henderson@linaro.org>
-In-Reply-To: <20221118091858.242569-6-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 21 Nov 2022 09:18:14 +1000
-Message-ID: <CAKmqyKP3DxdtPOM4q3GjXpazck8kCoTJiiAPwmoL21QQrVE3aA@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 5/7] target/riscv: Use QEMU_IOTHREAD_LOCK_GUARD in
- riscv_cpu_update_mip
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe34.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ <20221118091858.242569-2-richard.henderson@linaro.org>
+ <87k03s75c5.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87k03s75c5.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,60 +96,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 18, 2022 at 7:22 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 11/18/22 05:30, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> Create a wrapper for locking/unlocking the iothread lock.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> Cc: Paolo Bonzini <pbonzini@redhat.com> (maintainer:Main loop)
+> 
+> You might want to review Paolo's comments from:
+> 
+>    Subject: [RFC PATCH] main-loop: introduce WITH_QEMU_IOTHREAD_LOCK
+>    Date: Mon, 24 Oct 2022 18:19:09 +0100
+>    Message-Id: <20221024171909.434818-1-alex.bennee@linaro.org>
+> 
+> So it would be worth having the WITH_QEMU_IOTHREAD_LOCK() and
+> MAYBE_WITH_QEMU_IOTHREAD_LOCK() helpers for completeness.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I don't see that (MAYBE_)WITH_QEMU_IOTHREAD_LOCK is particularly useful in any of the 
+cases that I converted.
 
-Alistair
+> And of course the name cleanup.
 
-> ---
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Bin Meng <bin.meng@windriver.com>
-> Cc: qemu-riscv@nongnu.org
-> ---
->  target/riscv/cpu_helper.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 278d163803..241d06bab8 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -610,7 +610,6 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
->      CPURISCVState *env = &cpu->env;
->      CPUState *cs = CPU(cpu);
->      uint64_t gein, vsgein = 0, vstip = 0, old = env->mip;
-> -    bool locked = false;
->
->      if (riscv_cpu_virt_enabled(env)) {
->          gein = get_field(env->hstatus, HSTATUS_VGEIN);
-> @@ -621,10 +620,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
->      mask = ((mask == MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
->      vstip = env->vstime_irq ? MIP_VSTIP : 0;
->
-> -    if (!qemu_mutex_iothread_locked()) {
-> -        locked = true;
-> -        qemu_mutex_lock_iothread();
-> -    }
-> +    QEMU_IOTHREAD_LOCK_GUARD();
->
->      env->mip = (env->mip & ~mask) | (value & mask);
->
-> @@ -634,10 +630,6 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
->          cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
->      }
->
-> -    if (locked) {
-> -        qemu_mutex_unlock_iothread();
-> -    }
-> -
->      return old;
->  }
->
-> --
-> 2.34.1
->
->
+What name cleanup?
+
+
+r~
 
