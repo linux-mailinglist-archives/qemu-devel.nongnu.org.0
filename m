@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD12631498
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Nov 2022 15:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E457631499
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Nov 2022 15:10:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owkzd-0003mq-7D; Sun, 20 Nov 2022 09:08:21 -0500
+	id 1owl0a-0004Hi-82; Sun, 20 Nov 2022 09:09:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1owkzZ-0003md-Vx
- for qemu-devel@nongnu.org; Sun, 20 Nov 2022 09:08:18 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1owl0P-0004EY-LK
+ for qemu-devel@nongnu.org; Sun, 20 Nov 2022 09:09:11 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1owkzW-0005Ey-Rc
- for qemu-devel@nongnu.org; Sun, 20 Nov 2022 09:08:17 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id z4so1716067wrr.3
- for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 06:08:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1owl0E-0005Hq-LG
+ for qemu-devel@nongnu.org; Sun, 20 Nov 2022 09:08:59 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id d1so4188196wrs.12
+ for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 06:08:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Y5Ex0Bl3KBJYtCBz6av1J8S5vyqnNv8zXT+XvHyx9qQ=;
- b=lXG73zhcw4P+8acckDyxdW9OT5CP6Oe4alNlahpuc33kZwk/xev0U0t1IawVlCGNQ8
- q1D34d/ru9jCFj1K8ROJIpBUifQW2dLvqeWIQROZTqb+1bpOjiKSvjxcpMn39cEK6ZEB
- tq1naSxBBBTiyIyd4hFvupOV5DT9TZCwlvLO4qFi9B/7tYyigAOXxtD7Fm8N8jcrbv2l
- B52qBLNz0ShJKOigY167PiMytbrhaFb7y0wL1wrJAH7oENCiAabTKYiIGxr95GEGxtmg
- VXDIapB7MhKn6iWBnfnpbScyeXCB/rzeFGiGsnUJ5JYbYuE4dRuGZr2qv5izDPWY1lh+
- P30Q==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YhAHnmrx+CQ/2ALBHE3+4B+wBTEvTWuybDYJSaad6Is=;
+ b=tELvGH2HJ6DKs+lS9o6H6w8+DiH4i1HbWoyCz2K+MFkeLkGoqJwVj3+JxuFLCITzqp
+ WcKyEy5Qy7noOtjtl0jzyJwCc3RC6M3miaV92YBG4A5xkfnQ2aLrS9HkupR5xiGZDRfk
+ aiSUwrEER31IqoBh3pe19hhr47F5/0XsY6Eo2qYe+Uy7xq1uVnGjdusZxsOOR/Wx572j
+ sZ8RQP4TWDopb+ifPcsw9ef4ZdYQA2KsG35m3YMCIKZPdkRxHJQkGXrZDuCRrXRWWx8c
+ YBhoUgpc6JEkLpGBI/UElX9whEoV+uPqqRcLuORQ+C/W8VLkqYhciSJAei0FPHnftJO4
+ eFtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y5Ex0Bl3KBJYtCBz6av1J8S5vyqnNv8zXT+XvHyx9qQ=;
- b=Rejww8dEiO8hse1KS6QJKZ51RbbN6dOgBzUCPfw8tHfs776PmyYJr/mUjlYMwgxaT8
- qKn+4xrVd8W9wRqyESAB1V8kR3kd92S9E+BqDIwxT22+J+BXWh/TBYF2PeKRKKBlxgWw
- xwLnqzD5Bzyb7PQLMvoKr87SbgmpmL68mDfuVVhL7H5kwZOwfQyXANh/X01iXsCO319g
- gKfzLHClEbxYv7qWGbAAXwLj1Ca1l/0zMTt+2g+ZnLZswn+0wdmtYtLa+MTHHXGWzhAT
- 4JX5VKVHfoFyatVIrpXUAjfiQ80aD2WBGiZ70GT9vpQuk44wLQ1TmKY8nFENP3cQm0WE
- ugXA==
-X-Gm-Message-State: ANoB5pkHhUX5nGiPpvYqVBMXFR2iPjxnOtVHcgoj6/dYyuqWjxH3I5Lw
- o4YmmnzDo5Fi7ucsj5vKjf7v52nDkd3Cxw==
-X-Google-Smtp-Source: AA0mqf4Pf9/cyb2Q329iIo14ZLCHffc9ottEh8iXbbYI5tOxf1bogKsA23JPYtLeGNyR4hr1GfWybw==
-X-Received: by 2002:a5d:5968:0:b0:236:7005:7e4f with SMTP id
- e40-20020a5d5968000000b0023670057e4fmr9278493wri.337.1668952852079; 
- Sun, 20 Nov 2022 06:00:52 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YhAHnmrx+CQ/2ALBHE3+4B+wBTEvTWuybDYJSaad6Is=;
+ b=FEOXE7W6vzZHRt2rdm4SufMkpoKild6+Sjji2ph3mjx5a0L1VS2tEqJYt4P9BfD1ZB
+ oFMdIVEWWReuZvmny+HZHh3BF3+vbEyzm52Ei/86PcBJEfn9jEqMCTk682qfamveHEj5
+ izVZB/hbddgcFR4LmtuLXL6wUwmK5MWBO22MmwdeaqvIGlpt8bnhbEXn+yEXbRot1Rvi
+ Z+oO8RLx0jobHVypqnMCI6+2Tv/Ak59evvetZxqropdfxXw+vmiYALv94KyvCItNkReE
+ LtFNNe3LLvSiqXmQrLVlIq1Y2OPfgV8UQN8/7efPnk1MqMPL45nxyoif1QAcHmvKuiy2
+ iE+g==
+X-Gm-Message-State: ANoB5pmxtULBzzOftopoSK7kXn4Fw/TdD5saVDIpG64/mqUVwHhJv9lN
+ AMRxLgYGWnz4y74GEd2hSrHWCIMFtHyA1w==
+X-Google-Smtp-Source: AA0mqf5ySVMy2NiSjaGQ5f+gVecl2380WFfs/Bn32ukWisAla/HiTZSnvQnvjDPadm5XSMfENUy/sQ==
+X-Received: by 2002:adf:e88e:0:b0:22e:68a1:ddab with SMTP id
+ d14-20020adfe88e000000b0022e68a1ddabmr8611027wrm.496.1668952853206; 
+ Sun, 20 Nov 2022 06:00:53 -0800 (PST)
 Received: from bark.. (bzq-84-110-34-91.static-ip.bezeqint.net. [84.110.34.91])
  by smtp.gmail.com with ESMTPSA id
- d5-20020adffbc5000000b002417e7f0685sm10432310wrs.9.2022.11.20.06.00.50
+ d5-20020adffbc5000000b002417e7f0685sm10432310wrs.9.2022.11.20.06.00.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Nov 2022 06:00:50 -0800 (PST)
+ Sun, 20 Nov 2022 06:00:52 -0800 (PST)
 From: Kfir Manor <kfir@daynix.com>
 To: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>
 Cc: Yan Vugenfirer <yan@daynix.com>
-Subject: [PATCH 0/2] qemu-ga-win: 'guest-get-fsinfo' command wont query
- storage devices of bus type USB
-Date: Sun, 20 Nov 2022 16:00:42 +0200
-Message-Id: <20221120140044.752503-1-kfir@daynix.com>
+Subject: [PATCH 1/2] qga:/qga-win: adding a empty PCI address creation function
+Date: Sun, 20 Nov 2022 16:00:43 +0200
+Message-Id: <20221120140044.752503-2-kfir@daynix.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221120140044.752503-1-kfir@daynix.com>
+References: <20221120140044.752503-1-kfir@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::42c;
- envelope-from=kfir@daynix.com; helo=mail-wr1-x42c.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::42d;
+ envelope-from=kfir@daynix.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,20 +88,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-guest-get-fsinfo won't query storage devices of bus-type USB (https://bugzilla.redhat.com/show_bug.cgi?id=2090333).
+Refactoring code to avoid duplication of creating an empty PCI address code.
 
-Bug, get_pci_info function returns an error after not finding any storage port device info on the USB disk parent device (because of USB abstraction).
+Signed-off-by: Kfir Manor <kfir@daynix.com>
+---
+ qga/commands-win32.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-Fix, skip getting PCI info (get_pci_info function) for USB disks (as USB disk doesn't have PCI info), and return an empty PCI address instead to keep with schema.
-
-
-Kfir Manor (2):
-  adding a empty PCI address creation function
-  skip getting pci info for USB disks
-
- qga/commands-win32.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
-
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index ec9f55b453..a645480496 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -599,6 +599,18 @@ static void get_pci_address_for_device(GuestPCIAddress *pci,
+     }
+ }
+ 
++static GuestPCIAddress *get_empty_pci_address(void)
++{
++    GuestPCIAddress *pci = NULL;
++
++    pci = g_malloc0(sizeof(*pci));
++    pci->domain = -1;
++    pci->slot = -1;
++    pci->function = -1;
++    pci->bus = -1;
++    return pci;
++}
++
+ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+ {
+     HDEVINFO dev_info = INVALID_HANDLE_VALUE;
+@@ -608,13 +620,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+     SP_DEVICE_INTERFACE_DATA dev_iface_data;
+     HANDLE dev_file;
+     int i;
+-    GuestPCIAddress *pci = NULL;
+-
+-    pci = g_malloc0(sizeof(*pci));
+-    pci->domain = -1;
+-    pci->slot = -1;
+-    pci->function = -1;
+-    pci->bus = -1;
++    GuestPCIAddress *pci = get_empty_pci_address();
+ 
+     dev_info = SetupDiGetClassDevs(&GUID_DEVINTERFACE_DISK, 0, 0,
+                                    DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
 -- 
 2.38.1
 
