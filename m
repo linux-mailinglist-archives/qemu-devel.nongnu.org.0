@@ -2,83 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5418163111C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Nov 2022 22:27:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E4C631326
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Nov 2022 09:48:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owVL7-0008DE-Fq; Sat, 19 Nov 2022 16:25:29 -0500
+	id 1owfyM-000291-VD; Sun, 20 Nov 2022 03:46:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1owVL4-0008CW-Vt
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 16:25:27 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1owVL1-0005u5-OF
- for qemu-devel@nongnu.org; Sat, 19 Nov 2022 16:25:26 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id 4so7481514pli.0
- for <qemu-devel@nongnu.org>; Sat, 19 Nov 2022 13:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XnwfrRU2aVKsa7ZroPdrsTXdhfiHc9JNbuHnZa/YJ10=;
- b=SnmD6Qs7iQhOMKEyCT8HIPNCsyWfT6dxct6Vl5kYVLIBX89rG5cVn3w9SdtpAWMlKw
- iYxGiYqh+gxWQ9fVmuHlhBglsJ8mDlbwoDRi47Vxe4wsOtYJepvUVOGqUnNGIhXJo6c/
- 9W8+Ff66gDSWdc/GwuNeEugWjIC2Cs43fBqSOQUiwO27K891RPAw7WzeOgUFec8mdFG2
- 0XZUx4EsRH9lROh82sdPahldw1tDFRGt25tQHWrz++0HJP3vO71WbRY6j8jcUNGvwFam
- Fghvm3/sglYD7gAXFFyquI8PEN+XGjUNq+r22Hl9LmMTlU1okYpVk7MPKK7sEtcq+bQH
- F9cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XnwfrRU2aVKsa7ZroPdrsTXdhfiHc9JNbuHnZa/YJ10=;
- b=k//LoFwwXfj5r1DYE1b2qKmw9wqztfloxNSyB30K7oiWZWomVU6POSBWZ/591BUsDX
- bejThQ/lshdco4n3rL629UCd7FmN6stZcrToSqYdOShOWvLfEKlTuleNO+CzHR8BXf5M
- y/baW6mRpbnQYGJI6owWP187Qriqwy8f3S3ZvXCNGbEiclIuD5YlCBBU8/g4fneteTYR
- /ZrNXD3u0q+qFRG1KADEQNX3RZZDig4U3bzELpgbs6wjiUJMo/D/gc/1O5Md/TDYwlnq
- t9gK67BoxwfhaHsyj/Ohwef9Kqw5IA3Nu3dH45JjMJHDK7wVrKbYUU0nnw/Cll84ijmw
- oM0A==
-X-Gm-Message-State: ANoB5plEHzvoazrNDcMcJXSHqHq/M+olp33tsdlBb1gczqoi9Eeb7vgW
- 9JKXrZ9pOYs9ugXV4rSIzQTthQ==
-X-Google-Smtp-Source: AA0mqf5CC1xcSafPSEQWquRv+bRmviYCbNDILShsGMR8LMGmCQAnXuQGcM/5Lx3nEL9uHZHvJUtvlg==
-X-Received: by 2002:a17:902:bb84:b0:184:e4db:e3e with SMTP id
- m4-20020a170902bb8400b00184e4db0e3emr5250862pls.47.1668893121638; 
- Sat, 19 Nov 2022 13:25:21 -0800 (PST)
-Received: from ?IPV6:2602:47:d48a:1201:f672:736d:3dcb:29bc?
- ([2602:47:d48a:1201:f672:736d:3dcb:29bc])
- by smtp.gmail.com with ESMTPSA id
- n13-20020a170903110d00b00176b63535adsm6217292plh.260.2022.11.19.13.25.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Nov 2022 13:25:20 -0800 (PST)
-Message-ID: <120b85db-4c05-6ea6-2f82-1281d633f8e9@linaro.org>
-Date: Sat, 19 Nov 2022 13:25:18 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: Instruction concurrent modification issue of direct jump in
- AArch64
-To: hev <r@hev.cc>, Richard Henderson <rth@twiddle.net>,
- Pranith Kumar <bobby.prani@gmail.com>, Qi Hu <huqi@loongson.cn>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <CAHirt9id_Q8K33D4+2iF07e-BhUsjUBBhby9k+BZU2dYg=KToA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1owfy9-000286-49; Sun, 20 Nov 2022 03:46:30 -0500
+Received: from mail-dm6nam10on2062c.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::62c]
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1owfy6-0001Og-LT; Sun, 20 Nov 2022 03:46:28 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HEf3g2sWLMyhtAR3+HxnKuKlE2bYQtu6GYDMgbY3Vh5hEvQeyKDHP0a4qPRnTuXCJnEBVexgFdOHaf+Cm8q1vW+6PmKl//ghCaSOOZrdsmziQiYO/Ztl9VhQKMaVbF1MSYMJnKPjr02MSzOcY2d7RpPlVSElwcmn8GP4xYOcQWkTWsHLM5QXehZFsx8/N1sKPmPQSQDdz1CnzQ4GxD5ZCyE7bzihGhUzQqS9mW0L2A/j9XITVgKOqndtiNcLH+SG3x3ycyj/XPo2Ph/NxX4uuFLxrMZD/tdh9smoH9Hw73hpB+a90LoGxh2vxtYssLXwSle2mL95TR6mS3uDYITxDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JzIHMLw2ZaZfN+WjCsJbKg/iFUMvJerr/dUv5J8xYbg=;
+ b=O+RBsDbEe/QfRXBGdoyWOP+gN4mPYIirpmNQ3IYNbRnPkDO6ejtH7YCj6T5qlnTtdFDVLRDP9/BNodwK7ZwbFt9kkpoW2tGD1Z+Iuo38UPlfL0aeTr4QzFAZnYIS4nJQHsCPIFElzsZZ7SPWQ+Y7QKFimowkS1hn7UjpSu1F/yYTizRUbcjVrtnNmixXKu0ErEDDGB9bYxrjFFVTqGyxHYBrNQtZF4r4FioR++Hth9oCW7fgnAeswLvegvktWYJSeJXhUsSxrHonktu4MvAll422NSYr5JmL1fv0z9q0wO5Z9Tyo5SPPNS2IcXJrav/EOmzods1OlZ5qTjQZdNwuLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JzIHMLw2ZaZfN+WjCsJbKg/iFUMvJerr/dUv5J8xYbg=;
+ b=PkDX7EDDsszi+v7FyQFoNX7itZed+BBIV4UYSiHUA7Asg0Kv8WKRKpj2GfnjmAQqWa2XPGIVNgk8O9w0pTwfGSLjJQ1C5pot3CeFi8hEji7d420NdcCQ0EsUGeOeeRSSv1Ul7nQOEau+1Eng3hK9VAdlx0qDZSpbTSXMVj6ZICQkdlaxuYBe1+c0q2LyZ7AYJBvGXA/cEhNSA2owFn3KeoBe523gt3aCeNNs2HSIQA0PtD/Bcx7s9FBEUg0H+iGnbYtvYVuf7q4UZIzNPDanRxaDTCDhWeR5moj8e98ZO7MfCeG2gkZVnOBdyeArehWwjY/DZV/Y4H+XWpOYgMv7fA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
+ by DM6PR12MB4154.namprd12.prod.outlook.com (2603:10b6:5:21d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Sun, 20 Nov
+ 2022 08:46:20 +0000
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::820f:1fa0:9353:bece]) by DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::820f:1fa0:9353:bece%9]) with mapi id 15.20.5834.011; Sun, 20 Nov 2022
+ 08:46:20 +0000
+Message-ID: <749d8c49-13f7-bf24-adb3-cf946845903d@nvidia.com>
+Date: Sun, 20 Nov 2022 10:46:13 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
+ protocol v2
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAHirt9id_Q8K33D4+2iF07e-BhUsjUBBhby9k+BZU2dYg=KToA@mail.gmail.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
+ Kunkun Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Shay Drory <shayd@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20221103161620.13120-1-avihaih@nvidia.com>
+ <20221103161620.13120-13-avihaih@nvidia.com>
+ <20221116112935.23118a30.alex.williamson@redhat.com>
+ <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
+ <Y3ZuXSM9/dft+sDd@nvidia.com>
+From: Avihai Horon <avihaih@nvidia.com>
+In-Reply-To: <Y3ZuXSM9/dft+sDd@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-ClientProxiedBy: LO4P123CA0126.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:192::23) To DM6PR12MB5549.namprd12.prod.outlook.com
+ (2603:10b6:5:209::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|DM6PR12MB4154:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e7216de-60c0-4035-7ac6-08dacad3b1f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ByubJawyE1cayb39vV8ujX8c3gumQ8AfQYMT9nW6MujOZ4PK7oQKVdEPRVqBifyKWovjGv9cBNZuZbqMbEpd4D8TDrOqkrcGLIW3lgf/J1YobRKKXxDhEWwrF5qdhjQ9ryxYTeRSH5h1YnluqsxNIX7WTZuDPbQWvfHPWrZlzxkQ+gSX8phhwFvrXPvR4THxpl/EZchTfRAc8DbxURleFH5S92afRelUc/Q8ep4SxXQ6DOKeHg5vyobpbuLw3851v8yTRELarkhKS3h9xw8gOFKIwq0pN+lGgekmKkFL2nnCtZkdtEkrNr4dBhMcXQqYKaImSWBVtZUI7a/xwfGwBVBLP1bo0p32rzwl4Jtz1rXvmpKDb5xt5KwxAN+B1Vk/l+v3PZRDWlx6NPPK3FKDI1j/p15i2tT3lqPke0phIjwNY9sV5b4Lxec83N44K8kbrmVtbDjPmDWajFzkFR2rsLdGByTvRfWaGaRxMykgY8RRgk91kbVrzZNDtku36ziM+2KQ48I/x0HMMZlogxuFF+KM7mp+zVAZWi8jQHd1WBjbRY1s2PLlua7mKS3aZaxsAKK55pBknBzRnFuOPIAsD5uNlSter7tNPVLYt0iQkLdfDNOVg16gE2VtsiukoAL2YnDxaztIIsgzbizc8/yr+tiwwopcR/Q1ghhxiUkeW9A5K0pw/sRbxH5md+SzYpZ9TAj+Ji7EKFj5sKuBQhKSwPx/EstWCXpo77PfgOHSZf0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(396003)(376002)(366004)(136003)(346002)(451199015)(86362001)(6666004)(316002)(41300700001)(36756003)(5660300002)(186003)(7416002)(2906002)(6862004)(8936002)(83380400001)(2616005)(31696002)(66476007)(26005)(53546011)(37006003)(6506007)(6636002)(66946007)(66556008)(6512007)(38100700002)(54906003)(478600001)(6486002)(4326008)(8676002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MDVkU1c1UzVYd2M2TnRCZUkyRUU5RlVaVHVsdWM2emdQcXVDNG5EYkN4T1pG?=
+ =?utf-8?B?U2VaOTA4Q3RSVVRNd1lHZEltMTFvSW1vVEp2dUhCQWR5S3pMSzVOR1ltRzF5?=
+ =?utf-8?B?SlJFUTRPUklENWYzZGFMblRLbk9GSFJPTk9XVmJjdTdTbk1aVXBrUUlPY1Yv?=
+ =?utf-8?B?NWJmZFo5Z2RIVnR4U1NINGptcTNIR0ZXTHM0SlBlZkZQcnA3WnBHWExyc2lZ?=
+ =?utf-8?B?b1lwdzNLYit2YW00WThJN3BENS93bXdBeUdxRENGeUtnUXBKZDRPK0YvL2x1?=
+ =?utf-8?B?UzlBYVZuRjQ3Ky9MTHlsT3pndC9IQ1VZcnBwZFdxcVRiMTMrVmNuZjI5dmp1?=
+ =?utf-8?B?M3RKdHEzQmxRSU90T0pPMGdlUmZsa2hyK0tRWC9jRFRIWHAvRjM4bGVTL0Jj?=
+ =?utf-8?B?K05zMXJmM0Vlam9sZitoeXJkYXgyRkhraWREYXh2NVFNa0JMcVN0UTR4QlFj?=
+ =?utf-8?B?YzZsL0N4WHFRWE5jWFlrM2hpc1gxa3RBWTVxcUh6cGxpTUNzT1J4SkNUSjFx?=
+ =?utf-8?B?d2Q4VWZLaFozaVgxMEUxZDAvbkZmTlR0bTBjRW9JOHhaTUwyUTBOWXRleGFo?=
+ =?utf-8?B?dW81T3plZFJqU0ZQbEh5ZnQyM2U2TTVEYW9lN1p5MDg0MlNwa2VOdFR3aEJz?=
+ =?utf-8?B?QXdxUS92WDhNcGtIUWdnbXBKamNpdUhORnBycytsNnRCOTk2bmhRdVRDemtn?=
+ =?utf-8?B?TUU1VmRSRjZLM1lFamxmZUtWamxOV3ZPZFNkRmFjNUxyRVNod3ROeHBNU2lV?=
+ =?utf-8?B?VUdVL1ZVbWJ3eDhmQzQ2dGlNTktMaHJ0K0xqdnpQZmFhelo4ZlFYTmI0K3pa?=
+ =?utf-8?B?K2RZaXJCOXMwVFlQM2Y1Ylp4bU9SQUpXczFmQjBjU1FSMGUyUEFCL21hT1pm?=
+ =?utf-8?B?TWt1bnRuY0Q0cnFuVGpaWTFTWVBDMXBLc2YrWVFzeWFIczhlb2psdG95TndU?=
+ =?utf-8?B?TEpFR0ZTMktsRC9zOXQ5ZTZwdlRPUVdUVVNqMlBPU2Q1UVNnK2duWlAzWHVw?=
+ =?utf-8?B?a0E2Q0FBT3R6U0pMcitrZ0RRUHQyNm5ZM0VLOGdmaHNUN1MrR29VUys2SEtu?=
+ =?utf-8?B?QkJDUEI2Z3lPd2l3Q21RdmcrTGdnVUZVdllzMWJ4dHBucUo3MkNFSm01c0ls?=
+ =?utf-8?B?b2o4aG0rOEJ1VWxXSGpXbXl3cWtnNGFoREMvUVFTSWRGeU9PUmE4N2dQaDBH?=
+ =?utf-8?B?NkFrWHNFYTE4T3ArVEtwR1hZckhneFQzYXZJSWhoeHRabE40dlBSSjkyejQv?=
+ =?utf-8?B?eENHelFiWlVIRUtjcVFoT0VEOTB6ejgxV0ZaVzJiVE9YY2xkMXZJVWhYTzF1?=
+ =?utf-8?B?ckFGR0FFcTg0U3NPaUpNRGtGWVNvTjd1cGhnNFFVbzBnb3RaZ1g1Wi9ZL3ZQ?=
+ =?utf-8?B?dWFWT0xBVm0xMWJ5d0wrM1ZPQzBVQzNXV3R4VXRnWFFGenZnUjI3SGRtd0xE?=
+ =?utf-8?B?ZkN3TWZMUkRnS1kzRjRDTlkwNGkyNVNXbjcxZEtDYXNZdU5tbS8yVEVVdXZ2?=
+ =?utf-8?B?UDhqSkQ1bWVVNUk1d2ZBVk91VGRnZUhwSDgzNWgrUHJNZ2hmL2hzOHVZS1J0?=
+ =?utf-8?B?YkxXZ1I2d2cvb0ZOeGJkTk1QVzdFZVF3L1BKTkx6RXAxcXROMndQZkhoeVJI?=
+ =?utf-8?B?cktMR2FyNC92Vmg1Mmt2aGJIWnNMakdZaE1TN0lCVlYxeTVjQlRzWjk2K2dw?=
+ =?utf-8?B?VTYycU9mc3JYZG9Sc1QwWStkRWpmQlhzbHkwYWZvRVM2THptOTIzTFpyTTkr?=
+ =?utf-8?B?SkRhMVZHVFg1SnFzVW1GdUF0Z2ZZZ21nSDRZZm04SHp2ZzFUdWEyMlZkUlBY?=
+ =?utf-8?B?TDVvYVdEeUZJZmM5OGppakc0a2pXNndiM1hmemJ1UzJORHQzUjNOa1MvbGEr?=
+ =?utf-8?B?bGVVY2ZuNU54cTdMTUUvei9KdHdRckNTRkJBUkRDbGowamp2akdCNjlmUXhD?=
+ =?utf-8?B?UGRiZDVXbHBKNkdCUlJydEZxcHdITmNOMmY2RGhCQ1lKa2xUSTRkWXJ6Sm9k?=
+ =?utf-8?B?NVZwYkVJbHBqR1ArbDI5NjIwcTVRckFZNGVRNzlSMEM0TFdyMEs2WGp5MlQ2?=
+ =?utf-8?B?WVhSV2xxcW42ZlpBWWl0dFZwaVFhSTVVQkxnU2NoemlMQjV4V011UjBsbFB4?=
+ =?utf-8?Q?3LYWC4USPADe9CjbRAThJCP/A?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e7216de-60c0-4035-7ac6-08dacad3b1f7
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2022 08:46:20.2311 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2Q9AnOPoLHquwENlaDQ5z4d538yReoqJCypPu+lkaEY2URRGMvsbgnky71HyCPSjnmwRT+gCESw19nfW2WO+Qw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4154
+Received-SPF: softfail client-ip=2a01:111:f400:7e88::62c;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,59 +165,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/19/22 00:19, hev wrote:
-> Hello,
-> 
-> I talked with Hu Qi about the risk of instruction concurrent
-> modification in TCG direct jump for LoongArch, and the conclusion is
-> that the implementation is correct.
-> 
-> Similarly, the AArch64 implementation doesn't seem to be quite
-> correct. IIUC, multiple instructions paired with an atomic write does
-> not guarantee atomic effects on the execution side.
-> 
-> For example, the issue in AArch64 is:
-> 
-> Instruction concurrent modification:
-> 
-> * Before:
->    adrp
->    addi
->    br
-> 
-> * After
->    b
->    nop
->    br
-> 
-> * May actually execution:
->    adrp
->    nop
->    br
-> 
-> That will cause the jump to an unexpected address to execute, What do you think?
 
-Yes, I agree this is a possible execution that I hadn't considered.  I *think* that it 
-requires that the thread be interrupted after the adrp, to resume with the refreshed 
-cacheline.  But an interrupt is certainly a valid sequence of events.
+On 17/11/2022 19:24, Jason Gunthorpe wrote:
+> On Thu, Nov 17, 2022 at 07:07:10PM +0200, Avihai Horon wrote:
+>>>> +    }
+>>>> +
+>>>> +    if (mig_state->data_fd != -1) {
+>>>> +        if (migration->data_fd != -1) {
+>>>> +            /*
+>>>> +             * This can happen if the device is asynchronously reset and
+>>>> +             * terminates a data transfer.
+>>>> +             */
+>>>> +            error_report("%s: data_fd out of sync", vbasedev->name);
+>>>> +            close(mig_state->data_fd);
+>>>> +
+>>>> +            return -1;
+>>> Should we go to recover_state here?  Is migration->device_state
+>>> invalid?  -EBADF?
+>> Yes, we should.
+>> Although VFIO_DEVICE_FEATURE_MIG_DEVICE_STATE ioctl above succeeded, setting
+>> the device state didn't *really* succeed, as the data_fd went out of sync.
+>> So we should go to recover_state and return -EBADF.
+> The state did succeed and it is now "new_state". Getting an
+> unexpected data_fd means it did something like RUNNING->PRE_COPY_P2P
+> when the code was expecting PRE_COPY->PRE_COPY_P2P.
+>
+> It is actually in PRE_COPY_P2P but the in-progress migration must be
+> stopped and the kernel would have made the migration->data_fd
+> permanently return some error when it went async to RUNNING.
+>
+> The recovery is to resart the migration (of this device?) from the
+> start.
 
-Perhaps a better construction would be
+Yes, and restart is what's happening here - the -EBADF that we return 
+here will cause the migration to be aborted.
+I didn't mean that we should go to recover_state *instead* of returning 
+an error.
 
-Before:
-	ldr	x30, [pc, -XXX]
-	br	x30
+But rethinking about it, I think you are right - recover_state should be 
+used only if we can't set the device in new_state (i.e., there is some 
+error in device functionality).
+In the "data_fd out of sync" case, we did set the device in new_state 
+(no error in device functionality), but data_fd got mixed up, so we 
+should just abort migration and restart it again.
 
-After:
-	br	YYY
-	br	x30
+So bottom line, I think we should just return -EBADF here to abort 
+migration.
 
-so that we only update 1 insn, and it goes between either a direct branch, or a 
-pc-relative load of the branch address from the TranslationBlock structure (which sits 
-right before the code, and we have a 1MB range on LDR (literal)).
-
-Although at the moment the backend hook doesn't have enough information to recreate the 
-LDR offset, so the quick fix would have to go between BR and NOP, and leave the LDR to follow.
-
-
-r~
 
