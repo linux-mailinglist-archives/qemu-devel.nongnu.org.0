@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381AC6326DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 15:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA76632741
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 16:04:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox873-0005FZ-ED; Mon, 21 Nov 2022 09:49:33 -0500
+	id 1ox8JM-0008SX-G6; Mon, 21 Nov 2022 10:02:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ox871-0005FF-L8
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:49:31 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ox86z-0007HS-Om
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:49:31 -0500
-Received: by mail-wm1-x334.google.com with SMTP id t4so8624072wmj.5
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 06:49:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BSdkyMFtfO4tuATAOxv5GR3jdScU++IaxS6/nHCv1pI=;
- b=ZoNZvQ1F3eOl8XoxC8DXnerZHCwEWa9T36KPp7FHndekMeAtnh9NavhqhT+pIQRXo9
- tFmZCliu3TNNItu4cFQy4iwB6m/YNPk1OlYqlNwhp95OWyPFZohqLgbJI7vt1gLd14XI
- 8zOVZbMzDCOdH+UAcJgm2treQYT61F39FQfr3muRzFxYUqAg+xxdadBzgyA6JL5qlz3j
- vWCarQt+wVO9JYjioPu9qfXxFUydv9MOT6SBlq4E1ywl8xKN0UYyZhhLNaMGrL9famLf
- zMJTZ3oMfNLU6Ypzxl6vvdyw2KcuPheXCUNa20XmqK2Mgr/wQxdG4P7pqmOucEa7YJ91
- FDgQ==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ox8JI-0008S0-CD
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:02:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ox8JG-0001Gl-0f
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:02:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669042928;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pbv9IbWu3fF3fe1kQfpaz+p08KZd3Yl6FZB8pcVqYlw=;
+ b=A1SQtfZK8VtkmxGDz9W/nPCuadZH5iEjFVlJTJLJ6pnZ+ZjWnzDFa0mCBE0DH5JnRssiG/
+ 9XzMWYqlEnrmVQ14Mu06GRelnPFHS6ppUKujawMJjBvQsIgQNcSA0ovhocC7ILXh4Q+hU5
+ rvkemVqrqew1yAEGNai+aFDV0ZhgVDg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-507-mdx_sFxgNjW-b5x0b992Bg-1; Mon, 21 Nov 2022 10:02:07 -0500
+X-MC-Unique: mdx_sFxgNjW-b5x0b992Bg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m34-20020a05600c3b2200b003cf549cb32bso9424755wms.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 07:02:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BSdkyMFtfO4tuATAOxv5GR3jdScU++IaxS6/nHCv1pI=;
- b=Pj0hGQHNfE7G41GGpGi+uXNJM5nj40wTa2h5KQlu63hayXd6+FI2+g55wL6PbAG4Nk
- /P8PMPjz6ILhjV6tmmsFChtL3pTL9FhSqRGW4Eao5yThiwZjbiKKWQkv040onasenT24
- xPRzRZTk1DXB26n+NixYaIfmTphOiZoiuTKlDl+EfBGbUT0gIvk8H9SnDOI6L94r1V69
- uE3oQXXfiroBXpIWvTMPXjFaO1fdnqhr4VXUKzstYJ3/6SHy/twP9tYQYVkgLCf2s56a
- rFJbhdaFfXr/S4JCUwLlZur+NDFqB/zWu2gqDRNSONLPMnoG0ZrN92OEkHhIJ2Xv7Vkh
- dj1A==
-X-Gm-Message-State: ANoB5pnm9Pxo2FdhfV4QMBPxJtHAhxy9ASWCJsr/bT5qa3rr+EaTezmu
- dAP0bbRrCNEwSAs0Pew5906Aig==
-X-Google-Smtp-Source: AA0mqf7jXQgcscAEuQthn/pGE6/p91KBWF0N47givMrApocOMGtcKi3cLbjv5C/10ZNjIpFDGCZZyw==
-X-Received: by 2002:a05:600c:3542:b0:3cf:6c2f:950c with SMTP id
- i2-20020a05600c354200b003cf6c2f950cmr5685573wmq.146.1669042167616; 
- Mon, 21 Nov 2022 06:49:27 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pbv9IbWu3fF3fe1kQfpaz+p08KZd3Yl6FZB8pcVqYlw=;
+ b=FKbCVpENyE8jS4Rx4AZOj5SRDXgFMt+rThQg5KFuxkTcQ5FMR1kxqC2hB3Qx2oWh8/
+ Xq5axyZYu1hrrs1IAaCY0hhejayEA+95T1kQHJuc/LyHqbX2/wAq4El4Q+Hzf3i9pcS8
+ q8K3nLh9wNdhBED58wAjSYmrd1ycu30ur7HAsYHOIjjymWuKxBsvjsbOsXQ7vG9jdlwM
+ oeXYLobwsdbvc2PVyrlf4uOkWKOqomS0wBLn4CkBNYIjKBPqpU2C13jHV2sSFmMU5rWi
+ 4zgq2HLCTP3NZt53UMPuIthIyXhrlypACv8yfo2Ckc9R/iILZjToNgNWG45xMxLO2dKl
+ vBjA==
+X-Gm-Message-State: ANoB5pmFSDUht9aj1Oyvx/CIea31jdhi13L/agmX6yKjioEq9cu1Vf4s
+ DgFActP/xaycs0eyyR9sxniccOR3MC6EKCI015T4m6jSp5izLdyRGCOvkOWZPlNDmOPtH6NSh5Z
+ SCfalJmquCT0JNHI=
+X-Received: by 2002:a05:6000:1d84:b0:236:5022:c705 with SMTP id
+ bk4-20020a0560001d8400b002365022c705mr10955692wrb.466.1669042925998; 
+ Mon, 21 Nov 2022 07:02:05 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5KMzLfUch0m32A+ufVSsVLjTTSZgMnrTd30JDWFmFr9+bCTp0qgjUSOLxzUCo1XLIxZ3qilA==
+X-Received: by 2002:a05:6000:1d84:b0:236:5022:c705 with SMTP id
+ bk4-20020a0560001d8400b002365022c705mr10955645wrb.466.1669042925598; 
+ Mon, 21 Nov 2022 07:02:05 -0800 (PST)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- n27-20020a05600c3b9b00b003cfa81e2eb4sm15459051wms.38.2022.11.21.06.49.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 06:49:26 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 68E2D1FFB7;
- Mon, 21 Nov 2022 14:49:26 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
-Subject: [RFC PATCH] include/hw: attempt to document VirtIO feature variables
- (!DISCUSS!)
-Date: Mon, 21 Nov 2022 14:49:21 +0000
-Message-Id: <20221121144921.2830330-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ p11-20020a05600c468b00b003c65c9a36dfsm15502761wmo.48.2022.11.21.07.02.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 07:02:05 -0800 (PST)
+Message-ID: <6bbd0166-20aa-1f2f-8732-8614b679e364@redhat.com>
+Date: Mon, 21 Nov 2022 16:02:04 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 00/20] Protect the block layer with a rwlock: part 1
+Content-Language: en-US
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20221116134850.3051419-1-eesposit@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <20221116134850.3051419-1-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,162 +107,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have a bunch of variables associated with the device and the vhost
-backend which are used inconsistently throughout the code base. Lets
-start trying to bring some order by agreeing what each variable is
-for. Some cases to address (vho/vio renames to avoid ambiguous results
-while grepping):
+Ok, as I expected simple changes in a previous based-on serie provoke a
+cascade of changes that inevitably affect these patches too.
 
-virtio->guest_features is mostly the live status of the features field
-and read and written as such by the guest. It does get manipulated by
-the various load state via virtio_set_features_nocheck(vdev, val) for
-migration.
+While I strongly suggest to have an initial look at these patches
+because it gives an idea on what am I trying to accomplish, I would not
+go looking at nitpicks and trivial errors that came up from the based-on
+series (ie "just as in the previous serie, fix this").
 
-virtio->host_features is the result of vcd->get_features() most of the
-time and for vhost-user devices eventually ends up down at the vhost
-get features message:
+The order of the series is:
+1. Still more coroutine and various fixes in block layer
+2. Protect the block layer with a rwlock: part 1
+3. Protect the block layer with a rwlock: part 2
+4. Protect the block layer with a rwlock: part 3
 
-  ./hw/virtio/virtio-bus.c:66:    vdev->host_features = vdc->get_features(vdev, vdev->host_features,
+Thank you,
+Emanuele
 
-However virtio-net does a lot of direct modification of it:
-
-  ./hw/net/virtio-net.c:3517:        n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
-  ./hw/net/virtio-net.c:3529:        n->host_features |= (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
-  ./hw/net/virtio-net.c:3539:        n->host_features |= (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
-  ./hw/net/virtio-net.c:3548:        n->host_features |= (1ULL << VIRTIO_NET_F_STANDBY);
-  ./hw/virtio/virtio.c:3438:    bool bad = (val & ~(vdev->host_features)) != 0;
-
-And we have this case which propagates the global QMP values for the
-device to the host features. This causes the resent regression of
-vhost-user-sock due to 69e1c14aa2 (virtio: core: vq reset feature
-negotation support) because the reset feature was rejected by the
-vhost-user backend causing it to freeze:
-
-  ./hw/virtio/virtio.c:4667:    status->host_features = qmp_decode_features(vdev->device_id,
-
-virtio->backend_features is only used by virtio-net to stash the
-vhost_net_get_features features for checking later:
-
-    features = vhost_net_get_features(get_vhost_net(nc->peer), features);
-    vdev->vio_backend_features = features;
-
-and:
-
-    if (n->mtu_bypass_backend &&
-            !virtio_has_feature(vdev->vio_backend_features, VIRTIO_NET_F_MTU)) {
-        features &= ~(1ULL << VIRTIO_NET_F_MTU);
-    }
-
-vhost_dev->acked_features seems to mostly reflect
-virtio->guest_features (but where in the negotiation cycle?). Except
-for vhost_net where is becomes vhost_dev->backend_features
-
-  ./backends/vhost-user.c:87:    b->dev.vho_acked_features = b->vdev->guest_features;
-  ./hw/block/vhost-user-blk.c:149:    s->dev.vho_acked_features = vdev->guest_features;
-  ./hw/net/vhost_net.c:132:    net->dev.vho_acked_features = net->dev.vho_backend_features;
-  ./hw/scsi/vhost-scsi-common.c:53:    vsc->dev.vho_acked_features = vdev->guest_features;
-  ./hw/virtio/vhost-user-fs.c:77:    fs->vhost_dev.vho_acked_features = vdev->guest_features;
-  ./hw/virtio/vhost-user-i2c.c:46:    i2c->vhost_dev.vho_acked_features = vdev->guest_features;
-  ./hw/virtio/vhost-user-rng.c:44:    rng->vhost_dev.vho_acked_features = vdev->guest_features;
-  ./hw/virtio/vhost-vsock-common.c:71:    vvc->vhost_dev.vho_acked_features = vdev->guest_features;
-  ./hw/virtio/vhost.c:1631:            hdev->vho_acked_features |= bit_mask;
-
-vhost_dev->backend_features has become overloaded with two use cases:
-
-  ./hw/block/vhost-user-blk.c:336:    s->dev.vho_backend_features = 0;
-  ./hw/net/vhost_net.c:180:        net->dev.vho_backend_features = qemu_has_vnet_hdr(options->net_backend)
-  ./hw/net/vhost_net.c:185:        net->dev.vho_backend_features = 0;
-  ./hw/scsi/vhost-scsi.c:220:    vsc->dev.vho_backend_features = 0;
-  ./hw/scsi/vhost-user-scsi.c:121:    vsc->dev.vho_backend_features = 0;
-  ./hw/virtio/vhost-user.c:2083:        dev->vho_backend_features |= 1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
-One use for saving the availability of a vhost-net feature and another
-for ensuring we add the protocol feature negotiation bit when querying
-a vhost backend. Maybe the places where this is queried should really
-be bools that can be queried in the appropriate places?
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Stefano Garzarella <sgarzare@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>
----
- include/hw/virtio/vhost.h  | 18 +++++++++++++++---
- include/hw/virtio/virtio.h | 20 +++++++++++++++++++-
- 2 files changed, 34 insertions(+), 4 deletions(-)
-
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 353252ac3e..502aa5677a 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -88,13 +88,25 @@ struct vhost_dev {
-     int vq_index_end;
-     /* if non-zero, minimum required value for max_queues */
-     int num_queues;
-+    /**
-+     * vhost feature handling requires matching the feature set
-+     * offered by a backend which may be a subset of the total
-+     * features eventually offered to the guest.
-+     *
-+     * @features: available features provided by the backend
-+     * @acked_features: final set of negotiated features with the
-+     * front-end driver
-+     * @backend_features: additional feature bits applied during negotiation
-+     *
-+     * Finally the @protocol_features is the final protocal feature
-+     * set negotiated between QEMU and the backend (after
-+     * VHOST_USER_F_PROTOCOL_FEATURES is negotiated)
-+     */
-     uint64_t features;
--    /** @acked_features: final set of negotiated features */
-     uint64_t acked_features;
--    /** @backend_features: backend specific feature bits */
-     uint64_t backend_features;
--    /** @protocol_features: final negotiated protocol features */
-     uint64_t protocol_features;
-+
-     uint64_t max_queues;
-     uint64_t backend_cap;
-     /* @started: is the vhost device started? */
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index a973811cbf..9939a0a632 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -93,6 +93,12 @@ enum virtio_device_endian {
-     VIRTIO_DEVICE_ENDIAN_BIG,
- };
- 
-+/**
-+ * struct VirtIODevice - common VirtIO structure
-+ * @name: name of the device
-+ * @status: VirtIO Device Status field
-+ *
-+ */
- struct VirtIODevice
- {
-     DeviceState parent_obj;
-@@ -100,9 +106,21 @@ struct VirtIODevice
-     uint8_t status;
-     uint8_t isr;
-     uint16_t queue_sel;
--    uint64_t guest_features;
-+    /**
-+     * These fields represent a set of VirtIO features at various
-+     * levels of the stack. @host_features indicates the complete
-+     * feature set the VirtIO device can offer to the driver.
-+     * @guest_features indicates which features the VirtIO driver can
-+     * support. Finally @backend_features represents everything
-+     * supported by the backend. This set might be split between stuff
-+     * done by QEMU itself and stuff handled by an external backend
-+     * (e.g. vhost). As a result some feature bits may be added or
-+     * masked from the backend.
-+     */
-     uint64_t host_features;
-+    uint64_t guest_features;
-     uint64_t backend_features;
-+
-     size_t config_len;
-     void *config;
-     uint16_t config_vector;
--- 
-2.34.1
+Am 16/11/2022 um 14:48 schrieb Emanuele Giuseppe Esposito:
+> This serie is the first of four series that aim to introduce and use a new
+> graph rwlock in the QEMU block layer.
+> The aim is to replace the current AioContext lock with much fine-grained locks,
+> aimed to protect only specific data.
+> Currently the AioContext lock is used pretty much everywhere, and it's not
+> even clear what it is protecting exactly.
+> 
+> The aim of the rwlock is to cover graph modifications: more precisely,
+> when a BlockDriverState parent or child list is modified or read, since it can
+> be concurrently accessed by the main loop and iothreads.
+> 
+> The main assumption is that the main loop is the only one allowed to perform
+> graph modifications, and so far this has always been held by the current code.
+> 
+> The rwlock is inspired from cpus-common.c implementation, and aims to
+> reduce cacheline bouncing by having per-aiocontext counter of readers.
+> All details and implementation of the lock are in patch 1.
+> 
+> We distinguish between writer (main loop, under BQL) that modifies the
+> graph, and readers (all other coroutines running in various AioContext),
+> that go through the graph edges, reading ->parents and->children.
+> The writer (main loop)  has an "exclusive" access, so it first waits for
+> current read to finish, and then prevents incoming ones from
+> entering while it has the exclusive access.
+> The readers (coroutines in multiple AioContext) are free to
+> access the graph as long the writer is not modifying the graph.
+> In case it is, they go in a CoQueue and sleep until the writer
+> is done.
+> 
+> In this first serie, my aim is to introduce the lock (patches 1-3,6), cover the
+> main graph writer (patch 4), define assertions (patch 5) and start using the
+> read lock in the generated_co_wrapper functions (7-20).
+> Such functions recursively traverse the BlockDriverState graph, so they must
+> take the graph rdlock.
+> 
+> We distinguish two cases related to the generated_co_wrapper (often shortened
+> to g_c_w):
+> - qemu_in_coroutine(), which means the function is already running in a
+>   coroutine. This means we don't take the lock, because the coroutine must
+>   have taken it when it started
+> - !qemu_in_coroutine(), which means we need to create a new coroutine that
+>   performs the operation requested. In this case we take the rdlock as soon as
+>   the coroutine starts, and release only before finishing.
+> 
+> In this and following series, we try to follow the following locking pattern:
+> - bdrv_co_* functions that call BlockDriver callbacks always expect the lock
+>   to be taken, therefore they assert.
+> - blk_co_* functions usually call blk_wait_while_drained(), therefore they must
+>   take the lock internally. Therefore we introduce generated_co_wrapper_blk,
+>   which does not take the rdlock when starting the coroutine.
+> 
+> The long term goal of this series is to eventually replace the AioContext lock,
+> so that we can get rid of it once and for all.
+> 
+> This serie is based on v4 of "Still more coroutine and various fixes in block layer".
+> 
+> Based-on: <20221116122241.2856527-1-eesposit@redhat.com>
+> 
+> Thank you,
+> Emanuele
+> 
+> Emanuele Giuseppe Esposito (19):
+>   graph-lock: introduce BdrvGraphRWlock structure
+>   async: register/unregister aiocontext in graph lock list
+>   block.c: wrlock in bdrv_replace_child_noperm
+>   block: remove unnecessary assert_bdrv_graph_writable()
+>   block: assert that graph read and writes are performed correctly
+>   graph-lock: implement WITH_GRAPH_RDLOCK_GUARD and GRAPH_RDLOCK_GUARD
+>     macros
+>   block-coroutine-wrapper.py: take the graph rdlock in bdrv_* functions
+>   block-backend: introduce new generated_co_wrapper_blk annotation
+>   block-gen: assert that {bdrv/blk}_co_truncate is always called with
+>     graph rdlock taken
+>   block-gen: assert that bdrv_co_{check/invalidate_cache} are always
+>     called with graph rdlock taken
+>   block-gen: assert that bdrv_co_pwrite is always called with graph
+>     rdlock taken
+>   block-gen: assert that bdrv_co_pwrite_{zeros/sync} is always called
+>     with graph rdlock taken
+>   block-gen: assert that bdrv_co_pread is always called with graph
+>     rdlock taken
+>   block-gen: assert that {bdrv/blk}_co_flush is always called with graph
+>     rdlock taken
+>   block-gen: assert that bdrv_co_{read/write}v_vmstate are always called
+>     with graph rdlock taken
+>   block-gen: assert that bdrv_co_pdiscard is always called with graph
+>     rdlock taken
+>   block-gen: assert that bdrv_co_common_block_status_above is always
+>     called with graph rdlock taken
+>   block-gen: assert that bdrv_co_ioctl is always called with graph
+>     rdlock taken
+>   block-gen: assert that nbd_co_do_establish_connection is always called
+>     with graph rdlock taken
+> 
+> Paolo Bonzini (1):
+>   block: introduce a lock to protect graph operations
+> 
+>  block.c                                |  15 +-
+>  block/backup.c                         |   3 +
+>  block/block-backend.c                  |  10 +-
+>  block/block-copy.c                     |  10 +-
+>  block/graph-lock.c                     | 255 +++++++++++++++++++++++++
+>  block/io.c                             |  15 ++
+>  block/meson.build                      |   1 +
+>  block/mirror.c                         |  20 +-
+>  block/nbd.c                            |   1 +
+>  block/stream.c                         |  32 ++--
+>  include/block/aio.h                    |   9 +
+>  include/block/block-common.h           |   1 +
+>  include/block/block_int-common.h       |  36 +++-
+>  include/block/block_int-global-state.h |  17 --
+>  include/block/block_int-io.h           |   2 +
+>  include/block/block_int.h              |   1 +
+>  include/block/graph-lock.h             | 180 +++++++++++++++++
+>  include/sysemu/block-backend-io.h      |  69 +++----
+>  qemu-img.c                             |   4 +-
+>  scripts/block-coroutine-wrapper.py     |  13 +-
+>  tests/unit/test-bdrv-drain.c           |   2 +
+>  util/async.c                           |   4 +
+>  util/meson.build                       |   1 +
+>  23 files changed, 615 insertions(+), 86 deletions(-)
+>  create mode 100644 block/graph-lock.c
+>  create mode 100644 include/block/graph-lock.h
+> 
 
 
