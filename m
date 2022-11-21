@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A10631EE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 11:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E42B631F01
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 12:04:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox4V1-0007P2-Ms; Mon, 21 Nov 2022 05:58:03 -0500
+	id 1ox4ZL-00018V-KP; Mon, 21 Nov 2022 06:02:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4V0-0007LK-B9
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:58:02 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ox4Z8-00016S-EN
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:02:20 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4Uy-0005SN-K1
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:58:01 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- t25-20020a1c7719000000b003cfa34ea516so10135221wmi.1
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 02:58:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ox4Z5-0006yS-W3
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:02:18 -0500
+Received: by mail-pf1-x430.google.com with SMTP id v28so10979619pfi.12
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 03:02:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=l7LSS1if4evq1BMx5f1VYSzf4f46oD4MfXQSwgKIWwI=;
- b=fyObu5PW6qwAxPOLWIfvQeTiXfjXmB9MVEVNuFfSxyzhfCUKC0e6WUwx8c8UKksLFJ
- DE++V/42fvlgsMrDXbp1pUC/ASXx0+YnGHJaHKUJkB/Blt5rwouLPxZfWtcBEFnXdVbE
- Gj7ewuFADNEMxcB1jSrhuvbsI3y8jMmAIyHIFmoTzc/XGFu9PfpS0aBk3yQLRcbwRn7n
- I2hzmMh3HMKyEghjaW9QEk6AwJNl7gcT1VK/ouH9Ib/MXVcW1TIrH/q14rcoFrBYBvnw
- 4XsNfLZGPrXzjAdXCucgVtNo4f7ZWqSPuRUfNXGTt41rPnwjVwzjg7FYkD7zZJEP7Q9p
- p+rA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=B2DOkmhHiMlanLxEQ8OMaNdxcW9nQg07gCJ3LOga/cg=;
+ b=EhCLy8v9IbugGP4JxbNsq3L3cBbyDaTHmId+vcO9wVKbyRGfj7rphrgUDHM82ulmn2
+ 7auUoI4e/jrYyikRLkInRssUXHKPmA5CkZaq5hq+2hellb6YmE/7qTm3l0HgAdZJ2wTV
+ ShB+7vgW1RU0mY0ILskfWU6FlvItt5eOV0WyUOYXBK5KoDlcVwGzQd99DHDjiDxAbTil
+ OM1yFJkW/ZiJTGgFCb6w0NDgGWhCX157eKDlwKujxeYMvZAXRE9wGLCxRcTh6dd3hIUL
+ wfnPHU3m4s5XfVTU+tqHWR9McAv0cu4l+WwS6BTAYKRz20HLytwUVYOoqmfrjMfTcupy
+ RuDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l7LSS1if4evq1BMx5f1VYSzf4f46oD4MfXQSwgKIWwI=;
- b=th2najlJrmLgfOSxGVKLGQeBgMYe5G9/qFLGIjqdv7Z354MTc9at7vfb3C+w+CGrqA
- el+u+SuiipGbloPPvcKpIwL8NPIHkqCn2Cyk1ce1NrRgN2EExnQoDIJbcYCczL4popTy
- lb0T0AQZ7VE+ktPKATshhDpa2m2SP7bQ+s3HejMiKd+EeaoP5XsvJeNLCqeB2aR+aihi
- mcugEWIYIAhQGGYEtOCzZXuEtx9bFTTZ7KqaX/90aoMtD8vUt3cJLqLs+4Aa+DoakBNm
- y0bt2GZlxbBAyO/v4rqFZLWgvYDGTh2tF66Ls6jw0KiZzn4Ty2/Are1SdfbWhq5xUv3s
- JuEQ==
-X-Gm-Message-State: ANoB5pluqamiSgH2nwNTqcM7gyT7RSISzyRkOoEHuoc0NjFXn80RfykZ
- 9Egh2KRHOALtD0n9D3KjI+8ya+XUnl1ZtA==
-X-Google-Smtp-Source: AA0mqf7R3JqBYRCgDOf3z1hgpuZnPn6Uw65Ci8pb1xUfQjs+4EC5lEBGQHjLk8hGdzhIjO4+eIjv3A==
-X-Received: by 2002:a05:600c:1d14:b0:3cf:925e:198c with SMTP id
- l20-20020a05600c1d1400b003cf925e198cmr2604248wms.144.1669028278982; 
- Mon, 21 Nov 2022 02:57:58 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- l24-20020a05600c1d1800b003cf878c4468sm19914844wms.5.2022.11.21.02.57.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 02:57:58 -0800 (PST)
-Message-ID: <104d9182-99ac-4984-7068-8094fbf9c23e@linaro.org>
-Date: Mon, 21 Nov 2022 11:57:57 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=B2DOkmhHiMlanLxEQ8OMaNdxcW9nQg07gCJ3LOga/cg=;
+ b=75wfEpPdl1ME8FQUExJOCBmXCUDOMvneD/QoP0t8iIa2HXNWT7Grxem6teeui1akUa
+ NFpfDHO1Tjdd0KnahseI8fNKwSb/5E85ABhrDHEwWGdXss1QCkpLZMwou6GwxUfeaasO
+ aySev9fsciRg1ZpQEURNGveI+zeqO55LQmizeoZWjuMefIAcaWVZrbIVIgbrRkhgYIHA
+ 0GPna0dKDN61+UOEG6MQT2Yj7EHco76gbMJmuf6fYgE+O365AX9IbQt97Am0B19jWL3j
+ sUHg8A6KwuDWT6ltxULl3mz6vx7xaLMEQZBdNuHjJlc5mCA60cHGz1blGsTNyGSsuoFc
+ rwVw==
+X-Gm-Message-State: ANoB5pnmtf7TDG5yOAK+CdFn+bqmJmjd0nFgzJwJmuIrbpMsSFm4sIIJ
+ bEDfJzf41zsgr08qi9i9ozXaatWXVmCFRcn86naXYQ==
+X-Google-Smtp-Source: AA0mqf7ryfN/7qUH4dZxUgGdd3/C35IV8PNUGTo3BM9CD7OWdm5GrcW9QlhnZd9uHZ55iRFY2cdM70X3nW07adchlMo=
+X-Received: by 2002:a62:b501:0:b0:573:1959:c356 with SMTP id
+ y1-20020a62b501000000b005731959c356mr8781374pfe.51.1669028533801; Mon, 21 Nov
+ 2022 03:02:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH for-8.0 6/7] hw/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in
- ppc_set_irq
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org
-References: <20221118091858.242569-1-richard.henderson@linaro.org>
- <20221118091858.242569-7-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221118091858.242569-7-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+References: <1668789029-5432-1-git-send-email-mihai.carabas@oracle.com>
+ <CAFEAcA_H8UEcp4HNFe1CwaheLxg7453QQBjTa9wSnsW6TgsRKA@mail.gmail.com>
+ <eea06d91-492b-3c1a-6e0d-5e52507b3b1a@oracle.com>
+In-Reply-To: <eea06d91-492b-3c1a-6e0d-5e52507b3b1a@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Nov 2022 11:02:02 +0000
+Message-ID: <CAFEAcA8isy4_0iYHWX+3RksCNQwT3U_SH14xg6t-KUPx4b9d=Q@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: build smbios 19 table
+To: Mihai Carabas <mihai.carabas@oracle.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -93,13 +84,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/11/22 10:18, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> Cc: qemu-ppc@nongnu.org
-> ---
->   hw/ppc/ppc.c | 10 +---------
->   1 file changed, 1 insertion(+), 9 deletions(-)
+On Sun, 20 Nov 2022 at 17:53, Mihai Carabas <mihai.carabas@oracle.com> wrote:
+>
+> La 18.11.2022 21:11, Peter Maydell a scris:
+> > On Fri, 18 Nov 2022 at 17:37, Mihai Carabas <mihai.carabas@oracle.com> wrote:
+> >> Use the base_memmap to build the SMBIOS 19 table which provides the address
+> >> mapping for a Physical Memory Array (from spec [1] chapter 7.20).
+> >>
+> >> This was present on i386 from commit c97294ec1b9e36887e119589d456557d72ab37b5
+> >> ("SMBIOS: Build aggregate smbios tables and entry point").
+> >>
+> >> [1] https://urldefense.com/v3/__https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.5.0.pdf__;!!ACWV5N9M2RV99hQ!KF2xmQw9nxPvqvNCgDleyVHv4MoZseoZFHmR1veww7O2BmRxSH1spOCNWX-c-FvzcaR_o8PunXSWWH2ECvFqlR4E7vw$
+> >>
+> >> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+> > Is this a bug fix, or a new feature? What are the consequences
+> > of it being missing? Is this important enough to go into the 7.2
+> > release? (My default position would be "no", given this has been
+> > like this on the virt board for a very long time.)
+>
+>
+> This is required by ARM SystemReady Virtual Environment [1]. As
+> described in the Arm SystemReady Requirements Specification v2.0
+>   [2] page 9, 2.5.1 SystemReady Virtual Environment (VE) v1.0
+> requirements,: "FirmwareTestSuite (FWTS) must still be used" -> fwts
+> checks for the presence of SMBIOS type 19 table and fails the test in
+> this case.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+OK, so it's a spec requirement. Are there any actual realworld
+guests that don't work because we get this wrong ?
+
+> > Do we need to care here about pluggable memory devices?
+> > (We seem to do something with them in the ACPI tables
+> > via build_srat_memory(), so maybe not?)
+
+> Here you are refering to the fact that when we hot plug a memory dim, to
+> automatically update smbios type 19 entry/entries?
+
+I don't know anything at all really about any of these ACPI/SMBIOS/etc
+data structures. I do know that the virt board has two ways to
+have RAM in it:
+ * the 'standard RAM" that you get with -m 1024M etc
+ * the pluggable DIMMs
+
+So I'm just asking if this bit of code needs to account for
+the second kind, or if this SMBIOS table type only cares about
+the first kind. If you don't know the answer then we can
+check with the person who added the pluggable DIMM support.
+
+thanks
+-- PMM
 
