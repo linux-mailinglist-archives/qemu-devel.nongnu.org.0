@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F51B6328A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 16:51:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793A86328A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 16:52:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox93y-00009h-7Z; Mon, 21 Nov 2022 10:50:26 -0500
+	id 1ox93y-0000AD-Uu; Mon, 21 Nov 2022 10:50:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ox92T-0008CZ-AN
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:48:55 -0500
+ id 1ox92i-0008GL-Oz
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:49:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ox92R-00023y-Mq
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:48:53 -0500
+ id 1ox92g-000254-VV
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:49:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669045730;
+ s=mimecast20190719; t=1669045737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KW8qyJw9+BwOequ/igbnYDwU1KGG6p1xzQ1NgHCaNuc=;
- b=LAjFqRWTKyGk9Gi9/KCqfZHsYnBaHvUvw26NrC0FuJgIY0Gu6tRAmd0K3biTQuIGpD1i6b
- CVvhbCawT7kPblo9iWTVETd3KFpCs+QfLrZk40C2pws2qH7TcL1/5ZCw6KaaMKRT0O/inO
- Q+mFfXpXJcXFK5U2S9Xiq5QiEMvGjXI=
+ bh=GbXxy3/v2uvLVjEq5DdIOJGY/XwsjiRfYT55l8YARbY=;
+ b=iKmRkQoF8Ygecm9pBIsgBm5p61Sju0VyBGIGVh0Zv04dn1LoRicUdQO+kH9iYz6l8bzhx3
+ CR18N7FvHh1qVoDNnR4+NwT13SYGr0qrV65v8Ed4OMVsUur5xzMgE4GGTidC9cw3ksFr99
+ 3X5VkgostWcYDBEquyscCdnh6SvneLE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-PEbcmzSjM1K75Jo4yDuKEA-1; Mon, 21 Nov 2022 10:48:49 -0500
-X-MC-Unique: PEbcmzSjM1K75Jo4yDuKEA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-500-VLZ3QA-BM96INDXpAwzdcw-1; Mon, 21 Nov 2022 10:48:53 -0500
+X-MC-Unique: VLZ3QA-BM96INDXpAwzdcw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D71BF85A5B6;
- Mon, 21 Nov 2022 15:48:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88730886066;
+ Mon, 21 Nov 2022 15:48:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B04840C6E13;
- Mon, 21 Nov 2022 15:48:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9BAF17582;
+ Mon, 21 Nov 2022 15:48:51 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
@@ -56,20 +56,16 @@ Cc: qemu-ppc@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
  Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Vaibhav Jain <vaibhav@linux.ibm.com>,
- Kowshik Jois B S <kowsjois@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
-Subject: [PATCH v3 1/3] target/ppc: Fix build warnings when building with
- 'disable-tcg'
-Date: Mon, 21 Nov 2022 10:48:31 -0500
-Message-Id: <20221121154833.1914768-2-stefanha@redhat.com>
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v3 2/3] virtio: document ->host_features usage in
+ vdc->get_features() callback
+Date: Mon, 21 Nov 2022 10:48:32 -0500
+Message-Id: <20221121154833.1914768-3-stefanha@redhat.com>
 In-Reply-To: <20221121154833.1914768-1-stefanha@redhat.com>
 References: <20221121154833.1914768-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -78,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,75 +90,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-
-Kowshik reported that building qemu with GCC 12.2.1 for 'ppc64-softmmu'
-target is failing due to following build warnings:
-
-<snip>
- ../target/ppc/cpu_init.c:7018:13: error: 'ppc_restore_state_to_opc' defined but not used [-Werror=unused-function]
- 7018 | static void ppc_restore_state_to_opc(CPUState *cs,
-<snip>
-
-Fix this by wrapping these function definitions in 'ifdef CONFIG_TCG' so that
-they are only defined if qemu is compiled with '--enable-tcg'
-
-Reported-by: Kowshik Jois B S <kowsjois@linux.ibm.com>
-Fixes: 61bd1d2942 ("target/ppc: Convert to tcg_ops restore_state_to_opc")
-Fixes: 670f1da374 ("target/ppc: Implement hashst and hashchk")
-Fixes: 53ae2aeb94 ("target/ppc: Implement hashstp and hashchkp")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1319
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Kowshik Jois B S <kowsjois@linux.vnet.ibm.com>
-Message-Id: <20221116131743.658708-1-vaibhav@linux.ibm.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Suggested-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- target/ppc/cpu_init.c    | 2 ++
- target/ppc/excp_helper.c | 2 ++
- 2 files changed, 4 insertions(+)
+ include/hw/virtio/virtio.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 32e94153d1..cbf0081374 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -7015,6 +7015,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
-     return cpu->env.nip;
- }
- 
-+#ifdef CONFIG_TCG
- static void ppc_restore_state_to_opc(CPUState *cs,
-                                      const TranslationBlock *tb,
-                                      const uint64_t *data)
-@@ -7023,6 +7024,7 @@ static void ppc_restore_state_to_opc(CPUState *cs,
- 
-     cpu->env.nip = data[0];
- }
-+#endif /* CONFIG_TCG */
- 
- static bool ppc_cpu_has_work(CPUState *cs)
- {
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a05a2ed595..94adcb766b 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2842,6 +2842,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
- #endif
- #endif
- 
-+#ifdef CONFIG_TCG
- static uint32_t helper_SIMON_LIKE_32_64(uint32_t x, uint64_t key, uint32_t lane)
- {
-     const uint16_t c = 0xfffc;
-@@ -2924,6 +2925,7 @@ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
- HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
- HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
- HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-+#endif /* CONFIG_TCG */
- 
- #if !defined(CONFIG_USER_ONLY)
- 
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index a973811cbf..b6e09c6d4b 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -138,9 +138,16 @@ struct VirtioDeviceClass {
+     /* This is what a VirtioDevice must implement */
+     DeviceRealize realize;
+     DeviceUnrealize unrealize;
++
++    /*
++     * Called with vdev->host_features in requested_features. Returns device
++     * feature bits to be stored in vdev->host_features after factoring in
++     * device-specific feature bits.
++     */
+     uint64_t (*get_features)(VirtIODevice *vdev,
+                              uint64_t requested_features,
+                              Error **errp);
++
+     uint64_t (*bad_features)(VirtIODevice *vdev);
+     void (*set_features)(VirtIODevice *vdev, uint64_t val);
+     int (*validate_features)(VirtIODevice *vdev);
 -- 
 2.38.1
 
