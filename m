@@ -2,87 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EBB6319D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 07:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A68631A05
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 08:09:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox0W4-0004bz-PT; Mon, 21 Nov 2022 01:42:52 -0500
+	id 1ox0uL-0000US-As; Mon, 21 Nov 2022 02:07:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu.linux@gmail.com>)
- id 1ox0Vu-0004TU-In; Mon, 21 Nov 2022 01:42:43 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <like.xu.linux@gmail.com>)
- id 1ox0Vs-0007bN-KO; Mon, 21 Nov 2022 01:42:42 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id b11so9604466pjp.2;
- Sun, 20 Nov 2022 22:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nIn/dq+22PWaLv4hHMDs3f3KAdqnytvpjqipVfySebg=;
- b=AWiMixJCpFyWPBEJXHdf7HWjJyHvbXhLMGk+mOjs0xnQYpIsFf66uMAcg5YVl/EIsZ
- 4uOMbVTRm1oZskMdV2SP9Z/PznA8Vxs49gV7HRlD+233vh2k5lkmCCd6db4xcrolRLvO
- Udn63wNkw8DoyqzYG0065+J/3jSrFyL4JawTNwBErVvBknBl4N/Zq5H2LGDHGRH+rALF
- 6lq/8F2h/xL18440sxn7c0SWSAz8vqHAon02eJggvLmYjWN9PX50Fl82rR4Tn3DTPSRl
- Dkb8wByATyxBMi/xCv+puY7/wnjleMs5VJukq06pzqjHCtv+LSw09a6kQcx3BKRakcn/
- mLLw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ox0uI-0000UJ-RW
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:07:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ox0uF-0004f0-W2
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:07:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669014469;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sDvUWg5UcrKAStoLU7XwdzE6s7JWGGtp9LBaDbps3f0=;
+ b=gfmVHAykz67CezZUZMbhkP9BPKrW6n3LxXd5cAMMoWdVvyscdeHEHKZnvw1ywtMInqTgTi
+ kQ+pqLN3/rhucF3e991weVHKTvlpBTwlCrd3V4p+Z4/U9+5CbbwGVxDkIjJSoAjCqnBFol
+ DNqevF7pN58nI3HmVZ21RD9MjzTmYp0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-645-hwtUPyH7M9qBSz4kQoXNOg-1; Mon, 21 Nov 2022 02:07:47 -0500
+X-MC-Unique: hwtUPyH7M9qBSz4kQoXNOg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v188-20020a1cacc5000000b003cf76c4ae66so8809989wme.7
+ for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 23:07:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nIn/dq+22PWaLv4hHMDs3f3KAdqnytvpjqipVfySebg=;
- b=rHRFEFdyu9i1atkikvzE/pBQj6fSEesmsT91NnwQjJYt2Zv1NNbs/vzlm8ElZ24EFe
- q5RckGDvYDivXeg9LOmvvUnTaxLkIftlDjjWkAC8FzQpuc6oYNvSuXBCIRxmhbDlYXIw
- 0AjuAUWzDaPvDpC9anqNPvj4gehlHSYkjhcWQ9EMUgF3ZWF+gescmemkknC1AQZFYsW0
- ehmqZOJRHmOF0MkkNNjAB/rLz3/iDGbt9AdjJW1ZrgiHTHtdMSd8DQr4vaybZHCzaWm6
- kA0vNihACABurjZvsjCPRESxf4HcLgpyL02P6g0a7+zPTDQ/nF679t07zltTz7KX/uQG
- bVVQ==
-X-Gm-Message-State: ANoB5pneTlx0c9FttQDdOguUcdGcAv89/uon5L845tyuFW4fIXLei9cX
- 67oqTCwla5eUYy3aqvcQxiM=
-X-Google-Smtp-Source: AA0mqf7f9fasqIo0Dos5ZFaGunB3NGyXpA+iFnajmnNiKYLYBEr3Su/T/9qCplxrj2ZqAiODZEgaUg==
-X-Received: by 2002:a17:90a:4fc1:b0:213:16b5:f45e with SMTP id
- q59-20020a17090a4fc100b0021316b5f45emr24562450pjh.170.1669012955526; 
- Sun, 20 Nov 2022 22:42:35 -0800 (PST)
-Received: from [192.168.255.10] ([103.7.29.32])
- by smtp.gmail.com with ESMTPSA id
- y19-20020a1709027c9300b0017f9db0236asm8805479pll.82.2022.11.20.22.42.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Nov 2022 22:42:35 -0800 (PST)
-Message-ID: <187668e7-f32e-b509-8ce1-4b35d98c7d31@gmail.com>
-Date: Mon, 21 Nov 2022 14:42:20 +0800
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sDvUWg5UcrKAStoLU7XwdzE6s7JWGGtp9LBaDbps3f0=;
+ b=zVNIxfFLj7tpldJxN1KVhOLGCDXYTnuBeYIwFlEaE66tzWHjdoaygQfpx4FkQle+aA
+ xHrRCWjxfaSjd+zC9afZgjcFC2HvPYoh1jNBNZSth3ixNp3/DLeJuVyAdL5rSCVIeUOF
+ r3i3zYTqAyRM7QntBGbsHp5uYsUZ9gjlwCcD2prRNKOkpe8ToFgxE3208X+FtgDtbxQO
+ Y0sebkS89Kl+MpF683h55ufm/AkzvVhTr/K+QGyZoalIWG6Q4HyEB5c2VOfiAsh0myrA
+ 0W1LuxZl8chIRpht8wtckFVYehEKipJoBSm1wI9/snKwBvmFlFuXuuodCnfJtetCUYPA
+ WtnQ==
+X-Gm-Message-State: ANoB5pkNa2sHlfKJh26meoBA0Zm/hfSWjo1VwLwXRXhH/fLfcPXbmB0W
+ letVRoZI3tUwfYcw0yKO33myqQrsTrdp63GTxymOrRHglYwtsYgX+XfQW9hB5EJO7DCsx0CVnre
+ sIor0KD4alXO3lFU=
+X-Received: by 2002:a05:600c:1d92:b0:3cf:78fc:eda2 with SMTP id
+ p18-20020a05600c1d9200b003cf78fceda2mr15404278wms.47.1669014466540; 
+ Sun, 20 Nov 2022 23:07:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7GfJAJ2DEB/XByaHTqqS2qv5jqflnUv9l7Bv8um6jD3NuiUIhmSMmPY0Qufp9nl0HmUmFYEQ==
+X-Received: by 2002:a05:600c:1d92:b0:3cf:78fc:eda2 with SMTP id
+ p18-20020a05600c1d9200b003cf78fceda2mr15404263wms.47.1669014466297; 
+ Sun, 20 Nov 2022 23:07:46 -0800 (PST)
+Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
+ g17-20020a05600c4ed100b003c701c12a17sm19355972wmq.12.2022.11.20.23.07.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Nov 2022 23:07:45 -0800 (PST)
+Date: Mon, 21 Nov 2022 02:07:41 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Kangjie Xu <kangjie.xu@linux.alibaba.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PULL v4 30/83] virtio: core: vq reset feature negotation support
+Message-ID: <20221121020729-mutt-send-email-mst@kernel.org>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-31-mst@redhat.com>
+ <CAGxU2F4S4FFa+HoXbz5bxbi_+DJeaZUMTE89_508n68sNP-EUw@mail.gmail.com>
+ <20221119121900-mutt-send-email-mst@kernel.org>
+ <CACGkMEsg=CM8Cjdf+mTKBY2+NLeH5oz7v7dchWPZkVpXeD9NoA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH 0/3] kvm: fix two svm pmu virtualization bugs
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org, mtosatti@redhat.com,
- chenhuacai@kernel.org, philmd@linaro.org, aurelien@aurel32.net,
- jiaxun.yang@flygoat.com, aleksandar.rikalo@syrmia.com,
- danielhb413@gmail.com, clg@kaod.org, david@gibson.dropbear.id.au,
- groug@kaod.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, iii@linux.ibm.com,
- thuth@redhat.com, joe.jin@oracle.com, qemu-s390x@nongnu.org,
- qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, qemu-arm@nongnu.org,
- kvm list <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-References: <20221119122901.2469-1-dongli.zhang@oracle.com>
-Content-Language: en-US
-From: Like Xu <like.xu.linux@gmail.com>
-In-Reply-To: <20221119122901.2469-1-dongli.zhang@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=like.xu.linux@gmail.com; helo=mail-pj1-x102c.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACGkMEsg=CM8Cjdf+mTKBY2+NLeH5oz7v7dchWPZkVpXeD9NoA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,101 +106,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/11/2022 8:28 pm, Dongli Zhang wrote:
-> This patchset is to fix two svm pmu virtualization bugs.
+On Mon, Nov 21, 2022 at 02:17:02PM +0800, Jason Wang wrote:
+> On Sun, Nov 20, 2022 at 1:19 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Fri, Nov 18, 2022 at 03:32:56PM +0100, Stefano Garzarella wrote:
+> > > Hi,
+> > > starting from this commit 69e1c14aa2 ("virtio: core: vq reset feature
+> > > negotation support"), vhost-user-vsock and vhost-vsock fails while
+> > > setting the device features, because VIRTIO_F_RING_RESET is not masked.
+> > >
+> > > I'm not sure vsock is the only one affected.
+> > >
+> > > We could fix in two ways:
+> > >
+> > > 1) Masking VIRTIO_F_RING_RESET when we call vhost_get_features:
+> > >
+> > > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> > > index 29b9ab4f72..e671cc695f 100644
+> > > --- a/hw/virtio/vhost-vsock-common.c
+> > > +++ b/hw/virtio/vhost-vsock-common.c
+> > > @@ -21,6 +21,7 @@
+> > >
+> > >  const int feature_bits[] = {
+> > >      VIRTIO_VSOCK_F_SEQPACKET,
+> > > +    VIRTIO_F_RING_RESET,
+> > >      VHOST_INVALID_FEATURE_BIT
+> > >  };
+> > >
+> >
+> > Let's do this, we need to be conservative.
 > 
-> 1. The 1st bug is that "-cpu,-pmu" cannot disable svm pmu virtualization.
+> Ack.
 > 
-> To use "-cpu EPYC" or "-cpu host,-pmu" cannot disable the pmu
-> virtualization. There is still below at the VM linux side ...
+> Thanks
 
-Many QEMU vendor forks already have similar fixes, and
-thanks for bringing this issue back to the mainline.
 
-> 
-> [    0.510611] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
-> 
-> ... although we expect something like below.
-> 
-> [    0.596381] Performance Events: PMU not available due to virtualization, using software events only.
-> [    0.600972] NMI watchdog: Perf NMI watchdog permanently disabled
-> 
-> The patch 1-2 is to disable the pmu virtualization via KVM_PMU_CAP_DISABLE
-> if the per-vcpu "pmu" property is disabled.
-> 
-> I considered 'KVM_X86_SET_MSR_FILTER' initially.
-> Since both KVM_X86_SET_MSR_FILTER and KVM_PMU_CAP_DISABLE are VM ioctl. I
-> finally used the latter because it is easier to use.
-> 
-> 
-> 2. The 2nd bug is that un-reclaimed perf events (after QEMU system_reset)
-> at the KVM side may inject random unwanted/unknown NMIs to the VM.
-> 
-> The svm pmu registers are not reset during QEMU system_reset.
-> 
-> (1). The VM resets (e.g., via QEMU system_reset or VM kdump/kexec) while it
-> is running "perf top". The pmu registers are not disabled gracefully.
-> 
-> (2). Although the x86_cpu_reset() resets many registers to zero, the
-> kvm_put_msrs() does not puts AMD pmu registers to KVM side. As a result,
-> some pmu events are still enabled at the KVM side.
-> 
-> (3). The KVM pmc_speculative_in_use() always returns true so that the events
-> will not be reclaimed. The kvm_pmc->perf_event is still active.
+Patch pls? Stefano?
 
-I'm not sure if you're saying KVM doing something wrong, I don't think so
-because KVM doesn't sense the system_reset defined by QEME or other user space,
-AMD's vPMC will continue to be enabled (if it was enabled before), generating pmi
-injection into the guest, and the newly started guest doesn't realize the 
-counter is still
-enabled and blowing up the error log.
+> >
+> >
+> > > 2) Or using directly the features of the device. That way we also handle
+> > > other features that we may have already had to mask but never did.
+> > >
+> > > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> > > index 29b9ab4f72..41a665082c 100644
+> > > --- a/hw/virtio/vhost-vsock-common.c
+> > > +++ b/hw/virtio/vhost-vsock-common.c
+> > > @@ -33,7 +33,7 @@ uint64_t vhost_vsock_common_get_features(VirtIODevice *vdev, uint64_t features,
+> > >          virtio_add_feature(&features, VIRTIO_VSOCK_F_SEQPACKET);
+> > >      }
+> > >
+> > > -    features = vhost_get_features(&vvc->vhost_dev, feature_bits, features);
+> > > +    features &= vvc->vhost_dev.features;
+> > >
+> > >      if (vvc->seqpacket == ON_OFF_AUTO_ON &&
+> > >          !virtio_has_feature(features, VIRTIO_VSOCK_F_SEQPACKET)) {
+> > >
+> > >
+> > > I may be missing the real reason for calling vhost_get_features(),
+> > > though.
+> > >
+> > > @Michael what do you recommend we do?
+> > >
+> > > Thanks,
+> > > Stefano
+> > >
+> > > On Tue, Nov 8, 2022 at 12:06 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> > > >
+> > > > A a new command line parameter "queue_reset" is added.
+> > > >
+> > > > Meanwhile, the vq reset feature is disabled for pre-7.2 machines.
+> > > >
+> > > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > > Acked-by: Jason Wang <jasowang@redhat.com>
+> > > > Message-Id: <20221017092558.111082-5-xuanzhuo@linux.alibaba.com>
+> > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > ---
+> > > >  include/hw/virtio/virtio.h | 4 +++-
+> > > >  hw/core/machine.c          | 4 +++-
+> > > >  2 files changed, 6 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > > > index b00b3fcf31..1423dba379 100644
+> > > > --- a/include/hw/virtio/virtio.h
+> > > > +++ b/include/hw/virtio/virtio.h
+> > > > @@ -313,7 +313,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
+> > > >      DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
+> > > >                        VIRTIO_F_IOMMU_PLATFORM, false), \
+> > > >      DEFINE_PROP_BIT64("packed", _state, _field, \
+> > > > -                      VIRTIO_F_RING_PACKED, false)
+> > > > +                      VIRTIO_F_RING_PACKED, false), \
+> > > > +    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
+> > > > +                      VIRTIO_F_RING_RESET, true)
+> > > >
+> > > >  hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
+> > > >  bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
+> > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > index aa520e74a8..907fa78ff0 100644
+> > > > --- a/hw/core/machine.c
+> > > > +++ b/hw/core/machine.c
+> > > > @@ -40,7 +40,9 @@
+> > > >  #include "hw/virtio/virtio-pci.h"
+> > > >  #include "qom/object_interfaces.h"
+> > > >
+> > > > -GlobalProperty hw_compat_7_1[] = {};
+> > > > +GlobalProperty hw_compat_7_1[] = {
+> > > > +    { "virtio-device", "queue_reset", "false" },
+> > > > +};
+> > > >  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+> > > >
+> > > >  GlobalProperty hw_compat_7_0[] = {
+> > > > --
+> > > > MST
+> > > >
+> > > >
+> >
 
-> 
-> (4). After the reboot, the VM kernel reports below error:
-> 
-> [    0.092011] Performance Events: Fam17h+ core perfctr, Broken BIOS detected, complain to your hardware vendor.
-> [    0.092023] [Firmware Bug]: the BIOS has corrupted hw-PMU resources (MSR c0010200 is 530076)
-> 
-> (5). In a worse case, the active kvm_pmc->perf_event is still able to
-> inject unknown NMIs randomly to the VM kernel.
-> 
-> [...] Uhhuh. NMI received for unknown reason 30 on CPU 0.
-> 
-> The patch 3 is to fix the issue by resetting AMD pmu registers as well as
-> Intel registers.
-
-This fix idea looks good, it does require syncing the new changed device state 
-of QEMU to KVM.
-
-> 
-> 
-> This patchset does cover does not cover PerfMonV2, until the below patchset
-> is merged into the KVM side.
-> 
-> [PATCH v3 0/8] KVM: x86: Add AMD Guest PerfMonV2 PMU support
-> https://lore.kernel.org/all/20221111102645.82001-1-likexu@tencent.com/
-> 
-> 
-> Dongli Zhang (3):
->        kvm: introduce a helper before creating the 1st vcpu
->        i386: kvm: disable KVM_CAP_PMU_CAPABILITY if "pmu" is disabled
->        target/i386/kvm: get and put AMD pmu registers
-> 
->   accel/kvm/kvm-all.c    |   7 ++-
->   include/sysemu/kvm.h   |   2 +
->   target/arm/kvm64.c     |   4 ++
->   target/i386/cpu.h      |   5 +++
->   target/i386/kvm/kvm.c  | 104 +++++++++++++++++++++++++++++++++++++++++++-
->   target/mips/kvm.c      |   4 ++
->   target/ppc/kvm.c       |   4 ++
->   target/riscv/kvm.c     |   4 ++
->   target/s390x/kvm/kvm.c |   4 ++
->   9 files changed, 134 insertions(+), 4 deletions(-)
-> 
-> Thank you very much!
-> 
-> Dongli Zhang
-> 
-> 
-> 
 
