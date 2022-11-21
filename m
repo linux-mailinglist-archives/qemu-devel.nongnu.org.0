@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C01632F3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:48:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9F6632F76
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:01:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxEd9-0006Fv-L5; Mon, 21 Nov 2022 16:47:07 -0500
+	id 1oxEqW-0001p1-Er; Mon, 21 Nov 2022 17:00:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxEd6-0006EB-M6
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:47:04 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1oxEqU-0001o1-Qt
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:00:54 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxEd4-0003iq-GB
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:47:04 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id cl5so21859471wrb.9
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:47:01 -0800 (PST)
+ id 1oxEqT-0005zc-3L
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:00:54 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so13838708wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 14:00:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=q1GG+yvWpePc7eb/n6WhLCot2lU9UeRTJnXcv0xWXck=;
- b=ZbnXnxNBq4a/jkogItJvYEiiayqRnU+JTRqB9eh8+aWDZ/39vwYOX0nXUEiqk4ToX1
- spxRpeTwdAGGKedUGoKfvGgzdiq0CTQpaGuka9D1eExtQu+o28KYZEkxsxmc0Uc+ZsLd
- WLA1rDol4PANC8MtaDVUEJg/jHR2bHoTtyYt38xrX+Ad3rPpTOQqAfbOO00mjgeDqW7t
- 1XfjcFaiHboF61+Yzs2fl0kki7ZXZwgntopYjpx/aH9BGOguUWpAjuJL6M7y2G3b3O+a
- F05YvCYOTCc1Mbj8CCfGy9Z6O5BsP3zX1VEhR/0L4tGUKzUlDPmPA2UTS5iv9FYp7aR9
- F5jQ==
+ bh=2h1fsgtjAC6Lxuh3f/4kzfGu13rV/fTcbDYnc+eiH/s=;
+ b=c74qaSEiks7YMmzaninkUChCfdxqUbDjbhEIEVsWrm2DSp/vQOL8I8ZNALayNyJwbS
+ m6AonaiP8zcF9gL/nw4T04KtzzZ3fTldc3jLxD+1dCF8zGSVQyc4lgtGZWTkfmV1p3RO
+ stb37kpTKTlRKpTDxKDeqSmU7p6H/hOlTTkMbVHASQ3cpat+qXCqhM1zrxB+rizR0Tp+
+ frw34NgzrOHWuqYBWOMDaItkismDr3cD9rcRfGoEu/rjJ6SRD27og2GiRPNWajKbMOoX
+ IMDDLNde0HPLGVxPlrZUbNjFYes3PjXYI8/3DWJJ50hXWyRBHEqMihKO3izdrVXZRctM
+ A0hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=q1GG+yvWpePc7eb/n6WhLCot2lU9UeRTJnXcv0xWXck=;
- b=BBSH00GX1KGxiajA/CwDt6dx2X6KSV0pBLimAw0C8XpI33C/cZQzqL1c54E8qce74F
- GrnrcTZVFTOpcjnRKWaZBXa3RGQ/2aPpHjFYoNpC+RLQD8LJcFUlyOgPLpAm/URwPRzk
- o7J/VzW0957FN57CBQY3NSCZ0uStp53hEzSEw2ewbckoFYTUw9cZn6X8uo7z1wXMeeX5
- /RcZuCcFwf79WANAj3qolwCwdBw0QpzbHEX6CZ3kdEb9RCZRpasdO/GK0QZi9u78Medr
- q/jAr3HG3najSpNauJQtae/A26TKWaw+qa1aMwe+9P87vBeZOFskKzBZKOW2JTjTRvJR
- a7BA==
-X-Gm-Message-State: ANoB5pnPrP414uqQYCxpgDEoUO1W9Qyam31GBAjy5mo2Aair36hlnbdK
- YwB29CWdknuatWSIrXejMyld9g==
-X-Google-Smtp-Source: AA0mqf6fSlF3saWUodGKhYTeEsDl7/Hj6bBVbbdYwZF5IB9ZpJjdAzzniEPfidFLF/WughtLNM8EnQ==
-X-Received: by 2002:adf:fd46:0:b0:22e:382d:b06 with SMTP id
- h6-20020adffd46000000b0022e382d0b06mr11804443wrs.265.1669067220729; 
- Mon, 21 Nov 2022 13:47:00 -0800 (PST)
+ bh=2h1fsgtjAC6Lxuh3f/4kzfGu13rV/fTcbDYnc+eiH/s=;
+ b=ZTHOVzCDZV7homLbuN7EWWHIOx/BGjJUSdAWdYaNS2p1x4unrNIIpTJXa/Yu9XUgrA
+ Mw6JGn0VEUbkBH8S+932zRzDyJy13Y2QUTFwyh891q8HN1OG7XsworWPNxmxyH9XlUr9
+ cxOu3QGI9YTiteHZ7uwBLxTpCddn9Blxu8i61i5Ui62KCZd5QaNml9bX1dFHO4pC3A3N
+ Z5sUtUu2OBcql3xXulRDCPk9uEPmD2pryJZzXhP/r+i2GQR+T1SW2+mFwqzt+Qwv5G/3
+ f2sxnm4kGtjymDEDhkzzGt28r7vFjBriu2tmje4+PuTM6623qa0qJHgAfW48NnRJFLSE
+ iFgA==
+X-Gm-Message-State: ANoB5pkAosuZoPjt1fm4m4K2OleXQ0JpBdXUuxiZw4Ph1QG3VUER8mQH
+ tv98EfZFc/04CgGUSo9iD1TOnQ==
+X-Google-Smtp-Source: AA0mqf7YiBcTGdTyZBqldKDL0JimAcjsKe38ingeks17LqbKCfjVO3MdRrRUUgHrNqAF8nutePw5Ug==
+X-Received: by 2002:a1c:ed04:0:b0:3cf:d08d:3eb2 with SMTP id
+ l4-20020a1ced04000000b003cfd08d3eb2mr14308021wmh.129.1669068050997; 
+ Mon, 21 Nov 2022 14:00:50 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q5-20020a5d61c5000000b002362f6fcaf5sm12476053wrv.48.2022.11.21.13.46.59
+ e15-20020adffc4f000000b00241dec4ad16sm1201067wrs.96.2022.11.21.14.00.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 13:47:00 -0800 (PST)
+ Mon, 21 Nov 2022 14:00:50 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 544831FFB7;
- Mon, 21 Nov 2022 21:46:59 +0000 (GMT)
-References: <20221121144921.2830330-1-alex.bennee@linaro.org>
- <CAJSP0QU72EnMQRbHpZ812QpszkjEeStA1R2Jic1VvCKBFas8_g@mail.gmail.com>
- <87a64kcdpk.fsf@linaro.org>
- <20221121150635-mutt-send-email-mst@kernel.org>
+ by zen.linaroharston (Postfix) with ESMTP id 372C91FFB7;
+ Mon, 21 Nov 2022 22:00:49 +0000 (GMT)
+References: <Y3QNRWUK8BLRQlaQ@strawberry.localdomain>
+ <878rkbalba.fsf@linaro.org> <Y3vdIHJrR1k1lmf8@strawberry.localdomain>
 User-agent: mu4e 1.9.3; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, Stefano
- Garzarella <sgarzare@redhat.com>
-Subject: Re: [RFC PATCH] include/hw: attempt to document VirtIO feature
- variables (!DISCUSS!)
-Date: Mon, 21 Nov 2022 21:45:59 +0000
-In-reply-to: <20221121150635-mutt-send-email-mst@kernel.org>
-Message-ID: <875yf8c758.fsf@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Cc: qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>, Richard
+ Henderson <richard.henderson@linaro.org>
+Subject: Re: Plugin Memory Callback Debugging
+Date: Mon, 21 Nov 2022 21:51:02 +0000
+In-reply-to: <Y3vdIHJrR1k1lmf8@strawberry.localdomain>
+Message-ID: <871qpwc6i6.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,264 +97,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
-> On Mon, Nov 21, 2022 at 07:15:30PM +0000, Alex Benn=C3=A9e wrote:
+> On Nov 15 22:36, Alex Benn=C3=A9e wrote:
+>> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+>> > I believe the code *should* always reset `cpu->plugin_mem_cbs` to NULL=
+ at the
+>> > end of an instruction/TB's execution, so its not exactly clear to me h=
+ow this
+>> > is occurring. However, I suspect it may be relevant that we are calling
+>> > `free_dyn_cb_arr()` because my plugin called `qemu_plugin_reset()`.
 >>=20
->> Stefan Hajnoczi <stefanha@gmail.com> writes:
->>=20
->> > On Mon, 21 Nov 2022 at 09:49, Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
->> >>
->> >> We have a bunch of variables associated with the device and the vhost
->> >> backend which are used inconsistently throughout the code base. Lets
->> >> start trying to bring some order by agreeing what each variable is
->> >> for. Some cases to address (vho/vio renames to avoid ambiguous results
->> >> while grepping):
->> >>
->> >> virtio->guest_features is mostly the live status of the features field
->> >> and read and written as such by the guest. It does get manipulated by
->> >> the various load state via virtio_set_features_nocheck(vdev, val) for
->> >> migration.
->> >>
->> >> virtio->host_features is the result of vcd->get_features() most of the
->> >> time and for vhost-user devices eventually ends up down at the vhost
->> >> get features message:
->> >>
->> >>   ./hw/virtio/virtio-bus.c:66:    vdev->host_features =3D vdc->get_fe=
-atures(vdev, vdev->host_features,
->> >>
->> >> However virtio-net does a lot of direct modification of it:
->> >>
->> >>   ./hw/net/virtio-net.c:3517:        n->host_features |=3D (1ULL << V=
-IRTIO_NET_F_MTU);
->> >>   ./hw/net/virtio-net.c:3529:        n->host_features |=3D (1ULL << V=
-IRTIO_NET_F_SPEED_DUPLEX);
->> >>   ./hw/net/virtio-net.c:3539:        n->host_features |=3D (1ULL << V=
-IRTIO_NET_F_SPEED_DUPLEX);
->> >>   ./hw/net/virtio-net.c:3548:        n->host_features |=3D (1ULL << V=
-IRTIO_NET_F_STANDBY);
->> >>   ./hw/virtio/virtio.c:3438:    bool bad =3D (val & ~(vdev->host_feat=
-ures)) !=3D 0;
->> >>
->> >> And we have this case which propagates the global QMP values for the
->> >> device to the host features. This causes the resent regression of
->> >> vhost-user-sock due to 69e1c14aa2 (virtio: core: vq reset feature
->> >> negotation support) because the reset feature was rejected by the
->> >> vhost-user backend causing it to freeze:
->> >>
->> >>   ./hw/virtio/virtio.c:4667:    status->host_features =3D qmp_decode_=
-features(vdev->device_id,
->> >>
->> >> virtio->backend_features is only used by virtio-net to stash the
->> >> vhost_net_get_features features for checking later:
->> >>
->> >>     features =3D vhost_net_get_features(get_vhost_net(nc->peer), feat=
-ures);
->> >>     vdev->vio_backend_features =3D features;
->> >>
->> >> and:
->> >>
->> >>     if (n->mtu_bypass_backend &&
->> >>             !virtio_has_feature(vdev->vio_backend_features, VIRTIO_NE=
-T_F_MTU)) {
->> >>         features &=3D ~(1ULL << VIRTIO_NET_F_MTU);
->> >>     }
->> >>
->> >> vhost_dev->acked_features seems to mostly reflect
->> >> virtio->guest_features (but where in the negotiation cycle?). Except
->> >> for vhost_net where is becomes vhost_dev->backend_features
->> >>
->> >>   ./backends/vhost-user.c:87:    b->dev.vho_acked_features =3D b->vde=
-v->guest_features;
->> >>   ./hw/block/vhost-user-blk.c:149:    s->dev.vho_acked_features =3D v=
-dev->guest_features;
->> >>   ./hw/net/vhost_net.c:132:    net->dev.vho_acked_features =3D net->d=
-ev.vho_backend_features;
->> >>   ./hw/scsi/vhost-scsi-common.c:53:    vsc->dev.vho_acked_features =
-=3D vdev->guest_features;
->> >>   ./hw/virtio/vhost-user-fs.c:77:    fs->vhost_dev.vho_acked_features=
- =3D vdev->guest_features;
->> >>   ./hw/virtio/vhost-user-i2c.c:46:    i2c->vhost_dev.vho_acked_featur=
-es =3D vdev->guest_features;
->> >>   ./hw/virtio/vhost-user-rng.c:44:    rng->vhost_dev.vho_acked_featur=
-es =3D vdev->guest_features;
->> >>   ./hw/virtio/vhost-vsock-common.c:71:    vvc->vhost_dev.vho_acked_fe=
-atures =3D vdev->guest_features;
->> >>   ./hw/virtio/vhost.c:1631:            hdev->vho_acked_features |=3D =
-bit_mask;
->> >>
->> >> vhost_dev->backend_features has become overloaded with two use cases:
->> >>
->> >>   ./hw/block/vhost-user-blk.c:336:    s->dev.vho_backend_features =3D=
- 0;
->> >>   ./hw/net/vhost_net.c:180:        net->dev.vho_backend_features =3D =
-qemu_has_vnet_hdr(options->net_backend)
->> >>   ./hw/net/vhost_net.c:185:        net->dev.vho_backend_features =3D =
-0;
->> >>   ./hw/scsi/vhost-scsi.c:220:    vsc->dev.vho_backend_features =3D 0;
->> >>   ./hw/scsi/vhost-user-scsi.c:121:    vsc->dev.vho_backend_features =
-=3D 0;
->> >>   ./hw/virtio/vhost-user.c:2083:        dev->vho_backend_features |=
-=3D 1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
->> >> One use for saving the availability of a vhost-net feature and another
->> >> for ensuring we add the protocol feature negotiation bit when querying
->> >> a vhost backend. Maybe the places where this is queried should really
->> >> be bools that can be queried in the appropriate places?
->> >>
->> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> >> Cc: Stefano Garzarella <sgarzare@redhat.com>
->> >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> >> Cc: Stefan Hajnoczi <stefanha@gmail.com>
->> >> ---
->> >>  include/hw/virtio/vhost.h  | 18 +++++++++++++++---
->> >>  include/hw/virtio/virtio.h | 20 +++++++++++++++++++-
->> >>  2 files changed, 34 insertions(+), 4 deletions(-)
->> >>
->> >> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
->> >> index 353252ac3e..502aa5677a 100644
->> >> --- a/include/hw/virtio/vhost.h
->> >> +++ b/include/hw/virtio/vhost.h
->> >> @@ -88,13 +88,25 @@ struct vhost_dev {
->> >>      int vq_index_end;
->> >>      /* if non-zero, minimum required value for max_queues */
->> >>      int num_queues;
->> >> +    /**
->> >> +     * vhost feature handling requires matching the feature set
->> >> +     * offered by a backend which may be a subset of the total
->> >> +     * features eventually offered to the guest.
->> >> +     *
->> >> +     * @features: available features provided by the backend
->> >> +     * @acked_features: final set of negotiated features with the
->> >> +     * front-end driver
->> >> +     * @backend_features: additional feature bits applied during neg=
-otiation
->> >
->> > What does this mean?
->>=20
->> Well practically it is currently either applying
->> VHOST_USER_F_PROTOCOL_FEATURES to the vhost_user_set_features() or
->> storing VHOST_NET_F_VIRTIO_NET_HDR which I think eventually gets applied
->> to:
->>=20
->>   net->dev.acked_features =3D net->dev.backend_features;
->>=20
->> I suspect both could be dropped and handled as flags and applied at the
->> destination.
->>=20
->> >
->> >> +     *
->> >> +     * Finally the @protocol_features is the final protocal feature
->> >
->> > s/protocal/protocol/
->> >
->> > All the other fields are VIRTIO feature bits and this field holds the
->> > VHOST_USER_SET_FEATURES feature bits?
->>=20
->> No these are the protocol features so a totally separate set of feature
->> bits for the vhost user protocol. I don't think these apply to kernel
->> vhost stuff?
->>=20
->> >
->> >> +     * set negotiated between QEMU and the backend (after
->> >> +     * VHOST_USER_F_PROTOCOL_FEATURES is negotiated)
->> >> +     */
->> >>      uint64_t features;
->> >> -    /** @acked_features: final set of negotiated features */
->> >>      uint64_t acked_features;
->> >> -    /** @backend_features: backend specific feature bits */
->> >>      uint64_t backend_features;
->> >> -    /** @protocol_features: final negotiated protocol features */
->> >>      uint64_t protocol_features;
->> >> +
->> >>      uint64_t max_queues;
->> >>      uint64_t backend_cap;
->> >>      /* @started: is the vhost device started? */
->> >> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
->> >> index a973811cbf..9939a0a632 100644
->> >> --- a/include/hw/virtio/virtio.h
->> >> +++ b/include/hw/virtio/virtio.h
->> >> @@ -93,6 +93,12 @@ enum virtio_device_endian {
->> >>      VIRTIO_DEVICE_ENDIAN_BIG,
->> >>  };
->> >>
->> >> +/**
->> >> + * struct VirtIODevice - common VirtIO structure
->> >> + * @name: name of the device
->> >> + * @status: VirtIO Device Status field
->> >> + *
->> >> + */
->> >>  struct VirtIODevice
->> >>  {
->> >>      DeviceState parent_obj;
->> >> @@ -100,9 +106,21 @@ struct VirtIODevice
->> >>      uint8_t status;
->> >>      uint8_t isr;
->> >>      uint16_t queue_sel;
->> >> -    uint64_t guest_features;
->> >> +    /**
->> >> +     * These fields represent a set of VirtIO features at various
->> >> +     * levels of the stack. @host_features indicates the complete
->> >> +     * feature set the VirtIO device can offer to the driver.
->> >> +     * @guest_features indicates which features the VirtIO driver can
->> >> +     * support.
->> >
->> > The device never knows the features that the driver can support, so
->> > this sentence is ambiguous/incorrect. The device only knows the
->> > features that the driver writes during negotiation, which the spec
->> > says is a subset of host_features.
->> >
->> > Maybe "indicates the features that driver wrote"?
->> >
->> > I noticed that this field is assigned even when the guest writes
->> > invalid feature bits.
->>=20
->> Should we fix that? The negotiation sequence should be guest read, mask
->> and write back so the value should be validated against host_features?
->>=20
->> >
->> >> Finally @backend_features represents everything
->> >> +     * supported by the backend. This set might be split between stu=
-ff
->> >> +     * done by QEMU itself and stuff handled by an external backend
->> >> +     * (e.g. vhost). As a result some feature bits may be added or
->> >> +     * masked from the backend.
->> >
->> > I'm not 100% sure what this is referring to. Transport features that
->> > are handled by QEMU and not the backend?
->>=20
->> Well there is the rub. While looking at the reset stuff it was
->> postulated a device could support reset even if vhost part couldn't.
+>> Hmm I'm going to have to remind myself about how this bit works.
 >
-> reset here referring to per-ring reset?  It's possible with enough work
-> - you would save ring state for each ring, reset all of vhost, then
-> restore all but the one ring that needs to be reset.
+> When is it expected that cpu->plugin_mem_cbs is reset to NULL if it is
+> set for an instruction? Is it guaranteed it is reset by the end of the
+> tb?
 
-Does anything work like this at the moment or is it a fair assumption
-that the feature set of a vhost/vhost-user backend will be the maximum
-set of features the guest can select from?
+It should be by the end of the instruction. See
+inject_mem_disable_helper() which inserts TCG code to disable the
+helpers. We also have plugin_gen_disable_mem_helpers() which should
+catch every exit out of a block (exit_tb, goto_tb, goto_ptr). That is
+why qemu_plugin_disable_mem_helpers() is only really concerned about
+when we longjmp out of the loop.
+
+> If I were to put an assertion in cpu_tb_exec() just after the call
+> to tcg_qemu_tb_exec(), should cpu->plugin_mem_cbs always be NULL
+> there?
+
+Yes I think so.=20
+
+> In my debugging, I *think* I'm seeing a tb set cpu->plugin_mem_cbs
+> for an instruction, and then not reset it to NULL. I'm wondering if its
+> getting optimized away or something, but want to make sure I've got my
+> assumptions correct about how this is intended to be working.
+
+We are expecting some stuff to dead code away (but hopefully in pairs).
+We don't know ahead of the instruction decode if it will be a memory
+instruction so opportunistically insert our empty helper calls. If no
+memory access is done those ops should be gone. This is all done to
+avoid doing a 2 pass translate.
+
+Richard,
+
+Have I got that right? I think thats how I remember the TCG code working.
 
 >
->> If
->> that is not true maybe we should drop this because host_features should
->> have everything we need?
->>=20
->> >
->> >> +     */
->> >>      uint64_t host_features;
->> >> +    uint64_t guest_features;
->> >>      uint64_t backend_features;
->> >> +
->> >>      size_t config_len;
->> >>      void *config;
->> >>      uint16_t config_vector;
->> >> --
->> >> 2.34.1
->> >>
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
+> Thanks!
+>
+> -Aaron
 
 
 --=20
