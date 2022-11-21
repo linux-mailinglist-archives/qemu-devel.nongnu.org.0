@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87656322FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C7E63230A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:04:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox6PA-0001tw-6p; Mon, 21 Nov 2022 08:00:08 -0500
+	id 1ox6S7-000538-0G; Mon, 21 Nov 2022 08:03:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6P8-0001si-8r
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:00:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6P5-0006XW-Bb
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:00:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669035602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o0zwjIEQ0RGHrg3uupRJrCxkZxGKrVGbvF+zRHI8YNI=;
- b=MsO7w6q5Kux9llAAh02tIZC0LWVOfe/q52+3HZDvUSyMmuShWTHtNHZrp8Rm2Hhn0iDzSv
- tq1V3YnrUFxl8C5S54a3xIMIY+SDjPXZwRFqxRAn+Emg1XP5wiG+LUt3Ghm6/vzPV2040V
- MNtS2JcZyMl71X36gWLps18B4DUqYb0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-70-Ez6osqvMOOWF37znrdMTig-1; Mon, 21 Nov 2022 07:59:28 -0500
-X-MC-Unique: Ez6osqvMOOWF37znrdMTig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0EA0801585;
- Mon, 21 Nov 2022 12:59:27 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.193.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18A8FC15BB3;
- Mon, 21 Nov 2022 12:59:25 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ox6Ri-0004sz-FV
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:02:49 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ox6Rf-0007Qr-6S
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:02:45 -0500
+Received: by mail-wm1-x330.google.com with SMTP id t4so8400032wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 05:02:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AZJLZiFOjiKUDIHvq/9ffi6qmedg2UVStgbpsVkGR9s=;
+ b=p+0AShH/IkiiN/Osj0N1djyi2zNAGzyR7cnliJqr5hkdtK7ybHSVR2PvZclvn6Xkot
+ +ORtXWGPpEFQeuVrSUlqPHr2i6zzlq3o0OWieboz/+qv975Av52LhehM4SnthRyWBHjR
+ g12jQydPtZ3Mw55fqPhJfejW6Mx5dimoX6IOY9iGUl/VK30qSRE6I5vzDUsequ0Q542O
+ QVh1LOtgC94B9XDr9OOurxokgY0oBpDmsf5ebTJY3/ea0sfzQi0f7eTAIztXBTQmA+uU
+ ZzP1fTI34QiJAFnZFs2rS+UKnR5rdxbGFJdoEYGhok45JU9HirVbLD6QJUBlefQ+ubTc
+ k+eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AZJLZiFOjiKUDIHvq/9ffi6qmedg2UVStgbpsVkGR9s=;
+ b=lO/SqWIZ5nSVBpqgRUOa38cqlnTTHJ5cza+sWsrt0RmPagDySXlmFRGcy35ejU3jUY
+ dRo4ianOhPvHUcpIJ9HVcq8T5ckVqbZPbJpX++DPhSAJuYYiUqVka/qPfkdABgQ9kGYE
+ JpzvpVgIdexBOSjaCep9/BcnNHGh8/iDC8p155oCw3rE8rw9azIaY8ofCwm3cDI05eRM
+ fNZJPqJR655DNlffL4U17lRuvUJtqhWw8oT7n+QEskCJrtw0QpiLFPdWaqJoP4mh9xoQ
+ CvjAu6fNGUqNFTys/nzDGxccHvFYwbnpyflqnjaSHO7Iz7U6O8pZUfO0goCYsibmvw42
+ ggXQ==
+X-Gm-Message-State: ANoB5pn3QePOGniS3do9cMarIbovudQMi+y/6LKlsuD+TWqKXmJ0FKG/
+ 5+WRJ83HvCY9eJC5iaziOrj+7fs9PdUlLA==
+X-Google-Smtp-Source: AA0mqf7sK7qKFYX7ck6We6GBctRY6grSkV1DmGIuSV6MGj9M5MZdJjIkKKBYc9ba5b4riqIoO2BYpQ==
+X-Received: by 2002:a7b:ce9a:0:b0:3cf:4aa7:7576 with SMTP id
+ q26-20020a7bce9a000000b003cf4aa77576mr16363434wmj.39.1669035761147; 
+ Mon, 21 Nov 2022 05:02:41 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ t1-20020a1c7701000000b003cf4d99fd2asm13296725wmi.6.2022.11.21.05.02.40
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Nov 2022 05:02:40 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Fam Zheng <fam@euphon.net>, Juan Quintela <quintela@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 7/8] migration: Disable multifd explicitly with compression
-Date: Mon, 21 Nov 2022 13:59:06 +0100
-Message-Id: <20221121125907.62469-8-quintela@redhat.com>
-In-Reply-To: <20221121125907.62469-1-quintela@redhat.com>
-References: <20221121125907.62469-1-quintela@redhat.com>
+Subject: [PULL 0/5] target-arm queue
+Date: Mon, 21 Nov 2022 13:02:34 +0000
+Message-Id: <20221121130239.1138631-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,74 +86,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+Hi; here's a collection of Arm bug fixes for rc2.
 
-Multifd thread model does not work for compression, explicitly disable it.
+thanks
+-- PMM
 
-Note that previuosly even we can enable both of them, nothing will go
-wrong, because the compression code has higher priority so multifd feature
-will just be ignored.  Now we'll fail even earlier at config time so the
-user should be aware of the consequence better.
+The following changes since commit a082fab9d259473a9d5d53307cf83b1223301181:
 
-Note that there can be a slight chance of breaking existing users, but
-let's assume they're not majority and not serious users, or they should
-have found that multifd is not working already.
+  Merge tag 'pull-ppc-20221117' of https://gitlab.com/danielhb/qemu into staging (2022-11-17 12:39:38 -0500)
 
-With that, we can safely drop the check in ram_save_target_page() for using
-multifd, because when multifd=on then compression=off, then the removed
-check on save_page_use_compression() will also always return false too.
+are available in the Git repository at:
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/migration.c |  7 +++++++
- migration/ram.c       | 11 +++++------
- 2 files changed, 12 insertions(+), 6 deletions(-)
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221121
 
-diff --git a/migration/migration.c b/migration/migration.c
-index f3ed77a7d0..f485eea5fb 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1350,6 +1350,13 @@ static bool migrate_caps_check(bool *cap_list,
-         }
-     }
- 
-+    if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
-+        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
-+            error_setg(errp, "Multifd is not compatible with compress");
-+            return false;
-+        }
-+    }
-+
-     return true;
- }
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 1d42414ecc..1338e47665 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2305,13 +2305,12 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-     }
- 
-     /*
--     * Do not use multifd for:
--     * 1. Compression as the first page in the new block should be posted out
--     *    before sending the compressed page
--     * 2. In postcopy as one whole host page should be placed
-+     * Do not use multifd in postcopy as one whole host page should be
-+     * placed.  Meanwhile postcopy requires atomic update of pages, so even
-+     * if host page size == guest page size the dest guest during run may
-+     * still see partially copied pages which is data corruption.
-      */
--    if (!save_page_use_compression(rs) && migrate_use_multifd()
--        && !migration_in_postcopy()) {
-+    if (migrate_use_multifd() && !migration_in_postcopy()) {
-         return ram_save_multifd_page(rs, block, offset);
-     }
- 
--- 
-2.38.1
+for you to fetch changes up to 312b71abce3005ca7294dc0db7d548dc7cc41fbf:
 
+  target/arm: Limit LPA2 effective output address when TCR.DS == 0 (2022-11-21 11:46:46 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/sd: Fix sun4i allwinner-sdhost for U-Boot
+ * hw/intc: add implementation of GICD_IIDR to Arm GIC
+ * tests/avocado/boot_linux.py: Bump aarch64 virt test timeout
+ * target/arm: Limit LPA2 effective output address when TCR.DS == 0
+
+----------------------------------------------------------------
+Alex Bennée (2):
+      hw/intc: clean-up access to GIC multi-byte registers
+      hw/intc: add implementation of GICD_IIDR to Arm GIC
+
+Ard Biesheuvel (1):
+      target/arm: Limit LPA2 effective output address when TCR.DS == 0
+
+Peter Maydell (1):
+      tests/avocado/boot_linux.py: Bump aarch64 virt test timeout to 720s
+
+Strahinja Jankovic (1):
+      hw/sd: Fix sun4i allwinner-sdhost for U-Boot
+
+ include/hw/sd/allwinner-sdhost.h |  1 +
+ hw/intc/arm_gic.c                | 28 ++++++++++++-----
+ hw/sd/allwinner-sdhost.c         | 67 +++++++++++++++++++++++++++-------------
+ target/arm/ptw.c                 |  8 +++++
+ tests/avocado/boot_linux.py      |  2 +-
+ 5 files changed, 77 insertions(+), 29 deletions(-)
 
