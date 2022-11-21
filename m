@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41DE7632926
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14164632921
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:13:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9Pu-0001kM-C8; Mon, 21 Nov 2022 11:13:06 -0500
+	id 1ox9Pp-0001hD-GP; Mon, 21 Nov 2022 11:13:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ox9PX-0001Wf-UN
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9PX-0001We-U1
  for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:12:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ox9PU-0006lI-HV
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9PT-0006lA-Bb
  for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:12:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669047159;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PPRo7EaUCLraDNg/23OXkVmOxwi28SyX8Uc7542ZPqA=;
- b=TTa1ckUjHphtYAIRe3WsJhgiBERk1D5jYetgewxkOhzy2rjfVd9hqjikwqvfqDqbsGUte4
- hFxAuWlk6KXTV+oPecMRSdyf95TA5Uu/Mvk61o7easOXPx6lLDEemH653NtfQNoXcBzMCX
- ZLIwkdSO7eHkZaV+SYFLrmCGAXxdUhc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-241-yIg9d3F8NZaktuFUUlvyYw-1; Mon, 21 Nov 2022 11:12:35 -0500
-X-MC-Unique: yIg9d3F8NZaktuFUUlvyYw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A252E2A59549;
- Mon, 21 Nov 2022 16:12:34 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3957B2166B2E;
- Mon, 21 Nov 2022 16:12:34 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@kaod.org>, David Gibson <david@gibson.dropbear.id.au>, Hanna Reitz
- <hreitz@redhat.com>, qemu-block@nongnu.org, "Michael S. Tsirkin"
- <mst@redhat.com>, qemu-ppc@nongnu.org, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Paolo Bonzini
- <pbonzini@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, Jason
- Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>, Kevin Wolf
- <kwolf@redhat.com>, David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RESEND v3 2/2] virtio: remove unnecessary host_features
- in ->get_features()
-In-Reply-To: <20221121155020.1915166-3-stefanha@redhat.com>
-Organization: Red Hat GmbH
-References: <20221121155020.1915166-1-stefanha@redhat.com>
- <20221121155020.1915166-3-stefanha@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Mon, 21 Nov 2022 17:12:30 +0100
-Message-ID: <87leo45lsh.fsf@redhat.com>
+Received: by mail-wm1-x336.google.com with SMTP id 5so8817807wmo.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 08:12:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oIQgaw2ApRQxFC7xKrJRpgvAriZfiZO5EZu5Vbf3dcg=;
+ b=xmuKu+mIRsI3riOwe/ULJf6yTOuRfNVHOiMXPm998jKx70dfg1/aQBeQAYtR++awp0
+ 68qSjs72TkLpVMl8f7uaNH08Y8R+zNHhGiTAo+lay35JOKF32sdyKbYPBnsxBvqxu8qE
+ 3AjJK5ul+VxPiV6VJZVcbBlrekhYHee55KkZDET6ADx8mBh8Z83GX2EfUnW3cDkr8JRu
+ IpURyoq2UifHRJekwv4woDZA8CegAZ67agALrRfQX8UPnUwbX4AADKGRU4xF3D7Xpdpa
+ +QR3UmGdJgNB/8f1/yr1AjsggrdPYlYthKjbHF613EFan7VrgugE/CdoZDB/SOZl+INN
+ H+1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oIQgaw2ApRQxFC7xKrJRpgvAriZfiZO5EZu5Vbf3dcg=;
+ b=0nHr9ECVsRPvjcDTIzGp0FRSIN22bf+rGV1ZRcFywXDHnU/l4nCPY5iA0IBXtucyOf
+ Cs/mcjw24gK3+a3sIbAReAulmoQkVtnI7sg1U13ONta6w36RXjC1S7yjWOsxyXJUYA3t
+ Efl5d7AVghmtkuv0XPk9M3/4SIeFbJBKZELin48jeQ/d+05ANIXTL6mBGAlIZGzdwv/o
+ BAQNOSrLkgMzZrOIPB9XHYAbLtjfcEhyoqc6dxcx/rW2or55NGeK+glYXtRLLSArsk/u
+ gMPPXTR3nxafIZoaV1dD0EvjohUICioQn6YkH44DF7Nh/ryjwxztNNpVbkl6GqkmX+aZ
+ +ARw==
+X-Gm-Message-State: ANoB5pn+5RPyx/rguKucLQTDJINm4vesmyiLbB2cZ5RnnJF5rSXWvDjV
+ /MkV0Wk44QMzYZjG76tikbnurA==
+X-Google-Smtp-Source: AA0mqf7DEIPYELFWpLyajWRDnozKWROuBAYECUjffM9RRbfQNn4F5MoYEz9iJ3s4RDzXbWO2RwiC8Q==
+X-Received: by 2002:a1c:790d:0:b0:3cf:935a:aaab with SMTP id
+ l13-20020a1c790d000000b003cf935aaaabmr6648199wme.159.1669047157817; 
+ Mon, 21 Nov 2022 08:12:37 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020a05600c510500b003b4ff30e566sm27606630wms.3.2022.11.21.08.12.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 08:12:37 -0800 (PST)
+Message-ID: <a31a5acb-e499-bbcb-fe6c-00519e291071@linaro.org>
+Date: Mon, 21 Nov 2022 17:12:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH for-8.0 19/29] tcg: Introduce TCG_OPF_TYPE_MASK
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221118094754.242910-1-richard.henderson@linaro.org>
+ <20221118094754.242910-20-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221118094754.242910-20-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,27 +90,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 21 2022, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-
-> Since at least commit 6b8f1020540c27246277377aa2c3331ad2bfb160 ("virtio:
-> move host_features") the ->get_features() function has been called with
-> host_features as an argument.
->
-> Some devices manually add host_features in ->get_features() although the
-> features argument already contains host_features. Make all devices
-> consistent by dropping the unnecessary code.
->
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On 18/11/22 10:47, Richard Henderson wrote:
+> Reorg TCG_OPF_64BIT and TCG_OPF_VECTOR into a two-bit field so
+> that we can add TCG_OPF_128BIT without requiring another bit.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/block/virtio-blk.c       | 3 ---
->  hw/char/virtio-serial-bus.c | 1 -
->  hw/net/virtio-net.c         | 3 ---
->  hw/scsi/vhost-scsi-common.c | 3 ---
->  hw/scsi/virtio-scsi.c       | 4 ----
->  hw/virtio/virtio-balloon.c  | 2 --
->  6 files changed, 16 deletions(-)
+>   include/tcg/tcg.h            | 22 ++++++++++++----------
+>   tcg/optimize.c               | 15 ++++++++++++---
+>   tcg/tcg.c                    |  4 ++--
+>   tcg/aarch64/tcg-target.c.inc |  8 +++++---
+>   tcg/tci/tcg-target.c.inc     |  3 ++-
+>   5 files changed, 33 insertions(+), 19 deletions(-)
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
