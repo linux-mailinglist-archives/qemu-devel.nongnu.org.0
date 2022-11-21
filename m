@@ -2,95 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5252F631B7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038E7631B83
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:34:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox2Ef-00087c-6B; Mon, 21 Nov 2022 03:33:01 -0500
+	id 1ox2Fp-0000Dj-So; Mon, 21 Nov 2022 03:34:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ox2Ed-00086n-CP
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:32:59 -0500
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ox2FX-0000Br-GC
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:33:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ox2Eb-0005Cu-IW
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:32:58 -0500
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ox2FU-0005J6-M3
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:33:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669019576;
+ s=mimecast20190719; t=1669019631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p5fDlTHprZBJuRg7Sf+IGz4CHr429y1PrYfhSpFhthc=;
- b=aByjVGRUcawulZ4s2fotWbJ4mdWlct30e+HodiQ89IReQlcblbKuFlmA0gqnrglQu/FKNf
- RxO5LdXC/TB0GRa+6W5B/sd8aWn9yFnTRBVW2b85vBIdoXOD8AbIrG61oh7TptlhWrQd/1
- wjAqbWFgT3GpOMI0iv+E3x9bJ998jxE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hc8QnFwUIWUcZxtP4D1fEpjZOESSDbi6OGu4QZV2jss=;
+ b=bAsolTN8JwAjxyaFMI1uUWdSJvCzWaq489UlSO8Sp6ugpyLHQocdrQDhQLXSTzriyWX0be
+ HHjrg1NbtnguRA6cTg7HK1fJiGhoq02uOCCCquHNjHKrIwbsPu8UxmGdSb4nmN0Lidkzmu
+ mGGUmQYzuv9I4vlQGqp6KN0c1vq2J40=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-130-LzIleJlIPeCZIfiyaYYVWA-1; Mon, 21 Nov 2022 03:32:54 -0500
-X-MC-Unique: LzIleJlIPeCZIfiyaYYVWA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n13-20020adf8b0d000000b0023658a75751so2979365wra.23
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 00:32:54 -0800 (PST)
+ us-mta-590-8m5P0IUHMYuwdu5OkL6TZw-1; Mon, 21 Nov 2022 03:33:49 -0500
+X-MC-Unique: 8m5P0IUHMYuwdu5OkL6TZw-1
+Received: by mail-il1-f199.google.com with SMTP id
+ c4-20020a056e020bc400b0030098df879dso8098268ilu.6
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 00:33:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p5fDlTHprZBJuRg7Sf+IGz4CHr429y1PrYfhSpFhthc=;
- b=k9jLPFr4HaqHkWBtc+1K1UH2R07CPZNkoVf7/8TBbPyhXeOAikRhqoyQ1T/+4cBJEO
- dBBDsI+XkfSh+cgVkSfuocASr20kdNe2fIVBbxQsJ5zSim3unkmb28ofB0jlksGc2M4p
- vC01o9u+6yHFRkK5/JmhNNdpDXtvD9VfDjEbx/+MarBD07BAai9UdlQxht1+ssXnR7w2
- LnSlou4xX8nBjg6Nako9ug9FnxeE4D3OL2ih5qzFy7/RcAGiFAOu7f4giMY1WMrY9cNM
- 1Dk2Lg/v19jHb5W/CErz/sC8HX9o5W8SK16gfXQWB/2/AL4L1TwcuicMp+x+WcO2HxNF
- kzvQ==
-X-Gm-Message-State: ANoB5plnH6tgUQFOsBTh/UWhdr72dabMJYHNAuV/yy6zOs4wTY8nWFje
- pHQBQ2kZ0Ucn7KrV0YIwNuyb+iBdm4rpwmyZTcRdEoTQQfERqhU/0eMc1jnfBEUGw0WB593tEg4
- aq360aAgEAYFqeIE=
-X-Received: by 2002:a05:600c:2118:b0:3cf:d70d:d5b3 with SMTP id
- u24-20020a05600c211800b003cfd70dd5b3mr332013wml.202.1669019573818; 
- Mon, 21 Nov 2022 00:32:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7kKjoBamD1dPNUHxn5FAlIPFMF4yKjKCY5ByqT0ZZcip1FHUNtAaBfZdAAm4BS4RAR3aydOw==
-X-Received: by 2002:a05:600c:2118:b0:3cf:d70d:d5b3 with SMTP id
- u24-20020a05600c211800b003cfd70dd5b3mr331998wml.202.1669019573608; 
- Mon, 21 Nov 2022 00:32:53 -0800 (PST)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- n3-20020a05600c4f8300b003d01b84e9b2sm3769236wmq.27.2022.11.21.00.32.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 00:32:52 -0800 (PST)
-Message-ID: <c1c9e6b2-78a5-bd0c-6c95-a3123b89ce91@redhat.com>
-Date: Mon, 21 Nov 2022 09:32:51 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hc8QnFwUIWUcZxtP4D1fEpjZOESSDbi6OGu4QZV2jss=;
+ b=hn1JY8LOnshYcBuif68t+XiYszNotm92PBqeu6IG5tkvXscQsL5A5o8yZBZ9OEIt9V
+ 0AH0QGHfQVNqwYflFQ8aIB4MigGCYyveyyhlkhULnztmVdqxeXtXTBmsgNNXZ8/cVVpL
+ pBY2IGuOS3lrwAtK1d2GFrV4CnM4R7de8Zi52i8n5dE+u2WU6oLzbCIwd5+5ArrQVTnZ
+ FYcrPjc0Q/7fO2ucLHgTC1KMSujRtvns/N4Fo5TyUTcalxgPAYAYqBAl9M9FBzFhXs3E
+ UMSuHNUXqZLSBMlr9HGE6cWeCFZd+YV+SOPNx2QcN2UmjQ0UqNol70GgIeXBr2cnqxYZ
+ eJ2w==
+X-Gm-Message-State: ANoB5pnECQIxvzhW9qNLCFobNmJjL12EC3W7PVIIabftclCII2g+BKOS
+ c9Kpy3xypP5HNOlrIc5ztQjtPJYJY/RnwqiLIjXpYeBJDaYJ8oEVuSwp3YHw/D5jWP+oOr+hUv4
+ vzRF9XTkqdHPy6h7GnYkgqhMrs37R6mk=
+X-Received: by 2002:a02:294f:0:b0:383:1cf7:ee31 with SMTP id
+ p76-20020a02294f000000b003831cf7ee31mr223780jap.232.1669019628559; 
+ Mon, 21 Nov 2022 00:33:48 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4bpJ5HRZEfUT6X0edw/KRnSXYVgytDK3XeMEWSX9XBIeRdhcXOSxClHkKDwiAoe8a+8PbsoLt8xZtdpKWNoQ8=
+X-Received: by 2002:a02:294f:0:b0:383:1cf7:ee31 with SMTP id
+ p76-20020a02294f000000b003831cf7ee31mr223752jap.232.1669019627569; Mon, 21
+ Nov 2022 00:33:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 01/11] block-copy: add missing coroutine_fn annotations
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20221116122241.2856527-1-eesposit@redhat.com>
- <20221116122241.2856527-2-eesposit@redhat.com> <Y3fXgfKe5H7j22aj@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <Y3fXgfKe5H7j22aj@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+References: <20221120140044.752503-1-kfir@daynix.com>
+ <20221120140044.752503-2-kfir@daynix.com>
+In-Reply-To: <20221120140044.752503-2-kfir@daynix.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Mon, 21 Nov 2022 10:33:36 +0200
+Message-ID: <CAPMcbCoqx8ftro5esmTnWCHFKBOvkEkrax7+QOfB_zeuTiQ6Fg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] qga:/qga-win: adding a empty PCI address creation
+ function
+To: Kfir Manor <kfir@daynix.com>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>, 
+ Yan Vugenfirer <yan@daynix.com>
+Content-Type: multipart/alternative; boundary="0000000000000658bc05edf6ea45"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,31 +94,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--0000000000000658bc05edf6ea45
+Content-Type: text/plain; charset="UTF-8"
 
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-Am 18/11/2022 um 20:05 schrieb Kevin Wolf:
-> Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
->> These functions end up calling bdrv_common_block_status_above(), a
->> generated_co_wrapper function.
->> In addition, they also happen to be always called in coroutine context,
->> meaning all callers are coroutine_fn.
->> This means that the g_c_w function will enter the qemu_in_coroutine()
->> case and eventually suspend (or in other words call qemu_coroutine_yield()).
->> Therefore we need to mark such functions coroutine_fn too.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> 
-> Ideally, we'd convert them to new wrappers bdrv_co_is_allocated() and
-> bdrv_co_block_status_above() instead of having to argue that they always
-> take the coroutine path in g_c_w.
-> 
+On Sun, Nov 20, 2022 at 4:09 PM Kfir Manor <kfir@daynix.com> wrote:
 
-Ok so basically I should introduce bdrv_co_is_allocated, because so far
-in this and next series I never thought about creating it.
-Since these functions will be eventually split anyways, I agree let's
-start doing this now.
+> Refactoring code to avoid duplication of creating an empty PCI address
+> code.
+>
+> Signed-off-by: Kfir Manor <kfir@daynix.com>
+> ---
+>  qga/commands-win32.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
+>
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index ec9f55b453..a645480496 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -599,6 +599,18 @@ static void
+> get_pci_address_for_device(GuestPCIAddress *pci,
+>      }
+>  }
+>
+> +static GuestPCIAddress *get_empty_pci_address(void)
+> +{
+> +    GuestPCIAddress *pci = NULL;
+> +
+> +    pci = g_malloc0(sizeof(*pci));
+> +    pci->domain = -1;
+> +    pci->slot = -1;
+> +    pci->function = -1;
+> +    pci->bus = -1;
+> +    return pci;
+> +}
+> +
+>  static GuestPCIAddress *get_pci_info(int number, Error **errp)
+>  {
+>      HDEVINFO dev_info = INVALID_HANDLE_VALUE;
+> @@ -608,13 +620,7 @@ static GuestPCIAddress *get_pci_info(int number,
+> Error **errp)
+>      SP_DEVICE_INTERFACE_DATA dev_iface_data;
+>      HANDLE dev_file;
+>      int i;
+> -    GuestPCIAddress *pci = NULL;
+> -
+> -    pci = g_malloc0(sizeof(*pci));
+> -    pci->domain = -1;
+> -    pci->slot = -1;
+> -    pci->function = -1;
+> -    pci->bus = -1;
+> +    GuestPCIAddress *pci = get_empty_pci_address();
+>
+>      dev_info = SetupDiGetClassDevs(&GUID_DEVINTERFACE_DISK, 0, 0,
+>                                     DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
+> --
+> 2.38.1
+>
+>
 
-Thank you,
-Emanuele
+--0000000000000658bc05edf6ea45
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Nov 2=
+0, 2022 at 4:09 PM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com">kfir@d=
+aynix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Refactoring code to avoid duplication of creating an empty PCI a=
+ddress code.<br>
+<br>
+Signed-off-by: Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com" target=3D"=
+_blank">kfir@daynix.com</a>&gt;<br>
+---<br>
+=C2=A0qga/commands-win32.c | 20 +++++++++++++-------<br>
+=C2=A01 file changed, 13 insertions(+), 7 deletions(-)<br>
+<br>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index ec9f55b453..a645480496 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -599,6 +599,18 @@ static void get_pci_address_for_device(GuestPCIAddress=
+ *pci,<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
++static GuestPCIAddress *get_empty_pci_address(void)<br>
++{<br>
++=C2=A0 =C2=A0 GuestPCIAddress *pci =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 pci =3D g_malloc0(sizeof(*pci));<br>
++=C2=A0 =C2=A0 pci-&gt;domain =3D -1;<br>
++=C2=A0 =C2=A0 pci-&gt;slot =3D -1;<br>
++=C2=A0 =C2=A0 pci-&gt;function =3D -1;<br>
++=C2=A0 =C2=A0 pci-&gt;bus =3D -1;<br>
++=C2=A0 =C2=A0 return pci;<br>
++}<br>
++<br>
+=C2=A0static GuestPCIAddress *get_pci_info(int number, Error **errp)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0HDEVINFO dev_info =3D INVALID_HANDLE_VALUE;<br>
+@@ -608,13 +620,7 @@ static GuestPCIAddress *get_pci_info(int number, Error=
+ **errp)<br>
+=C2=A0 =C2=A0 =C2=A0SP_DEVICE_INTERFACE_DATA dev_iface_data;<br>
+=C2=A0 =C2=A0 =C2=A0HANDLE dev_file;<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+-=C2=A0 =C2=A0 GuestPCIAddress *pci =3D NULL;<br>
+-<br>
+-=C2=A0 =C2=A0 pci =3D g_malloc0(sizeof(*pci));<br>
+-=C2=A0 =C2=A0 pci-&gt;domain =3D -1;<br>
+-=C2=A0 =C2=A0 pci-&gt;slot =3D -1;<br>
+-=C2=A0 =C2=A0 pci-&gt;function =3D -1;<br>
+-=C2=A0 =C2=A0 pci-&gt;bus =3D -1;<br>
++=C2=A0 =C2=A0 GuestPCIAddress *pci =3D get_empty_pci_address();<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0dev_info =3D SetupDiGetClassDevs(&amp;GUID_DEVINTERFACE=
+_DISK, 0, 0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DIGCF_PRESENT | DIGCF_=
+DEVICEINTERFACE);<br>
+-- <br>
+2.38.1<br>
+<br>
+</blockquote></div>
+
+--0000000000000658bc05edf6ea45--
 
 
