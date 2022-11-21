@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89047632223
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 13:32:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A1F63227D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 13:42:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox5xs-0001GU-Fz; Mon, 21 Nov 2022 07:31:56 -0500
+	id 1ox66I-0003qq-Ia; Mon, 21 Nov 2022 07:40:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ox5xo-0001G6-MD; Mon, 21 Nov 2022 07:31:52 -0500
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ox5xn-0000qi-4H; Mon, 21 Nov 2022 07:31:52 -0500
-Received: by mail-yb1-xb31.google.com with SMTP id e68so13403511ybh.2;
- Mon, 21 Nov 2022 04:31:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hq4IPEJ80vwuMqUgMF0/Lno9/MCiKQ+3WrldK8L1a7M=;
- b=jbosdRu/WQuqQ/qF9qVa5Tq8YWSyZImCAqbXCl4Rsgg+vvfE8OT9aokZy345bKX1CT
- OV5ZrdnQ4XRhYSQsLICkwJ1gYPArVbqyeKwAnVQVuQsrK5EWzys8gZo7ws5gX5E9QfU6
- pDGigfoAv44YXBhZ93QVYCs0wIh4ytzl6YxQgjNKKXODBHmaCNVe7LmX2m3XfDBDRg0W
- yaa31LTQ6wro2OS8uILxHjIjUk+T3WGa9LbROYVQPmrkvRnKZIvOYErJbobcaXT1bd97
- JDNQDLcriReKlH3Pdb46Nles0lpKR4bf2HFQTVkSbRw9TQwnbMCKLhFA7z8uS2zEMhZp
- BddQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ox66F-0003qQ-Eb
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:40:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ox66D-0002Lc-C5
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:40:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669034431;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=KSD/WtaEZRJwlBgO1mp8qwIgZHv4OL8UVBGMR0bXayY=;
+ b=d5cLsdI9ty5AvzbKnxghg/7DyXA5dmOY2/eeZrsecbpYWD8gI3zW1tplt4HMK8NA3vdgkr
+ TjG9b3LzbhNQuxDIkXoWpNCDlrn86kLQGNiQULhnNKIIwbuPGIs6TFnFZ0L21tESyGmKXV
+ sc85oVRLafSVGsv6oxGOv3al+vf0CWc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-266-3AAlm2HQNnWqMytDV0EpBw-1; Mon, 21 Nov 2022 07:40:30 -0500
+X-MC-Unique: 3AAlm2HQNnWqMytDV0EpBw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r6-20020adfbb06000000b00241d4028812so903363wrg.20
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 04:40:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hq4IPEJ80vwuMqUgMF0/Lno9/MCiKQ+3WrldK8L1a7M=;
- b=3V8aO3iy6uQ5fvAP8VDzeR1zo/29cuL+C8WFfRMiVbrMge0183wYdR5p0w/Nv/PxD/
- njWj7qT7SDPkFMS7zwoR/v3XpDdBQQrkWsfcxnbgbd5FvDEbCb8JbeunvUm+gc/PGELV
- +UPrR/os/Se4O3XXL/PolRDAIdfJK5mjHPrqGrdhnmqMM2f5AiepxSf7jU27jZX16+VE
- TaYFwtlFhf2FD8kGEn1OLXhnlN+3iqxkpRT+Ourls1q6dCSvQHAKs0Og8HT7ovMFcqsZ
- zZLXTFyco8Xwtdz7ipNYvHhBV2tROtgkRwuw3fM8DXmgJFH2JW2jWK85d+BLEPRaKuoU
- LX0w==
-X-Gm-Message-State: ANoB5pl3f26iJNW9ydfYogT9RxG5KRbJWyad+xPepFu8zvDbw8YZBHH5
- qoDJYbtIWMa5MmC9J9Wjmfe+X2yhqCgrEINFTjQ=
-X-Google-Smtp-Source: AA0mqf4IQ2gsZhKNgAOx2WMPd9bpcPXT3xr8O4FIWV0GmxIHmT5useHkgaltXsIFKLSRcnM/xSoipahR7B6v+uaF0b8=
-X-Received: by 2002:a25:bcc4:0:b0:6e7:38f3:2bf7 with SMTP id
- l4-20020a25bcc4000000b006e738f32bf7mr831381ybm.207.1669033909419; Mon, 21 Nov
- 2022 04:31:49 -0800 (PST)
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KSD/WtaEZRJwlBgO1mp8qwIgZHv4OL8UVBGMR0bXayY=;
+ b=fO3sGl2cGqFyH2QYFKTWbHndSri8cXV8G02S+xCla0CTkKoxHwMtW5TSK4822zZJvc
+ vLOdgg+LwbeA/+oJmDPf3IoatlWaw9LWnkjukcfj0rc8OKW/q84+kiUG0V39U31wk6Zk
+ JjnjjUZ1z6I5XLvSwr81iT+suVaYOeFeiVCyHJnikvbT9WjAGfwJ8/AG/o7TQeLWWX15
+ oKJUEKgbhBzCtUn6oZ2gOvgs1LvODdF1U7sN5jD3X2vJ64mItLV3wqdmdFnB6hzuKunc
+ l+N81yT1ElvQ/mFXMiyiYzxHEgUc9jECupwbdCYKFNimesnqQzGlw7RTJMWQu4bKj5sW
+ IxDw==
+X-Gm-Message-State: ANoB5pm/RI0/KNgA+eAyWn07puWvcC0BJ1N+qu66ZHdvoahFKejz4We7
+ j7GFj8qDqhDCWXxgZnQQaF98piD87ChKp0DvoBUpHDH5hJwiSjmXOe8weqVFHfee5Zhuep9fyc6
+ iSAWwk+530WFM+LU=
+X-Received: by 2002:a5d:5685:0:b0:235:f0a6:fafd with SMTP id
+ f5-20020a5d5685000000b00235f0a6fafdmr11166178wrv.75.1669034428994; 
+ Mon, 21 Nov 2022 04:40:28 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7dt6JVBwsxN9pQM4AdRPXr8hS7OsYMxw2uqGfR6/HpzraG76xFOy2tMGoW90YgSJmmKz1bfQ==
+X-Received: by 2002:a5d:5685:0:b0:235:f0a6:fafd with SMTP id
+ f5-20020a5d5685000000b00235f0a6fafdmr11166152wrv.75.1669034428681; 
+ Mon, 21 Nov 2022 04:40:28 -0800 (PST)
+Received: from redhat.com (62.117.240.223.dyn.user.ono.com. [62.117.240.223])
+ by smtp.gmail.com with ESMTPSA id
+ v3-20020a1cf703000000b003cf774c31a0sm16802720wmh.16.2022.11.21.04.40.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Nov 2022 04:40:28 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  dgilbert@redhat.com,
+ pbonzini@redhat.com,  berrange@redhat.com,  armbru@redhat.com,
+ eblake@redhat.com,  Aravind Retnakaran <aravind.retnakaran@nutanix.com>,
+ Manish Mishra <manish.mishra@nutanix.com>
+Subject: Re: [PATCH] multifd: Updated QAPI format for 'migrate' qemu monitor
+ command
+In-Reply-To: <20221121110427.198431-1-het.gala@nutanix.com> (Het Gala's
+ message of "Mon, 21 Nov 2022 11:04:27 +0000")
+References: <20221121110427.198431-1-het.gala@nutanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Mon, 21 Nov 2022 13:40:27 +0100
+Message-ID: <87pmdgtr9g.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20221117165554.1773409-1-stefanha@redhat.com>
- <20221117165554.1773409-2-stefanha@redhat.com>
- <CACGkMEumg2VH8eBoz7sUjtPVVeRLv=fbZfReLHtgPA4ei_=PcQ@mail.gmail.com>
-In-Reply-To: <CACGkMEumg2VH8eBoz7sUjtPVVeRLv=fbZfReLHtgPA4ei_=PcQ@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 21 Nov 2022 07:31:37 -0500
-Message-ID: <CAJSP0QVg1oWUFUF+x5-5oM=9ZL+LSXZFCF-bwk+8GYJmX93o7g@mail.gmail.com>
-Subject: Re: [PATCH for-7.2 v3 1/3] rtl8139: avoid clobbering tx descriptor
- bits
-To: Jason Wang <jasowang@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org, 
- Tobias Fiebig <tobias+git@fiebig.nl>, qemu-stable@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,81 +99,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 20 Nov 2022 at 23:17, Jason Wang <jasowang@redhat.com> wrote:
+Het Gala <het.gala@nutanix.com> wrote:
+> To prevent double data encoding of uris, instead of passing transport
+> mechanisms, host address and port all together in form of a single string
+> and writing different parsing functions, we intend the user to explicitly
+> mention most of the parameters through the medium of qmp command itself.
 >
-> On Fri, Nov 18, 2022 at 12:56 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > The device turns the Tx Descriptor into a Tx Status descriptor after
-> > fully reading the descriptor. This involves clearing Tx Own (bit 31) to
-> > indicate that the driver has ownership of the descriptor again as well
-> > as several other bits.
-> >
-> > The code keeps the first dword of the Tx Descriptor in the txdw0 local
-> > variable. txdw0 is reused to build the first word of the Tx Status
-> > descriptor. Later on the code uses txdw0 again, incorrectly assuming
-> > that it still contains the first dword of the Tx Descriptor. The tx
-> > offloading code misbehaves because it sees bogus bits in txdw0.
+> The current patch is continuation of patchset series
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg901274.html
+> and reply to the ongoing discussion for better QAPI design here
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg903753.html.
 >
-> (This is only noticeable with patch 2).
+> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
+> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+> Signed-off-by: Het Gala <het.gala@nutanix.com>
 
-Yes, although the large_send_mss variable is already junk because some
-bits have been cleared:
-int large_send_mss = (txdw0 >> 16) & CP_TC_LGSEN_MSS_MASK;
 
-Luckily it's not used yet, aside from DPRINTF().
+Hi
 
+1st of all, I can't see how this is 7.1 material, I guess we need to
+move it to 8.0.
+
+> ---
+>  qapi/migration.json | 127 +++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 125 insertions(+), 2 deletions(-)
 >
-> >
-> > Use a separate local variable for Tx Status and preserve Tx Descriptor
-> > in txdw0.
-> >
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->
-> Acked-by: Jason Wang <jasowang@redhat.com>
->
-> > ---
-> >  hw/net/rtl8139.c | 17 ++++++++++-------
-> >  1 file changed, 10 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-> > index e6643e3c9d..ffef3789b5 100644
-> > --- a/hw/net/rtl8139.c
-> > +++ b/hw/net/rtl8139.c
-> > @@ -2027,18 +2027,21 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
-> >              s->currCPlusTxDesc = 0;
-> >      }
-> >
-> > +    /* Build the Tx Status Descriptor */
-> > +    uint32_t tx_status = txdw0;
-> > +
-> >      /* transfer ownership to target */
-> > -    txdw0 &= ~CP_TX_OWN;
-> > +    tx_status &= ~CP_TX_OWN;
-> >
-> >      /* reset error indicator bits */
-> > -    txdw0 &= ~CP_TX_STATUS_UNF;
-> > -    txdw0 &= ~CP_TX_STATUS_TES;
-> > -    txdw0 &= ~CP_TX_STATUS_OWC;
-> > -    txdw0 &= ~CP_TX_STATUS_LNKF;
-> > -    txdw0 &= ~CP_TX_STATUS_EXC;
-> > +    tx_status &= ~CP_TX_STATUS_UNF;
-> > +    tx_status &= ~CP_TX_STATUS_TES;
-> > +    tx_status &= ~CP_TX_STATUS_OWC;
-> > +    tx_status &= ~CP_TX_STATUS_LNKF;
-> > +    tx_status &= ~CP_TX_STATUS_EXC;
-> >
-> >      /* update ring data */
-> > -    val = cpu_to_le32(txdw0);
-> > +    val = cpu_to_le32(tx_status);
-> >      pci_dma_write(d, cplus_tx_ring_desc, (uint8_t *)&val, 4);
-> >
-> >      /* Now decide if descriptor being processed is holding the last segment of packet */
-> > --
-> > 2.38.1
-> >
->
->
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 88ecf86ac8..fd9286ea0f 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1449,12 +1449,101 @@
+>  ##
+>  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+>  
+> +##
+> +# @MigrateTransport:
+> +#
+> +# The supported communication transport mechanisms for migration
+> +#
+> +# @socket: Supported communication type between two devices for migration.
+> +#          Socket is able to cover all of 'tcp', 'unix', 'vsock' and
+> +#          'fd' already
+> +#
+> +# @exec: Supported communication type to redirect migration stream into file.
+> +#
+> +# Since 7.1
+> +##
+> +{ 'enum': 'MigrateTransport',
+> +  'data': ['socket', 'exec'] }
+
+I haven't looked too much into this, but as Danield told in the past, I
+can see where the rdma falls into this scheme.  I guess it is going to
+be its own, but who knows.
+
+> +# The supported options for migration channel type requests
+> +#
+> +# @control: Support request for main outbound migration control channel
+> +#
+> +# @data: Supported Channel type for multifd data channels
+> +#
+> +# @async: Supported Channel type for post-copy async requests
+> +#
+> +# Since 7.1
+> +##
+> +{ 'enum': 'MigrateChannelType',
+> +  'data': ['control', 'data', 'async'] }
+> +
+
+'data': ['main', 'data', 'ram-async'] } ???
+
+I don't like the 'control' name because without multifd we still pass
+everything through it.
+
+And with multifd, we still pass all devices through it.
+
+About the asynchronous channel, I don't know if calling it postcopy is
+better.
+
+> +{ 'struct': 'MigrateChannel',
+> +  'data' : {
+> +    'channeltype' : 'MigrateChannelType',
+> +    '*src-addr' : 'MigrateAddress',
+> +    'dest-addr' : 'MigrateAddress',
+
+Why do we want *both* addresses?
+
+> +    '*multifd-count' : 'int' } }
+
+And if we are passing a list, why do we want to pass the real number?
+
+>  # -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
+>  # <- { "return": {} }
+>  #
+> +# -> { "execute": "migrate",
+> +#      "arguments": {
+> +#          "channels": [ { 'channeltype': 'control',
+> +#                          'dest-addr': {'transport': 'socket',
+> +#                                        'type': 'inet',
+> +#                                        'host': '10.12.34.9', 'port': '1050'}},
+> +#                        { 'channeltype': 'data',
+> +#                          'src-addr': {'transport': 'socket',
+> +#                                        'type': 'inet',
+> +#                                        'host': '10.12.34.9',
+> +#                                        'port': '4000', 'ipv4': 'true'},
+> +#                          'dest-addr': { 'transport': 'socket',
+> +#                                          'type': 'inet',
+> +#                                          'host': '10.12.34.92',
+> +#                                          'port': '1234', 'ipv4': 'true'},
+> +#                          'multifd-count': 5 },
+> +#                        { 'channeltype': 'data',
+> +#                          'src-addr': {'transport': 'socket',
+> +#                                        'type': 'inet',
+> +#                                        'host': '10.2.3.4', 'port': '1000'},
+> +#                          'dest-addr': {'transport': 'socket',
+> +#                                         'type': 'inet',
+> +#                                         'host': '0.0.0.4', 'port': '3000'},
+> +#                          'multifd-count': 3 } ] } }
+> +# <- { "return": {} }
+> +#
+>  ##
+>  { 'command': 'migrate',
+> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
+> -           '*detach': 'bool', '*resume': 'bool' } }
+> +  'data': {'*uri': 'str', '*channels': ['MigrateChannel'], '*blk': 'bool',
+
+I think that "uri" bit should be dropped, right?
+
+> +           '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
+>  
+>  ##
+>  # @migrate-incoming:
+
+I can't see how to make the old one to work on top of this one (i.e. we
+would have to create strings from lists on QAPI, I think that is just
+too much).
+
+So I think that the best way (I know I am contradicting myself) is to
+create a new migrate command and just let the old one alone.  That way:
+- you can drop blk and blk
+- you can do anything that you want with the uris, as assuming that they
+  are always sockets.
+- I would not care at all about the "exec" protocol, just leave that
+  alone in the deprecated command.  Right now:
+  * we can't move it to multifd without a lot of PAIN
+  * there are patches on the list suggesting that what we really want is
+    to create a file that is the size of RAM and just write all the RAM
+    at the right place.
+  * that would make the way to create snapshots (I don't know if anyones
+    still wants them, much easier).
+  * I think that the only real use of exec migration was to create
+    snapshots, for real migration, using a socket is much, much saner.
+  * I.e. what I mean here is that for exec migration, we need to think
+    if we want to continue supporting it for normal migration, or only
+    as a way to create snapshots.
+
+What do you think?
+
+Later, Juan.
+
 
