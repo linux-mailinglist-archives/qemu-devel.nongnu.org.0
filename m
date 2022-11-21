@@ -2,79 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14164632921
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4835C632943
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:18:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9Pp-0001hD-GP; Mon, 21 Nov 2022 11:13:01 -0500
+	id 1ox9V0-0004SJ-0x; Mon, 21 Nov 2022 11:18:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9PX-0001We-U1
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:12:48 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9PT-0006lA-Bb
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:12:41 -0500
-Received: by mail-wm1-x336.google.com with SMTP id 5so8817807wmo.1
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 08:12:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oIQgaw2ApRQxFC7xKrJRpgvAriZfiZO5EZu5Vbf3dcg=;
- b=xmuKu+mIRsI3riOwe/ULJf6yTOuRfNVHOiMXPm998jKx70dfg1/aQBeQAYtR++awp0
- 68qSjs72TkLpVMl8f7uaNH08Y8R+zNHhGiTAo+lay35JOKF32sdyKbYPBnsxBvqxu8qE
- 3AjJK5ul+VxPiV6VJZVcbBlrekhYHee55KkZDET6ADx8mBh8Z83GX2EfUnW3cDkr8JRu
- IpURyoq2UifHRJekwv4woDZA8CegAZ67agALrRfQX8UPnUwbX4AADKGRU4xF3D7Xpdpa
- +QR3UmGdJgNB/8f1/yr1AjsggrdPYlYthKjbHF613EFan7VrgugE/CdoZDB/SOZl+INN
- H+1A==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ox9Uv-0004RE-3M
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:18:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ox9Ut-0007cr-2k
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:18:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669047492;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ETzG5NiBaxztGPuhC/VPplUI9WEkw79/a1Nmk6TI7ck=;
+ b=SHCGEyUc7skQWo3Cv1iBkyr8XWixBxn98jvaARSqqA89MYl3KHjgo/02RKtVJiGrAjHx7Q
+ /496Ab4S0Dt+cn+6LtHOorBG0Ut+u3k7UyN0YWWcbMDXRm8pLxuRANWJvITcBrsMDA52hC
+ 2UGBGLB7YU9B0VjoGtse6alOqFqGdh8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-61-xJjU_U4mOkK9dk1GBOrnBA-1; Mon, 21 Nov 2022 11:18:11 -0500
+X-MC-Unique: xJjU_U4mOkK9dk1GBOrnBA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h2-20020adfa4c2000000b00241cf936619so1264261wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 08:18:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oIQgaw2ApRQxFC7xKrJRpgvAriZfiZO5EZu5Vbf3dcg=;
- b=0nHr9ECVsRPvjcDTIzGp0FRSIN22bf+rGV1ZRcFywXDHnU/l4nCPY5iA0IBXtucyOf
- Cs/mcjw24gK3+a3sIbAReAulmoQkVtnI7sg1U13ONta6w36RXjC1S7yjWOsxyXJUYA3t
- Efl5d7AVghmtkuv0XPk9M3/4SIeFbJBKZELin48jeQ/d+05ANIXTL6mBGAlIZGzdwv/o
- BAQNOSrLkgMzZrOIPB9XHYAbLtjfcEhyoqc6dxcx/rW2or55NGeK+glYXtRLLSArsk/u
- gMPPXTR3nxafIZoaV1dD0EvjohUICioQn6YkH44DF7Nh/ryjwxztNNpVbkl6GqkmX+aZ
- +ARw==
-X-Gm-Message-State: ANoB5pn+5RPyx/rguKucLQTDJINm4vesmyiLbB2cZ5RnnJF5rSXWvDjV
- /MkV0Wk44QMzYZjG76tikbnurA==
-X-Google-Smtp-Source: AA0mqf7DEIPYELFWpLyajWRDnozKWROuBAYECUjffM9RRbfQNn4F5MoYEz9iJ3s4RDzXbWO2RwiC8Q==
-X-Received: by 2002:a1c:790d:0:b0:3cf:935a:aaab with SMTP id
- l13-20020a1c790d000000b003cf935aaaabmr6648199wme.159.1669047157817; 
- Mon, 21 Nov 2022 08:12:37 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ETzG5NiBaxztGPuhC/VPplUI9WEkw79/a1Nmk6TI7ck=;
+ b=IRKhxn7gjF2NDToBXYE7cb8mpI3mrtkQk8s4ZOpS6e5BFcGSZxrBiPV5nmjHU5QKzG
+ P942F/fY/ShFzr+hzo/pCdmXY3D9LTfM2d6FjFwBhM4BogmTbTbZzxSrA9+wPutW1i76
+ F1X3rus2yqPt0FTx+mrGtEIo8920qoRLDUxEGwJT2GS2uLs4J9tPKeYA+C80FPRBevVU
+ sCY7WOpPBCKff+VMxWPQu2w8BtCAUksWLh1HGDAzAVYBqXDM5tk/0eO/D9UCgiQJMhMB
+ ItoxbrZYs0L3WIg5T3jttc+bkwTbuDS/taD+VtnCVld5vj0ljXafI/CBwoGmeOQp5PnJ
+ YdRw==
+X-Gm-Message-State: ANoB5pnlAU9hsI8XCHWYVfX+Qyx+XRYo2Lwvsu8KTz0ld+67qzmGW/VH
+ 24wtavg9rk67ZmvUnVnW73/XdY1OxBYGcbvWaGOa6DSgAGNE7esrs3pSe7Tdw72CidNc7fBghOZ
+ oxdctptWXMGCP27yhITKa4KQ11lULSS3bAfjnrb6SBTVRIKg/ETiB2EFPKEFw6cuhQaM=
+X-Received: by 2002:a5d:474c:0:b0:234:d495:d3ae with SMTP id
+ o12-20020a5d474c000000b00234d495d3aemr4631686wrs.448.1669047489630; 
+ Mon, 21 Nov 2022 08:18:09 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7wcx6jXQZgMzHBKzYPA/BoQ2jrIKgAjQSNF/qvPeVPt6y0z0SjRBJ+CEEPsOy+7rrqI7gwag==
+X-Received: by 2002:a5d:474c:0:b0:234:d495:d3ae with SMTP id
+ o12-20020a5d474c000000b00234d495d3aemr4631659wrs.448.1669047489216; 
+ Mon, 21 Nov 2022 08:18:09 -0800 (PST)
+Received: from redhat.com (62.117.240.223.dyn.user.ono.com. [62.117.240.223])
  by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c510500b003b4ff30e566sm27606630wms.3.2022.11.21.08.12.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 08:12:37 -0800 (PST)
-Message-ID: <a31a5acb-e499-bbcb-fe6c-00519e291071@linaro.org>
-Date: Mon, 21 Nov 2022 17:12:36 +0100
+ y15-20020a1c4b0f000000b003cf7292c553sm14115058wma.13.2022.11.21.08.18.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Nov 2022 08:18:08 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  =?utf-8?Q?Marc-Andr?=
+ =?utf-8?Q?=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Daniel P.
+ =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Fam
+ Zheng <fam@euphon.net>,  Peter Xu <peterx@redhat.com>,  Michael Tokarev
+ <mjt@tls.msk.ru>,  Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ David Hildenbrand <david@redhat.com>,  qemu-trivial@nongnu.org,  Laurent
+ Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 00/19] Migration patches for 8.8
+In-Reply-To: <20221121132717.63070-1-quintela@redhat.com> (Juan Quintela's
+ message of "Mon, 21 Nov 2022 14:26:58 +0100")
+References: <20221121132717.63070-1-quintela@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Mon, 21 Nov 2022 17:18:07 +0100
+Message-ID: <87wn7ol1s0.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 19/29] tcg: Introduce TCG_OPF_TYPE_MASK
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221118094754.242910-1-richard.henderson@linaro.org>
- <20221118094754.242910-20-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221118094754.242910-20-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,22 +105,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/11/22 10:47, Richard Henderson wrote:
-> Reorg TCG_OPF_64BIT and TCG_OPF_VECTOR into a two-bit field so
-> that we can add TCG_OPF_128BIT without requiring another bit.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/tcg/tcg.h            | 22 ++++++++++++----------
->   tcg/optimize.c               | 15 ++++++++++++---
->   tcg/tcg.c                    |  4 ++--
->   tcg/aarch64/tcg-target.c.inc |  8 +++++---
->   tcg/tci/tcg-target.c.inc     |  3 ++-
->   5 files changed, 33 insertions(+), 19 deletions(-)
+Juan Quintela <quintela@redhat.com> wrote:
+> Hi
+>
+> Based-on:  <20221121125907.62469-1-quintela@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+The subject should put 8.0 not 8.8.
+
+Sorry, Juan.
+
+>
+> This are the patches that I had to drop form the last PULL request because they werent fixes:
+> - AVX2 is dropped, intel posted a fix, I have to redo it
+> - Fix for out of order channels is out
+>   Daniel nacked it and I need to redo it
+>
+> Juan Quintela (4):
+>   multifd: Create page_size fields into both MultiFD{Recv,Send}Params
+>   multifd: Create page_count fields into both MultiFD{Recv,Send}Params
+>   migration: Export ram_transferred_ram()
+>   migration: Export ram_release_page()
+>
+> Peter Xu (15):
+>   migration: Take bitmap mutex when completing ram migration
+>   migration: Add postcopy_preempt_active()
+>   migration: Cleanup xbzrle zero page cache update logic
+>   migration: Trivial cleanup save_page_header() on same block check
+>   migration: Remove RAMState.f references in compression code
+>   migration: Yield bitmap_mutex properly when sending/sleeping
+>   migration: Use atomic ops properly for page accountings
+>   migration: Teach PSS about host page
+>   migration: Introduce pss_channel
+>   migration: Add pss_init()
+>   migration: Make PageSearchStatus part of RAMState
+>   migration: Move last_sent_block into PageSearchStatus
+>   migration: Send requested page directly in rp-return thread
+>   migration: Remove old preempt code around state maintainance
+>   migration: Drop rs->f
+>
+>  migration/migration.h    |   7 -
+>  migration/multifd.h      |   8 +
+>  migration/ram.h          |  23 ++
+>  migration/migration.c    |  47 +--
+>  migration/multifd-zlib.c |  14 +-
+>  migration/multifd-zstd.c |  12 +-
+>  migration/multifd.c      |  27 +-
+>  migration/ram.c          | 735 ++++++++++++++++++---------------------
+>  8 files changed, 422 insertions(+), 451 deletions(-)
 
 
