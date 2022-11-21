@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27AD632963
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88781632964
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:28:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9dd-0000bp-CL; Mon, 21 Nov 2022 11:27:17 -0500
+	id 1ox9dd-0000cn-Ud; Mon, 21 Nov 2022 11:27:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ox9db-0000bT-0w
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:15 -0500
+ id 1ox9dc-0000bx-6O
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:16 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.226] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ox9dY-0001sw-Tp
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:14 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ox9dZ-0001tf-Ho
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:15 -0500
 HMM_SOURCE_IP: 172.18.0.218:59746.263116816
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.40.159 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 11BB22800A3;
- Tue, 22 Nov 2022 00:27:04 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 11EF72800AB;
+ Tue, 22 Nov 2022 00:27:07 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([125.69.40.159])
- by app0025 with ESMTP id f1adc6e37b564d6992ecced2f1a6a755 for
- qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:07 CST
-X-Transaction-ID: f1adc6e37b564d6992ecced2f1a6a755
+ by app0025 with ESMTP id 665c72253cf24e9495f5832f9780cb89 for
+ qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:10 CST
+X-Transaction-ID: 665c72253cf24e9495f5832f9780cb89
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 125.69.40.159
 X-MEDUSA-Status: 0
@@ -40,10 +40,10 @@ Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v2 02/11] softmmu/dirtylimit: Add parameter check for hmp
- "set_vcpu_dirty_limit"
-Date: Mon, 21 Nov 2022 11:26:34 -0500
-Message-Id: <56f207f3f962da7d90772cce1e724d50ba415d79.1669047366.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v2 03/11] kvm-all: Do not allow reap vcpu dirty ring buffer if
+ not ready
+Date: Mon, 21 Nov 2022 11:26:35 -0500
+Message-Id: <cef36a9ceae0a67d746cfb459939d5886ab07bd9.1669047366.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1669047366.git.huangy81@chinatelecom.cn>
 References: <cover.1669047366.git.huangy81@chinatelecom.cn>
@@ -76,30 +76,74 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-dirty_rate paraemter of hmp command "set_vcpu_dirty_limit" is invalid
-if less than 0, so add parameter check for it.
+When tested large vcpu size vm with dirtylimit feature, Qemu crashed
+due to the assertion in kvm_dirty_ring_reap_one, which assert that
+vcpu's kvm_dirty_gfns has been allocated and not NULL.
+
+Because dirty ring reaper thread races with Qemu main thread, reaper
+may reap vcpu's dirty ring buffer when main thread doesn't complete
+vcpu instantiation. So add the waiting logic in reaper thread and
+start to reap until vcpu instantiation is completed.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- softmmu/dirtylimit.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ accel/kvm/kvm-all.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 940d238..c42eddd 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -515,6 +515,11 @@ void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-     int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-     Error *err = NULL;
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index f99b0be..9457715 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -1401,6 +1401,35 @@ out:
+     kvm_slots_unlock();
+ }
  
-+    if (dirty_rate < 0) {
-+        monitor_printf(mon, "invalid dirty page limit %ld\n", dirty_rate);
-+        return;
++/*
++ * test if dirty ring has been initialized by checking if vcpu
++ * has been initialized and gfns was allocated correspondlingly.
++ * return true if dirty ring has been initialized, false otherwise.
++ */
++static bool kvm_vcpu_dirty_ring_initialized(void)
++{
++    CPUState *cpu;
++    MachineState *ms = MACHINE(qdev_get_machine());
++    int ncpus = ms->smp.cpus;
++
++    /*
++     * assume vcpu has not been initilaized if generation
++     * id less than number of vcpu
++     */
++    if (ncpus > cpu_list_generation_id_get()) {
++        return false;
 +    }
 +
-     qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
-     if (err) {
-         hmp_handle_error(mon, err);
++    CPU_FOREACH(cpu) {
++        if (!cpu->kvm_dirty_gfns) {
++            return false;
++        }
++    }
++
++    return true;
++}
++
++
+ static void *kvm_dirty_ring_reaper_thread(void *data)
+ {
+     KVMState *s = data;
+@@ -1410,6 +1439,13 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
+ 
+     trace_kvm_dirty_ring_reaper("init");
+ 
++retry:
++    /* don't allow reaping dirty ring if ring buffer hasn't been mapped */
++    if (!kvm_vcpu_dirty_ring_initialized()) {
++        sleep(1);
++        goto retry;
++    }
++
+     while (true) {
+         r->reaper_state = KVM_DIRTY_RING_REAPER_WAIT;
+         trace_kvm_dirty_ring_reaper("wait");
 -- 
 1.8.3.1
 
