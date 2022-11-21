@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A640632918
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DE7632926
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:14:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9Os-0001Ce-Kc; Mon, 21 Nov 2022 11:12:02 -0500
+	id 1ox9Pu-0001kM-C8; Mon, 21 Nov 2022 11:13:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ox9On-00019o-Sj
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:11:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ox9PX-0001Wf-UN
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:12:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ox9Om-0006gm-73
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:11:57 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ox9PU-0006lI-HV
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:12:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669047115;
+ s=mimecast20190719; t=1669047159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aVPwiqgER3HtHrJa7uW489ptahnTVi1DN95I2F5p6+0=;
- b=Ecqg9xgyKYCV8/twSvcfCqYrjorL3QlFwjQikWC9ZWTm4ldsH6IIPLSderB33NOj1oOWqL
- R5XHvTaqjQz622NtRd+RBXKQcepXG0TVJk+YzKO7qgZIRJy3EZ0ROyD2QLGc6/AmQ5BuIE
- Hmd1HWcjcyBQfbYE0O78YYxZJ0RkOC8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PPRo7EaUCLraDNg/23OXkVmOxwi28SyX8Uc7542ZPqA=;
+ b=TTa1ckUjHphtYAIRe3WsJhgiBERk1D5jYetgewxkOhzy2rjfVd9hqjikwqvfqDqbsGUte4
+ hFxAuWlk6KXTV+oPecMRSdyf95TA5Uu/Mvk61o7easOXPx6lLDEemH653NtfQNoXcBzMCX
+ ZLIwkdSO7eHkZaV+SYFLrmCGAXxdUhc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-TB5XgA_JM6Sxo-fzP9Ro7Q-1; Mon, 21 Nov 2022 11:11:50 -0500
-X-MC-Unique: TB5XgA_JM6Sxo-fzP9Ro7Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-241-yIg9d3F8NZaktuFUUlvyYw-1; Mon, 21 Nov 2022 11:12:35 -0500
+X-MC-Unique: yIg9d3F8NZaktuFUUlvyYw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F6D886EB20;
- Mon, 21 Nov 2022 16:11:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A252E2A59549;
+ Mon, 21 Nov 2022 16:12:34 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A3061415117;
- Mon, 21 Nov 2022 16:11:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3957B2166B2E;
+ Mon, 21 Nov 2022 16:12:34 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, =?utf-8?Q?C=C3=A9dric?= Le Goater
@@ -52,19 +52,19 @@ Cc: Laurent Vivier <lvivier@redhat.com>, =?utf-8?Q?C=C3=A9dric?= Le Goater
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, Jason
  Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>, Kevin Wolf
  <kwolf@redhat.com>, David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RESEND v3 1/2] virtio: document ->host_features usage in
- vdc->get_features() callback
-In-Reply-To: <20221121155020.1915166-2-stefanha@redhat.com>
+Subject: Re: [PATCH RESEND v3 2/2] virtio: remove unnecessary host_features
+ in ->get_features()
+In-Reply-To: <20221121155020.1915166-3-stefanha@redhat.com>
 Organization: Red Hat GmbH
 References: <20221121155020.1915166-1-stefanha@redhat.com>
- <20221121155020.1915166-2-stefanha@redhat.com>
+ <20221121155020.1915166-3-stefanha@redhat.com>
 User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Mon, 21 Nov 2022 17:11:45 +0100
-Message-ID: <87o7t05ltq.fsf@redhat.com>
+Date: Mon, 21 Nov 2022 17:12:30 +0100
+Message-ID: <87leo45lsh.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,11 +90,24 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Mon, Nov 21 2022, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-> Suggested-by: Cornelia Huck <cohuck@redhat.com>
+> Since at least commit 6b8f1020540c27246277377aa2c3331ad2bfb160 ("virtio:
+> move host_features") the ->get_features() function has been called with
+> host_features as an argument.
+>
+> Some devices manually add host_features in ->get_features() although the
+> features argument already contains host_features. Make all devices
+> consistent by dropping the unnecessary code.
+>
+> Cc: Cornelia Huck <cohuck@redhat.com>
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  include/hw/virtio/virtio.h | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  hw/block/virtio-blk.c       | 3 ---
+>  hw/char/virtio-serial-bus.c | 1 -
+>  hw/net/virtio-net.c         | 3 ---
+>  hw/scsi/vhost-scsi-common.c | 3 ---
+>  hw/scsi/virtio-scsi.c       | 4 ----
+>  hw/virtio/virtio-balloon.c  | 2 --
+>  6 files changed, 16 deletions(-)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
