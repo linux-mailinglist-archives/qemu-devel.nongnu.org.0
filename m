@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C884632FF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D55632FF7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:46:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxFWS-0005xc-1x; Mon, 21 Nov 2022 17:44:16 -0500
+	id 1oxFYb-0007i0-NT; Mon, 21 Nov 2022 17:46:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oxFWP-0005sd-Hl; Mon, 21 Nov 2022 17:44:13 -0500
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oxFWK-0004Xx-D1; Mon, 21 Nov 2022 17:44:09 -0500
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-14279410bf4so13574958fac.8; 
- Mon, 21 Nov 2022 14:44:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KCi5TDmYQGnEKbAtZPaL/0BEzdgDAkNQrj9twbbXQjQ=;
- b=Ui4xQRXvMZNRNPfdZQYIhPUYXyOdjLLDvukqUeDRIm3OusXYwIyMZzfyoayzV5oEWA
- YNyKAe57N4x3KpPKlkfy29z7RftrCre0V3dIo3uB6+ZqivybiOPFN/WJXlHdj5qTvLw2
- CPA0clnk1OpwdHIxe7SK0q5EqHwtMMTkwtXKIijUXaVU2jKsslsXNzRyn2URgT8gelI7
- ZKY1hEctA/Iwdp6A9LwT017cgaRmBZXzXRagH4Qvsed67rLOsoTPDeRzD+n22wX1SXnd
- BFeihvMq2+O8GGIlMMEJOkfDihh+03/q25x2JLVo81+z+mU8ndOIvi/lAxTR/Z6X0EXJ
- C/Dw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxFYW-0007fM-Rh
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:46:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxFYU-0004zM-1U
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:46:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669070780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OGcYMvlxXlDEAU+H6Z6jwQrdClGLLvEelOnkofbS1bY=;
+ b=GvRe2Gv9aBaf89veEg+qFseFRhivYZKx2Z9SiEyeeM9ZxcKWKreY34URJYCRjAE/2NOMbY
+ KkshvEJXuCJm5Ig/w6xYW/fMsrlr8odq8wwC+1wZptOpTtMNX8hxAg7i5dnXmM1z7O0cxa
+ lpaYpNposa2TF9CzimMTNstauqlrkSw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-675-BiSz7FQpOcm45PJRqERsog-1; Mon, 21 Nov 2022 17:46:19 -0500
+X-MC-Unique: BiSz7FQpOcm45PJRqERsog-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h4-20020a1c2104000000b003d01b66fe65so2975516wmh.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 14:46:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KCi5TDmYQGnEKbAtZPaL/0BEzdgDAkNQrj9twbbXQjQ=;
- b=lW3E4rHcShmwkDij0EdTzeTy0w5Vi4aupP0EVJEJKE1s6KVEi0TcaFkR0iG9xoB0AO
- 7ffwOE91KzPBvbK46YqyJtI82UmZX7PcG+zAiugKMJS1KtKZaEqqZZ/rp1kEX6kdQgfH
- t3C8LI3oVpiocXmUKNo1htTewQjDYpogCZLWwKMAyRAaNBY0EyYS7Y/FORH12OnTQBEH
- BPl95zL6Vs3hvxAYACGRG2DPA6t2lWwM9sPV9FDJlhy1eSMLuNkjc4E8I9B/Zsk8eXJU
- DUgNkXz8wNX1dGKkNZRcp79sEBWtjbwwOmsL4zPyB1LT3CMrBFXq5pNCZ27G2XPgGafm
- LjCg==
-X-Gm-Message-State: ANoB5plFDnDaolfnrFpruSLwRkyQPZtVPBEe5uu+b6PUAmQbzHThZvQc
- d+WzU9YQpdBzVD9rZrGREfMe/9X5x1c=
-X-Google-Smtp-Source: AA0mqf7bBrqibEXKCGBdsYGPhUvG0uvinDEm0pSm2CnGo1tofLCi3k5HAV9utTd2HnVPtISRD3kAlg==
-X-Received: by 2002:a05:6870:3c87:b0:13b:8822:bfbb with SMTP id
- gl7-20020a0568703c8700b0013b8822bfbbmr1610901oab.259.1669070646153; 
- Mon, 21 Nov 2022 14:44:06 -0800 (PST)
-Received: from [192.168.10.102] ([191.19.173.155])
- by smtp.gmail.com with ESMTPSA id
- f11-20020a4ad80b000000b0049be423151asm4628976oov.34.2022.11.21.14.44.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 14:44:05 -0800 (PST)
-Message-ID: <5d1271b4-23d7-bcbe-e52a-3ece5b809609@gmail.com>
-Date: Mon, 21 Nov 2022 19:44:02 -0300
+ bh=OGcYMvlxXlDEAU+H6Z6jwQrdClGLLvEelOnkofbS1bY=;
+ b=Hqn+H7bjws3MRqLFDXN+u1wiMivCcPuLA4oxVMtOEL9vXkHJq1VYkXcQ+lEOrk+V0G
+ hYl2ue3j7nuGhnRL4pl41TVrUKyzFNKBa8x05oG/ACXqn3xCJfHNjf3K2CMD59OLn3qy
+ FrII9bF4j24K8npnk6Vb+3nwcSz+N88lmjzvAs5uPXkeC/5x8b6LlbB4azSvomn4E2cS
+ hmSCfZgTPZA7e0sYbxuEkyX6zAwlbhY22MvhsbiVrQsyMFLmlA3Pd5xzircOwGR8hhdr
+ xKbzfQXAhnrNmwABZOv4kfA/HlFrP0er/UsUNz6qbtjJMHQYfmpA+g9AwvrNLvj37G8q
+ DE1w==
+X-Gm-Message-State: ANoB5pnHiiBfIwvc3GGO5MiPsqGr3tvIFPN9BXqZwWbYSSg2NArC50LB
+ WTBhal1g6obVeOb8txDe2aStbokrLJUn4+JD4km8GHuljijktXRV1D95UD5bggIRqQscBJyPBWy
+ tgp2Gf9MbJkQjcXI=
+X-Received: by 2002:a05:6000:181:b0:241:c6f9:3e5a with SMTP id
+ p1-20020a056000018100b00241c6f93e5amr3073181wrx.157.1669070778267; 
+ Mon, 21 Nov 2022 14:46:18 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4+SaFMgPzIIxsww/YeBKjuiqa30LdWacfyqNsC6n4MYygPk9N95J5/EQ9wZz3xGBxbLNe8WA==
+X-Received: by 2002:a05:6000:181:b0:241:c6f9:3e5a with SMTP id
+ p1-20020a056000018100b00241c6f93e5amr3073168wrx.157.1669070778017; 
+ Mon, 21 Nov 2022 14:46:18 -0800 (PST)
+Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
+ r4-20020a05600c35c400b003c6b874a0dfsm17732431wmq.14.2022.11.21.14.46.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Nov 2022 14:46:17 -0800 (PST)
+Date: Mon, 21 Nov 2022 17:46:14 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [RFC PATCH] include/hw: attempt to document VirtIO feature
+ variables (!DISCUSS!)
+Message-ID: <20221121173800-mutt-send-email-mst@kernel.org>
+References: <20221121144921.2830330-1-alex.bennee@linaro.org>
+ <CAJSP0QU72EnMQRbHpZ812QpszkjEeStA1R2Jic1VvCKBFas8_g@mail.gmail.com>
+ <87a64kcdpk.fsf@linaro.org>
+ <CAJSP0QW-w45JFyrsMztN_e2rqwmJrn+M17kgi103XuY1RGD1Eg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH for-8.0] MAINTAINERS: downgrade PPC KVM/TCG CPUs and
- pSeries to 'Odd Fixes'
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20221117153218.182835-1-danielhb413@gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221117153218.182835-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAJSP0QW-w45JFyrsMztN_e2rqwmJrn+M17kgi103XuY1RGD1Eg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,58 +101,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thanks everyone! Queued for 8.0.
-
-
-Daniel
-
-On 11/17/22 12:32, Daniel Henrique Barboza wrote:
-> The maintainer is no longer being paid to maintain these components. All
-> maintainership work is being done in his personal time since the middle
-> of the 7.2 development cycle.
+On Mon, Nov 21, 2022 at 04:51:40PM -0500, Stefan Hajnoczi wrote:
+> On Mon, 21 Nov 2022 at 14:25, Alex Bennée <alex.bennee@linaro.org> wrote:
+> > Stefan Hajnoczi <stefanha@gmail.com> writes:
+> >
+> > > On Mon, 21 Nov 2022 at 09:49, Alex Bennée <alex.bennee@linaro.org> wrote:
+> > >>
+> > >> We have a bunch of variables associated with the device and the vhost
+> > >> backend which are used inconsistently throughout the code base. Lets
+> > >> start trying to bring some order by agreeing what each variable is
+> > >> for. Some cases to address (vho/vio renames to avoid ambiguous results
+> > >> while grepping):
+> > >>
+> > >> virtio->guest_features is mostly the live status of the features field
+> > >> and read and written as such by the guest. It does get manipulated by
+> > >> the various load state via virtio_set_features_nocheck(vdev, val) for
+> > >> migration.
+> > >>
+> > >> virtio->host_features is the result of vcd->get_features() most of the
+> > >> time and for vhost-user devices eventually ends up down at the vhost
+> > >> get features message:
+> > >>
+> > >>   ./hw/virtio/virtio-bus.c:66:    vdev->host_features = vdc->get_features(vdev, vdev->host_features,
+> > >>
+> > >> However virtio-net does a lot of direct modification of it:
+> > >>
+> > >>   ./hw/net/virtio-net.c:3517:        n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
+> > >>   ./hw/net/virtio-net.c:3529:        n->host_features |= (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
+> > >>   ./hw/net/virtio-net.c:3539:        n->host_features |= (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
+> > >>   ./hw/net/virtio-net.c:3548:        n->host_features |= (1ULL << VIRTIO_NET_F_STANDBY);
+> > >>   ./hw/virtio/virtio.c:3438:    bool bad = (val & ~(vdev->host_features)) != 0;
+> > >>
+> > >> And we have this case which propagates the global QMP values for the
+> > >> device to the host features. This causes the resent regression of
+> > >> vhost-user-sock due to 69e1c14aa2 (virtio: core: vq reset feature
+> > >> negotation support) because the reset feature was rejected by the
+> > >> vhost-user backend causing it to freeze:
+> > >>
+> > >>   ./hw/virtio/virtio.c:4667:    status->host_features = qmp_decode_features(vdev->device_id,
+> > >>
+> > >> virtio->backend_features is only used by virtio-net to stash the
+> > >> vhost_net_get_features features for checking later:
+> > >>
+> > >>     features = vhost_net_get_features(get_vhost_net(nc->peer), features);
+> > >>     vdev->vio_backend_features = features;
+> > >>
+> > >> and:
+> > >>
+> > >>     if (n->mtu_bypass_backend &&
+> > >>             !virtio_has_feature(vdev->vio_backend_features, VIRTIO_NET_F_MTU)) {
+> > >>         features &= ~(1ULL << VIRTIO_NET_F_MTU);
+> > >>     }
+> > >>
+> > >> vhost_dev->acked_features seems to mostly reflect
+> > >> virtio->guest_features (but where in the negotiation cycle?). Except
+> > >> for vhost_net where is becomes vhost_dev->backend_features
+> > >>
+> > >>   ./backends/vhost-user.c:87:    b->dev.vho_acked_features = b->vdev->guest_features;
+> > >>   ./hw/block/vhost-user-blk.c:149:    s->dev.vho_acked_features = vdev->guest_features;
+> > >>   ./hw/net/vhost_net.c:132:    net->dev.vho_acked_features = net->dev.vho_backend_features;
+> > >>   ./hw/scsi/vhost-scsi-common.c:53:    vsc->dev.vho_acked_features = vdev->guest_features;
+> > >>   ./hw/virtio/vhost-user-fs.c:77:    fs->vhost_dev.vho_acked_features = vdev->guest_features;
+> > >>   ./hw/virtio/vhost-user-i2c.c:46:    i2c->vhost_dev.vho_acked_features = vdev->guest_features;
+> > >>   ./hw/virtio/vhost-user-rng.c:44:    rng->vhost_dev.vho_acked_features = vdev->guest_features;
+> > >>   ./hw/virtio/vhost-vsock-common.c:71:    vvc->vhost_dev.vho_acked_features = vdev->guest_features;
+> > >>   ./hw/virtio/vhost.c:1631:            hdev->vho_acked_features |= bit_mask;
+> > >>
+> > >> vhost_dev->backend_features has become overloaded with two use cases:
+> > >>
+> > >>   ./hw/block/vhost-user-blk.c:336:    s->dev.vho_backend_features = 0;
+> > >>   ./hw/net/vhost_net.c:180:        net->dev.vho_backend_features = qemu_has_vnet_hdr(options->net_backend)
+> > >>   ./hw/net/vhost_net.c:185:        net->dev.vho_backend_features = 0;
+> > >>   ./hw/scsi/vhost-scsi.c:220:    vsc->dev.vho_backend_features = 0;
+> > >>   ./hw/scsi/vhost-user-scsi.c:121:    vsc->dev.vho_backend_features = 0;
+> > >>   ./hw/virtio/vhost-user.c:2083:        dev->vho_backend_features |= 1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
+> > >> One use for saving the availability of a vhost-net feature and another
+> > >> for ensuring we add the protocol feature negotiation bit when querying
+> > >> a vhost backend. Maybe the places where this is queried should really
+> > >> be bools that can be queried in the appropriate places?
+> > >>
+> > >> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > >> Cc: Stefano Garzarella <sgarzare@redhat.com>
+> > >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> > >> Cc: Stefan Hajnoczi <stefanha@gmail.com>
+> > >> ---
+> > >>  include/hw/virtio/vhost.h  | 18 +++++++++++++++---
+> > >>  include/hw/virtio/virtio.h | 20 +++++++++++++++++++-
+> > >>  2 files changed, 34 insertions(+), 4 deletions(-)
+> > >>
+> > >> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> > >> index 353252ac3e..502aa5677a 100644
+> > >> --- a/include/hw/virtio/vhost.h
+> > >> +++ b/include/hw/virtio/vhost.h
+> > >> @@ -88,13 +88,25 @@ struct vhost_dev {
+> > >>      int vq_index_end;
+> > >>      /* if non-zero, minimum required value for max_queues */
+> > >>      int num_queues;
+> > >> +    /**
+> > >> +     * vhost feature handling requires matching the feature set
+> > >> +     * offered by a backend which may be a subset of the total
+> > >> +     * features eventually offered to the guest.
+> > >> +     *
+> > >> +     * @features: available features provided by the backend
+> > >> +     * @acked_features: final set of negotiated features with the
+> > >> +     * front-end driver
+> > >> +     * @backend_features: additional feature bits applied during negotiation
+> > >
+> > > What does this mean?
+> >
+> > Well practically it is currently either applying
+> > VHOST_USER_F_PROTOCOL_FEATURES to the vhost_user_set_features() or
+> > storing VHOST_NET_F_VIRTIO_NET_HDR which I think eventually gets applied
+> > to:
+> >
+> >   net->dev.acked_features = net->dev.backend_features;
+> >
+> > I suspect both could be dropped and handled as flags and applied at the
+> > destination.
 > 
-> Change the status of PPC KVM CPUs, PPC TCG CPUs and the pSeries machine
-> to 'Odd Fixes', reflecting that the maintainer no longer has exclusive
-> time to dedicate to them. It'll also (hopefully) keep expectations under
-> check when/if these components are used in a customer product.
+> I noticed there is also a VirtIODevice::backend_features field that is
+> barely used. virtio_net stashes vhost_net backend feature bits in
+> there, but I think the code would be clearer if it was rewritten
+> without the VirtIODevice::backend_features field.
 > 
-> Cc: CÃ©dric Le Goater <clg@kaod.org>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   MAINTAINERS | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+> Having both VirtIODevice and struct vhost_dev fields with the same
+> name is confusing. :/
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index be151f0024..1d43153e5f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -264,7 +264,7 @@ R: CÃ©dric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
-> -S: Maintained
-> +S: Odd Fixes
->   F: target/ppc/
->   F: hw/ppc/ppc.c
->   F: hw/ppc/ppc_booke.c
-> @@ -389,7 +389,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
->   R: CÃ©dric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
-> -S: Maintained
-> +S: Odd Fixes
->   F: target/ppc/kvm.c
->   
->   S390 KVM CPUs
-> @@ -1367,7 +1367,7 @@ R: CÃ©dric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
-> -S: Maintained
-> +S: Odd Fixes
->   F: hw/*/spapr*
->   F: include/hw/*/spapr*
->   F: hw/*/xics*
+> >
+> > >
+> > >> +     *
+> > >> +     * Finally the @protocol_features is the final protocal feature
+> > >
+> > > s/protocal/protocol/
+> > >
+> > > All the other fields are VIRTIO feature bits and this field holds the
+> > > VHOST_USER_SET_FEATURES feature bits?
+> >
+> > No these are the protocol features so a totally separate set of feature
+> > bits for the vhost user protocol. I don't think these apply to kernel
+> > vhost stuff?
+> 
+> Oh, I see. Only vhost-user has this concept.
+> 
+> How about "the vhost-user VHOST_USER_SET_PROTOCOL_FEATURES bits"?
+> 
+> >
+> > >
+> > >> +     * set negotiated between QEMU and the backend (after
+> > >> +     * VHOST_USER_F_PROTOCOL_FEATURES is negotiated)
+> > >> +     */
+> > >>      uint64_t features;
+> > >> -    /** @acked_features: final set of negotiated features */
+> > >>      uint64_t acked_features;
+> > >> -    /** @backend_features: backend specific feature bits */
+> > >>      uint64_t backend_features;
+> > >> -    /** @protocol_features: final negotiated protocol features */
+> > >>      uint64_t protocol_features;
+> > >> +
+> > >>      uint64_t max_queues;
+> > >>      uint64_t backend_cap;
+> > >>      /* @started: is the vhost device started? */
+> > >> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > >> index a973811cbf..9939a0a632 100644
+> > >> --- a/include/hw/virtio/virtio.h
+> > >> +++ b/include/hw/virtio/virtio.h
+> > >> @@ -93,6 +93,12 @@ enum virtio_device_endian {
+> > >>      VIRTIO_DEVICE_ENDIAN_BIG,
+> > >>  };
+> > >>
+> > >> +/**
+> > >> + * struct VirtIODevice - common VirtIO structure
+> > >> + * @name: name of the device
+> > >> + * @status: VirtIO Device Status field
+> > >> + *
+> > >> + */
+> > >>  struct VirtIODevice
+> > >>  {
+> > >>      DeviceState parent_obj;
+> > >> @@ -100,9 +106,21 @@ struct VirtIODevice
+> > >>      uint8_t status;
+> > >>      uint8_t isr;
+> > >>      uint16_t queue_sel;
+> > >> -    uint64_t guest_features;
+> > >> +    /**
+> > >> +     * These fields represent a set of VirtIO features at various
+> > >> +     * levels of the stack. @host_features indicates the complete
+> > >> +     * feature set the VirtIO device can offer to the driver.
+> > >> +     * @guest_features indicates which features the VirtIO driver can
+> > >> +     * support.
+> > >
+> > > The device never knows the features that the driver can support, so
+> > > this sentence is ambiguous/incorrect. The device only knows the
+> > > features that the driver writes during negotiation, which the spec
+> > > says is a subset of host_features.
+> > >
+> > > Maybe "indicates the features that driver wrote"?
+> > >
+> > > I noticed that this field is assigned even when the guest writes
+> > > invalid feature bits.
+> >
+> > Should we fix that? The negotiation sequence should be guest read, mask
+> > and write back so the value should be validated against host_features?
+> 
+> I think the negotiation/state machine is okay. Invalid features will
+> not be accepted (negotiation fails).
+> 
+> It's just weird that an invalid input from the guest can be stored in
+> guest_features. Hopefully nothing trusts the guest_features value
+> without first checking that negotiation succeeded (I haven't checked
+> the code).
+> 
+> Stefan
+
+We can add more validation in virtio_set_features but I don't think
+ultimately it matters much.
+
+-- 
+MST
+
 
