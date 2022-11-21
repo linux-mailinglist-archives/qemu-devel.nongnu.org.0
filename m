@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15861632E69
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F918632E6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:08:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxDwl-00015P-C0; Mon, 21 Nov 2022 16:03:19 -0500
+	id 1oxE0z-0002Oe-Kj; Mon, 21 Nov 2022 16:07:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oxDwj-00014n-AC
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:03:17 -0500
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d])
+ id 1oxE0c-0002OE-HZ
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:07:18 -0500
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oxDwh-0002wf-Pw
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:03:17 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id k84so15061333ybk.3
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:03:15 -0800 (PST)
+ id 1oxE0a-0003f9-I3
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:07:18 -0500
+Received: by mail-yb1-xb36.google.com with SMTP id k84so15072981ybk.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:07:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=p2sV52KeZuavoir9vz2DMrqTlJqoJ4d6GrbK+gwYvEw=;
- b=NYLQK1Mk59kaABXomFYSZPvAeGlLDCCpq0RRNB4fVuT/j/xxo74hl5CuT2sWz+/ff6
- t95fBjRGDJecGKkRP7XDygdOdFd8VEtBGvSDFe/95nKyWYkNMV6m0wLXaYR+x88dBlLA
- /rcEg1pIQSEaL7A9xzlGP/Kwo/r/o7hOHdB2+dN6E9YX2dxMyMluKw4hIIVsqgHS48I8
- LpsoSsRuJRl6ctUsrV76GTAPtKyYR4IBXlSH6GaSpjYzrG4ZUEILRAja0HMKK/jJMY4p
- mLYlrHTSGFWSox9gJEjwXwaudQMbLcHTdH9vr0pcqqjV8jRja9EqizHoxBNPuM0SNJn8
- 2Ghg==
+ bh=pLJFZ65K1JLNeVOTqsNXL3Z53xyT42aKUYHt2EY1/kg=;
+ b=YCk+N1ULgAm9+GRwdhQNPSklFU/Xesdumv1OjlJ0P+G+viTofKLGCDjmGoHXAdfO08
+ ChDFdCtiRON/S68fUtAotTaZAUHVzYaUcSfoYLwuc0HeLAuhJkBT+8JjkxnTq+fV3+B1
+ lqUputj8CoY6DO8rApdEqjUaeX1qEnGt9QtGGDXDrmQKyTEt00z+ZxkV61BHEjo5jld0
+ ABtjQU9U5JhdTwDH9SwS08c2AOvkcQvv0NhKkTPd6yx0Fet/+fV/ZWLmea+GO14LF4l/
+ 9W4WUubZFdDw1XpDX3LRl4MMP2r+j7OU8M5kOpa4rqy8OwbopEsE5QmJ8iRt3WHEsSXk
+ XawQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=p2sV52KeZuavoir9vz2DMrqTlJqoJ4d6GrbK+gwYvEw=;
- b=3GeHEDjucRWV/U0XNN2uO4u021T/Pa7Oj8+L15nC11IQ/O+deKrD8YD7+X4uJ8VCD2
- jmYEAd7RVnBK2UHBi8ABRv6pkVXjJcnhdJVwrmUskPDOYW27z4sS8CUQ6B4RvZltjmFh
- tEFVKT8lL4f5jRWFco4J7jTpxJntfJOAAvyiO88HnQrUepLnPU8mbjIH4bvnr8XgR5GM
- zHl9mYjN/YexDrB8kepH8DMYdEEhMOv19IQEkxY61nZCG1Cb7QHcgnkLoHFxEUT8EbyU
- QZEfJA29tLE//QgI86Yt7M3KxTsHHNQEY5S6PJ9hXqCZyFsHP4sZ8gd4K8VCHw+GfD2X
- HocQ==
-X-Gm-Message-State: ANoB5pmSMApCuWE+TZTemm8hFYTmK7DB0SqsF3jqXI5l0IyaofWy80K4
- QG+XMDZnuqDLFd/bKjeoohLZH4pURAgaiCz32hY=
-X-Google-Smtp-Source: AA0mqf7xSkEDwp91Tz38FYyH67PL8TK+ybi4aSVeDcbKwE+0IFdldVOHxPGIVgkO9s15lSOE6xhrCJVxQRu6wlkWmEQ=
-X-Received: by 2002:a25:cf8d:0:b0:6d7:5e6f:2a46 with SMTP id
- f135-20020a25cf8d000000b006d75e6f2a46mr3127113ybg.118.1669064594254; Mon, 21
- Nov 2022 13:03:14 -0800 (PST)
+ bh=pLJFZ65K1JLNeVOTqsNXL3Z53xyT42aKUYHt2EY1/kg=;
+ b=IH8q1WvN+B4BeY6wPvr+SX1kF/bimYyGXm+AXUvFIaFQ+FTKB3zjJf1puF3/VJ9KcO
+ DkY0iWKmoL37fZCOZ4LueN8TAH3BGW+TNop6f4HZE9CoY5q5uvzi96xmsiFFeTvN8GGg
+ SlnbKJhxyFc/FOamwpJymPA6nvS3qNPxBKiQff4+xBfXrubM/qNqaqQpraQ11aDv2lT3
+ f9FBa6y4rqLn7C2z6Lw9Q18vlcus/c4ZYbs/QRdbDrkK6D+DkWZe8vXajQTB1RT/WLAN
+ fi7Z93Hysz/7I4vGZ/AftovxNhMYycJcFqkVL6ZSyopXcgv68xC4lieTW3oCwv1TDMcE
+ 1pdA==
+X-Gm-Message-State: ANoB5plQLZIosvZvIsCIKoektARQmL7oueemRySWws7Njwm+pA1qpLy+
+ yvZ6wqNRrhylDwoA6XFZYGKXOeLW/jrl0R1scMzlrZD/m6c=
+X-Google-Smtp-Source: AA0mqf5j9Y5QsgRwEHIbYYLOtJAuolfLhY8gk3CTzWIGTaIhqD2Y91r6S1Ykc/85RxxuVqXF20LdJEElUPqUrzobfPk=
+X-Received: by 2002:a25:af54:0:b0:6dc:e3ee:3e60 with SMTP id
+ c20-20020a25af54000000b006dce3ee3e60mr4530047ybj.58.1669064835439; Mon, 21
+ Nov 2022 13:07:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20221121162132.00007540@huawei.com>
- <CAJSP0QVVt9911ZxCq9K5QeOBX2fhKSs372Qzqvg694-QkDnqGQ@mail.gmail.com>
- <20221121172919.000039f0@huawei.com>
-In-Reply-To: <20221121172919.000039f0@huawei.com>
+References: <20221121194240.149268-1-thuth@redhat.com>
+In-Reply-To: <20221121194240.149268-1-thuth@redhat.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 21 Nov 2022 16:03:02 -0500
-Message-ID: <CAJSP0QXEXEms32eHM39d9B+srpcJ3XguPFZtPO9E4=X_pt+ODQ@mail.gmail.com>
-Subject: Re: Null dereference in bdrv_unregister_buf() probably
- memory-backend-file related?
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- linuxarm@huawei.com, 
- David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Date: Mon, 21 Nov 2022 16:07:03 -0500
+Message-ID: <CAJSP0QXC9+N5NsGEJeqxhGLpOFBTRDcWmeh3-pJMHNTaPaENZA@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest: Decrease the amount of output from the
+ qom-test
+To: Thomas Huth <thuth@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,79 +85,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 21 Nov 2022 at 12:29, Jonathan Cameron
-<Jonathan.Cameron@huawei.com> wrote:
+On Mon, 21 Nov 2022 at 14:44, Thomas Huth <thuth@redhat.com> wrote:
 >
-> On Mon, 21 Nov 2022 11:47:48 -0500
-> Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> The logs in the gitlab-CI have a size constraint, and sometimes
+> we already hit this limit. The biggest part of the log then seems
+> to be filled by the qom-test, so we should decrease the size of
+> the output - which can be done easily by not printing the path
+> for each property, since the path has already been logged at the
+> beginning of each node that we handle here.
 >
-> > On Mon, 21 Nov 2022 at 11:22, Jonathan Cameron via
-> > <qemu-devel@nongnu.org> wrote:
-> > >
-> > > First CC list is a guess as I haven't managed to root cause where things are
-> > > going wrong yet.
-> > >
-> > > Originally hit this whilst rebasing some CXL patches on v7.2.0-rc1.
-> > > CXL makes extensive use of memory-backends and most my tests happen
-> > > to use memory-backend-file
-> > >
-> > > Issue seen on arm64 and x86 though helpfully on x86 the crash appears in an entirely
-> > > unrelated location (though the 'fix' works).
-> > >
-> > > Fairly minimal test command line.
-> > >
-> > > qemu-system-aarch64 \
-> > >     -M virt  \
-> > >     -drive if=none,file=full.qcow2,format=qcow2,id=hd \
-> > >     -device virtio-blk,drive=hd \
-> > >     -object memory-backend-file,id=cxl-mem1,mem-path=/tmp/cxltest.raw,size=256M,align=256M \
-> > >
-> > > Powerdown the machine or ctrl-c during boot gives a segfault.
-> > > On arm64 it was in a stable location that made at least some sense in that
-> > > bs in the below snippet is NULL.
-> > >
-> > > I added the follow work around and the segfault goes away...
-> > >
-> > >  [PATCH] temp
-> > >
-> > > ---
-> > >  block/io.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/block/io.c b/block/io.c
-> > > index b9424024f9..750e1366aa 100644
-> > > --- a/block/io.c
-> > > +++ b/block/io.c
-> > > @@ -3324,6 +3324,9 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
-> > >  {
-> > >      BdrvChild *child;
-> > >
-> > > +    if (!bs) {
-> > > +        return;
-> > > +    }
-> > >      GLOBAL_STATE_CODE();
-> > >      if (bs->drv && bs->drv->bdrv_unregister_buf) {
-> > >          bs->drv->bdrv_unregister_buf(bs, host, size);
-> >
-> > bdrv_*() APIs generally don't accept NULL bs arguments.
-> >
-> > I think blk_unregister_buf() needs to handle the blk_bs() NULL return
-> > value. Can you confirm that the parent function is
-> > blk_unregister_buf()?
-> >
-> > This bug may have been introduced by commit baf422684d73 ("virtio-blk:
-> > use BDRV_REQ_REGISTERED_BUF optimization hint").
-> Got it in one. I just bisected to exactly that patch
+> However, if we omit the path, we should make sure to not recurse
+> into child nodes in between, so that it is clear to which node
+> each property belongs. Thus store the children and links in a
+> temporary list and recurse only at the end of each node, when
+> all properties have already been printed.
 >
-> + using the below change indeed works just as well as the above.
-> Now I'd send this as a patch, but I don't yet sufficiently understand what that change you
-> referenced did to break things Seems it registered a notifier that is getting
-> called for all ram blocks, not just the one virtio-blk ones?
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  See e.g. here for a log that got too big:
+>  https://gitlab.com/qemu-project/qemu/-/jobs/3355901224
 >
-> Perhaps better if you send a fix with an explanation :)
+>  tests/qtest/qom-test.c | 22 +++++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
 
-Sure, no problem. I have reproduced the bug and will send a patch.
+Nice!
 
-Thanks,
-Stefan
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
