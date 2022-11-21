@@ -2,96 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93662631DE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 11:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50AAE631E42
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 11:26:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox3li-0003h1-Bq; Mon, 21 Nov 2022 05:11:14 -0500
+	id 1ox3yx-0005lA-Q5; Mon, 21 Nov 2022 05:24:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ox3lg-0003g4-Q0
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:11:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ox3yw-0005l1-A8
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:24:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ox3ld-0004Vk-G2
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:11:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ox3ym-0003NY-1z
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:24:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669025468;
+ s=mimecast20190719; t=1669026281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=AG1z4FQ1h8Ayn5Ce8rylxXckUaDgN+yFy6hsXsbYx+o=;
- b=DrqrQ7RJtrW2Sq+UxhlqIfCSkZ6ibPG0N0/x3bb7DqNWPXmb4BRiiuuKoxpMso7hI72sFS
- LhXjXHYlk/69w1UvCxRjuHs1t0B0kXFQejGddXqX3sO5q7sBTijuooOeOKum9MsLL+7BpI
- s1ofGUjSt9CM0hacHRJiA0i8+cJtQXI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-216-53Ga4To9MfaZq_Iz1loHAA-1; Mon, 21 Nov 2022 05:11:07 -0500
-X-MC-Unique: 53Ga4To9MfaZq_Iz1loHAA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v12-20020adfa1cc000000b00236eaee7197so3025528wrv.0
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 02:11:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AG1z4FQ1h8Ayn5Ce8rylxXckUaDgN+yFy6hsXsbYx+o=;
- b=LxsZWcDfjS8j2uN7W7hBzpR498QaRMNMxxhoiJUIX7fcCsRvWaB6bEXebbz9RZyoit
- YBnKKijXayNj773BEStk1wQFO6CZNCdCcIgFrhaU5kKh+gh5t282b5lKan1QBmvdt/AV
- 0OAC7oT7UdXM6thTCTS8W797KkenuNz5VPzB5G0m/MIDolTUgFpAznLj2pb4ximBtD80
- UP+23WYlgeuF+kkeDZufH+zgoRu7kXUCl7NsVkYARmMX/03PChcRgf+aXTw5f5drCjbO
- jdY9UVZFzPZJL8/9McLxJX6EW3ctX/NbwH+zD1Jf0s+BUNqXSXn2HWPoDOm0qdubQ1ix
- PMYA==
-X-Gm-Message-State: ANoB5pkGmaFXTO9Sz/Kpwral4HQ2HUF02MrjBTiUcrH+PUAM47fM+vvj
- KvEFZLpNgZCF6b2TLvNSPQLTqJvH7jfQ6Lr1HUrF8/JlYbfe7U1sfVOHH2HtiGIPhw0KHvXKWXS
- dmpMQ+YpuD5YsiCp4v8r8e1bVynNQeGXcZko+TDjkNkHsrMyVd1laSQB+dNO5cy9FHpk=
-X-Received: by 2002:a05:600c:3647:b0:3b4:c00d:2329 with SMTP id
- y7-20020a05600c364700b003b4c00d2329mr1544170wmq.124.1669025464667; 
- Mon, 21 Nov 2022 02:11:04 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6PSqJ+sAT7ZlkA6pR3ibZ+7QaagTOYod4Iewo7fpO1ufmq8YPnQBEQDslVJ0Vl3pSJxA3jFg==
-X-Received: by 2002:a05:600c:3647:b0:3b4:c00d:2329 with SMTP id
- y7-20020a05600c364700b003b4c00d2329mr1544121wmq.124.1669025464265; 
- Mon, 21 Nov 2022 02:11:04 -0800 (PST)
-Received: from step1.redhat.com (host-82-53-134-234.retail.telecomitalia.it.
- [82.53.134.234]) by smtp.gmail.com with ESMTPSA id
- v15-20020a05600c444f00b003b4cba4ef71sm18719302wmn.41.2022.11.21.02.11.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 02:11:03 -0800 (PST)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, virtio-fs@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, kangjie.xu@linux.alibaba.com,
- Jason Wang <jasowang@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH] vhost: mask VIRTIO_F_RING_RESET for vhost and vhost-user
- devices
-Date: Mon, 21 Nov 2022 11:11:01 +0100
-Message-Id: <20221121101101.29400-1-sgarzare@redhat.com>
-X-Mailer: git-send-email 2.38.1
+ bh=JZ1M3/i8vZEyCnfZk/9xMaO6/HnHzqfwvo0bbIwNYow=;
+ b=gY/TEUXXqwbaqq54v1TLWWDyPtEZUtwjHX3WUexFU+JT4b8PBd5iLsEnQcRiE7BPf//b3Z
+ +HKssFTK31afmqO84fY4fXZCRiMobYhCivAiTwmfm9u03vl3HomzXSyQOfcjQtrCSumq++
+ WQT9+EWIPTEfK1ktYqmctRrFJm8qK34=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-207-aQPiABZgOT-bJ4gscScvVg-1; Mon, 21 Nov 2022 05:24:39 -0500
+X-MC-Unique: aQPiABZgOT-bJ4gscScvVg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69590101A528;
+ Mon, 21 Nov 2022 10:24:39 +0000 (UTC)
+Received: from thuth.com (ovpn-192-119.brq.redhat.com [10.40.192.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07F6640C6EC2;
+ Mon, 21 Nov 2022 10:24:37 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] tests/avocado: Update the URLs of the advent calendar images
+Date: Mon, 21 Nov 2022 11:24:36 +0100
+Message-Id: <20221121102436.78635-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,191 +73,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
-enabled VIRTIO_F_RING_RESET by default for all virtio devices.
+The qemu-advent-calendar.org server will be decommissioned soon.
+I've mirrored the images that we use for the QEMU CI to gitlab,
+so update their URLs to point to the new location.
 
-This feature is not currently emulated by QEMU, so for vhost and
-vhost-user devices we need to make sure it is supported by the offloaded
-device emulation (in-kernel or in another process).
-To do this we need to add VIRTIO_F_RING_RESET to the features bitmap
-passed to vhost_get_features(). This way it will be masked if the device
-does not support it.
-
-This issue was initially discovered with vhost-vsock and vhost-user-vsock,
-and then also tested with vhost-user-rng which confirmed the same issue.
-They fail when sending features through VHOST_SET_FEATURES ioctl or
-VHOST_USER_SET_FEATURES message, since VIRTIO_F_RING_RESET is negotiated
-by the guest (Linux >= v6.0), but not supported by the device.
-
-Fixes: 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1318
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
+ tests/avocado/boot_linux_console.py     |  4 +--
+ tests/avocado/machine_arm_canona1100.py |  4 +--
+ tests/avocado/machine_microblaze.py     |  4 +--
+ tests/avocado/machine_sparc64_sun4u.py  |  4 +--
+ tests/avocado/ppc_mpc8544ds.py          |  6 ++--
+ tests/avocado/ppc_virtex_ml507.py       |  6 ++--
+ tests/avocado/replay_kernel.py          | 40 ++++++++++++-------------
+ 7 files changed, 34 insertions(+), 34 deletions(-)
 
-To prevent this problem in the future, perhaps we should provide a function
-(e.g. vhost_device_get_features) where we go to mask all non-device-specific
-features (e.g VIRTIO_F_*, VIRTIO_RING_F_*) that are not emulated by QEMU but
-we expect them to be emulated by the vhost or vhost-user devices.
-Then we can call it in all .get_features callbacks just before return the
-features.
-
-What do you think?
-
-But maybe better to do that for the next release, I will send an RFC.
-
-Thanks,
-Stefano
----
- hw/block/vhost-user-blk.c      |  1 +
- hw/net/vhost_net.c             |  1 +
- hw/scsi/vhost-scsi.c           |  1 +
- hw/scsi/vhost-user-scsi.c      |  1 +
- hw/virtio/vhost-user-fs.c      |  1 +
- hw/virtio/vhost-user-gpio.c    |  1 +
- hw/virtio/vhost-user-i2c.c     |  1 +
- hw/virtio/vhost-user-rng.c     | 11 +++++++++--
- hw/virtio/vhost-vsock-common.c |  1 +
- net/vhost-vdpa.c               |  1 +
- 10 files changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 16ad400889..0d5190accf 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -52,6 +52,7 @@ static const int user_feature_bits[] = {
-     VIRTIO_F_NOTIFY_ON_EMPTY,
-     VIRTIO_F_RING_PACKED,
-     VIRTIO_F_IOMMU_PLATFORM,
-+    VIRTIO_F_RING_RESET,
-     VHOST_INVALID_FEATURE_BIT
- };
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 4c9d551f47..f3e6f44ae9 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -1029,8 +1029,8 @@ def test_m68k_q800(self):
+         self.wait_for_console_pattern(console_pattern)
  
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index feda448878..26e4930676 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -75,6 +75,7 @@ static const int user_feature_bits[] = {
-     VIRTIO_NET_F_MTU,
-     VIRTIO_F_IOMMU_PLATFORM,
-     VIRTIO_F_RING_PACKED,
-+    VIRTIO_F_RING_RESET,
-     VIRTIO_NET_F_RSS,
-     VIRTIO_NET_F_HASH_REPORT,
+     def do_test_advcal_2018(self, day, tar_hash, kernel_name, console=0):
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day' + day + '.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day' + day + '.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+         self.vm.set_console(console_index=console)
+diff --git a/tests/avocado/machine_arm_canona1100.py b/tests/avocado/machine_arm_canona1100.py
+index 182a0b0513..a42d8b0f2b 100644
+--- a/tests/avocado/machine_arm_canona1100.py
++++ b/tests/avocado/machine_arm_canona1100.py
+@@ -23,8 +23,8 @@ def test_arm_canona1100(self):
+         :avocado: tags=machine:canon-a1100
+         :avocado: tags=device:pflash_cfi02
+         """
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day18.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day18.tar.xz')
+         tar_hash = '068b5fc4242b29381acee94713509f8a876e9db6'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+diff --git a/tests/avocado/machine_microblaze.py b/tests/avocado/machine_microblaze.py
+index 4928920f96..8d0efff30d 100644
+--- a/tests/avocado/machine_microblaze.py
++++ b/tests/avocado/machine_microblaze.py
+@@ -19,8 +19,8 @@ def test_microblaze_s3adsp1800(self):
+         :avocado: tags=machine:petalogix-s3adsp1800
+         """
  
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index bdf337a7a2..6a0fd0dfb1 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -38,6 +38,7 @@ static const int kernel_feature_bits[] = {
-     VIRTIO_RING_F_INDIRECT_DESC,
-     VIRTIO_RING_F_EVENT_IDX,
-     VIRTIO_SCSI_F_HOTPLUG,
-+    VIRTIO_F_RING_RESET,
-     VHOST_INVALID_FEATURE_BIT
- };
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day17.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day17.tar.xz')
+         tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+diff --git a/tests/avocado/machine_sparc64_sun4u.py b/tests/avocado/machine_sparc64_sun4u.py
+index 458165500e..d333c0ae91 100644
+--- a/tests/avocado/machine_sparc64_sun4u.py
++++ b/tests/avocado/machine_sparc64_sun4u.py
+@@ -24,8 +24,8 @@ def test_sparc64_sun4u(self):
+         :avocado: tags=arch:sparc64
+         :avocado: tags=machine:sun4u
+         """
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day23.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day23.tar.xz')
+         tar_hash = '142db83cd974ffadc4f75c8a5cad5bcc5722c240'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+diff --git a/tests/avocado/ppc_mpc8544ds.py b/tests/avocado/ppc_mpc8544ds.py
+index 8d6a749201..b599fb1cc9 100644
+--- a/tests/avocado/ppc_mpc8544ds.py
++++ b/tests/avocado/ppc_mpc8544ds.py
+@@ -22,9 +22,9 @@ def test_ppc_mpc8544ds(self):
+         :avocado: tags=accel:tcg
+         """
+         self.require_accelerator("tcg")
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2020/download/day17.tar.gz')
+-        tar_hash = '7a5239542a7c4257aa4d3b7f6ddf08fb6775c494'
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day04.tar.xz')
++        tar_hash = 'f46724d281a9f30fa892d458be7beb7d34dc25f9'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+         self.vm.set_console()
+diff --git a/tests/avocado/ppc_virtex_ml507.py b/tests/avocado/ppc_virtex_ml507.py
+index 6b07686b56..a73f8ae396 100644
+--- a/tests/avocado/ppc_virtex_ml507.py
++++ b/tests/avocado/ppc_virtex_ml507.py
+@@ -22,9 +22,9 @@ def test_ppc_virtex_ml507(self):
+         :avocado: tags=accel:tcg
+         """
+         self.require_accelerator("tcg")
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2020/download/hippo.tar.gz')
+-        tar_hash = '306b95bfe7d147f125aa176a877e266db8ef914a'
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day08.tar.xz')
++        tar_hash = '74c68f5af7a7b8f21c03097b298f3bb77ff52c1f'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+         self.vm.set_console()
+diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
+index 0b2b0dc692..00a26e4a0c 100644
+--- a/tests/avocado/replay_kernel.py
++++ b/tests/avocado/replay_kernel.py
+@@ -296,8 +296,8 @@ def test_arm_vexpressa9(self):
+         :avocado: tags=machine:vexpress-a9
+         """
+         tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day16.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day16.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         dtb_path = self.workdir + '/day16/vexpress-v2p-ca9.dtb'
+         self.do_test_advcal_2018(file_path, 'winter.zImage',
+@@ -309,8 +309,8 @@ def test_m68k_mcf5208evb(self):
+         :avocado: tags=machine:mcf5208evb
+         """
+         tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day07.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day07.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'sanity-clause.elf')
  
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index bc37317d55..b7a71a802c 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -36,6 +36,7 @@ static const int user_feature_bits[] = {
-     VIRTIO_RING_F_INDIRECT_DESC,
-     VIRTIO_RING_F_EVENT_IDX,
-     VIRTIO_SCSI_F_HOTPLUG,
-+    VIRTIO_F_RING_RESET,
-     VHOST_INVALID_FEATURE_BIT
- };
+@@ -321,8 +321,8 @@ def test_microblaze_s3adsp1800(self):
+         :avocado: tags=machine:petalogix-s3adsp1800
+         """
+         tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day17.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day17.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'ballerina.bin')
  
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 1c40f42045..dc4014cdef 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -32,6 +32,7 @@ static const int user_feature_bits[] = {
-     VIRTIO_F_NOTIFY_ON_EMPTY,
-     VIRTIO_F_RING_PACKED,
-     VIRTIO_F_IOMMU_PLATFORM,
-+    VIRTIO_F_RING_RESET,
+@@ -333,8 +333,8 @@ def test_ppc64_e500(self):
+         :avocado: tags=cpu:e5500
+         """
+         tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day19.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day19.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'uImage')
  
-     VHOST_INVALID_FEATURE_BIT
- };
-diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-index 677d1c7730..5851cb3bc9 100644
---- a/hw/virtio/vhost-user-gpio.c
-+++ b/hw/virtio/vhost-user-gpio.c
-@@ -24,6 +24,7 @@ static const int feature_bits[] = {
-     VIRTIO_RING_F_INDIRECT_DESC,
-     VIRTIO_RING_F_EVENT_IDX,
-     VIRTIO_GPIO_F_IRQ,
-+    VIRTIO_F_RING_RESET,
-     VHOST_INVALID_FEATURE_BIT
- };
+@@ -344,8 +344,8 @@ def test_or1k_sim(self):
+         :avocado: tags=machine:or1k-sim
+         """
+         tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day20.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day20.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'vmlinux')
  
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 864eba695e..1c9f3d20dc 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -16,6 +16,7 @@
+@@ -355,8 +355,8 @@ def test_nios2_10m50(self):
+         :avocado: tags=machine:10m50-ghrd
+         """
+         tar_hash = 'e4251141726c412ac0407c5a6bceefbbff018918'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day14.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day14.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'vmlinux.elf')
  
- static const int feature_bits[] = {
-     VIRTIO_I2C_F_ZERO_LENGTH_REQUEST,
-+    VIRTIO_F_RING_RESET,
-     VHOST_INVALID_FEATURE_BIT
- };
+@@ -366,8 +366,8 @@ def test_ppc_g3beige(self):
+         :avocado: tags=machine:g3beige
+         """
+         tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day15.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day15.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'invaders.elf',
+                                  args=('-M', 'graphics=off'))
+@@ -378,8 +378,8 @@ def test_ppc_mac99(self):
+         :avocado: tags=machine:mac99
+         """
+         tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day15.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day15.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'invaders.elf',
+                                  args=('-M', 'graphics=off'))
+@@ -390,8 +390,8 @@ def test_sparc_ss20(self):
+         :avocado: tags=machine:SS-20
+         """
+         tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day11.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day11.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'zImage.elf')
  
-diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-index 8b47287875..f9084cde58 100644
---- a/hw/virtio/vhost-user-rng.c
-+++ b/hw/virtio/vhost-user-rng.c
-@@ -16,6 +16,11 @@
- #include "qemu/error-report.h"
- #include "standard-headers/linux/virtio_ids.h"
+@@ -402,8 +402,8 @@ def test_xtensa_lx60(self):
+         :avocado: tags=cpu:dc233c
+         """
+         tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day02.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day02.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf')
  
-+static const int feature_bits[] = {
-+    VIRTIO_F_RING_RESET,
-+    VHOST_INVALID_FEATURE_BIT
-+};
-+
- static void vu_rng_start(VirtIODevice *vdev)
- {
-     VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-@@ -106,8 +111,10 @@ static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
- static uint64_t vu_rng_get_features(VirtIODevice *vdev,
-                                     uint64_t requested_features, Error **errp)
- {
--    /* No feature bits used yet */
--    return requested_features;
-+    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-+
-+    return vhost_get_features(&rng->vhost_dev, feature_bits,
-+                              requested_features);
- }
- 
- static void vu_rng_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index 29b9ab4f72..a67a275de2 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -21,6 +21,7 @@
- 
- const int feature_bits[] = {
-     VIRTIO_VSOCK_F_SEQPACKET,
-+    VIRTIO_F_RING_RESET,
-     VHOST_INVALID_FEATURE_BIT
- };
- 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 6811089231..2b4b85d8f8 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -69,6 +69,7 @@ const int vdpa_feature_bits[] = {
-     VIRTIO_NET_F_CTRL_VQ,
-     VIRTIO_F_IOMMU_PLATFORM,
-     VIRTIO_F_RING_PACKED,
-+    VIRTIO_F_RING_RESET,
-     VIRTIO_NET_F_RSS,
-     VIRTIO_NET_F_HASH_REPORT,
-     VIRTIO_NET_F_GUEST_ANNOUNCE,
 -- 
-2.38.1
+2.31.1
 
 
