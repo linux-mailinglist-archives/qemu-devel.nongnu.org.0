@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37268631BFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7453E631C1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:54:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox2WB-0003Qx-OT; Mon, 21 Nov 2022 03:51:07 -0500
+	id 1ox2WD-0003Rb-NV; Mon, 21 Nov 2022 03:51:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2WA-0003Qh-E6
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2WA-0003Qp-R6
  for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:06 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2W5-00017l-L9
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2W6-000187-G8
  for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669020660;
+ s=mimecast20190719; t=1669020662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jDv0ubaO+N3LMzdZmT55EuBNu1HAwtE3h3isB/TzhZY=;
- b=V3nhDagiiqFN5gn6MZqsqswELCjOrRf5M1/yBVm6/QRRBxvIEShWFjA0GdNg3OgoD7I1aT
- rc6zQkkaJpWbdbdor4JuywT7PHf14fqoCG8BF5rudM2akjlYhnHlpwBhyXRk5bxzAxCUyB
- IXYppNUciKi7MkCydu7ZT1cvLH1vNZs=
+ bh=Up+QvkqicLsYw24nwgOZ1rYw4IwHaA+47npc0C+bRLI=;
+ b=OnqLRhGaV0vnhlYx9r7v1LkfOyzTUQaZql1mCD+1aE6JryRI5yqEdroXG2LZvgNv55qisp
+ voc1F9dcaIB7rS2nG5KvPYE3fyD5faCDpTka5EZivkZ5Vyptbd9rFHiQuC5Mee/7OzgXLM
+ kf7afRzXDvTUHldt8RQRJ0rT5cEsXvQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-226-RUkhXadZMnqIy_ev9wENFg-1; Mon, 21 Nov 2022 03:50:58 -0500
-X-MC-Unique: RUkhXadZMnqIy_ev9wENFg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-226-wPp6GiQ9OrKGOan6ygFv8g-1; Mon, 21 Nov 2022 03:50:58 -0500
+X-MC-Unique: wPp6GiQ9OrKGOan6ygFv8g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C469D2A2AD77;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3DE93814940;
  Mon, 21 Nov 2022 08:50:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AEB740C6EC2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AE9117595;
  Mon, 21 Nov 2022 08:50:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5751B21E688F; Mon, 21 Nov 2022 09:50:54 +0100 (CET)
+ id 5A13121E66CA; Mon, 21 Nov 2022 09:50:54 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: eblake@redhat.com,
-	vsementsov@yandex-team.ru
-Subject: [PATCH 03/10] error: Move ERRP_GUARD() to the beginning of the
- function
-Date: Mon, 21 Nov 2022 09:50:47 +0100
-Message-Id: <20221121085054.683122-4-armbru@redhat.com>
+Cc: eblake@redhat.com, vsementsov@yandex-team.ru,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH 04/10] monitor: Simplify monitor_fd_param()'s error handling
+Date: Mon, 21 Nov 2022 09:50:48 +0100
+Message-Id: <20221121085054.683122-5-armbru@redhat.com>
 In-Reply-To: <20221121085054.683122-1-armbru@redhat.com>
 References: <20221121085054.683122-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,118 +79,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-include/qapi/error.h advises to put ERRP_GUARD() right at the
-beginning of the function, because only then can it guard the whole
-function.  Clean up the few spots disregarding the advice.
-
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/armsse.c        | 3 +--
- hw/core/machine.c      | 3 +--
- hw/virtio/vhost-vdpa.c | 2 +-
- iothread.c             | 2 +-
- monitor/qmp-cmds.c     | 4 ++--
- 5 files changed, 6 insertions(+), 8 deletions(-)
+ monitor/misc.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index aecdeb9815..0202bad787 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -900,6 +900,7 @@ static qemu_irq armsse_get_common_irq_in(ARMSSE *s, int irqno)
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 205487e2b9..83d7f4ffde 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1086,6 +1086,7 @@ int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp)
+         }
  
- static void armsse_realize(DeviceState *dev, Error **errp)
+         fd = monfd->fd;
++        assert(fd >= 0);
+ 
+         /* caller takes ownership of fd */
+         QLIST_REMOVE(monfd, next);
+@@ -1403,23 +1404,16 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
+ int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
  {
-+    ERRP_GUARD();
-     ARMSSE *s = ARM_SSE(dev);
-     ARMSSEClass *asc = ARM_SSE_GET_CLASS(dev);
-     const ARMSSEInfo *info = asc->info;
-@@ -914,8 +915,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-     DeviceState *dev_splitter;
-     uint32_t addr_width_max;
+     int fd;
+-    Error *local_err = NULL;
  
--    ERRP_GUARD();
--
-     if (!s->board_memory) {
-         error_setg(errp, "memory property was not set");
-         return;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 8d34caa31d..2352861240 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -554,12 +554,11 @@ static void machine_get_mem(Object *obj, Visitor *v, const char *name,
- static void machine_set_mem(Object *obj, Visitor *v, const char *name,
-                             void *opaque, Error **errp)
- {
-+    ERRP_GUARD();
-     MachineState *ms = MACHINE(obj);
-     MachineClass *mc = MACHINE_GET_CLASS(obj);
-     MemorySizeConfiguration *mem;
- 
--    ERRP_GUARD();
--
-     if (!visit_type_MemorySizeConfiguration(v, name, &mem, errp)) {
-         return;
+     if (!qemu_isdigit(fdname[0]) && mon) {
+-        fd = monitor_get_fd(mon, fdname, &local_err);
++        fd = monitor_get_fd(mon, fdname, errp);
+     } else {
+         fd = qemu_parse_fd(fdname);
+-        if (fd == -1) {
+-            error_setg(&local_err, "Invalid file descriptor number '%s'",
++        if (fd < 0) {
++            error_setg(errp, "Invalid file descriptor number '%s'",
+                        fdname);
+         }
      }
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 7468e44b87..bc1c79b325 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -963,6 +963,7 @@ static bool vhost_vdpa_svq_map_rings(struct vhost_dev *dev,
-                                      struct vhost_vring_addr *addr,
-                                      Error **errp)
- {
-+    ERRP_GUARD();
-     DMAMap device_region, driver_region;
-     struct vhost_vring_addr svq_addr;
-     struct vhost_vdpa *v = dev->opaque;
-@@ -971,7 +972,6 @@ static bool vhost_vdpa_svq_map_rings(struct vhost_dev *dev,
-     size_t avail_offset;
-     bool ok;
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        assert(fd == -1);
+-    } else {
+-        assert(fd != -1);
+-    }
  
--    ERRP_GUARD();
-     vhost_svq_get_vring_addr(svq, &svq_addr);
- 
-     driver_region = (DMAMap) {
-diff --git a/iothread.c b/iothread.c
-index 529194a566..3862a64471 100644
---- a/iothread.c
-+++ b/iothread.c
-@@ -155,8 +155,8 @@ static void iothread_init_gcontext(IOThread *iothread)
- 
- static void iothread_set_aio_context_params(EventLoopBase *base, Error **errp)
- {
--    IOThread *iothread = IOTHREAD(base);
-     ERRP_GUARD();
-+    IOThread *iothread = IOTHREAD(base);
- 
-     if (!iothread->ctx) {
-         return;
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 81c8fdadf8..686d562cad 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -474,9 +474,9 @@ static bool invoke_stats_cb(StatsCallbacks *entry,
-                             StatsFilter *filter, StatsRequest *request,
-                             Error **errp)
- {
-+    ERRP_GUARD();
-     strList *targets = NULL;
-     strList *names = NULL;
--    ERRP_GUARD();
- 
-     if (request) {
-         if (request->provider != entry->provider) {
-@@ -541,9 +541,9 @@ StatsSchemaList *qmp_query_stats_schemas(bool has_provider,
-                                          StatsProvider provider,
-                                          Error **errp)
- {
-+    ERRP_GUARD();
-     StatsSchemaList *stats_results = NULL;
-     StatsCallbacks *entry;
--    ERRP_GUARD();
- 
-     QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-         if (!has_provider || provider == entry->provider) {
+     return fd;
+ }
 -- 
 2.37.3
 
