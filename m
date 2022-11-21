@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF9B632551
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 15:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1CB6325B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 15:24:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox7Yo-0006S5-FE; Mon, 21 Nov 2022 09:14:10 -0500
+	id 1ox7iG-0002KU-4f; Mon, 21 Nov 2022 09:23:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ox7Ym-0006RR-FC
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:14:08 -0500
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ox7Yk-0007ER-99
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:14:08 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.51])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9328E2B3DC;
- Mon, 21 Nov 2022 14:13:51 +0000 (UTC)
-Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 21 Nov
- 2022 15:13:50 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-110S0047048c205-014e-480d-8c4c-d8474797b26e,
- 3566E06BB212195A431F287D26CC7E6D91335DD7) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8b29a416-8190-243f-c414-e9e77efae918@kaod.org>
-Date: Mon, 21 Nov 2022 15:13:38 +0100
+ (Exim 4.90_1) (envelope-from <lyan@digitalocean.com>)
+ id 1ox7iE-0002K7-42
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:23:54 -0500
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lyan@digitalocean.com>)
+ id 1ox7i8-00015K-GE
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:23:53 -0500
+Received: by mail-qv1-xf2e.google.com with SMTP id n12so2015238qvr.11
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 06:23:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=digitalocean.com; s=google;
+ h=content-transfer-encoding:in-reply-to:subject:from:content-language
+ :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2J1cgZnf+hEAYJW0tGMwAKWSUEmTIr7fF82Fb35eHbY=;
+ b=Lh2f76/8990pibuviVeiDXMSV0EgGS4n8a3z9jHzZUSJhb5CMDjyASTqpxIGkyxret
+ vTGsee6bxdqHQCVQCCiVzA/tyXaMfqsucH4uTQ5EijBCVVYwHEL+PsoLtIzmXgu6DJUg
+ YTYLS0QpSe16a2ZWKGASPQMlUWpxn/BaCkzno=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:content-language
+ :references:cc:to:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2J1cgZnf+hEAYJW0tGMwAKWSUEmTIr7fF82Fb35eHbY=;
+ b=1FPARk27sZMQQF7/3qDI/npJNzeXiTrV9UvdnJpIoydRG0nXlP8vbZhII6r1asnZco
+ +J8NzRxBBakjSwmi/q1I5F6eE89cT91pOJ5bgKPFyXbaJa2bKbRBSQ8ygZpKQC3I3f/R
+ FugTx3wYoK2QgXiZnyYvXHNzQGRyy5nA5K9mIaxHpqNaciTg9iQhCociV+lAbURJzyEz
+ 5/59toiqPTdoxglusNpj+HkPxh7txDxtayrAPlbMPQVwk0nOL6hpsZF0EXKy9tg7bTg2
+ 2Hh9N4DU2QOLpkoRzP79vhJYLmyVnPUWMj6AauOuF30Vfa7mwDlaXa8vZI9hPLgPnad9
+ +GNg==
+X-Gm-Message-State: ANoB5plIQdyFxYXvL3Qd0OyJgreHTg2QtwBJ6aWIkjwdQxMt/hg31hWd
+ snlbqgp1u1cO21oeIMNbW2Z4cA==
+X-Google-Smtp-Source: AA0mqf52GkgLat58I8j4V8x3YHX81aBjPkquPBqqIjLFfKOQOIZumzYocNG2t0XkVoIn9jOPef0Ylg==
+X-Received: by 2002:a05:6214:368a:b0:4bb:6b58:2c96 with SMTP id
+ nl10-20020a056214368a00b004bb6b582c96mr17830235qvb.127.1669040620750; 
+ Mon, 21 Nov 2022 06:23:40 -0800 (PST)
+Received: from [192.168.2.110]
+ (107-142-220-210.lightspeed.wlfrct.sbcglobal.net. [107.142.220.210])
+ by smtp.gmail.com with ESMTPSA id
+ e8-20020ac84908000000b003a4f14378d1sm6729083qtq.33.2022.11.21.06.23.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 06:23:39 -0800 (PST)
+Message-ID: <98067697-4205-4061-1cbb-a666f7021692@digitalocean.com>
+Date: Mon, 21 Nov 2022 09:23:37 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v11 04/11] s390x/cpu topology: reporting the CPU topology
- to the guest
+ Thunderbird/102.4.2
+To: Greg Kurz <groug@kaod.org>, Dongli Zhang <dongli.zhang@oracle.com>
+Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com, peter.maydell@linaro.org, mtosatti@redhat.com,
+ chenhuacai@kernel.org, philmd@linaro.org, aurelien@aurel32.net,
+ jiaxun.yang@flygoat.com, aleksandar.rikalo@syrmia.com,
+ danielhb413@gmail.com, clg@kaod.org, david@gibson.dropbear.id.au,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, iii@linux.ibm.com,
+ thuth@redhat.com, joe.jin@oracle.com, likexu@tencent.com
+References: <20221119122901.2469-1-dongli.zhang@oracle.com>
+ <20221119122901.2469-3-dongli.zhang@oracle.com>
+ <20221121120311.2731a912@bahia>
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <scgl@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-5-pmorel@linux.ibm.com>
- <1888d31f-227f-7edf-4cc8-dd88a9b19435@kaod.org>
- <34caa4c4-0b94-1729-fe88-77d9b4240f04@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <34caa4c4-0b94-1729-fe88-77d9b4240f04@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 945a0af3-0f06-440a-a8f0-a7cc7268119f
-X-Ovh-Tracer-Id: 9772529718409071571
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrheeigdeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpshgtghhlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
- hfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Liang Yan <lyan@digitalocean.com>
+Subject: Re: [PATCH 2/3] i386: kvm: disable KVM_CAP_PMU_CAPABILITY if "pmu" is
+ disabled
+In-Reply-To: <20221121120311.2731a912@bahia>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
+ envelope-from=lyan@digitalocean.com; helo=mail-qv1-xf2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,55 +103,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
->>> +static char *s390_top_set_level2(S390Topology *topo, char *p)
->>> +{
->>> +    int i, origin;
->>> +
->>> +    for (i = 0; i < topo->nr_sockets; i++) {
->>> +        if (!topo->socket[i].active_count) {
->>> +            continue;
->>> +        }
->>> +        p = fill_container(p, 1, i);
->>> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
->>> +            uint64_t mask = 0L;
->>> +
->>> +            mask = topo->socket[i].mask[origin];
->>> +            if (mask) {
->>> +                p = fill_tle_cpu(p, mask, origin);
->>> +            }
->>> +        }
->>> +    }
->>> +    return p;
->>> +}
->>
->> Why is it not possible to compute this topo information at "runtime",
->> when stsi is called, without maintaining state in an extra S390Topology
->> object ? Couldn't we loop on the CPU list to gather the topology bits
->> for the same result ?
->>
->> It would greatly simplify the feature.
->>
->> C.
->>
-> 
-> The vCPU are not stored in order of creation in the CPU list and not in a topology order.
-> To be able to build the SYSIB we need an intermediate structure to reorder the CPUs per container.
-> 
-> We can do this re-ordering during the STSI interception but the idea was to keep this instruction as fast as possible.> 
-> The second reason is to have a structure ready for the QEMU migration when we introduce vCPU migration from a socket to another socket, having then a different internal representation of the topology.
-> 
-> 
-> However, if as discussed yesterday we use a new cpu flag we would not need any special migration structure in the current series.
-> 
-> So it only stays the first reason to do the re-ordering preparation during the plugging of a vCPU, to optimize the STSI instruction.
-> 
-> If we think the optimization is not worth it or do not bring enough to be consider, we can do everything during the STSI interception.
 
-Is it called on a hot code path ? AFAICT, it is only called once
-per cpu when started. insert_stsi_3_2_2 is also a guest exit andit queries the machine definition in a very similar way.
+On 11/21/22 06:03, Greg Kurz wrote:
+> On Sat, 19 Nov 2022 04:29:00 -0800
+> Dongli Zhang <dongli.zhang@oracle.com> wrote:
+>
+>> The "perf stat" at the VM side still works even we set "-cpu host,-pmu" in
+>> the QEMU command line. That is, neither "-cpu host,-pmu" nor "-cpu EPYC"
+>> could disable the pmu virtualization in an AMD environment.
+>>
+>> We still see below at VM kernel side ...
+>>
+>> [    0.510611] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
+>>
+>> ... although we expect something like below.
+>>
+>> [    0.596381] Performance Events: PMU not available due to virtualization, using software events only.
+>> [    0.600972] NMI watchdog: Perf NMI watchdog permanently disabled
+>>
+>> This is because the AMD pmu (v1) does not rely on cpuid to decide if the
+>> pmu virtualization is supported.
+>>
+>> We disable KVM_CAP_PMU_CAPABILITY if the 'pmu' is disabled in the vcpu
+>> properties.
+>>
+>> Cc: Joe Jin <joe.jin@oracle.com>
+>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>> ---
+>>   target/i386/kvm/kvm.c | 17 +++++++++++++++++
+>>   1 file changed, 17 insertions(+)
+>>
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index 8fec0bc5b5..0b1226ff7f 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -137,6 +137,8 @@ static int has_triple_fault_event;
+>>   
+>>   static bool has_msr_mcg_ext_ctl;
+>>   
+>> +static int has_pmu_cap;
+>> +
+>>   static struct kvm_cpuid2 *cpuid_cache;
+>>   static struct kvm_cpuid2 *hv_cpuid_cache;
+>>   static struct kvm_msr_list *kvm_feature_msrs;
+>> @@ -1725,6 +1727,19 @@ static void kvm_init_nested_state(CPUX86State *env)
+>>   
+>>   void kvm_arch_pre_create_vcpu(CPUState *cs)
+>>   {
+>> +    X86CPU *cpu = X86_CPU(cs);
+>> +    int ret;
+>> +
+>> +    if (has_pmu_cap && !cpu->enable_pmu) {
+>> +        ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PMU_CAPABILITY, 0,
+>> +                                KVM_PMU_CAP_DISABLE);
+> It doesn't seem conceptually correct to configure VM level stuff out of
+> a vCPU property, which could theoretically be different for each vCPU,
+> even if this isn't the case with the current code base.
+>
+> Maybe consider controlling PMU with a machine property and this
+> could be done in kvm_arch_init() like other VM level stuff ?
+>
 
-Thanks,
+There is already a 'pmu' property for x86_cpu with variable 'enable_pmu' 
+as we see the above code. It is mainly used by Intel CPU and set to off 
+by default since qemu 1.5.
 
-C.
+And, this property is spread to AMD CPU too.
 
+I think you may need setup a machine property to disable it from current 
+machine model. Otherwise, it will break the Live Migration scenario.
+
+
+>> +        if (ret < 0) {
+>> +            error_report("kvm: Failed to disable pmu cap: %s",
+>> +                         strerror(-ret));
+>> +        }
+>> +
+>> +        has_pmu_cap = 0;
+>> +    }
+>>   }
+>>   
+>>   int kvm_arch_init_vcpu(CPUState *cs)
+>> @@ -2517,6 +2532,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>           }
+>>       }
+>>   
+>> +    has_pmu_cap = kvm_check_extension(s, KVM_CAP_PMU_CAPABILITY);
+>> +
+>>       ret = kvm_get_supported_msrs(s);
+>>       if (ret < 0) {
+>>           return ret;
+>
 
