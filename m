@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564CA632E18
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 21:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15861632E69
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxDZT-0008DY-44; Mon, 21 Nov 2022 15:39:15 -0500
+	id 1oxDwl-00015P-C0; Mon, 21 Nov 2022 16:03:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oxDZR-0008DA-Di
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 15:39:13 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oxDwj-00014n-AC
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:03:17 -0500
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oxDZO-0006sr-DJ
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 15:39:13 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- 71-20020a17090a09cd00b00218adeb3549so3984779pjo.1
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 12:39:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=VdEeeNtRsSiTz2XxItfR+APz00Vrxilj0+XvrfARfFk=;
- b=ZrjZIhb6i6ZDhPrSw5IAt4eZMpPqbWnP7aUS92RexKCGZkTWvZ+r7leaI90Z37zEen
- XvFmixWvUwrB3PYtkQUB9KehZ3foQeSol+FKgQ4k7KdEzuIdMLNV6W3rMjcnqN2Dm2mS
- Cxe+xIexbJYkalp0eovDJXGzblXzkcEhi3wJEUM5DNxIye9aBTeat4ADia9ZF0p7r8wX
- 29jFygir6tIKL7e3h7N62wXlmRrH+2+CpHRgoj28hWFrNSwihSwIja5kXaxOfLGSYAJh
- aTLG3NfI3qeSS4t8KVfMMJCUnMRe3zqxRcoi29B1FJ18gz1aXf1XmNuW5BzhOecj4alg
- mNGQ==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oxDwh-0002wf-Pw
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:03:17 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id k84so15061333ybk.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:03:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=p2sV52KeZuavoir9vz2DMrqTlJqoJ4d6GrbK+gwYvEw=;
+ b=NYLQK1Mk59kaABXomFYSZPvAeGlLDCCpq0RRNB4fVuT/j/xxo74hl5CuT2sWz+/ff6
+ t95fBjRGDJecGKkRP7XDygdOdFd8VEtBGvSDFe/95nKyWYkNMV6m0wLXaYR+x88dBlLA
+ /rcEg1pIQSEaL7A9xzlGP/Kwo/r/o7hOHdB2+dN6E9YX2dxMyMluKw4hIIVsqgHS48I8
+ LpsoSsRuJRl6ctUsrV76GTAPtKyYR4IBXlSH6GaSpjYzrG4ZUEILRAja0HMKK/jJMY4p
+ mLYlrHTSGFWSox9gJEjwXwaudQMbLcHTdH9vr0pcqqjV8jRja9EqizHoxBNPuM0SNJn8
+ 2Ghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=VdEeeNtRsSiTz2XxItfR+APz00Vrxilj0+XvrfARfFk=;
- b=oQI9huyILZTHvpI8JDNKnsGahWsLaNH/W29QTVoiDVY7To/TM36rvNKxBem1rn39u4
- CReFZkst6RKWOZjkGZ0MBqYFYAoD0Xl/lNqys0fsB26Pq4as892tRC9SvzPfu1008nSc
- iZlE/riAGnWmOblLTy7ovvd6dlRDnV0v5fEK2L5dd1PlW7nd1GDZ5nEH29l1zVbBapkT
- /2G1XV5kLa5WRqUKbieMJSaCjp8RppREWJDxI8eMB/XjZVlHW8+dqQsapWK3DBTfcIfC
- OL0XgcFx+GIrZZBSUarAvMdZgM/NYIczzUN+XPE7gvJIlZ3pPjirFttK+mxoy6hoc/SF
- r0iA==
-X-Gm-Message-State: ANoB5pnFTLZs8ju59UCN2rRSqGXbhtBwA5AoX0lRf1s91dLuNweivvO+
- /y/gucZ6R/EnFd0j9UlOABHU6HA6JRj2GQ==
-X-Google-Smtp-Source: AA0mqf5dLZcax/MCQh1N3ljakPVGCSw2JilYaNXwKni5bV2+UI7cemyD6afk2AQPpxgR7BTioc5yBQ==
-X-Received: by 2002:a17:903:2683:b0:186:6f1e:5087 with SMTP id
- jf3-20020a170903268300b001866f1e5087mr582940plb.119.1669063148400; 
- Mon, 21 Nov 2022 12:39:08 -0800 (PST)
-Received: from stoup.. ([2602:47:d48a:1201:dd04:f222:eac3:5b54])
- by smtp.gmail.com with ESMTPSA id
- m13-20020a170902db0d00b00188767268ddsm10269344plx.151.2022.11.21.12.39.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 12:39:07 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-Subject: [PATCH] accel/tcg/plugin: Fix op_rw
-Date: Mon, 21 Nov 2022 12:39:06 -0800
-Message-Id: <20221121203906.64404-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ bh=p2sV52KeZuavoir9vz2DMrqTlJqoJ4d6GrbK+gwYvEw=;
+ b=3GeHEDjucRWV/U0XNN2uO4u021T/Pa7Oj8+L15nC11IQ/O+deKrD8YD7+X4uJ8VCD2
+ jmYEAd7RVnBK2UHBi8ABRv6pkVXjJcnhdJVwrmUskPDOYW27z4sS8CUQ6B4RvZltjmFh
+ tEFVKT8lL4f5jRWFco4J7jTpxJntfJOAAvyiO88HnQrUepLnPU8mbjIH4bvnr8XgR5GM
+ zHl9mYjN/YexDrB8kepH8DMYdEEhMOv19IQEkxY61nZCG1Cb7QHcgnkLoHFxEUT8EbyU
+ QZEfJA29tLE//QgI86Yt7M3KxTsHHNQEY5S6PJ9hXqCZyFsHP4sZ8gd4K8VCHw+GfD2X
+ HocQ==
+X-Gm-Message-State: ANoB5pmSMApCuWE+TZTemm8hFYTmK7DB0SqsF3jqXI5l0IyaofWy80K4
+ QG+XMDZnuqDLFd/bKjeoohLZH4pURAgaiCz32hY=
+X-Google-Smtp-Source: AA0mqf7xSkEDwp91Tz38FYyH67PL8TK+ybi4aSVeDcbKwE+0IFdldVOHxPGIVgkO9s15lSOE6xhrCJVxQRu6wlkWmEQ=
+X-Received: by 2002:a25:cf8d:0:b0:6d7:5e6f:2a46 with SMTP id
+ f135-20020a25cf8d000000b006d75e6f2a46mr3127113ybg.118.1669064594254; Mon, 21
+ Nov 2022 13:03:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+References: <20221121162132.00007540@huawei.com>
+ <CAJSP0QVVt9911ZxCq9K5QeOBX2fhKSs372Qzqvg694-QkDnqGQ@mail.gmail.com>
+ <20221121172919.000039f0@huawei.com>
+In-Reply-To: <20221121172919.000039f0@huawei.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 21 Nov 2022 16:03:02 -0500
+Message-ID: <CAJSP0QXEXEms32eHM39d9B+srpcJ3XguPFZtPO9E4=X_pt+ODQ@mail.gmail.com>
+Subject: Re: Null dereference in bdrv_unregister_buf() probably
+ memory-backend-file related?
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ linuxarm@huawei.com, 
+ David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,32 +88,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The value of op->args[2] is enum qemu_plugin_mem_rw, which
-is already 1-based.  Adding 1 produces incorrect results
-for QEMU_PLUGIN_MEM_W and QEMU_PLUGIN_MEM_RW.
+On Mon, 21 Nov 2022 at 12:29, Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+>
+> On Mon, 21 Nov 2022 11:47:48 -0500
+> Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> > On Mon, 21 Nov 2022 at 11:22, Jonathan Cameron via
+> > <qemu-devel@nongnu.org> wrote:
+> > >
+> > > First CC list is a guess as I haven't managed to root cause where things are
+> > > going wrong yet.
+> > >
+> > > Originally hit this whilst rebasing some CXL patches on v7.2.0-rc1.
+> > > CXL makes extensive use of memory-backends and most my tests happen
+> > > to use memory-backend-file
+> > >
+> > > Issue seen on arm64 and x86 though helpfully on x86 the crash appears in an entirely
+> > > unrelated location (though the 'fix' works).
+> > >
+> > > Fairly minimal test command line.
+> > >
+> > > qemu-system-aarch64 \
+> > >     -M virt  \
+> > >     -drive if=none,file=full.qcow2,format=qcow2,id=hd \
+> > >     -device virtio-blk,drive=hd \
+> > >     -object memory-backend-file,id=cxl-mem1,mem-path=/tmp/cxltest.raw,size=256M,align=256M \
+> > >
+> > > Powerdown the machine or ctrl-c during boot gives a segfault.
+> > > On arm64 it was in a stable location that made at least some sense in that
+> > > bs in the below snippet is NULL.
+> > >
+> > > I added the follow work around and the segfault goes away...
+> > >
+> > >  [PATCH] temp
+> > >
+> > > ---
+> > >  block/io.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/block/io.c b/block/io.c
+> > > index b9424024f9..750e1366aa 100644
+> > > --- a/block/io.c
+> > > +++ b/block/io.c
+> > > @@ -3324,6 +3324,9 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
+> > >  {
+> > >      BdrvChild *child;
+> > >
+> > > +    if (!bs) {
+> > > +        return;
+> > > +    }
+> > >      GLOBAL_STATE_CODE();
+> > >      if (bs->drv && bs->drv->bdrv_unregister_buf) {
+> > >          bs->drv->bdrv_unregister_buf(bs, host, size);
+> >
+> > bdrv_*() APIs generally don't accept NULL bs arguments.
+> >
+> > I think blk_unregister_buf() needs to handle the blk_bs() NULL return
+> > value. Can you confirm that the parent function is
+> > blk_unregister_buf()?
+> >
+> > This bug may have been introduced by commit baf422684d73 ("virtio-blk:
+> > use BDRV_REQ_REGISTERED_BUF optimization hint").
+> Got it in one. I just bisected to exactly that patch
+>
+> + using the below change indeed works just as well as the above.
+> Now I'd send this as a patch, but I don't yet sufficiently understand what that change you
+> referenced did to break things Seems it registered a notifier that is getting
+> called for all ram blocks, not just the one virtio-blk ones?
+>
+> Perhaps better if you send a fix with an explanation :)
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/plugin-gen.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Sure, no problem. I have reproduced the bug and will send a patch.
 
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index c7d6514840..cd9cee1f5d 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -495,10 +495,7 @@ static bool op_ok(const TCGOp *op, const struct qemu_plugin_dyn_cb *cb)
- 
- static bool op_rw(const TCGOp *op, const struct qemu_plugin_dyn_cb *cb)
- {
--    int w;
--
--    w = op->args[2];
--    return !!(cb->rw & (w + 1));
-+    return cb->rw & op->args[2];
- }
- 
- static void inject_cb_type(const GArray *cbs, TCGOp *begin_op,
--- 
-2.34.1
-
+Thanks,
+Stefan
 
