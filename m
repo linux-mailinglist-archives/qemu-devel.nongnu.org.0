@@ -2,56 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D0C63294E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4942632946
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:22:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9YS-0006PE-FK; Mon, 21 Nov 2022 11:21:56 -0500
+	id 1ox9YG-0006IP-I9; Mon, 21 Nov 2022 11:21:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ox9YO-0006OT-Uj
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:21:52 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ox9YJ-0008K6-H5
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:21:52 -0500
-Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NGCHz4CC5z682wj;
- Tue, 22 Nov 2022 00:18:55 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 21 Nov 2022 17:21:34 +0100
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 21 Nov
- 2022 16:21:33 +0000
-Date: Mon, 21 Nov 2022 16:21:32 +0000
-To: <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>, <linuxarm@huawei.com>,
- David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: Null dereference in bdrv_unregister_buf() probably
- memory-backend-file related?
-Message-ID: <20221121162132.00007540@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9YE-0006FX-Jz
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:21:42 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9YA-0008KB-5Q
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:21:42 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id n3so4074211wrp.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 08:21:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nsj0APwCh58w8IiMK8oOvN07dN8sMTD9RrNpb3q+lIE=;
+ b=Fcv40FgCDKQRCNjLkt07Tb1lFUDrRCqvq4Sb98BdAbQwAPVbnSTXihhZcWuAoKOH+Z
+ Xo8uEt7qZZejx60ypbCfuV5vuE+nX2WdPQDR33v1L/LayOSQzGPTj/BibCc5dyfU3Xrm
+ U5SQxg3gUTq0C5ZnucoNN8YiFip+zTcGwSSKjYNOWlVHLfXulBFPJthfVhkQQ05D62yM
+ LrIboc8CpXnPT3KhjpZxmU1BRQkKP3wvR6LHjTaLRcEJKvK0bYjetFwn6SPLC/WVdckg
+ 0KziWwRQumHSHypJ9q1XGEpiDMRGGfo/UjNl4jiumL4jwtnFqdfX30oqQtA27V27o23Z
+ 7jZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nsj0APwCh58w8IiMK8oOvN07dN8sMTD9RrNpb3q+lIE=;
+ b=1Of7avCfCmgV0UiwGKwmOEGAAugl/2eCRO/4riC2N4GP57U8P16C+LK1kXm9jeJqF9
+ IA4NHmEX0Q0Hul2mqpwmdgV5D7ZdnDtVHZtc/YJUo80LEqbOu1FRhVKx6YHaZDkhINs9
+ WlZ6cYTKVpIwpwBjFkWS0RL0B3dwUhRNXpFpFORakwXbIcvK3DCwgPi2N8zA/GYTAz6B
+ Qqf1jL6fzcQHyCgqvUWcoR4F92iJb7og8BptG7RAw2fIxJZXZKYZkdwLBebbA79jJo7e
+ W2obd0NXH8AaLFJOVAnybm729eorqVJezZCdd6zVwPGU8Vtyru8aAA+1KhA+UcaDRgpX
+ 4o8A==
+X-Gm-Message-State: ANoB5pk+XsfZoCeGhPatLErok8lg9aA9BkElrk8ejA1T61cotVkyAQXq
+ wBue2Nz35BLoa0N/mFoZ2vGWXXGJISpeOg==
+X-Google-Smtp-Source: AA0mqf7YCa/p35oImHPbjPqMQdF3+7QSNJkGJtVkOlyhk29JOpLKpXJJZk2dsugWG0WmxGTLcuF73w==
+X-Received: by 2002:a5d:6dc8:0:b0:236:53d3:5a48 with SMTP id
+ d8-20020a5d6dc8000000b0023653d35a48mr11671853wrz.66.1669047696408; 
+ Mon, 21 Nov 2022 08:21:36 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ l24-20020a05600c1d1800b003cf878c4468sm21026072wms.5.2022.11.21.08.21.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 08:21:35 -0800 (PST)
+Message-ID: <3a492b25-d5a4-b51e-6033-e6d272177da6@linaro.org>
+Date: Mon, 21 Nov 2022 17:21:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH for-8.0 21/29] tcg/i386: Introduce tcg_out_mov2
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221118094754.242910-1-richard.henderson@linaro.org>
+ <20221118094754.242910-22-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221118094754.242910-22-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,57 +87,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-First CC list is a guess as I haven't managed to root cause where things are
-going wrong yet.
+On 18/11/22 10:47, Richard Henderson wrote:
+> Create a helper for data movement minding register overlap.
+> Use the more general xchg instruction, which consumes one
+> extra byte, but simplifies the more general function.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/i386/tcg-target.c.inc | 27 +++++++++++++++++++++------
+>   1 file changed, 21 insertions(+), 6 deletions(-)
 
-Originally hit this whilst rebasing some CXL patches on v7.2.0-rc1.
-CXL makes extensive use of memory-backends and most my tests happen
-to use memory-backend-file
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Issue seen on arm64 and x86 though helpfully on x86 the crash appears in an entirely
-unrelated location (though the 'fix' works).
-
-Fairly minimal test command line.
-
-qemu-system-aarch64 \
-    -M virt  \
-    -drive if=none,file=full.qcow2,format=qcow2,id=hd \
-    -device virtio-blk,drive=hd \
-    -object memory-backend-file,id=cxl-mem1,mem-path=/tmp/cxltest.raw,size=256M,align=256M \
-
-Powerdown the machine or ctrl-c during boot gives a segfault.
-On arm64 it was in a stable location that made at least some sense in that
-bs in the below snippet is NULL.
-
-I added the follow work around and the segfault goes away...
-
- [PATCH] temp
-
----
- block/io.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/block/io.c b/block/io.c
-index b9424024f9..750e1366aa 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3324,6 +3324,9 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
- {
-     BdrvChild *child;
-
-+    if (!bs) {
-+        return;
-+    }
-     GLOBAL_STATE_CODE();
-     if (bs->drv && bs->drv->bdrv_unregister_buf) {
-         bs->drv->bdrv_unregister_buf(bs, host, size);
---
-2.37.2
-
-Not present on v7.1.0 . I'll start a bisection shortly but may take a while.
 
