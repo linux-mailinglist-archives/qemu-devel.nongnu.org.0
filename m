@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4526632962
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE4563296E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:29:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9dh-0000d4-P9; Mon, 21 Nov 2022 11:27:21 -0500
+	id 1ox9dd-0000bw-2N; Mon, 21 Nov 2022 11:27:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ox9dc-0000cI-Oz
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:16 -0500
+ id 1ox9db-0000bV-4t
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:15 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.226] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ox9dZ-0001sm-C4
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:16 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ox9dZ-0001st-26
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:14 -0500
 HMM_SOURCE_IP: 172.18.0.218:59746.263116816
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.40.159 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id E8231280093;
- Tue, 22 Nov 2022 00:26:53 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 1DE2E28008F;
+ Tue, 22 Nov 2022 00:27:01 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([125.69.40.159])
- by app0025 with ESMTP id b5636502f14049ed9ba8acc7ee78ab4f for
- qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:00 CST
-X-Transaction-ID: b5636502f14049ed9ba8acc7ee78ab4f
+ by app0025 with ESMTP id ac7fda2a64f54d5d972721063256527b for
+ qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:04 CST
+X-Transaction-ID: ac7fda2a64f54d5d972721063256527b
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 125.69.40.159
 X-MEDUSA-Status: 0
@@ -40,10 +40,14 @@ Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v2 00/11] migration: introduce dirtylimit capability 
-Date: Mon, 21 Nov 2022 11:26:32 -0500
-Message-Id: <cover.1669047366.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v2 01/11] dirtylimit: Fix overflow when computing MB
+Date: Mon, 21 Nov 2022 11:26:33 -0500
+Message-Id: <73f83b1c55119851e5ac96ebe1d6b6c318e25771.1669047366.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1669047366.git.huangy81@chinatelecom.cn>
+References: <cover.1669047366.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1669047366.git.huangy81@chinatelecom.cn>
+References: <cover.1669047366.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,247 +75,43 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-v2: 
-This version make a little bit modifications comparing with
-version 1 as following:
-1. fix the overflow issue reported by Peter Maydell
-2. add parameter check for hmp "set_vcpu_dirty_limit" command
-3. fix the racing issue between dirty ring reaper thread and
-   Qemu main thread.
-4. add migrate parameter check for x-vcpu-dirty-limit-period
-   and vcpu-dirty-limit.
-5. add the logic to forbid hmp/qmp commands set_vcpu_dirty_limit,
-   cancel_vcpu_dirty_limit during dirty-limit live migration when
-   implement dirty-limit convergence algo.
-6. add capability check to ensure auto-converge and dirty-limit
-   are mutually exclusive.
-7. pre-check if kvm dirty ring size is configured before setting
-   dirty-limit migrate parameter 
+overity points out a overflow problem when computing MB,
+dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
+multiplication will be done as a 32-bit operation, which
+could overflow. Simplify the formula.
 
-A more comprehensive test was done comparing with version 1.
+Meanwhile, fix spelling mistake of variable name.
 
-The following are test environment:
--------------------------------------------------------------
-a. Host hardware info:
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ softmmu/dirtylimit.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-CPU:
-Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
-
-CPU(s):                          64
-On-line CPU(s) list:             0-63
-Thread(s) per core:              2
-Core(s) per socket:              16
-Socket(s):                       2
-NUMA node(s):                    2
-
-NUMA node0 CPU(s):               0-15,32-47
-NUMA node1 CPU(s):               16-31,48-63
-
-Memory:
-Hynix  503Gi
-
-Interface:
-Intel Corporation Ethernet Connection X722 for 1GbE (rev 09)
-Speed: 1000Mb/s
-
-b. Host software info:
-
-OS: ctyunos release 2
-Kernel: 4.19.90-2102.2.0.0066.ctl2.x86_64
-Libvirt baseline version:  libvirt-6.9.0
-Qemu baseline version: qemu-5.0
-
-c. vm scale
-CPU: 4
-Memory: 4G
--------------------------------------------------------------
-
-All the supplementary test data shown as follows are basing on
-above test environment.
-
-In version 1, we post a test data from unixbench as follows:
-
-$ taskset -c 8-15 ./Run -i 2 -c 8 {unixbench test item}
-
-host cpu: Intel(R) Xeon(R) Platinum 8378A
-host interface speed: 1000Mb/s
-  |---------------------+--------+------------+---------------|
-  | UnixBench test item | Normal | Dirtylimit | Auto-converge |
-  |---------------------+--------+------------+---------------|
-  | dhry2reg            | 32800  | 32786      | 25292         |
-  | whetstone-double    | 10326  | 10315      | 9847          |
-  | pipe                | 15442  | 15271      | 14506         |
-  | context1            | 7260   | 6235       | 4514          |
-  | spawn               | 3663   | 3317       | 3249          |
-  | syscall             | 4669   | 4667       | 3841          |
-  |---------------------+--------+------------+---------------|
-
-In version 2, we post a supplementary test data that do not use
-taskset and make the scenario more general, see as follows:
-
-$ ./Run
-
-per-vcpu data:
-  |---------------------+--------+------------+---------------|
-  | UnixBench test item | Normal | Dirtylimit | Auto-converge |
-  |---------------------+--------+------------+---------------|
-  | dhry2reg            | 2991   | 2902       | 1722          |
-  | whetstone-double    | 1018   | 1006       | 627           |
-  | Execl Throughput    | 955    | 320        | 660           |
-  | File Copy - 1       | 2362   | 805        | 1325          |
-  | File Copy - 2       | 1500   | 1406       | 643           |  
-  | File Copy - 3       | 4778   | 2160       | 1047          | 
-  | Pipe Throughput     | 1181   | 1170       | 842           |
-  | Context Switching   | 192    | 224        | 198           |
-  | Process Creation    | 490    | 145        | 95            |
-  | Shell Scripts - 1   | 1284   | 565        | 610           |
-  | Shell Scripts - 2   | 2368   | 900        | 1040          |
-  | System Call Overhead| 983    | 948        | 698           |
-  | Index Score         | 1263   | 815        | 600           |
-  |---------------------+--------+------------+---------------|
-Note:
-  File Copy - 1: File Copy 1024 bufsize 2000 maxblocks
-  File Copy - 2: File Copy 256 bufsize 500 maxblocks 
-  File Copy - 3: File Copy 4096 bufsize 8000 maxblocks 
-  Shell Scripts - 1: Shell Scripts (1 concurrent)
-  Shell Scripts - 2: Shell Scripts (8 concurrent)
-
-Basing on above data, we can draw a conclusion that dirty-limit
-can hugely improve the system benchmark almost in every respect,
-the "System Benchmarks Index Score" show it improve 35% performance
-comparing with auto-converge during live migration.
-
-4-vcpu parallel data(we run a test vm with 4c4g-scale):
-  |---------------------+--------+------------+---------------|
-  | UnixBench test item | Normal | Dirtylimit | Auto-converge |
-  |---------------------+--------+------------+---------------|
-  | dhry2reg            | 7975   | 7146       | 5071          |
-  | whetstone-double    | 3982   | 3561       | 2124          |
-  | Execl Throughput    | 1882   | 1205       | 768           |
-  | File Copy - 1       | 1061   | 865        | 498           |
-  | File Copy - 2       | 676    | 491        | 519           |  
-  | File Copy - 3       | 2260   | 923        | 1329          | 
-  | Pipe Throughput     | 3026   | 3009       | 1616          |
-  | Context Switching   | 1219   | 1093       | 695           |
-  | Process Creation    | 947    | 307        | 446           |
-  | Shell Scripts - 1   | 2469   | 977        | 989           |
-  | Shell Scripts - 2   | 2667   | 1275       | 984           |
-  | System Call Overhead| 1592   | 1459       | 692           |
-  | Index Score         | 1976   | 1294       | 997           |
-  |---------------------+--------+------------+---------------|
-
-For the parallel data, the "System Benchmarks Index Score" show it
-also improve 29% performance.
-
-In version 1, migration total time is shown as follows: 
-
-host cpu: Intel(R) Xeon(R) Platinum 8378A
-host interface speed: 1000Mb/s
-  |-----------------------+----------------+-------------------|
-  | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
-  |-----------------------+----------------+-------------------|
-  | 60                    | 2014           | 2131              |
-  | 70                    | 5381           | 12590             |
-  | 90                    | 6037           | 33545             |
-  | 110                   | 7660           | [*]               |
-  |-----------------------+----------------+-------------------|
-  [*]: This case means migration is not convergent. 
-
-In version 2, we post more comprehensive migration total time test data
-as follows: 
-
-we update N MB on 4 cpus and sleep S us every time 1 MB data was updated.
-test twice in each condition, data is shown as follow: 
-
-  |-----------+--------+--------+----------------+-------------------|
-  | ring size | N (MB) | S (us) | Dirtylimit(ms) | Auto-converge(ms) |
-  |-----------+--------+--------+----------------+-------------------|
-  | 1024      | 1024   | 1000   | 44951          | 191780            |
-  | 1024      | 1024   | 1000   | 44546          | 185341            |
-  | 1024      | 1024   | 500    | 46505          | 203545            |
-  | 1024      | 1024   | 500    | 45469          | 909945            |
-  | 1024      | 1024   | 0      | 61858          | [*]               |
-  | 1024      | 1024   | 0      | 57922          | [*]               |
-  | 1024      | 2048   | 0      | 91982          | [*]               |
-  | 1024      | 2048   | 0      | 90388          | [*]               |
-  | 2048      | 128    | 10000  | 14511          | 25971             |
-  | 2048      | 128    | 10000  | 13472          | 26294             |
-  | 2048      | 1024   | 10000  | 44244          | 26294             |
-  | 2048      | 1024   | 10000  | 45099          | 157701            |
-  | 2048      | 1024   | 500    | 51105          | [*]               |
-  | 2048      | 1024   | 500    | 49648          | [*]               |
-  | 2048      | 1024   | 0      | 229031         | [*]               |
-  | 2048      | 1024   | 0      | 154282         | [*]               |
-  |-----------+--------+--------+----------------+-------------------|
-  [*]: This case means migration is not convergent. 
-
-Not that the larger ring size is, the less sensitively dirty-limit responds,
-so we should choose a optimal ring size base on the test data with different 
-scale vm.
-
-We also test the effect of "x-vcpu-dirty-limit-period" parameter on
-migration total time. test twice in each condition, data is shown
-as follows:
-
-  |-----------+--------+--------+-------------+----------------------|
-  | ring size | N (MB) | S (us) | Period (ms) | migration total time | 
-  |-----------+--------+--------+-------------+----------------------|
-  | 2048      | 1024   | 10000  | 100         | [*]                  |
-  | 2048      | 1024   | 10000  | 100         | [*]                  |
-  | 2048      | 1024   | 10000  | 300         | 156795               |
-  | 2048      | 1024   | 10000  | 300         | 118179               |
-  | 2048      | 1024   | 10000  | 500         | 44244                |
-  | 2048      | 1024   | 10000  | 500         | 45099                |
-  | 2048      | 1024   | 10000  | 700         | 41871                |
-  | 2048      | 1024   | 10000  | 700         | 42582                |
-  | 2048      | 1024   | 10000  | 1000        | 41430                |
-  | 2048      | 1024   | 10000  | 1000        | 40383                |
-  | 2048      | 1024   | 10000  | 1500        | 42030                |
-  | 2048      | 1024   | 10000  | 1500        | 42598                |
-  | 2048      | 1024   | 10000  | 2000        | 41694                |
-  | 2048      | 1024   | 10000  | 2000        | 42403                |
-  | 2048      | 1024   | 10000  | 3000        | 43538                |
-  | 2048      | 1024   | 10000  | 3000        | 43010                |
-  |-----------+--------+--------+-------------+----------------------|
-
-It shows that x-vcpu-dirty-limit-period should be configured with 1000 ms
-in above condition.
-
-Please review, any comments and suggestions are very appreciated, thanks
-
-Yong
-
-Hyman Huang (11):
-  dirtylimit: Fix overflow when computing MB
-  softmmu/dirtylimit: Add parameter check for hmp "set_vcpu_dirty_limit"
-  kvm-all: Do not allow reap vcpu dirty ring buffer if not ready
-  qapi/migration: Introduce x-vcpu-dirty-limit-period parameter
-  qapi/migration: Introduce vcpu-dirty-limit parameters
-  migration: Introduce dirty-limit capability
-  migration: Implement dirty-limit convergence algo
-  migration: Export dirty-limit time info
-  tests: Add migration dirty-limit capability test
-  tests/migration: Introduce dirty-ring-size option into guestperf
-  tests/migration: Introduce dirty-limit into guestperf
-
- accel/kvm/kvm-all.c                     |  36 ++++++++
- include/sysemu/dirtylimit.h             |   2 +
- migration/migration.c                   |  85 ++++++++++++++++++
- migration/migration.h                   |   1 +
- migration/ram.c                         |  62 ++++++++++---
- migration/trace-events                  |   1 +
- monitor/hmp-cmds.c                      |  26 ++++++
- qapi/migration.json                     |  60 +++++++++++--
- softmmu/dirtylimit.c                    |  75 +++++++++++++++-
- tests/migration/guestperf/comparison.py |  24 +++++
- tests/migration/guestperf/engine.py     |  24 ++++-
- tests/migration/guestperf/hardware.py   |   8 +-
- tests/migration/guestperf/progress.py   |  17 +++-
- tests/migration/guestperf/scenario.py   |  11 ++-
- tests/migration/guestperf/shell.py      |  25 +++++-
- tests/qtest/migration-test.c            | 154 ++++++++++++++++++++++++++++++++
- 16 files changed, 577 insertions(+), 34 deletions(-)
-
+diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+index 1266855..940d238 100644
+--- a/softmmu/dirtylimit.c
++++ b/softmmu/dirtylimit.c
+@@ -236,14 +236,14 @@ static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
+ {
+     static uint64_t max_dirtyrate;
+     uint32_t dirty_ring_size = kvm_dirty_ring_size();
+-    uint64_t dirty_ring_size_meory_MB =
+-        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
++    uint32_t dirty_ring_size_memory_MB =
++        dirty_ring_size >> (20 - TARGET_PAGE_BITS);
+ 
+     if (max_dirtyrate < dirtyrate) {
+         max_dirtyrate = dirtyrate;
+     }
+ 
+-    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
++    return dirty_ring_size_memory_MB * 1000000ULL / max_dirtyrate;
+ }
+ 
+ static inline bool dirtylimit_done(uint64_t quota,
 -- 
 1.8.3.1
 
