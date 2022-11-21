@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54BD6325C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 15:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0DD7632637
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 15:38:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox7n8-0004mC-M6; Mon, 21 Nov 2022 09:28:59 -0500
+	id 1ox7v8-0007Da-Fa; Mon, 21 Nov 2022 09:37:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lyan@digitalocean.com>)
- id 1ox7mv-0004kM-9j
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:28:45 -0500
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ox7v6-0007Ce-1B
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:37:12 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lyan@digitalocean.com>)
- id 1ox7ml-0002fh-Bm
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:28:44 -0500
-Received: by mail-qt1-x829.google.com with SMTP id c15so7305008qtw.8
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 06:28:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=digitalocean.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5zhEtdmEkFo9VdIm4gjZs/qMfIsNfNo6eduh1VXurC8=;
- b=WGaWYuICWBTUxapnXeLbTTiSj+b+UQr1CSimb3jCEW4QyJzQNaRVOiCJfLfgYQDUJC
- gbPHMtG0an1Uyv3fHbdZO0S3g1lG+769VF/kvHNGyrCthcyjlECa78GbYQfw402BAjmU
- SZlk+l1CqVkde0eyJjEUPJtFXTYPkf5FxoJS4=
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ox7v3-0004LX-4T
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 09:37:11 -0500
+Received: by mail-pg1-x534.google.com with SMTP id f3so11350858pgc.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 06:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MF0QvKrp6hOQBtpvzpbZb9Nyv7bn72nzIE9/cJbusOs=;
+ b=gAF9+h1FXftdn93KZTEjjDjaUCyTsHBSfToTrxl4r+YHMi8217bNdmt8rUp15v69yz
+ pJobNxAirgRt/WgG8aM2N9KWOH38GLcekaDFXyvNucTfg3VMCIR1/wW3ZD1A1EQTFOXa
+ HJFiAiKwOwDK2L1loNXFrILdB6Cl+9GipWvvJ4ALhi/BT/LMmi0yoXZzfHbUb2H0Z+0x
+ OyJ+cTLxJi1qhIBIRGnUuNIpd1czWWcgm58y1co5I0A44i9Y5aIgPBhIwo4fdBEp0u0o
+ Lb/JRsVglFquVnJi6KlZXPCmzemQRNxdpoNdo6U7Qng0qy1m+qjI8IFNczK7FKNs1Bva
+ R7AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5zhEtdmEkFo9VdIm4gjZs/qMfIsNfNo6eduh1VXurC8=;
- b=gtSJwCDVeM1xsAWNRyfD21q0Sbd8Wg2vo7nJf1N4d6ZivmoTJYmFgonWPyGLHchcKo
- Xgu0Bi5Q+aWECc6Y9s+J1qhZIaJwQpQEmXb6Ln8P+GBSTyP+hjyEfgLL1sdtkNzd47oP
- y0rC6K4Mcy7cTBJsIaixrUAby4wMhi+f2y/pbX/BbSPrbnSmIxp7hSgQ2MxLQwScYrL4
- qVX8659brfkfr6WTgRBJuu2eOulPwrQcLUmzUwtPfDso3TJ+U/zncvgJndPZEftfqyEn
- oBPI5Gg+puGFGjlTfbv/okAepmyYBOg31FWIwTKfgvMCjcyebcLjik1E6P1TacjbNj01
- UVwQ==
-X-Gm-Message-State: ANoB5pl0Iawa4z/8WYSinrrXa6F2yJJ4KaACuL4hNZU7T2VE28PTQTH7
- OLkLoSHd9THBoTWXAYk2FG7jXw==
-X-Google-Smtp-Source: AA0mqf49bOxG8fRibZHiwOJgu6RBwOjmSObhN9fTdA8xEXZm7NQ4ptQ5VeRERDixCLIXbr/icriUxw==
-X-Received: by 2002:a05:622a:1b0e:b0:3a6:2197:520c with SMTP id
- bb14-20020a05622a1b0e00b003a62197520cmr16012886qtb.183.1669040913016; 
- Mon, 21 Nov 2022 06:28:33 -0800 (PST)
-Received: from [192.168.2.110]
- (107-142-220-210.lightspeed.wlfrct.sbcglobal.net. [107.142.220.210])
- by smtp.gmail.com with ESMTPSA id
- m19-20020a05620a291300b006fa43e139b5sm8235210qkp.59.2022.11.21.06.28.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 06:28:32 -0800 (PST)
-Message-ID: <8b197d19-a43a-3b29-3a05-c92a09e28d5f@digitalocean.com>
-Date: Mon, 21 Nov 2022 09:28:29 -0500
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MF0QvKrp6hOQBtpvzpbZb9Nyv7bn72nzIE9/cJbusOs=;
+ b=gPpp8nP9seM903003WAG0jcBv6hqloMcl6IAYfFg4BPaNwZzWCXFWNEiH4Ius4NHfz
+ IFo0ZdEjYPHmXF/P1+OsIcVf2TxAtemIkML0eNXBi2Ri1x4s5Fg22WtCxMT7JsTAlZqF
+ 0PpjXV4SzkGHw6G0SdNGKDzcyuWfNdbu2yq5mydyhC7OHZLt6oWf3I0UoATexlViTXrw
+ Sq+NmPb/Lb/7hm/pVXlpynCnIfB9uQhZLaSKAjSOfKDYVmQ8/49BBLN/D/rCf/6m2nc0
+ QoyDybws9b3OzOpcWXXxsgwdI8xKpX6qfLQ60+1Ou4xb9Aej2FoYCgkNJ46/eeeIgwg6
+ 9oSw==
+X-Gm-Message-State: ANoB5plJhgG3/LEprpOLalZUHAo2QJdltRe9ZLUtrgXYCfQ7xFteQVFI
+ paf/OA4BaAsDaxzKGguR28JTw6JXsuWc0D3P1/zrbg==
+X-Google-Smtp-Source: AA0mqf7XWU9N5SiHEU9iGBhv7ygjljT7Go21HzZUO70MXU3z+uR5++ls9lOhi4M698xezvBVrH05aD10d6fkEhiYkHE=
+X-Received: by 2002:a65:45c5:0:b0:46b:2753:2a60 with SMTP id
+ m5-20020a6545c5000000b0046b27532a60mr1819319pgr.192.1669041427555; Mon, 21
+ Nov 2022 06:37:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 3/3] target/i386/kvm: get and put AMD pmu registers
-Content-Language: en-US
-To: Dongli Zhang <dongli.zhang@oracle.com>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org, mtosatti@redhat.com,
- chenhuacai@kernel.org, philmd@linaro.org, aurelien@aurel32.net,
- jiaxun.yang@flygoat.com, aleksandar.rikalo@syrmia.com,
- danielhb413@gmail.com, clg@kaod.org, david@gibson.dropbear.id.au,
- groug@kaod.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, iii@linux.ibm.com,
- thuth@redhat.com, joe.jin@oracle.com, likexu@tencent.com
-References: <20221119122901.2469-1-dongli.zhang@oracle.com>
- <20221119122901.2469-4-dongli.zhang@oracle.com>
-From: Liang Yan <lyan@digitalocean.com>
-In-Reply-To: <20221119122901.2469-4-dongli.zhang@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=lyan@digitalocean.com; helo=mail-qt1-x829.google.com
+References: <20221121140121.1079100-1-armbru@redhat.com>
+In-Reply-To: <20221121140121.1079100-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Nov 2022 14:36:56 +0000
+Message-ID: <CAFEAcA_jnbp36Trjd3qJYzbf5-6SNNrirG7q2_-wKXkcX49ptg@mail.gmail.com>
+Subject: Re: [PATCH] cleanup: Tweak and re-run return_directly.cocci
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, kwolf@redhat.com, hreitz@redhat.com,
+ groug@kaod.org, qemu_oss@crudebyte.com, Alistair.Francis@wdc.com, 
+ bin.meng@windriver.com, palmer@dabbelt.com, marcandre.lureau@redhat.com, 
+ pbonzini@redhat.com, yuval.shaia.ml@gmail.com, marcel.apfelbaum@gmail.com, 
+ mst@redhat.com, quintela@redhat.com, dgilbert@redhat.com, 
+ pavel.dovgaluk@ispras.ru, alex.bennee@linaro.org, peterx@redhat.com, 
+ david@redhat.com, philmd@linaro.org, mrolnik@gmail.com, gaosong@loongson.cn, 
+ yangxiaojuan@loongson.cn, aurelien@aurel32.net, jiaxun.yang@flygoat.com, 
+ aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, berrange@redhat.com, 
+ thuth@redhat.com, lvivier@redhat.com, suhang16@mails.ucas.ac.cn, 
+ chen.zhang@intel.com, lizhijian@fujitsu.com, stefanha@redhat.com, 
+ qemu-block@nongnu.org, qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, 
+ virtio-fs@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,208 +94,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A little bit more information from kernel perspective.
+On Mon, 21 Nov 2022 at 14:03, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Tweak the semantic patch to drop redundant parenthesis around the
+> return expression.
+>
+> Coccinelle drops comments in hw/rdma/vmw/pvrdma_cmd.c; restored
+> manually.
+>
+> Coccinelle messes up vmdk_co_create(), not sure why.  Transformed
+> manually.
+>
+> Line breaks in target/avr/cpu.h and hw/rdma/vmw/pvrdma_cmd.c tidied up
+> manually.
+>
+> Whitespace in fuse_reply_iov() tidied up manually.
+>
+> checkpatch.pl complains "return of an errno should typically be -ve"
+> two times for hw/9pfs/9p-synth.c.  Preexisting, the patch merely makes
+> it visible to checkpatch.pl.
+>
+> checkpatch.pl complains "return is not a function, parentheses are not
+> required" three times for target/mips/tcg/dsp_helper.c.  False
+> positives.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-https://lkml.org/lkml/2022/10/31/476
+>  .../user/ase/msa/bit-count/test_msa_nloc_b.c  |   9 +-
+>  .../user/ase/msa/bit-count/test_msa_nloc_d.c  |   9 +-
+[snip long list of other mips test files]
 
+>  328 files changed, 989 insertions(+), 2099 deletions(-)
 
-I was kindly thinking of the same idea, but not sure if it is expected  
-from a bare-metal perspective, since the four legacy MSRs
+This patch seems to almost entirely be huge because of these
+mips test case files. Are they specific to QEMU or are they
+effectively a 3rd-party import that it doesn't make sense
+to make local changes to?
 
-are always there. Also not sure if they are used by other applications.
+I definitely don't think you should put manual tidying changes
+in the same patch as 3000 lines of automated changes: that
+is in my opinion un-reviewable.
 
-
-~Liang
-
-
-On 11/19/22 07:29, Dongli Zhang wrote:
-> The QEMU side calls kvm_get_msrs() to save the pmu registers from the KVM
-> side to QEMU, and calls kvm_put_msrs() to store the pmu registers back to
-> the KVM side.
->
-> However, only the Intel gp/fixed/global pmu registers are involved. There
-> is not any implementation for AMD pmu registers. The
-> 'has_architectural_pmu_version' and 'num_architectural_pmu_gp_counters' are
-> calculated at kvm_arch_init_vcpu() via cpuid(0xa). This does not work for
-> AMD. Before AMD PerfMonV2, the number of gp registers is decided based on
-> the CPU version.
->
-> This patch is to add the support for AMD version=1 pmu, to get and put AMD
-> pmu registers. Otherwise, there will be a bug:
->
-> 1. The VM resets (e.g., via QEMU system_reset or VM kdump/kexec) while it
-> is running "perf top". The pmu registers are not disabled gracefully.
->
-> 2. Although the x86_cpu_reset() resets many registers to zero, the
-> kvm_put_msrs() does not puts AMD pmu registers to KVM side. As a result,
-> some pmu events are still enabled at the KVM side.
->
-> 3. The KVM pmc_speculative_in_use() always returns true so that the events
-> will not be reclaimed. The kvm_pmc->perf_event is still active.
->
-> 4. After the reboot, the VM kernel reports below error:
->
-> [    0.092011] Performance Events: Fam17h+ core perfctr, Broken BIOS detected, complain to your hardware vendor.
-> [    0.092023] [Firmware Bug]: the BIOS has corrupted hw-PMU resources (MSR c0010200 is 530076)
->
-> 5. In a worse case, the active kvm_pmc->perf_event is still able to
-> inject unknown NMIs randomly to the VM kernel.
->
-> [...] Uhhuh. NMI received for unknown reason 30 on CPU 0.
->
-> The patch is to fix the issue by resetting AMD pmu registers during the
-> reset.
->
-> Cc: Joe Jin <joe.jin@oracle.com>
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-> ---
->   target/i386/cpu.h     |  5 +++
->   target/i386/kvm/kvm.c | 83 +++++++++++++++++++++++++++++++++++++++++--
->   2 files changed, 86 insertions(+), 2 deletions(-)
->
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index d4bc19577a..4cf0b98817 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -468,6 +468,11 @@ typedef enum X86Seg {
->   #define MSR_CORE_PERF_GLOBAL_CTRL       0x38f
->   #define MSR_CORE_PERF_GLOBAL_OVF_CTRL   0x390
->   
-> +#define MSR_K7_EVNTSEL0                 0xc0010000
-> +#define MSR_K7_PERFCTR0                 0xc0010004
-> +#define MSR_F15H_PERF_CTL0              0xc0010200
-> +#define MSR_F15H_PERF_CTR0              0xc0010201
-> +
->   #define MSR_MC0_CTL                     0x400
->   #define MSR_MC0_STATUS                  0x401
->   #define MSR_MC0_ADDR                    0x402
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 0b1226ff7f..023fcbce48 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -2005,6 +2005,32 @@ int kvm_arch_init_vcpu(CPUState *cs)
->           }
->       }
->   
-> +    if (IS_AMD_CPU(env)) {
-> +        int64_t family;
-> +
-> +        family = (env->cpuid_version >> 8) & 0xf;
-> +        if (family == 0xf) {
-> +            family += (env->cpuid_version >> 20) & 0xff;
-> +        }
-> +
-> +        /*
-> +         * If KVM_CAP_PMU_CAPABILITY is not supported, there is no way to
-> +         * disable the AMD pmu virtualization.
-> +         *
-> +         * If KVM_CAP_PMU_CAPABILITY is supported, "!has_pmu_cap" indicates
-> +         * the KVM side has already disabled the pmu virtualization.
-> +         */
-> +        if (family >= 6 && (!has_pmu_cap || cpu->enable_pmu)) {
-> +            has_architectural_pmu_version = 1;
-> +
-> +            if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_PERFCORE) {
-> +                num_architectural_pmu_gp_counters = 6;
-> +            } else {
-> +                num_architectural_pmu_gp_counters = 4;
-> +            }
-> +        }
-> +    }
-> +
->       cpu_x86_cpuid(env, 0x80000000, 0, &limit, &unused, &unused, &unused);
->   
->       for (i = 0x80000000; i <= limit; i++) {
-> @@ -3326,7 +3352,7 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
->               kvm_msr_entry_add(cpu, MSR_KVM_POLL_CONTROL, env->poll_control_msr);
->           }
->   
-> -        if (has_architectural_pmu_version > 0) {
-> +        if (has_architectural_pmu_version > 0 && IS_INTEL_CPU(env)) {
->               if (has_architectural_pmu_version > 1) {
->                   /* Stop the counter.  */
->                   kvm_msr_entry_add(cpu, MSR_CORE_PERF_FIXED_CTR_CTRL, 0);
-> @@ -3357,6 +3383,26 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
->                                     env->msr_global_ctrl);
->               }
->           }
-> +
-> +        if (has_architectural_pmu_version > 0 && IS_AMD_CPU(env)) {
-> +            uint32_t sel_base = MSR_K7_EVNTSEL0;
-> +            uint32_t ctr_base = MSR_K7_PERFCTR0;
-> +            uint32_t step = 1;
-> +
-> +            if (num_architectural_pmu_gp_counters == 6) {
-> +                sel_base = MSR_F15H_PERF_CTL0;
-> +                ctr_base = MSR_F15H_PERF_CTR0;
-> +                step = 2;
-> +            }
-> +
-> +            for (i = 0; i < num_architectural_pmu_gp_counters; i++) {
-> +                kvm_msr_entry_add(cpu, ctr_base + i * step,
-> +                                  env->msr_gp_counters[i]);
-> +                kvm_msr_entry_add(cpu, sel_base + i * step,
-> +                                  env->msr_gp_evtsel[i]);
-> +            }
-> +        }
-> +
->           /*
->            * Hyper-V partition-wide MSRs: to avoid clearing them on cpu hot-add,
->            * only sync them to KVM on the first cpu
-> @@ -3817,7 +3863,7 @@ static int kvm_get_msrs(X86CPU *cpu)
->       if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_POLL_CONTROL)) {
->           kvm_msr_entry_add(cpu, MSR_KVM_POLL_CONTROL, 1);
->       }
-> -    if (has_architectural_pmu_version > 0) {
-> +    if (has_architectural_pmu_version > 0 && IS_INTEL_CPU(env)) {
->           if (has_architectural_pmu_version > 1) {
->               kvm_msr_entry_add(cpu, MSR_CORE_PERF_FIXED_CTR_CTRL, 0);
->               kvm_msr_entry_add(cpu, MSR_CORE_PERF_GLOBAL_CTRL, 0);
-> @@ -3833,6 +3879,25 @@ static int kvm_get_msrs(X86CPU *cpu)
->           }
->       }
->   
-> +    if (has_architectural_pmu_version > 0 && IS_AMD_CPU(env)) {
-> +        uint32_t sel_base = MSR_K7_EVNTSEL0;
-> +        uint32_t ctr_base = MSR_K7_PERFCTR0;
-> +        uint32_t step = 1;
-> +
-> +        if (num_architectural_pmu_gp_counters == 6) {
-> +            sel_base = MSR_F15H_PERF_CTL0;
-> +            ctr_base = MSR_F15H_PERF_CTR0;
-> +            step = 2;
-> +        }
-> +
-> +        for (i = 0; i < num_architectural_pmu_gp_counters; i++) {
-> +            kvm_msr_entry_add(cpu, ctr_base + i * step,
-> +                              env->msr_gp_counters[i]);
-> +            kvm_msr_entry_add(cpu, sel_base + i * step,
-> +                              env->msr_gp_evtsel[i]);
-> +        }
-> +    }
-> +
->       if (env->mcg_cap) {
->           kvm_msr_entry_add(cpu, MSR_MCG_STATUS, 0);
->           kvm_msr_entry_add(cpu, MSR_MCG_CTL, 0);
-> @@ -4118,6 +4183,20 @@ static int kvm_get_msrs(X86CPU *cpu)
->           case MSR_P6_EVNTSEL0 ... MSR_P6_EVNTSEL0 + MAX_GP_COUNTERS - 1:
->               env->msr_gp_evtsel[index - MSR_P6_EVNTSEL0] = msrs[i].data;
->               break;
-> +        case MSR_K7_EVNTSEL0 ... MSR_K7_EVNTSEL0 + 3:
-> +            env->msr_gp_evtsel[index - MSR_K7_EVNTSEL0] = msrs[i].data;
-> +            break;
-> +        case MSR_K7_PERFCTR0 ... MSR_K7_PERFCTR0 + 3:
-> +            env->msr_gp_counters[index - MSR_K7_PERFCTR0] = msrs[i].data;
-> +            break;
-> +        case MSR_F15H_PERF_CTL0 ... MSR_F15H_PERF_CTL0 + 0xb:
-> +            index = index - MSR_F15H_PERF_CTL0;
-> +            if (index & 0x1) {
-> +                env->msr_gp_counters[index] = msrs[i].data;
-> +            } else {
-> +                env->msr_gp_evtsel[index] = msrs[i].data;
-> +            }
-> +            break;
->           case HV_X64_MSR_HYPERCALL:
->               env->msr_hv_hypercall = msrs[i].data;
->               break;
+thanks
+-- PMM
 
