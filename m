@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AC9631F0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 12:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E8863200A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 12:14:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox4cB-0004f2-5X; Mon, 21 Nov 2022 06:05:27 -0500
+	id 1ox4jd-00087s-Eu; Mon, 21 Nov 2022 06:13:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4c9-0004cf-53
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:05:25 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4jX-00086c-4O
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:13:03 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4c4-0007m4-Jg
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:05:23 -0500
-Received: by mail-wr1-x431.google.com with SMTP id g12so19252916wrs.10
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 03:05:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4jV-0000zF-9e
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:13:02 -0500
+Received: by mail-wr1-x436.google.com with SMTP id l14so434055wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 03:13:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=2AR8eK0Euej5hvJFJpTPMtz/B2Ks2e0GgVSblXEZX7k=;
- b=UqTSfMQMtyd3V9c+IW1cW5ThWAv1Cj3/I4d0GrpdczeHwFoOVXOt2RqqRaFcW4VL5g
- MKzT/hiaGBMn7sY4aIikwch1uxqPyo0K//xSbtsLlKGsW/pubEyMMxq5Nkf5a20s6yxT
- wtsDtfy0lPwUhuQOBzghqaXs+KztEZ7wJsO08iU6oO+QHx+lCqYYH0iGl4OrqIrkST99
- UUCaiZQwpPJxG6LJoWti3ZAnmiqJ40DrtbDTSctTbH8UmBtzjll+Bk/wuAZ9dV2Y3WOi
- 1jrlpw29ILTkmBKZB6PTry44af/vJD7BENrJXf9oBFt3BbROc2MceF1z4adparo8QEi6
- loEg==
+ bh=GEAt+qB73Jkg1WP8V9xEykeRMPKiveWLpihp2K199qY=;
+ b=NxSAX1bVPbEZQLmNyMi7+pkHgK6ejKY1Rf1xt+3xuqCaXN9B1qTYzyH16apLGeEgXo
+ v+tSTDymROyyusPqcKUvULFG9TKdiad6xZR5r1+cmOlp7tBuai906bcDqPzGt8pNl8wo
+ ZUIvKF06QU6Ze4HHfTim6MAgT2k3kWOhFyXBQTd/P6srLtSJacyoBAHoOBuBwdL0Aeg5
+ bx+wEEJZX4ZqeO+UaSmQV44EQFbZaM+dwO2+KRHCTWUS7lk43gUuvq8XONjAyPi4nxk/
+ Q8Jx4WHnJpC7i1iPwzstm5O7cJ6p04zDlBops8uMxxFOi8FZBZH9gAZFNCWC3sC0kerA
+ WSQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2AR8eK0Euej5hvJFJpTPMtz/B2Ks2e0GgVSblXEZX7k=;
- b=hoSGCbh62iCzp+a7sGOmQBUnsN9cPd/vP+h9yg4aTpbgNmYtwyNFmrGV9iy3F/m0B5
- XJ2Aida9hL5/iFpexWrICjjpVOdUforptNAASbpf+p187fIGwkCD3MgW8Vp3mnQpJFru
- eMLfUSgiGXA96+Bdv/SQlOq373Bu+HIZgRaEs6Y9/znAvTjCzYO8nBbAneMEiD9GM3hk
- tvqdZU/K4wYcTB0nagXV09qtLY8t/2TNe+LXMBMxHanZlb/riHcMfhztR7xOwMVganT/
- KX02tRQdUsFo1s/XPbcHv/fPtGA17naxw3z1GyVsTV3+OVZ/Zg71bkDrINAbhWQb9McJ
- d+mw==
-X-Gm-Message-State: ANoB5pk+zI60gdnU/qDr8sB15FWzVundrXdLxaALmZhh11OjyPTZgy4V
- Z+ym0b6CHZtatVN0IOuDp36UyQ==
-X-Google-Smtp-Source: AA0mqf4fHOuilEjC+37ShmoB+FyGUwFGE4J/31StmYlKyhnJ6CZOeeJsnz3D+JR1fpc8+FgSMgw0GQ==
-X-Received: by 2002:a05:6000:1805:b0:236:7180:6ccc with SMTP id
- m5-20020a056000180500b0023671806cccmr3846886wrh.573.1669028704111; 
- Mon, 21 Nov 2022 03:05:04 -0800 (PST)
+ bh=GEAt+qB73Jkg1WP8V9xEykeRMPKiveWLpihp2K199qY=;
+ b=EKvlVQD+ZyCCcEOsWxBuVs2TknVmbNcB2wsNYS8g7g0zqeFoFMO1xag7QB01Mon/zy
+ 6G4XN6Dk441aCl7TNKvybwycyHgHHnmP70mBw70XsyHlxLmSxkUGCoYFw5XSHLN7TaN0
+ JK2gwC2Q/T8jnAqy8s4la9sSwTA3SEkCeU6wsQFtlsp4Dl1gCbumi+ou1fre+YVsE+JN
+ vbxgOmGDc/as/p+hz4OATX62h5SnjB3+24yJEY2K2Yx8co+j1rL6arNzKBZv4DZV4ic4
+ DJ9n7DftkM7z4B+i3pQJkiNkQ+dW5E7alotjJecG+o9FugMSjXNzJgiyuYIOzfA4BBJM
+ 9yGg==
+X-Gm-Message-State: ANoB5pktRmr0tW2lzVVuhnrPj6T+iHJwI858x1aYUJxVBYSuOiZnOwcB
+ u58EFiqDMj3mV70Wg8PYF5pIAA==
+X-Google-Smtp-Source: AA0mqf5YMml89bgCFLkNlpTea8XBC7bRJWVDGeZ4ZtJ/I5D8TygifAB4YfEHdGm8FaAAZZS4/QX9gA==
+X-Received: by 2002:adf:f70b:0:b0:241:792e:237a with SMTP id
+ r11-20020adff70b000000b00241792e237amr2869278wrp.511.1669029179327; 
+ Mon, 21 Nov 2022 03:12:59 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c3b8900b003c6bbe910fdsm23927927wms.9.2022.11.21.03.05.03
+ r13-20020a05600c458d00b003c7087f6c9asm18988194wmo.32.2022.11.21.03.12.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 03:05:03 -0800 (PST)
-Message-ID: <9f2b72a3-bf2c-9672-ab54-c7cf68b5691d@linaro.org>
-Date: Mon, 21 Nov 2022 12:05:01 +0100
+ Mon, 21 Nov 2022 03:12:58 -0800 (PST)
+Message-ID: <21cfb02a-dec8-3a78-8a7c-e99ac06a090e@linaro.org>
+Date: Mon, 21 Nov 2022 12:12:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH for-8.0 1/7] qemu/main-loop: Introduce
- QEMU_IOTHREAD_LOCK_GUARD
+Subject: Re: [PATCH] tests/avocado: Update the URLs of the advent calendar
+ images
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20221118091858.242569-1-richard.henderson@linaro.org>
- <20221118091858.242569-2-richard.henderson@linaro.org>
- <87k03s75c5.fsf@linaro.org> <702c1474-2dd1-1e09-935a-427b97a24652@linaro.org>
- <87edtwd3zr.fsf@linaro.org>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221121102436.78635-1-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87edtwd3zr.fsf@linaro.org>
+In-Reply-To: <20221121102436.78635-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,32 +92,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/11/22 10:55, Alex Bennée wrote:
+On 21/11/22 11:24, Thomas Huth wrote:
+> The qemu-advent-calendar.org server will be decommissioned soon.
+> I've mirrored the images that we use for the QEMU CI to gitlab,
+> so update their URLs to point to the new location.
 > 
-> Richard Henderson <richard.henderson@linaro.org> writes:
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/avocado/boot_linux_console.py     |  4 +--
+>   tests/avocado/machine_arm_canona1100.py |  4 +--
+>   tests/avocado/machine_microblaze.py     |  4 +--
+>   tests/avocado/machine_sparc64_sun4u.py  |  4 +--
+>   tests/avocado/ppc_mpc8544ds.py          |  6 ++--
+>   tests/avocado/ppc_virtex_ml507.py       |  6 ++--
+>   tests/avocado/replay_kernel.py          | 40 ++++++++++++-------------
+>   7 files changed, 34 insertions(+), 34 deletions(-)
 > 
->> On 11/18/22 05:30, Alex Bennée wrote:
->>> Richard Henderson <richard.henderson@linaro.org> writes:
->>>
->>>> Create a wrapper for locking/unlocking the iothread lock.
->>>>
->>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>>> ---
->>>> Cc: Paolo Bonzini <pbonzini@redhat.com> (maintainer:Main loop)
->>> You might want to review Paolo's comments from:
->>>     Subject: [RFC PATCH] main-loop: introduce WITH_QEMU_IOTHREAD_LOCK
->>>     Date: Mon, 24 Oct 2022 18:19:09 +0100
->>>     Message-Id: <20221024171909.434818-1-alex.bennee@linaro.org>
->>> So it would be worth having the WITH_QEMU_IOTHREAD_LOCK() and
->>> MAYBE_WITH_QEMU_IOTHREAD_LOCK() helpers for completeness.
->>
->> I don't see that (MAYBE_)WITH_QEMU_IOTHREAD_LOCK is particularly
->> useful in any of the cases that I converted.
-> 
-> Fair enough - as long as they are easy enough to add later. The WITH_
-> forms do work nicely to wrap a particular area under lock and make
-> things visually clear vs the LOCK_GUARD which basically holds the lock
-> to the end of function or exit.
+> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+> index 4c9d551f47..f3e6f44ae9 100644
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -1029,8 +1029,8 @@ def test_m68k_q800(self):
+>           self.wait_for_console_pattern(console_pattern)
+>   
+>       def do_test_advcal_2018(self, day, tar_hash, kernel_name, console=0):
+> -        tar_url = ('https://www.qemu-advent-calendar.org'
+> -                   '/2018/download/day' + day + '.tar.xz')
+> +        tar_url = ('https://qemu-advcal.gitlab.io'
+> +                   '/qac-best-of-multiarch/download/day' + day + '.tar.xz')
 
-I concur for WITH_QEMU_IOTHREAD_LOCK(), it is a no-brainer.
+You could insert the year in the url, so you can eventually add other 
+editions :)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
