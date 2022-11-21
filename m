@@ -2,69 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D67F6328F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8429D6328F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:06:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9FE-0005J1-DZ; Mon, 21 Nov 2022 11:02:06 -0500
+	id 1ox9Ik-0006am-UV; Mon, 21 Nov 2022 11:05:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ox9F9-0005II-Hl
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:02:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ox9F2-0004nm-41
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:01:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669046511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DoY7E0NlYewfrflBQjU41cLatH2XrISuX9oqDnVhi9k=;
- b=SIIhZK4ZxibPqbroCURjlfgcKboL8+IjorirP2+Lji2USMh9+lwj680FOZ+gOKQSsPAfXD
- A7Gbo89z47fPy0YQ4+ZOqx7oMSObc8j0wEOESl7RXBhLZRuyDVhI8GdRG57qLasoeAhdD1
- vfgTpep1foyQ7jDp41nE30yxgkqdytc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-RFib2cX5MQekAa2zQA2VLQ-1; Mon, 21 Nov 2022 11:01:45 -0500
-X-MC-Unique: RFib2cX5MQekAa2zQA2VLQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5113811E7A;
- Mon, 21 Nov 2022 16:01:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ABF3D492CA2;
- Mon, 21 Nov 2022 16:01:43 +0000 (UTC)
-Date: Mon, 21 Nov 2022 17:01:40 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 07/11] block/vmdk: add missing coroutine_fn annotations
-Message-ID: <Y3ug5AlK0+h6c1tu@redhat.com>
-References: <20221116122241.2856527-1-eesposit@redhat.com>
- <20221116122241.2856527-8-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9HJ-0006MM-Gt
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:04:18 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox9H2-00052r-Hr
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:03:58 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so13125329wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 08:03:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KSUeMmCg94RK7l3nVd8QwBc1ocqYyvzzlsrJFKkg9ss=;
+ b=rwrJBIMg7+ggaBprHg6ahbtvFFuQVBk4ztyzTnkjF04XI1yOeQ/0a7pcxBGAPa6ION
+ FgrU2He2IOgtDvSo7EjJB5AuvAwmkoupiKv5HPEUTzJiponMdjBxEFVa+pcLavdGGnYP
+ s1x3eqSqMlIL+DbnoeFWsE3KpzoExPSBwWqYYaagNsQMVBFbsZJMA08bzSzZAUylMUAC
+ 6LYVoMsNziTzhukEv5IRhPJ9L435hneL9C9bwfv5GdoTkDrgLMToYYa49gVAwn4Fh9Bk
+ cog1Rva9mckLEc14xFjs/Eue29nrO3/P15u1BQDnjpuZlgXWerKVBtHCj+Jky2aCr4ec
+ eKuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSUeMmCg94RK7l3nVd8QwBc1ocqYyvzzlsrJFKkg9ss=;
+ b=tauT21vMy7x+RkRkxzEb4NQc9ujZzXHIxh8tt90HswyJOx8KFnPdbF3x7UwZb4H1Za
+ OQbzb+udcmp54zePorXb47W5+0+Hd8fa66rFzCOa50kJ4xwaf1ZuhORK1Kz46APH7hQS
+ h8l9zf7jjUYiEWK9Qaw5/weRNsRpgZVtzKW8DIEAYfXQvHHqseIzHOHspg+WMfzyVAq5
+ Zhqa8LYGsePMZcz7oDjYyt8agEBYMd1BS4sEdCOySHFh9Ka7pXjCBXUVyUf6vGF5lWkr
+ aPuqX1shQW3BtTFsH9vnVzevLsbwKsk/21TgKDhtlmS9ntu/oXpO9/4QL6i9fjGiqdXe
+ wjIQ==
+X-Gm-Message-State: ANoB5pmkI1eil0iLFYRNURXudBzH1pc7leJtlNN1xblsD99/Qsp3dg47
+ +d7jlFflaZ5+iEr94k+zT2s3mQ==
+X-Google-Smtp-Source: AA0mqf7kHkMMIoBjBnktKF+uES/hfX3Nq7uTEGOptK0+fFnMaYo0+7FDsuOpeIdciEEaOIgON44cNw==
+X-Received: by 2002:a1c:6a01:0:b0:3cf:a895:a9cb with SMTP id
+ f1-20020a1c6a01000000b003cfa895a9cbmr16672488wmc.96.1669046634874; 
+ Mon, 21 Nov 2022 08:03:54 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ q125-20020a1c4383000000b003c6cd82596esm18691105wma.43.2022.11.21.08.03.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 08:03:53 -0800 (PST)
+Message-ID: <7875a42b-2776-9d36-5373-78ac75cff89d@linaro.org>
+Date: Mon, 21 Nov 2022 17:03:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221116122241.2856527-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH] cleanup: Tweak and re-run return_directly.cocci
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, kwolf@redhat.com,
+ hreitz@redhat.com, groug@kaod.org, qemu_oss@crudebyte.com,
+ Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com, yuval.shaia.ml@gmail.com,
+ marcel.apfelbaum@gmail.com, mst@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com, pavel.dovgaluk@ispras.ru, alex.bennee@linaro.org,
+ peterx@redhat.com, david@redhat.com, mrolnik@gmail.com, gaosong@loongson.cn,
+ yangxiaojuan@loongson.cn, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
+ aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, berrange@redhat.com,
+ thuth@redhat.com, lvivier@redhat.com, suhang16@mails.ucas.ac.cn,
+ chen.zhang@intel.com, lizhijian@fujitsu.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, qemu-riscv@nongnu.org, qemu-ppc@nongnu.org,
+ virtio-fs@redhat.com
+References: <20221121140121.1079100-1-armbru@redhat.com>
+ <CAFEAcA_jnbp36Trjd3qJYzbf5-6SNNrirG7q2_-wKXkcX49ptg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA_jnbp36Trjd3qJYzbf5-6SNNrirG7q2_-wKXkcX49ptg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,22 +105,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
-> These functions end up calling bdrv_create() implemented as generated_co_wrapper
-> functions.
-> In addition, they also happen to be always called in coroutine context,
-> meaning all callers are coroutine_fn.
-> This means that the g_c_w function will enter the qemu_in_coroutine()
-> case and eventually suspend (or in other words call qemu_coroutine_yield()).
-> Therefore we need to mark such functions coroutine_fn too.
+On 21/11/22 15:36, Peter Maydell wrote:
+> On Mon, 21 Nov 2022 at 14:03, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Tweak the semantic patch to drop redundant parenthesis around the
+>> return expression.
+>>
+>> Coccinelle drops comments in hw/rdma/vmw/pvrdma_cmd.c; restored
+>> manually.
+>>
+>> Coccinelle messes up vmdk_co_create(), not sure why.  Transformed
+>> manually.
+>>
+>> Line breaks in target/avr/cpu.h and hw/rdma/vmw/pvrdma_cmd.c tidied up
+>> manually.
+>>
+>> Whitespace in fuse_reply_iov() tidied up manually.
+>>
+>> checkpatch.pl complains "return of an errno should typically be -ve"
+>> two times for hw/9pfs/9p-synth.c.  Preexisting, the patch merely makes
+>> it visible to checkpatch.pl.
+>>
+>> checkpatch.pl complains "return is not a function, parentheses are not
+>> required" three times for target/mips/tcg/dsp_helper.c.  False
+>> positives.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>   .../user/ase/msa/bit-count/test_msa_nloc_b.c  |   9 +-
+>>   .../user/ase/msa/bit-count/test_msa_nloc_d.c  |   9 +-
+> [snip long list of other mips test files]
+> 
+>>   328 files changed, 989 insertions(+), 2099 deletions(-)
+> 
+> This patch seems to almost entirely be huge because of these
+> mips test case files. Are they specific to QEMU or are they
+> effectively a 3rd-party import that it doesn't make sense
+> to make local changes to?
 
-Just one remark about patch ordering: This doesn't require the
-g_c_w_simple patches, so wouldn't it make more sense to move the
-g_c_w_simple right before the first patch that actually makes use of
-them?
-
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-
+They are imported and will unlikely be modified.
 
