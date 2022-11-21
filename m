@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA76632741
+	by mail.lfdr.de (Postfix) with ESMTPS id E050E632742
 	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 16:04:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox8JM-0008SX-G6; Mon, 21 Nov 2022 10:02:16 -0500
+	id 1ox8JW-0008Tv-0V; Mon, 21 Nov 2022 10:02:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ox8JI-0008S0-CD
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:02:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ox8JT-0008Ti-IQ
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:02:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ox8JG-0001Gl-0f
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:02:11 -0500
+ id 1ox8JS-0001Ho-4c
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 10:02:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669042928;
+ s=mimecast20190719; t=1669042941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pbv9IbWu3fF3fe1kQfpaz+p08KZd3Yl6FZB8pcVqYlw=;
- b=A1SQtfZK8VtkmxGDz9W/nPCuadZH5iEjFVlJTJLJ6pnZ+ZjWnzDFa0mCBE0DH5JnRssiG/
- 9XzMWYqlEnrmVQ14Mu06GRelnPFHS6ppUKujawMJjBvQsIgQNcSA0ovhocC7ILXh4Q+hU5
- rvkemVqrqew1yAEGNai+aFDV0ZhgVDg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wsQa4JQMrhdc7tb/jorxamJ7AWYHXIvWpsOKtbNJ5Cc=;
+ b=AIzrcDgS+LmyIHZFh1qaJHodsqpcje5v9S+uqVogHFZyiqekqcz96bFSIg8ce8MrVC9Dsd
+ 5R42yTbh0d3yZw+cLkB6X4u3vdXWfbrGGbNLtDsscZUOqhC0oiD4pYv8u4RbfBtPAeY6xv
+ IVRLqbvGAtLpiqGMdmkFF3uV5MkTrq4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-507-mdx_sFxgNjW-b5x0b992Bg-1; Mon, 21 Nov 2022 10:02:07 -0500
-X-MC-Unique: mdx_sFxgNjW-b5x0b992Bg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m34-20020a05600c3b2200b003cf549cb32bso9424755wms.1
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 07:02:07 -0800 (PST)
+ us-mta-262-8U2MxhQcNmucq7uRuQggkA-1; Mon, 21 Nov 2022 10:02:19 -0500
+X-MC-Unique: 8U2MxhQcNmucq7uRuQggkA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v188-20020a1cacc5000000b003cf76c4ae66so9402044wme.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 07:02:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pbv9IbWu3fF3fe1kQfpaz+p08KZd3Yl6FZB8pcVqYlw=;
- b=FKbCVpENyE8jS4Rx4AZOj5SRDXgFMt+rThQg5KFuxkTcQ5FMR1kxqC2hB3Qx2oWh8/
- Xq5axyZYu1hrrs1IAaCY0hhejayEA+95T1kQHJuc/LyHqbX2/wAq4El4Q+Hzf3i9pcS8
- q8K3nLh9wNdhBED58wAjSYmrd1ycu30ur7HAsYHOIjjymWuKxBsvjsbOsXQ7vG9jdlwM
- oeXYLobwsdbvc2PVyrlf4uOkWKOqomS0wBLn4CkBNYIjKBPqpU2C13jHV2sSFmMU5rWi
- 4zgq2HLCTP3NZt53UMPuIthIyXhrlypACv8yfo2Ckc9R/iILZjToNgNWG45xMxLO2dKl
- vBjA==
-X-Gm-Message-State: ANoB5pmFSDUht9aj1Oyvx/CIea31jdhi13L/agmX6yKjioEq9cu1Vf4s
- DgFActP/xaycs0eyyR9sxniccOR3MC6EKCI015T4m6jSp5izLdyRGCOvkOWZPlNDmOPtH6NSh5Z
- SCfalJmquCT0JNHI=
-X-Received: by 2002:a05:6000:1d84:b0:236:5022:c705 with SMTP id
- bk4-20020a0560001d8400b002365022c705mr10955692wrb.466.1669042925998; 
- Mon, 21 Nov 2022 07:02:05 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5KMzLfUch0m32A+ufVSsVLjTTSZgMnrTd30JDWFmFr9+bCTp0qgjUSOLxzUCo1XLIxZ3qilA==
-X-Received: by 2002:a05:6000:1d84:b0:236:5022:c705 with SMTP id
- bk4-20020a0560001d8400b002365022c705mr10955645wrb.466.1669042925598; 
- Mon, 21 Nov 2022 07:02:05 -0800 (PST)
+ bh=wsQa4JQMrhdc7tb/jorxamJ7AWYHXIvWpsOKtbNJ5Cc=;
+ b=KYXtnXLa08pnM9JqkZO/fWDp2LUe+HdeO/OR+8C7QchRLSv4dmQrHyhpPOxEyHUTX7
+ /p2JUZIMOZyXyBp28PVzi75dPN4gflza00/y/viIuDgaHyttRzA/UyHLUyYhwpzoe5Jh
+ XhEz5IbUd9UrIKM/kzPChn2Xa3LqtRhYkkVu/GNxlMRiPatOQSpKd7fO5QCv8p5w8SgV
+ pPauafG5GlkNLNOSydJcQjbgQZl5ayJOaL0/uvjW9DGW2Q4joJAWBYCNXFVyJ3iH8Xav
+ hV9ODOS6k3jxCvwF/yhhOctgVxtIULVZB0dGYq+xOjCZ2MsEoXmffX2ACcoNFSsMzyqW
+ NvsQ==
+X-Gm-Message-State: ANoB5pmNqF2qHR7KRrWf2gb0jqKdjiC1YATqC3EnPUyuwmmc/aKlliVt
+ f4s446EwpM3JDivkzqpm0KJBfIGJYxDG1zWYRtUarFHhrkr94RzDMwNFFSIpNwCD/avbjiABuSK
+ s/wh0QXNiuf/cgRc=
+X-Received: by 2002:a05:600c:1d12:b0:3cf:8441:4a7c with SMTP id
+ l18-20020a05600c1d1200b003cf84414a7cmr16923551wms.0.1669042938298; 
+ Mon, 21 Nov 2022 07:02:18 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6r531d8SHkVgecE1Ol9wJQZpE++bx6UquvHz17NBENFg+OoC5/8NJSbnUqX3j9TKwE7fc/cg==
+X-Received: by 2002:a05:600c:1d12:b0:3cf:8441:4a7c with SMTP id
+ l18-20020a05600c1d1200b003cf84414a7cmr16923515wms.0.1669042938039; 
+ Mon, 21 Nov 2022 07:02:18 -0800 (PST)
 Received: from [192.168.149.123]
  (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- p11-20020a05600c468b00b003c65c9a36dfsm15502761wmo.48.2022.11.21.07.02.04
+ g17-20020a05600c4ed100b003c701c12a17sm21034623wmq.12.2022.11.21.07.02.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 07:02:05 -0800 (PST)
-Message-ID: <6bbd0166-20aa-1f2f-8732-8614b679e364@redhat.com>
-Date: Mon, 21 Nov 2022 16:02:04 +0100
+ Mon, 21 Nov 2022 07:02:17 -0800 (PST)
+Message-ID: <ee28a1be-85b8-1d83-75ca-6038536976e5@redhat.com>
+Date: Mon, 21 Nov 2022 16:02:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 00/20] Protect the block layer with a rwlock: part 1
+Subject: Re: [PATCH 0/6] Protect the block layer with a rwlock: part 2
 Content-Language: en-US
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org
-References: <20221116134850.3051419-1-eesposit@redhat.com>
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20221116135331.3052923-1-eesposit@redhat.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20221116134850.3051419-1-eesposit@redhat.com>
+In-Reply-To: <20221116135331.3052923-1-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -124,130 +123,43 @@ The order of the series is:
 Thank you,
 Emanuele
 
-Am 16/11/2022 um 14:48 schrieb Emanuele Giuseppe Esposito:
-> This serie is the first of four series that aim to introduce and use a new
-> graph rwlock in the QEMU block layer.
-> The aim is to replace the current AioContext lock with much fine-grained locks,
-> aimed to protect only specific data.
-> Currently the AioContext lock is used pretty much everywhere, and it's not
-> even clear what it is protecting exactly.
+Am 16/11/2022 um 14:53 schrieb Emanuele Giuseppe Esposito:
+> Please read "Protect the block layer with a rwlock: part 1" for an additional
+> introduction and aim of this series.
 > 
-> The aim of the rwlock is to cover graph modifications: more precisely,
-> when a BlockDriverState parent or child list is modified or read, since it can
-> be concurrently accessed by the main loop and iothreads.
+> This second part aims to add the graph rdlock to the BlockDriver functions
+> that already run in coroutine context and are classified as IO.
+> Such functions will recursively traverse the BlockDriverState graph, therefore
+> they need to be protected with the rdlock.
 > 
-> The main assumption is that the main loop is the only one allowed to perform
-> graph modifications, and so far this has always been held by the current code.
-> 
-> The rwlock is inspired from cpus-common.c implementation, and aims to
-> reduce cacheline bouncing by having per-aiocontext counter of readers.
-> All details and implementation of the lock are in patch 1.
-> 
-> We distinguish between writer (main loop, under BQL) that modifies the
-> graph, and readers (all other coroutines running in various AioContext),
-> that go through the graph edges, reading ->parents and->children.
-> The writer (main loop)  has an "exclusive" access, so it first waits for
-> current read to finish, and then prevents incoming ones from
-> entering while it has the exclusive access.
-> The readers (coroutines in multiple AioContext) are free to
-> access the graph as long the writer is not modifying the graph.
-> In case it is, they go in a CoQueue and sleep until the writer
-> is done.
-> 
-> In this first serie, my aim is to introduce the lock (patches 1-3,6), cover the
-> main graph writer (patch 4), define assertions (patch 5) and start using the
-> read lock in the generated_co_wrapper functions (7-20).
-> Such functions recursively traverse the BlockDriverState graph, so they must
-> take the graph rdlock.
-> 
-> We distinguish two cases related to the generated_co_wrapper (often shortened
-> to g_c_w):
-> - qemu_in_coroutine(), which means the function is already running in a
->   coroutine. This means we don't take the lock, because the coroutine must
->   have taken it when it started
-> - !qemu_in_coroutine(), which means we need to create a new coroutine that
->   performs the operation requested. In this case we take the rdlock as soon as
->   the coroutine starts, and release only before finishing.
-> 
-> In this and following series, we try to follow the following locking pattern:
-> - bdrv_co_* functions that call BlockDriver callbacks always expect the lock
->   to be taken, therefore they assert.
-> - blk_co_* functions usually call blk_wait_while_drained(), therefore they must
->   take the lock internally. Therefore we introduce generated_co_wrapper_blk,
->   which does not take the rdlock when starting the coroutine.
-> 
-> The long term goal of this series is to eventually replace the AioContext lock,
-> so that we can get rid of it once and for all.
-> 
-> This serie is based on v4 of "Still more coroutine and various fixes in block layer".
-> 
-> Based-on: <20221116122241.2856527-1-eesposit@redhat.com>
+> Based-on: <20221116134850.3051419-1-eesposit@redhat.com>
 > 
 > Thank you,
 > Emanuele
 > 
-> Emanuele Giuseppe Esposito (19):
->   graph-lock: introduce BdrvGraphRWlock structure
->   async: register/unregister aiocontext in graph lock list
->   block.c: wrlock in bdrv_replace_child_noperm
->   block: remove unnecessary assert_bdrv_graph_writable()
->   block: assert that graph read and writes are performed correctly
->   graph-lock: implement WITH_GRAPH_RDLOCK_GUARD and GRAPH_RDLOCK_GUARD
->     macros
->   block-coroutine-wrapper.py: take the graph rdlock in bdrv_* functions
->   block-backend: introduce new generated_co_wrapper_blk annotation
->   block-gen: assert that {bdrv/blk}_co_truncate is always called with
+> Emanuele Giuseppe Esposito (6):
+>   block: assert that bdrv_co_create is always called with graph rdlock
+>     taken
+>   block: assert that BlockDriver->bdrv_co_{amend/create} are called with
 >     graph rdlock taken
->   block-gen: assert that bdrv_co_{check/invalidate_cache} are always
+>   block: assert that BlockDriver->bdrv_co_copy_range_{from/to} is always
 >     called with graph rdlock taken
->   block-gen: assert that bdrv_co_pwrite is always called with graph
->     rdlock taken
->   block-gen: assert that bdrv_co_pwrite_{zeros/sync} is always called
->     with graph rdlock taken
->   block-gen: assert that bdrv_co_pread is always called with graph
->     rdlock taken
->   block-gen: assert that {bdrv/blk}_co_flush is always called with graph
->     rdlock taken
->   block-gen: assert that bdrv_co_{read/write}v_vmstate are always called
->     with graph rdlock taken
->   block-gen: assert that bdrv_co_pdiscard is always called with graph
->     rdlock taken
->   block-gen: assert that bdrv_co_common_block_status_above is always
+>   block/dirty-bitmap: assert that BlockDriver->bdrv_co_*_dirty_bitmap
+>     are always called with graph rdlock taken
+>   block/io: assert that BlockDriver->bdrv_co_*_snapshot_* are always
 >     called with graph rdlock taken
->   block-gen: assert that bdrv_co_ioctl is always called with graph
->     rdlock taken
->   block-gen: assert that nbd_co_do_establish_connection is always called
+>   block: assert that BlockDriver->bdrv_co_delete_file is always called
 >     with graph rdlock taken
 > 
-> Paolo Bonzini (1):
->   block: introduce a lock to protect graph operations
-> 
->  block.c                                |  15 +-
->  block/backup.c                         |   3 +
->  block/block-backend.c                  |  10 +-
->  block/block-copy.c                     |  10 +-
->  block/graph-lock.c                     | 255 +++++++++++++++++++++++++
->  block/io.c                             |  15 ++
->  block/meson.build                      |   1 +
->  block/mirror.c                         |  20 +-
->  block/nbd.c                            |   1 +
->  block/stream.c                         |  32 ++--
->  include/block/aio.h                    |   9 +
->  include/block/block-common.h           |   1 +
->  include/block/block_int-common.h       |  36 +++-
->  include/block/block_int-global-state.h |  17 --
->  include/block/block_int-io.h           |   2 +
->  include/block/block_int.h              |   1 +
->  include/block/graph-lock.h             | 180 +++++++++++++++++
->  include/sysemu/block-backend-io.h      |  69 +++----
->  qemu-img.c                             |   4 +-
->  scripts/block-coroutine-wrapper.py     |  13 +-
->  tests/unit/test-bdrv-drain.c           |   2 +
->  util/async.c                           |   4 +
->  util/meson.build                       |   1 +
->  23 files changed, 615 insertions(+), 86 deletions(-)
->  create mode 100644 block/graph-lock.c
->  create mode 100644 include/block/graph-lock.h
+>  block.c                          |  2 ++
+>  block/amend.c                    |  1 +
+>  block/block-backend.c            |  2 ++
+>  block/create.c                   |  1 +
+>  block/dirty-bitmap.c             |  2 ++
+>  block/io.c                       |  7 +++++++
+>  include/block/block_int-common.h | 14 +++++++++++++-
+>  qemu-img.c                       |  4 +++-
+>  8 files changed, 31 insertions(+), 2 deletions(-)
 > 
 
 
