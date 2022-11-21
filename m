@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F918632E6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37D2632E84
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:11:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxE0z-0002Oe-Kj; Mon, 21 Nov 2022 16:07:41 -0500
+	id 1oxE3o-0003HZ-8Z; Mon, 21 Nov 2022 16:10:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oxE0c-0002OE-HZ
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:07:18 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oxE3j-0003HD-Tl
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:10:31 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oxE0a-0003f9-I3
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:07:18 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id k84so15072981ybk.3
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:07:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oxE3i-0004G4-7E
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:10:31 -0500
+Received: by mail-pg1-x529.google.com with SMTP id 62so12229749pgb.13
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:10:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pLJFZ65K1JLNeVOTqsNXL3Z53xyT42aKUYHt2EY1/kg=;
- b=YCk+N1ULgAm9+GRwdhQNPSklFU/Xesdumv1OjlJ0P+G+viTofKLGCDjmGoHXAdfO08
- ChDFdCtiRON/S68fUtAotTaZAUHVzYaUcSfoYLwuc0HeLAuhJkBT+8JjkxnTq+fV3+B1
- lqUputj8CoY6DO8rApdEqjUaeX1qEnGt9QtGGDXDrmQKyTEt00z+ZxkV61BHEjo5jld0
- ABtjQU9U5JhdTwDH9SwS08c2AOvkcQvv0NhKkTPd6yx0Fet/+fV/ZWLmea+GO14LF4l/
- 9W4WUubZFdDw1XpDX3LRl4MMP2r+j7OU8M5kOpa4rqy8OwbopEsE5QmJ8iRt3WHEsSXk
- XawQ==
+ bh=tKhj7MBUxtmOhVfL2zJ+SZ4qJJsdpQKV7//1J4ttH8g=;
+ b=Gs0KezbSMPoHE1BIzd6pP34jhyD72u4/X4f35Dwq5byl1fTYY9KjhWwqFToaHcJaKG
+ EIe2dXRrXWHc7zWLG1vHMRYOKo5+lla5yX/DwZsuDJ067gmZ9bKQCwq8hDrUohzane/r
+ qLxLzGa1rUiRDh7hRb4qpAR4F6hQcnU+rkQR4AFNP28O7LEk9/twHtdPvtE6h6ZJajij
+ HUMDVhgPTIw9VBMKDS4UAwfpgFb/Sz2DRRSCZP4FOYuC9KPismKlr6eRR/fXy6RGpuDn
+ kQtc6ZAEfez01axiYNKOlPUROn9ywvvXbUrjIC2M5Baz4PHtuo0ZL0zGBrUQflOAd0Qh
+ UXQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=pLJFZ65K1JLNeVOTqsNXL3Z53xyT42aKUYHt2EY1/kg=;
- b=IH8q1WvN+B4BeY6wPvr+SX1kF/bimYyGXm+AXUvFIaFQ+FTKB3zjJf1puF3/VJ9KcO
- DkY0iWKmoL37fZCOZ4LueN8TAH3BGW+TNop6f4HZE9CoY5q5uvzi96xmsiFFeTvN8GGg
- SlnbKJhxyFc/FOamwpJymPA6nvS3qNPxBKiQff4+xBfXrubM/qNqaqQpraQ11aDv2lT3
- f9FBa6y4rqLn7C2z6Lw9Q18vlcus/c4ZYbs/QRdbDrkK6D+DkWZe8vXajQTB1RT/WLAN
- fi7Z93Hysz/7I4vGZ/AftovxNhMYycJcFqkVL6ZSyopXcgv68xC4lieTW3oCwv1TDMcE
- 1pdA==
-X-Gm-Message-State: ANoB5plQLZIosvZvIsCIKoektARQmL7oueemRySWws7Njwm+pA1qpLy+
- yvZ6wqNRrhylDwoA6XFZYGKXOeLW/jrl0R1scMzlrZD/m6c=
-X-Google-Smtp-Source: AA0mqf5j9Y5QsgRwEHIbYYLOtJAuolfLhY8gk3CTzWIGTaIhqD2Y91r6S1Ykc/85RxxuVqXF20LdJEElUPqUrzobfPk=
-X-Received: by 2002:a25:af54:0:b0:6dc:e3ee:3e60 with SMTP id
- c20-20020a25af54000000b006dce3ee3e60mr4530047ybj.58.1669064835439; Mon, 21
- Nov 2022 13:07:15 -0800 (PST)
+ bh=tKhj7MBUxtmOhVfL2zJ+SZ4qJJsdpQKV7//1J4ttH8g=;
+ b=u2F3oyuvLkbGx0I9x1t7dtGh+O6nn4WiKG9k9pLboDMCI/lEOrfN77Ic9VOylrGjYG
+ crJ07LdZlKQLP+J1xiTYIAugknVJJdeVv3yxdjiEAcp+3oVs8cU/MMa1j7Zc3lC2WkVb
+ 8dXaSP1pqD005TxWTvktB0lieqtGcCxHbGhR2jrsqRUiF6APXvVgligVY1N8Ie3G9Vn7
+ v9qvIMZhqYm1lVw0A8weaToHLvRYytinXv7hmtykvkEiQMX6vi3Ehr5tuF/sfQbHiWTY
+ 4jDVqjO6uAfRO1Wm0Y5exa0WEmJLTSQ9+ZX6uzfWfkp6DyMM+Hxf+3bvoyvaMk0PXiMk
+ j7GA==
+X-Gm-Message-State: ANoB5pmZ0wMoibmumxiA2FjAAOney7xaly+mI/1ooYghgaPICavqaLHB
+ bY8+7z0tElwuG5orIpHSJ341h0ooabvh1cMD/4NRiQ==
+X-Google-Smtp-Source: AA0mqf5enzPn+PZd4dXLu9cLYmF0jC6XkmROVYhLPUtAVQOZcDZ+T9Wl9CeFUXC5t6dHK0vlw5cq8vAmmxzfyKwzvgo=
+X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
+ r6-20020a635146000000b0047786c1640fmr587136pgl.231.1669065028483; Mon, 21 Nov
+ 2022 13:10:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20221121194240.149268-1-thuth@redhat.com>
-In-Reply-To: <20221121194240.149268-1-thuth@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 21 Nov 2022 16:07:03 -0500
-Message-ID: <CAJSP0QXC9+N5NsGEJeqxhGLpOFBTRDcWmeh3-pJMHNTaPaENZA@mail.gmail.com>
-Subject: Re: [PATCH] tests/qtest: Decrease the amount of output from the
- qom-test
-To: Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20221121130239.1138631-1-peter.maydell@linaro.org>
+ <Y3ufQyGAl4ToeIls@fedora>
+In-Reply-To: <Y3ufQyGAl4ToeIls@fedora>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Nov 2022 21:10:16 +0000
+Message-ID: <CAFEAcA9WASG7aeAGsPZKmoncBTKkvzjfyrpbTgoZWfxacVbc_A@mail.gmail.com>
+Subject: Re: [PULL 0/5] target-arm queue
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,30 +83,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 21 Nov 2022 at 14:44, Thomas Huth <thuth@redhat.com> wrote:
+On Mon, 21 Nov 2022 at 15:54, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> The logs in the gitlab-CI have a size constraint, and sometimes
-> we already hit this limit. The biggest part of the log then seems
-> to be filled by the qom-test, so we should decrease the size of
-> the output - which can be done easily by not printing the path
-> for each property, since the path has already been logged at the
-> beginning of each node that we handle here.
->
-> However, if we omit the path, we should make sure to not recurse
-> into child nodes in between, so that it is clear to which node
-> each property belongs. Thus store the children and links in a
-> temporary list and recurse only at the end of each node, when
-> all properties have already been printed.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  See e.g. here for a log that got too big:
->  https://gitlab.com/qemu-project/qemu/-/jobs/3355901224
->
->  tests/qtest/qom-test.c | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
+> Applied, thanks.
 
-Nice!
+This doesn't seem to have reached https://gitlab.com/qemu-project/qemu.git:
+did something go wrong?
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+thanks
+-- PMM
 
