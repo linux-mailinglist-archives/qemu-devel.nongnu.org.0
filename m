@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A38E632F98
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9684632F9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:15:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxEzn-0007xI-Ft; Mon, 21 Nov 2022 17:10:31 -0500
+	id 1oxF3i-0001rU-4O; Mon, 21 Nov 2022 17:14:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxEzh-0007vU-OH
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:10:25 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxF3f-0001nV-LM
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:14:31 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxEzf-0007WZ-7b
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:10:25 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- m7-20020a05600c090700b003cf8a105d9eso10017841wmp.5
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 14:10:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxF3e-0008Hh-5Y
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:14:31 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id s5so4762683wru.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 14:14:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HUz2SV9jmYBMm+2fNl8Mzpi9ahY8L3ES46riBu78VyA=;
- b=hDf69OopnkDEJBh4V6wGphX1CKNwZM0SarGwZI9OO15QGRnWWLpdPVLKm1WCO5Fi+t
- wG9kQtrzAnHJDnijrQJ4d51qaOT+xSMIGf4RfOnAmzhukzFCm0+/gI5yl3udw4XKr43c
- NCJNop86Cipqvha5P+UKdJ5p6KBg/yqjxDQ5bG9w5qeMh5dXlB5oa9N9RWfNKUwgRdXZ
- acsa8j/Ku2JBn9j8SCBFOHUWnBYeXfktqU3CZfw+WctxYhAktKfGH3TOq6WsL5S6/Lz7
- cc6wUhrhJjNUDsSi8UIFhundyJ4hFAiF8mUb70EgO16UvMlPCbGtdNpMAdxUTeE/tDXU
- u2CA==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZXAYK9EtPr0/HyGva/YHb1IHixGJ8pX9B9a7oCD6tMI=;
+ b=m5uL5aE/upl+uLlSTN6ttjMCYV7tzH34UW4KFRZFlQJ2NhCF3tCBgriJ+9N11/YOfI
+ vu8bxON/hVmCa2nG5aMM6UDxM7jXygzTNoRn3+bKDQFuRIXNi+y7jG9k2F9zQmrIN7ug
+ 0+eFlaLi3tF13u4I5OMzXsvNc8PV6eI3WnkC0tytQwbB/A7RntM+GqFcdBY6t9tPMAk3
+ HUkLhe7K6ReVmBveMI5urASYr0JcrsjYIJmz0qGsjli4Fj32p5qn0o2gZmZX3v9YEW9s
+ sEqkvzWsgMHK13HQwDXLHoRlZRShGK1l2Pj++pZIvmOTJuVSD3FH4iQUrpYpr/M2F1B3
+ bwUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=HUz2SV9jmYBMm+2fNl8Mzpi9ahY8L3ES46riBu78VyA=;
- b=mxfAFHqiZxn0ilLngnstcSc7+cBf99yHNJrYOR1Ek8yEvzEdcNY2K6RwlMETDZvG1n
- oAu976ptfU0u/thehoUhpXXfY01RUv0fDHlUwL8z+y2SAGAhV7CPNF/yUaOnMkFn1xs5
- Hhylnk3ZmVCmeYGfrv/rxgBqlOH2unM0p+acAfmY+hUF5weEnRzsbDOrSog8+imf8Slp
- CE7j+KyD8FLbA5c1wlurTY8AZ4LhmVN4U4+VOwxBtqmh8bD7dzk4RlJ5NWEHZ7oUzrsD
- Ruja95QG+36wNa75xeuiJDOJxe7cXtJmQ2SXFxXx9bbFP0wI9wqhFy1LfD2WuetHiVv8
- vcgA==
-X-Gm-Message-State: ANoB5pliHfuEX63CgWZqjS0D5soIxpIvIgr1He1ab4xPXh5AZ6DE7FYx
- sj9MtgntovHk4qNOR3/QOdZGpw==
-X-Google-Smtp-Source: AA0mqf7F8ZrGk2Wy2DyIUB+Xe2EaIyN2cwXVrrFd+xuF2M6CmzGDIrNPzbVAYgXNmhnpc7jxpwtskw==
-X-Received: by 2002:a05:600c:907:b0:3cf:a5df:8bb6 with SMTP id
- m7-20020a05600c090700b003cfa5df8bb6mr588083wmp.37.1669068620815; 
- Mon, 21 Nov 2022 14:10:20 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZXAYK9EtPr0/HyGva/YHb1IHixGJ8pX9B9a7oCD6tMI=;
+ b=hglsvEV3MWWA+LoBiVy298Tnjo8cDcAZJtMKS7iWiPZCqw7qLYOH6bdtJIwY1kOllp
+ r+mtd/azue68KjFaXtzyNV66MpmOlra9/QkCBObc62FBEvj+XnjhJvZ2dCAcCC/+pzhs
+ MIjeLGx4iaSwTfXz380EjwJjP3YO4Jy5rfc61yTa8/pXqQbHBbxQsH6mN4zKFGvsy/9Q
+ rnBMGHSJ0/uO4NCM/XsMVjSjukGuo710iI0bnR8RUyphNvfB4YhOOCojIBK9NSDzh2ft
+ B2dSulmcV4/0XtR+IEMVYCNQL4sGNh0VslmLHol/6++F2nIL4Yi0rj3iF++jaIKk2fDU
+ lSKg==
+X-Gm-Message-State: ANoB5pkk+4pRHudWFwayUTXJpcJPmYhe4djh6hHE24zjeovhqXfkeCKg
+ CQph3tGkPL2/Rdr7RCCBdVjDuQ==
+X-Google-Smtp-Source: AA0mqf4Lq9SLcX7pEptsxPCSgcboHP4HpXYMEmHxV6HaLy1m1gVWzC8JLdErzzmhzmukPCriAPsxfA==
+X-Received: by 2002:a5d:4601:0:b0:241:bf7b:b2e5 with SMTP id
+ t1-20020a5d4601000000b00241bf7bb2e5mr9121994wrq.626.1669068868476; 
+ Mon, 21 Nov 2022 14:14:28 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c4f1200b003c6f3f6675bsm21467500wmq.26.2022.11.21.14.10.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 14:10:20 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA46C1FFB7;
- Mon, 21 Nov 2022 22:10:19 +0000 (GMT)
-References: <Y3QNRWUK8BLRQlaQ@strawberry.localdomain>
- <878rkbalba.fsf@linaro.org> <Y3gAIEythPY+z0q0@strawberry.localdomain>
- <Y3gA/i8bBkR7mgkQ@strawberry.localdomain>
-User-agent: mu4e 1.9.3; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Cc: qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>, Richard
- Henderson <richard.henderson@linaro.org>
-Subject: Re: Plugin Memory Callback Debugging
-Date: Mon, 21 Nov 2022 22:02:08 +0000
-In-reply-to: <Y3gA/i8bBkR7mgkQ@strawberry.localdomain>
-Message-ID: <87wn7oarhw.fsf@linaro.org>
+ k18-20020a05600c1c9200b003b47b80cec3sm20987241wms.42.2022.11.21.14.14.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 14:14:27 -0800 (PST)
+Message-ID: <0e954038-e3b4-f3dc-9e39-03ff20b2d557@linaro.org>
+Date: Mon, 21 Nov 2022 23:14:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH v5 14/20] hw/audio: explicitly set .requester_type for
+ intel-hda
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, Gerd Hoffmann <kraxel@redhat.com>
+References: <20221111182535.64844-1-alex.bennee@linaro.org>
+ <20221111182535.64844-15-alex.bennee@linaro.org>
+ <CAFEAcA9bYVODgATKULZTgnBoHtivGwOP37hxraeqWw2-NrT4Ag@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA9bYVODgATKULZTgnBoHtivGwOP37hxraeqWw2-NrT4Ag@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,43 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 21/11/22 19:39, Peter Maydell wrote:
+> On Fri, 11 Nov 2022 at 18:35, Alex Bennée <alex.bennee@linaro.org> wrote:
+>>
+>> This is simulating a bus master writing data back into system memory.
+>> Mark it as such.
+>>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> ---
+>>   hw/audio/intel-hda.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+> I wonder if stl_le_pci_dma() and friends should set the
+> requester_id on the attrs that they are passed ?
 
-> Sorry, left off the very end of my timeline:
->
-> On Nov 18 16:58, Aaron Lindsay wrote:
->> I have, so far, discovered the following timeline:
->> 1. My plugin receives a instruction execution callback for a load
->>    instruction. At this time, cpu->plugin_mem_cbs points to the same
->>    memory which will later be freed
->> 2. During the handling of this callback, my plugin calls
->qemu_plugin_reset()
+Very good point!
 
-The final plugin reset should only execute in the safe async context
-(i.e. no other vCPUs running code). That flushes all current generated
-code.
-
->> 3. Ostensibly something goes wrong here with the cleanup of
->>    cpu->plugin_mem_cbs???
-
-This may be missed by the reset path (hence your patch) but it should be
-being reset every instruction we instrument.
-
->> 4. Step 2 triggers the TBs to be flushed, which frees the memory pointed
->>    to by cpu->plugin_mem_cbs=20
->
-> 5. A store exclusive instruction is translated and then executed, which
->    requires the use of a helper. When executed, this helper checks
->    cpu->plugin_mem_cbs, which is non-null, so it attempts to dereference
->    and use it, resulting in the assertion.
-
-It should be being reset for each instruction I think.
-
->
-> -Aaron
-
-
---=20
-Alex Benn=C3=A9e
 
