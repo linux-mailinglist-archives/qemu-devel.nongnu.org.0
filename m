@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BABE632969
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B6E632991
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:34:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9dv-0000jH-LW; Mon, 21 Nov 2022 11:27:35 -0500
+	id 1ox9e1-0000xl-H5; Mon, 21 Nov 2022 11:27:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ox9du-0000gA-5k
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:34 -0500
+ id 1ox9dw-0000lQ-1T
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:36 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.226] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ox9do-0001uI-18
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:31 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ox9dt-0001vu-UE
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:35 -0500
 HMM_SOURCE_IP: 172.18.0.218:59746.263116816
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.40.159 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 33C562800DB;
- Tue, 22 Nov 2022 00:27:23 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 7F0CE2800DE;
+ Tue, 22 Nov 2022 00:27:26 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([125.69.40.159])
- by app0025 with ESMTP id 177ba1192ea849d89813edb200e107a8 for
- qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:26 CST
-X-Transaction-ID: 177ba1192ea849d89813edb200e107a8
+ by app0025 with ESMTP id 24a37f7b918f499b88889b0262b303bc for
+ qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:29 CST
+X-Transaction-ID: 24a37f7b918f499b88889b0262b303bc
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 125.69.40.159
 X-MEDUSA-Status: 0
@@ -40,9 +40,10 @@ Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v2 09/11] tests: Add migration dirty-limit capability test
-Date: Mon, 21 Nov 2022 11:26:41 -0500
-Message-Id: <1b4c8f506b0b3018f2dad61a9e3485f26ce4fcba.1669047366.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v2 10/11] tests/migration: Introduce dirty-ring-size option
+ into guestperf
+Date: Mon, 21 Nov 2022 11:26:42 -0500
+Message-Id: <72595118953e8c2b5c548052788a22e9e3b1fa6e.1669047366.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1669047366.git.huangy81@chinatelecom.cn>
 References: <cover.1669047366.git.huangy81@chinatelecom.cn>
@@ -75,200 +76,110 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Add migration dirty-limit capability test if kernel support
-dirty ring.
+Guestperf tool does not enable diry ring feature when test
+migration by default.
 
-Migration dirty-limit capability introduce dirty limit
-capability, two parameters: x-vcpu-dirty-limit-period and
-x-vcpu-dirty-limit are introduced to implement the live
-migration with dirty limit.
+To support dirty ring migration performance test, introduce
+dirty-ring-size option into guestperf tools, which ranges in
+[1024, 65536].
 
-The test case does the following things:
-1. start src, dst vm and enable dirty-limit capability
-2. start migrate and set cancel it to check if dirty limit
-   stop working.
-3. restart dst vm
-4. start migrate and enable dirty-limit capability
-5. check if migration satisfy the convergence condition
-   during pre-switchover phase.
+To set dirty ring size with 4096 during migration test:
+$ ./tests/migration/guestperf.py --dirty-ring-size 4096 xxx
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- tests/qtest/migration-test.c | 154 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 154 insertions(+)
+ tests/migration/guestperf/engine.py   | 7 ++++++-
+ tests/migration/guestperf/hardware.py | 8 ++++++--
+ tests/migration/guestperf/shell.py    | 7 ++++++-
+ 3 files changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 442998d..baa614c 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2422,6 +2422,158 @@ static void test_vcpu_dirty_limit(void)
-     dirtylimit_stop_vm(vm);
- }
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 59fca2c..d7b75b9 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -303,7 +303,6 @@ def _get_common_args(self, hardware, tunnelled=False):
+             cmdline = "'" + cmdline + "'"
  
-+static void migrate_dirty_limit_wait_showup(QTestState *from,
-+                                            const int64_t period,
-+                                            const int64_t value)
-+{
-+    /* Enable dirty limit capability */
-+    migrate_set_capability(from, "dirty-limit", true);
-+
-+    /* Set dirty limit parameters */
-+    migrate_set_parameter_int(from, "x-vcpu-dirty-limit-period", period);
-+    migrate_set_parameter_int(from, "vcpu-dirty-limit", value);
-+
-+    /* Make sure migrate can't converge */
-+    migrate_ensure_non_converge(from);
-+
-+    /* To check limit rate after precopy */
-+    migrate_set_capability(from, "pause-before-switchover", true);
-+
-+    /* Wait for the serial output from the source */
-+    wait_for_serial("src_serial");
-+}
-+
-+/*
-+ * This test does:
-+ *  source               target
-+ *                       migrate_incoming
-+ *     migrate
-+ *     migrate_cancel
-+ *                       restart target
-+ *     migrate
-+ *
-+ *  And see that if dirty limit works correctly
-+ */
-+static void test_migrate_dirty_limit(void)
-+{
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    QTestState *from, *to;
-+    int64_t remaining, throttle_us_per_full;
-+    /*
-+     * We want the test to be stable and as fast as possible.
-+     * E.g., with 1Gb/s bandwith migration may pass without dirty limit,
-+     * so we need to decrease a bandwidth.
-+     */
-+    const int64_t dirtylimit_period = 1000, dirtylimit_value = 50;
-+    const int64_t max_bandwidth = 400000000; /* ~400Mb/s */
-+    const int64_t downtime_limit = 250; /* 250ms */
-+    /*
-+     * We migrate through unix-socket (> 500Mb/s).
-+     * Thus, expected migration speed ~= bandwidth limit (< 500Mb/s).
-+     * So, we can predict expected_threshold
-+     */
-+    const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
-+    int max_try_count = 10;
-+    MigrateCommon args = {
-+        .start = {
-+            .hide_stderr = true,
-+            .use_dirty_ring = true,
-+        },
-+        .listen_uri = uri,
-+        .connect_uri = uri,
-+    };
-+
-+    /* Start src, dst vm */
-+    if (test_migrate_start(&from, &to, args.listen_uri, &args.start)) {
-+        return;
-+    }
-+
-+    /* Prepare for dirty limit migration and wait src vm show up */
-+    migrate_dirty_limit_wait_showup(from, dirtylimit_period, dirtylimit_value);
-+
-+    /* Start migrate */
-+    migrate_qmp(from, uri, "{}");
-+
-+    /* Wait for dirty limit throttle begin */
-+    throttle_us_per_full = 0;
-+    while (throttle_us_per_full == 0) {
-+        throttle_us_per_full =
-+            read_migrate_property_int(from, "dirty-limit-throttle-us-per-full");
-+        usleep(100);
-+        g_assert_false(got_stop);
-+    }
-+
-+    /* Now cancel migrate and wait for dirty limit throttle switch off */
-+    migrate_cancel(from);
-+    wait_for_migration_status(from, "cancelled", NULL);
-+
-+    /* Check if dirty limit throttle switched off, set timeout 1ms */
-+    do {
-+        throttle_us_per_full =
-+            read_migrate_property_int(from, "dirty-limit-throttle-us-per-full");
-+        usleep(100);
-+        g_assert_false(got_stop);
-+    } while (throttle_us_per_full != 0 && --max_try_count);
-+
-+    /* Assert dirty limit is not in service */
-+    g_assert_cmpint(throttle_us_per_full, ==, 0);
-+
-+    args = (MigrateCommon) {
-+        .start = {
-+            .only_target = true,
-+            .use_dirty_ring = true,
-+        },
-+        .listen_uri = uri,
-+        .connect_uri = uri,
-+    };
-+
-+    /* Restart dst vm, src vm already show up so we needn't wait anymore */
-+    if (test_migrate_start(&from, &to, args.listen_uri, &args.start)) {
-+        return;
-+    }
-+
-+    /* Start migrate */
-+    migrate_qmp(from, uri, "{}");
-+
-+    /* Wait for dirty limit throttle begin */
-+    throttle_us_per_full = 0;
-+    while (throttle_us_per_full == 0) {
-+        throttle_us_per_full =
-+            read_migrate_property_int(from, "dirty-limit-throttle-us-per-full");
-+        usleep(100);
-+        g_assert_false(got_stop);
-+    }
-+
-+    /*
-+     * The dirty limit rate should equals the return value of
-+     * query-vcpu-dirty-limit if dirty limit cap set
-+     */
-+    g_assert_cmpint(dirtylimit_value, ==, get_limit_rate(from));
-+
-+    /* Now, we have tested if dirty limit works, let it converge */
-+    migrate_set_parameter_int(from, "downtime-limit", downtime_limit);
-+    migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth);
-+
-+    /*
-+     * Wait for pre-switchover status to check if migration
-+     * satisfy the convergence condition
-+     */
-+    wait_for_migration_status(from, "pre-switchover", NULL);
-+
-+    remaining = read_ram_property_int(from, "remaining");
-+    g_assert_cmpint(remaining, <,
-+                    (expected_threshold + expected_threshold / 100));
-+
-+    migrate_continue(from, "pre-switchover");
-+
-+    qtest_qmp_eventwait(to, "RESUME");
-+
-+    wait_for_serial("dest_serial");
-+    wait_for_migration_complete(from);
-+
-+    test_migrate_end(from, to, true);
-+}
-+
- static bool kvm_dirty_ring_supported(void)
- {
- #if defined(__linux__) && defined(HOST_X86_64)
-@@ -2592,6 +2744,8 @@ int main(int argc, char **argv)
-                        test_precopy_unix_dirty_ring);
-         qtest_add_func("/migration/vcpu_dirty_limit",
-                        test_vcpu_dirty_limit);
-+        qtest_add_func("/migration/dirty_limit",
-+                       test_migrate_dirty_limit);
-     }
+         argv = [
+-            "-accel", "kvm",
+             "-cpu", "host",
+             "-kernel", self._kernel,
+             "-initrd", self._initrd,
+@@ -314,6 +313,12 @@ def _get_common_args(self, hardware, tunnelled=False):
+             "-smp", str(hardware._cpus),
+         ]
  
-     ret = g_test_run();
++        if hardware._dirty_ring_size:
++            argv.extend(["-accel", "kvm,dirty-ring-size=%s" %
++                         hardware._dirty_ring_size])
++        else:
++            argv.extend(["-accel", "kvm"])
++
+         if self._debug:
+             argv.extend(["-device", "sga"])
+ 
+diff --git a/tests/migration/guestperf/hardware.py b/tests/migration/guestperf/hardware.py
+index 3145785..f779cc0 100644
+--- a/tests/migration/guestperf/hardware.py
++++ b/tests/migration/guestperf/hardware.py
+@@ -23,7 +23,8 @@ def __init__(self, cpus=1, mem=1,
+                  src_cpu_bind=None, src_mem_bind=None,
+                  dst_cpu_bind=None, dst_mem_bind=None,
+                  prealloc_pages = False,
+-                 huge_pages=False, locked_pages=False):
++                 huge_pages=False, locked_pages=False,
++                 dirty_ring_size=0):
+         self._cpus = cpus
+         self._mem = mem # GiB
+         self._src_mem_bind = src_mem_bind # List of NUMA nodes
+@@ -33,6 +34,7 @@ def __init__(self, cpus=1, mem=1,
+         self._prealloc_pages = prealloc_pages
+         self._huge_pages = huge_pages
+         self._locked_pages = locked_pages
++        self._dirty_ring_size = dirty_ring_size
+ 
+ 
+     def serialize(self):
+@@ -46,6 +48,7 @@ def serialize(self):
+             "prealloc_pages": self._prealloc_pages,
+             "huge_pages": self._huge_pages,
+             "locked_pages": self._locked_pages,
++            "dirty_ring_size": self._dirty_ring_size,
+         }
+ 
+     @classmethod
+@@ -59,4 +62,5 @@ def deserialize(cls, data):
+             data["dst_mem_bind"],
+             data["prealloc_pages"],
+             data["huge_pages"],
+-            data["locked_pages"])
++            data["locked_pages"],
++            data["dirty_ring_size"])
+diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
+index 8a809e3..559616f 100644
+--- a/tests/migration/guestperf/shell.py
++++ b/tests/migration/guestperf/shell.py
+@@ -60,6 +60,8 @@ def __init__(self):
+         parser.add_argument("--prealloc-pages", dest="prealloc_pages", default=False)
+         parser.add_argument("--huge-pages", dest="huge_pages", default=False)
+         parser.add_argument("--locked-pages", dest="locked_pages", default=False)
++        parser.add_argument("--dirty-ring-size", dest="dirty_ring_size",
++                            default=0, type=int)
+ 
+         self._parser = parser
+ 
+@@ -89,7 +91,10 @@ def split_map(value):
+ 
+                         locked_pages=args.locked_pages,
+                         huge_pages=args.huge_pages,
+-                        prealloc_pages=args.prealloc_pages)
++                        prealloc_pages=args.prealloc_pages,
++
++                        dirty_ring_size=args.dirty_ring_size)
++
+ 
+ 
+ class Shell(BaseShell):
 -- 
 1.8.3.1
 
