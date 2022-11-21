@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A68631A05
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 08:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C69631A16
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 08:20:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox0uL-0000US-As; Mon, 21 Nov 2022 02:07:57 -0500
+	id 1ox14w-0004Bk-CY; Mon, 21 Nov 2022 02:18:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ox0uI-0000UJ-RW
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:07:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ox0uF-0004f0-W2
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:07:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669014469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sDvUWg5UcrKAStoLU7XwdzE6s7JWGGtp9LBaDbps3f0=;
- b=gfmVHAykz67CezZUZMbhkP9BPKrW6n3LxXd5cAMMoWdVvyscdeHEHKZnvw1ywtMInqTgTi
- kQ+pqLN3/rhucF3e991weVHKTvlpBTwlCrd3V4p+Z4/U9+5CbbwGVxDkIjJSoAjCqnBFol
- DNqevF7pN58nI3HmVZ21RD9MjzTmYp0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-645-hwtUPyH7M9qBSz4kQoXNOg-1; Mon, 21 Nov 2022 02:07:47 -0500
-X-MC-Unique: hwtUPyH7M9qBSz4kQoXNOg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v188-20020a1cacc5000000b003cf76c4ae66so8809989wme.7
- for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 23:07:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ox14d-00048o-6M; Mon, 21 Nov 2022 02:18:35 -0500
+Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ox14b-00075y-Ij; Mon, 21 Nov 2022 02:18:34 -0500
+Received: by mail-vk1-xa2f.google.com with SMTP id m18so5225491vka.10;
+ Sun, 20 Nov 2022 23:18:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xVUaPtoXs5k+P5Uo1EX58C33TTTmVcwlTzX2bOofhRc=;
+ b=Rw53jthS8QAhZPLYCA1xUz13bhdt60Ed3r3/zIjJLcR36SCPcCbpl3tK+lynbblr1N
+ oRfqsI5CXIHlqa6o3ShHBvDpbgrMdKyP/0OQaN3JeBYetwKnq+6q/JyVmHjmPzokXJhx
+ R9PrhUCEaTd3LdXoxlhXmyZdYRXkQeVnN8pzeKsQQWrlevsD0gLUumNRwqCOKfwYrDzN
+ C7NaB2bhZlx6xGn+jvUZEXp0bCziehVtjJDuZBRMFtagYkpD0O1RPcfzBAbqoolVsYTR
+ 3CWXvJpotTjqSya4349FLKgtfbPDdoIl0c+UVPTg7MVVM8jYxlxLk0mLfoOp40WrtYXn
+ nIdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sDvUWg5UcrKAStoLU7XwdzE6s7JWGGtp9LBaDbps3f0=;
- b=zVNIxfFLj7tpldJxN1KVhOLGCDXYTnuBeYIwFlEaE66tzWHjdoaygQfpx4FkQle+aA
- xHrRCWjxfaSjd+zC9afZgjcFC2HvPYoh1jNBNZSth3ixNp3/DLeJuVyAdL5rSCVIeUOF
- r3i3zYTqAyRM7QntBGbsHp5uYsUZ9gjlwCcD2prRNKOkpe8ToFgxE3208X+FtgDtbxQO
- Y0sebkS89Kl+MpF683h55ufm/AkzvVhTr/K+QGyZoalIWG6Q4HyEB5c2VOfiAsh0myrA
- 0W1LuxZl8chIRpht8wtckFVYehEKipJoBSm1wI9/snKwBvmFlFuXuuodCnfJtetCUYPA
- WtnQ==
-X-Gm-Message-State: ANoB5pkNa2sHlfKJh26meoBA0Zm/hfSWjo1VwLwXRXhH/fLfcPXbmB0W
- letVRoZI3tUwfYcw0yKO33myqQrsTrdp63GTxymOrRHglYwtsYgX+XfQW9hB5EJO7DCsx0CVnre
- sIor0KD4alXO3lFU=
-X-Received: by 2002:a05:600c:1d92:b0:3cf:78fc:eda2 with SMTP id
- p18-20020a05600c1d9200b003cf78fceda2mr15404278wms.47.1669014466540; 
- Sun, 20 Nov 2022 23:07:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7GfJAJ2DEB/XByaHTqqS2qv5jqflnUv9l7Bv8um6jD3NuiUIhmSMmPY0Qufp9nl0HmUmFYEQ==
-X-Received: by 2002:a05:600c:1d92:b0:3cf:78fc:eda2 with SMTP id
- p18-20020a05600c1d9200b003cf78fceda2mr15404263wms.47.1669014466297; 
- Sun, 20 Nov 2022 23:07:46 -0800 (PST)
-Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
- g17-20020a05600c4ed100b003c701c12a17sm19355972wmq.12.2022.11.20.23.07.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Nov 2022 23:07:45 -0800 (PST)
-Date: Mon, 21 Nov 2022 02:07:41 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Kangjie Xu <kangjie.xu@linux.alibaba.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PULL v4 30/83] virtio: core: vq reset feature negotation support
-Message-ID: <20221121020729-mutt-send-email-mst@kernel.org>
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-31-mst@redhat.com>
- <CAGxU2F4S4FFa+HoXbz5bxbi_+DJeaZUMTE89_508n68sNP-EUw@mail.gmail.com>
- <20221119121900-mutt-send-email-mst@kernel.org>
- <CACGkMEsg=CM8Cjdf+mTKBY2+NLeH5oz7v7dchWPZkVpXeD9NoA@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xVUaPtoXs5k+P5Uo1EX58C33TTTmVcwlTzX2bOofhRc=;
+ b=sikD16gLq/51+S+5UfJxPGFbajwY+7MOK2sRAMlJscq7pO1dhFdD2CA6ybzMF5t4Vj
+ byxNqHExhqgmMbz8Y5E+mf8AdbmdFbvXoCOQb7m+FfcH8sGrKk4wqj5+vhcHCc3CgosD
+ snMDr0VPgi4pdQAiAsr62m2kqW8sTyTlYn8hT6fW5afm2i1YKxhtot1K1/NGOyZZ5QWy
+ uZYbrzSJmtrjQSJT2rldFpeEVyvO4+OQs6BYcGFO+/SNWx9/cDrkP2z9AbF9JfEj9UYZ
+ kZHpZpP//rYSkzaakBoac/4zrtGWjARJghtaxx+0BzGF6Fx0yusyPCE2SkzRjcGC8mEE
+ PHYA==
+X-Gm-Message-State: ANoB5pkzfvnZW9d3wHZXkUUu41Vc4R2H0ieU9cKqyaUYMT+m+BxP9jT1
+ WRpiDQRav0gjrbfk3rl8xX2Nl5hljOCGQx0KJiU=
+X-Google-Smtp-Source: AA0mqf7cd5Gwq5CTPyzHH0YUoRabqDAvKyJiBDHz9hYpbBZKN3NaZX8jlLRHUy59AkZ8ihNiCGC7QEKcz7qbwU8Grvo=
+X-Received: by 2002:a1f:2314:0:b0:3bb:eb83:7ab7 with SMTP id
+ j20-20020a1f2314000000b003bbeb837ab7mr8943166vkj.30.1669015112279; Sun, 20
+ Nov 2022 23:18:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACGkMEsg=CM8Cjdf+mTKBY2+NLeH5oz7v7dchWPZkVpXeD9NoA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20221118123728.49319-1-liweiwei@iscas.ac.cn>
+ <20221118123728.49319-3-liweiwei@iscas.ac.cn>
+In-Reply-To: <20221118123728.49319-3-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 21 Nov 2022 17:18:05 +1000
+Message-ID: <CAKmqyKOfxfSd5brgOZohtQGEg4MNhhrb11+wmYbu5AwKrRKdpw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/9] target/riscv: add support for Zca extension
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2f;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,124 +84,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 21, 2022 at 02:17:02PM +0800, Jason Wang wrote:
-> On Sun, Nov 20, 2022 at 1:19 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Fri, Nov 18, 2022 at 03:32:56PM +0100, Stefano Garzarella wrote:
-> > > Hi,
-> > > starting from this commit 69e1c14aa2 ("virtio: core: vq reset feature
-> > > negotation support"), vhost-user-vsock and vhost-vsock fails while
-> > > setting the device features, because VIRTIO_F_RING_RESET is not masked.
-> > >
-> > > I'm not sure vsock is the only one affected.
-> > >
-> > > We could fix in two ways:
-> > >
-> > > 1) Masking VIRTIO_F_RING_RESET when we call vhost_get_features:
-> > >
-> > > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-> > > index 29b9ab4f72..e671cc695f 100644
-> > > --- a/hw/virtio/vhost-vsock-common.c
-> > > +++ b/hw/virtio/vhost-vsock-common.c
-> > > @@ -21,6 +21,7 @@
-> > >
-> > >  const int feature_bits[] = {
-> > >      VIRTIO_VSOCK_F_SEQPACKET,
-> > > +    VIRTIO_F_RING_RESET,
-> > >      VHOST_INVALID_FEATURE_BIT
-> > >  };
-> > >
-> >
-> > Let's do this, we need to be conservative.
-> 
-> Ack.
-> 
-> Thanks
+On Fri, Nov 18, 2022 at 10:44 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+> Modify the check for C extension to Zca (C implies Zca)
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Patch pls? Stefano?
+Alistair
 
-> >
-> >
-> > > 2) Or using directly the features of the device. That way we also handle
-> > > other features that we may have already had to mask but never did.
-> > >
-> > > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-> > > index 29b9ab4f72..41a665082c 100644
-> > > --- a/hw/virtio/vhost-vsock-common.c
-> > > +++ b/hw/virtio/vhost-vsock-common.c
-> > > @@ -33,7 +33,7 @@ uint64_t vhost_vsock_common_get_features(VirtIODevice *vdev, uint64_t features,
-> > >          virtio_add_feature(&features, VIRTIO_VSOCK_F_SEQPACKET);
-> > >      }
-> > >
-> > > -    features = vhost_get_features(&vvc->vhost_dev, feature_bits, features);
-> > > +    features &= vvc->vhost_dev.features;
-> > >
-> > >      if (vvc->seqpacket == ON_OFF_AUTO_ON &&
-> > >          !virtio_has_feature(features, VIRTIO_VSOCK_F_SEQPACKET)) {
-> > >
-> > >
-> > > I may be missing the real reason for calling vhost_get_features(),
-> > > though.
-> > >
-> > > @Michael what do you recommend we do?
-> > >
-> > > Thanks,
-> > > Stefano
-> > >
-> > > On Tue, Nov 8, 2022 at 12:06 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> > > >
-> > > > A a new command line parameter "queue_reset" is added.
-> > > >
-> > > > Meanwhile, the vq reset feature is disabled for pre-7.2 machines.
-> > > >
-> > > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > Acked-by: Jason Wang <jasowang@redhat.com>
-> > > > Message-Id: <20221017092558.111082-5-xuanzhuo@linux.alibaba.com>
-> > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > ---
-> > > >  include/hw/virtio/virtio.h | 4 +++-
-> > > >  hw/core/machine.c          | 4 +++-
-> > > >  2 files changed, 6 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > > > index b00b3fcf31..1423dba379 100644
-> > > > --- a/include/hw/virtio/virtio.h
-> > > > +++ b/include/hw/virtio/virtio.h
-> > > > @@ -313,7 +313,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
-> > > >      DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
-> > > >                        VIRTIO_F_IOMMU_PLATFORM, false), \
-> > > >      DEFINE_PROP_BIT64("packed", _state, _field, \
-> > > > -                      VIRTIO_F_RING_PACKED, false)
-> > > > +                      VIRTIO_F_RING_PACKED, false), \
-> > > > +    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
-> > > > +                      VIRTIO_F_RING_RESET, true)
-> > > >
-> > > >  hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
-> > > >  bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
-> > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > index aa520e74a8..907fa78ff0 100644
-> > > > --- a/hw/core/machine.c
-> > > > +++ b/hw/core/machine.c
-> > > > @@ -40,7 +40,9 @@
-> > > >  #include "hw/virtio/virtio-pci.h"
-> > > >  #include "qom/object_interfaces.h"
-> > > >
-> > > > -GlobalProperty hw_compat_7_1[] = {};
-> > > > +GlobalProperty hw_compat_7_1[] = {
-> > > > +    { "virtio-device", "queue_reset", "false" },
-> > > > +};
-> > > >  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
-> > > >
-> > > >  GlobalProperty hw_compat_7_0[] = {
-> > > > --
-> > > > MST
-> > > >
-> > > >
-> >
-
+> ---
+>  target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+>  target/riscv/translate.c                | 8 ++++++--
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index 5c69b88d1e..0d73b919ce 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>      tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>
+>      gen_set_pc(ctx, cpu_pc);
+> -    if (!has_ext(ctx, RVC)) {
+> +    if (!ctx->cfg_ptr->ext_zca) {
+>          TCGv t0 = tcg_temp_new();
+>
+>          misaligned = gen_new_label();
+> @@ -178,7 +178,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>
+>      gen_set_label(l); /* branch taken */
+>
+> -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
+> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>          /* misaligned */
+>          gen_exception_inst_addr_mis(ctx);
+>      } else {
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 2ab8772ebe..ee24b451e3 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -557,7 +557,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>
+>      /* check misaligned: */
+>      next_pc = ctx->base.pc_next + imm;
+> -    if (!has_ext(ctx, RVC)) {
+> +    if (!ctx->cfg_ptr->ext_zca) {
+>          if ((next_pc & 0x3) != 0) {
+>              gen_exception_inst_addr_mis(ctx);
+>              return;
+> @@ -1097,7 +1097,11 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>      ctx->virt_inst_excp = false;
+>      /* Check for compressed insn */
+>      if (insn_len(opcode) == 2) {
+> -        if (!has_ext(ctx, RVC)) {
+> +        /*
+> +         * Zca support all of the existing C extension, excluding all
+> +         * compressed floating point loads and stores
+> +         */
+> +        if (!ctx->cfg_ptr->ext_zca) {
+>              gen_exception_illegal(ctx);
+>          } else {
+>              ctx->opcode = opcode;
+> --
+> 2.25.1
+>
+>
 
