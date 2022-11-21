@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA52C6322ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:00:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49966322F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:01:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox6Ok-0001cT-FX; Mon, 21 Nov 2022 07:59:42 -0500
+	id 1ox6PF-0001xH-Kq; Mon, 21 Nov 2022 08:00:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6OX-0001bP-BY
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ox6P8-0001sk-6j
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:00:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6OV-0006Rd-TI
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:29 -0500
+ id 1ox6P6-0006cb-Jg
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:00:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669035567;
+ s=mimecast20190719; t=1669035603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=403oEb4nMshaBr2VAMAZkkpkxyQZ3/0zt2xOM1yNz0I=;
- b=DqYBHv8JFrn04L28nsp1o4xPVQ1HONRAH8x0v1Z6Xx78ouwfpn2V/7snChANqAda29famt
- JA9XEs/xBGfDBJG7tkc/b3bIChKyKlTrJfy3pecf0HgkbpRcLAEw3rhTlMRJYYGNfY6r1d
- 3SmMM4YIPkXMnNKLBadGxbCmH6zjT/U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=shYvfY1m4aFGTKlg3Ec60OJ8M+Vs1dd+K/kBHRLF7PM=;
+ b=ZVrtPrIyS2bjHedMmpSOopzvW8PYOddGmi2vUwH+wKJ/O8Uy83kYfB//e7NbCU2QYijW6V
+ PIL7pKT8fhswknuEAOplMReJKurMGLLA6fR/2EtmezxkxehZhp19XjVwRZ7M3bI6nfOZ/L
+ gS8LIoaFNc5RAAGUrd5Deruc28VU5UQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-2s1HgUuXO_eevD_z1JFycQ-1; Mon, 21 Nov 2022 07:59:24 -0500
-X-MC-Unique: 2s1HgUuXO_eevD_z1JFycQ-1
+ us-mta-592-jaqLidZzPfqBVWmNNphoXw-1; Mon, 21 Nov 2022 07:59:30 -0500
+X-MC-Unique: jaqLidZzPfqBVWmNNphoXw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4203811E84;
- Mon, 21 Nov 2022 12:59:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD39F382C96E;
+ Mon, 21 Nov 2022 12:59:29 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E7F3C15BB3;
- Mon, 21 Nov 2022 12:59:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1534BC15BB3;
+ Mon, 21 Nov 2022 12:59:27 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefan Hajnoczi <stefanha@redhat.com>,
@@ -50,16 +50,15 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>,
  Fam Zheng <fam@euphon.net>, Juan Quintela <quintela@redhat.com>,
  qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
  Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 5/8] migration: Disallow postcopy preempt to be used with
- compress
-Date: Mon, 21 Nov 2022 13:59:04 +0100
-Message-Id: <20221121125907.62469-6-quintela@redhat.com>
+Subject: [PULL 8/8] migration: Block migration comment or code is wrong
+Date: Mon, 21 Nov 2022 13:59:07 +0100
+Message-Id: <20221121125907.62469-9-quintela@redhat.com>
 In-Reply-To: <20221121125907.62469-1-quintela@redhat.com>
 References: <20221121125907.62469-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,42 +82,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+And it appears that what is wrong is the code. During bulk stage we
+need to make sure that some block is dirty, but no games with
+max_size at all.
 
-The preempt mode requires the capability to assign channel for each of the
-page, while the compression logic will currently assign pages to different
-compress thread/local-channel so potentially they're incompatible.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- migration/migration.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ migration/block.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 739bb683f3..f3ed77a7d0 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1337,6 +1337,17 @@ static bool migrate_caps_check(bool *cap_list,
-             error_setg(errp, "Postcopy preempt requires postcopy-ram");
-             return false;
-         }
-+
-+        /*
-+         * Preempt mode requires urgent pages to be sent in separate
-+         * channel, OTOH compression logic will disorder all pages into
-+         * different compression channels, which is not compatible with the
-+         * preempt assumptions on channel assignments.
-+         */
-+        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
-+            error_setg(errp, "Postcopy preempt not compatible with compress");
-+            return false;
-+        }
+diff --git a/migration/block.c b/migration/block.c
+index 3577c815a9..4347da1526 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -880,8 +880,8 @@ static void block_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+     blk_mig_unlock();
+ 
+     /* Report at least one block pending during bulk phase */
+-    if (pending <= max_size && !block_mig_state.bulk_completed) {
+-        pending = max_size + BLK_MIG_BLOCK_SIZE;
++    if (!pending && !block_mig_state.bulk_completed) {
++        pending = BLK_MIG_BLOCK_SIZE;
      }
  
-     return true;
+     trace_migration_block_save_pending(pending);
 -- 
 2.38.1
 
