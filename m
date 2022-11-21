@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CDD632324
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2539C632308
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:03:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox6S6-00051Q-7G; Mon, 21 Nov 2022 08:03:10 -0500
+	id 1ox6S6-00053K-WE; Mon, 21 Nov 2022 08:03:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ox6Rl-0004tk-CB
+ id 1ox6Rl-0004ti-Bt
  for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:02:51 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ox6Ri-0007Rh-7Q
+ id 1ox6Ri-0007Rw-SZ
  for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:02:48 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id bs21so19758966wrb.4
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 05:02:45 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id d1so7635095wrs.12
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 05:02:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=fwMWmQZd9sBU28g/akDXkXxjGE4RWYE++luBOirwphw=;
- b=kAR4MUmoRwrRSU8KC7umHfm4p3QC47OVr1XxAXqvwqUlFM2ZtUMOfqJt3fR21sOTIa
- gucZ1h6FMdIMUbK34uB8lTXwHuMyZyhXqfQ4zgXamtVbKksqWU2PqjkBaUCV5Dnfj5Cv
- ZaQdeEhx96OSi5C3WRWWM5dWEmDDF+crTJPJHGNU76rxzVIAS/QndCJgcGuXrSl1hxDA
- Hdz8PkxN0yFoCAJoDXkeuf6qOtJQHUsczc3YKmBUGMcn4tfZVjQekF5NBtlA8Oepd0rZ
- IEeGXgFriGiW2SvRWZM3BexfqEMVI91oFtSNOdO+VOHn7dZTR/CmuBqu9Vi0NMCA1hn5
- /4Kg==
+ :reply-to; bh=JBNmxcqLBxZag1unF7NOFteCv/IX3kebN57U4uPMAOo=;
+ b=iQXSb9MMFfTFM6CRTSJWyLnL0FFXWmI1IBXm1aM31ib39XyRZOR4Qbl99ZlnjMyqyb
+ Z/PpSy7kKbx6YyFa4dbVLBdM25lr0weNPtpmnhD533eR2ZfUK7rt5bwta52d9cxwSn5c
+ exkV+q5a2gKug0k47/p9B50BxiMKa81c2ODPc3V/tZq+by4j9gRxKuIG0CTICZ1e58sm
+ Ofhlx3heaH3J5iEzynSJDL/gXqVf+D7MGgycnLis8Js8L7h5Bba/BvyCD51N8jRC4o+e
+ gmH3ChApaD9KYWuXzkh+hebMF1BorVFR1nxZS29cgI4qHjRtMHMRdpeA5o8r7DE4jGOt
+ dy2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fwMWmQZd9sBU28g/akDXkXxjGE4RWYE++luBOirwphw=;
- b=Xf0r/B764GCT49sX9x7vJIPJTiDmaIt/4Re6JHpOED1/DtDebQJ1XkltmQaSFU6ZR0
- Rou2iLU4uUZWfBmGNDvukNNJEPRuwFoh6TJG9lFoljlsrqXAuM61F5gCsLJB+FRf/o3/
- ulZ4qRS/r2+jEUV51KUAF2kpHtGCsy4J8jvDe+X1K2YO6r2jZFzkl4n/fIoz+Cmz8d0G
- xTX0Dl04UMDHkyisyQ+Wso9mEK/tVm3Oz2pePlLJzTt5Zg7dCiU807ZGzBGE2BFP1x2i
- TWdz1vtbnlrehNDD/KJI7Y+7+L7IfMggsHtPMEwh+g+hC6Rs88xnRW8K3G6W6sateBLi
- LcKg==
-X-Gm-Message-State: ANoB5pmElcyUsBs3Y/A5/isWiMOnm5ZOxdz6/zAWQIZHFJ1A1rxZcbD9
- yMOQCV5OdeNwZTI2MYOPTdF+tLagAHkY/A==
-X-Google-Smtp-Source: AA0mqf7jSg4BROnamb+MO7AEA8J0mlQO/pWudGy7rk9ZpFkqgIj5p4WLM6PgZYuciNXYDs0frBCOcQ==
-X-Received: by 2002:adf:d84c:0:b0:236:6f1a:955 with SMTP id
- k12-20020adfd84c000000b002366f1a0955mr10713977wrl.111.1669035764695; 
- Mon, 21 Nov 2022 05:02:44 -0800 (PST)
+ bh=JBNmxcqLBxZag1unF7NOFteCv/IX3kebN57U4uPMAOo=;
+ b=u3cdohJ9GlvCkBAwTuxL+JS6CdfsQQpiJhDFN4wvkxKXsWeICe3mGLusk+Oj+4SKDQ
+ FjogvDfqbaLcz6pbcLKHADB6Rlfd+kJ0vx9fPYUJ7EPBPnlOOgznitCIkYYl26+7fNVl
+ joi8PSCiSebJ62DhUswK08xMULHQFAnF6IpajD/YCLqxHuFvyKy9o9Pka/bvxpEVIFGJ
+ TpVbinUsy4mb5qNsR7/aFlkp2CBGg5Cz6gnqMGo+mtv2tpjNSkDDU3B+RXVlC5CPltbD
+ g+E3WFaNCGidlzzQLGImCaCdnEA/cMn99aH+Bs7AuSzuF0n+n+NTDQBOB1945n5vpIUe
+ jg8g==
+X-Gm-Message-State: ANoB5plvVvfpTzSDsSUKVe3Fs/pD3X31x8nyONAX1Mqm2r4KWi1PgWih
+ agv1FQ5zwFWQNRXb21epZ1J2+OB7d10bCw==
+X-Google-Smtp-Source: AA0mqf5JO+jq2N6t3XACrwY3sp9+t1Xi5fm3RswBNRiHSwjFn8mGaTXiHRyXCMDGD2pW7kf322i33A==
+X-Received: by 2002:a05:6000:114b:b0:241:d199:1a04 with SMTP id
+ d11-20020a056000114b00b00241d1991a04mr3782834wrx.227.1669035765534; 
+ Mon, 21 Nov 2022 05:02:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- t1-20020a1c7701000000b003cf4d99fd2asm13296725wmi.6.2022.11.21.05.02.43
+ t1-20020a1c7701000000b003cf4d99fd2asm13296725wmi.6.2022.11.21.05.02.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Nov 2022 05:02:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] tests/avocado/boot_linux.py: Bump aarch64 virt test
- timeout to 720s
-Date: Mon, 21 Nov 2022 13:02:38 +0000
-Message-Id: <20221121130239.1138631-5-peter.maydell@linaro.org>
+Subject: [PULL 5/5] target/arm: Limit LPA2 effective output address when
+ TCR.DS == 0
+Date: Mon, 21 Nov 2022 13:02:39 +0000
+Message-Id: <20221121130239.1138631-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221121130239.1138631-1-peter.maydell@linaro.org>
 References: <20221121130239.1138631-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,41 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The two tests
-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2
-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3
+From: Ard Biesheuvel <ardb@kernel.org>
 
-take quite a long time to run, and the current timeout of 240s
-is not enough for the tests to complete on slow machines:
-we've seen these tests time out in the gitlab CI in the
-'avocado-system-alpine' CI job, for instance. The timeout
-is also insufficient for running the test with a debug build
-of QEMU: on my machine the tests take over 10 minutes to run
-in that config.
+With LPA2, the effective output address size is at most 48 bits when
+TCR.DS == 0. This case is currently unhandled in the page table walker,
+where we happily assume LVA/64k granule when outputsize > 48 and
+param.ds == 0, resulting in the wrong conversion to be used from a
+page table descriptor to a physical address.
 
-Push the timeout up to 720s so that the test definitely has
-enough time to complete.
+    if (outputsize > 48) {
+        if (param.ds) {
+            descaddr |= extract64(descriptor, 8, 2) << 50;
+        } else {
+            descaddr |= extract64(descriptor, 12, 4) << 48;
+        }
 
+So cap the outputsize to 48 when TCR.DS is cleared, as per the
+architecture.
+
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20221116170316.259695-1-ardb@kernel.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tests/avocado/boot_linux.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/ptw.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-index 571d33882ae..32adae6ff6a 100644
---- a/tests/avocado/boot_linux.py
-+++ b/tests/avocado/boot_linux.py
-@@ -64,7 +64,7 @@ class BootLinuxAarch64(LinuxTest):
-     :avocado: tags=machine:virt
-     :avocado: tags=machine:gic-version=2
-     """
--    timeout = 240
-+    timeout = 720
- 
-     def add_common_args(self):
-         self.vm.add_args('-bios',
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 3745ac97234..9a6277d862f 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1222,6 +1222,14 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+         ps = MIN(ps, param.ps);
+         assert(ps < ARRAY_SIZE(pamax_map));
+         outputsize = pamax_map[ps];
++
++        /*
++         * With LPA2, the effective output address (OA) size is at most 48 bits
++         * unless TCR.DS == 1
++         */
++        if (!param.ds && param.gran != Gran64K) {
++            outputsize = MIN(outputsize, 48);
++        }
+     } else {
+         param = aa32_va_parameters(env, address, mmu_idx);
+         level = 1;
 -- 
 2.25.1
 
