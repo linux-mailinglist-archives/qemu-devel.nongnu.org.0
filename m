@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9985E631EFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 12:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B78F631F02
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 12:04:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox4ZW-0001Dr-8m; Mon, 21 Nov 2022 06:02:42 -0500
+	id 1ox4aX-00027f-80; Mon, 21 Nov 2022 06:03:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4ZT-0001DT-7R
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:02:39 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4ZQ-000722-HD
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 06:02:38 -0500
-Received: by mail-wr1-x433.google.com with SMTP id s5so2076202wru.1
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 03:02:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9Ip2tIWGiAmSyKdAjF2OOaLwg0+kg0d9K1aLNWtuhv0=;
- b=WftbfoYqQasxyjzBKUFJbHk11G9yFqNhJ3T58/Jp9m97vVOVQhNc4GFye5AYcEohcQ
- atnrq34yjc/bLNvC+RMOYCu6VRq8yGk2t176m5wm/pWDAXKt4bf5VjW9w6GV8hCD1jJl
- A/FtL1H13VRU+O5Mj0fiAgckpxRckYzI1Aba5bbffurL7CMcFpFM3DLKMlCqiAVZcMvF
- FWvpBVY/O2OBhYfsm4DnzIAzUY3eKyspqcOClNLBLeqTw59GUh49wEle0lt6wafu0Uyz
- s8pU2iTf++wErWH4A5L6YjgZYqGHSTiNNATnSPPUvuoZsEL1aDoe7jA7BrzyIk6jiyT+
- 9LLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9Ip2tIWGiAmSyKdAjF2OOaLwg0+kg0d9K1aLNWtuhv0=;
- b=2/OZP17SzzKvuHBqyvpXnn6+2yUw+t2/iwKILV+RntwOFApygAiRtr2zoEykelQUKB
- OWgGIQ7HK/uvy0nbq2C3AMO2BhAmwFEe3NLjd0WC+IdIO5iLDC63SOstD28Nr/my2hdf
- B/0CHh0DT9NBSTyFqBjz9yMiilt9KBo2rBAL5Z/bdkEkSBD5POKMt50xwCXu5X1IyLK7
- 3b26eUI3u1AAoWQOWKz3UYlmKkZv9A1XDeiN+FxzOzx7/PRXM5yt+yWUsvBIYc+lSboj
- U4trA3GAJrgqO3xQGd0WXRnY8ajA2PIWRStfudlvaLrccjhZhiUbhPhJmk/TttgVrP7f
- 5QnQ==
-X-Gm-Message-State: ANoB5pkOZSnvQB6asikOjVsy09O/v1pDL/iA0qFoSYVDSdoHAaRo6AuX
- 7pU16k8GpYltQBdhu98zwq0xQg==
-X-Google-Smtp-Source: AA0mqf4ohGtTTkj9h2uGNZRmbIMCNeCDKGrorn0II6PoPFZWKZhU7RBPFigXGJsPEMro1Kh1My7yvw==
-X-Received: by 2002:adf:edd1:0:b0:241:7d0a:65ef with SMTP id
- v17-20020adfedd1000000b002417d0a65efmr3697457wro.491.1669028555004; 
- Mon, 21 Nov 2022 03:02:35 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 4-20020a05600c020400b003b492753826sm12964753wmi.43.2022.11.21.03.02.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 03:02:34 -0800 (PST)
-Message-ID: <82521e65-ef79-650d-6fe9-402e2fa35edb@linaro.org>
-Date: Mon, 21 Nov 2022 12:02:33 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1ox4aK-00025d-Fp; Mon, 21 Nov 2022 06:03:36 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1ox4aG-0007GV-Ah; Mon, 21 Nov 2022 06:03:31 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.6])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C440423070;
+ Mon, 21 Nov 2022 11:03:13 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 21 Nov
+ 2022 12:03:12 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002374dfbf7-e072-4805-b686-6b2b08b22e5e,
+ DDADA6E0A258960EA2C3EFDC8F36B73C7D77DF4E) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Mon, 21 Nov 2022 12:03:11 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Dongli Zhang <dongli.zhang@oracle.com>
+CC: <kvm@vger.kernel.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <qemu-ppc@nongnu.org>, <qemu-riscv@nongnu.org>, <qemu-s390x@nongnu.org>,
+ <pbonzini@redhat.com>, <peter.maydell@linaro.org>, <mtosatti@redhat.com>,
+ <chenhuacai@kernel.org>, <philmd@linaro.org>, <aurelien@aurel32.net>,
+ <jiaxun.yang@flygoat.com>, <aleksandar.rikalo@syrmia.com>,
+ <danielhb413@gmail.com>, <clg@kaod.org>, <david@gibson.dropbear.id.au>,
+ <palmer@dabbelt.com>, <alistair.francis@wdc.com>, <bin.meng@windriver.com>,
+ <pasic@linux.ibm.com>, <borntraeger@linux.ibm.com>,
+ <richard.henderson@linaro.org>, <david@redhat.com>, <iii@linux.ibm.com>,
+ <thuth@redhat.com>, <joe.jin@oracle.com>, <likexu@tencent.com>
+Subject: Re: [PATCH 2/3] i386: kvm: disable KVM_CAP_PMU_CAPABILITY if "pmu"
+ is disabled
+Message-ID: <20221121120311.2731a912@bahia>
+In-Reply-To: <20221119122901.2469-3-dongli.zhang@oracle.com>
+References: <20221119122901.2469-1-dongli.zhang@oracle.com>
+ <20221119122901.2469-3-dongli.zhang@oracle.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH for-8.0 7/7] accel/tcg: Use QEMU_IOTHREAD_LOCK_GUARD in
- io_readx/io_writex
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221118091858.242569-1-richard.henderson@linaro.org>
- <20221118091858.242569-8-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221118091858.242569-8-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: 23266189-71d4-438d-a62b-bfc5ce6d4539
+X-Ovh-Tracer-Id: 6553018936605383147
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrheeigddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegkeejtdevgeekieelffdvtedvvdegtdduudeigffhhffgvdfhgeejteekheefkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopeguohhnghhlihdriihhrghnghesohhrrggtlhgvrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpihhiiheslhhinhhugidrihgsmhdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpsghorhhnthhrrggvghgvrheslhhinhhugidrihgsmhdrtghomhdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghinhdrmhgvnhhgseifihhnughrihhvvghrrdgtohhmpdgrlhhishhtrghirhdrfhhrrg
+ hntghishesfigutgdrtghomhdpphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhjohgvrdhjihhnsehorhgrtghlvgdrtghomhdprghlvghkshgrnhgurghrrdhrihhkrghlohesshihrhhmihgrrdgtohhmpdgruhhrvghlihgvnhesrghurhgvlhefvddrnhgvthdpphhhihhlmhgusehlihhnrghrohdrohhrghdptghhvghnhhhurggtrghisehkvghrnhgvlhdrohhrghdpmhhtohhsrghtthhisehrvgguhhgrthdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhqvghmuhdqrhhishgtvhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmpdhlihhkvgiguhesthgvnhgtvghnthdrtghomhdptghlgheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,51 +81,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/11/22 10:18, Richard Henderson wrote:
-> Narrow the scope of the lock to the actual read/write,
-> moving the cpu_transation_failed call outside the lock.
+On Sat, 19 Nov 2022 04:29:00 -0800
+Dongli Zhang <dongli.zhang@oracle.com> wrote:
+
+> The "perf stat" at the VM side still works even we set "-cpu host,-pmu" in
+> the QEMU command line. That is, neither "-cpu host,-pmu" nor "-cpu EPYC"
+> could disable the pmu virtualization in an AMD environment.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> We still see below at VM kernel side ...
+> 
+> [    0.510611] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
+> 
+> ... although we expect something like below.
+> 
+> [    0.596381] Performance Events: PMU not available due to virtualization, using software events only.
+> [    0.600972] NMI watchdog: Perf NMI watchdog permanently disabled
+> 
+> This is because the AMD pmu (v1) does not rely on cpuid to decide if the
+> pmu virtualization is supported.
+> 
+> We disable KVM_CAP_PMU_CAPABILITY if the 'pmu' is disabled in the vcpu
+> properties.
+> 
+> Cc: Joe Jin <joe.jin@oracle.com>
+> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
 > ---
->   accel/tcg/cputlb.c | 25 ++++++++-----------------
->   1 file changed, 8 insertions(+), 17 deletions(-)
-
-> @@ -1367,11 +1366,11 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
->           cpu_io_recompile(cpu, retaddr);
->       }
->   
-> -    if (!qemu_mutex_iothread_locked()) {
-> -        qemu_mutex_lock_iothread();
-> -        locked = true;
-> +    {
-> +        QEMU_IOTHREAD_LOCK_GUARD();
-> +        r = memory_region_dispatch_read(mr, mr_offset, &val, op, full->attrs);
->       }
-> -    r = memory_region_dispatch_read(mr, mr_offset, &val, op, full->attrs);
+>  target/i386/kvm/kvm.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 8fec0bc5b5..0b1226ff7f 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -137,6 +137,8 @@ static int has_triple_fault_event;
+>  
+>  static bool has_msr_mcg_ext_ctl;
+>  
+> +static int has_pmu_cap;
 > +
+>  static struct kvm_cpuid2 *cpuid_cache;
+>  static struct kvm_cpuid2 *hv_cpuid_cache;
+>  static struct kvm_msr_list *kvm_feature_msrs;
+> @@ -1725,6 +1727,19 @@ static void kvm_init_nested_state(CPUX86State *env)
+>  
+>  void kvm_arch_pre_create_vcpu(CPUState *cs)
+>  {
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    int ret;
+> +
+> +    if (has_pmu_cap && !cpu->enable_pmu) {
+> +        ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PMU_CAPABILITY, 0,
+> +                                KVM_PMU_CAP_DISABLE);
 
-Example of clearer WITH_QEMU_IOTHREAD_LOCK_GUARD() macro
-use suggested earlier:
+It doesn't seem conceptually correct to configure VM level stuff out of
+a vCPU property, which could theoretically be different for each vCPU,
+even if this isn't the case with the current code base.
 
-         WITH_QEMU_IOTHREAD_LOCK_GUARD() {
-             r = memory_region_dispatch_read(mr, mr_offset, &val,
-                                             op, full->attrs);
-         }
+Maybe consider controlling PMU with a machine property and this
+could be done in kvm_arch_init() like other VM level stuff ?
 
->       if (r != MEMTX_OK) {
->           hwaddr physaddr = mr_offset +
->               section->offset_within_address_space -
-> @@ -1380,10 +1379,6 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
->           cpu_transaction_failed(cpu, physaddr, addr, memop_size(op), access_type,
->                                  mmu_idx, full->attrs, r, retaddr);
->       }
-> -    if (locked) {
-> -        qemu_mutex_unlock_iothread();
-> -    }
-> -
->       return val;
->   }
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> +        if (ret < 0) {
+> +            error_report("kvm: Failed to disable pmu cap: %s",
+> +                         strerror(-ret));
+> +        }
+> +
+> +        has_pmu_cap = 0;
+> +    }
+>  }
+>  
+>  int kvm_arch_init_vcpu(CPUState *cs)
+> @@ -2517,6 +2532,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>          }
+>      }
+>  
+> +    has_pmu_cap = kvm_check_extension(s, KVM_CAP_PMU_CAPABILITY);
+> +
+>      ret = kvm_get_supported_msrs(s);
+>      if (ret < 0) {
+>          return ret;
 
 
