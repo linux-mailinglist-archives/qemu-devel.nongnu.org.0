@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C616329F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B460F632A42
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 18:05:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9xn-0007yo-Qp; Mon, 21 Nov 2022 11:48:07 -0500
+	id 1oxAAb-0005l5-7A; Mon, 21 Nov 2022 12:01:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ox9xj-0007xv-4z
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:48:03 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ox9xh-0002u0-Dw
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:48:02 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id p81so6566087yba.4
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 08:48:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2F1f8g9tatfiXeCnZX7a0gWGUBsFkRndu+C81okBMWM=;
- b=gVDoBBKW5lG4K2lmBREMnVDbSLrb/o7fNqL3txlQJZy3UtDE+Ym3nd9k0tvCL9IU82
- uCB6FhydCc2yGq4/QK+UuUeLjICLoKhmn2fsuSzfgYOPNehIeDLg/lu1zYVR2EML60qP
- t5hq+vlQtvND5CGocn4ySriL9OauCdrxLcLxwmccHPo1V4XYI4mT/Hp19r+vCBwrITzW
- sfxvZQPHpSbOx5iKiQqT7rhWJCGc8FxBsXOYo7sYvHxKQM0Xn3PfNdDfYHA3/R09jWJR
- KMGbtKTR4ly05IkUizAmsc/tsm3u3vOKoown1yQiUHgPKMLKeGgldgCboC1fBW7RKkFB
- cL0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2F1f8g9tatfiXeCnZX7a0gWGUBsFkRndu+C81okBMWM=;
- b=4eKV+hSOcaOgGZR15WrE/8xDlmB1uuzESLk+58xyuqwa3ngRmfcFx+He5fXzI/c3LM
- bnCmKHKAPwl6WPvhaMzzG/gKQ736XomlAKRH3whUdgmi6pQWMXdDHV4sYD/pe7+Yh8iN
- 0a+C55LXLpZubqFdhQMcqM1AhnnoP1d+mXnHyEmC8Dbnfwhs6RVJMyOyUu7yx+RK20bp
- qzSErAOje+f+HHNPvIk37Xus+vK+dNL4Bk7e4T2i0qo4jPZ2Oxa6TA67fnfwdDBT5/0G
- HR1iwrOi450SDQebTFbikQYAkvRbzqnCE5G5mMvUeoXBIJCU7ziTaKS54mjvc5pqZCno
- FH0Q==
-X-Gm-Message-State: ANoB5pkfau3J25XPIxSkHpl3/ZXA6WJfzS7dqcHDVcsBYcSnOl3VydBA
- BOf4Tht2ZUfYS+t52Hmhidlx0oI4dI3ys+ga978=
-X-Google-Smtp-Source: AA0mqf54o30snXdAySHjEgkqKOH+T3LJiOkYUKRwupj9QMkfCT/4tcrLac6BCpjM21LkzcZmIFwGk8AzzxsDnZix7T8=
-X-Received: by 2002:a25:d907:0:b0:6cb:a119:9d78 with SMTP id
- q7-20020a25d907000000b006cba1199d78mr2468075ybg.537.1669049279970; Mon, 21
- Nov 2022 08:47:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxA9t-0005cJ-5e
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 12:00:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxA9p-0006Jt-Ij
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 12:00:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669050033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=x8+On0GBfdFR5F+9woJTFm6YXMnBIX2ME5vhixP8V28=;
+ b=WPdUK3/G8tuoEfdvXRgasSNWEGjZpJwPzeJ3/tCdDZdtGUnFRr/cy7YXkqqZZvChHVxU3s
+ 4d/m6/jC2VChw4bZlDqOwTAgCHpNQIepViQwIcHNEpsha6/2iDWzihLizfYwZKpoIlnWFb
+ uTppIXKzDAH8tfEDJEW6si4GO34qX3A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-246-HlECCpmRO26he42mW57V7A-1; Mon, 21 Nov 2022 12:00:27 -0500
+X-MC-Unique: HlECCpmRO26he42mW57V7A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 415BE858F13;
+ Mon, 21 Nov 2022 17:00:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F4DE2027063;
+ Mon, 21 Nov 2022 17:00:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D518D21E6921; Mon, 21 Nov 2022 18:00:19 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: qemu-devel@nongnu.org,  fam@euphon.net,  kwolf@redhat.com,
+ hreitz@redhat.com,  groug@kaod.org,  qemu_oss@crudebyte.com,
+ Alistair.Francis@wdc.com,  bin.meng@windriver.com,  palmer@dabbelt.com,
+ marcandre.lureau@redhat.com,  pbonzini@redhat.com,
+ yuval.shaia.ml@gmail.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
+ quintela@redhat.com,  dgilbert@redhat.com,  pavel.dovgaluk@ispras.ru,
+ alex.bennee@linaro.org,  peterx@redhat.com,  david@redhat.com,
+ philmd@linaro.org,  mrolnik@gmail.com,  gaosong@loongson.cn,
+ yangxiaojuan@loongson.cn,  aurelien@aurel32.net,
+ jiaxun.yang@flygoat.com,  aleksandar.rikalo@syrmia.com,
+ berrange@redhat.com,  thuth@redhat.com,  lvivier@redhat.com,
+ suhang16@mails.ucas.ac.cn,  chen.zhang@intel.com,  lizhijian@fujitsu.com,
+ stefanha@redhat.com,  qemu-block@nongnu.org,  qemu-riscv@nongnu.org,
+ qemu-ppc@nongnu.org,  virtio-fs@redhat.com
+Subject: Re: [PATCH] cleanup: Tweak and re-run return_directly.cocci
+References: <20221121140121.1079100-1-armbru@redhat.com>
+ <CAMo8BfKxve8=RKqT6S8XXy1E7hczF0VO9XXZeUpha_4xNSV6WA@mail.gmail.com>
+Date: Mon, 21 Nov 2022 18:00:19 +0100
+In-Reply-To: <CAMo8BfKxve8=RKqT6S8XXy1E7hczF0VO9XXZeUpha_4xNSV6WA@mail.gmail.com>
+ (Max Filippov's message of "Mon, 21 Nov 2022 08:42:30 -0800")
+Message-ID: <8735aci6os.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20221121162132.00007540@huawei.com>
-In-Reply-To: <20221121162132.00007540@huawei.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 21 Nov 2022 11:47:48 -0500
-Message-ID: <CAJSP0QVVt9911ZxCq9K5QeOBX2fhKSs372Qzqvg694-QkDnqGQ@mail.gmail.com>
-Subject: Re: Null dereference in bdrv_unregister_buf() probably
- memory-backend-file related?
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- linuxarm@huawei.com, 
- David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,62 +92,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 21 Nov 2022 at 11:22, Jonathan Cameron via
-<qemu-devel@nongnu.org> wrote:
->
-> First CC list is a guess as I haven't managed to root cause where things are
-> going wrong yet.
->
-> Originally hit this whilst rebasing some CXL patches on v7.2.0-rc1.
-> CXL makes extensive use of memory-backends and most my tests happen
-> to use memory-backend-file
->
-> Issue seen on arm64 and x86 though helpfully on x86 the crash appears in an entirely
-> unrelated location (though the 'fix' works).
->
-> Fairly minimal test command line.
->
-> qemu-system-aarch64 \
->     -M virt  \
->     -drive if=none,file=full.qcow2,format=qcow2,id=hd \
->     -device virtio-blk,drive=hd \
->     -object memory-backend-file,id=cxl-mem1,mem-path=/tmp/cxltest.raw,size=256M,align=256M \
->
-> Powerdown the machine or ctrl-c during boot gives a segfault.
-> On arm64 it was in a stable location that made at least some sense in that
-> bs in the below snippet is NULL.
->
-> I added the follow work around and the segfault goes away...
->
->  [PATCH] temp
->
-> ---
->  block/io.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/block/io.c b/block/io.c
-> index b9424024f9..750e1366aa 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -3324,6 +3324,9 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
->  {
->      BdrvChild *child;
->
-> +    if (!bs) {
-> +        return;
-> +    }
->      GLOBAL_STATE_CODE();
->      if (bs->drv && bs->drv->bdrv_unregister_buf) {
->          bs->drv->bdrv_unregister_buf(bs, host, size);
+Max Filippov <jcmvbkbc@gmail.com> writes:
 
-bdrv_*() APIs generally don't accept NULL bs arguments.
+> On Mon, Nov 21, 2022 at 6:01 AM Markus Armbruster <armbru@redhat.com> wrote:
+>>  .../xtensa/core-dsp3400/xtensa-modules.c.inc  | 136 +++++-------------
+>>  target/xtensa/core-lx106/xtensa-modules.c.inc |  16 +--
+>
+> These files are generated and were imported from xtensa configuration
+> overlays, they're not supposed to be changed.
 
-I think blk_unregister_buf() needs to handle the blk_bs() NULL return
-value. Can you confirm that the parent function is
-blk_unregister_buf()?
+Will drop.  Thanks!
 
-This bug may have been introduced by commit baf422684d73 ("virtio-blk:
-use BDRV_REQ_REGISTERED_BUF optimization hint").
-
-Stefan
 
