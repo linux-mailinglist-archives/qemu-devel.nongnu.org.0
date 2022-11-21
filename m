@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7197E632C32
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 19:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35E1632C3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 19:44:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxBhX-0007Dh-R9; Mon, 21 Nov 2022 13:39:27 -0500
+	id 1oxBm3-0000F6-ST; Mon, 21 Nov 2022 13:44:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxBhU-0007DD-Ic
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 13:39:24 -0500
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ id 1oxBly-0000Cm-7k
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 13:44:04 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxBhS-0001au-Jk
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 13:39:24 -0500
-Received: by mail-pg1-x534.google.com with SMTP id b62so11979796pgc.0
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 10:39:22 -0800 (PST)
+ id 1oxBlu-0002P0-I9
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 13:44:01 -0500
+Received: by mail-pg1-x536.google.com with SMTP id b62so11990333pgc.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 10:43:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RP0McoYCXViQ6T2SF0FhxG/IFeLC9h7vuc5AbqcWDIo=;
- b=M5YGUTLSb+OD97ck1rZCSUILlMnc4JoTV62jcjx/v878yfLN80Hz49ahJVdoPW8Ezj
- G2kfoubbpZKcGdsvc0yA0le9xozDjrVZ6UvYp9FXfoNH1DsS/UIunrkc4zWtQbTCni5t
- qf+eE6oPpXemufkxwKgdMepVwAa+ElzDZqfPIubzKzepHRbQ8xSlaBr5+gmfWOHg3FSh
- F9DSgo1LI4roH/Obo1VnLDKvqY9N6Ijx3j0YKtyFNv092TJKa4nOTtb03yCqo+YnQuhe
- gkPrs6OSzZUqiHD2k1suAp9GB+x3KzuR5QwaohgeesfSU2I0HuhJu70iEtNWb5sfWPq4
- /iIg==
+ bh=jrp3uk3o+CKUCV2V6pKo4t7FkfEMj5M5cNIwZlW33pg=;
+ b=bAoulAW7Ph4fz4L5cWzU0MXLGv74RWwaWpMNtG7kKlQlKgYXjTsN4qVHTyGPh3wSV2
+ cfBOTSOwrB4vts3auPnEhvihu7d5X2VVcMhK2kbCZBFeCF87k+UlpJtD7UaJQZuCaZ9d
+ 2FzSc0cmix6q/ejXk1n7hBl30ugUC5LsiYOGWfj6mHaCCRrytWO3g4aGkqaZUM7oGb7x
+ mUSXHUtGodO94/9OP5bjcfxsfi5CJjVS3t2drdIq/HI6SHzpSYfd6Z/x/nVc49uA3C+I
+ SBtUor8hXQsqNJYgFmO00Izb3G0CHsqwiE7ApU80x81aojSS0+HO+q6muOLytcjwpze4
+ xbRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RP0McoYCXViQ6T2SF0FhxG/IFeLC9h7vuc5AbqcWDIo=;
- b=lHSFqIEJYtr8xLUhfwuyPJ6poaRg3nB+A2xY6CcPxsdjvUgawh5aKUIpE37sRkWxVR
- j6PUAezL/YZnLGoMUHTVAF4vO0cS8ZqvrPGPaL74m67DF1wI75fpkN2hgKPopBxgNTJi
- KnoEmyQFndf2bsYmkggcjgglycIwokCakGayCh6OdbWM2hFtq8o4D1wpHf/GJDnZrXmW
- iuMHIxBR/H6wbrISbYi2Lj1gSbsEaXIQ741nswX/Bi9d7YFUZEnWpbUoi2rkstJmTh38
- 8X1rQPCjiWwogOVEKMbE5omXomiSEs0B8vvgpkn4n7BcaVS3554mAEzWtowBKwMFLWga
- 1qOw==
-X-Gm-Message-State: ANoB5pkdhgCBMSHS2MJSB93GR25G8yBfnnnyyaPvJXu4tMn4JLP5TR/u
- r5mAgVE4Zs/9qSWOtECbE8L/j/WocNT4UypbNFARzg==
-X-Google-Smtp-Source: AA0mqf4wpncd1sTXe/N73ApW4T7rn5tyAsIumPoBz7ghbhCldfqyXwWkjXqytMVOJo77tO+eI60nuEeRMiLgzqLQZ9k=
-X-Received: by 2002:a63:5fd0:0:b0:476:f69d:9f with SMTP id
- t199-20020a635fd0000000b00476f69d009fmr18681867pgb.105.1669055960949; 
- Mon, 21 Nov 2022 10:39:20 -0800 (PST)
+ bh=jrp3uk3o+CKUCV2V6pKo4t7FkfEMj5M5cNIwZlW33pg=;
+ b=ZVBCdQG4CO7E32nCZtHAejC9qPC4M+8rA8gYGxjc5eUOksDN+TXjnV8ae6TsPyLICu
+ 4q6jhYlhZmdTfMxEFlIfk7Roadi+e2l3zrbdOYoPK7Hv1YT3fc+gy7OfBEDOWC4AwtXD
+ f77zTK2CkfbDVQFZK86BrtRMNOdARO52t2sFQC71qIJ7ADWl6UWx8YM6EOY04Sofb6au
+ JG8+4X+ijIsWYfA34kSHmBxQ/N2yZlf/E3OGJgl1Be3ycK8KvxRvhvMC2Rn5P5MTJKRn
+ yv3Jb1VIZpJtazqaSR9ie7sOYLr4bg51CMXQMl4mCfoWm6yDzqq7IqwmmpUQxrKZWTt6
+ BPhQ==
+X-Gm-Message-State: ANoB5pmqeV42zRxMuUerefBsQMHleHxyE0mVqnezQTapkU7bTBRFBIsy
+ FHwmyjlfDuA1TfwRpe9p9uphxL+HA8BknEHyXdU9Lw==
+X-Google-Smtp-Source: AA0mqf7ZfS5Gy2zCswl64XDpmQFDJSHPeUW7e0JzRqyyixcs2BAeaQiQbG3kfcy67qTtFWslNTkdi/IB0XIcyuBkqZM=
+X-Received: by 2002:a65:45c5:0:b0:46b:2753:2a60 with SMTP id
+ m5-20020a6545c5000000b0046b27532a60mr2726206pgr.192.1669056237027; Mon, 21
+ Nov 2022 10:43:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
- <20221111182535.64844-15-alex.bennee@linaro.org>
-In-Reply-To: <20221111182535.64844-15-alex.bennee@linaro.org>
+ <20221111182535.64844-19-alex.bennee@linaro.org>
+In-Reply-To: <20221111182535.64844-19-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Nov 2022 18:39:09 +0000
-Message-ID: <CAFEAcA9bYVODgATKULZTgnBoHtivGwOP37hxraeqWw2-NrT4Ag@mail.gmail.com>
-Subject: Re: [PATCH v5 14/20] hw/audio: explicitly set .requester_type for
- intel-hda
+Date: Mon, 21 Nov 2022 18:43:45 +0000
+Message-ID: <CAFEAcA8LtBB+bG0xd=_t_pe3u6XiS+pPi1Vfykqb0HTjofCB8A@mail.gmail.com>
+Subject: Re: [PATCH v5 18/20] hw/i386: convert apic access to use MemTxAttrs
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,44 +90,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 11 Nov 2022 at 18:35, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+On Fri, 11 Nov 2022 at 18:36, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
 te:
 >
-> This is simulating a bus master writing data back into system memory.
-> Mark it as such.
+> This allows us to correctly model invalid accesses to the interrupt
+> controller as well as avoiding the use of current_cpu hacks to find
+> the APIC structure. We have to ensure we check for MSI signals first
+> which shouldn't arrive from the CPU but are either triggered by PCI or
+> internal IOAPIC writes.
 >
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  hw/audio/intel-hda.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-> index f38117057b..95c28b315c 100644
-> --- a/hw/audio/intel-hda.c
-> +++ b/hw/audio/intel-hda.c
-> @@ -345,7 +345,7 @@ static void intel_hda_corb_run(IntelHDAState *d)
->
->  static void intel_hda_response(HDACodecDevice *dev, bool solicited, uint=
-32_t response)
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+
+> +static MemTxResult apic_mem_write(void *opaque, hwaddr addr, uint64_t va=
+l,
+> +                                  unsigned int size, MemTxAttrs attrs)
 >  {
-> -    const MemTxAttrs attrs =3D { .memory =3D true };
-> +    const MemTxAttrs attrs =3D { .requester_type =3D MTRT_PCI, .memory =
-=3D true };
+>      DeviceState *dev;
+>      APICCommonState *s;
+>      int index =3D (addr >> 4) & 0xff;
+>
+>      if (size < 4) {
+> -        return;
+> +        return MEMTX_ERROR;
+>      }
+>
+> +    /*
+> +     * MSI and MMIO APIC are at the same memory location, but actually
+> +     * not on the global bus: MSI is on PCI bus APIC is connected
+> +     * directly to the CPU.
+> +     *
+> +     * We can check the MemTxAttrs to check they are coming from where
+> +     * we expect. Even though the MSI registers are reserved in APIC
+> +     * MMIO and vice versa they shouldn't respond to CPU writes.
+> +     */
+>      if (addr > 0xfff || !index) {
+> -        /* MSI and MMIO APIC are at the same memory location,
+> -         * but actually not on the global bus: MSI is on PCI bus
+> -         * APIC is connected directly to the CPU.
+> -         * Mapping them on the global bus happens to work because
+> -         * MSI registers are reserved in APIC MMIO and vice versa. */
+> +        switch (attrs.requester_type) {
+> +        case MTRT_MACHINE: /* MEMTX_IOPIC */
+> +        case MTRT_PCI:     /* PCI signalled MSI */
+> +            break;
 
-This doesn't look right -- it says "the requester_id field
-is a PCI requester ID" but it doesn't fill in requester_id.
+If we always treat MTRT_MACHINE and MTRT_PCI identically, do we really
+need to have different MTRT types for them ?
 
+> +        default:
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: rejecting write from %d"=
+,
+> +                          __func__, attrs.requester_id);
+> +            return MEMTX_ACCESS_ERROR;
+> +        }
+>          MSIMessage msi =3D { .address =3D addr, .data =3D val };
+>          apic_send_msi(&msi);
+> -        return;
+> +        return MEMTX_OK;
+>      }
 
->      HDACodecBus *bus =3D HDA_BUS(dev->qdev.parent_bus);
->      IntelHDAState *d =3D container_of(bus, IntelHDAState, codecs);
->      hwaddr addr;
-
-What breaks if we don't set this? Put another way, why do
-we need to change this but not all the other PCI device models that
-do DMA writes, most of which use MEMTXATTRS_UNSPECIFIED ?
-
-I wonder if stl_le_pci_dma() and friends should set the
-requester_id on the attrs that they are passed ?
-
+thanks
 -- PMM
 
