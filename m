@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DA06322F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B346322EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:00:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox6OS-0001Yh-7N; Mon, 21 Nov 2022 07:59:24 -0500
+	id 1ox6OV-0001a0-0z; Mon, 21 Nov 2022 07:59:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6OQ-0001XH-8J
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ox6OT-0001Za-AN
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6OO-0006P7-Me
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:21 -0500
+ id 1ox6OR-0006Qj-TY
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669035559;
+ s=mimecast20190719; t=1669035563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KqEMNGfO+9FCgLhL/tSP3g81IW8o7xa3Zcbo6/dqmM0=;
- b=cEOSmvn2ajTm94chv2vzGrETD/eOdC2yZ78GbqXPj2WeEQMKSlkJIVAe6POuvy0B+QffzX
- J0+RHtwNcPl0XqR2hSGxVoEKdGmrPQfg5uezInG5+bs7nwGAVC5OvOjjl3kfVW77NSEnYP
- so5Q6QgeUBdsVvNZVyWmyozgP4QBXzg=
+ bh=C43sXzuDPrCVxw3vYvZA3vkx4qjmhBG5GAMoIDyKDro=;
+ b=YOJzGVdwAtnOnGSRfnOZiNZGFRu27wFDlPCh5oaf4VWxigpAb8x1653mhpj6MPTASGs8fc
+ E0Yuih6P66O9ZCFUZLuSKOeMqGcJ3JIlg0SNyZPVjszZqY0ppl0T+3ztPT3WzzmtU9ghrq
+ 1/XEAOwt732wVE4a4x56AIGbjf9nmqk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187-qGDp30biNVqyaE4NYkZGoQ-1; Mon, 21 Nov 2022 07:59:18 -0500
-X-MC-Unique: qGDp30biNVqyaE4NYkZGoQ-1
+ us-mta-94-clqyI-BYPgiqhT9ZfcFXAA-1; Mon, 21 Nov 2022 07:59:20 -0500
+X-MC-Unique: clqyI-BYPgiqhT9ZfcFXAA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD2C3185A792;
- Mon, 21 Nov 2022 12:59:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3E1C101A528;
+ Mon, 21 Nov 2022 12:59:19 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C173CC15BB3;
- Mon, 21 Nov 2022 12:59:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E12AC15BB3;
+ Mon, 21 Nov 2022 12:59:17 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefan Hajnoczi <stefanha@redhat.com>,
@@ -49,18 +49,16 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Fam Zheng <fam@euphon.net>, Juan Quintela <quintela@redhat.com>,
  qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: [PULL 2/8] migration/multifd/zero-copy: Create helper function for
- flushing
-Date: Mon, 21 Nov 2022 13:59:01 +0100
-Message-Id: <20221121125907.62469-3-quintela@redhat.com>
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 3/8] migration: Fix possible infinite loop of ram save process
+Date: Mon, 21 Nov 2022 13:59:02 +0100
+Message-Id: <20221121125907.62469-4-quintela@redhat.com>
 In-Reply-To: <20221121125907.62469-1-quintela@redhat.com>
 References: <20221121125907.62469-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,66 +82,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Leonardo Bras <leobras@redhat.com>
+From: Peter Xu <peterx@redhat.com>
 
-Move flushing code from multifd_send_sync_main() to a new helper, and call
-it in multifd_send_sync_main().
+When starting ram saving procedure (especially at the completion phase),
+always set last_seen_block to non-NULL to make sure we can always correctly
+detect the case where "we've migrated all the dirty pages".
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Then we'll guarantee both last_seen_block and pss.block will be valid
+always before the loop starts.
+
+See the comment in the code for some details.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ migration/ram.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 586ddc9d65..509bbbe3bf 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -566,6 +566,23 @@ void multifd_save_cleanup(void)
-     multifd_send_state = NULL;
- }
- 
-+static int multifd_zero_copy_flush(QIOChannel *c)
-+{
-+    int ret;
-+    Error *err = NULL;
-+
-+    ret = qio_channel_flush(c, &err);
-+    if (ret < 0) {
-+        error_report_err(err);
-+        return -1;
-+    }
-+    if (ret == 1) {
-+        dirty_sync_missed_zero_copy();
-+    }
-+
-+    return ret;
-+}
-+
- int multifd_send_sync_main(QEMUFile *f)
- {
-     int i;
-@@ -616,17 +633,8 @@ int multifd_send_sync_main(QEMUFile *f)
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
- 
--        if (flush_zero_copy && p->c) {
--            int ret;
--            Error *err = NULL;
--
--            ret = qio_channel_flush(p->c, &err);
--            if (ret < 0) {
--                error_report_err(err);
--                return -1;
--            } else if (ret == 1) {
--                dirty_sync_missed_zero_copy();
--            }
-+        if (flush_zero_copy && p->c && (multifd_zero_copy_flush(p->c) < 0)) {
-+            return -1;
-         }
+diff --git a/migration/ram.c b/migration/ram.c
+index dc1de9ddbc..1d42414ecc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2546,14 +2546,22 @@ static int ram_find_and_save_block(RAMState *rs)
+         return pages;
      }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
+ 
++    /*
++     * Always keep last_seen_block/last_page valid during this procedure,
++     * because find_dirty_block() relies on these values (e.g., we compare
++     * last_seen_block with pss.block to see whether we searched all the
++     * ramblocks) to detect the completion of migration.  Having NULL value
++     * of last_seen_block can conditionally cause below loop to run forever.
++     */
++    if (!rs->last_seen_block) {
++        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
++        rs->last_page = 0;
++    }
++
+     pss.block = rs->last_seen_block;
+     pss.page = rs->last_page;
+     pss.complete_round = false;
+ 
+-    if (!pss.block) {
+-        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
+-    }
+-
+     do {
+         again = true;
+         found = get_queued_page(rs, &pss);
 -- 
 2.38.1
 
