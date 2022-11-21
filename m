@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C6C6322D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 13:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F946322F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:01:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox6EX-0007Mq-WF; Mon, 21 Nov 2022 07:49:10 -0500
+	id 1ox6OR-0001YR-HN; Mon, 21 Nov 2022 07:59:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox6EI-0007JE-Nb
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:49:01 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox6EG-0003tc-S7
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:48:54 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id bs21so19702065wrb.4
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 04:48:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DoZJxa3pfaByFDGbToA5MnkMxzqaUuUK5RKomxSjovY=;
- b=PQKxwRTm/rEKDDIBk4uK4HRQWsGM75UOkTrZzhowiVZJzbtMgX6fjVFRS+FiZ5m4Np
- IqlwiNCe511+4Uzshd5S3osxKGXmL38EdDmerbhIutyZOPhnMiyXVJCdPh3HtaKtCtlj
- byo5H45BxgwFl3wry8oqvdhs4oU7I9rWRlNjlKZuECONK9VxKTu6yk7P0pudaJRv2i8N
- 8sbf7FOcnI4sauMSqpw98DSXAlZk4JCQvQnQOwP6gs3QBtYUGw9+ALyeNGPtdvpcxeDg
- HI3/cP7om/mxZmMCmoOkS29QGZySPprZUVEEjhbweEkTCVi2uKPoQhl8q2Lgbpn8Ze50
- /lVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DoZJxa3pfaByFDGbToA5MnkMxzqaUuUK5RKomxSjovY=;
- b=WtrWouG/NkOh1ddojAx7srmYzMNELw4ZbMEtXUgUsnzJ6BIeTzvGU2dvzhZia6WrJG
- GcL5Pr3dMaKIj/MfLEB8o78EoHEI48ea37w8DMWS1HGWOVKo6ZH8e9vjc3uxk37oCOTx
- K6L3f99xAD3uhAlbcwzEX+2U3cVV+ujxmJ/3WYE21hotiWfle6NDir5N/wnCt+1YuQef
- PlciA88gy/gofjT3iuvJqiNXXJpGnfXnv1EU6L2MIDqJxrHTP+SL0jrj27afQyT7hSGr
- AqY6rrm17FkeElggCS0MOgXZQ2iA97QStEqZ/gATTUvgxaGWy8g0wz4FjfsbBU4sIah+
- d12A==
-X-Gm-Message-State: ANoB5pkWNn97dv/4mRROBwOpPTADQ04ADkC4BQOf46lfmcXJfrvYcgvQ
- 5CyhEOOTWpWw5SFGcgcPOhDivg==
-X-Google-Smtp-Source: AA0mqf60HG6HE6oRcnIMQ88Yu8qClysFlrtnl7uKUUdF2WxPFk0PBhLZOksvTMWhjncBB+pU6G4S9g==
-X-Received: by 2002:adf:dd07:0:b0:23a:2311:b72 with SMTP id
- a7-20020adfdd07000000b0023a23110b72mr4889482wrm.147.1669034931061; 
- Mon, 21 Nov 2022 04:48:51 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 4-20020a05600c020400b003b492753826sm13255608wmi.43.2022.11.21.04.48.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 04:48:50 -0800 (PST)
-Message-ID: <fa653fef-b081-c9e8-896b-b16635174a40@linaro.org>
-Date: Mon, 21 Nov 2022 13:48:49 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ox6OO-0001Wc-Dm
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ox6OM-0006Ns-8R
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:59:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669035556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6cA5vw11LLvoiKCPpS2dx3Sk36Qtp4npgO8GCpQGd4I=;
+ b=XGXJtAqvvtDW91Z7oU0cGFeDCkvkCxIvVjEKQGvB9qT6gCl4UZO4Ychj4JAqJMkWO2EPIV
+ kyFIgqRmP+BLoJwOCd8GKLTQVeg/GLvA8eQHeAX0nSA08rYbnFvzslL5uwVP3r0Tq2aCAC
+ N994du9h8rvE9y1BGi9noFIVrRiLlIo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-646-j6DwWERTOdq5cQXFD-7jtg-1; Mon, 21 Nov 2022 07:59:13 -0500
+X-MC-Unique: j6DwWERTOdq5cQXFD-7jtg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D88E185A78F;
+ Mon, 21 Nov 2022 12:59:13 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.193.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75436C15BB3;
+ Mon, 21 Nov 2022 12:59:10 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Fam Zheng <fam@euphon.net>, Juan Quintela <quintela@redhat.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 0/8] Next patches
+Date: Mon, 21 Nov 2022 13:58:59 +0100
+Message-Id: <20221121125907.62469-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH for-8.0 10/29] tcg: Unify helper_{be,le}_{ld,st}*
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221118094754.242910-1-richard.henderson@linaro.org>
- <20221118094754.242910-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221118094754.242910-11-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,27 +80,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/11/22 10:47, Richard Henderson wrote:
-> With the current structure of cputlb.c, there is no difference
-> between the little-endian and big-endian entry points, aside
-> from the assert.  Unify the pairs of functions.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/tcg/tcg-ldst.h           |  60 ++++------
->   accel/tcg/cputlb.c               | 190 ++++++++++---------------------
->   docs/devel/loads-stores.rst      |  36 ++----
->   tcg/aarch64/tcg-target.c.inc     |  39 +++----
->   tcg/arm/tcg-target.c.inc         |  45 +++-----
->   tcg/i386/tcg-target.c.inc        |  40 +++----
->   tcg/loongarch64/tcg-target.c.inc |  25 ++--
->   tcg/mips/tcg-target.c.inc        |  40 +++----
->   tcg/ppc/tcg-target.c.inc         |  30 ++---
->   tcg/riscv/tcg-target.c.inc       |  51 +++------
->   tcg/s390x/tcg-target.c.inc       |  38 +++----
->   tcg/sparc64/tcg-target.c.inc     |  37 +++---
->   12 files changed, 226 insertions(+), 405 deletions(-)
+The following changes since commit a082fab9d259473a9d5d53307cf83b1223301181:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+  Merge tag 'pull-ppc-20221117' of https://gitlab.com/danielhb/qemu into staging (2022-11-17 12:39:38 -0500)
+
+are available in the Git repository at:
+
+  https://gitlab.com/juan.quintela/qemu.git tags/next-pull-request
+
+for you to fetch changes up to b5280437a7f49cf617cdd99bbbe2c7bd1652408b:
+
+  migration: Block migration comment or code is wrong (2022-11-21 11:58:10 +0100)
+
+----------------------------------------------------------------
+Migration PULL request (take 3)
+
+Hi
+
+Drop everything that is not a bug fix:
+- fixes by peter
+- fix comment on block creation (me)
+- fix return values from qio_channel_block()
+
+Please, apply.
+
+(take 1)
+It includes:
+- Leonardo fix for zero_copy flush
+- Fiona fix for return value of readv/writev
+- Peter Xu cleanups
+- Peter Xu preempt patches
+- Patches ready from zero page (me)
+- AVX2 support (ling)
+- fix for slow networking and reordering of first packets (manish)
+
+Please, apply.
+
+----------------------------------------------------------------
+
+Fiona Ebner (1):
+  migration/channel-block: fix return value for
+    qio_channel_block_{readv,writev}
+
+Juan Quintela (1):
+  migration: Block migration comment or code is wrong
+
+Leonardo Bras (1):
+  migration/multifd/zero-copy: Create helper function for flushing
+
+Peter Xu (5):
+  migration: Fix possible infinite loop of ram save process
+  migration: Fix race on qemu_file_shutdown()
+  migration: Disallow postcopy preempt to be used with compress
+  migration: Use non-atomic ops for clear log bitmap
+  migration: Disable multifd explicitly with compression
+
+ include/exec/ram_addr.h   | 11 +++++-----
+ include/exec/ramblock.h   |  3 +++
+ include/qemu/bitmap.h     |  1 +
+ migration/block.c         |  4 ++--
+ migration/channel-block.c |  6 ++++--
+ migration/migration.c     | 18 ++++++++++++++++
+ migration/multifd.c       | 30 ++++++++++++++++----------
+ migration/qemu-file.c     | 27 ++++++++++++++++++++---
+ migration/ram.c           | 27 ++++++++++++++---------
+ util/bitmap.c             | 45 +++++++++++++++++++++++++++++++++++++++
+ 10 files changed, 139 insertions(+), 33 deletions(-)
+
+-- 
+2.38.1
 
 
