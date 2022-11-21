@@ -2,89 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3615631A44
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 08:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B907631A5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 08:37:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox1Do-0001yv-FZ; Mon, 21 Nov 2022 02:28:04 -0500
+	id 1ox1Ls-0003xF-0r; Mon, 21 Nov 2022 02:36:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ox1Dm-0001yh-AG
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:28:02 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ox1Lo-0003wi-RR
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:36:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ox1Dk-0000Sb-Nk
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:28:02 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ox1Ln-0002H4-9d
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 02:36:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669015679;
+ s=mimecast20190719; t=1669016178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+1nfwIhCTzkBJXl7MkqjNsiEMPG3UqffwcS2HFlG/Qk=;
- b=dJ7tQfAP1IqAHfjDwm5u169v6jVmb8HWB0ueJf/L/k/SLI1l83VdohSN9ecB2avN8Rdz4h
- 8HUQgGX5opNK8XJXUI4P962JGjXhLig5ANnd1kS3LlNj8w41OxMvUAk+WWTQAhu665yL/P
- 5MBjOsyBEOwSpAosXrmCGdXf+Q/RcjY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-88-UPX5q9tRNyetLrqJi9BVTw-1; Mon, 21 Nov 2022 02:27:58 -0500
-X-MC-Unique: UPX5q9tRNyetLrqJi9BVTw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hs34-20020a1709073ea200b007ad86f91d39so6164979ejc.10
- for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 23:27:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+1nfwIhCTzkBJXl7MkqjNsiEMPG3UqffwcS2HFlG/Qk=;
- b=ZO7o4VGYqRLdE0LpZIIRbbECiXRtOzUwFWqQfPtgxgT4TJzW0CNX9vfMbUi24dgokR
- Wr10NsGZVrVZAfplIE8re+YPLo5T2FEVqw8ghQ88/vEGV7zLLzaOS9MStUv2xUb8Pm+V
- cFDWtl8jd00hWzYXeyb0xgjlRVNxseLzMISAnKhHQyr5/0C++Cz2b7YwthwY40y+9iFZ
- drBRNDHC834/WlPjaFwV915O9flU5TvpJlTtezr7N//ggBK3BOrvggkJntDsd0jLAFuX
- SjHllDwmI9na3hWH4coo07Cko5mQeEMW/TxlNVpSQwnjjzfALanFV0LdxRWM2TDC0gF1
- Br/Q==
-X-Gm-Message-State: ANoB5pnp2W8DfDq4fJK4SclrXDOTgXJqpneeiqFIVaD1/t1z6bq4qdCo
- UFtLkATkIIPt+OWdFDn1jMEj3vlaU7r/t1+WxgHQ+6tGoHdNFmNzhaPab8/D6cisC4r+0s7xXbd
- MZbOpRSnwuEz7XfA=
-X-Received: by 2002:a17:906:2dcb:b0:7b2:8a70:8fb7 with SMTP id
- h11-20020a1709062dcb00b007b28a708fb7mr14406934eji.163.1669015676847; 
- Sun, 20 Nov 2022 23:27:56 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4IBg6vzOecmNALntA572OWyrVMoZwsZ1DHWQXmFnwG3QF5eX6dzgewqUMg5CUK1XVhBkQ5Ew==
-X-Received: by 2002:a17:906:2dcb:b0:7b2:8a70:8fb7 with SMTP id
- h11-20020a1709062dcb00b007b28a708fb7mr14406920eji.163.1669015676656; 
- Sun, 20 Nov 2022 23:27:56 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-u.redhat.com.
- [213.175.37.12]) by smtp.gmail.com with ESMTPSA id
- g3-20020aa7c843000000b0043bbb3535d6sm4811700edt.66.2022.11.20.23.27.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Nov 2022 23:27:56 -0800 (PST)
-Date: Mon, 21 Nov 2022 08:27:55 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Volker =?UTF-8?B?UsO8bWVsaW4=?= <vr_qemu@t-online.de>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- kraxel@redhat.com, stefanha@gmail.com, qemu-devel@nongnu.org
-Subject: Re: [PULL v4 46/83] acpi: pc/q35: drop ad-hoc PCI-ISA bridge AML
- routines and let bus ennumeration generate AML
-Message-ID: <20221121082755.6b0de000@imammedo.users.ipa.redhat.com>
-In-Reply-To: <d40911ad-201f-7367-cb3e-5fcaf5ad4710@t-online.de>
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-47-mst@redhat.com>
- <d1e1b4a5-1200-dad7-4e82-eacdbd71b92d@t-online.de>
- <20221118140836.73d76e08@imammedo.users.ipa.redhat.com>
- <20221118155517.2a44026d@imammedo.users.ipa.redhat.com>
- <d40911ad-201f-7367-cb3e-5fcaf5ad4710@t-online.de>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Xg+x76jZ81Jv4c6OFWIbbF4IV+OP3LpjFJ2kCUySPqE=;
+ b=YO5kKV5Ft+gc15knEJGSQ+5GyV5eEgHOCoCmAGCissDGUeNjnWGHWTxy50iskoyGeZEHfa
+ x6/JSNZ1sehGL6/MaBlKmGKI5Ss+rv5BINC6ylmyyPuL8dtaFpQE7Jk6t5m0DlRQTQmMN3
+ 5LzQfWMJ0X0nkCYVeKuZilettOCqQNM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-272-zvhteuKUPkuywx548wjlbQ-1; Mon, 21 Nov 2022 02:36:16 -0500
+X-MC-Unique: zvhteuKUPkuywx548wjlbQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD1D987A9E0
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 07:36:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C6E86111E3F2;
+ Mon, 21 Nov 2022 07:36:15 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 0/1] chardev patch for 7.2
+Date: Mon, 21 Nov 2022 11:36:10 +0400
+Message-Id: <20221121073611.1337690-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -108,63 +77,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 19 Nov 2022 09:49:39 +0100
-Volker R=C3=BCmelin <vr_qemu@t-online.de> wrote:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-> Am 18.11.22 um 15:55 schrieb Igor Mammedov:
-> > On Fri, 18 Nov 2022 14:08:36 +0100
-> > Igor Mammedov <imammedo@redhat.com> wrote:
-> > =20
-> >> On Thu, 17 Nov 2022 22:51:46 +0100
-> >> Volker R=C3=BCmelin <vr_qemu@t-online.de> wrote: =20
-> > [...] =20
-> >>> since this patch SeaBIOS no longer detects the PS/2 keyboard. This me=
-ans
-> >>> there's no keyboard in SeaBIOS, GRUB or FreeDOS. OVMF and Linux detect
-> >>> the PS/2 keyboard without issues.
-> >>>
-> >>> Here are a few lines from the SeaBIOS debug log.
-> >>>
-> >>> table(50434146)=3D0x007e1971 (via rsdt)
-> >>> ACPI: parse DSDT at 0x007e0040 (len 6449)
-> >>> parse_termlist: parse error, skip from 92/465
-> >>> Scan for VGA option rom
-> >>> Running option rom at c000:0003
-> >>> Start SeaVGABIOS (version rel-1.16.0-0-gd239552ce722-prebuilt.qemu.or=
-g)
-> >>>
-> >>> and later
-> >>>
-> >>> SeaBIOS (version rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org)
-> >>> ACPI: no PS/2 keyboard present =20
-> > it was a bug on SeaBIOS side, we need it to parse Alias term in AML
-> > instead of choking on it
-> >
-> > proposed patch:
-> >   https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/=
-RGPL7HESH5U5JRLEO6FP77CZVHZK5J65/
-> >
-> > PS:
-> > it's probably too late for it to make into 7.2
-> > =20
->=20
-> The proposed patch works.
->=20
-> It may still be an option to revert the commit 47a373faa6 (acpi: pc/q35:=
-=20
-> drop ad-hoc PCI-ISA bridge AML routines and let bus ennumeration=20
-> generate AML). If an older QEMU version is migrated to QEMU 7.2.0 and=20
-> later and the guest reboots afterwards, it may end up without a working=20
-> keyboard because the migrated SeaBIOS is an older version.
+The following changes since commit a082fab9d259473a9d5d53307cf83b1223301181:
 
-ACPI blobs generated on old QEMU should be migrated as well,
-so I'd expect it should be fine.
-Problem will manifest itself only after VM was shut down and started anew.
+  Merge tag 'pull-ppc-20221117' of https://gitlab.com/danielhb/qemu into staging (2022-11-17 12:39:38 -0500)
 
-Anyways lets see if a QEMU workaround is possible.
+are available in the Git repository at:
 
-> With best regards,
-> Volker
->=20
+  https://gitlab.com/marcandre.lureau/qemu.git tags/chr-pull-request
+
+for you to fetch changes up to 06639f8ff53d1dbfa709377499e6c30eca9c3c9a:
+
+  chardev/char-win-stdio: Pass Ctrl+C to guest with a multiplexed monitor (2022-11-21 11:30:11 +0400)
+
+----------------------------------------------------------------
+chardev fix on win32
+
+----------------------------------------------------------------
+
+Bin Meng (1):
+  chardev/char-win-stdio: Pass Ctrl+C to guest with a multiplexed
+    monitor
+
+ chardev/char-win-stdio.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+-- 
+2.38.1
 
 
