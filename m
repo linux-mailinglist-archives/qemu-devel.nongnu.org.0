@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10769631E6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 11:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC54631EDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 11:57:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox46S-0007K7-4A; Mon, 21 Nov 2022 05:32:40 -0500
+	id 1ox4Sv-0004yt-ND; Mon, 21 Nov 2022 05:55:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ox46Q-0007Jg-J6
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:32:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ox46P-0007bn-3F
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:32:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669026749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Usx+llIyd505lGmR8u5jJxWaHo+XPc0pGqxKUzrki38=;
- b=Uv2+JVdoRzWFuH33wnUSKqxJbBrpKV5RaCFWRmbaotk7aHP0DgOv8e2H0YlUZ1ig41QjmS
- Wdr/h9aqToTqgf6pXnKixn6x37Ayb2rjwiOoODHT7bmnbhie9eZsZEhMkiRmEbL/7ue3PJ
- yDtBnJV+v2zfCD+JYwkQZA42OX9qwi0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-ZsVaQkXQM-yaZVYdjVwWvg-1; Mon, 21 Nov 2022 05:32:27 -0500
-X-MC-Unique: ZsVaQkXQM-yaZVYdjVwWvg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C0E986EB22;
- Mon, 21 Nov 2022 10:32:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13B7140C6EC2;
- Mon, 21 Nov 2022 10:32:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 13C0B180099B; Mon, 21 Nov 2022 11:32:14 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: seabios@seabios.org
-Cc: qemu-devel@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 4/4] be less conservative with the 64bit pci io window
-Date: Mon, 21 Nov 2022 11:32:13 +0100
-Message-Id: <20221121103213.1675568-5-kraxel@redhat.com>
-In-Reply-To: <20221121103213.1675568-1-kraxel@redhat.com>
-References: <20221121103213.1675568-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4Sr-0004ye-7z
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:55:49 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox4Sp-00054i-NZ
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 05:55:49 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ o7-20020a05600c510700b003cffc0b3374so8551723wms.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 02:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=j3uqZy1Sg8L4oN2M3cNm11WYq2TOEuLqa6zKxX5j4AQ=;
+ b=gK3IuXatXPWr/nhPWrx7+KRtGx8A44Zbjw3S2Mg68k892pp2xUDXOTvz+25IszLrJJ
+ V5n1Hdus4wERkX8+XFcowVwx0RmJkc1d4FN+ktTjdVYV2vKLouKFpzc/BqtrYur5rCvO
+ sDuyInmpH4O+cDlNhVfTzKhH2YLKtI9JSJ2CkVgbMZvyDxglJ+MXnjEbsxzoWUtNJGu1
+ D5P6KH3+6xRe+fQDrj9LVqvOgLWWWZJfZpggs2K12aqL7wDPZ5X95fBJJVSXV0WS8Mxo
+ lzX4As4vRB0ZOVrvAOr7El9F7tgAKNaFcRLTW4w3zlnFJrHNW3L7zjkL+D4UwQCYyYsS
+ yhsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=j3uqZy1Sg8L4oN2M3cNm11WYq2TOEuLqa6zKxX5j4AQ=;
+ b=tGd9e7d2UpTgaKi3t3Af8MWqiWUTqXzbwp8MH7uE2kfoikvfqitnP3IwYd8ko3YqFi
+ pM/jcz/l50019+H3kodxTMrzfWKpWQKMesAbkoDaprxi7r95sL3964pD95DyXMv+Vs85
+ zhaKNGnoBOXlRB7EQrEM3u9/MzjoOvO2Odvpry0vYDYydInamm8HNiq+ZAN0y4yb3p96
+ ZbjxMynUp5Tm8M645o6zl4NBfuxsbD8xj8ab8Oq8BdYiYyy7s0AZ3QXN/5Vkw848mrQG
+ aErVzmVOpbNzpyax3XFmu83dPV4eTUbBI6hod13ge/0n0fD1mDtsbQswH4XhZ4gi7gD9
+ EJJw==
+X-Gm-Message-State: ANoB5pnElKffuwMHmf+0+ltRcj2baXQo3vcfE3VJGKvPsBuXAv78/nE4
+ Fk9M+YjjEK4Zqjd4ukWWSGxyUA==
+X-Google-Smtp-Source: AA0mqf5N5ZFN8FRd0PH+qV4LbtRADuD4jdtPKkGJj/OOdHBWY4ssRXvu2Re3/FrSg/0YGTlcr+OKow==
+X-Received: by 2002:a05:600c:1d9c:b0:3c6:bf1e:ebb9 with SMTP id
+ p28-20020a05600c1d9c00b003c6bf1eebb9mr15378151wms.173.1669028144304; 
+ Mon, 21 Nov 2022 02:55:44 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ q2-20020adff502000000b00241cfa9333fsm4939315wro.5.2022.11.21.02.55.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 02:55:43 -0800 (PST)
+Message-ID: <e5386ccd-93d7-1f98-45df-d1a83c630931@linaro.org>
+Date: Mon, 21 Nov 2022 11:55:42 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH for-8.0 2/7] hw/mips: Use QEMU_IOTHREAD_LOCK_GUARD in
+ cpu_mips_irq_request
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20221118091858.242569-1-richard.henderson@linaro.org>
+ <20221118091858.242569-3-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221118091858.242569-3-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,66 +93,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Current seabios code will only enable and use the 64bit pci io window in
-case it runs out of space in the 32bit pci mmio window below 4G.
+On 18/11/22 10:18, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>   hw/mips/mips_int.c | 11 +----------
+>   1 file changed, 1 insertion(+), 10 deletions(-)
+> 
+> diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+> index 2db5e10fe0..73437cd90f 100644
+> --- a/hw/mips/mips_int.c
+> +++ b/hw/mips/mips_int.c
+> @@ -32,17 +32,12 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
+>       MIPSCPU *cpu = opaque;
+>       CPUMIPSState *env = &cpu->env;
+>       CPUState *cs = CPU(cpu);
+> -    bool locked = false;
+>   
+>       if (irq < 0 || irq > 7) {
+>           return;
+>       }
+>   
+> -    /* Make sure locking works even if BQL is already held by the caller */
+> -    if (!qemu_mutex_iothread_locked()) {
+> -        locked = true;
+> -        qemu_mutex_lock_iothread();
+> -    }
+> +    QEMU_IOTHREAD_LOCK_GUARD();
+>   
+>       if (level) {
+>           env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
+> @@ -59,10 +54,6 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
+>       } else {
+>           cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+>       }
+> -
+> -    if (locked) {
+> -        qemu_mutex_unlock_iothread();
+> -    }
+>   }
 
-This patch will also enable the 64bit pci io window when
-  (a) RAM above 4G is present, and
-  (b) the physical address space size is known, and
-  (c) seabios is running on a 64bit capable processor.
+I'd rather have a macro similar to WITH_RCU_READ_LOCK_GUARD()
+so the locked context is obvious:
 
-This operates with the assumption that guests which are ok with memory
-above 4G most likely can handle mmio above 4G too.
+   WITH_QEMU_IOTHREAD_LOCK_GUARD() {
+       ...
+   }
 
-In case the 64bit pci io window is enabled also assign more memory to
-prefetchable pci bridge windows (scale with address space).
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- src/fw/pciinit.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/src/fw/pciinit.c b/src/fw/pciinit.c
-index ad6def93633b..3e9636b139a4 100644
---- a/src/fw/pciinit.c
-+++ b/src/fw/pciinit.c
-@@ -51,6 +51,7 @@ u64 pcimem_end     = BUILD_PCIMEM_END;
- u64 pcimem64_start = BUILD_PCIMEM64_START;
- u64 pcimem64_end   = BUILD_PCIMEM64_END;
- u64 pci_io_low_end = 0xa000;
-+u32 pci_use_64bit  = 0;
- 
- struct pci_region_entry {
-     struct pci_device *dev;
-@@ -920,6 +921,8 @@ static int pci_bios_check_devices(struct pci_bus *busses)
-         for (type = 0; type < PCI_REGION_TYPE_COUNT; type++) {
-             u64 align = (type == PCI_REGION_TYPE_IO) ?
-                 PCI_BRIDGE_IO_MIN : PCI_BRIDGE_MEM_MIN;
-+            if (pci_use_64bit && (type == PCI_REGION_TYPE_PREFMEM))
-+                align = (u64)1 << (PhysBits - 11);
-             if (!pci_bridge_has_region(s->bus_dev, type))
-                 continue;
-             u64 size = 0;
-@@ -1108,7 +1111,7 @@ static void pci_bios_map_devices(struct pci_bus *busses)
-         panic("PCI: out of I/O address space\n");
- 
-     dprintf(1, "PCI: 32: %016llx - %016llx\n", pcimem_start, pcimem_end);
--    if (pci_bios_init_root_regions_mem(busses)) {
-+    if (pci_use_64bit || pci_bios_init_root_regions_mem(busses)) {
-         struct pci_region r64_mem, r64_pref;
-         r64_mem.list.first = NULL;
-         r64_pref.list.first = NULL;
-@@ -1174,6 +1177,9 @@ pci_setup(void)
- 
-     dprintf(3, "pci setup\n");
- 
-+    if (PhysBits >= 36 && LongMode && RamSizeOver4G)
-+        pci_use_64bit = 1;
-+
-     dprintf(1, "=== PCI bus & bridge init ===\n");
-     if (pci_probe_host() != 0) {
-         return;
--- 
-2.38.1
+Anyhow:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
