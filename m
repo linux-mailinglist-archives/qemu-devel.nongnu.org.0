@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8946163247E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7C5632585
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 15:21:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox7Hl-0000a2-QO; Mon, 21 Nov 2022 08:56:33 -0500
+	id 1ox7fe-0000zm-TT; Mon, 21 Nov 2022 09:21:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ox7Hi-0000Vi-Lk
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:56:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <matt@codeconstruct.com.au>)
+ id 1ox1nZ-0003OJ-7c; Mon, 21 Nov 2022 03:05:02 -0500
+Received: from pi.codeconstruct.com.au ([203.29.241.158]
+ helo=codeconstruct.com.au)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ox7Hh-0003v9-4M
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:56:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669038988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KHE5p4h4Dy7zD9rPBdnU5nUsIJCBI4chxk1PHEBoSEM=;
- b=eK42ee0V/b4ud8oFUF1/9zVDapZZhVHT/xyHeZCTSgjrWiDdswgYVU37dnr/oRzWaz/7Gu
- jkw5j2jkVBgZcwsIGbYF7TxiLkvcobK6cgR5LAnEravGLAG0ThW447dMIPuzZwOQ+K9WeZ
- jFkIAtFImistDmTdOlQGQ0J2MGK/67Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-CeJv3NnwOw-lJV4JV_VlAg-1; Mon, 21 Nov 2022 08:56:26 -0500
-X-MC-Unique: CeJv3NnwOw-lJV4JV_VlAg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E893811E7A;
- Mon, 21 Nov 2022 13:56:26 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9AB6111E41D;
- Mon, 21 Nov 2022 13:56:25 +0000 (UTC)
-Date: Thu, 17 Nov 2022 15:08:01 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, stefanha@redhat.com,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PULL 0/1] ppc queue
-Message-ID: <Y3aUoRLbASdjz5d7@fedora>
-References: <20221117151657.182061-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <matt@codeconstruct.com.au>)
+ id 1ox1nW-0008Hz-Fu; Mon, 21 Nov 2022 03:05:00 -0500
+Received: by codeconstruct.com.au (Postfix, from userid 10001)
+ id 30F1920031; Mon, 21 Nov 2022 16:04:45 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=codeconstruct.com.au; s=2022a; t=1669017885;
+ bh=JgJk6lNPb1VybQ+KnkB29GKT/z0GPi5XQivENuVAS/Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=ThfVsdVHbealDrQfNuGlYsJmMkiq69orAQMtLbd5R98yCpePPb6i4mdUZ1/lEsniw
+ g2s0OeOMg+kGkQDaGBnAyRT6u1z1HyZAYhR7dvdCE+xkLLhkbfYei6Hj+APFjd1q+c
+ uMgWYs5G7xPeEm5BpKynif20xF8PwZAdpObetYEM0zwUnB+BLF5c7jjkOoJv693hUk
+ Soo+vv6NvSiOxp/7Gr/onugMGYtAb09dsmzgRbHsXHDuFN0Ex0MlcjWUjRD7Wt/Ws2
+ f2qHLHXFqFZkvHnV5FZ8dAbUNLg2qRjJk7vIFjkE4jYc5X5b7C+bc9kdhsKsNYVJD+
+ 1Yjw5gE51m1MA==
+Date: Mon, 21 Nov 2022 16:04:45 +0800
+From: Matt Johnston <matt@codeconstruct.com.au>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Jeremy Kerr <jk@codeconstruct.com.au>, qemu-devel@nongnu.org,
+ Andrew Jeffery <andrew@aj.id.au>, Keith Busch <kbusch@kernel.org>,
+ Corey Minyard <cminyard@mvista.com>,
+ Peter Delevoryas <peter@pjd.dev>, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH RFC 2/3] hw/i2c: add mctp core
+Message-ID: <20221121080445.GA29062@codeconstruct.com.au>
+References: <20221116084312.35808-1-its@irrelevant.dk>
+ <20221116084312.35808-3-its@irrelevant.dk>
+ <d8a8549c6fc29650131046ee00b7968ebedf886b.camel@codeconstruct.com.au>
+ <Y3ct1OzQfPLGEQ1T@cormorant.local>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ACPe7LLwt2AzpZNE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221117151657.182061-1-danielhb413@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <Y3ct1OzQfPLGEQ1T@cormorant.local>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=203.29.241.158;
+ envelope-from=matt@codeconstruct.com.au; helo=codeconstruct.com.au
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 21 Nov 2022 09:21:12 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,30 +75,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, Nov 18, 2022 at 08:01:40AM +0100, Klaus Jensen wrote:
+> On Nov 18 13:56, Jeremy Kerr wrote:
+> > Hi Klaus,
+> > 
+> > > Add an abstract MCTP over I2C endpoint model. This implements MCTP
+> > > control message handling as well as handling the actual I2C transport
+> > > (packetization).
+> > > 
+> > With those changes, I can get control protocol going, and multi-packet
+> > messages work. There's a couple of failures from unsupported commands,
+> > but otherwise looks good:
+> > 
+> >   # mctp addr add 8 dev mctpi2c6
+> >   # mctp link set mctpi2c6 up
+> >   # mctp link set mctpi2c6 mtu 254
+> >   # systemctl restart mctpd
+> >   # busctl --no-pager call xyz.openbmc_project.MCTP \
+> >     /xyz/openbmc_project/mctp au.com.CodeConstruct.MCTP \
+> >     SetupEndpoint say mctpi2c6 1 0x1d
 
---ACPe7LLwt2AzpZNE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Klaus,
 
-Applied, thanks.
+Thanks for the MCTP model, it's useful here.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+I needed the following patch to be able to call SetupEndpoint again when a
+device has already been assigned an EID. That tries a Set Endpoint ID/
+Get Endpoint ID, addressed to EID 0.
 
---ACPe7LLwt2AzpZNE
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers,
+Matt
 
------BEGIN PGP SIGNATURE-----
+---
+From cb7ad91474367f8e47bdaf03aba9a822f2648f41 Mon Sep 17 00:00:00 2001
+From: Matt Johnston <matt@codeconstruct.com.au>
+Date: Mon, 21 Nov 2022 15:10:13 +0800
+Subject: [PATCH] i2c/mctp: Allow receiving messages to dest eid 0
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmN2lKEACgkQnKSrs4Gr
-c8jMwAf9HFc8HfCuy2aiIXwgeCrlacB7nGGw1BEo9QaPVT7CGoCn0PpRrx1dhlIh
-lSb96AuJafO6LxqEKwvG+9TpDpF7qYMqCl0W2NKLY+XOWwwMkev3SZrZoVefM+es
-oQJVASv07nWKkpqgiRmDxZBDkb0HqakkzNqD3LqWtMopn9kZjmzWQGocxgC6yRlJ
-PuXYe3flVB0EP4iJQkUCQuvnGSHWn/IVoRhEm6tiA2WOytDdP4dayryDWAgehW9v
-pYQ8YHuwGIdgVaMXRI8d2ZrwfpkabvTOlpaNXbSq3yQLFlDpxz5vR50VDnKp49Fb
-Ht9rOh5fT2lxO3+XTSPUJcblBKrT1A==
-=HL93
------END PGP SIGNATURE-----
+The Null Destination ID, 0, is used for MCTP control messages when
+addressing by physical ID. That is used for Get Endpoint ID and
+Set Endpoint ID when querying/assigning an EID to an endpoint.
 
---ACPe7LLwt2AzpZNE--
+Signed-off-by: Matt Johnston <matt@codeconstruct.com.au>
+---
+ hw/i2c/mctp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/hw/i2c/mctp.c b/hw/i2c/mctp.c
+index 1775deb46f..9d9e519ba9 100644
+--- a/hw/i2c/mctp.c
++++ b/hw/i2c/mctp.c
+@@ -258,7 +258,8 @@ static int i2c_mctp_event_cb(I2CSlave *i2c, enum i2c_event event)
+             goto drop;
+         }
+ 
+-        if (pkt->mctp.hdr.eid.dest != mctp->my_eid) {
++        if (!(pkt->mctp.hdr.eid.dest == mctp->my_eid
++            || pkt->mctp.hdr.eid.dest == 0)) {
+             trace_i2c_mctp_drop_invalid_eid(pkt->mctp.hdr.eid.dest,
+                                             mctp->my_eid);
+             goto drop;
+-- 
+2.37.2
 
 
