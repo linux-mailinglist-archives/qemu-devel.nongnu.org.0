@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EEC36321CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 13:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624E76321D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 13:26:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox5oN-0006BT-SD; Mon, 21 Nov 2022 07:22:07 -0500
+	id 1ox5rW-0007Ds-Ch; Mon, 21 Nov 2022 07:25:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ox5oL-0006BL-K1
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:22:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ox5oJ-0007j1-Oz
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:22:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669033323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/3qgvcI6c7FMizUkhvOfUbnWn1LRFP9h946g0QU6NAo=;
- b=iqT+jq7SrfJr5VdgaFKhsvaIYBpdemf/RuuD2O7LNaaxTURr7NiEhDKZjGktxfl8PX1uk2
- +Gfxrp9dPoBCrw6R9IK4NTck5gxBTcoDYVdJxE/uH5eAF05nuZM2WQQulJZPTpTgGtwou/
- tufL1KuimQch1RDqpokyFVfEiFcCkPc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-z3Zw-aZtOBaw3sxmsHUYXg-1; Mon, 21 Nov 2022 07:21:59 -0500
-X-MC-Unique: z3Zw-aZtOBaw3sxmsHUYXg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B228101A528;
- Mon, 21 Nov 2022 12:21:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCF03492B06;
- Mon, 21 Nov 2022 12:21:57 +0000 (UTC)
-Date: Mon, 21 Nov 2022 13:21:54 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 04/11] block-coroutine-wrapper.py: introduce
- generated_co_wrapper_simple
-Message-ID: <Y3ttYuCVO9xTNBlH@redhat.com>
-References: <20221116122241.2856527-1-eesposit@redhat.com>
- <20221116122241.2856527-5-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox5rU-0007Dj-87
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:25:20 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ox5rR-0008Ns-GX
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:25:18 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so12632101wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 04:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=k61NEOpjEePwjVhLNqRVwJ/gWUgVaJp/zuAsIktDvNo=;
+ b=ufqff6UjjBsuGktFh81hmy0aXhtLU35KOBP0qaEVR42XmQiI9MwoaEnELGj8wqTCXu
+ QHNTBiT/9Vso2I4RYeInbupdKb+5LaSpLTPBuCoowafffaLjPnqvf5crk36odSNGFVSG
+ VMbb5nXODMNNAq2tyR1Qinv8h//HSW7O25CklxM3y1Qt6a6NBkwACH6E+4i/UK7ennO1
+ p5FoHgtrJpzRJn6imPLKqn3T/Tfxuyw4VPFNjL/o/W0SeNoZK8NI9Oj7rzoMJWmnFjCv
+ +DPpPQr5BWMdgKjT6cthpWlMrzP0C7vFgVROhfh6bTYEYuYowfTgDNIkv5un4ub0PidM
+ jfAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=k61NEOpjEePwjVhLNqRVwJ/gWUgVaJp/zuAsIktDvNo=;
+ b=Cw/rWhPrpqJ5nwsipI+KaMBNLqlyHj/ZS8kniKk+AiAxkyZVz8HM6WlLv64hT3av6G
+ pyGu986JIyaSzP2uzZMuHWj7xlqdiR/o7jB4W2C7g3Lsgny0AHlPrs525ymluPRYv0lj
+ Q7yDE9tGXUldEqaZYjEsT1z3e8mo64cLraCvDJ3OEDB+fnSFU3OwvoDlXEt4tg+EuNb4
+ neN8k8t20S6N41VheH8anyeub3XMzLW3Jjb+ZCCF5Ji3FVYWqS/nELyHtg0EMtZLnT2b
+ v+EYqQULDV9IK4xWdAxbUHyhrZrG0g/5P+WAYR7gkvwmBgG+l7lLM00GuBh6NCnh2sRq
+ OV0Q==
+X-Gm-Message-State: ANoB5pmB/lqfVc8iL8qJHzDyfNaF6L/oSxmgBlXQGW6XxluME/t5RptP
+ l4Ee1h/0w8b48Fjm32YQhukRvw==
+X-Google-Smtp-Source: AA0mqf58pkmgct8dp5/IADdnk5cdYXRQUB1EtdhCzi93rQErlIePkxhn+0wMChOwg4TFc5QB+VO1Fg==
+X-Received: by 2002:a05:600c:4f51:b0:3b4:a6c4:70fb with SMTP id
+ m17-20020a05600c4f5100b003b4a6c470fbmr16315786wmq.79.1669033514505; 
+ Mon, 21 Nov 2022 04:25:14 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ n27-20020a05600c3b9b00b003cfa81e2eb4sm15002801wms.38.2022.11.21.04.25.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 04:25:13 -0800 (PST)
+Message-ID: <6b526843-7b26-d735-9572-dc86533971a0@linaro.org>
+Date: Mon, 21 Nov 2022 13:25:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221116122241.2856527-5-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH for-8.0 04/29] accel/tcg: Introduce tlb_read_idx
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221118094754.242910-1-richard.henderson@linaro.org>
+ <20221118094754.242910-5-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221118094754.242910-5-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,149 +91,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
-> This new annotation creates just a function wrapper that creates
-> a new coroutine. It assumes the caller is not a coroutine.
+On 18/11/22 10:47, Richard Henderson wrote:
+> Instead of playing with offsetof in various places, use
+> MMUAccessType to index an array.  This is easily defined
+> instead of the previous dummy padding array in the union.
 > 
-> This is much better as g_c_w, because it is clear if the caller
-> is a coroutine or not, and provides the advantage of automating
-> the code creation. In the future all g_c_w functions will be
-> substituted on g_c_w_simple.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/exec/cpu-defs.h |   7 ++-
+>   include/exec/cpu_ldst.h |  26 ++++++++--
+>   accel/tcg/cputlb.c      | 104 +++++++++++++---------------------------
+>   3 files changed, 59 insertions(+), 78 deletions(-)
 
-$ mypy --strict scripts/block-coroutine-wrapper.py
-scripts/block-coroutine-wrapper.py:31: error: Function is missing a return type annotation
-scripts/block-coroutine-wrapper.py:90: error: Missing type parameters for generic type "Iterator"
-scripts/block-coroutine-wrapper.py:110: error: "FuncDecl" has no attribute "co_name"
-scripts/block-coroutine-wrapper.py:111: error: "FuncDecl" has no attribute "struct_name"
-scripts/block-coroutine-wrapper.py:112: error: "FuncDecl" has no attribute "bs"
-scripts/block-coroutine-wrapper.py:135: error: "FuncDecl" has no attribute "co_name"
-scripts/block-coroutine-wrapper.py:136: error: "FuncDecl" has no attribute "struct_name"
-scripts/block-coroutine-wrapper.py:137: error: "FuncDecl" has no attribute "bs"
-scripts/block-coroutine-wrapper.py:160: error: "FuncDecl" has no attribute "co_name"
-scripts/block-coroutine-wrapper.py:161: error: "FuncDecl" has no attribute "co_name"
-scripts/block-coroutine-wrapper.py:172: error: "FuncDecl" has no attribute "bs"
-scripts/block-coroutine-wrapper.py:173: error: "FuncDecl" has no attribute "struct_name"
-scripts/block-coroutine-wrapper.py:174: error: "FuncDecl" has no attribute "struct_name"
-scripts/block-coroutine-wrapper.py:218: error: Call to untyped function "gen_header" in typed context
-Found 14 errors in 1 file (checked 1 source file)
+Nice.
 
-The first two and the last one isn't the fault of this patch, but the
-others are. When you add new attributes, they should be declared in
-FuncDecl.__init__(). And actually, this even seems like a better place
-to initialise them already with the right value than gen_wrapper().
-
->  include/block/block-common.h       |  1 +
->  scripts/block-coroutine-wrapper.py | 87 ++++++++++++++++++++++--------
->  2 files changed, 66 insertions(+), 22 deletions(-)
-> 
-> diff --git a/include/block/block-common.h b/include/block/block-common.h
-> index 297704c1e9..8ae750c7cf 100644
-> --- a/include/block/block-common.h
-> +++ b/include/block/block-common.h
-> @@ -43,6 +43,7 @@
->   * Read more in docs/devel/block-coroutine-wrapper.rst
->   */
->  #define generated_co_wrapper
-> +#define generated_co_wrapper_simple
->  
->  /* block.c */
->  typedef struct BlockDriver BlockDriver;
-> diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
-> index 08be813407..f88ef53964 100644
-> --- a/scripts/block-coroutine-wrapper.py
-> +++ b/scripts/block-coroutine-wrapper.py
-> @@ -62,10 +62,15 @@ def __init__(self, param_decl: str) -> None:
->  
->  
->  class FuncDecl:
-> -    def __init__(self, return_type: str, name: str, args: str) -> None:
-> +    def __init__(self, return_type: str, name: str, args: str,
-> +                 variant: str) -> None:
->          self.return_type = return_type.strip()
->          self.name = name.strip()
->          self.args = [ParamDecl(arg.strip()) for arg in args.split(',')]
-> +        self.create_only_co = False
-> +
-> +        if variant == '_simple':
-> +            self.create_only_co = True
->  
->      def gen_list(self, format: str) -> str:
->          return ', '.join(format.format_map(arg.__dict__) for arg in self.args)
-> @@ -75,7 +80,8 @@ def gen_block(self, format: str) -> str:
->  
->  
->  # Match wrappers declared with a generated_co_wrapper mark
-> -func_decl_re = re.compile(r'^int\s*generated_co_wrapper\s*'
-> +func_decl_re = re.compile(r'^int\s*generated_co_wrapper'
-> +                          r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
->                            r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
->                            r'\((?P<args>[^)]*)\);$', re.MULTILINE)
->  
-> @@ -84,7 +90,8 @@ def func_decl_iter(text: str) -> Iterator:
->      for m in func_decl_re.finditer(text):
->          yield FuncDecl(return_type='int',
->                         name=m.group('wrapper_name'),
-> -                       args=m.group('args'))
-> +                       args=m.group('args'),
-> +                       variant=m.group('variant'))
->  
->  
->  def snake_to_camel(func_name: str) -> str:
-> @@ -97,6 +104,51 @@ def snake_to_camel(func_name: str) -> str:
->      return ''.join(words)
->  
->  
-> +# Checks if we are already in coroutine
-> +def create_g_c_w(func: FuncDecl) -> str:
-> +    name = func.co_name
-> +    struct_name = func.struct_name
-> +    return f"""\
-> +int {func.name}({ func.gen_list('{decl}') })
-> +{{
-> +    if (qemu_in_coroutine()) {{
-> +        return {name}({ func.gen_list('{name}') });
-> +    }} else {{
-> +        {struct_name} s = {{
-> +            .poll_state.bs = {func.bs},
-> +            .poll_state.in_progress = true,
-> +
-> +{ func.gen_block('            .{name} = {name},') }
-> +        }};
-> +
-> +        s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
-> +
-> +        return bdrv_poll_co(&s.poll_state);
-> +    }}
-> +}}"""
-> +
-> +
-> +# Assumes we are not in coroutine, and creates one
-> +def create_coroutine_only(func: FuncDecl) -> str:
-> +    name = func.co_name
-> +    struct_name = func.struct_name
-> +    return f"""\
-> +int {func.name}({ func.gen_list('{decl}') })
-> +{{
-> +    assert(!qemu_in_coroutine());
-> +    {struct_name} s = {{
-> +        .poll_state.bs = {func.bs},
-> +        .poll_state.in_progress = true,
-> +
-> +{ func.gen_block('        .{name} = {name},') }
-> +    }};
-
-Not sure how strict we are about this in generated code, but generally
-the QEMU coding style requires declarations to come first, so the
-assertion should be below it.
-
-> +
-> +    s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
-> +
-> +    return bdrv_poll_co(&s.poll_state);
-> +}}"""
-
-Kevin
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
