@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C746631B82
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC402631C20
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:56:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox2Fs-0000NK-5p; Mon, 21 Nov 2022 03:34:16 -0500
+	id 1ox2WK-0003Um-9L; Mon, 21 Nov 2022 03:51:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ox2Fg-0000HC-Ny
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:34:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2WF-0003SZ-BN
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ox2Ff-0005Jk-As
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:34:04 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2W6-00018A-WE
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669019642;
+ s=mimecast20190719; t=1669020662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DXG8WO6RHBUwYBJ7rpR5fK1omKk45BZtqRKioqxBxPU=;
- b=WAus3hLrr3oVObVfHydTKEbjPHE52S/L0Ylqsfx8YKFWktLwHIN2JpckYPF6dpAxFAy818
- ngPpEESElySWUnNOAUrWbsM5GL9RNCNN78YE2MevasNLGw6xqLEa3AmDxR3gi1QzSa7cUX
- laf43yyF+D/yLbhTajBAEPH3nge1emA=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-156-qK6xpqAmObuHjqI5YIHMEw-1; Mon, 21 Nov 2022 03:34:01 -0500
-X-MC-Unique: qK6xpqAmObuHjqI5YIHMEw-1
-Received: by mail-io1-f72.google.com with SMTP id
- bf14-20020a056602368e00b006ce86e80414so5065186iob.7
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 00:34:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DXG8WO6RHBUwYBJ7rpR5fK1omKk45BZtqRKioqxBxPU=;
- b=wEQv2X7+cVIdXe2vmPYc8fm8GkdHpW4Fhdm3ZLJZTM/vlpTIAQg8lXoFuSHYG26fEr
- pAiQCHGIbBDK4Y3OQMTcozoqQs5H7PE5KOil6zDOfZ+w5Wx71OUg84g468ES1hpGBwL0
- mOjIkYYC01vwxrZ6DyozjLSUld9s/FaDPTvIrsdAdT3XXbuFW6CnpTlDIHfAtxyvRxgM
- UQjtOQjX6MDOQMK1c2Vcm/6JmkcnyqJWx7mo/6aUFDBisvyfDoB91qGOKluw93Rp+QI7
- YfTA8RkLztTb7n96r0WCPP2ZZLPlQPrVbKPoXmDIGdrNbD8qWJ0DHSmo4jHxzYpdzrHu
- 7vGg==
-X-Gm-Message-State: ANoB5pniCeUfj+HgeBRg6eRWdwIgTidlUyflZfXDpBX59CLFxDGj3sBF
- 4X382uRiHjGBJx2pedfhgTcQie+4zkHuEr0FlM/tsi/L5LdH2QWS/B4e7B4+FiLSnK1RcEDxDh+
- fU3YJkjx+EVpDVb8Y0TlMxqJEHYwNzXM=
-X-Received: by 2002:a92:870f:0:b0:302:501a:a25d with SMTP id
- m15-20020a92870f000000b00302501aa25dmr7417162ild.311.1669019640346; 
- Mon, 21 Nov 2022 00:34:00 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5L26VUxSwSLPpyirYjk3sCVOvwwKAcpHCk76jygmLqEZx6x5VDnzs6iOlT0PlkNcACBn9pQ/ZNVL1acDhQSL4=
-X-Received: by 2002:a92:870f:0:b0:302:501a:a25d with SMTP id
- m15-20020a92870f000000b00302501aa25dmr7417155ild.311.1669019640133; Mon, 21
- Nov 2022 00:34:00 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A48jOKj6XIhc9Iw/ucbEw6a0NU29RwBADcvaaerLul4=;
+ b=SkKaSmK57RMxMRQStO6GzZbRGo4h16N+Xeb74luYilmf/g36U1UH6AKuGvLxDWeGx5tjWe
+ picJ/Vx7ExHxWPzLS5c1vS7PuhrgaHRvx7YVdANfVwzM7ItgEYIcudNtXrciMerQcUFdwC
+ 1ylulEbLTQeAqMNWbN9v1rvcJLa7Qm4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-219-ysIQGOHvND2CMh8U2j3sKA-1; Mon, 21 Nov 2022 03:50:58 -0500
+X-MC-Unique: ysIQGOHvND2CMh8U2j3sKA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C24EE101A5BB;
+ Mon, 21 Nov 2022 08:50:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AE62492B11;
+ Mon, 21 Nov 2022 08:50:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 50B8121E6921; Mon, 21 Nov 2022 09:50:54 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: eblake@redhat.com,
+	vsementsov@yandex-team.ru
+Subject: [PATCH 00/10] Cleanups around error_propagate() and ERRP_GUARD()
+Date: Mon, 21 Nov 2022 09:50:44 +0100
+Message-Id: <20221121085054.683122-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20221120140044.752503-1-kfir@daynix.com>
- <20221120140044.752503-3-kfir@daynix.com>
-In-Reply-To: <20221120140044.752503-3-kfir@daynix.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 21 Nov 2022 10:33:49 +0200
-Message-ID: <CAPMcbCorfwnvPxV1Rbz0agNxs27_ZtsNcKkkA45GqObU3EgwTQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] qga:/qga-win: skip getting pci info for USB disks
-To: Kfir Manor <kfir@daynix.com>
-Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>, 
- Yan Vugenfirer <yan@daynix.com>
-Content-Type: multipart/alternative; boundary="000000000000c6149905edf6eae5"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,103 +75,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c6149905edf6eae5
-Content-Type: text/plain; charset="UTF-8"
+Markus Armbruster (10):
+  error: Drop some obviously superfluous error_propagate()
+  error: Drop a few superfluous ERRP_GUARD()
+  error: Move ERRP_GUARD() to the beginning of the function
+  monitor: Simplify monitor_fd_param()'s error handling
+  monitor: Use ERRP_GUARD() in monitor_init()
+  qemu-config: Make config_parse_qdict() return bool
+  qemu-config: Use ERRP_GUARD() where obviously appropriate
+  sockets: Use ERRP_GUARD() where obviously appropriate
+  qapi: Use returned bool to check for failure (again)
+  io: Tidy up fat-fingered parameter name
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+ include/io/channel.h             |  2 +-
+ include/qemu/config-file.h       |  2 +-
+ accel/kvm/kvm-all.c              |  5 +---
+ block/blkdebug.c                 |  4 +--
+ block/copy-before-write.c        |  1 -
+ dump/dump.c                      |  2 --
+ hw/arm/armsse.c                  |  3 +--
+ hw/arm/virt.c                    | 14 ++++------
+ hw/core/machine.c                |  3 +--
+ hw/core/qdev-properties-system.c |  5 +---
+ hw/core/qdev.c                   |  2 --
+ hw/hyperv/vmbus.c                |  8 +++---
+ hw/i386/pc.c                     |  5 +---
+ hw/pci/msi.c                     |  1 -
+ hw/remote/vfio-user-obj.c        |  1 -
+ hw/virtio/vhost-vdpa.c           |  2 +-
+ hw/virtio/virtio-balloon.c       | 20 +++++++-------
+ hw/virtio/virtio-mem.c           | 10 ++-----
+ iothread.c                       |  2 +-
+ monitor/misc.c                   | 14 +++-------
+ monitor/monitor.c                | 12 +++------
+ monitor/qmp-cmds.c               |  4 +--
+ net/colo-compare.c               | 13 +++------
+ qga/commands-win32.c             |  8 +++---
+ target/i386/kvm/kvm.c            |  5 +---
+ ui/util.c                        |  1 -
+ util/qemu-config.c               | 46 +++++++++++++++-----------------
+ util/qemu-sockets.c              | 26 +++++++-----------
+ util/thread-context.c            | 10 ++-----
+ 29 files changed, 80 insertions(+), 151 deletions(-)
 
-On Sun, Nov 20, 2022 at 4:01 PM Kfir Manor <kfir@daynix.com> wrote:
-
-> Skip getting PCI info from disks type USB and give them an empty PCI
-> address instead.
->
-> Signed-off-by: Kfir Manor <kfir@daynix.com>
-> ---
->  qga/commands-win32.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index a645480496..14c43b3de5 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -878,10 +878,14 @@ static void get_single_disk_info(int disk_number,
->       * if that doesn't hold since that suggests some other unexpected
->       * breakage
->       */
-> -    disk->pci_controller = get_pci_info(disk_number, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        goto err_close;
-> +    if (disk->bus_type == GUEST_DISK_BUS_TYPE_USB) {
-> +        disk->pci_controller = get_empty_pci_address();
-> +    } else {
-> +        disk->pci_controller = get_pci_info(disk_number, &local_err);
-> +        if (local_err) {
-> +            error_propagate(errp, local_err);
-> +            goto err_close;
-> +        }
->      }
->      if (disk->bus_type == GUEST_DISK_BUS_TYPE_SCSI
->              || disk->bus_type == GUEST_DISK_BUS_TYPE_IDE
-> --
-> 2.38.1
->
->
-
---000000000000c6149905edf6eae5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Nov 2=
-0, 2022 at 4:01 PM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com">kfir@d=
-aynix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Skip getting PCI info from disks type USB and give them an empty=
- PCI address instead.<br>
-<br>
-Signed-off-by: Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com" target=3D"=
-_blank">kfir@daynix.com</a>&gt;<br>
----<br>
-=C2=A0qga/commands-win32.c | 12 ++++++++----<br>
-=C2=A01 file changed, 8 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index a645480496..14c43b3de5 100644<br>
---- a/qga/commands-win32.c<br>
-+++ b/qga/commands-win32.c<br>
-@@ -878,10 +878,14 @@ static void get_single_disk_info(int disk_number,<br>
-=C2=A0 =C2=A0 =C2=A0 * if that doesn&#39;t hold since that suggests some ot=
-her unexpected<br>
-=C2=A0 =C2=A0 =C2=A0 * breakage<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
--=C2=A0 =C2=A0 disk-&gt;pci_controller =3D get_pci_info(disk_number, &amp;l=
-ocal_err);<br>
--=C2=A0 =C2=A0 if (local_err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err_close;<br>
-+=C2=A0 =C2=A0 if (disk-&gt;bus_type =3D=3D GUEST_DISK_BUS_TYPE_USB) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;pci_controller =3D get_empty_pci_addr=
-ess();<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;pci_controller =3D get_pci_info(disk_=
-number, &amp;local_err);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (local_err) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err_close;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0if (disk-&gt;bus_type =3D=3D GUEST_DISK_BUS_TYPE_SCSI<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| disk-&gt;bus_type =3D=3D=
- GUEST_DISK_BUS_TYPE_IDE<br>
--- <br>
-2.38.1<br>
-<br>
-</blockquote></div>
-
---000000000000c6149905edf6eae5--
+-- 
+2.37.3
 
 
