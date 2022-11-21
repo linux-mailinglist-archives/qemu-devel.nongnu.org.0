@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B6E632991
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E7F632990
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 17:33:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox9e1-0000xl-H5; Mon, 21 Nov 2022 11:27:41 -0500
+	id 1ox9e2-0000yy-Jt; Mon, 21 Nov 2022 11:27:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ox9dw-0000lQ-1T
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:36 -0500
+ id 1ox9dx-0000pu-0r
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:40 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.226] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ox9dt-0001vu-UE
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:35 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ox9dt-0001wA-Us
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 11:27:36 -0500
 HMM_SOURCE_IP: 172.18.0.218:59746.263116816
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.40.159 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 7F0CE2800DE;
- Tue, 22 Nov 2022 00:27:26 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 48BCA2800E1;
+ Tue, 22 Nov 2022 00:27:29 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([125.69.40.159])
- by app0025 with ESMTP id 24a37f7b918f499b88889b0262b303bc for
- qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:29 CST
-X-Transaction-ID: 24a37f7b918f499b88889b0262b303bc
+ by app0025 with ESMTP id 771c87054c20464fb2742dae09d48645 for
+ qemu-devel@nongnu.org; Tue, 22 Nov 2022 00:27:32 CST
+X-Transaction-ID: 771c87054c20464fb2742dae09d48645
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 125.69.40.159
 X-MEDUSA-Status: 0
@@ -40,10 +40,9 @@ Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v2 10/11] tests/migration: Introduce dirty-ring-size option
- into guestperf
-Date: Mon, 21 Nov 2022 11:26:42 -0500
-Message-Id: <72595118953e8c2b5c548052788a22e9e3b1fa6e.1669047366.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v2 11/11] tests/migration: Introduce dirty-limit into guestperf
+Date: Mon, 21 Nov 2022 11:26:43 -0500
+Message-Id: <b62a0e847e96a0df2303174317145392674abdb3.1669047366.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1669047366.git.huangy81@chinatelecom.cn>
 References: <cover.1669047366.git.huangy81@chinatelecom.cn>
@@ -76,110 +75,216 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Guestperf tool does not enable diry ring feature when test
-migration by default.
+Guestperf tool does not cover the dirty-limit migration
+currently, support this feature.
 
-To support dirty ring migration performance test, introduce
-dirty-ring-size option into guestperf tools, which ranges in
-[1024, 65536].
+To enable dirty-limit, setting x-vcpu-dirty-limit-period
+as 500ms and x-vcpu-dirty-limit as 10MB/s:
+$ ./tests/migration/guestperf.py \
+    --dirty-limit --x-vcpu-dirty-limit-period 500 \
+    --vcpu-dirty-limit 10 --output output.json \
 
-To set dirty ring size with 4096 during migration test:
-$ ./tests/migration/guestperf.py --dirty-ring-size 4096 xxx
+To run the entire standardized set of dirty-limit-enabled
+comparisons, with unix migration:
+$ ./tests/migration/guestperf-batch.py \
+    --dst-host localhost --transport unix \
+    --filter compr-dirty-limit* --output outputdir
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- tests/migration/guestperf/engine.py   | 7 ++++++-
- tests/migration/guestperf/hardware.py | 8 ++++++--
- tests/migration/guestperf/shell.py    | 7 ++++++-
- 3 files changed, 18 insertions(+), 4 deletions(-)
+ tests/migration/guestperf/comparison.py | 24 ++++++++++++++++++++++++
+ tests/migration/guestperf/engine.py     | 17 +++++++++++++++++
+ tests/migration/guestperf/progress.py   | 17 +++++++++++++++--
+ tests/migration/guestperf/scenario.py   | 11 ++++++++++-
+ tests/migration/guestperf/shell.py      | 18 +++++++++++++++++-
+ 5 files changed, 83 insertions(+), 4 deletions(-)
 
+diff --git a/tests/migration/guestperf/comparison.py b/tests/migration/guestperf/comparison.py
+index c03b3f6..ad403f9 100644
+--- a/tests/migration/guestperf/comparison.py
++++ b/tests/migration/guestperf/comparison.py
+@@ -135,4 +135,28 @@ def __init__(self, name, scenarios):
+         Scenario("compr-multifd-channels-64",
+                  multifd=True, multifd_channels=64),
+     ]),
++
++
++    # Looking at effect of dirty-limit with
++    # varying x_vcpu_dirty_limit_period
++    Comparison("compr-dirty-limit-period", scenarios = [
++        Scenario("compr-dirty-limit-period-100",
++                 dirty_limit=True, x_vcpu_dirty_limit_period=100),
++        Scenario("compr-dirty-limit-period-500",
++                 dirty_limit=True, x_vcpu_dirty_limit_period=500),
++        Scenario("compr-dirty-limit-period-1000",
++                 dirty_limit=True, x_vcpu_dirty_limit_period=1000),
++    ]),
++
++
++    # Looking at effect of dirty-limit with
++    # varying vcpu_dirty_limit
++    Comparison("compr-dirty-limit", scenarios = [
++        Scenario("compr-dirty-limit-10MB",
++                 dirty_limit=True, vcpu_dirty_limit=10),
++        Scenario("compr-dirty-limit-20MB",
++                 dirty_limit=True, vcpu_dirty_limit=20),
++        Scenario("compr-dirty-limit-50MB",
++                 dirty_limit=True, vcpu_dirty_limit=50),
++    ]),
+ ]
 diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 59fca2c..d7b75b9 100644
+index d7b75b9..e3940bf 100644
 --- a/tests/migration/guestperf/engine.py
 +++ b/tests/migration/guestperf/engine.py
-@@ -303,7 +303,6 @@ def _get_common_args(self, hardware, tunnelled=False):
-             cmdline = "'" + cmdline + "'"
+@@ -102,6 +102,8 @@ def _migrate_progress(self, vm):
+             info.get("expected-downtime", 0),
+             info.get("setup-time", 0),
+             info.get("cpu-throttle-percentage", 0),
++            info.get("dirty-limit-throttle-us-per-full", 0),
++            info.get("dirty-limit-us-ring-full", 0),
+         )
  
-         argv = [
--            "-accel", "kvm",
-             "-cpu", "host",
-             "-kernel", self._kernel,
-             "-initrd", self._initrd,
-@@ -314,6 +313,12 @@ def _get_common_args(self, hardware, tunnelled=False):
-             "-smp", str(hardware._cpus),
-         ]
+     def _migrate(self, hardware, scenario, src, dst, connect_uri):
+@@ -203,6 +205,21 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+             resp = dst.command("migrate-set-parameters",
+                                multifd_channels=scenario._multifd_channels)
  
-+        if hardware._dirty_ring_size:
-+            argv.extend(["-accel", "kvm,dirty-ring-size=%s" %
-+                         hardware._dirty_ring_size])
-+        else:
-+            argv.extend(["-accel", "kvm"])
++        if scenario._dirty_limit:
++            if not hardware._dirty_ring_size:
++                raise Exception("dirty ring size must be configured when "
++                                "testing dirty limit migration")
 +
-         if self._debug:
-             argv.extend(["-device", "sga"])
++            resp = src.command("migrate-set-capabilities",
++                               capabilities = [
++                                   { "capability": "dirty-limit",
++                                     "state": True }
++                               ])
++            resp = src.command("migrate-set-parameters",
++                x_vcpu_dirty_limit_period=scenario._x_vcpu_dirty_limit_period)
++            resp = src.command("migrate-set-parameters",
++                               vcpu_dirty_limit=scenario._vcpu_dirty_limit)
++
+         resp = src.command("migrate", uri=connect_uri)
  
-diff --git a/tests/migration/guestperf/hardware.py b/tests/migration/guestperf/hardware.py
-index 3145785..f779cc0 100644
---- a/tests/migration/guestperf/hardware.py
-+++ b/tests/migration/guestperf/hardware.py
-@@ -23,7 +23,8 @@ def __init__(self, cpus=1, mem=1,
-                  src_cpu_bind=None, src_mem_bind=None,
-                  dst_cpu_bind=None, dst_mem_bind=None,
-                  prealloc_pages = False,
--                 huge_pages=False, locked_pages=False):
-+                 huge_pages=False, locked_pages=False,
-+                 dirty_ring_size=0):
-         self._cpus = cpus
-         self._mem = mem # GiB
-         self._src_mem_bind = src_mem_bind # List of NUMA nodes
-@@ -33,6 +34,7 @@ def __init__(self, cpus=1, mem=1,
-         self._prealloc_pages = prealloc_pages
-         self._huge_pages = huge_pages
-         self._locked_pages = locked_pages
-+        self._dirty_ring_size = dirty_ring_size
+         post_copy = False
+diff --git a/tests/migration/guestperf/progress.py b/tests/migration/guestperf/progress.py
+index ab1ee57..dd5d86b 100644
+--- a/tests/migration/guestperf/progress.py
++++ b/tests/migration/guestperf/progress.py
+@@ -81,7 +81,9 @@ def __init__(self,
+                  downtime,
+                  downtime_expected,
+                  setup_time,
+-                 throttle_pcent):
++                 throttle_pcent,
++                 dirty_limit_throttle_us_per_full,
++                 dirty_limit_us_ring_full):
  
+         self._status = status
+         self._ram = ram
+@@ -91,6 +93,11 @@ def __init__(self,
+         self._downtime_expected = downtime_expected
+         self._setup_time = setup_time
+         self._throttle_pcent = throttle_pcent
++        self._dirty_limit_throttle_us_per_full =
++            dirty_limit_throttle_us_per_full
++        self._dirty_limit_us_ring_full =
++            dirty_limit_us_ring_full
++
  
      def serialize(self):
-@@ -46,6 +48,7 @@ def serialize(self):
-             "prealloc_pages": self._prealloc_pages,
-             "huge_pages": self._huge_pages,
-             "locked_pages": self._locked_pages,
-+            "dirty_ring_size": self._dirty_ring_size,
+         return {
+@@ -102,6 +109,10 @@ def serialize(self):
+             "downtime_expected": self._downtime_expected,
+             "setup_time": self._setup_time,
+             "throttle_pcent": self._throttle_pcent,
++            "dirty_limit_throttle_time_per_full":
++                self._dirty_limit_throttle_us_per_full,
++            "dirty_limit_ring_full_time":
++                self._dirty_limit_us_ring_full,
          }
  
      @classmethod
-@@ -59,4 +62,5 @@ def deserialize(cls, data):
-             data["dst_mem_bind"],
-             data["prealloc_pages"],
-             data["huge_pages"],
--            data["locked_pages"])
-+            data["locked_pages"],
-+            data["dirty_ring_size"])
+@@ -114,4 +125,6 @@ def deserialize(cls, data):
+             data["downtime"],
+             data["downtime_expected"],
+             data["setup_time"],
+-            data["throttle_pcent"])
++            data["throttle_pcent"],
++            data["dirty_limit_throttle_time_per_full"],
++            data["dirty_limit_ring_full_time"])
+diff --git a/tests/migration/guestperf/scenario.py b/tests/migration/guestperf/scenario.py
+index de70d9b..154c4f5 100644
+--- a/tests/migration/guestperf/scenario.py
++++ b/tests/migration/guestperf/scenario.py
+@@ -30,7 +30,9 @@ def __init__(self, name,
+                  auto_converge=False, auto_converge_step=10,
+                  compression_mt=False, compression_mt_threads=1,
+                  compression_xbzrle=False, compression_xbzrle_cache=10,
+-                 multifd=False, multifd_channels=2):
++                 multifd=False, multifd_channels=2,
++                 dirty_limit=False, x_vcpu_dirty_limit_period=500,
++                 vcpu_dirty_limit=1):
+ 
+         self._name = name
+ 
+@@ -60,6 +62,10 @@ def __init__(self, name,
+         self._multifd = multifd
+         self._multifd_channels = multifd_channels
+ 
++        self._dirty_limit = dirty_limit
++        self._x_vcpu_dirty_limit_period = x_vcpu_dirty_limit_period
++        self._vcpu_dirty_limit = vcpu_dirty_limit
++
+     def serialize(self):
+         return {
+             "name": self._name,
+@@ -79,6 +85,9 @@ def serialize(self):
+             "compression_xbzrle_cache": self._compression_xbzrle_cache,
+             "multifd": self._multifd,
+             "multifd_channels": self._multifd_channels,
++            "dirty_limit": self._dirty_limit,
++            "x_vcpu_dirty_limit_period": self._x_vcpu_dirty_limit_period,
++            "vcpu_dirty_limit": self._vcpu_dirty_limit,
+         }
+ 
+     @classmethod
 diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
-index 8a809e3..559616f 100644
+index 559616f..23fe895 100644
 --- a/tests/migration/guestperf/shell.py
 +++ b/tests/migration/guestperf/shell.py
-@@ -60,6 +60,8 @@ def __init__(self):
-         parser.add_argument("--prealloc-pages", dest="prealloc_pages", default=False)
-         parser.add_argument("--huge-pages", dest="huge_pages", default=False)
-         parser.add_argument("--locked-pages", dest="locked_pages", default=False)
-+        parser.add_argument("--dirty-ring-size", dest="dirty_ring_size",
-+                            default=0, type=int)
+@@ -132,6 +132,17 @@ def __init__(self):
+         parser.add_argument("--multifd-channels", dest="multifd_channels",
+                             default=2, type=int)
  
-         self._parser = parser
- 
-@@ -89,7 +91,10 @@ def split_map(value):
- 
-                         locked_pages=args.locked_pages,
-                         huge_pages=args.huge_pages,
--                        prealloc_pages=args.prealloc_pages)
-+                        prealloc_pages=args.prealloc_pages,
++        parser.add_argument("--dirty-limit", dest="dirty_limit", default=False,
++                            action="store_true")
 +
-+                        dirty_ring_size=args.dirty_ring_size)
++        parser.add_argument("--x-vcpu-dirty-limit-period",
++                            dest="x_vcpu_dirty_limit_period",
++                            default=500, type=int)
 +
++        parser.add_argument("--vcpu-dirty-limit",
++                            dest="vcpu_dirty_limit",
++                            default=1, type=int)
++
+     def get_scenario(self, args):
+         return Scenario(name="perfreport",
+                         downtime=args.downtime,
+@@ -155,7 +166,12 @@ def get_scenario(self, args):
+                         compression_xbzrle_cache=args.compression_xbzrle_cache,
  
+                         multifd=args.multifd,
+-                        multifd_channels=args.multifd_channels)
++                        multifd_channels=args.multifd_channels,
++
++                        dirty_limit=args.dirty_limit,
++                        x_vcpu_dirty_limit_period=
++                            args.x_vcpu_dirty_limit_period,
++                        vcpu_dirty_limit=args.vcpu_dirty_limit)
  
- class Shell(BaseShell):
+     def run(self, argv):
+         args = self._parser.parse_args(argv)
 -- 
 1.8.3.1
 
