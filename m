@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B685A632EA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADDC632EB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 22:24:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxECe-0002A3-Be; Mon, 21 Nov 2022 16:19:44 -0500
+	id 1oxEGG-00044B-L3; Mon, 21 Nov 2022 16:23:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oxECX-00027z-8I
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:19:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oxECU-0007Ba-Pl
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:19:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669065570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=jkloZE2WADCy1fRXSTYkasFd2UOgtFZHIwKHqDTLSzU=;
- b=Zv//REusKZyaCHd+vUfu9TFsZouu59m02XN/Me8y1aH0HKpPn/57J/2FR97z8F6+w9PZ/I
- 7jBVwNuQ9ogsrrU27VRdiG45DJCf2Wm3qFw20wAK1Tnnvqf1CpF16oTDEO8IBOoWSgrlUm
- QVfGIyBKOxtRwZByo6ICLGjeURHY6LI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-448-m9T-wVaHPjyQB-ah1S2E3A-1; Mon, 21 Nov 2022 16:19:28 -0500
-X-MC-Unique: m9T-wVaHPjyQB-ah1S2E3A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8573829ABA02;
- Mon, 21 Nov 2022 21:19:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B0F04EA47;
- Mon, 21 Nov 2022 21:19:27 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH for-7.2] block-backend: avoid bdrv_unregister_buf() NULL
- pointer deref
-Date: Mon, 21 Nov 2022 16:19:23 -0500
-Message-Id: <20221121211923.1993171-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oxEGE-00042v-0p
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:23:26 -0500
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oxEGC-0007yE-4h
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 16:23:25 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id k84so15116890ybk.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:23:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=b2VVjcKdWDDgmb/V8Ww60jqQHAnwvkl/XzUuJsFg2jo=;
+ b=iZqWmAPoKONMhT7cFRbQWs0N6BBdcvw+ftI/MxePbLSJJ6oziLh8JFc2TkjCXhGiI+
+ yMdJlE7/amsdks1ZOP3+WMeuoxV0DJA9B/jXaROo1NxCBSpGdVixJCiLxFYukgAA9CbW
+ FFMbVWcsirkFcRQWjG6dqqNQy6MPDjCBF/tGlZbfr8pTRd88AP/aGVIqF/FCzj8U6xWG
+ 875RO0fQC1HT9aLL7jkSW96JIsGkfA0KsLFsQqshr9cJOf0HRc4E5XdhU5a3kW04dXsk
+ 6LHgrWFOUpwIzlWoT/eeCG+t6O0yzVQSOlxZ6RI5iwEL/JXdIcOKLoPqfzgibvqSWTI4
+ 9UxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=b2VVjcKdWDDgmb/V8Ww60jqQHAnwvkl/XzUuJsFg2jo=;
+ b=bRhusPt4OlOdmdQOHt8uOhZoco+keo2jo8Wa2r38kYUlksUz9DLjfNDztFidByMggE
+ ri+2DWRIRUO4B2Zjtxc7w6VZ1xsl4p84HrS/Q0ZttbiX6NfdFiIrYRohQqxU4OPeZX2c
+ poQWwepUWXuphSfPM1QZ2CN8ZURWrnYMgBAbNLG4gB1IyV/C/jNmWahcFEu8nW38qRX/
+ iPKx6469EsYSORvnfn2WE4KG8DGXJEgelPaJ1AMV9kSwM+k7nlfRZbOJCGFFxwDwjRFV
+ lQAL+y/lQpxqIqtPdpEZN4gu0Ws4QBUwUclqwQd4TqpvbSmxqHykHXeMLVKNLBZRPA33
+ egmg==
+X-Gm-Message-State: ANoB5pl3BhB4/c5cIM4LXL/foQVKvf3z9g/dZQpl4Q12I4EU3+h3xZ0a
+ mU7vEU9QhEVf+u5lf22cWq2IKLxR3M8L9dirGW8=
+X-Google-Smtp-Source: AA0mqf47DgCRxnawWR2/oWoZMu1rgRI2XZPGlLjrZ9wQbeDpAAYnQQUuHr9d/BFPoylA/8T50jshnRcgLVSWB6Dl2a0=
+X-Received: by 2002:a25:af54:0:b0:6dc:e3ee:3e60 with SMTP id
+ c20-20020a25af54000000b006dce3ee3e60mr4590761ybj.58.1669065803008; Mon, 21
+ Nov 2022 13:23:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221121130239.1138631-1-peter.maydell@linaro.org>
+ <Y3ufQyGAl4ToeIls@fedora>
+ <CAFEAcA9WASG7aeAGsPZKmoncBTKkvzjfyrpbTgoZWfxacVbc_A@mail.gmail.com>
+In-Reply-To: <CAFEAcA9WASG7aeAGsPZKmoncBTKkvzjfyrpbTgoZWfxacVbc_A@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 21 Nov 2022 16:23:11 -0500
+Message-ID: <CAJSP0QWABRHddaPqMwvdjYPtEXty8BO8-CUNq7vRJ+3E4RPikg@mail.gmail.com>
+Subject: Re: [PULL 0/5] target-arm queue
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,58 +84,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_*() APIs expect a valid BlockDriverState. Calling them with bs=NULL
-leads to undefined behavior.
+On Mon, 21 Nov 2022 at 16:11, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 21 Nov 2022 at 15:54, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > Applied, thanks.
+>
+> This doesn't seem to have reached https://gitlab.com/qemu-project/qemu.git:
+> did something go wrong?
 
-Jonathan Cameron reported this following NULL pointer dereference when a
-VM with a virtio-blk device and a memory-backend-file object is
-terminated:
-1. qemu_cleanup() closes all drives, setting blk->root to NULL
-2. qemu_cleanup() calls user_creatable_cleanup(), which results in a RAM
-   block notifier callback because the memory-backend-file is destroyed.
-3. blk_unregister_buf() is called by virtio-blk's BlockRamRegistrar
-   notifier callback and undefined behavior occurs.
+I forgot to push staging to master. Thanks for letting me know!
 
-Fixes: baf422684d73 ("virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint")
-Co-authored-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/block-backend.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/block/block-backend.c b/block/block-backend.c
-index b48c91f4e1..d98a96ff37 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2576,14 +2576,25 @@ static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter)
- 
- bool blk_register_buf(BlockBackend *blk, void *host, size_t size, Error **errp)
- {
-+    BlockDriverState *bs = blk_bs(blk);
-+
-     GLOBAL_STATE_CODE();
--    return bdrv_register_buf(blk_bs(blk), host, size, errp);
-+
-+    if (bs) {
-+        return bdrv_register_buf(bs, host, size, errp);
-+    }
-+    return true;
- }
- 
- void blk_unregister_buf(BlockBackend *blk, void *host, size_t size)
- {
-+    BlockDriverState *bs = blk_bs(blk);
-+
-     GLOBAL_STATE_CODE();
--    bdrv_unregister_buf(blk_bs(blk), host, size);
-+
-+    if (bs) {
-+        bdrv_unregister_buf(bs, host, size);
-+    }
- }
- 
- int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
--- 
-2.38.1
-
+Stefan
 
