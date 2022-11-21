@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE07C632D1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 20:44:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2D5632D9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 21:05:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxCh8-0004TA-3M; Mon, 21 Nov 2022 14:43:06 -0500
+	id 1oxD1E-0008R7-HR; Mon, 21 Nov 2022 15:03:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxCh5-0004Rs-8N
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 14:43:03 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxD1D-0008Qw-30
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 15:03:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxCh3-00057m-23
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 14:43:02 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxD1A-0000LT-DC
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 15:03:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669059779;
+ s=mimecast20190719; t=1669061027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=dhy/cmS42lbR5GBWEE2S2PG2ZP1E/PaHgpxMKojSwZs=;
- b=GZ7/Rg/Yb32N1CvLlbstWeyhuX+xS87CIl1/KUcjd1NgDFnQkMunN1p5ebm7gGsJLwQ7Qi
- ouotzYXHloWH0SsHs7amQ1gZFWeGp9Gme8CMJUdQMHRdB2loLa9Iob2eA3BScn3dVk114E
- rrzJy4DgKfUiZWGoNMFC3NsROA/6rLI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-580-uqtz-HHJM7q-TfL9s9syRg-1; Mon, 21 Nov 2022 14:42:56 -0500
-X-MC-Unique: uqtz-HHJM7q-TfL9s9syRg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C457101A54E;
- Mon, 21 Nov 2022 19:42:56 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FA80492B18;
- Mon, 21 Nov 2022 19:42:44 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] tests/qtest: Decrease the amount of output from the qom-test
-Date: Mon, 21 Nov 2022 20:42:40 +0100
-Message-Id: <20221121194240.149268-1-thuth@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=pTiQnOOjeelsATQnKW0MWMEkzslQynRZQEQGwBCMR7o=;
+ b=h6ecn11TZ8cn12ho1yIKUMuothU4MOg+knbN6d/0RqIBStsGljFn0ACHGZBbzN6/XZ9u61
+ wO/ocigY6Zn+7C8OzfzWlYsNo8xTCYA1Sm/rjhcxPJs/bK1coNUPNnGCWnDzn7klT/8/PE
+ XPfVW3nZL0wKLw2nQSobkw5U16jY4BY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-532-VciJ1V1SNv6cqC8vI-dLsg-1; Mon, 21 Nov 2022 15:03:45 -0500
+X-MC-Unique: VciJ1V1SNv6cqC8vI-dLsg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m17-20020a05600c3b1100b003cf9cc47da5so6980720wms.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 12:03:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pTiQnOOjeelsATQnKW0MWMEkzslQynRZQEQGwBCMR7o=;
+ b=mbwGPjfSxiBaJN1CFAXqdxYpvHkrk/aIe30fnKGC0MgHs9R2PL2gfvLLNPqZ9m1WGj
+ N+/0q2IUTaHFBWracKY5tETy12pvW2x0ojXSkdgqOZNKTBLG9YsEiQs9Vqny4A+oB66h
+ DikOtbanVwaKYByf+hPtB86LMP4oKVsDanfu9f4aC2Od4FxSIQyN8v/0OC33hJTc5ReL
+ 8/Ke7hEBE02rWEhUbXr0qUX4BwDjoYD4GlLUrNSLpxNvKYj++EwA+5/pr4RF5bsTvQd9
+ TkStKnqNv49OOCh0ejn+I8ReSQV6BSor2sWb1kYym0fvfyLy93Av905ddJn2889CC1Bb
+ Ftyw==
+X-Gm-Message-State: ANoB5pksconegWzkTpRValJ3rRXvaRTHk0okvyQ/AGdlEZej5EzxBIBh
+ lS9RkWKJIa76faMHSC+8bRgN5bD5wWyg/oTbVUdGrnuM5zZteQTTYCpMYMUtjcpN5nNvn6gLsNm
+ QqgAVIWGsWNpFXABSYCt+8l3lylSkuAEfE1Zfy0oF7ueurRvlboBq3/xZ9AuU
+X-Received: by 2002:a05:6000:105:b0:236:64e6:8c04 with SMTP id
+ o5-20020a056000010500b0023664e68c04mr11981242wrx.579.1669061024194; 
+ Mon, 21 Nov 2022 12:03:44 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5dYXneJNtoFPvm1BlfwWoRylIEhDLKpYfz0aGh+p4sMq4qsctXXowyvicXQOXgOH5MY0lrzg==
+X-Received: by 2002:a05:6000:105:b0:236:64e6:8c04 with SMTP id
+ o5-20020a056000010500b0023664e68c04mr11981223wrx.579.1669061023794; 
+ Mon, 21 Nov 2022 12:03:43 -0800 (PST)
+Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
+ d5-20020adffbc5000000b002417e7f0685sm14305569wrs.9.2022.11.21.12.03.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Nov 2022 12:03:43 -0800 (PST)
+Date: Mon, 21 Nov 2022 15:03:41 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Subject: [PATCH] virtio: disable error for out of spec queue-enable
+Message-ID: <20221121200339.362452-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -75,77 +92,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The logs in the gitlab-CI have a size constraint, and sometimes
-we already hit this limit. The biggest part of the log then seems
-to be filled by the qom-test, so we should decrease the size of
-the output - which can be done easily by not printing the path
-for each property, since the path has already been logged at the
-beginning of each node that we handle here.
+Virtio 1.0 is pretty clear that features have to be
+negotiated before enabling VQs. Unfortunately Seabios
+ignored this ever since gaining 1.0 support (UEFI is ok).
+Comment the error out for now, and add a TODO.
 
-However, if we omit the path, we should make sure to not recurse
-into child nodes in between, so that it is clear to which node
-each property belongs. Thus store the children and links in a
-temporary list and recurse only at the end of each node, when
-all properties have already been printed.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Fixes: 3c37f8b8d1 ("virtio: introduce virtio_queue_enable()")
+Cc: "Kangjie Xu" <kangjie.xu@linux.alibaba.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- See e.g. here for a log that got too big:
- https://gitlab.com/qemu-project/qemu/-/jobs/3355901224
+ hw/virtio/virtio.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
- tests/qtest/qom-test.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
-
-diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
-index 7b871b2a31..13510bc349 100644
---- a/tests/qtest/qom-test.c
-+++ b/tests/qtest/qom-test.c
-@@ -20,6 +20,7 @@ static void test_properties(QTestState *qts, const char *path, bool recurse)
-     QDict *response, *tuple, *tmp;
-     QList *list;
-     QListEntry *entry;
-+    GSList *children = NULL, *links = NULL;
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 9683b2e158..eb6347ab5d 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2499,10 +2499,17 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+ {
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
  
-     g_test_message("Obtaining properties of %s", path);
-     response = qtest_qmp(qts, "{ 'execute': 'qom-list',"
-@@ -41,11 +42,14 @@ static void test_properties(QTestState *qts, const char *path, bool recurse)
-         if (is_child || is_link) {
-             child_path = g_strdup_printf("%s/%s",
-                                          path, qdict_get_str(tuple, "name"));
--            test_properties(qts, child_path, is_child);
--            g_free(child_path);
-+            if (is_child) {
-+                children = g_slist_prepend(children, child_path);
-+            } else {
-+                links = g_slist_prepend(links, child_path);
-+            }
-         } else {
-             const char *prop = qdict_get_str(tuple, "name");
--            g_test_message("Testing property %s.%s", path, prop);
-+            g_test_message("-> %s", prop);
-             tmp = qtest_qmp(qts,
-                             "{ 'execute': 'qom-get',"
-                             "  'arguments': { 'path': %s, 'property': %s } }",
-@@ -55,6 +59,18 @@ static void test_properties(QTestState *qts, const char *path, bool recurse)
-             qobject_unref(tmp);
-         }
++    /*
++     * TODO: Seabios is currently out of spec and triggering this error.
++     * So this needs to be fixed in Seabios, then this can
++     * be re-enabled for new machine types only, and also after
++     * being converted to LOG_GUEST_ERROR.
++     *
+     if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+         error_report("queue_enable is only suppported in devices of virtio "
+                      "1.0 or later.");
      }
-+
-+    while (links) {
-+        test_properties(qts, links->data, false);
-+        g_free(links->data);
-+        links = g_slist_delete_link(links, links);
-+    }
-+    while (children) {
-+        test_properties(qts, children->data, true);
-+        g_free(children->data);
-+        children = g_slist_delete_link(children, children);
-+    }
-+
-     qobject_unref(response);
- }
++    */
  
+     if (k->queue_enable) {
+         k->queue_enable(vdev, queue_index);
 -- 
-2.31.1
+MST
 
 
