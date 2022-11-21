@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F1B632F75
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:01:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A38E632F98
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:12:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxEpm-0001dt-G6; Mon, 21 Nov 2022 17:00:10 -0500
+	id 1oxEzn-0007xI-Ft; Mon, 21 Nov 2022 17:10:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxEpf-0001bT-MN
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:00:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxEpd-0005ef-F4
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:00:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669067999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oFMsJiYu8wxaXVOS9Kah+NCqrmQ2wtKr4Kwrq3vrNsM=;
- b=KK1dhIBVsGjWXT5pR9qNFNU6LbIYVdFkzTlOwo6boY/7UKhz6Ypzhq27g0QpSEFhIQN6sG
- rgB41Mn4JFxwKO3m2ApMsRdAryY/sRtxBFot3+O+9t9o7YPjqfmkIylzA/hkpMxejJVwoQ
- DYKK8cPcqJ1nzHlyweo2quioUrSUSpY=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-156-JW6QeHXsN7uaEqwrOjn4nQ-1; Mon, 21 Nov 2022 16:59:58 -0500
-X-MC-Unique: JW6QeHXsN7uaEqwrOjn4nQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- bq13-20020a05620a468d00b006fa5a75759aso17142094qkb.13
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 13:59:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oxEzh-0007vU-OH
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:10:25 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oxEzf-0007WZ-7b
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:10:25 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m7-20020a05600c090700b003cf8a105d9eso10017841wmp.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 14:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HUz2SV9jmYBMm+2fNl8Mzpi9ahY8L3ES46riBu78VyA=;
+ b=hDf69OopnkDEJBh4V6wGphX1CKNwZM0SarGwZI9OO15QGRnWWLpdPVLKm1WCO5Fi+t
+ wG9kQtrzAnHJDnijrQJ4d51qaOT+xSMIGf4RfOnAmzhukzFCm0+/gI5yl3udw4XKr43c
+ NCJNop86Cipqvha5P+UKdJ5p6KBg/yqjxDQ5bG9w5qeMh5dXlB5oa9N9RWfNKUwgRdXZ
+ acsa8j/Ku2JBn9j8SCBFOHUWnBYeXfktqU3CZfw+WctxYhAktKfGH3TOq6WsL5S6/Lz7
+ cc6wUhrhJjNUDsSi8UIFhundyJ4hFAiF8mUb70EgO16UvMlPCbGtdNpMAdxUTeE/tDXU
+ u2CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oFMsJiYu8wxaXVOS9Kah+NCqrmQ2wtKr4Kwrq3vrNsM=;
- b=EWFnNQ/3o4q3gbHIU5RFdNnY2hDPf60LezpFVHhWSLPA7U62hGIhpLShovSZMT091W
- d68NUFNgnOvEdj4jDO4dIWOdWep0Bvqtgxu9MTS4nJQgD+8+O7SjnRrrwv+JWSOTlKJM
- kj0wx/cscafauLJTAxfYrZI1IJjSDjPPGRhCzkn4WblIesXSbnjzO//718LCy13YD/Hn
- QYR4PKqp/RHBKHlC+o7bv4S2bJjKW2+H8xBtedwW+J/fFAxPARg00EMRyVXxWY2gss23
- if+yYIVXHDw4bJZ5KxdRpJgdxHb9AI0KnrUwUhK5mAFoC4jw4F/HYwEhHN3qjSGZsSXc
- mD2Q==
-X-Gm-Message-State: ANoB5pmbbmrt+B5kYuX6XXU3q6frSzwxfg7/q+dPLQ9cR4mvY0JjhHi0
- yvCdgCUZiQD0nEjxlBgcVXve36lBT/LsW7bkkE6Gng3Yj6QlC9fbRbMtrrReHsjVwbOgkrnPKRp
- FQm2qYLJJKxaKYpE=
-X-Received: by 2002:a37:ae44:0:b0:6fa:104e:ac20 with SMTP id
- x65-20020a37ae44000000b006fa104eac20mr6833188qke.708.1669067998025; 
- Mon, 21 Nov 2022 13:59:58 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7G+mU5XwG3HhMXJsbhSphgD3I5MY5eLn6pin+0fRQBvPSUQL2mDa9YDQ8LDxx6wPPPeWE/0w==
-X-Received: by 2002:a37:ae44:0:b0:6fa:104e:ac20 with SMTP id
- x65-20020a37ae44000000b006fa104eac20mr6833167qke.708.1669067997749; 
- Mon, 21 Nov 2022 13:59:57 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- v4-20020a05620a0a8400b006fa8299b4d5sm8682167qkg.100.2022.11.21.13.59.56
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=HUz2SV9jmYBMm+2fNl8Mzpi9ahY8L3ES46riBu78VyA=;
+ b=mxfAFHqiZxn0ilLngnstcSc7+cBf99yHNJrYOR1Ek8yEvzEdcNY2K6RwlMETDZvG1n
+ oAu976ptfU0u/thehoUhpXXfY01RUv0fDHlUwL8z+y2SAGAhV7CPNF/yUaOnMkFn1xs5
+ Hhylnk3ZmVCmeYGfrv/rxgBqlOH2unM0p+acAfmY+hUF5weEnRzsbDOrSog8+imf8Slp
+ CE7j+KyD8FLbA5c1wlurTY8AZ4LhmVN4U4+VOwxBtqmh8bD7dzk4RlJ5NWEHZ7oUzrsD
+ Ruja95QG+36wNa75xeuiJDOJxe7cXtJmQ2SXFxXx9bbFP0wI9wqhFy1LfD2WuetHiVv8
+ vcgA==
+X-Gm-Message-State: ANoB5pliHfuEX63CgWZqjS0D5soIxpIvIgr1He1ab4xPXh5AZ6DE7FYx
+ sj9MtgntovHk4qNOR3/QOdZGpw==
+X-Google-Smtp-Source: AA0mqf7F8ZrGk2Wy2DyIUB+Xe2EaIyN2cwXVrrFd+xuF2M6CmzGDIrNPzbVAYgXNmhnpc7jxpwtskw==
+X-Received: by 2002:a05:600c:907:b0:3cf:a5df:8bb6 with SMTP id
+ m7-20020a05600c090700b003cfa5df8bb6mr588083wmp.37.1669068620815; 
+ Mon, 21 Nov 2022 14:10:20 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ l18-20020a05600c4f1200b003c6f3f6675bsm21467500wmq.26.2022.11.21.14.10.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 13:59:57 -0800 (PST)
-Date: Mon, 21 Nov 2022 16:59:56 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-Subject: Re: [PATCH v3 2/2] migration: check magic value for deciding the
- mapping of channels
-Message-ID: <Y3v03M/7/imLADUG@x1n>
-References: <20221119093615.158072-1-manish.mishra@nutanix.com>
- <20221119093615.158072-5-manish.mishra@nutanix.com>
+ Mon, 21 Nov 2022 14:10:20 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AA46C1FFB7;
+ Mon, 21 Nov 2022 22:10:19 +0000 (GMT)
+References: <Y3QNRWUK8BLRQlaQ@strawberry.localdomain>
+ <878rkbalba.fsf@linaro.org> <Y3gAIEythPY+z0q0@strawberry.localdomain>
+ <Y3gA/i8bBkR7mgkQ@strawberry.localdomain>
+User-agent: mu4e 1.9.3; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Cc: qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>, Richard
+ Henderson <richard.henderson@linaro.org>
+Subject: Re: Plugin Memory Callback Debugging
+Date: Mon, 21 Nov 2022 22:02:08 +0000
+In-reply-to: <Y3gA/i8bBkR7mgkQ@strawberry.localdomain>
+Message-ID: <87wn7oarhw.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221119093615.158072-5-manish.mishra@nutanix.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,30 +97,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Nov 19, 2022 at 09:36:15AM +0000, manish.mishra wrote:
-> Current logic assumes that channel connections on the destination side are
-> always established in the same order as the source and the first one will
-> always be the main channel followed by the multifid or post-copy
-> preemption channel. This may not be always true, as even if a channel has a
-> connection established on the source side it can be in the pending state on
-> the destination side and a newer connection can be established first.
-> Basically causing out of order mapping of channels on the destination side.
-> Currently, all channels except post-copy preempt send a magic number, this
-> patch uses that magic number to decide the type of channel. This logic is
-> applicable only for precopy(multifd) live migration, as mentioned, the
-> post-copy preempt channel does not send any magic number. Also, tls live
-> migrations already does tls handshake before creating other channels, so
-> this issue is not possible with tls, hence this logic is avoided for tls
-> live migrations. This patch uses read peek to check the magic number of
-> channels so that current data/control stream management remains
-> un-effected.
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com
-> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
 
-Acked-by: Peter Xu <peterx@redhat.com>
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
--- 
-Peter Xu
+> Sorry, left off the very end of my timeline:
+>
+> On Nov 18 16:58, Aaron Lindsay wrote:
+>> I have, so far, discovered the following timeline:
+>> 1. My plugin receives a instruction execution callback for a load
+>>    instruction. At this time, cpu->plugin_mem_cbs points to the same
+>>    memory which will later be freed
+>> 2. During the handling of this callback, my plugin calls
+>qemu_plugin_reset()
 
+The final plugin reset should only execute in the safe async context
+(i.e. no other vCPUs running code). That flushes all current generated
+code.
+
+>> 3. Ostensibly something goes wrong here with the cleanup of
+>>    cpu->plugin_mem_cbs???
+
+This may be missed by the reset path (hence your patch) but it should be
+being reset every instruction we instrument.
+
+>> 4. Step 2 triggers the TBs to be flushed, which frees the memory pointed
+>>    to by cpu->plugin_mem_cbs=20
+>
+> 5. A store exclusive instruction is translated and then executed, which
+>    requires the use of a helper. When executed, this helper checks
+>    cpu->plugin_mem_cbs, which is non-null, so it attempts to dereference
+>    and use it, resulting in the assertion.
+
+It should be being reset for each instruction I think.
+
+>
+> -Aaron
+
+
+--=20
+Alex Benn=C3=A9e
 
