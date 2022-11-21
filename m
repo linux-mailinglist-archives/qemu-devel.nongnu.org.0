@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C20631C2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070BF631C18
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 09:53:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox2WM-0003V9-SZ; Mon, 21 Nov 2022 03:51:18 -0500
+	id 1ox2WF-0003SF-Lj; Mon, 21 Nov 2022 03:51:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2WJ-0003UO-AD
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:15 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2WD-0003Rf-Gz
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:09 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2WE-00019u-02
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:15 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ox2W6-000182-G9
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 03:51:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669020669;
+ s=mimecast20190719; t=1669020661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7dWlB+cevXfmtboqEY2u1+CahwXrHZ+HTv3/7cTu5jQ=;
- b=S/w6zVslolAAribDSG9HnfNI7aPFyMbnYuRWiIhcD8qjinboBrs57Db6JAO4UbGFLPs0o6
- uufl3VsyMLJ2hf1iuM9NVXk3MH1Az687iAW2ZbNf6GDnLWpjYA1dJ5LhO2vXb1AyGCOV4U
- lIqoMehc1a9WGzTSTXNbnkhz4UQgKUs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LRR3uqin+VUUqM+bopGoHdqTXDCi2exrmc0fzxeuZPM=;
+ b=SsLfGhrDPwCMpv78KaMXJ9wxBM/hbLDikstecZSL/dfm8yx1ta7GnEZZXMIS/uglL5swco
+ Fd4KCTUjuDut71uGYBIcWODPYCYBCLOyaC17FRqyfpudXmZeZwtG5KrucUATK+7VePLuFW
+ L3wCX2AsklA8BAmBviSYb4Eps12AFow=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-NhsFWf8KOtWXq5Wm1SzZlg-1; Mon, 21 Nov 2022 03:50:58 -0500
-X-MC-Unique: NhsFWf8KOtWXq5Wm1SzZlg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-176-YuJNaLhvM9eepU58Z2G4CA-1; Mon, 21 Nov 2022 03:50:58 -0500
+X-MC-Unique: YuJNaLhvM9eepU58Z2G4CA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E1A85185A7A9;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C38591C0755F;
  Mon, 21 Nov 2022 08:50:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AF3F2027061;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AE2F492B06;
  Mon, 21 Nov 2022 08:50:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5257421E6930; Mon, 21 Nov 2022 09:50:54 +0100 (CET)
+ id 54BDE21E6936; Mon, 21 Nov 2022 09:50:54 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: eblake@redhat.com,
 	vsementsov@yandex-team.ru
-Subject: [PATCH 01/10] error: Drop some obviously superfluous error_propagate()
-Date: Mon, 21 Nov 2022 09:50:45 +0100
-Message-Id: <20221121085054.683122-2-armbru@redhat.com>
+Subject: [PATCH 02/10] error: Drop a few superfluous ERRP_GUARD()
+Date: Mon, 21 Nov 2022 09:50:46 +0100
+Message-Id: <20221121085054.683122-3-armbru@redhat.com>
 In-Reply-To: <20221121085054.683122-1-armbru@redhat.com>
 References: <20221121085054.683122-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,139 +79,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When error_propagate(errp, local_err) is the only reader of
-@local_err, we can just as well change its writers to write @errp
-directly, and drop the error_propagate() along with @local_err.
+include/qapi/error.h on ERRP_GUARD():
+
+ * It must be used when the function dereferences @errp or passes
+ * @errp to error_prepend(), error_vprepend(), or error_append_hint().
+ * It is safe to use even when it's not needed, but please avoid
+ * cluttering the source with useless code.
+
+Clean up some of this clutter.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/virt.c        | 14 +++++---------
- hw/hyperv/vmbus.c    |  8 +++-----
- qga/commands-win32.c |  8 +++-----
- 3 files changed, 11 insertions(+), 19 deletions(-)
+ block/copy-before-write.c | 1 -
+ dump/dump.c               | 2 --
+ hw/core/qdev.c            | 2 --
+ hw/pci/msi.c              | 1 -
+ hw/remote/vfio-user-obj.c | 1 -
+ ui/util.c                 | 1 -
+ 6 files changed, 8 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index b871350856..02d627a5ab 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2771,24 +2771,20 @@ static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
-                                      DeviceState *dev, Error **errp)
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 4abaa7339e..6f0157244f 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -522,7 +522,6 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
+                                   BlockCopyState **bcs,
+                                   Error **errp)
  {
-     VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
--    Error *local_err = NULL;
+-    ERRP_GUARD();
+     BDRVCopyBeforeWriteState *state;
+     BlockDriverState *top;
+     QDict *opts;
+diff --git a/dump/dump.c b/dump/dump.c
+index df117c847f..c9afc30ce2 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -357,7 +357,6 @@ static void write_elf32_notes(WriteCoreDumpFunction f, DumpState *s,
  
-     if (!vms->acpi_dev) {
--        error_setg(&local_err,
-+        error_setg(errp,
-                    "memory hotplug is not enabled: missing acpi-ged device");
--        goto out;
-+        return;
-     }
- 
-     if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
--        error_setg(&local_err,
--                   "nvdimm device hot unplug is not supported yet.");
--        goto out;
-+        error_setg(errp, "nvdimm device hot unplug is not supported yet.");
-+        return;
-     }
- 
-     hotplug_handler_unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev,
--                                   &local_err);
--out:
--    error_propagate(errp, local_err);
-+                                   errp);
- }
- 
- static void virt_dimm_unplug(HotplugHandler *hotplug_dev,
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index 30bc04e1c4..5db3fc1192 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -2404,7 +2404,6 @@ static const TypeInfo vmbus_dev_type_info = {
- static void vmbus_realize(BusState *bus, Error **errp)
+ static void write_elf_phdr_note(DumpState *s, Error **errp)
  {
-     int ret = 0;
--    Error *local_err = NULL;
-     VMBus *vmbus = VMBUS(bus);
- 
-     qemu_mutex_init(&vmbus->rx_queue_lock);
-@@ -2415,13 +2414,13 @@ static void vmbus_realize(BusState *bus, Error **errp)
-     ret = hyperv_set_msg_handler(VMBUS_MESSAGE_CONNECTION_ID,
-                                  vmbus_recv_message, vmbus);
-     if (ret != 0) {
--        error_setg(&local_err, "hyperv set message handler failed: %d", ret);
-+        error_setg(errp, "hyperv set message handler failed: %d", ret);
-         goto error_out;
-     }
- 
-     ret = event_notifier_init(&vmbus->notifier, 0);
-     if (ret != 0) {
--        error_setg(&local_err, "event notifier failed to init with %d", ret);
-+        error_setg(errp, "event notifier failed to init with %d", ret);
-         goto remove_msg_handler;
-     }
- 
-@@ -2429,7 +2428,7 @@ static void vmbus_realize(BusState *bus, Error **errp)
-     ret = hyperv_set_event_flag_handler(VMBUS_EVENT_CONNECTION_ID,
-                                         &vmbus->notifier);
-     if (ret != 0) {
--        error_setg(&local_err, "hyperv set event handler failed with %d", ret);
-+        error_setg(errp, "hyperv set event handler failed with %d", ret);
-         goto clear_event_notifier;
-     }
- 
-@@ -2441,7 +2440,6 @@ remove_msg_handler:
-     hyperv_set_msg_handler(VMBUS_MESSAGE_CONNECTION_ID, NULL, NULL);
- error_out:
-     qemu_mutex_destroy(&vmbus->rx_queue_lock);
--    error_propagate(errp, local_err);
- }
- 
- static void vmbus_unrealize(BusState *bus)
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index ec9f55b453..962db8e543 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -275,13 +275,12 @@ static void acquire_privilege(const char *name, Error **errp)
+-    ERRP_GUARD();
+     Elf32_Phdr phdr32;
+     Elf64_Phdr phdr64;
+     void *phdr;
+@@ -773,7 +772,6 @@ static void dump_iterate(DumpState *s, Error **errp)
+ static void dump_end(DumpState *s, Error **errp)
  {
-     HANDLE token = NULL;
-     TOKEN_PRIVILEGES priv;
--    Error *local_err = NULL;
+     int rc;
+-    ERRP_GUARD();
  
-     if (OpenProcessToken(GetCurrentProcess(),
-         TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &token))
-     {
-         if (!LookupPrivilegeValue(NULL, name, &priv.Privileges[0].Luid)) {
--            error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
-+            error_setg(errp, QERR_QGA_COMMAND_FAILED,
-                        "no luid for requested privilege");
-             goto out;
-         }
-@@ -290,13 +289,13 @@ static void acquire_privilege(const char *name, Error **errp)
-         priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+     if (s->elf_section_data_size) {
+         s->elf_section_data = g_malloc0(s->elf_section_data_size);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 0145501904..67be2feaf3 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -493,8 +493,6 @@ void qdev_del_unplug_blocker(DeviceState *dev, Error *reason)
  
-         if (!AdjustTokenPrivileges(token, FALSE, &priv, 0, NULL, 0)) {
--            error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
-+            error_setg(errp, QERR_QGA_COMMAND_FAILED,
-                        "unable to acquire requested privilege");
-             goto out;
-         }
+ bool qdev_unplug_blocked(DeviceState *dev, Error **errp)
+ {
+-    ERRP_GUARD();
+-
+     if (dev->unplug_blockers) {
+         error_propagate(errp, error_copy(dev->unplug_blockers->data));
+         return true;
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index 058d1d1ef1..1cadf150bc 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -317,7 +317,6 @@ bool msi_is_masked(const PCIDevice *dev, unsigned int vector)
  
-     } else {
--        error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
-+        error_setg(errp, QERR_QGA_COMMAND_FAILED,
-                    "failed to open privilege token");
-     }
- 
-@@ -304,7 +303,6 @@ out:
-     if (token) {
-         CloseHandle(token);
-     }
--    error_propagate(errp, local_err);
- }
- 
- static void execute_async(DWORD WINAPI (*func)(LPVOID), LPVOID opaque,
+ void msi_set_mask(PCIDevice *dev, int vector, bool mask, Error **errp)
+ {
+-    ERRP_GUARD();
+     uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
+     bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
+     uint32_t irq_state, vector_mask, pending;
+diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+index 4e36bb8bcf..6d0310cec9 100644
+--- a/hw/remote/vfio-user-obj.c
++++ b/hw/remote/vfio-user-obj.c
+@@ -719,7 +719,6 @@ static void vfu_object_machine_done(Notifier *notifier, void *data)
+  */
+ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+ {
+-    ERRP_GUARD();
+     DeviceState *dev = NULL;
+     vfu_pci_type_t pci_type = VFU_PCI_TYPE_CONVENTIONAL;
+     int ret;
+diff --git a/ui/util.c b/ui/util.c
+index 7e8fc1ea53..907d60e032 100644
+--- a/ui/util.c
++++ b/ui/util.c
+@@ -51,7 +51,6 @@ bool qemu_console_fill_device_address(QemuConsole *con,
+                                       size_t size,
+                                       Error **errp)
+ {
+-    ERRP_GUARD();
+     DeviceState *dev = DEVICE(object_property_get_link(OBJECT(con),
+                                                        "device",
+                                                        &error_abort));
 -- 
 2.37.3
 
