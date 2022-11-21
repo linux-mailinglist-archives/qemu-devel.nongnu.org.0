@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2539C632308
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E7863236C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:28:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox6S6-00053K-WE; Mon, 21 Nov 2022 08:03:11 -0500
+	id 1ox6p9-0008PO-JS; Mon, 21 Nov 2022 08:26:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ox6Rl-0004ti-Bt
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:02:51 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ox6Ri-0007Rw-SZ
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:02:48 -0500
-Received: by mail-wr1-x432.google.com with SMTP id d1so7635095wrs.12
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 05:02:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=JBNmxcqLBxZag1unF7NOFteCv/IX3kebN57U4uPMAOo=;
- b=iQXSb9MMFfTFM6CRTSJWyLnL0FFXWmI1IBXm1aM31ib39XyRZOR4Qbl99ZlnjMyqyb
- Z/PpSy7kKbx6YyFa4dbVLBdM25lr0weNPtpmnhD533eR2ZfUK7rt5bwta52d9cxwSn5c
- exkV+q5a2gKug0k47/p9B50BxiMKa81c2ODPc3V/tZq+by4j9gRxKuIG0CTICZ1e58sm
- Ofhlx3heaH3J5iEzynSJDL/gXqVf+D7MGgycnLis8Js8L7h5Bba/BvyCD51N8jRC4o+e
- gmH3ChApaD9KYWuXzkh+hebMF1BorVFR1nxZS29cgI4qHjRtMHMRdpeA5o8r7DE4jGOt
- dy2w==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ox6p0-0008OX-G7
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:26:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ox6ow-0004Ww-0C
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:26:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669037204;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u9acl5kKm6Yatx4wsQMFkUNsPZAlRc8SmjvRkuZJwxU=;
+ b=RurMDx85N39thiQroQuNFQbP8x7NL5XFIb+a8DdpIRQv+C5PZr07t3cXV18yutCq4iQNj/
+ hCC1sicYGAPUP+f6TaPVeWgz5LE5YlFbNBJxK6zgrBiKk4NND3uoqDqxOudJ+Og9LccLNx
+ xeXPv5Jx6Tp8gplS16i1Cv65Db6ytMY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-83-38RL_TxiNGiPFGLcj2pawA-1; Mon, 21 Nov 2022 08:26:43 -0500
+X-MC-Unique: 38RL_TxiNGiPFGLcj2pawA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n13-20020adf8b0d000000b0023658a75751so3258461wra.23
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 05:26:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JBNmxcqLBxZag1unF7NOFteCv/IX3kebN57U4uPMAOo=;
- b=u3cdohJ9GlvCkBAwTuxL+JS6CdfsQQpiJhDFN4wvkxKXsWeICe3mGLusk+Oj+4SKDQ
- FjogvDfqbaLcz6pbcLKHADB6Rlfd+kJ0vx9fPYUJ7EPBPnlOOgznitCIkYYl26+7fNVl
- joi8PSCiSebJ62DhUswK08xMULHQFAnF6IpajD/YCLqxHuFvyKy9o9Pka/bvxpEVIFGJ
- TpVbinUsy4mb5qNsR7/aFlkp2CBGg5Cz6gnqMGo+mtv2tpjNSkDDU3B+RXVlC5CPltbD
- g+E3WFaNCGidlzzQLGImCaCdnEA/cMn99aH+Bs7AuSzuF0n+n+NTDQBOB1945n5vpIUe
- jg8g==
-X-Gm-Message-State: ANoB5plvVvfpTzSDsSUKVe3Fs/pD3X31x8nyONAX1Mqm2r4KWi1PgWih
- agv1FQ5zwFWQNRXb21epZ1J2+OB7d10bCw==
-X-Google-Smtp-Source: AA0mqf5JO+jq2N6t3XACrwY3sp9+t1Xi5fm3RswBNRiHSwjFn8mGaTXiHRyXCMDGD2pW7kf322i33A==
-X-Received: by 2002:a05:6000:114b:b0:241:d199:1a04 with SMTP id
- d11-20020a056000114b00b00241d1991a04mr3782834wrx.227.1669035765534; 
- Mon, 21 Nov 2022 05:02:45 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u9acl5kKm6Yatx4wsQMFkUNsPZAlRc8SmjvRkuZJwxU=;
+ b=lMgLoCDxhaCQq7aIbbnLzcUz/0Y+ol9GWxV9wyuC6TWbSL21+yX0Z6soHhHvI5noZM
+ aHJi5qrcKyvhTsug/ijLC4bgBaRlzIaYE27JvLEJKQDF5SaiCxfSvW54punAgLDwnmd3
+ D8oZQSIVLmEG9NTnuhRO8/YC6lg1foeZhvdPTFJKRVue9woTOOh6LFX4tjUOd1cRvkG1
+ dh4I3OC0GzBVBbKbnD0DEYYVmgUxFprlpIxgdHxG0IOnPJ43m3HhavRWRl2rNxvoK+Ai
+ kcemU74vcgekwihk4zRt29gcByHwUJXyiOTQZvkHknDup/b8gx4wSJuXuodJibO4uvqp
+ 8jjQ==
+X-Gm-Message-State: ANoB5pkxGMrVBsV15nxDWNB4Be1BYBt/zwI+FcQ/z6II2jTOWbTIaBIw
+ r5CBjYV/VK4mjcaRpCdRSgiGASTSc2AgaQhBE+D5h8ShSfXiD/5pPO3wMl9GgKKWciHKK25pHJ5
+ HGeJvSw9iWMsw0hw=
+X-Received: by 2002:a05:600c:220d:b0:3cf:633f:c570 with SMTP id
+ z13-20020a05600c220d00b003cf633fc570mr3796614wml.110.1669037202018; 
+ Mon, 21 Nov 2022 05:26:42 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7TANNRo8fDQDV9TnpmK1jhhAxqajbbgEQEZH90q3TO5uSQHAnLPlppDXhMbkDgeJQFgFKwJw==
+X-Received: by 2002:a05:600c:220d:b0:3cf:633f:c570 with SMTP id
+ z13-20020a05600c220d00b003cf633fc570mr3796597wml.110.1669037201793; 
+ Mon, 21 Nov 2022 05:26:41 -0800 (PST)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- t1-20020a1c7701000000b003cf4d99fd2asm13296725wmi.6.2022.11.21.05.02.44
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 05:02:44 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] target/arm: Limit LPA2 effective output address when
- TCR.DS == 0
-Date: Mon, 21 Nov 2022 13:02:39 +0000
-Message-Id: <20221121130239.1138631-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221121130239.1138631-1-peter.maydell@linaro.org>
-References: <20221121130239.1138631-1-peter.maydell@linaro.org>
+ b8-20020adff908000000b0022ca921dc67sm11092249wrr.88.2022.11.21.05.26.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 05:26:40 -0800 (PST)
+Message-ID: <ea83c161-d4ec-d18f-e9ca-d076df7ccb8e@redhat.com>
+Date: Mon, 21 Nov 2022 14:26:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 01/11] block-copy: add missing coroutine_fn annotations
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+References: <20221116122241.2856527-1-eesposit@redhat.com>
+ <20221116122241.2856527-2-eesposit@redhat.com> <Y3fXgfKe5H7j22aj@redhat.com>
+ <c1c9e6b2-78a5-bd0c-6c95-a3123b89ce91@redhat.com>
+ <c30c7321-a2b6-5094-16d0-2aee5a327c80@redhat.com>
+ <Y3tmIjH2u48H5iRW@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <Y3tmIjH2u48H5iRW@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,55 +110,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ard Biesheuvel <ardb@kernel.org>
 
-With LPA2, the effective output address size is at most 48 bits when
-TCR.DS == 0. This case is currently unhandled in the page table walker,
-where we happily assume LVA/64k granule when outputsize > 48 and
-param.ds == 0, resulting in the wrong conversion to be used from a
-page table descriptor to a physical address.
 
-    if (outputsize > 48) {
-        if (param.ds) {
-            descaddr |= extract64(descriptor, 8, 2) << 50;
-        } else {
-            descaddr |= extract64(descriptor, 12, 4) << 48;
-        }
+Am 21/11/2022 um 12:50 schrieb Kevin Wolf:
+> Am 21.11.2022 um 09:51 hat Emanuele Giuseppe Esposito geschrieben:
+>>
+>>
+>> Am 21/11/2022 um 09:32 schrieb Emanuele Giuseppe Esposito:
+>>>
+>>>
+>>> Am 18/11/2022 um 20:05 schrieb Kevin Wolf:
+>>>> Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
+>>>>> These functions end up calling bdrv_common_block_status_above(), a
+>>>>> generated_co_wrapper function.
+>>>>> In addition, they also happen to be always called in coroutine context,
+>>>>> meaning all callers are coroutine_fn.
+>>>>> This means that the g_c_w function will enter the qemu_in_coroutine()
+>>>>> case and eventually suspend (or in other words call qemu_coroutine_yield()).
+>>>>> Therefore we need to mark such functions coroutine_fn too.
+>>>>>
+>>>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>>>
+>>>> Ideally, we'd convert them to new wrappers bdrv_co_is_allocated() and
+>>>> bdrv_co_block_status_above() instead of having to argue that they always
+>>>> take the coroutine path in g_c_w.
+>>>
+>>> Ok so basically I should introduce bdrv_co_is_allocated, because so far
+>>> in this and next series I never thought about creating it.
+>>> Since these functions will be eventually split anyways, I agree let's
+>>> start doing this now.
+>>
+>> Actually bdrv_is_allocated would be a g_c_w functions in itself, that
+>> calls another g_c_w and it is probably called by functions that are or
+>> will be g_c_w.
+> 
+> I'm not sure if I understand. bdrv_is_allocated() is essentially a g_c_w
+> function today, just indirectly. But we have callers that know that they
+> are running in a coroutine (which is why you're adding coroutine_fn to
+> them), so they shouldn't call a g_c_w function, but directly the
+> coroutine version of the function.
+> 
+> The only reason why you can't currently do that is that
+> bdrv_is_allocated() exists as a wrapper around the g_c_w function
+> bdrv_common_block_status_above(), but the same wrapper doesn't exist for
+> the pure coroutine version bdrv_co_common_block_status_above().
+> 
+> All I'm suggesting is introducing a bdrv_co_is_allocated() that is a
+> wrapper directly around bdrv_co_common_block_status_above(), so that
+> the functions you're marking as coroutine_fn can use it instead of
+> calling g_c_w. This should be about 10 lines of code.
+> 
+> I'm not implying that you should convert any other callers in this
+> patch, or that you should touch bdrv_is_allocated() at all.
+> 
+>> Is this actually the scope of this series? I think switching this
+>> specific function and its callers or similar will require a lot of
+>> efforts, and if I do it here it won't cover all the cases for sure.
+>>
+>> Wouldn't it be better to do these kind of things in a different serie
+>> using Paolo's vrc tool?
+> 
+> I'm not sure what the scope of this series is, because you already do
+> introduce new wrappers in other patches of the series. I assumed it's
+> just to improve the situation a little, with no claim of being
+> exhaustive.
+> 
+> Finding and fully converting all callers might indeed be a job for
+> something like vrc, but here I'm only looking at local consistency in
+> functions where you're adding coroutine_fn.
+> 
 
-So cap the outputsize to 48 when TCR.DS is cleared, as per the
-architecture.
+Oh ok now I see what you mean. I was thinking (and did in "[PATCH 04/15]
+block: convert bdrv_refresh_total_sectors in generated_co_wrapper") to
+instead convert all callers in g_c_w, and that ended up being a big pain.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221116170316.259695-1-ardb@kernel.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/ptw.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I'll also correct the patch I mentioned above.
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 3745ac97234..9a6277d862f 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -1222,6 +1222,14 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-         ps = MIN(ps, param.ps);
-         assert(ps < ARRAY_SIZE(pamax_map));
-         outputsize = pamax_map[ps];
-+
-+        /*
-+         * With LPA2, the effective output address (OA) size is at most 48 bits
-+         * unless TCR.DS == 1
-+         */
-+        if (!param.ds && param.gran != Gran64K) {
-+            outputsize = MIN(outputsize, 48);
-+        }
-     } else {
-         param = aa32_va_parameters(env, address, mmu_idx);
-         level = 1;
--- 
-2.25.1
+Thank you,
+Emanuele
 
 
