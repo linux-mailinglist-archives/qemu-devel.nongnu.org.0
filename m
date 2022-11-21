@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B1C63309F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 00:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94706330F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 00:47:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxG0C-0006kV-IK; Mon, 21 Nov 2022 18:15:00 -0500
+	id 1oxGUF-0005bt-It; Mon, 21 Nov 2022 18:46:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxG09-0006iM-IE
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 18:14:57 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxGU8-0005ZJ-O1
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 18:45:57 -0500
 Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxG07-0001Rg-Vw
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 18:14:57 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxGU6-0007pg-LE
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 18:45:56 -0500
 Received: by mail-wm1-x335.google.com with SMTP id
- r205-20020a1c44d6000000b003d0283bf132so234826wma.4
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 15:14:55 -0800 (PST)
+ ja4-20020a05600c556400b003cf6e77f89cso245428wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 15:45:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Rhvso5qt9WAXy17eEaxk7R4qHfUkjk+SBDCcOad9rN8=;
- b=qs3rok+SW8+ae+IWIRIWLieYDHaCThNOybVpPOAPDGLHEp7like279qaDKH4brNj8+
- sBfwjg62igYWHvWl3Q7Epy6BUby+obwGFLq24YMg9ZveAj0C9LygRCVU9SYEPH6x59Y7
- R58NMqAGt4aPZwxGlra0ISscGBG3NlmGVAHnuOzfheXvYz3iKYoRvvutQRjP+XPJOBQk
- jmaTb8GcgLGXsKkIfUcdVZxkzdN1BPip03Robi8MHW8+mBXu0xrYr9fg0+bBCpJfQRn1
- VMfy1+qeVLFeNQJdOFfJqahb70kl8D7fuS7mOqoczHlegNO4L9n0IpK6PiSRs9nzjArd
- Ehng==
+ bh=r2XZ93j7xRtjb+lGkxY7RnboyYWFgDju15W26jQXLq4=;
+ b=KiFqwk6bxKxpJCKtPVIDQ3Jmsw0cTdRUFJSqB0RmIjM0lfhnO0ceFqO46/mKDn69nx
+ 92nH9XMrvQ2hK5j0WH52nJBtvXRUM2a1zsLRkDL/vPxoI7u1VHREoaSYQMosTDxRChwq
+ ot8QQGvuTElbq7ouZGcCkhy3E+RGg75kqL86/w2ajfFdxhTiEbR4D7HLgo0YxZHX/09i
+ Kud3qQOu5l7SbGtfC+kEW750dBpd7semzadYMbbFNGQmQT+XY0D6rnQ46UMKvGfLVMrh
+ DEjoas2CZ5Vre9ZK53c/WI4xoOuRFVBgJy9MF63JDZXIOsEk0OYfrPVO6wbAofVYSmev
+ ac+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Rhvso5qt9WAXy17eEaxk7R4qHfUkjk+SBDCcOad9rN8=;
- b=TQJkncY1bqPx/2xWtT9SrBxbVpywG6vl9ljU+rMpM+kO7m2iyd5tsPcMWKeOpIzZgD
- 2V/JsmxlKMJfrqhuMuNWOKWFHP2tBQxNwAkTin/TqlpdnqJnSLoBogDn4VKLtekePlV0
- HfSjhl9CjPiCj7jfhV/f/JCvH5HJg3fQFpNtNBs8P4+d29kaKoeQos6qNTcnzxMq1EPH
- ZbzGdjo3RiD4Pv20GtRJx3x78in8Z/9UTsmyib8AAsLj8hrQ3S0mKHVvjluxnjU9D9Ol
- Jr6mAMXCSLGUXGCIvWcsUgjylYwXHOvbdRmLPRULZnElscolGgXSxbNmmWTbVWZrNcJ1
- JCSQ==
-X-Gm-Message-State: ANoB5pnKDaCTEsW5PcmVK+w4OF9/5R/Zgwh8Yu7FTM2IZWzmkQr+iPi/
- pmStwrpLiqcWV048DPflv+Gabh6k/zdftg==
-X-Google-Smtp-Source: AA0mqf5nVogcmQMM4uuyRMIIAxNYuCRw6XCtEld+pw5YKDiQCjR0qYV8LGGAM6N2hXkq3wTAoidgtA==
-X-Received: by 2002:a05:600c:54e4:b0:3c6:d39c:fc4b with SMTP id
- jb4-20020a05600c54e400b003c6d39cfc4bmr3197850wmb.14.1669072493751; 
- Mon, 21 Nov 2022 15:14:53 -0800 (PST)
+ bh=r2XZ93j7xRtjb+lGkxY7RnboyYWFgDju15W26jQXLq4=;
+ b=TRtFpj6X/sGfUjk6VYO5MoGenO8obbqGu2ZW793nhoerNwLlNQB/CtlBScoBKEaUsr
+ KNFf6bw8taOd+R0KSfFFOoRKpfd9wtUzvXX8Kp8KMc5dKn/zUjIqHgIE7ggpShqF477y
+ 3b7EKYruIj80iqs78He+MpIVkDZGRKVi4EbvVAWNKn0LB63hH7F6zR9NZm6L+IMSn06A
+ q+zQqzR0v3cRurdZMPCf4I0TShMXTm45Ge91TMyusR/UHDORYlCM7JBU+6DHJJ2Y87/X
+ S+t/JoVJolk9VXt3wrtXsImVZE4ZsIrb3GeEPUEiqevoxJ4agTMuYUjr7DsdqNxgvwSU
+ IHgg==
+X-Gm-Message-State: ANoB5pk9yogSfBckG7417/BD6+8lgwL0gu/TKUAsR4AM19VRidJIHa/4
+ lYgkhyJYNlqW1MucbHmPueIh1Q==
+X-Google-Smtp-Source: AA0mqf4qOUj6Wp1Bn1QOimMZKbX/gGY7TUCHNioJE580lF9iTFhvNLKj4GinRIcStG6inPYQEH/8Sw==
+X-Received: by 2002:a05:600c:4211:b0:3c6:b656:5b52 with SMTP id
+ x17-20020a05600c421100b003c6b6565b52mr18014508wmh.1.1669074352407; 
+ Mon, 21 Nov 2022 15:45:52 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v11-20020a05600c444b00b003b95ed78275sm16156095wmn.20.2022.11.21.15.14.53
+ m29-20020a05600c3b1d00b003c6b7f5567csm411744wms.0.2022.11.21.15.45.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 15:14:53 -0800 (PST)
-Message-ID: <7cb6d0ab-c44e-9279-f1e0-db3e449ba595@linaro.org>
-Date: Tue, 22 Nov 2022 00:14:52 +0100
+ Mon, 21 Nov 2022 15:45:51 -0800 (PST)
+Message-ID: <87706e12-01d8-2cad-72d4-95e3eca9c8a7@linaro.org>
+Date: Tue, 22 Nov 2022 00:45:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 17/29] tcg/aarch64: Add have_lse, have_lse2
+Subject: Re: [PATCH for-8.0 15/29] include/qemu/int128: Add vector type to
+ Int128Alias
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20221118094754.242910-1-richard.henderson@linaro.org>
- <20221118094754.242910-18-richard.henderson@linaro.org>
- <1708fd03-d7ab-99f0-2c7d-25f582dac6ea@linaro.org>
-In-Reply-To: <1708fd03-d7ab-99f0-2c7d-25f582dac6ea@linaro.org>
+ <20221118094754.242910-16-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221118094754.242910-16-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::335;
@@ -92,47 +92,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/11/22 00:10, Philippe Mathieu-Daudé wrote:
-> On 18/11/22 10:47, Richard Henderson wrote:
->> Notice when the host has additional atomic instructions.
->> The new variables will also be used in generated code.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   tcg/aarch64/tcg-target.h     |  3 +++
->>   tcg/aarch64/tcg-target.c.inc | 10 ++++++++++
->>   2 files changed, 13 insertions(+)
+On 18/11/22 10:47, Richard Henderson wrote:
+> Adding a vector type will make it easier to handle i386
+> have_atomic16 via AVX.
 > 
-> 
->> diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
->> index 001a71bbc0..cf5ee6f742 100644
->> --- a/tcg/aarch64/tcg-target.c.inc
->> +++ b/tcg/aarch64/tcg-target.c.inc
->> @@ -13,6 +13,8 @@
->>   #include "../tcg-ldst.c.inc"
->>   #include "../tcg-pool.c.inc"
->>   #include "qemu/bitops.h"
->> +#include <asm/hwcap.h>
-> 
-> This doesn't build on Darwin:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/qemu/int128.h | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 
-Project version: 7.1.91
-C compiler for the host machine: clang (clang 14.0.0 "Apple clang 
-version 14.0.0 (clang-1400.0.29.102)")
-C linker for the host machine: clang ld64 819.6
-Host machine cpu family: aarch64
-Host machine cpu: arm64
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> In file included from ../../tcg/tcg.c:426:
-> tcg/aarch64/tcg-target.c.inc:16:10: fatal error: 'asm/hwcap.h' file not 
-> found
-> #include <asm/hwcap.h>
->           ^~~~~~~~~~~~~
-> 
-> In file included from ../../accel/tcg/cputlb.c:1656:
-> ../../accel/tcg/ldst_atomicity.c.inc:269:21: warning: value size does 
-> not match register size specified by the constraint and modifier 
-> [-Wasm-operand-widths]
->              : "=&r"(r.u), "=&r"(fail) : "Q"(*p));
->                      ^
 
