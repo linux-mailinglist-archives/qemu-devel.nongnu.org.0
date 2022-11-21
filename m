@@ -2,103 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3113632FEE
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD29632FED
 	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 23:38:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxFPs-0001R0-3U; Mon, 21 Nov 2022 17:37:28 -0500
+	id 1oxFPs-0001R3-5S; Mon, 21 Nov 2022 17:37:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxFPn-0001QM-Qq
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:37:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxFPl-0003WW-Oe
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 17:37:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669070240;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wv12Nsi47HHu2cbWJJbTwvmDX+QhrRR0zQbSbTdBQbc=;
- b=AyC51xcOxWOZfD4pzfGGq69mBkRHXCC2QOQVkY7nCCk1W7DIlA3LW4n9b0/i3c5gj7uqVn
- CJGlEemcVceeqQVPCnNDx/C9+1n0KIf4MfBXEsTVF7PVWnZmGKBTPqWV6MZmDoEFttnp8p
- Rw2waFKNRvxOv0n2iraitx19kHa+S7Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-576-iYzxZ7dIM-mMzCnTuB8z3A-1; Mon, 21 Nov 2022 17:37:19 -0500
-X-MC-Unique: iYzxZ7dIM-mMzCnTuB8z3A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m17-20020a05600c3b1100b003cf9cc47da5so7162262wms.9
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 14:37:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oxFPq-0001Qk-8X; Mon, 21 Nov 2022 17:37:26 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oxFPo-0003Wv-8S; Mon, 21 Nov 2022 17:37:26 -0500
+Received: by mail-oi1-x230.google.com with SMTP id l127so14042570oia.8;
+ Mon, 21 Nov 2022 14:37:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YDdnx8Vun02FYaShpGiFYVNJXg7yb0/OEQlkqvCV/Mk=;
+ b=eUa8G7Z61upi8VPFuV/md/cflIJVPEKvx5Qca8dEdFwG2oNiA4+A4QRBErKhNggYVR
+ uWuXYRw6w+rbZHgdfn2f0hpJ5hXgrTyeBOJt1yU7mfvsKeG2d7nV5SvZpVqGkkF1PiQX
+ w1M+Xow6Wg1PdlWPjQtlrcoU1YOxbw00vC7NShgKXN3+FS94rImozJGYCl6CF99j1tWo
+ EGhT+j67+/0WT+K4Ykw4JAptBsS6O403MQ/xFyVk3adhFkejzTJ52M4Xy8z3Avmu0h2q
+ +FGMc9r2F5vo7RgVftuaE7GpqcwghR5YsdoksO+Ld6e09La70kvIRvl6Ba3WW9Rq3Rxh
+ PQxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Wv12Nsi47HHu2cbWJJbTwvmDX+QhrRR0zQbSbTdBQbc=;
- b=SM1+I73AWBfU/l9D7tcNHs97hEe6XMecxR0HqDB1E5myNd/4ZGdkoFRlRRfzEJn8m4
- AnOLfOVR+Cb8I4lZZ1hiT2XsX+668vm95Zb1DN6jhCC6+mQhoARIV9H3YTrH3zqXDiuV
- Ec7RqONNVOsBlC/t2epfh2c6YiUZtqqZqN6s5MB7T4vFq8DYHp6WEN4/9IUsCBBhw8IQ
- w4kPh+NHStnC1qFiS0NugWuZ+0mRMyC2a3bS3Thziml6uXzjGCgoEZ53AbqZijqvOs2Q
- Fy3C3F4IT+Y25dd15s7sspMw03uE7/0mjB4ntPnIHgDKC+HILwS+bvo0Z/Mt2hQRLmkF
- 0UJQ==
-X-Gm-Message-State: ANoB5pnmyMEe1nGN+DNUgwq/K+Yje5jMIN9JRpqzJX0QalWOKMvadLLh
- XKxqM9SpORi1TxcgfXSooEo152QbfQfjt35Pn3A8hzlz1eyNdYbwzZaAkuPGXMZO4Ds3aDN+y5z
- YJ0v3SZle0MwRGe8=
-X-Received: by 2002:a05:600c:41c7:b0:3cf:a0f4:7879 with SMTP id
- t7-20020a05600c41c700b003cfa0f47879mr400467wmh.152.1669070236873; 
- Mon, 21 Nov 2022 14:37:16 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf47MyjQZia5fm5XZck5ig/K9AIJmu0Z7kX5X6LuOhOsA0ibAld0McfxA7CwZEJ8K6m6ryDH1g==
-X-Received: by 2002:a05:600c:41c7:b0:3cf:a0f4:7879 with SMTP id
- t7-20020a05600c41c700b003cfa0f47879mr400450wmh.152.1669070236572; 
- Mon, 21 Nov 2022 14:37:16 -0800 (PST)
-Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
- g18-20020a5d5412000000b00241bd7a7165sm11260741wrv.82.2022.11.21.14.37.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 14:37:15 -0800 (PST)
-Date: Mon, 21 Nov 2022 17:37:11 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "open list:virtiofs" <virtio-fs@redhat.com>
-Subject: Re: [PATCH v1 5/9] hw/virtio: introduce virtio_device_should_start
-Message-ID: <20221121173656-mutt-send-email-mst@kernel.org>
-References: <20221114113518-mutt-send-email-mst@kernel.org>
- <aaae3f2a-c5bb-8e62-09d4-4f6f43efe37b@linux.ibm.com>
- <20221114115549-mutt-send-email-mst@kernel.org>
- <2bd5f801-a203-2598-3e6e-ed8f5dad5159@linux.ibm.com>
- <20221114121959-mutt-send-email-mst@kernel.org>
- <87tu309tlk.fsf@linaro.org>
- <26b4e8d8-784d-d1ce-67a3-b61896701bf7@linux.ibm.com>
- <87leoc9p98.fsf@linaro.org>
- <471b71ad-1892-8ab4-a94b-c0ec3d34e6b1@linux.ibm.com>
- <1bfc2fee-5972-676e-563e-e245814e54c3@linux.ibm.com>
+ bh=YDdnx8Vun02FYaShpGiFYVNJXg7yb0/OEQlkqvCV/Mk=;
+ b=SsjkdY5hpA+SN7PzLCIS053TufOb1EjCtqXBCpgJMbMwZLoWjX6k+fkTIdPSKz2poa
+ C/rMd0GpJ3n86yyYFJpXLiuld45l0JVP6WkAlBQLrwgoftRuG20K/wpsZoGFn72uboFx
+ vRToSQP4bHU+RTlrV1Z5+gtL9JNR9uRnOp/5JahZnkj5Vy2SESBhq+27ODV1IX4FGnKM
+ xarYZqKAzs2DU5CPqyHjIpPZ2zTbx3MOiWpkEtw8DDqZLTQplINvyRRNRQC2MJRpuMKc
+ /0Ha+QFwfWKrTSv+WnF9P5NlkXGw5ITaI0fZSt0hOtuSZbTWx8PgNrKZh0vstH55Al5q
+ 8lDA==
+X-Gm-Message-State: ANoB5pmL55OMl2rpueRdhrXdm1MxiQqhFPq0yGLQMEMEK78GFCPkmtGF
+ Gyt0+wW6h1S132Q9GQ/aWxxtXx5KR58=
+X-Google-Smtp-Source: AA0mqf7RV5R5h43ruy+vDKnqg+9V6xlvt83tx+u4R0AJJfEaL505OuLqAn2/YumHtTTNKuARb/zaDg==
+X-Received: by 2002:aca:1c10:0:b0:35a:78ae:d666 with SMTP id
+ c16-20020aca1c10000000b0035a78aed666mr10155347oic.60.1669070241902; 
+ Mon, 21 Nov 2022 14:37:21 -0800 (PST)
+Received: from [192.168.10.102] ([191.19.173.155])
+ by smtp.gmail.com with ESMTPSA id
+ f10-20020a4a890a000000b0049f098f4fb4sm4654033ooi.24.2022.11.21.14.37.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 14:37:21 -0800 (PST)
+Message-ID: <f456f0e6-e69a-bda3-f2ee-7e4d4b7c8cd4@gmail.com>
+Date: Mon, 21 Nov 2022 19:37:17 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1bfc2fee-5972-676e-563e-e245814e54c3@linux.ibm.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH for-8.0 1/1] target/ppc: Use tcg_gen_atomic_cmpxchg_i128
+ for STQCX
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org
+References: <20221112061122.2720163-1-richard.henderson@linaro.org>
+ <20221112061122.2720163-2-richard.henderson@linaro.org>
+Content-Language: en-US
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221112061122.2720163-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,185 +93,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 15, 2022 at 05:46:58PM +0100, Christian Borntraeger wrote:
-> 
-> 
-> Am 15.11.22 um 17:40 schrieb Christian Borntraeger:
-> > 
-> > 
-> > Am 15.11.22 um 17:05 schrieb Alex Bennée:
-> > > 
-> > > Christian Borntraeger <borntraeger@linux.ibm.com> writes:
-> > > 
-> > > > Am 15.11.22 um 15:31 schrieb Alex Bennée:
-> > > > > "Michael S. Tsirkin" <mst@redhat.com> writes:
-> > > > > 
-> > > > > > On Mon, Nov 14, 2022 at 06:15:30PM +0100, Christian Borntraeger wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Am 14.11.22 um 18:10 schrieb Michael S. Tsirkin:
-> > > > > > > > On Mon, Nov 14, 2022 at 05:55:09PM +0100, Christian Borntraeger wrote:
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > Am 14.11.22 um 17:37 schrieb Michael S. Tsirkin:
-> > > > > > > > > > On Mon, Nov 14, 2022 at 05:18:53PM +0100, Christian Borntraeger wrote:
-> > > > > > > > > > > Am 08.11.22 um 10:23 schrieb Alex Bennée:
-> > > > > > > > > > > > The previous fix to virtio_device_started revealed a problem in its
-> > > > > > > > > > > > use by both the core and the device code. The core code should be able
-> > > > > > > > > > > > to handle the device "starting" while the VM isn't running to handle
-> > > > > > > > > > > > the restoration of migration state. To solve this dual use introduce a
-> > > > > > > > > > > > new helper for use by the vhost-user backends who all use it to feed a
-> > > > > > > > > > > > should_start variable.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > We can also pick up a change vhost_user_blk_set_status while we are at
-> > > > > > > > > > > > it which follows the same pattern.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-> > > > > > > > > > > > Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
-> > > > > > > > > > > > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> > > > > > > > > > > > Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> > > > > > > > > > > 
-> > > > > > > > > > > Hmmm, is this
-> > > > > > > > > > > commit 259d69c00b67c02a67f3bdbeeea71c2c0af76c35
-> > > > > > > > > > > Author:     Alex Bennée <alex.bennee@linaro.org>
-> > > > > > > > > > > AuthorDate: Mon Nov 7 12:14:07 2022 +0000
-> > > > > > > > > > > Commit:     Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > > > > > CommitDate: Mon Nov 7 14:08:18 2022 -0500
-> > > > > > > > > > > 
-> > > > > > > > > > >         hw/virtio: introduce virtio_device_should_start
-> > > > > > > > > > > 
-> > > > > > > > > > > and older version?
-> > > > > > > > > > 
-> > > > > > > > > > This is what got merged:
-> > > > > > > > > > https://lore.kernel.org/r/20221107121407.1010913-1-alex.bennee%40linaro.org
-> > > > > > > > > > This patch was sent after I merged the RFC.
-> > > > > > > > > > I think the only difference is the commit log but I might be missing
-> > > > > > > > > > something.
-> > > > > > > > > > 
-> > > > > > > > > > > This does not seem to fix the regression that I have reported.
-> > > > > > > > > > 
-> > > > > > > > > > This was applied on top of 9f6bcfd99f which IIUC does, right?
-> > > > > > > > > > 
-> > > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > QEMU master still fails for me for suspend/resume to disk:
-> > > > > > > > > 
-> > > > > > > > > #0  0x000003ff8e3980a6 in __pthread_kill_implementation () at /lib64/libc.so.6
-> > > > > > > > > #1  0x000003ff8e348580 in raise () at /lib64/libc.so.6
-> > > > > > > > > #2  0x000003ff8e32b5c0 in abort () at /lib64/libc.so.6
-> > > > > > > > > #3  0x000003ff8e3409da in __assert_fail_base () at /lib64/libc.so.6
-> > > > > > > > > #4  0x000003ff8e340a4e in  () at /lib64/libc.so.6
-> > > > > > > > > #5 0x000002aa1ffa8966 in vhost_vsock_common_pre_save
-> > > > > > > > > (opaque=<optimized out>) at
-> > > > > > > > > ../hw/virtio/vhost-vsock-common.c:203
-> > > > > > > > > #6  0x000002aa1fe5e0ee in vmstate_save_state_v
-> > > > > > > > >        (f=f@entry=0x2aa21bdc170, vmsd=0x2aa204ac5f0
-> > > > > > > > > <vmstate_virtio_vhost_vsock>, opaque=0x2aa21bac9f8,
-> > > > > > > > > vmdesc=vmdesc@entry=0x3fddc08eb30,
-> > > > > > > > > version_id=version_id@entry=0) at ../migration/vmstate.c:329
-> > > > > > > > > #7 0x000002aa1fe5ebf8 in vmstate_save_state
-> > > > > > > > > (f=f@entry=0x2aa21bdc170, vmsd=<optimized out>,
-> > > > > > > > > opaque=<optimized out>, vmdesc_id=vmdesc_id@entry=0x3fddc08eb30)
-> > > > > > > > > at ../migration/vmstate.c:317
-> > > > > > > > > #8 0x000002aa1fe75bd0 in vmstate_save (f=f@entry=0x2aa21bdc170,
-> > > > > > > > > se=se@entry=0x2aa21bdbe90, vmdesc=vmdesc@entry=0x3fddc08eb30) at
-> > > > > > > > > ../migration/savevm.c:908
-> > > > > > > > > #9 0x000002aa1fe79584 in
-> > > > > > > > > qemu_savevm_state_complete_precopy_non_iterable
-> > > > > > > > > (f=f@entry=0x2aa21bdc170, in_postcopy=in_postcopy@entry=false,
-> > > > > > > > > inactivate_disks=inactivate_disks@entry=true)
-> > > > > > > > >        at ../migration/savevm.c:1393
-> > > > > > > > > #10 0x000002aa1fe79a96 in qemu_savevm_state_complete_precopy
-> > > > > > > > > (f=0x2aa21bdc170, iterable_only=iterable_only@entry=false,
-> > > > > > > > > inactivate_disks=inactivate_disks@entry=true) at
-> > > > > > > > > ../migration/savevm.c:1459
-> > > > > > > > > #11 0x000002aa1fe6d6ee in migration_completion (s=0x2aa218ef600) at ../migration/migration.c:3314
-> > > > > > > > > #12 migration_iteration_run (s=0x2aa218ef600) at ../migration/migration.c:3761
-> > > > > > > > > #13 migration_thread (opaque=opaque@entry=0x2aa218ef600) at ../migration/migration.c:3989
-> > > > > > > > > #14 0x000002aa201f0b8c in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:505
-> > > > > > > > > #15 0x000003ff8e396248 in start_thread () at /lib64/libc.so.6
-> > > > > > > > > #16 0x000003ff8e41183e in thread_start () at /lib64/libc.so.6
-> > > > > > > > > 
-> > > > > > > > > Michael, your previous branch did work if I recall correctly.
-> > > > > > > > 
-> > > > > > > > That one was failing under github CI though (for reasons we didn't
-> > > > > > > > really address, such as disconnect during stop causing a recursive
-> > > > > > > > call to stop, but there you are).
-> > > > > > > Even the double revert of everything?
-> > > > > > 
-> > > > > > I don't remember at this point.
-> > > > > > 
-> > > > > > > So how do we proceed now?
-> > > > > > 
-> > > > > > I'm hopeful Alex will come up with a fix.
-> > > > > I need to replicate the failing test for that. Which test is
-> > > > > failing?
-> > > > 
-> > > > 
-> > > > Pretty much the same as before. guest with vsock, managedsave and
-> > > > restore.
-> > > 
-> > > If this isn't in our test suite I'm going to need exact steps.
-> > 
-> > Just get any libvirt guest, add
-> >      <vsock model='virtio'>
-> >        <cid auto='yes'/>
-> >      </vsock>
-> > 
-> > to your libvirt xml. Start the guest (with the new xml).
-> > Run virsh managedsave - qemu crashes. On x86 and s390.
-> 
-> 
-> the libvirt log:
-> 
-> /home/cborntra/REPOS/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
-> -name guest=f36,debug-threads=on \
-> -S \
-> -object '{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-1-f36/master-key.aes"}' \
-> -machine pc-i440fx-7.2,usb=off,dump-guest-core=off,memory-backend=pc.ram \
-> -accel kvm \
-> -cpu Cooperlake,ss=on,pdcm=on,hypervisor=on,tsc-adjust=on,avx512ifma=on,sha-ni=on,avx512vbmi=on,umip=on,avx512vbmi2=on,gfni=on,vaes=on,vpclmulqdq=on,avx512bitalg=on,avx512-vpopcntdq=on,rdpid=on,movdiri=on,movdir64b=on,fsrm=on,md-clear=on,xsaves=on,ibpb=on,ibrs=on,amd-stibp=on,amd-ssbd=on,hle=off,rtm=off,avx512-bf16=off,taa-no=off \
-> -m 2048 \
-> -object '{"qom-type":"memory-backend-ram","id":"pc.ram","size":2147483648}' \
-> -overcommit mem-lock=off \
-> -smp 2,sockets=2,cores=1,threads=1 \
-> -uuid 712590b2-fbd8-4a2f-a8e9-be33cb9ee0da \
-> -display none \
-> -no-user-config \
-> -nodefaults \
-> -chardev socket,id=charmonitor,fd=39,server=on,wait=off \
-> -mon chardev=charmonitor,id=monitor,mode=control \
-> -rtc base=utc,driftfix=slew \
-> -global kvm-pit.lost_tick_policy=delay \
-> -no-hpet \
-> -no-shutdown \
-> -global PIIX4_PM.disable_s3=1 \
-> -global PIIX4_PM.disable_s4=1 \
-> -boot strict=on \
-> -device ich9-usb-ehci1,id=usb,bus=pci.0,addr=0x3.0x7 \
-> -device ich9-usb-uhci1,masterbus=usb.0,firstport=0,bus=pci.0,multifunction=on,addr=0x3 \
-> -device ich9-usb-uhci2,masterbus=usb.0,firstport=2,bus=pci.0,addr=0x3.0x1 \
-> -device ich9-usb-uhci3,masterbus=usb.0,firstport=4,bus=pci.0,addr=0x3.0x2 \
-> -blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/f36.qcow2","node-name":"libvirt-1-storage","auto-read-only":true,"discard":"unmap"}' \
-> -blockdev '{"node-name":"libvirt-1-format","read-only":false,"driver":"qcow2","file":"libvirt-1-storage","backing":null}' \
-> -device ide-hd,bus=ide.0,unit=0,drive=libvirt-1-format,id=ide0-0-0,bootindex=1 \
-> -netdev user,id=hostnet0 \
-> -device e1000,netdev=hostnet0,id=net0,mac=52:54:00:20:ba:4a,bus=pci.0,addr=0x2 \
-> -chardev pty,id=charserial0 \
-> -device isa-serial,chardev=charserial0,id=serial0 \
-> -audiodev '{"id":"audio1","driver":"none"}' \
-> -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x4 \
-> -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
-> -device vhost-vsock-pci,id=vsock0,guest-cid=3,vhostfd=35,bus=pci.0,addr=0x5 \
-> -msg timestamp=on
-> char device redirected to /dev/pts/1 (label charserial0)
-> qemu-system-x86_64: ../hw/virtio/vhost-vsock-common.c:203: vhost_vsock_common_pre_save: Assertion `!vhost_dev_is_started(&vvc->vhost_dev)' failed.
-> 2022-11-15 16:38:46.096+0000: shutting down, reason=crashed
-
-Alex were you able to replicate? Just curious.
 
 
--- 
-MST
+On 11/12/22 03:11, Richard Henderson wrote:
+> Note that the previous direct reference to reserve_val,
+> 
+> -   tcg_gen_ld_i64(t1, cpu_env, (ctx->le_mode
+> -                                ? offsetof(CPUPPCState, reserve_val2)
+> -                                : offsetof(CPUPPCState, reserve_val)));
+> 
+> was incorrect because all references should have gone through
+> cpu_reserve_val.  Create a cpu_reserve_val2 tcg temp to fix this.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+Richard, since this depends on your int128 with helpers, do you want to
+queue this in the same queue?
+
+
+
+Daniel
+
+>   target/ppc/helper.h     |   2 -
+>   target/ppc/mem_helper.c |  44 -----------------
+>   target/ppc/translate.c  | 102 ++++++++++++++++++----------------------
+>   3 files changed, 47 insertions(+), 101 deletions(-)
+> 
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 8dd22a35e4..0beaca5c7a 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -818,6 +818,4 @@ DEF_HELPER_FLAGS_5(stq_le_parallel, TCG_CALL_NO_WG,
+>                      void, env, tl, i64, i64, i32)
+>   DEF_HELPER_FLAGS_5(stq_be_parallel, TCG_CALL_NO_WG,
+>                      void, env, tl, i64, i64, i32)
+> -DEF_HELPER_5(stqcx_le_parallel, i32, env, tl, i64, i64, i32)
+> -DEF_HELPER_5(stqcx_be_parallel, i32, env, tl, i64, i64, i32)
+>   #endif
+> diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
+> index d1163f316c..1578887a8f 100644
+> --- a/target/ppc/mem_helper.c
+> +++ b/target/ppc/mem_helper.c
+> @@ -413,50 +413,6 @@ void helper_stq_be_parallel(CPUPPCState *env, target_ulong addr,
+>       val = int128_make128(lo, hi);
+>       cpu_atomic_sto_be_mmu(env, addr, val, opidx, GETPC());
+>   }
+> -
+> -uint32_t helper_stqcx_le_parallel(CPUPPCState *env, target_ulong addr,
+> -                                  uint64_t new_lo, uint64_t new_hi,
+> -                                  uint32_t opidx)
+> -{
+> -    bool success = false;
+> -
+> -    /* We will have raised EXCP_ATOMIC from the translator.  */
+> -    assert(HAVE_CMPXCHG128);
+> -
+> -    if (likely(addr == env->reserve_addr)) {
+> -        Int128 oldv, cmpv, newv;
+> -
+> -        cmpv = int128_make128(env->reserve_val2, env->reserve_val);
+> -        newv = int128_make128(new_lo, new_hi);
+> -        oldv = cpu_atomic_cmpxchgo_le_mmu(env, addr, cmpv, newv,
+> -                                          opidx, GETPC());
+> -        success = int128_eq(oldv, cmpv);
+> -    }
+> -    env->reserve_addr = -1;
+> -    return env->so + success * CRF_EQ_BIT;
+> -}
+> -
+> -uint32_t helper_stqcx_be_parallel(CPUPPCState *env, target_ulong addr,
+> -                                  uint64_t new_lo, uint64_t new_hi,
+> -                                  uint32_t opidx)
+> -{
+> -    bool success = false;
+> -
+> -    /* We will have raised EXCP_ATOMIC from the translator.  */
+> -    assert(HAVE_CMPXCHG128);
+> -
+> -    if (likely(addr == env->reserve_addr)) {
+> -        Int128 oldv, cmpv, newv;
+> -
+> -        cmpv = int128_make128(env->reserve_val2, env->reserve_val);
+> -        newv = int128_make128(new_lo, new_hi);
+> -        oldv = cpu_atomic_cmpxchgo_be_mmu(env, addr, cmpv, newv,
+> -                                          opidx, GETPC());
+> -        success = int128_eq(oldv, cmpv);
+> -    }
+> -    env->reserve_addr = -1;
+> -    return env->so + success * CRF_EQ_BIT;
+> -}
+>   #endif
+>   
+>   /*****************************************************************************/
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 19c1d17cb0..85f95a9045 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -72,6 +72,7 @@ static TCGv cpu_cfar;
+>   static TCGv cpu_xer, cpu_so, cpu_ov, cpu_ca, cpu_ov32, cpu_ca32;
+>   static TCGv cpu_reserve;
+>   static TCGv cpu_reserve_val;
+> +static TCGv cpu_reserve_val2;
+>   static TCGv cpu_fpscr;
+>   static TCGv_i32 cpu_access_type;
+>   
+> @@ -141,8 +142,11 @@ void ppc_translate_init(void)
+>                                        offsetof(CPUPPCState, reserve_addr),
+>                                        "reserve_addr");
+>       cpu_reserve_val = tcg_global_mem_new(cpu_env,
+> -                                     offsetof(CPUPPCState, reserve_val),
+> -                                     "reserve_val");
+> +                                         offsetof(CPUPPCState, reserve_val),
+> +                                         "reserve_val");
+> +    cpu_reserve_val2 = tcg_global_mem_new(cpu_env,
+> +                                          offsetof(CPUPPCState, reserve_val2),
+> +                                          "reserve_val2");
+>   
+>       cpu_fpscr = tcg_global_mem_new(cpu_env,
+>                                      offsetof(CPUPPCState, fpscr), "fpscr");
+> @@ -3979,78 +3983,66 @@ static void gen_lqarx(DisasContext *ctx)
+>   /* stqcx. */
+>   static void gen_stqcx_(DisasContext *ctx)
+>   {
+> +    TCGLabel *lab_fail, *lab_over;
+>       int rs = rS(ctx->opcode);
+> -    TCGv EA, hi, lo;
+> +    TCGv EA, t0, t1;
+> +    TCGv_i128 cmp, val;
+>   
+>       if (unlikely(rs & 1)) {
+>           gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
+>           return;
+>       }
+>   
+> +    lab_fail = gen_new_label();
+> +    lab_over = gen_new_label();
+> +
+>       gen_set_access_type(ctx, ACCESS_RES);
+>       EA = tcg_temp_new();
+>       gen_addr_reg_index(ctx, EA);
+>   
+> +    tcg_gen_brcond_tl(TCG_COND_NE, EA, cpu_reserve, lab_fail);
+> +    tcg_temp_free(EA);
+> +
+> +    cmp = tcg_temp_new_i128();
+> +    val = tcg_temp_new_i128();
+> +
+> +    tcg_gen_concat_i64_i128(cmp, cpu_reserve_val2, cpu_reserve_val);
+> +
+>       /* Note that the low part is always in RS+1, even in LE mode.  */
+> -    lo = cpu_gpr[rs + 1];
+> -    hi = cpu_gpr[rs];
+> +    tcg_gen_concat_i64_i128(val, cpu_gpr[rs + 1], cpu_gpr[rs]);
+>   
+> -    if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
+> -        if (HAVE_CMPXCHG128) {
+> -            TCGv_i32 oi = tcg_const_i32(DEF_MEMOP(MO_128) | MO_ALIGN);
+> -            if (ctx->le_mode) {
+> -                gen_helper_stqcx_le_parallel(cpu_crf[0], cpu_env,
+> -                                             EA, lo, hi, oi);
+> -            } else {
+> -                gen_helper_stqcx_be_parallel(cpu_crf[0], cpu_env,
+> -                                             EA, lo, hi, oi);
+> -            }
+> -            tcg_temp_free_i32(oi);
+> -        } else {
+> -            /* Restart with exclusive lock.  */
+> -            gen_helper_exit_atomic(cpu_env);
+> -            ctx->base.is_jmp = DISAS_NORETURN;
+> -        }
+> -        tcg_temp_free(EA);
+> -    } else {
+> -        TCGLabel *lab_fail = gen_new_label();
+> -        TCGLabel *lab_over = gen_new_label();
+> -        TCGv_i64 t0 = tcg_temp_new_i64();
+> -        TCGv_i64 t1 = tcg_temp_new_i64();
+> +    tcg_gen_atomic_cmpxchg_i128(val, cpu_reserve, cmp, val, ctx->mem_idx,
+> +                                DEF_MEMOP(MO_128 | MO_ALIGN));
+> +    tcg_temp_free_i128(cmp);
+>   
+> -        tcg_gen_brcond_tl(TCG_COND_NE, EA, cpu_reserve, lab_fail);
+> -        tcg_temp_free(EA);
+> +    t0 = tcg_temp_new();
+> +    t1 = tcg_temp_new();
+> +    tcg_gen_extr_i128_i64(t1, t0, val);
+> +    tcg_temp_free_i128(val);
+>   
+> -        gen_qemu_ld64_i64(ctx, t0, cpu_reserve);
+> -        tcg_gen_ld_i64(t1, cpu_env, (ctx->le_mode
+> -                                     ? offsetof(CPUPPCState, reserve_val2)
+> -                                     : offsetof(CPUPPCState, reserve_val)));
+> -        tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, lab_fail);
+> +    tcg_gen_xor_tl(t1, t1, cpu_reserve_val2);
+> +    tcg_gen_xor_tl(t0, t0, cpu_reserve_val);
+> +    tcg_gen_or_tl(t0, t0, t1);
+> +    tcg_temp_free(t1);
+>   
+> -        tcg_gen_addi_i64(t0, cpu_reserve, 8);
+> -        gen_qemu_ld64_i64(ctx, t0, t0);
+> -        tcg_gen_ld_i64(t1, cpu_env, (ctx->le_mode
+> -                                     ? offsetof(CPUPPCState, reserve_val)
+> -                                     : offsetof(CPUPPCState, reserve_val2)));
+> -        tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, lab_fail);
+> +    tcg_gen_setcondi_tl(TCG_COND_EQ, t0, t0, 0);
+> +    tcg_gen_shli_tl(t0, t0, CRF_EQ_BIT);
+> +    tcg_gen_or_tl(t0, t0, cpu_so);
+> +    tcg_gen_trunc_tl_i32(cpu_crf[0], t0);
+> +    tcg_temp_free(t0);
+>   
+> -        /* Success */
+> -        gen_qemu_st64_i64(ctx, ctx->le_mode ? lo : hi, cpu_reserve);
+> -        tcg_gen_addi_i64(t0, cpu_reserve, 8);
+> -        gen_qemu_st64_i64(ctx, ctx->le_mode ? hi : lo, t0);
+> +    tcg_gen_br(lab_over);
+> +    gen_set_label(lab_fail);
+>   
+> -        tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
+> -        tcg_gen_ori_i32(cpu_crf[0], cpu_crf[0], CRF_EQ);
+> -        tcg_gen_br(lab_over);
+> +    /*
+> +     * Address mismatch implies failure.  But we still need to provide
+> +     * the memory barrier semantics of the instruction.
+> +     */
+> +    tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
+> +    tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
+>   
+> -        gen_set_label(lab_fail);
+> -        tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
+> -
+> -        gen_set_label(lab_over);
+> -        tcg_gen_movi_tl(cpu_reserve, -1);
+> -        tcg_temp_free_i64(t0);
+> -        tcg_temp_free_i64(t1);
+> -    }
+> +    gen_set_label(lab_over);
+> +    tcg_gen_movi_tl(cpu_reserve, -1);
+>   }
+>   #endif /* defined(TARGET_PPC64) */
+>   
 
