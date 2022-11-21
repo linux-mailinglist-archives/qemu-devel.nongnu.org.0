@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F0263238A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:30:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90714632437
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 14:49:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox6rw-0001Uw-0d; Mon, 21 Nov 2022 08:29:52 -0500
+	id 1ox79f-0004DP-PE; Mon, 21 Nov 2022 08:48:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6rQ-0000rb-Fa
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:29:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ox6qa-00052u-El
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:29:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669037304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W+GlhHy1Aw+J2S/PdKkSiWceIYryK6JZft0nwXoxTSo=;
- b=X+p4xc44L9eFeDG0ElkofstucFt5nBieiV7+1GASM0roguKDszjW6PR2EV5LM5n1yRtgvT
- Yj4FrLa8bX4LF2gFe5ou0Jiy9ZEeJfiqKQ/W7J5u7KxXmRgR2br8ihuSPQTMbR0mVMPelg
- muh/ygk8PFqVRXbnZ75QwYDqcAGonAU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-pighrKX1NSiD0FgFp5gFiQ-1; Mon, 21 Nov 2022 08:28:22 -0500
-X-MC-Unique: pighrKX1NSiD0FgFp5gFiQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B8E91C0878C;
- Mon, 21 Nov 2022 13:28:22 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.193.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13C294B3FC6;
- Mon, 21 Nov 2022 13:28:18 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Xu <peterx@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-trivial@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 19/19] migration: Drop rs->f
-Date: Mon, 21 Nov 2022 14:27:17 +0100
-Message-Id: <20221121132717.63070-20-quintela@redhat.com>
-In-Reply-To: <20221121132717.63070-1-quintela@redhat.com>
-References: <20221121132717.63070-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
+ id 1ox79T-0004CS-K3
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:47:59 -0500
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
+ id 1ox79S-0002DV-6G
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 08:47:59 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id c15so13630551ybf.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 05:47:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=o4J23za7FLxpBB5e2WlKgHD3s1uag9d/QnwyfzeZcmQ=;
+ b=pa3dFap+BZqZGvxuKd+UMkV3rgd0F732utUpYUkxB4/tq9ShzivRWp/OPVcGXhnIZ+
+ oKCd8myw2xP36zQx5CJvzC8TNpkjp3zX9hec5S5rCHU/aVWSE0tghi7rUmhttJy9Hilc
+ x2Bxlb3VJobtsavdMkp96lgRYmb7DPXhRP2DDfMGgmFhU4CwXU3CNFNdwsU6P5YPFp6p
+ PCo9qwPvMhtZPVSmMjNmyUmfl+a3DjIia1a47zHgSkux8sVMoK8P4wE4HmoSdqJklGuy
+ WdsAaFDnaPo3XUwygsQlNT3BIUtblnyFfa5E92K2uyU3DoRIPFS+yjC6ymSKw9xXWt5N
+ 2P7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=o4J23za7FLxpBB5e2WlKgHD3s1uag9d/QnwyfzeZcmQ=;
+ b=C3FWBvvXgEcFUamPn8mBRUGPyWzq+efE6FRRWuTZBn3a0xnM31FxotzSl9AhKn+ZOw
+ h1dMGkN97PTcJBHOVcCkcRViLhT+vjRdNeUZeAzLCxPBepBSPtJocqb2HgxKh+CbF5O4
+ CiLc6s/crCd4ws5j3AW0oWU4+IHtddCENCmTnqSmX/fT6mVeZ0B4U3Nc+xiW65mpJEbX
+ i09ZLkb147B5Ty1llcluKmSHzMvjTiaZXdM1s2etbNhmPS+IqHo9OsIrmMYOOa3OFLku
+ +UKQSNlGbqKYf67FsGKC9TSR+dmkHh/+36i8EnSucDVT+lm7fyFds4c8F0LjCUVdYHli
+ NTWg==
+X-Gm-Message-State: ANoB5pn4ICgyIRpVzgDHQ/e2OYu6szfY4t8s3WFjWTrWIAbzqkee2LZ3
+ WWG1TOqcVJBGdsrrN1QcfGAXlPesIw9+Ps7pDqc=
+X-Google-Smtp-Source: AA0mqf4ImZHIzB1h6JGvPdeeWQ5nibX08qe6I1LLxAYF3KEMiW80idR7QGDeiLj2KKH0rXCT7kfKJ1IHNI0FrGrlFPs=
+X-Received: by 2002:a25:820d:0:b0:6d5:a304:b9d2 with SMTP id
+ q13-20020a25820d000000b006d5a304b9d2mr2739088ybk.570.1669038476421; Mon, 21
+ Nov 2022 05:47:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221110090444.550362-1-tkutergin@gmail.com>
+ <9473a8cf-8880-a10f-525f-b06a7d92e505@nxp.com>
+In-Reply-To: <9473a8cf-8880-a10f-525f-b06a7d92e505@nxp.com>
+From: Timofey Kutergin <tkutergin@gmail.com>
+Date: Mon, 21 Nov 2022 16:47:45 +0300
+Message-ID: <CACKEeRP3s-AiOqQ-_CeUKt==fggQn+1rJueULvk1ULAjG8utKg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: added cortex-a55 CPU support for qemu-virt
+To: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: qemu-devel@nongnu.org, laurentiu.mihalcea@nxp.com, daniel.baluta@gmail.com
+Content-Type: multipart/alternative; boundary="00000000000080edaa05edfb4de7"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=tkutergin@gmail.com; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,85 +83,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+--00000000000080edaa05edfb4de7
+Content-Type: text/plain; charset="UTF-8"
 
-Now with rs->pss we can already cache channels in pss->pss_channels.  That
-pss_channel contains more infromation than rs->f because it's per-channel.
-So rs->f could be replaced by rss->pss[RAM_CHANNEL_PRECOPY].pss_channel,
-while rs->f itself is a bit vague now.
+Hi all,
+added some references to TRM but honestly many fields were dumped from
+hardware - odroid c4/amlogic s905x3/quad cortex-a55
 
-Note that vanilla postcopy still send pages via pss[RAM_CHANNEL_PRECOPY],
-that's slightly confusing but it reflects the reality.
 
-Then, after the replacement we can safely drop rs->f.
+On Thu, Nov 17, 2022 at 6:03 PM Daniel Baluta <daniel.baluta@nxp.com> wrote:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+> Patch looks good to me.
+>
+> Maybe you might add some references to chapters from RM where this numbers
+>
+> come from. Similar with aarch64_a76_initfn function for example.
+>
+>
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 1ae093fb61..334309f1c6 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -323,8 +323,6 @@ struct RAMSrcPageRequest {
- 
- /* State of RAM for migration */
- struct RAMState {
--    /* QEMUFile used for this migration */
--    QEMUFile *f;
-     /*
-      * PageSearchStatus structures for the channels when send pages.
-      * Protected by the bitmap_mutex.
-@@ -2532,8 +2530,6 @@ static int ram_find_and_save_block(RAMState *rs)
-         }
- 
-         if (found) {
--            /* Cache rs->f in pss_channel (TODO: remove rs->f) */
--            pss->pss_channel = rs->f;
-             pages = ram_save_host_page(rs, pss);
-         }
-     } while (!pages && again);
-@@ -3089,7 +3085,7 @@ static void ram_state_resume_prepare(RAMState *rs, QEMUFile *out)
-     ram_state_reset(rs);
- 
-     /* Update RAMState cache of output QEMUFile */
--    rs->f = out;
-+    rs->pss[RAM_CHANNEL_PRECOPY].pss_channel = out;
- 
-     trace_ram_state_resume_prepare(pages);
- }
-@@ -3180,7 +3176,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-             return -1;
-         }
-     }
--    (*rsp)->f = f;
-+    (*rsp)->pss[RAM_CHANNEL_PRECOPY].pss_channel = f;
- 
-     WITH_RCU_READ_LOCK_GUARD() {
-         qemu_put_be64(f, ram_bytes_total_common(true) | RAM_SAVE_FLAG_MEM_SIZE);
-@@ -3315,7 +3311,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        ret = multifd_send_sync_main(rs->f);
-+        ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -3385,7 +3381,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         return ret;
-     }
- 
--    ret = multifd_send_sync_main(rs->f);
-+    ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-     if (ret < 0) {
-         return ret;
-     }
--- 
-2.38.1
+--00000000000080edaa05edfb4de7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi all,=C2=A0<div>added some references to TRM but honestl=
+y many fields were dumped from hardware - odroid c4/amlogic s905x3/quad cor=
+tex-a55</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, Nov 17, 2022 at 6:03 PM Daniel Baluta=
+ &lt;<a href=3D"mailto:daniel.baluta@nxp.com">daniel.baluta@nxp.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Patch lo=
+oks good to me.<br>
+<br>
+Maybe you might add some references to chapters from RM where this numbers<=
+br>
+<br>
+come from. Similar with aarch64_a76_initfn function for example.<br>
+<br>
+</blockquote></div>
+
+--00000000000080edaa05edfb4de7--
 
