@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE94C6321C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 13:19:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEC36321CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 13:23:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ox5ks-0004WR-V4; Mon, 21 Nov 2022 07:18:30 -0500
+	id 1ox5oN-0006BT-SD; Mon, 21 Nov 2022 07:22:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ox5kk-0004Un-UK
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:18:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ox5oL-0006BL-K1
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:22:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ox5ki-0006g6-LM
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:18:22 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ox5oJ-0007j1-Oz
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 07:22:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669033099;
+ s=mimecast20190719; t=1669033323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+FOGiVvF3QeeV2/MFLjHBlsAgN9lKvTvIkclQR2esbY=;
- b=XC281ahwFifKwH6+JePSNSoVdTICWtKWb60+rSBNuL1vQJN8tfjdY++tda2zRpJSTkiHzu
- /a8q8GbaSCeEHb2zEYzn722bqa2NowYL4CCayKliifFJk8WnF+LPjRbXisjHWPPv3jAwsi
- xG/WB3osm/CLsYq1Nc80A0G1+/FtdNk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-290-HDaiBc4RNViO87L6Dyudqg-1; Mon, 21 Nov 2022 07:18:18 -0500
-X-MC-Unique: HDaiBc4RNViO87L6Dyudqg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t4-20020a056402524400b004620845ba7bso6682586edd.4
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 04:18:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+FOGiVvF3QeeV2/MFLjHBlsAgN9lKvTvIkclQR2esbY=;
- b=gKrT0TbYIXV+6JMkekeZh2xBWYq3PGLDeXlxpy/YNqkPRQIlWuP01hJuhN1F4MO2Vg
- KEQIWUdzGR1cII76P3PvKm4ct+ZpcFFz17NpaW3w3o/JMbSD2v5XHRT27B4Lgo6LDB5P
- M6VD6Dvoq93xDTXYt2vC1RlvPFhXmky3oPTwgGy+lQwrhpm2NMFGCktfAyf8dC7/Xa+q
- zKbr2P2dmuFvVUl6LCVn6qp4vifapWSKzJdC4XAvXwMVXcCAN8I6M/HmDeZzQJcrYlVn
- EYaKVtacnGgFvWL8qdOziveqdg5bvtFMqY9cEwkUugglJwTQ8JJsH7g7/57bTqXoqC/S
- oYPg==
-X-Gm-Message-State: ANoB5pmjuqVoXkoLeS7Dv/HsHCSQQziZARgytKy6pNqDzXkV1drprRqn
- 8W4v3ZreX01elXMgIz2VDmUvCavRaVF2f+FkCCTSFt/3/vEZ14hWOgTeqfHMUnqO/MLgQ01wt7R
- CNfrNr1hHnZIHaBg=
-X-Received: by 2002:a17:906:68db:b0:7b4:869f:f944 with SMTP id
- y27-20020a17090668db00b007b4869ff944mr5085600ejr.427.1669033097032; 
- Mon, 21 Nov 2022 04:18:17 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf62f8QWyqIF89zlrWdec9tPuiJIMcHoRFna7KY6UmewT+62xwKpn/Z6QBq6JGaxFw6TW1B5DA==
-X-Received: by 2002:a17:906:68db:b0:7b4:869f:f944 with SMTP id
- y27-20020a17090668db00b007b4869ff944mr5085581ejr.427.1669033096811; 
- Mon, 21 Nov 2022 04:18:16 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-177-253.web.vodafone.de.
- [109.43.177.253]) by smtp.gmail.com with ESMTPSA id
- x10-20020a1709064a8a00b0078d3a075525sm4984810eju.56.2022.11.21.04.18.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 04:18:16 -0800 (PST)
-Message-ID: <8db5bce3-5829-61ea-e3b9-236d2c2f2c6b@redhat.com>
-Date: Mon, 21 Nov 2022 13:18:14 +0100
+ bh=/3qgvcI6c7FMizUkhvOfUbnWn1LRFP9h946g0QU6NAo=;
+ b=iqT+jq7SrfJr5VdgaFKhsvaIYBpdemf/RuuD2O7LNaaxTURr7NiEhDKZjGktxfl8PX1uk2
+ +Gfxrp9dPoBCrw6R9IK4NTck5gxBTcoDYVdJxE/uH5eAF05nuZM2WQQulJZPTpTgGtwou/
+ tufL1KuimQch1RDqpokyFVfEiFcCkPc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-19-z3Zw-aZtOBaw3sxmsHUYXg-1; Mon, 21 Nov 2022 07:21:59 -0500
+X-MC-Unique: z3Zw-aZtOBaw3sxmsHUYXg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B228101A528;
+ Mon, 21 Nov 2022 12:21:59 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCF03492B06;
+ Mon, 21 Nov 2022 12:21:57 +0000 (UTC)
+Date: Mon, 21 Nov 2022 13:21:54 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 04/11] block-coroutine-wrapper.py: introduce
+ generated_co_wrapper_simple
+Message-ID: <Y3ttYuCVO9xTNBlH@redhat.com>
+References: <20221116122241.2856527-1-eesposit@redhat.com>
+ <20221116122241.2856527-5-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/avocado: Update the URLs of the advent calendar
- images
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20221121102436.78635-1-thuth@redhat.com>
- <21cfb02a-dec8-3a78-8a7c-e99ac06a090e@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <21cfb02a-dec8-3a78-8a7c-e99ac06a090e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221116122241.2856527-5-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,41 +81,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/11/2022 12.12, Philippe Mathieu-Daudé wrote:
-> On 21/11/22 11:24, Thomas Huth wrote:
->> The qemu-advent-calendar.org server will be decommissioned soon.
->> I've mirrored the images that we use for the QEMU CI to gitlab,
->> so update their URLs to point to the new location.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   tests/avocado/boot_linux_console.py     |  4 +--
->>   tests/avocado/machine_arm_canona1100.py |  4 +--
->>   tests/avocado/machine_microblaze.py     |  4 +--
->>   tests/avocado/machine_sparc64_sun4u.py  |  4 +--
->>   tests/avocado/ppc_mpc8544ds.py          |  6 ++--
->>   tests/avocado/ppc_virtex_ml507.py       |  6 ++--
->>   tests/avocado/replay_kernel.py          | 40 ++++++++++++-------------
->>   7 files changed, 34 insertions(+), 34 deletions(-)
->>
->> diff --git a/tests/avocado/boot_linux_console.py 
->> b/tests/avocado/boot_linux_console.py
->> index 4c9d551f47..f3e6f44ae9 100644
->> --- a/tests/avocado/boot_linux_console.py
->> +++ b/tests/avocado/boot_linux_console.py
->> @@ -1029,8 +1029,8 @@ def test_m68k_q800(self):
->>           self.wait_for_console_pattern(console_pattern)
->>       def do_test_advcal_2018(self, day, tar_hash, kernel_name, console=0):
->> -        tar_url = ('https://www.qemu-advent-calendar.org'
->> -                   '/2018/download/day' + day + '.tar.xz')
->> +        tar_url = ('https://qemu-advcal.gitlab.io'
->> +                   '/qac-best-of-multiarch/download/day' + day + '.tar.xz')
+Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
+> This new annotation creates just a function wrapper that creates
+> a new coroutine. It assumes the caller is not a coroutine.
 > 
-> You could insert the year in the url, so you can eventually add other 
-> editions :)
+> This is much better as g_c_w, because it is clear if the caller
+> is a coroutine or not, and provides the advantage of automating
+> the code creation. In the future all g_c_w functions will be
+> substituted on g_c_w_simple.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-It's a "best-of" edition now - I don't plan any more new editions ;-)
+$ mypy --strict scripts/block-coroutine-wrapper.py
+scripts/block-coroutine-wrapper.py:31: error: Function is missing a return type annotation
+scripts/block-coroutine-wrapper.py:90: error: Missing type parameters for generic type "Iterator"
+scripts/block-coroutine-wrapper.py:110: error: "FuncDecl" has no attribute "co_name"
+scripts/block-coroutine-wrapper.py:111: error: "FuncDecl" has no attribute "struct_name"
+scripts/block-coroutine-wrapper.py:112: error: "FuncDecl" has no attribute "bs"
+scripts/block-coroutine-wrapper.py:135: error: "FuncDecl" has no attribute "co_name"
+scripts/block-coroutine-wrapper.py:136: error: "FuncDecl" has no attribute "struct_name"
+scripts/block-coroutine-wrapper.py:137: error: "FuncDecl" has no attribute "bs"
+scripts/block-coroutine-wrapper.py:160: error: "FuncDecl" has no attribute "co_name"
+scripts/block-coroutine-wrapper.py:161: error: "FuncDecl" has no attribute "co_name"
+scripts/block-coroutine-wrapper.py:172: error: "FuncDecl" has no attribute "bs"
+scripts/block-coroutine-wrapper.py:173: error: "FuncDecl" has no attribute "struct_name"
+scripts/block-coroutine-wrapper.py:174: error: "FuncDecl" has no attribute "struct_name"
+scripts/block-coroutine-wrapper.py:218: error: Call to untyped function "gen_header" in typed context
+Found 14 errors in 1 file (checked 1 source file)
 
-  Thomas
+The first two and the last one isn't the fault of this patch, but the
+others are. When you add new attributes, they should be declared in
+FuncDecl.__init__(). And actually, this even seems like a better place
+to initialise them already with the right value than gen_wrapper().
+
+>  include/block/block-common.h       |  1 +
+>  scripts/block-coroutine-wrapper.py | 87 ++++++++++++++++++++++--------
+>  2 files changed, 66 insertions(+), 22 deletions(-)
+> 
+> diff --git a/include/block/block-common.h b/include/block/block-common.h
+> index 297704c1e9..8ae750c7cf 100644
+> --- a/include/block/block-common.h
+> +++ b/include/block/block-common.h
+> @@ -43,6 +43,7 @@
+>   * Read more in docs/devel/block-coroutine-wrapper.rst
+>   */
+>  #define generated_co_wrapper
+> +#define generated_co_wrapper_simple
+>  
+>  /* block.c */
+>  typedef struct BlockDriver BlockDriver;
+> diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
+> index 08be813407..f88ef53964 100644
+> --- a/scripts/block-coroutine-wrapper.py
+> +++ b/scripts/block-coroutine-wrapper.py
+> @@ -62,10 +62,15 @@ def __init__(self, param_decl: str) -> None:
+>  
+>  
+>  class FuncDecl:
+> -    def __init__(self, return_type: str, name: str, args: str) -> None:
+> +    def __init__(self, return_type: str, name: str, args: str,
+> +                 variant: str) -> None:
+>          self.return_type = return_type.strip()
+>          self.name = name.strip()
+>          self.args = [ParamDecl(arg.strip()) for arg in args.split(',')]
+> +        self.create_only_co = False
+> +
+> +        if variant == '_simple':
+> +            self.create_only_co = True
+>  
+>      def gen_list(self, format: str) -> str:
+>          return ', '.join(format.format_map(arg.__dict__) for arg in self.args)
+> @@ -75,7 +80,8 @@ def gen_block(self, format: str) -> str:
+>  
+>  
+>  # Match wrappers declared with a generated_co_wrapper mark
+> -func_decl_re = re.compile(r'^int\s*generated_co_wrapper\s*'
+> +func_decl_re = re.compile(r'^int\s*generated_co_wrapper'
+> +                          r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
+>                            r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
+>                            r'\((?P<args>[^)]*)\);$', re.MULTILINE)
+>  
+> @@ -84,7 +90,8 @@ def func_decl_iter(text: str) -> Iterator:
+>      for m in func_decl_re.finditer(text):
+>          yield FuncDecl(return_type='int',
+>                         name=m.group('wrapper_name'),
+> -                       args=m.group('args'))
+> +                       args=m.group('args'),
+> +                       variant=m.group('variant'))
+>  
+>  
+>  def snake_to_camel(func_name: str) -> str:
+> @@ -97,6 +104,51 @@ def snake_to_camel(func_name: str) -> str:
+>      return ''.join(words)
+>  
+>  
+> +# Checks if we are already in coroutine
+> +def create_g_c_w(func: FuncDecl) -> str:
+> +    name = func.co_name
+> +    struct_name = func.struct_name
+> +    return f"""\
+> +int {func.name}({ func.gen_list('{decl}') })
+> +{{
+> +    if (qemu_in_coroutine()) {{
+> +        return {name}({ func.gen_list('{name}') });
+> +    }} else {{
+> +        {struct_name} s = {{
+> +            .poll_state.bs = {func.bs},
+> +            .poll_state.in_progress = true,
+> +
+> +{ func.gen_block('            .{name} = {name},') }
+> +        }};
+> +
+> +        s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
+> +
+> +        return bdrv_poll_co(&s.poll_state);
+> +    }}
+> +}}"""
+> +
+> +
+> +# Assumes we are not in coroutine, and creates one
+> +def create_coroutine_only(func: FuncDecl) -> str:
+> +    name = func.co_name
+> +    struct_name = func.struct_name
+> +    return f"""\
+> +int {func.name}({ func.gen_list('{decl}') })
+> +{{
+> +    assert(!qemu_in_coroutine());
+> +    {struct_name} s = {{
+> +        .poll_state.bs = {func.bs},
+> +        .poll_state.in_progress = true,
+> +
+> +{ func.gen_block('        .{name} = {name},') }
+> +    }};
+
+Not sure how strict we are about this in generated code, but generally
+the QEMU coding style requires declarations to come first, so the
+assertion should be below it.
+
+> +
+> +    s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
+> +
+> +    return bdrv_poll_co(&s.poll_state);
+> +}}"""
+
+Kevin
 
 
