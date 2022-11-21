@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC97A63191F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 05:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CE36319AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Nov 2022 07:19:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1owyEu-0004Jv-5X; Sun, 20 Nov 2022 23:17:00 -0500
+	id 1ox07N-0000Px-Pv; Mon, 21 Nov 2022 01:17:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1owyEn-0004Im-IH
- for qemu-devel@nongnu.org; Sun, 20 Nov 2022 23:16:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ox07L-0000Pi-7v
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 01:17:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1owyEl-0004x7-HQ
- for qemu-devel@nongnu.org; Sun, 20 Nov 2022 23:16:53 -0500
+ id 1ox07J-0003oY-7O
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 01:17:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669004209;
+ s=mimecast20190719; t=1669011435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iglJ7cPNpF9mt78mgwoSUTUPaWRrUVsFSfMbsBUVRZQ=;
- b=PAo2lgYfXNi+hPeZaQtKJZQ3LZhSbDqRFb54on53clO4V4aAKiYOF60n2QHMNmiLyady4e
- 5Sumnm+GSVYBhCLF+Q0+A5RrpbZEEFKJLrT0wcXtzViAtofAWcE2/7pOrjSv9B3TEHxruD
- l/sO3JpXIyAR5qmDkD9sdGplM4C4HsE=
+ bh=1yQkilnnhd33ulwF3xEN/bsKAqREfskaz/ZlqF61d6o=;
+ b=PcaHd6Eg5qBEDtWS0B7Hue1DsyDFV4zKJOPFTBeE3Z6eGtZAfMCliirQmcHbStsoLQ2EN4
+ CKOv1IA1Tmdm/hZEw2Br9e3ojAS6+0Y2EztC72qFyskKxogAdbG8R6xTsfTvwEVkuIdFbR
+ aTnqKXL6ltpwekGdrFyhoBQbY0kAftk=
 Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
  [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-164-Blwb56jCMvuAi9G6eRwJfQ-1; Sun, 20 Nov 2022 23:16:47 -0500
-X-MC-Unique: Blwb56jCMvuAi9G6eRwJfQ-1
+ us-mta-445-xVJ4-ub5M_2abge2uycG2A-1; Mon, 21 Nov 2022 01:17:14 -0500
+X-MC-Unique: xVJ4-ub5M_2abge2uycG2A-1
 Received: by mail-ot1-f72.google.com with SMTP id
- t15-20020a0568301e2f00b0066ceaf260d1so4676569otr.3
- for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 20:16:46 -0800 (PST)
+ q22-20020a05683022d600b0066d919dd4c4so4868473otc.23
+ for <qemu-devel@nongnu.org>; Sun, 20 Nov 2022 22:17:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=iglJ7cPNpF9mt78mgwoSUTUPaWRrUVsFSfMbsBUVRZQ=;
- b=5P5zTl7Jc8ctlVqALBqf9Zff71E64aO0MCHlVzsqoNLSszgUJ061EiKzN3JwquYCJS
- iuADT4H3BFLQNUYEvD/h/nwWyPj9E1AT8Ozyj6dPH7o4XSgtETcywQSnvrq7P2GogrZ4
- TPrvxebxGXwZqTUNU417XA9vyx7CqDBUUuCqAkjwX8xma6I4lwGNRoWnrc7lY6QB4EaC
- 4cUea3pAfpzxpspGYh5JdTXA/wOOOJ12E1eiIYZgCRXaW1soZRmnj3poLs69VJSDThTs
- gljWMd7pjgHIW+TiJA2RIvuXG2RQgCddYZjheat+IHsMZzNDd/QdogmSdV5OHwK+JMZz
- dJsQ==
-X-Gm-Message-State: ANoB5pn9gyM9uizh4+KUA14e8cXSOT2Rz6HRceFyctm7QQQeKnDss1Df
- 4S0HDnWmcy5rFLCXgvtrIEx1jNTrGOWC6UnK8JyvwxDF6MpS9bwMCcTR9VMxbfx/4wj7W2V1UYZ
- LH2vb+5MBJzfz/pR0zKiU8o17rahM6sk=
-X-Received: by 2002:a05:6808:220b:b0:359:f5eb:82ec with SMTP id
- bd11-20020a056808220b00b00359f5eb82ecmr7857513oib.280.1669004206365; 
- Sun, 20 Nov 2022 20:16:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6mkqB3LXNby33YQ4z8p/QQuHMDUZEd2Lf/uq4eBrf+CqZkdFodLx9XlqrTQMA42TMygETLlNeOIPNRlSqOfTY=
-X-Received: by 2002:a05:6808:220b:b0:359:f5eb:82ec with SMTP id
- bd11-20020a056808220b00b00359f5eb82ecmr7857504oib.280.1669004205969; Sun, 20
- Nov 2022 20:16:45 -0800 (PST)
+ bh=1yQkilnnhd33ulwF3xEN/bsKAqREfskaz/ZlqF61d6o=;
+ b=toBrWVjn+en1Z5e8MLz01V/AicNvbNbCN+dKpZb+FS12uh1cyCoqf0q3w2iTWv9Q6h
+ whVNDGh3HGejC0kwP1NCt8PbV2OutZIY/zEk+adgV0JebwzHLR8BKOg+mgvB1RxePIY7
+ bkIH1kHzeeuZhwWdS29reocWu4q0J/ig63JgHtUHpaC8mKSD2Zdga2l7RBrS4Z6VL4Pc
+ xhQYjmWTbybxSLjbc5pROAd+3teHRuGqQLkfz2CU0j3nwqRmxHl80QV8bz845Zd9tMnB
+ 77V63AEcueA5GR/q8m2f1zn7BxWUJTS1KE/VopM6Opu/kRMyLlMhRpUJ9OlOWfI5R3Lk
+ uuOw==
+X-Gm-Message-State: ANoB5pmMY5m6ZhYRlVD8WsIPB2TzpqoS14QPP/bNP8ObUDaiuPsRw9IP
+ IqXtHhPmt+ntrL+hEA1jAX/M/IlKaXChp1+HxGZsin8TNrtuf+kOjJlbXYEpsmTQXw+Yok35OOE
+ 1ZSUi1041rekZ7H1JcSOuYconREN53Gw=
+X-Received: by 2002:a9d:4f07:0:b0:66c:64d6:1bb4 with SMTP id
+ d7-20020a9d4f07000000b0066c64d61bb4mr8858086otl.201.1669011433538; 
+ Sun, 20 Nov 2022 22:17:13 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7WU8nFPsjP9qdmlxktnFsdfMwIDzLtIkOVoajsJhN1p81jKaFSWMJW/SUfAofFEzOwEcnQYrLDEEs9IumqP0o=
+X-Received: by 2002:a9d:4f07:0:b0:66c:64d6:1bb4 with SMTP id
+ d7-20020a9d4f07000000b0066c64d61bb4mr8858079otl.201.1669011433283; Sun, 20
+ Nov 2022 22:17:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20221117165554.1773409-1-stefanha@redhat.com>
- <20221117165554.1773409-4-stefanha@redhat.com>
-In-Reply-To: <20221117165554.1773409-4-stefanha@redhat.com>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-31-mst@redhat.com>
+ <CAGxU2F4S4FFa+HoXbz5bxbi_+DJeaZUMTE89_508n68sNP-EUw@mail.gmail.com>
+ <20221119121900-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221119121900-mutt-send-email-mst@kernel.org>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 21 Nov 2022 12:16:34 +0800
-Message-ID: <CACGkMEsXN6_NojBKht5LSeztKi4ZDsvjYvURzHoLA8-YgoAbvQ@mail.gmail.com>
-Subject: Re: [PATCH for-7.2 v3 3/3] rtl8139: honor large send MSS value
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Tobias Fiebig <tobias+git@fiebig.nl>,
- qemu-stable@nongnu.org, Russell King - ARM Linux <linux@armlinux.org.uk>
+Date: Mon, 21 Nov 2022 14:17:02 +0800
+Message-ID: <CACGkMEsg=CM8Cjdf+mTKBY2+NLeH5oz7v7dchWPZkVpXeD9NoA@mail.gmail.com>
+Subject: Re: [PULL v4 30/83] virtio: core: vq reset feature negotation support
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ Kangjie Xu <kangjie.xu@linux.alibaba.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,119 +101,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 18, 2022 at 12:56 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Sun, Nov 20, 2022 at 1:19 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> The Large-Send Task Offload Tx Descriptor (9.2.1 Transmit) has a
-> Large-Send MSS value where the driver specifies the MSS. See the
-> datasheet here:
-> http://realtek.info/pdf/rtl8139cp.pdf
+> On Fri, Nov 18, 2022 at 03:32:56PM +0100, Stefano Garzarella wrote:
+> > Hi,
+> > starting from this commit 69e1c14aa2 ("virtio: core: vq reset feature
+> > negotation support"), vhost-user-vsock and vhost-vsock fails while
+> > setting the device features, because VIRTIO_F_RING_RESET is not masked.
+> >
+> > I'm not sure vsock is the only one affected.
+> >
+> > We could fix in two ways:
+> >
+> > 1) Masking VIRTIO_F_RING_RESET when we call vhost_get_features:
+> >
+> > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> > index 29b9ab4f72..e671cc695f 100644
+> > --- a/hw/virtio/vhost-vsock-common.c
+> > +++ b/hw/virtio/vhost-vsock-common.c
+> > @@ -21,6 +21,7 @@
+> >
+> >  const int feature_bits[] = {
+> >      VIRTIO_VSOCK_F_SEQPACKET,
+> > +    VIRTIO_F_RING_RESET,
+> >      VHOST_INVALID_FEATURE_BIT
+> >  };
+> >
 >
-> The code ignores this value and uses a hardcoded MSS of 1500 bytes
-> instead. When the MTU is less than 1500 bytes the hardcoded value
-> results in IP fragmentation and poor performance.
->
-> Use the Large-Send MSS value to correctly size Large-Send packets.
->
-> Jason Wang <jasowang@redhat.com> noticed that the Large-Send MSS value
-> mask was incorrect so it is adjusted to match the datasheet and Linux
-> 8139cp driver.
->
-> This issue was discussed in the past here:
-> https://lore.kernel.org/all/20161114162505.GD26664@stefanha-x1.localdomain/
->
-> Reported-by: Russell King - ARM Linux <linux@armlinux.org.uk>
-> Reported-by: Tobias Fiebig <tobias+git@fiebig.nl>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1312
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Let's do this, we need to be conservative.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+Ack.
 
 Thanks
 
-> ---
->  hw/net/rtl8139.c | 26 ++++++++++++--------------
->  1 file changed, 12 insertions(+), 14 deletions(-)
 >
-> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-> index 6dd7a8e6e0..700b1b66b6 100644
-> --- a/hw/net/rtl8139.c
-> +++ b/hw/net/rtl8139.c
-> @@ -77,7 +77,6 @@
->      ( ( input ) & ( size - 1 )  )
 >
->  #define ETHER_TYPE_LEN 2
-> -#define ETH_MTU     1500
->
->  #define VLAN_TCI_LEN 2
->  #define VLAN_HLEN (ETHER_TYPE_LEN + VLAN_TCI_LEN)
-> @@ -1934,8 +1933,9 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->  #define CP_TX_LS (1<<28)
->  /* large send packet flag */
->  #define CP_TX_LGSEN (1<<27)
-> -/* large send MSS mask, bits 16...25 */
-> -#define CP_TC_LGSEN_MSS_MASK ((1 << 12) - 1)
-> +/* large send MSS mask, bits 16...26 */
-> +#define CP_TC_LGSEN_MSS_SHIFT 16
-> +#define CP_TC_LGSEN_MSS_MASK ((1 << 11) - 1)
->
->  /* IP checksum offload flag */
->  #define CP_TX_IPCS (1<<18)
-> @@ -2152,10 +2152,11 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->                      goto skip_offload;
->                  }
->
-> -                int large_send_mss = (txdw0 >> 16) & CP_TC_LGSEN_MSS_MASK;
-> +                int large_send_mss = (txdw0 >> CP_TC_LGSEN_MSS_SHIFT) &
-> +                                     CP_TC_LGSEN_MSS_MASK;
->
-> -                DPRINTF("+++ C+ mode offloaded task TSO MTU=%d IP data %d "
-> -                    "frame data %d specified MSS=%d\n", ETH_MTU,
-> +                DPRINTF("+++ C+ mode offloaded task TSO IP data %d "
-> +                    "frame data %d specified MSS=%d\n",
->                      ip_data_len, saved_size - ETH_HLEN, large_send_mss);
->
->                  int tcp_send_offset = 0;
-> @@ -2180,25 +2181,22 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->                      goto skip_offload;
->                  }
->
-> -                /* ETH_MTU = ip header len + tcp header len + payload */
->                  int tcp_data_len = ip_data_len - tcp_hlen;
-> -                int tcp_chunk_size = ETH_MTU - hlen - tcp_hlen;
->
->                  DPRINTF("+++ C+ mode TSO IP data len %d TCP hlen %d TCP "
-> -                    "data len %d TCP chunk size %d\n", ip_data_len,
-> -                    tcp_hlen, tcp_data_len, tcp_chunk_size);
-> +                    "data len %d\n", ip_data_len, tcp_hlen, tcp_data_len);
->
->                  /* note the cycle below overwrites IP header data,
->                     but restores it from saved_ip_header before sending packet */
->
->                  int is_last_frame = 0;
->
-> -                for (tcp_send_offset = 0; tcp_send_offset < tcp_data_len; tcp_send_offset += tcp_chunk_size)
-> +                for (tcp_send_offset = 0; tcp_send_offset < tcp_data_len; tcp_send_offset += large_send_mss)
->                  {
-> -                    uint16_t chunk_size = tcp_chunk_size;
-> +                    uint16_t chunk_size = large_send_mss;
->
->                      /* check if this is the last frame */
-> -                    if (tcp_send_offset + tcp_chunk_size >= tcp_data_len)
-> +                    if (tcp_send_offset + large_send_mss >= tcp_data_len)
->                      {
->                          is_last_frame = 1;
->                          chunk_size = tcp_data_len - tcp_send_offset;
-> @@ -2247,7 +2245,7 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->                      ip->ip_len = cpu_to_be16(hlen + tcp_hlen + chunk_size);
->
->                      /* increment IP id for subsequent frames */
-> -                    ip->ip_id = cpu_to_be16(tcp_send_offset/tcp_chunk_size + be16_to_cpu(ip->ip_id));
-> +                    ip->ip_id = cpu_to_be16(tcp_send_offset/large_send_mss + be16_to_cpu(ip->ip_id));
->
->                      ip->ip_sum = 0;
->                      ip->ip_sum = ip_checksum(eth_payload_data, hlen);
-> --
-> 2.38.1
+> > 2) Or using directly the features of the device. That way we also handle
+> > other features that we may have already had to mask but never did.
+> >
+> > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> > index 29b9ab4f72..41a665082c 100644
+> > --- a/hw/virtio/vhost-vsock-common.c
+> > +++ b/hw/virtio/vhost-vsock-common.c
+> > @@ -33,7 +33,7 @@ uint64_t vhost_vsock_common_get_features(VirtIODevice *vdev, uint64_t features,
+> >          virtio_add_feature(&features, VIRTIO_VSOCK_F_SEQPACKET);
+> >      }
+> >
+> > -    features = vhost_get_features(&vvc->vhost_dev, feature_bits, features);
+> > +    features &= vvc->vhost_dev.features;
+> >
+> >      if (vvc->seqpacket == ON_OFF_AUTO_ON &&
+> >          !virtio_has_feature(features, VIRTIO_VSOCK_F_SEQPACKET)) {
+> >
+> >
+> > I may be missing the real reason for calling vhost_get_features(),
+> > though.
+> >
+> > @Michael what do you recommend we do?
+> >
+> > Thanks,
+> > Stefano
+> >
+> > On Tue, Nov 8, 2022 at 12:06 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> > >
+> > > A a new command line parameter "queue_reset" is added.
+> > >
+> > > Meanwhile, the vq reset feature is disabled for pre-7.2 machines.
+> > >
+> > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > Acked-by: Jason Wang <jasowang@redhat.com>
+> > > Message-Id: <20221017092558.111082-5-xuanzhuo@linux.alibaba.com>
+> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > ---
+> > >  include/hw/virtio/virtio.h | 4 +++-
+> > >  hw/core/machine.c          | 4 +++-
+> > >  2 files changed, 6 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > > index b00b3fcf31..1423dba379 100644
+> > > --- a/include/hw/virtio/virtio.h
+> > > +++ b/include/hw/virtio/virtio.h
+> > > @@ -313,7 +313,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
+> > >      DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
+> > >                        VIRTIO_F_IOMMU_PLATFORM, false), \
+> > >      DEFINE_PROP_BIT64("packed", _state, _field, \
+> > > -                      VIRTIO_F_RING_PACKED, false)
+> > > +                      VIRTIO_F_RING_PACKED, false), \
+> > > +    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
+> > > +                      VIRTIO_F_RING_RESET, true)
+> > >
+> > >  hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
+> > >  bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
+> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > index aa520e74a8..907fa78ff0 100644
+> > > --- a/hw/core/machine.c
+> > > +++ b/hw/core/machine.c
+> > > @@ -40,7 +40,9 @@
+> > >  #include "hw/virtio/virtio-pci.h"
+> > >  #include "qom/object_interfaces.h"
+> > >
+> > > -GlobalProperty hw_compat_7_1[] = {};
+> > > +GlobalProperty hw_compat_7_1[] = {
+> > > +    { "virtio-device", "queue_reset", "false" },
+> > > +};
+> > >  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+> > >
+> > >  GlobalProperty hw_compat_7_0[] = {
+> > > --
+> > > MST
+> > >
+> > >
 >
 
 
