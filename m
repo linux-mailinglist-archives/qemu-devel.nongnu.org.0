@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E09D6338FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3166563391F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:55:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxPsm-0006qR-MK; Tue, 22 Nov 2022 04:48:00 -0500
+	id 1oxPzx-0001cV-Hk; Tue, 22 Nov 2022 04:55:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oxPsW-0006pA-JG
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:47:47 -0500
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oxPsR-0004JG-Ru
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:47:41 -0500
-Received: by mail-ot1-x32a.google.com with SMTP id
- a7-20020a056830008700b0066c82848060so8960754oto.4
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kMvDZJbO/+JCcssoMsIloTgv2mdXTa/EJzbhQFLszO4=;
- b=BW3nDykHqnoCLPHAPxBIDFjzLlH13PvB2MpBDO9hLJki8pYCQKaeoF5GYb2HSHAVeU
- a1Y+BhxddsQgW7b5T1mEUEeg+N9MQM8DTsDPBR+nH4PbsMSxdNaLtzCmHPVcmjz1S0a/
- P1oSlWuDmAT5SMx5OzQGCEq8QUPmWlZCD0f6bk0NOyC0kRenfPgr8hW6trtL6H4SydUs
- cCKShWh7Rawi4KcA9+Hi1fJ+1mzllPr/arjGqkgz5dTaT04wR4a7c4CrvkUsKh/StLWw
- fTGlQSGWr0Q+/vmpOOD13cUVhY17gqNseOmpRhtLqztH+voXfxqJyCZ+YHJLfpUpe7je
- +Thg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kMvDZJbO/+JCcssoMsIloTgv2mdXTa/EJzbhQFLszO4=;
- b=u+XREhg6qaGQliO810Nqjkky6v1VFF/yyG2JsBiwai7YZD8AypQj+IKBCuNxaMt7Rw
- MQj0iew84PYczk9wH2Xm44IjV/O++nMDDM2oldxnqzA3bNyyRa9FoY1iaJRLCqB5xBae
- asXTYoErCX1AXcSZ+96tJC+YEZEuFn18nfBW3yIQiyBF2zxKG7HGUI9xFO459KXGyMDx
- 7ldv2BlclDjJcaThGa2YoEoqR/PAmDktFYboNVh2Iy956GZ/jniHfMEt7WmGS2VnUHBm
- WE1Jz54oyhI8yaIwRCtiXynPRJ/8nN5o7KBLHW74E2WsRWelRG9jancUhbTC+tU40NfN
- S+Ig==
-X-Gm-Message-State: ANoB5plQFfpn9EVM85agmWk26JBsZQKPUHZ/8kiqCbhk95cNZOIHIReX
- AfqJoErnmHMX9umUs2NMeYQ=
-X-Google-Smtp-Source: AA0mqf4h5Zu36rS3qOVkqcRSDo7cvNRBUpg0vUc/WB8kRcLI6bTnu/sH/WoMpea3APCLWCNvuKlu0A==
-X-Received: by 2002:a9d:591a:0:b0:660:efe2:9504 with SMTP id
- t26-20020a9d591a000000b00660efe29504mr1689868oth.49.1669110458235; 
- Tue, 22 Nov 2022 01:47:38 -0800 (PST)
-Received: from [192.168.10.102] ([191.19.173.155])
- by smtp.gmail.com with ESMTPSA id
- w48-20020a4a97b3000000b0049eedb106e2sm4746407ooi.15.2022.11.22.01.47.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Nov 2022 01:47:37 -0800 (PST)
-Message-ID: <acd628ff-f6af-6714-5976-70b80b6bf210@gmail.com>
-Date: Tue, 22 Nov 2022 06:47:35 -0300
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oxPzb-0001aL-0W
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:55:05 -0500
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oxPzX-0007eS-LT
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:55:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669110899; x=1700646899;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=rJIOCd9N5PvCN1hTjd1er2T0b67rVXxGjK1ymZuckrA=;
+ b=YYitlHo1mfypVCHMZUGdMb9iGEBfJ0XcNtfP3n8kXmXlwu649LTM4yMs
+ pxDBmtHuwW+hstshW4alwZxqwm+SxDeOqD4g0W7DIfqKLvc32J2t13V2x
+ j7Vw/jiWkr+DO5m3QAUSNe5vCORfBqZNaBp9E57F4ThF4sIubt+1nWUqB
+ LPs1FufvoCfqe9+MQjjrp8HEuPLDvxAvUfymwdXjFuICcTlCRwEJ89d+4
+ MGNeMxIXr51qg1kmd0j0zztJyQcAeZqVm844R2e6DpVoI+Imq7krYxZ+r
+ eWwFzeB+2DWnhAeXNz5LE+0+dCpGCdxjEln+BX9LzO4meEPT9ogbEnDPh w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="375921879"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="375921879"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 01:54:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="635489296"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="635489296"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 22 Nov 2022 01:54:45 -0800
+Date: Tue, 22 Nov 2022 17:50:22 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Alex =?utf-8?B?QmVubu+/vWU=?= <alex.bennee@linaro.org>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Message-ID: <20221122095022.GA617784@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org>
+ <20221116031441.GA364614@chaop.bj.intel.com>
+ <87mt8q90rw.fsf@linaro.org>
+ <20221117134520.GD422408@chaop.bj.intel.com>
+ <87a64p8vof.fsf@linaro.org>
+ <20221118013201.GA456562@chaop.bj.intel.com>
+ <87o7t475o7.fsf@linaro.org> <Y3er0M5Rpf1X97W/@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH for-8.0 v3 40/45] tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221111074101.2069454-1-richard.henderson@linaro.org>
- <20221111074101.2069454-41-richard.henderson@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221111074101.2069454-41-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3er0M5Rpf1X97W/@google.com>
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,162 +104,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 11/11/22 04:40, Richard Henderson wrote:
-> Fill in the parameters for the host ABI for Int128 for
-> those backends which require no extra modification.
+On Fri, Nov 18, 2022 at 03:59:12PM +0000, Sean Christopherson wrote:
+> On Fri, Nov 18, 2022, Alex Benn?e wrote:
+> > 
+> > Chao Peng <chao.p.peng@linux.intel.com> writes:
+> > 
+> > > On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Benn?e wrote:
+> > >> >> I think this should be explicit rather than implied by the absence of
+> > >> >> another flag. Sean suggested you might want flags for RWX failures so
+> > >> >> maybe something like:
+> > >> >> 
+> > >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
+> > >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
+> > >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
+> > >> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+> > >> >
+> > >> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
+> > >> > specific, private memory can also set them once introduced.
+> > >> 
+> > >> OK so how about:
+> > >> 
+> > >>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
+> > >>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
+> > >>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
+> > >>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
+> > >>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
+> > >
+> > > We don't actually need a new bit, the opposite side of private is
+> > > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
+> > > 'shared'.
+> > 
+> > If that is always true and we never expect a 3rd type of memory that is
+> > fine. But given we are leaving room for expansion having an explicit bit
+> > allows for that as well as making cases of forgetting to set the flags
+> > more obvious.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   tcg/aarch64/tcg-target.h     | 2 ++
->   tcg/arm/tcg-target.h         | 2 ++
->   tcg/loongarch64/tcg-target.h | 2 ++
->   tcg/mips/tcg-target.h        | 2 ++
->   tcg/riscv/tcg-target.h       | 3 +++
->   tcg/s390x/tcg-target.h       | 2 ++
->   tcg/sparc64/tcg-target.h     | 2 ++
->   tcg/tcg.c                    | 6 +++---
->   tcg/ppc/tcg-target.c.inc     | 3 +++
->   9 files changed, 21 insertions(+), 3 deletions(-)
+> Hrm, I'm on the fence.
 > 
-> diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-> index 413a5410c5..0dff5807f6 100644
-> --- a/tcg/aarch64/tcg-target.h
-> +++ b/tcg/aarch64/tcg-target.h
-> @@ -54,6 +54,8 @@ typedef enum {
->   #define TCG_TARGET_CALL_STACK_OFFSET    0
->   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
->   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
->   
->   /* optional instructions */
->   #define TCG_TARGET_HAS_div_i32          1
-> diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-> index b7843d2d54..6613d3d791 100644
-> --- a/tcg/arm/tcg-target.h
-> +++ b/tcg/arm/tcg-target.h
-> @@ -91,6 +91,8 @@ extern bool use_neon_instructions;
->   #define TCG_TARGET_CALL_STACK_OFFSET	0
->   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
->   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_EVEN
-> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
-> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_BY_REF
->   
->   /* optional instructions */
->   #define TCG_TARGET_HAS_ext8s_i32        1
-> diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-> index e5f7a1f09d..9d0db8fdfe 100644
-> --- a/tcg/loongarch64/tcg-target.h
-> +++ b/tcg/loongarch64/tcg-target.h
-> @@ -95,6 +95,8 @@ typedef enum {
->   #define TCG_TARGET_CALL_STACK_OFFSET    0
->   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
->   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
->   
->   /* optional instructions */
->   #define TCG_TARGET_HAS_movcond_i32      0
-> diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-> index 15721c3e42..b235cba8ba 100644
-> --- a/tcg/mips/tcg-target.h
-> +++ b/tcg/mips/tcg-target.h
-> @@ -89,6 +89,8 @@ typedef enum {
->   # define TCG_TARGET_CALL_ARG_I64      TCG_CALL_ARG_NORMAL
->   #endif
->   #define TCG_TARGET_CALL_ARG_I32       TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_ARG_I128      TCG_CALL_ARG_EVEN
-> +#define TCG_TARGET_CALL_RET_I128      TCG_CALL_RET_NORMAL
->   
->   /* MOVN/MOVZ instructions detection */
->   #if (defined(__mips_isa_rev) && (__mips_isa_rev >= 1)) || \
-> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-> index 232537ccea..d61ca902d3 100644
-> --- a/tcg/riscv/tcg-target.h
-> +++ b/tcg/riscv/tcg-target.h
-> @@ -85,9 +85,12 @@ typedef enum {
->   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
->   #if TCG_TARGET_REG_BITS == 32
->   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_EVEN
-> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
->   #else
->   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
->   #endif
-> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
->   
->   /* optional instructions */
->   #define TCG_TARGET_HAS_movcond_i32      0
-> diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-> index db5665c375..9a3856f0b3 100644
-> --- a/tcg/s390x/tcg-target.h
-> +++ b/tcg/s390x/tcg-target.h
-> @@ -168,6 +168,8 @@ extern uint64_t s390_facilities[3];
->   #define TCG_TARGET_CALL_STACK_OFFSET	160
->   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_EXTEND
->   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_RET_NORMAL
-> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_BY_REF
-> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_BY_REF
->   
->   #define TCG_TARGET_HAS_MEMORY_BSWAP   1
->   
-> diff --git a/tcg/sparc64/tcg-target.h b/tcg/sparc64/tcg-target.h
-> index 0044ac8d78..53cfa843da 100644
-> --- a/tcg/sparc64/tcg-target.h
-> +++ b/tcg/sparc64/tcg-target.h
-> @@ -73,6 +73,8 @@ typedef enum {
->   #define TCG_TARGET_CALL_STACK_OFFSET    (128 + 6*8 + TCG_TARGET_STACK_BIAS)
->   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_EXTEND
->   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
->   
->   #if defined(__VIS__) && __VIS__ >= 0x300
->   #define use_vis3_instructions  1
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 9dd194a2f2..5465297495 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -743,8 +743,8 @@ static void init_call_layout(TCGHelperInfo *info)
->           break;
->       case dh_typecode_i128:
->           info->nr_out = 128 / TCG_TARGET_REG_BITS;
-> -        info->out_kind = TCG_CALL_RET_NORMAL; /* TODO */
-> -        switch (/* TODO */ TCG_CALL_RET_NORMAL) {
-> +        info->out_kind = TCG_TARGET_CALL_RET_I128;
-> +        switch (TCG_TARGET_CALL_RET_I128) {
->           case TCG_CALL_RET_NORMAL:
->               /* Query the last register now to trigger any assert early. */
->               tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
-> @@ -815,7 +815,7 @@ static void init_call_layout(TCGHelperInfo *info)
->               layout_arg_1(&cum, info, TCG_CALL_ARG_NORMAL);
->               break;
->           case dh_typecode_i128:
-> -            switch (/* TODO */ TCG_CALL_ARG_NORMAL) {
-> +            switch (TCG_TARGET_CALL_ARG_I128) {
->               case TCG_CALL_ARG_EVEN:
->                   layout_arg_even(&cum);
->                   /* fall through */
-> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-> index 781ecfe161..e86d4a5e78 100644
-> --- a/tcg/ppc/tcg-target.c.inc
-> +++ b/tcg/ppc/tcg-target.c.inc
-> @@ -54,6 +54,9 @@
->   #else
->   # define TCG_TARGET_CALL_ARG_I64   TCG_CALL_ARG_NORMAL
->   #endif
-> +/* Note sysv arg alignment applies only to 2-word types, not more. */
-> +#define TCG_TARGET_CALL_ARG_I128   TCG_CALL_ARG_NORMAL
-> +#define TCG_TARGET_CALL_RET_I128   TCG_CALL_RET_NORMAL
->   
->   /* For some memory operations, we need a scratch that isn't R0.  For the AIX
->      calling convention, we can re-use the TOC register since we'll be reloading
+> A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
+> this category, the baseline could always be "private".
+
+The baseline for the current code is actually "shared".
+
+> 
+> I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
+> to implement and maintain, but evetually we'll up with flags that are paired with
+> an implicit state, e.g. see the many #PF error codes in x86.  In other words,
+> inevitably KVM will need to define the default/base state of the access, at which
+> point the base state for SHARED vs. PRIVATE is "undefined".  
+
+Current memory conversion for confidential usage is bi-directional so we
+already need both private and shared states and if we use one bit for
+both "shared" and "private" then we will have to define the default
+state, e.g, currently the default state is "shared" when we define
+
+	KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+
+> 
+> The RWX bits are in the same boat, e.g. the READ flag isn't strictly necessary.
+> I was thinking more of the KVM_SET_MEMORY_ATTRIBUTES ioctl(), which does need
+> the full RWX gamut, when I typed out that response.
+
+For KVM_SET_MEMORY_ATTRIBUTES it's reasonable to add RWX bits and match
+that to the permission bits definition in EPT entry.
+
+> 
+> So I would say if we add an explicit READ flag, then we might as well add an explicit
+> PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
+
+Since we assume the default state is shared, so we actually only need a
+PRIVATE flag, e.g. there is no SHARED flag and will ignore the RWX for now.
+
+Chao
 
