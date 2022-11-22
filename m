@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF7F633A2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788F5633AC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 12:08:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQZc-0006dx-KN; Tue, 22 Nov 2022 05:32:16 -0500
+	id 1oxR7U-00041Y-Fx; Tue, 22 Nov 2022 06:07:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxQZZ-0006dS-86
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:32:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxQZX-00038A-1f
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:32:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669113130;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yoKC4OG9DFtWULZueds7OhQhad6EHZm5WhxNPgEwQ0k=;
- b=CHoj+x58Ofl0m0I+aV39z5KxhCPb5tqawToxxfGH7k9wNImz7BkTMbTCOzPudLoNV3ZMAY
- S+Ipx8VBkfHjW1UQhtky7AxE1BWjDGtUgsFsgoSckEw2zbBjJnVHKIUF8NsgeWeGjjB/Wq
- XT1xHopy6sLd6PrhM8VSrvGHMJQscVU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-348-sELhTeTzO7qDX9fzxdMBbQ-1; Tue, 22 Nov 2022 05:32:05 -0500
-X-MC-Unique: sELhTeTzO7qDX9fzxdMBbQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7904329ABA1D;
- Tue, 22 Nov 2022 10:32:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F0F7F40C835A;
- Tue, 22 Nov 2022 10:32:03 +0000 (UTC)
-Date: Tue, 22 Nov 2022 10:31:59 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, peterx@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-Subject: Re: [PATCH v3 1/2] io: Add support for MSG_PEEK for socket channel
-Message-ID: <Y3ylH0J7rl5o5KrI@redhat.com>
-References: <20221119093615.158072-1-manish.mishra@nutanix.com>
- <20221119093615.158072-4-manish.mishra@nutanix.com>
- <Y3yPoFAo5l/vmB/y@redhat.com>
- <d240734d-8301-ac4f-63de-89e9d2c2174c@nutanix.com>
- <Y3yWkWfyLZXw+dwd@redhat.com>
- <9dc0d121-b808-a6fa-c626-9bd634e61a18@nutanix.com>
- <Y3ycJY/CRFsYfBam@redhat.com>
- <f03d5744-8369-ed73-49f8-9a53a9507afb@nutanix.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1oxR7K-0003zf-Fe
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 06:07:07 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1oxR7G-0006ad-9D
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 06:07:05 -0500
+Received: from loongson.cn (unknown [114.250.136.113])
+ by gateway (Coremail) with SMTP id _____8Dx9vBLrXxjbAMAAA--.92S3;
+ Tue, 22 Nov 2022 19:06:51 +0800 (CST)
+Received: from [192.168.199.220] (unknown [114.250.136.113])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxLuJJrXxjKxgYAA--.63119S3; 
+ Tue, 22 Nov 2022 19:06:49 +0800 (CST)
+Message-ID: <658e2368-ed78-fa01-6030-877883c7e93e@loongson.cn>
+Date: Tue, 22 Nov 2022 19:06:38 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] hw/loongarch: Add default stdout uart in fdt
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, maobibo@loongson.cn
+References: <20221115114923.3372414-1-yangxiaojuan@loongson.cn>
+From: "gaosong@loongson.cn" <gaosong@loongson.cn>
+In-Reply-To: <20221115114923.3372414-1-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f03d5744-8369-ed73-49f8-9a53a9507afb@nutanix.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf8CxLuJJrXxjKxgYAA--.63119S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Kw1xCryUJFWDKF1kJr4fZrb_yoW8Jw1UpF
+ WxCa1DWay8Xr1DurZ2g345ZF1fArnrury2qr47ur40kr9xX3s3Xr4Iv392yFy8Z34rJa4j
+ vFs5Wryqg3WIgrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bxAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UWHqcUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,144 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 22, 2022 at 03:43:55PM +0530, manish.mishra wrote:
-> 
-> On 22/11/22 3:23 pm, Daniel P. Berrangé wrote:
-> > On Tue, Nov 22, 2022 at 03:10:53PM +0530, manish.mishra wrote:
-> > > On 22/11/22 2:59 pm, Daniel P. Berrangé wrote:
-> > > > On Tue, Nov 22, 2022 at 02:38:53PM +0530, manish.mishra wrote:
-> > > > > On 22/11/22 2:30 pm, Daniel P. Berrangé wrote:
-> > > > > > On Sat, Nov 19, 2022 at 09:36:14AM +0000, manish.mishra wrote:
-> > > > > > > MSG_PEEK reads from the peek of channel, The data is treated as
-> > > > > > > unread and the next read shall still return this data. This
-> > > > > > > support is currently added only for socket class. Extra parameter
-> > > > > > > 'flags' is added to io_readv calls to pass extra read flags like
-> > > > > > > MSG_PEEK.
-> > > > > > > 
-> > > > > > > Suggested-by: Daniel P. Berrangé <berrange@redhat.com
-> > > > > > > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
-> > > > > > > ---
-> > > > > > >     chardev/char-socket.c               |  4 +-
-> > > > > > >     include/io/channel.h                | 83 +++++++++++++++++++++++++++++
-> > > > > > >     io/channel-buffer.c                 |  1 +
-> > > > > > >     io/channel-command.c                |  1 +
-> > > > > > >     io/channel-file.c                   |  1 +
-> > > > > > >     io/channel-null.c                   |  1 +
-> > > > > > >     io/channel-socket.c                 | 16 +++++-
-> > > > > > >     io/channel-tls.c                    |  1 +
-> > > > > > >     io/channel-websock.c                |  1 +
-> > > > > > >     io/channel.c                        | 73 +++++++++++++++++++++++--
-> > > > > > >     migration/channel-block.c           |  1 +
-> > > > > > >     scsi/qemu-pr-helper.c               |  2 +-
-> > > > > > >     tests/qtest/tpm-emu.c               |  2 +-
-> > > > > > >     tests/unit/test-io-channel-socket.c |  1 +
-> > > > > > >     util/vhost-user-server.c            |  2 +-
-> > > > > > >     15 files changed, 179 insertions(+), 11 deletions(-)
-> > > > > > > diff --git a/io/channel-socket.c b/io/channel-socket.c
-> > > > > > > index b76dca9cc1..a06b24766d 100644
-> > > > > > > --- a/io/channel-socket.c
-> > > > > > > +++ b/io/channel-socket.c
-> > > > > > > @@ -406,6 +406,8 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
-> > > > > > >         }
-> > > > > > >     #endif /* WIN32 */
-> > > > > > > +    qio_channel_set_feature(QIO_CHANNEL(cioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
-> > > > > > > +
-> > > > > > This covers the incoming server side socket.
-> > > > > > 
-> > > > > > This also needs to be set in outgoing client side socket in
-> > > > > > qio_channel_socket_connect_async
-> > > > > Yes sorry, i considered only current use-case, but as it is generic one both should be there. Thanks will update it.
-> > > > > 
-> > > > > > > @@ -705,7 +718,6 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-> > > > > > >     }
-> > > > > > >     #endif /* WIN32 */
-> > > > > > > -
-> > > > > > >     #ifdef QEMU_MSG_ZEROCOPY
-> > > > > > >     static int qio_channel_socket_flush(QIOChannel *ioc,
-> > > > > > >                                         Error **errp)
-> > > > > > Please remove this unrelated whitespace change.
-> > > > > > 
-> > > > > > 
-> > > > > > > @@ -109,6 +117,37 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
-> > > > > > >         return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
-> > > > > > >     }
-> > > > > > > +int qio_channel_readv_peek_all_eof(QIOChannel *ioc,
-> > > > > > > +                                   const struct iovec *iov,
-> > > > > > > +                                   size_t niov,
-> > > > > > > +                                   Error **errp)
-> > > > > > > +{
-> > > > > > > +   ssize_t len = 0;
-> > > > > > > +   ssize_t total = iov_size(iov, niov);
-> > > > > > > +
-> > > > > > > +   while (len < total) {
-> > > > > > > +       len = qio_channel_readv_full(ioc, iov, niov, NULL,
-> > > > > > > +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
-> > > > > > > +
-> > > > > > > +       if (len == QIO_CHANNEL_ERR_BLOCK) {
-> > > > > > > +            if (qemu_in_coroutine()) {
-> > > > > > > +                qio_channel_yield(ioc, G_IO_IN);
-> > > > > > > +            } else {
-> > > > > > > +                qio_channel_wait(ioc, G_IO_IN);
-> > > > > > > +            }
-> > > > > > > +            continue;
-> > > > > > > +       }
-> > > > > > > +       if (len == 0) {
-> > > > > > > +           return 0;
-> > > > > > > +       }
-> > > > > > > +       if (len < 0) {
-> > > > > > > +           return -1;
-> > > > > > > +       }
-> > > > > > > +   }
-> > > > > > This will busy wait burning CPU where there is a read > 0 and < total.
-> > > > > > 
-> > > > > Daniel, i could use MSG_WAITALL too if that works but then we will
-> > > > > lose opportunity to yield. Or if you have some other idea.
-> > > > I fear this is an inherant problem with the idea of using PEEK to
-> > > > look at the magic data.
-> > > > 
-> > > > If we actually read the magic bytes off the wire, then we could have
-> > > > the same code path for TLS and non-TLS. We would have to modify the
-> > > > existing later code paths though to take account of fact that the
-> > > > magic was already read by an earlier codepath.
-> > > > 
-> > > > With regards,
-> > > > Daniel
-> > > 
-> > > sure Daniel, I am happy to drop use of MSG_PEEK, but that way also we
-> > > have issue with tls for reason we discussed in V2. Is it okay to send
-> > > a patch with actual read ahead but not for tls case? tls anyway does
-> > > not have this bug as it does handshake.
-> > I've re-read the previous threads, but I don't see what the problem
-> > with TLS is.  We already decided that TLS is not affected by the
-> > race condition. So there should be no problem in reading the magic
-> > bytes early on the TLS channels, while reading the bytes early on
-> > a non-TLS channel will fix the race condition.
-> 
-> 
-> Actually with tls all channels requires handshake to be assumed established,
-> and from source side we do initial qemu_flush only when all channels are
-> established. But on destination side we will stuck on reading magic for
-> main channel itself which never comes because source has not flushed data,
-> so no new connections can be established(e.g. multiFD). So basically
-> destination can not accept any new channel until we read from main
-> channel and source is not putting any data on main channel until all
-> channels are established. So if we read ahread in
-> ioc_process_incoming_channel there is this deadlock with tls. This issue
-> is not there with non-tls case, because there on source side we assume a
-> connection established once connect() call is successful.
 
-Ah yes, I forgot about the 'flush' problem. Reading magic in non-TLS case
-is OK then i guess.
+在 2022/11/15 19:49, Xiaojuan Yang 写道:
+> Add "chosen" subnode into LoongArch fdt, and set it's
+> "stdout-path" prop to uart node.
+>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>   hw/loongarch/virt.c | 2 ++
+>   1 file changed, 2 insertions(+)
+Reviewed-by: Song Gao <gaosong@loongson.cn>
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks.
+Song Gao
+> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+> index 5e4c2790bf..b59c07972a 100644
+> --- a/hw/loongarch/virt.c
+> +++ b/hw/loongarch/virt.c
+> @@ -69,6 +69,7 @@ static void fdt_add_uart_node(LoongArchMachineState *lams)
+>       qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "ns16550a");
+>       qemu_fdt_setprop_cells(ms->fdt, nodename, "reg", 0x0, base, 0x0, size);
+>       qemu_fdt_setprop_cell(ms->fdt, nodename, "clock-frequency", 100000000);
+> +    qemu_fdt_setprop_string(ms->fdt, "/chosen", "stdout-path", nodename);
+>       g_free(nodename);
+>   }
+>   
+> @@ -87,6 +88,7 @@ static void create_fdt(LoongArchMachineState *lams)
+>                               "linux,dummy-loongson3");
+>       qemu_fdt_setprop_cell(ms->fdt, "/", "#address-cells", 0x2);
+>       qemu_fdt_setprop_cell(ms->fdt, "/", "#size-cells", 0x2);
+> +    qemu_fdt_add_subnode(ms->fdt, "/chosen");
+>   }
+>   
+>   static void fdt_add_cpu_nodes(const LoongArchMachineState *lams)
 
 
