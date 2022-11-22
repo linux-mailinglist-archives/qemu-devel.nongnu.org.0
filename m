@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A71634287
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 18:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CE26342FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 18:50:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxX85-0005bC-Sq; Tue, 22 Nov 2022 12:32:17 -0500
+	id 1oxXOR-0001FW-WC; Tue, 22 Nov 2022 12:49:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxX83-0005b1-Sd
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:32:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oxXOP-0001ES-Nw
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:49:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxX81-0002Hz-6e
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:32:15 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oxXOM-0006DC-RK
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:49:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669138331;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1669139346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2OEytmOvjBwqJF19nJqyilC1nVYOfH+sXL1b7hl3U5E=;
- b=KlxcbNSjD0wwTPlLT1Q4MSS/grIoNdNC60EcaWg1dYJhksUVVpjBN07L9cXpDhcneUnXvY
- gFMpl0XpWFtznsqOSG3CjemCLFVtAKueWf0lhRSuURBa34H3mK5zFWGnUaiolwyBwERndt
- xZZAOwbBze3nBAQnRTb3dvhVZK0fkHc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-Yh-JHCkMOo-5R5poiJp_8Q-1; Tue, 22 Nov 2022 12:32:06 -0500
-X-MC-Unique: Yh-JHCkMOo-5R5poiJp_8Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C6662833B26;
- Tue, 22 Nov 2022 17:31:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 704CC1121325;
- Tue, 22 Nov 2022 17:31:33 +0000 (UTC)
-Date: Tue, 22 Nov 2022 17:31:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: "manish.mishra" <manish.mishra@nutanix.com>, qemu-devel@nongnu.org,
- prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
- lsoaresp@redhat.com
-Subject: Re: [PATCH v3 1/2] io: Add support for MSG_PEEK for socket channel
-Message-ID: <Y30HcKdICo+MBttS@redhat.com>
-References: <Y3yPoFAo5l/vmB/y@redhat.com>
- <d240734d-8301-ac4f-63de-89e9d2c2174c@nutanix.com>
- <Y3zffev6eOCl6JBy@x1n> <Y3zhcCCf49scoi9u@redhat.com>
- <12383abd-0495-a202-fee2-cce64c3d54b2@nutanix.com>
- <Y3z0auP3al5qYVIT@x1n> <Y3z40TBFLZDeahB4@x1n>
- <Y3z54h+twgVKKZ2t@x1n>
- <00d72719-051f-1fcf-e246-79996349937f@nutanix.com>
- <Y30D2MXHVbwCsR2P@x1n>
+ bh=SoIyGByiJo7I4TTlbQp4yJ1wkQEncxCgBCX5zafAuqU=;
+ b=GrKIP7L+jNMWKdukkbvvuN8jWkcEWU6Cn9sVulvx1uNMsJ22TpWrEoegfskX1YeMKE8EMG
+ fMAJqwAq10vCbtB45FauZu+h4XSEg/Ll8gT24oUOk6tqAugDWmGR1HLE0OWt1m/mz+UHAM
+ bnprpHfUeNBqFSzQuBCyTB/dFC56ybs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-357-E1AVanNjPW2xk0keQJk8Xg-1; Tue, 22 Nov 2022 12:49:04 -0500
+X-MC-Unique: E1AVanNjPW2xk0keQJk8Xg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h9-20020a1c2109000000b003cfd37aec58so8390452wmh.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 09:49:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SoIyGByiJo7I4TTlbQp4yJ1wkQEncxCgBCX5zafAuqU=;
+ b=lPcyz5qGFKm6qlRg1aUBWsRPZLcr2OSynPP1ZlpeE8SFSvp4fUkfVHSnEK6iavgVAZ
+ u4hDeDlEK9Y268FhmSwKTp22PM7MU54xd9niYKJtxKJTrjt3KXEtU/13aILA2ShJszsJ
+ wwjrJiIis9I9C7yuMS+b1Y6MG/UZCZ/tesy4KAOFTF+rphdJsqAkMPJgvJaAz3NjhAKY
+ H4rOM3snuxnmLEEtAv4x5BWKL2vNNC6uMiRZ7Bd+oKmDbZ92yhf04FYOhoozKkUiGUKj
+ qyzfjv4arGCvpuMKUiQrN8IXNGCY3Nhfm7ndedFZx9o4tPO3SjXyvpM49D1syzVAJOOD
+ cyyA==
+X-Gm-Message-State: ANoB5pmpdYSh6f+RMu3xOtk9p74i2n0N45Xi7okw77A9miP7+4Vhsrwj
+ sPwfBHINBQMKB3niLZyoqOF2d6RZ+wfuMW7YGPfe3zwYzJzsV7tEBpC8uYLVbNYep+99TWnP0BC
+ Mny1/98x/cQ/ePqI=
+X-Received: by 2002:a5d:4308:0:b0:241:e80e:225a with SMTP id
+ h8-20020a5d4308000000b00241e80e225amr1125890wrq.560.1669139343358; 
+ Tue, 22 Nov 2022 09:49:03 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6MYiIdrkm2AwtrIwgO8mf4w7eCmjX6oicY1wUaZhc/DGIQsmaNn61DynUW119Puqavo7c+hQ==
+X-Received: by 2002:a5d:4308:0:b0:241:e80e:225a with SMTP id
+ h8-20020a5d4308000000b00241e80e225amr1125858wrq.560.1669139342993; 
+ Tue, 22 Nov 2022 09:49:02 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ n3-20020a05600c4f8300b003d01b84e9b2sm9469652wmq.27.2022.11.22.09.49.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Nov 2022 09:49:01 -0800 (PST)
+Date: Tue, 22 Nov 2022 17:48:59 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <lvivier@redhat.com>, John Snow <jsnow@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Subject: Re: [RFC 2/7] migration: No save_live_pending() method uses the
+ QEMUFile parameter
+Message-ID: <Y30LiwT/Likxo+TL@work-vm>
+References: <20221003031600.20084-1-quintela@redhat.com>
+ <20221003031600.20084-3-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y30D2MXHVbwCsR2P@x1n>
+In-Reply-To: <20221003031600.20084-3-quintela@redhat.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,167 +110,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 22, 2022 at 12:16:08PM -0500, Peter Xu wrote:
-> On Tue, Nov 22, 2022 at 10:12:25PM +0530, manish.mishra wrote:
-> > 
-> > On 22/11/22 10:03 pm, Peter Xu wrote:
-> > > On Tue, Nov 22, 2022 at 11:29:05AM -0500, Peter Xu wrote:
-> > > > On Tue, Nov 22, 2022 at 11:10:18AM -0500, Peter Xu wrote:
-> > > > > On Tue, Nov 22, 2022 at 09:01:59PM +0530, manish.mishra wrote:
-> > > > > > On 22/11/22 8:19 pm, Daniel P. Berrangé wrote:
-> > > > > > > On Tue, Nov 22, 2022 at 09:41:01AM -0500, Peter Xu wrote:
-> > > > > > > > On Tue, Nov 22, 2022 at 02:38:53PM +0530, manish.mishra wrote:
-> > > > > > > > > On 22/11/22 2:30 pm, Daniel P. Berrangé wrote:
-> > > > > > > > > > On Sat, Nov 19, 2022 at 09:36:14AM +0000, manish.mishra wrote:
-> > > > > > > > > > > MSG_PEEK reads from the peek of channel, The data is treated as
-> > > > > > > > > > > unread and the next read shall still return this data. This
-> > > > > > > > > > > support is currently added only for socket class. Extra parameter
-> > > > > > > > > > > 'flags' is added to io_readv calls to pass extra read flags like
-> > > > > > > > > > > MSG_PEEK.
-> > > > > > > > > > > 
-> > > > > > > > > > > Suggested-by: Daniel P. Berrangé <berrange@redhat.com
-> > > > > > > > > > > Signed-off-by: manish.mishra<manish.mishra@nutanix.com>
-> > > > > > > > > > > ---
-> > > > > > > > > > >     chardev/char-socket.c               |  4 +-
-> > > > > > > > > > >     include/io/channel.h                | 83 +++++++++++++++++++++++++++++
-> > > > > > > > > > >     io/channel-buffer.c                 |  1 +
-> > > > > > > > > > >     io/channel-command.c                |  1 +
-> > > > > > > > > > >     io/channel-file.c                   |  1 +
-> > > > > > > > > > >     io/channel-null.c                   |  1 +
-> > > > > > > > > > >     io/channel-socket.c                 | 16 +++++-
-> > > > > > > > > > >     io/channel-tls.c                    |  1 +
-> > > > > > > > > > >     io/channel-websock.c                |  1 +
-> > > > > > > > > > >     io/channel.c                        | 73 +++++++++++++++++++++++--
-> > > > > > > > > > >     migration/channel-block.c           |  1 +
-> > > > > > > > > > >     scsi/qemu-pr-helper.c               |  2 +-
-> > > > > > > > > > >     tests/qtest/tpm-emu.c               |  2 +-
-> > > > > > > > > > >     tests/unit/test-io-channel-socket.c |  1 +
-> > > > > > > > > > >     util/vhost-user-server.c            |  2 +-
-> > > > > > > > > > >     15 files changed, 179 insertions(+), 11 deletions(-)
-> > > > > > > > > > > diff --git a/io/channel-socket.c b/io/channel-socket.c
-> > > > > > > > > > > index b76dca9cc1..a06b24766d 100644
-> > > > > > > > > > > --- a/io/channel-socket.c
-> > > > > > > > > > > +++ b/io/channel-socket.c
-> > > > > > > > > > > @@ -406,6 +406,8 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
-> > > > > > > > > > >         }
-> > > > > > > > > > >     #endif /* WIN32 */
-> > > > > > > > > > > +    qio_channel_set_feature(QIO_CHANNEL(cioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
-> > > > > > > > > > > +
-> > > > > > > > > > This covers the incoming server side socket.
-> > > > > > > > > > 
-> > > > > > > > > > This also needs to be set in outgoing client side socket in
-> > > > > > > > > > qio_channel_socket_connect_async
-> > > > > > > > > Yes sorry, i considered only current use-case, but as it is generic one both should be there. Thanks will update it.
-> > > > > > > > > 
-> > > > > > > > > > > @@ -705,7 +718,6 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-> > > > > > > > > > >     }
-> > > > > > > > > > >     #endif /* WIN32 */
-> > > > > > > > > > > -
-> > > > > > > > > > >     #ifdef QEMU_MSG_ZEROCOPY
-> > > > > > > > > > >     static int qio_channel_socket_flush(QIOChannel *ioc,
-> > > > > > > > > > >                                         Error **errp)
-> > > > > > > > > > Please remove this unrelated whitespace change.
-> > > > > > > > > > 
-> > > > > > > > > > 
-> > > > > > > > > > > @@ -109,6 +117,37 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
-> > > > > > > > > > >         return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
-> > > > > > > > > > >     }
-> > > > > > > > > > > +int qio_channel_readv_peek_all_eof(QIOChannel *ioc,
-> > > > > > > > > > > +                                   const struct iovec *iov,
-> > > > > > > > > > > +                                   size_t niov,
-> > > > > > > > > > > +                                   Error **errp)
-> > > > > > > > > > > +{
-> > > > > > > > > > > +   ssize_t len = 0;
-> > > > > > > > > > > +   ssize_t total = iov_size(iov, niov);
-> > > > > > > > > > > +
-> > > > > > > > > > > +   while (len < total) {
-> > > > > > > > > > > +       len = qio_channel_readv_full(ioc, iov, niov, NULL,
-> > > > > > > > > > > +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
-> > > > > > > > > > > +
-> > > > > > > > > > > +       if (len == QIO_CHANNEL_ERR_BLOCK) {
-> > > > > > > > > > > +            if (qemu_in_coroutine()) {
-> > > > > > > > > > > +                qio_channel_yield(ioc, G_IO_IN);
-> > > > > > > > > > > +            } else {
-> > > > > > > > > > > +                qio_channel_wait(ioc, G_IO_IN);
-> > > > > > > > > > > +            }
-> > > > > > > > > > > +            continue;
-> > > > > > > > > > > +       }
-> > > > > > > > > > > +       if (len == 0) {
-> > > > > > > > > > > +           return 0;
-> > > > > > > > > > > +       }
-> > > > > > > > > > > +       if (len < 0) {
-> > > > > > > > > > > +           return -1;
-> > > > > > > > > > > +       }
-> > > > > > > > > > > +   }
-> > > > > > > > > > This will busy wait burning CPU where there is a read > 0 and < total.
-> > > > > > > > > > 
-> > > > > > > > > Daniel, i could use MSG_WAITALL too if that works but then we will lose opportunity to yield. Or if you have some other idea.
-> > > > > > > > How easy would this happen?
-> > > > > > > > 
-> > > > > > > > Another alternative is we could just return the partial len to caller then
-> > > > > > > > we fallback to the original channel orders if it happens.  And then if it
-> > > > > > > > mostly will never happen it'll behave merely the same as what we want.
-> > > > > > > Well we're trying to deal with a bug where the slow and/or unreliable
-> > > > > > > network causes channels to arrive in unexpected order. Given we know
-> > > > > > > we're having network trouble, I wouldn't want to make more assumptions
-> > > > > > > about things happening correctly.
-> > > > > > > 
-> > > > > > > 
-> > > > > > > With regards,
-> > > > > > > Daniel
-> > > > > > 
-> > > > > > Peter, I have seen MSG_PEEK used in combination with MSG_WAITALL, but looks like even though chances are less it can still return partial data even with multiple retries for signal case, so is not full proof.
-> > > > > > 
-> > > > > > *MSG_WAITALL *(since Linux 2.2)
-> > > > > >                This flag requests that the operation block until the full
-> > > > > >                request is satisfied.  However, the call may still return
-> > > > > >                less data than requested if a signal is caught, an error
-> > > > > >                or disconnect occurs, or the next data to be received is
-> > > > > >                of a different type than that returned.  This flag has no
-> > > > > >                effect for datagram sockets.
-> > > > > > 
-> > > > > > Actual read ahead will be little hackish, so just confirming we all are in agreement to do actual read ahead and i can send patch? :)
-> > > > > Yet another option is the caller handles partial PEEK and then we can sleep
-> > > > > in the migration code before another PEEK attempt until it reaches the full
-> > > > > length.
-> > > > > 
-> > > > > Even with that explicit sleep code IMHO it is cleaner than the read-header
-> > > > > flag plus things like !tls check just to avoid the handshake dead lock
-> > > > > itself (and if to go with this route we'd better also have a full document
-> > > > > on why !tls, aka, how the dead lock can happen).
-> > > > Nah, I forgot we're in the same condition as in the main thread.. sorry.
-> > > > 
-> > > > Then how about using qemu_co_sleep_ns_wakeable() to replace
-> > > > qio_channel_yield() either above, or in the caller?
-> > > A better one is qemu_co_sleep_ns().  Off-topic: I'd even think we should
-> > > have one qemu_co_sleep_realtime_ns() because currently all callers of
-> > I am not aware of this :) , will check it.
-> > > qemu_co_sleep_ns() is for the rt clock.
-> > 
-> > 
-> > Yes that also works Peter. In that case, should i have a default time or take it from upper layers. And for live migration does something like of scale 1ms works?
+* Juan Quintela (quintela@redhat.com) wrote:
+> So remove it everywhere.
 > 
-> Sounds good to me on migration side.  When making it formal we'd also want
-> to know how Juan/Dave think.
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  include/migration/register.h   | 6 ++----
+>  migration/savevm.h             | 2 +-
+>  hw/s390x/s390-stattrib.c       | 2 +-
+>  hw/vfio/migration.c            | 6 ++----
+>  migration/block-dirty-bitmap.c | 5 ++---
+>  migration/block.c              | 2 +-
+>  migration/migration.c          | 3 +--
+>  migration/ram.c                | 2 +-
+>  migration/savevm.c             | 5 ++---
+>  9 files changed, 13 insertions(+), 20 deletions(-)
 > 
-> But let's also wait for Dan's input about this before going forward.  If
-> the io code wants an _eof() version of PEEK then maybe we'd better do the
-> timeout-yield there even if not as elegant as G_IO_IN.  IIUC it's a matter
-> of whether we want to allow the PEEK interface return partial len.
-
-I don't think we should add an _eof() version with PEEK, because its
-impossible to implement  sanely. If migration caller wants to busy
-wait, or do a coroutine sleep it can do that.
-
-With regards,
-Daniel
+> diff --git a/include/migration/register.h b/include/migration/register.h
+> index 1950fee6a8..5b5424ed8f 100644
+> --- a/include/migration/register.h
+> +++ b/include/migration/register.h
+> @@ -46,10 +46,8 @@ typedef struct SaveVMHandlers {
+>  
+>      /* This runs outside the iothread lock!  */
+>      int (*save_setup)(QEMUFile *f, void *opaque);
+> -    void (*save_live_pending)(QEMUFile *f, void *opaque,
+> -                              uint64_t threshold_size,
+> -                              uint64_t *rest_precopy,
+> -                              uint64_t *rest_postcopy);
+> +    void (*save_live_pending)(void *opaque,  uint64_t threshold_size,
+> +                              uint64_t *rest_precopy, uint64_t *rest_postcopy);
+>      /* Note for save_live_pending:
+>       * - res_precopy is for data which must be migrated in precopy
+>       *     phase or in stopped state, in other words - before target
+> diff --git a/migration/savevm.h b/migration/savevm.h
+> index 9bd55c336c..98fae6f9b3 100644
+> --- a/migration/savevm.h
+> +++ b/migration/savevm.h
+> @@ -40,7 +40,7 @@ void qemu_savevm_state_cleanup(void);
+>  void qemu_savevm_state_complete_postcopy(QEMUFile *f);
+>  int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
+>                                         bool inactivate_disks);
+> -void qemu_savevm_state_pending(QEMUFile *f, uint64_t max_size,
+> +void qemu_savevm_state_pending(uint64_t max_size,
+>                                 uint64_t *res_precopy, uint64_t *res_postcopy);
+>  void qemu_savevm_send_ping(QEMUFile *f, uint32_t value);
+>  void qemu_savevm_send_open_return_path(QEMUFile *f);
+> diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
+> index ee60b53da4..9b74eeadf3 100644
+> --- a/hw/s390x/s390-stattrib.c
+> +++ b/hw/s390x/s390-stattrib.c
+> @@ -182,7 +182,7 @@ static int cmma_save_setup(QEMUFile *f, void *opaque)
+>      return 0;
+>  }
+>  
+> -static void cmma_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+> +static void cmma_save_pending(void *opaque, uint64_t max_size,
+>                                uint64_t *res_precopy, uint64_t *res_postcopy)
+>  {
+>      S390StAttribState *sas = S390_STATTRIB(opaque);
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 3423f113f0..760d5f3c5c 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -456,10 +456,8 @@ static void vfio_save_cleanup(void *opaque)
+>      trace_vfio_save_cleanup(vbasedev->name);
+>  }
+>  
+> -static void vfio_save_pending(QEMUFile *f, void *opaque,
+> -                              uint64_t threshold_size,
+> -                              uint64_t *res_precopy,
+> -                              uint64_t *res_postcopy)
+> +static void vfio_save_pending(void *opaque,  uint64_t threshold_size,
+> +                              uint64_t *res_precopy, uint64_t *res_postcopy)
+>  {
+>      VFIODevice *vbasedev = opaque;
+>      VFIOMigration *migration = vbasedev->migration;
+> diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+> index dfea546330..a445bdc3c3 100644
+> --- a/migration/block-dirty-bitmap.c
+> +++ b/migration/block-dirty-bitmap.c
+> @@ -761,9 +761,8 @@ static int dirty_bitmap_save_complete(QEMUFile *f, void *opaque)
+>      return 0;
+>  }
+>  
+> -static void dirty_bitmap_save_pending(QEMUFile *f, void *opaque,
+> -                                      uint64_t max_size,
+> -                                      uint64_t *res_precopy,
+> +static void dirty_bitmap_save_pending(void *opaque, uint64_t max_size,
+> +                                      uint64_t *res_precopy, 
+>                                        uint64_t *res_postcopy)
+>  {
+>      DBMSaveState *s = &((DBMState *)opaque)->save;
+> diff --git a/migration/block.c b/migration/block.c
+> index 4ae8f837b0..b3d680af75 100644
+> --- a/migration/block.c
+> +++ b/migration/block.c
+> @@ -862,7 +862,7 @@ static int block_save_complete(QEMUFile *f, void *opaque)
+>      return 0;
+>  }
+>  
+> -static void block_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+> +static void block_save_pending(void *opaque, uint64_t max_size,
+>                                 uint64_t *res_precopy,
+>                                 uint64_t *res_postcopy)
+>  {
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 440aa62f16..038fc58a96 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3737,8 +3737,7 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+>      uint64_t pending_size, pend_pre, pend_post;
+>      bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
+>  
+> -    qemu_savevm_state_pending(s->to_dst_file, s->threshold_size, &pend_pre,
+> -                              &pend_post);
+> +    qemu_savevm_state_pending(s->threshold_size, &pend_pre, &pend_post);
+>      pending_size = pend_pre + pend_post;
+>  
+>      trace_migrate_pending(pending_size, s->threshold_size, pend_pre, pend_post);
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 20167e1102..48a31b87c8 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -3434,7 +3434,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+>      return 0;
+>  }
+>  
+> -static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+> +static void ram_save_pending(void *opaque, uint64_t max_size,
+>                               uint64_t *res_precopy, uint64_t *res_postcopy)
+>  {
+>      RAMState **temp = opaque;
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index a752ff9ea1..d937ab0b2e 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1471,8 +1471,7 @@ flush:
+>   * the result is split into the amount for units that can and
+>   * for units that can't do postcopy.
+>   */
+> -void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
+> -                               uint64_t *res_precopy,
+> +void qemu_savevm_state_pending(uint64_t threshold_size, uint64_t *res_precopy,
+>                                 uint64_t *res_postcopy)
+>  {
+>      SaveStateEntry *se;
+> @@ -1489,7 +1488,7 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
+>                  continue;
+>              }
+>          }
+> -        se->ops->save_live_pending(f, se->opaque, threshold_size,
+> +        se->ops->save_live_pending(se->opaque, threshold_size,
+>                                     res_precopy, res_postcopy);
+>      }
+>  }
+> -- 
+> 2.37.2
+> 
+> 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
