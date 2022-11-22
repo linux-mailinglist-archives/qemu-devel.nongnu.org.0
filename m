@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F966337C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E586337C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:01:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxP7h-0002so-Ct; Tue, 22 Nov 2022 03:59:21 -0500
+	id 1oxP90-0003zR-D1; Tue, 22 Nov 2022 04:00:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxP7I-0002o1-Jf
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:58:57 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oxP8q-0003xG-FI
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:00:34 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxP7D-0006yk-HQ
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:58:53 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oxP8m-0007PN-DT
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:00:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669107530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1669107625;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DsXBu74rUWvjp1tMRHBKFDqH3Bom+U0iuUuwWLEqHZU=;
- b=NhVNASOSa92azhH3MhsSiqACMbLLvOGEoi+09USn980bujgfXtsRANtqSQJpPPCwj30ph7
- UTdgFHyjQgda6PFjBykPuRqUGb8wD8OePXbvu/nCe0jym8+XhJSeLpAHuns7kUSHstYfGP
- DGGrtKcxc75RDZhaxbO5CbaEPVwKsvQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=H3YWq1WKimve8JRI6qMlg0HTN6cerAbIIkbckl8c1yY=;
+ b=PiZ1tsy3xyjEkS24cTprJ6qyO1nvV52Ext7sfzEMGxBChyFjpZrrbjshb1PYeWHOcXUH8f
+ oCESvdX4Y+FcrU+0Cp0GTBzDxIFiMI9DmV/tafLHQKIUyUk3Mwa+el8xgTybKdI2iOu7Vp
+ 1SoOBxjUNuBPJDzUatU/1O0jAXObFAA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-SAOsw9rXP0iW6CrGlomQgA-1; Tue, 22 Nov 2022 03:58:47 -0500
-X-MC-Unique: SAOsw9rXP0iW6CrGlomQgA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-646-b_-9yaOdN5meys7OVBk-hw-1; Tue, 22 Nov 2022 04:00:21 -0500
+X-MC-Unique: b_-9yaOdN5meys7OVBk-hw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B2412A59566;
- Tue, 22 Nov 2022 08:58:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA053492B2A;
- Tue, 22 Nov 2022 08:58:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9722E21E6921; Tue, 22 Nov 2022 09:58:39 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Peter Maydell
- <peter.maydell@linaro.org>,  qemu-devel@nongnu.org,  fam@euphon.net,
- kwolf@redhat.com,  hreitz@redhat.com,  groug@kaod.org,
- qemu_oss@crudebyte.com,  Alistair.Francis@wdc.com,
- bin.meng@windriver.com,  palmer@dabbelt.com,
- marcandre.lureau@redhat.com,  pbonzini@redhat.com,
- yuval.shaia.ml@gmail.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
- quintela@redhat.com,  dgilbert@redhat.com,  pavel.dovgaluk@ispras.ru,
- alex.bennee@linaro.org,  peterx@redhat.com,  david@redhat.com,
- mrolnik@gmail.com,  gaosong@loongson.cn,  yangxiaojuan@loongson.cn,
- aurelien@aurel32.net,  jiaxun.yang@flygoat.com,
- aleksandar.rikalo@syrmia.com,  jcmvbkbc@gmail.com,  berrange@redhat.com,
- lvivier@redhat.com,  suhang16@mails.ucas.ac.cn,  chen.zhang@intel.com,
- lizhijian@fujitsu.com,  stefanha@redhat.com,  qemu-block@nongnu.org,
- qemu-riscv@nongnu.org,  qemu-ppc@nongnu.org,  virtio-fs@redhat.com
-Subject: Re: [PATCH] cleanup: Tweak and re-run return_directly.cocci
-References: <20221121140121.1079100-1-armbru@redhat.com>
- <CAFEAcA_jnbp36Trjd3qJYzbf5-6SNNrirG7q2_-wKXkcX49ptg@mail.gmail.com>
- <7875a42b-2776-9d36-5373-78ac75cff89d@linaro.org>
- <87a64ki7zn.fsf@pond.sub.org>
- <47e0d3d8-607d-5e29-6780-c0a4364993a9@redhat.com>
-Date: Tue, 22 Nov 2022 09:58:39 +0100
-In-Reply-To: <47e0d3d8-607d-5e29-6780-c0a4364993a9@redhat.com> (Thomas Huth's
- message of "Mon, 21 Nov 2022 17:34:15 +0100")
-Message-ID: <87h6yrfjr4.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 965A6811E7A;
+ Tue, 22 Nov 2022 09:00:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72A1E40C2086;
+ Tue, 22 Nov 2022 09:00:20 +0000 (UTC)
+Date: Tue, 22 Nov 2022 09:00:16 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, peterx@redhat.com, prerna.saxena@nutanix.com,
+ quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
+Subject: Re: [PATCH v3 1/2] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y3yPoFAo5l/vmB/y@redhat.com>
+References: <20221119093615.158072-1-manish.mishra@nutanix.com>
+ <20221119093615.158072-4-manish.mishra@nutanix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221119093615.158072-4-manish.mishra@nutanix.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,123 +80,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> writes:
+On Sat, Nov 19, 2022 at 09:36:14AM +0000, manish.mishra wrote:
+> MSG_PEEK reads from the peek of channel, The data is treated as
+> unread and the next read shall still return this data. This
+> support is currently added only for socket class. Extra parameter
+> 'flags' is added to io_readv calls to pass extra read flags like
+> MSG_PEEK.
+> 
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com
+> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> ---
+>  chardev/char-socket.c               |  4 +-
+>  include/io/channel.h                | 83 +++++++++++++++++++++++++++++
+>  io/channel-buffer.c                 |  1 +
+>  io/channel-command.c                |  1 +
+>  io/channel-file.c                   |  1 +
+>  io/channel-null.c                   |  1 +
+>  io/channel-socket.c                 | 16 +++++-
+>  io/channel-tls.c                    |  1 +
+>  io/channel-websock.c                |  1 +
+>  io/channel.c                        | 73 +++++++++++++++++++++++--
+>  migration/channel-block.c           |  1 +
+>  scsi/qemu-pr-helper.c               |  2 +-
+>  tests/qtest/tpm-emu.c               |  2 +-
+>  tests/unit/test-io-channel-socket.c |  1 +
+>  util/vhost-user-server.c            |  2 +-
+>  15 files changed, 179 insertions(+), 11 deletions(-)
 
-> On 21/11/2022 17.32, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
->>=20
->>> On 21/11/22 15:36, Peter Maydell wrote:
->>>> On Mon, 21 Nov 2022 at 14:03, Markus Armbruster <armbru@redhat.com> wr=
-ote:
->>>>>
->>>>> Tweak the semantic patch to drop redundant parenthesis around the
->>>>> return expression.
->>>>>
->>>>> Coccinelle drops comments in hw/rdma/vmw/pvrdma_cmd.c; restored
->>>>> manually.
->>>>>
->>>>> Coccinelle messes up vmdk_co_create(), not sure why.  Transformed
->>>>> manually.
->>>>>
->>>>> Line breaks in target/avr/cpu.h and hw/rdma/vmw/pvrdma_cmd.c tidied up
->>>>> manually.
->>>>>
->>>>> Whitespace in fuse_reply_iov() tidied up manually.
->>>>>
->>>>> checkpatch.pl complains "return of an errno should typically be -ve"
->>>>> two times for hw/9pfs/9p-synth.c.  Preexisting, the patch merely makes
->>>>> it visible to checkpatch.pl.
->>>>>
->>>>> checkpatch.pl complains "return is not a function, parentheses are not
->>>>> required" three times for target/mips/tcg/dsp_helper.c.  False
->>>>> positives.
->>>>>
->>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>>>
->>>>>    .../user/ase/msa/bit-count/test_msa_nloc_b.c  |   9 +-
->>>>>    .../user/ase/msa/bit-count/test_msa_nloc_d.c  |   9 +-
->>>> [snip long list of other mips test files]
->>>>
->>>>>    328 files changed, 989 insertions(+), 2099 deletions(-)
->>>> This patch seems to almost entirely be huge because of these
->>>> mips test case files. Are they specific to QEMU or are they
->>>> effectively a 3rd-party import that it doesn't make sense
->>>> to make local changes to?
->>>
->>> They are imported and will unlikely be modified.
->>=20
->> Not obvious to me from git-log.
->>=20
->> Should I drop the changes to tests/tcg/mips/?
->
-> I'd say yes. At least move them to a separate patch.
 
-Possible status of tests/tcg/mips/:
 
-1. Imported, should not be modified
+> diff --git a/io/channel-socket.c b/io/channel-socket.c
+> index b76dca9cc1..a06b24766d 100644
+> --- a/io/channel-socket.c
+> +++ b/io/channel-socket.c
+> @@ -406,6 +406,8 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+>      }
+>  #endif /* WIN32 */
+>  
+> +    qio_channel_set_feature(QIO_CHANNEL(cioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
+> +
 
-   Drop from the patch.
+This covers the incoming server side socket.
 
-2. Not imported, should be modified
+This also needs to be set in outgoing client side socket in
+qio_channel_socket_connect_async
 
-2a. To be reviewed separately from the remainder of the patch
 
-    Split off.
+> @@ -705,7 +718,6 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+>  }
+>  #endif /* WIN32 */
+>  
+> -
+>  #ifdef QEMU_MSG_ZEROCOPY
+>  static int qio_channel_socket_flush(QIOChannel *ioc,
+>                                      Error **errp)
 
-2b. Likewise, but nobody will care to review, realistically
+Please remove this unrelated whitespace change.
 
-    Split off and merge anyway, or drop.  I'd go for the latter.
 
-2c. To be reviewed together with the remainder of the patch
+> @@ -109,6 +117,37 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+>      return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
+>  }
+>  
+> +int qio_channel_readv_peek_all_eof(QIOChannel *ioc,
+> +                                   const struct iovec *iov,
+> +                                   size_t niov,
+> +                                   Error **errp)
+> +{
+> +   ssize_t len = 0;
+> +   ssize_t total = iov_size(iov, niov);
+> +
+> +   while (len < total) {
+> +       len = qio_channel_readv_full(ioc, iov, niov, NULL,
+> +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
+> +
+> +       if (len == QIO_CHANNEL_ERR_BLOCK) {
+> +            if (qemu_in_coroutine()) {
+> +                qio_channel_yield(ioc, G_IO_IN);
+> +            } else {
+> +                qio_channel_wait(ioc, G_IO_IN);
+> +            }
+> +            continue;
+> +       }
+> +       if (len == 0) {
+> +           return 0;
+> +       }
+> +       if (len < 0) {
+> +           return -1;
+> +       }
+> +   }
 
-    Keep as is.
+This will busy wait burning CPU where there is a read > 0 and < total.
 
-Which one is it?
 
->                                                      Otherwise reviewing=
-=20
-> this patch here is no fun at all.
-
-I don't think complete detailed review is necessary or even sensible.
-
-Review should start with the Coccinelle script:
-
-    // replace 'R =3D X; return R;' with 'return X;'
-    @@
-    identifier VAR;
-    expression E;
-    type T;
-    identifier F;
-    @@
-     T F(...)
-     {
-         ...
-    -    T VAR;
-         ... when !=3D VAR
-
-    -    VAR =3D (E);
-    -    return VAR;
-    +    return E;
-         ... when !=3D VAR
-     }
-
-What could go wrong?  Not a rhetorical question!
-
-The simple part is executing the rule.  It'll *delete* variable VAR, and
-*preserve* expression E.
-
-The tricky part is deciding whether the rule matches, in particular
-proving that there are no other uses of VAR.  If Coccinelle gets that
-wrong, the code no longer compiles *unless* there is another, global VAR
-of suitable type.
-
-Turns out Coccinelle does get it wrong for vmdk_co_create(), and the
-compiler duly rejects it.  I don't understand why it gets it wrong.
-
-To help understand the script, and as a sanity check, reviewing some of
-its patches is advisable.  Reviewing all of them feels impractical.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
