@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DBCF634374
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 19:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83965634388
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 19:22:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxXoO-0007V4-MQ; Tue, 22 Nov 2022 13:16:00 -0500
+	id 1oxXtj-0000LJ-VA; Tue, 22 Nov 2022 13:21:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oxXoM-0007UO-4s
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:15:58 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxXti-0000L8-28
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:21:30 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oxXoJ-0002Zf-5k
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:15:57 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- l22-20020a17090a3f1600b00212fbbcfb78so18022779pjc.3
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 10:15:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxXtg-0004DB-Fy
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:21:29 -0500
+Received: by mail-wr1-x430.google.com with SMTP id x5so21925316wrt.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 10:21:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=yo/pjmL/dKwNSXW9Sk/cL3DLZksyOvIFo/ZUu518R7A=;
- b=Vh06OE7O0G+dfuRuVAqyeoxprfvn2rS69KVn3Ab/zj/f8vSk/QtqtRmLNW/f70lwNz
- vmHd51um+ezJTvjE32XffTkm/+czL3VFrZNyRBXfv36P1PSIMrr+N3RXcxBpbFAVv9G+
- hzwKRe4XBTf/gWAe/tJs3xVzN+XhMAJkM8PwyrWkzd7PTK89PgaFUf/nigklOqzLoFja
- K09GeTB20yHtCxk41qxwNEFQ6IJ63hHLLtfqoXsdCc+Cg8hTCi7+PPIRBVdOiaN1ZBt3
- 4SGxqcEmmyawxrqb9hoz444anViHY2pWwkyyXjWzxq/X3FfI17FPL0tJolLUOzxCBh3K
- 4cBg==
+ bh=thGpytbZshDiB+G0/3nPM/CidKnk5VSPp/+m6TKgLnI=;
+ b=OAMjnQq6ilQhSuEvLWgiYA/TE1MWveWghZeqfTBI6r3kC96e47fHs8rUnVeylkse4e
+ +M+vQTdx/oeBzQyhDv1w4VHnCyzZ2geeM+SfgqwOxxGI0vkusx7FgeinfxCi03APi4Ns
+ RVjlsbwZzjFSmRhn593mXZvYowNr3mqgE7Z4LOuiSUZV6UKRlSd8QJF2ocshdm4KmGO2
+ N4uQ2BnVURYW56kR7zH/l4ROvplG/GiehtSWtylTxv2LkRc0WLxPrXoFQv78lC31SX9r
+ 4MUZnAlebeAqIROL0oRZdNmxhSa4XRTVACe4tZoDnOaTkexFuaKxKbWa+pxA9cpmx15b
+ snUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yo/pjmL/dKwNSXW9Sk/cL3DLZksyOvIFo/ZUu518R7A=;
- b=rsg/v08EgexVM+PFBTY/uztI97cjAmpCq058LZ6Wrwx+o8qKBIk1DnMRHfgSWjwY36
- kdb9vKcG/UlXSzyAnlWdwRc1ER+qgvoCxzELi8kge3v/xcmqeEZ5hHWIgXFWHgzVXgGq
- tlfeKFZo0yt79BBKOh/wfQrxhuhnRUc4JUsGco3dBnQEGRqHOsWMej7nBz96DLpFV3tw
- gYB4Jdw1hmVosSBRBpfPK896XhduCsg8KpUrwGCclsrR+ATA+Jji0qFOn9HoCUAem3sZ
- SdkM/Kme2t+oZ8DkMYtPx2AFHRXWGCG63BLgscSoOUsA0nNKkSIRk5ht1/J4lY7nt+ek
- TZGA==
-X-Gm-Message-State: ANoB5pl+cUDHg+OBsSLIrChWKTKsB6+6byeQGEeMjvmipPjXpUG77kby
- O2Hhr9HwSfj3UdIqjRc7x5ZErg==
-X-Google-Smtp-Source: AA0mqf7FwPCF7OYoMEoDI5/02XDA5mKZcPTSFb2qHnlc/9ed5Cj6JkIHyI0adkxu4rJT+Un6U1xV+g==
-X-Received: by 2002:a17:902:d711:b0:17f:cdd1:7ab1 with SMTP id
- w17-20020a170902d71100b0017fcdd17ab1mr5568111ply.86.1669140953751; 
- Tue, 22 Nov 2022 10:15:53 -0800 (PST)
-Received: from ?IPV6:2602:47:d48a:1201:90f5:6f8b:e78a:4a0?
- ([2602:47:d48a:1201:90f5:6f8b:e78a:4a0])
+ bh=thGpytbZshDiB+G0/3nPM/CidKnk5VSPp/+m6TKgLnI=;
+ b=us6at7WHRj45GKnjhCzn+3ZWON9/GNXeFfBPF/ByGtfMpwNZxdWz1uIoj1XErmeB6E
+ QpbWo02sGzK48D5gt5Abdh3NnIFjc/RjZDDKbBKNJN09bMn2KC/sH9SNQLpFhVScVF+o
+ WbryQ1Jx1Yj2sEirqJPzplFr98+aJT/QIm8TBkVS8bVu+cjoWFUZy7rzykOpQ6Jj3wAq
+ EjuTvpf/0HD/VIuCl01h+MwArr758CMgb1qZBMLZ0Y/Gxa83ft9ryMzYMPJxCZjIvAkm
+ ZgCatEjVUcxoNcV6Z/q1vPugwZSvWQmy/epOPaaw5LJEPvqhH/Z+5vZbAgQnDbqn/aQl
+ vGDw==
+X-Gm-Message-State: ANoB5pnnh+JqYszZ8knyB/IGrVXKRuJv6NaiLoUpKQ1S8ju+uX0NL6fM
+ 1SRSq2rhNFVkuXxo9djAndURlg==
+X-Google-Smtp-Source: AA0mqf4YbddHZcYbZQ2pKqw/mnvgw/k/C2m9QF0EdLWjM2VHDz+OEhE10gFqGn3gBU8noueMu3J2Mg==
+X-Received: by 2002:a5d:674d:0:b0:22e:2ecc:663d with SMTP id
+ l13-20020a5d674d000000b0022e2ecc663dmr15697728wrw.633.1669141286870; 
+ Tue, 22 Nov 2022 10:21:26 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t5-20020a170902e1c500b00188f3970d4asm12265453pla.163.2022.11.22.10.15.52
+ l16-20020a1c7910000000b003b47ff307e1sm17452003wme.31.2022.11.22.10.21.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Nov 2022 10:15:53 -0800 (PST)
-Message-ID: <57c19b37-734e-4ee0-a2e5-d1513c04fb03@linaro.org>
-Date: Tue, 22 Nov 2022 10:15:51 -0800
+ Tue, 22 Nov 2022 10:21:25 -0800 (PST)
+Message-ID: <7927a474-d542-c84d-5cb7-7ddd5d19d7f4@linaro.org>
+Date: Tue, 22 Nov 2022 19:21:24 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH for-8.0 v3 14/45] tcg: Introduce tcg_type_size
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH for-8.0 15/29] include/qemu/int128: Add vector type to
+ Int128Alias
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <20221111074101.2069454-1-richard.henderson@linaro.org>
- <20221111074101.2069454-15-richard.henderson@linaro.org>
- <6e038f52-6736-ec37-5f67-bbc41e83a228@linaro.org>
- <ad677647-423e-0ce9-8cc9-68cb0849c320@linaro.org>
- <d831dea2-92de-68d2-8c21-e66fb95011ae@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <d831dea2-92de-68d2-8c21-e66fb95011ae@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221118094754.242910-1-richard.henderson@linaro.org>
+ <20221118094754.242910-16-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221118094754.242910-16-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,30 +91,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/22/22 10:14, Philippe Mathieu-Daudé wrote:
->>> I'd feel safer if we assign TCG_TYPE_I32 .. TCG_TYPE_V256 in TCGType,
->>> just in case.
->>
->> What do you mean?
+On 18/11/22 10:47, Richard Henderson wrote:
+> Adding a vector type will make it easier to handle i386
+> have_atomic16 via AVX.
 > 
-> -- >8 --
-> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> @@ -289,8 +289,8 @@ typedef struct TCGPool {
->   typedef enum TCGType {
-> -    TCG_TYPE_I32,
-> -    TCG_TYPE_I64,
-> +    TCG_TYPE_I32  = 0,
-> +    TCG_TYPE_I64  = 1,
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/qemu/int128.h | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> -    TCG_TYPE_V64,
-> -    TCG_TYPE_V128,
-> -    TCG_TYPE_V256,
-> +    TCG_TYPE_V64  = 2,
-> +    TCG_TYPE_V128 = 3,
-> +    TCG_TYPE_V256 = 4,
+> diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+> index f62a46b48c..f29f90e6f4 100644
+> --- a/include/qemu/int128.h
+> +++ b/include/qemu/int128.h
+> @@ -479,16 +479,16 @@ static inline void bswap128s(Int128 *s)
+>   /*
+>    * When compiler supports a 128-bit type, define a combination of
+>    * a possible structure and the native types.  Ease parameter passing
+> - * via use of the transparent union extension.
+> + * via use of the transparent union extension.  Provide a vector type
+> + * for use in atomicity on some hosts.
+>    */
+> -#ifdef CONFIG_INT128
+>   typedef union {
+>       Int128 s;
+> +    uint64_t v __attribute__((vector_size(16)));
+> +#ifdef CONFIG_INT128
+>       __int128_t i;
+>       __uint128_t u;
+> -} Int128Alias __attribute__((transparent_union));
+> -#else
+> -typedef Int128 Int128Alias;
+>   #endif /* CONFIG_INT128 */
+> +} Int128Alias __attribute__((transparent_union));
+>   
+>   #endif /* INT128_H */
 
-But that's what C does.  I don't see the point.
+This triggers a warning with GCC:
 
+include/qemu/int128.h:487:14: warning: alignment of field 'v' (128 bits) 
+does not match the alignment of the first field in transparent union; 
+transparent_union attribute ignored [-Wignored-attributes]
+     uint64_t v __attribute__((vector_size(16)));
+              ^
+include/qemu/int128.h:486:12: note: alignment of first field is 64 bits
+     Int128 s;
+            ^
+Meson:
 
-r~
+Project version: 7.1.91
+C compiler for the host machine: gcc-12 (gcc 12.2.0 "gcc-12 (Homebrew 
+GCC 12.2.0) 12.2.0")
+C linker for the host machine: gcc-12 ld64 819.6
+Host machine cpu family: aarch64
+Host machine cpu: arm64
+
 
