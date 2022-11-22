@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5D2633928
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A2963392D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:57:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQ0r-0002Qo-Nx; Tue, 22 Nov 2022 04:56:21 -0500
+	id 1oxQ0q-0002NR-IG; Tue, 22 Nov 2022 04:56:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0l-0002I0-So
+ id 1oxQ0n-0002I6-E6
  for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:17 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0k-0003YL-2e
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:15 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- l39-20020a05600c1d2700b003cf93c8156dso10869029wms.4
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:56:12 -0800 (PST)
+ id 1oxQ0k-0003dL-4y
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:17 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id e11so10958718wru.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:56:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ryh4B4BYlEzwTvoXIsMigdAmBPwQBxFG9jZxylxtaWE=;
- b=hDBg7iMzHf5Bk+QKov4YTd4WalAnO2Fx3HrFwlryIOgVxsEsHh0AHWLf+daXEU7h5K
- 5tgO1zvDciP3IuNgB1G8snYHxfmE1DhhGUsYwf+4GWErFvnj+h7A4ClUcN8raMKeG6i7
- C6u8lBA98MH/lExiIjqVsbwayAQnA4z7FF2ctVNg/tY5Ox0BJo9mWZ1rjf0A4TsYC7B3
- GcWXwE0pAV96FXNQ0ZdYH/BrOxjRzgoWUqSKdYZPkQUOUs1/AJ+3L4agayQbvoLJPc3s
- dK6XX44+FwT2tm3te0cj4oHiAPsrRx1BNbfgujgs38LHzKKY31CAEc5aI2jhCL7Xytf8
- RtlA==
+ bh=xSqW2kbzQv1qGLnYM3Z+K0PUcGFO2WEC4eYGpHtzuek=;
+ b=fC97xsCfDnEnBT+1LBZPImJdJnTN/4ddCCxoIt1f43PCUn7Nr62uEN1wf3xZZotQNs
+ lY7rIgtkh1qadwiPu/uEfgPf5X6tETz+f7MKd9IrTSXFrI9qyIchEQLvwQB5cdwJdYIf
+ J4z1xtBi6cqgP8s+XGQa3ysr5RUX7pZo2wW4hZzoKhAejMLv2Plh+6/BDbyDbVoJFIgn
+ 9y+nIKhjByVta/OBHWGqEP5u4t7b+pSPYdyJgCFDiluZwwb1dosjqQcGVqjulNTHIUSp
+ xbPPI7aYMq76VhW8LVPyN8H3nmVBfIK20zrVdZ+2F6wcLE9NcCm5+ZdaAIq1SJmDqhvP
+ LKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ryh4B4BYlEzwTvoXIsMigdAmBPwQBxFG9jZxylxtaWE=;
- b=SbOx8mJNle6vr8dS9eYa42mBHmcoaS+iW3OoDC9G2kh20OcKneWKEqRup484rs3sko
- rqg4sjKkDau6rcwVE46LEIo9Lc2TKHKtUPejh/eMo7WXBq1HrHJmn8DW5BNru0iG9JJL
- 7ANChaoxYz189Si6B8T92tNdfHb6EHeBJPetrQ0euR4DWUJZtFj5rTr/q/EJy85UY/FG
- hRs+5IrwYDvmbzAxqvXB0Ps8DQbb0JZtb9iG+fg/+BSbsjNXmXU+emllt6zFM7gqBWVZ
- QvBIgmr1cxVEYRK5WhAeQOfW/PLn8n1d1yw79efUfJdcvjFgAO+Uvy9b1gKyiQP+inM5
- nLHg==
-X-Gm-Message-State: ANoB5pkbefVNBJkOgdxj612fa7qgS87BUweDKOqg8Bz7RUt66fcbEorj
- zfxDPQO/1AsnO8CMprdm/lNteA==
-X-Google-Smtp-Source: AA0mqf6szWeUCfGEo643mpNoi8yPllN+1/paApEyubNzuMY+ICPWxxPphUURe3ZLrgAFdJYwwmTjXg==
-X-Received: by 2002:a05:600c:4f45:b0:3cf:9be3:8d26 with SMTP id
- m5-20020a05600c4f4500b003cf9be38d26mr7712391wmq.185.1669110971663; 
- Tue, 22 Nov 2022 01:56:11 -0800 (PST)
+ bh=xSqW2kbzQv1qGLnYM3Z+K0PUcGFO2WEC4eYGpHtzuek=;
+ b=p/kgzxOLQORAZ2w3NuK1016ucKpJKeR1xWeQsAY5mFDdT11dJgl+03NCWLQI5BnmHY
+ +KyA4WX2LJZxl0g16YRaKqXhlhYZLcj+UyFlvdMJP2xrpBHgZEq8Orhu1NzKb3/whM/l
+ 1KP3CMahlafJQ6x4WLyXq8dIWXWuWJJXyS+ldkcnmgKC2aCSIjOhJl1g5lzIENnIjFC0
+ WO4iBs4MF4Mf0VUUrDRy5LJmdIDHcGMDCD9vW3/kwzc+tvPC/R3MFAR6/j0bDpbdb4dR
+ aYaztc0FJYV2oeIyuDmTPEidJzGAbWfkkl/hBAuBX73E40N1/he9R06NaogFpqF+gzsQ
+ LH/Q==
+X-Gm-Message-State: ANoB5pmV3bOJCmAMs9t2Hh6ayQ8kR0m08IosMae2K1pyqPwyrgR8ll32
+ /bwlSipXsHFYaYq/9PwNa3N6bw==
+X-Google-Smtp-Source: AA0mqf7v7Rf8FANJZWAF+OcHkqW7+51aulid6JGgb0TDgVwharmpipJYtUFr2gAizDyZjvnqWTt+/A==
+X-Received: by 2002:a5d:42d0:0:b0:241:d8e2:868d with SMTP id
+ t16-20020a5d42d0000000b00241d8e2868dmr4960231wrr.671.1669110972339; 
+ Tue, 22 Nov 2022 01:56:12 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j15-20020adfe50f000000b002366d1cc198sm13464326wrm.41.2022.11.22.01.56.10
+ l10-20020adff48a000000b002366ded5864sm13468445wro.116.2022.11.22.01.56.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Nov 2022 01:56:11 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A1DCE1FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id B7C721FFBA;
  Tue, 22 Nov 2022 09:56:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Stefan Weil <sw@weilnetz.de>,
+Cc: stefanha@redhat.com, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL v2 01/11] Run docker probe only if docker or podman are
- available
-Date: Tue, 22 Nov 2022 09:56:00 +0000
-Message-Id: <20221122095610.3343175-2-alex.bennee@linaro.org>
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL v2 02/11] tests/avocado/machine_aspeed.py: Reduce noise on the
+ console for SDK tests
+Date: Tue, 22 Nov 2022 09:56:01 +0000
+Message-Id: <20221122095610.3343175-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221122095610.3343175-1-alex.bennee@linaro.org>
 References: <20221122095610.3343175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,35 +99,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Weil <sw@weilnetz.de>
+From: Cédric Le Goater <clg@kaod.org>
 
-The docker probe uses "sudo -n" which can cause an e-mail with a security warning
-each time when configure is run. Therefore run docker probe only if either docker
-or podman are available.
+The Aspeed SDK images are based on OpenBMC which starts a lot of
+services. The output noise on the console can break from time to time
+the test waiting for the logging prompt.
 
-That avoids the problematic "sudo -n" on build environments which have neither
-docker nor podman installed.
+Change the U-Boot bootargs variable to add "quiet" to the kernel
+command line and reduce the output volume. This also drops the test on
+the CPU id which was nice to have but not essential.
 
-Fixes: c4575b59155e2e00 ("configure: store container engine in config-host.mak")
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20221030083510.310584-1-sw@weilnetz.de>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20221104075347.370503-1-clg@kaod.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20221117172532.538149-2-alex.bennee@linaro.org>
+Message-Id: <20221117172532.538149-3-alex.bennee@linaro.org>
 
-diff --git a/configure b/configure
-index 66928692b0..26c7bc5154 100755
---- a/configure
-+++ b/configure
-@@ -1780,7 +1780,7 @@ fi
- # functions to probe cross compilers
+diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+index fba6527026..1fc385e1c8 100644
+--- a/tests/avocado/machine_aspeed.py
++++ b/tests/avocado/machine_aspeed.py
+@@ -12,6 +12,7 @@
+ from avocado_qemu import wait_for_console_pattern
+ from avocado_qemu import exec_command
+ from avocado_qemu import exec_command_and_wait_for_pattern
++from avocado_qemu import interrupt_interactive_console_until_pattern
+ from avocado.utils import archive
+ from avocado import skipIf
  
- container="no"
--if test $use_containers = "yes"; then
-+if test $use_containers = "yes" && (has "docker" || has "podman"); then
-     case $($python "$source_path"/tests/docker/docker.py probe) in
-         *docker) container=docker ;;
-         podman) container=podman ;;
+@@ -182,6 +183,8 @@ def test_arm_ast2600_evb_buildroot(self):
+ 
+ class AST2x00MachineSDK(QemuSystemTest):
+ 
++    EXTRA_BOOTARGS = ' quiet'
++
+     # FIXME: Although these tests boot a whole distro they are still
+     # slower than comparable machine models. There may be some
+     # optimisations which bring down the runtime. In the meantime they
+@@ -194,7 +197,7 @@ def wait_for_console_pattern(self, success_message, vm=None):
+                                  failure_message='Kernel panic - not syncing',
+                                  vm=vm)
+ 
+-    def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
++    def do_test_arm_aspeed_sdk_start(self, image):
+         self.require_netdev('user')
+         self.vm.set_console()
+         self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
+@@ -202,9 +205,13 @@ def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
+         self.vm.launch()
+ 
+         self.wait_for_console_pattern('U-Boot 2019.04')
+-        self.wait_for_console_pattern('## Loading kernel from FIT Image')
++        interrupt_interactive_console_until_pattern(
++            self, 'Hit any key to stop autoboot:', 'ast#')
++        exec_command_and_wait_for_pattern(
++            self, 'setenv bootargs ${bootargs}' + self.EXTRA_BOOTARGS, 'ast#')
++        exec_command_and_wait_for_pattern(
++            self, 'boot', '## Loading kernel from FIT Image')
+         self.wait_for_console_pattern('Starting kernel ...')
+-        self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
+ 
+     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+     def test_arm_ast2500_evb_sdk(self):
+@@ -221,7 +228,7 @@ def test_arm_ast2500_evb_sdk(self):
+         archive.extract(image_path, self.workdir)
+ 
+         self.do_test_arm_aspeed_sdk_start(
+-            self.workdir + '/ast2500-default/image-bmc', '0x0')
++            self.workdir + '/ast2500-default/image-bmc')
+         self.wait_for_console_pattern('ast2500-default login:')
+ 
+     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+@@ -243,7 +250,7 @@ def test_arm_ast2600_evb_sdk(self):
+         self.vm.add_args('-device',
+                          'ds1338,bus=aspeed.i2c.bus.5,address=0x32');
+         self.do_test_arm_aspeed_sdk_start(
+-            self.workdir + '/ast2600-default/image-bmc', '0xf00')
++            self.workdir + '/ast2600-default/image-bmc')
+         self.wait_for_console_pattern('ast2600-default login:')
+         exec_command_and_wait_for_pattern(self, 'root', 'Password:')
+         exec_command_and_wait_for_pattern(self, '0penBmc', 'root@ast2600-default:~#')
 -- 
 2.34.1
 
