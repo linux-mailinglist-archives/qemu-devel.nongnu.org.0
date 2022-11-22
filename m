@@ -2,84 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C90E634243
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 18:14:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E7263424E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 18:16:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxWpn-0000We-Ot; Tue, 22 Nov 2022 12:13:23 -0500
+	id 1oxWsc-0001nr-Py; Tue, 22 Nov 2022 12:16:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=31825ceb6=anthony.perard@citrix.com>)
- id 1oxWpl-0000WF-Ie
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:13:21 -0500
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxWsa-0001nd-6h
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:16:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=31825ceb6=anthony.perard@citrix.com>)
- id 1oxWpj-0000TE-1g
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:13:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1669137199;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=dibonJrbFJPYYbZVRju2tWu8dUxlVlZEda3MzHEgIJM=;
- b=KsZmwy2q4C3NyxhbO2VRMXLNQ0qlA2uJcmz629bQiDG2+io9LG6B0BX2
- n61g9WSrYtWtHGszZoQTLhzc7HpasmQ8fXujlvz30gS05OYE/hbs4CKlt
- V5l6efsS0rt6oYIlNQg7k97tetFHDb/J/qlNihpZ1jgb9gbi98MB8vlUt I=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: None
-X-MesageID: 84931259
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:qbc5bqCCtCEOFRVW/wjjw5YqxClBgxIJ4kV8jS/XYbTApDxw0jEPx
- mYeXGiFa/eCMzb9KI8gPIi29EgCv8CEyoUwQQY4rX1jcSlH+JHPbTi7wuUcHAvJd5GeExg3h
- yk6QoOdRCzhZiaE/n9BCpC48T8nk/nNHuCnYAL9EngZbRd+Tys8gg5Ulec8g4p56fC0GArIs
- t7pyyHlEAbNNwVcbyRFtcpvlDs15K6o4WpC5ARiDRx2lAS2e0c9Xcp3yZ6ZdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVDmZkh+AsBOsTAbzsAG6Y4pNeJ0VKtio27hc+ada
- jl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CA6IoKvn3bEmp1T4E8K0YIw2cxJLmMTx
- 9EiFhtRMCvTps6w7LDqRbw57igjBJGD0II3v3hhyXfSDOo8QICFSKLPjTNa9G5u3IYUR6+YP
- pdHL2o0BPjDS0Qn1lM/AZQinOCulz/nfidRsl69rqsr+WnDigd21dABNfKFJo3RHJ8Izy50o
- ErtpzT1IxcDNeCt9gra12+8qtXrwHPkDdd6+LqQqacx3Qz7KnYoIAUfSF+TsfS/zEmkVLp3O
- 0ESvyYjs6U23EiqVcXmGQ21pmaeuRwRUMYWFPc1gCmW0bbd6QudAmkCTxZCZcYguctwQiYlv
- neMlsnsDCZis5WUT2yc7baeqT6uOSkTInQGbCVCRgwAi/H6rYQuyx7CUNtnOKiyiNLzBHf32
- T/ikcQlr+xN14hRjfz9pA2ZxWL3znTUcuIrzib9YE2nszFUXrCOO9KTuXn369pCfYnMGzFto
- 0M4d9iiAPEmVM/TxXTdG7xcTdlF9N7ebmSC3AcH840Jsm30piX9Jd04DCRWfh8BDyoSRdP+j
- KY/Uyt17YQbAnalZLQfj2mZW5VzlviI+TgIu5npgjtyjntZLlXvENlGPxL44owUuBFEfGFWE
- c7znTyQJXgbE7976zG9Wv0Q17Qmrghnmz2CHc2mkUv9j+TBDJJwdVviGALeBt3VEYve+FmFm
- zqhH5biJ+pjvB3WPXCMrN97waEiJnknH5Hmw/G7hcbaSjeL2QgJVZfs/F/WU9Y4w/QOz76Sp
- hlQmCZwkTLCuJEOEi3SAlgLVV8ldcwXQa4TVcD0AWuV5g==
-IronPort-HdrOrdr: A9a23:UcGP06F7kQBvQJ9fpLqE08eALOsnbusQ8zAXPiFKOH5om6mj/P
- xG88536faKskdpZJhNo7y90dC7MBThHMdOkO8s1NSZLWrbUQmTTb2KhLGKq1fd8kvFmdK1vp
- 0BT0ERMrPN5SwQt7ef3OHLeOxQpeW6zA==
-X-IronPort-AV: E=Sophos;i="5.96,184,1665460800"; d="scan'208";a="84931259"
-Date: Tue, 22 Nov 2022 17:12:59 +0000
-To: Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?=
- <marmarek@invisiblethingslab.com>
-CC: <qemu-devel@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>, Paul
- Durrant <paul@xen.org>, "open list:X86 Xen CPUs"
- <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH 1/2] hw/xen/xen_pt: Call default handler only if no
- custom one is set
-Message-ID: <Y30DG96s9Ky1AUN0@perard.uk.xensource.com>
-References: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxWsX-0001TI-Cm
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 12:16:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669137372;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DEqaPheuKbKBHEj4EvAq3AyopAEuRNg/GdnBCjMLEd4=;
+ b=bDaUJNAh5chhf5nxVZohl0GFvxAj9BiD5AWNOoikuKyISAj6/b6b/FpPjaabzWhZQIkmiS
+ aYBOGXc44XnIybUGrpBb1yqEST87qCAhADXiPxRr53us9zM72yRe8RI1VTRBlLFamkZz0v
+ q9CYBJpecjw/iDuhfJ+VdULBp6NAZEA=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-220-PDRQWBrdMuKJikJQzmMabw-1; Tue, 22 Nov 2022 12:16:10 -0500
+X-MC-Unique: PDRQWBrdMuKJikJQzmMabw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ h13-20020a0ceecd000000b004c6964dc952so11344512qvs.13
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 09:16:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DEqaPheuKbKBHEj4EvAq3AyopAEuRNg/GdnBCjMLEd4=;
+ b=Pjf6rQP11ItccMyU+NFn94fkrR8EaOjazsK0v57cXChnvZ1O3b+K6wO/slo4Tme2zR
+ KSXCPyvIyqu78sH0SGIu2YBGBRJVngpzm7utKtQaDE1oxqcgb97XYzErYNG6IWZNdQML
+ BLEwETMSWQSVZt/AtFWqdmh/lWmhfZnL6d34Ybjm0/+iiGAjAOkDTmsSLB4e3Ln8u4/R
+ VzmQZWxhoxeorTfBrKLxAA9+1rx4uE3x9Z/sInurZUuARTd9h4nPxE8knTwZXkOdV+Xv
+ Ty/DSlC0lc9SPTFEO/cOd7sf816g8Dl9jUSoIfm+q/iuYrprXuYLRy+FOWhBNZz6o3F8
+ vzbw==
+X-Gm-Message-State: ANoB5plJ6e3k8uMYbbfCSgnGUh56FyQ5JDHSFf80Acd2jhkH+cLx5Rnf
+ 7awGzs1QwTxz6yo/3vo0PSizRsCXUuwbKbYvU6gCvzYRyscG7/kBOtqygZGN7SYS0qYLGFCYo0g
+ CnvA0YPMYOO6ECz0=
+X-Received: by 2002:a05:6214:3981:b0:4c6:a9fa:47f7 with SMTP id
+ ny1-20020a056214398100b004c6a9fa47f7mr10100830qvb.34.1669137370149; 
+ Tue, 22 Nov 2022 09:16:10 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Fm0PI4wsqpDoqKpHOU3rhANOvfWFCN4D8yT6CXuLQ42kwSmCnJ2T9DgEEmjFPa4T/ZCGgAQ==
+X-Received: by 2002:a05:6214:3981:b0:4c6:a9fa:47f7 with SMTP id
+ ny1-20020a056214398100b004c6a9fa47f7mr10100805qvb.34.1669137369826; 
+ Tue, 22 Nov 2022 09:16:09 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ y10-20020a05622a120a00b0039cc64bcb53sm8509013qtx.27.2022.11.22.09.16.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Nov 2022 09:16:09 -0800 (PST)
+Date: Tue, 22 Nov 2022 12:16:08 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, prerna.saxena@nutanix.com,
+ quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
+Subject: Re: [PATCH v3 1/2] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y30D2MXHVbwCsR2P@x1n>
+References: <20221119093615.158072-4-manish.mishra@nutanix.com>
+ <Y3yPoFAo5l/vmB/y@redhat.com>
+ <d240734d-8301-ac4f-63de-89e9d2c2174c@nutanix.com>
+ <Y3zffev6eOCl6JBy@x1n> <Y3zhcCCf49scoi9u@redhat.com>
+ <12383abd-0495-a202-fee2-cce64c3d54b2@nutanix.com>
+ <Y3z0auP3al5qYVIT@x1n> <Y3z40TBFLZDeahB4@x1n>
+ <Y3z54h+twgVKKZ2t@x1n>
+ <00d72719-051f-1fcf-e246-79996349937f@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=prvs=31825ceb6=anthony.perard@citrix.com;
- helo=esa6.hc3370-68.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <00d72719-051f-1fcf-e246-79996349937f@nutanix.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,79 +103,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 14, 2022 at 08:20:10PM +0100, Marek Marczykowski-G�recki wrote:
-> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-> index 0ec7e52183..269bd26109 100644
-> --- a/hw/xen/xen_pt.c
-> +++ b/hw/xen/xen_pt.c
-> @@ -255,6 +255,7 @@ static void xen_pt_pci_write_config(PCIDevice *d, uint32_t addr,
->      uint32_t find_addr = addr;
->      XenPTRegInfo *reg = NULL;
->      bool wp_flag = false;
-> +    uint32_t emul_mask = 0, write_val;
->  
->      if (xen_pt_pci_config_access_check(d, addr, len)) {
->          return;
-> @@ -310,7 +311,6 @@ static void xen_pt_pci_write_config(PCIDevice *d, uint32_t addr,
->      }
->  
->      memory_region_transaction_begin();
-> -    pci_default_write_config(d, addr, val, len);
->  
->      /* adjust the read and write value to appropriate CFC-CFF window */
->      read_val <<= (addr & 3) << 3;
-> @@ -370,6 +370,8 @@ static void xen_pt_pci_write_config(PCIDevice *d, uint32_t addr,
->                  return;
->              }
->  
-> +            emul_mask |= ( (1 << (reg->size * 8) ) - 1 ) << ((find_addr & 3) * 8);
-> +
->              /* calculate next address to find */
->              emul_len -= reg->size;
->              if (emul_len > 0) {
-> @@ -396,6 +398,24 @@ static void xen_pt_pci_write_config(PCIDevice *d, uint32_t addr,
->      /* need to shift back before passing them to xen_host_pci_set_block. */
->      val >>= (addr & 3) << 3;
->  
-> +    /* store emulated registers that didn't have specific hooks */
-> +    write_val = val;
-> +    for (index = 0; emul_mask; index += emul_len) {
+On Tue, Nov 22, 2022 at 10:12:25PM +0530, manish.mishra wrote:
+> 
+> On 22/11/22 10:03 pm, Peter Xu wrote:
+> > On Tue, Nov 22, 2022 at 11:29:05AM -0500, Peter Xu wrote:
+> > > On Tue, Nov 22, 2022 at 11:10:18AM -0500, Peter Xu wrote:
+> > > > On Tue, Nov 22, 2022 at 09:01:59PM +0530, manish.mishra wrote:
+> > > > > On 22/11/22 8:19 pm, Daniel P. Berrangé wrote:
+> > > > > > On Tue, Nov 22, 2022 at 09:41:01AM -0500, Peter Xu wrote:
+> > > > > > > On Tue, Nov 22, 2022 at 02:38:53PM +0530, manish.mishra wrote:
+> > > > > > > > On 22/11/22 2:30 pm, Daniel P. Berrangé wrote:
+> > > > > > > > > On Sat, Nov 19, 2022 at 09:36:14AM +0000, manish.mishra wrote:
+> > > > > > > > > > MSG_PEEK reads from the peek of channel, The data is treated as
+> > > > > > > > > > unread and the next read shall still return this data. This
+> > > > > > > > > > support is currently added only for socket class. Extra parameter
+> > > > > > > > > > 'flags' is added to io_readv calls to pass extra read flags like
+> > > > > > > > > > MSG_PEEK.
+> > > > > > > > > > 
+> > > > > > > > > > Suggested-by: Daniel P. Berrangé <berrange@redhat.com
+> > > > > > > > > > Signed-off-by: manish.mishra<manish.mishra@nutanix.com>
+> > > > > > > > > > ---
+> > > > > > > > > >     chardev/char-socket.c               |  4 +-
+> > > > > > > > > >     include/io/channel.h                | 83 +++++++++++++++++++++++++++++
+> > > > > > > > > >     io/channel-buffer.c                 |  1 +
+> > > > > > > > > >     io/channel-command.c                |  1 +
+> > > > > > > > > >     io/channel-file.c                   |  1 +
+> > > > > > > > > >     io/channel-null.c                   |  1 +
+> > > > > > > > > >     io/channel-socket.c                 | 16 +++++-
+> > > > > > > > > >     io/channel-tls.c                    |  1 +
+> > > > > > > > > >     io/channel-websock.c                |  1 +
+> > > > > > > > > >     io/channel.c                        | 73 +++++++++++++++++++++++--
+> > > > > > > > > >     migration/channel-block.c           |  1 +
+> > > > > > > > > >     scsi/qemu-pr-helper.c               |  2 +-
+> > > > > > > > > >     tests/qtest/tpm-emu.c               |  2 +-
+> > > > > > > > > >     tests/unit/test-io-channel-socket.c |  1 +
+> > > > > > > > > >     util/vhost-user-server.c            |  2 +-
+> > > > > > > > > >     15 files changed, 179 insertions(+), 11 deletions(-)
+> > > > > > > > > > diff --git a/io/channel-socket.c b/io/channel-socket.c
+> > > > > > > > > > index b76dca9cc1..a06b24766d 100644
+> > > > > > > > > > --- a/io/channel-socket.c
+> > > > > > > > > > +++ b/io/channel-socket.c
+> > > > > > > > > > @@ -406,6 +406,8 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+> > > > > > > > > >         }
+> > > > > > > > > >     #endif /* WIN32 */
+> > > > > > > > > > +    qio_channel_set_feature(QIO_CHANNEL(cioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
+> > > > > > > > > > +
+> > > > > > > > > This covers the incoming server side socket.
+> > > > > > > > > 
+> > > > > > > > > This also needs to be set in outgoing client side socket in
+> > > > > > > > > qio_channel_socket_connect_async
+> > > > > > > > Yes sorry, i considered only current use-case, but as it is generic one both should be there. Thanks will update it.
+> > > > > > > > 
+> > > > > > > > > > @@ -705,7 +718,6 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+> > > > > > > > > >     }
+> > > > > > > > > >     #endif /* WIN32 */
+> > > > > > > > > > -
+> > > > > > > > > >     #ifdef QEMU_MSG_ZEROCOPY
+> > > > > > > > > >     static int qio_channel_socket_flush(QIOChannel *ioc,
+> > > > > > > > > >                                         Error **errp)
+> > > > > > > > > Please remove this unrelated whitespace change.
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > > @@ -109,6 +117,37 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+> > > > > > > > > >         return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
+> > > > > > > > > >     }
+> > > > > > > > > > +int qio_channel_readv_peek_all_eof(QIOChannel *ioc,
+> > > > > > > > > > +                                   const struct iovec *iov,
+> > > > > > > > > > +                                   size_t niov,
+> > > > > > > > > > +                                   Error **errp)
+> > > > > > > > > > +{
+> > > > > > > > > > +   ssize_t len = 0;
+> > > > > > > > > > +   ssize_t total = iov_size(iov, niov);
+> > > > > > > > > > +
+> > > > > > > > > > +   while (len < total) {
+> > > > > > > > > > +       len = qio_channel_readv_full(ioc, iov, niov, NULL,
+> > > > > > > > > > +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
+> > > > > > > > > > +
+> > > > > > > > > > +       if (len == QIO_CHANNEL_ERR_BLOCK) {
+> > > > > > > > > > +            if (qemu_in_coroutine()) {
+> > > > > > > > > > +                qio_channel_yield(ioc, G_IO_IN);
+> > > > > > > > > > +            } else {
+> > > > > > > > > > +                qio_channel_wait(ioc, G_IO_IN);
+> > > > > > > > > > +            }
+> > > > > > > > > > +            continue;
+> > > > > > > > > > +       }
+> > > > > > > > > > +       if (len == 0) {
+> > > > > > > > > > +           return 0;
+> > > > > > > > > > +       }
+> > > > > > > > > > +       if (len < 0) {
+> > > > > > > > > > +           return -1;
+> > > > > > > > > > +       }
+> > > > > > > > > > +   }
+> > > > > > > > > This will busy wait burning CPU where there is a read > 0 and < total.
+> > > > > > > > > 
+> > > > > > > > Daniel, i could use MSG_WAITALL too if that works but then we will lose opportunity to yield. Or if you have some other idea.
+> > > > > > > How easy would this happen?
+> > > > > > > 
+> > > > > > > Another alternative is we could just return the partial len to caller then
+> > > > > > > we fallback to the original channel orders if it happens.  And then if it
+> > > > > > > mostly will never happen it'll behave merely the same as what we want.
+> > > > > > Well we're trying to deal with a bug where the slow and/or unreliable
+> > > > > > network causes channels to arrive in unexpected order. Given we know
+> > > > > > we're having network trouble, I wouldn't want to make more assumptions
+> > > > > > about things happening correctly.
+> > > > > > 
+> > > > > > 
+> > > > > > With regards,
+> > > > > > Daniel
+> > > > > 
+> > > > > Peter, I have seen MSG_PEEK used in combination with MSG_WAITALL, but looks like even though chances are less it can still return partial data even with multiple retries for signal case, so is not full proof.
+> > > > > 
+> > > > > *MSG_WAITALL *(since Linux 2.2)
+> > > > >                This flag requests that the operation block until the full
+> > > > >                request is satisfied.  However, the call may still return
+> > > > >                less data than requested if a signal is caught, an error
+> > > > >                or disconnect occurs, or the next data to be received is
+> > > > >                of a different type than that returned.  This flag has no
+> > > > >                effect for datagram sockets.
+> > > > > 
+> > > > > Actual read ahead will be little hackish, so just confirming we all are in agreement to do actual read ahead and i can send patch? :)
+> > > > Yet another option is the caller handles partial PEEK and then we can sleep
+> > > > in the migration code before another PEEK attempt until it reaches the full
+> > > > length.
+> > > > 
+> > > > Even with that explicit sleep code IMHO it is cleaner than the read-header
+> > > > flag plus things like !tls check just to avoid the handshake dead lock
+> > > > itself (and if to go with this route we'd better also have a full document
+> > > > on why !tls, aka, how the dead lock can happen).
+> > > Nah, I forgot we're in the same condition as in the main thread.. sorry.
+> > > 
+> > > Then how about using qemu_co_sleep_ns_wakeable() to replace
+> > > qio_channel_yield() either above, or in the caller?
+> > A better one is qemu_co_sleep_ns().  Off-topic: I'd even think we should
+> > have one qemu_co_sleep_realtime_ns() because currently all callers of
+> I am not aware of this :) , will check it.
+> > qemu_co_sleep_ns() is for the rt clock.
+> 
+> 
+> Yes that also works Peter. In that case, should i have a default time or take it from upper layers. And for live migration does something like of scale 1ms works?
 
-`index` isn't used, was it meant to be use for something?
+Sounds good to me on migration side.  When making it formal we'd also want
+to know how Juan/Dave think.
 
-> +        emul_len = 0;
-> +        while (emul_mask & 0xff) {
-> +            emul_len++;
-
-This seems to count the number of byte that have a hook
-(xen_pt_find_reg() found a `reg_entry`).
-This loop should count instead the number of bytes for which no
-`reg_entry` have been found, right? Shouldn't the loop count when a byte
-in emul_mask is unset?
-
-> +            emul_mask >>= 8;
-> +        }
-> +        if (emul_len) {
-> +            uint32_t mask = ((1 << (emul_len * 8)) - 1);
-> +            pci_default_write_config(d, addr, write_val & mask, emul_len);
-
-`addr` isn't updated in the loop, aren't we going to write bytes to the
-wrong place? If for example "emul_mask == 0x00ff00ff" ?
-
-> +            write_val >>= emul_len * 8;
-> +        } else {
-> +            emul_mask >>= 8;
-> +            write_val >>= 8;
-> +        }
-> +    }
+But let's also wait for Dan's input about this before going forward.  If
+the io code wants an _eof() version of PEEK then maybe we'd better do the
+timeout-yield there even if not as elegant as G_IO_IN.  IIUC it's a matter
+of whether we want to allow the PEEK interface return partial len.
 
 Thanks,
 
 -- 
-Anthony PERARD
+Peter Xu
+
 
