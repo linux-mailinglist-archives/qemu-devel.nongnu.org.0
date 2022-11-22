@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68213633ECE
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0671F633ED5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:24:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxUAS-0002QM-DR; Tue, 22 Nov 2022 09:22:32 -0500
+	id 1oxUBH-000379-UJ; Tue, 22 Nov 2022 09:23:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxUAO-0002Py-7g
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:22:28 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1oxUBF-0002zM-7l
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:23:21 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxUAM-0003Xw-AQ
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:22:27 -0500
-Received: by mail-pl1-x629.google.com with SMTP id b21so13771954plc.9
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 06:22:25 -0800 (PST)
+ id 1oxUBD-0003uh-O4
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:23:20 -0500
+Received: by mail-pl1-x631.google.com with SMTP id p12so13785713plq.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 06:23:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ox8EwBmvAcCek8yD+Q2rfJi3wmvXnFUHXnqQRxVR8+k=;
- b=tvfDm0kSiYcdzNMm0hMwf3/v5Wb4SGdH8WEmNpnxmxHcjhyh2CU0Dy9eQCyDf6yJ4V
- Cn1wO+O83bZnhvd4LqnUAl7VojKWv5bKEAnbRILDizYPB+rzMp7QveHnPliuTIlJ3rYk
- RMA5iGI4BJPYBRMFM8zMU1jhpOqCdeJF5VmHMy0UfdrM7mQHAQzr5u2k8MZUoONJ69AX
- ntKXJdSb/2AmecLHbSQ+qYP1+KOt34Awf0d9lzUjqrbhrKr6a5TNkgJo4Mvrsy06yfN9
- iAcC9qYXHh196iLqPF/lvEIOnPxI8VXi2LKJNPesnxlYhDokZC1EfwJbjVzFmgEwU2E4
- S4ZQ==
+ bh=V4Sw8aSxUN9A5QwjVO0Bw1eHNkGVVrDX+DJy0NatTCA=;
+ b=h4JBSVMzURhPQYzyrI7pdrhFNkbFxsjFhZAc3KOUKyRXYW3zfMweTYenJSVnl6XySj
+ 02pqy4uHNkad1GJY/Qq0prgL1psAWig2rH5/jMM7AXi7XcNNDrR9DUIIkKAPZ8TJVvJG
+ tt7xHwwC3wQayQc8y7Nu+h/CJwN3NjQ6x0hIZGV/Rd/2yBqzzubCK/txBrj8zMgOYu6/
+ NEPJ0hXtY96DIBn7wcTx64aKPLB+xwu/lQ4cI0OIYo1TdzMZghVd4lMNzTzrSC60HQSs
+ tBx3T2g59t5mEFy6vL+OiMoC6rVHUCsb0O1xtjQY/+VmQ8NNMbQvFjS1Nzwaqq/D1JmZ
+ gU8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ox8EwBmvAcCek8yD+Q2rfJi3wmvXnFUHXnqQRxVR8+k=;
- b=32rSX6vamczCbCoSMSIKMA/S3Gw3u0IwnedVBXgFBN2V3rK+KkPxAs5qBAQxoT7he4
- r0R0V72XrTK1yScga5XJ5rIGmNSEpYx3cLu8YKP6BdrURCfIqrn71TIJ23+RjcW5mH7J
- dB3KksogRRSa0HHNV9WCbWrigra3nNkeBPCvInrVPj616DKKWbefj8wqdYLiwhsOMrlE
- 0mPctb8CHeP5uzQgePOA0DAn+gROdk1ZsA2heVTPOh3/IPp5i9X1kGFrA4PiboPycvAJ
- SpwweIJeO7sh2uyyV+XTPtYtQWBDLu0sO4AQfOGqcVe1giZNdE38c/HKnb7sk0/Gkt+U
- HnKQ==
-X-Gm-Message-State: ANoB5pmbpsQyYC3gsJgWVCmnh+mROy/y2t6A8sMKHrKelJOEMgC9N3Nr
- MwbAVCj8ENCfuLDEldYNAxAjyIV/59je1D2d8DzM0g==
-X-Google-Smtp-Source: AA0mqf5c9FuVy9ewQP48IygGq+rwBKjdFFzRRC/afS5Ca5tgDhkVZWosv7EKLGEldhzd3HPq9w7+iI0C6VICcjyAxQo=
-X-Received: by 2002:a17:90a:7003:b0:212:f169:140e with SMTP id
- f3-20020a17090a700300b00212f169140emr25240542pjk.215.1669126944795; Tue, 22
- Nov 2022 06:22:24 -0800 (PST)
+ bh=V4Sw8aSxUN9A5QwjVO0Bw1eHNkGVVrDX+DJy0NatTCA=;
+ b=Un5iPJghU5w8p072gce3KQ2+vLyV7E/yoVDSvqiHeqLKWI7FanCTjjXxOfwCeUz0DR
+ 41FmklbmWPjuEMmij37amMt+dORXb3FlO7bccCTuB9fdqvd1GoysqK8ZlRxNAekbtoq4
+ YwAGevg+z6CG4ELySZ3obZ1bl/nqofQwkiDOaW4fA5NCP73Y+5EQpi7/BxFLkGzgzRGH
+ yUGk43BgP//haIiEo4PeXi5XiPLygzMvmN0xRHaIVYBmI7lvMk5qgtjRwwfy1JBpLNkA
+ dqXOlVB6i1xRZi+9ZoFb4ImzUGEsct0aXFkhWb2cs6NwdZNsqnbxkn59silQnCGgX7cR
+ ZqzA==
+X-Gm-Message-State: ANoB5pnQelFWAAV4NXPsPALVw5mcnnkY0xdPLuuvIiOcOxnRqAINvvAj
+ wpedPcKMpsV4qpaoToQqDJ/Hoc/GwZ1fAmxvPYrfoSELzug=
+X-Google-Smtp-Source: AA0mqf4Zp0kZzRSCfau7r+X2IOco0D4jux2hO7PZpO8RT7TsZnUtqBuIaPrXHip1q+ItnImfLJVdHsANp9Mq910FBYg=
+X-Received: by 2002:a17:90a:7004:b0:218:8757:8f2b with SMTP id
+ f4-20020a17090a700400b0021887578f2bmr20720237pjk.221.1669126998448; Tue, 22
+ Nov 2022 06:23:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20221112042555.2622152-1-richard.henderson@linaro.org>
- <20221112042555.2622152-3-richard.henderson@linaro.org>
-In-Reply-To: <20221112042555.2622152-3-richard.henderson@linaro.org>
+In-Reply-To: <20221112042555.2622152-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Nov 2022 14:22:13 +0000
-Message-ID: <CAFEAcA8Btaou=YRo9Af-vO2Du_N4-yP0r4k2Sv2eL78HgFzo9w@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 2/2] target/arm: Use tcg_gen_atomic_cmpxchg_i128
- for CASP
+Date: Tue, 22 Nov 2022 14:23:07 +0000
+Message-ID: <CAFEAcA8yOn39EFtf7eoZJp4rm+1nARQCFj9V9Otmo7HTNqDO0g@mail.gmail.com>
+Subject: Re: [PATCH for-8.0 0/2] target/arm: Use tcg_gen_atomic_cmpxchg_i128
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,17 +82,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 12 Nov 2022 at 04:26, Richard Henderson
+On Sat, 12 Nov 2022 at 04:27, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper-a64.h    |  2 --
->  target/arm/helper-a64.c    | 43 ---------------------------
->  target/arm/translate-a64.c | 61 +++++++++++---------------------------
->  3 files changed, 18 insertions(+), 88 deletions(-)
+> Use the new common function and avoid rolling our own helper(s).
+>
+> r~
+>
+> Based-on: 20221111074101.2069454-1-richard.henderson@linaro.org
+> ("tcg: Support for Int128 with helpers")
+>
+>
+> Richard Henderson (2):
+>   target/arm: Use tcg_gen_atomic_cmpxchg_i128 for STXP
+>   target/arm: Use tcg_gen_atomic_cmpxchg_i128 for CASP
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+You can queue these patches in with whenever the
+underlying tcg series goes in if that's easier;
+otherwise please ping me when the dependency is
+upstream and these patches are ready to go in.
 
 thanks
 -- PMM
