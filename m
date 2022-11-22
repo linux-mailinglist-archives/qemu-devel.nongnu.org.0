@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC959634355
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 19:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E24063436A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 19:14:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxXh8-0001So-KF; Tue, 22 Nov 2022 13:08:30 -0500
+	id 1oxXli-0005RS-NR; Tue, 22 Nov 2022 13:13:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxXh2-0001Nv-NN
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:08:25 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oxXlZ-0005Qa-Ce
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:13:06 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxXh1-0000NU-2a
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:08:24 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id v7so11340304wmn.0
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 10:08:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oxXl0-0001V5-KF
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 13:13:04 -0500
+Received: by mail-pl1-x631.google.com with SMTP id w23so14407769ply.12
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 10:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q7tm1bhBcyuyPxnOlxXqA0DnnV9CFx9sxG0g/SSnkGA=;
- b=LJ+W+Pum0r5pudghn5r+NXFW4czYWWDGUlcygL/BdM9atcw2EY8FePsCv52yHFhRQM
- VGP+gq234eplFgthC5GRTdgWjHzry9luIdjJDrWB7xaheHfelnjZ5fUX/q4X0DSV80AL
- w7lQri4jHWHdS8mVdVU1mAIex8zNczKTjx+JmdiKI3MUJnYWV4YosJovJNbM8w+iYbqK
- 1pGjLiIlEvrU9uwfdwaKSbzLCWdutFE7e28mSrCuW7uBQ7gqVWPaNJi9Vjwx6RYYeDVE
- WkkKRN3i7tTfMtjk3+D5LvwgD66jFcWETpckdlc0OK/U7MNBfeaZhwNvVkfSWwCS5dgP
- kBOg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J8sLl/B+4PLgUSKja6GGZ2RRje+SPCnCFmyUi1rWG3Y=;
+ b=QXTJWjidrCVGUY0s0cSLnhqLKsPJWQI/XvN0BPhrezPXHB/l06Bp78KWl5rsCtLPdS
+ j3I1KmUZQyxGKXpOY5I5byMrRzrAwLoO/uK9+H0WowdEcXFCmeEmNYxoOHzHquAKW3Et
+ Eu7ib4TU8vvtQKsVR669wWoAQV6OybrAx/pIOX+wSdM9tVg5sK3uWkRrlIThqzghdOFS
+ J56fEPD2gxv3O2A/f7IJvV0Q9UnZ5QqT/uvLkfJWLRvL6ZqBoJIFUV//2hX4EOST+CGD
+ Mo7K32ek7WE5MFyXHzUSqYzD00qakzZzggHl6+0lE/OuqpVeMV1jajkyPlhS4uluek3r
+ 9uLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Q7tm1bhBcyuyPxnOlxXqA0DnnV9CFx9sxG0g/SSnkGA=;
- b=i2JG2xmouQDztXwla/6Suig/XmDjTskZJq0QyDL2eVSIyCKueVUfZPt5WVTzNmbxaX
- 0ptAiN4RIgDqScfvN7k0YJKr16yO5qqilNp0UvswrEYGDY6jPpr722STo9IuPVXdHx3k
- FSQ0kH9fZHB0hUeOIfx+XkA7fogHCq2xzsog0zgl3VyXvZMe1c3wxVA6VBkHy1XbyKkg
- R5WlkvNMYh5NmtjtUYiE3wE2H0ZPM2Y02+lfSStdBUmE6uAHh07hsCgwIxxQcFs6SPcL
- gBxKHu96fZ2+O1HsIg5YCGyspKyTK45N88H9tJyDAvFOOpoOJw/m6wDVzxmt9kYFfDDp
- Gwvg==
-X-Gm-Message-State: ANoB5pn77GwxXb29UmaMx+Jh4TxcOWd8sEjPz8PXQHxQHlSstHkHXmwg
- y0q5xyvMl0DCqZpJDnpVK6ej2y+5cCWj2A==
-X-Google-Smtp-Source: AA0mqf78hYl6IcfTkmBVoCxb392OuiP0zp1Oh3B+aRK6+DzocQpr4BWRNE/0YJwE8Hd50aONPeIpBQ==
-X-Received: by 2002:a05:600c:a41:b0:3cf:895a:b22b with SMTP id
- c1-20020a05600c0a4100b003cf895ab22bmr4601445wmq.81.1669140501234; 
- Tue, 22 Nov 2022 10:08:21 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J8sLl/B+4PLgUSKja6GGZ2RRje+SPCnCFmyUi1rWG3Y=;
+ b=lvinCRaewq+4+fCvrVT6ksokrZtQwKaF/Df2hbSEXgm4ZHJB91P8j70S0ed4cbhviU
+ 8V/3Axj6D6OOJu2BRDJtbJIbjteo72Z9hi8pGE2IDcCP9utyjNt+kdQ47ZbIgSRkwh0+
+ yihnW0wXl/ktr8CrHtApwhaHBcuuirm9YKVRLHaEtxMGz2Ywj8rcnHcXcy4aMoTZud+B
+ dLo6DJwc46OOh5tkj5HpkGQDODQME4fpWGwlb6X29Rl8AV31BPSKe4h9scO/UiLOvdfn
+ FVM3lrpZR4OCndhIY6nyrw/bBvp32Yvm0GUG6zv9M60TkOyraSOTf7B1DqGt/goeaZO1
+ Yo+w==
+X-Gm-Message-State: ANoB5plbL4uKodFhsLYYzcdtjUxlnkVqwPVmv800ZatNB/RErkpOTsZN
+ Y2ffVhraOCShLGFPD0OLObvlbA==
+X-Google-Smtp-Source: AA0mqf7a32KNSMkc3XjDfXGK0pMzD1FQ28R2Xx7KZJkAaJyMQuzM2StlIdwZzn3oDQhARbuO1/vlUA==
+X-Received: by 2002:a17:903:d1:b0:186:8376:209f with SMTP id
+ x17-20020a17090300d100b001868376209fmr10639381plc.161.1669140749216; 
+ Tue, 22 Nov 2022 10:12:29 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:90f5:6f8b:e78a:4a0?
+ ([2602:47:d48a:1201:90f5:6f8b:e78a:4a0])
  by smtp.gmail.com with ESMTPSA id
- r7-20020a05600c458700b003a3170a7af9sm18859201wmo.4.2022.11.22.10.08.20
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 22 Nov 2022 10:08:20 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 3/3] tcg: Move ffi_cif pointer into TCGHelperInfo
-Date: Tue, 22 Nov 2022 19:08:04 +0100
-Message-Id: <20221122180804.938-4-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221122180804.938-1-philmd@linaro.org>
-References: <20221111074101.2069454-27-richard.henderson@linaro.org>
- <20221122180804.938-1-philmd@linaro.org>
+ b14-20020a62a10e000000b00571f66721aesm10916054pff.42.2022.11.22.10.12.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Nov 2022 10:12:28 -0800 (PST)
+Message-ID: <713de12d-e13f-a061-0019-93e6758fdaa5@linaro.org>
+Date: Tue, 22 Nov 2022 10:12:26 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] target/arm: align exposed ID registers with Linux
+Content-Language: en-US
+To: Zhuojia Shen <chaosdefinition@hotmail.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+References: <DS7PR12MB6309CF26249A273C1E2A6AAAAC0D9@DS7PR12MB6309.namprd12.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <DS7PR12MB6309CF26249A273C1E2A6AAAAC0D9@DS7PR12MB6309.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,114 +93,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On 11/21/22 18:48, Zhuojia Shen wrote:
+> In CPUID registers exposed to userspace, some registers were missing
+> and some fields were not exposed.  This patch aligns exposed ID
+> registers and their fields with what Linux exposes currently.
+> 
+> Specifically, the following new ID registers/fields are exposed to
+> userspace:
+> 
+> ID_AA64PFR1_EL1.BT:       bits 3-0
+> ID_AA64PFR1_EL1.MTE:      bits 11-8
+> ID_AA64PFR1_EL1.SME:      bits 27-24
+> 
+> ID_AA64ZFR0_EL1.SVEver:   bits 3-0
+> ID_AA64ZFR0_EL1.AES:      bits 7-4
+> ID_AA64ZFR0_EL1.BitPerm:  bits 19-16
+> ID_AA64ZFR0_EL1.BF16:     bits 23-20
+> ID_AA64ZFR0_EL1.SHA3:     bits 35-32
+> ID_AA64ZFR0_EL1.SM4:      bits 43-40
+> ID_AA64ZFR0_EL1.I8MM:     bits 47-44
+> ID_AA64ZFR0_EL1.F32MM:    bits 55-52
+> ID_AA64ZFR0_EL1.F64MM:    bits 59-56
+> 
+> ID_AA64SMFR0_EL1.F32F32:  bit 32
+> ID_AA64SMFR0_EL1.B16F32:  bit 34
+> ID_AA64SMFR0_EL1.F16F32:  bit 35
+> ID_AA64SMFR0_EL1.I8I32:   bits 39-36
+> ID_AA64SMFR0_EL1.F64F64:  bit 48
+> ID_AA64SMFR0_EL1.I16I64:  bits 55-52
+> ID_AA64SMFR0_EL1.FA64:    bit 63
+> 
+> ID_AA64MMFR0_EL1.ECV:     bits 63-60
+> 
+> ID_AA64MMFR1_EL1.AFP:     bits 47-44
+> 
+> ID_AA64MMFR2_EL1.AT:      bits 35-32
+> 
+> ID_AA64ISAR0_EL1.RNDR:    bits 63-60
+> 
+> ID_AA64ISAR1_EL1.FRINTTS: bits 35-32
+> ID_AA64ISAR1_EL1.BF16:    bits 47-44
+> ID_AA64ISAR1_EL1.DGH:     bits 51-48
+> ID_AA64ISAR1_EL1.I8MM:    bits 55-52
+> 
+> ID_AA64ISAR2_EL1.WFxT:    bits 3-0
+> ID_AA64ISAR2_EL1.RPRES:   bits 7-4
+> ID_AA64ISAR2_EL1.GPA3:    bits 11-8
+> ID_AA64ISAR2_EL1.APA3:    bits 15-12
+> 
+> Signed-off-by: Zhuojia Shen <chaosdefinition@hotmail.com>
+> ---
+>   target/arm/helper.c | 19 ++++++++++++++-----
+>   1 file changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index d8c8223ec3..ce6fd7a96d 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -7826,13 +7826,20 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>                 .exported_bits = 0x000f000f00ff0000,
+>                 .fixed_bits    = 0x0000000000000011 },
+>               { .name = "ID_AA64PFR1_EL1",
+> -              .exported_bits = 0x00000000000000f0 },
+> +              .exported_bits = 0x000000000f000fff },
 
-Instead of requiring a separate hash table lookup,
-put a pointer to the CIF into TCGHelperInfo.
+Existing, but I think it would be nicer to do this symbolically.  e.g.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221111074101.2069454-27-richard.henderson@linaro.org>
-[PMD: Split from bigger patch]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- tcg/tcg-internal.h |  7 +++++++
- tcg/tcg.c          | 26 ++++++++++++++------------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+    .exported_bits = R_ID_AA64PFR1_BT_MASK |
+                     R_ID_AA64PFR1_SBSS_MASK |
+                     R_ID_AA64PFR1_MTE_MASK |
+                     R_ID_AA64PFR1_SME_MASK,
 
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index c7e87e193d..6e50aeba3a 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -25,6 +25,10 @@
- #ifndef TCG_INTERNAL_H
- #define TCG_INTERNAL_H
- 
-+#ifdef CONFIG_TCG_INTERPRETER
-+#include <ffi.h>
-+#endif
-+
- #define TCG_HIGHWATER 1024
- 
- /*
-@@ -57,6 +61,9 @@ typedef struct TCGCallArgumentLoc {
- typedef struct TCGHelperInfo {
-     void *func;
-     const char *name;
-+#ifdef CONFIG_TCG_INTERPRETER
-+    ffi_cif *cif;
-+#endif
-     unsigned typemask           : 32;
-     unsigned flags              : 8;
-     unsigned nr_in              : 8;
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 9b24b4d863..d6a3036412 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -552,8 +552,6 @@ static TCGHelperInfo all_helpers[] = {
- static GHashTable *helper_table;
- 
- #ifdef CONFIG_TCG_INTERPRETER
--static GHashTable *ffi_table;
--
- static ffi_type *typecode_to_ffi(int argmask)
- {
-     switch (argmask) {
-@@ -576,9 +574,11 @@ static ffi_type *typecode_to_ffi(int argmask)
- static void init_ffi_layouts(void)
- {
-     /* g_direct_hash/equal for direct comparisons on uint32_t.  */
--    ffi_table = g_hash_table_new(NULL, NULL);
-+    GHashTable *ffi_table = g_hash_table_new(NULL, NULL);
-+
-     for (int i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
--        uint32_t typemask = all_helpers[i].typemask;
-+        TCGHelperInfo *info = &all_helpers[i];
-+        unsigned typemask = info->typemask;
-         gpointer hash = (gpointer)(uintptr_t)typemask;
-         struct {
-             ffi_cif cif;
-@@ -586,8 +586,11 @@ static void init_ffi_layouts(void)
-         } *ca;
-         ffi_status status;
-         int nargs;
-+        ffi_cif *cif;
- 
--        if (g_hash_table_lookup(ffi_table, hash)) {
-+        cif = g_hash_table_lookup(ffi_table, hash);
-+        if (cif) {
-+            info->cif = cif;
-             continue;
-         }
- 
-@@ -611,8 +614,12 @@ static void init_ffi_layouts(void)
-                               ca->cif.rtype, ca->cif.arg_types);
-         assert(status == FFI_OK);
- 
--        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
-+        cif = &ca->cif;
-+        info->cif = cif;
-+        g_hash_table_insert(ffi_table, hash, (gpointer)cif);
-     }
-+
-+    g_hash_table_destroy(ffi_table);
- }
- #endif /* CONFIG_TCG_INTERPRETER */
- 
-@@ -4413,12 +4420,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-     }
- 
- #ifdef CONFIG_TCG_INTERPRETER
--    {
--        gpointer hash = (gpointer)(uintptr_t)info->typemask;
--        ffi_cif *cif = g_hash_table_lookup(ffi_table, hash);
--        assert(cif != NULL);
--        tcg_out_call(s, tcg_call_func(op), cif);
--    }
-+    tcg_out_call(s, tcg_call_func(op), info->cif);
- #else
-     tcg_out_call(s, tcg_call_func(op));
- #endif
--- 
-2.38.1
+etc.
 
+
+r~
 
