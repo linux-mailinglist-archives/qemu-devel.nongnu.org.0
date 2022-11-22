@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604CC633A02
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038B5633A04
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:25:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQRc-0008LT-RS; Tue, 22 Nov 2022 05:24:00 -0500
+	id 1oxQRc-0008LS-SC; Tue, 22 Nov 2022 05:24:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRW-0008Kt-4j
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:54 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRV-0008Kg-NL
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRQ-0004na-RK
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRU-0004ng-9X
  for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669112627;
+ s=mimecast20190719; t=1669112631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tCyN486kILbT5B/0SUpD9hz0Zu83tKUQ17jpDn0HiAY=;
- b=Ul8MRDvbqRnS265wWOUHOObCuk6PcmHPmddOTpH1qDajVJVTV7KKr6kDSNCRKBKdP1G1ON
- WVlYeUffzgaA+aPbJ3HPkY2AKFjygD3Bv5hqfc/kO73ejXUdXpFMGjnyOzTZjTZnKqVNGQ
- hDnmJcrHsLUQuiGA51Z66IOjmIe9gUw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Z0eKwf2Elhvv90NH0J3EMt4xC/MdiblztPiLZZvKSPs=;
+ b=gonbBTXyFSMu7QUnebCKFS6rL5eA6msdmUG6KdMlz+isC70qKR20TcZddRtlU4CW4oQd04
+ FCHzgpmyClHVbOFvd5Yri8IPdM8D5ievsAk7KkwxHy1lSMqUg2QqUwY/ZziUGTpyQ2QTaI
+ PvSy1aVjtI5RFnKyaig3acBScJzvlVE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-654-V2Ay1hCHP5K-V0Ahf4EUKQ-1; Tue, 22 Nov 2022 05:23:46 -0500
-X-MC-Unique: V2Ay1hCHP5K-V0Ahf4EUKQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- x8-20020adfbb48000000b00241c6e4f72eso2597528wrg.2
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:46 -0800 (PST)
+ us-mta-504-BxsQckHoNJGqW5H4EgGcGw-1; Tue, 22 Nov 2022 05:23:49 -0500
+X-MC-Unique: BxsQckHoNJGqW5H4EgGcGw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q2-20020adfab02000000b00241b8f7efc5so3944193wrc.19
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tCyN486kILbT5B/0SUpD9hz0Zu83tKUQ17jpDn0HiAY=;
- b=opg4y0jfoPPpaM19A34I98MrQqMTs/mG8Uzdova6ra9RvlBgYOCyLWFuRc/C/kEalg
- 6qSyz3HyTZ1BDgWSoRCveCNNFTWDUWW9K1roS+Z/LiCULcz0rdwYTXee1eOeAlvFA2D9
- RZakJogBnZyflZsMXynnQFupxDanq6/ECfBFie9HyGSkJ7DnUnzrfMYkMkvVNgegRjYs
- QpjfHLos1KRbgfg91WTQsf6rmtTaBP19qvrKf9W8UPi4dUrb2COYvVluMIt3+vlSNtmP
- 5YqbPsAtTKa25WOmUXcr3Wu2OhKpwQBh4JkLXcPkt2Ta5PjtAP5+7YpskEmYZiEcJvPe
- 8hUA==
-X-Gm-Message-State: ANoB5pm6180h0UlIzQMoRAfoaDuex7drqziJXcyasks7wGsIysqV4f5+
- zaeDR3m/1T2VuuaY4+Qhc2567bM6klvhl4HTsNkuSOH4wTXcxcgFtRF0ItFhuxQtVQTBZhdRY2y
- K3ha17Jtv5YmINkW5D6LfVS3OByS10kxoB+d0Cn2mDcKdX20FmR6PBPbSiSua
-X-Received: by 2002:a5d:430e:0:b0:241:bfb6:c6da with SMTP id
- h14-20020a5d430e000000b00241bfb6c6damr3007678wrq.204.1669112625295; 
- Tue, 22 Nov 2022 02:23:45 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6/xomgXpokGScLs+6dt0ZTnBsDoKUJJOmpvCxiHoMHDPR4LbdGHYM7tYKHT/yAd2urfbLpQw==
-X-Received: by 2002:a5d:430e:0:b0:241:bfb6:c6da with SMTP id
- h14-20020a5d430e000000b00241bfb6c6damr3007659wrq.204.1669112625018; 
- Tue, 22 Nov 2022 02:23:45 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Z0eKwf2Elhvv90NH0J3EMt4xC/MdiblztPiLZZvKSPs=;
+ b=cSCuIs5xSMjldODrTFaTqBIxFSELgSqVtp5RAgv6Cuoq9IGBmmwSJwb02t1OMAmF1H
+ bmat/++qv2WPM8advUgZuzwAugVptk6bEXlNNHk+BFAdMvfeSs/+8PGHNWI6cZ/U9hvR
+ TIgjPVKDe0onmHA+T/IjdB50t2WwXuzognweLQmqfaV5GFDi18cMktHXlL6gJrpeS9zv
+ X5WpjMD2LYwtH70ytQdk5D6qxAtvL6zwhDo0528sHPbw3GX5vT3a+NwZjuWcF0CSPBrD
+ GL8j6XoZOVoqz26j1+/aiMMPcdz9yp0StsPj9MlZTziTXU21TFPWAnpU2UryTGvfUd4g
+ iM6w==
+X-Gm-Message-State: ANoB5pk9sW2Id9tNdM7Eft+0nElbPr5uxGUngqeAodvLQ3NXQRtj6lmP
+ AtCwPHXCasPCXj6pDqMU3GYm9SfNGHchtz9zgNGfwNjjptMcZMBVMQdDlQuTfHx5F5ZCTC2raQm
+ pSWvYI7pwgVuIYkPbz5MCS0PdtNc1pEL8FQriK6BFsqt7mrdkGJ2G2fjvn2ly
+X-Received: by 2002:a05:600c:4f48:b0:3cf:54f4:eea with SMTP id
+ m8-20020a05600c4f4800b003cf54f40eeamr9400169wmq.105.1669112627918; 
+ Tue, 22 Nov 2022 02:23:47 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4BrHh7V6MZgQD9bIqnZ+E4Kv+0+QaW5j/v6v2DE9PiNoGW+9HLiSeaekbBqAe2O9hru1bWwQ==
+X-Received: by 2002:a05:600c:4f48:b0:3cf:54f4:eea with SMTP id
+ m8-20020a05600c4f4800b003cf54f40eeamr9400150wmq.105.1669112627652; 
+ Tue, 22 Nov 2022 02:23:47 -0800 (PST)
 Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
- w19-20020adfbad3000000b00241c6729c2bsm10527579wrg.26.2022.11.22.02.23.43
+ t65-20020a1c4644000000b003cfa622a18asm20616847wma.3.2022.11.22.02.23.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 02:23:44 -0800 (PST)
-Date: Tue, 22 Nov 2022 05:23:42 -0500
+ Tue, 22 Nov 2022 02:23:47 -0800 (PST)
+Date: Tue, 22 Nov 2022 05:23:45 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 7/8] acpi/tests/avocado/bits: keep the work directory when
- BITS_DEBUG is set in env
-Message-ID: <20221122102227.6603-8-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Subject: [PULL 8/8] virtio: disable error for out of spec queue-enable
+Message-ID: <20221122102227.6603-9-mst@redhat.com>
 References: <20221122102227.6603-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221122102227.6603-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -104,62 +97,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ani Sinha <ani@anisinha.ca>
+Virtio 1.0 is pretty clear that features have to be
+negotiated before enabling VQs. Unfortunately Seabios
+ignored this ever since gaining 1.0 support (UEFI is ok).
+Comment the error out for now, and add a TODO.
 
-Debugging bits issue often involves running the QEMU command line manually
-outside of the avocado environment with the generated ISO. Hence, its
-inconvenient if the iso gets cleaned up after the test has finished. This change
-makes sure that the work directory is kept after the test finishes if the test
-is run with BITS_DEBUG=1 in the environment so that the iso is available for use
-with the QEMU command line.
-
-CC: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20221117113630.543495-1-ani@anisinha.ca>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Fixes: 3c37f8b8d1 ("virtio: introduce virtio_queue_enable()")
+Cc: "Kangjie Xu" <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20221121200339.362452-1-mst@redhat.com>
 ---
- tests/avocado/acpi-bits.py | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ hw/virtio/virtio.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index ac13e22dc9..4be663968c 100644
---- a/tests/avocado/acpi-bits.py
-+++ b/tests/avocado/acpi-bits.py
-@@ -260,7 +260,7 @@ def generate_bits_iso(self):
-         self.logger.info('using grub-mkrescue for generating biosbits iso ...')
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 9683b2e158..eb6347ab5d 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2499,10 +2499,17 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+ {
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
  
-         try:
--            if os.getenv('V'):
-+            if os.getenv('V') or os.getenv('BITS_DEBUG'):
-                 subprocess.check_call([mkrescue_script, '-o', iso_file,
-                                        bits_dir], stderr=subprocess.STDOUT)
-             else:
-@@ -344,7 +344,7 @@ def parse_log(self):
-                 self._print_log(log)
-                 raise e
-             else:
--                if os.getenv('V'):
-+                if os.getenv('V') or os.getenv('BITS_DEBUG'):
-                     self._print_log(log)
++    /*
++     * TODO: Seabios is currently out of spec and triggering this error.
++     * So this needs to be fixed in Seabios, then this can
++     * be re-enabled for new machine types only, and also after
++     * being converted to LOG_GUEST_ERROR.
++     *
+     if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+         error_report("queue_enable is only suppported in devices of virtio "
+                      "1.0 or later.");
+     }
++    */
  
-     def tearDown(self):
-@@ -353,8 +353,13 @@ def tearDown(self):
-         """
-         if self._vm:
-             self.assertFalse(not self._vm.is_running)
--        self.logger.info('removing the work directory %s', self._workDir)
--        shutil.rmtree(self._workDir)
-+        if not os.getenv('BITS_DEBUG'):
-+            self.logger.info('removing the work directory %s', self._workDir)
-+            shutil.rmtree(self._workDir)
-+        else:
-+            self.logger.info('not removing the work directory %s ' \
-+                             'as BITS_DEBUG is ' \
-+                             'passed in the environment', self._workDir)
-         super().tearDown()
- 
-     def test_acpi_smbios_bits(self):
+     if (k->queue_enable) {
+         k->queue_enable(vdev, queue_index);
 -- 
 MST
 
