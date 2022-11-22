@@ -2,67 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEC4633F85
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8351633FC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 16:04:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxUew-0005aw-W3; Tue, 22 Nov 2022 09:54:03 -0500
+	id 1oxUns-0007RR-Mx; Tue, 22 Nov 2022 10:03:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oxUeu-0005aV-QG
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:54:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oxUet-0007t0-0v
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:54:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669128837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wEYkjL7rLm+21/b6MXcJkp0xV7XKySABioC3C+j+vTY=;
- b=PV3sHJzGTvSYiUE3QUlSbhSe76C0iB8x0GYqDvvTHs2xNDM4QJ818rfg/BEpAt7W+R1JK5
- dN2Cx2J6x+TRckymPji7NKau/L2JuoM84TE1VR41Ba+H/16+NebIZkxoHYIS8TZD+FNXhR
- MK3Q5aRcB/F9VeUNsetvCGZ0nn2DUlE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-CwAaisoWNM6kELe6jQHUIw-1; Tue, 22 Nov 2022 09:53:55 -0500
-X-MC-Unique: CwAaisoWNM6kELe6jQHUIw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE68885A588
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 14:53:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04EF5C1908C;
- Tue, 22 Nov 2022 14:53:53 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: eperezma@redhat.com, eric.auger@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH] vhost-vdpa: skip TPM CRB memory section
-Date: Tue, 22 Nov 2022 18:53:49 +0400
-Message-Id: <20221122145349.86072-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxUnk-0007P3-S6
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 10:03:08 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxUnj-0003mW-5I
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 10:03:08 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ o7-20020a05600c510700b003cffc0b3374so11319105wms.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 07:03:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1cG7JjZKrDJMJiFBZz4LFWA1swu2frAZNVzdjz69N8g=;
+ b=vFt++CBA+6wZ8Bc/+CrSx929SKa3a14SLbJc66HUCRCwK0uMTwXUw7yBZJxsSjjXLq
+ QIlxt2snSfdPqycssCGhCOS6itQAT0ld3atsOSs+sOh9cW+FJnW4cmaL54hUu/ML1Jp0
+ txqbmQxX6MRKld+o6rlckro0O/xJXs5Q1LpJIO4TfM38rMI5SVkf1ST6n4Abur98Gxpj
+ +5BXEspfChP3+uPkGEBITZNTKj5VNMoeAAaU99JE/EgbIeTgZt0qeP59hwlL485DQg2P
+ MifhBtCWXe+JSEimVzyxYJcQqrl2WP81AMLvC5Q97MiMosUppkDXWJgEBlxc2/x7R9v2
+ Ywyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1cG7JjZKrDJMJiFBZz4LFWA1swu2frAZNVzdjz69N8g=;
+ b=ImgnKARGnvaFKddO9G9cRMOPOA3T1UqH48wVGnslv7oZ/N0vGCsKzhcPOJ5jqzs/DT
+ CoJ+uDNadg+JWeNeIRIgtwLx0+/r23vE5qGNoTEGF9nZDfzlUjopq98HCdr1gC5/U0bW
+ e6IYWTWQyuCVNWIy56dk0r6Bb2BCPpYzcoYlSinRjugglaUndjJN/YRDU2ZNUuKWNpNj
+ YwAcT6RrZ5a3WDFZznuwn6019lOTScLAmMl9Pgf8jr5y5K2tQEWOaIe/sKxKLx7ZX0r/
+ PySMCXWB27WtjJred38RR1dzBvrlY+UXXt8v7qUJX/EnVZA2H2dl75NCMc6on6EyT1bW
+ N31A==
+X-Gm-Message-State: ANoB5pm61iG0NVWvQAxGZXZFxoUeTzp18CBkx8rLSyYx+YV/Mwo0jyHX
+ A05XDjIOZsoiu0erv2JP1yC8dg==
+X-Google-Smtp-Source: AA0mqf40N+nxtt5mODcVyTIwvzVjIYRVuF+NeVQUiZmfqWhgfHBzMks+PRX47j6dxuCqBJ0ckzp2Mw==
+X-Received: by 2002:a7b:ce05:0:b0:3cf:7c1b:3c29 with SMTP id
+ m5-20020a7bce05000000b003cf7c1b3c29mr6124578wmc.23.1669129385495; 
+ Tue, 22 Nov 2022 07:03:05 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ r24-20020adfa158000000b00236b2804d79sm14811403wrr.2.2022.11.22.07.03.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Nov 2022 07:03:04 -0800 (PST)
+Message-ID: <506afd42-89ab-cc6a-42d7-4544244f8672@linaro.org>
+Date: Tue, 22 Nov 2022 16:03:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH] cleanup: Tweak and re-run return_directly.cocci
+Content-Language: en-US
+To: Max Filippov <jcmvbkbc@gmail.com>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, kwolf@redhat.com,
+ hreitz@redhat.com, groug@kaod.org, qemu_oss@crudebyte.com,
+ Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com, yuval.shaia.ml@gmail.com,
+ marcel.apfelbaum@gmail.com, mst@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com, pavel.dovgaluk@ispras.ru, alex.bennee@linaro.org,
+ peterx@redhat.com, david@redhat.com, mrolnik@gmail.com, gaosong@loongson.cn,
+ yangxiaojuan@loongson.cn, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
+ aleksandar.rikalo@syrmia.com, berrange@redhat.com, thuth@redhat.com,
+ lvivier@redhat.com, suhang16@mails.ucas.ac.cn, chen.zhang@intel.com,
+ lizhijian@fujitsu.com, stefanha@redhat.com, qemu-block@nongnu.org,
+ qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, virtio-fs@redhat.com
+References: <20221121140121.1079100-1-armbru@redhat.com>
+ <CAMo8BfKxve8=RKqT6S8XXy1E7hczF0VO9XXZeUpha_4xNSV6WA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAMo8BfKxve8=RKqT6S8XXy1E7hczF0VO9XXZeUpha_4xNSV6WA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,49 +103,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 21/11/22 17:42, Max Filippov wrote:
+> On Mon, Nov 21, 2022 at 6:01 AM Markus Armbruster <armbru@redhat.com> wrote:
+>>   .../xtensa/core-dsp3400/xtensa-modules.c.inc  | 136 +++++-------------
+>>   target/xtensa/core-lx106/xtensa-modules.c.inc |  16 +--
+> 
+> These files are generated and were imported from xtensa configuration
+> overlays, they're not supposed to be changed.
 
-851d6d1a0f ("vfio/common: remove spurious tpm-crb-cmd misalignment
-warning") removed the warning on vfio_listener_region_add() path.
+Tools can get the repository file list using 'git ls-files', which
+itself support file pattern exclusion [*].
 
-An error is reported for vhost-vdpa case:
-qemu-kvm: vhost_vdpa_listener_region_add received unaligned region
+We can create i.e. 'scripts/imported-files.txt' with:
 
-Skip the CRB device.
+   linux-headers/
+   target/hexagon/imported/
+   target/xtensa/core*
+   tests/tcg/mips/user/
 
-Fixes:
-https://bugzilla.redhat.com/show_bug.cgi?id=2141965
+Then use 'git ls-files --exclude-from=scripts/imported-files.txt' ...
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- hw/virtio/vhost-vdpa.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 7468e44b87..9d7206e4b8 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -19,6 +19,7 @@
- #include "hw/virtio/virtio-net.h"
- #include "hw/virtio/vhost-shadow-virtqueue.h"
- #include "hw/virtio/vhost-vdpa.h"
-+#include "sysemu/tpm.h"
- #include "exec/address-spaces.h"
- #include "migration/blocker.h"
- #include "qemu/cutils.h"
-@@ -46,6 +47,11 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
- {
-     Int128 llend;
- 
-+    if (TPM_IS_CRB(section->mr->owner)) {
-+        /* The CRB command buffer has its base address unaligned. */
-+        return true;
-+    }
-+
-     if ((!memory_region_is_ram(section->mr) &&
-          !memory_region_is_iommu(section->mr)) ||
-         memory_region_is_protected(section->mr) ||
--- 
-2.38.1
+[*] 
+https://git-scm.com/docs/git-ls-files#Documentation/git-ls-files.txt---exclude-fromltfilegt
 
 
