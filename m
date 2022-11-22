@@ -2,74 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787D46336AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 09:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91F26336D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 09:15:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxOM0-0000h8-VB; Tue, 22 Nov 2022 03:10:05 -0500
+	id 1oxOPv-0002Ql-IQ; Tue, 22 Nov 2022 03:14:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oxOLT-0000ak-M1
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:09:43 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oxOLR-0002Ic-SX
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:09:31 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id 140so13676870pfz.6
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 00:09:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Sb8YnLCJpHRQPXtTp5Rv2mhgsRJx1k/ho731xOQ5kXA=;
- b=2Rh44m3j7KHFKJF/1WMMIgG3iPbTErYmeUkGywbsXJYteuONwBsjEUwWDRnccUaK5F
- shrAOpW2jOIfUU12nqghhCsHt7073jGE7F2uHp/E9OcTcI6OZeU2bfuOt/2klvNgeRCf
- MzlSpZqVyOZHd05rWj7Db8JA8cctljv5zuZAci6P/DAL6RRMLYfV4a2p8tMe0axICyq+
- RLZpvBrl7Qq3tVu2VpxTVT5t0+Djr82W/J6X9TCe/bwHhZ1bAbdlZyo2Y/3NB7ZcmSwv
- KrecaAtQqmLnhadLp8M0VbSWxv7M4xZehsWbHg69dVWADYq5ga3clHLu14rDyIY5dBz4
- 4pKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Sb8YnLCJpHRQPXtTp5Rv2mhgsRJx1k/ho731xOQ5kXA=;
- b=J73K3rrFLcDIgq6385HsFMG+pqcJltz1FsdZSur4Qtnv/1gy5xabJZANu49QepkFnp
- dpRByhTQLZdh1KhYCBypY6ZztLq75WSzgqOHKi87u4sN3tsrXFYdMVPRDp/P9nbdZho0
- Mn3uUfedF3PzG4Hvnp8ELMJL5euOwJfhtpOt6JRq452zeh2BXKLHx7O8JcT/938aA208
- 1UEizFKlSzRu3g+8iLrDTJ2Z9lBnsmjBqqIwln6aEdZWRwLRwlctKdMRohV7dwxqGEFr
- Bg/GTZ7dbb6dHutT6a7fBJoo2GmQAV0rL69qiFWgFP4ZrCS+tcnz2t5byEMWMNtvnIh/
- de5w==
-X-Gm-Message-State: ANoB5plYazJClSkQNw1/F/ducYM3Kxxy0gkjsStYAMwHGaVXeXBJCdyJ
- LWZSh5BIuf5Ugu3atoTEPvy5gN2HcRCasha/EDW3cg==
-X-Google-Smtp-Source: AA0mqf709XEn/juSmpZVJVFcHsKLgYrRwlb4PlFDwhPuUVq4cz6VVijC/JbENdMjvhYAve6mcXRUGMYKPVxqP4845CQ=
-X-Received: by 2002:a62:54c2:0:b0:56b:fb4f:3d7c with SMTP id
- i185-20020a6254c2000000b0056bfb4f3d7cmr24550098pfb.54.1669104568444; Tue, 22
- Nov 2022 00:09:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oxOPq-0002PQ-BU; Tue, 22 Nov 2022 03:14:02 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oxOPl-00031d-CV; Tue, 22 Nov 2022 03:13:59 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id A1E3932002D8;
+ Tue, 22 Nov 2022 03:13:52 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 22 Nov 2022 03:13:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1669104832; x=1669191232; bh=bm
+ H6ZBpik8g+a6Zn5Ijx0xj04vxf9XxEA3n8B7VedM8=; b=W38wyqgEcsurOqHWJB
+ WmjpF5Oztqk5wxh0IbKCjtnwqgKBKViK8gU7gR/JNl/+rVfJBuLPpS349tB0n40H
+ LH9wD+2I5XxXpZaYZwWLw0p4RsKASHh5B9rkij+/J9Ufx31foSP2AHM3+2DS/9i6
+ Gx6k8O95BjhB33a+i/J+KaQyiEXwgwf9Gku7zVvZ16E5LCW0b8+wlwkeai1lo4h0
+ wKgtnWD7iwEzZoJMwGhpuAPIqOrPE9NsrfoQtdWHti6rPGBT0OZsHnYbQxVe0dWJ
+ LhLA7LJBChNPFvyYDRQVtcfSjWKVMfefTQaq5dcK9Gq05dBxdOGjhaWQwTp+RCjo
+ 5Ztg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1669104832; x=1669191232; bh=bmH6ZBpik8g+a
+ 6Zn5Ijx0xj04vxf9XxEA3n8B7VedM8=; b=mZH2ot9iDhW/pH9bwvyY46To652tC
+ jzI3EZ5ZDeJ8Zhx+6zaxvdE+6+f6rVs3oH+rSyB/BXyRnDvPeOaX1UuDgj5wUYLm
+ zw6dYCnFzMecYAAXVU0PX8/v6xckJf05JhWZqb5zYu66tqwtyrfr9H+PcqkCAyvl
+ sQ8PxKiETXunT+p2AURHoDzuKR+wsQTL7M1eZScYHW8NixLveujYjiMonvAMewA6
+ 6qg6mG05VgvIU5TgUchukm6aGWWqU/xE93aEYfa6AztuMhAGp/Fa44ZxAGGSrvOz
+ K1aSHLFy2eTbx92rSx28cQhISVCshfqixVBFl7QLgm/WSrdlZpCHgBbXA==
+X-ME-Sender: <xms:v4R8Y61UH23zv9m-uLIbRdBqh7RtplP6dNZlxIvO8DWnaADofl4EXw>
+ <xme:v4R8Y9GX3Pn2BVcV35Ua8__YeLpGffSJhS9BZpbDV3yCcQaoLd8jvKUX7K8nCJPo8
+ DwN6FvF3hGje6U5_LQ>
+X-ME-Received: <xmr:v4R8Yy7CXr2k_OYk-9sm8LekYqTlNn2FLhbtaCY21Tbf9YW94_oQuUvsuM3VSNDuPuw5CT5agwe9pehT4OHJIaTu-QkC1xW_3Qg2Cw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrheejgdduvddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpedukedvgfeujedvgfdvfefffffhheeitdeijeekleefvdfhgedvvddtfeeukefg
+ ueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:v4R8Y71tGe8-8RmRNwtbTwo_s9YBZx8ECExsyA4zNVri-fXCOu4l9g>
+ <xmx:v4R8Y9FL6_KdJhuJF7hih8-pAhCCHMG2d5_Svj2jrzRoY0nYUlGpZA>
+ <xmx:v4R8Y0-q33fbwZgy9B6lLzT4iBnJUbknblfGRL7TxhNOQkgj6vfw6g>
+ <xmx:wIR8Y9Bqr_Igst5fdWCEy-CD6DYJIkb4Djo_lerw9Km1LR8K_C923Q>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 22 Nov 2022 03:13:50 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH for-7.2 0/5] hw/nvme: aio cancel fixes
+Date: Tue, 22 Nov 2022 09:13:43 +0100
+Message-Id: <20221122081348.49963-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.38.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221113095101.3395628-1-atishp@rivosinc.com>
- <CAKmqyKP-+5hOjn7p_30MfYgK1ANx9P_Y0SE7+NSq6T-GMpYyFg@mail.gmail.com>
-In-Reply-To: <CAKmqyKP-+5hOjn7p_30MfYgK1ANx9P_Y0SE7+NSq6T-GMpYyFg@mail.gmail.com>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Tue, 22 Nov 2022 00:09:17 -0800
-Message-ID: <CAHBxVyHATHnmT8Ggkvxwpefb2Bpz9W8Gk0Vj1oddt3Py0FUnHQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/riscv: virt: Remove the redundant ipi-id property
-To: Alistair Francis <alistair23@gmail.com>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=atishp@rivosinc.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Developer-Signature: v=1; a=openpgp-sha256; l=628; i=k.jensen@samsung.com;
+ h=from:subject; bh=K8WtqnmH5qxwhyjSyqbkW2/L0fmtdQVXsodmChrglXE=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGN8hLtS0BVN2GaiT5FfA6/NaCNwNltU75fdRPmi
+ DmvRqYYtFYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjfIS7AAoJEE3hrzFtTw3pZs
+ QH/R2EaSuWgg9FjaJaiptwCDYPa68wtf5oyin5PSPTFpezHDRDtmGDLcYV/wD0FiM20dN9ykTPDTjI
+ dB3jV4yLTNTXrfDj/y7GVA0msvTwUbsHH5u7tjgLCW2U+oLO+Gbo454qhMAN1vySSH/uiWw1oBwpy1
+ bGbu335FCR7fM1xGhCW1dsB3RKctjFkToIzrTjEvyZkmixvvdpSkK/DQubiHYLxNMVa9gV/hYKTbRv
+ w03KwDrG4NMAB9VTBsqfOkz3FQMpwfgUWdvPYqL6e/mh750ArMNmGpq8npNKl9K9m0NTxUdOLsDCqI
+ bJ69ehSuPibjmwpuBX6GXkVN/VOg4UdwEcJq1H
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,63 +109,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 21, 2022 at 10:11 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Sun, Nov 13, 2022 at 7:52 PM Atish Patra <atishp@rivosinc.com> wrote:
-> >
-> > The imsic DT binding[1] has changed and no longer require an ipi-id.
-> > The latest IMSIC driver dynamically allocates ipi id if slow-ipi
-> > is not defined.
-> >
-> > Get rid of the unused dt property which may lead to confusion.
-> >
-> > [1] https://lore.kernel.org/lkml/20221111044207.1478350-5-apatel@ventanamicro.com/
-> >
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  hw/riscv/virt.c         | 2 --
-> >  include/hw/riscv/virt.h | 1 -
-> >  2 files changed, 3 deletions(-)
-> >
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index a5bc7353b412..0bc0964e42a8 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -546,8 +546,6 @@ static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
-> >          riscv_socket_count(mc) * sizeof(uint32_t) * 4);
-> >      qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
-> >          VIRT_IRQCHIP_NUM_MSIS);
-> > -    qemu_fdt_setprop_cells(mc->fdt, imsic_name, "riscv,ipi-id",
-> > -        VIRT_IRQCHIP_IPI_MSI);
-> >      if (riscv_socket_count(mc) > 1) {
-> >          qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bits",
-> >              imsic_num_bits(imsic_max_hart_per_socket));
-> > diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> > index be4ab8fe7f71..62513e075c47 100644
-> > --- a/include/hw/riscv/virt.h
-> > +++ b/include/hw/riscv/virt.h
-> > @@ -93,7 +93,6 @@ enum {
-> >
-> >  #define VIRT_PLATFORM_BUS_NUM_IRQS 32
-> >
-> > -#define VIRT_IRQCHIP_IPI_MSI 1
->
-> This is used elsewhere with a different "riscv,ipi-id" and this fails to compile
->
+From: Klaus Jensen <k.jensen@samsung.com>
 
-I am not sure what I was thinking when I sent the patch. It is such a
-silly patch.
-Anyways, I am really sorry for the breakage. I have sent the v3.
+A new blktests nvme test unearthed some bad bugs in the asynchronous
+cancellation handling.
 
-> I have dropped this patch
->
-> Alistair
->
-> >  #define VIRT_IRQCHIP_NUM_MSIS 255
-> >  #define VIRT_IRQCHIP_NUM_SOURCES VIRTIO_NDEV
-> >  #define VIRT_IRQCHIP_NUM_PRIO_BITS 3
-> > --
-> > 2.25.1
-> >
-> >
+Fix this for all commands that implement async_cancel(). The fix is the
+same for all commands: remove the deferred enqueuing (a bottom half
+scheduling) of the request completion.
+
+Klaus Jensen (5):
+  hw/nvme: fix aio cancel in format
+  hw/nvme: fix aio cancel in flush
+  hw/nvme: fix aio cancel in zone reset
+  hw/nvme: fix aio cancel in dsm
+  hw/nvme: remove copy bh scheduling
+
+ hw/nvme/ctrl.c | 181 ++++++++++++++-----------------------------------
+ 1 file changed, 51 insertions(+), 130 deletions(-)
+
+-- 
+2.38.1
+
 
