@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAD2633931
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5D2633928
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:56:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQ0q-0002NS-Em; Tue, 22 Nov 2022 04:56:20 -0500
+	id 1oxQ0r-0002Qo-Nx; Tue, 22 Nov 2022 04:56:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0l-0002I1-T6
+ id 1oxQ0l-0002I0-So
  for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:17 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0k-0003YH-2k
+ id 1oxQ0k-0003YL-2e
  for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:15 -0500
-Received: by mail-wr1-x430.google.com with SMTP id g12so23835625wrs.10
+Received: by mail-wm1-x334.google.com with SMTP id
+ l39-20020a05600c1d2700b003cf93c8156dso10869029wms.4
  for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:56:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=paDcNGWbM5EFPnksgTRrlaaBE9Sj+b1OBUcGOM+1DgI=;
- b=lbasTQzMJGCrYp2m2UZg5J/X2TXixAc/+/eNfDFFKV1PhfgI7K1AuB2GxV6WO/46Fa
- N+0fFVF6wuuxvq/DnSW5LMopC4re6CamcQJGNWZQhBsqWa+0FQvdSKHnObwd4MkhROHC
- MsrIE4t2HAp5PFRAyWl7nAsueyreZdpWnhmsUOKY9GcujleNLh5oAlJpghPveLXGr6zj
- O9DboEsbh0Uls55X8VzbPOxxFHJdkpU5FQBGgqp+WC6h1WdWV3VjmhPctm4Ss6SMfgK6
- KzF7gpqX/4kO5FSdS870lUPlmzwPEwkU53QdB9yRmcErSJqsnHAzV89UrASd1xIJH+e+
- GP+g==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ryh4B4BYlEzwTvoXIsMigdAmBPwQBxFG9jZxylxtaWE=;
+ b=hDBg7iMzHf5Bk+QKov4YTd4WalAnO2Fx3HrFwlryIOgVxsEsHh0AHWLf+daXEU7h5K
+ 5tgO1zvDciP3IuNgB1G8snYHxfmE1DhhGUsYwf+4GWErFvnj+h7A4ClUcN8raMKeG6i7
+ C6u8lBA98MH/lExiIjqVsbwayAQnA4z7FF2ctVNg/tY5Ox0BJo9mWZ1rjf0A4TsYC7B3
+ GcWXwE0pAV96FXNQ0ZdYH/BrOxjRzgoWUqSKdYZPkQUOUs1/AJ+3L4agayQbvoLJPc3s
+ dK6XX44+FwT2tm3te0cj4oHiAPsrRx1BNbfgujgs38LHzKKY31CAEc5aI2jhCL7Xytf8
+ RtlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=paDcNGWbM5EFPnksgTRrlaaBE9Sj+b1OBUcGOM+1DgI=;
- b=de9Nz25AEjpL4gBaVUw0e6OsxaP9JwRkyhhv77GngimOs+F97ibDZzyhoywqgzDMGo
- SSgpm2cuBfYLug3ZKaGRgs/CmmDG0zRUZIbZM4ePK/9n6WrcJRcRpiuxbgo3+gKjBCRF
- u+APAizuExVv7I7pohEQn48SkLJjo3NIuKEN6mVR4JJdjXKTUIOXNe2huivxexYSopj2
- 2DrRlQMS+v+kYWTLktqdsq0YmZbJPGIeDQoEH0sy3dmOU0fIyANV/jaDox4rAETcsmp+
- J7PUVrveRudEkgEXutREp8uuFiptceI8aVihYpHsUB/nnQCh7a3Kl8MZmu0MMtjwYuPf
- P+SQ==
-X-Gm-Message-State: ANoB5pkMO0ByZC58vDrH0lEaPzMTR+c1T1vPqToBQlMIiG359Ip2iDnZ
- rX06c4nGsvgNuageHQs9yeHl+g==
-X-Google-Smtp-Source: AA0mqf61NGA3vvHB1T7gR2d8e1DNwHmpD5r9p0IdfX+BPLSJFZIzYA7TeLfmxIquQFELKrh6IFH2GQ==
-X-Received: by 2002:adf:ed8b:0:b0:241:d375:88b6 with SMTP id
- c11-20020adfed8b000000b00241d37588b6mr5942756wro.88.1669110971383; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ryh4B4BYlEzwTvoXIsMigdAmBPwQBxFG9jZxylxtaWE=;
+ b=SbOx8mJNle6vr8dS9eYa42mBHmcoaS+iW3OoDC9G2kh20OcKneWKEqRup484rs3sko
+ rqg4sjKkDau6rcwVE46LEIo9Lc2TKHKtUPejh/eMo7WXBq1HrHJmn8DW5BNru0iG9JJL
+ 7ANChaoxYz189Si6B8T92tNdfHb6EHeBJPetrQ0euR4DWUJZtFj5rTr/q/EJy85UY/FG
+ hRs+5IrwYDvmbzAxqvXB0Ps8DQbb0JZtb9iG+fg/+BSbsjNXmXU+emllt6zFM7gqBWVZ
+ QvBIgmr1cxVEYRK5WhAeQOfW/PLn8n1d1yw79efUfJdcvjFgAO+Uvy9b1gKyiQP+inM5
+ nLHg==
+X-Gm-Message-State: ANoB5pkbefVNBJkOgdxj612fa7qgS87BUweDKOqg8Bz7RUt66fcbEorj
+ zfxDPQO/1AsnO8CMprdm/lNteA==
+X-Google-Smtp-Source: AA0mqf6szWeUCfGEo643mpNoi8yPllN+1/paApEyubNzuMY+ICPWxxPphUURe3ZLrgAFdJYwwmTjXg==
+X-Received: by 2002:a05:600c:4f45:b0:3cf:9be3:8d26 with SMTP id
+ m5-20020a05600c4f4500b003cf9be38d26mr7712391wmq.185.1669110971663; 
  Tue, 22 Nov 2022 01:56:11 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- c20-20020adfa314000000b00241d21d4652sm6866507wrb.21.2022.11.22.01.56.10
+ j15-20020adfe50f000000b002366d1cc198sm13464326wrm.41.2022.11.22.01.56.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Nov 2022 01:56:11 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C2AC1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id A1DCE1FFB8;
  Tue, 22 Nov 2022 09:56:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL v2 for 7.2-rc2 00/11] testing and doc updates
-Date: Tue, 22 Nov 2022 09:55:59 +0000
-Message-Id: <20221122095610.3343175-1-alex.bennee@linaro.org>
+Cc: stefanha@redhat.com, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL v2 01/11] Run docker probe only if docker or podman are
+ available
+Date: Tue, 22 Nov 2022 09:56:00 +0000
+Message-Id: <20221122095610.3343175-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221122095610.3343175-1-alex.bennee@linaro.org>
+References: <20221122095610.3343175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,63 +97,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 6d71357a3b651ec9db126e4862b77e13165427f5:
+From: Stefan Weil <sw@weilnetz.de>
 
-  rtl8139: honor large send MSS value (2022-11-21 09:28:43 -0500)
+The docker probe uses "sudo -n" which can cause an e-mail with a security warning
+each time when configure is run. Therefore run docker probe only if either docker
+or podman are available.
 
-are available in the Git repository at:
+That avoids the problematic "sudo -n" on build environments which have neither
+docker nor podman installed.
 
-  https://gitlab.com/stsquad/qemu.git tags/pull-misc-for-7.2-221122-1
+Fixes: c4575b59155e2e00 ("configure: store container engine in config-host.mak")
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20221030083510.310584-1-sw@weilnetz.de>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20221117172532.538149-2-alex.bennee@linaro.org>
 
-for you to fetch changes up to 5544d33d4b3683861315c73eb956492ed8891ce8:
-
-  gitlab: integrate coverage report (2022-11-22 09:52:23 +0000)
-
-----------------------------------------------------------------
-Testing and doc updates:
-
-  - Only probe if docker or podman binaries in path
-  - reduce console noise for aspeed avocado tests
-  - update documents on maintainer roles and process
-  - raise timeout for ppc64 avocado tests
-  - integrate coverage reports into gitlab
-
-----------------------------------------------------------------
-Alex Bennée (8):
-      tests/docker: allow user to override check target
-      docs/devel: add a maintainers section to development process
-      docs/devel: make language a little less code centric
-      docs/devel: simplify the minimal checklist
-      docs/devel: try and improve the language around patch review
-      tests/avocado: introduce alpine virt test for CI
-      tests/avocado: skip aarch64 cloud TCG tests in CI
-      gitlab: integrate coverage report
-
-Cédric Le Goater (1):
-      tests/avocado/machine_aspeed.py: Reduce noise on the console for SDK tests
-
-Peter Maydell (1):
-      tests/avocado: Raise timeout for boot_linux.py:BootLinuxPPC64.test_pseries_tcg
-
-Stefan Weil (1):
-      Run docker probe only if docker or podman are available
-
- docs/devel/code-of-conduct.rst           |   2 +
- docs/devel/index-process.rst             |   1 +
- docs/devel/maintainers.rst               | 107 +++++++++++++++++++++++++++++++
- docs/devel/submitting-a-patch.rst        | 101 ++++++++++++++++++-----------
- docs/devel/submitting-a-pull-request.rst |  12 ++--
- configure                                |   2 +-
- .gitlab-ci.d/buildtest.yml               |  12 +++-
- MAINTAINERS                              |   2 +-
- tests/avocado/boot_linux.py              |  11 +++-
- tests/avocado/machine_aarch64_virt.py    |  46 ++++++++++++-
- tests/avocado/machine_aspeed.py          |  17 +++--
- tests/docker/Makefile.include            |   2 +
- tests/docker/common.rc                   |   6 +-
- 13 files changed, 262 insertions(+), 59 deletions(-)
- create mode 100644 docs/devel/maintainers.rst
-
+diff --git a/configure b/configure
+index 66928692b0..26c7bc5154 100755
+--- a/configure
++++ b/configure
+@@ -1780,7 +1780,7 @@ fi
+ # functions to probe cross compilers
+ 
+ container="no"
+-if test $use_containers = "yes"; then
++if test $use_containers = "yes" && (has "docker" || has "podman"); then
+     case $($python "$source_path"/tests/docker/docker.py probe) in
+         *docker) container=docker ;;
+         podman) container=podman ;;
 -- 
 2.34.1
 
