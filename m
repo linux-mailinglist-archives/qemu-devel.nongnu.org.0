@@ -2,96 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2BB6337E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A716337ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:07:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxPEJ-0006Dw-8p; Tue, 22 Nov 2022 04:06:12 -0500
+	id 1oxPEc-0006Vb-J0; Tue, 22 Nov 2022 04:06:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oxPDC-0006BI-3E
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:05:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oxPE6-0006Ma-4s; Tue, 22 Nov 2022 04:06:09 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oxPDA-0007zV-KR
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:05:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669107896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3/bYDsYSTchHksdNvDlYrGIpG6HoXJslfOCTkyu5oE0=;
- b=Ny+OMoY4GQqfHdpmyDz6IgXpnkvOfb6ZZhoSo5Rd3p8Jpm0FPjeUzSw8D7G7xR5bfbrVPw
- COCwasyPmDZuDtrxoLZpALfA+1wSBDFoGw/NBDrOwiB5EBl2JxS5mIvam5Kuj2u30+uDTh
- ZtXZ/1PvkHNFb0Cc7e+tFDUjSg22maI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-610-H_Hx7OcuN8K68lqCH9zAgQ-1; Tue, 22 Nov 2022 04:04:54 -0500
-X-MC-Unique: H_Hx7OcuN8K68lqCH9zAgQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v125-20020a1cac83000000b003cfa148576dso7775128wme.3
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:04:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3/bYDsYSTchHksdNvDlYrGIpG6HoXJslfOCTkyu5oE0=;
- b=F8qvK0jMLPOn5T53k+rnILMVM8N7cCjNgxxKPXaZ18quRmvDhfqFQUaEjtlN5nxN9z
- x8qDuyDauZhnEdl0VFx9LLgdE+XV1LEkOnwcGmvJ8+EDRq8IOK0/yxOJDTfma3YfPflR
- laXktxzLkTgUwL8MoKLZxaMHxOhvBtWVUWpIWQFn/Gdraw2z84md2P02gIRGhPChH5AL
- ngYiAONlxO1ZO4+hpsaBZL/576T8vYrgRwNDoYCBU3QzZVEL1rLX+7J2qqqZjgIpCScs
- YAtOb1r8BE0Nutc92ZyP6h0S/a8emdxMfFjTBe6ocDJTClLL4lRFwSVqlao1+/em3lj7
- lgVQ==
-X-Gm-Message-State: ANoB5plLKrazp9L7p8pqpe0s6VstGlr9dA0OfkNsGhzm2yku+2RqKDwz
- FCM0gA3gJibvBWtXWZcj7yfcPsMdGhASn4OD45lP2msmWEX9ISnKwqC8vZp+bme88EjL7uKd1yR
- YABIny3X+uFjVfp8=
-X-Received: by 2002:a05:600c:1f1b:b0:3cf:35c8:289f with SMTP id
- bd27-20020a05600c1f1b00b003cf35c8289fmr6684815wmb.153.1669107893495; 
- Tue, 22 Nov 2022 01:04:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6XNWuOd23dhqX4dhTQX4VUakXOmFCunRMbDS5h2IUOWzwKswjqT6ZgSP45sd2pLFLFTE0FHA==
-X-Received: by 2002:a05:600c:1f1b:b0:3cf:35c8:289f with SMTP id
- bd27-20020a05600c1f1b00b003cf35c8289fmr6684800wmb.153.1669107893286; 
- Tue, 22 Nov 2022 01:04:53 -0800 (PST)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- j15-20020adfe50f000000b002366d1cc198sm13347265wrm.41.2022.11.22.01.04.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Nov 2022 01:04:52 -0800 (PST)
-Message-ID: <df5c712d-4f8d-fd43-b96b-a0428c652dea@redhat.com>
-Date: Tue, 22 Nov 2022 10:04:51 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oxPE3-0008O7-FD; Tue, 22 Nov 2022 04:05:57 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AM7i6Eu006710; Tue, 22 Nov 2022 09:05:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=C4eL9rgGQ+4MaasqwLZJb78ImVu5/wpJSokw1aQUME8=;
+ b=YWWmz0FZe5p+RYc9pwC1VOI12//pB4MUXPXevtEDgycdKqaW7QWTt6e7wc3SFbz5jpwr
+ wC6RwHECjikwDIcbBBeNkZuoYMk1Zjr219M2x8chtanAKdq9mlp1OY9yX6klDYT7hd7/
+ AGwz3lKTRmzvDiYW4lhhPzISNsTC1xy9Z2F9Q6/u12xDXz+m5zNA24FRXnSsDJCFgVri
+ by2/FcDDAqGgXEnWMKHMwRZ9hvgkuRL3P24W1B/T5ImWZKKOo9e+stCAVPx77p5gFIBo
+ JM1elow2heu0OheLXvIdYlnsigObMGJcjYHN/SzpKVGq6G54FjqPafSDqzKhmoCvTg9J uQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0qfgdn1p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Nov 2022 09:05:49 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AM8wCAu002370;
+ Tue, 22 Nov 2022 09:05:49 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0qfgdn0u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Nov 2022 09:05:49 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AM8oKfZ005650;
+ Tue, 22 Nov 2022 09:05:47 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06fra.de.ibm.com with ESMTP id 3kxpdj2v93-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Nov 2022 09:05:47 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AM95iTS7995906
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 22 Nov 2022 09:05:44 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 270B342047;
+ Tue, 22 Nov 2022 09:05:44 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC5CC42042;
+ Tue, 22 Nov 2022 09:05:42 +0000 (GMT)
+Received: from [9.171.75.192] (unknown [9.171.75.192])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 22 Nov 2022 09:05:42 +0000 (GMT)
+Message-ID: <d82db5c8-171b-1570-e000-25e381843e8d@linux.ibm.com>
+Date: Tue, 22 Nov 2022 10:05:42 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 09/11] block: bdrv_create_file is a coroutine_fn
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v11 04/11] s390x/cpu topology: reporting the CPU topology
+ to the guest
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com
+References: <20221103170150.20789-1-pmorel@linux.ibm.com>
+ <20221103170150.20789-5-pmorel@linux.ibm.com>
+ <1888d31f-227f-7edf-4cc8-dd88a9b19435@kaod.org>
+ <34caa4c4-0b94-1729-fe88-77d9b4240f04@linux.ibm.com>
+ <8b29a416-8190-243f-c414-e9e77efae918@kaod.org>
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20221116122241.2856527-1-eesposit@redhat.com>
- <20221116122241.2856527-10-eesposit@redhat.com> <Y3yPJZDpIBGZnjrH@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <Y3yPJZDpIBGZnjrH@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <8b29a416-8190-243f-c414-e9e77efae918@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: pm98OJxTIi2f7qbfVo6ht-7_27HkeRd1
+X-Proofpoint-GUID: 46DkD6enMDMmFhyI0XDmWWkfn9WGonGU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-22_04,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211220067
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,66 +128,81 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 22/11/2022 um 09:58 schrieb Kevin Wolf:
-> Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
->> It is always called in coroutine_fn callbacks, therefore
->> it can directly call bdrv_co_create().
+On 11/21/22 15:13, Cédric Le Goater wrote:
+>>>> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+>>>> +{
+>>>> +    int i, origin;
+>>>> +
+>>>> +    for (i = 0; i < topo->nr_sockets; i++) {
+>>>> +        if (!topo->socket[i].active_count) {
+>>>> +            continue;
+>>>> +        }
+>>>> +        p = fill_container(p, 1, i);
+>>>> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; 
+>>>> origin++) {
+>>>> +            uint64_t mask = 0L;
+>>>> +
+>>>> +            mask = topo->socket[i].mask[origin];
+>>>> +            if (mask) {
+>>>> +                p = fill_tle_cpu(p, mask, origin);
+>>>> +            }
+>>>> +        }
+>>>> +    }
+>>>> +    return p;
+>>>> +}
+>>>
+>>> Why is it not possible to compute this topo information at "runtime",
+>>> when stsi is called, without maintaining state in an extra S390Topology
+>>> object ? Couldn't we loop on the CPU list to gather the topology bits
+>>> for the same result ?
+>>>
+>>> It would greatly simplify the feature.
+>>>
+>>> C.
+>>>
 >>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>  block.c                            | 6 ++++--
->>  include/block/block-global-state.h | 3 ++-
->>  2 files changed, 6 insertions(+), 3 deletions(-)
+>> The vCPU are not stored in order of creation in the CPU list and not 
+>> in a topology order.
+>> To be able to build the SYSIB we need an intermediate structure to 
+>> reorder the CPUs per container.
 >>
->> diff --git a/block.c b/block.c
->> index c610a32e77..7a4c3eb540 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -534,6 +534,7 @@ static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
->>      int ret;
->>      char *filename_copy;
->>      GLOBAL_STATE_CODE();
->> +    assert(qemu_in_coroutine());
+>> We can do this re-ordering during the STSI interception but the idea 
+>> was to keep this instruction as fast as possible.> The second reason 
+>> is to have a structure ready for the QEMU migration when we introduce 
+>> vCPU migration from a socket to another socket, having then a 
+>> different internal representation of the topology.
+>>
+>>
+>> However, if as discussed yesterday we use a new cpu flag we would not 
+>> need any special migration structure in the current series.
+>>
+>> So it only stays the first reason to do the re-ordering preparation 
+>> during the plugging of a vCPU, to optimize the STSI instruction.
+>>
+>> If we think the optimization is not worth it or do not bring enough to 
+>> be consider, we can do everything during the STSI interception.
 > 
-> We don't generally assert this, otherwise it would have to be in every
-> coroutine_fn.
+> Is it called on a hot code path ? AFAICT, it is only called once
+> per cpu when started. insert_stsi_3_2_2 is also a guest exit andit 
+> queries the machine definition in a very similar way.
 
-That was my plan for the serie "Protect the block layer with a rwlock:
-part 3", where I convert BlockDriver callbacks in coroutine, and thus
-assert there because I know all the callers are coroutine_fn.
+
+It is not fully exact, stsi(15) is called at several moments, not only 
+on CPU creation, but each time the core calls rebuild_sched_domains() 
+that is for s390 on:
+- change in the host topology
+- changes in CPUSET: for allowed CPU or load balancing
+
+Regards,
+Pierre
 
 > 
->>      assert(*errp == NULL);
->>      assert(drv);
->>  
->> @@ -725,7 +726,8 @@ out:
->>      return ret;
->>  }
->>  
->> -int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
->> +int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
->> +                                  Error **errp)
+> Thanks,
 > 
-> Should it be renamed as bdrv_co_create_file()?
-> 
-Ok (when I don't answer just assume that I agree).
-
-Thank you,
-Emanuele
->>  {
->>      QemuOpts *protocol_opts;
->>      BlockDriver *drv;
->> @@ -766,7 +768,7 @@ int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
->>          goto out;
->>      }
->>  
->> -    ret = bdrv_create(drv, filename, protocol_opts, errp);
->> +    ret = bdrv_co_create(drv, filename, protocol_opts, errp);
->>  out:
->>      qemu_opts_del(protocol_opts);
->>      qobject_unref(qdict);
-> 
-> Kevin
+> C.
 > 
 
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
