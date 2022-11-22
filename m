@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6386333C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 04:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C0A6333F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 04:32:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxJiq-0007ay-Pk; Mon, 21 Nov 2022 22:13:20 -0500
+	id 1oxK0I-0002Tu-4v; Mon, 21 Nov 2022 22:31:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oxJio-0007ag-94
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 22:13:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oxJim-0001bx-4a
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 22:13:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669086795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ia1I1KusNzS6H734RKZFbrUCIP1KNZZMASi6M2zlkbM=;
- b=CUCuaRr3wFljQkRq8cDbW+c/UCwim16pCtoFEIsnxPCDHLJcF68nfdwavu7k8Vw0dTfEV5
- 1Vfqb2iZAcGtgGIeOxmzQuIRZth57hy8GJ5l0hJIZyQ6QMnJ0pTeOsW/efN62TiKZEbb20
- gKuaDx3skuZZ4wLljf1OR4CRDpew8pc=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-191-fJB87SSRMCiEBGpWn-5bAA-1; Mon, 21 Nov 2022 22:13:14 -0500
-X-MC-Unique: fJB87SSRMCiEBGpWn-5bAA-1
-Received: by mail-oo1-f72.google.com with SMTP id
- v15-20020a4a244f000000b0049f177710abso5932657oov.16
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 19:13:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oxK0G-0002Tg-5D
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 22:31:20 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oxK0E-0002Pm-4v
+ for qemu-devel@nongnu.org; Mon, 21 Nov 2022 22:31:19 -0500
+Received: by mail-pg1-x536.google.com with SMTP id q71so12945821pgq.8
+ for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 19:30:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NPnPbkHui8y4bxWWEreEsnwzIYyR/NGVHQmbWXnmtA0=;
+ b=qfqpjtTbMapG5fqoQ/FlkAeUqsuQXZLzCjyH0+CSiUFzE6JrL5kLSrgfkQyDcIWEuv
+ uMDaW9GiiY3+qVMIu88jPVHWhuiYcgfnP+E/+K4EY8Loc0wLBRishjnkr0S3Pqb8ugct
+ 6a9vA44E3VsPtjAKOjzJPdlyQuRnsSj4wfUJq6pg5g1deSoiyIm2AoF3hXdJT3OanEWo
+ Be/EmnV0fKO71PDdXstZyxItviY8e3O07S9kaJ7pW06gWltCAFyRdUNAT7/DTE41DNet
+ tMWzXp/kuwT8HhuNs/G0tu43p9MZRXpIoBTvkZIcDi+Hy0ccW9iYHzKALOIpSI1t0tcy
+ SYWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ia1I1KusNzS6H734RKZFbrUCIP1KNZZMASi6M2zlkbM=;
- b=Pmoux/+5EizRqURpmozhH/Mlmj/L22B6nhbbse9xOyx7Lp5xNhM3fD4qbwt2VovrQA
- SG6tPuyFAQtiToD8GodF7c89TPIFebZj/NSNEJdrycO1dIDnab29KYYthsdMjnAaGWtg
- aHTEv+lgL6EzxFWiTHinTMNtsiVtVHWK0GacThSOM5Y8fTOLwKpgj0/y8QMIx6n39JIV
- C8LNU84JUmSUuYRUDqDbPA/9WKj1kmod8KP+/TOz3blx8S/98Kx+eoHMKS5DhcZUHXVK
- lz+PCz0jNtC66UV+N1ngJYLnhsL6DlJBfBvynHRD3OYxsMknQwtn0+afSYd+pY6R1QQN
- qtmg==
-X-Gm-Message-State: ANoB5plb0DKeZV7tZqHU/8/WKR6GWYZ/WdZCXkqasnhVOTfVwHo7EiZY
- WX1DvohE4QFH1SDBo0zcXnQrMIOdbPHP3dwG8IL6nd3XHFLXu335vI2BsXPIW/xiyd5TKVOJ3nx
- wAUigc3G+YLToNnFIH1S/KdVKBN0zZts=
-X-Received: by 2002:a9d:4f07:0:b0:66c:64d6:1bb4 with SMTP id
- d7-20020a9d4f07000000b0066c64d61bb4mr11148844otl.201.1669086792036; 
- Mon, 21 Nov 2022 19:13:12 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7fxHxzIEUGKABE+reEh38YjJguubrKADSEEFR07J0rUvn/e9yDOumczXXIRsVWFPC0gFvj91Fpl8OeK/IUnbc=
-X-Received: by 2002:a9d:4f07:0:b0:66c:64d6:1bb4 with SMTP id
- d7-20020a9d4f07000000b0066c64d61bb4mr11148823otl.201.1669086791727; Mon, 21
- Nov 2022 19:13:11 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NPnPbkHui8y4bxWWEreEsnwzIYyR/NGVHQmbWXnmtA0=;
+ b=KATHXYBBl8WPgExfB0xDNxLcKdmIkS8qXLYXNfT+FSQ6Jh7KPLakfZvLt917CxGoL6
+ 05kLPME9LsTeEKLcQn2m8aaMN2bsa8u+ERtxJVDSTVUKjH0gXjbmN+nMx1WxCGz9/A32
+ XXf0Do663K+eTEp4uFICeqCHeVWhB8l1/5FFNHRXuVZLJAcmG6PmXaApK78L8fD5REom
+ QA0KuKm3/udGwRmY0RRb8anN7yexFVlsPTizD4FJYmBP/dwadSVDSxGB+GkuXLdnbiFe
+ gDEcVTjxsukOwSNowkDk1hnEoGyt5o+3vb781DvxKxFmPwmDrZVdNn4N/xvr16+gK5mk
+ 4IiQ==
+X-Gm-Message-State: ANoB5pl2Gu7bmAIfM0rNGQE52eb4R+GQPzq0X8MUncvKqYMSedHNz0b8
+ JTMeFETVg+SxZ9E6Gx9Y43KnyJ2YYq1rXA==
+X-Google-Smtp-Source: AA0mqf4gdQMEWiTgNY68bzJOjcXuYMyDyG3BpXpgLXpk6LDshTj3NFcl+KZSFv46k5+V74k1u+7Bvg==
+X-Received: by 2002:a05:6a00:1303:b0:561:7dc7:510b with SMTP id
+ j3-20020a056a00130300b005617dc7510bmr23571996pfu.3.1669087857497; 
+ Mon, 21 Nov 2022 19:30:57 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:dd04:f222:eac3:5b54?
+ ([2602:47:d48a:1201:dd04:f222:eac3:5b54])
+ by smtp.gmail.com with ESMTPSA id
+ d16-20020a170903231000b0017f73caf588sm10623437plh.218.2022.11.21.19.30.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Nov 2022 19:30:56 -0800 (PST)
+Message-ID: <26078849-48c1-f4de-7600-21f616a65a47@linaro.org>
+Date: Mon, 21 Nov 2022 19:30:55 -0800
 MIME-Version: 1.0
-References: <20221121101101.29400-1-sgarzare@redhat.com>
-In-Reply-To: <20221121101101.29400-1-sgarzare@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 22 Nov 2022 11:13:00 +0800
-Message-ID: <CACGkMEtZ9C0uhnDZ7iPJSHvPcbwGCLrzj742zzc9xAVWD7EMVA@mail.gmail.com>
-Subject: Re: [PATCH] vhost: mask VIRTIO_F_RING_RESET for vhost and vhost-user
- devices
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, virtio-fs@redhat.com, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Fam Zheng <fam@euphon.net>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, 
- Kevin Wolf <kwolf@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>, kangjie.xu@linux.alibaba.com, 
- eperezma <eperezma@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH for-8.0 12/29] tcg: Add 128-bit guest memory primitives
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20221118094754.242910-1-richard.henderson@linaro.org>
+ <20221118094754.242910-13-richard.henderson@linaro.org>
+In-Reply-To: <20221118094754.242910-13-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,203 +94,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 21, 2022 at 6:11 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->
-> Commit 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
-> enabled VIRTIO_F_RING_RESET by default for all virtio devices.
->
-> This feature is not currently emulated by QEMU, so for vhost and
-> vhost-user devices we need to make sure it is supported by the offloaded
-> device emulation (in-kernel or in another process).
-> To do this we need to add VIRTIO_F_RING_RESET to the features bitmap
-> passed to vhost_get_features(). This way it will be masked if the device
-> does not support it.
->
-> This issue was initially discovered with vhost-vsock and vhost-user-vsock,
-> and then also tested with vhost-user-rng which confirmed the same issue.
-> They fail when sending features through VHOST_SET_FEATURES ioctl or
-> VHOST_USER_SET_FEATURES message, since VIRTIO_F_RING_RESET is negotiated
-> by the guest (Linux >= v6.0), but not supported by the device.
->
-> Fixes: 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1318
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+On 11/18/22 01:47, Richard Henderson wrote:
+> +                ret = do_ld16_beN(env, &l.page[0], 0, l.mmu_idx, l.memop, ra);
+> +                b = int128_getlo(ret);
+> +                ret = int128_lshift(ret, l.page[1].size * 8);
+> +                a = int128_gethi(ret);
+> +                b = do_ld_beN(env, &l.page[0], b, l.mmu_idx,
+> +                              MMU_DATA_LOAD, l.memop, ra);
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+This last should have been l.page[1] -- fixed locally.
 
-> ---
->
-> To prevent this problem in the future, perhaps we should provide a function
-> (e.g. vhost_device_get_features) where we go to mask all non-device-specific
-> features (e.g VIRTIO_F_*, VIRTIO_RING_F_*) that are not emulated by QEMU but
-> we expect them to be emulated by the vhost or vhost-user devices.
 
-Adding Eugenio, this might not be true if we want to use shadow
-virtqueue for emulating some features?
-
-Thanks
-
-> Then we can call it in all .get_features callbacks just before return the
-> features.
->
-> What do you think?
->
-> But maybe better to do that for the next release, I will send an RFC.
->
-> Thanks,
-> Stefano
-> ---
->  hw/block/vhost-user-blk.c      |  1 +
->  hw/net/vhost_net.c             |  1 +
->  hw/scsi/vhost-scsi.c           |  1 +
->  hw/scsi/vhost-user-scsi.c      |  1 +
->  hw/virtio/vhost-user-fs.c      |  1 +
->  hw/virtio/vhost-user-gpio.c    |  1 +
->  hw/virtio/vhost-user-i2c.c     |  1 +
->  hw/virtio/vhost-user-rng.c     | 11 +++++++++--
->  hw/virtio/vhost-vsock-common.c |  1 +
->  net/vhost-vdpa.c               |  1 +
->  10 files changed, 18 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 16ad400889..0d5190accf 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -52,6 +52,7 @@ static const int user_feature_bits[] = {
->      VIRTIO_F_NOTIFY_ON_EMPTY,
->      VIRTIO_F_RING_PACKED,
->      VIRTIO_F_IOMMU_PLATFORM,
-> +    VIRTIO_F_RING_RESET,
->      VHOST_INVALID_FEATURE_BIT
->  };
->
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index feda448878..26e4930676 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -75,6 +75,7 @@ static const int user_feature_bits[] = {
->      VIRTIO_NET_F_MTU,
->      VIRTIO_F_IOMMU_PLATFORM,
->      VIRTIO_F_RING_PACKED,
-> +    VIRTIO_F_RING_RESET,
->      VIRTIO_NET_F_RSS,
->      VIRTIO_NET_F_HASH_REPORT,
->
-> diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-> index bdf337a7a2..6a0fd0dfb1 100644
-> --- a/hw/scsi/vhost-scsi.c
-> +++ b/hw/scsi/vhost-scsi.c
-> @@ -38,6 +38,7 @@ static const int kernel_feature_bits[] = {
->      VIRTIO_RING_F_INDIRECT_DESC,
->      VIRTIO_RING_F_EVENT_IDX,
->      VIRTIO_SCSI_F_HOTPLUG,
-> +    VIRTIO_F_RING_RESET,
->      VHOST_INVALID_FEATURE_BIT
->  };
->
-> diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-> index bc37317d55..b7a71a802c 100644
-> --- a/hw/scsi/vhost-user-scsi.c
-> +++ b/hw/scsi/vhost-user-scsi.c
-> @@ -36,6 +36,7 @@ static const int user_feature_bits[] = {
->      VIRTIO_RING_F_INDIRECT_DESC,
->      VIRTIO_RING_F_EVENT_IDX,
->      VIRTIO_SCSI_F_HOTPLUG,
-> +    VIRTIO_F_RING_RESET,
->      VHOST_INVALID_FEATURE_BIT
->  };
->
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index 1c40f42045..dc4014cdef 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -32,6 +32,7 @@ static const int user_feature_bits[] = {
->      VIRTIO_F_NOTIFY_ON_EMPTY,
->      VIRTIO_F_RING_PACKED,
->      VIRTIO_F_IOMMU_PLATFORM,
-> +    VIRTIO_F_RING_RESET,
->
->      VHOST_INVALID_FEATURE_BIT
->  };
-> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-> index 677d1c7730..5851cb3bc9 100644
-> --- a/hw/virtio/vhost-user-gpio.c
-> +++ b/hw/virtio/vhost-user-gpio.c
-> @@ -24,6 +24,7 @@ static const int feature_bits[] = {
->      VIRTIO_RING_F_INDIRECT_DESC,
->      VIRTIO_RING_F_EVENT_IDX,
->      VIRTIO_GPIO_F_IRQ,
-> +    VIRTIO_F_RING_RESET,
->      VHOST_INVALID_FEATURE_BIT
->  };
->
-> diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-> index 864eba695e..1c9f3d20dc 100644
-> --- a/hw/virtio/vhost-user-i2c.c
-> +++ b/hw/virtio/vhost-user-i2c.c
-> @@ -16,6 +16,7 @@
->
->  static const int feature_bits[] = {
->      VIRTIO_I2C_F_ZERO_LENGTH_REQUEST,
-> +    VIRTIO_F_RING_RESET,
->      VHOST_INVALID_FEATURE_BIT
->  };
->
-> diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-> index 8b47287875..f9084cde58 100644
-> --- a/hw/virtio/vhost-user-rng.c
-> +++ b/hw/virtio/vhost-user-rng.c
-> @@ -16,6 +16,11 @@
->  #include "qemu/error-report.h"
->  #include "standard-headers/linux/virtio_ids.h"
->
-> +static const int feature_bits[] = {
-> +    VIRTIO_F_RING_RESET,
-> +    VHOST_INVALID_FEATURE_BIT
-> +};
-> +
->  static void vu_rng_start(VirtIODevice *vdev)
->  {
->      VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> @@ -106,8 +111,10 @@ static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
->  static uint64_t vu_rng_get_features(VirtIODevice *vdev,
->                                      uint64_t requested_features, Error **errp)
->  {
-> -    /* No feature bits used yet */
-> -    return requested_features;
-> +    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> +
-> +    return vhost_get_features(&rng->vhost_dev, feature_bits,
-> +                              requested_features);
->  }
->
->  static void vu_rng_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-> index 29b9ab4f72..a67a275de2 100644
-> --- a/hw/virtio/vhost-vsock-common.c
-> +++ b/hw/virtio/vhost-vsock-common.c
-> @@ -21,6 +21,7 @@
->
->  const int feature_bits[] = {
->      VIRTIO_VSOCK_F_SEQPACKET,
-> +    VIRTIO_F_RING_RESET,
->      VHOST_INVALID_FEATURE_BIT
->  };
->
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 6811089231..2b4b85d8f8 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -69,6 +69,7 @@ const int vdpa_feature_bits[] = {
->      VIRTIO_NET_F_CTRL_VQ,
->      VIRTIO_F_IOMMU_PLATFORM,
->      VIRTIO_F_RING_PACKED,
-> +    VIRTIO_F_RING_RESET,
->      VIRTIO_NET_F_RSS,
->      VIRTIO_NET_F_HASH_REPORT,
->      VIRTIO_NET_F_GUEST_ANNOUNCE,
-> --
-> 2.38.1
->
+r~
 
 
