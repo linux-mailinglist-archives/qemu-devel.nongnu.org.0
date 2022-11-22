@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94706330F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 00:47:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A23F26331D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 02:05:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxGUF-0005bt-It; Mon, 21 Nov 2022 18:46:03 -0500
+	id 1oxHhs-0004aU-Ll; Mon, 21 Nov 2022 20:04:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxGU8-0005ZJ-O1
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 18:45:57 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oxHhq-0004Zi-9n; Mon, 21 Nov 2022 20:04:10 -0500
+Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxGU6-0007pg-LE
- for qemu-devel@nongnu.org; Mon, 21 Nov 2022 18:45:56 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- ja4-20020a05600c556400b003cf6e77f89cso245428wmb.0
- for <qemu-devel@nongnu.org>; Mon, 21 Nov 2022 15:45:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=r2XZ93j7xRtjb+lGkxY7RnboyYWFgDju15W26jQXLq4=;
- b=KiFqwk6bxKxpJCKtPVIDQ3Jmsw0cTdRUFJSqB0RmIjM0lfhnO0ceFqO46/mKDn69nx
- 92nH9XMrvQ2hK5j0WH52nJBtvXRUM2a1zsLRkDL/vPxoI7u1VHREoaSYQMosTDxRChwq
- ot8QQGvuTElbq7ouZGcCkhy3E+RGg75kqL86/w2ajfFdxhTiEbR4D7HLgo0YxZHX/09i
- Kud3qQOu5l7SbGtfC+kEW750dBpd7semzadYMbbFNGQmQT+XY0D6rnQ46UMKvGfLVMrh
- DEjoas2CZ5Vre9ZK53c/WI4xoOuRFVBgJy9MF63JDZXIOsEk0OYfrPVO6wbAofVYSmev
- ac+A==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oxHho-00058K-N9; Mon, 21 Nov 2022 20:04:10 -0500
+Received: by mail-vk1-xa2a.google.com with SMTP id u9so4658602vkk.4;
+ Mon, 21 Nov 2022 17:04:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1pweLM+3elOiTWXMbwFND2qrhDa30X/vij9pg+w3zvM=;
+ b=BMcPsCJXiOX2HsIO9UTtBc3/XLYCGukswunqyjvk1BC2tgiq9lFGCnwvnswLgZvs5y
+ ttwbl8axWw2svdCkUre7oC8vCpdIqDXWi/DR5haPPcMEik983D1ZGXadGBoVWsp3bHJp
+ czTN42YJNZ1/fOEeVpG8cm/3LSkX7mEvQ5nKZQPbPj3ODdbMhoToy5NLnVVEuiFxs8kA
+ foXTQyvtcRBD4xaE7nxEEck9ok5aSNbnKxN2b3/aYvLxxtNp9BoqXEP9uONubbhCJHs4
+ NKg5HhtbJt7Jg6+/zWkQyYyQB3PYxN+UCD3p72lcxbw+406FGIykiwy7gE3E4easouKe
+ sABg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r2XZ93j7xRtjb+lGkxY7RnboyYWFgDju15W26jQXLq4=;
- b=TRtFpj6X/sGfUjk6VYO5MoGenO8obbqGu2ZW793nhoerNwLlNQB/CtlBScoBKEaUsr
- KNFf6bw8taOd+R0KSfFFOoRKpfd9wtUzvXX8Kp8KMc5dKn/zUjIqHgIE7ggpShqF477y
- 3b7EKYruIj80iqs78He+MpIVkDZGRKVi4EbvVAWNKn0LB63hH7F6zR9NZm6L+IMSn06A
- q+zQqzR0v3cRurdZMPCf4I0TShMXTm45Ge91TMyusR/UHDORYlCM7JBU+6DHJJ2Y87/X
- S+t/JoVJolk9VXt3wrtXsImVZE4ZsIrb3GeEPUEiqevoxJ4agTMuYUjr7DsdqNxgvwSU
- IHgg==
-X-Gm-Message-State: ANoB5pk9yogSfBckG7417/BD6+8lgwL0gu/TKUAsR4AM19VRidJIHa/4
- lYgkhyJYNlqW1MucbHmPueIh1Q==
-X-Google-Smtp-Source: AA0mqf4qOUj6Wp1Bn1QOimMZKbX/gGY7TUCHNioJE580lF9iTFhvNLKj4GinRIcStG6inPYQEH/8Sw==
-X-Received: by 2002:a05:600c:4211:b0:3c6:b656:5b52 with SMTP id
- x17-20020a05600c421100b003c6b6565b52mr18014508wmh.1.1669074352407; 
- Mon, 21 Nov 2022 15:45:52 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- m29-20020a05600c3b1d00b003c6b7f5567csm411744wms.0.2022.11.21.15.45.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Nov 2022 15:45:51 -0800 (PST)
-Message-ID: <87706e12-01d8-2cad-72d4-95e3eca9c8a7@linaro.org>
-Date: Tue, 22 Nov 2022 00:45:51 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1pweLM+3elOiTWXMbwFND2qrhDa30X/vij9pg+w3zvM=;
+ b=USKUtIW/Lo6R3qXG8QHIPhRKtcoW/y2NHxZ8DYCFUYCI2tjZ1XnbqWxVPzyIY2wq70
+ c+ibVPwJ/DoCHNtxfSA+rFotl0Rw+8PxDm8vdX7QfhIQR5ixAc/Jm94kd9pG0I+Z4HwX
+ y6naemM5r5w7j9hCqSCzJhDywntqrFWkQMbVQWpKshLcAYh2PPb1cjp2ir/mkmG33oxT
+ rGgquV5gIyt2lmXGrXWoMXkgpJY1NHRnzJX4e7GtS6xNlQlbsE7eUECOW71hHmZKMiww
+ kc3EJR7qmOmBlL9KXhjymhzXPsCFJid0OUFLg0aimt3S3dKwqIDaQtbx+UIfRHFLouAL
+ CsRQ==
+X-Gm-Message-State: ANoB5pnIEjVPWSLR3dJoRhkKbVlQyOWVcntiBUcQBXU1ceSBJ6hv9zvM
+ 2DWKtgMZf/JbPF2FPyjpSHA5KAURi+mqonjcoc8=
+X-Google-Smtp-Source: AA0mqf5yJrPCQA5OnBucNsc9RmSuM0TxnZk1/XIK2h+C4mokoXzt3PK8LxfH88Jo0H87Gyh1nL8ME9mtknocgIqBhJw=
+X-Received: by 2002:a1f:e3c6:0:b0:3b8:ba98:bd43 with SMTP id
+ a189-20020a1fe3c6000000b003b8ba98bd43mr3894124vkh.34.1669079046688; Mon, 21
+ Nov 2022 17:04:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 15/29] include/qemu/int128: Add vector type to
- Int128Alias
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221118094754.242910-1-richard.henderson@linaro.org>
- <20221118094754.242910-16-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221118094754.242910-16-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20221108125703.1463577-1-apatel@ventanamicro.com>
+In-Reply-To: <20221108125703.1463577-1-apatel@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 22 Nov 2022 11:03:39 +1000
+Message-ID: <CAKmqyKO3AKHQs852+Fc1oXvfMLLXCgZS7OgnxD3TxZePGoXntA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] Nested virtualization fixes for QEMU
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,15 +87,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/11/22 10:47, Richard Henderson wrote:
-> Adding a vector type will make it easier to handle i386
-> have_atomic16 via AVX.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/qemu/int128.h | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+On Tue, Nov 8, 2022 at 10:59 PM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> This series mainly includes fixes discovered while developing nested
+> virtualization running on QEMU.
+>
+> These patches can also be found in the riscv_nested_fixes_v2 branch at:
+> https://github.com/avpatel/qemu.git
+>
+> Changes since v1:
+>  - Added Alistair's Reviewed-by tags to appropriate patches
+>  - Added detailed comment block in PATCH4
+>
+> Anup Patel (5):
+>   target/riscv: Typo fix in sstc() predicate
+>   target/riscv: Update VS timer whenever htimedelta changes
+>   target/riscv: Don't clear mask in riscv_cpu_update_mip() for VSTIP
+>   target/riscv: No need to re-start QEMU timer when timecmp ==
+>     UINT64_MAX
+>   target/riscv: Ensure opcode is saved for all relevant instructions
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thanks!
 
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+>  target/riscv/cpu_helper.c                   |  2 --
+>  target/riscv/csr.c                          | 18 ++++++++++-
+>  target/riscv/insn_trans/trans_rva.c.inc     | 10 ++++--
+>  target/riscv/insn_trans/trans_rvd.c.inc     |  2 ++
+>  target/riscv/insn_trans/trans_rvf.c.inc     |  2 ++
+>  target/riscv/insn_trans/trans_rvh.c.inc     |  3 ++
+>  target/riscv/insn_trans/trans_rvi.c.inc     |  2 ++
+>  target/riscv/insn_trans/trans_rvzfh.c.inc   |  2 ++
+>  target/riscv/insn_trans/trans_svinval.c.inc |  3 ++
+>  target/riscv/time_helper.c                  | 36 ++++++++++++++++++---
+>  10 files changed, 70 insertions(+), 10 deletions(-)
+>
+> --
+> 2.34.1
+>
+>
 
