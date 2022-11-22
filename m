@@ -2,101 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159E3633E3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 14:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C45633E74
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:07:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxTkD-0005yo-VF; Tue, 22 Nov 2022 08:55:25 -0500
+	id 1oxTvM-00025x-4q; Tue, 22 Nov 2022 09:06:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oxTkC-0005xA-1F
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:55:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oxTvJ-00022P-Ic; Tue, 22 Nov 2022 09:06:53 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oxTk9-0008ET-4K
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:55:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669125312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ov4ZPehLGxXA374uzTqfbVNtI4JADg1ISAFKrofIZv0=;
- b=ARHgTIlbMExRVdFneZknb4pveQI8ONqbQAA+Geq9iMqDqmQXFlzta+oxU3iUlSqrj4dWkh
- Uj5cfcb49l+8jBlzhg+D2VAq97ZVv2CMAUEzqZOT+8E+UcNua8VSBJSvrCgSPqQWiPgvdX
- 4x4C2u/A4lFRiV5Obx4Biv8LwlGX+OY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-245-iBYFnUuOOL2qOiETMLFx5w-1; Tue, 22 Nov 2022 08:55:01 -0500
-X-MC-Unique: iBYFnUuOOL2qOiETMLFx5w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- ay19-20020a05600c1e1300b003cf758f1617so11024819wmb.5
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 05:55:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ov4ZPehLGxXA374uzTqfbVNtI4JADg1ISAFKrofIZv0=;
- b=xr1V0sUofgW5nfmEKOzmt1+MO7RwwtkRswznWN9ScjFyXhI6YtbH/IXkBwvo31W1iV
- zxPwoCX5W6BJJoNKlnbnRKDB839LINsGclEHHPJgw7SwZ+6iUJ8YKGiCXIC6elKmdkEQ
- 9JRDh2n0fq7Q+ubVzcedSau1XU+8rrCgnbXtsFodnw+S5o8RyPBdBzqW/MaWDt3zabGF
- nnDZ+Tbhs86FcqeUqry4AF4MB4e0s+14QreNmno9xVnfcukZxJHsDJnMUvwoBIPMFjI1
- wA1PaLUNA9zqTQ4zIdPcf94AL7HaJG4mpfHA+O6HnqlJoyklW6FYE4za7XpNTDWgcGRS
- ejpw==
-X-Gm-Message-State: ANoB5plyp1eQy+0MPn10YJZBptH7iaLzlB1i1NaUaL54AmGwGZblwR83
- iOmM/fXyAJw+CB/c7XzhQLTC5ZlvTJ0QJWJEssrBJNuhuw6IJEn18jPoG8GHpJzbXsn75tgD0/m
- 703+cvOlQimr4+lA=
-X-Received: by 2002:adf:e105:0:b0:236:73af:f9ad with SMTP id
- t5-20020adfe105000000b0023673aff9admr13779786wrz.225.1669125299472; 
- Tue, 22 Nov 2022 05:54:59 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5L+FGV1rqDp8frsFI0HxrCkHZxzqZuvnTeE0JZLB9phxUenWRNeLqXqq5tWIGYEotZ6jTCXQ==
-X-Received: by 2002:adf:e105:0:b0:236:73af:f9ad with SMTP id
- t5-20020adfe105000000b0023673aff9admr13779770wrz.225.1669125299213; 
- Tue, 22 Nov 2022 05:54:59 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- r7-20020a05600c458700b003a3170a7af9sm18126173wmo.4.2022.11.22.05.54.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 05:54:58 -0800 (PST)
-Date: Tue, 22 Nov 2022 13:54:56 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <lvivier@redhat.com>, John Snow <jsnow@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Subject: Re: [RFC 1/7] migration: Remove res_compatible parameter
-Message-ID: <Y3zUsI7uNbQkabCh@work-vm>
-References: <20221003031600.20084-1-quintela@redhat.com>
- <20221003031600.20084-2-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oxTvG-0006TN-Te; Tue, 22 Nov 2022 09:06:53 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 74D5774638A;
+ Tue, 22 Nov 2022 15:06:15 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5FBC374633D; Tue, 22 Nov 2022 15:06:14 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 5E5E5746307;
+ Tue, 22 Nov 2022 15:06:14 +0100 (CET)
+Date: Tue, 22 Nov 2022 15:06:14 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Markus Armbruster <armbru@redhat.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v2 1/2] cleanup: Tweak and re-run return_directly.cocci
+In-Reply-To: <20221122134917.1217307-2-armbru@redhat.com>
+Message-ID: <8e38e4d1-4b1a-bae7-873b-2ad61489dc77@eik.bme.hu>
+References: <20221122134917.1217307-1-armbru@redhat.com>
+ <20221122134917.1217307-2-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221003031600.20084-2-quintela@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,192 +58,225 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> It was only used for RAM, and in that case, it means that this amount
-> of data was sent for memory.  Just delete the field in all callers.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Tue, 22 Nov 2022, Markus Armbruster wrote:
+> Tweak the semantic patch to drop redundant parenthesis around the
+> return expression.
+>
+> Coccinelle drops a comment in hw/rdma/vmw/pvrdma_cmd.c; restored
+> manually.
+>
+> Coccinelle messes up vmdk_co_create(), not sure why.  Change dropped,
+> will be done manually in the next commit.
+>
+> Line breaks in target/avr/cpu.h and hw/rdma/vmw/pvrdma_cmd.c tidied up
+> manually.
+>
+> Whitespace in tools/virtiofsd/fuse_lowlevel.c tidied up manually.
+>
+> checkpatch.pl complains "return of an errno should typically be -ve"
+> two times for hw/9pfs/9p-synth.c.  Preexisting, the patch merely makes
+> it visible to checkpatch.pl.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  include/migration/register.h   | 20 ++++++++++----------
->  migration/savevm.h             |  4 +---
->  hw/s390x/s390-stattrib.c       |  6 ++----
->  hw/vfio/migration.c            | 10 ++++------
->  migration/block-dirty-bitmap.c |  7 +++----
->  migration/block.c              |  7 +++----
->  migration/migration.c          |  9 ++++-----
->  migration/ram.c                |  8 +++-----
->  migration/savevm.c             | 14 +++++---------
->  hw/vfio/trace-events           |  2 +-
->  migration/trace-events         |  2 +-
->  11 files changed, 37 insertions(+), 52 deletions(-)
-> 
-> diff --git a/include/migration/register.h b/include/migration/register.h
-> index c1dcff0f90..1950fee6a8 100644
-> --- a/include/migration/register.h
-> +++ b/include/migration/register.h
-> @@ -48,18 +48,18 @@ typedef struct SaveVMHandlers {
->      int (*save_setup)(QEMUFile *f, void *opaque);
->      void (*save_live_pending)(QEMUFile *f, void *opaque,
->                                uint64_t threshold_size,
-> -                              uint64_t *res_precopy_only,
-> -                              uint64_t *res_compatible,
-> -                              uint64_t *res_postcopy_only);
-> +                              uint64_t *rest_precopy,
-> +                              uint64_t *rest_postcopy);
->      /* Note for save_live_pending:
-> -     * - res_precopy_only is for data which must be migrated in precopy phase
-> -     *     or in stopped state, in other words - before target vm start
-> -     * - res_compatible is for data which may be migrated in any phase
-> -     * - res_postcopy_only is for data which must be migrated in postcopy phase
-> -     *     or in stopped state, in other words - after source vm stop
-> +     * - res_precopy is for data which must be migrated in precopy
-> +     *     phase or in stopped state, in other words - before target
-> +     *     vm start
-> +     * - res_postcopy is for data which must be migrated in postcopy
-> +     *     phase or in stopped state, in other words - after source vm
-> +     *     stop
->       *
-> -     * Sum of res_postcopy_only, res_compatible and res_postcopy_only is the
-> -     * whole amount of pending data.
-> +     * Sum of res_precopy and res_postcopy is the whole amount of
-> +     * pending data.
-
-I'm not sure if this is correct; I think we really do have three
-different kinds of device:
-  a) Those that don't know how to postcopy
-  b) Those that can only send data in postcopy (which I think is what
-the dirty-bitmap block stuff does)
-  c) Devices that know how to postcopy, like RAM
-  
-<snip>
-
-> diff --git a/migration/ram.c b/migration/ram.c
-> index dc1de9ddbc..20167e1102 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3435,9 +3435,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+> scripts/coccinelle/return_directly.cocci |  5 +--
+> include/hw/pci/pci.h                     |  7 +--
+> target/avr/cpu.h                         |  4 +-
+> hw/9pfs/9p-synth.c                       | 14 ++----
+> hw/char/sifive_uart.c                    |  4 +-
+> hw/ppc/ppc4xx_sdram.c                    |  5 +--
+> hw/rdma/vmw/pvrdma_cmd.c                 | 57 +++++++++---------------
+> hw/virtio/vhost-user.c                   |  6 +--
+> migration/dirtyrate.c                    | 10 +----
+> migration/tls.c                          |  6 +--
+> replay/replay-time.c                     |  5 +--
+> semihosting/console.c                    |  4 +-
+> softmmu/memory.c                         | 11 +----
+> softmmu/physmem.c                        |  9 +---
+> target/loongarch/cpu.c                   |  4 +-
+> target/mips/tcg/dsp_helper.c             | 15 ++-----
+> target/riscv/debug.c                     |  6 +--
+> target/riscv/vector_helper.c             | 28 +++---------
+> tests/bench/benchmark-crypto-akcipher.c  |  6 +--
+> tests/qtest/erst-test.c                  |  5 +--
+> tests/qtest/hexloader-test.c             |  6 +--
+> tests/qtest/pvpanic-pci-test.c           |  6 +--
+> tests/qtest/pvpanic-test.c               |  6 +--
+> tests/qtest/test-filter-mirror.c         |  6 +--
+> tests/qtest/virtio-ccw-test.c            |  6 +--
+> tests/tcg/multiarch/sha512.c             |  9 +---
+> tools/virtiofsd/fuse_lowlevel.c          | 24 +++-------
+> 27 files changed, 70 insertions(+), 204 deletions(-)
+>
+> diff --git a/scripts/coccinelle/return_directly.cocci b/scripts/coccinelle/return_directly.cocci
+> index 4cf50e75ea..6cb1b3c99a 100644
+> --- a/scripts/coccinelle/return_directly.cocci
+> +++ b/scripts/coccinelle/return_directly.cocci
+> @@ -11,9 +11,8 @@ identifier F;
+> -    T VAR;
+>      ... when != VAR
+>
+> --    VAR =
+> -+    return
+> -     E;
+> +-    VAR = (E);
+> -    return VAR;
+> ++    return E;
+>      ... when != VAR
 >  }
->  
->  static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
-> -                             uint64_t *res_precopy_only,
-> -                             uint64_t *res_compatible,
-> -                             uint64_t *res_postcopy_only)
-> +                             uint64_t *res_precopy, uint64_t *res_postcopy)
->  {
->      RAMState **temp = opaque;
->      RAMState *rs = *temp;
-> @@ -3457,9 +3455,9 @@ static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
->  
->      if (migrate_postcopy_ram()) {
->          /* We can do postcopy, and all the data is postcopiable */
-> -        *res_compatible += remaining_size;
-> +        *res_postcopy += remaining_size;
-
-migrate_postcopy_ram() says that postcopy is enabled, not active, so here you are saying that
-ram is 'postcopy only' according to your definition above.
-I don't think it actually changes behaviour though at the moment; but it
-doesn't feel right to assign that to something that says 'postcopy only'
-migration_iteration_run doesn't enforce the postcopy-only part very
-hard; it's just part of the threshold as far as I can tell.
-
-Dave
-
->      } else {
-> -        *res_precopy_only += remaining_size;
-> +        *res_precopy += remaining_size;
->      }
->  }
-
-> diff --git a/migration/migration.c b/migration/migration.c
-> index bb8bbddfe4..440aa62f16 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3734,15 +3734,14 @@ typedef enum {
->   */
->  static MigIterateState migration_iteration_run(MigrationState *s)
->  {
-> -    uint64_t pending_size, pend_pre, pend_compat, pend_post;
-> +    uint64_t pending_size, pend_pre, pend_post;
->      bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
->  
->      qemu_savevm_state_pending(s->to_dst_file, s->threshold_size, &pend_pre,
-> -                              &pend_compat, &pend_post);
-> -    pending_size = pend_pre + pend_compat + pend_post;
-> +                              &pend_post);
-> +    pending_size = pend_pre + pend_post;
->  
-> -    trace_migrate_pending(pending_size, s->threshold_size,
-> -                          pend_pre, pend_compat, pend_post);
-> +    trace_migrate_pending(pending_size, s->threshold_size, pend_pre, pend_post);
->  
->      if (pending_size && pending_size >= s->threshold_size) {
->          /* Still a significant amount to transfer */
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 48e85c052c..a752ff9ea1 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1472,16 +1472,13 @@ flush:
->   * for units that can't do postcopy.
->   */
->  void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
-> -                               uint64_t *res_precopy_only,
-> -                               uint64_t *res_compatible,
-> -                               uint64_t *res_postcopy_only)
-> +                               uint64_t *res_precopy,
-> +                               uint64_t *res_postcopy)
->  {
->      SaveStateEntry *se;
->  
-> -    *res_precopy_only = 0;
-> -    *res_compatible = 0;
-> -    *res_postcopy_only = 0;
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 6ccaaf5154..06e2d5f889 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -921,11 +921,8 @@ PCI_DMA_DEFINE_LDST(q_be, q_be, 64);
+> static inline void *pci_dma_map(PCIDevice *dev, dma_addr_t addr,
+>                                 dma_addr_t *plen, DMADirection dir)
+> {
+> -    void *buf;
 > -
-> +    *res_precopy = 0;
-> +    *res_postcopy = 0;
->  
->      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->          if (!se->ops || !se->ops->save_live_pending) {
-> @@ -1493,8 +1490,7 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
->              }
->          }
->          se->ops->save_live_pending(f, se->opaque, threshold_size,
-> -                                   res_precopy_only, res_compatible,
-> -                                   res_postcopy_only);
-> +                                   res_precopy, res_postcopy);
->      }
->  }
->  
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 73dffe9e00..a21cbd2a56 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -157,7 +157,7 @@ vfio_save_cleanup(const char *name) " (%s)"
->  vfio_save_buffer(const char *name, uint64_t data_offset, uint64_t data_size, uint64_t pending) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64" pending 0x%"PRIx64
->  vfio_update_pending(const char *name, uint64_t pending) " (%s) pending 0x%"PRIx64
->  vfio_save_device_config_state(const char *name) " (%s)"
-> -vfio_save_pending(const char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
-> +vfio_save_pending(const char *name, uint64_t precopy, uint64_t postcopy) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64
->  vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
->  vfio_save_complete_precopy(const char *name) " (%s)"
->  vfio_load_device_config_state(const char *name) " (%s)"
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 57003edcbd..f2a873fd6c 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -150,7 +150,7 @@ migrate_fd_cleanup(void) ""
->  migrate_fd_error(const char *error_desc) "error=%s"
->  migrate_fd_cancel(void) ""
->  migrate_handle_rp_req_pages(const char *rbname, size_t start, size_t len) "in %s at 0x%zx len 0x%zx"
-> -migrate_pending(uint64_t size, uint64_t max, uint64_t pre, uint64_t compat, uint64_t post) "pending size %" PRIu64 " max %" PRIu64 " (pre = %" PRIu64 " compat=%" PRIu64 " post=%" PRIu64 ")"
-> +migrate_pending(uint64_t size, uint64_t max, uint64_t pre, uint64_t post) "pending size %" PRIu64 " max %" PRIu64 " (pre = %" PRIu64 " post=%" PRIu64 ")"
->  migrate_send_rp_message(int msg_type, uint16_t len) "%d: len %d"
->  migrate_send_rp_recv_bitmap(char *name, int64_t size) "block '%s' size 0x%"PRIi64
->  migration_completion_file_err(void) ""
-> -- 
-> 2.37.2
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> -    buf = dma_memory_map(pci_get_address_space(dev), addr, plen, dir,
+> -                         MEMTXATTRS_UNSPECIFIED);
+> -    return buf;
+> +    return dma_memory_map(pci_get_address_space(dev), addr, plen, dir,
+> +                          MEMTXATTRS_UNSPECIFIED);
+> }
+>
+> static inline void pci_dma_unmap(PCIDevice *dev, void *buffer, dma_addr_t len,
+> diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+> index 96419c0c2b..f19dd72926 100644
+> --- a/target/avr/cpu.h
+> +++ b/target/avr/cpu.h
+> @@ -215,8 +215,7 @@ static inline int cpu_interrupts_enabled(CPUAVRState *env)
+>
+> static inline uint8_t cpu_get_sreg(CPUAVRState *env)
+> {
+> -    uint8_t sreg;
+> -    sreg = (env->sregC) << 0
+> +    return (env->sregC) << 0
+>          | (env->sregZ) << 1
+>          | (env->sregN) << 2
+>          | (env->sregV) << 3
+> @@ -224,7 +223,6 @@ static inline uint8_t cpu_get_sreg(CPUAVRState *env)
+>          | (env->sregH) << 5
+>          | (env->sregT) << 6
+>          | (env->sregI) << 7;
+> -    return sreg;
+> }
+>
+> static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> index 1c5813e4dd..38d787f494 100644
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -72,7 +72,6 @@ static V9fsSynthNode *v9fs_add_dir_node(V9fsSynthNode *parent, int mode,
+> int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
+>                           const char *name, V9fsSynthNode **result)
+> {
+> -    int ret;
+>     V9fsSynthNode *node, *tmp;
+>
+>     if (!synth_fs) {
+> @@ -87,8 +86,7 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
+>     QEMU_LOCK_GUARD(&synth_mutex);
+>     QLIST_FOREACH(tmp, &parent->child, sibling) {
+>         if (!strcmp(tmp->name, name)) {
+> -            ret = EEXIST;
+> -            return ret;
+> +            return EEXIST;
+>         }
+>     }
+>     /* Add the name */
+> @@ -98,15 +96,13 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
+>     v9fs_add_dir_node(node, node->attr->mode, ".",
+>                       node->attr, node->attr->inode);
+>     *result = node;
+> -    ret = 0;
+> -    return ret;
+> +    return 0;
+> }
+>
+> int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
+>                              const char *name, v9fs_synth_read read,
+>                              v9fs_synth_write write, void *arg)
+> {
+> -    int ret;
+>     V9fsSynthNode *node, *tmp;
+>
+>     if (!synth_fs) {
+> @@ -122,8 +118,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
+>     QEMU_LOCK_GUARD(&synth_mutex);
+>     QLIST_FOREACH(tmp, &parent->child, sibling) {
+>         if (!strcmp(tmp->name, name)) {
+> -            ret = EEXIST;
+> -            return ret;
+> +            return EEXIST;
+>         }
+>     }
+>     /* Add file type and remove write bits */
+> @@ -138,8 +133,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
+>     node->private      = arg;
+>     pstrcpy(node->name, sizeof(node->name), name);
+>     QLIST_INSERT_HEAD_RCU(&parent->child, node, sibling);
+> -    ret = 0;
+> -    return ret;
+> +    return 0;
+> }
+>
+> static void synth_fill_statbuf(V9fsSynthNode *node, struct stat *stbuf)
+> diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
+> index 1c75f792b3..f2684e57bc 100644
+> --- a/hw/char/sifive_uart.c
+> +++ b/hw/char/sifive_uart.c
+> @@ -274,7 +274,6 @@ SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr base,
+> {
+>     DeviceState *dev;
+>     SysBusDevice *s;
+> -    SiFiveUARTState *r;
+>
+>     dev = qdev_new("riscv.sifive.uart");
+>     s = SYS_BUS_DEVICE(dev);
+> @@ -284,6 +283,5 @@ SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr base,
+>                                 sysbus_mmio_get_region(s, 0));
+>     sysbus_connect_irq(s, 0, irq);
+>
+> -    r = SIFIVE_UART(dev);
+> -    return r;
+> +    return SIFIVE_UART(dev);
+> }
+> diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
+> index 8d7137faf3..54bf9a2b44 100644
+> --- a/hw/ppc/ppc4xx_sdram.c
+> +++ b/hw/ppc/ppc4xx_sdram.c
+> @@ -520,13 +520,10 @@ static inline hwaddr sdram_ddr2_base(uint32_t bcr)
+>
+> static hwaddr sdram_ddr2_size(uint32_t bcr)
+> {
+> -    hwaddr size;
+>     int sh;
+>
+>     sh = 1024 - ((bcr >> 6) & 0x3ff);
+> -    size = 8 * MiB * sh;
+> -
+> -    return size;
+> +    return 8 * MiB * sh;
+> }
+>
+> static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
 
+There's also an sdram_ddr_size() that's similar and could be changed to
+
+return sh == 7 ? -1 : (4 * MiB) << sh;
+
+just to keep these two functions simliar but Coccinelle probably does not 
+catch that. Also while you're at it the assigmment of sh could be moved to 
+the declaration to save even more lines. As this then becomes more of a 
+handwritten patch, maybe it should be a separate patch cleaning these two 
+functions before the rest.
+
+Otherwise for this part (or separate patch as above):
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Regards,
+BALATON Zoltan
 
