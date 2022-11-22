@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A53633938
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21D263392F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:57:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQ0t-0002Un-FY; Tue, 22 Nov 2022 04:56:23 -0500
+	id 1oxQ0t-0002UM-5h; Tue, 22 Nov 2022 04:56:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0q-0002Ox-CH
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:20 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1oxQ0p-0002Mf-KL
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:19 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0o-0003uA-Db
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:20 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id b12so10074838wrn.2
+ id 1oxQ0n-0003sQ-UR
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:19 -0500
+Received: by mail-wr1-x433.google.com with SMTP id i12so20010224wrb.0
  for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QZkzgfr3NgI9GQ0WZ4StWbyyScfmFuJGZu1Sf1O5bKM=;
- b=Yx4dqRmKNjPgCjyqbfSAAnrpjQaBTEKQanNn56+8WRJXZCzZNo1r7Ka3MDkgndHOht
- Je/plU6Rn1L1vGt+NE7LxWf7HlSbCQYi5+EanjFB12I7LOp6eWDJZFt3GYx//F92B1Om
- RieQFj52Lm5Vq8Oxkzu9TLS6Guvw4x5/ABA/1zhw9kb+lCA0+x4RmXY0PEq2WR/MwXmq
- sDjMiDvRs9h8d1u6jDfohe9Ob+q+D3i++zbhggNJXC3y557ZfYbnseH2OYo3mRcAOUv9
- sRMwR0XgOiL6RxkhXk56DnmfQo1hhJQHuNzKjxm0QIqnA2MmKuzwZptKUUEsqeAztqqR
- 7vKw==
+ bh=6pnofIbm8hUyt3M6Fzw3WVtVx5EbjbRzRyOO8l9wWXg=;
+ b=cH6bKdCRV6qZdtzsdLGI5FaJh8VxlvAdTV/bZpZeONa7yi5Kg4qck65e7aWuSGnk3X
+ MBXjxMtZ+gur2klSHavMIqKCGAxkMvL/OYuHOlx74ADsIBPXUMvU60B0HHIGruIRsi8U
+ aevb5jqVPLBAZItHZRJobrwx1ifXVBCk5j9I1E5+1KOVywDOmBLh+lsj0wYFs0lwnL9W
+ CPib3DRJ2oSQBdpVzcwP0Q9JieDTNZILes/3StfPr9y0NK4g+wZy8FMiiSgOXBP4jPro
+ i2ciHF48EgZ0SYwTBr/vCKcJKkgxNpmOjOYeiUT+KUOv2RmDdC48l4QHGg1sChOU3Vh1
+ u8Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QZkzgfr3NgI9GQ0WZ4StWbyyScfmFuJGZu1Sf1O5bKM=;
- b=m2ONg2FUQ4oOP51v2rCv2V+3r9f9uvxG1+qfoa/sFnf9rgmjOZ3f0Gvz0RVr7RtfwZ
- vpshRrEfI1V314hGIK5BsvEdQ4RLnOq/L2BnI/GqUfLKDUW7smpb8rPUTaQ+iiKyETiU
- 8e7qmh/dDaLyzMTrhn+byb8M5dbIjEGCOCdRxLVZXdO5hzQEp94Ngzrq4dBKDS28Wy9M
- A2bZjIzU98E2+nKQyTM+K5aZ8EqMbfNA+qQoI6KgYXbhlq+OE2ESAi22CD7N1Z5jk4yp
- H+1PXJQBaLBVfL8Yef29TARmcbciQzCeUbwpR3Ofh2n1dmXVot051LvJ5iVQzmlYXDP9
- mZuQ==
-X-Gm-Message-State: ANoB5pnzkA1drNl58o42kAU8CxrFy4hjvdbDCpLHAb2ECxXyuj+IJm0R
- PMuRPgpGOPS62KlCjqQhnkTHBw==
-X-Google-Smtp-Source: AA0mqf4CClIxmCHL2eng0y90ujJ/GeToizqLP5SPEZN6hgbDCmdA1a4a/Vfi4ocr799zv30VSdm5DQ==
-X-Received: by 2002:adf:ea82:0:b0:241:e749:f75c with SMTP id
- s2-20020adfea82000000b00241e749f75cmr286887wrm.609.1669110976959; 
+ bh=6pnofIbm8hUyt3M6Fzw3WVtVx5EbjbRzRyOO8l9wWXg=;
+ b=nZEVrFrp3R3vqSUsWZnsNY5V7U3LIyHKJa+kLdIkntZ+nqle0W1uSL2ZdfVzhOXzu+
+ F9wr/GRiQfTugToaIjd03qG5JkUrCOGSlCaOO3PCbdkKpG4IsEwWmwo2PL3kO3CwTRm7
+ H1gOayVY7akvccJlWeqsoj23pAr6gtxtQW6qIsznt8FdsrWn0ya9NZXI47Q9iR/KuuKT
+ SzwvOLmVkD5tGKqH83gp48tvDWpx7ZVAJDhvccoKeyANEa44yZqd6XH9/XTGPpX3pH6i
+ asgWDbApx7VKsbdN+K6JBpTR/tXpD6ZeDYesTGWkE5HrEATKYgjcbffxWY2fFQtCqN4+
+ br+Q==
+X-Gm-Message-State: ANoB5pkLy7YGcPb7FNd0adL/CtQxZLnD+c3mKWn7DPpzF3zR/oeKxxdw
+ wScCJU8XpPEIJKHD7N4M9U0xeg==
+X-Google-Smtp-Source: AA0mqf6V2a0Y1mXk3pTh5wyiXcuF3/LPEJvTWsdaJBiCgiG8OS2M+5ETSC95YBv6wTFd+nBBWu8Wxg==
+X-Received: by 2002:adf:e784:0:b0:241:784b:666b with SMTP id
+ n4-20020adfe784000000b00241784b666bmr13587053wrm.483.1669110976158; 
  Tue, 22 Nov 2022 01:56:16 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m29-20020a05600c3b1d00b003c6b7f5567csm2259001wms.0.2022.11.22.01.56.12
+ z11-20020a05600c0a0b00b003c6f1732f65sm23844885wmp.38.2022.11.22.01.56.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Nov 2022 01:56:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C8251FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id 833F21FFB7;
  Tue, 22 Nov 2022 09:56:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-arm@nongnu.org (open list:Virt)
-Subject: [PULL v2 09/11] tests/avocado: introduce alpine virt test for CI
-Date: Tue, 22 Nov 2022 09:56:08 +0000
-Message-Id: <20221122095610.3343175-10-alex.bennee@linaro.org>
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL v2 10/11] tests/avocado: skip aarch64 cloud TCG tests in CI
+Date: Tue, 22 Nov 2022 09:56:09 +0000
+Message-Id: <20221122095610.3343175-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221122095610.3343175-1-alex.bennee@linaro.org>
 References: <20221122095610.3343175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,99 +98,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The boot_linux tests download and run a full cloud image boot and
-start a full distro. While the ability to test the full boot chain is
-worthwhile it is perhaps a little too heavy weight and causes issues
-in CI. Fix this by introducing a new alpine linux ISO boot in
-machine_aarch64_virt.
-
-This boots a fully loaded -cpu max with all the bells and whistles in
-31s on my machine. A full debug build takes around 180s on my machine
-so we set a more generous timeout to cover that.
-
-We don't add a test for lesser GIC versions although there is some
-coverage for that already in the boot_xen.py tests. If we want to
-introduce more comprehensive testing we can do it with a custom kernel
-and initrd rather than a full distro boot.
+We now have a much lighter weight test in machine_aarch64_virt which
+tests the full boot chain in less time. Rename the tests while we are
+at it to make it clear it is a Fedora cloud image.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221117172532.538149-10-alex.bennee@linaro.org>
+Message-Id: <20221117172532.538149-11-alex.bennee@linaro.org>
 
-diff --git a/tests/avocado/machine_aarch64_virt.py b/tests/avocado/machine_aarch64_virt.py
-index 21848cba70..c2b2ba2cf8 100644
---- a/tests/avocado/machine_aarch64_virt.py
-+++ b/tests/avocado/machine_aarch64_virt.py
-@@ -1,4 +1,5 @@
--# Functional test that boots a Linux kernel and checks the console
-+# Functional test that boots a various Linux systems and checks the
-+# console output.
- #
- # Copyright (c) 2022 Linaro Ltd.
- #
-@@ -8,19 +9,62 @@
- # SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+index 8c8a63ec2e..b3e58fa309 100644
+--- a/tests/avocado/boot_linux.py
++++ b/tests/avocado/boot_linux.py
+@@ -58,6 +58,9 @@ def test_pc_q35_kvm(self):
+         self.launch_and_wait(set_up_ssh_connection=False)
  
- import time
-+import os
  
- from avocado_qemu import QemuSystemTest
- from avocado_qemu import wait_for_console_pattern
- from avocado_qemu import exec_command
-+from avocado_qemu import BUILD_DIR
++# For Aarch64 we only boot KVM tests in CI as the TCG tests are very
++# heavyweight. There are lighter weight distros which we use in the
++# machine_aarch64_virt.py tests.
+ class BootLinuxAarch64(LinuxTest):
+     """
+     :avocado: tags=arch:aarch64
+@@ -73,7 +76,8 @@ def add_common_args(self):
+         self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
+         self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
  
- class Aarch64VirtMachine(QemuSystemTest):
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-+    timeout = 360
- 
-     def wait_for_console_pattern(self, success_message, vm=None):
-         wait_for_console_pattern(self, success_message,
-                                  failure_message='Kernel panic - not syncing',
-                                  vm=vm)
- 
-+    # This tests the whole boot chain from EFI to Userspace
-+    # We only boot a whole OS for the current top level CPU and GIC
-+    # Other test profiles should use more minimal boots
-+    def test_alpine_virt_tcg_gic_max(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:virt
-+        :avocado: tags=accel:tcg
-+        """
-+        iso_url = ('https://dl-cdn.alpinelinux.org/'
-+                   'alpine/v3.16/releases/aarch64/'
-+                   'alpine-virt-3.16.3-aarch64.iso')
-+
-+        # Alpine use sha256 so I recalculated this myself
-+        iso_sha1 = '0683bc089486d55c91bf6607d5ecb93925769bc0'
-+        iso_path = self.fetch_asset(iso_url, asset_hash=iso_sha1)
-+
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyAMA0')
-+        self.require_accelerator("tcg")
-+
-+        self.vm.add_args("-accel", "tcg")
-+        self.vm.add_args("-cpu", "max,pauth-impdef=on")
-+        self.vm.add_args("-machine",
-+                         "virt,acpi=on,"
-+                         "virtualization=on,"
-+                         "mte=on,"
-+                         "gic-version=max,iommu=smmuv3")
-+        self.vm.add_args("-smp", "2", "-m", "1024")
-+        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
-+                                               'edk2-aarch64-code.fd'))
-+        self.vm.add_args("-drive", f"file={iso_path},format=raw")
-+        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
-+        self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
-+
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Welcome to Alpine Linux 3.16')
-+
-+
-     def test_aarch64_virt(self):
+-    def test_virt_tcg_gicv2(self):
++    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
++    def test_fedora_cloud_tcg_gicv2(self):
          """
-         :avocado: tags=arch:aarch64
+         :avocado: tags=accel:tcg
+         :avocado: tags=cpu:max
+@@ -86,7 +90,8 @@ def test_virt_tcg_gicv2(self):
+         self.add_common_args()
+         self.launch_and_wait(set_up_ssh_connection=False)
+ 
+-    def test_virt_tcg_gicv3(self):
++    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
++    def test_fedora_cloud_tcg_gicv3(self):
+         """
+         :avocado: tags=accel:tcg
+         :avocado: tags=cpu:max
 -- 
 2.34.1
 
