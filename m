@@ -2,64 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746AA6336E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 09:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 304AD6336EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 09:22:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxOSI-0003hS-SX; Tue, 22 Nov 2022 03:16:35 -0500
+	id 1oxOX7-0006wX-Dg; Tue, 22 Nov 2022 03:21:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxOSC-0003g7-Eg
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:16:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxOX4-0006ua-PJ
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:21:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxOSA-0003Yd-2P
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:16:28 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxOX2-0005eX-4t
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:21:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669104984;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1669105285;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DpMStiE4X2hKCufeJhG8jTz/PWPEnA1JDwKdWxYyPXo=;
- b=BNjsHJXlneikvRrLPq9vfD2+l6F8b1yBgw42xHG5YmzWDtlX07vpE1ezi+PHo6CrVu6rSS
- AqcqbHUILFRuVWrEXlD8UbIsBqgvBincnuhufrAhu1WbDyHRhc3Ipeqxt2ktWIOXC9fyoU
- 5KQmm+JNmLIBqZn3rn6d2ERwWmzpYCw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LJET6U1wvzfXGuglHfbp/kKovkU5+uMmgv+/Blod9m4=;
+ b=Z5yo6oey0LNM9E5aYUx5X4hsHiwN097MU93bEO+NxakwYuk8S1uzOAhbY/nswzhO8YwY4x
+ gPk/aKaBsZYmNbZglWV82YGM7ZvU48rXXG5pronsf/fnfOMHcubcuhtfyZb4KypODuTc/n
+ yGGPFt4od76hx+OVkBgMdbQDAllyQqM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-GsV4amBgMVGtCZT9fppNkQ-1; Tue, 22 Nov 2022 03:16:20 -0500
-X-MC-Unique: GsV4amBgMVGtCZT9fppNkQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-319-5IQzWneBN2qQZtxz1CQQCg-1; Tue, 22 Nov 2022 03:21:18 -0500
+X-MC-Unique: 5IQzWneBN2qQZtxz1CQQCg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F336E1C05B00;
- Tue, 22 Nov 2022 08:16:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 40BA31410DD9;
- Tue, 22 Nov 2022 08:16:18 +0000 (UTC)
-Date: Tue, 22 Nov 2022 08:16:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3] disas: recognize either <capstone.h> or
- <capstone/capstone.h>
-Message-ID: <Y3yFOGiQPVq3xhhr@redhat.com>
-References: <20221122074559.848913-1-mjt@msgid.tls.msk.ru>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2539802D32;
+ Tue, 22 Nov 2022 08:21:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB77140C6E16;
+ Tue, 22 Nov 2022 08:21:16 +0000 (UTC)
+Date: Tue, 22 Nov 2022 09:21:13 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH for-7.2] block-backend: avoid bdrv_unregister_buf() NULL
+ pointer deref
+Message-ID: <Y3yGeRWfJn2fGF9x@redhat.com>
+References: <20221121211923.1993171-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221122074559.848913-1-mjt@msgid.tls.msk.ru>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20221121211923.1993171-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,41 +75,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 22, 2022 at 10:45:59AM +0300, Michael Tokarev wrote:
-> Historically, capstone varies in requiring either <capstone.h>
-> or <capstone/capstone.h> include depending on version and the
-> way how it has been installed.  This has already been an issue
-> before, and will likely become an issue again with capstone
-> 5.0 which seem to have changed this aspect once again.
+Am 21.11.2022 um 22:19 hat Stefan Hajnoczi geschrieben:
+> bdrv_*() APIs expect a valid BlockDriverState. Calling them with bs=NULL
+> leads to undefined behavior.
 > 
-> Recognize both ways in the meson check, but prefer <capstone.h>
-> so it's easy to override which capstone to use by
-> pkgconfig's --cflags (or --extra-cflags).
+> Jonathan Cameron reported this following NULL pointer dereference when a
+> VM with a virtio-blk device and a memory-backend-file object is
+> terminated:
+> 1. qemu_cleanup() closes all drives, setting blk->root to NULL
+> 2. qemu_cleanup() calls user_creatable_cleanup(), which results in a RAM
+>    block notifier callback because the memory-backend-file is destroyed.
+> 3. blk_unregister_buf() is called by virtio-blk's BlockRamRegistrar
+>    notifier callback and undefined behavior occurs.
 > 
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v2: use cc.has_header, not cc.compile (pm215)
-> v3: fix the forgotten arg for config_host_data.set
->  (comitted locally but not included in previous format-patch)
-> 
->  include/disas/capstone.h |  5 +++++
->  meson.build              | 21 +++++++++++----------
->  2 files changed, 16 insertions(+), 10 deletions(-)
+> Fixes: baf422684d73 ("virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint")
+> Co-authored-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
+This raises some questions, though. What happens if the graph isn't
+static between creation and deletion of the device? Do we need to do
+something with registered buffers when a node is attached to or detached
+from an existing device?
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Kevin
 
 
