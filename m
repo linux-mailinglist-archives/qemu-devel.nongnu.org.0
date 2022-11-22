@@ -2,73 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888B96339FE
+	by mail.lfdr.de (Postfix) with ESMTPS id 8166B6339FD
 	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:24:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQRE-0008G0-Sq; Tue, 22 Nov 2022 05:23:37 -0500
+	id 1oxQRG-0008HP-OC; Tue, 22 Nov 2022 05:23:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQR7-0008EW-FS
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRB-0008Fo-QL
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQR5-0004iv-C3
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:29 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQR9-0004kN-SR
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669112606;
+ s=mimecast20190719; t=1669112611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=uP+QKV/Yt5zNXOTBY2YqoXTZ3u/gMQAuq+hCqcBUjEU=;
- b=ae2vtsa9gnjMzqOfA2O+wMCQRRuUIW+xU7/TWXKgM+Cus62YodACKJ9U784P827dO6xL8b
- svGi1gXRLCHgvOCIurzJAuAamb85YFE/i3KOfyLMGmu3KnmcjthWG3e4YElPfiZqa8Mbc+
- 92YX06LiAk4xWwXZA1QuPoVmKIvTAfQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eDwgZDiyyCgip4i0+7/CBveDv0WhKC1DL4TSrg/EZuY=;
+ b=iy+pgOpgBqFEoUUmMZ8Lzc9zyo31xLynKqeeA9Sse0YSBlHD6pt3kXpvsSO5TWaYO9HSkX
+ ZJacN63CupED/P1I6FLlGrrA6dxkygyJvJXV5sOjd2qaDf9lJIuKj9q8TpFQJ/gKq5qZa0
+ 5suOGGkBht9uxEpp/x9blx/+51Bta1g=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-88-VRIfR5GmPRempoxRx98cjQ-1; Tue, 22 Nov 2022 05:23:24 -0500
-X-MC-Unique: VRIfR5GmPRempoxRx98cjQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c1-20020a7bc001000000b003cfe40fca79so3915229wmb.6
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:24 -0800 (PST)
+ us-mta-333-gkW-RjpaPMe9MFK6iYBFEw-1; Tue, 22 Nov 2022 05:23:29 -0500
+X-MC-Unique: gkW-RjpaPMe9MFK6iYBFEw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v12-20020adfa1cc000000b00236eaee7197so4084389wrv.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uP+QKV/Yt5zNXOTBY2YqoXTZ3u/gMQAuq+hCqcBUjEU=;
- b=olYKuVe6mu5+0YL6oxyowg7PK8AhzjIdFXzY07q0ctZN0R/rXnUK2QLH9PufhXGT7J
- pQzs6AwXH8TUJ2JDzhhIkhbWJsIIwL+0taimMVdtPEoCOxkuN2axzjpx2qJq1FyrrzRI
- a3426O9P5daIhD7jCohawEpmifmaP9D2EKUmujPolOyKNCnfo8c7kUTenMrHBYB7jaZ/
- 27sdnwhYqeeLw2fl8Zj+YYmExbiXnbo3gAfHlJvz7hfQXNgACOIZAhlTvO2JTSTsWJu7
- /PGKIeXq1YtXUJdXONwSFl874bgr1IXh/fX3WtjQRj94kgZejRArzUAt960Bni0M59J7
- nkvw==
-X-Gm-Message-State: ANoB5pknupKIhZ9LSak7TW/ejFSRXXoK8vFwYtvOJWhQuISkkNLngSZb
- pXWlbamy9oOeCAnSKMMogfSWgiV4QU38x1UQrpzXSordIkfUwSWZERKg2pmrI/dzvg1FlBp8HFn
- gvU5OoHQuaRhwwIZINpdt+U5xQwDBut5bnZgD7JUgwZGP//ldsTtEMhLjrHjh
-X-Received: by 2002:a05:600c:4fd6:b0:3cf:d952:db2b with SMTP id
- o22-20020a05600c4fd600b003cfd952db2bmr18512376wmq.19.1669112603409; 
- Tue, 22 Nov 2022 02:23:23 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4IEAfHLV0mCegS9GMgMBwV8QFcP+Lm19ecJ1tZ9HlOH7zTIt67OidhfjNbQS1WwdQsOi+nYg==
-X-Received: by 2002:a05:600c:4fd6:b0:3cf:d952:db2b with SMTP id
- o22-20020a05600c4fd600b003cfd952db2bmr18512358wmq.19.1669112603035; 
- Tue, 22 Nov 2022 02:23:23 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eDwgZDiyyCgip4i0+7/CBveDv0WhKC1DL4TSrg/EZuY=;
+ b=p1ZnsfHQ48uuClalNv8hNqdIsiySS/coCf6I4xxPn6lWmLxgUTjv41wkiIghIEdmzt
+ y5rJOHI58HXmIYxFPrzdZU+gE8Uj6rPS5dpFfSQsxu5CY6vX4naVnWb4J+C0rfCmkaBl
+ YYLuTwNl42imPo/Jrn82q7AbunzLsY3tkmb8xSPONv+4lzYp24Ys5E5Dc/deHj3ErSJB
+ RQSn+k4VxMBrZZLVBQwDZnKN33Hg/YUz0hie68mmfbfBefqyYi/stSmaBaiXqsgPeN5E
+ y9s9OjPLdF7blyJFvRoM561O5f8YRp8i8ywBKMhhjNoiWR7tEadssa9AysZYsoCrvZg4
+ 7m+w==
+X-Gm-Message-State: ANoB5pmE3f3NfSMmylugyiYHEk45wlvyN9V6aNXwBkvIfWhUsVJ1jKR8
+ Mqs/watcAksOJU5fbRKsD01NNUCtUu1fWlz7RXdr55WnlToTBmrebyzqzh/z057N2Rtej0NFQE/
+ 4KNO/yMedDaE0BliRxWa7C/tUmWonhc9OGbqXNm5uLZsVD8NmH2Hes8Rx5rSw
+X-Received: by 2002:adf:f843:0:b0:241:bcae:987f with SMTP id
+ d3-20020adff843000000b00241bcae987fmr2146924wrq.619.1669112607090; 
+ Tue, 22 Nov 2022 02:23:27 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf70kDhutNVllYbMaYJcYdCjWeQ8Pw9+qf6vczFGSIJ2h3RIhE4TIr0Kc+OVL5zDt3hlgUuOEw==
+X-Received: by 2002:adf:f843:0:b0:241:bcae:987f with SMTP id
+ d3-20020adff843000000b00241bcae987fmr2146880wrq.619.1669112606658; 
+ Tue, 22 Nov 2022 02:23:26 -0800 (PST)
 Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c4f1200b003c6f3f6675bsm23325039wmq.26.2022.11.22.02.23.21
+ e13-20020a5d500d000000b0022cc6b8df5esm13741575wrt.7.2022.11.22.02.23.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 02:23:22 -0800 (PST)
-Date: Tue, 22 Nov 2022 05:23:20 -0500
+ Tue, 22 Nov 2022 02:23:26 -0800 (PST)
+Date: Tue, 22 Nov 2022 05:23:23 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/8] pc,virtio: regression, test fixes
-Message-ID: <20221122102227.6603-1-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Jason Wang <jasowang@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, qemu-block@nongnu.org,
+ virtio-fs@redhat.com
+Subject: [PULL 1/8] vhost: mask VIRTIO_F_RING_RESET for vhost and vhost-user
+ devices
+Message-ID: <20221122102227.6603-2-mst@redhat.com>
+References: <20221122102227.6603-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20221122102227.6603-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -92,103 +108,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 2c8311241d1f7377bb4ff76064b1d1fe15166413:
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-  Update VERSION for v7.2.0-rc1 (2022-11-15 18:56:38 -0500)
+Commit 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
+enabled VIRTIO_F_RING_RESET by default for all virtio devices.
 
-are available in the Git repository at:
+This feature is not currently emulated by QEMU, so for vhost and
+vhost-user devices we need to make sure it is supported by the offloaded
+device emulation (in-kernel or in another process).
+To do this we need to add VIRTIO_F_RING_RESET to the features bitmap
+passed to vhost_get_features(). This way it will be masked if the device
+does not support it.
 
-  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+This issue was initially discovered with vhost-vsock and vhost-user-vsock,
+and then also tested with vhost-user-rng which confirmed the same issue.
+They fail when sending features through VHOST_SET_FEATURES ioctl or
+VHOST_USER_SET_FEATURES message, since VIRTIO_F_RING_RESET is negotiated
+by the guest (Linux >= v6.0), but not supported by the device.
 
-for you to fetch changes up to b7c61789e653086618d1825858a97b3d9891e822:
-
-  virtio: disable error for out of spec queue-enable (2022-11-22 05:19:00 -0500)
-
-----------------------------------------------------------------
-pc,virtio: regression, test fixes
-
-fixes regressions:
-    virtio error message triggered by seabios
-    failure in vhost due to VIRTIO_F_RING_RESET
-    broken keyboard under seabios
-
-some biosbits test fixes
-
-there's still a known regression with migration and vsock,
-not fixed yet.
-
+Fixes: 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1318
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20221121101101.29400-1-sgarzare@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/block/vhost-user-blk.c      |  1 +
+ hw/net/vhost_net.c             |  1 +
+ hw/scsi/vhost-scsi.c           |  1 +
+ hw/scsi/vhost-user-scsi.c      |  1 +
+ hw/virtio/vhost-user-fs.c      |  1 +
+ hw/virtio/vhost-user-gpio.c    |  1 +
+ hw/virtio/vhost-user-i2c.c     |  1 +
+ hw/virtio/vhost-user-rng.c     | 11 +++++++++--
+ hw/virtio/vhost-vsock-common.c |  1 +
+ net/vhost-vdpa.c               |  1 +
+ 10 files changed, 18 insertions(+), 2 deletions(-)
 
-----------------------------------------------------------------
-Ani Sinha (2):
-      MAINTAINERS: add mst to list of biosbits maintainers
-      acpi/tests/avocado/bits: keep the work directory when BITS_DEBUG is set in env
-
-Igor Mammedov (3):
-      tests: acpi: whitelist DSDT before moving PRQx to _SB scope
-      acpi: x86: move RPQx field back to _SB scope
-      tests: acpi: x86: update expected DSDT after moving PRQx fields in _SB scope
-
-John Snow (1):
-      tests/avocado: configure acpi-bits to use avocado timeout
-
-Michael S. Tsirkin (1):
-      virtio: disable error for out of spec queue-enable
-
-Stefano Garzarella (1):
-      vhost: mask VIRTIO_F_RING_RESET for vhost and vhost-user devices
-
- hw/block/vhost-user-blk.c                     |   1 +
- hw/isa/lpc_ich9.c                             |  16 ++++------------
- hw/isa/piix3.c                                |  12 ++++--------
- hw/net/vhost_net.c                            |   1 +
- hw/scsi/vhost-scsi.c                          |   1 +
- hw/scsi/vhost-user-scsi.c                     |   1 +
- hw/virtio/vhost-user-fs.c                     |   1 +
- hw/virtio/vhost-user-gpio.c                   |   1 +
- hw/virtio/vhost-user-i2c.c                    |   1 +
- hw/virtio/vhost-user-rng.c                    |  11 +++++++++--
- hw/virtio/vhost-vsock-common.c                |   1 +
- hw/virtio/virtio.c                            |   7 +++++++
- net/vhost-vdpa.c                              |   1 +
- MAINTAINERS                                   |   1 +
- tests/avocado/acpi-bits.py                    |  23 +++++++++++------------
- tests/data/acpi/pc/DSDT                       | Bin 6501 -> 6458 bytes
- tests/data/acpi/pc/DSDT.acpierst              | Bin 6461 -> 6418 bytes
- tests/data/acpi/pc/DSDT.acpihmat              | Bin 7826 -> 7783 bytes
- tests/data/acpi/pc/DSDT.bridge                | Bin 9575 -> 9532 bytes
- tests/data/acpi/pc/DSDT.cphp                  | Bin 6965 -> 6922 bytes
- tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8155 -> 8112 bytes
- tests/data/acpi/pc/DSDT.hpbridge              | Bin 6461 -> 6418 bytes
- tests/data/acpi/pc/DSDT.hpbrroot              | Bin 3107 -> 3064 bytes
- tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6573 -> 6530 bytes
- tests/data/acpi/pc/DSDT.memhp                 | Bin 7860 -> 7817 bytes
- tests/data/acpi/pc/DSDT.nohpet                | Bin 6359 -> 6316 bytes
- tests/data/acpi/pc/DSDT.numamem               | Bin 6507 -> 6464 bytes
- tests/data/acpi/pc/DSDT.roothp                | Bin 6699 -> 6656 bytes
- tests/data/acpi/q35/DSDT                      | Bin 8412 -> 8310 bytes
- tests/data/acpi/q35/DSDT.acpierst             | Bin 8429 -> 8327 bytes
- tests/data/acpi/q35/DSDT.acpihmat             | Bin 9737 -> 9635 bytes
- tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8691 -> 8589 bytes
- tests/data/acpi/q35/DSDT.applesmc             | Bin 8458 -> 8356 bytes
- tests/data/acpi/q35/DSDT.bridge               | Bin 11541 -> 11439 bytes
- tests/data/acpi/q35/DSDT.core-count2          | Bin 32552 -> 32450 bytes
- tests/data/acpi/q35/DSDT.cphp                 | Bin 8876 -> 8774 bytes
- tests/data/acpi/q35/DSDT.cxl                  | Bin 9738 -> 9636 bytes
- tests/data/acpi/q35/DSDT.dimmpxm              | Bin 10066 -> 9964 bytes
- tests/data/acpi/q35/DSDT.ipmibt               | Bin 8487 -> 8385 bytes
- tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8500 -> 8398 bytes
- tests/data/acpi/q35/DSDT.ivrs                 | Bin 8429 -> 8327 bytes
- tests/data/acpi/q35/DSDT.memhp                | Bin 9771 -> 9669 bytes
- tests/data/acpi/q35/DSDT.mmio64               | Bin 9542 -> 9440 bytes
- tests/data/acpi/q35/DSDT.multi-bridge         | Bin 8732 -> 8630 bytes
- tests/data/acpi/q35/DSDT.nohpet               | Bin 8270 -> 8168 bytes
- tests/data/acpi/q35/DSDT.numamem              | Bin 8418 -> 8316 bytes
- tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8513 -> 8411 bytes
- tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 9018 -> 8916 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 9044 -> 8942 bytes
- tests/data/acpi/q35/DSDT.viot                 | Bin 9521 -> 9419 bytes
- tests/data/acpi/q35/DSDT.xapic                | Bin 35775 -> 35673 bytes
- 51 files changed, 45 insertions(+), 34 deletions(-)
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 16ad400889..0d5190accf 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -52,6 +52,7 @@ static const int user_feature_bits[] = {
+     VIRTIO_F_NOTIFY_ON_EMPTY,
+     VIRTIO_F_RING_PACKED,
+     VIRTIO_F_IOMMU_PLATFORM,
++    VIRTIO_F_RING_RESET,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index feda448878..26e4930676 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -75,6 +75,7 @@ static const int user_feature_bits[] = {
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_F_RING_RESET,
+     VIRTIO_NET_F_RSS,
+     VIRTIO_NET_F_HASH_REPORT,
+ 
+diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
+index bdf337a7a2..6a0fd0dfb1 100644
+--- a/hw/scsi/vhost-scsi.c
++++ b/hw/scsi/vhost-scsi.c
+@@ -38,6 +38,7 @@ static const int kernel_feature_bits[] = {
+     VIRTIO_RING_F_INDIRECT_DESC,
+     VIRTIO_RING_F_EVENT_IDX,
+     VIRTIO_SCSI_F_HOTPLUG,
++    VIRTIO_F_RING_RESET,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+index bc37317d55..b7a71a802c 100644
+--- a/hw/scsi/vhost-user-scsi.c
++++ b/hw/scsi/vhost-user-scsi.c
+@@ -36,6 +36,7 @@ static const int user_feature_bits[] = {
+     VIRTIO_RING_F_INDIRECT_DESC,
+     VIRTIO_RING_F_EVENT_IDX,
+     VIRTIO_SCSI_F_HOTPLUG,
++    VIRTIO_F_RING_RESET,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index 1c40f42045..dc4014cdef 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -32,6 +32,7 @@ static const int user_feature_bits[] = {
+     VIRTIO_F_NOTIFY_ON_EMPTY,
+     VIRTIO_F_RING_PACKED,
+     VIRTIO_F_IOMMU_PLATFORM,
++    VIRTIO_F_RING_RESET,
+ 
+     VHOST_INVALID_FEATURE_BIT
+ };
+diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+index 677d1c7730..5851cb3bc9 100644
+--- a/hw/virtio/vhost-user-gpio.c
++++ b/hw/virtio/vhost-user-gpio.c
+@@ -24,6 +24,7 @@ static const int feature_bits[] = {
+     VIRTIO_RING_F_INDIRECT_DESC,
+     VIRTIO_RING_F_EVENT_IDX,
+     VIRTIO_GPIO_F_IRQ,
++    VIRTIO_F_RING_RESET,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index 864eba695e..1c9f3d20dc 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -16,6 +16,7 @@
+ 
+ static const int feature_bits[] = {
+     VIRTIO_I2C_F_ZERO_LENGTH_REQUEST,
++    VIRTIO_F_RING_RESET,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+index 8b47287875..f9084cde58 100644
+--- a/hw/virtio/vhost-user-rng.c
++++ b/hw/virtio/vhost-user-rng.c
+@@ -16,6 +16,11 @@
+ #include "qemu/error-report.h"
+ #include "standard-headers/linux/virtio_ids.h"
+ 
++static const int feature_bits[] = {
++    VIRTIO_F_RING_RESET,
++    VHOST_INVALID_FEATURE_BIT
++};
++
+ static void vu_rng_start(VirtIODevice *vdev)
+ {
+     VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+@@ -106,8 +111,10 @@ static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
+ static uint64_t vu_rng_get_features(VirtIODevice *vdev,
+                                     uint64_t requested_features, Error **errp)
+ {
+-    /* No feature bits used yet */
+-    return requested_features;
++    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
++
++    return vhost_get_features(&rng->vhost_dev, feature_bits,
++                              requested_features);
+ }
+ 
+ static void vu_rng_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+index 29b9ab4f72..a67a275de2 100644
+--- a/hw/virtio/vhost-vsock-common.c
++++ b/hw/virtio/vhost-vsock-common.c
+@@ -21,6 +21,7 @@
+ 
+ const int feature_bits[] = {
+     VIRTIO_VSOCK_F_SEQPACKET,
++    VIRTIO_F_RING_RESET,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 6811089231..2b4b85d8f8 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -69,6 +69,7 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_NET_F_CTRL_VQ,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_F_RING_RESET,
+     VIRTIO_NET_F_RSS,
+     VIRTIO_NET_F_HASH_REPORT,
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
+-- 
+MST
 
 
