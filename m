@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7476339FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67141633A03
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:25:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQRP-0008JQ-Eb; Tue, 22 Nov 2022 05:23:48 -0500
+	id 1oxQRX-0008L3-Nd; Tue, 22 Nov 2022 05:23:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRM-0008Iv-IU
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRP-0008JZ-NF
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRK-0004mi-P5
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRO-0004nG-8b
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669112622;
+ s=mimecast20190719; t=1669112625;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cU19UTpvTyW2lbnyRWSWVel8guq2aRTUFRueobwEObE=;
- b=VxmOZN93/rwTHshEfxlGqzZIsfDsCSBWQueA4lrLcYQ7MAV+XvVYXrDTu1Kin8eWUxfmeL
- ki7qcGb+QeRfQZLhKjmQ5t7CtvUng5ZbMctqkhMYJGfT1h5AX7Lxce3CB7ZecJlGGLRClV
- /OFtWxorwEFOJ/DAifgVuRJsNPIUkWg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Tp9jFYJgk+YLg5fcJWtG3ksiVNxD2+OIeFCJl1agFd8=;
+ b=O4UFMgqzWK8yPMC3WJ/qAcRRTbeoSdUwmMTIk7vlILpsM8B5dLKnDnHSoiqn/YXQrr903L
+ 0+cZZx8mWmJ438OdqhHzS+/b8BqPe96g8n1T18HBbg6hv+eB6hZRwXux51mnWqoL7mSAQp
+ yPFDAPvd63+w9xbaO8lLFkIwCj12W3A=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-1-1v3zCLu4MKy8sPP6TxaWxQ-1; Tue, 22 Nov 2022 05:23:40 -0500
-X-MC-Unique: 1v3zCLu4MKy8sPP6TxaWxQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j20-20020adfb314000000b002366d9f67aaso4047162wrd.3
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:40 -0800 (PST)
+ us-mta-606-lLWNJcw6N0OFAJXxiH7HdQ-1; Tue, 22 Nov 2022 05:23:43 -0500
+X-MC-Unique: lLWNJcw6N0OFAJXxiH7HdQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v14-20020adf8b4e000000b0024174021277so4117409wra.13
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cU19UTpvTyW2lbnyRWSWVel8guq2aRTUFRueobwEObE=;
- b=7IyDOZf4tOnQF+Z5RSF2UXHpOuKE3wn8rHXoAlucKABpTfYIWmf5u8XRilEj2d4Dho
- 2nDXJzTMR8xBvjygzRK1hp3lkPdyQZKEhF2FwHirju3cLAh3bTCpvEfFdvmqDZRSXoeQ
- wmWWfgP8Zm88kRcdwM0LcdenxznCqOIF2MJrF6tol5m3HUx/0T8zyRNo/HgGWa35H8Ry
- Mzty6S/pcqFbZE2EtZEQaLjZ3H7n6q/haWMM4NqyhnFxb4Z2Yd0L4CPFNo/X5oQZd7lO
- jlpbpdj/st2BN4wa6k1TRS+4vbFM30RDtoLd7u1/Rv/2XZdmVQhrnaS/yEB3YpUJCmGv
- Nrrg==
-X-Gm-Message-State: ANoB5pldiPDQ77GBvfri9E1qsYQKn+fjmn+X2D61q70Obt9TF9Riigbm
- mo4deX2O2YFh1r0WVgZv0aoH2hSUdkz8r6WxBM+ZYWjqcOFPYMQr8+5KMjiJVi2zLfb53fCvjXg
- wDd1Di7b3XFwVbb71lC/9lIvthYixESK9hHnVvGkvIbpmyIXL6Koj92kyIuWe
-X-Received: by 2002:a05:600c:3ba1:b0:3d0:47c:9ff5 with SMTP id
- n33-20020a05600c3ba100b003d0047c9ff5mr8989177wms.121.1669112619013; 
- Tue, 22 Nov 2022 02:23:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf42Cjh4hb6cy+1bQf9ghLIWb8XCAblhNpVP16NDDE3AMHDbvZ2cDRe4P+2TuRudbPNMBq7H+g==
-X-Received: by 2002:a05:600c:3ba1:b0:3d0:47c:9ff5 with SMTP id
- n33-20020a05600c3ba100b003d0047c9ff5mr8989152wms.121.1669112618764; 
- Tue, 22 Nov 2022 02:23:38 -0800 (PST)
+ bh=Tp9jFYJgk+YLg5fcJWtG3ksiVNxD2+OIeFCJl1agFd8=;
+ b=zSVtO/SQbFGqnM4s6Wkcb41N6iLzjRSFV9PI8+1KO0BZeurxkTk1+sjfPMRhFpQDDv
+ 0J/QrJko5JQvb1G9KE180fEravD6C4Jn9ze5wSGpRDfss4RwcwlNa+8aFHjWhrz1U/9H
+ 4AW8zs0yDhxX34WnXHdPS5D3K7zde8RjYG4YlA2zX+nwMIzlP3SGO6lL8IRbD7itt7Hq
+ DW+rjxkASEHY7kqIW3G+6H8pIE0M9nCfqgDMl2SqLP2SS6TDsxwO4E1IMZW26nw9yY4O
+ kClBqCYxQJT50K/NNZSDsIGWo/y/xdygXsiS9HY0v2DsCtHZqyTZ8annGArbp/FrI4aa
+ YerA==
+X-Gm-Message-State: ANoB5pkQ+OaM8tl3XhRKneH/47tzkkt0jDVqp7HLpAOyDRPMFflvYAdj
+ H1ZEoAfqjGy+UMFzlJUP0tEAnGxzA/yZ760QrPmUS0f15WIFICaQAKdog1mvqrMKr0nkPVDIUjd
+ BipFPqBEc7ab7rh4MSOHEgXEyBmfAWn8TS8kCzDvJS+9fDy8z3xJvtxO3S6+2
+X-Received: by 2002:a7b:ca45:0:b0:3c4:bda1:7c57 with SMTP id
+ m5-20020a7bca45000000b003c4bda17c57mr19510766wml.6.1669112622115; 
+ Tue, 22 Nov 2022 02:23:42 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6NljfZ/Ujv+wKTAUFZfEgS4n9BAKTt3u/k147Mk1DA7g/d9tYHM1cZErqZnz+YLXEKPeIj/g==
+X-Received: by 2002:a7b:ca45:0:b0:3c4:bda1:7c57 with SMTP id
+ m5-20020a7bca45000000b003c4bda17c57mr19510741wml.6.1669112621813; 
+ Tue, 22 Nov 2022 02:23:41 -0800 (PST)
 Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
- b5-20020adff905000000b002366fb99cdasm13762795wrr.50.2022.11.22.02.23.37
+ n9-20020a05600c3b8900b003c6bbe910fdsm28615388wms.9.2022.11.22.02.23.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 02:23:38 -0800 (PST)
-Date: Tue, 22 Nov 2022 05:23:36 -0500
+ Tue, 22 Nov 2022 02:23:41 -0800 (PST)
+Date: Tue, 22 Nov 2022 05:23:39 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 5/8] MAINTAINERS: add mst to list of biosbits maintainers
-Message-ID: <20221122102227.6603-6-mst@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 6/8] tests/avocado: configure acpi-bits to use avocado timeout
+Message-ID: <20221122102227.6603-7-mst@redhat.com>
 References: <20221122102227.6603-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,7 +76,7 @@ Content-Disposition: inline
 In-Reply-To: <20221122102227.6603-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,32 +100,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ani Sinha <ani@anisinha.ca>
+From: John Snow <jsnow@redhat.com>
 
-Adding Michael's name to the list of bios bits maintainers so that all changes
-and fixes into biosbits framework can go through his tree and he is notified.
+Instead of using a hardcoded timeout, just rely on Avocado's built-in
+test case timeout. This helps avoid timeout issues on machines where 60
+seconds is not sufficient.
 
-Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20221111151138.36988-1-ani@anisinha.ca>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20221115212759.3095751-1-jsnow@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ tests/avocado/acpi-bits.py | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index be151f0024..f3e0a4fc2e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1865,6 +1865,7 @@ F: hw/acpi/viot.h
- 
- ACPI/AVOCADO/BIOSBITS
- M: Ani Sinha <ani@anisinha.ca>
-+M: Michael S. Tsirkin <mst@redhat.com>
- S: Supported
- F: tests/avocado/acpi-bits/*
- F: tests/avocado/acpi-bits.py
+diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+index 8745a58a76..ac13e22dc9 100644
+--- a/tests/avocado/acpi-bits.py
++++ b/tests/avocado/acpi-bits.py
+@@ -385,12 +385,6 @@ def test_acpi_smbios_bits(self):
+         self._vm.launch()
+         # biosbits has been configured to run all the specified test suites
+         # in batch mode and then automatically initiate a vm shutdown.
+-        # sleep for maximum of one minute
+-        max_sleep_time = time.monotonic() + 60
+-        while self._vm.is_running() and time.monotonic() < max_sleep_time:
+-            time.sleep(1)
+-
+-        self.assertFalse(time.monotonic() > max_sleep_time,
+-                         'The VM seems to have failed to shutdown in time')
+-
++        # Rely on avocado's unit test timeout.
++        self._vm.wait(timeout=None)
+         self.parse_log()
 -- 
 MST
 
