@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C8F6338EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E09D6338FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:48:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxPra-0006Pw-BN; Tue, 22 Nov 2022 04:46:46 -0500
+	id 1oxPsm-0006qR-MK; Tue, 22 Nov 2022 04:48:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxPrY-0006Nk-B8
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:46:44 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oxPsW-0006pA-JG
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:47:47 -0500
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxPrQ-0003ys-Si
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:46:40 -0500
-Received: by mail-wr1-x435.google.com with SMTP id i12so19972860wrb.0
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:46:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4TOa8QO+Ybd3a/GBS2FwwdQtEAo8FOxJFLHCPIdTbRs=;
- b=fzINVWNj5ekWYw3S4QKZ9vXUWZJshHQwPZ3Yi/Nk3Lg/eeEhvXiHDJKkxW6eL9us+l
- BVbgr33SoWNa4fef0QlpY+O+T/pkSnJQWxXTpLZLkJb6LuuISEM3g60QzP5MnxM4IpX7
- gsuetwOP4D5fEm7aGx48Jc2//Xt0ETfykQHN6LYMIdWL9bdnti/Qyz8K7RExTvgCIBJ4
- es6HiL/mn38AwudJZlxnECYLIOB9dAXPiRRJhyTysOBNXjMVeQ5HSTf32N++rEMWVpNP
- jK93xMWK+NL8ymTRJYWoi3AeOzVaI8hrO1xRrUh+dFuyv2zA7Njr7SVWiwatIoSihyjs
- BGxg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oxPsR-0004JG-Ru
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:47:41 -0500
+Received: by mail-ot1-x32a.google.com with SMTP id
+ a7-20020a056830008700b0066c82848060so8960754oto.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:47:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kMvDZJbO/+JCcssoMsIloTgv2mdXTa/EJzbhQFLszO4=;
+ b=BW3nDykHqnoCLPHAPxBIDFjzLlH13PvB2MpBDO9hLJki8pYCQKaeoF5GYb2HSHAVeU
+ a1Y+BhxddsQgW7b5T1mEUEeg+N9MQM8DTsDPBR+nH4PbsMSxdNaLtzCmHPVcmjz1S0a/
+ P1oSlWuDmAT5SMx5OzQGCEq8QUPmWlZCD0f6bk0NOyC0kRenfPgr8hW6trtL6H4SydUs
+ cCKShWh7Rawi4KcA9+Hi1fJ+1mzllPr/arjGqkgz5dTaT04wR4a7c4CrvkUsKh/StLWw
+ fTGlQSGWr0Q+/vmpOOD13cUVhY17gqNseOmpRhtLqztH+voXfxqJyCZ+YHJLfpUpe7je
+ +Thg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=4TOa8QO+Ybd3a/GBS2FwwdQtEAo8FOxJFLHCPIdTbRs=;
- b=bujenfiiq+aLyi2J7KZgFQdfqJgAYx6ivtZDNRwG7NXR8fw/ueCQl03banxdDmcq4K
- w+heT6rlKMSOLfUK7f3GFK7ZD+ebpi4TMHx3pLAgFvGsuHllJcSeaXiEipkBdBK0QYOm
- utmPZYNGCrfZQJ6S6Fp7jFM18sStkJoRh94ir3u2/0jSuBwMfNosOOu8P69RSuuE/kAB
- GzRLIJbko0hiz7qVFvi2K9b5plVPuKhPwGTnx+Ods2WwFquEf6kiN9hot1OsXqr/YI/K
- mBvSUBZpfwhMFX+aquezlT5E5XBK7dSnIOrT8GUx7aJawnZhfMwkv3DJq2nowtXNl2OA
- iPXg==
-X-Gm-Message-State: ANoB5pmj9yvEgQeD8wysGUvbmgGFpEMvBY3mdrh78vVl6VqLRlLXmaaQ
- rNUhR1TJirIjJx0POIT0KcuSnQ==
-X-Google-Smtp-Source: AA0mqf6Ic0+k4k/8FTFX7KypeKPiqUetPR9K0LQnQZc+iUTQDwPOko+dcQTEqu6q4DtuB3ygWk6W2Q==
-X-Received: by 2002:a05:6000:104c:b0:23a:5a31:29eb with SMTP id
- c12-20020a056000104c00b0023a5a3129ebmr6887994wrx.679.1669110394231; 
- Tue, 22 Nov 2022 01:46:34 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kMvDZJbO/+JCcssoMsIloTgv2mdXTa/EJzbhQFLszO4=;
+ b=u+XREhg6qaGQliO810Nqjkky6v1VFF/yyG2JsBiwai7YZD8AypQj+IKBCuNxaMt7Rw
+ MQj0iew84PYczk9wH2Xm44IjV/O++nMDDM2oldxnqzA3bNyyRa9FoY1iaJRLCqB5xBae
+ asXTYoErCX1AXcSZ+96tJC+YEZEuFn18nfBW3yIQiyBF2zxKG7HGUI9xFO459KXGyMDx
+ 7ldv2BlclDjJcaThGa2YoEoqR/PAmDktFYboNVh2Iy956GZ/jniHfMEt7WmGS2VnUHBm
+ WE1Jz54oyhI8yaIwRCtiXynPRJ/8nN5o7KBLHW74E2WsRWelRG9jancUhbTC+tU40NfN
+ S+Ig==
+X-Gm-Message-State: ANoB5plQFfpn9EVM85agmWk26JBsZQKPUHZ/8kiqCbhk95cNZOIHIReX
+ AfqJoErnmHMX9umUs2NMeYQ=
+X-Google-Smtp-Source: AA0mqf4h5Zu36rS3qOVkqcRSDo7cvNRBUpg0vUc/WB8kRcLI6bTnu/sH/WoMpea3APCLWCNvuKlu0A==
+X-Received: by 2002:a9d:591a:0:b0:660:efe2:9504 with SMTP id
+ t26-20020a9d591a000000b00660efe29504mr1689868oth.49.1669110458235; 
+ Tue, 22 Nov 2022 01:47:38 -0800 (PST)
+Received: from [192.168.10.102] ([191.19.173.155])
  by smtp.gmail.com with ESMTPSA id
- t1-20020a1c7701000000b003cf4d99fd2asm15971956wmi.6.2022.11.22.01.46.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 01:46:33 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 034731FFB7;
- Tue, 22 Nov 2022 09:46:33 +0000 (GMT)
-References: <20221117172532.538149-1-alex.bennee@linaro.org>
- <20221117172532.538149-5-alex.bennee@linaro.org>
- <000c7ccb-562d-0c41-aacc-bc9481b76eae@linaro.org>
-User-agent: mu4e 1.9.3; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com
-Subject: Re: [PATCH v3 04/13] docs/devel: add a maintainers section to
- development process
-Date: Tue, 22 Nov 2022 09:45:45 +0000
-In-reply-to: <000c7ccb-562d-0c41-aacc-bc9481b76eae@linaro.org>
-Message-ID: <87sfibb9tz.fsf@linaro.org>
+ w48-20020a4a97b3000000b0049eedb106e2sm4746407ooi.15.2022.11.22.01.47.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Nov 2022 01:47:37 -0800 (PST)
+Message-ID: <acd628ff-f6af-6714-5976-70b80b6bf210@gmail.com>
+Date: Tue, 22 Nov 2022 06:47:35 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH for-8.0 v3 40/45] tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221111074101.2069454-1-richard.henderson@linaro.org>
+ <20221111074101.2069454-41-richard.henderson@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221111074101.2069454-41-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,115 +95,158 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> On 17/11/22 18:25, Alex Benn=C3=A9e wrote:
->> We don't currently have a clear place in the documentation to describe
->> the roles and responsibilities of a maintainer. Lets create one so we
->> can. I've moved a few small bits out of other files to try and keep
->> everything in one place.
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
->> Message-Id: <20221111145529.4020801-6-alex.bennee@linaro.org>
->> ---
->>   docs/devel/code-of-conduct.rst           |   2 +
->>   docs/devel/index-process.rst             |   1 +
->>   docs/devel/maintainers.rst               | 106 +++++++++++++++++++++++
->>   docs/devel/submitting-a-pull-request.rst |  12 +--
->>   4 files changed, 113 insertions(+), 8 deletions(-)
->>   create mode 100644 docs/devel/maintainers.rst
->
->> +The Role of Maintainers
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +Maintainers are a critical part of the project's contributor ecosystem.
->> +They come from a wide range of backgrounds from unpaid hobbyists
->> +working in their spare time to employees who work on the project as
->> +part of their job. Maintainer activities include:
->> +
->> +  - reviewing patches and suggesting changes
->> +  - collecting patches and preparing pull requests
->> +  - tending to the long term health of their area
->> +  - participating in other project activities
->> +
->> +They are also human and subject to the same pressures as everyone else
->> +including overload and burnout. Like everyone else they are subject
->> +to project's :ref:`code_of_conduct` and should also be exemplars of
->> +excellent community collaborators.
->> +
->> +The MAINTAINERS file
->> +--------------------
->> +
->> +The `MAINTAINERS
->> +<https://gitlab.com/qemu-project/qemu/-/blob/master/MAINTAINERS>`__
->> +file contains the canonical list of who is a maintainer. The file
->> +is machine readable so an appropriately configured git (see
->> +:ref:`cc_the_relevant_maintainer`) can automatically Cc them on
->> +patches that touch their area of code.
->> +
->> +The file also describes the status of the area of code to give an idea
->> +of how actively that section is maintained.
->> +
->> +.. list-table:: Meaning of support status in MAINTAINERS
->> +   :widths: 25 75
->> +   :header-rows: 1
->> +
->> +   * - Status
->> +     - Meaning
->> +   * - Supported
->> +     - Someone is actually paid to look after this.
->> +   * - Maintained
->> +     - Someone actually looks after it.
->> +   * - Odd Fixes
->> +     - It has a maintainer but they don't have time to do
->> +       much other than throw the odd patch in.
->> +   * - Orphan
->> +     - No current maintainer.
->> +   * - Obsolete
->> +     - Old obsolete code, should use something else.
->
-> We could add a line in MAINTAINERS 'Descriptions of section entries'
-> header: "If you modify this section, please keep in sync with the
-> description in docs/devel/maintainers.rst".
->
->> +Becoming a reviewer
->> +-------------------
->> +
->> +Most maintainers start by becoming subsystem reviewers. While anyone
->> +is welcome to review code on the mailing list getting added to the
->> +MAINTAINERS file with a line like::
->> +
->> +  R: Random Hacker <rhacker@example.com>
->> +
->> +will ensure that patches touching a given subsystem will automatically
->> +be CC'd to you.
->
-> Although 'R:' tag means 'designated reviewer', such reviewers is
-> expected to provide regular spontaneous feedback. Otherwise being
-> subscribed to the list is sufficient.
+On 11/11/22 04:40, Richard Henderson wrote:
+> Fill in the parameters for the host ABI for Int128 for
+> those backends which require no extra modification.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-I've used a slightly different form for the flow:
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-  Becoming a reviewer
-  -------------------
-
-  Most maintainers start by becoming subsystem reviewers. While anyone
-  is welcome to review code on the mailing list getting added to the
-  MAINTAINERS file with a line like::
-
-    R: Random Hacker <rhacker@example.com>
-
-  marks you as a 'designated reviewer' - expected to provide regular
-  spontaneous feedback. This will ensure that patches touching a given
-  subsystem will automatically be CC'd to you.
-
-we can of course always improve later ;-)
-
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-
-
---=20
-Alex Benn=C3=A9e
+>   tcg/aarch64/tcg-target.h     | 2 ++
+>   tcg/arm/tcg-target.h         | 2 ++
+>   tcg/loongarch64/tcg-target.h | 2 ++
+>   tcg/mips/tcg-target.h        | 2 ++
+>   tcg/riscv/tcg-target.h       | 3 +++
+>   tcg/s390x/tcg-target.h       | 2 ++
+>   tcg/sparc64/tcg-target.h     | 2 ++
+>   tcg/tcg.c                    | 6 +++---
+>   tcg/ppc/tcg-target.c.inc     | 3 +++
+>   9 files changed, 21 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+> index 413a5410c5..0dff5807f6 100644
+> --- a/tcg/aarch64/tcg-target.h
+> +++ b/tcg/aarch64/tcg-target.h
+> @@ -54,6 +54,8 @@ typedef enum {
+>   #define TCG_TARGET_CALL_STACK_OFFSET    0
+>   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
+>   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
+>   
+>   /* optional instructions */
+>   #define TCG_TARGET_HAS_div_i32          1
+> diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+> index b7843d2d54..6613d3d791 100644
+> --- a/tcg/arm/tcg-target.h
+> +++ b/tcg/arm/tcg-target.h
+> @@ -91,6 +91,8 @@ extern bool use_neon_instructions;
+>   #define TCG_TARGET_CALL_STACK_OFFSET	0
+>   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
+>   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_EVEN
+> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
+> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_BY_REF
+>   
+>   /* optional instructions */
+>   #define TCG_TARGET_HAS_ext8s_i32        1
+> diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
+> index e5f7a1f09d..9d0db8fdfe 100644
+> --- a/tcg/loongarch64/tcg-target.h
+> +++ b/tcg/loongarch64/tcg-target.h
+> @@ -95,6 +95,8 @@ typedef enum {
+>   #define TCG_TARGET_CALL_STACK_OFFSET    0
+>   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
+>   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
+>   
+>   /* optional instructions */
+>   #define TCG_TARGET_HAS_movcond_i32      0
+> diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+> index 15721c3e42..b235cba8ba 100644
+> --- a/tcg/mips/tcg-target.h
+> +++ b/tcg/mips/tcg-target.h
+> @@ -89,6 +89,8 @@ typedef enum {
+>   # define TCG_TARGET_CALL_ARG_I64      TCG_CALL_ARG_NORMAL
+>   #endif
+>   #define TCG_TARGET_CALL_ARG_I32       TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_ARG_I128      TCG_CALL_ARG_EVEN
+> +#define TCG_TARGET_CALL_RET_I128      TCG_CALL_RET_NORMAL
+>   
+>   /* MOVN/MOVZ instructions detection */
+>   #if (defined(__mips_isa_rev) && (__mips_isa_rev >= 1)) || \
+> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+> index 232537ccea..d61ca902d3 100644
+> --- a/tcg/riscv/tcg-target.h
+> +++ b/tcg/riscv/tcg-target.h
+> @@ -85,9 +85,12 @@ typedef enum {
+>   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
+>   #if TCG_TARGET_REG_BITS == 32
+>   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_EVEN
+> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
+>   #else
+>   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
+>   #endif
+> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
+>   
+>   /* optional instructions */
+>   #define TCG_TARGET_HAS_movcond_i32      0
+> diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
+> index db5665c375..9a3856f0b3 100644
+> --- a/tcg/s390x/tcg-target.h
+> +++ b/tcg/s390x/tcg-target.h
+> @@ -168,6 +168,8 @@ extern uint64_t s390_facilities[3];
+>   #define TCG_TARGET_CALL_STACK_OFFSET	160
+>   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_EXTEND
+>   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_RET_NORMAL
+> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_BY_REF
+> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_BY_REF
+>   
+>   #define TCG_TARGET_HAS_MEMORY_BSWAP   1
+>   
+> diff --git a/tcg/sparc64/tcg-target.h b/tcg/sparc64/tcg-target.h
+> index 0044ac8d78..53cfa843da 100644
+> --- a/tcg/sparc64/tcg-target.h
+> +++ b/tcg/sparc64/tcg-target.h
+> @@ -73,6 +73,8 @@ typedef enum {
+>   #define TCG_TARGET_CALL_STACK_OFFSET    (128 + 6*8 + TCG_TARGET_STACK_BIAS)
+>   #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_EXTEND
+>   #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
+>   
+>   #if defined(__VIS__) && __VIS__ >= 0x300
+>   #define use_vis3_instructions  1
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 9dd194a2f2..5465297495 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -743,8 +743,8 @@ static void init_call_layout(TCGHelperInfo *info)
+>           break;
+>       case dh_typecode_i128:
+>           info->nr_out = 128 / TCG_TARGET_REG_BITS;
+> -        info->out_kind = TCG_CALL_RET_NORMAL; /* TODO */
+> -        switch (/* TODO */ TCG_CALL_RET_NORMAL) {
+> +        info->out_kind = TCG_TARGET_CALL_RET_I128;
+> +        switch (TCG_TARGET_CALL_RET_I128) {
+>           case TCG_CALL_RET_NORMAL:
+>               /* Query the last register now to trigger any assert early. */
+>               tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
+> @@ -815,7 +815,7 @@ static void init_call_layout(TCGHelperInfo *info)
+>               layout_arg_1(&cum, info, TCG_CALL_ARG_NORMAL);
+>               break;
+>           case dh_typecode_i128:
+> -            switch (/* TODO */ TCG_CALL_ARG_NORMAL) {
+> +            switch (TCG_TARGET_CALL_ARG_I128) {
+>               case TCG_CALL_ARG_EVEN:
+>                   layout_arg_even(&cum);
+>                   /* fall through */
+> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+> index 781ecfe161..e86d4a5e78 100644
+> --- a/tcg/ppc/tcg-target.c.inc
+> +++ b/tcg/ppc/tcg-target.c.inc
+> @@ -54,6 +54,9 @@
+>   #else
+>   # define TCG_TARGET_CALL_ARG_I64   TCG_CALL_ARG_NORMAL
+>   #endif
+> +/* Note sysv arg alignment applies only to 2-word types, not more. */
+> +#define TCG_TARGET_CALL_ARG_I128   TCG_CALL_ARG_NORMAL
+> +#define TCG_TARGET_CALL_RET_I128   TCG_CALL_RET_NORMAL
+>   
+>   /* For some memory operations, we need a scratch that isn't R0.  For the AIX
+>      calling convention, we can re-use the TOC register since we'll be reloading
 
