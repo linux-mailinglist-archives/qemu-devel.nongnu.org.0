@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FFE633D35
+	by mail.lfdr.de (Postfix) with ESMTPS id 506C6633D33
 	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 14:11:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxT33-0001j6-Qp; Tue, 22 Nov 2022 08:10:49 -0500
+	id 1oxT34-0001k4-Px; Tue, 22 Nov 2022 08:10:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oxT2t-0001hH-3E
+ id 1oxT2t-0001h3-16
  for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:10:40 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oxT2p-0002Xj-CI
+ (envelope-from <gaosong@loongson.cn>) id 1oxT2p-0002XR-Hw
  for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:10:38 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Cx7+tHynxjSwcAAA--.97S3;
+ by gateway (Coremail) with SMTP id _____8Cx7+tHynxjTgcAAA--.99S3;
  Tue, 22 Nov 2022 21:10:31 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxiFdDynxjNCQYAA--.45092S4; 
+ AQAAf8AxiFdDynxjNCQYAA--.45092S5; 
  Tue, 22 Nov 2022 21:10:31 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, stefanha@gmail.com,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL for 7.2-rc2 2/3] hw/loongarch: Fix setprop_sized method in fdt
- rtc node.
-Date: Tue, 22 Nov 2022 21:10:26 +0800
-Message-Id: <20221122131027.1250769-3-gaosong@loongson.cn>
+Subject: [PULL for 7.2-rc2 3/3] hw/loongarch: Replace the value of uart info
+ with macro
+Date: Tue, 22 Nov 2022 21:10:27 +0800
+Message-Id: <20221122131027.1250769-4-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221122131027.1250769-1-gaosong@loongson.cn>
 References: <20221122131027.1250769-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxiFdDynxjNCQYAA--.45092S4
+X-CM-TRANSID: AQAAf8AxiFdDynxjNCQYAA--.45092S5
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvdXoWrKr1DZFykCryxuFWkAF1UZFb_yoWkGwc_uF
- 12yw1rWr4DJw1xWan5XrZIyFyxJ3W8WF15u3Z3Wrn7Xw1YyrW5GFWaga1UXr4avrWUZr9x
- C3y8WrWFyws5WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+X-Coremail-Antispam: 1Uk129KBjvdXoWrKr1fWr4DKry7KryrKFyUWrg_yoWkCrc_tF
+ 9aywnxWws8J3WSg3sY9ryrAry7Ww10v3WYka9rWrn7Aan5t3y5Jr43WanxZF9IvFWUCr4f
+ X395trsYkr15GjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
  xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
  37CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
- vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
- xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
  0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
  44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
  AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
@@ -78,30 +78,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-Fix setprop_sized method in fdt rtc node.
+Using macro to replace the value of uart info such as addr, size
+in acpi_build method.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20221116040300.3459818-1-yangxiaojuan@loongson.cn>
+Message-Id: <20221115115008.3372489-1-yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/virt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/loongarch/acpi-build.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index b9c18ee517..958be74fa1 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -53,7 +53,7 @@ static void fdt_add_rtc_node(LoongArchMachineState *lams)
-     nodename = g_strdup_printf("/rtc@%" PRIx64, base);
-     qemu_fdt_add_subnode(ms->fdt, nodename);
-     qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "loongson,ls7a-rtc");
--    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg", 0x0, base, size);
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg", 2, base, 2, size);
-     g_free(nodename);
- }
- 
+diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
+index 68dfb9f88a..7d5f5a757d 100644
+--- a/hw/loongarch/acpi-build.c
++++ b/hw/loongarch/acpi-build.c
+@@ -226,7 +226,8 @@ static void build_uart_device_aml(Aml *table)
+     aml_append(crs,
+         aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+                          AML_NON_CACHEABLE, AML_READ_WRITE,
+-                         0, 0x1FE001E0, 0x1FE001E7, 0, 0x8));
++                         0, VIRT_UART_BASE, VIRT_UART_BASE + VIRT_UART_SIZE - 1,
++                         0, VIRT_UART_SIZE));
+     aml_append(crs, aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
+                                   AML_SHARED, &uart_irq, 1));
+     aml_append(dev, aml_name_decl("_CRS", crs));
 -- 
 2.31.1
 
