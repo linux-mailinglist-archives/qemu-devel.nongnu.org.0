@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F035C633F14
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C25633F26
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:42:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxUNg-0006Wr-OC; Tue, 22 Nov 2022 09:36:12 -0500
+	id 1oxUSV-0000QA-9T; Tue, 22 Nov 2022 09:41:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxUNe-0006WS-HF
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:36:10 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxUNa-0000hO-CI
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:36:10 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id jn7so11962172plb.13
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 06:36:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kBHePgLk3El3qrQVmrWeXQwqMi0oAiYOsTa3r/rg0XI=;
- b=qVkDdPJH09KoUOTXToVgDjdYYs0z63gmtxLzSEpJFjsSCqmUpVqaSJpkzSyfYxkBj+
- xhAiZvp+4KuEXOQFKPWeTyPg2ZozTO42pxThXuKqsXbYAzHQXllPZvwH+9m6y6CuruaE
- PQ8WJN3BhfHtNsRLwXm22hY3VmoSxiQDyXXlc+cVLqwYqMyyo/Ob47DMy30Y9HeHHDWx
- aRoefzL0BxJKfhCkvLQLqEf952Dt+uhlcD4ceK53PZUZa+6ZgpQ5OUBCzw/dTcKWQEqg
- b4Q5qh24PKOlCqTG/DqYxkLyi9cb1NO6hPskjksp4r4GlJ+42hwiXlvIutWb+Lhu+Q7s
- zQ5g==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxUST-0000Q2-RG
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:41:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxUSQ-0002du-Um
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:41:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669128065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t7iJ4EoNThhOXtKf78A9uEvRy4GipRbD5KpUX6e0l40=;
+ b=TFcgPfthVj9iNwUDQeTrhB6LCdkdGeUzRLxOJe4E2+NCZv6D9akFhXe/lati4OnLEPxZcs
+ GSvUpmC7oDAhu/XYkQG/hOENKocN6mfICmKyo+9rpO7qCkRTPYSLXkgowJQlWMAChgGDQk
+ c9CwG3/xwMTKA+d6N5NXk7OryT1TI4Y=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-494-LlzatU0wNLuY1D4zb98FmA-1; Tue, 22 Nov 2022 09:41:04 -0500
+X-MC-Unique: LlzatU0wNLuY1D4zb98FmA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ fz10-20020a05622a5a8a00b003a4f466998cso14770786qtb.16
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 06:41:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kBHePgLk3El3qrQVmrWeXQwqMi0oAiYOsTa3r/rg0XI=;
- b=o2dc2LJUmwCFxnSpiiDe23bH3t49SIvhe9UoL/dEfesek2WpyMTRpeipVjVCeqskjj
- 8X+4kKAfu57WwcTQCHiIhdu0O8WLg9cz0Do1VzWGkshoBnDC/oaby13chTUj4e2Engh1
- zxaBMuRiOOAcZM88LMjT2/urtXDq7SlaNf9zqPuc73eT7cWWp30fD9/HutVc0F3C2ymD
- CJLgHS+ivqAoV8Vh02f85rMQFpyqclyj31vtTXllVqQStGvRam9B7LQA3psGDDOuy91S
- xM0R6/xNvdGEcspf+7qgK6yI+R/uK0gNUvxVTD5/oN+TCr/59UpBOCky6OD43S8QV/T/
- uTTA==
-X-Gm-Message-State: ANoB5pmtMDpY+0ID7IXT3hHiVTY5Lv1P4N2SaSHidkqzpNwpJnBv2eSk
- j8ysMo9a1NgyQWzVQuT4GKZDxZieUad4VOHYPJOI3w==
-X-Google-Smtp-Source: AA0mqf4hQ2QIfXMKVWZC6WjhrbalFZQ/MUHaSsWFST5DuiBG40N28aZeduUTJOdSsT1QIOl/GCf4YW1Q2hyivf1HDRI=
-X-Received: by 2002:a17:90a:7003:b0:212:f169:140e with SMTP id
- f3-20020a17090a700300b00212f169140emr25288656pjk.215.1669127761061; Tue, 22
- Nov 2022 06:36:01 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=t7iJ4EoNThhOXtKf78A9uEvRy4GipRbD5KpUX6e0l40=;
+ b=WExgAn3TxXysJ3cg6ZUCfNpW3QIPVviWbttIIEfsboY84E+9wxFUNpeUvNHAM902kA
+ Vgm8hesaLvW/fBHszFuFexQuG1oxTGYJrvNXOzqHouNqyI6eHl0+ogeSvDzA/wq9WnoD
+ tJ4uumBbqaKzon5Ctrso65WxM4qQdvetHiJmXCeEPqB4rOW/kEjm9FKhEv/ZW7e1L5x5
+ 05lZQE3zv3EnihkIEpkonJ1MvVufJgkyUFYYeBpS0tDEEORHwls7uEqiymOQAid3wK2a
+ noZntSaUGAc57QFzZnejxekcErl0Zif1CnyUEZEZpQNn3ASn4DJ6uC/NPZqQnU+XlKSl
+ WchA==
+X-Gm-Message-State: ANoB5pn4znLiVjStmzypGma9cvUzCFYpANhm6kPWJAoTIuwFbMJSazv7
+ UOGDUN9idVB1nEYdgVhEAZRFRIFconNTSN3FQ6se9xNRpO91NHHYWFCG2FmwfwFTzwosS6vqtI1
+ 40LlwlNkxyvyH9i4=
+X-Received: by 2002:a37:4655:0:b0:6ee:6fb0:c4ef with SMTP id
+ t82-20020a374655000000b006ee6fb0c4efmr4170447qka.173.1669128063562; 
+ Tue, 22 Nov 2022 06:41:03 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf78FLqOKjErOiSSQy9KaULUSWjWXTQFQU5jG0P5tcEgASyCSZgrz4kNA8VUfKqL6m6MMpdxjQ==
+X-Received: by 2002:a37:4655:0:b0:6ee:6fb0:c4ef with SMTP id
+ t82-20020a374655000000b006ee6fb0c4efmr4170415qka.173.1669128063262; 
+ Tue, 22 Nov 2022 06:41:03 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ t8-20020a37ea08000000b006b9c9b7db8bsm10231789qkj.82.2022.11.22.06.41.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Nov 2022 06:41:02 -0800 (PST)
+Date: Tue, 22 Nov 2022 09:41:01 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, prerna.saxena@nutanix.com,
+ quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
+Subject: Re: [PATCH v3 1/2] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y3zffev6eOCl6JBy@x1n>
+References: <20221119093615.158072-1-manish.mishra@nutanix.com>
+ <20221119093615.158072-4-manish.mishra@nutanix.com>
+ <Y3yPoFAo5l/vmB/y@redhat.com>
+ <d240734d-8301-ac4f-63de-89e9d2c2174c@nutanix.com>
 MIME-Version: 1.0
-References: <20221118094754.242910-1-richard.henderson@linaro.org>
- <20221118094754.242910-8-richard.henderson@linaro.org>
-In-Reply-To: <20221118094754.242910-8-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Nov 2022 14:35:49 +0000
-Message-ID: <CAFEAcA_6PHdEPBFqyHC+z8Xz8FcJw1wgDu-R+ynm+Qv04WS1Xg@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 07/29] accel/tcg: Honor atomicity of loads
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d240734d-8301-ac4f-63de-89e9d2c2174c@nutanix.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,84 +102,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 18 Nov 2022 at 09:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Create ldst_atomicity.c.inc.
->
-> Not required for user-only code loads, because we've ensured that
-> the page is read-only before beginning to translate code.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Nov 22, 2022 at 02:38:53PM +0530, manish.mishra wrote:
+> 
+> On 22/11/22 2:30 pm, Daniel P. Berrangé wrote:
+> > On Sat, Nov 19, 2022 at 09:36:14AM +0000, manish.mishra wrote:
+> > > MSG_PEEK reads from the peek of channel, The data is treated as
+> > > unread and the next read shall still return this data. This
+> > > support is currently added only for socket class. Extra parameter
+> > > 'flags' is added to io_readv calls to pass extra read flags like
+> > > MSG_PEEK.
+> > > 
+> > > Suggested-by: Daniel P. Berrangé <berrange@redhat.com
+> > > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> > > ---
+> > >   chardev/char-socket.c               |  4 +-
+> > >   include/io/channel.h                | 83 +++++++++++++++++++++++++++++
+> > >   io/channel-buffer.c                 |  1 +
+> > >   io/channel-command.c                |  1 +
+> > >   io/channel-file.c                   |  1 +
+> > >   io/channel-null.c                   |  1 +
+> > >   io/channel-socket.c                 | 16 +++++-
+> > >   io/channel-tls.c                    |  1 +
+> > >   io/channel-websock.c                |  1 +
+> > >   io/channel.c                        | 73 +++++++++++++++++++++++--
+> > >   migration/channel-block.c           |  1 +
+> > >   scsi/qemu-pr-helper.c               |  2 +-
+> > >   tests/qtest/tpm-emu.c               |  2 +-
+> > >   tests/unit/test-io-channel-socket.c |  1 +
+> > >   util/vhost-user-server.c            |  2 +-
+> > >   15 files changed, 179 insertions(+), 11 deletions(-)
+> > 
+> > 
+> > > diff --git a/io/channel-socket.c b/io/channel-socket.c
+> > > index b76dca9cc1..a06b24766d 100644
+> > > --- a/io/channel-socket.c
+> > > +++ b/io/channel-socket.c
+> > > @@ -406,6 +406,8 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+> > >       }
+> > >   #endif /* WIN32 */
+> > > +    qio_channel_set_feature(QIO_CHANNEL(cioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
+> > > +
+> > This covers the incoming server side socket.
+> > 
+> > This also needs to be set in outgoing client side socket in
+> > qio_channel_socket_connect_async
+> 
+> 
+> Yes sorry, i considered only current use-case, but as it is generic one both should be there. Thanks will update it.
+> 
+> > 
+> > > @@ -705,7 +718,6 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+> > >   }
+> > >   #endif /* WIN32 */
+> > > -
+> > >   #ifdef QEMU_MSG_ZEROCOPY
+> > >   static int qio_channel_socket_flush(QIOChannel *ioc,
+> > >                                       Error **errp)
+> > Please remove this unrelated whitespace change.
+> > 
+> > 
+> > > @@ -109,6 +117,37 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+> > >       return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
+> > >   }
+> > > +int qio_channel_readv_peek_all_eof(QIOChannel *ioc,
+> > > +                                   const struct iovec *iov,
+> > > +                                   size_t niov,
+> > > +                                   Error **errp)
+> > > +{
+> > > +   ssize_t len = 0;
+> > > +   ssize_t total = iov_size(iov, niov);
+> > > +
+> > > +   while (len < total) {
+> > > +       len = qio_channel_readv_full(ioc, iov, niov, NULL,
+> > > +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
+> > > +
+> > > +       if (len == QIO_CHANNEL_ERR_BLOCK) {
+> > > +            if (qemu_in_coroutine()) {
+> > > +                qio_channel_yield(ioc, G_IO_IN);
+> > > +            } else {
+> > > +                qio_channel_wait(ioc, G_IO_IN);
+> > > +            }
+> > > +            continue;
+> > > +       }
+> > > +       if (len == 0) {
+> > > +           return 0;
+> > > +       }
+> > > +       if (len < 0) {
+> > > +           return -1;
+> > > +       }
+> > > +   }
+> > This will busy wait burning CPU where there is a read > 0 and < total.
+> > 
+> 
+> Daniel, i could use MSG_WAITALL too if that works but then we will lose opportunity to yield. Or if you have some other idea.
 
-> +/**
-> + * required_atomicity:
-> + *
-> + * Return the lg2 bytes of atomicity required by @memop for @p.
-> + * If the operation must be split into two operations to be
-> + * examined separately for atomicity, return -lg2.
-> + */
-> +static int required_atomicity(CPUArchState *env, uintptr_t p, MemOp memop)
-> +{
-> +    int atmax = memop & MO_ATMAX_MASK;
-> +    int size = memop & MO_SIZE;
-> +    unsigned tmp;
-> +
-> +    if (atmax == MO_ATMAX_SIZE) {
-> +        atmax = size;
-> +    } else {
-> +        atmax >>= MO_ATMAX_SHIFT;
-> +    }
-> +
-> +    switch (memop & MO_ATOM_MASK) {
-> +    case MO_ATOM_IFALIGN:
-> +        tmp = (1 << atmax) - 1;
-> +        if (p & tmp) {
-> +            return MO_8;
-> +        }
-> +        break;
-> +    case MO_ATOM_NONE:
-> +        return MO_8;
-> +    case MO_ATOM_SUBALIGN:
-> +        tmp = p & -p;
-> +        if (tmp != 0 && tmp < atmax) {
-> +            atmax = tmp;
-> +        }
-> +        break;
-> +    case MO_ATOM_WITHIN16:
-> +        tmp = p & 15;
-> +        if (tmp + (1 << size) <= 16) {
-> +            atmax = size;
-> +        } else if (atmax < size && tmp + (1 << atmax) != 16) {
-> +            /*
-> +             * Paired load/store, where the pairs aren't aligned.
-> +             * One of the two must still be handled atomically.
-> +             */
-> +            atmax = -atmax;
-> +        }
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    /*
-> +     * Here we have the architectural atomicity of the operation.
-> +     * However, when executing in a serial context, we need no extra
-> +     * host atomicity in order to avoid racing.  This reduction
-> +     * avoids looping with cpu_loop_exit_atomic.
-> +     */
-> +    if (cpu_in_serial_context(env_cpu(env))) {
+How easy would this happen?
 
-Is it OK to use cpu_in_serial_context() here ? Even if
-there's no other vCPU executing in parallel, there might
-be device model code doing a memory write in the iothread,
-I think.
+Another alternative is we could just return the partial len to caller then
+we fallback to the original channel orders if it happens.  And then if it
+mostly will never happen it'll behave merely the same as what we want.
 
-> +        return MO_8;
-> +    }
-> +    return atmax;
-> +}
+The thing is the other approach will be hacky in another way (have a flag
+migration_consumed_4_bytes_header to either main and multifd channels),
+then if it'll solve 99.99% cases I'd think it's good enough.  Anyway we're
+working on a corner case already on unreliable network, and even if failure
+triggered it's not so bad - we just redo the migration.
 
-thanks
--- PMM
+-- 
+Peter Xu
+
 
