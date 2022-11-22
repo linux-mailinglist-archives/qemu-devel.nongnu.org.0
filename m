@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3988633927
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A53633938
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:58:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQ0r-0002Pk-B1; Tue, 22 Nov 2022 04:56:21 -0500
+	id 1oxQ0t-0002Un-FY; Tue, 22 Nov 2022 04:56:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0n-0002I8-FW
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:17 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1oxQ0q-0002Ox-CH
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:20 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0l-0003pN-Un
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:17 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- l39-20020a05600c1d2700b003cf93c8156dso10869111wms.4
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:56:15 -0800 (PST)
+ id 1oxQ0o-0003uA-Db
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:20 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id b12so10074838wrn.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T7Z8ogQEbj/l37me+vKTddNiXN3s0GS1v0ETJ7AQqmA=;
- b=kJlfV3bYwBQANuoAQGOnacKLK4k4suvHaLcwV5Jc5ldyvnBa8R6ml0nBN67LKWQGps
- yswpNpj+xZOoGMKHcQrIhNhxGt7dcA9tCEFawPzBcOwTZmTbB4Q9rCpznpOI9tUu0MD5
- ZH6zGUr+kKrh8Zj5UgvVmkArwxT9jIjWbaK7Xv1xiN5wGCR0YmQbFhSNB6aE0IUTvSqK
- F9MVdV0UBnFTJA+QxQxGu7jHysVRzopdRp83dyIG4UIL0WBcJvbjUQs2tZBMrErDZcZx
- H4KLdDDqWcxWoJ45lVuZ3Psf3wpge0mBprDySMKT7rXZvWjjSyC5HQvoNNDTRTZfTaoC
- Vqtw==
+ bh=QZkzgfr3NgI9GQ0WZ4StWbyyScfmFuJGZu1Sf1O5bKM=;
+ b=Yx4dqRmKNjPgCjyqbfSAAnrpjQaBTEKQanNn56+8WRJXZCzZNo1r7Ka3MDkgndHOht
+ Je/plU6Rn1L1vGt+NE7LxWf7HlSbCQYi5+EanjFB12I7LOp6eWDJZFt3GYx//F92B1Om
+ RieQFj52Lm5Vq8Oxkzu9TLS6Guvw4x5/ABA/1zhw9kb+lCA0+x4RmXY0PEq2WR/MwXmq
+ sDjMiDvRs9h8d1u6jDfohe9Ob+q+D3i++zbhggNJXC3y557ZfYbnseH2OYo3mRcAOUv9
+ sRMwR0XgOiL6RxkhXk56DnmfQo1hhJQHuNzKjxm0QIqnA2MmKuzwZptKUUEsqeAztqqR
+ 7vKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T7Z8ogQEbj/l37me+vKTddNiXN3s0GS1v0ETJ7AQqmA=;
- b=Nyf0B+1tR/3pSYtKu5eZzXp+ou3VSopb9E8uIofUS0/3oVy+UO9fS6vNMr74rjQ5Ep
- GDE7VdczgK9q6tN50tETE8h3ENhQT9fJs1ET2NsaWiFSD0q+Bq+dYPrrxSVu+5gzLu0B
- 8mncR1dncSPJFlRJrozVRuRoVjJ5M9QhpwgnR/EcdoBS6rgqZE2mTwNqA/VdUd6T36XE
- Ox2EYx7BCGSAFcWHPb36W+XSWche31kXp8oV3McwRVsjRR/+ucOi1HZtiIy9vVJC2OTk
- Z7LZvnDt+8k+Hbl/sfi8nuVUczCFO1NeW2q+O2Sr3lPDNkKtefKDlEIHowuV0riAt9Ex
- Z9sw==
-X-Gm-Message-State: ANoB5pm34vHOQu91Fcz6EBhu1kLzx09Na/491V4pz2bvZw7v9xrYmFhH
- Hlhx3UKNooBmcTf1oEtcbctUcQ==
-X-Google-Smtp-Source: AA0mqf4JNECRGhK9+C6C0eRa+4fZAVAODYxOp+XFMTwA/ACW6jMeae4DfJsTEB1TBk/2NJYBVct5oQ==
-X-Received: by 2002:a1c:f606:0:b0:3b4:bf6d:f9ba with SMTP id
- w6-20020a1cf606000000b003b4bf6df9bamr15458029wmc.133.1669110974634; 
- Tue, 22 Nov 2022 01:56:14 -0800 (PST)
+ bh=QZkzgfr3NgI9GQ0WZ4StWbyyScfmFuJGZu1Sf1O5bKM=;
+ b=m2ONg2FUQ4oOP51v2rCv2V+3r9f9uvxG1+qfoa/sFnf9rgmjOZ3f0Gvz0RVr7RtfwZ
+ vpshRrEfI1V314hGIK5BsvEdQ4RLnOq/L2BnI/GqUfLKDUW7smpb8rPUTaQ+iiKyETiU
+ 8e7qmh/dDaLyzMTrhn+byb8M5dbIjEGCOCdRxLVZXdO5hzQEp94Ngzrq4dBKDS28Wy9M
+ A2bZjIzU98E2+nKQyTM+K5aZ8EqMbfNA+qQoI6KgYXbhlq+OE2ESAi22CD7N1Z5jk4yp
+ H+1PXJQBaLBVfL8Yef29TARmcbciQzCeUbwpR3Ofh2n1dmXVot051LvJ5iVQzmlYXDP9
+ mZuQ==
+X-Gm-Message-State: ANoB5pnzkA1drNl58o42kAU8CxrFy4hjvdbDCpLHAb2ECxXyuj+IJm0R
+ PMuRPgpGOPS62KlCjqQhnkTHBw==
+X-Google-Smtp-Source: AA0mqf4CClIxmCHL2eng0y90ujJ/GeToizqLP5SPEZN6hgbDCmdA1a4a/Vfi4ocr799zv30VSdm5DQ==
+X-Received: by 2002:adf:ea82:0:b0:241:e749:f75c with SMTP id
+ s2-20020adfea82000000b00241e749f75cmr286887wrm.609.1669110976959; 
+ Tue, 22 Nov 2022 01:56:16 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k1-20020a5d6281000000b0022ae0965a8asm13542984wru.24.2022.11.22.01.56.12
+ m29-20020a05600c3b1d00b003c6b7f5567csm2259001wms.0.2022.11.22.01.56.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Nov 2022 01:56:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 522A01FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 6C8251FFC1;
  Tue, 22 Nov 2022 09:56:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL v2 08/11] tests/avocado: Raise timeout for
- boot_linux.py:BootLinuxPPC64.test_pseries_tcg
-Date: Tue, 22 Nov 2022 09:56:07 +0000
-Message-Id: <20221122095610.3343175-9-alex.bennee@linaro.org>
+ Beraldo Leal <bleal@redhat.com>, qemu-arm@nongnu.org (open list:Virt)
+Subject: [PULL v2 09/11] tests/avocado: introduce alpine virt test for CI
+Date: Tue, 22 Nov 2022 09:56:08 +0000
+Message-Id: <20221122095610.3343175-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221122095610.3343175-1-alex.bennee@linaro.org>
 References: <20221122095610.3343175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,31 +98,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Maydell <peter.maydell@linaro.org>
+The boot_linux tests download and run a full cloud image boot and
+start a full distro. While the ability to test the full boot chain is
+worthwhile it is perhaps a little too heavy weight and causes issues
+in CI. Fix this by introducing a new alpine linux ISO boot in
+machine_aarch64_virt.
 
-On my machine, a debug build of QEMU takes about 260 seconds to
-complete this test, so with the current timeout value of 180 seconds
-it always times out.  Double the timeout value to 360 so the test
-definitely has enough time to complete.
+This boots a fully loaded -cpu max with all the bells and whistles in
+31s on my machine. A full debug build takes around 180s on my machine
+so we set a more generous timeout to cover that.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+We don't add a test for lesser GIC versions although there is some
+coverage for that already in the boot_xen.py tests. If we want to
+introduce more comprehensive testing we can do it with a custom kernel
+and initrd rather than a full distro boot.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221110142901.3832318-1-peter.maydell@linaro.org>
-Message-Id: <20221117172532.538149-9-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221117172532.538149-10-alex.bennee@linaro.org>
 
-diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-index 32adae6ff6..8c8a63ec2e 100644
---- a/tests/avocado/boot_linux.py
-+++ b/tests/avocado/boot_linux.py
-@@ -116,7 +116,7 @@ class BootLinuxPPC64(LinuxTest):
-     :avocado: tags=arch:ppc64
-     """
+diff --git a/tests/avocado/machine_aarch64_virt.py b/tests/avocado/machine_aarch64_virt.py
+index 21848cba70..c2b2ba2cf8 100644
+--- a/tests/avocado/machine_aarch64_virt.py
++++ b/tests/avocado/machine_aarch64_virt.py
+@@ -1,4 +1,5 @@
+-# Functional test that boots a Linux kernel and checks the console
++# Functional test that boots a various Linux systems and checks the
++# console output.
+ #
+ # Copyright (c) 2022 Linaro Ltd.
+ #
+@@ -8,19 +9,62 @@
+ # SPDX-License-Identifier: GPL-2.0-or-later
  
--    timeout = 180
+ import time
++import os
+ 
+ from avocado_qemu import QemuSystemTest
+ from avocado_qemu import wait_for_console_pattern
+ from avocado_qemu import exec_command
++from avocado_qemu import BUILD_DIR
+ 
+ class Aarch64VirtMachine(QemuSystemTest):
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
 +    timeout = 360
  
-     def test_pseries_tcg(self):
+     def wait_for_console_pattern(self, success_message, vm=None):
+         wait_for_console_pattern(self, success_message,
+                                  failure_message='Kernel panic - not syncing',
+                                  vm=vm)
+ 
++    # This tests the whole boot chain from EFI to Userspace
++    # We only boot a whole OS for the current top level CPU and GIC
++    # Other test profiles should use more minimal boots
++    def test_alpine_virt_tcg_gic_max(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:virt
++        :avocado: tags=accel:tcg
++        """
++        iso_url = ('https://dl-cdn.alpinelinux.org/'
++                   'alpine/v3.16/releases/aarch64/'
++                   'alpine-virt-3.16.3-aarch64.iso')
++
++        # Alpine use sha256 so I recalculated this myself
++        iso_sha1 = '0683bc089486d55c91bf6607d5ecb93925769bc0'
++        iso_path = self.fetch_asset(iso_url, asset_hash=iso_sha1)
++
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyAMA0')
++        self.require_accelerator("tcg")
++
++        self.vm.add_args("-accel", "tcg")
++        self.vm.add_args("-cpu", "max,pauth-impdef=on")
++        self.vm.add_args("-machine",
++                         "virt,acpi=on,"
++                         "virtualization=on,"
++                         "mte=on,"
++                         "gic-version=max,iommu=smmuv3")
++        self.vm.add_args("-smp", "2", "-m", "1024")
++        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
++                                               'edk2-aarch64-code.fd'))
++        self.vm.add_args("-drive", f"file={iso_path},format=raw")
++        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
++        self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
++
++        self.vm.launch()
++        self.wait_for_console_pattern('Welcome to Alpine Linux 3.16')
++
++
+     def test_aarch64_virt(self):
          """
+         :avocado: tags=arch:aarch64
 -- 
 2.34.1
 
