@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB2763400E
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EF263400F
 	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 16:22:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxV58-0007HJ-P3; Tue, 22 Nov 2022 10:21:07 -0500
+	id 1oxV5Z-0007WR-Fu; Tue, 22 Nov 2022 10:21:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxV39-0006Lh-7v
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 10:19:04 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxV5W-0007UO-PR
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 10:21:30 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxV36-00045r-PQ
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 10:19:02 -0500
-Received: by mail-wr1-x434.google.com with SMTP id i12so21345404wrb.0
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 07:19:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxV5V-0004x4-46
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 10:21:30 -0500
+Received: by mail-wr1-x436.google.com with SMTP id v1so25179294wrt.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 07:21:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=omvAEKINZ0W/wTxggBEWe30GBN77qN5IbXQCTucO0eI=;
- b=n4CbM95GmuTC63E/+WPbEl66AFAf2B7fVW/iA8CxQ5fXQ7BjHCa5AJ4MR28FEIzXOI
- qBJz7oXDzK4qjbYQP6D+Y5gL8jq5MGDO5BOIsWALRO6mk48akVfd6PpSIlkq6fHVVV7p
- sWTKX+/mnY74qEleC+ReqxDgtxN7329a6Rcbz2FBMzb5I1G+Tkz2pIR9pxxh8EnBfXcL
- A4ns2XTulXYJL8cOfmw5us8euaHqKQIgO4+DQJ7xERMGqoVUT4y+Cj+Yhtc1eTSb2lZA
- BWsARiAzZt6D2kjVVHMHQH2hb2H/LVZhZnyjlhSBGg9AUYC3kDUIJmRJiG2lBn61wFP8
- 3JlQ==
+ bh=VWN9S4AZ6AoXdk/bla+uGhm09AMa8jSmGkunFeawxsw=;
+ b=x4yI7LSZ9hOguu5qdU3vHL2uu/r5tTK/YI/XbB4qLYWk/rA6ubEhho1/IUVWGWJAVt
+ xrjENQ2MEwzvW2R7dENFxbnSH3M5GI3V9N0NHUMqhV1+9rlt+y7uoc6Z7SOql52umiK+
+ RN2XrWGT8MMFp/IMFYaV0fAOVMyVMCC0TBdX8kg3NWQXNSTN5+oR2fTV4+shHnP+qKwz
+ Z1h501OqozJVY2hF60hMC4NOhytIMdprxNx5MF4VhjA7N08D4RAqoPrH5afEVwt07WfR
+ KRwxTyLDpkU732NrdwEWMMxerCTrkKatpL8S7j9GG9hGxLChf8Ofp9tBNKVU+fvcP5F/
+ NJ0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=omvAEKINZ0W/wTxggBEWe30GBN77qN5IbXQCTucO0eI=;
- b=MCE2E7BWo9HBqWMQMqMk3j2OKGZE9hTDWMEghgH1rAzJ/tptZxjuVk+dkBnN1ZPzN8
- rrbfwj+EqWaZEY1MtWJtLeZHtpGZtKp5Rm/p5GU/dbyf7+ck0fm5FYNVvE3eECdG39mP
- BN/k6to3fJGQo+jtUJ9GthIITrm4BtRI4iIqte24rQw3feOJTJCGlGfIvKIB/qBz6bdg
- wQZv5ucVN6eOOcjP4CtUbl7IEgl78AsagPPUAC5BAgNTbfYD2rUdqITPQxbQip1/EI/1
- 5WvjbISrJJ1UXXOpZtJ/7NhSjcmhIeC9bLxCFyPY8wlEZR4fxhgoOg+pRARuLF9c5uxr
- rO+w==
-X-Gm-Message-State: ANoB5pkMizuEifwTxPLz3H8wvB83V75T6ktqP7LHgDocuDZ2v2gYrKxm
- Gy6H4vMvkTCB2R3XZLTucTGv2g==
-X-Google-Smtp-Source: AA0mqf71E+sN3NNRw7RVKBE5/XAqSIeMWSRhF6QEt1nv/kGxQrG4DTOwIicuBPZ4HQHGzzEblxw/HQ==
-X-Received: by 2002:adf:dfc6:0:b0:236:cfcf:8e36 with SMTP id
- q6-20020adfdfc6000000b00236cfcf8e36mr14766744wrn.323.1669130339059; 
- Tue, 22 Nov 2022 07:18:59 -0800 (PST)
+ bh=VWN9S4AZ6AoXdk/bla+uGhm09AMa8jSmGkunFeawxsw=;
+ b=GzTWxrpiJEUyc8ZTmMeRsQzlI56Yqgw/cCsEDUsSDZNFjzxkGBVpt1KD1H/uMfyzq3
+ leO5g8TjAw7JJPMIPPmt2FzsQc46ii5KH7RJ14I5K2xqaJA3NlcrEhVsQ4BIdZDTtDCF
+ tng7PO45T8QGqU18DIBsUkvytnBI20Xv9be70hghxrwszCRciayLoeGeYu+JwBtBa6p2
+ 9gY7jDC8Z8//l/uaqJQNhpXqqwSLxVbRUCXWGiJM4/iUHTIspmMCEzp1uX0E5wNwbdF5
+ nHvXI5RPhzfJiJfqWZiw509YrWVQCOb18fC1HbZLrHhoKwW0yPcH3Sk9ICfSywfX7mkD
+ 09Mg==
+X-Gm-Message-State: ANoB5pn6+0NekSIiBd8+5vsuRnFoPoje3L61SmdavTGb6t/hUdXqJEcy
+ uXChJfXHBbg32RV8Thhudr+wNZjVDhoI+Q==
+X-Google-Smtp-Source: AA0mqf5PWaXab6WyYfAyeRRA3EeEo4NpdjWwDPO5vmFI+n6dvBMtRGlDS3OdDduA8VlAhbAu8+nbrw==
+X-Received: by 2002:adf:d842:0:b0:236:b24b:aaf9 with SMTP id
+ k2-20020adfd842000000b00236b24baaf9mr14464060wrl.394.1669130487207; 
+ Tue, 22 Nov 2022 07:21:27 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- b3-20020a5d4d83000000b00236576c8eddsm14234292wru.12.2022.11.22.07.18.58
+ k17-20020a5d6291000000b0022e66749437sm14339090wru.93.2022.11.22.07.21.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Nov 2022 07:18:58 -0800 (PST)
-Message-ID: <0bb7ab20-4e3a-b347-5cdc-4f68d199e7ef@linaro.org>
-Date: Tue, 22 Nov 2022 16:18:57 +0100
+ Tue, 22 Nov 2022 07:21:26 -0800 (PST)
+Message-ID: <78522569-66e9-2ab6-09fd-80b971ca426b@linaro.org>
+Date: Tue, 22 Nov 2022 16:21:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH-for-7.2] vhost-vdpa: skip TPM CRB memory section
+Subject: Re: [PATCH for-8.0 v3 20/45] accel/tcg/plugin: Avoid duplicate copy
+ in copy_call
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: eperezma@redhat.com, eric.auger@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20221122145349.86072-1-marcandre.lureau@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221111074101.2069454-1-richard.henderson@linaro.org>
+ <20221111074101.2069454-21-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221122145349.86072-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20221111074101.2069454-21-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,45 +91,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/11/22 15:53, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 11/11/22 08:40, Richard Henderson wrote:
+> We copied all of the arguments in copy_op_nocheck.
+> We only need to replace the one argument that we change.
 > 
-> 851d6d1a0f ("vfio/common: remove spurious tpm-crb-cmd misalignment
-> warning") removed the warning on vfio_listener_region_add() path.
-> 
-> An error is reported for vhost-vdpa case:
-> qemu-kvm: vhost_vdpa_listener_region_add received unaligned region
-> 
-> Skip the CRB device.
-> 
-> Fixes:
-> https://bugzilla.redhat.com/show_bug.cgi?id=2141965
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/virtio/vhost-vdpa.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 7468e44b87..9d7206e4b8 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -19,6 +19,7 @@
->   #include "hw/virtio/virtio-net.h"
->   #include "hw/virtio/vhost-shadow-virtqueue.h"
->   #include "hw/virtio/vhost-vdpa.h"
-> +#include "sysemu/tpm.h"
->   #include "exec/address-spaces.h"
->   #include "migration/blocker.h"
->   #include "qemu/cutils.h"
-> @@ -46,6 +47,11 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
->   {
->       Int128 llend;
->   
-> +    if (TPM_IS_CRB(section->mr->owner)) {
-> +        /* The CRB command buffer has its base address unaligned. */
-> +        return true;
-> +    }
+>   accel/tcg/plugin-gen.c | 2 --
+>   1 file changed, 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
