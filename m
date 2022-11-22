@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788F5633AC4
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA85633AC5
 	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 12:08:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxR7U-00041Y-Fx; Tue, 22 Nov 2022 06:07:16 -0500
+	id 1oxR8C-0004PA-BC; Tue, 22 Nov 2022 06:08:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oxR7K-0003zf-Fe
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 06:07:07 -0500
+ id 1oxR8A-0004Mu-GL
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 06:07:58 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oxR7G-0006ad-9D
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 06:07:05 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1oxR87-0007ho-TW
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 06:07:58 -0500
 Received: from loongson.cn (unknown [114.250.136.113])
- by gateway (Coremail) with SMTP id _____8Dx9vBLrXxjbAMAAA--.92S3;
- Tue, 22 Nov 2022 19:06:51 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxTeuJrXxjcwMAAA--.39S3;
+ Tue, 22 Nov 2022 19:07:53 +0800 (CST)
 Received: from [192.168.199.220] (unknown [114.250.136.113])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxLuJJrXxjKxgYAA--.63119S3; 
- Tue, 22 Nov 2022 19:06:49 +0800 (CST)
-Message-ID: <658e2368-ed78-fa01-6030-877883c7e93e@loongson.cn>
-Date: Tue, 22 Nov 2022 19:06:38 +0800
+ AQAAf8Dx9VaJrXxjMhgYAA--.44519S3; 
+ Tue, 22 Nov 2022 19:07:53 +0800 (CST)
+Message-ID: <e88421ca-8c44-a283-248d-6e1a824f2790@loongson.cn>
+Date: Tue, 22 Nov 2022 19:07:53 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH] hw/loongarch: Add default stdout uart in fdt
+Subject: Re: [PATCH] hw/loongarch: Replace the value of uart info with macro
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, maobibo@loongson.cn
-References: <20221115114923.3372414-1-yangxiaojuan@loongson.cn>
+References: <20221115115008.3372489-1-yangxiaojuan@loongson.cn>
 From: "gaosong@loongson.cn" <gaosong@loongson.cn>
-In-Reply-To: <20221115114923.3372414-1-yangxiaojuan@loongson.cn>
+In-Reply-To: <20221115115008.3372489-1-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxLuJJrXxjKxgYAA--.63119S3
+X-CM-TRANSID: AQAAf8Dx9VaJrXxjMhgYAA--.44519S3
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Kw1xCryUJFWDKF1kJr4fZrb_yoW8Jw1UpF
- WxCa1DWay8Xr1DurZ2g345ZF1fArnrury2qr47ur40kr9xX3s3Xr4Iv392yFy8Z34rJa4j
- vFs5Wryqg3WIgrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
- AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1l
- Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
- GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI4
- 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
- MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
- 8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UWHqcUUUUU=
+X-Coremail-Antispam: 1Uk129KBjvdXoWruw48Kr1kXr4kAw1DAr1kZrb_yoWDZwc_tF
+ naywnrGws5J3WF9ryqyry8AryDXw10vF1YkayDXrn7Aa1kJw15Xr47WanxZF9FqFWUCr4f
+ X3s5tr4Fkr15GjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ 47kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7
+ xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+ kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm
+ 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+ k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+ MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
+ 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+ IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1QVy3UUUUU==
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -18
@@ -78,37 +78,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2022/11/15 19:49, Xiaojuan Yang 写道:
-> Add "chosen" subnode into LoongArch fdt, and set it's
-> "stdout-path" prop to uart node.
+在 2022/11/15 19:50, Xiaojuan Yang 写道:
+> Using macro to replace the value of uart info such as addr, size
+> in acpi_build method.
 >
 > Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->   hw/loongarch/virt.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   hw/loongarch/acpi-build.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+
 Reviewed-by: Song Gao <gaosong@loongson.cn>
 
 Thanks.
 Song Gao
-> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-> index 5e4c2790bf..b59c07972a 100644
-> --- a/hw/loongarch/virt.c
-> +++ b/hw/loongarch/virt.c
-> @@ -69,6 +69,7 @@ static void fdt_add_uart_node(LoongArchMachineState *lams)
->       qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "ns16550a");
->       qemu_fdt_setprop_cells(ms->fdt, nodename, "reg", 0x0, base, 0x0, size);
->       qemu_fdt_setprop_cell(ms->fdt, nodename, "clock-frequency", 100000000);
-> +    qemu_fdt_setprop_string(ms->fdt, "/chosen", "stdout-path", nodename);
->       g_free(nodename);
->   }
->   
-> @@ -87,6 +88,7 @@ static void create_fdt(LoongArchMachineState *lams)
->                               "linux,dummy-loongson3");
->       qemu_fdt_setprop_cell(ms->fdt, "/", "#address-cells", 0x2);
->       qemu_fdt_setprop_cell(ms->fdt, "/", "#size-cells", 0x2);
-> +    qemu_fdt_add_subnode(ms->fdt, "/chosen");
->   }
->   
->   static void fdt_add_cpu_nodes(const LoongArchMachineState *lams)
+> diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
+> index 68dfb9f88a..7d5f5a757d 100644
+> --- a/hw/loongarch/acpi-build.c
+> +++ b/hw/loongarch/acpi-build.c
+> @@ -226,7 +226,8 @@ static void build_uart_device_aml(Aml *table)
+>       aml_append(crs,
+>           aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+>                            AML_NON_CACHEABLE, AML_READ_WRITE,
+> -                         0, 0x1FE001E0, 0x1FE001E7, 0, 0x8));
+> +                         0, VIRT_UART_BASE, VIRT_UART_BASE + VIRT_UART_SIZE - 1,
+> +                         0, VIRT_UART_SIZE));
+>       aml_append(crs, aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
+>                                     AML_SHARED, &uart_irq, 1));
+>       aml_append(dev, aml_name_decl("_CRS", crs));
 
 
