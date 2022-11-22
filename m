@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC558633926
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A0F63394F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:06:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQ0v-0002Yg-1D; Tue, 22 Nov 2022 04:56:25 -0500
+	id 1oxQ96-0003AH-Mf; Tue, 22 Nov 2022 05:04:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0p-0002NW-TR
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:19 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxQ0o-0003sd-8G
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:56:19 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id o30so10330553wms.2
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:56:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=poryMUWRLDds72xI/Jm9ugboCEqA18vwJ5mKpSpT8uc=;
- b=i3osRi9QZq5roy5icUm/OH3mPmCaumFYI2iZU3debootxdbAtG3Pmq8gEpQKIlA9IS
- bKJwlkBPUro8z3+3ITdbZSr58t//FkL347BupEW/oCSNwhrEzHL5UDVADjHRba9xE2vI
- PD++u/PVDJZyVf/jw9eszlRbisDrXaw+SKp36flFa2rrbV8KWO7yYTRBKfZLiq+fHXPq
- /V9/WL/sb+JQpdg96HdNDMT07sMz1QzKfjKYcwj78binM3+892fyyjlkA1WnRNy/yt4h
- PWVpO03OY7H0rMtUxMfYC1n7lgATezC91OwgHNZZdLvsuth4m7ChoL7QeuZbmN1KrCqP
- A/fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=poryMUWRLDds72xI/Jm9ugboCEqA18vwJ5mKpSpT8uc=;
- b=sER6LChsRpo3WV8ahrfHujfIm/KiJn8G2Jw+03E+sqa+XcsxOCBESPvhUx0IJ+WsVK
- 0OwCLW4nUTp5lZ+tBT1vwIIvWHUxRGZqCQEI/vUhkOKHPWx8xjEM9E0asdQZiu00VhbH
- Qmz2CAifymXOdGRsGc72EpQgp5V9mM1TshMEA6SJNoMn7yvRp1WeqCQdWUoSiHd8pTRZ
- bNORzYn0+3s7JJsx6CCPtQlmu9okzKK+AL1LjLMIESzLmqA8F/s3kJ0CFyuMOlhLosBc
- KFGaauDEdvlZF6qxlLm8nkYPDG3OaBqn265vyLUeEZSUTvuimiqPPwtp0+HsOxcCuwf5
- C9uQ==
-X-Gm-Message-State: ANoB5plVTtEENa4Xi+16bj5+ETewrk2+e/UJRGWUl4u7Lzs7ylEgnNX+
- ifcn+pLKEfrDyIxKyvtwbjX97w==
-X-Google-Smtp-Source: AA0mqf5ZNNN5iKDRbfYpBKSqu7NJD/Je0Q9H64ha6UHqxGp2/l+W4vWAS6Z+C0SFf7RlDWMhAwtQFw==
-X-Received: by 2002:a05:600c:92a:b0:3cf:69d4:72ee with SMTP id
- m42-20020a05600c092a00b003cf69d472eemr2005560wmp.122.1669110976587; 
- Tue, 22 Nov 2022 01:56:16 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- e2-20020adfdbc2000000b00241b95cae91sm13507885wrj.58.2022.11.22.01.56.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 01:56:13 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 98ADE1FFC2;
- Tue, 22 Nov 2022 09:56:11 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL v2 11/11] gitlab: integrate coverage report
-Date: Tue, 22 Nov 2022 09:56:10 +0000
-Message-Id: <20221122095610.3343175-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221122095610.3343175-1-alex.bennee@linaro.org>
-References: <20221122095610.3343175-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxQ8z-00039Y-MT
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:04:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxQ8x-0005mJ-Q8
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:04:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669111482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n5TtHIKowIvZCtmUmQv0OV8iTITBHgvA06h/jq7lV7w=;
+ b=LT3X2WJmR1f5ZzE2CKa1ICISPPnfFn18mc73JHZQBGNh66OhodAE7qaTTQgx1QZL3CtW6v
+ J08aJW9zFPK9+8m/+YIaBxA5ZcyW+nmwPdNc3avoGVQ7PmW+Jw4fDbwEEq4qwtr4kibAC0
+ A02SIu2dlGi8brBME364vsShrY4a1ds=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-182-byoa-SlKMRShxyZEDklFYA-1; Tue, 22 Nov 2022 05:04:39 -0500
+X-MC-Unique: byoa-SlKMRShxyZEDklFYA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 063CA3815D25;
+ Tue, 22 Nov 2022 10:04:39 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BF8C17595;
+ Tue, 22 Nov 2022 10:04:37 +0000 (UTC)
+Date: Tue, 22 Nov 2022 11:04:34 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 11/11] block/dirty-bitmap: convert coroutine-only
+ functions to generated_co_wrapper_simple
+Message-ID: <Y3yesiPrE7lIn+aV@redhat.com>
+References: <20221116122241.2856527-1-eesposit@redhat.com>
+ <20221116122241.2856527-12-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221116122241.2856527-12-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,39 +81,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This should hopefully give is nice coverage information about what our
-tests (or at least the subset we are running) have hit. Ideally we
-would want a way to trigger coverage on tests likely to be affected by
-the current commit.
+Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
+> bdrv_can_store_new_dirty_bitmap and bdrv_remove_persistent_dirty_bitmap
+> check if they are running in a coroutine, directly calling the
+> coroutine callback if it's the case.
+> Except that no coroutine calls such functions, therefore that check
+> can be removed, and function creation can be offloaded to
+> g_c_w_simple.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20221117172532.538149-12-alex.bennee@linaro.org>
-
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 7173749c52..d21b4a1fd4 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -494,7 +494,17 @@ check-gprof-gcov:
-     IMAGE: ubuntu2004
-     MAKE_CHECK_ARGS: check
-   after_script:
--    - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
-+    - cd build
-+    - gcovr --xml-pretty --exclude-unreachable-branches --print-summary
-+        -o coverage.xml --root ${CI_PROJECT_DIR} . *.p
-+  coverage: /^\s*lines:\s*\d+.\d+\%/
-+  artifacts:
-+    name: ${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}
-+    expire_in: 2 days
-+    reports:
-+      coverage_report:
-+        coverage_format: cobertura
-+        path: build/coverage.xml
- 
- build-oss-fuzz:
-   extends: .native_build_job_template
--- 
-2.34.1
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
 
