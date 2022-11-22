@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997136338E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:44:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C326338E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 10:46:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxPoq-0004LN-GN; Tue, 22 Nov 2022 04:43:56 -0500
+	id 1oxPqr-0005dJ-Np; Tue, 22 Nov 2022 04:46:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxPoo-0004Ky-Cc
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:43:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxPom-000293-FD
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:43:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669110231;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0vvbGRJ2jJTAgv+rHdLndIgEe7ygLcB7IBmXdfzAQbU=;
- b=Hw3BlHu8YKVv3CSD3Yg70NU/alsb2w9bWKOe+EJZF4zWaxXhZd2r/FoyddKSHdgLtG73J9
- Jh2j/81fdc/lyI7LLdfazUVeoJlyE7y6yKlaBpg4Ax0qcWaIs9D34Z7fSn+f3Q57I0LXZT
- IiFzmzJU6nMZiT6UH09al+u9LWDw65I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-159-_3kl3uDRPou7eOuRvk_hvw-1; Tue, 22 Nov 2022 04:43:49 -0500
-X-MC-Unique: _3kl3uDRPou7eOuRvk_hvw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l32-20020a05600c1d2000b003cfefa531c9so593589wms.0
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:43:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oxPqi-0005bt-85
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:45:52 -0500
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oxPqg-0003l7-8i
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 04:45:52 -0500
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-14263779059so15844910fac.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 01:45:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Ph6rt4OzHj94X5Q1ZGC0NnvRW0N89JV+w3oxV2MurSk=;
+ b=BE+0JnjQ5zrzmEIvQWLZFvPhw0erqHWXn8MvVlkBJbaVPoOTBNsIc4ANfLH8ElA/Iu
+ ogRS9hK9LWgYZ0pG+MZfE6+de77BrIjJcS7Lqf/woJaTw5ghFne3YZZODBiB9jLHu5u3
+ eXnYhwIcjvTDLDnXhGo7yH32Na9xwYb78UB3BA33d9irIxy9paZGJUxukC6YAToNJljX
+ XVIFHesreZbCtbJPkAgUki3zzvqQ4oU3t57FU9t3p/6hscT4kIiAA21kStctr4+nwBp6
+ 8Xns9sZ7q1nZNTqcziAcH5uV1WY99rVaGyM73DZsiUyaMQdiI2YlblvgNwEJdJMMrMns
+ 7Xrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0vvbGRJ2jJTAgv+rHdLndIgEe7ygLcB7IBmXdfzAQbU=;
- b=7Q7jlo42wzNQ+xIJ/pCjWg1htMW0Ox5Nl74w2fKOqop34hkIIGO/H/WsWhzzSSOE1i
- Ym6Cg9Qe3C3Ud59/2kORf9/kKr6UBDN2gIeEg6pokZ9E1WAjcagtean/xkrRDb47vG4v
- jFPreRKaYVI9D48vMSlhLM/K23UNdDRfrRbukYlLCnTga+f+HCJxeasKAc/ryvLuArF1
- cKyrQxeVkh7vpEy848e96LzNaHp/9e17bbFls9FFB5fO695RNR0+pzpvUv6oyWXnsmOp
- OepcHYGjbWtKOWvVpInW+VCpsUmNhXb9hd1OTZ0oJmb3fY3E+Zon+LknsLJNthxfiy86
- 1Lzg==
-X-Gm-Message-State: ANoB5pkLjYKsdRaIm1ksOL2ZeZ7jOhuPpB7XNMtZ2/tMS61RBom+YphE
- f8wKx25co3XA/+5g5jEyaP/6tUh5EOOeEotp8ctt9S2wYbFJ5NQ+qE/V7ZhYeZ3WklA5kcxpAif
- UjEPgLU6FJ0EgpKA=
-X-Received: by 2002:a5d:6547:0:b0:241:e4cc:f044 with SMTP id
- z7-20020a5d6547000000b00241e4ccf044mr930932wrv.457.1669110228501; 
- Tue, 22 Nov 2022 01:43:48 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf41MEqMR93+3qihcOS0V8lMbMI4VQ3wbSOcesrAAqLWkRfbuZcVE9uiQreHMQFsn0D618TYmg==
-X-Received: by 2002:a5d:6547:0:b0:241:e4cc:f044 with SMTP id
- z7-20020a5d6547000000b00241e4ccf044mr930918wrv.457.1669110228207; 
- Tue, 22 Nov 2022 01:43:48 -0800 (PST)
-Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
- e16-20020adffd10000000b00241b933f8cesm13602128wrr.74.2022.11.22.01.43.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 01:43:47 -0800 (PST)
-Date: Tue, 22 Nov 2022 04:43:44 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Yalan Zhang <yalzhang@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Lei Yang <leiyang@redhat.com>
-Subject: Re: [PATCH for 7.2?] vhost: fix vq dirt bitmap syncing when vIOMMU
- is enabled
-Message-ID: <20221122035846-mutt-send-email-mst@kernel.org>
-References: <20221122030111.4230-1-jasowang@redhat.com>
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ph6rt4OzHj94X5Q1ZGC0NnvRW0N89JV+w3oxV2MurSk=;
+ b=UD/BA3Cv9R/MG20D5T8rwWo2D39vrMsVt8+fYxnwl+kdu9PO020vyvmXif7oeeboUG
+ tt96+o79fu72CABs3WljQFoQPS1gylGBzaQus9gnia9Odhl/Y7oTj06z05vwgsBtiK3V
+ zgYY9zFqoNd5IXFFGjBn4jhH3LAjXtE59r4es7r3wfBwvMY9ZbuB+RLQJ7Q7IYdX/THk
+ H9LVSVSKIg+GZGBq0N9pIf2BcdkTgqtyLdbYSYmm03o/SIeZ7ur6WM8cxbforRLBpAwe
+ qYENWDLAWgDfH+3fw3RCgf9/+90m55viMoK5Mhi2e0x0mmOtx+fFPVqgub2/hxQx18xo
+ +MWw==
+X-Gm-Message-State: ANoB5pmPQnOhcyByfQ7+CZC3vtLMTEUmOXaVP5q/3ZPpTij8Hx1+Y6E3
+ +c5H/fSyDQQzgv5pdfTL4RaP52r4Jzc=
+X-Google-Smtp-Source: AA0mqf5ST+u0Izj+bucnuSWXhqvU8LCQvy0WdWIr0M+BZd6RhaZLx6DnTChBvFhEMh/rSdZToZM09A==
+X-Received: by 2002:a05:6870:1e83:b0:132:7b3:29ac with SMTP id
+ pb3-20020a0568701e8300b0013207b329acmr2710949oab.35.1669110348974; 
+ Tue, 22 Nov 2022 01:45:48 -0800 (PST)
+Received: from [192.168.10.102] ([191.19.173.155])
+ by smtp.gmail.com with ESMTPSA id
+ p23-20020a544617000000b00353ef11d6c9sm5117322oip.19.2022.11.22.01.45.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Nov 2022 01:45:48 -0800 (PST)
+Message-ID: <759bcbaa-24b9-5919-8f2e-19c0290b8efb@gmail.com>
+Date: Tue, 22 Nov 2022 06:45:45 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221122030111.4230-1-jasowang@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH for-8.0 v3 32/45] tcg: Introduce tcg_out_addi_ptr
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221111074101.2069454-1-richard.henderson@linaro.org>
+ <20221111074101.2069454-33-richard.henderson@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221111074101.2069454-33-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,171 +94,238 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 22, 2022 at 11:01:11AM +0800, Jason Wang wrote:
-> When vIOMMU is enabled, the vq->used_phys is actually the IOVA not
-> GPA. So we need to translate it to GPA before the syncing otherwise we
-> may hit the following crash since IOVA could be out of the scope of
-> the GPA log size. This could be noted when using virtio-IOMMU with
-> vhost using 1G memory.
 
-Noted how exactly? What does "using 1G memory" mean?
 
-> Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Yalan Zhang <yalzhang@redhat.com>
-> Tested-by: Eric Auger <eric.auger@redhat.com>
-> Tested-by: Lei Yang <leiyang@redhat.com>
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->  hw/virtio/vhost.c | 65 ++++++++++++++++++++++++++++++++---------------
->  1 file changed, 45 insertions(+), 20 deletions(-)
+On 11/11/22 04:40, Richard Henderson wrote:
+> Implement the function for arm, i386, and s390x, which will use it.
+> Add stubs for all other backends.
 > 
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index d1c4c20b8c..26b319f34e 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -106,11 +106,30 @@ static void vhost_dev_sync_region(struct vhost_dev *dev,
->      }
->  }
->  
-> +static bool vhost_dev_has_iommu(struct vhost_dev *dev)
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+
+For ppc and common code bits:
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+>   tcg/tcg.c                        |  2 ++
+>   tcg/aarch64/tcg-target.c.inc     |  7 +++++++
+>   tcg/arm/tcg-target.c.inc         | 20 ++++++++++++++++++++
+>   tcg/i386/tcg-target.c.inc        |  8 ++++++++
+>   tcg/loongarch64/tcg-target.c.inc |  7 +++++++
+>   tcg/mips/tcg-target.c.inc        |  7 +++++++
+>   tcg/ppc/tcg-target.c.inc         |  7 +++++++
+>   tcg/riscv/tcg-target.c.inc       |  7 +++++++
+>   tcg/s390x/tcg-target.c.inc       |  7 +++++++
+>   tcg/sparc64/tcg-target.c.inc     |  7 +++++++
+>   tcg/tci/tcg-target.c.inc         |  7 +++++++
+>   11 files changed, 86 insertions(+)
+> 
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 3eabb6ef4d..c276cc87ee 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -103,6 +103,8 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
+>   static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg);
+>   static void tcg_out_movi(TCGContext *s, TCGType type,
+>                            TCGReg ret, tcg_target_long arg);
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg, TCGReg, tcg_target_long)
+> +    __attribute__((unused));
+>   static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+>                          const TCGArg args[TCG_MAX_OP_ARGS],
+>                          const int const_args[TCG_MAX_OP_ARGS]);
+> diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+> index ad1816e32d..2279a14c11 100644
+> --- a/tcg/aarch64/tcg-target.c.inc
+> +++ b/tcg/aarch64/tcg-target.c.inc
+> @@ -1102,6 +1102,13 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+>       tcg_out_insn(s, 3305, LDR, 0, rd);
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
 > +{
-> +    VirtIODevice *vdev = dev->vdev;
+> +    /* This function is only used for passing structs by reference. */
+> +    g_assert_not_reached();
+> +}
 > +
-> +    /*
-> +     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
-> +     * incremental memory mapping API via IOTLB API. For platform that
-> +     * does not have IOMMU, there's no need to enable this feature
-> +     * which may cause unnecessary IOTLB miss/update transactions.
-> +     */
-> +    if (vdev) {
-> +        return virtio_bus_device_iommu_enabled(vdev) &&
-> +            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+>   /* Define something more legible for general use.  */
+>   #define tcg_out_ldst_r  tcg_out_insn_3310
+>   
+> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+> index e82749a602..2950a29d49 100644
+> --- a/tcg/arm/tcg-target.c.inc
+> +++ b/tcg/arm/tcg-target.c.inc
+> @@ -2548,6 +2548,26 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+>       tcg_out_movi32(s, COND_AL, ret, arg);
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    int enc, opc = ARITH_ADD;
+> +
+> +    /* All of the easiest immediates to encode are positive. */
+> +    if (imm < 0) {
+> +        imm = -imm;
+> +        opc = ARITH_SUB;
+> +    }
+> +    enc = encode_imm(imm);
+> +    if (enc >= 0) {
+> +        tcg_out_dat_imm(s, COND_AL, opc, rd, rs, enc);
 > +    } else {
-> +        return false;
+> +        tcg_out_movi32(s, COND_AL, TCG_REG_TMP, imm);
+> +        tcg_out_dat_reg(s, COND_AL, opc, rd, rs,
+> +                        TCG_REG_TMP, SHIFT_IMM_LSL(0));
 > +    }
 > +}
 > +
->  static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
->                                     MemoryRegionSection *section,
->                                     hwaddr first,
->                                     hwaddr last)
->  {
-> +    IOMMUTLBEntry iotlb;
-
-why don't we move this inside the scope where it's used?
-
->      int i;
->      hwaddr start_addr;
->      hwaddr end_addr;
-> @@ -132,13 +151,37 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
->      }
->      for (i = 0; i < dev->nvqs; ++i) {
->          struct vhost_virtqueue *vq = dev->vqs + i;
-> +        hwaddr used_phys = vq->used_phys, used_size = vq->used_size;
-> +        hwaddr phys, s;
-
-these two, too.
-
->  
->          if (!vq->used_phys && !vq->used_size) {
->              continue;
->          }
->  
-> -        vhost_dev_sync_region(dev, section, start_addr, end_addr, vq->used_phys,
-> -                              range_get_last(vq->used_phys, vq->used_size));
-> +        if (vhost_dev_has_iommu(dev)) {
-> +            while (used_size) {
-> +                rcu_read_lock();
-> +                iotlb = address_space_get_iotlb_entry(dev->vdev->dma_as,
-> +                                                      used_phys,
-> +                                                      true, MEMTXATTRS_UNSPECIFIED);
-> +                rcu_read_unlock();
+>   /* Type is always V128, with I64 elements.  */
+>   static void tcg_out_dup2_vec(TCGContext *s, TCGReg rd, TCGReg rl, TCGReg rh)
+>   {
+> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+> index 58bd5873f5..6a021dda8b 100644
+> --- a/tcg/i386/tcg-target.c.inc
+> +++ b/tcg/i386/tcg-target.c.inc
+> @@ -1069,6 +1069,14 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+>       }
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    tcg_debug_assert(TCG_TARGET_REG_BITS == 32);
+> +    tcg_out_modrm_offset(s, OPC_LEA, rd, rs, imm);
+> +}
 > +
-> +                if (iotlb.target_as == NULL) {
-> +                    return -EINVAL;
-
-I am not sure how this can trigger. I don't like == NULL:
-!iotlb.target_as is more succint. But a bigger question is how to
-handle this. callers ignore the return value so maybe
-log guest error? iommu seems misconfigured ...
-
-
-> +                }
+>   static inline void tcg_out_pushi(TCGContext *s, tcg_target_long val)
+>   {
+>       if (val == (int8_t)val) {
+> diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+> index c9e99e8ec3..54b1dcd911 100644
+> --- a/tcg/loongarch64/tcg-target.c.inc
+> +++ b/tcg/loongarch64/tcg-target.c.inc
+> @@ -389,6 +389,13 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+>       }
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    g_assert_not_reached();
+> +}
 > +
-> +                phys = iotlb.translated_addr;
-> +                s = MIN(iotlb.addr_mask + 1, used_size);
-
-Note, that iotlb.translated_addr here is an aligned address and
-iotlb.addr_mask + 1 is size from there. 
-
-So I think phys that you want is actually
-	phys = iotlb.translated_addr + (used_phys & iotlb.addr_mask);
-
-
-
-accordingly, the size would be from there until end of mask:
-	s = MIN(iotlb.addr_mask + 1 - (used_phys & iotlb.addr_mask), used_size);
-
-
-Also, it bothers me that the math here will give you 0 if addr_mask is
-all ones. Then MIN will give 0 too and we loop forever.  I think this
-can not trigger, but I'd rather we play it safe and add outside of MIN
-after it's capped to a reasonable value. So we end up with:
-
-	/* Distance from start of used ring until last byte of IOMMU page */
-	s = iotlb.addr_mask - (used_phys & iotlb.addr_mask);
-	/* size of used ring, or of the part of it until end of IOMMU page */
-	s = MIN(s, used_size - 1) + 1;
-
-
-
-
-
+>   static void tcg_out_ext8u(TCGContext *s, TCGReg ret, TCGReg arg)
+>   {
+>       tcg_out_opc_andi(s, ret, arg, 0xff);
+> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+> index 292e490b5c..22b5463f0f 100644
+> --- a/tcg/mips/tcg-target.c.inc
+> +++ b/tcg/mips/tcg-target.c.inc
+> @@ -550,6 +550,13 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+>       }
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    g_assert_not_reached();
+> +}
 > +
-> +                vhost_dev_sync_region(dev, section, start_addr, end_addr, phys,
-> +                                      range_get_last(phys, used_size));
-
-why are you syncing used_size here? Shouldn't it be s?
-
-
-
-> +                used_size -= s;
-> +                used_phys += s;
-> +            }
-> +        } else {
-> +            vhost_dev_sync_region(dev, section, start_addr, end_addr, used_phys,
-> +                                  range_get_last(used_phys, used_size));
-> +        }
->      }
->      return 0;
->  }
-> @@ -306,24 +349,6 @@ static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64_t size)
->      dev->log_size = size;
->  }
->  
-> -static bool vhost_dev_has_iommu(struct vhost_dev *dev)
-> -{
-> -    VirtIODevice *vdev = dev->vdev;
-> -
-> -    /*
-> -     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
-> -     * incremental memory mapping API via IOTLB API. For platform that
-> -     * does not have IOMMU, there's no need to enable this feature
-> -     * which may cause unnecessary IOTLB miss/update transactions.
-> -     */
-> -    if (vdev) {
-> -        return virtio_bus_device_iommu_enabled(vdev) &&
-> -            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> -    } else {
-> -        return false;
-> -    }
-> -}
-> -
->  static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
->                                hwaddr *plen, bool is_write)
->  {
-> -- 
-> 2.25.1
-
+>   static void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
+>   {
+>       /* ret and arg can't be register tmp0 */
+> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+> index f561a3492f..d9e4ba8883 100644
+> --- a/tcg/ppc/tcg-target.c.inc
+> +++ b/tcg/ppc/tcg-target.c.inc
+> @@ -1125,6 +1125,13 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg ret,
+>       }
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    g_assert_not_reached();
+> +}
+> +
+>   static bool mask_operand(uint32_t c, int *mb, int *me)
+>   {
+>       uint32_t lsb, test;
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index aa017d665a..6072945ccb 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -545,6 +545,13 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+>       tcg_out_opc_imm(s, OPC_LD, rd, rd, 0);
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    g_assert_not_reached();
+> +}
+> +
+>   static void tcg_out_ext8u(TCGContext *s, TCGReg ret, TCGReg arg)
+>   {
+>       tcg_out_opc_imm(s, OPC_ANDI, ret, arg, 0xff);
+> diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+> index c3c0bcc3eb..8663a963a6 100644
+> --- a/tcg/s390x/tcg-target.c.inc
+> +++ b/tcg/s390x/tcg-target.c.inc
+> @@ -1020,6 +1020,13 @@ static inline bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
+>       return false;
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    tcg_out_mem(s, RX_LA, RXY_LAY, rd, rs, TCG_REG_NONE, imm);
+> +}
+> +
+>   /* load data from an absolute host address */
+>   static void tcg_out_ld_abs(TCGContext *s, TCGType type,
+>                              TCGReg dest, const void *abs)
+> diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
+> index eb913f33c8..f6a8a8e605 100644
+> --- a/tcg/sparc64/tcg-target.c.inc
+> +++ b/tcg/sparc64/tcg-target.c.inc
+> @@ -497,6 +497,13 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+>       tcg_out_movi_int(s, type, ret, arg, false, TCG_REG_T2);
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    g_assert_not_reached();
+> +}
+> +
+>   static void tcg_out_ldst_rr(TCGContext *s, TCGReg data, TCGReg a1,
+>                               TCGReg a2, int op)
+>   {
+> diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+> index d36a7ebdd1..633345d74b 100644
+> --- a/tcg/tci/tcg-target.c.inc
+> +++ b/tcg/tci/tcg-target.c.inc
+> @@ -557,6 +557,13 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+>       }
+>   }
+>   
+> +static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+> +                             tcg_target_long imm)
+> +{
+> +    /* This function is only used for passing structs by reference. */
+> +    g_assert_not_reached();
+> +}
+> +
+>   static void tcg_out_call(TCGContext *s, const tcg_insn_unit *func,
+>                            const TCGHelperInfo *info)
+>   {
 
