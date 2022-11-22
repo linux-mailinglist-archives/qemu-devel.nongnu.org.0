@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9FC63483C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 21:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197D5634849
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 21:37:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxZwE-0006Bk-NW; Tue, 22 Nov 2022 15:32:14 -0500
+	id 1oxa0L-0007kQ-Ax; Tue, 22 Nov 2022 15:36:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxZwB-0006BH-F6
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 15:32:11 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oxa0I-0007jk-Jc
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 15:36:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxZw9-0007Vi-RN
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 15:32:11 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oxa0G-0000JV-F7
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 15:36:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669149128;
+ s=mimecast20190719; t=1669149382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MzhqnF4vCDzlRUSZd6dEqRem4y2iAJ1HX5O0fiO4pKs=;
- b=V0rhRkviWSGqsELEwBrfSgguRvaxZi+ixKSAtxiRpE1r9gqo0f/OY/4KG4bF1P8rkOPfow
- bkygZjbadvueIWELDxEgmo01qn3iW7asfr6FCb8rmNosbKlnQGi2KLD/IlBfx3nJM2FYIM
- +X8llj+RszGUI/j5IT45ORKUEqoV5Vg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-330-E_5q4NraMoqReboaN20DJw-1; Tue, 22 Nov 2022 15:32:07 -0500
-X-MC-Unique: E_5q4NraMoqReboaN20DJw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i65-20020a1c3b44000000b003d02dc20735so232325wma.0
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 12:32:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MzhqnF4vCDzlRUSZd6dEqRem4y2iAJ1HX5O0fiO4pKs=;
- b=AD7iLNUA+NnvtWlOuMxgBCQHCkaBYxVcbTBCr/Oqdre5ykMsTSPJzqEFCOTemkbj/s
- YBYDXaMBQA3qlKplZAB+7Gihx3IBpylBS1/3LOQU23kE+9iKt4O/nxN5iwYzgAKnHh0O
- 2eRcorTgTBAlgU+0CgSH3SfsbBArxvutBAL34T1jhOM+x3EPweK5cd2CfCPy/MQ5kfOB
- 5rgi9AMz4oKBqVhXj2Iwz1bTHt2GRjOIPVWdlCzg3keN/DCiJDpUvzHyoIXGEgaHrHEL
- rIF65jc+xPaNAi19fnrz/Mjy5ZutRjuenjroWg0vr2I+jXc8cHqHZ3MZ5OrOBUpSCjr5
- 3t7Q==
-X-Gm-Message-State: ANoB5pkEwUr5Z3sBgQHTljl7A2WtxoWPEqVAlqRB8bAfkzFQtJ/hSids
- beH3WjITepE4G7zQOdfzOzQb58bgwr2O7IitI5wilKWMssrFxrZ7aiz2x05zteSbeQe1rEl/MHR
- VpRSx7KiQfnnfpdw=
-X-Received: by 2002:adf:f8ca:0:b0:241:c933:4b0e with SMTP id
- f10-20020adff8ca000000b00241c9334b0emr8541421wrq.48.1669149126222; 
- Tue, 22 Nov 2022 12:32:06 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5672TOaudLOiyKdX202SufQd4hX0k/0M5baMGfIlOMG48O0Zi5CSx3p8wZMIzV9QyivQfHOQ==
-X-Received: by 2002:adf:f8ca:0:b0:241:c933:4b0e with SMTP id
- f10-20020adff8ca000000b00241c9334b0emr8541410wrq.48.1669149125995; 
- Tue, 22 Nov 2022 12:32:05 -0800 (PST)
-Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
- c18-20020adffb12000000b002365730eae8sm14621731wrr.55.2022.11.22.12.32.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 12:32:05 -0800 (PST)
-Date: Tue, 22 Nov 2022 15:32:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, eperezma@redhat.com, eric.auger@redhat.com
-Subject: Re: [PATCH] vhost-vdpa: skip TPM CRB memory section
-Message-ID: <20221122152944-mutt-send-email-mst@kernel.org>
-References: <20221122145349.86072-1-marcandre.lureau@redhat.com>
+ bh=4O2RI+JzryDg0z1/I5BHeiwOfaPMplV7mAD/rjBP/+0=;
+ b=bWvqK6MDuTSqumB96+1YZ57xyfrhlMNFQOsGULtXkCvPVvbEvPVl8SUwdcY1OI8E1FHUGi
+ s6iCOdpXHk9weRqsZiVQ4J8aJfRAFP7c5o+Y4Df/IuaIfj66pN1PjbYOJ5CfLTAn84FemO
+ EPXV6dp0xvwNIFJA2qPkZREbZ4zOV6c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-32-FT7vJFQ8OLC9eNqYCGh5xQ-1; Tue, 22 Nov 2022 15:36:20 -0500
+X-MC-Unique: FT7vJFQ8OLC9eNqYCGh5xQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F7FB1C05EA4;
+ Tue, 22 Nov 2022 20:36:20 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB7471121314;
+ Tue, 22 Nov 2022 20:36:19 +0000 (UTC)
+Date: Tue, 22 Nov 2022 15:36:16 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 0/2] target-arm queue
+Message-ID: <Y30ywN8RsZt895yc@fedora>
+References: <20221122163954.1900093-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zgrdj7qi6yLfCCG9"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221122145349.86072-1-marcandre.lureau@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20221122163954.1900093-1-peter.maydell@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -96,58 +78,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 22, 2022 at 06:53:49PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> 851d6d1a0f ("vfio/common: remove spurious tpm-crb-cmd misalignment
-> warning") removed the warning on vfio_listener_region_add() path.
-> 
-> An error is reported for vhost-vdpa case:
-> qemu-kvm: vhost_vdpa_listener_region_add received unaligned region
-> 
-> Skip the CRB device.
-> 
-> Fixes:
-> https://bugzilla.redhat.com/show_bug.cgi?id=2141965
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/virtio/vhost-vdpa.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 7468e44b87..9d7206e4b8 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -19,6 +19,7 @@
->  #include "hw/virtio/virtio-net.h"
->  #include "hw/virtio/vhost-shadow-virtqueue.h"
->  #include "hw/virtio/vhost-vdpa.h"
-> +#include "sysemu/tpm.h"
->  #include "exec/address-spaces.h"
->  #include "migration/blocker.h"
->  #include "qemu/cutils.h"
-> @@ -46,6 +47,11 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
->  {
->      Int128 llend;
->  
-> +    if (TPM_IS_CRB(section->mr->owner)) {
-> +        /* The CRB command buffer has its base address unaligned. */
-> +        return true;
-> +    }
-> +
 
-Quite a hack. We can't really keep adding dependency on random devices
-to vhost. And would you add hacks like this to listeners?
-Pls figure out what's special about this buffer.
-Also if this section is unaligned then doesn't it break up
-other aligned sections?
+--zgrdj7qi6yLfCCG9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Applied, thanks.
 
->      if ((!memory_region_is_ram(section->mr) &&
->           !memory_region_is_iommu(section->mr)) ||
->          memory_region_is_protected(section->mr) ||
-> -- 
-> 2.38.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--zgrdj7qi6yLfCCG9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmN9MsAACgkQnKSrs4Gr
+c8hrNwf4+1lDZjw5YHy4Pn7BIRFNssXIh2cIhNGsRNCBiwB6BBVuBma0OKaiDbff
+ht4ILQKjWNJRFHIvgMhQMa8qrXUpQym9hIPzCTciowkI70iaBbAeMRIhvThObwP/
+YIwDqi1E0akvZLd45Kaqj7t0kI0MfGpk9gF6uug4X5WgEOY0KERmhLrsky378CRR
+8gmUwkmrBdl+cUwbgnjtsXhU9e1ey+BPMHiJunaiX8oDRAh7YGlhDUB6UoMWmXVr
+BokZg16TdLPeg8t5cLl43Tz112JYAWe2PdHPWVJuI7qCjC3X4Vc2UVzfHzXtNFrL
+lcMUvz6+rxB7iRrWu2x139S7Ak93
+=Xvxx
+-----END PGP SIGNATURE-----
+
+--zgrdj7qi6yLfCCG9--
 
 
