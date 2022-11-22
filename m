@@ -2,57 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF96A633CB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 13:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367F8633CC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 13:46:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxSXL-0001Wy-R0; Tue, 22 Nov 2022 07:38:03 -0500
+	id 1oxSdz-0003dR-2x; Tue, 22 Nov 2022 07:44:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oxSXI-0001Wm-JE
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 07:38:00 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oxSXG-0007Av-1f
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 07:38:00 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 60CBF74811B;
- Tue, 22 Nov 2022 13:37:19 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 22047747FAB; Tue, 22 Nov 2022 13:37:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 20913746E06;
- Tue, 22 Nov 2022 13:37:19 +0100 (CET)
-Date: Tue, 22 Nov 2022 13:37:19 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Aurelien Jarno <aurelien@aurel32.net>, 
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: Re: [PATCH v2 2/3] hw/mips/malta: Set PIIX4 IRQ routes in embedded
- bootloader
-In-Reply-To: <B64DB06E-A125-47E7-9E11-828A763AD590@gmail.com>
-Message-ID: <0de95136-0683-75e2-3191-1686b7ad6d60@eik.bme.hu>
-References: <20221027204720.33611-1-philmd@linaro.org>
- <20221027204720.33611-3-philmd@linaro.org>
- <9F566248-59DA-46E2-BD56-5DB98E9DB446@gmail.com>
- <29561bcc-a8d2-639a-8662-cf15fbeb5928@linaro.org>
- <B64DB06E-A125-47E7-9E11-828A763AD590@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oxSdw-0003bp-54
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 07:44:52 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oxSdu-0002Jt-Cv
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 07:44:51 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id ci10so6974563pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 04:44:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=JFxsDQv6CSq9GlpH150Z29J2XyCbNQXqprtE7CsKApA=;
+ b=IhQz5NKwo5HSqcfJsohSjWqXDmoKbpH9U5+GYIc3Y95g7VWiYfQuxKHL9nvw88vl1X
+ 4eUE8NeS7WxWrJteQ8znbCRFIbTjtI4BoNIP20YtiqZI2Lm1hKj2x6cote+2SYw49sZn
+ s6f0LXvlYrxZibY97aycRKWWgUiV5/WuAX8Of2Ilv0Ep/fUyC0v+LA3H7zI9aTvlFUJE
+ UNJfN9MRCgxr2a1a1lDjTVSHuc8Wwo6YYoLxijUTwqWzkCH9jbA770ChFM6PeFYAKqnJ
+ VUjQ0j+ud3KiczZGPTpxH6aPaQq7AMFNmiFmV+Ueu8c6MP9+2vLjkuuhWNziAU62xTIq
+ vdmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JFxsDQv6CSq9GlpH150Z29J2XyCbNQXqprtE7CsKApA=;
+ b=55sAN89KdF5UZBEg0mEe+b92+mYb6+NNpi02a4yP+ETm2bfsLzXUDZHwKx3huQ3sdi
+ 1FnHilFbbYtfeO0k8Cni21EbV4J3z4j9a2yN4nWyq6vYrJyykkL0TeX5C8M0f96wPBHT
+ KzuQMRHp/5M8ozdQ+OB2Y2r984odYSmGcHVTJtGgwKsZQb07rFNe+UsJxeDjsWjs91e+
+ Uajwy/qLCObIrGFle/wP5nkTBpK2BKbBuQTv5oOY6z5hzp99cZgBkN1s2XnO6/d8Dy6P
+ TKPl6SPbG3zlNH+3nrlX0RgNV61p0N0r/YFBadZ54ItrHoFkfIQI0e2kaadiRumdioNz
+ 1YYQ==
+X-Gm-Message-State: ANoB5pncMXF1G6cHhDQ2NDRj2tv7UEXJ5wbtMJXFtkWnOHYUX5isskNy
+ EKnhzxYAGFYZOTp3ZVB/hIPbI8QoyM7GbqskRaqHKA==
+X-Google-Smtp-Source: AA0mqf4IbU0hXlv8ndObC5JvfcNTyBmLw+g0k+9VGg57J0mkdoSlOqPRj63jkCMWxXmva/XH7uccIKD8sI5m5LlEBi4=
+X-Received: by 2002:a17:902:6505:b0:185:4ec3:c708 with SMTP id
+ b5-20020a170902650500b001854ec3c708mr6639257plk.60.1669121088621; Tue, 22 Nov
+ 2022 04:44:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-354303429-1669120639=:24723"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221121140121.1079100-1-armbru@redhat.com>
+ <CAFEAcA_jnbp36Trjd3qJYzbf5-6SNNrirG7q2_-wKXkcX49ptg@mail.gmail.com>
+ <7875a42b-2776-9d36-5373-78ac75cff89d@linaro.org>
+ <87a64ki7zn.fsf@pond.sub.org>
+ <47e0d3d8-607d-5e29-6780-c0a4364993a9@redhat.com>
+ <87h6yrfjr4.fsf@pond.sub.org>
+In-Reply-To: <87h6yrfjr4.fsf@pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Nov 2022 12:44:37 +0000
+Message-ID: <CAFEAcA-8tyYDMaZgYvhrG5G001HzgkCUoTUMbChDteJ+q-r8yA@mail.gmail.com>
+Subject: Re: [PATCH] cleanup: Tweak and re-run return_directly.cocci
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, fam@euphon.net, kwolf@redhat.com, hreitz@redhat.com, 
+ groug@kaod.org, qemu_oss@crudebyte.com, Alistair.Francis@wdc.com, 
+ bin.meng@windriver.com, palmer@dabbelt.com, marcandre.lureau@redhat.com, 
+ pbonzini@redhat.com, yuval.shaia.ml@gmail.com, marcel.apfelbaum@gmail.com, 
+ mst@redhat.com, quintela@redhat.com, dgilbert@redhat.com, 
+ pavel.dovgaluk@ispras.ru, alex.bennee@linaro.org, peterx@redhat.com, 
+ david@redhat.com, mrolnik@gmail.com, gaosong@loongson.cn, 
+ yangxiaojuan@loongson.cn, aurelien@aurel32.net, jiaxun.yang@flygoat.com, 
+ aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, berrange@redhat.com, 
+ lvivier@redhat.com, suhang16@mails.ucas.ac.cn, chen.zhang@intel.com, 
+ lizhijian@fujitsu.com, stefanha@redhat.com, qemu-block@nongnu.org, 
+ qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, virtio-fs@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,89 +100,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-354303429-1669120639=:24723
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-Hello,
-
-On Mon, 21 Nov 2022, Bernhard Beschow wrote:
-> Am 21. November 2022 22:43:50 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->> On 21/11/22 16:34, Bernhard Beschow wrote:
->>> Am 27. Oktober 2022 20:47:19 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->>>> Linux kernel expects the northbridge & southbridge chipsets
->>>> configured by the BIOS firmware. We emulate that by writing
->>>> a tiny bootloader code in write_bootloader().
->>>>
->>>> Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
->>>> the PIIX4 configuration space included values specific to
->>>> the Malta board.
->>>>
->>>> Set the Malta-specific IRQ routing values in the embedded
->>>> bootloader, so the next commit can remove the Malta specific
->>>> bits from the PIIX4 PCI-ISA bridge and make it generic
->>>> (matching the real hardware).
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>>> ---
->>>> FIXME: Missing the nanoMIPS counter-part!
->>>
->>> Who will be taking care of this? I have absolutely no clue how the write_bootloader functions work, so I don't see how to fix it.
->>
->> Oh actually I wrote that and tested it but context switched and forgot
->> about it... I'll look back when I get some time, probably around the
->> release.
-
-Unrelated to this but found it while looking at malta.c now: another 
-possible clean up is to replace the local generate_eeprom_spd() func with 
-spd_data_generate() from hw/i2c/smbus_eeprom.c that other boards use 
-already but I did not change malta because I could not test it. If you can 
-test malta then it should be an easy change and simplify malta.c a bit.
-
->>> Couldn't we just do it like in pegasos2_init() where the registers are initialized by QEMU directly if there is no bootloader binary configured? I could do that.
->> I rather mimic bootloaders... maybe a matter of taste?
-
-Is that a bootloader or a replacement firmware? To me bootloader is some 
-OS specific binary that is loaded by firware to boot an OS. But there are 
-OS independent bootloaders like grub so maybe you could emulate something 
-like that, I don't know what malta does.
-
-If there's no firmware binary QEMU should provide something to replace it 
-to give the expected environment for the binary loaded by -kernel. In case 
-of pegasos2 the init method sets up regs to init devices as done by the 
-firmware and the rest is implemented by VOF (loaded from pc-bios) that 
-provices the OpenFirmware client interface. The device setup in init is 
-needed because VOF does not do that.
-
-> I don't mind either way. I meant that I could help with the second 
-> approach but not with the current one since I have no clue whatsoever 
-> how it works. There are just too many magic constants that don't make 
-> any sense to me, and too many layers of indirection, for example.
-
-If malta has a replacement firmware for this case maybe it could be stored 
-in a binary in pc-bios and loaded from there instead of writing it in hex 
-to guest memory. That binary could even be assembled from source which 
-should make it simpler to write and change. Or is YAMON open source? 
-According to this page it is: 
-https://www.mips.com/develop/tools/boot-loaders/ so maybe it could be 
-included as a firmware binary instead of being emulated?
-
-Regards,
-BALATON Zoltan
-
-> Anyway, I'm asking for the current state because I'm pretty much ready for posting a v3 of my PIIX consolidation series which now depends on this series.
+On Tue, 22 Nov 2022 at 08:58, Markus Armbruster <armbru@redhat.com> wrote:
+> I don't think complete detailed review is necessary or even sensible.
 >
-> Best regards,
-> Bernhard
+> Review should start with the Coccinelle script:
 >
->>
->> Regards,
->>
->> Phil.
+>     // replace 'R = X; return R;' with 'return X;'
+>     @@
+>     identifier VAR;
+>     expression E;
+>     type T;
+>     identifier F;
+>     @@
+>      T F(...)
+>      {
+>          ...
+>     -    T VAR;
+>          ... when != VAR
 >
+>     -    VAR = (E);
+>     -    return VAR;
+>     +    return E;
+>          ... when != VAR
+>      }
 >
---3866299591-354303429-1669120639=:24723--
+> What could go wrong?  Not a rhetorical question!
+
+The obvious answer is "you might have got your manual tweaking
+wrong". A purely mechanised patch I can review by looking at
+the script and maybe eyeballing a few instances of the change;
+a change that is 99% mechanised and 1% hand-written I need to
+run through to find the hand-written parts.
+
+But mostly this patch is hard to review for its sheer size,
+mechanical changes or not. A 3000 line patchmail is so big that
+the UI on my mail client gets pretty unwieldy.
+
+-- PMM
 
