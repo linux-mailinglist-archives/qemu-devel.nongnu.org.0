@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5363633DA2
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A52633DA1
 	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 14:28:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxTIr-0000tK-SX; Tue, 22 Nov 2022 08:27:09 -0500
+	id 1oxTJB-0000yB-R3; Tue, 22 Nov 2022 08:27:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxTIn-0000sD-TK
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:27:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxTIm-0004g5-7i
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:27:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669123622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9/KHig+HpORrQ/dr1QviCbDwAXqH4a+jWUeX5NNGJbc=;
- b=M2IMDihy56pa8dFcVFW3NCa+n7doMaW+OjzNgxI0B2RHvjt+vSGYfYpC5usvVFp/xjO/8n
- ISMbsxadEPUUnrLgKfzaR9wwaJ0NNm12br3QAIs0fjSKTSw9/LFrJ3dX+aulH1GK4bH8Li
- 0ROunZhnnr9kpFLk0XPPn8Rr9eEtB+A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-mae31NTsNkage0I4t4I2lg-1; Tue, 22 Nov 2022 08:27:00 -0500
-X-MC-Unique: mae31NTsNkage0I4t4I2lg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AEDD833B15;
- Tue, 22 Nov 2022 13:26:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D56949BB60;
- Tue, 22 Nov 2022 13:26:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4458721E6921; Tue, 22 Nov 2022 14:26:54 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,  qemu-devel@nongnu.org,  fam@euphon.net,
- kwolf@redhat.com,  hreitz@redhat.com,  groug@kaod.org,
- qemu_oss@crudebyte.com,  Alistair.Francis@wdc.com,
- bin.meng@windriver.com,  palmer@dabbelt.com,
- marcandre.lureau@redhat.com,  pbonzini@redhat.com,
- yuval.shaia.ml@gmail.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
- quintela@redhat.com,  dgilbert@redhat.com,  pavel.dovgaluk@ispras.ru,
- alex.bennee@linaro.org,  peterx@redhat.com,  david@redhat.com,
- mrolnik@gmail.com,  gaosong@loongson.cn,  yangxiaojuan@loongson.cn,
- aurelien@aurel32.net,  jiaxun.yang@flygoat.com,
- aleksandar.rikalo@syrmia.com,  jcmvbkbc@gmail.com,  berrange@redhat.com,
- lvivier@redhat.com,  suhang16@mails.ucas.ac.cn,  chen.zhang@intel.com,
- lizhijian@fujitsu.com,  stefanha@redhat.com,  qemu-block@nongnu.org,
- qemu-riscv@nongnu.org,  qemu-ppc@nongnu.org,  virtio-fs@redhat.com
-Subject: Re: [PATCH] cleanup: Tweak and re-run return_directly.cocci
-References: <20221121140121.1079100-1-armbru@redhat.com>
- <CAFEAcA_jnbp36Trjd3qJYzbf5-6SNNrirG7q2_-wKXkcX49ptg@mail.gmail.com>
- <7875a42b-2776-9d36-5373-78ac75cff89d@linaro.org>
- <87a64ki7zn.fsf@pond.sub.org>
- <47e0d3d8-607d-5e29-6780-c0a4364993a9@redhat.com>
- <87h6yrfjr4.fsf@pond.sub.org>
- <CAFEAcA-8tyYDMaZgYvhrG5G001HzgkCUoTUMbChDteJ+q-r8yA@mail.gmail.com>
-Date: Tue, 22 Nov 2022 14:26:54 +0100
-In-Reply-To: <CAFEAcA-8tyYDMaZgYvhrG5G001HzgkCUoTUMbChDteJ+q-r8yA@mail.gmail.com>
- (Peter Maydell's message of "Tue, 22 Nov 2022 12:44:37 +0000")
-Message-ID: <875yf7ce75.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oxTJ9-0000xq-J4
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:27:27 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oxTJ8-0004iz-1c
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 08:27:27 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id 136so14111187pga.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 05:27:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ofRCumZ3/37URAXPux1nonscFt8GPW/MI/AdHounDgA=;
+ b=Wep2zsWzJVoBSSdFcU0wY9ogu6uW9/1RzSUmtD8iYa+oB2vIfHa1idfOfoSw6YC5Kn
+ GigZQMBoUIfjz5XTN+AM0ol24iZbfn8lCIb5QHXnwsJHX438MGJc41BpcHbi1HrNJl4V
+ lBNG6irYITouPCeSIUjoUYXa//CmnUDkn/c8JevU94WYP3lMI3MjVtz6Lwa8JpBY6nh+
+ vpne9OESRt5mq4qQiGsVNqNzlMMKhubhFvfF4v1fLzt1wiYKi2as2Z1h+9umldUruzlD
+ Sh0ZrE+x/nCjndL2Ww8/sH+V2ZUHuQsWHX8iLGeQcqP95HFOojVqLeOgIKN+DUcF9T8k
+ SRbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ofRCumZ3/37URAXPux1nonscFt8GPW/MI/AdHounDgA=;
+ b=SdnhHpM4TjCdSuSp7S0H9mmCympTNfpXEMFX0qPp3XrUFPpmNYiSy8BZra4BvufR75
+ iw8MnKmbDPpab+nW7ZGjV5dU9mjwzkbuxfYZlmjkizdhAhcM1MrmGe/iZFPTKMSzPhIw
+ Aw8Popu7+A40xV31Qnu8cOW2IRGQOrfz0JR62htNfxQO7ic2fFQqhCaRQByUy3nEbNem
+ sdtifsZdEF7CZquU8ZY8xcASawHNOI025s6Fmjv6gUpieCyLfsAsnfLrLiZmv9qmGVH6
+ bm22/YOXUoKvJxk7S228lw6aWcFBHYpecplqfBcl0s3YVzAAFPDIYOzMd1mU3xarTZZM
+ OmQA==
+X-Gm-Message-State: ANoB5pkwOoMYf6IsPcqXoOmE1k1x0kHjr1bV+vckqkMx2fBjV26AevgA
+ smbVdLg00hzMQWU9GT/kZHGkcSTzt+wmrvu4lcvGMg==
+X-Google-Smtp-Source: AA0mqf6x5YeTLFzQg7THXYAjIDkDNdP8/J7tCm65rgPJJOcHKsWQ9rUQ2VNRT07IKmfcBMM/gh4XbPeynJIFDQX7H3U=
+X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
+ r6-20020a635146000000b0047786c1640fmr3536391pgl.231.1669123644436; Tue, 22
+ Nov 2022 05:27:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221108023542.17557-1-schspa@gmail.com>
+ <87fsetg5xh.fsf@linaro.org>
+ <CAMA88Tqt-7rCTC38OhZGmCZyO4rFz+HHBNtDjaVCbhna01yScQ@mail.gmail.com>
+ <CAFEAcA8J2Tx4gW5Y2q6qtkJ0BPpM4iWkt3nz0uezV+kiz6m_Ag@mail.gmail.com>
+ <CAFEAcA8KnNE90tHQjRNEVny=s7YLD5Wmff9R8ZyLxxz47bwRGA@mail.gmail.com>
+ <875yfpbg38.fsf@gmail.com>
+ <CAFEAcA_5_78qUNFdgpYGnS0tS3QWD4cJokJCzMC6Tq270bYbJg@mail.gmail.com>
+ <m2edu3ig2s.fsf@gmail.com>
+ <CAFEAcA9k5a8O02zT6x1tqFvo11NmYupX9mfe2YdSwebBHKSdbw@mail.gmail.com>
+In-Reply-To: <CAFEAcA9k5a8O02zT6x1tqFvo11NmYupX9mfe2YdSwebBHKSdbw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Nov 2022 13:27:13 +0000
+Message-ID: <CAFEAcA95+NaE2Oh_7AKkibDObvpuifPOLw-Yh8u6qSXS6LiMgA@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/boot: set initrd parameters to 64bit in fdt
+To: Schspa Shi <schspa@gmail.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,60 +91,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Tue, 22 Nov 2022 at 08:58, Markus Armbruster <armbru@redhat.com> wrote:
->> I don't think complete detailed review is necessary or even sensible.
->>
->> Review should start with the Coccinelle script:
->>
->>     // replace 'R = X; return R;' with 'return X;'
->>     @@
->>     identifier VAR;
->>     expression E;
->>     type T;
->>     identifier F;
->>     @@
->>      T F(...)
->>      {
->>          ...
->>     -    T VAR;
->>          ... when != VAR
->>
->>     -    VAR = (E);
->>     -    return VAR;
->>     +    return E;
->>          ... when != VAR
->>      }
->>
->> What could go wrong?  Not a rhetorical question!
+On Wed, 16 Nov 2022 at 13:14, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> The obvious answer is "you might have got your manual tweaking
-> wrong". A purely mechanised patch I can review by looking at
-> the script and maybe eyeballing a few instances of the change;
-> a change that is 99% mechanised and 1% hand-written I need to
-> run through to find the hand-written parts.
+> On Wed, 16 Nov 2022 at 06:11, Schspa Shi <schspa@gmail.com> wrote:
+> > Yes, I think we should accept this patch, because it will not affect
+> > 32-bit devices, and provides support for 64-bit devices to put initrd
+> > above 4GB.
+>
+> Yes, I agree. However since it doesn't cause a problem for any
+> of the machine models in upstream QEMU, I think we should leave
+> it until after the in-progress 7.2 release, so that we have
+> plenty of time to investigate just in case it does cause an
+> unexpected issue on 32-bit boards.
+>
+> This patch is on my list to review and deal with when 7.2
+> goes out and development reopens for 8.0 (should be in about
+> four weeks).
 
-Define "handwritten" :)
+I've applied this patch to a target-arm-for-8.0 branch, which
+will eventually turn into target-arm when 7.2 is released in a
+few weeks' time.
 
-If reverting unwanted line-breaks and blank lines counts, then I can
-make two patches, one straight from Coccinelle, and one that reverts the
-unwanted crap.  The first one will be larger and more annoying to review
-than this one.  A clear loss in my book, but I'm the patch submitter,
-not a patch reviewer, so my book doesn't matter.
-
-Else, we're down to one file, which I already offered to split off.
-
-> But mostly this patch is hard to review for its sheer size,
-> mechanical changes or not. A 3000 line patchmail is so big that
-> the UI on my mail client gets pretty unwieldy.
-
-With the manual one split off, target/xtensa/ dropped as requested by
-Max, and tests/tcg/mips/ dropped because its status is unclear (and I
-start to find it hard to care), we're down to
-
- 28 files changed, 81 insertions(+), 221 deletions(-)
-
-This will be v2.
-
+thanks
+-- PMM
 
