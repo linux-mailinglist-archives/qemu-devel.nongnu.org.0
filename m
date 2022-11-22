@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304AD6336EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 09:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB15E633720
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 09:29:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxOX7-0006wX-Dg; Tue, 22 Nov 2022 03:21:33 -0500
+	id 1oxOd1-00016O-OE; Tue, 22 Nov 2022 03:27:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxOX4-0006ua-PJ
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:21:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxOcz-00014j-3U
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:27:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxOX2-0005eX-4t
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:21:30 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxOcq-0006hQ-Ln
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 03:27:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669105285;
+ s=mimecast20190719; t=1669105646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LJET6U1wvzfXGuglHfbp/kKovkU5+uMmgv+/Blod9m4=;
- b=Z5yo6oey0LNM9E5aYUx5X4hsHiwN097MU93bEO+NxakwYuk8S1uzOAhbY/nswzhO8YwY4x
- gPk/aKaBsZYmNbZglWV82YGM7ZvU48rXXG5pronsf/fnfOMHcubcuhtfyZb4KypODuTc/n
- yGGPFt4od76hx+OVkBgMdbQDAllyQqM=
+ bh=z1+VoMbRwJUhVx2cy98mfok/xOY5hcXHUh/fr9PRrVw=;
+ b=PFSi1AN4UXuYlIlR0lm1LieKD5XxOk0rdgtL0rkxwJQChUZS3xSpE7Ve/AT9GiN1SJZCwF
+ kcF98mUFLeQJuxVp3MokUuJQVL6SKMuT/vxl8AuHCamlxMptvm/C1/+zFtHUmDZGIF1vEh
+ YqNqJGw0LGcclfa669LWtd6Z1zZq6C8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-319-5IQzWneBN2qQZtxz1CQQCg-1; Tue, 22 Nov 2022 03:21:18 -0500
-X-MC-Unique: 5IQzWneBN2qQZtxz1CQQCg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-554-iH3_jn3uPlm8zfrpnMfEvQ-1; Tue, 22 Nov 2022 03:27:24 -0500
+X-MC-Unique: iH3_jn3uPlm8zfrpnMfEvQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2539802D32;
- Tue, 22 Nov 2022 08:21:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C535C101A56C;
+ Tue, 22 Nov 2022 08:27:23 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB77140C6E16;
- Tue, 22 Nov 2022 08:21:16 +0000 (UTC)
-Date: Tue, 22 Nov 2022 09:21:13 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89297492B17;
+ Tue, 22 Nov 2022 08:27:21 +0000 (UTC)
+Date: Tue, 22 Nov 2022 09:27:18 +0100
 From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH for-7.2] block-backend: avoid bdrv_unregister_buf() NULL
- pointer deref
-Message-ID: <Y3yGeRWfJn2fGF9x@redhat.com>
-References: <20221121211923.1993171-1-stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 05/11] block-coroutine-wrapper.py: default to main
+ loop aiocontext if function does not have a BlockDriverState parameter
+Message-ID: <Y3yH5jdIr+TF0TTZ@redhat.com>
+References: <20221116122241.2856527-1-eesposit@redhat.com>
+ <20221116122241.2856527-6-eesposit@redhat.com>
+ <Y3uZfAWotAr9IMGe@redhat.com>
+ <6660171f-2d66-7985-d545-cac1f2ef1267@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221121211923.1993171-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+In-Reply-To: <6660171f-2d66-7985-d545-cac1f2ef1267@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,29 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 21.11.2022 um 22:19 hat Stefan Hajnoczi geschrieben:
-> bdrv_*() APIs expect a valid BlockDriverState. Calling them with bs=NULL
-> leads to undefined behavior.
+Am 21.11.2022 um 16:52 hat Emanuele Giuseppe Esposito geschrieben:
+> Am 21/11/2022 um 16:30 schrieb Kevin Wolf:
+> > Am 16.11.2022 um 13:22 hat Emanuele Giuseppe Esposito geschrieben:
+> >> Basically BdrvPollCo->bs is only used by bdrv_poll_co(), and the
+> >> functions that it uses are both using bdrv_get_aio_context, that
+> >> defaults to qemu_get_aio_context() if bs is NULL.
+> >>
+> >> Therefore pass NULL to BdrvPollCo to automatically generate a function
+> >> that create and runs a coroutine in the main loop.
+> >>
+> >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> > 
+> > It happens to work, but it's kind of ugly to call bdrv_coroutine_enter()
+> > and BDRV_POLL_WHILE() with a NULL bs.
+> > 
+> > How hard would it be to generate code that doesn't use these functions,
+> > but directly aio_co_enter() and AIO_WAIT_WHILE() for wrappers that are
+> > not related to a BDS?
+> > 
 > 
-> Jonathan Cameron reported this following NULL pointer dereference when a
-> VM with a virtio-blk device and a memory-backend-file object is
-> terminated:
-> 1. qemu_cleanup() closes all drives, setting blk->root to NULL
-> 2. qemu_cleanup() calls user_creatable_cleanup(), which results in a RAM
->    block notifier callback because the memory-backend-file is destroyed.
-> 3. blk_unregister_buf() is called by virtio-blk's BlockRamRegistrar
->    notifier callback and undefined behavior occurs.
+> At this point, I would get rid of s->poll_state.bs and instead use
+> s->poll_state.aio_context. Then call directly aio_co_enter and
+> AIO_WAIT_WHILE, as you suggested but just everywhere, without
+> differentiating the cases.
+
+Oh, yes, that's better.
+
+> Then we would have something similar to what it is currently done with bs:
 > 
-> Fixes: baf422684d73 ("virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint")
-> Co-authored-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> if t == 'BlockDriverState *':
+>             bs = 'bdrv_get_aio_context(bs)'
+>         elif t == 'BdrvChild *':
+>             bs = 'bdrv_get_aio_context(child->bs)'
+>         elif t == 'BlockBackend *':
+>             bs = 'bdrv_get_aio_context(blk_bs(blk))'
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+blk_get_aio_context(blk) seems more correct.
 
-This raises some questions, though. What happens if the graph isn't
-static between creation and deletion of the device? Do we need to do
-something with registered buffers when a node is attached to or detached
-from an existing device?
+>         else:
+>             bs = 'qemu_get_aio_context()'
+> 
+> I haven't tried it yet, but it should work.
 
 Kevin
 
