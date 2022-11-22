@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0B3633E72
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C14633E8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 15:10:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxTto-0008WC-P7; Tue, 22 Nov 2022 09:05:21 -0500
+	id 1oxTtt-00005W-0w; Tue, 22 Nov 2022 09:05:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1oxTtY-0008V7-6k
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:05:04 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ id 1oxTtc-0008W0-39
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:05:08 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1oxTtV-00064e-VJ
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:05:03 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id b185so14447926pfb.9
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 06:05:01 -0800 (PST)
+ id 1oxTta-0006G9-4Z
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 09:05:07 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id v28so14429009pfi.12
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 06:05:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rJ13zFBLpczUe+mQf8RhpWx8v5xhOGQCsYHgWUIIHyE=;
- b=eufY2tbzcu8QIbmUmgfoOHLPaWkolYSCeIZAISGG95FuR3X84ibIXkRunB1xaOF2Sq
- /THa2HoILygwVJhNLS7vhUsF5AJVri/RT0Bu5epEL4lZtHN7RTrJ3Y4TSkWQ6HuIebFv
- e9KN6Fj+OdLCpHq9slZM0yxxRtrQPAnM1CTwmO6DTFjX5GFGiQO2Me9LuLp+3Tic4cB2
- R80Ag8DbwGoiNrcyrgDN+lW96d9q+tgVVQen6riQ+kNN8eSdh6ByPFdLmHKR4HViQfOi
- 0K0i+9pluxzb/2mstYpdAQVfqjzCV7pY6keXH/aSjlkRI97T3AKqPgPZurBw3QZZEYI9
- foLw==
+ bh=F1R+gQ8CKo1BFlEbEV54FIDLI8zbRmxUy59qfCIPez4=;
+ b=oVjyknO2+YYX90gVrXfsswwvJCfCnq6nlBurOffMBHTCoYFxXmh3Ai1Sce0yluzSRp
+ hieEGCXhO4Xi1ynlVxEuYMNkywvMIYbV5KsL/qzwiIWZIx4Otgqsl+mieyteIsKVHEON
+ P4NO8QgAJyyR+kui2jP2K/KFsYx5Qp46aE2Rb7cMBzUlbLJoTSR7zsdxW3mSjM/8pa46
+ zOGfdJbBlRBTZmbX30AJRNCbbIbPy8lnf7H+B+Mf3/R7CwRY1PlfcekWamJ0iYnUmyaJ
+ AeFKLK5rrLO58IU5WetJWdKojIIcKSrNGAwJ8aajTZGo5yiRwa07SDnbWCJvPHMnelFH
+ kAXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rJ13zFBLpczUe+mQf8RhpWx8v5xhOGQCsYHgWUIIHyE=;
- b=WVaik86E3gyYdxFK4CPcX7IDlANVh2W+hGnIn7xB8WVhYnqp0WTAS4PoBQLnmcJrQ8
- 3O/Y8+xwTmH7ZL0g15XBuepVYAnoWm5YpJd//DER0q/Uuq/bCP3Aap3+Kxd5zTVWqVis
- xbjpJ7FsXuX7y7exJhA7p9z4rV0lQpbYffhSXgKjY8ZHVYPML10eI4WpUAseT8bfUG1S
- GSfCg8bEO3qw+In8ebY2U6ZNTMZmNZ8x24Q60DEgH7tfx/VA0BaXQYoBUueuVVZ3BjET
- pgv1a0SUIHEuw2KKshXao9DxW0URx80B6xcAI0ke4CJRl1tfhmQgmbgwTGWoC+xArpLA
- 0hsA==
-X-Gm-Message-State: ANoB5pkI5Q/BxAW1Iv5cmAC6WllJB89HAWkB/H8E0F39MeeM/BHEbk/o
- Omq9eehu60IxO76oaUIehnb8jwD4I3uydUqt
-X-Google-Smtp-Source: AA0mqf4pPk1MLj2ZcCOFzbv4+1IbS2rJnHLywg1T36XBJZ8r2eVqxYU3bz4gWEqTQw7tSxgIAOch5w==
-X-Received: by 2002:a63:1206:0:b0:43c:76f4:c666 with SMTP id
- h6-20020a631206000000b0043c76f4c666mr6962853pgl.90.1669125900695; 
- Tue, 22 Nov 2022 06:05:00 -0800 (PST)
+ bh=F1R+gQ8CKo1BFlEbEV54FIDLI8zbRmxUy59qfCIPez4=;
+ b=HGwKS1/CpgU/C0ne+Ma5BgOdtmkpK5tLVYZXIQ2WdKcz8hQjdTTxyLpC9q1RNSZMQK
+ o4ALXBvOb292BQTwVDfdQNh53F3G3hYRS+NfKfTg6B8yV+jL7wgHg48v4MydlVCvsPyg
+ 8NTpFKBXv5QLKkNhi6L84bsdzWybA+mzzSOVpvKUTS9LMad10uiZrFDmkSiJneMC03fd
+ ZC5MZQuJZhtKkvOLOicgN6wiyGSmjiwM44rPkFLTMSyR+NUrm5zGt7wLEFk/5T4mavEu
+ ImX1olysjI3/2c4RYmXcpRANIg0TJ0UuRPAyfuqBMLSwmppc3KZuPunmEOncF8XNiyoI
+ ZAVw==
+X-Gm-Message-State: ANoB5pnHSt1p4p2xTaLnzubM/rv/xWFh3G+KDrpud2yfbGbql9poRNTs
+ xeE2L5bjpIgFuspKGQiHisjDVRnUm2hcDScC
+X-Google-Smtp-Source: AA0mqf6yGiZw2JNHqzRU2jAWVxYO6W5paU9eFL5a2FvF1/YhGYhFx7kkDkeCqH0pjySba+7hvHquxg==
+X-Received: by 2002:a63:234e:0:b0:470:4222:c3ee with SMTP id
+ u14-20020a63234e000000b004704222c3eemr22509957pgm.571.1669125904742; 
+ Tue, 22 Nov 2022 06:05:04 -0800 (PST)
 Received: from always-T480.www.tendawifi.com ([139.177.225.252])
  by smtp.gmail.com with ESMTPSA id
- p1-20020a170902e74100b00186b280a441sm12097410plf.239.2022.11.22.06.04.57
+ p1-20020a170902e74100b00186b280a441sm12097410plf.239.2022.11.22.06.05.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 06:05:00 -0800 (PST)
+ Tue, 22 Nov 2022 06:05:04 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: arei.gonglei@huawei.com, mst@redhat.com, dgilbert@redhat.com,
  eblake@redhat.com, armbru@redhat.com, michael.roth@amd.com,
  pbonzini@redhat.com
 Cc: qemu-devel@nongnu.org,
 	zhenwei pi <pizhenwei@bytedance.com>
-Subject: [for-8.0 v2 08/11] hmp: add cryptodev info command
-Date: Tue, 22 Nov 2022 22:07:53 +0800
-Message-Id: <20221122140756.686982-9-pizhenwei@bytedance.com>
+Subject: [for-8.0 v2 09/11] cryptodev: Use CryptoDevBackendOpInfo for operation
+Date: Tue, 22 Nov 2022 22:07:54 +0800
+Message-Id: <20221122140756.686982-10-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221122140756.686982-1-pizhenwei@bytedance.com>
 References: <20221122140756.686982-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,104 +92,213 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Example of this command:
- # virsh qemu-monitor-command vm --hmp info cryptodev
-cryptodev1: service=[akcipher|mac|hash|cipher]
-    queue 0: type=builtin
-cryptodev0: service=[akcipher]
-    queue 0: type=lkcf
+Move queue_index, CryptoDevCompletionFunc and opaque into struct
+CryptoDevBackendOpInfo, then cryptodev_backend_crypto_operation()
+needs an argument CryptoDevBackendOpInfo *op_info only. And remove
+VirtIOCryptoReq from cryptodev.
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- hmp-commands-info.hx  | 14 ++++++++++++++
- include/monitor/hmp.h |  1 +
- monitor/hmp-cmds.c    | 36 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
+ backends/cryptodev-builtin.c |  9 +++------
+ backends/cryptodev-lkcf.c    |  9 +++------
+ backends/cryptodev.c         | 16 ++++------------
+ hw/virtio/virtio-crypto.c    |  7 ++++---
+ include/sysemu/cryptodev.h   | 26 ++++++++++----------------
+ 5 files changed, 24 insertions(+), 43 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 754b1e8408..47d63d26db 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -993,3 +993,17 @@ SRST
-   ``info virtio-queue-element`` *path* *queue* [*index*]
-     Display element of a given virtio queue
- ERST
-+
-+    {
-+        .name       = "cryptodev",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show the crypto devices",
-+        .cmd        = hmp_info_cryptodev,
-+        .flags      = "p",
-+    },
-+
-+SRST
-+  ``info cryptodev``
-+    Show the crypto devices.
-+ERST
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index dfbc0c9a2f..b6b2b49202 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -143,5 +143,6 @@ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
- void hmp_info_stats(Monitor *mon, const QDict *qdict);
-+void hmp_info_cryptodev(Monitor *mon, const QDict *qdict);
+diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
+index 94a02aeaf1..68b1cbd440 100644
+--- a/backends/cryptodev-builtin.c
++++ b/backends/cryptodev-builtin.c
+@@ -539,10 +539,7 @@ static int cryptodev_builtin_asym_operation(
  
- #endif
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 01b789a79e..d5c9e8977d 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -33,6 +33,7 @@
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-cryptodev.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
-@@ -2761,3 +2762,38 @@ void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict)
- 
-     qapi_free_VirtioQueueElement(e);
+ static int cryptodev_builtin_operation(
+                  CryptoDevBackend *backend,
+-                 CryptoDevBackendOpInfo *op_info,
+-                 uint32_t queue_index,
+-                 CryptoDevCompletionFunc cb,
+-                 void *opaque)
++                 CryptoDevBackendOpInfo *op_info)
+ {
+     CryptoDevBackendBuiltin *builtin =
+                       CRYPTODEV_BACKEND_BUILTIN(backend);
+@@ -574,8 +571,8 @@ static int cryptodev_builtin_operation(
+     if (local_error) {
+         error_report_err(local_error);
+     }
+-    if (cb) {
+-        cb(opaque, status);
++    if (op_info->cb) {
++        op_info->cb(op_info->opaque, status);
+     }
+     return 0;
  }
+diff --git a/backends/cryptodev-lkcf.c b/backends/cryptodev-lkcf.c
+index 31ec712849..0e88f1ecac 100644
+--- a/backends/cryptodev-lkcf.c
++++ b/backends/cryptodev-lkcf.c
+@@ -469,10 +469,7 @@ static void *cryptodev_lkcf_worker(void *arg)
+ 
+ static int cryptodev_lkcf_operation(
+     CryptoDevBackend *backend,
+-    CryptoDevBackendOpInfo *op_info,
+-    uint32_t queue_index,
+-    CryptoDevCompletionFunc cb,
+-    void *opaque)
++    CryptoDevBackendOpInfo *op_info)
+ {
+     CryptoDevBackendLKCF *lkcf =
+         CRYPTODEV_BACKEND_LKCF(backend);
+@@ -495,8 +492,8 @@ static int cryptodev_lkcf_operation(
+ 
+     task = g_new0(CryptoDevLKCFTask, 1);
+     task->op_info = op_info;
+-    task->cb = cb;
+-    task->opaque = opaque;
++    task->cb = op_info->cb;
++    task->opaque = op_info->opaque;
+     task->sess = sess;
+     task->lkcf = lkcf;
+     task->status = -VIRTIO_CRYPTO_ERR;
+diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+index d623bf3bff..72105df95a 100644
+--- a/backends/cryptodev.c
++++ b/backends/cryptodev.c
+@@ -162,16 +162,13 @@ int cryptodev_backend_close_session(
+ 
+ static int cryptodev_backend_operation(
+                  CryptoDevBackend *backend,
+-                 CryptoDevBackendOpInfo *op_info,
+-                 uint32_t queue_index,
+-                 CryptoDevCompletionFunc cb,
+-                 void *opaque)
++                 CryptoDevBackendOpInfo *op_info)
+ {
+     CryptoDevBackendClass *bc =
+                       CRYPTODEV_BACKEND_GET_CLASS(backend);
+ 
+     if (bc->do_op) {
+-        return bc->do_op(backend, op_info, queue_index, cb, opaque);
++        return bc->do_op(backend, op_info);
+     }
+     return -VIRTIO_CRYPTO_NOTSUPP;
+ }
+@@ -224,20 +221,15 @@ static int cryptodev_backend_account(CryptoDevBackend *backend,
+ 
+ int cryptodev_backend_crypto_operation(
+                  CryptoDevBackend *backend,
+-                 void *opaque1,
+-                 uint32_t queue_index,
+-                 CryptoDevCompletionFunc cb, void *opaque2)
++                 CryptoDevBackendOpInfo *op_info)
+ {
+-    VirtIOCryptoReq *req = opaque1;
+-    CryptoDevBackendOpInfo *op_info = &req->op_info;
+     int ret;
+ 
+     ret = cryptodev_backend_account(backend, op_info);
+     if (ret < 0) {
+         return ret;
+     }
+-    return cryptodev_backend_operation(backend, op_info, queue_index,
+-                                       cb, opaque2);
++    return cryptodev_backend_operation(backend, op_info);
+ }
+ 
+ static void
+diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+index 87d9582bc1..e637fc6ab0 100644
+--- a/hw/virtio/virtio-crypto.c
++++ b/hw/virtio/virtio-crypto.c
+@@ -871,6 +871,9 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
+     opcode = ldl_le_p(&req.header.opcode);
+     op_info->session_id = ldq_le_p(&req.header.session_id);
+     op_info->op_code = opcode;
++    op_info->queue_index = queue_index;
++    op_info->cb = virtio_crypto_req_complete;
++    op_info->opaque = request;
+ 
+     switch (opcode) {
+     case VIRTIO_CRYPTO_CIPHER_ENCRYPT:
+@@ -898,9 +901,7 @@ check_result:
+             virtio_crypto_req_complete(request, -VIRTIO_CRYPTO_NOTSUPP);
+         } else {
+             ret = cryptodev_backend_crypto_operation(vcrypto->cryptodev,
+-                                    request, queue_index,
+-                                    virtio_crypto_req_complete,
+-                                    request);
++                                    op_info);
+             if (ret < 0) {
+                 virtio_crypto_req_complete(request, ret);
+             }
+diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
+index c154c52039..ffbce1129c 100644
+--- a/include/sysemu/cryptodev.h
++++ b/include/sysemu/cryptodev.h
+@@ -174,9 +174,14 @@ typedef struct CryptoDevBackendAsymOpInfo {
+     uint8_t *dst;
+ } CryptoDevBackendAsymOpInfo;
+ 
++typedef void (*CryptoDevCompletionFunc) (void *opaque, int ret);
 +
-+void hmp_info_cryptodev(Monitor *mon, const QDict *qdict)
-+{
-+    CryptodevInfoList *il;
-+    QCryptodevBackendServiceTypeList *sl;
-+    CryptodevBackendClientList *cl;
-+
-+    for (il = qmp_query_cryptodev(NULL); il; il = il->next) {
-+        g_autofree char *services = NULL;
-+        CryptodevInfo *info = il->value;
-+        char *tmp_services;
-+
-+        /* build a string like 'service=[akcipher|mac|hash|cipher]' */
-+        for (sl = info->service; sl; sl = sl->next) {
-+            const char *service = QCryptodevBackendServiceType_str(sl->value);
-+
-+            if (!services) {
-+                services = g_strdup(service);
-+            } else {
-+                tmp_services = g_strjoin("|", services, service, NULL);
-+                g_free(services);
-+                services = tmp_services;
-+            }
-+        }
-+        monitor_printf(mon, "%s: service=[%s]\n", info->id, services);
-+
-+        for (cl = info->client; cl; cl = cl->next) {
-+            CryptodevBackendClient *client = cl->value;
-+            monitor_printf(mon, "    queue %ld: type=%s\n", client->queue,
-+                          QCryptodevBackendType_str(client->type));
-+        }
-+    }
-+
-+    qapi_free_CryptodevInfoList(il);
-+}
+ typedef struct CryptoDevBackendOpInfo {
+     enum QCryptodevBackendAlgType algtype;
+     uint32_t op_code;
++    uint32_t queue_index;
++    CryptoDevCompletionFunc cb;
++    void *opaque;
+     uint64_t session_id;
+     union {
+         CryptoDevBackendSymOpInfo *sym_op_info;
+@@ -184,7 +189,6 @@ typedef struct CryptoDevBackendOpInfo {
+     } u;
+ } CryptoDevBackendOpInfo;
+ 
+-typedef void (*CryptoDevCompletionFunc) (void *opaque, int ret);
+ struct CryptoDevBackendClass {
+     ObjectClass parent_class;
+ 
+@@ -204,10 +208,7 @@ struct CryptoDevBackendClass {
+                          void *opaque);
+ 
+     int (*do_op)(CryptoDevBackend *backend,
+-                 CryptoDevBackendOpInfo *op_info,
+-                 uint32_t queue_index,
+-                 CryptoDevCompletionFunc cb,
+-                 void *opaque);
++                 CryptoDevBackendOpInfo *op_info);
+ };
+ 
+ struct CryptoDevBackendClient {
+@@ -365,24 +366,17 @@ int cryptodev_backend_close_session(
+ /**
+  * cryptodev_backend_crypto_operation:
+  * @backend: the cryptodev backend object
+- * @opaque1: pointer to a VirtIOCryptoReq object
+- * @queue_index: queue index of cryptodev backend client
+- * @errp: pointer to a NULL-initialized error object
+- * @cb: callbacks when operation is completed
+- * @opaque2: parameter passed to cb
++ * @op_info: pointer to a CryptoDevBackendOpInfo object
+  *
+- * Do crypto operation, such as encryption and
+- * decryption
++ * Do crypto operation, such as encryption, decryption, signature and
++ * verification
+  *
+  * Returns: 0 for success and cb will be called when creation is completed,
+  * negative value for error, and cb will not be called.
+  */
+ int cryptodev_backend_crypto_operation(
+                  CryptoDevBackend *backend,
+-                 void *opaque1,
+-                 uint32_t queue_index,
+-                 CryptoDevCompletionFunc cb,
+-                 void *opaque2);
++                 CryptoDevBackendOpInfo *op_info);
+ 
+ /**
+  * cryptodev_backend_set_used:
 -- 
 2.20.1
 
