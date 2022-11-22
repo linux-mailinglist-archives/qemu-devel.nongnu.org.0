@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67141633A03
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:25:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604CC633A02
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Nov 2022 11:25:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxQRX-0008L3-Nd; Tue, 22 Nov 2022 05:23:55 -0500
+	id 1oxQRc-0008LT-RS; Tue, 22 Nov 2022 05:24:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRP-0008JZ-NF
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:48 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRW-0008Kt-4j
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRO-0004nG-8b
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxQRQ-0004na-RK
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 05:23:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669112625;
+ s=mimecast20190719; t=1669112627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Tp9jFYJgk+YLg5fcJWtG3ksiVNxD2+OIeFCJl1agFd8=;
- b=O4UFMgqzWK8yPMC3WJ/qAcRRTbeoSdUwmMTIk7vlILpsM8B5dLKnDnHSoiqn/YXQrr903L
- 0+cZZx8mWmJ438OdqhHzS+/b8BqPe96g8n1T18HBbg6hv+eB6hZRwXux51mnWqoL7mSAQp
- yPFDAPvd63+w9xbaO8lLFkIwCj12W3A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tCyN486kILbT5B/0SUpD9hz0Zu83tKUQ17jpDn0HiAY=;
+ b=Ul8MRDvbqRnS265wWOUHOObCuk6PcmHPmddOTpH1qDajVJVTV7KKr6kDSNCRKBKdP1G1ON
+ WVlYeUffzgaA+aPbJ3HPkY2AKFjygD3Bv5hqfc/kO73ejXUdXpFMGjnyOzTZjTZnKqVNGQ
+ hDnmJcrHsLUQuiGA51Z66IOjmIe9gUw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-606-lLWNJcw6N0OFAJXxiH7HdQ-1; Tue, 22 Nov 2022 05:23:43 -0500
-X-MC-Unique: lLWNJcw6N0OFAJXxiH7HdQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v14-20020adf8b4e000000b0024174021277so4117409wra.13
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:43 -0800 (PST)
+ us-mta-654-V2Ay1hCHP5K-V0Ahf4EUKQ-1; Tue, 22 Nov 2022 05:23:46 -0500
+X-MC-Unique: V2Ay1hCHP5K-V0Ahf4EUKQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ x8-20020adfbb48000000b00241c6e4f72eso2597528wrg.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 02:23:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Tp9jFYJgk+YLg5fcJWtG3ksiVNxD2+OIeFCJl1agFd8=;
- b=zSVtO/SQbFGqnM4s6Wkcb41N6iLzjRSFV9PI8+1KO0BZeurxkTk1+sjfPMRhFpQDDv
- 0J/QrJko5JQvb1G9KE180fEravD6C4Jn9ze5wSGpRDfss4RwcwlNa+8aFHjWhrz1U/9H
- 4AW8zs0yDhxX34WnXHdPS5D3K7zde8RjYG4YlA2zX+nwMIzlP3SGO6lL8IRbD7itt7Hq
- DW+rjxkASEHY7kqIW3G+6H8pIE0M9nCfqgDMl2SqLP2SS6TDsxwO4E1IMZW26nw9yY4O
- kClBqCYxQJT50K/NNZSDsIGWo/y/xdygXsiS9HY0v2DsCtHZqyTZ8annGArbp/FrI4aa
- YerA==
-X-Gm-Message-State: ANoB5pkQ+OaM8tl3XhRKneH/47tzkkt0jDVqp7HLpAOyDRPMFflvYAdj
- H1ZEoAfqjGy+UMFzlJUP0tEAnGxzA/yZ760QrPmUS0f15WIFICaQAKdog1mvqrMKr0nkPVDIUjd
- BipFPqBEc7ab7rh4MSOHEgXEyBmfAWn8TS8kCzDvJS+9fDy8z3xJvtxO3S6+2
-X-Received: by 2002:a7b:ca45:0:b0:3c4:bda1:7c57 with SMTP id
- m5-20020a7bca45000000b003c4bda17c57mr19510766wml.6.1669112622115; 
- Tue, 22 Nov 2022 02:23:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6NljfZ/Ujv+wKTAUFZfEgS4n9BAKTt3u/k147Mk1DA7g/d9tYHM1cZErqZnz+YLXEKPeIj/g==
-X-Received: by 2002:a7b:ca45:0:b0:3c4:bda1:7c57 with SMTP id
- m5-20020a7bca45000000b003c4bda17c57mr19510741wml.6.1669112621813; 
- Tue, 22 Nov 2022 02:23:41 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tCyN486kILbT5B/0SUpD9hz0Zu83tKUQ17jpDn0HiAY=;
+ b=opg4y0jfoPPpaM19A34I98MrQqMTs/mG8Uzdova6ra9RvlBgYOCyLWFuRc/C/kEalg
+ 6qSyz3HyTZ1BDgWSoRCveCNNFTWDUWW9K1roS+Z/LiCULcz0rdwYTXee1eOeAlvFA2D9
+ RZakJogBnZyflZsMXynnQFupxDanq6/ECfBFie9HyGSkJ7DnUnzrfMYkMkvVNgegRjYs
+ QpjfHLos1KRbgfg91WTQsf6rmtTaBP19qvrKf9W8UPi4dUrb2COYvVluMIt3+vlSNtmP
+ 5YqbPsAtTKa25WOmUXcr3Wu2OhKpwQBh4JkLXcPkt2Ta5PjtAP5+7YpskEmYZiEcJvPe
+ 8hUA==
+X-Gm-Message-State: ANoB5pm6180h0UlIzQMoRAfoaDuex7drqziJXcyasks7wGsIysqV4f5+
+ zaeDR3m/1T2VuuaY4+Qhc2567bM6klvhl4HTsNkuSOH4wTXcxcgFtRF0ItFhuxQtVQTBZhdRY2y
+ K3ha17Jtv5YmINkW5D6LfVS3OByS10kxoB+d0Cn2mDcKdX20FmR6PBPbSiSua
+X-Received: by 2002:a5d:430e:0:b0:241:bfb6:c6da with SMTP id
+ h14-20020a5d430e000000b00241bfb6c6damr3007678wrq.204.1669112625295; 
+ Tue, 22 Nov 2022 02:23:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6/xomgXpokGScLs+6dt0ZTnBsDoKUJJOmpvCxiHoMHDPR4LbdGHYM7tYKHT/yAd2urfbLpQw==
+X-Received: by 2002:a5d:430e:0:b0:241:bfb6:c6da with SMTP id
+ h14-20020a5d430e000000b00241bfb6c6damr3007659wrq.204.1669112625018; 
+ Tue, 22 Nov 2022 02:23:45 -0800 (PST)
 Received: from redhat.com ([2.52.21.254]) by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c3b8900b003c6bbe910fdsm28615388wms.9.2022.11.22.02.23.40
+ w19-20020adfbad3000000b00241c6729c2bsm10527579wrg.26.2022.11.22.02.23.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 02:23:41 -0800 (PST)
-Date: Tue, 22 Nov 2022 05:23:39 -0500
+ Tue, 22 Nov 2022 02:23:44 -0800 (PST)
+Date: Tue, 22 Nov 2022 05:23:42 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 6/8] tests/avocado: configure acpi-bits to use avocado timeout
-Message-ID: <20221122102227.6603-7-mst@redhat.com>
+Subject: [PULL 7/8] acpi/tests/avocado/bits: keep the work directory when
+ BITS_DEBUG is set in env
+Message-ID: <20221122102227.6603-8-mst@redhat.com>
 References: <20221122102227.6603-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221122102227.6603-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -100,40 +104,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: John Snow <jsnow@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
 
-Instead of using a hardcoded timeout, just rely on Avocado's built-in
-test case timeout. This helps avoid timeout issues on machines where 60
-seconds is not sufficient.
+Debugging bits issue often involves running the QEMU command line manually
+outside of the avocado environment with the generated ISO. Hence, its
+inconvenient if the iso gets cleaned up after the test has finished. This change
+makes sure that the work directory is kept after the test finishes if the test
+is run with BITS_DEBUG=1 in the environment so that the iso is available for use
+with the QEMU command line.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20221115212759.3095751-1-jsnow@redhat.com>
+CC: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Message-Id: <20221117113630.543495-1-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/avocado/acpi-bits.py | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ tests/avocado/acpi-bits.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index 8745a58a76..ac13e22dc9 100644
+index ac13e22dc9..4be663968c 100644
 --- a/tests/avocado/acpi-bits.py
 +++ b/tests/avocado/acpi-bits.py
-@@ -385,12 +385,6 @@ def test_acpi_smbios_bits(self):
-         self._vm.launch()
-         # biosbits has been configured to run all the specified test suites
-         # in batch mode and then automatically initiate a vm shutdown.
--        # sleep for maximum of one minute
--        max_sleep_time = time.monotonic() + 60
--        while self._vm.is_running() and time.monotonic() < max_sleep_time:
--            time.sleep(1)
--
--        self.assertFalse(time.monotonic() > max_sleep_time,
--                         'The VM seems to have failed to shutdown in time')
--
-+        # Rely on avocado's unit test timeout.
-+        self._vm.wait(timeout=None)
-         self.parse_log()
+@@ -260,7 +260,7 @@ def generate_bits_iso(self):
+         self.logger.info('using grub-mkrescue for generating biosbits iso ...')
+ 
+         try:
+-            if os.getenv('V'):
++            if os.getenv('V') or os.getenv('BITS_DEBUG'):
+                 subprocess.check_call([mkrescue_script, '-o', iso_file,
+                                        bits_dir], stderr=subprocess.STDOUT)
+             else:
+@@ -344,7 +344,7 @@ def parse_log(self):
+                 self._print_log(log)
+                 raise e
+             else:
+-                if os.getenv('V'):
++                if os.getenv('V') or os.getenv('BITS_DEBUG'):
+                     self._print_log(log)
+ 
+     def tearDown(self):
+@@ -353,8 +353,13 @@ def tearDown(self):
+         """
+         if self._vm:
+             self.assertFalse(not self._vm.is_running)
+-        self.logger.info('removing the work directory %s', self._workDir)
+-        shutil.rmtree(self._workDir)
++        if not os.getenv('BITS_DEBUG'):
++            self.logger.info('removing the work directory %s', self._workDir)
++            shutil.rmtree(self._workDir)
++        else:
++            self.logger.info('not removing the work directory %s ' \
++                             'as BITS_DEBUG is ' \
++                             'passed in the environment', self._workDir)
+         super().tearDown()
+ 
+     def test_acpi_smbios_bits(self):
 -- 
 MST
 
