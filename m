@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD64635BA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 12:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD315635C0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 12:45:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxnu6-0006C7-Py; Wed, 23 Nov 2022 06:26:58 -0500
+	id 1oxo9G-0002bs-R1; Wed, 23 Nov 2022 06:42:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxnu1-00067s-Bs
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:26:53 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oxo9E-0002aR-Pz
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxntz-0000ss-0t
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:26:52 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oxo9C-0005zv-Ne
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669202810;
+ s=mimecast20190719; t=1669203754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/uVeYx6CjoYEK3tX9urIsDYRKGgSlWj2VcVgfP/GhA0=;
- b=JzfarWVrpQNcU6mppvTfZlp8nIXgSRowqES19EA5iLHQ3euTIK3xObB8fr5OLGKzElnqA+
- 0b1ECiDD/NdBZV5XsCe5m3CB3LRRTRpWMxXveYRaVa9wOJe+ToM7CDRgs6s/+xihQlQhHI
- 4VbMP9FmuNSv5Xx7oF7UEXP7f76EgAk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-507-PQuhg_eROzibS4XPr75S3g-1; Wed, 23 Nov 2022 06:26:49 -0500
-X-MC-Unique: PQuhg_eROzibS4XPr75S3g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- n13-20020adf8b0d000000b0023658a75751so4958078wra.23
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 03:26:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/uVeYx6CjoYEK3tX9urIsDYRKGgSlWj2VcVgfP/GhA0=;
- b=6VhKOl1eRJchA6KOfwOK8BmBxwThTjkCJ4X3su3qu5Hz3nW3WJIHtycWDEMVhLvmGE
- Io1ZwLHAgdx4gwHAyyeishgTPSbBzhhL0shL3q4M9NJ++f31Tb9dvf7f9daASLqcRuD0
- 7wzTzk0YCtm6yGXPseXENOgQy2D/zvVUXnzdJo9ttDJgLPsEy3PT+6iSK8VE9ztcYJc8
- L+dJsvP9kS99OTegVNybentotJ+SGqq02oCi/hF1oIo0s2ip72qltFU3LgHZ2Qs+FDVi
- vS63OBsxz9/V0TW2IWP8GH8y+BEomc2ReJTUoyuCODyOIZhvt2SPK9OYYf2+jcD/ryeg
- Iyhg==
-X-Gm-Message-State: ANoB5plVpaKwNJqMpu75KVz422PZGmsO9tWyuYxnu+8TxjP69hfqI9nr
- ITWNpJcxoTtxWSliOtSCDj1vuHyyhoMCsSXjljF1+6vcfWeabdPZWBhSSv8gClHChdxhj4fLrjB
- JA5JnSSHV4H1Ty0c=
-X-Received: by 2002:adf:d4cb:0:b0:241:e680:b5be with SMTP id
- w11-20020adfd4cb000000b00241e680b5bemr3909646wrk.717.1669202807866; 
- Wed, 23 Nov 2022 03:26:47 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4ty6pJqOeN7hHH/KlVkwB9Ti1tzmh/137oXCPteawJKbfV2Az4Xc145Vj61LRtTCZLnCiOiQ==
-X-Received: by 2002:adf:d4cb:0:b0:241:e680:b5be with SMTP id
- w11-20020adfd4cb000000b00241e680b5bemr3909636wrk.717.1669202807665; 
- Wed, 23 Nov 2022 03:26:47 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-58.web.vodafone.de.
- [109.43.178.58]) by smtp.gmail.com with ESMTPSA id
- t10-20020a5d6a4a000000b00241f467f888sm781662wrw.74.2022.11.23.03.26.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 03:26:47 -0800 (PST)
-Message-ID: <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
-Date: Wed, 23 Nov 2022 12:26:45 +0100
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=98ElRFZAkQcrHFduj4EMgnofXQRCKVE2X50AAe45Iv4=;
+ b=ia6gUWw5C/FW6fSZ5MRMSwoyowIPEFmVu8vJ5OEdOCvlNe6VgMfABmagnEfucnxQaGKeG/
+ Y4qS1kG2Yhk0cuBwzNTA2uhRG63KI0AXDoh374r/lInqVBoWwby0nc3ozar4w/iRS0v+21
+ VAmVrwny4OMJsIMS56c4hTtL+iSOxhc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-427-G3l2CZoEMh-T5LGfeopaFg-1; Wed, 23 Nov 2022 06:42:30 -0500
+X-MC-Unique: G3l2CZoEMh-T5LGfeopaFg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03C90185A78B;
+ Wed, 23 Nov 2022 11:42:30 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B75AC1912A;
+ Wed, 23 Nov 2022 11:42:29 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v5 00/15] Still more coroutine and various fixes in block layer
+Date: Wed, 23 Nov 2022 06:42:12 -0500
+Message-Id: <20221123114227.85757-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221118113309.1057790-1-alex.bennee@linaro.org>
- <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
-In-Reply-To: <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,58 +82,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/11/2022 12.15, Philippe Mathieu-Daudé wrote:
-> On 18/11/22 12:33, Alex Bennée wrote:
->> The old URL wasn't stable. I suspect the current URL will only be
->> stable for a few months so maybe we need another strategy for hosting
->> rootfs snapshots?
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>   tests/avocado/boot_linux_console.py | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/avocado/boot_linux_console.py 
->> b/tests/avocado/boot_linux_console.py
->> index 4c9d551f47..5a2923c423 100644
->> --- a/tests/avocado/boot_linux_console.py
->> +++ b/tests/avocado/boot_linux_console.py
->> @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
->>           dtb_path = 
->> '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
->>           dtb_path = self.extract_from_deb(deb_path, dtb_path)
->>           rootfs_url = 
->> ('http://storage.kernelci.org/images/rootfs/buildroot/'
->> -                      'kci-2019.02/armel/base/rootfs.ext2.xz')
->> -        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
->> +                      'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
->> +        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
-> If Avocado doesn't find an artifact in its local cache, it will fetch it
-> from the URL.
-> The cache might be populated with artifacts previously downloaded, but
-> their URL is not valid anymore (my case for many tests).
-> We can also add artifacts manually, see [1].
-> 
-> I'd rather keep pre-existing tests if possible, to test older (kernel / 
-> user-space) images. We don't need to run all the tests all the time:
-> tests can be filtered by tags (see [2]).
-> 
-> My preference here is to refactor this test, adding the "kci-2019.02"
-> and "baseline-20221116.0" releases. I can prepare the patch if you /
-> Thomas don't object.
+This is a dump of all minor coroutine-related fixes found while looking
+around and testing various things in the QEMU block layer.
 
-IMHO we shouldn't keep tests in the upstream git repository where the 
-binaries are not available in public anymore. They won't get run by new 
-contributors anymore, and also could vanish from the disks of the people who 
-previously downloaded it, once they wipe their cache or upgrade to a new 
-installation, so the test code will sooner or later be bitrotting. But if 
-you want to keep the tests around on your hard disk, you could also stick 
-the test in a local branch on your hard disk instead.
+Patches aim to:
+- add missing coroutine_fn annotation to the functions
+- simplify to avoid the typical "if in coroutine: fn()
+  // else create_coroutine(fn)" already present in generated_co_wraper
+  functions.
+- make sure that if a BlockDriver callback is defined as coroutine_fn, then
+  it is always running in a coroutine.
 
-The other possibility is to upload the binaries to a new public location in 
-the web ... but for software that contains GPLed software, you should then 
-also make sure to provide the source code to comply with the license.
+This serie is based on Kevin Wolf's series "block: Simplify drain".
 
-  Thomas
+Based-on: <20221108123738.530873-1-kwolf@redhat.com>
+
+Emanuele
+---
+v5:
+* add missing reviewed-by from Paolo
+* minor indentation fixes
+* use when possible _co_, but do not create new g_c_w. It will be done in
+  future series
+* introduce QEMU_IN_COROUTINE
+* reorder patches
+* rebase on kevin block branch + v2 from "block: Simplify drain"
+
+v4:
+* use v2 commit messages
+* introduce generated_co_wrapper_simple to simplify patches
+
+v3:
+* Remove patch 1, base on kevin "drain semplification serie"
+
+v2:
+* clarified commit message in patches 2/3/6 on why we add coroutine_fn
+
+Emanuele Giuseppe Esposito (15):
+  block-io: introduce coroutine_fn duplicates for
+    bdrv_common_block_status_above callers
+  block-copy: add missing coroutine_fn annotations
+  nbd/server.c: add missing coroutine_fn annotations
+  block-backend: replace bdrv_*_above with blk_*_above
+  block/vmdk: add missing coroutine_fn annotations
+  block: avoid duplicating filename string in bdrv_create
+  block: introduce QEMU_IN_COROUTINE macro
+  block: distinguish between bdrv_create running in coroutine and not
+  block: bdrv_create_file is a coroutine_fn
+  block-coroutine-wrapper.py: introduce generated_co_wrapper_simple
+  block-coroutine-wrapper.py: default to main loop aiocontext if
+    function does not have a BlockDriverState parameter
+  block-coroutine-wrapper.py: default to main loop aiocontext if
+    function does not have a BlockDriverState parameter
+  block-coroutine-wrapper.py: support also basic return types
+  block: convert bdrv_create to generated_co_wrapper_simple
+  block/dirty-bitmap: convert coroutine-only functions to
+    generated_co_wrapper_simple
+
+ block.c                            |  66 ++++------------
+ block/block-backend.c              |  21 +++++
+ block/block-copy.c                 |  21 ++---
+ block/block-gen.h                  |  11 +--
+ block/commit.c                     |   4 +-
+ block/crypto.c                     |   2 +-
+ block/dirty-bitmap.c               |  88 +--------------------
+ block/io.c                         |  64 +++++++++++++++-
+ block/meson.build                  |   1 +
+ block/parallels.c                  |   2 +-
+ block/qcow.c                       |   2 +-
+ block/qcow2.c                      |   4 +-
+ block/qed.c                        |   2 +-
+ block/raw-format.c                 |   2 +-
+ block/vdi.c                        |   2 +-
+ block/vhdx.c                       |   2 +-
+ block/vmdk.c                       |  38 +++++-----
+ block/vpc.c                        |   2 +-
+ include/block/block-common.h       |  17 ++++-
+ include/block/block-copy.h         |   5 +-
+ include/block/block-global-state.h |  13 +++-
+ include/block/block-io.h           |  24 +++++-
+ include/block/dirty-bitmap.h       |  10 ++-
+ include/sysemu/block-backend-io.h  |   9 +++
+ nbd/server.c                       |  47 ++++++------
+ scripts/block-coroutine-wrapper.py | 118 ++++++++++++++++++++---------
+ 26 files changed, 322 insertions(+), 255 deletions(-)
+
+-- 
+2.31.1
 
 
