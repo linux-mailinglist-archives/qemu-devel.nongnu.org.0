@@ -2,71 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2077F634B6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 01:04:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4088F634C5E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 02:11:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxdEM-0006X0-SL; Tue, 22 Nov 2022 19:03:10 -0500
+	id 1oxeGU-0007sA-7F; Tue, 22 Nov 2022 20:09:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oxdEJ-0006Wb-8K; Tue, 22 Nov 2022 19:03:07 -0500
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b])
+ (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
+ id 1oxeGS-0007rx-OK
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 20:09:24 -0500
+Received: from usmailhost21.kioxia.com ([12.0.68.226]
+ helo=SJSMAIL01.us.kioxia.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oxdEG-0000pF-Fp; Tue, 22 Nov 2022 19:03:07 -0500
-Received: by mail-vs1-xe2b.google.com with SMTP id c184so10331505vsc.3;
- Tue, 22 Nov 2022 16:03:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=e8KU4balBIJc+8raNyf3FDeJNeZ/H8DqoWvZS882i90=;
- b=CqssymfNGFpkos8TaqkJMTFYppam37eDPTb+MBj/ObHyEFt2sgCz+s2d0xARQBWUpC
- 56e2zv+MaD7DP+kpjDPrejW1vCBPt4mK+2mINFvnfWQiptzbwl5kT8QNth9ugxe1veZ1
- MJtghmSU4y183nEQhNulye2GiAK5AJ+y10L7ecW0LE46J4YcgMczxPR5PNvtZAgRyzZ8
- qZ262oyBnzoVH4t6OiiGNWG6y1XMJ6C9CVy7r7q4M75C/WL7nmqfl8Dj1zo/yZFZAY53
- +nsqAoSrTHIhe5TUUFdnMsTcx5wbGZEhlns/U63C0i6gZeqbOBxY3LtizteUEeLCjE4I
- 0zuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=e8KU4balBIJc+8raNyf3FDeJNeZ/H8DqoWvZS882i90=;
- b=6FaOpWHlsa0/9eLuZSRHBVJWRRy69Qz5rcooKMn8tihf6VBmBGo4V8BvDxe2HnFsxj
- c12WhJ37uem8/auzGyPAgyacYGqTnhHMT3o/oCjV+ADLE8fqnIBBXglgLq4ATGSEfQ8e
- wAe8Ihkp11Bhh62t3oUyiVTbUSU56M6FMrJZ+CUu+mq0VZv1++fM0Ohjx8NS9ytLeNF+
- VTRssnO8QKb51dTz/VAH06CzlGWHlkal9LhFJEUJZpsLVIhpA8oreDVHSJhtXikiIxSq
- VEWDg0vx/TYh6urY7wz9Fq5vHIkjc+wvpEXiAELi8Ynvs0CDI3iP6/yxvgomHlFT7hg4
- nv2w==
-X-Gm-Message-State: ANoB5pl+Uxj2wUwbolvloaVZJrpAfTC2qvkxaXULEFzDlbT6XBjdqxb0
- qwmH8eC+dWQKcdCAOWDeJ2MGG1aaqYWxAyK0+QWf6l1Ge9w=
-X-Google-Smtp-Source: AA0mqf5KXXKrdkI97Sxusu0ofT74ZL2OG2CJmTL/1yGZRNo/W9Q0YE8UyD6WoZcAxK4oL1wvbH8Upeq/ANVKrZdsOKg=
-X-Received: by 2002:a05:6102:11f1:b0:3a6:fde0:cf74 with SMTP id
- e17-20020a05610211f100b003a6fde0cf74mr4039858vsg.73.1669161775060; Tue, 22
- Nov 2022 16:02:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
+ id 1oxeGQ-0001yO-L2
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 20:09:24 -0500
+Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
+ SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Tue, 22 Nov 2022 17:03:14 -0800
+Received: from SJSMAIL01.us.kioxia.com ([::1]) by SJSMAIL01.us.kioxia.com
+ ([fe80::f5ad:7ba5:d6cc:6f21%3]) with mapi id 15.01.2375.034; Tue, 22 Nov 2022
+ 17:03:14 -0800
+From: Clay Mayers <Clay.Mayers@kioxia.com>
+To: Klaus Jensen <its@irrelevant.dk>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Keith Busch
+ <kbusch@kernel.org>, Fam Zheng <fam@euphon.net>,
+ =?utf-8?B?UGhsaXBwZSBNYXRoaWV1LURhdWTDqQ==?= <f4bug@amsat.org>, "Dmitry
+ Fomichev" <dmitry.fomichev@wdc.com>
+Subject: RE: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
+Thread-Topic: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
+Thread-Index: AQHY5aY4pNtOdbFOA0uMGvVaZoR3h6426JaAgBTxbHA=
+Date: Wed, 23 Nov 2022 01:03:13 +0000
+Message-ID: <7895469dff664072a802e5db953b3c45@kioxia.com>
+References: <20221021231038.1042659-1-clay.mayers@kioxia.com>
+ <Y2tnb2AIOX4nyykC@cormorant.local>
+In-Reply-To: <Y2tnb2AIOX4nyykC@cormorant.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.93.77.43]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221122154628.3138131-1-bmeng@tinylab.org>
-In-Reply-To: <20221122154628.3138131-1-bmeng@tinylab.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 23 Nov 2022 10:02:28 +1000
-Message-ID: <CAKmqyKMxtFQ7==QrtY_sPvxCjW0U-sBnegoa5TKOLO-J8=R=Mw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Dump sstatus CSR in riscv_cpu_dump_state()
-To: Bin Meng <bmeng@tinylab.org>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Received-SPF: pass client-ip=12.0.68.226; envelope-from=Clay.Mayers@kioxia.com;
+ helo=SJSMAIL01.us.kioxia.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,39 +70,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 2:07 AM Bin Meng <bmeng@tinylab.org> wrote:
->
-> sstatus register dump is currently missing in riscv_cpu_dump_state().
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1332
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
->
-> ---
->
->  target/riscv/cpu.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index d14e95c9dc..80d76f0181 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -382,6 +382,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
->              CSR_MHARTID,
->              CSR_MSTATUS,
->              CSR_MSTATUSH,
-> +            CSR_SSTATUS,
-
-I don't think we need this. mstatus contains all of the information
-already and there is limited space to print all of this information
-out.
-
-Alistair
-
->              CSR_HSTATUS,
->              CSR_VSSTATUS,
->              CSR_MIP,
-> --
-> 2.34.1
->
->
+PiBGcm9tOiBLbGF1cyBKZW5zZW4gPGl0c0BpcnJlbGV2YW50LmRrPg0KPiBTZW50OiBXZWRuZXNk
+YXksIE5vdmVtYmVyIDksIDIwMjIgMTI6NDAgQU0NCj4gDQo+IE9uIE9jdCAyMSAxNjoxMCwgY2xh
+eS5tYXllcnNAa2lveGlhLmNvbSB3cm90ZToNCj4gPiBGcm9tOiBDbGF5IE1heWVycyA8Y2xheS5t
+YXllcnNAa2lveGlhLmNvbT4NCj4gPg0KPiA+IFpOUyBjb250cm9sbGVycyBoYXZlIHRoZSBvcHRp
+b24gdG8gbGltaXQgdGhlIHRpbWUgYSB6b25lIGNhbiByZW1haW4gaW4NCj4gPiB0aGUgYWN0aXZl
+IHN0YXRlLiAgSXQgYmVnaW5zIHdpdGggYSBiYWNrZ3JvdW5kIHByb2Nlc3MgaW4gdGhlIGNvbnRy
+b2xsZXINCj4gPiBzZXR0aW5nIHRoZSBmaW5pc2gtem9uZS1yZWNvbW1lbmRlZCBGWlIgYXR0cmli
+dXRlIGZvciBhIHpvbmUuICBBcyBwYXJ0IG9mDQo+ID4gc2V0dGluZyB0aGlzIGF0dHJpYnV0ZSwg
+dGhlIHpvbmUncyBpZCBpcyBhZGRlZCB0byB0aGUgbmFtZXNwYWNlJ3MNCj4gPiB6b25lLWRlc2Ny
+aXB0b3ItY2hhbmdlZCAoWkRDKSBsb2cgcGFnZS4gSWYgZW5hYmxlZCwgaXRlbXMgYWRkZWQgdG8g
+dGhlDQo+ID4gWkRDIGxvZyBwYWdlIGdlbmVyYXRlIGEgWkRDICJhc3luY2hyb25vdXMgZXZlbnQg
+bm90aWZpY2F0aW9uIiBBRU4uDQo+IE9wdGlvbmFsbHksDQo+ID4gdGhlIGNvbnRyb2wgY2FuIGlu
+ZHVjZSBhICJ6b25lIGV4Y3Vyc2lvbiIgZm9yY2luZyB0aGUgem9uZSBpbnRvIHRoZSBmaW5pc2hl
+ZA0KPiA+IHN0YXRlIHRoYXQgYWxzbyBnZW5lcmF0ZXMgYSBaREMgZXZlbnQuDQo+ID4NCj4gPiBa
+b25lIGVuYWJsZWQgYXBwbGljYXRpb25zIG5lZWQgdG8gcHJvcGVybHkgaGFuZGxlIFpEQyBldmVu
+dHMuIEluIGEgcmVhbA0KPiBkZXZpY2UsDQo+ID4gdGhlIHRpbWVvdXQgaXMgbWFueSBob3VycyBt
+YWtpbmcgdGVzdGluZyBhbiBhcHBsaWNhdGlvbiBkaWZmaWN1bHQuDQo+ID4gSW1wbGVtZW50ZWQg
+aXMgdGhlIGdlbmVyYXRpb24gb2YgRlpSIFpEQyBldmVudHMgdG8gc3BlZWQgdXAgTy9TIGFuZA0K
+PiBhcHBsaWNhdGlvbg0KPiA+IHRlc3RpbmcuDQo+ID4NCj4gPiBBZGRlZCB0byB0aGUgem9uZWQg
+TlZNZSBjb21tYW5kIHNldCBpcyBhbiBvcHRpb25hbCwgcGVyLW5hbWVzcGFjZSB0aW1lcg0KPiA+
+ICh6b25lZC5maW5pc2hfdGltZSkgdG8gc2V0IHRoZSBGWlIgYXR0ciBmb3IgbG9uZy1saXZlZCBh
+Y3RpdmUgem9uZXM7IEEgcGVyDQo+ID4gbmFtZXNwYWNlIFpEQyBsb2cgcGFnZTsgQUVOIHJlc3Vs
+dHMgdG8gaW5jbHVkaW5nIENRRS5EVzEgKHRoZSBOU0lEIG9mIHRoZQ0KPiBaREMNCj4gPiBBRU4p
+IGFuZCBnZW5lcmF0aW5nIGEgWkRDIEFFTiBpZiBpdCdzIGJlZW4gZW5hYmxlZC4gWm9uZSBleGN1
+cnNpb25zIGFyZSBub3QNCj4gPiBtb2RlbGVkLg0KPiA+DQo+ID4gU2VlIHNlY3Rpb24gNS41IG9m
+IHRoZSBOVk1lIFpvbmVkIE5hbWVzcGFjZSBDb21tYW5kIFNldCBTcGVjaWZpY2F0aW9uDQo+IHYx
+LjENCj4gPiBmb3IgbW9yZSBkZXRhaWxzLg0KPiA+DQo+ID4gQ2hhbmdlcyBzaW5jZSB2MQ0KPiA+
+IC0gRml4ZWQgb2Zmc2V0IGxlbmd0aCBjaGVja2luZyBpbiB6ZGMgbG9nIHBhZ2UNCj4gPiAtIE1v
+dmVkIHpkY19ldmVudF9xdWV1ZWQgdG8gdGhlIHBhdGNoIDQNCj4gPiAtIFVud2F0Y2hlZCB6ZGMg
+ZXZlbnRzIGluIG52bWVfZXhpdCgpDQo+ID4NCj4gPiBDbGF5IE1heWVycyAoNCk6DQo+ID4gICBo
+dy9ibG9jay9udm1lOiBhZGQgWk9ORV9GSU5JU0hfUkVDT01NRU5ERUQgZnVuY3Rpb25hbGl0eQ0K
+PiA+ICAgaHcvYmxvY2svbnZtZTogYWRkIHpvbmUgZGVzY3JpcHRvciBjaGFuZ2VkIGxvZyBwYWdl
+DQo+ID4gICBody9ibG9jay9udm1lOiBzdXBwbHkgZHcxIGZvciBhZW4gcmVzdWx0DQo+ID4gICBo
+dy9ibG9jay9udm1lOiBhZGQgem9uZSBkZXNjcmlwdG9yIGNoYW5nZWQgQUVODQo+ID4NCj4gPiAg
+ZG9jcy9zeXN0ZW0vZGV2aWNlcy9udm1lLnJzdCB8ICAgNSArDQo+ID4gIGh3L252bWUvY3RybC5j
+ICAgICAgICAgICAgICAgfCAxNzQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0N
+Cj4gPiAgaHcvbnZtZS9ucy5jICAgICAgICAgICAgICAgICB8ICAxNSArKysNCj4gPiAgaHcvbnZt
+ZS9udm1lLmggICAgICAgICAgICAgICB8ICAzNyArKysrKysrLQ0KPiA+ICBody9udm1lL3RyYWNl
+LWV2ZW50cyAgICAgICAgIHwgICAzICstDQo+ID4gIGluY2x1ZGUvYmxvY2svbnZtZS5oICAgICAg
+ICAgfCAgMTQgKystDQo+ID4gIDYgZmlsZXMgY2hhbmdlZCwgMjMzIGluc2VydGlvbnMoKyksIDE1
+IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gLS0NCj4gPiAyLjI3LjANCj4gPg0KPiANCj4gTmljZSB3
+b3JrIENsYXkhDQoNClRoYW5rcyEgSSB0aGluayB5b3UgaGFkIGltcGxlbWVudGVkIGV4Y3Vyc2lv
+bnMgYXQgb25lIHBvaW50IGFuZCBJJ20NCm5vdCBzdXJlIHdoeSBpdCBkaWRuJ3QgbWFrZSBpdCBp
+bi4gSSBvcmlnaW5hbGx5IGxlZnQgb3V0IGV4Y3Vyc2lvbnMgYmVjYXVzZQ0KYWxsIEkgbmVlZGVk
+IHdhcyB0aGUgQUVOIHRvIHRlc3QgbXkgTGludXggcGF0Y2guICBJIGhhdmUgYSBWMyBpbiB0aGUg
+d29ya3MNCndpdGggZXhjdXJzaW9ucyBzbyBJIGNhbiB0ZXN0IHdoYXQgaGFwcGVucyB0byBsaWJ6
+YmQgYXBwbGljYXRpb25zLiBJIGNhbid0DQp0ZWxsIGlmIHRoZXJlIGlzIHJlYWwgaW50ZXJlc3Qg
+aW4gdGhpcyBidXQgSSd2ZSB0ZXN0ZWQgcm9ja3NEQiB1c2luZyB6ZW5mcyBhbmQNCml0IGhhcyBk
+aWZmaWN1bHRpZXMgd2l0aCB6b25lIGV4Y3Vyc2lvbnMuICBXaGF0IEkgZG9uJ3Qga25vdyBpcyBp
+ZiBleGN1cnNpb25zDQphcmUgYSBjb3JuZXIgY2FzZSBvciBub3QgLSBpbiBteSB3b3JsZCwgdGhl
+eSBhcmUgbm90Lg0KDQo+IA0KPiBTZXJpZXMgbG9va3MgZ29vZCB0byBtZSwNCj4gDQo+IFJldmll
+d2VkLWJ5OiBLbGF1cyBKZW5zZW4gPGsuamVuc2VuQHNhbXN1bmcuY29tPg0K
 
