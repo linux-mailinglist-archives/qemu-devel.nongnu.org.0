@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA3A63685A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADE563689D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:22:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxuFY-00072p-Mv; Wed, 23 Nov 2022 13:13:33 -0500
+	id 1oxuMq-0001fE-EB; Wed, 23 Nov 2022 13:21:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxuFI-0006yq-Qf
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:13:16 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxuMk-0001eo-Lw
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:20:59 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxuFG-0003Ol-OI
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:13:16 -0500
-Received: by mail-wm1-x332.google.com with SMTP id t1so13662387wmi.4
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 10:13:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxuMi-0005Ep-NK
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:20:58 -0500
+Received: by mail-wr1-x429.google.com with SMTP id b12so16870890wrn.2
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 10:20:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=x3zkJffOPNDUREeCIEZzVEPBL95z9W8u0pCwZnwMLf0=;
- b=mltUwNhXTiVNLyFs9dMP4pQYxmJDVURN3iA8AezYblVgwSo3Q6xa1qd83JiaFlGNRo
- 5rfiIm8MntVXOXyflKYLjL+TfjvzRXypuVclAZC999cOMAWguXGwN0KUJI6YEoRa8pbN
- b9x23cSwppdQc30oVUUifPM37ygk1FVBXATfetEnB/AubjO9+77KWlUsPh2B/5SU5Bgi
- QWhVLx8FAF/maJ+LHsVxEchOhnLpLVa0z/60zUM7/1DOYdl4B/hEkehSjt4WIolfKFn0
- nJl0tOjm89qDIWGZwr5kYoQ891nrmy6vNk65lj1cbqLQMiRPDoR2x++NxcBJ66IgP8SU
- olfQ==
+ bh=KFzUmDVFH2qZWwlWdZ/9pVGVustz0qZhK3Q9IuAM1s0=;
+ b=EXe1QtTPq3nl5RgC+Md2KERFeY1h8WmSlfutX5l2IGBddVFUumijQp7DkE8Hfgp9Ug
+ 9GhmB4o/ead4g66XKb/wMk1TGl6yRk/l3OEOcuL1da7D4DX79hSZTaeR5wi7PczKSJJo
+ PS6jdof7T7C8lYDGb1hIoUvwJv1okZ2KRLWwgfdCzQibSQY/x+A+yVT/p8YLeSaQYUJV
+ VXrD5/ttLvOL9kAv4nUI+aum3rI1RrCcR5t5H/bw7WfDYOVjhYgSJycbn8Gbeb4SEma/
+ bH5V0V23IPERGxQoF4u+rS93moH3hy7PQEryBSN/eWjSr5lEypLM/M/3cfIiFvdTbwXL
+ /d8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=x3zkJffOPNDUREeCIEZzVEPBL95z9W8u0pCwZnwMLf0=;
- b=a+fvvNVeqleO9iv06c3uyeeqDtxjt/vAbhYu9NmVYPtNksG7MCPRb4YIGG254mtLBZ
- nmva1V2fd3DRZ3S3WA5jjfF4z+JSkr9+S+vh+LgEgeCoP6qkzvWx7CMwLInhYr+CNu0W
- 0OVE+44RN4PkVqL+hK/l97youV+1vRl/bOWHgK1NYQPmnVRi8ibQ4xOnAzMQnITBxjir
- Ffx4NUSxrarfdQ1tJXpEL73HD+EN46z8EtDNawfqZa6Nip4+mfk0UUCFTnrUixAAd9Gm
- WI1WVVynNEKz2TFHtNKnkX1pt81n25nI5n4eg4jnOU+IPoCEgNvhikbSsT2vwnfc2Tna
- uiMw==
-X-Gm-Message-State: ANoB5plIeIxPuQOBtdbLWntmx37rf4tB5Lih5au7irHwz0XU/a7cdf30
- Vdxk7za6K5yL1e3yHtXeArBzIw==
-X-Google-Smtp-Source: AA0mqf4TbeLbMOBb/wsOHiH80j21YCnNpgvFrZYbp2NRzOlfycFNPs6ovy73O6evwEX2+zAnoMr+PQ==
-X-Received: by 2002:a1c:7219:0:b0:3cf:77b7:61e6 with SMTP id
- n25-20020a1c7219000000b003cf77b761e6mr9867309wmc.162.1669227191766; 
- Wed, 23 Nov 2022 10:13:11 -0800 (PST)
+ bh=KFzUmDVFH2qZWwlWdZ/9pVGVustz0qZhK3Q9IuAM1s0=;
+ b=uzGOJ0vS7XmXVu1U/a51po+luLR9/2YtBIZX+lQLbk3fn2vpcU1dPjps4aBy81iRYH
+ 51AQwdjx74Vs97OuCdXkU4m6SjSlCCJ09l4eRKhS5EAIAjW4PT9vaQaF8lnc+cXADWlc
+ VjT/o2kwyEED40S+wquR706CJA4UatR16ZpJVwfWx90jg6rHyagl5DYbV9BJs+b2rJLI
+ iBKca9bt9Wc87lElivUb8vXbz7x+f7XLAK2T+gQm4P1weWCtjMXtsypz7EEPkSNjjRrB
+ A+6oyDuCQ7sY7oiLM3ppqiDmRZYDfxcShMI6WzKwS+HHD62qiY+Tam5nlVuUpI5wtMWq
+ bPzw==
+X-Gm-Message-State: ANoB5pkjKPoV30dwvZFIvZ1anYmB9+PWJaVLigqjXkGWFJNOn5qmnp/3
+ ffOBEAAO8nsb7yMPInQ5lEo3kA==
+X-Google-Smtp-Source: AA0mqf5RhjHcVxal7i0s2AUD9bEMt8kxk9xAD//IQP/oYWZzlbF+2Z/l19uDYJ9uLilvLpZfVSWgJQ==
+X-Received: by 2002:adf:d84c:0:b0:236:6f1a:955 with SMTP id
+ k12-20020adfd84c000000b002366f1a0955mr17545989wrl.111.1669227653704; 
+ Wed, 23 Nov 2022 10:20:53 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f16-20020a5d50d0000000b00235da296623sm17273348wrt.31.2022.11.23.10.13.10
+ c3-20020a5d4cc3000000b00241c4bd6c09sm14645553wrt.33.2022.11.23.10.20.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 10:13:11 -0800 (PST)
-Message-ID: <504f6645-5315-74c5-623d-d8bf231aec09@linaro.org>
-Date: Wed, 23 Nov 2022 19:13:09 +0100
+ Wed, 23 Nov 2022 10:20:53 -0800 (PST)
+Message-ID: <af92080f-e708-f593-7ff5-81b7b264d587@linaro.org>
+Date: Wed, 23 Nov 2022 19:20:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
+Subject: Re: [PATCH] gdbstub: move update guest debug to accel ops
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Cleber Rosa
- <crosa@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221118113309.1057790-1-alex.bennee@linaro.org>
- <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
- <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com> <87fse9bvmf.fsf@linaro.org>
+To: Mads Ynddal <mads@ynddal.dk>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: kvm@vger.kernel.org, Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20221123121712.72817-1-mads@ynddal.dk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87fse9bvmf.fsf@linaro.org>
+In-Reply-To: <20221123121712.72817-1-mads@ynddal.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,116 +94,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/11/22 15:12, Alex Bennée wrote:
-> Thomas Huth <thuth@redhat.com> writes:
->> On 23/11/2022 12.15, Philippe Mathieu-Daudé wrote:
->>> On 18/11/22 12:33, Alex Bennée wrote:
->>>> The old URL wasn't stable. I suspect the current URL will only be
->>>> stable for a few months so maybe we need another strategy for hosting
->>>> rootfs snapshots?
->>>>
->>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>>> ---
->>>>    tests/avocado/boot_linux_console.py | 4 ++--
->>>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/tests/avocado/boot_linux_console.py
->>>> b/tests/avocado/boot_linux_console.py
->>>> index 4c9d551f47..5a2923c423 100644
->>>> --- a/tests/avocado/boot_linux_console.py
->>>> +++ b/tests/avocado/boot_linux_console.py
->>>> @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
->>>>            dtb_path =
->>>> '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
->>>>            dtb_path = self.extract_from_deb(deb_path, dtb_path)
->>>>            rootfs_url =
->>>> ('http://storage.kernelci.org/images/rootfs/buildroot/'
->>>> -                      'kci-2019.02/armel/base/rootfs.ext2.xz')
->>>> -        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
->>>> +                      'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
->>>> +        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
->>> If Avocado doesn't find an artifact in its local cache, it will fetch it
->>> from the URL.
->>> The cache might be populated with artifacts previously downloaded, but
->>> their URL is not valid anymore (my case for many tests).
->>> We can also add artifacts manually, see [1].
->>> I'd rather keep pre-existing tests if possible, to test older
->>> (kernel / user-space) images. We don't need to run all the tests all
->>> the time:
->>> tests can be filtered by tags (see [2]).
->>> My preference here is to refactor this test, adding the
->>> "kci-2019.02"
->>> and "baseline-20221116.0" releases. I can prepare the patch if you /
->>> Thomas don't object.
->>
->> IMHO we shouldn't keep tests in the upstream git repository where the
->> binaries are not available in public anymore. They won't get run by
->> new contributors anymore, and also could vanish from the disks of the
->> people who previously downloaded it, once they wipe their cache or
->> upgrade to a new installation, so the test code will sooner or later
->> be bitrotting. But if you want to keep the tests around on your hard
->> disk, you could also stick the test in a local branch on your hard
->> disk instead.
+Hi,
+
+On 23/11/22 13:17, Mads Ynddal wrote:
+> From: Mads Ynddal <m.ynddal@samsung.com>
 > 
-> CI/Workstation splits aside I tend to agree with Thomas here that having
-> tests no one else can run will lead to an accretion of broken tests.
-
-Following this idea, should we remove all boards for which no open
-source & GPL software is available? I.e:
-
-40p                  IBM RS/6000 7020 (40p)
-akita                Sharp SL-C1000 (Akita) PDA (PXA270)
-midway               Calxeda Midway (ECX-2000)
-terrier              Sharp SL-C3200 (Terrier) PDA (PXA270)
-tosa                 Sharp SL-6000 (Tosa) PDA (PXA255)
-
-> Given the tests themselves are standalone couldn't the prospective test
-> hoarder keep their own personal repository to be run with the rest of the
-> in-tree code, something like:
+> Continuing the refactor of a48e7d9e52 (gdbstub: move guest debug support
+> check to ops) by removing hardcoded kvm_enabled() from generic cpu.c
+> code, and replace it with a property of AccelOpsClass.
 > 
->    cd my/test/zoo/repo
->    $(QEMU_BUILD)/tests/venv/bin/avocado run my_test_zoo.py
+> Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
+> ---
+>   accel/kvm/kvm-accel-ops.c  |  1 +
+>   cpu.c                      | 10 +++++++---
+>   include/sysemu/accel-ops.h |  1 +
+>   3 files changed, 9 insertions(+), 3 deletions(-)
 > 
-> for convenience we could maybe support an env variable so the existing
-> test selection tags would work:
-> 
->    set -x QEMU_AVOCADO_EXTRA_TESTS /my/test/zoo/repo
->    ./tests/venv/bin/avocado list
->    ...
->    <list all tests in qemu src tree and extra>
->    ...
-> 
-> ?
+> diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
+> index fbf4fe3497..6ebf9a644f 100644
+> --- a/accel/kvm/kvm-accel-ops.c
+> +++ b/accel/kvm/kvm-accel-ops.c
+> @@ -99,6 +99,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
+>       ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
+>   
+>   #ifdef KVM_CAP_SET_GUEST_DEBUG
+> +    ops->update_guest_debug = kvm_update_guest_debug;
+>       ops->supports_guest_debug = kvm_supports_guest_debug;
+>       ops->insert_breakpoint = kvm_insert_breakpoint;
+>       ops->remove_breakpoint = kvm_remove_breakpoint;
+> diff --git a/cpu.c b/cpu.c
+> index 2a09b05205..ef433a79e3 100644
+> --- a/cpu.c
+> +++ b/cpu.c
+> @@ -31,8 +31,8 @@
+>   #include "hw/core/sysemu-cpu-ops.h"
+>   #include "exec/address-spaces.h"
+>   #endif
+> +#include "sysemu/cpus.h"
+>   #include "sysemu/tcg.h"
+> -#include "sysemu/kvm.h"
+>   #include "sysemu/replay.h"
+>   #include "exec/cpu-common.h"
+>   #include "exec/exec-all.h"
+> @@ -378,10 +378,14 @@ void cpu_breakpoint_remove_all(CPUState *cpu, int mask)
+>   void cpu_single_step(CPUState *cpu, int enabled)
+>   {
+>       if (cpu->singlestep_enabled != enabled) {
+> +        const AccelOpsClass *ops = cpus_get_accel();
+> +
+>           cpu->singlestep_enabled = enabled;
+> -        if (kvm_enabled()) {
+> -            kvm_update_guest_debug(cpu, 0);
+> +
+> +        if (ops->update_guest_debug) {
+> +            ops->update_guest_debug(cpu, 0);
 
-Yes, this is what we use to test the Fuloong2E:
+Isn't this '0' flag here accelerator-specific? ...
 
-$ git grep RESCUE_YL_PATH tests/avocado/
-tests/avocado/machine_mips_fuloong2e.py:21: 
-@skipUnless(os.getenv('RESCUE_YL_PATH'), 'RESCUE_YL_PATH not available')
-tests/avocado/machine_mips_fuloong2e.py:34:        kernel_path = 
-self.fetch_asset('file://' + os.getenv('RESCUE_YL_PATH'),
+>           }
+> +
+>           trace_breakpoint_singlestep(cpu->cpu_index, enabled);
+>       }
+>   }
+> diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
+> index 8cc7996def..0a47a2f00c 100644
+> --- a/include/sysemu/accel-ops.h
+> +++ b/include/sysemu/accel-ops.h
+> @@ -48,6 +48,7 @@ struct AccelOpsClass {
+>   
+>       /* gdbstub hooks */
+>       bool (*supports_guest_debug)(void);
+> +    int (*update_guest_debug)(CPUState *cpu, unsigned long flags);
 
-The firmware is not open source / GPL but if you have a Fuloong2E board
-you can dump it from the flash, then use it to test QEMU from hard reset
-up to userland. Otherwise you are forced to use the -kernel argument.
+... if so the prototype should be:
 
->> The other possibility is to upload the binaries to a new public
->> location in the web ... but for software that contains GPLed software,
->> you should then also make sure to provide the source code to comply
->> with the license.
-> 
-> This is the traditional reason we've lent so hard on external hosting
-> for binaries because the upstream doesn't want the hassle of maintaining
-> that sort of zoo of binaries. That said we have tests where binaries are
-> served from fileserver.linaro.org but its then only my problem to deal
-> with GPL requirements and not the upstream.
+        int (*update_guest_debug)(CPUState *cpu);
 
-Maybe we are discussing 2 different topics. I am in possession of
-old Solaris installation CDROMs and could boot some of them with
-qemu-system-sparc. I want to automatize my testing, and wrote Avocado
-scripts doing that. I suppose other QEMU users have similar CDROMs.
-If I contribute my tests, they can run them. Isn't it in the interest
-of the community to have such examples and tests available?
+and the '0' value set within kvm-accel-ops.c handler implementation.
+
+>       int (*insert_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
+>       int (*remove_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
+>       void (*remove_all_breakpoints)(CPUState *cpu);
 
 Regards,
 
