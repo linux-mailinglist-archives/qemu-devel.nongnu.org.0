@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211F5636B82
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 21:49:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9184636CAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 22:58:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxwfC-00071l-AT; Wed, 23 Nov 2022 15:48:10 -0500
+	id 1oxxkP-0004VR-Lw; Wed, 23 Nov 2022 16:57:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxwfA-00071b-5r
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 15:48:08 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxwf8-0000PW-E5
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 15:48:07 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id f9so13545688pgf.7
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 12:48:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UKMXNjjjx6Z3vk/4LUQmcSGs666tj0DK+6D6pRL36ZI=;
- b=nZokXcjxrFi+GL0/i7tTFc3r5cxrHukklcQB8vH4/Y5gRiVAH1lOP+EBvWJAMh7IZA
- qIDMqgQrmRntxqGamgwqN4NFs5aJMhukZ5famwsoqwYksUxyAMadcfW1yvmHm1iexs1p
- +Trvnn6T4MYBEQip39SfYUmqN7Wyd+BmOU51rF3uH4tajWQoVvNV8D8W2sVuwWW4XR1F
- gVnjAUGBoG1XVRM9FbgyRnnexgpF7WICMM9aqyE0FOxeTpj/IEUy7jGlqbGOdRBUdnTI
- Ot8HHJYu2TvxWgraLZhXht662IxYoORZ4OYNYLN3WmVt9bQxQIttnvJ5xXqsOjWHiMTY
- iW1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UKMXNjjjx6Z3vk/4LUQmcSGs666tj0DK+6D6pRL36ZI=;
- b=11wXyiqE/krcIs1DQglPFPCuNI8W1z5YmYAZIkB4QBVJEJIVmZtnSg6wYFLOFIaxlP
- Z4WxMAwNkmUVsbaz9P+/h3VRPJEcfg5Jk6eH5ljH5CLdMGXZeb6hMGWKuhsCdSxoyPg8
- x39ugTJSFXKVpJwl6AcJSdJ+A2F6haV3jKOaEoJdEsCLfREoyULRNgptmA1mICsBGMll
- NCj1YFAWiQJOIVpunWmUku+rrabqTkvmaeswLZzYuKy9xT13iZ3y6J07FtOQO3Vr7NXp
- naaSCy/mA4Oc31gm/HAEDpWqZ7UzY2uOK7cMn5J0REt9FYJo0Qaqki2FFoW5kEoeKSRh
- TBwA==
-X-Gm-Message-State: ANoB5pmtEbLBoCbgEDsq6z58leq536e+49q9y7+ltxQ6DxRpOGIbvlE0
- qWBBRQ9PJ+UbkUvUz5xTBcZvZ6UcPK7NvR1QKLoeWQ==
-X-Google-Smtp-Source: AA0mqf5CPe5VoPcNEA/VMc33u2rXaSZuVRKSiXlxjR/dYg9YYR3RBTuYnrLIJKfwHI2ChWh5MQU8Px0pWYhDJ0fDDKk=
-X-Received: by 2002:a62:5f81:0:b0:56b:bb06:7dd5 with SMTP id
- t123-20020a625f81000000b0056bbb067dd5mr11160368pfb.3.1669236483545; Wed, 23
- Nov 2022 12:48:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20221123144436.2141069-1-kraxel@redhat.com>
-In-Reply-To: <20221123144436.2141069-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Nov 2022 20:47:52 +0000
-Message-ID: <CAFEAcA8Y=Vbt2HF8ypshRy8DGbBUdVtfdEUG57Lrea64psZzVg@mail.gmail.com>
-Subject: Re: [PULL 0/7] Fixes 20221123 patches
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oxxkM-0004VG-8X
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 16:57:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oxxkK-0001jw-AK
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 16:57:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669240650;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=w8I2lq0eoaLFndmNmaf+GnKQPnWMJI9FIgxiYPxZt+I=;
+ b=IFwGkgDDKB8hFgjH1B95GANrxPJl9hHD8VOFwwH47tYiYdr3frkso6Z33aia0UPJQPmI/Q
+ +s3xQNytETgjFL19vE6K/PC+8OekIb2F1Giy39x2yTizOYt9pPE8iLAOaV3eFr7m8CbXR2
+ QfJz0irb5neteU0u6OHq51OQZBo+XAI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-292-xRiCZGj1N5W8Ja7k5wgLuQ-1; Wed, 23 Nov 2022 16:57:28 -0500
+X-MC-Unique: xRiCZGj1N5W8Ja7k5wgLuQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69AA9101A528;
+ Wed, 23 Nov 2022 21:57:28 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B387D2024CBE;
+ Wed, 23 Nov 2022 21:57:27 +0000 (UTC)
+Date: Wed, 23 Nov 2022 16:57:24 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PULL 0/7] Fixes 20221123 patches
+Message-ID: <Y36XREqtQtV/S09G@fedora>
+References: <20221123144436.2141069-1-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PaEDPidit5Vjzqja"
+Content-Disposition: inline
+In-Reply-To: <20221123144436.2141069-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,46 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 23 Nov 2022 at 14:45, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 7c09a7f6ae1770d15535980d15dffdb23f4d9786:
->
->   Update VERSION for v7.2.0-rc2 (2022-11-22 18:59:56 -0500)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/kraxel/qemu.git tags/fixes-20221123-pull-request
->
-> for you to fetch changes up to 7d3cf19548b7f9afd9d25c30dd1450aad7d1877d:
->
->   hw/audio/intel-hda: Drop unnecessary prototype (2022-11-23 12:30:45 +0100)
->
-> ----------------------------------------------------------------
-> ui+usb+audio: bugfixes for 7.2
->
-> ----------------------------------------------------------------
->
-> Claudio Fontana (1):
->   gtk: disable GTK Clipboard with a new meson option
->
-> Dongwon Kim (1):
->   ui/gtk: prevent ui lock up when dpy_gl_update called again before
->     current draw event occurs
->
-> Joelle van Dyne (1):
->   Revert "usbredir: avoid queuing hello packet on snapshot restore"
->
-> Michael Tokarev (1):
->   hw/usb/hcd-xhci.c: spelling: tranfer
->
-> Peter Maydell (3):
->   hw/usb/hcd-xhci: Reset the XHCIState with device_cold_reset()
->   hw/audio/intel-hda: don't reset codecs twice
->   hw/audio/intel-hda: Drop unnecessary prototype
 
-That reset-related series was for-8.0 material, it shouldn't be in
-a pullreq at this point in the release cycle I think.
+--PaEDPidit5Vjzqja
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-thanks
--- PMM
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--PaEDPidit5Vjzqja
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmN+l0MACgkQnKSrs4Gr
+c8gp5ggAhES2qdZtu8ZSkYD5QCLX1UMEwBfyvnbPT/Lg5qIBQlV0U8sYYQDjx9zk
+JGxUXd/7/9Gy/JVh7qKtW5gUs3kozZ7viK3rZjGJknFGSclHHx5SqUtiyZZWodZs
+na3rEx/AfSzBogHLsdQJU0EHo/feNe9SrJoeJPgNLxOz+WTZd2bTLHdzC3RuNqi6
+YKKcBTlEhyWCi64UVTRk2TORyDqowaW6tVEUQSV+byBx/F0CaWegC3eCVgfvIYM5
+BZoS3v+Spi/Cmljnik/D8ba2BvoJaP6/cKuVLZIbTuI/WASAnKzydFNxB39zHI4o
+USFlICh3WFaKxOThntIcjPvtKxIbFA==
+=ArwU
+-----END PGP SIGNATURE-----
+
+--PaEDPidit5Vjzqja--
+
 
