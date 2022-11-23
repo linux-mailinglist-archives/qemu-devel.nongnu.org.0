@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311DF634DBF
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 03:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7811634E99
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 05:09:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxfN4-00071t-K1; Tue, 22 Nov 2022 21:20:18 -0500
+	id 1oxh3G-0001Ai-M9; Tue, 22 Nov 2022 23:07:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1oxfN1-00071b-J9
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 21:20:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1oxfMu-0002Uu-Df
- for qemu-devel@nongnu.org; Tue, 22 Nov 2022 21:20:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669170006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=VFI4kxANs+RanTvn2oe88wzgSWDnZB3E8bBWRI/NVFo=;
- b=gAZBD8rqIkc9TFZQ+Ks5RI3LuEXuBa7LH5wRZHlM8DCbuTrUsOaDQk/TW57QM2FblpN29h
- mXt/w5gmCjbe+s2TgQGCJYaOkSKGW/cpnQnvNk67YT2bo5HWTjkYWsFHL8t47DXU9gX1d3
- NXml0SeQkVGww81kqPKIRvFNtLDiI0E=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-VRHD8ZXfOWCI99XCkxMvqQ-1; Tue, 22 Nov 2022 21:18:46 -0500
-X-MC-Unique: VRHD8ZXfOWCI99XCkxMvqQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A56D8833A06;
- Wed, 23 Nov 2022 02:18:45 +0000 (UTC)
-Received: from fenrir.redhat.com (unknown [10.22.16.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F814140EBF3;
- Wed, 23 Nov 2022 02:18:45 +0000 (UTC)
-From: Jon Maloy <jmaloy@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: jmaloy@redhat.com, jasowang@redhat.com, philmd@linaro.com,
- stefanha@redhat.com
-Subject: [PATCH] hw/usb: add configuration flags for emulated and passthru usb
- smartcard
-Date: Tue, 22 Nov 2022 21:18:42 -0500
-Message-Id: <20221123021842.1588898-1-jmaloy@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oxh3D-0001AI-Sz; Tue, 22 Nov 2022 23:07:55 -0500
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oxh3B-0001u7-My; Tue, 22 Nov 2022 23:07:55 -0500
+Received: by mail-qv1-xf35.google.com with SMTP id e15so11456365qvo.4;
+ Tue, 22 Nov 2022 20:07:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jbZyuMIHpXIHOd6u13l4k8Ufs0cHNeSzmAi3IWpxSt0=;
+ b=a2RFgrAJ//OPV4OUOYDAXcEmBoffp9WjreKBB1Sy3gmIL299rmhcMkyGtXaeBeXs14
+ dghsFv10OOafRIjTOTndueWmx3vxaJfTGrseLqj0BRfC4Q/MHwBjzZfgTg8QjPLvSwz9
+ HFhsXsjPymn+vE5WbYTm02pFVGtFu7xvl7zbug4h8lFN+6ypxxk53fhRqX2YEuWm3qgT
+ TMojnpyy/SYhw7KtmkbSWC8i7HElF3nXVuAbAsXcn3CsiDxSdEcJiiQqrbv/nEsKeOSl
+ cred4B9dB8kzM8trBHqjcEXBE/6wVCqkMnKLU0NOOfQJLkTxY2D6ks9PrD+zKQGAxZLN
+ fkWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jbZyuMIHpXIHOd6u13l4k8Ufs0cHNeSzmAi3IWpxSt0=;
+ b=n82JikMCHI5a1UGaEtAtY9juOXjj6jyQn2MZE1kuE5aU1DbLZ258/lPhddkJEeJaIz
+ bTqJ3W0AZ13fuOBIK99vv9VzBIiuQCCHKlFnBgIUZqwlnFjWY8WlK5j3gOTStOiPR0A1
+ kUfDXkIBGudx/y1IyGamNC0Fq9hwmbMtN42BvVshayCPoI4Q4Hu1sDLkYKuyd7lr62Vu
+ wdImbHoIIR6Gpogallq8z0sOYZpeuYxAwFj/zuZQvvBwlb+wo6Y7iv/Yu7PGhnzZ3J+h
+ Vs33E2iVfwBptEzLHJQunXKIN5vdfR9Dy1VWjCCLAsjbodaRXPkOhegflooRaH2/YEL3
+ L3Rg==
+X-Gm-Message-State: ANoB5pnqc0OdXHZcKt55Ui7tFrrb+//maqpcjuFYy18422Q+Ljy5qp+u
+ tn5GR2YrDWA/HHtMxS9W7LAVFOrgjy0mil9QI9w=
+X-Google-Smtp-Source: AA0mqf6aloAbHswbY9PnLnlWgk08TeKfanWSII7xN3Y1xxhuHu2f3TAZI8GHezhiIh7zTpp/4Cr9gMrF7fNSx9dmk/0=
+X-Received: by 2002:a05:6214:3b0b:b0:4c6:c42b:e0ba with SMTP id
+ nm11-20020a0562143b0b00b004c6c42be0bamr3255060qvb.51.1669176467303; Tue, 22
+ Nov 2022 20:07:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jmaloy@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221122154628.3138131-1-bmeng@tinylab.org>
+ <CAKmqyKMxtFQ7==QrtY_sPvxCjW0U-sBnegoa5TKOLO-J8=R=Mw@mail.gmail.com>
+In-Reply-To: <CAKmqyKMxtFQ7==QrtY_sPvxCjW0U-sBnegoa5TKOLO-J8=R=Mw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 23 Nov 2022 12:07:35 +0800
+Message-ID: <CAEUhbmXFwhpFv=PwEJBfYsbiViuB=GE_4r6MCjfBQ+UpHgkhqA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Dump sstatus CSR in riscv_cpu_dump_state()
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,55 +83,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We add two new configuration flags, USB_SMARTCARD_PASSTHRU and
-USB_SMARTCARD_EMULATED in order to improve configurability
-of these two functionalities.
+Hi Alistair,
 
-Signed-off-by: Jon Maloy <jmaloy@redhat.com>
----
- hw/usb/Kconfig     | 12 ++++++++++++
- hw/usb/meson.build |  4 ++--
- 2 files changed, 14 insertions(+), 2 deletions(-)
+On Wed, Nov 23, 2022 at 8:03 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Wed, Nov 23, 2022 at 2:07 AM Bin Meng <bmeng@tinylab.org> wrote:
+> >
+> > sstatus register dump is currently missing in riscv_cpu_dump_state().
+> >
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1332
+> > Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> >
+> > ---
+> >
+> >  target/riscv/cpu.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index d14e95c9dc..80d76f0181 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -382,6 +382,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> >              CSR_MHARTID,
+> >              CSR_MSTATUS,
+> >              CSR_MSTATUSH,
+> > +            CSR_SSTATUS,
+>
+> I don't think we need this. mstatus contains all of the information
+> already and there is limited space to print all of this information
+> out.
+>
 
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index ce4f433976..50a82badd6 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -108,6 +108,18 @@ config USB_SMARTCARD
-     bool
-     default y
-     depends on USB
-+    select USB_SMARTCARD_PASSTHRU
-+    select USB_SMARTCARD_EMULATED
-+
-+config USB_SMARTCARD_PASSTHRU
-+    bool
-+    default y
-+    depends on USB
-+
-+config USB_SMARTCARD_EMULATED
-+    bool
-+    default y
-+    depends on USB
- 
- config USB_STORAGE_MTP
-     bool
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 793df42e21..353006fb6c 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -51,8 +51,8 @@ softmmu_ss.add(when: 'CONFIG_USB_SMARTCARD', if_true: files('dev-smartcard-reade
- 
- if cacard.found()
-   usbsmartcard_ss = ss.source_set()
--  usbsmartcard_ss.add(when: 'CONFIG_USB_SMARTCARD',
--                      if_true: [cacard, files('ccid-card-emulated.c', 'ccid-card-passthru.c')])
-+  usbsmartcard_ss.add(when: 'CONFIG_USB_SMARTCARD_EMULATED', if_true: [cacard, files('ccid-card-emulated.c')])
-+  usbsmartcard_ss.add(when: 'CONFIG_USB_SMARTCARD_PASSTHRU', if_true: [cacard, files('ccid-card-passthru.c')])
-   hw_usb_modules += {'smartcard': usbsmartcard_ss}
- endif
- 
--- 
-2.35.3
+I am not sure what limited space restricts this? This is CPU state
+dump, and printing sstatus CSR seems reasonable to me. We do the
+similar thing in the gdb stub too.
 
+Regards,
+Bin
 
