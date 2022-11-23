@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EE363634E
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D1563634F
 	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:22:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxrYz-0004nI-MR; Wed, 23 Nov 2022 10:21:25 -0500
+	id 1oxrZF-0004pP-GC; Wed, 23 Nov 2022 10:21:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oxrYx-0004mu-R0
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:23 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oxrYv-0006QX-O6
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:23 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id B8BF63200201;
- Wed, 23 Nov 2022 10:21:16 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 23 Nov 2022 10:21:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669216876; x=
- 1669303276; bh=Bpzkm/pqw9X0+qFuY2n0rtbp1dgYmfCxWmx/QFzhiEs=; b=v
- kvzk28fRqg2CgFugQiYRgG9QywEfc2RnX40zFxJ8RXsvto8t5r9rHjAZZgtXP5Qd
- 9xHgeNF9qKa+9aClFZnA9fI1ZuYmP+JETgTCBT+sbSDoSjMzHayonfbCaAYyJFeH
- ogDx9BEAReZIYL/FNK9MFelZazgTLmwanx9sVdhPUKTV25O31lzQFVPzRIeY+AqX
- vIe052/6wIAT+dN3ImPigI8X5nGbARt9YoyljyPRATNOK7bzRV5enisjg86GGX9Y
- PAj8plQO+u6YtjSSlSjJm7yITM1HarrymismRql/B4rnbBrqhn06RlzTV/vYbetv
- I5H0DcJvcgSSy3YdRZJAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669216876; x=
- 1669303276; bh=Bpzkm/pqw9X0+qFuY2n0rtbp1dgYmfCxWmx/QFzhiEs=; b=A
- 4MkPcqezC/BUMwimOTwxajEQpoE6P74z2QGcNlrSg67qpKPDpdYxFeDjTHPf/Eqy
- Pa6eH07ULTcMjNAU6t/smtfw4yc57UDfv7WiQMlkV9qgpzFc2v/ADnBPQxXcy1I6
- MUhO7A5/TPbQ+BTOicPrEgFh/UeF6gpOesV2yLVCnfWZ9hd/Tluz00+EYtnqS0gl
- 3FC2bIf5x/MyYthok30xI7cCw4NWXVamhjnN3fKFkAdcHih3R//5FGcT9aMKumlX
- UMZdFqye0LHlE/nS0l3siSyV3tSZQ105+Ub1wZzfcp9R7G+zr0pjLrgrHMjOUYyN
- 2tllHDTl3Q4rV1D0wpG/Q==
-X-ME-Sender: <xms:bDp-Y9BmHhUDgeDkaigT5VQBU0PJYPcrJV5H5HS-hGubVVFB5QQrnQ>
- <xme:bDp-Y7jCBr4EsC-X1Soxm-dRWxYQKp8YnJtfX160LTQwES70uaTdWXnQKWSTEAiH3
- IqWfnNpw-riVkuAV1M>
-X-ME-Received: <xmr:bDp-Y4mQ0gTbBBY-PhrmUvreZq2DQW96vH773YAjDBe6RyRQpX8lvL1ybfgN8r7ZijHA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpedutdejffetteefkeejieehfeeuieeguedtveeijeeviefhffel
- vdfgudeihfdvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:bDp-Y3wMsoxWx8kgr4VBmli-nU3Ws-dZkqH8bpRUj_wb9B0z8UMSpQ>
- <xmx:bDp-YyR9miXh7wGJHPuBVeqRePAPFDB1qQKWx51Z1mT1f8M04h73tQ>
- <xmx:bDp-Y6Y8TOUQ-ocGlmmmJJcbDxULJ8U7aR0Hli7TKUpj0ADMAbEFhQ>
- <xmx:bDp-Y77VA4rbhNYGcNSmyCTBadBVQYapOSMl4qrsbfAj50Gp9jcSNA>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Nov 2022 10:21:15 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH] target/mips: Properly set C0_CMGCRBase after CPU reset
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20221114162526.355652-1-jiaxun.yang@flygoat.com>
-Date: Wed, 23 Nov 2022 15:21:07 +0000
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FBB584F6-1508-4251-8C58-16C3BD5A838E@flygoat.com>
-References: <20221114162526.355652-1-jiaxun.yang@flygoat.com>
-To: BALATON Zoltan via <qemu-devel@nongnu.org>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-Received-SPF: pass client-ip=64.147.123.19;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oxrZD-0004or-18
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:39 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oxrZB-0006Tl-7o
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:38 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ v124-20020a1cac82000000b003cf7a4ea2caso1680453wme.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 07:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=t6i2chXybZhHzH7CmCmYDx3Yy0sdjv4ra3ikgYcmUMA=;
+ b=p3FH76crndeXD+XKP0OoU85ergRXB5OSpex59vTnk8TS1KyBjJQ7XICxB/LyOBbJh5
+ RwCGpVqXbz3ZwhL+KH41+lt3LoBeED6XqOUmIzZNRd6eldnqlwd5fCdl4i021LOMm3eg
+ N5wOFMdxqtN+z3xQn0sD4J0sbC1ht6aqVp7TRydRHMviUDCsUTb/59gq0fewF2Dm6n4T
+ /ZrMGjt8HpL7LCuQHwHO4c8UQWWkufqjeAYYEXQrF7y39nZRBbnY5diTWyuBMBv02N8n
+ MkGhKCW7+Ll/P5eY+BDPOgGiyyUBkCLKOPjQOl35ZthKEPrkzXfqJUzpI6+5y1R2SgGm
+ Rcnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t6i2chXybZhHzH7CmCmYDx3Yy0sdjv4ra3ikgYcmUMA=;
+ b=J1izaVv9MKPxKPoVTFT1OYoUPLnJAgeHfmJFjuooLUB5DnrEhCcesYhDmHtuWhPwg2
+ b0KaU9y5y32O+K7ogi4gDyKg8JSM937yQdDYKlWxHWtlWSqBiDo3E/5qs+QM18qGEdTs
+ QTWqBjuRfEPjvETS+VhT84bhoGvuQC1ALpWvczoM27aOdb4CW1xiP7BCVTNb5WGQEL+9
+ RkRdZIgW/YMKhb09LPCdBzy1hmZc/iudOnjSuLome3FbDE5QaBalcfm+9FeH+T7rvknk
+ sU74aWg9WI8tSVQWLGaoEDUKZVxbYwc5/2MshpvqEfOX1n5tpcquZGat2CSWEmvvfPlg
+ rxzw==
+X-Gm-Message-State: ANoB5pmZWmpGXCq7kqGnluwo79Uw/Cnqb7c6AKwm+HlEGIp/oeAyav8Z
+ 0Kf5K7HxDh4/CfiSXFhFVzfm5A==
+X-Google-Smtp-Source: AA0mqf5vcEa+G2aKoPj4JkFG1DvmcK2jHbjah9AGoOwW+FzMjj4L1iIoi2wpfPM+3Ikd/VXljaPDSg==
+X-Received: by 2002:a05:600c:5124:b0:3cf:878c:6555 with SMTP id
+ o36-20020a05600c512400b003cf878c6555mr9808420wms.38.1669216895730; 
+ Wed, 23 Nov 2022 07:21:35 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ l13-20020a5d668d000000b00236488f62d6sm16965023wru.79.2022.11.23.07.21.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 07:21:35 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 84A071FFB7;
+ Wed, 23 Nov 2022 15:21:34 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
+Date: Wed, 23 Nov 2022 15:21:32 +0000
+Message-Id: <20221123152134.179929-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,117 +93,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
+This hopefully fixes the problems with VirtIO migration caused by the
+previous refactoring of virtio_device_started(). That introduced a
+different order of checking which didn't give the VM state primacy but
+wasn't noticed as we don't properly exercise VirtIO device migration
+and caused issues when dev->started wasn't checked in the core code.
+The introduction of virtio_device_should_start() split the overloaded
+function up but the broken order still remained. The series finally
+fixes that by restoring the original semantics but with the cleaned up
+functions.
 
-> 2022=E5=B9=B411=E6=9C=8814=E6=97=A5 16:25=EF=BC=8CJiaxun Yang =
-<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Value of C0_CMGCRBase will be reseted to default when cpu reset
-> happens. In some cases software may move GCR base and then initiate
-> a CPU reset, this will leave C0_CMGCRBase of reseted core incorrect.
->=20
-> Implement a callback in CMGCR device to allow C0_CMGCRBase and other
-> global states to be overriden after CPU reset.
->=20
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
-> This fixes SMP boot for Boston board.
-> I'm not sure if it's the best palce to make such a callback,
-> but we can add more global states such as BEV here in future.
+I've added more documentation to the various structures involved as
+well as the functions. There is still some inconsistencies in the
+VirtIO code between different devices but I think that can be looked
+at over the 8.0 cycle.
 
-Ping :-)
+Alex Bennée (2):
+  include/hw: attempt to document VirtIO feature variables
+  include/hw: VM state takes precedence in virtio_device_should_start
 
-Any comments?
+ include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
+ include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
+ 2 files changed, 59 insertions(+), 9 deletions(-)
 
-> ---
-> hw/mips/cps.c        | 3 ++-
-> hw/misc/mips_cmgcr.c | 5 +++++
-> target/mips/cpu.c    | 4 +++-
-> target/mips/cpu.h    | 4 ++++
-> 4 files changed, 14 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-> index 2b436700ce..29b10ff8d0 100644
-> --- a/hw/mips/cps.c
-> +++ b/hw/mips/cps.c
-> @@ -98,6 +98,7 @@ static void mips_cps_realize(DeviceState *dev, Error =
-**errp)
->         cpu_mips_clock_init(cpu);
->=20
->         env =3D &cpu->env;
-> +        env->gcr =3D &s->gcr;
->         if (cpu_mips_itu_supported(env)) {
->             itu_present =3D true;
->             /* Attach ITC Tag to the VP */
-> @@ -158,7 +159,7 @@ static void mips_cps_realize(DeviceState *dev, =
-Error **errp)
->                             =
-sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->gic), 0));
->=20
->     /* Global Configuration Registers */
-> -    gcr_base =3D env->CP0_CMGCRBase << 4;
-> +    gcr_base =3D GCR_BASE_ADDR;
->=20
->     object_initialize_child(OBJECT(dev), "gcr", &s->gcr, =
-TYPE_MIPS_GCR);
->     object_property_set_int(OBJECT(&s->gcr), "num-vp", s->num_vp,
-> diff --git a/hw/misc/mips_cmgcr.c b/hw/misc/mips_cmgcr.c
-> index 3c8b37f700..f2108b7d32 100644
-> --- a/hw/misc/mips_cmgcr.c
-> +++ b/hw/misc/mips_cmgcr.c
-> @@ -19,6 +19,11 @@
-> #include "hw/qdev-properties.h"
-> #include "hw/intc/mips_gic.h"
->=20
-> +void gcr_cpu_reset(struct MIPSGCRState *s, CPUMIPSState *env)
-> +{
-> +    env->CP0_CMGCRBase =3D s->gcr_base >> 4;
-> +}
-> +
-> static inline bool is_cpc_connected(MIPSGCRState *s)
-> {
->     return s->cpc_mr !=3D NULL;
-> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-> index e997c1b9cb..d0a76b95f7 100644
-> --- a/target/mips/cpu.c
-> +++ b/target/mips/cpu.c
-> @@ -297,7 +297,9 @@ static void mips_cpu_reset(DeviceState *dev)
->         env->CP0_EBase |=3D (int32_t)0x80000000;
->     }
->     if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
-> -        env->CP0_CMGCRBase =3D 0x1fbf8000 >> 4;
-> +        if (env->gcr) {
-> +            gcr_cpu_reset(env->gcr, env);
-> +        }
->     }
->     env->CP0_EntryHi_ASID_mask =3D (env->CP0_Config5 & (1 << =
-CP0C5_MI)) ?
->             0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
-> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-> index 0a085643a3..c345e6b1c7 100644
-> --- a/target/mips/cpu.h
-> +++ b/target/mips/cpu.h
-> @@ -1154,6 +1154,7 @@ typedef struct CPUArchState {
->     CPUMIPSTLBContext *tlb;
->     void *irq[8];
->     struct MIPSITUState *itu;
-> +    struct MIPSGCRState *gcr;
->     MemoryRegion *itc_tag; /* ITC Configuration Tags */
-> #endif
->=20
-> @@ -1310,6 +1311,9 @@ void cpu_mips_soft_irq(CPUMIPSState *env, int =
-irq, int level);
-> /* mips_itu.c */
-> void itc_reconfigure(struct MIPSITUState *tag);
->=20
-> +/* mips_cmgcr.c */
-> +void gcr_cpu_reset(struct MIPSGCRState *s, CPUMIPSState *env);
-> +
-> #endif /* !CONFIG_USER_ONLY */
->=20
-> /* helper.c */
-> --=20
-> 2.37.4
->=20
+-- 
+2.34.1
 
 
