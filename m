@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B332636180
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16B0636142
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:14:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqcJ-0002VY-45; Wed, 23 Nov 2022 09:20:47 -0500
+	id 1oxqVM-0000Hb-TQ; Wed, 23 Nov 2022 09:13:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxqc3-0002OK-3F
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:20:31 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oxqVJ-0000HJ-LQ
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:13:33 -0500
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxqc0-0004ds-Fc
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:20:30 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id g12so29575302wrs.10
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 06:20:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oxqVE-0002sj-JI
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:13:31 -0500
+Received: by mail-lj1-x234.google.com with SMTP id z24so21532602ljn.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 06:13:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7rpAnIPSYWoMxczquQfxD1mO9XbzC9hj061ZXmrPvLc=;
- b=njt83PkL6Zjo7kGzZJ2/CKsgUqb4EMBOYjJ/FWTUVO9oX26RZOVmuChzjMwzOdzC6M
- LudVDv2yB5jI6T7XjN9QVUYkS3711kUXKXyY9uiuvQVutRDqrTm4cYC4yYrMWEiCCzfG
- tib12cvNSaFOmTW/x//cbLW7t2Kqey3EZfVPAaIPa0iNKoUvuZDvkL4U5c/xjkSIUbVj
- TJ/tsioU0ClHJlAAB1xzCzOGr7whVJrD8bfX2AQdCvympl5HeWCaVnttmJ4bIm1qMZVR
- qCUp1Qf1+ZO6OXr+a1jkstDY6HGk5jQ4dingEcWiq//85z9TlThqamO7ehf3CKm9qSTm
- mvqA==
+ bh=sg8Jj1A/E263IFB05cj4OCNikbZh5MPzP026k4jLNEo=;
+ b=iqRL1I0lyixWnC9JyLNzJqI6q03+tP4BqwC+omCdtHloWmLk+zc5juqd1Cl2gXheSu
+ Xxve+ziQwcDY7YAp1duPO3lFtlIVj1fIKypEdPKf2PJTbosJlSB1JnndkLDuzFTmimW3
+ 8oBjKmU1pujZ5nULSXrVMeRNz3kuD9qN0AJs+Riyxusm6if5ciJJ4H75OiCoLdf6bO4k
+ wbI+C61yO8y2LD7ho2ToT7x+l54azspNdfKb7LaimkQtKYuQMvOCgqX/JXAAVAakpxsV
+ 2Df8I/vJ8e3KdIf5T9DJsKweYFtqZqMwcuAhxGPSdTPaj+cwk9MsDO5bITJ6ZCYYBc6A
+ J7BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=7rpAnIPSYWoMxczquQfxD1mO9XbzC9hj061ZXmrPvLc=;
- b=CuPb99x2mD7sboXwDN3Erd3oMiiMDQtqOp21jr6mhfDs69Zl/ab7C81PAhumgEN0ds
- e6knoVUQRzHGj2pij8OJOEGAFSDm8HH6WnZxAOHiJ4fOWlT0DTSbA9e53X54VNp4UexU
- eIcog9zpNnVw7jKsuBvo+TAXlvcBRmz/Cy76+YcbPmCT2adszykAdMmuQSqAdzHlYRiD
- wlCdjVK26NUGcuaSu/6fxjdsU3jOsL7I8OX9NsWS9Gn4oR1g1WEmPXW1gZceFvnNY68N
- tByY4KcOQ3av1PHSuEV80xNB4cBdxJedfczMrIS3LHAHkmH4chlp4nr69VsqPehsgp4k
- vmmA==
-X-Gm-Message-State: ANoB5pk8cbkJvUXQBQGaa+p2PNM32JQe7grQQAu2wu6BixZ5rFyFqXLc
- 0KBHRA8T+VJhIr5EsY/X+XTa5wgBotJ9Iw==
-X-Google-Smtp-Source: AA0mqf4oIWVUqx9LuAL6aaXnfFWN4MsT7asf0JLZgTvRDVuPuKwmCnZ469rE0SNfzDBPpY//uNVnsg==
-X-Received: by 2002:adf:fa92:0:b0:241:d93a:5769 with SMTP id
- h18-20020adffa92000000b00241d93a5769mr7030272wrr.606.1669213226148; 
- Wed, 23 Nov 2022 06:20:26 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- j42-20020a05600c1c2a00b003cfb7c02542sm2635729wms.11.2022.11.23.06.20.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 06:20:25 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C358F1FFB7;
- Wed, 23 Nov 2022 14:20:24 +0000 (GMT)
-References: <20221118113309.1057790-1-alex.bennee@linaro.org>
- <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
- <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
-User-agent: mu4e 1.9.3; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>, Wainer dos Santos
- Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
-Date: Wed, 23 Nov 2022 14:12:07 +0000
-In-reply-to: <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
-Message-ID: <87fse9bvmf.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sg8Jj1A/E263IFB05cj4OCNikbZh5MPzP026k4jLNEo=;
+ b=VyQCzRSwSzKX8GQzkcnXJy4iBrJm88hLfUtG4bjAeNvAkXAscUxtMLlqq3tE1GgCk5
+ jUZSUK0BqPV/glSu5dMvjEKDM8829TZX2Yq5SmCtkJPF5KZm6CuUuJmd4QWbfX71V7Yd
+ wohvZggMa+2vmOrIciZWt9TW3X02oR60kiZ1ETnhJwUJ9wh8yrpUTNVY3VFmExioJsSy
+ Glccv0JhH3u5535OsTx//MRyxz6vZ9QUgUYg3FJA6ni6aXm2SFfCJQZk0/qJ2UmQcO+1
+ hauXVJwouhD4BU+ihYsvCwTOu+zuK6y7NseRaBw9+LXArPJIMu1YyBghYR2P4pXPRUdj
+ mBGQ==
+X-Gm-Message-State: ANoB5pleL/D8FqUSqF/3LradGmko9OTAXPLSWR7WKAHqbJFYpHPS4X/G
+ EcTRE0ruQ+OAWb+PdDxs5rDnujUQ579BP16ogSQ=
+X-Google-Smtp-Source: AA0mqf4uGv/kmPq37NwZRPqC07hhFPTXLBDFwNW1G4KqnkJPKR44Rw8oKbytYiYpnMEIceaTEAIO8baioY0fYIap5EE=
+X-Received: by 2002:a05:651c:200c:b0:279:3d7a:c240 with SMTP id
+ s12-20020a05651c200c00b002793d7ac240mr6397113ljo.289.1669212806146; Wed, 23
+ Nov 2022 06:13:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20221028045736.679903-1-bin.meng@windriver.com>
+ <20221028045736.679903-12-bin.meng@windriver.com>
+In-Reply-To: <20221028045736.679903-12-bin.meng@windriver.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 23 Nov 2022 18:13:14 +0400
+Message-ID: <CAJ+F1CJnW-95ZpfBBKFX=O_XsFOZ+quTU4dYmK8Cr8B-Ww_Hqw@mail.gmail.com>
+Subject: Re: [PATCH v6 11/11] tests/qtest: Enable qtest build on Windows
+To: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x234.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,96 +86,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Bin
 
-Thomas Huth <thuth@redhat.com> writes:
-
-> On 23/11/2022 12.15, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 18/11/22 12:33, Alex Benn=C3=A9e wrote:
->>> The old URL wasn't stable. I suspect the current URL will only be
->>> stable for a few months so maybe we need another strategy for hosting
->>> rootfs snapshots?
->>>
->>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>> ---
->>> =C2=A0 tests/avocado/boot_linux_console.py | 4 ++--
->>> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/tests/avocado/boot_linux_console.py
->>> b/tests/avocado/boot_linux_console.py
->>> index 4c9d551f47..5a2923c423 100644
->>> --- a/tests/avocado/boot_linux_console.py
->>> +++ b/tests/avocado/boot_linux_console.py
->>> @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dtb_path =3D
->>> '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dtb_path =3D sel=
-f.extract_from_deb(deb_path, dtb_path)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rootfs_url =3D
->>> ('http://storage.kernelci.org/images/rootfs/buildroot/'
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'kci-2019.02/arme=
-l/base/rootfs.ext2.xz')
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rootfs_hash =3D '692510cb62=
-5efda31640d1de0a8d60e26040f061'
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'buildroot-baseli=
-ne/20221116.0/armel/rootfs.ext2.xz')
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rootfs_hash =3D 'fae32f337c=
-7b87547b10f42599acf109da8b6d9a'
->> If Avocado doesn't find an artifact in its local cache, it will fetch it
->> from the URL.
->> The cache might be populated with artifacts previously downloaded, but
->> their URL is not valid anymore (my case for many tests).
->> We can also add artifacts manually, see [1].
->> I'd rather keep pre-existing tests if possible, to test older
->> (kernel / user-space) images. We don't need to run all the tests all
->> the time:
->> tests can be filtered by tags (see [2]).
->> My preference here is to refactor this test, adding the
->> "kci-2019.02"
->> and "baseline-20221116.0" releases. I can prepare the patch if you /
->> Thomas don't object.
+On Fri, Oct 28, 2022 at 9:06 AM Bin Meng <bin.meng@windriver.com> wrote:
 >
-> IMHO we shouldn't keep tests in the upstream git repository where the
-> binaries are not available in public anymore. They won't get run by
-> new contributors anymore, and also could vanish from the disks of the
-> people who previously downloaded it, once they wipe their cache or
-> upgrade to a new installation, so the test code will sooner or later
-> be bitrotting. But if you want to keep the tests around on your hard
-> disk, you could also stick the test in a local branch on your hard
-> disk instead.
+> Now that we have fixed various test case issues as seen when running
+> on Windows, let's enable the qtest build on Windows.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-CI/Workstation splits aside I tend to agree with Thomas here that having
-tests no one else can run will lead to an accretion of broken tests.
-Given the tests themselves are standalone couldn't the prospective test
-hoarder keep their own personal repository to be run with the rest of the
-in-tree code, something like:
+We haven't solved the CI timing out or eating all the CPU time, right?
 
-  cd my/test/zoo/repo
-  $(QEMU_BUILD)/tests/venv/bin/avocado run my_test_zoo.py
+Can we simply exclude it from CI for now, ie add to this patch
 
-for convenience we could maybe support an env variable so the existing
-test selection tags would work:
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 093276ddbc..ba9045ec38 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -62,7 +62,7 @@ msys2-64bit:
+   - .\msys64\usr\bin\bash -lc './configure --target-list=3Dx86_64-softmmu
+       --enable-capstone'
+   - .\msys64\usr\bin\bash -lc 'make'
+-  - .\msys64\usr\bin\bash -lc 'make check || { cat
+build/meson-logs/testlog.txt; exit 1; } ;'
++  - .\msys64\usr\bin\bash -lc 'make check MTESTARGS=3D"--no-suite
+qtest" || { cat build/meson-logs/testlog.txt; exit 1; } ;'
 
-  set -x QEMU_AVOCADO_EXTRA_TESTS /my/test/zoo/repo
-  ./tests/venv/bin/avocado list
-  ...
-  <list all tests in qemu src tree and extra>
-  ...
+ msys2-32bit:
+   extends: .shared_msys2_builder
+@@ -96,4 +96,4 @@ msys2-32bit:
+   - cd output
+   - ..\msys64\usr\bin\bash -lc "../configure --target-list=3Dppc64-softmmu=
+"
+   - ..\msys64\usr\bin\bash -lc 'make'
+-  - ..\msys64\usr\bin\bash -lc 'make check || { cat
+meson-logs/testlog.txt; exit 1; } ;'
++  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=3D"--no-suite
+qtest" || { cat meson-logs/testlog.txt; exit 1; } ;'
 
-?
 
-> The other possibility is to upload the binaries to a new public
-> location in the web ... but for software that contains GPLed software,
-> you should then also make sure to provide the source code to comply
-> with the license.
+Could you resubmit your missing win test patches and check if gitlab is hap=
+py?
 
-This is the traditional reason we've lent so hard on external hosting
-for binaries because the upstream doesn't want the hassle of maintaining
-that sort of zoo of binaries. That said we have tests where binaries are
-served from fileserver.linaro.org but its then only my problem to deal
-with GPL requirements and not the upstream.
+thanks
+
+>
+> ---
+>
+> Changes in v5:
+> - Drop patches that are already merged
+>
+> Changes in v3:
+> - Drop the host test
+>
+> Changes in v2:
+> - new patch: "tests/qtest: Enable qtest build on Windows"
+>
+>  tests/qtest/meson.build | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index c07a5b1a5f..f0ebb5fac6 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -1,9 +1,3 @@
+> -# All QTests for now are POSIX-only, but the dependencies are
+> -# really in libqtest, not in the testcases themselves.
+> -if not config_host.has_key('CONFIG_POSIX')
+> -  subdir_done()
+> -endif
+> -
+>  slow_qtests =3D {
+>    'ahci-test' : 60,
+>    'bios-tables-test' : 120,
+> --
+> 2.25.1
+>
+>
+
 
 --=20
-Alex Benn=C3=A9e
+Marc-Andr=C3=A9 Lureau
 
