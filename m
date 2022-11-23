@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7811634E99
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 05:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FE2634EEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 05:27:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxh3G-0001Ai-M9; Tue, 22 Nov 2022 23:07:58 -0500
+	id 1oxhKI-0003xQ-3G; Tue, 22 Nov 2022 23:25:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oxh3D-0001AI-Sz; Tue, 22 Nov 2022 23:07:55 -0500
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oxh3B-0001u7-My; Tue, 22 Nov 2022 23:07:55 -0500
-Received: by mail-qv1-xf35.google.com with SMTP id e15so11456365qvo.4;
- Tue, 22 Nov 2022 20:07:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jbZyuMIHpXIHOd6u13l4k8Ufs0cHNeSzmAi3IWpxSt0=;
- b=a2RFgrAJ//OPV4OUOYDAXcEmBoffp9WjreKBB1Sy3gmIL299rmhcMkyGtXaeBeXs14
- dghsFv10OOafRIjTOTndueWmx3vxaJfTGrseLqj0BRfC4Q/MHwBjzZfgTg8QjPLvSwz9
- HFhsXsjPymn+vE5WbYTm02pFVGtFu7xvl7zbug4h8lFN+6ypxxk53fhRqX2YEuWm3qgT
- TMojnpyy/SYhw7KtmkbSWC8i7HElF3nXVuAbAsXcn3CsiDxSdEcJiiQqrbv/nEsKeOSl
- cred4B9dB8kzM8trBHqjcEXBE/6wVCqkMnKLU0NOOfQJLkTxY2D6ks9PrD+zKQGAxZLN
- fkWg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oxhKG-0003xH-H1
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 23:25:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oxhKE-0006b6-Ez
+ for qemu-devel@nongnu.org; Tue, 22 Nov 2022 23:25:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669177528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q6SqUlMt4XxuN47lJcyo9XafzcmO9pUrWuf3dS6wFKs=;
+ b=VjuS9bK3v24awC1J+E8laIue0h4H7xru7aoRIA1nEuWuagcQOrqWbSAiPnWrSUSjAInaJU
+ nr4cbh9195nvDBrtmiLEDY93s90aPcZk7Gk4SDyYZIozAp2cehJ8FvUzPyYVaOJtxIb1mX
+ QOFLNnrN69LDcqqKT0O4K5KRNCuflgw=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-437-a6AXqVaPOQiEsC_AotifIQ-1; Tue, 22 Nov 2022 23:25:27 -0500
+X-MC-Unique: a6AXqVaPOQiEsC_AotifIQ-1
+Received: by mail-oo1-f71.google.com with SMTP id
+ x6-20020a4a2a46000000b0049ca27b1507so7223094oox.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 20:25:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jbZyuMIHpXIHOd6u13l4k8Ufs0cHNeSzmAi3IWpxSt0=;
- b=n82JikMCHI5a1UGaEtAtY9juOXjj6jyQn2MZE1kuE5aU1DbLZ258/lPhddkJEeJaIz
- bTqJ3W0AZ13fuOBIK99vv9VzBIiuQCCHKlFnBgIUZqwlnFjWY8WlK5j3gOTStOiPR0A1
- kUfDXkIBGudx/y1IyGamNC0Fq9hwmbMtN42BvVshayCPoI4Q4Hu1sDLkYKuyd7lr62Vu
- wdImbHoIIR6Gpogallq8z0sOYZpeuYxAwFj/zuZQvvBwlb+wo6Y7iv/Yu7PGhnzZ3J+h
- Vs33E2iVfwBptEzLHJQunXKIN5vdfR9Dy1VWjCCLAsjbodaRXPkOhegflooRaH2/YEL3
- L3Rg==
-X-Gm-Message-State: ANoB5pnqc0OdXHZcKt55Ui7tFrrb+//maqpcjuFYy18422Q+Ljy5qp+u
- tn5GR2YrDWA/HHtMxS9W7LAVFOrgjy0mil9QI9w=
-X-Google-Smtp-Source: AA0mqf6aloAbHswbY9PnLnlWgk08TeKfanWSII7xN3Y1xxhuHu2f3TAZI8GHezhiIh7zTpp/4Cr9gMrF7fNSx9dmk/0=
-X-Received: by 2002:a05:6214:3b0b:b0:4c6:c42b:e0ba with SMTP id
- nm11-20020a0562143b0b00b004c6c42be0bamr3255060qvb.51.1669176467303; Tue, 22
- Nov 2022 20:07:47 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=q6SqUlMt4XxuN47lJcyo9XafzcmO9pUrWuf3dS6wFKs=;
+ b=g55WuwVDYNRnyTL7lx9Q1h9WKf9lC3hhkaMpk2y+AfIPxMsySS5bkHcrwzxxd5xKC6
+ 1WbjxS4M7aFH2lCLNagrGK14uEyC5tlki/7jrF9/w//IkKLK97tFgWqiftFkk3Qt/nnE
+ ZI56m3zNeQEDyBzx+IrWY6/o63VjMzF9alsHLoblO5LfbaR5ZNekF6BML1/SWurqCzvH
+ QHslS4ddVFyGNrgtqWICg2PuSeDGxNkqzSRBSw4p7KIEGPWGqgWRzW1tpZ4cXFeO8kF/
+ j38leh4l+IXjUJnkQHpFNetcBUONgh4v+CEdvc070tJ29/DyWgsnCx0tmOx+G/sc70Jo
+ 7jHQ==
+X-Gm-Message-State: ANoB5pn3wmBvTa/qQyrjpekb7qm3oNTSaIBkCDamTLUMtDj0seELpot/
+ jJ0kYUiAZCTnB9SOyBjuM1fhNtPAP+I5s851uXa/M4Pmz942PAIU763mb96CEAgTH1vvE6QK7hA
+ bo1/B1Vvomqjh9RfKUIgQ9aX+5VU39Dg=
+X-Received: by 2002:a9d:4f07:0:b0:66c:64d6:1bb4 with SMTP id
+ d7-20020a9d4f07000000b0066c64d61bb4mr13602843otl.201.1669177526703; 
+ Tue, 22 Nov 2022 20:25:26 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6OtaHbNNA0OiV1OXpR51mE8nOFAiK//2lScY1eAZt7KtbVn77PHYNY7C4Sq40jn+SNfa965r/g+gRoWLXwH84=
+X-Received: by 2002:a9d:4f07:0:b0:66c:64d6:1bb4 with SMTP id
+ d7-20020a9d4f07000000b0066c64d61bb4mr13602836otl.201.1669177526451; Tue, 22
+ Nov 2022 20:25:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20221122154628.3138131-1-bmeng@tinylab.org>
- <CAKmqyKMxtFQ7==QrtY_sPvxCjW0U-sBnegoa5TKOLO-J8=R=Mw@mail.gmail.com>
-In-Reply-To: <CAKmqyKMxtFQ7==QrtY_sPvxCjW0U-sBnegoa5TKOLO-J8=R=Mw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 23 Nov 2022 12:07:35 +0800
-Message-ID: <CAEUhbmXFwhpFv=PwEJBfYsbiViuB=GE_4r6MCjfBQ+UpHgkhqA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Dump sstatus CSR in riscv_cpu_dump_state()
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+References: <20221122145349.86072-1-marcandre.lureau@redhat.com>
+ <CAJaqyWde_4XBu_etY9xYN7ZJwS5KR7hzwEewJyYptNSO=ckUPw@mail.gmail.com>
+In-Reply-To: <CAJaqyWde_4XBu_etY9xYN7ZJwS5KR7hzwEewJyYptNSO=ckUPw@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 23 Nov 2022 12:25:15 +0800
+Message-ID: <CACGkMEuisLMk7gKGb7PqsDoVwaQP8h5+HnBc5k=VpuWJwtW3Gw@mail.gmail.com>
+Subject: Re: [PATCH] vhost-vdpa: skip TPM CRB memory section
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf35.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,41 +95,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Alistair,
-
-On Wed, Nov 23, 2022 at 8:03 AM Alistair Francis <alistair23@gmail.com> wrote:
+On Wed, Nov 23, 2022 at 12:50 AM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
-> On Wed, Nov 23, 2022 at 2:07 AM Bin Meng <bmeng@tinylab.org> wrote:
+> On Tue, Nov 22, 2022 at 3:53 PM <marcandre.lureau@redhat.com> wrote:
 > >
-> > sstatus register dump is currently missing in riscv_cpu_dump_state().
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1332
-> > Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> > 851d6d1a0f ("vfio/common: remove spurious tpm-crb-cmd misalignment
+> > warning") removed the warning on vfio_listener_region_add() path.
 > >
+> > An error is reported for vhost-vdpa case:
+> > qemu-kvm: vhost_vdpa_listener_region_add received unaligned region
+> >
+> > Skip the CRB device.
+> >
+> > Fixes:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2141965
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+>
+> And CCing Jason too.
+
+Adding Cindy.
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+Thanks
+
+>
 > > ---
+> >  hw/virtio/vhost-vdpa.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
 > >
-> >  target/riscv/cpu.c | 1 +
-> >  1 file changed, 1 insertion(+)
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 7468e44b87..9d7206e4b8 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -19,6 +19,7 @@
+> >  #include "hw/virtio/virtio-net.h"
+> >  #include "hw/virtio/vhost-shadow-virtqueue.h"
+> >  #include "hw/virtio/vhost-vdpa.h"
+> > +#include "sysemu/tpm.h"
+> >  #include "exec/address-spaces.h"
+> >  #include "migration/blocker.h"
+> >  #include "qemu/cutils.h"
+> > @@ -46,6 +47,11 @@ static bool vhost_vdpa_listener_skipped_section(Memo=
+ryRegionSection *section,
+> >  {
+> >      Int128 llend;
 > >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index d14e95c9dc..80d76f0181 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -382,6 +382,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-> >              CSR_MHARTID,
-> >              CSR_MSTATUS,
-> >              CSR_MSTATUSH,
-> > +            CSR_SSTATUS,
->
-> I don't think we need this. mstatus contains all of the information
-> already and there is limited space to print all of this information
-> out.
+> > +    if (TPM_IS_CRB(section->mr->owner)) {
+> > +        /* The CRB command buffer has its base address unaligned. */
+> > +        return true;
+> > +    }
+> > +
+> >      if ((!memory_region_is_ram(section->mr) &&
+> >           !memory_region_is_iommu(section->mr)) ||
+> >          memory_region_is_protected(section->mr) ||
+> > --
+> > 2.38.1
+> >
 >
 
-I am not sure what limited space restricts this? This is CPU state
-dump, and printing sstatus CSR seems reasonable to me. We do the
-similar thing in the gdb stub too.
-
-Regards,
-Bin
 
