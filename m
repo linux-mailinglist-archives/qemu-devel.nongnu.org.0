@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A32635495
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 10:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299F963568D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 10:32:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxliY-0002if-6R; Wed, 23 Nov 2022 04:06:54 -0500
+	id 1oxm5x-0007HV-82; Wed, 23 Nov 2022 04:31:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1oxliQ-0002h4-MO
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 04:06:47 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1oxliP-00019R-48
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 04:06:46 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id v3so16254013pgh.4
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 01:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UNKYCtytvr8jFQvz0O1WJIqKW1bn3TAq0RY0MvG6XUU=;
- b=iJ/dEYcOdT1MNvY0THm89Cu7LkTChFKOc9U/GknA3u2o6T1JtmTnHZSQGqMpCwMAkT
- K+H9qjriRb+ysclQoVCfVB54VNoIUf37pHfvZFJ7KBpsXqWkHyNLHLAyeF3pgzhrzdVm
- Xo6sHU+8rhsKE92y8m6lDrcucIJFO3FWLvZtfdGbFSAwAgvDyBj7BTKGP4mX1/CAFeJi
- BBCDTRgi6wnmZR+Yp+5FDlQoC9r820Kk3xcrZgWlWNhM/rCJYciFJZJ9Pwkj1fGo05CT
- YJlTpIBTYqTrTllshV8XmnQt635dMgDIkXkr5EliquYjY9cijWr2lAFlwo/09s84o9F9
- B/lQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxm5g-0007Di-Vr
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 04:30:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxm5e-0004Mj-PA
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 04:30:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669195845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Totho/lv8e8jMWXtdnZV8dDJQnEL/npZ0sOF1CeQA44=;
+ b=fGXVhWUoBw5eLQDUhW27crQoUQk5m/XIx8lYN2ZKgAWPy7x6tVEu40bgZN9uE8mTTpNFPa
+ +1x/Ke8rM8nvjJx0neiLdgT0QnESRvVXT7TaDy3Sa9AC68f/9W5O2SM+EYuqkltatEJ+uD
+ 8LwXYGHv2URZbtvdTax4/rBJKu+kjwM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-324-8mEvFVO0OZib71JfoCP0Qw-1; Wed, 23 Nov 2022 04:30:42 -0500
+X-MC-Unique: 8mEvFVO0OZib71JfoCP0Qw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s1-20020adfa281000000b00241f7467851so15460wra.17
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 01:30:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UNKYCtytvr8jFQvz0O1WJIqKW1bn3TAq0RY0MvG6XUU=;
- b=SHnzz6xPwa+/1QAZbZwBM116kOxAHDCcpc3I/bBc7OPFa71NQVgzBRA0L/A3ODpflj
- ZmCZFhz+XoZdvx3+hYhQsNAXhSsQkJiaGXd5aY9g0i3Bcj+jP8gUR3gjtFgER0u7kG1J
- 7wwd1kBgnUe1zVWBCi6Xm553K3IRl701a4TGepbm2cdn7KCLs/ukBn/GEO4glZRdEmdJ
- pye3N1Te0OYEMrGog42Ovlcb2Ylhw9X2zQNzqeJhohZ8WiJzks5r4W9AAOs/jiwPhyBJ
- G5jQ2keJtSggxr2l80HaIm1jL23k9QqRgMiP4al6n3LNDOX9oOiWdl8GBR/ZbJqoKuct
- qFOA==
-X-Gm-Message-State: ANoB5pmBkQordKX9PB7r3nH1+JqFUclkwm38uGaJ7n3VsDPHkf6s6PUb
- QoRDdIV31sij2qXGUyluMdo2YGiMSxXoL5rdfgyeqhNA7jDTkCT0UVOqSvNmqcM7ehmfpRxqPm7
- tUUxCKyFAVxTH5HuTfHhIDfg1zTQPw4KL+P/YJSMlFOW18ImchNjJKUhKhHe1OTvzWg0=
-X-Google-Smtp-Source: AA0mqf7IxKfIqv1Xa8sX+fVOCp7xaDzsWCY9Z491objvYCupwQecjBNsvddVAU2L71LPRojSe7jPgA==
-X-Received: by 2002:aa7:8a03:0:b0:573:4ae5:e479 with SMTP id
- m3-20020aa78a03000000b005734ae5e479mr7757878pfa.71.1669194402851; 
- Wed, 23 Nov 2022 01:06:42 -0800 (PST)
-Received: from hsinchu25.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id
- z6-20020aa79906000000b005613220346asm12004559pff.205.2022.11.23.01.06.41
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Totho/lv8e8jMWXtdnZV8dDJQnEL/npZ0sOF1CeQA44=;
+ b=xYztmgHWiCrRXcV1ii1zbdb2tubx5kM+OrAmTIFZaVfYueQYJqR5oW5moZ7geXkBmJ
+ F/f3Tk1c2cph0Lwbohc7p0YfztFJ2aO/kQbdmlL/3+9oCyoOyJojbs+7ykA2IBdOMl9l
+ WX9+FZUxz7FEig2y6plS7CkPilp4Sepjm8rOeUiBDFDbd/wH3B+rYvrI+PBRGAodqPIB
+ JLVdrR/dVMGOjU3ury57XDxCvF6KbFutnHhPwNchcm8yzPvLC4MTRN7UT8BpnoyeIzRT
+ ePOaKaYnT7+sI0Z8FKt0xcyhEzMlD6t/NNtqRpGrqJ32XAUUl4IPnEScRPXmusmQoWo5
+ MkHg==
+X-Gm-Message-State: ANoB5plubNI2IpsfyPo9WtuT+jQvK0jflEUTo1ZhFv1c9h1+QBp/hdIb
+ gtjyCWrmoTbUeUTzRHhSwbKyNHAG1GwZu8w8dlJ4CvbJA++lrCDp+9StoB77bXcD2D71KyoKlHZ
+ NuRmcXd5fL3g653E=
+X-Received: by 2002:adf:e844:0:b0:241:bfc9:5975 with SMTP id
+ d4-20020adfe844000000b00241bfc95975mr9184146wrn.605.1669195841638; 
+ Wed, 23 Nov 2022 01:30:41 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Gr557XegSQv57m/KUYfkt4STY/rCiVOWsoiDBDPq5U4cDzL3IT4nEmwWmjhESsn9JERF7zQ==
+X-Received: by 2002:adf:e844:0:b0:241:bfc9:5975 with SMTP id
+ d4-20020adfe844000000b00241bfc95975mr9184134wrn.605.1669195841393; 
+ Wed, 23 Nov 2022 01:30:41 -0800 (PST)
+Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
+ y10-20020a5d620a000000b002366dd0e030sm16139761wru.68.2022.11.23.01.30.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 01:06:42 -0800 (PST)
-From: Jim Shu <jim.shu@sifive.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Jim Shu <jim.shu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH] target/riscv: support cache-related PMU events in virtual mode
-Date: Wed, 23 Nov 2022 09:06:29 +0000
-Message-Id: <20221123090635.6574-1-jim.shu@sifive.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=jim.shu@sifive.com; helo=mail-pg1-x52c.google.com
+ Wed, 23 Nov 2022 01:30:40 -0800 (PST)
+Date: Wed, 23 Nov 2022 04:30:37 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: Stefan Berger <stefanb@linux.ibm.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com,
+ stefanb@linux.vnet.ibm.com, cohuck@redhat.com, f4bug@amsat.org
+Subject: Re: [PATCH v5 1/2] sysemu: tpm: Add a stub function for TPM_IS_CRB
+Message-ID: <20221123043005-mutt-send-email-mst@kernel.org>
+References: <20220506132510.1847942-1-eric.auger@redhat.com>
+ <20220506132510.1847942-2-eric.auger@redhat.com>
+ <96940f79-a6e0-d14f-5d74-abe280846f26@linux.ibm.com>
+ <20221123013441-mutt-send-email-mst@kernel.org>
+ <45e916e5-9297-a8e4-c539-123e0ee6347c@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <45e916e5-9297-a8e4-c539-123e0ee6347c@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,36 +102,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-let tlb_fill() function also increments PMU counter when it is from
-two-stage translation, so QEMU could also monitor these PMU events when
-CPU runs in VS/VU mode (like running guest OS).
+On Wed, Nov 23, 2022 at 09:18:39AM +0100, Eric Auger wrote:
+> Hi,
+> 
+> On 11/23/22 07:36, Michael S. Tsirkin wrote:
+> > On Fri, May 06, 2022 at 09:47:52AM -0400, Stefan Berger wrote:
+> >>
+> >> On 5/6/22 09:25, Eric Auger wrote:
+> >>> In a subsequent patch, VFIO will need to recognize if
+> >>> a memory region owner is a TPM CRB device. Hence VFIO
+> >>> needs to use TPM_IS_CRB() even if CONFIG_TPM is unset. So
+> >>> let's add a stub function.
+> >>>
+> >>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >>> Suggested-by: Cornelia Huck <cohuck@redhat.com>
+> >> Reviewed-by: Stefan Berger <stefanb@linnux.ibm.com>
+> > ... and now in 7.2 vdpa needs a dependency on tpm too, what a hack :(
+> > And what exactly is it about TPM CRB that everyone needs to
+> > know about it and skip it? The API does not tell ...
+> An excerpt of one reply I made at that time:
+> 
+> The spec (CG PC Client Platform TPM Profile (PTP)
+>     Specification Family “2.0” Level 00 Revision 01.03 v22, page 100) 
+> says that the command/response data "may be defined as large as 3968",
+> which is (0x1000 - 0x80), 0x80 being the size of the control struct.
+> so the size of the region logically is less than a 4kB page, hence our
+> trouble.
+> 
+> We learnt in the past Windows driver has some stronger expectation wrt
+> memory mapping. I don't know if those latter would work if we were to
+> enlarge the window by some tricks.
+> 
+> https://trustedcomputinggroup.org/wp-content/uploads/Mobile-Command-Response-Buffer-Interface-v2-r12-Specification_FINAL2.pdf
+> says
+> 
+> "
+> Including the control structure, the three memory areas comprise the
+> entirety of the CRB. There are no constraints on how those three memory
+> areas are provided. They can all be in system RAM, or all be in device
+> memory, or any combination.
+> 
+> Thanks
+> 
+> Eric
 
-Signed-off-by: Jim Shu <jim.shu@sifive.com>
----
- target/riscv/cpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So we put it in system RAM then? But why isn't DMA there allowed?
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 278d163803..a52a9b14d7 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1248,6 +1248,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         }
-     }
- 
-+    pmu_tlb_fill_incr_ctr(cpu, access_type);
-     if (riscv_cpu_virt_enabled(env) ||
-         ((riscv_cpu_two_stage_lookup(mmu_idx) || two_stage_lookup) &&
-          access_type != MMU_INST_FETCH)) {
-@@ -1311,7 +1312,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-             }
-         }
-     } else {
--        pmu_tlb_fill_incr_ctr(cpu, access_type);
-         /* Single stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address, NULL,
-                                    access_type, mmu_idx, true, false, false);
--- 
-2.17.1
+> >
+> >>> ---
+> >>>   include/sysemu/tpm.h | 6 ++++++
+> >>>   1 file changed, 6 insertions(+)
+> >>>
+> >>> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+> >>> index 68b2206463c..fb40e30ff60 100644
+> >>> --- a/include/sysemu/tpm.h
+> >>> +++ b/include/sysemu/tpm.h
+> >>> @@ -80,6 +80,12 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
+> >>>   #define tpm_init()  (0)
+> >>>   #define tpm_cleanup()
+> >>>
+> >>> +/* needed for an alignment check in non-tpm code */
+> >>> +static inline Object *TPM_IS_CRB(Object *obj)
+> >>> +{
+> >>> +     return NULL;
+> >>> +}
+> >>> +
+> >>>   #endif /* CONFIG_TPM */
+> >>>
+> >>>   #endif /* QEMU_TPM_H */
+> >>
 
 
