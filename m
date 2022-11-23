@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D617A6361CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:30:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7826C63621E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:43:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqkP-0005wl-Nc; Wed, 23 Nov 2022 09:29:09 -0500
+	id 1oxqwT-0003OC-T8; Wed, 23 Nov 2022 09:41:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqkM-0005un-Es
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:29:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1oxqwR-0003Nv-0K
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:41:35 -0500
+Received: from mr85p00im-ztdg06021801.me.com ([17.58.23.195])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqkE-0007rp-Me
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:29:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669213733;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3fwo2+7/sIak6WUZZIyi/ZLxQbM4Y0xpeLeo41+sARA=;
- b=he/eiumWdkgpdqIbq7zBAIEEHOYHgfz2N28wWbCNwInQRXVjW7Ox0ZbemDMvW6fSfNVcJr
- DHVX36TIOpYIPTnRM8iFu6QJiTskTEmO8Sj1OrrAQZCRWUO1HVMcPdenv48vTpb2BiKVWY
- hOtwIj6aBxgroaJdRW7mUPbMXIy9qJ4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-D2mfpdfUM7mo1rc6U7tsxA-1; Wed, 23 Nov 2022 09:28:52 -0500
-X-MC-Unique: D2mfpdfUM7mo1rc6U7tsxA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85B1138173D2
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 14:28:51 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF65640C83BB;
- Wed, 23 Nov 2022 14:28:50 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL 3/3] tests/avocado: use new rootfs for orangepi test
-Date: Wed, 23 Nov 2022 15:28:43 +0100
-Message-Id: <20221123142843.346105-4-thuth@redhat.com>
-In-Reply-To: <20221123142843.346105-1-thuth@redhat.com>
-References: <20221123142843.346105-1-thuth@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1oxqwP-0002Z8-Ae
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:41:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1669214491; bh=YoTnueSOm5nRNUCyNMaLCXhvOGUqLJOkEgAT4C74spQ=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=A/G5kqbROZhHsUruc+wabTCDnpJWLessMk0Qq+bYbaWnjYJqDyEyqTnR7H+g5L3NM
+ tCXritpo9bLDzz1nPSBzozSp5G+G09TcU/3nc74NBp7vxGfpm/mKXtbA/ccSsIgTX4
+ WlTYfZ4DFUVkpUSuqR3omE9Wl66AJXF+nvjvUCPp3cuFKzvrfcoQLK3maHmYc9Sg/+
+ WQ2IU541fMMRRX8H7wN7HW7R74ZluaOwYQoHq2WtOkb+H+eJYnoof9/3TW9OTGpBdp
+ mTJqrroICyKNSk3jZ5LEw665Ne7mmyXKaU+6LXycKIP6bgW+4Ve/j3nw3MTTjadXsN
+ 5PbEjcIn6kqOw==
+Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.152.18])
+ by mr85p00im-ztdg06021801.me.com (Postfix) with ESMTPSA id 6B008D00941;
+ Wed, 23 Nov 2022 14:41:29 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH] gdbstub: move update guest debug to accel ops
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <87k03lbwaz.fsf@linaro.org>
+Date: Wed, 23 Nov 2022 15:41:17 +0100
+Cc: "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <460BA831-0D46-482A-A647-8C6E1C70CF52@ynddal.dk>
+References: <20221123121712.72817-1-mads@ynddal.dk> <87k03lbwaz.fsf@linaro.org>
+To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+X-Proofpoint-GUID: _L0Su5wXsImx2G-_Ibexfbi7zIDlVTp_
+X-Proofpoint-ORIG-GUID: _L0Su5wXsImx2G-_Ibexfbi7zIDlVTp_
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1030
+ phishscore=0
+ malwarescore=0 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=810 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2211230109
+Received-SPF: pass client-ip=17.58.23.195; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-ztdg06021801.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,35 +83,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
 
-The old URL wasn't stable. I suspect the current URL will only be
-stable for a few months so maybe we need another strategy for hosting
-rootfs snapshots?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221118113309.1057790-1-alex.bennee@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/avocado/boot_linux_console.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On 23 Nov 2022, at 15.05, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>=20
+> Nice. Looks good to me but I'll have a proper look when I go through =
+my
+> gdbstub/next queue. I don't think this is critical for 7.2.
+>=20
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index f3e6f44ae9..ec07c64291 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
-         dtb_path = '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
-         dtb_path = self.extract_from_deb(deb_path, dtb_path)
-         rootfs_url = ('http://storage.kernelci.org/images/rootfs/buildroot/'
--                      'kci-2019.02/armel/base/rootfs.ext2.xz')
--        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
-+                      'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
-+        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
-         rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
-         rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
-         archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
--- 
-2.31.1
-
+Thanks, and I agree. It can easily wait.=
 
