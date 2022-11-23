@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9304F63684C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:05:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8792A636859
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:14:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxu7P-0004XH-4u; Wed, 23 Nov 2022 13:05:07 -0500
+	id 1oxuEh-0006nF-76; Wed, 23 Nov 2022 13:12:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxu7M-0004R2-Ek
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:05:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxuEf-0006mg-He
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:12:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxu7K-0001nE-Uu
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:05:04 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxuEe-0003Gn-0a
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:12:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669226702;
+ s=mimecast20190719; t=1669227155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nKqH9EZlJplRmKzxQwDt99MsYOD/OXavxxZ4MJPbAvE=;
- b=GoDsL5SycdRqfEw08XdEM1voYU9m/i+tuNbfY2APKBXDNJ83dnLKyoW/rjPI/Hm/mLyZS0
- skywpVPeh4wLz4Douf8X8I6o3/NYsAkzKGhcGUnXeV8X908GQe/s0FlppeSFfQDvQNHUsu
- oL92mYE8/b28pq/0r4EUutdCfyY0RpI=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-108-hlTY0sg5OFm8NETRBzafiQ-1; Wed, 23 Nov 2022 13:05:00 -0500
-X-MC-Unique: hlTY0sg5OFm8NETRBzafiQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- on28-20020a056214449c00b004bbf12d7976so17091473qvb.18
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 10:05:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nKqH9EZlJplRmKzxQwDt99MsYOD/OXavxxZ4MJPbAvE=;
- b=BVtRNxdJZUPq7T1DrlBUYLsSS6k8A2wce2bK7a5WhgNT8a1sIfyTXJsxrMGgwVAdDO
- Y9V6TmUwwCdQt969KZ6LsOUppsQ6JIlCRbAJeU1sptXP597fSqzLBckPMJ0sLJaN3USM
- 4KPWwJwD7KOoAX1VTd/6mpndJez/AsSRdvAEh7XJ0rbuakPXQtjZcR4IFme08eXVKJLm
- iUxQVbp/PHjUyVXE+B+Qit5RIs+evArmI0Ol9quHSU8tz4z68vmBJBLPgoUFUdigEFue
- UH/dqpyGiOCm/Tmf4Ja5SVpq3m4O1eTexyzRG/uM9nKWSotIJ6aEIC1+JxC8xOv30xEL
- 1bcA==
-X-Gm-Message-State: ANoB5pnn7pmj+OB+PGGAJBWykMDf70XhTmSiSj7vf5s7S5Hx/ZX+RYqr
- 8J2p0vpYQDdEEwS1Tjb3+XNsuGar9kVjZGM7BKnfrfH/Iv+mW+6Zpuo/nvLJXwQR+ta5zvnLyp4
- /MbUP0RXlIMedKHE=
-X-Received: by 2002:ac8:683:0:b0:3a5:8b71:cca3 with SMTP id
- f3-20020ac80683000000b003a58b71cca3mr27712555qth.292.1669226700188; 
- Wed, 23 Nov 2022 10:05:00 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4cjaKm4hB8g7lecwmriTAUkG7UAT1AbxcWE5suc9+ShhS9tDRfdgwwdN1Aaf9bzU45sa574Q==
-X-Received: by 2002:ac8:683:0:b0:3a5:8b71:cca3 with SMTP id
- f3-20020ac80683000000b003a58b71cca3mr27712530qth.292.1669226699919; 
- Wed, 23 Nov 2022 10:04:59 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- bl6-20020a05620a1a8600b006ce9e880c6fsm12472292qkb.111.2022.11.23.10.04.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 10:04:59 -0800 (PST)
-Date: Wed, 23 Nov 2022 13:04:58 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-Subject: Re: [PATCH v5 1/2] io: Add support for MSG_PEEK for socket channel
-Message-ID: <Y35gyiCk/Kjdd1Lq@x1n>
-References: <20221123172735.25181-1-manish.mishra@nutanix.com>
- <20221123172735.25181-2-manish.mishra@nutanix.com>
+ bh=+LgJavRVeTWO9eKxf0CHgUmjkCetmIwB8QzYpORZN5g=;
+ b=Z19NjkBV+++e4nUdfX0LeEWoy7iJERlWartWg0cog/JZNHY5fNyCKyOgpXJJdcSCnLJmoj
+ NlpVa4Y7ZfF1krXgq3JJmfrxvz+iG3I88rLoHr3CSy5OffdA1faPUFSp7+6db87OhrcU5I
+ oOT17dczqGnXZR6uLYo5T700G9x/wzM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-97-7jCQ_gRsNXaMNreaMa6hYg-1; Wed, 23 Nov 2022 13:12:31 -0500
+X-MC-Unique: 7jCQ_gRsNXaMNreaMa6hYg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B0F2C29DD9B2;
+ Wed, 23 Nov 2022 18:12:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CA1F40C83BB;
+ Wed, 23 Nov 2022 18:12:27 +0000 (UTC)
+Date: Wed, 23 Nov 2022 19:12:24 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Ari Sundholm <ari@tuxera.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Eric Blake <eblake@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Alberto Garcia <berto@igalia.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, integration@gluster.org
+Subject: Re: [PATCH 00/15] Protect the block layer with a rwlock: part 3
+Message-ID: <Y35iiLUfoHKhAZEQ@redhat.com>
+References: <20221116140730.3056048-1-eesposit@redhat.com>
+ <e218aa44-6c49-d53f-d377-58a90a84db46@redhat.com>
+ <4a16c6dd-7806-429a-f62d-afd13bebc52c@redhat.com>
+ <Y34kBsj1NEV+kmJQ@redhat.com>
+ <e6b0dc87-8ff8-6388-748d-5eee25d374f2@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221123172735.25181-2-manish.mishra@nutanix.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <e6b0dc87-8ff8-6388-748d-5eee25d374f2@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,20 +93,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 05:27:34PM +0000, manish.mishra wrote:
-> MSG_PEEK reads from the peek of channel, The data is treated as
-> unread and the next read shall still return this data. This
-> support is currently added only for socket class. Extra parameter
-> 'flags' is added to io_readv calls to pass extra read flags like
-> MSG_PEEK.
+Am 23.11.2022 um 18:04 hat Paolo Bonzini geschrieben:
+> On 11/23/22 14:45, Kevin Wolf wrote:
+> > I think this means that if we clean up everything, in the end we'll have
+> > coroutine_wrapper and coroutine_wrapper_bdrv (the fourth version not in
+> > the above list, but that Paolo mentioned we may want to have).
 > 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.co
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com
-> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> Yes, I agree.
+> 
+> > The only thing I'm unsure about is whether coroutine_wrapper_bdrv is
+> > descriptive enough as a name or whether it should be something more
+> > explicit like coroutine_wrapper_bdrv_graph_locked.
+> 
+> That's already long and becomes longer if you add "mixed", but perhaps
+> co_wrapper_{mixed_,}{bdrv_graph_rdlock,} would be okay?
+> 
+> In other words:
+> 
+> generated_co_wrapper_simple -> co_wrapper
+> generated_co_wrapper        -> co_wrapper_mixed
+> generated_co_wrapper_bdrv   -> co_wrapper_mixed_bdrv_graph_rdlock
+> 
+> ?
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Works for me. Maybe co_wrapper_mixed_bdrv_rdlock (without the "graph")
+would be enough, too, if it is too long.
 
--- 
-Peter Xu
+Kevin
 
 
