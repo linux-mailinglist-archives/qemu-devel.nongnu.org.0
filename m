@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B9D6365A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 17:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1546365B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 17:26:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxsWZ-0008DI-DO; Wed, 23 Nov 2022 11:22:59 -0500
+	id 1oxsYy-0000uU-Jx; Wed, 23 Nov 2022 11:25:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxsWX-0008D8-9R
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:22:57 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oxsYs-0000tc-B6
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:25:22 -0500
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxsWV-0006SW-KQ
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:22:57 -0500
-Received: by mail-wm1-x330.google.com with SMTP id o30so13453954wms.2
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 08:22:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BkWgpVNENmMkTM7oSK2LXUY5f755z7PjdGK3ZXxp52M=;
- b=AtrBjFOuYCJqKKPsqkkNHGVhUYbWzFFfUzLncxG/09Amodz+LIkYZ6h3vo/gx8NArw
- b7IjikAdf5MPGdZmIWE2Oxy9o3pdevr4nzQo7mCKnGS9AbJaPmixTJZZJRB8n26JJg1w
- qil+6VFPkvCycB8VFzxzYKOijRWOANvFN6YNqzlmJBuqq6GgnPlEt0g8xMgPb+6wV2Zg
- gM9jRYlg8Cl4DYK+OqYt969fZE9WgKBZ+8wu78i4s6L/tY1Tth2d6dCLNw7GBToCZ46K
- w0RDhvtb0jYfhS+ZgAML0wz3D+P/vrG4pOs/kNJYBR+EV/6bHU4o/LAj1AJY9U2o+ow3
- SgBg==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oxsYp-0006wW-RT
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:25:21 -0500
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-3a7081e3b95so75230837b3.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 08:25:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=eqkorhGH7GJn0qqSGgD88WUh1DwHY4TNhG0P/7q0XEc=;
+ b=WG6HSBF+iuyll0lvZB7qvaUWP3OP6GaBsthcGqAMFGxju2IFx6RvPM3CZNH34skTn5
+ 0q8SaQOEgs+k1Xz+Fye4lZV4b5pg8WadnK6PTO86uS8URo91YbLEi7C7Ary/RgxNwQcN
+ azKdUxinwc7kqpZipKGqykeh4KxijHjsKC+TRNdffUF7nTo2DNuVcXVTCbeEn76gww+T
+ rJTckbYjDADfZMZ2L83J9buus7TH2Yrl/Jsdjxzbtkm0IFoDK9LnuzBoOjAmrr10+pTD
+ 36ih8ox6l4mcCJsQBRJNrE3vI+P8FITNyc05MzDWVyB2zBwiIok0y+gr/gaUHXhiJKIW
+ vrSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BkWgpVNENmMkTM7oSK2LXUY5f755z7PjdGK3ZXxp52M=;
- b=CPmwQn7dqN1DW8SfIdQGNzXVa0d8ZMP89fNJtY9UST/8rjrLsRh4UQYhN8gM5yzi7R
- he2PR1lcSPlmqL4dqXmfXhPfX/uGJ406qsR8HefnABDsZ59VKU7fsU6Dv3toIszNRglM
- tcNxylvbPVI+zsCIm6+/PizCqeiTos4DXF8hjkVyPILfGO8GmD5geBr9bsdd4K3dsJtF
- /WWE7zxsVWl98dGU4S4Z9btt4UrkiJ5whBULNKM9hOHDCE04KcLwju/QKtGfIgVg+h6t
- Z0b1kC5KB7AJq1xSJIKv8MO1AGjmMoziLzGUk/VAzjZOf7GgyGF0L1bi3mKRCXLAmgHC
- Upkg==
-X-Gm-Message-State: ANoB5pnOOw9E5BhPmfTdEoRnWAnmoyd0M0lRlj2RJuSJB6Eq57LVbPhA
- XRtQ7mY4F1G6tVGrSPQS9rcx7dRQvIgG+Q==
-X-Google-Smtp-Source: AA0mqf6e4HIQpaGidV9NdUnLht4HmVWCbx9jF9oXBczlZrNRKgQZdBC+B8fr4AUMuCZz5kzCIVNo/g==
-X-Received: by 2002:a1c:7504:0:b0:3cf:8ebf:69b with SMTP id
- o4-20020a1c7504000000b003cf8ebf069bmr11446681wmc.86.1669220573476; 
- Wed, 23 Nov 2022 08:22:53 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- g15-20020adff40f000000b00241db7deb57sm7368666wro.114.2022.11.23.08.22.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 08:22:53 -0800 (PST)
-Message-ID: <2a4bc1ad-500e-d87f-c319-35e260713659@linaro.org>
-Date: Wed, 23 Nov 2022 17:22:51 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eqkorhGH7GJn0qqSGgD88WUh1DwHY4TNhG0P/7q0XEc=;
+ b=DyoKzRuHn1+wRFIDDEiSe5xChKk3METqt7Zpgm9BWae6m08DEbynd52jPTcjr+vuP9
+ nAdlCgB4FwO0wrs5R9p1J/s+NkZ+4NExAknUfAidI+ZtzE+Jq/cWDdxPslgUEU5uLIiT
+ jW7d7gKCyeZWZttZQ6fAXiS9bghfEgVi5fWOMbIb6ccVY1SBhHGhakrEbRtKl9yiuQ9W
+ 8fqoT1qV4fZY1t+q5ZLB49gvi77S4GsHdgE/PhuNXOkCVZPnJfHdgb6wTgdF+kgCHSkB
+ IwWgwNHlDh35IeGk7rJN0qjx7VdDjZZQncEFzYqIvZWan/SKhHRGNQJl6TrK2Z4Cp1My
+ axWA==
+X-Gm-Message-State: ANoB5pkPBGfyz7BciV7P2rHvlQ7AqGkzEXRgz/yxztmJbAJAXFAkg653
+ Kwe5Peq45wKiK8h9m0/biUrHCLq2/ru0eMrlRPY=
+X-Google-Smtp-Source: AA0mqf52GJ+Av/rTmA4Y24SW2dqtPD8f2zz0LXVWrfCfMq2yJGe9BO3u8Ej6qzBKmaaMnleTTs8CTA443yL0OOZ1J6I=
+X-Received: by 2002:a0d:e807:0:b0:391:a199:fc13 with SMTP id
+ r7-20020a0de807000000b00391a199fc13mr18662830ywe.62.1669220713308; Wed, 23
+ Nov 2022 08:25:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH 3/3] tcg: Move ffi_cif pointer into TCGHelperInfo
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-References: <20221111074101.2069454-27-richard.henderson@linaro.org>
- <20221122180804.938-1-philmd@linaro.org>
- <20221122180804.938-4-philmd@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221122180804.938-4-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+References: <20221117064444.20648-1-faithilikerun@gmail.com>
+ <CAAAx-8JHmxe=9GuoZ+T1yqtLrrzk+-6_HL5EJ6LBJ+twOKp8sA@mail.gmail.com>
+ <CAJSP0QX3j9SbKW7tL6_vc9Ru518qWEG=288gkd+ArkHF05Vgsg@mail.gmail.com>
+ <ea14c43b-a740-3ac0-622c-1b6360565946@redhat.com>
+ <CAAAx-8+m17O076MPzpQAp9Q-O+_pD9PwUNmXkRHxaSY2EedTvg@mail.gmail.com>
+In-Reply-To: <CAAAx-8+m17O076MPzpQAp9Q-O+_pD9PwUNmXkRHxaSY2EedTvg@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 23 Nov 2022 11:25:01 -0500
+Message-ID: <CAJSP0QVqgaAMefrMfppRRmgimZpibAmiSsV7aLRE4tUUBivZCA@mail.gmail.com>
+Subject: Re: [qemu-web PATCH] Add a blog post about zoned storage emulation
+To: Sam Li <faithilikerun@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, hare@suse.de, 
+ Paolo Bonzini <pbonzini@redhat.com>, dmitry.fomichev@wdc.com, 
+ damien.lemoal@opensource.wdc.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,128 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/11/22 19:08, Philippe Mathieu-Daudé wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
-> 
-> Instead of requiring a separate hash table lookup,
-> put a pointer to the CIF into TCGHelperInfo.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20221111074101.2069454-27-richard.henderson@linaro.org>
-> [PMD: Split from bigger patch]
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   tcg/tcg-internal.h |  7 +++++++
->   tcg/tcg.c          | 26 ++++++++++++++------------
->   2 files changed, 21 insertions(+), 12 deletions(-)
-> 
-> diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-> index c7e87e193d..6e50aeba3a 100644
-> --- a/tcg/tcg-internal.h
-> +++ b/tcg/tcg-internal.h
-> @@ -25,6 +25,10 @@
->   #ifndef TCG_INTERNAL_H
->   #define TCG_INTERNAL_H
->   
-> +#ifdef CONFIG_TCG_INTERPRETER
-> +#include <ffi.h>
-> +#endif
-> +
->   #define TCG_HIGHWATER 1024
->   
->   /*
-> @@ -57,6 +61,9 @@ typedef struct TCGCallArgumentLoc {
->   typedef struct TCGHelperInfo {
->       void *func;
->       const char *name;
-> +#ifdef CONFIG_TCG_INTERPRETER
-> +    ffi_cif *cif;
-> +#endif
->       unsigned typemask           : 32;
->       unsigned flags              : 8;
->       unsigned nr_in              : 8;
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 9b24b4d863..d6a3036412 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
+Cool, thanks for posting an update.
 
-I forgot this hunk:
+An short introduction would be nice before diving into the details of ZBDs:
+"This summer I worked on adding Zoned Block Device (ZBD) support to
+virtio-blk as part of the <a
+href="https://www.outreachy.org/">Outreachy</a> internship program.
+QEMU hasn't directly supported ZBDs before so this article explains
+how they work and how QEMU needed to be extended."
 
--- >8 --
-@@ -62,10 +62,6 @@
-  #include "tcg/tcg-ldst.h"
-  #include "tcg-internal.h"
+Please include a sample command-line so readers have an idea of how to
+use ZBDs. Something like:
 
--#ifdef CONFIG_TCG_INTERPRETER
--#include <ffi.h>
--#endif
--
+"Once the QEMU and Linux patches have been merged it will be possible
+to expose a virtio-blk ZBD to the guest like this:
+--blockdev zoned_host_device,node-name=zbd0,filename=path/to/zbd,cache.direct=on
+\
+--device virtio-blk-pci,drive=zbd0"
 
----
+If you want to include URLs to the patch series, lore.kernel.org is
+good for linking:
+- https://lore.kernel.org/all/20221027154504.20684-1-faithilikerun@gmail.com/
+- https://lore.kernel.org/all/20221030093242.208839-1-faithilikerun@gmail.com/
+- https://lore.kernel.org/all/20221110053952.3378990-1-dmitry.fomichev@wdc.com/
 
-> @@ -552,8 +552,6 @@ static TCGHelperInfo all_helpers[] = {
->   static GHashTable *helper_table;
->   
->   #ifdef CONFIG_TCG_INTERPRETER
-> -static GHashTable *ffi_table;
-> -
->   static ffi_type *typecode_to_ffi(int argmask)
->   {
->       switch (argmask) {
-> @@ -576,9 +574,11 @@ static ffi_type *typecode_to_ffi(int argmask)
->   static void init_ffi_layouts(void)
->   {
->       /* g_direct_hash/equal for direct comparisons on uint32_t.  */
-> -    ffi_table = g_hash_table_new(NULL, NULL);
-> +    GHashTable *ffi_table = g_hash_table_new(NULL, NULL);
-> +
->       for (int i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
-> -        uint32_t typemask = all_helpers[i].typemask;
-> +        TCGHelperInfo *info = &all_helpers[i];
-> +        unsigned typemask = info->typemask;
->           gpointer hash = (gpointer)(uintptr_t)typemask;
->           struct {
->               ffi_cif cif;
-> @@ -586,8 +586,11 @@ static void init_ffi_layouts(void)
->           } *ca;
->           ffi_status status;
->           int nargs;
-> +        ffi_cif *cif;
->   
-> -        if (g_hash_table_lookup(ffi_table, hash)) {
-> +        cif = g_hash_table_lookup(ffi_table, hash);
-> +        if (cif) {
-> +            info->cif = cif;
->               continue;
->           }
->   
-> @@ -611,8 +614,12 @@ static void init_ffi_layouts(void)
->                                 ca->cif.rtype, ca->cif.arg_types);
->           assert(status == FFI_OK);
->   
-> -        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
-> +        cif = &ca->cif;
-> +        info->cif = cif;
-> +        g_hash_table_insert(ffi_table, hash, (gpointer)cif);
->       }
-> +
-> +    g_hash_table_destroy(ffi_table);
->   }
->   #endif /* CONFIG_TCG_INTERPRETER */
->   
-> @@ -4413,12 +4420,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
->       }
->   
->   #ifdef CONFIG_TCG_INTERPRETER
-> -    {
-> -        gpointer hash = (gpointer)(uintptr_t)info->typemask;
-> -        ffi_cif *cif = g_hash_table_lookup(ffi_table, hash);
-> -        assert(cif != NULL);
-> -        tcg_out_call(s, tcg_call_func(op), cif);
-> -    }
-> +    tcg_out_call(s, tcg_call_func(op), info->cif);
->   #else
->       tcg_out_call(s, tcg_call_func(op));
->   #endif
-
+Stefan
 
