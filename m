@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9EC6362E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:09:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EE363634E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:22:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxrMg-00016R-1F; Wed, 23 Nov 2022 10:08:42 -0500
+	id 1oxrYz-0004nI-MR; Wed, 23 Nov 2022 10:21:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxrMa-00015c-H8
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:08:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oxrYx-0004mu-R0
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:23 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oxrMY-0002er-9m
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:08:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669216113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HkA1tpezQ3RBV1lmwbL+L21FqhoK+ghKtk7igoeTwjI=;
- b=UgjwgTMurECqSyIAm3hJvAX+jdXqiwxYUlHvzGuv1DDApR14F+HdkPlmisIRwzpNcLd1d/
- W37cLwjPgSWHCHoCD3nsGlUTjKLg0mWemHYDC5Ebv4pM1iDQEpoeT4VnnbfeQOVX5858JE
- aV5j7OQgb62T30ZNDiq8Fw5OdUwjEBo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317--emDJ8NKO5mACCxgDTyJWA-1; Wed, 23 Nov 2022 10:08:29 -0500
-X-MC-Unique: -emDJ8NKO5mACCxgDTyJWA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E63E833AEF;
- Wed, 23 Nov 2022 15:08:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C8E840C6F75;
- Wed, 23 Nov 2022 15:08:28 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C5E2B21E6921; Wed, 23 Nov 2022 16:08:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org,  Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v2] Drop more useless casts from void * to pointer
-References: <20221123133811.1398562-1-armbru@redhat.com>
- <alpine.LMD.2.03.2211231441480.26886@eik.bme.hu>
- <Y34on7NQk44e07cM@redhat.com>
-Date: Wed, 23 Nov 2022 16:08:24 +0100
-In-Reply-To: <Y34on7NQk44e07cM@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Wed, 23 Nov 2022 14:05:19 +0000")
-Message-ID: <871qpt674n.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oxrYv-0006QX-O6
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:23 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id B8BF63200201;
+ Wed, 23 Nov 2022 10:21:16 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 23 Nov 2022 10:21:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669216876; x=
+ 1669303276; bh=Bpzkm/pqw9X0+qFuY2n0rtbp1dgYmfCxWmx/QFzhiEs=; b=v
+ kvzk28fRqg2CgFugQiYRgG9QywEfc2RnX40zFxJ8RXsvto8t5r9rHjAZZgtXP5Qd
+ 9xHgeNF9qKa+9aClFZnA9fI1ZuYmP+JETgTCBT+sbSDoSjMzHayonfbCaAYyJFeH
+ ogDx9BEAReZIYL/FNK9MFelZazgTLmwanx9sVdhPUKTV25O31lzQFVPzRIeY+AqX
+ vIe052/6wIAT+dN3ImPigI8X5nGbARt9YoyljyPRATNOK7bzRV5enisjg86GGX9Y
+ PAj8plQO+u6YtjSSlSjJm7yITM1HarrymismRql/B4rnbBrqhn06RlzTV/vYbetv
+ I5H0DcJvcgSSy3YdRZJAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669216876; x=
+ 1669303276; bh=Bpzkm/pqw9X0+qFuY2n0rtbp1dgYmfCxWmx/QFzhiEs=; b=A
+ 4MkPcqezC/BUMwimOTwxajEQpoE6P74z2QGcNlrSg67qpKPDpdYxFeDjTHPf/Eqy
+ Pa6eH07ULTcMjNAU6t/smtfw4yc57UDfv7WiQMlkV9qgpzFc2v/ADnBPQxXcy1I6
+ MUhO7A5/TPbQ+BTOicPrEgFh/UeF6gpOesV2yLVCnfWZ9hd/Tluz00+EYtnqS0gl
+ 3FC2bIf5x/MyYthok30xI7cCw4NWXVamhjnN3fKFkAdcHih3R//5FGcT9aMKumlX
+ UMZdFqye0LHlE/nS0l3siSyV3tSZQ105+Ub1wZzfcp9R7G+zr0pjLrgrHMjOUYyN
+ 2tllHDTl3Q4rV1D0wpG/Q==
+X-ME-Sender: <xms:bDp-Y9BmHhUDgeDkaigT5VQBU0PJYPcrJV5H5HS-hGubVVFB5QQrnQ>
+ <xme:bDp-Y7jCBr4EsC-X1Soxm-dRWxYQKp8YnJtfX160LTQwES70uaTdWXnQKWSTEAiH3
+ IqWfnNpw-riVkuAV1M>
+X-ME-Received: <xmr:bDp-Y4mQ0gTbBBY-PhrmUvreZq2DQW96vH773YAjDBe6RyRQpX8lvL1ybfgN8r7ZijHA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpedutdejffetteefkeejieehfeeuieeguedtveeijeeviefhffel
+ vdfgudeihfdvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:bDp-Y3wMsoxWx8kgr4VBmli-nU3Ws-dZkqH8bpRUj_wb9B0z8UMSpQ>
+ <xmx:bDp-YyR9miXh7wGJHPuBVeqRePAPFDB1qQKWx51Z1mT1f8M04h73tQ>
+ <xmx:bDp-Y6Y8TOUQ-ocGlmmmJJcbDxULJ8U7aR0Hli7TKUpj0ADMAbEFhQ>
+ <xmx:bDp-Y77VA4rbhNYGcNSmyCTBadBVQYapOSMl4qrsbfAj50Gp9jcSNA>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Nov 2022 10:21:15 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH] target/mips: Properly set C0_CMGCRBase after CPU reset
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20221114162526.355652-1-jiaxun.yang@flygoat.com>
+Date: Wed, 23 Nov 2022 15:21:07 +0000
+Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Message-Id: <FBB584F6-1508-4251-8C58-16C3BD5A838E@flygoat.com>
+References: <20221114162526.355652-1-jiaxun.yang@flygoat.com>
+To: BALATON Zoltan via <qemu-devel@nongnu.org>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+Received-SPF: pass client-ip=64.147.123.19;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,83 +103,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Wed, Nov 23, 2022 at 02:51:49PM +0100, BALATON Zoltan wrote:
->> On Wed, 23 Nov 2022, Markus Armbruster wrote:
->> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->> > ---
->> > v2:
->> > * PATCH 1+2 merged as commit 0a553c12c7 and 3f7febc937
->> > * PATCH 3 change to util/coroutine-ucontext.c dropped [Laurent]
->> >=20
->> > bsd-user/elfload.c                      | 2 +-
->> > contrib/plugins/cache.c                 | 8 ++++----
->> > contrib/vhost-user-blk/vhost-user-blk.c | 2 +-
->> > hw/core/qdev-clock.c                    | 2 +-
->> > hw/hyperv/vmbus.c                       | 2 +-
->> > hw/net/cadence_gem.c                    | 2 +-
->> > hw/net/virtio-net.c                     | 2 +-
->> > hw/nvme/ctrl.c                          | 4 ++--
->> > hw/rdma/vmw/pvrdma_cmd.c                | 9 +++------
->> > hw/rdma/vmw/pvrdma_qp_ops.c             | 6 +++---
->> > hw/virtio/virtio-iommu.c                | 3 +--
->> > linux-user/syscall.c                    | 2 +-
->> > target/i386/hax/hax-all.c               | 2 +-
->> > tests/tcg/aarch64/system/semiheap.c     | 4 ++--
->> > util/vfio-helpers.c                     | 2 +-
->> > 15 files changed, 24 insertions(+), 28 deletions(-)
->> >=20
->> > diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
->> > index f8edb22f2a..fbcdc94b96 100644
->> > --- a/bsd-user/elfload.c
->> > +++ b/bsd-user/elfload.c
->> > @@ -156,7 +156,7 @@ static abi_ulong copy_elf_strings(int argc, char *=
-*argv, void **page,
->> >             --p; --tmp; --len;
->> >             if (--offset < 0) {
->> >                 offset =3D p % TARGET_PAGE_SIZE;
->> > -                pag =3D (char *)page[p / TARGET_PAGE_SIZE];
->> > +                pag =3D page[p / TARGET_PAGE_SIZE];
->>=20
->> I think arithmetic on void pointer was undefined at least in the past so
->> some compilers may warn for it but not sure if this is still the case for
->> the compilers we care about. Apparently not if this now compiles but that
->> explains why this cast was not useless.
 
-I don't think so :)
+> 2022=E5=B9=B411=E6=9C=8814=E6=97=A5 16:25=EF=BC=8CJiaxun Yang =
+<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Value of C0_CMGCRBase will be reseted to default when cpu reset
+> happens. In some cases software may move GCR base and then initiate
+> a CPU reset, this will leave C0_CMGCRBase of reseted core incorrect.
+>=20
+> Implement a callback in CMGCR device to allow C0_CMGCRBase and other
+> global states to be overriden after CPU reset.
+>=20
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+> This fixes SMP boot for Boston board.
+> I'm not sure if it's the best palce to make such a callback,
+> but we can add more global states such as BEV here in future.
 
-@pag is char *.
+Ping :-)
 
-@page is void **.
+Any comments?
 
-page[p / TARGET_PAGE_SIZE] is void *.  No need to cast to char * before
-assigning to @pag.
-
-No pointer arithmetic so far.  There's some further down: pag + offset.
-@pag is char * before and after my patch.
-
->>                                         Found some more info on this her=
-e:
->>=20
->> https://stackoverflow.com/questions/3523145/pointer-arithmetic-for-void-=
-pointer-in-c
->
-> QEMU explicitly only targets GCC + Clang, so portability to other
-> compilers is not required.
-
-Correct.  We do arithmentic with void * in many places already.
-
-If we cared for portability to other compilers, we'd enable
-
-'-Wpointer-arith'
-     Warn about anything that depends on the "size of" a function type
-     or of 'void'.  GNU C assigns these types a size of 1, for
-     convenience in calculations with 'void *' pointers and pointers to
-     functions.  In C++, warn also when an arithmetic operation involves
-     'NULL'.  This warning is also enabled by '-Wpedantic'.
-
-But we don't.
+> ---
+> hw/mips/cps.c        | 3 ++-
+> hw/misc/mips_cmgcr.c | 5 +++++
+> target/mips/cpu.c    | 4 +++-
+> target/mips/cpu.h    | 4 ++++
+> 4 files changed, 14 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+> index 2b436700ce..29b10ff8d0 100644
+> --- a/hw/mips/cps.c
+> +++ b/hw/mips/cps.c
+> @@ -98,6 +98,7 @@ static void mips_cps_realize(DeviceState *dev, Error =
+**errp)
+>         cpu_mips_clock_init(cpu);
+>=20
+>         env =3D &cpu->env;
+> +        env->gcr =3D &s->gcr;
+>         if (cpu_mips_itu_supported(env)) {
+>             itu_present =3D true;
+>             /* Attach ITC Tag to the VP */
+> @@ -158,7 +159,7 @@ static void mips_cps_realize(DeviceState *dev, =
+Error **errp)
+>                             =
+sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->gic), 0));
+>=20
+>     /* Global Configuration Registers */
+> -    gcr_base =3D env->CP0_CMGCRBase << 4;
+> +    gcr_base =3D GCR_BASE_ADDR;
+>=20
+>     object_initialize_child(OBJECT(dev), "gcr", &s->gcr, =
+TYPE_MIPS_GCR);
+>     object_property_set_int(OBJECT(&s->gcr), "num-vp", s->num_vp,
+> diff --git a/hw/misc/mips_cmgcr.c b/hw/misc/mips_cmgcr.c
+> index 3c8b37f700..f2108b7d32 100644
+> --- a/hw/misc/mips_cmgcr.c
+> +++ b/hw/misc/mips_cmgcr.c
+> @@ -19,6 +19,11 @@
+> #include "hw/qdev-properties.h"
+> #include "hw/intc/mips_gic.h"
+>=20
+> +void gcr_cpu_reset(struct MIPSGCRState *s, CPUMIPSState *env)
+> +{
+> +    env->CP0_CMGCRBase =3D s->gcr_base >> 4;
+> +}
+> +
+> static inline bool is_cpc_connected(MIPSGCRState *s)
+> {
+>     return s->cpc_mr !=3D NULL;
+> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+> index e997c1b9cb..d0a76b95f7 100644
+> --- a/target/mips/cpu.c
+> +++ b/target/mips/cpu.c
+> @@ -297,7 +297,9 @@ static void mips_cpu_reset(DeviceState *dev)
+>         env->CP0_EBase |=3D (int32_t)0x80000000;
+>     }
+>     if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
+> -        env->CP0_CMGCRBase =3D 0x1fbf8000 >> 4;
+> +        if (env->gcr) {
+> +            gcr_cpu_reset(env->gcr, env);
+> +        }
+>     }
+>     env->CP0_EntryHi_ASID_mask =3D (env->CP0_Config5 & (1 << =
+CP0C5_MI)) ?
+>             0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
+> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+> index 0a085643a3..c345e6b1c7 100644
+> --- a/target/mips/cpu.h
+> +++ b/target/mips/cpu.h
+> @@ -1154,6 +1154,7 @@ typedef struct CPUArchState {
+>     CPUMIPSTLBContext *tlb;
+>     void *irq[8];
+>     struct MIPSITUState *itu;
+> +    struct MIPSGCRState *gcr;
+>     MemoryRegion *itc_tag; /* ITC Configuration Tags */
+> #endif
+>=20
+> @@ -1310,6 +1311,9 @@ void cpu_mips_soft_irq(CPUMIPSState *env, int =
+irq, int level);
+> /* mips_itu.c */
+> void itc_reconfigure(struct MIPSITUState *tag);
+>=20
+> +/* mips_cmgcr.c */
+> +void gcr_cpu_reset(struct MIPSGCRState *s, CPUMIPSState *env);
+> +
+> #endif /* !CONFIG_USER_ONLY */
+>=20
+> /* helper.c */
+> --=20
+> 2.37.4
+>=20
 
 
