@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B58663532A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 09:49:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A32635495
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 10:08:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxlQ1-0006wn-Pf; Wed, 23 Nov 2022 03:47:49 -0500
+	id 1oxliY-0002if-6R; Wed, 23 Nov 2022 04:06:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1oxlPZ-0006v2-M9
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 03:47:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1oxlPU-0000w5-DX
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 03:47:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669193214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kB0aG3dBzUrlvCbL3IwXQbyv926TWrFNopUpwdSF90M=;
- b=XAV34KRoV+xgDoIzEgcjtJ/BlQZzulUX7RWpSKjE7d/m+aeJ2bvaWaZAB2/HA0HVH2J5pv
- ZUI/Eh8SzIHkfgOPj5E28/xklwHNH1gsGWJ7Ge5JDjqslv7/rm2ENqONmnCEoioAqBz2es
- u2IzTM64veZgB7esTRJDLhGkfOhC6BE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-0Io6TeUWMDqIuegY5kTLoQ-1; Wed, 23 Nov 2022 03:46:52 -0500
-X-MC-Unique: 0Io6TeUWMDqIuegY5kTLoQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF22F1C05EB2;
- Wed, 23 Nov 2022 08:46:51 +0000 (UTC)
-Received: from fedora.redhat.com (ovpn-193-203.brq.redhat.com [10.40.193.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1446F2024CBE;
- Wed, 23 Nov 2022 08:46:50 +0000 (UTC)
-From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: j@getutm.app,
-	kraxel@redhat.com,
-	victortoso@redhat.com
-Subject: [PATCH for 7.2] Revert "usbredir: avoid queuing hello packet on
- snapshot restore"
-Date: Wed, 23 Nov 2022 09:46:48 +0100
-Message-Id: <1689cec3eadcea87255e390cb236033aca72e168.1669193161.git.jtomko@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jtomko@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1oxliQ-0002h4-MO
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 04:06:47 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1oxliP-00019R-48
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 04:06:46 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id v3so16254013pgh.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 01:06:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UNKYCtytvr8jFQvz0O1WJIqKW1bn3TAq0RY0MvG6XUU=;
+ b=iJ/dEYcOdT1MNvY0THm89Cu7LkTChFKOc9U/GknA3u2o6T1JtmTnHZSQGqMpCwMAkT
+ K+H9qjriRb+ysclQoVCfVB54VNoIUf37pHfvZFJ7KBpsXqWkHyNLHLAyeF3pgzhrzdVm
+ Xo6sHU+8rhsKE92y8m6lDrcucIJFO3FWLvZtfdGbFSAwAgvDyBj7BTKGP4mX1/CAFeJi
+ BBCDTRgi6wnmZR+Yp+5FDlQoC9r820Kk3xcrZgWlWNhM/rCJYciFJZJ9Pwkj1fGo05CT
+ YJlTpIBTYqTrTllshV8XmnQt635dMgDIkXkr5EliquYjY9cijWr2lAFlwo/09s84o9F9
+ B/lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UNKYCtytvr8jFQvz0O1WJIqKW1bn3TAq0RY0MvG6XUU=;
+ b=SHnzz6xPwa+/1QAZbZwBM116kOxAHDCcpc3I/bBc7OPFa71NQVgzBRA0L/A3ODpflj
+ ZmCZFhz+XoZdvx3+hYhQsNAXhSsQkJiaGXd5aY9g0i3Bcj+jP8gUR3gjtFgER0u7kG1J
+ 7wwd1kBgnUe1zVWBCi6Xm553K3IRl701a4TGepbm2cdn7KCLs/ukBn/GEO4glZRdEmdJ
+ pye3N1Te0OYEMrGog42Ovlcb2Ylhw9X2zQNzqeJhohZ8WiJzks5r4W9AAOs/jiwPhyBJ
+ G5jQ2keJtSggxr2l80HaIm1jL23k9QqRgMiP4al6n3LNDOX9oOiWdl8GBR/ZbJqoKuct
+ qFOA==
+X-Gm-Message-State: ANoB5pmBkQordKX9PB7r3nH1+JqFUclkwm38uGaJ7n3VsDPHkf6s6PUb
+ QoRDdIV31sij2qXGUyluMdo2YGiMSxXoL5rdfgyeqhNA7jDTkCT0UVOqSvNmqcM7ehmfpRxqPm7
+ tUUxCKyFAVxTH5HuTfHhIDfg1zTQPw4KL+P/YJSMlFOW18ImchNjJKUhKhHe1OTvzWg0=
+X-Google-Smtp-Source: AA0mqf7IxKfIqv1Xa8sX+fVOCp7xaDzsWCY9Z491objvYCupwQecjBNsvddVAU2L71LPRojSe7jPgA==
+X-Received: by 2002:aa7:8a03:0:b0:573:4ae5:e479 with SMTP id
+ m3-20020aa78a03000000b005734ae5e479mr7757878pfa.71.1669194402851; 
+ Wed, 23 Nov 2022 01:06:42 -0800 (PST)
+Received: from hsinchu25.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id
+ z6-20020aa79906000000b005613220346asm12004559pff.205.2022.11.23.01.06.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 01:06:42 -0800 (PST)
+From: Jim Shu <jim.shu@sifive.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Jim Shu <jim.shu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH] target/riscv: support cache-related PMU events in virtual mode
+Date: Wed, 23 Nov 2022 09:06:29 +0000
+Message-Id: <20221123090635.6574-1-jim.shu@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=jim.shu@sifive.com; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,42 +88,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joelle van Dyne <j@getutm.app>
+let tlb_fill() function also increments PMU counter when it is from
+two-stage translation, so QEMU could also monitor these PMU events when
+CPU runs in VS/VU mode (like running guest OS).
 
-Run state is also in RUN_STATE_PRELAUNCH while "-S" is used.
-
-This reverts commit 0631d4b448454ae8a1ab091c447e3f71ab6e088a
-
-Signed-off-by: Joelle van Dyne <j@getutm.app>
-Reviewed-by: Ján Tomko <jtomko@redhat.com>
-
-The original commit broke the usage of usbredir with libvirt, which
-starts every domain with "-S".
-
-This workaround is no longer needed because the usbredir behavior
-has been fixed in the meantime:
-https://gitlab.freedesktop.org/spice/usbredir/-/merge_requests/61
-
-Signed-off-by: Ján Tomko <jtomko@redhat.com>
+Signed-off-by: Jim Shu <jim.shu@sifive.com>
 ---
- hw/usb/redirect.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/riscv/cpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 1bd30efc3e..fd7df599bc 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -1280,8 +1280,7 @@ static void usbredir_create_parser(USBRedirDevice *dev)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 278d163803..a52a9b14d7 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1248,6 +1248,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         }
      }
- #endif
  
--    if (runstate_check(RUN_STATE_INMIGRATE) ||
--        runstate_check(RUN_STATE_PRELAUNCH)) {
-+    if (runstate_check(RUN_STATE_INMIGRATE)) {
-         flags |= usbredirparser_fl_no_hello;
-     }
-     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
++    pmu_tlb_fill_incr_ctr(cpu, access_type);
+     if (riscv_cpu_virt_enabled(env) ||
+         ((riscv_cpu_two_stage_lookup(mmu_idx) || two_stage_lookup) &&
+          access_type != MMU_INST_FETCH)) {
+@@ -1311,7 +1312,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             }
+         }
+     } else {
+-        pmu_tlb_fill_incr_ctr(cpu, access_type);
+         /* Single stage lookup */
+         ret = get_physical_address(env, &pa, &prot, address, NULL,
+                                    access_type, mmu_idx, true, false, false);
 -- 
-2.38.1
+2.17.1
 
 
