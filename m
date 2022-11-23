@@ -2,82 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADE563689D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DDC6368A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:24:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxuMq-0001fE-EB; Wed, 23 Nov 2022 13:21:04 -0500
+	id 1oxuPi-000339-R3; Wed, 23 Nov 2022 13:24:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxuMk-0001eo-Lw
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:20:59 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxuMi-0005Ep-NK
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:20:58 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b12so16870890wrn.2
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 10:20:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KFzUmDVFH2qZWwlWdZ/9pVGVustz0qZhK3Q9IuAM1s0=;
- b=EXe1QtTPq3nl5RgC+Md2KERFeY1h8WmSlfutX5l2IGBddVFUumijQp7DkE8Hfgp9Ug
- 9GhmB4o/ead4g66XKb/wMk1TGl6yRk/l3OEOcuL1da7D4DX79hSZTaeR5wi7PczKSJJo
- PS6jdof7T7C8lYDGb1hIoUvwJv1okZ2KRLWwgfdCzQibSQY/x+A+yVT/p8YLeSaQYUJV
- VXrD5/ttLvOL9kAv4nUI+aum3rI1RrCcR5t5H/bw7WfDYOVjhYgSJycbn8Gbeb4SEma/
- bH5V0V23IPERGxQoF4u+rS93moH3hy7PQEryBSN/eWjSr5lEypLM/M/3cfIiFvdTbwXL
- /d8w==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oxuPh-00032c-0a
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:24:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oxuPe-0005b4-TR
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:24:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669227837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kJCMuj6j/qB4ie0u4yIKypS/ud9QgstC80z6Tjkfux4=;
+ b=bhWwhjKMmyqq/mn8yxboHU/G+y1EXcJqrn1b5IqGIAaKplNpAJtBFSM/azBRisaDsQZOPU
+ YL76PyJpqwnT7CPTR7hBE3oVstmoYcgxXiIuBm+fsRQ4tslrIxw3yV48OEeimRPY6BfpKN
+ e806nxZGniYsRLxsn3WeQ0znakeTQdA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-349-638kVpv1MDWPIuUhcHAr6Q-1; Wed, 23 Nov 2022 13:23:56 -0500
+X-MC-Unique: 638kVpv1MDWPIuUhcHAr6Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c126-20020a1c3584000000b003cfffcf7c1aso1410200wma.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 10:23:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KFzUmDVFH2qZWwlWdZ/9pVGVustz0qZhK3Q9IuAM1s0=;
- b=uzGOJ0vS7XmXVu1U/a51po+luLR9/2YtBIZX+lQLbk3fn2vpcU1dPjps4aBy81iRYH
- 51AQwdjx74Vs97OuCdXkU4m6SjSlCCJ09l4eRKhS5EAIAjW4PT9vaQaF8lnc+cXADWlc
- VjT/o2kwyEED40S+wquR706CJA4UatR16ZpJVwfWx90jg6rHyagl5DYbV9BJs+b2rJLI
- iBKca9bt9Wc87lElivUb8vXbz7x+f7XLAK2T+gQm4P1weWCtjMXtsypz7EEPkSNjjRrB
- A+6oyDuCQ7sY7oiLM3ppqiDmRZYDfxcShMI6WzKwS+HHD62qiY+Tam5nlVuUpI5wtMWq
- bPzw==
-X-Gm-Message-State: ANoB5pkjKPoV30dwvZFIvZ1anYmB9+PWJaVLigqjXkGWFJNOn5qmnp/3
- ffOBEAAO8nsb7yMPInQ5lEo3kA==
-X-Google-Smtp-Source: AA0mqf5RhjHcVxal7i0s2AUD9bEMt8kxk9xAD//IQP/oYWZzlbF+2Z/l19uDYJ9uLilvLpZfVSWgJQ==
-X-Received: by 2002:adf:d84c:0:b0:236:6f1a:955 with SMTP id
- k12-20020adfd84c000000b002366f1a0955mr17545989wrl.111.1669227653704; 
- Wed, 23 Nov 2022 10:20:53 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kJCMuj6j/qB4ie0u4yIKypS/ud9QgstC80z6Tjkfux4=;
+ b=n5NkpyyNr34fITiUxymbPpZGF9Xi0Ufhh5WFnf16OJlDsfTfA1Aio3YhKk/Yl0G0xC
+ 6mc6UhRRyp2pfbTUXa7YfgUXbWvdsIl1q8WVmCl3p53/xiKYtuq2QJi9tRyPJhQzLJbs
+ KUMNnvrDl1JA2DtaGIQhq64nNnu3E7X7Md2MxL306tQ/YacJGrB5UfmRsP5Fd+sM2eIC
+ reoPpY9wlA5OkgKNgbRDfYRBo3o1cSopMpbROdISiR7antYogDqfQBnCBO3dcwEAOPYC
+ XcJpF9la4b81MHeXIJbGv6FpjtSfe2Wz0DZqFz/UWgZrNhG1jfthZuC4YwDKSdoBbQuY
+ SwmA==
+X-Gm-Message-State: ANoB5pkMlIGiFsSFis+wWnrajkiB8rjlPqovyJTI1DBJsY27gr4srbRn
+ nVx8wYYvyFIKz0ELEr68a1w2flmAEHFt/5sjNLZ2KQD31uYBd7dpK7WgGXK2hwM7HQC5zC2NM2S
+ w+58/EhK06JpKy3o=
+X-Received: by 2002:a7b:cc85:0:b0:3bf:d1e2:1d9 with SMTP id
+ p5-20020a7bcc85000000b003bfd1e201d9mr14583841wma.115.1669227834790; 
+ Wed, 23 Nov 2022 10:23:54 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7eGFcYHOs5xOk9IthmgHcpU5LOmxX8iXEbbWSLmeR1WIDCZ/of4xgScPicCrIHtH4t9zbS6A==
+X-Received: by 2002:a7b:cc85:0:b0:3bf:d1e2:1d9 with SMTP id
+ p5-20020a7bcc85000000b003bfd1e201d9mr14583813wma.115.1669227834552; 
+ Wed, 23 Nov 2022 10:23:54 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
  by smtp.gmail.com with ESMTPSA id
- c3-20020a5d4cc3000000b00241c4bd6c09sm14645553wrt.33.2022.11.23.10.20.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 10:20:53 -0800 (PST)
-Message-ID: <af92080f-e708-f593-7ff5-81b7b264d587@linaro.org>
-Date: Wed, 23 Nov 2022 19:20:51 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH] gdbstub: move update guest debug to accel ops
-Content-Language: en-US
-To: Mads Ynddal <mads@ynddal.dk>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: kvm@vger.kernel.org, Yanan Wang <wangyanan55@huawei.com>,
+ l10-20020adff48a000000b002366ded5864sm17126289wro.116.2022.11.23.10.23.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 10:23:54 -0800 (PST)
+Date: Wed, 23 Nov 2022 18:23:51 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20221123121712.72817-1-mads@ynddal.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221123121712.72817-1-mads@ynddal.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-block@nongnu.org,
+ Kunkun Jiang <jiangkunkun@huawei.com>,
+ "Zhang, Chen" <chen.zhang@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v3 01/17] migration: Remove res_compatible parameter
+Message-ID: <Y35lN2Pk1FAef4cR@work-vm>
+References: <20221103161620.13120-1-avihaih@nvidia.com>
+ <20221103161620.13120-2-avihaih@nvidia.com>
+ <fbf06ccb-c339-d323-c01e-455109bed372@yandex-team.ru>
+ <a469eb6a-8630-0e2e-e000-4a24bbb9b26d@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a469eb6a-8630-0e2e-e000-4a24bbb9b26d@nvidia.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,89 +123,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-On 23/11/22 13:17, Mads Ynddal wrote:
-> From: Mads Ynddal <m.ynddal@samsung.com>
+* Avihai Horon (avihaih@nvidia.com) wrote:
 > 
-> Continuing the refactor of a48e7d9e52 (gdbstub: move guest debug support
-> check to ops) by removing hardcoded kvm_enabled() from generic cpu.c
-> code, and replace it with a property of AccelOpsClass.
+> On 08/11/2022 19:52, Vladimir Sementsov-Ogievskiy wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > 
+> > On 11/3/22 19:16, Avihai Horon wrote:
+> > > From: Juan Quintela <quintela@redhat.com>
+> > > 
+> > > It was only used for RAM, and in that case, it means that this amount
+> > > of data was sent for memory.
+> > 
+> > Not clear for me, what means "this amount of data was sent for
+> > memory"... That amount of data was not yet sent, actually.
+> > 
+> Yes, this should be changed to something like:
 > 
-> Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
-> ---
->   accel/kvm/kvm-accel-ops.c  |  1 +
->   cpu.c                      | 10 +++++++---
->   include/sysemu/accel-ops.h |  1 +
->   3 files changed, 9 insertions(+), 3 deletions(-)
+> "It was only used for RAM, and in that case, it means that this amount
+> of data still needs to be sent for memory, and can be sent in any phase
+> of migration. The same functionality can be achieved without res_compatible,
+> so just delete the field in all callers and change the definition of
+> res_postcopy accordingly.".
+
+Sorry, I recently sent a similar comment in reply to Juan's original
+post.
+If I understand correctly though, the dirty bitmap code relies on
+'postcopy' here to be data only sent during postcopy.
+
+Dave
+
+> > > Just delete the field in all callers.
+> > > 
+> > > Signed-off-by: Juan Quintela <quintela@redhat.com>
+> > > ---
+> > >   hw/s390x/s390-stattrib.c       |  6 ++----
+> > >   hw/vfio/migration.c            | 10 ++++------
+> > >   hw/vfio/trace-events           |  2 +-
+> > >   include/migration/register.h   | 20 ++++++++++----------
+> > >   migration/block-dirty-bitmap.c |  7 +++----
+> > >   migration/block.c              |  7 +++----
+> > >   migration/migration.c          |  9 ++++-----
+> > >   migration/ram.c                |  8 +++-----
+> > >   migration/savevm.c             | 14 +++++---------
+> > >   migration/savevm.h             |  4 +---
+> > >   migration/trace-events         |  2 +-
+> > >   11 files changed, 37 insertions(+), 52 deletions(-)
+> > > 
+> > 
+> > [..]
+> > 
+> > > diff --git a/include/migration/register.h b/include/migration/register.h
+> > > index c1dcff0f90..1950fee6a8 100644
+> > > --- a/include/migration/register.h
+> > > +++ b/include/migration/register.h
+> > > @@ -48,18 +48,18 @@ typedef struct SaveVMHandlers {
+> > >       int (*save_setup)(QEMUFile *f, void *opaque);
+> > >       void (*save_live_pending)(QEMUFile *f, void *opaque,
+> > >                                 uint64_t threshold_size,
+> > > -                              uint64_t *res_precopy_only,
+> > > -                              uint64_t *res_compatible,
+> > > -                              uint64_t *res_postcopy_only);
+> > > +                              uint64_t *rest_precopy,
+> > > +                              uint64_t *rest_postcopy);
+> > >       /* Note for save_live_pending:
+> > > -     * - res_precopy_only is for data which must be migrated in
+> > > precopy phase
+> > > -     *     or in stopped state, in other words - before target vm start
+> > > -     * - res_compatible is for data which may be migrated in any phase
+> > > -     * - res_postcopy_only is for data which must be migrated in
+> > > postcopy phase
+> > > -     *     or in stopped state, in other words - after source vm stop
+> > > +     * - res_precopy is for data which must be migrated in precopy
+> > > +     *     phase or in stopped state, in other words - before target
+> > > +     *     vm start
+> > > +     * - res_postcopy is for data which must be migrated in postcopy
+> > > +     *     phase or in stopped state, in other words - after source vm
+> > > +     *     stop
+> > >        *
+> > > -     * Sum of res_postcopy_only, res_compatible and
+> > > res_postcopy_only is the
+> > > -     * whole amount of pending data.
+> > > +     * Sum of res_precopy and res_postcopy is the whole amount of
+> > > +     * pending data.
+> > >        */
+> > > 
+> > > 
+> > 
+> > [..]
+> > 
+> > > diff --git a/migration/ram.c b/migration/ram.c
+> > > index dc1de9ddbc..20167e1102 100644
+> > > --- a/migration/ram.c
+> > > +++ b/migration/ram.c
+> > > @@ -3435,9 +3435,7 @@ static int ram_save_complete(QEMUFile *f, void
+> > > *opaque)
+> > >   }
+> > > 
+> > >   static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t
+> > > max_size,
+> > > -                             uint64_t *res_precopy_only,
+> > > -                             uint64_t *res_compatible,
+> > > -                             uint64_t *res_postcopy_only)
+> > > +                             uint64_t *res_precopy, uint64_t
+> > > *res_postcopy)
+> > >   {
+> > >       RAMState **temp = opaque;
+> > >       RAMState *rs = *temp;
+> > > @@ -3457,9 +3455,9 @@ static void ram_save_pending(QEMUFile *f, void
+> > > *opaque, uint64_t max_size,
+> > > 
+> > >       if (migrate_postcopy_ram()) {
+> > >           /* We can do postcopy, and all the data is postcopiable */
+> > > -        *res_compatible += remaining_size;
+> > > +        *res_postcopy += remaining_size;
+> > 
+> > That's seems to be not quite correct.
+> > 
+> > res_postcopy is defined as "data which must be migrated in postcopy",
+> > but that's not true here, as RAM can be migrated both in precopy and
+> > postcopy.
+> > 
+> > Still we really can include "compat" into "postcopy" just because in the
+> > logic of migration_iteration_run() we don't actually distinguish
+> > "compat" and "post". The logic only depends on "total" and "pre".
+> > 
+> > So, if we want to combine "compat" into "post", we should redefine
+> > "post" in the comment in include/migration/register.h, something like
+> > this:
+> > 
+> > - res_precopy is for data which MUST be migrated in precopy
+> >   phase or in stopped state, in other words - before target
+> >   vm start
+> > 
+> > - res_postcopy is for all data except for declared in res_precopy.
+> >   res_postcopy data CAN be migrated in postcopy, i.e. after target
+> >   vm start.
+> > 
+> > 
+> You are right, the definition of res_postcopy should be changed.
 > 
-> diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-> index fbf4fe3497..6ebf9a644f 100644
-> --- a/accel/kvm/kvm-accel-ops.c
-> +++ b/accel/kvm/kvm-accel-ops.c
-> @@ -99,6 +99,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
->       ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
->   
->   #ifdef KVM_CAP_SET_GUEST_DEBUG
-> +    ops->update_guest_debug = kvm_update_guest_debug;
->       ops->supports_guest_debug = kvm_supports_guest_debug;
->       ops->insert_breakpoint = kvm_insert_breakpoint;
->       ops->remove_breakpoint = kvm_remove_breakpoint;
-> diff --git a/cpu.c b/cpu.c
-> index 2a09b05205..ef433a79e3 100644
-> --- a/cpu.c
-> +++ b/cpu.c
-> @@ -31,8 +31,8 @@
->   #include "hw/core/sysemu-cpu-ops.h"
->   #include "exec/address-spaces.h"
->   #endif
-> +#include "sysemu/cpus.h"
->   #include "sysemu/tcg.h"
-> -#include "sysemu/kvm.h"
->   #include "sysemu/replay.h"
->   #include "exec/cpu-common.h"
->   #include "exec/exec-all.h"
-> @@ -378,10 +378,14 @@ void cpu_breakpoint_remove_all(CPUState *cpu, int mask)
->   void cpu_single_step(CPUState *cpu, int enabled)
->   {
->       if (cpu->singlestep_enabled != enabled) {
-> +        const AccelOpsClass *ops = cpus_get_accel();
-> +
->           cpu->singlestep_enabled = enabled;
-> -        if (kvm_enabled()) {
-> -            kvm_update_guest_debug(cpu, 0);
-> +
-> +        if (ops->update_guest_debug) {
-> +            ops->update_guest_debug(cpu, 0);
+> Yet, I am not sure if this patch really makes things more clear/simple.
+> Juan, what do you think?
+> 
+> Thanks!
+> > >       } else {
+> > > -        *res_precopy_only += remaining_size;
+> > > +        *res_precopy += remaining_size;
+> > >       }
+> > >   }
+> > > 
+> > 
+> > 
+> > -- 
+> > Best regards,
+> > Vladimir
+> > 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Isn't this '0' flag here accelerator-specific? ...
-
->           }
-> +
->           trace_breakpoint_singlestep(cpu->cpu_index, enabled);
->       }
->   }
-> diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-> index 8cc7996def..0a47a2f00c 100644
-> --- a/include/sysemu/accel-ops.h
-> +++ b/include/sysemu/accel-ops.h
-> @@ -48,6 +48,7 @@ struct AccelOpsClass {
->   
->       /* gdbstub hooks */
->       bool (*supports_guest_debug)(void);
-> +    int (*update_guest_debug)(CPUState *cpu, unsigned long flags);
-
-... if so the prototype should be:
-
-        int (*update_guest_debug)(CPUState *cpu);
-
-and the '0' value set within kvm-accel-ops.c handler implementation.
-
->       int (*insert_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
->       int (*remove_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
->       void (*remove_all_breakpoints)(CPUState *cpu);
-
-Regards,
-
-Phil.
 
