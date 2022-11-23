@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C486636599
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 17:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B9D6365A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 17:23:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxsTG-000737-Iy; Wed, 23 Nov 2022 11:19:34 -0500
+	id 1oxsWZ-0008DI-DO; Wed, 23 Nov 2022 11:22:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxsTD-00072a-3k
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:19:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxsTA-0005iE-Tj
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:19:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669220367;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/H2u6a69ticqBa17yNdaEiMNfIgrZSPYXmIQEndMmzs=;
- b=TdZFk7GbhnH7DE59q9Psw4mdvPs46koXXQKeQw2TpqGWHBeaSsOxoTEPuaJK14+3i7/+Gs
- VeqPZhB5O2VbQDEUOoiFMnudt40ghh/fFR/B9u9DmcbIvb6u/szrd8sesOcfFZEgX6wDE8
- sxiCWe8s6WYATx3D4L8jd6vomSxQWOY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-kA-rxFSROPGD0ZoPfmH9Wg-1; Wed, 23 Nov 2022 11:19:26 -0500
-X-MC-Unique: kA-rxFSROPGD0ZoPfmH9Wg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ACA53C01DE7;
- Wed, 23 Nov 2022 16:19:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C939F492B07;
- Wed, 23 Nov 2022 16:19:24 +0000 (UTC)
-Date: Wed, 23 Nov 2022 16:19:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, peterx@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-Subject: Re: [PATCH v4 2/2] migration: check magic value for deciding the
- mapping of channels
-Message-ID: <Y35ICBcn2aWxBQaj@redhat.com>
-References: <20221123150527.24608-1-manish.mishra@nutanix.com>
- <20221123150527.24608-3-manish.mishra@nutanix.com>
- <Y35DOkfHr2+2PwSe@redhat.com>
- <9cdace7b-7fd2-7c9a-01a2-14bef1473136@nutanix.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxsWX-0008D8-9R
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:22:57 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxsWV-0006SW-KQ
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:22:57 -0500
+Received: by mail-wm1-x330.google.com with SMTP id o30so13453954wms.2
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 08:22:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BkWgpVNENmMkTM7oSK2LXUY5f755z7PjdGK3ZXxp52M=;
+ b=AtrBjFOuYCJqKKPsqkkNHGVhUYbWzFFfUzLncxG/09Amodz+LIkYZ6h3vo/gx8NArw
+ b7IjikAdf5MPGdZmIWE2Oxy9o3pdevr4nzQo7mCKnGS9AbJaPmixTJZZJRB8n26JJg1w
+ qil+6VFPkvCycB8VFzxzYKOijRWOANvFN6YNqzlmJBuqq6GgnPlEt0g8xMgPb+6wV2Zg
+ gM9jRYlg8Cl4DYK+OqYt969fZE9WgKBZ+8wu78i4s6L/tY1Tth2d6dCLNw7GBToCZ46K
+ w0RDhvtb0jYfhS+ZgAML0wz3D+P/vrG4pOs/kNJYBR+EV/6bHU4o/LAj1AJY9U2o+ow3
+ SgBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BkWgpVNENmMkTM7oSK2LXUY5f755z7PjdGK3ZXxp52M=;
+ b=CPmwQn7dqN1DW8SfIdQGNzXVa0d8ZMP89fNJtY9UST/8rjrLsRh4UQYhN8gM5yzi7R
+ he2PR1lcSPlmqL4dqXmfXhPfX/uGJ406qsR8HefnABDsZ59VKU7fsU6Dv3toIszNRglM
+ tcNxylvbPVI+zsCIm6+/PizCqeiTos4DXF8hjkVyPILfGO8GmD5geBr9bsdd4K3dsJtF
+ /WWE7zxsVWl98dGU4S4Z9btt4UrkiJ5whBULNKM9hOHDCE04KcLwju/QKtGfIgVg+h6t
+ Z0b1kC5KB7AJq1xSJIKv8MO1AGjmMoziLzGUk/VAzjZOf7GgyGF0L1bi3mKRCXLAmgHC
+ Upkg==
+X-Gm-Message-State: ANoB5pnOOw9E5BhPmfTdEoRnWAnmoyd0M0lRlj2RJuSJB6Eq57LVbPhA
+ XRtQ7mY4F1G6tVGrSPQS9rcx7dRQvIgG+Q==
+X-Google-Smtp-Source: AA0mqf6e4HIQpaGidV9NdUnLht4HmVWCbx9jF9oXBczlZrNRKgQZdBC+B8fr4AUMuCZz5kzCIVNo/g==
+X-Received: by 2002:a1c:7504:0:b0:3cf:8ebf:69b with SMTP id
+ o4-20020a1c7504000000b003cf8ebf069bmr11446681wmc.86.1669220573476; 
+ Wed, 23 Nov 2022 08:22:53 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ g15-20020adff40f000000b00241db7deb57sm7368666wro.114.2022.11.23.08.22.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Nov 2022 08:22:53 -0800 (PST)
+Message-ID: <2a4bc1ad-500e-d87f-c319-35e260713659@linaro.org>
+Date: Wed, 23 Nov 2022 17:22:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH 3/3] tcg: Move ffi_cif pointer into TCGHelperInfo
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+References: <20221111074101.2069454-27-richard.henderson@linaro.org>
+ <20221122180804.938-1-philmd@linaro.org>
+ <20221122180804.938-4-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221122180804.938-4-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9cdace7b-7fd2-7c9a-01a2-14bef1473136@nutanix.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,120 +89,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 09:34:35PM +0530, manish.mishra wrote:
+On 22/11/22 19:08, Philippe Mathieu-Daudé wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
 > 
-> On 23/11/22 9:28 pm, Daniel P. Berrangé wrote:
-> > On Wed, Nov 23, 2022 at 03:05:27PM +0000, manish.mishra wrote:
-> > > Current logic assumes that channel connections on the destination side are
-> > > always established in the same order as the source and the first one will
-> > > always be the main channel followed by the multifid or post-copy
-> > > preemption channel. This may not be always true, as even if a channel has a
-> > > connection established on the source side it can be in the pending state on
-> > > the destination side and a newer connection can be established first.
-> > > Basically causing out of order mapping of channels on the destination side.
-> > > Currently, all channels except post-copy preempt send a magic number, this
-> > > patch uses that magic number to decide the type of channel. This logic is
-> > > applicable only for precopy(multifd) live migration, as mentioned, the
-> > > post-copy preempt channel does not send any magic number. Also, tls live
-> > > migrations already does tls handshake before creating other channels, so
-> > > this issue is not possible with tls, hence this logic is avoided for tls
-> > > live migrations. This patch uses read peek to check the magic number of
-> > > channels so that current data/control stream management remains
-> > > un-effected.
-> > > 
-> > > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.co
-> > > Suggested-by: Daniel P. Berrangé <berrange@redhat.com
-> > > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
-> > > ---
-> > >   migration/channel.c      | 46 ++++++++++++++++++++++++++++++++++++++++
-> > >   migration/channel.h      |  5 +++++
-> > >   migration/migration.c    | 45 ++++++++++++++++++++++++++++-----------
-> > >   migration/multifd.c      | 12 ++++-------
-> > >   migration/multifd.h      |  2 +-
-> > >   migration/postcopy-ram.c |  5 +----
-> > >   migration/postcopy-ram.h |  2 +-
-> > >   7 files changed, 91 insertions(+), 26 deletions(-)
-> > > 
-> > > diff --git a/migration/channel.c b/migration/channel.c
-> > > index 1b0815039f..a4600f52c5 100644
-> > > --- a/migration/channel.c
-> > > +++ b/migration/channel.c
-> > > @@ -92,3 +92,49 @@ void migration_channel_connect(MigrationState *s,
-> > >       migrate_fd_connect(s, error);
-> > >       error_free(error);
-> > >   }
-> > > +
-> > > +
-> > > +/**
-> > > + * @migration_channel_read_peek - Read from the peek of migration channel,
-> > > + *    without actually removing it from channel buffer.
-> > > + *
-> > > + * @ioc: the channel object
-> > > + * @buf: the memory region to read data into
-> > > + * @buflen: the number of bytes to read in @buf
-> > > + * @errp: pointer to a NULL-initialized error object
-> > > + *
-> > > + * Returns 0 if successful, returns -1 and sets @errp if fails.
-> > > + */
-> > > +int migration_channel_read_peek(QIOChannel *ioc,
-> > > +                                const char *buf,
-> > > +                                const size_t buflen,
-> > > +                                Error **errp)
-> > > +{
-> > > +   ssize_t len = 0;
-> > > +   struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
-> > > +
-> > > +   while (len < buflen) {
-> > > +       len = qio_channel_readv_full(ioc, &iov, 1, NULL,
-> > > +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
-> > > +
-> > > +       if (len == QIO_CHANNEL_ERR_BLOCK) {
-> > > +            if (qemu_in_coroutine()) {
-> > > +                /* 1ms sleep. */
-> > > +                qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 1000000);
-> > > +            } else {
-> > > +                qio_channel_wait(ioc, G_IO_IN);
-> > > +            }
-> > > +            continue;
-> > > +       }
-> > > +       if (len == 0) {
-> > > +           error_setg(errp,
-> > > +                      "Unexpected end-of-file on channel");
-> > > +           return -1;
-> > > +       }
-> > > +       if (len < 0) {
-> > > +           return -1;
-> > > +       }
-> > > +   }
-> > This busy waits when len > 0 and < buflen
-> > 
-> > 
-> > With regards,
-> > Daniel
+> Instead of requiring a separate hash table lookup,
+> put a pointer to the CIF into TCGHelperInfo.
 > 
-> Sorry,   Daniel, may be i misunderstood something from earlier
-> discussions. I thought we discussed we may not prevent it from
-> looping multiple times but we can  qemu_co_sleep_ns after every
-> retry to deal with busy wait?
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20221111074101.2069454-27-richard.henderson@linaro.org>
+> [PMD: Split from bigger patch]
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   tcg/tcg-internal.h |  7 +++++++
+>   tcg/tcg.c          | 26 ++++++++++++++------------
+>   2 files changed, 21 insertions(+), 12 deletions(-)
+> 
+> diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
+> index c7e87e193d..6e50aeba3a 100644
+> --- a/tcg/tcg-internal.h
+> +++ b/tcg/tcg-internal.h
+> @@ -25,6 +25,10 @@
+>   #ifndef TCG_INTERNAL_H
+>   #define TCG_INTERNAL_H
+>   
+> +#ifdef CONFIG_TCG_INTERPRETER
+> +#include <ffi.h>
+> +#endif
+> +
+>   #define TCG_HIGHWATER 1024
+>   
+>   /*
+> @@ -57,6 +61,9 @@ typedef struct TCGCallArgumentLoc {
+>   typedef struct TCGHelperInfo {
+>       void *func;
+>       const char *name;
+> +#ifdef CONFIG_TCG_INTERPRETER
+> +    ffi_cif *cif;
+> +#endif
+>       unsigned typemask           : 32;
+>       unsigned flags              : 8;
+>       unsigned nr_in              : 8;
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 9b24b4d863..d6a3036412 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
 
-You're only calling  qemu_co_sleep_ns when you get ERR_BLOCK
-though. That will happen the first time when 0 bytes are
-pending. Once 2 bytes arrive and we're waiting for 2 more,
-this code will busy wait instead of calling qemu_co_sleep_ns
-again, because len==2 in that case.
+I forgot this hunk:
 
+-- >8 --
+@@ -62,10 +62,6 @@
+  #include "tcg/tcg-ldst.h"
+  #include "tcg-internal.h"
 
+-#ifdef CONFIG_TCG_INTERPRETER
+-#include <ffi.h>
+-#endif
+-
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+---
+
+> @@ -552,8 +552,6 @@ static TCGHelperInfo all_helpers[] = {
+>   static GHashTable *helper_table;
+>   
+>   #ifdef CONFIG_TCG_INTERPRETER
+> -static GHashTable *ffi_table;
+> -
+>   static ffi_type *typecode_to_ffi(int argmask)
+>   {
+>       switch (argmask) {
+> @@ -576,9 +574,11 @@ static ffi_type *typecode_to_ffi(int argmask)
+>   static void init_ffi_layouts(void)
+>   {
+>       /* g_direct_hash/equal for direct comparisons on uint32_t.  */
+> -    ffi_table = g_hash_table_new(NULL, NULL);
+> +    GHashTable *ffi_table = g_hash_table_new(NULL, NULL);
+> +
+>       for (int i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
+> -        uint32_t typemask = all_helpers[i].typemask;
+> +        TCGHelperInfo *info = &all_helpers[i];
+> +        unsigned typemask = info->typemask;
+>           gpointer hash = (gpointer)(uintptr_t)typemask;
+>           struct {
+>               ffi_cif cif;
+> @@ -586,8 +586,11 @@ static void init_ffi_layouts(void)
+>           } *ca;
+>           ffi_status status;
+>           int nargs;
+> +        ffi_cif *cif;
+>   
+> -        if (g_hash_table_lookup(ffi_table, hash)) {
+> +        cif = g_hash_table_lookup(ffi_table, hash);
+> +        if (cif) {
+> +            info->cif = cif;
+>               continue;
+>           }
+>   
+> @@ -611,8 +614,12 @@ static void init_ffi_layouts(void)
+>                                 ca->cif.rtype, ca->cif.arg_types);
+>           assert(status == FFI_OK);
+>   
+> -        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
+> +        cif = &ca->cif;
+> +        info->cif = cif;
+> +        g_hash_table_insert(ffi_table, hash, (gpointer)cif);
+>       }
+> +
+> +    g_hash_table_destroy(ffi_table);
+>   }
+>   #endif /* CONFIG_TCG_INTERPRETER */
+>   
+> @@ -4413,12 +4420,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+>       }
+>   
+>   #ifdef CONFIG_TCG_INTERPRETER
+> -    {
+> -        gpointer hash = (gpointer)(uintptr_t)info->typemask;
+> -        ffi_cif *cif = g_hash_table_lookup(ffi_table, hash);
+> -        assert(cif != NULL);
+> -        tcg_out_call(s, tcg_call_func(op), cif);
+> -    }
+> +    tcg_out_call(s, tcg_call_func(op), info->cif);
+>   #else
+>       tcg_out_call(s, tcg_call_func(op));
+>   #endif
 
 
