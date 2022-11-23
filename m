@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C21636235
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEFA636234
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:46:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqzh-0004F4-AL; Wed, 23 Nov 2022 09:44:57 -0500
+	id 1oxqzh-0004FD-Rc; Wed, 23 Nov 2022 09:44:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzf-0004El-IL
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzg-0004Ev-3b
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqze-0002wa-55
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqze-0002wc-I9
  for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1669214693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GlC6m0Elefo7qiGZqWhbcNV4wWhKgMW879Br6ZVPxos=;
- b=FqbGXSByMDN0r43PLOfg3Jn1H8449D5IWJpTl1eVT7baRdlmRTfIRcOQqbS93IpBwoQ52J
- oi6X2+JYo2JYGLQySZCZie9TnQltvd8RP/fPtYuhVUnS3YxzSBoMGPLpQ7KL0/qI5oO/so
- B+y8V99OWcy4VruTWKXiOJu3tMm8sqE=
+ bh=dmj3eYzGq8N02pY8S5D07dZrkbYZHf+DViE4LL3gSoE=;
+ b=TVr41gTHHmDOwgbUM/PE6P+PTN3XCfDvEyNNqHV8OXIX5CQvnzCSlmMVOZqLGoWmzubeem
+ BI+zfkaukXN8WuCxFIeFPmRlWJcj+2w88iTorT2hcdEpg7IhbRWFa9S6Mce+a4z6wSuJCx
+ P3jAOd91Ry72jwvTXWCP0Fr/sW1/E/0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-LUZFv88bOE2nPUtcknaO9Q-1; Wed, 23 Nov 2022 09:44:46 -0500
-X-MC-Unique: LUZFv88bOE2nPUtcknaO9Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-223-ENbr_eXgODSNU3n2w12S6Q-1; Wed, 23 Nov 2022 09:44:49 -0500
+X-MC-Unique: ENbr_eXgODSNU3n2w12S6Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 758A629AB44C;
- Wed, 23 Nov 2022 14:44:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 035A51C2726A;
+ Wed, 23 Nov 2022 14:44:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.194.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF800111DCE6;
- Wed, 23 Nov 2022 14:44:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ADC12024CBE;
+ Wed, 23 Nov 2022 14:44:48 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C037D1800617; Wed, 23 Nov 2022 15:44:36 +0100 (CET)
+ id DF5591800619; Wed, 23 Nov 2022 15:44:36 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
@@ -50,23 +50,26 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Stefan Weil <sw@weilnetz.de>
-Subject: [PULL 3/7] hw/usb/hcd-xhci.c: spelling: tranfer
-Date: Wed, 23 Nov 2022 15:44:32 +0100
-Message-Id: <20221123144436.2141069-4-kraxel@redhat.com>
+ Dongwon Kim <dongwon.kim@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [PULL 4/7] ui/gtk: prevent ui lock up when dpy_gl_update called again
+ before current draw event occurs
+Date: Wed, 23 Nov 2022 15:44:33 +0100
+Message-Id: <20221123144436.2141069-5-kraxel@redhat.com>
 In-Reply-To: <20221123144436.2141069-1-kraxel@redhat.com>
 References: <20221123144436.2141069-1-kraxel@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,31 +86,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Michael Tokarev <mjt@tls.msk.ru>
+From: Dongwon Kim <dongwon.kim@intel.com>
 
-Fixes: effaf5a240e03020f4ae953e10b764622c3e87cc
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20221105114851.306206-1-mjt@msgid.tls.msk.ru>
+A warning, "qemu: warning: console: no gl-unblock within" followed by
+guest scanout lockup can happen if dpy_gl_update is called in a row
+and the second call is made before gd_draw_event scheduled by the first
+call is taking place. This is because draw call returns without decrementing
+gl_block ref count if the dmabuf was already submitted as shown below.
+
+(gd_gl_area_draw/gd_egl_draw)
+
+        if (dmabuf) {
+            if (!dmabuf->draw_submitted) {
+                return;
+            } else {
+                dmabuf->draw_submitted = false;
+            }
+        }
+
+So it should not schedule any redundant draw event in case draw_submitted is
+already set in gd_egl_fluch/gd_gl_area_scanout_flush.
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20221021192315.9110-1-dongwon.kim@intel.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-xhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ui/gtk-egl.c     | 2 +-
+ ui/gtk-gl-area.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 8299f35e6695..b89b618ec210 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -796,7 +796,7 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
-          */
-     } while (length < TRB_LINK_LIMIT * 65536 / TRB_SIZE);
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 35f917ceb15e..e84431790c9b 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -341,7 +341,7 @@ void gd_egl_flush(DisplayChangeListener *dcl,
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+     GtkWidget *area = vc->gfx.drawing_area;
  
--    qemu_log_mask(LOG_GUEST_ERROR, "%s: exceeded maximum tranfer ring size!\n",
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: exceeded maximum transfer ring size!\n",
-                           __func__);
+-    if (vc->gfx.guest_fb.dmabuf) {
++    if (vc->gfx.guest_fb.dmabuf && !vc->gfx.guest_fb.dmabuf->draw_submitted) {
+         graphic_hw_gl_block(vc->gfx.dcl.con, true);
+         vc->gfx.guest_fb.dmabuf->draw_submitted = true;
+         gtk_widget_queue_draw_area(area, x, y, w, h);
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index 682638a197d2..7696df1f6bc4 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -278,7 +278,7 @@ void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
  
-     return -1;
+-    if (vc->gfx.guest_fb.dmabuf) {
++    if (vc->gfx.guest_fb.dmabuf && !vc->gfx.guest_fb.dmabuf->draw_submitted) {
+         graphic_hw_gl_block(vc->gfx.dcl.con, true);
+         vc->gfx.guest_fb.dmabuf->draw_submitted = true;
+     }
 -- 
 2.38.1
 
