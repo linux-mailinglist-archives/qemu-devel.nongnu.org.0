@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D1563634F
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5D763634D
 	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:22:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxrZF-0004pP-GC; Wed, 23 Nov 2022 10:21:41 -0500
+	id 1oxrZG-0004pZ-1u; Wed, 23 Nov 2022 10:21:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxrZD-0004or-18
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:39 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1oxrZE-0004p0-Cn
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:40 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oxrZB-0006Tl-7o
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:38 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso1680453wme.5
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 07:21:36 -0800 (PST)
+ id 1oxrZB-0006Tq-Tm
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:21:40 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id i12so26020820wrb.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 07:21:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=t6i2chXybZhHzH7CmCmYDx3Yy0sdjv4ra3ikgYcmUMA=;
- b=p3FH76crndeXD+XKP0OoU85ergRXB5OSpex59vTnk8TS1KyBjJQ7XICxB/LyOBbJh5
- RwCGpVqXbz3ZwhL+KH41+lt3LoBeED6XqOUmIzZNRd6eldnqlwd5fCdl4i021LOMm3eg
- N5wOFMdxqtN+z3xQn0sD4J0sbC1ht6aqVp7TRydRHMviUDCsUTb/59gq0fewF2Dm6n4T
- /ZrMGjt8HpL7LCuQHwHO4c8UQWWkufqjeAYYEXQrF7y39nZRBbnY5diTWyuBMBv02N8n
- MkGhKCW7+Ll/P5eY+BDPOgGiyyUBkCLKOPjQOl35ZthKEPrkzXfqJUzpI6+5y1R2SgGm
- Rcnw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oheCMzPlxFSw90huN9+zm9vfeGiOj55wqAJi+rQ46y8=;
+ b=dL3/kdxaI9Vzk5VwfieV8qd5WhPPP3Ld8fU/oNpphZBYKIOLE061ipKYQyzHz4voH+
+ r0WoxizYuHQvDayFqvFeMDN5laGjb6HvxS9HL5bzYPyrzlENti1/sj3RqJmdcjO2yBuV
+ chjzZSBJCepLuCJIGn4CZWW8ywzzcwOKIwDa09IdY7okO+aIz6+qQMBCwckVSrCYAvpe
+ I2tq80uU6n+0GJ53wvW1l42RFPS4y6IrYWLJj1YziDJrepySV4OL8Z9aTpPedz8JMfOn
+ 6ssqnasGgzbSvfN1SQRKLqncIIxwvAsFc6h8RB4CLs28Nd1Zd2uUrNi8xn9BEn0RGdaG
+ EBmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=t6i2chXybZhHzH7CmCmYDx3Yy0sdjv4ra3ikgYcmUMA=;
- b=J1izaVv9MKPxKPoVTFT1OYoUPLnJAgeHfmJFjuooLUB5DnrEhCcesYhDmHtuWhPwg2
- b0KaU9y5y32O+K7ogi4gDyKg8JSM937yQdDYKlWxHWtlWSqBiDo3E/5qs+QM18qGEdTs
- QTWqBjuRfEPjvETS+VhT84bhoGvuQC1ALpWvczoM27aOdb4CW1xiP7BCVTNb5WGQEL+9
- RkRdZIgW/YMKhb09LPCdBzy1hmZc/iudOnjSuLome3FbDE5QaBalcfm+9FeH+T7rvknk
- sU74aWg9WI8tSVQWLGaoEDUKZVxbYwc5/2MshpvqEfOX1n5tpcquZGat2CSWEmvvfPlg
- rxzw==
-X-Gm-Message-State: ANoB5pmZWmpGXCq7kqGnluwo79Uw/Cnqb7c6AKwm+HlEGIp/oeAyav8Z
- 0Kf5K7HxDh4/CfiSXFhFVzfm5A==
-X-Google-Smtp-Source: AA0mqf5vcEa+G2aKoPj4JkFG1DvmcK2jHbjah9AGoOwW+FzMjj4L1iIoi2wpfPM+3Ikd/VXljaPDSg==
-X-Received: by 2002:a05:600c:5124:b0:3cf:878c:6555 with SMTP id
- o36-20020a05600c512400b003cf878c6555mr9808420wms.38.1669216895730; 
- Wed, 23 Nov 2022 07:21:35 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oheCMzPlxFSw90huN9+zm9vfeGiOj55wqAJi+rQ46y8=;
+ b=a6cA3OlsV9lttSfIJOyk0JL9ote+eaHT76Of0Y496H3wq1mictdecas4zOFxDMpYif
+ dQjvhUXkwvw/AQ7m4tMkfiz0itIHNAMoaR4tOmiHPGt07/2hX1GlRQiKIWN/IxYpPsY2
+ UeAzKym4wsYiXy+oenOv3fxA/NSur+11FIhvL0JyD5WITbKou5DPO9wsqFgB/4oXfWGo
+ OKPTs60fXGDcV//SlQQUhSmXR96Dpc/kWLvkCHLG5PF4aawYVJCGWybJTdg90N8Velld
+ tHZD+CcLjTq6f7gQaIP1k40aKzVy85gQykW5njAaPUz1G5dQZo1o5N+bSI94VDVQc2AX
+ zgvA==
+X-Gm-Message-State: ANoB5pnf5pWucDmfXYdn/gTsvPRFSXXFunTj1x2Gd6cwml1GNXML8IcK
+ 24jcN8rQvfVHq1BCNf1JV9VrgQ==
+X-Google-Smtp-Source: AA0mqf49kcw7LDbXf0Irl5c61KM6FSLohtnweeaUro7nLmYakrTfphu8HPKphS8NGxGAWIpth/0wDw==
+X-Received: by 2002:a5d:4409:0:b0:241:eeaa:9917 with SMTP id
+ z9-20020a5d4409000000b00241eeaa9917mr1831960wrq.68.1669216896582; 
+ Wed, 23 Nov 2022 07:21:36 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a5d668d000000b00236488f62d6sm16965023wru.79.2022.11.23.07.21.34
+ h14-20020adffa8e000000b0022e653f5abbsm6652512wrr.69.2022.11.23.07.21.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 23 Nov 2022 07:21:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 84A071FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id A00D01FFB8;
  Wed, 23 Nov 2022 15:21:34 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
-Date: Wed, 23 Nov 2022 15:21:32 +0000
-Message-Id: <20221123152134.179929-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Subject: [PATCH v1 1/2] include/hw: attempt to document VirtIO feature
+ variables
+Date: Wed, 23 Nov 2022 15:21:33 +0000
+Message-Id: <20221123152134.179929-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221123152134.179929-1-alex.bennee@linaro.org>
+References: <20221123152134.179929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,31 +98,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+We have a bunch of variables associated with the device and the vhost
+backend which are used inconsistently throughout the code base. Lets
+start trying to bring some order by agreeing what each variable is
+for.
 
-This hopefully fixes the problems with VirtIO migration caused by the
-previous refactoring of virtio_device_started(). That introduced a
-different order of checking which didn't give the VM state primacy but
-wasn't noticed as we don't properly exercise VirtIO device migration
-and caused issues when dev->started wasn't checked in the core code.
-The introduction of virtio_device_should_start() split the overloaded
-function up but the broken order still remained. The series finally
-fixes that by restoring the original semantics but with the cleaned up
-functions.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Stefano Garzarella <sgarzare@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>
 
-I've added more documentation to the various structures involved as
-well as the functions. There is still some inconsistencies in the
-VirtIO code between different devices but I think that can be looked
-at over the 8.0 cycle.
+---
+v2
+  - dropped DISCUSS and commentary
+  - separated protocol section for clarity
+  - updated working on vhost->backend_features
+  - made clear guest_features was the written state
+---
+ include/hw/virtio/vhost.h  | 25 ++++++++++++++++++++++---
+ include/hw/virtio/virtio.h | 19 ++++++++++++++++++-
+ 2 files changed, 40 insertions(+), 4 deletions(-)
 
-Alex Bennée (2):
-  include/hw: attempt to document VirtIO feature variables
-  include/hw: VM state takes precedence in virtio_device_should_start
-
- include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
- include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
- 2 files changed, 59 insertions(+), 9 deletions(-)
-
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 353252ac3e..eaf628f656 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -88,13 +88,32 @@ struct vhost_dev {
+     int vq_index_end;
+     /* if non-zero, minimum required value for max_queues */
+     int num_queues;
++    /**
++     * vhost feature handling requires matching the feature set
++     * offered by a backend which may be a subset of the total
++     * features eventually offered to the guest.
++     *
++     * @features: available features provided by the backend
++     * @acked_features: final negotiated features with front-end driver
++     *
++     * @backend_features: this is used in a couple of places to either
++     * store VHOST_USER_F_PROTOCOL_FEATURES to apply to
++     * VHOST_USER_SET_FEATURES or VHOST_NET_F_VIRTIO_NET_HDR. Its
++     * future use should be discouraged and the variable retired as
++     * its easy to confuse with the VirtIO backend_features.
++     */
+     uint64_t features;
+-    /** @acked_features: final set of negotiated features */
+     uint64_t acked_features;
+-    /** @backend_features: backend specific feature bits */
+     uint64_t backend_features;
+-    /** @protocol_features: final negotiated protocol features */
++
++    /**
++     * @protocol_features: is the vhost-user only feature set by
++     * VHOST_USER_SET_PROTOCOL_FEATURES. Protocol features are only
++     * negotiated if VHOST_USER_F_PROTOCOL_FEATURES has been offered
++     * by the backend (see @features).
++     */
+     uint64_t protocol_features;
++
+     uint64_t max_queues;
+     uint64_t backend_cap;
+     /* @started: is the vhost device started? */
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index a973811cbf..0f612067f7 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -93,6 +93,12 @@ enum virtio_device_endian {
+     VIRTIO_DEVICE_ENDIAN_BIG,
+ };
+ 
++/**
++ * struct VirtIODevice - common VirtIO structure
++ * @name: name of the device
++ * @status: VirtIO Device Status field
++ *
++ */
+ struct VirtIODevice
+ {
+     DeviceState parent_obj;
+@@ -100,9 +106,20 @@ struct VirtIODevice
+     uint8_t status;
+     uint8_t isr;
+     uint16_t queue_sel;
+-    uint64_t guest_features;
++    /**
++     * These fields represent a set of VirtIO features at various
++     * levels of the stack. @host_features indicates the complete
++     * feature set the VirtIO device can offer to the driver.
++     * @guest_features indicates which features the VirtIO driver has
++     * selected by writing to the feature register. Finally
++     * @backend_features represents everything supported by the
++     * backend (e.g. vhost) and could potentially be a subset of the
++     * total feature set offered by QEMU.
++     */
+     uint64_t host_features;
++    uint64_t guest_features;
+     uint64_t backend_features;
++
+     size_t config_len;
+     void *config;
+     uint16_t config_vector;
 -- 
 2.34.1
 
