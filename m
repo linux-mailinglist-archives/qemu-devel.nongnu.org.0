@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E1E635C2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 12:53:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3CE635C1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 12:51:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxo9I-0002cT-1K; Wed, 23 Nov 2022 06:42:40 -0500
+	id 1oxo9M-0002jC-Q4; Wed, 23 Nov 2022 06:42:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oxo9F-0002bP-RK
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:37 -0500
+ id 1oxo9I-0002dp-6T
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oxo9D-00060H-9T
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:37 -0500
+ id 1oxo9F-00061e-Fv
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669203754;
+ s=mimecast20190719; t=1669203756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+82cBlNV+3lriRI4Ef6kEA7/U6YlDWy6VmChSSkAUI4=;
- b=d8QDXX4LKz1UEUBTw99ZYRf5QbMymRk0EAZjJ5nd8VO56zxMHVkDLlN71fG+vDLgaP7q2F
- +tJuLsrYxXhsTfeLfcABQCFxTGCd57iK/1KxmkwIbhdGAKz29jPxhZSLdwLtX2LYRHF0Sj
- GU3woxuDx5NbhMjyWzwGwFtL+n9xee8=
+ bh=Cu6WsWdDz3gyTd2v4GhCzqxoC2+4u7w9eDNsfieYH2o=;
+ b=TPRZSBN9FCkHXbqBaIGnFT4Cb7gI4IVBMxh+ZITW8BiiaScHuFovQi+pBj06SRxh4+yjKM
+ hgGzPFHyEFIxRoJRUzjLBrdJP+WtXJSmiib3NAoSK/k6O7No0D30Hmx/Q9laCY/YjDFKc0
+ b+MM3i0YebpJ7a7Hhcnq/jD1Va7otXg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-bQ0jyijTPESJ27TP8-yb-A-1; Wed, 23 Nov 2022 06:42:33 -0500
-X-MC-Unique: bQ0jyijTPESJ27TP8-yb-A-1
+ us-mta-135-R9yWKI02OEeVW9Rvv4voCg-1; Wed, 23 Nov 2022 06:42:33 -0500
+X-MC-Unique: R9yWKI02OEeVW9Rvv4voCg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CECFE101A528;
- Wed, 23 Nov 2022 11:42:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 394FE802D32;
+ Wed, 23 Nov 2022 11:42:33 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78672C2C8CA;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7679C2C8CA;
  Wed, 23 Nov 2022 11:42:32 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -53,9 +53,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
  Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v5 07/15] block: introduce QEMU_IN_COROUTINE macro
-Date: Wed, 23 Nov 2022 06:42:19 -0500
-Message-Id: <20221123114227.85757-8-eesposit@redhat.com>
+Subject: [PATCH v5 08/15] block: distinguish between bdrv_create running in
+ coroutine and not
+Date: Wed, 23 Nov 2022 06:42:20 -0500
+Message-Id: <20221123114227.85757-9-eesposit@redhat.com>
 In-Reply-To: <20221123114227.85757-1-eesposit@redhat.com>
 References: <20221123114227.85757-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -85,41 +86,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This macro will be used to mark all coroutine_fn functions.
-Right now, it will be used for the newly introduced coroutine_fn, since
-we know the callers.
+Call two different functions depending on whether bdrv_create
+is in coroutine or not, following the same pattern as
+generated_co_wrapper functions.
 
-As a TODO, in the future we might want to add this macro to all
-corotuine_fn functions, to be sure that they are only called in
-coroutines context.
+This allows to also call the coroutine function directly,
+without using CreateCo or relying in bdrv_create().
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/block/block-common.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ block.c | 72 +++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 37 insertions(+), 35 deletions(-)
 
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 297704c1e9..24de1d63fd 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -34,6 +34,17 @@
- #include "qemu/hbitmap.h"
- #include "qemu/transactions.h"
+diff --git a/block.c b/block.c
+index 9d51e7b6e5..8a7f87f783 100644
+--- a/block.c
++++ b/block.c
+@@ -528,63 +528,65 @@ typedef struct CreateCo {
+     Error *err;
+ } CreateCo;
  
-+/*
-+ * QEMU_IN_COROUTINE
-+ *
-+ * To be used in all coroutine_fn functions, to make sure that the caller
-+ * is always a coroutine.
-+ */
-+#define QEMU_IN_COROUTINE()                                         \
-+    do {                                                            \
-+        assert(qemu_in_coroutine());                                \
-+    } while (0)
+-static void coroutine_fn bdrv_create_co_entry(void *opaque)
++static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
++                                       QemuOpts *opts, Error **errp)
+ {
+-    Error *local_err = NULL;
+     int ret;
++    GLOBAL_STATE_CODE();
++    QEMU_IN_COROUTINE();
++    ERRP_GUARD();
++    assert(*errp == NULL);
++    assert(drv);
 +
- /*
-  * generated_co_wrapper
-  *
++    if (!drv->bdrv_co_create_opts) {
++        error_setg(errp, "Driver '%s' does not support image creation",
++                   drv->format_name);
++        return -ENOTSUP;
++    }
++
++    ret = drv->bdrv_co_create_opts(drv, filename, opts, errp);
+ 
++    if (ret < 0 && !*errp) {
++        error_setg_errno(errp, -ret, "Could not create image");
++    }
++
++    return ret;
++}
++
++static void coroutine_fn bdrv_create_co_entry(void *opaque)
++{
+     CreateCo *cco = opaque;
+-    assert(cco->drv);
+     GLOBAL_STATE_CODE();
+ 
+-    ret = cco->drv->bdrv_co_create_opts(cco->drv,
+-                                        cco->filename, cco->opts, &local_err);
+-    error_propagate(&cco->err, local_err);
+-    cco->ret = ret;
++    cco->ret = bdrv_co_create(cco->drv, cco->filename, cco->opts, &cco->err);
+ }
+ 
+ int bdrv_create(BlockDriver *drv, const char* filename,
+                 QemuOpts *opts, Error **errp)
+ {
+-    int ret;
+-
+     GLOBAL_STATE_CODE();
+ 
+-    Coroutine *co;
+-    CreateCo cco = {
+-        .drv = drv,
+-        .filename = filename,
+-        .opts = opts,
+-        .ret = NOT_DONE,
+-        .err = NULL,
+-    };
+-
+-    if (!drv->bdrv_co_create_opts) {
+-        error_setg(errp, "Driver '%s' does not support image creation", drv->format_name);
+-        return -ENOTSUP;
+-    }
+-
+     if (qemu_in_coroutine()) {
+         /* Fast-path if already in coroutine context */
+-        bdrv_create_co_entry(&cco);
++        return bdrv_co_create(drv, filename, opts, errp);
+     } else {
++        Coroutine *co;
++        CreateCo cco = {
++            .drv = drv,
++            .filename = filename,
++            .opts = opts,
++            .ret = NOT_DONE,
++            .err = NULL,
++        };
++
+         co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
+         qemu_coroutine_enter(co);
+         while (cco.ret == NOT_DONE) {
+             aio_poll(qemu_get_aio_context(), true);
+         }
++        error_propagate(errp, cco.err);
++        return cco.ret;
+     }
+-
+-    ret = cco.ret;
+-    if (ret < 0) {
+-        if (cco.err) {
+-            error_propagate(errp, cco.err);
+-        } else {
+-            error_setg_errno(errp, -ret, "Could not create image");
+-        }
+-    }
+-
+-    return ret;
+ }
+ 
+ /**
 -- 
 2.31.1
 
