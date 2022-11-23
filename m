@@ -2,111 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DDC6368A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:24:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CC4636947
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 19:51:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxuPi-000339-R3; Wed, 23 Nov 2022 13:24:02 -0500
+	id 1oxuoX-0001eC-Vb; Wed, 23 Nov 2022 13:49:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oxuPh-00032c-0a
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:24:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oxuoW-0001db-59
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:49:40 -0500
+Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oxuPe-0005b4-TR
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:24:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669227837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kJCMuj6j/qB4ie0u4yIKypS/ud9QgstC80z6Tjkfux4=;
- b=bhWwhjKMmyqq/mn8yxboHU/G+y1EXcJqrn1b5IqGIAaKplNpAJtBFSM/azBRisaDsQZOPU
- YL76PyJpqwnT7CPTR7hBE3oVstmoYcgxXiIuBm+fsRQ4tslrIxw3yV48OEeimRPY6BfpKN
- e806nxZGniYsRLxsn3WeQ0znakeTQdA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-349-638kVpv1MDWPIuUhcHAr6Q-1; Wed, 23 Nov 2022 13:23:56 -0500
-X-MC-Unique: 638kVpv1MDWPIuUhcHAr6Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c126-20020a1c3584000000b003cfffcf7c1aso1410200wma.0
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 10:23:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kJCMuj6j/qB4ie0u4yIKypS/ud9QgstC80z6Tjkfux4=;
- b=n5NkpyyNr34fITiUxymbPpZGF9Xi0Ufhh5WFnf16OJlDsfTfA1Aio3YhKk/Yl0G0xC
- 6mc6UhRRyp2pfbTUXa7YfgUXbWvdsIl1q8WVmCl3p53/xiKYtuq2QJi9tRyPJhQzLJbs
- KUMNnvrDl1JA2DtaGIQhq64nNnu3E7X7Md2MxL306tQ/YacJGrB5UfmRsP5Fd+sM2eIC
- reoPpY9wlA5OkgKNgbRDfYRBo3o1cSopMpbROdISiR7antYogDqfQBnCBO3dcwEAOPYC
- XcJpF9la4b81MHeXIJbGv6FpjtSfe2Wz0DZqFz/UWgZrNhG1jfthZuC4YwDKSdoBbQuY
- SwmA==
-X-Gm-Message-State: ANoB5pkMlIGiFsSFis+wWnrajkiB8rjlPqovyJTI1DBJsY27gr4srbRn
- nVx8wYYvyFIKz0ELEr68a1w2flmAEHFt/5sjNLZ2KQD31uYBd7dpK7WgGXK2hwM7HQC5zC2NM2S
- w+58/EhK06JpKy3o=
-X-Received: by 2002:a7b:cc85:0:b0:3bf:d1e2:1d9 with SMTP id
- p5-20020a7bcc85000000b003bfd1e201d9mr14583841wma.115.1669227834790; 
- Wed, 23 Nov 2022 10:23:54 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7eGFcYHOs5xOk9IthmgHcpU5LOmxX8iXEbbWSLmeR1WIDCZ/of4xgScPicCrIHtH4t9zbS6A==
-X-Received: by 2002:a7b:cc85:0:b0:3bf:d1e2:1d9 with SMTP id
- p5-20020a7bcc85000000b003bfd1e201d9mr14583813wma.115.1669227834552; 
- Wed, 23 Nov 2022 10:23:54 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- l10-20020adff48a000000b002366ded5864sm17126289wro.116.2022.11.23.10.23.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 10:23:54 -0800 (PST)
-Date: Wed, 23 Nov 2022 18:23:51 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-s390x@nongnu.org, qemu-block@nongnu.org,
- Kunkun Jiang <jiangkunkun@huawei.com>,
- "Zhang, Chen" <chen.zhang@intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 01/17] migration: Remove res_compatible parameter
-Message-ID: <Y35lN2Pk1FAef4cR@work-vm>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-2-avihaih@nvidia.com>
- <fbf06ccb-c339-d323-c01e-455109bed372@yandex-team.ru>
- <a469eb6a-8630-0e2e-e000-4a24bbb9b26d@nvidia.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oxuoT-0004Ss-6N
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 13:49:39 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.237])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 781E8210F5;
+ Wed, 23 Nov 2022 18:49:24 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 23 Nov
+ 2022 19:49:23 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0017854b4ad-0608-4a79-871c-3f8552342898,
+ 044850B998F460D31CAC33A40C0E65C93B21D494) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <f12c4b6f-8125-696c-5699-802ccc7c5f39@kaod.org>
+Date: Wed, 23 Nov 2022 19:49:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, Cleber Rosa
+ <crosa@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221118113309.1057790-1-alex.bennee@linaro.org>
+ <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
+ <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com> <87fse9bvmf.fsf@linaro.org>
+ <504f6645-5315-74c5-623d-d8bf231aec09@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <504f6645-5315-74c5-623d-d8bf231aec09@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a469eb6a-8630-0e2e-e000-4a24bbb9b26d@nvidia.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 40afb719-2d1c-496b-92f2-2cb4d557dc39
+X-Ovh-Tracer-Id: 7724799263469112111
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeivdffueeuveduhffgheegtdekvdeihfegvefgieejhfejffevfeehffeuveekjeenucffohhmrghinhepkhgvrhhnvghltghirdhorhhgpdhinhhsthgvrggurdgtihdpughonhgvrdhnohifpdhlihhnrghrohdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdptghrohhsrg
+ esrhgvughhrghtrdgtohhmpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdgslhgvrghlsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
+ helo=9.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,164 +80,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Avihai Horon (avihaih@nvidia.com) wrote:
+On 11/23/22 19:13, Philippe Mathieu-DaudÃ© wrote:
+> On 23/11/22 15:12, Alex BennÃ©e wrote:
+>> Thomas Huth <thuth@redhat.com> writes:
+>>> On 23/11/2022 12.15, Philippe Mathieu-DaudÃ© wrote:
+>>>> On 18/11/22 12:33, Alex BennÃ©e wrote:
+>>>>> The old URL wasn't stable. I suspect the current URL will only be
+>>>>> stable for a few months so maybe we need another strategy for hosting
+>>>>> rootfs snapshots?
+>>>>>
+>>>>> Signed-off-by: Alex BennÃ©e <alex.bennee@linaro.org>
+>>>>> ---
+>>>>> Â Â  tests/avocado/boot_linux_console.py | 4 ++--
+>>>>> Â Â  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/tests/avocado/boot_linux_console.py
+>>>>> b/tests/avocado/boot_linux_console.py
+>>>>> index 4c9d551f47..5a2923c423 100644
+>>>>> --- a/tests/avocado/boot_linux_console.py
+>>>>> +++ b/tests/avocado/boot_linux_console.py
+>>>>> @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
+>>>>> Â Â Â Â Â Â Â Â Â Â  dtb_path =
+>>>>> '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
+>>>>> Â Â Â Â Â Â Â Â Â Â  dtb_path = self.extract_from_deb(deb_path, dtb_path)
+>>>>> Â Â Â Â Â Â Â Â Â Â  rootfs_url =
+>>>>> ('http://storage.kernelci.org/images/rootfs/buildroot/'
+>>>>> -Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  'kci-2019.02/armel/base/rootfs.ext2.xz')
+>>>>> -Â Â Â Â Â Â Â  rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
+>>>>> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
+>>>>> +Â Â Â Â Â Â Â  rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
+>>>> If Avocado doesn't find an artifact in its local cache, it will fetch it
+>>>> from the URL.
+>>>> The cache might be populated with artifacts previously downloaded, but
+>>>> their URL is not valid anymore (my case for many tests).
+>>>> We can also add artifacts manually, see [1].
+>>>> I'd rather keep pre-existing tests if possible, to test older
+>>>> (kernel / user-space) images. We don't need to run all the tests all
+>>>> the time:
+>>>> tests can be filtered by tags (see [2]).
+>>>> My preference here is to refactor this test, adding the
+>>>> "kci-2019.02"
+>>>> and "baseline-20221116.0" releases. I can prepare the patch if you /
+>>>> Thomas don't object.
+>>>
+>>> IMHO we shouldn't keep tests in the upstream git repository where the
+>>> binaries are not available in public anymore. They won't get run by
+>>> new contributors anymore, and also could vanish from the disks of the
+>>> people who previously downloaded it, once they wipe their cache or
+>>> upgrade to a new installation, so the test code will sooner or later
+>>> be bitrotting. But if you want to keep the tests around on your hard
+>>> disk, you could also stick the test in a local branch on your hard
+>>> disk instead.
+>>
+>> CI/Workstation splits aside I tend to agree with Thomas here that having
+>> tests no one else can run will lead to an accretion of broken tests.
 > 
-> On 08/11/2022 19:52, Vladimir Sementsov-Ogievskiy wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > On 11/3/22 19:16, Avihai Horon wrote:
-> > > From: Juan Quintela <quintela@redhat.com>
-> > > 
-> > > It was only used for RAM, and in that case, it means that this amount
-> > > of data was sent for memory.
-> > 
-> > Not clear for me, what means "this amount of data was sent for
-> > memory"... That amount of data was not yet sent, actually.
-> > 
-> Yes, this should be changed to something like:
+> Following this idea, should we remove all boards for which no open
+> source & GPL software is available? I.e:
 > 
-> "It was only used for RAM, and in that case, it means that this amount
-> of data still needs to be sent for memory, and can be sent in any phase
-> of migration. The same functionality can be achieved without res_compatible,
-> so just delete the field in all callers and change the definition of
-> res_postcopy accordingly.".
+> 40pÂ Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  IBM RS/6000 7020 (40p)
 
-Sorry, I recently sent a similar comment in reply to Juan's original
-post.
-If I understand correctly though, the dirty bitmap code relies on
-'postcopy' here to be data only sent during postcopy.
+This machine can run debian :
 
-Dave
+   qemu-system-ppc -M 40p -cpu 604 -nic user -hda ./prep.qcow2 -cdrom ./zImage.hdd -serial mon:stdio -nographic
+   
+   >> =============================================================
+   >> OpenBIOS 1.1 [Mar 7 2022 23:07]
+   >> Configuration device id QEMU version 1 machine id 0
+   >> CPUs: 0
+   >> Memory: 128M
+   >> UUID: 00000000-0000-0000-0000-000000000000
+   >> CPU type PowerPC,604
+   milliseconds isn't unique.
+   Welcome to OpenBIOS v1.1 built on Mar 7 2022 23:07
+   Trying hd:,\\:tbxi...
+   >> Not a bootable ELF image
+   >> switching to new context:
+   loaded at:     04000400 04015218
+   relocated to:  00800000 00814E18
+   board data at: 07C9E870 07CA527C
+   relocated to:  0080B130 00811B3C
+   zimage at:     0400B400 0411DC98
+   avail ram:     00400000 00800000
+   
+   Linux/PPC load: console=/dev/ttyS0,9600 console=tty0 ether=5,0x210,eth0 ether=11,0x300,eth1 ramdisk_size=8192 root=/dev/sda3
+   Uncompressing Linux................................................done.
+   Now booting the kernel
+   
+   Debian GNU/Linux 3.0 6015 ttyS0
+   
+   6015 login:
 
-> > > Just delete the field in all callers.
-> > > 
-> > > Signed-off-by: Juan Quintela <quintela@redhat.com>
-> > > ---
-> > >   hw/s390x/s390-stattrib.c       |  6 ++----
-> > >   hw/vfio/migration.c            | 10 ++++------
-> > >   hw/vfio/trace-events           |  2 +-
-> > >   include/migration/register.h   | 20 ++++++++++----------
-> > >   migration/block-dirty-bitmap.c |  7 +++----
-> > >   migration/block.c              |  7 +++----
-> > >   migration/migration.c          |  9 ++++-----
-> > >   migration/ram.c                |  8 +++-----
-> > >   migration/savevm.c             | 14 +++++---------
-> > >   migration/savevm.h             |  4 +---
-> > >   migration/trace-events         |  2 +-
-> > >   11 files changed, 37 insertions(+), 52 deletions(-)
-> > > 
-> > 
-> > [..]
-> > 
-> > > diff --git a/include/migration/register.h b/include/migration/register.h
-> > > index c1dcff0f90..1950fee6a8 100644
-> > > --- a/include/migration/register.h
-> > > +++ b/include/migration/register.h
-> > > @@ -48,18 +48,18 @@ typedef struct SaveVMHandlers {
-> > >       int (*save_setup)(QEMUFile *f, void *opaque);
-> > >       void (*save_live_pending)(QEMUFile *f, void *opaque,
-> > >                                 uint64_t threshold_size,
-> > > -                              uint64_t *res_precopy_only,
-> > > -                              uint64_t *res_compatible,
-> > > -                              uint64_t *res_postcopy_only);
-> > > +                              uint64_t *rest_precopy,
-> > > +                              uint64_t *rest_postcopy);
-> > >       /* Note for save_live_pending:
-> > > -     * - res_precopy_only is for data which must be migrated in
-> > > precopy phase
-> > > -     *     or in stopped state, in other words - before target vm start
-> > > -     * - res_compatible is for data which may be migrated in any phase
-> > > -     * - res_postcopy_only is for data which must be migrated in
-> > > postcopy phase
-> > > -     *     or in stopped state, in other words - after source vm stop
-> > > +     * - res_precopy is for data which must be migrated in precopy
-> > > +     *     phase or in stopped state, in other words - before target
-> > > +     *     vm start
-> > > +     * - res_postcopy is for data which must be migrated in postcopy
-> > > +     *     phase or in stopped state, in other words - after source vm
-> > > +     *     stop
-> > >        *
-> > > -     * Sum of res_postcopy_only, res_compatible and
-> > > res_postcopy_only is the
-> > > -     * whole amount of pending data.
-> > > +     * Sum of res_precopy and res_postcopy is the whole amount of
-> > > +     * pending data.
-> > >        */
-> > > 
-> > > 
-> > 
-> > [..]
-> > 
-> > > diff --git a/migration/ram.c b/migration/ram.c
-> > > index dc1de9ddbc..20167e1102 100644
-> > > --- a/migration/ram.c
-> > > +++ b/migration/ram.c
-> > > @@ -3435,9 +3435,7 @@ static int ram_save_complete(QEMUFile *f, void
-> > > *opaque)
-> > >   }
-> > > 
-> > >   static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t
-> > > max_size,
-> > > -                             uint64_t *res_precopy_only,
-> > > -                             uint64_t *res_compatible,
-> > > -                             uint64_t *res_postcopy_only)
-> > > +                             uint64_t *res_precopy, uint64_t
-> > > *res_postcopy)
-> > >   {
-> > >       RAMState **temp = opaque;
-> > >       RAMState *rs = *temp;
-> > > @@ -3457,9 +3455,9 @@ static void ram_save_pending(QEMUFile *f, void
-> > > *opaque, uint64_t max_size,
-> > > 
-> > >       if (migrate_postcopy_ram()) {
-> > >           /* We can do postcopy, and all the data is postcopiable */
-> > > -        *res_compatible += remaining_size;
-> > > +        *res_postcopy += remaining_size;
-> > 
-> > That's seems to be not quite correct.
-> > 
-> > res_postcopy is defined as "data which must be migrated in postcopy",
-> > but that's not true here, as RAM can be migrated both in precopy and
-> > postcopy.
-> > 
-> > Still we really can include "compat" into "postcopy" just because in the
-> > logic of migration_iteration_run() we don't actually distinguish
-> > "compat" and "post". The logic only depends on "total" and "pre".
-> > 
-> > So, if we want to combine "compat" into "post", we should redefine
-> > "post" in the comment in include/migration/register.h, something like
-> > this:
-> > 
-> > - res_precopy is for data which MUST be migrated in precopy
-> >   phase or in stopped state, in other words - before target
-> >   vm start
-> > 
-> > - res_postcopy is for all data except for declared in res_precopy.
-> >   res_postcopy data CAN be migrated in postcopy, i.e. after target
-> >   vm start.
-> > 
-> > 
-> You are right, the definition of res_postcopy should be changed.
+Please keep it ! :)
+
+and it also boots AIX 4.4/5.1 (with 2 small patches) but that's clearly
+not open source. It is downloadable from the net though, like many macos
+PPC images.
+
+That said, we might have been putting too much in avocado and it takes
+ages to run (when it does not hit some random python issue).
+
+
+> akitaÂ Â Â Â Â Â Â Â Â Â Â Â Â Â Â  Sharp SL-C1000 (Akita) PDA (PXA270)
+> midwayÂ Â Â Â Â Â Â Â Â Â Â Â Â Â  Calxeda Midway (ECX-2000)
+> terrierÂ Â Â Â Â Â Â Â Â Â Â Â Â  Sharp SL-C3200 (Terrier) PDA (PXA270)
+> tosaÂ Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  Sharp SL-6000 (Tosa) PDA (PXA255)
 > 
-> Yet, I am not sure if this patch really makes things more clear/simple.
-> Juan, what do you think?
+>> Given the tests themselves are standalone couldn't the prospective test
+>> hoarder keep their own personal repository to be run with the rest of the
+>> in-tree code, something like:
+>>
+>> Â Â  cd my/test/zoo/repo
+>> Â Â  $(QEMU_BUILD)/tests/venv/bin/avocado run my_test_zoo.py
+>>
+>> for convenience we could maybe support an env variable so the existing
+>> test selection tags would work:
+>>
+>> Â Â  set -x QEMU_AVOCADO_EXTRA_TESTS /my/test/zoo/repo
+>> Â Â  ./tests/venv/bin/avocado list
+>> Â Â  ...
+>> Â Â  <list all tests in qemu src tree and extra>
+>> Â Â  ...
+>>
+>> ?
 > 
-> Thanks!
-> > >       } else {
-> > > -        *res_precopy_only += remaining_size;
-> > > +        *res_precopy += remaining_size;
-> > >       }
-> > >   }
-> > > 
-> > 
-> > 
-> > -- 
-> > Best regards,
-> > Vladimir
-> > 
+> Yes, this is what we use to test the Fuloong2E:
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> $ git grep RESCUE_YL_PATH tests/avocado/
+> tests/avocado/machine_mips_fuloong2e.py:21: @skipUnless(os.getenv('RESCUE_YL_PATH'), 'RESCUE_YL_PATH not available')
+> tests/avocado/machine_mips_fuloong2e.py:34:Â Â Â Â Â Â Â  kernel_path = self.fetch_asset('file://' + os.getenv('RESCUE_YL_PATH'),
+> 
+> The firmware is not open source / GPL but if you have a Fuloong2E board
+> you can dump it from the flash, then use it to test QEMU from hard reset
+> up to userland. Otherwise you are forced to use the -kernel argument.
+> 
+>>> The other possibility is to upload the binaries to a new public
+>>> location in the web ... but for software that contains GPLed software,
+>>> you should then also make sure to provide the source code to comply
+>>> with the license.
+>>
+>> This is the traditional reason we've lent so hard on external hosting
+>> for binaries because the upstream doesn't want the hassle of maintaining
+>> that sort of zoo of binaries. That said we have tests where binaries are
+>> served from fileserver.linaro.org but its then only my problem to deal
+>> with GPL requirements and not the upstream.
+> 
+> Maybe we are discussing 2 different topics. I am in possession of
+> old Solaris installation CDROMs and could boot some of them with
+> qemu-system-sparc. I want to automatize my testing, and wrote Avocado
+> scripts doing that. I suppose other QEMU users have similar CDROMs.
+> If I contribute my tests, they can run them. Isn't it in the interest
+> of the community to have such examples and tests available?
+
+I think so.
+
+Is it time to move some of the tests (and images) in an external tree ?
+That would be one way to keep them available for all. I like qemu-zoo.
+
+It would certainly require some legal advice.
+  
+
+C.
+
+
+> 
+> Regards,
+> 
+> Phil.
+> 
 
 
