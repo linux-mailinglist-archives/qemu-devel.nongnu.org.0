@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E858D63636F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FDF63638E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:27:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxrdL-0007lv-0N; Wed, 23 Nov 2022 10:25:55 -0500
+	id 1oxreO-0000JB-Ib; Wed, 23 Nov 2022 10:27:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oxrdJ-0007le-Gc
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:25:53 -0500
-Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oxrdH-0007I5-OU
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:25:53 -0500
-Received: by mail-vk1-xa31.google.com with SMTP id g26so8886001vkm.12
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 07:25:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jnWkwXG3Vi5DMXV0pPhqmGZ/Ci3Wa5x/75T1/rlQ07k=;
- b=Gcm3YBBUtUFJgRWCh9ZV7wjjpOCwZSiFgBlIrpaYWIaDNc0PMJB6HSfiPOCEqTfuZ6
- YiesspsX6TNp98BuCwIhOhW+s4lvAjShWm6pV77XhoXV2y6Mp1I0UMh6bZ5Q9MxTWQYu
- hhsdvsEayuWOAmzd0Em6YRgaM9A/cqPgiGnrRWMR9AuuQhQ6UohiF2nV0Pg6UF9b7CMv
- yisegdU13rnj4P34ti8dEFH2EnxA/bHTa64Ynb7PSrkid3OTMTQZdoywLyixOquclTrj
- BH7Q6p5+ZhK/MFwIQKgcXg3JZP9C7386FDsS29rDd3b+z8nYNp1z0pFkz3tz23B5QJZ6
- +p1Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxreL-0000Hd-Vw
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:26:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxreI-00082e-F3
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:26:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669217213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yu5FHBqQ4oIJs0Gdn8h2BnF2QgMMKhAU7vDCRSeEZVo=;
+ b=btfhvsA9hrX14GU/kawHUUJD8IEk6Dp5azbf/BAIPjnkrCexLLDTuT12/EniNO/d4ENhg9
+ CqLfj6VNS1pbrIBQ75W/nVeLs90v9o5FMcIAcbQjISnGh0rD275Yb9J1K/GY1vtskXXrDw
+ nddnjG1DOkcUCgjUoxI4NWDaND/2IPM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-453-TQA1oEIiOrWCNGd7ctstUQ-1; Wed, 23 Nov 2022 10:26:51 -0500
+X-MC-Unique: TQA1oEIiOrWCNGd7ctstUQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ k7-20020adfc707000000b002416f2e9ad5so5105379wrg.6
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 07:26:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jnWkwXG3Vi5DMXV0pPhqmGZ/Ci3Wa5x/75T1/rlQ07k=;
- b=XfpKM6zr7VBv87sBQS398e0VOfPPRolRaWfXqm3RKe1mhZIctOVytTKIbKXIUSpX51
- zcipBrp0BBLiUNfjpdNQgRIhjz6lg72Z+tjFDVN0Qm1FjRSv0T3iBZ7+CYcn1XNe+4M/
- WuspsYZlZwj6TCN79gVXXVDRCNlJVJtpi4tC62JfcH7UM/tmG0jqfXrkD7AhQP+H0wen
- buWSzTiqoJt4MHfmLFSS2RVw44bKWDtIeDoCJ32v6++u4QgrmCKM540A0lORKEtCP0d1
- m6RfC9hR2RHR2gl9ka8FEMlM2tFmWpvXI4VhtQq5kJBgx2AWlu+z8urs19VJZqIDMT7v
- kQIQ==
-X-Gm-Message-State: ANoB5pk3v05XidN6i+4ZKCZyPjb67SvDSZi3UQw+MGVvEGCdxYrdPD0F
- +8R4YtUImFSoOc9Xwnqmgbni2t9lCorDLR7HBlQ=
-X-Google-Smtp-Source: AA0mqf6wm2bFXd0087wk5A6DV40bygsPMfcJSnnPXp2sVlgll76xXDLIRDsKFIoxhgKl1XXrUjOkL76WP5kD/UlB88Y=
-X-Received: by 2002:a1f:a00e:0:b0:380:5dbd:1076 with SMTP id
- j14-20020a1fa00e000000b003805dbd1076mr6209266vke.22.1669217149869; Wed, 23
- Nov 2022 07:25:49 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yu5FHBqQ4oIJs0Gdn8h2BnF2QgMMKhAU7vDCRSeEZVo=;
+ b=n2dG1MPv7U5oWpxbsIW1nJtbm+mCoOJEY/kD93cgLAQC32nUeUpim0nOPvO9AYmhtP
+ z7Acfzzvte4cqn5YHzFvIJUOWmfSrWktZdc1X4E7l4CtzwE5H7QQONcfvZoLGtAis7wi
+ zfCA1y7csUby55aJGIET9lRj99cIFnFLlFL/ZZEHc6scPH1qYmwgW8QEh9o0Zx3XPBG0
+ dmURrP24gB/lt+26bvNk/vvQI61tiCb1PJHfyJ3v4eVh3WxJtMBxXtvMaUqX1+C6VSOl
+ 60zoI4A/+GfBch75Rvuq4uOX2GbdqEzEHf+srypMLBAMTBrSdhY2iGwpiJLeh0aigNne
+ MykA==
+X-Gm-Message-State: ANoB5pnuFChOJFm5FOHf+frpPJT3GzRT2K4PCGnYeVLjSt8mbO+Dqaxi
+ yTFA9x/h+M3L7uRsiuzPaXuLhd4UN7J/KSXOhwh7L9BOZhyk5pRZQNpWzF6SXfCx77IiXyVeD0/
+ NATbw2eOmhl7jzQw=
+X-Received: by 2002:a05:6000:156e:b0:241:cbe9:78a9 with SMTP id
+ 14-20020a056000156e00b00241cbe978a9mr11527934wrz.529.1669217210446; 
+ Wed, 23 Nov 2022 07:26:50 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5JjkpKXbO4JtNRYGqywpVQ3+qSAMiyJw3qE0mGOH4vHb8PAykqYFp/uWw80No2r4cttz2r5g==
+X-Received: by 2002:a05:6000:156e:b0:241:cbe9:78a9 with SMTP id
+ 14-20020a056000156e00b00241cbe978a9mr11527918wrz.529.1669217210170; 
+ Wed, 23 Nov 2022 07:26:50 -0800 (PST)
+Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
+ bo22-20020a056000069600b0023659925b2asm17498602wrb.51.2022.11.23.07.26.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 07:26:49 -0800 (PST)
+Date: Wed, 23 Nov 2022 10:26:46 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
+Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
+Message-ID: <20221123102522-mutt-send-email-mst@kernel.org>
+References: <20221123152134.179929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20221117064444.20648-1-faithilikerun@gmail.com>
- <CAAAx-8JHmxe=9GuoZ+T1yqtLrrzk+-6_HL5EJ6LBJ+twOKp8sA@mail.gmail.com>
- <CAJSP0QX3j9SbKW7tL6_vc9Ru518qWEG=288gkd+ArkHF05Vgsg@mail.gmail.com>
- <ea14c43b-a740-3ac0-622c-1b6360565946@redhat.com>
-In-Reply-To: <ea14c43b-a740-3ac0-622c-1b6360565946@redhat.com>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Wed, 23 Nov 2022 23:26:02 +0800
-Message-ID: <CAAAx-8+m17O076MPzpQAp9Q-O+_pD9PwUNmXkRHxaSY2EedTvg@mail.gmail.com>
-Subject: Re: [qemu-web PATCH] Add a blog post about zoned storage emulation
-To: Thomas Huth <thuth@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, hare@suse.de, 
- Paolo Bonzini <pbonzini@redhat.com>, dmitry.fomichev@wdc.com, 
- damien.lemoal@opensource.wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
- envelope-from=faithilikerun@gmail.com; helo=mail-vk1-xa31.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221123152134.179929-1-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,36 +97,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> =E4=BA=8E2022=E5=B9=B411=E6=9C=8823=E6=97=A5=
-=E5=91=A8=E4=B8=89 20:48=E5=86=99=E9=81=93=EF=BC=9A
->
-> On 17/11/2022 20.12, Stefan Hajnoczi wrote:
-> > Hi Sam,
-> > Please send a git repo URL so Thomas can fetch the commit without
-> > email/file size limitations.
->
-> The size obviously comes from the PNG image ... since this seems to be a
-> photo, I think JPG would be a better file type, so please convert it to J=
-PG
-> with an appropriate compression level. I assume this will help to shrink =
-it
-> to a reasonable size.
->
-> >> +<img src=3D"/screenshots/zbd.png" alt=3D"zbd" style=3D"zoom:50%;" />
->
-> Another question : Where does the picture come from? Does it have a licen=
-se
-> that allows it to be used on websites like the QEMU blog?
-
-It comes from slide P12 in this sharing and it doesn't have such a
-license. I'll remove this image instead.
-https://kvmforum2022.sched.com/event/15jL3/whats-in-virtio-12-and-what-isnt=
--there-michael-s-tsirkin-red-hat?
-
-Here is a link to the fixed version:
-https://github.com/sgzerolc/qemu-web/tree/zbd
+On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Bennée wrote:
+> Hi,
+> 
+> This hopefully fixes the problems with VirtIO migration caused by the
+> previous refactoring of virtio_device_started(). That introduced a
+> different order of checking which didn't give the VM state primacy but
+> wasn't noticed as we don't properly exercise VirtIO device migration
+> and caused issues when dev->started wasn't checked in the core code.
+> The introduction of virtio_device_should_start() split the overloaded
+> function up but the broken order still remained. The series finally
+> fixes that by restoring the original semantics but with the cleaned up
+> functions.
+> 
+> I've added more documentation to the various structures involved as
+> well as the functions. There is still some inconsistencies in the
+> VirtIO code between different devices but I think that can be looked
+> at over the 8.0 cycle.
 
 
-Thanks,
-Sam
+Thanks a lot! Did you try this with gitlab CI? A patch similar to your
+2/2 broke it previously ...
+
+> Alex Bennée (2):
+>   include/hw: attempt to document VirtIO feature variables
+>   include/hw: VM state takes precedence in virtio_device_should_start
+> 
+>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
+>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
+>  2 files changed, 59 insertions(+), 9 deletions(-)
+> 
+> -- 
+> 2.34.1
+
 
