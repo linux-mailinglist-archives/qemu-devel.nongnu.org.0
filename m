@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1327C6361CA
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F276361CB
 	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:30:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqkW-0005zT-CL; Wed, 23 Nov 2022 09:29:16 -0500
+	id 1oxqkR-0005xl-Ja; Wed, 23 Nov 2022 09:29:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqkU-0005y1-IF
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:29:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqkP-0005wo-Fz
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:29:09 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqkE-0007rZ-JP
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:29:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqkE-0007rl-G5
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:29:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669213731;
+ s=mimecast20190719; t=1669213733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vx8jwhZ5JA50XDvQkT9s3wUY4Qtm+zGpLtW/8BRstr8=;
- b=ZXMbS4qF4HRUCu0FZaVPoKxflAUfYtzzbuQaGn6O0cc3CFkjwXPDnngkW20D1yF0e2few9
- dOPFfxrpww7Xw0ZyHXKBbG1IYgclVuRhVjXw5dqGBWAZ5Xk7K1DbPxbXl0KSgfB7XIGRb+
- TXnoxT7l+fE9Fg4z/KzKLPyrX8Ltgf4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pC3V1c3V8x9CDuL/8b3aDBtbu068BZaSB13EdXyWT9k=;
+ b=Bd7JL3UxdRPB+It+fl4Epe0Pg1Gn53n4Htebi1mtoQrP5ZD33OjFvYTTrPSqgOB3gLRs6d
+ NtJve5Z6OVwmICrvnlGX89vNXM/s32USf5oCUyfGrNFFQ/uzm9atME7ZdftaXU9307rEud
+ bqgGt0ZppGr8ASGMpKkKUE5eFIP9U2c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-IS3dNo1vOBytmWuj8g3vmw-1; Wed, 23 Nov 2022 09:28:49 -0500
-X-MC-Unique: IS3dNo1vOBytmWuj8g3vmw-1
+ us-mta-631-lqkaJlHWMtmfv8eVmZQu-g-1; Wed, 23 Nov 2022 09:28:50 -0500
+X-MC-Unique: lqkaJlHWMtmfv8eVmZQu-g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5CB8101A56D
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 14:28:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A208D882826
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 14:28:49 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4FD440C83BB;
- Wed, 23 Nov 2022 14:28:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 087F140C83BB;
+ Wed, 23 Nov 2022 14:28:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL 0/3] Avocado tests and qtests improvements
-Date: Wed, 23 Nov 2022 15:28:40 +0100
-Message-Id: <20221123142843.346105-1-thuth@redhat.com>
+Subject: [PULL 1/3] tests/avocado: Update the URLs of the advent calendar
+ images
+Date: Wed, 23 Nov 2022 15:28:41 +0100
+Message-Id: <20221123142843.346105-2-thuth@redhat.com>
+In-Reply-To: <20221123142843.346105-1-thuth@redhat.com>
+References: <20221123142843.346105-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,41 +76,233 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
- Hi Stefan!
+The qemu-advent-calendar.org server will be decommissioned soon.
+I've mirrored the images that we use for the QEMU CI to gitlab,
+so update their URLs to point to the new location.
 
-The following changes since commit 7c09a7f6ae1770d15535980d15dffdb23f4d9786:
+Message-Id: <20221121102436.78635-1-thuth@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/avocado/boot_linux_console.py     |  4 +--
+ tests/avocado/machine_arm_canona1100.py |  4 +--
+ tests/avocado/machine_microblaze.py     |  4 +--
+ tests/avocado/machine_sparc64_sun4u.py  |  4 +--
+ tests/avocado/ppc_mpc8544ds.py          |  6 ++--
+ tests/avocado/ppc_virtex_ml507.py       |  6 ++--
+ tests/avocado/replay_kernel.py          | 40 ++++++++++++-------------
+ 7 files changed, 34 insertions(+), 34 deletions(-)
 
-  Update VERSION for v7.2.0-rc2 (2022-11-22 18:59:56 -0500)
-
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-11-23
-
-for you to fetch changes up to 4189af72dd6fa74e2253f16c8078be52e55eb80e:
-
-  tests/avocado: use new rootfs for orangepi test (2022-11-23 10:58:48 +0100)
-
-----------------------------------------------------------------
-* Shorten the amount of text from the qos-test to avoid hitting
-  output size limits in the gitlab CI
-* Update URLs of avocado tests
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      tests/avocado: use new rootfs for orangepi test
-
-Thomas Huth (2):
-      tests/avocado: Update the URLs of the advent calendar images
-      tests/qtest: Decrease the amount of output from the qom-test
-
- tests/qtest/qom-test.c                  | 22 +++++++++++++++---
- tests/avocado/boot_linux_console.py     |  8 +++----
- tests/avocado/machine_arm_canona1100.py |  4 ++--
- tests/avocado/machine_microblaze.py     |  4 ++--
- tests/avocado/machine_sparc64_sun4u.py  |  4 ++--
- tests/avocado/ppc_mpc8544ds.py          |  6 ++---
- tests/avocado/ppc_virtex_ml507.py       |  6 ++---
- tests/avocado/replay_kernel.py          | 40 ++++++++++++++++-----------------
- 8 files changed, 55 insertions(+), 39 deletions(-)
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 4c9d551f47..f3e6f44ae9 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -1029,8 +1029,8 @@ def test_m68k_q800(self):
+         self.wait_for_console_pattern(console_pattern)
+ 
+     def do_test_advcal_2018(self, day, tar_hash, kernel_name, console=0):
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day' + day + '.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day' + day + '.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+         self.vm.set_console(console_index=console)
+diff --git a/tests/avocado/machine_arm_canona1100.py b/tests/avocado/machine_arm_canona1100.py
+index 182a0b0513..a42d8b0f2b 100644
+--- a/tests/avocado/machine_arm_canona1100.py
++++ b/tests/avocado/machine_arm_canona1100.py
+@@ -23,8 +23,8 @@ def test_arm_canona1100(self):
+         :avocado: tags=machine:canon-a1100
+         :avocado: tags=device:pflash_cfi02
+         """
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day18.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day18.tar.xz')
+         tar_hash = '068b5fc4242b29381acee94713509f8a876e9db6'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+diff --git a/tests/avocado/machine_microblaze.py b/tests/avocado/machine_microblaze.py
+index 4928920f96..8d0efff30d 100644
+--- a/tests/avocado/machine_microblaze.py
++++ b/tests/avocado/machine_microblaze.py
+@@ -19,8 +19,8 @@ def test_microblaze_s3adsp1800(self):
+         :avocado: tags=machine:petalogix-s3adsp1800
+         """
+ 
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day17.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day17.tar.xz')
+         tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+diff --git a/tests/avocado/machine_sparc64_sun4u.py b/tests/avocado/machine_sparc64_sun4u.py
+index 458165500e..d333c0ae91 100644
+--- a/tests/avocado/machine_sparc64_sun4u.py
++++ b/tests/avocado/machine_sparc64_sun4u.py
+@@ -24,8 +24,8 @@ def test_sparc64_sun4u(self):
+         :avocado: tags=arch:sparc64
+         :avocado: tags=machine:sun4u
+         """
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day23.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day23.tar.xz')
+         tar_hash = '142db83cd974ffadc4f75c8a5cad5bcc5722c240'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+diff --git a/tests/avocado/ppc_mpc8544ds.py b/tests/avocado/ppc_mpc8544ds.py
+index 8d6a749201..b599fb1cc9 100644
+--- a/tests/avocado/ppc_mpc8544ds.py
++++ b/tests/avocado/ppc_mpc8544ds.py
+@@ -22,9 +22,9 @@ def test_ppc_mpc8544ds(self):
+         :avocado: tags=accel:tcg
+         """
+         self.require_accelerator("tcg")
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2020/download/day17.tar.gz')
+-        tar_hash = '7a5239542a7c4257aa4d3b7f6ddf08fb6775c494'
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day04.tar.xz')
++        tar_hash = 'f46724d281a9f30fa892d458be7beb7d34dc25f9'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+         self.vm.set_console()
+diff --git a/tests/avocado/ppc_virtex_ml507.py b/tests/avocado/ppc_virtex_ml507.py
+index 6b07686b56..a73f8ae396 100644
+--- a/tests/avocado/ppc_virtex_ml507.py
++++ b/tests/avocado/ppc_virtex_ml507.py
+@@ -22,9 +22,9 @@ def test_ppc_virtex_ml507(self):
+         :avocado: tags=accel:tcg
+         """
+         self.require_accelerator("tcg")
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2020/download/hippo.tar.gz')
+-        tar_hash = '306b95bfe7d147f125aa176a877e266db8ef914a'
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day08.tar.xz')
++        tar_hash = '74c68f5af7a7b8f21c03097b298f3bb77ff52c1f'
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+         self.vm.set_console()
+diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
+index 0b2b0dc692..00a26e4a0c 100644
+--- a/tests/avocado/replay_kernel.py
++++ b/tests/avocado/replay_kernel.py
+@@ -296,8 +296,8 @@ def test_arm_vexpressa9(self):
+         :avocado: tags=machine:vexpress-a9
+         """
+         tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day16.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day16.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         dtb_path = self.workdir + '/day16/vexpress-v2p-ca9.dtb'
+         self.do_test_advcal_2018(file_path, 'winter.zImage',
+@@ -309,8 +309,8 @@ def test_m68k_mcf5208evb(self):
+         :avocado: tags=machine:mcf5208evb
+         """
+         tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day07.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day07.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'sanity-clause.elf')
+ 
+@@ -321,8 +321,8 @@ def test_microblaze_s3adsp1800(self):
+         :avocado: tags=machine:petalogix-s3adsp1800
+         """
+         tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day17.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day17.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'ballerina.bin')
+ 
+@@ -333,8 +333,8 @@ def test_ppc64_e500(self):
+         :avocado: tags=cpu:e5500
+         """
+         tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day19.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day19.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'uImage')
+ 
+@@ -344,8 +344,8 @@ def test_or1k_sim(self):
+         :avocado: tags=machine:or1k-sim
+         """
+         tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day20.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day20.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'vmlinux')
+ 
+@@ -355,8 +355,8 @@ def test_nios2_10m50(self):
+         :avocado: tags=machine:10m50-ghrd
+         """
+         tar_hash = 'e4251141726c412ac0407c5a6bceefbbff018918'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day14.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day14.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'vmlinux.elf')
+ 
+@@ -366,8 +366,8 @@ def test_ppc_g3beige(self):
+         :avocado: tags=machine:g3beige
+         """
+         tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day15.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day15.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'invaders.elf',
+                                  args=('-M', 'graphics=off'))
+@@ -378,8 +378,8 @@ def test_ppc_mac99(self):
+         :avocado: tags=machine:mac99
+         """
+         tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day15.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day15.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'invaders.elf',
+                                  args=('-M', 'graphics=off'))
+@@ -390,8 +390,8 @@ def test_sparc_ss20(self):
+         :avocado: tags=machine:SS-20
+         """
+         tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day11.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day11.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'zImage.elf')
+ 
+@@ -402,8 +402,8 @@ def test_xtensa_lx60(self):
+         :avocado: tags=cpu:dc233c
+         """
+         tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
+-        tar_url = ('https://www.qemu-advent-calendar.org'
+-                   '/2018/download/day02.tar.xz')
++        tar_url = ('https://qemu-advcal.gitlab.io'
++                   '/qac-best-of-multiarch/download/day02.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf')
+ 
+-- 
+2.31.1
 
 
