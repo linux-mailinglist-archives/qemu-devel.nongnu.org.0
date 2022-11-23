@@ -2,88 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C63636E1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 00:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9930636EA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 01:01:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxypM-0001P1-Pb; Wed, 23 Nov 2022 18:06:48 -0500
+	id 1oxzf8-0002xu-8G; Wed, 23 Nov 2022 19:00:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxypD-0001ND-Dl
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 18:06:43 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxyp3-0007Le-2u
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 18:06:32 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id x17so18189380wrn.6
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 15:06:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=STCh3jnC+3/bKij6RZpVrCTRIxuoUCfsfAHTJ8uIJnA=;
- b=KJX0IyJH8n6Az/JxwsFKCGSyrwaMVf0YnKSG1BN8BckevXNIA8v4CIOpLjdFyDCfkT
- yqDk3MXUiPCkTWt+oyD+Nx8LiEJX7CFQLiFlaD8APYdHWz/eg3B7QFztDhVeTtj3bBcy
- /3utrsRMzOkaBb+8/xIDdtTQ+ipLm+7FDab5nhZY7pnTB/4PUO+IChCumfCAVyhssNhR
- kTe6oTjXme4EdNgU9MmJZ0oUJW6ziOvSkUeh/pgmTZfzLRSM9wyDIv4khE0+QTMVYoxe
- /LHMcO/TDSHJsBOnDuugyjRCdKa6yERs9yH4EjEUR+Q21UD2Jmdgd4dtAq7Yy8VALAGd
- 1BgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=STCh3jnC+3/bKij6RZpVrCTRIxuoUCfsfAHTJ8uIJnA=;
- b=7cJ9A1yk1KcqJkUwEGUuBFuJYibbIgiSpgQHyisXdnv/Zjm64FRG/5MbgtmesRtCi0
- VtxlsQZSo6Y5UGKrLb60sMjbFGuWZnvN7gWHkBCUbtQirCLhQgMauQvPkVKEfPV9ZwSg
- hmYB1o+Qneag6TKtvQPz+ouwt7j48o98WUidwNmjkO2C/bB9JkAO8snS3fsiBhrNwfSK
- ZAdIAsJOZ4Kbz1UwHIk3eXL8jM78y2AG2GYpgwXqE5S0Ssp4y3gzonNsRiP3LvvZzaVu
- dweMYKLkGN6GoWZgpzBxMCGOPbmrpgtKuL0EV+ifesjGSF/2+nY61bvwsWpTSCQNa7ng
- vwjA==
-X-Gm-Message-State: ANoB5plkGnRyVi6UgACLwqdAe4t9HtJW9fznN2/o31pnIOu24x+bcIMf
- MUkAHvjCbKTVFC8iEfvuvJqSjA==
-X-Google-Smtp-Source: AA0mqf4oWtXAcoo89MUAZDtarNpF6ORsQYVB/25IPFXnrteegZ0r76mnVzsxVbLwAbdNVMAu7VYlMA==
-X-Received: by 2002:a05:6000:18f:b0:241:a046:91ff with SMTP id
- p15-20020a056000018f00b00241a04691ffmr18275513wrx.23.1669244772302; 
- Wed, 23 Nov 2022 15:06:12 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- m9-20020a05600c4f4900b003b95ed78275sm4103071wmq.20.2022.11.23.15.06.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 15:06:11 -0800 (PST)
-Message-ID: <d43878da-f17c-96ae-a097-7b90f9024a98@linaro.org>
-Date: Thu, 24 Nov 2022 00:06:10 +0100
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1oxzf3-0002wD-Vp
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 19:00:14 -0500
+Received: from mail-mw2nam10on2052.outbound.protection.outlook.com
+ ([40.107.94.52] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1oxzey-0000fP-42
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 19:00:10 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JdQpYQcpcK1KOlVDwR4Qf8Hy1osa/m1QBRKeYswxUaucauPAXhn1Xe5dF4aavaSG1EPfyw32J9N1xS0Q1SP70jrbo9KxlNiZ+X589bk+WbqE4Gy179jOVE2Y12ukfOfreZNPFBoK6ailbOFfW7bQt0pS4ajZCAj32xVCJnDV+vnjMT9khSSKxws3xPgT0L4eh8GLsxIuigI7Nw0juXcpTFrqaaT8qRhF+/IBtqzHUq9HDp6eN6ImEeYeBhRBYAZjpabqfKAofZNoGnL3/dMgJTvygYT6Nsk/ifqXL2PANt1S6SB7VeZWUH/vrhBV5KuMbHQ/5qEVeL3cZ2K3zbJ1cA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bwQU9hWnbCPA5vylzFc1gGI3IUGGHHvosKuhByr3YIQ=;
+ b=VqzkgaI35z7RAMppU0Fsbw7XfVMedhtv5f2bFpRQZKPNEGrTtB5KI5j9zQB9D8uhiSqbNCP7SLn79lJ5KU36B7GSNvNddnPhyzRZWzpl898Cwr8miaM24aonrhQyfHMusw+sASzC4IT0oqmfQkFLevv+5a4spIupZ2+HiDLTf5+7qTPzBz6DC7pBRJDY4J8tDdO4URfIaJGI744KW+9GH9vuVA3kojOvaS3nJXR2PtaMmXK833MckiTFinr1FYH4cEhDPgGe4HTHxVXNib8bMhHi3u9Tq8Sv4Cqf7hpFo8lep1Qn5VHINgX4MH71waRPcVUEYFdhtGZQJZJKwWrInQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bwQU9hWnbCPA5vylzFc1gGI3IUGGHHvosKuhByr3YIQ=;
+ b=0m1bUqX3qWBbEtN7pBgw+pHrjA5JkCKodlg1P6VzdtKc4H/cWdlk1Bwbk7P52Sdino4d3AP8wGRWdWZxKDJdhaAYI3hbQ0d3LqTFcMCfCrxXNHNv0voAIOvW6rH4L/qUzmmzf3ICYxGmrJ32kHZ2/Z3yAiw5usMz38inaynVrxU=
+Received: from MW4P221CA0025.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::30)
+ by MN0PR12MB5978.namprd12.prod.outlook.com (2603:10b6:208:37d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.11; Wed, 23 Nov
+ 2022 23:54:59 +0000
+Received: from CO1NAM11FT079.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8b:cafe::a9) by MW4P221CA0025.outlook.office365.com
+ (2603:10b6:303:8b::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18 via Frontend
+ Transport; Wed, 23 Nov 2022 23:54:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT079.mail.protection.outlook.com (10.13.175.134) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5834.8 via Frontend Transport; Wed, 23 Nov 2022 23:54:58 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 23 Nov
+ 2022 17:54:57 -0600
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Cleber Rosa
- <crosa@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221118113309.1057790-1-alex.bennee@linaro.org>
- <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
- <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com> <87fse9bvmf.fsf@linaro.org>
- <504f6645-5315-74c5-623d-d8bf231aec09@linaro.org>
- <f12c4b6f-8125-696c-5699-802ccc7c5f39@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <f12c4b6f-8125-696c-5699-802ccc7c5f39@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: quoted-printable
+Subject: [ANNOUNCE] QEMU 7.2.0-rc2 is now available
+From: Michael Roth <michael.roth@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <stefanha@gmail.com>
+Date: Wed, 23 Nov 2022 17:53:22 -0600
+Message-ID: <166924760233.617792.9166119568602796975@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT079:EE_|MN0PR12MB5978:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0546c96-d63a-4868-0c13-08dacdae2104
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GMcDYbN+nvOdtwTbrbYZgm6eHMF0THJBgpq0AULG4Q3h9fWz5xmbK+7YLTgJ6VTBCslarcCrrDRUpeK6cCcetMPnTxSNqqS7fXfD762ukDOM+/3AtsrZ20hJmLCPDMUwR31p/iAPa50NyhaS1VNAvcSiDLGkW1nE4rRFGMjoITcopu/Mg6Il14TbWuEQfdDKOjmPnJXRemN1KQvZvjIUEXM8Isd9Dza5azCnYLPGOfDr16iHcIsFY3Z4TPjqGQqYGnA5a4MRUwYrX1rUV7EDnGiAYyMUfjDN66T8iUh7VFU7ik8zUG29+JpFnTb6+zGqe+0wTs8avpYXeJjVdt3ydXmG3M8AIsKqZjJArl/kxabww0UGR4Uvg8e0hjXiP9jeS7ZDOx+gR56eFEbrxZZAtzV1J0X6hobeXcNJTfBC7NbAagnCnHSrEnX8nzyfiNhcsQot9sX7PVM1oIaQLU8qkEQ3xyWSKUW9VhLuv975yHjo51VWVYxqdJQmXfFIck+F+QWCkRtmzC0w5u6Io4q4EijbQk5UuUvQkax87jip8YbYE9t/CPtjpYUzJ3HZCDDwWxuonG/f7ycIgtuHdXz8tK4GQqucO9VpetvyO/yedTzMGX1AYDAcCbrWT3VBHZSqEmA1LZOuRHcI0BJuWgjDrNK5P5vSLngvw3+TKLLKNyJysWb1ptpSwKFKuD/prr/xBxeH93U3uPRQCen8fGor6YUiMeA0C/zklXObrJQdgMwzAXZsBHcz8IXQNGLQjtSy10SkQI2FTzqMGDI5eMmkgUKpQprtWVWQ+Da8nIS6ngfrcct3me1cB31xJ7fBvnSF
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(396003)(346002)(39860400002)(376002)(451199015)(46966006)(40470700004)(36840700001)(316002)(40460700003)(86362001)(70586007)(478600001)(6916009)(82310400005)(8936002)(36756003)(966005)(47076005)(186003)(336012)(41300700001)(8676002)(36860700001)(16526019)(4326008)(5660300002)(6666004)(70206006)(83380400001)(426003)(66574015)(44832011)(2616005)(2906002)(356005)(81166007)(82740400003)(40480700001)(26005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 23:54:58.6701 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0546c96-d63a-4868-0c13-08dacdae2104
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT079.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5978
+Received-SPF: softfail client-ip=40.107.94.52;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,207 +118,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/11/22 19:49, Cédric Le Goater wrote:
-> On 11/23/22 19:13, Philippe Mathieu-Daudé wrote:
->> On 23/11/22 15:12, Alex Bennée wrote:
->>> Thomas Huth <thuth@redhat.com> writes:
->>>> On 23/11/2022 12.15, Philippe Mathieu-Daudé wrote:
->>>>> On 18/11/22 12:33, Alex Bennée wrote:
->>>>>> The old URL wasn't stable. I suspect the current URL will only be
->>>>>> stable for a few months so maybe we need another strategy for hosting
->>>>>> rootfs snapshots?
->>>>>>
->>>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>>>>> ---
->>>>>>    tests/avocado/boot_linux_console.py | 4 ++--
->>>>>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/tests/avocado/boot_linux_console.py
->>>>>> b/tests/avocado/boot_linux_console.py
->>>>>> index 4c9d551f47..5a2923c423 100644
->>>>>> --- a/tests/avocado/boot_linux_console.py
->>>>>> +++ b/tests/avocado/boot_linux_console.py
->>>>>> @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
->>>>>>            dtb_path =
->>>>>> '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
->>>>>>            dtb_path = self.extract_from_deb(deb_path, dtb_path)
->>>>>>            rootfs_url =
->>>>>> ('http://storage.kernelci.org/images/rootfs/buildroot/'
->>>>>> -                      'kci-2019.02/armel/base/rootfs.ext2.xz')
->>>>>> -        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
->>>>>> +                      
->>>>>> 'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
->>>>>> +        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
->>>>> If Avocado doesn't find an artifact in its local cache, it will 
->>>>> fetch it
->>>>> from the URL.
->>>>> The cache might be populated with artifacts previously downloaded, but
->>>>> their URL is not valid anymore (my case for many tests).
->>>>> We can also add artifacts manually, see [1].
->>>>> I'd rather keep pre-existing tests if possible, to test older
->>>>> (kernel / user-space) images. We don't need to run all the tests all
->>>>> the time:
->>>>> tests can be filtered by tags (see [2]).
->>>>> My preference here is to refactor this test, adding the
->>>>> "kci-2019.02"
->>>>> and "baseline-20221116.0" releases. I can prepare the patch if you /
->>>>> Thomas don't object.
->>>>
->>>> IMHO we shouldn't keep tests in the upstream git repository where the
->>>> binaries are not available in public anymore. They won't get run by
->>>> new contributors anymore, and also could vanish from the disks of the
->>>> people who previously downloaded it, once they wipe their cache or
->>>> upgrade to a new installation, so the test code will sooner or later
->>>> be bitrotting. But if you want to keep the tests around on your hard
->>>> disk, you could also stick the test in a local branch on your hard
->>>> disk instead.
->>>
->>> CI/Workstation splits aside I tend to agree with Thomas here that having
->>> tests no one else can run will lead to an accretion of broken tests.
->>
->> Following this idea, should we remove all boards for which no open
->> source & GPL software is available? I.e:
->>
->> 40p                  IBM RS/6000 7020 (40p)
-> 
-> This machine can run debian :
+Hello,
 
-IMHO having QEMU able to run anything an architecture can run seems way
-more interesting/helpful rather than restricting it to just open source
-projects.
+On behalf of the QEMU Team, I'd like to announce the availability of the
+third release candidate for the QEMU 7.2 release. This release is meant
+for testing purposes and should not be used in a production environment.
 
->    qemu-system-ppc -M 40p -cpu 604 -nic user -hda ./prep.qcow2 -cdrom 
-> ./zImage.hdd -serial mon:stdio -nographic
->    >> =============================================================
->    >> OpenBIOS 1.1 [Mar 7 2022 23:07]
->    >> Configuration device id QEMU version 1 machine id 0
->    >> CPUs: 0
->    >> Memory: 128M
->    >> UUID: 00000000-0000-0000-0000-000000000000
->    >> CPU type PowerPC,604
->    milliseconds isn't unique.
->    Welcome to OpenBIOS v1.1 built on Mar 7 2022 23:07
->    Trying hd:,\\:tbxi...
->    >> Not a bootable ELF image
->    >> switching to new context:
->    loaded at:     04000400 04015218
->    relocated to:  00800000 00814E18
->    board data at: 07C9E870 07CA527C
->    relocated to:  0080B130 00811B3C
->    zimage at:     0400B400 0411DC98
->    avail ram:     00400000 00800000
->    Linux/PPC load: console=/dev/ttyS0,9600 console=tty0 
-> ether=5,0x210,eth0 ether=11,0x300,eth1 ramdisk_size=8192 root=/dev/sda3
->    Uncompressing Linux................................................done.
->    Now booting the kernel
->    Debian GNU/Linux 3.0 6015 ttyS0
->    6015 login:
-> 
-> Please keep it ! :)
-> 
-> and it also boots AIX 4.4/5.1 (with 2 small patches) but that's clearly
-> not open source. It is downloadable from the net though, like many macos
-> PPC images.
-> 
-> That said, we might have been putting too much in avocado and it takes
-> ages to run (when it does not hit some random python issue).
+  http://download.qemu-project.org/qemu-7.2.0-rc2.tar.xz
+  http://download.qemu-project.org/qemu-7.2.0-rc2.tar.xz.sig
 
-w.r.t. "too much in avocado", are you referring to GitLab CI?
+You can help improve the quality of the QEMU 7.2 release by testing this
+release and reporting bugs using our GitLab issue tracker:
 
-I see the following 2 use cases with Avocado:
-  1/ Run tests locally
-  2/ Run tests on CI
-The set of tests used in 1/ and 2/ doesn't have to be the same...
+  https://gitlab.com/qemu-project/qemu/-/milestones/7#tab-issues
 
-1/ is very helpful for maintainers, to run tests specific to their
-subsystems. Also useful during refactor when touching other subsystems,
-to run their tests before sending a patch set.
+The release plan, as well a documented known issues for release
+candidates, are available at:
 
-2/ is the "gating" testing. With retrospective, it was a mistake to
-start running avocado on CI without any filtering on what tests to run.
-Instead of trying to explain my view here, I'd like to go back to Daniel
-earlier proposal:
-https://lore.kernel.org/qemu-devel/20200427152036.GI1244803@redhat.com/
+  http://wiki.qemu.org/Planning/7.2
 
-Per this proposal, we should only run 'Tier 1' on Gitlab CI.
-Daniel described "Tier 1" as "[test that] Will always work." I'd like to
-amend with "test that run in less than 150 seconds" (or less). If a test
-takes more, we can run it on our workstations, but we shouldn't waste
-CI cycles with it.
+Please add entries to the ChangeLog for the 7.2 release below:
 
-I plan to post a series converting our current Avocado "opt-out" use:
+  http://wiki.qemu.org/ChangeLog/7.2
 
-   @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+Thank you to everyone involved!
 
-to and "opt-in" one using the 'gating-ci-tier:1' Avocado tag.
+Changes since rc1:
 
-(if curious: https://gitlab.com/philmd/qemu/-/commits/gci_tier1_optin/)
-
->>> Given the tests themselves are standalone couldn't the prospective test
->>> hoarder keep their own personal repository to be run with the rest of 
->>> the
->>> in-tree code, something like:
->>>
->>>    cd my/test/zoo/repo
->>>    $(QEMU_BUILD)/tests/venv/bin/avocado run my_test_zoo.py
->>>
->>> for convenience we could maybe support an env variable so the existing
->>> test selection tags would work:
->>>
->>>    set -x QEMU_AVOCADO_EXTRA_TESTS /my/test/zoo/repo
->>>    ./tests/venv/bin/avocado list
->>>    ...
->>>    <list all tests in qemu src tree and extra>
->>>    ...
->>>
->>> ?
->>
->> Yes, this is what we use to test the Fuloong2E:
->>
->> $ git grep RESCUE_YL_PATH tests/avocado/
->> tests/avocado/machine_mips_fuloong2e.py:21: 
->> @skipUnless(os.getenv('RESCUE_YL_PATH'), 'RESCUE_YL_PATH not available')
->> tests/avocado/machine_mips_fuloong2e.py:34:        kernel_path = 
->> self.fetch_asset('file://' + os.getenv('RESCUE_YL_PATH'),
->>
->> The firmware is not open source / GPL but if you have a Fuloong2E board
->> you can dump it from the flash, then use it to test QEMU from hard reset
->> up to userland. Otherwise you are forced to use the -kernel argument.
->>
->>>> The other possibility is to upload the binaries to a new public
->>>> location in the web ... but for software that contains GPLed software,
->>>> you should then also make sure to provide the source code to comply
->>>> with the license.
->>>
->>> This is the traditional reason we've lent so hard on external hosting
->>> for binaries because the upstream doesn't want the hassle of maintaining
->>> that sort of zoo of binaries. That said we have tests where binaries are
->>> served from fileserver.linaro.org but its then only my problem to deal
->>> with GPL requirements and not the upstream.
->>
->> Maybe we are discussing 2 different topics. I am in possession of
->> old Solaris installation CDROMs and could boot some of them with
->> qemu-system-sparc. I want to automatize my testing, and wrote Avocado
->> scripts doing that. I suppose other QEMU users have similar CDROMs.
->> If I contribute my tests, they can run them. Isn't it in the interest
->> of the community to have such examples and tests available?
-> 
-> I think so.
-> 
-> Is it time to move some of the tests (and images) in an external tree ?
-> That would be one way to keep them available for all. I like qemu-zoo.
-> 
-> It would certainly require some legal advice.
-> 
-> 
-> C.
-> 
-> 
->>
->> Regards,
->>
->> Phil.
->>
-> 
-
+7c09a7f6ae: Update VERSION for v7.2.0-rc2 (Stefan Hajnoczi)
+15f8f4671a: target/arm: Use signed quantity to represent VMSAv8-64 translat=
+ion level (Ard Biesheuvel)
+26ba00cf58: target/arm: Don't do two-stage lookup if stage 2 is disabled (P=
+eter Maydell)
+4451cc4653: hw/loongarch: Replace the value of uart info with macro (Xiaoju=
+an Yang)
+e8c8203e55: hw/loongarch: Fix setprop_sized method in fdt rtc node. (Xiaoju=
+an Yang)
+0208ba74c5: hw/loongarch: Add default stdout uart in fdt (Xiaojuan Yang)
+b7c61789e6: virtio: disable error for out of spec queue-enable (Michael S. =
+Tsirkin)
+04e5bd441a: acpi/tests/avocado/bits: keep the work directory when BITS_DEBU=
+G is set in env (Ani Sinha)
+c4d4c40c51: tests/avocado: configure acpi-bits to use avocado timeout (John=
+ Snow)
+242a58cabe: MAINTAINERS: add mst to list of biosbits maintainers (Ani Sinha)
+83afb1409f: tests: acpi: x86: update expected DSDT after moving PRQx fields=
+ in _SB scope (Igor Mammedov)
+4fd75ce076: acpi: x86: move RPQx field back to _SB scope (Igor Mammedov)
+2df30863fa: tests: acpi: whitelist DSDT before moving PRQx to _SB scope (Ig=
+or Mammedov)
+562a7d23bf: vhost: mask VIRTIO_F_RING_RESET for vhost and vhost-user device=
+s (Stefano Garzarella)
+5544d33d4b: gitlab: integrate coverage report (Alex Benn=C3=A9e)
+f22a80727f: tests/avocado: skip aarch64 cloud TCG tests in CI (Alex Benn=C3=
+=A9e)
+ba5d1f23f7: tests/avocado: introduce alpine virt test for CI (Alex Benn=C3=
+=A9e)
+5d25e1e02c: tests/avocado: Raise timeout for boot_linux.py:BootLinuxPPC64.t=
+est_pseries_tcg (Peter Maydell)
+73ee4c55f7: docs/devel: try and improve the language around patch review (A=
+lex Benn=C3=A9e)
+ca127fe96d: docs/devel: simplify the minimal checklist (Alex Benn=C3=A9e)
+115847f6b0: docs/devel: make language a little less code centric (Alex Benn=
+=C3=A9e)
+668725ce6b: docs/devel: add a maintainers section to development process (A=
+lex Benn=C3=A9e)
+e558220df0: tests/docker: allow user to override check target (Alex Benn=C3=
+=A9e)
+a4b14b46d9: tests/avocado/machine_aspeed.py: Reduce noise on the console fo=
+r SDK tests (C=C3=A9dric Le Goater)
+47fdc8fb82: Run docker probe only if docker or podman are available (Stefan=
+ Weil)
+6d71357a3b: rtl8139: honor large send MSS value (Stefan Hajnoczi)
+c74831a02c: rtl8139: keep Tx command mode 0 and 1 separate (Stefan Hajnoczi)
+bd142b2391: rtl8139: avoid clobbering tx descriptor bits (Stefan Hajnoczi)
+312b71abce: target/arm: Limit LPA2 effective output address when TCR.DS =3D=
+=3D 0 (Ard Biesheuvel)
+c4462523ff: tests/avocado/boot_linux.py: Bump aarch64 virt test timeout to =
+720s (Peter Maydell)
+3d5af538a4: hw/intc: add implementation of GICD_IIDR to Arm GIC (Alex Benn=
+=C3=A9e)
+69e7e60d01: hw/intc: clean-up access to GIC multi-byte registers (Alex Benn=
+=C3=A9e)
+93e2da36ed: hw/sd: Fix sun4i allwinner-sdhost for U-Boot (Strahinja Jankovi=
+c)
+b5280437a7: migration: Block migration comment or code is wrong (Juan Quint=
+ela)
+6f39c90b86: migration: Disable multifd explicitly with compression (Peter X=
+u)
+cedb70eafb: migration: Use non-atomic ops for clear log bitmap (Peter Xu)
+afed4273b5: migration: Disallow postcopy preempt to be used with compress (=
+Peter Xu)
+f5816b5c86: migration: Fix race on qemu_file_shutdown() (Peter Xu)
+4934a5dd7c: migration: Fix possible infinite loop of ram save process (Pete=
+r Xu)
+4cc47b4395: migration/multifd/zero-copy: Create helper function for flushin=
+g (Leonardo Bras)
+a216ec85b7: migration/channel-block: fix return value for qio_channel_block=
+_{readv,writev} (Fiona Ebner)
+06639f8ff5: chardev/char-win-stdio: Pass Ctrl+C to guest with a multiplexed=
+ monitor (Bin Meng)
+049b4ad669: target/ppc: Fix build warnings when building with 'disable-tcg'=
+ (Vaibhav Jain)
+1b7a07c441: acpi/tests/avocado/bits: some misc fixes (Ani Sinha)
+c70fe3b148: ci: replace x86_64 macos-11 with aarch64 macos-12 (Daniel P. Be=
+rrang=C3=A9)
+be5df2edb5: docs/system/s390x: Document the "loadparm" machine property (Th=
+omas Huth)
+44ee69ea16: s390x: Fix spelling errors (Thomas Huth)
 
