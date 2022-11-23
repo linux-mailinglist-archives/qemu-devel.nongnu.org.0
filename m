@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F83263644C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9AA66364CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:53:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxrtr-00055C-Ib; Wed, 23 Nov 2022 10:42:59 -0500
+	id 1oxs2n-0007iT-B2; Wed, 23 Nov 2022 10:52:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxrtp-00054J-DU
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:42:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxs2l-0007iK-RS
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:52:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxrtm-00049S-KH
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:42:57 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oxs2k-00075n-1h
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:52:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669218173;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1669218727;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4/eGF3VzG7dT9c1c0RKtdAtHSvpsaFeUKicDh+7Unfc=;
- b=RJSEwd86vcKBOvGxjXjH9wMIRsG4ral+ytWJ60SEba1G3MJ2I7XEbdeQNBnVrNkahjsUYd
- lKZ4aQN+MXIfyseOJTw50tGn6+cZA5Vr3Yq1wWq6vLj1Ek7ST+dSSrjNDOdHgBQ5xTjrNx
- xdvC0rwEDR+1kSX8P1Cae4WAF0M86A0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-2MEj64RcPu6M3nbyr0bk9w-1; Wed, 23 Nov 2022 10:42:51 -0500
-X-MC-Unique: 2MEj64RcPu6M3nbyr0bk9w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C8818630CE;
- Wed, 23 Nov 2022 15:42:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F00C32166B31;
- Wed, 23 Nov 2022 15:42:49 +0000 (UTC)
-Date: Wed, 23 Nov 2022 15:42:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ bh=MUOTcqHx2mIi86NbInIQZNNqogoGyS5ndarTTII2Wo8=;
+ b=TOMysaI+ZdfR1iUpGk/YGb1YJX5qV5fFss1WsOc5e6cKJNMCU655V2vgSGzMzO8z3lURFd
+ 9ItMCls1cCOd/K3ltTnu1+SfXB/i6jaBuxz5NGAO7gez+cb2O4frbSLxsiYJ7qvLEzIZs8
+ DpDHpOokCoScS7etfx3SeXAPTKlTDd8=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-204-DLQF057HNxOsiqo1PvmfnQ-1; Wed, 23 Nov 2022 10:52:04 -0500
+X-MC-Unique: DLQF057HNxOsiqo1PvmfnQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ de43-20020a05620a372b00b006fae7e5117fso22723665qkb.6
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 07:52:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MUOTcqHx2mIi86NbInIQZNNqogoGyS5ndarTTII2Wo8=;
+ b=iybirDlov5dwVYd2ReqLQX0t58m0kpRDNnkDa8LkdCrtzdo/Ek4yEWyqWeNaYeXMwb
+ K/7PnLnHndMMcc3Zp6l4UJqpipbRWv+EUjqEG/AHbZVCPnCC0fvNG8hpngtqzrFqmcOD
+ HCNREqpahB0uBzlDbunbbG7bKUCQawxQ9IIQWmJH0oov+j7MOj/DDJNf1GBMKs+qS0Ds
+ cHQxOpdJXjM5OGFsseTfLG46AYEyb5aAd9XIc7SQK1kV0yHmySVu93ylmRAIw2yvPk4H
+ 69AEwQ8OTyYVgAEyCvZ7NAl5wiGt+B7BVuxL5pf2fZJ/MCTwujXl7zY1e+iIzIvInNJG
+ I+5g==
+X-Gm-Message-State: ANoB5pl4DYTkONYOyuQEVmWnMVwC3Z05FM1FdMhGeQTealZCmFC+PHmR
+ UKfqsHfeJon5rMHJu+Z5Cdc2dWlqz6XWvz00PPjMLU0ZNxgBRCBYB+la5aBLqaa3C2FnofHLPQ3
+ ihKxsOEgJeUFSX0A=
+X-Received: by 2002:a37:4043:0:b0:6ee:b095:a047 with SMTP id
+ n64-20020a374043000000b006eeb095a047mr25574218qka.524.1669218722940; 
+ Wed, 23 Nov 2022 07:52:02 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4fDWl+CNGmJNhU89zcHfgfQvXubZRkI+G++akQOZzS8nQOCHZbJImNsZXOfnO12GLsl0SzMw==
+X-Received: by 2002:a37:4043:0:b0:6ee:b095:a047 with SMTP id
+ n64-20020a374043000000b006eeb095a047mr25574200qka.524.1669218722715; 
+ Wed, 23 Nov 2022 07:52:02 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ m21-20020a05620a24d500b006ce0733caebsm12593386qkn.14.2022.11.23.07.52.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 07:52:02 -0800 (PST)
+Date: Wed, 23 Nov 2022 10:52:01 -0500
+From: Peter Xu <peterx@redhat.com>
 To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, peterx@redhat.com, prerna.saxena@nutanix.com,
+Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
  quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-Subject: Re: [PATCH v4 1/2] io: Add support for MSG_PEEK for socket channel
-Message-ID: <Y34/dR70JYjPDPGi@redhat.com>
+Subject: Re: [PATCH v4 2/2] migration: check magic value for deciding the
+ mapping of channels
+Message-ID: <Y35BoSi9NUmbFoCk@x1n>
 References: <20221123150527.24608-1-manish.mishra@nutanix.com>
- <20221123150527.24608-2-manish.mishra@nutanix.com>
+ <20221123150527.24608-3-manish.mishra@nutanix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221123150527.24608-2-manish.mishra@nutanix.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20221123150527.24608-3-manish.mishra@nutanix.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,45 +95,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 03:05:26PM +0000, manish.mishra wrote:
-> MSG_PEEK reads from the peek of channel, The data is treated as
-> unread and the next read shall still return this data. This
-> support is currently added only for socket class. Extra parameter
-> 'flags' is added to io_readv calls to pass extra read flags like
-> MSG_PEEK.
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com
-> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
-> ---
->  chardev/char-socket.c               |  4 ++--
->  include/io/channel.h                |  6 ++++++
->  io/channel-buffer.c                 |  1 +
->  io/channel-command.c                |  1 +
->  io/channel-file.c                   |  1 +
->  io/channel-null.c                   |  1 +
->  io/channel-socket.c                 | 17 ++++++++++++++++-
->  io/channel-tls.c                    |  1 +
->  io/channel-websock.c                |  1 +
->  io/channel.c                        | 16 ++++++++++++----
->  migration/channel-block.c           |  1 +
->  scsi/qemu-pr-helper.c               |  2 +-
->  tests/qtest/tpm-emu.c               |  2 +-
->  tests/unit/test-io-channel-socket.c |  1 +
->  util/vhost-user-server.c            |  2 +-
->  15 files changed, 47 insertions(+), 10 deletions(-)
+On Wed, Nov 23, 2022 at 03:05:27PM +0000, manish.mishra wrote:
+> +int migration_channel_read_peek(QIOChannel *ioc,
+> +                                const char *buf,
+> +                                const size_t buflen,
+> +                                Error **errp)
+> +{
+> +   ssize_t len = 0;
+> +   struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
+> +
+> +   while (len < buflen) {
+> +       len = qio_channel_readv_full(ioc, &iov, 1, NULL,
+> +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
+> +
+> +       if (len == QIO_CHANNEL_ERR_BLOCK) {
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+This needs to take care of partial len too?
 
+> +            if (qemu_in_coroutine()) {
+> +                /* 1ms sleep. */
+> +                qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 1000000);
+> +            } else {
+> +                qio_channel_wait(ioc, G_IO_IN);
+> +            }
+> +            continue;
+> +       }
+> +       if (len == 0) {
+> +           error_setg(errp,
+> +                      "Unexpected end-of-file on channel");
+> +           return -1;
+> +       }
+> +       if (len < 0) {
+> +           return -1;
+> +       }
+> +   }
+> +
+> +   return 0;
+> +}
 
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Peter Xu
 
 
