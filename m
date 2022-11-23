@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493FE636231
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:46:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A25636230
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:46:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqza-0004DX-4e; Wed, 23 Nov 2022 09:44:50 -0500
+	id 1oxqzq-0004Hi-Ln; Wed, 23 Nov 2022 09:45:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzW-0004D1-Bn
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzn-0004HE-UF
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:45:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzU-0002vR-Jn
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:46 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzY-0002w1-NM
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:45:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669214683;
+ s=mimecast20190719; t=1669214688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ClgLGlNFppL+f9GqoLlnC9ozfhCP4kc7vlhVVHewrAQ=;
- b=hO/zsUPigBx//VtmUi/ELKrDrs9cr+BMlrGLUGo9alfQhOax7aOSEwUVF2DAq6z0eJVM9y
- R53e2RS1ttcWVwJDAo4fFzXr+O13HImXKJ12y/mRwBzdbS82WRtAyn5S0T0vEENIbNXtQO
- 8pOY+PwkPssxcRQCNuNrlgInvEAvtsQ=
+ bh=Zjq55+9FxN57mufm4SGK33kA6iAZqhKHKnlB2qrQYtg=;
+ b=Sg/WTFFIIr+ieEopIFWcsQ1SV1V2iEolxM1kW1FC702GnotclRB+t5LZ79h8l4wZfzODde
+ Um9EikjsgG19s2vm7tPiXQKXoiuigL6LORC6cJpog15fr2bgyoQZbBQ8inNkdk0hLvhyPX
+ qVwMElmAxnOp9P/+Dj4yA0cO6vMN+pg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-163-zKaqyknkO_G0hNvo63gTrg-1; Wed, 23 Nov 2022 09:44:42 -0500
-X-MC-Unique: zKaqyknkO_G0hNvo63gTrg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-498-pe4i8oy6N4eGAL5AHTSSYQ-1; Wed, 23 Nov 2022 09:44:44 -0500
+X-MC-Unique: pe4i8oy6N4eGAL5AHTSSYQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54D448065EA;
- Wed, 23 Nov 2022 14:44:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D23618E6C64;
+ Wed, 23 Nov 2022 14:44:44 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.194.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15F13111E410;
- Wed, 23 Nov 2022 14:44:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC5332024CBE;
+ Wed, 23 Nov 2022 14:44:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7028A1800613; Wed, 23 Nov 2022 15:44:36 +0100 (CET)
+ id A67FF1800614; Wed, 23 Nov 2022 15:44:36 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
@@ -50,27 +50,23 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Joelle van Dyne <j@getutm.app>,
- =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
-Subject: [PULL 1/7] Revert "usbredir: avoid queuing hello packet on snapshot
- restore"
-Date: Wed, 23 Nov 2022 15:44:30 +0100
-Message-Id: <20221123144436.2141069-2-kraxel@redhat.com>
+ Claudio Fontana <cfontana@suse.de>, Jim Fehlig <jfehlig@suse.com>
+Subject: [PULL 2/7] gtk: disable GTK Clipboard with a new meson option
+Date: Wed, 23 Nov 2022 15:44:31 +0100
+Message-Id: <20221123144436.2141069-3-kraxel@redhat.com>
 In-Reply-To: <20221123144436.2141069-1-kraxel@redhat.com>
 References: <20221123144436.2141069-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,43 +82,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joelle van Dyne <j@getutm.app>
+From: Claudio Fontana <cfontana@suse.de>
 
-Run state is also in RUN_STATE_PRELAUNCH while "-S" is used.
+The GTK Clipboard implementation may cause guest hangs.
 
-This reverts commit 0631d4b448454ae8a1ab091c447e3f71ab6e088a
+Therefore implement new configure switch: --enable-gtk-clipboard,
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
-Reviewed-by: Ján Tomko <jtomko@redhat.com>
+as a meson option disabled by default, which warns in the help
+text about the experimental nature of the feature.
+Regenerate the meson build options to include it.
 
-The original commit broke the usage of usbredir with libvirt, which
-starts every domain with "-S".
+The initialization of the clipboard is gtk.c, as well as the
+compilation of gtk-clipboard.c are now conditional on this new
+option to be set.
 
-This workaround is no longer needed because the usbredir behavior
-has been fixed in the meantime:
-https://gitlab.freedesktop.org/spice/usbredir/-/merge_requests/61
-
-Signed-off-by: Ján Tomko <jtomko@redhat.com>
-Message-Id: <1689cec3eadcea87255e390cb236033aca72e168.1669193161.git.jtomko@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1150
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Jim Fehlig <jfehlig@suse.com>
+Message-Id: <20221121135538.14625-1-cfontana@suse.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/redirect.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meson_options.txt             | 7 +++++++
+ ui/gtk.c                      | 2 ++
+ meson.build                   | 5 +++++
+ scripts/meson-buildoptions.sh | 3 +++
+ ui/meson.build                | 5 ++++-
+ 5 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 1bd30efc3ef0..fd7df599bc0b 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -1280,8 +1280,7 @@ static void usbredir_create_parser(USBRedirDevice *dev)
+diff --git a/meson_options.txt b/meson_options.txt
+index 66128178bffa..4b749ca54900 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -219,6 +219,13 @@ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('vte', type : 'feature', value : 'auto',
+        description: 'vte support for the gtk UI')
++
++# GTK Clipboard implementation is disabled by default, since it may cause hangs
++# of the guest VCPUs. See gitlab issue 1150:
++# https://gitlab.com/qemu-project/qemu/-/issues/1150
++
++option('gtk_clipboard', type: 'feature', value : 'disabled',
++       description: 'clipboard support for the gtk UI (EXPERIMENTAL, MAY HANG)')
+ option('xkbcommon', type : 'feature', value : 'auto',
+        description: 'xkbcommon support')
+ option('zstd', type : 'feature', value : 'auto',
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 7ec21f7798ef..4817623c8f3f 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2403,7 +2403,9 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+         opts->u.gtk.show_tabs) {
+         gtk_menu_item_activate(GTK_MENU_ITEM(s->show_tabs_item));
      }
- #endif
++#ifdef CONFIG_GTK_CLIPBOARD
+     gd_clipboard_init(s);
++#endif /* CONFIG_GTK_CLIPBOARD */
+ }
  
--    if (runstate_check(RUN_STATE_INMIGRATE) ||
--        runstate_check(RUN_STATE_PRELAUNCH)) {
-+    if (runstate_check(RUN_STATE_INMIGRATE)) {
-         flags |= usbredirparser_fl_no_hello;
-     }
-     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
+ static void early_gtk_display_init(DisplayOptions *opts)
+diff --git a/meson.build b/meson.build
+index cf3e517e56d8..5c6b5a1c757f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1246,6 +1246,8 @@ endif
+ gtk = not_found
+ gtkx11 = not_found
+ vte = not_found
++have_gtk_clipboard = get_option('gtk_clipboard').enabled()
++
+ if not get_option('gtk').auto() or have_system
+   gtk = dependency('gtk+-3.0', version: '>=3.22.0',
+                    method: 'pkg-config',
+@@ -1264,6 +1266,8 @@ if not get_option('gtk').auto() or have_system
+                        required: get_option('vte'),
+                        kwargs: static_kwargs)
+     endif
++  elif have_gtk_clipboard
++    error('GTK clipboard requested, but GTK not found')
+   endif
+ endif
+ 
+@@ -1842,6 +1846,7 @@ if glusterfs.found()
+ endif
+ config_host_data.set('CONFIG_GTK', gtk.found())
+ config_host_data.set('CONFIG_VTE', vte.found())
++config_host_data.set('CONFIG_GTK_CLIPBOARD', have_gtk_clipboard)
+ config_host_data.set('CONFIG_LIBATTR', have_old_libattr)
+ config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
+ config_host_data.set('CONFIG_EBPF', libbpf.found())
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 2cb0de5601ef..aa6e30ea911e 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -93,6 +93,7 @@ meson_options_help() {
+   printf "%s\n" '  glusterfs       Glusterfs block device driver'
+   printf "%s\n" '  gnutls          GNUTLS cryptography support'
+   printf "%s\n" '  gtk             GTK+ user interface'
++  printf "%s\n" '  gtk-clipboard   clipboard support for GTK (EXPERIMENTAL, MAY HANG)'
+   printf "%s\n" '  guest-agent     Build QEMU Guest Agent'
+   printf "%s\n" '  guest-agent-msi Build MSI package for the QEMU Guest Agent'
+   printf "%s\n" '  hax             HAX acceleration support'
+@@ -274,6 +275,8 @@ _meson_option_parse() {
+     --disable-gprof) printf "%s" -Dgprof=false ;;
+     --enable-gtk) printf "%s" -Dgtk=enabled ;;
+     --disable-gtk) printf "%s" -Dgtk=disabled ;;
++    --enable-gtk-clipboard) printf "%s" -Dgtk_clipboard=enabled ;;
++    --disable-gtk-clipboard) printf "%s" -Dgtk_clipboard=disabled ;;
+     --enable-guest-agent) printf "%s" -Dguest_agent=enabled ;;
+     --disable-guest-agent) printf "%s" -Dguest_agent=disabled ;;
+     --enable-guest-agent-msi) printf "%s" -Dguest_agent_msi=enabled ;;
+diff --git a/ui/meson.build b/ui/meson.build
+index ec139497766a..c1b137bf330c 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -97,7 +97,10 @@ if gtk.found()
+   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
+ 
+   gtk_ss = ss.source_set()
+-  gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
++  gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
++  if have_gtk_clipboard
++    gtk_ss.add(files('gtk-clipboard.c'))
++  endif
+   gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
+   gtk_ss.add(when: opengl, if_true: files('gtk-gl-area.c'))
+   gtk_ss.add(when: [x11, opengl], if_true: files('gtk-egl.c'))
 -- 
 2.38.1
 
