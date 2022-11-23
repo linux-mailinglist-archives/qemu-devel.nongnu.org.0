@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCA76358E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 11:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C987363592C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 11:08:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxmcG-0007vf-TI; Wed, 23 Nov 2022 05:04:29 -0500
+	id 1oxmff-0001kh-BK; Wed, 23 Nov 2022 05:07:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxmbi-0007sW-N8
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:03:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxmbe-0007tj-TG
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:03:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669197827;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1g0mKQvhCpHnfnN34ZTyUbpWKMU8G1Dtpgz2dfM5pro=;
- b=iP1vpDtmc+hTogZyY9Nq31AkMNdJWVMRk+19xOS0nyoQUQcHwYRAAdE+ZBofREhA6DszL/
- wOENobhQtzSYCmCxUzFx4Lam+6R7vf65QYxw0TCRMxkhiP0vIaqzHdUmalPIf/pn/bmF+f
- wIqim6ASfkqafQBK7gNqdmd0nQGtRpU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-144-k9_2fsr-MLaU6fLYChWNKA-1; Wed, 23 Nov 2022 05:03:46 -0500
-X-MC-Unique: k9_2fsr-MLaU6fLYChWNKA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j30-20020adfa55e000000b00241b49be1a3so4801961wrb.4
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 02:03:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxmfL-0001kR-RU
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:07:39 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oxmfJ-00005M-3P
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:07:38 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ l39-20020a05600c1d2700b003cf93c8156dso923161wms.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 02:07:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2N+3TxG7BGI316pY7xRIRVeHCikKBaRpMyz1J//BwAk=;
+ b=LYV93/Fo7Ro2Y0DTGGxk0Ieiao+M5Ceepm1SSV2A6xKuyYiOMBYX1PKnV4gC/LfIT8
+ T9tbhmwG+dXFnW5v/gUUBdilu+PX69MFGBG4XgZpto4tHSoayifHEMxZ2RsEoaI6323x
+ MaZTqD5wkYvfYRPRKdramOKTA1AHu8+jthtHaJL8Qlq3wyxdH7FCNoPfRzlrsRV4yujX
+ WOpK6D046cwqlXaezoBXfYczl+ypt/maKZhBIQj3mWyjlkoRTKzuYWNBoH0codHkekGO
+ iRO9BhXpFStDxjne8Y3eaPCorhxJPaRwTwWFGVcR3MEZerPna8GmbKQ+YF2CavkkEv3R
+ L8OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1g0mKQvhCpHnfnN34ZTyUbpWKMU8G1Dtpgz2dfM5pro=;
- b=lX/fOZJJ/bNvQ8jgB5n9drzHPte7bz1qyQXMVc22TkkpCmtS8kDN60H60NQ78o4BMr
- YEycl9OoHQHiCu7U0xu1YfA9tA8xmeimJUWoX/iNCC/XF15wXicIg79A3FtrDonc39rF
- m/fUxR+DEgxg6r8F6A/LJKosPMcNYeoVzEuKYNZ6btBo852rz+/qZQyZiSZXmhAS3Fra
- ntlgoo+lnUBPv2NDcvJP8UayPTtx9ycW751E6ylfusw/oqWPIBP5IOlnY3GGPIJpzuBC
- osPHnkzefdWTIy016EutWmi4Ao5+ZPJMRhWP2zgqV6t6xXzu3LY9nwQj9K2qIC9+gq9X
- B09Q==
-X-Gm-Message-State: ANoB5pmoGF6ydDGo+6yOwsA1RkV6HAezE/1z2yimK9FQ3X6V2Y07mqwu
- +fDCuNMWVeydzwe4OAkuFX3J9tvO0WODMNyNTlaKoeK0UH4ioDd/Q0y3RPFFWiIICiscigobFu7
- LurXlPTphczoRJuA=
-X-Received: by 2002:adf:d08c:0:b0:236:783e:5947 with SMTP id
- y12-20020adfd08c000000b00236783e5947mr16537107wrh.168.1669197825425; 
- Wed, 23 Nov 2022 02:03:45 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf59JMBfW8aKFR1Or/1uRNRyioFO8LMlXo2Fmo7y3Snzu/0rpqZlwzjI0z4mcO0eSHCfTxyK/A==
-X-Received: by 2002:adf:d08c:0:b0:236:783e:5947 with SMTP id
- y12-20020adfd08c000000b00236783e5947mr16537081wrh.168.1669197825064; 
- Wed, 23 Nov 2022 02:03:45 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-58.web.vodafone.de.
- [109.43.178.58]) by smtp.gmail.com with ESMTPSA id
- e21-20020a05600c439500b003c6bd91caa5sm1659793wmn.17.2022.11.23.02.03.43
+ bh=2N+3TxG7BGI316pY7xRIRVeHCikKBaRpMyz1J//BwAk=;
+ b=NmvfEpGgw+jzxb3xY3AlOfrjE3UOPRaun5n6/wTzY0DgOAEp8BPwxjXhpWn00tuq+S
+ /TmMlZYOb995AMG2lutVVB1GvDY0gjjzkTQe1Dy5uU5UD16LTMKO/qL4mevF+/x+Ap6I
+ vECgYwU7xPd5defxWRAjKsg4+mGGNENdcEfP/RlsDCDpiPNk+7H7e/tbxByekZsgS5ok
+ h6kiaehKiKCeu084iY9PzxWOejaFfy5ZKTvSRc6QDiNYC8YxM2iF5YMUnYh9ZDWLa0yU
+ XvVgoK6xN44R1CBbZjSPPe248WyBp5VE0GXLWkuXciOEKQHoCCW+FMuMkkNXb4/RFUgr
+ Z0DA==
+X-Gm-Message-State: ANoB5pmGPI9cIB9Z+/UuP+smCT70OdPSUBHmAaBPbxNQN1lofEO4NOOO
+ fQq+xIVxl+ebshLQSfFfXyRrpg==
+X-Google-Smtp-Source: AA0mqf4wi8EXujl+1QhJIwsoVZZG6w34ML4rr0S6KeWZYY82bGIc52Pe12nkp0GDir7Rs6m6YB64bg==
+X-Received: by 2002:a1c:e917:0:b0:3cf:681a:43e1 with SMTP id
+ q23-20020a1ce917000000b003cf681a43e1mr6206537wmc.126.1669198055030; 
+ Wed, 23 Nov 2022 02:07:35 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ u12-20020adfdb8c000000b002367ad808a9sm15998194wri.30.2022.11.23.02.07.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 02:03:44 -0800 (PST)
-Message-ID: <c2120c20-8105-bb78-8e11-6d7ab201f777@redhat.com>
-Date: Wed, 23 Nov 2022 11:03:42 +0100
+ Wed, 23 Nov 2022 02:07:34 -0800 (PST)
+Message-ID: <b62401b2-3a12-e89d-6953-b40dd170b4ba@linaro.org>
+Date: Wed, 23 Nov 2022 11:07:33 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH v2] hw/loongarch: Add cfi01 pflash device
 Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, philmd@linaro.org, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221118113309.1057790-1-alex.bennee@linaro.org>
- <0dc256bb-d163-66de-a448-389e52c908d3@redhat.com>
-In-Reply-To: <0dc256bb-d163-66de-a448-389e52c908d3@redhat.com>
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
+References: <20221123012301.1258800-1-yangxiaojuan@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221123012301.1258800-1-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,25 +92,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/11/2022 15.18, Thomas Huth wrote:
-> On 18/11/2022 12.33, Alex Bennée wrote:
->> The old URL wasn't stable. I suspect the current URL will only be
->> stable for a few months so maybe we need another strategy for hosting
->> rootfs snapshots?
+On 23/11/22 02:23, Xiaojuan Yang wrote:
+> Add cfi01 pflash device for LoongArch virt machine
 > 
-> Looking at 
-> http://storage.kernelci.org/images/rootfs/buildroot/buildroot-baseline/ 
-> there are only images for the very last month available - so the new URL 
-> will likely be invalid in one month already. That's not usable. I think 
-> you've got to find another solution or remove the test.
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>   hw/loongarch/Kconfig        |  1 +
+>   hw/loongarch/acpi-build.c   | 18 +++++++++
+>   hw/loongarch/virt.c         | 80 ++++++++++++++++++++++++++++++++++++-
+>   include/hw/loongarch/virt.h |  5 +++
+>   4 files changed, 103 insertions(+), 1 deletion(-)
 
-Looking at that folder again, it seems there wasn't any more change within 
-the last week ... so maybe it's not rotating so fast as I was thinking 
-initially ... thus I guess we could give the patch a try, and if the current 
-image finally disappears again, we still can think of a different solution.
+>   static void fdt_add_rtc_node(LoongArchMachineState *lams)
+>   {
+> @@ -593,9 +661,17 @@ static void loongarch_firmware_init(LoongArchMachineState *lams)
+>   {
+>       char *filename = MACHINE(lams)->firmware;
+>       char *bios_name = NULL;
+> -    int bios_size;
+> +    int bios_size, i;
+>   
+>       lams->bios_loaded = false;
+> +    /* Map legacy -drive if=pflash to machine properties */
+> +    for (i = 0; i < ARRAY_SIZE(lams->flash); i++) {
+> +        pflash_cfi01_legacy_drive(lams->flash[i],
+> +                                  drive_get(IF_PFLASH, 0, i));
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+My understanding is we shouldn't use pflash_cfi01_legacy_drive()
+anymore, besides I don't think you requires it (for the machine
+property).
 
+(Cc'ing Markus for commit 2d731dbd5e).
 
+This is unfortunate we let the sbsa-ref and riscv-virt machines
+use it.
+
+> +    }
+> +
+> +    virt_flash_map(lams, get_system_memory());
+> +
+>       if (filename) {
+>           bios_name = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
+>           if (!bios_name) {
+> @@ -779,6 +855,7 @@ static void loongarch_init(MachineState *machine)
+>               loongarch_direct_kernel_boot(lams);
+>           }
+>       }
+> +    fdt_add_flash_node(lams);
+>       /* register reset function */
+>       for (i = 0; i < machine->smp.cpus; i++) {
+>           lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
+> @@ -838,6 +915,7 @@ static void loongarch_machine_initfn(Object *obj)
+>       lams->acpi = ON_OFF_AUTO_AUTO;
+>       lams->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+>       lams->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+> +    virt_flash_create(lams);
+>   }
+>   
+>   static bool memhp_type_supported(DeviceState *dev)
+> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+> index 45c383f5a7..94afc92850 100644
+> --- a/include/hw/loongarch/virt.h
+> +++ b/include/hw/loongarch/virt.h
+> @@ -12,6 +12,7 @@
+>   #include "hw/boards.h"
+>   #include "qemu/queue.h"
+>   #include "hw/intc/loongarch_ipi.h"
+> +#include "hw/block/flash.h"
+>   
+>   #define LOONGARCH_MAX_VCPUS     4
+>   
+> @@ -20,6 +21,9 @@
+>   #define VIRT_FWCFG_BASE         0x1e020000UL
+>   #define VIRT_BIOS_BASE          0x1c000000UL
+>   #define VIRT_BIOS_SIZE          (4 * MiB)
+> +#define VIRT_FLASH_SECTOR_SIZE  (128 * KiB)
+> +#define VIRT_FLASH0_BASE        (VIRT_BIOS_BASE + VIRT_BIOS_SIZE)
+
+Do you really want the flash base addr to depend of the ROM size?
+It could be safer/simpler to start with a fixed address, leaving
+room for a bigger ROM if you think you might have to use one.
+
+> +#define VIRT_FLASH0_SIZE        (4 * MiB)
+
+The '0' index in the name is not really useful / needed.
+
+Note, if you provide addr/size to build_flash_aml(), these
+definitions can be restricted to hw/loongarch/virt.c.
+
+>   #define VIRT_LOWMEM_BASE        0
+>   #define VIRT_LOWMEM_SIZE        0x10000000
+> @@ -48,6 +52,7 @@ struct LoongArchMachineState {
+>       int          fdt_size;
+>       DeviceState *platform_bus_dev;
+>       PCIBus       *pci_bus;
+> +    PFlashCFI01  *flash[1];
+
+The array is not really needed.
+
+>   };
+>   
+>   #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
 
 
