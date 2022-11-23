@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F1C636117
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B332636180
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:21:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqNc-0006Mu-9R; Wed, 23 Nov 2022 09:05:36 -0500
+	id 1oxqcJ-0002VY-45; Wed, 23 Nov 2022 09:20:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxqNa-0006Ih-1K
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:05:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oxqNW-0001X4-Ja
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:05:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669212329;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=a9szNaafjikvb2w9qZOuNXYq3FFkNnbtPNISpE3kYfU=;
- b=QgSbdVFfeo3Cp0V80JUWl3vdp8O+tG7yLhpmLjX/xpEn8l2dNtuVGW5Ci7sq9pGMq0U1Sn
- z7b/uGfv25f6umjRC4TkqkgMWI1+EHow4qQ3g+gfKGS30b467lTeBpTP728BRYisoI10Yo
- vAx2F1ojg87FLtaaRxBPjcqoStH6Ih0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-S8b4NBn-N_qNcD_esv_wJA-1; Wed, 23 Nov 2022 09:05:25 -0500
-X-MC-Unique: S8b4NBn-N_qNcD_esv_wJA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99D5285A59D;
- Wed, 23 Nov 2022 14:05:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 726F84EA4A;
- Wed, 23 Nov 2022 14:05:23 +0000 (UTC)
-Date: Wed, 23 Nov 2022 14:05:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v2] Drop more useless casts from void * to pointer
-Message-ID: <Y34on7NQk44e07cM@redhat.com>
-References: <20221123133811.1398562-1-armbru@redhat.com>
- <alpine.LMD.2.03.2211231441480.26886@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oxqc3-0002OK-3F
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:20:31 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oxqc0-0004ds-Fc
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:20:30 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id g12so29575302wrs.10
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 06:20:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7rpAnIPSYWoMxczquQfxD1mO9XbzC9hj061ZXmrPvLc=;
+ b=njt83PkL6Zjo7kGzZJ2/CKsgUqb4EMBOYjJ/FWTUVO9oX26RZOVmuChzjMwzOdzC6M
+ LudVDv2yB5jI6T7XjN9QVUYkS3711kUXKXyY9uiuvQVutRDqrTm4cYC4yYrMWEiCCzfG
+ tib12cvNSaFOmTW/x//cbLW7t2Kqey3EZfVPAaIPa0iNKoUvuZDvkL4U5c/xjkSIUbVj
+ TJ/tsioU0ClHJlAAB1xzCzOGr7whVJrD8bfX2AQdCvympl5HeWCaVnttmJ4bIm1qMZVR
+ qCUp1Qf1+ZO6OXr+a1jkstDY6HGk5jQ4dingEcWiq//85z9TlThqamO7ehf3CKm9qSTm
+ mvqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7rpAnIPSYWoMxczquQfxD1mO9XbzC9hj061ZXmrPvLc=;
+ b=CuPb99x2mD7sboXwDN3Erd3oMiiMDQtqOp21jr6mhfDs69Zl/ab7C81PAhumgEN0ds
+ e6knoVUQRzHGj2pij8OJOEGAFSDm8HH6WnZxAOHiJ4fOWlT0DTSbA9e53X54VNp4UexU
+ eIcog9zpNnVw7jKsuBvo+TAXlvcBRmz/Cy76+YcbPmCT2adszykAdMmuQSqAdzHlYRiD
+ wlCdjVK26NUGcuaSu/6fxjdsU3jOsL7I8OX9NsWS9Gn4oR1g1WEmPXW1gZceFvnNY68N
+ tByY4KcOQ3av1PHSuEV80xNB4cBdxJedfczMrIS3LHAHkmH4chlp4nr69VsqPehsgp4k
+ vmmA==
+X-Gm-Message-State: ANoB5pk8cbkJvUXQBQGaa+p2PNM32JQe7grQQAu2wu6BixZ5rFyFqXLc
+ 0KBHRA8T+VJhIr5EsY/X+XTa5wgBotJ9Iw==
+X-Google-Smtp-Source: AA0mqf4oIWVUqx9LuAL6aaXnfFWN4MsT7asf0JLZgTvRDVuPuKwmCnZ469rE0SNfzDBPpY//uNVnsg==
+X-Received: by 2002:adf:fa92:0:b0:241:d93a:5769 with SMTP id
+ h18-20020adffa92000000b00241d93a5769mr7030272wrr.606.1669213226148; 
+ Wed, 23 Nov 2022 06:20:26 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ j42-20020a05600c1c2a00b003cfb7c02542sm2635729wms.11.2022.11.23.06.20.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 06:20:25 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C358F1FFB7;
+ Wed, 23 Nov 2022 14:20:24 +0000 (GMT)
+References: <20221118113309.1057790-1-alex.bennee@linaro.org>
+ <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
+ <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
+User-agent: mu4e 1.9.3; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>, Wainer dos Santos
+ Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
+Date: Wed, 23 Nov 2022 14:12:07 +0000
+In-reply-to: <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
+Message-ID: <87fse9bvmf.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <alpine.LMD.2.03.2211231441480.26886@eik.bme.hu>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +95,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 02:51:49PM +0100, BALATON Zoltan wrote:
-> On Wed, 23 Nov 2022, Markus Armbruster wrote:
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> > ---
-> > v2:
-> > * PATCH 1+2 merged as commit 0a553c12c7 and 3f7febc937
-> > * PATCH 3 change to util/coroutine-ucontext.c dropped [Laurent]
-> > 
-> > bsd-user/elfload.c                      | 2 +-
-> > contrib/plugins/cache.c                 | 8 ++++----
-> > contrib/vhost-user-blk/vhost-user-blk.c | 2 +-
-> > hw/core/qdev-clock.c                    | 2 +-
-> > hw/hyperv/vmbus.c                       | 2 +-
-> > hw/net/cadence_gem.c                    | 2 +-
-> > hw/net/virtio-net.c                     | 2 +-
-> > hw/nvme/ctrl.c                          | 4 ++--
-> > hw/rdma/vmw/pvrdma_cmd.c                | 9 +++------
-> > hw/rdma/vmw/pvrdma_qp_ops.c             | 6 +++---
-> > hw/virtio/virtio-iommu.c                | 3 +--
-> > linux-user/syscall.c                    | 2 +-
-> > target/i386/hax/hax-all.c               | 2 +-
-> > tests/tcg/aarch64/system/semiheap.c     | 4 ++--
-> > util/vfio-helpers.c                     | 2 +-
-> > 15 files changed, 24 insertions(+), 28 deletions(-)
-> > 
-> > diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-> > index f8edb22f2a..fbcdc94b96 100644
-> > --- a/bsd-user/elfload.c
-> > +++ b/bsd-user/elfload.c
-> > @@ -156,7 +156,7 @@ static abi_ulong copy_elf_strings(int argc, char **argv, void **page,
-> >             --p; --tmp; --len;
-> >             if (--offset < 0) {
-> >                 offset = p % TARGET_PAGE_SIZE;
-> > -                pag = (char *)page[p / TARGET_PAGE_SIZE];
-> > +                pag = page[p / TARGET_PAGE_SIZE];
-> 
-> I think arithmetic on void pointer was undefined at least in the past so
-> some compilers may warn for it but not sure if this is still the case for
-> the compilers we care about. Apparently not if this now compiles but that
-> explains why this cast was not useless. Found some more info on this here:
-> 
-> https://stackoverflow.com/questions/3523145/pointer-arithmetic-for-void-pointer-in-c
 
-QEMU explicitly only targets GCC + Clang, so portability to other
-compilers is not required.
+Thomas Huth <thuth@redhat.com> writes:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> On 23/11/2022 12.15, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 18/11/22 12:33, Alex Benn=C3=A9e wrote:
+>>> The old URL wasn't stable. I suspect the current URL will only be
+>>> stable for a few months so maybe we need another strategy for hosting
+>>> rootfs snapshots?
+>>>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>> =C2=A0 tests/avocado/boot_linux_console.py | 4 ++--
+>>> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/tests/avocado/boot_linux_console.py
+>>> b/tests/avocado/boot_linux_console.py
+>>> index 4c9d551f47..5a2923c423 100644
+>>> --- a/tests/avocado/boot_linux_console.py
+>>> +++ b/tests/avocado/boot_linux_console.py
+>>> @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dtb_path =3D
+>>> '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dtb_path =3D sel=
+f.extract_from_deb(deb_path, dtb_path)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rootfs_url =3D
+>>> ('http://storage.kernelci.org/images/rootfs/buildroot/'
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'kci-2019.02/arme=
+l/base/rootfs.ext2.xz')
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rootfs_hash =3D '692510cb62=
+5efda31640d1de0a8d60e26040f061'
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'buildroot-baseli=
+ne/20221116.0/armel/rootfs.ext2.xz')
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rootfs_hash =3D 'fae32f337c=
+7b87547b10f42599acf109da8b6d9a'
+>> If Avocado doesn't find an artifact in its local cache, it will fetch it
+>> from the URL.
+>> The cache might be populated with artifacts previously downloaded, but
+>> their URL is not valid anymore (my case for many tests).
+>> We can also add artifacts manually, see [1].
+>> I'd rather keep pre-existing tests if possible, to test older
+>> (kernel / user-space) images. We don't need to run all the tests all
+>> the time:
+>> tests can be filtered by tags (see [2]).
+>> My preference here is to refactor this test, adding the
+>> "kci-2019.02"
+>> and "baseline-20221116.0" releases. I can prepare the patch if you /
+>> Thomas don't object.
+>
+> IMHO we shouldn't keep tests in the upstream git repository where the
+> binaries are not available in public anymore. They won't get run by
+> new contributors anymore, and also could vanish from the disks of the
+> people who previously downloaded it, once they wipe their cache or
+> upgrade to a new installation, so the test code will sooner or later
+> be bitrotting. But if you want to keep the tests around on your hard
+> disk, you could also stick the test in a local branch on your hard
+> disk instead.
 
+CI/Workstation splits aside I tend to agree with Thomas here that having
+tests no one else can run will lead to an accretion of broken tests.
+Given the tests themselves are standalone couldn't the prospective test
+hoarder keep their own personal repository to be run with the rest of the
+in-tree code, something like:
+
+  cd my/test/zoo/repo
+  $(QEMU_BUILD)/tests/venv/bin/avocado run my_test_zoo.py
+
+for convenience we could maybe support an env variable so the existing
+test selection tags would work:
+
+  set -x QEMU_AVOCADO_EXTRA_TESTS /my/test/zoo/repo
+  ./tests/venv/bin/avocado list
+  ...
+  <list all tests in qemu src tree and extra>
+  ...
+
+?
+
+> The other possibility is to upload the binaries to a new public
+> location in the web ... but for software that contains GPLed software,
+> you should then also make sure to provide the source code to comply
+> with the license.
+
+This is the traditional reason we've lent so hard on external hosting
+for binaries because the upstream doesn't want the hassle of maintaining
+that sort of zoo of binaries. That said we have tests where binaries are
+served from fileserver.linaro.org but its then only my problem to deal
+with GPL requirements and not the upstream.
+
+--=20
+Alex Benn=C3=A9e
 
