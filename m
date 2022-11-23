@@ -2,109 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F49D63696E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 20:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A88636B90
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 21:50:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxuye-0003Mv-3Y; Wed, 23 Nov 2022 14:00:08 -0500
+	id 1oxwh2-00088d-2X; Wed, 23 Nov 2022 15:50:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oxuya-0003LJ-Ja
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 14:00:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <huanyu.zhai@outlook.com>)
+ id 1oxuJn-0001DD-8p; Wed, 23 Nov 2022 13:17:57 -0500
+Received: from mail-db8eur05acsn20805.outbound.protection.outlook.com
+ ([2a01:111:f400:7e1a::805]
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oxuyW-00072K-Ua
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 14:00:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669229999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JVgTRpAudX7cVh9NpI/uwl3kvPsrNt2EVqFFYtahlks=;
- b=ToE6dVcEuWDF6TvldOd3KPAeoRVyfp0OdKst6pEcBJUPJ1Zb7U9+0PleooPFhnNFnnOdki
- xdcLkNgI71kpe43TtyPw3J6o3FnH+jHHX4Lx75YD+PZLfQe8+eta/ScvgtHISUnhvkNaig
- AvD+6MaoLqHnu3mG0i2gnAe2Vc0bWfw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-601-BBEyHjhtOhWCXpuP2pcwhg-1; Wed, 23 Nov 2022 13:59:57 -0500
-X-MC-Unique: BBEyHjhtOhWCXpuP2pcwhg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 1-20020a05600c028100b003cf7833293cso1434956wmk.3
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 10:59:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JVgTRpAudX7cVh9NpI/uwl3kvPsrNt2EVqFFYtahlks=;
- b=fR9SkmRdlE1Re65eijlq7VjtWz2ipMdBZC36md6ZSq1xUMf4Dbn2s5yijIDxfqcNNe
- Npddwqeb2k13kppA9+iwCuIlVAwEt6ITCaQEnmgefFuH4I7lInxBcTgj6m/4VQ++7AsK
- SbkkM7HPNeTzaoiACCpUrp2owMEiMo/Gc04NUKu4W2dQBhq+6CLaKF8VFwB4eAfuaiBM
- Hii3+HFkhjXajGKjXif7gthWW5CT8yZAM8+V+cGTfJpgXdeCDrYNo9JAzUbfwaEE4pc/
- VPBFVafjUr0hwlHR9zxU1aA0ZaPF2/9qEiJagljtjfqp83M8XszNihxS9qOB7Fvn+0aq
- aGLA==
-X-Gm-Message-State: ANoB5pm4r1UhelkfMZIU31Pub29TJ7JQ8oaE9FyMhdMyrdoypPsbHUXn
- iJ1izu+eEpUiPNgcnHg+T5BeyffLpjDxW8VtlDv3OuHLD6HuHEX9Bm/pV2LD4LuD7ySm0h5mNVu
- 2TXQfZNCHW7gE1nY=
-X-Received: by 2002:a5d:4890:0:b0:22a:f91f:674a with SMTP id
- g16-20020a5d4890000000b0022af91f674amr6577971wrq.214.1669229995742; 
- Wed, 23 Nov 2022 10:59:55 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf45ZWhhHlJtU2hGS8U86jlQjS/d1XFMtsl01CKM6UGyMs9pk4UbPKjjSNi+qlXIs9CFGKwfNg==
-X-Received: by 2002:a5d:4890:0:b0:22a:f91f:674a with SMTP id
- g16-20020a5d4890000000b0022af91f674amr6577940wrq.214.1669229995427; 
- Wed, 23 Nov 2022 10:59:55 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- x20-20020a05600c189400b003c6deb5c1edsm2915606wmp.45.2022.11.23.10.59.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 10:59:54 -0800 (PST)
-Date: Wed, 23 Nov 2022 18:59:51 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org,
- qemu-block@nongnu.org, Kunkun Jiang <jiangkunkun@huawei.com>,
- "Zhang, Chen" <chen.zhang@intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
- protocol v2
-Message-ID: <Y35tp+2Ado3J4NE5@work-vm>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-13-avihaih@nvidia.com>
+ (Exim 4.90_1) (envelope-from <huanyu.zhai@outlook.com>)
+ id 1oxuJl-0004Un-3J; Wed, 23 Nov 2022 13:17:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m+dpEQnr+yp294MWwTeTL5aTYMXYNergiLkJuXxzA8iimAeLWfcmMk/lIWbkot9sZ6aEI2FTISEwSe+whkb3VAonGCdjk1EnjCsliG6oI6rPCdP4FMRSsx2V1Ffvj/smWgy2qlPBq8uiT/+uD9Ck0IzdD9YOVol8oUIva/JkoaJH04U7Vaq2jqG44YewkzxO28U/MtJLcFiV7MlR62d/TU7Li41+NKqOPMC63fFsIzYVsf3IQzKQNP0N07v13t829eomt51Qo9FPsDw4z8fnMIHLr9gSt8eQJQntHy4he5iCuDmllickDJ0EX6QHxOS5LYCpf2DJgVv+yCTMXf6fFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UpZr+SXRaC8ZmtLmpUkIdKY4DJ4vNagxc7Ive5WKN6A=;
+ b=AEkQAsmQmbPrTJazGCh1+eZJ+GMvvw3707PDOIbgmTSdfbefVKwes/HQCBUl7M7F/M+5zd82EPsVhNhlhJqzXuqZIjJ5yq2JU3unCwT+iNjsqs0h1gdPHaPFe0CVEayYvvli6WOJx2/0jq/ey1YzBz9isdTsXva24vSrHs61N4CVFvHLJwvVPQE40v7pqGsVopCtJvt+vGqX3Ru7Y3QzW2rUU+oOXrKXvPfBFLh2mKKoLODMWxcqlYvor5MfNN2C2DpWp+NDCo0AaX167nR7xM/DlqxMit+9+o9GSgdgGlxdxZLtyh7OcdYx/SHp25xuGB1kZ5Q1XLUXAG3fZXPhNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UpZr+SXRaC8ZmtLmpUkIdKY4DJ4vNagxc7Ive5WKN6A=;
+ b=Fa8SK1jNdxXnsRvQFdeHgVBR6ih0woWk9SgJOQ/8etgFOUrPAKIYIIaBsFmdnfcYWWWbco/KXQZh+db2ky36POYJKrnwzRxxtuyLj9M7iH3DhdcL/Ey7/fUBMJItUh0iuprNXS71yeuy8AVMl4UCqHp+7Mct9TRtlSkkxvjcZmwt2qJB1Z6irVLA+BHJPTMMPvYmoPEiUQLgRZ4y/wDNUARDuCjH/RmC5OZkV/fU+9VCZSMwlV6l2knuIQMEtq4feyRc8akRWz43Eq1HhmH4zBK8ZAH6uG7TNczQGfEKPc+Ns/gagDWqyCweUOGubjOZ894OTI+JNNocV3YIDLH7Cg==
+Received: from AS4P190MB2021.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:519::16)
+ by DBAP190MB0999.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:1af::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
+ 2022 18:17:48 +0000
+Received: from AS4P190MB2021.EURP190.PROD.OUTLOOK.COM
+ ([fe80::f177:ba24:c669:47bb]) by AS4P190MB2021.EURP190.PROD.OUTLOOK.COM
+ ([fe80::f177:ba24:c669:47bb%3]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
+ 18:17:48 +0000
+From: Huanyu ZHAI <huanyu.zhai@outlook.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Subject: [PATCH] cpu/i386: update xsave components after CPUID filtering
+Thread-Topic: [PATCH] cpu/i386: update xsave components after CPUID filtering
+Thread-Index: Adj/Z1Q576NQ8Xr5QByylpzq/8jNfQ==
+Date: Wed, 23 Nov 2022 18:17:48 +0000
+Message-ID: <AS4P190MB202188766937CF16EC4F1DAFF60C9@AS4P190MB2021.EURP190.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-tmn: [P6IagM4yeNONZyjkev79b7HySZiWdHE5]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS4P190MB2021:EE_|DBAP190MB0999:EE_
+x-ms-office365-filtering-correlation-id: 8417e05d-88a9-4249-ee2f-08dacd7f06a9
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VCXpWhYOyvbTREJuaR7k3hf0KkI5cfrkOSWQ9UwV2CgZZbq3sUGO5hO97BFbXxn4K4aCL9ZUmbQwIum4xyja4ppN/qcDg95UkiPvaSahO/uhI03hWpvnOZnk/3H+U09jtjsbS7s7SwFERMVcf8LJxW+5bQa48m0drjMbXbO4SA7sJr4/6cWXXvDdgdX3Wf6eMa6RF15O8HXR2q8H/iVArnzow2eQfF6sehakXufcF0b1GXykudFHc74SrAg+vSEbCP2amukCvMfb+lzmyKIwmUYWEZjRkaUbDGYaCGCZJDWD0B/tCQIvzTys+3dyai+U1HRNvMdgILF9iP+w5fwe9s21Af9NBxTAJdoohbTAjylFo1xFotMtqrIqEMgpKPidFaSyTXcnxb7/OR+UJBuHtilEmsOH2NuFujDosoTKFR6Ab4gsj0pf32qTJpaGVByyWwUVXDTsNNdyKQ2dalPBj0RzfnqvZAwstWMQuOBuQbgEHtbrxzW6/Hn1gyhkajlZQfCTLZnqhWEOMAU6WxK4D1zfMxFourMhLWLlVEkfudZfKpXjhG6NsXe5ZSCzkJpNsZ0hZ/2l0PoheB7CVn0j6A==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?yLx2ahdgTmn+mUthT3D0V437RojEtrm3YOpmKT+K8NdKIQ35nTki/kG4nLrV?=
+ =?us-ascii?Q?ZIhz3JmjzqRSeag3UWyapnf0JaOCMAhzGNGqCyXFPSnoOqguInKu/X+zqx8Q?=
+ =?us-ascii?Q?WqN+XSZMXVH9CqX2b29Df+fcEgpXxh0dd4BeUfAOP2fJHMR3WjtVrQueOrxq?=
+ =?us-ascii?Q?3gfXrOuqQUjKp8DHGx+tVFi3hvomIvpkJenOL5B87e3qn1RB1SZ/vVNO29t6?=
+ =?us-ascii?Q?4ogQ4mC8HlpIkuunaf14QSFG3hlrPPX87pNlHkUJ4gbu7wghOefzZC0o5NFr?=
+ =?us-ascii?Q?4KP67jcRRkPPPTVnxXBIt7iEsuCy/L9ndPyIyTEu24EzNWu4MkogXb6YCUco?=
+ =?us-ascii?Q?4rGgcm9JKbIu8Z2+hnm6T5bVbKdBuiOMbkW1Dbf/APAb6fuRhC+t+p76i3Gf?=
+ =?us-ascii?Q?9cwXS2m0eJyKd21LM4aqIqrA0lkG8a4MjS/YAIAQJ5vuzdDQfTMAhYBmhhGs?=
+ =?us-ascii?Q?x72UHOmCM1+mSVjL9e/Fc/fTlF6Xc2Xn34FVzomxhZYi1EulJm0o0/cdXCNR?=
+ =?us-ascii?Q?DnSQd95kjP1bJ4HKtceTgW7oALAH8EZyxLf5VZWErMJxL6yeAx3vgcqpeDrm?=
+ =?us-ascii?Q?3/Xix5IirMJso7Reabaia0velMHIkrcQjpLjHsC5VSNU6eWR8t8jw+8yIBUX?=
+ =?us-ascii?Q?OibPBI85uunzaP7qcctf3Dr29aI6Y9aNHEaHZOh0d+n6C3MN4ZQM+seTx3Q1?=
+ =?us-ascii?Q?JBLNP+Fl7Cp8dnplJ1G5hVj+bTCaB8k3COqekbMhzNrxYZxGte4p5YXZ5dod?=
+ =?us-ascii?Q?UPzvUgFzWbyj2WLL5f5Lnz7HtYtM4DCiSS1vTVeNzR8xTW4nNgqojs3U50gh?=
+ =?us-ascii?Q?EB/gKqePOJg/4qbSRXoPVda8dnTTV3vhhHbwg2bem8CsUeq33+tE81UhXs+P?=
+ =?us-ascii?Q?Ttxi6Uax5/TkfvthQKQkgfseOvqRqmrFJ1QqO13YIFK0i8o/UJ+mRkUnjvQm?=
+ =?us-ascii?Q?10xWaGAIc+PtPRpE7rtfoq4bOlJB6OvaWLXrl8QJpJvqGWerDIHeVrIxTQi5?=
+ =?us-ascii?Q?EUShGaF7pfnp7hkVyavEaqfTP0vwOv9/zpeT0+YqKAgYs+s7d1t3l4gjmEEk?=
+ =?us-ascii?Q?wVLBO2s2UrIzB177K4ttEfGdmSB393xvPYYOBMNbkW5rulbtDVwcKMPPXn/3?=
+ =?us-ascii?Q?WPyrVojuv70j4pEuTBDHzJfJiEz4Pnq5gTV9kRhrkHaYhPfMfytcggI/wwGI?=
+ =?us-ascii?Q?76qWbkAzm3dUXDVNg4HCJYvtKn8yqvlgnbQtFH3vjmT6WTlYT50JefLcZdxQ?=
+ =?us-ascii?Q?WG4STNaUJvA41MDAAxRmHGea3HjotLZxgjRC8xzw3g=3D=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_AS4P190MB202188766937CF16EC4F1DAFF60C9AS4P190MB2021EURP_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221103161620.13120-13-avihaih@nvidia.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS4P190MB2021.EURP190.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8417e05d-88a9-4249-ee2f-08dacd7f06a9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2022 18:17:48.2374 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAP190MB0999
+Received-SPF: pass client-ip=2a01:111:f400:7e1a::805;
+ envelope-from=huanyu.zhai@outlook.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ GB_FREEMAIL_DISPTO=0.5, HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 23 Nov 2022 15:49:54 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,482 +121,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Avihai Horon (avihaih@nvidia.com) wrote:
+--_000_AS4P190MB202188766937CF16EC4F1DAFF60C9AS4P190MB2021EURP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-<snip>
+Subject: [PATCH] cpu/i386: update xsave components after CPUID filtering
 
-> +    ret = qemu_file_get_to_fd(f, migration->data_fd, data_size);
-> +    if (!ret) {
-> +        trace_vfio_load_state_device_data(vbasedev->name, data_size);
-> +
-> +    }
+On i386 platform, CPUID data are setup through three consecutive steps: CPU=
+ model definition, expansion and filtering.
+XSAVE components are enabled during the expansion stage, by checking if the=
+y are enabled in CPUID. However, it is still
+probable that some XSAVE features will be enabled/disabled during the filte=
+ring stage and the XSAVE components left unchanged.
+Inconsistency between XSAVE features and enabled XSAVE components can lead =
+to problems on some Linux guests in the absence of
+the following patch in the kernel:
 
-I notice you had a few cases like that; I wouldn't bother making that
-conditional - just add 'ret' to the trace parameters; that way if it
-fails then you can see that in the trace, and it's simpler anyway.
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1452368.html
 
-Dave
+A simple case to reproduce this problem is to start a SUSE 12 SP3 guest wit=
+h cpu model set to Skylake-Server:
+$ qemu-system-x86_64 -cpu Skylake-Server ...
 
-> +
-> +    return ret;
-> +}
-> +
->  static int vfio_v1_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
->                                 uint64_t data_size)
->  {
-> @@ -394,6 +484,14 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
->      return qemu_file_get_error(f);
->  }
->  
-> +static void vfio_migration_cleanup(VFIODevice *vbasedev)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +
-> +    close(migration->data_fd);
-> +    migration->data_fd = -1;
-> +}
-> +
->  static void vfio_migration_v1_cleanup(VFIODevice *vbasedev)
->  {
->      VFIOMigration *migration = vbasedev->migration;
-> @@ -405,6 +503,18 @@ static void vfio_migration_v1_cleanup(VFIODevice *vbasedev)
->  
->  /* ---------------------------------------------------------------------- */
->  
-> +static int vfio_save_setup(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +
-> +    trace_vfio_save_setup(vbasedev->name);
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> +
-> +    return qemu_file_get_error(f);
-> +}
-> +
->  static int vfio_v1_save_setup(QEMUFile *f, void *opaque)
->  {
->      VFIODevice *vbasedev = opaque;
-> @@ -448,6 +558,14 @@ static int vfio_v1_save_setup(QEMUFile *f, void *opaque)
->      return 0;
->  }
->  
-> +static void vfio_save_cleanup(void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +
-> +    vfio_migration_cleanup(vbasedev);
-> +    trace_vfio_save_cleanup(vbasedev->name);
-> +}
-> +
->  static void vfio_v1_save_cleanup(void *opaque)
->  {
->      VFIODevice *vbasedev = opaque;
-> @@ -456,6 +574,23 @@ static void vfio_v1_save_cleanup(void *opaque)
->      trace_vfio_save_cleanup(vbasedev->name);
->  }
->  
-> +#define VFIO_MIG_PENDING_SIZE (512 * 1024 * 1024)
-> +static void vfio_save_pending(void *opaque, uint64_t threshold_size,
-> +                              uint64_t *res_precopy, uint64_t *res_postcopy)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +
-> +    /*
-> +     * VFIO migration protocol v2 currently doesn't have an API to get pending
-> +     * device state size. Until such API is introduced, report some big
-> +     * arbitrary pending size so the device will be taken into account for
-> +     * downtime limit calculations.
-> +     */
-> +    *res_postcopy += VFIO_MIG_PENDING_SIZE;
-> +
-> +    trace_vfio_save_pending(vbasedev->name, *res_precopy, *res_postcopy);
-> +}
-> +
->  static void vfio_v1_save_pending(void *opaque, uint64_t threshold_size,
->                                   uint64_t *res_precopy, uint64_t *res_postcopy)
->  {
-> @@ -520,6 +655,67 @@ static int vfio_save_iterate(QEMUFile *f, void *opaque)
->      return 0;
->  }
->  
-> +/* Returns 1 if end-of-stream is reached, 0 if more data and -1 if error */
-> +static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
-> +{
-> +    ssize_t data_size;
-> +
-> +    data_size = read(migration->data_fd, migration->data_buffer,
-> +                     migration->data_buffer_size);
-> +    if (data_size < 0) {
-> +        return -1;
-> +    }
-> +    if (data_size == 0) {
-> +        return 1;
-> +    }
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-> +    qemu_put_be64(f, data_size);
-> +    qemu_put_buffer(f, migration->data_buffer, data_size);
-> +    bytes_transferred += data_size;
-> +
-> +    trace_vfio_save_block(migration->vbasedev->name, data_size);
-> +
-> +    return qemu_file_get_error(f);
-> +}
-> +
-> +static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    enum vfio_device_mig_state recover_state;
-> +    int ret;
-> +
-> +    /* We reach here with device state STOP only */
-> +    recover_state = VFIO_DEVICE_STATE_STOP;
-> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOP_COPY,
-> +                                   recover_state);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    do {
-> +        ret = vfio_save_block(f, vbasedev->migration);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +    } while (!ret);
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> +    ret = qemu_file_get_error(f);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    recover_state = VFIO_DEVICE_STATE_ERROR;
-> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOP,
-> +                                   recover_state);
-> +    if (!ret) {
-> +        trace_vfio_save_complete_precopy(vbasedev->name);
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->  static int vfio_v1_save_complete_precopy(QEMUFile *f, void *opaque)
->  {
->      VFIODevice *vbasedev = opaque;
-> @@ -589,6 +785,14 @@ static void vfio_save_state(QEMUFile *f, void *opaque)
->      }
->  }
->  
-> +static int vfio_load_setup(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +
-> +    return vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RESUMING,
-> +                                   vbasedev->migration->device_state);
-> +}
-> +
->  static int vfio_v1_load_setup(QEMUFile *f, void *opaque)
->  {
->      VFIODevice *vbasedev = opaque;
-> @@ -616,6 +820,16 @@ static int vfio_v1_load_setup(QEMUFile *f, void *opaque)
->      return ret;
->  }
->  
-> +static int vfio_load_cleanup(void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +
-> +    vfio_migration_cleanup(vbasedev);
-> +    trace_vfio_load_cleanup(vbasedev->name);
-> +
-> +    return 0;
-> +}
-> +
->  static int vfio_v1_load_cleanup(void *opaque)
->  {
->      VFIODevice *vbasedev = opaque;
-> @@ -658,7 +872,11 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
->              uint64_t data_size = qemu_get_be64(f);
->  
->              if (data_size) {
-> -                ret = vfio_v1_load_buffer(f, vbasedev, data_size);
-> +                if (vbasedev->migration->v2) {
-> +                    ret = vfio_load_buffer(f, vbasedev, data_size);
-> +                } else {
-> +                    ret = vfio_v1_load_buffer(f, vbasedev, data_size);
-> +                }
->                  if (ret < 0) {
->                      return ret;
->                  }
-> @@ -679,6 +897,17 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
->      return ret;
->  }
->  
-> +static const SaveVMHandlers savevm_vfio_handlers = {
-> +    .save_setup = vfio_save_setup,
-> +    .save_cleanup = vfio_save_cleanup,
-> +    .save_live_pending = vfio_save_pending,
-> +    .save_live_complete_precopy = vfio_save_complete_precopy,
-> +    .save_state = vfio_save_state,
-> +    .load_setup = vfio_load_setup,
-> +    .load_cleanup = vfio_load_cleanup,
-> +    .load_state = vfio_load_state,
-> +};
-> +
->  static SaveVMHandlers savevm_vfio_v1_handlers = {
->      .save_setup = vfio_v1_save_setup,
->      .save_cleanup = vfio_v1_save_cleanup,
-> @@ -693,6 +922,34 @@ static SaveVMHandlers savevm_vfio_v1_handlers = {
->  
->  /* ---------------------------------------------------------------------- */
->  
-> +static void vfio_vmstate_change(void *opaque, bool running, RunState state)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    enum vfio_device_mig_state new_state;
-> +    int ret;
-> +
-> +    if (running) {
-> +        new_state = VFIO_DEVICE_STATE_RUNNING;
-> +    } else {
-> +        new_state = VFIO_DEVICE_STATE_STOP;
-> +    }
-> +
-> +    ret = vfio_migration_set_state(vbasedev, new_state,
-> +                                   VFIO_DEVICE_STATE_ERROR);
-> +    if (ret) {
-> +        /*
-> +         * Migration should be aborted in this case, but vm_state_notify()
-> +         * currently does not support reporting failures.
-> +         */
-> +        if (migrate_get_current()->to_dst_file) {
-> +            qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
-> +        }
-> +    }
-> +
-> +    trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
-> +                              mig_state_to_str(new_state));
-> +}
-> +
->  static void vfio_v1_vmstate_change(void *opaque, bool running, RunState state)
->  {
->      VFIODevice *vbasedev = opaque;
-> @@ -766,12 +1023,17 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
->      case MIGRATION_STATUS_CANCELLED:
->      case MIGRATION_STATUS_FAILED:
->          bytes_transferred = 0;
-> -        ret = vfio_migration_v1_set_state(vbasedev,
-> -                                          ~(VFIO_DEVICE_STATE_V1_SAVING |
-> -                                            VFIO_DEVICE_STATE_V1_RESUMING),
-> -                                          VFIO_DEVICE_STATE_V1_RUNNING);
-> -        if (ret) {
-> -            error_report("%s: Failed to set state RUNNING", vbasedev->name);
-> +        if (migration->v2) {
-> +            vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RUNNING,
-> +                                     VFIO_DEVICE_STATE_ERROR);
-> +        } else {
-> +            ret = vfio_migration_v1_set_state(vbasedev,
-> +                                              ~(VFIO_DEVICE_STATE_V1_SAVING |
-> +                                                VFIO_DEVICE_STATE_V1_RESUMING),
-> +                                              VFIO_DEVICE_STATE_V1_RUNNING);
-> +            if (ret) {
-> +                error_report("%s: Failed to set state RUNNING", vbasedev->name);
-> +            }
->          }
->      }
->  }
-> @@ -780,12 +1042,35 @@ static void vfio_migration_exit(VFIODevice *vbasedev)
->  {
->      VFIOMigration *migration = vbasedev->migration;
->  
-> -    vfio_region_exit(&migration->region);
-> -    vfio_region_finalize(&migration->region);
-> +    if (migration->v2) {
-> +        g_free(migration->data_buffer);
-> +    } else {
-> +        vfio_region_exit(&migration->region);
-> +        vfio_region_finalize(&migration->region);
-> +    }
->      g_free(vbasedev->migration);
->      vbasedev->migration = NULL;
->  }
->  
-> +static int vfio_migration_query_flags(VFIODevice *vbasedev, uint64_t *mig_flags)
-> +{
-> +    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
-> +                                  sizeof(struct vfio_device_feature_migration),
-> +                              sizeof(uint64_t))] = {};
-> +    struct vfio_device_feature *feature = (void *)buf;
-> +    struct vfio_device_feature_migration *mig = (void *)feature->data;
-> +
-> +    feature->argsz = sizeof(buf);
-> +    feature->flags = VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_MIGRATION;
-> +    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
-> +        return -EOPNOTSUPP;
-> +    }
-> +
-> +    *mig_flags = mig->flags;
-> +
-> +    return 0;
-> +}
-> +
->  static int vfio_migration_init(VFIODevice *vbasedev)
->  {
->      int ret;
-> @@ -794,6 +1079,7 @@ static int vfio_migration_init(VFIODevice *vbasedev)
->      char id[256] = "";
->      g_autofree char *path = NULL, *oid = NULL;
->      struct vfio_region_info *info = NULL;
-> +    uint64_t mig_flags;
->  
->      if (!vbasedev->ops->vfio_get_object) {
->          return -EINVAL;
-> @@ -804,34 +1090,51 @@ static int vfio_migration_init(VFIODevice *vbasedev)
->          return -EINVAL;
->      }
->  
-> -    ret = vfio_get_dev_region_info(vbasedev,
-> -                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
-> -                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
-> -                                   &info);
-> -    if (ret) {
-> -        return ret;
-> -    }
-> +    ret = vfio_migration_query_flags(vbasedev, &mig_flags);
-> +    if (!ret) {
-> +        /* Migration v2 */
-> +        /* Basic migration functionality must be supported */
-> +        if (!(mig_flags & VFIO_MIGRATION_STOP_COPY)) {
-> +            return -EOPNOTSUPP;
-> +        }
-> +        vbasedev->migration = g_new0(VFIOMigration, 1);
-> +        vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
-> +        vbasedev->migration->data_buffer_size = VFIO_MIG_DATA_BUFFER_SIZE;
-> +        vbasedev->migration->data_buffer =
-> +            g_malloc0(vbasedev->migration->data_buffer_size);
-> +        vbasedev->migration->data_fd = -1;
-> +        vbasedev->migration->v2 = true;
-> +    } else {
-> +        /* Migration v1 */
-> +        ret = vfio_get_dev_region_info(vbasedev,
-> +                                       VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
-> +                                       VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
-> +                                       &info);
-> +        if (ret) {
-> +            return ret;
-> +        }
->  
-> -    vbasedev->migration = g_new0(VFIOMigration, 1);
-> -    vbasedev->migration->device_state_v1 = VFIO_DEVICE_STATE_V1_RUNNING;
-> -    vbasedev->migration->vm_running = runstate_is_running();
-> +        vbasedev->migration = g_new0(VFIOMigration, 1);
-> +        vbasedev->migration->device_state_v1 = VFIO_DEVICE_STATE_V1_RUNNING;
-> +        vbasedev->migration->vm_running = runstate_is_running();
->  
-> -    ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
-> -                            info->index, "migration");
-> -    if (ret) {
-> -        error_report("%s: Failed to setup VFIO migration region %d: %s",
-> -                     vbasedev->name, info->index, strerror(-ret));
-> -        goto err;
-> -    }
-> +        ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
-> +                                info->index, "migration");
-> +        if (ret) {
-> +            error_report("%s: Failed to setup VFIO migration region %d: %s",
-> +                         vbasedev->name, info->index, strerror(-ret));
-> +            goto err;
-> +        }
->  
-> -    if (!vbasedev->migration->region.size) {
-> -        error_report("%s: Invalid zero-sized VFIO migration region %d",
-> -                     vbasedev->name, info->index);
-> -        ret = -EINVAL;
-> -        goto err;
-> -    }
-> +        if (!vbasedev->migration->region.size) {
-> +            error_report("%s: Invalid zero-sized VFIO migration region %d",
-> +                         vbasedev->name, info->index);
-> +            ret = -EINVAL;
-> +            goto err;
-> +        }
->  
-> -    g_free(info);
-> +        g_free(info);
-> +    }
->  
->      migration = vbasedev->migration;
->      migration->vbasedev = vbasedev;
-> @@ -844,11 +1147,20 @@ static int vfio_migration_init(VFIODevice *vbasedev)
->      }
->      strpadcpy(id, sizeof(id), path, '\0');
->  
-> -    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
-> -                         &savevm_vfio_v1_handlers, vbasedev);
-> +    if (migration->v2) {
-> +        register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
-> +                             &savevm_vfio_handlers, vbasedev);
-> +
-> +        migration->vm_state = qdev_add_vm_change_state_handler(
-> +            vbasedev->dev, vfio_vmstate_change, vbasedev);
-> +    } else {
-> +        register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
-> +                             &savevm_vfio_v1_handlers, vbasedev);
-> +
-> +        migration->vm_state = qdev_add_vm_change_state_handler(
-> +            vbasedev->dev, vfio_v1_vmstate_change, vbasedev);
-> +    }
->  
-> -    migration->vm_state = qdev_add_vm_change_state_handler(
-> -        vbasedev->dev, vfio_v1_vmstate_change, vbasedev);
->      migration->migration_state.notify = vfio_migration_state_notifier;
->      add_migration_state_change_notifier(&migration->migration_state);
->      return 0;
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index d88d2b4053..9ef84e24b2 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -149,7 +149,9 @@ vfio_display_edid_write_error(void) ""
->  
->  # migration.c
->  vfio_migration_probe(const char *name) " (%s)"
-> +vfio_migration_set_state(const char *name, const char *state) " (%s) state %s"
->  vfio_migration_v1_set_state(const char *name, uint32_t state) " (%s) state %d"
-> +vfio_vmstate_change(const char *name, int running, const char *reason, const char *dev_state) " (%s) running %d reason %s device state %s"
->  vfio_v1_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
->  vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
->  vfio_save_setup(const char *name) " (%s)"
-> @@ -163,6 +165,8 @@ vfio_save_complete_precopy(const char *name) " (%s)"
->  vfio_load_device_config_state(const char *name) " (%s)"
->  vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
->  vfio_v1_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-> +vfio_load_state_device_data(const char *name, uint64_t data_size) " (%s) size 0x%"PRIx64
->  vfio_load_cleanup(const char *name) " (%s)"
->  vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
->  vfio_iommu_map_dirty_notify(uint64_t iova_start, uint64_t iova_end) "iommu dirty @ 0x%"PRIx64" - 0x%"PRIx64
-> +vfio_save_block(const char *name, int data_size) " (%s) data_size %d"
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index bbaf72ba00..2ec3346fea 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -66,6 +66,11 @@ typedef struct VFIOMigration {
->      int vm_running;
->      Notifier migration_state;
->      uint64_t pending_bytes;
-> +    enum vfio_device_mig_state device_state;
-> +    int data_fd;
-> +    void *data_buffer;
-> +    size_t data_buffer_size;
-> +    bool v2;
->  } VFIOMigration;
->  
->  typedef struct VFIOAddressSpace {
-> -- 
-> 2.21.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+In the SUSE 12 SP3 guest, one can observe that PKRU will be enabled without=
+ Intel PKU's presence.
+That's because on platform with Skylake-Server cpus, Intel PKU is disabled =
+during x86_cpu_filter_features(),
+but the XSAVE PKRU bit was enabled by x86_cpu_expand_features().
 
+Signed-off-by: Huanyu ZHAI zhaihuanyu@huawei.com<mailto:zhaihuanyu@huawei.c=
+om>
+Signed-off-by: Xin Wang wangxinxin.wang@huawei.com<mailto:wangxinxin.wang@h=
+uawei.com>
+---
+target/i386/cpu.c | 3 +++
+1 file changed, 3 insertions(+)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 22b681ca37..2ee574cf05 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6362,6 +6362,9 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool=
+ verbose)
+             mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INT=
+EL_PT, prefix);
+         }
+     }
++
++    /* Update XSAVE components again based on the filtered CPU feature fla=
+gs */
++    x86_cpu_enable_xsave_components(cpu);
+}
+
+static void x86_cpu_hyperv_realize(X86CPU *cpu)
+--
+2.27.0
+
+
+--_000_AS4P190MB202188766937CF16EC4F1DAFF60C9AS4P190MB2021EURP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:10.5pt;
+	font-family:DengXian;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:DengXian;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:DengXian;}
+/* Page Definitions */
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word;text-justify-trim:punctuation">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Subject: [PATCH] cpu/i386: upda=
+te xsave components after CPUID filtering<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">On i386 platform, CPUID data ar=
+e setup through three consecutive steps: CPU model definition, expansion an=
+d filtering.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">XSAVE components are enabled du=
+ring the expansion stage, by checking if they are enabled in CPUID. However=
+, it is still<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">probable that some XSAVE featur=
+es will be enabled/disabled during the filtering stage and the XSAVE compon=
+ents left unchanged.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Inconsistency between XSAVE fea=
+tures and enabled XSAVE components can lead to problems on some Linux guest=
+s in the absence of<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">the following patch in the kern=
+el:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><a href=3D"https://www.mail-arc=
+hive.com/linux-kernel@vger.kernel.org/msg1452368.html">https://www.mail-arc=
+hive.com/linux-kernel@vger.kernel.org/msg1452368.html</a><o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">A simple case to reproduce this=
+ problem is to start a SUSE 12 SP3 guest with cpu model set to Skylake-Serv=
+er:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">$ qemu-system-x86_64 -cpu Skyla=
+ke-Server ...<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">In the SUSE 12 SP3 guest, one c=
+an observe that PKRU will be enabled without Intel PKU's presence.<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">That's because on platform with=
+ Skylake-Server cpus, Intel PKU is disabled during x86_cpu_filter_features(=
+),<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">but the XSAVE PKRU bit was enab=
+led by x86_cpu_expand_features().<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Signed-off-by: Huanyu ZHAI <a h=
+ref=3D"mailto:zhaihuanyu@huawei.com">
+zhaihuanyu@huawei.com</a><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Signed-off-by: Xin Wang <a href=
+=3D"mailto:wangxinxin.wang@huawei.com">
+wangxinxin.wang@huawei.com</a><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">---<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">target/i386/cpu.c | 3 +++<o:p><=
+/o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">1 file changed, 3 insertions(+)=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/target/i386/cpu.c =
+b/target/i386/cpu.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index 22b681ca37..2ee574cf05 10=
+0644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/target/i386/cpu.c<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">+++ b/target/i386/cpu.c<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -6362,6 +6362,9 @@ static vo=
+id x86_cpu_filter_features(X86CPU *cpu, bool verbose)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mark_unavailable_features(cpu, FE=
+AT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; }<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">+&nbsp;&nbsp;&nbsp; /* Update X=
+SAVE components again based on the filtered CPU feature flags */<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">+&nbsp;&nbsp;&nbsp; x86_cpu_ena=
+ble_xsave_components(cpu);<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">}<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">static void x86_cpu_hyperv_real=
+ize(X86CPU *cpu)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-- <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">2.27.0<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_AS4P190MB202188766937CF16EC4F1DAFF60C9AS4P190MB2021EURP_--
 
