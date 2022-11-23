@@ -2,92 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E097636181
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6D063619D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:24:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqbO-0001hN-9p; Wed, 23 Nov 2022 09:19:50 -0500
+	id 1oxqfo-0004Tv-23; Wed, 23 Nov 2022 09:24:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqbL-0001h8-O2
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:19:47 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oxqfj-0004Tc-D8
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:24:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oxqbK-0004Fw-3L
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:19:47 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oxqfh-0005D6-MR
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:24:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669213184;
+ s=mimecast20190719; t=1669213456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i7zXu+gcqOTw390Ta5MqRRnQNwqiAr0yoxAJ24DcHbg=;
- b=YEX4Fei/axwWgsQhCeVvTAiEyMFo047JU8xnuIi4J8mkJLk5xY5yWxPPUeOtEEMGC4aeVa
- hfHK6ZLu3FnU7+G+5gxJxCDOj9Z2n0RrhOPFSrVvdcxIbPpLuWfBc2U/Sq1tiQrNloFJVT
- dHrq6fIdnw63xNzfGjB0hi1Y1So2QQ0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bGKwjKvSYlUydo++kGe9XFisvPAkLPsfEnCvTCmPj6g=;
+ b=SRl1N2e9ndvsuCz41AerxsMXC3X2WM7Eviq2S1BbvufxDKv/Qi3cFvEm3soasRZnEkmzxW
+ 3MKOuc65uI9sgaCycM7efmldMC8kwCkU5cFKsoIr/S+mXlLRFwvCI4jC2K2rFw80Sx4HfJ
+ +La4PkCLQLXrJdNwfPIrJ0TumnIg1fc=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-253-qY7FIBqkMx6tLd0JZBLiDg-1; Wed, 23 Nov 2022 09:19:43 -0500
-X-MC-Unique: qY7FIBqkMx6tLd0JZBLiDg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u24-20020adfa198000000b00241da98e057so2583807wru.22
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 06:19:42 -0800 (PST)
+ us-mta-21-5j8gQnIOM5y9BF3XS59ncg-1; Wed, 23 Nov 2022 09:24:15 -0500
+X-MC-Unique: 5j8gQnIOM5y9BF3XS59ncg-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ ns11-20020a056214380b00b004c64784249eso16564070qvb.7
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 06:24:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=i7zXu+gcqOTw390Ta5MqRRnQNwqiAr0yoxAJ24DcHbg=;
- b=rXd+iOgdyhqv9ak6UsSHlQMqVXjyOfMVcCfIz9nCdo8ZsggwfPgLS/Pf+tdsttN2YY
- p1VrHc0ZL32dA/l8ZtnKQq0z9A4Sn5AR4VuQXzjhcYO/BnIl2mVFjzA5DpVXX82WAqZt
- DtICtJ3DOyCuGzEo/4OkHgmfvCQD4hg89V74eeZfQP3p6c8+cdS5oudX1SoHgEkIAZWo
- 5w6yqBmlDxFODbOwXhrsMCz6xf0WYALyDswL5K2R5FQ4Vv7sUCNpwmdEnzRhixDQUzzU
- eZiDjhpkq+sL/vymAK+9kBVo2cu9+DxvFy1ewE0GLa5zWgXKxjAu/cNpdpvW1VTuC9+o
- MOug==
-X-Gm-Message-State: ANoB5pn2xIcU8XxjunYalqEUAUoB04t8rXHG55NmrP+y+XCqa/wLdUYt
- ijl7lExcoe+YfnjYjDiguuRWnEeuJH7zfmMquTwMea2vjna0FEI8rDdKNUXksbvClFWxJ6kdXny
- uDAElZAt5dAl+U7U=
-X-Received: by 2002:adf:de03:0:b0:236:c820:97e6 with SMTP id
- b3-20020adfde03000000b00236c82097e6mr16988359wrm.215.1669213181660; 
- Wed, 23 Nov 2022 06:19:41 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7wwH/eNhSzu28YoSL333Tl4BLbwuIzpxEm0NQSILwLdnonO6oK25MFazUFV/maITQwsDm8rQ==
-X-Received: by 2002:adf:de03:0:b0:236:c820:97e6 with SMTP id
- b3-20020adfde03000000b00236c82097e6mr16988344wrm.215.1669213181413; 
- Wed, 23 Nov 2022 06:19:41 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-58.web.vodafone.de.
- [109.43.178.58]) by smtp.gmail.com with ESMTPSA id
- r24-20020adfa158000000b00236b2804d79sm17402645wrr.2.2022.11.23.06.19.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 06:19:40 -0800 (PST)
-Message-ID: <3e3178f9-73a7-031a-6cd0-4a315989b567@redhat.com>
-Date: Wed, 23 Nov 2022 15:19:39 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bGKwjKvSYlUydo++kGe9XFisvPAkLPsfEnCvTCmPj6g=;
+ b=YBdYaki5ss4fWFWrnlbVQEIsO1FWmAJE4RjSzrsvfv6WW3ScE9VGrvvLGXmLY6RK9Q
+ x06Fby+2yMqTJ7SkvBeYHpvzVG1rqmaD1rrCSEse99whWsqfbpxd7gtRR5eNSuPg7PUw
+ 3StJ7pSFmHs1pjq6znB/hEa/UVbg82+L+uKRR6nq5ixix6wdX/J7pxKoGluBHZnE+wSG
+ O5kEHSyMNgogPWqL+xiYXU2amv5tuq7A1qlUSA4+3jjs41yls0uf46yBJg8pmDqszt23
+ jIFjYv6SFCXagVF1W8T2sBETvHT8uR1hf5C4ZkN6WNfjaqdiiZdxxK4KQCLzbLKEnVwS
+ nstg==
+X-Gm-Message-State: ANoB5pmWj5kM3Ykaw3guc1w5yvurQrtwZdQ0fuEg8eRE3WR8VKvdRFG+
+ IIN6efHin0AE3X3svZx2sNXJruaIZ6FQMpyPqUOaNHUzC/lL8Yrf4rWqdQIj3g4lApw0kFwIKsu
+ qElCyhQ/7mIfxpn4=
+X-Received: by 2002:a05:6214:368a:b0:4bb:6b58:2c96 with SMTP id
+ nl10-20020a056214368a00b004bb6b582c96mr8132058qvb.127.1669213454958; 
+ Wed, 23 Nov 2022 06:24:14 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5pJz4CHtdSHrTRGqBp9VSxY+dwcqbU1sYbPghXBOwNE2SCXGNh71qYuvZ5Jlft9gtCLu8s+Q==
+X-Received: by 2002:a05:6214:368a:b0:4bb:6b58:2c96 with SMTP id
+ nl10-20020a056214368a00b004bb6b582c96mr8132036qvb.127.1669213454730; 
+ Wed, 23 Nov 2022 06:24:14 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-234.retail.telecomitalia.it.
+ [82.53.134.234]) by smtp.gmail.com with ESMTPSA id
+ bq23-20020a05622a1c1700b0039467aadeb8sm9686390qtb.13.2022.11.23.06.24.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 06:24:14 -0800 (PST)
+Date: Wed, 23 Nov 2022 15:24:07 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, virtio-fs@redhat.com,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, kangjie.xu@linux.alibaba.com
+Subject: Re: [PATCH] vhost: mask VIRTIO_F_RING_RESET for vhost and vhost-user
+ devices
+Message-ID: <20221123142407.f6m4mo5exgjhgiix@sgarzare-redhat>
+References: <20221121101101.29400-1-sgarzare@redhat.com>
+ <CACGkMEtZ9C0uhnDZ7iPJSHvPcbwGCLrzj742zzc9xAVWD7EMVA@mail.gmail.com>
+ <CAJaqyWfAA7p9MB4DZ-qtshr28HG3o4uXcxyg+BPC6C+eeojnbA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v6 11/11] tests/qtest: Enable qtest build on Windows
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Bin Meng <bin.meng@windriver.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221028045736.679903-1-bin.meng@windriver.com>
- <20221028045736.679903-12-bin.meng@windriver.com>
- <CAJ+F1CJnW-95ZpfBBKFX=O_XsFOZ+quTU4dYmK8Cr8B-Ww_Hqw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAJ+F1CJnW-95ZpfBBKFX=O_XsFOZ+quTU4dYmK8Cr8B-Ww_Hqw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAJaqyWfAA7p9MB4DZ-qtshr28HG3o4uXcxyg+BPC6C+eeojnbA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,53 +110,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/11/2022 15.13, Marc-André Lureau wrote:
-> Hi Bin
-> 
-> On Fri, Oct 28, 2022 at 9:06 AM Bin Meng <bin.meng@windriver.com> wrote:
+On Tue, Nov 22, 2022 at 07:01:38PM +0100, Eugenio Perez Martin wrote:
+>On Tue, Nov 22, 2022 at 4:13 AM Jason Wang <jasowang@redhat.com> wrote:
 >>
->> Now that we have fixed various test case issues as seen when running
->> on Windows, let's enable the qtest build on Windows.
+>> On Mon, Nov 21, 2022 at 6:11 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>> >
+>> > Commit 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
+>> > enabled VIRTIO_F_RING_RESET by default for all virtio devices.
+>> >
+>> > This feature is not currently emulated by QEMU, so for vhost and
+>> > vhost-user devices we need to make sure it is supported by the offloaded
+>> > device emulation (in-kernel or in another process).
+>> > To do this we need to add VIRTIO_F_RING_RESET to the features bitmap
+>> > passed to vhost_get_features(). This way it will be masked if the device
+>> > does not support it.
+>> >
+>> > This issue was initially discovered with vhost-vsock and vhost-user-vsock,
+>> > and then also tested with vhost-user-rng which confirmed the same issue.
+>> > They fail when sending features through VHOST_SET_FEATURES ioctl or
+>> > VHOST_USER_SET_FEATURES message, since VIRTIO_F_RING_RESET is negotiated
+>> > by the guest (Linux >= v6.0), but not supported by the device.
+>> >
+>> > Fixes: 69e1c14aa2 ("virtio: core: vq reset feature negotation support")
+>> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1318
+>> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 >>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
-> We haven't solved the CI timing out or eating all the CPU time, right?
-> 
-> Can we simply exclude it from CI for now, ie add to this patch
-> 
-> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-> index 093276ddbc..ba9045ec38 100644
-> --- a/.gitlab-ci.d/windows.yml
-> +++ b/.gitlab-ci.d/windows.yml
-> @@ -62,7 +62,7 @@ msys2-64bit:
->     - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
->         --enable-capstone'
->     - .\msys64\usr\bin\bash -lc 'make'
-> -  - .\msys64\usr\bin\bash -lc 'make check || { cat
-> build/meson-logs/testlog.txt; exit 1; } ;'
-> +  - .\msys64\usr\bin\bash -lc 'make check MTESTARGS="--no-suite
-> qtest" || { cat build/meson-logs/testlog.txt; exit 1; } ;'
-> 
->   msys2-32bit:
->     extends: .shared_msys2_builder
-> @@ -96,4 +96,4 @@ msys2-32bit:
->     - cd output
->     - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
->     - ..\msys64\usr\bin\bash -lc 'make'
-> -  - ..\msys64\usr\bin\bash -lc 'make check || { cat
-> meson-logs/testlog.txt; exit 1; } ;'
-> +  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS="--no-suite
-> qtest" || { cat meson-logs/testlog.txt; exit 1; } ;'
+>> Acked-by: Jason Wang <jasowang@redhat.com>
+>>
+>> > ---
+>> >
+>> > To prevent this problem in the future, perhaps we should provide a function
+>> > (e.g. vhost_device_get_features) where we go to mask all non-device-specific
+>> > features (e.g VIRTIO_F_*, VIRTIO_RING_F_*) that are not emulated by QEMU but
+>> > we expect them to be emulated by the vhost or vhost-user devices.
+>>
+>> Adding Eugenio, this might not be true if we want to use shadow
+>> virtqueue for emulating some features?
+>>
+>
+>I think we should be able to introduce that in the (hypothetical)
+>vhost_device_get_features if SVQ starts emulating a ring feature,
+>isn't it?
 
-I think it's only the 64-bit job that is really problematic, so we could 
-still run the qtests in the 32-bit job?
+Yep, I think so. The idea is to have a single place where to do it.
 
-Alternatively, what about switching the 64-bit to another target that does 
-not have so many qtests enabled? Some mips-softmmu or riscv-softmmu maybe? 
-... we still check x86_64-softmmu in the .cirrus.yml builds, so this is 
-hopefully not such a big loss...
+> I think a first version not aware of SVQ is fine anyway, and
+>to introduce it later should be easy.
 
-  Thomas
+Thanks for the feedbacks, I'll keep you CCed.
+
+Thanks,
+Stefano
 
 
