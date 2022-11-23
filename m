@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A9E636239
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F07963622E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 15:46:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxqzj-0004G0-PS; Wed, 23 Nov 2022 09:44:59 -0500
+	id 1oxqzj-0004G1-RY; Wed, 23 Nov 2022 09:44:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzh-0004Fd-Uc
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:57 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzi-0004Fr-HR
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzg-0002wu-Fn
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:57 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxqzh-0002x0-6v
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 09:44:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669214695;
+ s=mimecast20190719; t=1669214696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CFJmsVGFRZoFr6oEdGcy/0jBFL6EKJZVl6FrLKF4sA4=;
- b=BNnPbdXG1qZnLp8+2Dj9DfSEReKPKm250P/H24U+1NgEjXzdDTcNyvlfVmlPS55V16QfDb
- vMUwGWel88z4ZcCwiH/+QkmqxfoB+cn6GVLBhnMHtLyuDS7rSALPFNfZN8KoT24Pn66Ize
- 3xwK7gfIptCNutP9dcjMXLleAMr2lMQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RvRornF0UP+YAUVQJVOhfdS/fehOEMGhFx6rOPhJO10=;
+ b=ZyBluThL8Xi3X/5AFYJEokpFXyraRfCSH1J98DOje/qva744Ri0I78n37WRB0llF3UnKCa
+ i5fOz582mxrof62BisSDKi5DLSUNZT/z+e9Z51dDVhiK4JfddRnLbd3u9oej1YFiJAzGP8
+ m/w8Mu2KXtZikqFLRdnTkn3ce2Cy6UQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-53e-JvYfOzGFPsCJyjrqPg-1; Wed, 23 Nov 2022 09:44:52 -0500
-X-MC-Unique: 53e-JvYfOzGFPsCJyjrqPg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-549-yA70E48IPUOYGaRnxYEaVA-1; Wed, 23 Nov 2022 09:44:53 -0500
+X-MC-Unique: yA70E48IPUOYGaRnxYEaVA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17E69811E67;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9766D38123B9;
  Wed, 23 Nov 2022 14:44:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.194.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5227492B07;
- Wed, 23 Nov 2022 14:44:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F71940C83BB;
+ Wed, 23 Nov 2022 14:44:52 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 20EC21800622; Wed, 23 Nov 2022 15:44:37 +0100 (CET)
+ id 3AFAD1800623; Wed, 23 Nov 2022 15:44:37 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
@@ -51,15 +51,15 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/7] hw/audio/intel-hda: don't reset codecs twice
-Date: Wed, 23 Nov 2022 15:44:35 +0100
-Message-Id: <20221123144436.2141069-7-kraxel@redhat.com>
+Subject: [PULL 7/7] hw/audio/intel-hda: Drop unnecessary prototype
+Date: Wed, 23 Nov 2022 15:44:36 +0100
+Message-Id: <20221123144436.2141069-8-kraxel@redhat.com>
 In-Reply-To: <20221123144436.2141069-1-kraxel@redhat.com>
 References: <20221123144436.2141069-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -86,58 +86,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Currently the intel-hda device has a reset method which manually
-resets all the codecs by calling device_legacy_reset() on them.  This
-means they get reset twice, once because child devices on a qbus get
-reset before the parent device's reset method is called, and then
-again because we're manually resetting them.
-
-Drop the manual reset call, and ensure that codecs are still reset
-when the guest does a reset via ICH6_GCTL_RESET by using
-device_cold_reset() (which resets all the devices on the qbus as well
-as the device itself) instead of a direct call to the reset function.
-
-This is a slight ordering change because the (only) codec reset now
-happens before the controller registers etc are reset, rather than
-once before and then once after, but the codec reset function
-hda_audio_reset() doesn't care.
-
-This lets us drop a use of device_legacy_reset(), which is
-deprecated.
+The only use of intel_hda_reset() is after its definition, so we
+don't need to separately declare its prototype at the top of the
+file; drop the unnecessary line.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221014142632.2092404-2-peter.maydell@linaro.org>
+Message-Id: <20221014142632.2092404-3-peter.maydell@linaro.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/audio/intel-hda.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/audio/intel-hda.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index f38117057b9b..38cfa20262e2 100644
+index 38cfa20262e2..b9ed231fe849 100644
 --- a/hw/audio/intel-hda.c
 +++ b/hw/audio/intel-hda.c
-@@ -516,7 +516,7 @@ static void intel_hda_notify_codecs(IntelHDAState *d, uint32_t stream, bool runn
- static void intel_hda_set_g_ctl(IntelHDAState *d, const IntelHDAReg *reg, uint32_t old)
- {
-     if ((d->g_ctl & ICH6_GCTL_RESET) == 0) {
--        intel_hda_reset(DEVICE(d));
-+        device_cold_reset(DEVICE(d));
-     }
- }
+@@ -220,8 +220,6 @@ struct IntelHDAReg {
+     void       (*rhandler)(IntelHDAState *d, const IntelHDAReg *reg);
+ };
  
-@@ -1083,11 +1083,9 @@ static void intel_hda_reset(DeviceState *dev)
-     intel_hda_regs_reset(d);
-     d->wall_base_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-static void intel_hda_reset(DeviceState *dev);
+-
+ /* --------------------------------------------------------------------- */
  
--    /* reset codecs */
-     QTAILQ_FOREACH(kid, &d->codecs.qbus.children, sibling) {
-         DeviceState *qdev = kid->child;
-         cdev = HDA_CODEC_DEVICE(qdev);
--        device_legacy_reset(DEVICE(cdev));
-         d->state_sts |= (1 << cdev->cad);
-     }
-     intel_hda_update_irq(d);
+ static hwaddr intel_hda_addr(uint32_t lbase, uint32_t ubase)
 -- 
 2.38.1
 
