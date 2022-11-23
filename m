@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA246359BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 11:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE0A635A58
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 11:41:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxmwh-00041Z-En; Wed, 23 Nov 2022 05:25:35 -0500
+	id 1oxnAS-00080s-LP; Wed, 23 Nov 2022 05:39:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxmwb-000419-1X
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:25:32 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxnAQ-00080d-95
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:39:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxmwR-0004aO-9m
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:25:24 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oxnAM-0000Ee-4n
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 05:39:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669199116;
+ s=mimecast20190719; t=1669199981;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mCg9EesVT0fEc3ROiUzyWWpsBSjQ5R+e8M/q8NHXXKw=;
- b=W8kMxviMSETXbeYxWWF0mAtdsZnQUbQbZH/iGZOKSZg442RTqmJFEHgBgvoVS5bAPYi/VE
- 8EtKdRCvK0CfExNG+m41OAQk/hnJCjhc6bnj8ioHVftE+/LCeGaR2xf/qN4H188XwjWDC7
- z2/souLslxnQfEPWPnqp1FBBC7o+1uY=
+ bh=qvbJHCbpFsW6+ROBKHCtIJq1iRo9JLOhhS1xrG0Yv3o=;
+ b=Aj/kb/DDTYUnDAe/AeQvzpHiERcvHh9tnnvA9ytVKKQgU38WGJGrYmAxuNuHSKeq1X8omM
+ 707aDgq6RpkQiUSkgMS1gbQFT0Fd3WA+I9auN++TMMuLZIndHtFj0/bS3/icMhQux93isx
+ 5pVD5Wtutt4LLf0rTzfrCYtb1CnqOmY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-fXMGfs3BNdqrRsR1UHB7lg-1; Wed, 23 Nov 2022 05:25:13 -0500
-X-MC-Unique: fXMGfs3BNdqrRsR1UHB7lg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-159-bj6_yjhlPniR0lP37gS8Uw-1; Wed, 23 Nov 2022 05:39:39 -0500
+X-MC-Unique: bj6_yjhlPniR0lP37gS8Uw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FF6F101AA5B;
- Wed, 23 Nov 2022 10:25:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF722185A7A8;
+ Wed, 23 Nov 2022 10:39:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.194.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5CE8492B2D;
- Wed, 23 Nov 2022 10:25:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CCF92024CBE;
+ Wed, 23 Nov 2022 10:39:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8198B18003BA; Wed, 23 Nov 2022 11:25:08 +0100 (CET)
-Date: Wed, 23 Nov 2022 11:25:08 +0100
+ id D223D18003BA; Wed, 23 Nov 2022 11:39:34 +0100 (CET)
+Date: Wed, 23 Nov 2022 11:39:34 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Kevin O'Connor <kevin@koconnor.net>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
 Cc: seabios@seabios.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH 4/4] be less conservative with the 64bit pci io window
-Message-ID: <20221123102508.zagkzmxlk3zdln5c@sirius.home.kraxel.org>
+Subject: Re: [SeaBIOS] [PATCH 3/4] move 64bit pci window to end of address
+ space
+Message-ID: <20221123103934.wc33zirloo2hupmd@sirius.home.kraxel.org>
 References: <20221121103213.1675568-1-kraxel@redhat.com>
- <20221121103213.1675568-5-kraxel@redhat.com>
- <Y30YREAQZY8twJA/@morn>
+ <20221121103213.1675568-4-kraxel@redhat.com>
+ <8aef330c-c5e4-1af9-7018-5eff00ac91d3@molgen.mpg.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y30YREAQZY8twJA/@morn>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8aef330c-c5e4-1af9-7018-5eff00ac91d3@molgen.mpg.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,35 +82,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 22, 2022 at 01:43:16PM -0500, Kevin O'Connor wrote:
-> On Mon, Nov 21, 2022 at 11:32:13AM +0100, Gerd Hoffmann wrote:
-> > Current seabios code will only enable and use the 64bit pci io window in
-> > case it runs out of space in the 32bit pci mmio window below 4G.
-> > 
-> > This patch will also enable the 64bit pci io window when
-> >   (a) RAM above 4G is present, and
-> >   (b) the physical address space size is known, and
-> >   (c) seabios is running on a 64bit capable processor.
-> > 
-> > This operates with the assumption that guests which are ok with memory
-> > above 4G most likely can handle mmio above 4G too.
+On Mon, Nov 21, 2022 at 11:57:35AM +0100, Paul Menzel wrote:
+> Dear Gerd,
 > 
-> Thanks.  In general, the series looks good to me.  Can you elaborate
-> on the background to this change though?  It sounds like there is a
-> (small) risk of a regression, so I think it would be good to have a
-> high level understanding of what is driving this memory reorg.
+> 
+> Thank you for the patch.
+> 
+> Am 21.11.22 um 11:32 schrieb Gerd Hoffmann:
+> > When the size of the physical address space is known (PhysBits is not
+> > zero) move the 64bit pci io window to the end of the address space.
+> 
+> It’d be great, if you elaborated, why this is an improvement.
 
-Well, the idea is to adapt to the world moving forward.  Running a
-64-bit capable OS is standard these days, and the resources needed
-by devices (especially GPUs) are becoming larger and larger.
+It makes seabios follow a common pattern.  real mode address space
+has io resources mapped high (below 1M).  32-bit address space has
+io resources mapped high too (below 4G).  This does the same for
+64-bit resources.
 
-Yes, there is the risk that (old) guests are unhappy with their
-PCI bars suddenly being mapped above 4G.  Can happen only in case
-seabios handles pci initialization (i.e. when running on qemu,
-otherwise coreboot initializes the pci bars).  I hope the memory
-check handles the 'old guest' case: when the guest can't handle
-addresses above 4G it is unlikely that qemu is configured to have
-memory mapped above 4G ...
+Physical hardware does simliar things, here is my workstation:
+
+    # sudo cat /proc/iomem 
+    [ ... regions below 4G snipped ... ]
+    100000000-a36ffffff : System RAM
+      2e6000000-2e7002607 : Kernel code
+      2e7200000-2e7e84fff : Kernel rodata
+      2e8000000-2e8326e7f : Kernel data
+      2e8b6e000-2e8ffffff : Kernel bss
+    a37000000-a37ffffff : RAM buffer
+    2000000000-2fffffffff : PCI Bus 0000:00
+      2ffff00000-2ffff0ffff : 0000:00:1f.3
+      2ffff10000-2ffff1ffff : 0000:00:14.0
+        2ffff10000-2ffff1ffff : xhci-hcd
+      2ffff20000-2ffff23fff : 0000:00:1f.3
+        2ffff20000-2ffff23fff : ICH HD audio
+      2ffff24000-2ffff240ff : 0000:00:1f.4
+      2ffff25000-2ffff25fff : 0000:00:16.0
+        2ffff25000-2ffff25fff : mei_me
+
+There is a larger gap between the end of memory and start of the pci io
+window.  It's not the end of the *cpu* physical address space (that
+would be 7fffffffff aka phys-bits=39).  Maybe there are additional
+constrains in the io chipset (which is a non-issue for virtual
+machines).
 
 take care,
   Gerd
