@@ -2,102 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284546363C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F83263644C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:44:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxrhv-0001rw-LH; Wed, 23 Nov 2022 10:30:39 -0500
+	id 1oxrtr-00055C-Ib; Wed, 23 Nov 2022 10:42:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oxrhk-0001rg-Cu
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:30:28 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oxrtp-00054J-DU
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:42:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oxrhh-0000W8-B7
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:30:27 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 56470320091D;
- Wed, 23 Nov 2022 10:30:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 23 Nov 2022 10:30:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217422; x=
- 1669303822; bh=Ik7Of3Wq65LH0/62tgCVmwo0WmVUDdMc+WWftd1xfGA=; b=B
- rTMbDFA3fGaes0xFyjGK7ZCPf2eeWo5vbaCAxmfA2ineaiD9apV6NRCu2OB2vXFj
- g6QEd2+kV41u/9KzpUrsfmNso3Exo4wDl4jJVWY5AsZyowpxkJoctBsPO5k2o3vG
- OTN6U1hhimCSoguuhm0fAYaMEyxtoYIkVqlrzN87ieb/ecuCYI/cKV6BfNwnrgnS
- AmXuJ/gYj3K/FhfTzxhyjwufiBGH8t4ENwBwKuAQACqZDOPyoQIDsnJ0maKB6ZjF
- JeOwkyuICZ7XkBTBacISvulI3CExUTA595upcSONaFcXiFE6hgj6+blK7iumcjP2
- u3cS1Fcc/qbxMfr3eB22Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217422; x=
- 1669303822; bh=Ik7Of3Wq65LH0/62tgCVmwo0WmVUDdMc+WWftd1xfGA=; b=k
- x3laT0gtB1IOuEqxemCyCSn29VPjuSXfaFk/6PaaOfSQ/EA0shewpj2BKnE4eNBx
- CpGxyGXxUyO7Dm0BMTmbch7f4iXCsDc1JymVgPFAnM9mG4NhXDAxPS5Fbbe0yx6U
- JSz3Oa7ybs1KX5EN3Yq8mZQWzQMc+mIeuQgCUHOsS3UppYB8zVyRYVGbjuaMehgL
- urKaszfB4ySGk+JsOOSxO2//WUeqgYSKPau9sMhFS6mO9kkxUNIt1dnfE8CuJC2g
- 5AvYZWhAaSUM9J4gAp3V5Lw/U05sVI8ooLzHPzVGQI+nFIeXpN6SDCVsYcCWY1hi
- uHLbgT9ORLzK5CR2LuIkw==
-X-ME-Sender: <xms:jjx-Yxtyia_L11DIwcytbH6UPX93dmV4KLu1UgniqjV09qTFCF6a8A>
- <xme:jjx-Y6fz4xwAntOeZ5I123S9rgFs3ILRcIs6ZjtY9UtxiN9kOxgZOzhrzAs7-oKdW
- b9Cj2H_EftB-giBC60>
-X-ME-Received: <xmr:jjx-Y0wgS4GN_RZml0iuYtv5Y6ec2nUVa5rxu9shjJJ3l3RjIkutFCiiCnO4KtzC1Xmf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpefhudeugeeuhfeugfehveeftddtudejffejueejheehgedttdet
- ffejfeelieduleenucffohhmrghinhepmhhiphhsrdgtohhmnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
- hihgohgrthdrtghomh
-X-ME-Proxy: <xmx:jjx-Y4N09H75578ixsZqKncBAD3Z37ASF5hFVv1CCpnEniVFjd25jA>
- <xmx:jjx-Yx8Sy-0lUi1do6RiTVOvPIcMZLPDE65vUO-anQOdIZUD96nLTQ>
- <xmx:jjx-Y4UtOcmizKk4j0G91t7N4dUTJcWWdb0vy-nnKvDdCJGrsFddSg>
- <xmx:jjx-Y9ZdQVLtdIMSDtXExlGD7CQyLtxoJr7p6jOSatItG4WKdHGFpQ>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Nov 2022 10:30:21 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH v2 2/3] hw/mips/malta: Set PIIX4 IRQ routes in embedded
- bootloader
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <0de95136-0683-75e2-3191-1686b7ad6d60@eik.bme.hu>
-Date: Wed, 23 Nov 2022 15:30:10 +0000
-Cc: Bernhard Beschow <shentey@gmail.com>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- BALATON Zoltan via <qemu-devel@nongnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?utf-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9F104ADA-7B1D-4FFC-A6C8-1E0A88485D3E@flygoat.com>
-References: <20221027204720.33611-1-philmd@linaro.org>
- <20221027204720.33611-3-philmd@linaro.org>
- <9F566248-59DA-46E2-BD56-5DB98E9DB446@gmail.com>
- <29561bcc-a8d2-639a-8662-cf15fbeb5928@linaro.org>
- <B64DB06E-A125-47E7-9E11-828A763AD590@gmail.com>
- <0de95136-0683-75e2-3191-1686b7ad6d60@eik.bme.hu>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-Received-SPF: pass client-ip=64.147.123.19;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oxrtm-00049S-KH
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:42:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669218173;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4/eGF3VzG7dT9c1c0RKtdAtHSvpsaFeUKicDh+7Unfc=;
+ b=RJSEwd86vcKBOvGxjXjH9wMIRsG4ral+ytWJ60SEba1G3MJ2I7XEbdeQNBnVrNkahjsUYd
+ lKZ4aQN+MXIfyseOJTw50tGn6+cZA5Vr3Yq1wWq6vLj1Ek7ST+dSSrjNDOdHgBQ5xTjrNx
+ xdvC0rwEDR+1kSX8P1Cae4WAF0M86A0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-659-2MEj64RcPu6M3nbyr0bk9w-1; Wed, 23 Nov 2022 10:42:51 -0500
+X-MC-Unique: 2MEj64RcPu6M3nbyr0bk9w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C8818630CE;
+ Wed, 23 Nov 2022 15:42:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F00C32166B31;
+ Wed, 23 Nov 2022 15:42:49 +0000 (UTC)
+Date: Wed, 23 Nov 2022 15:42:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, peterx@redhat.com, prerna.saxena@nutanix.com,
+ quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
+Subject: Re: [PATCH v4 1/2] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y34/dR70JYjPDPGi@redhat.com>
+References: <20221123150527.24608-1-manish.mishra@nutanix.com>
+ <20221123150527.24608-2-manish.mishra@nutanix.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221123150527.24608-2-manish.mishra@nutanix.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,117 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Nov 23, 2022 at 03:05:26PM +0000, manish.mishra wrote:
+> MSG_PEEK reads from the peek of channel, The data is treated as
+> unread and the next read shall still return this data. This
+> support is currently added only for socket class. Extra parameter
+> 'flags' is added to io_readv calls to pass extra read flags like
+> MSG_PEEK.
+> 
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com
+> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> ---
+>  chardev/char-socket.c               |  4 ++--
+>  include/io/channel.h                |  6 ++++++
+>  io/channel-buffer.c                 |  1 +
+>  io/channel-command.c                |  1 +
+>  io/channel-file.c                   |  1 +
+>  io/channel-null.c                   |  1 +
+>  io/channel-socket.c                 | 17 ++++++++++++++++-
+>  io/channel-tls.c                    |  1 +
+>  io/channel-websock.c                |  1 +
+>  io/channel.c                        | 16 ++++++++++++----
+>  migration/channel-block.c           |  1 +
+>  scsi/qemu-pr-helper.c               |  2 +-
+>  tests/qtest/tpm-emu.c               |  2 +-
+>  tests/unit/test-io-channel-socket.c |  1 +
+>  util/vhost-user-server.c            |  2 +-
+>  15 files changed, 47 insertions(+), 10 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
-> 2022=E5=B9=B411=E6=9C=8822=E6=97=A5 12:37=EF=BC=8CBALATON Zoltan =
-<balaton@eik.bme.hu> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hello,
->=20
-> On Mon, 21 Nov 2022, Bernhard Beschow wrote:
->> Am 21. November 2022 22:43:50 UTC schrieb "Philippe Mathieu-Daud=C3=A9"=
- <philmd@linaro.org>:
->>> On 21/11/22 16:34, Bernhard Beschow wrote:
->>>> Am 27. Oktober 2022 20:47:19 UTC schrieb "Philippe Mathieu-Daud=C3=A9=
-" <philmd@linaro.org>:
->>>>> Linux kernel expects the northbridge & southbridge chipsets
->>>>> configured by the BIOS firmware. We emulate that by writing
->>>>> a tiny bootloader code in write_bootloader().
->>>>>=20
->>>>> Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
->>>>> the PIIX4 configuration space included values specific to
->>>>> the Malta board.
->>>>>=20
->>>>> Set the Malta-specific IRQ routing values in the embedded
->>>>> bootloader, so the next commit can remove the Malta specific
->>>>> bits from the PIIX4 PCI-ISA bridge and make it generic
->>>>> (matching the real hardware).
->>>>>=20
->>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->>>>> ---
->>>>> FIXME: Missing the nanoMIPS counter-part!
->>>>=20
->>>> Who will be taking care of this? I have absolutely no clue how the =
-write_bootloader functions work, so I don't see how to fix it.
->>>=20
->>> Oh actually I wrote that and tested it but context switched and =
-forgot
->>> about it... I'll look back when I get some time, probably around the
->>> release.
-
-I can try to adopt existing boot loader helper functions, just a matter =
-of opcodes I think.
-
->=20
-> Unrelated to this but found it while looking at malta.c now: another =
-possible clean up is to replace the local generate_eeprom_spd() func =
-with spd_data_generate() from hw/i2c/smbus_eeprom.c that other boards =
-use already but I did not change malta because I could not test it. If =
-you can test malta then it should be an easy change and simplify malta.c =
-a bit.
->=20
->>>> Couldn't we just do it like in pegasos2_init() where the registers =
-are initialized by QEMU directly if there is no bootloader binary =
-configured? I could do that.
->>> I rather mimic bootloaders... maybe a matter of taste?
->=20
-> Is that a bootloader or a replacement firmware? To me bootloader is =
-some OS specific binary that is loaded by firware to boot an OS. But =
-there are OS independent bootloaders like grub so maybe you could =
-emulate something like that, I don't know what malta does.
-
-YAMON is a OS-dependent and HW-dependent firmware like u-boot.
-
->=20
-> If there's no firmware binary QEMU should provide something to replace =
-it to give the expected environment for the binary loaded by -kernel. In =
-case of pegasos2 the init method sets up regs to init devices as done by =
-the firmware and the rest is implemented by VOF (loaded from pc-bios) =
-that provices the OpenFirmware client interface. The device setup in =
-init is needed because VOF does not do that.
->=20
->> I don't mind either way. I meant that I could help with the second =
-approach but not with the current one since I have no clue whatsoever =
-how it works. There are just too many magic constants that don't make =
-any sense to me, and too many layers of indirection, for example.
->=20
-> If malta has a replacement firmware for this case maybe it could be =
-stored in a binary in pc-bios and loaded from there instead of writing =
-it in hex to guest memory. That binary could even be assembled from =
-source which should make it simpler to write and change. Or is YAMON =
-open source? According to this page it is: =
-https://www.mips.com/develop/tools/boot-loaders/ so maybe it could be =
-included as a firmware binary instead of being emulated?
-
-Hmm, YAMON was a open source software but I=E2=80=99m unable to find a =
-copy of source for Malta board comes with GT chipset that QEMU emulated.
-So nowadays we mainly use -kernel feature to do direct kernel boot.
-
-Direct kernel boot is really a brilliant function that I don=E2=80=99t =
-want to lose :-)
-
-Thanks
-- Jiaxun
-
-
->=20
-> Regards,
-> BALATON Zoltan
->=20
->> Anyway, I'm asking for the current state because I'm pretty much =
-ready for posting a v3 of my PIIX consolidation series which now depends =
-on this series.
->>=20
->> Best regards,
->> Bernhard
->>=20
->>>=20
->>> Regards,
->>>=20
->>> Phil.
->>=20
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
