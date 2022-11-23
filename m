@@ -2,85 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FDF63638E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:27:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284546363C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:31:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxreO-0000JB-Ib; Wed, 23 Nov 2022 10:27:00 -0500
+	id 1oxrhv-0001rw-LH; Wed, 23 Nov 2022 10:30:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxreL-0000Hd-Vw
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:26:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oxrhk-0001rg-Cu
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:30:28 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxreI-00082e-F3
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:26:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669217213;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yu5FHBqQ4oIJs0Gdn8h2BnF2QgMMKhAU7vDCRSeEZVo=;
- b=btfhvsA9hrX14GU/kawHUUJD8IEk6Dp5azbf/BAIPjnkrCexLLDTuT12/EniNO/d4ENhg9
- CqLfj6VNS1pbrIBQ75W/nVeLs90v9o5FMcIAcbQjISnGh0rD275Yb9J1K/GY1vtskXXrDw
- nddnjG1DOkcUCgjUoxI4NWDaND/2IPM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-453-TQA1oEIiOrWCNGd7ctstUQ-1; Wed, 23 Nov 2022 10:26:51 -0500
-X-MC-Unique: TQA1oEIiOrWCNGd7ctstUQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k7-20020adfc707000000b002416f2e9ad5so5105379wrg.6
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 07:26:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yu5FHBqQ4oIJs0Gdn8h2BnF2QgMMKhAU7vDCRSeEZVo=;
- b=n2dG1MPv7U5oWpxbsIW1nJtbm+mCoOJEY/kD93cgLAQC32nUeUpim0nOPvO9AYmhtP
- z7Acfzzvte4cqn5YHzFvIJUOWmfSrWktZdc1X4E7l4CtzwE5H7QQONcfvZoLGtAis7wi
- zfCA1y7csUby55aJGIET9lRj99cIFnFLlFL/ZZEHc6scPH1qYmwgW8QEh9o0Zx3XPBG0
- dmURrP24gB/lt+26bvNk/vvQI61tiCb1PJHfyJ3v4eVh3WxJtMBxXtvMaUqX1+C6VSOl
- 60zoI4A/+GfBch75Rvuq4uOX2GbdqEzEHf+srypMLBAMTBrSdhY2iGwpiJLeh0aigNne
- MykA==
-X-Gm-Message-State: ANoB5pnuFChOJFm5FOHf+frpPJT3GzRT2K4PCGnYeVLjSt8mbO+Dqaxi
- yTFA9x/h+M3L7uRsiuzPaXuLhd4UN7J/KSXOhwh7L9BOZhyk5pRZQNpWzF6SXfCx77IiXyVeD0/
- NATbw2eOmhl7jzQw=
-X-Received: by 2002:a05:6000:156e:b0:241:cbe9:78a9 with SMTP id
- 14-20020a056000156e00b00241cbe978a9mr11527934wrz.529.1669217210446; 
- Wed, 23 Nov 2022 07:26:50 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5JjkpKXbO4JtNRYGqywpVQ3+qSAMiyJw3qE0mGOH4vHb8PAykqYFp/uWw80No2r4cttz2r5g==
-X-Received: by 2002:a05:6000:156e:b0:241:cbe9:78a9 with SMTP id
- 14-20020a056000156e00b00241cbe978a9mr11527918wrz.529.1669217210170; 
- Wed, 23 Nov 2022 07:26:50 -0800 (PST)
-Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
- bo22-20020a056000069600b0023659925b2asm17498602wrb.51.2022.11.23.07.26.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 07:26:49 -0800 (PST)
-Date: Wed, 23 Nov 2022 10:26:46 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
-Message-ID: <20221123102522-mutt-send-email-mst@kernel.org>
-References: <20221123152134.179929-1-alex.bennee@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221123152134.179929-1-alex.bennee@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oxrhh-0000W8-B7
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 10:30:27 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 56470320091D;
+ Wed, 23 Nov 2022 10:30:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 23 Nov 2022 10:30:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217422; x=
+ 1669303822; bh=Ik7Of3Wq65LH0/62tgCVmwo0WmVUDdMc+WWftd1xfGA=; b=B
+ rTMbDFA3fGaes0xFyjGK7ZCPf2eeWo5vbaCAxmfA2ineaiD9apV6NRCu2OB2vXFj
+ g6QEd2+kV41u/9KzpUrsfmNso3Exo4wDl4jJVWY5AsZyowpxkJoctBsPO5k2o3vG
+ OTN6U1hhimCSoguuhm0fAYaMEyxtoYIkVqlrzN87ieb/ecuCYI/cKV6BfNwnrgnS
+ AmXuJ/gYj3K/FhfTzxhyjwufiBGH8t4ENwBwKuAQACqZDOPyoQIDsnJ0maKB6ZjF
+ JeOwkyuICZ7XkBTBacISvulI3CExUTA595upcSONaFcXiFE6hgj6+blK7iumcjP2
+ u3cS1Fcc/qbxMfr3eB22Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217422; x=
+ 1669303822; bh=Ik7Of3Wq65LH0/62tgCVmwo0WmVUDdMc+WWftd1xfGA=; b=k
+ x3laT0gtB1IOuEqxemCyCSn29VPjuSXfaFk/6PaaOfSQ/EA0shewpj2BKnE4eNBx
+ CpGxyGXxUyO7Dm0BMTmbch7f4iXCsDc1JymVgPFAnM9mG4NhXDAxPS5Fbbe0yx6U
+ JSz3Oa7ybs1KX5EN3Yq8mZQWzQMc+mIeuQgCUHOsS3UppYB8zVyRYVGbjuaMehgL
+ urKaszfB4ySGk+JsOOSxO2//WUeqgYSKPau9sMhFS6mO9kkxUNIt1dnfE8CuJC2g
+ 5AvYZWhAaSUM9J4gAp3V5Lw/U05sVI8ooLzHPzVGQI+nFIeXpN6SDCVsYcCWY1hi
+ uHLbgT9ORLzK5CR2LuIkw==
+X-ME-Sender: <xms:jjx-Yxtyia_L11DIwcytbH6UPX93dmV4KLu1UgniqjV09qTFCF6a8A>
+ <xme:jjx-Y6fz4xwAntOeZ5I123S9rgFs3ILRcIs6ZjtY9UtxiN9kOxgZOzhrzAs7-oKdW
+ b9Cj2H_EftB-giBC60>
+X-ME-Received: <xmr:jjx-Y0wgS4GN_RZml0iuYtv5Y6ec2nUVa5rxu9shjJJ3l3RjIkutFCiiCnO4KtzC1Xmf>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpefhudeugeeuhfeugfehveeftddtudejffejueejheehgedttdet
+ ffejfeelieduleenucffohhmrghinhepmhhiphhsrdgtohhmnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
+ hihgohgrthdrtghomh
+X-ME-Proxy: <xmx:jjx-Y4N09H75578ixsZqKncBAD3Z37ASF5hFVv1CCpnEniVFjd25jA>
+ <xmx:jjx-Yx8Sy-0lUi1do6RiTVOvPIcMZLPDE65vUO-anQOdIZUD96nLTQ>
+ <xmx:jjx-Y4UtOcmizKk4j0G91t7N4dUTJcWWdb0vy-nnKvDdCJGrsFddSg>
+ <xmx:jjx-Y9ZdQVLtdIMSDtXExlGD7CQyLtxoJr7p6jOSatItG4WKdHGFpQ>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Nov 2022 10:30:21 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH v2 2/3] hw/mips/malta: Set PIIX4 IRQ routes in embedded
+ bootloader
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <0de95136-0683-75e2-3191-1686b7ad6d60@eik.bme.hu>
+Date: Wed, 23 Nov 2022 15:30:10 +0000
+Cc: Bernhard Beschow <shentey@gmail.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?utf-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9F104ADA-7B1D-4FFC-A6C8-1E0A88485D3E@flygoat.com>
+References: <20221027204720.33611-1-philmd@linaro.org>
+ <20221027204720.33611-3-philmd@linaro.org>
+ <9F566248-59DA-46E2-BD56-5DB98E9DB446@gmail.com>
+ <29561bcc-a8d2-639a-8662-cf15fbeb5928@linaro.org>
+ <B64DB06E-A125-47E7-9E11-828A763AD590@gmail.com>
+ <0de95136-0683-75e2-3191-1686b7ad6d60@eik.bme.hu>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+Received-SPF: pass client-ip=64.147.123.19;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,37 +114,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Bennée wrote:
-> Hi,
-> 
-> This hopefully fixes the problems with VirtIO migration caused by the
-> previous refactoring of virtio_device_started(). That introduced a
-> different order of checking which didn't give the VM state primacy but
-> wasn't noticed as we don't properly exercise VirtIO device migration
-> and caused issues when dev->started wasn't checked in the core code.
-> The introduction of virtio_device_should_start() split the overloaded
-> function up but the broken order still remained. The series finally
-> fixes that by restoring the original semantics but with the cleaned up
-> functions.
-> 
-> I've added more documentation to the various structures involved as
-> well as the functions. There is still some inconsistencies in the
-> VirtIO code between different devices but I think that can be looked
-> at over the 8.0 cycle.
 
 
-Thanks a lot! Did you try this with gitlab CI? A patch similar to your
-2/2 broke it previously ...
+> 2022=E5=B9=B411=E6=9C=8822=E6=97=A5 12:37=EF=BC=8CBALATON Zoltan =
+<balaton@eik.bme.hu> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Hello,
+>=20
+> On Mon, 21 Nov 2022, Bernhard Beschow wrote:
+>> Am 21. November 2022 22:43:50 UTC schrieb "Philippe Mathieu-Daud=C3=A9"=
+ <philmd@linaro.org>:
+>>> On 21/11/22 16:34, Bernhard Beschow wrote:
+>>>> Am 27. Oktober 2022 20:47:19 UTC schrieb "Philippe Mathieu-Daud=C3=A9=
+" <philmd@linaro.org>:
+>>>>> Linux kernel expects the northbridge & southbridge chipsets
+>>>>> configured by the BIOS firmware. We emulate that by writing
+>>>>> a tiny bootloader code in write_bootloader().
+>>>>>=20
+>>>>> Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
+>>>>> the PIIX4 configuration space included values specific to
+>>>>> the Malta board.
+>>>>>=20
+>>>>> Set the Malta-specific IRQ routing values in the embedded
+>>>>> bootloader, so the next commit can remove the Malta specific
+>>>>> bits from the PIIX4 PCI-ISA bridge and make it generic
+>>>>> (matching the real hardware).
+>>>>>=20
+>>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>>>>> ---
+>>>>> FIXME: Missing the nanoMIPS counter-part!
+>>>>=20
+>>>> Who will be taking care of this? I have absolutely no clue how the =
+write_bootloader functions work, so I don't see how to fix it.
+>>>=20
+>>> Oh actually I wrote that and tested it but context switched and =
+forgot
+>>> about it... I'll look back when I get some time, probably around the
+>>> release.
 
-> Alex Bennée (2):
->   include/hw: attempt to document VirtIO feature variables
->   include/hw: VM state takes precedence in virtio_device_should_start
-> 
->  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
->  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
->  2 files changed, 59 insertions(+), 9 deletions(-)
-> 
-> -- 
-> 2.34.1
+I can try to adopt existing boot loader helper functions, just a matter =
+of opcodes I think.
+
+>=20
+> Unrelated to this but found it while looking at malta.c now: another =
+possible clean up is to replace the local generate_eeprom_spd() func =
+with spd_data_generate() from hw/i2c/smbus_eeprom.c that other boards =
+use already but I did not change malta because I could not test it. If =
+you can test malta then it should be an easy change and simplify malta.c =
+a bit.
+>=20
+>>>> Couldn't we just do it like in pegasos2_init() where the registers =
+are initialized by QEMU directly if there is no bootloader binary =
+configured? I could do that.
+>>> I rather mimic bootloaders... maybe a matter of taste?
+>=20
+> Is that a bootloader or a replacement firmware? To me bootloader is =
+some OS specific binary that is loaded by firware to boot an OS. But =
+there are OS independent bootloaders like grub so maybe you could =
+emulate something like that, I don't know what malta does.
+
+YAMON is a OS-dependent and HW-dependent firmware like u-boot.
+
+>=20
+> If there's no firmware binary QEMU should provide something to replace =
+it to give the expected environment for the binary loaded by -kernel. In =
+case of pegasos2 the init method sets up regs to init devices as done by =
+the firmware and the rest is implemented by VOF (loaded from pc-bios) =
+that provices the OpenFirmware client interface. The device setup in =
+init is needed because VOF does not do that.
+>=20
+>> I don't mind either way. I meant that I could help with the second =
+approach but not with the current one since I have no clue whatsoever =
+how it works. There are just too many magic constants that don't make =
+any sense to me, and too many layers of indirection, for example.
+>=20
+> If malta has a replacement firmware for this case maybe it could be =
+stored in a binary in pc-bios and loaded from there instead of writing =
+it in hex to guest memory. That binary could even be assembled from =
+source which should make it simpler to write and change. Or is YAMON =
+open source? According to this page it is: =
+https://www.mips.com/develop/tools/boot-loaders/ so maybe it could be =
+included as a firmware binary instead of being emulated?
+
+Hmm, YAMON was a open source software but I=E2=80=99m unable to find a =
+copy of source for Malta board comes with GT chipset that QEMU emulated.
+So nowadays we mainly use -kernel feature to do direct kernel boot.
+
+Direct kernel boot is really a brilliant function that I don=E2=80=99t =
+want to lose :-)
+
+Thanks
+- Jiaxun
+
+
+>=20
+> Regards,
+> BALATON Zoltan
+>=20
+>> Anyway, I'm asking for the current state because I'm pretty much =
+ready for posting a v3 of my PIIX consolidation series which now depends =
+on this series.
+>>=20
+>> Best regards,
+>> Bernhard
+>>=20
+>>>=20
+>>> Regards,
+>>>=20
+>>> Phil.
+>>=20
 
 
