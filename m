@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B48635C1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 12:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C30635C18
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 12:49:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxo9Q-0002lD-IC; Wed, 23 Nov 2022 06:42:48 -0500
+	id 1oxo9P-0002k6-BS; Wed, 23 Nov 2022 06:42:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oxo9K-0002gc-Ly
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:42 -0500
+ id 1oxo9L-0002hb-GO
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oxo9H-000636-MG
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:42 -0500
+ id 1oxo9H-00063M-W4
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:42:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1669203759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wc7F4F4/2eKWKkHzMVSzkX8KJJEXGLmJREPh3O0wVgY=;
- b=b6JCyJ3kCejpmNEcHcxoOoXsqgKD4QsrYNUzwwTiT2br487fblABLdonXNTqPQlrj+EQO6
- n7qfgXoF24EaDNDwG4yaiGdVoOJvtzH8gboDd4ZcUAnPJLQfbVTw5behPhkHL2MRXDaMlY
- g0X0iWObo8vMj3MSjMPcpAVcTid+b/M=
+ bh=ddKS1lh9/GhCfJBDgfxHHrg3khuU0MI92j9y+mbKtAk=;
+ b=hAbNRRUVavqo68Xc21l4QAavivBZxZqd2AVVTlUThnUW6PUo6kahyh2USJPTJyy0tg7/cS
+ 77f9sA8l8jBBdOURBpPvoT2Sjpefvg1nMMRkjBJrUKM1iKN3LYAJV6+xg+gGViG0hR6Hmg
+ IP6bWMSEJR6+97tY+PRxCRH/Zft8CNU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-unyjsTpJP_OIML3oehwD1A-1; Wed, 23 Nov 2022 06:42:35 -0500
-X-MC-Unique: unyjsTpJP_OIML3oehwD1A-1
+ us-mta-474-Be9RcqWLM16UmljtSvmQKQ-1; Wed, 23 Nov 2022 06:42:36 -0500
+X-MC-Unique: Be9RcqWLM16UmljtSvmQKQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F531802D32;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F78A833AED;
  Wed, 23 Nov 2022 11:42:35 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD7F6C2C8C5;
- Wed, 23 Nov 2022 11:42:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 384C6C2C8C5;
+ Wed, 23 Nov 2022 11:42:35 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -53,10 +53,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
  Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v5 13/15] block-coroutine-wrapper.py: support also basic
- return types
-Date: Wed, 23 Nov 2022 06:42:25 -0500
-Message-Id: <20221123114227.85757-14-eesposit@redhat.com>
+Subject: [PATCH v5 14/15] block: convert bdrv_create to
+ generated_co_wrapper_simple
+Date: Wed, 23 Nov 2022 06:42:26 -0500
+Message-Id: <20221123114227.85757-15-eesposit@redhat.com>
 In-Reply-To: <20221123114227.85757-1-eesposit@redhat.com>
 References: <20221123114227.85757-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -70,8 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,126 +86,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Extend the regex to cover also return type, pointers included.
-This implies that the value returned by the function cannot be
-a simple "int" anymore, but the custom return type.
-Therefore remove poll_state->ret and instead use a per-function
-custom "ret" field.
+This function is never called in coroutine context, therefore
+instead of manually creating a new coroutine, delegate it to the
+block-coroutine-wrapper script, defining it as g_c_w_simple.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/block-gen.h                  |  5 +----
- scripts/block-coroutine-wrapper.py | 19 +++++++++++--------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ block.c                            | 40 ++----------------------------
+ include/block/block-global-state.h | 10 ++++++--
+ 2 files changed, 10 insertions(+), 40 deletions(-)
 
-diff --git a/block/block-gen.h b/block/block-gen.h
-index 08d977f493..89b7daaa1f 100644
---- a/block/block-gen.h
-+++ b/block/block-gen.h
-@@ -32,18 +32,15 @@
- typedef struct BdrvPollCo {
-     AioContext *ctx;
-     bool in_progress;
--    int ret;
-     Coroutine *co; /* Keep pointer here for debugging */
- } BdrvPollCo;
+diff --git a/block.c b/block.c
+index 8207f93353..5b4ba02d3a 100644
+--- a/block.c
++++ b/block.c
+@@ -528,8 +528,8 @@ typedef struct CreateCo {
+     Error *err;
+ } CreateCo;
  
--static inline int bdrv_poll_co(BdrvPollCo *s)
-+static inline void bdrv_poll_co(BdrvPollCo *s)
+-static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+-                                       QemuOpts *opts, Error **errp)
++int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
++                                QemuOpts *opts, Error **errp)
  {
-     assert(!qemu_in_coroutine());
- 
-     aio_co_enter(s->ctx, s->co);
-     AIO_WAIT_WHILE(s->ctx, s->in_progress);
--
--    return s->ret;
+     int ret;
+     GLOBAL_STATE_CODE();
+@@ -553,42 +553,6 @@ static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+     return ret;
  }
  
- #endif /* BLOCK_BLOCK_GEN_H */
-diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
-index 1d552cb734..ef19b71c2a 100644
---- a/scripts/block-coroutine-wrapper.py
-+++ b/scripts/block-coroutine-wrapper.py
-@@ -95,7 +95,8 @@ def gen_block(self, format: str) -> str:
+-static void coroutine_fn bdrv_create_co_entry(void *opaque)
+-{
+-    CreateCo *cco = opaque;
+-    GLOBAL_STATE_CODE();
+-
+-    cco->ret = bdrv_co_create(cco->drv, cco->filename, cco->opts, &cco->err);
+-}
+-
+-int bdrv_create(BlockDriver *drv, const char* filename,
+-                QemuOpts *opts, Error **errp)
+-{
+-    GLOBAL_STATE_CODE();
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        return bdrv_co_create(drv, filename, opts, errp);
+-    } else {
+-        Coroutine *co;
+-        CreateCo cco = {
+-            .drv = drv,
+-            .filename = filename,
+-            .opts = opts,
+-            .ret = NOT_DONE,
+-            .err = NULL,
+-        };
+-
+-        co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
+-        qemu_coroutine_enter(co);
+-        while (cco.ret == NOT_DONE) {
+-            aio_poll(qemu_get_aio_context(), true);
+-        }
+-        error_propagate(errp, cco.err);
+-        return cco.ret;
+-    }
+-}
+-
+ /**
+  * Helper function for bdrv_create_file_fallback(): Resize @blk to at
+  * least the given @minimum_size.
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index 387a7cbb2e..8f1c8ca910 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -55,8 +55,14 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+                                 bool allow_protocol_prefix,
+                                 Error **errp);
+ BlockDriver *bdrv_find_format(const char *format_name);
+-int bdrv_create(BlockDriver *drv, const char* filename,
+-                QemuOpts *opts, Error **errp);
++
++int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
++                                QemuOpts *opts, Error **errp);
++int generated_co_wrapper_simple bdrv_create(BlockDriver *drv,
++                                            const char *filename,
++                                            QemuOpts *opts,
++                                            Error **errp);
++
+ int coroutine_fn bdrv_co_create_file(const char *filename, QemuOpts *opts,
+                                      Error **errp);
  
- 
- # Match wrappers declared with a generated_co_wrapper mark
--func_decl_re = re.compile(r'^int\s*generated_co_wrapper'
-+func_decl_re = re.compile(r'^(?P<return_type>[a-zA-Z][a-zA-Z0-9_]* [*]?)'
-+                          r'\s*generated_co_wrapper'
-                           r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
-                           r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
-                           r'\((?P<args>[^)]*)\);$', re.MULTILINE)
-@@ -103,7 +104,7 @@ def gen_block(self, format: str) -> str:
- 
- def func_decl_iter(text: str) -> Iterator:
-     for m in func_decl_re.finditer(text):
--        yield FuncDecl(return_type='int',
-+        yield FuncDecl(return_type=m.group('return_type'),
-                        name=m.group('wrapper_name'),
-                        args=m.group('args'),
-                        variant=m.group('variant'))
-@@ -124,7 +125,7 @@ def create_g_c_w(func: FuncDecl) -> str:
-     name = func.co_name
-     struct_name = func.struct_name
-     return f"""\
--int {func.name}({ func.gen_list('{decl}') })
-+{func.return_type} {func.name}({ func.gen_list('{decl}') })
- {{
-     if (qemu_in_coroutine()) {{
-         return {name}({ func.gen_list('{name}') });
-@@ -138,7 +139,8 @@ def create_g_c_w(func: FuncDecl) -> str:
- 
-         s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
- 
--        return bdrv_poll_co(&s.poll_state);
-+        bdrv_poll_co(&s.poll_state);
-+        return s.ret;
-     }}
- }}"""
- 
-@@ -148,7 +150,7 @@ def create_coroutine_only(func: FuncDecl) -> str:
-     name = func.co_name
-     struct_name = func.struct_name
-     return f"""\
--int {func.name}({ func.gen_list('{decl}') })
-+{func.return_type} {func.name}({ func.gen_list('{decl}') })
- {{
-     {struct_name} s = {{
-         .poll_state.ctx = {func.ctx},
-@@ -160,13 +162,13 @@ def create_coroutine_only(func: FuncDecl) -> str:
- 
-     s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
- 
--    return bdrv_poll_co(&s.poll_state);
-+    bdrv_poll_co(&s.poll_state);
-+    return s.ret;
- }}"""
- 
- 
- def gen_wrapper(func: FuncDecl) -> str:
-     assert not '_co_' in func.name
--    assert func.return_type == 'int'
- 
-     name = func.co_name
-     struct_name = func.struct_name
-@@ -182,6 +184,7 @@ def gen_wrapper(func: FuncDecl) -> str:
- 
- typedef struct {struct_name} {{
-     BdrvPollCo poll_state;
-+    {func.return_type} ret;
- { func.gen_block('    {decl};') }
- }} {struct_name};
- 
-@@ -189,7 +192,7 @@ def gen_wrapper(func: FuncDecl) -> str:
- {{
-     {struct_name} *s = opaque;
- 
--    s->poll_state.ret = {name}({ func.gen_list('s->{name}') });
-+    s->ret = {name}({ func.gen_list('s->{name}') });
-     s->poll_state.in_progress = false;
- 
-     aio_wait_kick();
 -- 
 2.31.1
 
