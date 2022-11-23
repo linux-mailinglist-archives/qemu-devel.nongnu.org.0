@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E60635C4B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 13:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C882635C6B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 13:09:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxoPl-0006dK-Q6; Wed, 23 Nov 2022 06:59:41 -0500
+	id 1oxoYG-0002aa-80; Wed, 23 Nov 2022 07:08:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxoPk-0006ct-5w
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:59:40 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oxoPi-0002Uc-I4
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 06:59:39 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- y14-20020a17090a2b4e00b002189a1b84d4so1627114pjc.2
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 03:59:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HASg6FGjF4AWSODFZwZUHQgxm6DkhRHvDVB0aynntmE=;
- b=YroJeawY8Y+XWxFehXHqXxQoe7qciR5UChNmrVcQExv/egWdDg1LqZWXoJ+eZsppKK
- FjjJomJBPg8jLz2Ht0IJWHvTV1Xp11/CbFysv1kUqZ+3LcmHAm6IdreeAX4zdqPl4Vc9
- ugyaEoLL/lPSHSyHx8iX/Wp+XjuiSS/f5Epb9I6glIFFBg/WWmjDPI3HPcr3mqw2V81O
- 7lZW3KJk6bLMbUKtEk5HC7zOn8aFDfS2mgG0H0kS1v6VK69nFh5XteIQoQs8g1dpQMzB
- XE7wsXj9GmrPn4KHxBE+rgaGeMJ1D/s30pc00hN/T8gwYvus63Nvl1r2cPiOP0wQ5kwH
- knSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HASg6FGjF4AWSODFZwZUHQgxm6DkhRHvDVB0aynntmE=;
- b=5H0GXhAcStUNcEKYENf55VTAg0p69t1ffoLIC0OAHDw1eWJK7PvqqSdE//bh1ZXTke
- 5Cf07Ue6P1nKIc5QPiNcyiGK9q3MGHCZTwMy3oi0N+CGpx5puxBeaLkDmBkFGA84EvpE
- 1l1OQps1bMNiXx/PYnwRaZr7KIzTdLBPTCL9EOMSOVjXwJcgKxM+WJikTEhsoZQnqDKo
- Q5cSYS2mffxSeFIVOU8LAHiqDDwTJuRBNhIYEpyZrjJ2WyhcaJhtzxBGETD0NxlR/OyT
- 7inEtWQQ9jPEPRo/fPS7AYdY7Y0ymqwbX8Ti4xPSUZTkeS1uzJqALmj+W1+xmrZQ0Sy3
- lD/w==
-X-Gm-Message-State: ANoB5pmFDZykKbobefINzdTU7Kqxdlqjwsz/VwY2XNYtsZF6RwmUetrq
- HjdQc5WajbSEw4kMOwdOH3/IJAvs0DnBbXXfU+eFVA==
-X-Google-Smtp-Source: AA0mqf4ACilkV+3mxlgfMqI71B7soIO7YkxrrQQY0qgn3Whrp+5RJkp2+YNRB0JSFbFJhto6bZmuE5nQMpo74ONAlQQ=
-X-Received: by 2002:a17:90a:7004:b0:218:8757:8f2b with SMTP id
- f4-20020a17090a700400b0021887578f2bmr24941049pjk.221.1669204776677; Wed, 23
- Nov 2022 03:59:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20221124033802.meuiphlcskwu3aty@M910t>
-In-Reply-To: <20221124033802.meuiphlcskwu3aty@M910t>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Nov 2022 11:59:25 +0000
-Message-ID: <CAFEAcA_=5k0Q+90AwFtisjxgrj83wd5fVJv319v8ogewuNp=KQ@mail.gmail.com>
-Subject: Re: arm: gdb-stub is broken by FEAT_HAFDBS
-To: Changbin Du <changbin.du@huawei.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org, liyang <liyang281@huawei.com>, 
- Hui Wang <hw.huiwang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1oxoYD-0002Ze-9s
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 07:08:25 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1oxoYA-0005cd-U4
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 07:08:24 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D7E5CB81F1F;
+ Wed, 23 Nov 2022 12:08:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9072BC433C1;
+ Wed, 23 Nov 2022 12:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669205289;
+ bh=zc1JAJ1qABLUREShjyvcqOP2+eRNq/1hNKrS8QmOzvY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=GA/EV/BE4t6W+yoyfl0llIaHnFVECwHAS7GVpd5ba7Nvh/zcIKbwCgOYt47YzPDrj
+ 1W6Dxrc8IYfxqb/DX7nDyVTYELV9Ee8XXLEr4olNTFq6RKKMzNp6tE6JxvA4qVnEAv
+ DvDVrFpOvSFHFAyb2M/EHUxXqtqDhbbwKRekglZyPrXm7cvouy9Cd13FTQGTVu3HRD
+ Bj3QqBZBRzkBwGjcG3TZo6EdKEHjtbu9qbxYDAWsfaLyx8qVPUU1OSlVNfUenIm0pV
+ j2jwpks4SStv3Id/77Xkmz3l1W0nTBIXW33AK66JkVDva86bOX8H0hPZyxKaO+/4fe
+ R79RhAjejfaiQ==
+Received: from sofa.misterjones.org ([185.219.108.64]
+ helo=goblin-girl.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1oxoXu-0086iQ-07;
+ Wed, 23 Nov 2022 12:08:07 +0000
+Date: Wed, 23 Nov 2022 12:08:05 +0000
+Message-ID: <86k03loouy.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: chenxiang <chenxiang66@hisilicon.com>
+Cc: <alex.williamson@redhat.com>, <kvm@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <linuxarm@huawei.com>
+Subject: Re: [PATCH v2] vfio/pci: Verify each MSI vector to avoid invalid MSI
+ vectors
+In-Reply-To: <1669167756-196788-1-git-send-email-chenxiang66@hisilicon.com>
+References: <1669167756-196788-1-git-send-email-chenxiang66@hisilicon.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: chenxiang66@hisilicon.com, alex.williamson@redhat.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, linuxarm@huawei.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=maz@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,20 +84,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 23 Nov 2022 at 11:38, Changbin Du <changbin.du@huawei.com> wrote:
->
-> Hello, Richard,
-> We just noticed the gdb-stub is broken and probably caused by commit 4a3585568
-> ("target/arm: Plumb debug into S1Translate").
->
-> (gdb) target remote :1234
-> Remote debugging using :1234
-> 0x000000000e1716d0 in ?? ()
-> => 0x000000000e1716d0:  Cannot access memory at address 0xe1716d0
+On Wed, 23 Nov 2022 01:42:36 +0000,
+chenxiang <chenxiang66@hisilicon.com> wrote:
+> 
+> From: Xiang Chen <chenxiang66@hisilicon.com>
+> 
+> Currently the number of MSI vectors comes from register PCI_MSI_FLAGS
+> which should be power-of-2 in qemu, in some scenaries it is not the same as
+> the number that driver requires in guest, for example, a PCI driver wants
+> to allocate 6 MSI vecotrs in guest, but as the limitation, it will allocate
+> 8 MSI vectors. So it requires 8 MSI vectors in qemu while the driver in
+> guest only wants to allocate 6 MSI vectors.
+> 
+> When GICv4.1 is enabled, it iterates over all possible MSIs and enable the
+> forwarding while the guest has only created some of mappings in the virtual
+> ITS, so some calls fail. The exception print is as following:
+> vfio-pci 0000:3a:00.1: irq bypass producer (token 000000008f08224d) registration
+> fails:66311
+> 
+> To avoid the issue, verify each MSI vector, skip some operations such as
+> request_irq() and irq_bypass_register_producer() for those invalid MSI vectors.
+> 
+> Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+> ---
+> I reported the issue at the link:
+> https://lkml.kernel.org/lkml/87cze9lcut.wl-maz@kernel.org/T/
+> 
+> Change Log:
+> v1 -> v2:
+> Verify each MSI vector in kernel instead of adding systemcall according to
+> Mar's suggestion
+> ---
+>  arch/arm64/kvm/vgic/vgic-irqfd.c  | 13 +++++++++++++
+>  arch/arm64/kvm/vgic/vgic-its.c    | 36 ++++++++++++++++++++++++++++++++++++
+>  arch/arm64/kvm/vgic/vgic.h        |  1 +
+>  drivers/vfio/pci/vfio_pci_intrs.c | 33 +++++++++++++++++++++++++++++++++
+>  include/linux/kvm_host.h          |  2 ++
+>  5 files changed, 85 insertions(+)
+> 
+> diff --git a/arch/arm64/kvm/vgic/vgic-irqfd.c b/arch/arm64/kvm/vgic/vgic-irqfd.c
+> index 475059b..71f6af57 100644
+> --- a/arch/arm64/kvm/vgic/vgic-irqfd.c
+> +++ b/arch/arm64/kvm/vgic/vgic-irqfd.c
+> @@ -98,6 +98,19 @@ int kvm_set_msi(struct kvm_kernel_irq_routing_entry *e,
+>  	return vgic_its_inject_msi(kvm, &msi);
+>  }
+>  
+> +int kvm_verify_msi(struct kvm *kvm,
+> +		   struct kvm_kernel_irq_routing_entry *irq_entry)
+> +{
+> +	struct kvm_msi msi;
+> +
+> +	if (!vgic_has_its(kvm))
+> +		return -ENODEV;
+> +
+> +	kvm_populate_msi(irq_entry, &msi);
+> +
+> +	return vgic_its_verify_msi(kvm, &msi);
+> +}
+> +
+>  /**
+>   * kvm_arch_set_irq_inatomic: fast-path for irqfd injection
+>   */
+> diff --git a/arch/arm64/kvm/vgic/vgic-its.c b/arch/arm64/kvm/vgic/vgic-its.c
+> index 94a666d..8312a4a 100644
+> --- a/arch/arm64/kvm/vgic/vgic-its.c
+> +++ b/arch/arm64/kvm/vgic/vgic-its.c
+> @@ -767,6 +767,42 @@ int vgic_its_inject_cached_translation(struct kvm *kvm, struct kvm_msi *msi)
+>  	return 0;
+>  }
+>  
+> +int vgic_its_verify_msi(struct kvm *kvm, struct kvm_msi *msi)
+> +{
+> +	struct vgic_its *its;
+> +	struct its_ite *ite;
+> +	struct kvm_vcpu *vcpu;
+> +	int ret = 0;
+> +
+> +	if (!irqchip_in_kernel(kvm) || (msi->flags & ~KVM_MSI_VALID_DEVID))
+> +		return -EINVAL;
+> +
+> +	if (!vgic_has_its(kvm))
+> +		return -ENODEV;
+> +
+> +	its = vgic_msi_to_its(kvm, msi);
+> +	if (IS_ERR(its))
+> +		return PTR_ERR(its);
+> +
+> +	mutex_lock(&its->its_lock);
+> +	if (!its->enabled) {
+> +		ret = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	ite = find_ite(its, msi->devid, msi->data);
+> +	if (!ite || !its_is_collection_mapped(ite->collection)) {
+> +		ret = E_ITS_INT_UNMAPPED_INTERRUPT;
+> +		goto unlock;
+> +	}
+> +
+> +	vcpu = kvm_get_vcpu(kvm, ite->collection->target_addr);
+> +	if (!vcpu)
+> +		ret = E_ITS_INT_UNMAPPED_INTERRUPT;
 
-Hi -- is this fixed by commit 26ba00cf58e9f21b08f (just landed
-upstream last night) ?
+I'm sorry, but what does this mean to the caller? This should never
+leak outside of the ITS code.
 
-thanks
--- PMM
+> +unlock:
+> +	mutex_unlock(&its->its_lock);
+> +	return ret;
+> +}
+> +
+>  /*
+>   * Queries the KVM IO bus framework to get the ITS pointer from the given
+>   * doorbell address.
+> diff --git a/arch/arm64/kvm/vgic/vgic.h b/arch/arm64/kvm/vgic/vgic.h
+> index 0c8da72..d452150 100644
+> --- a/arch/arm64/kvm/vgic/vgic.h
+> +++ b/arch/arm64/kvm/vgic/vgic.h
+> @@ -240,6 +240,7 @@ int kvm_vgic_register_its_device(void);
+>  void vgic_enable_lpis(struct kvm_vcpu *vcpu);
+>  void vgic_flush_pending_lpis(struct kvm_vcpu *vcpu);
+>  int vgic_its_inject_msi(struct kvm *kvm, struct kvm_msi *msi);
+> +int vgic_its_verify_msi(struct kvm *kvm, struct kvm_msi *msi);
+>  int vgic_v3_has_attr_regs(struct kvm_device *dev, struct kvm_device_attr *attr);
+>  int vgic_v3_dist_uaccess(struct kvm_vcpu *vcpu, bool is_write,
+>  			 int offset, u32 *val);
+> diff --git a/drivers/vfio/pci/vfio_pci_intrs.c b/drivers/vfio/pci/vfio_pci_intrs.c
+> index 40c3d7c..3027805 100644
+> --- a/drivers/vfio/pci/vfio_pci_intrs.c
+> +++ b/drivers/vfio/pci/vfio_pci_intrs.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/vfio.h>
+>  #include <linux/wait.h>
+>  #include <linux/slab.h>
+> +#include <linux/kvm_irqfd.h>
+>  
+>  #include "vfio_pci_priv.h"
+>  
+> @@ -315,6 +316,28 @@ static int vfio_msi_enable(struct vfio_pci_core_device *vdev, int nvec, bool msi
+>  	return 0;
+>  }
+>  
+> +static int vfio_pci_verify_msi_entry(struct vfio_pci_core_device *vdev,
+> +		struct eventfd_ctx *trigger)
+> +{
+> +	struct kvm *kvm = vdev->vdev.kvm;
+> +	struct kvm_kernel_irqfd *tmp;
+> +	struct kvm_kernel_irq_routing_entry irq_entry;
+> +	int ret = -ENODEV;
+> +
+> +	spin_lock_irq(&kvm->irqfds.lock);
+> +	list_for_each_entry(tmp, &kvm->irqfds.items, list) {
+> +		if (trigger == tmp->eventfd) {
+> +			ret = 0;
+> +			break;
+> +		}
+> +	}
+> +	spin_unlock_irq(&kvm->irqfds.lock);
+> +	if (ret)
+> +		return ret;
+> +	irq_entry = tmp->irq_entry;
+> +	return kvm_verify_msi(kvm, &irq_entry);
+
+How does this work on !arm64? Why do we need an on-stack version of
+tmp->irq_entry?
+
+> +}
+> +
+>  static int vfio_msi_set_vector_signal(struct vfio_pci_core_device *vdev,
+>  				      int vector, int fd, bool msix)
+>  {
+> @@ -355,6 +378,16 @@ static int vfio_msi_set_vector_signal(struct vfio_pci_core_device *vdev,
+>  		return PTR_ERR(trigger);
+>  	}
+>  
+> +	if (!msix) {
+> +		ret = vfio_pci_verify_msi_entry(vdev, trigger);
+> +		if (ret) {
+> +			kfree(vdev->ctx[vector].name);
+> +			eventfd_ctx_put(trigger);
+> +			if (ret > 0)
+> +				ret = 0;
+> +			return ret;
+> +		}
+> +	}
+
+Honestly, the whole things seems really complicated to avoid something
+that is only a harmless warning . How about just toning down the
+message instead?
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
