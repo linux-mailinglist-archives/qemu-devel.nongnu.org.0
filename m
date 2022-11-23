@@ -2,88 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEF2635041
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 07:16:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD20D63507A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 07:30:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxj2U-0005zs-FN; Wed, 23 Nov 2022 01:15:18 -0500
+	id 1oxjF8-0007l3-5p; Wed, 23 Nov 2022 01:28:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxj2S-0005zZ-KN
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 01:15:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oxjF1-0007jn-2y; Wed, 23 Nov 2022 01:28:15 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxj2Q-0002AR-E3
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 01:15:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669184113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L5jf4pT05nGBBlPKF4m/leqnIZst1dAn7fl4WlynHXM=;
- b=JMoy0TAqHi9+kBJFZaWApimQwH40pGf96sxXl49E2Js8i0GFxrpPysVM3KsulCpTW8wWiA
- s9NEC40H5890ecsTM8gasxdwqTd4yC5R3RkSHbIZakkwiewznfynjc1do/Ps1wxXfMFvBe
- bmW+eRkP6QczZt3jUikY3z3ljInQGCU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-21-g5G5XSRYM4m6SOFzF6QsGQ-1; Wed, 23 Nov 2022 01:15:11 -0500
-X-MC-Unique: g5G5XSRYM4m6SOFzF6QsGQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v125-20020a1cac83000000b003cfa148576dso9191081wme.3
- for <qemu-devel@nongnu.org>; Tue, 22 Nov 2022 22:15:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L5jf4pT05nGBBlPKF4m/leqnIZst1dAn7fl4WlynHXM=;
- b=vGByLsToUVTGtN7HZHhoNadfgnOOTHdYS8O29EktaJtKvMmlQDE4MGR+pyItbB+LGT
- KHFR8s+KkBWl3Ve3v6Vz/mInffYdSu+2X48gk3XQbJCHPoVS1t+vjNgzi/D33OniqQtk
- RH9IVSNul/SH79seIF5warIK1XPOkfBASGC+Adilmm++xI4wpTaxSeiwvAlgWXK+lt4r
- 26PZYW5aT47HNkbB4OI4x88/1ZNf3I0XwteIIM41UpHIRKt9XFm9n0nBJa6+kw0IjETZ
- 7b6OOWPzRgPYSnvwEgh2++zykAwXthnLcXXzvXju+Nn70V5+VyUNbA75zK4yWa8CJWyd
- b6Aw==
-X-Gm-Message-State: ANoB5pnb5b4COv0xSu4T0t9SBURnUG0sob7yrStev/JiIIEbkrqiZ2sH
- mj86xEds7YZ7kTmXQUDNLC2l93Mkdv7x8wY+MXIFRB/WFb4uZos/irdFFTTJOoFbqN91F2OhSwA
- k9pGcH1fGHgfFWME=
-X-Received: by 2002:a05:6000:90f:b0:241:cfbc:95a4 with SMTP id
- bz15-20020a056000090f00b00241cfbc95a4mr6133287wrb.453.1669184110722; 
- Tue, 22 Nov 2022 22:15:10 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7GLBkIMDv16B42SGIUnceDhxbNVacuCTWRDHWdKrzocrNIky4q3QcNxkUPrCZgCYMlVYA0ZA==
-X-Received: by 2002:a05:6000:90f:b0:241:cfbc:95a4 with SMTP id
- bz15-20020a056000090f00b00241cfbc95a4mr6133262wrb.453.1669184110308; 
- Tue, 22 Nov 2022 22:15:10 -0800 (PST)
-Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
- u15-20020a5d434f000000b0022e6178bd84sm15765938wrr.8.2022.11.22.22.15.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 22:15:09 -0800 (PST)
-Date: Wed, 23 Nov 2022 01:15:05 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: eric.auger@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Yalan Zhang <yalzhang@redhat.com>, Lei Yang <leiyang@redhat.com>
-Subject: Re: [PATCH for 7.2?] vhost: fix vq dirt bitmap syncing when vIOMMU
- is enabled
-Message-ID: <20221123011406-mutt-send-email-mst@kernel.org>
-References: <20221122030111.4230-1-jasowang@redhat.com>
- <20221122035846-mutt-send-email-mst@kernel.org>
- <f139faff-a9fd-2d3a-842b-2efc371e586e@redhat.com>
- <CACGkMEt+amD5S-NVxv8iPrs+xj74mdrnSjKOLX9TfgbdObHcfA@mail.gmail.com>
- <CACGkMEuOMw5VVUG7=D-iSfv69TaMhFc+_e_BcQPi53xPVPhpow@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oxjEy-0005Ui-S7; Wed, 23 Nov 2022 01:28:14 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AN3MkdU009799; Wed, 23 Nov 2022 06:27:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=f3va+/SphwP6sdsNM5q5RK2LYlnN4U9KOUFr9dso2XE=;
+ b=r7ZvOyKaJ3cs60igpThWrmTdofZTMHfrn6Es/SyvMyrnMoRlLMGAYutUu6YJ4iSzAEF+
+ npAxCt+VitKdFFAxZuCRbgNiOucuJqBd3Bnrd1o0OvwgLPCdh4HPVGEg0s2UNuP58LBL
+ XPHfX2OwkLAXQCStniFhaul37d75cEFjK4mKwcu67OBSYIrwMujxbKsnhfXn7vjjTHvD
+ Jw6ziaeA1q4g5Pw06bFTpjJwLpdaLJsE4heY+2GY5WZeK1hHeBO+VdMu4In0m0z/n6r1
+ L8+JKYW2MHd/MIb9O/GptdXZ6K99sIlia88uZvFJuwQuef44Y2jbVAw4fLrSOyXfx2Ci 5g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m10w5jtqx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Nov 2022 06:27:46 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AN5s3E7029858;
+ Wed, 23 Nov 2022 06:27:46 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m10w5jtq2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Nov 2022 06:27:46 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AN6K5b5032040;
+ Wed, 23 Nov 2022 06:27:43 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06fra.de.ibm.com with ESMTP id 3kxpdj3tkw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Nov 2022 06:27:43 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AN6RfVD61669812
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Nov 2022 06:27:41 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6ED1C11C058;
+ Wed, 23 Nov 2022 06:27:41 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A1ACD11C050;
+ Wed, 23 Nov 2022 06:27:40 +0000 (GMT)
+Received: from [9.171.16.188] (unknown [9.171.16.188])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 23 Nov 2022 06:27:40 +0000 (GMT)
+Message-ID: <7599e943-d7b2-df26-6827-9e25102dd39b@linux.ibm.com>
+Date: Wed, 23 Nov 2022 07:27:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACGkMEuOMw5VVUG7=D-iSfv69TaMhFc+_e_BcQPi53xPVPhpow@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v1 5/9] hw/virtio: introduce virtio_device_should_start
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "open list:virtiofs" <virtio-fs@redhat.com>
+References: <20221114113518-mutt-send-email-mst@kernel.org>
+ <aaae3f2a-c5bb-8e62-09d4-4f6f43efe37b@linux.ibm.com>
+ <20221114115549-mutt-send-email-mst@kernel.org>
+ <2bd5f801-a203-2598-3e6e-ed8f5dad5159@linux.ibm.com>
+ <20221114121959-mutt-send-email-mst@kernel.org> <87tu309tlk.fsf@linaro.org>
+ <26b4e8d8-784d-d1ce-67a3-b61896701bf7@linux.ibm.com>
+ <87leoc9p98.fsf@linaro.org>
+ <471b71ad-1892-8ab4-a94b-c0ec3d34e6b1@linux.ibm.com>
+ <1bfc2fee-5972-676e-563e-e245814e54c3@linux.ibm.com>
+ <20221121173656-mutt-send-email-mst@kernel.org>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20221121173656-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: B2V6PB3oMgHzenSAVnfNbc_94lizJ82g
+X-Proofpoint-ORIG-GUID: 5Cia3GGFLBO3zcuiMUR06ntaALFDZ-TQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-23_02,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ bulkscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ mlxlogscore=953 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211230044
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,238 +133,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 01:47:04PM +0800, Jason Wang wrote:
-> On Wed, Nov 23, 2022 at 1:26 PM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Wed, Nov 23, 2022 at 12:28 AM Eric Auger <eric.auger@redhat.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On 11/22/22 10:43, Michael S. Tsirkin wrote:
-> > > > On Tue, Nov 22, 2022 at 11:01:11AM +0800, Jason Wang wrote:
-> > > >> When vIOMMU is enabled, the vq->used_phys is actually the IOVA not
-> > > >> GPA. So we need to translate it to GPA before the syncing otherwise we
-> > > >> may hit the following crash since IOVA could be out of the scope of
-> > > >> the GPA log size. This could be noted when using virtio-IOMMU with
-> > > >> vhost using 1G memory.
-> > > > Noted how exactly? What does "using 1G memory" mean?
-> > >
-> > > We hit the following assertion:
-> > >
-> > > qemu-system-x86_64: ../hw/virtio/vhost.c:85: vhost_dev_sync_region: Assertion `end / VHOST_LOG_CHUNK < dev->log_size' failed.
-> > >
-> > > On the last time vhost_get_log_size() is called it takes into account 2 regions when computing the log_size:
-> > > qemu-system-x86_64: vhost_get_log_size region 0 last=0x9ffff updated log_size=0x3
-> > > qemu-system-x86_64: vhost_get_log_size region 1 last=0x3fffffff updated log_size=0x1000
-> > > so in vhost_migration_log() vhost_get_log_size(dev) returns 0x1000
-> > >
-> > > In the test case, memory_region_sync_dirty_bitmap() gets called for mem-machine_mem, vga.vram (several times) and eventually on pc.bios. This latter is reponsible for the assertion:
-> > >
-> > > qemu-system-x86_64: vhost_log_sync calls sync_dirty_map on pc.bios for the full range
-> > > qemu-system-x86_64: vhost_sync_dirty_bitmap calls vhost_dev_sync_region on region 0
-> > > qemu-system-x86_64: vhost_dev_sync_region end=0x9ffff < start=0xfffc0000
-> > > qemu-system-x86_64: vhost_sync_dirty_bitmap calls vhost_dev_sync_region on region 1
-> > > qemu-system-x86_64: vhost_dev_sync_region end=0x3fffffff < start=0xfffc0000
-> > > qemu-system-x86_64: vhost_sync_dirty_bitmap calls vhost_dev_sync_region on vq 0 <-----
-> > > qemu-system-x86_64: vhost_dev_sync_region pc.bios mfirst=0xfffc0000 mlast=0xffffffff rfirst=0xfffff240 rlast=0xfffffa45
-> > > qemu-system-x86_64: vhost_dev_sync_region pc.bios end=0xfffffa45 VHOST_LOG_CHUNK=0x40000 end/VHOST_LOG_CHUNK=0x3fff dev->log_size=0x1000
-> > > qemu-system-x86_64: ../hw/virtio/vhost.c:85: vhost_dev_sync_region: Assertion `end / VHOST_LOG_CHUNK < dev->log_size' failed.
-> > >
-> > >
-> > >
-> > > "using 1G memory": We hit the issue with a guest started with 1GB initial RAM.
-> >
-> > Yes, so in the case the guest iova allocator may try to use an IOVA
-> > that is beyond 1G.
-> >
-> > >
-> > >
-> > > >
-> > > >> Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
-> > > >> Cc: qemu-stable@nongnu.org
-> > > >> Reported-by: Yalan Zhang <yalzhang@redhat.com>
-> > > >> Tested-by: Eric Auger <eric.auger@redhat.com>
-> > > >> Tested-by: Lei Yang <leiyang@redhat.com>
-> > > >> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > >> ---
-> > > >>  hw/virtio/vhost.c | 65 ++++++++++++++++++++++++++++++++---------------
-> > > >>  1 file changed, 45 insertions(+), 20 deletions(-)
-> > > >>
-> > > >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > > >> index d1c4c20b8c..26b319f34e 100644
-> > > >> --- a/hw/virtio/vhost.c
-> > > >> +++ b/hw/virtio/vhost.c
-> > > >> @@ -106,11 +106,30 @@ static void vhost_dev_sync_region(struct vhost_dev *dev,
-> > > >>      }
-> > > >>  }
-> > > >>
-> > > >> +static bool vhost_dev_has_iommu(struct vhost_dev *dev)
-> > > >> +{
-> > > >> +    VirtIODevice *vdev = dev->vdev;
-> > > >> +
-> > > >> +    /*
-> > > >> +     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
-> > > >> +     * incremental memory mapping API via IOTLB API. For platform that
-> > > >> +     * does not have IOMMU, there's no need to enable this feature
-> > > >> +     * which may cause unnecessary IOTLB miss/update transactions.
-> > > >> +     */
-> > > >> +    if (vdev) {
-> > > >> +        return virtio_bus_device_iommu_enabled(vdev) &&
-> > > >> +            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> > > >> +    } else {
-> > > >> +        return false;
-> > > >> +    }
-> > > >> +}
-> > > >> +
-> > > >>  static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
-> > > >>                                     MemoryRegionSection *section,
-> > > >>                                     hwaddr first,
-> > > >>                                     hwaddr last)
-> > > >>  {
-> > > >> +    IOMMUTLBEntry iotlb;
-> > > > why don't we move this inside the scope where it's used?
-> >
-> > That's fine.
-> >
-> > > >
-> > > >>      int i;
-> > > >>      hwaddr start_addr;
-> > > >>      hwaddr end_addr;
-> > > >> @@ -132,13 +151,37 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
-> > > >>      }
-> > > >>      for (i = 0; i < dev->nvqs; ++i) {
-> > > >>          struct vhost_virtqueue *vq = dev->vqs + i;
-> > > >> +        hwaddr used_phys = vq->used_phys, used_size = vq->used_size;
-> > > >> +        hwaddr phys, s;
-> > > > these two, too.
-> >
-> > Right.
-> >
-> > > >
-> > > >>
-> > > >>          if (!vq->used_phys && !vq->used_size) {
-> > > >>              continue;
-> > > >>          }
-> > > >>
-> > > >> -        vhost_dev_sync_region(dev, section, start_addr, end_addr, vq->used_phys,
-> > > >> -                              range_get_last(vq->used_phys, vq->used_size));
-> > > >> +        if (vhost_dev_has_iommu(dev)) {
-> > > >> +            while (used_size) {
-> > > >> +                rcu_read_lock();
-> > > >> +                iotlb = address_space_get_iotlb_entry(dev->vdev->dma_as,
-> > > >> +                                                      used_phys,
-> > > >> +                                                      true, MEMTXATTRS_UNSPECIFIED);
-> > > >> +                rcu_read_unlock();
-> > > >> +
-> > > >> +                if (iotlb.target_as == NULL) {
-> > > >> +                    return -EINVAL;
-> > > > I am not sure how this can trigger. I don't like == NULL:
-> > > > !iotlb.target_as is more succint. But a bigger question is how to
-> > > > handle this. callers ignore the return value so maybe
-> > > > log guest error? iommu seems misconfigured ...
-> >
-> > Ok.
-> >
-> > > >
-> > > >
-> > > >> +                }
-> > > >> +
-> > > >> +                phys = iotlb.translated_addr;
-> > > >> +                s = MIN(iotlb.addr_mask + 1, used_size);
-> > > > Note, that iotlb.translated_addr here is an aligned address and
-> > > > iotlb.addr_mask + 1 is size from there.
-> > > >
-> > > > So I think phys that you want is actually
-> > > >       phys = iotlb.translated_addr + (used_phys & iotlb.addr_mask);
-> > > >
-> > > >
-> > > >
-> > > > accordingly, the size would be from there until end of mask:
-> > > >       s = MIN(iotlb.addr_mask + 1 - (used_phys & iotlb.addr_mask), used_size);
-> > > >
-> > > >
-> > > > Also, it bothers me that the math here will give you 0 if addr_mask is
-> > > > all ones.
+Am 21.11.22 um 23:37 schrieb Michael S. Tsirkin:
+[...]
+>> qemu-system-x86_64: ../hw/virtio/vhost-vsock-common.c:203: vhost_vsock_common_pre_save: Assertion `!vhost_dev_is_started(&vvc->vhost_dev)' failed.
+>> 2022-11-15 16:38:46.096+0000: shutting down, reason=crashed
 > 
-> So even if addr_mask is all ones, we end up with s = MIN(1, used_size)
-> which should be fine.
+> Alex were you able to replicate? Just curious.
 
-How do you figure? addr_mask is all ones, addr_mask + 1 is 0, we get MIN(0, used_size).
-
-> The used_size has been validated before to be
-> non-zero.
-> 
-> Thanks
-> 
-> > Then MIN will give 0 too and we loop forever.  I think this
-> > > > can not trigger, but I'd rather we play it safe and add outside of MIN
-> > > > after it's capped to a reasonable value. So we end up with:
-> > > >
-> > > >       /* Distance from start of used ring until last byte of IOMMU page */
-> > > >       s = iotlb.addr_mask - (used_phys & iotlb.addr_mask);
-> > > >       /* size of used ring, or of the part of it until end of IOMMU page */
-> > > >       s = MIN(s, used_size - 1) + 1;
-> > > >
-> > > >
-> >
-> > Right.
-> >
-> > > >
-> > > >
-> > > >
-> > > >> +
-> > > >> +                vhost_dev_sync_region(dev, section, start_addr, end_addr, phys,
-> > > >> +                                      range_get_last(phys, used_size));
-> > > > why are you syncing used_size here? Shouldn't it be s?
-> >
-> > Let me fix this.
-> >
-> > Thanks
-> >
-> > > >
-> > > >
-> > > >
-> > > >> +                used_size -= s;
-> > > >> +                used_phys += s;
-> > > >> +            }
-> > > >> +        } else {
-> > > >> +            vhost_dev_sync_region(dev, section, start_addr, end_addr, used_phys,
-> > > >> +                                  range_get_last(used_phys, used_size));
-> > > >> +        }
-> > > >>      }
-> > > >>      return 0;
-> > > >>  }
-> > > >> @@ -306,24 +349,6 @@ static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64_t size)
-> > > >>      dev->log_size = size;
-> > > >>  }
-> > > >>
-> > > >> -static bool vhost_dev_has_iommu(struct vhost_dev *dev)
-> > > >> -{
-> > > >> -    VirtIODevice *vdev = dev->vdev;
-> > > >> -
-> > > >> -    /*
-> > > >> -     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
-> > > >> -     * incremental memory mapping API via IOTLB API. For platform that
-> > > >> -     * does not have IOMMU, there's no need to enable this feature
-> > > >> -     * which may cause unnecessary IOTLB miss/update transactions.
-> > > >> -     */
-> > > >> -    if (vdev) {
-> > > >> -        return virtio_bus_device_iommu_enabled(vdev) &&
-> > > >> -            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> > > >> -    } else {
-> > > >> -        return false;
-> > > >> -    }
-> > > >> -}
-> > > >> -
-> > > >>  static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
-> > > >>                                hwaddr *plen, bool is_write)
-> > > >>  {
-> > > >> --
-> > > >> 2.25.1
-> > >
-> > > Thanks
-> > >
-> > > Eric
-> > >
-
+Ping?
 
