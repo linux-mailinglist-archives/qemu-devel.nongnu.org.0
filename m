@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6529B636573
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 17:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C486636599
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 17:21:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxsJS-0004wJ-9Z; Wed, 23 Nov 2022 11:09:26 -0500
+	id 1oxsTG-000737-Iy; Wed, 23 Nov 2022 11:19:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxsJJ-0004vt-Cq
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:09:19 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oxsTD-00072a-3k
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:19:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oxsJ7-0002f4-Mf
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:09:17 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oxsTA-0005iE-Tj
+ for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:19:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669219743;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1669220367;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wXH8RnTN7Hn9PofQ7C1PjFn7i8XiUiwloyfxrdlnA48=;
- b=Hg3zx1FtmeX9glMemAnDMGL68nkPLz0Fp+urphMG6+auodpvOgp1DvgREhXFOf4JsR1r0V
- CyKFmyXGnVjTGebeRWpxIwT7q2u0hAfs2sH57b//0q/5gdTEAIpO2mdig1tnavGhTMnu1D
- K/20zY6YPjgPYoQgDTIEn50gnsiMrJ4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-659-HJJYbfJNOaqcOAHhVzAFvA-1; Wed, 23 Nov 2022 11:09:01 -0500
-X-MC-Unique: HJJYbfJNOaqcOAHhVzAFvA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j20-20020adfb314000000b002366d9f67aaso5072671wrd.3
- for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 08:09:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wXH8RnTN7Hn9PofQ7C1PjFn7i8XiUiwloyfxrdlnA48=;
- b=PXzCu7swx2Ug86nBE5AXqFX6OHjdfjmXCXqaCGcT3nXLRiq1y4cwqcBS/LQGXfaA5P
- LbNw5YKoiguH/BPAiuBIinGZL3KOG7o4itEli0aNj7COAManUdkSfm24rEPpaCzqeOIA
- tE9/R8eOcLUOvZ/yYd5QTMse/Q9SGJX2QvfJ65J2e3TDq6YSN0RfwZk2u+//qEWpKAGZ
- IRZhmM/Vs2bUISGweKn/SbQu3XzpLYBMwqFwukq7resISvFfYl+noW7KsAJXKiMbpIUB
- pt8C+bH8XNdlEVamPXWVnfuyGv75Flkq6A3nYe0TCflNujdYT53xjeTcmlfB5y6RT2ys
- VGiw==
-X-Gm-Message-State: ANoB5pknKmDv+DP1N04r6+3SHRCxDxLkZgPDfHjM43dv8t9j0JFjpUP3
- JmFVp/YMx7wnt0WIUL14FRDyzRdbifzXploTHeSVXG689iAZfB+Vdh17ImoSFmvcZ5e0hARalsX
- RU0nm6MgBuPMEyEo=
-X-Received: by 2002:a7b:cbc3:0:b0:3cf:a83d:28d1 with SMTP id
- n3-20020a7bcbc3000000b003cfa83d28d1mr24712580wmi.57.1669219740167; 
- Wed, 23 Nov 2022 08:09:00 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf43ThTGlNSReAb4CLgwZGpn6XxLXkK5UxggzIL6zYgUFYhNPUDIDEPp7UGxS6rnDolIqe+xRQ==
-X-Received: by 2002:a7b:cbc3:0:b0:3cf:a83d:28d1 with SMTP id
- n3-20020a7bcbc3000000b003cfa83d28d1mr24712570wmi.57.1669219739920; 
- Wed, 23 Nov 2022 08:08:59 -0800 (PST)
-Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
- l8-20020adfa388000000b002417f35767asm17380963wrb.40.2022.11.23.08.08.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 08:08:59 -0800 (PST)
-Date: Wed, 23 Nov 2022 11:08:56 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
-Message-ID: <20221123110755-mutt-send-email-mst@kernel.org>
-References: <20221123152134.179929-1-alex.bennee@linaro.org>
- <20221123102522-mutt-send-email-mst@kernel.org>
- <87bkoxbqtd.fsf@linaro.org>
+ bh=/H2u6a69ticqBa17yNdaEiMNfIgrZSPYXmIQEndMmzs=;
+ b=TdZFk7GbhnH7DE59q9Psw4mdvPs46koXXQKeQw2TpqGWHBeaSsOxoTEPuaJK14+3i7/+Gs
+ VeqPZhB5O2VbQDEUOoiFMnudt40ghh/fFR/B9u9DmcbIvb6u/szrd8sesOcfFZEgX6wDE8
+ sxiCWe8s6WYATx3D4L8jd6vomSxQWOY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-467-kA-rxFSROPGD0ZoPfmH9Wg-1; Wed, 23 Nov 2022 11:19:26 -0500
+X-MC-Unique: kA-rxFSROPGD0ZoPfmH9Wg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ACA53C01DE7;
+ Wed, 23 Nov 2022 16:19:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C939F492B07;
+ Wed, 23 Nov 2022 16:19:24 +0000 (UTC)
+Date: Wed, 23 Nov 2022 16:19:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, peterx@redhat.com, prerna.saxena@nutanix.com,
+ quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
+Subject: Re: [PATCH v4 2/2] migration: check magic value for deciding the
+ mapping of channels
+Message-ID: <Y35ICBcn2aWxBQaj@redhat.com>
+References: <20221123150527.24608-1-manish.mishra@nutanix.com>
+ <20221123150527.24608-3-manish.mishra@nutanix.com>
+ <Y35DOkfHr2+2PwSe@redhat.com>
+ <9cdace7b-7fd2-7c9a-01a2-14bef1473136@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87bkoxbqtd.fsf@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <9cdace7b-7fd2-7c9a-01a2-14bef1473136@nutanix.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -96,57 +83,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex BennÈe wrote:
+On Wed, Nov 23, 2022 at 09:34:35PM +0530, manish.mishra wrote:
 > 
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
+> On 23/11/22 9:28 pm, Daniel P. Berrang√© wrote:
+> > On Wed, Nov 23, 2022 at 03:05:27PM +0000, manish.mishra wrote:
+> > > Current logic assumes that channel connections on the destination side are
+> > > always established in the same order as the source and the first one will
+> > > always be the main channel followed by the multifid or post-copy
+> > > preemption channel. This may not be always true, as even if a channel has a
+> > > connection established on the source side it can be in the pending state on
+> > > the destination side and a newer connection can be established first.
+> > > Basically causing out of order mapping of channels on the destination side.
+> > > Currently, all channels except post-copy preempt send a magic number, this
+> > > patch uses that magic number to decide the type of channel. This logic is
+> > > applicable only for precopy(multifd) live migration, as mentioned, the
+> > > post-copy preempt channel does not send any magic number. Also, tls live
+> > > migrations already does tls handshake before creating other channels, so
+> > > this issue is not possible with tls, hence this logic is avoided for tls
+> > > live migrations. This patch uses read peek to check the magic number of
+> > > channels so that current data/control stream management remains
+> > > un-effected.
+> > > 
+> > > Reviewed-by: Peter Xu <peterx@redhat.com>
+> > > Reviewed-by: Daniel P. Berrang√© <berrange@redhat.co
+> > > Suggested-by: Daniel P. Berrang√© <berrange@redhat.com
+> > > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> > > ---
+> > >   migration/channel.c      | 46 ++++++++++++++++++++++++++++++++++++++++
+> > >   migration/channel.h      |  5 +++++
+> > >   migration/migration.c    | 45 ++++++++++++++++++++++++++++-----------
+> > >   migration/multifd.c      | 12 ++++-------
+> > >   migration/multifd.h      |  2 +-
+> > >   migration/postcopy-ram.c |  5 +----
+> > >   migration/postcopy-ram.h |  2 +-
+> > >   7 files changed, 91 insertions(+), 26 deletions(-)
+> > > 
+> > > diff --git a/migration/channel.c b/migration/channel.c
+> > > index 1b0815039f..a4600f52c5 100644
+> > > --- a/migration/channel.c
+> > > +++ b/migration/channel.c
+> > > @@ -92,3 +92,49 @@ void migration_channel_connect(MigrationState *s,
+> > >       migrate_fd_connect(s, error);
+> > >       error_free(error);
+> > >   }
+> > > +
+> > > +
+> > > +/**
+> > > + * @migration_channel_read_peek - Read from the peek of migration channel,
+> > > + *    without actually removing it from channel buffer.
+> > > + *
+> > > + * @ioc: the channel object
+> > > + * @buf: the memory region to read data into
+> > > + * @buflen: the number of bytes to read in @buf
+> > > + * @errp: pointer to a NULL-initialized error object
+> > > + *
+> > > + * Returns 0 if successful, returns -1 and sets @errp if fails.
+> > > + */
+> > > +int migration_channel_read_peek(QIOChannel *ioc,
+> > > +                                const char *buf,
+> > > +                                const size_t buflen,
+> > > +                                Error **errp)
+> > > +{
+> > > +   ssize_t len = 0;
+> > > +   struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
+> > > +
+> > > +   while (len < buflen) {
+> > > +       len = qio_channel_readv_full(ioc, &iov, 1, NULL,
+> > > +                                    NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
+> > > +
+> > > +       if (len == QIO_CHANNEL_ERR_BLOCK) {
+> > > +            if (qemu_in_coroutine()) {
+> > > +                /* 1ms sleep. */
+> > > +                qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 1000000);
+> > > +            } else {
+> > > +                qio_channel_wait(ioc, G_IO_IN);
+> > > +            }
+> > > +            continue;
+> > > +       }
+> > > +       if (len == 0) {
+> > > +           error_setg(errp,
+> > > +                      "Unexpected end-of-file on channel");
+> > > +           return -1;
+> > > +       }
+> > > +       if (len < 0) {
+> > > +           return -1;
+> > > +       }
+> > > +   }
+> > This busy waits when len > 0 and < buflen
+> > 
+> > 
+> > With regards,
+> > Daniel
 > 
-> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex BennÈe wrote:
-> >> Hi,
-> >> 
-> >> This hopefully fixes the problems with VirtIO migration caused by the
-> >> previous refactoring of virtio_device_started(). That introduced a
-> >> different order of checking which didn't give the VM state primacy but
-> >> wasn't noticed as we don't properly exercise VirtIO device migration
-> >> and caused issues when dev->started wasn't checked in the core code.
-> >> The introduction of virtio_device_should_start() split the overloaded
-> >> function up but the broken order still remained. The series finally
-> >> fixes that by restoring the original semantics but with the cleaned up
-> >> functions.
-> >> 
-> >> I've added more documentation to the various structures involved as
-> >> well as the functions. There is still some inconsistencies in the
-> >> VirtIO code between different devices but I think that can be looked
-> >> at over the 8.0 cycle.
-> >
-> >
-> > Thanks a lot! Did you try this with gitlab CI? A patch similar to your
-> > 2/2 broke it previously ...
-> 
-> Looking into it now - so far hasn't broken locally but I guess there is
-> something different about the CI.
+> Sorry, ¬† Daniel, may be i misunderstood something from earlier
+> discussions. I thought we discussed we may not prevent it from
+> looping multiple times but we can¬† qemu_co_sleep_ns after every
+> retry to deal with busy wait?
+
+You're only calling  qemu_co_sleep_ns when you get ERR_BLOCK
+though. That will happen the first time when 0 bytes are
+pending. Once 2 bytes arrive and we're waiting for 2 more,
+this code will busy wait instead of calling qemu_co_sleep_ns
+again, because len==2 in that case.
 
 
-yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
 
-Or with QEMU_CI set to 1 and then run fedora container and then clang-system manually.
-
-> >
-> >> Alex BennÈe (2):
-> >>   include/hw: attempt to document VirtIO feature variables
-> >>   include/hw: VM state takes precedence in virtio_device_should_start
-> >> 
-> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
-> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
-> >>  2 files changed, 59 insertions(+), 9 deletions(-)
-> >> 
-> >> -- 
-> >> 2.34.1
-> 
-> 
-> -- 
-> Alex BennÈe
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
