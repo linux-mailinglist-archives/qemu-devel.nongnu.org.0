@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3955F6379CF
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E79E6379CE
 	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 14:20:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyC87-00039x-Kp; Thu, 24 Nov 2022 08:19:03 -0500
+	id 1oyC9G-0003Wx-90; Thu, 24 Nov 2022 08:20:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Conor.Dooley@microchip.com>)
- id 1oyC7e-00036J-FT; Thu, 24 Nov 2022 08:18:35 -0500
-Received: from esa.microchip.iphmx.com ([68.232.154.123])
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1oyC8q-0003TK-TU
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 08:19:52 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Conor.Dooley@microchip.com>)
- id 1oyC7b-00009b-PG; Thu, 24 Nov 2022 08:18:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1669295912; x=1700831912;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=e12rJloOSSmbkY5BvmHsVqpB0/1fYxIbmqwVDUFN7Sk=;
- b=dw44fbm8T+AwmYOeOlmqfGh5CUZOcUtPX1MHv1pXSCNg2dYdw7Hfu+gm
- jQB51PTQGc0Tr1Xs8507iiJRBus2WioOhz0lsshi68dOC1CeINCOTLWoM
- vKkP9lOhCsEMI+aIFoHGeo+2lQUU+W34H5M0WGXK7BmBg79EwzyBUkofm
- uqJ6EpItk5us65urkM6nONzXvCxErBPyhPTzZnHoVRPZUoEUhVvCdGjvm
- wUO47XJyZoE7gib0jK5kAsPYvHH9RuW6FLAmtAtEeXI3GQi+tAAlNyyT3
- Hp/zFq5ceuLRdyX1Uv7CTmdsX1IX4y9V39VhjZmnOqpYgb0mG0N2APvx5 w==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="185034589"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 24 Nov 2022 06:17:23 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 24 Nov 2022 06:16:49 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 24 Nov 2022 06:16:48 -0700
-Date: Thu, 24 Nov 2022 13:16:30 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Atish Patra <atishp@rivosinc.com>
-CC: <qemu-devel@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>, Bin
- Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH v14 4/5] hw/riscv: virt: Add PMU DT node to the device tree
-Message-ID: <Y39urpX82uO85AAb@wendy>
-References: <20220824221701.41932-1-atishp@rivosinc.com>
- <20220824221701.41932-5-atishp@rivosinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220824221701.41932-5-atishp@rivosinc.com>
-Received-SPF: pass client-ip=68.232.154.123;
- envelope-from=Conor.Dooley@microchip.com; helo=esa.microchip.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1oyC8n-0001yc-Io
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 08:19:48 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F325A62119;
+ Thu, 24 Nov 2022 13:19:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 602E6C433C1;
+ Thu, 24 Nov 2022 13:19:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669295965;
+ bh=uQNeHHIJvCN+jBJ5mWft+AyOT9YLaeb147kcTYwPQRg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mjXZr1wH/Z/7SeYgnIG6+Tm/hPVJ8qHa+N+zJkcAXtPGRENFEnQz5Pa8O1JYjzYMp
+ k0KWXAP88D28S37kKKgNvxaYVOJJ9tdfkZlWpbWgGXiMmdiKd3Nw87ddlD0/7+vWmh
+ GT52U5L4XR3xkyxGgD0D3m1ZZGtjwOK8UOWfId4DQ3AZx76YA/o+m1/pu0sknVRvXF
+ BFSJikos4wUh6LVKeFA8NMaqVeTDwIIo4ZMeNWmIN/De6z/5MlNAd3C3LLTx1XZQzZ
+ 8YERJsh/k7kjGwB/Wd/eb8Yv88CmU+tk0KT75dcRW8cD1fCWyGGG+qzX6DkgffnK8S
+ S8c5KgJXsWuTQ==
+Received: from sofa.misterjones.org ([185.219.108.64]
+ helo=goblin-girl.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1oyC8R-008Nfd-5t;
+ Thu, 24 Nov 2022 13:19:23 +0000
+Date: Thu, 24 Nov 2022 13:19:22 +0000
+Message-ID: <861qpso5gl.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: chenxiang <chenxiang66@hisilicon.com>, <kvm@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <linuxarm@huawei.com>
+Subject: Re: [PATCH v2] vfio/pci: Verify each MSI vector to avoid invalid MSI
+ vectors
+In-Reply-To: <20221123125514.5bf83fa8.alex.williamson@redhat.com>
+References: <1669167756-196788-1-git-send-email-chenxiang66@hisilicon.com>
+ <86k03loouy.wl-maz@kernel.org>
+ <20221123125514.5bf83fa8.alex.williamson@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: alex.williamson@redhat.com, chenxiang66@hisilicon.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, linuxarm@huawei.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=maz@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,169 +86,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Aug 24, 2022 at 03:17:00PM -0700, Atish Patra wrote:
-> Qemu virt machine can support few cache events and cycle/instret counters.
-> It also supports counter overflow for these events.
+On Wed, 23 Nov 2022 19:55:14 +0000,
+Alex Williamson <alex.williamson@redhat.com> wrote:
 > 
-> Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-> capabilities. There are some dummy nodes added for testing as well.
-
-Hey Atish!
-
-I was fiddling with dumping the virt machine dtb again today to check
-some dt-binding changes I was making for the isa string would play
-nicely with the virt machine & I noticed that this patch has introduced
-a new validation failure:
-
-./build/qemu-system-riscv64 -nographic -machine virt,dumpdtb=qemu.dtb
-
-dt-validate -p ../linux/Documentation/devicetree/bindings/processed-schema.json qemu.dtb 
-/home/conor/stuff/qemu/qemu.dtb: soc: pmu: {'riscv,event-to-mhpmcounters': [[1, 1, 524281, 2, 2, 524284, 65561, 65561, 524280, 65563, 65563, 524280, 65569, 65569, 524280, 0, 0, 0, 0, 0]], 'compatible': ['riscv,pmu']} should not be valid under {'type': 'object'}
-	From schema: /home/conor/.local/lib/python3.10/site-packages/dtschema/schemas/simple-bus.yaml
-
-I assume this is the aforementioned "dummy" node & you have no intention
-of creating a binding for this?
-
-Thanks,
-Conor.
-
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  hw/riscv/virt.c    | 16 +++++++++++++
->  target/riscv/pmu.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++
->  target/riscv/pmu.h |  1 +
->  3 files changed, 74 insertions(+)
+> On Wed, 23 Nov 2022 12:08:05 +0000
+> Marc Zyngier <maz@kernel.org> wrote:
 > 
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index ff8c0df5cd47..befa9d2c26ac 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -30,6 +30,7 @@
->  #include "hw/char/serial.h"
->  #include "target/riscv/cpu.h"
->  #include "hw/core/sysbus-fdt.h"
-> +#include "target/riscv/pmu.h"
->  #include "hw/riscv/riscv_hart.h"
->  #include "hw/riscv/virt.h"
->  #include "hw/riscv/boot.h"
-> @@ -708,6 +709,20 @@ static void create_fdt_socket_aplic(RISCVVirtState *s,
->      aplic_phandles[socket] = aplic_s_phandle;
->  }
->  
-> +static void create_fdt_pmu(RISCVVirtState *s)
-> +{
-> +    char *pmu_name;
-> +    MachineState *mc = MACHINE(s);
-> +    RISCVCPU hart = s->soc[0].harts[0];
-> +
-> +    pmu_name = g_strdup_printf("/soc/pmu");
-> +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-> +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
-> +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
-> +
-> +    g_free(pmu_name);
-> +}
-> +
->  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
->                                 bool is_32_bit, uint32_t *phandle,
->                                 uint32_t *irq_mmio_phandle,
-> @@ -1036,6 +1051,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
->  
->      create_fdt_flash(s, memmap);
->      create_fdt_fw_cfg(s, memmap);
-> +    create_fdt_pmu(s);
->  
->  update_bootargs:
->      if (cmdline && *cmdline) {
-> diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-> index a5f504e53c88..b8e56d2b7b8e 100644
-> --- a/target/riscv/pmu.c
-> +++ b/target/riscv/pmu.c
-> @@ -20,11 +20,68 @@
->  #include "cpu.h"
->  #include "pmu.h"
->  #include "sysemu/cpu-timers.h"
-> +#include "sysemu/device_tree.h"
->  
->  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
->  #define MAKE_32BIT_MASK(shift, length) \
->          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
->  
-> +/*
-> + * To keep it simple, any event can be mapped to any programmable counters in
-> + * QEMU. The generic cycle & instruction count events can also be monitored
-> + * using programmable counters. In that case, mcycle & minstret must continue
-> + * to provide the correct value as well. Heterogeneous PMU per hart is not
-> + * supported yet. Thus, number of counters are same across all harts.
-> + */
-> +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
-> +{
-> +    uint32_t fdt_event_ctr_map[20] = {};
-> +    uint32_t cmask;
-> +
-> +    /* All the programmable counters can map to any event */
-> +    cmask = MAKE_32BIT_MASK(3, num_ctrs);
-> +
-> +   /*
-> +    * The event encoding is specified in the SBI specification
-> +    * Event idx is a 20bits wide number encoded as follows:
-> +    * event_idx[19:16] = type
-> +    * event_idx[15:0] = code
-> +    * The code field in cache events are encoded as follows:
-> +    * event_idx.code[15:3] = cache_id
-> +    * event_idx.code[2:1] = op_id
-> +    * event_idx.code[0:0] = result_id
-> +    */
-> +
-> +   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
-> +   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
-> +   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
-> +   fdt_event_ctr_map[2] = cpu_to_be32(cmask | 1 << 0);
-> +
-> +   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
-> +   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
-> +   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
-> +   fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
-> +
-> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) */
-> +   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
-> +   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
-> +   fdt_event_ctr_map[8] = cpu_to_be32(cmask);
-> +
-> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01) */
-> +   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
-> +   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
-> +   fdt_event_ctr_map[11] = cpu_to_be32(cmask);
-> +
-> +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) */
-> +   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
-> +   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
-> +   fdt_event_ctr_map[14] = cpu_to_be32(cmask);
-> +
-> +   /* This a OpenSBI specific DT property documented in OpenSBI docs */
-> +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
-> +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
-> +}
-> +
->  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
->  {
->      if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
-> diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-> index 036653627f78..3004ce37b636 100644
-> --- a/target/riscv/pmu.h
-> +++ b/target/riscv/pmu.h
-> @@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
->  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
->                                 uint32_t ctr_idx);
->  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_idx);
-> +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pmu_name);
->  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
->                            uint32_t ctr_idx);
-> -- 
-> 2.25.1
+> > On Wed, 23 Nov 2022 01:42:36 +0000,
+> > chenxiang <chenxiang66@hisilicon.com> wrote:
+> > > 
+> > > +static int vfio_pci_verify_msi_entry(struct vfio_pci_core_device *vdev,
+> > > +		struct eventfd_ctx *trigger)
+> > > +{
+> > > +	struct kvm *kvm = vdev->vdev.kvm;
+> > > +	struct kvm_kernel_irqfd *tmp;
+> > > +	struct kvm_kernel_irq_routing_entry irq_entry;
+> > > +	int ret = -ENODEV;
+> > > +
+> > > +	spin_lock_irq(&kvm->irqfds.lock);
+> > > +	list_for_each_entry(tmp, &kvm->irqfds.items, list) {
+> > > +		if (trigger == tmp->eventfd) {
+> > > +			ret = 0;
+> > > +			break;
+> > > +		}
+> > > +	}
+> > > +	spin_unlock_irq(&kvm->irqfds.lock);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +	irq_entry = tmp->irq_entry;
+> > > +	return kvm_verify_msi(kvm, &irq_entry);  
+> > 
+> > How does this work on !arm64? Why do we need an on-stack version of
+> > tmp->irq_entry?
 > 
+> Not only on !arm64, but in any scenario that doesn't involve KVM.
+> There cannot be a hard dependency between vfio and kvm.  Thanks,
+
+Yup, good point.
+
 > 
+> Alex
 > 
+> PS - What driver/device actually cares about more than 1 MSI vector and
+> doesn't implement MSI-X?
+
+Unfortunately, there is a metric ton of crap that fits in that
+description:
+
+01:00.0 Network controller: Broadcom Inc. and subsidiaries Device 4433 (rev 07)
+	Subsystem: Apple Inc. Device 4387
+	Device tree node: /sys/firmware/devicetree/base/soc/pcie@690000000/pci@0,0/wifi@0,0
+	Flags: bus master, fast devsel, latency 0, IRQ 97, IOMMU group 4
+	Memory at 6c1400000 (64-bit, non-prefetchable) [size=64K]
+	Memory at 6c0000000 (64-bit, non-prefetchable) [size=16M]
+	Capabilities: [48] Power Management version 3
+	Capabilities: [58] MSI: Enable+ Count=1/32 Maskable- 64bit+
+
+... and no MSI-X in sight. Pass this to a VM, and you'll see exactly
+what is described here. And that's not old stuff either. This is brand
+new HW.
+
+Do we need to care? I don't think so.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
