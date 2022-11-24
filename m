@@ -2,61 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B4D637C55
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 15:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E26C6379BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 14:14:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyDgq-0002mH-Sv; Thu, 24 Nov 2022 09:59:00 -0500
+	id 1oyC2M-0001bQ-27; Thu, 24 Nov 2022 08:13:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liyang281@huawei.com>)
- id 1oy5pR-0002YM-MS; Thu, 24 Nov 2022 01:35:21 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liyang281@huawei.com>)
- id 1oy5pP-0001LR-33; Thu, 24 Nov 2022 01:35:21 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NHpB90BCkzHw4g;
- Thu, 24 Nov 2022 14:34:25 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 24 Nov 2022 14:35:02 +0800
-Received: from [10.110.47.166] (10.110.47.166) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 24 Nov 2022 14:35:01 +0800
-Message-ID: <a80f31eb-f77b-1e66-b34e-4078200e7a24@huawei.com>
-Date: Thu, 24 Nov 2022 14:35:00 +0800
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oyC26-0001Zx-RB
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 08:12:55 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oyC24-0005XH-9D
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 08:12:50 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id bs21so2433528wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 05:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kgocY3iRpESw7lRawIRDdq+AkYu9JHqi8hNHBRBw818=;
+ b=cGepRezWAqHoRz9ch7DasMA8eMjxDkUZi902Nb7+PHPJlIZmQleZMhUSs8bqqLoOD8
+ IQWhOCgspwJWs4vJKIJAUIOO1Lal6HF2vF+QMCPCOl9JrNqG2cismwjvTi2G/QdjbPqn
+ v+CjfcJiD1nRn6NXJL7Ac97iji25HSNNvRFqGSeS0wdFKKu1e+6HGFnoN6sozFSLJFDI
+ nHW0538o88KdhiK7+h5RosR20HAXCg7y3zFXAoeeKz205pOChJ1xbGIVyQVMVbx5n2j1
+ 0at9Cu9zxObUI2Z/K/C8lTMGdh8XKggxWZlZ/VJdFJnQFhWAFmMowWC7SAZGSAzL3nSq
+ utfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=kgocY3iRpESw7lRawIRDdq+AkYu9JHqi8hNHBRBw818=;
+ b=4JwJh2hA0srN8xLXefCgVstpgN6dQ1wgy3W5a22XOOxsBxHnQfVChRlbpz1zIdfp+F
+ wxCS3Y3SDOrN3GPv19hw5MoR61S292C5sE32SptT62kepjR3dBlfpJicGU/5EIgDYt+Y
+ yOEch4EKZuqZIw1utDK8qR8UaH3gFQmkmUX/9BRLSpVLADs7Ma83aY+ed+Mc4VrmYgDM
+ UpPLWWQwmf5yPgJUke/R7dYM3Qxg04lsDhvcwXTzoDWIBQf3YLkTGt0R5mNs+sYFGcc5
+ W4/3rzRAm1VAaYAHZP6FvCuNfsz3fcPf0KRqApF3LI6L5AKhwEbyIHRGpl6FrsfdnSQ0
+ K7/w==
+X-Gm-Message-State: ANoB5pkQ+I78U0KFJ2Bl5VEPZMr/AOvJ2ItVMUjTXqzw9vCPA0+wOK87
+ vrvN/f/JHDt6B7UsL0Sqlu/6TQ==
+X-Google-Smtp-Source: AA0mqf4XBTlsWTz/zSKKhDCv/wO0KV0kGNfIg2ZrQxIQZ6/57HahU3XEo/hPZ3DH7OR2OPMBUKFWQg==
+X-Received: by 2002:a05:6000:181:b0:241:c6f9:3e5a with SMTP id
+ p1-20020a056000018100b00241c6f93e5amr11006169wrx.157.1669295566654; 
+ Thu, 24 Nov 2022 05:12:46 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bh23-20020a05600c3d1700b003cfa80443a0sm1790519wmb.35.2022.11.24.05.12.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Nov 2022 05:12:45 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 63AA01FFB7;
+ Thu, 24 Nov 2022 13:12:45 +0000 (GMT)
+References: <20221123152134.179929-1-alex.bennee@linaro.org>
+ <20221123102522-mutt-send-email-mst@kernel.org>
+ <87bkoxbqtd.fsf@linaro.org>
+ <20221123110755-mutt-send-email-mst@kernel.org>
+ <877czkbtbs.fsf@linaro.org>
+ <20221124055230-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.9.3; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
+Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
+Date: Thu, 24 Nov 2022 13:11:44 +0000
+In-reply-to: <20221124055230-mutt-send-email-mst@kernel.org>
+Message-ID: <8735a8binm.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: arm: gdb-stub is broken by FEAT_HAFDBS
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Changbin Du
- <changbin.du@huawei.com>
-CC: Richard Henderson <richard.henderson@linaro.org>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, Hui Wang <hw.huiwang@huawei.com>
-References: <20221124033802.meuiphlcskwu3aty@M910t>
- <CAFEAcA_=5k0Q+90AwFtisjxgrj83wd5fVJv319v8ogewuNp=KQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_=5k0Q+90AwFtisjxgrj83wd5fVJv319v8ogewuNp=KQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.110.47.166]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=liyang281@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 24 Nov 2022 09:58:58 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,32 +96,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "liyang (CJ)" <liyang281@huawei.com>
-From:  "liyang (CJ)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-On 2022/11/23 19:59, Peter Maydell wrote:
-> On Wed, 23 Nov 2022 at 11:38, Changbin Du <changbin.du@huawei.com> wrote:
->>
->> Hello, Richard,
->> We just noticed the gdb-stub is broken and probably caused by commit 4a3585568
->> ("target/arm: Plumb debug into S1Translate").
->>
->> (gdb) target remote :1234
->> Remote debugging using :1234
->> 0x000000000e1716d0 in ?? ()
->> => 0x000000000e1716d0:  Cannot access memory at address 0xe1716d0
-> 
-> Hi -- is this fixed by commit 26ba00cf58e9f21b08f (just landed
-> upstream last night) ?
-> 
-I pulled the mainline  which contains your commit 26ba00cf58e9f21b08f.
-The problem is fixed.
+> On Thu, Nov 24, 2022 at 09:21:15AM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>>=20
+>> > On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Benn=C3=A9e wrote:
+>> >>=20
+>> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>> >>=20
+>> >> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Benn=C3=A9e wrote:
+>> >> >> Hi,
+>> >> >>=20
+>> >> >> This hopefully fixes the problems with VirtIO migration caused by =
+the
+>> >> >> previous refactoring of virtio_device_started(). That introduced a
+>> >> >> different order of checking which didn't give the VM state primacy=
+ but
+>> >> >> wasn't noticed as we don't properly exercise VirtIO device migrati=
+on
+>> >> >> and caused issues when dev->started wasn't checked in the core cod=
+e.
+>> >> >> The introduction of virtio_device_should_start() split the overloa=
+ded
+>> >> >> function up but the broken order still remained. The series finally
+>> >> >> fixes that by restoring the original semantics but with the cleane=
+d up
+>> >> >> functions.
+>> >> >>=20
+>> >> >> I've added more documentation to the various structures involved as
+>> >> >> well as the functions. There is still some inconsistencies in the
+>> >> >> VirtIO code between different devices but I think that can be look=
+ed
+>> >> >> at over the 8.0 cycle.
+>> >> >
+>> >> >
+>> >> > Thanks a lot! Did you try this with gitlab CI? A patch similar to y=
+our
+>> >> > 2/2 broke it previously ...
+>> >>=20
+>> >> Looking into it now - so far hasn't broken locally but I guess there =
+is
+>> >> something different about the CI.
+>> >
+>> >
+>> > yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
+>> >
+>> > Or with QEMU_CI set to 1 and then run fedora container and then
+>> > clang-system manually.
+>>=20
+>> I'm having trouble re-creating the failures in CI locally on my boxen. I
+>> have triggered a bug on s390 but that looks like a pre-existing problem
+>> with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
+>> think that is a limitation of the test harness.
+>>=20
+>> Will keep looking.
+>
+> Why not just trigger it on gitlab CI - it's very repeatable there?
 
-Thank you very much.
-> thanks
-> -- PMM
+I've got a fix for gpio and am running it through CI now:
+
+  https://gitlab.com/stsquad/qemu/-/pipelines/704285944
+
+My main concern is I had to do something no other vhost-user device does
+and I'm not sure if thats down to misunderstanding or the other devices
+just getting lucky.
+
+--=20
+Alex Benn=C3=A9e
 
