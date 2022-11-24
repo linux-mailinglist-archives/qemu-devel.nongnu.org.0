@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832BE637844
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 13:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDEA637833
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:57:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyAky-00045O-TN; Thu, 24 Nov 2022 06:51:04 -0500
+	id 1oyAky-00044b-Jv; Thu, 24 Nov 2022 06:51:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkq-0003kq-4j
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:56 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1oyAkn-0003gj-S3
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:53 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkl-0004yP-KO
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:55 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so3765215wmb.2
+ id 1oyAkk-0004rJ-RI
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:53 -0500
+Received: by mail-wr1-x434.google.com with SMTP id cl5so2107481wrb.9
  for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+pngmMhNFNeQ+gXXcDsfqo/V6FiO7zBgzlTDG8C44Z4=;
- b=Cex4TJEi+yfXPgI+YyoSTGHPzvlkW4KQ5iwZdCIdf7+PQRewWEeefhvSxNYd2nz1h6
- R9M2QKi7HYywjLabejqKSylkDjaW2wOLeZY3RXzkhnkTVA8WfuBxdFi/bn4MB16C3s1G
- 7G+CZHEqBcG+Tk/TKUz5I1sEY47dYCMKrfUtAlLQy000n9fJQRJJGVdY2oeJVD3l9HZx
- 7hLokGlo+Kr4dDRHiETpRiR8RaZaVE6v1pgS2yB6BZECqmlGutZv+J4hZS1Oj6maXA+0
- 1H+MB/CWQWfGIoAXdp9M6CpZx2lxZ5gIVzcCYLoQkwil5RYeDsVL55cFqKtnZX2qehXW
- ZV+A==
+ bh=MFE1O9xiQQWnFHGp/WY//FqcZkxp+HYvGoY9ooQPAPM=;
+ b=UFoApCbZLIbcIY+4buWocXk7sDktO+kT7xCKWW5EPBLTiw9MEOFWxSARVXfa9b3T+y
+ X78+zmD+JXHVTJA2Lg6G1RHB5upnsrfX85qgS4yyB41ILAqmsDTR0bJ8RbF5yI4T/9Bb
+ gr+W22QsJBF/6iw2zcgtF+5fx53v9EJ4XUNt88v/ImJ5GMZV41Bk/F5Mi7mHx1sGw7G3
+ WnCWvBoE9sjw6tARR/rvp7lV7J5wSu6E/TFBYnYfiAQ/4t6W+RALRAqUg6BLSxpbUcjb
+ Sa8cTGQ4hCm8KWmxxJneCqMh0gYoP982i4SHB1FQ6IUG2sW/sAMYjy6Vx6GlI6oc8Xi+
+ IS5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+pngmMhNFNeQ+gXXcDsfqo/V6FiO7zBgzlTDG8C44Z4=;
- b=Qa2Zom685IqJzDuPskmaVM0t0nHLp55lnOkVHkr7ESuO+4/Dy1lejVQE22eL404VTe
- hs/vu6AX+19NlNdqYzCXELiIA2OjARnIMfB4oLaggDa7VgTYuTXoLSHmr5jvDV9V981B
- eK+KaoqLzrbx4SVHnoXqQ+k+DNgmDCF+UycKLLnv0+T9XxXghW6UoxiQ+k99hcBx+uFG
- qcE1Kd1zNbnuQPlqdnw2FblRY5nisIwiN38+B+c5tpvvbZVCRiudkET5dhlWmca0DKSn
- dLM4522u97N5dTsvDSNSqmYbDsPbG3Yp3uC/cX8n8lpn5yGwqnFyQR63EL2fbZgZYXuH
- ILiQ==
-X-Gm-Message-State: ANoB5pnwJ/rYuG8kTMhmGcQSFXf0U8Yrw3N+CsSp65qLOV9hsb8Osv5s
- Y7YThnmqcf8o4aronX0E3f+1mm6zWgyjTA==
-X-Google-Smtp-Source: AA0mqf4t3GYAQ6ZlFIuVIBYU595pzm+h+/ghf04WCH5F7K5HGXGZAErCqoqgUXwlbgNy2/BasFVM9g==
-X-Received: by 2002:a05:600c:19d1:b0:3cf:ca1a:332a with SMTP id
- u17-20020a05600c19d100b003cfca1a332amr27246324wmq.118.1669290647083; 
- Thu, 24 Nov 2022 03:50:47 -0800 (PST)
+ bh=MFE1O9xiQQWnFHGp/WY//FqcZkxp+HYvGoY9ooQPAPM=;
+ b=p54tbGY4gIIYnKPJ05wpixre15Odd03KDiLJIrQn9NX0c4fdgtLygSfhkyMEVafK4y
+ zlUpFIJ5A7npC2ab3sPebk3LbK4utpjU4TnvdewxbQlf3Shh8iDyXQXahk/ifJzHV+i9
+ KbJYneL/ThwsLPxITG/VRpuk6qfwC4EdROGOaHSLl9IXcCbxuYXBf0iV8oE5drlGZ5Lr
+ haS/BrhsMUY6IpyinPrggs/VvC+qqLeZ9fEUdzHos+x6Illg8lsBaqUDhKulqYRKlEH4
+ IqsdlUUEEIn28ZjmKa6C4WkQGxZtGJY77w4UOjtSaVs8MCnecqvgePdP/W/AriAhzMUJ
+ J5cQ==
+X-Gm-Message-State: ANoB5pmXuOontZIaCdFC5KNquigeWIz/XdV1zpP16a0SjJHK/zdW+GkR
+ VTCIOrLe4pP1tawPt7zNovPdghEeAFEdtg==
+X-Google-Smtp-Source: AA0mqf6IZXgIAVAK489mgoh3lTXHM021njbA+3C8u9cZLlfMoW3P2+i57eP/9hPwceSTr/Sd7PMmuw==
+X-Received: by 2002:adf:b649:0:b0:241:cefe:239b with SMTP id
+ i9-20020adfb649000000b00241cefe239bmr13801986wre.531.1669290648550; 
+ Thu, 24 Nov 2022 03:50:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.45
+ f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 03:50:46 -0800 (PST)
+ Thu, 24 Nov 2022 03:50:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -81,16 +80,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, qemu-riscv@nongnu.org
-Subject: [PATCH for-8.0 14/19] target/riscv: Convert to 3-phase reset
-Date: Thu, 24 Nov 2022 11:50:17 +0000
-Message-Id: <20221124115023.2437291-15-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 15/19] target/rx: Convert to 3-phase reset
+Date: Thu, 24 Nov 2022 11:50:18 +0000
+Message-Id: <20221124115023.2437291-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221124115023.2437291-1-peter.maydell@linaro.org>
 References: <20221124115023.2437291-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -113,80 +112,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the riscv CPU class to use 3-phase reset, so it doesn't
+Convert the rx CPU class to use 3-phase reset, so it doesn't
 need to use device_class_set_parent_reset() any more.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/riscv/cpu.h |  4 ++--
- target/riscv/cpu.c | 12 ++++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ target/rx/cpu-qom.h |  4 ++--
+ target/rx/cpu.c     | 13 ++++++++-----
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 3a9e25053f8..443d15a47c0 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -395,7 +395,7 @@ OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
- /**
-  * RISCVCPUClass:
+diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
+index 4533759d966..1c8466a1870 100644
+--- a/target/rx/cpu-qom.h
++++ b/target/rx/cpu-qom.h
+@@ -31,7 +31,7 @@ OBJECT_DECLARE_CPU_TYPE(RXCPU, RXCPUClass, RX_CPU)
+ /*
+  * RXCPUClass:
   * @parent_realize: The parent class' realize handler.
 - * @parent_reset: The parent class' reset handler.
 + * @parent_phases: The parent class' reset phase handlers.
   *
-  * A RISCV CPU model.
+  * A RX CPU model.
   */
-@@ -404,7 +404,7 @@ struct RISCVCPUClass {
-     CPUClass parent_class;
+@@ -41,7 +41,7 @@ struct RXCPUClass {
      /*< public >*/
+ 
      DeviceRealize parent_realize;
 -    DeviceReset parent_reset;
 +    ResettablePhases parent_phases;
  };
  
- struct RISCVCPUConfig {
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d14e95c9dc1..6fe176e4833 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -519,18 +519,20 @@ static void riscv_restore_state_to_opc(CPUState *cs,
-     env->bins = data[1];
+ #endif
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index 9003c6e9fed..219ef28e463 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -62,14 +62,16 @@ static bool rx_cpu_has_work(CPUState *cs)
+         (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR);
  }
  
--static void riscv_cpu_reset(DeviceState *dev)
-+static void riscv_cpu_reset_hold(Object *obj)
+-static void rx_cpu_reset(DeviceState *dev)
++static void rx_cpu_reset_hold(Object *obj)
  {
- #ifndef CONFIG_USER_ONLY
-     uint8_t iprio;
-     int i, irq, rdzero;
- #endif
--    CPUState *cs = CPU(dev);
-+    CPUState *cs = CPU(obj);
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(cpu);
-     CPURISCVState *env = &cpu->env;
+-    RXCPU *cpu = RX_CPU(dev);
++    RXCPU *cpu = RX_CPU(obj);
+     RXCPUClass *rcc = RX_CPU_GET_CLASS(cpu);
+     CPURXState *env = &cpu->env;
+     uint32_t *resetvec;
  
--    mcc->parent_reset(dev);
-+    if (mcc->parent_phases.hold) {
-+        mcc->parent_phases.hold(obj);
+-    rcc->parent_reset(dev);
++    if (rcc->parent_phases.hold) {
++        rcc->parent_phases.hold(obj);
 +    }
- #ifndef CONFIG_USER_ONLY
-     env->misa_mxl = env->misa_mxl_max;
-     env->priv = PRV_M;
-@@ -1161,11 +1163,13 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
-     CPUClass *cc = CPU_CLASS(c);
-     DeviceClass *dc = DEVICE_CLASS(c);
-+    ResettableClass *rc = RESETTABLE_CLASS(c);
  
-     device_class_set_parent_realize(dc, riscv_cpu_realize,
-                                     &mcc->parent_realize);
+     memset(env, 0, offsetof(CPURXState, end_reset_fields));
  
--    device_class_set_parent_reset(dc, riscv_cpu_reset, &mcc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, riscv_cpu_reset_hold, NULL,
-+                                       &mcc->parent_phases);
+@@ -215,11 +217,12 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     CPUClass *cc = CPU_CLASS(klass);
+     RXCPUClass *rcc = RX_CPU_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
  
-     cc->class_by_name = riscv_cpu_class_by_name;
-     cc->has_work = riscv_cpu_has_work;
+     device_class_set_parent_realize(dc, rx_cpu_realize,
+                                     &rcc->parent_realize);
+-    device_class_set_parent_reset(dc, rx_cpu_reset,
+-                                  &rcc->parent_reset);
++    resettable_class_set_parent_phases(rc, NULL, rx_cpu_reset_hold, NULL,
++                                       &rcc->parent_phases);
+ 
+     cc->class_by_name = rx_cpu_class_by_name;
+     cc->has_work = rx_cpu_has_work;
 -- 
 2.25.1
 
