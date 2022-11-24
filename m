@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBBA6380BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 22:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763076380B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 22:45:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyJnA-0006UB-Cd; Thu, 24 Nov 2022 16:29:56 -0500
+	id 1oyJnD-0006V8-G1; Thu, 24 Nov 2022 16:29:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oyJn7-0006SX-85
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 16:29:53 -0500
+ id 1oyJn8-0006U6-Pb
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 16:29:54 -0500
 Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oyJn5-00048Z-AE
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 16:29:52 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 118995C006F;
- Thu, 24 Nov 2022 16:29:48 -0500 (EST)
+ id 1oyJn5-00048g-V0
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 16:29:54 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 16F725C0164;
+ Thu, 24 Nov 2022 16:29:49 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 24 Nov 2022 16:29:48 -0500
+ by compute4.internal (MEProxy); Thu, 24 Nov 2022 16:29:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1669325388; x=1669411788; bh=dm
- OpAvA3bhWgYn/lylWwmVdF8CAkxHvKHzSB9q6GZ1E=; b=ygCCSgcrvQKROw98ko
- Dta7tp/Szd5OteapjbboLRe8iBPkJJAkAHsIOXZSpsciEm/f1z6oqqft7DFWRaeY
- h0pd/AqCeV6V69PGr8/FfjyqQ/9fbJ7FCgAXJaG6MMQFP3+117wUWt4kVeYCAsY/
- D9eaGXHUSlD6SIDQGvpXiToCuZwuBSoA7oKcAYfhVMdNy9dGl2Ad+/A7kqqn35RV
- 05UsGPmVX57DEQelKQreKS5MjpZPwWpLFGaXK3FYapoceKdpw79zRPc6zWwtUAzV
- dau9FBYqGz9trfdr4FCjy3yqih+FnnhmLY8A+maxLNb+ETti5guFH9WdX6MvJSpa
- 3Xhw==
+ :subject:subject:to:to; s=fm2; t=1669325389; x=1669411789; bh=NV
+ ASDkIUsv979JZfuz+w6mcItalyx1NpWgIx6+TAYfc=; b=TtXl2rpd4fhE5BBcUg
+ e4VHblpJuD+Np5X4pgLcgsS2gQ4iau3ruCmZjgWDh6/1Zj7BzXKzb7Fm7n2HbR+p
+ Z3AgRklVpjG5j+ggvxqPEYb+CoJ7Lov0X/PS4yTNkJrYmMDB3DyWscCc9JbXYE68
+ GDRCYAn2xdft/7xq+bQXzq1mKwWT+vnjHlMZHsI7rBiwLkoDMk7/3B3m1aTl7oYb
+ GZ8BlWKkMY6AcWHRf8hRuSWC2bNzi8Obxp7Yc1iZMA+WcHkhLlQBpeX6LNbj7PCw
+ bDLtCpUnO4pm9a7ZfS2zlRcgAYLF2XkO97xZ7JsSNoyuWAlS4P4YLkOVotoXNc/M
+ AVLg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1669325388; x=1669411788; bh=dmOpAvA3bhWgY
- n/lylWwmVdF8CAkxHvKHzSB9q6GZ1E=; b=eSW08tL1kMdrcG6nncMPyzjhAWD22
- YqC/PdiVanlCO0H5cufiLxWG3d5qAnjNUIppmv7j7DD+TiNlViS3LYxrcHJJzmjF
- 6ILbJghIFlg5bd7fiHSKX4wtfuL9jBDLvz0DwPXhwQPHaSS5hrxGzZm4jdCkZJEH
- EzHVncsrq8pnIElgpBQel1TCKEW4GSRcHC3ncdkLYNy+PTfwxyyw+5EVA9sE4ObM
- aPFQbLI6F25jl4mcJAgG9FgH8ATxTxbjpzXF+O380HR5cq8E/tdtatkUqEt2uQUF
- wAucSHbiE8T6AQ7jPs4hkVfrTKg05YopN+S90tHk7zxrYAXhYdYgfHLig==
-X-ME-Sender: <xms:S-J_Y1cd8pgsf6TjSHM4YATXZ6ZUcoyTYCdXCRqYU-0xXLGLRHU5IQ>
- <xme:S-J_YzPEnGtsjIPQXkiWVH1jf0YEtqSA-fOmCUNqueQd6pRWcAt3h9zxXC0cFMzPo
- suyxC2m2FU-7svP1NI>
-X-ME-Received: <xmr:S-J_Y-izaborMlheCjU2qgWCGMOBhnWmmNXjm9NqM076P0SJkl9o_-u1LQ>
+ :x-sasl-enc; s=fm1; t=1669325389; x=1669411789; bh=NVASDkIUsv979
+ JZfuz+w6mcItalyx1NpWgIx6+TAYfc=; b=S9rmlklHlH62zs+MBlPhxvNckH0lz
+ y/t8HOY0ggnVra4D5ny1IZeY0a8j4acY1cKwTsXaknoIpuaxDF1BQKIRnD0tmR34
+ 0U5XrPe4VskuLrAs3N9nKlr2VhqyMe7E+cX1noMBPQ8qNYqiLlZ2Zr/TzSmoYhAV
+ jFtfRQd6aBkAA7re1rB7B86lXURWXthroNNEybw0he+nbFklLeRz778bWsQSgqAR
+ fBli4DEZLmPp+MznnKjzIWOqQE10SfBG9PhxBB65sYfsOuFFtzYk5fnriOkZaqS9
+ dfbuSaKoDqElAarH1UrQDNug2rQv57KFB9ao7u9tN8W7N4Ul0m039yaAg==
+X-ME-Sender: <xms:TOJ_YyvliTP0VX6LpofmrY6OMwctWPgPuraQrs33kXPutgJq7Jmnwg>
+ <xme:TOJ_Y3dRNavwtbMRcsl2fhWMNU7PFsdFBcx8SOVRdYSUgvYbiQQx0hKvNCkVXy-8_
+ 1DH2MCtqkjNk7rY784>
+X-ME-Received: <xmr:TOJ_Y9zx-A_b7H5cdpFzbp8huJ6cDyQAMI2fKIGWkPGzTfpc22mr6tvSxg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdduhedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
@@ -58,20 +58,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdduhedtucetufdoteggod
  dvgeekgfdvtdettdelieeihfegtedugeekhfdvhfejfedtnecuvehluhhsthgvrhfuihii
  vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhi
  hgohgrthdrtghomh
-X-ME-Proxy: <xmx:S-J_Y-91Z6UK_ttj1hNbY2UIiE7t4pD43rbQzQGakQx9Ktqk_f9SHg>
- <xmx:S-J_Yxu1mZfiZQcZiuS1e_25EiNEMB2yTwCD07lsedupFAO2WpRY6g>
- <xmx:S-J_Y9H68oSFcNCNXtqoyoIihiMK-rkMz70YMVJLXiEBubULPH2G8Q>
- <xmx:TOJ_YyWwdyxxbh5kmmey4TMLVE3RnB_l7cQh8ooFwiGRBOHGxsYK3w>
+X-ME-Proxy: <xmx:TOJ_Y9MO_nlpYYaLBITicZiFSU9z-RgbovSa4tUnEpOr2naka9vDZg>
+ <xmx:TOJ_Yy-mRROtpTWvu00HKs7Qip9FlbVGqcqnnCf6s0XOXGtXSsfFXg>
+ <xmx:TOJ_Y1WYMD4tP7pAHeO0Q3dIJgVERoL_pX356ua05uJk46X-S_rPVA>
+ <xmx:TeJ_Y4kBy9G-h6R7YJmXBNrwgSxXEdEj4GHhtVsRUYXW6uMhWRVYDg>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Nov 2022 16:29:47 -0500 (EST)
+ 24 Nov 2022 16:29:48 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org,
 	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [RFC PATCH 1/3] hw/intc: Add missing include for goldfish_pic.h
-Date: Thu, 24 Nov 2022 21:29:14 +0000
-Message-Id: <20221124212916.723490-2-jiaxun.yang@flygoat.com>
+Subject: [RFC PATCH 2/3] hw/misc: Add MIPS Trickbox device
+Date: Thu, 24 Nov 2022 21:29:15 +0000
+Message-Id: <20221124212916.723490-3-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221124212916.723490-1-jiaxun.yang@flygoat.com>
 References: <20221124212916.723490-1-jiaxun.yang@flygoat.com>
@@ -101,26 +101,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-hw/sysbus.h is missed in goldfish_pic.h.
+MIPS Trickbox is a emulated device present in MIPS's proprietary
+simulators for decadeds. It's capable for managing simulator status,
+signaling interrupts, doing DMA and EJTAG stimulations.
+
+For now we just borrow this device and implement power management
+related functions.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- include/hw/intc/goldfish_pic.h | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/misc/Kconfig                 |  3 +
+ hw/misc/meson.build             |  1 +
+ hw/misc/mips_trickbox.c         | 97 +++++++++++++++++++++++++++++++++
+ hw/misc/trace-events            |  4 ++
+ include/hw/misc/mips_trickbox.h | 41 ++++++++++++++
+ 5 files changed, 146 insertions(+)
+ create mode 100644 hw/misc/mips_trickbox.c
+ create mode 100644 include/hw/misc/mips_trickbox.h
 
-diff --git a/include/hw/intc/goldfish_pic.h b/include/hw/intc/goldfish_pic.h
-index e9d552f796..3e79580367 100644
---- a/include/hw/intc/goldfish_pic.h
-+++ b/include/hw/intc/goldfish_pic.h
-@@ -10,6 +10,8 @@
- #ifndef HW_INTC_GOLDFISH_PIC_H
- #define HW_INTC_GOLDFISH_PIC_H
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index cbabe9f78c..fa92c439ec 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -89,6 +89,9 @@ config STM32F4XX_EXTI
+ config MIPS_ITU
+     bool
  
-+#include "hw/sysbus.h"
++config MIPS_TRICKBOX
++    bool
 +
- #define TYPE_GOLDFISH_PIC "goldfish_pic"
- OBJECT_DECLARE_SIMPLE_TYPE(GoldfishPICState, GOLDFISH_PIC)
+ config MPS2_FPGAIO
+     bool
+     select LED
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 95268eddc0..116eff8890 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -133,6 +133,7 @@ specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
  
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cpc.c'))
+ specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
++specific_ss.add(when: 'CONFIG_MIPS_TRICKBOX', if_true: files('mips_trickbox.c'))
+ 
+ specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
+ 
+diff --git a/hw/misc/mips_trickbox.c b/hw/misc/mips_trickbox.c
+new file mode 100644
+index 0000000000..20349b774b
+--- /dev/null
++++ b/hw/misc/mips_trickbox.c
+@@ -0,0 +1,97 @@
++/*
++ * SPDX-License-Identifier: LGPL-2.0-or-later
++ *
++ * MIPS Trickbox
++ */
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "qapi/error.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "trace.h"
++#include "sysemu/runstate.h"
++#include "hw/misc/mips_trickbox.h"
++
++static uint64_t mips_trickbox_read(void *opaque, hwaddr addr, unsigned int size)
++{
++    uint64_t value = 0;
++
++    qemu_log_mask(LOG_UNIMP,
++                    "%s: unimplemented register read 0x%02"HWADDR_PRIx"\n",
++                    __func__, addr);
++    trace_mips_trickbox_read(size, value);
++
++    return 0;
++}
++
++static void mips_trickbox_write(void *opaque, hwaddr addr,
++           uint64_t val64, unsigned int size)
++{
++    trace_mips_trickbox_write(size, val64);
++
++    switch (addr) {
++    case REG_SIM_CMD:
++        switch (val64 & 0xffffffff) {
++        case TRICK_PANIC:
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_PANIC);
++            break;
++        case TRICK_HALT:
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++            break;
++        case TRICK_SUSPEND:
++            qemu_system_suspend_request();
++            break;
++        case TRICK_RESET:
++            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++            break;
++        case TRICK_PASS_MIPS:
++        case TRICK_PASS_NANOMIPS:
++            exit(EXIT_SUCCESS);
++            break;
++        case TRICK_FAIL_MIPS:
++        case TRICK_FAIL_NANOMIPS:
++            exit(EXIT_FAILURE);
++            break;
++        }
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: unimplemented register write 0x%02"HWADDR_PRIx"\n",
++                      __func__, addr);
++        break;
++    }
++}
++
++static const MemoryRegionOps mips_trickbox_ops = {
++    .read = mips_trickbox_read,
++    .write = mips_trickbox_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 2,
++        .max_access_size = 4
++    }
++};
++
++static void mips_trickbox_init(Object *obj)
++{
++    MIPSTrickboxState *s = MIPS_TRICKBOX(obj);
++
++    memory_region_init_io(&s->mmio, obj, &mips_trickbox_ops, s,
++                          TYPE_MIPS_TRICKBOX, 0x100);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
++}
++
++static const TypeInfo mips_trickbox_info = {
++    .name          = TYPE_MIPS_TRICKBOX,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MIPSTrickboxState),
++    .instance_init = mips_trickbox_init,
++};
++
++static void mips_trickbox_register_types(void)
++{
++    type_register_static(&mips_trickbox_info);
++}
++
++type_init(mips_trickbox_register_types)
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index c18bc0605e..6df0e42450 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -274,3 +274,7 @@ virt_ctrl_instance_init(void *dev) "ctrl: %p"
+ lasi_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
+ lasi_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
+ lasi_chip_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
++
++# mips_trickbox.c
++mips_trickbox_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
++mips_trickbox_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
+diff --git a/include/hw/misc/mips_trickbox.h b/include/hw/misc/mips_trickbox.h
+new file mode 100644
+index 0000000000..386a767937
+--- /dev/null
++++ b/include/hw/misc/mips_trickbox.h
+@@ -0,0 +1,41 @@
++/*
++ * SPDX-License-Identifier: LGPL-2.0-or-later
++ *
++ * MIPS Trickbox
++ */
++
++
++#ifndef HW_MIPS_TRICKBOX_H
++#define HW_MIPS_TRICKBOX_H
++
++#include "hw/sysbus.h"
++#include "qom/object.h"
++
++#define TYPE_MIPS_TRICKBOX "mips.trickbox"
++
++typedef struct MIPSTrickboxState MIPSTrickboxState;
++DECLARE_INSTANCE_CHECKER(MIPSTrickboxState, MIPS_TRICKBOX,
++                         TYPE_MIPS_TRICKBOX)
++
++struct MIPSTrickboxState {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
++    MemoryRegion mmio;
++};
++
++#define REG_SIM_CMD 0x0
++
++enum {
++    TRICK_PANIC = 1,
++    TRICK_HALT = 2,
++    TRICK_SUSPEND = 3,
++    TRICK_RESET = 4,
++    TRICK_FAIL_MIPS = 0x2c00abc1,
++    TRICK_PASS_MIPS = 0x2c00abc2,
++    TRICK_FAIL_NANOMIPS = 0x80005bc1,
++    TRICK_PASS_NANOMIPS = 0x80005bc2
++};
++
++#endif
 -- 
 2.37.1 (Apple Git-137.1)
 
