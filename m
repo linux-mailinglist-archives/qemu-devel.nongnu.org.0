@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A193637D65
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 16:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FFB637D6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 17:01:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyEX1-0002fj-Vx; Thu, 24 Nov 2022 10:52:56 -0500
+	id 1oyEdA-0002WY-O3; Thu, 24 Nov 2022 10:59:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oyEWz-0002fF-Sh
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 10:52:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
+ id 1oyEd3-0002NO-Ko; Thu, 24 Nov 2022 10:59:09 -0500
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oyEWx-0004I4-62
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 10:52:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669305170;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2skwpC+eVA6yYC2x/mr1Nxhuj4mB+d6nCE7s2zzx13A=;
- b=WMzvzGOEPlN4gmAg/DClRtq4Px86+8vJ9x4WSwupCravOaNeoscsQ0YiNxMuyU5rWpHbLb
- kOJCek+qdDDaj8hBXYkqivrgEoSZIu6W6KmMwlx3on4+seYkcUf1lhQ8KVidek3SC0QR+e
- 8RO32f/8myn2R/O9iSvoYjK0kNHi/lE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-pv3OueikMXSiQWcWzl7bxw-1; Thu, 24 Nov 2022 10:52:47 -0500
-X-MC-Unique: pv3OueikMXSiQWcWzl7bxw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
+ id 1oyEd1-0005IQ-5B; Thu, 24 Nov 2022 10:59:08 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 2FC8541200;
+ Thu, 24 Nov 2022 15:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received:received; s=mta-01; t=1669305540; x=
+ 1671119941; bh=CS0wWQj0+Vf+vurT5Wr5N2IoTjcm3AJudj1/jG0xD9M=; b=l
+ 0eCdNtR9/zs4HvgGhDUcOk6ee2uKsZP4238bRI1I8gbtfcHmyqzm85n183iumk7g
+ s0VFBFPMGUhnQjxwgtDZV2t/sqZuldYvDVIzMwYQ11+Rz6yIQEyKLKUgOxnaN4dD
+ g4r7T1E+2zw2TOIJ0UsyTwO3rDHPW25gwW5tUbhqys=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UfA3XaF4CWbN; Thu, 24 Nov 2022 18:59:00 +0300 (MSK)
+Received: from T-EXCH-01.corp.yadro.com (T-EXCH-01.corp.yadro.com
+ [172.17.10.101])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4C2A800186;
- Thu, 24 Nov 2022 15:52:46 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B136F111E3F8;
- Thu, 24 Nov 2022 15:52:43 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: kvm@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH for 8.0 v8 12/12] vdpa: always start CVQ in SVQ mode if
- possible
-Date: Thu, 24 Nov 2022 16:51:58 +0100
-Message-Id: <20221124155158.2109884-13-eperezma@redhat.com>
-In-Reply-To: <20221124155158.2109884-1-eperezma@redhat.com>
-References: <20221124155158.2109884-1-eperezma@redhat.com>
+ by mta-01.yadro.com (Postfix) with ESMTPS id E9BAE4014D;
+ Thu, 24 Nov 2022 18:58:59 +0300 (MSK)
+Received: from T-EXCH-09.corp.yadro.com (172.17.11.59) by
+ T-EXCH-01.corp.yadro.com (172.17.10.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Thu, 24 Nov 2022 18:58:59 +0300
+Received: from archlinux.yadro.com (10.178.113.54) by T-EXCH-09.corp.yadro.com
+ (172.17.11.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Thu, 24 Nov
+ 2022 18:58:58 +0300
+From: Dmitry Tihov <d.tihov@yadro.com>
+To: <qemu-block@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <kbusch@kernel.org>, <its@irrelevant.dk>,
+ <linux@yadro.com>, <m.malygin@yadro.com>, <a.buev@yadro.com>,
+ <ddtikhov@gmail.com>
+Subject: [RFC 0/5] Protection information pass-through for block devices
+Date: Thu, 24 Nov 2022 18:58:16 +0300
+Message-ID: <20221124155821.1501969-1-d.tihov@yadro.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain
+X-Originating-IP: [10.178.113.54]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-09.corp.yadro.com (172.17.11.59)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=d.tihov@yadro.com;
+ helo=mta-01.yadro.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,205 +83,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Isolate control virtqueue in its own group, allowing to intercept control
-commands but letting dataplane run totally passthrough to the guest.
+This patch set allows using End-to-End Data Protection in NVMe subsystem
+with integrity capable host devices as the NVMe namespaces backend.
+The patch series is based on io-uring kernel interface feature not merged
+to kernel upstream yet:
+https://lore.kernel.org/linux-block/20220920144618.1111138-1-a.buev@yadro.com/
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
-v8:
-* Do not allocate iova_tree on net_init_vhost_vdpa if only CVQ is
-  shadowed. Move the iova_tree handling in this case to
-  vhost_vdpa_net_cvq_start and vhost_vdpa_net_cvq_stop.
+The main advantage of this approach is that it allows using the
+same protection information enabled disks in multiple VMs
+concurrently. This may be useful in cluster setups.
 
-v7:
-* Never ask for number of address spaces, just react if isolation is not
-  possible.
-* Return ASID ioctl errors instead of masking them as if the device has
-  no asid.
-* Simplify net_init_vhost_vdpa logic
-* Add "if possible" suffix
+Please let me know what do you think, are this kind of changes appropriate
+for QEMU upstream, what should be changed, etc.
 
-v6:
-* Disable control SVQ if the device does not support it because of
-features.
+Dmitry Tihov (5):
+  docs/nvme: add new feature summary
+  block: add transfer of protection information
+  hw/nvme: add protection information pass parameter
+  hw/nvme: implement pi pass read/write/wrz commands
+  hw/nvme: extend pi pass capable commands
 
-v5:
-* Fixing the not adding cvq buffers when x-svq=on is specified.
-* Move vring state in vhost_vdpa_get_vring_group instead of using a
-  parameter.
-* Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID
+ block/file-posix.c           | 130 ++++++++++++-
+ block/io_uring.c             | 109 ++++++++++-
+ docs/system/devices/nvme.rst |  15 ++
+ hw/nvme/ctrl.c               | 361 ++++++++++++++++++++++++++++++++---
+ hw/nvme/dif.c                | 303 +++++++++++++++++++++++++++++
+ hw/nvme/dif.h                |  18 ++
+ hw/nvme/ns.c                 |  59 +++++-
+ hw/nvme/nvme.h               |   2 +
+ hw/nvme/trace-events         |   6 +
+ include/block/block-common.h |   2 +
+ include/block/raw-aio.h      |   3 +-
+ include/qemu/iov.h           |   6 +
+ util/iov.c                   |  24 +++
+ 13 files changed, 992 insertions(+), 46 deletions(-)
 
-v4:
-* Squash vhost_vdpa_cvq_group_is_independent.
-* Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
-* Do not check for cvq index on vhost_vdpa_net_prepare, we only have one
-  that callback registered in that NetClientInfo.
-
-v3:
-* Make asid related queries print a warning instead of returning an
-  error and stop the start of qemu.
----
- hw/virtio/vhost-vdpa.c |   3 +-
- net/vhost-vdpa.c       | 106 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 107 insertions(+), 2 deletions(-)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 8e54c5c0fc..45bb72d359 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -652,7 +652,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
- {
-     uint64_t features;
-     uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
--        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
-     int r;
- 
-     if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index a1f1e29b7c..bce57fa724 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -102,6 +102,8 @@ static const uint64_t vdpa_svq_device_features =
-     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-     BIT_ULL(VIRTIO_NET_F_STANDBY);
- 
-+#define VHOST_VDPA_NET_CVQ_ASID 1
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -259,6 +261,40 @@ static VhostIOVATree *vhost_vdpa_svq_allocate_iova_tree(int vdpa_device_fd)
-     return vhost_iova_tree_new(iova_range.first, iova_range.last);
- }
- 
-+static int64_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
-+{
-+    struct vhost_vring_state state = {
-+        .index = vq_index,
-+    };
-+    int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
-+
-+    if (unlikely(r < 0)) {
-+        error_report("Cannot get VQ %u group: %s", vq_index,
-+                     g_strerror(errno));
-+        return r;
-+    }
-+
-+    return state.num;
-+}
-+
-+static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
-+                                           unsigned vq_group,
-+                                           unsigned asid_num)
-+{
-+    struct vhost_vring_state asid = {
-+        .index = vq_group,
-+        .num = asid_num,
-+    };
-+    int r;
-+
-+    r = ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-+    if (unlikely(r < 0)) {
-+        error_report("Can't set vq group %u asid %u, errno=%d (%s)",
-+                     asid.index, asid.num, errno, g_strerror(errno));
-+    }
-+    return r;
-+}
-+
- static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
- {
-     VhostIOVATree *tree = v->iova_tree;
-@@ -333,11 +369,71 @@ dma_map_err:
- static int vhost_vdpa_net_cvq_start(NetClientState *nc)
- {
-     VhostVDPAState *s;
--    int r;
-+    struct vhost_vdpa *v;
-+    uint64_t backend_features;
-+    int64_t cvq_group;
-+    int cvq_index, r;
- 
-     assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
- 
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    v = &s->vhost_vdpa;
-+
-+    v->shadow_data = s->always_svq;
-+    v->shadow_vqs_enabled = s->always_svq;
-+    s->vhost_vdpa.address_space_id = VHOST_VDPA_GUEST_PA_ASID;
-+
-+    if (s->always_svq) {
-+        /* SVQ is already configured for all virtqueues */
-+        goto out;
-+    }
-+
-+    /* Backend features are not available in v->dev yet. */
-+    r = ioctl(v->device_fd, VHOST_GET_BACKEND_FEATURES, &backend_features);
-+    if (unlikely(r < 0)) {
-+        error_report("Cannot get vdpa backend_features: %s(%d)",
-+            g_strerror(errno), errno);
-+        return -1;
-+    }
-+    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
-+        !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
-+        return 0;
-+    }
-+
-+    /**
-+     * Check if all the virtqueues of the virtio device are in a different vq
-+     * than the last vq. VQ group of last group passed in cvq_group.
-+     */
-+    cvq_index = v->dev->vq_index_end - 1;
-+    cvq_group = vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
-+    if (unlikely(cvq_group < 0)) {
-+        return cvq_group;
-+    }
-+    for (int i = 0; i < cvq_index; ++i) {
-+        int64_t group = vhost_vdpa_get_vring_group(v->device_fd, i);
-+
-+        if (unlikely(group < 0)) {
-+            return group;
-+        }
-+
-+        if (unlikely(group == cvq_group)) {
-+            warn_report(
-+                "CVQ %"PRId64" group is the same as VQ %d one (%"PRId64")",
-+                cvq_group, i, group);
-+            return 0;
-+        }
-+    }
-+
-+    r = vhost_vdpa_set_address_space_id(v, cvq_group, VHOST_VDPA_NET_CVQ_ASID);
-+    if (unlikely(r < 0)) {
-+        return r;
-+    }
-+
-+    v->iova_tree = vhost_vdpa_svq_allocate_iova_tree(v->device_fd);
-+    v->shadow_vqs_enabled = true;
-+    s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
-+
-+out:
-     if (!s->vhost_vdpa.shadow_vqs_enabled) {
-         return 0;
-     }
-@@ -366,6 +462,14 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
-     if (s->vhost_vdpa.shadow_vqs_enabled) {
-         vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
-         vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
-+        if (!s->always_svq) {
-+            /*
-+             * If only the CVQ is shadowed we can delete this safely.
-+             * If all the VQs are shadows this will be needed by the time the
-+             * device is started again to register SVQ vrings and similar.
-+             */
-+            g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-+        }
-     }
- }
- 
 -- 
-2.31.1
+2.38.1
 
 
