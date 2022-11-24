@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19F6637816
+	by mail.lfdr.de (Postfix) with ESMTPS id C650C637815
 	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:53:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyAl2-00049B-JM; Thu, 24 Nov 2022 06:51:08 -0500
+	id 1oyAl8-0004HV-B4; Thu, 24 Nov 2022 06:51:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkt-0003sQ-3i
+ id 1oyAkt-0003tY-GI
  for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:59 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkm-00050T-QK
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:58 -0500
-Received: by mail-wr1-x431.google.com with SMTP id n7so2094314wrr.13
+ id 1oyAkn-0004pj-Fc
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:59 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ t25-20020a1c7719000000b003cfa34ea516so4364069wmi.1
  for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZpPOhWgTJeRtGlJ/Bb9mJkWWu83x48fPXZ9qUrHHGz0=;
- b=RBQx5v8NdoZVOHTk82/TeT0jLfN8OFur+hGOOdDp70zHx09Vu9fTBYXEo6BblxdzQp
- X6nxWJ0CYHaAIy0KTq8U5BV226hVzPVgAXLbqqPGqM3h2PxCp6eMmgdRCHm9jt/JHgXB
- exIFC+goYjYzJTs6MvAjq2/U0TuT9uYDx72PaF+PyVMusn4XcnkdCGD9DZsgZVn804PC
- 8jkrJKKFzBHMelvclFxnLPJAGkBd1Kk0kM6MC9/Ib8bRKP4x29tAVxcnPnp7BSUEUqLy
- BYRqGyC7q0WPWJOVe0rC3qJUbOOqYoQnCeHXxrdVSk7eME1nnfjISaaqy/RVR4uWEXZq
- Q61g==
+ bh=DGCmc5zG7qiC9O+a1Tf+YC4O8NghpHhNCp4cgIMeJEM=;
+ b=wAw5HxTRUcw0IdM23IH/clxdS6CtzahTsyWOEaUM+5oL5JVQ2eCbmTeZXfxUMUuTSu
+ R3ijriwlBCg4SjzN474ER5ZCYVYS3+ozndMgAwF1aNGYunYox3GR5s13gLyCkIPp9ev5
+ YNyYaOxu3iC7Psh+LFmJOccl5HNoE1E7JxKrWRR9+qiPRytxOoiqKw/+oW2fLdAp5X5N
+ 0jNQFoXaCHOxXdcwPkmmJyNIjCmAyQkty1KiDnTeDhHjrc4bSH2TAo6kgja3gk9niJit
+ caHLQhgndfFzQzVNus/pLXiZPBupbzKneeUpqH3lknGbnF7SlVLYaqHjnxbTQc1dsYy+
+ BRPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZpPOhWgTJeRtGlJ/Bb9mJkWWu83x48fPXZ9qUrHHGz0=;
- b=ethUxYMBP5Xx72fKSJdNnvmFs4q0AIbYAXq73fO0BDrace2ujl6RwX5+HjgF1+PWJ8
- QbC536O1C5RyBhDMtMYznSbIa0B7gRStawHNw9vUV7SF/A9Igu+aVBYL5VsCOSRTNFqq
- EUHKYZqEXTE/LlqbfjVIrYxpto/WtLhk3CRwZd9of6Hvsmbmx6rEa8rlXASIera/jcpZ
- 5dSM5wMLppO9xnQrIa9ZhTnyoQ9zBc60/w2SiMEqrSmpvZsI3B17i2B/QP/FU2bsmymL
- 1W9rlKy76QXXmc/3m3l8aWEydukDqACxVivL4xFGKZASErRQrJg7jKuuXGgJstdIzI6W
- Tlxw==
-X-Gm-Message-State: ANoB5pnfFzjHAEORoPfBHNCbTKp2fRW6fE0ALpKPORQSRt6Z/Rnu83Kq
- /2Q+Hal+57a6zZ+13xU4AnLTmiFldwplUA==
-X-Google-Smtp-Source: AA0mqf6XRo+GAoVTDQtA0kJgkPOysOHUUpgDac0yrZz2SESn5hIgZPdLOqq/OPY/xtboiujMF0deXw==
-X-Received: by 2002:a05:6000:78d:b0:22e:3d63:80bc with SMTP id
- bu13-20020a056000078d00b0022e3d6380bcmr20933017wrb.30.1669290651334; 
- Thu, 24 Nov 2022 03:50:51 -0800 (PST)
+ bh=DGCmc5zG7qiC9O+a1Tf+YC4O8NghpHhNCp4cgIMeJEM=;
+ b=g62Ud61tiOZ2IggLMzSlIX+F3J4LmCRJG/OZ1ZsJeX1mCKycsrz/JBMG8bqAQ27dh4
+ XtcSm4CAlXBrGmcDEq+0MpMZZZgeToRB1NokBGWolwjfdwVqzX5Hs0fEzAKbm9vnlY0e
+ cBFsEUGe5CCBH0Casm8HYYJ133+D0N1GPSPvBivWZo8BumK6aNC1EzlTIkSG7LWRyRdH
+ b1hJMTc8fTRI+F88H/DUrtpt86lv0pMcWsB3LHsYbDiiJHZFuE2E2iwaStC4Ewa+kfNf
+ 3j9FrSxfbtHOV4MliVCQ0UbNLagoQVP02U7jdU5vY6UCT/QJrazOHx0eZ/wyJ1kf5hcl
+ 7ncA==
+X-Gm-Message-State: ANoB5pmUud6DmQLhpFRT/doRIoXCaKUvTM16hx1oHvHrtdWF9UxRHomw
+ mXqdVVpVh64PLBJ1XGGmVVMbi/eODMh1PA==
+X-Google-Smtp-Source: AA0mqf6YZB+B8KcDYlk1OLbMLma9JttmSr8Qco+popAtYfslC+YYEWBmIASYfOgzvbDEeiqljRhL8A==
+X-Received: by 2002:a05:600c:1d93:b0:3cf:d0ba:e5ff with SMTP id
+ p19-20020a05600c1d9300b003cfd0bae5ffmr23047297wms.36.1669290652711; 
+ Thu, 24 Nov 2022 03:50:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.50
+ f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 03:50:50 -0800 (PST)
+ Thu, 24 Nov 2022 03:50:52 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -80,16 +81,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, qemu-riscv@nongnu.org
-Subject: [PATCH for-8.0 17/19] target/sparc: Convert to 3-phase reset
-Date: Thu, 24 Nov 2022 11:50:20 +0000
-Message-Id: <20221124115023.2437291-18-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 18/19] target/tricore: Convert to 3-phase reset
+Date: Thu, 24 Nov 2022 11:50:21 +0000
+Message-Id: <20221124115023.2437291-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221124115023.2437291-1-peter.maydell@linaro.org>
 References: <20221124115023.2437291-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -112,77 +113,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the sparc CPU class to use 3-phase reset, so it doesn't
+Convert the tricore CPU class to use 3-phase reset, so it doesn't
 need to use device_class_set_parent_reset() any more.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/sparc/cpu-qom.h |  4 ++--
- target/sparc/cpu.c     | 12 ++++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ target/tricore/cpu-qom.h |  2 +-
+ target/tricore/cpu.c     | 12 ++++++++----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/target/sparc/cpu-qom.h b/target/sparc/cpu-qom.h
-index 86ed37d9333..78bf00b9a23 100644
---- a/target/sparc/cpu-qom.h
-+++ b/target/sparc/cpu-qom.h
-@@ -35,7 +35,7 @@ typedef struct sparc_def_t sparc_def_t;
- /**
-  * SPARCCPUClass:
-  * @parent_realize: The parent class' realize handler.
-- * @parent_reset: The parent class' reset handler.
-+ * @parent_phases: The parent class' reset phase handlers.
-  *
-  * A SPARC CPU model.
-  */
-@@ -45,7 +45,7 @@ struct SPARCCPUClass {
+diff --git a/target/tricore/cpu-qom.h b/target/tricore/cpu-qom.h
+index ee24e9fa76a..612731daa09 100644
+--- a/target/tricore/cpu-qom.h
++++ b/target/tricore/cpu-qom.h
+@@ -32,7 +32,7 @@ struct TriCoreCPUClass {
      /*< public >*/
  
      DeviceRealize parent_realize;
 -    DeviceReset parent_reset;
 +    ResettablePhases parent_phases;
-     sparc_def_t *cpu_def;
  };
  
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 4c3d08a8751..1734ef8dc6b 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -28,14 +28,16 @@
  
- //#define DEBUG_FEATURES
+diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+index 2c54a2825f8..594cd1efd5e 100644
+--- a/target/tricore/cpu.c
++++ b/target/tricore/cpu.c
+@@ -68,14 +68,16 @@ static void tricore_restore_state_to_opc(CPUState *cs,
+     env->PC = data[0];
+ }
  
--static void sparc_cpu_reset(DeviceState *dev)
-+static void sparc_cpu_reset_hold(Object *obj)
+-static void tricore_cpu_reset(DeviceState *dev)
++static void tricore_cpu_reset_hold(Object *obj)
  {
 -    CPUState *s = CPU(dev);
 +    CPUState *s = CPU(obj);
-     SPARCCPU *cpu = SPARC_CPU(s);
-     SPARCCPUClass *scc = SPARC_CPU_GET_CLASS(cpu);
-     CPUSPARCState *env = &cpu->env;
+     TriCoreCPU *cpu = TRICORE_CPU(s);
+     TriCoreCPUClass *tcc = TRICORE_CPU_GET_CLASS(cpu);
+     CPUTriCoreState *env = &cpu->env;
  
--    scc->parent_reset(dev);
-+    if (scc->parent_phases.hold) {
-+        scc->parent_phases.hold(obj);
+-    tcc->parent_reset(dev);
++    if (tcc->parent_phases.hold) {
++        tcc->parent_phases.hold(obj);
 +    }
  
-     memset(env, 0, offsetof(CPUSPARCState, end_reset_fields));
-     env->cwp = 0;
-@@ -889,12 +891,14 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     SPARCCPUClass *scc = SPARC_CPU_CLASS(oc);
-     CPUClass *cc = CPU_CLASS(oc);
-     DeviceClass *dc = DEVICE_CLASS(oc);
-+    ResettableClass *rc = RESETTABLE_CLASS(oc);
+     cpu_state_reset(env);
+ }
+@@ -180,11 +182,13 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
+     TriCoreCPUClass *mcc = TRICORE_CPU_CLASS(c);
+     CPUClass *cc = CPU_CLASS(c);
+     DeviceClass *dc = DEVICE_CLASS(c);
++    ResettableClass *rc = RESETTABLE_CLASS(c);
  
-     device_class_set_parent_realize(dc, sparc_cpu_realizefn,
-                                     &scc->parent_realize);
-     device_class_set_props(dc, sparc_cpu_properties);
+     device_class_set_parent_realize(dc, tricore_cpu_realizefn,
+                                     &mcc->parent_realize);
  
--    device_class_set_parent_reset(dc, sparc_cpu_reset, &scc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, sparc_cpu_reset_hold, NULL,
-+                                       &scc->parent_phases);
+-    device_class_set_parent_reset(dc, tricore_cpu_reset, &mcc->parent_reset);
++    resettable_class_set_parent_phases(rc, NULL, tricore_cpu_reset_hold, NULL,
++                                       &mcc->parent_phases);
+     cc->class_by_name = tricore_cpu_class_by_name;
+     cc->has_work = tricore_cpu_has_work;
  
-     cc->class_by_name = sparc_cpu_class_by_name;
-     cc->parse_features = sparc_cpu_parse_features;
 -- 
 2.25.1
 
