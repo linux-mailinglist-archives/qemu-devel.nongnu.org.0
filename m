@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF201637D6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 17:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55C9637D69
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 16:59:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyEdK-0002hg-KC; Thu, 24 Nov 2022 10:59:26 -0500
+	id 1oyEdJ-0002f5-Ly; Thu, 24 Nov 2022 10:59:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1oyEd5-0002No-Ib; Thu, 24 Nov 2022 10:59:13 -0500
+ id 1oyEd5-0002Ns-Qq; Thu, 24 Nov 2022 10:59:13 -0500
 Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1oyEd1-0005Ij-PR; Thu, 24 Nov 2022 10:59:10 -0500
+ id 1oyEd3-0005Ip-Le; Thu, 24 Nov 2022 10:59:11 -0500
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 65B4C41207;
- Thu, 24 Nov 2022 15:59:04 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 35D4140311;
+ Thu, 24 Nov 2022 15:59:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received:received; s=
- mta-01; t=1669305542; x=1671119943; bh=g2VWrqkDJiHejX+GoKzn/q2HX
- BXxif6DTEvFXZGExpA=; b=e7qx4vvVK/20YU9E9kIQTa45w06AlQIifKLgnWuE2
- MuyZmSf/utLSPLSns9IAl9rEvvERZW3JYjBzkCjdJ6eAQcc/sLySnoPUWnpCHgZA
- pVh68QUFhoSOGUpu35328Tw1k3DFbJuCsPhGU2jQG/QPVqpVfe5DMsagM1b6B96S
- nM=
+ mta-01; t=1669305542; x=1671119943; bh=TyDsjRjeQub7YIZdTGQR9xxCB
+ bJwRxPEqnZOuMpHouQ=; b=JP5GyAyP/aqpRpQMTudINdRjfsfDVLX0fseNp/gBh
+ XGekNELD4Q0BS1qCGQCMyUAK15tZjsywOnA5qZJVyycXmulzsULht3QQcRbAFJnb
+ WlOgzw6YX61ZsqZ6qouZG2k/hWBrhYusYoFX5gTIhzeIH1xQ0APcv6USLKEIuyxy
+ ZE=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZoD-xndSWQ20; Thu, 24 Nov 2022 18:59:02 +0300 (MSK)
-Received: from T-EXCH-01.corp.yadro.com (T-EXCH-01.corp.yadro.com
- [172.17.10.101])
+ with ESMTP id xSVwTlhnNwLv; Thu, 24 Nov 2022 18:59:02 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (T-EXCH-02.corp.yadro.com
+ [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 2BAC440311;
+ by mta-01.yadro.com (Postfix) with ESMTPS id E51DE4014D;
  Thu, 24 Nov 2022 18:59:02 +0300 (MSK)
 Received: from T-EXCH-09.corp.yadro.com (172.17.11.59) by
- T-EXCH-01.corp.yadro.com (172.17.10.101) with Microsoft SMTP Server
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Thu, 24 Nov 2022 18:59:01 +0300
+ 15.1.669.32; Thu, 24 Nov 2022 18:59:02 +0300
 Received: from archlinux.yadro.com (10.178.113.54) by T-EXCH-09.corp.yadro.com
  (172.17.11.59) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Thu, 24 Nov
- 2022 18:59:00 +0300
+ 2022 18:59:01 +0300
 From: Dmitry Tihov <d.tihov@yadro.com>
 To: <qemu-block@nongnu.org>
 CC: <qemu-devel@nongnu.org>, <kbusch@kernel.org>, <its@irrelevant.dk>,
  <linux@yadro.com>, <m.malygin@yadro.com>, <a.buev@yadro.com>,
  <ddtikhov@gmail.com>
-Subject: [RFC 2/5] block: add transfer of protection information
-Date: Thu, 24 Nov 2022 18:58:18 +0300
-Message-ID: <20221124155821.1501969-3-d.tihov@yadro.com>
+Subject: [RFC 3/5] hw/nvme: add protection information pass parameter
+Date: Thu, 24 Nov 2022 18:58:19 +0300
+Message-ID: <20221124155821.1501969-4-d.tihov@yadro.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221124155821.1501969-1-d.tihov@yadro.com>
 References: <20221124155821.1501969-1-d.tihov@yadro.com>
@@ -86,474 +86,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Under linux hosts, T10 protection information can be passed directly
-from userspace to integrity capable block devices using io_uring API.
-Discover integrity capable block devices and support submitting IO with
-integrity payload to such block devices if it is present in request.
+Allow namespace to enable pass-through of protection information
+between guest and integrity capable BlockBackend.
 
 Signed-off-by: Dmitry Tihov <d.tihov@yadro.com>
 ---
- block/file-posix.c           | 130 +++++++++++++++++++++++++++++++++--
- block/io_uring.c             | 109 +++++++++++++++++++++++++++--
- include/block/block-common.h |   2 +
- include/block/raw-aio.h      |   3 +-
- include/qemu/iov.h           |   6 ++
- util/iov.c                   |  24 +++++++
- 6 files changed, 262 insertions(+), 12 deletions(-)
+ hw/nvme/ns.c   | 59 +++++++++++++++++++++++++++++++++++++++++++++-----
+ hw/nvme/nvme.h |  2 ++
+ 2 files changed, 55 insertions(+), 6 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b9647c5ffc..1eec7dd3cb 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -152,6 +152,10 @@ typedef struct BDRVRawState {
-     int perm_change_flags;
-     BDRVReopenState *reopen_state;
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 62a1f97be0..da0cff71f8 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -35,7 +35,11 @@ void nvme_ns_init_format(NvmeNamespace *ns)
+     ns->lbaf = id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
+     ns->lbasz = 1 << ns->lbaf.ds;
  
-+    /* DIF T10 Protection Information */
-+    uint8_t t10_type;
-+    uint64_t protection_interval_bytes;
-+
-     bool has_discard:1;
-     bool has_write_zeroes:1;
-     bool use_linux_aio:1;
-@@ -2094,8 +2098,9 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
- #ifdef CONFIG_LINUX_IO_URING
-     } else if (s->use_linux_io_uring) {
-         LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
-+        bool is_pi = (s->t10_type && qiov->dif.iov_len);
-         assert(qiov->size == bytes);
--        return luring_co_submit(bs, aio, s->fd, offset, qiov, type);
-+        return luring_co_submit(bs, aio, s->fd, offset, qiov, type, is_pi);
- #endif
- #ifdef CONFIG_LINUX_AIO
-     } else if (s->use_linux_aio) {
-@@ -2190,7 +2195,7 @@ static int coroutine_fn raw_co_flush_to_disk(BlockDriverState *bs)
- #ifdef CONFIG_LINUX_IO_URING
-     if (s->use_linux_io_uring) {
-         LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
--        return luring_co_submit(bs, aio, s->fd, 0, NULL, QEMU_AIO_FLUSH);
-+        return luring_co_submit(bs, aio, s->fd, 0, NULL, QEMU_AIO_FLUSH, false);
-     }
- #endif
-     return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
-@@ -3516,6 +3521,110 @@ static bool hdev_is_sg(BlockDriverState *bs)
-     return false;
- }
- 
-+#if defined(CONFIG_LINUX_IO_URING)
-+
-+static int fill_pi_info(BlockDriverState *bs, Error **errp)
-+{
-+    BDRVRawState *s = bs->opaque;
-+    int ret = 0, bytes;
-+    uint64_t is_integrity_capable;
-+    g_autofree char *sysfs_int_cap = NULL;
-+    g_autofree char *sysfs_fmt = NULL;
-+    g_autofree char *sysfs_bytes = NULL;
-+    const char *str_int_cap;
-+    const char *str_bytes;
-+    int fd_fmt = -1, fd_bytes = -1, fd_int_cap = -1;
-+    char buf[24] = {0};
-+    g_autofree char *dev_name = g_path_get_basename(bs->filename);
-+
-+    str_int_cap = "/sys/class/block/%s/integrity/device_is_integrity_capable";
-+    sysfs_int_cap = g_strdup_printf(str_int_cap, dev_name);
-+    sysfs_fmt = g_strdup_printf("/sys/class/block/%s/integrity/format",
-+                                dev_name);
-+    str_bytes = "/sys/class/block/%s/integrity/protection_interval_bytes";
-+    sysfs_bytes = g_strdup_printf(str_bytes, dev_name);
-+
-+    if (!(bs->open_flags & BDRV_O_NOCACHE)) {
-+        goto out;
-+    }
-+
-+    fd_int_cap = open(sysfs_int_cap, O_RDONLY);
-+    if (fd_int_cap == -1) {
-+        error_setg_errno(errp, errno, "Can not open %s integrity capability"
-+                         " sysfs entry", dev_name);
-+        ret = -errno;
-+        goto out;
-+    }
-+    bytes = read(fd_int_cap, buf, sizeof(buf));
-+    if (bytes < 0) {
-+        error_setg_errno(errp, errno, "Can not read %s integrity capability"
-+                         " sysfs entry", dev_name);
-+        ret = -errno;
-+        goto out;
-+    }
-+    is_integrity_capable = g_ascii_strtoull(buf, NULL, 10);
-+    if (!is_integrity_capable) {
-+        goto out;
-+    }
-+    memset(buf, 0, sizeof(buf));
-+
-+    fd_fmt = open(sysfs_fmt, O_RDONLY);
-+    if (fd_fmt == -1) {
-+        error_setg_errno(errp, errno, "Can not open %s integrity format"
-+                         " sysfs entry", dev_name);
-+        ret = -errno;
-+        goto out;
-+    }
-+    bytes = read(fd_fmt, buf, sizeof(buf));
-+    if (bytes < 0) {
-+        error_setg_errno(errp, errno, "Can not read %s integrity format"
-+                         " sysfs entry", dev_name);
-+        ret = -errno;
-+        goto out;
-+    }
-+    if (bytes > 0 && buf[bytes - 1] == '\n') {
-+        buf[bytes - 1] = 0;
-+    }
-+    if (strcmp(buf, "T10-DIF-TYPE1-CRC") == 0) {
-+        s->t10_type = 1;
-+    } else if (strcmp(buf, "T10-DIF-TYPE3-CRC") == 0) {
-+        s->t10_type = 3;
+-    nlbas = ns->size / (ns->lbasz + ns->lbaf.ms);
++    if (ns->pip) {
++        nlbas = ns->size / (ns->lbasz);
 +    } else {
-+        s->t10_type = 0;
++        nlbas = ns->size / (ns->lbasz + ns->lbaf.ms);
 +    }
-+    memset(buf, 0, sizeof(buf));
-+
-+    fd_bytes = open(sysfs_bytes, O_RDONLY);
-+    if (fd_bytes == -1) {
-+        error_setg_errno(errp, errno, "Can not open %s protection interval"
-+                         " bytes sysfs entry", dev_name);
-+        ret = -errno;
-+        goto out;
-+    }
-+    if (read(fd_bytes, buf, sizeof(buf)) < 0) {
-+        error_setg_errno(errp, errno, "Can not read %s protection interval"
-+                   " bytes sysfs entry", dev_name);
-+        ret = -errno;
-+        goto out;
-+    }
-+    s->protection_interval_bytes = g_ascii_strtoull(buf, NULL, 10);
-+
-+out:
-+    if (fd_fmt != -1) {
-+        close(fd_fmt);
-+    }
-+    if (fd_bytes != -1) {
-+        close(fd_bytes);
-+    }
-+    if (fd_int_cap != -1) {
-+        close(fd_int_cap);
-+    }
-+
-+    return ret;
-+}
-+
-+#endif
-+
- static int hdev_open(BlockDriverState *bs, QDict *options, int flags,
-                      Error **errp)
- {
-@@ -3601,6 +3710,11 @@ hdev_open_Mac_error:
-     /* Since this does ioctl the device must be already opened */
-     bs->sg = hdev_is_sg(bs);
  
-+#if defined(CONFIG_LINUX_IO_URING)
-+    if (s->use_linux_io_uring) {
-+        ret = fill_pi_info(bs, errp);
+     id_ns->nsze = cpu_to_le64(nlbas);
+ 
+@@ -60,17 +64,22 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+     static uint64_t ns_count;
+     NvmeIdNs *id_ns = &ns->id_ns;
+     NvmeIdNsNvm *id_ns_nvm = &ns->id_ns_nvm;
++    BlockDriverInfo bdi;
+     uint8_t ds;
+     uint16_t ms;
+-    int i;
++    int i, ret;
++
++    ns->pip = ns->params.pip;
+ 
+     ns->csi = NVME_CSI_NVM;
+     ns->status = 0x0;
+ 
+     ns->id_ns.dlfeat = 0x1;
+ 
+-    /* support DULBE and I/O optimization fields */
+-    id_ns->nsfeat |= (0x4 | 0x10);
++    if (!ns->pip) {
++        /* support DULBE and I/O optimization fields */
++        id_ns->nsfeat |= (0x4 | 0x10);
 +    }
-+#endif
-     return ret;
- }
  
-@@ -3668,6 +3782,14 @@ static coroutine_fn int hdev_co_pwrite_zeroes(BlockDriverState *bs,
-     return raw_do_pwrite_zeroes(bs, offset, bytes, flags, true);
- }
+     if (ns->params.shared) {
+         id_ns->nmic |= NVME_NMIC_NS_SHARED;
+@@ -89,7 +98,11 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+     id_ns->eui64 = cpu_to_be64(ns->params.eui64);
  
-+static int hdev_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-+{
-+    BDRVRawState *s = bs->opaque;
-+    bdi->protection_interval = s->protection_interval_bytes;
-+    bdi->protection_type = s->t10_type;
-+    return 0;
-+}
-+
- static BlockDriver bdrv_host_device = {
-     .format_name        = "host_device",
-     .protocol_name        = "host_device",
-@@ -3698,8 +3820,8 @@ static BlockDriver bdrv_host_device = {
-     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+     ds = 31 - clz32(ns->blkconf.logical_block_size);
+-    ms = ns->params.ms;
++    if (ns->pip) {
++        ms = 8;
++    } else {
++        ms = ns->params.ms;
++    }
  
-     .bdrv_co_truncate       = raw_co_truncate,
--    .bdrv_getlength	= raw_getlength,
--    .bdrv_get_info = raw_get_info,
-+    .bdrv_getlength         = raw_getlength,
-+    .bdrv_get_info          = hdev_get_info,
-     .bdrv_get_allocated_file_size
-                         = raw_get_allocated_file_size,
-     .bdrv_get_specific_stats = hdev_get_specific_stats,
-diff --git a/block/io_uring.c b/block/io_uring.c
-index 973e15d876..ba9fec1145 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -21,6 +21,84 @@
- /* io_uring ring size */
- #define MAX_ENTRIES 128
+     id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
  
-+#define IORING_OP_READV_PI  (48)
-+#define IORING_OP_WRITEV_PI (49)
-+
-+#pragma pack(push, 1)
-+
-+struct __io_uring_sqe {
-+    __u8    opcode;     /* type of operation for this sqe */
-+    __u8    flags;      /* IOSQE_ flags */
-+    __u16   ioprio;     /* ioprio for the request */
-+    __s32   fd;     /* file descriptor to do IO on */
-+    union {
-+        __u64   off;    /* offset into file */
-+        __u64   addr2;
-+    };
-+    union {
-+        __u64   addr;   /* pointer to buffer or iovecs */
-+        __u64   splice_off_in;
-+    };
-+    __u32   len;        /* buffer size or number of iovecs */
-+    union {
-+        __kernel_rwf_t  rw_flags;
-+        __u32       fsync_flags;
-+        __u16       poll_events;    /* compatibility */
-+        __u32       poll32_events;  /* word-reversed for BE */
-+        __u32       sync_range_flags;
-+        __u32       msg_flags;
-+        __u32       timeout_flags;
-+        __u32       accept_flags;
-+        __u32       cancel_flags;
-+        __u32       open_flags;
-+        __u32       statx_flags;
-+        __u32       fadvise_advice;
-+        __u32       splice_flags;
-+        __u32       rename_flags;
-+        __u32       unlink_flags;
-+        __u32       hardlink_flags;
-+    };
-+    __u64   user_data;  /* data to be passed back at completion time */
-+    /* pack this to avoid bogus arm OABI complaints */
-+    union {
-+        /* index into fixed buffers, if used */
-+        __u16   buf_index;
-+        /* for grouped buffer selection */
-+        __u16   buf_group;
-+    } __attribute__((packed));
-+    /* personality to use, if used */
-+    __u16   personality;
-+    union {
-+        __s32   splice_fd_in;
-+        __u32   file_index;
-+    };
-+    __u64   pi_addr;
-+    __u32 pi_len;
-+    __u32   __pad2[1];
-+};
-+
-+#pragma pack(pop)
-+
-+static inline void __io_uring_prep_writev_pi(uint8_t op,
-+    struct io_uring_sqe *sqe, int fd, const struct iovec *iovecs,
-+    unsigned nr_vecs, const struct iovec *pi_iovec, unsigned nr_pi_vecs,
-+    off_t offset)
-+{
-+    io_uring_prep_rw(op, sqe, fd, iovecs, nr_vecs, offset);
-+    ((struct __io_uring_sqe *)sqe)->pi_addr = (__u64)pi_iovec;
-+    ((struct __io_uring_sqe *)sqe)->pi_len = nr_pi_vecs;
-+}
-+
-+static inline void __io_uring_prep_readv_pi(uint8_t op,
-+    struct io_uring_sqe *sqe, int fd, const struct iovec *iovecs,
-+    unsigned nr_vecs, const struct iovec *pi_iovec, unsigned nr_pi_vecs,
-+    off_t offset)
-+{
-+    io_uring_prep_rw(op, sqe, fd, iovecs, nr_vecs, offset);
-+    ((struct __io_uring_sqe *)sqe)->pi_addr = (__u64)pi_iovec;
-+    ((struct __io_uring_sqe *)sqe)->pi_len = nr_pi_vecs;
-+}
-+
- typedef struct LuringAIOCB {
-     Coroutine *co;
-     struct io_uring_sqe sqeq;
-@@ -330,24 +408,39 @@ void luring_io_unplug(BlockDriverState *bs, LuringState *s)
-  * @s: AIO state
-  * @offset: offset for request
-  * @type: type of request
-+ * @is_pi: is protection information attached
-  *
-  * Fetches sqes from ring, adds to pending queue and preps them
-  *
-  */
- static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
--                            uint64_t offset, int type)
-+                            uint64_t offset, int type, bool is_pi)
- {
-     int ret;
-     struct io_uring_sqe *sqes = &luringcb->sqeq;
+@@ -105,6 +118,14 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
  
-     switch (type) {
-     case QEMU_AIO_WRITE:
--        io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
--                             luringcb->qiov->niov, offset);
-+        if (is_pi) {
-+            __io_uring_prep_writev_pi(IORING_OP_WRITEV_PI, sqes, fd,
-+                                      luringcb->qiov->iov,
-+                                      luringcb->qiov->niov,
-+                                      &luringcb->qiov->dif, 1, offset);
-+        } else {
-+            io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
-+                                 luringcb->qiov->niov, offset);
+     ns->pif = ns->params.pif;
+ 
++    if (ns->pip) {
++        ret = bdrv_get_info(blk_bs(ns->blkconf.blk), &bdi);
++        if (ret >= 0) {
++            id_ns->dps = bdi.protection_type;
++            ns->pif = NVME_PI_GUARD_16;
 +        }
-         break;
-     case QEMU_AIO_READ:
--        io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
--                            luringcb->qiov->niov, offset);
-+        if (is_pi) {
-+            __io_uring_prep_readv_pi(IORING_OP_READV_PI, sqes, fd,
-+                                     luringcb->qiov->iov,
-+                                     luringcb->qiov->niov,
-+                                     &luringcb->qiov->dif, 1, offset);
-+        } else {
-+            io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
-+                                luringcb->qiov->niov, offset);
++    }
++
+     static const NvmeLBAF lbaf[16] = {
+         [0] = { .ds =  9           },
+         [1] = { .ds =  9, .ms =  8 },
+@@ -380,13 +401,38 @@ static void nvme_zoned_ns_shutdown(NvmeNamespace *ns)
+ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
+ {
+     unsigned int pi_size;
++    BlockDriverInfo bdi;
++    int ret;
+ 
+     if (!ns->blkconf.blk) {
+         error_setg(errp, "block backend not configured");
+         return -1;
+     }
+ 
+-    if (ns->params.pi) {
++    if (ns->params.pip) {
++        if (ns->params.mset) {
++            error_setg(errp, "invalid mset parameter, metadata must be "
++                "stored in a separate buffer to use integrity passthrough");
++            return -1;
 +        }
-         break;
-     case QEMU_AIO_FLUSH:
-         io_uring_prep_fsync(sqes, fd, IORING_FSYNC_DATASYNC);
-@@ -374,7 +467,8 @@ static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
- }
++        ret = bdrv_get_info(blk_bs(ns->blkconf.blk), &bdi);
++        if (ret < 0) {
++            error_setg(errp, "could not determine host block device"
++                       " integrity information");
++            return -1;
++        }
++        if (!bdi.protection_type) {
++            error_setg(errp, "nvme-ns backend block device does not"
++                       " support integrity passthrough");
++            return -1;
++        }
++        if (bdi.protection_interval != ns->blkconf.logical_block_size) {
++            error_setg(errp, "logical block size parameter (%u bytes) must be"
++                " equal to protection information interval (%u bytes)",
++                ns->blkconf.logical_block_size, bdi.protection_interval);
++            return -1;
++        }
++    } else if (ns->params.pi) {
+         if (ns->params.pi > NVME_ID_NS_DPS_TYPE_3) {
+             error_setg(errp, "invalid 'pi' value");
+             return -1;
+@@ -623,6 +669,7 @@ static Property nvme_ns_props[] = {
+     DEFINE_PROP_UINT8("pi", NvmeNamespace, params.pi, 0),
+     DEFINE_PROP_UINT8("pil", NvmeNamespace, params.pil, 0),
+     DEFINE_PROP_UINT8("pif", NvmeNamespace, params.pif, 0),
++    DEFINE_PROP_BOOL("pip", NvmeNamespace, params.pip, false),
+     DEFINE_PROP_UINT16("mssrl", NvmeNamespace, params.mssrl, 128),
+     DEFINE_PROP_UINT32("mcl", NvmeNamespace, params.mcl, 128),
+     DEFINE_PROP_UINT8("msrc", NvmeNamespace, params.msrc, 127),
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 79f5c281c2..4876670d26 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -109,6 +109,7 @@ typedef struct NvmeNamespaceParams {
+     uint8_t  pi;
+     uint8_t  pil;
+     uint8_t  pif;
++    bool     pip;
  
- int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
--                                  uint64_t offset, QEMUIOVector *qiov, int type)
-+                                  uint64_t offset, QEMUIOVector *qiov, int type,
-+                                  bool is_pi)
- {
-     int ret;
-     LuringAIOCB luringcb = {
-@@ -383,9 +477,10 @@ int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
-         .qiov       = qiov,
-         .is_read    = (type == QEMU_AIO_READ),
-     };
-+
-     trace_luring_co_submit(bs, s, &luringcb, fd, offset, qiov ? qiov->size : 0,
-                            type);
--    ret = luring_do_submit(fd, &luringcb, s, offset, type);
-+    ret = luring_do_submit(fd, &luringcb, s, offset, type, is_pi);
+     uint16_t mssrl;
+     uint32_t mcl;
+@@ -143,6 +144,7 @@ typedef struct NvmeNamespace {
+     uint16_t     status;
+     int          attached;
+     uint8_t      pif;
++    bool         pip;
  
-     if (ret < 0) {
-         return ret;
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 297704c1e9..1f283dbef8 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -59,6 +59,8 @@ typedef struct BlockDriverInfo {
-      * True if this block driver only supports compressed writes
-      */
-     bool needs_compressed_writes;
-+    uint8_t protection_type;
-+    uint32_t protection_interval;
- } BlockDriverInfo;
- 
- typedef struct BlockFragInfo {
-diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
-index 21fc10c4c9..3f715b4bcc 100644
---- a/include/block/raw-aio.h
-+++ b/include/block/raw-aio.h
-@@ -65,7 +65,8 @@ typedef struct LuringState LuringState;
- LuringState *luring_init(Error **errp);
- void luring_cleanup(LuringState *s);
- int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
--                                uint64_t offset, QEMUIOVector *qiov, int type);
-+                                uint64_t offset, QEMUIOVector *qiov, int type,
-+                                bool is_pi);
- void luring_detach_aio_context(LuringState *s, AioContext *old_context);
- void luring_attach_aio_context(LuringState *s, AioContext *new_context);
- void luring_io_plug(BlockDriverState *bs, LuringState *s);
-diff --git a/include/qemu/iov.h b/include/qemu/iov.h
-index 9330746680..58ae2d1f51 100644
---- a/include/qemu/iov.h
-+++ b/include/qemu/iov.h
-@@ -181,6 +181,9 @@ typedef struct QEMUIOVector {
-             size_t size;
-         };
-     };
-+
-+    /* T10 data integrity field */
-+    struct iovec dif;
- } QEMUIOVector;
- 
- QEMU_BUILD_BUG_ON(offsetof(QEMUIOVector, size) !=
-@@ -229,6 +232,9 @@ int qemu_iovec_init_extended(
-         void *tail_buf, size_t tail_len);
- void qemu_iovec_init_slice(QEMUIOVector *qiov, QEMUIOVector *source,
-                            size_t offset, size_t len);
-+void qemu_iovec_init_pi(QEMUIOVector *qiov, int alloc_hint,
-+                        unsigned int lba_cnt);
-+void qemu_iovec_destroy_pi(QEMUIOVector *qiov);
- int qemu_iovec_subvec_niov(QEMUIOVector *qiov, size_t offset, size_t len);
- void qemu_iovec_add(QEMUIOVector *qiov, void *base, size_t len);
- void qemu_iovec_concat(QEMUIOVector *dst,
-diff --git a/util/iov.c b/util/iov.c
-index b4be580022..f0e51d5e66 100644
---- a/util/iov.c
-+++ b/util/iov.c
-@@ -20,6 +20,7 @@
- #include "qemu/iov.h"
- #include "qemu/sockets.h"
- #include "qemu/cutils.h"
-+#include "qemu/memalign.h"
- 
- size_t iov_from_buf_full(const struct iovec *iov, unsigned int iov_cnt,
-                          size_t offset, const void *buf, size_t bytes)
-@@ -278,6 +279,8 @@ void qemu_iovec_init(QEMUIOVector *qiov, int alloc_hint)
-     qiov->niov = 0;
-     qiov->nalloc = alloc_hint;
-     qiov->size = 0;
-+    qiov->dif.iov_base = NULL;
-+    qiov->dif.iov_len = 0;
- }
- 
- void qemu_iovec_init_external(QEMUIOVector *qiov, struct iovec *iov, int niov)
-@@ -292,6 +295,19 @@ void qemu_iovec_init_external(QEMUIOVector *qiov, struct iovec *iov, int niov)
-         qiov->size += iov[i].iov_len;
- }
- 
-+void qemu_iovec_init_pi(QEMUIOVector *qiov, int alloc_hint,
-+                        unsigned int lba_cnt)
-+{
-+    void *alignd_mem = NULL;
-+    qemu_iovec_init(qiov, alloc_hint);
-+
-+    /* dif size is always 8 bytes */
-+    qiov->dif.iov_len = lba_cnt << 3;
-+
-+    alignd_mem = qemu_memalign(qemu_real_host_page_size(), qiov->dif.iov_len);
-+    qiov->dif.iov_base = memset(alignd_mem, 0, qiov->dif.iov_len);
-+}
-+
- void qemu_iovec_add(QEMUIOVector *qiov, void *base, size_t len)
- {
-     assert(qiov->nalloc != -1);
-@@ -530,12 +546,20 @@ void qemu_iovec_destroy(QEMUIOVector *qiov)
-     memset(qiov, 0, sizeof(*qiov));
- }
- 
-+void qemu_iovec_destroy_pi(QEMUIOVector *qiov)
-+{
-+    g_free(qiov->dif.iov_base);
-+
-+    qemu_iovec_destroy(qiov);
-+}
-+
- void qemu_iovec_reset(QEMUIOVector *qiov)
- {
-     assert(qiov->nalloc != -1);
- 
-     qiov->niov = 0;
-     qiov->size = 0;
-+    qiov->dif.iov_len = 0;
- }
- 
- size_t qemu_iovec_to_buf(QEMUIOVector *qiov, size_t offset,
+     struct {
+         uint16_t zrwas;
 -- 
 2.38.1
 
