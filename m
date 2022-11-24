@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0716372D7
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDA06372D6
 	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 08:26:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oy6bU-0007Oc-RS; Thu, 24 Nov 2022 02:25:00 -0500
+	id 1oy6bU-0007Od-T3; Thu, 24 Nov 2022 02:25:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oy6bQ-0007O8-Bq
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 02:24:56 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oy6bR-0007OA-Jd
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 02:24:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oy6bO-00007U-04
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 02:24:55 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oy6bQ-00007q-4w
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 02:24:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669274693;
+ s=mimecast20190719; t=1669274695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=74Vg1S6HmTpKUaid+2bq3Ht6ntJwjmKZ1ju4t+WVUPk=;
- b=Hbr1b1wLS8rVW9tIeAEW4q2iEIIiLbNLv5eFPm0ztu18uY+Jc8GWcMZejUCKUmorGCD8zZ
- iPZYhIH757AFqkx4pEm7AY8G4TUf4eQJkhkZtfUxdTtdDsHcGTYKSObhmOzEMDFZ7IRtCX
- eJI80WQa/gyhb4OpUisnjn6o92Tk7oc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ClgLGlNFppL+f9GqoLlnC9ozfhCP4kc7vlhVVHewrAQ=;
+ b=W1SQ0YGss8/worNJfEY6UhmAwNfT87nwnYyf3ghdvpiT4T35sbzX+ip5wKgs9BnfX+HY+/
+ 9YSHBIc/vF6n6fin/5/u4C+bac5B4i56le+FeG5daoCJHYHJwenqjcjvm4Xif7LLyn7ihW
+ gqpl1moAaFwgzu56/6SMEpqnhfKHcrw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-EherqCAbOYCaxa2z3LAzkA-1; Thu, 24 Nov 2022 02:24:51 -0500
-X-MC-Unique: EherqCAbOYCaxa2z3LAzkA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-282-FW-O_Fu8NDap29J0GjJehQ-1; Thu, 24 Nov 2022 02:24:51 -0500
+X-MC-Unique: FW-O_Fu8NDap29J0GjJehQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FD6885A588;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 656CC8039A1;
  Thu, 24 Nov 2022 07:24:51 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21AE21415114;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2783640C2066;
  Thu, 24 Nov 2022 07:24:51 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3F8041800606; Thu, 24 Nov 2022 08:16:02 +0100 (CET)
+ id 4A9B1180061A; Thu, 24 Nov 2022 08:16:02 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 0/4] Fixes 20221124 patches
-Date: Thu, 24 Nov 2022 08:15:58 +0100
-Message-Id: <20221124071602.1109150-1-kraxel@redhat.com>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Joelle van Dyne <j@getutm.app>,
+ =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
+Subject: [PULL 1/4] Revert "usbredir: avoid queuing hello packet on snapshot
+ restore"
+Date: Thu, 24 Nov 2022 08:15:59 +0100
+Message-Id: <20221124071602.1109150-2-kraxel@redhat.com>
+In-Reply-To: <20221124071602.1109150-1-kraxel@redhat.com>
+References: <20221124071602.1109150-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,47 +85,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 7c09a7f6ae1770d15535980d15dffdb23f4d9786:
+From: Joelle van Dyne <j@getutm.app>
 
-  Update VERSION for v7.2.0-rc2 (2022-11-22 18:59:56 -0500)
+Run state is also in RUN_STATE_PRELAUNCH while "-S" is used.
 
-are available in the Git repository at:
+This reverts commit 0631d4b448454ae8a1ab091c447e3f71ab6e088a
 
-  https://gitlab.com/kraxel/qemu.git tags/fixes-20221124-pull-request
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+Reviewed-by: Ján Tomko <jtomko@redhat.com>
 
-for you to fetch changes up to 64f1359bd08060ffe7a5689fdcbaeec6d8a59980:
+The original commit broke the usage of usbredir with libvirt, which
+starts every domain with "-S".
 
-  ui/gtk: prevent ui lock up when dpy_gl_update called again before current draw event occurs (2022-11-23 12:27:55 +0100)
+This workaround is no longer needed because the usbredir behavior
+has been fixed in the meantime:
+https://gitlab.freedesktop.org/spice/usbredir/-/merge_requests/61
 
-----------------------------------------------------------------
-usb+ui: fixes for 7.2
+Signed-off-by: Ján Tomko <jtomko@redhat.com>
+Message-Id: <1689cec3eadcea87255e390cb236033aca72e168.1669193161.git.jtomko@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/redirect.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-----------------------------------------------------------------
-
-Claudio Fontana (1):
-  gtk: disable GTK Clipboard with a new meson option
-
-Dongwon Kim (1):
-  ui/gtk: prevent ui lock up when dpy_gl_update called again before
-    current draw event occurs
-
-Joelle van Dyne (1):
-  Revert "usbredir: avoid queuing hello packet on snapshot restore"
-
-Michael Tokarev (1):
-  hw/usb/hcd-xhci.c: spelling: tranfer
-
- meson_options.txt             | 7 +++++++
- hw/usb/hcd-xhci.c             | 2 +-
- hw/usb/redirect.c             | 3 +--
- ui/gtk-egl.c                  | 2 +-
- ui/gtk-gl-area.c              | 2 +-
- ui/gtk.c                      | 2 ++
- meson.build                   | 5 +++++
- scripts/meson-buildoptions.sh | 3 +++
- ui/meson.build                | 5 ++++-
- 9 files changed, 25 insertions(+), 6 deletions(-)
-
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 1bd30efc3ef0..fd7df599bc0b 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -1280,8 +1280,7 @@ static void usbredir_create_parser(USBRedirDevice *dev)
+     }
+ #endif
+ 
+-    if (runstate_check(RUN_STATE_INMIGRATE) ||
+-        runstate_check(RUN_STATE_PRELAUNCH)) {
++    if (runstate_check(RUN_STATE_INMIGRATE)) {
+         flags |= usbredirparser_fl_no_hello;
+     }
+     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
 -- 
 2.38.1
 
