@@ -2,93 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D776377FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3786377FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:51:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyAjM-0002sT-QO; Thu, 24 Nov 2022 06:49:24 -0500
+	id 1oyAke-0003PX-2h; Thu, 24 Nov 2022 06:50:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oyAjK-0002s9-8o
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:49:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oyAjI-0004KX-El
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:49:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669290559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iwlFmTfacguqIBtTkPyOW9ZmhPxAifdLxrsr2LRF83g=;
- b=ceiC0/VK4v9MMworu+4kSFsVaSujBxAVXw/chHigFleLkfsMvfVbqBXceIYyULg8tKlFwO
- PFiCGwvxorOLXhZFdB+5GCzR2H89hKM7OJmbNACdvXaqdoSrj4y+PYHhC9BPNsbuRFjXar
- OweYUIFONH6h+8xecn6BKiJV72W9X6w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-435-3aWhhhF3MlWLnB3PaSVMEw-1; Thu, 24 Nov 2022 06:49:17 -0500
-X-MC-Unique: 3aWhhhF3MlWLnB3PaSVMEw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- i24-20020adfa518000000b00241e2f40d8bso343553wrb.14
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:49:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oyAkR-0003Np-AH
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:31 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oyAkO-0004op-4a
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:31 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ l39-20020a05600c1d2700b003cf93c8156dso1059724wms.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uuMgKH+3fxzrMAWB3ctjGbRmQ7Bt4fbv5IUickRCrxw=;
+ b=BB++zy2w2VqVmaabat7qSgdOI39bEbIx2kWIePXP9cbOvAK78MkkVm37XABBRDF6vj
+ OlnCYQSEZdLO+0VuQC7+xUROY7KKpgFOGeOGVNmtK6UxwIBZq3IhG5gXuyWbf5SgU5Gd
+ XILAJCgVg/gvSYIsFIJLdv14B09nFXPwggKzNrIKydYwgKGzH1smiC9RkU7a4U9g+dVX
+ 49NPsBI8YnCzPks1UZYValv86KPn3BpIJyjNaDFktuJUOt095g9T3jBXW/0u7hHp1QiG
+ jeqS1depmZ2B4vqCVUhDn/yhH7wvU1v55tpESvXyMeg22hFtDK6z/d273H4rJp27MFbo
+ KAzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iwlFmTfacguqIBtTkPyOW9ZmhPxAifdLxrsr2LRF83g=;
- b=oy1H870bVy8gF/oDzlD1FOxvwYRAfEdLq8Q6BkK18VURtHz8O9jbFEEl6Im1ORnqbf
- td6Dx6WyylFT1RNgI2JTpEHP5lGlf5EdF6bHshcerMMuJsMyD/qgzntctrNEDAvsEfxu
- fQ1EoOb9ogv2L3MrR+0Fo2Tqh7mJTf4hBeP6wS4o5Nj0CFXPYqA1dQiQaHYyxcvkM1yv
- rpjI5tI1lye79osX84pjco0dpOmb53jByF9JfEaVC4lstwd6/fdSdhxRcIQk7J/XPG5p
- om08hXO60uurMnIjoWA9xQ4AnsMK/zHko8RBZSWu+5eZZeNdJfxAa1Kd6BDmn/6v2jwL
- uKQQ==
-X-Gm-Message-State: ANoB5pmx05uerHTZ3V5Jn+EVmIvAllJx0rLmY1JBuUyUwAuALgQY9csz
- DX4Ws8hc4YuoRIDaE3JfcM9xxPBWX75MqhN7lEBxhexsA4c0jGDloBG2trlTMnSZp59a91my8aL
- wdokPgec10pDtO7c=
-X-Received: by 2002:a05:600c:688:b0:3cf:a18d:39a4 with SMTP id
- a8-20020a05600c068800b003cfa18d39a4mr22726828wmn.125.1669290556613; 
- Thu, 24 Nov 2022 03:49:16 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4ddh4uzpCM1zO71gyVQNURY/L/vGzN9DQW6G47vxsYq1LZzV8u2tnlbVjeiUm1XI6Jy5YW/g==
-X-Received: by 2002:a05:600c:688:b0:3cf:a18d:39a4 with SMTP id
- a8-20020a05600c068800b003cfa18d39a4mr22726805wmn.125.1669290556325; 
- Thu, 24 Nov 2022 03:49:16 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-177-190.web.vodafone.de.
- [109.43.177.190]) by smtp.gmail.com with ESMTPSA id
- m66-20020a1c2645000000b003cf9bf5208esm5282015wmm.19.2022.11.24.03.49.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Nov 2022 03:49:15 -0800 (PST)
-Message-ID: <70b3b160-83fe-22f3-bdb8-243d50f1b2ff@redhat.com>
-Date: Thu, 24 Nov 2022 12:49:14 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uuMgKH+3fxzrMAWB3ctjGbRmQ7Bt4fbv5IUickRCrxw=;
+ b=uNJb+Tak8bfqUor3xyTNYHts05okC7J6DfMv78bpJjUpaXaZabpCRNWO2A8aWLw9ki
+ OS7EYXwRPJbepS3nD9wRCJM9rY5iIqrQiVp8cNq1YCXb1U+YItSIKbV2n3voEw7cPk1C
+ fFbhKVHlQzYwHWcFDK8VvSZD6p85tj6Y79rhPeUI1Rt9Z4IluLXJy1+kiy1iN4RqMpiG
+ 2fzrACslsMzEMwFohmkrBJ0eHH5+HICPmVqiaNA1YRPdF2KiAe0dnw3NSSaHQ2vOW6xp
+ bSU3WJ687rCyjh1TWdMWOpohlwicMeDFd6AjUNrs96nQ34JjI5feg2+Qwgew/r6nZK1S
+ 6N6w==
+X-Gm-Message-State: ANoB5plqxPc24SEHPvhXz7UAlyalAsBAP/UlkTfz6rw3nWuTQbF7wPkV
+ ImBqgPIaltRNr91umrkV0HBXeqcHbUeXwg==
+X-Google-Smtp-Source: AA0mqf53mW7KIw+TvwqPtV751NhcTPCKzg2AFJ7rrnusUE35k6ONGPXSVcwPd39PHp/aTQcv9KznTg==
+X-Received: by 2002:a05:600c:35c8:b0:3cf:cf89:2f02 with SMTP id
+ r8-20020a05600c35c800b003cfcf892f02mr12691218wmq.2.1669290626201; 
+ Thu, 24 Nov 2022 03:50:26 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Nov 2022 03:50:25 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, Song Gao <gaosong@loongson.cn>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ Stafford Horne <shorne@gmail.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, qemu-riscv@nongnu.org
+Subject: [PATCH for-8.0 00/19] Convert most CPU classes to 3-phase reset
+Date: Thu, 24 Nov 2022 11:50:03 +0000
+Message-Id: <20221124115023.2437291-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v6 11/11] tests/qtest: Enable qtest build on Windows
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20221028045736.679903-1-bin.meng@windriver.com>
- <20221028045736.679903-12-bin.meng@windriver.com>
- <CAJ+F1CJnW-95ZpfBBKFX=O_XsFOZ+quTU4dYmK8Cr8B-Ww_Hqw@mail.gmail.com>
- <3e3178f9-73a7-031a-6cd0-4a315989b567@redhat.com>
- <CAJ+F1CLvBgX1_t9QhZ6wnJbdE071CFdsuWtWHxSOTDqCsMRxEg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAJ+F1CLvBgX1_t9QhZ6wnJbdE071CFdsuWtWHxSOTDqCsMRxEg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,68 +110,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/11/2022 12.17, Marc-André Lureau wrote:
-> Hi Thomas
-> 
-> On Wed, Nov 23, 2022 at 6:19 PM Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 23/11/2022 15.13, Marc-André Lureau wrote:
->>> Hi Bin
->>>
->>> On Fri, Oct 28, 2022 at 9:06 AM Bin Meng <bin.meng@windriver.com> wrote:
->>>>
->>>> Now that we have fixed various test case issues as seen when running
->>>> on Windows, let's enable the qtest build on Windows.
->>>>
->>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>
->>> We haven't solved the CI timing out or eating all the CPU time, right?
->>>
->>> Can we simply exclude it from CI for now, ie add to this patch
->>>
->>> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
->>> index 093276ddbc..ba9045ec38 100644
->>> --- a/.gitlab-ci.d/windows.yml
->>> +++ b/.gitlab-ci.d/windows.yml
->>> @@ -62,7 +62,7 @@ msys2-64bit:
->>>      - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
->>>          --enable-capstone'
->>>      - .\msys64\usr\bin\bash -lc 'make'
->>> -  - .\msys64\usr\bin\bash -lc 'make check || { cat
->>> build/meson-logs/testlog.txt; exit 1; } ;'
->>> +  - .\msys64\usr\bin\bash -lc 'make check MTESTARGS="--no-suite
->>> qtest" || { cat build/meson-logs/testlog.txt; exit 1; } ;'
->>>
->>>    msys2-32bit:
->>>      extends: .shared_msys2_builder
->>> @@ -96,4 +96,4 @@ msys2-32bit:
->>>      - cd output
->>>      - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
->>>      - ..\msys64\usr\bin\bash -lc 'make'
->>> -  - ..\msys64\usr\bin\bash -lc 'make check || { cat
->>> meson-logs/testlog.txt; exit 1; } ;'
->>> +  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS="--no-suite
->>> qtest" || { cat meson-logs/testlog.txt; exit 1; } ;'
->>
->> I think it's only the 64-bit job that is really problematic, so we could
->> still run the qtests in the 32-bit job?
->>
->> Alternatively, what about switching the 64-bit to another target that does
->> not have so many qtests enabled? Some mips-softmmu or riscv-softmmu maybe?
->> ... we still check x86_64-softmmu in the .cirrus.yml builds, so this is
->> hopefully not such a big loss...
->>
-> 
-> The change I propose above is to simply skip the qtests on msys CI
-> builds. They are not running today on !POSIX.
+This patchset converts the TYPE_CPU base class and most subclasses
+to use 3-phase reset. (The exception is s390, which is doing
+something a bit odd with its reset, so the conversion there isn't
+going to be simple like these others. So I'll do that one
+separately.)
 
-Sure ... question is what would be more valuable in the gitlab-CI ... only 
-compile-testing x86_64-softmmu on msys2 (since that also compile-tests the 
-HAX and WHPX stuff), but without qtests, or also run a (limited) set of 
-qtests with another smaller softmmu target?
-I don't mind either way, I just wanted to suggest an alternative to consider.
+The rationale here is that we should be able to get rid of
+all the remaining uses of device_class_set_parent_reset()
+and remove/simplify some of the transitional code that's
+currently bridging between "legacy" reset and 3-phase reset.
 
-  Thomas
+NB: even with this series, it's not possible to usefully do
+anything requiring 3-phase reset of a CPU yet, because all
+CPU objects get ad-hoc reset by some code somewhere doing
+a cpu_reset() call on them, which will just do all 3 phases
+in order. I would like to try to address that eventually,
+but it's not trivial.
+
+thanks
+-- PMM
+
+Peter Maydell (19):
+  hw/core/cpu-common: Convert TYPE_CPU class to 3-phase reset
+  target/arm: Convert to 3-phase reset
+  target/avr: Convert to 3-phase reset
+  target/cris: Convert to 3-phase reset
+  target/hexagon: Convert to 3-phase reset
+  target/i386: Convert to 3-phase reset
+  target/loongarch: Convert to 3-phase reset
+  target/m68k: Convert to 3-phase reset
+  target/microblaze: Convert to 3-phase reset
+  target/mips: Convert to 3-phase reset
+  target/nios2: Convert to 3-phase reset
+  target/openrisc: Convert to 3-phase reset
+  target/ppc: Convert to 3-phase reset
+  target/riscv: Convert to 3-phase reset
+  target/rx: Convert to 3-phase reset
+  target/sh4: Convert to 3-phase reset
+  target/sparc: Convert to 3-phase reset
+  target/tricore: Convert to 3-phase reset
+  target/xtensa: Convert to 3-phase reset
+
+ target/arm/cpu-qom.h        |  4 ++--
+ target/avr/cpu-qom.h        |  4 ++--
+ target/cris/cpu-qom.h       |  4 ++--
+ target/hexagon/cpu.h        |  2 +-
+ target/i386/cpu-qom.h       |  4 ++--
+ target/loongarch/cpu.h      |  4 ++--
+ target/m68k/cpu-qom.h       |  4 ++--
+ target/microblaze/cpu-qom.h |  4 ++--
+ target/mips/cpu-qom.h       |  4 ++--
+ target/nios2/cpu.h          |  4 ++--
+ target/openrisc/cpu.h       |  4 ++--
+ target/ppc/cpu-qom.h        |  4 ++--
+ target/riscv/cpu.h          |  4 ++--
+ target/rx/cpu-qom.h         |  4 ++--
+ target/sh4/cpu-qom.h        |  4 ++--
+ target/sparc/cpu-qom.h      |  4 ++--
+ target/tricore/cpu-qom.h    |  2 +-
+ target/xtensa/cpu-qom.h     |  4 ++--
+ hw/core/cpu-common.c        |  7 ++++---
+ target/arm/cpu.c            | 13 +++++++++----
+ target/avr/cpu.c            | 13 +++++++++----
+ target/cris/cpu.c           | 12 ++++++++----
+ target/hexagon/cpu.c        | 12 ++++++++----
+ target/i386/cpu.c           | 12 ++++++++----
+ target/loongarch/cpu.c      | 12 ++++++++----
+ target/m68k/cpu.c           | 12 ++++++++----
+ target/microblaze/cpu.c     | 12 ++++++++----
+ target/mips/cpu.c           | 12 ++++++++----
+ target/nios2/cpu.c          | 12 ++++++++----
+ target/openrisc/cpu.c       | 12 ++++++++----
+ target/ppc/cpu_init.c       | 12 ++++++++----
+ target/riscv/cpu.c          | 12 ++++++++----
+ target/rx/cpu.c             | 13 ++++++++-----
+ target/sh4/cpu.c            | 12 ++++++++----
+ target/sparc/cpu.c          | 12 ++++++++----
+ target/tricore/cpu.c        | 12 ++++++++----
+ target/xtensa/cpu.c         | 12 ++++++++----
+ 37 files changed, 184 insertions(+), 110 deletions(-)
+
+-- 
+2.25.1
 
 
