@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6711663750E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 10:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711AA637511
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 10:24:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oy8RC-0001ek-5z; Thu, 24 Nov 2022 04:22:30 -0500
+	id 1oy8Sr-0002xm-2d; Thu, 24 Nov 2022 04:24:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oy8R9-0001aw-76
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:22:27 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oy8R1-0001At-CJ
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:22:26 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id v1so1526935wrt.11
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 01:22:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pwbjAja91/aXN2y6kKDQ/w4/jVwClLj2t+y8pev6LH4=;
- b=uuHoQhzL5R1aMT+IDcLVnIAfo3QhMCrw6E6OD0Bu0vw100bf8y9Fqw3JH2PciXpFQa
- 7ktPKES1XYyMNOBD6GGdGY/ovrHhhS3UAPEZwiQvgVshzUUV4LYwz2k+2Dibm6kA1KAa
- +VeMc6rZpDyyyAuK8xiQU+AQ49zPAy9xlIzkPtOGZRC9IhBCDU1JaLVoYT6dP/zCsDN6
- 8A6HNAjmo8iHp8n/8KhWELLu1ac/geLDbhTcsn5JaoB2rYkSrM17usi54r+wunO6gmi1
- 6zyg9u9gXzxbBB+EJke1kZxE31OEadmAi7WZ5eUzon4NCGylYMaSAt5y9/c1QYTDmKce
- RXBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=pwbjAja91/aXN2y6kKDQ/w4/jVwClLj2t+y8pev6LH4=;
- b=OYqrgHt98df+PWKeDeT57hgzAGwJqxdku+hONhzuvLq0PD3Ujv1rSw1EgFxY6IdSEY
- xBRnYnCz9GCrGe/inR0Y9EtdW/whiJTVPAZ0Gyxd+9uWoSBNx2BNqBbrRLf2tfDTrvo1
- f0eHJmCCOpUnVxOIJ5yWnb5bJLdfWsK3qWCPJPFH+c0LT9Nh9uFPHikLXqvmbKvegnmg
- 56Qhc+2vBy36KVdzUSyP2SZIsx7+v174PGFpSdiM8omHgWY4bnQ0RN1beBJGUOnWdQXf
- JjzKM5ao+ybfUGdjGq3BV6Dzh0LXcMIKYa/eDYwgR3wsljHlN6nRv4URRp3n/d3BpFZT
- fRcA==
-X-Gm-Message-State: ANoB5pmzYqSbFzxfYeHwyerLq7XvtdbfaFtwcqRJ7mvM+Z/Tu8l+11vq
- zcH47eFHwqGzF2WtzoLf+DkVFA==
-X-Google-Smtp-Source: AA0mqf6fEL9HgTE1Iya1T4m5+DXP67MTEJGmKsz6gQsok+I92Hr17hIU6fqURjyUDLnVl6MGgDZy2w==
-X-Received: by 2002:a05:6000:1d84:b0:236:5022:c705 with SMTP id
- bk4-20020a0560001d8400b002365022c705mr18808391wrb.466.1669281737548; 
- Thu, 24 Nov 2022 01:22:17 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m24-20020a05600c3b1800b003cf47556f21sm5811131wms.2.2022.11.24.01.22.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 01:22:16 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 060FD1FFB7;
- Thu, 24 Nov 2022 09:22:16 +0000 (GMT)
-References: <20221123152134.179929-1-alex.bennee@linaro.org>
- <20221123102522-mutt-send-email-mst@kernel.org>
- <87bkoxbqtd.fsf@linaro.org>
- <20221123110755-mutt-send-email-mst@kernel.org>
-User-agent: mu4e 1.9.3; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
-Date: Thu, 24 Nov 2022 09:21:15 +0000
-In-reply-to: <20221123110755-mutt-send-email-mst@kernel.org>
-Message-ID: <877czkbtbs.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oy8Sp-0002xa-1g
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:24:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oy8Sn-0001S6-6u
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:24:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669281848;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2YcVcw0QCNYed8UKcxe8YAYNqKOKyenKP5jNj1GUeJc=;
+ b=ELdDIHgbjSpGBOygIwT7/16q/7HM0FvmIzZBr9weS6IKDrjxlqcz+27PrvlJR3RUF5/HA5
+ atvV2csDa/iKz7ICxCDbHaGACdkJmLLUSbFPC18JigL7PXVyPsjfq3rHkT3p5QtHDaR3KY
+ spkbwSrAOAsKuTuGfTEc8hJQ0J9DNUs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-149-hcHH3fKmOfORq2waaRZSHw-1; Thu, 24 Nov 2022 04:24:06 -0500
+X-MC-Unique: hcHH3fKmOfORq2waaRZSHw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75C9E185A79C;
+ Thu, 24 Nov 2022 09:24:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C201E2166B26;
+ Thu, 24 Nov 2022 09:24:04 +0000 (UTC)
+Date: Thu, 24 Nov 2022 09:24:00 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
+Message-ID: <Y384MFrsSMLlFShV@redhat.com>
+References: <20221118113309.1057790-1-alex.bennee@linaro.org>
+ <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
+ <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
+ <87fse9bvmf.fsf@linaro.org>
+ <504f6645-5315-74c5-623d-d8bf231aec09@linaro.org>
+ <be6d895d-1693-32ab-580f-e630fab82e97@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <be6d895d-1693-32ab-580f-e630fab82e97@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,73 +88,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Nov 24, 2022 at 09:20:36AM +0100, Thomas Huth wrote:
+> On 23/11/2022 19.13, Philippe Mathieu-Daudé wrote:
+> > On 23/11/22 15:12, Alex Bennée wrote:
+> > > Thomas Huth <thuth@redhat.com> writes:
+> > > > On 23/11/2022 12.15, Philippe Mathieu-Daudé wrote:
+> > > > > On 18/11/22 12:33, Alex Bennée wrote:
+> > > > > > The old URL wasn't stable. I suspect the current URL will only be
+> > > > > > stable for a few months so maybe we need another strategy for hosting
+> > > > > > rootfs snapshots?
+> > > > > > 
+> > > > > > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > > > > > ---
+> > > > > >    tests/avocado/boot_linux_console.py | 4 ++--
+> > > > > >    1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/tests/avocado/boot_linux_console.py
+> > > > > > b/tests/avocado/boot_linux_console.py
+> > > > > > index 4c9d551f47..5a2923c423 100644
+> > > > > > --- a/tests/avocado/boot_linux_console.py
+> > > > > > +++ b/tests/avocado/boot_linux_console.py
+> > > > > > @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
+> > > > > >            dtb_path =
+> > > > > > '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
+> > > > > >            dtb_path = self.extract_from_deb(deb_path, dtb_path)
+> > > > > >            rootfs_url =
+> > > > > > ('http://storage.kernelci.org/images/rootfs/buildroot/'
+> > > > > > -                      'kci-2019.02/armel/base/rootfs.ext2.xz')
+> > > > > > -        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
+> > > > > > +
+> > > > > > 'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
+> > > > > > +        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
+> > > > > If Avocado doesn't find an artifact in its local cache, it will fetch it
+> > > > > from the URL.
+> > > > > The cache might be populated with artifacts previously downloaded, but
+> > > > > their URL is not valid anymore (my case for many tests).
+> > > > > We can also add artifacts manually, see [1].
+> > > > > I'd rather keep pre-existing tests if possible, to test older
+> > > > > (kernel / user-space) images. We don't need to run all the tests all
+> > > > > the time:
+> > > > > tests can be filtered by tags (see [2]).
+> > > > > My preference here is to refactor this test, adding the
+> > > > > "kci-2019.02"
+> > > > > and "baseline-20221116.0" releases. I can prepare the patch if you /
+> > > > > Thomas don't object.
+> > > > 
+> > > > IMHO we shouldn't keep tests in the upstream git repository where the
+> > > > binaries are not available in public anymore. They won't get run by
+> > > > new contributors anymore, and also could vanish from the disks of the
+> > > > people who previously downloaded it, once they wipe their cache or
+> > > > upgrade to a new installation, so the test code will sooner or later
+> > > > be bitrotting. But if you want to keep the tests around on your hard
+> > > > disk, you could also stick the test in a local branch on your hard
+> > > > disk instead.
+> > > 
+> > > CI/Workstation splits aside I tend to agree with Thomas here that having
+> > > tests no one else can run will lead to an accretion of broken tests.
+> > 
+> > Following this idea, should we remove all boards for which no open
+> > source & GPL software is available?
+> 
+> That's certainly a different topic... but I see where you're heading to.
+> 
+> My point here is rather: There is an alternative, newer version of the
+> kernel available which can be used to test the same thing. The older version
+> disappeared from the net, so why should we bother trying to keep that test
+> with that version supported if there is a newer version available?
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+In the ideal world we would test a representative sample of OS across a
+wide vintage of years.
 
-> On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> "Michael S. Tsirkin" <mst@redhat.com> writes:
->>=20
->> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Benn=C3=A9e wrote:
->> >> Hi,
->> >>=20
->> >> This hopefully fixes the problems with VirtIO migration caused by the
->> >> previous refactoring of virtio_device_started(). That introduced a
->> >> different order of checking which didn't give the VM state primacy but
->> >> wasn't noticed as we don't properly exercise VirtIO device migration
->> >> and caused issues when dev->started wasn't checked in the core code.
->> >> The introduction of virtio_device_should_start() split the overloaded
->> >> function up but the broken order still remained. The series finally
->> >> fixes that by restoring the original semantics but with the cleaned up
->> >> functions.
->> >>=20
->> >> I've added more documentation to the various structures involved as
->> >> well as the functions. There is still some inconsistencies in the
->> >> VirtIO code between different devices but I think that can be looked
->> >> at over the 8.0 cycle.
->> >
->> >
->> > Thanks a lot! Did you try this with gitlab CI? A patch similar to your
->> > 2/2 broke it previously ...
->>=20
->> Looking into it now - so far hasn't broken locally but I guess there is
->> something different about the CI.
->
->
-> yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
->
-> Or with QEMU_CI set to 1 and then run fedora container and then
-> clang-system manually.
+The real world though, we're massively struggling to keep avocado running
+reliably, and so don't have resources to achieve ideal testing coverage.
 
-I'm having trouble re-creating the failures in CI locally on my boxen. I
-have triggered a bug on s390 but that looks like a pre-existing problem
-with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
-think that is a limitation of the test harness.
-
-Will keep looking.
-
->
->> >
->> >> Alex Benn=C3=A9e (2):
->> >>   include/hw: attempt to document VirtIO feature variables
->> >>   include/hw: VM state takes precedence in virtio_device_should_start
->> >>=20
->> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
->> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++----=
---
->> >>  2 files changed, 59 insertions(+), 9 deletions(-)
->> >>=20
->> >> --=20
->> >> 2.34.1
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
+We need to aggressively restrict our focus to testing that maximises
+the value for our userbase. I think that means focusing on modern
+non-EOL operating systems.  So yes, if an old image disappears, cull
+it from testing and put something new in its place that is more likely
+to actually be used by our userbase. 
 
 
---=20
-Alex Benn=C3=A9e
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
