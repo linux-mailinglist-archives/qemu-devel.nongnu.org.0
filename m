@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C89637803
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:52:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048E363782F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:56:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyAkm-0003cK-UZ; Thu, 24 Nov 2022 06:50:52 -0500
+	id 1oyAku-0003sU-2D; Thu, 24 Nov 2022 06:51:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkZ-0003WJ-C9
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:41 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ id 1oyAkb-0003WZ-Q6
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:45 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkW-0004rH-Qo
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:39 -0500
-Received: by mail-wr1-x432.google.com with SMTP id x17so2123941wrn.6
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:33 -0800 (PST)
+ id 1oyAkW-0004rs-RI
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:41 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ j5-20020a05600c410500b003cfa9c0ea76so1061922wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8mxI4ivXjFrhpxeBS9ygU13x3SQQqiJhdqLWHoUm8QU=;
- b=NiasfTLUj6R0ILetnNaQFDhcmn8BLZ5KahZq6IP/1F4JfOdsyMSIxKh7ncBJDyZdrd
- +f99c7dlUkKEFfD0pIc/204D3z5/FB+xlvRhswSZNvxBkneq5JnWA3pmaE4Xqm1lp0Au
- BnU32llCRXM52DlAgfkcN/UE9Rkn0ub7qjxfdivCjCgVnzWEheYU9MENF+74okqdH5xo
- rYwcHeDTG0hYzMxHnGldYevHiJlylLf0ZAH83UkGYxmoI8dTXYWT5sjIts9+6xCRcFEQ
- MiWo+031VJZNs0Vjj1uysHb21gTgOr27dWsHlGyQoAXARV8Agqu1UyYhstY2bstwQqHL
- 5ECA==
+ bh=lxcgvzwggkDla5d1Sb8Xn1+c+5tt8+jDbD3DONm2szU=;
+ b=KDti8LMDP9qmDFJWzbaK5euUkCQCDTawxBacqMpqCIk9xr/PbtChFnvEyzmDd1f2Mp
+ Al8GwgwJUUY3434vcwY9xwBpfQD7ZNnw1uawDzNKmVnp1gYXg5q2je5isKRmdTlq2jQp
+ SCMYkIN7y/5WRj/8qnYbCgwA+gpVqhniXkmWEiXvwtMjM0l9aKbwkDLzvkAlNErz5Xth
+ Rm4XxrwMIYTVf860P8muGy5EXedup8NjKGIqM6F0pIxjnoJORBmslkp5VtlgTmfTAWxq
+ iq05HKgNFyILOkQfUOdfpldBVT+JrqS4oBeZWI4BBBmcqJOtFd44O1U90eeepXL36kqK
+ KQIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8mxI4ivXjFrhpxeBS9ygU13x3SQQqiJhdqLWHoUm8QU=;
- b=jQFVc/NW4i1b14mjBmsusnthlVcu7weo1hRvXDaorUQtFgkIbK6S7DxpyYYUigl0mx
- 01P9BkgokpUOx+aRAcjklfROTY2A3ptFlkbCHIMDJea8SCC2ZSGEKErwcSeTkaK8owBB
- dB3xGFZ4XeRXfDg7uQ16URXux3UB1U734s+rhEhk5xHP0zrix0By6YLcRUNAQsZyNbOI
- BKHrK58Ww7J/zkYudlP6PFWMVAyutuj7lJH1u5uzQx/1FTF0wy1cWoQLpA0R/SXnC+9J
- KFwBXb1ZZ6qAmATDFxCWd10bvXQ0R4tDTH3u1/i5QMV6G60NCkYGNzevwBDFCKyOjfYS
- iu4A==
-X-Gm-Message-State: ANoB5pnyHwdjD1OBzUlOsIux6X6+uOX48VqPxdfpLK8XkiMXTELmMkYD
- IQ+i8a79jdu5Jhfcik3ivXD086wwbu32Rw==
-X-Google-Smtp-Source: AA0mqf7ybPPJW+1mEV6sJggnxUKWkD56BWhMjjQtGDmeMoidcKUl0lKzVmM6kAFnQSmTkw5OMGJ//A==
-X-Received: by 2002:adf:df09:0:b0:236:885e:ef4b with SMTP id
- y9-20020adfdf09000000b00236885eef4bmr19984484wrl.13.1669290632095; 
- Thu, 24 Nov 2022 03:50:32 -0800 (PST)
+ bh=lxcgvzwggkDla5d1Sb8Xn1+c+5tt8+jDbD3DONm2szU=;
+ b=PPq+1DOUnc6bbMYApM95+dCRAvTWBSu4gQkcnDniKh1j24VHgOWoPJU4HhZLdGHt5p
+ 2+WFy82suT7cYfITMM8kKS1fYmPMO1ooyVzjkXopHDt2ikOXKPK78OsZLSmPWU9JDhFN
+ scC4KNDhW+scTqpw+08VSC7pAozB+iHR9HDM7VqFeamDnF9sZKZfz+WiBMb28fzpMYyr
+ Q7NdKdTrD95uZdhKNPJX8W06G5mbW0//SRhj8Bk+k07WR/ml9Lq7Hb4wv7DndSIHVGKA
+ zWqfeVZgwQdtNbdZ8O8qs4reHKaX2RUcQv9+vI8HHADqxrB3wsG3cTeTdIiprXriDyJZ
+ 0R+g==
+X-Gm-Message-State: ANoB5plmsLnoAUEOkIl8SUzsyh4uPbb55u4ZKMcgbVirauXHpjjlYRH7
+ ysuhpKPZ5OFUhhRFlCD+/uXa1lVu3URF6A==
+X-Google-Smtp-Source: AA0mqf43UsB3ETM6tnMRs2wZAk6ihYspQnwxGBK2BmvArOAccIDuRfX6vIRNVL5nXq6pB0TP++MgMw==
+X-Received: by 2002:a05:600c:1c92:b0:3cf:88cf:1f8e with SMTP id
+ k18-20020a05600c1c9200b003cf88cf1f8emr14329910wms.9.1669290633481; 
+ Thu, 24 Nov 2022 03:50:33 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.30
+ f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 03:50:31 -0800 (PST)
+ Thu, 24 Nov 2022 03:50:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -80,16 +81,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, qemu-riscv@nongnu.org
-Subject: [PATCH for-8.0 04/19] target/cris: Convert to 3-phase reset
-Date: Thu, 24 Nov 2022 11:50:07 +0000
-Message-Id: <20221124115023.2437291-5-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 05/19] target/hexagon: Convert to 3-phase reset
+Date: Thu, 24 Nov 2022 11:50:08 +0000
+Message-Id: <20221124115023.2437291-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221124115023.2437291-1-peter.maydell@linaro.org>
 References: <20221124115023.2437291-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -112,77 +113,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the cris CPU class to use 3-phase reset, so it doesn't
+Convert the hexagon CPU class to use 3-phase reset, so it doesn't
 need to use device_class_set_parent_reset() any more.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/cris/cpu-qom.h |  4 ++--
- target/cris/cpu.c     | 12 ++++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ target/hexagon/cpu.h |  2 +-
+ target/hexagon/cpu.c | 12 ++++++++----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/target/cris/cpu-qom.h b/target/cris/cpu-qom.h
-index 71e8af0e70a..431a1d536a9 100644
---- a/target/cris/cpu-qom.h
-+++ b/target/cris/cpu-qom.h
-@@ -30,7 +30,7 @@ OBJECT_DECLARE_CPU_TYPE(CRISCPU, CRISCPUClass, CRIS_CPU)
- /**
-  * CRISCPUClass:
-  * @parent_realize: The parent class' realize handler.
-- * @parent_reset: The parent class' reset handler.
-+ * @parent_phases: The parent class' reset phase handlers.
-  * @vr: Version Register value.
-  *
-  * A CRIS CPU model.
-@@ -41,7 +41,7 @@ struct CRISCPUClass {
+diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
+index 2a65a57bab3..794a0453fd4 100644
+--- a/target/hexagon/cpu.h
++++ b/target/hexagon/cpu.h
+@@ -137,7 +137,7 @@ typedef struct HexagonCPUClass {
+     CPUClass parent_class;
      /*< public >*/
- 
      DeviceRealize parent_realize;
 -    DeviceReset parent_reset;
 +    ResettablePhases parent_phases;
+ } HexagonCPUClass;
  
-     uint32_t vr;
- };
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index fb05dc6f9ab..a6a93c23595 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -56,15 +56,17 @@ static bool cris_cpu_has_work(CPUState *cs)
-     return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
+ struct ArchCPU {
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index 03221fbdc28..658ca4ff783 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -281,14 +281,16 @@ static void hexagon_restore_state_to_opc(CPUState *cs,
+     env->gpr[HEX_REG_PC] = data[0];
  }
  
--static void cris_cpu_reset(DeviceState *dev)
-+static void cris_cpu_reset_hold(Object *obj)
+-static void hexagon_cpu_reset(DeviceState *dev)
++static void hexagon_cpu_reset_hold(Object *obj)
  {
--    CPUState *s = CPU(dev);
-+    CPUState *s = CPU(obj);
-     CRISCPU *cpu = CRIS_CPU(s);
-     CRISCPUClass *ccc = CRIS_CPU_GET_CLASS(cpu);
-     CPUCRISState *env = &cpu->env;
-     uint32_t vr;
+-    CPUState *cs = CPU(dev);
++    CPUState *cs = CPU(obj);
+     HexagonCPU *cpu = HEXAGON_CPU(cs);
+     HexagonCPUClass *mcc = HEXAGON_CPU_GET_CLASS(cpu);
+     CPUHexagonState *env = &cpu->env;
  
--    ccc->parent_reset(dev);
-+    if (ccc->parent_phases.hold) {
-+        ccc->parent_phases.hold(obj);
+-    mcc->parent_reset(dev);
++    if (mcc->parent_phases.hold) {
++        mcc->parent_phases.hold(obj);
 +    }
  
-     vr = env->pregs[PR_VR];
-     memset(env, 0, offsetof(CPUCRISState, end_reset_fields));
-@@ -305,11 +307,13 @@ static void cris_cpu_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     CPUClass *cc = CPU_CLASS(oc);
-     CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
-+    ResettableClass *rc = RESETTABLE_CLASS(oc);
+     set_default_nan_mode(1, &env->fp_status);
+     set_float_detect_tininess(float_tininess_before_rounding, &env->fp_status);
+@@ -339,11 +341,13 @@ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
+     HexagonCPUClass *mcc = HEXAGON_CPU_CLASS(c);
+     CPUClass *cc = CPU_CLASS(c);
+     DeviceClass *dc = DEVICE_CLASS(c);
++    ResettableClass *rc = RESETTABLE_CLASS(c);
  
-     device_class_set_parent_realize(dc, cris_cpu_realizefn,
-                                     &ccc->parent_realize);
+     device_class_set_parent_realize(dc, hexagon_cpu_realize,
+                                     &mcc->parent_realize);
  
--    device_class_set_parent_reset(dc, cris_cpu_reset, &ccc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, cris_cpu_reset_hold, NULL,
-+                                       &ccc->parent_phases);
+-    device_class_set_parent_reset(dc, hexagon_cpu_reset, &mcc->parent_reset);
++    resettable_class_set_parent_phases(rc, NULL, hexagon_cpu_reset_hold, NULL,
++                                       &mcc->parent_phases);
  
-     cc->class_by_name = cris_cpu_class_by_name;
-     cc->has_work = cris_cpu_has_work;
+     cc->class_by_name = hexagon_cpu_class_by_name;
+     cc->has_work = hexagon_cpu_has_work;
 -- 
 2.25.1
 
