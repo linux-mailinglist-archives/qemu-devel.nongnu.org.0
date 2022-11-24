@@ -2,107 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9930636EA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 01:01:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73BB3636EE5
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 01:21:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxzf8-0002xu-8G; Wed, 23 Nov 2022 19:00:18 -0500
+	id 1oxzyD-0006hb-Gd; Wed, 23 Nov 2022 19:20:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oxzf3-0002wD-Vp
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 19:00:14 -0500
-Received: from mail-mw2nam10on2052.outbound.protection.outlook.com
- ([40.107.94.52] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1oxzy8-0006hN-Lr; Wed, 23 Nov 2022 19:19:57 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oxzey-0000fP-42
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 19:00:10 -0500
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1oxzy5-0000LC-A2; Wed, 23 Nov 2022 19:19:56 -0500
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2ANMPAuM015293; Wed, 23 Nov 2022 16:19:30 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=nwCpkkEh7EAxW1/3fDRpzfuXPKkB5rI+tWjEK9sPOC4=;
+ b=sAzDUrxVDC+AF7yRANjOiDz0iqovAeNs2ZR77Ci5SI+fSoi+dVTTfgsn13ODgmqP+BRQ
+ r53qDPatO7wRSJ0AapLgCpx/Js2EzXMNrlLB4Wn/h9SUsb6QNi/H+Q5bYtjWQKJd2r0i
+ vi3nu/nNLtKY8Done08D+RNI5BzKU3aIGxyoB0br0VfU8yE/iK+SAL5A0s0YKA/Ema5n
+ PjMTgySgoPHj1O9U4BXKv7js++ftcvTtGh0d63643q8mKXYKzgBFu+TC9AqQE16UWe9I
+ GMpkdWYSW+L43RxbQd9TFKhPyYBj0/cfQl+EwKpDNfHm1siJqyHPeR4/zzXEH7E768Vs oQ== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3kxyj4uked-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Nov 2022 16:19:29 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JdQpYQcpcK1KOlVDwR4Qf8Hy1osa/m1QBRKeYswxUaucauPAXhn1Xe5dF4aavaSG1EPfyw32J9N1xS0Q1SP70jrbo9KxlNiZ+X589bk+WbqE4Gy179jOVE2Y12ukfOfreZNPFBoK6ailbOFfW7bQt0pS4ajZCAj32xVCJnDV+vnjMT9khSSKxws3xPgT0L4eh8GLsxIuigI7Nw0juXcpTFrqaaT8qRhF+/IBtqzHUq9HDp6eN6ImEeYeBhRBYAZjpabqfKAofZNoGnL3/dMgJTvygYT6Nsk/ifqXL2PANt1S6SB7VeZWUH/vrhBV5KuMbHQ/5qEVeL3cZ2K3zbJ1cA==
+ b=e8n09rwRBUxQSSFc1RXEpHsP6FlTH2gpjfevOSrV1gM2WAm+VH1Z7cVO7ZNkIDAMMxIkkJSRHNWvbhITUmxZXwe9/2Kq8cxEt0TyEj6b7pL7MbL5yr3El5XlHSk+QC+xzHulSFPWxrXXy8mlLP/mvM7O3BChqvcYZ9RmXy3CWjeING2ymcQk25QsR7y8ozjzP5amRXWDnnzGBvxt2iRHwVgTbP7Fun25Lch4sQupLAA/wc1SaGlP7LqiqdInimgcinkT0HiA1oACq/dMW2sq9AEXlhkIJx4ehrveYzWYeshWX8BmGnlUZgKrWvs7Txmu1RdSgF3jGBQCHhmXYNNB1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bwQU9hWnbCPA5vylzFc1gGI3IUGGHHvosKuhByr3YIQ=;
- b=VqzkgaI35z7RAMppU0Fsbw7XfVMedhtv5f2bFpRQZKPNEGrTtB5KI5j9zQB9D8uhiSqbNCP7SLn79lJ5KU36B7GSNvNddnPhyzRZWzpl898Cwr8miaM24aonrhQyfHMusw+sASzC4IT0oqmfQkFLevv+5a4spIupZ2+HiDLTf5+7qTPzBz6DC7pBRJDY4J8tDdO4URfIaJGI744KW+9GH9vuVA3kojOvaS3nJXR2PtaMmXK833MckiTFinr1FYH4cEhDPgGe4HTHxVXNib8bMhHi3u9Tq8Sv4Cqf7hpFo8lep1Qn5VHINgX4MH71waRPcVUEYFdhtGZQJZJKwWrInQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=nwCpkkEh7EAxW1/3fDRpzfuXPKkB5rI+tWjEK9sPOC4=;
+ b=a060ir1KptVwIrxMQ2jsprHpORgu/961qF3Li5KdMk0FFQCyfZxOVWkTZ4PBxLIkFWb2FQ23jyqrLPtxbp1HBtgw+XHROZ1lXMtoPe8L4IbKamxZB5GcsSXQfdtjcCC1xJwnim4NCwI26lPI6fsDuGlSz4AfAeXozAPJm4pngRs8mGYd70vhF4a7lAXaJ1FHOf3jg7gMJJTsIKPwv1vNLMKqfhZd39pbfiUFXuQUUAwk77HYPcMBpxwWCHlqj8BRpTik2LiZFlNC1plSIR+b3MCwluirGQVNlihXZ/pAEgSBzEPUxMDSiAANpA9d51aB3A+56rIwIurHURRCrVkBbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bwQU9hWnbCPA5vylzFc1gGI3IUGGHHvosKuhByr3YIQ=;
- b=0m1bUqX3qWBbEtN7pBgw+pHrjA5JkCKodlg1P6VzdtKc4H/cWdlk1Bwbk7P52Sdino4d3AP8wGRWdWZxKDJdhaAYI3hbQ0d3LqTFcMCfCrxXNHNv0voAIOvW6rH4L/qUzmmzf3ICYxGmrJ32kHZ2/Z3yAiw5usMz38inaynVrxU=
-Received: from MW4P221CA0025.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::30)
- by MN0PR12MB5978.namprd12.prod.outlook.com (2603:10b6:208:37d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.11; Wed, 23 Nov
- 2022 23:54:59 +0000
-Received: from CO1NAM11FT079.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8b:cafe::a9) by MW4P221CA0025.outlook.office365.com
- (2603:10b6:303:8b::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18 via Frontend
- Transport; Wed, 23 Nov 2022 23:54:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT079.mail.protection.outlook.com (10.13.175.134) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5834.8 via Frontend Transport; Wed, 23 Nov 2022 23:54:58 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 23 Nov
- 2022 17:54:57 -0600
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
+ bh=nwCpkkEh7EAxW1/3fDRpzfuXPKkB5rI+tWjEK9sPOC4=;
+ b=Ocm6mBJr1Oaie4DTtn3nHumxqPXh7sl48bj7SNVcW7ewEMEWpeIqqXbXbzn/stg985/eo17SZ97Sc+9Z1E+uSpuC3l3RyWHc4p1Qjv7wZxTd+NolIbFaeWLDau4sUqohgK+0UksrjDwEdd4ocFoX+NLybGaH16E1nUybPwidJS65WwQfgnWwK4WRteGBQiNEf8iqjYfbgBGPKcEKOUKMd3X2j04g296Ctiz/3Jr6Ypw0ggSheBiZWkSugraYyHxo/iFK0nDLM/vySmQE6x5euFiaQy8ydLMfFVClifj78LL7CY3eVxlPJyMHy+YM4Rrs91ed5WwH/3Q+S030rwR6ag==
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
+ by PH0PR02MB7525.namprd02.prod.outlook.com (2603:10b6:510:5c::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17; Thu, 24 Nov
+ 2022 00:19:26 +0000
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::a01e:4b95:6c3:acf2]) by BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::a01e:4b95:6c3:acf2%5]) with mapi id 15.20.5857.018; Thu, 24 Nov 2022
+ 00:19:26 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Fam
+ Zheng <fam@euphon.net>, Viresh Kumar <viresh.kumar@linaro.org>, German
+ Maglione <gmaglione@redhat.com>, =?iso-8859-1?Q?Alex_Benn=E9e?=
+ <alex.bennee@linaro.org>, Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, "Gonglei (Arei)"
+ <arei.gonglei@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-7.2] vhost: enable vrings in vhost_dev_start() for
+ vhost-user devices
+Thread-Topic: [PATCH for-7.2] vhost: enable vrings in vhost_dev_start() for
+ vhost-user devices
+Thread-Index: AQHY/z3UUs9LyFKCW0uT000WPu60va5NNlQA
+Date: Thu, 24 Nov 2022 00:19:25 +0000
+Message-ID: <4A976F8D-AB6F-4BAD-AD5A-ABF69B8A040C@nutanix.com>
+References: <20221123131630.52020-1-sgarzare@redhat.com>
+In-Reply-To: <20221123131630.52020-1-sgarzare@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL3PR02MB7938:EE_|PH0PR02MB7525:EE_
+x-ms-office365-filtering-correlation-id: 91f11676-5464-4894-78f5-08dacdb18b89
+x-proofpoint-crosstenant: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WBXfyiyQVzIHRRdFZR8xqja2PHttw0PPmginjpj58ISWNbmEN1YjY7Rucu0EYcdy8Gb801Xrn/h1fkuKx9iclG4IjIG5zs8L9rlnJ/bgikgaEPnOQQhIfuw5+pbTaSEO6der/7CiA5oksovoQjKs4RDOsGX/UhEZ2AFlD/5fO1pq8FxcPUgpp1LM2PryTNGDfhQPzssJGrI3y/uXTVbiSXW4wiworHmdSlkB68VOHrIinx4AD5h4jiN7MAW0Orl/e8aVyCdHUoRkl+NqruEk4EJ3uxFQP/LyQ3ox9WExPWW+dyHiyXTmz1WqENHQT1EDVJSw/UoB4+mbxQIBuYlFYi72iDur10M5SwmmThx1ozryii6IYj6FIDCTs+EIjH6aP0uUqwZpwyhhpsCatYw5mA6vQY3HK0W+NpjaUnIFwqBsmnI91rd49eMy4gPTJZPuVNoDxZsT10pp8MDx6qeMWiiO0/Aaxbjtx/ZgpWCwi65/7ohFImepwtPf44tOkT5MutbteZylB89BknuoKR4Ct/vt6naVfJBGpKEig6/CvWVMQJU+MJ+L8dpDhjlbXdgU9131DBmIM4+LwRswyMg24udWXIZYQWO4W+jKiZ180bi+4iGHfkDlmc3KEd1fy8TfVaSfKTU529abC2x+mA7lP/26gEmjfGHp6RV7METwTX25DxbQGnaaqsudwXj8IwVghmlZq297D6PGjYiD2uKMBHWC8vyi/vYuyX7ZJUzEmqZbs5r5voLzw4aidTdHj4J1sBTgUuPVHES/Q8COKdh35IoFyKaMkOe77CCrI7JcGPKC4Q+tmQmiC8tcfdWpwHjY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(376002)(346002)(366004)(396003)(39860400002)(136003)(451199015)(2616005)(186003)(6916009)(316002)(71200400001)(54906003)(6512007)(6506007)(53546011)(76116006)(66556008)(83380400001)(44832011)(5660300002)(66476007)(122000001)(4326008)(66446008)(64756008)(8676002)(66946007)(38100700002)(91956017)(7416002)(8936002)(86362001)(478600001)(966005)(2906002)(36756003)(6486002)(30864003)(33656002)(38070700005)(41300700001)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ZTtmOIUwG6dOHRPsd1S+Omb0BGNk/bnIgIXXgVdcZaVpZpvRQsHoY4ycEJ?=
+ =?iso-8859-1?Q?xWY9dIXsiEj7h0oqdNMz4h0woo4sSzMw8loRP7ghCwuayBXs9zuc4cPLoG?=
+ =?iso-8859-1?Q?0T606Wdi7GIEtPtYg7+wG8fogUl2Wo0QlsBc0F3XyYEk3fLiVZgxK90Dv/?=
+ =?iso-8859-1?Q?PKbpzqzD1/mG0NTvNmWfTUvq8AsCazA+/OLGSglBd184tT0nFxcjzNHT/m?=
+ =?iso-8859-1?Q?bHxfK5mVm8Tp+TAi9rCboQJItNWPEVG3IfuvRtyMDI7f4jdq353oF2g7Fz?=
+ =?iso-8859-1?Q?jJNFoecPltKw278Q91/2828QmYttxXPD/9nAzJPD7tCa5y8cYsZeVvQd9w?=
+ =?iso-8859-1?Q?BcNXC4ipaHrhqbY2Al+AkBPLzYK7tJjOd2YHUS8lG8Rqn0tHt1P/t0d8VS?=
+ =?iso-8859-1?Q?t53dUr2MrzZGsP4l44zRGbFqfYUrrdrBLWxP4jKRjLBcHgvEr5GDaF3J2r?=
+ =?iso-8859-1?Q?qfUUWKqAnoADV5iSddRIIhEqA24vtypBo/O8Db/OWzMgUp4xlLz7E7Y5yB?=
+ =?iso-8859-1?Q?KVN/ErYpURbjpl3bRUcw8tZ09uEBUnguuKiOTTbPXGSG1rJl0zeTTt/JfD?=
+ =?iso-8859-1?Q?ffzesfH7MqB21rpEwtZOOrhxDmbYfiSs/Z6l4D5v5cWEFgDdZciZRYRwQZ?=
+ =?iso-8859-1?Q?yqXG/LYc43NF8g8bGAoFfqnfF9ptRlqb1BkKgef5MIaYBEP2BQf/yx/ijK?=
+ =?iso-8859-1?Q?vlVuhaa2i8Zxm66K+Kbjhe4E/EFrlGbq0u1JHcwr3BYyRfA8h14sl3eB7a?=
+ =?iso-8859-1?Q?ghf/58FyCAvTXXYzsKtSn4nsd4JkPRQH3vWhjWcK5KnVQadq386JAGLl6C?=
+ =?iso-8859-1?Q?brwjFm4yGZMzxpwcaEMcG+XX8xeIQB2Fs2VPUDJxcn88dJecIfPOJdsvX5?=
+ =?iso-8859-1?Q?dfbx29zncYQfx1yu5MhE9WFR2RwvMfuOGMfheFMu/oZc+v13YMMEhHbHSM?=
+ =?iso-8859-1?Q?aYBNCPiQbk6vBi2FIJM44zO2wKNsjX819SsTVzx4N5SsOndpqHtVfcLW6D?=
+ =?iso-8859-1?Q?CLI4Pgg3mZEs7YxsZxc608wvbIj0emdimbAR8DCKhqmwkMP+34/0JppLHw?=
+ =?iso-8859-1?Q?9fIjUcifwS3HxRohRmx/BmjbwsjHfeCp+GboyZoL2pTCXGmtpi4bK7EhCs?=
+ =?iso-8859-1?Q?c2elGvwmlWF5pPjvc+YvOAlQz0pIDQwzqxPJ5QhwJz7LKyRnzUAMjcSbYZ?=
+ =?iso-8859-1?Q?eNe0i5D8aXICejyJ8Yf6QBbbmMXqZur/P72k5OSA9qvaPq8iP2ojRZxrc/?=
+ =?iso-8859-1?Q?9jzy9f2gAtAD08mSHzT+yJpmaCJzK0YVfU3QBoafO5exNiUwW+PLJgpdjh?=
+ =?iso-8859-1?Q?wkeW/j+kjPFbMplndfDnRDy8FCxFhXyKx99tSFOmZI5RoV7gKq3uIGSD2F?=
+ =?iso-8859-1?Q?XIMqO7Q1xIjHeEwOrHtsl14oQ+qLJYKXK6NPK+0zzJYsl7lD7Ear3RH5YW?=
+ =?iso-8859-1?Q?EqPjua0NvVqYH1xQDJtmMVLk7e+LXeE2sD4tvXcRblxWrVttnxhuPVS6dQ?=
+ =?iso-8859-1?Q?NdZymU2HDRwhKDCQPJqYavXtLDufBq5rffxPUvlhe/PK7+Tc83Ynq9ygBv?=
+ =?iso-8859-1?Q?Vs68fxxpNBNOpSverE4wfGU+kTV7CXEP77RPirC7h/mXcbkDrkCZFp1Lhn?=
+ =?iso-8859-1?Q?3bmhV5J5k7GGXS0SOrDfJd9M+5scFDzFdvhKUZrMi/X6W4GALy0dqiQpm8?=
+ =?iso-8859-1?Q?e+2dLk1X84K6lbmJQfY=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <B458ED54ED75C044ADB67562A69A7BB1@namprd02.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 7.2.0-rc2 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: <stefanha@gmail.com>
-Date: Wed, 23 Nov 2022 17:53:22 -0600
-Message-ID: <166924760233.617792.9166119568602796975@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT079:EE_|MN0PR12MB5978:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0546c96-d63a-4868-0c13-08dacdae2104
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GMcDYbN+nvOdtwTbrbYZgm6eHMF0THJBgpq0AULG4Q3h9fWz5xmbK+7YLTgJ6VTBCslarcCrrDRUpeK6cCcetMPnTxSNqqS7fXfD762ukDOM+/3AtsrZ20hJmLCPDMUwR31p/iAPa50NyhaS1VNAvcSiDLGkW1nE4rRFGMjoITcopu/Mg6Il14TbWuEQfdDKOjmPnJXRemN1KQvZvjIUEXM8Isd9Dza5azCnYLPGOfDr16iHcIsFY3Z4TPjqGQqYGnA5a4MRUwYrX1rUV7EDnGiAYyMUfjDN66T8iUh7VFU7ik8zUG29+JpFnTb6+zGqe+0wTs8avpYXeJjVdt3ydXmG3M8AIsKqZjJArl/kxabww0UGR4Uvg8e0hjXiP9jeS7ZDOx+gR56eFEbrxZZAtzV1J0X6hobeXcNJTfBC7NbAagnCnHSrEnX8nzyfiNhcsQot9sX7PVM1oIaQLU8qkEQ3xyWSKUW9VhLuv975yHjo51VWVYxqdJQmXfFIck+F+QWCkRtmzC0w5u6Io4q4EijbQk5UuUvQkax87jip8YbYE9t/CPtjpYUzJ3HZCDDwWxuonG/f7ycIgtuHdXz8tK4GQqucO9VpetvyO/yedTzMGX1AYDAcCbrWT3VBHZSqEmA1LZOuRHcI0BJuWgjDrNK5P5vSLngvw3+TKLLKNyJysWb1ptpSwKFKuD/prr/xBxeH93U3uPRQCen8fGor6YUiMeA0C/zklXObrJQdgMwzAXZsBHcz8IXQNGLQjtSy10SkQI2FTzqMGDI5eMmkgUKpQprtWVWQ+Da8nIS6ngfrcct3me1cB31xJ7fBvnSF
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(396003)(346002)(39860400002)(376002)(451199015)(46966006)(40470700004)(36840700001)(316002)(40460700003)(86362001)(70586007)(478600001)(6916009)(82310400005)(8936002)(36756003)(966005)(47076005)(186003)(336012)(41300700001)(8676002)(36860700001)(16526019)(4326008)(5660300002)(6666004)(70206006)(83380400001)(426003)(66574015)(44832011)(2616005)(2906002)(356005)(81166007)(82740400003)(40480700001)(26005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 23:54:58.6701 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0546c96-d63a-4868-0c13-08dacdae2104
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT079.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5978
-Received-SPF: softfail client-ip=40.107.94.52;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91f11676-5464-4894-78f5-08dacdb18b89
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2022 00:19:25.9981 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /i3GNgRsyNhqIVGgPxeowEevwyXReHNLWKZe7pFtq1/ddh9eO2s/9ijibCZP0cQrYxfDe6eN7KTsyBcMT4yxLr1YNb9W1PXJHHJ+uxTF0+I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7525
+X-Proofpoint-ORIG-GUID: FcyUe9Fr6xxp0XLEkxYMPOvJhXMpXgBx
+X-Proofpoint-GUID: FcyUe9Fr6xxp0XLEkxYMPOvJhXMpXgBx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-23_13,2022-11-23_01,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,112 +170,474 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-third release candidate for the QEMU 7.2 release. This release is meant
-for testing purposes and should not be used in a production environment.
+> On Nov 23, 2022, at 8:16 AM, Stefano Garzarella <sgarzare@redhat.com> wro=
+te:
+>=20
+> Commit 02b61f38d3 ("hw/virtio: incorporate backend features in features")
+> properly negotiates VHOST_USER_F_PROTOCOL_FEATURES with the vhost-user
+> backend, but we forgot to enable vrings as specified in
+> docs/interop/vhost-user.rst:
+>=20
+>    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
+>    ring starts directly in the enabled state.
+>=20
+>    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, the ring is
+>    initialized in a disabled state and is enabled by
+>    ``VHOST_USER_SET_VRING_ENABLE`` with parameter 1.
+>=20
+> Some vhost-user front-ends already did this by calling
+> vhost_ops.vhost_set_vring_enable() directly:
+> - backends/cryptodev-vhost.c
+> - hw/net/virtio-net.c
+> - hw/virtio/vhost-user-gpio.c
 
-  http://download.qemu-project.org/qemu-7.2.0-rc2.tar.xz
-  http://download.qemu-project.org/qemu-7.2.0-rc2.tar.xz.sig
+To simplify why not rather change these devices to use the new semantics?
 
-You can help improve the quality of the QEMU 7.2 release by testing this
-release and reporting bugs using our GitLab issue tracker:
+>=20
+> But most didn't do that, so we would leave the vrings disabled and some
+> backends would not work. We observed this issue with the rust version of
+> virtiofsd [1], which uses the event loop [2] provided by the
+> vhost-user-backend crate where requests are not processed if vring is
+> not enabled.
+>=20
+> Let's fix this issue by enabling the vrings in vhost_dev_start() for
+> vhost-user front-ends that don't already do this directly. Same thing
+> also in vhost_dev_stop() where we disable vrings.
+>=20
+> [1] https://gitlab.com/virtio-fs/virtiofsd
+> [2] https://github.com/rust-vmm/vhost/blob/240fc2966/crates/vhost-user-ba=
+ckend/src/event_loop.rs#L217
+> Fixes: 02b61f38d3 ("hw/virtio: incorporate backend features in features")
+> Reported-by: German Maglione <gmaglione@redhat.com>
+> Tested-by: German Maglione <gmaglione@redhat.com>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 
-  https://gitlab.com/qemu-project/qemu/-/milestones/7#tab-issues
+Looks good for vhost-user-blk/vhost-user-scsi.
 
-The release plan, as well a documented known issues for release
-candidates, are available at:
+Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-  http://wiki.qemu.org/Planning/7.2
+> ---
+> include/hw/virtio/vhost.h      |  6 +++--
+> backends/cryptodev-vhost.c     |  4 ++--
+> backends/vhost-user.c          |  4 ++--
+> hw/block/vhost-user-blk.c      |  4 ++--
+> hw/net/vhost_net.c             |  8 +++----
+> hw/scsi/vhost-scsi-common.c    |  4 ++--
+> hw/virtio/vhost-user-fs.c      |  4 ++--
+> hw/virtio/vhost-user-gpio.c    |  4 ++--
+> hw/virtio/vhost-user-i2c.c     |  4 ++--
+> hw/virtio/vhost-user-rng.c     |  4 ++--
+> hw/virtio/vhost-vsock-common.c |  4 ++--
+> hw/virtio/vhost.c              | 44 ++++++++++++++++++++++++++++++----
+> hw/virtio/trace-events         |  4 ++--
+> 13 files changed, 67 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 353252ac3e..67a6807fac 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -184,24 +184,26 @@ static inline bool vhost_dev_is_started(struct vhos=
+t_dev *hdev)
+>  * vhost_dev_start() - start the vhost device
+>  * @hdev: common vhost_dev structure
+>  * @vdev: the VirtIODevice structure
+> + * @vrings: true to have vrings enabled in this call
+>  *
+>  * Starts the vhost device. From this point VirtIO feature negotiation
+>  * can start and the device can start processing VirtIO transactions.
+>  *
+>  * Return: 0 on success, < 0 on error.
+>  */
+> -int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+> +int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vri=
+ngs);
+>=20
+> /**
+>  * vhost_dev_stop() - stop the vhost device
+>  * @hdev: common vhost_dev structure
+>  * @vdev: the VirtIODevice structure
+> + * @vrings: true to have vrings disabled in this call
+>  *
+>  * Stop the vhost device. After the device is stopped the notifiers
+>  * can be disabled (@vhost_dev_disable_notifiers) and the device can
+>  * be torn down (@vhost_dev_cleanup).
+>  */
+> -void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+> +void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vri=
+ngs);
+>=20
+> /**
+>  * DOC: vhost device configuration handling
+> diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
+> index bc13e466b4..572f87b3be 100644
+> --- a/backends/cryptodev-vhost.c
+> +++ b/backends/cryptodev-vhost.c
+> @@ -94,7 +94,7 @@ cryptodev_vhost_start_one(CryptoDevBackendVhost *crypto=
+,
+>         goto fail_notifiers;
+>     }
+>=20
+> -    r =3D vhost_dev_start(&crypto->dev, dev);
+> +    r =3D vhost_dev_start(&crypto->dev, dev, false);
+>     if (r < 0) {
+>         goto fail_start;
+>     }
+> @@ -111,7 +111,7 @@ static void
+> cryptodev_vhost_stop_one(CryptoDevBackendVhost *crypto,
+>                                  VirtIODevice *dev)
+> {
+> -    vhost_dev_stop(&crypto->dev, dev);
+> +    vhost_dev_stop(&crypto->dev, dev, false);
+>     vhost_dev_disable_notifiers(&crypto->dev, dev);
+> }
+>=20
+> diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+> index 5dedb2d987..7bfcaef976 100644
+> --- a/backends/vhost-user.c
+> +++ b/backends/vhost-user.c
+> @@ -85,7 +85,7 @@ vhost_user_backend_start(VhostUserBackend *b)
+>     }
+>=20
+>     b->dev.acked_features =3D b->vdev->guest_features;
+> -    ret =3D vhost_dev_start(&b->dev, b->vdev);
+> +    ret =3D vhost_dev_start(&b->dev, b->vdev, true);
+>     if (ret < 0) {
+>         error_report("Error start vhost dev");
+>         goto err_guest_notifiers;
+> @@ -120,7 +120,7 @@ vhost_user_backend_stop(VhostUserBackend *b)
+>         return;
+>     }
+>=20
+> -    vhost_dev_stop(&b->dev, b->vdev);
+> +    vhost_dev_stop(&b->dev, b->vdev, true);
+>=20
+>     if (k->set_guest_notifiers) {
+>         ret =3D k->set_guest_notifiers(qbus->parent,
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 0d5190accf..1177064631 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -178,7 +178,7 @@ static int vhost_user_blk_start(VirtIODevice *vdev, E=
+rror **errp)
+>     }
+>=20
+>     s->dev.vq_index_end =3D s->dev.nvqs;
+> -    ret =3D vhost_dev_start(&s->dev, vdev);
+> +    ret =3D vhost_dev_start(&s->dev, vdev, true);
+>     if (ret < 0) {
+>         error_setg_errno(errp, -ret, "Error starting vhost");
+>         goto err_guest_notifiers;
+> @@ -213,7 +213,7 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
+>         return;
+>     }
+>=20
+> -    vhost_dev_stop(&s->dev, vdev);
+> +    vhost_dev_stop(&s->dev, vdev, true);
+>=20
+>     ret =3D k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+>     if (ret < 0) {
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index 26e4930676..043058ff43 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -259,7 +259,7 @@ static int vhost_net_start_one(struct vhost_net *net,
+>         goto fail_notifiers;
+>     }
+>=20
+> -    r =3D vhost_dev_start(&net->dev, dev);
+> +    r =3D vhost_dev_start(&net->dev, dev, false);
+>     if (r < 0) {
+>         goto fail_start;
+>     }
+> @@ -308,7 +308,7 @@ fail:
+>     if (net->nc->info->poll) {
+>         net->nc->info->poll(net->nc, true);
+>     }
+> -    vhost_dev_stop(&net->dev, dev);
+> +    vhost_dev_stop(&net->dev, dev, false);
+> fail_start:
+>     vhost_dev_disable_notifiers(&net->dev, dev);
+> fail_notifiers:
+> @@ -329,7 +329,7 @@ static void vhost_net_stop_one(struct vhost_net *net,
+>     if (net->nc->info->poll) {
+>         net->nc->info->poll(net->nc, true);
+>     }
+> -    vhost_dev_stop(&net->dev, dev);
+> +    vhost_dev_stop(&net->dev, dev, false);
+>     if (net->nc->info->stop) {
+>         net->nc->info->stop(net->nc);
+>     }
+> @@ -606,7 +606,7 @@ err_start:
+>         assert(r >=3D 0);
+>     }
+>=20
+> -    vhost_dev_stop(&net->dev, vdev);
+> +    vhost_dev_stop(&net->dev, vdev, false);
+>=20
+>     return r;
+> }
+> diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
+> index 767f827e55..18ea5dcfa1 100644
+> --- a/hw/scsi/vhost-scsi-common.c
+> +++ b/hw/scsi/vhost-scsi-common.c
+> @@ -68,7 +68,7 @@ int vhost_scsi_common_start(VHostSCSICommon *vsc)
+>         goto err_guest_notifiers;
+>     }
+>=20
+> -    ret =3D vhost_dev_start(&vsc->dev, vdev);
+> +    ret =3D vhost_dev_start(&vsc->dev, vdev, true);
+>     if (ret < 0) {
+>         error_report("Error start vhost dev");
+>         goto err_guest_notifiers;
+> @@ -101,7 +101,7 @@ void vhost_scsi_common_stop(VHostSCSICommon *vsc)
+>     VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(qbus);
+>     int ret =3D 0;
+>=20
+> -    vhost_dev_stop(&vsc->dev, vdev);
+> +    vhost_dev_stop(&vsc->dev, vdev, true);
+>=20
+>     if (k->set_guest_notifiers) {
+>         ret =3D k->set_guest_notifiers(qbus->parent, vsc->dev.nvqs, false=
+);
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index dc4014cdef..d97b179e6f 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -76,7 +76,7 @@ static void vuf_start(VirtIODevice *vdev)
+>     }
+>=20
+>     fs->vhost_dev.acked_features =3D vdev->guest_features;
+> -    ret =3D vhost_dev_start(&fs->vhost_dev, vdev);
+> +    ret =3D vhost_dev_start(&fs->vhost_dev, vdev, true);
+>     if (ret < 0) {
+>         error_report("Error starting vhost: %d", -ret);
+>         goto err_guest_notifiers;
+> @@ -110,7 +110,7 @@ static void vuf_stop(VirtIODevice *vdev)
+>         return;
+>     }
+>=20
+> -    vhost_dev_stop(&fs->vhost_dev, vdev);
+> +    vhost_dev_stop(&fs->vhost_dev, vdev, true);
+>=20
+>     ret =3D k->set_guest_notifiers(qbus->parent, fs->vhost_dev.nvqs, fals=
+e);
+>     if (ret < 0) {
+> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+> index 5851cb3bc9..0b40ebd15a 100644
+> --- a/hw/virtio/vhost-user-gpio.c
+> +++ b/hw/virtio/vhost-user-gpio.c
+> @@ -81,7 +81,7 @@ static int vu_gpio_start(VirtIODevice *vdev)
+>      */
+>     vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->guest_featur=
+es);
+>=20
+> -    ret =3D vhost_dev_start(&gpio->vhost_dev, vdev);
+> +    ret =3D vhost_dev_start(&gpio->vhost_dev, vdev, false);
+>     if (ret < 0) {
+>         error_report("Error starting vhost-user-gpio: %d", ret);
+>         goto err_guest_notifiers;
+> @@ -139,7 +139,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
+>         return;
+>     }
+>=20
+> -    vhost_dev_stop(vhost_dev, vdev);
+> +    vhost_dev_stop(vhost_dev, vdev, false);
+>=20
+>     ret =3D k->set_guest_notifiers(qbus->parent, vhost_dev->nvqs, false);
+>     if (ret < 0) {
+> diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+> index 1c9f3d20dc..dc5c828ba6 100644
+> --- a/hw/virtio/vhost-user-i2c.c
+> +++ b/hw/virtio/vhost-user-i2c.c
+> @@ -46,7 +46,7 @@ static void vu_i2c_start(VirtIODevice *vdev)
+>=20
+>     i2c->vhost_dev.acked_features =3D vdev->guest_features;
+>=20
+> -    ret =3D vhost_dev_start(&i2c->vhost_dev, vdev);
+> +    ret =3D vhost_dev_start(&i2c->vhost_dev, vdev, true);
+>     if (ret < 0) {
+>         error_report("Error starting vhost-user-i2c: %d", -ret);
+>         goto err_guest_notifiers;
+> @@ -80,7 +80,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
+>         return;
+>     }
+>=20
+> -    vhost_dev_stop(&i2c->vhost_dev, vdev);
+> +    vhost_dev_stop(&i2c->vhost_dev, vdev, true);
+>=20
+>     ret =3D k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, fal=
+se);
+>     if (ret < 0) {
+> diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+> index f9084cde58..201a39e220 100644
+> --- a/hw/virtio/vhost-user-rng.c
+> +++ b/hw/virtio/vhost-user-rng.c
+> @@ -47,7 +47,7 @@ static void vu_rng_start(VirtIODevice *vdev)
+>     }
+>=20
+>     rng->vhost_dev.acked_features =3D vdev->guest_features;
+> -    ret =3D vhost_dev_start(&rng->vhost_dev, vdev);
+> +    ret =3D vhost_dev_start(&rng->vhost_dev, vdev, true);
+>     if (ret < 0) {
+>         error_report("Error starting vhost-user-rng: %d", -ret);
+>         goto err_guest_notifiers;
+> @@ -81,7 +81,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
+>         return;
+>     }
+>=20
+> -    vhost_dev_stop(&rng->vhost_dev, vdev);
+> +    vhost_dev_stop(&rng->vhost_dev, vdev, true);
+>=20
+>     ret =3D k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, fal=
+se);
+>     if (ret < 0) {
+> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-commo=
+n.c
+> index a67a275de2..d21c72b401 100644
+> --- a/hw/virtio/vhost-vsock-common.c
+> +++ b/hw/virtio/vhost-vsock-common.c
+> @@ -70,7 +70,7 @@ int vhost_vsock_common_start(VirtIODevice *vdev)
+>     }
+>=20
+>     vvc->vhost_dev.acked_features =3D vdev->guest_features;
+> -    ret =3D vhost_dev_start(&vvc->vhost_dev, vdev);
+> +    ret =3D vhost_dev_start(&vvc->vhost_dev, vdev, true);
+>     if (ret < 0) {
+>         error_report("Error starting vhost: %d", -ret);
+>         goto err_guest_notifiers;
+> @@ -105,7 +105,7 @@ void vhost_vsock_common_stop(VirtIODevice *vdev)
+>         return;
+>     }
+>=20
+> -    vhost_dev_stop(&vvc->vhost_dev, vdev);
+> +    vhost_dev_stop(&vvc->vhost_dev, vdev, true);
+>=20
+>     ret =3D k->set_guest_notifiers(qbus->parent, vvc->vhost_dev.nvqs, fal=
+se);
+>     if (ret < 0) {
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index d1c4c20b8c..7fb008bc9e 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1777,15 +1777,36 @@ int vhost_dev_get_inflight(struct vhost_dev *dev,=
+ uint16_t queue_size,
+>     return 0;
+> }
+>=20
+> +static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable=
+)
+> +{
+> +    if (!hdev->vhost_ops->vhost_set_vring_enable) {
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * For vhost-user devices, if VHOST_USER_F_PROTOCOL_FEATURES has not
+> +     * been negotiated, the rings start directly in the enabled state, a=
+nd
+> +     * .vhost_set_vring_enable callback will fail since
+> +     * VHOST_USER_SET_VRING_ENABLE is not supported.
+> +     */
+> +    if (hdev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_USER &&
+> +        !virtio_has_feature(hdev->backend_features,
+> +                            VHOST_USER_F_PROTOCOL_FEATURES)) {
+> +        return 0;
+> +    }
+> +
+> +    return hdev->vhost_ops->vhost_set_vring_enable(hdev, enable);
+> +}
+> +
+> /* Host notifiers must be enabled at this point. */
+> -int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+> +int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vri=
+ngs)
+> {
+>     int i, r;
+>=20
+>     /* should only be called after backend is connected */
+>     assert(hdev->vhost_ops);
+>=20
+> -    trace_vhost_dev_start(hdev, vdev->name);
+> +    trace_vhost_dev_start(hdev, vdev->name, vrings);
+>=20
+>     vdev->vhost_started =3D true;
+>     hdev->started =3D true;
+> @@ -1830,10 +1851,16 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtI=
+ODevice *vdev)
+>             goto fail_log;
+>         }
+>     }
+> +    if (vrings) {
+> +        r =3D vhost_dev_set_vring_enable(hdev, true);
+> +        if (r) {
+> +            goto fail_log;
+> +        }
+> +    }
+>     if (hdev->vhost_ops->vhost_dev_start) {
+>         r =3D hdev->vhost_ops->vhost_dev_start(hdev, true);
+>         if (r) {
+> -            goto fail_log;
+> +            goto fail_start;
+>         }
+>     }
+>     if (vhost_dev_has_iommu(hdev) &&
+> @@ -1848,6 +1875,10 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIO=
+Device *vdev)
+>         }
+>     }
+>     return 0;
+> +fail_start:
+> +    if (vrings) {
+> +        vhost_dev_set_vring_enable(hdev, false);
+> +    }
+> fail_log:
+>     vhost_log_put(hdev, false);
+> fail_vq:
+> @@ -1866,18 +1897,21 @@ fail_features:
+> }
+>=20
+> /* Host notifiers must be enabled at this point. */
+> -void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+> +void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vri=
+ngs)
+> {
+>     int i;
+>=20
+>     /* should only be called after backend is connected */
+>     assert(hdev->vhost_ops);
+>=20
+> -    trace_vhost_dev_stop(hdev, vdev->name);
+> +    trace_vhost_dev_stop(hdev, vdev->name, vrings);
+>=20
+>     if (hdev->vhost_ops->vhost_dev_start) {
+>         hdev->vhost_ops->vhost_dev_start(hdev, false);
+>     }
+> +    if (vrings) {
+> +        vhost_dev_set_vring_enable(hdev, false);
+> +    }
+>     for (i =3D 0; i < hdev->nvqs; ++i) {
+>         vhost_virtqueue_stop(hdev,
+>                              vdev,
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index 820dadc26c..14fc5b9bb2 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -9,8 +9,8 @@ vhost_section(const char *name) "%s"
+> vhost_reject_section(const char *name, int d) "%s:%d"
+> vhost_iotlb_miss(void *dev, int step) "%p step %d"
+> vhost_dev_cleanup(void *dev) "%p"
+> -vhost_dev_start(void *dev, const char *name) "%p:%s"
+> -vhost_dev_stop(void *dev, const char *name) "%p:%s"
+> +vhost_dev_start(void *dev, const char *name, bool vrings) "%p:%s vrings:=
+%d"
+> +vhost_dev_stop(void *dev, const char *name, bool vrings) "%p:%s vrings:%=
+d"
+>=20
+>=20
+> # vhost-user.c
+> --=20
+> 2.38.1
+>=20
 
-Please add entries to the ChangeLog for the 7.2 release below:
-
-  http://wiki.qemu.org/ChangeLog/7.2
-
-Thank you to everyone involved!
-
-Changes since rc1:
-
-7c09a7f6ae: Update VERSION for v7.2.0-rc2 (Stefan Hajnoczi)
-15f8f4671a: target/arm: Use signed quantity to represent VMSAv8-64 translat=
-ion level (Ard Biesheuvel)
-26ba00cf58: target/arm: Don't do two-stage lookup if stage 2 is disabled (P=
-eter Maydell)
-4451cc4653: hw/loongarch: Replace the value of uart info with macro (Xiaoju=
-an Yang)
-e8c8203e55: hw/loongarch: Fix setprop_sized method in fdt rtc node. (Xiaoju=
-an Yang)
-0208ba74c5: hw/loongarch: Add default stdout uart in fdt (Xiaojuan Yang)
-b7c61789e6: virtio: disable error for out of spec queue-enable (Michael S. =
-Tsirkin)
-04e5bd441a: acpi/tests/avocado/bits: keep the work directory when BITS_DEBU=
-G is set in env (Ani Sinha)
-c4d4c40c51: tests/avocado: configure acpi-bits to use avocado timeout (John=
- Snow)
-242a58cabe: MAINTAINERS: add mst to list of biosbits maintainers (Ani Sinha)
-83afb1409f: tests: acpi: x86: update expected DSDT after moving PRQx fields=
- in _SB scope (Igor Mammedov)
-4fd75ce076: acpi: x86: move RPQx field back to _SB scope (Igor Mammedov)
-2df30863fa: tests: acpi: whitelist DSDT before moving PRQx to _SB scope (Ig=
-or Mammedov)
-562a7d23bf: vhost: mask VIRTIO_F_RING_RESET for vhost and vhost-user device=
-s (Stefano Garzarella)
-5544d33d4b: gitlab: integrate coverage report (Alex Benn=C3=A9e)
-f22a80727f: tests/avocado: skip aarch64 cloud TCG tests in CI (Alex Benn=C3=
-=A9e)
-ba5d1f23f7: tests/avocado: introduce alpine virt test for CI (Alex Benn=C3=
-=A9e)
-5d25e1e02c: tests/avocado: Raise timeout for boot_linux.py:BootLinuxPPC64.t=
-est_pseries_tcg (Peter Maydell)
-73ee4c55f7: docs/devel: try and improve the language around patch review (A=
-lex Benn=C3=A9e)
-ca127fe96d: docs/devel: simplify the minimal checklist (Alex Benn=C3=A9e)
-115847f6b0: docs/devel: make language a little less code centric (Alex Benn=
-=C3=A9e)
-668725ce6b: docs/devel: add a maintainers section to development process (A=
-lex Benn=C3=A9e)
-e558220df0: tests/docker: allow user to override check target (Alex Benn=C3=
-=A9e)
-a4b14b46d9: tests/avocado/machine_aspeed.py: Reduce noise on the console fo=
-r SDK tests (C=C3=A9dric Le Goater)
-47fdc8fb82: Run docker probe only if docker or podman are available (Stefan=
- Weil)
-6d71357a3b: rtl8139: honor large send MSS value (Stefan Hajnoczi)
-c74831a02c: rtl8139: keep Tx command mode 0 and 1 separate (Stefan Hajnoczi)
-bd142b2391: rtl8139: avoid clobbering tx descriptor bits (Stefan Hajnoczi)
-312b71abce: target/arm: Limit LPA2 effective output address when TCR.DS =3D=
-=3D 0 (Ard Biesheuvel)
-c4462523ff: tests/avocado/boot_linux.py: Bump aarch64 virt test timeout to =
-720s (Peter Maydell)
-3d5af538a4: hw/intc: add implementation of GICD_IIDR to Arm GIC (Alex Benn=
-=C3=A9e)
-69e7e60d01: hw/intc: clean-up access to GIC multi-byte registers (Alex Benn=
-=C3=A9e)
-93e2da36ed: hw/sd: Fix sun4i allwinner-sdhost for U-Boot (Strahinja Jankovi=
-c)
-b5280437a7: migration: Block migration comment or code is wrong (Juan Quint=
-ela)
-6f39c90b86: migration: Disable multifd explicitly with compression (Peter X=
-u)
-cedb70eafb: migration: Use non-atomic ops for clear log bitmap (Peter Xu)
-afed4273b5: migration: Disallow postcopy preempt to be used with compress (=
-Peter Xu)
-f5816b5c86: migration: Fix race on qemu_file_shutdown() (Peter Xu)
-4934a5dd7c: migration: Fix possible infinite loop of ram save process (Pete=
-r Xu)
-4cc47b4395: migration/multifd/zero-copy: Create helper function for flushin=
-g (Leonardo Bras)
-a216ec85b7: migration/channel-block: fix return value for qio_channel_block=
-_{readv,writev} (Fiona Ebner)
-06639f8ff5: chardev/char-win-stdio: Pass Ctrl+C to guest with a multiplexed=
- monitor (Bin Meng)
-049b4ad669: target/ppc: Fix build warnings when building with 'disable-tcg'=
- (Vaibhav Jain)
-1b7a07c441: acpi/tests/avocado/bits: some misc fixes (Ani Sinha)
-c70fe3b148: ci: replace x86_64 macos-11 with aarch64 macos-12 (Daniel P. Be=
-rrang=C3=A9)
-be5df2edb5: docs/system/s390x: Document the "loadparm" machine property (Th=
-omas Huth)
-44ee69ea16: s390x: Fix spelling errors (Thomas Huth)
 
