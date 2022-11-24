@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C22637E58
+	by mail.lfdr.de (Postfix) with ESMTPS id AC75E637E57
 	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 18:34:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyG6P-0000eA-8y; Thu, 24 Nov 2022 12:33:33 -0500
+	id 1oyG6S-0000eb-1U; Thu, 24 Nov 2022 12:33:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oyG6N-0000df-B1
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:31 -0500
+ id 1oyG6Q-0000eR-4s
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:34 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oyG6L-0006mt-4M
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:31 -0500
+ id 1oyG6O-0006nE-LO
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669311208;
+ s=mimecast20190719; t=1669311211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yL2V6njy9W3hahjt4IUqaIlGpLwKYOXSPAmRmVqy63M=;
- b=eVfttYu3QSMLsc9QbhceuSQCirZLA3GJiiPAxIBGzkoPV6n59INMjkvDnPSp3td1dfbqWG
- 9bpI9ARBBRCcDbGymlKBXKaGL3K/+9OOdqzFCEbqqHeB+XqC5ISHfMNHA9QTP6l3Gs9xWN
- dZX2E5js+IAnSoc+z2/oBRlz/2XHfAo=
+ bh=eSQfQgZwUxYz+40VJ5koviZg2km2LQPd2acwK16R2JA=;
+ b=dihAC7kKYhew0m0KhGKIy0mI4FWpMYPDg37GI4njZBlmUrVp7CUi08EWy9MyN+m7e0p10o
+ 7O0msiRYgSc0V7vZqVej531Lf0m9yLhXYYEkpWR0dEosnZgV0p0pv/E5TRQJGZv85aiboh
+ JzuQ8oxbV1T81ON2KZVD/v+aq2IeZ80=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-wmdZtQhMOue-YOQfMwUABA-1; Thu, 24 Nov 2022 12:33:25 -0500
-X-MC-Unique: wmdZtQhMOue-YOQfMwUABA-1
+ us-mta-133-S_Ce2XBsNXqv5p_0cptutw-1; Thu, 24 Nov 2022 12:33:28 -0500
+X-MC-Unique: S_Ce2XBsNXqv5p_0cptutw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A479C811E7A;
- Thu, 24 Nov 2022 17:33:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65CB1101A52A;
+ Thu, 24 Nov 2022 17:33:27 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 357A64C819;
- Thu, 24 Nov 2022 17:33:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB23B4C819;
+ Thu, 24 Nov 2022 17:33:24 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eli Cohen <eli@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -51,10 +51,10 @@ Cc: Eli Cohen <eli@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Lei Yang <leiyang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
  Stefano Garzarella <sgarzare@redhat.com>,
  Si-Wei Liu <si-wei.liu@oracle.com>, Cindy Lu <lulu@redhat.com>
-Subject: [PATCH v2 1/4] virtio_net: Modify virtio_net_get_config to early
- return
-Date: Thu, 24 Nov 2022 18:33:11 +0100
-Message-Id: <20221124173314.2123015-2-eperezma@redhat.com>
+Subject: [PATCH v2 2/4] virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device model
+ has it
+Date: Thu, 24 Nov 2022 18:33:12 +0100
+Message-Id: <20221124173314.2123015-3-eperezma@redhat.com>
 In-Reply-To: <20221124173314.2123015-1-eperezma@redhat.com>
 References: <20221124173314.2123015-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -85,56 +85,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Next patches introduce more code on vhost-vdpa branch, with already have
-too much indentation.
+Status part of the emulated feature. It will follow device model, so we
+must copy it as long as NIC device model has it set.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ hw/net/virtio-net.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index aba12759d5..eed629766f 100644
+index eed629766f..bf71ef33e8 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -168,20 +168,22 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
-     if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-         ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
-                                    n->config_size);
--        if (ret != -1) {
--            /*
--             * Some NIC/kernel combinations present 0 as the mac address.  As
--             * that is not a legal address, try to proceed with the
--             * address from the QEMU command line in the hope that the
--             * address has been configured correctly elsewhere - just not
--             * reported by the device.
--             */
--            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) == 0) {
--                info_report("Zero hardware mac address detected. Ignoring.");
--                memcpy(netcfg.mac, n->mac, ETH_ALEN);
--            }
--            memcpy(config, &netcfg, n->config_size);
-+        if (ret == -1) {
-+            return;
+@@ -183,6 +183,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+             memcpy(netcfg.mac, n->mac, ETH_ALEN);
          }
-+
-+        /*
-+         * Some NIC/kernel combinations present 0 as the mac address.  As that
-+         * is not a legal address, try to proceed with the address from the
-+         * QEMU command line in the hope that the address has been configured
-+         * correctly elsewhere - just not reported by the device.
-+         */
-+        if (memcmp(&netcfg.mac, &zero, sizeof(zero)) == 0) {
-+            info_report("Zero hardware mac address detected. Ignoring.");
-+            memcpy(netcfg.mac, n->mac, ETH_ALEN);
-+        }
-+
-+        memcpy(config, &netcfg, n->config_size);
+ 
++        netcfg.status |= (n->status & VIRTIO_NET_S_ANNOUNCE);
+         memcpy(config, &netcfg, n->config_size);
      }
  }
- 
 -- 
 2.31.1
 
