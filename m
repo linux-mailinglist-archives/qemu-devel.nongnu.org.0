@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8C3637E59
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 18:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9B8637E56
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 18:34:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyG6Y-0000fp-P3; Thu, 24 Nov 2022 12:33:42 -0500
+	id 1oyG6W-0000fb-PK; Thu, 24 Nov 2022 12:33:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oyG6U-0000f9-J5
+ id 1oyG6U-0000f2-BZ
  for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:38 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oyG6T-0006na-5p
+ id 1oyG6T-0006nd-0q
  for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669311215;
+ s=mimecast20190719; t=1669311216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f2x7uBGTJBr4/qPnUNJwXtchvIVJ6BxDDXORIni7Vew=;
- b=aygbAMcQHp3/RJ25WX/7FhebmR8S9747xu3TxvYDhF1LfOWTWkg/HuyaV3mScyXVz6ebdQ
- NQPAthJSJMopCTFJgjLwf1++ckXjnd+2o4/iTut0hdKTw1PGxKP1pYAPEnXsP9um/u1e0b
- 9Kl8ZAqZOKRxshzUomevs/4oLcEDS5c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jxSaZR7f+8Mlb3ugqwigOl8aChdPsaR66sNuJYO/XCY=;
+ b=OQLpWHcAAKvbwa0WzngnCSsu7YxXzsQJ4PVLMGyPovNWeEJ9EayO4142X2Ur+yUFqCBVN9
+ RZnKKbwfFiIYBC23AbsITi22Oi1djTp2nqiXa8m5TLciGF+dlyifYf9A2f3oKU63y50oZn
+ OJC1oZ71rtwiZlPwEsYHV1UmFlB3ndc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-323-om69iShzNU2CMMc_dzuGzA-1; Thu, 24 Nov 2022 12:33:30 -0500
-X-MC-Unique: om69iShzNU2CMMc_dzuGzA-1
+ us-mta-613-u4hbdNH4PaKCWXUCWZaBsA-1; Thu, 24 Nov 2022 12:33:33 -0500
+X-MC-Unique: u4hbdNH4PaKCWXUCWZaBsA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26F551C09044;
- Thu, 24 Nov 2022 17:33:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCD16811E75;
+ Thu, 24 Nov 2022 17:33:32 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACF934C819;
- Thu, 24 Nov 2022 17:33:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E3014C819;
+ Thu, 24 Nov 2022 17:33:30 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eli Cohen <eli@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -51,10 +51,10 @@ Cc: Eli Cohen <eli@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Lei Yang <leiyang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
  Stefano Garzarella <sgarzare@redhat.com>,
  Si-Wei Liu <si-wei.liu@oracle.com>, Cindy Lu <lulu@redhat.com>
-Subject: [PATCH v2 3/4] vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
- vhost_vdpa_net_handle_ctrl_avail
-Date: Thu, 24 Nov 2022 18:33:13 +0100
-Message-Id: <20221124173314.2123015-4-eperezma@redhat.com>
+Subject: [PATCH v2 4/4] vdpa: do not handle VIRTIO_NET_F_GUEST_ANNOUNCE in
+ vhost-vdpa
+Date: Thu, 24 Nov 2022 18:33:14 +0100
+Message-Id: <20221124173314.2123015-5-eperezma@redhat.com>
 In-Reply-To: <20221124173314.2123015-1-eperezma@redhat.com>
 References: <20221124173314.2123015-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -85,40 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since this capability is emulated by qemu shadowed CVQ cannot forward it
-to the device. Process all that command within qemu.
+So qemu emulates it even in case the device does not support it.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- net/vhost-vdpa.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ net/vhost-vdpa.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 2b4b85d8f8..8172aa8449 100644
+index 8172aa8449..79f022c2bf 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -489,9 +489,18 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
-     out.iov_len = iov_to_buf(elem->out_sg, elem->out_num, 0,
-                              s->cvq_cmd_out_buffer,
-                              vhost_vdpa_net_cvq_cmd_len());
--    dev_written = vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(status));
--    if (unlikely(dev_written < 0)) {
--        goto out;
-+    if (*(uint8_t *)s->cvq_cmd_out_buffer == VIRTIO_NET_CTRL_ANNOUNCE) {
-+        /*
-+         * Guest announce capability is emulated by qemu, so dont forward to
-+         * the device.
-+         */
-+        dev_written = sizeof(status);
-+        *s->status = VIRTIO_NET_OK;
-+    } else {
-+        dev_written = vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(status));
-+        if (unlikely(dev_written < 0)) {
-+            goto out;
-+        }
-     }
- 
-     if (unlikely(dev_written < sizeof(status))) {
+@@ -72,7 +72,6 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_F_RING_RESET,
+     VIRTIO_NET_F_RSS,
+     VIRTIO_NET_F_HASH_REPORT,
+-    VIRTIO_NET_F_GUEST_ANNOUNCE,
+     VIRTIO_NET_F_STATUS,
+     VHOST_INVALID_FEATURE_BIT
+ };
 -- 
 2.31.1
 
