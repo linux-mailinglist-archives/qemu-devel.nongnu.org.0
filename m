@@ -2,110 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FFD63751A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 10:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5814963753C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 10:35:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oy8UQ-0003ya-H6; Thu, 24 Nov 2022 04:25:50 -0500
+	id 1oy8cF-0005Fi-OC; Thu, 24 Nov 2022 04:33:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oy8UO-0003yN-Ht; Thu, 24 Nov 2022 04:25:48 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oy8bJ-00059c-9C
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:32:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oy8UM-0001sA-8n; Thu, 24 Nov 2022 04:25:48 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AO87U27014182; Thu, 24 Nov 2022 09:25:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Qj3Jf37GiwZIE/i8Bo3VVrGMR0Lkjh6AD49hrzKgbyY=;
- b=bcfbnOpxxNwKsnh4ajiKnWGO47MDaF98KHORNMEcWU1KA4bK4ppyB7KAeZR9FUEgHCq6
- xSfrNLT0/0qqDe3mXf6l7lpDTSe1syCH2RGvAcdC9nz4OzgxX/BsJFzxPOZ7Mv0pr45N
- sRygWUCFaY9DKRL+2l9TYGWnQEt9wT6Po1IlQG2KAtDcJaMRHQJuG9TEWJK3Xvgi06T2
- AHY3u5jyt9Zwapk6RHUmKIuj7uD4zOnh8Gnj1WWqZNo3UjaU3OM9AFmfQ8ik/+OQWc1a
- eRe5gTMPWsRQbm3t/a8q+H8vw2uklUS/Jz7PdFtaRGSDBVTlPz759RsPTZRm6o9NQOnm tQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m1153ndwd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Nov 2022 09:25:40 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AO7sY1u030198;
- Thu, 24 Nov 2022 09:25:39 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m1153ndvm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Nov 2022 09:25:39 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AO9KvqB015958;
- Thu, 24 Nov 2022 09:25:36 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3kxps8ywuy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Nov 2022 09:25:36 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AO9PXeW35914464
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Nov 2022 09:25:33 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2BF1F11C050;
- Thu, 24 Nov 2022 09:25:33 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 48E1311C04C;
- Thu, 24 Nov 2022 09:25:32 +0000 (GMT)
-Received: from [9.179.0.51] (unknown [9.179.0.51])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 24 Nov 2022 09:25:32 +0000 (GMT)
-Message-ID: <ccb73052-43e5-e072-b201-e983df876e6a@linux.ibm.com>
-Date: Thu, 24 Nov 2022 10:25:31 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oy8bG-0000sG-8u
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:32:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669282373;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ytjw1Q193GioMQ7nuuiJ2+8swD2PQaobqGR4aVGxZGg=;
+ b=P76v9tYzlG1JZrKJb5RRrre5j52VFmJQRIOn926AmJKht2v0c2lkIFJ1qLcNjw3FPirnSR
+ gAbLhe6GDo9CE03On6KM00J7vpLexV8jjoqJEeaEkFDL+Nj/OXhFoRpNbog9yq1QKGLAhG
+ yzAyCkFWO5ANnOnuHO4Zi2LDGJtZWlE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-580-yFs3sWylMMa5LaGYy5bTtw-1; Thu, 24 Nov 2022 04:32:50 -0500
+X-MC-Unique: yFs3sWylMMa5LaGYy5bTtw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B769101AA79;
+ Thu, 24 Nov 2022 09:32:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F0864EA55;
+ Thu, 24 Nov 2022 09:32:45 +0000 (UTC)
+Date: Thu, 24 Nov 2022 09:32:41 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
+Message-ID: <Y386OVJ3HhsnuZ8F@redhat.com>
+References: <20221118113309.1057790-1-alex.bennee@linaro.org>
+ <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
+ <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
+ <87fse9bvmf.fsf@linaro.org>
+ <504f6645-5315-74c5-623d-d8bf231aec09@linaro.org>
+ <f12c4b6f-8125-696c-5699-802ccc7c5f39@kaod.org>
+ <d43878da-f17c-96ae-a097-7b90f9024a98@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v9 00/10] s390x: CPU Topology
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, pasic@linux.ibm.com, richard.henderson@linaro.org, 
- david@redhat.com, thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, frankja@linux.ibm.com,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <a2ddbba2-9e52-8ed8-fdbc-a587b8286576@de.ibm.com>
- <1fe0b036-19e7-a8a4-63aa-9bbcaed48187@linux.ibm.com>
- <9e8d4c74-7405-5e1f-6c95-3c0c99c43eb9@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <9e8d4c74-7405-5e1f-6c95-3c0c99c43eb9@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: cOTIsnPfWLVujPTDk-Le3Ldb9W2AJIJO
-X-Proofpoint-GUID: xSUEGmxdjqx25jWhSf6dBxz8LzE2muaV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-24_06,2022-11-23_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- malwarescore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- adultscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=999 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211240072
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <d43878da-f17c-96ae-a097-7b90f9024a98@linaro.org>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,137 +90,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Nov 24, 2022 at 12:06:10AM +0100, Philippe Mathieu-Daudé wrote:
+> On 23/11/22 19:49, Cédric Le Goater wrote:
+> > On 11/23/22 19:13, Philippe Mathieu-Daudé wrote:
+> > > On 23/11/22 15:12, Alex Bennée wrote:
+> > > > Thomas Huth <thuth@redhat.com> writes:
+> > > > > On 23/11/2022 12.15, Philippe Mathieu-Daudé wrote:
+> > > > > > On 18/11/22 12:33, Alex Bennée wrote:
+> > > > > > > The old URL wasn't stable. I suspect the current URL will only be
+> > > > > > > stable for a few months so maybe we need another strategy for hosting
+> > > > > > > rootfs snapshots?
+> > > > > > > 
+> > > > > > > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > > > > > > ---
+> > > > > > >    tests/avocado/boot_linux_console.py | 4 ++--
+> > > > > > >    1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/tests/avocado/boot_linux_console.py
+> > > > > > > b/tests/avocado/boot_linux_console.py
+> > > > > > > index 4c9d551f47..5a2923c423 100644
+> > > > > > > --- a/tests/avocado/boot_linux_console.py
+> > > > > > > +++ b/tests/avocado/boot_linux_console.py
+> > > > > > > @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
+> > > > > > >            dtb_path =
+> > > > > > > '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
+> > > > > > >            dtb_path = self.extract_from_deb(deb_path, dtb_path)
+> > > > > > >            rootfs_url =
+> > > > > > > ('http://storage.kernelci.org/images/rootfs/buildroot/'
+> > > > > > > -                      'kci-2019.02/armel/base/rootfs.ext2.xz')
+> > > > > > > -        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
+> > > > > > > +
+> > > > > > > 'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
+> > > > > > > +        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
+> > > > > > If Avocado doesn't find an artifact in its local cache,
+> > > > > > it will fetch it
+> > > > > > from the URL.
+> > > > > > The cache might be populated with artifacts previously downloaded, but
+> > > > > > their URL is not valid anymore (my case for many tests).
+> > > > > > We can also add artifacts manually, see [1].
+> > > > > > I'd rather keep pre-existing tests if possible, to test older
+> > > > > > (kernel / user-space) images. We don't need to run all the tests all
+> > > > > > the time:
+> > > > > > tests can be filtered by tags (see [2]).
+> > > > > > My preference here is to refactor this test, adding the
+> > > > > > "kci-2019.02"
+> > > > > > and "baseline-20221116.0" releases. I can prepare the patch if you /
+> > > > > > Thomas don't object.
+> > > > > 
+> > > > > IMHO we shouldn't keep tests in the upstream git repository where the
+> > > > > binaries are not available in public anymore. They won't get run by
+> > > > > new contributors anymore, and also could vanish from the disks of the
+> > > > > people who previously downloaded it, once they wipe their cache or
+> > > > > upgrade to a new installation, so the test code will sooner or later
+> > > > > be bitrotting. But if you want to keep the tests around on your hard
+> > > > > disk, you could also stick the test in a local branch on your hard
+> > > > > disk instead.
+> > > > 
+> > > > CI/Workstation splits aside I tend to agree with Thomas here that having
+> > > > tests no one else can run will lead to an accretion of broken tests.
+> > > 
+> > > Following this idea, should we remove all boards for which no open
+> > > source & GPL software is available? I.e:
+> > > 
+> > > 40p                  IBM RS/6000 7020 (40p)
+> > 
+> > This machine can run debian :
+> 
+> IMHO having QEMU able to run anything an architecture can run seems way
+> more interesting/helpful rather than restricting it to just open source
+> projects.
+> 
+> >    qemu-system-ppc -M 40p -cpu 604 -nic user -hda ./prep.qcow2 -cdrom
+> > ./zImage.hdd -serial mon:stdio -nographic
+> >    >> =============================================================
+> >    >> OpenBIOS 1.1 [Mar 7 2022 23:07]
+> >    >> Configuration device id QEMU version 1 machine id 0
+> >    >> CPUs: 0
+> >    >> Memory: 128M
+> >    >> UUID: 00000000-0000-0000-0000-000000000000
+> >    >> CPU type PowerPC,604
+> >    milliseconds isn't unique.
+> >    Welcome to OpenBIOS v1.1 built on Mar 7 2022 23:07
+> >    Trying hd:,\\:tbxi...
+> >    >> Not a bootable ELF image
+> >    >> switching to new context:
+> >    loaded at:     04000400 04015218
+> >    relocated to:  00800000 00814E18
+> >    board data at: 07C9E870 07CA527C
+> >    relocated to:  0080B130 00811B3C
+> >    zimage at:     0400B400 0411DC98
+> >    avail ram:     00400000 00800000
+> >    Linux/PPC load: console=/dev/ttyS0,9600 console=tty0
+> > ether=5,0x210,eth0 ether=11,0x300,eth1 ramdisk_size=8192 root=/dev/sda3
+> >    Uncompressing Linux................................................done.
+> >    Now booting the kernel
+> >    Debian GNU/Linux 3.0 6015 ttyS0
+> >    6015 login:
+> > 
+> > Please keep it ! :)
+> > 
+> > and it also boots AIX 4.4/5.1 (with 2 small patches) but that's clearly
+> > not open source. It is downloadable from the net though, like many macos
+> > PPC images.
+> > 
+> > That said, we might have been putting too much in avocado and it takes
+> > ages to run (when it does not hit some random python issue).
+> 
+> w.r.t. "too much in avocado", are you referring to GitLab CI?
+> 
+> I see the following 2 use cases with Avocado:
+>  1/ Run tests locally
+>  2/ Run tests on CI
+> The set of tests used in 1/ and 2/ doesn't have to be the same...
+> 
+> 1/ is very helpful for maintainers, to run tests specific to their
+> subsystems. Also useful during refactor when touching other subsystems,
+> to run their tests before sending a patch set.
+> 
+> 2/ is the "gating" testing. With retrospective, it was a mistake to
+> start running avocado on CI without any filtering on what tests to run.
+> Instead of trying to explain my view here, I'd like to go back to Daniel
+> earlier proposal:
+> https://lore.kernel.org/qemu-devel/20200427152036.GI1244803@redhat.com/
+> 
+> Per this proposal, we should only run 'Tier 1' on Gitlab CI.
+> Daniel described "Tier 1" as "[test that] Will always work."
 
-Gentle ping.
+The key part there is to make clear that testing does not determine
+what code we accept into QEMU tree. It merely influences what quality
+level we tell users the code has. Ideally we would test everything,
+but realistically that's not viable, but we still want to take the
+features.
 
-Did I understand the problem or am I wrong?
+>                                                              I'd like to
+> amend with "test that run in less than 150 seconds" (or less). If a test
+> takes more, we can run it on our workstations, but we shouldn't waste
+> CI cycles with it.
 
+I don't think we need to be so aggressive on time limits for
+individual tests. What matters for CI is not the individual
+test time, but the overall pipeline wallclock time.
 
-On 11/17/22 17:38, Pierre Morel wrote:
-> 
-> 
-> On 11/17/22 10:31, Pierre Morel wrote:
->>
->>
->> On 11/16/22 17:51, Christian Borntraeger wrote:
->>> Am 02.09.22 um 09:55 schrieb Pierre Morel:
->>>> Hi,
->>>>
->>>> The implementation of the CPU Topology in QEMU has been drastically
->>>> modified since the last patch series and the number of LOCs has been
->>>> greatly reduced.
->>>>
->>>> Unnecessary objects have been removed, only a single S390Topology 
->>>> object
->>>> is created to support migration and reset.
->>>>
->>>> Also a documentation has been added to the series.
->>>>
->>>>
->>>> To use these patches, you will need Linux V6-rc1 or newer.
->>>>
->>>> Mainline patches needed are:
->>>>
->>>> f5ecfee94493 2022-07-20 KVM: s390: resetting the Topology-Change-Report
->>>> 24fe0195bc19 2022-07-20 KVM: s390: guest support for topology function
->>>> 0130337ec45b 2022-07-20 KVM: s390: Cleanup ipte lock access and SIIF 
->>>> fac..
->>>>
->>>> Currently this code is for KVM only, I have no idea if it is 
->>>> interesting
->>>> to provide a TCG patch. If ever it will be done in another series.
->>>>
->>>> To have a better understanding of the S390x CPU Topology and its
->>>> implementation in QEMU you can have a look at the documentation in the
->>>> last patch.
->>>>
->>>> New in this series
->>>> ==================
->>>>
->>>>    s390x/cpus: Make absence of multithreading clear
->>>>
->>>> This patch makes clear that CPU-multithreading is not supported in
->>>> the guest.
->>>>
->>>>    s390x/cpu topology: core_id sets s390x CPU topology
->>>>
->>>> This patch uses the core_id to build the container topology
->>>> and the placement of the CPU inside the container.
->>>>
->>>>    s390x/cpu topology: reporting the CPU topology to the guest
->>>>
->>>> This patch is based on the fact that the CPU type for guests
->>>> is always IFL, CPUs are always dedicated and the polarity is
->>>> always horizontal.
->>>> This may change in the future.
->>>>
->>>>    hw/core: introducing drawer and books for s390x
->>>>    s390x/cpu: reporting drawers and books topology to the guest
->>>>
->>>> These two patches extend the topology handling to add two
->>>> new containers levels above sockets: books and drawers.
->>>>
->>>> The subject of the last patches is clear enough (I hope).
->>>>
->>>> Regards,
->>>> Pierre
->>>>
->>>> Pierre Morel (10):
->>>>    s390x/cpus: Make absence of multithreading clear
->>>>    s390x/cpu topology: core_id sets s390x CPU topology
->>>>    s390x/cpu topology: reporting the CPU topology to the guest
->>>>    hw/core: introducing drawer and books for s390x
->>>>    s390x/cpu: reporting drawers and books topology to the guest
->>>>    s390x/cpu_topology: resetting the Topology-Change-Report
->>>>    s390x/cpu_topology: CPU topology migration
->>>>    target/s390x: interception of PTF instruction
->>>>    s390x/cpu_topology: activating CPU topology
->>>
->>>
->>> Do we really need a machine property? As far as I can see, old QEMU
->>> cannot  activate the ctop facility with old and new kernel unless it
->>> enables CAP_S390_CPU_TOPOLOGY. I do get
->>> oldqemu .... -cpu z14,ctop=on
->>> qemu-system-s390x: Some features requested in the CPU model are not 
->>> available in the configuration: ctop
->>>
->>> With the newer QEMU we can. So maybe we can simply have a topology (and
->>> then a cpu model feature) in new QEMUs and non in old. the cpu model
->>> would then also fence migration from enabled to disabled.
->>
->> OK, I can check this.
->> In this case migration with topology will be if I understand correctly:
->>
->> NEW_QEMU/old_machine <-> NEW_QEMU/old_machine OK
->> While
->> OLD_QEMU/old_machine <-> NEW_QEMU/old_machine KO
->> NEW_QEMU/old_machine <-> OLD_QEMU/old_machine KO
-> 
-> I forgot to say that I mean in the examples above without using a flag.
-> 
-> Of course using a flag like -ctop=off in NEW_QEMU/new_machine allows
-> to migrate from and to old_machines in an old QEMU.
-> 
-> Also I had the same behavior already in V9 by having a VMState without 
-> the creation of a machine property, a new cpu feature and a new cpu flag.
-> 
-> 
-> 
-> 
-> 
-> 
->>
->> Is this something we can accept?
->>
->> regards,
->> Pierre
->>
-> 
+If we want our pipelines to be no longer than 45 minutes,
+it is still fine to have 4 tests that run 30 minutes each,
+provided we have sufficient resources to run all 4 in parallel.
+Keeping tests short is still a good thing, as it lets us run
+more overall, but if some need extra time that's ok.
 
+Above all else though, the top 5 requirements for any CI
+test we add are reliability, reliability, reliability,
+reliability and reliability.
+
+We can't keep spending so much time chasing broken tests.
+If the person merging QEMU pull requests just carries on
+ignoring tests as they're so frequently broken, the value
+of having the tests at all is drastically reduced, in
+terms of what they can promise us about quality of the
+code we ship.
+
+With regards,
+Daniel
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
