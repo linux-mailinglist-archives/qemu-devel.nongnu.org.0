@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E93B637CB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 16:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F55637CB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 16:19:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyDzh-00029S-Hi; Thu, 24 Nov 2022 10:18:29 -0500
+	id 1oyDzz-0002c7-MF; Thu, 24 Nov 2022 10:18:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyDze-00025d-Ni
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 10:18:26 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyDzb-00057P-G1
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 10:18:26 -0500
-Received: by mail-wr1-x430.google.com with SMTP id x17so2904577wrn.6
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 07:18:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=eqBdcOgiBpx0VbgqJAjqsk8wkUHCZp9MWtstHXhLDno=;
- b=R7kbepsygh273fUkxwzM7Sm1lCfSPTYHMpZ1fRt3GbiHAPUYJLszcIiAOgqnSLoHDL
- AMvwPKovUy07HenKa3BqjhX22jBEXBqXr+zyT7ZNFlN8lNuwOgGCh5QRNU/CZTdTMWmT
- yl3tiCcv3yQ39YWrPP3xSE/D8O5YaQ2p5TK8brEKka3lOtM6VgbRjuOqMaOf/+blQMcD
- MnkWxX97lxnbI1mHHZcdqHahQpc3HWcPFtETFmdl0ukaHg+5fk9V9ZkrE1L47oogLWDt
- LL8spP0QfaKMUr/unEoZ24nVVK2C2+woXRi9RLFjHwm+u4c5wUxlI6Ne72TeoRhOBjwR
- 0Sqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eqBdcOgiBpx0VbgqJAjqsk8wkUHCZp9MWtstHXhLDno=;
- b=7SgHlugE7042aXLFPJ+V3sYOKhHy9wXz42yiOvNJDbIlK8BW1BC80DTLuUrYCeav5J
- QcuC6bADhQg0x8MJWTcGWj9PzFUFdq1PBefBwkgBaL43T/E44PpVVxthhdD/Xpp4anRm
- FAFylBLSlP+8bki2d3SYyAHkCv22PBlQiCnMk0Zks5mD59vXTP+W9ShzHHA/AMV8LmHN
- QHR/T2j8lH0nEb+SdHDrcIIdoCphIwxe2AR+patMybEaCf6GP7/auYb7wdT9YquYk7rQ
- z+E+17/HEgkHPwZYKJQC2N4j4U9G4hYUL+Qhqm/+B2YYZXAokPGjxOOhUauRLg5doF9n
- aqOQ==
-X-Gm-Message-State: ANoB5pm3BYp/Nsg75Fw8I+lLlk6IoWd/VKt9Wo/7tFNft4xg9K5MlOoi
- quzkGGY3A8lAJ5Ue7JMg7kgQ4Q==
-X-Google-Smtp-Source: AA0mqf6i5+Oz/4oYUPgeYNBPtxVOW6nBcy4Hn0kSfUQwmDhg7ySCJCjkphECjvLfJe05iSTqjRnGQA==
-X-Received: by 2002:a05:6000:124c:b0:236:2314:6d4b with SMTP id
- j12-20020a056000124c00b0023623146d4bmr12850455wrx.112.1669303101838; 
- Thu, 24 Nov 2022 07:18:21 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- ba17-20020a0560001c1100b00236695ff94fsm1734729wrb.34.2022.11.24.07.18.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Nov 2022 07:18:21 -0800 (PST)
-Message-ID: <de787c6a-c524-a05d-2714-98ad125bd154@linaro.org>
-Date: Thu, 24 Nov 2022 16:18:19 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oyDzu-0002aL-Fi
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 10:18:44 -0500
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oyDzs-00059Z-Km
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 10:18:42 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.249])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 443992074B;
+ Thu, 24 Nov 2022 15:18:34 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 24 Nov
+ 2022 16:18:32 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S001b1952c19-a79f-48b9-8a59-60334ae8f2e7,
+ DDB2ECFE20CB56AE513B1B85273A418DB31AAA82) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 24 Nov 2022 16:18:30 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: <qemu-devel@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>, "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Laurent Vivier <laurent@vivier.eu>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <philmd@linaro.org>, Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, "Aleksandar Rikalo"
+ <aleksandar.rikalo@syrmia.com>, Chris Wulff <crwulff@gmail.com>, Marek Vasut
+ <marex@denx.de>, Stafford Horne <shorne@gmail.com>, "Daniel Henrique Barboza"
+ <danielhb413@gmail.com>, "=?UTF-8?B?Q8OpZHJpYw==?= Le Goater" <clg@kaod.org>, 
+ David Gibson <david@gibson.dropbear.id.au>, "Palmer Dabbelt"
+ <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>, Bin Meng
+ <bin.meng@windriver.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Mark
+ Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Artyom Tarasenko
+ <atar4qemu@gmail.com>, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, <qemu-arm@nongnu.org>,
+ <qemu-ppc@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: Re: [PATCH for-8.0 13/19] target/ppc: Convert to 3-phase reset
+Message-ID: <20221124161830.3411f177@bahia>
+In-Reply-To: <20221124115023.2437291-14-peter.maydell@linaro.org>
+References: <20221124115023.2437291-1-peter.maydell@linaro.org>
+ <20221124115023.2437291-14-peter.maydell@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH] acpi/tests/avocado/bits: add SPDX license identifiers for
- bios bits tests
-Content-Language: en-US
-To: Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter
- <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Igor Mammedov <imammedo@redhat.com>,
- Michael Tsirkin <mst@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org
-References: <20221124135834.924426-1-ani@anisinha.ca>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221124135834.924426-1-ani@anisinha.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: 8c723b80-b8f5-4908-94da-7a0c47feb902
+X-Ovh-Tracer-Id: 10036834722037733867
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdejhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegkeejtdevgeekieelffdvtedvvdegtdduudeigffhhffgvdfhgeejteekheefkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhjtghmvhgskhgstgesghhmrghilhdrtghomhdpkhgsrghsthhirghnsehmrghilhdruhhnihdqphgruggvrhgsohhrnhdruggvpdgrthgrrhegqhgvmhhusehgmhgrihhlrdgtohhmpdhmrghrkhdrtggrvhgvqdgrhihlrghnugesihhlrghnuggvrdgtohdruhhkpdihshgrthhosehushgvrhhsrdhsohhurhgtvghfohhrghgvrdhjphdpsghinhdrmhgvnhhgseifihhnug
+ hrihhvvghrrdgtohhmpdgrlhhishhtrghirhdrfhhrrghntghishesfigutgdrtghomhdpphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhshhhorhhnvgesghhmrghilhdrtghomhdptghrfihulhhffhesghhmrghilhdrtghomhdprghlvghkshgrnhgurghrrdhrihhkrghlohesshihrhhmihgrrdgtohhmpdhjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmpdgruhhrvghlihgvnhesrghurhgvlhefvddrnhgvthdpphhhihhlmhgusehlihhnrghrohdrohhrghdplhgruhhrvghnthesvhhivhhivghrrdgvuhdphigrnhhggihirghojhhurghnsehlohhonhhgshhonhdrtghnpdhgrghoshhonhhgsehlohhonhhgshhonhdrtghnpdhtshhimhhpshhonhesqhhuihgtihhntgdrtghomhdpvggughgrrhdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdhmrhholhhnihhksehgmhgrihhlrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhmrghrvgigseguvghngidruggvpdhqvghmuhdqrhhishgtvhesnhhonhhgnhhurdhorhhgpdgtlhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=groug@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,31 +86,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/11/22 14:58, Ani Sinha wrote:
-> Added the SPDX license identifiers for biosbits tests.
-> Also added a comment on each of the test scripts to indicate that they run
-> from within the biosbits environment and hence are not subjected to the regular
-> maintanance acivities for QEMU and is excluded from the dependency management
+On Thu, 24 Nov 2022 11:50:16 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Typo "maintenance activities".
-
-> challenges in the host testing environment.
+> Convert the ppc CPU class to use 3-phase reset, so it doesn't
+> need to use device_class_set_parent_reset() any more.
 > 
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Maydell Peter <peter.maydell@linaro.org>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Michael Tsirkin <mst@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: qemu-trivial@nongnu.org
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   tests/avocado/acpi-bits/bits-tests/smbios.py2    | 4 ++++
->   tests/avocado/acpi-bits/bits-tests/testacpi.py2  | 4 ++++
->   tests/avocado/acpi-bits/bits-tests/testcpuid.py2 | 4 ++++
->   3 files changed, 12 insertions(+)
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  target/ppc/cpu-qom.h  |  4 ++--
+>  target/ppc/cpu_init.c | 12 ++++++++----
+>  2 files changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+> index 89ff88f28c9..0fbd8b72468 100644
+> --- a/target/ppc/cpu-qom.h
+> +++ b/target/ppc/cpu-qom.h
+> @@ -143,7 +143,7 @@ typedef struct PPCHash64Options PPCHash64Options;
+>  /**
+>   * PowerPCCPUClass:
+>   * @parent_realize: The parent class' realize handler.
+> - * @parent_reset: The parent class' reset handler.
+> + * @parent_phases: The parent class' reset phase handlers.
+>   *
+>   * A PowerPC CPU model.
+>   */
+> @@ -154,7 +154,7 @@ struct PowerPCCPUClass {
+>  
+>      DeviceRealize parent_realize;
+>      DeviceUnrealize parent_unrealize;
+> -    DeviceReset parent_reset;
+> +    ResettablePhases parent_phases;
+>      void (*parent_parse_features)(const char *type, char *str, Error **errp);
+>  
+>      uint32_t pvr;
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index cbf00813743..95d25856a0e 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -7031,16 +7031,18 @@ static bool ppc_cpu_has_work(CPUState *cs)
+>      return cs->interrupt_request & CPU_INTERRUPT_HARD;
+>  }
+>  
+> -static void ppc_cpu_reset(DeviceState *dev)
+> +static void ppc_cpu_reset_hold(Object *obj)
+>  {
+> -    CPUState *s = CPU(dev);
+> +    CPUState *s = CPU(obj);
+>      PowerPCCPU *cpu = POWERPC_CPU(s);
+>      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+>      CPUPPCState *env = &cpu->env;
+>      target_ulong msr;
+>      int i;
+>  
+> -    pcc->parent_reset(dev);
+> +    if (pcc->parent_phases.hold) {
+> +        pcc->parent_phases.hold(obj);
+> +    }
+>  
+>      msr = (target_ulong)0;
+>      msr |= (target_ulong)MSR_HVB;
+> @@ -7267,6 +7269,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+>      PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
+>      CPUClass *cc = CPU_CLASS(oc);
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+> +    ResettableClass *rc = RESETTABLE_CLASS(oc);
+>  
+>      device_class_set_parent_realize(dc, ppc_cpu_realize,
+>                                      &pcc->parent_realize);
+> @@ -7275,7 +7278,8 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+>      pcc->pvr_match = ppc_pvr_match_default;
+>      device_class_set_props(dc, ppc_cpu_properties);
+>  
+> -    device_class_set_parent_reset(dc, ppc_cpu_reset, &pcc->parent_reset);
+> +    resettable_class_set_parent_phases(rc, NULL, ppc_cpu_reset_hold, NULL,
+> +                                       &pcc->parent_phases);
+>  
+>      cc->class_by_name = ppc_cpu_class_by_name;
+>      cc->has_work = ppc_cpu_has_work;
 
 
