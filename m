@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057BB637804
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:52:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0ED9637820
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:54:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyAkq-0003kV-4a; Thu, 24 Nov 2022 06:50:56 -0500
+	id 1oyAku-0003sS-3X; Thu, 24 Nov 2022 06:51:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkf-0003XL-SG
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:47 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1oyAkk-0003b2-TW
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:51 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAka-0004qF-RM
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:44 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id p16so1123715wmc.3
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:40 -0800 (PST)
+ id 1oyAkd-0004wE-8F
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:48 -0500
+Received: by mail-wr1-x434.google.com with SMTP id b12so2148379wrn.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YH5A0XgSQ+x7lqY+JmUugpzZ5SHd9m7aavem37GWINU=;
- b=uysoE+ljouGnQ5ASsQhEK0UBx1Xru4DBOsbetk0ixTQF5fGYKtqYw7YO1upKLRGXfp
- 3lekh1OyKhtMXg4GmIrgJGWi3lbcqmW6oq6oc3N9rtrk1x5z3W3f+6obEnPC8i6SWxt6
- YAcE+Q83VF+ks3p1FGqwr3aK2Dy7JssibAsN42gyI/rgyJHKyt/XgnRwcdwisY7Z4zEF
- lkJJf1aO8lWtHbf+izUuvlvv3uww/BXroyDyZnrdsKyJhPay70He3NlwGYSvXAtPqJtH
- 1wjebi9bqHMk8yDoKpZH5JUrbulkTWpz32Y1lLC3dxqFR1jBQkKx86lhu4fVnMB95wAF
- /WCA==
+ bh=hsda7Zq3jpyzptb9XynNFoMbGolRoFCYCg8lAZ1ErIY=;
+ b=idcImeyGPJcbrfK80jQE5KdO0ppMXgOCpgoGsyDlc0mbIS5e906iZvS8oWRxdmjWWw
+ INBIjkBKlsQ8SGXP15u7ME3hXSKa0Sn9gx9C5RP8rQi19r0JoS9bLY9kQIbZtMQek/ep
+ 4W7s/NWFM8qY54k/O6wiieiaSAMz2L+pUgtWJoNXJD9VnaVz5X6PQul286voFwFsJe1o
+ KjPiUdAWXQqC1ICGdlXVo3fOl1/EbgoGID4hda7K8TF3pSwvqNDxvTllpnc8PZ0MlWtw
+ RfowLrCRx8aGBNe23g843Vu4YolLbyBOIDs2ofrZVFH2stAx1FnueWINyGGUV7UmwOQq
+ Jfow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YH5A0XgSQ+x7lqY+JmUugpzZ5SHd9m7aavem37GWINU=;
- b=QLKW7CoAy+BFZox501pCFZhPSO1vNyAHZC1ysAnphec2j+vsnOhNO7G91YQyBND0Jh
- fyK6dqzQvbUu6hKOZSYkb5JnQtq03csL6SQK4YyAkkoAQsKCFYecZ6jIbqZVvcIBArUF
- 9ChGEAkJZxHL3QocbqdkY94Ie+EyzeYo0Ol3OoyWwt5jTmi5osz9U6D+vsD2m6HIAuBj
- DKBSFmo4k2TMp0EPy6VgCb+B0e/dIxbHfHAUF3K7YaHhmlsWvhhioZFs7ezkmlW1Evsp
- oYABmZ9c3hE2IdjEJTDPz0wKjJ/pH3b1PkEzz8vp2RVHwMJK7+0hTW+bhChDldxEeM+j
- JTkA==
-X-Gm-Message-State: ANoB5pkQux4ExILuEaa12msItwAsip5IaiUKy8MUFiUJvVDy5K/ra70v
- aJ4fWx6uOOjXoZB5qD74jGYkm5PpZyKstw==
-X-Google-Smtp-Source: AA0mqf71DwbHt5cW/l1+eEggiP1m+7BT0oZX+XrsPjB4HwciNFz8awwvaz9vZKDY/b43CKyBNgP41A==
-X-Received: by 2002:a05:600c:4e0b:b0:3cf:e850:4437 with SMTP id
- b11-20020a05600c4e0b00b003cfe8504437mr12993161wmq.51.1669290640170; 
- Thu, 24 Nov 2022 03:50:40 -0800 (PST)
+ bh=hsda7Zq3jpyzptb9XynNFoMbGolRoFCYCg8lAZ1ErIY=;
+ b=vPPo5S6fO051RLT8b/0DWtHWVLLJWo4XcPKdufYUCyqk1jAMdAmk9FKumHUCRyGZEs
+ WUJNo85TxY/IAMbolawaQ+59LXme8SlLwEsHO6SKt3od3jvvpSiReyC4OUNU+pMJGzRQ
+ zWI7/nKvUtuyKTLw4Xq3CQu2ArdPHtEKxSMQHUz6YPKs7nX6Tmj5L0BY7zuPHDY6PmFc
+ 1M7U7wqrFVQsOJxOx0+rzN9EE4u1xRDP7mCDSfM0WI3k558ie/UyrAIJGospuSwMkbCn
+ c7NP0vp+wikuYE2Dcq9X1q5Cw/Nu6LQnDr1kuI3YVsINrezQDGv9vbyf+prOADdWdVvi
+ uohQ==
+X-Gm-Message-State: ANoB5pmt/b7eC75pfkEJSH/ievTTLWeEU8JI2mCsTtO6FvR5UDKxpRXG
+ iPPriSszYbu//4tusBU6YcNxjmZeBQ4WRg==
+X-Google-Smtp-Source: AA0mqf6ey5ZPdpQbpXVy+hxj0i+WKQpNNkI5xaWiG3YViikjRUKOCMwtzrTKEecD6wATpO+LO/Ihlw==
+X-Received: by 2002:a5d:4533:0:b0:241:d13a:1d52 with SMTP id
+ j19-20020a5d4533000000b00241d13a1d52mr13278689wra.270.1669290641533; 
+ Thu, 24 Nov 2022 03:50:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.38
+ f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 03:50:39 -0800 (PST)
+ Thu, 24 Nov 2022 03:50:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -80,23 +80,23 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, qemu-riscv@nongnu.org
-Subject: [PATCH for-8.0 09/19] target/microblaze: Convert to 3-phase reset
-Date: Thu, 24 Nov 2022 11:50:12 +0000
-Message-Id: <20221124115023.2437291-10-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 10/19] target/mips: Convert to 3-phase reset
+Date: Thu, 24 Nov 2022 11:50:13 +0000
+Message-Id: <20221124115023.2437291-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221124115023.2437291-1-peter.maydell@linaro.org>
 References: <20221124115023.2437291-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,75 +112,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the microblaze CPU class to use 3-phase reset, so it doesn't
+Convert the mips CPU class to use 3-phase reset, so it doesn't
 need to use device_class_set_parent_reset() any more.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/microblaze/cpu-qom.h |  4 ++--
- target/microblaze/cpu.c     | 12 ++++++++----
+ target/mips/cpu-qom.h |  4 ++--
+ target/mips/cpu.c     | 12 ++++++++----
  2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/target/microblaze/cpu-qom.h b/target/microblaze/cpu-qom.h
-index 255b39a45df..cda9220fa99 100644
---- a/target/microblaze/cpu-qom.h
-+++ b/target/microblaze/cpu-qom.h
-@@ -30,7 +30,7 @@ OBJECT_DECLARE_CPU_TYPE(MicroBlazeCPU, MicroBlazeCPUClass, MICROBLAZE_CPU)
+diff --git a/target/mips/cpu-qom.h b/target/mips/cpu-qom.h
+index e28b5296073..0dffab453b2 100644
+--- a/target/mips/cpu-qom.h
++++ b/target/mips/cpu-qom.h
+@@ -34,7 +34,7 @@ OBJECT_DECLARE_CPU_TYPE(MIPSCPU, MIPSCPUClass, MIPS_CPU)
  /**
-  * MicroBlazeCPUClass:
+  * MIPSCPUClass:
   * @parent_realize: The parent class' realize handler.
 - * @parent_reset: The parent class' reset handler.
 + * @parent_phases: The parent class' reset phase handlers.
   *
-  * A MicroBlaze CPU model.
+  * A MIPS CPU model.
   */
-@@ -40,7 +40,7 @@ struct MicroBlazeCPUClass {
+@@ -44,7 +44,7 @@ struct MIPSCPUClass {
      /*< public >*/
  
      DeviceRealize parent_realize;
 -    DeviceReset parent_reset;
 +    ResettablePhases parent_phases;
- };
+     const struct mips_def_t *cpu_def;
  
+     /* Used for the jazz board to modify mips_cpu_do_transaction_failed. */
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 7a565466cb3..c614b04607a 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -182,14 +182,16 @@ static bool mips_cpu_has_work(CPUState *cs)
  
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 89e493f3ff7..817681f9b21 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -162,14 +162,16 @@ static void microblaze_cpu_set_irq(void *opaque, int irq, int level)
- }
- #endif
+ #include "cpu-defs.c.inc"
  
--static void mb_cpu_reset(DeviceState *dev)
-+static void mb_cpu_reset_hold(Object *obj)
+-static void mips_cpu_reset(DeviceState *dev)
++static void mips_cpu_reset_hold(Object *obj)
  {
--    CPUState *s = CPU(dev);
-+    CPUState *s = CPU(obj);
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(s);
-     MicroBlazeCPUClass *mcc = MICROBLAZE_CPU_GET_CLASS(cpu);
-     CPUMBState *env = &cpu->env;
+-    CPUState *cs = CPU(dev);
++    CPUState *cs = CPU(obj);
+     MIPSCPU *cpu = MIPS_CPU(cs);
+     MIPSCPUClass *mcc = MIPS_CPU_GET_CLASS(cpu);
+     CPUMIPSState *env = &cpu->env;
  
 -    mcc->parent_reset(dev);
 +    if (mcc->parent_phases.hold) {
 +        mcc->parent_phases.hold(obj);
 +    }
  
-     memset(env, 0, offsetof(CPUMBState, end_reset_fields));
-     env->res_addr = RES_ADDR_NONE;
-@@ -399,10 +401,12 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     CPUClass *cc = CPU_CLASS(oc);
-     MicroBlazeCPUClass *mcc = MICROBLAZE_CPU_CLASS(oc);
-+    ResettableClass *rc = RESETTABLE_CLASS(oc);
+     memset(env, 0, offsetof(CPUMIPSState, end_reset_fields));
  
-     device_class_set_parent_realize(dc, mb_cpu_realizefn,
+@@ -562,10 +564,12 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     MIPSCPUClass *mcc = MIPS_CPU_CLASS(c);
+     CPUClass *cc = CPU_CLASS(c);
+     DeviceClass *dc = DEVICE_CLASS(c);
++    ResettableClass *rc = RESETTABLE_CLASS(c);
+ 
+     device_class_set_parent_realize(dc, mips_cpu_realizefn,
                                      &mcc->parent_realize);
--    device_class_set_parent_reset(dc, mb_cpu_reset, &mcc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, mb_cpu_reset_hold, NULL,
+-    device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
++    resettable_class_set_parent_phases(rc, NULL, mips_cpu_reset_hold, NULL,
 +                                       &mcc->parent_phases);
  
-     cc->class_by_name = mb_cpu_class_by_name;
-     cc->has_work = mb_cpu_has_work;
+     cc->class_by_name = mips_cpu_class_by_name;
+     cc->has_work = mips_cpu_has_work;
 -- 
 2.25.1
 
