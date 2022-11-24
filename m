@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D392E6380B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 22:44:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144A56380E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 23:30:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyJnE-0006VD-35; Thu, 24 Nov 2022 16:30:00 -0500
+	id 1oyKhc-00061y-BJ; Thu, 24 Nov 2022 17:28:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oyJnA-0006UW-IU
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 16:29:56 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oyJn5-00048p-VE
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 16:29:56 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 31FCE5C00AB;
- Thu, 24 Nov 2022 16:29:50 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 24 Nov 2022 16:29:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1669325390; x=1669411790; bh=fy
- YJp+XZ107o7SifpYMqjHnF5vyy6OFlc1bm1Ml1GIs=; b=DMFE93tV9wj1C6phN7
- 2W/6MBpPBSftmy+BnzBUiXuTrJCGhElPL+xrEqPTvxpG79h9meVSqd/ykRWfHisR
- zHVxNRZVjCiqAu3fA71H0TDHYNFTB1BslGa0BZu5IRlif6QqZ3RaDVxrxPMZwIDk
- J0C67Y0FWpG9fxOuYx6BcA1XMu4vfYjYIFLdJV2UIzw+QaH6v5GQ6FsWG6GdiQrC
- f1snaIShp+tquAHKLdZ5kYYS1PVSQOAPBtVJrjz3n+0RIW7Wfs/2r504K6RMIihw
- iWaKmdsbarBz7HSai2Q6HA1MelYFLgel+hnCgzdJ4zDGPJWKsRx398JL5P7xIni1
- ylZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1669325390; x=1669411790; bh=fyYJp+XZ107o7
- SifpYMqjHnF5vyy6OFlc1bm1Ml1GIs=; b=NXB13haFobc5Qr5RcJ5grkFWcfApD
- ZkMUorcseBbDLz4jsq534UvHggC+kmAFm53gQKhGtUdIuD/iq4SzXJJN6pXUnB1a
- Q3nkHjUszBp9U8WA/H4lNUD9TdwZjkVc4lSGJLmg9r6iw0I9OuyJgoH/RHmUakeb
- nunLso1c8B8x04G64o6xQzkiorqBOAZ1YuG46USGXIeOjhUeoaY4ENmdMkb7/y/m
- cSmzc0a7JOrNeuvWfh5irEPIB9kzr8WbzSkocYD2Pl3xhB0E7jG/djaQu9CXsWsW
- 48j31LPLS7/CzrNdvuedrTOqDpunQteNzZ9tl9HUi+wJCAivc73e9ZREw==
-X-ME-Sender: <xms:TeJ_Yybo4YP95cV7yd529oKfIdSWqXrujihnaPNRRoJdj-nnhpnqWA>
- <xme:TeJ_Y1YYwFwSU1pljdwHJEaxe6tOAO2uZQ4SFHj1HtxEXiQyx-irwKfTP-Mr4m34j
- AYsir7Z6xNCQxt4Qyo>
-X-ME-Received: <xmr:TeJ_Y8_4Tw6eE0lr8tru3z7vEMc6NJXMRTO9I-7FWe4VFIrgojMImox8eg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdduheduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
- ertdertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghn
- ghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepfeeludefheegvdeuvd
- dvgeekgfdvtdettdelieeihfegtedugeekhfdvhfejfedtnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhi
- hgohgrthdrtghomh
-X-ME-Proxy: <xmx:TuJ_Y0pWThfMfEtHQApbv_agNtucPl5Rjcilv7MVfEl5qRJ6hdcvOQ>
- <xmx:TuJ_Y9r9XEI3WHjsskQ4aamgsDWlRV6s1qkivyhdwfe0ZR0O7VqL5Q>
- <xmx:TuJ_YySOiF9XpslC-NejnSLOtipE1RAWSZbn3gVm7DKa-5-cfnW4Mw>
- <xmx:TuJ_Y-AgujJVUk_hmP03GIC2I2DsYaIlQFgGOL8QtgtQv3Uf-HTKzQ>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Nov 2022 16:29:49 -0500 (EST)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Cc: f4bug@amsat.org,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [RFC PATCH 3/3] hw/mips: Add MIPS VirtIO board
-Date: Thu, 24 Nov 2022 21:29:16 +0000
-Message-Id: <20221124212916.723490-4-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221124212916.723490-1-jiaxun.yang@flygoat.com>
-References: <20221124212916.723490-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oyKha-00061n-4Y
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 17:28:14 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oyKhY-0005Qp-1d
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 17:28:13 -0500
+Received: by mail-wr1-x434.google.com with SMTP id bs21so4329287wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 14:28:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M4GluGF7bYaDEP8ToUXerL6ps8j/Vgdup6zQ4cwUNqU=;
+ b=v9AGGqm83zlV1IetZdowOtfxWWMkuAqD35PznTZVM631Cib6i/6hWxXogS0fBTylwA
+ U7/xguZ3K9Ni1aL+iLKRKGk3q2IAxXiGXBmvVKyBGvo0UTuD5PZhm5RHpmAAA6h1Skod
+ m9c4WH+dlyYIXVlx7C9gAgrrXTUpP8Tb1aMBmSFvfVXPZ2sYf1VRgW4tKTu/IH9pl84N
+ ymJ3NNsEw4PPCFoiuc0c2w109VyZR8xXezkaduwGMxlfA/w+5o2M30gFjOASQmy5Pmzb
+ hLyLlISCfB3stgE9Tys6Y2skUaWmTXtP4t5rfp8FUZ0UmX1N0rucuHiToRyPrZzKIObs
+ GTKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=M4GluGF7bYaDEP8ToUXerL6ps8j/Vgdup6zQ4cwUNqU=;
+ b=K4izBpYyxXI9vApd3uBgRcFvBs9fQzwYLnv98vQw6vK/fEOKvZp0U/m3BXsWgEwCi1
+ 9yOBc2RkPb6MxPz9GuACvw9LANbePPpGDgS6nlq4PHiHgrR8HzzLaTvjS6Pfp3C6YV3T
+ Jt7BNT2UPx4+ceOcTNfUMTqmQf9kWCaHigDEl+4uKjE0C73PgSgWrPQ47TlHO18COZze
+ aDmhA2//KOZuFbl53MeHcojzbISC3PSIPeG1d4ak4+8uIyaqkmBEUd581TLel2WqTEca
+ 14e06gGmXDbGKvQDXgi3FjTDXS+ti6IoGv92OaGJ1DVeVT1Ai2gH5T+atpJ/0oygwyYI
+ BdyQ==
+X-Gm-Message-State: ANoB5pmQn+aMJZFiYpFcwyrwl0Uryo6xePh6WFpqYJ/qah/+21gG8WF/
+ Kp7g+Ua8kK9uQTW6mxG/WmYA8A==
+X-Google-Smtp-Source: AA0mqf43VHrtvpPgEbExJVgBmsHMxpzlsK7+c7TxxQ42E2O0X9qLSFwOpw+HzUgTuXK5ghzP7lq2Hw==
+X-Received: by 2002:a05:6000:112:b0:241:d25a:e57b with SMTP id
+ o18-20020a056000011200b00241d25ae57bmr13798710wrx.418.1669328889788; 
+ Thu, 24 Nov 2022 14:28:09 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ t187-20020a1c46c4000000b003cfa622a18asm6959366wma.3.2022.11.24.14.28.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Nov 2022 14:28:08 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id ACE161FFB7;
+ Thu, 24 Nov 2022 22:28:07 +0000 (GMT)
+References: <20221123152134.179929-1-alex.bennee@linaro.org>
+ <20221123102522-mutt-send-email-mst@kernel.org>
+ <87bkoxbqtd.fsf@linaro.org>
+ <20221123110755-mutt-send-email-mst@kernel.org>
+ <877czkbtbs.fsf@linaro.org>
+ <20221124055230-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.9.3; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
+Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
+Date: Thu, 24 Nov 2022 22:24:14 +0000
+In-reply-to: <20221124055230-mutt-send-email-mst@kernel.org>
+Message-ID: <87y1s09edk.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,1121 +99,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-MIPS VirtIO board is design to utilize existing VirtIO infrastures
-but also comptitable with MIPS's existing internal simulation tools.
 
-It includes virtio-mmio, pcie gpex, flash rom, fw_cfg, goldfish-rtc,
-and optional goldfish_pic in case MIPS GIC is not present.
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-It should be able to cooperate with any MIPS CPU cores.
+> On Thu, Nov 24, 2022 at 09:21:15AM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>>=20
+>> > On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Benn=C3=A9e wrote:
+>> >>=20
+>> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>> >>=20
+>> >> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Benn=C3=A9e wrote:
+>> >> >> Hi,
+>> >> >>=20
+>> >> >> This hopefully fixes the problems with VirtIO migration caused by =
+the
+>> >> >> previous refactoring of virtio_device_started(). That introduced a
+>> >> >> different order of checking which didn't give the VM state primacy=
+ but
+>> >> >> wasn't noticed as we don't properly exercise VirtIO device migrati=
+on
+>> >> >> and caused issues when dev->started wasn't checked in the core cod=
+e.
+>> >> >> The introduction of virtio_device_should_start() split the overloa=
+ded
+>> >> >> function up but the broken order still remained. The series finally
+>> >> >> fixes that by restoring the original semantics but with the cleane=
+d up
+>> >> >> functions.
+>> >> >>=20
+>> >> >> I've added more documentation to the various structures involved as
+>> >> >> well as the functions. There is still some inconsistencies in the
+>> >> >> VirtIO code between different devices but I think that can be look=
+ed
+>> >> >> at over the 8.0 cycle.
+>> >> >
+>> >> >
+>> >> > Thanks a lot! Did you try this with gitlab CI? A patch similar to y=
+our
+>> >> > 2/2 broke it previously ...
+>> >>=20
+>> >> Looking into it now - so far hasn't broken locally but I guess there =
+is
+>> >> something different about the CI.
+>> >
+>> >
+>> > yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
+>> >
+>> > Or with QEMU_CI set to 1 and then run fedora container and then
+>> > clang-system manually.
+>>=20
+>> I'm having trouble re-creating the failures in CI locally on my boxen. I
+>> have triggered a bug on s390 but that looks like a pre-existing problem
+>> with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
+>> think that is a limitation of the test harness.
+>>=20
+>> Will keep looking.
+>
+> Why not just trigger it on gitlab CI - it's very repeatable there?
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- configs/devices/mips-softmmu/common.mak |    1 +
- hw/mips/Kconfig                         |   18 +
- hw/mips/meson.build                     |    1 +
- hw/mips/virt.c                          | 1039 +++++++++++++++++++++++
- 4 files changed, 1059 insertions(+)
- create mode 100644 hw/mips/virt.c
+I can repeat a problem locally on Debian Bullseye and Ubuntu 22.04 with cla=
+ng and leak sanitizer:
 
-diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-index 416161f833..534b7843eb 100644
---- a/configs/devices/mips-softmmu/common.mak
-+++ b/configs/devices/mips-softmmu/common.mak
-@@ -29,6 +29,7 @@ CONFIG_MC146818RTC=y
- CONFIG_EMPTY_SLOT=y
- CONFIG_MIPS_CPS=y
- CONFIG_MIPS_ITU=y
-+CONFIG_MIPS_VIRT=y
- CONFIG_MALTA=y
- CONFIG_PCNET_PCI=y
- CONFIG_MIPSSIM=y
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index 725525358d..419a729479 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -57,5 +57,23 @@ config MIPS_BOSTON
-     select AHCI_ICH9
-     select SERIAL
- 
-+config MIPS_VIRT
-+    bool
-+    imply PCI_DEVICES
-+    imply VIRTIO_VGA
-+    imply TEST_DEVICES
-+    select MIPS_CPS
-+    select MIPS_TRICKBOX
-+    select SERIAL
-+    select FW_CFG_MIPS
-+    select GOLDFISH_RTC
-+    select GOLDFISH_PIC
-+    select PCI
-+    select PCI_EXPRESS_GENERIC_BRIDGE
-+    select PFLASH_CFI01
-+    select VIRTIO_MMIO
-+    select FW_CFG_DMA
-+    select PLATFORM_BUS
-+
- config FW_CFG_MIPS
-     bool
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index dd0101ad4d..287425cb10 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -1,6 +1,7 @@
- mips_ss = ss.source_set()
- mips_ss.add(files('bootloader.c', 'mips_int.c'))
- mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
-+mips_ss.add(when: 'CONFIG_MIPS_VIRT', if_true: files('virt.c'))
- mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
- mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
- mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
-diff --git a/hw/mips/virt.c b/hw/mips/virt.c
-new file mode 100644
-index 0000000000..d7a1d211ac
---- /dev/null
-+++ b/hw/mips/virt.c
-@@ -0,0 +1,1039 @@
-+// SPDX-License-Identifier: LGPL-2.1-or-later
-+/*
-+ * QEMU MIPS VirtIO Board
-+ * Copyright (C) 2022 Jiaxun Yang <jiaxun.yang@flygoat.com>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qemu/datadir.h"
-+
-+#include "chardev/char.h"
-+#include "hw/block/flash.h"
-+#include "hw/boards.h"
-+#include "hw/char/serial.h"
-+#include "hw/core/sysbus-fdt.h"
-+#include "hw/display/ramfb.h"
-+#include "hw/intc/goldfish_pic.h"
-+#include "hw/loader-fit.h"
-+#include "hw/loader.h"
-+#include "hw/mips/bootloader.h"
-+#include "hw/mips/cps.h"
-+#include "hw/mips/cpudevs.h"
-+#include "hw/mips/mips.h"
-+#include "hw/misc/mips_trickbox.h"
-+#include "hw/pci-host/gpex.h"
-+#include "hw/pci/pci.h"
-+#include "hw/platform-bus.h"
-+#include "hw/qdev-clock.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/rtc/goldfish_rtc.h"
-+#include "hw/sysbus.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/guest-random.h"
-+#include "qemu/log.h"
-+#include "sysemu/device_tree.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/reset.h"
-+#include "sysemu/runstate.h"
-+#include "sysemu/sysemu.h"
-+#include "elf.h"
-+
-+#include "qom/object.h"
-+#include <libfdt.h>
-+
-+#define TYPE_MIPS_VIRT_MACHINE MACHINE_TYPE_NAME("virt")
-+typedef struct MIPSVirtState MIPSVirtState;
-+DECLARE_INSTANCE_CHECKER(MIPSVirtState, MIPS_VIRT_MACHINE,
-+                         TYPE_MIPS_VIRT_MACHINE)
-+
-+#define FDT_IRQ_TYPE_NONE 0
-+#define FDT_IRQ_TYPE_LEVEL_HIGH 4
-+#define FDT_GIC_SHARED 0
-+#define FDT_GIC_LOCAL 1
-+#define FDT_VIRT_CLK_SYS 1
-+#define FDT_VIRT_CLK_CPU 2
-+#define FDT_PCI_IRQ_MAP_PINS 4
-+#define FDT_PCI_IRQ_MAP_DESCS 6
-+
-+#define FDT_PCI_ADDR_CELLS 3
-+#define FDT_PCI_INT_CELLS 1
-+#define FDT_MAX_INT_CELLS 3
-+#define FDT_MAX_INT_MAP_WIDTH \
-+    (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + 1 + FDT_MAX_INT_CELLS)
-+
-+#define VIRT_CPU_REF_CLK_FREQ 100000000
-+
-+typedef enum MIPSVirtPlatType {
-+    VIRT_PLAT_UP = 0,
-+    VIRT_PLAT_CPS = 1
-+} MIPSVirtPlatType;
-+
-+struct MIPSVirtState {
-+    MachineState parent;
-+
-+    Notifier machine_done;
-+    Clock *cpuclk;
-+    DeviceState *platform_bus_dev;
-+    MIPSCPSState *cps;
-+    DeviceState *pic;
-+    PFlashCFI01 *flash[2];
-+    FWCfgState *fw_cfg;
-+
-+    MIPSVirtPlatType plat_type;
-+    int fdt_size;
-+};
-+
-+enum {
-+    VIRT_LOMEM,
-+    VIRT_FLASH,
-+    VIRT_PLATFORM_BUS,
-+    VIRT_CM,
-+    VIRT_GIC,
-+    VIRT_CDMM,
-+    VIRT_CPC,
-+    VIRT_PCIE_PIO,
-+    VIRT_PCIE_ECAM,
-+    VIRT_FLASH_BOOT,
-+    VIRT_FW_CFG,
-+    VIRT_RTC,
-+    VIRT_PIC,
-+    VIRT_VIRTIO,
-+    VIRT_UART0,
-+    VIRT_TRICKBOX,
-+    VIRT_PCIE_MMIO,
-+    VIRT_HIGHMEM
-+};
-+
-+static const MemMapEntry virt_memmap[] = {
-+    [VIRT_LOMEM] = { 0x0, 0x10000000 },
-+    [VIRT_FLASH] = { 0x10000000, 0x4000000 },
-+    [VIRT_PLATFORM_BUS] = { 0x14000000, 0x2000000 },
-+    /* CPC CM GCRs */
-+    [VIRT_CM] = { 0x16100000, 0x20000 },
-+    [VIRT_GIC] = { 0x16120000, 0x20000 },
-+    [VIRT_CDMM] = { 0x16140000, 0x8000 },
-+    [VIRT_CPC] = { 0x16148000, 0x8000 },
-+    /* Leave some space for CM GCR growth */
-+    [VIRT_PCIE_PIO] = { 0x1a000000, 0x10000 },
-+    [VIRT_PCIE_ECAM] = { 0x1b000000, 0x1000000 },
-+    [VIRT_FLASH_BOOT] = { 0x1fc00000, 0x300000 },
-+    [VIRT_FW_CFG] = { 0x1ff00000, 0x100 },
-+    [VIRT_RTC] = { 0x1ff01000, 0x100 },
-+    [VIRT_PIC] = { 0x1ff02000, 0x100 }, /* Only for VIRT_PLAT_UP */
-+    [VIRT_VIRTIO] = { 0x1ff03000, 0x1000 }, /* 8 * virtio */
-+    /* AVP SIM Page */
-+    [VIRT_UART0] = { 0x1ffff000, 0x100 },
-+    [VIRT_TRICKBOX] = { 0x1fffff00, 0x100 },
-+    [VIRT_PCIE_MMIO] = { 0x20000000, 0x20000000 },
-+    [VIRT_HIGHMEM] = { 0x40000000, 0x0 }, /* Variable */
-+};
-+
-+enum {
-+    UART0_IRQ = 0,
-+    RTC_IRQ = 1,
-+    PCIE_IRQ = 2,
-+    VIRTIO_IRQ = 7,
-+    VIRTIO_COUNT = 8,
-+    VIRT_PLATFORM_BUS_IRQ = 16
-+};
-+
-+#define VIRT_PLATFORM_BUS_NUM_IRQS 16
-+
-+static void create_fdt_memory(MIPSVirtState *s, const MemMapEntry *memmap)
-+{
-+    MachineState *mc = MACHINE(s);
-+    char *name;
-+
-+    name = g_strdup_printf("/memory@0");
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "device_type", "memory");
-+    qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg", 2,
-+                                 memmap[VIRT_LOMEM].base, 2,
-+                                 memmap[VIRT_LOMEM].size);
-+    g_free(name);
-+
-+    if (mc->ram_size > memmap[VIRT_LOMEM].size) {
-+        name =
-+            g_strdup_printf("/memory@%" HWADDR_PRIx, memmap[VIRT_HIGHMEM].base);
-+        qemu_fdt_add_subnode(mc->fdt, name);
-+        qemu_fdt_setprop_string(mc->fdt, name, "device_type", "memory");
-+        qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg", 2,
-+                                     memmap[VIRT_HIGHMEM].base, 2,
-+                                     mc->ram_size - memmap[VIRT_LOMEM].size);
-+        g_free(name);
-+    }
-+}
-+
-+static void create_fdt_cpc(MIPSVirtState *s, const MemMapEntry *memmap,
-+                           uint32_t clk_ph, uint32_t irq_ph)
-+{
-+    MachineState *mc = MACHINE(s);
-+    char *name, *gic_name;
-+
-+    /* GIC with it's timer node */
-+    gic_name = g_strdup_printf("/soc/interrupt-controller@%" HWADDR_PRIx,
-+                               memmap[VIRT_GIC].base);
-+    qemu_fdt_add_subnode(mc->fdt, gic_name);
-+    qemu_fdt_setprop_string(mc->fdt, gic_name, "compatible", "mti,gic");
-+    qemu_fdt_setprop_cells(mc->fdt, gic_name, "reg", 0x0, memmap[VIRT_GIC].base,
-+                           0x0, memmap[VIRT_GIC].size);
-+    qemu_fdt_setprop(mc->fdt, gic_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(mc->fdt, gic_name, "#interrupt-cells", 3);
-+    qemu_fdt_setprop_cell(mc->fdt, gic_name, "phandle", irq_ph);
-+
-+    name = g_strdup_printf("%s/timer", gic_name);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "mti,gic-timer");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "interrupts", FDT_GIC_LOCAL, 1,
-+                           FDT_IRQ_TYPE_NONE);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "clocks", clk_ph);
-+    g_free(name);
-+    g_free(gic_name);
-+
-+    /* CDMM node */
-+    name = g_strdup_printf("/soc/cdmm@%" HWADDR_PRIx, memmap[VIRT_CDMM].base);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "mti,mips-cdmm");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0x0, memmap[VIRT_CDMM].base,
-+                           0x0, memmap[VIRT_CDMM].size);
-+    g_free(name);
-+
-+    /* CPC node */
-+    name = g_strdup_printf("/soc/cpc@%" HWADDR_PRIx, memmap[VIRT_CPC].base);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "mti,mips-cpc");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0x0, memmap[VIRT_CPC].base,
-+                           0x0, memmap[VIRT_CPC].size);
-+    g_free(name);
-+}
-+
-+static void create_fdt_goldfish_pic(MIPSVirtState *s, const MemMapEntry *memmap,
-+                                    uint32_t irq_ph)
-+{
-+    MachineState *mc = MACHINE(s);
-+    uint32_t cpuintc_ph;
-+    char *name;
-+
-+    cpuintc_ph = qemu_fdt_alloc_phandle(mc->fdt);
-+    qemu_fdt_add_subnode(mc->fdt, "/interrupt-controller");
-+    qemu_fdt_setprop_string(mc->fdt, "/interrupt-controller", "compatible",
-+                            "mti,cpu-interrupt-controller");
-+    qemu_fdt_setprop(mc->fdt, "/interrupt-controller", "interrupt-controller",
-+                     NULL, 0);
-+    qemu_fdt_setprop_cell(mc->fdt, "/interrupt-controller", "#address-cells",
-+                          0x0);
-+    qemu_fdt_setprop_cell(mc->fdt, "/interrupt-controller", "#interrupt-cells",
-+                          0x1);
-+    qemu_fdt_setprop_cell(mc->fdt, "/interrupt-controller", "phandle",
-+                          cpuintc_ph);
-+
-+    name = g_strdup_printf("/soc/interrupt-controller@%" HWADDR_PRIx,
-+                           memmap[VIRT_PIC].base);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "google,goldfish-pic");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0x0, memmap[VIRT_PIC].base,
-+                           0x0, memmap[VIRT_PIC].size);
-+    qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 1);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "interrupt-parent", cpuintc_ph);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", 0x2);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "phandle", irq_ph);
-+    g_free(name);
-+}
-+
-+static void create_fdt_virtio(MIPSVirtState *s, const MemMapEntry *memmap,
-+                              uint32_t irq_ph)
-+{
-+    int i;
-+    char *name;
-+    MachineState *mc = MACHINE(s);
-+
-+    for (i = 0; i < VIRTIO_COUNT; i++) {
-+        name = g_strdup_printf(
-+            "/soc/virtio_mmio@%lx",
-+            (long)(memmap[VIRT_VIRTIO].base + i * memmap[VIRT_VIRTIO].size));
-+        qemu_fdt_add_subnode(mc->fdt, name);
-+        qemu_fdt_setprop_string(mc->fdt, name, "compatible", "virtio,mmio");
-+        qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0x0,
-+                               memmap[VIRT_VIRTIO].base +
-+                                   i * memmap[VIRT_VIRTIO].size,
-+                               0x0, memmap[VIRT_VIRTIO].size);
-+        qemu_fdt_setprop_cell(mc->fdt, name, "interrupt-parent", irq_ph);
-+        if (s->plat_type == VIRT_PLAT_UP) {
-+            qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", VIRTIO_IRQ + i);
-+        } else {
-+            qemu_fdt_setprop_cells(mc->fdt, name, "interrupts", FDT_GIC_SHARED,
-+                                   VIRTIO_IRQ + i, FDT_IRQ_TYPE_LEVEL_HIGH);
-+        }
-+        g_free(name);
-+    }
-+}
-+
-+static void create_pcie_irq_map(MIPSVirtState *s, void *fdt, char *nodename,
-+                                uint32_t irq_ph)
-+{
-+    int pin, dev;
-+    uint32_t irq_map_stride = 0;
-+    uint32_t full_irq_map[GPEX_NUM_IRQS * GPEX_NUM_IRQS *
-+                          FDT_MAX_INT_MAP_WIDTH] = {};
-+    uint32_t *irq_map = full_irq_map;
-+
-+    /* This code creates a standard swizzle of interrupts such that
-+     * each device's first interrupt is based on it's PCI_SLOT number.
-+     * (See pci_swizzle_map_irq_fn())
-+     *
-+     * We only need one entry per interrupt in the table (not one per
-+     * possible slot) seeing the interrupt-map-mask will allow the table
-+     * to wrap to any number of devices.
-+     */
-+    for (dev = 0; dev < GPEX_NUM_IRQS; dev++) {
-+        int devfn = dev * 0x8;
-+
-+        for (pin = 0; pin < GPEX_NUM_IRQS; pin++) {
-+            int irq_nr = PCIE_IRQ + ((pin + PCI_SLOT(devfn)) % GPEX_NUM_IRQS);
-+            int i = 0;
-+
-+            /* Fill PCI address cells */
-+            irq_map[i] = cpu_to_be32(devfn << 8);
-+            i += FDT_PCI_ADDR_CELLS;
-+
-+            /* Fill PCI Interrupt cells */
-+            irq_map[i] = cpu_to_be32(pin + 1);
-+            i += FDT_PCI_INT_CELLS;
-+
-+            /* Fill interrupt controller phandle and cells */
-+            irq_map[i++] = cpu_to_be32(irq_ph);
-+            if (s->plat_type == VIRT_PLAT_CPS) {
-+                irq_map[i++] = cpu_to_be32(FDT_GIC_SHARED);
-+            }
-+            irq_map[i++] = cpu_to_be32(irq_nr);
-+            if (s->plat_type == VIRT_PLAT_CPS) {
-+                irq_map[i++] = cpu_to_be32(FDT_IRQ_TYPE_LEVEL_HIGH);
-+            }
-+
-+            if (!irq_map_stride) {
-+                irq_map_stride = i;
-+            }
-+            irq_map += irq_map_stride;
-+        }
-+    }
-+
-+    qemu_fdt_setprop(fdt, nodename, "interrupt-map", full_irq_map,
-+                     GPEX_NUM_IRQS * GPEX_NUM_IRQS * irq_map_stride *
-+                         sizeof(uint32_t));
-+
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupt-map-mask", 0x1800, 0, 0,
-+                           0x7);
-+}
-+
-+static void create_fdt_pcie(MIPSVirtState *s, const MemMapEntry *memmap,
-+                            uint32_t irq_ph)
-+{
-+    char *name;
-+    MachineState *mc = MACHINE(s);
-+
-+    name = g_strdup_printf("/soc/pci@%lx", (long)memmap[VIRT_PCIE_ECAM].base);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "#address-cells", FDT_PCI_ADDR_CELLS);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", FDT_PCI_INT_CELLS);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "#size-cells", 0x2);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible",
-+                            "pci-host-ecam-generic");
-+    qemu_fdt_setprop_string(mc->fdt, name, "device_type", "pci");
-+    qemu_fdt_setprop_cell(mc->fdt, name, "linux,pci-domain", 0);
-+    qemu_fdt_setprop_cells(mc->fdt, name, "bus-range", 0,
-+                           memmap[VIRT_PCIE_ECAM].size / PCIE_MMCFG_SIZE_MIN -
-+                               1);
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0, memmap[VIRT_PCIE_ECAM].base,
-+                           0, memmap[VIRT_PCIE_ECAM].size);
-+    qemu_fdt_setprop_sized_cells(
-+        mc->fdt, name, "ranges", 1, FDT_PCI_RANGE_IOPORT, 2, 0, 2,
-+        memmap[VIRT_PCIE_PIO].base, 2, memmap[VIRT_PCIE_PIO].size, 1,
-+        FDT_PCI_RANGE_MMIO, 2, memmap[VIRT_PCIE_MMIO].base, 2,
-+        memmap[VIRT_PCIE_MMIO].base, 2, memmap[VIRT_PCIE_MMIO].size);
-+
-+    create_pcie_irq_map(s, mc->fdt, name, irq_ph);
-+    g_free(name);
-+}
-+
-+static void create_fdt_uart(MIPSVirtState *s, const MemMapEntry *memmap,
-+                            uint32_t irq_ph)
-+{
-+    char *name;
-+    MachineState *mc = MACHINE(s);
-+
-+    name = g_strdup_printf("/soc/serial@%lx", (long)memmap[VIRT_UART0].base);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "ns16550a");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0x0, memmap[VIRT_UART0].base,
-+                           0x0, memmap[VIRT_UART0].size);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "clock-frequency", 3686400);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "interrupt-parent", irq_ph);
-+    if (s->plat_type == VIRT_PLAT_UP) {
-+        qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", UART0_IRQ);
-+    } else {
-+        qemu_fdt_setprop_cells(mc->fdt, name, "interrupts", FDT_GIC_SHARED,
-+                               UART0_IRQ, FDT_IRQ_TYPE_LEVEL_HIGH);
-+    }
-+
-+    qemu_fdt_add_subnode(mc->fdt, "/chosen");
-+    qemu_fdt_setprop_string(mc->fdt, "/chosen", "stdout-path", name);
-+    g_free(name);
-+}
-+
-+static void create_fdt_rtc(MIPSVirtState *s, const MemMapEntry *memmap,
-+                           uint32_t irq_ph)
-+{
-+    char *name;
-+    MachineState *mc = MACHINE(s);
-+
-+    name = g_strdup_printf("/soc/rtc@%lx", (long)memmap[VIRT_RTC].base);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "google,goldfish-rtc");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0x0, memmap[VIRT_RTC].base,
-+                           0x0, memmap[VIRT_RTC].size);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "interrupt-parent", irq_ph);
-+    if (s->plat_type == VIRT_PLAT_UP) {
-+        qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", RTC_IRQ);
-+    } else {
-+        qemu_fdt_setprop_cells(mc->fdt, name, "interrupts", FDT_GIC_SHARED,
-+                               RTC_IRQ, FDT_IRQ_TYPE_LEVEL_HIGH);
-+    }
-+    g_free(name);
-+}
-+
-+static void create_fdt_reset(MIPSVirtState *s, const MemMapEntry *memmap)
-+{
-+    char *name;
-+    uint32_t syscon_ph;
-+    MachineState *mc = MACHINE(s);
-+
-+    syscon_ph = qemu_fdt_alloc_phandle(mc->fdt);
-+    name =
-+        g_strdup_printf("/soc/trickbox@%lx", (long)memmap[VIRT_TRICKBOX].base);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    {
-+        static const char *const compat[2] = { "mips,trickbox", "syscon" };
-+        qemu_fdt_setprop_string_array(mc->fdt, name, "compatible",
-+                                      (char **)&compat, ARRAY_SIZE(compat));
-+    }
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0x0,
-+                           memmap[VIRT_TRICKBOX].base, 0x0,
-+                           memmap[VIRT_TRICKBOX].size);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "phandle", syscon_ph);
-+    g_free(name);
-+
-+    name = g_strdup_printf("/reboot");
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-reboot");
-+    qemu_fdt_setprop_cell(mc->fdt, name, "regmap", syscon_ph);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "offset", REG_SIM_CMD);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "value", TRICK_RESET);
-+    g_free(name);
-+
-+    name = g_strdup_printf("/poweroff");
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-poweroff");
-+    qemu_fdt_setprop_cell(mc->fdt, name, "regmap", syscon_ph);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "offset", REG_SIM_CMD);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "value", TRICK_HALT);
-+    g_free(name);
-+}
-+
-+static void create_fdt_flash(MIPSVirtState *s, const MemMapEntry *memmap)
-+{
-+    char *name;
-+    MachineState *mc = MACHINE(s);
-+    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
-+    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
-+
-+    name = g_strdup_printf("/flash@%" PRIx64, flashbase);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
-+    qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg", 2, flashbase, 2,
-+                                 flashsize, 2, flashbase + flashsize, 2,
-+                                 flashsize);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "bank-width", 4);
-+    g_free(name);
-+}
-+
-+static void create_fdt_fw_cfg(MIPSVirtState *s, const MemMapEntry *memmap)
-+{
-+    char *nodename;
-+    MachineState *mc = MACHINE(s);
-+    hwaddr base = memmap[VIRT_FW_CFG].base;
-+    hwaddr size = memmap[VIRT_FW_CFG].size;
-+
-+    nodename = g_strdup_printf("/fw-cfg@%" PRIx64, base);
-+    qemu_fdt_add_subnode(mc->fdt, nodename);
-+    qemu_fdt_setprop_string(mc->fdt, nodename, "compatible",
-+                            "qemu,fw-cfg-mmio");
-+    qemu_fdt_setprop_sized_cells(mc->fdt, nodename, "reg", 2, base, 2, size);
-+    g_free(nodename);
-+}
-+
-+static void create_fdt(MIPSVirtState *s, const MemMapEntry *memmap,
-+                       const char *cmdline)
-+{
-+    MachineState *mc = MACHINE(s);
-+    uint32_t clk_ph, irq_ph;
-+    uint8_t rng_seed[32];
-+
-+    if (mc->dtb) {
-+        mc->fdt = load_device_tree(mc->dtb, &s->fdt_size);
-+        if (!mc->fdt) {
-+            error_report("load_device_tree() failed");
-+            exit(1);
-+        }
-+        goto update_bootargs;
-+    } else {
-+        mc->fdt = create_device_tree(&s->fdt_size);
-+        if (!mc->fdt) {
-+            error_report("create_device_tree() failed");
-+            exit(1);
-+        }
-+    }
-+
-+    qemu_fdt_setprop_string(mc->fdt, "/", "model", "mips-virtio,qemu");
-+    qemu_fdt_setprop_string(mc->fdt, "/", "compatible", "mips-virtio");
-+    qemu_fdt_setprop_cell(mc->fdt, "/", "#size-cells", 0x2);
-+    qemu_fdt_setprop_cell(mc->fdt, "/", "#address-cells", 0x2);
-+
-+    clk_ph = qemu_fdt_alloc_phandle(mc->fdt);
-+    qemu_fdt_add_subnode(mc->fdt, "/cpu-refclk");
-+    qemu_fdt_setprop_string(mc->fdt, "/cpu-refclk", "compatible",
-+                            "fixed-clock");
-+    qemu_fdt_setprop_cell(mc->fdt, "/cpu-refclk", "#clock-cells", 0x0);
-+    qemu_fdt_setprop_cell(mc->fdt, "/cpu-refclk", "clock-frequency",
-+                          VIRT_CPU_REF_CLK_FREQ);
-+    qemu_fdt_setprop_string(mc->fdt, "/cpu-refclk", "clock-output-names",
-+                            "cpu-refclk");
-+    qemu_fdt_setprop_cell(mc->fdt, "/cpu-refclk", "phandle", clk_ph);
-+
-+    qemu_fdt_add_subnode(mc->fdt, "/cpus");
-+    qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#size-cells", 0x0);
-+    qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#address-cells", 0x1);
-+
-+    for (int cpu = 0; cpu < mc->smp.cpus; cpu++) {
-+        char *name = g_strdup_printf("/cpus/cpu@%d", cpu);
-+        qemu_fdt_add_subnode(mc->fdt, name);
-+        qemu_fdt_setprop_string(mc->fdt, name, "compatible", "img,mips");
-+        qemu_fdt_setprop_string(mc->fdt, name, "status", "okay");
-+        qemu_fdt_setprop_cell(mc->fdt, name, "reg", cpu);
-+        qemu_fdt_setprop_string(mc->fdt, name, "device_type", "cpu");
-+        qemu_fdt_setprop_cell(mc->fdt, name, "clocks", clk_ph);
-+        g_free(name);
-+    }
-+
-+    create_fdt_memory(s, memmap);
-+
-+    qemu_fdt_add_subnode(mc->fdt, "/soc");
-+    qemu_fdt_setprop(mc->fdt, "/soc", "ranges", NULL, 0);
-+    qemu_fdt_setprop_string(mc->fdt, "/soc", "compatible", "simple-bus");
-+    qemu_fdt_setprop_cell(mc->fdt, "/soc", "#size-cells", 0x2);
-+    qemu_fdt_setprop_cell(mc->fdt, "/soc", "#address-cells", 0x2);
-+
-+    irq_ph = qemu_fdt_alloc_phandle(mc->fdt);
-+
-+    if (s->plat_type == VIRT_PLAT_CPS) {
-+        create_fdt_cpc(s, memmap, clk_ph, irq_ph);
-+    } else if (s->plat_type == VIRT_PLAT_UP) {
-+        create_fdt_goldfish_pic(s, memmap, irq_ph);
-+    }
-+
-+    create_fdt_virtio(s, memmap, irq_ph);
-+    create_fdt_pcie(s, memmap, irq_ph);
-+    create_fdt_reset(s, memmap);
-+    create_fdt_uart(s, memmap, irq_ph);
-+    create_fdt_rtc(s, memmap, irq_ph);
-+    create_fdt_flash(s, memmap);
-+    create_fdt_fw_cfg(s, memmap);
-+
-+update_bootargs:
-+    if (cmdline && *cmdline) {
-+        qemu_fdt_setprop_string(mc->fdt, "/chosen", "bootargs", cmdline);
-+    }
-+
-+    /* Pass seed to RNG */
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    qemu_fdt_setprop(mc->fdt, "/chosen", "rng-seed", rng_seed,
-+                     sizeof(rng_seed));
-+}
-+
-+static void main_cpu_reset(void *opaque)
-+{
-+    MIPSCPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+
-+    cpu_reset(cs);
-+}
-+
-+static void gen_firmware(uint32_t *p, bool has_gcr, hwaddr kernel_entry,
-+                         hwaddr fdt_addr)
-+{
-+    uint64_t regaddr;
-+    const MemMapEntry *memmap = virt_memmap;
-+
-+    if (has_gcr) {
-+        /* Move CM GCRs */
-+        regaddr = cpu_mips_phys_to_kseg1(NULL, GCR_BASE_ADDR + GCR_BASE_OFS),
-+        bl_gen_write_ulong(&p, regaddr, memmap[VIRT_CM].base);
-+
-+        /* Move & enable GIC GCRs */
-+        regaddr = cpu_mips_phys_to_kseg1(NULL, memmap[VIRT_CM].base +
-+                                                   GCR_GIC_BASE_OFS),
-+        bl_gen_write_ulong(&p, regaddr,
-+                           memmap[VIRT_GIC].base | GCR_GIC_BASE_GICEN_MSK);
-+
-+        /* Move & enable CPC GCRs */
-+        regaddr = cpu_mips_phys_to_kseg1(NULL, memmap[VIRT_CM].base +
-+                                                   GCR_CPC_BASE_OFS),
-+        bl_gen_write_ulong(&p, regaddr,
-+                           memmap[VIRT_CPC].base | GCR_CPC_BASE_CPCEN_MSK);
-+    }
-+
-+    /*
-+     * Setup argument registers to follow the UHI boot protocol:
-+     *
-+     * a0/$4 = -2
-+     * a1/$5 = virtual address of FDT
-+     * a2/$6 = 0
-+     * a3/$7 = 0
-+     */
-+    bl_gen_jump_kernel(&p,
-+                       true, 0, true, (int32_t)-2,
-+                       true, fdt_addr, true, 0, true, 0,
-+                       kernel_entry);
-+}
-+
-+static void virt_map_memory(MemoryRegion *sysmem, MemoryRegion *ram,
-+                            hwaddr ram_size, hwaddr low_size, hwaddr high_base)
-+{
-+    MemoryRegion *low_alias = g_new(MemoryRegion, 1);
-+    MemoryRegion *high_alias = g_new(MemoryRegion, 1);
-+
-+    memory_region_init_alias(low_alias, NULL, "mips_virt.lomem", ram, 0,
-+                             low_size);
-+
-+    memory_region_add_subregion(sysmem, 0, low_alias);
-+
-+    if (ram_size > low_size) {
-+        memory_region_init_alias(high_alias, NULL, "mips_virt.himem", ram,
-+                                 low_size, ram_size - low_size);
-+        memory_region_add_subregion(sysmem, high_base, high_alias);
-+    }
-+}
-+
-+static qemu_irq virt_get_irq(MIPSVirtState *s, int pin_number)
-+{
-+    if (s->plat_type == VIRT_PLAT_UP) {
-+        return qdev_get_gpio_in(DEVICE(s->pic), pin_number);
-+    } else if (s->plat_type == VIRT_PLAT_CPS) {
-+        return get_cps_irq(s->cps, pin_number);
-+    } else {
-+        g_assert_not_reached();
-+    }
-+}
-+
-+#define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
-+
-+static PFlashCFI01 *virt_flash_create1(MIPSVirtState *s, const char *name,
-+                                       const char *alias_prop_name)
-+{
-+    /*
-+     * Create a single flash device.  We use the same parameters as
-+     * the flash devices on the ARM virt board.
-+     */
-+    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
-+
-+    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
-+    qdev_prop_set_uint8(dev, "width", 4);
-+    qdev_prop_set_uint8(dev, "device-width", 2);
-+    qdev_prop_set_bit(dev, "big-endian", false);
-+    qdev_prop_set_uint16(dev, "id0", 0x89);
-+    qdev_prop_set_uint16(dev, "id1", 0x18);
-+    qdev_prop_set_uint16(dev, "id2", 0x00);
-+    qdev_prop_set_uint16(dev, "id3", 0x00);
-+    qdev_prop_set_string(dev, "name", name);
-+
-+    object_property_add_child(OBJECT(s), name, OBJECT(dev));
-+    object_property_add_alias(OBJECT(s), alias_prop_name, OBJECT(dev), "drive");
-+
-+    return PFLASH_CFI01(dev);
-+}
-+
-+static void virt_flash_create(MIPSVirtState *s)
-+{
-+    s->flash[0] = virt_flash_create1(s, "virt.flash0", "pflash0");
-+    s->flash[1] = virt_flash_create1(s, "virt.flash1", "pflash1");
-+}
-+
-+static void virt_flash_map1(PFlashCFI01 *flash, hwaddr base, hwaddr size,
-+                            hwaddr alias_base, hwaddr alias_size,
-+                            MemoryRegion *sysmem)
-+{
-+    DeviceState *dev = DEVICE(flash);
-+    MemoryRegion *flash_mem;
-+
-+    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
-+    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
-+    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    flash_mem = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-+    memory_region_add_subregion(sysmem, base, flash_mem);
-+
-+    if (alias_size) {
-+        MemoryRegion *alias_mem = g_new(MemoryRegion, 1);
-+        memory_region_init_alias(alias_mem, NULL, "flash_boot", flash_mem, 0,
-+                                 alias_size);
-+        memory_region_add_subregion(sysmem, alias_base, alias_mem);
-+    }
-+}
-+
-+static void virt_flash_map(MIPSVirtState *s, MemoryRegion *sysmem)
-+{
-+    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
-+    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
-+
-+    virt_flash_map1(s->flash[0], flashbase, flashsize,
-+                    virt_memmap[VIRT_FLASH_BOOT].base,
-+                    virt_memmap[VIRT_FLASH_BOOT].size, sysmem);
-+    virt_flash_map1(s->flash[1], flashbase + flashsize, flashsize, 0, 0,
-+                    sysmem);
-+}
-+
-+static inline DeviceState *gpex_pcie_init(MIPSVirtState *s,
-+                                          MemoryRegion *sys_mem,
-+                                          hwaddr ecam_base, hwaddr ecam_size,
-+                                          hwaddr mmio_base, hwaddr mmio_size,
-+                                          hwaddr pio_base)
-+{
-+    DeviceState *dev;
-+    MemoryRegion *ecam_alias, *ecam_reg;
-+    MemoryRegion *mmio_alias, *mmio_reg;
-+    qemu_irq irq;
-+    int i;
-+
-+    dev = qdev_new(TYPE_GPEX_HOST);
-+
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+    ecam_alias = g_new0(MemoryRegion, 1);
-+    ecam_reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-+    memory_region_init_alias(ecam_alias, OBJECT(dev), "pcie-ecam", ecam_reg, 0,
-+                             ecam_size);
-+    memory_region_add_subregion(get_system_memory(), ecam_base, ecam_alias);
-+
-+    mmio_alias = g_new0(MemoryRegion, 1);
-+    mmio_reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 1);
-+    memory_region_init_alias(mmio_alias, OBJECT(dev), "pcie-mmio", mmio_reg,
-+                             mmio_base, mmio_size);
-+    memory_region_add_subregion(get_system_memory(), mmio_base, mmio_alias);
-+
-+    for (i = 0; i < GPEX_NUM_IRQS; i++) {
-+        irq = virt_get_irq(s, PCIE_IRQ + i);
-+
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, irq);
-+        gpex_set_irq_num(GPEX_HOST(dev), i, PCIE_IRQ + i);
-+    }
-+
-+    return dev;
-+}
-+
-+static FWCfgState *create_fw_cfg(const MachineState *mc)
-+{
-+    hwaddr base = virt_memmap[VIRT_FW_CFG].base;
-+    FWCfgState *fw_cfg;
-+
-+    fw_cfg = fw_cfg_init_mem_wide(base + 8, base, 8, base + 16,
-+                                  &address_space_memory);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)mc->smp.cpus);
-+
-+    return fw_cfg;
-+}
-+
-+static void create_platform_bus(MIPSVirtState *s)
-+{
-+    DeviceState *dev;
-+    SysBusDevice *sysbus;
-+    const MemMapEntry *memmap = virt_memmap;
-+    int i;
-+    MemoryRegion *sysmem = get_system_memory();
-+
-+    dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
-+    dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
-+    qdev_prop_set_uint32(dev, "num_irqs", VIRT_PLATFORM_BUS_NUM_IRQS);
-+    qdev_prop_set_uint32(dev, "mmio_size", memmap[VIRT_PLATFORM_BUS].size);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    s->platform_bus_dev = dev;
-+
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    for (i = 0; i < VIRT_PLATFORM_BUS_NUM_IRQS; i++) {
-+        qemu_irq irq = virt_get_irq(s, VIRT_PLATFORM_BUS_IRQ + i);
-+        sysbus_connect_irq(sysbus, i, irq);
-+    }
-+
-+    memory_region_add_subregion(sysmem, memmap[VIRT_PLATFORM_BUS].base,
-+                                sysbus_mmio_get_region(sysbus, 0));
-+}
-+
-+static void virt_machine_done(Notifier *notifier, void *data)
-+{
-+    MIPSVirtState *s = container_of(notifier, MIPSVirtState, machine_done);
-+    MachineState *machine = MACHINE(s);
-+    int ret, dt_size;
-+    bool firmware_loaded = false;
-+    /* Leave some space for exception vector */
-+    hwaddr dtb_paddr = virt_memmap[VIRT_LOMEM].base + 0x1000;
-+
-+    if (machine->firmware) {
-+        const char *fname;
-+        int fw_size;
-+
-+        fname = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware);
-+        if (!fname && !qtest_enabled()) {
-+            error_report("Could not find ROM image '%s'", machine->firmware);
-+            exit(1);
-+        }
-+        fw_size = load_image_targphys(fname, virt_memmap[VIRT_FLASH].base,
-+                                        virt_memmap[VIRT_FLASH].size);
-+        if (fw_size == -1) {
-+            error_report("unable to load firmware image '%s'", fname);
-+            exit(1);
-+        }
-+
-+        firmware_loaded = true;
-+    }
-+
-+    /* The first pflash will be mapped to BEV */
-+    if (drive_get(IF_PFLASH, 0, 0)) {
-+        firmware_loaded = true;
-+    }
-+
-+    s->fw_cfg = create_fw_cfg(machine);
-+    rom_set_fw(s->fw_cfg);
-+
-+    if (machine->kernel_filename) {
-+        if (firmware_loaded) {
-+            /* Just pass those files via fw_cfg */
-+            load_image_to_fw_cfg(s->fw_cfg, FW_CFG_KERNEL_SIZE,
-+                                 FW_CFG_KERNEL_DATA, machine->kernel_filename,
-+                                 true);
-+            load_image_to_fw_cfg(s->fw_cfg, FW_CFG_INITRD_SIZE,
-+                                 FW_CFG_INITRD_DATA, machine->initrd_filename,
-+                                 false);
-+
-+            if (machine->kernel_cmdline) {
-+                fw_cfg_add_i32(s->fw_cfg, FW_CFG_CMDLINE_SIZE,
-+                               strlen(machine->kernel_cmdline) + 1);
-+                fw_cfg_add_string(s->fw_cfg, FW_CFG_CMDLINE_DATA,
-+                                  machine->kernel_cmdline);
-+            }
-+        } else {
-+            uint64_t kernel_entry, kernel_high;
-+            ssize_t size;
-+
-+            size = load_elf(machine->kernel_filename, NULL,
-+                            cpu_mips_kseg0_to_phys, NULL, &kernel_entry, NULL,
-+                            &kernel_high, NULL, 0, EM_MIPS, 1, 0);
-+
-+            if (size == -1) {
-+                error_report("could not load kernel '%s'",
-+                             machine->kernel_filename);
-+                exit(1);
-+            }
-+
-+            if (machine->initrd_filename) {
-+                const char *name = machine->initrd_filename;
-+                hwaddr kernel_end = cpu_mips_kseg0_to_phys(NULL, kernel_high);
-+                hwaddr start =
-+                    MAX(64 * MiB, QEMU_ALIGN_UP(kernel_end + 1, 1 * MiB));
-+                hwaddr maxsz =
-+                    MIN(machine->ram_size, virt_memmap[VIRT_LOMEM].size) -
-+                    start;
-+
-+                size = load_ramdisk(name, start, maxsz);
-+                if (size == -1) {
-+                    size = load_image_targphys(name, start, maxsz);
-+                    if (size == -1) {
-+                        error_report("could not load ramdisk '%s'", name);
-+                        exit(1);
-+                    }
-+                }
-+                qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-+                                      "linux,initrd-start", start);
-+                qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-+                                      "linux,initrd-end", start + size);
-+            }
-+            gen_firmware(memory_region_get_ram_ptr(sysbus_mmio_get_region(
-+                             SYS_BUS_DEVICE(s->flash[0]), 0)),
-+                         !!s->cps, kernel_entry,
-+                         cpu_mips_phys_to_kseg0(NULL, dtb_paddr));
-+        }
-+    }
-+
-+    ret = fdt_pack(machine->fdt);
-+    /* Should only fail if we've built a corrupted tree */
-+    g_assert(ret == 0);
-+    /* Update dt_size after pack */
-+    dt_size = fdt_totalsize(machine->fdt);
-+    /* copy in the device tree */
-+    qemu_fdt_dumpdtb(machine->fdt, dt_size);
-+    fw_cfg_add_file(s->fw_cfg, "etc/fdt", machine->fdt, dt_size);
-+    rom_add_blob_fixed("dtb", machine->fdt, dt_size, dtb_paddr);
-+    qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
-+                                       rom_ptr(dtb_paddr, dt_size));
-+}
-+
-+static void virt_machine_init(MachineState *machine)
-+{
-+    MIPSVirtState *s = MIPS_VIRT_MACHINE(machine);
-+    ;
-+    MemoryRegion *system_memory = get_system_memory();
-+    const MemMapEntry *memmap = virt_memmap;
-+    int i;
-+
-+    s->cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
-+    clock_set_hz(s->cpuclk, VIRT_CPU_REF_CLK_FREQ);
-+
-+    if (cpu_type_supports_cps_smp(machine->cpu_type)) {
-+        s->cps = MIPS_CPS(qdev_new(TYPE_MIPS_CPS));
-+        object_property_set_str(OBJECT(s->cps), "cpu-type", machine->cpu_type,
-+                                &error_fatal);
-+        object_property_set_int(OBJECT(s->cps), "num-vp", machine->smp.cpus,
-+                                &error_fatal);
-+        qdev_connect_clock_in(DEVICE(s->cps), "clk-in", s->cpuclk);
-+        sysbus_realize(SYS_BUS_DEVICE(s->cps), &error_fatal);
-+        sysbus_mmio_map_overlap(SYS_BUS_DEVICE(s->cps), 0, 0, 1);
-+        s->plat_type = VIRT_PLAT_CPS;
-+    } else {
-+        CPUMIPSState *env;
-+        MIPSCPU *cpu;
-+
-+        for (i = 0; i < machine->smp.cpus; i++) {
-+            cpu = mips_cpu_create_with_clock(machine->cpu_type, s->cpuclk);
-+
-+            /* Init internal devices */
-+            cpu_mips_irq_init_cpu(cpu);
-+            cpu_mips_clock_init(cpu);
-+            qemu_register_reset(main_cpu_reset, cpu);
-+        }
-+
-+        cpu = MIPS_CPU(first_cpu);
-+        env = &cpu->env;
-+        s->pic = qdev_new(TYPE_GOLDFISH_PIC);
-+        sysbus_realize_and_unref(SYS_BUS_DEVICE(s->pic), &error_fatal);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(s->pic), 0, virt_memmap[VIRT_PIC].base);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(s->pic), 0, env->irq[2]);
-+        s->plat_type = VIRT_PLAT_UP;
-+    }
-+
-+    virt_map_memory(system_memory, machine->ram, machine->ram_size,
-+                    virt_memmap[VIRT_LOMEM].size,
-+                    virt_memmap[VIRT_HIGHMEM].base);
-+
-+    serial_mm_init(system_memory, memmap[VIRT_UART0].base, 0,
-+                   virt_get_irq(s, UART0_IRQ), 399193, serial_hd(0),
-+                   DEVICE_LITTLE_ENDIAN);
-+
-+    for (i = 0; i < VIRTIO_COUNT; i++) {
-+        sysbus_create_simple("virtio-mmio",
-+                             memmap[VIRT_VIRTIO].base +
-+                                 i * memmap[VIRT_VIRTIO].size,
-+                             virt_get_irq(s, VIRTIO_IRQ + i));
-+    }
-+
-+    gpex_pcie_init(s, system_memory, memmap[VIRT_PCIE_ECAM].base,
-+                   memmap[VIRT_PCIE_ECAM].size, memmap[VIRT_PCIE_MMIO].base,
-+                   memmap[VIRT_PCIE_MMIO].size, memmap[VIRT_PCIE_PIO].base);
-+
-+    create_platform_bus(s);
-+
-+    sysbus_create_simple(TYPE_GOLDFISH_RTC, memmap[VIRT_RTC].base,
-+                         virt_get_irq(s, RTC_IRQ));
-+
-+    sysbus_create_simple(TYPE_MIPS_TRICKBOX, memmap[VIRT_TRICKBOX].base, NULL);
-+
-+    virt_flash_create(s);
-+
-+    for (i = 0; i < ARRAY_SIZE(s->flash); i++) {
-+        /* Map legacy -drive if=pflash to machine properties */
-+        pflash_cfi01_legacy_drive(s->flash[i], drive_get(IF_PFLASH, 0, i));
-+    }
-+
-+    virt_flash_map(s, system_memory);
-+
-+    create_fdt(s, memmap, machine->kernel_cmdline);
-+    s->machine_done.notify = virt_machine_done;
-+    qemu_add_machine_init_done_notifier(&s->machine_done);
-+}
-+
-+static void virt_machine_instance_init(Object *obj)
-+{
-+}
-+
-+static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-+                                                        DeviceState *dev)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-+
-+    if (device_is_dynamic_sysbus(mc, dev)) {
-+        return HOTPLUG_HANDLER(machine);
-+    }
-+    return NULL;
-+}
-+
-+static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-+                                        DeviceState *dev, Error **errp)
-+{
-+    MIPSVirtState *s = MIPS_VIRT_MACHINE(hotplug_dev);
-+
-+    if (s->platform_bus_dev) {
-+        MachineClass *mc = MACHINE_GET_CLASS(s);
-+
-+        if (device_is_dynamic_sysbus(mc, dev)) {
-+            platform_bus_link_device(PLATFORM_BUS_DEVICE(s->platform_bus_dev),
-+                                     SYS_BUS_DEVICE(dev));
-+        }
-+    }
-+}
-+
-+static void virt_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
-+
-+    mc->desc = "MIPS VirtIO board";
-+    mc->init = virt_machine_init;
-+    mc->max_cpus = 16;
-+#ifdef TARGET_MIPS64
-+    mc->default_cpu_type = MIPS_CPU_TYPE_NAME("I6400");
-+#else
-+    mc->default_cpu_type = MIPS_CPU_TYPE_NAME("P5600");
-+#endif
-+    mc->pci_allow_0_address = true;
-+    mc->default_ram_id = "mips_virt_board.ram";
-+    mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
-+
-+    hc->plug = virt_machine_device_plug_cb;
-+
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-+}
-+
-+static const TypeInfo virt_machine_typeinfo = {
-+    .name = MACHINE_TYPE_NAME("virt"),
-+    .parent = TYPE_MACHINE,
-+    .class_init = virt_machine_class_init,
-+    .instance_init = virt_machine_instance_init,
-+    .instance_size = sizeof(MIPSVirtState),
-+    .interfaces = (InterfaceInfo[]){ { TYPE_HOTPLUG_HANDLER }, {} },
-+};
-+
-+static void virt_machine_init_register_types(void)
-+{
-+    type_register_static(&virt_machine_typeinfo);
-+}
-+
-+type_init(virt_machine_init_register_types)
--- 
-2.37.1 (Apple Git-137.1)
+  # QEMU configure log Thu 24 Nov 16:02:56 GMT 2022
+  # Configured with: '../../configure' '--cc=3Dclang' '--cxx=3Dclang++' '--=
+enable-sanitizers' '--target-list=3Darm-softmmu,aarch64-softmmu,i386-softmm=
+u,x86_64-softmmu,ppc64-softmmu'#
 
+And the command:
+
+  env QTEST_QEMU_BINARY=3D./qemu-system-arm QTEST_QEMU_STORAGE_DAEMON_BINAR=
+Y=3D./storage-daemon/qemu-storage-daemon QTEST_QEMU_IMG=3D./qemu-img MALLOC=
+_PERTURB_=3D178 G_TEST_DBUS_DAEMON=3D/home/alex.bennee/lsrc/qemu.git/tests/=
+dbus-vmstate-daemon.sh ./tests/qtest/qos-test -p /arm/virt/virtio-mmio/virt=
+io-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-gu=
+est-mem/memfile/subprocess
+
+Gives the following failure, while a leak may not be that exciting it
+does point to a potential corruption issue. Unfortunately I don't get a
+decent backtrace from the tool:
+
+  # random seed: R02S071fe8d68317a8b01e5e7fadbf1ac60a
+  # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352.so=
+ck -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1024352.qmp,id=3D=
+char0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine none -acce=
+l qtest
+  =3D=3D1024354=3D=3DWARNING: ASan doesn't fully support makecontext/swapco=
+ntext functions and may produce false positives in some cases!
+  # Start of arm tests
+  # Start of virt tests
+  # Start of virtio-mmio tests
+  # Start of virtio-bus tests
+  # Start of vhost-user-gpio-device tests
+  # Start of vhost-user-gpio tests
+  # Start of vhost-user-gpio-tests tests
+  # Start of read-guest-mem tests
+  # Start of memfile tests
+  # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352.so=
+ck -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1024352.qmp,id=3D=
+char0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -M virt  -device vh=
+ost-user-gpio-device,id=3Dgpio0,chardev=3Dchr-vhost-user-test -m 256 -objec=
+t memory-backend-memfd,id=3Dmem,size=3D256M, -numa node,memdev=3Dmem -chard=
+ev socket,id=3Dchr-vhost-user-test,path=3D/tmp/vhost-test-8DD2V1/vhost-user=
+-test.sock -accel qtest
+  # GLib-DEBUG: setenv()/putenv() are not thread-safe and should not be use=
+d after threads are created
+  =3D=3D1024371=3D=3DWARNING: ASan doesn't fully support makecontext/swapco=
+ntext functions and may produce false positives in some cases!
+  # set_protocol_features: 0x200
+  # set_owner: start of session
+  # vhost-user: un-handled message: 14
+  # vhost-user: un-handled message: 14
+  # set_vring_num: 0/1024
+  qemu-system-arm: Failed to set msg fds.
+  qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (2=
+2)
+  qemu-system-arm: Failed to set msg fds.
+  qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (2=
+2)
+  qemu-system-arm: Failed to set msg fds.
+  qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+  qemu-system-arm: Failed to set msg fds.
+  qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+  ok 1 /arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-g=
+pio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess # SKIP No memor=
+y at address 0x0
+  # End of memfile tests
+  # End of read-guest-mem tests
+  # End of vhost-user-gpio-tests tests
+  # End of vhost-user-gpio tests
+  # End of vhost-user-gpio-device tests
+  # End of virtio-bus tests
+  # End of virtio-mmio tests
+  # End of virt tests
+  # End of arm tests
+  1..1
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D1024371=3D=3DERROR: LeakSanitizer: detected memory leaks
+
+  Direct leak of 240 byte(s) in 1 object(s) allocated from:
+      #0 0x561d9a5d7a18 in __interceptor_calloc (/home/alex.bennee/lsrc/qem=
+u.git/builds/all.clang-sanitizers/qemu-system-arm+0x1d1fa18) (BuildId: 0bdc=
+7c2ada2277089db16d57f17c314e9e53e41c)
+      #1 0x7f46ee656c40 in g_malloc0 (/lib/x86_64-linux-gnu/libglib-2.0.so.=
+0+0x5ec40) (BuildId: 0ab0b740e34eeb0c84656ba53737f4c440dfbed4)
+      #2 0x561d9bf7875b in virtio_device_realize /home/alex.bennee/lsrc/qem=
+u.git/builds/all.clang-sanitizers/../../hw/virtio/virtio.c:4175:9
+      #3 0x561d9c321bf4 in device_set_realized /home/alex.bennee/lsrc/qemu.=
+git/builds/all.clang-sanitizers/../../hw/core/qdev.c:566:13
+      #4 0x561d9c33dda8 in property_set_bool /home/alex.bennee/lsrc/qemu.gi=
+t/builds/all.clang-sanitizers/../../qom/object.c:2285:5
+      #5 0x561d9c338fb3 in object_property_set /home/alex.bennee/lsrc/qemu.=
+git/builds/all.clang-sanitizers/../../qom/object.c:1420:5
+      #6 0x561d9c344c7c in object_property_set_qobject /home/alex.bennee/ls=
+rc/qemu.git/builds/all.clang-sanitizers/../../qom/qom-qobject.c:28:10
+      #7 0x561d9b367954 in qdev_device_add /home/alex.bennee/lsrc/qemu.git/=
+builds/all.clang-sanitizers/../../softmmu/qdev-monitor.c:733:11
+      #8 0x561d9b36f832 in qemu_create_cli_devices /home/alex.bennee/lsrc/q=
+emu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2536:5
+      #9 0x561d9b36f832 in qmp_x_exit_preconfig /home/alex.bennee/lsrc/qemu=
+.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2604:5
+      #10 0x561d9b37613f in qemu_init /home/alex.bennee/lsrc/qemu.git/build=
+s/all.clang-sanitizers/../../softmmu/vl.c:3601:9
+      #11 0x561d9a6125a5 in main /home/alex.bennee/lsrc/qemu.git/builds/all=
+.clang-sanitizers/../../softmmu/main.c:47:5
+
+  SUMMARY: AddressSanitizer: 240 byte(s) leaked in 1 allocation(s).
+  ../../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU pro=
+cess but encountered exit status 1 (expected 0)
+  fish: Job 1, 'env QTEST_QEMU_BINARY=3D./qemu-sy=E2=80=A6' terminated by s=
+ignal SIGABRT (Abort)
+  =F0=9F=95=9922:26:18 alex.bennee@hackbox2:qemu.git/builds/all.clang-sanit=
+izers  on =EE=82=A0 for-7.2/virtio-fixes [$?] [=E2=9A=A1 IOT]
+  =E2=9C=97
+
+
+
+>> >
+>> >> >
+>> >> >> Alex Benn=C3=A9e (2):
+>> >> >>   include/hw: attempt to document VirtIO feature variables
+>> >> >>   include/hw: VM state takes precedence in virtio_device_should_st=
+art
+>> >> >>=20
+>> >> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
+>> >> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++-=
+-----
+>> >> >>  2 files changed, 59 insertions(+), 9 deletions(-)
+>> >> >>=20
+>> >> >> --=20
+>> >> >> 2.34.1
+>> >>=20
+>> >>=20
+>> >> --=20
+>> >> Alex Benn=C3=A9e
+>>=20
+>>=20
+>> --=20
+>> Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
