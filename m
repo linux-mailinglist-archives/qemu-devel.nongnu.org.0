@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE981637842
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:58:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2A563781E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:54:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyAkm-0003bv-LJ; Thu, 24 Nov 2022 06:50:52 -0500
+	id 1oyAkq-0003kj-HQ; Thu, 24 Nov 2022 06:50:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkT-0003Qt-JL
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:34 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1oyAkV-0003TN-At
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:37 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyAkR-0004pk-8l
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:32 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- ja4-20020a05600c556400b003cf6e77f89cso4578763wmb.0
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:29 -0800 (PST)
+ id 1oyAkR-0004q9-Ls
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:50:34 -0500
+Received: by mail-wm1-x333.google.com with SMTP id 5so1131247wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:50:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vD0Cc37CcTxWt1/XvjfCLN/FjuSOyiDDi2JBPJBu9j0=;
- b=PN9AIoAzVOhCzrAvNZ9QRUizpKlM/aPILjX4u46Uc53R+0j5SujJ3+p/yZTTkWuj2g
- tRHOhwKuPjflHLYVhjMWBPIhUPJaObv3LWDptzur0zFIavKY2gC8vsLRtuUV8OIpIRXz
- Z8+TeUpqFjQpctgVTv3PxWEQAAHkRkGEUUQlHai8/B1KvqmPZxvJ5Y7iFgzUZw11SqGI
- ML93Y+O30DR0t/pURqmMqXHpNuivbXnXdoeUn1e9Ts8RLgBKEjkxZAlIRzofVQjYKDVI
- vHkI5RQ6pTHXJ4rDqOCrzM1cf6Z46W4bA6xNkfsorH5fEArKI+FIWJ107KovFMriTdjm
- l7+Q==
+ bh=gIYjvXcQb6sHTWomcsrQkP1J8MqtcGNuimz+TJGwZxU=;
+ b=mHXx6uT6wKM9UVPy7jNKt76M4YZ6wLyLVEqZgE3UyC/+O1vl/mMDsB3PnLF7vqkvZJ
+ 0d5ea0xA4g9tVJLanjDhDCKpcxkdaXzzvkQw85yITbZZqYe3ai8B5Hb+LtQxtK9h4327
+ ASEAmpLkHWLAkKz3hq37WNJ9T8XH4eNe27cli0m4YvEuAUjALlzY4wbctsKrZwxv1rIx
+ RUsoyQEppixkzpRP5oN+PHGIOVlRo7/l4dmfTfk1BQWjxFbybC3AOrMOqLulCI10/DBT
+ jkZHN76Ka6VSwAX1wvwyRXE02KdVqYn5bRMwW4Jr8WiF38INeypFal9aJJlm6kkAAkdK
+ zE0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vD0Cc37CcTxWt1/XvjfCLN/FjuSOyiDDi2JBPJBu9j0=;
- b=1jFvvxAkZH/bWsWRX/Rv3Kp7Itg+uY4GE+coSSmUZHdDtoBG5cAMaQbBhAWezdMEPK
- FLfrgpy9DR3NoQlqjPVJffFhyvYKTVas94uEZ4z0oGbMotUDTYTyiOw33F35y4wI1VU/
- JhEV4UmYq8v9zYTNjPkFAwXQ/MfYgJcwchI3t2Mby9/NfVstYzuZNvSnuaU3PqOJi5xN
- HoOTFp7T1sWON7CD2Wf/oWbhHzQzmwlkToiO7idWbev/A6ZeDcdlGJzpzba7OlSyyrMH
- r++BAOfvyfrBsVY2Yi5NhbXbayQXbGM5EnHBRGJeKhpXnfFXZn9MgLJbyRt5ykdBKzXW
- Z76g==
-X-Gm-Message-State: ANoB5pkAkYFE4jdYMhjI2WmPrn88vDpCGDRWD1gXqT2FcbSO+by+rXOa
- Enz2qEKPP9o+46Mey3UXFlOnO9CCjhwt9g==
-X-Google-Smtp-Source: AA0mqf4f/lwwcuISKRk0uY674d4zrtbTIq0I9RR6IVUEBsRckUPPZCb5feD8ENyq4u68GK/aO3cKjQ==
-X-Received: by 2002:a05:600c:19d0:b0:3cf:e7b7:d87d with SMTP id
- u16-20020a05600c19d000b003cfe7b7d87dmr9177192wmq.95.1669290627821; 
- Thu, 24 Nov 2022 03:50:27 -0800 (PST)
+ bh=gIYjvXcQb6sHTWomcsrQkP1J8MqtcGNuimz+TJGwZxU=;
+ b=YE6p7lMjUq/BV1ClKm//mWEaH3LWgjch/o1LheAi3CobwpMBB78B2NS+/VXtzAi+q0
+ V0RiG9Xvi+buru9l6h0i31vVHhmlA7GOnq7Qrz6De97IfVYxxbD5FRgH71cppB3utMh8
+ mkgSP03IDeagyWnVvLHDfgAKDD8citcC+SiUGTLVwLNGakxMB7+HXdjxfFoQKomXvFqQ
+ LkmThXGgXeKUOofy9zhJP+XcTPkW1hh+jFRkLR5clCmAWExOnaLpPNJBTL4JQ3j1sIcl
+ 2nE5Ciovsgu28ZuZNh0Vxj4A+wVbcocR/8nlXb8S1N6/puvrbnBs2RjbvXEGlYF0I6id
+ uVLg==
+X-Gm-Message-State: ANoB5pltgKtAkKGx359XMtTcBQSMO+/ZmYoYJ0P7pdorjSI6brnfll14
+ HG/zQhNXp3bsbcTbhhN3Ifck7KeQ4Lsiqw==
+X-Google-Smtp-Source: AA0mqf4STiHNmwnn82MgPdVdtI95LowqUtMnrF5fvmfQtxTJCeA2FWv6jyqDl0e5VOBMgDp1HaNQRA==
+X-Received: by 2002:a1c:7214:0:b0:3cf:7b65:76c5 with SMTP id
+ n20-20020a1c7214000000b003cf7b6576c5mr23334105wmc.166.1669290629391; 
+ Thu, 24 Nov 2022 03:50:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.26
+ f14-20020a05600c154e00b003c6f3e5ba42sm6212559wmg.46.2022.11.24.03.50.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 03:50:27 -0800 (PST)
+ Thu, 24 Nov 2022 03:50:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -81,24 +80,23 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, qemu-riscv@nongnu.org
-Subject: [PATCH for-8.0 01/19] hw/core/cpu-common: Convert TYPE_CPU class to
- 3-phase reset
-Date: Thu, 24 Nov 2022 11:50:04 +0000
-Message-Id: <20221124115023.2437291-2-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 02/19] target/arm: Convert to 3-phase reset
+Date: Thu, 24 Nov 2022 11:50:05 +0000
+Message-Id: <20221124115023.2437291-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221124115023.2437291-1-peter.maydell@linaro.org>
 References: <20221124115023.2437291-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,47 +112,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the parent class TYPE_CPU to 3-phase reset. This
-is a necessary prerequisite to converting the subclasses.
+Convert the Arm CPU class to use 3-phase reset, so it doesn't
+need to use device_class_set_parent_reset() any more.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/core/cpu-common.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ target/arm/cpu-qom.h |  4 ++--
+ target/arm/cpu.c     | 13 +++++++++----
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index f9fdd46b9d7..78b5f350a00 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -116,9 +116,9 @@ void cpu_reset(CPUState *cpu)
-     trace_guest_cpu_reset(cpu);
+diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+index 64c44cef2dd..514c22ced9b 100644
+--- a/target/arm/cpu-qom.h
++++ b/target/arm/cpu-qom.h
+@@ -43,7 +43,7 @@ void aarch64_cpu_register(const ARMCPUInfo *info);
+ /**
+  * ARMCPUClass:
+  * @parent_realize: The parent class' realize handler.
+- * @parent_reset: The parent class' reset handler.
++ * @parent_phases: The parent class' reset phase handlers.
+  *
+  * An ARM CPU model.
+  */
+@@ -54,7 +54,7 @@ struct ARMCPUClass {
+ 
+     const ARMCPUInfo *info;
+     DeviceRealize parent_realize;
+-    DeviceReset parent_reset;
++    ResettablePhases parent_phases;
+ };
+ 
+ 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index a021df9e9e8..5bad065579f 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -202,14 +202,16 @@ static void cp_reg_check_reset(gpointer key, gpointer value,  gpointer opaque)
+     assert(oldvalue == newvalue);
  }
  
--static void cpu_common_reset(DeviceState *dev)
-+static void cpu_common_reset_hold(Object *obj)
+-static void arm_cpu_reset(DeviceState *dev)
++static void arm_cpu_reset_hold(Object *obj)
  {
--    CPUState *cpu = CPU(dev);
-+    CPUState *cpu = CPU(obj);
-     CPUClass *cc = CPU_GET_CLASS(cpu);
+-    CPUState *s = CPU(dev);
++    CPUState *s = CPU(obj);
+     ARMCPU *cpu = ARM_CPU(s);
+     ARMCPUClass *acc = ARM_CPU_GET_CLASS(cpu);
+     CPUARMState *env = &cpu->env;
  
-     if (qemu_loglevel_mask(CPU_LOG_RESET)) {
-@@ -259,6 +259,7 @@ static int64_t cpu_common_get_arch_id(CPUState *cpu)
- static void cpu_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     CPUClass *k = CPU_CLASS(klass);
+-    acc->parent_reset(dev);
++    if (acc->parent_phases.hold) {
++        acc->parent_phases.hold(obj);
++    }
  
-     k->parse_features = cpu_common_parse_features;
-@@ -269,7 +270,7 @@ static void cpu_class_init(ObjectClass *klass, void *data)
-     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-     dc->realize = cpu_common_realizefn;
-     dc->unrealize = cpu_common_unrealizefn;
--    dc->reset = cpu_common_reset;
-+    rc->phases.hold = cpu_common_reset_hold;
-     cpu_class_init_props(dc);
-     /*
-      * Reason: CPUs still need special care by board code: wiring up
+     memset(env, 0, offsetof(CPUARMState, end_reset_fields));
+ 
+@@ -2210,12 +2212,15 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     ARMCPUClass *acc = ARM_CPU_CLASS(oc);
+     CPUClass *cc = CPU_CLASS(acc);
+     DeviceClass *dc = DEVICE_CLASS(oc);
++    ResettableClass *rc = RESETTABLE_CLASS(oc);
+ 
+     device_class_set_parent_realize(dc, arm_cpu_realizefn,
+                                     &acc->parent_realize);
+ 
+     device_class_set_props(dc, arm_cpu_properties);
+-    device_class_set_parent_reset(dc, arm_cpu_reset, &acc->parent_reset);
++
++    resettable_class_set_parent_phases(rc, NULL, arm_cpu_reset_hold, NULL,
++                                       &acc->parent_phases);
+ 
+     cc->class_by_name = arm_cpu_class_by_name;
+     cc->has_work = arm_cpu_has_work;
 -- 
 2.25.1
 
