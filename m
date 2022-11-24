@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D97637DAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 17:42:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2C9637E5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 18:34:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyFHI-0005pE-7X; Thu, 24 Nov 2022 11:40:44 -0500
+	id 1oyG6N-0000dd-JG; Thu, 24 Nov 2022 12:33:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oyFHF-0005mR-PA
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 11:40:41 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oyG6L-0000dV-VP
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:29 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oyFHE-00010n-2w
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 11:40:41 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oyG6J-0006mi-KK
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 12:33:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669308037;
+ s=mimecast20190719; t=1669311206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UgFK2tp5bNMp3kYB5x2rGiAn+dtn7J1LrK1j1ezQ3AU=;
- b=OJPgPWJqXl8ZA15N77wgsql+c/rtZil4pKJgtQ9l6aumSajXHO0gIODTG0r/qp32tZKmWY
- 9SvrCyT71WWLsRjZWLFJnz7dSwjdhjbtmMyL05WJwHnOU/IFHwuYtiPHzZo7AxZCJ92UNu
- UrlvTAx3dBSdBDsKXk8DBRxO6GeA0kc=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-AZazPnPOOuaqTrDB7wTl6A-1; Thu, 24 Nov 2022 11:40:36 -0500
-X-MC-Unique: AZazPnPOOuaqTrDB7wTl6A-1
-Received: by mail-qt1-f198.google.com with SMTP id
- fz10-20020a05622a5a8a00b003a4f466998cso2063390qtb.16
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 08:40:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UgFK2tp5bNMp3kYB5x2rGiAn+dtn7J1LrK1j1ezQ3AU=;
- b=lNCRyoSoKO+uSeEAA1gZrIRm19514owZ/I3HN7UnONYXgVGvkYXTD5TDaG5VOdbAHI
- pNRDRrBP/r/cUA/Y4rCanuEZXl0MmBaSCwNSkVH6Ku5tz1Jn5WnrjNttjoGIsjEpUWPA
- WGfI56cp6RsuZh5oO8P7C35yD5QAsRmKU3NPG4amUwstZ22Z585RbDwSmTEO7UOMXMFe
- UBAKc/Wosr9sBJllGJ6oDf2G+knL89NVaLjoVZJ1vLaxvQHFfiReQzoHOjlSjEHsC8FB
- 6gso5L1YVbQ6m+8Kn8HsiOxYjvRRvqO0NxClNkkNl+00dvR5X+aksXuZcsq1UVcBvDDM
- +CWQ==
-X-Gm-Message-State: ANoB5pmvAxeZKLs0LZ0zzZ7q5VXi3OyizcfA77k/DntItxF/f8Eyzs3S
- 8Id7fUrK0aHa8SBYfJK30fcy/7KV/6mowpt0EenA3tV49IXE9YuxuE5kCBZQymIA1q4fU7qbkb9
- j56NgiYVon/aamn8=
-X-Received: by 2002:ac8:6e84:0:b0:3a6:ef1:62a4 with SMTP id
- c4-20020ac86e84000000b003a60ef162a4mr14509375qtv.504.1669308036223; 
- Thu, 24 Nov 2022 08:40:36 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4JC6SvNo1e2G1T1YlfRID+Ujn/22TtQKP6cQMetW/UPt6wXLxUAAiVak0ngiaH0O+fd6k6mA==
-X-Received: by 2002:ac8:6e84:0:b0:3a6:ef1:62a4 with SMTP id
- c4-20020ac86e84000000b003a60ef162a4mr14509356qtv.504.1669308035982; 
- Thu, 24 Nov 2022 08:40:35 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- h8-20020a05620a244800b006fa4a81e895sm1128867qkn.67.2022.11.24.08.40.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 08:40:35 -0800 (PST)
-Date: Thu, 24 Nov 2022 11:40:34 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
- zhouyibo@bytedance.com, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH] migration: reduce time of loading non-iterable vmstate
-Message-ID: <Y3+egjXTvLEHDjuT@x1n>
-References: <20221118083648.2399615-1-xuchuangxclwt@bytedance.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A7wiq0qxnd9wfCc1NF5dhXwcdg9dsXCdSq/spnL8jlI=;
+ b=EHoXnOb5Z/jLuA1uzU/Wen84YnwSEjpfLswc2JWazencLMT4FIQs5R5l/GQniQkgvcrDIA
+ 3PaFfHz7+vc6eKzM3SM2KtmcAZgZnPF8PRSA6bzmrflAX6IE+qlu/j8tSPqA15yV29rSg0
+ HKqyculC9JktBYA0Dlt1yTGyiAUP9SE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-180-lByKxTxwPD-jT4k_E5ftig-1; Thu, 24 Nov 2022 12:33:22 -0500
+X-MC-Unique: lByKxTxwPD-jT4k_E5ftig-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E24C086EB60;
+ Thu, 24 Nov 2022 17:33:21 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 14DB24C819;
+ Thu, 24 Nov 2022 17:33:18 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eli Cohen <eli@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Lei Yang <leiyang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>, Cindy Lu <lulu@redhat.com>
+Subject: [PATCH v2 0/4] Guest announce feature emulation using Shadow VirtQueue
+Date: Thu, 24 Nov 2022 18:33:10 +0100
+Message-Id: <20221124173314.2123015-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221118083648.2399615-1-xuchuangxclwt@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,105 +81,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 18, 2022 at 04:36:48PM +0800, Chuang Xu wrote:
-> The duration of loading non-iterable vmstate accounts for a significant
-> portion of downtime (starting with the timestamp of source qemu stop and
-> ending with the timestamp of target qemu start). Most of the time is spent
-> committing memory region changes repeatedly.
-> 
-> This patch packs all the changes to memory region during the period of
-> loading non-iterable vmstate in a single memory transaction. With the
-> increase of devices, this patch will greatly improve the performance.
-> 
-> Here are the test results:
-> test vm info:
-> - 32 CPUs 128GB RAM
-> - 8 16-queue vhost-net device
-> - 16 4-queue vhost-user-blk device.
-> 
-> 	time of loading non-iterable vmstate
-> before		about 210 ms
-> after		about 40 ms
-> 
-> Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
-
-This is an interesting idea..  I think it means at least the address space
-operations will all be messed up if happening during the precopy loading
-progress, but I don't directly see its happening either.  For example, in
-most post_load()s of vmsd I think the devices should just write directly to
-its buffers, accessing MRs directly, even if they want DMAs or just update
-fields to correct states.  Even so, I'm not super confident that holds
-true, not to mention any other side effects (e.g., would we release bql
-during precopy for any reason?).
-
-Copy Paolo and PeterM for some extra eyes.
-
-> ---
->  migration/migration.c | 1 +
->  migration/migration.h | 2 ++
->  migration/savevm.c    | 8 ++++++++
->  3 files changed, 11 insertions(+)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index e6f8bc2478..ed20704552 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -224,6 +224,7 @@ void migration_object_init(void)
->      qemu_sem_init(&current_incoming->postcopy_pause_sem_fast_load, 0);
->      qemu_mutex_init(&current_incoming->page_request_mutex);
->      current_incoming->page_requested = g_tree_new(page_request_addr_cmp);
-> +    current_incoming->start_pack_mr_change = false;
->  
->      migration_object_check(current_migration, &error_fatal);
->  
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 58b245b138..86597f5feb 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -186,6 +186,8 @@ struct MigrationIncomingState {
->       * contains valid information.
->       */
->      QemuMutex page_request_mutex;
-> +
-> +    bool start_pack_mr_change;
->  };
->  
->  MigrationIncomingState *migration_incoming_get_current(void);
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 48e85c052c..a073009a74 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2630,6 +2630,12 @@ retry:
->          switch (section_type) {
->          case QEMU_VM_SECTION_START:
->          case QEMU_VM_SECTION_FULL:
-> +            /* call memory_region_transaction_begin() before loading non-iterable vmstate */
-> +            if (section_type == QEMU_VM_SECTION_FULL && !mis->start_pack_mr_change) {
-> +                memory_region_transaction_begin();
-> +                mis->start_pack_mr_change = true;
-
-This is slightly hacky to me.  Can we just wrap the begin/commit inside the
-whole qemu_loadvm_state_main() call?
-
-> +            }
-> +
->              ret = qemu_loadvm_section_start_full(f, mis);
->              if (ret < 0) {
->                  goto out;
-> @@ -2650,6 +2656,8 @@ retry:
->              }
->              break;
->          case QEMU_VM_EOF:
-> +            /* call memory_region_transaction_commit() after loading non-iterable vmstate */
-> +            memory_region_transaction_commit();
->              /* This is the end of migration */
->              goto out;
->          default:
-> -- 
-> 2.20.1
-> 
-
--- 
-Peter Xu
+A gratuitous ARP is recommended after a live migration to reduce the amount=
+ of=0D
+time needed by the network links to be aware of the new location. A hypervi=
+sor=0D
+may not have the knowledge of the guest network configuration, and this is=
+=0D
+especially true on passthrough devices, so its simpler to ask the guest to=
+=0D
+do it.=0D
+=0D
+However, the device control part of this feature can be totally emulated by=
+=0D
+qemu and shadow virtqueue, not needing any special feature from the actual=
+=0D
+vdpa device.=0D
+=0D
+The vdpa device must offer VIRTIO_NET_F_STATUS for the guest to access the=
+=0D
+status of virtio net config where announcement status bit is set. It is=0D
+possible to emulate it as always active in case backend does not support it=
+,=0D
+but this is left for the future, as there are not many devices not offering=
+ it=0D
+anyway.=0D
+=0D
+Patch 1 is less useful now that we don't emulate _F_STATUS anymore but QEMU=
+=0D
+coding style seems to prefer early return so leaving it in this version.=0D
+=0D
+v2:=0D
+* Actually remove VIRTIO_NET_F_STATUS emulation. Comparing with v1, we offe=
+r=0D
+  the feature with virtio instead of using virtio/vhost-vdpa.=0D
+=0D
+v1:=0D
+* Move code from vhost_net_get_config to virtio_net_get_config.=0D
+=0D
+RFC v2:=0D
+* Add VIRTIO_NET_F_STATUS emulation.=0D
+=0D
+Eugenio P=C3=A9rez (4):=0D
+  virtio_net: Modify virtio_net_get_config to early return=0D
+  virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device model has it=0D
+  vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in=0D
+    vhost_vdpa_net_handle_ctrl_avail=0D
+  vdpa: do not handle VIRTIO_NET_F_GUEST_ANNOUNCE in vhost-vdpa=0D
+=0D
+ hw/net/virtio-net.c | 29 ++++++++++++++++-------------=0D
+ net/vhost-vdpa.c    | 16 ++++++++++++----=0D
+ 2 files changed, 28 insertions(+), 17 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
