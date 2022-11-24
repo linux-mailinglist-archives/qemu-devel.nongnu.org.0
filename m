@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5814963753C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 10:35:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9CB6376DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 11:55:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oy8cF-0005Fi-OC; Thu, 24 Nov 2022 04:33:57 -0500
+	id 1oy9rU-0004y1-BJ; Thu, 24 Nov 2022 05:53:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oy8bJ-00059c-9C
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:32:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oy9rS-0004xo-2i
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 05:53:42 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oy8bG-0000sG-8u
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 04:32:56 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oy9rQ-0008EY-E0
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 05:53:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669282373;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1669287218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ytjw1Q193GioMQ7nuuiJ2+8swD2PQaobqGR4aVGxZGg=;
- b=P76v9tYzlG1JZrKJb5RRrre5j52VFmJQRIOn926AmJKht2v0c2lkIFJ1qLcNjw3FPirnSR
- gAbLhe6GDo9CE03On6KM00J7vpLexV8jjoqJEeaEkFDL+Nj/OXhFoRpNbog9yq1QKGLAhG
- yzAyCkFWO5ANnOnuHO4Zi2LDGJtZWlE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-580-yFs3sWylMMa5LaGYy5bTtw-1; Thu, 24 Nov 2022 04:32:50 -0500
-X-MC-Unique: yFs3sWylMMa5LaGYy5bTtw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B769101AA79;
- Thu, 24 Nov 2022 09:32:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F0864EA55;
- Thu, 24 Nov 2022 09:32:45 +0000 (UTC)
-Date: Thu, 24 Nov 2022 09:32:41 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH] tests/avocado: use new rootfs for orangepi test
-Message-ID: <Y386OVJ3HhsnuZ8F@redhat.com>
-References: <20221118113309.1057790-1-alex.bennee@linaro.org>
- <8c4b6387-450d-88af-c1d4-3171a9c3067b@linaro.org>
- <8f6f531f-3ed9-6a14-9ad6-8c0ff6b32c22@redhat.com>
- <87fse9bvmf.fsf@linaro.org>
- <504f6645-5315-74c5-623d-d8bf231aec09@linaro.org>
- <f12c4b6f-8125-696c-5699-802ccc7c5f39@kaod.org>
- <d43878da-f17c-96ae-a097-7b90f9024a98@linaro.org>
+ bh=5YeLVPRzw35wUwODBBXM2MnhAWI52z9503YxADgQOZw=;
+ b=GRrSxKSZe3QOJ8xhOUQZMfmODzWijGjikfFO7QKNxDS0UaHzkmBhg/8OHQwK3dswtTQpgM
+ 8nae2/a0yCy5vouv6LzAQ+Vq83A0YdIplTA4rNaQjgJQ88HbGaVtqUjOXB57MbpmupHyyJ
+ uouUY9rL+9YGVFeQiYUz5y+5bGyJtYM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-342-fQYiviavMr2hpBVFNviH6A-1; Thu, 24 Nov 2022 05:53:37 -0500
+X-MC-Unique: fQYiviavMr2hpBVFNviH6A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j2-20020a05600c1c0200b003cf7397fc9bso787106wms.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 02:53:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5YeLVPRzw35wUwODBBXM2MnhAWI52z9503YxADgQOZw=;
+ b=WbHyPqoT8gCtojlfq+6I+3j7W1hjn7EDBo39p8klH1MB7okbq/uF4X64w5W0mkO+NA
+ jlTUTvn9+qRcdnVQE7Vw+Hs2n4J0nI2ZwWriTycJvYkQVPDgIe92HHOcRpOYeGisjqp0
+ v4ngsmGbSzeAyKvpZqup2K/BpoHWWDbH0GLvWJdNPMOdBYSMM7kA5NYk7OsP1G839ylj
+ 0mpJ2VzjH/stEqIH4fpw78FnynMmjzrxIBW98G1cVmlYzaSdVMKJ2WYNjCk1vurdwgwv
+ 2OUWYr0oE/+py0tgUqJyDDg7OAj4X/4bAsEdZvGVHOBbLhbn2pKSW8gheW3OmMcV130a
+ oeYw==
+X-Gm-Message-State: ANoB5pmx2UD5MhhVaRlSrQii41uec2EeZAK+Nrr90nmc1u6lzg4B8EdJ
+ V4Q8xZ8HITInx8qj3JCJB+Wh9YxcaySLchuYV0dKnPe/kaxHrZzEtrEyz6HjrqzTas2ibN4pvY0
+ 2TxFV6/4gvnM3jcg=
+X-Received: by 2002:adf:d844:0:b0:241:be45:54eb with SMTP id
+ k4-20020adfd844000000b00241be4554ebmr17063196wrl.49.1669287216069; 
+ Thu, 24 Nov 2022 02:53:36 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6Dyad6hMA184CnK7H4wW6euH5uxx5J0KfL2EKIZNEk+GIEiT+MmJIp+RiQT/L+Jeata2br1A==
+X-Received: by 2002:adf:d844:0:b0:241:be45:54eb with SMTP id
+ k4-20020adfd844000000b00241be4554ebmr17063183wrl.49.1669287215791; 
+ Thu, 24 Nov 2022 02:53:35 -0800 (PST)
+Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
+ p13-20020a05600c358d00b003c6b9749505sm5683613wmq.30.2022.11.24.02.53.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Nov 2022 02:53:35 -0800 (PST)
+Date: Thu, 24 Nov 2022 05:53:32 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
+Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
+Message-ID: <20221124055230-mutt-send-email-mst@kernel.org>
+References: <20221123152134.179929-1-alex.bennee@linaro.org>
+ <20221123102522-mutt-send-email-mst@kernel.org>
+ <87bkoxbqtd.fsf@linaro.org>
+ <20221123110755-mutt-send-email-mst@kernel.org>
+ <877czkbtbs.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d43878da-f17c-96ae-a097-7b90f9024a98@linaro.org>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <877czkbtbs.fsf@linaro.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,173 +98,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 24, 2022 at 12:06:10AM +0100, Philippe Mathieu-Daudé wrote:
-> On 23/11/22 19:49, Cédric Le Goater wrote:
-> > On 11/23/22 19:13, Philippe Mathieu-Daudé wrote:
-> > > On 23/11/22 15:12, Alex Bennée wrote:
-> > > > Thomas Huth <thuth@redhat.com> writes:
-> > > > > On 23/11/2022 12.15, Philippe Mathieu-Daudé wrote:
-> > > > > > On 18/11/22 12:33, Alex Bennée wrote:
-> > > > > > > The old URL wasn't stable. I suspect the current URL will only be
-> > > > > > > stable for a few months so maybe we need another strategy for hosting
-> > > > > > > rootfs snapshots?
-> > > > > > > 
-> > > > > > > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> > > > > > > ---
-> > > > > > >    tests/avocado/boot_linux_console.py | 4 ++--
-> > > > > > >    1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/tests/avocado/boot_linux_console.py
-> > > > > > > b/tests/avocado/boot_linux_console.py
-> > > > > > > index 4c9d551f47..5a2923c423 100644
-> > > > > > > --- a/tests/avocado/boot_linux_console.py
-> > > > > > > +++ b/tests/avocado/boot_linux_console.py
-> > > > > > > @@ -793,8 +793,8 @@ def test_arm_orangepi_sd(self):
-> > > > > > >            dtb_path =
-> > > > > > > '/usr/lib/linux-image-current-sunxi/sun8i-h3-orangepi-pc.dtb'
-> > > > > > >            dtb_path = self.extract_from_deb(deb_path, dtb_path)
-> > > > > > >            rootfs_url =
-> > > > > > > ('http://storage.kernelci.org/images/rootfs/buildroot/'
-> > > > > > > -                      'kci-2019.02/armel/base/rootfs.ext2.xz')
-> > > > > > > -        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
-> > > > > > > +
-> > > > > > > 'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
-> > > > > > > +        rootfs_hash = 'fae32f337c7b87547b10f42599acf109da8b6d9a'
-> > > > > > If Avocado doesn't find an artifact in its local cache,
-> > > > > > it will fetch it
-> > > > > > from the URL.
-> > > > > > The cache might be populated with artifacts previously downloaded, but
-> > > > > > their URL is not valid anymore (my case for many tests).
-> > > > > > We can also add artifacts manually, see [1].
-> > > > > > I'd rather keep pre-existing tests if possible, to test older
-> > > > > > (kernel / user-space) images. We don't need to run all the tests all
-> > > > > > the time:
-> > > > > > tests can be filtered by tags (see [2]).
-> > > > > > My preference here is to refactor this test, adding the
-> > > > > > "kci-2019.02"
-> > > > > > and "baseline-20221116.0" releases. I can prepare the patch if you /
-> > > > > > Thomas don't object.
-> > > > > 
-> > > > > IMHO we shouldn't keep tests in the upstream git repository where the
-> > > > > binaries are not available in public anymore. They won't get run by
-> > > > > new contributors anymore, and also could vanish from the disks of the
-> > > > > people who previously downloaded it, once they wipe their cache or
-> > > > > upgrade to a new installation, so the test code will sooner or later
-> > > > > be bitrotting. But if you want to keep the tests around on your hard
-> > > > > disk, you could also stick the test in a local branch on your hard
-> > > > > disk instead.
-> > > > 
-> > > > CI/Workstation splits aside I tend to agree with Thomas here that having
-> > > > tests no one else can run will lead to an accretion of broken tests.
-> > > 
-> > > Following this idea, should we remove all boards for which no open
-> > > source & GPL software is available? I.e:
-> > > 
-> > > 40p                  IBM RS/6000 7020 (40p)
-> > 
-> > This machine can run debian :
+On Thu, Nov 24, 2022 at 09:21:15AM +0000, Alex Benn�e wrote:
 > 
-> IMHO having QEMU able to run anything an architecture can run seems way
-> more interesting/helpful rather than restricting it to just open source
-> projects.
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
 > 
-> >    qemu-system-ppc -M 40p -cpu 604 -nic user -hda ./prep.qcow2 -cdrom
-> > ./zImage.hdd -serial mon:stdio -nographic
-> >    >> =============================================================
-> >    >> OpenBIOS 1.1 [Mar 7 2022 23:07]
-> >    >> Configuration device id QEMU version 1 machine id 0
-> >    >> CPUs: 0
-> >    >> Memory: 128M
-> >    >> UUID: 00000000-0000-0000-0000-000000000000
-> >    >> CPU type PowerPC,604
-> >    milliseconds isn't unique.
-> >    Welcome to OpenBIOS v1.1 built on Mar 7 2022 23:07
-> >    Trying hd:,\\:tbxi...
-> >    >> Not a bootable ELF image
-> >    >> switching to new context:
-> >    loaded at:     04000400 04015218
-> >    relocated to:  00800000 00814E18
-> >    board data at: 07C9E870 07CA527C
-> >    relocated to:  0080B130 00811B3C
-> >    zimage at:     0400B400 0411DC98
-> >    avail ram:     00400000 00800000
-> >    Linux/PPC load: console=/dev/ttyS0,9600 console=tty0
-> > ether=5,0x210,eth0 ether=11,0x300,eth1 ramdisk_size=8192 root=/dev/sda3
-> >    Uncompressing Linux................................................done.
-> >    Now booting the kernel
-> >    Debian GNU/Linux 3.0 6015 ttyS0
-> >    6015 login:
-> > 
-> > Please keep it ! :)
-> > 
-> > and it also boots AIX 4.4/5.1 (with 2 small patches) but that's clearly
-> > not open source. It is downloadable from the net though, like many macos
-> > PPC images.
-> > 
-> > That said, we might have been putting too much in avocado and it takes
-> > ages to run (when it does not hit some random python issue).
+> > On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Benn�e wrote:
+> >> 
+> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
+> >> 
+> >> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Benn�e wrote:
+> >> >> Hi,
+> >> >> 
+> >> >> This hopefully fixes the problems with VirtIO migration caused by the
+> >> >> previous refactoring of virtio_device_started(). That introduced a
+> >> >> different order of checking which didn't give the VM state primacy but
+> >> >> wasn't noticed as we don't properly exercise VirtIO device migration
+> >> >> and caused issues when dev->started wasn't checked in the core code.
+> >> >> The introduction of virtio_device_should_start() split the overloaded
+> >> >> function up but the broken order still remained. The series finally
+> >> >> fixes that by restoring the original semantics but with the cleaned up
+> >> >> functions.
+> >> >> 
+> >> >> I've added more documentation to the various structures involved as
+> >> >> well as the functions. There is still some inconsistencies in the
+> >> >> VirtIO code between different devices but I think that can be looked
+> >> >> at over the 8.0 cycle.
+> >> >
+> >> >
+> >> > Thanks a lot! Did you try this with gitlab CI? A patch similar to your
+> >> > 2/2 broke it previously ...
+> >> 
+> >> Looking into it now - so far hasn't broken locally but I guess there is
+> >> something different about the CI.
+> >
+> >
+> > yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
+> >
+> > Or with QEMU_CI set to 1 and then run fedora container and then
+> > clang-system manually.
 > 
-> w.r.t. "too much in avocado", are you referring to GitLab CI?
+> I'm having trouble re-creating the failures in CI locally on my boxen. I
+> have triggered a bug on s390 but that looks like a pre-existing problem
+> with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
+> think that is a limitation of the test harness.
 > 
-> I see the following 2 use cases with Avocado:
->  1/ Run tests locally
->  2/ Run tests on CI
-> The set of tests used in 1/ and 2/ doesn't have to be the same...
+> Will keep looking.
+
+Why not just trigger it on gitlab CI - it's very repeatable there?
+
+> >
+> >> >
+> >> >> Alex Benn�e (2):
+> >> >>   include/hw: attempt to document VirtIO feature variables
+> >> >>   include/hw: VM state takes precedence in virtio_device_should_start
+> >> >> 
+> >> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
+> >> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
+> >> >>  2 files changed, 59 insertions(+), 9 deletions(-)
+> >> >> 
+> >> >> -- 
+> >> >> 2.34.1
+> >> 
+> >> 
+> >> -- 
+> >> Alex Benn�e
 > 
-> 1/ is very helpful for maintainers, to run tests specific to their
-> subsystems. Also useful during refactor when touching other subsystems,
-> to run their tests before sending a patch set.
 > 
-> 2/ is the "gating" testing. With retrospective, it was a mistake to
-> start running avocado on CI without any filtering on what tests to run.
-> Instead of trying to explain my view here, I'd like to go back to Daniel
-> earlier proposal:
-> https://lore.kernel.org/qemu-devel/20200427152036.GI1244803@redhat.com/
-> 
-> Per this proposal, we should only run 'Tier 1' on Gitlab CI.
-> Daniel described "Tier 1" as "[test that] Will always work."
-
-The key part there is to make clear that testing does not determine
-what code we accept into QEMU tree. It merely influences what quality
-level we tell users the code has. Ideally we would test everything,
-but realistically that's not viable, but we still want to take the
-features.
-
->                                                              I'd like to
-> amend with "test that run in less than 150 seconds" (or less). If a test
-> takes more, we can run it on our workstations, but we shouldn't waste
-> CI cycles with it.
-
-I don't think we need to be so aggressive on time limits for
-individual tests. What matters for CI is not the individual
-test time, but the overall pipeline wallclock time.
-
-If we want our pipelines to be no longer than 45 minutes,
-it is still fine to have 4 tests that run 30 minutes each,
-provided we have sufficient resources to run all 4 in parallel.
-Keeping tests short is still a good thing, as it lets us run
-more overall, but if some need extra time that's ok.
-
-Above all else though, the top 5 requirements for any CI
-test we add are reliability, reliability, reliability,
-reliability and reliability.
-
-We can't keep spending so much time chasing broken tests.
-If the person merging QEMU pull requests just carries on
-ignoring tests as they're so frequently broken, the value
-of having the tests at all is drastically reduced, in
-terms of what they can promise us about quality of the
-code we ship.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> -- 
+> Alex Benn�e
 
 
