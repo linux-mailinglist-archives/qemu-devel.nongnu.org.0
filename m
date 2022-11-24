@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2CD636653
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 17:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721A16362AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Nov 2022 16:03:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oxt4k-0005mX-Vz; Wed, 23 Nov 2022 11:58:19 -0500
+	id 1oxrGY-000513-4O; Wed, 23 Nov 2022 10:02:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxt4a-0005m9-Nq
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:58:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <changbin.du@huawei.com>)
+ id 1oxo5C-00027T-Al; Wed, 23 Nov 2022 06:38:26 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oxt4Z-0008CL-A8
- for qemu-devel@nongnu.org; Wed, 23 Nov 2022 11:58:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669222686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MQldKRKDSkfQodWjqlKZNdp/pP5MXFYoCeb4OzPRFSw=;
- b=gAuiiw4A/fZ/RrN9KhYeNvJjD1euJ/81Rz8h+DyLUjthDeaynUMjh+qZ5KLJGkoM8WNo8o
- 0d9+UWrUM7rx7p5WK2QpwCrdxuDwdbtad/2oIFZ1hyvvUemw5yX7IuQNciQ2NsDqlhInqE
- gyX3oqUodFcAZmHyUDzKlPawYVDEnvs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-119-ano4VTjaP1-upWYT6kcp4A-1; Wed, 23 Nov 2022 11:58:05 -0500
-X-MC-Unique: ano4VTjaP1-upWYT6kcp4A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E3DD185A7A8;
- Wed, 23 Nov 2022 16:58:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C2FA5111E410;
- Wed, 23 Nov 2022 16:58:02 +0000 (UTC)
-Date: Wed, 23 Nov 2022 17:57:59 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, Stefan Weil <sw@weilnetz.de>,
- Jeff Cody <codyprime@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 09/15] block: bdrv_create_file is a coroutine_fn
-Message-ID: <Y35RF2+ru7GDj25x@redhat.com>
-References: <20221123114227.85757-1-eesposit@redhat.com>
- <20221123114227.85757-10-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <changbin.du@huawei.com>)
+ id 1oxo59-0003SP-DF; Wed, 23 Nov 2022 06:38:25 -0500
+Received: from kwepemi500013.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NHJtW1lRCzXdYd;
+ Wed, 23 Nov 2022 19:34:11 +0800 (CST)
+Received: from M910t (10.110.54.157) by kwepemi500013.china.huawei.com
+ (7.221.188.120) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 23 Nov
+ 2022 19:38:05 +0800
+Date: Thu, 24 Nov 2022 11:38:02 +0800
+To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, liyang
+ <liyang281@huawei.com>, Hui Wang <hw.huiwang@huawei.com>
+Subject: arm: gdb-stub is broken by FEAT_HAFDBS
+Message-ID: <20221124033802.meuiphlcskwu3aty@M910t>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20221123114227.85757-10-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.110.54.157]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500013.china.huawei.com (7.221.188.120)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=changbin.du@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_12_24=3.199,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 23 Nov 2022 10:02:15 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,17 +58,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Changbin Du <changbin.du@huawei.com>
+From:  Changbin Du via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 23.11.2022 um 12:42 hat Emanuele Giuseppe Esposito geschrieben:
-> It is always called in coroutine_fn callbacks, therefore
-> it can directly call bdrv_co_create().
-> 
-> Rename it to bdrv_co_create_file too.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Hello, Richard,
+We just noticed the gdb-stub is broken and probably caused by commit 4a3585568
+("target/arm: Plumb debug into S1Translate").
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+(gdb) target remote :1234
+Remote debugging using :1234
+0x000000000e1716d0 in ?? ()
+=> 0x000000000e1716d0:  Cannot access memory at address 0xe1716d0
 
+This issue can be workaround by below change.
+
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -2879,7 +2879,7 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+     S1Translate ptw = {
+         .in_mmu_idx = arm_mmu_idx(env),
+         .in_secure = arm_is_secure(env),
+-        .in_debug = true,
++        .in_debug = false,
+     };
+
+Could you take a look at this? Thank you!
+
+-- 
+Cheers,
+Changbin Du
 
