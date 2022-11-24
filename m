@@ -2,89 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9CB6376DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 11:55:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D53637772
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 12:19:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oy9rU-0004y1-BJ; Thu, 24 Nov 2022 05:53:44 -0500
+	id 1oyAEj-0002e3-Bt; Thu, 24 Nov 2022 06:17:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oy9rS-0004xo-2i
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 05:53:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oy9rQ-0008EY-E0
- for qemu-devel@nongnu.org; Thu, 24 Nov 2022 05:53:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669287218;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5YeLVPRzw35wUwODBBXM2MnhAWI52z9503YxADgQOZw=;
- b=GRrSxKSZe3QOJ8xhOUQZMfmODzWijGjikfFO7QKNxDS0UaHzkmBhg/8OHQwK3dswtTQpgM
- 8nae2/a0yCy5vouv6LzAQ+Vq83A0YdIplTA4rNaQjgJQ88HbGaVtqUjOXB57MbpmupHyyJ
- uouUY9rL+9YGVFeQiYUz5y+5bGyJtYM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-342-fQYiviavMr2hpBVFNviH6A-1; Thu, 24 Nov 2022 05:53:37 -0500
-X-MC-Unique: fQYiviavMr2hpBVFNviH6A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j2-20020a05600c1c0200b003cf7397fc9bso787106wms.5
- for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 02:53:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oyAEg-0002dp-Js
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:17:43 -0500
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oyAEe-0004Ep-O3
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 06:17:42 -0500
+Received: by mail-lf1-x12c.google.com with SMTP id g12so2084547lfh.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 03:17:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HhxUmkalyZWIXRzY7qEve1Fk0E2Ph/LUBUI2GhJnYhQ=;
+ b=Ee+QnpkjvNDy85MinSB9/dGPi9uTcUDW9GOb4vhC9B7Q2QFgEqh2PXAwFvHLFXepZ/
+ TTHoGPNIXxM2FyALmmESwKZiNZx3W7tfplM+APUAWEL7D6H5C4p87I1OT4/3zLXKuj40
+ qY4YAFGlDdmBw2Uhc+ePK05tSpFqC/6/OEUCBbgIsjHKlXQcqV0SrlTgTbfsru/usw/N
+ cZ8LVaswy9kaX0Kln7bmaRFpWjjhp5YkAF5P48eCILbS9y6fDtw0feC2IXN+RVac3pRw
+ gnfvDTHFFvxMoZCsjNyUneK/Zd/+s5hE+fg+wk/wlvRm/Eb05XRRRCLU4OB+zdm3xVFe
+ WYWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5YeLVPRzw35wUwODBBXM2MnhAWI52z9503YxADgQOZw=;
- b=WbHyPqoT8gCtojlfq+6I+3j7W1hjn7EDBo39p8klH1MB7okbq/uF4X64w5W0mkO+NA
- jlTUTvn9+qRcdnVQE7Vw+Hs2n4J0nI2ZwWriTycJvYkQVPDgIe92HHOcRpOYeGisjqp0
- v4ngsmGbSzeAyKvpZqup2K/BpoHWWDbH0GLvWJdNPMOdBYSMM7kA5NYk7OsP1G839ylj
- 0mpJ2VzjH/stEqIH4fpw78FnynMmjzrxIBW98G1cVmlYzaSdVMKJ2WYNjCk1vurdwgwv
- 2OUWYr0oE/+py0tgUqJyDDg7OAj4X/4bAsEdZvGVHOBbLhbn2pKSW8gheW3OmMcV130a
- oeYw==
-X-Gm-Message-State: ANoB5pmx2UD5MhhVaRlSrQii41uec2EeZAK+Nrr90nmc1u6lzg4B8EdJ
- V4Q8xZ8HITInx8qj3JCJB+Wh9YxcaySLchuYV0dKnPe/kaxHrZzEtrEyz6HjrqzTas2ibN4pvY0
- 2TxFV6/4gvnM3jcg=
-X-Received: by 2002:adf:d844:0:b0:241:be45:54eb with SMTP id
- k4-20020adfd844000000b00241be4554ebmr17063196wrl.49.1669287216069; 
- Thu, 24 Nov 2022 02:53:36 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6Dyad6hMA184CnK7H4wW6euH5uxx5J0KfL2EKIZNEk+GIEiT+MmJIp+RiQT/L+Jeata2br1A==
-X-Received: by 2002:adf:d844:0:b0:241:be45:54eb with SMTP id
- k4-20020adfd844000000b00241be4554ebmr17063183wrl.49.1669287215791; 
- Thu, 24 Nov 2022 02:53:35 -0800 (PST)
-Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
- p13-20020a05600c358d00b003c6b9749505sm5683613wmq.30.2022.11.24.02.53.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 02:53:35 -0800 (PST)
-Date: Thu, 24 Nov 2022 05:53:32 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
-Message-ID: <20221124055230-mutt-send-email-mst@kernel.org>
-References: <20221123152134.179929-1-alex.bennee@linaro.org>
- <20221123102522-mutt-send-email-mst@kernel.org>
- <87bkoxbqtd.fsf@linaro.org>
- <20221123110755-mutt-send-email-mst@kernel.org>
- <877czkbtbs.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HhxUmkalyZWIXRzY7qEve1Fk0E2Ph/LUBUI2GhJnYhQ=;
+ b=FkszKguktWdXGKpJfDRiLAkUp4pQPugs9YL4o9BFZ7cGetuuHPFMmkUlSz7fiScciy
+ 6y35S/YhZ2ZtZ0GxkGoLkJesx9YArVNHHIdFF6VBeccKS/MGd7ZDyI5C0nuaW9isdAEe
+ 5s14/RFIo9koIFppvl9d/OTQzUJ1Vo7q6DfPzJcNx6nqXpVtKmQGB1pKiR6P+YC/4Yr1
+ /ssb46b1pO9Xb1xdrLGzxNlqgbfoFxZ5G9OT1wLdzTMdo+iqcOPWWn0cFGTnXSTYenV4
+ cYEYQqiF4pR2GeY/XQMO5Mr/Eq2e97zD3TQmXIWz6iDWCLjOI50gVpGy3OnZkNEbQoNN
+ 4fvQ==
+X-Gm-Message-State: ANoB5pkcvTkfp+Le6x2efY/cdL+TpAR7VExUs+XrVrTL2QnaeGBNuOXL
+ 6EPscCcWhcmqa5C/J1YNp4D2uNngLYmc7Qwkx8E=
+X-Google-Smtp-Source: AA0mqf6rM6zXBZxYLvLdi4PLYkNKveAicTwwMiRRVGPE9LSg2SvZWc1E5k0PDhk7+oDCg7AqhZGaTU6EhxzxAT4ANJQ=
+X-Received: by 2002:a19:6a18:0:b0:48b:1973:e3bf with SMTP id
+ u24-20020a196a18000000b0048b1973e3bfmr7508349lfu.328.1669288658461; Thu, 24
+ Nov 2022 03:17:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <877czkbtbs.fsf@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221028045736.679903-1-bin.meng@windriver.com>
+ <20221028045736.679903-12-bin.meng@windriver.com>
+ <CAJ+F1CJnW-95ZpfBBKFX=O_XsFOZ+quTU4dYmK8Cr8B-Ww_Hqw@mail.gmail.com>
+ <3e3178f9-73a7-031a-6cd0-4a315989b567@redhat.com>
+In-Reply-To: <3e3178f9-73a7-031a-6cd0-4a315989b567@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 24 Nov 2022 15:17:26 +0400
+Message-ID: <CAJ+F1CLvBgX1_t9QhZ6wnJbdE071CFdsuWtWHxSOTDqCsMRxEg@mail.gmail.com>
+Subject: Re: [PATCH v6 11/11] tests/qtest: Enable qtest build on Windows
+To: Thomas Huth <thuth@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,73 +88,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 24, 2022 at 09:21:15AM +0000, Alex Bennée wrote:
-> 
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Bennée wrote:
-> >> 
-> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> >> 
-> >> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Bennée wrote:
-> >> >> Hi,
-> >> >> 
-> >> >> This hopefully fixes the problems with VirtIO migration caused by the
-> >> >> previous refactoring of virtio_device_started(). That introduced a
-> >> >> different order of checking which didn't give the VM state primacy but
-> >> >> wasn't noticed as we don't properly exercise VirtIO device migration
-> >> >> and caused issues when dev->started wasn't checked in the core code.
-> >> >> The introduction of virtio_device_should_start() split the overloaded
-> >> >> function up but the broken order still remained. The series finally
-> >> >> fixes that by restoring the original semantics but with the cleaned up
-> >> >> functions.
-> >> >> 
-> >> >> I've added more documentation to the various structures involved as
-> >> >> well as the functions. There is still some inconsistencies in the
-> >> >> VirtIO code between different devices but I think that can be looked
-> >> >> at over the 8.0 cycle.
-> >> >
-> >> >
-> >> > Thanks a lot! Did you try this with gitlab CI? A patch similar to your
-> >> > 2/2 broke it previously ...
-> >> 
-> >> Looking into it now - so far hasn't broken locally but I guess there is
-> >> something different about the CI.
-> >
-> >
-> > yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
-> >
-> > Or with QEMU_CI set to 1 and then run fedora container and then
-> > clang-system manually.
-> 
-> I'm having trouble re-creating the failures in CI locally on my boxen. I
-> have triggered a bug on s390 but that looks like a pre-existing problem
-> with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
-> think that is a limitation of the test harness.
-> 
-> Will keep looking.
+Hi Thomas
 
-Why not just trigger it on gitlab CI - it's very repeatable there?
-
+On Wed, Nov 23, 2022 at 6:19 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 23/11/2022 15.13, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi Bin
 > >
-> >> >
-> >> >> Alex Bennée (2):
-> >> >>   include/hw: attempt to document VirtIO feature variables
-> >> >>   include/hw: VM state takes precedence in virtio_device_should_start
-> >> >> 
-> >> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
-> >> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
-> >> >>  2 files changed, 59 insertions(+), 9 deletions(-)
-> >> >> 
-> >> >> -- 
-> >> >> 2.34.1
-> >> 
-> >> 
-> >> -- 
-> >> Alex Bennée
-> 
-> 
-> -- 
-> Alex Bennée
+> > On Fri, Oct 28, 2022 at 9:06 AM Bin Meng <bin.meng@windriver.com> wrote=
+:
+> >>
+> >> Now that we have fixed various test case issues as seen when running
+> >> on Windows, let's enable the qtest build on Windows.
+> >>
+> >> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> >
+> > We haven't solved the CI timing out or eating all the CPU time, right?
+> >
+> > Can we simply exclude it from CI for now, ie add to this patch
+> >
+> > diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> > index 093276ddbc..ba9045ec38 100644
+> > --- a/.gitlab-ci.d/windows.yml
+> > +++ b/.gitlab-ci.d/windows.yml
+> > @@ -62,7 +62,7 @@ msys2-64bit:
+> >     - .\msys64\usr\bin\bash -lc './configure --target-list=3Dx86_64-sof=
+tmmu
+> >         --enable-capstone'
+> >     - .\msys64\usr\bin\bash -lc 'make'
+> > -  - .\msys64\usr\bin\bash -lc 'make check || { cat
+> > build/meson-logs/testlog.txt; exit 1; } ;'
+> > +  - .\msys64\usr\bin\bash -lc 'make check MTESTARGS=3D"--no-suite
+> > qtest" || { cat build/meson-logs/testlog.txt; exit 1; } ;'
+> >
+> >   msys2-32bit:
+> >     extends: .shared_msys2_builder
+> > @@ -96,4 +96,4 @@ msys2-32bit:
+> >     - cd output
+> >     - ..\msys64\usr\bin\bash -lc "../configure --target-list=3Dppc64-so=
+ftmmu"
+> >     - ..\msys64\usr\bin\bash -lc 'make'
+> > -  - ..\msys64\usr\bin\bash -lc 'make check || { cat
+> > meson-logs/testlog.txt; exit 1; } ;'
+> > +  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=3D"--no-suite
+> > qtest" || { cat meson-logs/testlog.txt; exit 1; } ;'
+>
+> I think it's only the 64-bit job that is really problematic, so we could
+> still run the qtests in the 32-bit job?
+>
+> Alternatively, what about switching the 64-bit to another target that doe=
+s
+> not have so many qtests enabled? Some mips-softmmu or riscv-softmmu maybe=
+?
+> ... we still check x86_64-softmmu in the .cirrus.yml builds, so this is
+> hopefully not such a big loss...
+>
 
+The change I propose above is to simply skip the qtests on msys CI
+builds. They are not running today on !POSIX.
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
