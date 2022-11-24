@@ -2,162 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41BF637A85
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 14:51:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5074637AE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 15:00:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyCcc-0000Se-LX; Thu, 24 Nov 2022 08:50:34 -0500
+	id 1oyCkd-00030x-K5; Thu, 24 Nov 2022 08:58:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1oyCcZ-0000Ri-TC; Thu, 24 Nov 2022 08:50:31 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1oyCcX-00017e-6o; Thu, 24 Nov 2022 08:50:31 -0500
-Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AOBB2EB020474; Thu, 24 Nov 2022 05:50:06 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=guvbPAYZCs61kZX2vxLUlVRex5pKBf0j+O8qSGKXQh8=;
- b=x7veiidBrwZBiA+ddFgismY44RAKrnSLumzfNW3hn7MFFtfrKKa441zoy3MZ3B1Ine+0
- opWeQqsE9HvZGlPUVI4g2QNjZA9bmsVG0okeJy78yzY8Sd/Ra+jqbVYlKGEPB+MJnC/0
- L74D+kD91v64RhpWENjZGQEbOj6RkdrcNCY1bFr7vdSxxBO6d15MDgKcwM63ciS48gJY
- dTAI41dgY4TKWl5Z5FJqd0NSJ3X4s28m26t59xI0yv/Y8+Q7E/1o0xhixAttRCkC3CJa
- lK1h63vTMlA/5SgHICmBp4sHtXkgHht4SJeG8lYW4X6PbgS7V8Fd8rac5IPpnqWkxIpO kw== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3kxvbxvpn2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Nov 2022 05:50:06 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iwKmF0VXWS9Ub0kQ3yyduHkzUyGcgpDwDgNQTp4yIUOAbumlCswgKEJEK/e0yz8/7LLRW5U/CG87zWEfcmsqAHTb/CcqBWmYeDehNA5F1K0whlxLTSAYDgzKmIyE8bCBRhWE1kXDMglGd1v9hnPc9GAofCq+pAh3wtScTHWWCO8sBNGnk5Ql+2y5mIdXhSP9l+QZtcVgyoboekRJWOOq8Y1Ksve00a0AEUF+PoOLK0oFWDlGC1PvR1Th6fsX+0ZUlkt31cfjISk60XRBXjtBCqSlZukUDV4FHH1GBu2HBxCzXbgXLjzhbOBD2l1SEySPT+DXP6fnwsk21L7cSUJ2DA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=guvbPAYZCs61kZX2vxLUlVRex5pKBf0j+O8qSGKXQh8=;
- b=Zr4aNn7aqUkVb0aYn9CAh5B7+nzAtf4BSdWypDY2rr5tCefdFrcflKZkU+S+hoN5/F2L5Wwl6NtlUTJqS6e8MTzUPyoA/a9qjd7oLnFVg1DWq5wA8PcriDI5OlPEHrTTRXvHlEZJT1QLmGQIQ1fqVKWKL08V6vcZbFfAF5B6mamfoNj+GReey9iQK7bfvhwZ7ih1iBlawknNMXWWa0S2s4Ph6mVgKazaZlJuigrznuos8JfBDxoB7ogPhoHk5tQYa1CAiQvcxQS7mHg/EX3uN3QIMjARwBd3XkRoIVq+XYiHGqPRI5McGYO+kZZEpDxO9xcMhAzaX74j6M+OjQKT8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=guvbPAYZCs61kZX2vxLUlVRex5pKBf0j+O8qSGKXQh8=;
- b=D5y4bCz+ejODC6yk0VCGsJp9/WCNRu5DiJCi64CDBv6LiVFkaIVipceLKBNWXS8qnxoDiGCgw3AJ3CY4/uIbFbBIaHf6PPgOtI7D3BycPqSTVICXpQlpDVKGLWAZB3hjjIB3ng5tPDXQfybwWpPUVgD6mDsvHwaHJFPmtvETLBigp0clyo4V4iwzDlld4wpskBK/8FF6/oN7wI5FxAQhYLZ0CV1Tc4FzLIVRxMD3FukGSiuUlwVkptvwLCoz/bN7NHkyuTGNjkEbixD01IaiX+0dt8cVew4yT3uaTBZ3ChOCaoL0lY8gSfTcRd4WNxIsfd9SRxAd5dOmWGaHhsptJg==
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by CH0PR02MB8058.namprd02.prod.outlook.com (2603:10b6:610:107::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19; Thu, 24 Nov
- 2022 13:50:04 +0000
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::a01e:4b95:6c3:acf2]) by BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::a01e:4b95:6c3:acf2%4]) with mapi id 15.20.5857.019; Thu, 24 Nov 2022
- 13:50:04 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Fam Zheng <fam@euphon.net>, Viresh Kumar <viresh.kumar@linaro.org>,
- German Maglione <gmaglione@redhat.com>, =?iso-8859-1?Q?Alex_Benn=E9e?=
- <alex.bennee@linaro.org>, Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, "Gonglei (Arei)"
- <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH for-7.2] vhost: enable vrings in vhost_dev_start() for
- vhost-user devices
-Thread-Topic: [PATCH for-7.2] vhost: enable vrings in vhost_dev_start() for
- vhost-user devices
-Thread-Index: AQHY/z3UUs9LyFKCW0uT000WPu60va5NNlQAgABtOICAABIJAIAAYz2A
-Date: Thu, 24 Nov 2022 13:50:04 +0000
-Message-ID: <2254ACCA-BD15-4091-B5A9-226D55E6A93D@nutanix.com>
-References: <20221123131630.52020-1-sgarzare@redhat.com>
- <4A976F8D-AB6F-4BAD-AD5A-ABF69B8A040C@nutanix.com>
- <20221124014951-mutt-send-email-mst@kernel.org>
- <20221124075452.y2slphvuwbjsst36@sgarzare-redhat>
-In-Reply-To: <20221124075452.y2slphvuwbjsst36@sgarzare-redhat>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL3PR02MB7938:EE_|CH0PR02MB8058:EE_
-x-ms-office365-filtering-correlation-id: 457ffa1d-12ef-4b39-0287-08dace22ca74
-x-proofpoint-crosstenant: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: a53L0EwClHBBYDsmF/vbnX6GU8Cx3ieicfRF1k97OUCuUIlkxWWLWVP6NgPNFPF54rbimpgXDvVVIa8iJRspzouYdYuDLTP5NxXeXVj3i45L3glyhDSblLu0MS/1OqvEra/0Kg4GnVHz0XsYWdOOytadBA8nj8t65r+Yk8foJ1+etctcCd0YZbph4JdO3RNyIdG85KoD0aB5jsed++xDSgVhrgzScA9QGGUUgPWLDQxIcFbPQc9N+URBSFcxhirYGRUCs9CAgHu2U/3u8XrIQobGN5nsQU7nqbZt0jP7ridKF7y3d++YjqFYB+NHmO4Mep0nkbtv7oNCutDAoz1axjK/oGNbydXyfvCKC4IzICDRIfobevgIQYTxvNFrp/ITM63c+M+UKsbX2SY7zqD7l611R5JiWGHl0iAiFnI3PKKwn+CpkweKnBosrHoYjfr0o/QY0czjkYOUU6bo351K32WGEPWcfCBSwOQJ0gVHIliNVxXDO56KPjd8vJhD1VCh9xi4O/4AHUsJgDYS9r0z4ZidwlR9TGj/skOF5ud4AU8jyP0LxmE4GD0EE7JV7FlsjiB9Gq2fB3Wu4necRwaVnV6XLFfnqUlHrzluX1jptA1SX6gorKL7Ot1GXw71NK7hi1OR1dbwbhYyoPsL4plbQlaoI3i3HNIHmYGlA9e6aZBQ9vTY6CCrAjyY9tMzRb/T2L4GKM3EVMnLdiGZ1QK3nNHrF5YOCX0t4Sf40febv3+gV9dmuip4eUKxtxqM7jYqttxBQFOrDV77ZoBlwb1a6jkl9e+/NA+PC7nRgmRlxwo=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(39860400002)(136003)(376002)(346002)(396003)(451199015)(91956017)(38070700005)(38100700002)(4326008)(478600001)(71200400001)(6506007)(33656002)(6486002)(36756003)(966005)(6916009)(316002)(6512007)(86362001)(76116006)(66946007)(66556008)(8676002)(66476007)(64756008)(66446008)(54906003)(53546011)(41300700001)(122000001)(5660300002)(2906002)(83380400001)(186003)(44832011)(7416002)(8936002)(2616005)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?5BQoV52FSzPc3BqRBXM9CXmP/vAJaQCLPiNPsScCwAnOcGQLS9sF3GZhQC?=
- =?iso-8859-1?Q?En9fpkaSCddR7QhZ44Rgy4klJkFnPQa2Fmgz7U26GZ7ThubO9Z/fa/YZFp?=
- =?iso-8859-1?Q?ElyyRA/Ag8mhjV8jMhuppbGWScRx0TfDF26vXOE90g6K4TjgM94txg/ERH?=
- =?iso-8859-1?Q?6QqXb+5Kut3oDTxj3v/a40SAwByHiHBFhJGuDDQCpOmx2dN+Jd0oYvS/Lq?=
- =?iso-8859-1?Q?QWEpEGIzihL7kdC3/LCVmu8Bastz15f9WS86HxduYR2WONCR1IQr6BoOrT?=
- =?iso-8859-1?Q?1RTa/FGQgZhfU3yanpNr4p7qkMX9zOJLS0sUe79LBo2LXp5XGXPkhVhgDF?=
- =?iso-8859-1?Q?dp+uj5hS5KTNstmvI/lIhE97FqecyMXCroCGcqdbdI163N4dx9Bvu7Izcj?=
- =?iso-8859-1?Q?JxC3vmK42iGpVoDZ+25S5c5AemVByUb+EBhuOIndwnH9kR7HpYqsQq1JXV?=
- =?iso-8859-1?Q?THsy39sPHGidaN7zcfY5AgsxzcJ3oM2aaQv1QY/OqUq7SqcsV/ASj1AFPk?=
- =?iso-8859-1?Q?UVjX3HPtZaVsyHOzepcTSTUASuPJlAklW/6PhHMvrG5I5/ZfGGr7hdr3EP?=
- =?iso-8859-1?Q?xL05XcbX/ONQjs4A0Lsi8pb5XQuJxr8b2Bjgue/YlaohXSYGmJrPRAxtti?=
- =?iso-8859-1?Q?q+Gl6g9XyHr95VjIeq9plgeeFcG6BVj0k/JwQc+zvzDTN4uy9ZsteE30zj?=
- =?iso-8859-1?Q?TGllMYgiK7sSoCntCkfBlLDgM8vbatyaoENyuuWHm5cIryvOyBgZ2x30pe?=
- =?iso-8859-1?Q?jj5skBnlAc8L0wHOB2wNd3GbMOuNj9uRwV1J4pJbMEnPhRZaGqXSLYQHZ+?=
- =?iso-8859-1?Q?iF070+VtGdJ/jv+upGEkQEMUw6ppGdjgVzkos9eNYfe7KTAkqS7krOCxST?=
- =?iso-8859-1?Q?Ch0/t4h/KJIRY1neHkc1P3KuQWKInDPQPSlJPpGzKSkRIQI1jDBSt+cziL?=
- =?iso-8859-1?Q?3Pc2p6cUnPQT8pGCHCc6ykxmTj8izxw9i/n4nTijJWWlVM1dwJwOWjo613?=
- =?iso-8859-1?Q?etY4OTUGDSsCe0XwRnOpj3AtiiARkZ8XiRVhEJ4+p4QDHscgZEU6adPsbd?=
- =?iso-8859-1?Q?BZsDlOw0+MiMWYG60H+rADOJwJPz7ezUlceUulA6/umdFzVySUjHnyiAuF?=
- =?iso-8859-1?Q?vT8oyKvjRJ5Yk3SL0HurQ7OXwkzISMOUbPJVg509QmXjKebKY5oY+Ii+oE?=
- =?iso-8859-1?Q?xjxQ012OpZDiaAxIFtoPTYyQIkqcos0tcVH+ZUojOYJkdEWEMs2ujSdOyI?=
- =?iso-8859-1?Q?aa1CVtUMSyLeFFqXmzslzEnL1Ws2gTPz4HpMsvCK1wXkR2MNTyJuqpQDQS?=
- =?iso-8859-1?Q?lLnDHO5PQLb/genO5CCnmnbWyGWO0VxUNVz+D6SkpiLzcWNzF7YnnFx2LP?=
- =?iso-8859-1?Q?UXnk+118o1ZWpgskLC/HtpVAbcdbMdBJaM8LhaUpszAoHEBhAghDN7lMnE?=
- =?iso-8859-1?Q?x8ZXs8F0jiMzYSGNEzRR752D9DoLhPtuiJdldkA2TGAWtshZIU3xs0Rf10?=
- =?iso-8859-1?Q?bq3Rm6IIO4CE/sNcQbNBf2k35RgRfW1RP5epNNYRtBRs4MpIxJElUYXFum?=
- =?iso-8859-1?Q?kNpvgORvdkKdScWZga/ZvykGQagxs43QiXPsD3b0UW86j3nEcNFvV5U/9V?=
- =?iso-8859-1?Q?gruDqWqRo87j9dYI3tJwg2WfRaPmI2iGDZulVOf/jqgs9YROxEj7s778X3?=
- =?iso-8859-1?Q?xtSJIO3GznGaJtQyPoM=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <F2BDD7832E58CC4AB88FD2E058D9AF76@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oyCkb-00030R-Tf
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 08:58:49 -0500
+Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oyCka-0006JW-3m
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 08:58:49 -0500
+Received: by mail-qv1-xf30.google.com with SMTP id df6so1022186qvb.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Nov 2022 05:58:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QqoMdCVCm6VT4OCmWmzBFvryjicjy7Ycz0sGRr4CCRE=;
+ b=qtovHEVWI8+fn58Q/crRJlPDvwZXmYw1+vOj1b8VJeu/XJ+8Bu7SJPq4SUM/8SMnW/
+ qurPiVDsY/CgycEvJIwbTG4vLULo1FPN2fqcbx7SfnYfOJjQqjrgD2sCZpl02NuN7TBW
+ jqXXUNoiZljbA19OUEOtX8TlF80YQbFpsUgpMTh2W9RlAbA1TnxvaQLwvEPy43WNlbDh
+ /dGmkVUP+ujvQG/VVgJQV3Nh/6gomPnVW/1Wr+OAJLTyWSf5zb3ko0fBRhzVI270hZ6d
+ /BfKkOBLbg+qoMwtL/XRR3i/d70ze/ZjWWTA9s1MyHnb3LcG0wHuD41vQbgCcqv/k7vl
+ JqmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QqoMdCVCm6VT4OCmWmzBFvryjicjy7Ycz0sGRr4CCRE=;
+ b=JfwMTEuJYmy2eOjH9i4zVAdYs0aW9Wt3rGxqTgkBNldHzbXSV3OWEoMmO3jqORP460
+ cfuoOywexY7xaXD8nWov7/tlKaGvvdw5IvwJz2G/+wksu16fMg6Rn5XxE/DPgjiJrQms
+ 95TSODpJeo7h95eQuQ6KIQJojaePLDYRJDRvOmkJThgY03b9oToW1zrNXc+JFlbNHt9o
+ Y2/hN4ZvGCpnxxcD8Xn71xUquECnGOK/Ar1ua9PgvFYwenfTPYS5N5PcbgrJXHAQagoy
+ 1gw4ompaIG2ZvIwinZOwqdKJMkfPpQ3TpumooQYYfj+fIcKSFIOh28hTqJ+spO7bE+2L
+ 3z9Q==
+X-Gm-Message-State: ANoB5pk3mkaj6Kf5ZZXE3OA6PTSFYFYcLijqhXObq64J7FuVt7wcfdS/
+ NiQuOBDJjvp2IeGh5483jldNRg==
+X-Google-Smtp-Source: AA0mqf4Z8Z/PZ4Iuql8jQusew5nhRvhEFD0mfojfNkYWOzkVsUlbOH29Bwz46Q/EuOregbGij0dkUA==
+X-Received: by 2002:a05:6214:5f86:b0:4c6:141f:819d with SMTP id
+ ls6-20020a0562145f8600b004c6141f819dmr20223185qvb.34.1669298326694; 
+ Thu, 24 Nov 2022 05:58:46 -0800 (PST)
+Received: from anisinha-lenovo.apac.nsn-net.net ([131.228.104.69])
+ by smtp.googlemail.com with ESMTPSA id
+ h11-20020ac8714b000000b00342f8d4d0basm607138qtp.43.2022.11.24.05.58.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Nov 2022 05:58:46 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maydell Peter <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] acpi/tests/avocado/bits: add SPDX license identifiers for
+ bios bits tests
+Date: Thu, 24 Nov 2022 19:28:34 +0530
+Message-Id: <20221124135834.924426-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 457ffa1d-12ef-4b39-0287-08dace22ca74
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2022 13:50:04.7000 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9DpR4AivcbQcfDY28TshecLjeNTbEPxBaVGQ2WWY0qtCi6r7/B38cqwwihkUPMsQoGHBnincmizUwKE2aV9MZPqc8+feyE1FGMGUZxRjvYs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR02MB8058
-X-Proofpoint-GUID: aRpvUB7FmiL1RUyoB9JKFNuhzzuojHjC
-X-Proofpoint-ORIG-GUID: aRpvUB7FmiL1RUyoB9JKFNuhzzuojHjC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-24_11,2022-11-24_01,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::f30;
+ envelope-from=ani@anisinha.ca; helo=mail-qv1-xf30.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -173,92 +96,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Added the SPDX license identifiers for biosbits tests.
+Also added a comment on each of the test scripts to indicate that they run
+from within the biosbits environment and hence are not subjected to the regular
+maintanance acivities for QEMU and is excluded from the dependency management
+challenges in the host testing environment.
 
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Maydell Peter <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Michael Tsirkin <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: qemu-trivial@nongnu.org
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ tests/avocado/acpi-bits/bits-tests/smbios.py2    | 4 ++++
+ tests/avocado/acpi-bits/bits-tests/testacpi.py2  | 4 ++++
+ tests/avocado/acpi-bits/bits-tests/testcpuid.py2 | 4 ++++
+ 3 files changed, 12 insertions(+)
 
-> On Nov 24, 2022, at 2:54 AM, Stefano Garzarella <sgarzare@redhat.com> wro=
-te:
->=20
-> On Thu, Nov 24, 2022 at 01:50:19AM -0500, Michael S. Tsirkin wrote:
->> On Thu, Nov 24, 2022 at 12:19:25AM +0000, Raphael Norwitz wrote:
->>>=20
->>> > On Nov 23, 2022, at 8:16 AM, Stefano Garzarella <sgarzare@redhat.com>=
- wrote:
->>> >
->>> > Commit 02b61f38d3 ("hw/virtio: incorporate backend features in featur=
-es")
->>> > properly negotiates VHOST_USER_F_PROTOCOL_FEATURES with the vhost-use=
-r
->>> > backend, but we forgot to enable vrings as specified in
->>> > docs/interop/vhost-user.rst:
->>> >
->>> >    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
->>> >    ring starts directly in the enabled state.
->>> >
->>> >    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, the rin=
-g is
->>> >    initialized in a disabled state and is enabled by
->>> >    ``VHOST_USER_SET_VRING_ENABLE`` with parameter 1.
->>> >
->>> > Some vhost-user front-ends already did this by calling
->>> > vhost_ops.vhost_set_vring_enable() directly:
->>> > - backends/cryptodev-vhost.c
->>> > - hw/net/virtio-net.c
->>> > - hw/virtio/vhost-user-gpio.c
->>>=20
->>> To simplify why not rather change these devices to use the new semantic=
-s?
->=20
-> Maybe the only one I wouldn't be scared of is vhost-user-gpio, but for ex=
-ample vhost-net would require a lot of changes, maybe better after the rele=
-ase.
->=20
-> For example, we could do like vhost-vdpa and call SET_VRING_ENABLE in the=
- VhostOps.vhost_dev_start callback of vhost-user.c, but I think it's too ri=
-sky to do that now.
->=20
->>=20
->> Granted this is already scary enough for this release.
->=20
-> Yeah, I tried to touch as little as possible but I'm scared too, I just h=
-aven't found a better solution for now :-(
->=20
+Apologies for this. Somehow this patch fell off my tree between multiple
+revisions. Quite trivial and does not affect any QEMU codebase.
 
-Sure - no need to force a more disruptive change in right before the releas=
-e. If anything can be simplified later.
-
->>=20
->>> >
->>> > But most didn't do that, so we would leave the vrings disabled and so=
-me
->>> > backends would not work. We observed this issue with the rust version=
- of
->>> > virtiofsd [1], which uses the event loop [2] provided by the
->>> > vhost-user-backend crate where requests are not processed if vring is
->>> > not enabled.
->>> >
->>> > Let's fix this issue by enabling the vrings in vhost_dev_start() for
->>> > vhost-user front-ends that don't already do this directly. Same thing
->>> > also in vhost_dev_stop() where we disable vrings.
->>> >
->>> > [1] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__gitlab.com=
-_virtio-2Dfs_virtiofsd&d=3DDwIBAg&c=3Ds883GpUCOChKOHiocYtGcg&r=3DIn4gmR1pGz=
-KB8G5p6LUrWqkSMec2L5EtXZow_FZNJZk&m=3DPcC4TEq5C80Knek-ScCNI26rQ13h0n3QEMNNh=
-c-ENd7Txd8wHYqwC1TYfXW_hYor&s=3D5pdxt8m4-ks8VB2tRSXQV05kdfdP50iy-aAxuGe-Ffc=
-&e=3D > [2] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__github.c=
-om_rust-2Dvmm_vhost_blob_240fc2966_crates_vhost-2Duser-2Dbackend_src_event-=
-5Floop.rs-23L217&d=3DDwIBAg&c=3Ds883GpUCOChKOHiocYtGcg&r=3DIn4gmR1pGzKB8G5p=
-6LUrWqkSMec2L5EtXZow_FZNJZk&m=3DPcC4TEq5C80Knek-ScCNI26rQ13h0n3QEMNNhc-ENd7=
-Txd8wHYqwC1TYfXW_hYor&s=3D-3NUG1pPKN-FwUeDkuu52roXoPoeLR1y4gjrddHUz2U&e=3D =
-> Fixes: 02b61f38d3 ("hw/virtio: incorporate backend features in features")
->>> > Reported-by: German Maglione <gmaglione@redhat.com>
->>> > Tested-by: German Maglione <gmaglione@redhat.com>
->>> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->>>=20
->>> Looks good for vhost-user-blk/vhost-user-scsi.
->>>=20
->>> Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
->=20
-> Thanks for the review!
-> Stefano
+diff --git a/tests/avocado/acpi-bits/bits-tests/smbios.py2 b/tests/avocado/acpi-bits/bits-tests/smbios.py2
+index 9667d0542c..fc623de072 100644
+--- a/tests/avocado/acpi-bits/bits-tests/smbios.py2
++++ b/tests/avocado/acpi-bits/bits-tests/smbios.py2
+@@ -1,6 +1,8 @@
+ # Copyright (c) 2015, Intel Corporation
+ # All rights reserved.
+ #
++# SPDX-License-Identifier: BSD-3-Clause
++#
+ # Redistribution and use in source and binary forms, with or without
+ # modification, are permitted provided that the following conditions are met:
+ #
+@@ -24,6 +26,8 @@
+ # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
++# This script runs only from the biosbits VM.
++
+ """SMBIOS/DMI module."""
+ 
+ import bits
+diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2 b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
+index dbc150076e..f818a9cce6 100644
+--- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
++++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
+@@ -1,6 +1,8 @@
+ # Copyright (c) 2015, Intel Corporation
+ # All rights reserved.
+ #
++# SPDX-License-Identifier: BSD-3-Clause
++#
+ # Redistribution and use in source and binary forms, with or without
+ # modification, are permitted provided that the following conditions are met:
+ #
+@@ -24,6 +26,8 @@
+ # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
++# This script runs only from the biosbits VM.
++
+ """Tests for ACPI"""
+ 
+ import acpi
+diff --git a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2 b/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
+index ac55d912e1..7adefbe355 100644
+--- a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
++++ b/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
+@@ -1,6 +1,8 @@
+ # Copyright (c) 2012, Intel Corporation
+ # All rights reserved.
+ #
++# SPDX-License-Identifier: BSD-3-Clause
++#
+ # Redistribution and use in source and binary forms, with or without
+ # modification, are permitted provided that the following conditions are met:
+ #
+@@ -24,6 +26,8 @@
+ # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
++# This script runs only from the biosbits VM.
++
+ """Tests and helpers for CPUID."""
+ 
+ import bits
+-- 
+2.34.1
 
 
