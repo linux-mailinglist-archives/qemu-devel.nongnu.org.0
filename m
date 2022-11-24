@@ -2,107 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A93637209
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 06:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F7363728F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Nov 2022 07:52:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oy5AM-0007k3-JS; Thu, 24 Nov 2022 00:52:54 -0500
+	id 1oy64B-0004nR-5r; Thu, 24 Nov 2022 01:50:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicholas@linux.ibm.com>)
- id 1oy5AK-0007jJ-Et; Thu, 24 Nov 2022 00:52:52 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oy648-0004mm-Rn
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 01:50:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicholas@linux.ibm.com>)
- id 1oy5AI-0006Cv-Lo; Thu, 24 Nov 2022 00:52:52 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AO3AIB2023349; Thu, 24 Nov 2022 05:52:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=UOcoPI8ZiXe7zPq6GPUhGVtrmgU5fUqJJKBlGqumQck=;
- b=LsJ9r3nRolX5Xxcs1+lQdC5529BWQFyeowq+lAfxe9pLjEvUPCkFOPzwT/LVWWGiQLRx
- NC8SaJKO2CTGQDpt6g5IILSq5D1YJuyyBMGXpncTg13JKd9V9NDs57gW9tye1+Ss8+lJ
- 7LIAZXy2ysnWImI/6hnY2argbfG0gJRHMbtjpZi2AcUVdESBuhmINjxNJVilChNniAO9
- yjmr84wL+9kfzBC7NT9l+JcTRchJYtF6HqSilNALjLi44VfU0hNIpIAiz/hJyXIZBUK5
- 0Nh9WmKq+jmArOsoZC1qIRYrvTKzJO1PWp9RV6Rc57+pvtOysGsmhpjvKHcyFH7cfm6k 9g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m1n2w2dpw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Nov 2022 05:52:33 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AO5o4ax029596;
- Thu, 24 Nov 2022 05:52:33 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m1n2w2dng-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Nov 2022 05:52:32 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AO5pZxO005533;
- Thu, 24 Nov 2022 05:52:30 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3kxps95hqa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Nov 2022 05:52:30 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2AO5kC2B6423186
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Nov 2022 05:46:12 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 35444A404D;
- Thu, 24 Nov 2022 05:52:28 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 89E1FA4051;
- Thu, 24 Nov 2022 05:52:27 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 24 Nov 2022 05:52:27 +0000 (GMT)
-Received: from nicholasmvm.. (haven.au.ibm.com [9.192.254.114])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 7030360419;
- Thu, 24 Nov 2022 16:52:23 +1100 (AEDT)
-From: Nicholas Miehlbradt <nicholas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au, groug@kaod.org,
- victor.colombo@eldorado.org.br,
- Nicholas Miehlbradt <nicholas@linux.ibm.com>
-Subject: [PATCH 2/2] target/ppc: Check DEXCR on hash{st, chk} instructions
-Date: Thu, 24 Nov 2022 05:51:43 +0000
-Message-Id: <20221124055143.752601-3-nicholas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221124055143.752601-1-nicholas@linux.ibm.com>
-References: <20221124055143.752601-1-nicholas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oy645-00007I-Gy
+ for qemu-devel@nongnu.org; Thu, 24 Nov 2022 01:50:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669272628;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jFuHBMS0MibPWIGkdkxVSv1lyXGyK8JOZfP/s/EeM/I=;
+ b=HjpF0HD1bsG5KZr/0rk3ygaJNuHRdKRleOENYYwp5R8jNd082BwAQAX/tmddG2wV6sG03l
+ mQnckKG4KK5eVhpeSidDdVjgTh7ukNM9S4IVDs22t06fpQ4GPWG6bYAO6RXKO+KGGnqa6H
+ MVwUOiWYoW9/PIa92s5PNmuWm7rtVXY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-77-_qZHh78GN2SQJGI38MXAFA-1; Thu, 24 Nov 2022 01:50:27 -0500
+X-MC-Unique: _qZHh78GN2SQJGI38MXAFA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l32-20020a05600c1d2000b003cfefa531c9so2612687wms.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Nov 2022 22:50:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jFuHBMS0MibPWIGkdkxVSv1lyXGyK8JOZfP/s/EeM/I=;
+ b=qE3n7eQ13PV5P0sro+mXDNKnZvQRLpXrualgtdqbAVgYCRNLe4Odyzx6wBg9DG2ytN
+ lf/+vLgFUFDFkSw1SR0vU1D6YUKP2OozS6TNCTqmWK7pzMNBPRjwShpulCCIYFUYOOOK
+ 1RxUz05sdTWPEHTRIA/9Vf14NQqFlym0dO+g0uMHsF59KhhGkIclXYyFudqvUJ7olbL+
+ M81QaSlzhAIL3Y/oz9IkiJMsKBVexO2mdttRUQXm3bJjEx3P+q7kiTnlQBjQE4tVBcq2
+ DbBW1jFA/ALSNnwOxrBQjQStt9LcsUGbcIJqJUIXCE6wE629/mtKybYl/VYf0fUaoIx0
+ 4XCQ==
+X-Gm-Message-State: ANoB5pknd3s5S2ex5NcbNCJWScqvmSwEdiEVzU85L07+mrSVdu3Kgrbe
+ m5J827XNR7S/IEQIREW0G0TNEzDNnVhZcpQFUxPlz5TscPdqg0P3rTEqVitrpCsLrp+P4+mAKCN
+ U8Y7cI73ZpD794as=
+X-Received: by 2002:a05:600c:1c0a:b0:3cf:894b:fe6a with SMTP id
+ j10-20020a05600c1c0a00b003cf894bfe6amr8838947wms.198.1669272624830; 
+ Wed, 23 Nov 2022 22:50:24 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5/6hnVEzbkjg4l1Q9xc1aoFbgvQ7wOmsmuHHH4AV+hjbxSUSRlt7Vzrq53+PhXzCqGGG9bsA==
+X-Received: by 2002:a05:600c:1c0a:b0:3cf:894b:fe6a with SMTP id
+ j10-20020a05600c1c0a00b003cf894bfe6amr8838925wms.198.1669272624400; 
+ Wed, 23 Nov 2022 22:50:24 -0800 (PST)
+Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
+ h5-20020adfa4c5000000b0023659925b2asm460878wrb.51.2022.11.23.22.50.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 22:50:23 -0800 (PST)
+Date: Thu, 24 Nov 2022 01:50:19 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Fam Zheng <fam@euphon.net>, Viresh Kumar <viresh.kumar@linaro.org>,
+ German Maglione <gmaglione@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-7.2] vhost: enable vrings in vhost_dev_start() for
+ vhost-user devices
+Message-ID: <20221124014951-mutt-send-email-mst@kernel.org>
+References: <20221123131630.52020-1-sgarzare@redhat.com>
+ <4A976F8D-AB6F-4BAD-AD5A-ABF69B8A040C@nutanix.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: JttIylflHVHTdzhpo19pXoQmp0T_mzsa
-X-Proofpoint-GUID: IHfSWOrMcyChXjlhJIiK0Ig1PgmRmcAH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-24_03,2022-11-23_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- adultscore=0 suspectscore=0 spamscore=0 mlxscore=0 bulkscore=0
- phishscore=0 malwarescore=0 mlxlogscore=877 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211240041
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=nicholas@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4A976F8D-AB6F-4BAD-AD5A-ABF69B8A040C@nutanix.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,95 +109,454 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Adds checks to the hashst and hashchk instructions to only execute if
-enabled by the relevant aspect in the DEXCR and HDEXCR.
+On Thu, Nov 24, 2022 at 12:19:25AM +0000, Raphael Norwitz wrote:
+> 
+> > On Nov 23, 2022, at 8:16 AM, Stefano Garzarella <sgarzare@redhat.com> wrote:
+> > 
+> > Commit 02b61f38d3 ("hw/virtio: incorporate backend features in features")
+> > properly negotiates VHOST_USER_F_PROTOCOL_FEATURES with the vhost-user
+> > backend, but we forgot to enable vrings as specified in
+> > docs/interop/vhost-user.rst:
+> > 
+> >    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
+> >    ring starts directly in the enabled state.
+> > 
+> >    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, the ring is
+> >    initialized in a disabled state and is enabled by
+> >    ``VHOST_USER_SET_VRING_ENABLE`` with parameter 1.
+> > 
+> > Some vhost-user front-ends already did this by calling
+> > vhost_ops.vhost_set_vring_enable() directly:
+> > - backends/cryptodev-vhost.c
+> > - hw/net/virtio-net.c
+> > - hw/virtio/vhost-user-gpio.c
+> 
+> To simplify why not rather change these devices to use the new semantics?
 
-This behaviour is guarded behind TARGET_PPC64 since Power10 is
-currently the only implementation which has the DEXCR.
+Granted this is already scary enough for this release.
 
-Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
----
- target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
- 1 file changed, 43 insertions(+), 15 deletions(-)
-
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 94adcb766b..add4d54ae7 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2902,29 +2902,57 @@ static uint64_t hash_digest(uint64_t ra, uint64_t rb, uint64_t key)
-     return stage1_h ^ stage1_l;
- }
- 
-+static void do_hash(CPUPPCState *env, target_ulong ea, target_ulong ra,
-+                    target_ulong rb, uint64_t key, bool store)
-+{
-+    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;
-+
-+    if (store) {
-+        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());
-+    } else {
-+        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());
-+        if (loaded_hash != calculated_hash) {
-+            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-+                POWERPC_EXCP_TRAP, GETPC());
-+        }
-+    }
-+}
-+
- #include "qemu/guest-random.h"
- 
--#define HELPER_HASH(op, key, store)                                           \
-+#ifdef TARGET_PPC64
-+#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
- void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
-                  target_ulong rb)                                             \
- {                                                                             \
--    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;         \
--                                                                              \
--    if (store) {                                                              \
--        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());                   \
--    } else {                                                                  \
--        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());                      \
--        if (loaded_hash != calculated_hash) {                                 \
--            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,                 \
--                POWERPC_EXCP_TRAP, GETPC());                                  \
--        }                                                                     \
-+    if (env->msr & R_MSR_PR_MASK) {                                           \
-+        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PRO_##dexcr_aspect##_MASK ||      \
-+            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
-+            return;                                                           \
-+    } else if (!(env->msr & R_MSR_HV_MASK)) {                                 \
-+        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PNH_##dexcr_aspect##_MASK ||      \
-+            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
-+            return;                                                           \
-+    } else if (!(env->msr & R_MSR_S_MASK)) {                                  \
-+        if (!(env->spr[SPR_HDEXCR] & R_HDEXCR_HNU_##dexcr_aspect##_MASK))     \
-+            return;                                                           \
-     }                                                                         \
-+                                                                              \
-+    do_hash(env, ea, ra, rb, key, store);                                     \
-+}
-+#else
-+#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
-+void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
-+                 target_ulong rb)                                             \
-+{                                                                             \
-+    do_hash(env, ea, ra, rb, key, store);                                     \
- }
-+#endif /* TARGET_PPC64 */
- 
--HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
--HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
--HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
--HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-+HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true, NPHIE)
-+HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false, NPHIE)
-+HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true, PHIE)
-+HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false, PHIE)
- #endif /* CONFIG_TCG */
- 
- #if !defined(CONFIG_USER_ONLY)
--- 
-2.34.1
+> > 
+> > But most didn't do that, so we would leave the vrings disabled and some
+> > backends would not work. We observed this issue with the rust version of
+> > virtiofsd [1], which uses the event loop [2] provided by the
+> > vhost-user-backend crate where requests are not processed if vring is
+> > not enabled.
+> > 
+> > Let's fix this issue by enabling the vrings in vhost_dev_start() for
+> > vhost-user front-ends that don't already do this directly. Same thing
+> > also in vhost_dev_stop() where we disable vrings.
+> > 
+> > [1] https://gitlab.com/virtio-fs/virtiofsd
+> > [2] https://github.com/rust-vmm/vhost/blob/240fc2966/crates/vhost-user-backend/src/event_loop.rs#L217
+> > Fixes: 02b61f38d3 ("hw/virtio: incorporate backend features in features")
+> > Reported-by: German Maglione <gmaglione@redhat.com>
+> > Tested-by: German Maglione <gmaglione@redhat.com>
+> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> 
+> Looks good for vhost-user-blk/vhost-user-scsi.
+> 
+> Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> 
+> > ---
+> > include/hw/virtio/vhost.h      |  6 +++--
+> > backends/cryptodev-vhost.c     |  4 ++--
+> > backends/vhost-user.c          |  4 ++--
+> > hw/block/vhost-user-blk.c      |  4 ++--
+> > hw/net/vhost_net.c             |  8 +++----
+> > hw/scsi/vhost-scsi-common.c    |  4 ++--
+> > hw/virtio/vhost-user-fs.c      |  4 ++--
+> > hw/virtio/vhost-user-gpio.c    |  4 ++--
+> > hw/virtio/vhost-user-i2c.c     |  4 ++--
+> > hw/virtio/vhost-user-rng.c     |  4 ++--
+> > hw/virtio/vhost-vsock-common.c |  4 ++--
+> > hw/virtio/vhost.c              | 44 ++++++++++++++++++++++++++++++----
+> > hw/virtio/trace-events         |  4 ++--
+> > 13 files changed, 67 insertions(+), 31 deletions(-)
+> > 
+> > diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> > index 353252ac3e..67a6807fac 100644
+> > --- a/include/hw/virtio/vhost.h
+> > +++ b/include/hw/virtio/vhost.h
+> > @@ -184,24 +184,26 @@ static inline bool vhost_dev_is_started(struct vhost_dev *hdev)
+> >  * vhost_dev_start() - start the vhost device
+> >  * @hdev: common vhost_dev structure
+> >  * @vdev: the VirtIODevice structure
+> > + * @vrings: true to have vrings enabled in this call
+> >  *
+> >  * Starts the vhost device. From this point VirtIO feature negotiation
+> >  * can start and the device can start processing VirtIO transactions.
+> >  *
+> >  * Return: 0 on success, < 0 on error.
+> >  */
+> > -int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+> > +int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
+> > 
+> > /**
+> >  * vhost_dev_stop() - stop the vhost device
+> >  * @hdev: common vhost_dev structure
+> >  * @vdev: the VirtIODevice structure
+> > + * @vrings: true to have vrings disabled in this call
+> >  *
+> >  * Stop the vhost device. After the device is stopped the notifiers
+> >  * can be disabled (@vhost_dev_disable_notifiers) and the device can
+> >  * be torn down (@vhost_dev_cleanup).
+> >  */
+> > -void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+> > +void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
+> > 
+> > /**
+> >  * DOC: vhost device configuration handling
+> > diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
+> > index bc13e466b4..572f87b3be 100644
+> > --- a/backends/cryptodev-vhost.c
+> > +++ b/backends/cryptodev-vhost.c
+> > @@ -94,7 +94,7 @@ cryptodev_vhost_start_one(CryptoDevBackendVhost *crypto,
+> >         goto fail_notifiers;
+> >     }
+> > 
+> > -    r = vhost_dev_start(&crypto->dev, dev);
+> > +    r = vhost_dev_start(&crypto->dev, dev, false);
+> >     if (r < 0) {
+> >         goto fail_start;
+> >     }
+> > @@ -111,7 +111,7 @@ static void
+> > cryptodev_vhost_stop_one(CryptoDevBackendVhost *crypto,
+> >                                  VirtIODevice *dev)
+> > {
+> > -    vhost_dev_stop(&crypto->dev, dev);
+> > +    vhost_dev_stop(&crypto->dev, dev, false);
+> >     vhost_dev_disable_notifiers(&crypto->dev, dev);
+> > }
+> > 
+> > diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+> > index 5dedb2d987..7bfcaef976 100644
+> > --- a/backends/vhost-user.c
+> > +++ b/backends/vhost-user.c
+> > @@ -85,7 +85,7 @@ vhost_user_backend_start(VhostUserBackend *b)
+> >     }
+> > 
+> >     b->dev.acked_features = b->vdev->guest_features;
+> > -    ret = vhost_dev_start(&b->dev, b->vdev);
+> > +    ret = vhost_dev_start(&b->dev, b->vdev, true);
+> >     if (ret < 0) {
+> >         error_report("Error start vhost dev");
+> >         goto err_guest_notifiers;
+> > @@ -120,7 +120,7 @@ vhost_user_backend_stop(VhostUserBackend *b)
+> >         return;
+> >     }
+> > 
+> > -    vhost_dev_stop(&b->dev, b->vdev);
+> > +    vhost_dev_stop(&b->dev, b->vdev, true);
+> > 
+> >     if (k->set_guest_notifiers) {
+> >         ret = k->set_guest_notifiers(qbus->parent,
+> > diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> > index 0d5190accf..1177064631 100644
+> > --- a/hw/block/vhost-user-blk.c
+> > +++ b/hw/block/vhost-user-blk.c
+> > @@ -178,7 +178,7 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
+> >     }
+> > 
+> >     s->dev.vq_index_end = s->dev.nvqs;
+> > -    ret = vhost_dev_start(&s->dev, vdev);
+> > +    ret = vhost_dev_start(&s->dev, vdev, true);
+> >     if (ret < 0) {
+> >         error_setg_errno(errp, -ret, "Error starting vhost");
+> >         goto err_guest_notifiers;
+> > @@ -213,7 +213,7 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
+> >         return;
+> >     }
+> > 
+> > -    vhost_dev_stop(&s->dev, vdev);
+> > +    vhost_dev_stop(&s->dev, vdev, true);
+> > 
+> >     ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+> >     if (ret < 0) {
+> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > index 26e4930676..043058ff43 100644
+> > --- a/hw/net/vhost_net.c
+> > +++ b/hw/net/vhost_net.c
+> > @@ -259,7 +259,7 @@ static int vhost_net_start_one(struct vhost_net *net,
+> >         goto fail_notifiers;
+> >     }
+> > 
+> > -    r = vhost_dev_start(&net->dev, dev);
+> > +    r = vhost_dev_start(&net->dev, dev, false);
+> >     if (r < 0) {
+> >         goto fail_start;
+> >     }
+> > @@ -308,7 +308,7 @@ fail:
+> >     if (net->nc->info->poll) {
+> >         net->nc->info->poll(net->nc, true);
+> >     }
+> > -    vhost_dev_stop(&net->dev, dev);
+> > +    vhost_dev_stop(&net->dev, dev, false);
+> > fail_start:
+> >     vhost_dev_disable_notifiers(&net->dev, dev);
+> > fail_notifiers:
+> > @@ -329,7 +329,7 @@ static void vhost_net_stop_one(struct vhost_net *net,
+> >     if (net->nc->info->poll) {
+> >         net->nc->info->poll(net->nc, true);
+> >     }
+> > -    vhost_dev_stop(&net->dev, dev);
+> > +    vhost_dev_stop(&net->dev, dev, false);
+> >     if (net->nc->info->stop) {
+> >         net->nc->info->stop(net->nc);
+> >     }
+> > @@ -606,7 +606,7 @@ err_start:
+> >         assert(r >= 0);
+> >     }
+> > 
+> > -    vhost_dev_stop(&net->dev, vdev);
+> > +    vhost_dev_stop(&net->dev, vdev, false);
+> > 
+> >     return r;
+> > }
+> > diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
+> > index 767f827e55..18ea5dcfa1 100644
+> > --- a/hw/scsi/vhost-scsi-common.c
+> > +++ b/hw/scsi/vhost-scsi-common.c
+> > @@ -68,7 +68,7 @@ int vhost_scsi_common_start(VHostSCSICommon *vsc)
+> >         goto err_guest_notifiers;
+> >     }
+> > 
+> > -    ret = vhost_dev_start(&vsc->dev, vdev);
+> > +    ret = vhost_dev_start(&vsc->dev, vdev, true);
+> >     if (ret < 0) {
+> >         error_report("Error start vhost dev");
+> >         goto err_guest_notifiers;
+> > @@ -101,7 +101,7 @@ void vhost_scsi_common_stop(VHostSCSICommon *vsc)
+> >     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+> >     int ret = 0;
+> > 
+> > -    vhost_dev_stop(&vsc->dev, vdev);
+> > +    vhost_dev_stop(&vsc->dev, vdev, true);
+> > 
+> >     if (k->set_guest_notifiers) {
+> >         ret = k->set_guest_notifiers(qbus->parent, vsc->dev.nvqs, false);
+> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> > index dc4014cdef..d97b179e6f 100644
+> > --- a/hw/virtio/vhost-user-fs.c
+> > +++ b/hw/virtio/vhost-user-fs.c
+> > @@ -76,7 +76,7 @@ static void vuf_start(VirtIODevice *vdev)
+> >     }
+> > 
+> >     fs->vhost_dev.acked_features = vdev->guest_features;
+> > -    ret = vhost_dev_start(&fs->vhost_dev, vdev);
+> > +    ret = vhost_dev_start(&fs->vhost_dev, vdev, true);
+> >     if (ret < 0) {
+> >         error_report("Error starting vhost: %d", -ret);
+> >         goto err_guest_notifiers;
+> > @@ -110,7 +110,7 @@ static void vuf_stop(VirtIODevice *vdev)
+> >         return;
+> >     }
+> > 
+> > -    vhost_dev_stop(&fs->vhost_dev, vdev);
+> > +    vhost_dev_stop(&fs->vhost_dev, vdev, true);
+> > 
+> >     ret = k->set_guest_notifiers(qbus->parent, fs->vhost_dev.nvqs, false);
+> >     if (ret < 0) {
+> > diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+> > index 5851cb3bc9..0b40ebd15a 100644
+> > --- a/hw/virtio/vhost-user-gpio.c
+> > +++ b/hw/virtio/vhost-user-gpio.c
+> > @@ -81,7 +81,7 @@ static int vu_gpio_start(VirtIODevice *vdev)
+> >      */
+> >     vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->guest_features);
+> > 
+> > -    ret = vhost_dev_start(&gpio->vhost_dev, vdev);
+> > +    ret = vhost_dev_start(&gpio->vhost_dev, vdev, false);
+> >     if (ret < 0) {
+> >         error_report("Error starting vhost-user-gpio: %d", ret);
+> >         goto err_guest_notifiers;
+> > @@ -139,7 +139,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
+> >         return;
+> >     }
+> > 
+> > -    vhost_dev_stop(vhost_dev, vdev);
+> > +    vhost_dev_stop(vhost_dev, vdev, false);
+> > 
+> >     ret = k->set_guest_notifiers(qbus->parent, vhost_dev->nvqs, false);
+> >     if (ret < 0) {
+> > diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+> > index 1c9f3d20dc..dc5c828ba6 100644
+> > --- a/hw/virtio/vhost-user-i2c.c
+> > +++ b/hw/virtio/vhost-user-i2c.c
+> > @@ -46,7 +46,7 @@ static void vu_i2c_start(VirtIODevice *vdev)
+> > 
+> >     i2c->vhost_dev.acked_features = vdev->guest_features;
+> > 
+> > -    ret = vhost_dev_start(&i2c->vhost_dev, vdev);
+> > +    ret = vhost_dev_start(&i2c->vhost_dev, vdev, true);
+> >     if (ret < 0) {
+> >         error_report("Error starting vhost-user-i2c: %d", -ret);
+> >         goto err_guest_notifiers;
+> > @@ -80,7 +80,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
+> >         return;
+> >     }
+> > 
+> > -    vhost_dev_stop(&i2c->vhost_dev, vdev);
+> > +    vhost_dev_stop(&i2c->vhost_dev, vdev, true);
+> > 
+> >     ret = k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, false);
+> >     if (ret < 0) {
+> > diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+> > index f9084cde58..201a39e220 100644
+> > --- a/hw/virtio/vhost-user-rng.c
+> > +++ b/hw/virtio/vhost-user-rng.c
+> > @@ -47,7 +47,7 @@ static void vu_rng_start(VirtIODevice *vdev)
+> >     }
+> > 
+> >     rng->vhost_dev.acked_features = vdev->guest_features;
+> > -    ret = vhost_dev_start(&rng->vhost_dev, vdev);
+> > +    ret = vhost_dev_start(&rng->vhost_dev, vdev, true);
+> >     if (ret < 0) {
+> >         error_report("Error starting vhost-user-rng: %d", -ret);
+> >         goto err_guest_notifiers;
+> > @@ -81,7 +81,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
+> >         return;
+> >     }
+> > 
+> > -    vhost_dev_stop(&rng->vhost_dev, vdev);
+> > +    vhost_dev_stop(&rng->vhost_dev, vdev, true);
+> > 
+> >     ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
+> >     if (ret < 0) {
+> > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> > index a67a275de2..d21c72b401 100644
+> > --- a/hw/virtio/vhost-vsock-common.c
+> > +++ b/hw/virtio/vhost-vsock-common.c
+> > @@ -70,7 +70,7 @@ int vhost_vsock_common_start(VirtIODevice *vdev)
+> >     }
+> > 
+> >     vvc->vhost_dev.acked_features = vdev->guest_features;
+> > -    ret = vhost_dev_start(&vvc->vhost_dev, vdev);
+> > +    ret = vhost_dev_start(&vvc->vhost_dev, vdev, true);
+> >     if (ret < 0) {
+> >         error_report("Error starting vhost: %d", -ret);
+> >         goto err_guest_notifiers;
+> > @@ -105,7 +105,7 @@ void vhost_vsock_common_stop(VirtIODevice *vdev)
+> >         return;
+> >     }
+> > 
+> > -    vhost_dev_stop(&vvc->vhost_dev, vdev);
+> > +    vhost_dev_stop(&vvc->vhost_dev, vdev, true);
+> > 
+> >     ret = k->set_guest_notifiers(qbus->parent, vvc->vhost_dev.nvqs, false);
+> >     if (ret < 0) {
+> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> > index d1c4c20b8c..7fb008bc9e 100644
+> > --- a/hw/virtio/vhost.c
+> > +++ b/hw/virtio/vhost.c
+> > @@ -1777,15 +1777,36 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+> >     return 0;
+> > }
+> > 
+> > +static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
+> > +{
+> > +    if (!hdev->vhost_ops->vhost_set_vring_enable) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    /*
+> > +     * For vhost-user devices, if VHOST_USER_F_PROTOCOL_FEATURES has not
+> > +     * been negotiated, the rings start directly in the enabled state, and
+> > +     * .vhost_set_vring_enable callback will fail since
+> > +     * VHOST_USER_SET_VRING_ENABLE is not supported.
+> > +     */
+> > +    if (hdev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER &&
+> > +        !virtio_has_feature(hdev->backend_features,
+> > +                            VHOST_USER_F_PROTOCOL_FEATURES)) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    return hdev->vhost_ops->vhost_set_vring_enable(hdev, enable);
+> > +}
+> > +
+> > /* Host notifiers must be enabled at this point. */
+> > -int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+> > +int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
+> > {
+> >     int i, r;
+> > 
+> >     /* should only be called after backend is connected */
+> >     assert(hdev->vhost_ops);
+> > 
+> > -    trace_vhost_dev_start(hdev, vdev->name);
+> > +    trace_vhost_dev_start(hdev, vdev->name, vrings);
+> > 
+> >     vdev->vhost_started = true;
+> >     hdev->started = true;
+> > @@ -1830,10 +1851,16 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+> >             goto fail_log;
+> >         }
+> >     }
+> > +    if (vrings) {
+> > +        r = vhost_dev_set_vring_enable(hdev, true);
+> > +        if (r) {
+> > +            goto fail_log;
+> > +        }
+> > +    }
+> >     if (hdev->vhost_ops->vhost_dev_start) {
+> >         r = hdev->vhost_ops->vhost_dev_start(hdev, true);
+> >         if (r) {
+> > -            goto fail_log;
+> > +            goto fail_start;
+> >         }
+> >     }
+> >     if (vhost_dev_has_iommu(hdev) &&
+> > @@ -1848,6 +1875,10 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+> >         }
+> >     }
+> >     return 0;
+> > +fail_start:
+> > +    if (vrings) {
+> > +        vhost_dev_set_vring_enable(hdev, false);
+> > +    }
+> > fail_log:
+> >     vhost_log_put(hdev, false);
+> > fail_vq:
+> > @@ -1866,18 +1897,21 @@ fail_features:
+> > }
+> > 
+> > /* Host notifiers must be enabled at this point. */
+> > -void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+> > +void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
+> > {
+> >     int i;
+> > 
+> >     /* should only be called after backend is connected */
+> >     assert(hdev->vhost_ops);
+> > 
+> > -    trace_vhost_dev_stop(hdev, vdev->name);
+> > +    trace_vhost_dev_stop(hdev, vdev->name, vrings);
+> > 
+> >     if (hdev->vhost_ops->vhost_dev_start) {
+> >         hdev->vhost_ops->vhost_dev_start(hdev, false);
+> >     }
+> > +    if (vrings) {
+> > +        vhost_dev_set_vring_enable(hdev, false);
+> > +    }
+> >     for (i = 0; i < hdev->nvqs; ++i) {
+> >         vhost_virtqueue_stop(hdev,
+> >                              vdev,
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index 820dadc26c..14fc5b9bb2 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -9,8 +9,8 @@ vhost_section(const char *name) "%s"
+> > vhost_reject_section(const char *name, int d) "%s:%d"
+> > vhost_iotlb_miss(void *dev, int step) "%p step %d"
+> > vhost_dev_cleanup(void *dev) "%p"
+> > -vhost_dev_start(void *dev, const char *name) "%p:%s"
+> > -vhost_dev_stop(void *dev, const char *name) "%p:%s"
+> > +vhost_dev_start(void *dev, const char *name, bool vrings) "%p:%s vrings:%d"
+> > +vhost_dev_stop(void *dev, const char *name, bool vrings) "%p:%s vrings:%d"
+> > 
+> > 
+> > # vhost-user.c
+> > -- 
+> > 2.38.1
+> > 
 
 
