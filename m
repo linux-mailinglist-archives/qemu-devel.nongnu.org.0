@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E0F638B54
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A8D638B52
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:36:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyYs0-0006kE-T8; Fri, 25 Nov 2022 08:35:56 -0500
+	id 1oyYrs-0006Up-VG; Fri, 25 Nov 2022 08:35:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oyYrc-0006Rj-BR
+ id 1oyYrc-0006Rk-Bj
  for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:35:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oyYrX-0005Bm-J9
+ id 1oyYrY-0005Cr-2m
  for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:35:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669383324;
+ s=mimecast20190719; t=1669383327;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0MegTA9Glc87FAKqb9YJl0uFOzu0+Mn/9y75BuZRgzc=;
- b=HI9n98Wo+F7kfhmWQ5aOk3Y8mVSi6hVbsGxlnVs5+PuuZyo6opHV1lIqgfsv61b/BxKm8Y
- +eKSQwHi9Q2zPvW1Q8efMLrXUq32fs9/Y94LrJuI+PdnBWo09OJfisrs8D+4bqwtwrMPy6
- 90ljV6KwnsvWuVrtUpyWa98yS2apkQU=
+ bh=ardzZcBk1n7NVeJCeLR1pwuuircUxVh1xjNhb/fRo/s=;
+ b=Jvg7NuLJv6xiz/n5WGuAZVcTkGZiQhL8NyF+TJxMFEXT/zYBhip61QMZujxKRTHcf39vSo
+ j9Q6cZN0z1i7L5YF/kLa++AOEht7M/8hIoU4/qupN3XuIvo9A+GQih+3hhpvRXNCt/5wRI
+ AC8SRpGiWIPQmbvA/yLvqpSlrRcqoo8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-g1wcu9-PPqONAE-_G0YOkw-1; Fri, 25 Nov 2022 08:35:22 -0500
-X-MC-Unique: g1wcu9-PPqONAE-_G0YOkw-1
+ us-mta-216-Q2F3_rQOP3a15yeX-7mF9w-1; Fri, 25 Nov 2022 08:35:23 -0500
+X-MC-Unique: Q2F3_rQOP3a15yeX-7mF9w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE667101A528;
- Fri, 25 Nov 2022 13:35:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53F61185A7AB;
+ Fri, 25 Nov 2022 13:35:22 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D9772166B46;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E85012166B46;
  Fri, 25 Nov 2022 13:35:21 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -53,24 +53,23 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
  Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v6 01/14] block-io: introduce coroutine_fn duplicates for
- bdrv_common_block_status_above callers
-Date: Fri, 25 Nov 2022 08:35:05 -0500
-Message-Id: <20221125133518.418328-2-eesposit@redhat.com>
+Subject: [PATCH v6 02/14] block-copy: add missing coroutine_fn annotations
+Date: Fri, 25 Nov 2022 08:35:06 -0500
+Message-Id: <20221125133518.418328-3-eesposit@redhat.com>
 In-Reply-To: <20221125133518.418328-1-eesposit@redhat.com>
 References: <20221125133518.418328-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,146 +85,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_common_block_status_above() is a g_c_w, and it is being called by
-many "wrapper" functions like bdrv_is_allocated(),
-bdrv_is_allocated_above() and bdrv_block_status_above().
-
-Because we want to eventually split the coroutine from non-coroutine
-case in g_c_w, create duplicate wrappers that take care of directly
-calling the same coroutine functions called in the g_c_w.
+These functions end up calling bdrv_common_block_status_above(), a
+generated_co_wrapper function.
+In addition, they also happen to be always called in coroutine context,
+meaning all callers are coroutine_fn.
+This means that the g_c_w function will enter the qemu_in_coroutine()
+case and eventually suspend (or in other words call qemu_coroutine_yield()).
+Therefore we need to mark such functions coroutine_fn too.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c               | 58 +++++++++++++++++++++++++++++++++++++---
- include/block/block-io.h | 15 +++++++++++
- 2 files changed, 70 insertions(+), 3 deletions(-)
+ block/block-copy.c         | 21 ++++++++++++---------
+ include/block/block-copy.h |  5 +++--
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 38e57d1f67..f4444b7777 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2533,6 +2533,17 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+diff --git a/block/block-copy.c b/block/block-copy.c
+index bb947afdda..5e59d6262f 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -577,8 +577,9 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
      return ret;
  }
  
-+int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
-+                                            BlockDriverState *base,
-+                                            int64_t offset, int64_t bytes,
-+                                            int64_t *pnum, int64_t *map,
-+                                            BlockDriverState **file)
-+{
-+    IO_CODE();
-+    return bdrv_co_common_block_status_above(bs, base, false, true, offset,
-+                                             bytes, pnum, map, file, NULL);
-+}
-+
- int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
-                             int64_t offset, int64_t bytes, int64_t *pnum,
-                             int64_t *map, BlockDriverState **file)
-@@ -2578,6 +2589,22 @@ int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
-     return (pnum == bytes) && (ret & BDRV_BLOCK_ZERO);
- }
- 
-+int coroutine_fn bdrv_co_is_allocated(BlockDriverState *bs, int64_t offset,
-+                                      int64_t bytes, int64_t *pnum)
-+{
-+    int ret;
-+    int64_t dummy;
-+    IO_CODE();
-+
-+    ret = bdrv_co_common_block_status_above(bs, bs, true, false, offset,
-+                                            bytes, pnum ? pnum : &dummy, NULL,
-+                                            NULL, NULL);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+    return !!(ret & BDRV_BLOCK_ALLOCATED);
-+}
-+
- int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
-                       int64_t *pnum)
+-static int block_copy_block_status(BlockCopyState *s, int64_t offset,
+-                                   int64_t bytes, int64_t *pnum)
++static coroutine_fn int block_copy_block_status(BlockCopyState *s,
++                                                int64_t offset,
++                                                int64_t bytes, int64_t *pnum)
  {
-@@ -2594,6 +2621,29 @@ int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
-     return !!(ret & BDRV_BLOCK_ALLOCATED);
- }
- 
-+/* See bdrv_is_allocated_above for documentation */
-+int coroutine_fn bdrv_co_is_allocated_above(BlockDriverState *top,
-+                                            BlockDriverState *base,
-+                                            bool include_base, int64_t offset,
-+                                            int64_t bytes, int64_t *pnum)
-+{
-+    int depth;
-+    int ret;
-+    IO_CODE();
-+
-+    ret = bdrv_co_common_block_status_above(top, base, include_base, false,
-+                                            offset, bytes, pnum, NULL, NULL,
-+                                            &depth);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    if (ret & BDRV_BLOCK_ALLOCATED) {
-+        return depth;
-+    }
-+    return 0;
-+}
-+
- /*
-  * Given an image chain: ... -> [BASE] -> [INTER1] -> [INTER2] -> [TOP]
-  *
-@@ -2617,10 +2667,12 @@ int bdrv_is_allocated_above(BlockDriverState *top,
-                             int64_t bytes, int64_t *pnum)
- {
-     int depth;
--    int ret = bdrv_common_block_status_above(top, base, include_base, false,
--                                             offset, bytes, pnum, NULL, NULL,
--                                             &depth);
-+    int ret;
-     IO_CODE();
-+
-+    ret = bdrv_common_block_status_above(top, base, include_base, false,
-+                                         offset, bytes, pnum, NULL, NULL,
-+                                         &depth);
-     if (ret < 0) {
-         return ret;
+     int64_t num;
+     BlockDriverState *base;
+@@ -590,8 +591,8 @@ static int block_copy_block_status(BlockCopyState *s, int64_t offset,
+         base = NULL;
      }
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 92aaa7c1e9..72919254cd 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -94,14 +94,29 @@ bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
- int bdrv_block_status(BlockDriverState *bs, int64_t offset,
-                       int64_t bytes, int64_t *pnum, int64_t *map,
-                       BlockDriverState **file);
-+
-+int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
-+                                            BlockDriverState *base,
-+                                            int64_t offset, int64_t bytes,
-+                                            int64_t *pnum, int64_t *map,
-+                                            BlockDriverState **file);
- int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
-                             int64_t offset, int64_t bytes, int64_t *pnum,
-                             int64_t *map, BlockDriverState **file);
-+
-+int coroutine_fn bdrv_co_is_allocated(BlockDriverState *bs, int64_t offset,
-+                                      int64_t bytes, int64_t *pnum);
- int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
-                       int64_t *pnum);
-+
-+int coroutine_fn bdrv_co_is_allocated_above(BlockDriverState *top,
-+                                            BlockDriverState *base,
-+                                            bool include_base, int64_t offset,
-+                                            int64_t bytes, int64_t *pnum);
- int bdrv_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
-                             bool include_base, int64_t offset, int64_t bytes,
-                             int64_t *pnum);
-+
- int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
-                                       int64_t bytes);
  
+-    ret = bdrv_block_status_above(s->source->bs, base, offset, bytes, &num,
+-                                  NULL, NULL);
++    ret = bdrv_co_block_status_above(s->source->bs, base, offset, bytes, &num,
++                                     NULL, NULL);
+     if (ret < 0 || num < s->cluster_size) {
+         /*
+          * On error or if failed to obtain large enough chunk just fallback to
+@@ -613,8 +614,9 @@ static int block_copy_block_status(BlockCopyState *s, int64_t offset,
+  * Check if the cluster starting at offset is allocated or not.
+  * return via pnum the number of contiguous clusters sharing this allocation.
+  */
+-static int block_copy_is_cluster_allocated(BlockCopyState *s, int64_t offset,
+-                                           int64_t *pnum)
++static int coroutine_fn block_copy_is_cluster_allocated(BlockCopyState *s,
++                                                        int64_t offset,
++                                                        int64_t *pnum)
+ {
+     BlockDriverState *bs = s->source->bs;
+     int64_t count, total_count = 0;
+@@ -624,7 +626,7 @@ static int block_copy_is_cluster_allocated(BlockCopyState *s, int64_t offset,
+     assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+ 
+     while (true) {
+-        ret = bdrv_is_allocated(bs, offset, bytes, &count);
++        ret = bdrv_co_is_allocated(bs, offset, bytes, &count);
+         if (ret < 0) {
+             return ret;
+         }
+@@ -669,8 +671,9 @@ void block_copy_reset(BlockCopyState *s, int64_t offset, int64_t bytes)
+  * @return 0 when the cluster at @offset was unallocated,
+  *         1 otherwise, and -ret on error.
+  */
+-int64_t block_copy_reset_unallocated(BlockCopyState *s,
+-                                     int64_t offset, int64_t *count)
++int64_t coroutine_fn block_copy_reset_unallocated(BlockCopyState *s,
++                                                  int64_t offset,
++                                                  int64_t *count)
+ {
+     int ret;
+     int64_t clusters, bytes;
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index ba0b425d78..8cea4f9b90 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -36,8 +36,9 @@ void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
+ void block_copy_state_free(BlockCopyState *s);
+ 
+ void block_copy_reset(BlockCopyState *s, int64_t offset, int64_t bytes);
+-int64_t block_copy_reset_unallocated(BlockCopyState *s,
+-                                     int64_t offset, int64_t *count);
++int64_t coroutine_fn block_copy_reset_unallocated(BlockCopyState *s,
++                                                  int64_t offset,
++                                                  int64_t *count);
+ 
+ int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
+                             bool ignore_ratelimit, uint64_t timeout_ns,
 -- 
 2.31.1
 
