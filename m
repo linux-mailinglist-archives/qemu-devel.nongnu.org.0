@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E30A6387E3
+	by mail.lfdr.de (Postfix) with ESMTPS id 383F16387E1
 	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 11:51:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyWHa-0004yM-TY; Fri, 25 Nov 2022 05:50:10 -0500
+	id 1oyWHb-0004ya-6t; Fri, 25 Nov 2022 05:50:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oyWHX-0004xm-AJ
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:07 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1oyWHY-0004yB-Rl
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:08 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oyWHU-0004PP-Ux
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:06 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id y4so3673969plb.2
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:50:04 -0800 (PST)
+ id 1oyWHX-0004aL-7R
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:08 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id s196so3660083pgs.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:50:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ngKkBiobR4LuQBHuAmb4DYyLhbK+9nXlqAS9yJFgS4o=;
- b=mrOoDt1RpGlzpWbLqvqS35CMkVjWydL+dUfc0OjokBmyJIAOMPLHVTnn5rHFXn8ik8
- WXj3GhCTDPSFASlIxNRfG1XDo4x2Tc73pFhf0/QavPiSnKDkKnlRyaFpWdfF+rFi3cqt
- BZSTcwt7DazI4ldkQ/YqctpDXn8Z3UYkUTftdP1GnF5V+hwNiDcPWy0FnHf6tmTlrWEb
- 8L6LBuIHGnCAZ81QGdkmhf3+cIiFsUUmySModPx1Y/4aDxqH+PCwuvFZZ8SZf3kwuH1A
- rHb2gn6080bZBwAtHxgVmFOIVOY9dngnGzAQ8g6g2X6Z6dt1iHeg04QbqkZzuNfr0cWj
- 4vCQ==
+ bh=Q6Gvq2gAiT68ZCAp1/KdoTRz/X2igHEIB7J2KA7Fe24=;
+ b=WVtqocBNZFqk5/do8KpUY6t5kwt6C5bDV31rqp7IY+zjlt/WxJEMvxbZFi6oqd2nj0
+ oj0U57ZEeIzkG9OzZ+jWP0IAnq9+pZatnod4nZBZu99obqWtOyqLpDJBr/CK1XQVMXbP
+ 0yTIxXwsImCyyDfvsEQ+kpRT4sFdyP0PfRPKNP1to2jH8XTkihw7PqcWqlCnEDpQxxx4
+ k+T3eWuunYENBjTdFzNxlOeXnSSLuNVCzcQ5phQMcM5LUYwnp4240T8djCuNDIbBTHXG
+ vtVJLC9Rit2mv7ewNcet8PRKbtL9IdhD/piArTDs7IQeAwLEyS0u09s4ETJVv4n43CW3
+ MGWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ngKkBiobR4LuQBHuAmb4DYyLhbK+9nXlqAS9yJFgS4o=;
- b=Ubt+dd2404OU9Wp6XjhuHsjnmWrfc+z8w2ve14zVPWxcIaJ/T4UHqOM1dqN2xlTdw9
- YAZZWCD/KD9EExevio4gHSHAGKM8Cb4ei49RmOto6gko2lMSR6zl06e4s7fELQXrhPfg
- dLckPcfXCaVFIVFF2qeFXXBJUyJ9AS0kQxORtd4WB5ftLoFmyNnMCYMACwTaPjRXFAQ9
- +axM/rbsZ50mR1Fq3zzbqZ1Z76TVfDhaBNOqj//XNmaSb0KP1CukIDEOF6XLkm/L4Ooe
- ofz09vSaZk/xn834lnRBFDor+De9bpXnsJxP3CWfFmLYjNjPLUtqCGpyF6Aok43JTaoT
- tSGQ==
-X-Gm-Message-State: ANoB5plqeqXvkDUDbAwVfOgDgLoBYk90K2Knwj1hnagqb2gt2FN+tOk6
- n4aT+LRxrLTD7rnGpgTGEbRrvUrWp6k=
-X-Google-Smtp-Source: AA0mqf6ghYkElbAZ0tpN0mB5NKN0BVyWoQOXNn8zw9O2ggLT2WKDBL9lPIqPEdgyL/io0x0GB/sEJg==
-X-Received: by 2002:a17:902:f641:b0:181:b25e:e7bc with SMTP id
- m1-20020a170902f64100b00181b25ee7bcmr18721589plg.46.1669373403042; 
- Fri, 25 Nov 2022 02:50:03 -0800 (PST)
+ bh=Q6Gvq2gAiT68ZCAp1/KdoTRz/X2igHEIB7J2KA7Fe24=;
+ b=srsxgJyJSPMjEEESdf/1JohpPEAVaGXUt+uNqlfGM8rQjSme16Ac2gmerKYbiHH5Va
+ UArgNS23FfnDKFUWFjd+RnVEvXQcDDB6enJQrHBHhXz6g6X4qiOA0ON5sA1s9p3aOUEl
+ teSdpyMQcdpAypwZXz6HBZhz5XH1GX5ED74twvsiIYSrxzUjS5JJk+cPaExZsG8cvFPu
+ W6se6h1tKVQl82ITvxhEg/0ILWxzBIFf97IsGerD0VMIPoZDb8MrjpzKR03PJmfxWq3Y
+ CiIgE82PWfc+yp2R3evaDctnAkO5/j9G9nfMJDR63kaWofdQp/mMBQbbdmTk8RHyx6Tm
+ QmTw==
+X-Gm-Message-State: ANoB5pnHzO5cyG23mutXDvHNwRlSvr8k01j0J7VKffkNPsu9gElhXRc8
+ vVYyk4shrL8KBlPK88EJg6rtn3sAPIk=
+X-Google-Smtp-Source: AA0mqf54nHYKYbYhtvsldOJSpE0IZ7actmE1gFlYREBGDJde6b5ekSM5jz7g7V8IChsFPDqRu18h4w==
+X-Received: by 2002:a63:fc1b:0:b0:46f:fea7:4816 with SMTP id
+ j27-20020a63fc1b000000b0046ffea74816mr15401947pgi.532.1669373405684; 
+ Fri, 25 Nov 2022 02:50:05 -0800 (PST)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a170902da8700b00188f7ad561asm3055966plx.249.2022.11.25.02.50.00
+ j7-20020a170902da8700b00188f7ad561asm3055966plx.249.2022.11.25.02.50.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 02:50:02 -0800 (PST)
+ Fri, 25 Nov 2022 02:50:05 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH 3/4] .gitlab-ci.d/windows.yml: Exclude qTests from 64-bit CI
- job for now
-Date: Fri, 25 Nov 2022 18:49:50 +0800
-Message-Id: <20221125104951.3169611-3-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 4/4] tests/qtest: Enable qtest build on Windows
+Date: Fri, 25 Nov 2022 18:49:51 +0800
+Message-Id: <20221125104951.3169611-4-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221125104951.3169611-1-bmeng.cn@gmail.com>
 References: <20221125104951.3169611-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,31 +95,30 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bin.meng@windriver.com>
 
-qTests don't run successfully with "--without-default-devices",
-so let's exclude the qtests from CI for now.
+Now that we have fixed various test case issues as seen when running
+on Windows, let's enable the qtest build on Windows.
 
-Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
 
- .gitlab-ci.d/windows.yml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/qtest/meson.build | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index c6de65c784..fce9a02387 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -73,7 +73,9 @@ msys2-64bit:
-   - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
-       --enable-capstone --without-default-devices'
-   - ..\msys64\usr\bin\bash -lc 'make'
--  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
-+  # qTests don't run successfully with "--without-default-devices",
-+  # so let's exclude the qtests from CI for now.
-+  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" || { cat meson-logs/testlog.txt; exit 1; } ;'
- 
- msys2-32bit:
-   extends: .shared_msys2_builder
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index c07a5b1a5f..f0ebb5fac6 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -1,9 +1,3 @@
+-# All QTests for now are POSIX-only, but the dependencies are
+-# really in libqtest, not in the testcases themselves.
+-if not config_host.has_key('CONFIG_POSIX')
+-  subdir_done()
+-endif
+-
+ slow_qtests = {
+   'ahci-test' : 60,
+   'bios-tables-test' : 120,
 -- 
 2.34.1
 
