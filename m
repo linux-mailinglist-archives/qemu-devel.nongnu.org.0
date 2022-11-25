@@ -2,87 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6055D63907F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 21:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDE56390C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 21:34:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyf0t-0005pU-NL; Fri, 25 Nov 2022 15:09:31 -0500
+	id 1oyfNz-0004dz-Uq; Fri, 25 Nov 2022 15:33:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oyf0r-0005o2-Ji
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 15:09:29 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oyf0o-0001rz-St
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 15:09:28 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- a11-20020a05600c2d4b00b003cf6f5fd9f1so4169194wmg.2
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 12:09:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TGSdyBmOwzp1aAT1I6vw8JH3VsAN1G6Gms7UwvS/I7c=;
- b=rDaOLGk8/EK0342bt1hU4JIzl1/EM6gV/fefwzTWmXlFenUPmMnumzqGyHqmVtK9IC
- W1mSy03qtfjnoJ7/eUdfG5t/geHcnSwCA+bXHYTC+sRgKTYNAQzPlWi91EzEXBfJnMZS
- MHRcIX24xcN+1ft5keij7faSFbEgBaTJxbvZ4ujpRp/87xflfuW0FFyQpKvxBZuARamP
- Jte55c6xnMCrXYg3wCI2hRx+/s6G8WlizNTkQZrGe72aOybw1mQtRexyUYIljCE7CtkG
- fRxz6tAZ3qUTgiratChtYa40QRbRVQy23vYg8rJGXdN3qVnCC2fwJCNxXO1sxM3J06W+
- NSwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=TGSdyBmOwzp1aAT1I6vw8JH3VsAN1G6Gms7UwvS/I7c=;
- b=jkK9852eB5sHrkj9qdyIRAFd4PeMi9be+ci3drj95FN6VQ0t1z5enjTSkcOGew3ek6
- lze3d71ocWpQtS0u/em33BoH06anqHIJsCpLNieB8lAT7iow44LFia4eqzGtV3uZbxwg
- n44xevaL09SrYss+5ZkXT5RqUif8n5ULiJ+7I8UcdMuAsECh3MjWwUPrt1Q7CHGtf1bl
- SBxbfJ2GAtI88/Sp/0OK+nNBqOZc+y0A0y8wIxNP7XW6vFVhs5LW3EwMSBEaJfFEyfJc
- c4eNXUFd33UMD8S+ZUFOLaPpDbYeBkZ2Gm1zAMmpgkXMocncq6RI4k+AGcY1AZ3aZluq
- 7fBg==
-X-Gm-Message-State: ANoB5plNpNUsNFaoBceinfZfxxnomSxOSYUUQ4w2LO/pTf/eXudScZjH
- jtyKz6BmcCGh95UR0d9jQoRH3g==
-X-Google-Smtp-Source: AA0mqf5bK64rq16qvgBLJlUA2/ay8ay6r16vn5E00HmV81M5j2HgHe5Wq/isakygCwcZHbH07mgVHQ==
-X-Received: by 2002:a05:600c:5118:b0:3cf:8e70:f34f with SMTP id
- o24-20020a05600c511800b003cf8e70f34fmr17213065wms.93.1669406965204; 
- Fri, 25 Nov 2022 12:09:25 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- h16-20020a05600c315000b003cfb7c02542sm6790928wmo.11.2022.11.25.12.09.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 12:09:24 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0D7EA1FFB7;
- Fri, 25 Nov 2022 20:09:24 +0000 (GMT)
-References: <20221125173043.1998075-1-alex.bennee@linaro.org>
- <41c0ad43-1663-737c-f7ce-0a27ffb6aaa5@weilnetz.de>
-User-agent: mu4e 1.9.3; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, stefanha@redhat.com,
- mathieu.poirier@linaro.org, viresh.kumar@linaro.org, sgarzare@redhat.com
-Subject: Re: [PATCH for 7.2-rc? v2 0/5] continuing efforts to fix vhost-user
- issues
-Date: Fri, 25 Nov 2022 20:08:31 +0000
-In-reply-to: <41c0ad43-1663-737c-f7ce-0a27ffb6aaa5@weilnetz.de>
-Message-ID: <87h6ymaj9n.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oyfNs-0004d6-33; Fri, 25 Nov 2022 15:33:16 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oyfNp-0001Aw-4M; Fri, 25 Nov 2022 15:33:15 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 463DE5FF14;
+ Fri, 25 Nov 2022 23:32:59 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:16::1:7] (unknown [2a02:6b8:b081:16::1:7])
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id vWT5m30NhKo1-i2nc57zj; Fri, 25 Nov 2022 23:32:58 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1669408378; bh=BXZwi1erYJd2qIZuSOmcrTARm6Djeq/d+xpWexo8eV0=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=1Io5nDgCx4B8FpzIHFUsbBLkL7tSQwv9u9wDB7MHKsK9pClnssBjG7/sI5vbA8Fry
+ GW3vwyafwQtxObLAMgqbhCBgxt+CnYQEbkjcurVVThA/bZ9+ws5VUqKhn3F3/cpyau
+ 8DlLISg6s5mJG+w0tG3a9tsEyMZBNaHUgGz8pEms=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <37c3385a-719d-053c-66f0-c4a923048b77@yandex-team.ru>
+Date: Fri, 25 Nov 2022 23:32:57 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v6 10/14] block-coroutine-wrapper.py: introduce co_wrapper
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20221125133518.418328-1-eesposit@redhat.com>
+ <20221125133518.418328-11-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221125133518.418328-11-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,23 +77,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/25/22 16:35, Emanuele Giuseppe Esposito wrote:
+> This new annotation creates just a function wrapper that creates
+> a new coroutine.
 
-Stefan Weil <sw@weilnetz.de> writes:
+Actually, not just create, but create, start and wait for finish.. Maybe s/creates/starts/
 
-> Am 25.11.22 um 18:30 schrieb Alex Benn=C3=A9e:
->> Hi,
->> This is continuing to attempt to fix the various vhost-user issues
->> that are currently plaguing the release. One concrete bug I've come
->> across is that all qtest MMIO devices where being treated as legacy
->> which caused the VIRTIO_F_VERSION_1 flag to get missed causing s390x
->> to fall back to trying to set the endian value for the virt-queues.
->
-> Do you want to add my 4 commits which fix format strings for
-> libvhost-user to your series, or should they be handled separately?
+> It assumes the caller is not a coroutine.
+> It will be the default annotation to be used in the future.
+> 
+> This is much better as c_w_mixed, because it is clear if the caller
+> is a coroutine or not, and provides the advantage of automating
+> the code creation. In the future all c_w_mixed functions will be
+> substituted by co_wrapper.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> ---
 
-I'm going to leave the choice of VirtIO patches to take to MST given
-he is the maintainer and I've obviously broken it enough this release :-/
+[..]
 
---=20
-Alex Benn=C3=A9e
+>   
+>   class FuncDecl:
+> -    def __init__(self, return_type: str, name: str, args: str) -> None:
+> +    def __init__(self, return_type: str, name: str, args: str,
+> +                 variant: str) -> None:
+
+I'd prefer mixed: bool parameter instead, to be more strict.
+
+>           self.return_type = return_type.strip()
+>           self.name = name.strip()
+> +        self.struct_name = snake_to_camel(self.name)
+>           self.args = [ParamDecl(arg.strip()) for arg in args.split(',')]
+> +        self.create_only_co = True
+> +
+> +        if 'mixed' in variant:
+> +            self.create_only_co = False
+
+hmm, just
+
+   self.create_only_co = 'mixed' not in variant
+
+? And even better with boolean argument.
+
+> +
+> +        subsystem, subname = self.name.split('_', 1)
+> +        self.co_name = f'{subsystem}_co_{subname}'
+> +
+> +        t = self.args[0].type
+> +        if t == 'BlockDriverState *':
+> +            bs = 'bs'
+> +        elif t == 'BdrvChild *':
+> +            bs = 'child->bs'
+> +        else:
+> +            bs = 'blk_bs(blk)'
+> +        self.bs = bs
+>   
+>       def gen_list(self, format: str) -> str:
+>           return ', '.join(format.format_map(arg.__dict__) for arg in self.args)
+> @@ -74,8 +92,9 @@ def gen_block(self, format: str) -> str:
+>           return '\n'.join(format.format_map(arg.__dict__) for arg in self.args)
+>   
+>   
+> -# Match wrappers declared with a co_wrapper_mixed mark
+> -func_decl_re = re.compile(r'^int\s*co_wrapper_mixed\s*'
+> +# Match wrappers declared with a co_wrapper mark
+> +func_decl_re = re.compile(r'^int\s*co_wrapper'
+> +                          r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
+
+Why you allow everything here?
+I'd write just
+  
+   (?P<mixed>(_mixed)?)
+
+or
+
+   (?P<marker>co_wrapper(_mixed)?)
+
+>                             r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
+>                             r'\((?P<args>[^)]*)\);$', re.MULTILINE)
+>   
+> @@ -84,7 +103,8 @@ def func_decl_iter(text: str) -> Iterator:
+>       for m in func_decl_re.finditer(text):
+>           yield FuncDecl(return_type='int',
+>                          name=m.group('wrapper_name'),
+> -                       args=m.group('args'))
+> +                       args=m.group('args'),
+> +                       variant=m.group('variant'))
+>   
+>   
+>   def snake_to_camel(func_name: str) -> str:
+> @@ -97,24 +117,63 @@ def snake_to_camel(func_name: str) -> str:
+>       return ''.join(words)
+>   
+>   
+> +# Checks if we are already in coroutine
+
+Please, do function documentation in doc-sting
+
+> +def create_g_c_w(func: FuncDecl) -> str:
+
+maybe, create_mixed_wrapper?
+
+g_c_w refer to "generated_co_wrapper" and it was dropped from everywhere already
+
+> +    name = func.co_name
+> +    struct_name = func.struct_name
+> +    return f"""\
+
+[..]
+
+> +
+> +# Assumes we are not in coroutine, and creates one
+
+move to doc-string
+
+> +def create_coroutine_only(func: FuncDecl) -> str:
+
+maybe, create_co_wrapper ?
+
+Also, in the file functions that generate code are called gen_*,
+
+so better gen_co_wrapper() and gen_co_wrapper_mixed()
+
+
+> +    name = func.co_name
+> +    struct_name = func.struct_name
+> +    return f"""\
+> +int {func.name}({ func.gen_list('{decl}') })
+> +{{
+
+[..]
+
+>   
+>   def gen_wrappers(input_code: str) -> str:
+
+
+With at least comments for new functions turned into doc-strings:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+-- 
+Best regards,
+Vladimir
+
 
