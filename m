@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3ED638B2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC82638B30
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:31:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyYl0-0003iE-MG; Fri, 25 Nov 2022 08:28:42 -0500
+	id 1oyYn7-0004jk-6o; Fri, 25 Nov 2022 08:30:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYks-0003hl-W9
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:28:36 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYn4-0004jO-PW
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:30:51 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYkq-0002Vk-OL
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:28:34 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so6210498wmb.2
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 05:28:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYn3-0003zE-B7
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:30:50 -0500
+Received: by mail-wr1-x429.google.com with SMTP id z4so6801689wrr.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 05:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6aeSmHdufI2rHnwdyjocMLRkBSwcMj5JjPnTrEnc9zU=;
- b=XKKNCmdSwPaN7mws/831TWUCsmr9K93IfHTpZHve332APIxWuRnbezpklATLcs/3Ff
- ppVuYrunEnIVvBkn/hBZYXaCBZovwUANRXs5IIDybzeQY3kqLLSlTSjvXAk0sXb8pGhZ
- Q0kAe40jgiCcsd/muD1/OByafm3snxRoIiKO/GaFiiwtLmgiVouXYpbPWO/R+JGUoHYB
- nRCE/xGB02lzTt3GAmALW8z1teV16cM9eFwKXduTcayFgvFvGLZ6W784lNvvD3BxSBJB
- PRPkbvMhM6BLlgTSrhdb1Kaq825BaajKFAjo/N8YJf9rJyhOPyo8X1KKI8TPlJdU8n56
- WNmQ==
+ bh=vzm2pUEATFAs6Vw6OW8+YLMC8EhweAAPxvJCmOgA4v0=;
+ b=SfmWUJFBOA3RqpQ/00aa2INPIZGm1i17Ore6U5qIenuY0PGOxePoVQvec8P3TioZeT
+ uhwSlTV4vQFxDMCnLUKkKTmu79KHuWStpiUSMTXTsTLByDQoJhRW3rhos1+OW7XHB82Q
+ 76Ji0wVYzGwyr9HRdj4kvieb8y7t5wI7vbBaMVxgMGksBZwRU8J2WCf1/PYCbsZy5+uR
+ GTmgIp1X9H8SGQ08MP2sRjU8UTVxjvqJuBYL570xYrni1MHPqgMyF0DLUDgdY9ACYdKl
+ dqdC1sUhUaPz/l5hpQsw7xrM3f2BW6oGPYFbxrUrwQgr8sW89h1UA9ymejAgSDsmwsYV
+ lk1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6aeSmHdufI2rHnwdyjocMLRkBSwcMj5JjPnTrEnc9zU=;
- b=8HWTbCi2NKmNvHxw6VgXzuVgTb5yL4j9hmAHupgv08II0zptIqcH2Aq53d7gUTDWS0
- 9F2r1MKSz1n/xYxwn/GcADuH0WBLXL8mQjQL6B9jzjJhuslbnxEbzdHzmj3ZVfu7M3Jz
- 3+HLF6hLeQS9zpMNkfA8OSndxC9pL3eY769vQyrnVvvR43A0cYFQGZseWP82VE6b9bQy
- O6Pel0r/6iiwi9kT+mWzGFHQkz2u4yOSsQoYybbBtMbxu4OmWOOgm0euWgW+AwIVqIt2
- NaLJA9nh3IBkmo77XIZ+KdHezedOuA17I1z24jEvyLMrKLJv+dnFUZc0B4uKBkdD/KvD
- gjUQ==
-X-Gm-Message-State: ANoB5pnHSrcjwToxgnSIoiVpHYIvBhYKo+R1eyiOoGmWWXPL6tQSpY4F
- LL/+cwb8mO5gsTggViQy9kPbZQ==
-X-Google-Smtp-Source: AA0mqf6R6w4sO+DPQX/eOzqtfdnGwr2C1R0/Dwa1+N6IVz6jah8sK0h2NeDIQyivWaPFMsa2Tx8abw==
-X-Received: by 2002:a05:600c:1604:b0:3cf:7fb1:e217 with SMTP id
- m4-20020a05600c160400b003cf7fb1e217mr27925085wmn.92.1669382910115; 
- Fri, 25 Nov 2022 05:28:30 -0800 (PST)
+ bh=vzm2pUEATFAs6Vw6OW8+YLMC8EhweAAPxvJCmOgA4v0=;
+ b=kmOBt35bcEcyz+mMnv0I3cZbPymSWLVNlG2bpK9qwKb7euHQNTkUfUNaCMBUkB6V6R
+ iYcCYChtMrPOTQQM+YUf4AbHV39qbJ0uxrZhFHzjLESo2Pz+NaQrydc1M3El+4DE99sW
+ kAwpHvmJ6R1h0OPTHoAwA+Mz8t+iMegtfhkDMZne536nkjW9LP8XoNO8KilrmcqLPgK5
+ URLxXlZ4jqwz/zDnjnl4q2nxRvgOdzqmgNZkyAyM2QGnfO3Gm2XUjwbwayvhlMIRLHum
+ j5LzGCTLNAicwKvXpitEpCsU7W7UqjYL1Xfo2YCLgGZpd4Ji/i9sMk+MFroMvLoydH+M
+ J/+w==
+X-Gm-Message-State: ANoB5pnFiTJ3P1Zvl/5pecJOgJBU/+EO4Tw0qXJTbxmxylcHHucxqZEe
+ paPUXgytNcBmmGCWvRGTbeq0Ww==
+X-Google-Smtp-Source: AA0mqf5v4KBHhH9GPilt/nxnFgZOjxnxX04+lze4boeXf3el16HTVp1egXbzo3BRyjSQFm24dBygaA==
+X-Received: by 2002:adf:e712:0:b0:241:d309:8e0c with SMTP id
+ c18-20020adfe712000000b00241d3098e0cmr15854383wrm.547.1669383047549; 
+ Fri, 25 Nov 2022 05:30:47 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a05600c0a4200b003cfd4cf0761sm10214655wmq.1.2022.11.25.05.28.29
+ o9-20020a5d4a89000000b00241fde8fe04sm3810671wrq.7.2022.11.25.05.30.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 05:28:29 -0800 (PST)
-Message-ID: <6b4ed1c6-b218-042c-e83a-1bb249da1fa7@linaro.org>
-Date: Fri, 25 Nov 2022 14:28:28 +0100
+ Fri, 25 Nov 2022 05:30:47 -0800 (PST)
+Message-ID: <122e676d-a02c-a163-9eb6-06dbe4e8a213@linaro.org>
+Date: Fri, 25 Nov 2022 14:30:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [RFC PATCH 1/3] hw/intc: Add missing include for goldfish_pic.h
+Subject: Re: [PATCH for-8.0 1/7] hw/virtio: Convert TYPE_VIRTIO_PCI to 3-phase
+ reset
 Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-References: <20221124212916.723490-1-jiaxun.yang@flygoat.com>
- <20221124212916.723490-2-jiaxun.yang@flygoat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Greg Kurz
+ <groug@kaod.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ qemu-ppc@nongnu.org
+References: <20221125115240.3005559-1-peter.maydell@linaro.org>
+ <20221125115240.3005559-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221124212916.723490-2-jiaxun.yang@flygoat.com>
+In-Reply-To: <20221125115240.3005559-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,31 +96,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/11/22 22:29, Jiaxun Yang wrote:
-> hw/sysbus.h is missed in goldfish_pic.h.
+On 25/11/22 12:52, Peter Maydell wrote:
+> Convert the TYPE_VIRTIO_PCI class to 3-phase reset.  This is
+> necessary so that we can convert the subclass TYPE_VIRTIO_VGA_BASE
+> also to 3-phase reset.
 > 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   include/hw/intc/goldfish_pic.h | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/hw/intc/goldfish_pic.h b/include/hw/intc/goldfish_pic.h
-> index e9d552f796..3e79580367 100644
-> --- a/include/hw/intc/goldfish_pic.h
-> +++ b/include/hw/intc/goldfish_pic.h
-> @@ -10,6 +10,8 @@
->   #ifndef HW_INTC_GOLDFISH_PIC_H
->   #define HW_INTC_GOLDFISH_PIC_H
+>   hw/virtio/virtio-pci.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
 
-Also:
-
-    #include "qom/object.h"
-    #include "exec/memory.h"
-
-> +#include "hw/sysbus.h"
-> +
->   #define TYPE_GOLDFISH_PIC "goldfish_pic"
->   OBJECT_DECLARE_SIMPLE_TYPE(GoldfishPICState, GOLDFISH_PIC)
->   
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
