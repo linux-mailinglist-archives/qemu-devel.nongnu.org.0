@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897BC638702
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 11:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F916387E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 11:51:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyVZs-0003Z7-9L; Fri, 25 Nov 2022 05:05:00 -0500
+	id 1oyWHT-0004wu-Cw; Fri, 25 Nov 2022 05:50:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oyVZR-0003TF-5M
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:04:43 -0500
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830])
+ id 1oyWHQ-0004wl-Dj
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:00 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oyVZO-00058M-KZ
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:04:32 -0500
-Received: by mail-qt1-x830.google.com with SMTP id l2so2254494qtq.11
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:04:30 -0800 (PST)
+ id 1oyWHO-0004Mr-W3
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:00 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id l7so1349653pfl.7
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:49:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZTllPnEQ+BT7CA3VeYgM63/BhKCgc7IIsPgAvW6XTX0=;
- b=AHL6B/V3eWaRAonJjgSmkrWWqxNFFFzVkxmRoNmBiPDwMbaGL6RV6XdDfo3QFmsaBn
- hiCbA5dkJE6UfpM1IfxKacAlo+UI4jZALiburS+L1z58oLBUPyipjCi8dl3hYzjvHe3g
- rKQMdIt4HSKleb4MLcbbzqtyikfjudHnJWnmkQAuAOUkrzwEJ5F4f8+ZDXGSzFzfw84G
- TQ0A660z6OaQu7WXJh9lcTcEpydPtgGFHrnUE738E5C/YTpVMWrgwhH4t64ShQPdpePn
- 9tSbosmjlsmL+43CWUmt+5vk8HJPm3D/3DdWRIGfikssDQ5xSg/sldnimEe1HSeAoknA
- zGoA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xDX+aKA/RS4d4hOmrGI6f2aGb1XqZKokkZqb6tEAlUU=;
+ b=QigqTk8xDuT9GvX/g13Q7/S1F10qL4s0IYkEjJmd4uWUwoulGJmF8OimYUA3P2xGy3
+ c+vNA45cLIno95wZ2monENA75n8+cjyq3nviBvotAeJhQ2YFzR8Vq2eKOFwKIo7BIOth
+ i0gFKKnFEubhvVFoZZX7uS9DMziM+AYxoTr+VxAiqTVomH1vImrr6s6whBBTaaJ5/TW4
+ ubqTiO9EEiWX9X/TbpRqegTolb3kkUmX5vOP6OCcYNCdW3jYxOre8KEg6WU5pRg+qaBU
+ mkEZYvto0JLJinK9zVfWKrPgye0RyPHC1z9EU8rbtD8wBP9X/FIFtruq9rXdiMxEF+36
+ Oszg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZTllPnEQ+BT7CA3VeYgM63/BhKCgc7IIsPgAvW6XTX0=;
- b=pQeCH7IHwDZd0RNuepjK4oiwRmOtAPnAMgJGK8J349igRaAtAih1DsEMRUZRzl0WMD
- xv65prz0yvu5n8AYkkgXTEY/kpBE88DXicxuCCZBptj1vKc6mEI9xllOdahqVB1B8o2D
- vSkcJgzbVGu46GV7TnoMoGy0uo9dA/rBOe2pTnSseKTqyQOYyte36qJ2zCcko57Ev9mH
- viC/Jce2RqvJMAE9yjUYOQwN8F3XfBuHQx36p/1reyx39qUDqkeD1TAq3xl7xUMLUvl1
- pp1CT01XpIqXQYlZF33tVwEfV+nBOZu9o4A9vhak2mkBrvwxn/vFR9JceBUYMIfNbB1s
- lIpA==
-X-Gm-Message-State: ANoB5pmTyPfGY2ROT/cmFIAmxd+cBVenQyBWtwRIu0CKYPCd6wQpPgS7
- fmy0q+MKN6L/PiiFL8dQP/D0HVvpwNBISa9u7RA=
-X-Google-Smtp-Source: AA0mqf7JDfA6IRIF75zRrNHqwWhiofwABYNYTipvNLOS9ICIJoEyj0CaW8c10RzBa6J+BzDprVv0jUTPfsUELlRZkZ0=
-X-Received: by 2002:a05:622a:258b:b0:3a5:c5a4:c1ac with SMTP id
- cj11-20020a05622a258b00b003a5c5a4c1acmr15973028qtb.276.1669370669452; Fri, 25
- Nov 2022 02:04:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20221028045736.679903-1-bin.meng@windriver.com>
- <20221028045736.679903-12-bin.meng@windriver.com>
- <CAJ+F1CJnW-95ZpfBBKFX=O_XsFOZ+quTU4dYmK8Cr8B-Ww_Hqw@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJnW-95ZpfBBKFX=O_XsFOZ+quTU4dYmK8Cr8B-Ww_Hqw@mail.gmail.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xDX+aKA/RS4d4hOmrGI6f2aGb1XqZKokkZqb6tEAlUU=;
+ b=TnFFVVn1rwyxYZ4ul8YI0emW9Vy8+PF8eTNEkxN/UMcNFhAytGd2j7DrKH1iDg8Xhd
+ ICWg4J5dNfXarGoEGtGLeBrjX1fjiCYxfqLPYMGztyEPTaG7RuJNs3MvMjUC69Tl25jX
+ 4O07WsifNnQBxz4N7KVvMWSEaT+8RrLexeXtyJGTKFszmG/32pu3NymwaZ5s72658Pid
+ Gb/WlEV+vkaq/Qd0eKwJ6vnmJjqA0RxNWc2g2PVcyZxsH1NiTLFZJHSDNefnJTor+kip
+ ZP/oDpG4ckV+lEXg1yt30jJEpAsEwwEjVYUNPOeOu/WZvOtwkvaUPWcgdBJ4o+rxvuJm
+ VP4g==
+X-Gm-Message-State: ANoB5pnb3N9nUDNp5q0nluZrGpcsdhlV9bs7/KwF/kZJdCeLdm6Fucmg
+ pEvuticEuKmP6gCK1ZGKgqtBBCaoFcY=
+X-Google-Smtp-Source: AA0mqf45ZYoXbCgeUyfP/XKjHPczxlTCKJLMXJrPz7mU40ANUEerD2UF3tfYRAYQU2lNXp93bhJvsQ==
+X-Received: by 2002:a63:4703:0:b0:470:27c:54b8 with SMTP id
+ u3-20020a634703000000b00470027c54b8mr15596211pga.578.1669373397180; 
+ Fri, 25 Nov 2022 02:49:57 -0800 (PST)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ j7-20020a170902da8700b00188f7ad561asm3055966plx.249.2022.11.25.02.49.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Nov 2022 02:49:56 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 25 Nov 2022 18:04:19 +0800
-Message-ID: <CAEUhbmVPymrJPigc7UOqJN4HTN55Y62+NJ-MC46BSZJugE6YBQ@mail.gmail.com>
-Subject: Re: [PATCH v6 11/11] tests/qtest: Enable qtest build on Windows
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x830.google.com
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: [PATCH 1/4] .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+Date: Fri, 25 Nov 2022 18:49:48 +0800
+Message-Id: <20221125104951.3169611-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,68 +92,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Marc-Andr=C3=A9,
+From: Bin Meng <bin.meng@windriver.com>
 
-On Wed, Nov 23, 2022 at 10:14 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi Bin
->
-> On Fri, Oct 28, 2022 at 9:06 AM Bin Meng <bin.meng@windriver.com> wrote:
-> >
-> > Now that we have fixed various test case issues as seen when running
-> > on Windows, let's enable the qtest build on Windows.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Thomas Huth <thuth@redhat.com>
->
-> We haven't solved the CI timing out or eating all the CPU time, right?
+At present the prerequisite packages for 64-bit and 32-bit builds
+are slightly different. Let's use the same packages for both for
+easier maintenance in the future.
 
-Correct
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
->
-> Can we simply exclude it from CI for now, ie add to this patch
+ .gitlab-ci.d/windows.yml | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Thanks for your suggestion!
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index a3e7a37022..99d78c2213 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -41,11 +41,15 @@ msys2-64bit:
+       mingw-w64-x86_64-gcc
+       mingw-w64-x86_64-glib2
+       mingw-w64-x86_64-gnutls
++      mingw-w64-x86_64-gtk3
++      mingw-w64-x86_64-libgcrypt
++      mingw-w64-x86_64-libjpeg-turbo
+       mingw-w64-x86_64-libnfs
+       mingw-w64-x86_64-libpng
+       mingw-w64-x86_64-libssh
+       mingw-w64-x86_64-libtasn1
+       mingw-w64-x86_64-libusb
++      mingw-w64-x86_64-lzo2
+       mingw-w64-x86_64-nettle
+       mingw-w64-x86_64-ninja
+       mingw-w64-x86_64-pixman
+@@ -79,16 +83,22 @@ msys2-32bit:
+       mingw-w64-i686-gtk3
+       mingw-w64-i686-libgcrypt
+       mingw-w64-i686-libjpeg-turbo
++      mingw-w64-i686-libnfs
++      mingw-w64-i686-libpng
+       mingw-w64-i686-libssh
+       mingw-w64-i686-libtasn1
+       mingw-w64-i686-libusb
+       mingw-w64-i686-lzo2
++      mingw-w64-i686-nettle
+       mingw-w64-i686-ninja
+       mingw-w64-i686-pixman
+       mingw-w64-i686-pkgconf
+       mingw-w64-i686-python
++      mingw-w64-i686-SDL2
++      mingw-w64-i686-SDL2_image
+       mingw-w64-i686-snappy
+-      mingw-w64-i686-usbredir "
++      mingw-w64-i686-usbredir
++      mingw-w64-i686-zstd "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+   - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinG environment
+   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+-- 
+2.34.1
 
->
-> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-> index 093276ddbc..ba9045ec38 100644
-> --- a/.gitlab-ci.d/windows.yml
-> +++ b/.gitlab-ci.d/windows.yml
-> @@ -62,7 +62,7 @@ msys2-64bit:
->    - .\msys64\usr\bin\bash -lc './configure --target-list=3Dx86_64-softmm=
-u
->        --enable-capstone'
->    - .\msys64\usr\bin\bash -lc 'make'
-> -  - .\msys64\usr\bin\bash -lc 'make check || { cat
-> build/meson-logs/testlog.txt; exit 1; } ;'
-> +  - .\msys64\usr\bin\bash -lc 'make check MTESTARGS=3D"--no-suite
-> qtest" || { cat build/meson-logs/testlog.txt; exit 1; } ;'
-
-The double quote should be escaped.
-
->
->  msys2-32bit:
->    extends: .shared_msys2_builder
-> @@ -96,4 +96,4 @@ msys2-32bit:
->    - cd output
->    - ..\msys64\usr\bin\bash -lc "../configure --target-list=3Dppc64-softm=
-mu"
->    - ..\msys64\usr\bin\bash -lc 'make'
-> -  - ..\msys64\usr\bin\bash -lc 'make check || { cat
-> meson-logs/testlog.txt; exit 1; } ;'
-> +  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=3D"--no-suite
-> qtest" || { cat meson-logs/testlog.txt; exit 1; } ;'
-
-I don't think we need to touch 32-bit.
-
-> Could you resubmit your missing win test patches and check if gitlab is h=
-appy?
->
-
-Sure, will do soon.
-
-Regards,
-Bin
 
