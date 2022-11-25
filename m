@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A78638B21
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:25:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3ED638B2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:29:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyYhm-0002ft-Br; Fri, 25 Nov 2022 08:25:22 -0500
+	id 1oyYl0-0003iE-MG; Fri, 25 Nov 2022 08:28:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYhk-0002eG-GJ
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:25:20 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYks-0003hl-W9
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:28:36 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYhi-0001CZ-Nw
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:25:20 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b12so6788684wrn.2
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 05:25:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYkq-0002Vk-OL
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:28:34 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so6210498wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 05:28:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=OUkWqyAEUKslzxTVLU4pR2FAchUQX+pmvj32I/G1fYY=;
- b=OZc0jMiuCS7LSC9QAXOvpWfzeJFvAMxY9j+eeNyO62sAku8m8h6lsoPSF6H9YtbiMn
- guAgYcpxES4epF+V5WkhB7+ZUwES2RMbJG9zCbdJT8byjYpHtmdLPMWeNJH0mNV3Ly9p
- YrzwBlFQGYLc4PrRkqklzJEEZ+ZKcAQ3aHclIcC1N/AuFfN1ImW769AiqdsJJ3+5HNYL
- EsAvAXmj9++8sX0YWcUVLxScIWJVOkOk598CVNDvTrBda8vtFhZJkFPRVCM7cFaI4CBf
- Qy/qAlpwJ58r8KNOHpcs2LhHxaTVAGhpMFgh0HT65W140QHDOWVEW+7UC3yvqkQuoBDJ
- 9ytw==
+ bh=6aeSmHdufI2rHnwdyjocMLRkBSwcMj5JjPnTrEnc9zU=;
+ b=XKKNCmdSwPaN7mws/831TWUCsmr9K93IfHTpZHve332APIxWuRnbezpklATLcs/3Ff
+ ppVuYrunEnIVvBkn/hBZYXaCBZovwUANRXs5IIDybzeQY3kqLLSlTSjvXAk0sXb8pGhZ
+ Q0kAe40jgiCcsd/muD1/OByafm3snxRoIiKO/GaFiiwtLmgiVouXYpbPWO/R+JGUoHYB
+ nRCE/xGB02lzTt3GAmALW8z1teV16cM9eFwKXduTcayFgvFvGLZ6W784lNvvD3BxSBJB
+ PRPkbvMhM6BLlgTSrhdb1Kaq825BaajKFAjo/N8YJf9rJyhOPyo8X1KKI8TPlJdU8n56
+ WNmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OUkWqyAEUKslzxTVLU4pR2FAchUQX+pmvj32I/G1fYY=;
- b=rTjXJbBYPYRmERhKR6k+DQV1jIZlnG+ibYxC9WgIGo5XC5boDolf9dHDaDzk7oycWm
- pLa8B3YvhWxagb2f16yUTOTeCuX6USnkDDQmAew1u0uhDAef09nhobZfertMqmkrSTKz
- 4j0dAvPdwoitQgPuPbOWGnGZDCqSsQ+oDVqqK8M4aKcdY/1/QJQjBgK4Q4NMlw6CfVpR
- qZu810OKjuEWAt4xN0YSeSD+h3K/FcEBYL/2kj6Nrr4VDc1kP8w09V376qvkcv/WyRk8
- eRvqZmpN9l7mcW75cFkojcgDyhQMlBAG35SsHdoekGJQbFi3zOXlweuqcLFCA85WKbLB
- GH6w==
-X-Gm-Message-State: ANoB5pm/OrKpy2BVbPcujmHhXSCprDKFk6tg2v3SpWslfWTRPSo8SY8J
- 3X4PdefbFtm6+BDadUdNcifzMw==
-X-Google-Smtp-Source: AA0mqf4G9QXZG4kvpYpgnNMs9xvhNF42vkRR1PzN6xfiZZGkQ+fy+5RZAKqvKn39w/TenNQ4VBkZzg==
-X-Received: by 2002:adf:e88e:0:b0:22e:68a1:ddab with SMTP id
- d14-20020adfe88e000000b0022e68a1ddabmr23094518wrm.496.1669382717084; 
- Fri, 25 Nov 2022 05:25:17 -0800 (PST)
+ bh=6aeSmHdufI2rHnwdyjocMLRkBSwcMj5JjPnTrEnc9zU=;
+ b=8HWTbCi2NKmNvHxw6VgXzuVgTb5yL4j9hmAHupgv08II0zptIqcH2Aq53d7gUTDWS0
+ 9F2r1MKSz1n/xYxwn/GcADuH0WBLXL8mQjQL6B9jzjJhuslbnxEbzdHzmj3ZVfu7M3Jz
+ 3+HLF6hLeQS9zpMNkfA8OSndxC9pL3eY769vQyrnVvvR43A0cYFQGZseWP82VE6b9bQy
+ O6Pel0r/6iiwi9kT+mWzGFHQkz2u4yOSsQoYybbBtMbxu4OmWOOgm0euWgW+AwIVqIt2
+ NaLJA9nh3IBkmo77XIZ+KdHezedOuA17I1z24jEvyLMrKLJv+dnFUZc0B4uKBkdD/KvD
+ gjUQ==
+X-Gm-Message-State: ANoB5pnHSrcjwToxgnSIoiVpHYIvBhYKo+R1eyiOoGmWWXPL6tQSpY4F
+ LL/+cwb8mO5gsTggViQy9kPbZQ==
+X-Google-Smtp-Source: AA0mqf6R6w4sO+DPQX/eOzqtfdnGwr2C1R0/Dwa1+N6IVz6jah8sK0h2NeDIQyivWaPFMsa2Tx8abw==
+X-Received: by 2002:a05:600c:1604:b0:3cf:7fb1:e217 with SMTP id
+ m4-20020a05600c160400b003cf7fb1e217mr27925085wmn.92.1669382910115; 
+ Fri, 25 Nov 2022 05:28:30 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o4-20020a5d58c4000000b002417e7f0685sm4272676wrf.9.2022.11.25.05.25.16
+ c2-20020a05600c0a4200b003cfd4cf0761sm10214655wmq.1.2022.11.25.05.28.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 05:25:16 -0800 (PST)
-Message-ID: <f1270702-699b-a8c9-95fd-8bf668d6f7e5@linaro.org>
-Date: Fri, 25 Nov 2022 14:25:15 +0100
+ Fri, 25 Nov 2022 05:28:29 -0800 (PST)
+Message-ID: <6b4ed1c6-b218-042c-e83a-1bb249da1fa7@linaro.org>
+Date: Fri, 25 Nov 2022 14:28:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [RFC PATCH 3/3] hw/mips: Add MIPS VirtIO board
+Subject: Re: [RFC PATCH 1/3] hw/intc: Add missing include for goldfish_pic.h
 Content-Language: en-US
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-Cc: f4bug@amsat.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 References: <20221124212916.723490-1-jiaxun.yang@flygoat.com>
- <20221124212916.723490-4-jiaxun.yang@flygoat.com>
+ <20221124212916.723490-2-jiaxun.yang@flygoat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221124212916.723490-4-jiaxun.yang@flygoat.com>
+In-Reply-To: <20221124212916.723490-2-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,56 +93,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 24/11/22 22:29, Jiaxun Yang wrote:
-> MIPS VirtIO board is design to utilize existing VirtIO infrastures
-> but also comptitable with MIPS's existing internal simulation tools.
-> 
-> It includes virtio-mmio, pcie gpex, flash rom, fw_cfg, goldfish-rtc,
-> and optional goldfish_pic in case MIPS GIC is not present.
-> 
-> It should be able to cooperate with any MIPS CPU cores.
+> hw/sysbus.h is missed in goldfish_pic.h.
 > 
 > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->   configs/devices/mips-softmmu/common.mak |    1 +
->   hw/mips/Kconfig                         |   18 +
->   hw/mips/meson.build                     |    1 +
->   hw/mips/virt.c                          | 1039 +++++++++++++++++++++++
->   4 files changed, 1059 insertions(+)
->   create mode 100644 hw/mips/virt.c
+>   include/hw/intc/goldfish_pic.h | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-> index 416161f833..534b7843eb 100644
-> --- a/configs/devices/mips-softmmu/common.mak
-> +++ b/configs/devices/mips-softmmu/common.mak
-> @@ -29,6 +29,7 @@ CONFIG_MC146818RTC=y
->   CONFIG_EMPTY_SLOT=y
->   CONFIG_MIPS_CPS=y
->   CONFIG_MIPS_ITU=y
-> +CONFIG_MIPS_VIRT=y
+> diff --git a/include/hw/intc/goldfish_pic.h b/include/hw/intc/goldfish_pic.h
+> index e9d552f796..3e79580367 100644
+> --- a/include/hw/intc/goldfish_pic.h
+> +++ b/include/hw/intc/goldfish_pic.h
+> @@ -10,6 +10,8 @@
+>   #ifndef HW_INTC_GOLDFISH_PIC_H
+>   #define HW_INTC_GOLDFISH_PIC_H
 
-Is there any value adding the 32-bit machine, or can we just add it as 
-64-bit?
+Also:
 
-> +struct MIPSVirtState {
-> +    MachineState parent;
+    #include "qom/object.h"
+    #include "exec/memory.h"
+
+> +#include "hw/sysbus.h"
 > +
-> +    Notifier machine_done;
-> +    Clock *cpuclk;
-> +    DeviceState *platform_bus_dev;
-> +    MIPSCPSState *cps;
-> +    DeviceState *pic;
-> +    PFlashCFI01 *flash[2];
-
-We should be fine with 1 ROM for CODE and 1 flash for VARS,
-see my previous comments on the LoongArch virt machine:
-
-https://lore.kernel.org/qemu-devel/2f381d06-842f-ac8b-085c-0419675a4872@linaro.org/
-https://lore.kernel.org/qemu-devel/b62401b2-3a12-e89d-6953-b40dd170b4ba@linaro.org/
-
-> +    FWCfgState *fw_cfg;
-> +
-> +    MIPSVirtPlatType plat_type;
-> +    int fdt_size;
-> +};
+>   #define TYPE_GOLDFISH_PIC "goldfish_pic"
+>   OBJECT_DECLARE_SIMPLE_TYPE(GoldfishPICState, GOLDFISH_PIC)
+>   
 
 
