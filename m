@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168F8638B66
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DB3638B81
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:46:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyYtQ-0000pZ-2X; Fri, 25 Nov 2022 08:37:24 -0500
+	id 1oyZ1h-0002rc-PR; Fri, 25 Nov 2022 08:45:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYtJ-0000gf-Vc
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:37:18 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYtH-0005e4-3H
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:37:16 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id z4so6826389wrr.3
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 05:37:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nzSW1URDSmtYQZA8CQ31TVmg9NwGkam2zdguV28pr5s=;
- b=k3vc51paDPklueR104nfV6ulItQ5Tij/CtlZGdXH0puyl+a/JafVvbPFRVM08avHsT
- CIzIPIBs0cgBZHjKufjRKF6NKJWfcepfmN4fCypYSfonSNC9tqdPMFvpfygfGWRQCdov
- jKV25eMnGRdCWe9EVDcMHa6P2YHBdqTMrI5OAHwztJurs/ks/FlNNkAcOMIrtoM/KdXZ
- ObNl14j048SaorX0k3MPo2nodAYLKYRtPb0WtrxzcI6Vh2eKZ8FbKidUMkhifkvFCnOK
- /QZGa23jeKniVG4Ph/STF1ZRr+JiotLMbC0dq8rHi7lFRVt0b5hWD2Y9cxn2JOUUDWnv
- Vo4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nzSW1URDSmtYQZA8CQ31TVmg9NwGkam2zdguV28pr5s=;
- b=djH85WqjCcj7BKYQX39Op99T2r0HT6SRVH3zD7VMg9JHvbnQxrPahbna+p44S4Auwh
- 6Wzlpvh95XFiXJQFvSM7UuulwKfda3i/MzFiKQDY4WddODkHc9lSNDDn0wn5l6unPNGw
- C93aVOVnrqDKiwt+JMlUH9SR3cxcmdycEYqCq0R3Hv7rldB7FjiXt/wA/4CwIzULiwaa
- XkAR9an9fXga9xh5RW+JOMiCsL8XszACUx14FCPIOQfM+ZyaJd9XGMi5ZYbJ+g0+XvUL
- K1S+Y8+c0p0RyYm1h3LGuKiqzaSPtMQxUOaGyoL+cctTCWiuRkwjrsQZn4CKzJ51h7wd
- AvFQ==
-X-Gm-Message-State: ANoB5plwLRmCcLP9aM8eFBMKJHLnO+qCIG6B5pwGksroGHa7n9rmkSPj
- MCEU0rSW0/OSK/7lIQME7x8Jww==
-X-Google-Smtp-Source: AA0mqf6v4GUPKVJ/W4Rf+FYSgfft37epezssWC7/LtxVOS/i32VkSpnthuOUea/kKWgiG7Wz9CDHRQ==
-X-Received: by 2002:adf:fa90:0:b0:241:bc1e:762f with SMTP id
- h16-20020adffa90000000b00241bc1e762fmr23358811wrr.614.1669383432507; 
- Fri, 25 Nov 2022 05:37:12 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- g14-20020a05600c310e00b003a2f2bb72d5sm11634392wmo.45.2022.11.25.05.37.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 05:37:12 -0800 (PST)
-Message-ID: <4e35a2b6-12ca-e43c-6ee7-7090280c9341@linaro.org>
-Date: Fri, 25 Nov 2022 14:37:11 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1oyZ1X-0002qQ-Mj; Fri, 25 Nov 2022 08:45:55 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1oyZ1V-0001jO-91; Fri, 25 Nov 2022 08:45:47 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.244])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 150F9143DD0F1;
+ Fri, 25 Nov 2022 14:45:41 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 25 Nov
+ 2022 14:45:40 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003a074c58c-85b5-468b-a274-ae8798b31618,
+ A118ED2DA2C78367863551B1AF5232D1EC2EEEED) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Fri, 25 Nov 2022 14:45:39 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>, "Gerd
+ Hoffmann" <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Daniel
+ Henrique Barboza" <danielhb413@gmail.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, <qemu-ppc@nongnu.org>
+Subject: Re: [PATCH for-8.0 5/7] hw/intc/xics: Reset TYPE_ICS objects with
+ device_cold_reset()
+Message-ID: <20221125144539.4106a542@bahia>
+In-Reply-To: <61ea8b5c-a8ae-1fc9-a54a-6a95c8b914fc@kaod.org>
+References: <20221125115240.3005559-1-peter.maydell@linaro.org>
+ <20221125115240.3005559-6-peter.maydell@linaro.org>
+ <61ea8b5c-a8ae-1fc9-a54a-6a95c8b914fc@kaod.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH] target/i386/hax: Add XCR0 support
-Content-Language: en-US
-To: "Wang, Wenchao" <wenchao.wang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: haxm-team <haxm-team@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <DM6PR11MB40909B4A33D66A3100F6D219870E9@DM6PR11MB4090.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <DM6PR11MB40909B4A33D66A3100F6D219870E9@DM6PR11MB4090.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: 1f57f5ba-4bc3-43ef-b432-2126ebc9cb38
+X-Ovh-Tracer-Id: 14340587114783086956
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgdehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuueeijedtleeluedthfetjeffieetffeuvefffeeftedvieefueejgfdugeetueenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhkrhgrgigvlhesrhgvughhrghtrdgtohhmpdhmshhtsehrvgguhhgrthdrtghomhdpuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdgtlhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtph
+ houhht
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=groug@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,80 +76,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Fri, 25 Nov 2022 13:24:00 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-On 25/11/22 13:18, Wang, Wenchao wrote:
-> Hi, maintainers,
-> 
-> As HAXM v7.8.0 is released and it added XCR0 support, could you help to 
-> merge this patch to add corresponding support into HAX user space of 
-> QEMU? The patch has been included in the attachment. Thanks.
+> On 11/25/22 12:52, Peter Maydell wrote:
+> > The realize method for the TYPE_ICS class uses qemu_register_reset()
+> > to register a reset handler, as a workaround for the fact that
+> > currently objects which directly inherit from TYPE_DEVICE don't get
+> > automatically reset.  However, the reset function directly calls
+> > ics_reset(), which is the function that implements the legacy reset
+> > method.  This means that only the parent class's data gets reset, and
+> > a subclass which also needs to handle reset, like TYPE_PHB3_MSI, has
+> > to register its own reset function.
+> >=20
+> > Make the TYPE_ICS reset function call device_cold_reset() instead:
+> > this will handle reset for both the parent class and the subclass,
+> > and will work whether the classes are using legacy reset or 3-phase
+> > reset. This allows us to remove the reset function that the subclass
+> > currently has to set up.
+>=20
+> Nice !
+>=20
 
-See 
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html#submitting-your-patches 
-on how to send patches to a mailing list.
+Seconded.
 
-> 
-> Best Regards,
-> 
-> Wenchao
-> 
->  From b1789f2523d06798b8883664bfa9a9df797bfccf Mon Sep 17 00:00:00 2001
-> 
-> From: Wenchao Wang <wenchao.wang@intel.com>
-> 
-> Date: Fri, 25 Nov 2022 18:37:34 +0800
-> 
-> Subject: [PATCH] target/i386/hax: Add XCR0 support
-> 
-> Introduce extended control register XCR0 to support XSAVE feature set.
-> 
-> Note: This change requires at least HAXM v7.8.0 to support.
-> 
-> Reviewed-by: Hang Yuan <hang.yuan@intel.com>
-> 
-> Signed-off-by: Wenchao Wang <wenchao.wang@intel.com>
-> 
-> ---
-> 
-> target/i386/hax/hax-interface.h | 2 ++
-> 
-> 1 file changed, 2 insertions(+)
-> 
-> diff --git a/target/i386/hax/hax-interface.h 
-> b/target/i386/hax/hax-interface.h
-> 
-> index 537ae084e9..1d13bb2380 100644
-> 
-> --- a/target/i386/hax/hax-interface.h
-> 
-> +++ b/target/i386/hax/hax-interface.h
-> 
-> @@ -201,6 +201,8 @@ struct vcpu_state_t {
-> 
->       uint64_t _cr3;
-> 
->       uint64_t _cr4;
-> 
-> +    uint64_t _xcr0;
-> 
-> +
-> 
->       uint64_t _dr0;
-> 
->       uint64_t _dr1;
-> 
->       uint64_t _dr2;
-> 
-> -- 
-> 
-> 2.17.1
-> 
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Is that the full patch? It is missing the register use in 
-hax_sync_vcpu_register()...
+> >=20
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>=20
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>=20
+> Thanks,
+>=20
+> C.
+>=20
+> > ---
+> >   hw/intc/xics.c             | 2 +-
+> >   hw/pci-host/pnv_phb3_msi.c | 7 -------
+> >   2 files changed, 1 insertion(+), 8 deletions(-)
+> >=20
+> > diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+> > index dcd021af668..dd130467ccc 100644
+> > --- a/hw/intc/xics.c
+> > +++ b/hw/intc/xics.c
+> > @@ -593,7 +593,7 @@ static void ics_reset(DeviceState *dev)
+> >  =20
+> >   static void ics_reset_handler(void *dev)
+> >   {
+> > -    ics_reset(dev);
+> > +    device_cold_reset(dev);
+> >   }
+> >  =20
+> >   static void ics_realize(DeviceState *dev, Error **errp)
+> > diff --git a/hw/pci-host/pnv_phb3_msi.c b/hw/pci-host/pnv_phb3_msi.c
+> > index 2f4112907b8..ae908fd9e41 100644
+> > --- a/hw/pci-host/pnv_phb3_msi.c
+> > +++ b/hw/pci-host/pnv_phb3_msi.c
+> > @@ -239,11 +239,6 @@ static void phb3_msi_reset(DeviceState *dev)
+> >       msi->rba_sum =3D 0;
+> >   }
+> >  =20
+> > -static void phb3_msi_reset_handler(void *dev)
+> > -{
+> > -    phb3_msi_reset(dev);
+> > -}
+> > -
+> >   void pnv_phb3_msi_update_config(Phb3MsiState *msi, uint32_t base,
+> >                                   uint32_t count)
+> >   {
+> > @@ -272,8 +267,6 @@ static void phb3_msi_realize(DeviceState *dev, Erro=
+r **errp)
+> >       }
+> >  =20
+> >       msi->qirqs =3D qemu_allocate_irqs(phb3_msi_set_irq, msi, ics->nr_=
+irqs);
+> > -
+> > -    qemu_register_reset(phb3_msi_reset_handler, dev);
+> >   }
+> >  =20
+> >   static void phb3_msi_instance_init(Object *obj)
+>=20
 
-Regards,
-
-Phil.
 
