@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E730A63891A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 12:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CA5638918
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 12:53:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyXGD-0005Zi-NV; Fri, 25 Nov 2022 06:52:49 -0500
+	id 1oyXGG-0005em-0c; Fri, 25 Nov 2022 06:52:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyXGB-0005XA-R0
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:47 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ id 1oyXGD-0005bF-Ua
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:49 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyXGA-000390-1m
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:47 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- h131-20020a1c2189000000b003d02dd48c45so166540wmh.0
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 03:52:45 -0800 (PST)
+ id 1oyXGA-00039G-Rf
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:49 -0500
+Received: by mail-wr1-x430.google.com with SMTP id z4so6419145wrr.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 03:52:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=s28HkAEMCk57TyI0FXFERjAS9/PKS+59lX976L2sL8o=;
- b=YSkgwhJoTfdg0iDC+4au1XEJJ+8CmZQLK4XrYxPqIGxckEhmjkI6vn3768ieAis94N
- knV6DIKmiVaTYCvCSa8Pu2GC2xr5aAPk+NmmW6Pou9RtFr+pWHAyuOCrCN74jx9bAzXQ
- +4PycKvqYIWJmTRsIGmQGdCg+QNQnT5zlz90o3jdK+L3EX1ifNbZ03fcxU2Enu6ORKMd
- 3uP07XR3SKNC/ZHmZXPs+6+YqV5FaQ9E1x2mb5Ptls7d6pw07N2VqiHRN4HfiQe50bz8
- wiDRod4WR5CcstakLKCnk4cyMQhRHQ8I82yrmiJ4Oebr93PvTh2AX3PGJbU1hZ9AAPWP
- +mpg==
+ bh=mCVlswDC9lwKyFBztWRL0YIC/KZJpgpptO+kyEAjxcg=;
+ b=w2PUQOIw3UeznxPGzVRgTGLt8tCJAQE29DyLXuwwuSx2OdcNDYDw6Vh3Je4D7iFtn+
+ H4H5QJFq19B61M5lovgMklSEodClfjnV/594HIcMETnxoME3MkuEEiR9k3Imolz7oZBf
+ 6KfzNt8JkqM1xT7Ni+CPWBWbkHBhjwnWCIs+SbEHIlVjauxMdg3fxuSwXoe0JPz3V7AJ
+ D+4rcgm+6L9bQDmvKFE3C8mXjhnSi4JR/Ck+cfhFMaKWtr1s7yBa70SeigmMpex+ameB
+ nuijq843OkKpWiEuYAHAHtTT7TIPQ8ZrPZNtyY2VTL1//pAmG0FiwZaiagUltOrFFDvG
+ ZP+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=s28HkAEMCk57TyI0FXFERjAS9/PKS+59lX976L2sL8o=;
- b=bzy0k415YNJ9js3SyGjg/4ELTcIbeTSH40WoL1Nwwkl0WlqabToQnKv4hbreHa+zrp
- aTkQZSzBoaJKrhaGcCzYxYHVU2qgzLc4DKwWQO0Lbl4BdNxeUFYLC5xEhojuq295lhJK
- ix/R9qqvukuMRZE+aM+RGQNLIAYFTWoeXZLiRDFI4e4rsq8Dps7WwIQt7j6D/R9lkL/U
- mv5jXZc/0CAnsMqK8x2sXubRqrZBXOb/pxk5yIpFU4Aj4DiuUFzB0zk22tvI5d+pJ6u6
- 5wqB5xemEK6KwJaKco+jPaSqV9syPo2rIrpXqjBdDoIAz/qiI9G6NrOQ+BQhiQtQdL6T
- Ka7A==
-X-Gm-Message-State: ANoB5pn54GPfvuJQlF0wdge+B3rdfaW+LsHspa+yGUlhcsmDdHOyKGdP
- IZQuAYZTssLctxBUDUgW+pWoTfnqAiwzPA==
-X-Google-Smtp-Source: AA0mqf4ldShfVfYENoYw7SQLc0SV7XhcD+85LzPMjGqQFQikBDeT6Rb5gu7qWX9O8bB79Tq2H/8SEg==
-X-Received: by 2002:a05:600c:4894:b0:3b4:91f1:da83 with SMTP id
- j20-20020a05600c489400b003b491f1da83mr16823006wmp.127.1669377164396; 
- Fri, 25 Nov 2022 03:52:44 -0800 (PST)
+ bh=mCVlswDC9lwKyFBztWRL0YIC/KZJpgpptO+kyEAjxcg=;
+ b=5Hrpv7NMhKZGDu0GrQywaRQ6jOp1QCaxCisIgOrn1JIFTjCF9jHl8SnqFAUK7T6HWf
+ /XfbEIW+EYMGMy7tBicTZSRA4BxZTIkrmIiutgiv/0QjdGYxoUDGdsdPqFsh/1D+toAU
+ py0s/8xRyB/ShhvK6t1RLU1UHuDTutz30RB3Hb+MYVe4NYjjQ5ymHBToR6mh7TYvqK1F
+ kLf+NM6zZ/+K0Sh2zebWeMmer+OERjGelMRVIv3aZukRXrJTcxYEXeT7vmPSH4pKk/YY
+ 1X3LYzHiulVb0VSCaAk5aDdC+Fo+zcXK/inHnRJ45CwYT34NU87dMe83Zr+vdrtSMqr3
+ swfQ==
+X-Gm-Message-State: ANoB5pnkPnlvjMuNAmsDIwMbAZKoOBnHwDGbQVvakUXo3iY0tpwAyI3K
+ Z7OpsQfu1FZZUXHrKPmGiQRJ83iA27afgw==
+X-Google-Smtp-Source: AA0mqf5s8UEDxvS+9cRt2rJ4F64e1QBrtilORmhIsm1c0eB+jWG+pz7tPLBJ4MT5mGdo+62D3hzR/A==
+X-Received: by 2002:adf:c64e:0:b0:236:78cd:f3d2 with SMTP id
+ u14-20020adfc64e000000b0023678cdf3d2mr23799409wrg.719.1669377165410; 
+ Fri, 25 Nov 2022 03:52:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- u17-20020a05600c19d100b003c6f8d30e40sm9728258wmq.31.2022.11.25.03.52.43
+ u17-20020a05600c19d100b003c6f8d30e40sm9728258wmq.31.2022.11.25.03.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 03:52:43 -0800 (PST)
+ Fri, 25 Nov 2022 03:52:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -62,24 +61,23 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Greg Kurz <groug@kaod.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 2/7] hw/display/virtio-vga: Convert
- TYPE_VIRTIO_VGA_BASE to 3-phase reset
-Date: Fri, 25 Nov 2022 11:52:35 +0000
-Message-Id: <20221125115240.3005559-3-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 3/7] pci: Convert TYPE_PCIE_ROOT_PORT to 3-phase reset
+Date: Fri, 25 Nov 2022 11:52:36 +0000
+Message-Id: <20221125115240.3005559-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221125115240.3005559-1-peter.maydell@linaro.org>
 References: <20221125115240.3005559-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,72 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the TYPE_VIRTIO_VGA_BASE class to 3-phase reset, so we
-don't need to use device_class_set_parent_reset() any more.
-
-Note that this is an abstract class itself; none of the subclasses
-override its reset method.
+Convert the TYPE_PCIE_ROOT_PORT device to 3-phase reset; this is a
+necessary precursor to converting any of its child classes.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/virtio-vga.h |  2 +-
- hw/display/virtio-vga.c | 15 +++++++++------
- 2 files changed, 10 insertions(+), 7 deletions(-)
+ hw/pci-bridge/pcie_root_port.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/virtio-vga.h b/hw/display/virtio-vga.h
-index 977ad5edc29..0bd9db1ceea 100644
---- a/hw/display/virtio-vga.h
-+++ b/hw/display/virtio-vga.h
-@@ -23,7 +23,7 @@ struct VirtIOVGABase {
- struct VirtIOVGABaseClass {
-     VirtioPCIClass parent_class;
- 
--    DeviceReset parent_reset;
-+    ResettablePhases parent_phases;
- };
- 
- #endif /* VIRTIO_VGA_H */
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index 4dcb34c4a74..e6fb0aa876c 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -165,13 +165,15 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     }
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
+index 460e48269d4..36bc0bafa7e 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -43,9 +43,10 @@ static void rp_write_config(PCIDevice *d, uint32_t address,
+     pcie_aer_root_write_config(d, address, val, len, root_cmd);
  }
  
--static void virtio_vga_base_reset(DeviceState *dev)
-+static void virtio_vga_base_reset_hold(Object *obj)
+-static void rp_reset(DeviceState *qdev)
++static void rp_reset_hold(Object *obj)
  {
--    VirtIOVGABaseClass *klass = VIRTIO_VGA_BASE_GET_CLASS(dev);
--    VirtIOVGABase *vvga = VIRTIO_VGA_BASE(dev);
-+    VirtIOVGABaseClass *klass = VIRTIO_VGA_BASE_GET_CLASS(obj);
-+    VirtIOVGABase *vvga = VIRTIO_VGA_BASE(obj);
+-    PCIDevice *d = PCI_DEVICE(qdev);
++    PCIDevice *d = PCI_DEVICE(obj);
++    DeviceState *qdev = DEVICE(obj);
  
-     /* reset virtio-gpu */
--    klass->parent_reset(dev);
-+    if (klass->parent_phases.hold) {
-+        klass->parent_phases.hold(obj);
-+    }
- 
-     /* reset vga */
-     vga_common_reset(&vvga->vga);
-@@ -203,13 +205,14 @@ static void virtio_vga_base_class_init(ObjectClass *klass, void *data)
-     VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-     VirtIOVGABaseClass *v = VIRTIO_VGA_BASE_CLASS(klass);
-     PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
+     rp_aer_vector_update(d);
+     pcie_cap_root_reset(d);
+@@ -171,13 +172,14 @@ static void rp_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
 +    ResettableClass *rc = RESETTABLE_CLASS(klass);
  
-     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-     device_class_set_props(dc, virtio_vga_base_properties);
-     dc->vmsd = &vmstate_virtio_vga_base;
-     dc->hotpluggable = false;
--    device_class_set_parent_reset(dc, virtio_vga_base_reset,
--                                  &v->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, virtio_vga_base_reset_hold,
-+                                       NULL, &v->parent_phases);
+     k->is_bridge = true;
+     k->config_write = rp_write_config;
+     k->realize = rp_realize;
+     k->exit = rp_exit;
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+-    dc->reset = rp_reset;
++    rc->phases.hold = rp_reset_hold;
+     device_class_set_props(dc, rp_props);
+ }
  
-     k->realize = virtio_vga_base_realize;
-     pcidev_k->romfile = "vgabios-virtio.bin";
 -- 
 2.25.1
 
