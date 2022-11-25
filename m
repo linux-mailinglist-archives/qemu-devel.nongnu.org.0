@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261E16383A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 06:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF595638408
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 07:36:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyRbP-00008X-S7; Fri, 25 Nov 2022 00:50:19 -0500
+	id 1oySIG-0001Mi-LH; Fri, 25 Nov 2022 01:34:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oyRbL-00007t-QQ; Fri, 25 Nov 2022 00:50:16 -0500
-Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oyRbK-0007Go-BM; Fri, 25 Nov 2022 00:50:15 -0500
-Received: by mail-vs1-xe2f.google.com with SMTP id i11so2217624vsr.7;
- Thu, 24 Nov 2022 21:50:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=l6HVFFOmAvTLByx3MS0m/GEV9m5DSYnfvLZ5zbd36Yw=;
- b=YbaNss//xkjgn6vwlRclAcco4ZTmD4lvppFQ4KTWJZWHbdXBO68jvnYcwHhIadgABQ
- uJqhONmkAd3/u3v93qrgDLlCvPM6utkpmCIYjKXq71ip5cyl55JUk2cfOQayBG8dUTbV
- LQz/MHsPf+ZHTWouVj9c4tqBi451aPSjblp3ODkBSNGmd6paUk7+0sXCMY3TBoebhInd
- sPRpTsA+mUjU4SaHo0+x5swLqHdlYiFeceuTcDja9zP3Fk0Mtxt8HPIXbmMKCSOFIzcB
- nUB8Ake8NuOPtiOP5alT2YLQp5ZDJbWpGMXrE9ILr960qitgu7bEvtPXVupzznRcWUv+
- wYCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=l6HVFFOmAvTLByx3MS0m/GEV9m5DSYnfvLZ5zbd36Yw=;
- b=B4gBQSDc8VZ4qFKUWojyQHvtJLIrY/oEze78dFRuNJABZi5Thd7ckrPyN2cdGQ2jXV
- WxMtmgOvEt2/K91AbtKdeMLZVWCEGO2CF8pbnmOu7RisDDoVbbw/fZuxe3l05aH10YaX
- 1VQmCPvUQfqHZsYAeET30DpWyPmHLuOFG0XpKpyRiB7KVtKtoaw5UcrAAdBXJzejLvrt
- 0/y9a+OVzx+d82y9ESqhY2WLoglUSYGa6QSxP3W1tKtAA99H9YOppLNSS2Tl7x4NMGD1
- LsCWOSNPHGFruyV2M3S4TNjSViHf7jo7ULFYmssMkfAdQytw3mrQn65Ft1gaDUcE25jr
- LeIw==
-X-Gm-Message-State: ANoB5plF1Dsssqgi/2B3vn0hdLn1PCN0m2FKL0PMhdZ2lSfjex+CBmvK
- rxi+KyVgeYAep+ZJ4mPbp/aeg44rUdSQjkQ0+4GP6OkJEog=
-X-Google-Smtp-Source: AA0mqf6aZtjWel5dtcJSUmPY7lYhIXMAdMk5owssiQn/IgV5cbNBLHH0wNqsKVbHMdV80QI7AFq9R62X9VZbCkRCldA=
-X-Received: by 2002:a05:6102:3bc1:b0:3a7:9b8c:2e4c with SMTP id
- a1-20020a0561023bc100b003a79b8c2e4cmr8981317vsv.72.1669355412051; Thu, 24 Nov
- 2022 21:50:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oySIE-0001Le-H0
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 01:34:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oySIC-0003k8-QV
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 01:34:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669358070;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=20YmKJ1xIuVAZcmOQeg3lNaxg8zLWHBwNz8/5i51puA=;
+ b=W4UQpLqopoY6wRwurdK4keMD7QbD3ug1El/ls5+1eEVxBsxKLENbQLaUhxxYs6/x811Sx3
+ TxWYa+ZYp+HHlIfBZa/9eq2Q4J3el3HoWbgkO8Mwn15/mUZsmv3B8oS8UJcrGYLwhHWOLy
+ 7myq/iGgVvYHu4gjuwio2DACKZCKLuU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-482-HeeoE-1sMqu-OkhVJdFDAQ-1; Fri, 25 Nov 2022 01:34:25 -0500
+X-MC-Unique: HeeoE-1sMqu-OkhVJdFDAQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 133DA29AB435;
+ Fri, 25 Nov 2022 06:34:25 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C26114C819;
+ Fri, 25 Nov 2022 06:34:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 6CA471800631; Fri, 25 Nov 2022 07:34:21 +0100 (CET)
+Date: Fri, 25 Nov 2022 07:34:21 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/4] Fixes 20221124 patches
+Message-ID: <20221125063421.y7th23snmahilgpt@sirius.home.kraxel.org>
+References: <20221124071602.1109150-1-kraxel@redhat.com>
+ <CAJSP0QUh2Pp9PdxTQ4HvrraF03eKBeUMJR8WhPN4GgEW36K93w@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221125050354.3166023-1-bmeng@tinylab.org>
-In-Reply-To: <20221125050354.3166023-1-bmeng@tinylab.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 25 Nov 2022 15:49:45 +1000
-Message-ID: <CAKmqyKP+oNAd+jwVFysF5GQaVwvvsmzg3iNb+5s-b6ZP_=BxQA@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Add some comments for sstatus CSR in
- riscv_cpu_dump_state()
-To: Bin Meng <bmeng@tinylab.org>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QUh2Pp9PdxTQ4HvrraF03eKBeUMJR8WhPN4GgEW36K93w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,47 +83,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 25, 2022 at 3:05 PM Bin Meng <bmeng@tinylab.org> wrote:
->
-> sstatus register dump is currently missing in riscv_cpu_dump_state().
-> As sstatus is a copy of mstatus, which is described in the priv spec,
-> it seems redundant to print the same information twice.
->
-> Add some comments for this to let people know this is intentional.
->
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+On Thu, Nov 24, 2022 at 01:03:21PM -0500, Stefan Hajnoczi wrote:
+> On Thu, 24 Nov 2022 at 02:27, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > usb+ui: fixes for 7.2
+> 
+> Hi Gerd,
+> I already applied your previous pull request so these patches are in
+> qemu.git/master. Do you want to revert the 8.0 patches that were
+> included in your previous pull request? I don't know how risky it is
+> to have them in 7.2. It's up to you.
+> 
+> 7d3cf19548 hw/audio/intel-hda: Drop unnecessary prototype
+> 3e95ef49e6 hw/audio/intel-hda: don't reset codecs twice
+> 1dfb7a175f hw/usb/hcd-xhci: Reset the XHCIState with device_cold_reset()
 
-Thanks!
+They look rather safe to me, Peter raised concerns though so I've
+re-sent the pull with them dropped.
 
-Applied to riscv-to-apply.next
+Peter?
 
-Alistair
+take care,
+  Gerd
 
-> ---
->
-> Changes in v2:
-> - Add some comments for missing sstatus
->
->  target/riscv/cpu.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index d14e95c9dc..a6c27977c5 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -382,6 +382,10 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
->              CSR_MHARTID,
->              CSR_MSTATUS,
->              CSR_MSTATUSH,
-> +            /*
-> +             * CSR_SSTATUS is intentionally omitted here as its value
-> +             * can be figured out by looking at CSR_MSTATUS
-> +             */
->              CSR_HSTATUS,
->              CSR_VSSTATUS,
->              CSR_MIP,
-> --
-> 2.34.1
->
->
 
