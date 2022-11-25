@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859826390DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 21:52:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D453D6390E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 21:54:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyff0-0000d5-At; Fri, 25 Nov 2022 15:50:58 -0500
+	id 1oyfhO-0001QX-4G; Fri, 25 Nov 2022 15:53:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oyfex-0000cc-Rs; Fri, 25 Nov 2022 15:50:55 -0500
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oyfev-0005me-FV; Fri, 25 Nov 2022 15:50:54 -0500
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-36cbcda2157so51264777b3.11; 
- Fri, 25 Nov 2022 12:50:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=m1aaK3L/+fA1S5eKN82KltOBbvGbfJ4TlIvoza+IPyw=;
- b=l3gTf7TUoc9iL/SgTiy+GEYudBjSTyVdGKME8sYqwLAFIObRvhzPW0QzYeRmjV89Qt
- NkrQ8MB2KMMGRqhxOI9to9n4zdrr0iffAlz9IO7TT/TIwNhJHSg12YVmT2T0Rx+KIDe+
- 1se3ZT8O3VTdlCSOW2fMx/b3hEVxhlyz4uio1sock78pasPqdmJBP5eHXd8i3zwzXkU1
- Psx9tyhHdYpAd7zPHNEYkuEv2aNBipJMeL/XA3qCU95Ygk1Ha5wBNWt1uVz6kWuyEJTZ
- YAJdTu3aCzEYkq0e6tvsgzu2o1fc0j72imSwtdy43wi8JzSBEHCHi862XgiGzWV96uni
- S7aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m1aaK3L/+fA1S5eKN82KltOBbvGbfJ4TlIvoza+IPyw=;
- b=MLo2kJnUtnPVSoIzO4H2TFnXNBr0Ptss9U93QFULwsOUc/7iPopgm4oaS4YISpT08c
- U9wsrlAU2bxziTlsWmm4VMWu533WngGIPgy4OjfxS9w81X5e1uIspaBQl3qaqeAwFzlW
- IeWtcYZHVn/brhMCn8Pl8eapreWfioPj4HVDva3fU8OXVqZTkXwR7r0iRaCbmlaHDuHr
- zHDCvGZnHYPIvDnMjsvYDTOf2ShWJcQL3LIhgwpFyq/gyYVWGQlYKYZq1Evp4EZCUR1i
- O/s5dPNCSGBx6DrwxSwZx/xpsk1bsjJrJBCQJ+pOFJL5fjC/hd1M55+0G63GtLmjeaZ4
- 0e1w==
-X-Gm-Message-State: ANoB5pmvBtTW05If9bBJn++kH0lRwpVLCk/u18eqo85bzzIeq4m5v4c7
- 69OxXcZqis+PhiKxnJlf7kDNyd8ap34p3ueZN4Q=
-X-Google-Smtp-Source: AA0mqf6izOmIYFcMdFa2CO/zMoPX1yegSe2t7mJ8gPebPe+YEtzHAulYddVjl5pQrZmjIh/lNDjRrZwzHLG4goXhgsw=
-X-Received: by 2002:a81:9204:0:b0:3bb:ff1:8d57 with SMTP id
- j4-20020a819204000000b003bb0ff18d57mr4239515ywg.62.1669409451684; Fri, 25 Nov
- 2022 12:50:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oyfhK-0001Pb-El; Fri, 25 Nov 2022 15:53:22 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oyfhG-0007g0-JQ; Fri, 25 Nov 2022 15:53:21 -0500
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 878895FF12;
+ Fri, 25 Nov 2022 23:52:55 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:16::1:7] (unknown [2a02:6b8:b081:16::1:7])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id sqTUt30NvqM1-mUM5bjS3; Fri, 25 Nov 2022 23:52:55 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1669409575; bh=Tudxd6deO2+mR+egwYxXaEZ907bK3wL8YtxoNABBLWo=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=rMVkkY51hDBX+i2rOByKrzBQ+fDWjqyBX+lxHJUNAixXdNJ0+p5ZuF74rywHB0Ifw
+ mu3mYeB8ltjE6yQE4cScjlYYemAubXXgOMC05DqkmUwqYi43pVCv+X0lvedVL1URf+
+ 41nj9XehWHEBoVQBK1bmRJLbuzZgiCodzhQ3g9s0=
+Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <3652488b-cc6e-4c51-5fec-93bba1d7f128@yandex-team.ru>
+Date: Fri, 25 Nov 2022 23:52:54 +0300
 MIME-Version: 1.0
-References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
-In-Reply-To: <20221125143946.27717-1-mhartmay@linux.ibm.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 25 Nov 2022 15:50:39 -0500
-Message-ID: <CAJSP0QVJJYAaY_9a-DTmKqFJ+yRKAoASBMXuqNuZHghk3KN9aQ@mail.gmail.com>
-Subject: Re: [PATCH] virtiofsd: Add `sigreturn` to the seccomp whitelist
-To: Marc Hartmayer <mhartmay@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>,
- virtio-fs@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Stefan Liebler <stli@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1131.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v6 12/14] block-coroutine-wrapper.py: support also basic
+ return types
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20221125133518.418328-1-eesposit@redhat.com>
+ <20221125133518.418328-13-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221125133518.418328-13-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,7 +78,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thanks, applied to qemu.git/master.
+On 11/25/22 16:35, Emanuele Giuseppe Esposito wrote:
+> Extend the regex to cover also return type, pointers included.
+> This implies that the value returned by the function cannot be
+> a simple "int" anymore, but the custom return type.
+> Therefore remove poll_state->ret and instead use a per-function
+> custom "ret" field.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-Stefan
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+> ---
+>   block/block-gen.h                  |  5 +----
+>   scripts/block-coroutine-wrapper.py | 19 +++++++++++--------
+>   2 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/block/block-gen.h b/block/block-gen.h
+> index 08d977f493..89b7daaa1f 100644
+> --- a/block/block-gen.h
+> +++ b/block/block-gen.h
+
+[..]
+
+>   
+>   # Match wrappers declared with a co_wrapper mark
+> -func_decl_re = re.compile(r'^int\s*co_wrapper'
+> +func_decl_re = re.compile(r'^(?P<return_type>[a-zA-Z][a-zA-Z0-9_]* [*]?)'
+
+hmm interesting. I'd just write \* to mean '*' symbol. Probably it's a tiny bit faster (and tiny bit shorter:)
+
+-- 
+Best regards,
+Vladimir
+
 
