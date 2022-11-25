@@ -2,91 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D643363895B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 13:08:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137BA638997
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 13:19:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyXTJ-0004nQ-W7; Fri, 25 Nov 2022 07:06:22 -0500
+	id 1oyXez-0000Ct-Hy; Fri, 25 Nov 2022 07:18:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oyXSs-0004Zo-51
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 07:06:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <wenchao.wang@intel.com>)
+ id 1oyXex-0000Cd-C1
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 07:18:23 -0500
+Received: from mga09.intel.com ([134.134.136.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oyXSk-0006px-7T
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 07:05:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669377943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f14Roe61rOQhUNaz54CYVqbQAmzby0UvKuMw8EV1jN4=;
- b=WN7LaUer5mb0AyQIGYyvdXPHLVzERZTZZpy5rL9Z7bCIFTjyAB+5sGYc8jvuE7/oMYpHLv
- YWm6cADbjWx0lZ41WvBv/7TqcmHsH7k5d0hsK1VlQTCtCg4cZ/2V6ZnXN/1UuPNPUQdkBI
- 3NLoqetaO0V0UV7RG52gXroge0Z9YQA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-128-tz78xx4JM8O8lfe57B7hfA-1; Fri, 25 Nov 2022 07:05:41 -0500
-X-MC-Unique: tz78xx4JM8O8lfe57B7hfA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d8-20020adf9b88000000b0024207f09827so192391wrc.20
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 04:05:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f14Roe61rOQhUNaz54CYVqbQAmzby0UvKuMw8EV1jN4=;
- b=r23Ci2T1IEuQ4BJ3+sETm3EStJu7vSiSiH73WXqydCf0N0PCwT+kR78l60/eYMByFy
- aDWtTLeU81/cSu9ZoZfQOwmjCP7TvQbap7vKM3OsNfwvCZ9zjUKYpkA0HEoPHFjXDX2j
- rOlkCULNLysMp89/PSu98n6zHkggyZpt56WL/VE+8QmF4yk+TalhocQ+5tkmmltXGcHi
- eARMww2zkQ/u9hCpRb8q17ryysoF8WpVjmEmyKUYCnhyxl/qgc9cEqhMnFNDEq5jUy1P
- vvn/hY7syNLHHVdxxu2vWAQbe0aqayQUrcD0SVLawC2yOHkFzF2ZG0ekf8NG2FK8/GR0
- qYXw==
-X-Gm-Message-State: ANoB5pkyWyU/0YV/Op8huKWIEIkDB4vCVpaQad5ooosjjfkplDarW7nh
- VZiNKlqrU9EDjjF5XsEgZbFH/uEtPLm++SzblSBCHNmOLW/yO531EAfNcqDT7jDt/Wee8lVGN/O
- mp2G0hCri+fqBNvk=
-X-Received: by 2002:adf:f60d:0:b0:22e:d91a:231b with SMTP id
- t13-20020adff60d000000b0022ed91a231bmr23731792wrp.78.1669377940579; 
- Fri, 25 Nov 2022 04:05:40 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4x15y4hgoLPm6SckY+uu4GXtHuoMOrEuqc+Tk5hrj9OYTbu6y6iGuYyDLd/jE+yZF4F5rSbA==
-X-Received: by 2002:adf:f60d:0:b0:22e:d91a:231b with SMTP id
- t13-20020adff60d000000b0022ed91a231bmr23731757wrp.78.1669377940155; 
- Fri, 25 Nov 2022 04:05:40 -0800 (PST)
-Received: from redhat.com ([2.52.16.74]) by smtp.gmail.com with ESMTPSA id
- bd9-20020a05600c1f0900b003c6bd12ac27sm5092705wmb.37.2022.11.25.04.05.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 04:05:39 -0800 (PST)
-Date: Fri, 25 Nov 2022 07:05:36 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
-Message-ID: <20221125070510-mutt-send-email-mst@kernel.org>
-References: <20221123152134.179929-1-alex.bennee@linaro.org>
- <20221123102522-mutt-send-email-mst@kernel.org>
- <87bkoxbqtd.fsf@linaro.org>
- <20221123110755-mutt-send-email-mst@kernel.org>
- <877czkbtbs.fsf@linaro.org>
- <20221124055230-mutt-send-email-mst@kernel.org>
- <87y1s09edk.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <wenchao.wang@intel.com>)
+ id 1oyXeu-0003Na-2o
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 07:18:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669378700; x=1700914700;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=agBJZMHI13mfKMYtjyyKkdLctdMqqFea+NrgTFO6+Cs=;
+ b=DeqBZqcic7A83d3vYtf8JsCxhoOXdk1CwYHSLAX1x/NHrOdOaTS6ysoK
+ 6fQ+8W1pVOey4KeybFFvn1oUc7yIeXRwRwvCvWd/lvFniab3HFBJfHEJh
+ txgHOHGBY8Xpzl3ozdvBixqyKTaJx7Ep/Ijlc/Zd+wpVYazDks+eVdIeR
+ wPTKKkJ8FoSNTCthyho+Ta1LGHLSJNNvZ9Exgn0FWLhV735TOwGcHNd5W
+ FLZ3htaG0YY30E2mRwHS7C6Cm8sAr0hszU6PG+qg1OyTPCiCuG4qh1onj
+ ll8lKPNeycOJvk89aPJcRJkN6B7nWEKKfNc6mce0Z0/3LNlkMSs/jUnjK A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="315630271"
+X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
+ d="scan'208,217,223";a="315630271"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2022 04:18:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="711260509"
+X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
+ d="scan'208,217,223";a="711260509"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga004.fm.intel.com with ESMTP; 25 Nov 2022 04:18:11 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 25 Nov 2022 04:18:11 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 25 Nov 2022 04:18:11 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Fri, 25 Nov 2022 04:18:11 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Fri, 25 Nov 2022 04:18:11 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fzylkNJGzLNImzO8qDDa9Iqtv3y/j8V6YjyYAKGv9W3EzZNFynQvp747WrTMvTTts97Oc0h3H56aDPhpCuUHKud6llDPO2hIaPU9becaPlPpBBI1D3c07sNQk6c5jXOaLpRtIvC8KbjJNwDRhXQm8y8o3+8at0TWfjBLGZVnEBiAyml/Q6RjqRG3MFzMTc2fHcSqk1W9rh3+VzRjaNhYIr32cXemNpNGuqukjKyOuLYxuHC66vILuGX4YRPAJlH6OrdFEUStuGub5cvygXYQ4Q6HmdD+l7q9iR95PfYAXO0pNe3n5QMFR3Aom/ERWDGpd7Ycaia2/g2FsFa/1ff8Fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E5wk/FOf6kIXSLNCOTgXsIYT/5ZoPjO0ft1NkhRkzgo=;
+ b=f3bNnBm09Z0hMkLZMqn2qeIOLzvCGMexQ4MEdY15t9YOhd+ssdhgoctVoRXt6zkJx+o/NTd6S99z8a2D3Q2alt0OPWpk2rQKQX1RfZHlnUslV5ieuwdeUGL256a5cYGNxC9uFSAixwj0bMpwq+RJZdAsBHJi04ipC7uFBVyxDS45CUwgPAJDhhibePQvGtYFk6T8WU0XwkDq+GR20hHbf0/9TQN8KnC+TPU86yr5WMeXL5V05jI8YywixoW6yvhyuiIFYJV7QNq6Ds2xPXCoN5/jbVOZ3ohU2DUVwgfcT9ZCpVcvFXrMPCVYvu6Wfm4XK4LiB7D0HNEc15B6YDX/+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB4090.namprd11.prod.outlook.com (2603:10b6:5:195::10)
+ by BN9PR11MB5323.namprd11.prod.outlook.com (2603:10b6:408:118::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.20; Fri, 25 Nov
+ 2022 12:18:09 +0000
+Received: from DM6PR11MB4090.namprd11.prod.outlook.com
+ ([fe80::caa8:f626:10c8:9ae2]) by DM6PR11MB4090.namprd11.prod.outlook.com
+ ([fe80::caa8:f626:10c8:9ae2%2]) with mapi id 15.20.5857.019; Fri, 25 Nov 2022
+ 12:18:09 +0000
+From: "Wang, Wenchao" <wenchao.wang@intel.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: haxm-team <haxm-team@intel.com>
+Subject: [PATCH] target/i386/hax: Add XCR0 support
+Thread-Topic: [PATCH] target/i386/hax: Add XCR0 support
+Thread-Index: AdkAvHco0a5CAnUYQy+c+kGSr8NH7w==
+Date: Fri, 25 Nov 2022 12:18:09 +0000
+Message-ID: <DM6PR11MB40909B4A33D66A3100F6D219870E9@DM6PR11MB4090.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB4090:EE_|BN9PR11MB5323:EE_
+x-ms-office365-filtering-correlation-id: d4aae076-5be2-4db4-0199-08dacedf1d5a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Lh+t65D4g4dYZ3+Ru6jZeu5a++N3gVzCNOgCQXnYho9E76yKaTdPkIcChPkEXYF2vnsO/xmJYgAP2dbjE0EV6KVlPXs1Um2QnqNRl1Nh0yxsRgLCniMUz1RpQnVqTw//xhNQQgld4OuKoDLxJTWJO5a4OrcxfpgCpt3Y9R8X8Lf8Ydk9Qe0sbT8eBqtIJyj/aHjMhIfK5qWFj8qOw46M4DdBaNQTZgVwTHy1farPxpz30GWLb94YxeyVJKOzzgU7bRMflpamyiPg88uF5AGZ36T+fQeojNc7ZCYms5AF2A4SO1J2yudIQL41uwJ50stkPtyCtAw/RUGo0l3ph3Bx2F4UjKhgKBF4agvankQqVUn3tUPXIl0sEcWIcTKPl1b8Pt6yJ06ZyaGhvaS+avsKuSQ/ZKLWNqknd1NR+FOk5ePcyZVtJlGgvoBn/Ivv1p188nwwK8zssy1WMlm2e9vzBKMWo3uAgXigdubAqEm9LJoPpVCETDLCVuXIcvff/PPaPoZQoYXyg06JeJo48V7SEckJVXuJW0GUocAogSKOiok9Kbbn0iYLEjxT09aq+SOhvi03FxlmGHZQJIy01jqH1/X4B89fWNBzQBbqRcq+wIPSSMjV3w78qJdSAFbH5EPqWlfjL9tnX+KbD01gYUUAhRIpz+J3sTqO+EngYFlh6sYBjj9DkD9GYzwJ9pvuMvCsXGd3Mrq83wiMJCqrgcKaeQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB4090.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(396003)(346002)(366004)(136003)(376002)(451199015)(52536014)(66946007)(76116006)(41300700001)(8936002)(4326008)(66446008)(66556008)(64756008)(8676002)(66476007)(53546011)(26005)(9686003)(71200400001)(478600001)(38070700005)(33656002)(55016003)(86362001)(6506007)(2906002)(7696005)(186003)(6916009)(107886003)(316002)(38100700002)(5660300002)(99936003)(82960400001)(122000001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LGq0faJSdo3pjDeZdgAPa5xUUS2LuwSWWm7Fah/cXBtXlD/1F9xPxIeDAnPH?=
+ =?us-ascii?Q?lDbioJX8cXZHzNUu9C9/yzk8RMBsawYEafriQK0mRZiZuf5USh6B0qhUTyph?=
+ =?us-ascii?Q?AbawgRdwG2OWQsblsAOBmz+VKUh+kDMsPx4B7eD7NqIB5n3YmW9+Z+6SHgVg?=
+ =?us-ascii?Q?xsaTkA4+DI0HsqXJ3Y3x9tzfAx+PMRMk8A2ARgvq/oCGg2tBv0AbLu3TKOvn?=
+ =?us-ascii?Q?i80yrO1OsNe946iGNoKUcQ/6lBPS5Q/ewOQVdCQohZ4/mukQU/n1jrbVOnXm?=
+ =?us-ascii?Q?aOAWnM3QTnliEkw0Kz9N7sVnT4RyWdJYt07u1DZtJihWGYP0Xsbh02t/juQH?=
+ =?us-ascii?Q?DpK7A6/hLuIR74z/kYQOX8u+vUxlJz6JN0luK5rt2ocEI/IjVuwGZ8/1jr96?=
+ =?us-ascii?Q?ayWth/di99rZUMFSwI9q7CUubGYGkPk4WDxzHTyKFx1twr0g5IzSrDEEdESi?=
+ =?us-ascii?Q?C/waGyN1juqrRAIsMdQC//KCvagMHysYuOaY4NSf/rbRH2ipggCIg5ywzV41?=
+ =?us-ascii?Q?2QTqTfWpfh3Emy4wbBmpCxEM1nspsaqTHzNWZksHhRoWpQhIoh8Ow46C/vLy?=
+ =?us-ascii?Q?8L7TWzLRsJoxoxmu31EuS6V2afTjWGMwXh+znLbQ+QcQismQ6MZFWnjDFk8q?=
+ =?us-ascii?Q?HAxa6hH03ou963BTJANWetgZPzw89NG9DiiaZwZpcpCuf01tVZiJ2K+JTxVH?=
+ =?us-ascii?Q?zH4PessnONTBH2/3o9SH3NFImbF0EOFP5jTkGdIr3k+F/IyBlajJUrGVPxfw?=
+ =?us-ascii?Q?ckDLf1xnfy+TqvKIyIzhZpZ4YRr6rpxmvnlhS6te6TdVry1RtksV7mhhe2yN?=
+ =?us-ascii?Q?6Hg0ECs5UFXsexlnMWI/1TLhexJ4bzzNoOuXREeBndOkDttazfnSXn75E8N/?=
+ =?us-ascii?Q?xVspYoJQG00j1CTIhKT3CKq3mdtO6p0yeJ1ttoD+PiinM26tp6L1nD3G9Bue?=
+ =?us-ascii?Q?WbbRy/epPn21ygi/an77BC/DpM3PJpqyh+BbIQteNNbw3DJhJC5x797pL17v?=
+ =?us-ascii?Q?/pZYFgNyiNgo1OKDZ/QGOvBz7gr1Y/izb2qekGFOGl0zHP7Khz1ltsAATXiH?=
+ =?us-ascii?Q?+nr9+hgR0sT60FG6XeLkPohJWU5i1ZgARStBeYFcRVLtUhVaw8lGKdfp6DEd?=
+ =?us-ascii?Q?uNVBfofPvqnjTrCwgZbiie5yDWZmOkSUQYBBvJg+6QaS3/YfkcOMZbuTTE3U?=
+ =?us-ascii?Q?I59iSISHonFuubXm8Gi/gW/qB1eM9yddIVCwGAA3YL1KrPSWSBsGkAfgZiey?=
+ =?us-ascii?Q?fVhzo3Ou0aV4XsNur5WddezTT8BmWu1BMr12+/KoEVJXGOvbhK4kjJXqZNWX?=
+ =?us-ascii?Q?xIHJmH9jc8yxTn6yMatTV6nm9lJs5Ewe059yMqrXm0OQTNUfyZpgcToitr6b?=
+ =?us-ascii?Q?dV309TL2Ia+IzaeI3lu4HT5z7dGQqLrFMdE6W2NRitFd7OkbWFYm698asbnm?=
+ =?us-ascii?Q?goakoyMOT9O/HqgmzsfWyhLc38QSamikK5M296+3ku4EyFuSoxA14R3HxFrR?=
+ =?us-ascii?Q?7pgwS8l03bXSo2NKczn5BjGNoX2Ox6rY+inN7T20GOYs3wI34j4C74h4fESU?=
+ =?us-ascii?Q?1uNRKMM7y+BwXb+/xJUGoZgBcC81BYuMOQFUC1ge?=
+Content-Type: multipart/mixed;
+ boundary="_004_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87y1s09edk.fsf@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4090.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4aae076-5be2-4db4-0199-08dacedf1d5a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2022 12:18:09.1657 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 07eYr6/o7t52LwbGq84Po6JPgxzAk2dZHnnTBIzhVOOmbqFQf8z0B87TFdUqZwxBiQIYzbyjUBm7uonZvDXhFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5323
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.24;
+ envelope-from=wenchao.wang@intel.com; helo=mga09.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,162 +167,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 24, 2022 at 10:24:14PM +0000, Alex Bennée wrote:
-> 
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > On Thu, Nov 24, 2022 at 09:21:15AM +0000, Alex Bennée wrote:
-> >> 
-> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> >> 
-> >> > On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Bennée wrote:
-> >> >> 
-> >> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> >> >> 
-> >> >> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Bennée wrote:
-> >> >> >> Hi,
-> >> >> >> 
-> >> >> >> This hopefully fixes the problems with VirtIO migration caused by the
-> >> >> >> previous refactoring of virtio_device_started(). That introduced a
-> >> >> >> different order of checking which didn't give the VM state primacy but
-> >> >> >> wasn't noticed as we don't properly exercise VirtIO device migration
-> >> >> >> and caused issues when dev->started wasn't checked in the core code.
-> >> >> >> The introduction of virtio_device_should_start() split the overloaded
-> >> >> >> function up but the broken order still remained. The series finally
-> >> >> >> fixes that by restoring the original semantics but with the cleaned up
-> >> >> >> functions.
-> >> >> >> 
-> >> >> >> I've added more documentation to the various structures involved as
-> >> >> >> well as the functions. There is still some inconsistencies in the
-> >> >> >> VirtIO code between different devices but I think that can be looked
-> >> >> >> at over the 8.0 cycle.
-> >> >> >
-> >> >> >
-> >> >> > Thanks a lot! Did you try this with gitlab CI? A patch similar to your
-> >> >> > 2/2 broke it previously ...
-> >> >> 
-> >> >> Looking into it now - so far hasn't broken locally but I guess there is
-> >> >> something different about the CI.
-> >> >
-> >> >
-> >> > yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
-> >> >
-> >> > Or with QEMU_CI set to 1 and then run fedora container and then
-> >> > clang-system manually.
-> >> 
-> >> I'm having trouble re-creating the failures in CI locally on my boxen. I
-> >> have triggered a bug on s390 but that looks like a pre-existing problem
-> >> with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
-> >> think that is a limitation of the test harness.
-> >> 
-> >> Will keep looking.
-> >
-> > Why not just trigger it on gitlab CI - it's very repeatable there?
-> 
-> I can repeat a problem locally on Debian Bullseye and Ubuntu 22.04 with clang and leak sanitizer:
-> 
->   # QEMU configure log Thu 24 Nov 16:02:56 GMT 2022
->   # Configured with: '../../configure' '--cc=clang' '--cxx=clang++' '--enable-sanitizers' '--target-list=arm-softmmu,aarch64-softmmu,i386-softmmu,x86_64-softmmu,ppc64-softmmu'#
-> 
-> And the command:
-> 
->   env QTEST_QEMU_BINARY=./qemu-system-arm QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon QTEST_QEMU_IMG=./qemu-img MALLOC_PERTURB_=178 G_TEST_DBUS_DAEMON=/home/alex.bennee/lsrc/qemu.git/tests/dbus-vmstate-daemon.sh ./tests/qtest/qos-test -p /arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess
-> 
-> Gives the following failure, while a leak may not be that exciting it
-> does point to a potential corruption issue. Unfortunately I don't get a
-> decent backtrace from the tool:
-> 
->   # random seed: R02S071fe8d68317a8b01e5e7fadbf1ac60a
->   # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-1024352.qmp,id=char0 -mon chardev=char0,mode=control -display none -machine none -accel qtest
->   ==1024354==WARNING: ASan doesn't fully support makecontext/swapcontext functions and may produce false positives in some cases!
->   # Start of arm tests
->   # Start of virt tests
->   # Start of virtio-mmio tests
->   # Start of virtio-bus tests
->   # Start of vhost-user-gpio-device tests
->   # Start of vhost-user-gpio tests
->   # Start of vhost-user-gpio-tests tests
->   # Start of read-guest-mem tests
->   # Start of memfile tests
->   # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-1024352.qmp,id=char0 -mon chardev=char0,mode=control -display none -M virt  -device vhost-user-gpio-device,id=gpio0,chardev=chr-vhost-user-test -m 256 -object memory-backend-memfd,id=mem,size=256M, -numa node,memdev=mem -chardev socket,id=chr-vhost-user-test,path=/tmp/vhost-test-8DD2V1/vhost-user-test.sock -accel qtest
->   # GLib-DEBUG: setenv()/putenv() are not thread-safe and should not be used after threads are created
->   ==1024371==WARNING: ASan doesn't fully support makecontext/swapcontext functions and may produce false positives in some cases!
->   # set_protocol_features: 0x200
->   # set_owner: start of session
->   # vhost-user: un-handled message: 14
->   # vhost-user: un-handled message: 14
->   # set_vring_num: 0/1024
->   qemu-system-arm: Failed to set msg fds.
->   qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->   qemu-system-arm: Failed to set msg fds.
->   qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->   qemu-system-arm: Failed to set msg fds.
->   qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
->   qemu-system-arm: Failed to set msg fds.
->   qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
->   ok 1 /arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess # SKIP No memory at address 0x0
->   # End of memfile tests
->   # End of read-guest-mem tests
->   # End of vhost-user-gpio-tests tests
->   # End of vhost-user-gpio tests
->   # End of vhost-user-gpio-device tests
->   # End of virtio-bus tests
->   # End of virtio-mmio tests
->   # End of virt tests
->   # End of arm tests
->   1..1
-> 
->   =================================================================
->   ==1024371==ERROR: LeakSanitizer: detected memory leaks
-> 
->   Direct leak of 240 byte(s) in 1 object(s) allocated from:
->       #0 0x561d9a5d7a18 in __interceptor_calloc (/home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/qemu-system-arm+0x1d1fa18) (BuildId: 0bdc7c2ada2277089db16d57f17c314e9e53e41c)
->       #1 0x7f46ee656c40 in g_malloc0 (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x5ec40) (BuildId: 0ab0b740e34eeb0c84656ba53737f4c440dfbed4)
->       #2 0x561d9bf7875b in virtio_device_realize /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../hw/virtio/virtio.c:4175:9
->       #3 0x561d9c321bf4 in device_set_realized /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../hw/core/qdev.c:566:13
->       #4 0x561d9c33dda8 in property_set_bool /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../qom/object.c:2285:5
->       #5 0x561d9c338fb3 in object_property_set /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../qom/object.c:1420:5
->       #6 0x561d9c344c7c in object_property_set_qobject /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../qom/qom-qobject.c:28:10
->       #7 0x561d9b367954 in qdev_device_add /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../softmmu/qdev-monitor.c:733:11
->       #8 0x561d9b36f832 in qemu_create_cli_devices /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2536:5
->       #9 0x561d9b36f832 in qmp_x_exit_preconfig /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2604:5
->       #10 0x561d9b37613f in qemu_init /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:3601:9
->       #11 0x561d9a6125a5 in main /home/alex.bennee/lsrc/qemu.git/builds/all.clang-sanitizers/../../softmmu/main.c:47:5
-> 
->   SUMMARY: AddressSanitizer: 240 byte(s) leaked in 1 allocation(s).
->   ../../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process but encountered exit status 1 (expected 0)
->   fish: Job 1, 'env QTEST_QEMU_BINARY=./qemu-sy…' terminated by signal SIGABRT (Abort)
->   🕙22:26:18 alex.bennee@hackbox2:qemu.git/builds/all.clang-sanitizers  on  for-7.2/virtio-fixes [$?] [⚡ IOT]
->   ✗
+--_004_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_
+Content-Type: multipart/alternative;
+	boundary="_000_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_"
+
+--_000_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hi, maintainers,
+
+As HAXM v7.8.0 is released and it added XCR0 support, could you help to mer=
+ge this patch to add corresponding support into HAX user space of QEMU? The=
+ patch has been included in the attachment. Thanks.
 
 
-ok ... was gpio always like this? from 1st commit? if not bisect?
+Best Regards,
+Wenchao
 
-> 
-> 
-> >> >
-> >> >> >
-> >> >> >> Alex Bennée (2):
-> >> >> >>   include/hw: attempt to document VirtIO feature variables
-> >> >> >>   include/hw: VM state takes precedence in virtio_device_should_start
-> >> >> >> 
-> >> >> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
-> >> >> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++++------
-> >> >> >>  2 files changed, 59 insertions(+), 9 deletions(-)
-> >> >> >> 
-> >> >> >> -- 
-> >> >> >> 2.34.1
-> >> >> 
-> >> >> 
-> >> >> -- 
-> >> >> Alex Bennée
-> >> 
-> >> 
-> >> -- 
-> >> Alex Bennée
-> 
-> 
-> -- 
-> Alex Bennée
 
+From b1789f2523d06798b8883664bfa9a9df797bfccf Mon Sep 17 00:00:00 2001
+From: Wenchao Wang <wenchao.wang@intel.com>
+Date: Fri, 25 Nov 2022 18:37:34 +0800
+Subject: [PATCH] target/i386/hax: Add XCR0 support
+
+Introduce extended control register XCR0 to support XSAVE feature set.
+
+Note: This change requires at least HAXM v7.8.0 to support.
+
+Reviewed-by: Hang Yuan <hang.yuan@intel.com>
+Signed-off-by: Wenchao Wang <wenchao.wang@intel.com>
+---
+target/i386/hax/hax-interface.h | 2 ++
+1 file changed, 2 insertions(+)
+
+diff --git a/target/i386/hax/hax-interface.h b/target/i386/hax/hax-interfac=
+e.h
+index 537ae084e9..1d13bb2380 100644
+--- a/target/i386/hax/hax-interface.h
++++ b/target/i386/hax/hax-interface.h
+@@ -201,6 +201,8 @@ struct vcpu_state_t {
+     uint64_t _cr3;
+     uint64_t _cr4;
++    uint64_t _xcr0;
++
+     uint64_t _dr0;
+     uint64_t _dr1;
+     uint64_t _dr2;
+--
+2.17.1
+
+
+--_000_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi, maintainers,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">As HAXM v7.8.0 is released and it added XCR0 support=
+, could you help to merge this patch to add corresponding support into HAX =
+user space of QEMU? The patch has been included in the attachment. Thanks.<=
+o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Best Regards,<o:p></o:p></p>
+<p class=3D"MsoNormal">Wenchao<o:p></o:p></p>
+<div style=3D"mso-element:para-border-div;border:none;border-bottom:double =
+windowtext 2.25pt;padding:0in 0in 1.0pt 0in">
+<p class=3D"MsoNormal" style=3D"border:none;padding:0in"><o:p>&nbsp;</o:p><=
+/p>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">From b1789f2523d06798b8883664bfa9a9df797bfccf Mon Se=
+p 17 00:00:00 2001<o:p></o:p></p>
+<p class=3D"MsoNormal">From: Wenchao Wang &lt;wenchao.wang@intel.com&gt;<o:=
+p></o:p></p>
+<p class=3D"MsoNormal">Date: Fri, 25 Nov 2022 18:37:34 +0800<o:p></o:p></p>
+<p class=3D"MsoNormal">Subject: [PATCH] target/i386/hax: Add XCR0 support<o=
+:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Introduce extended control register XCR0 to support =
+XSAVE feature set.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Note: This change requires at least HAXM v7.8.0 to s=
+upport.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Reviewed-by: Hang Yuan &lt;hang.yuan@intel.com&gt;<o=
+:p></o:p></p>
+<p class=3D"MsoNormal">Signed-off-by: Wenchao Wang &lt;wenchao.wang@intel.c=
+om&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">---<o:p></o:p></p>
+<p class=3D"MsoNormal">target/i386/hax/hax-interface.h | 2 ++<o:p></o:p></p=
+>
+<p class=3D"MsoNormal">1 file changed, 2 insertions(+)<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">diff --git a/target/i386/hax/hax-interface.h b/targe=
+t/i386/hax/hax-interface.h<o:p></o:p></p>
+<p class=3D"MsoNormal">index 537ae084e9..1d13bb2380 100644<o:p></o:p></p>
+<p class=3D"MsoNormal">--- a/target/i386/hax/hax-interface.h<o:p></o:p></p>
+<p class=3D"MsoNormal">+++ b/target/i386/hax/hax-interface.h<o:p></o:p></p>
+<p class=3D"MsoNormal">@@ -201,6 +201,8 @@ struct vcpu_state_t {<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; uint64_t _cr3;<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; uint64_t _cr4;<o:p></o:p></=
+p>
+<p class=3D"MsoNormal"><o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp; uint64_t _xcr0;<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; uint64_t _dr0;<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; uint64_t _dr1;<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; uint64_t _dr2;<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">-- <o:p></o:p></p>
+<p class=3D"MsoNormal">2.17.1<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_--
+
+--_004_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_
+Content-Type: application/octet-stream;
+	name="0001-target-i386-hax-Add-XCR0-support.patch"
+Content-Description: 0001-target-i386-hax-Add-XCR0-support.patch
+Content-Disposition: attachment;
+	filename="0001-target-i386-hax-Add-XCR0-support.patch"; size=884;
+	creation-date="Fri, 25 Nov 2022 10:57:00 GMT";
+	modification-date="Fri, 25 Nov 2022 12:18:08 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSBiMTc4OWYyNTIzZDA2Nzk4Yjg4ODM2NjRiZmE5YTlkZjc5N2JmY2NmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBXZW5jaGFvIFdhbmcgPHdlbmNoYW8ud2FuZ0BpbnRlbC5jb20+
+CkRhdGU6IEZyaSwgMjUgTm92IDIwMjIgMTg6Mzc6MzQgKzA4MDAKU3ViamVjdDogW1BBVENIXSB0
+YXJnZXQvaTM4Ni9oYXg6IEFkZCBYQ1IwIHN1cHBvcnQKCkludHJvZHVjZSBleHRlbmRlZCBjb250
+cm9sIHJlZ2lzdGVyIFhDUjAgdG8gc3VwcG9ydCBYU0FWRSBmZWF0dXJlIHNldC4KCk5vdGU6IFRo
+aXMgY2hhbmdlIHJlcXVpcmVzIGF0IGxlYXN0IEhBWE0gdjcuOC4wIHRvIHN1cHBvcnQuCgpSZXZp
+ZXdlZC1ieTogSGFuZyBZdWFuIDxoYW5nLnl1YW5AaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBX
+ZW5jaGFvIFdhbmcgPHdlbmNoYW8ud2FuZ0BpbnRlbC5jb20+Ci0tLQogdGFyZ2V0L2kzODYvaGF4
+L2hheC1pbnRlcmZhY2UuaCB8IDIgKysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykK
+CmRpZmYgLS1naXQgYS90YXJnZXQvaTM4Ni9oYXgvaGF4LWludGVyZmFjZS5oIGIvdGFyZ2V0L2kz
+ODYvaGF4L2hheC1pbnRlcmZhY2UuaAppbmRleCA1MzdhZTA4NGU5Li4xZDEzYmIyMzgwIDEwMDY0
+NAotLS0gYS90YXJnZXQvaTM4Ni9oYXgvaGF4LWludGVyZmFjZS5oCisrKyBiL3RhcmdldC9pMzg2
+L2hheC9oYXgtaW50ZXJmYWNlLmgKQEAgLTIwMSw2ICsyMDEsOCBAQCBzdHJ1Y3QgdmNwdV9zdGF0
+ZV90IHsKICAgICB1aW50NjRfdCBfY3IzOwogICAgIHVpbnQ2NF90IF9jcjQ7CiAKKyAgICB1aW50
+NjRfdCBfeGNyMDsKKwogICAgIHVpbnQ2NF90IF9kcjA7CiAgICAgdWludDY0X3QgX2RyMTsKICAg
+ICB1aW50NjRfdCBfZHIyOwotLSAKMi4xNy4xCgo=
+
+--_004_DM6PR11MB40909B4A33D66A3100F6D219870E9DM6PR11MB4090namp_--
 
