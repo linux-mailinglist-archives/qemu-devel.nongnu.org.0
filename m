@@ -2,99 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02074638C6A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 15:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D9D638CCA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 15:56:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyZsM-0001gk-C4; Fri, 25 Nov 2022 09:40:22 -0500
+	id 1oya5v-0000y6-Tq; Fri, 25 Nov 2022 09:54:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1oyZsB-0001eP-Iz; Fri, 25 Nov 2022 09:40:12 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1oyZs8-0003hB-MF; Fri, 25 Nov 2022 09:40:11 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2APERuTE022326; Fri, 25 Nov 2022 14:40:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=4KsWE9zzs0hf6f7CsWPNjjvXaflZNjZ14dxEJ23gbFY=;
- b=TUd9JjUTANaQlkXewVe86jDc/c72El2CG7KjUJk3g3B5jvppoHtjWEmUhzRMr6SviI4a
- 5uZsFpBrpxWIqhw1qX2S+y8+nTblJegqcsSP2DLhSYQ3v7GmtvQ2sCWWejZ1GQ0Jjt/E
- Oio3D7JoqM7VgF07SB/TivHMjthK8uNiAA/lTfUiA7NuqMPNf91bYhUXjVDcSRvKnMCm
- OnZjdRXQXVxyQMpos8orU5wNUvg5U0tA0fE43xR0yyDa6HE3drFHNE0n38eMWu1xF5Tq
- E0bdo0wzwtC/4REUpe8nNg0OskVXpDZt3G8G3HObJ8O92ECn92+QHwV4KvaDGeVjKQsy jA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m2yg68896-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Nov 2022 14:40:03 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2APESpnF024556;
- Fri, 25 Nov 2022 14:40:03 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m2yg68880-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Nov 2022 14:40:03 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2APEZLcS011242;
- Fri, 25 Nov 2022 14:40:01 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04ams.nl.ibm.com with ESMTP id 3kxps91pxk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Nov 2022 14:40:01 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2APEdvni17433316
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Nov 2022 14:39:57 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9DA442041;
- Fri, 25 Nov 2022 14:39:57 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 597464203F;
- Fri, 25 Nov 2022 14:39:57 +0000 (GMT)
-Received: from marcibm.ibmuc.com (unknown [9.171.30.243])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 25 Nov 2022 14:39:57 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
-To: <qemu-devel@nongnu.org>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, virtio-fs@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Stefan Liebler <stli@linux.ibm.com>
-Subject: [PATCH] virtiofsd: Add `sigreturn` to the seccomp whitelist
-Date: Fri, 25 Nov 2022 15:39:46 +0100
-Message-Id: <20221125143946.27717-1-mhartmay@linux.ibm.com>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oya5t-0000xv-W3
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:54:22 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oya5r-00010C-Ob
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:54:21 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ i64-20020a1c3b43000000b003d016c21100so6369886wma.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 06:54:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kNNyzEGeNqHokS0ZOOTVnUzmQM+1t4MJg0ST3Bl9RqY=;
+ b=ouFQtlRhwrWDTMNlG66byVKEOt/CE6BE4LRpi/C/5L3T4wrBOAA7wx9XOjrfDAbceQ
+ w/UpKV1sHScplnVKmYM1If2M+QLsW7W8SrPNGl0op8ku5+StETgrW40GNQDq469sJRWV
+ rieootIZXEElA/CpR8NyN7yyrYX788914FBod7knuKA1kOaqC0NNlsxEaVfng45Trn9c
+ f3rty8XMjpL4T804Ed/sXLp12mjswdO0XgGGeqZ+GfK3GFgPH1hdOx7ylbzNXj/dmsIU
+ zWJ9CNjDFbcRgMmqTdePcuWeQkWAemey5TX20vPAIo53+KtQFvDY2FuOZfcZighny34+
+ dPpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=kNNyzEGeNqHokS0ZOOTVnUzmQM+1t4MJg0ST3Bl9RqY=;
+ b=WIN0maurg+Gyz86sJ/3am9Ypr8MdBKF1WPgr8shBmeob3Dh5iCLy3KN5nte8IaMEfX
+ FbgMaIB05jGaYIYJ2WmpdAsYo+LSbsoJg4rP0uTN/iELoFJbxuHqUt5BX/cCDXNK5Lqh
+ I/2sPCodTb8EsnMSLH2bTxYl7IzOVWMM65kX1HZ4C75PcczwR1bHHs8hfcplZtulrVZf
+ YxiclhnRXQcsNwB2yh4RLjrfJffSYaC/0itUd5o62Fj0wGwLsq5ODHChjzFGwroUZ789
+ JgW2rbljGNBC7AEnw7PEHUEtG/L3DRu+m34jZ4iqlyjrQ8lmEdJsEb5VJc0vRYWoCdg9
+ 2Q7Q==
+X-Gm-Message-State: ANoB5plbHKJxZDlUh9eCJYkiphzxZ8hdmQLKB5JXTPc7SrotPUo3ETcG
+ YtsPnG7usKjDvXmHwr2Ag+4VMQ==
+X-Google-Smtp-Source: AA0mqf5hBmCcIGmmziWQG3P7IZf9x22OASJn1zPSljVSllfN57od8TPf8W+ILaXjoELtEPq1Qq93yw==
+X-Received: by 2002:a05:600c:1f0f:b0:3d0:2a82:1cb2 with SMTP id
+ bd15-20020a05600c1f0f00b003d02a821cb2mr14213080wmb.206.1669388057610; 
+ Fri, 25 Nov 2022 06:54:17 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ y14-20020adff14e000000b00226dba960b4sm4079782wro.3.2022.11.25.06.54.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Nov 2022 06:54:17 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 80E371FFB7;
+ Fri, 25 Nov 2022 14:54:16 +0000 (GMT)
+References: <20221123152134.179929-1-alex.bennee@linaro.org>
+ <20221123102522-mutt-send-email-mst@kernel.org>
+ <87bkoxbqtd.fsf@linaro.org>
+ <20221123110755-mutt-send-email-mst@kernel.org>
+ <877czkbtbs.fsf@linaro.org>
+ <20221124055230-mutt-send-email-mst@kernel.org>
+ <87y1s09edk.fsf@linaro.org>
+ <20221125070510-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.9.3; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
+Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
+Date: Fri, 25 Nov 2022 14:51:57 +0000
+In-reply-to: <20221125070510-mutt-send-email-mst@kernel.org>
+Message-ID: <87tu2n9jaf.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 8rQ_GLiTTmD75r2LgzE3wmrFjeoBEjEr
-X-Proofpoint-GUID: fU6BbmWOEmOJc_TpF_SJ9_uOny9zZrUr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-25_06,2022-11-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 impostorscore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 malwarescore=0 bulkscore=0 clxscore=1011 mlxscore=0
- phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2211250114
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,29 +102,238 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The virtiofsd currently crashes on s390x. This is because of a
-`sigreturn` system call. See audit log below:
 
-type=SECCOMP msg=audit(1669382477.611:459): auid=4294967295 uid=0 gid=0 ses=4294967295 subj=system_u:system_r:virtd_t:s0-s0:c0.c1023 pid=6649 comm="virtiofsd" exe="/usr/libexec/virtiofsd" sig=31 arch=80000016 syscall=119 compat=0 ip=0x3fff15f748a code=0x80000000AUID="unset" UID="root" GID="root" ARCH=s390x SYSCALL=sigreturn
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
----
- tools/virtiofsd/passthrough_seccomp.c | 1 +
- 1 file changed, 1 insertion(+)
+> On Thu, Nov 24, 2022 at 10:24:14PM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>>=20
+>> > On Thu, Nov 24, 2022 at 09:21:15AM +0000, Alex Benn=C3=A9e wrote:
+>> >>=20
+>> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>> >>=20
+>> >> > On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Benn=C3=A9e wrote:
+>> >> >>=20
+>> >> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>> >> >>=20
+>> >> >> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Benn=C3=A9e wrote:
+>> >> >> >> Hi,
+>> >> >> >>=20
+>> >> >> >> This hopefully fixes the problems with VirtIO migration caused =
+by the
+>> >> >> >> previous refactoring of virtio_device_started(). That introduce=
+d a
+>> >> >> >> different order of checking which didn't give the VM state prim=
+acy but
+>> >> >> >> wasn't noticed as we don't properly exercise VirtIO device migr=
+ation
+>> >> >> >> and caused issues when dev->started wasn't checked in the core =
+code.
+>> >> >> >> The introduction of virtio_device_should_start() split the over=
+loaded
+>> >> >> >> function up but the broken order still remained. The series fin=
+ally
+>> >> >> >> fixes that by restoring the original semantics but with the cle=
+aned up
+>> >> >> >> functions.
+>> >> >> >>=20
+>> >> >> >> I've added more documentation to the various structures involve=
+d as
+>> >> >> >> well as the functions. There is still some inconsistencies in t=
+he
+>> >> >> >> VirtIO code between different devices but I think that can be l=
+ooked
+>> >> >> >> at over the 8.0 cycle.
+>> >> >> >
+>> >> >> >
+>> >> >> > Thanks a lot! Did you try this with gitlab CI? A patch similar t=
+o your
+>> >> >> > 2/2 broke it previously ...
+>> >> >>=20
+>> >> >> Looking into it now - so far hasn't broken locally but I guess the=
+re is
+>> >> >> something different about the CI.
+>> >> >
+>> >> >
+>> >> > yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
+>> >> >
+>> >> > Or with QEMU_CI set to 1 and then run fedora container and then
+>> >> > clang-system manually.
+>> >>=20
+>> >> I'm having trouble re-creating the failures in CI locally on my boxen=
+. I
+>> >> have triggered a bug on s390 but that looks like a pre-existing probl=
+em
+>> >> with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
+>> >> think that is a limitation of the test harness.
+>> >>=20
+>> >> Will keep looking.
+>> >
+>> > Why not just trigger it on gitlab CI - it's very repeatable there?
+>>=20
+>> I can repeat a problem locally on Debian Bullseye and Ubuntu 22.04 with =
+clang and leak sanitizer:
+>>=20
+>>   # QEMU configure log Thu 24 Nov 16:02:56 GMT 2022
+>>   # Configured with: '../../configure' '--cc=3Dclang' '--cxx=3Dclang++' =
+'--enable-sanitizers' '--target-list=3Darm-softmmu,aarch64-softmmu,i386-sof=
+tmmu,x86_64-softmmu,ppc64-softmmu'#
+>>=20
+>> And the command:
+>>=20
+>>   env QTEST_QEMU_BINARY=3D./qemu-system-arm QTEST_QEMU_STORAGE_DAEMON_BI=
+NARY=3D./storage-daemon/qemu-storage-daemon QTEST_QEMU_IMG=3D./qemu-img MAL=
+LOC_PERTURB_=3D178 G_TEST_DBUS_DAEMON=3D/home/alex.bennee/lsrc/qemu.git/tes=
+ts/dbus-vmstate-daemon.sh ./tests/qtest/qos-test -p /arm/virt/virtio-mmio/v=
+irtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read=
+-guest-mem/memfile/subprocess
+>>=20
+>> Gives the following failure, while a leak may not be that exciting it
+>> does point to a potential corruption issue. Unfortunately I don't get a
+>> decent backtrace from the tool:
+>>=20
+>>   # random seed: R02S071fe8d68317a8b01e5e7fadbf1ac60a
+>>   # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352=
+.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1024352.qmp,id=
+=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine none -a=
+ccel qtest
+>>   =3D=3D1024354=3D=3DWARNING: ASan doesn't fully support makecontext/swa=
+pcontext functions and may produce false positives in some cases!
+>>   # Start of arm tests
+>>   # Start of virt tests
+>>   # Start of virtio-mmio tests
+>>   # Start of virtio-bus tests
+>>   # Start of vhost-user-gpio-device tests
+>>   # Start of vhost-user-gpio tests
+>>   # Start of vhost-user-gpio-tests tests
+>>   # Start of read-guest-mem tests
+>>   # Start of memfile tests
+>>   # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352=
+.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1024352.qmp,id=
+=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -M virt  -device=
+ vhost-user-gpio-device,id=3Dgpio0,chardev=3Dchr-vhost-user-test -m 256 -ob=
+ject memory-backend-memfd,id=3Dmem,size=3D256M, -numa node,memdev=3Dmem -ch=
+ardev socket,id=3Dchr-vhost-user-test,path=3D/tmp/vhost-test-8DD2V1/vhost-u=
+ser-test.sock -accel qtest
+>>   # GLib-DEBUG: setenv()/putenv() are not thread-safe and should not be =
+used after threads are created
+>>   =3D=3D1024371=3D=3DWARNING: ASan doesn't fully support makecontext/swa=
+pcontext functions and may produce false positives in some cases!
+>>   # set_protocol_features: 0x200
+>>   # set_owner: start of session
+>>   # vhost-user: un-handled message: 14
+>>   # vhost-user: un-handled message: 14
+>>   # set_vring_num: 0/1024
+>>   qemu-system-arm: Failed to set msg fds.
+>>   qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument=
+ (22)
+>>   qemu-system-arm: Failed to set msg fds.
+>>   qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument=
+ (22)
+>>   qemu-system-arm: Failed to set msg fds.
+>>   qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+>>   qemu-system-arm: Failed to set msg fds.
+>>   qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+>>   ok 1 /arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-use=
+r-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess # SKIP No me=
+mory at address 0x0
+>>   # End of memfile tests
+>>   # End of read-guest-mem tests
+>>   # End of vhost-user-gpio-tests tests
+>>   # End of vhost-user-gpio tests
+>>   # End of vhost-user-gpio-device tests
+>>   # End of virtio-bus tests
+>>   # End of virtio-mmio tests
+>>   # End of virt tests
+>>   # End of arm tests
+>>   1..1
+>>=20
+>>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>   =3D=3D1024371=3D=3DERROR: LeakSanitizer: detected memory leaks
+>>=20
+>>   Direct leak of 240 byte(s) in 1 object(s) allocated from:
+>>       #0 0x561d9a5d7a18 in __interceptor_calloc (/home/alex.bennee/lsrc/=
+qemu.git/builds/all.clang-sanitizers/qemu-system-arm+0x1d1fa18) (BuildId: 0=
+bdc7c2ada2277089db16d57f17c314e9e53e41c)
+>>       #1 0x7f46ee656c40 in g_malloc0 (/lib/x86_64-linux-gnu/libglib-2.0.=
+so.0+0x5ec40) (BuildId: 0ab0b740e34eeb0c84656ba53737f4c440dfbed4)
+>>       #2 0x561d9bf7875b in virtio_device_realize /home/alex.bennee/lsrc/=
+qemu.git/builds/all.clang-sanitizers/../../hw/virtio/virtio.c:4175:9
+>>       #3 0x561d9c321bf4 in device_set_realized /home/alex.bennee/lsrc/qe=
+mu.git/builds/all.clang-sanitizers/../../hw/core/qdev.c:566:13
+>>       #4 0x561d9c33dda8 in property_set_bool /home/alex.bennee/lsrc/qemu=
+.git/builds/all.clang-sanitizers/../../qom/object.c:2285:5
+>>       #5 0x561d9c338fb3 in object_property_set /home/alex.bennee/lsrc/qe=
+mu.git/builds/all.clang-sanitizers/../../qom/object.c:1420:5
+>>       #6 0x561d9c344c7c in object_property_set_qobject /home/alex.bennee=
+/lsrc/qemu.git/builds/all.clang-sanitizers/../../qom/qom-qobject.c:28:10
+>>       #7 0x561d9b367954 in qdev_device_add /home/alex.bennee/lsrc/qemu.g=
+it/builds/all.clang-sanitizers/../../softmmu/qdev-monitor.c:733:11
+>>       #8 0x561d9b36f832 in qemu_create_cli_devices /home/alex.bennee/lsr=
+c/qemu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2536:5
+>>       #9 0x561d9b36f832 in qmp_x_exit_preconfig /home/alex.bennee/lsrc/q=
+emu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2604:5
+>>       #10 0x561d9b37613f in qemu_init /home/alex.bennee/lsrc/qemu.git/bu=
+ilds/all.clang-sanitizers/../../softmmu/vl.c:3601:9
+>>       #11 0x561d9a6125a5 in main /home/alex.bennee/lsrc/qemu.git/builds/=
+all.clang-sanitizers/../../softmmu/main.c:47:5
+>>=20
+>>   SUMMARY: AddressSanitizer: 240 byte(s) leaked in 1 allocation(s).
+>>   ../../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU =
+process but encountered exit status 1 (expected 0)
+>>   fish: Job 1, 'env QTEST_QEMU_BINARY=3D./qemu-sy=E2=80=A6' terminated b=
+y signal SIGABRT (Abort)
+>>   =F0=9F=95=9922:26:18 alex.bennee@hackbox2:qemu.git/builds/all.clang-sa=
+nitizers  on =EE=82=A0 for-7.2/virtio-fixes [$?] [=E2=9A=A1 IOT]
+>>   =E2=9C=97
+>
+>
+> ok ... was gpio always like this? from 1st commit? if not bisect?
 
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-index 888295c073de..0033dab4939e 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -110,6 +110,7 @@ static const int syscall_allowlist[] = {
- #endif
-     SCMP_SYS(set_robust_list),
-     SCMP_SYS(setxattr),
-+    SCMP_SYS(sigreturn),
-     SCMP_SYS(symlinkat),
-     SCMP_SYS(syncfs),
-     SCMP_SYS(time), /* Rarely needed, except on static builds */
--- 
-2.34.1
+I think so. I've managed to track down what the malloc is. It's the
+memory allocated by:
 
+  gpio->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue, gpio->vhost_dev.nv=
+qs);
+
+It is never freed because we never get to vu_gpio_device_unrealize() but
+as far as I can tell none of the qtests ever trigger the unrealize() so
+I'm not sure why it is special.
+
+>
+>>=20
+>>=20
+>> >> >
+>> >> >> >
+>> >> >> >> Alex Benn=C3=A9e (2):
+>> >> >> >>   include/hw: attempt to document VirtIO feature variables
+>> >> >> >>   include/hw: VM state takes precedence in virtio_device_should=
+_start
+>> >> >> >>=20
+>> >> >> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
+>> >> >> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++=
+++------
+>> >> >> >>  2 files changed, 59 insertions(+), 9 deletions(-)
+>> >> >> >>=20
+>> >> >> >> --=20
+>> >> >> >> 2.34.1
+>> >> >>=20
+>> >> >>=20
+>> >> >> --=20
+>> >> >> Alex Benn=C3=A9e
+>> >>=20
+>> >>=20
+>> >> --=20
+>> >> Alex Benn=C3=A9e
+>>=20
+>>=20
+>> --=20
+>> Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
