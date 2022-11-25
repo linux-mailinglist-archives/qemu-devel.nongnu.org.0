@@ -2,90 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9D66384AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 08:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A62638509
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 09:15:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyTO4-0004v5-0o; Fri, 25 Nov 2022 02:44:40 -0500
+	id 1oyTpg-0003im-D2; Fri, 25 Nov 2022 03:13:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oyTO2-0004up-3C; Fri, 25 Nov 2022 02:44:38 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oyTpY-0003i7-Hy
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 03:13:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oyTNt-0005Yr-Ei; Fri, 25 Nov 2022 02:44:37 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id D20E03200A13;
- Fri, 25 Nov 2022 02:44:24 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 25 Nov 2022 02:44:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1669362264; x=1669448664; bh=Wx
- MesDgPm5rBzvF0IHacp2nV+L17GcyKU66BZwbVnlg=; b=DEwf6DD6191qMPoNXR
- RctFwNZLDm/XQCXnBE7ULw/9w5O8fO9HU4LQ4+hieu891pCLpCwt4yJVTGr+9Csd
- GzaAOWetJYIHYQB4GrxbQE0uW1IRG2OvpoX2XAT4io9SWtE4hsN6BahzfLJwqrD3
- Qh+5pxxmJDpjN47J3WpeMEvCYSMvyX+iGN5+s+MH+NCB8ySUyIhGHGVVs2t6roFa
- NVxBd1EQCaAsVsx7rGwcQfIH47SiRZjwP6cgnWRJnMjTODw/M6nsco2h9ggfVmQu
- FbdttjWo1UCnFneVOivMe6Ur3boUxLJgz41PZDWxr1vSA5Py9j0tA7J1CiDq7TA4
- YLnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1669362264; x=1669448664; bh=WxMesDgPm5rBzvF0IHacp2nV+L17
- GcyKU66BZwbVnlg=; b=GBZmgWJ9PbMFlTzSdEbtShONxVyMUXGA3a2mWk4w8ibX
- 771SnQRoUKDjM97vbW+ujBElh9gubj3y6GNcam3kOXIVLQEHSadFzVk9kMl+CK2u
- D/HPOA7Vyp+BoJ6e+nWTsCvbSbL7gV+bNtOEoWbB+Bs5aYBSVuyzdzRuwrR+wmqM
- mcHApXkCHinGN+yZoOPgWKQ/3vfD9zN69Pmkp7dXp0G1u44c4G9rNteE5wyOMVMQ
- Jfg5ZST88gLTw89KL5rlKH9M5gWPUZChMeOwblji1ksIdOT3sHA7c6wiNbwraA5t
- Dg6PTB0fFGDSvjz4x0ajHoZDe++hsa8EBXIvgHBmlA==
-X-ME-Sender: <xms:V3KAY2s6Pmc1x7rKLEBaUuG2Vm7gURCQeI8OUm2FmVxQ_IxQ09xBIw>
- <xme:V3KAY7cdlcqdBx7pHvRkOltnd8HmZ154v69_W06SiSpo7ucQkgV_R2l3F1uynoS0K
- f-Ed5lsv0vGs_K2RLw>
-X-ME-Received: <xmr:V3KAYxxpREgA-rUP-S13IlF5pJo6KWF6nHV70iC1x2CutWTiWkkvlI0zDWwiz_tI0xc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieeggdduuddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepffduvdfhheejudfgieejueeileegveduvdelhfekhffgteetffdtvdekveei
- leefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:V3KAYxNVQ64-SvaTPrq_lGCG3NLziTcEdmEdkdv2USg1TJedkkXx6w>
- <xmx:V3KAY28P4tTCj4waeIQ12l9vCDmpw3kc9EyijjyBu3sls4DgtD85Ig>
- <xmx:V3KAY5XoWLtA-7uusOtG76jr4guNpSexVI-IchH8g09yETxzvvt43Q>
- <xmx:WHKAY5bgc4-JxolZIJQQz2h8KXOeRqOoRrAXJKf9oy2-ixb7Bmg6rw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Nov 2022 02:44:19 -0500 (EST)
-Date: Fri, 25 Nov 2022 08:44:18 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Tihov <d.tihov@yadro.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, kbusch@kernel.org,
- linux@yadro.com, m.malygin@yadro.com, a.buev@yadro.com,
- ddtikhov@gmail.com, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [RFC 0/5] Protection information pass-through for block devices
-Message-ID: <Y4ByUi5gOH6swqMS@cormorant.local>
-References: <20221124155821.1501969-1-d.tihov@yadro.com>
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oyTpT-00066E-JF
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 03:13:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669363975;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DkRMQ/xR21BF57OhdoFssLqc3BnbXQn3QXO/YaJQW+E=;
+ b=NrjM2Yl+535TEI+kOmcGGRoLhNIjO8qRkvm6Z2z8JXF+ivTuDuFn+3vLthkjekP6+KSoAl
+ YhFb+AZywVkO0SlUuDxla6RDg68tcJJ4DeD0XIGgJFIPSygH6gRTwbKgxHkq70bOwdA/hs
+ VKcAtKVNGCoCBN6jn6a/PeTOn3Gfy0k=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-256-x-iS__M0MgSO-RWmDezdhw-1; Fri, 25 Nov 2022 03:12:53 -0500
+X-MC-Unique: x-iS__M0MgSO-RWmDezdhw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w4-20020a05640234c400b004631f8923baso2226632edc.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 00:12:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DkRMQ/xR21BF57OhdoFssLqc3BnbXQn3QXO/YaJQW+E=;
+ b=U3Ya7KCxWVLLo2EQT8YaLHHccdQ/Jx2ECV7uwxge+dc/Ko5SzL2sijAy5EEkoLGgQ2
+ FvCUdlWam/saYj+VxzFIkdEbhNzBHsT3ACk0+5nJfTXACrqG/veGY7ikd+te1ZZh+SW/
+ AY+LdqFvt01UKLNZFE4kB7tpif1CMAyQ7YhdciiTiVH0i0wyo4tC0BsLJRPOcxO+T0cZ
+ jOE5Ujo5JQgZfDxirFTZJlF9IftYgnLkEGhwmfbThU6h7aU/AaIgq3FViQd1YN9MfLZ3
+ MEtnNIY95pOMpm1MBd0TXSJgdMK22ID5efW7P70F5Vnu7LdVXRfW3ylr19zJPNFHy82c
+ Lx+w==
+X-Gm-Message-State: ANoB5plQ9Z3UBLvfq6/HporlCiowbYLMvY8oH/AMWL6e6iherfBz7I42
+ lq58OXUe7U37dTntg5HVxeGf8X3byI2NX+ETUgw+bN3aegtd57/GC91oQPl3gYGyK8JY47WiNsY
+ OzglN4Urbo3CAh3E=
+X-Received: by 2002:a17:906:8547:b0:7b4:ae8f:c61 with SMTP id
+ h7-20020a170906854700b007b4ae8f0c61mr22548477ejy.403.1669363968698; 
+ Fri, 25 Nov 2022 00:12:48 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6/Vm0Th7PQgGvF3FZ2NGdc1Vgd3Yp42PVoMywkXM823yDMdCHROGjz4wf6s4V70agl5EAHog==
+X-Received: by 2002:a17:906:8547:b0:7b4:ae8f:c61 with SMTP id
+ h7-20020a170906854700b007b4ae8f0c61mr22548417ejy.403.1669363968072; 
+ Fri, 25 Nov 2022 00:12:48 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-234.retail.telecomitalia.it.
+ [82.53.134.234]) by smtp.gmail.com with ESMTPSA id
+ d14-20020a170906304e00b007b6ed81deecsm1300942ejd.96.2022.11.25.00.12.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Nov 2022 00:12:47 -0800 (PST)
+Date: Fri, 25 Nov 2022 09:12:43 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, virtio-fs@redhat.com,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Fam Zheng <fam@euphon.net>, Viresh Kumar <viresh.kumar@linaro.org>,
+ German Maglione <gmaglione@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-7.2] vhost: enable vrings in vhost_dev_start() for
+ vhost-user devices
+Message-ID: <20221125081243.a3q7ep32o6g4r2vd@sgarzare-redhat>
+References: <20221123131630.52020-1-sgarzare@redhat.com>
+ <Y3+5rfnNmR7R/h6/@fedora>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="aHfgJCneiGsK3raT"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20221124155821.1501969-1-d.tihov@yadro.com>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
+In-Reply-To: <Y3+5rfnNmR7R/h6/@fedora>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,78 +109,430 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Nov 24, 2022 at 01:36:29PM -0500, Stefan Hajnoczi wrote:
+>On Wed, Nov 23, 2022 at 02:16:30PM +0100, Stefano Garzarella wrote:
+>> Commit 02b61f38d3 ("hw/virtio: incorporate backend features in features")
+>> properly negotiates VHOST_USER_F_PROTOCOL_FEATURES with the vhost-user
+>> backend, but we forgot to enable vrings as specified in
+>> docs/interop/vhost-user.rst:
+>>
+>>     If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
+>>     ring starts directly in the enabled state.
+>>
+>>     If ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, the ring is
+>>     initialized in a disabled state and is enabled by
+>>     ``VHOST_USER_SET_VRING_ENABLE`` with parameter 1.
+>>
+>> Some vhost-user front-ends already did this by calling
+>> vhost_ops.vhost_set_vring_enable() directly:
+>> - backends/cryptodev-vhost.c
+>> - hw/net/virtio-net.c
+>> - hw/virtio/vhost-user-gpio.c
+>>
+>> But most didn't do that, so we would leave the vrings disabled and some
+>> backends would not work. We observed this issue with the rust version of
+>> virtiofsd [1], which uses the event loop [2] provided by the
+>> vhost-user-backend crate where requests are not processed if vring is
+>> not enabled.
+>>
+>> Let's fix this issue by enabling the vrings in vhost_dev_start() for
+>> vhost-user front-ends that don't already do this directly. Same thing
+>> also in vhost_dev_stop() where we disable vrings.
+>>
+>> [1] https://gitlab.com/virtio-fs/virtiofsd
+>> [2] https://github.com/rust-vmm/vhost/blob/240fc2966/crates/vhost-user-backend/src/event_loop.rs#L217
+>>
+>> Fixes: 02b61f38d3 ("hw/virtio: incorporate backend features in features")
+>> Reported-by: German Maglione <gmaglione@redhat.com>
+>> Tested-by: German Maglione <gmaglione@redhat.com>
+>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>> ---
+>>  include/hw/virtio/vhost.h      |  6 +++--
+>>  backends/cryptodev-vhost.c     |  4 ++--
+>>  backends/vhost-user.c          |  4 ++--
+>>  hw/block/vhost-user-blk.c      |  4 ++--
+>>  hw/net/vhost_net.c             |  8 +++----
+>>  hw/scsi/vhost-scsi-common.c    |  4 ++--
+>>  hw/virtio/vhost-user-fs.c      |  4 ++--
+>>  hw/virtio/vhost-user-gpio.c    |  4 ++--
+>>  hw/virtio/vhost-user-i2c.c     |  4 ++--
+>>  hw/virtio/vhost-user-rng.c     |  4 ++--
+>>  hw/virtio/vhost-vsock-common.c |  4 ++--
+>>  hw/virtio/vhost.c              | 44 ++++++++++++++++++++++++++++++----
+>>  hw/virtio/trace-events         |  4 ++--
+>>  13 files changed, 67 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+>> index 353252ac3e..67a6807fac 100644
+>> --- a/include/hw/virtio/vhost.h
+>> +++ b/include/hw/virtio/vhost.h
+>> @@ -184,24 +184,26 @@ static inline bool vhost_dev_is_started(struct vhost_dev *hdev)
+>>   * vhost_dev_start() - start the vhost device
+>>   * @hdev: common vhost_dev structure
+>>   * @vdev: the VirtIODevice structure
+>> + * @vrings: true to have vrings enabled in this call
+>>   *
+>>   * Starts the vhost device. From this point VirtIO feature negotiation
+>>   * can start and the device can start processing VirtIO transactions.
+>>   *
+>>   * Return: 0 on success, < 0 on error.
+>>   */
+>> -int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+>> +int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
+>>
+>>  /**
+>>   * vhost_dev_stop() - stop the vhost device
+>>   * @hdev: common vhost_dev structure
+>>   * @vdev: the VirtIODevice structure
+>> + * @vrings: true to have vrings disabled in this call
+>>   *
+>>   * Stop the vhost device. After the device is stopped the notifiers
+>>   * can be disabled (@vhost_dev_disable_notifiers) and the device can
+>>   * be torn down (@vhost_dev_cleanup).
+>>   */
+>> -void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+>> +void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
+>>
+>>  /**
+>>   * DOC: vhost device configuration handling
+>> diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
+>> index bc13e466b4..572f87b3be 100644
+>> --- a/backends/cryptodev-vhost.c
+>> +++ b/backends/cryptodev-vhost.c
+>> @@ -94,7 +94,7 @@ cryptodev_vhost_start_one(CryptoDevBackendVhost *crypto,
+>>          goto fail_notifiers;
+>>      }
+>>
+>> -    r = vhost_dev_start(&crypto->dev, dev);
+>> +    r = vhost_dev_start(&crypto->dev, dev, false);
+>>      if (r < 0) {
+>>          goto fail_start;
+>>      }
+>> @@ -111,7 +111,7 @@ static void
+>>  cryptodev_vhost_stop_one(CryptoDevBackendVhost *crypto,
+>>                                   VirtIODevice *dev)
+>>  {
+>> -    vhost_dev_stop(&crypto->dev, dev);
+>> +    vhost_dev_stop(&crypto->dev, dev, false);
+>>      vhost_dev_disable_notifiers(&crypto->dev, dev);
+>>  }
+>>
+>> diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+>> index 5dedb2d987..7bfcaef976 100644
+>> --- a/backends/vhost-user.c
+>> +++ b/backends/vhost-user.c
+>> @@ -85,7 +85,7 @@ vhost_user_backend_start(VhostUserBackend *b)
+>>      }
+>>
+>>      b->dev.acked_features = b->vdev->guest_features;
+>> -    ret = vhost_dev_start(&b->dev, b->vdev);
+>> +    ret = vhost_dev_start(&b->dev, b->vdev, true);
+>>      if (ret < 0) {
+>>          error_report("Error start vhost dev");
+>>          goto err_guest_notifiers;
+>> @@ -120,7 +120,7 @@ vhost_user_backend_stop(VhostUserBackend *b)
+>>          return;
+>>      }
+>>
+>> -    vhost_dev_stop(&b->dev, b->vdev);
+>> +    vhost_dev_stop(&b->dev, b->vdev, true);
+>>
+>>      if (k->set_guest_notifiers) {
+>>          ret = k->set_guest_notifiers(qbus->parent,
+>> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+>> index 0d5190accf..1177064631 100644
+>> --- a/hw/block/vhost-user-blk.c
+>> +++ b/hw/block/vhost-user-blk.c
+>> @@ -178,7 +178,7 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
+>>      }
+>>
+>>      s->dev.vq_index_end = s->dev.nvqs;
+>> -    ret = vhost_dev_start(&s->dev, vdev);
+>> +    ret = vhost_dev_start(&s->dev, vdev, true);
+>>      if (ret < 0) {
+>>          error_setg_errno(errp, -ret, "Error starting vhost");
+>>          goto err_guest_notifiers;
+>> @@ -213,7 +213,7 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
+>>          return;
+>>      }
+>>
+>> -    vhost_dev_stop(&s->dev, vdev);
+>> +    vhost_dev_stop(&s->dev, vdev, true);
+>>
+>>      ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+>>      if (ret < 0) {
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index 26e4930676..043058ff43 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -259,7 +259,7 @@ static int vhost_net_start_one(struct vhost_net *net,
+>>          goto fail_notifiers;
+>>      }
+>>
+>> -    r = vhost_dev_start(&net->dev, dev);
+>> +    r = vhost_dev_start(&net->dev, dev, false);
+>>      if (r < 0) {
+>>          goto fail_start;
+>>      }
+>> @@ -308,7 +308,7 @@ fail:
+>>      if (net->nc->info->poll) {
+>>          net->nc->info->poll(net->nc, true);
+>>      }
+>> -    vhost_dev_stop(&net->dev, dev);
+>> +    vhost_dev_stop(&net->dev, dev, false);
+>>  fail_start:
+>>      vhost_dev_disable_notifiers(&net->dev, dev);
+>>  fail_notifiers:
+>> @@ -329,7 +329,7 @@ static void vhost_net_stop_one(struct vhost_net *net,
+>>      if (net->nc->info->poll) {
+>>          net->nc->info->poll(net->nc, true);
+>>      }
+>> -    vhost_dev_stop(&net->dev, dev);
+>> +    vhost_dev_stop(&net->dev, dev, false);
+>>      if (net->nc->info->stop) {
+>>          net->nc->info->stop(net->nc);
+>>      }
+>> @@ -606,7 +606,7 @@ err_start:
+>>          assert(r >= 0);
+>>      }
+>>
+>> -    vhost_dev_stop(&net->dev, vdev);
+>> +    vhost_dev_stop(&net->dev, vdev, false);
+>>
+>>      return r;
+>>  }
+>> diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
+>> index 767f827e55..18ea5dcfa1 100644
+>> --- a/hw/scsi/vhost-scsi-common.c
+>> +++ b/hw/scsi/vhost-scsi-common.c
+>> @@ -68,7 +68,7 @@ int vhost_scsi_common_start(VHostSCSICommon *vsc)
+>>          goto err_guest_notifiers;
+>>      }
+>>
+>> -    ret = vhost_dev_start(&vsc->dev, vdev);
+>> +    ret = vhost_dev_start(&vsc->dev, vdev, true);
+>>      if (ret < 0) {
+>>          error_report("Error start vhost dev");
+>>          goto err_guest_notifiers;
+>> @@ -101,7 +101,7 @@ void vhost_scsi_common_stop(VHostSCSICommon *vsc)
+>>      VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+>>      int ret = 0;
+>>
+>> -    vhost_dev_stop(&vsc->dev, vdev);
+>> +    vhost_dev_stop(&vsc->dev, vdev, true);
+>>
+>>      if (k->set_guest_notifiers) {
+>>          ret = k->set_guest_notifiers(qbus->parent, vsc->dev.nvqs, false);
+>> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+>> index dc4014cdef..d97b179e6f 100644
+>> --- a/hw/virtio/vhost-user-fs.c
+>> +++ b/hw/virtio/vhost-user-fs.c
+>> @@ -76,7 +76,7 @@ static void vuf_start(VirtIODevice *vdev)
+>>      }
+>>
+>>      fs->vhost_dev.acked_features = vdev->guest_features;
+>> -    ret = vhost_dev_start(&fs->vhost_dev, vdev);
+>> +    ret = vhost_dev_start(&fs->vhost_dev, vdev, true);
+>>      if (ret < 0) {
+>>          error_report("Error starting vhost: %d", -ret);
+>>          goto err_guest_notifiers;
+>> @@ -110,7 +110,7 @@ static void vuf_stop(VirtIODevice *vdev)
+>>          return;
+>>      }
+>>
+>> -    vhost_dev_stop(&fs->vhost_dev, vdev);
+>> +    vhost_dev_stop(&fs->vhost_dev, vdev, true);
+>>
+>>      ret = k->set_guest_notifiers(qbus->parent, fs->vhost_dev.nvqs, false);
+>>      if (ret < 0) {
+>> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+>> index 5851cb3bc9..0b40ebd15a 100644
+>> --- a/hw/virtio/vhost-user-gpio.c
+>> +++ b/hw/virtio/vhost-user-gpio.c
+>> @@ -81,7 +81,7 @@ static int vu_gpio_start(VirtIODevice *vdev)
+>>       */
+>>      vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->guest_features);
+>>
+>> -    ret = vhost_dev_start(&gpio->vhost_dev, vdev);
+>> +    ret = vhost_dev_start(&gpio->vhost_dev, vdev, false);
+>>      if (ret < 0) {
+>>          error_report("Error starting vhost-user-gpio: %d", ret);
+>>          goto err_guest_notifiers;
+>> @@ -139,7 +139,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
+>>          return;
+>>      }
+>>
+>> -    vhost_dev_stop(vhost_dev, vdev);
+>> +    vhost_dev_stop(vhost_dev, vdev, false);
+>>
+>>      ret = k->set_guest_notifiers(qbus->parent, vhost_dev->nvqs, false);
+>>      if (ret < 0) {
+>> diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+>> index 1c9f3d20dc..dc5c828ba6 100644
+>> --- a/hw/virtio/vhost-user-i2c.c
+>> +++ b/hw/virtio/vhost-user-i2c.c
+>> @@ -46,7 +46,7 @@ static void vu_i2c_start(VirtIODevice *vdev)
+>>
+>>      i2c->vhost_dev.acked_features = vdev->guest_features;
+>>
+>> -    ret = vhost_dev_start(&i2c->vhost_dev, vdev);
+>> +    ret = vhost_dev_start(&i2c->vhost_dev, vdev, true);
+>>      if (ret < 0) {
+>>          error_report("Error starting vhost-user-i2c: %d", -ret);
+>>          goto err_guest_notifiers;
+>> @@ -80,7 +80,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
+>>          return;
+>>      }
+>>
+>> -    vhost_dev_stop(&i2c->vhost_dev, vdev);
+>> +    vhost_dev_stop(&i2c->vhost_dev, vdev, true);
+>>
+>>      ret = k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, false);
+>>      if (ret < 0) {
+>> diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+>> index f9084cde58..201a39e220 100644
+>> --- a/hw/virtio/vhost-user-rng.c
+>> +++ b/hw/virtio/vhost-user-rng.c
+>> @@ -47,7 +47,7 @@ static void vu_rng_start(VirtIODevice *vdev)
+>>      }
+>>
+>>      rng->vhost_dev.acked_features = vdev->guest_features;
+>> -    ret = vhost_dev_start(&rng->vhost_dev, vdev);
+>> +    ret = vhost_dev_start(&rng->vhost_dev, vdev, true);
+>>      if (ret < 0) {
+>>          error_report("Error starting vhost-user-rng: %d", -ret);
+>>          goto err_guest_notifiers;
+>> @@ -81,7 +81,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
+>>          return;
+>>      }
+>>
+>> -    vhost_dev_stop(&rng->vhost_dev, vdev);
+>> +    vhost_dev_stop(&rng->vhost_dev, vdev, true);
+>>
+>>      ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
+>>      if (ret < 0) {
+>> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+>> index a67a275de2..d21c72b401 100644
+>> --- a/hw/virtio/vhost-vsock-common.c
+>> +++ b/hw/virtio/vhost-vsock-common.c
+>> @@ -70,7 +70,7 @@ int vhost_vsock_common_start(VirtIODevice *vdev)
+>>      }
+>>
+>>      vvc->vhost_dev.acked_features = vdev->guest_features;
+>> -    ret = vhost_dev_start(&vvc->vhost_dev, vdev);
+>> +    ret = vhost_dev_start(&vvc->vhost_dev, vdev, true);
+>>      if (ret < 0) {
+>>          error_report("Error starting vhost: %d", -ret);
+>>          goto err_guest_notifiers;
+>> @@ -105,7 +105,7 @@ void vhost_vsock_common_stop(VirtIODevice *vdev)
+>>          return;
+>>      }
+>>
+>> -    vhost_dev_stop(&vvc->vhost_dev, vdev);
+>> +    vhost_dev_stop(&vvc->vhost_dev, vdev, true);
+>>
+>>      ret = k->set_guest_notifiers(qbus->parent, vvc->vhost_dev.nvqs, false);
+>>      if (ret < 0) {
+>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>> index d1c4c20b8c..7fb008bc9e 100644
+>> --- a/hw/virtio/vhost.c
+>> +++ b/hw/virtio/vhost.c
+>> @@ -1777,15 +1777,36 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+>>      return 0;
+>>  }
+>>
+>> +static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
+>
+>There is a similarly-named vhost_set_vring_enable(NetClientState *nc,
+>int enable) function which is actually part of vhost_net. Please rename
+>it to vhost_net_set_vring_enable(). 
 
---aHfgJCneiGsK3raT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Should I rename it in this patch?
 
-+CC: block layer maintainers (Kevin, Hanna)
+> It should probably call
+>vhost_dev_set_vring_enable().
 
-On Nov 24 18:58, Dmitry Tihov wrote:
-> This patch set allows using End-to-End Data Protection in NVMe subsystem
-> with integrity capable host devices as the NVMe namespaces backend.
-> The patch series is based on io-uring kernel interface feature not merged
-> to kernel upstream yet:
-> https://lore.kernel.org/linux-block/20220920144618.1111138-1-a.buev@yadro=
-=2Ecom/
->=20
-> The main advantage of this approach is that it allows using the
-> same protection information enabled disks in multiple VMs
-> concurrently. This may be useful in cluster setups.
->=20
-> Please let me know what do you think, are this kind of changes appropriate
-> for QEMU upstream, what should be changed, etc.
->=20
-> Dmitry Tihov (5):
->   docs/nvme: add new feature summary
->   block: add transfer of protection information
->   hw/nvme: add protection information pass parameter
->   hw/nvme: implement pi pass read/write/wrz commands
->   hw/nvme: extend pi pass capable commands
->=20
->  block/file-posix.c           | 130 ++++++++++++-
->  block/io_uring.c             | 109 ++++++++++-
->  docs/system/devices/nvme.rst |  15 ++
->  hw/nvme/ctrl.c               | 361 ++++++++++++++++++++++++++++++++---
->  hw/nvme/dif.c                | 303 +++++++++++++++++++++++++++++
->  hw/nvme/dif.h                |  18 ++
->  hw/nvme/ns.c                 |  59 +++++-
->  hw/nvme/nvme.h               |   2 +
->  hw/nvme/trace-events         |   6 +
->  include/block/block-common.h |   2 +
->  include/block/raw-aio.h      |   3 +-
->  include/qemu/iov.h           |   6 +
->  util/iov.c                   |  24 +++
->  13 files changed, 992 insertions(+), 46 deletions(-)
->=20
-> --=20
-> 2.38.1
->=20
+Ehm, the idea of this patch was to touch as little as possible to avoid 
+new regressions.
 
-Hi Dmitry,
+Also, the semantics of vhost_dev_set_vring_enable() was meant to keep 
+vhost_dev_start()/vhost_dev_stop() simple, not to be exposed to 
+frontends. (maybe I should have written it, sorry about that).
 
-Neat.
+However I agree that we should clean up vhost-net and also the other 
+frontends as Raphael also suggested, but honestly I'm scared to do that 
+now in this patch...
 
-But this is largely depending on how the API turns out in block/ and I
-am not the right one to comment on that. It's great that you have an
-example device to utilize the API, but this needs comments from the
-block layer maintainers before we consider it in hw/nvme.
+What I would have wanted to do, would be similar to what we do for 
+vhost-vdpa: call SET_VRING_ENABLE in the vhost_ops->vhost_dev_start() 
+callback of vhost-user.c.
+Removing all the call to vhost_ops->vhost_set_vring_enable() in the 
+frontends, but I think it's too risky to do that now.
 
---aHfgJCneiGsK3raT
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+>> +{
+>> +    if (!hdev->vhost_ops->vhost_set_vring_enable) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    /*
+>> +     * For vhost-user devices, if VHOST_USER_F_PROTOCOL_FEATURES has not
+>> +     * been negotiated, the rings start directly in the enabled state, and
+>> +     * .vhost_set_vring_enable callback will fail since
+>> +     * VHOST_USER_SET_VRING_ENABLE is not supported.
+>> +     */
+>> +    if (hdev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER &&
+>> +        !virtio_has_feature(hdev->backend_features,
+>> +                            VHOST_USER_F_PROTOCOL_FEATURES)) {
+>> +        return 0;
+>> +    }
+>
+>These semantics are the opposite of vhost_user_set_vring_enable():
+>
+>  if (!virtio_has_feature(dev->features, VHOST_USER_F_PROTOCOL_FEATURES)) {
+>      return -EINVAL;
+>  }
+>
+>Please make vhost_user_set_vring_enable() and
+>vhost_dev_set_vring_enable() consistent. Code gets really confusing when
+>layers have different semantics for the same operation.
 
------BEGIN PGP SIGNATURE-----
+It's the opposite precisely because we shouldn't let 
+vhost_dev_start()/vhost_dev_stop() fail if 
+vhost_ops->vhost_set_vring_enable() can't be called because it would 
+fail.
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmOAclEACgkQTeGvMW1P
-DekhEwgAqRIeKGBWB8jF3eMcd+fyN8X5LhTnTUdFw4RXHFcL0xhtfSo9YE7gQXJq
-g72wGhSSLwFHmU8X+KtusHuMPjRmPOvpyaTQ5EQh6ANeGHNTBOaAcsGXSTY5U4Hs
-sHOx/sDscpqILOjMgrEY44Osz63oZlqLeSwoR0gAASqhpoOa9P4S/jDIh43Vpp4d
-+x04pdDyWVsdz9Jmp1aUI+aTgDYJfPyI15VuH+0AYDQsmPs/Fxi0qe9Itdgcif2X
-Wo+F09sEj6RK7C4K2u4I/IbKNg0fqGxJbknn3ex32emBs2ybdWFzcOM/F6zLVVOT
-qwgzkNmOz9/Iw1Vi7/gjk03HSNR7AQ==
-=fDxD
------END PGP SIGNATURE-----
+If I do it this way, then I have to put the check inside 
+vhost_dev_start()/vhost_dev_stop(), and at this point I remove the 
+function that would be useless (just a wrapper of 
+hdev->vhost_ops->vhost_set_vring_enable).
+Actually this was the first implementation I did, then I added the 
+function just to have vhost_dev_start()/vhost_dev_stop() cleaner and to 
+avoid duplicating the check.
 
---aHfgJCneiGsK3raT--
+>
+>> +
+>> +    return hdev->vhost_ops->vhost_set_vring_enable(hdev, enable);
+>> +}
+>
+>The return value is hard to understand. An error return is only returned
+>by vhost-user devices with VHOST_USER_F_PROTOCOL_FEATURES. There are
+>other cases that seem like they should return an error but return
+>success instead. For example, when called with enable=false on a
+>non-VHOST_USER_F_PROTOCOL_FEATURES device (e.g. vhost-kernel or legacy
+>vhost-user) we return success even though the vring wasn't disabled.
+
+As I explained above, the idea was not to expose this function outside, 
+but to use it only in vhost_dev_start()/vhost_dev_stop(). So the return 
+value is 0 both when it has successes and when there is no need/way to 
+enable/disable the vrings.
+
+Perhaps since it is confusing, I will remove the function and put the 
+code directly into vhost_dev_start()/vhost_dev_stop().
+
+What do you think?
+
+Thanks,
+Stefano
+
 
