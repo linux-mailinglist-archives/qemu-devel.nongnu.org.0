@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE4E638B55
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168F8638B66
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 14:40:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyYsD-0006sw-O6; Fri, 25 Nov 2022 08:36:12 -0500
+	id 1oyYtQ-0000pZ-2X; Fri, 25 Nov 2022 08:37:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oyYrk-0006W3-34
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:35:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oyYrc-0005GP-2h
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:35:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669383331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fpb2xG+QzbZjY9RbyYvWPOQyMk5SFaHyNUYglIPMznY=;
- b=f/RjB5g6WCWwh+wXkbKubdXs1RviaOx/0tDVzW/tZd2bkEJNkjtpsi6XoqUbof5xxH5dey
- ghxdKw5TsTGSk49Ag85SVzfpzldd9ktJwIcTZl4QlkUlqa85JiUUHVuM2vWbfFL2StuWHv
- NdZwRzCN/jOCUYMcMM7gWSZQ2G9R4Uk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37-EjRPU6QtOLq4Kv-k3fZg7g-1; Fri, 25 Nov 2022 08:35:28 -0500
-X-MC-Unique: EjRPU6QtOLq4Kv-k3fZg7g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91CAC2932494;
- Fri, 25 Nov 2022 13:35:27 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DB882166B47;
- Fri, 25 Nov 2022 13:35:27 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v6 14/14] block/dirty-bitmap: convert coroutine-only functions
- to co_wrapper
-Date: Fri, 25 Nov 2022 08:35:18 -0500
-Message-Id: <20221125133518.418328-15-eesposit@redhat.com>
-In-Reply-To: <20221125133518.418328-1-eesposit@redhat.com>
-References: <20221125133518.418328-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYtJ-0000gf-Vc
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:37:18 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyYtH-0005e4-3H
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 08:37:16 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id z4so6826389wrr.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 05:37:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nzSW1URDSmtYQZA8CQ31TVmg9NwGkam2zdguV28pr5s=;
+ b=k3vc51paDPklueR104nfV6ulItQ5Tij/CtlZGdXH0puyl+a/JafVvbPFRVM08avHsT
+ CIzIPIBs0cgBZHjKufjRKF6NKJWfcepfmN4fCypYSfonSNC9tqdPMFvpfygfGWRQCdov
+ jKV25eMnGRdCWe9EVDcMHa6P2YHBdqTMrI5OAHwztJurs/ks/FlNNkAcOMIrtoM/KdXZ
+ ObNl14j048SaorX0k3MPo2nodAYLKYRtPb0WtrxzcI6Vh2eKZ8FbKidUMkhifkvFCnOK
+ /QZGa23jeKniVG4Ph/STF1ZRr+JiotLMbC0dq8rHi7lFRVt0b5hWD2Y9cxn2JOUUDWnv
+ Vo4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nzSW1URDSmtYQZA8CQ31TVmg9NwGkam2zdguV28pr5s=;
+ b=djH85WqjCcj7BKYQX39Op99T2r0HT6SRVH3zD7VMg9JHvbnQxrPahbna+p44S4Auwh
+ 6Wzlpvh95XFiXJQFvSM7UuulwKfda3i/MzFiKQDY4WddODkHc9lSNDDn0wn5l6unPNGw
+ C93aVOVnrqDKiwt+JMlUH9SR3cxcmdycEYqCq0R3Hv7rldB7FjiXt/wA/4CwIzULiwaa
+ XkAR9an9fXga9xh5RW+JOMiCsL8XszACUx14FCPIOQfM+ZyaJd9XGMi5ZYbJ+g0+XvUL
+ K1S+Y8+c0p0RyYm1h3LGuKiqzaSPtMQxUOaGyoL+cctTCWiuRkwjrsQZn4CKzJ51h7wd
+ AvFQ==
+X-Gm-Message-State: ANoB5plwLRmCcLP9aM8eFBMKJHLnO+qCIG6B5pwGksroGHa7n9rmkSPj
+ MCEU0rSW0/OSK/7lIQME7x8Jww==
+X-Google-Smtp-Source: AA0mqf6v4GUPKVJ/W4Rf+FYSgfft37epezssWC7/LtxVOS/i32VkSpnthuOUea/kKWgiG7Wz9CDHRQ==
+X-Received: by 2002:adf:fa90:0:b0:241:bc1e:762f with SMTP id
+ h16-20020adffa90000000b00241bc1e762fmr23358811wrr.614.1669383432507; 
+ Fri, 25 Nov 2022 05:37:12 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020a05600c310e00b003a2f2bb72d5sm11634392wmo.45.2022.11.25.05.37.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Nov 2022 05:37:12 -0800 (PST)
+Message-ID: <4e35a2b6-12ca-e43c-6ee7-7090280c9341@linaro.org>
+Date: Fri, 25 Nov 2022 14:37:11 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH] target/i386/hax: Add XCR0 support
+Content-Language: en-US
+To: "Wang, Wenchao" <wenchao.wang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: haxm-team <haxm-team@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <DM6PR11MB40909B4A33D66A3100F6D219870E9@DM6PR11MB4090.namprd11.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <DM6PR11MB40909B4A33D66A3100F6D219870E9@DM6PR11MB4090.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,221 +91,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_can_store_new_dirty_bitmap and bdrv_remove_persistent_dirty_bitmap
-check if they are running in a coroutine, directly calling the
-coroutine callback if it's the case.
-Except that no coroutine calls such functions, therefore that check
-can be removed, and function creation can be offloaded to
-c_w.
+Hi,
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
----
- block/dirty-bitmap.c         | 88 +-----------------------------------
- block/meson.build            |  1 +
- include/block/block-common.h |  5 +-
- include/block/block-io.h     | 10 +++-
- include/block/dirty-bitmap.h | 10 +++-
- 5 files changed, 22 insertions(+), 92 deletions(-)
+On 25/11/22 13:18, Wang, Wenchao wrote:
+> Hi, maintainers,
+> 
+> As HAXM v7.8.0 is released and it added XCR0 support, could you help to 
+> merge this patch to add corresponding support into HAX user space of 
+> QEMU? The patch has been included in the attachment. Thanks.
 
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index bf3dc0512a..21cf592889 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -388,7 +388,7 @@ void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs)
-  * not fail.
-  * This function doesn't release corresponding BdrvDirtyBitmap.
-  */
--static int coroutine_fn
-+int coroutine_fn
- bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-                                        Error **errp)
- {
-@@ -399,45 +399,6 @@ bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-     return 0;
- }
- 
--typedef struct BdrvRemovePersistentDirtyBitmapCo {
--    BlockDriverState *bs;
--    const char *name;
--    Error **errp;
--    int ret;
--} BdrvRemovePersistentDirtyBitmapCo;
--
--static void coroutine_fn
--bdrv_co_remove_persistent_dirty_bitmap_entry(void *opaque)
--{
--    BdrvRemovePersistentDirtyBitmapCo *s = opaque;
--
--    s->ret = bdrv_co_remove_persistent_dirty_bitmap(s->bs, s->name, s->errp);
--    aio_wait_kick();
--}
--
--int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                        Error **errp)
--{
--    if (qemu_in_coroutine()) {
--        return bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
--    } else {
--        Coroutine *co;
--        BdrvRemovePersistentDirtyBitmapCo s = {
--            .bs = bs,
--            .name = name,
--            .errp = errp,
--            .ret = -EINPROGRESS,
--        };
--
--        co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
--                                   &s);
--        bdrv_coroutine_enter(bs, co);
--        BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
--
--        return s.ret;
--    }
--}
--
- bool
- bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs)
- {
-@@ -447,7 +408,7 @@ bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs)
-     return false;
- }
- 
--static bool coroutine_fn
-+bool coroutine_fn
- bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-                                    uint32_t granularity, Error **errp)
- {
-@@ -470,51 +431,6 @@ bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-     return drv->bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
- }
- 
--typedef struct BdrvCanStoreNewDirtyBitmapCo {
--    BlockDriverState *bs;
--    const char *name;
--    uint32_t granularity;
--    Error **errp;
--    bool ret;
--
--    bool in_progress;
--} BdrvCanStoreNewDirtyBitmapCo;
--
--static void coroutine_fn bdrv_co_can_store_new_dirty_bitmap_entry(void *opaque)
--{
--    BdrvCanStoreNewDirtyBitmapCo *s = opaque;
--
--    s->ret = bdrv_co_can_store_new_dirty_bitmap(s->bs, s->name, s->granularity,
--                                                s->errp);
--    s->in_progress = false;
--    aio_wait_kick();
--}
--
--bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                     uint32_t granularity, Error **errp)
--{
--    IO_CODE();
--    if (qemu_in_coroutine()) {
--        return bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
--    } else {
--        Coroutine *co;
--        BdrvCanStoreNewDirtyBitmapCo s = {
--            .bs = bs,
--            .name = name,
--            .granularity = granularity,
--            .errp = errp,
--            .in_progress = true,
--        };
--
--        co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
--                                   &s);
--        bdrv_coroutine_enter(bs, co);
--        BDRV_POLL_WHILE(bs, s.in_progress);
--
--        return s.ret;
--    }
--}
--
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
- {
-     bdrv_dirty_bitmaps_lock(bitmap->bs);
-diff --git a/block/meson.build b/block/meson.build
-index b7c68b83a3..c48a59571e 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -137,6 +137,7 @@ block_gen_c = custom_target('block-gen.c',
-                             output: 'block-gen.c',
-                             input: files(
-                                       '../include/block/block-io.h',
-+                                      '../include/block/dirty-bitmap.h',
-                                       '../include/block/block-global-state.h',
-                                       '../include/sysemu/block-backend-io.h',
-                                       'coroutines.h'
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 847e4d4626..6cf603ab06 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -29,8 +29,6 @@
- #include "qemu/iov.h"
- #include "qemu/coroutine.h"
- #include "block/accounting.h"
--#include "block/dirty-bitmap.h"
--#include "block/blockjob.h"
- #include "qemu/hbitmap.h"
- #include "qemu/transactions.h"
- 
-@@ -51,6 +49,9 @@
- #define co_wrapper
- #define co_wrapper_mixed
- 
-+#include "block/dirty-bitmap.h"
-+#include "block/blockjob.h"
-+
- /* block.c */
- typedef struct BlockDriver BlockDriver;
- typedef struct BdrvChild BdrvChild;
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 72cf45975b..52869ea08e 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -215,8 +215,14 @@ AioContext *child_of_bds_get_parent_aio_context(BdrvChild *c);
- void bdrv_io_plug(BlockDriverState *bs);
- void bdrv_io_unplug(BlockDriverState *bs);
- 
--bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                     uint32_t granularity, Error **errp);
-+bool coroutine_fn bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
-+                                                     const char *name,
-+                                                     uint32_t granularity,
-+                                                     Error **errp);
-+bool co_wrapper bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs,
-+                                                const char *name,
-+                                                uint32_t granularity,
-+                                                Error **errp);
- 
- /**
-  *
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 6528336c4c..c3700cec76 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -34,8 +34,14 @@ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
-                             Error **errp);
- void bdrv_release_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs);
--int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                        Error **errp);
-+
-+int coroutine_fn bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-+                                                        const char *name,
-+                                                        Error **errp);
-+int co_wrapper bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-+                                                   const char *name,
-+                                                   Error **errp);
-+
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_enable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_enable_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap);
--- 
-2.31.1
+See 
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html#submitting-your-patches 
+on how to send patches to a mailing list.
 
+> 
+> Best Regards,
+> 
+> Wenchao
+> 
+>  From b1789f2523d06798b8883664bfa9a9df797bfccf Mon Sep 17 00:00:00 2001
+> 
+> From: Wenchao Wang <wenchao.wang@intel.com>
+> 
+> Date: Fri, 25 Nov 2022 18:37:34 +0800
+> 
+> Subject: [PATCH] target/i386/hax: Add XCR0 support
+> 
+> Introduce extended control register XCR0 to support XSAVE feature set.
+> 
+> Note: This change requires at least HAXM v7.8.0 to support.
+> 
+> Reviewed-by: Hang Yuan <hang.yuan@intel.com>
+> 
+> Signed-off-by: Wenchao Wang <wenchao.wang@intel.com>
+> 
+> ---
+> 
+> target/i386/hax/hax-interface.h | 2 ++
+> 
+> 1 file changed, 2 insertions(+)
+> 
+> diff --git a/target/i386/hax/hax-interface.h 
+> b/target/i386/hax/hax-interface.h
+> 
+> index 537ae084e9..1d13bb2380 100644
+> 
+> --- a/target/i386/hax/hax-interface.h
+> 
+> +++ b/target/i386/hax/hax-interface.h
+> 
+> @@ -201,6 +201,8 @@ struct vcpu_state_t {
+> 
+>       uint64_t _cr3;
+> 
+>       uint64_t _cr4;
+> 
+> +    uint64_t _xcr0;
+> 
+> +
+> 
+>       uint64_t _dr0;
+> 
+>       uint64_t _dr1;
+> 
+>       uint64_t _dr2;
+> 
+> -- 
+> 
+> 2.17.1
+> 
+
+Is that the full patch? It is missing the register use in 
+hax_sync_vcpu_register()...
+
+Regards,
+
+Phil.
 
