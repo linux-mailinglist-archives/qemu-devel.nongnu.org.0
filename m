@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D4D638BF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 15:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6348D638BF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 15:20:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyZWo-0006eS-AN; Fri, 25 Nov 2022 09:18:06 -0500
+	id 1oyZYg-0007Sc-C4; Fri, 25 Nov 2022 09:20:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyZWM-0006c9-JT
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:18:04 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+ id 1oyZYZ-0007OB-8R
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:19:56 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyZWG-0004qF-Ur
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:17:35 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id l7so1804844pfl.7
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 06:17:31 -0800 (PST)
+ id 1oyZYW-00053V-Su
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:19:54 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 130so4071963pgc.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 06:19:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wIR27mQAMDQU5wZSKe7lgwesYEmOHelMhHFL6pQD6zE=;
- b=SsUYlTc63NISqbSW192ETaZs+ZlCzw491YWPXoYw/Tf4qG87wYwKh4nYUprum/r91h
- iSXwUM2b2+u/1jfP+pyXUlwbcPEwcZOftKl7gJFVwOqUwEcJaeSOJs/CM71N20kli2aM
- FnGK2LCfewdMFVDXhetpJyIvVBvoyQOnULqzro/+nfKSSOzKcZ2Yb/YXEc41oHefaTYQ
- T8Iieb8k6IFYL0KwsqvSingV56PPQMrXXiRZDEPmqP1ggQG6UMdHT8Vj7QmkPk4iDC3h
- R1BFrsZ08zcCf4pX/xdrsS1Mz7epxvVbYaMzSpNn+uwJy6xR1nRVHzKs4ZBHsx0rj3tI
- WQnQ==
+ bh=vjwKIKn+XoUpqWUV/u5KisBkHasa/P64ZxyUm3HGW2A=;
+ b=DGKy2gvlr7dlieYm9hcP4EmVLkBmXc5qDvleNxpSCXAB04+pFDlRD9p2KG2/fYx4c9
+ RXGzHmyiP1O6dx4sYZUzJ7ygNk29jQTL8kI27eVFfAWrE+jwsXBacFqwWs/v6nN/4txH
+ tFLM21tEsY8rP3P2Wu9yNmvHEY6qDCkbabTyCpTZVOaFJ5RO7jUWkuuKf+YzWwzbf2bN
+ NjC2tgJFZKHiYw79/ReXt9xfcYMbHJRt6vu91etrf2XZ7bw/cj/HTYjEQZQUZUjgi77z
+ tU+9XQy7/EXLxFyt+HY0ZlRs3VPk4kzTYEM1l0ircWhZKE0wzV1e5ThIrhzMNzQXRoFA
+ DSlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wIR27mQAMDQU5wZSKe7lgwesYEmOHelMhHFL6pQD6zE=;
- b=VwiKpEuWAnhi52ctx+VuCQdBHLtx6iJByNb8KZOWmyptBTJ6E2mJi1bnJ8RKz6/RZg
- 0+2jdrHulj8dR9hMM0LqtOpDCnscgYQ/8KQ8NvWvqLAjqzMBtDkZc7duF4lNF+ahFhP3
- ZFgCteYdlZ2J2vvk7LSX0NkMWGaMuahkDD8x5rk9Fsg+Z2xgYa7sTziDT9zwABNTf3Ai
- IAhhVrr1slPRizrPO1hbuZKCdDHt0yju7RJpIHQK+0rbfr+6NMqAtAMO0w8kYCRTDh31
- KTLotCXLGtQduGzpTaTsRfSJxkwTB4J6ru42SR+duB1jjyTdZsLqljRvmXI7QXKALp4s
- msPw==
-X-Gm-Message-State: ANoB5pn4t06Uh7mnhqG2j2OJCfAXtx8BOAAE98JsA8xipcy6Dg26R8Ml
- sm7x8WX+YqOTizkcU7cWp78oIkTSOqaZyXoijXePtg==
-X-Google-Smtp-Source: AA0mqf4nOXQYMGx5j5z7in+FOkjUZWF2jPlXKA8UpKp/O46AW09GGkqaiqlMXorboQNqfq4/lZ3ZxYl/J+wzIpuwkzo=
-X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
- r6-20020a635146000000b0047786c1640fmr16348321pgl.231.1669385848264; Fri, 25
- Nov 2022 06:17:28 -0800 (PST)
+ bh=vjwKIKn+XoUpqWUV/u5KisBkHasa/P64ZxyUm3HGW2A=;
+ b=UYKjy91cN/h+ECEj1W8KRQM1dkbHVH7ERb6M3UzGLUcPc5Yw8O3CKOdbnC/4AlgcbK
+ O7OTjEZ2IAxbVLnsrVk6cp/p+XAps/L11kosFuppoSBk8NSjiF7zalxdl2J34NHuzDKQ
+ v/Ekdn8UQ/jZUpjy8puDl60DZjVcGVl76yDpZFnPQEnfcdAcWfrEaC2rFmlIFWQtquw6
+ X+0NbqJopJc11uGdBTTyN7x+0ugMA5T6dRr5KuL8A6MO1Jsvtas+HLbfxdr1OqGknuxa
+ ryxWmOBAReTDRyxZ6kG6Ka/qyUGh69mYSh2uoNYTdfxvBjODl67iybdx4s5TYeqnRzs/
+ wzJQ==
+X-Gm-Message-State: ANoB5pk9RJYnYA1m/Nd5aw5XrswQmZ6UJXh/R20MNQ4QKoOt1EBpDqFK
+ 4cO1BMD/0B9iN1U5ErCCuXpySDj+uFbJGVQVhMpVsQ==
+X-Google-Smtp-Source: AA0mqf5fXcMCsMhCYd5EDZoVxjHklXLu8mZokPHGkjARDuAlIRBcGFCKLZ1SA4Si+FQ4nCxwClEx2hM5+/31vbzW+R0=
+X-Received: by 2002:a65:45c5:0:b0:46b:2753:2a60 with SMTP id
+ m5-20020a6545c5000000b0046b27532a60mr18626272pgr.192.1669385990328; Fri, 25
+ Nov 2022 06:19:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20221125140828.56636-1-akihiko.odaki@daynix.com>
-In-Reply-To: <20221125140828.56636-1-akihiko.odaki@daynix.com>
+References: <20221125140922.56760-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20221125140922.56760-1-akihiko.odaki@daynix.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Nov 2022 14:17:16 +0000
-Message-ID: <CAFEAcA97ouQdARofPOZ5+==qNMPiK_eFH8anL6eb0Tw-PaPK1A@mail.gmail.com>
-Subject: Re: [PATCH] e1000: Configure ResettableClass
+Date: Fri, 25 Nov 2022 14:19:39 +0000
+Message-ID: <CAFEAcA9t-Hv_F1qXNj4q4hZGmmyrpcJfrxAm04JJBXE8B-0fww@mail.gmail.com>
+Subject: Re: [PATCH] e1000e: Configure ResettableClass
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
  Jason Wang <jasowang@redhat.com>, Yan Vugenfirer <yan@daynix.com>, 
  Yuri Benditovich <yuri.benditovich@daynix.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,7 +84,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 25 Nov 2022 at 14:09, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+On Fri, 25 Nov 2022 at 14:10, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
 >
 > This is part of recent efforts of refactoring e1000 and e1000e.
 >
@@ -93,39 +93,48 @@ On Fri, 25 Nov 2022 at 14:09, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
 >
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->  hw/net/e1000.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  hw/net/e1000e.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-> index e26e0a64c1..f97610d7e1 100644
-> --- a/hw/net/e1000.c
-> +++ b/hw/net/e1000.c
-> @@ -1746,9 +1746,9 @@ static void pci_e1000_realize(PCIDevice *pci_dev, Error **errp)
->                                          e1000_flush_queue_timer, d);
+> diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+> index 7523e9f5d2..4f31a7894a 100644
+> --- a/hw/net/e1000e.c
+> +++ b/hw/net/e1000e.c
+> @@ -512,9 +512,9 @@ static void e1000e_pci_uninit(PCIDevice *pci_dev)
+>      msi_uninit(pci_dev);
 >  }
 >
-> -static void qdev_e1000_reset(DeviceState *dev)
-> +static void qdev_e1000_reset(Object *obj)
+> -static void e1000e_qdev_reset(DeviceState *dev)
+> +static void e1000e_qdev_reset(Object *obj)
+
+We should name this e1000e_qdev_reset_hold().
+
 >  {
-> -    E1000State *d = E1000(dev);
-> +    E1000State *d = E1000(obj);
->      e1000_reset(d);
->  }
+> -    E1000EState *s = E1000E(dev);
+> +    E1000EState *s = E1000E(obj);
+>
+>      trace_e1000e_cb_qdev_reset();
+>
+> @@ -669,6 +669,7 @@ static Property e1000e_properties[] = {
+>  static void e1000e_class_init(ObjectClass *class, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(class);
+> +    ResettableClass *rc = RESETTABLE_CLASS(class);
+>      PCIDeviceClass *c = PCI_DEVICE_CLASS(class);
+>
+>      c->realize = e1000e_pci_realize;
+> @@ -679,8 +680,9 @@ static void e1000e_class_init(ObjectClass *class, void *data)
+>      c->romfile = "efi-e1000e.rom";
+>      c->class_id = PCI_CLASS_NETWORK_ETHERNET;
+>
+> +    rc->phases.hold = e1000e_qdev_reset;
+> +
+>      dc->desc = "Intel 82574L GbE Controller";
+> -    dc->reset = e1000e_qdev_reset;
+>      dc->vmsd = &e1000e_vmstate;
 
-This function doesn't actually do anything except
-call e1000_reset(), which is not called from
-anywhere else. So we should:
- * delete this function entirely
- * update e1000_reset() to be named e1000_reset_hold() and
-   to have the prototype for a reset phase function
- * directly set rc->phases.hold to e1000_reset_hold
-
-As well as being less code, this avoids having a
-function named "e1000_reset()" that gives the
-impression that you can do device reset by calling
-one function. That might be true now but if we ever
-need to add something to the other 2 phases of reset
-then it would stop being true.
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
