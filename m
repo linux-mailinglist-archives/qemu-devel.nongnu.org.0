@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18EF638F6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 18:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11299638F7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 19:05:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oycvN-0007nm-1a; Fri, 25 Nov 2022 12:55:41 -0500
+	id 1oyd3U-0001FU-OC; Fri, 25 Nov 2022 13:04:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oycvL-0007md-1s
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:55:39 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oycvJ-0003TI-5L
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:55:38 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- a11-20020a05600c2d4b00b003cf6f5fd9f1so3959394wmg.2
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 09:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=SsKozInxZZRcq/qH+57Qf2OKb8tQKRGxe6TGhWxBgV8=;
- b=r/eFlGsQyTU041ooLeXMYx0sCfWtZLmZcyACZ+5LEr3BABCD1pqs1ELCCWTySa7aSJ
- 8clZVSQUf8jnr8+vXz3OamuAHNslneCWLKCdO+ofQW7KKwJ9Wdf4eyLjhuPRhkwmzkad
- PMyPkPE5UMiTx8rt1dZQwkrEwn8rrH8ObnDUIWWrQfHjGPWL6Vtaj3gLhxPHE8ZyP5ev
- W6wgLTBn2ABHQaJvT4f9FqnwfuVNt1wmitrsB5vS1PvWCkBS/aGMGqwnQpXMhmNj17sH
- MGPIynJm/M1p76TwDBJ633zYZI4xsqkbOg2iQyG7/ejfiPDBXpZtDkyvSadvAX6+51FK
- 7eUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SsKozInxZZRcq/qH+57Qf2OKb8tQKRGxe6TGhWxBgV8=;
- b=ElqbRgNEVamWohsONLqWhseNcSlnyQmD7DxSer+cj5RhQjFmUp0mbQIfhMJ80x3+IL
- CVkTnApuX6ov2o8493U8NJIkNxKqEVNZ4L128WbfGCKmciuxomBcCmiSzFzreqaQBWV5
- Gn7GxdwPOUIHgniGRi9U+QjrFrudy0/r2KGL2pMJjdiQQVuzrUQAujF2qVw1rqi28YlW
- JiLvlvHyDX2A+U/6+d6xag1HN/qL9ORjb0LmXO6OEkxcz5XBeWZo39rgcCkY4J4XZldX
- Yh5JE7IYS8cFrte13di/S1bdQiIxLj35qjqZLreBknTv9FW2/N+mY/vN6K1at9A5uJaR
- lBgw==
-X-Gm-Message-State: ANoB5pm+9MqdQlMNvQk2+4Du5srS7tLoPnEVwrHtTabmdsI3MZR855xO
- NlEo/gffV6h9Qw0ZO4xnq1P+RY8sddcQRQ==
-X-Google-Smtp-Source: AA0mqf7MsbKaqRISshoZVbqM2jMsna7N3pxCW/3QuEat/ctCWsNFkHbh4jSZqdH7tQadI0zQQ6Etdw==
-X-Received: by 2002:a05:600c:4a99:b0:3cf:91e5:3d69 with SMTP id
- b25-20020a05600c4a9900b003cf91e53d69mr33051832wmp.160.1669398934417; 
- Fri, 25 Nov 2022 09:55:34 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- x9-20020a5d6b49000000b002366e3f1497sm4234200wrw.6.2022.11.25.09.55.33
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 25 Nov 2022 09:55:33 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH-for-8.0] coroutine: Add missing <qemu/atomic.h> include
-Date: Fri, 25 Nov 2022 18:55:32 +0100
-Message-Id: <20221125175532.48858-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oyd3S-0001FC-PZ; Fri, 25 Nov 2022 13:04:03 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oyd3O-00059S-G7; Fri, 25 Nov 2022 13:04:01 -0500
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 41C1C601BC;
+ Fri, 25 Nov 2022 21:03:31 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:16::1:7] (unknown [2a02:6b8:b081:16::1:7])
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id T3R9A20NliE1-UXAMkaeI; Fri, 25 Nov 2022 21:03:30 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1669399410; bh=SArqmbubp3uffMlVrOneAGsveroOYfuXEB5wq8/1YAc=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=aWLWEpjmJBP6Ed5fsJqv0huO2mbwcgyBT6EXSEFijmh8qLLt6AmZ0UOxHVNupXkNd
+ z7K9LfEsXjWAzlb5Mvgqj2uGvQoa4WBQLvpOQn8i5r53Y1JX5x+3Ff0Nl/MNkyDe13
+ uf6ahPjMfUoQ8fzaZxE/0lICp0ph9MfDwJSq1KEU=
+Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <e45ea640-294d-201b-7b0d-94755eaccd30@yandex-team.ru>
+Date: Fri, 25 Nov 2022 21:03:29 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v6 07/14] block: distinguish between bdrv_create running
+ in coroutine and not
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20221125133518.418328-1-eesposit@redhat.com>
+ <20221125133518.418328-8-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221125133518.418328-8-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,34 +78,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qemu_co_mutex_assert_locked() calls qatomic_read(), which
-is declared in <qemu/atomic.h>. This fixes when refactoring:
+On 11/25/22 16:35, Emanuele Giuseppe Esposito wrote:
+> Call two different functions depending on whether bdrv_create
+> is in coroutine or not, following the same pattern as
+> generated_co_wrapper functions.
+> 
+> This allows to also call the coroutine function directly,
+> without using CreateCo or relying in bdrv_create().
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   block.c | 71 +++++++++++++++++++++++++++++----------------------------
+>   1 file changed, 36 insertions(+), 35 deletions(-)
+> 
+> diff --git a/block.c b/block.c
+> index 9d51e7b6e5..2cf50b37c4 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -528,63 +528,64 @@ typedef struct CreateCo {
+>       Error *err;
+>   } CreateCo;
+>   
+> -static void coroutine_fn bdrv_create_co_entry(void *opaque)
+> +static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+> +                                       QemuOpts *opts, Error **errp)
+>   {
+> -    Error *local_err = NULL;
+>       int ret;
+> +    GLOBAL_STATE_CODE();
+> +    ERRP_GUARD();
+> +    assert(*errp == NULL);
+> +    assert(drv);
 
-  In file included from include/qemu/osdep.h:113,
-                   from ../../util/error-report.c:13:
-  include/qemu/coroutine.h: In function 'qemu_co_mutex_assert_locked':
-  include/qemu/coroutine.h:182:12: error: implicit declaration of function 'qatomic_read' [-Werror=implicit-function-declaration]
-    182 |     assert(qatomic_read(&mutex->locked) &&
-        |            ^~~~~~~~~~~~
+Why we need these two assertions? These are general assumptions, and we don't assert it in all functions. Dereference of NULL will crash not worse than assertion. I'd drop them.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- include/qemu/coroutine.h | 1 +
- 1 file changed, 1 insertion(+)
+> +
+> +    if (!drv->bdrv_co_create_opts) {
+> +        error_setg(errp, "Driver '%s' does not support image creation",
+> +                   drv->format_name);
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    ret = drv->bdrv_co_create_opts(drv, filename, opts, errp);
+>   
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 89650a2d7f..1750c30d8e 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -17,6 +17,7 @@
- 
- #include "qemu/queue.h"
- #include "qemu/timer.h"
-+#include "qemu/atomic.h"
- 
- /**
-  * Coroutines are a mechanism for stack switching and can be used for
+and this empty line, looks accidental.
+
+Offtopic: hope one day we fix *open* functions to always set errp on error paths.
+
+> +    if (ret < 0 && !*errp) {
+> +        error_setg_errno(errp, -ret, "Could not create image");
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static void coroutine_fn bdrv_create_co_entry(void *opaque)
+> +{
+>       CreateCo *cco = opaque;
+> -    assert(cco->drv);
+>       GLOBAL_STATE_CODE();
+>   
+> -    ret = cco->drv->bdrv_co_create_opts(cco->drv,
+> -                                        cco->filename, cco->opts, &local_err);
+> -    error_propagate(&cco->err, local_err);
+> -    cco->ret = ret;
+> +    cco->ret = bdrv_co_create(cco->drv, cco->filename, cco->opts, &cco->err);
+
+We need aio_wait_kick() call here, like in other co_entry() functions. Otherwise we may stuck in aio_poll()
+
+with it:
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+Hmm actually, we can simply merge this patch into patch 13 (and move 08 to be after 13). Why to refactor bdrv_create twice?
+
+
 -- 
-2.38.1
+Best regards,
+Vladimir
 
 
