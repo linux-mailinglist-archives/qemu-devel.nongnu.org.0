@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC02F63891D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 12:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B37638921
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 12:53:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyXGF-0005cw-74; Fri, 25 Nov 2022 06:52:51 -0500
+	id 1oyXGF-0005dc-JG; Fri, 25 Nov 2022 06:52:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyXGD-0005aK-GZ
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:49 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1oyXGE-0005bx-AJ
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:50 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyXGB-00039m-LZ
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:49 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id z4so6419207wrr.3
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 03:52:47 -0800 (PST)
+ id 1oyXGC-00039z-Kf
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 06:52:50 -0500
+Received: by mail-wr1-x436.google.com with SMTP id cl5so6391571wrb.9
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 03:52:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IJ4qIWoL++eMLbfkZYy8FK1zBpGEGlxYqMfghUQB7Bo=;
- b=I03GyLlm6xvIPuzXmo0VyCmTFs6tYqQRsk0ZYaqZ0qL4XJik/tA9pDtvNgkB6YEVX2
- Td03n2wQ3aGadKiO2MQ7iPAM2jPxTGq4NhNJxqNWLi16v7x1BmTJz4p4Fn3u9xp3gAdS
- lwqLqobyI2G3TDaAbsVzIO+7PBaE9/GXpP/g4LTOQcFqLtzD2UOhBqVg7fmZBwIyXZ//
- U2xhmvpkoMRbUhrNvD4HFZwtRTMgvvNmVmihqjEdnRj5PyjiBmuQMv8kkLXVRUEkIQya
- K2keY/HPrJ0QOMcp/5eJOZGvldXeaEMf4Ysesub6Q2+dJg1OFZSPJQvYm3hUpE8C02Un
- SuLw==
+ bh=Q7QwRIJ7+JF6N2x5NqeLNiV3OMXYdz7GNPaIQ9AMgrE=;
+ b=XTVE4DpXJVw6z6EV8X3Dx7NfrSpPK4+oRSFFAVqd5qvhaWyN8nUVlhLV5bF4++IGV4
+ u7vpoOfdg+XTgaXqOtKi7MuR5AePQWu2v6NfC/0iqcCv7pk0G/KufzzpEGodFvBx7Tw6
+ mq5cntrwCp+d0fISg5RghulN/nEHcejfbEGgypbzN6VXTkkAQSaQYClByHpx3OSjO2k+
+ kqkIRyjoSELb++Z+mMqTDxTMYnBJzXsaTdkxckvjwriRYxOFRIWyLMd2opZw8nz8vASo
+ ZpJQdsA2AmsyCw7edGy9PPQ0oKECc596a9uCH0X0t6YeHkKxKQxndjahnlGmXU1xwm6U
+ Qokw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IJ4qIWoL++eMLbfkZYy8FK1zBpGEGlxYqMfghUQB7Bo=;
- b=UHZTIH2rRBmNODuA/HYbTYaR0D+autAn3twnM36J6vFficuyx2im92LufquBDu+3mV
- AWyj8dlc+Y+glZiVuaDs/fQWPwa0eciwss8ln15FR9HV1hHllf7FTl/xjwacCOJ5u43v
- F4eBZ9JoBheHvj0bDwqmdoIFwzLq+R6/1xZKSydHQdFcLxSIUvss4QgxakEZdRPLgtJN
- 7ZiHTn6r5rQ3Pz2ye3fC0/lUFDKDfUCpTIKlK4EjEM+4Ci0z1KYvAbMc/v9kcnTO6DCF
- 7J7dSaxDh92C8LHZuhCVGLCqQ+Lpb6n04/JTmmS37Gvh3bkdJNgZPu5AWvtDceYtJig0
- +OCw==
-X-Gm-Message-State: ANoB5pnywbe648FPceoKRXVW2GDQXKM89cLJEEx7lyZSlIN+mDo6GWpE
- ZYDDFO/CfZVibhoAh9k0192f70dEIDepHQ==
-X-Google-Smtp-Source: AA0mqf7Lo6Wldp+ruEMndQ3TG5/wSzIgxz4+GGfI0x8JdoHfgf/duLD5jDx4UNUWGIOqnW1ACm5C5Q==
-X-Received: by 2002:adf:fec7:0:b0:236:8d39:6f84 with SMTP id
- q7-20020adffec7000000b002368d396f84mr21857705wrs.152.1669377166321; 
- Fri, 25 Nov 2022 03:52:46 -0800 (PST)
+ bh=Q7QwRIJ7+JF6N2x5NqeLNiV3OMXYdz7GNPaIQ9AMgrE=;
+ b=aFPSft6cLoNpTfBRifutgCMG2dlbHRM8l95eSvbcS3bKr4FlnFKrCwPxQwM4oee/QB
+ FF0e3QkE0AIZ4Xn9Sby6u/z9z8uELu7C4OCPQe7/g48BblyxLzVrJGsKG/QFvcmfky0w
+ SekmZMhPK/6AtTNgs5M9osum5IGtToDsgPV8D5QLaZnpqweiWuKYhXU6phCdvHkRJDSG
+ lS9SscNriQ50VwwyE98D8SsVjsapzgXy8J8vyglbfSH/JKiD5ZLySSsRAYMdPK/QtaJL
+ iWqF0vP9JHyJLbXnd4ATmDsprGmMmDVM8lWXTgKr+2AesL1RxfVf3LaRCqcn87sD58Xs
+ HZ3g==
+X-Gm-Message-State: ANoB5pncUckE79O+wPrRASuDHBj7KWq8C5iV1AQpw4n2u0vwsLjP/O8K
+ hjiqdSkKE/fRteor3AIlbxVLBT9B4fTK4A==
+X-Google-Smtp-Source: AA0mqf6WElggmOF82EqhuYw86XXlR8Bqps0bERtyLPwtYOM+lEkooRTjwOuQpX0Xq+xNGFzhhoszQQ==
+X-Received: by 2002:adf:eb8f:0:b0:22e:48ee:dc64 with SMTP id
+ t15-20020adfeb8f000000b0022e48eedc64mr22570649wrn.319.1669377167319; 
+ Fri, 25 Nov 2022 03:52:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- u17-20020a05600c19d100b003c6f8d30e40sm9728258wmq.31.2022.11.25.03.52.45
+ u17-20020a05600c19d100b003c6f8d30e40sm9728258wmq.31.2022.11.25.03.52.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 03:52:45 -0800 (PST)
+ Fri, 25 Nov 2022 03:52:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -61,17 +61,17 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Greg Kurz <groug@kaod.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 4/7] pci: Convert child classes of TYPE_PCIE_ROOT_PORT
- to 3-phase reset
-Date: Fri, 25 Nov 2022 11:52:37 +0000
-Message-Id: <20221125115240.3005559-5-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 5/7] hw/intc/xics: Reset TYPE_ICS objects with
+ device_cold_reset()
+Date: Fri, 25 Nov 2022 11:52:38 +0000
+Message-Id: <20221125115240.3005559-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221125115240.3005559-1-peter.maydell@linaro.org>
 References: <20221125115240.3005559-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,124 +94,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the TYPE_CXL_ROOT_PORT and TYPE_PNV_PHB_ROOT_PORT classes to
-3-phase reset, so they don't need to use the deprecated
-device_class_set_parent_reset() function any more.
+The realize method for the TYPE_ICS class uses qemu_register_reset()
+to register a reset handler, as a workaround for the fact that
+currently objects which directly inherit from TYPE_DEVICE don't get
+automatically reset.  However, the reset function directly calls
+ics_reset(), which is the function that implements the legacy reset
+method.  This means that only the parent class's data gets reset, and
+a subclass which also needs to handle reset, like TYPE_PHB3_MSI, has
+to register its own reset function.
 
-We have to do both in the same commit, because they keep the
-parent_reset field in their common parent class's class struct.
-
-Note that pnv_phb_root_port_class_init() was pointlessly setting
-dc->reset twice, once by calling device_class_set_parent_reset()
-and once directly.
+Make the TYPE_ICS reset function call device_cold_reset() instead:
+this will handle reset for both the parent class and the subclass,
+and will work whether the classes are using legacy reset or 3-phase
+reset. This allows us to remove the reset function that the subclass
+currently has to set up.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/pci/pcie_port.h    |  2 +-
- hw/pci-bridge/cxl_root_port.c | 14 +++++++++-----
- hw/pci-host/pnv_phb.c         | 18 ++++++++++--------
- 3 files changed, 20 insertions(+), 14 deletions(-)
+ hw/intc/xics.c             | 2 +-
+ hw/pci-host/pnv_phb3_msi.c | 7 -------
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
-index 7b8193061ac..d9b5d075049 100644
---- a/include/hw/pci/pcie_port.h
-+++ b/include/hw/pci/pcie_port.h
-@@ -80,7 +80,7 @@ DECLARE_CLASS_CHECKERS(PCIERootPortClass, PCIE_ROOT_PORT,
- struct PCIERootPortClass {
-     PCIDeviceClass parent_class;
-     DeviceRealize parent_realize;
--    DeviceReset parent_reset;
-+    ResettablePhases parent_phases;
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index dcd021af668..dd130467ccc 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -593,7 +593,7 @@ static void ics_reset(DeviceState *dev)
  
-     uint8_t (*aer_vector)(const PCIDevice *dev);
-     int (*interrupts_init)(PCIDevice *dev, Error **errp);
-diff --git a/hw/pci-bridge/cxl_root_port.c b/hw/pci-bridge/cxl_root_port.c
-index fb213fa06ef..6664783974c 100644
---- a/hw/pci-bridge/cxl_root_port.c
-+++ b/hw/pci-bridge/cxl_root_port.c
-@@ -138,12 +138,14 @@ static void cxl_rp_realize(DeviceState *dev, Error **errp)
-                      component_bar);
+ static void ics_reset_handler(void *dev)
+ {
+-    ics_reset(dev);
++    device_cold_reset(dev);
  }
  
--static void cxl_rp_reset(DeviceState *dev)
-+static void cxl_rp_reset_hold(Object *obj)
- {
--    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
--    CXLRootPort *crp = CXL_ROOT_PORT(dev);
-+    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(obj);
-+    CXLRootPort *crp = CXL_ROOT_PORT(obj);
- 
--    rpc->parent_reset(dev);
-+    if (rpc->parent_phases.hold) {
-+        rpc->parent_phases.hold(obj);
-+    }
- 
-     latch_registers(crp);
- }
-@@ -199,6 +201,7 @@ static void cxl_root_port_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc        = DEVICE_CLASS(oc);
-     PCIDeviceClass *k      = PCI_DEVICE_CLASS(oc);
-+    ResettableClass *rc    = RESETTABLE_CLASS(oc);
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(oc);
- 
-     k->vendor_id = PCI_VENDOR_ID_INTEL;
-@@ -209,7 +212,8 @@ static void cxl_root_port_class_init(ObjectClass *oc, void *data)
-     k->config_write = cxl_rp_write_config;
- 
-     device_class_set_parent_realize(dc, cxl_rp_realize, &rpc->parent_realize);
--    device_class_set_parent_reset(dc, cxl_rp_reset, &rpc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, cxl_rp_reset_hold, NULL,
-+                                       &rpc->parent_phases);
- 
-     rpc->aer_offset = GEN_PCIE_ROOT_PORT_AER_OFFSET;
-     rpc->acs_offset = GEN_PCIE_ROOT_PORT_ACS_OFFSET;
-diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-index 0b26b43736f..c62b08538ac 100644
---- a/hw/pci-host/pnv_phb.c
-+++ b/hw/pci-host/pnv_phb.c
-@@ -199,14 +199,16 @@ static void pnv_phb_class_init(ObjectClass *klass, void *data)
-     dc->user_creatable = true;
+ static void ics_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/pci-host/pnv_phb3_msi.c b/hw/pci-host/pnv_phb3_msi.c
+index 2f4112907b8..ae908fd9e41 100644
+--- a/hw/pci-host/pnv_phb3_msi.c
++++ b/hw/pci-host/pnv_phb3_msi.c
+@@ -239,11 +239,6 @@ static void phb3_msi_reset(DeviceState *dev)
+     msi->rba_sum = 0;
  }
  
--static void pnv_phb_root_port_reset(DeviceState *dev)
-+static void pnv_phb_root_port_reset_hold(Object *obj)
+-static void phb3_msi_reset_handler(void *dev)
+-{
+-    phb3_msi_reset(dev);
+-}
+-
+ void pnv_phb3_msi_update_config(Phb3MsiState *msi, uint32_t base,
+                                 uint32_t count)
  {
--    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
--    PnvPHBRootPort *phb_rp = PNV_PHB_ROOT_PORT(dev);
--    PCIDevice *d = PCI_DEVICE(dev);
-+    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(obj);
-+    PnvPHBRootPort *phb_rp = PNV_PHB_ROOT_PORT(obj);
-+    PCIDevice *d = PCI_DEVICE(obj);
-     uint8_t *conf = d->config;
+@@ -272,8 +267,6 @@ static void phb3_msi_realize(DeviceState *dev, Error **errp)
+     }
  
--    rpc->parent_reset(dev);
-+    if (rpc->parent_phases.hold) {
-+        rpc->parent_phases.hold(obj);
-+    }
+     msi->qirqs = qemu_allocate_irqs(phb3_msi_set_irq, msi, ics->nr_irqs);
+-
+-    qemu_register_reset(phb3_msi_reset_handler, dev);
+ }
  
-     if (phb_rp->version == 3) {
-         return;
-@@ -300,6 +302,7 @@ static Property pnv_phb_root_port_properties[] = {
- static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
- 
-@@ -308,9 +311,8 @@ static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
-     device_class_set_props(dc, pnv_phb_root_port_properties);
-     device_class_set_parent_realize(dc, pnv_phb_root_port_realize,
-                                     &rpc->parent_realize);
--    device_class_set_parent_reset(dc, pnv_phb_root_port_reset,
--                                  &rpc->parent_reset);
--    dc->reset = &pnv_phb_root_port_reset;
-+    resettable_class_set_parent_phases(rc, NULL, pnv_phb_root_port_reset_hold,
-+                                       NULL, &rpc->parent_phases);
-     dc->user_creatable = true;
- 
-     k->vendor_id = PCI_VENDOR_ID_IBM;
+ static void phb3_msi_instance_init(Object *obj)
 -- 
 2.25.1
 
