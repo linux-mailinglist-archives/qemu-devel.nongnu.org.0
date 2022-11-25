@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3539A638800
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 11:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BDB638801
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 11:57:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyWNe-0008EC-7S; Fri, 25 Nov 2022 05:56:26 -0500
+	id 1oyWNl-0008F2-Nj; Fri, 25 Nov 2022 05:56:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyWNd-0008Dy-58
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:56:25 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oyWNb-0007sd-J9
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:56:24 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- hd14-20020a17090b458e00b0021909875bccso1345284pjb.1
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:56:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KZK9MjQmu1XwqbKARqh+rWQRVj0TBvp5vgtw1qrPy+w=;
- b=zhKefR8OmnuHZSWBoOenBULCNDOHtpaPLqJ7DzU5fFqZl8fgpvXkcyVYUn3v2Ym5MQ
- lgECOQZNP5PL8fnWP6hbmhv79/2bM0Nn7Z1Q5e6wxP9I+yTNQ3XSsu6plWF5muGGpAua
- TsrUIpZvBLfcF5gj+tVoCmAZSBf33wwxFFujCqTePkzZVXSpgYEEtt8NEnVpg7vXxk9S
- hasCY+nnWMESSNuRoe+1wEfoSyd75jLP24w9i9jL18S1+YYk1qhAbcAPxCjwf8bxxhSN
- nVzehlanDqA4Ajz2rqksQ/aMuM0kJkcyDjZNki4/W5uKSM27DZe/0eN4idDfgILlp+oo
- ZJGw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oyWNj-0008Em-HO
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:56:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oyWNh-0007tW-K0
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:56:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669373788;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KJnf7mQAM+xeDLiLG99bFWPKMW3pHOFW91iL4x8zxXQ=;
+ b=Wepo9b6vk0NS03FYPafwpB6iaDo0DsNnRPfMvCoExxlZ0+Ip7FOQ7WRXZzFWS/x/YYyZNF
+ rOXvwLctYh2EBRBjh0WpLKSMwRaaIU7icHuV8Hv/mlUoxI9kj+YM+hpSYYBaf5JG3HUggy
+ xrKWn9nKAfCWTsMsf+cUwZ9wJGDcLZk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-362-mGqfJ21xNU6e7uJjqBAhoA-1; Fri, 25 Nov 2022 05:56:26 -0500
+X-MC-Unique: mGqfJ21xNU6e7uJjqBAhoA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m34-20020a05600c3b2200b003cf549cb32bso4042629wms.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:56:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KZK9MjQmu1XwqbKARqh+rWQRVj0TBvp5vgtw1qrPy+w=;
- b=F9NbssWSGOeMbU0hhZ5GZyGPVg/6JmOG9CBeHyjFwGaPIj1Z/Vinnse4FNA0C/QU/q
- O0ROw2QXpx8RJkV5qq89OFBI/L7Fp+4Jv8o2pXPolgSQPRvsVK7QeQ5m4Cj4nZnu7A3Z
- osbvJ1rUwpP23KxVFTHoYQ+RcdPsODgyUVHzWHubr3yoUXyZ4LmJRFkjFs+egjye/IfU
- p4IFqeCNcqiXCBBf1a2dHBweeQiywYpx6rmrkwtGE93HD4358dLSZJPYOKOcJ9mlLcq+
- 6Dd9NFg3iNZsHgJ5f1B7m2nZMYhVjIxEYIU29cmOLh7FJVUv7NeuScmE+5FP7w7VhHhy
- P0iA==
-X-Gm-Message-State: ANoB5pnK9GQAnGYQr+CLUtmIbK7trPEdHME4opXp5MhGwUnMhTGcJpj4
- +wBTYLdfU1DdZDKuBvxchCRqeo0KAExPh4oaD5FvVw==
-X-Google-Smtp-Source: AA0mqf6RqZqp3TEnB3VBdZGTEj2RyrPEpsuZZkeLIG0u144VsoQm7MFwSWdaxKZ5O9uIHM0w12J/Az+lh69yAlXPKyU=
-X-Received: by 2002:a17:902:b691:b0:188:5240:50ec with SMTP id
- c17-20020a170902b69100b00188524050ecmr18141824pls.168.1669373781295; Fri, 25
- Nov 2022 02:56:21 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KJnf7mQAM+xeDLiLG99bFWPKMW3pHOFW91iL4x8zxXQ=;
+ b=eRiw8uI2mFAd4ONMM93Kq9ha8dl8FjXlST/8FIvTVnNjP8uLtggjf565TUMMpMXIOu
+ d2gQs++y0DwNkGg8OPScYVDoGB36UCE7PDPoB42B/a6j8hffDVvZRA0YIhtU4sr5TrxD
+ j0nWHOFB8uUP5T6WCOoDtpNVUG+WAtZGYQcPJ4Nno11epzNx9vc5STX25yYiTOMg+Afo
+ iDKsvWCI8tazOmuEvtGLXCnv0X/HIdrxS2iKNa7yWfP6kEYuWrd8VlmzAr09flM5VBHm
+ 3nQHz3YNlzpqAl4LghxnEMsaD6WpmR87wzip1t3LJX4HvvZEF3lRuWvFQr0zlqvnsv7i
+ Pbhw==
+X-Gm-Message-State: ANoB5pnZ+Roc5GL1EPzMLVTBnyoBns49D9FdUjki4E5O+SDy4wDQZsY6
+ SLp2OJCm+vJqkOvTyFWlkoOhB5en9tuY8XR+UV4ikzF/WrLcj9L0mo0NXZ/oeWQCBNLD9cP5OTr
+ f6nlloVXLgWVzS+o=
+X-Received: by 2002:adf:f64b:0:b0:241:cdf2:fe53 with SMTP id
+ x11-20020adff64b000000b00241cdf2fe53mr16599720wrp.85.1669373785286; 
+ Fri, 25 Nov 2022 02:56:25 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6Op3o4gyLG0FxwKFtFRzuDzmZQAQE8q1qBkg1HCbvy5fG0E1QBBonz2+aL+zws4ihGtT+lSw==
+X-Received: by 2002:adf:f64b:0:b0:241:cdf2:fe53 with SMTP id
+ x11-20020adff64b000000b00241cdf2fe53mr16599703wrp.85.1669373785067; 
+ Fri, 25 Nov 2022 02:56:25 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-176-41.web.vodafone.de.
+ [109.43.176.41]) by smtp.gmail.com with ESMTPSA id
+ m6-20020adfc586000000b002366fb99cdasm3481725wrg.50.2022.11.25.02.56.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Nov 2022 02:56:24 -0800 (PST)
+Message-ID: <3a193197-5991-ef9c-55b3-d9e56cac90e1@redhat.com>
+Date: Fri, 25 Nov 2022 11:56:23 +0100
 MIME-Version: 1.0
-References: <20221124071602.1109150-1-kraxel@redhat.com>
- <CAJSP0QUh2Pp9PdxTQ4HvrraF03eKBeUMJR8WhPN4GgEW36K93w@mail.gmail.com>
- <20221125063421.y7th23snmahilgpt@sirius.home.kraxel.org>
-In-Reply-To: <20221125063421.y7th23snmahilgpt@sirius.home.kraxel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Nov 2022 10:56:09 +0000
-Message-ID: <CAFEAcA8kmormkD9_b5VyB6Jhx_HPgGxvnnexQ0xJN8z6W=G8iA@mail.gmail.com>
-Subject: Re: [PULL 0/4] Fixes 20221124 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1035.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 2/4] .gitlab-ci.d/windows.yml: Keep 64-bit and 32-bit
+ build scripts consistent
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20221125104951.3169611-1-bmeng.cn@gmail.com>
+ <20221125104951.3169611-2-bmeng.cn@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221125104951.3169611-2-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,38 +105,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 25 Nov 2022 at 06:34, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Thu, Nov 24, 2022 at 01:03:21PM -0500, Stefan Hajnoczi wrote:
-> > On Thu, 24 Nov 2022 at 02:27, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > > usb+ui: fixes for 7.2
-> >
-> > Hi Gerd,
-> > I already applied your previous pull request so these patches are in
-> > qemu.git/master. Do you want to revert the 8.0 patches that were
-> > included in your previous pull request? I don't know how risky it is
-> > to have them in 7.2. It's up to you.
-> >
-> > 7d3cf19548 hw/audio/intel-hda: Drop unnecessary prototype
-> > 3e95ef49e6 hw/audio/intel-hda: don't reset codecs twice
-> > 1dfb7a175f hw/usb/hcd-xhci: Reset the XHCIState with device_cold_reset()
->
-> They look rather safe to me, Peter raised concerns though so I've
-> re-sent the pull with them dropped.
->
-> Peter?
+On 25/11/2022 11.49, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> At present the build scripts of 32-bit and 64-bit are inconsistent.
+> Let's keep them consistent for easier maintenance.
+> 
+> While we are here, add some comments to explain that for the 64-bit
+> job, "--without-default-devices" is a must have, at least for now.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>   .gitlab-ci.d/windows.yml | 20 ++++++++++++++------
+>   1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> index 99d78c2213..c6de65c784 100644
+> --- a/.gitlab-ci.d/windows.yml
+> +++ b/.gitlab-ci.d/windows.yml
+> @@ -61,12 +61,19 @@ msys2-64bit:
+>         mingw-w64-x86_64-usbredir
+>         mingw-w64-x86_64-zstd "
+>     - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+> -  - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
+> +  - $env:MSYSTEM = 'MINGW64'     # Start a 64-bit MinGW environment
+>     - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+> -  - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
+> +  - mkdir output
+> +  - cd output
+> +  # Note: do not remove "--without-default-devices"!
+> +  # commit 9f8e6cad65a6 ("gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices"
+> +  # changed to compile QEMU with the --without-default-devices switch
+> +  # for the msys2 64-bit job, due to the build could not complete within
+> +  # the project timeout.
+> +  - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
+>         --enable-capstone --without-default-devices'
+> -  - .\msys64\usr\bin\bash -lc 'make'
+> -  - .\msys64\usr\bin\bash -lc 'make check || { cat build/meson-logs/testlog.txt; exit 1; } ;'
+> +  - ..\msys64\usr\bin\bash -lc 'make'
+> +  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
+>   
+>   msys2-32bit:
+>     extends: .shared_msys2_builder
+> @@ -100,10 +107,11 @@ msys2-32bit:
+>         mingw-w64-i686-usbredir
+>         mingw-w64-i686-zstd "
+>     - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+> -  - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinG environment
+> +  - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinGW environment
+>     - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+>     - mkdir output
+>     - cd output
+> -  - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
+> +  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
+> +      --enable-capstone'
 
-Stefan's point is that they're already upstream, so if you don't
-want them you now need to send a pull with reverts in.
+Capstone should automatically be detected if it is installed, so the 
+--enable-capstone seems redundant here ... does it not work without it?
 
-I think the patches should be OK, but the trouble with all
-this reset stuff is that there are sometimes hidden
-dependencies on exact ordering or I missed some interaction
-with an old bit of the reset handling; and basic 'make check'
-style testing doesn't always catch "this works fine until
-the guest is rebooted and then it breaks on reboot" or
-similar scenarios. So I was targeting 8.0 as the "safe option".
+  Thomas
 
-thanks
--- PMM
 
