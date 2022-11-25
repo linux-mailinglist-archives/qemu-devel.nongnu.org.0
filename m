@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 383F16387E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 11:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3539A638800
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 11:56:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyWHb-0004ya-6t; Fri, 25 Nov 2022 05:50:11 -0500
+	id 1oyWNe-0008EC-7S; Fri, 25 Nov 2022 05:56:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oyWHY-0004yB-Rl
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:08 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oyWNd-0008Dy-58
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:56:25 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oyWHX-0004aL-7R
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:50:08 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id s196so3660083pgs.3
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:50:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q6Gvq2gAiT68ZCAp1/KdoTRz/X2igHEIB7J2KA7Fe24=;
- b=WVtqocBNZFqk5/do8KpUY6t5kwt6C5bDV31rqp7IY+zjlt/WxJEMvxbZFi6oqd2nj0
- oj0U57ZEeIzkG9OzZ+jWP0IAnq9+pZatnod4nZBZu99obqWtOyqLpDJBr/CK1XQVMXbP
- 0yTIxXwsImCyyDfvsEQ+kpRT4sFdyP0PfRPKNP1to2jH8XTkihw7PqcWqlCnEDpQxxx4
- k+T3eWuunYENBjTdFzNxlOeXnSSLuNVCzcQ5phQMcM5LUYwnp4240T8djCuNDIbBTHXG
- vtVJLC9Rit2mv7ewNcet8PRKbtL9IdhD/piArTDs7IQeAwLEyS0u09s4ETJVv4n43CW3
- MGWg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oyWNb-0007sd-J9
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 05:56:24 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ hd14-20020a17090b458e00b0021909875bccso1345284pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 02:56:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KZK9MjQmu1XwqbKARqh+rWQRVj0TBvp5vgtw1qrPy+w=;
+ b=zhKefR8OmnuHZSWBoOenBULCNDOHtpaPLqJ7DzU5fFqZl8fgpvXkcyVYUn3v2Ym5MQ
+ lgECOQZNP5PL8fnWP6hbmhv79/2bM0Nn7Z1Q5e6wxP9I+yTNQ3XSsu6plWF5muGGpAua
+ TsrUIpZvBLfcF5gj+tVoCmAZSBf33wwxFFujCqTePkzZVXSpgYEEtt8NEnVpg7vXxk9S
+ hasCY+nnWMESSNuRoe+1wEfoSyd75jLP24w9i9jL18S1+YYk1qhAbcAPxCjwf8bxxhSN
+ nVzehlanDqA4Ajz2rqksQ/aMuM0kJkcyDjZNki4/W5uKSM27DZe/0eN4idDfgILlp+oo
+ ZJGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Q6Gvq2gAiT68ZCAp1/KdoTRz/X2igHEIB7J2KA7Fe24=;
- b=srsxgJyJSPMjEEESdf/1JohpPEAVaGXUt+uNqlfGM8rQjSme16Ac2gmerKYbiHH5Va
- UArgNS23FfnDKFUWFjd+RnVEvXQcDDB6enJQrHBHhXz6g6X4qiOA0ON5sA1s9p3aOUEl
- teSdpyMQcdpAypwZXz6HBZhz5XH1GX5ED74twvsiIYSrxzUjS5JJk+cPaExZsG8cvFPu
- W6se6h1tKVQl82ITvxhEg/0ILWxzBIFf97IsGerD0VMIPoZDb8MrjpzKR03PJmfxWq3Y
- CiIgE82PWfc+yp2R3evaDctnAkO5/j9G9nfMJDR63kaWofdQp/mMBQbbdmTk8RHyx6Tm
- QmTw==
-X-Gm-Message-State: ANoB5pnHzO5cyG23mutXDvHNwRlSvr8k01j0J7VKffkNPsu9gElhXRc8
- vVYyk4shrL8KBlPK88EJg6rtn3sAPIk=
-X-Google-Smtp-Source: AA0mqf54nHYKYbYhtvsldOJSpE0IZ7actmE1gFlYREBGDJde6b5ekSM5jz7g7V8IChsFPDqRu18h4w==
-X-Received: by 2002:a63:fc1b:0:b0:46f:fea7:4816 with SMTP id
- j27-20020a63fc1b000000b0046ffea74816mr15401947pgi.532.1669373405684; 
- Fri, 25 Nov 2022 02:50:05 -0800 (PST)
-Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id
- j7-20020a170902da8700b00188f7ad561asm3055966plx.249.2022.11.25.02.50.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 02:50:05 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 4/4] tests/qtest: Enable qtest build on Windows
-Date: Fri, 25 Nov 2022 18:49:51 +0800
-Message-Id: <20221125104951.3169611-4-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221125104951.3169611-1-bmeng.cn@gmail.com>
-References: <20221125104951.3169611-1-bmeng.cn@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KZK9MjQmu1XwqbKARqh+rWQRVj0TBvp5vgtw1qrPy+w=;
+ b=F9NbssWSGOeMbU0hhZ5GZyGPVg/6JmOG9CBeHyjFwGaPIj1Z/Vinnse4FNA0C/QU/q
+ O0ROw2QXpx8RJkV5qq89OFBI/L7Fp+4Jv8o2pXPolgSQPRvsVK7QeQ5m4Cj4nZnu7A3Z
+ osbvJ1rUwpP23KxVFTHoYQ+RcdPsODgyUVHzWHubr3yoUXyZ4LmJRFkjFs+egjye/IfU
+ p4IFqeCNcqiXCBBf1a2dHBweeQiywYpx6rmrkwtGE93HD4358dLSZJPYOKOcJ9mlLcq+
+ 6Dd9NFg3iNZsHgJ5f1B7m2nZMYhVjIxEYIU29cmOLh7FJVUv7NeuScmE+5FP7w7VhHhy
+ P0iA==
+X-Gm-Message-State: ANoB5pnK9GQAnGYQr+CLUtmIbK7trPEdHME4opXp5MhGwUnMhTGcJpj4
+ +wBTYLdfU1DdZDKuBvxchCRqeo0KAExPh4oaD5FvVw==
+X-Google-Smtp-Source: AA0mqf6RqZqp3TEnB3VBdZGTEj2RyrPEpsuZZkeLIG0u144VsoQm7MFwSWdaxKZ5O9uIHM0w12J/Az+lh69yAlXPKyU=
+X-Received: by 2002:a17:902:b691:b0:188:5240:50ec with SMTP id
+ c17-20020a170902b69100b00188524050ecmr18141824pls.168.1669373781295; Fri, 25
+ Nov 2022 02:56:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52e.google.com
+References: <20221124071602.1109150-1-kraxel@redhat.com>
+ <CAJSP0QUh2Pp9PdxTQ4HvrraF03eKBeUMJR8WhPN4GgEW36K93w@mail.gmail.com>
+ <20221125063421.y7th23snmahilgpt@sirius.home.kraxel.org>
+In-Reply-To: <20221125063421.y7th23snmahilgpt@sirius.home.kraxel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Nov 2022 10:56:09 +0000
+Message-ID: <CAFEAcA8kmormkD9_b5VyB6Jhx_HPgGxvnnexQ0xJN8z6W=G8iA@mail.gmail.com>
+Subject: Re: [PULL 0/4] Fixes 20221124 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,33 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bin.meng@windriver.com>
+On Fri, 25 Nov 2022 at 06:34, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Thu, Nov 24, 2022 at 01:03:21PM -0500, Stefan Hajnoczi wrote:
+> > On Thu, 24 Nov 2022 at 02:27, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > usb+ui: fixes for 7.2
+> >
+> > Hi Gerd,
+> > I already applied your previous pull request so these patches are in
+> > qemu.git/master. Do you want to revert the 8.0 patches that were
+> > included in your previous pull request? I don't know how risky it is
+> > to have them in 7.2. It's up to you.
+> >
+> > 7d3cf19548 hw/audio/intel-hda: Drop unnecessary prototype
+> > 3e95ef49e6 hw/audio/intel-hda: don't reset codecs twice
+> > 1dfb7a175f hw/usb/hcd-xhci: Reset the XHCIState with device_cold_reset()
+>
+> They look rather safe to me, Peter raised concerns though so I've
+> re-sent the pull with them dropped.
+>
+> Peter?
 
-Now that we have fixed various test case issues as seen when running
-on Windows, let's enable the qtest build on Windows.
+Stefan's point is that they're already upstream, so if you don't
+want them you now need to send a pull with reverts in.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
+I think the patches should be OK, but the trouble with all
+this reset stuff is that there are sometimes hidden
+dependencies on exact ordering or I missed some interaction
+with an old bit of the reset handling; and basic 'make check'
+style testing doesn't always catch "this works fine until
+the guest is rebooted and then it breaks on reboot" or
+similar scenarios. So I was targeting 8.0 as the "safe option".
 
- tests/qtest/meson.build | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c07a5b1a5f..f0ebb5fac6 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -1,9 +1,3 @@
--# All QTests for now are POSIX-only, but the dependencies are
--# really in libqtest, not in the testcases themselves.
--if not config_host.has_key('CONFIG_POSIX')
--  subdir_done()
--endif
--
- slow_qtests = {
-   'ahci-test' : 60,
-   'bios-tables-test' : 120,
--- 
-2.34.1
-
+thanks
+-- PMM
 
