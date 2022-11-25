@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803956390C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 21:43:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859826390DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 21:52:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oyfWB-0006mI-M2; Fri, 25 Nov 2022 15:41:51 -0500
+	id 1oyff0-0000d5-At; Fri, 25 Nov 2022 15:50:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oyfW9-0006m1-HE; Fri, 25 Nov 2022 15:41:49 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oyfW6-0003DJ-M1; Fri, 25 Nov 2022 15:41:49 -0500
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id A69F65E902;
- Fri, 25 Nov 2022 23:41:24 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:16::1:7] (unknown [2a02:6b8:b081:16::1:7])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id MfT0140OjGk1-xqMqszx3; Fri, 25 Nov 2022 23:41:23 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1669408884; bh=VjMByU+6VNyaYMQMmrnY/mDBtF9Fbq+EZ6B4VHFOlZ4=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=TosC7qARj9RrL1B9wwsQhDyGGLAWklZsxVUeAY0AUF0gnpEnFVr8BpbCun9l08CJ3
- kF95nMh6xKhwzuSHOqE2lKXVy3XvDmTi+LRSpC1tcYBnYXs1mEvaG0By9qbQYo2sca
- Vvjf5/mitIOuujAv5iwDHM1c+BWL3SiEV4bWrIGs=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <ae2c8916-33fa-6db6-de43-b4c5eaf80693@yandex-team.ru>
-Date: Fri, 25 Nov 2022 23:41:22 +0300
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oyfex-0000cc-Rs; Fri, 25 Nov 2022 15:50:55 -0500
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oyfev-0005me-FV; Fri, 25 Nov 2022 15:50:54 -0500
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-36cbcda2157so51264777b3.11; 
+ Fri, 25 Nov 2022 12:50:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=m1aaK3L/+fA1S5eKN82KltOBbvGbfJ4TlIvoza+IPyw=;
+ b=l3gTf7TUoc9iL/SgTiy+GEYudBjSTyVdGKME8sYqwLAFIObRvhzPW0QzYeRmjV89Qt
+ NkrQ8MB2KMMGRqhxOI9to9n4zdrr0iffAlz9IO7TT/TIwNhJHSg12YVmT2T0Rx+KIDe+
+ 1se3ZT8O3VTdlCSOW2fMx/b3hEVxhlyz4uio1sock78pasPqdmJBP5eHXd8i3zwzXkU1
+ Psx9tyhHdYpAd7zPHNEYkuEv2aNBipJMeL/XA3qCU95Ygk1Ha5wBNWt1uVz6kWuyEJTZ
+ YAJdTu3aCzEYkq0e6tvsgzu2o1fc0j72imSwtdy43wi8JzSBEHCHi862XgiGzWV96uni
+ S7aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m1aaK3L/+fA1S5eKN82KltOBbvGbfJ4TlIvoza+IPyw=;
+ b=MLo2kJnUtnPVSoIzO4H2TFnXNBr0Ptss9U93QFULwsOUc/7iPopgm4oaS4YISpT08c
+ U9wsrlAU2bxziTlsWmm4VMWu533WngGIPgy4OjfxS9w81X5e1uIspaBQl3qaqeAwFzlW
+ IeWtcYZHVn/brhMCn8Pl8eapreWfioPj4HVDva3fU8OXVqZTkXwR7r0iRaCbmlaHDuHr
+ zHDCvGZnHYPIvDnMjsvYDTOf2ShWJcQL3LIhgwpFyq/gyYVWGQlYKYZq1Evp4EZCUR1i
+ O/s5dPNCSGBx6DrwxSwZx/xpsk1bsjJrJBCQJ+pOFJL5fjC/hd1M55+0G63GtLmjeaZ4
+ 0e1w==
+X-Gm-Message-State: ANoB5pmvBtTW05If9bBJn++kH0lRwpVLCk/u18eqo85bzzIeq4m5v4c7
+ 69OxXcZqis+PhiKxnJlf7kDNyd8ap34p3ueZN4Q=
+X-Google-Smtp-Source: AA0mqf6izOmIYFcMdFa2CO/zMoPX1yegSe2t7mJ8gPebPe+YEtzHAulYddVjl5pQrZmjIh/lNDjRrZwzHLG4goXhgsw=
+X-Received: by 2002:a81:9204:0:b0:3bb:ff1:8d57 with SMTP id
+ j4-20020a819204000000b003bb0ff18d57mr4239515ywg.62.1669409451684; Fri, 25 Nov
+ 2022 12:50:51 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v6 11/14] block-coroutine-wrapper.py: default to main loop
- aiocontext if function does not have a BlockDriverState parameter
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20221125133518.418328-1-eesposit@redhat.com>
- <20221125133518.418328-12-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221125133518.418328-12-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
+In-Reply-To: <20221125143946.27717-1-mhartmay@linux.ibm.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 25 Nov 2022 15:50:39 -0500
+Message-ID: <CAJSP0QVJJYAaY_9a-DTmKqFJ+yRKAoASBMXuqNuZHghk3KN9aQ@mail.gmail.com>
+Subject: Re: [PATCH] virtiofsd: Add `sigreturn` to the seccomp whitelist
+To: Marc Hartmayer <mhartmay@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>,
+ virtio-fs@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Stefan Liebler <stli@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1131.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,31 +85,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-too long subject.
+Thanks, applied to qemu.git/master.
 
-suggest:
-
-    block-coroutine-wrapper.py: support functions without bs arg
-
-
-On 11/25/22 16:35, Emanuele Giuseppe Esposito wrote:
-> Right now, we take the first parameter of the function to get the
-> BlockDriverState to pass to bdrv_poll_co(), that internally calls
-> functions that figure in which aiocontext the coroutine should run.
-> 
-> However, it is useless to pass a bs just to get its own AioContext,
-> so instead pass it directly, and default to the main loop if no
-> BlockDriverState is passed as parameter.
-
-Great!
-
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-
--- 
-Best regards,
-Vladimir
-
+Stefan
 
