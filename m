@@ -2,91 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D9D638CCA
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 15:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F51638CCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 15:57:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oya5v-0000y6-Tq; Fri, 25 Nov 2022 09:54:23 -0500
+	id 1oya7M-0001nb-Gv; Fri, 25 Nov 2022 09:55:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oya5t-0000xv-W3
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:54:22 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oya5r-00010C-Ob
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 09:54:21 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- i64-20020a1c3b43000000b003d016c21100so6369886wma.3
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 06:54:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kNNyzEGeNqHokS0ZOOTVnUzmQM+1t4MJg0ST3Bl9RqY=;
- b=ouFQtlRhwrWDTMNlG66byVKEOt/CE6BE4LRpi/C/5L3T4wrBOAA7wx9XOjrfDAbceQ
- w/UpKV1sHScplnVKmYM1If2M+QLsW7W8SrPNGl0op8ku5+StETgrW40GNQDq469sJRWV
- rieootIZXEElA/CpR8NyN7yyrYX788914FBod7knuKA1kOaqC0NNlsxEaVfng45Trn9c
- f3rty8XMjpL4T804Ed/sXLp12mjswdO0XgGGeqZ+GfK3GFgPH1hdOx7ylbzNXj/dmsIU
- zWJ9CNjDFbcRgMmqTdePcuWeQkWAemey5TX20vPAIo53+KtQFvDY2FuOZfcZighny34+
- dPpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=kNNyzEGeNqHokS0ZOOTVnUzmQM+1t4MJg0ST3Bl9RqY=;
- b=WIN0maurg+Gyz86sJ/3am9Ypr8MdBKF1WPgr8shBmeob3Dh5iCLy3KN5nte8IaMEfX
- FbgMaIB05jGaYIYJ2WmpdAsYo+LSbsoJg4rP0uTN/iELoFJbxuHqUt5BX/cCDXNK5Lqh
- I/2sPCodTb8EsnMSLH2bTxYl7IzOVWMM65kX1HZ4C75PcczwR1bHHs8hfcplZtulrVZf
- YxiclhnRXQcsNwB2yh4RLjrfJffSYaC/0itUd5o62Fj0wGwLsq5ODHChjzFGwroUZ789
- JgW2rbljGNBC7AEnw7PEHUEtG/L3DRu+m34jZ4iqlyjrQ8lmEdJsEb5VJc0vRYWoCdg9
- 2Q7Q==
-X-Gm-Message-State: ANoB5plbHKJxZDlUh9eCJYkiphzxZ8hdmQLKB5JXTPc7SrotPUo3ETcG
- YtsPnG7usKjDvXmHwr2Ag+4VMQ==
-X-Google-Smtp-Source: AA0mqf5hBmCcIGmmziWQG3P7IZf9x22OASJn1zPSljVSllfN57od8TPf8W+ILaXjoELtEPq1Qq93yw==
-X-Received: by 2002:a05:600c:1f0f:b0:3d0:2a82:1cb2 with SMTP id
- bd15-20020a05600c1f0f00b003d02a821cb2mr14213080wmb.206.1669388057610; 
- Fri, 25 Nov 2022 06:54:17 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- y14-20020adff14e000000b00226dba960b4sm4079782wro.3.2022.11.25.06.54.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 06:54:17 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 80E371FFB7;
- Fri, 25 Nov 2022 14:54:16 +0000 (GMT)
-References: <20221123152134.179929-1-alex.bennee@linaro.org>
- <20221123102522-mutt-send-email-mst@kernel.org>
- <87bkoxbqtd.fsf@linaro.org>
- <20221123110755-mutt-send-email-mst@kernel.org>
- <877czkbtbs.fsf@linaro.org>
- <20221124055230-mutt-send-email-mst@kernel.org>
- <87y1s09edk.fsf@linaro.org>
- <20221125070510-mutt-send-email-mst@kernel.org>
-User-agent: mu4e 1.9.3; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Subject: Re: [PATCH for 7.2-rc3  v1 0/2] virtio fixes
-Date: Fri, 25 Nov 2022 14:51:57 +0000
-In-reply-to: <20221125070510-mutt-send-email-mst@kernel.org>
-Message-ID: <87tu2n9jaf.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <lukes@xsightlabs.com>)
+ id 1oya7K-0001n7-Ce; Fri, 25 Nov 2022 09:55:50 -0500
+Received: from mail-db8eur05on20631.outbound.protection.outlook.com
+ ([2a01:111:f400:7e1a::631]
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukes@xsightlabs.com>)
+ id 1oya7H-0001Yf-Ri; Fri, 25 Nov 2022 09:55:50 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oTwNczcxfSbEns0B5wmcKlW4zNX9fWcSCc23A6cSCVqa0NbVwJ8FALuo576OfVTYm3WZZbGWJRYZBkeIYFTToC6QqMSZ/RoAVF/6xcGLAmHv04CQUI1AlF//swGJybUHTyNs5yUgZsLcASuyFW101OT/5OSuBsDp+DeQIfagdv9o6PuGkor8yx+2Lw3+1B/8yo9YZnHX8QB61h9F3BzOokW1SGEA0R0H42rOd8Y+6ZNfvWyhhBduHoypXxbYtJcECr4dusrEeNAQZNwo+KDjpM2m0EiXoOjQeQm4pM8hlkdMEkB+1uoX2wNgP+vi8YusyaWZix9g0hmNfdK5qlqbnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uI93oIedCU6n+eszP54KdVl9KqA2fZ0hWzkghb9zN98=;
+ b=F654cWmSbDlsj1+72LcjZ9Zh6Wjp24ybsWMRxMbpFWtirxdOzsi0kX03OiJm/ZHEt4ryHXG0ckRbK3/lTzdjnWTR4RMpsHCukSXKDP7LZnu4hZonoRU2ZtcYulUqGjL2F7oKUmdx/2wIy60r8lxxhbPDS4aR5LfsuAnJWJiPlagJ7iKx33QNgkkfkw5y3FxfAGqYVHE/HjtvFYMoJQZTKvmPD6xOZTz9c/sHUGqYRRR7Tbs0ijFJfJUHdDwn0V3ZqFHqu+iYY123XXyi+l/L8FB2DvNivBVoQRiP+0Jg8GtXoXny8WZ9CFzhCyVkEja00P4My5N9UVyVy+Iau8jZFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xsightlabs.com; dmarc=pass action=none
+ header.from=xsightlabs.com; dkim=pass header.d=xsightlabs.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xsightlabs.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uI93oIedCU6n+eszP54KdVl9KqA2fZ0hWzkghb9zN98=;
+ b=WMwSydZXyaePPXfQ84ibm7bwfn5Tred5tPcIHNAZxSJKBK7X933V945AlYLzwnuWc308RUvcZ1GE04o3OJ1N4Zn0R4Psx0/nb97FfEMRnHlqkM4tlhuRq2VcLqhksLrI9D1ij5/6qFlwTYNA6P0HLFZZ7SbLR0d/ISOg/EE3onU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=xsightlabs.com;
+Received: from AM9P193MB1684.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:3eb::9)
+ by DB8P193MB0504.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:154::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.20; Fri, 25 Nov
+ 2022 14:55:40 +0000
+Received: from AM9P193MB1684.EURP193.PROD.OUTLOOK.COM
+ ([fe80::4250:f814:d3d6:53fc]) by AM9P193MB1684.EURP193.PROD.OUTLOOK.COM
+ ([fe80::4250:f814:d3d6:53fc%5]) with mapi id 15.20.5857.020; Fri, 25 Nov 2022
+ 14:55:39 +0000
+Message-ID: <e769a16e-5934-186c-b14b-4579f3622b10@xsightlabs.com>
+Date: Fri, 25 Nov 2022 09:55:34 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber
+ advertisement
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <AM9P193MB168473D99B761E204E032095D40D9@AM9P193MB1684.EURP193.PROD.OUTLOOK.COM>
+ <CAFEAcA_BN2EwTQwb2F8YxN0sz8t_D-o5cUQKacS5QoHuYB0TSQ@mail.gmail.com>
+From: Luke Starrett <lukes@xsightlabs.com>
+In-Reply-To: <CAFEAcA_BN2EwTQwb2F8YxN0sz8t_D-o5cUQKacS5QoHuYB0TSQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0316.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::21) To AM9P193MB1684.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:3eb::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9P193MB1684:EE_|DB8P193MB0504:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0edad2be-e881-4f6b-b7bc-08dacef51e0a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YXBIFsj+66ezMYGC5AmzCikssk9n0B4/+TRkd7kGqW+dPLYFpPczQj+x0UCuz2RnK02wAlQeXnMpjFRvRPaeL9X1QSDvgkREXIbnEcM17/P7KiI7Ti8vLUJMYJVG8yjZF95lQ/h/7lgHfou58xLKLv52KGBALNCVA1UUB/7MDgyxluOn6gqrO//UpGGZOCxXrXvZhr63cIAp+HdlJokHM1YiN36lwPyprKL+kXL3RI3i3/elU8F7MlGOBn4zBvNzIAb3NhCEsMkclLhtUf15AdKzc1zIjF6FF0Lg/h+ZpSOA5KCdIBwQ3Q+zwkd3+lTMUDgpra3HtyKsukmE3SqPLWz8kf5TYTvURbPpcNiXRWuFjUUmAjTJqQXdGmq6zJCUhB86WHk3knZGbUC7DNqD4eoFLYOtri6IB0g7UX6pRdKp+DqsX0otULaGyprhwfieCo6RrjnNI5tfRFZ2r2Ofq/hDvSr/D2WX6AIkP8/MnWSyqggzOx+8T80MAIBhteYFtNfEvmsT4vYLwYdCg0iOAsepohHTGG0dqJrZ2zc4AdnPDxqDO6GZWAswa0gzfCI7AZlrTYu8ze16AWlnpxKvsKfPox0OE4DzeNN10ApvYetszvZnKZjly/jnDBM6+1RwDWz5VcHJLgNaGCbbdpY7iHNZgfoJxCwfOSw7OXzxFrsRHvo1lFMZirkW4IZMxG2JSp2+GCAtNPWsp6FgyjCy193HBwpNUU15/RN1saG6adE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9P193MB1684.EURP193.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(366004)(396003)(376002)(39830400003)(136003)(451199015)(41300700001)(31686004)(5660300002)(2906002)(8936002)(66476007)(66556008)(8676002)(66946007)(4326008)(316002)(186003)(2616005)(38100700002)(36756003)(83380400001)(6916009)(54906003)(6486002)(26005)(53546011)(6506007)(6512007)(478600001)(31696002)(86362001)(6666004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFVjM3o5WWR6TE5NOHQ2SHFBRnlraTN6WGsrZGpiL0h2VG5CakNSTDYzbm1l?=
+ =?utf-8?B?QUxsWVFEVFVrSHk5TkU5U1RLd0xUaE9TZGdvbDB3Q2VuMGtTZHVMZXNQcHNZ?=
+ =?utf-8?B?SlVqQTdZWGVCWnZGZjRoVkQyUDY2L09qaGZCUkJ4WUx6dlRzQnQrczJjdzly?=
+ =?utf-8?B?WGk0amdxUk0rMlV5akFnd2R1RDdnVkJEalVtZEdXZC8wblhpUnZIUzBCV2N5?=
+ =?utf-8?B?WmhzL1ByRXloY3RSWEUvSEdrZkszL0lXdGd3dmdjT3h0a1pQamtNWVlSTy8v?=
+ =?utf-8?B?NWw1Wk1FelRhZVQ4M1dFbVg2YzhJay9yOENtOEl0L0s2ZFFIKytTdGMvdU9P?=
+ =?utf-8?B?MlR4YUNOMG11SVN6eGxRSlBkL2JDOVBhWkxzTXo4dkVuYlZ0MVNUNExvUG4r?=
+ =?utf-8?B?Y3FDMjdJMmZZbnc1b3hZSElqeVpGTERwZ2Q5V3kveG1XRUhwRTY3Wk1zR0JC?=
+ =?utf-8?B?Z0hJdlh1SlJoYTFIZzBFeXF1bDFtbFdGYjFPMlZvTlc2KytMcDN5TW5EcEgx?=
+ =?utf-8?B?NG1iek44LzgrNVIxUGgvVWRDeFJCSFZRdXA2V0ZuK3N6SmY2KzR4bmxhSE5l?=
+ =?utf-8?B?T0NNUytMOFg3UDFZYms3VUlCa0R5U1BxMUZoZFdCRlYxNXVZRUk2dFh3a01E?=
+ =?utf-8?B?VTdvT0xjTW1jMXRsUWRyY1BQM0xjOXpzMi9sc050dzhFaHF3WEZjZjdMbVZN?=
+ =?utf-8?B?QXZ2VTNhUjRha0V2UmtaMXQwYXFpVUNyY085aXpNSVVXV0VkalJRS0FLUkNQ?=
+ =?utf-8?B?bHlqWDJab2Z1cjI5bWI4WThUZ0RhcENtR29LbUdDTi9aU042bThJT1hUNTNt?=
+ =?utf-8?B?YjE2bHJSL0N3Qk9JMTdwM3NDaG1EbkJNOThXZkxKcTVpZ2NzRVp4a0puK01u?=
+ =?utf-8?B?YWNZVFZrVDZzUzB1d0hYOWUvaEZ0d0xVRjBRSm9laTdSVTdXVDgrV0JxQU5y?=
+ =?utf-8?B?RWZjT0N1cnF5ai9YNE1KSDNoS3lRUXo5SU9zRkxDNFhiV01UTkxyS0tHVTdv?=
+ =?utf-8?B?eHJkSkZPUFhxMGM5S0NRcHg5V1NadkpqajU4bWt1dmdEQzUwTFhvNXU5QTQ2?=
+ =?utf-8?B?clF6Q2RlcEtFSzluSHVxRXZ4TmZBSjhBOXUwcmlQMjlMNUxwajFlMkQyRnJh?=
+ =?utf-8?B?V1Y1anFNa2t1OTBlWEUyYmU5QWtBWVY3TDh6ZTYyMFovSHUrVEZSM1F1ZFlO?=
+ =?utf-8?B?Nm92S0J4Z0tWOFBlc2ErWEV3clVnZ2tLbFhKSDRlS3Raa0hxdHpLTmFlSDhB?=
+ =?utf-8?B?SG5aZCtZOUVBS0cwdlNDNlQxVHZFb01PTkdEZXRIckdIWUxJNjV6WHBXdFN5?=
+ =?utf-8?B?aVFVYjhmSjY0dUpGSER5TGREcUZLSGMwR0J3TWw3OGFoZHFGaXpCV3pUcVdL?=
+ =?utf-8?B?dnRpZks1ZEk3cTdMWlJhbzgzK28vYWdKdVo2ZnJrWVZWRlYrQW9RSHV3QWYw?=
+ =?utf-8?B?SzdkSjBBKy9sNzQ4cTFjaVBmeEplMFVpVHkzRDI5TmFnNnZNeHZhWXZobFFK?=
+ =?utf-8?B?S1lQdGZzT0lBZUdHVXFib2JHMzRwYzd6SDVpZTF5ak0zdk5jbUZiWXAvOTJR?=
+ =?utf-8?B?dGdjU1dzc0FGWUNERjM5d21ISmJtQmpITUVGcU5tQWxwZC9peFkxMHFEZUc0?=
+ =?utf-8?B?bGVBRW9zdkhqcExqVWRXODZ0dFRIY1p4UHJxaGp4cE90QlBRdWt5VEVlSWw1?=
+ =?utf-8?B?UVJnQUhtWGZtZFZXbVN0dHBXa3VhR0dHbWh6bHBtVzRuelNGbzE0dFhvRDd0?=
+ =?utf-8?B?VU1vdVMxZEVTRG1pUUEwWkhYdDVLZjB1WEs1Und4ZmRlU0p2Y0RxcUlpL3A3?=
+ =?utf-8?B?T0FWK0REZDZ5SzlycHBtMG01cEw4L3J5YVJvMStoU2w3MWs1SzZLSlZzWnJo?=
+ =?utf-8?B?cnFFb2JGM1YwSUxCcm9HSHI5eW1KUFZtdjg0UE5mMkdMRUZHS0F4VHN1NEg3?=
+ =?utf-8?B?c28wYmZjbDlnR2s0MUJLUDh1ODFFenVjMWk3djhtdHgvQkNPa1ZUZnIwWGVs?=
+ =?utf-8?B?OSs0VElZeDAxek1rM2ZqbXQ2KzJ2VDhkajY5NElFbTdLRnl0bTIwbjkreUdR?=
+ =?utf-8?B?Q3RRa3dqRW4zZnpSQU1HMzJBSDk5d3hMV2VkTjNDc0ZuT1FsTDFFMkkvcllQ?=
+ =?utf-8?Q?a/xCMmqTNzbqgByZCwkJTPToN?=
+X-OriginatorOrg: xsightlabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0edad2be-e881-4f6b-b7bc-08dacef51e0a
+X-MS-Exchange-CrossTenant-AuthSource: AM9P193MB1684.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2022 14:55:39.7829 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 646a3e34-83ea-4273-9177-ab01923abaa9
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EBKy1vcjsutzOOyDwdcU0ivGO9yV5/nRtaO82x4x/d+ZZx8VU2haZb6j3WvaPr+frrMwpRnc/jbdY6FOgQ7ang==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P193MB0504
+Received-SPF: permerror client-ip=2a01:111:f400:7e1a::631;
+ envelope-from=lukes@xsightlabs.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,237 +148,95 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
-
-> On Thu, Nov 24, 2022 at 10:24:14PM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> "Michael S. Tsirkin" <mst@redhat.com> writes:
->>=20
->> > On Thu, Nov 24, 2022 at 09:21:15AM +0000, Alex Benn=C3=A9e wrote:
->> >>=20
->> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
->> >>=20
->> >> > On Wed, Nov 23, 2022 at 04:03:49PM +0000, Alex Benn=C3=A9e wrote:
->> >> >>=20
->> >> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
->> >> >>=20
->> >> >> > On Wed, Nov 23, 2022 at 03:21:32PM +0000, Alex Benn=C3=A9e wrote:
->> >> >> >> Hi,
->> >> >> >>=20
->> >> >> >> This hopefully fixes the problems with VirtIO migration caused =
-by the
->> >> >> >> previous refactoring of virtio_device_started(). That introduce=
-d a
->> >> >> >> different order of checking which didn't give the VM state prim=
-acy but
->> >> >> >> wasn't noticed as we don't properly exercise VirtIO device migr=
-ation
->> >> >> >> and caused issues when dev->started wasn't checked in the core =
-code.
->> >> >> >> The introduction of virtio_device_should_start() split the over=
-loaded
->> >> >> >> function up but the broken order still remained. The series fin=
-ally
->> >> >> >> fixes that by restoring the original semantics but with the cle=
-aned up
->> >> >> >> functions.
->> >> >> >>=20
->> >> >> >> I've added more documentation to the various structures involve=
-d as
->> >> >> >> well as the functions. There is still some inconsistencies in t=
-he
->> >> >> >> VirtIO code between different devices but I think that can be l=
-ooked
->> >> >> >> at over the 8.0 cycle.
->> >> >> >
->> >> >> >
->> >> >> > Thanks a lot! Did you try this with gitlab CI? A patch similar t=
-o your
->> >> >> > 2/2 broke it previously ...
->> >> >>=20
->> >> >> Looking into it now - so far hasn't broken locally but I guess the=
-re is
->> >> >> something different about the CI.
->> >> >
->> >> >
->> >> > yes - pls push to gitlab, create pipeline e.g. with QEMU_CI set to 2
->> >> >
->> >> > Or with QEMU_CI set to 1 and then run fedora container and then
->> >> > clang-system manually.
->> >>=20
->> >> I'm having trouble re-creating the failures in CI locally on my boxen=
-. I
->> >> have triggered a bug on s390 but that looks like a pre-existing probl=
-em
->> >> with VRING_SET_ENDIAN being triggered for the vhost-user-gpio tests. I
->> >> think that is a limitation of the test harness.
->> >>=20
->> >> Will keep looking.
->> >
->> > Why not just trigger it on gitlab CI - it's very repeatable there?
->>=20
->> I can repeat a problem locally on Debian Bullseye and Ubuntu 22.04 with =
-clang and leak sanitizer:
->>=20
->>   # QEMU configure log Thu 24 Nov 16:02:56 GMT 2022
->>   # Configured with: '../../configure' '--cc=3Dclang' '--cxx=3Dclang++' =
-'--enable-sanitizers' '--target-list=3Darm-softmmu,aarch64-softmmu,i386-sof=
-tmmu,x86_64-softmmu,ppc64-softmmu'#
->>=20
->> And the command:
->>=20
->>   env QTEST_QEMU_BINARY=3D./qemu-system-arm QTEST_QEMU_STORAGE_DAEMON_BI=
-NARY=3D./storage-daemon/qemu-storage-daemon QTEST_QEMU_IMG=3D./qemu-img MAL=
-LOC_PERTURB_=3D178 G_TEST_DBUS_DAEMON=3D/home/alex.bennee/lsrc/qemu.git/tes=
-ts/dbus-vmstate-daemon.sh ./tests/qtest/qos-test -p /arm/virt/virtio-mmio/v=
-irtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read=
--guest-mem/memfile/subprocess
->>=20
->> Gives the following failure, while a leak may not be that exciting it
->> does point to a potential corruption issue. Unfortunately I don't get a
->> decent backtrace from the tool:
->>=20
->>   # random seed: R02S071fe8d68317a8b01e5e7fadbf1ac60a
->>   # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352=
-.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1024352.qmp,id=
-=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine none -a=
-ccel qtest
->>   =3D=3D1024354=3D=3DWARNING: ASan doesn't fully support makecontext/swa=
-pcontext functions and may produce false positives in some cases!
->>   # Start of arm tests
->>   # Start of virt tests
->>   # Start of virtio-mmio tests
->>   # Start of virtio-bus tests
->>   # Start of vhost-user-gpio-device tests
->>   # Start of vhost-user-gpio tests
->>   # Start of vhost-user-gpio-tests tests
->>   # Start of read-guest-mem tests
->>   # Start of memfile tests
->>   # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1024352=
-.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1024352.qmp,id=
-=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -M virt  -device=
- vhost-user-gpio-device,id=3Dgpio0,chardev=3Dchr-vhost-user-test -m 256 -ob=
-ject memory-backend-memfd,id=3Dmem,size=3D256M, -numa node,memdev=3Dmem -ch=
-ardev socket,id=3Dchr-vhost-user-test,path=3D/tmp/vhost-test-8DD2V1/vhost-u=
-ser-test.sock -accel qtest
->>   # GLib-DEBUG: setenv()/putenv() are not thread-safe and should not be =
-used after threads are created
->>   =3D=3D1024371=3D=3DWARNING: ASan doesn't fully support makecontext/swa=
-pcontext functions and may produce false positives in some cases!
->>   # set_protocol_features: 0x200
->>   # set_owner: start of session
->>   # vhost-user: un-handled message: 14
->>   # vhost-user: un-handled message: 14
->>   # set_vring_num: 0/1024
->>   qemu-system-arm: Failed to set msg fds.
->>   qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument=
- (22)
->>   qemu-system-arm: Failed to set msg fds.
->>   qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument=
- (22)
->>   qemu-system-arm: Failed to set msg fds.
->>   qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
->>   qemu-system-arm: Failed to set msg fds.
->>   qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
->>   ok 1 /arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-use=
-r-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess # SKIP No me=
-mory at address 0x0
->>   # End of memfile tests
->>   # End of read-guest-mem tests
->>   # End of vhost-user-gpio-tests tests
->>   # End of vhost-user-gpio tests
->>   # End of vhost-user-gpio-device tests
->>   # End of virtio-bus tests
->>   # End of virtio-mmio tests
->>   # End of virt tests
->>   # End of arm tests
->>   1..1
->>=20
->>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>   =3D=3D1024371=3D=3DERROR: LeakSanitizer: detected memory leaks
->>=20
->>   Direct leak of 240 byte(s) in 1 object(s) allocated from:
->>       #0 0x561d9a5d7a18 in __interceptor_calloc (/home/alex.bennee/lsrc/=
-qemu.git/builds/all.clang-sanitizers/qemu-system-arm+0x1d1fa18) (BuildId: 0=
-bdc7c2ada2277089db16d57f17c314e9e53e41c)
->>       #1 0x7f46ee656c40 in g_malloc0 (/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x5ec40) (BuildId: 0ab0b740e34eeb0c84656ba53737f4c440dfbed4)
->>       #2 0x561d9bf7875b in virtio_device_realize /home/alex.bennee/lsrc/=
-qemu.git/builds/all.clang-sanitizers/../../hw/virtio/virtio.c:4175:9
->>       #3 0x561d9c321bf4 in device_set_realized /home/alex.bennee/lsrc/qe=
-mu.git/builds/all.clang-sanitizers/../../hw/core/qdev.c:566:13
->>       #4 0x561d9c33dda8 in property_set_bool /home/alex.bennee/lsrc/qemu=
-.git/builds/all.clang-sanitizers/../../qom/object.c:2285:5
->>       #5 0x561d9c338fb3 in object_property_set /home/alex.bennee/lsrc/qe=
-mu.git/builds/all.clang-sanitizers/../../qom/object.c:1420:5
->>       #6 0x561d9c344c7c in object_property_set_qobject /home/alex.bennee=
-/lsrc/qemu.git/builds/all.clang-sanitizers/../../qom/qom-qobject.c:28:10
->>       #7 0x561d9b367954 in qdev_device_add /home/alex.bennee/lsrc/qemu.g=
-it/builds/all.clang-sanitizers/../../softmmu/qdev-monitor.c:733:11
->>       #8 0x561d9b36f832 in qemu_create_cli_devices /home/alex.bennee/lsr=
-c/qemu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2536:5
->>       #9 0x561d9b36f832 in qmp_x_exit_preconfig /home/alex.bennee/lsrc/q=
-emu.git/builds/all.clang-sanitizers/../../softmmu/vl.c:2604:5
->>       #10 0x561d9b37613f in qemu_init /home/alex.bennee/lsrc/qemu.git/bu=
-ilds/all.clang-sanitizers/../../softmmu/vl.c:3601:9
->>       #11 0x561d9a6125a5 in main /home/alex.bennee/lsrc/qemu.git/builds/=
-all.clang-sanitizers/../../softmmu/main.c:47:5
->>=20
->>   SUMMARY: AddressSanitizer: 240 byte(s) leaked in 1 allocation(s).
->>   ../../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU =
-process but encountered exit status 1 (expected 0)
->>   fish: Job 1, 'env QTEST_QEMU_BINARY=3D./qemu-sy=E2=80=A6' terminated b=
-y signal SIGABRT (Abort)
->>   =F0=9F=95=9922:26:18 alex.bennee@hackbox2:qemu.git/builds/all.clang-sa=
-nitizers  on =EE=82=A0 for-7.2/virtio-fixes [$?] [=E2=9A=A1 IOT]
->>   =E2=9C=97
+On 11/25/2022 8:34 AM, Peter Maydell wrote:
+> On Tue, 22 Nov 2022 at 18:31, Luke Starrett <lukes@xsightlabs.com> wrote:
+>> The ARM GICv3 TRM describes that the ITLinesNumber field of GICD_TYPER
+>> register:
+>>
+>> "indicates the maximum SPI INTID that the GIC implementation supports"
+>>
+>> As SPI #0 is absolute IRQ #32, the max SPI INTID should have accounted
+>> for the internal 16x SGI's and 16x PPI's.  However, the original GICv3
+>> model subtracted off the SGI/PPI.  Cosmetically this can be seen at OS
+>> boot (Linux) showing 32 shy of what should be there, i.e.:
+>>
+>>      [    0.000000] GICv3: 224 SPIs implemented
+>>
+>> Though in hw/arm/virt.c, the machine is configured for 256 SPI's.  ARM
+>> virt machine likely doesn't have a problem with this because the upper
+>> 32 IRQ's don't actually have anything meaningful wired. But, this does
+>> become a functional issue on a custom use case which wants to make use
+>> of these IRQ's.  Additionally, boot code (i.e. TF-A) will only init up
+>> to the number (blocks of 32) that it believes to actually be there.
+> Nice bricktext commit message :-)
 >
+>> Signed-off-by: Luke Starrett <lukes@xsightlabs.com>
+>> ---
+>>   hw/intc/arm_gicv3_dist.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
+>> index eea0368118..d599fefcbc 100644
+>> --- a/hw/intc/arm_gicv3_dist.c
+>> +++ b/hw/intc/arm_gicv3_dist.c
+>> @@ -390,9 +390,9 @@ static bool gicd_readl(GICv3State *s, hwaddr offset,
+>>            * MBIS == 0 (message-based SPIs not supported)
+>>            * SecurityExtn == 1 if security extns supported
+>>            * CPUNumber == 0 since for us ARE is always 1
+>> -         * ITLinesNumber == (num external irqs / 32) - 1
+>> +         * ITLinesNumber == (((max SPI IntID + 1) / 32) - 1)
+>>            */
+>> -        int itlinesnumber = ((s->num_irq - GIC_INTERNAL) / 32) - 1;
+>> +        int itlinesnumber = (s->num_irq / 32) - 1;
+>>           /*
+>>            * SecurityExtn must be RAZ if GICD_CTLR.DS == 1, and
+>>            * "security extensions not supported" always implies DS == 1,
+> I always find interrupt number counting confusing because
+> there are multiple ways to do it...
 >
-> ok ... was gpio always like this? from 1st commit? if not bisect?
+> In QEMU's GICv3 model, s->num_irq is the total number of interrupts,
+> including both PPIs and SPIs. So if s->num_irq is 256 that means
+> "the maximum SPI INTID is 255". The virt board code agrees with this:
+> it defines NUM_IRQS as 256 and sets the GIC num-irq property to
+> NUM_IRQS + 32.
+>
+> The GICv3 spec says that if this GICR_TYPER.ITLinesNumber field
+> is N, then the maximum SPI INTID is 32(N+1)-1. Rearranging:
+>     max SPI intid == num_irq - 1 = 32 * (N+1) - 1
+>     num_irq = 32 * (N+1)
+>     num_irq / 32 = N + 1
+>     N = num_irq / 32 - 1
+>
+> (We enforce that num_irq is a multiple of 32 in
+> arm_gicv3_common_realize(), so the division is fine.)
+>
+> So yes, the setting of this field is wrong and the patch is correct.
+> I've applied the patch to my target-arm-for-8.0 branch and it
+> will go in once 7.2 is out in a few weeks' time. (This doesn't
+> seem to me like a release-critical bug because we've behaved this
+> way forever.)
 
-I think so. I've managed to track down what the malloc is. It's the
-memory allocated by:
+Thanks.  And yes, you're correct.  This is not urgent at all. Most 
+likely the only way someone would expose this is by creating some custom 
+platform/machine, that needed to use the upper (last) 32 SPI/interrupts 
+(which we did).
 
-  gpio->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue, gpio->vhost_dev.nv=
-qs);
+> Interestingly, we got this right in GICv2:
+>
+>          if (offset == 4) {
+>              /* GICD_TYPER byte 0 */
+>              return ((s->num_irq / 32) - 1) | ((s->num_cpu - 1) << 5);
+>          }
+>
+> but obviously got confused when doing GICv3...
 
-It is never freed because we never get to vu_gpio_device_unrealize() but
-as far as I can tell none of the qtests ever trigger the unrealize() so
-I'm not sure why it is special.
+Right. I noticed this as well and it kind of surprised me.  But the 
+numbering convention is really what created this confusion in the first 
+place.
+
+Luke
 
 >
->>=20
->>=20
->> >> >
->> >> >> >
->> >> >> >> Alex Benn=C3=A9e (2):
->> >> >> >>   include/hw: attempt to document VirtIO feature variables
->> >> >> >>   include/hw: VM state takes precedence in virtio_device_should=
-_start
->> >> >> >>=20
->> >> >> >>  include/hw/virtio/vhost.h  | 25 +++++++++++++++++++---
->> >> >> >>  include/hw/virtio/virtio.h | 43 ++++++++++++++++++++++++++++++=
-++------
->> >> >> >>  2 files changed, 59 insertions(+), 9 deletions(-)
->> >> >> >>=20
->> >> >> >> --=20
->> >> >> >> 2.34.1
->> >> >>=20
->> >> >>=20
->> >> >> --=20
->> >> >> Alex Benn=C3=A9e
->> >>=20
->> >>=20
->> >> --=20
->> >> Alex Benn=C3=A9e
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
-
-
---=20
-Alex Benn=C3=A9e
+> thanks
+> -- PMM
 
