@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D37D638EFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 18:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DAD638F13
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 18:31:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oycRO-0001fJ-Bs; Fri, 25 Nov 2022 12:24:42 -0500
+	id 1oycXX-0004PJ-6o; Fri, 25 Nov 2022 12:31:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oycRL-0001ef-MC; Fri, 25 Nov 2022 12:24:39 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oycRK-0001R9-1A; Fri, 25 Nov 2022 12:24:39 -0500
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 690F15FC50;
- Fri, 25 Nov 2022 20:24:19 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:16::1:7] (unknown [2a02:6b8:b081:16::1:7])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id IOQuj10NiuQ1-a7OYYMt2; Fri, 25 Nov 2022 20:24:18 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1669397058; bh=6knt8v343ZU8E4ZKUB7GxohkRHzVuQdnYkad2W0sRRs=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=opuAlSF09wPijtXmJLx1m9z1Gr/S/3qCPUY3thCXVlVB1htDDmfR8tankqTTo317T
- 7F01QpO1hWf0kk8jvC0WFESduHLNzx3sfAqFbi5D773USH0QsOyXvWiXkNMqb3T/No
- yvqCCiIBTm68nmZMHdRNPXpn2UpEYXRsfzzjiQMg=
-Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <8070c591-72a7-2350-65b1-9767276f16c7@yandex-team.ru>
-Date: Fri, 25 Nov 2022 20:24:18 +0300
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oycXH-0004MK-Rm
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:30:48 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oycXG-0004Uo-34
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:30:47 -0500
+Received: by mail-wm1-x331.google.com with SMTP id o30so3976727wms.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 09:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=q69caMXa8gad9T0/arkaVNixkr0F1EihlkekwfMmMJA=;
+ b=DBZOU4F/lfn9ZHMIZt1JrpNAkX/kngVhVk4RH3IGaZ8L/a8wzsSqLjqpDrw8GbKB4X
+ TfkBpL/0bQffMLuevHoj6N5xm3baSCpIQnG0WRLKL5JzHzjXxyaTbeAxgK0JFUp9PfM+
+ pJhCzyhwIFO3Q6vurl8EL1uO89Rf92/aftEGqe0lbKzkoE95sVSaDfhLuFFb3FLhBzNz
+ 4hysMZsxTs2R2chRE5TCiaruG0Ea5cC2jJcPyaZ/W4mpxyX54YFTWFJyFLmbDD2rXYKA
+ +aamQIENlSjJMyiUEO/bQvsRcdWB8AIghOimUCEbQ8+IIGTYk7p/VUNjFZWbZ5uXlyvJ
+ jxqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=q69caMXa8gad9T0/arkaVNixkr0F1EihlkekwfMmMJA=;
+ b=KK/qhJCx034IFqmXeoK1qccGhfshC6dqrlkP999pO4WqTTaaHwESNm9CnGMJWtHxXF
+ 31HAWqS+xIdD3efyYccqxSERigDapQzJma6loJNXm4/QzUxstLQkqzZISm+OS/xZS91Z
+ ftpP5LTDlO7dffqumMXCkySH8wkNc26gQGNqlXgsy8ifkuuuQfXo+MWCwjLbuacP5/4G
+ Wlk6uQLHoNekYeaEWR9jguuTXIXa9Za/rN/uZtz7qiBGhAAo8G3d2hPGgToSKe/GKNqd
+ 7PisYoRvTtcVD5cxaXmlIzgzNviI6tMI9TXNMpNU9HpHvV9b8GXeHmu7LZegXmJViDGb
+ wwoA==
+X-Gm-Message-State: ANoB5plx9YOxBPGjxUjVmPcQqi8DPKp1/E421XDHtiSfKTYXelxKztso
+ jP6VSIftbx0EBFbpL8z5TDEskg==
+X-Google-Smtp-Source: AA0mqf5bCG95cNPhsIe/3io/N6U/jagPfam9TeILVJU7lnt8WDDBtvhFvlT+gtz8iTQ0tZGDnFosfA==
+X-Received: by 2002:a7b:c385:0:b0:3cf:87a8:ef00 with SMTP id
+ s5-20020a7bc385000000b003cf87a8ef00mr19658654wmj.55.1669397444554; 
+ Fri, 25 Nov 2022 09:30:44 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020a05600c4f4700b003cf37c5ddc0sm6414627wmq.22.2022.11.25.09.30.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Nov 2022 09:30:43 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1EC691FFB7;
+ Fri, 25 Nov 2022 17:30:43 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ sgarzare@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH for 7.2-rc? v2 0/5] continuing efforts to fix vhost-user issues
+Date: Fri, 25 Nov 2022 17:30:38 +0000
+Message-Id: <20221125173043.1998075-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v6 06/14] block: avoid duplicating filename string in
- bdrv_create
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20221125133518.418328-1-eesposit@redhat.com>
- <20221125133518.418328-7-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221125133518.418328-7-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,19 +93,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/25/22 16:35, Emanuele Giuseppe Esposito wrote:
-> We know that the string will stay around until the function
-> returns, and the parameter of drv->bdrv_co_create_opts is const char*,
-> so it must not be modified either.
-> 
-> Suggested-by: Kevin Wolf<kwolf@redhat.com>
-> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
-> Reviewed-by: Kevin Wolf<kwolf@redhat.com>
+Hi,
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+This is continuing to attempt to fix the various vhost-user issues
+that are currently plaguing the release. One concrete bug I've come
+across is that all qtest MMIO devices where being treated as legacy
+which caused the VIRTIO_F_VERSION_1 flag to get missed causing s390x
+to fall back to trying to set the endian value for the virt-queues.
+
+I've patched it for the GPIO tests and raised a tracking bug (#1342)
+for the general problem. This might explain why the only other VirtIO
+vhost-user MMIO device tested via qtest are the virtio-net-tests. The
+vhost networking support is its own special implementation so its hard
+to compare the code for GPIO. It does make me wonder if disabling the
+mmio version of the test for now would be worthwhile. FWIW I did try
+disabling force-legacy for all machine types and that caused a bunch
+of the other tests to fail.
+
+I made some progress in tracking down the memory leak that clang
+complains about. It comes down to the line:
+
+  gpio->vhost_dev.vqs = g_new0(struct vhost_virtqueue, gpio->vhost_dev.nvqs);
+
+which is never cleared up because we never call
+vu_gpio_device_unrealize() in the test. However its unclear why this
+is the case. We don't seem to unrealize the vhost-user-network tests
+either and clang doesn't complain about that.
+
+I can replicate some of the other failures I've been seeing in CI by
+running:
+
+  ../../meson/meson.py test --repeat 10 --print-errorlogs qtest-arm/qos-test
+
+however this seems to run everything in parallel and maybe is better
+at exposing race conditions. Perhaps the CI system makes those races
+easier to hit? Unfortunately I've not been able to figure out exactly
+how things go wrong in the failure case. 
+
+I've included Stefano's:
+
+  vhost: enable vrings in vhost_dev_start() for vhost-user devices
+
+in this series as it makes sense and improves the vring state errors.
+However it's up to you if you want to include it in the eventual PR.
+There are still CI errors I'm trying to track down but I thought it
+would be worth posting the current state of my tree.
+
+Please review.
+
+
+Alex Bennée (4):
+  include/hw: attempt to document VirtIO feature variables
+  include/hw: VM state takes precedence in virtio_device_should_start
+  tests/qtests: override "force-legacy" for gpio virtio-mmio tests
+  hw/virtio: ensure a valid host_feature set for virtio-user-gpio
+
+Stefano Garzarella (1):
+  vhost: enable vrings in vhost_dev_start() for vhost-user devices
+
+ include/hw/virtio/vhost.h        | 31 ++++++++++++++++++----
+ include/hw/virtio/virtio.h       | 43 ++++++++++++++++++++++++++-----
+ backends/cryptodev-vhost.c       |  4 +--
+ backends/vhost-user.c            |  4 +--
+ hw/block/vhost-user-blk.c        |  4 +--
+ hw/net/vhost_net.c               |  8 +++---
+ hw/scsi/vhost-scsi-common.c      |  4 +--
+ hw/virtio/vhost-user-fs.c        |  4 +--
+ hw/virtio/vhost-user-gpio.c      | 10 ++++++--
+ hw/virtio/vhost-user-i2c.c       |  4 +--
+ hw/virtio/vhost-user-rng.c       |  4 +--
+ hw/virtio/vhost-vsock-common.c   |  4 +--
+ hw/virtio/vhost.c                | 44 ++++++++++++++++++++++++++++----
+ tests/qtest/libqos/virtio-gpio.c |  3 ++-
+ hw/virtio/trace-events           |  4 +--
+ 15 files changed, 134 insertions(+), 41 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.34.1
 
 
