@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A96638F10
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 18:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59890638F14
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 18:32:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oycXb-0004V3-3a; Fri, 25 Nov 2022 12:31:07 -0500
+	id 1oycY2-000525-2s; Fri, 25 Nov 2022 12:31:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oycXO-0004PG-OB
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:30:57 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oycXz-0004zS-Ke
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:31:31 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oycXK-0004Vu-VC
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:30:53 -0500
-Received: by mail-wr1-x430.google.com with SMTP id cl5so7765794wrb.9
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 09:30:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oycXv-0004bv-IC
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:31:30 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id i12so7850019wrb.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 09:31:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BJQ/JEKALcH9lJ7xFy8iXB5Ea36VbtyMrZxDHC60VlY=;
- b=AUagxbEO11o/1lfmwfVUjY8I5arrrcNeztWvK4rAJFq54a3oDh//kSmc2cySSkLg4n
- ysNKCxIfwErf1dDKR7cR9yNU4AO6usKTAAsVvZ5pfJlUYbTZWLwwnxF0FImJaujYVGSm
- 8yyi6DEwDGbpSlUdUbV2Ug7DRB0ahYsQ/H356W2n0Scriu/F/iE9pcw8KlyghvNRruA+
- 90F4Pgw5yalJlkLFpycPIRm8VeUr70HoiqxpobCmUbtn1wkBAw/EaFDhEEN89efrjONj
- 7ndCkykUjb4SGk8n47a37dUINVdyAw1jq2EfBf22OwwPMGVEneutR8rFHNSio8RpqRzX
- JzPA==
+ bh=b0IH76EKIQ1ruWEmDG0NlyHxpybLvAmwKT4oazPX1RE=;
+ b=zYIywXdfp+50h2wkHdcH/v24KiGgrNy+QHDIzR436WMAv0OHOIa1vvEjtTbsJJL4ld
+ tzuW2LjLFjGmjEeTXQ2vDT/6YK/oXeZsAeekA++o5yhvuABkO1yAyx+1PemT46574+7X
+ KiOYBTZLcXgjlOZlwsUx6KFD/LlbFerkQLT6Fs4NNRPtrIZdEgzWX+6kYgvYaEMPgeXl
+ SOB9ucaCQY2jzx/8AKP+Udxtc6gSlZMGa7ZaMjSSkjGKQWYDqRSauiCjCSnloThLhRPn
+ uMdSfPah7WLY9G+JbStLEPTOYmj7bTxvhB2YGUzvuhdWO4Gkp+HIBRTDFbUtMUni6xQ1
+ NBeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BJQ/JEKALcH9lJ7xFy8iXB5Ea36VbtyMrZxDHC60VlY=;
- b=SUdb0Juy916WcAhq9YJI52Mk/NRD+ViUB7tbnQ3z77TuQkYoLcx2VGL8wOyMYNLYH9
- sF2jys//BvJVugQvpbPxpZbiDq1VjFBp4MRBrgbv971p1LB2FPPk+jgY2BM/3DXBY0Ds
- Kgs1IvK/JKYvdTPHLExbGaamIepkqu3AazaJ7LkSH+DelfnbZ49/jYRVvKD4t9Lkmml7
- X86w3XWi/Qra44WdYbsz+4IjW0tsg4ZxFWfWqP2n6jL38eqHuII/ep3kg3Whrwt+YxYW
- nn/bSSN4aVXxeuOus1DlL/x/eIKbwAdfq7yZOJWcGERc4qYz6oOnv9rE8s+mH7GV6OKI
- kBdA==
-X-Gm-Message-State: ANoB5pkS4dtkqk5S9oEpNbjg5gO7lVOObZmGL0ihErwquzYhhpBdFXhL
- BnbrxJvBuBSTlTcGmFxOyD2CKQ==
-X-Google-Smtp-Source: AA0mqf4tc/v4dZG5knPEY6J9AERU3/HzESOdymW2ApKD+PVJ6HF282Ix0wpPJA2Q2HrlOzVk3IE+Fw==
-X-Received: by 2002:adf:e3d2:0:b0:241:d676:a787 with SMTP id
- k18-20020adfe3d2000000b00241d676a787mr16445813wrm.694.1669397449063; 
- Fri, 25 Nov 2022 09:30:49 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ bh=b0IH76EKIQ1ruWEmDG0NlyHxpybLvAmwKT4oazPX1RE=;
+ b=JUSrmqGK89yZoivXhn133gQAWEHRjOOcDR8UcZ3s5kT1idhkrxZj8sz1Mr+vqJMyD+
+ iJKJEkAqHXjH6q8t5qMwD7ewYRku6ey9m51pLmAujtIDxweLL2p0rWPtMrQsNn6CgFpb
+ p+uAYZnqe8D9dDN8JXTz879BGlj+Xq0qbiSwo9sQYlwFbRyzLvFFshNN9qdxOXav/rHP
+ OtoW3IC2FaZjZGAYZOmr8FNAUFw+ikHAsSMBwSUyUd4YuD9qJeQsUpiukg49pBFydmle
+ xh2y57bEF9GqIDnaAJqwRXxKwcrhEbvPgIOJlNb9GE7+nIgajCB/GgpM/F03XOguYwyI
+ kkNg==
+X-Gm-Message-State: ANoB5pk+9TxQMhg6SXcZvtdwfMuQvkMTZ6Or4jwSFOrC3Jj38Fi6ZA3d
+ 2Coq2RifFF03PxvLvWT+/YwOKfW/4JDV2Q==
+X-Google-Smtp-Source: AA0mqf7Y/wFhCLxfz//l585J0VjKMUknz8wtURzzmOzqjXArjeQQ3mijkmWMgm7xlh1o09ZAxXh84A==
+X-Received: by 2002:a05:6000:104c:b0:23a:5a31:29eb with SMTP id
+ c12-20020a056000104c00b0023a5a3129ebmr17478120wrx.679.1669397485636; 
+ Fri, 25 Nov 2022 09:31:25 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a05600c19ca00b003c5571c27a1sm7843052wmq.32.2022.11.25.09.30.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Nov 2022 09:30:46 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B68581FFBD;
- Fri, 25 Nov 2022 17:30:43 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ h12-20020a056000000c00b00241cfa9333fsm4472919wrx.5.2022.11.25.09.31.24
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 25 Nov 2022 09:31:25 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- sgarzare@redhat.com, German Maglione <gmaglione@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-block@nongnu.org (open list:Block layer core),
- virtio-fs@redhat.com (open list:virtiofs)
-Subject: [PATCH v2 5/5] vhost: enable vrings in vhost_dev_start() for
- vhost-user devices
-Date: Fri, 25 Nov 2022 17:30:43 +0000
-Message-Id: <20221125173043.1998075-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221125173043.1998075-1-alex.bennee@linaro.org>
-References: <20221125173043.1998075-1-alex.bennee@linaro.org>
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [RFC PATCH-for-7.2 3/4] hw/display/qxl: Pass requested buffer size to
+ qxl_phys2virt()
+Date: Fri, 25 Nov 2022 18:31:18 +0100
+Message-Id: <20221125173119.46665-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221125154030.42108-1-philmd@linaro.org>
+References: <20221125154030.42108-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,445 +94,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+Currently qxl_phys2virt() doesn't check for buffer overrun.
+In order to do so in the next commit, pass the buffer size
+as argument.
 
-Commit 02b61f38d3 ("hw/virtio: incorporate backend features in features")
-properly negotiates VHOST_USER_F_PROTOCOL_FEATURES with the vhost-user
-backend, but we forgot to enable vrings as specified in
-docs/interop/vhost-user.rst:
-
-    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
-    ring starts directly in the enabled state.
-
-    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, the ring is
-    initialized in a disabled state and is enabled by
-    ``VHOST_USER_SET_VRING_ENABLE`` with parameter 1.
-
-Some vhost-user front-ends already did this by calling
-vhost_ops.vhost_set_vring_enable() directly:
-- backends/cryptodev-vhost.c
-- hw/net/virtio-net.c
-- hw/virtio/vhost-user-gpio.c
-
-But most didn't do that, so we would leave the vrings disabled and some
-backends would not work. We observed this issue with the rust version of
-virtiofsd [1], which uses the event loop [2] provided by the
-vhost-user-backend crate where requests are not processed if vring is
-not enabled.
-
-Let's fix this issue by enabling the vrings in vhost_dev_start() for
-vhost-user front-ends that don't already do this directly. Same thing
-also in vhost_dev_stop() where we disable vrings.
-
-[1] https://gitlab.com/virtio-fs/virtiofsd
-[2] https://github.com/rust-vmm/vhost/blob/240fc2966/crates/vhost-user-backend/src/event_loop.rs#L217
-
-Fixes: 02b61f38d3 ("hw/virtio: incorporate backend features in features")
-Reported-by: German Maglione <gmaglione@redhat.com>
-Tested-by: German Maglione <gmaglione@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <20221123131630.52020-1-sgarzare@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/hw/virtio/vhost.h      |  6 +++--
- backends/cryptodev-vhost.c     |  4 ++--
- backends/vhost-user.c          |  4 ++--
- hw/block/vhost-user-blk.c      |  4 ++--
- hw/net/vhost_net.c             |  8 +++----
- hw/scsi/vhost-scsi-common.c    |  4 ++--
- hw/virtio/vhost-user-fs.c      |  4 ++--
- hw/virtio/vhost-user-gpio.c    |  4 ++--
- hw/virtio/vhost-user-i2c.c     |  4 ++--
- hw/virtio/vhost-user-rng.c     |  4 ++--
- hw/virtio/vhost-vsock-common.c |  4 ++--
- hw/virtio/vhost.c              | 44 ++++++++++++++++++++++++++++++----
- hw/virtio/trace-events         |  4 ++--
- 13 files changed, 67 insertions(+), 31 deletions(-)
+RFC: Please double-check qxl_render_update_area_unlocked()
+---
+ hw/display/qxl-logger.c | 11 ++++++++---
+ hw/display/qxl-render.c | 11 +++++++----
+ hw/display/qxl.c        | 14 +++++++++-----
+ hw/display/qxl.h        |  4 +++-
+ 4 files changed, 27 insertions(+), 13 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index eaf628f656..1cafa0d776 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -203,24 +203,26 @@ static inline bool vhost_dev_is_started(struct vhost_dev *hdev)
-  * vhost_dev_start() - start the vhost device
-  * @hdev: common vhost_dev structure
-  * @vdev: the VirtIODevice structure
-+ * @vrings: true to have vrings enabled in this call
+diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
+index 1bcf803db6..35c38f6252 100644
+--- a/hw/display/qxl-logger.c
++++ b/hw/display/qxl-logger.c
+@@ -106,7 +106,7 @@ static int qxl_log_image(PCIQXLDevice *qxl, QXLPHYSICAL addr, int group_id)
+     QXLImage *image;
+     QXLImageDescriptor *desc;
+ 
+-    image = qxl_phys2virt(qxl, addr, group_id);
++    image = qxl_phys2virt(qxl, addr, group_id, sizeof(QXLImage));
+     if (!image) {
+         return 1;
+     }
+@@ -214,7 +214,8 @@ int qxl_log_cmd_cursor(PCIQXLDevice *qxl, QXLCursorCmd *cmd, int group_id)
+                 cmd->u.set.position.y,
+                 cmd->u.set.visible ? "yes" : "no",
+                 cmd->u.set.shape);
+-        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id);
++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id,
++                               sizeof(QXLCursor));
+         if (!cursor) {
+             return 1;
+         }
+@@ -236,6 +237,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
+ {
+     bool compat = ext->flags & QXL_COMMAND_FLAG_COMPAT;
+     void *data;
++    size_t datasz;
+     int ret;
+ 
+     if (!qxl->cmdlog) {
+@@ -249,15 +251,18 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
+ 
+     switch (ext->cmd.type) {
+     case QXL_CMD_DRAW:
++        datasz = compat ? sizeof(QXLCompatDrawable) : sizeof(QXLDrawable);
+         break;
+     case QXL_CMD_SURFACE:
++        datasz = sizeof(QXLSurfaceCmd);
+         break;
+     case QXL_CMD_CURSOR:
++        datasz = sizeof(QXLCursorCmd);
+         break;
+     default:
+         goto out;
+     }
+-    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
++    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id, datasz);
+     if (!data) {
+         return 1;
+     }
+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
+index ca217004bf..1b0a50c1aa 100644
+--- a/hw/display/qxl-render.c
++++ b/hw/display/qxl-render.c
+@@ -107,7 +107,8 @@ static void qxl_render_update_area_unlocked(PCIQXLDevice *qxl)
+         qxl->guest_primary.resized = 0;
+         qxl->guest_primary.data = qxl_phys2virt(qxl,
+                                                 qxl->guest_primary.surface.mem,
+-                                                MEMSLOT_GROUP_GUEST);
++                                                MEMSLOT_GROUP_GUEST,
++                                                sizeof(uint32_t) * width * height);
+         if (!qxl->guest_primary.data) {
+             goto end;
+         }
+@@ -228,7 +229,7 @@ static void qxl_unpack_chunks(void *dest, size_t size, PCIQXLDevice *qxl,
+         if (offset == size) {
+             return;
+         }
+-        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id);
++        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id, bytes);
+         if (!chunk) {
+             return;
+         }
+@@ -295,7 +296,8 @@ fail:
+ /* called from spice server thread context only */
+ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
+ {
+-    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
++    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
++                                      sizeof(QXLCursorCmd));
+     QXLCursor *cursor;
+     QEMUCursor *c;
+ 
+@@ -314,7 +316,8 @@ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
+     }
+     switch (cmd->type) {
+     case QXL_CURSOR_SET:
+-        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id);
++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
++                               sizeof(QXLCursor));
+         if (!cursor) {
+             return 1;
+         }
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 5b10f697f1..231d733250 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -274,7 +274,8 @@ static void qxl_spice_monitors_config_async(PCIQXLDevice *qxl, int replay)
+                                           QXL_IO_MONITORS_CONFIG_ASYNC));
+     }
+ 
+-    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST);
++    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST,
++                        sizeof(QXLMonitorsConfig));
+     if (cfg != NULL && cfg->count == 1) {
+         qxl->guest_primary.resized = 1;
+         qxl->guest_head0_width  = cfg->heads[0].width;
+@@ -459,7 +460,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
+     switch (le32_to_cpu(ext->cmd.type)) {
+     case QXL_CMD_SURFACE:
+     {
+-        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
++        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
++                                           sizeof(QXLSurfaceCmd));
+ 
+         if (!cmd) {
+             return 1;
+@@ -494,7 +496,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
+     }
+     case QXL_CMD_CURSOR:
+     {
+-        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
++        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
++                                          sizeof(QXLCursorCmd));
+ 
+         if (!cmd) {
+             return 1;
+@@ -1456,7 +1459,8 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
+ }
+ 
+ /* can be also called from spice server thread context */
+-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id)
++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
++                    size_t size)
+ {
+     uint64_t offset;
+     uint32_t slot;
+@@ -1964,7 +1968,7 @@ static void qxl_dirty_surfaces(PCIQXLDevice *qxl)
+         }
+ 
+         cmd = qxl_phys2virt(qxl, qxl->guest_surfaces.cmds[i],
+-                            MEMSLOT_GROUP_GUEST);
++                            MEMSLOT_GROUP_GUEST, sizeof(QXLSurfaceCmd));
+         assert(cmd);
+         assert(cmd->type == QXL_SURFACE_CMD_CREATE);
+         qxl_dirty_one_surface(qxl, cmd->u.surface_create.data,
+diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+index 78b3a6c9ba..bf03138ab4 100644
+--- a/hw/display/qxl.h
++++ b/hw/display/qxl.h
+@@ -153,6 +153,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
+  * @qxl: QXL device
+  * @phys: physical offset of buffer within the VRAM
+  * @group_id: memory slot group
++ * @size: size of the buffer
   *
-  * Starts the vhost device. From this point VirtIO feature negotiation
-  * can start and the device can start processing VirtIO transactions.
+  * Returns a host pointer to a buffer placed at offset @phys within the
+  * active slot @group_id of the PCI VGA RAM memory region associated with
+@@ -166,7 +167,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
+  * the incoming ram_addr_t.
   *
-  * Return: 0 on success, < 0 on error.
   */
--int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
-+int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
+-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id,
++                    size_t size);
+ void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
+     G_GNUC_PRINTF(2, 3);
  
- /**
-  * vhost_dev_stop() - stop the vhost device
-  * @hdev: common vhost_dev structure
-  * @vdev: the VirtIODevice structure
-+ * @vrings: true to have vrings disabled in this call
-  *
-  * Stop the vhost device. After the device is stopped the notifiers
-  * can be disabled (@vhost_dev_disable_notifiers) and the device can
-  * be torn down (@vhost_dev_cleanup).
-  */
--void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-+void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
- 
- /**
-  * DOC: vhost device configuration handling
-diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
-index bc13e466b4..572f87b3be 100644
---- a/backends/cryptodev-vhost.c
-+++ b/backends/cryptodev-vhost.c
-@@ -94,7 +94,7 @@ cryptodev_vhost_start_one(CryptoDevBackendVhost *crypto,
-         goto fail_notifiers;
-     }
- 
--    r = vhost_dev_start(&crypto->dev, dev);
-+    r = vhost_dev_start(&crypto->dev, dev, false);
-     if (r < 0) {
-         goto fail_start;
-     }
-@@ -111,7 +111,7 @@ static void
- cryptodev_vhost_stop_one(CryptoDevBackendVhost *crypto,
-                                  VirtIODevice *dev)
- {
--    vhost_dev_stop(&crypto->dev, dev);
-+    vhost_dev_stop(&crypto->dev, dev, false);
-     vhost_dev_disable_notifiers(&crypto->dev, dev);
- }
- 
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index 5dedb2d987..7bfcaef976 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -85,7 +85,7 @@ vhost_user_backend_start(VhostUserBackend *b)
-     }
- 
-     b->dev.acked_features = b->vdev->guest_features;
--    ret = vhost_dev_start(&b->dev, b->vdev);
-+    ret = vhost_dev_start(&b->dev, b->vdev, true);
-     if (ret < 0) {
-         error_report("Error start vhost dev");
-         goto err_guest_notifiers;
-@@ -120,7 +120,7 @@ vhost_user_backend_stop(VhostUserBackend *b)
-         return;
-     }
- 
--    vhost_dev_stop(&b->dev, b->vdev);
-+    vhost_dev_stop(&b->dev, b->vdev, true);
- 
-     if (k->set_guest_notifiers) {
-         ret = k->set_guest_notifiers(qbus->parent,
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 0d5190accf..1177064631 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -178,7 +178,7 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
-     }
- 
-     s->dev.vq_index_end = s->dev.nvqs;
--    ret = vhost_dev_start(&s->dev, vdev);
-+    ret = vhost_dev_start(&s->dev, vdev, true);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Error starting vhost");
-         goto err_guest_notifiers;
-@@ -213,7 +213,7 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&s->dev, vdev);
-+    vhost_dev_stop(&s->dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 26e4930676..043058ff43 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -259,7 +259,7 @@ static int vhost_net_start_one(struct vhost_net *net,
-         goto fail_notifiers;
-     }
- 
--    r = vhost_dev_start(&net->dev, dev);
-+    r = vhost_dev_start(&net->dev, dev, false);
-     if (r < 0) {
-         goto fail_start;
-     }
-@@ -308,7 +308,7 @@ fail:
-     if (net->nc->info->poll) {
-         net->nc->info->poll(net->nc, true);
-     }
--    vhost_dev_stop(&net->dev, dev);
-+    vhost_dev_stop(&net->dev, dev, false);
- fail_start:
-     vhost_dev_disable_notifiers(&net->dev, dev);
- fail_notifiers:
-@@ -329,7 +329,7 @@ static void vhost_net_stop_one(struct vhost_net *net,
-     if (net->nc->info->poll) {
-         net->nc->info->poll(net->nc, true);
-     }
--    vhost_dev_stop(&net->dev, dev);
-+    vhost_dev_stop(&net->dev, dev, false);
-     if (net->nc->info->stop) {
-         net->nc->info->stop(net->nc);
-     }
-@@ -606,7 +606,7 @@ err_start:
-         assert(r >= 0);
-     }
- 
--    vhost_dev_stop(&net->dev, vdev);
-+    vhost_dev_stop(&net->dev, vdev, false);
- 
-     return r;
- }
-diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
-index 767f827e55..18ea5dcfa1 100644
---- a/hw/scsi/vhost-scsi-common.c
-+++ b/hw/scsi/vhost-scsi-common.c
-@@ -68,7 +68,7 @@ int vhost_scsi_common_start(VHostSCSICommon *vsc)
-         goto err_guest_notifiers;
-     }
- 
--    ret = vhost_dev_start(&vsc->dev, vdev);
-+    ret = vhost_dev_start(&vsc->dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error start vhost dev");
-         goto err_guest_notifiers;
-@@ -101,7 +101,7 @@ void vhost_scsi_common_stop(VHostSCSICommon *vsc)
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-     int ret = 0;
- 
--    vhost_dev_stop(&vsc->dev, vdev);
-+    vhost_dev_stop(&vsc->dev, vdev, true);
- 
-     if (k->set_guest_notifiers) {
-         ret = k->set_guest_notifiers(qbus->parent, vsc->dev.nvqs, false);
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index dc4014cdef..d97b179e6f 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -76,7 +76,7 @@ static void vuf_start(VirtIODevice *vdev)
-     }
- 
-     fs->vhost_dev.acked_features = vdev->guest_features;
--    ret = vhost_dev_start(&fs->vhost_dev, vdev);
-+    ret = vhost_dev_start(&fs->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost: %d", -ret);
-         goto err_guest_notifiers;
-@@ -110,7 +110,7 @@ static void vuf_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&fs->vhost_dev, vdev);
-+    vhost_dev_stop(&fs->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, fs->vhost_dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-index b2496c824c..b38e4d4cf0 100644
---- a/hw/virtio/vhost-user-gpio.c
-+++ b/hw/virtio/vhost-user-gpio.c
-@@ -81,7 +81,7 @@ static int vu_gpio_start(VirtIODevice *vdev)
-      */
-     vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->guest_features);
- 
--    ret = vhost_dev_start(&gpio->vhost_dev, vdev);
-+    ret = vhost_dev_start(&gpio->vhost_dev, vdev, false);
-     if (ret < 0) {
-         error_report("Error starting vhost-user-gpio: %d", ret);
-         goto err_guest_notifiers;
-@@ -139,7 +139,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(vhost_dev, vdev);
-+    vhost_dev_stop(vhost_dev, vdev, false);
- 
-     ret = k->set_guest_notifiers(qbus->parent, vhost_dev->nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 1c9f3d20dc..dc5c828ba6 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -46,7 +46,7 @@ static void vu_i2c_start(VirtIODevice *vdev)
- 
-     i2c->vhost_dev.acked_features = vdev->guest_features;
- 
--    ret = vhost_dev_start(&i2c->vhost_dev, vdev);
-+    ret = vhost_dev_start(&i2c->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost-user-i2c: %d", -ret);
-         goto err_guest_notifiers;
-@@ -80,7 +80,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&i2c->vhost_dev, vdev);
-+    vhost_dev_stop(&i2c->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-index f9084cde58..201a39e220 100644
---- a/hw/virtio/vhost-user-rng.c
-+++ b/hw/virtio/vhost-user-rng.c
-@@ -47,7 +47,7 @@ static void vu_rng_start(VirtIODevice *vdev)
-     }
- 
-     rng->vhost_dev.acked_features = vdev->guest_features;
--    ret = vhost_dev_start(&rng->vhost_dev, vdev);
-+    ret = vhost_dev_start(&rng->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost-user-rng: %d", -ret);
-         goto err_guest_notifiers;
-@@ -81,7 +81,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&rng->vhost_dev, vdev);
-+    vhost_dev_stop(&rng->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index a67a275de2..d21c72b401 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -70,7 +70,7 @@ int vhost_vsock_common_start(VirtIODevice *vdev)
-     }
- 
-     vvc->vhost_dev.acked_features = vdev->guest_features;
--    ret = vhost_dev_start(&vvc->vhost_dev, vdev);
-+    ret = vhost_dev_start(&vvc->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost: %d", -ret);
-         goto err_guest_notifiers;
-@@ -105,7 +105,7 @@ void vhost_vsock_common_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&vvc->vhost_dev, vdev);
-+    vhost_dev_stop(&vvc->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, vvc->vhost_dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index d1c4c20b8c..7fb008bc9e 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1777,15 +1777,36 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
-     return 0;
- }
- 
-+static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
-+{
-+    if (!hdev->vhost_ops->vhost_set_vring_enable) {
-+        return 0;
-+    }
-+
-+    /*
-+     * For vhost-user devices, if VHOST_USER_F_PROTOCOL_FEATURES has not
-+     * been negotiated, the rings start directly in the enabled state, and
-+     * .vhost_set_vring_enable callback will fail since
-+     * VHOST_USER_SET_VRING_ENABLE is not supported.
-+     */
-+    if (hdev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER &&
-+        !virtio_has_feature(hdev->backend_features,
-+                            VHOST_USER_F_PROTOCOL_FEATURES)) {
-+        return 0;
-+    }
-+
-+    return hdev->vhost_ops->vhost_set_vring_enable(hdev, enable);
-+}
-+
- /* Host notifiers must be enabled at this point. */
--int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-+int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
- {
-     int i, r;
- 
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
--    trace_vhost_dev_start(hdev, vdev->name);
-+    trace_vhost_dev_start(hdev, vdev->name, vrings);
- 
-     vdev->vhost_started = true;
-     hdev->started = true;
-@@ -1830,10 +1851,16 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-             goto fail_log;
-         }
-     }
-+    if (vrings) {
-+        r = vhost_dev_set_vring_enable(hdev, true);
-+        if (r) {
-+            goto fail_log;
-+        }
-+    }
-     if (hdev->vhost_ops->vhost_dev_start) {
-         r = hdev->vhost_ops->vhost_dev_start(hdev, true);
-         if (r) {
--            goto fail_log;
-+            goto fail_start;
-         }
-     }
-     if (vhost_dev_has_iommu(hdev) &&
-@@ -1848,6 +1875,10 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-         }
-     }
-     return 0;
-+fail_start:
-+    if (vrings) {
-+        vhost_dev_set_vring_enable(hdev, false);
-+    }
- fail_log:
-     vhost_log_put(hdev, false);
- fail_vq:
-@@ -1866,18 +1897,21 @@ fail_features:
- }
- 
- /* Host notifiers must be enabled at this point. */
--void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-+void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
- {
-     int i;
- 
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
--    trace_vhost_dev_stop(hdev, vdev->name);
-+    trace_vhost_dev_stop(hdev, vdev->name, vrings);
- 
-     if (hdev->vhost_ops->vhost_dev_start) {
-         hdev->vhost_ops->vhost_dev_start(hdev, false);
-     }
-+    if (vrings) {
-+        vhost_dev_set_vring_enable(hdev, false);
-+    }
-     for (i = 0; i < hdev->nvqs; ++i) {
-         vhost_virtqueue_stop(hdev,
-                              vdev,
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 820dadc26c..14fc5b9bb2 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -9,8 +9,8 @@ vhost_section(const char *name) "%s"
- vhost_reject_section(const char *name, int d) "%s:%d"
- vhost_iotlb_miss(void *dev, int step) "%p step %d"
- vhost_dev_cleanup(void *dev) "%p"
--vhost_dev_start(void *dev, const char *name) "%p:%s"
--vhost_dev_stop(void *dev, const char *name) "%p:%s"
-+vhost_dev_start(void *dev, const char *name, bool vrings) "%p:%s vrings:%d"
-+vhost_dev_stop(void *dev, const char *name, bool vrings) "%p:%s vrings:%d"
- 
- 
- # vhost-user.c
 -- 
-2.34.1
+2.38.1
 
 
