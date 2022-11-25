@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7C5638F2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 18:34:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22D9638F67
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Nov 2022 18:55:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oycas-0000Rp-Tc; Fri, 25 Nov 2022 12:34:30 -0500
+	id 1oyctO-0006r5-Dp; Fri, 25 Nov 2022 12:53:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oycar-0000Ix-9j
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:34:29 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyctK-0006qd-SS
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:53:34 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oycao-00051w-Tv
- for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:34:28 -0500
-Received: by mail-wr1-x430.google.com with SMTP id h11so504486wrw.13
- for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 09:34:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oyctH-0002zR-VA
+ for qemu-devel@nongnu.org; Fri, 25 Nov 2022 12:53:34 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ i64-20020a1c3b43000000b003d016c21100so6727528wma.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Nov 2022 09:53:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XBVpg8S2lYOHuzZ3+qJI7FUzRi1DDYNLZyg6zNq25rY=;
- b=eBC+GeQ2OeNzgwhXTyYI+Fx+veTEp5rYG26mlw0ks5Yi4aW50msVwiAWEN7iqM9QMh
- i0aveNCsLgo98koDXLY/2TrBch95ppZvh9KTWgCC94kka3gde5Xfg2w49mp46Pk3/Dg0
- /VCU/RaDkMeifkf8hmM7tTkeWtY038u1445AY/KREHH/am/SgGN+vXOs05e4Bf5InyxP
- DL+DvC7DJ4q+cH4I4blbdn1BzL9RKfRhy6Jkjbqgl9FVt5H0uU7djt0W+iYibDQ85xSF
- QG8oeMcz2wP+dOW6semtIZt3E+q1b55BmwmbLngWuXJ/BluRPIaMtM0Qsw0x5sZnUdgh
- 8IfQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=INE6OZGY4azvCuediKuhsFQWrf2Zukrhm0RyaddTozE=;
+ b=hRW6lsgQ6liMwlidIbO1J1HmRlucVMFwxp+a0lD1rrcYlBPNbrfBJMQdiQSkVuq/FO
+ S75wTmiLheWm7lUVaChHwV6b6O55Bs8/aEBIsbndudkTP1p1Ef5KSUPKQYQFqwXdvvCV
+ rj28FTTHP8gsFePYkDBBE1NTkuy7eyHWQ4P9eLBz8LRqLo+mBVWM1yBwbo2aYpu5WO3f
+ K3qnulyl0FER8RO40fKpnGtGynZLltU5OSjt/2Yt6H2cRJ23mqnkOnIxUJhJUo10yEh2
+ tK9Wd1ST0Z6FCshd4vpJmVjLuVKQHIlNwZoov9ccPO9qcphFSZAE+RR2ZOHoMLBN5w/r
+ koBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XBVpg8S2lYOHuzZ3+qJI7FUzRi1DDYNLZyg6zNq25rY=;
- b=6DR/lZfdyisW7xSHjlN07O8rfAefeeNAl0Y4T7ZVuMHpOPU393f7NSzCLPcXvatqQk
- 9Cly22EqsbOVn87iB/GWLVNciPNFYeYnZek+ystb7VfL9Mdpg3+oAKpZZ1RThQ5aieOK
- 68xvOLZcy1ABOxg3nnD8gzRpKzNRWm6feUTlTWil9yyQdiCOdHEp1hmUB9vaKTkxWu9T
- OcEwZ2xD2zllde0vPQTbO9VbAtiHwmw1cAXvh8876VKh6IiqXMHx3hvz0CaKycOoI8Up
- L4jCU6nv+/83g5qwXIBloQpN8kvNgvTxjVWAhFxjDl11PzthIU6bH9nFb68cBRuZ4FZe
- DkTw==
-X-Gm-Message-State: ANoB5pm6OBU30rN1pNNSB49pUB/4V3XiYNsfvzuMftLFsmCsB9fxJdSp
- HI2HFu2OdW0tQKGGIdzEp7vBdTCuvURKuw==
-X-Google-Smtp-Source: AA0mqf7Ayt7sArTWQYmZWFbaARfUlU0fPVDHgP9uu6RfqqlOWQq8t1FYj2qJtWFE0UW3Sn7ND803Vg==
-X-Received: by 2002:a5d:5960:0:b0:241:bd31:fecc with SMTP id
- e32-20020a5d5960000000b00241bd31feccmr22727038wri.635.1669397664248; 
- Fri, 25 Nov 2022 09:34:24 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=INE6OZGY4azvCuediKuhsFQWrf2Zukrhm0RyaddTozE=;
+ b=qG7JfwwSA3k7ofTotF23LVoopblEa5RW0UrWYo59FDLeIwUdCEwiHYwzBtv9DuD70y
+ QJoTYtbgJckoAQ5uXQ9+4Vus3IlsPP8+GAb1bIJ5xuQ85EZ8zZ6wMU/YHFgV1aljp575
+ LiR4PLkOTvAV7GemVvm3105WQo3AH7zCp+xpVRlsCWmkSMCPGyTnQYpeC3JYJxgfQISS
+ CPE7itT6q+xHO9lvssrlkBdPDCuNOBmMscYiukLr8iPxDCnIQ6KR6/t/wMsjTjxhaTmg
+ ieFZ3u0ljNlgJZ91y9f8/JvWjhzk6u0ozHXOp9gioS6HYbdOkKRwSKvzzZMKdijSQXw8
+ nnrQ==
+X-Gm-Message-State: ANoB5pkbXq3cZqWXF6YGAZOIkJZ0MWjTC+oey7Xr4mY7aeS4FZ7L+BR1
+ tVa8P0q6YHo7vIrB/AxGCR91OY/WhXHecw==
+X-Google-Smtp-Source: AA0mqf6KiQjDXGkJquJfLa2xuqZXsioUyM3G+sZDqzxlpx/sGPWqi0g3axqaSN9KN8cVOWT6fcgtVA==
+X-Received: by 2002:a05:600c:4f82:b0:3cf:aa11:9394 with SMTP id
+ n2-20020a05600c4f8200b003cfaa119394mr17030921wmq.183.1669398810421; 
+ Fri, 25 Nov 2022 09:53:30 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- a11-20020adfed0b000000b002365730eae8sm4307392wro.55.2022.11.25.09.34.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 09:34:23 -0800 (PST)
-Message-ID: <9bf22fa4-a921-2045-4427-481ddfdc1b9b@linaro.org>
-Date: Fri, 25 Nov 2022 18:34:20 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [RFC PATCH-for-7.2 0/4] hw/display/qxl: Avoid buffer overrun in
- qxl_phys2virt()
-Content-Language: en-US
+ q6-20020a1c4306000000b003cf774c31a0sm9233776wma.16.2022.11.25.09.53.29
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 25 Nov 2022 09:53:29 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20221125154030.42108-1-philmd@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221125154030.42108-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH-for-8.0] block/nbd: Add missing <qemu/bswap.h> include
+Date: Fri, 25 Nov 2022 18:53:28 +0100
+Message-Id: <20221125175328.48539-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,24 +90,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> Philippe Mathieu-Daudé (4):
->    hw/display/qxl: Have qxl_log_command Return early if no log_cmd
->      handler
->    hw/display/qxl: Document qxl_phys2virt()
->    hw/display/qxl: Pass qxl_phys2virt size
->    hw/display/qxl: Avoid buffer overrun in qxl_phys2virt()
-> 
->   hw/display/qxl-logger.c | 22 +++++++++++++++++++---
->   hw/display/qxl-render.c | 11 +++++++----
->   hw/display/qxl.c        | 25 +++++++++++++++++++------
->   hw/display/qxl.h        | 23 ++++++++++++++++++++++-
->   4 files changed, 67 insertions(+), 14 deletions(-)
+The inlined nbd_readXX() functions call beXX_to_cpu(), themselves
+declared in <qemu/bswap.h>. This fixes when refactoring:
 
-I am having hard time with my MTA:
+  In file included from ../../block/nbd.c:44:
+  include/block/nbd.h: In function 'nbd_read16':
+  include/block/nbd.h:383:12: error: implicit declaration of function 'be16_to_cpu' [-Werror=implicit-function-declaration]
+    383 |     *val = be##bits##_to_cpu(*val);                                     \
+        |            ^~
+  include/block/nbd.h:387:1: note: in expansion of macro 'DEF_NBD_READ_N'
+    387 | DEF_NBD_READ_N(16) /* Defines nbd_read16(). */
+        | ^~~~~~~~~~~~~~
 
-   4.3.0 Temporary System Problem.  Try again later (2). 
-k1-20020a7bc401000000b003cfbe1da539sm5571640wmi.36 - gsmtp
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ include/block/nbd.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Sorry if this series is mis-posted, I'll try to resend as a
-whole later.
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 4ede3b2bd0..a4c98169c3 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -24,6 +24,7 @@
+ #include "io/channel-socket.h"
+ #include "crypto/tlscreds.h"
+ #include "qapi/error.h"
++#include "qemu/bswap.h"
+ 
+ extern const BlockExportDriver blk_exp_nbd;
+ 
+-- 
+2.38.1
+
 
