@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF961639B3B
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 15:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443D6639AF8
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 14:23:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozIGc-00029q-J8; Sun, 27 Nov 2022 09:04:22 -0500
+	id 1ozHbw-00056Z-AK; Sun, 27 Nov 2022 08:22:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hoanguyen@ucdavis.edu>)
- id 1oz8FR-0004Mz-EB
- for qemu-devel@nongnu.org; Sat, 26 Nov 2022 22:22:29 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hoanguyen@ucdavis.edu>)
- id 1oz8FP-0004ji-2k
- for qemu-devel@nongnu.org; Sat, 26 Nov 2022 22:22:28 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id w37so1902776pga.5
- for <qemu-devel@nongnu.org>; Sat, 26 Nov 2022 19:22:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucdavis.edu; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mod3Ock7PvHPA+PuypUzbvv9VmCPX7bzLwcapdra0I4=;
- b=pmaK4pYIZNlbkmq+UQxTPDis8DHOPVqlZLsK75lEbAWnFiJHMaKDZYFh6s7JFj/1CB
- +/T7xtpWz9EY7eYvTJr6lsAPoGW6A6atdNqhfNwmRHGGrwiGoWCctsXqVloCamHP526O
- fLT9JlkQia/1r1OxEMo5VepcVlM5pFMtJtRlY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mod3Ock7PvHPA+PuypUzbvv9VmCPX7bzLwcapdra0I4=;
- b=LULDJVYGO2WDxlvsg73xpq0xIvvMGDYRqGtz0fwpACK6ws0cA7tMIw0aaZTRIJhm68
- 5YGoH92aCeP5fa1/SPBwkQ0Bb3ekarwrSz4G0bj5w6O+vX37i7in6jSErIICtRQ51lse
- MTOvISBfZrCMsvp6zlc1iAEGHe2FAT07zoGDFhFCcxPAjezSMrQMx1JIsabbtO5cxR35
- H9qVwS/GRjs+Oz0PffPUJFjmH9at77kUTgPgZjsxHH+ft5Nye716pAQyGHtQEUPwADiF
- BFNMU8jGZ3j4k74pWUK7ZakWiWeqpedu4dbRdF+oF5+Bg6Y2W6Z2rRgBUeUFwQmdhHEW
- 24bA==
-X-Gm-Message-State: ANoB5pkLzyZ6R3rV/f9BR9KRgQMnX9O0r4mDE2CYw0NDLPKC14ubMbwS
- CiiZ9VwBDfbjZDgSQVeuCrqRJOloOxClZQ==
-X-Google-Smtp-Source: AA0mqf7cNsA8EIDlAAsb1NPOVXzs01jgSbX7Bv0yQSF3BwLwQA7NMZm3abhvG0Y147kAF+5xxRrCGg==
-X-Received: by 2002:a63:d948:0:b0:46f:1081:f517 with SMTP id
- e8-20020a63d948000000b0046f1081f517mr41357590pgj.297.1669519344341; 
- Sat, 26 Nov 2022 19:22:24 -0800 (PST)
-Received: from penguin.lxd (c-73-41-83-143.hsd1.ca.comcast.net. [73.41.83.143])
- by smtp.gmail.com with ESMTPSA id
- u10-20020a170902e5ca00b00188f07c10c9sm6037121plf.192.2022.11.26.19.22.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Nov 2022 19:22:23 -0800 (PST)
-From: Hoa Nguyen <hoanguyen@ucdavis.edu>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org,
-	Hoa Nguyen <hoanguyen@ucdavis.edu>
-Subject: [PATCH] hw/cxl/cxl-host: Fix an error message typo
-Date: Sat, 26 Nov 2022 19:22:20 -0800
-Message-Id: <20221127032220.2649-1-hoanguyen@ucdavis.edu>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
+ id 1ozHbI-0004ut-2i
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 08:21:41 -0500
+Received: from mail-out-2a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:45])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
+ id 1ozHbG-0002QT-6d
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 08:21:39 -0500
+X-IPAS-Result: =?us-ascii?q?A2DlBABPY4Nj/5sagoZaHgEBCxIMQINUgwSETpEbgRacN?=
+ =?us-ascii?q?YFqDwEBAQEBAQEBAQgBRAQBAYUBAgKFCiY4EwECBAEBAQEDAgMBAQEBAQEDA?=
+ =?us-ascii?q?QEGAQEBAQEBBgSBHYUvRoZWJwQLAUEFMAUCJgJfDgWCfYMjrXF/M4EBhHCcT?=
+ =?us-ascii?q?QkBgQosiQaCTogSgRWCc4UfNzCDCoJnBJhBHDcDCQMHBSwdQAMLGA0WMgoTM?=
+ =?us-ascii?q?hsxJw4JHxwlDQUGEgMgbAUHOg8oL2QrHBsHgQwqKBUDBAQDAgYTAyICDSkxF?=
+ =?us-ascii?q?AQpEw0rJ28JAgMiagMDBCgsAwlAByckPAdWOgUDAg8gOAYDCQMCIlRyLxIUB?=
+ =?us-ascii?q?QMLFSUIBUsECDkFBlISAgoRAxIPLEUOSD45FgYnQgEwDg4TA11LHYEBBGI5g?=
+ =?us-ascii?q?RUxL5lrgyoBAYEOTYw/iEGwFQeCH6IKTJZ7ApIclzeiW0yEKAIEAgQFAhaBe?=
+ =?us-ascii?q?YF+cYM2UhcCD49GAQ2NHXQ7AgcBCgEBAwmKHwEB?=
+IronPort-Data: A9a23:+gIiOKJm6yE93AlXFE+RjZQlxSXFcZb7ZxGr2PjKsXjdYENShWEBm
+ 2AaXDjQaf/bZmfyLYwka4Tk9BgP7ZOEz9BlSFMd+CA2RRqmiyZk6fexcx2sZXPCdqUvaGo9s
+ q3yv/GZdJhcokf0/0vraP64xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2LBVOCvQ/
+ 4KsyyHjEAX9gWQtazhLs/vrRC5H5ZwehhtJ5jTSWtgW5Dcyp1FNZLoDKKe4KWfPQ4U8NoZWk
+ M6akdlVVkuAl/scIovNfoTTKyXmcZaOVeS6sUe6boD56vR0jnFojvxrZKJ0hXB/0F1ll/gpo
+ DlEWAfZpQ0BZsUgk8xFO/VU/r0X0aBuoNf6zXaDXcO7lknjKVWwxvNVBUwKeogH1f11Ck1y3
+ KlNQNwNRkjra+Oe+o2HasRcw/95aeOtJpwDujRpwXfVAJ7KQ7iaGPmMvIQAmm1uwJkTQJ4yZ
+ OJAAdZrRAjHaRxGIREND58+meqsrmPgbz0doVuepacxpWTepOB0+OK8a4ONIYDRLSlTtkfJo
+ Xv8+W3lO0sxc+2YyQGM1HL3l+CayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
+ 2QM9zYjt+43/V2nQ935dxm5pneeuVgbQdU4LgEhwBuS1qrZ80OCXC0OCCRedNxjvcNwSTFCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:KrOUIK68/RToQ1OMKQPXwD/XdLJyesId70hD6qkXc203TiX4ra
+ CTdZsguyMc5Ax8ZJhCo7290cu7MBHhHPdOiOF7V4tKNDOW3VdAR7sC0WKN+VLd8x6SzJ8k6Y
+ 5QN5JvDMTqAUk/qcrh+gG3H+86xtOK6rqliI7lvhNQZDAvUbFl9hx0G0KgEkNwTBRbHpYYE5
+ mR7NdKqlObCBMqhoDRPAhiY8Hz4+P00L/nexQCDx4i5BKjnDOz9aSSKWng4isj
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.96,198,1665439200"; d="scan'208";a="29310343"
+Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
+ by mail-in-2a.itc.rwth-aachen.de with ESMTP; 27 Nov 2022 14:21:30 +0100
+Received: from localhost.localdomain (2a02:908:1088:5920:e2b3:9876:72f1:5569)
+ by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
+ SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.20; Sun, 27 Nov 2022 14:21:30 +0100
+From: <tobias.roehmel@rwth-aachen.de>
+To: <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
+ <tobias.roehmel@rwth-aachen.de>
+Subject: [PATCH v5 0/7] Add ARM Cortex-R52 CPU
+Date: Sun, 27 Nov 2022 14:21:05 +0100
+Message-ID: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=hoanguyen@ucdavis.edu; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [2a02:908:1088:5920:e2b3:9876:72f1:5569]
+X-ClientProxiedBy: rwthex-s1-a.rwth-ad.de (2a00:8a60:1:e500::26:152) To
+ RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
+Received-SPF: pass client-ip=2a00:8a60:1:e501::5:45;
+ envelope-from=tobias.roehmel@rwth-aachen.de;
+ helo=mail-out-2a.itc.rwth-aachen.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 27 Nov 2022 09:04:19 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,25 +88,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Hoa Nguyen <hoanguyen@ucdavis.edu>
----
- hw/cxl/cxl-host.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-index 1adf61231a..3c1ec8732a 100644
---- a/hw/cxl/cxl-host.c
-+++ b/hw/cxl/cxl-host.c
-@@ -47,7 +47,7 @@ static void cxl_fixed_memory_window_config(CXLState *cxl_state,
- 
-     if (object->size % (256 * MiB)) {
-         error_setg(errp,
--                   "Size of a CXL fixed memory window must my a multiple of 256MiB");
-+                   "Size of a CXL fixed memory window must be a multiple of 256MiB");
-         return;
-     }
-     fw->size = object->size;
+No worries about the delay. I'm glad you are looking at it :)
+
+v5:
+1. Adjusted the spacing as requested
+2. Removed cp 15
+3. Rebased and put assert back
+4. Fixed indention issues
+5.
+- Made hprbar etc pointers instead of arrays
+- Fixed the logic/bound issues
+- For the VMSTATE change I looked at pmsav7.drbar which
+  is a pointer and is handled as an array. I assume
+  this works for hprbar/hprlar
+6.
+- In pmsav7_use_background_region there are 2 cases were we don't
+  want to look at the SCTLR_BR bit (c1.3 in manual supplement):
+  - The respective MPU is enabled and
+    - We are in the second translation stage
+    - We are in EL0
+  I think the code does that now and doesn't influence any other
+  code. I put the V8 check in there because the function is also
+  called from get_phys_addr_pmsav7
+- I put the fi->level behaviour back the way it was
+- Fixed UWXN/WXN
+
+Tobias Röhmel (7):
+  target/arm: Don't add all MIDR aliases for cores that implement PMSA
+  target/arm: Make RVBAR available for all ARMv8 CPUs
+  target/arm: Make stage_2_format for cache attributes optional
+  target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
+  target/arm: Add PMSAv8r registers
+  target/arm: Add PMSAv8r functionality
+  target/arm: Add ARM Cortex-R52 CPU
+
+ target/arm/cpu.c          |  30 +++-
+ target/arm/cpu.h          |   6 +
+ target/arm/cpu_tcg.c      |  42 +++++
+ target/arm/debug_helper.c |   3 +
+ target/arm/helper.c       | 333 ++++++++++++++++++++++++++++++++++++--
+ target/arm/internals.h    |   4 +
+ target/arm/machine.c      |  28 ++++
+ target/arm/ptw.c          | 137 +++++++++++++---
+ target/arm/tlb_helper.c   |   4 +
+ 9 files changed, 550 insertions(+), 37 deletions(-)
+
 -- 
-2.30.2
+2.34.1
 
 
