@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C463639BD7
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 17:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 102C9639C26
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 19:01:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozKyl-0001cZ-0e; Sun, 27 Nov 2022 11:58:07 -0500
+	id 1ozLw9-0000Kz-Kq; Sun, 27 Nov 2022 12:59:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ozKyj-0001c9-EE
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 11:58:05 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ozKyh-0005S8-U2
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 11:58:05 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id z17so3570392pff.1
- for <qemu-devel@nongnu.org>; Sun, 27 Nov 2022 08:58:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XfWDHTk3XwoykaRU+Dc6Rx9rSDSa9025s87SOt5k+y0=;
- b=NtUaPkJph+Ds35jO1R3/IYhCtkowba6Cb1CPUDe0vz0uE0F5CqJ3LLDxKvszJdiMLz
- 7N1eWbNiEHyQra48M+zR5fMY4b0cbBkSKMQrIO6fIanQAvMVJHrjC+M/V3QvJEqfZe6u
- 6Rrk44L+gysFmtpnSkgZ3UVAqM6xPSM6HjVfLAY14G3hRD6rRQuOMb8uTTiWwlcKP5qJ
- Le/IQ2I2a/J9UK2FC/eT4SmuRl9DH5jDagZHJyobhC2e4Vp7lmuwlC07SuuapwyllNmk
- mYtN2N5/vfc1y6fMF0sChw4PfAwTWZSuVPF+g0VqKScIGOZnyuyqI8Tpr1FGMnzq7H63
- Fwgg==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ozLw8-0000Kk-6P
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 12:59:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ozLw1-00062G-UQ
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 12:59:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669571959;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Z6PsLtQUsXpGNeddFLy0zfbuzjXjorMUBFneRIPC4dM=;
+ b=Sa2Ga85QaQNgLlY/G9hpJwxAUMsacWVnWWFbIQWINk6PtiBkkXjekl8SxsKWqWydIbNf5c
+ N6HRdGInKC7N1esXH4+4fHRV+95IwK66LrjGHAM190QErN07ackUbVZDY2vlEsdH+vC5vP
+ W0v4zKyIYCbC7uOxQyaW940jHRoILJI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-338-6LqOGqbKNjGMUxrzB5_itg-1; Sun, 27 Nov 2022 12:59:16 -0500
+X-MC-Unique: 6LqOGqbKNjGMUxrzB5_itg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b47-20020a05600c4aaf00b003d031aeb1b6so7390049wmp.9
+ for <qemu-devel@nongnu.org>; Sun, 27 Nov 2022 09:59:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XfWDHTk3XwoykaRU+Dc6Rx9rSDSa9025s87SOt5k+y0=;
- b=JX5rPrJwS9tg+NavVJPyI+Mc3xYAKwZFEti1cR6ZrPWMxZnlzS6KqYfDjI2ujbdJGK
- GDWX6Nv2gpiqlwedfO3ZBysIyfRmJbbz1Mu42mHkZddC3e24pZGvEG+tL7bNt9i3xYCW
- GpI5uDZL7xOZk2NCGfiDmWisvDiO7lT5nYm2opsHrlkNom1LIobgLuxosRlVr8FJmxrU
- p4GBk3KUwXrT47/QPAalKKQqYBhVmSDm2QBCQe0822mavQVJ1FxL46D+0nfqtnMmFxN2
- xlSf+WNx8/fnEZVttA8vLtEbs49iaBJVGDMKmAxFb8n69/Zdk85p2C+megf117qrFIvY
- VzMQ==
-X-Gm-Message-State: ANoB5pnuJF2uimMSsXIwptq11Yq5CZYHusFzmGI+g2Wqj3c4prA67DYp
- LG5Z0FYPuJ8/qXy0cxvas5XBC24oWSImmUAnZmoinS65OPRiNYtMbw2+phRREXY2HXJH3GUA2e2
- sZA5tHAUtU2uU0hrTx8JNwWCyuPsKIbOObE3IRAw6Ef+O1ckBnkjJsNhMGM5+1msKoO0=
-X-Google-Smtp-Source: AA0mqf7NRESKGlapi00Vm4RzrykEkrOdtzZjuiuguh+BIRB9qPLMd+uW/YSL1B3pN/rYNKxqrQcktQ==
-X-Received: by 2002:a05:6a00:26c8:b0:574:c159:ce3b with SMTP id
- p8-20020a056a0026c800b00574c159ce3bmr11885831pfw.74.1669568281708; 
- Sun, 27 Nov 2022 08:58:01 -0800 (PST)
-Received: from hsinchu25.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id
- w11-20020a170902ca0b00b001868ed86a95sm6975762pld.174.2022.11.27.08.58.00
+ bh=Z6PsLtQUsXpGNeddFLy0zfbuzjXjorMUBFneRIPC4dM=;
+ b=vKULVTskUDJxXJiR4Jp7kT5gEVcXQX0bxYZZMtrBIevqjO5cRPk9GKoY3VaD5Vo82y
+ Kse4JVhQuhmdvONpMlQabNWkj7giyNO/Oirvof0645l3wwQFO9GHHNS1kVPOuxRlHq+J
+ /YMM3HmQx1mMJBLwhjLimt2Tn3d/wYHOnMvdaLJP2Cjtztgltah7fp7zYrwIdvzJS0zT
+ aTgufg9uBNdLbTAVo0wi74mFD/OSeqhk98j9okqa5MllGJsWhHyKS26nW+vLgjmRBvhH
+ MGrfRgli6BV3/139zmcpzNM2IP248L8y1F58pxIM0o27Al3CKLvt6FOyFAAM4xOX/fzJ
+ +CPw==
+X-Gm-Message-State: ANoB5pmf5FxK/RDqYLOuPlHQkPXSi40ttnn6krlVvUKb/kCsbRW+3z/t
+ ZQAVWwTaxbIUL3U2ZaeqoQ6GL35fjYG31ke54HdKqO1DytUB7EM4s+MJWWDgqzNX2bmDILdmlYq
+ TicxXzipXcvKD7Dc=
+X-Received: by 2002:adf:f285:0:b0:238:44ec:945b with SMTP id
+ k5-20020adff285000000b0023844ec945bmr28262964wro.209.1669571955045; 
+ Sun, 27 Nov 2022 09:59:15 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6kxmmrfrdTM4JWYJQoQdRUhlj2radcW1rxbeKhGd9ob6RQCx/zlBWKeqskk15hWRN1FKcf2Q==
+X-Received: by 2002:adf:f285:0:b0:238:44ec:945b with SMTP id
+ k5-20020adff285000000b0023844ec945bmr28262956wro.209.1669571954847; 
+ Sun, 27 Nov 2022 09:59:14 -0800 (PST)
+Received: from localhost ([178.139.226.78]) by smtp.gmail.com with ESMTPSA id
+ r17-20020a5d4e51000000b0023c8026841csm8714125wrt.23.2022.11.27.09.59.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Nov 2022 08:58:01 -0800 (PST)
-From: Jim Shu <jim.shu@sifive.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Jim Shu <jim.shu@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Subject: [PATCH] hw/intc: sifive_plic: fix out-of-bound access of
- source_priority array
-Date: Sun, 27 Nov 2022 16:57:46 +0000
-Message-Id: <20221127165753.30533-1-jim.shu@sifive.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=jim.shu@sifive.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ Sun, 27 Nov 2022 09:59:14 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Daniel P . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH] tests/qtest/migration-test: Fix unlink error and memory
+ leaks
+In-Reply-To: <20221125083054.117504-1-thuth@redhat.com> (Thomas Huth's message
+ of "Fri, 25 Nov 2022 09:30:54 +0100")
+References: <20221125083054.117504-1-thuth@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Sun, 27 Nov 2022 18:59:13 +0100
+Message-ID: <87wn7gnury.fsf@secure.mitica>
+MIME-Version: 1.0
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,49 +96,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If the number of interrupt is not multiple of 32, PLIC will have
-out-of-bound access to source_priority array. Compute the number of
-interrupt in the last word to avoid this out-of-bound access of array.
+Thomas Huth <thuth@redhat.com> wrote:
+> When running the migration test compiled with Clang from Fedora 37
+> and sanitizers enabled, there is an error complaining about unlink():
+>
+>  ../tests/qtest/migration-test.c:1072:12: runtime error: null pointer
+>   passed as argument 1, which is declared to never be null
+>  /usr/include/unistd.h:858:48: note: nonnull attribute specified here
+>  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior
+>   ../tests/qtest/migration-test.c:1072:12 in
+>  (test program exited with status code 1)
+>  TAP parsing error: Too few tests run (expected 33, got 20)
+>
+> The data->clientcert and data->clientkey pointers can indeed be unset
+> in some tests, so we have to check them before calling unlink() with
+> those.
+>
+> While we're at it, I also noticed that the code is only freeing
+> some but not all of the allocated strings in this function, and
+> indeed, valgrind is also complaining about memory leaks here.
+> So let's call g_free() on all allocated strings to avoid leaking
+> memory here.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Jim Shu <jim.shu@sifive.com>
----
- hw/intc/sifive_plic.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index c2dfacf028..1cf156cf85 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -78,6 +78,7 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *plic, uint32_t addrid)
-     uint32_t max_irq = 0;
-     uint32_t max_prio = plic->target_priority[addrid];
-     int i, j;
-+    int num_irq_in_word = 32;
- 
-     for (i = 0; i < plic->bitfield_words; i++) {
-         uint32_t pending_enabled_not_claimed =
-@@ -88,7 +89,16 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *plic, uint32_t addrid)
-             continue;
-         }
- 
--        for (j = 0; j < 32; j++) {
-+        if (i == (plic->bitfield_words - 1)) {
-+            /*
-+             * If plic->num_sources is not multiple of 32, num-of-irq in last
-+             * word is not 32. Compute the num-of-irq of last word to avoid
-+             * out-of-bound access of source_priority array.
-+             */
-+            num_irq_in_word = plic->num_sources - ((plic->bitfield_words - 1) << 5);
-+        }
-+
-+        for (j = 0; j < num_irq_in_word; j++) {
-             int irq = (i << 5) + j;
-             uint32_t prio = plic->source_priority[irq];
-             int enabled = pending_enabled_not_claimed & (1 << j);
--- 
-2.17.1
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
