@@ -2,81 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E8B6399DF
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 11:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8E56399F7
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 11:48:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozEj0-0007Gl-RY; Sun, 27 Nov 2022 05:17:26 -0500
+	id 1ozFBo-0004TQ-7V; Sun, 27 Nov 2022 05:47:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ozEiz-0007Gc-1B
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 05:17:25 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ozEiw-00082f-BA
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 05:17:23 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id z4so12611624wrr.3
- for <qemu-devel@nongnu.org>; Sun, 27 Nov 2022 02:17:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W+IJRhWa7WAV3z296vIY9X/yNfQdVceZK8DvAJtm6+s=;
- b=BPiXqijwl+ulIPyNoF1YFbK7F16cSkhBgX2CMNgmb5vlh5b+reVogKFQtZmERONz33
- PWknJVZwLkLdYu0efNU8o/BJv/BUXK/dmYfEnkxJTlQZbaNy2RB0Ur1kAewU4DFj0Cx7
- tpcI8mMdnr4f4V0iwcqMp69xnm7w4pgIktkobD5CzGemyoz2yVlFVXBWfsuw1FOFFt8F
- MI9hv/cEAToRg538nSmBQExLCR3lUwkN9ulAxV5NBtr6Ttu7PhfeKh7WTGTJRlF7LIS0
- chXljdIrXKHx7WMZAHYb3FtOPl9YvTkUN3WueM+60h/QpSsn+JbzEmPCMelqF4RQPJxv
- 5q0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W+IJRhWa7WAV3z296vIY9X/yNfQdVceZK8DvAJtm6+s=;
- b=AwxQU65sH5IkUaN4NUDDS8tYZl6+IljYcgq/qvRDVQeNqYeCXydwbXZ+lugvk+t/t3
- 1OnmzMKAGOHULI6n5SPfnHpvGcx1jtFywA4K3pKejHJRdBGcoelTy4gqOW7DryCVu05k
- sUiL7RTucUL1hDyu1hAjF1nk5AL2vd8CZdpOTxfrxP7d4XDil4F/qbfS56cXr50/aCAd
- ekVswB2RqelDq6jUc6CL9PHDnGPKlMPg8qvgUoQvW7aN42tG27ghprr2vKawxZiJoEXu
- d5xOsDucAMwSf/JVFzGTyqFt4usO8GMJQxvc5e+E/T6LJZWqUFkVpsgXqMVF28LGnfVw
- AeHQ==
-X-Gm-Message-State: ANoB5pkcTHXowcuaAnP6whATvPJqt6VF/AKL6sygn8Pqa7G5tMegu9Kn
- lqEzV76OqEC/xjjVjjxAvl7Cq8Df1/0=
-X-Google-Smtp-Source: AA0mqf6743zGF/LBGXgdwCOXTqz+8b0kDzgmMtHRrwNwuy2UgzMOcXvH9J4Ur2QWTC+dlsUr6VxELg==
-X-Received: by 2002:adf:f681:0:b0:242:6af:8a2d with SMTP id
- v1-20020adff681000000b0024206af8a2dmr6376047wrp.188.1669544240302; 
- Sun, 27 Nov 2022 02:17:20 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-078-054-100-240.78.54.pool.telefonica.de.
- [78.54.100.240]) by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c510500b003b4ff30e566sm23633956wms.3.2022.11.27.02.17.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Nov 2022 02:17:19 -0800 (PST)
-Date: Sun, 27 Nov 2022 10:17:13 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org,
- =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-CC: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- sgarzare@redhat.com, Christian Borntraeger <borntraeger@linux.ibm.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_2/5=5D_include/hw=3A_VM_state_tak?=
- =?US-ASCII?Q?es_precedence_in_virtio=5Fdevice=5Fshould=5Fstart?=
-In-Reply-To: <20221125173043.1998075-3-alex.bennee@linaro.org>
-References: <20221125173043.1998075-1-alex.bennee@linaro.org>
- <20221125173043.1998075-3-alex.bennee@linaro.org>
-Message-ID: <E28CE5C3-8965-45C5-9076-7D7B8CDECAB8@gmail.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1ozFBm-0004T5-5Y; Sun, 27 Nov 2022 05:47:10 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1ozFBj-0003jD-VU; Sun, 27 Nov 2022 05:47:09 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AR6SqBj011532; Sun, 27 Nov 2022 10:46:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=CJO8gkfgnP46VNO/hbXonKbJsDMbjZ4ZUiMXFh6jvsA=;
+ b=lKpE5P1zfmYMXdcOZUddv6dTkfkd2zvKuUS2lUs/0Uy8knAn9MYcY7Yivli/c+v4wI0i
+ Xr57qJF9sCIQzTCGnEuh996DRqno2v6VdALBcYhKOvgDBna2g4OzuYXxeoZIRLb0UmgU
+ EBAi52Xiw3ijItdjmAJbWhKZ31FPeIE4ydvGHfI/vQ1i+yfKidF1+SKavdPMhgAnLYbY
+ 3fuzg/KGKQL/IFiNUvOK4HL7dpq40B77BZfleIXhE1t5q7SY0YPN1Mz0jhK/94kRFEQE
+ mEdNvafA+ESe4BxedzT5gAmdkHA9/CZ6/zo7gd7TE4lfKxUmRJPqJPTNScyCUvmKg49X Eg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3v8hr7ht-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 27 Nov 2022 10:46:50 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2ARAkoe4017044;
+ Sun, 27 Nov 2022 10:46:50 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3v8hr7h9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 27 Nov 2022 10:46:50 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ARAZCtE030191;
+ Sun, 27 Nov 2022 10:46:47 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3m3ae997bk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 27 Nov 2022 10:46:47 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2ARAkiuJ524984
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 27 Nov 2022 10:46:44 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 450CE4C044;
+ Sun, 27 Nov 2022 10:46:44 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4B9384C040;
+ Sun, 27 Nov 2022 10:46:43 +0000 (GMT)
+Received: from [9.171.55.247] (unknown [9.171.55.247])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Sun, 27 Nov 2022 10:46:43 +0000 (GMT)
+Message-ID: <2e377924-b738-1b02-e7d5-381d4bcebaa8@linux.ibm.com>
+Date: Sun, 27 Nov 2022 11:46:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v11 04/11] s390x/cpu topology: reporting the CPU topology
+ to the guest
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com
+References: <20221103170150.20789-1-pmorel@linux.ibm.com>
+ <20221103170150.20789-5-pmorel@linux.ibm.com>
+ <1888d31f-227f-7edf-4cc8-dd88a9b19435@kaod.org>
+ <34caa4c4-0b94-1729-fe88-77d9b4240f04@linux.ibm.com>
+ <8b29a416-8190-243f-c414-e9e77efae918@kaod.org>
+ <d82db5c8-171b-1570-e000-25e381843e8d@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <d82db5c8-171b-1570-e000-25e381843e8d@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: n4UkPdsWqtU801Bh_GG2Vecm558xg-Oc
+X-Proofpoint-ORIG-GUID: ahBeNFUK5QdRUP2Dns7tc5YgCw0t66qL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-27_02,2022-11-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 clxscore=1015
+ mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211270087
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,92 +128,94 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 25=2E November 2022 17:30:40 UTC schrieb "Alex Benn=C3=A9e" <alex=2Eben=
-nee@linaro=2Eorg>:
->The VM status should always preempt the device status for these
->checks=2E This ensures the device is in the correct state when we
->suspend the VM prior to migrations=2E This restores the checks to the
->order they where in before the refactoring moved things around=2E
->
->While we are at it lets improve our documentation of the various
->fields involved and document the two functions=2E
->
->Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_star=
-ted)
->Fixes: 259d69c00b (hw/virtio: introduce virtio_device_should_start)
->Signed-off-by: Alex Benn=C3=A9e <alex=2Ebennee@linaro=2Eorg>
->Tested-by: Christian Borntraeger <borntraeger@linux=2Eibm=2Ecom>
->---
-> include/hw/virtio/virtio=2Eh | 24 +++++++++++++++++++-----
-> 1 file changed, 19 insertions(+), 5 deletions(-)
->
->diff --git a/include/hw/virtio/virtio=2Eh b/include/hw/virtio/virtio=2Eh
->index 0f612067f7=2E=2E48f539d0fe 100644
->--- a/include/hw/virtio/virtio=2Eh
->+++ b/include/hw/virtio/virtio=2Eh
->@@ -133,6 +133,13 @@ struct VirtIODevice
->     bool broken; /* device in invalid state, needs reset */
->     bool use_disabled_flag; /* allow use of 'disable' flag when needed *=
-/
->     bool disabled; /* device in temporarily disabled state */
->+    /**
->+     * @use_started: true if the @started flag should be used to check t=
-he
->+     * current state of the VirtIO device=2E Otherwise status bits
->+     * should be checked for a current status of the device=2E
->+     * @use_started is only set via QMP and defaults to true for all
->+     * modern machines (since 4=2E1)=2E
->+     */
->     bool use_started;
->     bool started;
->     bool start_on_kick; /* when virtio 1=2E0 feature has not been negoti=
-ated */
->@@ -408,6 +415,17 @@ static inline bool virtio_is_big_endian(VirtIODevice=
- *vdev)
->     return false;
-> }
->=20
->+
+On 11/22/22 10:05, Pierre Morel wrote:
+> 
+> 
+> On 11/21/22 15:13, Cédric Le Goater wrote:
+>>>>> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+>>>>> +{
+>>>>> +    int i, origin;
+>>>>> +
+>>>>> +    for (i = 0; i < topo->nr_sockets; i++) {
+>>>>> +        if (!topo->socket[i].active_count) {
+>>>>> +            continue;
+>>>>> +        }
+>>>>> +        p = fill_container(p, 1, i);
+>>>>> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; 
+>>>>> origin++) {
+>>>>> +            uint64_t mask = 0L;
+>>>>> +
+>>>>> +            mask = topo->socket[i].mask[origin];
+>>>>> +            if (mask) {
+>>>>> +                p = fill_tle_cpu(p, mask, origin);
+>>>>> +            }
+>>>>> +        }
+>>>>> +    }
+>>>>> +    return p;
+>>>>> +}
+>>>>
+>>>> Why is it not possible to compute this topo information at "runtime",
+>>>> when stsi is called, without maintaining state in an extra S390Topology
+>>>> object ? Couldn't we loop on the CPU list to gather the topology bits
+>>>> for the same result ?
+>>>>
+>>>> It would greatly simplify the feature.
+>>>>
+>>>> C.
+>>>>
+>>>
+>>> The vCPU are not stored in order of creation in the CPU list and not 
+>>> in a topology order.
+>>> To be able to build the SYSIB we need an intermediate structure to 
+>>> reorder the CPUs per container.
+>>>
+>>> We can do this re-ordering during the STSI interception but the idea 
+>>> was to keep this instruction as fast as possible.> The second reason 
+>>> is to have a structure ready for the QEMU migration when we introduce 
+>>> vCPU migration from a socket to another socket, having then a 
+>>> different internal representation of the topology.
+>>>
+>>>
+>>> However, if as discussed yesterday we use a new cpu flag we would not 
+>>> need any special migration structure in the current series.
+>>>
+>>> So it only stays the first reason to do the re-ordering preparation 
+>>> during the plugging of a vCPU, to optimize the STSI instruction.
+>>>
+>>> If we think the optimization is not worth it or do not bring enough 
+>>> to be consider, we can do everything during the STSI interception.
+>>
+>> Is it called on a hot code path ? AFAICT, it is only called once
+>> per cpu when started. insert_stsi_3_2_2 is also a guest exit andit 
+>> queries the machine definition in a very similar way.
+> 
+> 
+> It is not fully exact, stsi(15) is called at several moments, not only 
+> on CPU creation, but each time the core calls rebuild_sched_domains() 
+> that is for s390 on:
+> - change in the host topology
+> - changes in CPUSET: for allowed CPU or load balancing
+> 
+> Regards,
+> Pierre
 
-This adds an extra empty line=2E
+These are no good reasons to not make as you propose.
+This allows to use the s390_has_feature() and use the cpu feature as 
+proposed Christian.
+What I can not do with the early topology initialization.
 
->+/**
->+ * virtio_device_should_start() - check if device started
+Regards,
+Pierre
 
-s/virtio_device_should_start/virtio_device_started/
+> 
+>>
+>> Thanks,
+>>
+>> C.
+>>
+> 
 
-Best regards,
-Bernhard
-
->+ * @vdev - the VirtIO device
->+ * @status - the devices status bits
->+ *
->+ * Check if the device is started=2E For most modern machines this is
->+ * tracked via the @vdev->started field (to support migration),
->+ * otherwise we check for the final negotiated status bit that
->+ * indicates everything is ready=2E
->+ */
-> static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t sta=
-tus)
-> {
->     if (vdev->use_started) {
->@@ -428,15 +446,11 @@ static inline bool virtio_device_started(VirtIODevi=
-ce *vdev, uint8_t status)
->  */
-> static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_=
-t status)
-> {
->-    if (vdev->use_started) {
->-        return vdev->started;
->-    }
->-
->     if (!vdev->vm_running) {
->         return false;
->     }
->=20
->-    return status & VIRTIO_CONFIG_S_DRIVER_OK;
->+    return virtio_device_started(vdev, status);
-> }
->=20
-> static inline void virtio_set_started(VirtIODevice *vdev, bool started)
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
