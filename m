@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CE3639AFC
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 14:24:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5B0639AF7
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 14:23:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozHc2-0005Ct-HQ; Sun, 27 Nov 2022 08:22:26 -0500
+	id 1ozHc1-0005Cc-Au; Sun, 27 Nov 2022 08:22:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1ozHbT-0004zf-4g
+ id 1ozHbV-0004zo-AQ
  for qemu-devel@nongnu.org; Sun, 27 Nov 2022 08:21:59 -0500
-Received: from mail-out-2a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:45])
+Received: from mail-out-1a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:44])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1ozHbI-0002QT-GE
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 08:21:41 -0500
-X-IPAS-Result: =?us-ascii?q?A2DQAgBPY4Nj/5sagoZaHAEBAQEBAQcBARIBAQQEAQFAg?=
- =?us-ascii?q?U+FCYROkR6BE54fDwEBAQEBAQEBAQgBRAQBAYUBAgIChQgmOBMBAgQBAQEBA?=
- =?us-ascii?q?wIDAQEBAQEBAwEBBgEBAQEBAQYEgR2FL0aGVAIBAyMPAUEFECAFAiYCAlcGD?=
- =?us-ascii?q?gWCfYMjrXGBMoEBhHCcTQkBgQosiQaCToVCglCBFYJzdYRhMIMKgmcEmEEcN?=
- =?us-ascii?q?wMJAwcFLB1AAwsYDRYyChMyGzEnDgkfHA4XDQUGEgMgbAUHOg8oL2QrHBsHg?=
- =?us-ascii?q?QwqKBUDBAQDAgYTAyICDSkxFAQpEw0rJ28JAgMiZQUDAwQoLAMJQAcnJDwHV?=
- =?us-ascii?q?joFAwIPIDgGAwkDAiJUci8SFAUDCxUlCAVLBAg5BQZSEgIKEQMSDyxFDkg+O?=
- =?us-ascii?q?RYGJ0IBMA4OEwNdSx2BAQRiOYEVMS+Za4MkB4EOgXk2wzQHgh+iCkyWewKSH?=
- =?us-ascii?q?C2XCqMnhCgCBAIEBQIWgXmBfnGDNlIXAg+ccXQ7AgcBCgEBAwmKHwEB?=
-IronPort-Data: A9a23:5Aw3valDb3uu9XTL2L6OARPo5gzdJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xIaCziEParfazf0e9F1Ydy+9RwD6JGBxtYyHAZqq3pgRFtH+JHPbTi7wuYcHAvPdJGZHBI/h
- yk6QoOdRCzhZiaE/n9BCpC48T8mk/jgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvU0
- T/Ji5CZaQHNNwJcaDpOsfva8kw35ZwehRtB1rAATaET1LPhvyRNZH4vDfnZB2f1RIBSAtm7S
- 47rpF1u1jqEl/uFIorNfofTKiXmcJaLVeS9oiY+t5yZv/R3jndaPpATaaBAMxcH011lqPgqo
- DlFncTYpQ7EpcQgksxFO/VTO3kW0aGrZNYrLFDn2fF/wXEqfFPy49xEI0IGD7EV2cVoBkQX/
- L8IOBskO0Xra+KemNpXS8FWufgDAfmuB9lakDd60i3ZSP8qB5zOK0nIzYYDgHFp3ZgIR6iYP
- pdEAdZsRE2ojxlnJlAdCZsl2v2vi3n6fjlwsk2Jpe8+6mPTwQo33LWF3N/9II3RHJ0OwhrwS
- mTu50X+JgwjLtik4wGb30uV3OnpsBjwYddHfFG/3rsw6LGJ/UQKBRgLEFe2v/S9oki5Xd1ZN
- goT4CVGhbA/6EGxCNz0ThG1pHqsuh8aUsBXVeog52mwJrH8+RmFBmUUCyUbLdZgrtAqRXkj2
- hmFkrsFGABSjVFcclrFnp/8kN94EXF9wbMqDcPccTY43g==
-IronPort-HdrOrdr: A9a23:ZFsxt6/X+n9+QzGwncVuk+DtI+orL9Y04lQ7vn2ZKCY6TiX8ra
- qTdZsguiMc9wxhPk3I9erwXZVoa0msjaKdmLNhRItKPzOGhILLFu1fBOLZqlXd8kvFltK1vp
- 0QEJSWZuecMbCE5fyKgjVQGexQp+VvoJrCuQ92p00dKT1XVw==
+ id 1ozHbL-0002SS-I7
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 08:21:52 -0500
+X-IPAS-Result: =?us-ascii?q?A2DqBABPY4Nj/5sagoZaHgEBCxIMQIZYhE6RHp8yDwEBA?=
+ =?us-ascii?q?QEBAQEBAQgBRAQBAYUBAgIChQgmOBMBAgQBAQEBAwIDAQEBAQEBAwEBBgEBA?=
+ =?us-ascii?q?QEBAQYEgR2FL0aGVAIBAyMECwFGEB0DBQImAgJJDgYOBYJ9gyOtcX8zgQGEc?=
+ =?us-ascii?q?JxNCQGBCiyJBoJOhUKCUIJRgTd1hGEwgwqCZwSMOowHHDcDCQMHBSwdQAMLG?=
+ =?us-ascii?q?A0WMgoTMhsxJw4JHxwOFw0FBhIDIGwFBzoPKC9kKxwbB4EMKigVAwQEAwIGE?=
+ =?us-ascii?q?wMiAg0pMRQEKRMNKydvCQIDImUFAwMEKCwDCUAHJyQ8B1Y6BQMCDyA4BgMJA?=
+ =?us-ascii?q?wIiVHIvEhQFAwsVJQgFSwQIOQUGUhICChEDEg8sRQ5IPjkWBidCATAODhMDX?=
+ =?us-ascii?q?UsdgQEEYjmBFTEvmWuDK4EPgXvDZweCH6IKTJZ7ApIcLZFShTijJ4QoAgQCB?=
+ =?us-ascii?q?AUCFoF5gX5xgzZSFwIPnHF0OwIHAQoBAQMJih8BAQ?=
+IronPort-Data: A9a23:tHTNlqKCzQZk/TVeFE+RjZQlxSXFcZb7ZxGr2PjKsXjdYENS0GZRy
+ GpLCm6Cb/eIZzP2Kd0nb47l9EIEu8PVmIBkHFMd+CA2RRqmiyZk6fexcx2sZXPCdqUvaGo9s
+ q3yv/GZdJhcokf0/0vraP64xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2LBVOCvQ/
+ 4KsyyHjEAX9gWQtazhLs/vrRC5H5ZwehhtJ5jTSWtgW5Dcyp1FNZLoDKKe4KWfPQ4U8NoZWk
+ M6akdlVVkuAl/scIovNfoTTKyXmcZaOVeS6sUe6boD56vR0jnFojvxrZKJ0hXB/0F1ll/gpo
+ DlEWAfZpQ0BZsUgk8xFO/VU/r0X0aBuoNf6zXaDXcO7wnLDVEfFyehXKVAzLY0cxMNtHGNL6
+ qlNQNwNRkjra+Oe+o2HasRcw/95aeOtJpwDujRpwXfVAJ7KQ7iaGPmMvIQAmm1uwJkTQJ4yZ
+ OJAAdZrRAjHaRxGIREND58+meqsrmPgbz0doVuepacxpWTepOB0+OK8a4OMIoPbLSlTtkWcu
+ EOdzTzLOS9ZNtnEjjig3nvzlMaayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
+ 2QM9zYjt+43/V2nQ935dxm5pneeuVgbQdU4LgEhwBuS1qrZ80OCXC0OCCRedNxjvcNwSTFCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:KOTSKKHSEZ7U917QpLqEOceALOsnbusQ8zAXPidKJSC9E/b0qy
+ nKpp8mPHDP6Qr5NEtOpTn/AtjifZqsz/BICOAqVN/JYOCMgguVxe9ZnOnfKkXbakjD398Y7L
+ xndadmDt32EBxVsebWiTPId+oI8Z2/66aviv7Zz3BxCSdQS48lwTtYJ2+gYypLrC8vP+tBKH
+ NZ3Lsgmwad
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,198,1665439200"; d="scan'208";a="29310344"
+X-IronPort-AV: E=Sophos;i="5.96,198,1665439200"; d="scan'208";a="29311079"
 Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-2a.itc.rwth-aachen.de with ESMTP; 27 Nov 2022 14:21:31 +0100
+ by mail-in-1a.itc.rwth-aachen.de with ESMTP; 27 Nov 2022 14:21:31 +0100
 Received: from localhost.localdomain (2a02:908:1088:5920:e2b3:9876:72f1:5569)
  by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
  SMTP
@@ -54,10 +55,9 @@ From: <tobias.roehmel@rwth-aachen.de>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
  <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v5 3/7] target/arm: Make stage_2_format for cache attributes
- optional
-Date: Sun, 27 Nov 2022 14:21:08 +0100
-Message-ID: <20221127132112.300331-4-tobias.roehmel@rwth-aachen.de>
+Subject: [PATCH v5 4/7] target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
+Date: Sun, 27 Nov 2022 14:21:09 +0100
+Message-ID: <20221127132112.300331-5-tobias.roehmel@rwth-aachen.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
 References: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
@@ -67,9 +67,9 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [2a02:908:1088:5920:e2b3:9876:72f1:5569]
 X-ClientProxiedBy: rwthex-s1-a.rwth-ad.de (2a00:8a60:1:e500::26:152) To
  RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:45;
+Received-SPF: pass client-ip=2a00:8a60:1:e501::5:44;
  envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-2a.itc.rwth-aachen.de
+ helo=mail-out-1a.itc.rwth-aachen.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -92,58 +92,62 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-The v8R PMSAv8 has a two-stage MPU translation process, but, unlike
-VMSAv8, the stage 2 attributes are in the same format as the stage 1
-attributes (8-bit MAIR format). Rather than converting the MAIR
-format to the format used for VMSA stage 2 (bits [5:2] of a VMSA
-stage 2 descriptor) and then converting back to do the attribute
-combination, allow combined_attrs_nofwb() to accept s2 attributes
-that are already in the MAIR format.
-
-We move the assert() to combined_attrs_fwb(), because that function
-really does require a VMSA stage 2 attribute format. (We will never
-get there for v8R, because PMSAv8 does not implement FEAT_S2FWB.)
+ARMv8-R AArch32 CPUs behave as if TTBCR.EAE is always 1 even
+tough they don't have the TTBCR register.
+See ARM Architecture Reference Manual Supplement - ARMv8, for the ARMv8-R
+AArch32 architecture profile Version:A.c section C1.2.
 
 Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 ---
- target/arm/ptw.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ target/arm/debug_helper.c | 3 +++
+ target/arm/internals.h    | 4 ++++
+ target/arm/tlb_helper.c   | 4 ++++
+ 3 files changed, 11 insertions(+)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index f812734bfb..7d19829702 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2361,7 +2361,11 @@ static uint8_t combined_attrs_nofwb(uint64_t hcr,
- {
-     uint8_t s1lo, s2lo, s1hi, s2hi, s2_mair_attrs, ret_attrs;
+diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+index c21739242c..2f6ddc0da5 100644
+--- a/target/arm/debug_helper.c
++++ b/target/arm/debug_helper.c
+@@ -437,6 +437,9 @@ static uint32_t arm_debug_exception_fsr(CPUARMState *env)
  
--    s2_mair_attrs = convert_stage2_attrs(hcr, s2.attrs);
-+    if (s2.is_s2_format) {
-+        s2_mair_attrs = convert_stage2_attrs(hcr, s2.attrs);
-+    } else {
-+        s2_mair_attrs = s2.attrs;
+     if (target_el == 2 || arm_el_is_aa64(env, target_el)) {
+         using_lpae = true;
++    } else if (arm_feature(env, ARM_FEATURE_PMSA) &&
++               arm_feature(env, ARM_FEATURE_V8)) {
++        using_lpae = true;
+     } else {
+         if (arm_feature(env, ARM_FEATURE_LPAE) &&
+             (env->cp15.tcr_el[target_el] & TTBCR_EAE)) {
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index d9121d9ff8..1dfc593f28 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -253,6 +253,10 @@ unsigned int arm_pamax(ARMCPU *cpu);
+ static inline bool extended_addresses_enabled(CPUARMState *env)
+ {
+     uint64_t tcr = env->cp15.tcr_el[arm_is_secure(env) ? 3 : 1];
++    if (arm_feature(env, ARM_FEATURE_PMSA) &&
++        arm_feature(env, ARM_FEATURE_V8)) {
++        return true;
 +    }
- 
-     s1lo = extract32(s1.attrs, 0, 4);
-     s2lo = extract32(s2_mair_attrs, 0, 4);
-@@ -2418,6 +2422,8 @@ static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
-  */
- static uint8_t combined_attrs_fwb(ARMCacheAttrs s1, ARMCacheAttrs s2)
- {
-+    assert(s2.is_s2_format && !s1.is_s2_format);
-+
-     switch (s2.attrs) {
-     case 7:
-         /* Use stage 1 attributes */
-@@ -2467,7 +2473,7 @@ static ARMCacheAttrs combine_cacheattrs(uint64_t hcr,
-     ARMCacheAttrs ret;
-     bool tagged = false;
- 
--    assert(s2.is_s2_format && !s1.is_s2_format);
-+    assert(!s1.is_s2_format);
-     ret.is_s2_format = false;
- 
-     if (s1.attrs == 0xf0) {
+     return arm_el_is_aa64(env, 1) ||
+            (arm_feature(env, ARM_FEATURE_LPAE) && (tcr & TTBCR_EAE));
+ }
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index 0f4f4fc809..60abcbebe6 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -19,6 +19,10 @@ bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
+     if (el == 2 || arm_el_is_aa64(env, el)) {
+         return true;
+     }
++    if (arm_feature(env, ARM_FEATURE_PMSA) &&
++        arm_feature(env, ARM_FEATURE_V8)) {
++        return true;
++    }
+     if (arm_feature(env, ARM_FEATURE_LPAE)
+         && (regime_tcr(env, mmu_idx) & TTBCR_EAE)) {
+         return true;
 -- 
 2.34.1
 
