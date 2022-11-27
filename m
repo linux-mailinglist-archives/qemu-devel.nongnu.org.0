@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74591639AFA
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 14:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C463639BD7
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 17:59:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozHc8-0005Lu-BX; Sun, 27 Nov 2022 08:22:34 -0500
+	id 1ozKyl-0001cZ-0e; Sun, 27 Nov 2022 11:58:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1ozHbb-00052E-D3
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 08:22:05 -0500
-Received: from mail-out-3.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:48])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1ozHbS-0002Sq-Vr
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 08:21:55 -0500
-X-IPAS-Result: =?us-ascii?q?A2D5AADXY4Nj/5sagoZaHQEBAQEJARIBBQUBQIE+BQELA?=
- =?us-ascii?q?YUIhE6RHp8yDwEBAQEBAQEBAQgBRAQBAYUBAgIChQgmNwYOAQIEAQEBAQMCA?=
- =?us-ascii?q?wEBAQEBAQMBAQYBAQEBAQEGBIEdhS9GhlQCAQMjBAsBRhAgBQImAgJXBg4Fg?=
- =?us-ascii?q?n2DI61yfzOBAYRwnE0JAYEKLAGJBYJOhUKCUIJRgTd1hGEwgwqCZwSMOowHH?=
- =?us-ascii?q?DcDCQMHBSwdQAMLGA0WMgoTMhsxJw4JHxwOFw0FBhIDIGwFBzoPKC9kKxwbB?=
- =?us-ascii?q?4EMKigVAwQEAwIGEwMiAg0pMRQEKRMNKydvCQIDImUFAwMEKCwDCUAHJyQ8B?=
- =?us-ascii?q?1Y6BQMCDyA4BgMJAwIiVHIvEhQFAwsVJQgFSwQIOQUGUhICChEDEg8sRQ5IP?=
- =?us-ascii?q?jkWBidCATAODhMDXUsdgQEEYjmBFTEvmWuDK4EOlU+OUKFEB4IfogpMlnsCk?=
- =?us-ascii?q?hyXN6MnhCgCBAIEBQIWgXiBf3GDNlIXAg+OLBaOL3Q7AgcBCgEBAwmKHwEB?=
-IronPort-Data: A9a23:/0dnJ6Oh8dWyqf7vrR37lsFynXyQoLVcMsEvi/4bfWQNrUojhWMGn
- GAdCGyBM/3YY2L9Lt9zb9uw9E9Tv8LXyNJkSXM5pCpnJ55oRWspJvzEdBuqb3PKRiHnZBg6h
- ynLQoCYdKjYdleF+lH3dOGJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYx6TSCK17L6
- I2aT/H3Ygf/gWctaD1MsspvlTs21BjMkGJA1rABTa0T1LPuvyF9JI4SI6i3M0z5TuF8dgJtb
- 7+epF0R1jqxEyYFUrtJoJ6iGqE5auK60Ty1t5Zjc/PKbi5q+3ZuiPZrbJLwXm8M49mBt4gZJ
- NygLvVcQy9xVkHHsLx1vxW1j0iSMIUekIIrL0RTvuS1/RHXXCWxwslEUlptIoY648F+OXBRo
- KlwxDAlNnhvhsqM/46bZ9kpvZ5mBo/xI58f/3hsiz3UZRokacmYH+OTvocehml2350TdRrdT
- 5NxhT5HcBPKYhRUfE0QBZI7keOAnGbjc3hRoVmVqKxx72W7IAlZiee9b4qFJY3ULSlTtlaWr
- z3s1EjiPgMbOtqT+DiI2UKKn/CayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
- 2QM9zYjt+43/V2nQ935dxm5pneeuVgbQdU4LgEhwBuS1qrZ80OCXC0OCCRedNxjvcNwSTFCO
- kK1ou4FzAdH6NW9IU9xPJ/N9Fte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:/PDCNKP8T1EHW8BcTvCjsMiBIKoaSvp037Eqv3ocdfUzSL3+qy
- nOpoV+6faaslgssR0b8+xofZPwIk80lqQFhLX5X43CYOCOggLBR72Kr7GSoQEIcxeOkNK1vp
- 0OT0ERMrDN5Q8Qt7eD3ODBKbYdKY68gdmVuds=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,198,1665439200"; d="scan'208";a="178788796"
-Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-3.itc.rwth-aachen.de with ESMTP; 27 Nov 2022 14:21:32 +0100
-Received: from localhost.localdomain (2a02:908:1088:5920:e2b3:9876:72f1:5569)
- by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
- SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.20; Sun, 27 Nov 2022 14:21:32 +0100
-From: <tobias.roehmel@rwth-aachen.de>
-To: <qemu-devel@nongnu.org>
-CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
- <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v5 7/7] target/arm: Add ARM Cortex-R52 CPU
-Date: Sun, 27 Nov 2022 14:21:12 +0100
-Message-ID: <20221127132112.300331-8-tobias.roehmel@rwth-aachen.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
-References: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [2a02:908:1088:5920:e2b3:9876:72f1:5569]
-X-ClientProxiedBy: rwthex-s1-a.rwth-ad.de (2a00:8a60:1:e500::26:152) To
- RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:48;
- envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-3.itc.rwth-aachen.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1ozKyj-0001c9-EE
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 11:58:05 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1ozKyh-0005S8-U2
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 11:58:05 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id z17so3570392pff.1
+ for <qemu-devel@nongnu.org>; Sun, 27 Nov 2022 08:58:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XfWDHTk3XwoykaRU+Dc6Rx9rSDSa9025s87SOt5k+y0=;
+ b=NtUaPkJph+Ds35jO1R3/IYhCtkowba6Cb1CPUDe0vz0uE0F5CqJ3LLDxKvszJdiMLz
+ 7N1eWbNiEHyQra48M+zR5fMY4b0cbBkSKMQrIO6fIanQAvMVJHrjC+M/V3QvJEqfZe6u
+ 6Rrk44L+gysFmtpnSkgZ3UVAqM6xPSM6HjVfLAY14G3hRD6rRQuOMb8uTTiWwlcKP5qJ
+ Le/IQ2I2a/J9UK2FC/eT4SmuRl9DH5jDagZHJyobhC2e4Vp7lmuwlC07SuuapwyllNmk
+ mYtN2N5/vfc1y6fMF0sChw4PfAwTWZSuVPF+g0VqKScIGOZnyuyqI8Tpr1FGMnzq7H63
+ Fwgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XfWDHTk3XwoykaRU+Dc6Rx9rSDSa9025s87SOt5k+y0=;
+ b=JX5rPrJwS9tg+NavVJPyI+Mc3xYAKwZFEti1cR6ZrPWMxZnlzS6KqYfDjI2ujbdJGK
+ GDWX6Nv2gpiqlwedfO3ZBysIyfRmJbbz1Mu42mHkZddC3e24pZGvEG+tL7bNt9i3xYCW
+ GpI5uDZL7xOZk2NCGfiDmWisvDiO7lT5nYm2opsHrlkNom1LIobgLuxosRlVr8FJmxrU
+ p4GBk3KUwXrT47/QPAalKKQqYBhVmSDm2QBCQe0822mavQVJ1FxL46D+0nfqtnMmFxN2
+ xlSf+WNx8/fnEZVttA8vLtEbs49iaBJVGDMKmAxFb8n69/Zdk85p2C+megf117qrFIvY
+ VzMQ==
+X-Gm-Message-State: ANoB5pnuJF2uimMSsXIwptq11Yq5CZYHusFzmGI+g2Wqj3c4prA67DYp
+ LG5Z0FYPuJ8/qXy0cxvas5XBC24oWSImmUAnZmoinS65OPRiNYtMbw2+phRREXY2HXJH3GUA2e2
+ sZA5tHAUtU2uU0hrTx8JNwWCyuPsKIbOObE3IRAw6Ef+O1ckBnkjJsNhMGM5+1msKoO0=
+X-Google-Smtp-Source: AA0mqf7NRESKGlapi00Vm4RzrykEkrOdtzZjuiuguh+BIRB9qPLMd+uW/YSL1B3pN/rYNKxqrQcktQ==
+X-Received: by 2002:a05:6a00:26c8:b0:574:c159:ce3b with SMTP id
+ p8-20020a056a0026c800b00574c159ce3bmr11885831pfw.74.1669568281708; 
+ Sun, 27 Nov 2022 08:58:01 -0800 (PST)
+Received: from hsinchu25.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id
+ w11-20020a170902ca0b00b001868ed86a95sm6975762pld.174.2022.11.27.08.58.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 27 Nov 2022 08:58:01 -0800 (PST)
+From: Jim Shu <jim.shu@sifive.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Jim Shu <jim.shu@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Subject: [PATCH] hw/intc: sifive_plic: fix out-of-bound access of
+ source_priority array
+Date: Sun, 27 Nov 2022 16:57:46 +0000
+Message-Id: <20221127165753.30533-1-jim.shu@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=jim.shu@sifive.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,76 +88,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+If the number of interrupt is not multiple of 32, PLIC will have
+out-of-bound access to source_priority array. Compute the number of
+interrupt in the last word to avoid this out-of-bound access of array.
 
-All constants are taken from the ARM Cortex-R52 Processor TRM Revision: r1p3
-
-Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+Signed-off-by: Jim Shu <jim.shu@sifive.com>
 ---
- target/arm/cpu_tcg.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ hw/intc/sifive_plic.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 60ff539fa1..ae08322758 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -853,6 +853,47 @@ static void cortex_r5_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
- }
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index c2dfacf028..1cf156cf85 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -78,6 +78,7 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *plic, uint32_t addrid)
+     uint32_t max_irq = 0;
+     uint32_t max_prio = plic->target_priority[addrid];
+     int i, j;
++    int num_irq_in_word = 32;
  
-+static void cortex_r52_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
+     for (i = 0; i < plic->bitfield_words; i++) {
+         uint32_t pending_enabled_not_claimed =
+@@ -88,7 +89,16 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *plic, uint32_t addrid)
+             continue;
+         }
+ 
+-        for (j = 0; j < 32; j++) {
++        if (i == (plic->bitfield_words - 1)) {
++            /*
++             * If plic->num_sources is not multiple of 32, num-of-irq in last
++             * word is not 32. Compute the num-of-irq of last word to avoid
++             * out-of-bound access of source_priority array.
++             */
++            num_irq_in_word = plic->num_sources - ((plic->bitfield_words - 1) << 5);
++        }
 +
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_PMSA);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    cpu->midr = 0x411fd133; /* r1p3 */
-+    cpu->revidr = 0x00000000;
-+    cpu->reset_fpsid = 0x41034023;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+    cpu->ctr = 0x8144c004;
-+    cpu->reset_sctlr = 0x30c50838;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x10111001;
-+    cpu->isar.id_dfr0 = 0x03010006;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x00211040;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01200000;
-+    cpu->isar.id_mmfr3 = 0xf0102211;
-+    cpu->isar.id_mmfr4 = 0x00000010;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232142;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x00010001;
-+    cpu->isar.dbgdidr = 0x77168000;
-+    cpu->clidr = (1 << 27) | (1 << 24) | 0x3;
-+    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
-+
-+    cpu->pmsav7_dregion = 16;
-+    cpu->pmsav8r_hdregion = 16;
-+}
-+
- static void cortex_r5f_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -1161,6 +1202,7 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
-     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
-+    { .name = "cortex-r52",  .initfn = cortex_r52_initfn },
-     { .name = "ti925t",      .initfn = ti925t_initfn },
-     { .name = "sa1100",      .initfn = sa1100_initfn },
-     { .name = "sa1110",      .initfn = sa1110_initfn },
++        for (j = 0; j < num_irq_in_word; j++) {
+             int irq = (i << 5) + j;
+             uint32_t prio = plic->source_priority[irq];
+             int enabled = pending_enabled_not_claimed & (1 << j);
 -- 
-2.34.1
+2.17.1
 
 
