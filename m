@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E989639C6B
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 19:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB838639C6C
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Nov 2022 19:41:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozMYZ-0005KN-Iy; Sun, 27 Nov 2022 13:39:11 -0500
+	id 1ozMaB-0006OI-Q4; Sun, 27 Nov 2022 13:40:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozMYT-0005Jj-CJ
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 13:39:05 -0500
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
+ id 1ozMa1-0006LU-0W
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 13:40:41 -0500
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozMYR-00034L-Tg
- for qemu-devel@nongnu.org; Sun, 27 Nov 2022 13:39:05 -0500
-Received: by mail-yb1-xb34.google.com with SMTP id k206so9555766ybk.5
- for <qemu-devel@nongnu.org>; Sun, 27 Nov 2022 10:39:03 -0800 (PST)
+ id 1ozMZz-0003bE-4Z
+ for qemu-devel@nongnu.org; Sun, 27 Nov 2022 13:40:40 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id j196so10861086ybj.2
+ for <qemu-devel@nongnu.org>; Sun, 27 Nov 2022 10:40:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SdtZFcEJptLlfXYRMnEw8Mj0ngW2v0zWe3I8yeMqZVA=;
- b=aRSSSAwfB70PzhLqqIkchF/RP8rE/4WV9ZNHdUP4QGN/P94M+LeKlYEF8rrPTy8hen
- 7dr8DLsqNbnqEIK0sj13IkvtMQDfuTmE5vItV15VJe1qUn1nt4Ssh3uld+Gink4xUEQf
- OwQrFOXdURYjOOIfljUT0dJGNyZFC0t08/mQSFPaZpJl1tdvjHlzJS0SwwJdqfXgMtSG
- 5/HkDQ9qjyxooj9hwLr0RT/lpDynDw9QQrHtlpxzv2nNaEMEYs9Nl4AaKIQfafyL+cRz
- zL1gWhgzjcwuupAsitbP4HAmBTzn88xmrBtbuspjQ7FyzZfFv+jd6kwgskdG63zQ9437
- 15yg==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6MJINvQwOT6MP2LO7evGHThUACB2WDVfmnHyOLxzkSc=;
+ b=TBTABdVwcpCJJ7t3hhBpWSZokhMbjbD29AZpIFDSsjS6EzVlHPf0JFvBssJMi7hwiX
+ 5XwRZQiYj3K3ZEe2eZx5b2jSYaT4AX1IlgaUo4IjagxTtVja3Ib4fcN9HtxToL22Dtn/
+ LeDpMLzg2Bw6iy299JzDcP6r7olsE5Pz2LnI2ZLdmnSm+RqCNonr2JCAA7Q+n6QrSWQY
+ bi6pbsGe2QHUDP+vEk3MRPw34iOhCACSCcP6FIMHBG9H9FkhTS82RBXQSSxA0pCxClRn
+ BGabyxqQ8S815AJUcWXbBS2gCVqWJzcrKBvYEQZM9z6TkersuTESVFqvNKpSbl/mdlft
+ 7bng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SdtZFcEJptLlfXYRMnEw8Mj0ngW2v0zWe3I8yeMqZVA=;
- b=sGkGmFjCt3QqTGG/Iz5i/0TV+KSGwKQ92RkFI7jNyutmcK8Gah11w48QoKPuF+vsRz
- XqZb4LgYpW5bhAGuDyK4tlFW2sqyj5xKKuxDu/xnXA8XFdH3zy0wbDlSbdD+CRiGDTF3
- p0EpbV7++RJRSxVYJnIasHaLKDYfC2g1u7Y+/P3V9zS4Jl5nwCTQaPqhaE5JxDu11HXf
- 2ki/0//D0IGXmJ330VV6nva2Rh/x1hO1N2/8gxDlgzv2YnhkgpSse7mMQmsgKrG6pU+v
- /i7y/sobq1Tk4IvCpW7VxqOPzH49m9GbEOvXWzu+sTAwZC8cTFhXMtSt+a39Cb9mDm12
- 2Csw==
-X-Gm-Message-State: ANoB5pkDZAuJilUI91KPE4uHVivsJOHn60iK93v9QfmtoHSVX2vXvH91
- B0V37GIGX0ZsoLsbDSfNNrWg1HXJFpRqL1elZW8=
-X-Google-Smtp-Source: AA0mqf5GvKMpHtWXWaDSICwR4iE1RRZzTlst13nINrRp4WnpwG83xQOmBy4U+g3krz4gbrlsjqnHtjoQmgKW/jE6fGU=
-X-Received: by 2002:a25:af54:0:b0:6dc:e3ee:3e60 with SMTP id
- c20-20020a25af54000000b006dce3ee3e60mr30881002ybj.58.1669574342687; Sun, 27
- Nov 2022 10:39:02 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6MJINvQwOT6MP2LO7evGHThUACB2WDVfmnHyOLxzkSc=;
+ b=TD6i/x3+pqf3VE6OaJcitt8/U1bSOAI586UKJd92AE5JatckK51ZhT6JkPX/9075RJ
+ p0XTAwusPBKZrUNs6hp4s8ZyGy/vrGRGvee9u0H2yZdg78OxrOeJC/dkjFoa7yY0mfwl
+ iJk6vFVmXi3DVzzP27t9MSOYx4AxP/MdMQm2xSNHs4aO4nAnsDh7sWbiqHDipbQ1Z6CN
+ Ze6sDcOdz9LBDUlN2PnDLsCqfeSEV3H089C6P2S/BT7yqoSnFHvciJHhdc4uXZCR3OAk
+ wB7y+pJDP3DDAKq4Yw577xZ+PKS6/2fKPLp4OYqRkgye23iuK9nBOsVlFGMKECVsFs71
+ CYWQ==
+X-Gm-Message-State: ANoB5pmQ2tFgA71RE4b26ZRXkjZqjJAka7EJirGRx47jkHphfRtchAiB
+ Z4irfC4h0RTotxXHzCKL37gPrKHLWsg3d/pvvFI=
+X-Google-Smtp-Source: AA0mqf7UKRb//bfNQTUGlChzhoKpO9WDXA7/DjFOevEbC7eTVpA8lb2HF3g48iheY7zno6U9eCe+scitLy+hKg9YGLo=
+X-Received: by 2002:a25:32d3:0:b0:6f3:3829:22ff with SMTP id
+ y202-20020a2532d3000000b006f3382922ffmr10900775yby.366.1669574437613; Sun, 27
+ Nov 2022 10:40:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20221126152507.283271-1-sw@weilnetz.de>
- <CAJSP0QXaWMq=z943sLHkZtSDLSaezNQwtJaFy9A12yyh9zfSoQ@mail.gmail.com>
- <6a22b163-a9f3-45f2-ebca-2959c35688bf@weilnetz.de>
-In-Reply-To: <6a22b163-a9f3-45f2-ebca-2959c35688bf@weilnetz.de>
+ <20221126152507.283271-6-sw@weilnetz.de>
+ <CAJSP0QVqm-BpgKpdD2p8F-k2s9yaE4gRrDPRSju7jKh20H1ExQ@mail.gmail.com>
+In-Reply-To: <CAJSP0QVqm-BpgKpdD2p8F-k2s9yaE4gRrDPRSju7jKh20H1ExQ@mail.gmail.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Sun, 27 Nov 2022 13:38:51 -0500
-Message-ID: <CAJSP0QVk6bMHGiZazk1w4bYOZPCt1=BLMct8LFFonmvzmhzY8A@mail.gmail.com>
-Subject: Re: [PATCH v3 for-7.2 0/6] Add format attributes and fix format
- strings
-To: Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, 
- Laurent Vivier <laurent@vivier.eu>
+Date: Sun, 27 Nov 2022 13:40:25 -0500
+Message-ID: <CAJSP0QVf3h-c8ghb=9kjnxN6EVGi8KxahasSBBYPLFzvDGocXg@mail.gmail.com>
+Subject: Re: [PATCH v3 for-7.2 5/6] MAINTAINERS: Add subprojects/libvhost-user
+ to section "vhost"
+To: "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Stefan Weil <sw@weilnetz.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb34.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,37 +89,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 27 Nov 2022 at 13:31, Stefan Weil <sw@weilnetz.de> wrote:
+On Sun, 27 Nov 2022 at 13:09, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 >
-> Am 27.11.22 um 19:23 schrieb Stefan Hajnoczi:
+> On Sat, 26 Nov 2022 at 10:25, Stefan Weil <sw@weilnetz.de> wrote:
+> >
+> > Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> > ---
+> >  MAINTAINERS | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index cf24910249..6966490c94 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2005,6 +2005,7 @@ F: docs/interop/vhost-user.rst
+> >  F: contrib/vhost-user-*/
+> >  F: backends/vhost-user.c
+> >  F: include/sysemu/vhost-user-backend.h
+> > +F: subprojects/libvhost-user/
 >
-> We need to wait for Michael to agree to maintainership in patch 5. If
-> we run out of time I suggest splitting out patch 5.
->
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->
->
-> Citing Michael from a v2 email: "pls do".
->
-> Stefan
->
->
-> Hello Michael,
->
-> I just noticed that MAINTAINERS has no entry for the files in
-> subprojects/libvhost-user, so I did not cc you in my previous e-mails.
-> Should that directory be added to the "vhost" section"?
->
-> Stefan
->
-> pls do
+> Requires agreement from Michael. Also including Marc-Andr=C3=A9 who
+> originally created libvhost-user.
 
-Perfect, thank you! I have added a reference to that email in the
-commit description.
+Stefan showed me the email where Michael agreed:
+https://lore.kernel.org/qemu-devel/20221123015218-mutt-send-email-mst@kerne=
+l.org/
 
-This series is running through CI now and will be merged upon success
-later today.
-
-Thanks,
 Stefan
 
