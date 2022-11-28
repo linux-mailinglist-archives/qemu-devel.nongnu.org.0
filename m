@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CD763A2DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBC363A2DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:26:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozZSF-0002Lu-CW; Mon, 28 Nov 2022 03:25:35 -0500
+	id 1ozZSa-0002Wh-Ri; Mon, 28 Nov 2022 03:25:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ozZRy-0002K8-T9
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:14 -0500
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
+ id 1ozZS7-0002MF-1A
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:25 -0500
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ozZRx-0003Hk-6N
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:14 -0500
-Received: by mail-lj1-x232.google.com with SMTP id l8so12213527ljh.13
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:25:12 -0800 (PST)
+ id 1ozZS5-0003Ki-CJ
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:22 -0500
+Received: by mail-lj1-x22a.google.com with SMTP id d3so12271531ljl.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:25:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9VXoPe+c1Dtp1bbVtRbqjzL0X44srU0wmRv4mEEQMAk=;
- b=UzUj6nAn/itqmaOgKxkwfZVO0s7O5HTczLSbvb5Aww2xfonqCcZenv0ELUbykdOfLm
- UPr+vhlb/z/hEAp6w2lx9ozG9SboJEk0ruYiNdibeA90Vtag2syH9XVnsZBEDGXrIoju
- CsAvO7ELPZt/7L9ZfzlOFdTs0x1vNvSNTdWfOjwyQUZtwGL/jKi63ayCjuLMzcfymWKO
- Z9k0NXe4sWH7wped4AE/qaMEno1gARmevRqoKQeaetjNjiOnLWe//GE++JaLevuF3Ehm
- TZVFozWMFJdabPr4UBieuGlkJNLfOusjqTiNMbTptxBm7FIMu5Iw1QXEB7IWdjvr4Ya+
- qXsQ==
+ bh=EUwzYjT2SdvgunbOyfw9q1yfntATAWke7ZObNeVF52k=;
+ b=hwfKTEwtKvqLdWEUDCp/kFlKVrocW7pAV04QnC2oSb5KXMWafK7brUvDqyFyIHY+c0
+ T5JqC191DjrnyvnULTs94Ouy1NHmNZE/CTllTiGfYpSNBm/2gvYNxAYPHPqInjaSnxy1
+ KljJuvi3YsbymlX4DVzYOlt0sEjiyabXOPj8Wky/JOmx2Fq5ZAuvAnlwgsWzjKIOZO8G
+ rWRMtM8YNXpRgiTd5qqJ4gWm/j1dQpiNC2a/Ra1jLVcW3rj3PJDFHXfzAgx3H8yuYjxw
+ LybXNZRq0uB95OsNfhw7Jszs5VchIiFkI2f/Vs+TzPITqIZhzRRHGahlzvCl5lK4fbF+
+ NCag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9VXoPe+c1Dtp1bbVtRbqjzL0X44srU0wmRv4mEEQMAk=;
- b=8BpJP1CkA2Fu2/eHpzcPVCId1gy05nULxMG9UCjuYhk90bAOjwmNQfAx79/YwYsNw/
- xnGmlUgEJxeaCyzr1JOO0yyx+BvzKhF+XASOpalRg/EX5VC5iqEHQzif4KH0v8u2FEQS
- GxGxAIvlz2oyXnTYCUoe7CNShhI6JnmhqW2x+g53U2e8s274Gpm/0yXlFpMntvPqU01J
- 0Ay9KjHrxhw6sfGvsb0VSgzn+w97iMWZTIPX6TX1zO2inxLZAoM9HzDtUHQOD08mACiY
- 9mFa8kbDgdgCZoBQyhE0868wCJiq+l/0Ijw7R7c80Ch70nczvfJ7GPEAlDD8Bdljxq1n
- oyeQ==
-X-Gm-Message-State: ANoB5pkuw9TZ3ThDL0a0RX2omSWSYcXi4Ojf8bXqbmWJ/0ps3wb0UNLf
- rvQVEyCcezTJuG5OaQ+fKhSoRWmjI14TVcvw5mM=
-X-Google-Smtp-Source: AA0mqf6oCF1q1qqDR9XSzrCQ0cLL5L9PeimOZClDyltYJYq1WkhQJS+8zCjdb7nEzpVMJAKU1GttkL2fIV9BRI6JSNs=
-X-Received: by 2002:a05:651c:1954:b0:277:43c4:a864 with SMTP id
- bs20-20020a05651c195400b0027743c4a864mr14972559ljb.463.1669623910718; Mon, 28
- Nov 2022 00:25:10 -0800 (PST)
+ bh=EUwzYjT2SdvgunbOyfw9q1yfntATAWke7ZObNeVF52k=;
+ b=2CbCURnU95eQ4oxJD/R50b3Pw162ZKq9MiYJJ32dLSAbkn4a/47xmnpOrYONKqcvm4
+ v/QY61/sEAuKUnNq/xuZ8yKYgi+PvXI4Fq4jVh1tYbUxg6xCEs3WdMSzAJ2HBLDN2sCP
+ JxTJ2yLLXiTm0DVxDkFXaDF588FbkT4fh842OandcUcLsP46B5aS70qKpH32hotgxkdG
+ CNZAmsociIJpg64FkWyxUvRieJpZemVy7KBTwEM2Fc1dxTfKRoPuPE+hsXn5/RcT9ZnN
+ zDq5R+i/07kFsbWCFa+W0zP9XunJ+5zbuOkS4qwfu+RtM8G3Zk8W7sM3zA7Y/DoX2GH2
+ eFxg==
+X-Gm-Message-State: ANoB5pm0EDuc5CFPso7W3ZUODeJDrOuFTYzKX8gSc38l+jUikcMk+5hJ
+ eTE50S0IMNwNhXWqRkhL+vcdJSzkm5OFhFmVeBU=
+X-Google-Smtp-Source: AA0mqf4jfcFoWP5mlcrUVqEV17EwWHUhb9SiLRrcXLTg2P4SS+bihMQuc+E4bGW9BoTa0WWRxLltlV8gMwlVXxqb5lc=
+X-Received: by 2002:a2e:9d90:0:b0:279:83e4:b9b2 with SMTP id
+ c16-20020a2e9d90000000b0027983e4b9b2mr6563706ljj.452.1669623919645; Mon, 28
+ Nov 2022 00:25:19 -0800 (PST)
 MIME-Version: 1.0
 References: <20221125154030.42108-1-philmd@linaro.org>
- <20221125154030.42108-2-philmd@linaro.org>
-In-Reply-To: <20221125154030.42108-2-philmd@linaro.org>
+ <20221125154030.42108-3-philmd@linaro.org>
+In-Reply-To: <20221125154030.42108-3-philmd@linaro.org>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 28 Nov 2022 12:24:59 +0400
-Message-ID: <CAJ+F1CJUa0g6iAyO+MFp3AwCiLdmycHtHQevmXaMYs-h6BAWhg@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-7.2 1/4] hw/display/qxl: Have qxl_log_command
- Return early if no log_cmd handler
+Date: Mon, 28 Nov 2022 12:25:07 +0400
+Message-ID: <CAJ+F1C+GxHCx=FuBQvPNhAHVAt94XT0xS_Be9VRziOa8v88pcw@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-7.2 2/4] hw/display/qxl: Document qxl_phys2virt()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Mauro Matteo Cascella <mcascell@redhat.com>, 
  Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
  Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,63 +87,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
-
 On Fri, Nov 25, 2022 at 7:41 PM Philippe Mathieu-Daud=C3=A9
 <philmd@linaro.org> wrote:
 >
-> Only 3 command types are logged: no need to call qxl_phys2virt()
-> for the other types.
->
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  hw/display/qxl-logger.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
-> index 68bfa47568..1bcf803db6 100644
-> --- a/hw/display/qxl-logger.c
-> +++ b/hw/display/qxl-logger.c
-> @@ -247,6 +247,16 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *r=
-ing, QXLCommandExt *ext)
->              qxl_name(qxl_type, ext->cmd.type),
->              compat ? "(compat)" : "");
->
-> +    switch (ext->cmd.type) {
-> +    case QXL_CMD_DRAW:
-> +        break;
-> +    case QXL_CMD_SURFACE:
-> +        break;
-> +    case QXL_CMD_CURSOR:
-> +        break;
-> +    default:
-> +        goto out;
-> +    }
-
-That's a quite verbose way to repeat the case list below. Furthermore,
-it shouldn't hurt to call qxl_phys2virt() next.
-
-
->      data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-
-But I understand better the change looking at patch 3, where you
-introduce the size argument. Maybe mention the coming change in the
-commit message?
-
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
->      if (!data) {
->          return 1;
-> @@ -269,6 +279,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ri=
-ng, QXLCommandExt *ext)
->          qxl_log_cmd_cursor(qxl, data, ext->group_id);
->          break;
->      }
-> +out:
->      fprintf(stderr, "\n");
->      return 0;
->  }
+
+> ---
+>  hw/display/qxl.h | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>
+> diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+> index e74de9579d..78b3a6c9ba 100644
+> --- a/hw/display/qxl.h
+> +++ b/hw/display/qxl.h
+> @@ -147,6 +147,25 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
+>  #define QXL_DEFAULT_REVISION (QXL_REVISION_STABLE_V12 + 1)
+>
+>  /* qxl.c */
+> +/**
+> + * qxl_phys2virt: Get a pointer within a PCI VRAM memory region.
+> + *
+> + * @qxl: QXL device
+> + * @phys: physical offset of buffer within the VRAM
+> + * @group_id: memory slot group
+> + *
+> + * Returns a host pointer to a buffer placed at offset @phys within the
+> + * active slot @group_id of the PCI VGA RAM memory region associated wit=
+h
+> + * the @qxl device. If the slot is inactive, or the offset is out
+> + * of the memory region, returns NULL.
+> + *
+> + * Use with care; by the time this function returns, the returned pointe=
+r is
+> + * not protected by RCU anymore.  If the caller is not within an RCU cri=
+tical
+> + * section and does not hold the iothread lock, it must have other means=
+ of
+> + * protecting the pointer, such as a reference to the region that includ=
+es
+> + * the incoming ram_addr_t.
+> + *
+> + */
+>  void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
+>  void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
+>      G_GNUC_PRINTF(2, 3);
 > --
 > 2.38.1
 >
