@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85DA63A2F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199BD63A2F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:28:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozZUI-0004K2-SA; Mon, 28 Nov 2022 03:27:39 -0500
+	id 1ozZUY-0004Z6-9f; Mon, 28 Nov 2022 03:27:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZUE-0004Hz-Fw
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:27:34 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZUS-0004Qn-I8
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:27:49 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZUC-0003qw-Vl
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:27:34 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id bs21so15505760wrb.4
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:27:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZUQ-0003rz-Ve
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:27:48 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so11020389wma.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=bMoxpevd4f0CgRo2LWH2ZHePqKUeeHvuckwwUNSFIVo=;
- b=LkS1xbCenegawhSG+BfSkcbksc8SlGA9xFEnXYlbrXHonJWnNwyGoBxxAo3kv7ORZ8
- dD5g8/JuaFm1wvpdme0GRLLJXQZLd+crh3ISTE+S21I6rQoIshvxR4dkZhiqJ9NY+WVN
- 5QhJy1Jle6BxIsnsIHy7bfUSJ7LNcXML3PSxmEobWnG92hw4NC8EkgYvCMA7oKl74nHT
- n09w+LVH1CIacbhbUwAQihRPBwqcnhNDyjqWDDR4/QCzOSwUCbWaKLeLzhPeLW4/2e+g
- z3EAa6gAEfjUL5KWTXbXLrSzECiAeuziLyhVFeA5xVt5P++wEtBaKHWZla6Jy7JbVsGN
- VlZA==
+ bh=9I2zrDAJgUwD314VtyzCxf/u4yY5xj5Gx2w3qhd6gF8=;
+ b=ybBSJe2W7mzngmrJ6t27g9snC/t1I19HnCMxY/Cx0Fc+lh6AC6NNzbFE8mrxZ5N36R
+ txrEkfw7Vxaay9kFOpJCiTWynPXem3lO0s+iZUN/A/gsVMSopyHU5LVWJ+lyaXcLQSB0
+ HNH5qBLacDSqAVM1TcpFmVjbK0Ugl2Iy6EDsDUnU+700RzY2rP32CL6DhSu4BKNokKBd
+ 7dttYa0ehxE/0Uf8ZAWzaP9YgsUaoziKblNXeUyAMU56lw7PV5Y9hjkHs5ofccacDiLu
+ fShg6RBMb9ASK70jXeJqTdbhdji4T2pR7VHai8u/29pnZZJ3ySdjYz5kwSJJCK/z/Ejy
+ +dfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bMoxpevd4f0CgRo2LWH2ZHePqKUeeHvuckwwUNSFIVo=;
- b=kIy9oFvA46+jgXfX8R9tOPuy6AHfOjYBR4O4xsp/B4U6s+7athudEx4pIdpl5WywYP
- q7hjjJ8gLufLDycWH4xXimXQBU+f00Vr/DMBTDXv1Ze7ubmG0yNUCAPYhO0Bn1TH88rO
- h7fDgksvF39A89bTW4wz7soO7GR5IUfviTwZj+VR4VmcrgPX5Ppp3BbV8myueTrswucM
- 8Ua04HNoQXMJ6FADMrCEzp2IGHCsOa9Cr00Lqj8Sk8g4fb3x/uNoBBxa7/Ctz7F3K4E6
- PXGX0owmqWjZasbjvC/oM5Sa/XlPgGQT/Qy3UGRKO3BS4BeljT/q8aoEBnFeUrr921Ds
- I/hw==
-X-Gm-Message-State: ANoB5pkcpEUbGsEsBHW1uReztFIR73qdKPG/y46i1lp3nykNfgx4dZH3
- QsOBJpJJbogKiq3ONo7TVGwGIw==
-X-Google-Smtp-Source: AA0mqf4ypUZl9D8Owoq0E2+eNvd/TU/Bd8BQtEA6rWxWdyXRJaaCks+qfagQ+ILUosjgFBUTx4Skkw==
-X-Received: by 2002:a05:6000:12cf:b0:236:6442:2f86 with SMTP id
- l15-20020a05600012cf00b0023664422f86mr30255938wrx.588.1669624051309; 
- Mon, 28 Nov 2022 00:27:31 -0800 (PST)
+ bh=9I2zrDAJgUwD314VtyzCxf/u4yY5xj5Gx2w3qhd6gF8=;
+ b=F1ZfAm4pLDvK4xoGqP1VuXxP99G8zvMKadrPep2B15KUx6wZI+CppnvoecAGvAbuJe
+ U7AoEANaAk8ffw0ntuklvWxKXkz56PLvkUb8hlyQ0w4dFhBxL53z2vQo5qZqTRQVlahU
+ wZyYgPcmf674DpW+/NOdX8iTGkvcCvkQyhKVm4556wwzkCSyZDGa7SlICl7gHT/xwBKK
+ 1ZOAcvDY3NcJ77GWBX4MfJ/IpC9w/sQjC3S0X3FrkRkJNXVgTs8xDLhlgsHBLD23l2YM
+ qfko8XAwcCikvIGedUxvENPcxtzB/PiIiL2rZ6LGd4XWGLCQ5aHqUE7OnEC7QoeNd772
+ 3P+A==
+X-Gm-Message-State: ANoB5pki9xuGRexVOn1414z2/g+vXTlDYq6SMTpEdgbowolTt5uGmRSv
+ rJ7J7sUR7tSnmg/jttQF/s3Fag==
+X-Google-Smtp-Source: AA0mqf7000Y/yK/NFs6ucFoiSuhk9RH3JdxUD75wMlRMS6/2Vug7Va9UIvNIWd7kEZFXUaZNluPPWQ==
+X-Received: by 2002:a1c:f401:0:b0:3cf:8731:8110 with SMTP id
+ z1-20020a1cf401000000b003cf87318110mr23195987wma.32.1669624065461; 
+ Mon, 28 Nov 2022 00:27:45 -0800 (PST)
 Received: from [192.168.1.175] (49.red-88-29-176.dynamicip.rima-tde.net.
  [88.29.176.49]) by smtp.gmail.com with ESMTPSA id
- i9-20020adfdec9000000b00228dbf15072sm9859423wrn.62.2022.11.28.00.27.30
+ g14-20020a05600c310e00b003a2f2bb72d5sm22557118wmo.45.2022.11.28.00.27.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 00:27:30 -0800 (PST)
-Message-ID: <ed8637ba-bfa3-f019-2b22-2a15b3fa9589@linaro.org>
-Date: Mon, 28 Nov 2022 09:27:29 +0100
+ Mon, 28 Nov 2022 00:27:45 -0800 (PST)
+Message-ID: <02f767f1-d08f-35f0-b73c-87926f5024ea@linaro.org>
+Date: Mon, 28 Nov 2022 09:27:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH 03/12] pci: Move HMP commands from monitor/ to new
- hw/pci/pci-hmp-cmds.c
+Subject: Re: [PATCH 01/12] pci: Clean up a few things checkpatch.pl would flag
+ later on
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, dgilbert@redhat.com
 References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-4-armbru@redhat.com>
+ <20221128080202.2570543-2-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221128080202.2570543-4-armbru@redhat.com>
+In-Reply-To: <20221128080202.2570543-2-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -93,16 +94,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 28/11/22 09:01, Markus Armbruster wrote:
-> This moves these commands from MAINTAINERS section "Human
-> Monitor (HMP)" to "PCI".
+> Fix a few style violations so that checkpatch.pl won't complain when I
+> move this code.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   hw/pci/pci-hmp-cmds.c | 126 ++++++++++++++++++++++++++++++++++++++++++
->   monitor/hmp-cmds.c    | 107 -----------------------------------
->   hw/pci/meson.build    |   1 +
->   3 files changed, 127 insertions(+), 107 deletions(-)
->   create mode 100644 hw/pci/pci-hmp-cmds.c
+>   hw/pci/pci.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
