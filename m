@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB5863AE31
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 17:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E6863AE6B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 18:06:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozhSR-0000S2-1I; Mon, 28 Nov 2022 11:58:15 -0500
+	id 1ozhVM-0002Cx-RR; Mon, 28 Nov 2022 12:01:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ozhSO-0000NK-2j
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:58:12 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1ozhUx-000200-Fp
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 12:00:58 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ozhSL-000859-JO
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:58:11 -0500
-Received: by mail-wr1-x430.google.com with SMTP id x5so17906705wrt.7
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 08:58:09 -0800 (PST)
+ id 1ozhUu-0000Iu-SG
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 12:00:50 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so12166583wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 09:00:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pHYAXzG5iLMUNBWXVHyNvYR+kDrrm3MU2BrSo6YdYnQ=;
- b=SfEM7CCc4f3jmZt4cGXO6W4b5WEGWddCBKfrAd3pAmsrHGu0x1VRRKU67sN6DSh4dE
- 3APUyW3kT3jgXeMzX8ZR8BV+RNiDbcKHpUnAdKkwycRk4JbOio4D9MtL2Kdy/wkAVy8+
- l+/8gDSsJAMyfzgm/n/f50eo1F7b0jKgQdkWGgSfIfg3FuETdKuNxm8AxHMv1VOdhYG6
- Ph3gs/B7N0lclIHF2IOv/xahp/C3ZwTlBmWe4fDipBD3UOh09HGb8YagxacU2VCDVFF9
- EG8/RVQTYl1nRkadZxo7at/3JTzsucWcmCTP6gMKJz4e22tK4A4FMSZMlgFRvUVgcVYA
- wqiQ==
+ bh=4aTBdieAxgYCWlyf3l/LF2mL57RvGl8oEDFb1SJIXmk=;
+ b=JpLp9YLHW+9AfvSZi8wJPCYrwd0gmiVQltZ06+4KIWxhCyxUdrDEsAdRWTrkLH9oOV
+ D/QSi/xu70jtBYau/SLvNffgrBWvwCLnXTX/cc1CMpddhX1hmsmdLz458MsborqGBZyw
+ H6hb3mcb52DGW+IaCJ/1QiNMInvoVwA23IuhOg683NuDjLDoQy5LjpCqoKVz9O8Ys7d5
+ OmJJU0bjvsp/H1dI4bZnwwBbw8+UurAQL8nh0ecOO5X7Rwh91Aude9rzfIRlDSnWmDrW
+ flW4TBQigJPvkFjg6imqMdhRER9l9MDwMlGXPbImPU7o1VMzvTRmfAEz5KGzHio/jJ5S
+ p+HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=pHYAXzG5iLMUNBWXVHyNvYR+kDrrm3MU2BrSo6YdYnQ=;
- b=ja5hHZTbifv3A/6UxDSRxNV3NVxl6iaXGS8v4J1x0jBc40SUU2pfyRUJ44d2J2Y5co
- PetkWBddKInFUq+TvS8LnfPwWcbwtfr7JcAjNvpFp5a0rD3W0febBRhSnAR8FoLgHkkl
- BrDuRb74Xct6q6iD8dYROFbJcgEi6KI7tmOMumCkFL4TszwvdebYX7tIV6QJnzHZHKyd
- JyyOaO8lGf+jxeW8mnTvJcz4Z6UN1x1Q2+vpy2NKck22UYOSDt6qw7W7AjmK4jDKeHdN
- x3b7s7O0x2RiemFxahZanjPehTETQHyY0DDGrvOrL2PRjXE7Cgxy0B8UVENxy1fhnsEu
- z9YQ==
-X-Gm-Message-State: ANoB5pkMmEYjkIGyQfXyh4N4sMU5Sfxuyk8X93upwbt65I6bBzUIbuuT
- smx+rXRTmdQvScIiddYsD7gF/7TaKxHYtw==
-X-Google-Smtp-Source: AA0mqf6glRyzCwU0XPKU+0x4Spn8W2kNbJm8Fpkkm1fuyAG90uxh+xhXjXF1G0pK+IWP+Ool4cmN+Q==
-X-Received: by 2002:a05:6000:1c1a:b0:241:d8d8:91fd with SMTP id
- ba26-20020a0560001c1a00b00241d8d891fdmr23612840wrb.452.1669654687883; 
- Mon, 28 Nov 2022 08:58:07 -0800 (PST)
+ bh=4aTBdieAxgYCWlyf3l/LF2mL57RvGl8oEDFb1SJIXmk=;
+ b=6D7s4bQwNrNuo2wSnaMYRWHoG2KWzKhsJxdnS1jVuHFDZV6PVTQq4BhFnT5zD3bCsn
+ DfWcvHIFnHqc1b7YGw5+LHMZy1b53YQiYMHFyBnDfYshUu0f3g/rLT/cYEVx3jwX2Ayk
+ DuSIJ/IJEn79uIHF7hRnwvMPDgLR+pYVYjRxRXKjHyYf8m1g8e/7/X3Ckguzuzln4Ozb
+ veHvzBp+kNaR2SkAPqyIXoy7m7uvZlgl0JJlTkpx750nUAeUnP53CnaGt262o14qFFKZ
+ MkaBPCByPiuVeUDHG4W8p7sRftjXoReBKtzoa+NzPMV4P0GiB1MaQKOPNEyIgo/uamo8
+ ZRJg==
+X-Gm-Message-State: ANoB5pkZAm4XGoJtSSBbFX7w8dKtWi0/zmzRQGjYF2lz/scMvqKhEQo0
+ GXu8DYhrOwtm/Bn7I6TAH9LQIA==
+X-Google-Smtp-Source: AA0mqf4Ltqr/dQXYNnLeQMxEOFlY2w3Mc4Pi1aAYjoTSov/BWgiSv0L7oSIgpcCFICjXSH/PR6ei7g==
+X-Received: by 2002:a05:600c:4f92:b0:3cf:e87a:8068 with SMTP id
+ n18-20020a05600c4f9200b003cfe87a8068mr32586897wmq.3.1669654847224; 
+ Mon, 28 Nov 2022 09:00:47 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- y3-20020adff6c3000000b00241c712916fsm13564376wrp.0.2022.11.28.08.58.07
+ k15-20020a5d6d4f000000b002366dd0e030sm11211303wri.68.2022.11.28.09.00.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 08:58:07 -0800 (PST)
+ Mon, 28 Nov 2022 09:00:46 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2DA291FFB7;
- Mon, 28 Nov 2022 16:58:07 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 610291FFB7;
+ Mon, 28 Nov 2022 17:00:46 +0000 (GMT)
 References: <20221128092555.37102-1-thuth@redhat.com>
- <20221128092555.37102-5-thuth@redhat.com>
+ <20221128092555.37102-6-thuth@redhat.com>
 User-agent: mu4e 1.9.3; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Thomas Huth <thuth@redhat.com>
@@ -68,16 +69,16 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth
  <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
  <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 for-8.0 4/5] roms: Add a README file with some basic
- information
-Date: Mon, 28 Nov 2022 16:58:02 +0000
-In-reply-to: <20221128092555.37102-5-thuth@redhat.com>
-Message-ID: <87bkorxbhc.fsf@linaro.org>
+Subject: Re: [PATCH v2 for-8.0 5/5] scripts/make-release: Move roms into
+ separate tarball
+Date: Mon, 28 Nov 2022 16:58:57 +0000
+In-reply-to: <20221128092555.37102-6-thuth@redhat.com>
+Message-ID: <877czfxbcx.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,13 +104,55 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Thomas Huth <thuth@redhat.com> writes:
 
-> We're going to ship the contents of the "roms" folder as a separate
-> tarball, so we should have at least a short README in this folder
-> for this.
+> Our current release tarballs are huge and caused already some trouble
+> with the server traffic in the past. However, the biggest chunk (~80%)
+> of the tarball is caused by the firmware sources - which most users
+> don't need anyway (assuming that they just want to compile QEMU itself
+> on their own). So we can certainly safe a lot of traffic by moving
+> the firmware sources into a separate tarball, so that only people who
+> really want to rebuild the firmware images on their own have to
+> download it.
+>
+> This decreases the size of the main QEMU xz tarball from ca. 116 MiB
+> to only 27 MiB!
 >
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  scripts/make-release | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/scripts/make-release b/scripts/make-release
+> index febeb6cb36..44408c24a2 100755
+> --- a/scripts/make-release
+> +++ b/scripts/make-release
+> @@ -42,6 +42,19 @@ git submodule update --init --single-branch
+>          CryptoPkg/Library/OpensslLib/openssl \
+>          MdeModulePkg/Library/BrotliCustomDecompressLib/brotli)
+>=20=20
+> +tar --exclude=3D".git*" -cjf ../qemu-rom-sources-${version}.tar.bz2 roms
+> +rm -r roms/*
+> +
+> +cat > roms/README.rst <<EOF
+> +Please download the qemu-rom-sources-${version}.tar.bz2 tarball
+> +and unpack it in the topmost directory of the QEMU sources in
+> +case you want to recompile the QEMU ROM images.
+> +EOF
+> +cat > roms/Makefile <<EOF
+> +%:
+> +	@cat README.rst
+> +EOF
+> +
+
+Hmmm I guess this is marginally more magic than an exclude file. Anyway
+it works:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+
+>  rm -v .*.yml
+>  popd
+
 
 --=20
 Alex Benn=C3=A9e
