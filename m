@@ -2,146 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAB563B26F
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 20:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E0163B2E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:19:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozjzk-0008AM-SS; Mon, 28 Nov 2022 14:40:48 -0500
+	id 1ozkYm-00087a-My; Mon, 28 Nov 2022 15:17:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>)
- id 1ozjzi-000896-6k; Mon, 28 Nov 2022 14:40:46 -0500
-Received: from mail-bn7nam10on20604.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::604]
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>)
- id 1ozjzb-0002qS-N2; Mon, 28 Nov 2022 14:40:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dnkwMt2cVx7RUDCDvwSKouB6P/+MQsqmzxUIQkPNI7dozHvkiNEbhs9rLZwy3y5A29fKAddiqgS9PTHvhn0g87B3XZfH3/SgoaCQJ+kLQLlyEHs8eNm+6eBXIaxK9PXoeO9pdKcq9AY2vBAqZccg0tKZ6HNTeqgGroOI6eWLxL0YD7zatov7yrWDcd/yyMsNlqUq1sr4VRiDiMlE3/8Qx1RzAedvFl9Gvnp6CLXO+/xtGJ/ACPusttag1jBEXcR3sLSITxbUvoCDL6DCzmRf3WT6yzHT2uqktFuOqeHzlNyRDCijIS0KMJnD6pV4VowKEWmm/04tcHvNE3po/2/cTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iktcub+NTXNpiAUZYmApmyHFDj3mxoEcRQS8B7uxQoE=;
- b=A6Pxka7xBe3iolme5RFnoAbJMma3GDCh7f94hMhw5VRfTEZqLDP6RpYsGlPcMGKXhr73HyO6HpiiqtuDIHIdkq2f2yqZxrCAEm/QEYTH19hJhXPBflXTD+Weox/bMh6z+tyLJxsGz+GhtBLaKzq/ACgNK9d9UAS10S51O6WP5tCBvNiBu9O6dDVI99Yz/hbLZJXKmPiiyPXS6MReGF77Pt7eaFNfvcdiIqLM/sA5P1fnqjV7+4tn+BF0OaBWtT13qAngkPaqP8XxrAhIQUHJ+1jdsVq57WD5N2PdKBOF4erPizWtrTgiq5UzzKdEd4e0N4nYuk7/fl8oECvlF/O1kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iktcub+NTXNpiAUZYmApmyHFDj3mxoEcRQS8B7uxQoE=;
- b=s1f6CqtjUyoxJHQ2bmX8HK4HaPkY29JR1sHcnx1E/Q6S4RJCvnvlLFT25+EOiENyPs/Ue2ywz7uTICnsp+0+WmU9UyHRm4P8mq3egV5Tm6OBXl7vEpMo68jzNrVCOFG7cYhW7pp+pKTxZoDchK5RouoymTcHpxp8JRaJ3GcKzQgnMI2J+AtrQ31qs79I5vs7tvvy3ee9Ko0I2epQe/Mj/842H/TVMmrulweEMvvMyb1U2RvqySQjrowr3yOstr4P6sqNOFiPdGxzG/e4NmsHuRZlHMrPhp48sqVpTygFU2CPbCod8aXW09yeZZj1l+U4U7y9QDJL+4LFamHM/Jqswg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH8PR12MB6700.namprd12.prod.outlook.com (2603:10b6:510:1cf::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Mon, 28 Nov
- 2022 19:40:25 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.5857.021; Mon, 28 Nov 2022
- 19:40:25 +0000
-Date: Mon, 28 Nov 2022 15:40:23 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org,
- qemu-block@nongnu.org, Kunkun Jiang <jiangkunkun@huawei.com>,
- "Zhang, Chen" <chen.zhang@intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Shay Drory <shayd@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
- protocol v2
-Message-ID: <Y4UOp7Wi/fwsY6DY@nvidia.com>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-13-avihaih@nvidia.com>
- <20221116112935.23118a30.alex.williamson@redhat.com>
- <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
- <20221117103829.18feab7a.alex.williamson@redhat.com>
- <feaa77ec-c574-6267-0872-d8769037e4c7@nvidia.com>
- <a867c866-c297-960c-6fe3-51f292f4c6d3@nvidia.com>
- <20221128115003.602d4ef7.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221128115003.602d4ef7.alex.williamson@redhat.com>
-X-ClientProxiedBy: BL0PR0102CA0015.prod.exchangelabs.com
- (2603:10b6:207:18::28) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1ozkYl-00086Z-1r
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:16:59 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1ozkYh-0000fM-7I
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:16:58 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id l7so9131287pfl.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 12:16:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YZHA0nNzUWeJr4n+F5kZ2FgmIlbVbUeqlnGABeul0SI=;
+ b=IijJUjRIFdwQekCkquO4+3bthCfg2TkmF0tb+vVSJvfRba29inT6M6iXKnWsIhAYUB
+ nGQDjyHFCVEzPKLAnUL+rgCmpSipQ0rch6RsqNg+pMryxEvgy4BigE3hfayHX7YK9OUB
+ 7w0+Jt5plyza4/7vk59GwnbU6ESQj9ME+b0EfFhK8qux7DmQBs18QKIcOnAPn5C/Bdp2
+ IJhc+2tlfgvpBREmlXSlafHQWE/z2SCmVL27xQg01lBjlC3Mu9tarTScd74/WXfvuYMM
+ qsAiypgQU7SjRGJfX5Vr/hbTeq1tg8y7vsXhfdRpXkF94mARTbEJ/H+NW/QxcxlAT1p5
+ Dtxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YZHA0nNzUWeJr4n+F5kZ2FgmIlbVbUeqlnGABeul0SI=;
+ b=3j9GRvuS/KRk0NwGvPaDMWLbNhKjQVNA+UyDaEAYl3k/zrSWhyUS68WxQ3J9IAefmi
+ jaKVQ8WUGZwRj68xlX+cqW+m4u5+H7IlqW/+OT+OritWW8Qc8W6hOqjUU9hybrsBXkoz
+ Ub5gCyDQfusjtZMi8TMJA68Nddm45bGLpZPo4kfMnQkRa3STZn1QU8oNHG7TrbhSl7Ho
+ RVx4DEiiGpXofT/YETLtCH3OVfwZVDu/wIAM43mxDribE6fo3bzlB0Mutnje5tZNRhbk
+ HhYL4FiE1cK9u8HnjM4mJJfawvtz7dZb8BpjSqbE54KKVs/9hC8Qy5/Wg63/KRwCdjpf
+ 29ag==
+X-Gm-Message-State: ANoB5pmbWgaR52ATcArMR4uD5cIQ9UlRIoJrSK+HIHRg82aMAhREu0zy
+ E5hQSBr8eT0NFRu/dOQ5YvZD+bC7u+XOiUVHwhxNvw==
+X-Google-Smtp-Source: AA0mqf5etGTxJ1SSX4DPf0txPdHcxxcGdmkBB1Xs/i2QuWYmHeVVxKZrQSgQpHyHzOw8c8qUwJ87ykSZUVUX6QMF7kM=
+X-Received: by 2002:a65:4688:0:b0:477:7aee:a464 with SMTP id
+ h8-20020a654688000000b004777aeea464mr32854012pgr.595.1669666612258; Mon, 28
+ Nov 2022 12:16:52 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH8PR12MB6700:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d3b4b47-df28-449f-ca0f-08dad17864e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9jAHZ4h2r7DZ/2RycbzTzh4/aQ+fgYC5H91EpSq2v+xWJsn7PXl/tlnZRwW4yBGtrerJJG5Pn4arnqCx6oCAeNzCWbWxAdo+FG/AuxnJVHCKpHliz7bxUhhmacVwLyMoACp6Ppjpyn7xHbOK+WHhjwPGVzYZQtvSWqaLothOJFkiHwYOWLVE+svlMnoL8JruWpHcVkNX9jfN6dbh6lWtsBUU9dCMxOcLFoRGxDwpat8asSsiVWxcr77w45t9A8TNpYklhHARWbd3VK09tqcKHEuLiOLW+nignD+GeKyIvK/PAgqr2WODLEBkbNLWX2PMzLIFOSMD7hMxfLV9YtbQnSvTdaFcyHMQrWgXdJNRCYUrHLifLqehhfh1tpJXQpk+GshSWqIm77SNmP5ekv1kc/LDWm53sOyyzQ69zrLKv893fCtsIR4wmB6AX3LQqCAPfd85Xwl5U0IXQsbf6sh72gEcZC1JV8rPhDX0laSEU7J0vrzptyaoqoExQoXecEATHzVT0Za8HcpBAxEvIvtBX82p0Vn0sTxsbLkgh5GIjvFjRnd//T25mSRzvE8zLbTZ/2fitxtrjParNJsTPBwSc8uu705fv9UqV8+V8ea5N26q6UagPXTzNAHWL+MmnotkH6eDt3e4u10hjjT59X4bXA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(346002)(39860400002)(136003)(376002)(451199015)(86362001)(7416002)(478600001)(6486002)(6506007)(36756003)(2906002)(2616005)(38100700002)(6512007)(83380400001)(26005)(186003)(66556008)(66476007)(41300700001)(4744005)(316002)(54906003)(8676002)(8936002)(6916009)(5660300002)(4326008)(66946007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BvPXLg/80vjW95PVrtTYnSleGxuJ4nr4KaZChk/Ac5qDXNGhl4F1GVCxfqdE?=
- =?us-ascii?Q?HKJM3Y2blRUS2YJlteyLHrC3ZlAdLBR9QjdIp9POUEzcfA6xf6YdnLyBqejO?=
- =?us-ascii?Q?2oGmF/+RvCZNljDgJyJUkyLIJ+00GYZSQYfEqaifNvteqXpvLAUK9mJXg35O?=
- =?us-ascii?Q?aOq0I0KYWFD0It7cKUrouhRqCkbqAp2CZkTBIg8I+7uMv+q1qZ2kaJMD3uFw?=
- =?us-ascii?Q?K8p95DBBi1x19b9AaE+LrTCkgfayYGKY0xhJKwX8ycqkw8zSn2mWldRD4bhq?=
- =?us-ascii?Q?QAib+xk3mpY4JKx77MeRAr3neYoPU9IiVekFc8CPF97oIfd/C5gbzwe+8k5J?=
- =?us-ascii?Q?JVZVXtPu64pXiIrWiJvNC20Yn1oq5Ox8wTDMvrn7/ug7XnsJdyFW7iPmd/Eo?=
- =?us-ascii?Q?LpZNupACpJ1sMij6F3qEoIWynhgyLRCe3tYwCKUqvly2CNi5C/H+7p3rj5tb?=
- =?us-ascii?Q?no5VreNMJgAeDJoVWgnU9DO2RqFR3H9RyhVYXHnkdqm61wjaeWTpDSfxWB34?=
- =?us-ascii?Q?yq7mFIoYB5+MAXherxx3V2JdjfFNeSSNDpptbK456BnsQBbgnrmfteKL62BA?=
- =?us-ascii?Q?nkFOKrQdlhdbjRbADVYFgSp53d91e3x3LhszxFpnaUQXbcHIgtueO4ebfFC9?=
- =?us-ascii?Q?CpTWFKG9CCwuu5eXK2GCSd9qEv3X+IQ7teK3X5ukWXkfzXuMJGJ5nEsZo209?=
- =?us-ascii?Q?BWEW8F8wvsKU0V+t/aiFvr/c2nWUC7Cvy+7bYtcRy/QHNqN18jxoAizxTsW8?=
- =?us-ascii?Q?nzE8cWsTeDQatHHVWDX5RLK0fDecW7H2WvziO9WwlLCVcntYmlDq/nEFwLeo?=
- =?us-ascii?Q?kVYzNU1K0VFZ/6qJRRxwNWg8sQw11RQpSI3JBEl21gTe67SBe7n52o9pHdu2?=
- =?us-ascii?Q?lKHfW7d1PVpt1qxCqddE7CnOUHp6hTQyJjfeQZQnxS6Mu/V6hEB77JRmSJbr?=
- =?us-ascii?Q?n5NMmvL24kg3PWF7iINBsxjIhEphs/K92BmYf0TJcN0IOnpAUHW0wzQyzg3E?=
- =?us-ascii?Q?f2NC3QHPxFjZsZK66FIJm+mi+Bp35i7q+yYVQ+BW4Cy4DLHq5jNDJq5gIIlu?=
- =?us-ascii?Q?hjaUQ1JMhX+jAYtccTW3ATiYp5hTjycRcxGjx/TTZVudTnqcB+Gr4F7oJsLs?=
- =?us-ascii?Q?QJ5UU4LBZVUoNjkwqLUDwgaoBeRJiSoWSwgHHL5Oz5vH6RrMyEw4QXNtqt6r?=
- =?us-ascii?Q?o0+8qYaP+t1RX4OXYbgExAl4t9S4lsRwEzrnUuQFLflTWAXoiX110v5py+2F?=
- =?us-ascii?Q?zc9kJpMVACAPKlWlBDC0UTMzRJDbJEzB1OunAUuFRFQxugVDSgOjuUBrZPjz?=
- =?us-ascii?Q?xVqzXw5jdxdbdUZE39ojONIJQwn5HClUNa5b1nF/r/vFbtLgs3mBmPbB/bg8?=
- =?us-ascii?Q?XPRZlFgOMqDD/XyaZNIN4kFnNQTBM//gQPw5wzwfYePvUg1q566sMsD+0tkn?=
- =?us-ascii?Q?QpD5inXy684JeghTlYITh6cll6vsNE3vzuZETcCQjRm3BNOPhjZghRwYH4xr?=
- =?us-ascii?Q?D2Be3B2xk9KNhSOJTcvleKqVa5+YzIHNat3/cTbmgnzR1IBFgPTVZX29y8CD?=
- =?us-ascii?Q?+K9BEg3t+Rxjko1LnJE=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d3b4b47-df28-449f-ca0f-08dad17864e9
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2022 19:40:24.7232 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DiWhYQq+qA/aDdfsfR+6TdMr7RG9h/Wd2d2pOjyzyJvjNrbg9vRJGu5zEGmFhMKV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6700
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::604;
- envelope-from=jgg@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220824221701.41932-1-atishp@rivosinc.com>
+ <20220824221701.41932-5-atishp@rivosinc.com>
+ <Y39urpX82uO85AAb@wendy>
+In-Reply-To: <Y39urpX82uO85AAb@wendy>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Mon, 28 Nov 2022 12:16:41 -0800
+Message-ID: <CAHBxVyFhrkdhWpc4xB-_a4c5GnDu=d01-bk2zM2nCraeq_Xr_A@mail.gmail.com>
+Subject: Re: [PATCH v14 4/5] hw/riscv: virt: Add PMU DT node to the device tree
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=atishp@rivosinc.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -157,19 +88,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 28, 2022 at 11:50:03AM -0700, Alex Williamson wrote:
+On Thu, Nov 24, 2022 at 5:17 AM Conor Dooley <conor.dooley@microchip.com> w=
+rote:
+>
+> On Wed, Aug 24, 2022 at 03:17:00PM -0700, Atish Patra wrote:
+> > Qemu virt machine can support few cache events and cycle/instret counte=
+rs.
+> > It also supports counter overflow for these events.
+> >
+> > Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
+> > capabilities. There are some dummy nodes added for testing as well.
+>
+> Hey Atish!
+>
+> I was fiddling with dumping the virt machine dtb again today to check
+> some dt-binding changes I was making for the isa string would play
+> nicely with the virt machine & I noticed that this patch has introduced
+> a new validation failure:
+>
+> ./build/qemu-system-riscv64 -nographic -machine virt,dumpdtb=3Dqemu.dtb
+>
+> dt-validate -p ../linux/Documentation/devicetree/bindings/processed-schem=
+a.json qemu.dtb
+> /home/conor/stuff/qemu/qemu.dtb: soc: pmu: {'riscv,event-to-mhpmcounters'=
+: [[1, 1, 524281, 2, 2, 524284, 65561, 65561, 524280, 65563, 65563, 524280,=
+ 65569, 65569, 524280, 0, 0, 0, 0, 0]], 'compatible': ['riscv,pmu']} should=
+ not be valid under {'type': 'object'}
+>         From schema: /home/conor/.local/lib/python3.10/site-packages/dtsc=
+hema/schemas/simple-bus.yaml
+>
+> I assume this is the aforementioned "dummy" node & you have no intention
+> of creating a binding for this?
+>
 
-> There's a claim here about added complexity that I'm not really seeing.
-> It looks like we simply make an ioctl call here and scale our buffer
-> based on the minimum of the returned device estimate or our upper
-> bound.
+It is a dummy node from Linux kernel perspective. OpenSbi use this
+node to figure out the hpmcounter mappings.
 
-I'm not keen on this, for something like mlx5 that has a small precopy
-size and large post-copy size it risks running with an under allocated
-buffer, which is harmful to performance.
-
-It is a mmap space, if we don't touch the pages they don't get
-allocated from the OS, I think this is micro-optimizing.
-
-Jason
+> Thanks,
+> Conor.
+>
+> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  hw/riscv/virt.c    | 16 +++++++++++++
+> >  target/riscv/pmu.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  target/riscv/pmu.h |  1 +
+> >  3 files changed, 74 insertions(+)
+> >
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index ff8c0df5cd47..befa9d2c26ac 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -30,6 +30,7 @@
+> >  #include "hw/char/serial.h"
+> >  #include "target/riscv/cpu.h"
+> >  #include "hw/core/sysbus-fdt.h"
+> > +#include "target/riscv/pmu.h"
+> >  #include "hw/riscv/riscv_hart.h"
+> >  #include "hw/riscv/virt.h"
+> >  #include "hw/riscv/boot.h"
+> > @@ -708,6 +709,20 @@ static void create_fdt_socket_aplic(RISCVVirtState=
+ *s,
+> >      aplic_phandles[socket] =3D aplic_s_phandle;
+> >  }
+> >
+> > +static void create_fdt_pmu(RISCVVirtState *s)
+> > +{
+> > +    char *pmu_name;
+> > +    MachineState *mc =3D MACHINE(s);
+> > +    RISCVCPU hart =3D s->soc[0].harts[0];
+> > +
+> > +    pmu_name =3D g_strdup_printf("/soc/pmu");
+> > +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
+> > +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pm=
+u");
+> > +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
+> > +
+> > +    g_free(pmu_name);
+> > +}
+> > +
+> >  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *m=
+emmap,
+> >                                 bool is_32_bit, uint32_t *phandle,
+> >                                 uint32_t *irq_mmio_phandle,
+> > @@ -1036,6 +1051,7 @@ static void create_fdt(RISCVVirtState *s, const M=
+emMapEntry *memmap,
+> >
+> >      create_fdt_flash(s, memmap);
+> >      create_fdt_fw_cfg(s, memmap);
+> > +    create_fdt_pmu(s);
+> >
+> >  update_bootargs:
+> >      if (cmdline && *cmdline) {
+> > diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+> > index a5f504e53c88..b8e56d2b7b8e 100644
+> > --- a/target/riscv/pmu.c
+> > +++ b/target/riscv/pmu.c
+> > @@ -20,11 +20,68 @@
+> >  #include "cpu.h"
+> >  #include "pmu.h"
+> >  #include "sysemu/cpu-timers.h"
+> > +#include "sysemu/device_tree.h"
+> >
+> >  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
+> >  #define MAKE_32BIT_MASK(shift, length) \
+> >          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
+> >
+> > +/*
+> > + * To keep it simple, any event can be mapped to any programmable coun=
+ters in
+> > + * QEMU. The generic cycle & instruction count events can also be moni=
+tored
+> > + * using programmable counters. In that case, mcycle & minstret must c=
+ontinue
+> > + * to provide the correct value as well. Heterogeneous PMU per hart is=
+ not
+> > + * supported yet. Thus, number of counters are same across all harts.
+> > + */
+> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_na=
+me)
+> > +{
+> > +    uint32_t fdt_event_ctr_map[20] =3D {};
+> > +    uint32_t cmask;
+> > +
+> > +    /* All the programmable counters can map to any event */
+> > +    cmask =3D MAKE_32BIT_MASK(3, num_ctrs);
+> > +
+> > +   /*
+> > +    * The event encoding is specified in the SBI specification
+> > +    * Event idx is a 20bits wide number encoded as follows:
+> > +    * event_idx[19:16] =3D type
+> > +    * event_idx[15:0] =3D code
+> > +    * The code field in cache events are encoded as follows:
+> > +    * event_idx.code[15:3] =3D cache_id
+> > +    * event_idx.code[2:1] =3D op_id
+> > +    * event_idx.code[0:0] =3D result_id
+> > +    */
+> > +
+> > +   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
+> > +   fdt_event_ctr_map[0] =3D cpu_to_be32(0x00000001);
+> > +   fdt_event_ctr_map[1] =3D cpu_to_be32(0x00000001);
+> > +   fdt_event_ctr_map[2] =3D cpu_to_be32(cmask | 1 << 0);
+> > +
+> > +   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
+> > +   fdt_event_ctr_map[3] =3D cpu_to_be32(0x00000002);
+> > +   fdt_event_ctr_map[4] =3D cpu_to_be32(0x00000002);
+> > +   fdt_event_ctr_map[5] =3D cpu_to_be32(cmask | 1 << 2);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) =
+*/
+> > +   fdt_event_ctr_map[6] =3D cpu_to_be32(0x00010019);
+> > +   fdt_event_ctr_map[7] =3D cpu_to_be32(0x00010019);
+> > +   fdt_event_ctr_map[8] =3D cpu_to_be32(cmask);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01)=
+ */
+> > +   fdt_event_ctr_map[9] =3D cpu_to_be32(0x0001001B);
+> > +   fdt_event_ctr_map[10] =3D cpu_to_be32(0x0001001B);
+> > +   fdt_event_ctr_map[11] =3D cpu_to_be32(cmask);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) =
+*/
+> > +   fdt_event_ctr_map[12] =3D cpu_to_be32(0x00010021);
+> > +   fdt_event_ctr_map[13] =3D cpu_to_be32(0x00010021);
+> > +   fdt_event_ctr_map[14] =3D cpu_to_be32(cmask);
+> > +
+> > +   /* This a OpenSBI specific DT property documented in OpenSBI docs *=
+/
+> > +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
+> > +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+> > +}
+> > +
+> >  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
+> >  {
+> >      if (ctr_idx < 3 || ctr_idx >=3D RV_MAX_MHPMCOUNTERS ||
+> > diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
+> > index 036653627f78..3004ce37b636 100644
+> > --- a/target/riscv/pmu.h
+> > +++ b/target/riscv/pmu.h
+> > @@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
+> >  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
+> >                                 uint32_t ctr_idx);
+> >  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_i=
+dx);
+> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pm=
+u_name);
+> >  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
+> >                            uint32_t ctr_idx);
+> > --
+> > 2.25.1
+> >
+> >
+> >
 
