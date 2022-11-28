@@ -2,103 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BAF63AD28
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 17:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15ED63AD82
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 17:20:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozgXh-0003E8-Ca; Mon, 28 Nov 2022 10:59:37 -0500
+	id 1ozgpo-0008V0-PC; Mon, 28 Nov 2022 11:18:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ozgXe-0003DD-UP
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:59:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ozgXc-00066Q-FU
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:59:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669651171;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/1IzXla6DDb3kJifsStnlw4Qa7gNI9PODBtyiQ/YSzk=;
- b=HR7l3/umoDeQwXxJCL7XAvPvNNiMJQE7IvAQkkEHpNXGUPAxJxkXC7xhkDUTKxkygTWrBi
- U+0rcDFBmzdxR12G98docimzQaXXIm6OCrv1wx/cJv9ZB8sL9tCdMmw2N/E8+4qj8e7qw9
- zraPjrro6ngXrvlA1MDR9Jv0bdZHbdw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-654--BJGB4nWNKezwul_fkOCXw-1; Mon, 28 Nov 2022 10:59:30 -0500
-X-MC-Unique: -BJGB4nWNKezwul_fkOCXw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p2-20020adfaa02000000b00241d7fb17d7so2095215wrd.5
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:59:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozgpm-0008Uc-DQ
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:18:18 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozgpk-0000vp-J0
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:18:17 -0500
+Received: by mail-wr1-x436.google.com with SMTP id w15so4481599wrl.9
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 08:18:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9c7WoR3KxPVQ2mPFbTnHIG47ShSTcHZzr36/oLOmDK4=;
+ b=kgviN9yVAkVwrPhk5pkG5pvonkCSLUovOawoWQSDXV+nuoYFTMAqRAmZwowyMal8Ku
+ DCdLqXPh/ztTVIQm1/nWptkN2lFkq0H7PpJ8VGb2HaQg8TZmGcWm084nvF4vmL+cCzPU
+ 8heU/EsPiAoFwzIIeIadUmKf4BHCAOCkwKKXav+psS/97go1Em7t9LtOtTclsOgi3p9W
+ o2S/6kHcg6MwdlzeLABg1vTtXph9/fdK2UgmqRyk4QwQp5PFW2F7NEDXUBXef9BVScGk
+ ve5sOmKPUBKxpMzy+/ZNIq7uJP3Of4tJb8/8rfjVh0u4hGL1gApDPIaKzq3DJ2PfgkvT
+ OOiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/1IzXla6DDb3kJifsStnlw4Qa7gNI9PODBtyiQ/YSzk=;
- b=yCGW2J35dT7Z+hjMHH98ZLTHaUntVa/gvLfwGuVxo+kD7TrErN1J2nbXlsS0kYr9lE
- CH80vKvW5KyKgs3uqbwrCM3xf0LgVHbz5Q6H+qdAZiWMgcRPCSH+Hs5RzcdeGntK/r8M
- Z6GG4NRRdFGvoM9gCxzSZC5TWIKkblJa+BPzZT2lGz7J+Rsggwu6Fufs2UBQa1ZlEaah
- Ej1Cm/BLcxyX0uALykAq2J4Oeui6mTE3on28xWh9OrqR0tkGCb6cWFiVIGoZyqsx58+H
- Ry2bGewiLKyFe2wM3En3nwsnUJTvTIGaB6N/3eoLTL6AVkJryu/4ckXHS0fJpWNyeQYA
- RAng==
-X-Gm-Message-State: ANoB5pkfhhk0d8dxjTuxGgJkHuWF3YbCEHU/rvzDAgFOPn8vMBEcufa5
- sR5ae1oqL94H8hEz3WKyOYmr0+JtsZyYkz0mPBhxb2Z+htLx4qgPUR6RK/TCxa85qaViEqmKnXZ
- 5PD+TaOEYF1i9yG0=
-X-Received: by 2002:adf:ed01:0:b0:241:b4cc:4e9e with SMTP id
- a1-20020adfed01000000b00241b4cc4e9emr20798420wro.287.1669651169004; 
- Mon, 28 Nov 2022 07:59:29 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4OYViHyloJT8wO2lk37YjauITxsemI5W1bX5ZkalWXYJlfkWYuNcq4Xj9CUpcvq3NkKcVeGA==
-X-Received: by 2002:adf:ed01:0:b0:241:b4cc:4e9e with SMTP id
- a1-20020adfed01000000b00241b4cc4e9emr20798373wro.287.1669651168767; 
- Mon, 28 Nov 2022 07:59:28 -0800 (PST)
-Received: from localhost ([31.4.242.188]) by smtp.gmail.com with ESMTPSA id
- k17-20020a05600c1c9100b003c6b874a0dfsm20387267wms.14.2022.11.28.07.59.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 07:59:28 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,  Alistair.Francis@wdc.com,
- bin.meng@windriver.com,  palmer@dabbelt.com,
- marcandre.lureau@redhat.com,  pbonzini@redhat.com,
- yuval.shaia.ml@gmail.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
- dgilbert@redhat.com,  pavel.dovgaluk@ispras.ru,  alex.bennee@linaro.org,
- peterx@redhat.com,  david@redhat.com,  philmd@linaro.org,
- mrolnik@gmail.com,  gaosong@loongson.cn,  yangxiaojuan@loongson.cn,
- aurelien@aurel32.net,  jiaxun.yang@flygoat.com,
- aleksandar.rikalo@syrmia.com,  berrange@redhat.com,  thuth@redhat.com,
- lvivier@redhat.com,  suhang16@mails.ucas.ac.cn,  chen.zhang@intel.com,
- lizhijian@fujitsu.com,  stefanha@redhat.com,  qemu-riscv@nongnu.org,
- qemu-ppc@nongnu.org,  virtio-fs@redhat.com,  BALATON Zoltan
- <balaton@eik.bme.hu>
-Subject: Re: [PATCH v3 3/3] ppc4xx_sdram: Simplify sdram_ddr_size() to
- return directly
-In-Reply-To: <20221128094138.2824623-4-armbru@redhat.com> (Markus Armbruster's
- message of "Mon, 28 Nov 2022 10:41:38 +0100")
-References: <20221128094138.2824623-1-armbru@redhat.com>
- <20221128094138.2824623-4-armbru@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 28 Nov 2022 16:59:25 +0100
-Message-ID: <8735a3kr36.fsf@secure.mitica>
+ bh=9c7WoR3KxPVQ2mPFbTnHIG47ShSTcHZzr36/oLOmDK4=;
+ b=KXaQlRgxPn1O2fq5Z9rQkXhLdTQKdUUNr453hgjVZvUPv6RlyTI83EBsOqsIrfsJXe
+ u1qNciyCALZS+zeBISuxBG8ZrDGbsyxslMnDX/DLv6QN1zGkoZ4INcKHg05lb9ARKDvB
+ ii0iTVqj9K2Y+E5DwMCouxA9ikbncuFFZY00XsYCHesv5t/kjBvlDvMGWS2N7seKOD7Z
+ prCKIKUBdzodD8PhXwlLmUi+roBFrTP8nz9J8hHejj53JL5+x28O4+WuqZ21ZZ3sRw/P
+ 2LbhVeTwIOTh8fxhUbMFPoRzuxQxnZ1QEUt6EE/rFsqnCgVeHsBA+vmZTm8USUgvpSwg
+ XWJw==
+X-Gm-Message-State: ANoB5pmjH5Cr364Vsb6+YmW6doVCZ+gwAeBRIojHV9Tb0kjmDcXJB/k7
+ 6qnI4Vu6N+advEFMrxdLP91/Pg==
+X-Google-Smtp-Source: AA0mqf7oHLoLG7gyXNXkaOicQ+v93H5WIPENKT+50tAwfh8dTt/LHVywpoA1+dlLI2rygNInwb6bdQ==
+X-Received: by 2002:adf:f1cc:0:b0:236:e629:adab with SMTP id
+ z12-20020adff1cc000000b00236e629adabmr23551080wro.621.1669652294875; 
+ Mon, 28 Nov 2022 08:18:14 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ s10-20020a1cf20a000000b003cfe1376f68sm15302916wmc.9.2022.11.28.08.18.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 08:18:14 -0800 (PST)
+Message-ID: <c64522e4-4bb9-8dbf-fd93-151b77f5156a@linaro.org>
+Date: Mon, 28 Nov 2022 17:18:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [RFC PATCH-for-7.2 3/5] hw/display/qxl: Pass requested buffer
+ size to qxl_phys2virt()
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+To: Gerd Hoffmann <kraxel@redhat.com>, Peter Wu <peter@lekensteyn.nl>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221128134832.84867-1-philmd@linaro.org>
+ <20221128134832.84867-4-philmd@linaro.org>
+ <20221128150853.lp2hdkdzt6ou6f6g@sirius.home.kraxel.org>
+ <655e51b2-99ef-a48d-9be3-ddbc15275e7f@linaro.org>
+In-Reply-To: <655e51b2-99ef-a48d-9be3-ddbc15275e7f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,16 +94,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> wrote:
-> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+On 28/11/22 16:41, Philippe Mathieu-Daudé wrote:
+> On 28/11/22 16:08, Gerd Hoffmann wrote:
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
+>> Also at least one code path (processing SPICE_CURSOR_TYPE_MONO in
+>> qxl_cursor) goes access chunk.data[] without calling
+>> qxl_unpack_chunks(), that needs additional verification too (or
+>> switch it to call qxl_unpack_chunks, or just drop it because nobody
+>> uses mono chrome cursors anyway).
+Per commit 36ffc122dc ("qxl: support mono cursors with inverted colors")
+"Monochrome cursors are still used by Windows guests" (i.e. Win2008R2)
+:/
 
