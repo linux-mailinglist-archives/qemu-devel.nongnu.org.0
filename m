@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DC363AE1F
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 17:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB3963AE1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 17:54:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozhOd-0006jE-Jw; Mon, 28 Nov 2022 11:54:19 -0500
+	id 1ozhOU-0006gv-Kp; Mon, 28 Nov 2022 11:54:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozhOX-0006hI-Sm
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:54:13 -0500
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ozhOT-0006gV-EC
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:54:09 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozhOW-0007DS-Fg
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:54:13 -0500
-Received: by mail-yb1-xb2a.google.com with SMTP id d128so14069561ybf.10
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 08:54:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5FjmwxMVk5i0RUuktMIUyrN0aTqW8nUi/GFxkLOYaic=;
- b=jqEvxQGbjc2SDSC04FHMeRxK9uHXWzT6ledS58xWFEaqAFWRxTTnxMymN+jzlbir8T
- 80qT0a2uJ/Mp7ruWWBH0BHPEKQ52B8Yrxn/pnhUwnyYgZvkulrrYa3FyjnhEr9tJFKrQ
- 5FkeuMt8vKHVOXC8IVyhMDcP4gk3J/ZAGVDpCDLc2NZTRbs3Tpsp6yjMip3Z1kQMncli
- De1tygzRbGPK6Ml+pEi1e8aiQTOvYSLxthN/AcR9qJHz3c0hcUxDZSIL85ikku0NOVWV
- prT5ouX0gl8qxYAKNsr3LsJTIrtcc+QFvKwmvBitQT2JFYX2slGyDxrUlVJoFzX7AoRH
- JzZQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ozhOR-0007Cg-PG
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 11:54:09 -0500
+Received: by mail-wr1-x436.google.com with SMTP id w15so4663835wrl.9
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 08:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OJZ2+CIf9rdBeaXd7WJ1IOzvMXtHf3dd2DocN+kY1tY=;
+ b=qyqsEfMWh2Q9pyYbJfhQ15IasjVh36MPYNtitUtFjU2huDBOeERokv3d8npUS1axk5
+ Pe3RpQYXbITFyF5XMD26upZjzCqiD0jYLooeaMfnvSq5+35orgriTvqVlviZgiKofw/o
+ jaNNwZlPAYuvVAoLlKmSOx39KHXYsbCeE6Y44S7iNnntTn8IWLbfe8gueuTalBqp/zk9
+ iaXpsEzGpvUBG8e1L0aa6k+RUDPQDghekCwypCPy7NC2+tYx9pHGcjK0rS6GD0szSY3n
+ hKWMpEG2QuVNRbo3wVOH1sRr/xBE0r1mtzThDXbQTTnt5SuMWamZL/qeNhKutnyrIOlE
+ lLqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5FjmwxMVk5i0RUuktMIUyrN0aTqW8nUi/GFxkLOYaic=;
- b=RgqXEbrR68THmv8au9Yx7FxN4iD9pxNVhwGEJMrmThdfeLXrmDK2XtSPFgVZp4KNEt
- WHT4qHbWaDUKD7bBL8QdNwPgKGJFHVbPn54GI56fNaYU606dphM84Z/eReoAx6ixYkhf
- iax4Sjdx7UXwAT4Rh5MfkaWD5ITwF93YxW1ADEvjRcwJfUP8cLHmzKFVdtvNwne0IHqo
- l8YHBXj5c5fu1gknEk3MCl4Qqj1zjFHvMpjD0RxXxVejRb/U4d/mIKQEfUJgQFvagmmn
- 8wvAqCWtCVuBWgJlhZIbZcfstwF6M+2JF0ZOYiY6VQMiMkganLX24yfYGgbMkvfgG2jx
- ZdSA==
-X-Gm-Message-State: ANoB5pmiJFwV9eiyyCBnbno2DcZ17FxIeC9pNg7Q26Alw0sm27gCTjAQ
- GqYN/lYoDox3JIPruO48mKAEXBQ4tylDqVTu/Vw=
-X-Google-Smtp-Source: AA0mqf6Bcy1KFHAfDB8m5rq6cFZuHAzLdJ9BYz1RIT7eYEzawUU5dGl5gXmGzb7C9y0OmS2NRcY9QeqKeKAwaFBW0RI=
-X-Received: by 2002:a25:bcf:0:b0:6f2:a9c3:cbad with SMTP id
- 198-20020a250bcf000000b006f2a9c3cbadmr18676623ybl.118.1669654451333; Mon, 28
- Nov 2022 08:54:11 -0800 (PST)
-MIME-Version: 1.0
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=OJZ2+CIf9rdBeaXd7WJ1IOzvMXtHf3dd2DocN+kY1tY=;
+ b=t23wwZP8MktuScrej1r6AlYjp7OAY4GwZT0XzisUx/E4bMtei20V63eM8IJVD/KZxF
+ PI1ImzI/KzQft2A7ep6VvSxuXS4tX2ToOu+zhn1RpMRmoRkX/P2l8aVdacTYnJ2ANj0j
+ VVWQt4nsXXROykRUd/fE6EFzNb6CUUVbBWIi0o13KyFtVmliV7ocosMbmywYl0UjEgE/
+ R40Ao8+suqNaCBjxPyZc81xvl/gcbXWdcjt1GXcGs+ShmTYBawPGpTcc2//a2uiZLoax
+ MjDTrjuHGUxTzyQrT3jSL/LbnnIBP5pZIL/xavkHIypDIZiXMn8i12xAxqzbp3a8aPIe
+ EKfw==
+X-Gm-Message-State: ANoB5pl3+XfB/F/3gyROWCM/AbFZBwL1Oh6DkKMx5a1Ss5V32PX+KzJI
+ /ALBIMExcWEfTINduyzCOognnw==
+X-Google-Smtp-Source: AA0mqf7JmiCE/mDKcYbWIhzLWNMQiUxPS9wUYQEY5LikVGhmTF0d1DOEJoO+tKY4Af9wJ6yIt9rPuA==
+X-Received: by 2002:a5d:5233:0:b0:241:cc24:b65c with SMTP id
+ i19-20020a5d5233000000b00241cc24b65cmr25020229wra.545.1669654445860; 
+ Mon, 28 Nov 2022 08:54:05 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ r20-20020a05600c35d400b003c6d21a19a0sm16863020wmq.29.2022.11.28.08.54.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Nov 2022 08:54:05 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EBF3C1FFB7;
+ Mon, 28 Nov 2022 16:54:04 +0000 (GMT)
 References: <20221128092555.37102-1-thuth@redhat.com>
-In-Reply-To: <20221128092555.37102-1-thuth@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 28 Nov 2022 11:53:59 -0500
-Message-ID: <CAJSP0QWPc_AR1=Q1BQGkTk+v0vm53C8f5bD0uVm+UmDxDaQBFQ@mail.gmail.com>
-Subject: Re: [PATCH v2 for-8.0 0/5] scripts/make-release: Decrease size of the
- release tarballs
+ <20221128092555.37102-3-thuth@redhat.com>
+User-agent: mu4e 1.9.3; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Thomas Huth <thuth@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2a.google.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth
+ <michael.roth@amd.com>, Gerd Hoffmann <kraxel@redhat.com>, =?utf-8?Q?Dani?=
+ =?utf-8?Q?el_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 for-8.0 2/5] scripts/make-release: Only clone single
+ branches to speed up the script
+Date: Mon, 28 Nov 2022 16:54:00 +0000
+In-reply-to: <20221128092555.37102-3-thuth@redhat.com>
+Message-ID: <87k03fxbo3.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,12 +100,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is great. It will reduce qemu.org's network bandwidth consumption
-and make QEMU release tarballs nicer to use due to reduced size.
 
-I left a comment because I don't like patching the roms/ directory,
-but if I'm the only one who doesn't like it then feel free to keep
-that approach.
+Thomas Huth <thuth@redhat.com> writes:
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Using --single-branch and --depth 1 here helps to speed up the process
+> a little bit and helps to save some networking bandwidth.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
