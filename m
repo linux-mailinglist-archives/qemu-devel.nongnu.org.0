@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1DB63A4E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FDD63A4E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:26:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozaP9-0004ca-QO; Mon, 28 Nov 2022 04:26:23 -0500
+	id 1ozaP9-0004cc-0f; Mon, 28 Nov 2022 04:26:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ozaOu-0004bA-9v
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:26:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ozaOx-0004bm-Br
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:26:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ozaOs-0004ne-Hz
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:26:07 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ozaOv-0004nq-78
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:26:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669627565;
+ s=mimecast20190719; t=1669627568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=J6oNLufdPTiNrsLEnR8CxlIggd9h72+5Cgq/n/ST8Nk=;
- b=A2byAQQolHkATyTp56DydpPnpQc+VlD1/fjIjgFzddg/U6q37U6J3h/ckBMqpc+jSzpHuy
- gGHS9siyz8xQfmQe1d4I0kZb56Rk64sxZFY3DLUNc2UDD7u/4YUh3FINJpdfcMFifDxQ3g
- t6IyJtX+LD4X3hw9RrrTrJFCuBeAA0o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qZAxGiFDOEvcfNWH1rvgYbD4b8Wd6inBOPv+BQzFmdE=;
+ b=WuBdmp+zS7yuzsgs796nGs3R/0L5WngGl/JMMgy5UpEjCR1Ayt9mEiagaCc912iZymtfqx
+ CkOVCrAPtY1oY3IXyojE4UzI4XCDoqt7IIf2OnaGJ+yaRunfQjxVmCuigQNblL/Sxev9+S
+ GJmjcVnGRgJXXQdIe1bnMmcok9Pukp8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-bRTOVFdsPoWNj65Q1PdhJQ-1; Mon, 28 Nov 2022 04:26:02 -0500
-X-MC-Unique: bRTOVFdsPoWNj65Q1PdhJQ-1
+ us-mta-126-hMo8JCS2MmWEwRG4JAjxcg-1; Mon, 28 Nov 2022 04:26:04 -0500
+X-MC-Unique: hMo8JCS2MmWEwRG4JAjxcg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86C2A800186;
- Mon, 28 Nov 2022 09:26:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3A171C068E1;
+ Mon, 28 Nov 2022 09:26:03 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABA6F49BB61;
- Mon, 28 Nov 2022 09:25:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E787A49BB61;
+ Mon, 28 Nov 2022 09:26:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
  qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
@@ -46,14 +47,16 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 for-8.0 0/5] scripts/make-release: Decrease size of the
- release tarballs
-Date: Mon, 28 Nov 2022 10:25:50 +0100
-Message-Id: <20221128092555.37102-1-thuth@redhat.com>
+Subject: [PATCH v2 for-8.0 1/5] scripts/make-release: Add a simple help text
+ for the script
+Date: Mon, 28 Nov 2022 10:25:51 +0100
+Message-Id: <20221128092555.37102-2-thuth@redhat.com>
+In-Reply-To: <20221128092555.37102-1-thuth@redhat.com>
+References: <20221128092555.37102-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,40 +80,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Our release tarballs are huge - qemu-7.2.0-rc2.tar.xz has a size of 116
-MiB. If you look at the contents, approx. 80% of the size is used for the
-firmware sources that we ship along to provide the sources for the ROM
-binaries. This feels very wrong, why do we urge users to download such
-huge tarballs while 99.9% of them never will rebuilt the firmware sources?
-We were also struggeling a bit in the past already with server load and
-costs, so we should really try to decrease the size of our release tarballs
-to a saner level.
+Print a simple help text if the script has been called with the
+wrong amount of parameters.
 
-So let's split the firmware sources into a separate tarball to decrease
-the size of the main QEMU sources tarball a lot (which should help us
-to safe a lot of traffic on the server).
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ scripts/make-release | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Additional improvements for the make-release script add a little help text
-and speed it up by downloading less data from the various git repositories.
-
-v2:
- - Move the firmware sources into a separate tarball instead of dropping
-   the edk2 and skiboot sources.
-
-Thomas Huth (5):
-  scripts/make-release: Add a simple help text for the script
-  scripts/make-release: Only clone single branches to speed up the
-    script
-  scripts/make-release: Remove CI yaml and more git files from the
-    tarball
-  roms: Add a README file with some basic information
-  scripts/make-release: Move roms into separate tarball
-
- roms/README.rst      | 24 ++++++++++++++++++++++++
- scripts/make-release | 34 +++++++++++++++++++++++++++++-----
- 2 files changed, 53 insertions(+), 5 deletions(-)
- create mode 100644 roms/README.rst
-
+diff --git a/scripts/make-release b/scripts/make-release
+index 05b14ecc95..4be9b3b9ce 100755
+--- a/scripts/make-release
++++ b/scripts/make-release
+@@ -10,6 +10,12 @@
+ # This work is licensed under the terms of the GNU GPLv2 or later.
+ # See the COPYING file in the top-level directory.
+ 
++if [ $# -ne 2 ]; then
++    echo "Usage:"
++    echo " $0 gitrepo version"
++    exit 0
++fi
++
+ src="$1"
+ version="$2"
+ destination=qemu-${version}
 -- 
 2.31.1
 
