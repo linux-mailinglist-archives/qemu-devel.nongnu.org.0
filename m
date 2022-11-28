@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB52463B32A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451A763B330
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:29:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozkjI-0002hl-Tg; Mon, 28 Nov 2022 15:27:52 -0500
+	id 1ozkjK-0002kQ-Rf; Mon, 28 Nov 2022 15:27:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozkjE-0002e9-Aj
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:27:49 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozkjI-0002iN-VK
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:27:52 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozkjC-00027J-GH
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:27:47 -0500
-Received: by mail-wm1-x333.google.com with SMTP id t1so9386156wmi.4
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 12:27:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozkjH-000282-E4
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:27:52 -0500
+Received: by mail-wr1-x432.google.com with SMTP id h11so11548838wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 12:27:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=JOnbDGyVf5k/5lf6GMSnay/oOBUuU7F9b/x1tgkaw5Y=;
- b=yI4l9qYaztYlWqV8Ulkhzm8NkUlyq40m/hBv1oFCz/urIGz4I8ut5rTFo1JjjBXZv+
- RR+9T+a1NohFX6TE3h95UucnoNPhpsxEF1jSfYyVF07GnUJgHoP8D4s3gttxBpVL7FCy
- yiBG93Hymm7twKVTd/KOKfFUxq/s8vQj35Sp/8E5tuZefNe+IwR0uL9lpPXq2o4qIx/g
- 6dpb0lSuFzVuO/gqNj/LUe5J5m9vC+36RLqHPNPT/8voLOuwNnnMc69SIZnHuyMmMNPJ
- +/Rwt6y5SaaweDg4g00Q5gWP4SDsAy4U3UaMqbzMg0SZsRXZC0NikPGr+TEhRwotTMgk
- 5wIQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iYHeDZzoQ050kMmL2gly3nfjXqnhqur/NbBZzIah+Ds=;
+ b=ccCR2XTZcBw9ShSgpCejQy2uisoWvlZZgFVH1NT0rjNoe4GP+M3xgQHVqUWNXaCk5I
+ 9RRKHXH37Wa/+t9wrDf7lFEtvyWiNMwXnffy2sR/+vXUFiExXCt+7gAEgHtAzEqDNvcu
+ V+kbUUwknfynKPWcVKspgOuNbNbI3u545c5aChlOEPYtZ/+KY/38yI9OoQBI6oL0z7/l
+ 9WfvqZOtVbKhfDNpSaKxwSQnISCxostbkNBS+wsdxu4w5GgW5sv+m8BYKFkNdpB5Kwjp
+ VnLle+9y1RZ/rxfQzDdMnTEbvqPa078uILGyQPoTps3u0V/vwjhc8DawlsZdunEo/23r
+ xg7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JOnbDGyVf5k/5lf6GMSnay/oOBUuU7F9b/x1tgkaw5Y=;
- b=1JGHcKhPzZM6oSm+EoxiaVKJl7wpmMEMARYHwKEitLNxHaS3HChTkQVVqqIVyKKjLt
- Ywf/FPSuJYW1JJmw0IrP94RGvHjCR35qC44OQ62ayCyfQBVYk52y/lxDHFN2DUYVLnIJ
- FF2ZtQxv84sCi0UctbFEjsGep08f5Si6km3ef09g0UBIKlCVe9qGx3E0XlM4fqX+e9ai
- K5Ibf04XDphOhiVsbML0M8cmZll97I+v5HcviCZMpike0FHbMStN/bP3YbCOEnD3etDh
- l2/JfFoHmourq7VVkPDJOVtqXFXiQoaNR+ProJ2rqcsYbR31G0gUZkcjEKLBmy+JMynC
- 5LOA==
-X-Gm-Message-State: ANoB5pmztbaAt0KflG6TF0gwGpvgj6gBrztNoWslkGOXLvskSRjiLK5T
- uhQOCq9z+w7DXYdO3D4e9ITA27R+pf/j3w==
-X-Google-Smtp-Source: AA0mqf5oV0pEzpUOGmb33wEXvOpQIuz8Tx/WkRqDIhNxNWH9pb8wa6BM+pXhFRUv1cKgQhKuGjN8gw==
-X-Received: by 2002:a1c:7219:0:b0:3cf:77b7:61e6 with SMTP id
- n25-20020a1c7219000000b003cf77b761e6mr27827386wmc.162.1669667264083; 
- Mon, 28 Nov 2022 12:27:44 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iYHeDZzoQ050kMmL2gly3nfjXqnhqur/NbBZzIah+Ds=;
+ b=iE8pOWp7g6WaWefDKgKn4xRufBW5Wi4I+365j6f2aY0xu4SIUFZ951G5vYQvDFOiva
+ n5swo9OinVODtz98z7g42mlWd/z0VT5uw4bhQbPB2Y6JG/9aKCy3J2UhW0Y94iIBMgK+
+ VxTDSP12bRLaatOPveDSWZ1O4reaG1zk1+5nZFapqq6Alt/o6Y/Z49F0MBFgo4n04r1N
+ ySPNDvvUnuv8O2zBTFrCPxZMubNkcgL8QgV/f3XNcfyTAdALNRzsvM8NzJSYZTlZ296w
+ kRwtPj3RNJcLJZpv5zyZd9w/SkaUiBYBlsm+8su/ueetdfCgl4Xl7E7FViD6IwLpW8LR
+ wq4Q==
+X-Gm-Message-State: ANoB5pmudBKlKGMPbDHBuAHIiQLanJVpD10All+xR1epxhe8aKTkehad
+ Qlk0m7SP6WglP3A3AZPLhNNqrXsCnTDasg==
+X-Google-Smtp-Source: AA0mqf6v4lKNgzuESFs8dciZt83wjZg2bTNYSFG541VofbYpGGHXBaf9JJ+5yg7vX8XCqQebW69WQQ==
+X-Received: by 2002:a5d:58c6:0:b0:242:da2:7f50 with SMTP id
+ o6-20020a5d58c6000000b002420da27f50mr7191656wrf.507.1669667268990; 
+ Mon, 28 Nov 2022 12:27:48 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a05600c19ca00b003c5571c27a1sm20764242wmq.32.2022.11.28.12.27.42
+ f6-20020adff8c6000000b002258235bda3sm11229189wrq.61.2022.11.28.12.27.48
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 28 Nov 2022 12:27:43 -0800 (PST)
+ Mon, 28 Nov 2022 12:27:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
@@ -59,16 +60,18 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Mauro Matteo Cascella <mcascell@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH-for-7.2 v3 0/5] hw/display/qxl: Avoid buffer overrun in
- qxl_phys2virt()
-Date: Mon, 28 Nov 2022 21:27:36 +0100
-Message-Id: <20221128202741.4945-1-philmd@linaro.org>
+Subject: [PATCH-for-7.2 v3 1/5] hw/display/qxl: Have qxl_log_command Return
+ early if no log_cmd handler
+Date: Mon, 28 Nov 2022 21:27:37 +0100
+Message-Id: <20221128202741.4945-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221128202741.4945-1-philmd@linaro.org>
+References: <20221128202741.4945-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,42 +94,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since v2:
-- Do not abort checking guest-provided addresses (Stefan)
-- Handle chunked QEMUCursor (Gerd)
+Only 3 command types are logged: no need to call qxl_phys2virt()
+for the other types. Using different cases will help to pass
+different structure sizes to qxl_phys2virt() in a pair of commits.
 
-Since v1:
-- Moved overrun check in qxl_get_check_slot_offset (Marc-André)
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/display/qxl-logger.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-memory_region_get_ram_ptr() returns a host pointer for a
-MemoryRegion. Sometimes we do offset calculation using this
-pointer without checking the underlying MemoryRegion size.
-
-Wenxu Yin reported a buffer overrun in QXL. This series
-aims to fix it. I haven't audited the other _get_ram_ptr()
-uses (yet). Eventually we could rename it _get_ram_ptr_unsafe
-and add a safer helper which checks for overrun.
-
-Worth considering for 7.2?
-
-Regards,
-
-Phil.
-
-Philippe Mathieu-Daudé (5):
-  hw/display/qxl: Have qxl_log_command Return early if no log_cmd
-    handler
-  hw/display/qxl: Document qxl_phys2virt()
-  hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
-  hw/display/qxl: Avoid buffer overrun in qxl_phys2virt (CVE-2022-4144)
-  hw/display/qxl: Assert memory slot fits in preallocated MemoryRegion
-
- hw/display/qxl-logger.c | 22 ++++++++++++++++++---
- hw/display/qxl-render.c | 20 ++++++++++++++++----
- hw/display/qxl.c        | 42 ++++++++++++++++++++++++++++++++---------
- hw/display/qxl.h        | 23 +++++++++++++++++++++-
- 4 files changed, 90 insertions(+), 17 deletions(-)
-
+diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
+index 68bfa47568..1bcf803db6 100644
+--- a/hw/display/qxl-logger.c
++++ b/hw/display/qxl-logger.c
+@@ -247,6 +247,16 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
+             qxl_name(qxl_type, ext->cmd.type),
+             compat ? "(compat)" : "");
+ 
++    switch (ext->cmd.type) {
++    case QXL_CMD_DRAW:
++        break;
++    case QXL_CMD_SURFACE:
++        break;
++    case QXL_CMD_CURSOR:
++        break;
++    default:
++        goto out;
++    }
+     data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+     if (!data) {
+         return 1;
+@@ -269,6 +279,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
+         qxl_log_cmd_cursor(qxl, data, ext->group_id);
+         break;
+     }
++out:
+     fprintf(stderr, "\n");
+     return 0;
+ }
 -- 
 2.38.1
 
