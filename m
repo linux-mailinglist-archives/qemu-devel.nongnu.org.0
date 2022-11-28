@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1601C63A2D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:25:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CD763A2DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:25:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozZRO-0001y9-Ok; Mon, 28 Nov 2022 03:24:38 -0500
+	id 1ozZSF-0002Lu-CW; Mon, 28 Nov 2022 03:25:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZRC-0001xn-SG
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:24:28 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ozZRy-0002K8-T9
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:14 -0500
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZRB-000332-0N
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:24:26 -0500
-Received: by mail-wr1-x433.google.com with SMTP id x17so15490767wrn.6
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NtGcove0F8vHYyWZkGB0+B4mu7An7eEUQxlkKt3W+rE=;
- b=ifd1FCltOS/rRDa0ReMpz1BtpYYA2yMV7UDxOvittrH1Xrb3lzg39Rmoj8uLH7idnU
- RY0rz1bR2ElY4E0NdZTHm2XnQlRD+ZYFYghJtnQKlhbKBtDrKnujyqkXGKXvO1g78fwV
- BEVLauummJx137CDM9oLQbhi+vahPELCsaWpGzwbAz+TyLmaZG+odpKqAO/9VNKd6cMF
- O9wpV/IY+9xJ4WVfE7H6TtdPruPUJF0FSf8MJjMZGIVBO8nTOjrH3XPCUnFml9EIU0PN
- xW3yQcrDnjp7rctrD1eAmt8H0KSWtmRlcsJ5CAzpayTtruxlsGyx3rikzI02Oq9nSviy
- K/7A==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ozZRx-0003Hk-6N
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:14 -0500
+Received: by mail-lj1-x232.google.com with SMTP id l8so12213527ljh.13
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:25:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9VXoPe+c1Dtp1bbVtRbqjzL0X44srU0wmRv4mEEQMAk=;
+ b=UzUj6nAn/itqmaOgKxkwfZVO0s7O5HTczLSbvb5Aww2xfonqCcZenv0ELUbykdOfLm
+ UPr+vhlb/z/hEAp6w2lx9ozG9SboJEk0ruYiNdibeA90Vtag2syH9XVnsZBEDGXrIoju
+ CsAvO7ELPZt/7L9ZfzlOFdTs0x1vNvSNTdWfOjwyQUZtwGL/jKi63ayCjuLMzcfymWKO
+ Z9k0NXe4sWH7wped4AE/qaMEno1gARmevRqoKQeaetjNjiOnLWe//GE++JaLevuF3Ehm
+ TZVFozWMFJdabPr4UBieuGlkJNLfOusjqTiNMbTptxBm7FIMu5Iw1QXEB7IWdjvr4Ya+
+ qXsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NtGcove0F8vHYyWZkGB0+B4mu7An7eEUQxlkKt3W+rE=;
- b=lWWzn8LeFev0qjdF8j+Bt976g+J5QTV4HOkjtSIpO38K1huRKbtqtPX4+xcaQ5ucGw
- hhWU9d/861xfNQ5+ZmbMmNEJTGmWYLgIlisKtv672Yh+KrIIp0Iss4Z3WOhax+HXENNZ
- 9wmsF633MflInaGzUcD5qg87+5Pn83QTxJ78EMYbP3YpbT7lfBA/9nRRQOTGOv/qym5F
- rFgzbtg7ml7fxigl2iVJtIcJRpLtfx88QRkpe+qVfLG6DOi2HzMfkAXVIvfW2TyyK2Pb
- gmxCc8uS2KbxMK0zyE06SyFgNfCSb5ze+cC5xdUkMUHU6Y7izCNLKeCsOcoKSebunKQg
- vFQg==
-X-Gm-Message-State: ANoB5pmQrUWWmCuOMLHLpta2ebFBqJk1cCBjySIvAw/i2uwvJ2G/Vqar
- d3j92rm8OWP6/TzcKBstu3oMfQ==
-X-Google-Smtp-Source: AA0mqf7F5jR0LTcPxQ6OHNkEaBjp91bxCYrc8boTIuSErys6Rl9DsLDCC1765JtZKLMB82lYLJ35Gw==
-X-Received: by 2002:adf:e48e:0:b0:241:50fa:f724 with SMTP id
- i14-20020adfe48e000000b0024150faf724mr18710297wrm.146.1669623863457; 
- Mon, 28 Nov 2022 00:24:23 -0800 (PST)
-Received: from [192.168.1.175] (49.red-88-29-176.dynamicip.rima-tde.net.
- [88.29.176.49]) by smtp.gmail.com with ESMTPSA id
- r4-20020a0560001b8400b00241bd7a7165sm10109249wru.82.2022.11.28.00.24.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 00:24:23 -0800 (PST)
-Message-ID: <8eeca917-c78f-3daa-23a0-c3def1b5c2f4@linaro.org>
-Date: Mon, 28 Nov 2022 09:24:21 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9VXoPe+c1Dtp1bbVtRbqjzL0X44srU0wmRv4mEEQMAk=;
+ b=8BpJP1CkA2Fu2/eHpzcPVCId1gy05nULxMG9UCjuYhk90bAOjwmNQfAx79/YwYsNw/
+ xnGmlUgEJxeaCyzr1JOO0yyx+BvzKhF+XASOpalRg/EX5VC5iqEHQzif4KH0v8u2FEQS
+ GxGxAIvlz2oyXnTYCUoe7CNShhI6JnmhqW2x+g53U2e8s274Gpm/0yXlFpMntvPqU01J
+ 0Ay9KjHrxhw6sfGvsb0VSgzn+w97iMWZTIPX6TX1zO2inxLZAoM9HzDtUHQOD08mACiY
+ 9mFa8kbDgdgCZoBQyhE0868wCJiq+l/0Ijw7R7c80Ch70nczvfJ7GPEAlDD8Bdljxq1n
+ oyeQ==
+X-Gm-Message-State: ANoB5pkuw9TZ3ThDL0a0RX2omSWSYcXi4Ojf8bXqbmWJ/0ps3wb0UNLf
+ rvQVEyCcezTJuG5OaQ+fKhSoRWmjI14TVcvw5mM=
+X-Google-Smtp-Source: AA0mqf6oCF1q1qqDR9XSzrCQ0cLL5L9PeimOZClDyltYJYq1WkhQJS+8zCjdb7nEzpVMJAKU1GttkL2fIV9BRI6JSNs=
+X-Received: by 2002:a05:651c:1954:b0:277:43c4:a864 with SMTP id
+ bs20-20020a05651c195400b0027743c4a864mr14972559ljb.463.1669623910718; Mon, 28
+ Nov 2022 00:25:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH 07/12] pci: Move pcibus_dev_print() to pci-hmp-cmds.c
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, dgilbert@redhat.com
-References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-8-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221128080202.2570543-8-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20221125154030.42108-1-philmd@linaro.org>
+ <20221125154030.42108-2-philmd@linaro.org>
+In-Reply-To: <20221125154030.42108-2-philmd@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 28 Nov 2022 12:24:59 +0400
+Message-ID: <CAJ+F1CJUa0g6iAyO+MFp3AwCiLdmycHtHQevmXaMYs-h6BAWhg@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-7.2 1/4] hw/display/qxl: Have qxl_log_command
+ Return early if no log_cmd handler
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Mauro Matteo Cascella <mcascell@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,16 +88,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/11/22 09:01, Markus Armbruster wrote:
-> This method is for HMP command "info qtree".
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Hi
+
+On Fri, Nov 25, 2022 at 7:41 PM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> Only 3 command types are logged: no need to call qxl_phys2virt()
+> for the other types.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->   hw/pci/pci-internal.h |  1 +
->   hw/pci/pci-hmp-cmds.c | 38 ++++++++++++++++++++++++++++++++++++++
->   hw/pci/pci.c          | 38 --------------------------------------
->   3 files changed, 39 insertions(+), 38 deletions(-)
+>  hw/display/qxl-logger.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
+> index 68bfa47568..1bcf803db6 100644
+> --- a/hw/display/qxl-logger.c
+> +++ b/hw/display/qxl-logger.c
+> @@ -247,6 +247,16 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *r=
+ing, QXLCommandExt *ext)
+>              qxl_name(qxl_type, ext->cmd.type),
+>              compat ? "(compat)" : "");
+>
+> +    switch (ext->cmd.type) {
+> +    case QXL_CMD_DRAW:
+> +        break;
+> +    case QXL_CMD_SURFACE:
+> +        break;
+> +    case QXL_CMD_CURSOR:
+> +        break;
+> +    default:
+> +        goto out;
+> +    }
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+That's a quite verbose way to repeat the case list below. Furthermore,
+it shouldn't hurt to call qxl_phys2virt() next.
 
+
+>      data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+
+But I understand better the change looking at patch 3, where you
+introduce the size argument. Maybe mention the coming change in the
+commit message?
+
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+>      if (!data) {
+>          return 1;
+> @@ -269,6 +279,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ri=
+ng, QXLCommandExt *ext)
+>          qxl_log_cmd_cursor(qxl, data, ext->group_id);
+>          break;
+>      }
+> +out:
+>      fprintf(stderr, "\n");
+>      return 0;
+>  }
+> --
+> 2.38.1
+>
+>
+
+
+--
+Marc-Andr=C3=A9 Lureau
 
