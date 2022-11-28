@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3291363A206
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 08:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B075E63A26E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:03:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozYgC-0000zv-7q; Mon, 28 Nov 2022 02:35:52 -0500
+	id 1ozZ5o-0005HO-TF; Mon, 28 Nov 2022 03:02:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozYft-0000yB-Nj
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 02:35:40 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozZ5g-0005Gm-9V
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:02:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozYfr-0003Zj-JO
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 02:35:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozZ5e-0008Hk-Ot
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:02:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669620929;
+ s=mimecast20190719; t=1669622530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=l0p2wS9B+3emiEGvgDHo5SKzpkD2eq6DcFtWZ3RjSL8=;
- b=BUm4TVLaRDB2epOsq1C+JbZDZtmKRBMg2GxPmtoIf1I+7Le4VoE+K4iEUpWuUdQ1qlCYpb
- zfS9NiwA/UzHqclt8kQat0WqovS1JEH8Y8GwOOtH1cfH3Siuc9kkR7BZjMNbfHkkAsHDt5
- 94iwPejjpnCaPy7YlywBfjall2mtBGA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TAZQFuFPtwNyvs6C//QyV4Pp5i8gBNTCYFTaoMys/r0=;
+ b=hgggIhHhGAyyHID8pBG0fO+jQ/B057Kffa5WHcAlZYmXnfeUlB+8S9oGO6bTUtfVd7myjO
+ vRyk52WEPsPGfSp/HGSg3supXF0ZJeDR26ALGIUNgvcKJyYzQOxX/qb3VKjF5JWtXwmYM5
+ u7HJp+Sk62p7x3emSfNEgw5Zuo8Qjfw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-9hw7Jd0EMsGCnxScBVjINw-1; Mon, 28 Nov 2022 02:35:26 -0500
-X-MC-Unique: 9hw7Jd0EMsGCnxScBVjINw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-541-RRtS27BVNkeW3ZKlFLRXLQ-1; Mon, 28 Nov 2022 03:02:06 -0500
+X-MC-Unique: RRtS27BVNkeW3ZKlFLRXLQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2613811E75;
- Mon, 28 Nov 2022 07:35:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 281BA3C3C166;
+ Mon, 28 Nov 2022 08:02:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5CEC32166B2B;
- Mon, 28 Nov 2022 07:35:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0FA2112132C;
+ Mon, 28 Nov 2022 08:02:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 100CF21E6921; Mon, 28 Nov 2022 08:35:22 +0100 (CET)
+ id 88F5721E6921; Mon, 28 Nov 2022 09:02:02 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org,  Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: Fix some return statements in the synth backend
-References: <166930551818.827792.10663674346122681963.stgit@bahia>
-Date: Mon, 28 Nov 2022 08:35:22 +0100
-In-Reply-To: <166930551818.827792.10663674346122681963.stgit@bahia> (Greg
- Kurz's message of "Thu, 24 Nov 2022 16:58:38 +0100")
-Message-ID: <8735a3y1j9.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com,
+	marcel.apfelbaum@gmail.com,
+	dgilbert@redhat.com
+Subject: [PATCH 00/12] pci: Move and clean up monitor command code
+Date: Mon, 28 Nov 2022 09:01:50 +0100
+Message-Id: <20221128080202.2570543-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -78,27 +77,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Greg Kurz <groug@kaod.org> writes:
+This is mainly about splitting off monitor-related code.  There's also
+a few UI fixes to HMP command pcie_aer_inject_error.  One UI issue
+remains: when the second argument is symbolic (found in table
+pcie_aer_error_list[]), then any -c is silently ignored.  Should it be
+rejected?  Should it override the value from the table?
 
-> The qemu_v9fs_synth_mkdir() and qemu_v9fs_synth_add_file() functions
-> currently return a positive errno value on failure. This causes
-> checkpatch.pl to spit several errors like the one below:
->
-> ERROR: return of an errno should typically be -ve (return -EAGAIN)
-> #79: FILE: hw/9pfs/9p-synth.c:79:
-> +        return EAGAIN;
->
-> Simply change the sign. This has no consequence since callers
-> assert() the returned value to be equal to 0.
+Markus Armbruster (12):
+  pci: Clean up a few things checkpatch.pl would flag later on
+  pci: Move QMP commands to new hw/pci/pci-qmp-cmds.c
+  pci: Move HMP commands from monitor/ to new hw/pci/pci-hmp-cmds.c
+  pci: Make query-pci stub consistent with the real one
+  pci: Build hw/pci/pci-hmp-cmds.c only when CONFIG_PCI
+  pci: Deduplicate get_class_desc()
+  pci: Move pcibus_dev_print() to pci-hmp-cmds.c
+  pci: Fix silent truncation of pcie_aer_inject_error argument
+  pci: Move HMP command from hw/pci/pcie_aer.c to pci-hmp-cmds.c
+  pci: Inline do_pcie_aer_inject_error() into its only caller
+  pci: Rename hmp_pcie_aer_inject_error()'s local variable @err
+  pci: Improve do_pcie_aer_inject_error()'s error messages
 
-Out of curiosity: why is assert() appropriate?
+ hw/pci/pci-internal.h   |  25 +++++
+ include/monitor/hmp.h   |   1 +
+ include/sysemu/sysemu.h |   3 -
+ hw/pci/pci-hmp-cmds.c   | 234 ++++++++++++++++++++++++++++++++++++++++
+ hw/pci/pci-qmp-cmds.c   | 201 ++++++++++++++++++++++++++++++++++
+ hw/pci/pci-stub.c       |   9 +-
+ hw/pci/pci.c            | 226 +-------------------------------------
+ hw/pci/pcie_aer.c       | 113 +------------------
+ monitor/hmp-cmds.c      | 107 ------------------
+ hw/pci/meson.build      |   2 +
+ 10 files changed, 476 insertions(+), 445 deletions(-)
+ create mode 100644 hw/pci/pci-internal.h
+ create mode 100644 hw/pci/pci-hmp-cmds.c
+ create mode 100644 hw/pci/pci-qmp-cmds.c
 
-> While here also get rid of the uneeded ret variables as suggested
-> by return_directly.cocci.
->
-> Reported-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+-- 
+2.37.3
 
 
