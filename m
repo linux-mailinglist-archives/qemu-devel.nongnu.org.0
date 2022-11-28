@@ -2,87 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B89263B270
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 20:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DAB563B26F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 20:42:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozk1D-0000Mn-Kq; Mon, 28 Nov 2022 14:42:19 -0500
+	id 1ozjzk-0008AM-SS; Mon, 28 Nov 2022 14:40:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ozk1B-0000Jl-EH
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 14:42:17 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ozk19-00036x-4h
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 14:42:16 -0500
-Received: by mail-wr1-x436.google.com with SMTP id z4so18686215wrr.3
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 11:42:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UEj7GXYTSbrN8AL8/zmTibPgtFKZRMvTrZJ7ISsuMyA=;
- b=F50zxTk0YhHCODjPuAnU7Lojr+Wcy9DclgyYQx9A+V3QrMQS7IHG9yD6IdmMmMvNyF
- VEDLMFNQtIBnff7UumN9Rtt5HecxA606kPH6fgbWyM8zjabt5NEgMlOWSqg//UKHBQy5
- K0tw+J/mHLhKOaK8j6TE4l+V8bdDEJAvoVdUTcS0Qljj69bc/J+cDygZ4SlsW9aulElU
- uk7BZBfD3okbRO9FGkC3hXeLklu7DebIO4MrzIPdB7opk61L6DpY4Z4OrbToZS73LKi4
- tkNG496zRRhG1tojkR0gXk7IIwpKZrjNIFW/cey+KNvCj8cAPzoEbgWL7NE+QpBPq7wH
- Z2nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UEj7GXYTSbrN8AL8/zmTibPgtFKZRMvTrZJ7ISsuMyA=;
- b=xok0UkpnNyvZdbJU7NfyzFM1dJBlN5SUSpLqOSFXv+C3v+VnMeMXXmIO6DsBspjVsy
- QA9IVMMof202oGPvCR8gWY326JxXUsLNmL+D3KEcvPPGMYoEpyf1y2TgCH1JD4lj2Grp
- hWRBl1uNzs/138zcEvBa+8d0dG0wjFtfjPi3G6of2/8s04y1OcmoYXKIm7BsUL+A1wAm
- ssel5iYIlxG8l/f/8ERY8enUeUGrBw6khRxzop4QWowhxSVCGumZqRWa/P4ZrNzQjGGN
- eZNjNPRXYIIB0LCUs7zCfrqGFEumZTdrx45QYf+mbJdC2JN0vDAbc8bG4dRA1AAtAK7T
- QdLQ==
-X-Gm-Message-State: ANoB5pl6nRSBy+GjNsnY/xJ+DwQ6a3poCK6Qa47b0IPJAihp/180hFma
- 3mYJ1cpwV6eMoz6fgYBPh/Pq6A==
-X-Google-Smtp-Source: AA0mqf5E7Tyt/pqwJfwjwtrcH5j3r6uZW2yhT7GNJx+LtCY8ft6Wz9oao5SfyVHjmF2ltU1h0m8jfQ==
-X-Received: by 2002:adf:d224:0:b0:236:6a5d:16b0 with SMTP id
- k4-20020adfd224000000b002366a5d16b0mr33238029wrh.497.1669664533491; 
- Mon, 28 Nov 2022 11:42:13 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- w10-20020a05600c474a00b003b435c41103sm24344864wmo.0.2022.11.28.11.42.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 11:42:13 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 60FCD1FFB7;
- Mon, 28 Nov 2022 19:42:12 +0000 (GMT)
-References: <20221128164105.1191058-1-alex.bennee@linaro.org>
- <20221128164105.1191058-5-alex.bennee@linaro.org>
- <CAJSP0QX1R4Z+AC3591MpwzBAG1Tz3rDTe4+o2rbe0v-q6sSKMw@mail.gmail.com>
-User-agent: mu4e 1.9.3; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, stefanha@redhat.com,
- mathieu.poirier@linaro.org, viresh.kumar@linaro.org, sgarzare@redhat.com
-Subject: Re: [PATCH v3 4/7] hw/virtio: ensure a valid host_feature set for
- virtio-user-gpio
-Date: Mon, 28 Nov 2022 19:39:29 +0000
-In-reply-to: <CAJSP0QX1R4Z+AC3591MpwzBAG1Tz3rDTe4+o2rbe0v-q6sSKMw@mail.gmail.com>
-Message-ID: <8735a2yigb.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>)
+ id 1ozjzi-000896-6k; Mon, 28 Nov 2022 14:40:46 -0500
+Received: from mail-bn7nam10on20604.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::604]
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>)
+ id 1ozjzb-0002qS-N2; Mon, 28 Nov 2022 14:40:45 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dnkwMt2cVx7RUDCDvwSKouB6P/+MQsqmzxUIQkPNI7dozHvkiNEbhs9rLZwy3y5A29fKAddiqgS9PTHvhn0g87B3XZfH3/SgoaCQJ+kLQLlyEHs8eNm+6eBXIaxK9PXoeO9pdKcq9AY2vBAqZccg0tKZ6HNTeqgGroOI6eWLxL0YD7zatov7yrWDcd/yyMsNlqUq1sr4VRiDiMlE3/8Qx1RzAedvFl9Gvnp6CLXO+/xtGJ/ACPusttag1jBEXcR3sLSITxbUvoCDL6DCzmRf3WT6yzHT2uqktFuOqeHzlNyRDCijIS0KMJnD6pV4VowKEWmm/04tcHvNE3po/2/cTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iktcub+NTXNpiAUZYmApmyHFDj3mxoEcRQS8B7uxQoE=;
+ b=A6Pxka7xBe3iolme5RFnoAbJMma3GDCh7f94hMhw5VRfTEZqLDP6RpYsGlPcMGKXhr73HyO6HpiiqtuDIHIdkq2f2yqZxrCAEm/QEYTH19hJhXPBflXTD+Weox/bMh6z+tyLJxsGz+GhtBLaKzq/ACgNK9d9UAS10S51O6WP5tCBvNiBu9O6dDVI99Yz/hbLZJXKmPiiyPXS6MReGF77Pt7eaFNfvcdiIqLM/sA5P1fnqjV7+4tn+BF0OaBWtT13qAngkPaqP8XxrAhIQUHJ+1jdsVq57WD5N2PdKBOF4erPizWtrTgiq5UzzKdEd4e0N4nYuk7/fl8oECvlF/O1kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iktcub+NTXNpiAUZYmApmyHFDj3mxoEcRQS8B7uxQoE=;
+ b=s1f6CqtjUyoxJHQ2bmX8HK4HaPkY29JR1sHcnx1E/Q6S4RJCvnvlLFT25+EOiENyPs/Ue2ywz7uTICnsp+0+WmU9UyHRm4P8mq3egV5Tm6OBXl7vEpMo68jzNrVCOFG7cYhW7pp+pKTxZoDchK5RouoymTcHpxp8JRaJ3GcKzQgnMI2J+AtrQ31qs79I5vs7tvvy3ee9Ko0I2epQe/Mj/842H/TVMmrulweEMvvMyb1U2RvqySQjrowr3yOstr4P6sqNOFiPdGxzG/e4NmsHuRZlHMrPhp48sqVpTygFU2CPbCod8aXW09yeZZj1l+U4U7y9QDJL+4LFamHM/Jqswg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by PH8PR12MB6700.namprd12.prod.outlook.com (2603:10b6:510:1cf::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Mon, 28 Nov
+ 2022 19:40:25 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.5857.021; Mon, 28 Nov 2022
+ 19:40:25 +0000
+Date: Mon, 28 Nov 2022 15:40:23 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-block@nongnu.org, Kunkun Jiang <jiangkunkun@huawei.com>,
+ "Zhang, Chen" <chen.zhang@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Shay Drory <shayd@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
+ protocol v2
+Message-ID: <Y4UOp7Wi/fwsY6DY@nvidia.com>
+References: <20221103161620.13120-1-avihaih@nvidia.com>
+ <20221103161620.13120-13-avihaih@nvidia.com>
+ <20221116112935.23118a30.alex.williamson@redhat.com>
+ <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
+ <20221117103829.18feab7a.alex.williamson@redhat.com>
+ <feaa77ec-c574-6267-0872-d8769037e4c7@nvidia.com>
+ <a867c866-c297-960c-6fe3-51f292f4c6d3@nvidia.com>
+ <20221128115003.602d4ef7.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221128115003.602d4ef7.alex.williamson@redhat.com>
+X-ClientProxiedBy: BL0PR0102CA0015.prod.exchangelabs.com
+ (2603:10b6:207:18::28) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH8PR12MB6700:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d3b4b47-df28-449f-ca0f-08dad17864e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9jAHZ4h2r7DZ/2RycbzTzh4/aQ+fgYC5H91EpSq2v+xWJsn7PXl/tlnZRwW4yBGtrerJJG5Pn4arnqCx6oCAeNzCWbWxAdo+FG/AuxnJVHCKpHliz7bxUhhmacVwLyMoACp6Ppjpyn7xHbOK+WHhjwPGVzYZQtvSWqaLothOJFkiHwYOWLVE+svlMnoL8JruWpHcVkNX9jfN6dbh6lWtsBUU9dCMxOcLFoRGxDwpat8asSsiVWxcr77w45t9A8TNpYklhHARWbd3VK09tqcKHEuLiOLW+nignD+GeKyIvK/PAgqr2WODLEBkbNLWX2PMzLIFOSMD7hMxfLV9YtbQnSvTdaFcyHMQrWgXdJNRCYUrHLifLqehhfh1tpJXQpk+GshSWqIm77SNmP5ekv1kc/LDWm53sOyyzQ69zrLKv893fCtsIR4wmB6AX3LQqCAPfd85Xwl5U0IXQsbf6sh72gEcZC1JV8rPhDX0laSEU7J0vrzptyaoqoExQoXecEATHzVT0Za8HcpBAxEvIvtBX82p0Vn0sTxsbLkgh5GIjvFjRnd//T25mSRzvE8zLbTZ/2fitxtrjParNJsTPBwSc8uu705fv9UqV8+V8ea5N26q6UagPXTzNAHWL+MmnotkH6eDt3e4u10hjjT59X4bXA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(396003)(346002)(39860400002)(136003)(376002)(451199015)(86362001)(7416002)(478600001)(6486002)(6506007)(36756003)(2906002)(2616005)(38100700002)(6512007)(83380400001)(26005)(186003)(66556008)(66476007)(41300700001)(4744005)(316002)(54906003)(8676002)(8936002)(6916009)(5660300002)(4326008)(66946007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BvPXLg/80vjW95PVrtTYnSleGxuJ4nr4KaZChk/Ac5qDXNGhl4F1GVCxfqdE?=
+ =?us-ascii?Q?HKJM3Y2blRUS2YJlteyLHrC3ZlAdLBR9QjdIp9POUEzcfA6xf6YdnLyBqejO?=
+ =?us-ascii?Q?2oGmF/+RvCZNljDgJyJUkyLIJ+00GYZSQYfEqaifNvteqXpvLAUK9mJXg35O?=
+ =?us-ascii?Q?aOq0I0KYWFD0It7cKUrouhRqCkbqAp2CZkTBIg8I+7uMv+q1qZ2kaJMD3uFw?=
+ =?us-ascii?Q?K8p95DBBi1x19b9AaE+LrTCkgfayYGKY0xhJKwX8ycqkw8zSn2mWldRD4bhq?=
+ =?us-ascii?Q?QAib+xk3mpY4JKx77MeRAr3neYoPU9IiVekFc8CPF97oIfd/C5gbzwe+8k5J?=
+ =?us-ascii?Q?JVZVXtPu64pXiIrWiJvNC20Yn1oq5Ox8wTDMvrn7/ug7XnsJdyFW7iPmd/Eo?=
+ =?us-ascii?Q?LpZNupACpJ1sMij6F3qEoIWynhgyLRCe3tYwCKUqvly2CNi5C/H+7p3rj5tb?=
+ =?us-ascii?Q?no5VreNMJgAeDJoVWgnU9DO2RqFR3H9RyhVYXHnkdqm61wjaeWTpDSfxWB34?=
+ =?us-ascii?Q?yq7mFIoYB5+MAXherxx3V2JdjfFNeSSNDpptbK456BnsQBbgnrmfteKL62BA?=
+ =?us-ascii?Q?nkFOKrQdlhdbjRbADVYFgSp53d91e3x3LhszxFpnaUQXbcHIgtueO4ebfFC9?=
+ =?us-ascii?Q?CpTWFKG9CCwuu5eXK2GCSd9qEv3X+IQ7teK3X5ukWXkfzXuMJGJ5nEsZo209?=
+ =?us-ascii?Q?BWEW8F8wvsKU0V+t/aiFvr/c2nWUC7Cvy+7bYtcRy/QHNqN18jxoAizxTsW8?=
+ =?us-ascii?Q?nzE8cWsTeDQatHHVWDX5RLK0fDecW7H2WvziO9WwlLCVcntYmlDq/nEFwLeo?=
+ =?us-ascii?Q?kVYzNU1K0VFZ/6qJRRxwNWg8sQw11RQpSI3JBEl21gTe67SBe7n52o9pHdu2?=
+ =?us-ascii?Q?lKHfW7d1PVpt1qxCqddE7CnOUHp6hTQyJjfeQZQnxS6Mu/V6hEB77JRmSJbr?=
+ =?us-ascii?Q?n5NMmvL24kg3PWF7iINBsxjIhEphs/K92BmYf0TJcN0IOnpAUHW0wzQyzg3E?=
+ =?us-ascii?Q?f2NC3QHPxFjZsZK66FIJm+mi+Bp35i7q+yYVQ+BW4Cy4DLHq5jNDJq5gIIlu?=
+ =?us-ascii?Q?hjaUQ1JMhX+jAYtccTW3ATiYp5hTjycRcxGjx/TTZVudTnqcB+Gr4F7oJsLs?=
+ =?us-ascii?Q?QJ5UU4LBZVUoNjkwqLUDwgaoBeRJiSoWSwgHHL5Oz5vH6RrMyEw4QXNtqt6r?=
+ =?us-ascii?Q?o0+8qYaP+t1RX4OXYbgExAl4t9S4lsRwEzrnUuQFLflTWAXoiX110v5py+2F?=
+ =?us-ascii?Q?zc9kJpMVACAPKlWlBDC0UTMzRJDbJEzB1OunAUuFRFQxugVDSgOjuUBrZPjz?=
+ =?us-ascii?Q?xVqzXw5jdxdbdUZE39ojONIJQwn5HClUNa5b1nF/r/vFbtLgs3mBmPbB/bg8?=
+ =?us-ascii?Q?XPRZlFgOMqDD/XyaZNIN4kFnNQTBM//gQPw5wzwfYePvUg1q566sMsD+0tkn?=
+ =?us-ascii?Q?QpD5inXy684JeghTlYITh6cll6vsNE3vzuZETcCQjRm3BNOPhjZghRwYH4xr?=
+ =?us-ascii?Q?D2Be3B2xk9KNhSOJTcvleKqVa5+YzIHNat3/cTbmgnzR1IBFgPTVZX29y8CD?=
+ =?us-ascii?Q?+K9BEg3t+Rxjko1LnJE=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d3b4b47-df28-449f-ca0f-08dad17864e9
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2022 19:40:24.7232 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DiWhYQq+qA/aDdfsfR+6TdMr7RG9h/Wd2d2pOjyzyJvjNrbg9vRJGu5zEGmFhMKV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6700
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::604;
+ envelope-from=jgg@nvidia.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,171 +157,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Nov 28, 2022 at 11:50:03AM -0700, Alex Williamson wrote:
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
+> There's a claim here about added complexity that I'm not really seeing.
+> It looks like we simply make an ioctl call here and scale our buffer
+> based on the minimum of the returned device estimate or our upper
+> bound.
 
-> On Mon, 28 Nov 2022 at 11:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> There was a disconnect here because vdev->host_features was set to
->> random rubbish. This caused a weird negotiation between the driver and
->> device that took no account of the features provided by the backend.
->> To fix this we must set vdev->host_features once we have initialised
->> the vhost backend.
->>
->> [AJB: however this is confusing because AFAICT none of the other
->> vhost-user devices do this.]
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  hw/virtio/vhost-user-gpio.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
->> index 5851cb3bc9..b2496c824c 100644
->> --- a/hw/virtio/vhost-user-gpio.c
->> +++ b/hw/virtio/vhost-user-gpio.c
->> @@ -228,6 +228,12 @@ static int vu_gpio_connect(DeviceState *dev, Error =
-**errp)
->>          return ret;
->>      }
->>
->> +    /*
->> +     * Once we have initialised the vhost backend we can finally set
->> +     * the what host features are available for this device.
->> +     */
->> +    vdev->host_features =3D vhost_dev->features;
->
-> vdev->host_feature is already set by virtio_bus_device_plugged ->
-> vu_gpio_get_features.
->
-> Something is still wrong.
->
-> My understanding is: ->realize() performs a blocking connect so when
-> it returns and virtio_bus_device_plugged() runs, we'll be able to
-> fetch the backend features from ->get_features(). The assumption is
-> that the backend features don't change across reconnection (I think).
->
-> vhost-user-gpio seems to follow the same flow as the other vhost-user
-> devices (vhost-user-net is special, so let's ignore it), so I don't
-> understand why it's necessary to manually assign ->host_features here?
+I'm not keen on this, for something like mlx5 that has a small precopy
+size and large post-copy size it risks running with an under allocated
+buffer, which is harmful to performance.
 
-I think you are right. I suspect I got confused while chasing down the
-missing high bits (due to the legacy VirtIO negotiation). Also slightly
-thrown off by the appearance of virtio-net (I assume because of a
-machine default?):
+It is a mmap space, if we don't touch the pages they don't get
+allocated from the OS, I think this is micro-optimizing.
 
-  =E2=9E=9C  env QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-s=
-torage-daemon QTEST_QEMU_IMG=3D./qemu-img QTEST_QEMU_BINARY=3D./qemu-system=
--aarch64 G_TEST_DBUS_DAEMON=3D/home/alex/
-  lsrc/qemu.git/tests/dbus-vmstate-daemon.sh MALLOC_PERTURB_=3D177 ./tests/=
-qtest/qos-test --tap -p /aarch64/virt/generic-pcihost/pci-bus-generic/pci-b=
-us/vhost-user-gpio-pci/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem=
-/memfile
-  # random seed: R02S235ee9d31e87e0159f810979be62563e
-  # starting QEMU: exec ./qemu-system-aarch64 -qtest unix:/tmp/qtest-127628=
-9.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1276289.qmp,i=
-d=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine none -=
-accel qtest
-  # Start of aarch64 tests
-  # Start of virt tests
-  # Start of generic-pcihost tests
-  # Start of pci-bus-generic tests
-  # Start of pci-bus tests
-  # Start of vhost-user-gpio-pci tests
-  # Start of vhost-user-gpio tests
-  # Start of vhost-user-gpio-tests tests
-  # Start of read-guest-mem tests
-  virtio_bus_device_plugged: virtio-net host_features =3D 0x10179bf8064
-  vu_gpio_connect: pre host_features =3D 10039000000
-  vu_gpio_connect: post host_features =3D 140000001
-  virtio_bus_device_plugged: virtio-gpio host_features =3D 0x140000001
-  qemu-system-aarch64: Failed to set msg fds.
-  qemu-system-aarch64: vhost VQ 0 ring restore failed: -22: Invalid argumen=
-t (22)
-  qemu-system-aarch64: Failed to set msg fds.
-  qemu-system-aarch64: vhost VQ 1 ring restore failed: -22: Invalid argumen=
-t (22)
-  qemu-system-aarch64: Failed to set msg fds.
-  qemu-system-aarch64: vhost_set_vring_call failed: Invalid argument (22)
-  qemu-system-aarch64: Failed to set msg fds.
-  qemu-system-aarch64: vhost_set_vring_call failed: Invalid argument (22)
-  # qos_test running single test in subprocess
-  # set_protocol_features: 0x200
-  # set_owner: start of session
-  # vhost-user: un-handled message: 14
-  # vhost-user: un-handled message: 14
-  # set_vring_num: 0/256
-  # set_vring_addr: 0x7f55b0000000/0x7f55affff000/0x7f55b0001000
-  ok 1 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/vhost-user-gpi=
-o-pci/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile
-  # Start of memfile tests
-  # End of memfile tests
-  # End of read-guest-mem tests
-  # End of vhost-user-gpio-tests tests
-  # End of vhost-user-gpio tests
-  # End of vhost-user-gpio-pci tests
-  # End of pci-bus tests
-  # End of pci-bus-generic tests
-  # End of generic-pcihost tests
-  # End of virt tests
-  # End of aarch64 tests
-  1..1
-
-and for mmio:
-
-  env MALLOC_PERTURB_=3D235 QTEST_QEMU_IMG=3D./qemu-img QTEST_QEMU_BINARY=
-=3D"./qemu-system-arm" QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/=
-qemu-storage-daemon G_TEST_DBUS_DAEMON=3D/home/alex/lsrc/qemu.git/tests/dbu=
-s-vmstate-daemon.sh ./tests/qtest/qos-test --tap -p /arm/virt/virtio-mmio/v=
-irtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read=
--guest-mem/memfile
-  # random seed: R02Sac48bb073367f77c1c1a1db6b5245c9e
-  # starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-1276963.so=
-ck -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1276963.qmp,id=3D=
-char0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine none -acce=
-l qtest
-  # Start of arm tests
-  # Start of virt tests
-  # Start of virtio-mmio tests
-  # Start of virtio-bus tests
-  # Start of vhost-user-gpio-device tests
-  # Start of vhost-user-gpio tests
-  # Start of vhost-user-gpio-tests tests
-  # Start of read-guest-mem tests
-  virtio_bus_device_plugged: virtio-net host_features =3D 0x10179bf8064
-  vu_gpio_connect: pre host_features =3D 10039000000
-  vu_gpio_connect: post host_features =3D 140000001
-  virtio_bus_device_plugged: virtio-gpio host_features =3D 0x140000001
-  qemu-system-arm: Failed to set msg fds.
-  qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
-  qemu-system-arm: Failed to set msg fds.
-  qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
-  # qos_test running single test in subprocess
-  # set_protocol_features: 0x200
-  # set_owner: start of session
-  # vhost-user: un-handled message: 14
-  # vhost-user: un-handled message: 14
-  ok 1 /arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-g=
-pio/vhost-user-gpio-tests/read-guest-mem/memfile
-  # Start of memfile tests
-  # End of memfile tests
-  # End of read-guest-mem tests
-  # End of vhost-user-gpio-tests tests
-  # End of vhost-user-gpio tests
-  # End of vhost-user-gpio-device tests
-  # End of virtio-bus tests
-  # End of virtio-mmio tests
-  # End of virt tests
-  # End of arm tests
-  1..1
-
-I'll drop this patch for now and re-test.
-
->
-> Stefan
-
-
---=20
-Alex Benn=C3=A9e
+Jason
 
