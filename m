@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E0163B2E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:19:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB52463B32A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:29:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozkYm-00087a-My; Mon, 28 Nov 2022 15:17:00 -0500
+	id 1ozkjI-0002hl-Tg; Mon, 28 Nov 2022 15:27:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1ozkYl-00086Z-1r
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:16:59 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozkjE-0002e9-Aj
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:27:49 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1ozkYh-0000fM-7I
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:16:58 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id l7so9131287pfl.7
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 12:16:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YZHA0nNzUWeJr4n+F5kZ2FgmIlbVbUeqlnGABeul0SI=;
- b=IijJUjRIFdwQekCkquO4+3bthCfg2TkmF0tb+vVSJvfRba29inT6M6iXKnWsIhAYUB
- nGQDjyHFCVEzPKLAnUL+rgCmpSipQ0rch6RsqNg+pMryxEvgy4BigE3hfayHX7YK9OUB
- 7w0+Jt5plyza4/7vk59GwnbU6ESQj9ME+b0EfFhK8qux7DmQBs18QKIcOnAPn5C/Bdp2
- IJhc+2tlfgvpBREmlXSlafHQWE/z2SCmVL27xQg01lBjlC3Mu9tarTScd74/WXfvuYMM
- qsAiypgQU7SjRGJfX5Vr/hbTeq1tg8y7vsXhfdRpXkF94mARTbEJ/H+NW/QxcxlAT1p5
- Dtxg==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozkjC-00027J-GH
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:27:47 -0500
+Received: by mail-wm1-x333.google.com with SMTP id t1so9386156wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 12:27:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JOnbDGyVf5k/5lf6GMSnay/oOBUuU7F9b/x1tgkaw5Y=;
+ b=yI4l9qYaztYlWqV8Ulkhzm8NkUlyq40m/hBv1oFCz/urIGz4I8ut5rTFo1JjjBXZv+
+ RR+9T+a1NohFX6TE3h95UucnoNPhpsxEF1jSfYyVF07GnUJgHoP8D4s3gttxBpVL7FCy
+ yiBG93Hymm7twKVTd/KOKfFUxq/s8vQj35Sp/8E5tuZefNe+IwR0uL9lpPXq2o4qIx/g
+ 6dpb0lSuFzVuO/gqNj/LUe5J5m9vC+36RLqHPNPT/8voLOuwNnnMc69SIZnHuyMmMNPJ
+ +/Rwt6y5SaaweDg4g00Q5gWP4SDsAy4U3UaMqbzMg0SZsRXZC0NikPGr+TEhRwotTMgk
+ 5wIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YZHA0nNzUWeJr4n+F5kZ2FgmIlbVbUeqlnGABeul0SI=;
- b=3j9GRvuS/KRk0NwGvPaDMWLbNhKjQVNA+UyDaEAYl3k/zrSWhyUS68WxQ3J9IAefmi
- jaKVQ8WUGZwRj68xlX+cqW+m4u5+H7IlqW/+OT+OritWW8Qc8W6hOqjUU9hybrsBXkoz
- Ub5gCyDQfusjtZMi8TMJA68Nddm45bGLpZPo4kfMnQkRa3STZn1QU8oNHG7TrbhSl7Ho
- RVx4DEiiGpXofT/YETLtCH3OVfwZVDu/wIAM43mxDribE6fo3bzlB0Mutnje5tZNRhbk
- HhYL4FiE1cK9u8HnjM4mJJfawvtz7dZb8BpjSqbE54KKVs/9hC8Qy5/Wg63/KRwCdjpf
- 29ag==
-X-Gm-Message-State: ANoB5pmbWgaR52ATcArMR4uD5cIQ9UlRIoJrSK+HIHRg82aMAhREu0zy
- E5hQSBr8eT0NFRu/dOQ5YvZD+bC7u+XOiUVHwhxNvw==
-X-Google-Smtp-Source: AA0mqf5etGTxJ1SSX4DPf0txPdHcxxcGdmkBB1Xs/i2QuWYmHeVVxKZrQSgQpHyHzOw8c8qUwJ87ykSZUVUX6QMF7kM=
-X-Received: by 2002:a65:4688:0:b0:477:7aee:a464 with SMTP id
- h8-20020a654688000000b004777aeea464mr32854012pgr.595.1669666612258; Mon, 28
- Nov 2022 12:16:52 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JOnbDGyVf5k/5lf6GMSnay/oOBUuU7F9b/x1tgkaw5Y=;
+ b=1JGHcKhPzZM6oSm+EoxiaVKJl7wpmMEMARYHwKEitLNxHaS3HChTkQVVqqIVyKKjLt
+ Ywf/FPSuJYW1JJmw0IrP94RGvHjCR35qC44OQ62ayCyfQBVYk52y/lxDHFN2DUYVLnIJ
+ FF2ZtQxv84sCi0UctbFEjsGep08f5Si6km3ef09g0UBIKlCVe9qGx3E0XlM4fqX+e9ai
+ K5Ibf04XDphOhiVsbML0M8cmZll97I+v5HcviCZMpike0FHbMStN/bP3YbCOEnD3etDh
+ l2/JfFoHmourq7VVkPDJOVtqXFXiQoaNR+ProJ2rqcsYbR31G0gUZkcjEKLBmy+JMynC
+ 5LOA==
+X-Gm-Message-State: ANoB5pmztbaAt0KflG6TF0gwGpvgj6gBrztNoWslkGOXLvskSRjiLK5T
+ uhQOCq9z+w7DXYdO3D4e9ITA27R+pf/j3w==
+X-Google-Smtp-Source: AA0mqf5oV0pEzpUOGmb33wEXvOpQIuz8Tx/WkRqDIhNxNWH9pb8wa6BM+pXhFRUv1cKgQhKuGjN8gw==
+X-Received: by 2002:a1c:7219:0:b0:3cf:77b7:61e6 with SMTP id
+ n25-20020a1c7219000000b003cf77b761e6mr27827386wmc.162.1669667264083; 
+ Mon, 28 Nov 2022 12:27:44 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ u10-20020a05600c19ca00b003c5571c27a1sm20764242wmq.32.2022.11.28.12.27.42
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 28 Nov 2022 12:27:43 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [RFC PATCH-for-7.2 v3 0/5] hw/display/qxl: Avoid buffer overrun in
+ qxl_phys2virt()
+Date: Mon, 28 Nov 2022 21:27:36 +0100
+Message-Id: <20221128202741.4945-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20220824221701.41932-1-atishp@rivosinc.com>
- <20220824221701.41932-5-atishp@rivosinc.com>
- <Y39urpX82uO85AAb@wendy>
-In-Reply-To: <Y39urpX82uO85AAb@wendy>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Mon, 28 Nov 2022 12:16:41 -0800
-Message-ID: <CAHBxVyFhrkdhWpc4xB-_a4c5GnDu=d01-bk2zM2nCraeq_Xr_A@mail.gmail.com>
-Subject: Re: [PATCH v14 4/5] hw/riscv: virt: Add PMU DT node to the device tree
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=atishp@rivosinc.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,197 +91,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 24, 2022 at 5:17 AM Conor Dooley <conor.dooley@microchip.com> w=
-rote:
->
-> On Wed, Aug 24, 2022 at 03:17:00PM -0700, Atish Patra wrote:
-> > Qemu virt machine can support few cache events and cycle/instret counte=
-rs.
-> > It also supports counter overflow for these events.
-> >
-> > Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-> > capabilities. There are some dummy nodes added for testing as well.
->
-> Hey Atish!
->
-> I was fiddling with dumping the virt machine dtb again today to check
-> some dt-binding changes I was making for the isa string would play
-> nicely with the virt machine & I noticed that this patch has introduced
-> a new validation failure:
->
-> ./build/qemu-system-riscv64 -nographic -machine virt,dumpdtb=3Dqemu.dtb
->
-> dt-validate -p ../linux/Documentation/devicetree/bindings/processed-schem=
-a.json qemu.dtb
-> /home/conor/stuff/qemu/qemu.dtb: soc: pmu: {'riscv,event-to-mhpmcounters'=
-: [[1, 1, 524281, 2, 2, 524284, 65561, 65561, 524280, 65563, 65563, 524280,=
- 65569, 65569, 524280, 0, 0, 0, 0, 0]], 'compatible': ['riscv,pmu']} should=
- not be valid under {'type': 'object'}
->         From schema: /home/conor/.local/lib/python3.10/site-packages/dtsc=
-hema/schemas/simple-bus.yaml
->
-> I assume this is the aforementioned "dummy" node & you have no intention
-> of creating a binding for this?
->
+Since v2:
+- Do not abort checking guest-provided addresses (Stefan)
+- Handle chunked QEMUCursor (Gerd)
 
-It is a dummy node from Linux kernel perspective. OpenSbi use this
-node to figure out the hpmcounter mappings.
+Since v1:
+- Moved overrun check in qxl_get_check_slot_offset (Marc-André)
 
-> Thanks,
-> Conor.
->
-> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  hw/riscv/virt.c    | 16 +++++++++++++
-> >  target/riscv/pmu.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++
-> >  target/riscv/pmu.h |  1 +
-> >  3 files changed, 74 insertions(+)
-> >
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index ff8c0df5cd47..befa9d2c26ac 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -30,6 +30,7 @@
-> >  #include "hw/char/serial.h"
-> >  #include "target/riscv/cpu.h"
-> >  #include "hw/core/sysbus-fdt.h"
-> > +#include "target/riscv/pmu.h"
-> >  #include "hw/riscv/riscv_hart.h"
-> >  #include "hw/riscv/virt.h"
-> >  #include "hw/riscv/boot.h"
-> > @@ -708,6 +709,20 @@ static void create_fdt_socket_aplic(RISCVVirtState=
- *s,
-> >      aplic_phandles[socket] =3D aplic_s_phandle;
-> >  }
-> >
-> > +static void create_fdt_pmu(RISCVVirtState *s)
-> > +{
-> > +    char *pmu_name;
-> > +    MachineState *mc =3D MACHINE(s);
-> > +    RISCVCPU hart =3D s->soc[0].harts[0];
-> > +
-> > +    pmu_name =3D g_strdup_printf("/soc/pmu");
-> > +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-> > +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pm=
-u");
-> > +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
-> > +
-> > +    g_free(pmu_name);
-> > +}
-> > +
-> >  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *m=
-emmap,
-> >                                 bool is_32_bit, uint32_t *phandle,
-> >                                 uint32_t *irq_mmio_phandle,
-> > @@ -1036,6 +1051,7 @@ static void create_fdt(RISCVVirtState *s, const M=
-emMapEntry *memmap,
-> >
-> >      create_fdt_flash(s, memmap);
-> >      create_fdt_fw_cfg(s, memmap);
-> > +    create_fdt_pmu(s);
-> >
-> >  update_bootargs:
-> >      if (cmdline && *cmdline) {
-> > diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-> > index a5f504e53c88..b8e56d2b7b8e 100644
-> > --- a/target/riscv/pmu.c
-> > +++ b/target/riscv/pmu.c
-> > @@ -20,11 +20,68 @@
-> >  #include "cpu.h"
-> >  #include "pmu.h"
-> >  #include "sysemu/cpu-timers.h"
-> > +#include "sysemu/device_tree.h"
-> >
-> >  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
-> >  #define MAKE_32BIT_MASK(shift, length) \
-> >          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
-> >
-> > +/*
-> > + * To keep it simple, any event can be mapped to any programmable coun=
-ters in
-> > + * QEMU. The generic cycle & instruction count events can also be moni=
-tored
-> > + * using programmable counters. In that case, mcycle & minstret must c=
-ontinue
-> > + * to provide the correct value as well. Heterogeneous PMU per hart is=
- not
-> > + * supported yet. Thus, number of counters are same across all harts.
-> > + */
-> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_na=
-me)
-> > +{
-> > +    uint32_t fdt_event_ctr_map[20] =3D {};
-> > +    uint32_t cmask;
-> > +
-> > +    /* All the programmable counters can map to any event */
-> > +    cmask =3D MAKE_32BIT_MASK(3, num_ctrs);
-> > +
-> > +   /*
-> > +    * The event encoding is specified in the SBI specification
-> > +    * Event idx is a 20bits wide number encoded as follows:
-> > +    * event_idx[19:16] =3D type
-> > +    * event_idx[15:0] =3D code
-> > +    * The code field in cache events are encoded as follows:
-> > +    * event_idx.code[15:3] =3D cache_id
-> > +    * event_idx.code[2:1] =3D op_id
-> > +    * event_idx.code[0:0] =3D result_id
-> > +    */
-> > +
-> > +   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
-> > +   fdt_event_ctr_map[0] =3D cpu_to_be32(0x00000001);
-> > +   fdt_event_ctr_map[1] =3D cpu_to_be32(0x00000001);
-> > +   fdt_event_ctr_map[2] =3D cpu_to_be32(cmask | 1 << 0);
-> > +
-> > +   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
-> > +   fdt_event_ctr_map[3] =3D cpu_to_be32(0x00000002);
-> > +   fdt_event_ctr_map[4] =3D cpu_to_be32(0x00000002);
-> > +   fdt_event_ctr_map[5] =3D cpu_to_be32(cmask | 1 << 2);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) =
-*/
-> > +   fdt_event_ctr_map[6] =3D cpu_to_be32(0x00010019);
-> > +   fdt_event_ctr_map[7] =3D cpu_to_be32(0x00010019);
-> > +   fdt_event_ctr_map[8] =3D cpu_to_be32(cmask);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01)=
- */
-> > +   fdt_event_ctr_map[9] =3D cpu_to_be32(0x0001001B);
-> > +   fdt_event_ctr_map[10] =3D cpu_to_be32(0x0001001B);
-> > +   fdt_event_ctr_map[11] =3D cpu_to_be32(cmask);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) =
-*/
-> > +   fdt_event_ctr_map[12] =3D cpu_to_be32(0x00010021);
-> > +   fdt_event_ctr_map[13] =3D cpu_to_be32(0x00010021);
-> > +   fdt_event_ctr_map[14] =3D cpu_to_be32(cmask);
-> > +
-> > +   /* This a OpenSBI specific DT property documented in OpenSBI docs *=
-/
-> > +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
-> > +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
-> > +}
-> > +
-> >  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
-> >  {
-> >      if (ctr_idx < 3 || ctr_idx >=3D RV_MAX_MHPMCOUNTERS ||
-> > diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-> > index 036653627f78..3004ce37b636 100644
-> > --- a/target/riscv/pmu.h
-> > +++ b/target/riscv/pmu.h
-> > @@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
-> >  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
-> >                                 uint32_t ctr_idx);
-> >  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_i=
-dx);
-> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pm=
-u_name);
-> >  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
-> >                            uint32_t ctr_idx);
-> > --
-> > 2.25.1
-> >
-> >
-> >
+memory_region_get_ram_ptr() returns a host pointer for a
+MemoryRegion. Sometimes we do offset calculation using this
+pointer without checking the underlying MemoryRegion size.
+
+Wenxu Yin reported a buffer overrun in QXL. This series
+aims to fix it. I haven't audited the other _get_ram_ptr()
+uses (yet). Eventually we could rename it _get_ram_ptr_unsafe
+and add a safer helper which checks for overrun.
+
+Worth considering for 7.2?
+
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daudé (5):
+  hw/display/qxl: Have qxl_log_command Return early if no log_cmd
+    handler
+  hw/display/qxl: Document qxl_phys2virt()
+  hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
+  hw/display/qxl: Avoid buffer overrun in qxl_phys2virt (CVE-2022-4144)
+  hw/display/qxl: Assert memory slot fits in preallocated MemoryRegion
+
+ hw/display/qxl-logger.c | 22 ++++++++++++++++++---
+ hw/display/qxl-render.c | 20 ++++++++++++++++----
+ hw/display/qxl.c        | 42 ++++++++++++++++++++++++++++++++---------
+ hw/display/qxl.h        | 23 +++++++++++++++++++++-
+ 4 files changed, 90 insertions(+), 17 deletions(-)
+
+-- 
+2.38.1
+
 
