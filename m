@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C99063AAB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 15:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC9063AABA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 15:18:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozew2-0008Gy-NQ; Mon, 28 Nov 2022 09:16:39 -0500
+	id 1ozewA-0008Nv-EX; Mon, 28 Nov 2022 09:16:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1ozevS-0008BL-C8
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:16:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ozevY-0008EQ-SH
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:16:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1ozevQ-0005S5-H3
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:16:01 -0500
+ id 1ozevW-0005SN-Iq
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:16:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669644959;
+ s=mimecast20190719; t=1669644961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=N00j2k0vAfjNqhhnTkpkUVNzzmHHB16ysy6B8gSy8tM=;
- b=aeGC/k1izXz9PFXyAzj7KtdHf20HP8BSG5qgR4fzyoZtzCCP4fIUFqP56qD+DDJEsefnCz
- TYfi98soNspghYkTug+N5/O6DUu0UOVnzT4ZYSlKgtf9QC/GAWxckN7pajS3btY5PnTlsZ
- 40hMKczoMtBlRLf0rbmnA/0qs53rPUg=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r8BwCjwIv56ryutNz6xJ/e48LVbcViq+vpSmW1/ifRI=;
+ b=ga0gChLt2UJiOLcsVJ23x2a+S74s5xZlM7cHvP/85Mz1nofHBROU0r4t29Ym2RvlMh/z7b
+ z1vug+2+QthzBhiU3MNx3qKiX91wiADpgNQqbe93bAVrNbcsptrZlpVaY1bAcFuqJLv6Rt
+ WR1l8JOx35kYqv1ns6UHUsz1MIvdQpw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-115-oDeBGwSRNqCUAn4zlTLTrA-1; Mon, 28 Nov 2022 09:15:55 -0500
-X-MC-Unique: oDeBGwSRNqCUAn4zlTLTrA-1
+ us-mta-490-l9YqmRm0MYuYH6b3mID9qw-1; Mon, 28 Nov 2022 09:15:58 -0500
+X-MC-Unique: l9YqmRm0MYuYH6b3mID9qw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 065143C3582F;
- Mon, 28 Nov 2022 14:15:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 408BF3C3C130;
+ Mon, 28 Nov 2022 14:15:19 +0000 (UTC)
 Received: from loop.redhat.com (unknown [10.35.206.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECD322166BA0;
- Mon, 28 Nov 2022 14:15:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 522362166B4B;
+ Mon, 28 Nov 2022 14:15:17 +0000 (UTC)
 From: Nir Soffer <nsoffer@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -50,14 +51,15 @@ Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-block@nongnu.org,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
-Subject: [PATCH v2 0/5] Add qemu-img checksum command using blkhash
-Date: Mon, 28 Nov 2022 16:15:09 +0200
-Message-Id: <20221128141514.388724-1-nsoffer@redhat.com>
+Subject: [PATCH v2 1/5] qemu-img.c: Move IO_BUF_SIZE to the top of the file
+Date: Mon, 28 Nov 2022 16:15:10 +0200
+Message-Id: <20221128141514.388724-2-nsoffer@redhat.com>
+In-Reply-To: <20221128141514.388724-1-nsoffer@redhat.com>
+References: <20221128141514.388724-1-nsoffer@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsoffer@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,54 +83,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since blkhash is available only via copr now, the new command is added as
-optional feature, built only if blkhash-devel package is installed.
+This macro is used by various commands (compare, convert, rebase) but it
+is defined somewhere in the middle of the file. I'm going to use it in
+the new checksum command so lets clean up a bit before that.
+---
+ qemu-img.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Changes since v1 (Hanna):
-- Move IO_BUF_SIZE to top of the file
-- Extend TestFinder to support format or cache specific out files
-- Improve online help (note about optimization and lint to blkhash project)
-- Guard blkhash.h include with CONFIG_BLKHASH
-- Using user_creatable_process_cmdline() instead of user_creatable_add_from_str()
-- Rename ret to exit_code
-- Add static assert to ensure that read buffer is algined to block size
-- Drop unneeded pnum variable
-- Change test to work like other tests; use iotest.imgfmt and iotest.cachemode
-- Simplify test to test only raw and qcow2 format using file protocol
-- Fix code style issues (multi-line comments, missing braces)
-- Make error checking more clear (checksum_block_status(s) < 0)
-
-v1:
-https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00021.html
-
-v1 discussion:
-- https://lists.nongnu.org/archive/html/qemu-block/2022-10/msg00602.html
-- https://lists.nongnu.org/archive/html/qemu-block/2022-10/msg00603.html
-- https://lists.nongnu.org/archive/html/qemu-block/2022-10/msg00604.html
-- https://lists.nongnu.org/archive/html/qemu-block/2022-11/msg00171.html
-- https://lists.nongnu.org/archive/html/qemu-block/2022-11/msg00173.html
-
-Nir Soffer (5):
-  qemu-img.c: Move IO_BUF_SIZE to the top of the file
-  Support format or cache specific out file
-  qemu-img: Add checksum command
-  iotests: Test qemu-img checksum
-  qemu-img: Speed up checksum
-
- docs/tools/qemu-img.rst                       |  24 ++
- meson.build                                   |  10 +-
- meson_options.txt                             |   2 +
- qemu-img-cmds.hx                              |   8 +
- qemu-img.c                                    | 390 +++++++++++++++++-
- tests/qemu-iotests/findtests.py               |  10 +-
- tests/qemu-iotests/tests/qemu-img-checksum    |  63 +++
- .../tests/qemu-img-checksum.out.qcow2         |  11 +
- .../tests/qemu-img-checksum.out.raw           |  10 +
- 9 files changed, 523 insertions(+), 5 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/qemu-img-checksum
- create mode 100644 tests/qemu-iotests/tests/qemu-img-checksum.out.qcow2
- create mode 100644 tests/qemu-iotests/tests/qemu-img-checksum.out.raw
-
+diff --git a/qemu-img.c b/qemu-img.c
+index a9b3a8103c..c03d6b4b31 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -49,20 +49,21 @@
+ #include "block/block_int.h"
+ #include "block/blockjob.h"
+ #include "block/qapi.h"
+ #include "crypto/init.h"
+ #include "trace/control.h"
+ #include "qemu/throttle.h"
+ #include "block/throttle-groups.h"
+ 
+ #define QEMU_IMG_VERSION "qemu-img version " QEMU_FULL_VERSION \
+                           "\n" QEMU_COPYRIGHT "\n"
++#define IO_BUF_SIZE (2 * MiB)
+ 
+ typedef struct img_cmd_t {
+     const char *name;
+     int (*handler)(int argc, char **argv);
+ } img_cmd_t;
+ 
+ enum {
+     OPTION_OUTPUT = 256,
+     OPTION_BACKING_CHAIN = 257,
+     OPTION_OBJECT = 258,
+@@ -1281,22 +1282,20 @@ static int compare_buffers(const uint8_t *buf1, const uint8_t *buf2,
+         if (!!memcmp(buf1 + i, buf2 + i, len) != res) {
+             break;
+         }
+         i += len;
+     }
+ 
+     *pnum = i;
+     return res;
+ }
+ 
+-#define IO_BUF_SIZE (2 * MiB)
+-
+ /*
+  * Check if passed sectors are empty (not allocated or contain only 0 bytes)
+  *
+  * Intended for use by 'qemu-img compare': Returns 0 in case sectors are
+  * filled with 0, 1 if sectors contain non-zero data (this is a comparison
+  * failure), and 4 on error (the exit status for read errors), after emitting
+  * an error message.
+  *
+  * @param blk:  BlockBackend for the image
+  * @param offset: Starting offset to check
 -- 
 2.38.1
 
