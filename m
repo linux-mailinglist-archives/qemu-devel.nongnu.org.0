@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EC863A5F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 11:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57F863A606
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 11:22:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozbEC-0007bZ-TL; Mon, 28 Nov 2022 05:19:08 -0500
+	id 1ozbHD-00015u-5q; Mon, 28 Nov 2022 05:22:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozbE0-0007ZM-0v
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 05:18:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozbGn-00012X-Cg
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 05:21:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozbDy-0005NV-5X
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 05:18:55 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozbGl-0005yD-VP
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 05:21:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669630733;
+ s=mimecast20190719; t=1669630906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BuJzlxicLGjEZYfrD60HqHt+DohhaJrqIZUVzRG9rWg=;
- b=Q0VZ0kPuRY27VP7uqJIvHBUIqg6QZUFqvwQ0DBnBykL2NNbCxZbbCGmyxl8UMoq2TkWis2
- c/ACUd5iS3zeD8u2qIDFKplt+TPIEhhStlUC3FHl6pfnPwxGDjJSeNIbaguc3ffuf3QSkV
- Ove8Ov0gj4cFCg2ub/yYAAWwHK41LEM=
+ bh=iT+0hOoUTaja3fwHOEobWUSeoIrpSot4jBkC+UGc2ps=;
+ b=ZBPp4od8t/3li83UYKaCkTaXytUT1hxIvNc6Vt2kIwoFQT4jay132feFujvYrLuiqvO9I/
+ nmIYicfwC+FOWC+Q+fYn+VPfaPIuDAuEWXBS7qmYI0L3kqpIPn1WhdDUwYToHgll4hid5w
+ pRXJfFRoV9i+pp+riDLXoqU+d/xgzzo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344-s0BhOVxZNvSFsM87DUWpxw-1; Mon, 28 Nov 2022 05:18:52 -0500
-X-MC-Unique: s0BhOVxZNvSFsM87DUWpxw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-465-kjpmXinnOruQDiG9yB4ivQ-1; Mon, 28 Nov 2022 05:21:40 -0500
+X-MC-Unique: kjpmXinnOruQDiG9yB4ivQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16350185A7B0;
- Mon, 28 Nov 2022 10:18:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 446B9101A54E;
+ Mon, 28 Nov 2022 10:21:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E76C340C6EC2;
- Mon, 28 Nov 2022 10:18:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10CDC112132D;
+ Mon, 28 Nov 2022 10:21:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C86ED21E6921; Mon, 28 Nov 2022 11:18:48 +0100 (CET)
+ id 003DF21E6921; Mon, 28 Nov 2022 11:21:36 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: <qemu-devel@nongnu.org>,  Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: Fix some return statements in the synth backend
-References: <166930551818.827792.10663674346122681963.stgit@bahia>
- <8735a3y1j9.fsf@pond.sub.org> <20221128103728.2001332c@bahia>
-Date: Mon, 28 Nov 2022 11:18:48 +0100
-In-Reply-To: <20221128103728.2001332c@bahia> (Greg Kurz's message of "Mon, 28
- Nov 2022 10:37:28 +0100")
-Message-ID: <87a64bv0tz.fsf@pond.sub.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  mst@redhat.com,  marcel.apfelbaum@gmail.com,
+ dgilbert@redhat.com
+Subject: Re: [PATCH 05/12] pci: Build hw/pci/pci-hmp-cmds.c only when
+ CONFIG_PCI
+References: <20221128080202.2570543-1-armbru@redhat.com>
+ <20221128080202.2570543-6-armbru@redhat.com>
+ <5d7f3bb7-cac0-1537-0ba2-e1214be0458a@linaro.org>
+Date: Mon, 28 Nov 2022 11:21:36 +0100
+In-Reply-To: <5d7f3bb7-cac0-1537-0ba2-e1214be0458a@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 28 Nov 2022 09:26:27
+ +0100")
+Message-ID: <875yezv0pb.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,52 +85,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Greg Kurz <groug@kaod.org> writes:
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> On Mon, 28 Nov 2022 08:35:22 +0100
-> Markus Armbruster <armbru@redhat.com> wrote:
+> On 28/11/22 09:01, Markus Armbruster wrote:
+>> We compile pci-hmp-cmds.c always, but pci-qmp-cmds.c only when
+>> CONFIG_PCI.  hw/pci/pci-stub.c keeps the linker happy when
+>> !CONFIG_PCI.  Build pci-hmp-cmds.c that way, too.
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   hw/pci/pci-stub.c  | 5 +++++
+>>   hw/pci/meson.build | 2 +-
+>>   2 files changed, 6 insertions(+), 1 deletion(-)
 >
->> Greg Kurz <groug@kaod.org> writes:
->> 
->> > The qemu_v9fs_synth_mkdir() and qemu_v9fs_synth_add_file() functions
->> > currently return a positive errno value on failure. This causes
->> > checkpatch.pl to spit several errors like the one below:
->> >
->> > ERROR: return of an errno should typically be -ve (return -EAGAIN)
->> > #79: FILE: hw/9pfs/9p-synth.c:79:
->> > +        return EAGAIN;
->> >
->> > Simply change the sign. This has no consequence since callers
->> > assert() the returned value to be equal to 0.
->> 
->> Out of curiosity: why is assert() appropriate?
->> 
->
-> Most of the code base comes from the original synth backend which
-> was designed to expose QEMU internals to the guest using 9p. The
-> hope of the virtio-9p authors was that each QEMU subsystem would
-> create its own tree using these two functions (note that they
-> are declared extern). Of course these never happened and the synth
-> backend remained nearly dead code for years, until finally it got
-> re-used to implement 9p qtest. In this context, failure to create a
-> synthetic directory or file means the related test has a bug (e.g.
-> messing with the paths used by some other test). This code likely
-> needs improvements but we never got to it.
+> Squash with patch #3?
 
-I was about to suggest putting this in a file comment, but then I saw
-
-    /*
-     * Not so fast! You might want to read the 9p developer docs first:
-     * https://wiki.qemu.org/Documentation/9p
-     */
-
-and behind the link, there's a paragraph "3. synth fs driver".
-
-Perhaps a brief note on the use of assert() in synth_init() would still
-make sense.  Up to you.
-
-Thanks!
-
-[...]
+Could do, but the combined patch isn't pure code motion anymore, and I
+get to explain that in the commit message.
 
 
