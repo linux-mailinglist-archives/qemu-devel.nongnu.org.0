@@ -2,94 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BCB63B454
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 22:43:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0FF63B486
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 22:55:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozltX-00011V-7v; Mon, 28 Nov 2022 16:42:31 -0500
+	id 1ozm4J-00030r-7l; Mon, 28 Nov 2022 16:53:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1ozltV-00011M-7o
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 16:42:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1ozm4G-00030M-J1
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 16:53:36 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1ozltS-0007F1-Ig
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 16:42:29 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1ozm4E-0000PF-Rr
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 16:53:36 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2ASLPrV1019663; Mon, 28 Nov 2022 21:42:22 GMT
+ 2ASKteQG003144; Mon, 28 Nov 2022 21:53:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=date : from : to : cc :
  subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=WER6UHIbN5B00bOU4z1UIYAQ6I2JM07opcW6ogo+NCs=;
- b=ArbE5xUxtywf9C2/rDae5Dw9YFYTkD4PH+FTrb2VXQP5juZ+Zz2ewKlK84Y9EUNWTUEf
- SHdAoZaXMOK2tFBmyDE5Pnx50rlvJSY03pCSfxHjZhF2IHqM2t7+v1/IJvu5ejFrAW1y
- Kx84XSed1LR+Nekh3NxAAOx8psqHxxkPTO4qk8eb95Q5tP74bP9wlnAfu/lpjU9qDt3R
- YbkO13wPooVxZgESg8M72+CaVo2NMQWy+MuAs4VZbG98cxUE6QA0CYI7WWMKf+wkaX/z
- 45hkUgiwyexGI80WkMq+F0Q+GMNat+uHzu0O/RixQPDyTQTH43c5Vw03dn7F9P9L2kQz /A== 
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=3KRyUVDjchLU4mAqG+odBK4fqObn7f4RS2qY6jx6wm4=;
+ b=G8mCQlC4xkOOrvKyaofXNOj9w3NpPXM4sMQwEEvK/Qfs5Stkjt8REKjOXH0J/xoN9iuo
+ LL+Ly1tXqNcajEiUhbvrFvQib/6NbBiPDhVyL/qBHUns0qC2C7CCEIY05G4mdsoWUKTe
+ E0B7RUCH3Upf7VCRFoSBqRk+OFeJBnPT5NGgyGwRi8Ib2PIpJluwFaYrMP5OfhzI7EZu
+ sJGqyOOciYlwQ2ajUxaZKZ0opqGuH+ifUQFICehlEI9QYrLFFH4/NvuzHI36NAkiWiUh
+ U1zGUKyGJkJYMLt8WCiWo008GsmkDYMEAD//zElJfyWRgqA1xJswL2no65J+b87feIA8 Dg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m54w7gbyd-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m54f1h9pq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Nov 2022 21:42:22 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2ASLTUWp030903;
- Mon, 28 Nov 2022 21:42:21 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m54w7gbxt-1
+ Mon, 28 Nov 2022 21:53:31 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2ASLr5hF031886;
+ Mon, 28 Nov 2022 21:53:31 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m54f1h9p5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Nov 2022 21:42:21 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ASLa4Xv013840;
- Mon, 28 Nov 2022 21:42:19 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3m3a2hu4kn-1
+ Mon, 28 Nov 2022 21:53:30 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ASLpi3S014044;
+ Mon, 28 Nov 2022 21:53:28 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04ams.nl.ibm.com with ESMTP id 3m3ae9b433-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Nov 2022 21:42:19 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2ASLZpP67799424
+ Mon, 28 Nov 2022 21:53:28 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2ASLrQMp62914896
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Nov 2022 21:35:51 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 77B9E4C044;
- Mon, 28 Nov 2022 21:42:17 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3C9EB4C040;
- Mon, 28 Nov 2022 21:42:17 +0000 (GMT)
+ Mon, 28 Nov 2022 21:53:26 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 01B3C42041;
+ Mon, 28 Nov 2022 21:53:26 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B1D284203F;
+ Mon, 28 Nov 2022 21:53:25 +0000 (GMT)
 Received: from heavy (unknown [9.171.30.50])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 28 Nov 2022 21:42:17 +0000 (GMT)
-Date: Mon, 28 Nov 2022 22:42:15 +0100
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Mon, 28 Nov 2022 21:53:25 +0000 (GMT)
+Date: Mon, 28 Nov 2022 22:53:24 +0100
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: david@redhat.com
-Subject: Re: [PATCH for-8.0 v2 04/13] target/s390x: Use a single return for
- helper_divs32/u32
-Message-ID: <20221128214215.envz7e3elmqvgfbc@heavy>
+Cc: david@redhat.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH for-8.0 v2 10/13] target/s390x: Use Int128 for returning
+ float128
+Message-ID: <20221128215324.d7ti7qkleu54vqya@heavy>
 References: <20221111080820.2132412-1-richard.henderson@linaro.org>
- <20221111080820.2132412-5-richard.henderson@linaro.org>
+ <20221111080820.2132412-11-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221111080820.2132412-5-richard.henderson@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221111080820.2132412-11-richard.henderson@linaro.org>
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DxKVJKjphI2m4EcMg79u-fdyaj_OLc4G
-X-Proofpoint-ORIG-GUID: FrCKn-16iJtBw3tgCCP-yvaKNRm7DP2q
+X-Proofpoint-ORIG-GUID: I6KCW9EUt123sucZ8OEnWXrlydtAlecI
+X-Proofpoint-GUID: -nhS0xC7acDc6AJ9ZfAcS28AQ2jfjGqC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-28_17,2022-11-28_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 spamscore=0 adultscore=0 mlxlogscore=559 suspectscore=0
- mlxscore=0 impostorscore=0 priorityscore=1501 phishscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 priorityscore=1501 mlxlogscore=594 spamscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2210170000 definitions=main-2211280154
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -111,17 +114,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 11, 2022 at 06:08:11PM +1000, Richard Henderson wrote:
-> Pack the quotient and remainder into a single uint64_t.
-> 
+On Fri, Nov 11, 2022 at 06:08:17PM +1000, Richard Henderson wrote:
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v2: Fix operand ordering; use tcg_extr32_i64.
+> v2: Remove extraneous return_low128.
 > ---
->  target/s390x/helper.h         |  2 +-
->  target/s390x/tcg/int_helper.c | 26 +++++++++++++-------------
->  target/s390x/tcg/translate.c  |  8 ++++----
->  3 files changed, 18 insertions(+), 18 deletions(-)
+>  target/s390x/helper.h            | 22 +++++++-------
+>  target/s390x/tcg/fpu_helper.c    | 29 +++++++++---------
+>  target/s390x/tcg/translate.c     | 51 +++++++++++++++++---------------
+>  target/s390x/tcg/insn-data.h.inc | 20 ++++++-------
+>  4 files changed, 63 insertions(+), 59 deletions(-)
 
 Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
