@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBC363A2DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:26:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823EC63A2F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:26:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozZSa-0002Wh-Ri; Mon, 28 Nov 2022 03:25:52 -0500
+	id 1ozZTG-0003Fk-9m; Mon, 28 Nov 2022 03:26:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ozZS7-0002MF-1A
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:25 -0500
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZTD-0003EJ-J3
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:26:31 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ozZS5-0003Ki-CJ
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:25:22 -0500
-Received: by mail-lj1-x22a.google.com with SMTP id d3so12271531ljl.1
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:25:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EUwzYjT2SdvgunbOyfw9q1yfntATAWke7ZObNeVF52k=;
- b=hwfKTEwtKvqLdWEUDCp/kFlKVrocW7pAV04QnC2oSb5KXMWafK7brUvDqyFyIHY+c0
- T5JqC191DjrnyvnULTs94Ouy1NHmNZE/CTllTiGfYpSNBm/2gvYNxAYPHPqInjaSnxy1
- KljJuvi3YsbymlX4DVzYOlt0sEjiyabXOPj8Wky/JOmx2Fq5ZAuvAnlwgsWzjKIOZO8G
- rWRMtM8YNXpRgiTd5qqJ4gWm/j1dQpiNC2a/Ra1jLVcW3rj3PJDFHXfzAgx3H8yuYjxw
- LybXNZRq0uB95OsNfhw7Jszs5VchIiFkI2f/Vs+TzPITqIZhzRRHGahlzvCl5lK4fbF+
- NCag==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZTC-0003d4-0u
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:26:31 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id bx10so3404300wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:26:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+MWuNsw73u5IPvIKkH7JG6VqrqczB9G9yEKJmIL6CuA=;
+ b=rimhMc51OaOKYL79hOZF7qcAT+aCPRMS3MBSBMMuiA03Z985EKD4CHGfHmp1IZoNG/
+ yJ9NXH7JlQlthS7znDfT2kQtIBKDiumfXV5AVkZdkQbKs/Jc8s9hXoekxqAOFDLsz9B5
+ SYPM3uffvXJbHC+/1f+MeELK/c241oqVUms0Fw3/JGZaQr4m1Y90gij9rRtz39aqdIDc
+ MH11n2lE/jVss7JluAGkq8yyhKHT8KeYbQgWuJUhoHU52LPiFOt9Gpau0iYnwCdUO1k5
+ 6MRO7iGezsrbqXj7Vzg1z6fLMJJdtuAXTEvgu2W7DCtgPYu60TjHcaVowTlOUIzrUZHR
+ F2Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EUwzYjT2SdvgunbOyfw9q1yfntATAWke7ZObNeVF52k=;
- b=2CbCURnU95eQ4oxJD/R50b3Pw162ZKq9MiYJJ32dLSAbkn4a/47xmnpOrYONKqcvm4
- v/QY61/sEAuKUnNq/xuZ8yKYgi+PvXI4Fq4jVh1tYbUxg6xCEs3WdMSzAJ2HBLDN2sCP
- JxTJ2yLLXiTm0DVxDkFXaDF588FbkT4fh842OandcUcLsP46B5aS70qKpH32hotgxkdG
- CNZAmsociIJpg64FkWyxUvRieJpZemVy7KBTwEM2Fc1dxTfKRoPuPE+hsXn5/RcT9ZnN
- zDq5R+i/07kFsbWCFa+W0zP9XunJ+5zbuOkS4qwfu+RtM8G3Zk8W7sM3zA7Y/DoX2GH2
- eFxg==
-X-Gm-Message-State: ANoB5pm0EDuc5CFPso7W3ZUODeJDrOuFTYzKX8gSc38l+jUikcMk+5hJ
- eTE50S0IMNwNhXWqRkhL+vcdJSzkm5OFhFmVeBU=
-X-Google-Smtp-Source: AA0mqf4jfcFoWP5mlcrUVqEV17EwWHUhb9SiLRrcXLTg2P4SS+bihMQuc+E4bGW9BoTa0WWRxLltlV8gMwlVXxqb5lc=
-X-Received: by 2002:a2e:9d90:0:b0:279:83e4:b9b2 with SMTP id
- c16-20020a2e9d90000000b0027983e4b9b2mr6563706ljj.452.1669623919645; Mon, 28
- Nov 2022 00:25:19 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+MWuNsw73u5IPvIKkH7JG6VqrqczB9G9yEKJmIL6CuA=;
+ b=hEPOONUfx31lsBOaSQZQEcVpBRfskvtUl9LpqnzFr4StVZYUryJ9RSK+af3SbTf9Iq
+ KyPWBJOUsoLWTGgLg8GN4GZv+gwUnzzZVSM628q7jcMhuEZ23ohPl1IJIqr8saig1eoL
+ txTX6eF5QyaU/8vRh0a++Rnl9mm2+8D002j9aj3y9ipxfU5bx/vAymKMDmjEn9z50SH/
+ 9Y8dZswPHTkOqsvkPKFn6h5QINIqRkAqtZZYNw6HRYaKdJ58ugKJkePqF44Dr9G5RwYd
+ CB2F1V+tqX6F2mP3wQJbBr5ntBPPDlKSayfBnAvZlq+02HLvOouVQZtb23/u51oZLsEb
+ 5UMw==
+X-Gm-Message-State: ANoB5pkZnaXO+5W1i50+G+KWvpn7nXtWc46tBlBMWW26Z4TXXX7ODHPy
+ TsI3jjo95zhqxNXmQ0JzMAU9HA==
+X-Google-Smtp-Source: AA0mqf7IQktVs/wNUM6edGuW/PBqC8x5kpA+AazUYBfRAdDVf4to+EBwysQ/95BiMpewLAE3NSdRvg==
+X-Received: by 2002:adf:e2ca:0:b0:22e:4ac2:aaa5 with SMTP id
+ d10-20020adfe2ca000000b0022e4ac2aaa5mr30157520wrj.455.1669623988578; 
+ Mon, 28 Nov 2022 00:26:28 -0800 (PST)
+Received: from [192.168.1.175] (49.red-88-29-176.dynamicip.rima-tde.net.
+ [88.29.176.49]) by smtp.gmail.com with ESMTPSA id
+ n3-20020a05600c3b8300b003cfa81e2eb4sm15763460wms.38.2022.11.28.00.26.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 00:26:28 -0800 (PST)
+Message-ID: <5d7f3bb7-cac0-1537-0ba2-e1214be0458a@linaro.org>
+Date: Mon, 28 Nov 2022 09:26:27 +0100
 MIME-Version: 1.0
-References: <20221125154030.42108-1-philmd@linaro.org>
- <20221125154030.42108-3-philmd@linaro.org>
-In-Reply-To: <20221125154030.42108-3-philmd@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 28 Nov 2022 12:25:07 +0400
-Message-ID: <CAJ+F1C+GxHCx=FuBQvPNhAHVAt94XT0xS_Be9VRziOa8v88pcw@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-7.2 2/4] hw/display/qxl: Document qxl_phys2virt()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Mauro Matteo Cascella <mcascell@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH 05/12] pci: Build hw/pci/pci-hmp-cmds.c only when
+ CONFIG_PCI
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, dgilbert@redhat.com
+References: <20221128080202.2570543-1-armbru@redhat.com>
+ <20221128080202.2570543-6-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221128080202.2570543-6-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,59 +92,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 25, 2022 at 7:41 PM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
+On 28/11/22 09:01, Markus Armbruster wrote:
+> We compile pci-hmp-cmds.c always, but pci-qmp-cmds.c only when
+> CONFIG_PCI.  hw/pci/pci-stub.c keeps the linker happy when
+> !CONFIG_PCI.  Build pci-hmp-cmds.c that way, too.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  hw/display/qxl.h | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-> index e74de9579d..78b3a6c9ba 100644
-> --- a/hw/display/qxl.h
-> +++ b/hw/display/qxl.h
-> @@ -147,6 +147,25 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
->  #define QXL_DEFAULT_REVISION (QXL_REVISION_STABLE_V12 + 1)
->
->  /* qxl.c */
-> +/**
-> + * qxl_phys2virt: Get a pointer within a PCI VRAM memory region.
-> + *
-> + * @qxl: QXL device
-> + * @phys: physical offset of buffer within the VRAM
-> + * @group_id: memory slot group
-> + *
-> + * Returns a host pointer to a buffer placed at offset @phys within the
-> + * active slot @group_id of the PCI VGA RAM memory region associated wit=
-h
-> + * the @qxl device. If the slot is inactive, or the offset is out
-> + * of the memory region, returns NULL.
-> + *
-> + * Use with care; by the time this function returns, the returned pointe=
-r is
-> + * not protected by RCU anymore.  If the caller is not within an RCU cri=
-tical
-> + * section and does not hold the iothread lock, it must have other means=
- of
-> + * protecting the pointer, such as a reference to the region that includ=
-es
-> + * the incoming ram_addr_t.
-> + *
-> + */
->  void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
->  void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
->      G_GNUC_PRINTF(2, 3);
-> --
-> 2.38.1
->
->
+>   hw/pci/pci-stub.c  | 5 +++++
+>   hw/pci/meson.build | 2 +-
+>   2 files changed, 6 insertions(+), 1 deletion(-)
 
-
---
-Marc-Andr=C3=A9 Lureau
+Squash with patch #3?
 
