@@ -2,83 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0710A63B19D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 19:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C52863B1A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 19:51:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozjAG-0001JC-2p; Mon, 28 Nov 2022 13:47:36 -0500
+	id 1ozjDC-0002aO-Ma; Mon, 28 Nov 2022 13:50:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozjAD-0001Im-Ug
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:47:33 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ozjCs-0002TK-V7
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:50:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozjAC-0002Rh-8B
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:47:33 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ozjCq-0002p9-G0
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:50:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669661250;
+ s=mimecast20190719; t=1669661415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NTBV4MIXUgutoj6XawMzzWbRwiFAfKWVYoxSyCgq/98=;
- b=WnPcZp4M1lAo43Fj6hoDxCzWe4Oa36qNVeTdUwLi9UbvMpOE6/lhWYh44zL1p0e8MHr/aK
- h38Y2ESaQ5aJl2vgjSWREhpXMf7aA8gciDlmzUBlqGrgufIvFrh0XDXIyA+D5MGrMxEB1+
- z1QbBhO5WprKfZSlXsWm5bfq8r+FVmQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZR5vaf2xAtOCmJ3AuLSYHZFrCaOIi9NWaQE2bwz9OUM=;
+ b=FtHbXIPmgXdEGMeu16FzDE6XGbB94LxkBQXHiidhFSLq/X+giZoBTJLD3KmipBtODwi/Vo
+ uXaiXZjp4zkNG7KX1b/OsA5DOGPTeAdWj22cNNkoJeyjpwoVU3o6b9RgUlcBHv8vdGM2+W
+ 2CKn2n59L/n5DkPg4KIOBuWczqv51tw=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-252-MqaqypXtNwWxgo8RzJYSjA-1; Mon, 28 Nov 2022 13:47:29 -0500
-X-MC-Unique: MqaqypXtNwWxgo8RzJYSjA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l9-20020adfa389000000b00241f907e102so2243264wrb.8
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 10:47:29 -0800 (PST)
+ us-mta-494-oEBBq-TtMAmcyW2NGXpQaw-1; Mon, 28 Nov 2022 13:50:08 -0500
+X-MC-Unique: oEBBq-TtMAmcyW2NGXpQaw-1
+Received: by mail-io1-f70.google.com with SMTP id
+ y5-20020a056602120500b006cf628c14ddso6553196iot.15
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 10:50:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
+ h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NTBV4MIXUgutoj6XawMzzWbRwiFAfKWVYoxSyCgq/98=;
- b=1iM8UehaluZR05fIj6fpMAyiz+c+oGEKukTfXh2pAOa8dzoDPeqRqOaqB3CilFLDNW
- oaGcZJ/c79AFxYE0RxvbPE4EbqaqmgHGOTy8JsbNh5HIKGMxgP1sKnSbLb2KJw5ptc+b
- mNTXWq5g9vyo/+CmGdArbE533YnlEf2MLRv20QbGa53HqLXWrlQbv4bdjo84Qv3Q74R/
- 1O0zHhI3tXlFssVl5kljTAbWB++RnQzEmSKVGoJTCQCWkq9ZQS/25Y8IQXLrRRN+c3Cj
- GtMB7E8rl5cTwE2InJguSzcQJW0ikQ4rZxEAFzQxYGEgKA9HIpJzA4EQHCbDdkAHf32y
- Z1cw==
-X-Gm-Message-State: ANoB5pm029SD81znG9lQ+fI8bnXfNL2/OVyOc/dIesWT6JE3/HQHI19R
- p+SS81OsnNRR6IDpssJptOIMO6jnplt+PSZPkQhSPXII4Bk/iKOpibqm0cyD1Yyw2W35O39jexb
- nILTQ9St7M+nKAlk=
-X-Received: by 2002:a5d:5685:0:b0:235:f0a6:fafd with SMTP id
- f5-20020a5d5685000000b00235f0a6fafdmr32915689wrv.75.1669661248300; 
- Mon, 28 Nov 2022 10:47:28 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5YjmHlrISk2cNWccA9xV5Dhp3pCcXAkBAH5FgLSqpQXgwirfFQlSjyqaKeghVYKiMYKmeEQA==
-X-Received: by 2002:a5d:5685:0:b0:235:f0a6:fafd with SMTP id
- f5-20020a5d5685000000b00235f0a6fafdmr32915678wrv.75.1669661248062; 
- Mon, 28 Nov 2022 10:47:28 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- m15-20020a5d4a0f000000b00235da296623sm11529290wrq.31.2022.11.28.10.47.27
+ bh=ZR5vaf2xAtOCmJ3AuLSYHZFrCaOIi9NWaQE2bwz9OUM=;
+ b=feZPFYW9u6B54nuNMasniO/OIZ3hp2X8wdc0xznBC8TAFFYSxMUNqrDpgDfZJlhtRD
+ LxswFkQvJqkbxzqkqhOsvOP91360DO1RDIJ6/gWNON7iShnKZmXHc8uAA7gPd4++6FVb
+ v8++jrncfSvFvk+hMCiQb4ptoCRpMYFhvZvyhvaPEPWFVje4YxkeV8i0aFh8mRbOpxaj
+ YbMB2/F25zxLn687zUY6+M3vt/HY8S78mxVya6s5vBUyFajPHCeS3sNeG8yjfatEdqq/
+ D766Q/nwQ+R+Jlhg10/55OH9q6zLiJDPx3UeqO6MSELTIEwfw6d99BAXUYCIEw+jvLXS
+ sv7g==
+X-Gm-Message-State: ANoB5pmkhLUFlxCIPCS3G9X1eJ1EKHZdVJ80H0he+Z/489BhP7MyQfe4
+ Lhc7DT8R3j+1onx5slTy6M3pp35MWntVye/XUOhGkJWfUflq3hO8KTyTg8MJOoqkHGsWYrX/qJG
+ 0PI55VsdkDXyJLt8=
+X-Received: by 2002:a02:9f8a:0:b0:363:db63:a796 with SMTP id
+ a10-20020a029f8a000000b00363db63a796mr25391152jam.250.1669661407279; 
+ Mon, 28 Nov 2022 10:50:07 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7vLdtR/4A4M4xRzXRYy7Ar0pMqsbnPA8czjE6vmjVcZKSFu/JIoXADkRx5J+4PHNQ8lABRtQ==
+X-Received: by 2002:a02:9f8a:0:b0:363:db63:a796 with SMTP id
+ a10-20020a029f8a000000b00363db63a796mr25391136jam.250.1669661406991; 
+ Mon, 28 Nov 2022 10:50:06 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ p3-20020a92c603000000b002e85e8b8d1dsm4010739ilm.5.2022.11.28.10.50.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 10:47:27 -0800 (PST)
-Date: Mon, 28 Nov 2022 18:47:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Marc Hartmayer <mhartmay@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Stefan Liebler <stli@linux.ibm.com>
-Subject: Re: [PATCH] virtiofsd: Add `sigreturn` to the seccomp whitelist
-Message-ID: <Y4UCPQ0E2ZY15aEq@work-vm>
-References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
+ Mon, 28 Nov 2022 10:50:06 -0800 (PST)
+Date: Mon, 28 Nov 2022 11:50:03 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng
+ <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
+ <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org, Kunkun
+ Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor
+ Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
+ <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
+ protocol v2
+Message-ID: <20221128115003.602d4ef7.alex.williamson@redhat.com>
+In-Reply-To: <a867c866-c297-960c-6fe3-51f292f4c6d3@nvidia.com>
+References: <20221103161620.13120-1-avihaih@nvidia.com>
+ <20221103161620.13120-13-avihaih@nvidia.com>
+ <20221116112935.23118a30.alex.williamson@redhat.com>
+ <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
+ <20221117103829.18feab7a.alex.williamson@redhat.com>
+ <feaa77ec-c574-6267-0872-d8769037e4c7@nvidia.com>
+ <a867c866-c297-960c-6fe3-51f292f4c6d3@nvidia.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221125143946.27717-1-mhartmay@linux.ibm.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,7 +105,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,38 +121,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
-> The virtiofsd currently crashes on s390x. This is because of a
-> `sigreturn` system call. See audit log below:
-> 
-> type=SECCOMP msg=audit(1669382477.611:459): auid=4294967295 uid=0 gid=0 ses=4294967295 subj=system_u:system_r:virtd_t:s0-s0:c0.c1023 pid=6649 comm="virtiofsd" exe="/usr/libexec/virtiofsd" sig=31 arch=80000016 syscall=119 compat=0 ip=0x3fff15f748a code=0x80000000AUID="unset" UID="root" GID="root" ARCH=s390x SYSCALL=sigreturn
+On Thu, 24 Nov 2022 14:41:00 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
 
-I'm curious; doesn't that mean that some signal is being delivered and
-you're returning?  Which one?
+> On 20/11/2022 11:34, Avihai Horon wrote:
+> >
+> > On 17/11/2022 19:38, Alex Williamson wrote: =20
+> >> External email: Use caution opening links or attachments
+> >>
+> >>
+> >> On Thu, 17 Nov 2022 19:07:10 +0200
+> >> Avihai Horon <avihaih@nvidia.com> wrote: =20
+> >>> On 16/11/2022 20:29, Alex Williamson wrote: =20
+> >>>> On Thu, 3 Nov 2022 18:16:15 +0200
+> >>>> Avihai Horon <avihaih@nvidia.com> wrote: =20
+> >>>>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> >>>>> index e784374453..62afc23a8c 100644
+> >>>>> --- a/hw/vfio/migration.c
+> >>>>> +++ b/hw/vfio/migration.c
+> >>>>> @@ -44,8 +44,84 @@
+> >>>>> =C2=A0=C2=A0 #define VFIO_MIG_FLAG_DEV_SETUP_STATE (0xffffffffef100=
+003ULL)
+> >>>>> =C2=A0=C2=A0 #define VFIO_MIG_FLAG_DEV_DATA_STATE (0xffffffffef1000=
+04ULL)
+> >>>>>
+> >>>>> +#define VFIO_MIG_DATA_BUFFER_SIZE (1024 * 1024) =20
+> >>>> Add comment explaining heuristic of this size. =20
+> >>> This is an arbitrary size we picked with mlx5 state size in mind.
+> >>> Increasing this size to higher values (128M, 1G) didn't improve
+> >>> performance in our testing.
+> >>>
+> >>> How about this comment:
+> >>> This is an initial value that doesn't consume much memory and provides
+> >>> good performance.
+> >>>
+> >>> Do you have other suggestion? =20
+> >> I'd lean more towards your description above, ex:
+> >>
+> >> /*
+> >> =C2=A0 * This is an arbitrary size based on migration of mlx5 devices,=
+ where
+> >> =C2=A0 * the worst case total device migration size is on the order of=
+ 100s
+> >> =C2=A0 * of MB.=C2=A0 Testing with larger values, ex. 128MB and 1GB, d=
+id not show
+> >> =C2=A0 * a performance improvement.
+> >> =C2=A0 */
+> >>
+> >> I think that provides sufficient information for someone who might come
+> >> later to have an understanding of the basis if they want to try to
+> >> optimize further. =20
+> >
+> > OK, sounds good, I will add a comment like this.
+> > =20
+> >>>>> @@ -804,34 +1090,51 @@ static int vfio_migration_init(VFIODevice=20
+> >>>>> *vbasedev)
+> >>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
+ -EINVAL;
+> >>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >>>>>
+> >>>>> -=C2=A0=C2=A0=C2=A0 ret =3D vfio_get_dev_region_info(vbasedev,
+> >>>>> - VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
+> >>>>> - VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
+> >>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &info);
+> >>>>> -=C2=A0=C2=A0=C2=A0 if (ret) {
+> >>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+> >>>>> -=C2=A0=C2=A0=C2=A0 }
+> >>>>> +=C2=A0=C2=A0=C2=A0 ret =3D vfio_migration_query_flags(vbasedev, &m=
+ig_flags);
+> >>>>> +=C2=A0=C2=A0=C2=A0 if (!ret) {
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Migration v2 */
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Basic migration func=
+tionality must be supported */
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!(mig_flags & VFIO_=
+MIGRATION_STOP_COPY)) {
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ return -EOPNOTSUPP;
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration =3D=
+ g_new0(VFIOMigration, 1);
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration->de=
+vice_state =3D=20
+> >>>>> VFIO_DEVICE_STATE_RUNNING;
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration->da=
+ta_buffer_size =3D=20
+> >>>>> VFIO_MIG_DATA_BUFFER_SIZE;
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration->da=
+ta_buffer =3D
+> >>>>> + g_malloc0(vbasedev->migration->data_buffer_size); =20
+> >>>> So VFIO_MIG_DATA_BUFFER_SIZE is our chunk size, but why doesn't the
+> >>>> later addition of estimated device data size make any changes here?
+> >>>> I'd think we'd want to scale the buffer to the minimum of the report=
+ed
+> >>>> data size and some well documented heuristic for an upper bound. =20
+> >>> As I wrote above, increasing this size to higher values (128M, 1G)
+> >>> didn't improve performance in our testing.
+> >>> We can always change it later on if some other heuristics are proven =
+to
+> >>> improve performance. =20
+> >> Note that I'm asking about a minimum buffer size, for example if
+> >> hisi_acc reports only 10s of KB for an estimated device size, why would
+> >> we still allocate VFIO_MIG_DATA_BUFFER_SIZE here?=C2=A0 Thanks, =20
+> >
+> > This buffer is rather small and has little memory footprint.
+> > Do you think it is worth the extra complexity of resizing the buffer?
+> > =20
+> Alex, WDYT?
+> Note that the reported estimated size is dynamic and might change from=20
+> query to the other, potentially leaving us with smaller buffer size.
+>=20
+> Also, as part of v4 I moved this allocation to vfio_save_setup(), so it=20
+> will be allocated only during migration (when it's actually used) and=20
+> only by src side.
 
-Dave
+There's a claim here about added complexity that I'm not really seeing.
+It looks like we simply make an ioctl call here and scale our buffer
+based on the minimum of the returned device estimate or our upper
+bound.
 
-> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-> ---
->  tools/virtiofsd/passthrough_seccomp.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-> index 888295c073de..0033dab4939e 100644
-> --- a/tools/virtiofsd/passthrough_seccomp.c
-> +++ b/tools/virtiofsd/passthrough_seccomp.c
-> @@ -110,6 +110,7 @@ static const int syscall_allowlist[] = {
->  #endif
->      SCMP_SYS(set_robust_list),
->      SCMP_SYS(setxattr),
-> +    SCMP_SYS(sigreturn),
->      SCMP_SYS(symlinkat),
->      SCMP_SYS(syncfs),
->      SCMP_SYS(time), /* Rarely needed, except on static builds */
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+The previous comments that exceptionally large buffers don't
+significantly affect migration performance seems like that also suggests
+that even if the device estimate later changes, we'll likely be ok with
+the initial device estimate anyway.  Periodically re-checking the
+device estimate and re-allocating up to a high water mark could
+potentially be future work.  Thanks,
+
+Alex
 
 
