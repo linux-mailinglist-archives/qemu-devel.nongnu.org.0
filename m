@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3677263ACAF
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 16:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066AA63ACCC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 16:43:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozg7i-0004Mp-GR; Mon, 28 Nov 2022 10:32:46 -0500
+	id 1ozgG8-0006Qy-KV; Mon, 28 Nov 2022 10:41:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozg7g-0004Me-Q4
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:32:44 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozgG2-0006Qm-1U
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:41:22 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozg7f-0001wI-1X
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:32:44 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id l67so13779456ybl.1
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IW4nNIWBpmpdtk2xprJaTcd/z0FeA3h1aY8Yu3pJZ4w=;
- b=q1x3OmT0IYKnfcIFbvfaTDP4rKV2ptk6/JZ/Nm33CUugLzqagKBB4GMKRqysNvJinE
- WLwpovguO1TMEroyMGl0mxzCPIfWy0yoKynqGYDCAYff7d0DClOvrsrKFxqfSUAqNVOK
- 7hYWTkUM0DIxadJtpHGo5kj2vitPdLS4l+7OYFZC0PG/qAVZKNxJBRF+biExqCfNC8ML
- QRHBDD5C8KGH4R6rDAJLZ3FcJLsJMITmq0DdEA2YOqHTZzdByAvTYNTSEmQpO66YFgZI
- SuUnNkNAQc1TcGlh0MMSOBr9VamO/Oilpy9RXisMIEkbf4pVsrHSLWCtVrYmCZLerlIH
- tPrA==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozgFz-0003P5-8z
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:41:21 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ a11-20020a05600c2d4b00b003cf6f5fd9f1so8676721wmg.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:41:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8NiFPK/LqHawLgwx0sm3q+UdxYLR/RJ7BAGNErA3bas=;
+ b=lXaA86aXgbu3VuQrjseTNyKMJbbQwPcJhaZ12iU383Hb9ojt5T2ha9p6z9+yGeY4pP
+ irXmcf72uZD03HPd690Jy3L8u5LkpL9hERRe3qZXQpqTVck1iSe0BmWxYDjcjxxYoEkq
+ 9dbX8YHXF74tE92JrF7Vw/ahQTt658pzcoTJiycankTsWie+8iFFhuA25aSYA+qodTLB
+ 1LsrrSxGWbb76+ZfZrlzCxllaugHpqNAERgtS9T/X7zi4mRBcL8xsrs+RAzFuLeionlQ
+ yy+iPvaZKXrHPu552p1IEEhEkTIYcMYrX+uta8uIXtwOehnmVASJUbSkIPM4cG643HyA
+ Kq7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IW4nNIWBpmpdtk2xprJaTcd/z0FeA3h1aY8Yu3pJZ4w=;
- b=2GLkSfiWy+NS+I9S9qWjIkqKHDqOnrpkrNLb0ly9BK2qqhTxOO1PW4Fpka/oijDByw
- iO+r3WDZ0qrsiXHH4dQt4J8sujBWMofIQ/mqOKRRFu11MgEWxY4COV1iGYXljh/EYtBn
- iDnAXa7WjDuYddzL3fK2Nbw8GLof44AUfnLm4NTo9eqdOBMSrsO0l8URdPBMMohIBbgP
- KzefLGL4wC3Qsu7j01GW65PYwSMDuk7YTK/iblNoLmrm0GsHK+6A7hl6hswj+klpAKEI
- ILByn7Atq5kP/7Vg+ZY41M7FpNggMC17ZoQsUz7IAwk8voR14UC50jDGJV1rjc2oKBc3
- NVwA==
-X-Gm-Message-State: ANoB5pnStoSjqK1A+MixfLe4NjZh543A/TVfgYnwHx+pfWjgi0Mhw0t0
- mMU9nD0ckczr+xi/niBWwNwokniXeny3YP8Zx3A=
-X-Google-Smtp-Source: AA0mqf7ig4icbjY3KPSPYsCwgD5+sV/yDnn+6eMc16Pif/sdppQRdLddIN8ObtjzCD3f2CLarDqF1mxBVg2nNSU5TKg=
-X-Received: by 2002:a25:e746:0:b0:6f5:37ca:939a with SMTP id
- e67-20020a25e746000000b006f537ca939amr8979764ybh.207.1669649561726; Mon, 28
- Nov 2022 07:32:41 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8NiFPK/LqHawLgwx0sm3q+UdxYLR/RJ7BAGNErA3bas=;
+ b=M6paqYKquQNI/1bLjXGiS4WntjkXwKdr7nwgUhjbia2aL+GSBZ5F+VSq5OcPcBNwrj
+ 2deioRn0YkaYHxkLcIwVngx1I7n2y6WoBHiLMdETiradRLBxD9KE615wnh4btDBQ3uJz
+ tGlzxMWYBJ6GXew/UwRmG5HBWTmYOqbpKVsXxYOQjUzGt4LFOFWGqI8hqdromMrRhQAi
+ 0H+pDkHB4cjAizt3Arq2zUx1TV9FQdUTjy97AzgoS7BG0eWpuP2qONlzatg3wNgwL77C
+ fT89tdMjSC9D73iwG8idD0UXaJbVkA/J/TvAL1LmYrf1I8RfB25frGha4IIe5u2we3FG
+ F7Ew==
+X-Gm-Message-State: ANoB5pnJqaH2nHgBlb0oF8Sctrz3lZHZGiUiodIR4cYZUpRL3JSYC22k
+ akDpIweIeCP9g1qSPwsVaZ0qAw==
+X-Google-Smtp-Source: AA0mqf7pz237A0fGdf5VG1SsC8QYiqgFeJpuJwJ39k3uH8JE5mz8MT0SGTJfldYLj0kY/Fw3BUZKYw==
+X-Received: by 2002:a7b:c456:0:b0:3a5:f600:502e with SMTP id
+ l22-20020a7bc456000000b003a5f600502emr29287923wmi.39.1669650076737; 
+ Mon, 28 Nov 2022 07:41:16 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ w8-20020a5d6088000000b0024165454262sm11197203wrt.11.2022.11.28.07.41.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 07:41:16 -0800 (PST)
+Message-ID: <655e51b2-99ef-a48d-9be3-ddbc15275e7f@linaro.org>
+Date: Mon, 28 Nov 2022 16:41:14 +0100
 MIME-Version: 1.0
-References: <20221128134832.84867-1-philmd@linaro.org>
- <20221128134832.84867-5-philmd@linaro.org>
- <CAJSP0QUNU1CEJ8AMmo=tDC60ChY=Qo67nOEBBZmtaYeXvOybFQ@mail.gmail.com>
- <68346f84-d9f0-c232-dcaf-d614c3261c4e@linaro.org>
-In-Reply-To: <68346f84-d9f0-c232-dcaf-d614c3261c4e@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 28 Nov 2022 10:32:29 -0500
-Message-ID: <CAJSP0QXt7ZpYnYhA64ByUdqH9fi=ywVmRmkm-SDnf8FwKL2MQQ@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-7.2 4/5] hw/display/qxl: Avoid buffer overrun in
- qxl_phys2virt (CVE-2022-4144)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>, 
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>, 
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [RFC PATCH-for-7.2 3/5] hw/display/qxl: Pass requested buffer
+ size to qxl_phys2virt()
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ Peter Maydell <peter.maydell@linaro.org>,
  Mauro Matteo Cascella <mcascell@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20221128134832.84867-1-philmd@linaro.org>
+ <20221128134832.84867-4-philmd@linaro.org>
+ <20221128150853.lp2hdkdzt6ou6f6g@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221128150853.lp2hdkdzt6ou6f6g@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,81 +97,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 28 Nov 2022 at 10:25, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> On 28/11/22 16:16, Stefan Hajnoczi wrote:
-> > On Mon, 28 Nov 2022 at 08:53, Philippe Mathieu-Daud=C3=A9 <philmd@linar=
-o.org> wrote:
-> >>
-> >> Have qxl_get_check_slot_offset() return false if the requested
-> >> buffer size does not fit within the slot memory region.
-> >>
-> >> Similarly qxl_phys2virt() now returns NULL in such case, and
-> >> qxl_dirty_one_surface() aborts.
-> >>
-> >> This avoids buffer overrun in the host pointer returned by
-> >> memory_region_get_ram_ptr().
-> >>
-> >> Fixes: CVE-2022-4144 (out-of-bounds read)
-> >> Reported-by: Wenxu Yin (@awxylitol)
-> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1336
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> >> ---
-> >>   hw/display/qxl.c | 22 ++++++++++++++++++----
-> >>   hw/display/qxl.h |  2 +-
-> >>   2 files changed, 19 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-> >> index 231d733250..afa157d327 100644
-> >> --- a/hw/display/qxl.c
-> >> +++ b/hw/display/qxl.c
-> >> @@ -1424,11 +1424,13 @@ static void qxl_reset_surfaces(PCIQXLDevice *d=
-)
-> >>
-> >>   /* can be also called from spice server thread context */
-> >>   static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL=
- pqxl,
-> >> -                                      uint32_t *s, uint64_t *o)
-> >> +                                      uint32_t *s, uint64_t *o,
-> >> +                                      size_t size_requested)
-> >>   {
-> >>       uint64_t phys   =3D le64_to_cpu(pqxl);
-> >>       uint32_t slot   =3D (phys >> (64 -  8)) & 0xff;
-> >>       uint64_t offset =3D phys & 0xffffffffffff;
-> >> +    uint64_t size_available;
-> >>
-> >>       if (slot >=3D NUM_MEMSLOTS) {
-> >>           qxl_set_guest_bug(qxl, "slot too large %d >=3D %d", slot,
-> >> @@ -1453,6 +1455,18 @@ static bool qxl_get_check_slot_offset(PCIQXLDev=
-ice *qxl, QXLPHYSICAL pqxl,
-> >>           return false;
-> >>       }
-> >>
-> >> +    size_available =3D memory_region_size(qxl->guest_slots[slot].mr);
-> >> +    assert(qxl->guest_slots[slot].offset + offset < size_available);
-> >
-> > Can this assertion be triggered by the guest (via an invalid pqxl
-> > value)? I think the answer is no, but I don't know the the qxl code
-> > well enough to be sure.
->
-> 'qxl->guest_slots[slot].offset' is initialized in qxl_add_memslot()
-> (host); 'size_available' also comes from the host, but 'offset'
-> comes from the guest via 'QXLPHYSICAL pqxl' IIUC.
->
-> I added this check to avoid overflow, but it can be changed to return
-> an error.
+On 28/11/22 16:08, Gerd Hoffmann wrote:
+>> @@ -228,7 +230,7 @@ static void qxl_unpack_chunks(void *dest, size_t size, PCIQXLDevice *qxl,
+>>           if (offset == size) {
+>>               return;
+>>           }
+>> -        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id);
+>> +        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id, bytes);
+>>           if (!chunk) {
+>>               return;
+>>           }
+> 
+> Naa, its not that simple.  You get a QXLDataChunk passed in which
+> typically is verified *excluding* dynamically-sized chunk->data.
 
-Yes, please.
+OK so IIUC 1/ this line should be:
 
-Aside from concerns about -DNDEBUG, which builds without assertions,
-there is also a DoS issue with nested virt where an L2 guest shouldn't
-be able to abort the L1 guest's QEMU by triggering an assertion in a
-pass through device.
+   chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id,
+                         sizeof(QXLDataChunk));
 
-Guest input validation should use explicit error checking code instead
-of assert(3).
+but 2/ we should check chunk->data[chunk->data_size] is valid (within
+the MR) before calling the memcpy(), right?
+
+> Also at least one code path (processing SPICE_CURSOR_TYPE_MONO in
+> qxl_cursor) goes access chunk.data[] without calling
+> qxl_unpack_chunks(), that needs additional verification too (or
+> switch it to call qxl_unpack_chunks, or just drop it because nobody
+> uses mono chrome cursors anyway).
+
+OK I'll look at that.
 
 Thanks,
-Stefan
+
+Phil.
+
 
