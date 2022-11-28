@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAFA63A9BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 14:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA68E63AA04
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 14:49:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozeLV-0008Od-DN; Mon, 28 Nov 2022 08:38:53 -0500
+	id 1ozeV2-0004tL-Q6; Mon, 28 Nov 2022 08:48:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozeLT-0008Ke-7Q
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:38:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozeLQ-0006aI-Rd
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:38:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669642728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jiFzm/k9soH6k/5lDy9A8EjXX5yB5yL456BE/nWSKik=;
- b=PYxk5han5gjHQWWfWmMy24Ur2fAqSp2nc6end2Itlf760qrytrQ/h5XA5PX04wIJAAJJTz
- 4tDRC1YiiEm/Zho6DPLDjuC42xIU4nLxPoo5yX2v8KCNPVotF2z7EX3gfU28W+9eb4oJzK
- qUfcQ3keNRka/OKW/R+S7bHxY+Qvt94=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-NGUNMhbANzS7V9xJhwshSA-1; Mon, 28 Nov 2022 08:38:46 -0500
-X-MC-Unique: NGUNMhbANzS7V9xJhwshSA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 479D238123A1;
- Mon, 28 Nov 2022 13:38:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 18D66C15BA4;
- Mon, 28 Nov 2022 13:38:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DDE6921E6921; Mon, 28 Nov 2022 14:38:42 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org,  mst@redhat.com,  marcel.apfelbaum@gmail.com
-Subject: Re: [PATCH 05/12] pci: Build hw/pci/pci-hmp-cmds.c only when
- CONFIG_PCI
-References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-6-armbru@redhat.com>
- <Y4Sol9q0NI52iTmE@work-vm>
-Date: Mon, 28 Nov 2022 14:38:42 +0100
-In-Reply-To: <Y4Sol9q0NI52iTmE@work-vm> (David Alan Gilbert's message of "Mon, 
- 28 Nov 2022 12:24:55 +0000")
-Message-ID: <87sfi3p5b1.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozeUw-0004rA-At
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:48:42 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozeUt-0000G5-V9
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:48:37 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id t4so8467305wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 05:48:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=MZHon2ssKS6cYVjv8apiNU4TDNXbrqNz46t6j8lZTCs=;
+ b=ID2RRaRALYJNnQm5/tSLrzz2NgvmZp48cx5kbX6kEYU4rUKWSKJMMYD8NsLTZTKfEL
+ D2IZA3AkB8HTR8zL8rt0ZESBJuGPmkt6EnP1LPfl4lJt4BKDaQ0CxLF0O/W5IPquqga4
+ S/NPAgkAH3ZXOSB+AxsvCHhP7Vt5hUqQoQax2Xxp83YHYK/1vLxQXvcnxfxbWNdCBjDK
+ zFWypObgVBXaetUZikB2B6XUbJ+OlPK646Ij8MOznQ+bbvZquVTGvN5xFcPyMTshpNv4
+ 8Ek+gy/FG3af7E38H5UzciC4vq0UsnxcGSmi2fyDcfo5WZGxUWUfNr0UcX5ZyXnw1mcN
+ TOzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MZHon2ssKS6cYVjv8apiNU4TDNXbrqNz46t6j8lZTCs=;
+ b=yDBpEKv1KMKvy76SjH/aiVqCV1MK24Swr1sJbhbDTYeFoZM4H3Js5/ZRmrW71GKBut
+ KbYba+XpiPhIERATp5fa/kxsqG5hp0lrFPnTXY26UHTcRgs/py0hRsYk2NgsdcCdjkyK
+ C65gr3rR/Ei+poCyZxw8wJsQ7XCKOlGrSWI9VaOdH8fGeTDPvdKKhJK4ELS41Uzo3T6i
+ s0aqeCVeYMJ4JWYsweQxn/8yHwkDlcqvDAomoE81IWkUc8UUMdNMiSTFCypgZd3OCSQG
+ 7KPpLKBkiJw4PslfgpFNTekPkgZz4daT60i46CmVOzU9nagXwmzAhs/St3v+LgAJYqwO
+ bWPQ==
+X-Gm-Message-State: ANoB5pldTP6GWPbxq6NAb07NPTlLdNU3IRlWtaGtWybLhbtG39Z3mVGs
+ amcL2wUFw0owedZmFOpj79zDSQ==
+X-Google-Smtp-Source: AA0mqf7rZ65X1xQlvJSpWhzb5IvdIbz/GaBoWQxiea7FQe0KdODeejRdg6F5UIPlbdWyU/w7XEGFEw==
+X-Received: by 2002:a05:600c:4e12:b0:3cf:d4f7:e70d with SMTP id
+ b18-20020a05600c4e1200b003cfd4f7e70dmr26757830wmq.187.1669643314363; 
+ Mon, 28 Nov 2022 05:48:34 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020adfed0b000000b002365730eae8sm11053419wro.55.2022.11.28.05.48.33
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 28 Nov 2022 05:48:33 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [RFC PATCH-for-7.2 0/5] hw/display/qxl: Avoid buffer overrun in
+ qxl_phys2virt()
+Date: Mon, 28 Nov 2022 14:48:27 +0100
+Message-Id: <20221128134832.84867-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,26 +92,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+Since v1:
+- Addressed Marc-André review comments
+- Moved overrun check in qxl_get_check_slot_offset()
 
-> * Markus Armbruster (armbru@redhat.com) wrote:
->> We compile pci-hmp-cmds.c always, but pci-qmp-cmds.c only when
->> CONFIG_PCI.  hw/pci/pci-stub.c keeps the linker happy when
->> !CONFIG_PCI.  Build pci-hmp-cmds.c that way, too.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->
-> Had you considered wrapping the hmp-commands-info.hx entry
-> with a #if defined instead?
+memory_region_get_ram_ptr() returns a host pointer for a
+MemoryRegion. Sometimes we do offset calculation using this
+pointer without checking the underlying MemoryRegion size.
 
-No.  Would you prefer that?
+Wenxu Yin reported a buffer overrun in QXL. This series
+aims to fix it. I haven't audited the other _get_ram_ptr()
+uses (yet). Eventually we could rename it _get_ram_ptr_unsafe
+and add a safer helper which checks for overrun.
 
-Code containing #ifdef CONFIG_PCI is target-dependent.  Looks like the
-affected monitor code already is, so no new headaches.
+Worth considering for 7.2?
 
-Aside: splitting off its target-independent parts could be nice.  Not
-today.
+Regards,
 
-[...]
+Phil.
+
+Philippe Mathieu-Daudé (5):
+  hw/display/qxl: Have qxl_log_command Return early if no log_cmd
+    handler
+  hw/display/qxl: Document qxl_phys2virt()
+  hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
+  hw/display/qxl: Avoid buffer overrun in qxl_phys2virt (CVE-2022-4144)
+  hw/display/qxl: Assert memory slot fits in preallocated MemoryRegion
+
+ hw/display/qxl-logger.c | 22 +++++++++++++++++++---
+ hw/display/qxl-render.c | 12 ++++++++----
+ hw/display/qxl.c        | 37 ++++++++++++++++++++++++++++---------
+ hw/display/qxl.h        | 23 ++++++++++++++++++++++-
+ 4 files changed, 77 insertions(+), 17 deletions(-)
+
+-- 
+2.38.1
 
 
