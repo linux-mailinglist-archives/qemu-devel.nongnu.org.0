@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02D163AA05
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 14:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786F463AA09
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 14:49:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozeVF-0004wB-VH; Mon, 28 Nov 2022 08:48:57 -0500
+	id 1ozeVI-0004yl-2l; Mon, 28 Nov 2022 08:49:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozeVC-0004w1-Fe
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:48:54 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozeVG-0004xN-09
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:48:58 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozeVA-0000JN-KW
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:48:54 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- c65-20020a1c3544000000b003cfffd00fc0so11695181wma.1
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 05:48:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozeVE-0000Jt-9l
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 08:48:57 -0500
+Received: by mail-wr1-x434.google.com with SMTP id g12so16877168wrs.10
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 05:48:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cLBqjxMlolU+cJ4fFCwWxvJIFOEEf1cRd8fhzl0z5Pw=;
- b=HxlkcG019F78hDHWklx7b3JvpZQDvFiwRQqjOn04g5BYWdnFoEpaSEooBeXLfZ55SU
- PYj0gXwSmKBTHbxsLeeFFYOpB5Dbk8ANQ7VonQoIuG8chMEm4+ZDra45OfAzmLwk1vAo
- /gKpMiXIFgGWOLCRdLeG3wwSavuLkN1qbAAwsRJuNc41kWg3PGw33SYX3MhsjuSU0kKO
- YmfyoaOzjW0CAGTM6u/Z/cn+FcZwl96dAQfYTXKUZEu6SvKUKYvGRnXSG6iE8AeqJVah
- 0QpxMYugczZtn5+8xDQFyGuKYBBgv0kz0XdQeWagQ9SfHQbzEM9snmePvq8JydJtrr3g
- fvpQ==
+ bh=mjNbgTf1E7AI00TEfhwYXvMQtqcc4snLWTKJDvPZcks=;
+ b=rtgMN5PwHDJ4483KQ5llJcVXxtK9fVGm60c5eWEbrX3MKDl2fKksm9eD4V4RKe/VoN
+ zV5ws3igg5SdydWqYU3AUIZX4Al46H9DjmgG5Z7ab6RJMzuYjMM9YvKW9AFtENzg0ggX
+ yAEqvcSMpweFZ67UsFVVdRFvGswg/BCQIByu7MCUobGrVV1LLRkzTXGyG4t5GidXL6kW
+ 0m3IkGyQMpLmjLyuwVB5uNVJiSD5BnK9NYSpNJOKvkIre/QOcYX6JGnjp/jFDbRv+3wV
+ 9qao2u2ETGfQ4AQVzLuMVj+A7gJrI87NzIbCtLbsu9fAkEpafyxyodx3qRW0tNs9Qz0p
+ CFBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cLBqjxMlolU+cJ4fFCwWxvJIFOEEf1cRd8fhzl0z5Pw=;
- b=bYyoxW2gSD2sj+q5rMtRhXCDf33R8qp7wbZUEbd7pgEkgPk1oWgixfKJZTtDISGFZD
- ZVLQ2nsHpseIKfRyLhuGO3xloTlrdqVqqf48OC2x38BJePZYKSGzaCmdbW/k9xkGn06p
- o67+Jt6CXDJgfqMywvSmrUvqEpJKHvjgq+rYayJDS85zN5UbKKcjo5TVls8wtRrPPVJB
- W9au15Xl8G9iUw9k6lVpKcO7oM3JGIN+kKeZ2l65d7ai2SuhDLD8uBE1Mt9RzJdOUdZp
- vV7IrZJhI2bvRCapQGetR6tXp+KrenvjeTN+46ZKLY98DTanyPtnUJvVl0bSQLhTyc+s
- 9zaw==
-X-Gm-Message-State: ANoB5pkdGhajNXQu6nQX8wimyXoRu14eQR2/wQH1zmuxiV49965I8rkF
- 6krkeQN3NO2gW+h6O3nYBIA2IA==
-X-Google-Smtp-Source: AA0mqf6v/FiRff+w8ZT3jUeK8YB3FscRk4cFB5qErh9WzMDufleXNE/TiebhtBV2UZCMap1YzX6WlA==
-X-Received: by 2002:a7b:cb91:0:b0:3c6:cb54:ef66 with SMTP id
- m17-20020a7bcb91000000b003c6cb54ef66mr27123949wmi.90.1669643329584; 
- Mon, 28 Nov 2022 05:48:49 -0800 (PST)
+ bh=mjNbgTf1E7AI00TEfhwYXvMQtqcc4snLWTKJDvPZcks=;
+ b=de+EXQpaUyZbzYoB1OppY3S6Xt6zCmX7uVWzQNxuO7hhvueCzVqFfPL4U1lfZQzBJ8
+ 7jLVS1oG20FptRiQnb2Xuk9lDbYcoNLCHm5hiENW0WDfXnvCSYTDt5XZ1yZ22Kd385WL
+ SmKHTRy+lwf166Pj/Qwi+HzbD+Y56/OUwc8XIku/lOLsD9hwsZBiix+BKsU+b7M6/7Ef
+ ICmV4z8I6nIK6+ewT2YfgcdpaNwAoVVIqoaIoINcC8CajMZNnir/KHUFr38fpXP7hT2D
+ b3Eef9pDp+G6F5aLgCEBQCJ44K6jogDR222+tisJ9MjmUGhKuLuLy+0Rkbg7xJmgYLYj
+ f1Ew==
+X-Gm-Message-State: ANoB5pnmCA3N31VU6wBod3ONmZ11HfFz8aWpnYUYILpfCD8eWff7Ee+O
+ tu9d/ywEgGGXUtgtxbtCUU/rfA==
+X-Google-Smtp-Source: AA0mqf6bfQUmfL/pPILkqaumYha/XFflvy3Tn7+T4HxgqTC0YB75ORSEU6MWivN5KZOsFz/ke9h/xA==
+X-Received: by 2002:adf:e68a:0:b0:242:1926:7838 with SMTP id
+ r10-20020adfe68a000000b0024219267838mr2461131wrm.200.1669643334893; 
+ Mon, 28 Nov 2022 05:48:54 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- a12-20020adfe5cc000000b0022cc3e67fc5sm10674115wrn.65.2022.11.28.05.48.48
+ q4-20020adff944000000b002366c3eefccsm10955690wrr.109.2022.11.28.05.48.53
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 28 Nov 2022 05:48:49 -0800 (PST)
+ Mon, 28 Nov 2022 05:48:54 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  qemu-devel@nongnu.org
@@ -62,18 +61,18 @@ Cc: Alexander Bulekov <alxndr@bu.edu>,
  Mauro Matteo Cascella <mcascell@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH-for-7.2 3/5] hw/display/qxl: Pass requested buffer size to
- qxl_phys2virt()
-Date: Mon, 28 Nov 2022 14:48:30 +0100
-Message-Id: <20221128134832.84867-4-philmd@linaro.org>
+Subject: [RFC PATCH-for-7.2 4/5] hw/display/qxl: Avoid buffer overrun in
+ qxl_phys2virt (CVE-2022-4144)
+Date: Mon, 28 Nov 2022 14:48:31 +0100
+Message-Id: <20221128134832.84867-5-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221128134832.84867-1-philmd@linaro.org>
 References: <20221128134832.84867-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,190 +95,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently qxl_phys2virt() doesn't check for buffer overrun.
-In order to do so in the next commit, pass the buffer size
-as argument.
+Have qxl_get_check_slot_offset() return false if the requested
+buffer size does not fit within the slot memory region.
 
+Similarly qxl_phys2virt() now returns NULL in such case, and
+qxl_dirty_one_surface() aborts.
+
+This avoids buffer overrun in the host pointer returned by
+memory_region_get_ram_ptr().
+
+Fixes: CVE-2022-4144 (out-of-bounds read)
+Reported-by: Wenxu Yin (@awxylitol)
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1336
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-RFC: Please double-check qxl_render_update_area_unlocked()
----
- hw/display/qxl-logger.c | 11 ++++++++---
- hw/display/qxl-render.c | 12 ++++++++----
- hw/display/qxl.c        | 14 +++++++++-----
- hw/display/qxl.h        |  4 +++-
- 4 files changed, 28 insertions(+), 13 deletions(-)
+ hw/display/qxl.c | 22 ++++++++++++++++++----
+ hw/display/qxl.h |  2 +-
+ 2 files changed, 19 insertions(+), 5 deletions(-)
 
-diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
-index 1bcf803db6..35c38f6252 100644
---- a/hw/display/qxl-logger.c
-+++ b/hw/display/qxl-logger.c
-@@ -106,7 +106,7 @@ static int qxl_log_image(PCIQXLDevice *qxl, QXLPHYSICAL addr, int group_id)
-     QXLImage *image;
-     QXLImageDescriptor *desc;
- 
--    image = qxl_phys2virt(qxl, addr, group_id);
-+    image = qxl_phys2virt(qxl, addr, group_id, sizeof(QXLImage));
-     if (!image) {
-         return 1;
-     }
-@@ -214,7 +214,8 @@ int qxl_log_cmd_cursor(PCIQXLDevice *qxl, QXLCursorCmd *cmd, int group_id)
-                 cmd->u.set.position.y,
-                 cmd->u.set.visible ? "yes" : "no",
-                 cmd->u.set.shape);
--        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id);
-+        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id,
-+                               sizeof(QXLCursor));
-         if (!cursor) {
-             return 1;
-         }
-@@ -236,6 +237,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
- {
-     bool compat = ext->flags & QXL_COMMAND_FLAG_COMPAT;
-     void *data;
-+    size_t datasz;
-     int ret;
- 
-     if (!qxl->cmdlog) {
-@@ -249,15 +251,18 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
- 
-     switch (ext->cmd.type) {
-     case QXL_CMD_DRAW:
-+        datasz = compat ? sizeof(QXLCompatDrawable) : sizeof(QXLDrawable);
-         break;
-     case QXL_CMD_SURFACE:
-+        datasz = sizeof(QXLSurfaceCmd);
-         break;
-     case QXL_CMD_CURSOR:
-+        datasz = sizeof(QXLCursorCmd);
-         break;
-     default:
-         goto out;
-     }
--    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-+    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id, datasz);
-     if (!data) {
-         return 1;
-     }
-diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
-index ca217004bf..0a4bfa8aa6 100644
---- a/hw/display/qxl-render.c
-+++ b/hw/display/qxl-render.c
-@@ -107,7 +107,9 @@ static void qxl_render_update_area_unlocked(PCIQXLDevice *qxl)
-         qxl->guest_primary.resized = 0;
-         qxl->guest_primary.data = qxl_phys2virt(qxl,
-                                                 qxl->guest_primary.surface.mem,
--                                                MEMSLOT_GROUP_GUEST);
-+                                                MEMSLOT_GROUP_GUEST,
-+                                                qxl->guest_primary.abs_stride
-+                                                * height);
-         if (!qxl->guest_primary.data) {
-             goto end;
-         }
-@@ -228,7 +230,7 @@ static void qxl_unpack_chunks(void *dest, size_t size, PCIQXLDevice *qxl,
-         if (offset == size) {
-             return;
-         }
--        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id);
-+        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id, bytes);
-         if (!chunk) {
-             return;
-         }
-@@ -295,7 +297,8 @@ fail:
- /* called from spice server thread context only */
- int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
- {
--    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-+    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
-+                                      sizeof(QXLCursorCmd));
-     QXLCursor *cursor;
-     QEMUCursor *c;
- 
-@@ -314,7 +317,8 @@ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
-     }
-     switch (cmd->type) {
-     case QXL_CURSOR_SET:
--        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id);
-+        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
-+                               sizeof(QXLCursor));
-         if (!cursor) {
-             return 1;
-         }
 diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 5b10f697f1..231d733250 100644
+index 231d733250..afa157d327 100644
 --- a/hw/display/qxl.c
 +++ b/hw/display/qxl.c
-@@ -274,7 +274,8 @@ static void qxl_spice_monitors_config_async(PCIQXLDevice *qxl, int replay)
-                                           QXL_IO_MONITORS_CONFIG_ASYNC));
-     }
- 
--    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST);
-+    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST,
-+                        sizeof(QXLMonitorsConfig));
-     if (cfg != NULL && cfg->count == 1) {
-         qxl->guest_primary.resized = 1;
-         qxl->guest_head0_width  = cfg->heads[0].width;
-@@ -459,7 +460,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
-     switch (le32_to_cpu(ext->cmd.type)) {
-     case QXL_CMD_SURFACE:
-     {
--        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-+        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
-+                                           sizeof(QXLSurfaceCmd));
- 
-         if (!cmd) {
-             return 1;
-@@ -494,7 +496,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
-     }
-     case QXL_CMD_CURSOR:
-     {
--        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-+        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
-+                                          sizeof(QXLCursorCmd));
- 
-         if (!cmd) {
-             return 1;
-@@ -1456,7 +1459,8 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
- }
+@@ -1424,11 +1424,13 @@ static void qxl_reset_surfaces(PCIQXLDevice *d)
  
  /* can be also called from spice server thread context */
--void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id)
-+void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
-+                    size_t size)
+ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
+-                                      uint32_t *s, uint64_t *o)
++                                      uint32_t *s, uint64_t *o,
++                                      size_t size_requested)
  {
-     uint64_t offset;
-     uint32_t slot;
-@@ -1964,7 +1968,7 @@ static void qxl_dirty_surfaces(PCIQXLDevice *qxl)
-         }
+     uint64_t phys   = le64_to_cpu(pqxl);
+     uint32_t slot   = (phys >> (64 -  8)) & 0xff;
+     uint64_t offset = phys & 0xffffffffffff;
++    uint64_t size_available;
  
-         cmd = qxl_phys2virt(qxl, qxl->guest_surfaces.cmds[i],
--                            MEMSLOT_GROUP_GUEST);
-+                            MEMSLOT_GROUP_GUEST, sizeof(QXLSurfaceCmd));
-         assert(cmd);
-         assert(cmd->type == QXL_SURFACE_CMD_CREATE);
-         qxl_dirty_one_surface(qxl, cmd->u.surface_create.data,
+     if (slot >= NUM_MEMSLOTS) {
+         qxl_set_guest_bug(qxl, "slot too large %d >= %d", slot,
+@@ -1453,6 +1455,18 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
+         return false;
+     }
+ 
++    size_available = memory_region_size(qxl->guest_slots[slot].mr);
++    assert(qxl->guest_slots[slot].offset + offset < size_available);
++    size_available -= qxl->guest_slots[slot].offset + offset;
++    if (size_requested > size_available) {
++        qxl_set_guest_bug(qxl,
++                          "slot %d offset %"PRIu64" size %zu: "
++                          "overrun by %"PRIu64" bytes\n",
++                          slot, offset, size_requested,
++                          size_requested - size_available);
++        return false;
++    }
++
+     *s = slot;
+     *o = offset;
+     return true;
+@@ -1471,7 +1485,7 @@ void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
+         offset = le64_to_cpu(pqxl) & 0xffffffffffff;
+         return (void *)(intptr_t)offset;
+     case MEMSLOT_GROUP_GUEST:
+-        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset)) {
++        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size)) {
+             return NULL;
+         }
+         ptr = memory_region_get_ram_ptr(qxl->guest_slots[slot].mr);
+@@ -1937,9 +1951,9 @@ static void qxl_dirty_one_surface(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
+     uint32_t slot;
+     bool rc;
+ 
+-    rc = qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset);
+-    assert(rc == true);
+     size = (uint64_t)height * abs(stride);
++    rc = qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size);
++    assert(rc == true);
+     trace_qxl_surfaces_dirty(qxl->id, offset, size);
+     qxl_set_dirty(qxl->guest_slots[slot].mr,
+                   qxl->guest_slots[slot].offset + offset,
 diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-index 78b3a6c9ba..bf03138ab4 100644
+index bf03138ab4..7894bd5134 100644
 --- a/hw/display/qxl.h
 +++ b/hw/display/qxl.h
-@@ -153,6 +153,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
-  * @qxl: QXL device
-  * @phys: physical offset of buffer within the VRAM
-  * @group_id: memory slot group
-+ * @size: size of the buffer
+@@ -157,7 +157,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
   *
   * Returns a host pointer to a buffer placed at offset @phys within the
   * active slot @group_id of the PCI VGA RAM memory region associated with
-@@ -166,7 +167,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
-  * the incoming ram_addr_t.
+- * the @qxl device. If the slot is inactive, or the offset is out
++ * the @qxl device. If the slot is inactive, or the offset + size are out
+  * of the memory region, returns NULL.
   *
-  */
--void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
-+void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id,
-+                    size_t size);
- void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
-     G_GNUC_PRINTF(2, 3);
- 
+  * Use with care; by the time this function returns, the returned pointer is
 -- 
 2.38.1
 
