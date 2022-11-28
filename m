@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199BD63A2F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E8263A333
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 09:37:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozZUY-0004Z6-9f; Mon, 28 Nov 2022 03:27:54 -0500
+	id 1ozZcV-0007EB-KU; Mon, 28 Nov 2022 03:36:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZUS-0004Qn-I8
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:27:49 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ozZcH-0007B0-3Y
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:36:05 -0500
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozZUQ-0003rz-Ve
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:27:48 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- c65-20020a1c3544000000b003cfffd00fc0so11020389wma.1
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:27:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9I2zrDAJgUwD314VtyzCxf/u4yY5xj5Gx2w3qhd6gF8=;
- b=ybBSJe2W7mzngmrJ6t27g9snC/t1I19HnCMxY/Cx0Fc+lh6AC6NNzbFE8mrxZ5N36R
- txrEkfw7Vxaay9kFOpJCiTWynPXem3lO0s+iZUN/A/gsVMSopyHU5LVWJ+lyaXcLQSB0
- HNH5qBLacDSqAVM1TcpFmVjbK0Ugl2Iy6EDsDUnU+700RzY2rP32CL6DhSu4BKNokKBd
- 7dttYa0ehxE/0Uf8ZAWzaP9YgsUaoziKblNXeUyAMU56lw7PV5Y9hjkHs5ofccacDiLu
- fShg6RBMb9ASK70jXeJqTdbhdji4T2pR7VHai8u/29pnZZJ3ySdjYz5kwSJJCK/z/Ejy
- +dfw==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ozZcF-00056D-68
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 03:35:52 -0500
+Received: by mail-lj1-x229.google.com with SMTP id a7so12258490ljq.12
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 00:35:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x2EC7dnQbBofq4sgW7nodHhx4X/l2nb9HggSki/KAts=;
+ b=gk22ISHQjcwWUwgGxU03m+bDWil3nULg+iuxh2k2gRxBTJi+07wf2Dzh/CLvP+x5WF
+ o1/U9984ZhFZ0z0KAsyvGFGBLZBHhEe5PAwhl6paOM9pqdG52XlmKuj/2+4SY0ZJ+n1a
+ OMXijA6HcMuUOMVReJCcre4BYThU7kG1Rf+/cdW6Puuwq3ymMx5tToeDtB9k0yg0s/HS
+ JGe3ZmKpduOuFI6wtbEbFIPS/cpjn9jl6EsQYf6zmz2olLheqMQsvzj7C/2eG/F+y4h0
+ PRCAUPxwbQYMW3fjiGVRb+UGCrH4howlH4+gNMD/l08zZPvwtdmCFRyuITqERLTeXPP1
+ I+eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9I2zrDAJgUwD314VtyzCxf/u4yY5xj5Gx2w3qhd6gF8=;
- b=F1ZfAm4pLDvK4xoGqP1VuXxP99G8zvMKadrPep2B15KUx6wZI+CppnvoecAGvAbuJe
- U7AoEANaAk8ffw0ntuklvWxKXkz56PLvkUb8hlyQ0w4dFhBxL53z2vQo5qZqTRQVlahU
- wZyYgPcmf674DpW+/NOdX8iTGkvcCvkQyhKVm4556wwzkCSyZDGa7SlICl7gHT/xwBKK
- 1ZOAcvDY3NcJ77GWBX4MfJ/IpC9w/sQjC3S0X3FrkRkJNXVgTs8xDLhlgsHBLD23l2YM
- qfko8XAwcCikvIGedUxvENPcxtzB/PiIiL2rZ6LGd4XWGLCQ5aHqUE7OnEC7QoeNd772
- 3P+A==
-X-Gm-Message-State: ANoB5pki9xuGRexVOn1414z2/g+vXTlDYq6SMTpEdgbowolTt5uGmRSv
- rJ7J7sUR7tSnmg/jttQF/s3Fag==
-X-Google-Smtp-Source: AA0mqf7000Y/yK/NFs6ucFoiSuhk9RH3JdxUD75wMlRMS6/2Vug7Va9UIvNIWd7kEZFXUaZNluPPWQ==
-X-Received: by 2002:a1c:f401:0:b0:3cf:8731:8110 with SMTP id
- z1-20020a1cf401000000b003cf87318110mr23195987wma.32.1669624065461; 
- Mon, 28 Nov 2022 00:27:45 -0800 (PST)
-Received: from [192.168.1.175] (49.red-88-29-176.dynamicip.rima-tde.net.
- [88.29.176.49]) by smtp.gmail.com with ESMTPSA id
- g14-20020a05600c310e00b003a2f2bb72d5sm22557118wmo.45.2022.11.28.00.27.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 00:27:45 -0800 (PST)
-Message-ID: <02f767f1-d08f-35f0-b73c-87926f5024ea@linaro.org>
-Date: Mon, 28 Nov 2022 09:27:43 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=x2EC7dnQbBofq4sgW7nodHhx4X/l2nb9HggSki/KAts=;
+ b=0IO2l5kvZq97g3bwnwjt38ezq9U7W0eS0BUhleSvbPiPOfvEbGjhqeyT0jiAcXa8IQ
+ QeTWsyPvA8izadH+cV209rQgbivf7HuUp4UudvgKBpFqe/fDgTyZxj+eLE3d1NtBDw4W
+ wuWE4o8zlGELFTyZ0LSPUK/FZq7EQ9toOwllOqKdOCwHQyME9thpMRbbe+0tptxa0q3b
+ M0Ct1cRUJoHjmwhrWS3H0t1XN1kuNCknhuQKCzJEkryasnZX/GZWnElvEvC2BHe8b2J5
+ yFhpYj7iIQaK+jtrZkpng1Fq/8nlPr/QyZ3oD9oESH4Sq3ukPLzXH8cHxd5KoDeJkKCz
+ zuFQ==
+X-Gm-Message-State: ANoB5plKNKCqmEDjXRR0PVkD3RNDiCwotA3AxyuFYFBuJ4ibhXIyca1k
+ I3CoeA8Dky548EGY0Sw2SQJ0B+brBM1JX3qr9t4=
+X-Google-Smtp-Source: AA0mqf5WgsMcZgaVn2ptKwtTo8hFbksgCbvljR57P9pe7XASqHoelnynGTF3XctF4t5iI4yzsDP5VKTxUCV1Pa0Hpt0=
+X-Received: by 2002:a2e:8ed8:0:b0:279:78e1:c7a4 with SMTP id
+ e24-20020a2e8ed8000000b0027978e1c7a4mr7933613ljl.529.1669624547292; Mon, 28
+ Nov 2022 00:35:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH 01/12] pci: Clean up a few things checkpatch.pl would flag
- later on
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, dgilbert@redhat.com
-References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-2-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221128080202.2570543-2-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20221125154030.42108-1-philmd@linaro.org>
+ <20221125173119.46665-1-philmd@linaro.org>
+ <20221125173119.46665-2-philmd@linaro.org>
+In-Reply-To: <20221125173119.46665-2-philmd@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 28 Nov 2022 12:35:35 +0400
+Message-ID: <CAJ+F1CKD95i6B5QGZYtHzenTwweX3=99c_UELCyJu+JhtzQA4A@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-7.2 4/4] hw/display/qxl: Avoid buffer overrun in
+ qxl_phys2virt (CVE-2022-4144)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Mauro Matteo Cascella <mcascell@redhat.com>, 
+ Alexander Bulekov <alxndr@bu.edu>, Peter Maydell <peter.maydell@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x229.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,15 +89,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/11/22 09:01, Markus Armbruster wrote:
-> Fix a few style violations so that checkpatch.pl won't complain when I
-> move this code.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Hi
+
+On Fri, Nov 25, 2022 at 9:35 PM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> Return NULL if the requested buffer size does not fit
+> within the slot memory region.
+>
+> Reported-by: Wenxu Yin (@awxylitol)
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1336
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->   hw/pci/pci.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
+>  hw/display/qxl.c | 11 ++++++++++-
+>  hw/display/qxl.h |  2 +-
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> index 231d733250..e5e162f82d 100644
+> --- a/hw/display/qxl.c
+> +++ b/hw/display/qxl.c
+> @@ -1462,7 +1462,7 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice =
+*qxl, QXLPHYSICAL pqxl,
+>  void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
+>                      size_t size)
+>  {
+> -    uint64_t offset;
+> +    uint64_t offset, ptr_end_offset;
+>      uint32_t slot;
+>      void *ptr;
+>
+> @@ -1474,6 +1474,15 @@ void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL=
+ pqxl, int group_id,
+>          if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset)) {
+>              return NULL;
+>          }
+> +
+> +        ptr_end_offset =3D qxl->guest_slots[slot].offset + offset + size=
+;
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This is unlikely subject to int overflow, but perhaps it's worth
+considering using some int128 instead?
 
+> +        if (ptr_end_offset > memory_region_size(qxl->guest_slots[slot].m=
+r)) {
+
+> +            qxl_set_guest_bug(qxl,
+> +                              "slot %d offset %"PRIu64" size %zu: "
+> +                              "overrun by %"PRIu64" bytes\n",
+> +                              slot, offset, size, ptr_end_offset - offse=
+t);
+> +            return NULL;
+> +        }
+>          ptr =3D memory_region_get_ram_ptr(qxl->guest_slots[slot].mr);
+>          ptr +=3D qxl->guest_slots[slot].offset;
+>          ptr +=3D offset;
+> diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+> index bf03138ab4..7894bd5134 100644
+> --- a/hw/display/qxl.h
+> +++ b/hw/display/qxl.h
+> @@ -157,7 +157,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
+>   *
+>   * Returns a host pointer to a buffer placed at offset @phys within the
+>   * active slot @group_id of the PCI VGA RAM memory region associated wit=
+h
+> - * the @qxl device. If the slot is inactive, or the offset is out
+> + * the @qxl device. If the slot is inactive, or the offset + size are ou=
+t
+>   * of the memory region, returns NULL.
+>   *
+>   * Use with care; by the time this function returns, the returned pointe=
+r is
+> --
+> 2.38.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
