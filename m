@@ -2,89 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E36F63A841
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 13:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131F963A876
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 13:32:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozdCF-0003Mz-Hj; Mon, 28 Nov 2022 07:25:15 -0500
+	id 1ozdHh-0005OU-6z; Mon, 28 Nov 2022 07:30:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozdCB-0003Mk-SS
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 07:25:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozdC9-00014x-Ek
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 07:25:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669638301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1lcVkMIYJ6m3NwTTYu3tF4ix2h2s3Yz2aEJEiu6skgI=;
- b=gHXYB2+5C4OoJZ16GNkqi5VV/zdpN3YIC+/jkjh/4XTy7pPY0Swg9vDjq3x3wiHo5rOW2Z
- Xvd0yr53Tmq8SzA0zKzOBZPPpjQZEyjMn6XGgKGco0/jMWAkfj9o8dRGsDCZZvx8WZyolg
- Pgfivx5w5zCKzGU2NI/qET1eWC0gI9s=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-513-geoF1WwZNMa1uKmLjUNcBQ-1; Mon, 28 Nov 2022 07:24:59 -0500
-X-MC-Unique: geoF1WwZNMa1uKmLjUNcBQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- e8-20020a05600c218800b003cf634f5280so3635167wme.8
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 04:24:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1lcVkMIYJ6m3NwTTYu3tF4ix2h2s3Yz2aEJEiu6skgI=;
- b=K/Ngha8B9Gj2jlsiMTY/tZ9Eh6n85TSJBXY9Fx0caCsqVtuK4tPWNN0mXNZjiadg2B
- rGsBoWo/sOP7tr0G/HDryBEXshnysshjJ3ql8/LrFRELHkt97rvFHVdAlC+1jcM77aDL
- 7v4J8NJD907u85uUdKHzRWBWBcKiwBPrDTODwLECB6rpudeYcFQRNnG372zoFPbBqc5k
- F5+9s0BQdsgegpevuYhxKE/u7of4KB5hzDFeznFFlaAnt/xEACJ5zaEbODQO3VaIq+TL
- 8lDQTG1VkO2F5GZMhwXufrGW9PPWIQ39P+oZTWb9B1MbQ4R79xZv6un+kQ8O/BPrdjMt
- FPpg==
-X-Gm-Message-State: ANoB5pl1mZIeytDZVNYl4s0qneDkxrwOm2hsHTYgpiooIDDNKYRm/Cgw
- vmT5qmUCeKa2P1OBOkaZ2LJ3/mOgzIchFQ6gNjCrz2LS/d+L0FmtjmEEH/BhP8XFA+MP0wKrxGr
- 9ew7h7Hdhs9M5Vmo=
-X-Received: by 2002:a5d:6144:0:b0:242:1c33:35b8 with SMTP id
- y4-20020a5d6144000000b002421c3335b8mr1455003wrt.217.1669638298491; 
- Mon, 28 Nov 2022 04:24:58 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4X5fJ3VZt9ftSnYuIVghhzTOMFBW+10vmkAMAX+pc7wRMtQThO17o3TW8eRIA4ylpL/ggdKA==
-X-Received: by 2002:a5d:6144:0:b0:242:1c33:35b8 with SMTP id
- y4-20020a5d6144000000b002421c3335b8mr1454993wrt.217.1669638298244; 
- Mon, 28 Nov 2022 04:24:58 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- m16-20020a05600c3b1000b003cfd0bd8c0asm16365656wms.30.2022.11.28.04.24.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 04:24:57 -0800 (PST)
-Date: Mon, 28 Nov 2022 12:24:55 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, marcel.apfelbaum@gmail.com
-Subject: Re: [PATCH 05/12] pci: Build hw/pci/pci-hmp-cmds.c only when
- CONFIG_PCI
-Message-ID: <Y4Sol9q0NI52iTmE@work-vm>
-References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-6-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ozdHD-0005KM-VE; Mon, 28 Nov 2022 07:30:25 -0500
+Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ozdGx-00020Y-0T; Mon, 28 Nov 2022 07:30:23 -0500
+Received: from localhost.localdomain (unknown [180.175.30.174])
+ by APP-05 (Coremail) with SMTP id zQCowAC3v_fCqYRj_UQNAw--.18159S2;
+ Mon, 28 Nov 2022 20:29:55 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v6 0/9] support subsets of code size reduction extension
+Date: Mon, 28 Nov 2022 20:29:04 +0800
+Message-Id: <20221128122913.55611-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221128080202.2570543-6-armbru@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAC3v_fCqYRj_UQNAw--.18159S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryDKFW5KryrWw4xWF48JFb_yoW5JrW8pr
+ WrC3yakrZ8tFWxJw4ftF1DJw15Ar4rWr45Awn7Jw1kJay3ArW5Jrn7K3W3G3WxJF18WrnF
+ 93WUCw13u3yUJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.175.30.174]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,67 +71,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> We compile pci-hmp-cmds.c always, but pci-qmp-cmds.c only when
-> CONFIG_PCI.  hw/pci/pci-stub.c keeps the linker happy when
-> !CONFIG_PCI.  Build pci-hmp-cmds.c that way, too.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions.
 
-Had you considered wrapping the hmp-commands-info.hx entry
-with a #if defined instead?
+Specification:
+https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
 
-Dave
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v6
 
-> ---
->  hw/pci/pci-stub.c  | 5 +++++
->  hw/pci/meson.build | 2 +-
->  2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
-> index f29ecc999e..01d20a2f67 100644
-> --- a/hw/pci/pci-stub.c
-> +++ b/hw/pci/pci-stub.c
-> @@ -21,6 +21,7 @@
->  #include "qemu/osdep.h"
->  #include "sysemu/sysemu.h"
->  #include "monitor/monitor.h"
-> +#include "monitor/hmp.h"
->  #include "qapi/qapi-commands-pci.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci/msi.h"
-> @@ -34,6 +35,10 @@ PciInfoList *qmp_query_pci(Error **errp)
->      return NULL;
->  }
->  
-> +void hmp_info_pci(Monitor *mon, const QDict *qdict)
-> +{
-> +}
-> +
->  void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
->  {
->      monitor_printf(mon, "PCI devices not supported\n");
-> diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-> index e42a133f3a..4fcd888b27 100644
-> --- a/hw/pci/meson.build
-> +++ b/hw/pci/meson.build
-> @@ -5,6 +5,7 @@ pci_ss.add(files(
->    'pci.c',
->    'pci_bridge.c',
->    'pci_host.c',
-> +  'pci-hmp-cmds.c',
->    'pci-qmp-cmds.c',
->    'pcie_sriov.c',
->    'shpc.c',
-> @@ -20,4 +21,3 @@ softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
->  
->  softmmu_ss.add(when: 'CONFIG_PCI', if_false: files('pci-stub.c'))
->  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('pci-stub.c'))
-> -softmmu_ss.add(files('pci-hmp-cmds.c'))
-> -- 
-> 2.37.3
-> 
+To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extension support.
+
+
+This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
+
+v6：
+* fix base address for jump table in Patch 7
+* rebase on riscv-to-apply.next
+
+v5:
+* fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
+
+v4:
+* improve Zcmp suggested by Richard
+* fix stateen related check for Zcmt
+
+v3:
+* update the solution for Zcf to the way of Zcd
+* update Zcb to reuse gen_load/store
+* use trans function instead of helper for push/pop
+
+v2:
+* add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
+* separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
+
+Weiwei Li (9):
+  target/riscv: add cfg properties for Zc* extension
+  target/riscv: add support for Zca extension
+  target/riscv: add support for Zcf extension
+  target/riscv: add support for Zcd extension
+  target/riscv: add support for Zcb extension
+  target/riscv: add support for Zcmp extension
+  target/riscv: add support for Zcmt extension
+  target/riscv: expose properties for Zc* extension
+  disas/riscv.c: add disasm support for Zc*
+
+ disas/riscv.c                             | 287 +++++++++++++++++++-
+ target/riscv/cpu.c                        |  56 ++++
+ target/riscv/cpu.h                        |  10 +
+ target/riscv/cpu_bits.h                   |   7 +
+ target/riscv/csr.c                        |  38 ++-
+ target/riscv/helper.h                     |   3 +
+ target/riscv/insn16.decode                |  63 ++++-
+ target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+ target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
+ target/riscv/machine.c                    |  19 ++
+ target/riscv/meson.build                  |   3 +-
+ target/riscv/translate.c                  |  15 +-
+ target/riscv/zce_helper.c                 |  55 ++++
+ 15 files changed, 893 insertions(+), 16 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+ create mode 100644 target/riscv/zce_helper.c
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.25.1
 
 
