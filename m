@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A0563AC10
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 16:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1298263AC76
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 16:27:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozfvJ-0007zx-K8; Mon, 28 Nov 2022 10:19:57 -0500
+	id 1ozg1F-0001Ru-6P; Mon, 28 Nov 2022 10:26:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozfv1-0007s3-RX
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:19:42 -0500
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozg1B-0001Qp-2T
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:26:03 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozfuz-0008Gd-V9
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:19:39 -0500
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-3691e040abaso108776337b3.9
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V604oTnuPqfMqoA7vqfqvEVTij7zT0AqkcffsYanVPw=;
- b=Yic6Gp2YzuiRByqqweKdP85X2h9ImwUDdZ5GjnpcS/Nht9BSU2M9J6EyjFWFOnLWum
- BA1EwfC7UdYgxNmJsCDo+uIm3/GDIOldHCmtfcxrWe3p/ZR4PVBfPatYkRKOuAUtVTCd
- sOotBYdg+nklo7On/gsMQSJJ4CMJIWDhWldnVg/WYLDz7r6dnE0PGGFDW37VacuSEIwd
- YpgR5rVkzyscIqOOBhLJ9Z0xiENIAYlnXb4vIxQ/YnthdJ95iDPF6GJVyZHv9wSYaT04
- tWJ1imr2lJOxIUeCs2yH9w0eP8qJsHOCr73BnVp21OWXoh6vdnG/xiOi9lq10wcmaUoq
- /viw==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozg19-00010D-Ap
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:26:00 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h11so10117336wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:25:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=i5wUvwgd6yzR6eR0Ze/zXDxbdRXowIEV/wQb09Pk+xo=;
+ b=JAOa/IOt1l+dETAv1VKdRkz665/oBQDaMStq6uW0Jx8CKx4pPXinXCOLqXYgVjmHKa
+ 40PTw0qRqm81seyXLWfcJPcl9i/fPWirZo6o4x+l/hz9XJWxxA7ElZMPmM5ZaodkZa3J
+ w5GFZ7h2A8sw95WeDCNECahQtEW37DPn91XrjkITmgtj+KYh7Ia5q9g4GGO2oZCPUeyu
+ c1cD6GwsnwuhTxPN6bc8eNvgI0EKGSFM7yqNmcXcADlKt5mAS7txHsy61bWYfByrgdzN
+ 11feGRNFU//YvTNDH807wVu7WuLHmSGDSeGWajZ/USePoByx3yj6GOIkrFxDwXaY9WWx
+ Du3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V604oTnuPqfMqoA7vqfqvEVTij7zT0AqkcffsYanVPw=;
- b=xCVnhisPe7PJRxJiEZC9yoWb+zrkgL2Xr1tfdMprGUjqezS6MHsgbZu829ZXmXoMC5
- 18Rbep9jhUqBzTBC3a5NFaz/UUYtOKV6r7Er5l/rzKK/gf6jg015+XVoHWvMcGUe+5Ch
- nYJzSRHu8KBLMxW41NSBmtpFNr7u7biOr/hPx0BGxCzPFTSEw0BHCyBXAuEipdx26nql
- P99UtE7tXTga/qPXgjSgE+5SCyj6A0Qb6lSqkfFeoyeA+HCgxpd9RRZvIFRpeAhS9LN2
- beNVo+ZWdecw7/4tzFkB0340wDZCiN9/95Dw23t16Hsx1baqzIiglanZAJMh7ZfRNIeC
- Z+OQ==
-X-Gm-Message-State: ANoB5plN3ROGIhGAczwxK12cItyQrQfIutnRjF13FTTL/CYmdHlfLQqt
- Dx4Z3BEdTnr6nqMK3dlLsfhn7kxWwJ10mWQnQLM=
-X-Google-Smtp-Source: AA0mqf76p/fwbrWhDExPDDjvhg+xvJPUUQe8N6SYHfhGyCLi9bGhQQKNHTznNM4+WJgqqB0pA/XbTDQVlYIgkz4/UxQ=
-X-Received: by 2002:a0d:ca93:0:b0:3c3:7a3e:b56c with SMTP id
- m141-20020a0dca93000000b003c37a3eb56cmr8166293ywd.239.1669648776943; Mon, 28
- Nov 2022 07:19:36 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=i5wUvwgd6yzR6eR0Ze/zXDxbdRXowIEV/wQb09Pk+xo=;
+ b=va5CT23lY4Z/bYJXEm1cDkQgFQ90hUdSEcZO7bnistJRqSzYE+HXmCTx1G/P7zZvrT
+ zYVRchTP3vncPs2iMH4GMobkN/1VbVsuBb9uiVxWVPCmm9yXOsU08twtXyvqQTozeDzR
+ QT9OfwhNIV7Lp3J/DxRsaDDDrKPbd850p04ADm58VYJA5GcjCY8wzP4jqOLohIyuWOP2
+ Ig5kspxOgcUACno25wZwh9MT067HPv+jWs0zjf89byYBtVA2rC97PMM+w+fK95pX0SkD
+ nbengzlUbE+j9rVRAlfP5Fnm/GArGJjtVIejlI6/dXf2inv6kg7/SqYRlEjBoKiGlQMq
+ /TKw==
+X-Gm-Message-State: ANoB5pnGv+1A7yDhwmwUOgv/v5XNtvzjvslyqi1VZggR0qNjrhsOGcsf
+ 7KZWyyrjHLTUhGR7AGmAGkDFDQ==
+X-Google-Smtp-Source: AA0mqf7oAZmhlCx6nmQ8z7GwxZHWnWvG+85cJtKZ4dnYeqXhngAPUDWv8YGCXcXVnXQBiLnS6v1Tmg==
+X-Received: by 2002:a05:6000:a13:b0:236:a920:73e8 with SMTP id
+ co19-20020a0560000a1300b00236a92073e8mr32040299wrb.5.1669649157554; 
+ Mon, 28 Nov 2022 07:25:57 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ v8-20020adfebc8000000b00236545edc91sm11209155wrn.76.2022.11.28.07.25.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 07:25:57 -0800 (PST)
+Message-ID: <68346f84-d9f0-c232-dcaf-d614c3261c4e@linaro.org>
+Date: Mon, 28 Nov 2022 16:25:55 +0100
 MIME-Version: 1.0
-References: <20221128134832.84867-1-philmd@linaro.org>
-In-Reply-To: <20221128134832.84867-1-philmd@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 28 Nov 2022 10:19:25 -0500
-Message-ID: <CAJSP0QUo-Lg1s19yRe7wQNYjrrL68RUinhPPQXVv2391tv3cjA@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-7.2 0/5] hw/display/qxl: Avoid buffer overrun in
- qxl_phys2virt()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>, 
- Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, 
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [RFC PATCH-for-7.2 4/5] hw/display/qxl: Avoid buffer overrun in
+ qxl_phys2virt (CVE-2022-4144)
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1135.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20221128134832.84867-1-philmd@linaro.org>
+ <20221128134832.84867-5-philmd@linaro.org>
+ <CAJSP0QUNU1CEJ8AMmo=tDC60ChY=Qo67nOEBBZmtaYeXvOybFQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAJSP0QUNU1CEJ8AMmo=tDC60ChY=Qo67nOEBBZmtaYeXvOybFQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,49 +96,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 28 Nov 2022 at 08:50, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> Since v1:
-> - Addressed Marc-Andr=C3=A9 review comments
-> - Moved overrun check in qxl_get_check_slot_offset()
->
-> memory_region_get_ram_ptr() returns a host pointer for a
-> MemoryRegion. Sometimes we do offset calculation using this
-> pointer without checking the underlying MemoryRegion size.
->
-> Wenxu Yin reported a buffer overrun in QXL. This series
-> aims to fix it. I haven't audited the other _get_ram_ptr()
-> uses (yet). Eventually we could rename it _get_ram_ptr_unsafe
-> and add a safer helper which checks for overrun.
->
-> Worth considering for 7.2?
+On 28/11/22 16:16, Stefan Hajnoczi wrote:
+> On Mon, 28 Nov 2022 at 08:53, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>
+>> Have qxl_get_check_slot_offset() return false if the requested
+>> buffer size does not fit within the slot memory region.
+>>
+>> Similarly qxl_phys2virt() now returns NULL in such case, and
+>> qxl_dirty_one_surface() aborts.
+>>
+>> This avoids buffer overrun in the host pointer returned by
+>> memory_region_get_ram_ptr().
+>>
+>> Fixes: CVE-2022-4144 (out-of-bounds read)
+>> Reported-by: Wenxu Yin (@awxylitol)
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1336
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   hw/display/qxl.c | 22 ++++++++++++++++++----
+>>   hw/display/qxl.h |  2 +-
+>>   2 files changed, 19 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+>> index 231d733250..afa157d327 100644
+>> --- a/hw/display/qxl.c
+>> +++ b/hw/display/qxl.c
+>> @@ -1424,11 +1424,13 @@ static void qxl_reset_surfaces(PCIQXLDevice *d)
+>>
+>>   /* can be also called from spice server thread context */
+>>   static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
+>> -                                      uint32_t *s, uint64_t *o)
+>> +                                      uint32_t *s, uint64_t *o,
+>> +                                      size_t size_requested)
+>>   {
+>>       uint64_t phys   = le64_to_cpu(pqxl);
+>>       uint32_t slot   = (phys >> (64 -  8)) & 0xff;
+>>       uint64_t offset = phys & 0xffffffffffff;
+>> +    uint64_t size_available;
+>>
+>>       if (slot >= NUM_MEMSLOTS) {
+>>           qxl_set_guest_bug(qxl, "slot too large %d >= %d", slot,
+>> @@ -1453,6 +1455,18 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
+>>           return false;
+>>       }
+>>
+>> +    size_available = memory_region_size(qxl->guest_slots[slot].mr);
+>> +    assert(qxl->guest_slots[slot].offset + offset < size_available);
+> 
+> Can this assertion be triggered by the guest (via an invalid pqxl
+> value)? I think the answer is no, but I don't know the the qxl code
+> well enough to be sure.
 
-Yes, please. If Gerd is happy I'll merge it.
+'qxl->guest_slots[slot].offset' is initialized in qxl_add_memslot()
+(host); 'size_available' also comes from the host, but 'offset'
+comes from the guest via 'QXLPHYSICAL pqxl' IIUC.
 
-Stefan
+I added this check to avoid overflow, but it can be changed to return
+an error.
 
->
-> Regards,
->
-> Phil.
->
-> Philippe Mathieu-Daud=C3=A9 (5):
->   hw/display/qxl: Have qxl_log_command Return early if no log_cmd
->     handler
->   hw/display/qxl: Document qxl_phys2virt()
->   hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
->   hw/display/qxl: Avoid buffer overrun in qxl_phys2virt (CVE-2022-4144)
->   hw/display/qxl: Assert memory slot fits in preallocated MemoryRegion
->
->  hw/display/qxl-logger.c | 22 +++++++++++++++++++---
->  hw/display/qxl-render.c | 12 ++++++++----
->  hw/display/qxl.c        | 37 ++++++++++++++++++++++++++++---------
->  hw/display/qxl.h        | 23 ++++++++++++++++++++++-
->  4 files changed, 77 insertions(+), 17 deletions(-)
->
-> --
-> 2.38.1
->
->
+Thanks,
+
+Phil.
 
