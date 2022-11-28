@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1012463A5C4
+	by mail.lfdr.de (Postfix) with ESMTPS id 360F563A5C6
 	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 11:12:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozb6h-00015S-PQ; Mon, 28 Nov 2022 05:11:23 -0500
+	id 1ozb6f-000132-Ls; Mon, 28 Nov 2022 05:11:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ozb6K-0000zX-Vk
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ozb6K-0000zW-NH
  for qemu-devel@nongnu.org; Mon, 28 Nov 2022 05:11:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ozb6J-000479-2P
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ozb6J-000477-2U
  for qemu-devel@nongnu.org; Mon, 28 Nov 2022 05:11:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669630258;
+ s=mimecast20190719; t=1669630257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=373rFYTQearqzIa/iBArekdYagJPxJtQqb2ywjvyi2Y=;
- b=cRTyFXu9uRS90OLPq51WwpOg3X/fmjG0+PSY5HbAXZ2PbRH9Z0UH58GngD2PdqgFDQjJAC
- uujX5wgYMBgBErcKgCbFo72mmgM9OTw+wjIt+jpQezYm6QnhE18//KCe/UywPABCf6Sb5/
- 6gJXjb59qHmw/IC60GS/vnGT+lERqd0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r+34wfLERkrUT2wLp5PZ7bh/hRb99wI0pOCI/0RTCuU=;
+ b=H0V8IEvB+JFgOQiKjvVwyf88MD5fp6pSGKgQjXjElBwXavqCFUEGUp8H9oYa91oD+vmZA1
+ OaWVW1OeJFMnyIKIEaI4PeEiVFmfEokFyYm8yz8NUGfc03KFMKJypDobAlckQlczVz28Bj
+ TlQ/habZCti4WI+4vndWqO75mqvnbAc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-qKy9pAGUMMa_9GI803R-4Q-1; Mon, 28 Nov 2022 05:10:56 -0500
-X-MC-Unique: qKy9pAGUMMa_9GI803R-4Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-462-UwKPSd8JNfqb2UhVLlVrqw-1; Mon, 28 Nov 2022 05:10:56 -0500
+X-MC-Unique: UwKPSd8JNfqb2UhVLlVrqw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05D8B811E75
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 015C23C0F222
  for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 10:10:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C07E9112132D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C26C040C2088;
  Mon, 28 Nov 2022 10:10:55 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D7E021800080; Mon, 28 Nov 2022 11:10:51 +0100 (CET)
+ id E26371800081; Mon, 28 Nov 2022 11:10:51 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PULL 0/2] Seabios 1.16.1 20221128 patches
-Date: Mon, 28 Nov 2022 11:10:49 +0100
-Message-Id: <20221128101051.1609044-1-kraxel@redhat.com>
+Subject: [PULL 1/2] update seabios source from 1.16.0 to 1.16.1
+Date: Mon, 28 Nov 2022 11:10:50 +0100
+Message-Id: <20221128101051.1609044-2-kraxel@redhat.com>
+In-Reply-To: <20221128101051.1609044-1-kraxel@redhat.com>
+References: <20221128101051.1609044-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -75,42 +78,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 7c09a7f6ae1770d15535980d15dffdb23f4d9786:
+git shortlog rel-1.16.0..rel-1.16.1
+===================================
 
-  Update VERSION for v7.2.0-rc2 (2022-11-22 18:59:56 -0500)
+Gerd Hoffmann (3):
+      malloc: use variable for ZoneHigh size
+      malloc: use large ZoneHigh when there is enough memory
+      virtio-blk: use larger default request size
 
-are available in the Git repository at:
+Igor Mammedov (1):
+      acpi: parse Alias object
 
-  https://gitlab.com/kraxel/qemu.git tags/seabios-1.16.1-20221128-pull-request
+Volker Rümelin (2):
+      pci: refactor the pci_config_*() functions
+      reset: force standard PCI configuration access
 
-for you to fetch changes up to a704cb59fd87cd015177a823974ca2380aac6bfd:
+Xiaofei Lee (1):
+      virtio-blk: Fix incorrect type conversion in virtio_blk_op()
 
-  update seabios binaries to 1.16.1 (2022-11-28 11:06:05 +0100)
+Xuan Zhuo (2):
+      virtio-mmio: read/write the hi 32 features for mmio
+      virtio: finalize features before using device
 
-----------------------------------------------------------------
-[for-7.2] update seabios to bugfix release 1.16.1
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ roms/seabios | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-
-Gerd Hoffmann (2):
-  update seabios source from 1.16.0 to 1.16.1
-  update seabios binaries to 1.16.1
-
- pc-bios/bios-256k.bin             | Bin 262144 -> 262144 bytes
- pc-bios/bios-microvm.bin          | Bin 131072 -> 131072 bytes
- pc-bios/bios.bin                  | Bin 131072 -> 131072 bytes
- pc-bios/vgabios-ati.bin           | Bin 39936 -> 39936 bytes
- pc-bios/vgabios-bochs-display.bin | Bin 28672 -> 28672 bytes
- pc-bios/vgabios-cirrus.bin        | Bin 39424 -> 39424 bytes
- pc-bios/vgabios-qxl.bin           | Bin 39424 -> 39936 bytes
- pc-bios/vgabios-ramfb.bin         | Bin 28672 -> 29184 bytes
- pc-bios/vgabios-stdvga.bin        | Bin 39424 -> 39936 bytes
- pc-bios/vgabios-virtio.bin        | Bin 39424 -> 39936 bytes
- pc-bios/vgabios-vmware.bin        | Bin 39424 -> 39936 bytes
- pc-bios/vgabios.bin               | Bin 38912 -> 39424 bytes
- roms/seabios                      |   2 +-
- 13 files changed, 1 insertion(+), 1 deletion(-)
-
+diff --git a/roms/seabios b/roms/seabios
+index d239552ce722..3208b098f51a 160000
+--- a/roms/seabios
++++ b/roms/seabios
+@@ -1 +1 @@
+-Subproject commit d239552ce7220e448ae81f41515138f7b9e3c4db
++Subproject commit 3208b098f51a9ef96d0dfa71d5ec3a3eaec88f0a
 -- 
 2.38.1
 
