@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E1163AD27
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 17:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BAF63AD28
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 17:00:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozgX6-00037y-Py; Mon, 28 Nov 2022 10:59:00 -0500
+	id 1ozgXh-0003E8-Ca; Mon, 28 Nov 2022 10:59:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ozgX5-000371-5J
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:58:59 -0500
+ id 1ozgXe-0003DD-UP
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:59:34 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ozgX3-00063y-PD
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:58:58 -0500
+ id 1ozgXc-00066Q-FU
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:59:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669651136;
+ s=mimecast20190719; t=1669651171;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UN0ku+WTjV7mhjtZkap0R4CwBi6nC5merXOuLJZzUgY=;
- b=I/1uwvF0s0LjuFpe4DTl4QqKiOa5sbt6OX6lsxegYB22sFN5M+f+YGj8Vg8Du6BdHnPAeU
- h9F7k2nQPhH+NGzbmSihhHs28KTYDhmtyIK6h2NJX3CxGD0u1lrsHxhx5mm5Jhc7L/nWdk
- mUQA1qVQtOKbT2KaRB/91P3QKRAgVQw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/1IzXla6DDb3kJifsStnlw4Qa7gNI9PODBtyiQ/YSzk=;
+ b=HR7l3/umoDeQwXxJCL7XAvPvNNiMJQE7IvAQkkEHpNXGUPAxJxkXC7xhkDUTKxkygTWrBi
+ U+0rcDFBmzdxR12G98docimzQaXXIm6OCrv1wx/cJv9ZB8sL9tCdMmw2N/E8+4qj8e7qw9
+ zraPjrro6ngXrvlA1MDR9Jv0bdZHbdw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-350-wH19aQjqOcuSOg_YYY6kMg-1; Mon, 28 Nov 2022 10:58:54 -0500
-X-MC-Unique: wH19aQjqOcuSOg_YYY6kMg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h10-20020adfaa8a000000b0024208cf285eso1421852wrc.22
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:58:54 -0800 (PST)
+ us-mta-654--BJGB4nWNKezwul_fkOCXw-1; Mon, 28 Nov 2022 10:59:30 -0500
+X-MC-Unique: -BJGB4nWNKezwul_fkOCXw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p2-20020adfaa02000000b00241d7fb17d7so2095215wrd.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:59:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UN0ku+WTjV7mhjtZkap0R4CwBi6nC5merXOuLJZzUgY=;
- b=gRzhjW06tJwqbYl1NTi7BVButx9yoCy/y5pxH7hJg5LK5rS0bhGNVfgdBwL8q85YId
- LenJ3TrKgvdYP20sU9ASNXjwGCAZto3vpcNQFcKOyPg0S17LGtwkty6Pu97ufhmyLRVx
- Rinn3hyTB3+ZYXYqVLgpjQWkulT+d4dI06y/rZA1kilJm3atcstEWYb74aue9u/ZPMzO
- JRAVDBakbXyOoU6ZKi4OdxnwU2iFA61vkIhw6p/VZba6UxKiC2Eq14EXfGkY4WpRps6f
- RAeFEdksoGMJKJBTkGlXhjx/lMiQ2+YEo7Uf29ck9gZ+DyvioDLtRQ660hzbFcAG3IX3
- ysNw==
-X-Gm-Message-State: ANoB5pkezVwlhaiqcQxmaa0ij0TNQpzpvUd7K8sWqOWUfxs79Y/Enu1l
- U5axcCHjCSWU+OOSROjgJZ0vhHbsGh+vmv98JTVNszIJM8ZpZg9l/yv/vLswq/lDmNpzNNCEQbs
- natOhDrcZKaaxH9A=
-X-Received: by 2002:a1c:4b12:0:b0:3cf:5237:c0be with SMTP id
- y18-20020a1c4b12000000b003cf5237c0bemr37140997wma.163.1669651133801; 
- Mon, 28 Nov 2022 07:58:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6sDt2/YarcW5Yi5WbLGw0L8xMd/mn3Vr3VhWcN5EaeaIIBHL6gDN9k9OjR2uPHGYGYYDZFlg==
-X-Received: by 2002:a1c:4b12:0:b0:3cf:5237:c0be with SMTP id
- y18-20020a1c4b12000000b003cf5237c0bemr37140957wma.163.1669651133599; 
- Mon, 28 Nov 2022 07:58:53 -0800 (PST)
+ bh=/1IzXla6DDb3kJifsStnlw4Qa7gNI9PODBtyiQ/YSzk=;
+ b=yCGW2J35dT7Z+hjMHH98ZLTHaUntVa/gvLfwGuVxo+kD7TrErN1J2nbXlsS0kYr9lE
+ CH80vKvW5KyKgs3uqbwrCM3xf0LgVHbz5Q6H+qdAZiWMgcRPCSH+Hs5RzcdeGntK/r8M
+ Z6GG4NRRdFGvoM9gCxzSZC5TWIKkblJa+BPzZT2lGz7J+Rsggwu6Fufs2UBQa1ZlEaah
+ Ej1Cm/BLcxyX0uALykAq2J4Oeui6mTE3on28xWh9OrqR0tkGCb6cWFiVIGoZyqsx58+H
+ Ry2bGewiLKyFe2wM3En3nwsnUJTvTIGaB6N/3eoLTL6AVkJryu/4ckXHS0fJpWNyeQYA
+ RAng==
+X-Gm-Message-State: ANoB5pkfhhk0d8dxjTuxGgJkHuWF3YbCEHU/rvzDAgFOPn8vMBEcufa5
+ sR5ae1oqL94H8hEz3WKyOYmr0+JtsZyYkz0mPBhxb2Z+htLx4qgPUR6RK/TCxa85qaViEqmKnXZ
+ 5PD+TaOEYF1i9yG0=
+X-Received: by 2002:adf:ed01:0:b0:241:b4cc:4e9e with SMTP id
+ a1-20020adfed01000000b00241b4cc4e9emr20798420wro.287.1669651169004; 
+ Mon, 28 Nov 2022 07:59:29 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4OYViHyloJT8wO2lk37YjauITxsemI5W1bX5ZkalWXYJlfkWYuNcq4Xj9CUpcvq3NkKcVeGA==
+X-Received: by 2002:adf:ed01:0:b0:241:b4cc:4e9e with SMTP id
+ a1-20020adfed01000000b00241b4cc4e9emr20798373wro.287.1669651168767; 
+ Mon, 28 Nov 2022 07:59:28 -0800 (PST)
 Received: from localhost ([31.4.242.188]) by smtp.gmail.com with ESMTPSA id
- u22-20020a7bc056000000b003c6c1686b10sm18924790wmc.7.2022.11.28.07.58.52
+ k17-20020a05600c1c9100b003c6b874a0dfsm20387267wms.14.2022.11.28.07.59.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 07:58:53 -0800 (PST)
+ Mon, 28 Nov 2022 07:59:28 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org,  Alistair.Francis@wdc.com,
@@ -76,18 +76,17 @@ Cc: qemu-devel@nongnu.org,  Alistair.Francis@wdc.com,
  aleksandar.rikalo@syrmia.com,  berrange@redhat.com,  thuth@redhat.com,
  lvivier@redhat.com,  suhang16@mails.ucas.ac.cn,  chen.zhang@intel.com,
  lizhijian@fujitsu.com,  stefanha@redhat.com,  qemu-riscv@nongnu.org,
- qemu-ppc@nongnu.org,  virtio-fs@redhat.com,  Fam Zheng <fam@euphon.net>,
- Kevin Wolf <kwolf@redhat.com>,  Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org,  Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 2/3] block/vmdk: Simplify vmdk_co_create() to return
- directly
-In-Reply-To: <20221128094138.2824623-3-armbru@redhat.com> (Markus Armbruster's
- message of "Mon, 28 Nov 2022 10:41:37 +0100")
+ qemu-ppc@nongnu.org,  virtio-fs@redhat.com,  BALATON Zoltan
+ <balaton@eik.bme.hu>
+Subject: Re: [PATCH v3 3/3] ppc4xx_sdram: Simplify sdram_ddr_size() to
+ return directly
+In-Reply-To: <20221128094138.2824623-4-armbru@redhat.com> (Markus Armbruster's
+ message of "Mon, 28 Nov 2022 10:41:38 +0100")
 References: <20221128094138.2824623-1-armbru@redhat.com>
- <20221128094138.2824623-3-armbru@redhat.com>
+ <20221128094138.2824623-4-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 28 Nov 2022 16:58:51 +0100
-Message-ID: <877czfkr44.fsf@secure.mitica>
+Date: Mon, 28 Nov 2022 16:59:25 +0100
+Message-ID: <8735a3kr36.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -117,17 +116,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> Cc: Fam Zheng <fam@euphon.net>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Hanna Reitz <hreitz@redhat.com>
-> Cc: qemu-block@nongnu.org
+> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-goto, uninitialized variable at declaraton and can use return directly.
-Not bad at all.
 
 
