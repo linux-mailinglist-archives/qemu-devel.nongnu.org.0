@@ -2,83 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4219E63B358
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28EC163B369
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:37:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozkrJ-0008Fl-34; Mon, 28 Nov 2022 15:36:09 -0500
+	id 1ozksJ-0000ch-J6; Mon, 28 Nov 2022 15:37:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ozkr7-0008FE-B5; Mon, 28 Nov 2022 15:36:01 -0500
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ozkr5-0003iv-Iu; Mon, 28 Nov 2022 15:35:57 -0500
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-142612a5454so14524694fac.2; 
- Mon, 28 Nov 2022 12:35:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+Bh4YGv3HVp9cmE15NmTekU65/Dd+CJmE+9jEztWD94=;
- b=pq4ZpwXlJcdNxyfBortykaZH0T2V/FuiKcA5FVMdTT3PEUcHBm+mV3Nqkqsu+QNdnc
- dmc5EH/2y2VaN7hiipB4VcJjuaJoHENJmlFc548ts0RWb9P8xKTKmyGyVepF4GWsO3sS
- ZoRW4Nexs7Zz6hZRHojDSZAGAPw+f1WiAIVdug6G8c/njNRyKs2ZHFr1HjCr259y9rY3
- uObd8AgbUzrJreXzn1dDn+58q23V1pY4qPpEkuIcFiplJby5ICz0kQd8mhTEliQhn04l
- YX+iSaqJHh+DRp7uVr/B2VunJnD/i1Xq+Fkleo7ASPqQj3qArx1nI4FN9VhnsRbsQrL9
- zfIw==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ozksE-0000WD-DZ
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:37:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ozks7-0003pi-Qh
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 15:37:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669667818;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=roHZtRoeAJ+wkYMKPWjdwDLQVX1nYkC/LiYFWWVsprs=;
+ b=bbGLzsP4j6y7Vo6QebOxEBaMlVthc9ucFEz89nFW5VAR4W9hkW6dNe1YiCEhz343x4VqF1
+ Q37l1/FGfiluaiU4ED5lCxk6gQzFJ+w/Dx19aI3sLKo3kLTIpS1zMsM9t4Wd7LNf1mOBXR
+ qeZkgN+Gw8dd0faINIwt02Q4XyNThsY=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-21-wPjtI5ApMpKVKot5dBEGCQ-1; Mon, 28 Nov 2022 15:36:56 -0500
+X-MC-Unique: wPjtI5ApMpKVKot5dBEGCQ-1
+Received: by mail-il1-f200.google.com with SMTP id
+ i8-20020a056e0212c800b00302578e6d78so9861497ilm.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 12:36:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+Bh4YGv3HVp9cmE15NmTekU65/Dd+CJmE+9jEztWD94=;
- b=dp+tiSgrqGoK9KFxofRrs0/+gyO31zpn5mFxxYiyCsoWnI+2A9jdAyp0PWpIwmvG26
- LvuEi5sZ+ESDzSjf5R9mrsP5qcaqrhWZNErB8ifbDDCUHhl44+Y9YxrRvqU8VOtTUh4m
- n/sORDvvxMgoEGlgTHuKn4/2zO3oIDn/QzkO6iAPNAL9XO6dIOij6QjlHSM3sSVo6Tc2
- jFUZTKxns8t67ab4coWGD/DAWREJr7prr6JhlTGnrZNtvvAs4yI9ZELPt1wF+e1J/FQ9
- Bw5Gamg6HyaQYnz6kWoSs3ObGSy6Mz1hoZjloEQQDbH8japdanX4O6uMQjFd0mcYcNjs
- 9iJw==
-X-Gm-Message-State: ANoB5pnBBueCqd4YQi7+S5OoW39Q7wNTHQNy5Lw4jKcDqwkbAcemssc+
- NVKmlSxCjoa81vee14SKkZw=
-X-Google-Smtp-Source: AA0mqf5owXWhqEj12MvHX/TrOY1oUi+PW0d1FFQaV+p47rB5+0LasxrwJJRl3vh5uzHvtF8D0Me+pQ==
-X-Received: by 2002:a05:6870:2186:b0:143:733e:84e3 with SMTP id
- l6-20020a056870218600b00143733e84e3mr10222262oae.95.1669667753849; 
- Mon, 28 Nov 2022 12:35:53 -0800 (PST)
-Received: from [192.168.10.102] (189-68-154-53.dsl.telesp.net.br.
- [189.68.154.53]) by smtp.gmail.com with ESMTPSA id
- c26-20020aca1c1a000000b0035ba52d0efasm2438195oic.52.2022.11.28.12.35.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 12:35:53 -0800 (PST)
-Message-ID: <bd0febd5-2ee5-e0af-77f4-85fe1bb4699f@gmail.com>
-Date: Mon, 28 Nov 2022 17:35:49 -0300
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=roHZtRoeAJ+wkYMKPWjdwDLQVX1nYkC/LiYFWWVsprs=;
+ b=YQty82Cx6uGV3eLQZKV4ck3zQA7762iVprQ0yORs3UhEc+GzmB9RvP2Mxse3/zafiG
+ PnKBCs3ol7/Xs5OGDVWSbBpEwxAfJ0g7fVofkR5JW+xjdZ6IAIJo7Gu1T8rmG4RsCgrJ
+ k2de7voNgPt2IdQHKI/qT3YbtRHs2WNWj0yfuD3xz53gR31bFtPIP82VhF8ou5kLbTrI
+ q90anm88FxVNG5bSHCFWwSddFamw3C60aFUzv+sIglpBD5k3tutPtx3jQRLUcwBy01sR
+ Wv9qaR0i5+adNzCJsJYC2gvVD6unOeRJJHH+ITMToqRWQvxW0elitu6ZaS2CsmWkN4D7
+ 3zUQ==
+X-Gm-Message-State: ANoB5pmlyBuBIFgcOOi9tHdsMe9s95Ejl2Mt8wmyCx8CbbG0fEzlq8SP
+ UNq71L7gceW/9PUXonD8Sznx1bSHi/W8RoffN5RdI+nQQ0eRgJwp2sp/nPPnPq+vJnmBMlxGFij
+ kCtwYGE6PonSboxI=
+X-Received: by 2002:a6b:6b07:0:b0:6dd:f70e:dda5 with SMTP id
+ g7-20020a6b6b07000000b006ddf70edda5mr17655984ioc.100.1669667803423; 
+ Mon, 28 Nov 2022 12:36:43 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4cIJCUIAHUv5wn+eOOvTXQtJ6b5XMqN3e4KjVp5Vm3952wALl2rDbCv4B7Apblk8wGfTa9Cw==
+X-Received: by 2002:a6b:6b07:0:b0:6dd:f70e:dda5 with SMTP id
+ g7-20020a6b6b07000000b006ddf70edda5mr17655766ioc.100.1669667796414; 
+ Mon, 28 Nov 2022 12:36:36 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ f30-20020a056602089e00b006df10f981a2sm4832429ioz.6.2022.11.28.12.36.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Nov 2022 12:36:35 -0800 (PST)
+Date: Mon, 28 Nov 2022 13:36:30 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org, Halil Pasic
+ <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, Ilya
+ Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, Juan
+ Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck
+ <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-block@nongnu.org, Kunkun Jiang
+ <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>, Yishai
+ Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Shay Drory
+ <shayd@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
+ protocol v2
+Message-ID: <20221128133630.07e1fa14.alex.williamson@redhat.com>
+In-Reply-To: <Y4UOp7Wi/fwsY6DY@nvidia.com>
+References: <20221103161620.13120-1-avihaih@nvidia.com>
+ <20221103161620.13120-13-avihaih@nvidia.com>
+ <20221116112935.23118a30.alex.williamson@redhat.com>
+ <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
+ <20221117103829.18feab7a.alex.williamson@redhat.com>
+ <feaa77ec-c574-6267-0872-d8769037e4c7@nvidia.com>
+ <a867c866-c297-960c-6fe3-51f292f4c6d3@nvidia.com>
+ <20221128115003.602d4ef7.alex.williamson@redhat.com>
+ <Y4UOp7Wi/fwsY6DY@nvidia.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 2/2] target/ppc: Check DEXCR on hash{st, chk} instructions
-Content-Language: en-US
-To: Nicholas Miehlbradt <nicholas@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
- groug@kaod.org, victor.colombo@eldorado.org.br
-References: <20221124055143.752601-1-nicholas@linux.ibm.com>
- <20221124055143.752601-3-nicholas@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221124055143.752601-3-nicholas@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,100 +123,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, 28 Nov 2022 15:40:23 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-
-On 11/24/22 02:51, Nicholas Miehlbradt wrote:
-> Adds checks to the hashst and hashchk instructions to only execute if
-> enabled by the relevant aspect in the DEXCR and HDEXCR.
+> On Mon, Nov 28, 2022 at 11:50:03AM -0700, Alex Williamson wrote:
 > 
-> This behaviour is guarded behind TARGET_PPC64 since Power10 is
-> currently the only implementation which has the DEXCR.
+> > There's a claim here about added complexity that I'm not really seeing.
+> > It looks like we simply make an ioctl call here and scale our buffer
+> > based on the minimum of the returned device estimate or our upper
+> > bound.  
 > 
-> Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
-> ---
+> I'm not keen on this, for something like mlx5 that has a small precopy
+> size and large post-copy size it risks running with an under allocated
+> buffer, which is harmful to performance.
 
-LGTM
+I'm trying to weed out whether there are device assumptions in the
+implementation, seems like maybe we found one.  MIG_DATA_SIZE specifies
+that it's an estimated data size for stop-copy, so shouldn't that
+provide the buffer size you're looking for?  Thanks,
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Alex
 
->   target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
->   1 file changed, 43 insertions(+), 15 deletions(-)
-> 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 94adcb766b..add4d54ae7 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -2902,29 +2902,57 @@ static uint64_t hash_digest(uint64_t ra, uint64_t rb, uint64_t key)
->       return stage1_h ^ stage1_l;
->   }
->   
-> +static void do_hash(CPUPPCState *env, target_ulong ea, target_ulong ra,
-> +                    target_ulong rb, uint64_t key, bool store)
-> +{
-> +    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;
-> +
-> +    if (store) {
-> +        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());
-> +    } else {
-> +        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());
-> +        if (loaded_hash != calculated_hash) {
-> +            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-> +                POWERPC_EXCP_TRAP, GETPC());
-> +        }
-> +    }
-> +}
-> +
->   #include "qemu/guest-random.h"
->   
-> -#define HELPER_HASH(op, key, store)                                           \
-> +#ifdef TARGET_PPC64
-> +#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
->   void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
->                    target_ulong rb)                                             \
->   {                                                                             \
-> -    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;         \
-> -                                                                              \
-> -    if (store) {                                                              \
-> -        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());                   \
-> -    } else {                                                                  \
-> -        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());                      \
-> -        if (loaded_hash != calculated_hash) {                                 \
-> -            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,                 \
-> -                POWERPC_EXCP_TRAP, GETPC());                                  \
-> -        }                                                                     \
-> +    if (env->msr & R_MSR_PR_MASK) {                                           \
-> +        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PRO_##dexcr_aspect##_MASK ||      \
-> +            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
-> +            return;                                                           \
-> +    } else if (!(env->msr & R_MSR_HV_MASK)) {                                 \
-> +        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PNH_##dexcr_aspect##_MASK ||      \
-> +            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
-> +            return;                                                           \
-> +    } else if (!(env->msr & R_MSR_S_MASK)) {                                  \
-> +        if (!(env->spr[SPR_HDEXCR] & R_HDEXCR_HNU_##dexcr_aspect##_MASK))     \
-> +            return;                                                           \
->       }                                                                         \
-> +                                                                              \
-> +    do_hash(env, ea, ra, rb, key, store);                                     \
-> +}
-> +#else
-> +#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
-> +void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
-> +                 target_ulong rb)                                             \
-> +{                                                                             \
-> +    do_hash(env, ea, ra, rb, key, store);                                     \
->   }
-> +#endif /* TARGET_PPC64 */
->   
-> -HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
-> -HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
-> -HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
-> -HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-> +HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true, NPHIE)
-> +HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false, NPHIE)
-> +HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true, PHIE)
-> +HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false, PHIE)
->   #endif /* CONFIG_TCG */
->   
->   #if !defined(CONFIG_USER_ONLY)
 
