@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEB963A6BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 12:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E27463A6D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 12:13:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozbx2-0007GM-62; Mon, 28 Nov 2022 06:05:28 -0500
+	id 1ozc36-00028b-Ri; Mon, 28 Nov 2022 06:11:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozbwz-0007GC-Hh
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 06:05:25 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozc34-00028D-BX
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 06:11:42 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ozbwx-00042L-Oj
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 06:05:25 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id z192so12841674yba.0
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 03:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=b9dcBLUx+oszkdb0HP4KdK1vgvD8Pq/EBICAw4M5JR4=;
- b=Re6yxv7UY/tSERp+4M4qyNim3OrGEr6m7WwA0PEZ5nARQ+k9yjJQDPXe2cSe9rP5FM
- SuwzO+GT5m1tyCeYIbRrk/tuVSu47vc9Rz1vqrJoJVtZfHPh1W+ucv1KCQAZw7AAMADi
- L5Xo6rW9yn2QdKq5rgJ7pEAz2Y+XrcnJ6OqhGAWHFdIbpMlSgePfpWyGpdiO8+vylYDV
- BvCLemnmW4YUvg95YJ/itrkpsotQmSFyNI6Bx9c/6mEdZ6otC8xRhkXpvBfxe9rStGw7
- MVXsKbvKlN+qwo63i1ArBlphMDYfUJVBwm4UvJnoCbuDKDlxKTSbpuUNtwdwmiMsey3X
- mv5Q==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozc32-00056B-ML
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 06:11:42 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ p13-20020a05600c468d00b003cf8859ed1bso8100940wmo.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 03:11:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=93GsaQH7tPTA5jVU9AjOAxwSOo7mqmLJYcOM/TCmnGM=;
+ b=w9J2l2YL0llftixMpl2GK4pN5zVJPWY6lWqa5MfRWZhpl7r5BQMoop5WwY6unEeTTB
+ c1XXhZ8yfF3nsSuHqKTIouOQlxRvzOWKqirUCZk0moE9P+EpvCG2zLGLMeU9HPE/QovV
+ SdAHLxjNBNjtzqqlY63u40Ue8GFU/4zKDqEME5br+mevCAkCkIxyPG0jXI/aEvxDIq83
+ 7IVNFfm3A9J7yQzuWwM/v8xWgTp7MG952ZtRw8Qglj7BmO+whGkXe2BxtvJJtXqtHeQJ
+ XQFWKVSo1108l3hnhIOi/5OZhHtpOpfrJ4WDVC43VdoIz7N7llGe3zjAheg2Z6IWvbN4
+ RB6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b9dcBLUx+oszkdb0HP4KdK1vgvD8Pq/EBICAw4M5JR4=;
- b=4zzU5IQL7mG/JIe17UDCa2AITUtxlyskEEW406kKyaRAwZD/orJc2qJcz4TLpCbxkh
- oD2AJBBcgrtzfWf4LSy6VAR8dtgPtaHBXEkva3JEbXvy40CP91dQnWzApglB9pO6uezk
- YZzs+s50Iqsq2+r/jmjrMSRBEbMZxbXj91ru2tW0CVSyxrX/8Ccmza8gOWNmP0+33/Cb
- Q0r1Ph39EPlXbFWHAFuuFM8AVfOfYlpQVfxkAdhppRq9HahNjCRxFilPh5BvHaV6l+L3
- t1dtBU6wSd9X4LQwg2ex8GBiNXPs7IzZG2AsbScDnn69HkstAyzMqkzX5n0l7GKlQ6AG
- 705Q==
-X-Gm-Message-State: ANoB5pmeY812sygnGMg0R3HiiRymwj3YWb5fgZLLBW4UiRh4das9PbVI
- ijgwlNZkLhZWEkwMfzc1pGsRXVIu4wh0u6bjUiA=
-X-Google-Smtp-Source: AA0mqf7KnhihQKIhSTod3GEuuYtGEXhc/XuXMtyfVJG8JqWBLGnvLp/ibBBYfY2icVEJJmWsWx0JD2S8HiuYZUo3mxw=
-X-Received: by 2002:a5b:f02:0:b0:6f7:6238:3c62 with SMTP id
- x2-20020a5b0f02000000b006f762383c62mr2064906ybr.209.1669633522719; Mon, 28
- Nov 2022 03:05:22 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=93GsaQH7tPTA5jVU9AjOAxwSOo7mqmLJYcOM/TCmnGM=;
+ b=aG7w3mohkvh5ZeaqC1pXB9AtQhzNvWtwnnGN6ORsYoPEvBGWxTAHJXGjvlCIQzRIym
+ KDwztVHsnRls0+OSrneYoP2dJecAIrHagQKghB3cxRSIreqhWhY0nOpLOI8sew6dBwEm
+ Sp/Pv2UH6lYL+p5HF2czCRlu6yY3xpZVGbNFAa+/nrwVxretC4Z0qFuRWlSruJSZrPqI
+ 8+JtW2ExFintiJtH2kf6r5+4bJn+0bij3XeyjSnMokIEEq0Fyf8tFDbCD6bVKO50R3hY
+ RKvmMesNfV6k4u91qIhGjFEqow8Vp3zZPIirVFp4icxS7de+2EIqtYMBN1EZPruUzL/R
+ Uyww==
+X-Gm-Message-State: ANoB5pmM/sQ17Z450XJoT0gxYhG/HXqHwbL2al1IbYR7AfNItXisfWBY
+ E84qKKTnLj0NrdLFNGMl879vZg==
+X-Google-Smtp-Source: AA0mqf7vlmd/NX25MyewxveDz1lonhVcgAfp64uArV3m4Z1ubtFlZ6ndXOE1d0/Yembg01Oljedg5Q==
+X-Received: by 2002:a05:600c:5014:b0:3cf:72d9:10b0 with SMTP id
+ n20-20020a05600c501400b003cf72d910b0mr23215717wmr.26.1669633899182; 
+ Mon, 28 Nov 2022 03:11:39 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m16-20020a05600c3b1000b003cfd0bd8c0asm16108671wms.30.2022.11.28.03.11.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 03:11:38 -0800 (PST)
+Message-ID: <d1e0fe99-01ba-c532-4746-7b8d725028b7@linaro.org>
+Date: Mon, 28 Nov 2022 12:11:37 +0100
 MIME-Version: 1.0
-References: <20221126152507.283271-1-sw@weilnetz.de>
- <20221128052856-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221128052856-mutt-send-email-mst@kernel.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 28 Nov 2022 06:05:12 -0500
-Message-ID: <CAJSP0QVpyONQAQM7jChMJ64w=wc-_MdUjdaSRbBxqj7HiKccYA@mail.gmail.com>
-Subject: Re: [PATCH v3 for-7.2 0/6] Add format attributes and fix format
- strings
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel <qemu-devel@nongnu.org>, 
- Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="00000000000006deee05ee85d980"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [RFC PATCH-for-7.2 3/4] hw/display/qxl: Pass requested buffer
+ size to qxl_phys2virt()
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Mauro Matteo Cascella <mcascell@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221125154030.42108-1-philmd@linaro.org>
+ <20221125173119.46665-1-philmd@linaro.org>
+ <CAJ+F1C+k+_4SuvO9J4cZGutEqATjbP0oh7StKjT2=hHt6v96Vw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAJ+F1C+k+_4SuvO9J4cZGutEqATjbP0oh7StKjT2=hHt6v96Vw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,56 +96,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000006deee05ee85d980
-Content-Type: text/plain; charset="UTF-8"
+On 28/11/22 09:22, Marc-André Lureau wrote:
+> On Fri, Nov 25, 2022 at 9:35 PM Philippe Mathieu-Daudé
+> <philmd@linaro.org> wrote:
+>>
+>> Currently qxl_phys2virt() doesn't check for buffer overrun.
+>> In order to do so in the next commit, pass the buffer size
+>> as argument.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
+> 
+> 
+>> ---
+>> RFC: Please double-check qxl_render_update_area_unlocked()
+>> ---
+>>   hw/display/qxl-logger.c | 11 ++++++++---
+>>   hw/display/qxl-render.c | 11 +++++++----
+>>   hw/display/qxl.c        | 14 +++++++++-----
+>>   hw/display/qxl.h        |  4 +++-
+>>   4 files changed, 27 insertions(+), 13 deletions(-)
 
-On Mon, Nov 28, 2022, 05:29 Michael S. Tsirkin <mst@redhat.com> wrote:
 
-> On Sat, Nov 26, 2022 at 04:25:01PM +0100, Stefan Weil wrote:
-> > v3:
-> > - Fix description for patch 3
-> > - Add patches 5 and 6
-> >
-> > The patches 3 and 5 still need reviews!
->
-> Series:
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->
-> Stefan you said you want to merge this?
->
+>> diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
+>> index ca217004bf..1b0a50c1aa 100644
+>> --- a/hw/display/qxl-render.c
+>> +++ b/hw/display/qxl-render.c
+>> @@ -107,7 +107,8 @@ static void qxl_render_update_area_unlocked(PCIQXLDevice *qxl)
+>>           qxl->guest_primary.resized = 0;
+>>           qxl->guest_primary.data = qxl_phys2virt(qxl,
+>>                                                   qxl->guest_primary.surface.mem,
+>> -                                                MEMSLOT_GROUP_GUEST);
+>> +                                                MEMSLOT_GROUP_GUEST,
+>> +                                                sizeof(uint32_t) * width * height);
+> 
+> It looks wrong, I think it should be:
+> 
+> qxl->guest_primary.abs_stride * height * qxl->guest_primary.bytes_pp
 
-Yes.
+Isn't "bytes_pp" included in "abs_stride"?
 
-Stefan
+If so, then "qxl->guest_primary.abs_stride * height" is enough..
 
->
-
---00000000000006deee05ee85d980
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Nov 28, 2022, 05:29 Michael S. Tsirkin &lt;<a =
-href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">On Sat, Nov 26, 2022 at 04:25:01PM +0100, Stefan =
-Weil wrote:<br>
-&gt; v3:<br>
-&gt; - Fix description for patch 3<br>
-&gt; - Add patches 5 and 6<br>
-&gt; <br>
-&gt; The patches 3 and 5 still need reviews!<br>
-<br>
-Series:<br>
-Reviewed-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">mst@redhat.com</a>&gt;<br>
-<br>
-Stefan you said you want to merge this?<br></blockquote></div></div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Yes.</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto">Stefan</div><div dir=3D"auto"><div class=3D"gmail_quote=
-"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---00000000000006deee05ee85d980--
 
