@@ -2,99 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7E263A4B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E83F63A4DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:26:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozaJA-0003G3-Js; Mon, 28 Nov 2022 04:20:12 -0500
+	id 1ozaOU-0004Ob-Rk; Mon, 28 Nov 2022 04:25:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ozaJ3-0003FN-UD
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:20:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ozaOJ-0004OD-0y
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:25:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ozaJ1-0003qP-LN
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:20:05 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ozaOH-0004j2-DH
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:25:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669627202;
+ s=mimecast20190719; t=1669627524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zcoze7YBifLrZZXm0zf6vAyD/1iOC73/bgtC8QDj0ys=;
- b=JC9QpoJHtwFGQAF1OLAHngRnt/P2CzvqfhCtsgAhInE6cUU1ATkS2MOqh411L8e9jZkIyF
- ojVVLrG+GEh3cvm2rGFbFGYrIh6Q/OnKg615r+LP8scCHUkm/cnRNIBqC2t5q145WWcq2x
- 2tPKRso6sZXQkhyNBbyMjMBd0ZxS2sM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VM5DgXIbzSZqYFmY+cyyr+XBJn838msUkT0cLqldeSU=;
+ b=P7z5FEHPvGAI0JTomGmamAb32C+MSHohxGCEWzruMd3aOIEKAC1PDmdT05d50/hbbwmlxt
+ nXOU6ty9zYHzgaa8H/HLOVvQifGFxcC7lKvSU4P4sDzIlQsaJp7nvneM6WvcUDAPO119/H
+ RPyWVpsKyZMC/k/BHjdIt6SM2izBPVE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-331-daNyaGnGNB-FP1_q4i8gIA-1; Mon, 28 Nov 2022 04:20:00 -0500
-X-MC-Unique: daNyaGnGNB-FP1_q4i8gIA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c126-20020a1c3584000000b003cfffcf7c1aso8362328wma.0
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 01:20:00 -0800 (PST)
+ us-mta-530-e3ZhXHMCNnOx7ASZFVzw0g-1; Mon, 28 Nov 2022 04:25:23 -0500
+X-MC-Unique: e3ZhXHMCNnOx7ASZFVzw0g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o8-20020adfba08000000b00241e80f08e0so1670132wrg.12
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 01:25:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zcoze7YBifLrZZXm0zf6vAyD/1iOC73/bgtC8QDj0ys=;
- b=H2UCbc1mXv5HBhytTcM8Q/cS6d8lpirw4I+TO/RFqRHNPAAVQeqfoIwkkMRuaukiS3
- ywCxvMzMdqHJv9nnSbcL8xa0847d40+GVBLnstwJ6x6jcxJE0NoYzMRA+l1idZHAmLsc
- N2XW3NYP9yapRRUrmfL69aTPU4ZPb1MwzgFdBSrkTERDFeYLaRtNLmZSZCBOAy2bqIf3
- ONQFb18Ynak/95rYnSd1RkETbp7bsLInkaSLnzOpRfwkgdCJ3Vei4woIp/R6kzmqiDx0
- fr6bYaK9W0jIbJ4pic+Os5szPyG/kNNW7piASZ+AolAlxxKGT6lWmIG2RwjPVQJq1ckR
- LIOQ==
-X-Gm-Message-State: ANoB5plWpqtKZcCIRrZZvrxPeqGTgKrlxyoriycqtDLSe2LERtFd9Q6K
- /XdYdH4YlMjwKn6mC5oRk+iS+UoOSgS+IeZ5Cl3bu2rdOBiDQ74a3PrIgeiQGOVWK3G7ATzfjcb
- TtkfOPRxR4/ZYwCA=
-X-Received: by 2002:a05:6000:1e12:b0:242:1522:249b with SMTP id
- bj18-20020a0560001e1200b002421522249bmr2967707wrb.326.1669627199773; 
- Mon, 28 Nov 2022 01:19:59 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7r/hSRUVj3xnF+W5gD2AtJS/I0zcavSYu1Frd+BWu4HzlvE10PU69fzNxqV5E+Tw7AeV26zw==
-X-Received: by 2002:a05:6000:1e12:b0:242:1522:249b with SMTP id
- bj18-20020a0560001e1200b002421522249bmr2967670wrb.326.1669627199448; 
- Mon, 28 Nov 2022 01:19:59 -0800 (PST)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- p17-20020a5d48d1000000b00236488f62d6sm10229631wrs.79.2022.11.28.01.19.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 01:19:58 -0800 (PST)
-Message-ID: <15a6e2c4-cfd3-4815-8d8a-04e020387bc9@redhat.com>
-Date: Mon, 28 Nov 2022 10:19:56 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VM5DgXIbzSZqYFmY+cyyr+XBJn838msUkT0cLqldeSU=;
+ b=FG+9o2jdNc0WC/S0aNjFyClz92V2ZJqBFEFrzZckpw+RSEcuu2PFhjQWlxtIpuv7lj
+ upKjI4g34wwdMR70qE3FsBUNtFqPu9/tsttDtxfeGfD9h0t0l75WD5Tdxbci6ZSmuZ1F
+ 4rNWYg+miTfi2GqPUrpZrzPNdTVAj5ZKbPrqFzeVu3o0QNIUtrOKhB8CQGYR7V/mgaAP
+ TIu+i07uO3PMIFh/T1eACqVCWx1InpIvkyhtgDVgfygs1oDBNP3gVXQKwAti1gEjo18S
+ lKct7HXjRy0QKmL1AiSlBTz7wWkaffDylUKcr7P6aPCRrO7wud8KmXfC3OetUbID5y5Q
+ aHcw==
+X-Gm-Message-State: ANoB5pkOuQY+fUrfHeOzQnIph6eIGjc6YugT7eYy+LAG2kgiLbPgvSJk
+ NTe9EJt9/5k9E3gfAcbGmtFnEVy9NRQZ6aazQKpTiTt8BINY/BHmADXEhxEKzEnQBnjI7z6gO2V
+ pvPvvIZFJpzeIDAs=
+X-Received: by 2002:a05:600c:19d1:b0:3cf:4d12:1b4b with SMTP id
+ u17-20020a05600c19d100b003cf4d121b4bmr39380948wmq.23.1669627521887; 
+ Mon, 28 Nov 2022 01:25:21 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6triIAB5asmbjTgrRX4r0jLYHtTKDmANxRltE4sxWb4q96tKschAz8qvJsHGtbQQTpcMSXYw==
+X-Received: by 2002:a05:600c:19d1:b0:3cf:4d12:1b4b with SMTP id
+ u17-20020a05600c19d100b003cf4d121b4bmr39380931wmq.23.1669627521595; 
+ Mon, 28 Nov 2022 01:25:21 -0800 (PST)
+Received: from redhat.com ([2.52.149.178]) by smtp.gmail.com with ESMTPSA id
+ n3-20020a05600c3b8300b003cfa81e2eb4sm15961067wms.38.2022.11.28.01.25.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Nov 2022 01:25:20 -0800 (PST)
+Date: Mon, 28 Nov 2022 04:25:18 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, dgilbert@redhat.com
+Subject: Re: [PATCH 00/12] pci: Move and clean up monitor command code
+Message-ID: <20221128042502-mutt-send-email-mst@kernel.org>
+References: <20221128080202.2570543-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v6 10/14] block-coroutine-wrapper.py: introduce co_wrapper
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20221125133518.418328-1-eesposit@redhat.com>
- <20221125133518.418328-11-eesposit@redhat.com>
- <37c3385a-719d-053c-66f0-c4a923048b77@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <37c3385a-719d-053c-66f0-c4a923048b77@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221128080202.2570543-1-armbru@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,79 +94,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Nov 28, 2022 at 09:01:50AM +0100, Markus Armbruster wrote:
+> This is mainly about splitting off monitor-related code.  There's also
+> a few UI fixes to HMP command pcie_aer_inject_error.  One UI issue
+> remains: when the second argument is symbolic (found in table
+> pcie_aer_error_list[]), then any -c is silently ignored.  Should it be
+> rejected?  Should it override the value from the table?
 
+Rejected I'd say.
 
-Am 25/11/2022 um 21:32 schrieb Vladimir Sementsov-Ogievskiy:
+> Markus Armbruster (12):
+>   pci: Clean up a few things checkpatch.pl would flag later on
+>   pci: Move QMP commands to new hw/pci/pci-qmp-cmds.c
+>   pci: Move HMP commands from monitor/ to new hw/pci/pci-hmp-cmds.c
+>   pci: Make query-pci stub consistent with the real one
+>   pci: Build hw/pci/pci-hmp-cmds.c only when CONFIG_PCI
+>   pci: Deduplicate get_class_desc()
+>   pci: Move pcibus_dev_print() to pci-hmp-cmds.c
+>   pci: Fix silent truncation of pcie_aer_inject_error argument
+>   pci: Move HMP command from hw/pci/pcie_aer.c to pci-hmp-cmds.c
+>   pci: Inline do_pcie_aer_inject_error() into its only caller
+>   pci: Rename hmp_pcie_aer_inject_error()'s local variable @err
+>   pci: Improve do_pcie_aer_inject_error()'s error messages
 > 
->>     class FuncDecl:
->> -    def __init__(self, return_type: str, name: str, args: str) -> None:
->> +    def __init__(self, return_type: str, name: str, args: str,
->> +                 variant: str) -> None:
+>  hw/pci/pci-internal.h   |  25 +++++
+>  include/monitor/hmp.h   |   1 +
+>  include/sysemu/sysemu.h |   3 -
+>  hw/pci/pci-hmp-cmds.c   | 234 ++++++++++++++++++++++++++++++++++++++++
+>  hw/pci/pci-qmp-cmds.c   | 201 ++++++++++++++++++++++++++++++++++
+>  hw/pci/pci-stub.c       |   9 +-
+>  hw/pci/pci.c            | 226 +-------------------------------------
+>  hw/pci/pcie_aer.c       | 113 +------------------
+>  monitor/hmp-cmds.c      | 107 ------------------
+>  hw/pci/meson.build      |   2 +
+>  10 files changed, 476 insertions(+), 445 deletions(-)
+>  create mode 100644 hw/pci/pci-internal.h
+>  create mode 100644 hw/pci/pci-hmp-cmds.c
+>  create mode 100644 hw/pci/pci-qmp-cmds.c
 > 
-> I'd prefer mixed: bool parameter instead, to be more strict.
-> 
->>           self.return_type = return_type.strip()
->>           self.name = name.strip()
->> +        self.struct_name = snake_to_camel(self.name)
->>           self.args = [ParamDecl(arg.strip()) for arg in args.split(',')]
->> +        self.create_only_co = True
->> +
->> +        if 'mixed' in variant:
->> +            self.create_only_co = False
-> 
-> hmm, just
-> 
->   self.create_only_co = 'mixed' not in variant
-> 
-> ? And even better with boolean argument.
-> 
->> +
->> +        subsystem, subname = self.name.split('_', 1)
->> +        self.co_name = f'{subsystem}_co_{subname}'
->> +
->> +        t = self.args[0].type
->> +        if t == 'BlockDriverState *':
->> +            bs = 'bs'
->> +        elif t == 'BdrvChild *':
->> +            bs = 'child->bs'
->> +        else:
->> +            bs = 'blk_bs(blk)'
->> +        self.bs = bs
->>         def gen_list(self, format: str) -> str:
->>           return ', '.join(format.format_map(arg.__dict__) for arg in
->> self.args)
->> @@ -74,8 +92,9 @@ def gen_block(self, format: str) -> str:
->>           return '\n'.join(format.format_map(arg.__dict__) for arg in
->> self.args)
->>     -# Match wrappers declared with a co_wrapper_mixed mark
->> -func_decl_re = re.compile(r'^int\s*co_wrapper_mixed\s*'
->> +# Match wrappers declared with a co_wrapper mark
->> +func_decl_re = re.compile(r'^int\s*co_wrapper'
->> +                          r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
-> 
-> Why you allow everything here?
-> I'd write just
->  
->   (?P<mixed>(_mixed)?)
-> 
-> or
-> 
->   (?P<marker>co_wrapper(_mixed)?)
-
-Ok you couldn't possibly know that, but we are also adding other type of
-"variants":
-co_wrapper
-co_wrapper_mixed
-co_wrapper_bdrv_rdlock
-co_wrapper_mixed_bdrv_rdlock
-
-Therefore I need to keep variant : str and the regex as it is, but maybe
-get rid of the if else condition. I'll change the docstring of course.
-
-If you want to know more, see the thread in
-"[PATCH 00/15] Protect the block layer with a rwlock: part 3"
-
-Thank you,
-Emanuele
+> -- 
+> 2.37.3
 
 
