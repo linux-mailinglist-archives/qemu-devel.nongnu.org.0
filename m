@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C56E63A111
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 07:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF9063A11E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 07:20:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozXK2-0000tw-So; Mon, 28 Nov 2022 01:08:54 -0500
+	id 1ozXU9-0002sn-QN; Mon, 28 Nov 2022 01:19:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ozXK0-0000tU-Ch; Mon, 28 Nov 2022 01:08:52 -0500
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ozXJy-0005nQ-Ff; Mon, 28 Nov 2022 01:08:52 -0500
-Received: by mail-qt1-x82f.google.com with SMTP id cg5so6038124qtb.12;
- Sun, 27 Nov 2022 22:08:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UsGlqL+j6zt96CowIkRZCseL5j6oNE7VZv4retndg7s=;
- b=QuHDdOQ7XzZ9e4Vbg0t7VV6cmQWfr7qXdn8IJ7FbADNrjaLjLAkA3H3E8GjI9qcBRH
- 17wJY0FfxX4tRiA4eBeqLgRkKrRzHMCc0nuMAp2daCDbUZnRkQVX1me6k4M/kx8RB1F6
- xngRNxVivhMHCOOQ5tICwYW4XjByRZKZ2x1Q4vFtaYZykdyAC8Q6HG603QUqNlWMxtd1
- uws0mITPTCPjopxW+v1OCptsMeijMvQk2X43BExNg4DdXr0GJvI/QrpeyEFLhjuLK4BM
- LH5Wp9GRvL8vYMF3W6RNigmKRiXg+qTpxx0Ni7Ba1hg1xj9DIwi3rNxbiP3/BcuY8xyy
- H6SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UsGlqL+j6zt96CowIkRZCseL5j6oNE7VZv4retndg7s=;
- b=sXWf5FI3MHEouEGvXQvuc13KDJLNYwKtAjMuRBtIPn3/3tvj3iXRBniHiD4YKZ0smW
- g1tL9trrLYGBihKjOl7nQtqBa/j420Qvwqn47VkhLuN0DEQrq5es32bu8hiybTUtvozN
- m0bNs6ea5uiPt6cPk6oEEHWFpKHQz9jVm9ZfWaEMWzQR6UU3QaED5lC25Rl69AfP8/DP
- ftDnn71CXzzGbyqaiq5e6hdvC5RBTHs5UU4BmEXkmBUpaf4EzYIKfjBRzgEi0j0DsTc8
- no5QTvKjmXeqYgBpleVhOuxUDC7vaEAsGo8KbWwcH2H5EMnsZANkGW93CisSbV/ZnqyD
- aBMg==
-X-Gm-Message-State: ANoB5plHxcnO+nb1Aa4SdORv/++FWFbfqSLTXH/aieWoH/Oz97Yu+/Zv
- yCByoX9CcMGfLy67h6/5LDCc24Np9Knmvq4OkXO0xg7e
-X-Google-Smtp-Source: AA0mqf5/xl5D13UgUcII1tAYRouwbFLRQYfnEq+XU7oYi6d0LS20WXc0HP3j9GJpEDZzTHiTqqhaSJYpiX67G9ZK8IQ=
-X-Received: by 2002:ac8:74d2:0:b0:3a5:26e0:ffc3 with SMTP id
- j18-20020ac874d2000000b003a526e0ffc3mr47495071qtr.391.1669615728586; Sun, 27
- Nov 2022 22:08:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1ozXTz-0002sL-R0; Mon, 28 Nov 2022 01:19:11 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1ozXTx-0007Ma-JU; Mon, 28 Nov 2022 01:19:11 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AS5si7s028330; Mon, 28 Nov 2022 06:19:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=+wsnw95yRx++5NeHSfOM34OuFvLKXXPbvSmx2MFcj8o=;
+ b=jBxU5AKZxNWnQF2KeQBcPHNp3XAPDRmZGJiDMkCv0ZN9Eo0ssx+p6C38nJ107pTNTAd1
+ nfPuh5wGZr6XBl/t0Yj77lxfgQ3OyalcuYzGR/oAd8Fz9k7xEwfyB+GSpXmc4eQWiTrk
+ cCDrIxEyymfELMTf0sufuHElzLUe5oAjUWN78Dmoak1o3cBTe86eeA60BrVk//NPNzfR
+ y4o3MT11WLAgTa7TCxXjGPVHlKuirl3PVd4MFcFoT1Say4YzuEuiLNqk8aAGgbig/qxY
+ zrZfzUU8Atrih1tLgnMePvlQKcYDwt7zhlKMiSXKbtSX5Hq4YFoq+z9EsrnZEt7092Sn Ww== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3vn6y4mv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Nov 2022 06:19:05 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AS67HTn026674;
+ Mon, 28 Nov 2022 06:19:05 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3vn6y4me-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Nov 2022 06:19:04 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AS67iEq001079;
+ Mon, 28 Nov 2022 06:19:03 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04fra.de.ibm.com with ESMTP id 3m3ae91fdx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Nov 2022 06:19:02 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AS6IxRN63111660
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 28 Nov 2022 06:18:59 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A24B111C04C;
+ Mon, 28 Nov 2022 06:18:59 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4D2B111C04A;
+ Mon, 28 Nov 2022 06:18:59 +0000 (GMT)
+Received: from [9.171.30.10] (unknown [9.171.30.10])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 28 Nov 2022 06:18:59 +0000 (GMT)
+Message-ID: <f761e76b-ab11-a1d2-956e-c38167e3bbc2@de.ibm.com>
+Date: Mon, 28 Nov 2022 07:18:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Add `sigreturn` to the seccomp
+ whitelist
+Content-Language: en-US
+To: German Maglione <gmaglione@redhat.com>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Stefan Liebler <stli@linux.ibm.com>,
+ virtio-fs@redhat.com, qemu-s390x <qemu-s390x@nongnu.org>,
+ Sven Schnelle <svens@linux.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
+ <CAJh=p+7igBB9CMTUi--HCpcuxdHgveqgkw5dY7frE7Wqf==04w@mail.gmail.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+In-Reply-To: <CAJh=p+7igBB9CMTUi--HCpcuxdHgveqgkw5dY7frE7Wqf==04w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tzQXGDcS22V-BqLInnXZ0qWhkB2yRjyK
+X-Proofpoint-ORIG-GUID: tgToyl2gxBLH7aKvS-UerPpoxF5hNhlO
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20221125105954.149267-1-alexghiti@rivosinc.com>
-In-Reply-To: <20221125105954.149267-1-alexghiti@rivosinc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 28 Nov 2022 14:08:38 +0800
-Message-ID: <CAEUhbmWqxb9DTO2QTh6nCTt0xqLhqk3hmJ8STK5PQ9i42S6sgg@mail.gmail.com>
-Subject: Re: [PATCH v2] riscv: Add RISCVCPUConfig.satp_mode to set sv48, sv57,
- etc.
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Atish Patra <atishp@rivosinc.com>, Ludovic Henry <ludovic@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-28_05,2022-11-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ mlxlogscore=999 phishscore=0 clxscore=1015 bulkscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211280043
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,176 +120,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 25, 2022 at 7:01 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
->
-> RISC-V specifies multiple sizes for addressable memory and Linux probes for
-> the machine's support at startup via the satp CSR register (done in
-> csr.c:validate_vm).
->
-> As per the specification, sv64 must support sv57, which in turn must
-> support sv48...etc. So we can restrict machine support by simply setting the
-> "highest" supported mode in the satp_mode property. And the bare mode is
-> always supported.
->
-> You can set this new property as follows:
-> -cpu rv64,satp-mode=sv48 # Linux will boot using sv48 scheme
-> -cpu rv64,satp-mode=sv39 # Linux will boot using sv39 scheme
->
-> In addition, we now correctly set the device-tree entry 'mmu-type' using
-> this new satp_mode property.
->
-> Reviewed-by: Atish Patra <atishp@rivosinc.com>
-> Co-Developed-by: Ludovic Henry <ludovic@rivosinc.com>
-> Signed-off-by: Ludovic Henry <ludovic@rivosinc.com>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->
-> v2:
-> - Use error_setg + return as suggested by Alistair
-> - Add RB from Atish
-> - Fixed checkpatch issues missed in v1
-> - Replaced Ludovic email address with the rivos one
->
->  hw/riscv/virt.c    | 15 ++++++---------
->  target/riscv/cpu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
->  target/riscv/cpu.h |  3 +++
->  target/riscv/csr.c |  8 ++++++--
->  4 files changed, 60 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index a5bc7353b4..77484b5cae 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -228,7 +228,7 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->      int cpu;
->      uint32_t cpu_phandle;
->      MachineState *mc = MACHINE(s);
-> -    char *name, *cpu_name, *core_name, *intc_name;
-> +    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
->
->      for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
->          cpu_phandle = (*phandle)++;
-> @@ -236,14 +236,11 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->          cpu_name = g_strdup_printf("/cpus/cpu@%d",
->              s->soc[socket].hartid_base + cpu);
->          qemu_fdt_add_subnode(mc->fdt, cpu_name);
-> -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> -                          RISCV_FEATURE_MMU)) {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
-> -        } else {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    "riscv,none");
-> -        }
-> +
-> +        sv_name = g_strdup_printf("riscv,%s",
-> +                                  s->soc[socket].harts[cpu].cfg.satp_mode_str);
-> +        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-> +
 
-Missing sv_name free
+Am 25.11.22 um 17:32 schrieb German Maglione:
+> On Fri, Nov 25, 2022 at 3:40 PM Marc Hartmayer <mhartmay@linux.ibm.com> wrote:
+>>
+>> The virtiofsd currently crashes on s390x. This is because of a
+>> `sigreturn` system call. See audit log below:
+>>
+>> type=SECCOMP msg=audit(1669382477.611:459): auid=4294967295 uid=0 gid=0 ses=4294967295 subj=system_u:system_r:virtd_t:s0-s0:c0.c1023 pid=6649 comm="virtiofsd" exe="/usr/libexec/virtiofsd" sig=31 arch=80000016 syscall=119 compat=0 ip=0x3fff15f748a code=0x80000000AUID="unset" UID="root" GID="root" ARCH=s390x SYSCALL=sigreturn
+>>
+>> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+>> ---
+>>   tools/virtiofsd/passthrough_seccomp.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+>> index 888295c073de..0033dab4939e 100644
+>> --- a/tools/virtiofsd/passthrough_seccomp.c
+>> +++ b/tools/virtiofsd/passthrough_seccomp.c
+>> @@ -110,6 +110,7 @@ static const int syscall_allowlist[] = {
+>>   #endif
+>>       SCMP_SYS(set_robust_list),
+>>       SCMP_SYS(setxattr),
+>> +    SCMP_SYS(sigreturn),
+>>       SCMP_SYS(symlinkat),
+>>       SCMP_SYS(syncfs),
+>>       SCMP_SYS(time), /* Rarely needed, except on static builds */
+>> --
+>> 2.34.1
+>>
+>> _______________________________________________
+>> Virtio-fs mailing list
+>> Virtio-fs@redhat.com
+>> https://listman.redhat.com/mailman/listinfo/virtio-fs
+>>
+> 
+> Reviewed-by:  German Maglione <gmaglione@redhat.com>
+> 
+> Should we add this also in the rust version?, I see we don't have it
+> enabled either.
 
->          name = riscv_isa_string(&s->soc[socket].harts[cpu]);
->          qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
->          g_free(name);
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index d14e95c9dc..c86dc5058d 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -907,6 +907,48 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       }
->  #endif
->
-> +    /*
-> +     * Either a cpu sets its supported satp_mode in XXX_cpu_init
-> +     * or the user sets this value using satp_mode property.
-> +     */
-> +    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> +    if (cpu->cfg.satp_mode_str) {
-> +        if (!g_strcmp0(cpu->cfg.satp_mode_str, "none"))
-> +            cpu->cfg.satp_mode = VM_1_10_MBARE;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv32") && rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV32;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv39") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV39;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv48") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV48;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv57") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV57;
-> +        else if (!g_strcmp0(cpu->cfg.satp_mode_str, "sv64") && !rv32)
-> +            cpu->cfg.satp_mode = VM_1_10_SV64;
-> +        else {
-> +            error_setg(errp, "Unknown option for satp_mode: %s",
-> +                       cpu->cfg.satp_mode_str);
-> +            return;
-> +        }
-> +    } else {
-> +        /*
-> +         * If unset by both the user and the cpu, we fallback to sv32 for 32-bit
-> +         * or sv57 for 64-bit when a MMU is present, and bare otherwise.
-> +         */
-> +        if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-> +            if (rv32) {
-> +                cpu->cfg.satp_mode_str = g_strdup("sv32");
-> +                cpu->cfg.satp_mode = VM_1_10_SV32;
-> +            } else {
-> +                cpu->cfg.satp_mode_str = g_strdup("sv57");
-> +                cpu->cfg.satp_mode = VM_1_10_SV57;
-> +            }
-> +        } else {
-> +            cpu->cfg.satp_mode_str = g_strdup("none");
-> +            cpu->cfg.satp_mode = VM_1_10_MBARE;
-> +        }
-> +    }
-> +
->      riscv_cpu_register_gdb_regs_for_features(cs);
->
->      qemu_init_vcpu(cs);
-> @@ -1094,6 +1136,9 @@ static Property riscv_cpu_properties[] = {
->
->      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
->      DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-> +
-> +    DEFINE_PROP_STRING("satp-mode", RISCVCPU, cfg.satp_mode_str),
-> +
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 3a9e25053f..a6c229470b 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -480,6 +480,9 @@ struct RISCVCPUConfig {
->      bool debug;
->
->      bool short_isa_string;
-> +
-> +    uint8_t satp_mode;
-> +    char *satp_mode_str;
->  };
->
->  typedef struct RISCVCPUConfig RISCVCPUConfig;
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 5c9a7ee287..d2aab1627e 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1109,10 +1109,14 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
->
->  static int validate_vm(CPURISCVState *env, target_ulong vm)
->  {
-> +    vm &= 0xf;
-> +
->      if (riscv_cpu_mxl(env) == MXL_RV32) {
-> -        return valid_vm_1_10_32[vm & 0xf];
-> +        return valid_vm_1_10_32[vm] &&
-> +            (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
->      } else {
-> -        return valid_vm_1_10_64[vm & 0xf];
-> +        return valid_vm_1_10_64[vm] &&
-> +            (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
->      }
->  }
-
-Regards,
-Bin
+this is probably a good idea.
 
