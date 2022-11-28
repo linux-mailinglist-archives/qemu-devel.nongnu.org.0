@@ -2,111 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C52863B1A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 19:51:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5895863B3C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 21:59:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozjDC-0002aO-Ma; Mon, 28 Nov 2022 13:50:38 -0500
+	id 1ozlCy-0000a5-QR; Mon, 28 Nov 2022 15:58:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ozjCs-0002TK-V7
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:50:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ozjCq-0002p9-G0
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:50:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669661415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZR5vaf2xAtOCmJ3AuLSYHZFrCaOIi9NWaQE2bwz9OUM=;
- b=FtHbXIPmgXdEGMeu16FzDE6XGbB94LxkBQXHiidhFSLq/X+giZoBTJLD3KmipBtODwi/Vo
- uXaiXZjp4zkNG7KX1b/OsA5DOGPTeAdWj22cNNkoJeyjpwoVU3o6b9RgUlcBHv8vdGM2+W
- 2CKn2n59L/n5DkPg4KIOBuWczqv51tw=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-494-oEBBq-TtMAmcyW2NGXpQaw-1; Mon, 28 Nov 2022 13:50:08 -0500
-X-MC-Unique: oEBBq-TtMAmcyW2NGXpQaw-1
-Received: by mail-io1-f70.google.com with SMTP id
- y5-20020a056602120500b006cf628c14ddso6553196iot.15
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 10:50:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <temuri.doghonadze@gmail.com>)
+ id 1ozj4h-0000ev-Io
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:41:51 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <temuri.doghonadze@gmail.com>)
+ id 1ozj4f-0001g8-5L
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:41:50 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id b2so11853778eja.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 10:41:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=80h2D/bc0jobZbshILVz4WoL/3L6WUK49DltGbr969E=;
+ b=UPr1oiRvCSBnUU4vtMXDVUCPu/CYn76eDfoShj9N+uWD0nnIw7NzFIAnAHWp2rK6v9
+ N8yw97/nT+gTzsOJu8e66qzF0qFV9gK0OvIolUFdnjRrnppkjHU+atjImIW5qyUswt9z
+ CKME2beKSgScNKH3Yh6IUKU20dqliCG9opGZgtzJ+pJrfcrdsuvR/NmQW2J2l7KIg5KN
+ HjSPH5h+ukU9kKiYsgY4eXgXPmgbWbeuTs4xsn+7GGhjEZzRdDMcQGlUtYo2nGX5p3rZ
+ A6Pxsqc2/43UCxsuM6UDacZBuAv/TPtI1EJ8qCQosv9rX/7cAhkwAZoSr+uLLtjHg0Cu
+ Vaxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZR5vaf2xAtOCmJ3AuLSYHZFrCaOIi9NWaQE2bwz9OUM=;
- b=feZPFYW9u6B54nuNMasniO/OIZ3hp2X8wdc0xznBC8TAFFYSxMUNqrDpgDfZJlhtRD
- LxswFkQvJqkbxzqkqhOsvOP91360DO1RDIJ6/gWNON7iShnKZmXHc8uAA7gPd4++6FVb
- v8++jrncfSvFvk+hMCiQb4ptoCRpMYFhvZvyhvaPEPWFVje4YxkeV8i0aFh8mRbOpxaj
- YbMB2/F25zxLn687zUY6+M3vt/HY8S78mxVya6s5vBUyFajPHCeS3sNeG8yjfatEdqq/
- D766Q/nwQ+R+Jlhg10/55OH9q6zLiJDPx3UeqO6MSELTIEwfw6d99BAXUYCIEw+jvLXS
- sv7g==
-X-Gm-Message-State: ANoB5pmkhLUFlxCIPCS3G9X1eJ1EKHZdVJ80H0he+Z/489BhP7MyQfe4
- Lhc7DT8R3j+1onx5slTy6M3pp35MWntVye/XUOhGkJWfUflq3hO8KTyTg8MJOoqkHGsWYrX/qJG
- 0PI55VsdkDXyJLt8=
-X-Received: by 2002:a02:9f8a:0:b0:363:db63:a796 with SMTP id
- a10-20020a029f8a000000b00363db63a796mr25391152jam.250.1669661407279; 
- Mon, 28 Nov 2022 10:50:07 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7vLdtR/4A4M4xRzXRYy7Ar0pMqsbnPA8czjE6vmjVcZKSFu/JIoXADkRx5J+4PHNQ8lABRtQ==
-X-Received: by 2002:a02:9f8a:0:b0:363:db63:a796 with SMTP id
- a10-20020a029f8a000000b00363db63a796mr25391136jam.250.1669661406991; 
- Mon, 28 Nov 2022 10:50:06 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- p3-20020a92c603000000b002e85e8b8d1dsm4010739ilm.5.2022.11.28.10.50.05
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=80h2D/bc0jobZbshILVz4WoL/3L6WUK49DltGbr969E=;
+ b=erl3EZBpzQIJl9aMs0bQJZjeXmEQilSgT2k5ghC1ezX1iJjsIBiHqECx3Wyinl8/5W
+ g2iCN4RVMKmFUzOGx6HmS1qTJvfIXP/VHrH63zXn6NR45GtZ2zer30NIvooOdTWp8R8R
+ 3MSdUEF6h9GvMJAhJwcgp/e2hWqJh/c+49tu/n8CORrs0QO82b+AWPKKIq1cUOJMLpx6
+ swPti0E96pNKN3pUWsN8FVfufkvYVXv1AbUrEYTmKW6D9M5sBPrCNuyFGyXWWDIuC3uL
+ +MjMt8MHc9XigyoRFVtj4uCzZt34poq77PI75ZfMfT2DWeibsfuB62b0c2i6uDHNUoIe
+ 56EA==
+X-Gm-Message-State: ANoB5pmJ0wueBnCLLEAfwAROKeJXuN7r3T38uhrMRfepqGWiJnfmVf8P
+ DHroBfeA/GdWI5do5obWDUNjrii47iQ=
+X-Google-Smtp-Source: AA0mqf5NYUphX+oz0GQoMGzgiu/7bCvBATNJvk2t9VMVU6fm5NmUwZYN2xq8Y3ipZ5orsiWI9jZX9g==
+X-Received: by 2002:a17:906:b1c6:b0:7ad:e82b:b66b with SMTP id
+ bv6-20020a170906b1c600b007ade82bb66bmr29034253ejb.453.1669660907360; 
+ Mon, 28 Nov 2022 10:41:47 -0800 (PST)
+Received: from fedora.. (ip-62-245-98-7.bb.vodafone.cz. [62.245.98.7])
+ by smtp.googlemail.com with ESMTPSA id
+ f16-20020a50fe10000000b004677b1b1a70sm5345319edt.61.2022.11.28.10.41.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 10:50:06 -0800 (PST)
-Date: Mon, 28 Nov 2022 11:50:03 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng
- <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
- <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org, Kunkun
- Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor
- Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 12/17] vfio/migration: Implement VFIO migration
- protocol v2
-Message-ID: <20221128115003.602d4ef7.alex.williamson@redhat.com>
-In-Reply-To: <a867c866-c297-960c-6fe3-51f292f4c6d3@nvidia.com>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-13-avihaih@nvidia.com>
- <20221116112935.23118a30.alex.williamson@redhat.com>
- <099b99c2-8949-c101-45eb-9a8aaed2adb7@nvidia.com>
- <20221117103829.18feab7a.alex.williamson@redhat.com>
- <feaa77ec-c574-6267-0872-d8769037e4c7@nvidia.com>
- <a867c866-c297-960c-6fe3-51f292f4c6d3@nvidia.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ Mon, 28 Nov 2022 10:41:46 -0800 (PST)
+From: Temuri Doghonadze <temuri.doghonadze@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Temuri Doghonadze <temuri.doghonadze@gmail.com>
+Subject: [PATCH] po: Add Georgian translation
+Date: Mon, 28 Nov 2022 19:41:21 +0100
+Message-Id: <20221128184121.35400-1-temuri.doghonadze@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=temuri.doghonadze@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 28 Nov 2022 15:58:31 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,133 +88,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 24 Nov 2022 14:41:00 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+Signed-off-by: Temuri Doghonadze <temuri.doghonadze@gmail.com>
+---
+ po/LINGUAS |  1 +
+ po/ka.po   | 95 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 96 insertions(+)
+ create mode 100644 po/ka.po
 
-> On 20/11/2022 11:34, Avihai Horon wrote:
-> >
-> > On 17/11/2022 19:38, Alex Williamson wrote: =20
-> >> External email: Use caution opening links or attachments
-> >>
-> >>
-> >> On Thu, 17 Nov 2022 19:07:10 +0200
-> >> Avihai Horon <avihaih@nvidia.com> wrote: =20
-> >>> On 16/11/2022 20:29, Alex Williamson wrote: =20
-> >>>> On Thu, 3 Nov 2022 18:16:15 +0200
-> >>>> Avihai Horon <avihaih@nvidia.com> wrote: =20
-> >>>>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> >>>>> index e784374453..62afc23a8c 100644
-> >>>>> --- a/hw/vfio/migration.c
-> >>>>> +++ b/hw/vfio/migration.c
-> >>>>> @@ -44,8 +44,84 @@
-> >>>>> =C2=A0=C2=A0 #define VFIO_MIG_FLAG_DEV_SETUP_STATE (0xffffffffef100=
-003ULL)
-> >>>>> =C2=A0=C2=A0 #define VFIO_MIG_FLAG_DEV_DATA_STATE (0xffffffffef1000=
-04ULL)
-> >>>>>
-> >>>>> +#define VFIO_MIG_DATA_BUFFER_SIZE (1024 * 1024) =20
-> >>>> Add comment explaining heuristic of this size. =20
-> >>> This is an arbitrary size we picked with mlx5 state size in mind.
-> >>> Increasing this size to higher values (128M, 1G) didn't improve
-> >>> performance in our testing.
-> >>>
-> >>> How about this comment:
-> >>> This is an initial value that doesn't consume much memory and provides
-> >>> good performance.
-> >>>
-> >>> Do you have other suggestion? =20
-> >> I'd lean more towards your description above, ex:
-> >>
-> >> /*
-> >> =C2=A0 * This is an arbitrary size based on migration of mlx5 devices,=
- where
-> >> =C2=A0 * the worst case total device migration size is on the order of=
- 100s
-> >> =C2=A0 * of MB.=C2=A0 Testing with larger values, ex. 128MB and 1GB, d=
-id not show
-> >> =C2=A0 * a performance improvement.
-> >> =C2=A0 */
-> >>
-> >> I think that provides sufficient information for someone who might come
-> >> later to have an understanding of the basis if they want to try to
-> >> optimize further. =20
-> >
-> > OK, sounds good, I will add a comment like this.
-> > =20
-> >>>>> @@ -804,34 +1090,51 @@ static int vfio_migration_init(VFIODevice=20
-> >>>>> *vbasedev)
-> >>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
- -EINVAL;
-> >>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>>>>
-> >>>>> -=C2=A0=C2=A0=C2=A0 ret =3D vfio_get_dev_region_info(vbasedev,
-> >>>>> - VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
-> >>>>> - VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
-> >>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &info);
-> >>>>> -=C2=A0=C2=A0=C2=A0 if (ret) {
-> >>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
-> >>>>> -=C2=A0=C2=A0=C2=A0 }
-> >>>>> +=C2=A0=C2=A0=C2=A0 ret =3D vfio_migration_query_flags(vbasedev, &m=
-ig_flags);
-> >>>>> +=C2=A0=C2=A0=C2=A0 if (!ret) {
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Migration v2 */
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Basic migration func=
-tionality must be supported */
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!(mig_flags & VFIO_=
-MIGRATION_STOP_COPY)) {
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- return -EOPNOTSUPP;
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration =3D=
- g_new0(VFIOMigration, 1);
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration->de=
-vice_state =3D=20
-> >>>>> VFIO_DEVICE_STATE_RUNNING;
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration->da=
-ta_buffer_size =3D=20
-> >>>>> VFIO_MIG_DATA_BUFFER_SIZE;
-> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbasedev->migration->da=
-ta_buffer =3D
-> >>>>> + g_malloc0(vbasedev->migration->data_buffer_size); =20
-> >>>> So VFIO_MIG_DATA_BUFFER_SIZE is our chunk size, but why doesn't the
-> >>>> later addition of estimated device data size make any changes here?
-> >>>> I'd think we'd want to scale the buffer to the minimum of the report=
-ed
-> >>>> data size and some well documented heuristic for an upper bound. =20
-> >>> As I wrote above, increasing this size to higher values (128M, 1G)
-> >>> didn't improve performance in our testing.
-> >>> We can always change it later on if some other heuristics are proven =
-to
-> >>> improve performance. =20
-> >> Note that I'm asking about a minimum buffer size, for example if
-> >> hisi_acc reports only 10s of KB for an estimated device size, why would
-> >> we still allocate VFIO_MIG_DATA_BUFFER_SIZE here?=C2=A0 Thanks, =20
-> >
-> > This buffer is rather small and has little memory footprint.
-> > Do you think it is worth the extra complexity of resizing the buffer?
-> > =20
-> Alex, WDYT?
-> Note that the reported estimated size is dynamic and might change from=20
-> query to the other, potentially leaving us with smaller buffer size.
->=20
-> Also, as part of v4 I moved this allocation to vfio_save_setup(), so it=20
-> will be allocated only during migration (when it's actually used) and=20
-> only by src side.
-
-There's a claim here about added complexity that I'm not really seeing.
-It looks like we simply make an ioctl call here and scale our buffer
-based on the minimum of the returned device estimate or our upper
-bound.
-
-The previous comments that exceptionally large buffers don't
-significantly affect migration performance seems like that also suggests
-that even if the device estimate later changes, we'll likely be ok with
-the initial device estimate anyway.  Periodically re-checking the
-device estimate and re-allocating up to a high water mark could
-potentially be future work.  Thanks,
-
-Alex
+diff --git a/po/LINGUAS b/po/LINGUAS
+index 9b33a3659f..f3a9b1a802 100644
+--- a/po/LINGUAS
++++ b/po/LINGUAS
+@@ -3,6 +3,7 @@ de_DE
+ fr_FR
+ hu
+ it
++ka
+ sv
+ tr
+ uk
+diff --git a/po/ka.po b/po/ka.po
+new file mode 100644
+index 0000000000..9cdaed2ded
+--- /dev/null
++++ b/po/ka.po
+@@ -0,0 +1,95 @@
++# Georgian translation for qemu.
++# Copyright (C) 2022 qemu authors
++# This file is distributed under the same license as the qemu package.
++# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2022.
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: qemu\n"
++"Report-Msgid-Bugs-To: qemu-devel@nongnu.org\n"
++"POT-Creation-Date: 2022-11-28 19:32+0100\n"
++"PO-Revision-Date: 2022-11-28 19:35+0100\n"
++"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
++"Language-Team: Georgian <(nothing)>\n"
++"Language: ka\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=(n != 1);\n"
++"X-Generator: Poedit 3.2\n"
++
++#: ui/gtk.c:229
++msgid " - Press Ctrl+Alt+G to release grab"
++msgstr " - ჩაჭერის მოსახსნელად დააწექით: Ctrl+Alt+G"
++
++#: ui/gtk.c:233
++msgid " [Paused]"
++msgstr " [შეჩერებულია]"
++
++#: ui/gtk.c:2047
++msgid "_Pause"
++msgstr "_შეჩერება"
++
++#: ui/gtk.c:2053
++msgid "_Reset"
++msgstr "_გადატვირთვა"
++
++#: ui/gtk.c:2056
++msgid "Power _Down"
++msgstr "_გამორთვა"
++
++#: ui/gtk.c:2062
++msgid "_Quit"
++msgstr "_გასვლა"
++
++#: ui/gtk.c:2185
++msgid "_Fullscreen"
++msgstr "_მთელ ეკრანზე"
++
++#: ui/gtk.c:2188
++msgid "_Copy"
++msgstr "ასლი"
++
++#: ui/gtk.c:2202
++msgid "Zoom _In"
++msgstr "გა_დიდება"
++
++#: ui/gtk.c:2211
++msgid "Zoom _Out"
++msgstr "_დაპატარავება"
++
++#: ui/gtk.c:2218
++msgid "Best _Fit"
++msgstr "საუკეთესოდ _ჩატევა"
++
++#: ui/gtk.c:2225
++msgid "Zoom To _Fit"
++msgstr "გადიდება _ჩასატევად"
++
++#: ui/gtk.c:2231
++msgid "Grab On _Hover"
++msgstr "ჩაჭერა _გადატარებისას"
++
++#: ui/gtk.c:2234
++msgid "_Grab Input"
++msgstr "შეტანის _ჩაჭერა"
++
++#: ui/gtk.c:2263
++msgid "Show _Tabs"
++msgstr "_ჩანართების ჩვენება"
++
++#: ui/gtk.c:2266
++msgid "Detach Tab"
++msgstr "ჩანართის მოხსნა"
++
++#: ui/gtk.c:2270
++msgid "Show Menubar"
++msgstr "მენიუს ზოლის ჩვენება"
++
++#: ui/gtk.c:2292
++msgid "_Machine"
++msgstr "_მანქანა"
++
++#: ui/gtk.c:2297
++msgid "_View"
++msgstr "_ხედი"
+-- 
+2.38.1
 
 
