@@ -2,105 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5D563A3F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:02:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF64763A448
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:09:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oza0I-0005ya-28; Mon, 28 Nov 2022 04:00:42 -0500
+	id 1oza8A-0000W1-Ii; Mon, 28 Nov 2022 04:08:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1ozZzu-0005rI-Pg; Mon, 28 Nov 2022 04:00:26 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1oza7q-0000VC-7B
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:08:40 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1ozZzq-0000bo-GB; Mon, 28 Nov 2022 04:00:16 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AS8KgaH001354; Mon, 28 Nov 2022 09:00:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=frS9Zh18JIFRLV3k0NYVkamO7NVNX+oTphRcy/+WDJc=;
- b=dGTkuRPU6p+Fxav92R6AaBOqNuaF5up9tLJ77JGBIv4lG6Hpvmkf7EP0XvWdl0J84vDR
- +Ihp3Nw6wjWYME4VLi5i9Dk2qmJZFE0WVjVkgrNMP7pJKa0ZLJTYe8OuyvlMOtRS/JA8
- KVM5PEutucHGQE9qPvd3UYcMPA1yeQE+Q9hpX10c9WiLnosZOkEZ2L3Nai2KgC/dLF/y
- H1zzWiDAHtcufC/iNN5KXOMbJsYRCJWBfs+zVfCjsp6zPPc9iYiojZo9WunJTYtM8hZ0
- eKOsenp+jUJyQMcES1TuJG7F5yhcgrg342l72uxhqkOzkNMIMooE41xrudr02+m+pFub GA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3vfjjgvb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Nov 2022 09:00:10 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AS7lqFN020506;
- Mon, 28 Nov 2022 09:00:10 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3vfjjguj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Nov 2022 09:00:09 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AS8ouQm025131;
- Mon, 28 Nov 2022 09:00:08 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06fra.de.ibm.com with ESMTP id 3m3a2hskxh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Nov 2022 09:00:08 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AS905eo8258064
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Nov 2022 09:00:05 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E4C2FA4051;
- Mon, 28 Nov 2022 09:00:04 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7CDFDA4040;
- Mon, 28 Nov 2022 09:00:04 +0000 (GMT)
-Received: from marcibm (unknown [9.171.36.6])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 28 Nov 2022 09:00:04 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
-To: German Maglione <gmaglione@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Liebler <stli@linux.ibm.com>,
- virtio-fs@redhat.com, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Sven Schnelle <svens@linux.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Add `sigreturn` to the seccomp
- whitelist
-In-Reply-To: <CAJh=p+7igBB9CMTUi--HCpcuxdHgveqgkw5dY7frE7Wqf==04w@mail.gmail.com>
-References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
- <CAJh=p+7igBB9CMTUi--HCpcuxdHgveqgkw5dY7frE7Wqf==04w@mail.gmail.com>
-Date: Mon, 28 Nov 2022 10:00:03 +0100
-Message-ID: <87lenvjvxo.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: LVIwBR9VSJfjBcB9_3K5POIEQVn1rJov
-X-Proofpoint-GUID: KiU53g6_RMJoQ9MYj_gaO2leJ-3C_N_O
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1oza7n-0001xd-8U
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:08:29 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NLKNz6FTnzRq1x;
+ Mon, 28 Nov 2022 17:07:31 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 28 Nov 2022 17:08:06 +0800
+Message-ID: <45e851db-7633-8942-4baf-5ca608c9dd61@huawei.com>
+Date: Mon, 28 Nov 2022 17:08:05 +0800
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-28_07,2022-11-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- mlxscore=0 malwarescore=0 bulkscore=0 adultscore=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211280066
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mhartmay@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] vhost: configure all host notifiers in a single MR
+ transaction
+To: Jason Wang <jasowang@redhat.com>
+CC: <stefanha@redhat.com>, <mst@redhat.com>, <sgarzare@redhat.com>,
+ <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
+References: <20221118144915.2009-1-longpeng2@huawei.com>
+ <CACGkMEu4R92uX_J43ZKetg3Q1FCTQR1Z7u4Ua3Jx2y7cjxX1Og@mail.gmail.com>
+In-Reply-To: <CACGkMEu4R92uX_J43ZKetg3Q1FCTQR1Z7u4Ua3Jx2y7cjxX1Og@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,71 +65,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-German Maglione <gmaglione@redhat.com> writes:
 
-> On Fri, Nov 25, 2022 at 3:40 PM Marc Hartmayer <mhartmay@linux.ibm.com> w=
-rote:
+
+在 2022/11/21 12:01, Jason Wang 写道:
+> On Fri, Nov 18, 2022 at 10:49 PM Longpeng(Mike) <longpeng2@huawei.com> wrote:
 >>
->> The virtiofsd currently crashes on s390x. This is because of a
->> `sigreturn` system call. See audit log below:
+>> From: Longpeng <longpeng2@huawei.com>
 >>
->> type=3DSECCOMP msg=3Daudit(1669382477.611:459): auid=3D4294967295 uid=3D=
-0 gid=3D0 ses=3D4294967295 subj=3Dsystem_u:system_r:virtd_t:s0-s0:c0.c1023 =
-pid=3D6649 comm=3D"virtiofsd" exe=3D"/usr/libexec/virtiofsd" sig=3D31 arch=
-=3D80000016 syscall=3D119 compat=3D0 ip=3D0x3fff15f748a code=3D0x80000000AU=
-ID=3D"unset" UID=3D"root" GID=3D"root" ARCH=3Ds390x SYSCALL=3Dsigreturn
+>> This allows the vhost device to batch the setup of all its host notifiers.
+>> This significantly reduces the device starting time, e.g. the vhost-vDPA
+>> generic device [1] start time reduce from 376ms to 9.1ms for a VM with
+>> 64 vCPUs and 3 vDPA device(64vq per device).
+> 
+> Great, I think we need to do this for host_notifiers_mr as well. This
+> helps for the case when the notification area could be mapped directly
+> to guests.
+> 
+Batch and commit once for host_notifiers_mrs can reduce the cost from 
+423ms to 32ms, testing on vdpasim_blk (3 devices and 64 vqs per device) 
+with doorbell passthrough support.
+I'll append a patch in the next version.
+
 >>
->> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+>> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg921541.html
+>>
+>> Signed-off-by: Longpeng <longpeng2@huawei.com>
 >> ---
->>  tools/virtiofsd/passthrough_seccomp.c | 1 +
->>  1 file changed, 1 insertion(+)
+>>   hw/virtio/vhost.c | 39 ++++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 38 insertions(+), 1 deletion(-)
 >>
->> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/pas=
-sthrough_seccomp.c
->> index 888295c073de..0033dab4939e 100644
->> --- a/tools/virtiofsd/passthrough_seccomp.c
->> +++ b/tools/virtiofsd/passthrough_seccomp.c
->> @@ -110,6 +110,7 @@ static const int syscall_allowlist[] =3D {
->>  #endif
->>      SCMP_SYS(set_robust_list),
->>      SCMP_SYS(setxattr),
->> +    SCMP_SYS(sigreturn),
->>      SCMP_SYS(symlinkat),
->>      SCMP_SYS(syncfs),
->>      SCMP_SYS(time), /* Rarely needed, except on static builds */
+>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>> index d1c4c20b8c..bf82d9b176 100644
+>> --- a/hw/virtio/vhost.c
+>> +++ b/hw/virtio/vhost.c
+>> @@ -1507,6 +1507,7 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
+>>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
+>>   {
+>>       BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>> +    int vq_init_count = 0;
+>>       int i, r, e;
+>>
+>>       /* We will pass the notifiers to the kernel, make sure that QEMU
+>> @@ -1518,6 +1519,12 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
+>>           goto fail;
+>>       }
+>>
+>> +    /*
+>> +     * Batch all the host notifiers in a single transaction to avoid
+>> +     * quadratic time complexity in address_space_update_ioeventfds().
+>> +     */
+>> +    memory_region_transaction_begin();
+>> +
+>>       for (i = 0; i < hdev->nvqs; ++i) {
+>>           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
+>>                                            true);
+>> @@ -1525,19 +1532,33 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
+>>               error_report("vhost VQ %d notifier binding failed: %d", i, -r);
+>>               goto fail_vq;
+>>           }
+>> +
+>> +        vq_init_count++;
+>>       }
+> 
+> Nit, the name needs some tweak, it's actually the number of the host
+> notifiers that is initialized. And we can count it out of the loop.
+> 
+Ok, I will refer to virtio_device_start_ioeventfd_impl().
+
+>>
+>> +    memory_region_transaction_commit();
+>> +
+>>       return 0;
+>>   fail_vq:
+>> -    while (--i >= 0) {
+>> +    for (i = 0; i < vq_init_count; i++) {
+> 
+> It looks to me there's no need for this change.
+> 
+> Others look good.
+> 
+> Thanks
+> 
+>>           e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
+>>                                            false);
+>>           if (e < 0) {
+>>               error_report("vhost VQ %d notifier cleanup error: %d", i, -r);
+>>           }
+>>           assert (e >= 0);
+>> +    }
+>> +
+>> +    /*
+>> +     * The transaction expects the ioeventfds to be open when it
+>> +     * commits. Do it now, before the cleanup loop.
+>> +     */
+>> +    memory_region_transaction_commit();
+>> +
+>> +    for (i = 0; i < vq_init_count; i++) {
+>>           virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i);
+>>       }
+>> +
+>>       virtio_device_release_ioeventfd(vdev);
+>>   fail:
+>>       return r;
+>> @@ -1553,6 +1574,12 @@ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
+>>       BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>>       int i, r;
+>>
+>> +    /*
+>> +     * Batch all the host notifiers in a single transaction to avoid
+>> +     * quadratic time complexity in address_space_update_ioeventfds().
+>> +     */
+>> +    memory_region_transaction_begin();
+>> +
+>>       for (i = 0; i < hdev->nvqs; ++i) {
+>>           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
+>>                                            false);
+>> @@ -1560,8 +1587,18 @@ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
+>>               error_report("vhost VQ %d notifier cleanup failed: %d", i, -r);
+>>           }
+>>           assert (r >= 0);
+>> +    }
+>> +
+>> +    /*
+>> +     * The transaction expects the ioeventfds to be open when it
+>> +     * commits. Do it now, before the cleanup loop.
+>> +     */
+>> +    memory_region_transaction_commit();
+>> +
+>> +    for (i = 0; i < hdev->nvqs; ++i) {
+>>           virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i);
+>>       }
+>> +
+>>       virtio_device_release_ioeventfd(vdev);
+>>   }
+>>
 >> --
->> 2.34.1
+>> 2.23.0
 >>
->> _______________________________________________
->> Virtio-fs mailing list
->> Virtio-fs@redhat.com
->> https://listman.redhat.com/mailman/listinfo/virtio-fs
->>
->
-> Reviewed-by:  German Maglione <gmaglione@redhat.com>
-
-Thanks.
-
->
-> Should we add this also in the rust version?, I see we don't have it
-> enabled either.
-
-Yep - thanks.
-
->
-> --=20
-> German
->
---=20
-Kind regards / Beste Gr=C3=BC=C3=9Fe
-   Marc Hartmayer
-
-IBM Deutschland Research & Development GmbH
-Vorsitzender des Aufsichtsrats: Gregor Pillen=20
-Gesch=C3=A4ftsf=C3=BChrung: David Faller
-Sitz der Gesellschaft: B=C3=B6blingen
-Registergericht: Amtsgericht Stuttgart, HRB 243294
+> 
+> .
 
