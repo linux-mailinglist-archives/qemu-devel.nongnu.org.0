@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7944B63A549
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CA163A546
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 10:43:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozaeT-0004PA-6H; Mon, 28 Nov 2022 04:42:13 -0500
+	id 1ozaeS-0004O0-7s; Mon, 28 Nov 2022 04:42:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozaeG-0004Jk-9l
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:42:02 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozaeC-0004JT-Ci
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:41:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozaeB-0007Rj-4P
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:41:59 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozae8-0007R6-Pr
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 04:41:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669628514;
+ s=mimecast20190719; t=1669628512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8o20XvbBrXBeIu7IA4QisqknNIvQtbU9wZehOzF8rtw=;
- b=M333+C2hmTVUOX25vGudsDCEi2ODnMXeq/Qq24GOonOfwde3ayNP6Ud6Yfkb3hiGuGSFjr
- 1bEhc53qctm3DT6F4zScEV2j7W17gpilL8PHNH5uKj16gpCz2we68ukxFf8kygSsxJ8nOv
- hPW0TOluvSF8sJwOnZ25MkRpMz8NYS0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cyTfzcYvUwNyh5nc3qDQgo1OuSflc6q4bmmLIQTAoqY=;
+ b=Ra5xuUYVEqkz66yUmhOQ3Q2svMoLRpnLSnMB7AaF8fr5ekDrleyksfqrODZ9ddYak0y2Xe
+ fZIFAB+N30mdXRZnIJO0B9fCjW8oalC4mTWajWRSJndwHoaZV8EZ3bOZ0pzjGLYBeOLQux
+ 4BKUebewQgdW61YGkIMw+IqIXA02WOw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-N-KKmKvKNQ2MDDQ3vO-mmA-1; Mon, 28 Nov 2022 04:41:49 -0500
-X-MC-Unique: N-KKmKvKNQ2MDDQ3vO-mmA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-663-SbAiio-APR-6ALGZzBVvzQ-1; Mon, 28 Nov 2022 04:41:49 -0500
+X-MC-Unique: SbAiio-APR-6ALGZzBVvzQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2D5987A9E3;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C50883817967;
  Mon, 28 Nov 2022 09:41:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 45B351121319;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45A9340C2087;
  Mon, 28 Nov 2022 09:41:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1868D21E6936; Mon, 28 Nov 2022 10:41:38 +0100 (CET)
+ id 1CA2821E688F; Mon, 28 Nov 2022 10:41:38 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
@@ -54,19 +54,17 @@ Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
  thuth@redhat.com, lvivier@redhat.com, suhang16@mails.ucas.ac.cn,
  chen.zhang@intel.com, lizhijian@fujitsu.com, stefanha@redhat.com,
  qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, virtio-fs@redhat.com,
- Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 2/3] block/vmdk: Simplify vmdk_co_create() to return
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v3 3/3] ppc4xx_sdram: Simplify sdram_ddr_size() to return
  directly
-Date: Mon, 28 Nov 2022 10:41:37 +0100
-Message-Id: <20221128094138.2824623-3-armbru@redhat.com>
+Date: Mon, 28 Nov 2022 10:41:38 +0100
+Message-Id: <20221128094138.2824623-4-armbru@redhat.com>
 In-Reply-To: <20221128094138.2824623-1-armbru@redhat.com>
 References: <20221128094138.2824623-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -91,65 +89,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cc: Fam Zheng <fam@euphon.net>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org
+Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- block/vmdk.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
+ hw/ppc/ppc4xx_sdram.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 26376352b9..bac3d8db50 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2821,7 +2821,6 @@ static BlockBackend *vmdk_co_create_cb(int64_t size, int idx,
- static int coroutine_fn vmdk_co_create(BlockdevCreateOptions *create_options,
-                                        Error **errp)
- {
--    int ret;
-     BlockdevCreateOptionsVmdk *opts;
+diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
+index 54bf9a2b44..a24c80b1d2 100644
+--- a/hw/ppc/ppc4xx_sdram.c
++++ b/hw/ppc/ppc4xx_sdram.c
+@@ -192,17 +192,13 @@ static inline hwaddr sdram_ddr_base(uint32_t bcr)
  
-     opts = &create_options->u.vmdk;
-@@ -2829,24 +2828,19 @@ static int coroutine_fn vmdk_co_create(BlockdevCreateOptions *create_options,
-     /* Validate options */
-     if (!QEMU_IS_ALIGNED(opts->size, BDRV_SECTOR_SIZE)) {
-         error_setg(errp, "Image size must be a multiple of 512 bytes");
--        ret = -EINVAL;
--        goto out;
-+        return -EINVAL;
+ static hwaddr sdram_ddr_size(uint32_t bcr)
+ {
+-    hwaddr size;
+-    int sh;
++    int sh = (bcr >> 17) & 0x7;
+ 
+-    sh = (bcr >> 17) & 0x7;
+     if (sh == 7) {
+-        size = -1;
+-    } else {
+-        size = (4 * MiB) << sh;
++        return -1;
      }
  
--    ret = vmdk_co_do_create(opts->size,
--                            opts->subformat,
--                            opts->adapter_type,
--                            opts->backing_file,
--                            opts->hwversion,
--                            opts->toolsversion,
--                            false,
--                            opts->zeroed_grain,
--                            vmdk_co_create_cb,
--                            opts, errp);
--    return ret;
--
--out:
--    return ret;
-+    return vmdk_co_do_create(opts->size,
-+                             opts->subformat,
-+                             opts->adapter_type,
-+                             opts->backing_file,
-+                             opts->hwversion,
-+                             opts->toolsversion,
-+                             false,
-+                             opts->zeroed_grain,
-+                             vmdk_co_create_cb,
-+                             opts, errp);
+-    return size;
++    return (4 * MiB) << sh;
  }
  
- static void vmdk_close(BlockDriverState *bs)
+ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
 -- 
 2.37.3
 
