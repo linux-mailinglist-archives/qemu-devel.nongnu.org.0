@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41E663ABE2
+	by mail.lfdr.de (Postfix) with ESMTPS id 0142063ABE3
 	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 16:03:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozfeS-00072i-SY; Mon, 28 Nov 2022 10:02:32 -0500
+	id 1ozfeU-00074s-Jk; Mon, 28 Nov 2022 10:02:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1ozfeB-00070m-FY
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:02:22 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
+ id 1ozfeI-00071B-R0
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:02:28 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1ozfe8-0005Wr-UL
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:02:14 -0500
-Received: by mail-pl1-x642.google.com with SMTP id io19so10391901plb.8
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:02:12 -0800 (PST)
+ id 1ozfeC-0005XA-Or
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 10:02:19 -0500
+Received: by mail-pl1-x644.google.com with SMTP id 4so10427067pli.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 07:02:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lSiDagc7OCOKkLbBACL9tcNTTqBs4oCCRei4cYayvkw=;
- b=bxe7g1HMI2EE3o5gbKfBcq1Zu+ylD7TFNLWqrQXxBiqcurE5/2x/c+wQ0pXkbUZNP+
- I5KXCQlA49AqoOYkpIefi2LL6P/Tm9rNN7z7bq/s6RwvWC7vrgShlb3yHWcj4zHRkFAk
- o0a77cHS146+L849xFSZPq0cmm++VMM7flNwCtSs2iyxoQ8bPx1PMAaZHkuXKd0eHx+w
- w5rSavTvlp/AXlv+UU+K5+TgZcQ6DY3NTE8bA3kln9SPSC2tSuTfjyQoRXdwuNsbgg4r
- cn2b/e61m43WehADZvQ51M9RhBI7DJwYbBrMG/HdPE68IM8jeXt6nu6uukdIb0++pvVA
- 5EpA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vq3NRy72X3AFgsMApkdPvqc33L5sCjSJV7Eox6k+7XI=;
+ b=M0SpkFsK0rWgiTfLWrl2MlQpUs5qqZtXuJL4yW6ErK8B59Qql93jQwnrSuH2PHluj7
+ gISkW3242hrnVrHa/B4MhOBiN5Q/Z27xjvyJ2zF/cLj/BTWATi+T4nxma4IIe5KxuOkA
+ 7cAVficGxiM/HUGTC3OLt5+PTjNf2QaFImTkJpWG17U/4UdjkbhrhAE+VQctQwHz1IFo
+ 4j9qTt0/3/tpyS767fzCuAQ2sUEBNF2WoTWKnzrV4owGA7fP1p+OL5yFBNz9D8JMn/9n
+ QZxe5hbdiymY7ZYk3VhwKWiYlkmF6mNNVvKWBzF5jsiaCsj0I/AIq9XSOIMZudWqzRso
+ xKhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lSiDagc7OCOKkLbBACL9tcNTTqBs4oCCRei4cYayvkw=;
- b=eBIz5RCgB18TP/iQ5NN587uB1weN5/jssB4FRTqKSACSN85c9iqfEWVe3H8NlUvqrP
- cF3btVbLFBUbvqb57CIFhDiZjYd08JITP3vc0T8kq+bSyrbMx3Lb+opA5gQkjMc2gxO9
- swyj6Tb0QNO9aoW6/DEGlj43w3Bbsw8/HC8TlC9i3DnDUaChm9FvYs/ooKMpp8Iaaix8
- LmQvWNTo2oHg+3azFnDEeRgp2LwP0VPDZgRkKM2EeW8Lae5xEuLNR4rksyaK1uvWH4le
- h9M8hjHwQUw832R0FxWIDbkI2spAwiShn5DEqE5rg9mAmkJZHXICTrwYvVNXumHL+/W8
- b2nQ==
-X-Gm-Message-State: ANoB5pmMy48X7qd2ggZROMDYNCRdsLmRCYcMVz4V9nUHPadalFXwo2mD
- 8IChcaUGUc63OJjgpaWjdrXPaA2AgLCo
-X-Google-Smtp-Source: AA0mqf7mR6X2y+/1a55RM670ezMwFDfK4EAwc6sQ2ei/BKWgHagSx8UwAWqAhA98KzQb+1/pOuXL0w==
-X-Received: by 2002:a17:902:d58d:b0:188:d6e1:b82b with SMTP id
- k13-20020a170902d58d00b00188d6e1b82bmr32406922plh.146.1669647730422; 
- Mon, 28 Nov 2022 07:02:10 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vq3NRy72X3AFgsMApkdPvqc33L5sCjSJV7Eox6k+7XI=;
+ b=vrgWVuscLWMnrW0BhB3THhRbmMqMTo/X4UgNwLWe7XzSegRiEbK8YpMdedajgm5JJu
+ 5webgTYpYsLE37CwZ8p8kSmfYRt9EZTgiD6UVU+6knDz39q6f9Pp7962q7VeHKN85HX4
+ Q7XHokbrnLDmMLXQn0PCzRzBhZihu04ppzanXEzTsLiPiPpllYVHvJ/SF8AGGst21gA6
+ wxUFSHRur+oZ8cAUl7/V7kCgIB7p8pb16gCFfoL2Q8xJ/g0t5c+L0LF/1C2J+eVHlP5K
+ F1RCXPFiuptazkOlA1FkJGeM6HebpiJM+4K1TgPcrFG014nTQWb3J/Ygb1skaExXmiBp
+ 75+A==
+X-Gm-Message-State: ANoB5pkKEtSaklQV5B3m9VhaVtzMTPsVgAB9TX+Eb1yJ1s2Oqp5gOvbA
+ 1U8wVZSGPofHPWeIAXnayzNce28PKyLd
+X-Google-Smtp-Source: AA0mqf5Asg0rv13Ipcqg9rT+Nug0on7Ts8fbocO1TgaO81M/DAPYKe31YKDNw3zpbZKo1raYCLWGCQ==
+X-Received: by 2002:a17:902:f10c:b0:187:2721:68e1 with SMTP id
+ e12-20020a170902f10c00b00187272168e1mr32523501plb.21.1669647734378; 
+ Mon, 28 Nov 2022 07:02:14 -0800 (PST)
 Received: from fedora.mshome.net ([104.184.156.161])
  by smtp.gmail.com with ESMTPSA id
- a9-20020a170902ecc900b001886ff82680sm8997928plh.127.2022.11.28.07.02.08
+ a9-20020a170902ecc900b001886ff82680sm8997928plh.127.2022.11.28.07.02.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 07:02:09 -0800 (PST)
+ Mon, 28 Nov 2022 07:02:13 -0800 (PST)
 From: Gregory Price <gourry.memverge@gmail.com>
 X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
 To: qemu-devel@nongnu.org
 Cc: jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org,
  alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
  bwidawsk@kernel.org, gregory.price@memverge.com,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: [RFC v4 0/3] CXL Type-3 Volatile Memory Support
-Date: Mon, 28 Nov 2022 10:01:54 -0500
-Message-Id: <20221128150157.97724-1-gregory.price@memverge.com>
+ hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com,
+ Gregory Price <gourry.memverge@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [RFC v4 1/3] hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+Date: Mon, 28 Nov 2022 10:01:55 -0500
+Message-Id: <20221128150157.97724-2-gregory.price@memverge.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221128150157.97724-1-gregory.price@memverge.com>
+References: <20221128150157.97724-1-gregory.price@memverge.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=gourry.memverge@gmail.com; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-pl1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,75 +95,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Changes in this version
-    * Minor bug fixes spotted by J. Cameron
-    * Whitespace changes to docs and tests moved ahead of patch
-    * Address Space access to pmem region is now as(dpa-vmem_len)
+From: Gregory Price <gourry.memverge@gmail.com>
 
-Note: Submitted as an extention to the CDAT emulation because the CDAT DSMAS
-entry concerns memory mapping and is required to successfully map memory
-regions correctly in bios/efi.
+Remove usage of magic numbers when accessing capacity fields and replace
+with CXL_CAPACITY_MULTIPLIER, matching the kernel definition.
 
-See https://gitlab.com/jic23/qemu/-/tree/cxl-2022-11-17 for the base of
-this patch set.
+Signed-off-by: Gregory Price <gregory.price@memverge.com>
+Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+---
+ hw/cxl/cxl-mailbox-utils.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-
-
-This patches provides 2 features to the CXL Type-3 Device:
-    1) Volatile Memory Region Support
-    2) Multi-Region support (1 Volatile, 1 Persistent)
-
-Summary of Changes per-commit:
-1) Add CXL_CAPACITY_MULTIPLIER definition to replace magic numbers
-2) Whitespace updates to docs and tests
-3) Refactor CDAT DSMAS Initialization for multi-region initialization
-   Multi-Region and Volatile Memory support for CXL Type-3 Devices
-   Test and Documentation updates
-
-The final patch in this series makes 6 major changes to the type-3
-device in order to implement multi-region and volatile region support
-    1) The HostMemoryBackend [hostmem] has been replaced by two
-       [hostvmem] and [hostpmem] to store volatile and persistent memory
-       respectively
-    2) The single AddressSpace has been replaced by two AddressSpaces
-       [hostvmem_as] and [hostpmem_as] to map respective memdevs.
-    3) Each memory region size and total region are stored separately
-    4) The CDAT and DVSEC memory map entries have been updated:
-       a) if vmem is present, vmem is mapped at DPA(0)
-       b) if pmem is present
-          i)  and vmem is present, pmem is mapped at DPA(vmem->size)
-          ii) else, pmem is mapped at DPA(0)
-       c) partitioning of pmem is not supported in this patch set but
-          has been discussed and this design should suffice.
-    5) Read/Write functions have been updated to access AddressSpaces
-       according to the mapping described in #4.  Access to the
-       persistent address space is calculated by (dpa-vmem_len)
-    6) cxl-mailbox has been updated to report the respective size of
-       volatile and persistent memory regions
-
-CXL Spec (3.0) Section 8.2.9.8.2.0 - Get Partition Info
-  Active Volatile Memory
-    The device shall provide this volatile capacity starting at DPA 0
-  Active Persistent Memory
-    The device shall provide this persistent capacity starting at the
-    DPA immediately following the volatile capacity
-
-Partitioning of Persistent Memory regions may be supported on following
-patch sets, but is not supported in this version.
-
-
-Gregory Price (3):
-  hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
-  tests/qtest/cxl-test: whitespace, line ending cleanup
-  hw/cxl: Multi-Region CXL Type-3 Devices (Volatile and Persistent)
-
- docs/system/devices/cxl.rst |  49 ++++--
- hw/cxl/cxl-mailbox-utils.c  |  24 +--
- hw/mem/cxl_type3.c          | 292 +++++++++++++++++++++++++++---------
- include/hw/cxl/cxl_device.h |  11 +-
- tests/qtest/cxl-test.c      | 161 ++++++++++++++------
- 5 files changed, 395 insertions(+), 142 deletions(-)
-
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index 3e23d29e2d..d7543fd5b4 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -15,6 +15,8 @@
+ #include "qemu/log.h"
+ #include "qemu/uuid.h"
+ 
++#define CXL_CAPACITY_MULTIPLIER   0x10000000 /* SZ_256M */
++
+ /*
+  * How to add a new command, example. The command set FOO, with cmd BAR.
+  *  1. Add the command set and cmd to the enum.
+@@ -267,7 +269,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+     } QEMU_PACKED *fw_info;
+     QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
+ 
+-    if (cxl_dstate->pmem_size < (256 << 20)) {
++    if (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
+ 
+@@ -412,7 +414,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+     CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
+     uint64_t size = cxl_dstate->pmem_size;
+ 
+-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
++    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
+ 
+@@ -422,8 +424,8 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+     /* PMEM only */
+     snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
+ 
+-    id->total_capacity = size / (256 << 20);
+-    id->persistent_capacity = size / (256 << 20);
++    id->total_capacity = size / CXL_CAPACITY_MULTIPLIER;
++    id->persistent_capacity = size / CXL_CAPACITY_MULTIPLIER;
+     id->lsa_size = cvc->get_lsa_size(ct3d);
+     id->poison_list_max_mer[1] = 0x1; /* 256 poison records */
+ 
+@@ -444,14 +446,14 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+     QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
+     uint64_t size = cxl_dstate->pmem_size;
+ 
+-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
++    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
+ 
+     /* PMEM only */
+     part_info->active_vmem = 0;
+     part_info->next_vmem = 0;
+-    part_info->active_pmem = size / (256 << 20);
++    part_info->active_pmem = size / CXL_CAPACITY_MULTIPLIER;
+     part_info->next_pmem = 0;
+ 
+     *len = sizeof(*part_info);
 -- 
 2.37.3
 
