@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2403563B125
+	by mail.lfdr.de (Postfix) with ESMTPS id 2568363B126
 	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 19:22:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozikE-0002Zf-BK; Mon, 28 Nov 2022 13:20:42 -0500
+	id 1ozikE-0002Zm-F1; Mon, 28 Nov 2022 13:20:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ozikB-0002Wr-Qt
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ozikB-0002Wm-Pk
  for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:20:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ozik8-0006Km-Mb
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ozijt-0006L6-Cl
  for qemu-devel@nongnu.org; Mon, 28 Nov 2022 13:20:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669659604;
+ s=mimecast20190719; t=1669659608;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7D+0bAmUR8W6CgS2+YzAy5jhFxO1PClLLKA6nZqWCy4=;
- b=bwy8ZbU+S2x0aHAMsQSrpDFtQYROdINFrpy4Ry8704mYAytBuer1GWp8gDCHXwJvah3iKU
- uHqvuXoNeGUGhvzmoZdXA2lncVdKiP6f2E+2o8ix96YoMpbgdKiqv+5egN1H864HTmbwDi
- EVgjLgxdCwEc5RoTA9RkjUJhz4PyugI=
+ bh=N+kBDFcqwf3CwNM2FvQqwOPhui8/5seaaB5pstzvSdE=;
+ b=BRqIWDs7G4QgTi1el5bhkKbTM6d/tWQrsDC6gI3oqE0w1wy5l9M/2kJLX6eOzKTKbdaOh0
+ 6ZlWKR5GtMSBpMOXloqJnlcIlpTO9imqrdcNsmkr95sxc6atwAttBcyfF3WrFlxkQUmAHQ
+ c1ytJoQ7ZYD6Amz2HyfOnwfIekZFxd0=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-656-uV-gmIWqP1uaV2g5urJ1dg-1; Mon, 28 Nov 2022 13:20:03 -0500
-X-MC-Unique: uV-gmIWqP1uaV2g5urJ1dg-1
+ us-mta-203-uojMXtM6PvCCPeZo7MIXog-1; Mon, 28 Nov 2022 13:20:06 -0500
+X-MC-Unique: uojMXtM6PvCCPeZo7MIXog-1
 Received: by mail-wm1-f69.google.com with SMTP id
- h4-20020a1c2104000000b003d01b66fe65so8925173wmh.2
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 10:20:02 -0800 (PST)
+ c10-20020a7bc84a000000b003cf81c2d3efso3954081wml.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 10:20:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7D+0bAmUR8W6CgS2+YzAy5jhFxO1PClLLKA6nZqWCy4=;
- b=VkeWMa7cDN7agdKsReeLaUcPtNlnHApV8v/NSkOU752aQn7JvmNo4RZT1ZO57pNz6N
- QnK6GayufT0yTAL3uDhL0Yleq9FkCcjnRUfFvnDfvhl2hRS1rdFg8d0NbRtlX1EF6POf
- Gr6IYxaw+HNyKnPy8G2aXOk0L9fP/luzIh1sef+ZsbkY2YtNEoNylY5uwsBB7alOBzqG
- K9gzePtf3jwJxxF+IZYfiU2gy1g8xBMsBipEeFvPZvo/eq0U7DQuP42Lu3DlBluxtH1+
- SFtsRvsgRCov8aOBiYpyjBqTn8sIsnuBfhEm3naxKJJcYpD6ACszW1oZU8k3/+W2c5Eo
- qtqQ==
-X-Gm-Message-State: ANoB5pnvdO8V/Pa9jeBzngGTJt6b6WVruXOoEQ7VEhUPOd8iZGeiacyA
- gmsiw1Afya48HiGQz4M24KEIX/13KmECramodaU3uE8Vh+HbOg6tTEKaiF+qSi+Ndim7ZAVEfD7
- RXDJT2SQdPM1s5Kc=
-X-Received: by 2002:a1c:4b12:0:b0:3cf:90de:7724 with SMTP id
- y18-20020a1c4b12000000b003cf90de7724mr42136516wma.18.1669659601956; 
- Mon, 28 Nov 2022 10:20:01 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7v/8Sew4qiPSrKfbVoUvTpMIbSu3GjvWPREdqw7XL+QUNvXi7kBLAwvl0unFdWSjVrzl6Rag==
-X-Received: by 2002:a1c:4b12:0:b0:3cf:90de:7724 with SMTP id
- y18-20020a1c4b12000000b003cf90de7724mr42136492wma.18.1669659601616; 
- Mon, 28 Nov 2022 10:20:01 -0800 (PST)
+ bh=N+kBDFcqwf3CwNM2FvQqwOPhui8/5seaaB5pstzvSdE=;
+ b=bpakb1U+Eef6JbOje2nGmN3IQWqGclJMdpr/hTGGUtixLSNcP5G+zJu2h+gnHnCD4R
+ wnLyw4xbHSiF+XnixMvo4A2gTcXoweHOeHdscug2XE6ztCpSgRvzN8wi+pAmmiUxkTks
+ ZyI3CTMpmExtD0XudDB52ISZYXrhN9vE9qTrr9/MfAiobWSPxX8MvazzOUXeh5P8NVXc
+ IOSMf7qIGFVbFLJbNOzOmvd706mN742V9weFYDnKB8LtSTPxHsGNRrwQXQwY64kc6SyR
+ Ymng50vo9UNL04/n6yMrtcSffPIkli+JxVNUdyAVSvc/eG5J8EFLOlsF53VTqZ6GYVkn
+ k3LQ==
+X-Gm-Message-State: ANoB5plVha0PcL+JANCrWzO1s1Kh2L58pEbEMMq+VmDbFSYCeaGgK28r
+ ZxI68vdTdsJj17OMMLwYXVuEuiFxB4WOY6YAhmAHPfV2X2a/EvDtrikjxYLXyEqYOrkbzAn8Js3
+ kTsrgLsJ+m7LHy9U=
+X-Received: by 2002:adf:d0c2:0:b0:242:a37:7abf with SMTP id
+ z2-20020adfd0c2000000b002420a377abfmr9239359wrh.190.1669659604442; 
+ Mon, 28 Nov 2022 10:20:04 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6chbL/sjDzqcwJNsWf/30uO237C0wdJXcf3hX1fnZZs/JzVUfGJa+4elitDzG8ksvWcCMhNg==
+X-Received: by 2002:adf:d0c2:0:b0:242:a37:7abf with SMTP id
+ z2-20020adfd0c2000000b002420a377abfmr9239349wrh.190.1669659604265; 
+ Mon, 28 Nov 2022 10:20:04 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- v17-20020a05600c445100b003c64c186206sm16973538wmn.16.2022.11.28.10.20.00
+ p1-20020a1c5441000000b003b4cba4ef71sm19630682wmi.41.2022.11.28.10.20.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 10:20:00 -0800 (PST)
-Message-ID: <b10ccdc2-e8cc-b7b0-69b8-c8b721abb4d1@redhat.com>
-Date: Mon, 28 Nov 2022 19:19:59 +0100
+ Mon, 28 Nov 2022 10:20:01 -0800 (PST)
+Message-ID: <e6db0f62-335b-e1af-b4f3-8993ef5f084b@redhat.com>
+Date: Mon, 28 Nov 2022 19:20:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH for-8.0 2/9] hw/arm: Convert TYPE_ARM_SMMUV3 to 3-phase
- reset
+Subject: Re: [PATCH for-8.0 1/9] hw/arm: Convert TYPE_ARM_SMMU to 3-phase reset
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20221109161444.3397405-1-peter.maydell@linaro.org>
- <20221109161444.3397405-3-peter.maydell@linaro.org>
+ <20221109161444.3397405-2-peter.maydell@linaro.org>
 From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <20221109161444.3397405-3-peter.maydell@linaro.org>
+In-Reply-To: <20221109161444.3397405-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -105,70 +104,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Hi Peter,
 
 On 11/9/22 17:14, Peter Maydell wrote:
-> Convert the TYPE_ARM_SMMUV3 device to 3-phase reset.  The legacy
-> reset method doesn't do anything that's invalid in the hold phase, so
-> the conversion only requires changing it to a hold phase method, and
-> using the 3-phase versions of the "save the parent reset method and
-> chain to it" code.
+> Convert the TYPE_ARM_SMMU device to 3-phase reset.  The legacy method
+> doesn't do anything that's invalid in the hold phase, so the
+> conversion is simple and not a behaviour change.
+> 
+> Note that we must convert this base class before we can convert the
+> TYPE_ARM_SMMUV3 subclass -- transitional support in Resettable
+> handles "chain to parent class reset" when the base class is 3-phase
+> and the subclass is still using legacy reset, but not the other way
+> around.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-Eric
+Thanks
 
+Eric
 > ---
->  include/hw/arm/smmuv3.h |  2 +-
->  hw/arm/smmuv3.c         | 12 ++++++++----
->  2 files changed, 9 insertions(+), 5 deletions(-)
+>  hw/arm/smmu-common.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-> index c641e60735e..f1921fdf9e7 100644
-> --- a/include/hw/arm/smmuv3.h
-> +++ b/include/hw/arm/smmuv3.h
-> @@ -77,7 +77,7 @@ struct SMMUv3Class {
->      /*< public >*/
->  
->      DeviceRealize parent_realize;
-> -    DeviceReset   parent_reset;
-> +    ResettablePhases parent_phases;
->  };
->  
->  #define TYPE_ARM_SMMUV3   "arm-smmuv3"
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index daa80e9c7b6..955b89c8d59 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -1431,12 +1431,14 @@ static void smmu_init_irq(SMMUv3State *s, SysBusDevice *dev)
+> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+> index e09b9c13b74..220838525d4 100644
+> --- a/hw/arm/smmu-common.c
+> +++ b/hw/arm/smmu-common.c
+> @@ -526,9 +526,9 @@ static void smmu_base_realize(DeviceState *dev, Error **errp)
 >      }
 >  }
 >  
-> -static void smmu_reset(DeviceState *dev)
-> +static void smmu_reset_hold(Object *obj)
+> -static void smmu_base_reset(DeviceState *dev)
+> +static void smmu_base_reset_hold(Object *obj)
 >  {
-> -    SMMUv3State *s = ARM_SMMUV3(dev);
-> +    SMMUv3State *s = ARM_SMMUV3(obj);
->      SMMUv3Class *c = ARM_SMMUV3_GET_CLASS(s);
+> -    SMMUState *s = ARM_SMMU(dev);
+> +    SMMUState *s = ARM_SMMU(obj);
 >  
-> -    c->parent_reset(dev);
-> +    if (c->parent_phases.hold) {
-> +        c->parent_phases.hold(obj);
-> +    }
->  
->      smmuv3_init_regs(s);
->  }
-> @@ -1520,10 +1522,12 @@ static void smmuv3_instance_init(Object *obj)
->  static void smmuv3_class_init(ObjectClass *klass, void *data)
+>      g_hash_table_remove_all(s->configs);
+>      g_hash_table_remove_all(s->iotlb);
+> @@ -543,12 +543,13 @@ static Property smmu_dev_properties[] = {
+>  static void smmu_base_class_init(ObjectClass *klass, void *data)
 >  {
 >      DeviceClass *dc = DEVICE_CLASS(klass);
 > +    ResettableClass *rc = RESETTABLE_CLASS(klass);
->      SMMUv3Class *c = ARM_SMMUV3_CLASS(klass);
+>      SMMUBaseClass *sbc = ARM_SMMU_CLASS(klass);
 >  
->      dc->vmsd = &vmstate_smmuv3;
-> -    device_class_set_parent_reset(dc, smmu_reset, &c->parent_reset);
-> +    resettable_class_set_parent_phases(rc, NULL, smmu_reset_hold, NULL,
-> +                                       &c->parent_phases);
->      c->parent_realize = dc->realize;
->      dc->realize = smmu_realize;
+>      device_class_set_props(dc, smmu_dev_properties);
+>      device_class_set_parent_realize(dc, smmu_base_realize,
+>                                      &sbc->parent_realize);
+> -    dc->reset = smmu_base_reset;
+> +    rc->phases.hold = smmu_base_reset_hold;
 >  }
+>  
+>  static const TypeInfo smmu_base_info = {
 
 
