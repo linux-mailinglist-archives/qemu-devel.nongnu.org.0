@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96B763AB07
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 15:31:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC62563ABBC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Nov 2022 15:58:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozf7S-0007wX-UM; Mon, 28 Nov 2022 09:28:27 -0500
+	id 1ozfZ6-0005K6-VD; Mon, 28 Nov 2022 09:57:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozf7C-0007s8-F9
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:28:14 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozfZ5-0005Jy-0W
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:56:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozf75-0007mZ-Er
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:28:04 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozfZ3-0004nO-GH
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 09:56:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669645682;
+ s=mimecast20190719; t=1669647416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IUAXmZy8CYYvlogPmz/Pr8IVW4rnD5i12LB7vcQGPgU=;
- b=Sy3hbYC2FK2SurFlA0Fe2pkQlYF3uWENk2SxNtW0O1HJC9KESQreCBTWiPZsohGtwFL5HK
- K7xCm/jk34+gv8Yf+dvRUaKWXYXp1YNUjjfnJ1xKk17lBKzzz2TC2sF9zo2xczUOakSa1P
- 7akl4+Oy98cGsnLxf/CW729wXUUw3N4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-607-urydpRkmMQCIjran5v1QTg-1; Mon, 28 Nov 2022 09:28:01 -0500
-X-MC-Unique: urydpRkmMQCIjran5v1QTg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m34-20020a05600c3b2200b003cf549cb32bso8673175wms.1
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 06:28:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IUAXmZy8CYYvlogPmz/Pr8IVW4rnD5i12LB7vcQGPgU=;
- b=mJW1GZca56PgR0NCg6UJyQWJPyMOWCKm0fQPYBLorQ9iyCbB4p9ohZ0TO9lHmJUdI3
- jgqe7hyxbQtRyEkQNAHHbzw39NWVZxBX8K4sIGa1GldLx5c2qm7eVBmw0HVLtpn9jDwB
- swHAZRFZwpVeD0CFibTmmLC0OHB6Qg+agV4ZfWt8joRIitR2XV9PRKATBA11IEW/Zx8c
- 9CV6j72rlumWTSPV5oA6E21eblP7VZV4PJo6VYrb7KrYaI/9Dgl/zd1Gy/fyG9qal3pX
- Kf42F4SuPJ1eoM939R5tQs5l9i0jvMfU6fm6Na54XWgy5HnihWzt9By+I/tVu25lfCjw
- /+Qw==
-X-Gm-Message-State: ANoB5pls64Wn8fruq85EEgOMfnHRIduTxk/5GXZnW3EewOPiwY3i2GCT
- axC5nT244eWqkilCrknumlpOyHcU8hMA0KDqHgIxVaXPFZ8n4pRUODVbyOc1sTiS1E4VdR8V5sd
- 8ZQvueDuboOuGXAo=
-X-Received: by 2002:a7b:cd18:0:b0:3cf:a359:de90 with SMTP id
- f24-20020a7bcd18000000b003cfa359de90mr27875453wmj.122.1669645679506; 
- Mon, 28 Nov 2022 06:27:59 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6EAuftMCxnM3/aUQCvFjlxWYsvsUEgXHbfb30MRis12ojFXhZr79SR/4nXdL2Z5VtutWWTaA==
-X-Received: by 2002:a7b:cd18:0:b0:3cf:a359:de90 with SMTP id
- f24-20020a7bcd18000000b003cfa359de90mr27875434wmj.122.1669645679274; 
- Mon, 28 Nov 2022 06:27:59 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- p15-20020a05600c468f00b003cfaae07f68sm16748375wmo.17.2022.11.28.06.27.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 06:27:58 -0800 (PST)
-Date: Mon, 28 Nov 2022 14:27:56 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, marcel.apfelbaum@gmail.com
-Subject: Re: [PATCH 05/12] pci: Build hw/pci/pci-hmp-cmds.c only when
- CONFIG_PCI
-Message-ID: <Y4TFbE7xRickK8Ri@work-vm>
-References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-6-armbru@redhat.com>
- <Y4Sol9q0NI52iTmE@work-vm> <87sfi3p5b1.fsf@pond.sub.org>
+ bh=cSuRlOJXTajkrvNKSPiVVCEWAgMrR7lp0I7cgNejk/4=;
+ b=c5OuDJ59qeRZK8s78dzjH1O9l9YIyE/SUskVSyHkPM/Rlk7xJNjGMJAtBRjBY2pWNulNHT
+ 6xJ9B1CRZUzmBOWq7kjrYf7GHsyTgRvyYCkUeEKPgAURvIDkK0hy6W+5lX0yxdYShfLdMC
+ YsDQNzI3NXJbyV7PEhUzXc60eFfRkVg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-OgN8cd67PJWy2eR5UcZ6oQ-1; Mon, 28 Nov 2022 09:56:54 -0500
+X-MC-Unique: OgN8cd67PJWy2eR5UcZ6oQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3453C101A5AD;
+ Mon, 28 Nov 2022 14:56:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1148E17582;
+ Mon, 28 Nov 2022 14:56:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E219E21E6921; Mon, 28 Nov 2022 15:56:50 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-trivial@nongnu.org
+Subject: Re: [PATCH for-8.0] monitor/misc: Remove superfluous include
+ statements
+References: <20221128133514.220919-1-thuth@redhat.com>
+Date: Mon, 28 Nov 2022 15:56:50 +0100
+In-Reply-To: <20221128133514.220919-1-thuth@redhat.com> (Thomas Huth's message
+ of "Mon, 28 Nov 2022 14:35:14 +0100")
+Message-ID: <87zgcbnn4d.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87sfi3p5b1.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,37 +80,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
-> 
-> > * Markus Armbruster (armbru@redhat.com) wrote:
-> >> We compile pci-hmp-cmds.c always, but pci-qmp-cmds.c only when
-> >> CONFIG_PCI.  hw/pci/pci-stub.c keeps the linker happy when
-> >> !CONFIG_PCI.  Build pci-hmp-cmds.c that way, too.
-> >> 
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >
-> > Had you considered wrapping the hmp-commands-info.hx entry
-> > with a #if defined instead?
-> 
-> No.  Would you prefer that?
+Thomas Huth <thuth@redhat.com> writes:
 
-It seemed a bit simpler to me, but I'm not too fussed.
-I kind of preferred the idea of the command giving an error if there's
-no PCI built in.
+> These #includes are not required anymore (the likely got superfluous
+> with commit da76ee76f7 - "hmp-commands-info: move info_cmds content
+> out of monitor.c").
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-> Code containing #ifdef CONFIG_PCI is target-dependent.  Looks like the
-> affected monitor code already is, so no new headaches.
+Appreciated!
 
-> Aside: splitting off its target-independent parts could be nice.  Not
-> today.
-
-Yeh.
-
-Dave
-> [...]
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
