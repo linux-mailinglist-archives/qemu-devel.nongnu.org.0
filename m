@@ -2,61 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C97863B828
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 03:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83C163B84A
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 03:56:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozqbM-0002Gz-SO; Mon, 28 Nov 2022 21:44:04 -0500
+	id 1ozqmX-0001nd-Uk; Mon, 28 Nov 2022 21:55:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ozqbK-0002Ew-HW; Mon, 28 Nov 2022 21:44:02 -0500
-Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ozqbE-0005SV-Hc; Mon, 28 Nov 2022 21:44:01 -0500
-Received: from localhost.localdomain (unknown [180.175.30.174])
- by APP-05 (Coremail) with SMTP id zQCowABHT_ficYVjZgs3Aw--.22376S11;
- Tue, 29 Nov 2022 10:43:52 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v7 9/9] disas/riscv.c: add disasm support for Zc*
-Date: Tue, 29 Nov 2022 10:43:43 +0800
-Message-Id: <20221129024343.20384-10-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221129024343.20384-1-liweiwei@iscas.ac.cn>
-References: <20221129024343.20384-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ozqmU-0001nB-E3
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 21:55:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ozqmS-0007SB-8M
+ for qemu-devel@nongnu.org; Mon, 28 Nov 2022 21:55:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669690530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5mW0rTrn1NA8EEs7D1p2leeFe6B+wX01rnUkpW3QKH0=;
+ b=PZhNlB4BWk9TrTkIsN+SWtB6BYpwEnrkj5Bw7wJ2v2rx39yQRtKWRpAI/EgwbEZvUnxiif
+ naOJUku1/hbJhMN3rsTlCAttPHZTH3wFrQW+nAOLlaMoLlr6mgprUWW24Q0XcL7sMMHuZq
+ UQ15VCeuKXjpQhkjH7G0aAoyb7Kz/7I=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-467-Om9ve4b2PV-8a5m9aihsmQ-1; Mon, 28 Nov 2022 21:55:29 -0500
+X-MC-Unique: Om9ve4b2PV-8a5m9aihsmQ-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-142a7a82700so7517728fac.14
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 18:55:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5mW0rTrn1NA8EEs7D1p2leeFe6B+wX01rnUkpW3QKH0=;
+ b=bNXuN61kkb9jlIr1vC7OTFh3zthQmvxao1JBhjWWxFUEXm/4REZWTrjhPc0i9H38Nd
+ eWs1V+flOjy1K11mYe956MyLbZAbhondJ9YsB+xe0TVbc1ieUGKucPTuyUo9INuU//SM
+ 3abxaasG8SEJkq6/VtNxQiGdtHWrtHNkK6nJFNgdB6JR2mcGWo4+BPDzn7PnpxORDV0L
+ /R1ET1U8ebQFP7YnhoSHNQqH/socmPngGNNcM4PHd8qeZSSs8zsjmeZnSWWAI61YZ8kL
+ s3zFw6kW029lhNvGiRgtAqmomJSPJmgaXV1YNLYyVRqO65I6JN4SQ1ZGTBIduHCnHxfV
+ sQmQ==
+X-Gm-Message-State: ANoB5pn5O20OecbFsbp6d+pG4ZNP3+43sXlCNiPF37WuMzyDFjQ2+acR
+ kk/A5tV4muX0XG0O70JAgqH6rejYGhIcTJ8MCpKWjJ1MAE06nqy4b+/bRU9FOmoFNcO/mKGJ2PQ
+ LGHKBCdf0Uk1qQK55iN5vA6CTjdsmnNg=
+X-Received: by 2002:a05:6870:1e83:b0:132:7b3:29ac with SMTP id
+ pb3-20020a0568701e8300b0013207b329acmr20024402oab.35.1669690528300; 
+ Mon, 28 Nov 2022 18:55:28 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6rcbpGaaJuOfAD8QYX9Y0QiARI6ACYhUSlnAkqqifdN794qsWJKzRLo2iaGTjgHvoTrvX6ztzVq6RlTIW/9bM=
+X-Received: by 2002:a05:6870:1e83:b0:132:7b3:29ac with SMTP id
+ pb3-20020a0568701e8300b0013207b329acmr20024390oab.35.1669690528104; Mon, 28
+ Nov 2022 18:55:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABHT_ficYVjZgs3Aw--.22376S11
-X-Coremail-Antispam: 1UD129KBjvJXoW3trWrWr15WFW3AryUWF13twb_yoWDWFyDpF
- yrG343JrWj9a4Sq3WfAFW8AasxtrW8Wr47JaySy3Z5u3srZ34furyjq3yavFykG3y0kr47
- uFsxWF4jg3Z7JrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBF14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4U
- JVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx
- 0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWU
- JVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64
- vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
- jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2I
- x0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAI
- w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x
- 0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQSdkUUUUU=
-X-Originating-IP: [180.175.30.174]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+References: <20221118144915.2009-1-longpeng2@huawei.com>
+ <CACGkMEu4R92uX_J43ZKetg3Q1FCTQR1Z7u4Ua3Jx2y7cjxX1Og@mail.gmail.com>
+ <45e851db-7633-8942-4baf-5ca608c9dd61@huawei.com>
+In-Reply-To: <45e851db-7633-8942-4baf-5ca608c9dd61@huawei.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 29 Nov 2022 10:55:17 +0800
+Message-ID: <CACGkMEuKa9P+n5Yv7iHpg0ZDqRSnXBzCSBDt+pdnsmSPuA181A@mail.gmail.com>
+Subject: Re: [PATCH] vhost: configure all host notifiers in a single MR
+ transaction
+To: "Longpeng (Mike,
+ Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
+Cc: stefanha@redhat.com, mst@redhat.com, sgarzare@redhat.com, 
+ cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com, 
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,406 +99,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Zcmp/Zcmt instructions will override disasm for c.fld*/c.fsd*
-instructions currently
+On Mon, Nov 28, 2022 at 5:08 PM Longpeng (Mike, Cloud Infrastructure
+Service Product Dept.) <longpeng2@huawei.com> wrote:
+>
+>
+>
+> =E5=9C=A8 2022/11/21 12:01, Jason Wang =E5=86=99=E9=81=93:
+> > On Fri, Nov 18, 2022 at 10:49 PM Longpeng(Mike) <longpeng2@huawei.com> =
+wrote:
+> >>
+> >> From: Longpeng <longpeng2@huawei.com>
+> >>
+> >> This allows the vhost device to batch the setup of all its host notifi=
+ers.
+> >> This significantly reduces the device starting time, e.g. the vhost-vD=
+PA
+> >> generic device [1] start time reduce from 376ms to 9.1ms for a VM with
+> >> 64 vCPUs and 3 vDPA device(64vq per device).
+> >
+> > Great, I think we need to do this for host_notifiers_mr as well. This
+> > helps for the case when the notification area could be mapped directly
+> > to guests.
+> >
+> Batch and commit once for host_notifiers_mrs can reduce the cost from
+> 423ms to 32ms, testing on vdpasim_blk (3 devices and 64 vqs per device)
+> with doorbell passthrough support.
+> I'll append a patch in the next version.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
----
- disas/riscv.c | 287 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 286 insertions(+), 1 deletion(-)
+Great.
 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index d216b9c39b..81369063b5 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -163,6 +163,13 @@ typedef enum {
-     rv_codec_v_i,
-     rv_codec_vsetvli,
-     rv_codec_vsetivli,
-+    rv_codec_zcb_ext,
-+    rv_codec_zcb_mul,
-+    rv_codec_zcb_lb,
-+    rv_codec_zcb_lh,
-+    rv_codec_zcmp_cm_pushpop,
-+    rv_codec_zcmp_cm_mv,
-+    rv_codec_zcmt_jt,
- } rv_codec;
- 
- typedef enum {
-@@ -935,6 +942,26 @@ typedef enum {
-     rv_op_vsetvli = 766,
-     rv_op_vsetivli = 767,
-     rv_op_vsetvl = 768,
-+    rv_op_c_zext_b = 769,
-+    rv_op_c_sext_b = 770,
-+    rv_op_c_zext_h = 771,
-+    rv_op_c_sext_h = 772,
-+    rv_op_c_zext_w = 773,
-+    rv_op_c_not = 774,
-+    rv_op_c_mul = 775,
-+    rv_op_c_lbu = 776,
-+    rv_op_c_lhu = 777,
-+    rv_op_c_lh = 778,
-+    rv_op_c_sb = 779,
-+    rv_op_c_sh = 780,
-+    rv_op_cm_push = 781,
-+    rv_op_cm_pop = 782,
-+    rv_op_cm_popret = 783,
-+    rv_op_cm_popretz = 784,
-+    rv_op_cm_mva01s = 785,
-+    rv_op_cm_mvsa01 = 786,
-+    rv_op_cm_jt = 787,
-+    rv_op_cm_jalt = 788,
- } rv_op;
- 
- /* structures */
-@@ -958,6 +985,7 @@ typedef struct {
-     uint8_t   rnum;
-     uint8_t   vm;
-     uint32_t  vzimm;
-+    uint8_t   rlist;
- } rv_decode;
- 
- typedef struct {
-@@ -1070,6 +1098,10 @@ static const char rv_vreg_name_sym[32][4] = {
- #define rv_fmt_vd_vm                  "O\tDm"
- #define rv_fmt_vsetvli                "O\t0,1,v"
- #define rv_fmt_vsetivli               "O\t0,u,v"
-+#define rv_fmt_rs1_rs2_zce_ldst       "O\t2,i(1)"
-+#define rv_fmt_push_rlist             "O\tx,-i"
-+#define rv_fmt_pop_rlist              "O\tx,i"
-+#define rv_fmt_zcmt_index             "O\ti"
- 
- /* pseudo-instruction constraints */
- 
-@@ -2065,7 +2097,27 @@ const rv_opcode_data opcode_data[] = {
-     { "vsext.vf8", rv_codec_v_r, rv_fmt_vd_vs2_vm, NULL, rv_op_vsext_vf8, rv_op_vsext_vf8, 0 },
-     { "vsetvli", rv_codec_vsetvli, rv_fmt_vsetvli, NULL, rv_op_vsetvli, rv_op_vsetvli, 0 },
-     { "vsetivli", rv_codec_vsetivli, rv_fmt_vsetivli, NULL, rv_op_vsetivli, rv_op_vsetivli, 0 },
--    { "vsetvl", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, rv_op_vsetvl, rv_op_vsetvl, 0 }
-+    { "vsetvl", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, rv_op_vsetvl, rv_op_vsetvl, 0 },
-+    { "c.zext.b", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.sext.b", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.zext.h", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.sext.h", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.zext.w", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.not", rv_codec_zcb_ext, rv_fmt_rd, NULL, 0 },
-+    { "c.mul", rv_codec_zcb_mul, rv_fmt_rd_rs2, NULL, 0, 0 },
-+    { "c.lbu", rv_codec_zcb_lb, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.lhu", rv_codec_zcb_lh, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.lh", rv_codec_zcb_lh, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.sb", rv_codec_zcb_lb, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "c.sh", rv_codec_zcb_lh, rv_fmt_rs1_rs2_zce_ldst, NULL, 0, 0, 0 },
-+    { "cm.push", rv_codec_zcmp_cm_pushpop, rv_fmt_push_rlist, NULL, 0, 0 },
-+    { "cm.pop", rv_codec_zcmp_cm_pushpop, rv_fmt_pop_rlist, NULL, 0, 0 },
-+    { "cm.popret", rv_codec_zcmp_cm_pushpop, rv_fmt_pop_rlist, NULL, 0, 0, 0 },
-+    { "cm.popretz", rv_codec_zcmp_cm_pushpop, rv_fmt_pop_rlist, NULL, 0, 0 },
-+    { "cm.mva01s", rv_codec_zcmp_cm_mv, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
-+    { "cm.mvsa01", rv_codec_zcmp_cm_mv, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
-+    { "cm.jt", rv_codec_zcmt_jt, rv_fmt_zcmt_index, NULL, 0 },
-+    { "cm.jalt", rv_codec_zcmt_jt, rv_fmt_zcmt_index, NULL, 0 },
- };
- 
- /* CSR names */
-@@ -2084,6 +2136,7 @@ static const char *csr_name(int csrno)
-     case 0x000a: return "vxrm";
-     case 0x000f: return "vcsr";
-     case 0x0015: return "seed";
-+    case 0x0017: return "jvt";
-     case 0x0040: return "uscratch";
-     case 0x0041: return "uepc";
-     case 0x0042: return "ucause";
-@@ -2306,6 +2359,24 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-                 op = rv_op_c_ld;
-             }
-             break;
-+        case 4:
-+            switch ((inst >> 10) & 0b111) {
-+            case 0: op = rv_op_c_lbu; break;
-+            case 1:
-+                if (((inst >> 6) & 1) == 0) {
-+                    op = rv_op_c_lhu;
-+                } else {
-+                    op = rv_op_c_lh;
-+                }
-+                break;
-+            case 2: op = rv_op_c_sb; break;
-+            case 3:
-+                if (((inst >> 6) & 1) == 0) {
-+                    op = rv_op_c_sh;
-+                }
-+                break;
-+            }
-+            break;
-         case 5:
-             if (isa == rv128) {
-                 op = rv_op_c_sq;
-@@ -2362,6 +2433,17 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-                 case 3: op = rv_op_c_and; break;
-                 case 4: op = rv_op_c_subw; break;
-                 case 5: op = rv_op_c_addw; break;
-+                case 6: op = rv_op_c_mul; break;
-+                case 7:
-+                    switch ((inst >> 2) & 0b111) {
-+                    case 0: op = rv_op_c_zext_b; break;
-+                    case 1: op = rv_op_c_sext_b; break;
-+                    case 2: op = rv_op_c_zext_h; break;
-+                    case 3: op = rv_op_c_sext_h; break;
-+                    case 4: op = rv_op_c_zext_w; break;
-+                    case 5: op = rv_op_c_not; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             }
-@@ -2417,6 +2499,30 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-                 op = rv_op_c_sqsp;
-             } else {
-                 op = rv_op_c_fsdsp;
-+                if (((inst >> 12) & 0b01)) {
-+                    switch ((inst >> 8) & 0b01111) {
-+                    case 8: op = rv_op_cm_push; break;
-+                    case 10: op = rv_op_cm_pop; break;
-+                    case 12: op = rv_op_cm_popretz; break;
-+                    case 14: op = rv_op_cm_popret; break;
-+                    }
-+                } else {
-+                    switch ((inst >> 10) & 0b011) {
-+                    case 0:
-+                        if (((inst >> 2) & 0xFF) >= 32) {
-+                            op = rv_op_cm_jalt;
-+                        } else {
-+                            op = rv_op_cm_jt;
-+                        }
-+                        break;
-+                    case 3:
-+                        switch ((inst >> 5) & 0b011) {
-+                        case 1: op = rv_op_cm_mvsa01; break;
-+                        case 3: op = rv_op_cm_mva01s; break;
-+                        }
-+                        break;
-+                    }
-+                }
-             }
-             break;
-         case 6: op = rv_op_c_swsp; break;
-@@ -3661,6 +3767,21 @@ static uint32_t operand_crs2q(rv_inst inst)
-     return (inst << 59) >> 61;
- }
- 
-+static uint32_t calculate_xreg(uint32_t sreg)
-+{
-+    return sreg < 2 ? sreg + 8 : sreg + 16;
-+}
-+
-+static uint32_t operand_sreg1(rv_inst inst)
-+{
-+    return calculate_xreg((inst << 54) >> 61);
-+}
-+
-+static uint32_t operand_sreg2(rv_inst inst)
-+{
-+    return calculate_xreg((inst << 59) >> 61);
-+}
-+
- static uint32_t operand_crd(rv_inst inst)
- {
-     return (inst << 52) >> 59;
-@@ -3883,6 +4004,97 @@ static uint32_t operand_vm(rv_inst inst)
-     return (inst << 38) >> 63;
- }
- 
-+static uint32_t operand_uimm_c_lb(rv_inst inst)
-+{
-+    return (((inst << 58) >> 63) << 1) |
-+        ((inst << 57) >> 63);
-+}
-+
-+static uint32_t operand_uimm_c_lh(rv_inst inst)
-+{
-+    return (((inst << 58) >> 63) << 1);
-+}
-+
-+static uint32_t operand_zcmp_spimm(rv_inst inst)
-+{
-+    return ((inst << 60) >> 62) << 4;
-+}
-+
-+static uint32_t operand_zcmp_rlist(rv_inst inst)
-+{
-+    return ((inst << 56) >> 60);
-+}
-+
-+static uint32_t calculate_stack_adj(rv_isa isa, uint32_t rlist, uint32_t spimm)
-+{
-+    uint32_t stack_adj_base = 0;
-+    if (isa == rv64) {
-+        switch (rlist) {
-+        case 15:
-+            stack_adj_base = 112;
-+            break;
-+        case 14:
-+            stack_adj_base = 96;
-+            break;
-+        case 13:
-+        case 12:
-+            stack_adj_base = 80;
-+            break;
-+        case 11:
-+        case 10:
-+            stack_adj_base = 64;
-+            break;
-+        case 9:
-+        case 8:
-+            stack_adj_base = 48;
-+            break;
-+        case 7:
-+        case 6:
-+            stack_adj_base = 32;
-+            break;
-+        case 5:
-+        case 4:
-+            stack_adj_base = 16;
-+            break;
-+        }
-+    } else {
-+        switch (rlist) {
-+        case 15:
-+            stack_adj_base = 64;
-+            break;
-+        case 14:
-+        case 13:
-+        case 12:
-+            stack_adj_base = 48;
-+            break;
-+        case 11:
-+        case 10:
-+        case 9:
-+        case 8:
-+            stack_adj_base = 32;
-+            break;
-+        case 7:
-+        case 6:
-+        case 5:
-+        case 4:
-+            stack_adj_base = 16;
-+            break;
-+        }
-+    }
-+    return stack_adj_base + spimm;
-+}
-+
-+static uint32_t operand_zcmp_stack_adj(rv_inst inst, rv_isa isa)
-+{
-+    return calculate_stack_adj(isa, operand_zcmp_rlist(inst),
-+                              operand_zcmp_spimm(inst));
-+}
-+
-+static uint32_t operand_tbl_index(rv_inst inst)
-+{
-+    return ((inst << 54) >> 56);
-+}
-+
- /* decode operands */
- 
- static void decode_inst_operands(rv_decode *dec, rv_isa isa)
-@@ -4199,6 +4411,34 @@ static void decode_inst_operands(rv_decode *dec, rv_isa isa)
-         dec->imm = operand_vimm(inst);
-         dec->vzimm = operand_vzimm10(inst);
-         break;
-+    case rv_codec_zcb_lb:
-+        dec->rs1 = operand_crs1q(inst) + 8;
-+        dec->rs2 = operand_crs2q(inst) + 8;
-+        dec->imm = operand_uimm_c_lb(inst);
-+        break;
-+    case rv_codec_zcb_lh:
-+        dec->rs1 = operand_crs1q(inst) + 8;
-+        dec->rs2 = operand_crs2q(inst) + 8;
-+        dec->imm = operand_uimm_c_lh(inst);
-+        break;
-+    case rv_codec_zcb_ext:
-+        dec->rd = operand_crs1q(inst) + 8;
-+        break;
-+    case rv_codec_zcb_mul:
-+        dec->rd = operand_crs1rdq(inst) + 8;
-+        dec->rs2 = operand_crs2q(inst) + 8;
-+        break;
-+    case rv_codec_zcmp_cm_pushpop:
-+        dec->imm = operand_zcmp_stack_adj(inst, isa);
-+        dec->rlist = operand_zcmp_rlist(inst);
-+        break;
-+    case rv_codec_zcmp_cm_mv:
-+        dec->rd = operand_sreg1(inst);
-+        dec->rs2 = operand_sreg2(inst);
-+        break;
-+    case rv_codec_zcmt_jt:
-+        dec->imm = operand_tbl_index(inst);
-+        break;
-     };
- }
- 
-@@ -4358,6 +4598,9 @@ static void format_inst(char *buf, size_t buflen, size_t tab, rv_decode *dec)
-         case ')':
-             append(buf, ")", buflen);
-             break;
-+        case '-':
-+            append(buf, "-", buflen);
-+            break;
-         case 'b':
-             snprintf(tmp, sizeof(tmp), "%d", dec->bs);
-             append(buf, tmp, buflen);
-@@ -4541,6 +4784,48 @@ static void format_inst(char *buf, size_t buflen, size_t tab, rv_decode *dec)
-             append(buf, vma, buflen);
-             break;
-         }
-+        case 'x': {
-+            switch (dec->rlist) {
-+            case 4:
-+                snprintf(tmp, sizeof(tmp), "{ra}");
-+                break;
-+            case 5:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0}");
-+                break;
-+            case 6:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s1}");
-+                break;
-+            case 7:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s2}");
-+                break;
-+            case 8:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s3}");
-+                break;
-+            case 9:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s4}");
-+                break;
-+            case 10:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s5}");
-+                break;
-+            case 11:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s6}");
-+                break;
-+            case 12:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s7}");
-+                break;
-+            case 13:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s8}");
-+                break;
-+            case 14:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s9}");
-+                break;
-+            case 15:
-+                snprintf(tmp, sizeof(tmp), "{ra, s0-s11}");
-+                break;
-+            }
-+            append(buf, tmp, buflen);
-+            break;
-+        }
-         default:
-             break;
-         }
--- 
-2.25.1
+Thanks
+
+>
+> >>
+> >> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg921541.html
+> >>
+> >> Signed-off-by: Longpeng <longpeng2@huawei.com>
+> >> ---
+> >>   hw/virtio/vhost.c | 39 ++++++++++++++++++++++++++++++++++++++-
+> >>   1 file changed, 38 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> >> index d1c4c20b8c..bf82d9b176 100644
+> >> --- a/hw/virtio/vhost.c
+> >> +++ b/hw/virtio/vhost.c
+> >> @@ -1507,6 +1507,7 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
+> >>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice =
+*vdev)
+> >>   {
+> >>       BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(vdev)));
+> >> +    int vq_init_count =3D 0;
+> >>       int i, r, e;
+> >>
+> >>       /* We will pass the notifiers to the kernel, make sure that QEMU
+> >> @@ -1518,6 +1519,12 @@ int vhost_dev_enable_notifiers(struct vhost_dev=
+ *hdev, VirtIODevice *vdev)
+> >>           goto fail;
+> >>       }
+> >>
+> >> +    /*
+> >> +     * Batch all the host notifiers in a single transaction to avoid
+> >> +     * quadratic time complexity in address_space_update_ioeventfds()=
+.
+> >> +     */
+> >> +    memory_region_transaction_begin();
+> >> +
+> >>       for (i =3D 0; i < hdev->nvqs; ++i) {
+> >>           r =3D virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->v=
+q_index + i,
+> >>                                            true);
+> >> @@ -1525,19 +1532,33 @@ int vhost_dev_enable_notifiers(struct vhost_de=
+v *hdev, VirtIODevice *vdev)
+> >>               error_report("vhost VQ %d notifier binding failed: %d", =
+i, -r);
+> >>               goto fail_vq;
+> >>           }
+> >> +
+> >> +        vq_init_count++;
+> >>       }
+> >
+> > Nit, the name needs some tweak, it's actually the number of the host
+> > notifiers that is initialized. And we can count it out of the loop.
+> >
+> Ok, I will refer to virtio_device_start_ioeventfd_impl().
+>
+> >>
+> >> +    memory_region_transaction_commit();
+> >> +
+> >>       return 0;
+> >>   fail_vq:
+> >> -    while (--i >=3D 0) {
+> >> +    for (i =3D 0; i < vq_init_count; i++) {
+> >
+> > It looks to me there's no need for this change.
+> >
+> > Others look good.
+> >
+> > Thanks
+> >
+> >>           e =3D virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->v=
+q_index + i,
+> >>                                            false);
+> >>           if (e < 0) {
+> >>               error_report("vhost VQ %d notifier cleanup error: %d", i=
+, -r);
+> >>           }
+> >>           assert (e >=3D 0);
+> >> +    }
+> >> +
+> >> +    /*
+> >> +     * The transaction expects the ioeventfds to be open when it
+> >> +     * commits. Do it now, before the cleanup loop.
+> >> +     */
+> >> +    memory_region_transaction_commit();
+> >> +
+> >> +    for (i =3D 0; i < vq_init_count; i++) {
+> >>           virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), hdev->vq_=
+index + i);
+> >>       }
+> >> +
+> >>       virtio_device_release_ioeventfd(vdev);
+> >>   fail:
+> >>       return r;
+> >> @@ -1553,6 +1574,12 @@ void vhost_dev_disable_notifiers(struct vhost_d=
+ev *hdev, VirtIODevice *vdev)
+> >>       BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(vdev)));
+> >>       int i, r;
+> >>
+> >> +    /*
+> >> +     * Batch all the host notifiers in a single transaction to avoid
+> >> +     * quadratic time complexity in address_space_update_ioeventfds()=
+.
+> >> +     */
+> >> +    memory_region_transaction_begin();
+> >> +
+> >>       for (i =3D 0; i < hdev->nvqs; ++i) {
+> >>           r =3D virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->v=
+q_index + i,
+> >>                                            false);
+> >> @@ -1560,8 +1587,18 @@ void vhost_dev_disable_notifiers(struct vhost_d=
+ev *hdev, VirtIODevice *vdev)
+> >>               error_report("vhost VQ %d notifier cleanup failed: %d", =
+i, -r);
+> >>           }
+> >>           assert (r >=3D 0);
+> >> +    }
+> >> +
+> >> +    /*
+> >> +     * The transaction expects the ioeventfds to be open when it
+> >> +     * commits. Do it now, before the cleanup loop.
+> >> +     */
+> >> +    memory_region_transaction_commit();
+> >> +
+> >> +    for (i =3D 0; i < hdev->nvqs; ++i) {
+> >>           virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), hdev->vq_=
+index + i);
+> >>       }
+> >> +
+> >>       virtio_device_release_ioeventfd(vdev);
+> >>   }
+> >>
+> >> --
+> >> 2.23.0
+> >>
+> >
+> > .
+>
 
 
