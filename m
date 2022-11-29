@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1762063CA84
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 22:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DE663CADB
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 23:00:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p08D9-0001Nk-Fc; Tue, 29 Nov 2022 16:32:15 -0500
+	id 1p08cd-0002ZN-9P; Tue, 29 Nov 2022 16:58:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <evgeny.v.ermakov@gmail.com>)
- id 1p08D6-0001Me-Iz
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 16:32:12 -0500
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <evgeny.v.ermakov@gmail.com>)
- id 1p08D4-0001Su-3b
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 16:32:12 -0500
-Received: by mail-lf1-x129.google.com with SMTP id f13so24030774lfa.6
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 13:32:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6lTOBBqhQUhS4TRpJZM6iG+cevj0RyoXT843zL4YtRY=;
- b=A8Vz1NE29R1+riFt9SsOTeSk/VXnVYmztZYbFVussz+7J0LvnQuhmz14+rvSQiZN0a
- rzOT6odKX1NTef1e5GWBzlGURoNfa6y9FqQR21SBjl+cPi+5x0tSq8Cmde7nogZAtJP2
- SEFWSzcF/2UMCC/ZAIiK7S3IFdxP5DYb5fQKDDkXg23O2lutXt2uIweqQd2fWvqICEpr
- El65n8A6vdybcteA5Ssb6HtOJgJ03YLkh5sSluvWndN49SiN6lrSlIYn2Eu7oT/N4Q4d
- 8fugjIVCnOHBREFzuVi6kO0Fz8JlGSI6M5KKLzM2hWeDWZbq82rvx3ogQkF/OVzDC12h
- C1iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6lTOBBqhQUhS4TRpJZM6iG+cevj0RyoXT843zL4YtRY=;
- b=sSo4juBFCgzgYlGv7VN2BPVUluEH2ZkO29acm/8QMVCjMwN2Kko9OZX3kr2Z2vodHk
- rQSYK1R1TSY/0onyyXJVXDRzKBaYbOBhGYhBHiTw+yE0H4dVIKFjA0MhBC+7ryhPT/BI
- bnWA+nmSslvbCBYH4J5f1tXDupoOm7O6y2sr9c4zUDWuxUAAoIQYyZEZH7TtQbTYGtgR
- hdLg/6AfLLhbAFfpblLNDaF55a9m+NtwN3KsmIXIWjtzpLvUzLyAh3xZW+5NkR5SFN7y
- PuQOwyYACsgEJJCiwHAl5t1hXFBa5G6hfScxd2QqPk1q4Ob8vFSeTNknc8gEWL2JkwbV
- uzxQ==
-X-Gm-Message-State: ANoB5pmBNSyY1cDA6dEXcUHaqGvwt4nB2TFsjWTCukQF1CcowUEkNx6/
- JAW1K+wBZvtmJs7Zg4YaGM8=
-X-Google-Smtp-Source: AA0mqf53wCDf6JYKIp+94bLCbC05zGXqnMh/K3k1UCDBVzeRKeICWMePbcpjfVcEo0X2n0WpGn7vog==
-X-Received: by 2002:a19:6903:0:b0:499:8e29:2763 with SMTP id
- e3-20020a196903000000b004998e292763mr21864354lfc.137.1669757527920; 
- Tue, 29 Nov 2022 13:32:07 -0800 (PST)
-Received: from front.loc ([80.83.239.107])
- by smtp.googlemail.com with ESMTPSA id
- p12-20020a2ea4cc000000b00279c10ae746sm162068ljm.140.2022.11.29.13.32.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 13:32:07 -0800 (PST)
-From: Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
-To: richard.henderson@linaro.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
-Subject: Re: [PATCH for-7.2] target/arm: Set TCGCPUOps.restore_state_to_opc
- for v7m
-Date: Wed, 30 Nov 2022 08:30:56 +1100
-Message-Id: <20221129213056.21649-1-evgeny.v.ermakov@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221129204146.550394-1-richard.henderson@linaro.org>
-References: <20221129204146.550394-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1p08ca-0002Z6-Vd
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 16:58:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1p08cZ-00072m-2m
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 16:58:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669759108;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=JIKqhwgRPh63CG4/zIMELGM3C7+D1rrj0aqsWVNHGPQ=;
+ b=QkdB5dlcqePxQtKcR9kNc2O7A5IqsyliXKqSTm6aDN0AwPlQX0KIp73CH/p+HgpWWz4kl9
+ 4aC2Jai7qp+rWgjw9p2EDykh8MShdwPGlotTzpcEvFEfRvlyIny3twkjp0rBcjAOgRn6AI
+ v2klKapQP9lptAgmsP/jL1C+w5brkgw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-359-qNcnJn-MOgKLYzNvq8NrPA-1; Tue, 29 Nov 2022 16:58:26 -0500
+X-MC-Unique: qNcnJn-MOgKLYzNvq8NrPA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3E2E800B23
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 21:58:25 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 567F640C83AA;
+ Tue, 29 Nov 2022 21:58:25 +0000 (UTC)
+Date: Tue, 29 Nov 2022 16:58:21 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: quintela@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: QEMU 7.2 non-deterministic migration-test CI failure
+Message-ID: <Y4aAfdzTqY3mHUUH@fedora>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=evgeny.v.ermakov@gmail.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nmZFKH17S/4LhFR6"
+Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,7 +75,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
----
+
+--nmZFKH17S/4LhFR6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+The following cross-i386-tci migration-test failure was triggered by CI:
+
+>>> MALLOC_PERTURB_=3D133 G_TEST_DBUS_DAEMON=3D/builds/qemu-project/qemu/te=
+sts/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=3D./qemu-system-i386 /builds/q=
+emu-project/qemu/build/tests/qtest/migration-test --tap -k
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95
+stderr:
+Could not access KVM kernel module: No such file or directory
+Could not access KVM kernel module: No such file or directory
+Could not access KVM kernel module: No such file or directory
+Could not access KVM kernel module: No such file or directory
+qemu-system-i386: Unknown savevm section type 126
+=2E./tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from signa=
+l 11 (Segmentation fault) (core dumped)
+TAP parsing error: Too few tests run (expected 14, got 2)
+(test program exited with status code -6)
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95
+
+https://gitlab.com/qemu-project/qemu/-/jobs/3397205431
+
+When I retried the test succeeded. I haven't managed to reproduce it
+locally yet either.
+
+Any ideas?
+
+Stefan
+
+--nmZFKH17S/4LhFR6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmOGgH0ACgkQnKSrs4Gr
+c8jXyQgAm8gO8HBpU9/IZyaNiLp+cBr4Ozjy/NhW05ZeiYOUkbV6RD8JD5ioT6nz
+b/E5nf0hjoWopiSff/YeWdE3ua2fBy5sei/tZt2G87AJGlAQ+yOe5R4Xy8X8zQ7S
+opwlx8EwRJ+wbIp7wD3OJmn0k++r49eLhxhGmTZNZCfFSnv89dM/CiM7TOOxqZKN
+8gBpgNCeCoWry565uR3ybADMQcCpP4DvXAQBTztRM5aDDEVWYPdKgrzBs7V0jujn
+71cACz23vZIZ+Ju/3Og7BrZ2sVdgHdi+h0vYn6dwOhJhDzLqvU0d5izKY1S5L0SN
+rXyaBbpOySCRuSnxBFmOnVdu1pHcGQ==
+=c4Nj
+-----END PGP SIGNATURE-----
+
+--nmZFKH17S/4LhFR6--
 
 
