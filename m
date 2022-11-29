@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0B463BC3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:55:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE5E63BC50
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:58:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozwO9-0001yS-88; Tue, 29 Nov 2022 03:54:49 -0500
+	id 1ozwRF-0003eY-Og; Tue, 29 Nov 2022 03:58:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ozwNq-0001wR-Np
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:54:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ozwNo-0005me-U7
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:54:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669712064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UuTjmZKMXLt09NKE2r9n8UPD/ZVjckTvq50X8AP/pNw=;
- b=fbkAAGmKenRg2ZuPZ0VE2Cdiykj9EhKTmCro8t6gYj1jUQczJrfsmUxGSnrqpML3SJaPDn
- NJhDQNOoCfVczrZRelavfiqJFpIFmh/UlI1/OwWu1m0mzDM9SRQt2lFZqFexQRIJIs41NG
- arc1w2nRCdbXSbV2+TZye0EzIyGziIc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-56-glQgTr_tM6GE4B7h1NphBw-1; Tue, 29 Nov 2022 03:54:22 -0500
-X-MC-Unique: glQgTr_tM6GE4B7h1NphBw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hp16-20020a1709073e1000b007adf5a83df7so6028736ejc.1
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 00:54:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozwRD-0003e9-UZ
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:57:59 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozwRB-0006Xo-Vc
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:57:59 -0500
+Received: by mail-wr1-x433.google.com with SMTP id y16so1188582wrm.2
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 00:57:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=u2aV5Om4XNwf1xNcBjBc47KCU9CK5roblFbz8XZf9BM=;
+ b=iAOYoV6c4nR3A0g8O1hbq0Vajwyth5gFg41yBFbxwT+5Pp1pX3AgmcgzwEvpx4V1H6
+ RT0Y7QXrAlwVSqPhoXUw8rpWkdMHXp7tGg34d7bu2wCKTX/dMr9tMsHFaGfnbucRf8LU
+ +zXqE8O/QY2Cg94WJX/TN0QA6gNgGYYRTQllB19n9A6QdXn/v+lDsleTTkqkG4G4Mwzt
+ unCBEvkXMy7pn0de/Ib0fAy8d7zbF/rOciEpj70I6ngEOuUPBTq1MZnvlFx69byVjEOV
+ Wk0NZMchxw33Jp/9EJlttvTN2WfuLHvupW5vwx1amLnOge8gCnQ27wh+wOE9dgsaTmEC
+ 4Ssg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UuTjmZKMXLt09NKE2r9n8UPD/ZVjckTvq50X8AP/pNw=;
- b=kOVJyCjmZA+zIi14bYBq1Ds1msPN3YgJh4WmYrWSDAD91AMxNSRyGicPHpVytpdBny
- tQOhNaELu4cR9lvFam9wcTXnAXexvqA4Y4DzyZ7pAFREOIyzz+6dMnu2rAFNh7wxnpfC
- bbYmhUsVYhSWfionGAuP8qkI1cFYuPXJ8T2qveMcs9dbOElnlP+vhgyWTJ7h7t1mDMFa
- fsl/mYkjP9Jhe6Bja70h+il2NVHBD2wJhUjYCx4tel8+goHcymmSpjvXGvwCp1j52Qso
- X7hDQ+maJbG0pSkHveDkcQ4bvPDZSfR32DW8q3sgMbfh50MXJCf2YpDjXLhEiaMADAlH
- xjjw==
-X-Gm-Message-State: ANoB5pkuzYPW1qP3P2voLmbf+xBt9Ubaw364wNpXTfpWlIiwXJBcHfCM
- mIxHLq3sJ+W3dOu+7cETpxojYxFZXsLLZl8b4vnpVuwKa7wLoKvcno9lyE+FaHihzuqAuf3bUIW
- CJtvmKOfo6rYXsPM=
-X-Received: by 2002:a17:906:350e:b0:7ae:f441:6ade with SMTP id
- r14-20020a170906350e00b007aef4416ademr35169047eja.436.1669712061602; 
- Tue, 29 Nov 2022 00:54:21 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ae+sAGwY6WMpDu9sdWtRteWPDEh8u+KFbyYzBiNJjeas7dYfksE0JmvUYd55HI6SzSPlSfA==
-X-Received: by 2002:a17:906:350e:b0:7ae:f441:6ade with SMTP id
- r14-20020a170906350e00b007aef4416ademr35169027eja.436.1669712061386; 
- Tue, 29 Nov 2022 00:54:21 -0800 (PST)
-Received: from sgarzare-redhat ([62.205.9.89])
- by smtp.gmail.com with ESMTPSA id
- o19-20020aa7c7d3000000b00461bacee867sm5280954eds.25.2022.11.29.00.54.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 00:54:20 -0800 (PST)
-Date: Tue, 29 Nov 2022 09:54:18 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, stefanha@redhat.com,
- mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH  v3 1/7] include/hw: attempt to document VirtIO feature
- variables
-Message-ID: <20221129085418.tehbe2geolpelyv6@sgarzare-redhat>
-References: <20221128164105.1191058-1-alex.bennee@linaro.org>
- <20221128164105.1191058-2-alex.bennee@linaro.org>
+ bh=u2aV5Om4XNwf1xNcBjBc47KCU9CK5roblFbz8XZf9BM=;
+ b=he7m+9o/c8ETmds2evvlhsTLwpWC9jfszUptAQ1TUEdPylyf75/cpNPsFeO6Rgtzde
+ OT7co3OTJObC+M24fSPaYd5jpHCOrOdoJrQUF7Ycd7T9pDc1NEFdXtOe5LSfgZQmO/Jg
+ OHhKCFslQqYuC34CkJY0TARuRS/s+KkkPFawxNXer1sMxf3UUMyx87/+UOv1z4/S8CLM
+ RsCPApI2EcZEqFesHFJW9R/i37PvOcsfBkiU1bid0PSYzPhuK2CpyY/embIAVyMAwL3m
+ 73vg2ups8GRJV9FKyVvDhM6I+KtbqvJNfUl0rL4CjIUgQ/iokM9bIfueWR2Sda+AgxlS
+ zSNQ==
+X-Gm-Message-State: ANoB5pk2Ya93PQ2hhV+grmD4CkvK3SBjBPhx2wGa5xBEmrtQJJywqF6J
+ zJFSuOOyAsDC/2mDIo4Uqf+wijVdWVNaWz2r
+X-Google-Smtp-Source: AA0mqf5zObQtDou05HWnH+S3BtLPOgHk//bfiKgbrf5BVATHd0WX7HRQtabRMmqvZuyrsmmDdubVGA==
+X-Received: by 2002:a5d:6dc8:0:b0:236:53d3:5a48 with SMTP id
+ d8-20020a5d6dc8000000b0023653d35a48mr33883498wrz.66.1669712276545; 
+ Tue, 29 Nov 2022 00:57:56 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ s30-20020adfa29e000000b00242246c2f7csm820728wra.101.2022.11.29.00.57.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 00:57:55 -0800 (PST)
+Message-ID: <0198dfed-4f34-660c-706d-eab69beff81e@linaro.org>
+Date: Tue, 29 Nov 2022 09:57:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH v3] hw/loongarch: Add cfi01 pflash device
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
+References: <20221129085037.3589467-1-yangxiaojuan@loongson.cn>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221129085037.3589467-1-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221128164105.1191058-2-alex.bennee@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,30 +89,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 28, 2022 at 04:40:59PM +0000, Alex Bennée wrote:
->We have a bunch of variables associated with the device and the vhost
->backend which are used inconsistently throughout the code base. Lets
->start trying to bring some order by agreeing what each variable is
->for.
->
->Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->Cc: Stefano Garzarella <sgarzare@redhat.com>
->Cc: "Michael S. Tsirkin" <mst@redhat.com>
->Cc: Stefan Hajnoczi <stefanha@gmail.com>
->
->---
->v2
->  - dropped DISCUSS and commentary
->  - separated protocol section for clarity
->  - updated working on vhost->backend_features
->  - made clear guest_features was the written state
->---
-> include/hw/virtio/vhost.h  | 25 ++++++++++++++++++++++---
-> include/hw/virtio/virtio.h | 19 ++++++++++++++++++-
-> 2 files changed, 40 insertions(+), 4 deletions(-)
+On 29/11/22 09:50, Xiaojuan Yang wrote:
+> Add cfi01 pflash device for LoongArch virt machine
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>   hw/loongarch/Kconfig        |  1 +
+>   hw/loongarch/acpi-build.c   | 18 +++++++++++
+>   hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++
+>   include/hw/loongarch/virt.h |  5 +++
+>   4 files changed, 86 insertions(+)
 
-Thanks for this effort to improve our documentation!
+> +static void virt_flash_create(LoongArchMachineState *lams)
+> +{
+> +    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
+> +
+> +    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
+> +    qdev_prop_set_uint8(dev, "width", 4);
+> +    qdev_prop_set_uint8(dev, "device-width", 2);
+> +    qdev_prop_set_bit(dev, "big-endian", false);
+> +    qdev_prop_set_uint16(dev, "id0", 0x89);
+> +    qdev_prop_set_uint16(dev, "id1", 0x18);
+> +    qdev_prop_set_uint16(dev, "id2", 0x00);
+> +    qdev_prop_set_uint16(dev, "id3", 0x00);
+> +    qdev_prop_set_string(dev, "name", "virt.flash0");
+> +    object_property_add_child(OBJECT(lams), "virt.flash0", OBJECT(dev));
+> +    object_property_add_alias(OBJECT(lams), "pflash0",
 
-Acked-by: Stefano Garzarella <sgarzare@redhat.com>
+s/flash0/flash/?
 
+Otherwise:
+Reviewed-by: Philippe Mathieu-DaudÃ© <philmd@linaro.org>
+
+Thanks for the updates!
+
+> +                              OBJECT(dev), "drive");
+> +
+> +    lams->flash = PFLASH_CFI01(dev);
+> +}
 
