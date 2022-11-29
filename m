@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C974663C9F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 21:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542F963C9F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 22:01:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p07eJ-0005WN-2f; Tue, 29 Nov 2022 15:56:15 -0500
+	id 1p07hV-00077Z-FT; Tue, 29 Nov 2022 15:59:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robh@kernel.org>)
- id 1p07eE-0005VG-NK; Tue, 29 Nov 2022 15:56:12 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robh@kernel.org>)
- id 1p07eB-0002an-IY; Tue, 29 Nov 2022 15:56:10 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EC8716191A;
- Tue, 29 Nov 2022 20:56:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57567C433D6;
- Tue, 29 Nov 2022 20:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669755361;
- bh=Lu7otVn4rMgdUyyyH3qSDPL79PLyqR/oLrZyhqXCRzU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=VpPRIqd+blKihrexj+UqZwkfXAvVzJUccCuWBcUydHEJcIPvNkozNDHzPsS1+QRhB
- UXpTVHihuzJjk5eD8HyxhgeMPFZ00eIlvKpsOPXGKef64qlnI7EU+hZitFz2qP46EU
- D1tXOecTc4UuHOMYL3acNAYlrxDVlLiZzump0kB2VeXHSKJyQjBC+kv8ZbZr5Jnvil
- Ycl9+CdJ+Sv9OT6sfWwvGbW2yvCE4V4m2D9TF85THrXgV4ODvLolMo2JVW7omMggBI
- qELXqtvMiSJJGbuDrqwLQvsiEwVTROtCQq1RcVqOtxLkmXglaPjJeztAm2vvT1S+i5
- IM3lb5tcZH1ZQ==
-Received: by mail-vk1-f178.google.com with SMTP id j14so4034099vkp.3;
- Tue, 29 Nov 2022 12:56:01 -0800 (PST)
-X-Gm-Message-State: ANoB5pkt50SVvLfLql1oG/prOpyJ9UmAEH7woVX94H1509HrX96epWHM
- rD921FwK/y6CnXLDV/WW4bMXz52XOBJHD56yTg==
-X-Google-Smtp-Source: AA0mqf5SCmCuDT5+kqMV2N3UVth28EM8LOGCFlHVwzSsaef2bVfKFWGaSoBi6qVoN86w9JYOwhHI03oVa9fEHuPTCv4=
-X-Received: by 2002:a1f:9110:0:b0:3bc:fc56:597 with SMTP id
- t16-20020a1f9110000000b003bcfc560597mr2619739vkd.14.1669755360314; Tue, 29
- Nov 2022 12:56:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p07hT-00077H-Bg
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:59:31 -0500
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p07hR-0002yX-Lv
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:59:30 -0500
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-3bfd998fa53so98654277b3.5
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 12:59:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UYyUfulGoq5FHxq85Agbxdr02/H0+T6oZ3yMNNL5wSE=;
+ b=OyQFwT2apLzc+I2YftRsW8FUSf5qSeHgoSZ1/PXZEpeowMusamguAG7pl6wT7ekGSj
+ h8bUhC+gU1C/8nukObchFr2ZmsBznuokqGD1ukwzKml2Aqh6Nj2ZmM3fva12CyR3jTBh
+ Qf57KrRmlTEXya43EYYGkop/nCMHpYndppfKDy318G6Uop4p7XMVc4mFlY1lYcmwolnx
+ jAyaF13F6PblJ/m2wMIfJNtQIxQs29pdzpcvi1TvY4XgjnUIbPm6PFNXH47nMlezzXim
+ QM6NULU/ECAJLJEuW36Qg0BuQEUljlcuB0Gq6gIFv7pVHXa03pS6plW2jLkDdIemcnCg
+ 4nRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UYyUfulGoq5FHxq85Agbxdr02/H0+T6oZ3yMNNL5wSE=;
+ b=uU03GQeTayrOdP2LryepR3yxbRWbLV1sZUiot8S7gTvT28dE3kVGjGD1LGpPq5afgK
+ TDG4r7EBED0k9VDSDZ6NLL0VxN8//b69wKmLmKxEkeQD0BCbWb1Vfn20Deg8KERvB9ej
+ WzQC1NyxC+7YFWpq5SPkLcBJtFv1tMXspGaLFoNnHVoS6LbHtvcrPcsNwEIbakLj9TpQ
+ neJiTVMrvpjrKh7nrPv1LjwmcVPLHio5lKN6xoG2JQR+ylmE+WuZwpj489KRqaAe6zXV
+ jxFNrYCqAQKUjyt4CVtOf4gnQlSpijtQGlgXXZrJzHENJEftd9ZAf/f7aKg0dKMBhl7h
+ 3Mew==
+X-Gm-Message-State: ANoB5pkxi7idvVsPVBxRjkIjOXiShXeS/I84vK5aPgBtv3qq/ZZpaBsy
+ ATw1mU7aeIc6Ucr56pGFPAFD7mI0oP8dOluzvmw=
+X-Google-Smtp-Source: AA0mqf4CgbRPy6MV4IXnA9D5jawvq9spRHAio0wB5IjrrjcNaGyOSoAAgwTsiWLPRcqJ8Me7xF+LX/DbmtwOH/KFoXA=
+X-Received: by 2002:a81:5309:0:b0:38f:80d5:f22d with SMTP id
+ h9-20020a815309000000b0038f80d5f22dmr38046669ywb.296.1669755568529; Tue, 29
+ Nov 2022 12:59:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20220927100347.176606-1-jean-philippe@linaro.org>
- <20220927100347.176606-6-jean-philippe@linaro.org>
- <CAFEAcA9EqYi0LdXtz84_-8r1L3DUNWdnNL4LTHrm0n4cub4ejQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA9EqYi0LdXtz84_-8r1L3DUNWdnNL4LTHrm0n4cub4ejQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 29 Nov 2022 14:55:48 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqK+NngZMheR7zR2oTVmgNFKKUhZtOAys=NmPQK_FdSq_A@mail.gmail.com>
-Message-ID: <CAL_JsqK+NngZMheR7zR2oTVmgNFKKUhZtOAys=NmPQK_FdSq_A@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] hw/arm/virt: Fix devicetree warnings about the
- GPIO node
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+References: <20221129204146.550394-1-richard.henderson@linaro.org>
+In-Reply-To: <20221129204146.550394-1-richard.henderson@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 29 Nov 2022 15:59:17 -0500
+Message-ID: <CAJSP0QUB7TBbgxg=oJ6Js-AZb+yLzGb=tcso5K3dsyOGbSVkmw@mail.gmail.com>
+Subject: Re: [PATCH for-7.2] target/arm: Set TCGCPUOps.restore_state_to_opc
+ for v7m
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=robh@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,24 +84,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Sep 27, 2022 at 6:25 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
-> <jean-philippe@linaro.org> wrote:
-> >
-> > Since the pl061 device can be used as interrupt controller, its node
-> > should contain "interrupt-controller" and "#interrupt-cells" properties.
->
-> It *can* be, but this PL061 is *not* an interrupt controller.
-> I don't see any reason why we should claim so in the DT.
+Waiting for Evgeny's Signed-off-by. It seems a -rc4 tag will be
+required anyway for vhost fixes so I'll wait.
 
-Taking another look, it is an interrupt controller. The GPIOs are
-connected to the 'gpio-keys' node which is interrupt based (there's a
-polled version too). That binding happens to be pretty lax and allows
-the GPIO to be specified either with 'gpios' or 'interrupts' property.
-The Linux PL061 driver happens to work only because it always
-registers an interrupt controller regardless of having
-"interrupt-controller" and "#interrupt-cells" properties or not.
-
-Rob
+Stefan
 
