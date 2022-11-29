@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C8663C08F
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 14:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A6C63C1C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 15:05:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p00KZ-0005v2-SZ; Tue, 29 Nov 2022 08:07:23 -0500
+	id 1p01DM-0002Is-5b; Tue, 29 Nov 2022 09:04:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu-daude@linaro.org>)
- id 1p00KW-0005t6-V1
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 08:07:20 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu-daude@linaro.org>)
- id 1p00KS-0000uo-QF
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 08:07:20 -0500
-Received: by mail-ed1-x535.google.com with SMTP id l11so19681657edb.4
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 05:07:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7w6RtRND9hTDHKUwPCEuYhSwM1DrUxz/SuPUU4pwGj8=;
- b=q4RrMhlRUkiN2NreR90GgujP5X7f0mUXg2CZwKNU7t7Qgt3OuaWcgzhAMkWgsaYWEz
- DazAn6Zxob7PsSV0/Z77icAzJOEC030j9/4s6YLBrFjvS/9zIQd+aR2Go5SZ57iDj4Wq
- RgNXRW6Euyh00fiZj9hNoSm3zdiUxiuHMZZiXsCxzhwyOEOjKFOj8R5CGKxAaEnIaU7/
- OxzLPnDCw0wStDXC2uaFrTBVTXBuXIBRStWmxG4v9LVEOBxZ6aJh3kDy08cky1b4RLVb
- I/G9xwN5U/liYKZ6D5fgVOm/BVMBMco+aWhI7MchnY9uRTPdGCr4EkbsR5hS2ClgK8Jw
- JpkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7w6RtRND9hTDHKUwPCEuYhSwM1DrUxz/SuPUU4pwGj8=;
- b=pj/1tuhYxCnbN6lT/+H44G1bpr1FFwwatX5ewj/m/Rcf068ZpnRnfNjA6n9PrScEEi
- H46V1v1+E9AuA6HHsoA++OdDmtCF6eQ3BhZ4vcnygjrY3MF9i8nID2F+34naj6tAz4tD
- LWIn99KFomQ6LkJtM/8k7d40ql1JwpPoejI7qR+jFtXOOt8zP5JCQn00kKJb/6IbDjMX
- yHiD1tfaEr/hNqrjS0+1PBp+Mx8l5gd6aGZVcXq2GvW+s4/3Q5n2H9VmUk2bIbwpv1P8
- 0gCkbiHUmHq6JkRss9mon6u7a61baSTXI+J15gP0Y8C607f/tExC19m7IxeJ1/UuZLbk
- 2gxA==
-X-Gm-Message-State: ANoB5pkcSrwfb/aMaslsr7UsbhPbYm52Sfb3vBbdSGBsu3LuTkxCKXIC
- XhZ3VMIqZ5zU9iLYinOXn3Ifz5cNYWQ+O4GAQVK0sOOmXUP8LQ==
-X-Google-Smtp-Source: AA0mqf7Nr1QrXUrfgrTN06h34rXVnAPYjGZPBV8tHOH9oVVOs8nk+UtQpvtJxDDs9lBwWPQ0uODP16mq32v8Azgc4IY=
-X-Received: by 2002:a05:6402:1814:b0:46a:b1ba:22b8 with SMTP id
- g20-20020a056402181400b0046ab1ba22b8mr19652826edy.316.1669727234186; Tue, 29
- Nov 2022 05:07:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p01DA-0002Hs-Et
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 09:03:49 -0500
+Received: from mga03.intel.com ([134.134.136.65])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p01D8-0002aB-7u
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 09:03:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669730626; x=1701266626;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=RRv6X9kxxmg0r2Bt/bN85+Xzhbzh0Sz0OFcppuwQCsk=;
+ b=HqvsAaJu6i2ajlLndVSBN3k5kJMTNO6LbxAq/UL7AtNaIFOJr+ahI3Sg
+ I5hs+RCuTM+b1s/NSAISmaWbOrKWtjalMQVC8U5OV+BYRTUfd3726vHzw
+ ON//xxwCjc4jElJMOsV7IvgrJvMAtiZ4FoqvMT82Mf2yk+MEPdExb/9V4
+ h39K9mqwDU8lD6poc0ycpypte07Q3GyQOwyHiyX4V50x7It3QMB5avEfx
+ Sl4VylcB20/uD3VAobmVILD1LfvwanKu1zBMSvNZs/AgF1Qa6pYg226u7
+ RcDqGyVVQx7u/ZGQ21zcXxBxDVKZ5I9nqiC9LTV7SvGMsPAxCkqLxAwuE Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="316948101"
+X-IronPort-AV: E=Sophos;i="5.96,203,1665471600"; d="scan'208";a="316948101"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2022 06:03:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="707221475"
+X-IronPort-AV: E=Sophos;i="5.96,203,1665471600"; d="scan'208";a="707221475"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga008.fm.intel.com with ESMTP; 29 Nov 2022 06:03:05 -0800
+Date: Tue, 29 Nov 2022 21:58:44 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc: Michael Roth <michael.roth@amd.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
+ wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221129135844.GA902164@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221129000632.sz6pobh6p7teouiu@amd.com>
+ <20221129112139.usp6dqhbih47qpjl@box.shutemov.name>
 MIME-Version: 1.0
-References: <000000000000fbc90205ee880a96@google.com>
- <6550d23a-a790-362c-9d00-ed16dd43093f@linaro.org>
-In-Reply-To: <6550d23a-a790-362c-9d00-ed16dd43093f@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Date: Tue, 29 Nov 2022 14:07:03 +0100
-Message-ID: <CAPMQPELTikBM+j89wNg-TLf1P-Z6qZbO2AgK_HiMO-YS9kW+Lg@mail.gmail.com>
-Subject: Re: KVM developers conference call
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: quintela@redhat.com, juan.quintela@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philippe.mathieu-daude@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221129112139.usp6dqhbih47qpjl@box.shutemov.name>
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,134 +100,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cc'ing the list...
+On Tue, Nov 29, 2022 at 02:21:39PM +0300, Kirill A. Shutemov wrote:
+> On Mon, Nov 28, 2022 at 06:06:32PM -0600, Michael Roth wrote:
+> > On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
+> > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > > 
+> > 
+> > <snip>
+> > 
+> > > +static struct file *restrictedmem_file_create(struct file *memfd)
+> > > +{
+> > > +	struct restrictedmem_data *data;
+> > > +	struct address_space *mapping;
+> > > +	struct inode *inode;
+> > > +	struct file *file;
+> > > +
+> > > +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> > > +	if (!data)
+> > > +		return ERR_PTR(-ENOMEM);
+> > > +
+> > > +	data->memfd = memfd;
+> > > +	mutex_init(&data->lock);
+> > > +	INIT_LIST_HEAD(&data->notifiers);
+> > > +
+> > > +	inode = alloc_anon_inode(restrictedmem_mnt->mnt_sb);
+> > > +	if (IS_ERR(inode)) {
+> > > +		kfree(data);
+> > > +		return ERR_CAST(inode);
+> > > +	}
+> > > +
+> > > +	inode->i_mode |= S_IFREG;
+> > > +	inode->i_op = &restrictedmem_iops;
+> > > +	inode->i_mapping->private_data = data;
+> > > +
+> > > +	file = alloc_file_pseudo(inode, restrictedmem_mnt,
+> > > +				 "restrictedmem", O_RDWR,
+> > > +				 &restrictedmem_fops);
+> > > +	if (IS_ERR(file)) {
+> > > +		iput(inode);
+> > > +		kfree(data);
+> > > +		return ERR_CAST(file);
+> > > +	}
+> > > +
+> > > +	file->f_flags |= O_LARGEFILE;
+> > > +
+> > > +	mapping = memfd->f_mapping;
+> > > +	mapping_set_unevictable(mapping);
+> > > +	mapping_set_gfp_mask(mapping,
+> > > +			     mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
+> > 
+> > Is this supposed to prevent migration of pages being used for
+> > restrictedmem/shmem backend?
+> 
+> Yes, my bad. I expected it to prevent migration, but it is not true.
+> 
+> Looks like we need to bump refcount in restrictedmem_get_page() and reduce
+> it back when KVM is no longer use it.
 
-On Tue, 29 Nov 2022 at 14:02, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> Hi Juan,
->
-> On 28/11/22 14:42, juan.quintela@gmail.com wrote:
->
-> > KVM developers conference call
-> > Tuesday 2022-11-29 =E2=8B=85 15:00 =E2=80=93 16:00 (Central European Ti=
-me - Madrid)
->
-> > I think that Richard and Mark wanted to talk in tomorrow call (I forgot
-> > the topic, sorry).
->
-> We want to discuss around QEMU system emulation: single binary and
-> heterogeneous vCPUs.
->
-> Mark wanted to discuss dynamic machines and external devices. He can not
-> make it today but we'd like to reserve the next slot for "External Device=
-s".
->
-> Today we'll cover multiple TCG frontends and possibly Problems of
-> dynamic machines.
->
-> I added the agenda on
-> https://etherpad.opendev.org/p/qemu-emulation-bof%402022-11-29:
->
-> --
->
-> A) Single-binary multi-tcg frontends
->
-> We'd like a single build of QEMU using several different TCG frontends.
->
-> symbol collision -> dynamic libraries and force hidden visibility to all
-> the symbols (static with prefix hack would be an OK stepping stone)
->
-> Alessandro Di Federico and Anton Johansson almost have a PoC loading
-> frontends as shared libraries (only user-mode so far).
-> Updates: https://pad.rev.ng/i0N4yVkcQEWw24tqWsj6rA
->
-> Use of current_cpu from generic code (Alex Benn=C3=A9e working on removin=
-g it)
->
-> target specific macros (notes in https://pad.rev.ng/s/8cjdhsvtH)
->
-> TARGET_LONG_BITS
-> TARGET_PAGE_BITS_MIN / TARGET_PAGE_BITS
-> TARGET_PHYS_ADDR_SPACE_BITS / TARGET_VIRT_ADDR_SPACE_BITS
-> NB_MMU_MODES
->
-> TARGET_BIG_ENDIAN
-> Philippe Mathieu-Daud=C3=A9 working on removing this macro from hw/ devic=
-es,
-> and from tcg backends using MemOp
->
->   B/ Dynamic Machine Models
->
-> Instead of having static machines created using qom/qdev API in code,
-> we'd like to create a dynamic machine at runtime.
-> Basics:
->      - instanciate object, set properties, realize
->      - wire IRQs
->      - map memory regions
->
-> GreenSocs proposed to use scripts to generate QMP commands in the
-> pre-config machine state.
->
-> Is the SysBus API limited? If so should we convert SysBusDevices do
-> plain QDevs?
-> Time to deprecate non-QOM/QDev devices? Keep them in legacy
-> qemu-system-ARCH?
-> Machine Reset issue: MachineState is QOM but not QDev (DeviceState)
-> Is CPU reset() still different from any device reset()? If so, why? Can
-> we unify?
-> Peter Maydell started converting some devices from legacy reset to
-> 3-phase reset
-> Markus Armbruster mentioned the QAPI error path is not designed to
-> handle qmp-device-add failures at runtime
->
-> Previous work:
-> Generalize the sysbus device machine allowance
-> https://lore.kernel.org/qemu-devel/20220331115312.30018-1-damien.hedde@gr=
-eensocs.com/
-> This series transforms the TYPE_SYSBUS_DEVICE allowed list that exists
-> in machine class model into a TYPE_DEVICE allowed list.
-> qmp-send program to send raw qmp commands
-> This script takes an input file containing raw qmp commands
-> (concatenated json dicts) and send all commands one by one to a qmp
-> server. When one command fails, it exits
-> https://lore.kernel.org/qemu-devel/20220316095455.6473-1-damien.hedde@gre=
-ensocs.com/
-> Sysbus device generic QAPI plug support
-> https://lore.kernel.org/qemu-devel/20220524134809.40732-1-damien.hedde@gr=
-eensocs.com/
-> QAPI support for device cold-plug
-> https://lore.kernel.org/qemu-devel/20220519153402.41540-1-damien.hedde@gr=
-eensocs.com/
-> qemu-system-any: system emulation aiming to target any architecture
-> https://lore.kernel.org/qemu-devel/20220215002658.60678-2-f4bug@amsat.org=
-/
->
-> C/ External devices (Mark Burton, 2022-12-13)
->
-> User case: How to use a SMMUv3 implemented in SystemC?
->
-> The "Multi-process QEMU" provides the RemoteMachineState/RemoteIommuElem
-> interfaces which relies on a PCIBus. Currently related to vfio-user.
-> Could it be useful if extended?
->
-> We want to keep the memory management in QEMU. Can we directly expose
-> the MemoryAPI? Can we avoid external device to take the IOLock?
->
-> Mark Burton: What we should do is use async_safe_run_on_cpu to ensure
-> the QEMU is quiescent before calling this interface. However that will
-> require some rework. Not least because we will (typically) have a number
-> of operations to perform, and they should (ideally) all be performed
-> =E2=80=98atomically=E2=80=99. One option here MAY be to create a =E2=80=
-=98transaction=E2=80=99 and then
-> =E2=80=98execute=E2=80=99 that using async_safe=E2=80=A6.
->
-> --
->
-> Regards,
->
-> Phil.
+The restrictedmem_get_page() has taken a reference, but later KVM
+put_page() after populating the secondary page table entry through
+kvm_release_pfn_clean(). One option would let the user feature(e.g.
+TDX/SEV) to get_page/put_page() during populating the secondary page
+table entry, AFAICS, this requirement also comes from these features.
+
+Chao
+> 
+> Chao, could you adjust it?
+> 
+> -- 
+>   Kiryl Shutsemau / Kirill A. Shutemov
 
