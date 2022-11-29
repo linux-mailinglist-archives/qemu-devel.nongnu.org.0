@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0176063CBA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 00:18:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB0A63CBAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 00:19:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p09rt-0004U9-C5; Tue, 29 Nov 2022 18:18:25 -0500
+	id 1p09rt-0004Uc-Ct; Tue, 29 Nov 2022 18:18:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09rH-0004GN-Dk
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09rZ-0004Hp-Vx
  for qemu-devel@nongnu.org; Tue, 29 Nov 2022 18:18:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09rF-0005gn-K1
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 18:17:46 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09rY-0005hg-I2
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 18:18:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669763864;
+ s=mimecast20190719; t=1669763878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RpJWKNPLVDA22c/WFC5YaRUoeklIX4AQup8GnRgu5jM=;
- b=KgB+vaxBM93+4/DdCyzOR2//urPNz8IuoeC8pMPNjFh0i4tLKTuX4wacCslaHafLwF9eBO
- 5LNRT1P0fiA6mJdxrfyUZA71ER5SIbUUhXs3Q2piMiI7G0BPwFaXk6l9y92A8Ne35yAz0i
- eFI9I/Y/GVROdb180ZjWRMJig3FoLq0=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fzMtC09S/pLRAf/+6biCkEJxi+YmQaPyT85KPiw4W1Y=;
+ b=ZLCnXVL7pvYD1DfBdW2xAvqcCbcMH/rqhTnddvUyJ96Ptj+LThPqw2AiSNUwkEKWDAMhe9
+ n3F/7oMi1AnmTbktUK5/EvNkKbMzLOq6V3WqPv2uj80bUK4pkTxzg2CqQIU7H1loeF8Lq4
+ BWicw6IR1mtK8KCAEaSmhzkTWZuvJQU=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-261-viGuAlWHNgupn6cVDSdjwQ-1; Tue, 29 Nov 2022 18:17:42 -0500
-X-MC-Unique: viGuAlWHNgupn6cVDSdjwQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bs7-20020a05620a470700b006fac7447b1cso33270018qkb.17
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 15:17:42 -0800 (PST)
+ us-mta-541-GZK-ntTfNXGjaCQ_mZJ_kA-1; Tue, 29 Nov 2022 18:17:57 -0500
+X-MC-Unique: GZK-ntTfNXGjaCQ_mZJ_kA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ y19-20020a05622a121300b003a526e0ff9bso24165941qtx.15
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 15:17:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RpJWKNPLVDA22c/WFC5YaRUoeklIX4AQup8GnRgu5jM=;
- b=PZiGOaHw9CgIlObWZzd+YsQjIk3rzSSgBav9b6k7LDSrz6Oxaxhj780GHKmpyaXbh9
- Ch1aHd7BrqDWpAwQRhLz+eSrld4EYwYhzSgJm769DuwXCE4QH5pGbi0A3GJ+1yDihRq4
- j6BsCRbwlp0RpU9mgrD1SKhcSvnyJb9naR4Sr6QU+e2OuWHpr4LGuqBUqLJiYQy5Zgjr
- bhpq7I3H7K6/9fGHLj9oWtULoPlGyGc9sCIVeZJmBYHQN9PTm1xGWnaHehYkjhDnKnOe
- NPjTP8j16QhROH3qCtBd0qyGlaTNxlZcdH0FY01s3n77u2xXABwswHDNa91iMFcLY/kE
- CARA==
-X-Gm-Message-State: ANoB5pnsFN6sr4/Ls8tWYEzQIa+yC687/Jgkax7H/TxHQiWXmhPgIirN
- AcQXv6NoKtzmj8K9FI1UtcHSRS398uksp2tHSC9RudhgNzB7Aw5jJnW2yEzKUqOULw+ZKF1dAa9
- gYv9pUYOGvoZIpeE=
-X-Received: by 2002:ac8:4906:0:b0:399:7cda:9ad2 with SMTP id
- e6-20020ac84906000000b003997cda9ad2mr55401755qtq.485.1669763862180; 
- Tue, 29 Nov 2022 15:17:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5lUIBAhEuPsjqIt+G2oic2tfuGvZ/ig5RaIk3KsQw995gMbbudj8+3oRN4ruVQVIFC/VLrHA==
-X-Received: by 2002:ac8:4906:0:b0:399:7cda:9ad2 with SMTP id
- e6-20020ac84906000000b003997cda9ad2mr55401733qtq.485.1669763861919; 
- Tue, 29 Nov 2022 15:17:41 -0800 (PST)
+ bh=fzMtC09S/pLRAf/+6biCkEJxi+YmQaPyT85KPiw4W1Y=;
+ b=6KWrMrY0mSRKSKOUkLRLrvQYrcTF41gPTfIbKbEoK33a+ssss0EYNECBsjt1dRdciK
+ c6aQpuPzbf8ZvXN//z8TZ1MYB1H4KOa6WJSXJ3OgOfAP0lh/5TMbFCdOsUj//Bvm1KQn
+ iFK18o7E4hqIEqJGBe3sJc3gBxdDi1Xw1Iz42/WWi10X/tzcdBO/ndC+5EEkz3OePUZu
+ ZTxPEidbfq6OVOfFZ3g9sVzWm7e7OAuSrVUeOUS1nrK9xu5QLHZ9pQ2p8oFplPeBj2ru
+ fHqz+ZUpcaIgF48EI6XesM8zB2jVLb1ykRDyzCr2srjU4WY2rP2vaJoUkc82z+qbcnZ5
+ xHQg==
+X-Gm-Message-State: ANoB5pm1SGr8ZC7TXcBm0b9lSy+RgZTAmPX5StYpuGcvyKHOBocxrD66
+ dawTR8RHDN+uHYPUYtjl7tQG03a2q+9t4DXGQw+igxmecbwrKqjxbHI71cz9cjt/7Za6ZA4RPzb
+ Xj8suG2VDgvLNew0=
+X-Received: by 2002:a0c:e649:0:b0:4bb:6a31:3f0 with SMTP id
+ c9-20020a0ce649000000b004bb6a3103f0mr36147017qvn.110.1669763876889; 
+ Tue, 29 Nov 2022 15:17:56 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7YQQzlglgZ/dkM9TZOHmXJCYUFSRTVp54a7H4/JiOqWZSY8gCOtbu/V5KByHyoV+3fvPydEQ==
+X-Received: by 2002:a0c:e649:0:b0:4bb:6a31:3f0 with SMTP id
+ c9-20020a0ce649000000b004bb6a3103f0mr36147006qvn.110.1669763876703; 
+ Tue, 29 Nov 2022 15:17:56 -0800 (PST)
 Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
  [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- s6-20020a05620a254600b006cbc6e1478csm11567907qko.57.2022.11.29.15.17.41
+ d23-20020ac81197000000b00399ad646794sm9275149qtj.41.2022.11.29.15.17.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 15:17:41 -0800 (PST)
-Date: Tue, 29 Nov 2022 18:17:40 -0500
+ Tue, 29 Nov 2022 15:17:56 -0800 (PST)
+Date: Tue, 29 Nov 2022 18:17:55 -0500
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
 Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
@@ -71,15 +71,16 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 01/11] dirtylimit: Fix overflow when computing MB
-Message-ID: <Y4aTFFMjDcwv7CnZ@x1n>
+Subject: Re: [PATCH v2 02/11] softmmu/dirtylimit: Add parameter check for hmp
+ "set_vcpu_dirty_limit"
+Message-ID: <Y4aTI4+f6a+ROwRi@x1n>
 References: <cover.1669047366.git.huangy81@chinatelecom.cn>
- <73f83b1c55119851e5ac96ebe1d6b6c318e25771.1669047366.git.huangy81@chinatelecom.cn>
+ <56f207f3f962da7d90772cce1e724d50ba415d79.1669047366.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <73f83b1c55119851e5ac96ebe1d6b6c318e25771.1669047366.git.huangy81@chinatelecom.cn>
+In-Reply-To: <56f207f3f962da7d90772cce1e724d50ba415d79.1669047366.git.huangy81@chinatelecom.cn>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -104,19 +105,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-        On Mon, Nov 21, 2022 at 11:26:33AM -0500, huangy81@chinatelecom.cn wrote:
+On Mon, Nov 21, 2022 at 11:26:34AM -0500, huangy81@chinatelecom.cn wrote:
 > From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> overity points out a overflow problem when computing MB,
-> dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
-> multiplication will be done as a 32-bit operation, which
-> could overflow. Simplify the formula.
+> dirty_rate paraemter of hmp command "set_vcpu_dirty_limit" is invalid
+> if less than 0, so add parameter check for it.
 > 
-> Meanwhile, fix spelling mistake of variable name.
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
