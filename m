@@ -2,62 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4258F63BC17
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C65363BC3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:55:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozwKO-0000Qc-5v; Tue, 29 Nov 2022 03:50:56 -0500
+	id 1ozwO7-0001xn-1H; Tue, 29 Nov 2022 03:54:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1ozwKJ-0000ND-Qv
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:50:51 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1ozwKG-00053C-IT
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:50:51 -0500
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8BxlfDdx4Vj1f8BAA--.4553S3;
- Tue, 29 Nov 2022 16:50:37 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxNlfdx4Vj0iQeAA--.58124S2; 
- Tue, 29 Nov 2022 16:50:37 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- philmd@linaro.org
-Subject: [PATCH v3] hw/loongarch: Add cfi01 pflash device
-Date: Tue, 29 Nov 2022 16:50:37 +0800
-Message-Id: <20221129085037.3589467-1-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ozwNs-0001we-1a
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:54:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ozwNp-0005mi-4s
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:54:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669712065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qbSV4VvBF8GgLYgOdPiaCOvKQ9Vx+BZLuQTs4tEMNCU=;
+ b=Fc1nEH+KPAM8ws0gJPfHElErAvcbxkSipWOKROKiap0tj38cKxTA56AweezLIXYN+uHolU
+ 8AIA0c3uX4grcrNrci4QPFdgDjXTzbfD0GnfxBhBfzcqyOdLs85IkjvpoFDfU39ro6gCWW
+ dDWLHxho4VT7ju46m4Y1cQaTNibY90E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-635-F2mJIGyXNJKFsadYDTCcQQ-1; Tue, 29 Nov 2022 03:54:15 -0500
+X-MC-Unique: F2mJIGyXNJKFsadYDTCcQQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ u9-20020a05600c00c900b003cfb12839d6so4456683wmm.5
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 00:54:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qbSV4VvBF8GgLYgOdPiaCOvKQ9Vx+BZLuQTs4tEMNCU=;
+ b=MtD6fvJYRVXXITTEEWsNDfczzh4MKiZukt0y4h+ycI49rTaJcBmLpJFBjI0uuSRZNU
+ u/hdhQLNg7qfENvSpROa0wCtzHsTi7hA7mXbrJXtph4boODZizKZWAJwztky/IQOflEQ
+ w1VRAdXuoM6C1L7fTI7VjCLaCDJNEjGStO+lPbA0ZtmmVYjIDSc83+fbr+KhH6W1mgV/
+ 6w9v1QLYiMbsObz5uK8MTOGF3cr3nBdgU6aibIvNnOpnsfc3UBM7SlK5fBVll2UHvzoC
+ d80Z7cm1y0ge62NceoN243f1H+EXOBGJ4ectTglq+IlXBiRqKS1sFpFd8Wt4/ZSZVcEx
+ i+pg==
+X-Gm-Message-State: ANoB5pkjhufCpLO8d8mhupLKsdds1Jh9VzHsVua8W+EclmgDR5BhLQJ0
+ wFM0v3+mofENY45ht+sv4BLHy6I/VfDheJiZQZWFIOiU5n0RbzyMWYAx5feZyjkTWkS5ZhoMiyY
+ jHJnvleUfhmsDsQU=
+X-Received: by 2002:adf:ed08:0:b0:241:cd8b:46eb with SMTP id
+ a8-20020adfed08000000b00241cd8b46ebmr27581141wro.503.1669712054650; 
+ Tue, 29 Nov 2022 00:54:14 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5souue07O1zarzJDVf472SpXY1QrW4zkqcjDgzIUdVYu1QqJ1ecfaV7C1ZI+dijnZwnINN8w==
+X-Received: by 2002:adf:ed08:0:b0:241:cd8b:46eb with SMTP id
+ a8-20020adfed08000000b00241cd8b46ebmr27581121wro.503.1669712054296; 
+ Tue, 29 Nov 2022 00:54:14 -0800 (PST)
+Received: from ?IPV6:2003:cb:c705:ca00:3fb8:c253:3bf7:b60e?
+ (p200300cbc705ca003fb8c2533bf7b60e.dip0.t-ipconnect.de.
+ [2003:cb:c705:ca00:3fb8:c253:3bf7:b60e])
+ by smtp.gmail.com with ESMTPSA id
+ d7-20020a05600c3ac700b003c6c3fb3cf6sm1267966wms.18.2022.11.29.00.54.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 00:54:13 -0800 (PST)
+Message-ID: <2fb2b364-231d-1087-c516-c0144bac0979@redhat.com>
+Date: Tue, 29 Nov 2022 09:54:13 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxNlfdx4Vj0iQeAA--.58124S2
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3Ww43WF4kKr4rCw43AFy5Jwb_yoWxJw1xpF
- yxAFsYkr18XFnrWrZxX3sxWF15Arn7Ca47X3W29r40ka47Wry8WrWIk3yUtF1UA3s5XF1q
- gF95Xa40ga17X3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
- CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
- 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
- kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
- 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
- 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
- 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
- xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
- 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] tests/tcg/s390x: Add cdsg.c
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20221128234051.7j3tre72owh4eyif@heavy>
+ <20221128234813.46685-1-iii@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221128234813.46685-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,186 +105,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add cfi01 pflash device for LoongArch virt machine
+On 29.11.22 00:48, Ilya Leoshkevich wrote:
+> Add a simple test to prevent regressions.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   tests/tcg/s390x/Makefile.target |  4 ++
+>   tests/tcg/s390x/cdsg.c          | 73 +++++++++++++++++++++++++++++++++
+>   2 files changed, 77 insertions(+)
+>   create mode 100644 tests/tcg/s390x/cdsg.c
+> 
+> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+> index 1d454270c0e..523214dac33 100644
+> --- a/tests/tcg/s390x/Makefile.target
+> +++ b/tests/tcg/s390x/Makefile.target
+> @@ -27,6 +27,7 @@ TESTS+=noexec
+>   TESTS+=div
+>   TESTS+=clst
+>   TESTS+=long-double
+> +TESTS+=cdsg
+>   
+>   Z13_TESTS=vistr
+>   $(Z13_TESTS): CFLAGS+=-march=z13 -O2
+> @@ -66,3 +67,6 @@ sha512-mvx: sha512.c
+>   	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+>   
+>   TESTS+=sha512-mvx
+> +
+> +cdsg: CFLAGS+=-pthread
+> +cdsg: LDFLAGS+=-pthread
+> diff --git a/tests/tcg/s390x/cdsg.c b/tests/tcg/s390x/cdsg.c
+> new file mode 100644
+> index 00000000000..83313699f7d
+> --- /dev/null
+> +++ b/tests/tcg/s390x/cdsg.c
+> @@ -0,0 +1,73 @@
+> +#include <assert.h>
+> +#include <pthread.h>
+> +#include <stdbool.h>
+> +#include <stdlib.h>
+> +
+> +static volatile bool start;
+> +static unsigned long val[2] __attribute__((__aligned__(16)));
+> +
+> +void *cdsg_loop(void *arg)
+> +{
+> +    unsigned long orig0, orig1, new0, new1;
+> +    register unsigned long r0 asm("r0");
+> +    register unsigned long r1 asm("r1");
+> +    register unsigned long r2 asm("r2");
+> +    register unsigned long r3 asm("r3");
+> +    int cc;
+> +    int i;
+> +
+> +    while (!start) {
+> +    }
+> +
+> +    orig0 = val[0];
+> +    orig1 = val[1];
+> +    for (i = 0; i < 1000;) {
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- hw/loongarch/Kconfig        |  1 +
- hw/loongarch/acpi-build.c   | 18 +++++++++++
- hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++
- include/hw/loongarch/virt.h |  5 +++
- 4 files changed, 86 insertions(+)
+Are 1000 iterations sufficient to catch the race window reliably?
 
-diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 17d15b6c90..eb112af990 100644
---- a/hw/loongarch/Kconfig
-+++ b/hw/loongarch/Kconfig
-@@ -20,3 +20,4 @@ config LOONGARCH_VIRT
-     select ACPI_HW_REDUCED
-     select FW_CFG_DMA
-     select DIMM
-+    select PFLASH_CFI01
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index 7d5f5a757d..c2b237736d 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -279,6 +279,23 @@ static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
-     acpi_dsdt_add_gpex(scope, &cfg);
- }
- 
-+static void build_flash_aml(Aml *scope, LoongArchMachineState *lams)
-+{
-+    Aml *dev, *crs;
-+
-+    hwaddr flash_base = VIRT_FLASH_BASE;
-+    hwaddr flash_size = VIRT_FLASH_SIZE;
-+
-+    dev = aml_device("FLS0");
-+    aml_append(dev, aml_name_decl("_HID", aml_string("LNRO0015")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-+
-+    crs = aml_resource_template();
-+    aml_append(crs, aml_memory32_fixed(flash_base, flash_size, AML_READ_WRITE));
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+    aml_append(scope, dev);
-+}
-+
- #ifdef CONFIG_TPM
- static void acpi_dsdt_add_tpm(Aml *scope, LoongArchMachineState *vms)
- {
-@@ -328,6 +345,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-     build_uart_device_aml(dsdt);
-     build_pci_device_aml(dsdt, lams);
-     build_la_ged_aml(dsdt, machine);
-+    build_flash_aml(dsdt, lams);
- #ifdef CONFIG_TPM
-     acpi_dsdt_add_tpm(dsdt, lams);
- #endif
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index 958be74fa1..c09ce63d1d 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -42,6 +42,63 @@
- #include "hw/display/ramfb.h"
- #include "hw/mem/pc-dimm.h"
- #include "sysemu/tpm.h"
-+#include "sysemu/block-backend.h"
-+#include "hw/block/flash.h"
-+
-+static void virt_flash_create(LoongArchMachineState *lams)
-+{
-+    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
-+
-+    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
-+    qdev_prop_set_uint8(dev, "width", 4);
-+    qdev_prop_set_uint8(dev, "device-width", 2);
-+    qdev_prop_set_bit(dev, "big-endian", false);
-+    qdev_prop_set_uint16(dev, "id0", 0x89);
-+    qdev_prop_set_uint16(dev, "id1", 0x18);
-+    qdev_prop_set_uint16(dev, "id2", 0x00);
-+    qdev_prop_set_uint16(dev, "id3", 0x00);
-+    qdev_prop_set_string(dev, "name", "virt.flash0");
-+    object_property_add_child(OBJECT(lams), "virt.flash0", OBJECT(dev));
-+    object_property_add_alias(OBJECT(lams), "pflash0",
-+                              OBJECT(dev), "drive");
-+
-+    lams->flash = PFLASH_CFI01(dev);
-+}
-+
-+static void virt_flash_map(LoongArchMachineState *lams,
-+                           MemoryRegion *sysmem)
-+{
-+    PFlashCFI01 *flash = lams->flash;
-+    DeviceState *dev = DEVICE(flash);
-+    hwaddr base = VIRT_FLASH_BASE;
-+    hwaddr size = VIRT_FLASH_SIZE;
-+
-+    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
-+    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
-+
-+    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    memory_region_add_subregion(sysmem, base,
-+                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
-+
-+}
-+
-+static void fdt_add_flash_node(LoongArchMachineState *lams)
-+{
-+    MachineState *ms = MACHINE(lams);
-+    char *nodename;
-+
-+    hwaddr flash_base = VIRT_FLASH_BASE;
-+    hwaddr flash_size = VIRT_FLASH_SIZE;
-+
-+    nodename = g_strdup_printf("/flash@%" PRIx64, flash_base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "cfi-flash");
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, flash_base, 2, flash_size);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "bank-width", 4);
-+    g_free(nodename);
-+}
- 
- static void fdt_add_rtc_node(LoongArchMachineState *lams)
- {
-@@ -596,6 +653,9 @@ static void loongarch_firmware_init(LoongArchMachineState *lams)
-     int bios_size;
- 
-     lams->bios_loaded = false;
-+
-+    virt_flash_map(lams, get_system_memory());
-+
-     if (filename) {
-         bios_name = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
-         if (!bios_name) {
-@@ -779,6 +839,7 @@ static void loongarch_init(MachineState *machine)
-             loongarch_direct_kernel_boot(lams);
-         }
-     }
-+    fdt_add_flash_node(lams);
-     /* register reset function */
-     for (i = 0; i < machine->smp.cpus; i++) {
-         lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
-@@ -838,6 +899,7 @@ static void loongarch_machine_initfn(Object *obj)
-     lams->acpi = ON_OFF_AUTO_AUTO;
-     lams->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-     lams->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-+    virt_flash_create(lams);
- }
- 
- static bool memhp_type_supported(DeviceState *dev)
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 45c383f5a7..f5f818894e 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -12,6 +12,7 @@
- #include "hw/boards.h"
- #include "qemu/queue.h"
- #include "hw/intc/loongarch_ipi.h"
-+#include "hw/block/flash.h"
- 
- #define LOONGARCH_MAX_VCPUS     4
- 
-@@ -20,6 +21,9 @@
- #define VIRT_FWCFG_BASE         0x1e020000UL
- #define VIRT_BIOS_BASE          0x1c000000UL
- #define VIRT_BIOS_SIZE          (4 * MiB)
-+#define VIRT_FLASH_SECTOR_SIZE  (128 * KiB)
-+#define VIRT_FLASH_BASE         0x1d000000UL
-+#define VIRT_FLASH_SIZE         (16 * MiB)
- 
- #define VIRT_LOWMEM_BASE        0
- #define VIRT_LOWMEM_SIZE        0x10000000
-@@ -48,6 +52,7 @@ struct LoongArchMachineState {
-     int          fdt_size;
-     DeviceState *platform_bus_dev;
-     PCIBus       *pci_bus;
-+    PFlashCFI01  *flash;
- };
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
+> +        new0 = orig0 + 1;
+> +        new1 = orig1 + 2;
+> +
+> +        r0 = orig0;
+> +        r1 = orig1;
+> +        r2 = new0;
+> +        r3 = new1;
+> +        asm("cdsg %[r0],%[r2],%[db2]\n"
+> +            "ipm %[cc]"
+> +            : [r0] "+r" (r0)
+> +            , [r1] "+r" (r1)
+> +            , [db2] "=m" (val)
+> +            , [cc] "=r" (cc)
+> +            : [r2] "r" (r2)
+> +            , [r3] "r" (r3)
+> +            : "cc");
+
+Nit: I'd suggest a simple cdsg helper function that makes this code 
+easier to digest.
+
+> +        orig0 = r0;
+> +        orig1 = r1;
+> +        cc = (cc >> 28) & 3;
+> +
+> +        if (cc == 0) {
+> +            orig0 = new0;
+> +            orig1 = new1;
+> +            i++;
+> +        } else {
+> +            assert(cc == 1);
+> +        }
+> +    }
+> +
+> +    return NULL;
+> +}
+> +
+> +int main(void)
+> +{
+> +    pthread_t thread;
+> +    int ret;
+> +
+> +    ret = pthread_create(&thread, NULL, cdsg_loop, NULL);
+> +    assert(ret == 0);
+> +    start = true;
+> +    cdsg_loop(NULL);
+> +    ret = pthread_join(thread, NULL);
+> +    assert(ret == 0);
+> +
+> +    assert(val[0] == 2000);
+> +    assert(val[1] == 4000);
+> +
+> +    return EXIT_SUCCESS;
+> +}
+
 -- 
-2.31.1
+Thanks,
+
+David / dhildenb
 
 
