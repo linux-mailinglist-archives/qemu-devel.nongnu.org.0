@@ -2,83 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B64863BCF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 10:29:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC00D63BD1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 10:40:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozwuU-0003Dc-A4; Tue, 29 Nov 2022 04:28:14 -0500
+	id 1ozx4v-00074D-Kv; Tue, 29 Nov 2022 04:39:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1ozwuM-0003Cc-U0
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 04:28:06 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1ozwuJ-0003Pq-FM
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 04:28:05 -0500
-Received: by mail-pl1-x636.google.com with SMTP id k7so12816861pll.6
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 01:28:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P6YxKCWjmBcRyuqFUiN78zpumF5ARys9MWW1Q6cRd58=;
- b=TlVhtHj7TdtsvU9BDlXQuOr8RxElehNZXHHW5Aa/Q5cmIpK8BmFTK2rHdOxRmj+Mow
- EsTUmU6PqiAS78ow7bJnwRetwLq55c1+CtJFlt+qeap1dA8defRjTzP3NIA7sRtz5Pei
- x6wq1yGPEKJsB4T3bntfM4pz05l6oHX0RB3DIWkYNDmiyeBehnvjbwwl1G4w7gzjVda+
- R8cc3Xy2j/+2J8WKLohIOaPyC9RCBehNjUsnl/noUUqzFn7a0qRh4q0QsWsBoYwDHq4a
- smZU1vu59giv6CHa8jIQ/R/fgMw+GjhJ1NemVk17rry4D63eI5CBZjsfd1ef38ujgOCp
- EgeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=P6YxKCWjmBcRyuqFUiN78zpumF5ARys9MWW1Q6cRd58=;
- b=A3oFR267jclMj44/zyUtCpAcFPYxWjfzc6Di7lfQR7IEYz//6EkGfaiAOYoae8UV/X
- z0NM5adevpHnSsBdz/mcx4/aZW9VkxzqoqoapCeZoNmnGzHJDWh3xv/8vgGHpMblJZqR
- TB55/JMM3WTdO+UUqK4LR+01p/glO+eo7enflOGP0nwdGg2pckf2hHe3WPix+qrXiSq9
- hnFCl6twdQZY1B8uzmHUe/0MGSZsYZnY+QI3ixQpmfNOotIjaAl850PVHBfpUXiPAXsc
- H+aQCpwULFAkNixEk9/E2sUS3euOm9XL8PLrRahaDQ5eF8SDGyEas6oDELshTaMqAzso
- SLzw==
-X-Gm-Message-State: ANoB5pmdKjke+LrcjC2K31UF8nZXH/PDKikMRszCLGu1gHumLiGjKASa
- F2YtzXxibLMQxXPHzYsSKWXQjmNyZdw5BYtqWEq03A==
-X-Google-Smtp-Source: AA0mqf6FZb1lXjlNkFXwOXj3BaCWeNjad5vEVoBSJ6usVK94VNDrSTpy7pNQhDMmdTdQk/qNAXpl9sXlqGQgHd+zfaQ=
-X-Received: by 2002:a17:902:ef47:b0:186:a394:aef7 with SMTP id
- e7-20020a170902ef4700b00186a394aef7mr50284312plx.79.1669714081514; Tue, 29
- Nov 2022 01:28:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20220824221701.41932-1-atishp@rivosinc.com>
- <20220824221701.41932-5-atishp@rivosinc.com>
- <Y39urpX82uO85AAb@wendy>
- <CAHBxVyFhrkdhWpc4xB-_a4c5GnDu=d01-bk2zM2nCraeq_Xr_A@mail.gmail.com>
- <a3c7174d-6d33-5a34-0cd5-8ac340c052c3@microchip.com>
- <CAHBxVyGVigqBLLS9vqas+uq=Joyr2F6ir0zqtg+0y2GaTCyX-A@mail.gmail.com>
- <b42e75c6-8c52-025e-35ef-326537ccc90b@microchip.com>
- <20221129070820.7varmruxjkhdwoc6@kamzik>
- <cd386574-b115-328e-c5db-6f85b6cf6c9e@microchip.com>
-In-Reply-To: <cd386574-b115-328e-c5db-6f85b6cf6c9e@microchip.com>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Tue, 29 Nov 2022 01:27:49 -0800
-Message-ID: <CAHBxVyEthq3q-C_dy0ZQ1rOGwTWUF8_rXG1_7AHRFKxk9q0D1w@mail.gmail.com>
-Subject: Re: [PATCH v14 4/5] hw/riscv: virt: Add PMU DT node to the device tree
-To: Conor.Dooley@microchip.com
-Cc: ajones@ventanamicro.com, qemu-devel@nongnu.org, alistair.francis@wdc.com, 
- bin.meng@windriver.com, palmer@dabbelt.com, qemu-riscv@nongnu.org, 
- samuel@sholland.org
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1ozx4h-0006uO-Hv; Tue, 29 Nov 2022 04:38:51 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1ozx4e-0004pR-2U; Tue, 29 Nov 2022 04:38:46 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AT7c2xF002921; Tue, 29 Nov 2022 09:38:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=KPiXkMI5rsvRFtZnAKXBVhAtBy9zMoxjWGveXJYbvgs=;
+ b=omMxmJHs2Hnj3/aep/LRTHHfdwTHETU1Y6PEeLHsU9BH8xwXSrMK1GlB0G8PX3/yPa74
+ X5CRjuQbK71j2JDraW66blOoybTfcPU1NMDKk493HYwTLM4xHImDW++5uL3YzU0AgXfN
+ XLwawDdJ90FiKU5ETmC2aAVE7Xp1ptx4GGbGU27hAH51P89ebikzFl1vRlCd/t1ChNOm
+ urXbDNhOVXsnDnk842FxfKhlTM8NpMhoLp8KvH9nIDTzR5bbcM6bTftRKSI6YYh628j4
+ hFxI+RBHzzZO1Y5WtC/ZuhR2RJiOqHAdjKUhi/eLWGFgcn+xLN9M4QDQwx+qS8YWKEoG Ww== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5a6cytrc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 09:38:40 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AT9LmuD027819;
+ Tue, 29 Nov 2022 09:38:40 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5a6cytr2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 09:38:40 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AT9aaqR007148;
+ Tue, 29 Nov 2022 09:38:38 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06fra.de.ibm.com with ESMTP id 3m3a2htrf4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 09:38:38 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AT9cZKD11076156
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Nov 2022 09:38:35 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E569742042;
+ Tue, 29 Nov 2022 09:38:34 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 711FF4203F;
+ Tue, 29 Nov 2022 09:38:34 +0000 (GMT)
+Received: from marcibm (unknown [9.171.40.186])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 29 Nov 2022 09:38:34 +0000 (GMT)
+From: Marc Hartmayer <mhartmay@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>,
+ virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>, Christian
+ Borntraeger <borntraeger@de.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Stefan Liebler <stli@linux.ibm.com>
+Subject: Re: [PATCH] virtiofsd: Add `sigreturn` to the seccomp whitelist
+In-Reply-To: <Y4UCPQ0E2ZY15aEq@work-vm>
+References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
+ <Y4UCPQ0E2ZY15aEq@work-vm>
+Date: Tue, 29 Nov 2022 10:38:33 +0100
+Message-ID: <87wn7ef6cm.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: fZWwwXccRzKQlOuBjBzKLazPL-Vlpv8z
+X-Proofpoint-GUID: zbBF6rfyMvQLPXoXjsC7MCUzpK_VVkQE
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=atishp@rivosinc.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-29_06,2022-11-28_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0 adultscore=0
+ mlxlogscore=999 impostorscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2211290059
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mhartmay@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,102 +114,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 28, 2022 at 11:32 PM <Conor.Dooley@microchip.com> wrote:
->
-> On 29/11/2022 07:08, Andrew Jones wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
-the content is safe
-> >
-> > On Mon, Nov 28, 2022 at 09:10:03PM +0000, Conor.Dooley@microchip.com wr=
-ote:
-> >> On 28/11/2022 20:41, Atish Kumar Patra wrote:
-> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you kno=
-w the content is safe
-> >>>
-> >>> On Mon, Nov 28, 2022 at 12:38 PM <Conor.Dooley@microchip.com> wrote:
-> >>>>
-> >>>> On 28/11/2022 20:16, Atish Kumar Patra wrote:
-> >>>>> On Thu, Nov 24, 2022 at 5:17 AM Conor Dooley <conor.dooley@microchi=
-p.com> wrote:
-> >>>>>>
-> >>>>>> On Wed, Aug 24, 2022 at 03:17:00PM -0700, Atish Patra wrote:
-> >>>>>>> Qemu virt machine can support few cache events and cycle/instret =
-counters.
-> >>>>>>> It also supports counter overflow for these events.
-> >>>>>>>
-> >>>>>>> Add a DT node so that OpenSBI/Linux kernel is aware of the virt m=
-achine
-> >>>>>>> capabilities. There are some dummy nodes added for testing as wel=
-l.
-> >>>>>>
-> >>>>>> Hey Atish!
-> >>>>>>
-> >>>>>> I was fiddling with dumping the virt machine dtb again today to ch=
-eck
-> >>>>>> some dt-binding changes I was making for the isa string would play
-> >>>>>> nicely with the virt machine & I noticed that this patch has intro=
-duced
-> >>>>>> a new validation failure:
-> >>>>>>
-> >>>>>> ./build/qemu-system-riscv64 -nographic -machine virt,dumpdtb=3Dqem=
-u.dtb
-> >>>>>>
-> >>>>>> dt-validate -p ../linux/Documentation/devicetree/bindings/processe=
-d-schema.json qemu.dtb
-> >>>>>> /home/conor/stuff/qemu/qemu.dtb: soc: pmu: {'riscv,event-to-mhpmco=
-unters': [[1, 1, 524281, 2, 2, 524284, 65561, 65561, 524280, 65563, 65563, =
-524280, 65569, 65569, 524280, 0, 0, 0, 0, 0]], 'compatible': ['riscv,pmu']}=
- should not be valid under {'type': 'object'}
-> >>>>>>          From schema: /home/conor/.local/lib/python3.10/site-packa=
-ges/dtschema/schemas/simple-bus.yaml
-> >>>>>>
-> >>>>>> I assume this is the aforementioned "dummy" node & you have no int=
-ention
-> >>>>>> of creating a binding for this?
-> >>>>>>
-> >>>>>
-> >>>>> It is a dummy node from Linux kernel perspective. OpenSbi use this
-> >>>>> node to figure out the hpmcounter mappings.
-> >>>>
-> >>>> Aye, but should it not have a binding anyway, since they're not
-> >>>> meant to be linux specific?
-> >>>>
-> >>> It is documented in OpenSBI.
-> >>> https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_su=
-pport.md
-> >>>
-> >>> Are you suggesting that any non-Linux specific DT nodes should be par=
-t
-> >>> of Linux DT binding as well ?
-> >>
-> >> I thought the point was that they were *not* meant to be linux specifi=
-c,
-> >> just happening to be housed there.
-> >>
-> >
-> > I'm not sure if there's an official policy on where DT nodes should be
-> > specified, but it looks like Samuel's opinion is that they should live
-> > in the Linux kernel, whether they're used there or not [1].
-> >
-> > [1] http://lists.infradead.org/pipermail/opensbi/2022-October/003522.ht=
-ml
->
-> Yah, that was also my understanding. See also U-Boot moving to unify
-> their custom bindings into the linux repo:
-> https://lore.kernel.org/linux-devicetree/20220930001410.2802843-1-sjg@chr=
-omium.org/
->
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
-This adds the U-Boot specific DT properties to the dts schema itself,
-not Linux kernel DT bindings.
+> * Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
+>> The virtiofsd currently crashes on s390x. This is because of a
+>> `sigreturn` system call. See audit log below:
+>>=20
+>> type=3DSECCOMP msg=3Daudit(1669382477.611:459): auid=3D4294967295 uid=3D=
+0 gid=3D0 ses=3D4294967295 subj=3Dsystem_u:system_r:virtd_t:s0-s0:c0.c1023 =
+pid=3D6649 comm=3D"virtiofsd" exe=3D"/usr/libexec/virtiofsd" sig=3D31 arch=
+=3D80000016 syscall=3D119 compat=3D0 ip=3D0x3fff15f748a code=3D0x80000000AU=
+ID=3D"unset" UID=3D"root" GID=3D"root" ARCH=3Ds390x SYSCALL=3Dsigreturn
+>
+> I'm curious; doesn't that mean that some signal is being delivered and
+> you're returning?  Which one?
 
-I am not opposed to adding PMU DT bindings to Linux but there should
-be a clear policy on this.
-What about OpenSBI domain DT bindings ?
-If every other DT based open source project starts adding their DT
-binding to the Linux kernel, that may go downhill pretty soon.
+code=3D0x80000000 means that the seccomp action SECCOMP_RET_KILL_PROCESS
+is taken =3D> process is killed by a SIGSYS signal (31) [1].
 
+At least, that=E2=80=99s my understanding of this log message.
+
+[1] https://man7.org/linux/man-pages/man2/seccomp.2.html
+
+[=E2=80=A6snip=E2=80=A6]
+
+> --=20
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 >
->
->
+--=20
+Kind regards / Beste Gr=C3=BC=C3=9Fe
+   Marc Hartmayer
+
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Gregor Pillen=20
+Gesch=C3=A4ftsf=C3=BChrung: David Faller
+Sitz der Gesellschaft: B=C3=B6blingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
 
