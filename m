@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C65363BC3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0B463BC3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:55:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozwO7-0001xn-1H; Tue, 29 Nov 2022 03:54:47 -0500
+	id 1ozwO9-0001yS-88; Tue, 29 Nov 2022 03:54:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ozwNs-0001we-1a
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:54:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1ozwNq-0001wR-Np
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:54:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ozwNp-0005mi-4s
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1ozwNo-0005me-U7
  for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:54:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669712065;
+ s=mimecast20190719; t=1669712064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qbSV4VvBF8GgLYgOdPiaCOvKQ9Vx+BZLuQTs4tEMNCU=;
- b=Fc1nEH+KPAM8ws0gJPfHElErAvcbxkSipWOKROKiap0tj38cKxTA56AweezLIXYN+uHolU
- 8AIA0c3uX4grcrNrci4QPFdgDjXTzbfD0GnfxBhBfzcqyOdLs85IkjvpoFDfU39ro6gCWW
- dDWLHxho4VT7ju46m4Y1cQaTNibY90E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UuTjmZKMXLt09NKE2r9n8UPD/ZVjckTvq50X8AP/pNw=;
+ b=fbkAAGmKenRg2ZuPZ0VE2Cdiykj9EhKTmCro8t6gYj1jUQczJrfsmUxGSnrqpML3SJaPDn
+ NJhDQNOoCfVczrZRelavfiqJFpIFmh/UlI1/OwWu1m0mzDM9SRQt2lFZqFexQRIJIs41NG
+ arc1w2nRCdbXSbV2+TZye0EzIyGziIc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-F2mJIGyXNJKFsadYDTCcQQ-1; Tue, 29 Nov 2022 03:54:15 -0500
-X-MC-Unique: F2mJIGyXNJKFsadYDTCcQQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- u9-20020a05600c00c900b003cfb12839d6so4456683wmm.5
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 00:54:15 -0800 (PST)
+ us-mta-56-glQgTr_tM6GE4B7h1NphBw-1; Tue, 29 Nov 2022 03:54:22 -0500
+X-MC-Unique: glQgTr_tM6GE4B7h1NphBw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ hp16-20020a1709073e1000b007adf5a83df7so6028736ejc.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 00:54:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qbSV4VvBF8GgLYgOdPiaCOvKQ9Vx+BZLuQTs4tEMNCU=;
- b=MtD6fvJYRVXXITTEEWsNDfczzh4MKiZukt0y4h+ycI49rTaJcBmLpJFBjI0uuSRZNU
- u/hdhQLNg7qfENvSpROa0wCtzHsTi7hA7mXbrJXtph4boODZizKZWAJwztky/IQOflEQ
- w1VRAdXuoM6C1L7fTI7VjCLaCDJNEjGStO+lPbA0ZtmmVYjIDSc83+fbr+KhH6W1mgV/
- 6w9v1QLYiMbsObz5uK8MTOGF3cr3nBdgU6aibIvNnOpnsfc3UBM7SlK5fBVll2UHvzoC
- d80Z7cm1y0ge62NceoN243f1H+EXOBGJ4ectTglq+IlXBiRqKS1sFpFd8Wt4/ZSZVcEx
- i+pg==
-X-Gm-Message-State: ANoB5pkjhufCpLO8d8mhupLKsdds1Jh9VzHsVua8W+EclmgDR5BhLQJ0
- wFM0v3+mofENY45ht+sv4BLHy6I/VfDheJiZQZWFIOiU5n0RbzyMWYAx5feZyjkTWkS5ZhoMiyY
- jHJnvleUfhmsDsQU=
-X-Received: by 2002:adf:ed08:0:b0:241:cd8b:46eb with SMTP id
- a8-20020adfed08000000b00241cd8b46ebmr27581141wro.503.1669712054650; 
- Tue, 29 Nov 2022 00:54:14 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5souue07O1zarzJDVf472SpXY1QrW4zkqcjDgzIUdVYu1QqJ1ecfaV7C1ZI+dijnZwnINN8w==
-X-Received: by 2002:adf:ed08:0:b0:241:cd8b:46eb with SMTP id
- a8-20020adfed08000000b00241cd8b46ebmr27581121wro.503.1669712054296; 
- Tue, 29 Nov 2022 00:54:14 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:ca00:3fb8:c253:3bf7:b60e?
- (p200300cbc705ca003fb8c2533bf7b60e.dip0.t-ipconnect.de.
- [2003:cb:c705:ca00:3fb8:c253:3bf7:b60e])
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UuTjmZKMXLt09NKE2r9n8UPD/ZVjckTvq50X8AP/pNw=;
+ b=kOVJyCjmZA+zIi14bYBq1Ds1msPN3YgJh4WmYrWSDAD91AMxNSRyGicPHpVytpdBny
+ tQOhNaELu4cR9lvFam9wcTXnAXexvqA4Y4DzyZ7pAFREOIyzz+6dMnu2rAFNh7wxnpfC
+ bbYmhUsVYhSWfionGAuP8qkI1cFYuPXJ8T2qveMcs9dbOElnlP+vhgyWTJ7h7t1mDMFa
+ fsl/mYkjP9Jhe6Bja70h+il2NVHBD2wJhUjYCx4tel8+goHcymmSpjvXGvwCp1j52Qso
+ X7hDQ+maJbG0pSkHveDkcQ4bvPDZSfR32DW8q3sgMbfh50MXJCf2YpDjXLhEiaMADAlH
+ xjjw==
+X-Gm-Message-State: ANoB5pkuzYPW1qP3P2voLmbf+xBt9Ubaw364wNpXTfpWlIiwXJBcHfCM
+ mIxHLq3sJ+W3dOu+7cETpxojYxFZXsLLZl8b4vnpVuwKa7wLoKvcno9lyE+FaHihzuqAuf3bUIW
+ CJtvmKOfo6rYXsPM=
+X-Received: by 2002:a17:906:350e:b0:7ae:f441:6ade with SMTP id
+ r14-20020a170906350e00b007aef4416ademr35169047eja.436.1669712061602; 
+ Tue, 29 Nov 2022 00:54:21 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5ae+sAGwY6WMpDu9sdWtRteWPDEh8u+KFbyYzBiNJjeas7dYfksE0JmvUYd55HI6SzSPlSfA==
+X-Received: by 2002:a17:906:350e:b0:7ae:f441:6ade with SMTP id
+ r14-20020a170906350e00b007aef4416ademr35169027eja.436.1669712061386; 
+ Tue, 29 Nov 2022 00:54:21 -0800 (PST)
+Received: from sgarzare-redhat ([62.205.9.89])
  by smtp.gmail.com with ESMTPSA id
- d7-20020a05600c3ac700b003c6c3fb3cf6sm1267966wms.18.2022.11.29.00.54.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 00:54:13 -0800 (PST)
-Message-ID: <2fb2b364-231d-1087-c516-c0144bac0979@redhat.com>
-Date: Tue, 29 Nov 2022 09:54:13 +0100
+ o19-20020aa7c7d3000000b00461bacee867sm5280954eds.25.2022.11.29.00.54.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Nov 2022 00:54:20 -0800 (PST)
+Date: Tue, 29 Nov 2022 09:54:18 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
+ marcandre.lureau@redhat.com, stefanha@redhat.com,
+ mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH  v3 1/7] include/hw: attempt to document VirtIO feature
+ variables
+Message-ID: <20221129085418.tehbe2geolpelyv6@sgarzare-redhat>
+References: <20221128164105.1191058-1-alex.bennee@linaro.org>
+ <20221128164105.1191058-2-alex.bennee@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] tests/tcg/s390x: Add cdsg.c
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20221128234051.7j3tre72owh4eyif@heavy>
- <20221128234813.46685-1-iii@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20221128234813.46685-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221128164105.1191058-2-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,125 +104,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29.11.22 00:48, Ilya Leoshkevich wrote:
-> Add a simple test to prevent regressions.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   tests/tcg/s390x/Makefile.target |  4 ++
->   tests/tcg/s390x/cdsg.c          | 73 +++++++++++++++++++++++++++++++++
->   2 files changed, 77 insertions(+)
->   create mode 100644 tests/tcg/s390x/cdsg.c
-> 
-> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-> index 1d454270c0e..523214dac33 100644
-> --- a/tests/tcg/s390x/Makefile.target
-> +++ b/tests/tcg/s390x/Makefile.target
-> @@ -27,6 +27,7 @@ TESTS+=noexec
->   TESTS+=div
->   TESTS+=clst
->   TESTS+=long-double
-> +TESTS+=cdsg
->   
->   Z13_TESTS=vistr
->   $(Z13_TESTS): CFLAGS+=-march=z13 -O2
-> @@ -66,3 +67,6 @@ sha512-mvx: sha512.c
->   	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
->   
->   TESTS+=sha512-mvx
-> +
-> +cdsg: CFLAGS+=-pthread
-> +cdsg: LDFLAGS+=-pthread
-> diff --git a/tests/tcg/s390x/cdsg.c b/tests/tcg/s390x/cdsg.c
-> new file mode 100644
-> index 00000000000..83313699f7d
-> --- /dev/null
-> +++ b/tests/tcg/s390x/cdsg.c
-> @@ -0,0 +1,73 @@
-> +#include <assert.h>
-> +#include <pthread.h>
-> +#include <stdbool.h>
-> +#include <stdlib.h>
-> +
-> +static volatile bool start;
-> +static unsigned long val[2] __attribute__((__aligned__(16)));
-> +
-> +void *cdsg_loop(void *arg)
-> +{
-> +    unsigned long orig0, orig1, new0, new1;
-> +    register unsigned long r0 asm("r0");
-> +    register unsigned long r1 asm("r1");
-> +    register unsigned long r2 asm("r2");
-> +    register unsigned long r3 asm("r3");
-> +    int cc;
-> +    int i;
-> +
-> +    while (!start) {
-> +    }
-> +
-> +    orig0 = val[0];
-> +    orig1 = val[1];
-> +    for (i = 0; i < 1000;) {
+On Mon, Nov 28, 2022 at 04:40:59PM +0000, Alex Bennée wrote:
+>We have a bunch of variables associated with the device and the vhost
+>backend which are used inconsistently throughout the code base. Lets
+>start trying to bring some order by agreeing what each variable is
+>for.
+>
+>Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>Cc: Stefano Garzarella <sgarzare@redhat.com>
+>Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>Cc: Stefan Hajnoczi <stefanha@gmail.com>
+>
+>---
+>v2
+>  - dropped DISCUSS and commentary
+>  - separated protocol section for clarity
+>  - updated working on vhost->backend_features
+>  - made clear guest_features was the written state
+>---
+> include/hw/virtio/vhost.h  | 25 ++++++++++++++++++++++---
+> include/hw/virtio/virtio.h | 19 ++++++++++++++++++-
+> 2 files changed, 40 insertions(+), 4 deletions(-)
 
-Are 1000 iterations sufficient to catch the race window reliably?
+Thanks for this effort to improve our documentation!
 
-> +        new0 = orig0 + 1;
-> +        new1 = orig1 + 2;
-> +
-> +        r0 = orig0;
-> +        r1 = orig1;
-> +        r2 = new0;
-> +        r3 = new1;
-> +        asm("cdsg %[r0],%[r2],%[db2]\n"
-> +            "ipm %[cc]"
-> +            : [r0] "+r" (r0)
-> +            , [r1] "+r" (r1)
-> +            , [db2] "=m" (val)
-> +            , [cc] "=r" (cc)
-> +            : [r2] "r" (r2)
-> +            , [r3] "r" (r3)
-> +            : "cc");
-
-Nit: I'd suggest a simple cdsg helper function that makes this code 
-easier to digest.
-
-> +        orig0 = r0;
-> +        orig1 = r1;
-> +        cc = (cc >> 28) & 3;
-> +
-> +        if (cc == 0) {
-> +            orig0 = new0;
-> +            orig1 = new1;
-> +            i++;
-> +        } else {
-> +            assert(cc == 1);
-> +        }
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +int main(void)
-> +{
-> +    pthread_t thread;
-> +    int ret;
-> +
-> +    ret = pthread_create(&thread, NULL, cdsg_loop, NULL);
-> +    assert(ret == 0);
-> +    start = true;
-> +    cdsg_loop(NULL);
-> +    ret = pthread_join(thread, NULL);
-> +    assert(ret == 0);
-> +
-> +    assert(val[0] == 2000);
-> +    assert(val[1] == 4000);
-> +
-> +    return EXIT_SUCCESS;
-> +}
-
--- 
-Thanks,
-
-David / dhildenb
+Acked-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
