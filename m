@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E4A63C9DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 21:51:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4C763C9EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 21:54:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p07Yk-00034P-AE; Tue, 29 Nov 2022 15:50:30 -0500
+	id 1p07cX-0004YP-0S; Tue, 29 Nov 2022 15:54:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p07Yf-00033U-8m
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:50:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p07Yd-0001eA-2w
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:50:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669755020;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5cx8V2WLJrQVtLO7d8XDB9Zraf5be6FNmNqAbwi8w74=;
- b=BzDynBBbPi1buXogm7M2O8S7m0roXD9e7uGaqcd5LR/PehgjtP3AG9mBolWcdqp6fs3Ss/
- jit6z/UqZEu8aC4Y99ysSBg3rQZThEpkzIHDVNvzULInmRt/Mc8XspiFii6++GSMUIYjSl
- xoDbHy3HbG8m/GsMW6Y8Ojgz6ty38bI=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-377-7TDjQ5JdOJSlhM6AicXhzQ-1; Tue, 29 Nov 2022 15:50:16 -0500
-X-MC-Unique: 7TDjQ5JdOJSlhM6AicXhzQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- i4-20020ac813c4000000b003a5044a818cso23712913qtj.11
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 12:50:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p07cL-0004Y2-RK; Tue, 29 Nov 2022 15:54:13 -0500
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p07cI-0002CE-QO; Tue, 29 Nov 2022 15:54:12 -0500
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-3b10392c064so151822297b3.0; 
+ Tue, 29 Nov 2022 12:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/4MUeXEFHXcBMhRxMct1efFeEhq1CAuF6IGxjeqM9vE=;
+ b=Y4B5qK5xNQjyykzmhLCjRdfqEsUZCmfz+6kHza9UKMqaegQju3kCnqPfPRl2Mu/n9F
+ lgwbzVdPAfJkoKHe65M71sR6vMgtYYVFDu5JU3QjLhzrQz+0MAq7MPVvPMqMXoNMfjMq
+ q9IGkCm+wxc+XEr12nB1sE1miIx/v1EV+KA2Kq06nFKvY2yyq57ZLL6hWqsb4cPJVZce
+ fH/GmaEIFq/grYGqgFI04S9mjbwUqI1J8tw5abi+NeuoWi6RQC5AMNKc7UYmOeLV0uox
+ a/Eo7Jr6Ad+H6EyNtOZ3D3O3clACGrvwEttiolE8Qr0q1aPxwgoXzZ/Q9ctTdvu7Sb1G
+ meew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5cx8V2WLJrQVtLO7d8XDB9Zraf5be6FNmNqAbwi8w74=;
- b=kC0O9aJpah6Vy/Aj2hQnd5sfR62w8SKEGyrfhhp7UoCuKpLlKjCBx5vWQMommlA8sD
- gZrvX7S6QMcmBF2zPiuUcLKb3T6Wtyesqr2uSuNL2u0Ghsv4K2w37wme1WL0SLTK1Oyh
- 1NP3bxEWpbD4IoVi0372P8hlHn74jvQCjXNqJyO2FxX8UGXyAYkyWF2x9UQDTKCm6k8B
- sqB4NgB3B1qS7EpBjX5GHPhj4yi3d2ENmZnQW1la5WPOHhLEdrPaADS0a+axHu826Ukt
- PJTZ2eejnKNyfOxa3xyo41i5Ad0axEmsKtN+bH5iix2LRJjPpFDjnX0Y/HwDWG7o4UoL
- n5EQ==
-X-Gm-Message-State: ANoB5pkkw7iM5UtwaDhX/WK5TmTzOU9FXyHjdic3dBv9NVapc6TMn1N+
- V/YOSm2Lqx0MVP+GWrPXZAyEp+P0EG58Pp4SkbXWjhHaheNWq8dLz6QolngsMqGWM8fCinRSMFi
- aAru0wcLtk8lljIw=
-X-Received: by 2002:ac8:43cc:0:b0:3a6:89b2:c696 with SMTP id
- w12-20020ac843cc000000b003a689b2c696mr2304761qtn.317.1669755015541; 
- Tue, 29 Nov 2022 12:50:15 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6eFtPEUwJGe3lKs7yRWf2SXPgPp2q2KGWNuQG/rWLvRe6BL7A+PH6SVhBiEZ5ZH/o8r3Lv/w==
-X-Received: by 2002:ac8:43cc:0:b0:3a6:89b2:c696 with SMTP id
- w12-20020ac843cc000000b003a689b2c696mr2304742qtn.317.1669755015277; 
- Tue, 29 Nov 2022 12:50:15 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- k12-20020a05620a414c00b006fa22f0494bsm11665545qko.117.2022.11.29.12.50.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 12:50:14 -0800 (PST)
-Date: Tue, 29 Nov 2022 15:50:13 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, Li Xiaohui <xiaohli@redhat.com>
-Subject: Re: [PATCH v1 1/1] migration: Fix yank on postcopy multifd crashing
- guest after migration
-Message-ID: <Y4ZwhZVDh9ac6MH8@x1n>
-References: <20221109055629.789795-1-leobras@redhat.com> <Y3+WGof3MQtaCYdS@x1n>
- <CAJ6HWG4KaEbUYHe75i4ty66nosHEM8ZJW0c1W4Q=s4YeNnP_rA@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/4MUeXEFHXcBMhRxMct1efFeEhq1CAuF6IGxjeqM9vE=;
+ b=4hap3XCyCfe+lGJUu1humo4TknRSVjbqsHjCrHy6BNXWBSHl5t0z65m1jHKNBvXwGC
+ r+4XvaO6LEewo7yBLItp7Sjzr7h8iF5rGRzb22T5Z+WEbNZPcfaYRHgaN1+Ijyxlbi+W
+ XCvmgiw9WRmmAd3DZU9GuwAfX0h0lE4uq2LLEhBMH7U6P7Co+CqyOXInXrn72VoVNhtX
+ ZMJ8HyE0msK1DCx15Z1XQtlRd7CrXoOSbZ+ZZ0gE3dJ+lAdasYTTz38TU5+EMpkIbCRi
+ HdXiFcpBuqfEWKkVn5Bfgk8liG9Eyic34+2M1C18WGuxEC2wFBrYyKBEo+pStgWJaD+/
+ +Uvw==
+X-Gm-Message-State: ANoB5pl0MsagkOio3mQrt6Iow8FBuJU23zyuASEcuXPHKPuCx7TqByyI
+ pumUW9s1NUlOq+9P+STuK5MqAcSVYEmsBaRk78M=
+X-Google-Smtp-Source: AA0mqf5yygTRv/Xhxa6EQ8lnkWVUOVxlHeYl1xW9WeYTvmLA8L/il82iTTp2ohY558ulj3jWPjU/qPKVP2F1x4WKuks=
+X-Received: by 2002:a81:1d84:0:b0:3ce:492c:ae78 with SMTP id
+ d126-20020a811d84000000b003ce492cae78mr6514601ywd.62.1669755249449; Tue, 29
+ Nov 2022 12:54:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJ6HWG4KaEbUYHe75i4ty66nosHEM8ZJW0c1W4Q=s4YeNnP_rA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221121211923.1993171-1-stefanha@redhat.com>
+ <Y3yGeRWfJn2fGF9x@redhat.com>
+In-Reply-To: <Y3yGeRWfJn2fGF9x@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 29 Nov 2022 15:53:57 -0500
+Message-ID: <CAJSP0QXhW1YOiqr3AZ6a=y9DWLvj+ByMQrM9pYUUOc-Ukp3r8A@mail.gmail.com>
+Subject: Re: [PATCH for-7.2] block-backend: avoid bdrv_unregister_buf() NULL
+ pointer deref
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, 
+ Hanna Reitz <hreitz@redhat.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1131.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,73 +85,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 29, 2022 at 05:28:26PM -0300, Leonardo Bras Soares Passos wrote:
-> Hello Peter,
-
-Leo,
-
-> 
-> On Thu, Nov 24, 2022 at 1:04 PM Peter Xu <peterx@redhat.com> wrote:
+On Tue, 22 Nov 2022 at 03:22, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> Am 21.11.2022 um 22:19 hat Stefan Hajnoczi geschrieben:
+> > bdrv_*() APIs expect a valid BlockDriverState. Calling them with bs=NULL
+> > leads to undefined behavior.
 > >
-> > On Wed, Nov 09, 2022 at 02:56:29AM -0300, Leonardo Bras wrote:
-> > > diff --git a/migration/savevm.c b/migration/savevm.c
-> > > index a0cdb714f7..250caff7f4 100644
-> > > --- a/migration/savevm.c
-> > > +++ b/migration/savevm.c
-> > > @@ -1889,6 +1889,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
-> > >          exit(EXIT_FAILURE);
-> > >      }
-> > >
-> > > +    migration_load_cleanup();
+> > Jonathan Cameron reported this following NULL pointer dereference when a
+> > VM with a virtio-blk device and a memory-backend-file object is
+> > terminated:
+> > 1. qemu_cleanup() closes all drives, setting blk->root to NULL
+> > 2. qemu_cleanup() calls user_creatable_cleanup(), which results in a RAM
+> >    block notifier callback because the memory-backend-file is destroyed.
+> > 3. blk_unregister_buf() is called by virtio-blk's BlockRamRegistrar
+> >    notifier callback and undefined behavior occurs.
 > >
-> > It's a bit weird to call multifd-load-clean in a listen phase..
-> 
-> I agree.
-> 
-> >
-> > How about moving it right above
-> > trace_process_incoming_migration_co_postcopy_end_main()?  Then the new
-> > helper can also be static.
-> 
-> Seems a nice Idea to have this function to be static.
-> 
-> We have to guarantee this is run after the migration finished, but
-> before migration_incoming_state_destroy().
+> > Fixes: baf422684d73 ("virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint")
+> > Co-authored-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+>
+> This raises some questions, though. What happens if the graph isn't
+> static between creation and deletion of the device? Do we need to do
+> something with registered buffers when a node is attached to or detached
+> from an existing device?
 
-IIUC it doesn't need to be when migration finished.  It should be fine as
-long as we finished precopy phase, and that's what the migration coroutine
-does, iiuc.  The thing is postcopy doesn't use multifd at all, so logically
-it can be released before postcopy starts.
+I think you are right. Graph changes need to be handled. Right now they aren't.
 
-Actually, IMHO it'll be safer to do it like that, just to make sure we
-won't accidentally receive multifd pages _after_ postcopy starts, because
-that'll be another more severe and hard to debug issue since the guest can
-see partial copied pages from multifd recv channels.
-
-> 
-> You suggested calling it right above of
-> trace_process_incoming_migration_co_postcopy_end_main(), which git
-> grep pointed me to an if clause in process_incoming_migration_co().
-> If I got the location correctly, it would not help: this coroutine is
-> ran just after the VM went to the target host, and not when the
-> migration finished.
-> 
-> If we are using multifd channels, this will break the migration with
-> segmentation fault (SIGSEGV), since the channels have not finished
-> sending yet.
-
-If this happens, then I had a feeling that there's something else that
-needs syncs.  As I discussed above, we should make sure multifd pages all
-landed before we start vcpu threads.
-
-Said that, now I think I'm not against your original proposal to fix this
-immediate crash.  However I am still wondering whether we really should
-disable multifd with postcopy, as there seem to be still a few missing
-pieces even to enable multifd during precopy-only.
-
-Thanks,
-
--- 
-Peter Xu
-
+Stefan
 
