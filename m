@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE4563C8E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 21:00:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F07B63C93B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 21:30:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p06lE-0002iL-78; Tue, 29 Nov 2022 14:59:20 -0500
+	id 1p07Di-0004EM-0F; Tue, 29 Nov 2022 15:28:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1p06lC-0002iC-Jf
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 14:59:18 -0500
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1p07Dg-0004EB-8N
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:28:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1p06lA-0000Uy-7y
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 14:59:18 -0500
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1p07De-0006K8-Tv
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:28:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669751955;
+ s=mimecast20190719; t=1669753721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+d3kiv7CFa4ip3r9bAhBWQKuxLrvQfCzz/PwwldgKaU=;
- b=F5dq92cs98Vafyx4P14MFnLkGnLGvtbPqoZuijGrV40xalHYv93aRgQ3aMe/2vb0tqX6jQ
- iF0K2qu+MXJd86KqX5dUzq9evGeVDWMeuQ193S5+gEC4DE1Y/x0bY9qOWSB+QFVQunr/K/
- 54nmzHJnegNxWjMRXVOTuBI2JE35VnI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7xNJ4kMO7fV8AM5JwOToFaNCDTcDsmCvQ7fvcUap/Sk=;
+ b=hAPLdd3XP9RPgIY4i15et9Ff0GjJXgvudKyXDZwmifO+T1v7UtSvQr4TFsUnsCMmmbxfAD
+ bf4eMd61FrXVvUaqUPaEBesPxJF8VQ8MZtT//Yl9vAzofbG57O+HI3GEn+L5Gv3zfv+YOB
+ LXo4pvrgG6Bb/8XlHYEJtibeQ2OU+1Y=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-382-SgRPl1J3MKqEgOFyqdyP9A-1; Tue, 29 Nov 2022 14:59:13 -0500
-X-MC-Unique: SgRPl1J3MKqEgOFyqdyP9A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v125-20020a1cac83000000b003cfa148576dso8309980wme.3
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 11:59:13 -0800 (PST)
+ us-mta-646-0iJCnnbVMyKAM0JnEnIm9g-1; Tue, 29 Nov 2022 15:28:38 -0500
+X-MC-Unique: 0iJCnnbVMyKAM0JnEnIm9g-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ i21-20020a05620a405500b006fb25ba3e00so31269712qko.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 12:28:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+d3kiv7CFa4ip3r9bAhBWQKuxLrvQfCzz/PwwldgKaU=;
- b=2e7EIANXgTo9BwIWrLP6WykWhu/FO2qeTEOSn9ikRaFNcMN842/26z7vKaK0q2A8Ml
- HuwHTICRtYKS/qhgkNVvURy6eAe32pS7e0BJCjoJ+b++F4/5qjIZGAQtdSGVzmqDybqN
- V+n+5Qpg/mg8VM9q5+cgGtanjhdftZatPWtZd1VbyfPshBp3BdfIKM/0gFeDgR+ApBGi
- QCyN+eLJAnWJV6zGVQIB4/Otl2vCcUkpdHdJOb+qfroMN2GG/e84ha1hZGtt7Pn6U6J5
- gEL0wdJ8U9L1KT5w1lggN+BGwGknTMrCZ2R0EpLPeSgr+Du/ims33jHkHkyvo/SZiCV8
- eagg==
-X-Gm-Message-State: ANoB5pmWYtEiazDr5rrerB7QG+B+kLHt4aC8udavHfNhGLSq9yjqxdr8
- /szCo3AGMuq9c4p/FRrVZdBZ6fnYIwN1EixA/vmoZUTHPYKWWxc0yKC1rJBgjOtf/9zwvo3jfrZ
- fd+NJYb3Ua9u2waE=
-X-Received: by 2002:a05:6000:2c9:b0:242:1b0e:5647 with SMTP id
- o9-20020a05600002c900b002421b0e5647mr6080034wry.683.1669751952848; 
- Tue, 29 Nov 2022 11:59:12 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4TyYMx8lyf24rj2NVpKANMRZoSQrR//eun6ADfvBeDKOAAnpCHYl+R8hf6TlWzJloiOzqLdA==
-X-Received: by 2002:a05:6000:2c9:b0:242:1b0e:5647 with SMTP id
- o9-20020a05600002c900b002421b0e5647mr6080026wry.683.1669751952643; 
- Tue, 29 Nov 2022 11:59:12 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- s30-20020adfa29e000000b00242246c2f7csm2292904wra.101.2022.11.29.11.59.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 11:59:12 -0800 (PST)
-Date: Tue, 29 Nov 2022 19:59:10 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, marcel.apfelbaum@gmail.com
-Subject: Re: [PATCH 10/12] pci: Inline do_pcie_aer_inject_error() into its
- only caller
-Message-ID: <Y4Zkjj83YnmZeLh3@work-vm>
-References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-11-armbru@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7xNJ4kMO7fV8AM5JwOToFaNCDTcDsmCvQ7fvcUap/Sk=;
+ b=QnpSzIyzk2g7WjyD3K1adT3nKjlW/0F7MGK2YjBAwruWphzx7J17DT03mU2QviJ0jE
+ f/Uz7JPvIjmYBlcwJx68zZkFr/N7QnLaSEEG954i7NO6UR7wMGFZlWV0dgs0YBn5g8HF
+ HAGYypvJ9Oc0npuTkQBwBliBuKg6iPQsF17b6A9/lq37wDMihn6nvJ8KVTUBIv0UJxIz
+ og743uz0lvxDOZJq8fJctahKBVrHjHiPMZYyXhdB20XUDHXoG+5DvorwYCyObYmzD4Jf
+ 3A0akdiImUtSeOsPe/YAwtMaLHIX8znI0Dh4JovBJ0dM2psDoD+qrgH2uHhmVS8KMi5y
+ 4aLQ==
+X-Gm-Message-State: ANoB5pklfpMVEuyw+eh/UhH6pEteD02bV01nN6iLIbGVSU2NMdr60iUV
+ z8UywmRDGzlpAf02DdFaBtP9LL/bKeSsFZY9YwSiMYRU7DZbbJ64eRoxr8OqJPubgThQqYqVhs8
+ 2xnim1aaXzi84zjMUN3ehmhxfhfyJKwk=
+X-Received: by 2002:ac8:44b5:0:b0:3a4:e32b:2f7e with SMTP id
+ a21-20020ac844b5000000b003a4e32b2f7emr54385930qto.320.1669753718300; 
+ Tue, 29 Nov 2022 12:28:38 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf57e8VW2QjvEi48X1erbP2OxOF/YveKlXa5oP4MFae9655SqLWUuBFp26WE76sLD+MOmj1jCfsKdfnByV7C0K4=
+X-Received: by 2002:ac8:44b5:0:b0:3a4:e32b:2f7e with SMTP id
+ a21-20020ac844b5000000b003a4e32b2f7emr54385917qto.320.1669753718040; Tue, 29
+ Nov 2022 12:28:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221128080202.2570543-11-armbru@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+References: <20221109055629.789795-1-leobras@redhat.com> <Y3+WGof3MQtaCYdS@x1n>
+In-Reply-To: <Y3+WGof3MQtaCYdS@x1n>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Tue, 29 Nov 2022 17:28:26 -0300
+Message-ID: <CAJ6HWG4KaEbUYHe75i4ty66nosHEM8ZJW0c1W4Q=s4YeNnP_rA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] migration: Fix yank on postcopy multifd crashing
+ guest after migration
+To: Peter Xu <peterx@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org, 
+ Li Xiaohui <xiaohli@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,100 +94,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Hello Peter,
 
-Yeh that seems to have simplified out;
+On Thu, Nov 24, 2022 at 1:04 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Wed, Nov 09, 2022 at 02:56:29AM -0300, Leonardo Bras wrote:
+> > diff --git a/migration/savevm.c b/migration/savevm.c
+> > index a0cdb714f7..250caff7f4 100644
+> > --- a/migration/savevm.c
+> > +++ b/migration/savevm.c
+> > @@ -1889,6 +1889,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> >          exit(EXIT_FAILURE);
+> >      }
+> >
+> > +    migration_load_cleanup();
+>
+> It's a bit weird to call multifd-load-clean in a listen phase..
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+I agree.
 
-> ---
->  hw/pci/pci-hmp-cmds.c | 41 ++++++-----------------------------------
->  1 file changed, 6 insertions(+), 35 deletions(-)
-> 
-> diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
-> index 393ab4214a..b03badb1e6 100644
-> --- a/hw/pci/pci-hmp-cmds.c
-> +++ b/hw/pci/pci-hmp-cmds.c
-> @@ -159,21 +159,7 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
->      }
->  }
->  
-> -typedef struct PCIEErrorDetails {
-> -    const char *id;
-> -    const char *root_bus;
-> -    int bus;
-> -    int devfn;
-> -} PCIEErrorDetails;
-> -
-> -/*
-> - * Inject an error described by @qdict.
-> - * On success, set @details to show where error was sent.
-> - * Return negative errno if injection failed and a message was emitted.
-> - */
-> -static int do_pcie_aer_inject_error(Monitor *mon,
-> -                                    const QDict *qdict,
-> -                                    PCIEErrorDetails *details)
-> +void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
->  {
->      const char *id = qdict_get_str(qdict, "id");
->      const char *error_name;
-> @@ -189,12 +175,12 @@ static int do_pcie_aer_inject_error(Monitor *mon,
->          monitor_printf(mon,
->                         "id or pci device path is invalid or device not "
->                         "found. %s\n", id);
-> -        return ret;
-> +        return;
->      }
->      if (!pci_is_express(dev)) {
->          monitor_printf(mon, "the device doesn't support pci express. %s\n",
->                         id);
-> -        return -ENOSYS;
-> +        return;
->      }
->  
->      error_name = qdict_get_str(qdict, "error_status");
-> @@ -203,7 +189,7 @@ static int do_pcie_aer_inject_error(Monitor *mon,
->              || num > UINT32_MAX) {
->              monitor_printf(mon, "invalid error status value. \"%s\"",
->                             error_name);
-> -            return -EINVAL;
-> +            return;
->          }
->          error_status = num;
->          correctable = qdict_get_try_bool(qdict, "correctable", false);
-> @@ -239,25 +225,10 @@ static int do_pcie_aer_inject_error(Monitor *mon,
->      if (ret < 0) {
->          monitor_printf(mon, "failed to inject error: %s\n",
->                         strerror(-ret));
-> -        return ret;
-> -    }
-> -    details->id = id;
-> -    details->root_bus = pci_root_bus_path(dev);
-> -    details->bus = pci_dev_bus_num(dev);
-> -    details->devfn = dev->devfn;
-> -
-> -    return 0;
-> -}
-> -
-> -void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
-> -{
-> -    PCIEErrorDetails data;
-> -
-> -    if (do_pcie_aer_inject_error(mon, qdict, &data) < 0) {
->          return;
->      }
->  
->      monitor_printf(mon, "OK id: %s root bus: %s, bus: %x devfn: %x.%x\n",
-> -                   data.id, data.root_bus, data.bus,
-> -                   PCI_SLOT(data.devfn), PCI_FUNC(data.devfn));
-> +                   id, pci_root_bus_path(dev), pci_dev_bus_num(dev),
-> +                   PCI_SLOT(dev->devfn), PCI_FUNC(dev->devfn));
->  }
-> -- 
-> 2.37.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+> How about moving it right above
+> trace_process_incoming_migration_co_postcopy_end_main()?  Then the new
+> helper can also be static.
+
+Seems a nice Idea to have this function to be static.
+
+We have to guarantee this is run after the migration finished, but
+before migration_incoming_state_destroy().
+
+You suggested calling it right above of
+trace_process_incoming_migration_co_postcopy_end_main(), which git
+grep pointed me to an if clause in process_incoming_migration_co().
+If I got the location correctly, it would not help: this coroutine is
+ran just after the VM went to the target host, and not when the
+migration finished.
+
+If we are using multifd channels, this will break the migration with
+segmentation fault (SIGSEGV), since the channels have not finished
+sending yet.
+
+Best regards,
+Leo
+
+
+
+
+>
+> > +
+> >      migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+> >                                     MIGRATION_STATUS_COMPLETED);
+> >      /*
+> > --
+> > 2.38.1
+> >
+>
+> --
+> Peter Xu
+>
 
 
