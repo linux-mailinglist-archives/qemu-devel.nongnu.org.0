@@ -2,110 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D34A63BD6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 10:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED81563BDB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 11:12:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozxMw-0004Wf-VQ; Tue, 29 Nov 2022 04:57:38 -0500
+	id 1ozxaE-0000La-Et; Tue, 29 Nov 2022 05:11:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1ozxMt-0004WT-Vf; Tue, 29 Nov 2022 04:57:35 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1ozxMr-000819-UG; Tue, 29 Nov 2022 04:57:35 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AT94BFB005801; Tue, 29 Nov 2022 09:57:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=VXBRE9UFofXu87BMcV+BmtB0ddmW/ePYb1JYYtfNI0E=;
- b=YTzOXWzZjek4qAbL991bY8hF/sUQ7zgu8UyYTEaNABTxSXDl5cstU0z/CKH7I96X6JD3
- A5H2+sQtwEmY68I0oHBre1OC7paAVs1wz4Xn+zPhADUXmq5/PA7w7DsVvBxP5xCrxb/Z
- n8l8ewQIjU+0VF/Ix3XnpxdqzOpOx8iwFvYqDi/VmKbih+t4wSFk2CG+tMJAvz48pSXd
- y+XQpUwgRaDzodbSE27KS1qnzE054BCf28bGi8qf8OZvy6a8ah8r0OwVLv4t2xIId0Q4
- hpODYKiXc1YBtL6bXJpjDT4DY528ekO80TY/SuLCfLufClblQ5GCOcD3FQvxi/bCW9pA Iw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5f4917gd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Nov 2022 09:57:31 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AT9lhZ2019996;
- Tue, 29 Nov 2022 09:57:30 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5f4917f7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Nov 2022 09:57:30 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AT9q2qA021595;
- Tue, 29 Nov 2022 09:57:28 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03fra.de.ibm.com with ESMTP id 3m3ae8tsdy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Nov 2022 09:57:28 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AT9vPor4194958
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 29 Nov 2022 09:57:25 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56B1042041;
- Tue, 29 Nov 2022 09:57:25 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E86624203F;
- Tue, 29 Nov 2022 09:57:24 +0000 (GMT)
-Received: from [9.179.0.182] (unknown [9.179.0.182])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 29 Nov 2022 09:57:24 +0000 (GMT)
-Message-ID: <618edde1-31d8-9db8-48d9-137fe81b788b@de.ibm.com>
-Date: Tue, 29 Nov 2022 10:57:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH] virtiofsd: Add `sigreturn` to the seccomp whitelist
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marc Hartmayer <mhartmay@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Sven Schnelle <svens@linux.ibm.com>, Stefan Liebler <stli@linux.ibm.com>
-References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
- <Y4UCPQ0E2ZY15aEq@work-vm> <87wn7ef6cm.fsf@linux.ibm.com>
- <Y4XT/ZxuyU7F5h1n@work-vm> <1a94f96b-d9b6-44af-cedb-aa17eb1a3a84@de.ibm.com>
-In-Reply-To: <1a94f96b-d9b6-44af-cedb-aa17eb1a3a84@de.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 3WlD0I9kw8c9l15qRGvwoeWjGGYPoLCE
-X-Proofpoint-GUID: GiuD-X_icaTz--qnNlsLIbTpBRW1wW1Y
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ozxaC-0000LI-RA
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:11:20 -0500
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ozxaA-0004HL-Vv
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:11:20 -0500
+Received: by mail-io1-xd29.google.com with SMTP id i85so9677205ioa.5
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 02:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1Qp00nHmGTOm2YzDm4WmmUSjwj64zwq5yxDV4msgDVU=;
+ b=jFcWfWdssf5X0VOiQA/UImhIz0SYxSD1EOyGc3gC/zdleEuOlVroxVByQJyVSb8vle
+ YQq5O/kcTNUwQdC+EwmXkqY64mA2tgHU/C7bn5RGFmKpBaADDS3OiKIMeuMRtCphRTQh
+ uy2VUQT2zR9eS+ssKFRROytAUpg03YIKiJb1tbEmRD7crG+sxqTFuSf1x3ZwmV8p8eIW
+ epkS2Ni/2NZEy7VPFsTxRAwKqoXei1DX11JlwIeu0DVWB0C/HrSY8H7oyAlIU4rYsOiT
+ jNU7dLSbi9CYwKqCQAPkLM9oVYNkGjpqA5kZx4yNOdOfFd1B1Gypb4fUY75lbpHd0W4t
+ X8pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1Qp00nHmGTOm2YzDm4WmmUSjwj64zwq5yxDV4msgDVU=;
+ b=B4Em34F6pcEy6BE4A2DpO0Byl7EWPHNT+VyyokinBEXKszDEXA18jZWdlV0+gKychZ
+ lthjVh7AsjLWWBB4K6/mY1dVlL/Y+EOKvekc5X8RBnH+mxnxO0cXnbq/6JnfHKQ675qQ
+ TR/GnfMSSMdyPmcJe+e2pdBwhTRl84JGICcJNAkfUfauZrqCEOVtjiTClKBU9a0cQ+qt
+ YUD1X6nWK/Cn8AeqYoh26WlzVbA5bFy11Zb37qRS0ZDxq/IiAckP1cySUfZ3oenkGzc9
+ 7w2kUciKrc4qZ8NFIIFPSREiMT4WhxOVvch8ukixZ7IHeyY89Umd+hxHlo/yrvrunIMJ
+ Sv1Q==
+X-Gm-Message-State: ANoB5pmet8Cr7twm4d2YL250XaQlEiD4nWyRGo437VLroS+B+zVH5fu7
+ 5UW32IQsqLZh9xiLX6PxrQIIp8O8DnELxRXncvrkSQ==
+X-Google-Smtp-Source: AA0mqf4wulxU5G/TyaC1jzOCdcmLzntTq7rW8fl77/Bp2xclIYTTP646GZAE0sfCUltyx0wN2/XH1F+zvsvF6XWMVMM=
+X-Received: by 2002:a5d:9446:0:b0:6d3:5145:937c with SMTP id
+ x6-20020a5d9446000000b006d35145937cmr25611746ior.67.1669716677318; Tue, 29
+ Nov 2022 02:11:17 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-29_07,2022-11-28_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 clxscore=1015 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211290059
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221125044138.962137-1-ani@anisinha.ca>
+ <CAARzgwy=m4tN69cSn1msrZg1thkzL2ZfQ8_yOLw6Y77AzfFP-g@mail.gmail.com>
+ <20221129000647-mutt-send-email-mst@kernel.org>
+ <CAARzgwzS0tvV-Vz7PByrWfxrs9Gc6vyuvDVKriDMQMoJ1HWtPg@mail.gmail.com>
+ <874juirvrr.fsf@pond.sub.org>
+In-Reply-To: <874juirvrr.fsf@pond.sub.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 29 Nov 2022 15:41:06 +0530
+Message-ID: <CAARzgwzgtP93NKdiC-p_k5LLzgY_eEruFgeGC8wOcH9AvSrwtA@mail.gmail.com>
+Subject: Re: [PATCH v2] acpi/tests/avocado/bits: add SPDX license identifiers
+ for bios bits tests
+To: Markus Armbruster <armbru@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Maydell Peter <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,72 +95,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Nov 29, 2022 at 2:18 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> Ani Sinha <ani@anisinha.ca> writes:
+>
+> > On Tue, Nov 29, 2022 at 10:37 AM Michael S. Tsirkin <mst@redhat.com> wr=
+ote:
+> >>
+> >> On Tue, Nov 29, 2022 at 08:02:15AM +0530, Ani Sinha wrote:
+> >> >
+> >> >
+> >> > On Fri, Nov 25, 2022 at 10:11 AM Ani Sinha <ani@anisinha.ca> wrote:
+> >> >
+> >> >     Added the SPDX license identifiers for biosbits tests.
+> >> >     Also added a comment on each of the test scripts to indicate tha=
+t they run
+> >> >     from within the biosbits environment and hence are not subjected=
+ to the
+> >> >     regular
+> >> >     maintenance activities for QEMU and is excluded from the depende=
+ncy
+> >> >     management
+> >> >     challenges in the host testing environment.
+> >> >
+> >> >     Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> >> >     Cc: Paolo Bonzini <pbonzini@redhat.com>
+> >> >     Cc: Maydell Peter <peter.maydell@linaro.org>
+> >> >     Cc: John Snow <jsnow@redhat.com>
+> >> >     Cc: Thomas Huth <thuth@redhat.com>
+> >> >     Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> >> >     Cc: Igor Mammedov <imammedo@redhat.com>
+> >> >     Cc: Michael Tsirkin <mst@redhat.com>
+> >> >     Cc: Thomas Huth <thuth@redhat.com>
+> >> >     Cc: qemu-trivial@nongnu.org
+> >> >     Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> >> >
+> >> >
+> >> > Is anyone going to queue this for 7.2 given it's quite trivial?
+> >>
+> >> Don't see why we should bother.
+> >
+> > Completeness?
+>
+> We're about to tag -rc3.  It's too late for trivial stuff.  Anything but
+> release-critical fixes would be madness at this stage.
+>
+> I recommend to route this via qemu-trivial into the next release.
 
-
-Am 29.11.22 um 10:52 schrieb Christian Borntraeger:
-> 
-> 
-> Am 29.11.22 um 10:42 schrieb Dr. David Alan Gilbert:
->> * Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
->>> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
->>>
->>>> * Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
->>>>> The virtiofsd currently crashes on s390x. This is because of a
->>>>> `sigreturn` system call. See audit log below:
->>>>>
->>>>> type=SECCOMP msg=audit(1669382477.611:459): auid=4294967295 uid=0 gid=0 ses=4294967295 subj=system_u:system_r:virtd_t:s0-s0:c0.c1023 pid=6649 comm="virtiofsd" exe="/usr/libexec/virtiofsd" sig=31 arch=80000016 syscall=119 compat=0 ip=0x3fff15f748a code=0x80000000AUID="unset" UID="root" GID="root" ARCH=s390x SYSCALL=sigreturn
->>>>
->>>> I'm curious; doesn't that mean that some signal is being delivered and
->>>> you're returning?  Which one?
->>>
->>> code=0x80000000 means that the seccomp action SECCOMP_RET_KILL_PROCESS
->>> is taken => process is killed by a SIGSYS signal (31) [1].
->>>
->>> At least, that’s my understanding of this log message.
->>>
->>> [1] https://man7.org/linux/man-pages/man2/seccomp.2.html
->>
->> But isn't that the fallout rather than the cause ? i.e. seccomp
->> is sending a SIGSYS because the process used sigreturn, my question
->> is why did the process call sigreturn in the first place - it must
->> have received a signal to return from?
-> 
-> Good question. virtiofsd seems to prepare itself for
-> 
-> int fuse_set_signal_handlers(struct fuse_session *se)
-> {
->      /*
->       * If we used SIG_IGN instead of the do_nothing function,
->       * then we would be unable to tell if we set SIG_IGN (and
->       * thus should reset to SIG_DFL in fuse_remove_signal_handlers)
->       * or if it was already set to SIG_IGN (and should be left
->       * untouched.
->       */
->      if (set_one_signal_handler(SIGHUP, exit_handler, 0) == -1 ||
->          set_one_signal_handler(SIGINT, exit_handler, 0) == -1 ||
->          set_one_signal_handler(SIGTERM, exit_handler, 0) == -1 ||
->          set_one_signal_handler(SIGPIPE, do_nothing, 0) == -1) {
->          return -1;
->      }
-> 
-> 
-> 
-> Given that rt_sigreturn was already on the seccomp list it seems
-> to be expected that those handlers are called.
-
-For me, it seems to happen on shutdown:
-                 Stack trace of thread 1:
-                 #0  0x000003ffc06f348a __kernel_sigreturn (linux-vdso64.so.1 + 0x48a)
-                 #1  0x000003ffc06f3488 __kernel_sigreturn (linux-vdso64.so.1 + 0x488)
-                 #2  0x000003ff9af1be96 __GI___futex_abstimed_wait_cancelable64 (libc.so.6 + 0x9be96)
-                 #3  0x000003ff9af211b4 __pthread_clockjoin_ex (libc.so.6 + 0xa11b4)
-                 #4  0x000003ff9af2106e pthread_join@GLIBC_2.2 (libc.so.6 + 0xa106e)
-                 #5  0x000002aa35d2fe36 fv_queue_cleanup_thread (virtiofsd + 0x2fe36)
-                 #6  0x000002aa35d3152c stop_all_queues (virtiofsd + 0x3152c)
-                 #7  0x000002aa35d2869c main (virtiofsd + 0x2869c)
-                 #8  0x000003ff9aeb4872 __libc_start_call_main (libc.so.6 + 0x34872)
-                 #9  0x000003ff9aeb4950 __libc_start_main@@GLIBC_2.34 (libc.so.6 + 0x34950)
-                 #10 0x000002aa35d290a0 .annobin_libvhost_user.c_end.startup (virtiofsd + 0x290a0)
-
-
+Sounds good. I'll make sure I remind people again after the release
+and before I go underground for xmas.
 
