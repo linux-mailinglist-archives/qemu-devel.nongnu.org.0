@@ -2,88 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F8F63CB3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 23:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E0163CBA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 00:18:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p09UC-0004dO-1E; Tue, 29 Nov 2022 17:53:56 -0500
+	id 1p09qp-00045s-0X; Tue, 29 Nov 2022 18:17:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p09UA-0004dE-Ce
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 17:53:54 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p09U8-0001Zq-Nu
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 17:53:54 -0500
-Received: by mail-wr1-x434.google.com with SMTP id bs21so24433868wrb.4
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 14:53:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n3yiX+2jmeld4TSwNBgmCzx931jY9pizUJjV30oUC00=;
- b=I8WXyQBHtpEs9d76uoPTOWBPaOqisAt6NK8JvxK99+BfJpIK5uxNY4D8H9S2T+7FjR
- pceiosm1sRrTkqW80snlpiAkFCGIh/vwgpSPF2CNWMYtUiuKvYwon2mD1gKK43CUkptz
- volLbV/22sf17prymxGFNxzpvmX/81wAQSyLpqj960tvUDul026beggrtw3PHTxfA1MY
- NjF4WLUu2Unrd2MjFfKRrw/5CRB3j2/GTaSNjucntLtht6lzNok32NSzGkV4+6WXrvuj
- t0Fr10y3pSn9ehxuqxOIAPr0WTgoD9sv8VcCElGIC9kch5DIVV4BcWd6dKNedyxaAZtT
- hh3A==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09qm-00042C-RY
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 18:17:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09qk-0005aJ-Iu
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 18:17:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669763833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l6Wc38twuSzB7Na07azNngleHND9KS83RYgWn7rlDRs=;
+ b=KLl1RcYFW59qmVWmvncUSe2TXHxxlgovza/9sVEmjG/tMaEmtMpSCO76wYqkR0+ZONtCIs
+ hgko6Kb4xdD9nvIqjYYMf/iN7zX2vo8w+dBMghTPwynLWwufU7z2ye6GOMu0R7V8ggLxLK
+ GiwmmE7NC1LW/vTJaXEA3+tfaapF2ec=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-626-ALpAHDEdOhO4ptKU_ONu0w-1; Tue, 29 Nov 2022 18:17:11 -0500
+X-MC-Unique: ALpAHDEdOhO4ptKU_ONu0w-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bp11-20020a05620a458b00b006fc8fa99f8eso8873527qkb.11
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 15:17:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=n3yiX+2jmeld4TSwNBgmCzx931jY9pizUJjV30oUC00=;
- b=6sAJtgj4HoOa34+3/8dbUDBpq9TrQ4rRO5HB58sPECNwQ4qAGOpoSK6jwyRyiAePU0
- RyKk8KJ5QlRlZZ+UIqRZlD31roU+dw+Ur6ILgK4N7K7Pitqh3XnPYgsrX9LvxAptpa2R
- 7e9ykiunZrjT9bd9d+rwvF9LmRfy7/Xb/Bu+CdkyWMNxGdm6PvG2C3ExQOtKoqWpZf6Z
- cfKl+TRqARZhECz7ODI18cOdkFiqWJGyrixPP5CuHgiH6ucBPc7mufC1SfzoxcvMeO/b
- jD9VUcZwiPE4OoheLNrHeWz/pw1lrM+4Vz+ijDdmTc57VhYJqAL9V8M8DnhDFrF5xzbg
- vzyg==
-X-Gm-Message-State: ANoB5pmzP+fG6ELpeUmDkE/an1fEe6O+SerpD78ixVu7C29MiL6LkdgZ
- +yZa1EQIh0TEyWoInL0mf9rg1A==
-X-Google-Smtp-Source: AA0mqf7MKM1WKDuVHm3jQDGHSFJGgwO1oK0gpD3nYl1MbxD0KtmPMH0u+832gX1Ksrw9YVcadTtbcQ==
-X-Received: by 2002:adf:f8cf:0:b0:241:c99f:8564 with SMTP id
- f15-20020adff8cf000000b00241c99f8564mr30897552wrq.277.1669762429853; 
- Tue, 29 Nov 2022 14:53:49 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- t17-20020a05600c199100b003c7087f6c9asm3655624wmq.32.2022.11.29.14.53.49
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l6Wc38twuSzB7Na07azNngleHND9KS83RYgWn7rlDRs=;
+ b=7qnJrDFOsX01cdTryfCVJPlzZjbkPOpjht9+Jj1Gpr5LFWCNdsfF58+4xV8mRROUgk
+ S8aYWmc7dlHmzeBAiez0W5/Dy4X/qPxMuAwWclJmn3xFXSMVU69ZyKe31oWpNyJXLS63
+ Pjt/Ed71tuXAZFH+I8Ko8wuUAepg49Nw76K03uqkdRa2Dgy/tAyrVpJ1DSCQi4A1/Q5c
+ X3XFVFZGU6t6H7j7qlHy2D2DJjYJNFwLV11dK4Jo6w3oBgqbjPJ35tE2qX/idM+5o0Tz
+ gfmWFrkrUHPFe2hjEGAHHZmPlOj5ncsGQqd1KdBVinA1+CWp0bRwrpRNOKtuzgwDMlk5
+ m/pg==
+X-Gm-Message-State: ANoB5pkO4qo/rgDMWtwz4nCvAZ3DlY5O0AFXEIURphwkx3xP7OTXlEZa
+ idpfif/WWxYRom/1Rix2rqUgd+Z3evyq8t1OsbMTRCz89Rl4qbVM1CJyjCyyKTHPI8T99PxZIBX
+ YoFTFZxZEVvK/sjk=
+X-Received: by 2002:ae9:eb83:0:b0:6fa:346e:f4bc with SMTP id
+ b125-20020ae9eb83000000b006fa346ef4bcmr38623064qkg.416.1669763831087; 
+ Tue, 29 Nov 2022 15:17:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4GoH+rmRleVshmsQdhGqdFV4qb1pTY208iNx9UJN33VeNkDvQ87VyMaBJ3fTIEw4tCFhKBbw==
+X-Received: by 2002:ae9:eb83:0:b0:6fa:346e:f4bc with SMTP id
+ b125-20020ae9eb83000000b006fa346ef4bcmr38623046qkg.416.1669763830835; 
+ Tue, 29 Nov 2022 15:17:10 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ k23-20020ac86057000000b00399b73d06f0sm9292352qtm.38.2022.11.29.15.17.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 14:53:49 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD7891FFB7;
- Tue, 29 Nov 2022 22:53:48 +0000 (GMT)
-References: <20221128164105.1191058-1-alex.bennee@linaro.org>
- <20221128164105.1191058-5-alex.bennee@linaro.org>
- <CAJSP0QX1R4Z+AC3591MpwzBAG1Tz3rDTe4+o2rbe0v-q6sSKMw@mail.gmail.com>
- <8735a2yigb.fsf@linaro.org>
- <CAJSP0QWxN2UxaNqST64G=tyUVLn8zbwzotLxHNQ6d6xPTeocgg@mail.gmail.com>
-User-agent: mu4e 1.9.3; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, stefanha@redhat.com,
- mathieu.poirier@linaro.org, viresh.kumar@linaro.org, sgarzare@redhat.com
-Subject: Re: [PATCH v3 4/7] hw/virtio: ensure a valid host_feature set for
- virtio-user-gpio
-Date: Tue, 29 Nov 2022 22:53:17 +0000
-In-reply-to: <CAJSP0QWxN2UxaNqST64G=tyUVLn8zbwzotLxHNQ6d6xPTeocgg@mail.gmail.com>
-Message-ID: <871qple5j7.fsf@linaro.org>
+ Tue, 29 Nov 2022 15:17:10 -0800 (PST)
+Date: Tue, 29 Nov 2022 18:17:09 -0500
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 07/11] migration: Implement dirty-limit convergence algo
+Message-ID: <Y4aS9UjwNabKMAHN@x1n>
+References: <cover.1669047366.git.huangy81@chinatelecom.cn>
+ <5727cd0876e1a8d3db451feb46afb3281875cca3.1669047366.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Content-Disposition: inline
+In-Reply-To: <5727cd0876e1a8d3db451feb46afb3281875cca3.1669047366.git.huangy81@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,22 +102,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Nov 21, 2022 at 11:26:39AM -0500, huangy81@chinatelecom.cn wrote:
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 86950a1..096b61a 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -240,6 +240,7 @@ void migration_cancel(const Error *error)
+>      if (error) {
+>          migrate_set_error(current_migration, error);
+>      }
+> +    qmp_cancel_vcpu_dirty_limit(false, -1, NULL);
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
+Disable it only if migrate_dirty_limit() is true?  It seems okay if the
+admin wants to use dirtylimit separately from migration.
 
-> Hi Alex,
-> I'm waiting for a v4 or a confirmation that you've retested and I can
-> just drop this patch.
+>      migrate_fd_cancel(current_migration);
+>  }
 
-I've re-ordered and I'll post the up to date series with the dropped
-patch tomorrow. I was hoping for r-b's for the other patches.
+[...]
 
->
-> Thanks!
->
-> Stefan
+> @@ -1148,22 +1175,31 @@ static void migration_trigger_throttle(RAMState *rs)
+>      uint64_t bytes_dirty_period = rs->num_dirty_pages_period * TARGET_PAGE_SIZE;
+>      uint64_t bytes_dirty_threshold = bytes_xfer_period * threshold / 100;
+>  
+> -    /* During block migration the auto-converge logic incorrectly detects
+> -     * that ram migration makes no progress. Avoid this by disabling the
+> -     * throttling logic during the bulk phase of block migration. */
+> -    if (migrate_auto_converge() && !blk_mig_bulk_active()) {
+> -        /* The following detection logic can be refined later. For now:
+> -           Check to see if the ratio between dirtied bytes and the approx.
+> -           amount of bytes that just got transferred since the last time
+> -           we were in this routine reaches the threshold. If that happens
+> -           twice, start or increase throttling. */
+> -
+> -        if ((bytes_dirty_period > bytes_dirty_threshold) &&
+> -            (++rs->dirty_rate_high_cnt >= 2)) {
+> +    /*
+> +     * The following detection logic can be refined later. For now:
+> +     * Check to see if the ratio between dirtied bytes and the approx.
+> +     * amount of bytes that just got transferred since the last time
+> +     * we were in this routine reaches the threshold. If that happens
+> +     * twice, start or increase throttling.
+> +     */
+> +
+> +    if ((bytes_dirty_period > bytes_dirty_threshold) &&
+> +        (++rs->dirty_rate_high_cnt >= 2)) {
+> +        rs->dirty_rate_high_cnt = 0;
+> +        /*
+> +         * During block migration the auto-converge logic incorrectly detects
+> +         * that ram migration makes no progress. Avoid this by disabling the
+> +         * throttling logic during the bulk phase of block migration
+> +         */
+> +
+> +        if (migrate_auto_converge() && !blk_mig_bulk_active()) {
 
+Does dirtylimit cap needs to check blk_mig_bulk_active() too?  I assume
+that check was used to ignore the bulk block migration phase where major
+bandwidth will be consumed by block migrations so the measured bandwidth is
+not accurate.  IIUC it applies to dirtylimit too.
 
---=20
-Alex Benn=C3=A9e
+>              trace_migration_throttle();
+> -            rs->dirty_rate_high_cnt = 0;
+>              mig_throttle_guest_down(bytes_dirty_period,
+>                                      bytes_dirty_threshold);
+> +        } else if (migrate_dirty_limit() &&
+> +                   kvm_dirty_ring_enabled() &&
+> +                   migration_is_active(s)) {
+
+Is "kvm_dirty_ring_enabled()" and "migration_is_active(s)" check helpful?
+Can we only rely on migrate_dirty_limit() alone?
+
+-- 
+Peter Xu
+
 
