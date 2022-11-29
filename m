@@ -2,99 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DD063C3AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 16:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FA863C3B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 16:27:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p02Tm-00058h-UD; Tue, 29 Nov 2022 10:25:02 -0500
+	id 1p02Vo-0006Pj-7u; Tue, 29 Nov 2022 10:27:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p02Tj-000574-Rw
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:25:00 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1p02Vk-0006PK-RH
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:27:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p02Th-0000Jc-D0
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:24:59 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2ATEQIHK031640; Tue, 29 Nov 2022 15:24:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=7UWeqxAdk8Uuvom3ScMO3z6LLbMZ1/9j8ipQAs7JUiI=;
- b=iYVztH8TV/8DorDVyJ1NhphUXCXwV/LU6a3lcf0CS57BUnJndf1mY1i48o0r1HTHsRfq
- Grn7BeQ2H3J24zHOBNsi9iEnpdIgITGgZFHHwypnjkJ+Uq8M6lYRYCuG/oq/Jmg9tlRB
- PXalDgHUZFN6ZBx3ezQg6cu3ppC3FPcoQaZIJxch5vnaHghVM/Uz8USkublJqLrDeDj7
- jmXUuSxR6NLRKh1efxZuC33BxkahooINKRMxqiYB/akYefn0kJ31Qklk1NCheeljqH8Z
- tNFsw4nPjSO8crH3mgCEGSje/v6UxdfxITqAy80cirRh//LEbZ/otI0+uzWFrt6xU6cu Gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5hhye25t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Nov 2022 15:24:55 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2ATEQKhD031989;
- Tue, 29 Nov 2022 15:24:54 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5hhye254-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Nov 2022 15:24:54 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ATF5vQc000766;
- Tue, 29 Nov 2022 15:24:52 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04fra.de.ibm.com with ESMTP id 3m3ae933kp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Nov 2022 15:24:52 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2ATFOob628901840
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 29 Nov 2022 15:24:50 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 46615AE04D;
- Tue, 29 Nov 2022 15:24:50 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 10277AE045;
- Tue, 29 Nov 2022 15:24:50 +0000 (GMT)
-Received: from heavy.boa-de.ibmmobiledemo.com (unknown [9.171.21.28])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 29 Nov 2022 15:24:49 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v3] tests/tcg/s390x: Add cdsg.c
-Date: Tue, 29 Nov 2022 16:24:48 +0100
-Message-Id: <20221129152448.244821-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221129143004.177852-1-iii@linux.ibm.com>
-References: <20221129143004.177852-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1p02Vi-0000xv-8J
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:27:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669735620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IPq+fAzFsVPtFAmjDxmqak6HeabpUAoVOIvAxQ/q7J0=;
+ b=SDNJdmHsH+XMevY14bi4BmiaP+ipQA4AOuQl4KxmsnM2KpNgvnwW71oRYFR8m6747QmNcf
+ YOznFfx1TxGQGBPXlUfDf/GqF2RVwS9dvqrNJvt6FNM5OIeJMQKM2c60yn3vx7Y11Pqfr+
+ 31Ee4kmDhixrV+vPbP+qDTcXWXnfl5Y=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-404-goWsO6ZENEujw5tN-YPXuQ-1; Tue, 29 Nov 2022 10:26:56 -0500
+X-MC-Unique: goWsO6ZENEujw5tN-YPXuQ-1
+Received: by mail-il1-f197.google.com with SMTP id
+ d19-20020a056e020c1300b00300b5a12c44so12304408ile.15
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 07:26:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IPq+fAzFsVPtFAmjDxmqak6HeabpUAoVOIvAxQ/q7J0=;
+ b=cn0WiwxDnJIxP62j1EH21Qv3cqA0CfoxMfGRJZ0YprUytcV7jN0cXqJczY9r9B4dt0
+ mfckagfv+DML0fKLJTnw60OIOQJHvj6CBeHFxgfUKExHUqetMu36Aq9XYCLkfj2SkKfI
+ nf2yoB6APe+eqMRFeqej2L2u7hMvMUOOUl7dis+BrZPhgFqtpDA2+IoYeGujq/GCYidH
+ XzPnLxR7d3sJ6OxwVj3c63CTV1Ie6bAU2V2lg739Euf2sTwNvjh7NKmv7XvzgF60BHHD
+ A/f1QjQ01btCVg+R6RWy+v9OPcTHNNoUopqbCnL1poWA7gzYUKaWdpsDLTHasxyDbPZM
+ Fu9w==
+X-Gm-Message-State: ANoB5pnz99pdy+i8yu+tgjgGT5NLefzkiliLq1/rDHF1UGZHji4b3ogV
+ cfZzfrDlOYHrWah4I+rIupogJOZUuwH5QtVDAic+swQl9k3wGFIgEQVQihdlAwHkSzYDxh8J9oF
+ ZVMGC70MN+ijkWZUQJ2f+jvfBBTW7C9E=
+X-Received: by 2002:a92:cb89:0:b0:302:3c43:20b9 with SMTP id
+ z9-20020a92cb89000000b003023c4320b9mr17720160ilo.300.1669735616087; 
+ Tue, 29 Nov 2022 07:26:56 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4unvzBhDfeSFiz5Lq5N+dqCRvNokaBr/7F4RxiRpOQrLBxeQ2oM0pg33dH+cDXWg0Lydyl19fuXvCL89cQstA=
+X-Received: by 2002:a92:cb89:0:b0:302:3c43:20b9 with SMTP id
+ z9-20020a92cb89000000b003023c4320b9mr17720151ilo.300.1669735615890; Tue, 29
+ Nov 2022 07:26:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PcIcPGY-BFw1JObb7OXWCaqH77wHiVz9
-X-Proofpoint-GUID: wT-jZaxJ8m91B0kHgqjmOzw8aycReKOD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-29_10,2022-11-29_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=810
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 clxscore=1015 malwarescore=0 phishscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211290081
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <878rjtretb.fsf@pond.sub.org>
+In-Reply-To: <878rjtretb.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 29 Nov 2022 19:26:43 +0400
+Message-ID: <CAMxuvawocVQ7Fva1CwA9JCO+i+A5a-_AJ+V+ivOwfKo68bREHg@mail.gmail.com>
+Subject: Re: Who / what uses QMP command add_client?
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Peter Krempa <pkrempa@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000041249f05ee9d9eec"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,137 +93,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a simple test to prevent regressions.
+--00000000000041249f05ee9d9eec
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
+Hi
 
-Sorry, I just realized that in v2 that I sent the iteration count was
-not increased. For v3 I've decided to bump it further to 1m, since it's
-still fast enough:
+On Tue, Nov 29, 2022 at 6:55 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
 
-$ time -p ./qemu-s390x ./tests/tcg/s390x-linux-user/cdsg
-real 0.15
+> QMP command add_client's schema:
+>
+>     ##
+>     # @add_client:
+>     #
+>     # Allow client connections for VNC, Spice and socket based
+>     # character devices to be passed in to QEMU via SCM_RIGHTS.
+>     #
+>     # @protocol: protocol name. Valid names are "vnc", "spice",
+> "@dbus-display" or
+>     #            the name of a character device (eg. from -chardev id=3DX=
+XXX)
+>     #
+>     # @fdname: file descriptor name previously passed via 'getfd' command
+>     #
+>     # @skipauth: whether to skip authentication. Only applies
+>     #            to "vnc" and "spice" protocols
+>     #
+>     # @tls: whether to perform TLS. Only applies to the "spice"
+>     #       protocol
+>     #
+>     # Returns: nothing on success.
+>     #
+>     # Since: 0.14
+>     #
+>     # Example:
+>     #
+>     # -> { "execute": "add_client", "arguments": { "protocol": "vnc",
+>     #                                              "fdname": "myclient" }=
+ }
+>     # <- { "return": {} }
+>     #
+>     ##
+>     { 'command': 'add_client',
+>       'data': { 'protocol': 'str', 'fdname': 'str', '*skipauth': 'bool',
+>                 '*tls': 'bool' } }
+>
+> Spot the design flaw!
+>
+> It's overloaded @protocol.  Two issues.
+>
+> One, character device IDs "vnc", "spice", "@dbus-display" don't work
+> here.  If we ever add another protocol, we make another device ID not
+> work.  Perhaps this is why Marc-Andr=C3=A9 chose "@dbus-display", which
+> otherwise looks like a typo :)
+>
 
-v2 -> v3: Increase iteration count to 1m.
-v1 -> v2: Add cdsg() wrapper.
+That's right, I tried to avoid conflicting with chardev ID namespace. IDs
+can't start with '@'.
 
- tests/tcg/s390x/Makefile.target |  4 ++
- tests/tcg/s390x/cdsg.c          | 85 +++++++++++++++++++++++++++++++++
- 2 files changed, 89 insertions(+)
- create mode 100644 tests/tcg/s390x/cdsg.c
+btw, I have a few patches pending to extend add_client for windows sockets.
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 1d454270c0e..523214dac33 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -27,6 +27,7 @@ TESTS+=noexec
- TESTS+=div
- TESTS+=clst
- TESTS+=long-double
-+TESTS+=cdsg
- 
- Z13_TESTS=vistr
- $(Z13_TESTS): CFLAGS+=-march=z13 -O2
-@@ -66,3 +67,6 @@ sha512-mvx: sha512.c
- 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
- 
- TESTS+=sha512-mvx
-+
-+cdsg: CFLAGS+=-pthread
-+cdsg: LDFLAGS+=-pthread
-diff --git a/tests/tcg/s390x/cdsg.c b/tests/tcg/s390x/cdsg.c
-new file mode 100644
-index 00000000000..c7a5246181d
---- /dev/null
-+++ b/tests/tcg/s390x/cdsg.c
-@@ -0,0 +1,85 @@
-+#include <assert.h>
-+#include <pthread.h>
-+#include <stdbool.h>
-+#include <stdlib.h>
-+
-+static volatile bool start;
-+typedef unsigned long aligned_quadword[2] __attribute__((__aligned__(16)));
-+static aligned_quadword val;
-+static const int n_iterations = 1000000;
-+
-+static inline int cdsg(unsigned long *orig0, unsigned long *orig1,
-+                       unsigned long new0, unsigned long new1,
-+                       aligned_quadword *mem)
-+{
-+    register unsigned long r0 asm("r0");
-+    register unsigned long r1 asm("r1");
-+    register unsigned long r2 asm("r2");
-+    register unsigned long r3 asm("r3");
-+    int cc;
-+
-+    r0 = *orig0;
-+    r1 = *orig1;
-+    r2 = new0;
-+    r3 = new1;
-+    asm("cdsg %[r0],%[r2],%[db2]\n"
-+        "ipm %[cc]"
-+        : [r0] "+r" (r0)
-+        , [r1] "+r" (r1)
-+        , [db2] "+m" (*mem)
-+        , [cc] "=r" (cc)
-+        : [r2] "r" (r2)
-+        , [r3] "r" (r3)
-+        : "cc");
-+    *orig0 = r0;
-+    *orig1 = r1;
-+
-+    return (cc >> 28) & 3;
-+}
-+
-+void *cdsg_loop(void *arg)
-+{
-+    unsigned long orig0, orig1, new0, new1;
-+    int cc;
-+    int i;
-+
-+    while (!start) {
-+    }
-+
-+    orig0 = val[0];
-+    orig1 = val[1];
-+    for (i = 0; i < n_iterations;) {
-+        new0 = orig0 + 1;
-+        new1 = orig1 + 2;
-+
-+        cc = cdsg(&orig0, &orig1, new0, new1, &val);
-+
-+        if (cc == 0) {
-+            orig0 = new0;
-+            orig1 = new1;
-+            i++;
-+        } else {
-+            assert(cc == 1);
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+int main(void)
-+{
-+    pthread_t thread;
-+    int ret;
-+
-+    ret = pthread_create(&thread, NULL, cdsg_loop, NULL);
-+    assert(ret == 0);
-+    start = true;
-+    cdsg_loop(NULL);
-+    ret = pthread_join(thread, NULL);
-+    assert(ret == 0);
-+
-+    assert(val[0] == n_iterations * 2);
-+    assert(val[1] == n_iterations * 4);
-+
-+    return EXIT_SUCCESS;
-+}
--- 
-2.38.1
+I also have patches to check if fds are actually sockets, since that
+command doesn't make much sense with other fds.
+
+
+> Two, introspection can't tell us what protocols are supported.
+>
+
+Hmm, not really a big deal I suppose. You would have both compile-time and
+run-time config. There are other means to introspect the display protocol,
+like query-vnc or query-spice. I thought I had something covering dbus as
+well, but I can't find it, I'll look at it.
+
+Let me know if you plan to touch that command, it will likely conflict with
+my work. I plan to submit it soon after the release, but I might do it
+earlier.
+
+--00000000000041249f05ee9d9eec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 29, 2022 at 6:55 PM Mar=
+kus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">QM=
+P command add_client&#39;s schema:<br>
+<br>
+=C2=A0 =C2=A0 ##<br>
+=C2=A0 =C2=A0 # @add_client:<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # Allow client connections for VNC, Spice and socket based<br=
+>
+=C2=A0 =C2=A0 # character devices to be passed in to QEMU via SCM_RIGHTS.<b=
+r>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # @protocol: protocol name. Valid names are &quot;vnc&quot;, =
+&quot;spice&quot;, &quot;@dbus-display&quot; or<br>
+=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the name of a char=
+acter device (eg. from -chardev id=3DXXXX)<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # @fdname: file descriptor name previously passed via &#39;ge=
+tfd&#39; command<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # @skipauth: whether to skip authentication. Only applies<br>
+=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 to &quot;vnc&quot;=
+ and &quot;spice&quot; protocols<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # @tls: whether to perform TLS. Only applies to the &quot;spi=
+ce&quot;<br>
+=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0protocol<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # Returns: nothing on success.<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # Since: 0.14<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # Example:<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 # -&gt; { &quot;execute&quot;: &quot;add_client&quot;, &quot;=
+arguments&quot;: { &quot;protocol&quot;: &quot;vnc&quot;,<br>
+=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;fdname&quot;: &quot;myclient&quot; } }<br=
+>
+=C2=A0 =C2=A0 # &lt;- { &quot;return&quot;: {} }<br>
+=C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 ##<br>
+=C2=A0 =C2=A0 { &#39;command&#39;: &#39;add_client&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 &#39;data&#39;: { &#39;protocol&#39;: &#39;str&#39;, &=
+#39;fdname&#39;: &#39;str&#39;, &#39;*skipauth&#39;: &#39;bool&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*tls&#39;: &#3=
+9;bool&#39; } }<br>
+<br>
+Spot the design flaw!<br>
+<br>
+It&#39;s overloaded @protocol.=C2=A0 Two issues.<br>
+<br>
+One, character device IDs &quot;vnc&quot;, &quot;spice&quot;, &quot;@dbus-d=
+isplay&quot; don&#39;t work<br>
+here.=C2=A0 If we ever add another protocol, we make another device ID not<=
+br>
+work.=C2=A0 Perhaps this is why Marc-Andr=C3=A9 chose &quot;@dbus-display&q=
+uot;, which<br>
+otherwise looks like a typo :)<br></blockquote><div><br></div><div>That&#39=
+;s right, I tried to avoid conflicting with chardev ID namespace. IDs can&#=
+39;t start with &#39;@&#39;.</div><div>=C2=A0</div><div>btw, I have a few p=
+atches pending to extend add_client for windows sockets.</div><div><br></di=
+v><div>I also have patches to check if fds are actually sockets, since that=
+ command doesn&#39;t make much sense with other fds.</div><div><br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Two, introspection can&#39;t tell us what protocols are supported.<br></blo=
+ckquote><div><br></div><div>Hmm, not really a big deal I suppose. You would=
+ have both compile-time and run-time config. There are other means to intro=
+spect the display protocol, like query-vnc or query-spice. I thought I had =
+something covering dbus as well, but I can&#39;t find it, I&#39;ll look at =
+it. <br></div></div><div class=3D"gmail_quote"><br></div><div class=3D"gmai=
+l_quote">Let me know if you plan to touch that command, it will likely conf=
+lict with my work. I plan to submit it soon after the release, but I might =
+do it earlier.<br></div></div>
+
+--00000000000041249f05ee9d9eec--
 
 
