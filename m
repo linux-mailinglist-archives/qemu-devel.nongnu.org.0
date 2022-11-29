@@ -2,98 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC48863BDC6
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE0663BDC7
 	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 11:17:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozxfj-0003EW-1q; Tue, 29 Nov 2022 05:17:03 -0500
+	id 1ozxfj-0003Ep-LN; Tue, 29 Nov 2022 05:17:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozxfX-00038t-Jx
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:16:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1ozxfe-00039p-1b; Tue, 29 Nov 2022 05:16:58 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ozxfS-0006QG-V4
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:16:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669717005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0zztyP6QbJvP07eqX+BuKmahgYeBY9pi0/LDCxLZawk=;
- b=FuZeg+blB4IikOcjI0ILU69ztVEonLW9yYPZc2N/hIfQvUfuXq5M4nrU0Ii8i0AV8p40xP
- JBz8OvgulQBVSZ63IyRCO6tKRFjGdrV2XykmJ/luEhz3VRb8bj8bLyWoJNUG56bUKUgEDF
- +HPvl6uh7KWDBNUQPJJueJkZEae5P9w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-467-QVmqoTmJMw-GD2A8PROipw-1; Tue, 29 Nov 2022 05:16:43 -0500
-X-MC-Unique: QVmqoTmJMw-GD2A8PROipw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h10-20020adfaa8a000000b0024208cf285eso2031899wrc.22
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 02:16:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0zztyP6QbJvP07eqX+BuKmahgYeBY9pi0/LDCxLZawk=;
- b=lTBEfUAMOQxG7yaECOzXDulsR881O98pRlbC1khF+OHO8g0PF4SPv9eDOV+Y+o7XLE
- YkvFhwlmvUUeOgf9vf+QjmDm7KezLMGr29N8GnjSNQqDDbqxKrFV21YKFeFio2uwPIXh
- 8Hkv7N4WEK0dxgu8Z0Aw1x9pBdvdTRUxXL7GdJ5/eNnuWhm2wRirsHDODs1ZenytqN3W
- MJwI2hLOF+bUsl/6VRjK/tXR+cdFtCGqTXGeU5DqIemg1EtDM39l1rdhyTMxTv7vnCZw
- CcmkV9M4bcX+tygtT96Qf1BK4ccDg0CMHbChf8r0l4vcYqMd0qh09IHx3oChuYirojxq
- pwnw==
-X-Gm-Message-State: ANoB5plsOke5JDQDClmBtgxgewQLuwFdCe2FgKBGy+s/t8VxQ58NshbY
- ksS6UB+473KGyqW9O6KEyiLnt+s/64ACSvz2HIsZCZj+DJSz1TKKarh4cO6yi4zqP58Upcr2mBI
- PN0GFWaafJ8uf+i0=
-X-Received: by 2002:adf:ea81:0:b0:241:bcc1:7643 with SMTP id
- s1-20020adfea81000000b00241bcc17643mr23612389wrm.673.1669717002415; 
- Tue, 29 Nov 2022 02:16:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7b2Cyk31ymkz4j6pK08cmZHmzZQpoL0N33WQfJRaccKSxTBDhXwWLa5VRzGikwaUHQdnumqA==
-X-Received: by 2002:adf:ea81:0:b0:241:bcc1:7643 with SMTP id
- s1-20020adfea81000000b00241bcc17643mr23612366wrm.673.1669717002066; 
- Tue, 29 Nov 2022 02:16:42 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- q13-20020a05600c46cd00b003c6f1732f65sm1641123wmo.38.2022.11.29.02.16.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 02:16:41 -0800 (PST)
-Date: Tue, 29 Nov 2022 10:16:39 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Marc Hartmayer <mhartmay@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x <qemu-s390x@nongnu.org>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Sven Schnelle <svens@linux.ibm.com>,
- Stefan Liebler <stli@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1ozxfb-0006Qx-Uw; Tue, 29 Nov 2022 05:16:57 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AT9uhIg005223; Tue, 29 Nov 2022 10:16:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Z6bYehhqZZtobMu+v574NMN2Bnl7X83wkx2tH7UB0H4=;
+ b=VI0z7weRj3Bg/kBwbaYaykcC+sw73JW5GuG1w2+B221e983nYaayLeQGMOcKfHlmk845
+ xVJTw6vhmocRMwTGHsJHqniQpzzzsyXnjrTyhEp2S/cSORwVLm0oluFlPhQRccEOc6oB
+ PFe3EH0LzRdcWHOTtilup8GSKoY7liGFQRZeJ1CALAjyR9KOQK16spjHyFQAaHtj0fGz
+ ybMdi2uPXOo8o5sTn1iQ1anAF+Gq3OVoB/Th9IwZnV8U2IC6yqzXNzQzdcYJBoDN2GN2
+ y2XHpiHOAMyK1BGDH9YM8bD0mEC+5Oyx3aWOJGjIWCy7sDatdSKYnrVf1tX/wOWrn5tj Vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5fw1rg4t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 10:16:54 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AT9va7w010366;
+ Tue, 29 Nov 2022 10:16:53 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5fw1rg48-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 10:16:53 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ATA613Y032156;
+ Tue, 29 Nov 2022 10:16:51 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03fra.de.ibm.com with ESMTP id 3m3ae8tt0c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 10:16:51 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2ATAGmEj655970
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Nov 2022 10:16:48 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4DD4052050;
+ Tue, 29 Nov 2022 10:16:48 +0000 (GMT)
+Received: from marcibm (unknown [9.171.40.186])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id CEB3E5204E;
+ Tue, 29 Nov 2022 10:16:47 +0000 (GMT)
+From: Marc Hartmayer <mhartmay@linux.ibm.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>,
+ virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Stefan Liebler <stli@linux.ibm.com>
 Subject: Re: [PATCH] virtiofsd: Add `sigreturn` to the seccomp whitelist
-Message-ID: <Y4XcByAJBWaCo0sP@work-vm>
+In-Reply-To: <618edde1-31d8-9db8-48d9-137fe81b788b@de.ibm.com>
 References: <20221125143946.27717-1-mhartmay@linux.ibm.com>
  <Y4UCPQ0E2ZY15aEq@work-vm> <87wn7ef6cm.fsf@linux.ibm.com>
  <Y4XT/ZxuyU7F5h1n@work-vm>
  <1a94f96b-d9b6-44af-cedb-aa17eb1a3a84@de.ibm.com>
  <618edde1-31d8-9db8-48d9-137fe81b788b@de.ibm.com>
-MIME-Version: 1.0
+Date: Tue, 29 Nov 2022 11:16:47 +0100
+Message-ID: <87sfi2f4kw.fsf@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <618edde1-31d8-9db8-48d9-137fe81b788b@de.ibm.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: UJfpz6rCBW2IAEXbyKUdV4VnidrvAKaU
+X-Proofpoint-ORIG-GUID: obY5iULDfhToiN7KbMjQhPDEOOxYMelM
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-29_07,2022-11-28_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ bulkscore=0 adultscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 mlxlogscore=999 impostorscore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211290062
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,81 +116,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Christian Borntraeger (borntraeger@de.ibm.com) wrote:
-> 
-> 
+Christian Borntraeger <borntraeger@de.ibm.com> writes:
+
 > Am 29.11.22 um 10:52 schrieb Christian Borntraeger:
-> > 
-> > 
-> > Am 29.11.22 um 10:42 schrieb Dr. David Alan Gilbert:
-> > > * Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
-> > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
-> > > > 
-> > > > > * Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
-> > > > > > The virtiofsd currently crashes on s390x. This is because of a
-> > > > > > `sigreturn` system call. See audit log below:
-> > > > > > 
-> > > > > > type=SECCOMP msg=audit(1669382477.611:459): auid=4294967295 uid=0 gid=0 ses=4294967295 subj=system_u:system_r:virtd_t:s0-s0:c0.c1023 pid=6649 comm="virtiofsd" exe="/usr/libexec/virtiofsd" sig=31 arch=80000016 syscall=119 compat=0 ip=0x3fff15f748a code=0x80000000AUID="unset" UID="root" GID="root" ARCH=s390x SYSCALL=sigreturn
-> > > > > 
-> > > > > I'm curious; doesn't that mean that some signal is being delivered and
-> > > > > you're returning?  Which one?
-> > > > 
-> > > > code=0x80000000 means that the seccomp action SECCOMP_RET_KILL_PROCESS
-> > > > is taken => process is killed by a SIGSYS signal (31) [1].
-> > > > 
-> > > > At least, that’s my understanding of this log message.
-> > > > 
-> > > > [1] https://man7.org/linux/man-pages/man2/seccomp.2.html
-> > > 
-> > > But isn't that the fallout rather than the cause ? i.e. seccomp
-> > > is sending a SIGSYS because the process used sigreturn, my question
-> > > is why did the process call sigreturn in the first place - it must
-> > > have received a signal to return from?
-> > 
-> > Good question. virtiofsd seems to prepare itself for
-> > 
-> > int fuse_set_signal_handlers(struct fuse_session *se)
-> > {
-> >      /*
-> >       * If we used SIG_IGN instead of the do_nothing function,
-> >       * then we would be unable to tell if we set SIG_IGN (and
-> >       * thus should reset to SIG_DFL in fuse_remove_signal_handlers)
-> >       * or if it was already set to SIG_IGN (and should be left
-> >       * untouched.
-> >       */
-> >      if (set_one_signal_handler(SIGHUP, exit_handler, 0) == -1 ||
-> >          set_one_signal_handler(SIGINT, exit_handler, 0) == -1 ||
-> >          set_one_signal_handler(SIGTERM, exit_handler, 0) == -1 ||
-> >          set_one_signal_handler(SIGPIPE, do_nothing, 0) == -1) {
-> >          return -1;
-> >      }
-> > 
-> > 
-> > 
-> > Given that rt_sigreturn was already on the seccomp list it seems
-> > to be expected that those handlers are called.
-> 
+>>=20
+>>=20
+>> Am 29.11.22 um 10:42 schrieb Dr. David Alan Gilbert:
+>>> * Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
+>>>> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+>>>>
+>>>>> * Marc Hartmayer (mhartmay@linux.ibm.com) wrote:
+>>>>>> The virtiofsd currently crashes on s390x. This is because of a
+>>>>>> `sigreturn` system call. See audit log below:
+>>>>>>
+>>>>>> type=3DSECCOMP msg=3Daudit(1669382477.611:459): auid=3D4294967295 ui=
+d=3D0 gid=3D0 ses=3D4294967295 subj=3Dsystem_u:system_r:virtd_t:s0-s0:c0.c1=
+023 pid=3D6649 comm=3D"virtiofsd" exe=3D"/usr/libexec/virtiofsd" sig=3D31 a=
+rch=3D80000016 syscall=3D119 compat=3D0 ip=3D0x3fff15f748a code=3D0x8000000=
+0AUID=3D"unset" UID=3D"root" GID=3D"root" ARCH=3Ds390x SYSCALL=3Dsigreturn
+>>>>>
+>>>>> I'm curious; doesn't that mean that some signal is being delivered and
+>>>>> you're returning?=C2=A0 Which one?
+>>>>
+>>>> code=3D0x80000000 means that the seccomp action SECCOMP_RET_KILL_PROCE=
+SS
+>>>> is taken =3D> process is killed by a SIGSYS signal (31) [1].
+>>>>
+>>>> At least, that=E2=80=99s my understanding of this log message.
+>>>>
+>>>> [1] https://man7.org/linux/man-pages/man2/seccomp.2.html
+>>>
+>>> But isn't that the fallout rather than the cause ? i.e. seccomp
+>>> is sending a SIGSYS because the process used sigreturn, my question
+>>> is why did the process call sigreturn in the first place - it must
+>>> have received a signal to return from?
+>>=20
+>> Good question. virtiofsd seems to prepare itself for
+>>=20
+>> int fuse_set_signal_handlers(struct fuse_session *se)
+>> {
+>>  =C2=A0=C2=A0=C2=A0 /*
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 * If we used SIG_IGN instead of the do_nothing=
+ function,
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 * then we would be unable to tell if we set SI=
+G_IGN (and
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 * thus should reset to SIG_DFL in fuse_remove_=
+signal_handlers)
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 * or if it was already set to SIG_IGN (and sho=
+uld be left
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 * untouched.
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 */
+>>  =C2=A0=C2=A0=C2=A0 if (set_one_signal_handler(SIGHUP, exit_handler, 0) =
+=3D=3D -1 ||
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_one_signal_handler(SIGIN=
+T, exit_handler, 0) =3D=3D -1 ||
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_one_signal_handler(SIGTE=
+RM, exit_handler, 0) =3D=3D -1 ||
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_one_signal_handler(SIGPI=
+PE, do_nothing, 0) =3D=3D -1) {
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -1;
+>>  =C2=A0=C2=A0=C2=A0 }
+>>=20
+>>=20
+>>=20
+>> Given that rt_sigreturn was already on the seccomp list it seems
+>> to be expected that those handlers are called.
+>
 > For me, it seems to happen on shutdown:
->                 Stack trace of thread 1:
->                 #0  0x000003ffc06f348a __kernel_sigreturn (linux-vdso64.so.1 + 0x48a)
->                 #1  0x000003ffc06f3488 __kernel_sigreturn (linux-vdso64.so.1 + 0x488)
->                 #2  0x000003ff9af1be96 __GI___futex_abstimed_wait_cancelable64 (libc.so.6 + 0x9be96)
->                 #3  0x000003ff9af211b4 __pthread_clockjoin_ex (libc.so.6 + 0xa11b4)
->                 #4  0x000003ff9af2106e pthread_join@GLIBC_2.2 (libc.so.6 + 0xa106e)
->                 #5  0x000002aa35d2fe36 fv_queue_cleanup_thread (virtiofsd + 0x2fe36)
->                 #6  0x000002aa35d3152c stop_all_queues (virtiofsd + 0x3152c)
->                 #7  0x000002aa35d2869c main (virtiofsd + 0x2869c)
->                 #8  0x000003ff9aeb4872 __libc_start_call_main (libc.so.6 + 0x34872)
->                 #9  0x000003ff9aeb4950 __libc_start_main@@GLIBC_2.34 (libc.so.6 + 0x34950)
->                 #10 0x000002aa35d290a0 .annobin_libvhost_user.c_end.startup (virtiofsd + 0x290a0)
+>                  Stack trace of thread 1:
+>                  #0  0x000003ffc06f348a __kernel_sigreturn (linux-vdso64.=
+so.1 + 0x48a)
+>                  #1  0x000003ffc06f3488 __kernel_sigreturn (linux-vdso64.=
+so.1 + 0x488)
+>                  #2  0x000003ff9af1be96 __GI___futex_abstimed_wait_cancel=
+able64 (libc.so.6 + 0x9be96)
+>                  #3  0x000003ff9af211b4 __pthread_clockjoin_ex (libc.so.6=
+ + 0xa11b4)
+>                  #4  0x000003ff9af2106e pthread_join@GLIBC_2.2 (libc.so.6=
+ + 0xa106e)
+>                  #5  0x000002aa35d2fe36 fv_queue_cleanup_thread (virtiofs=
+d + 0x2fe36)
+>                  #6  0x000002aa35d3152c stop_all_queues (virtiofsd + 0x31=
+52c)
+>                  #7  0x000002aa35d2869c main (virtiofsd + 0x2869c)
+>                  #8  0x000003ff9aeb4872 __libc_start_call_main (libc.so.6=
+ + 0x34872)
+>                  #9  0x000003ff9aeb4950 __libc_start_main@@GLIBC_2.34 (li=
+bc.so.6 + 0x34950)
+>                  #10 0x000002aa35d290a0 .annobin_libvhost_user.c_end.star=
+tup (virtiofsd + 0x290a0)
+>
+>
 
-<shrug> I guess it could be a SIGCHLD or SIGPIPE or something during
-shutdown; I guess especially since we have the SIGPIPE registered.
+That=E2=80=99s also what I see.
 
-Dave
+--
+Kind regards / Beste Gr=C3=BC=C3=9Fe
+   Marc Hartmayer
 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Gregor Pillen=20
+Gesch=C3=A4ftsf=C3=BChrung: David Faller
+Sitz der Gesellschaft: B=C3=B6blingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
 
