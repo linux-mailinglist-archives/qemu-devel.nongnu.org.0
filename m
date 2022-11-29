@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE85863C8B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 20:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE4563C8E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 21:00:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p06V6-0006zW-D8; Tue, 29 Nov 2022 14:42:40 -0500
+	id 1p06lE-0002iL-78; Tue, 29 Nov 2022 14:59:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1p06V3-0006yv-QP
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 14:42:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p06lC-0002iC-Jf
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 14:59:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1p06V2-0006CR-3z
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 14:42:37 -0500
+ id 1p06lA-0000Uy-7y
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 14:59:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669750955;
+ s=mimecast20190719; t=1669751955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+EVzcjdERSGA8DVi6l1GUxKZt2xt+2T3C4TMKGfMpJs=;
- b=CAJjBiiFwkfi79d/pfc9o3M9668yZKAkq0HHoq2nC/kb28PUPq9f2oOjl1Gaoc6MGp1WBE
- qU590WLNkHnj8OFIy8Cu+ksaP7y8ONOTtuFU7wPekZz+XvfZYdCcoUMvgxZGn4aAojeKpI
- uQ0QyffiSgn39ybAoSid1fPDhV3hd+s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+d3kiv7CFa4ip3r9bAhBWQKuxLrvQfCzz/PwwldgKaU=;
+ b=F5dq92cs98Vafyx4P14MFnLkGnLGvtbPqoZuijGrV40xalHYv93aRgQ3aMe/2vb0tqX6jQ
+ iF0K2qu+MXJd86KqX5dUzq9evGeVDWMeuQ193S5+gEC4DE1Y/x0bY9qOWSB+QFVQunr/K/
+ 54nmzHJnegNxWjMRXVOTuBI2JE35VnI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-537-5YCGDL0mM2eWGVvrONnqDQ-1; Tue, 29 Nov 2022 14:42:33 -0500
-X-MC-Unique: 5YCGDL0mM2eWGVvrONnqDQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o5-20020a05600c510500b003cfca1a327fso8282831wms.8
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 11:42:33 -0800 (PST)
+ us-mta-382-SgRPl1J3MKqEgOFyqdyP9A-1; Tue, 29 Nov 2022 14:59:13 -0500
+X-MC-Unique: SgRPl1J3MKqEgOFyqdyP9A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v125-20020a1cac83000000b003cfa148576dso8309980wme.3
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 11:59:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+EVzcjdERSGA8DVi6l1GUxKZt2xt+2T3C4TMKGfMpJs=;
- b=OrS2tG6F+9I+u4Ldc3vZJDojgf8+6Q8Ik3x+cKMhzuVI9DjUQi5RHmxp8nxJJiQZH/
- PQEYvqd3nxzqPo45NdvPmdMvVuMHTgTtGNEEl/ssB2eKft8fMb9tSiWGrmuxfSCPYyKB
- C2b37rtDxBO1v0EUNHAtFOP+cZBvu86LlQEyOO/aAZRyUu4pX7UtZqjwIQlCFmM6iSz/
- mSlxUYwG6Ai+iZQN/7mM3udLaRnfp4ikOKNXriVZFqRRjzCD42vG3uVlbZGC3Zh/9Bsc
- MV9vZfyxxg5Q+oVFRbj4DPPWCX5wqYKWDSzVeIFAPLwAoTAEvfqgOBPyccYGI1gkVH+Q
- aCSA==
-X-Gm-Message-State: ANoB5plMcXRfsIVrEUFr5ZEOabLGTdeVgDZsQzWrdytY9fe+3AYdep5m
- 4UwiCmexUoab6cV4FAzYWODWl6+k+XxutGjjle9jA+nyjsYCyaPk+k2Caqrt6q2roNr7CkXfVH7
- 0mR6O+Abcobk4jOI=
-X-Received: by 2002:adf:f650:0:b0:241:f0c6:11bb with SMTP id
- x16-20020adff650000000b00241f0c611bbmr19996455wrp.389.1669750952298; 
- Tue, 29 Nov 2022 11:42:32 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6fnYVyfTlW8xcFhz/0a4vvkn8hpIJQzxGGmi/8WnMRPb/p1Ua2/4wkEMVUB05WMDIEFa80hQ==
-X-Received: by 2002:adf:f650:0:b0:241:f0c6:11bb with SMTP id
- x16-20020adff650000000b00241f0c611bbmr19996448wrp.389.1669750952049; 
- Tue, 29 Nov 2022 11:42:32 -0800 (PST)
+ bh=+d3kiv7CFa4ip3r9bAhBWQKuxLrvQfCzz/PwwldgKaU=;
+ b=2e7EIANXgTo9BwIWrLP6WykWhu/FO2qeTEOSn9ikRaFNcMN842/26z7vKaK0q2A8Ml
+ HuwHTICRtYKS/qhgkNVvURy6eAe32pS7e0BJCjoJ+b++F4/5qjIZGAQtdSGVzmqDybqN
+ V+n+5Qpg/mg8VM9q5+cgGtanjhdftZatPWtZd1VbyfPshBp3BdfIKM/0gFeDgR+ApBGi
+ QCyN+eLJAnWJV6zGVQIB4/Otl2vCcUkpdHdJOb+qfroMN2GG/e84ha1hZGtt7Pn6U6J5
+ gEL0wdJ8U9L1KT5w1lggN+BGwGknTMrCZ2R0EpLPeSgr+Du/ims33jHkHkyvo/SZiCV8
+ eagg==
+X-Gm-Message-State: ANoB5pmWYtEiazDr5rrerB7QG+B+kLHt4aC8udavHfNhGLSq9yjqxdr8
+ /szCo3AGMuq9c4p/FRrVZdBZ6fnYIwN1EixA/vmoZUTHPYKWWxc0yKC1rJBgjOtf/9zwvo3jfrZ
+ fd+NJYb3Ua9u2waE=
+X-Received: by 2002:a05:6000:2c9:b0:242:1b0e:5647 with SMTP id
+ o9-20020a05600002c900b002421b0e5647mr6080034wry.683.1669751952848; 
+ Tue, 29 Nov 2022 11:59:12 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4TyYMx8lyf24rj2NVpKANMRZoSQrR//eun6ADfvBeDKOAAnpCHYl+R8hf6TlWzJloiOzqLdA==
+X-Received: by 2002:a05:6000:2c9:b0:242:1b0e:5647 with SMTP id
+ o9-20020a05600002c900b002421b0e5647mr6080026wry.683.1669751952643; 
+ Tue, 29 Nov 2022 11:59:12 -0800 (PST)
 Received: from work-vm
  (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
  by smtp.gmail.com with ESMTPSA id
- w12-20020a05600c474c00b003b435c41103sm4147131wmo.0.2022.11.29.11.42.31
+ s30-20020adfa29e000000b00242246c2f7csm2292904wra.101.2022.11.29.11.59.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 11:42:31 -0800 (PST)
-Date: Tue, 29 Nov 2022 19:42:29 +0000
+ Tue, 29 Nov 2022 11:59:12 -0800 (PST)
+Date: Tue, 29 Nov 2022 19:59:10 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, mst@redhat.com, marcel.apfelbaum@gmail.com
-Subject: Re: [PATCH 12/12] pci: Improve do_pcie_aer_inject_error()'s error
- messages
-Message-ID: <Y4ZgpfZ4xRbd1OBy@work-vm>
+Subject: Re: [PATCH 10/12] pci: Inline do_pcie_aer_inject_error() into its
+ only caller
+Message-ID: <Y4Zkjj83YnmZeLh3@work-vm>
 References: <20221128080202.2570543-1-armbru@redhat.com>
- <20221128080202.2570543-13-armbru@redhat.com>
+ <20221128080202.2570543-11-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221128080202.2570543-13-armbru@redhat.com>
+In-Reply-To: <20221128080202.2570543-11-armbru@redhat.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,76 +104,92 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 * Markus Armbruster (armbru@redhat.com) wrote:
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
+Yeh that seems to have simplified out;
+
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->  hw/pci/pci-hmp-cmds.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+>  hw/pci/pci-hmp-cmds.c | 41 ++++++-----------------------------------
+>  1 file changed, 6 insertions(+), 35 deletions(-)
 > 
 > diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
-> index 0807a206e4..279851bfe6 100644
+> index 393ab4214a..b03badb1e6 100644
 > --- a/hw/pci/pci-hmp-cmds.c
 > +++ b/hw/pci/pci-hmp-cmds.c
-> @@ -161,6 +161,7 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+> @@ -159,21 +159,7 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+>      }
+>  }
 >  
->  void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
+> -typedef struct PCIEErrorDetails {
+> -    const char *id;
+> -    const char *root_bus;
+> -    int bus;
+> -    int devfn;
+> -} PCIEErrorDetails;
+> -
+> -/*
+> - * Inject an error described by @qdict.
+> - * On success, set @details to show where error was sent.
+> - * Return negative errno if injection failed and a message was emitted.
+> - */
+> -static int do_pcie_aer_inject_error(Monitor *mon,
+> -                                    const QDict *qdict,
+> -                                    PCIEErrorDetails *details)
+> +void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
 >  {
-> +    Error *err = NULL;
 >      const char *id = qdict_get_str(qdict, "id");
 >      const char *error_name;
->      uint32_t error_status;
-> @@ -171,25 +172,21 @@ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
->      int ret;
->  
->      ret = pci_qdev_find_device(id, &dev);
-> -    if (ret < 0) {
-> -        monitor_printf(mon,
-> -                       "id or pci device path is invalid or device not "
-> -                       "found. %s\n", id);
-> -        return;
-> +    if (ret == -ENODEV) {
-> +        error_setg(&err, "device '%s' not found", id);
-> +        goto out;
+> @@ -189,12 +175,12 @@ static int do_pcie_aer_inject_error(Monitor *mon,
+>          monitor_printf(mon,
+>                         "id or pci device path is invalid or device not "
+>                         "found. %s\n", id);
+> -        return ret;
+> +        return;
 >      }
-> -    if (!pci_is_express(dev)) {
-> -        monitor_printf(mon, "the device doesn't support pci express. %s\n",
-> -                       id);
-> -        return;
-> +    if (ret < 0 || !pci_is_express(dev)) {
-> +        error_setg(&err, "device '%s' is not a PCIe device", id);
-> +        goto out;
+>      if (!pci_is_express(dev)) {
+>          monitor_printf(mon, "the device doesn't support pci express. %s\n",
+>                         id);
+> -        return -ENOSYS;
+> +        return;
 >      }
 >  
 >      error_name = qdict_get_str(qdict, "error_status");
->      if (pcie_aer_parse_error_string(error_name, &error_status, &correctable)) {
->          if (qemu_strtoul(error_name, NULL, 0, &num) < 0
+> @@ -203,7 +189,7 @@ static int do_pcie_aer_inject_error(Monitor *mon,
 >              || num > UINT32_MAX) {
-> -            monitor_printf(mon, "invalid error status value. \"%s\"",
-> -                           error_name);
-> -            return;
-> +            error_setg(&err, "invalid error status value '%s'", error_name);
-> +            goto out;
+>              monitor_printf(mon, "invalid error status value. \"%s\"",
+>                             error_name);
+> -            return -EINVAL;
+> +            return;
 >          }
 >          error_status = num;
 >          correctable = qdict_get_try_bool(qdict, "correctable", false);
-> @@ -223,12 +220,15 @@ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
->  
->      ret = pcie_aer_inject_error(dev, &aer_err);
+> @@ -239,25 +225,10 @@ static int do_pcie_aer_inject_error(Monitor *mon,
 >      if (ret < 0) {
-> -        monitor_printf(mon, "failed to inject error: %s\n",
-> -                       strerror(-ret));
-> -        return;
-> +        error_setg_errno(&err, -ret, "failed to inject error");
-> +        goto out;
+>          monitor_printf(mon, "failed to inject error: %s\n",
+>                         strerror(-ret));
+> -        return ret;
+> -    }
+> -    details->id = id;
+> -    details->root_bus = pci_root_bus_path(dev);
+> -    details->bus = pci_dev_bus_num(dev);
+> -    details->devfn = dev->devfn;
+> -
+> -    return 0;
+> -}
+> -
+> -void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
+> -{
+> -    PCIEErrorDetails data;
+> -
+> -    if (do_pcie_aer_inject_error(mon, qdict, &data) < 0) {
+>          return;
 >      }
 >  
-> +
 >      monitor_printf(mon, "OK id: %s root bus: %s, bus: %x devfn: %x.%x\n",
->                     id, pci_root_bus_path(dev), pci_dev_bus_num(dev),
->                     PCI_SLOT(dev->devfn), PCI_FUNC(dev->devfn));
-> +
-> +out:
-> +    hmp_handle_error(mon, err);
+> -                   data.id, data.root_bus, data.bus,
+> -                   PCI_SLOT(data.devfn), PCI_FUNC(data.devfn));
+> +                   id, pci_root_bus_path(dev), pci_dev_bus_num(dev),
+> +                   PCI_SLOT(dev->devfn), PCI_FUNC(dev->devfn));
 >  }
 > -- 
 > 2.37.3
