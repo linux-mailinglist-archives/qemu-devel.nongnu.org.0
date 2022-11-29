@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2612D63B754
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 02:40:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7257D63B76F
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 02:51:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozpaT-0007Ru-GP; Mon, 28 Nov 2022 20:39:05 -0500
+	id 1ozplD-0000op-VZ; Mon, 28 Nov 2022 20:50:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ozpaQ-0007Re-86; Mon, 28 Nov 2022 20:39:02 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ozpaM-0003lq-T1; Mon, 28 Nov 2022 20:39:01 -0500
-Received: from [192.168.3.6] (unknown [180.175.30.174])
- by APP-01 (Coremail) with SMTP id qwCowAAnLzOnYoVjUOksAw--.19368S2;
- Tue, 29 Nov 2022 09:38:48 +0800 (CST)
-Content-Type: multipart/alternative;
- boundary="------------w7meOOcTNhT2yqnKQHY3yrUz"
-Message-ID: <3f606e08-749a-22a5-d4a5-6668fb2dab81@iscas.ac.cn>
-Date: Tue, 29 Nov 2022 09:38:46 +0800
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1ozpl5-0000oV-De; Mon, 28 Nov 2022 20:50:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1ozpl3-0005PL-A0; Mon, 28 Nov 2022 20:50:03 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AT0atoM021053; Tue, 29 Nov 2022 01:49:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=8HjRkc3OmcoTsxOI+pYT2hFwR9IOvjRRuqELn4IMKEY=;
+ b=l51B1bz8XN6l2CzhhOnBW/O/PPGTlQ1H6zQW3dKWdSKtuzUag0sVzkdP3/sQY6DprVXf
+ iLu7S067Gr/pGEumwV04YT/Lk0rNT8yuXfCC1gdbdfuZ7Nn4hJmYtNBVcOZaXHqni+2z
+ 4ZKxBy1z2bvphsuc0aMGGwuv8tV8zZ+E411aX9F5/tBiJ+uRLrjVsWPO5Pl80UIqw0zW
+ i+emoh+04zv7H6ECg2Vj33COx4HpkDUY5FWvdS/PgkHIc1ecBO5aP1G/IPCwbw7aZIkR
+ lbFo0nqGouQ9LIk8iESO7pAjbsBGYps6Zy2ziA6Qh1awh/AUqHVVMNoE602pQYydhKzb cw== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m5303g2nu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 01:49:57 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AT1ZUUu005329;
+ Tue, 29 Nov 2022 01:49:55 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma05fra.de.ibm.com with ESMTP id 3m3ae9adcr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Nov 2022 01:49:55 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2AT1hQaW8192716
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Nov 2022 01:43:26 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 76D0EAE04D;
+ Tue, 29 Nov 2022 01:49:52 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3A828AE045;
+ Tue, 29 Nov 2022 01:49:52 +0000 (GMT)
+Received: from heavy (unknown [9.171.30.50])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 29 Nov 2022 01:49:52 +0000 (GMT)
+Date: Tue, 29 Nov 2022 02:49:50 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 12/26] target/s390x: Move masking of psw.addr to
+ cpu_get_tb_cpu_state
+Message-ID: <20221129014950.sjphj5ov2fcubuw3@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-13-richard.henderson@linaro.org>
+ <20221103134213.6h2lcmwcs6hykirt@heavy>
+ <a26b177e-6e5b-cc73-0b48-04b3c36eb028@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 2/9] target/riscv: add support for Zca extension
-To: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "bin.meng@windriver.com" <bin.meng@windriver.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "liweiwei@iscas.ac.cn" <liweiwei@iscas.ac.cn>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-Cc: "wangjunqiang@iscas.ac.cn" <wangjunqiang@iscas.ac.cn>,
- "lazyparser@gmail.com" <lazyparser@gmail.com>
-References: <20221128122913.55611-1-liweiwei@iscas.ac.cn>
- <20221128122913.55611-3-liweiwei@iscas.ac.cn>
- <421c4ba3559b6d83e8a348766b7a77f9e1268bf8.camel@wdc.com>
-Content-Language: en-US
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <421c4ba3559b6d83e8a348766b7a77f9e1268bf8.camel@wdc.com>
-X-CM-TRANSID: qwCowAAnLzOnYoVjUOksAw--.19368S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr13Xw1rAr18WFyrur17Wrg_yoW5uw1Dpr
- yrCr4UGryUJryfJF4DJF4jqryUJr4UGw1UJw1kXa1kJFW3Jr4YqF1qgry2gr1UJF4kXr1j
- vF4UZr15Za1UXa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj
- 6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c
- 0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mx8GjcxK6IxK0xIIj40E
- 5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
- evJa73UjIFyTuYvjfUwYFCUUUUU
-X-Originating-IP: [180.175.30.174]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a26b177e-6e5b-cc73-0b48-04b3c36eb028@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ynZ0cYOexTpdRnRvhCk7a9RawgwjOgG-
+X-Proofpoint-GUID: ynZ0cYOexTpdRnRvhCk7a9RawgwjOgG-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-29_01,2022-11-28_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=836 mlxscore=0 adultscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211290009
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,227 +106,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------w7meOOcTNhT2yqnKQHY3yrUz
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Sat, Nov 05, 2022 at 09:27:07AM +1100, Richard Henderson wrote:
+> On 11/4/22 00:42, Ilya Leoshkevich wrote:
+> > On Wed, Oct 05, 2022 at 08:44:07PM -0700, Richard Henderson wrote:
+> > > Masking after the fact in s390x_tr_init_disas_context
+> > > provides incorrect information to tb_lookup.
+> > > 
+> > > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > > ---
+> > >   target/s390x/cpu.h           | 13 +++++++------
+> > >   target/s390x/tcg/translate.c |  6 ------
+> > >   2 files changed, 7 insertions(+), 12 deletions(-)
+> > 
+> > How can we end up in a situation where this matters? E.g. if we are in
+> > 64-bit mode and execute
+> > 
+> >      0xa12345678: sam31
+> > 
+> > we will get a specification exception, and cpu_get_tb_cpu_state() will
+> > not run. And for valid 31-bit addresses masking should be a no-op.
+> 
+> Ah, true.  I was mislead by the presence of the code in
+> s390x_tr_init_disas_context. Perhaps a tcg_debug_assert or just a comment?
 
+An assert sounds good to me.
+I tried the following diff with the attached test and it worked:
 
-On 2022/11/29 07:06, Wilfred Mallawa wrote:
-> On Mon, 2022-11-28 at 20:29 +0800, Weiwei Li wrote:
->> Modify the check for C extension to Zca (C implies Zca)
->>
->> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
->> Reviewed-by: Richard Henderson<richard.henderson@linaro.org>
->> Reviewed-by: Alistair Francis<alistair.francis@wdc.com>
->> ---
->>   target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
->>   target/riscv/translate.c                | 8 ++++++--
->>   2 files changed, 8 insertions(+), 4 deletions(-)
->>
->> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc
->> b/target/riscv/insn_trans/trans_rvi.c.inc
->> index 4496f21266..ef7c3002b0 100644
->> --- a/target/riscv/insn_trans/trans_rvi.c.inc
->> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
->> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr
->> *a)
->>       tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
->>   
->>       gen_set_pc(ctx, cpu_pc);
->> -    if (!has_ext(ctx, RVC)) {
->> +    if (!ctx->cfg_ptr->ext_zca) {
->>           TCGv t0 = tcg_temp_new();
->>   
->>           misaligned = gen_new_label();
->> @@ -178,7 +178,7 @@ static bool gen_branch(DisasContext *ctx, arg_b
->> *a, TCGCond cond)
->>   
->>       gen_set_label(l); /* branch taken */
->>   
->> -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3))
->> {
->> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) &
->> 0x3)) {
->>           /* misaligned */
->>           gen_exception_inst_addr_mis(ctx);
->>       } else {
->> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->> index 2ab8772ebe..ee24b451e3 100644
->> --- a/target/riscv/translate.c
->> +++ b/target/riscv/translate.c
->> @@ -557,7 +557,7 @@ static void gen_jal(DisasContext *ctx, int rd,
->> target_ulong imm)
->>   
->>       /* check misaligned: */
->>       next_pc = ctx->base.pc_next + imm;
->> -    if (!has_ext(ctx, RVC)) {
->> +    if (!ctx->cfg_ptr->ext_zca) {
->>           if ((next_pc & 0x3) != 0) {
->>               gen_exception_inst_addr_mis(ctx);
->>               return;
->> @@ -1097,7 +1097,11 @@ static void decode_opc(CPURISCVState *env,
->> DisasContext *ctx, uint16_t opcode)
->>       ctx->virt_inst_excp = false;
->>       /* Check for compressed insn */
->>       if (insn_len(opcode) == 2) {
->> -        if (!has_ext(ctx, RVC)) {
->> +        /*
->> +         * Zca support all of the existing C extension, excluding
->> all
->> +         * compressed floating point loads and stores
->> +         */
-> Look like a typo: *`supports` and *`C extensions`
-
-Thanks a lot!
-
-Yeah,  it should be 'supports' here (and it's 'is' here in original Zc* 
-0.70.1 spec).
-
-Maybe we can use the new description from newest spec here:
-
-/"The Zca extension is added as way to refer to instructions in the C 
-extension that do not i/
-
-/nclude the//floating-point loads and stores."/
-
-By the way, why do you think it should be 'C extensions' ?/
-/
-
-Regards,
-
-Weiwei Li
-
->> +        if (!ctx->cfg_ptr->ext_zca) {
->>               gen_exception_illegal(ctx);
->>           } else {
->>               ctx->opcode = opcode;
-> otherwise,
-> Reviewed-by: Wilfred Mallawa<wilfred.mallawa@wdc.com>
->
-> Wilfred
---------------w7meOOcTNhT2yqnKQHY3yrUz
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/11/29 07:06, Wilfred Mallawa
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:421c4ba3559b6d83e8a348766b7a77f9e1268bf8.camel@wdc.com">
-      <pre class="moz-quote-pre" wrap="">On Mon, 2022-11-28 at 20:29 +0800, Weiwei Li wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Modify the check for C extension to Zca (C implies Zca)
-
-Signed-off-by: Weiwei Li <a class="moz-txt-link-rfc2396E" href="mailto:liweiwei@iscas.ac.cn">&lt;liweiwei@iscas.ac.cn&gt;</a>
-Signed-off-by: Junqiang Wang <a class="moz-txt-link-rfc2396E" href="mailto:wangjunqiang@iscas.ac.cn">&lt;wangjunqiang@iscas.ac.cn&gt;</a>
-Reviewed-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
-Reviewed-by: Alistair Francis <a class="moz-txt-link-rfc2396E" href="mailto:alistair.francis@wdc.com">&lt;alistair.francis@wdc.com&gt;</a>
----
- target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
- target/riscv/translate.c                | 8 ++++++--
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc
-b/target/riscv/insn_trans/trans_rvi.c.inc
-index 4496f21266..ef7c3002b0 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr
-*a)
-     tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
- 
-     gen_set_pc(ctx, cpu_pc);
--    if (!has_ext(ctx, RVC)) {
-+    if (!ctx-&gt;cfg_ptr-&gt;ext_zca) {
-         TCGv t0 = tcg_temp_new();
- 
-         misaligned = gen_new_label();
-@@ -178,7 +178,7 @@ static bool gen_branch(DisasContext *ctx, arg_b
-*a, TCGCond cond)
- 
-     gen_set_label(l); /* branch taken */
- 
--    if (!has_ext(ctx, RVC) &amp;&amp; ((ctx-&gt;base.pc_next + a-&gt;imm) &amp; 0x3))
-{
-+    if (!ctx-&gt;cfg_ptr-&gt;ext_zca &amp;&amp; ((ctx-&gt;base.pc_next + a-&gt;imm) &amp;
-0x3)) {
-         /* misaligned */
-         gen_exception_inst_addr_mis(ctx);
-     } else {
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 2ab8772ebe..ee24b451e3 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -557,7 +557,7 @@ static void gen_jal(DisasContext *ctx, int rd,
-target_ulong imm)
- 
-     /* check misaligned: */
-     next_pc = ctx-&gt;base.pc_next + imm;
--    if (!has_ext(ctx, RVC)) {
-+    if (!ctx-&gt;cfg_ptr-&gt;ext_zca) {
-         if ((next_pc &amp; 0x3) != 0) {
-             gen_exception_inst_addr_mis(ctx);
-             return;
-@@ -1097,7 +1097,11 @@ static void decode_opc(CPURISCVState *env,
-DisasContext *ctx, uint16_t opcode)
-     ctx-&gt;virt_inst_excp = false;
-     /* Check for compressed insn */
-     if (insn_len(opcode) == 2) {
--        if (!has_ext(ctx, RVC)) {
-+        /*
-+         * Zca support all of the existing C extension, excluding
-all
-+         * compressed floating point loads and stores
-+         */
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">Look like a typo: *`supports` and *`C extensions`</pre>
-    </blockquote>
-    <p>Thanks a lot!  <br>
-    </p>
-    <p>Yeah,  it should be 'supports' here (and it's 'is' here in
-      original Zc* 0.70.1 spec). <br>
-    </p>
-    <p>Maybe we can use the new description from newest spec here:</p>
-    <p><i>"The Zca extension is added as way to refer to instructions in
-        the C extension that do not i</i></p>
-    <p><i>nclude the</i><i> floating-point loads and stores."</i></p>
-    <p>By the way, why do you think it should be 'C extensions' ?<i><br>
-      </i></p>
-    <p>Regards,</p>
-    <p>Weiwei Li<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:421c4ba3559b6d83e8a348766b7a77f9e1268bf8.camel@wdc.com">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+        if (!ctx-&gt;cfg_ptr-&gt;ext_zca) {
-             gen_exception_illegal(ctx);
-         } else {
-             ctx-&gt;opcode = opcode;
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-otherwise,
-Reviewed-by: Wilfred Mallawa <a class="moz-txt-link-rfc2396E" href="mailto:wilfred.mallawa@wdc.com">&lt;wilfred.mallawa@wdc.com&gt;</a>
-
-Wilfred
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------w7meOOcTNhT2yqnKQHY3yrUz--
-
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -390,7 +390,12 @@ static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong *pc,
+     }
+     *pflags = flags;
+     *cs_base = env->ex_value;
+-    *pc = (flags & FLAG_MASK_64 ? env->psw.addr : env->psw.addr & 0x7fffffff);
++    if (!(flags & FLAG_MASK_32)) {
++        g_assert(env->psw.addr <= 0xffffff);
++    } else if (!(flags & FLAG_MASK_64)) {
++        g_assert(env->psw.addr <= 0x7fffffff);
++    }
++    *pc = env->psw.addr;
+ }
+ 
+ /* PER bits from control register 9 */
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 24dc57a8816..a50453dd0d4 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -6464,6 +6464,12 @@ static void s390x_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+ 
++    if (!(dc->base.tb->flags & FLAG_MASK_32)) {
++        tcg_debug_assert(dc->base.pc_first <= 0xffffff);
++    } else if (!(dc->base.tb->flags & FLAG_MASK_64)) {
++        tcg_debug_assert(dc->base.pc_first <= 0x7fffffff);
++    }
++
+     dc->pc_save = dc->base.pc_first;
+     dc->cc_op = CC_OP_DYNAMIC;
+     dc->ex_value = dc->base.tb->cs_base;
 
