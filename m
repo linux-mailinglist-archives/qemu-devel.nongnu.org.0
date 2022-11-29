@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FA863C3B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 16:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B8863C3E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 16:37:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p02Vo-0006Pj-7u; Tue, 29 Nov 2022 10:27:08 -0500
+	id 1p02e8-0000kg-Ur; Tue, 29 Nov 2022 10:35:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1p02Vk-0006PK-RH
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:27:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p02e0-0000ic-7P
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:35:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1p02Vi-0000xv-8J
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:27:04 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p02dw-0002Li-KB
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 10:35:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669735620;
+ s=mimecast20190719; t=1669736129;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IPq+fAzFsVPtFAmjDxmqak6HeabpUAoVOIvAxQ/q7J0=;
- b=SDNJdmHsH+XMevY14bi4BmiaP+ipQA4AOuQl4KxmsnM2KpNgvnwW71oRYFR8m6747QmNcf
- YOznFfx1TxGQGBPXlUfDf/GqF2RVwS9dvqrNJvt6FNM5OIeJMQKM2c60yn3vx7Y11Pqfr+
- 31Ee4kmDhixrV+vPbP+qDTcXWXnfl5Y=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2rSdmEKeo583fk6KtvFLBQTQCJ40a7WbnFF6T278PLE=;
+ b=RCDREH3SI8bkkHYCrzRvuHhtYlxhtVq+nyT8sKDO+oLcNoXB926ihZTdywBC8fmQ8l/9Rd
+ EHczDMw2bSf8MAteAIj7pggDRVdrM6hZJYOVlIeZ2N2ceijRLj29Bd+XYAohDLkJttK0zV
+ /jFKYtG/m+QyBKEa28gUP3dM74EG7To=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-404-goWsO6ZENEujw5tN-YPXuQ-1; Tue, 29 Nov 2022 10:26:56 -0500
-X-MC-Unique: goWsO6ZENEujw5tN-YPXuQ-1
-Received: by mail-il1-f197.google.com with SMTP id
- d19-20020a056e020c1300b00300b5a12c44so12304408ile.15
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 07:26:56 -0800 (PST)
+ us-mta-155-IR9GY4w5M0ysCMqQIo3Gkw-1; Tue, 29 Nov 2022 10:35:28 -0500
+X-MC-Unique: IR9GY4w5M0ysCMqQIo3Gkw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ bq13-20020a05620a468d00b006fa5a75759aso30106695qkb.13
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 07:35:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IPq+fAzFsVPtFAmjDxmqak6HeabpUAoVOIvAxQ/q7J0=;
- b=cn0WiwxDnJIxP62j1EH21Qv3cqA0CfoxMfGRJZ0YprUytcV7jN0cXqJczY9r9B4dt0
- mfckagfv+DML0fKLJTnw60OIOQJHvj6CBeHFxgfUKExHUqetMu36Aq9XYCLkfj2SkKfI
- nf2yoB6APe+eqMRFeqej2L2u7hMvMUOOUl7dis+BrZPhgFqtpDA2+IoYeGujq/GCYidH
- XzPnLxR7d3sJ6OxwVj3c63CTV1Ie6bAU2V2lg739Euf2sTwNvjh7NKmv7XvzgF60BHHD
- A/f1QjQ01btCVg+R6RWy+v9OPcTHNNoUopqbCnL1poWA7gzYUKaWdpsDLTHasxyDbPZM
- Fu9w==
-X-Gm-Message-State: ANoB5pnz99pdy+i8yu+tgjgGT5NLefzkiliLq1/rDHF1UGZHji4b3ogV
- cfZzfrDlOYHrWah4I+rIupogJOZUuwH5QtVDAic+swQl9k3wGFIgEQVQihdlAwHkSzYDxh8J9oF
- ZVMGC70MN+ijkWZUQJ2f+jvfBBTW7C9E=
-X-Received: by 2002:a92:cb89:0:b0:302:3c43:20b9 with SMTP id
- z9-20020a92cb89000000b003023c4320b9mr17720160ilo.300.1669735616087; 
- Tue, 29 Nov 2022 07:26:56 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4unvzBhDfeSFiz5Lq5N+dqCRvNokaBr/7F4RxiRpOQrLBxeQ2oM0pg33dH+cDXWg0Lydyl19fuXvCL89cQstA=
-X-Received: by 2002:a92:cb89:0:b0:302:3c43:20b9 with SMTP id
- z9-20020a92cb89000000b003023c4320b9mr17720151ilo.300.1669735615890; Tue, 29
- Nov 2022 07:26:55 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2rSdmEKeo583fk6KtvFLBQTQCJ40a7WbnFF6T278PLE=;
+ b=JuOwsYqN3vskYcvC7o/Mlzg15OjW2rTlvoB2dHLNUCrLDmB01BhWxwdx3jOB8/dQNF
+ lm4LhNEbN/6mkHoGK9W3ZM8qEGg4Eh/S/of1YOdDxTGJnN0yPkeyhHfGBMb3UF4+F95g
+ M13G+JjXA4fHKNJxYNcYENh3rdXuAPJFIPLvXVnR3eZw9HR5TWpl7l8RVlQf9u1cVMNE
+ 6ALXGMbs9v2oQxbkf65JDGusQVM5OfuD6OQUp72pJT8e3if9ZFtuyAZPdcPDXSEmZX/m
+ hC0hjN7dLvmrjUVp0/Vv2P9bWs/izfJBVv214OWsxRfx3GZ6dg5HrYHQx8EN+Qy6NZOi
+ fibA==
+X-Gm-Message-State: ANoB5plOcJzacDNW+tb/e2OjJ240E5B7YseXM0FifARN8WIJ7snPAkwf
+ xBxNK0rtsGgVyY/a2kyUfdq2Git57TXdKqxZ0qFxcB88GuFH/UCoTWItU+isL3K4OGn0QO4xNXo
+ OmwjPB3Efss+q7Rc=
+X-Received: by 2002:ac8:480b:0:b0:3a5:73ba:6e3d with SMTP id
+ g11-20020ac8480b000000b003a573ba6e3dmr38595988qtq.567.1669736127383; 
+ Tue, 29 Nov 2022 07:35:27 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5MOF8kzuo5laMRmVLK7honR0SUxX8CXPMgHo+f92l7uwfs6hAIDGBjsEWskEHD0aHrEcI9Cw==
+X-Received: by 2002:ac8:480b:0:b0:3a5:73ba:6e3d with SMTP id
+ g11-20020ac8480b000000b003a573ba6e3dmr38595963qtq.567.1669736127084; 
+ Tue, 29 Nov 2022 07:35:27 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ q38-20020a05620a2a6600b006b949afa980sm10828256qkp.56.2022.11.29.07.35.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Nov 2022 07:35:26 -0800 (PST)
+Date: Tue, 29 Nov 2022 10:35:25 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com
+Subject: Re: [PATCH 1/3] intel-iommu: fail MAP notifier without caching mode
+Message-ID: <Y4YmvYzVGwciJUbk@x1n>
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-2-jasowang@redhat.com>
 MIME-Version: 1.0
-References: <878rjtretb.fsf@pond.sub.org>
-In-Reply-To: <878rjtretb.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 29 Nov 2022 19:26:43 +0400
-Message-ID: <CAMxuvawocVQ7Fva1CwA9JCO+i+A5a-_AJ+V+ivOwfKo68bREHg@mail.gmail.com>
-Subject: Re: Who / what uses QMP command add_client?
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Peter Krempa <pkrempa@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000041249f05ee9d9eec"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221129081037.12099-2-jasowang@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,168 +97,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000041249f05ee9d9eec
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, Nov 29, 2022 at 04:10:35PM +0800, Jason Wang wrote:
+> Without caching mode, MAP notifier won't work correctly since guest
+> won't send IOTLB update event when it establishes new mappings in the
+> I/O page tables. Let's fail the IOMMU notifiers early instead of
+> misbehaving silently.
+> 
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/i386/intel_iommu.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index a08ee85edf..9143376677 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3186,6 +3186,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>                           "Snoop Control with vhost or VFIO is not supported");
+>          return -ENOTSUP;
+>      }
+> +    if (!s->caching_mode && (new & IOMMU_NOTIFIER_MAP)) {
+> +        error_setg_errno(errp, ENOTSUP,
+> +                         "device %02x.%02x.%x requires caching mode",
+> +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
+> +                         PCI_FUNC(vtd_as->devfn));
+> +        return -ENOTSUP;
+> +    }
 
-Hi
+We used to have that but got reverted because it's too late to fail, so we
+moved it over even though not as clean..
 
-On Tue, Nov 29, 2022 at 6:55 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+https://lore.kernel.org/all/20190916080718.3299-5-peterx@redhat.com/
 
-> QMP command add_client's schema:
->
->     ##
->     # @add_client:
->     #
->     # Allow client connections for VNC, Spice and socket based
->     # character devices to be passed in to QEMU via SCM_RIGHTS.
->     #
->     # @protocol: protocol name. Valid names are "vnc", "spice",
-> "@dbus-display" or
->     #            the name of a character device (eg. from -chardev id=3DX=
-XXX)
->     #
->     # @fdname: file descriptor name previously passed via 'getfd' command
->     #
->     # @skipauth: whether to skip authentication. Only applies
->     #            to "vnc" and "spice" protocols
->     #
->     # @tls: whether to perform TLS. Only applies to the "spice"
->     #       protocol
->     #
->     # Returns: nothing on success.
->     #
->     # Since: 0.14
->     #
->     # Example:
->     #
->     # -> { "execute": "add_client", "arguments": { "protocol": "vnc",
->     #                                              "fdname": "myclient" }=
- }
->     # <- { "return": {} }
->     #
->     ##
->     { 'command': 'add_client',
->       'data': { 'protocol': 'str', 'fdname': 'str', '*skipauth': 'bool',
->                 '*tls': 'bool' } }
->
-> Spot the design flaw!
->
-> It's overloaded @protocol.  Two issues.
->
-> One, character device IDs "vnc", "spice", "@dbus-display" don't work
-> here.  If we ever add another protocol, we make another device ID not
-> work.  Perhaps this is why Marc-Andr=C3=A9 chose "@dbus-display", which
-> otherwise looks like a typo :)
->
+Thanks,
 
-That's right, I tried to avoid conflicting with chardev ID namespace. IDs
-can't start with '@'.
-
-btw, I have a few patches pending to extend add_client for windows sockets.
-
-I also have patches to check if fds are actually sockets, since that
-command doesn't make much sense with other fds.
-
-
-> Two, introspection can't tell us what protocols are supported.
->
-
-Hmm, not really a big deal I suppose. You would have both compile-time and
-run-time config. There are other means to introspect the display protocol,
-like query-vnc or query-spice. I thought I had something covering dbus as
-well, but I can't find it, I'll look at it.
-
-Let me know if you plan to touch that command, it will likely conflict with
-my work. I plan to submit it soon after the release, but I might do it
-earlier.
-
---00000000000041249f05ee9d9eec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 29, 2022 at 6:55 PM Mar=
-kus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">QM=
-P command add_client&#39;s schema:<br>
-<br>
-=C2=A0 =C2=A0 ##<br>
-=C2=A0 =C2=A0 # @add_client:<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # Allow client connections for VNC, Spice and socket based<br=
->
-=C2=A0 =C2=A0 # character devices to be passed in to QEMU via SCM_RIGHTS.<b=
-r>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # @protocol: protocol name. Valid names are &quot;vnc&quot;, =
-&quot;spice&quot;, &quot;@dbus-display&quot; or<br>
-=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the name of a char=
-acter device (eg. from -chardev id=3DXXXX)<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # @fdname: file descriptor name previously passed via &#39;ge=
-tfd&#39; command<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # @skipauth: whether to skip authentication. Only applies<br>
-=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 to &quot;vnc&quot;=
- and &quot;spice&quot; protocols<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # @tls: whether to perform TLS. Only applies to the &quot;spi=
-ce&quot;<br>
-=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0protocol<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # Returns: nothing on success.<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # Since: 0.14<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # Example:<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 # -&gt; { &quot;execute&quot;: &quot;add_client&quot;, &quot;=
-arguments&quot;: { &quot;protocol&quot;: &quot;vnc&quot;,<br>
-=C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;fdname&quot;: &quot;myclient&quot; } }<br=
->
-=C2=A0 =C2=A0 # &lt;- { &quot;return&quot;: {} }<br>
-=C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 ##<br>
-=C2=A0 =C2=A0 { &#39;command&#39;: &#39;add_client&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 &#39;data&#39;: { &#39;protocol&#39;: &#39;str&#39;, &=
-#39;fdname&#39;: &#39;str&#39;, &#39;*skipauth&#39;: &#39;bool&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*tls&#39;: &#3=
-9;bool&#39; } }<br>
-<br>
-Spot the design flaw!<br>
-<br>
-It&#39;s overloaded @protocol.=C2=A0 Two issues.<br>
-<br>
-One, character device IDs &quot;vnc&quot;, &quot;spice&quot;, &quot;@dbus-d=
-isplay&quot; don&#39;t work<br>
-here.=C2=A0 If we ever add another protocol, we make another device ID not<=
-br>
-work.=C2=A0 Perhaps this is why Marc-Andr=C3=A9 chose &quot;@dbus-display&q=
-uot;, which<br>
-otherwise looks like a typo :)<br></blockquote><div><br></div><div>That&#39=
-;s right, I tried to avoid conflicting with chardev ID namespace. IDs can&#=
-39;t start with &#39;@&#39;.</div><div>=C2=A0</div><div>btw, I have a few p=
-atches pending to extend add_client for windows sockets.</div><div><br></di=
-v><div>I also have patches to check if fds are actually sockets, since that=
- command doesn&#39;t make much sense with other fds.</div><div><br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Two, introspection can&#39;t tell us what protocols are supported.<br></blo=
-ckquote><div><br></div><div>Hmm, not really a big deal I suppose. You would=
- have both compile-time and run-time config. There are other means to intro=
-spect the display protocol, like query-vnc or query-spice. I thought I had =
-something covering dbus as well, but I can&#39;t find it, I&#39;ll look at =
-it. <br></div></div><div class=3D"gmail_quote"><br></div><div class=3D"gmai=
-l_quote">Let me know if you plan to touch that command, it will likely conf=
-lict with my work. I plan to submit it soon after the release, but I might =
-do it earlier.<br></div></div>
-
---00000000000041249f05ee9d9eec--
+-- 
+Peter Xu
 
 
