@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0143C63BAD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 08:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E0663BAD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 08:39:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozvDD-0000v5-UY; Tue, 29 Nov 2022 02:39:27 -0500
+	id 1ozvDD-0000tr-AM; Tue, 29 Nov 2022 02:39:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ozvCz-0000rX-Jx
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 02:39:15 -0500
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozvCx-0000qC-Oz
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 02:39:14 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ozvCx-0001rI-VV
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 02:39:13 -0500
-Received: by mail-lj1-x232.google.com with SMTP id bn5so15863879ljb.2
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 23:39:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CAtHT9GJwWPP4hPoRTz/ppZeTZaYr8zDv9jVpYt3T3Q=;
- b=ayhH7s6A7SH5MR2mXb5vj07WKcEulWSk4e4+YTTn33QkdZfXp7bI15juCMCJN4rpdn
- 6ZZTDezjmObh4lYF1oFu/tI0qSznHSWE2t8QvDQaa50GpUhGHvboAibwbJAQq+sg1Aa/
- 6IYVBMONpmG64TVA4cByAkAAOM5UmejOmJNWrOo142L7vK1aN9QC4n7VVu4JZ1CvXZHh
- IsxNPcohaW/HU9FSSv5l23ykXi8EU2VG4aBebkN40aEGehaETUN96jVW++B7KAP/72y8
- gdofswMKr/pHvhH5DWmg2jJl400kyKAgPqctXaQklm9SQ8i1v+gKNL1D27JxjQCZx0Ff
- SuGw==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozvCv-0001r7-TU
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 02:39:11 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id n3so20668118wrp.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 23:39:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=605fnWa8TYZTGeBlZjVmHTc6rzio4jXgb+tSBzhtPjE=;
+ b=j6HEs85I7tn7fq/DaU/H95RuJcIkK6YZ7KI5WKn0khdXMYDY28OauK5ptmFqkR/HM7
+ rymovKC4k+GWfNgB7/h/vUXsufeTKtTCyGG8FiL6yG4AtdvdWk0nbCk9cl1x4P2jS/pO
+ RUxgGLieE644goqlHcBH/TinvIf+6j5/GPhSUveIoZd+NTcu184X9ffnvEyFivmWjZoL
+ CXcOdG7U2z024VDp2rphkfw5Zh8VU18cd+juId9j/NYRUCGEC6xSYb3txCWE0uv4P+Kc
+ KekcTz3aC9RESmxPjxFlEmmntrZkBtpzNlhNk2hkM0wvycd2dGhHbiJJNTAwSw4buwFG
+ +K3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CAtHT9GJwWPP4hPoRTz/ppZeTZaYr8zDv9jVpYt3T3Q=;
- b=4dFJiRI6148DYe3Ai7JG1ca8J26/AyKxa5qZHxChbUxShEuhZb+eMM9CG+VgTqNajy
- H3c0NnekarBn1HL5+u/vvb0tDX8oF+9uI4dCPP+dZOKckeDIJ3v57KRSVM61C4VbKLkm
- ne9wEilGJ3RTWWcIwFWuIsXnL84NT+wyojVWKFEvdslwJmdnEYNC4L73WNnAQyShz7cf
- PrGG7/JXXNfV8jw8waVTw90LGVqEl4QMnRDdF6xJlIAUNhFVW3I1ftldbfPNBssOHaF6
- K5zjTCxmxz2RL2Z25fRhL9Avm/DNYHioDafocqtBgo3wgJ3eAvjDlH+rH+IasHydSkTl
- nOig==
-X-Gm-Message-State: ANoB5pnafjBfgcw88N5WJC5QMd3FKTuJLr/EFIXCeWTHWheLW/xQnrgD
- DymFTWWUyRueQnbsPTc/EdmSzQv8dE+JEtO4WejC1Loh
-X-Google-Smtp-Source: AA0mqf7sxZAVz+s74YCXyC4+/MvJW4wFfEZicp4vhnuMyApLF1JV+YMpVSGB2/QKCSD3dtkttKqup2A971x3sT9wp+A=
-X-Received: by 2002:a2e:9797:0:b0:279:ab91:e4aa with SMTP id
- y23-20020a2e9797000000b00279ab91e4aamr1664255lji.267.1669707550173; Mon, 28
- Nov 2022 23:39:10 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=605fnWa8TYZTGeBlZjVmHTc6rzio4jXgb+tSBzhtPjE=;
+ b=iEQNbIG8LgHjEL0nTwqg0lzk3m2Iojecj4By0N8DSGXosXWh5DWv/HLRVM6eaCUES7
+ ElTU1EYBgkIhTBY1ygHFaCkVBZGgqRS1PhdK5vEi8IKf8D5e2DLltek82s+8HqtUxVK8
+ bY8ro9b8BRIberedn2WM33zJSNxmPzo7qsENxSsqF9Ew4k2njSsq8xO05r/9anK/05Xb
+ TzZvzb04erA2UPipVzCv165mPWZxeyNhmmvYciE8cGo2G+Qajyad0+kAX1Ybc+MgGyvU
+ qGNJpdHFlutqjnASk3vR3MwHCx/RXu7Xq8tWLzT/WHXiPHCFRR29tf/sCobdbM8PDezn
+ 7URQ==
+X-Gm-Message-State: ANoB5pk84+apak4ok1C2C5xPU4K2xdp43TYuOLBxBHXNvVnANXo2UdXs
+ 6e0ZM4RZoJN6Bidg4FeRKKPOMA==
+X-Google-Smtp-Source: AA0mqf56ILmXpJMqTDM3mMf721kfJJi5LfAX0gJfmGG9ryiyctXUV5Rqocrm3UQ4Ij1a/L6/iPpk6g==
+X-Received: by 2002:a5d:444d:0:b0:236:8dd7:1922 with SMTP id
+ x13-20020a5d444d000000b002368dd71922mr32378755wrr.564.1669707547889; 
+ Mon, 28 Nov 2022 23:39:07 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p8-20020a05600c468800b003cfaae07f68sm1089677wmo.17.2022.11.28.23.39.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 23:39:07 -0800 (PST)
+Message-ID: <d7d533b1-14b1-3fa9-432e-18f7d8fd8053@linaro.org>
+Date: Tue, 29 Nov 2022 08:39:06 +0100
 MIME-Version: 1.0
-References: <20221128185403.447817-1-andrey.drobyshev@virtuozzo.com>
- <20221128185403.447817-3-andrey.drobyshev@virtuozzo.com>
-In-Reply-To: <20221128185403.447817-3-andrey.drobyshev@virtuozzo.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 29 Nov 2022 11:38:58 +0400
-Message-ID: <CAJ+F1CJqB=w6_H2s1u0W6uLPZRkEDa3KmOVoqnjd2fcGF=Lxdg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] qga: map GLib log levels to system levels
-To: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-Cc: qemu-devel@nongnu.org, den@virtuozzo.com, yur@openvz.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH for-7.2] replay: Fix declaration of replay_read_next_clock
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: pavel.dovgaluk@ispras.ru, stefanha@gmail.com
+References: <20221129010547.284051-1-richard.henderson@linaro.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221129010547.284051-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,91 +89,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 29, 2022 at 12:59 AM Andrey Drobyshev via
-<qemu-devel@nongnu.org> wrote:
->
-> This patch translates GLib-specific log levels to system ones, so that
-> they may be used by both *nix syslog() (as a "priority" argument) and
-> Windows ReportEvent() (as a "wType" argument).
->
-> Currently the only codepath to write to "syslog" domain is slog()
-> function.  However, this patch allows the interface to be extended.
->
-> Note that since slog() is using G_LOG_LEVEL_INFO level, its behaviour
-> doesn't change.
->
-> Originally-by: Yuri Pudgorodskiy <yur@virtuozzo.com>
-> Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+On 29/11/22 02:05, Richard Henderson wrote:
+> Fixes the build with gcc 13:
+> 
+> replay/replay-time.c:34:6: error: conflicting types for  \
+>    'replay_read_next_clock' due to enum/integer mismatch; \
+>    have 'void(ReplayClockKind)' [-Werror=enum-int-mismatch]
+>     34 | void replay_read_next_clock(ReplayClockKind kind)
+>        |      ^~~~~~~~~~~~~~~~~~~~~~
+> In file included from ../qemu/replay/replay-time.c:14:
+> replay/replay-internal.h:139:6: note: previous declaration of \
+>    'replay_read_next_clock' with type 'void(unsigned int)'
+>    139 | void replay_read_next_clock(unsigned int kind);
+>        |      ^~~~~~~~~~~~~~~~~~~~~~
+> 
+> Fixes: 8eda206e090 ("replay: recording and replaying clock ticks")
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  qga/main.c | 36 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 34 insertions(+), 2 deletions(-)
->
-> diff --git a/qga/main.c b/qga/main.c
-> index 10314dfe5d..0467d5daf8 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -314,6 +314,38 @@ void ga_enable_logging(GAState *s)
->      s->logging_enabled =3D true;
->  }
->
-> +static int glib_log_level_to_system(int level)
-> +{
-> +    switch (level) {
-> +#ifndef _WIN32
-> +        case G_LOG_LEVEL_ERROR:
-> +            return LOG_ERR;
-> +        case G_LOG_LEVEL_CRITICAL:
-> +            return LOG_CRIT;
-> +        case G_LOG_LEVEL_WARNING:
-> +            return LOG_WARNING;
-> +        case G_LOG_LEVEL_MESSAGE:
-> +            return LOG_NOTICE;
-> +        case G_LOG_LEVEL_DEBUG:
-> +            return LOG_DEBUG;
-> +        case G_LOG_LEVEL_INFO:
-> +        default:
-> +            return LOG_INFO;
-> +#else
-> +        case G_LOG_LEVEL_ERROR:
-> +        case G_LOG_LEVEL_CRITICAL:
-> +            return EVENTLOG_ERROR_TYPE;
-> +        case G_LOG_LEVEL_WARNING:
-> +            return EVENTLOG_WARNING_TYPE;
-> +        case G_LOG_LEVEL_MESSAGE:
-> +        case G_LOG_LEVEL_INFO:
-> +        case G_LOG_LEVEL_DEBUG:
-> +        default:
-> +            return EVENTLOG_INFORMATION_TYPE;
-> +#endif
-> +    }
-> +}
-> +
->  static void ga_log(const gchar *domain, GLogLevelFlags level,
->                     const gchar *msg, gpointer opaque)
->  {
-> @@ -327,9 +359,9 @@ static void ga_log(const gchar *domain, GLogLevelFlag=
-s level,
->      level &=3D G_LOG_LEVEL_MASK;
->      if (g_strcmp0(domain, "syslog") =3D=3D 0) {
->  #ifndef _WIN32
-> -        syslog(LOG_INFO, "%s: %s", level_str, msg);
-> +        syslog(glib_log_level_to_system(level), "%s: %s", level_str, msg=
-);
->  #else
-> -        ReportEvent(s->event_log, EVENTLOG_INFORMATION_TYPE,
-> +        ReportEvent(s->event_log, glib_log_level_to_system(level),
->                      0, 1, NULL, 1, 0, &msg, NULL);
->  #endif
->      } else if (level & s->log_level) {
-> --
-> 2.38.1
->
->
+>   replay/replay-internal.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/replay/replay-internal.h b/replay/replay-internal.h
+> index 89e377be90..b6836354ac 100644
+> --- a/replay/replay-internal.h
+> +++ b/replay/replay-internal.h
+> @@ -136,7 +136,7 @@ bool replay_next_event_is(int event);
+>   /*! Reads next clock value from the file.
+>       If clock kind read from the file is different from the parameter,
+>       the value is not used. */
+> -void replay_read_next_clock(unsigned int kind);
+> +void replay_read_next_clock(ReplayClockKind kind);
 
+Preferably having this file including "sysemu/replay.h" in the same
+patch:
 
---=20
-Marc-Andr=C3=A9 Lureau
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
