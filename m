@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3E963BB45
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:12:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E53D463BB4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:12:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozvhe-0006zX-Ko; Tue, 29 Nov 2022 03:10:55 -0500
+	id 1ozvht-00073h-R5; Tue, 29 Nov 2022 03:11:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ozvhX-0006zL-7b
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:10:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ozvhf-0006zr-0x
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:10:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ozvhV-0006j5-RK
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:10:46 -0500
+ id 1ozvhc-0006jj-Hk
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:10:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669709445;
+ s=mimecast20190719; t=1669709451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HG+N90FwLrQ2whSx9bC5In4uxn/OKmNqGGKG43bm6/Y=;
- b=MWU6M9pT6F0rcpkOrUlzspUvF1+4WICiVGlhMMRzUxOBr9KUjSSrqxZG3zbFi4vqVAk9bH
- Rd4IOJoSYfistqpY9KE5hAe5WDXxSZjMVyhPvQqNjD3bsxkGeDaihadeRwIBY3WUcnYsYt
- rCzbEl99FLCIg3ORQdFHFp+etlzJO4k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ypWya4vKeITotbnpLSe2AHaNL7GdsePh9BVNbHM3uns=;
+ b=h6tAJnJTiH0PMH+RMAxQaSUNJ1bjzIbOr584FcVfNyFnx3crm2itIiLeosQkJP7XobIqN3
+ aqg9bVVP92eQYVTXL1NZbiRqdN+KKvxqG7/5KChQW7+ZWTW2B5Ux8mR3aad3vVZB7HTaYA
+ ppJ5+5KtYpWXQivrv5iJQB6D+2x3LfM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-d2t4V3vROZyz6QV_dRS2og-1; Tue, 29 Nov 2022 03:10:43 -0500
-X-MC-Unique: d2t4V3vROZyz6QV_dRS2og-1
+ us-mta-665-eqPtaMNUNLGRaQzEazjusA-1; Tue, 29 Nov 2022 03:10:48 -0500
+X-MC-Unique: eqPtaMNUNLGRaQzEazjusA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D6903C3C16A;
- Tue, 29 Nov 2022 08:10:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09728185A792;
+ Tue, 29 Nov 2022 08:10:48 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-181.pek2.redhat.com
  [10.72.13.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACC79C15BBD;
- Tue, 29 Nov 2022 08:10:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39811C15BA4;
+ Tue, 29 Nov 2022 08:10:43 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com,
 	peterx@redhat.com
 Cc: qemu-devel@nongnu.org, eric.auger@redhat.com, viktor@daynix.com,
  Jason Wang <jasowang@redhat.com>
-Subject: [PATCH 0/3] Fix UNMAP notifier for intel-iommu
-Date: Tue, 29 Nov 2022 16:10:34 +0800
-Message-Id: <20221129081037.12099-1-jasowang@redhat.com>
+Subject: [PATCH 1/3] intel-iommu: fail MAP notifier without caching mode
+Date: Tue, 29 Nov 2022 16:10:35 +0800
+Message-Id: <20221129081037.12099-2-jasowang@redhat.com>
+In-Reply-To: <20221129081037.12099-1-jasowang@redhat.com>
+References: <20221129081037.12099-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,30 +81,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi All:
+Without caching mode, MAP notifier won't work correctly since guest
+won't send IOTLB update event when it establishes new mappings in the
+I/O page tables. Let's fail the IOMMU notifiers early instead of
+misbehaving silently.
 
-According to ATS, device should work if ATS is disabled. This is not
-correctly implemented in the current intel-iommu since it doesn't
-handle the UNMAP notifier correctly. This breaks the vhost-net +
-vIOMMU without dt.
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/i386/intel_iommu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-The root casue is that the when there's a device IOTLB miss (note that
-it's not specific to PCI so it can work without ATS), Qemu doesn't
-build the IOVA tree, so when guest start an IOTLB invalidation, Qemu
-won't trigger the UNMAP notifier.
-
-Fixing by build IOVA tree during IOMMU translsation.
-
-Thanks
-
-Jason Wang (3):
-  intel-iommu: fail MAP notifier without caching mode
-  intel-iommu: fail DEVIOTLB_UNMAP without dt mode
-  intel-iommu: build iova tree during IOMMU translation
-
- hw/i386/intel_iommu.c | 58 ++++++++++++++++++++++++-------------------
- 1 file changed, 33 insertions(+), 25 deletions(-)
-
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index a08ee85edf..9143376677 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3186,6 +3186,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+                          "Snoop Control with vhost or VFIO is not supported");
+         return -ENOTSUP;
+     }
++    if (!s->caching_mode && (new & IOMMU_NOTIFIER_MAP)) {
++        error_setg_errno(errp, ENOTSUP,
++                         "device %02x.%02x.%x requires caching mode",
++                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
++                         PCI_FUNC(vtd_as->devfn));
++        return -ENOTSUP;
++    }
+ 
+     /* Update per-address-space notifier flags */
+     vtd_as->notifier_flags = new;
 -- 
 2.25.1
 
