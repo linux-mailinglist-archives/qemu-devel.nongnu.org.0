@@ -2,163 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DD363B968
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 06:21:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37B063B97D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 06:32:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozt1X-0006jh-Dx; Tue, 29 Nov 2022 00:19:15 -0500
+	id 1oztCd-0001yN-U1; Tue, 29 Nov 2022 00:30:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1ozt1T-0006jG-Li; Tue, 29 Nov 2022 00:19:13 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oztCc-0001xg-C1
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 00:30:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1ozt1R-00049b-6f; Tue, 29 Nov 2022 00:19:11 -0500
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AT1TPiV018504; Mon, 28 Nov 2022 21:19:02 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=girZwvc2KCdDr3TbhhYwTfFpleHhp2/mwfz8gg4Nh90=;
- b=i4Hd1zF9ZiOudp9cejtt04mZYe5zhb7qdILfxlwHQgZf+QsI2AHycpXfiJHFmO+wS95u
- gvM6w8eMJl0vj1A+vd/Cb7NNwX7MH+ZuHFqp892gxslzFPbz4W1MK61CmQHPIoaG/w59
- d0r9rBOVzKFw3unZTrDZFy9sCybcA4amV7R12GFGGe2m1OfFXlxIPdH7GBNhjY5msQLQ
- DOAP+DLeid9VGw+VQOUPmg/K5B41lymlwFLl/WkMtWGxELayL6sDwbXS/KFMaURGV11K
- dSQbATTHtB5qrtvYbP+iX9oY3B+sXg6mrP6bfYBtNBKJz2eSZ7oKLbHSgBx4tYw7ZAss Iw== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3m3k75x9qf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Nov 2022 21:19:02 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dZ/cBf90z3ueWcZj6qBEoSzCK/OClOexzX/R8nFtwSAF30mBqTslE6oc+ZgPHcCoAQV1L3qWIsY6RE+pPnHvAzNxqcd9HWhwVerVKeoZURhOPgRCxkffnqXSCYzkpODmCPY+84BJOjAsD0FgCA9lffMfiNss7DyoXVE3geBzzkiVAbcqfqm3c/9YHIZdlXrvh/0wotCjopeyJC2RZ/9b40q/uuMHaHVgk0OOFjV7jNF8jPNgxTV4Slcn3JgCEU99BQg2+oy+b0z7mBtZ/xEVhkg2OLu6Zgl3ympMf8rgMvozT2YVcReRrjhLZUwpaVvoABDvM3WvwE18MTbA85bmQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=girZwvc2KCdDr3TbhhYwTfFpleHhp2/mwfz8gg4Nh90=;
- b=ckl5z3NQ4RQuXwyxonxWNOTJg+DE/mR3wmwT7RON/WgVX/4BIMCbxN8bdJZ7FNFYP88cteXjWmkHiA860eiVKQfhmKSSpnTIeuXJ0ZK2Tk1snsMPUHJUOplGgRe8aMtOIpXYBZLIOxYCkZ9h/D4omLZUAnTUS0juUUeoKk5SFrwhjv30tNaSQQAzjB4bAj1Nxm1QQxWnyBD6p9EOuP1XufFCeO3c+S6D85cGn96njOcd8POTKaAvh28yFdfyY94n7DSyvU4hL1ESh4PDjK1oqWWElcayitbnkQ5cWeMeeXVMf3aXikpXO9xwzb0Kub0I3LzGE//UynVPxfxBWsYcfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=girZwvc2KCdDr3TbhhYwTfFpleHhp2/mwfz8gg4Nh90=;
- b=Q0SLXo288Ff/GYKDq0Ed16AJdvPPhP6C/8St2gyXnGIVz5YCdHFb3ohtJ2hz9obZDq3Cgn+7IJV85ERk3GzdLrie68SQy7Ipg3b0H3bjW1IA46vnm9THa5VHPf6BhnpkoY9wCF+mfPMwzrK1pOGsFwPs0ijbTC4SXOPPjsw6+gZRNRJwJ9HnYGuIi6iuHBdd8FcfMzTBlB2U9LjyH181Khm8SbX6dak62rFGj9hLH7LfQ4Y6xB+P/T6480Y3Y03B73Z5vEcvWL08rWwGxI5Mr1Sx+uu2U1yd3MARczJPTFuHW9U5+3qX1rOmVzYHCCR4un2YbTN52ymnHyiCqcfbiw==
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by MW4PR02MB7139.namprd02.prod.outlook.com (2603:10b6:303:7f::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Tue, 29 Nov
- 2022 05:18:59 +0000
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::a01e:4b95:6c3:acf2]) by BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::a01e:4b95:6c3:acf2%4]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
- 05:18:59 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "slp@redhat.com"
- <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oztCa-00065v-0u
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 00:30:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669699839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wRNxNtb3sHPec652kxuojuC/onKnKgwrp7j1xlLq5mY=;
+ b=ZsO9SEJyF96YLpdQm24yiCqK7l4ZYPB+Xz5AAiH8j/ftKrcV9mBJPS74MguwbwOec//oLN
+ jf3KX+j36k6MUoxI139MqzVpfuY0YD6kieQnOaCLnk8eFIOVuSNw2NzHSH1M9Kf+rB+jXh
+ MNDF4L/FWW4p4wc8tUq5ozTRSZ4MYbg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-546-WtmlmTANMBqjvui_qYvDRg-1; Tue, 29 Nov 2022 00:30:37 -0500
+X-MC-Unique: WtmlmTANMBqjvui_qYvDRg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e7-20020adf9bc7000000b00242121eebe2so1354620wrc.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 21:30:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wRNxNtb3sHPec652kxuojuC/onKnKgwrp7j1xlLq5mY=;
+ b=bCEeMgHi15xN8CgYwd2M9vd5An0KNDmzeOuS5lvnp1WHvuVIMoIr8yfZeUukOKMiZ+
+ Xd+IRycuy8w+GP6TMSD1ruHbM2nIDpcbVcXCq1lwleXAi9A4lS/BlfXybZGoSCThNyTA
+ 3sc5RfZVI4+LMPUYA0D/vlzCChuCH0RgVi+vqeSPHSkZ8WRNW6TmmWnIg+ZzPPCiPilv
+ Gys6t5693qm6qVSdIqBYWtmjAzBpwIXPjkIrfn2VKULT4X1CdmdLg6PI2Sx/18JeC7Jp
+ gz247xcrtRfYZe3sD7B8Cl4ByyIDXlJE4vOYphFD2jo8cOJofnCGRmSiNDOb2U10wqQC
+ Cf4A==
+X-Gm-Message-State: ANoB5pmcKAMZaDyFr7gZikvFtQAtik+wcvwTKZeSRd4AwxCPO5OPYWTP
+ C/n7sHyk5UHzAEB9VwrCwbTfJZMoTaMMlFv70vH7+YnO/4MibXm6CxSrH0TiVCc14s3B/OBIUcw
+ KkYYwKuLkRphlCmQ=
+X-Received: by 2002:a05:600c:4f44:b0:3b4:7a99:b22c with SMTP id
+ m4-20020a05600c4f4400b003b47a99b22cmr2773846wmq.11.1669699835698; 
+ Mon, 28 Nov 2022 21:30:35 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5pcMia9GYv5zOwZgBqoMsKHx9pGzW4zK0W+v3vNrD8BXjUE/JGtSXLZnME1CE6Av/0FOZSqA==
+X-Received: by 2002:a05:600c:4f44:b0:3b4:7a99:b22c with SMTP id
+ m4-20020a05600c4f4400b003b47a99b22cmr2773823wmq.11.1669699835381; 
+ Mon, 28 Nov 2022 21:30:35 -0800 (PST)
+Received: from redhat.com ([2.52.149.178]) by smtp.gmail.com with ESMTPSA id
+ d8-20020a5d6dc8000000b002415dd45320sm12460751wrz.112.2022.11.28.21.30.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Nov 2022 21:30:34 -0800 (PST)
+Date: Tue, 29 Nov 2022 00:30:31 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "slp@redhat.com" <slp@redhat.com>,
  "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Viresh
- Kumar <viresh.kumar@linaro.org>, Stefano Garzarella <sgarzare@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, "open
- list:Block layer core" <qemu-block@nongnu.org>
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
 Subject: Re: [PATCH  v3 7/7] hw/virtio: generalise CHR_EVENT_CLOSED handling
-Thread-Topic: [PATCH  v3 7/7] hw/virtio: generalise CHR_EVENT_CLOSED handling
-Thread-Index: AQHZA0g+NF22ijAgeUiyAbZbpWubYK5VXZiA
-Date: Tue, 29 Nov 2022 05:18:58 +0000
-Message-ID: <4B9A0F71-8134-476F-ADFB-22FCFC142462@nutanix.com>
+Message-ID: <20221129002939-mutt-send-email-mst@kernel.org>
 References: <20221128164105.1191058-1-alex.bennee@linaro.org>
  <20221128164105.1191058-8-alex.bennee@linaro.org>
-In-Reply-To: <20221128164105.1191058-8-alex.bennee@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL3PR02MB7938:EE_|MW4PR02MB7139:EE_
-x-ms-office365-filtering-correlation-id: 219471aa-5a7e-45ac-3974-08dad1c93847
-x-proofpoint-crosstenant: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mkZZp/J+ivJ82K5xUaPhPeILYyaL5bnltQyxmyD4KXiw4Wv6oX46zaYsP5As61Hk8yMCIMTrBJblOhPKwKL1of51gWOniQ+by/nq6Gvt/Fy2ZGMsM+mrncbRGvO1PrR2nnQAixYZAZKyGYxs4ruNR1yEFSc31qiqjvkR6fZVJBIHkNkgKam1bmbxiBhOplr5Fqbf9MCst01+SHBKwRIIXR8gUOJpQCy/owx6BKkqOnH4+mzP5I3EgQI0a/LmPWaawHrvyoHwXVElS8rDkm01zE9sSh1PJJIU2cw6g8ZXwGyq4LxA0p0rvNOg2MNaQiopZeVpuHYXzQOlewCHfOEhzWQrZs8FS8aMggA8fGPOZ7QC5L1Qf8rjNroxo1UCpl/jZ07OCphwsoCsdNQ9JIzxwgJAkoCZCfYDkSM/cnT1Vfzr9m/XaRO3qLhojvYDhsefUZn0x4GfJ24s2o1R2OFsWH0l4NdcVHp4fKCRd3VlQxg4q6R8JL55Oj6e6UE9fiMzJlb4d7PwrCg89HNU6S2P1Y0/2fzdu8TJhHpnkFY5WEB2ALSdIxO2NvucgEc61uuzJNjBfHOkdDTNu6H3EVTXWCGthw/74IAqBcMJfHyNeujPvKaenv8OxWNXWxt6xCaENsIaB2/ixuV67YTBQSFpAk7OmUvz0xlmB4iE2TKcvV4g77aLP6ZJdCfo0Xs/IFgRugIWduwcERT0d/uc0i5aKNHg/1hF3kkDt0LtYDGoUxk=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(376002)(39860400002)(396003)(366004)(346002)(451199015)(53546011)(71200400001)(36756003)(122000001)(6486002)(6506007)(478600001)(6512007)(38100700002)(26005)(33656002)(91956017)(66476007)(8676002)(76116006)(66446008)(41300700001)(64756008)(66556008)(66946007)(86362001)(4326008)(6916009)(7416002)(38070700005)(54906003)(44832011)(316002)(5660300002)(8936002)(66574015)(186003)(2616005)(83380400001)(2906002)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dnY0KzFwakQzaDdOd2NWQnVzZm1mcUtRb1QvVGExcHJ5WlkzM1RuS05Gbys1?=
- =?utf-8?B?SVpRRkNkaWszUG5FSU9aQUhtOXEyNysvbWVqNjI1NE9kYVkvclhPSnRYcUpC?=
- =?utf-8?B?QzBSMFlqRHFEeVpIaklJZHF5dCtqK2RQVlRPV0pGWnNFWTJ0YVhLRGJqR3d5?=
- =?utf-8?B?NU02eGpRZEE3VDJabEsrSmx6b09BNVh3MVFCS09VYTJQMW1UTkwyVVRJRDAx?=
- =?utf-8?B?TUxrVWFZRkQrSmhXVWZheitFY1l5RVNEREFGeUp0SEVzNG8wUjlHdlJ5ZXVV?=
- =?utf-8?B?b1JRZUJiK1JtWnIyZ2hmT3RhZWsyM1c1Y205ZTFjN1hjM2VKd0xLN0F6RHlH?=
- =?utf-8?B?c1BHYjlnOG80dWtnYU4wM3JFMDR6ZjE0VGRrL01GWkFTUDRhWk9sQmVaNFV3?=
- =?utf-8?B?MkNLcU5TZGxTTWQ4NDJmQmJiM2czSVVVN1Z5bTY2WUZsYlJCTEpxMmVBOWZk?=
- =?utf-8?B?YmNpSW5WY2RNUXZmZFYzbFl3MW1JOHRKL1FncDhqWFRNUS9hS1dKWFdXeFVK?=
- =?utf-8?B?aUFDVjN5WkhoWmswVmdCWXg1Q05XN3NqdzVjY2dySUxGZ2VEVkJBdzBrUllh?=
- =?utf-8?B?M2hibXQzU0EwdVRiaTVLT3BTQi9hbnpOM0lURFFyay9abk5rVXdoSS9CMVRs?=
- =?utf-8?B?M2tBSFBZYjRXVGF2dFNyRG92VEFGVys5a3NhZFByNE1pK24vNDlmcFNxb1Fm?=
- =?utf-8?B?T3FjWWFRTTRWckpxeHBwVXdMQkJEVHV2eWtOVDRUTVYwUFRUd1VaU0xraWVv?=
- =?utf-8?B?K0ZSWHZRSkQyUVRJYlZFWGV2TysxcjFiTmZ3N2kxMk04TldrQTZ0L0Z0cVhZ?=
- =?utf-8?B?eHQyS3B6M2RVaU52K1preDQzRGY2MmR2VnlRS002WFFLSDg4eDMxaWxQTDJt?=
- =?utf-8?B?M09RRFhGTmdVS3VDbnRsMHZYYnNoOXBZbWo4Tnl1eTBuS3hWTXMxS0RFMm1p?=
- =?utf-8?B?Uyt2ejIyclNFMmp2Yjd4cTlYV3RheW9SUjdPalpWUkVGN1BXNlRDRGN3R2xq?=
- =?utf-8?B?SnEreTNvNWhsaG1hYmZxbnlPUnJMVDZtSjl6VVM2dVRiMXNpbWZyRUEvL2Za?=
- =?utf-8?B?cms5WlcvUFVsM3V2czcwNnUvMDZLMy9WQnp1cGt6L0FQaERESGZPTzVCRHhO?=
- =?utf-8?B?QW1Hdmp1UjFXTFVmR0JNdkExbStqZDU4S3RvcVVSdEpVMGZBektiNFRzQWFt?=
- =?utf-8?B?NUxFQTFoaCtaVFNLTHdsTStRa0VJWmZOU0tEblIxZGJqZThXdFpScGdiUFRo?=
- =?utf-8?B?QXc3cGduNEN3MVpucnFoNmEyQ0RpN25Jdkc5b3F4UFFFYURNTEpXREJRdFNS?=
- =?utf-8?B?RTN0ZlkzTVA1NmR4ZkV3akh2VS85dHczZWQzR1huVERsUFlpOGdxaWlRQ1NN?=
- =?utf-8?B?UkxrclRQY0twRncyeCtrTDdrZnBBcXBpQ1IyM0I0MVhhT2tyYWF5amJjWDQ4?=
- =?utf-8?B?dVB2MkFMZHJ0Vk5McmdNeUZBNEhaY3JiNDVOVDBkcDdVeE1XbzZTMGlzMk1Q?=
- =?utf-8?B?NjdCUllJSkozM2FQaTRLSGFYdHlMeGYvR1l5Qnl3ZllWMG4xelJKc244REh6?=
- =?utf-8?B?ZFBBaldCNzFqRzB6WCt6WFpWN01CNDMwUG5ZUzFEbVA2MTlGQ2xXdkp6bllu?=
- =?utf-8?B?RnF2bWxVYmJvMmZ5MkdGbkZxRmNYWStVMTNZazluRmVoWC8ycmFlTEVKUG5p?=
- =?utf-8?B?ay9sNzZIL0MyYktHeFo0QTFCWkVKYVQwVEZ2bGgzOFhUVnFScS9ySXZXcXZY?=
- =?utf-8?B?OEdNWktRU2JKamlscng3dE5kR3IvOVRCWk42MERySFRKR0t2VjFGbzhMN0JN?=
- =?utf-8?B?K1VIRVFibE1ZalYrVTJkWnZ2TkVSUEpES0g2MjN6UVJwL1BFd1FIczBoclNI?=
- =?utf-8?B?NXo5RUd1eEMyV0lueWVlQUhVV0hvT1pOZVhPeEtsaG41ejBhdG5pbFNZWnBI?=
- =?utf-8?B?S3RpSStqaVQ0Rkx0ZkY1eXJvZWEvS0RlWWVvK28zSlJwYWFHK2ZMa0g5REVZ?=
- =?utf-8?B?V3llaE54ZjArQ0R2Z2pyd2NVcUxvSUd2cVU5NEJ2blZJa3BUbTcvZkNlMXJ1?=
- =?utf-8?B?b3VORjZKanUyN2dyRHpCMzIwTG5ZVGxrT2FKWGdNa0xFa1pyNkxycEd5bmt1?=
- =?utf-8?B?QmlCanZwaXJ0Y1hjRkZSc0hVOTR2RGs4b09wWWtyZWgwYVFLNDIvTUExQ2Jn?=
- =?utf-8?Q?zPFR/HJCIErD8KzsgJIbNuQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <00495B8C935CF845A7F2D33A4DBC5138@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <4B9A0F71-8134-476F-ADFB-22FCFC142462@nutanix.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 219471aa-5a7e-45ac-3974-08dad1c93847
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2022 05:18:58.9013 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yb+Lpo71aKA4PWPw4FG3J83mNgzd1LoWqhjgVJjcJHA8S5H8pG8VNRzu5mMzUanoglqoIucxtSTmapJuLTuHhSKs6+GcWT/2J52vi3VAFsw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR02MB7139
-X-Proofpoint-ORIG-GUID: rl70v0XSm3NJ-BrqmP0dMnhXiu9YPt7f
-X-Proofpoint-GUID: rl70v0XSm3NJ-BrqmP0dMnhXiu9YPt7f
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-29_04,2022-11-28_02,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4B9A0F71-8134-476F-ADFB-22FCFC142462@nutanix.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -174,178 +107,256 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PiBPbiBOb3YgMjgsIDIwMjIsIGF0IDExOjQxIEFNLCBBbGV4IEJlbm7DqWUgPGFsZXguYmVubmVl
-QGxpbmFyby5vcmc+IHdyb3RlOg0KPiANCj4gLi5hbmQgdXNlIGZvciBib3RoIHZpcnRpby11c2Vy
-LWJsayBhbmQgdmlydGlvLXVzZXItZ3Bpby4gVGhpcyBhdm9pZHMNCj4gdGhlIGNpcmN1bGFyIGNs
-b3NlIGJ5IGRlZmVycmluZyBzaHV0ZG93biBkdWUgdG8gZGlzY29ubmVjdGlvbiB1bnRpbCBhDQo+
-IGxhdGVyIHBvaW50LiB2aXJ0aW8tdXNlci1ibGsgYWxyZWFkeSBoYWQgdGhpcyBtZWNoYW5pc20g
-aW4gcGxhY2Ugc28NCg0KVGhlIG1lY2hhbmlzbSB3YXMgb3JpZ2luYWxseSBjb3BpZWQgZnJvbSB2
-aXJ0aW8tbmV0IHNvIHdlIHNob3VsZCBwcm9iYWJseSBmaXggaXQgdGhlcmUgdG9vLiBBRkFJQ1Qg
-Y2FsbGluZyB2aG9zdF91c2VyX2FzeW5jX2Nsb3NlKCkgc2hvdWxkIHdvcmsgaW4gbmV0X3Zob3N0
-X3VzZXJfZXZlbnQoKS4NCg0KT3RoZXJ3aXNlIHRoZSBjb2RlIGxvb2tzIGdvb2QgbW9kdWxvIGEg
-ZmV3IG5pdHMuIEhhcHB5IHRvIHNlZSB0aGUgZHVwbGljYXRlZCBsb2dpYyBpcyBiZWluZyBnZW5l
-cmFsaXplZC4NCg0KDQo+IGdlbmVyYWxpc2UgaXQgYXMgYSB2aG9zdC11c2VyIGhlbHBlciBmdW5j
-dGlvbiBhbmQgdXNlIGZvciBib3RoIGJsayBhbmQNCj4gZ3BpbyBkZXZpY2VzLg0KPiANCj4gV2hp
-bGUgd2UgYXJlIGF0IGl0IHdlIGFsc28gZml4IHVwIHZob3N0LXVzZXItZ3BpbyB0byByZS1lc3Rh
-Ymxpc2ggdGhlDQo+IGV2ZW50IGhhbmRsZXIgYWZ0ZXIgY2xvc2UgZG93biBzbyB3ZSBjYW4gcmVj
-b25uZWN0IGxhdGVyLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQWxleCBCZW5uw6llIDxhbGV4LmJl
-bm5lZUBsaW5hcm8ub3JnPg0KPiAtLS0NCj4gaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdXNlci5o
-IHwgMTggKysrKysrKysrDQo+IGh3L2Jsb2NrL3Zob3N0LXVzZXItYmxrLmMgICAgICB8IDQxICsr
-Ky0tLS0tLS0tLS0tLS0tLS0tDQo+IGh3L3ZpcnRpby92aG9zdC11c2VyLWdwaW8uYyAgICB8IDEx
-ICsrKysrLQ0KPiBody92aXJ0aW8vdmhvc3QtdXNlci5jICAgICAgICAgfCA3MSArKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrDQo+IDQgZmlsZXMgY2hhbmdlZCwgMTA0IGluc2VydGlv
-bnMoKyksIDM3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvaHcvdmly
-dGlvL3Zob3N0LXVzZXIuaCBiL2luY2x1ZGUvaHcvdmlydGlvL3Zob3N0LXVzZXIuaA0KPiBpbmRl
-eCBjNmU2OTNjZDNmLi4xOTEyMTZhNzRmIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2h3L3ZpcnRp
-by92aG9zdC11c2VyLmgNCj4gKysrIGIvaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdXNlci5oDQo+
-IEBAIC02OCw0ICs2OCwyMiBAQCBib29sIHZob3N0X3VzZXJfaW5pdChWaG9zdFVzZXJTdGF0ZSAq
-dXNlciwgQ2hhckJhY2tlbmQgKmNociwgRXJyb3IgKiplcnJwKTsNCj4gICovDQo+IHZvaWQgdmhv
-c3RfdXNlcl9jbGVhbnVwKFZob3N0VXNlclN0YXRlICp1c2VyKTsNCj4gDQo+ICsvKioNCj4gKyAq
-IHZob3N0X3VzZXJfYXN5bmNfY2xvc2UoKSAtIGNsZWFudXAgdmhvc3QtdXNlciBwb3N0IGNvbm5l
-Y3Rpb24gZHJvcA0KPiArICogQGQ6IERldmljZVN0YXRlIGZvciB0aGUgYXNzb2NpYXRlZCBkZXZp
-Y2UgKHBhc3NlZCB0byBjYWxsYmFjaykNCj4gKyAqIEBjaGFyZGV2OiB0aGUgQ2hhckJhY2tlbmQg
-YXNzb2NpYXRlZCB3aXRoIHRoZSBjb25uZWN0aW9uDQo+ICsgKiBAdmhvc3Q6IHRoZSBjb21tb24g
-dmhvc3QgZGV2aWNlDQo+ICsgKiBAY2I6IHRoZSB1c2VyIGNhbGxiYWNrIGZ1bmN0aW9uIHRvIGNv
-bXBsZXRlIHRoZSBjbGVhbi11cA0KPiArICoNCj4gKyAqIFRoaXMgZnVuY3Rpb24gaXMgdXNlZCB0
-byBoYW5kbGUgdGhlIHNodXRkb3duIG9mIGEgdmhvc3QtdXNlcg0KPiArICogY29ubmVjdGlvbiB0
-byBhIGJhY2tlbmQuIFdlIGhhbmRsZSB0aGlzIGNlbnRyYWxseSB0byBtYWtlIHN1cmUgd2UNCj4g
-KyAqIGRvIGFsbCB0aGUgc3RlcHMgYW5kIGhhbmRsZSBwb3RlbnRpYWwgcmFjZXMgZHVlIHRvIFZN
-IHNodXRkb3ducy4NCj4gKyAqIE9uY2UgdGhlIGNvbm5lY3Rpb24gaXMgZGlzYWJsZWQgd2UgY2Fs
-bCBhIGJhY2toYWxmIHRvIGVuc3VyZQ0KPiArICovDQo+ICt0eXBlZGVmIHZvaWQgKCp2dV9hc3lu
-Y19jbG9zZV9mbikoRGV2aWNlU3RhdGUgKmNiKTsNCj4gKw0KPiArdm9pZCB2aG9zdF91c2VyX2Fz
-eW5jX2Nsb3NlKERldmljZVN0YXRlICpkLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IENoYXJCYWNrZW5kICpjaGFyZGV2LCBzdHJ1Y3Qgdmhvc3RfZGV2ICp2aG9zdCwNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB2dV9hc3luY19jbG9zZV9mbiBjYik7DQo+ICsNCj4gI2Vu
-ZGlmDQo+IGRpZmYgLS1naXQgYS9ody9ibG9jay92aG9zdC11c2VyLWJsay5jIGIvaHcvYmxvY2sv
-dmhvc3QtdXNlci1ibGsuYw0KPiBpbmRleCAxMTc3MDY0NjMxLi5hZmY0ZDJiOGNiIDEwMDY0NA0K
-PiAtLS0gYS9ody9ibG9jay92aG9zdC11c2VyLWJsay5jDQo+ICsrKyBiL2h3L2Jsb2NrL3Zob3N0
-LXVzZXItYmxrLmMNCj4gQEAgLTM2OSwxNyArMzY5LDEwIEBAIHN0YXRpYyB2b2lkIHZob3N0X3Vz
-ZXJfYmxrX2Rpc2Nvbm5lY3QoRGV2aWNlU3RhdGUgKmRldikNCj4gICAgIHZob3N0X3VzZXJfYmxr
-X3N0b3AodmRldik7DQo+IA0KPiAgICAgdmhvc3RfZGV2X2NsZWFudXAoJnMtPmRldik7DQo+IC19
-DQo+IA0KPiAtc3RhdGljIHZvaWQgdmhvc3RfdXNlcl9ibGtfY2hyX2Nsb3NlZF9iaCh2b2lkICpv
-cGFxdWUpDQo+IC17DQo+IC0gICAgRGV2aWNlU3RhdGUgKmRldiA9IG9wYXF1ZTsNCj4gLSAgICBW
-aXJ0SU9EZXZpY2UgKnZkZXYgPSBWSVJUSU9fREVWSUNFKGRldik7DQo+IC0gICAgVkhvc3RVc2Vy
-QmxrICpzID0gVkhPU1RfVVNFUl9CTEsodmRldik7DQo+IC0NCj4gLSAgICB2aG9zdF91c2VyX2Js
-a19kaXNjb25uZWN0KGRldik7DQo+ICsgICAgLyogUmUtaW5zdGF0ZSB0aGUgZXZlbnQgaGFuZGxl
-ciBmb3IgbmV3IGNvbm5lY3Rpb25zICovDQo+ICAgICBxZW11X2Nocl9mZV9zZXRfaGFuZGxlcnMo
-JnMtPmNoYXJkZXYsIE5VTEwsIE5VTEwsIHZob3N0X3VzZXJfYmxrX2V2ZW50LA0KPiAtICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBOVUxMLCBvcGFxdWUsIE5VTEwsIHRydWUpOw0KPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMLCBkZXYsIE5VTEwsIHRydWUpOw0KPiB9DQo+
-IA0KPiBzdGF0aWMgdm9pZCB2aG9zdF91c2VyX2Jsa19ldmVudCh2b2lkICpvcGFxdWUsIFFFTVVD
-aHJFdmVudCBldmVudCkNCj4gQEAgLTM5OCwzMyArMzkxLDkgQEAgc3RhdGljIHZvaWQgdmhvc3Rf
-dXNlcl9ibGtfZXZlbnQodm9pZCAqb3BhcXVlLCBRRU1VQ2hyRXZlbnQgZXZlbnQpDQo+ICAgICAg
-ICAgfQ0KPiAgICAgICAgIGJyZWFrOw0KPiAgICAgY2FzZSBDSFJfRVZFTlRfQ0xPU0VEOg0KPiAt
-ICAgICAgICBpZiAoIXJ1bnN0YXRlX2NoZWNrKFJVTl9TVEFURV9TSFVURE9XTikpIHsNCj4gLSAg
-ICAgICAgICAgIC8qDQo+IC0gICAgICAgICAgICAgKiBBIGNsb3NlIGV2ZW50IG1heSBoYXBwZW4g
-ZHVyaW5nIGEgcmVhZC93cml0ZSwgYnV0IHZob3N0DQo+IC0gICAgICAgICAgICAgKiBjb2RlIGFz
-c3VtZXMgdGhlIHZob3N0X2RldiByZW1haW5zIHNldHVwLCBzbyBkZWxheSB0aGUNCj4gLSAgICAg
-ICAgICAgICAqIHN0b3AgJiBjbGVhci4NCj4gLSAgICAgICAgICAgICAqLw0KPiAtICAgICAgICAg
-ICAgQWlvQ29udGV4dCAqY3R4ID0gcWVtdV9nZXRfY3VycmVudF9haW9fY29udGV4dCgpOw0KPiAt
-DQo+IC0gICAgICAgICAgICBxZW11X2Nocl9mZV9zZXRfaGFuZGxlcnMoJnMtPmNoYXJkZXYsIE5V
-TEwsIE5VTEwsIE5VTEwsIE5VTEwsDQo+IC0gICAgICAgICAgICAgICAgICAgIE5VTEwsIE5VTEws
-IGZhbHNlKTsNCj4gLSAgICAgICAgICAgIGFpb19iaF9zY2hlZHVsZV9vbmVzaG90KGN0eCwgdmhv
-c3RfdXNlcl9ibGtfY2hyX2Nsb3NlZF9iaCwgb3BhcXVlKTsNCj4gLQ0KPiAtICAgICAgICAgICAg
-LyoNCj4gLSAgICAgICAgICAgICAqIE1vdmUgdmhvc3QgZGV2aWNlIHRvIHRoZSBzdG9wcGVkIHN0
-YXRlLiBUaGUgdmhvc3QtdXNlciBkZXZpY2UNCj4gLSAgICAgICAgICAgICAqIHdpbGwgYmUgY2xl
-YW4gdXAgYW5kIGRpc2Nvbm5lY3RlZCBpbiBCSC4gVGhpcyBjYW4gYmUgdXNlZnVsIGluDQo+IC0g
-ICAgICAgICAgICAgKiB0aGUgdmhvc3QgbWlncmF0aW9uIGNvZGUuIElmIGRpc2Nvbm5lY3Qgd2Fz
-IGNhdWdodCB0aGVyZSBpcyBhbg0KPiAtICAgICAgICAgICAgICogb3B0aW9uIGZvciB0aGUgZ2Vu
-ZXJhbCB2aG9zdCBjb2RlIHRvIGdldCB0aGUgZGV2IHN0YXRlIHdpdGhvdXQNCj4gLSAgICAgICAg
-ICAgICAqIGtub3dpbmcgaXRzIHR5cGUgKGluIHRoaXMgY2FzZSB2aG9zdC11c2VyKS4NCj4gLSAg
-ICAgICAgICAgICAqDQo+IC0gICAgICAgICAgICAgKiBGSVhNRTogdGhpcyBpcyBza2V0Y2h5IHRv
-IGJlIHJlYWNoaW5nIGludG8gdmhvc3RfZGV2DQo+IC0gICAgICAgICAgICAgKiBub3cgYmVjYXVz
-ZSB3ZSBhcmUgZm9yY2luZyBzb21ldGhpbmcgdGhhdCBpbXBsaWVzIHdlDQo+IC0gICAgICAgICAg
-ICAgKiBoYXZlIGV4ZWN1dGVkIHZob3N0X2Rldl9zdG9wKCkgYnV0IHRoYXQgd29uJ3QgaGFwcGVu
-DQo+IC0gICAgICAgICAgICAgKiB1bnRpbCB2aG9zdF91c2VyX2Jsa19zdG9wKCkgZ2V0cyBjYWxs
-ZWQgZnJvbSB0aGUgYmguDQo+IC0gICAgICAgICAgICAgKiBSZWFsbHkgdGhpcyBzdGF0ZSBjaGVj
-ayBzaG91bGQgYmUgdHJhY2tlZCBsb2NhbGx5Lg0KPiAtICAgICAgICAgICAgICovDQo+IC0gICAg
-ICAgICAgICBzLT5kZXYuc3RhcnRlZCA9IGZhbHNlOw0KPiAtICAgICAgICB9DQo+ICsgICAgICAg
-IC8qIGRlZmVyIGNsb3NlIHVudGlsIGxhdGVyIHRvIGF2b2lkIGNpcmN1bGFyIGNsb3NlICovDQo+
-ICsgICAgICAgIHZob3N0X3VzZXJfYXN5bmNfY2xvc2UoZGV2LCAmcy0+Y2hhcmRldiwgJnMtPmRl
-diwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2aG9zdF91c2VyX2Jsa19kaXNj
-b25uZWN0KTsNCj4gICAgICAgICBicmVhazsNCj4gICAgIGNhc2UgQ0hSX0VWRU5UX0JSRUFLOg0K
-PiAgICAgY2FzZSBDSFJfRVZFTlRfTVVYX0lOOg0KPiBkaWZmIC0tZ2l0IGEvaHcvdmlydGlvL3Zo
-b3N0LXVzZXItZ3Bpby5jIGIvaHcvdmlydGlvL3Zob3N0LXVzZXItZ3Bpby5jDQo+IGluZGV4IDc1
-ZTI4YmNkM2IuLmNkNzYyODc3NjYgMTAwNjQ0DQo+IC0tLSBhL2h3L3ZpcnRpby92aG9zdC11c2Vy
-LWdwaW8uYw0KPiArKysgYi9ody92aXJ0aW8vdmhvc3QtdXNlci1ncGlvLmMNCj4gQEAgLTIzOSw2
-ICsyMzksOCBAQCBzdGF0aWMgaW50IHZ1X2dwaW9fY29ubmVjdChEZXZpY2VTdGF0ZSAqZGV2LCBF
-cnJvciAqKmVycnApDQo+ICAgICByZXR1cm4gMDsNCj4gfQ0KPiANCj4gK3N0YXRpYyB2b2lkIHZ1
-X2dwaW9fZXZlbnQodm9pZCAqb3BhcXVlLCBRRU1VQ2hyRXZlbnQgZXZlbnQpOw0KPiArDQo+IHN0
-YXRpYyB2b2lkIHZ1X2dwaW9fZGlzY29ubmVjdChEZXZpY2VTdGF0ZSAqZGV2KQ0KPiB7DQo+ICAg
-ICBWaXJ0SU9EZXZpY2UgKnZkZXYgPSBWSVJUSU9fREVWSUNFKGRldik7DQo+IEBAIC0yNTEsNiAr
-MjUzLDExIEBAIHN0YXRpYyB2b2lkIHZ1X2dwaW9fZGlzY29ubmVjdChEZXZpY2VTdGF0ZSAqZGV2
-KQ0KPiANCj4gICAgIHZ1X2dwaW9fc3RvcCh2ZGV2KTsNCj4gICAgIHZob3N0X2Rldl9jbGVhbnVw
-KCZncGlvLT52aG9zdF9kZXYpOw0KPiArDQo+ICsgICAgLyogUmUtaW5zdGF0ZSB0aGUgZXZlbnQg
-aGFuZGxlciBmb3IgbmV3IGNvbm5lY3Rpb25zICovDQo+ICsgICAgcWVtdV9jaHJfZmVfc2V0X2hh
-bmRsZXJzKCZncGlvLT5jaGFyZGV2LA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBO
-VUxMLCBOVUxMLCB2dV9ncGlvX2V2ZW50LA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBOVUxMLCBkZXYsIE5VTEwsIHRydWUpOw0KPiB9DQo+IA0KPiBzdGF0aWMgdm9pZCB2dV9ncGlv
-X2V2ZW50KHZvaWQgKm9wYXF1ZSwgUUVNVUNockV2ZW50IGV2ZW50KQ0KPiBAQCAtMjY4LDcgKzI3
-NSw5IEBAIHN0YXRpYyB2b2lkIHZ1X2dwaW9fZXZlbnQodm9pZCAqb3BhcXVlLCBRRU1VQ2hyRXZl
-bnQgZXZlbnQpDQo+ICAgICAgICAgfQ0KPiAgICAgICAgIGJyZWFrOw0KPiAgICAgY2FzZSBDSFJf
-RVZFTlRfQ0xPU0VEOg0KPiAtICAgICAgICB2dV9ncGlvX2Rpc2Nvbm5lY3QoZGV2KTsNCj4gKyAg
-ICAgICAgLyogZGVmZXIgY2xvc2UgdW50aWwgbGF0ZXIgdG8gYXZvaWQgY2lyY3VsYXIgY2xvc2Ug
-Ki8NCj4gKyAgICAgICAgdmhvc3RfdXNlcl9hc3luY19jbG9zZShkZXYsICZncGlvLT5jaGFyZGV2
-LCAmZ3Bpby0+dmhvc3RfZGV2LA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZ1
-X2dwaW9fZGlzY29ubmVjdCk7DQo+ICAgICAgICAgYnJlYWs7DQo+ICAgICBjYXNlIENIUl9FVkVO
-VF9CUkVBSzoNCj4gICAgIGNhc2UgQ0hSX0VWRU5UX01VWF9JTjoNCj4gZGlmZiAtLWdpdCBhL2h3
-L3ZpcnRpby92aG9zdC11c2VyLmMgYi9ody92aXJ0aW8vdmhvc3QtdXNlci5jDQo+IGluZGV4IGFi
-ZTIzZDRlYmUuLjhmNjM1ODQ0YWYgMTAwNjQ0DQo+IC0tLSBhL2h3L3ZpcnRpby92aG9zdC11c2Vy
-LmMNCj4gKysrIGIvaHcvdmlydGlvL3Zob3N0LXVzZXIuYw0KPiBAQCAtMjEsNiArMjEsNyBAQA0K
-PiAjaW5jbHVkZSAicWVtdS9lcnJvci1yZXBvcnQuaCINCj4gI2luY2x1ZGUgInFlbXUvbWFpbi1s
-b29wLmgiDQo+ICNpbmNsdWRlICJxZW11L3NvY2tldHMuaCINCj4gKyNpbmNsdWRlICJzeXNlbXUv
-cnVuc3RhdGUuaCINCj4gI2luY2x1ZGUgInN5c2VtdS9jcnlwdG9kZXYuaCINCj4gI2luY2x1ZGUg
-Im1pZ3JhdGlvbi9taWdyYXRpb24uaCINCj4gI2luY2x1ZGUgIm1pZ3JhdGlvbi9wb3N0Y29weS1y
-YW0uaCINCj4gQEAgLTI2NzAsNiArMjY3MSw3NiBAQCB2b2lkIHZob3N0X3VzZXJfY2xlYW51cChW
-aG9zdFVzZXJTdGF0ZSAqdXNlcikNCj4gICAgIHVzZXItPmNociA9IE5VTEw7DQo+IH0NCj4gDQoN
-Cm5pdDogRXh0cmEgc3BhY2UgDQoNCj4gKw0KPiArdHlwZWRlZiBzdHJ1Y3Qgew0KPiArICAgIHZ1
-X2FzeW5jX2Nsb3NlX2ZuIGNiOw0KPiArICAgIERldmljZVN0YXRlICpkZXY7DQo+ICsgICAgQ2hh
-ckJhY2tlbmQgKmNkOw0KPiArICAgIHN0cnVjdCB2aG9zdF9kZXYgKnZob3N0Ow0KPiArfSBWaG9z
-dEFzeW5jQ2FsbGJhY2s7DQo+ICsNCj4gK3N0YXRpYyB2b2lkIHZob3N0X3VzZXJfYXN5bmNfY2xv
-c2VfYmgodm9pZCAqb3BhcXVlKQ0KPiArew0KPiArICAgIFZob3N0QXN5bmNDYWxsYmFjayAqZGF0
-YSA9IG9wYXF1ZTsNCj4gKyAgICBzdHJ1Y3Qgdmhvc3RfZGV2ICp2aG9zdCA9IGRhdGEtPnZob3N0
-Ow0KPiArDQo+ICsgICAgLyoNCj4gKyAgICAgKiBJZiB0aGUgdmhvc3RfZGV2IGhhcyBiZWVuIGNs
-ZWFyZWQgaW4gdGhlIG1lYW50aW1lIHRoZXJlIGlzDQo+ICsgICAgICogbm90aGluZyBsZWZ0IHRv
-IGRvIGFzIHNvbWUgb3RoZXIgcGF0aCBoYXMgY29tcGxldGVkIHRoZQ0KPiArICAgICAqIGNsZWFu
-dXAuDQo+ICsgICAgICovDQo+ICsgICAgaWYgKHZob3N0LT52ZGV2KSB7DQo+ICsgICAgICAgIGRh
-dGEtPmNiKGRhdGEtPmRldik7DQo+ICsgICAgfQ0KPiArDQo+ICsgICAgZ19mcmVlKGRhdGEpOw0K
-PiArfQ0KPiArDQo+ICsvKg0KPiArICogV2Ugb25seSBzY2hlZHVsZSB0aGUgd29yayBpZiB0aGUg
-bWFjaGluZSBpcyBydW5uaW5nLiBJZiBzdXNwZW5kZWQNCj4gKyAqIHdlIHdhbnQgdG8ga2VlcCBh
-bGwgdGhlIGluLWZsaWdodCBkYXRhIGFzIGlzIGZvciBtaWdyYXRpb24NCj4gKyAqIHB1cnBvc2Vz
-Lg0KPiArICovDQo+ICt2b2lkIHZob3N0X3VzZXJfYXN5bmNfY2xvc2UoRGV2aWNlU3RhdGUgKmQs
-DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ2hhckJhY2tlbmQgKmNoYXJkZXYsIHN0
-cnVjdCB2aG9zdF9kZXYgKnZob3N0LA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZ1
-X2FzeW5jX2Nsb3NlX2ZuIGNiKQ0KPiArew0KPiArICAgIGlmICghcnVuc3RhdGVfY2hlY2soUlVO
-X1NUQVRFX1NIVVRET1dOKSkgew0KPiArICAgICAgICAvKg0KPiArICAgICAgICAgKiBBIGNsb3Nl
-IGV2ZW50IG1heSBoYXBwZW4gZHVyaW5nIGEgcmVhZC93cml0ZSwgYnV0IHZob3N0DQo+ICsgICAg
-ICAgICAqIGNvZGUgYXNzdW1lcyB0aGUgdmhvc3RfZGV2IHJlbWFpbnMgc2V0dXAsIHNvIGRlbGF5
-IHRoZQ0KPiArICAgICAgICAgKiBzdG9wICYgY2xlYXIuDQo+ICsgICAgICAgICAqLw0KPiArICAg
-ICAgICBBaW9Db250ZXh0ICpjdHggPSBxZW11X2dldF9jdXJyZW50X2Fpb19jb250ZXh0KCk7DQo+
-ICsgICAgICAgIFZob3N0QXN5bmNDYWxsYmFjayAqZGF0YSA9IGdfbmV3MChWaG9zdEFzeW5jQ2Fs
-bGJhY2ssIDEpOw0KPiArDQo+ICsgICAgICAgIC8qIFNhdmUgZGF0YSBmb3IgdGhlIGNhbGxiYWNr
-ICovDQo+ICsgICAgICAgIGRhdGEtPmNiID0gY2I7DQo+ICsgICAgICAgIGRhdGEtPmRldiA9IGQ7
-DQo+ICsgICAgICAgIGRhdGEtPmNkID0gY2hhcmRldjsNCj4gKyAgICAgICAgZGF0YS0+dmhvc3Qg
-PSB2aG9zdDsNCj4gKw0KPiArICAgICAgICAvKiBEaXNhYmxlIGFueSBmdXJ0aGVyIG5vdGlmaWNh
-dGlvbnMgb24gdGhlIGNoYXJkZXYgKi8NCj4gKyAgICAgICAgcWVtdV9jaHJfZmVfc2V0X2hhbmRs
-ZXJzKGNoYXJkZXYsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMLCBO
-VUxMLCBOVUxMLCBOVUxMLCBOVUxMLCBOVUxMLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgZmFsc2UpOw0KPiArDQo+ICsgICAgICAgIGFpb19iaF9zY2hlZHVsZV9vbmVzaG90
-KGN0eCwgdmhvc3RfdXNlcl9hc3luY19jbG9zZV9iaCwgZGF0YSk7DQo+ICsNCj4gKyAgICAgICAg
-LyoNCj4gKyAgICAgICAgICogTW92ZSB2aG9zdCBkZXZpY2UgdG8gdGhlIHN0b3BwZWQgc3RhdGUu
-IFRoZSB2aG9zdC11c2VyIGRldmljZQ0KDQpOb3QgdGhpcyBjaGFuZ2XigJlzIGZhdWx0IGJ1dCB3
-ZSBzaG91bGQgZml4IHVwIHRoZSBncmFtbWFyIGhlcmUgaS5lLiBzL2NsZWFuL2NsZWFuZWQvIGFu
-ZCBwcm9iYWJseSBzaG91bGQgYmUg4oCcZGlzY29ubmVjdGVkIGluIHRoZSBCSOKAneKApmV0Yy4N
-Cg0KPiArICAgICAgICAgKiB3aWxsIGJlIGNsZWFuIHVwIGFuZCBkaXNjb25uZWN0ZWQgaW4gQkgu
-IFRoaXMgY2FuIGJlIHVzZWZ1bCBpbg0KPiArICAgICAgICAgKiB0aGUgdmhvc3QgbWlncmF0aW9u
-IGNvZGUuIElmIGRpc2Nvbm5lY3Qgd2FzIGNhdWdodCB0aGVyZSBpcyBhbg0KPiArICAgICAgICAg
-KiBvcHRpb24gZm9yIHRoZSBnZW5lcmFsIHZob3N0IGNvZGUgdG8gZ2V0IHRoZSBkZXYgc3RhdGUg
-d2l0aG91dA0KPiArICAgICAgICAgKiBrbm93aW5nIGl0cyB0eXBlIChpbiB0aGlzIGNhc2Ugdmhv
-c3QtdXNlcikuDQo+ICsgICAgICAgICAqDQo+ICsgICAgICAgICAqIE5vdGUgaWYgdGhlIHZob3N0
-IGRldmljZSBpcyBmdWxseSBjbGVhcmVkIGJ5IHRoZSB0aW1lIHdlDQo+ICsgICAgICAgICAqIGV4
-ZWN1dGUgdGhlIGJvdHRvbSBoYWxmIHdlIHdvbid0IGNvbnRpbnVlIHdpdGggdGhlIGNsZWFudXAu
-DQo+ICsgICAgICAgICAqLw0KPiArICAgICAgICB2aG9zdC0+c3RhcnRlZCA9IGZhbHNlOw0KPiAr
-ICAgIH0NCj4gK30NCj4gKw0KPiBzdGF0aWMgaW50IHZob3N0X3VzZXJfZGV2X3N0YXJ0KHN0cnVj
-dCB2aG9zdF9kZXYgKmRldiwgYm9vbCBzdGFydGVkKQ0KPiB7DQo+ICAgICBpZiAoIXZpcnRpb19o
-YXNfZmVhdHVyZShkZXYtPnByb3RvY29sX2ZlYXR1cmVzLA0KPiAtLSANCj4gMi4zNC4xDQo+IA0K
-DQo=
+On Tue, Nov 29, 2022 at 05:18:58AM +0000, Raphael Norwitz wrote:
+> > On Nov 28, 2022, at 11:41 AM, Alex Bennée <alex.bennee@linaro.org> wrote:
+> > 
+> > ..and use for both virtio-user-blk and virtio-user-gpio. This avoids
+> > the circular close by deferring shutdown due to disconnection until a
+> > later point. virtio-user-blk already had this mechanism in place so
+> 
+> The mechanism was originally copied from virtio-net so we should probably fix it there too. AFAICT calling vhost_user_async_close() should work in net_vhost_user_event().
+> 
+> Otherwise the code looks good modulo a few nits. Happy to see the duplicated logic is being generalized.
+
+If you do, separate patch pls and does not have to block this series.
+
+> 
+> > generalise it as a vhost-user helper function and use for both blk and
+> > gpio devices.
+> > 
+> > While we are at it we also fix up vhost-user-gpio to re-establish the
+> > event handler after close down so we can reconnect later.
+> > 
+> > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > ---
+> > include/hw/virtio/vhost-user.h | 18 +++++++++
+> > hw/block/vhost-user-blk.c      | 41 +++-----------------
+> > hw/virtio/vhost-user-gpio.c    | 11 +++++-
+> > hw/virtio/vhost-user.c         | 71 ++++++++++++++++++++++++++++++++++
+> > 4 files changed, 104 insertions(+), 37 deletions(-)
+> > 
+> > diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
+> > index c6e693cd3f..191216a74f 100644
+> > --- a/include/hw/virtio/vhost-user.h
+> > +++ b/include/hw/virtio/vhost-user.h
+> > @@ -68,4 +68,22 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp);
+> >  */
+> > void vhost_user_cleanup(VhostUserState *user);
+> > 
+> > +/**
+> > + * vhost_user_async_close() - cleanup vhost-user post connection drop
+> > + * @d: DeviceState for the associated device (passed to callback)
+> > + * @chardev: the CharBackend associated with the connection
+> > + * @vhost: the common vhost device
+> > + * @cb: the user callback function to complete the clean-up
+> > + *
+> > + * This function is used to handle the shutdown of a vhost-user
+> > + * connection to a backend. We handle this centrally to make sure we
+> > + * do all the steps and handle potential races due to VM shutdowns.
+> > + * Once the connection is disabled we call a backhalf to ensure
+> > + */
+> > +typedef void (*vu_async_close_fn)(DeviceState *cb);
+> > +
+> > +void vhost_user_async_close(DeviceState *d,
+> > +                            CharBackend *chardev, struct vhost_dev *vhost,
+> > +                            vu_async_close_fn cb);
+> > +
+> > #endif
+> > diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> > index 1177064631..aff4d2b8cb 100644
+> > --- a/hw/block/vhost-user-blk.c
+> > +++ b/hw/block/vhost-user-blk.c
+> > @@ -369,17 +369,10 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
+> >     vhost_user_blk_stop(vdev);
+> > 
+> >     vhost_dev_cleanup(&s->dev);
+> > -}
+> > 
+> > -static void vhost_user_blk_chr_closed_bh(void *opaque)
+> > -{
+> > -    DeviceState *dev = opaque;
+> > -    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> > -    VHostUserBlk *s = VHOST_USER_BLK(vdev);
+> > -
+> > -    vhost_user_blk_disconnect(dev);
+> > +    /* Re-instate the event handler for new connections */
+> >     qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
+> > -                             NULL, opaque, NULL, true);
+> > +                             NULL, dev, NULL, true);
+> > }
+> > 
+> > static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+> > @@ -398,33 +391,9 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+> >         }
+> >         break;
+> >     case CHR_EVENT_CLOSED:
+> > -        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
+> > -            /*
+> > -             * A close event may happen during a read/write, but vhost
+> > -             * code assumes the vhost_dev remains setup, so delay the
+> > -             * stop & clear.
+> > -             */
+> > -            AioContext *ctx = qemu_get_current_aio_context();
+> > -
+> > -            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
+> > -                    NULL, NULL, false);
+> > -            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
+> > -
+> > -            /*
+> > -             * Move vhost device to the stopped state. The vhost-user device
+> > -             * will be clean up and disconnected in BH. This can be useful in
+> > -             * the vhost migration code. If disconnect was caught there is an
+> > -             * option for the general vhost code to get the dev state without
+> > -             * knowing its type (in this case vhost-user).
+> > -             *
+> > -             * FIXME: this is sketchy to be reaching into vhost_dev
+> > -             * now because we are forcing something that implies we
+> > -             * have executed vhost_dev_stop() but that won't happen
+> > -             * until vhost_user_blk_stop() gets called from the bh.
+> > -             * Really this state check should be tracked locally.
+> > -             */
+> > -            s->dev.started = false;
+> > -        }
+> > +        /* defer close until later to avoid circular close */
+> > +        vhost_user_async_close(dev, &s->chardev, &s->dev,
+> > +                               vhost_user_blk_disconnect);
+> >         break;
+> >     case CHR_EVENT_BREAK:
+> >     case CHR_EVENT_MUX_IN:
+> > diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+> > index 75e28bcd3b..cd76287766 100644
+> > --- a/hw/virtio/vhost-user-gpio.c
+> > +++ b/hw/virtio/vhost-user-gpio.c
+> > @@ -239,6 +239,8 @@ static int vu_gpio_connect(DeviceState *dev, Error **errp)
+> >     return 0;
+> > }
+> > 
+> > +static void vu_gpio_event(void *opaque, QEMUChrEvent event);
+> > +
+> > static void vu_gpio_disconnect(DeviceState *dev)
+> > {
+> >     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> > @@ -251,6 +253,11 @@ static void vu_gpio_disconnect(DeviceState *dev)
+> > 
+> >     vu_gpio_stop(vdev);
+> >     vhost_dev_cleanup(&gpio->vhost_dev);
+> > +
+> > +    /* Re-instate the event handler for new connections */
+> > +    qemu_chr_fe_set_handlers(&gpio->chardev,
+> > +                             NULL, NULL, vu_gpio_event,
+> > +                             NULL, dev, NULL, true);
+> > }
+> > 
+> > static void vu_gpio_event(void *opaque, QEMUChrEvent event)
+> > @@ -268,7 +275,9 @@ static void vu_gpio_event(void *opaque, QEMUChrEvent event)
+> >         }
+> >         break;
+> >     case CHR_EVENT_CLOSED:
+> > -        vu_gpio_disconnect(dev);
+> > +        /* defer close until later to avoid circular close */
+> > +        vhost_user_async_close(dev, &gpio->chardev, &gpio->vhost_dev,
+> > +                               vu_gpio_disconnect);
+> >         break;
+> >     case CHR_EVENT_BREAK:
+> >     case CHR_EVENT_MUX_IN:
+> > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> > index abe23d4ebe..8f635844af 100644
+> > --- a/hw/virtio/vhost-user.c
+> > +++ b/hw/virtio/vhost-user.c
+> > @@ -21,6 +21,7 @@
+> > #include "qemu/error-report.h"
+> > #include "qemu/main-loop.h"
+> > #include "qemu/sockets.h"
+> > +#include "sysemu/runstate.h"
+> > #include "sysemu/cryptodev.h"
+> > #include "migration/migration.h"
+> > #include "migration/postcopy-ram.h"
+> > @@ -2670,6 +2671,76 @@ void vhost_user_cleanup(VhostUserState *user)
+> >     user->chr = NULL;
+> > }
+> > 
+> 
+> nit: Extra space 
+> 
+> > +
+> > +typedef struct {
+> > +    vu_async_close_fn cb;
+> > +    DeviceState *dev;
+> > +    CharBackend *cd;
+> > +    struct vhost_dev *vhost;
+> > +} VhostAsyncCallback;
+> > +
+> > +static void vhost_user_async_close_bh(void *opaque)
+> > +{
+> > +    VhostAsyncCallback *data = opaque;
+> > +    struct vhost_dev *vhost = data->vhost;
+> > +
+> > +    /*
+> > +     * If the vhost_dev has been cleared in the meantime there is
+> > +     * nothing left to do as some other path has completed the
+> > +     * cleanup.
+> > +     */
+> > +    if (vhost->vdev) {
+> > +        data->cb(data->dev);
+> > +    }
+> > +
+> > +    g_free(data);
+> > +}
+> > +
+> > +/*
+> > + * We only schedule the work if the machine is running. If suspended
+> > + * we want to keep all the in-flight data as is for migration
+> > + * purposes.
+> > + */
+> > +void vhost_user_async_close(DeviceState *d,
+> > +                            CharBackend *chardev, struct vhost_dev *vhost,
+> > +                            vu_async_close_fn cb)
+> > +{
+> > +    if (!runstate_check(RUN_STATE_SHUTDOWN)) {
+> > +        /*
+> > +         * A close event may happen during a read/write, but vhost
+> > +         * code assumes the vhost_dev remains setup, so delay the
+> > +         * stop & clear.
+> > +         */
+> > +        AioContext *ctx = qemu_get_current_aio_context();
+> > +        VhostAsyncCallback *data = g_new0(VhostAsyncCallback, 1);
+> > +
+> > +        /* Save data for the callback */
+> > +        data->cb = cb;
+> > +        data->dev = d;
+> > +        data->cd = chardev;
+> > +        data->vhost = vhost;
+> > +
+> > +        /* Disable any further notifications on the chardev */
+> > +        qemu_chr_fe_set_handlers(chardev,
+> > +                                 NULL, NULL, NULL, NULL, NULL, NULL,
+> > +                                 false);
+> > +
+> > +        aio_bh_schedule_oneshot(ctx, vhost_user_async_close_bh, data);
+> > +
+> > +        /*
+> > +         * Move vhost device to the stopped state. The vhost-user device
+> 
+> Not this change’s fault but we should fix up the grammar here i.e. s/clean/cleaned/ and probably should be “disconnected in the BH”…etc.
+> 
+> > +         * will be clean up and disconnected in BH. This can be useful in
+> > +         * the vhost migration code. If disconnect was caught there is an
+> > +         * option for the general vhost code to get the dev state without
+> > +         * knowing its type (in this case vhost-user).
+> > +         *
+> > +         * Note if the vhost device is fully cleared by the time we
+> > +         * execute the bottom half we won't continue with the cleanup.
+> > +         */
+> > +        vhost->started = false;
+> > +    }
+> > +}
+> > +
+> > static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
+> > {
+> >     if (!virtio_has_feature(dev->protocol_features,
+> > -- 
+> > 2.34.1
+> > 
+> 
+
 
