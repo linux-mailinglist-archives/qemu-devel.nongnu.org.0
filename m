@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D975863BE9F
+	by mail.lfdr.de (Postfix) with ESMTPS id E372E63BEA0
 	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 12:09:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozyST-00012p-I6; Tue, 29 Nov 2022 06:07:25 -0500
+	id 1ozyTc-0001kJ-T4; Tue, 29 Nov 2022 06:08:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozySR-000120-4f
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 06:07:23 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozySP-00068Q-FG
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 06:07:22 -0500
-Received: by mail-wr1-x434.google.com with SMTP id o5so12493254wrm.1
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 03:07:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RSSAWDw23nrbGjkvDWGNzya11TNLKgFLbcPR0BekNvM=;
- b=rO0hwB1nP46Y46fEQo8XYUseA4kq/UHj3NrNQdmPQE+tN8/b1pPkjYntaRIz7b60mM
- 1lmdaXlHRocBBLpesN+w6e2xvYm7cMP0wKw0sQGbtwiCcx/MGop4L8QHfhQbwZuv6Eku
- EOlshXKsuz46iv/UNTmLUK94KsNStH46SmlFVNQSX4cJPpiXFPBwAIqcI5ZTT/EOG3gk
- dJ/rwPxqjMmpf/t5DvPyj+UZQgXhfzjqaXe9wBwftf8G0KTNcLA0/H4bWFaRxtEoVFYY
- Z+cx4e5GU53/DUwYVVJQCIo/5JO5YKTL+4fRv1Y1grukN5t6hbs8JrIAP/RAS5YWBviY
- 3P4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RSSAWDw23nrbGjkvDWGNzya11TNLKgFLbcPR0BekNvM=;
- b=QAL6K/MMFUmffeeJmbZMrTnmziGqrSCVFZhUJQk2r2DG3xO152gRysRC8426d1eLnu
- yVg7RzUlPZQJE18KzwXKXJTaCtcXMmhVg6MkAv+6uHcS6GSIJ0Pu5uzNTmV1JeL1CIxc
- TLOU0wAKubV6F5e9V90feqQjePC9EJXks6bqezJgFbmZ2LhH5eSXCXA447I9NTncJDvb
- EJeC+LXU16/LmuNqSEszoiLPHhjccnOGomlN4kx2yIIqo95Ar0fcmwypRmXKv6SxmZ4a
- a3zSZKiA9AaP/qaod3+PjDnWHjoUn5g88Ahd+qt5OxujwYZuI5sTye8hYtx+h0P69zoL
- sMqQ==
-X-Gm-Message-State: ANoB5pmWvKTy4MeJ847n1s0HTOoj+o0LjjFZckGAotZWJ20QFoQggorc
- xHNOiBJuBqJqTpqybNd3NN0p7w==
-X-Google-Smtp-Source: AA0mqf4za13tjwwtyqOGTnMFEdX1BeV+DRnokAiQxj0ODonPpg7n9WeuYgR4/4syQftmMl2ZZBJ+mA==
-X-Received: by 2002:adf:e8c6:0:b0:242:d3c:3746 with SMTP id
- k6-20020adfe8c6000000b002420d3c3746mr9587579wrn.397.1669720039327; 
- Tue, 29 Nov 2022 03:07:19 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- x8-20020a5d6508000000b0022eafed36ebsm13145824wru.73.2022.11.29.03.07.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 03:07:18 -0800 (PST)
-Message-ID: <84913eb8-75c3-5175-401f-9f4cc8409442@linaro.org>
-Date: Tue, 29 Nov 2022 12:07:17 +0100
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ozyTU-0001iJ-99
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 06:08:33 -0500
+Received: from mout.gmx.net ([212.227.15.15])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ozyTS-0006Cq-0X
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 06:08:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1669720102; bh=3ST47Sv3InBy+sTkldHbbtS7kv1PJG1L8SJ09nu1LMU=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=fE11HeGCm4eOnrya26cJTGIEkeXLLble2agDBkULEfxCTSIqMOCR/I2V3wNdHCs3c
+ VCwO9SpgVLGxUiDK1Nm3TqZw0I/Jm7hNnBR1ZyJXxtG9imzMIuO5+qKengjTJmnWk+
+ oBh97Qwiu3jH/2n1XLpBbNzY97ffm9dWzh5DkFyGJX1iGuoL07TzV+UuBCiPG+J9Uo
+ Tpbd9ZAHlkK9Jx8IlGoppArOnp7rgaS5BHD87kcZEgOa9mq+RRTxtyEL3h2OjrDMg7
+ BVwXc0Ao1cUJCsPaGQcWPv1q+aXnIy+hN/uKUzgT2Sh3Z6e2DxoqNexfnB7BtqTOTd
+ hTCdCtKZP6X7w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100 ([92.116.174.127]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M3lY1-1p0Fin1nDX-000sNh; Tue, 29
+ Nov 2022 12:08:22 +0100
+Date: Tue, 29 Nov 2022 12:08:20 +0100
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Emulate CLONE_PIDFD flag in clone()
+Message-ID: <Y4XoJCpvUA1JD7Sj@p100>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v2 1/1] hw/arm/boot: set initrd with #[address/size]-cells
- type in fdt
-Content-Language: en-US
-To: Schspa Shi <schspa@gmail.com>, peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-References: <20221129104809.84860-1-schspa@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221129104809.84860-1-schspa@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:MFLwA0Dg0flpRRDPsoREwH++s1YO0DAGvDilvAQ0oQUWBUtnjp/
+ B/m2SLp8RlcZ8btiawlYLJI0SDl+GoB41BO2SKE42eaI8XAO0byLyfsfS+vCI67Dbxmdg6F
+ 1fK9XM+Xg5YjCCVfVqLLx2ITZbN29XU+NjlWLjBvNcVVZzC9bm0gW+fRPZsy8yPB2zvKGw/
+ i5YeMtFLAS6wQjpwnmSbg==
+UI-OutboundReport: notjunk:1;M01:P0:6ZNJRoA0I6g=;nXQjFg/BXyKZAcL/C3NpxqAk48V
+ 3PFC6N2+xUZgXJTWpLacjahuQny2YPdO1cPprcGaPinKGbBt4MEkG8ud8FOqGE3UfXAVHQ8+k
+ 5jrYbm6NkvE6f6kFMWKR9eSDnWhU53xv9mfYECkXXZxWfqDv3X9WbmeRaHCRjwVSVQlvVqrn8
+ dLY/C66SDfuTFFj8vSKnAjxx7YZFUOi6OdTo9BRqfopcqIi/4mjdrsOFc4XtzXsPqmVF/kpNy
+ bSbjglsHWDWfzjrTOenE6Zdv8uZEBbGb4nW8iEx0OxX9eMmSe4DihQul24IZiAT42iYJVgNiG
+ ZbTTyjPAJCkiUA5rC2asG45YE2aJg+LXNmHIckbJKIlfb/1Z7WIobreQ9bFVGCE6MVJ3TFUpN
+ FSs2RPGjz9EChr9pm6uWqoxufAy0jd7xS5Y1vXURwPZavGPDpa/5CoiN8FLjDVbQqsOu2p7+Q
+ a/YiAfi6nPALTjqR5PfWP33rqs3UqcavpjYwNY4AtmglRBrghgXO7JIszFBrVGpLeu5HUwJxe
+ sfdxxg38r/rToy0C1lfWskjkrxXDq4Y4RyyaujmfyqrZUq/a/Y9aTa2YqPvsv11c7Xvw5yGJG
+ jPw0hJCdXWMyaTmXA898FW5KvXDdfYrsn+oprIF2mtIKIq3wGnH9BKve3RpWPKG8bRpgjKXwU
+ kisZJQdZCdIEuxBwfd5y60isSPxQBA/JsBAfKW93kYZVlxjnMSAjrv0Ofu/5G4MoWKEdzT45Q
+ NTGP0C1E252alN9K14FTbX+aIVYc71WPm92BYqzXNLakv6IzTECFUBsOFL4WyVgWf9pMkl6Oy
+ 2lC1JCu1lvTgXotUSXVDk626ZUrJjtNIGciXcMQA7oCRzSKHcnvePGvI7AKMBeurEB47QKTDz
+ a41wr2FhKulOYcyjogZrKMlWtdXK7TCBV4T2tu2HpQ4Qv8w1YF7Tk3jvuCK1zN8PV9fyoBY5d
+ +6+52EQZ6Bjx/IznDzEq74u9B7k=
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,48 +81,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/11/22 11:48, Schspa Shi wrote:
-> We use 32bit value for linux,initrd-[start/end], when we have
-> loader_start > 4GB, there will be a wrong initrd_start passed
-> to the kernel, and the kernel will report the following warning.
-> 
-> [    0.000000] ------------[ cut here ]------------
-> [    0.000000] initrd not fully accessible via the linear mapping -- please check your bootloader ...
-> [    0.000000] WARNING: CPU: 0 PID: 0 at arch/arm64/mm/init.c:355 arm64_memblock_init+0x158/0x244
-> [    0.000000] Modules linked in:
-> [    0.000000] CPU: 0 PID: 0 Comm: swapper Tainted: G        W          6.1.0-rc3-13250-g30a0b95b1335-dirty #28
-> [    0.000000] Hardware name: Horizon Sigi Virtual development board (DT)
-> [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [    0.000000] pc : arm64_memblock_init+0x158/0x244
-> [    0.000000] lr : arm64_memblock_init+0x158/0x244
-> [    0.000000] sp : ffff800009273df0
-> [    0.000000] x29: ffff800009273df0 x28: 0000001000cc0010 x27: 0000800000000000
-> [    0.000000] x26: 000000000050a3e2 x25: ffff800008b46000 x24: ffff800008b46000
-> [    0.000000] x23: ffff800008a53000 x22: ffff800009420000 x21: ffff800008a53000
-> [    0.000000] x20: 0000000004000000 x19: 0000000004000000 x18: 00000000ffff1020
-> [    0.000000] x17: 6568632065736165 x16: 6c70202d2d20676e x15: 697070616d207261
-> [    0.000000] x14: 656e696c20656874 x13: 0a2e2e2e20726564 x12: 0000000000000000
-> [    0.000000] x11: 0000000000000000 x10: 00000000ffffffff x9 : 0000000000000000
-> [    0.000000] x8 : 0000000000000000 x7 : 796c6c756620746f x6 : 6e20647274696e69
-> [    0.000000] x5 : ffff8000093c7c47 x4 : ffff800008a2102f x3 : ffff800009273a88
-> [    0.000000] x2 : 80000000fffff038 x1 : 00000000000000c0 x0 : 0000000000000056
-> [    0.000000] Call trace:
-> [    0.000000]  arm64_memblock_init+0x158/0x244
-> [    0.000000]  setup_arch+0x164/0x1cc
-> [    0.000000]  start_kernel+0x94/0x4ac
-> [    0.000000]  __primary_switched+0xb4/0xbc
-> [    0.000000] ---[ end trace 0000000000000000 ]---
-> [    0.000000] Zone ranges:
-> [    0.000000]   DMA      [mem 0x0000001000000000-0x0000001007ffffff]
-> 
-> To fix it, we can change it to #[address/size]-cells type.
-> 
-> Signed-off-by: Schspa Shi <schspa@gmail.com>
-> 
+Add emulation for the CLONE_PIDFD flag of the clone() syscall.
+This flag was added in Linux kernel 5.2.
 
-Something is odd with this patch, using Thunderbird + Colored Diffs 
-add-on can't see the patch content, but I can see it archived:
-https://lore.kernel.org/qemu-devel/20221129104809.84860-1-schspa@gmail.com/
+Successfully tested on a x86-64 Linux host with hppa-linux target.
+Can be verified by running the testsuite of the qcoro debian package,
+which breaks hard and kills the currently logged-in user without this
+patch.
 
-Maybe because you used '--' instead of the git '---' separator?
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 9ae5a812cd..8fa5c1ec3d 100644
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1097,6 +1097,7 @@ UNUSED static struct flags clone_flags[] =3D {
+     FLAG_GENERIC(CLONE_FS),
+     FLAG_GENERIC(CLONE_FILES),
+     FLAG_GENERIC(CLONE_SIGHAND),
++    FLAG_GENERIC(CLONE_PIDFD),
+     FLAG_GENERIC(CLONE_PTRACE),
+     FLAG_GENERIC(CLONE_VFORK),
+     FLAG_GENERIC(CLONE_PARENT),
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 24b25759be..0468a1bad7 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -213,7 +213,7 @@ struct file_clone_range {
+
+ /* Flags for fork which we can implement within QEMU itself */
+ #define CLONE_OPTIONAL_FORK_FLAGS               \
+-    (CLONE_SETTLS | CLONE_PARENT_SETTID |       \
++    (CLONE_SETTLS | CLONE_PARENT_SETTID | CLONE_PIDFD | \
+      CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID)
+
+ /* Flags for thread creation which we can implement within QEMU itself */
+@@ -6747,6 +6747,17 @@ static int do_fork(CPUArchState *env, unsigned int =
+flags, abi_ulong newsp,
+             return -TARGET_EINVAL;
+         }
+
++#if !defined(__NR_pidfd_open) || !defined(TARGET_NR_pidfd_open)
++        if (flags & CLONE_PIDFD) {
++            return -TARGET_EINVAL;
++        }
++#endif
++
++        /* Can not allow CLONE_PIDFD with CLONE_PARENT_SETTID */
++        if ((flags & CLONE_PIDFD) && (flags & CLONE_PARENT_SETTID)) {
++            return -TARGET_EINVAL;
++        }
++
+         if (block_signals()) {
+             return -QEMU_ERESTARTSYS;
+         }
+@@ -6774,6 +6785,20 @@ static int do_fork(CPUArchState *env, unsigned int =
+flags, abi_ulong newsp,
+                 ts->child_tidptr =3D child_tidptr;
+         } else {
+             cpu_clone_regs_parent(env, flags);
++            if (flags & CLONE_PIDFD) {
++                int pid_fd =3D 0;
++#if defined(__NR_pidfd_open) && defined(TARGET_NR_pidfd_open)
++                int pid_child =3D ret;
++                pid_fd =3D pidfd_open(pid_child, 0);
++                if (pid_fd >=3D 0) {
++                        fcntl(pid_fd, F_SETFD, fcntl(pid_fd, F_GETFL)
++                                               | FD_CLOEXEC);
++                } else {
++                        pid_fd =3D 0;
++                }
++#endif
++                put_user_u32(pid_fd, parent_tidptr);
++                }
+             fork_end(0);
+         }
+     }
 
