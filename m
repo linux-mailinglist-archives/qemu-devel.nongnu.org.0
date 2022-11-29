@@ -2,116 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D45C63BF3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 12:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295CE63BF5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 12:50:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozyxM-0001kZ-I8; Tue, 29 Nov 2022 06:39:20 -0500
+	id 1ozz6U-0004AE-7S; Tue, 29 Nov 2022 06:48:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ozyxK-0001kK-7O
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 06:39:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ozyxH-0004z5-O2
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 06:39:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669721951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eRu/Hx0QeU09vI6dag4oeFynexJuKZWNYSe4MiEdyGs=;
- b=DY1pFbkUM1MIGvkYmEzktWFDEJKIDajUf044NWj1aFCx6VfR3SCLfpmRCKjsnEYsub5Awe
- QCfsxMM/j3ywnZurS9Qcb/sD9qqH41O+7AG53X/WBLMdI0vxZSJrISQFnIy14Yy+oxZprj
- M77lSprXFA5jMIqYUDPGM/sCTQWturo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-656-4JFuTD8MM92WDcUvkUbPbQ-1; Tue, 29 Nov 2022 06:39:10 -0500
-X-MC-Unique: 4JFuTD8MM92WDcUvkUbPbQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e8-20020a05600c218800b003cf634f5280so4620453wme.8
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 03:39:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1ozz6P-00049I-D1; Tue, 29 Nov 2022 06:48:41 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1ozz6N-0007LK-GH; Tue, 29 Nov 2022 06:48:41 -0500
+Received: by mail-pg1-x533.google.com with SMTP id h33so7799514pgm.9;
+ Tue, 29 Nov 2022 03:48:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mZgy7XLunnw/ANvmwORqoKJd/xgRxHzpkSNhiY8EVWA=;
+ b=gbo8FUZDzTXVdbcqiu31l0qwM3luHNatUunr0N4pEfMdtQ3tilHBF9zbqS5vMk+nLc
+ WenCbgZVJLEnWHRZs7vj6J/PvClE55jlfAhFVVIvDnzwULi368QRY4Zy8LGSruJXGOcH
+ 36oQa0aiAi39KycetBS6t/mrolJbJCVNS9FLdXlXabJpoYrY4Cwbr7QZZWC1iOlz3WA8
+ BxIILj2o6Jf/sh0jsFIT/7vKDYeIid8JxwoAecxxfsUOE40jITRUXFlYfxkSOc4eQ5dq
+ OlBEaNs3SjTmHnLjLd7i6ihQuXqZuDUQzyXBXWAe2ZCBNvnB+mPkih9vYA/QkNvBJCGU
+ cozw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eRu/Hx0QeU09vI6dag4oeFynexJuKZWNYSe4MiEdyGs=;
- b=XWcqYOxY1zYskL9WoK0VlluZOVwMEbpyPLwhHBA36u1K1prfWeFkM3nmEl5n8FRVn5
- 9MiFvpaseXahaW5zCUK7v9W9RlIlK99UkMjgIC1zaIC0qw2amcwvXLh4glMsL6Hvmzq+
- zLwM3hRk6+tCOTp7mqRqClRrKIHyP9R2B/dEDg42RBMN02UmxjCTm8WZ82bJXdY+O1zZ
- uJ1JLbnFMZhLo3Z0z/s+qYdcSSrQC4N3WRMCpsuGK9Ya/Y5x7SyeRDEdCAEv5+ccFVrW
- v26accN9cEejY9AfY5/2XICERKZO/Mh6jKt9Q7SW0DfhCxHpIr+EXlvt05igQIeVTHG8
- j0kQ==
-X-Gm-Message-State: ANoB5pmMSK5OZr4jBPiJ6UYA1naKjNrBg/dFmM3ClpqgVU3AYucZ6z9d
- MJjAP4sRGLl+6o7YiO9yZf5Irke/OQG0qBaIQaijLPHMkYR43qCcNHDMQqPqyPOsgUfTerRMAGk
- +uC0fxPrGqoFL0K4=
-X-Received: by 2002:a7b:ca45:0:b0:3c4:bda1:7c57 with SMTP id
- m5-20020a7bca45000000b003c4bda17c57mr44926222wml.6.1669721948943; 
- Tue, 29 Nov 2022 03:39:08 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6s03pDZ7+AzRjiuWChsKfmd6tu6WfpxK1aogO4cyP+8Olozy3bxlj+8EqBduo9KzTHvAm5sQ==
-X-Received: by 2002:a7b:ca45:0:b0:3c4:bda1:7c57 with SMTP id
- m5-20020a7bca45000000b003c4bda17c57mr44926175wml.6.1669721948661; 
- Tue, 29 Nov 2022 03:39:08 -0800 (PST)
-Received: from [192.168.3.108] (p5b0c6623.dip0.t-ipconnect.de. [91.12.102.35])
- by smtp.gmail.com with ESMTPSA id
- bg11-20020a05600c3c8b00b003d069fc7372sm1471927wmb.1.2022.11.29.03.39.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 03:39:08 -0800 (PST)
-Message-ID: <6d7f7775-5703-c27a-e57b-03aafb4de712@redhat.com>
-Date: Tue, 29 Nov 2022 12:39:06 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=mZgy7XLunnw/ANvmwORqoKJd/xgRxHzpkSNhiY8EVWA=;
+ b=8HNJseTYsno0bWtTei4C6kapey/DKr5GBBAt1/s2wzkRY+oosjrZefGNAUZVYpKwMy
+ JLrveqf3MnZ0hUQsTxbSXy4XlojVJ0TL4MPA+sOb5rehXqNXmYsJwREsTgpHy3PtwHks
+ ESB8Yc3k/8273DgOEVXSaoGKbgqXhncJOmkVfzc9LJw4TQ5gJDodgV32MH/Ki2JUqQYV
+ diKLnAxMeN5seP3t3ATy2oyjFQr7kPOy+zHN0tqc6Fpz9m3m3Ro97yBqa+rZFNOPMCCZ
+ 4rqedE45VdKvFPamT5tQHNDkpmaS2ZESRdlMduKjW67e+vtxzzLNZyFYbnfKXRgancd1
+ ImvQ==
+X-Gm-Message-State: ANoB5pnTi4T2qWMYhco6SWoMjyW3FYgwecUEjAXEfu/ovjDyDYWi2KaW
+ 2GiDd9LZ3nJunFV5BKjZe5nbeWtJkvi6Yw==
+X-Google-Smtp-Source: AA0mqf63Afy2ZuQvUILszbLTXfWIlnHT9AACT+k5P2DaBjclxFmKPyMq1dre0HNV7JS4b61ojpfDWg==
+X-Received: by 2002:a63:4d09:0:b0:477:7dc8:57a8 with SMTP id
+ a9-20020a634d09000000b004777dc857a8mr31133483pgb.506.1669722517036; 
+ Tue, 29 Nov 2022 03:48:37 -0800 (PST)
+Received: from MBP (ec2-18-117-95-84.us-east-2.compute.amazonaws.com.
+ [18.117.95.84]) by smtp.gmail.com with ESMTPSA id
+ n1-20020a170902968100b00186616b8fbasm4024559plp.10.2022.11.29.03.48.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Nov 2022 03:48:36 -0800 (PST)
+References: <20221129104809.84860-1-schspa@gmail.com>
+ <84913eb8-75c3-5175-401f-9f4cc8409442@linaro.org>
+User-agent: mu4e 1.8.10; emacs 28.2
+From: Schspa Shi <schspa@gmail.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/1] hw/arm/boot: set initrd with
+ #[address/size]-cells type in fdt
+Date: Tue, 29 Nov 2022 19:46:41 +0800
+In-reply-to: <84913eb8-75c3-5175-401f-9f4cc8409442@linaro.org>
+Message-ID: <m2v8mym16c.fsf@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Content-Language: en-US
-To: "Kirill A. Shutemov" <kirill@shutemov.name>,
- Michael Roth <michael.roth@amd.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221129000632.sz6pobh6p7teouiu@amd.com>
- <20221129112139.usp6dqhbih47qpjl@box.shutemov.name>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20221129112139.usp6dqhbih47qpjl@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=schspa@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,67 +90,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29.11.22 12:21, Kirill A. Shutemov wrote:
-> On Mon, Nov 28, 2022 at 06:06:32PM -0600, Michael Roth wrote:
->> On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
->>> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->>>
->>
->> <snip>
->>
->>> +static struct file *restrictedmem_file_create(struct file *memfd)
->>> +{
->>> +	struct restrictedmem_data *data;
->>> +	struct address_space *mapping;
->>> +	struct inode *inode;
->>> +	struct file *file;
->>> +
->>> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
->>> +	if (!data)
->>> +		return ERR_PTR(-ENOMEM);
->>> +
->>> +	data->memfd = memfd;
->>> +	mutex_init(&data->lock);
->>> +	INIT_LIST_HEAD(&data->notifiers);
->>> +
->>> +	inode = alloc_anon_inode(restrictedmem_mnt->mnt_sb);
->>> +	if (IS_ERR(inode)) {
->>> +		kfree(data);
->>> +		return ERR_CAST(inode);
->>> +	}
->>> +
->>> +	inode->i_mode |= S_IFREG;
->>> +	inode->i_op = &restrictedmem_iops;
->>> +	inode->i_mapping->private_data = data;
->>> +
->>> +	file = alloc_file_pseudo(inode, restrictedmem_mnt,
->>> +				 "restrictedmem", O_RDWR,
->>> +				 &restrictedmem_fops);
->>> +	if (IS_ERR(file)) {
->>> +		iput(inode);
->>> +		kfree(data);
->>> +		return ERR_CAST(file);
->>> +	}
->>> +
->>> +	file->f_flags |= O_LARGEFILE;
->>> +
->>> +	mapping = memfd->f_mapping;
->>> +	mapping_set_unevictable(mapping);
->>> +	mapping_set_gfp_mask(mapping,
->>> +			     mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
->>
->> Is this supposed to prevent migration of pages being used for
->> restrictedmem/shmem backend?
-> 
-> Yes, my bad. I expected it to prevent migration, but it is not true.
 
-Maybe add a comment that these pages are not movable and we don't want 
-to place them into movable pageblocks (including CMA and ZONE_MOVABLE). 
-That's the primary purpose of the GFP mask here.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
--- 
-Thanks,
+> On 29/11/22 11:48, Schspa Shi wrote:
+>> We use 32bit value for linux,initrd-[start/end], when we have
+>> loader_start > 4GB, there will be a wrong initrd_start passed
+>> to the kernel, and the kernel will report the following warning.
+>> [    0.000000] ------------[ cut here ]------------
+>> [    0.000000] initrd not fully accessible via the linear mapping -- ple=
+ase check your bootloader ...
+>> [    0.000000] WARNING: CPU: 0 PID: 0 at arch/arm64/mm/init.c:355 arm64_=
+memblock_init+0x158/0x244
+>> [    0.000000] Modules linked in:
+>> [    0.000000] CPU: 0 PID: 0 Comm: swapper Tainted: G        W          =
+6.1.0-rc3-13250-g30a0b95b1335-dirty #28
+>> [    0.000000] Hardware name: Horizon Sigi Virtual development board (DT)
+>> [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTY=
+PE=3D--)
+>> [    0.000000] pc : arm64_memblock_init+0x158/0x244
+>> [    0.000000] lr : arm64_memblock_init+0x158/0x244
+>> [    0.000000] sp : ffff800009273df0
+>> [    0.000000] x29: ffff800009273df0 x28: 0000001000cc0010 x27: 00008000=
+00000000
+>> [    0.000000] x26: 000000000050a3e2 x25: ffff800008b46000 x24: ffff8000=
+08b46000
+>> [    0.000000] x23: ffff800008a53000 x22: ffff800009420000 x21: ffff8000=
+08a53000
+>> [    0.000000] x20: 0000000004000000 x19: 0000000004000000 x18: 00000000=
+ffff1020
+>> [    0.000000] x17: 6568632065736165 x16: 6c70202d2d20676e x15: 69707061=
+6d207261
+>> [    0.000000] x14: 656e696c20656874 x13: 0a2e2e2e20726564 x12: 00000000=
+00000000
+>> [    0.000000] x11: 0000000000000000 x10: 00000000ffffffff x9 : 00000000=
+00000000
+>> [    0.000000] x8 : 0000000000000000 x7 : 796c6c756620746f x6 : 6e206472=
+74696e69
+>> [    0.000000] x5 : ffff8000093c7c47 x4 : ffff800008a2102f x3 : ffff8000=
+09273a88
+>> [    0.000000] x2 : 80000000fffff038 x1 : 00000000000000c0 x0 : 00000000=
+00000056
+>> [    0.000000] Call trace:
+>> [    0.000000]  arm64_memblock_init+0x158/0x244
+>> [    0.000000]  setup_arch+0x164/0x1cc
+>> [    0.000000]  start_kernel+0x94/0x4ac
+>> [    0.000000]  __primary_switched+0xb4/0xbc
+>> [    0.000000] ---[ end trace 0000000000000000 ]---
+>> [    0.000000] Zone ranges:
+>> [    0.000000]   DMA      [mem 0x0000001000000000-0x0000001007ffffff]
+>> To fix it, we can change it to #[address/size]-cells type.
+>> Signed-off-by: Schspa Shi <schspa@gmail.com>
+>>=20
+>
+> Something is odd with this patch, using Thunderbird + Colored Diffs add-o=
+n can't
+> see the patch content, but I can see it archived:
+> https://lore.kernel.org/qemu-devel/20221129104809.84860-1-schspa@gmail.co=
+m/
+>
+> Maybe because you used '--' instead of the git '---' separator?
 
-David / dhildenb
+This maybe cause by the seprator above the Change log line.
+I use '-- ' as seprator.
 
+Should I resend a new V3 patch to fix this ?
+
+--=20
+BRs
+Schspa Shi
 
