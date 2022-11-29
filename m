@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D3363CB2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 23:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F8F63CB3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 23:55:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p09Pc-0002q1-Ig; Tue, 29 Nov 2022 17:49:12 -0500
+	id 1p09UC-0004dO-1E; Tue, 29 Nov 2022 17:53:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09PZ-0002pA-En
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 17:49:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p09PX-0000f8-C0
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 17:49:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669762146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8PZvDpJnnApPbyEZLaPlT6pME7vB+DB4r0nKQosRm/c=;
- b=NaQPvMyRHPVb3dyGeD9VLOo/1PAlcVVZ39pawoT6lLyVoE/7skfaSVSyHMx5fsVcPUHOO1
- EfFrSEbF4pKCNy2FBUbCJXqsexqgF6BTNNNofUoFALjNlr59sha97VpQ4tqji4avxwGbro
- pV5ufmggKwgg0nZ+DQUv1lUMqGk0uKs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-418-SOxeXhlBMkGpZ2BugCklmQ-1; Tue, 29 Nov 2022 17:49:04 -0500
-X-MC-Unique: SOxeXhlBMkGpZ2BugCklmQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- d8-20020a0cfe88000000b004bb65193fdcso22190720qvs.12
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 14:49:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p09UA-0004dE-Ce
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 17:53:54 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p09U8-0001Zq-Nu
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 17:53:54 -0500
+Received: by mail-wr1-x434.google.com with SMTP id bs21so24433868wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 14:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n3yiX+2jmeld4TSwNBgmCzx931jY9pizUJjV30oUC00=;
+ b=I8WXyQBHtpEs9d76uoPTOWBPaOqisAt6NK8JvxK99+BfJpIK5uxNY4D8H9S2T+7FjR
+ pceiosm1sRrTkqW80snlpiAkFCGIh/vwgpSPF2CNWMYtUiuKvYwon2mD1gKK43CUkptz
+ volLbV/22sf17prymxGFNxzpvmX/81wAQSyLpqj960tvUDul026beggrtw3PHTxfA1MY
+ NjF4WLUu2Unrd2MjFfKRrw/5CRB3j2/GTaSNjucntLtht6lzNok32NSzGkV4+6WXrvuj
+ t0Fr10y3pSn9ehxuqxOIAPr0WTgoD9sv8VcCElGIC9kch5DIVV4BcWd6dKNedyxaAZtT
+ hh3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8PZvDpJnnApPbyEZLaPlT6pME7vB+DB4r0nKQosRm/c=;
- b=Is9CIdn/TLMN2YR5NoiN1YzILNAjA/Xt5HNS/H2gbRS/zeOmV60Gs+DJNfvKcDf2Za
- bB5qNTZA31NZ1fRebeZfRZsds4e9rr2NV6EJV43swklVuHBdQ/x+94Pp67rc/NXhzI0w
- srmfd2o5eQ0BPUVh7gJ2vrpJDhdSSKULfJbMxq1+7OqftD+8KSY1SfnMopZoELCSt9tG
- fdjTzsN++biiF816aeAUIWP+nMQaGo821yha1UbAsm+MMnZLYlksv+D7hXO5pEIZYU4V
- oSThFUtOK6yfCwZrc6MMeBK72C+xQf/kM2/HPGdSRo7d5Jlq0wXapKzF9Lz8dLgLxeSV
- BdDA==
-X-Gm-Message-State: ANoB5pn4K848TrscSRg2pAycqw6N2UFQKBHIXyf0+uaoXOWQ7akqGjXR
- r3tJf2G63znBWLGvwqfKciZj+hbLm0MSHgZ8lY1fRjrocv/EzRGtEX1TjHVvFMHeZYJulU/X+kE
- vD5yGP40vxWMSJBY=
-X-Received: by 2002:a37:b742:0:b0:6fc:9b4e:8c76 with SMTP id
- h63-20020a37b742000000b006fc9b4e8c76mr127651qkf.619.1669762143832; 
- Tue, 29 Nov 2022 14:49:03 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4ltZdSWppaJxghzg4A46JHeOb5oQvvR6H8GBXRJ3PptUrE3fvlB4UtzDGfn2P5IFNOI7HGrA==
-X-Received: by 2002:a37:b742:0:b0:6fc:9b4e:8c76 with SMTP id
- h63-20020a37b742000000b006fc9b4e8c76mr127621qkf.619.1669762143496; 
- Tue, 29 Nov 2022 14:49:03 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- dt31-20020a05620a479f00b006fbf88667bcsm11422007qkb.77.2022.11.29.14.49.02
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=n3yiX+2jmeld4TSwNBgmCzx931jY9pizUJjV30oUC00=;
+ b=6sAJtgj4HoOa34+3/8dbUDBpq9TrQ4rRO5HB58sPECNwQ4qAGOpoSK6jwyRyiAePU0
+ RyKk8KJ5QlRlZZ+UIqRZlD31roU+dw+Ur6ILgK4N7K7Pitqh3XnPYgsrX9LvxAptpa2R
+ 7e9ykiunZrjT9bd9d+rwvF9LmRfy7/Xb/Bu+CdkyWMNxGdm6PvG2C3ExQOtKoqWpZf6Z
+ cfKl+TRqARZhECz7ODI18cOdkFiqWJGyrixPP5CuHgiH6ucBPc7mufC1SfzoxcvMeO/b
+ jD9VUcZwiPE4OoheLNrHeWz/pw1lrM+4Vz+ijDdmTc57VhYJqAL9V8M8DnhDFrF5xzbg
+ vzyg==
+X-Gm-Message-State: ANoB5pmzP+fG6ELpeUmDkE/an1fEe6O+SerpD78ixVu7C29MiL6LkdgZ
+ +yZa1EQIh0TEyWoInL0mf9rg1A==
+X-Google-Smtp-Source: AA0mqf7MKM1WKDuVHm3jQDGHSFJGgwO1oK0gpD3nYl1MbxD0KtmPMH0u+832gX1Ksrw9YVcadTtbcQ==
+X-Received: by 2002:adf:f8cf:0:b0:241:c99f:8564 with SMTP id
+ f15-20020adff8cf000000b00241c99f8564mr30897552wrq.277.1669762429853; 
+ Tue, 29 Nov 2022 14:53:49 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ t17-20020a05600c199100b003c7087f6c9asm3655624wmq.32.2022.11.29.14.53.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 14:49:03 -0800 (PST)
-Date: Tue, 29 Nov 2022 17:49:02 -0500
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/11] qapi/migration: Introduce
- x-vcpu-dirty-limit-period parameter
-Message-ID: <Y4aMXtnH2G8bz+Am@x1n>
-References: <cover.1669047366.git.huangy81@chinatelecom.cn>
- <9e6d5e0ab54c82c8b42a3b318249320fb20e3a44.1669047366.git.huangy81@chinatelecom.cn>
+ Tue, 29 Nov 2022 14:53:49 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CD7891FFB7;
+ Tue, 29 Nov 2022 22:53:48 +0000 (GMT)
+References: <20221128164105.1191058-1-alex.bennee@linaro.org>
+ <20221128164105.1191058-5-alex.bennee@linaro.org>
+ <CAJSP0QX1R4Z+AC3591MpwzBAG1Tz3rDTe4+o2rbe0v-q6sSKMw@mail.gmail.com>
+ <8735a2yigb.fsf@linaro.org>
+ <CAJSP0QWxN2UxaNqST64G=tyUVLn8zbwzotLxHNQ6d6xPTeocgg@mail.gmail.com>
+User-agent: mu4e 1.9.3; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
+ marcandre.lureau@redhat.com, stefanha@redhat.com,
+ mathieu.poirier@linaro.org, viresh.kumar@linaro.org, sgarzare@redhat.com
+Subject: Re: [PATCH v3 4/7] hw/virtio: ensure a valid host_feature set for
+ virtio-user-gpio
+Date: Tue, 29 Nov 2022 22:53:17 +0000
+In-reply-to: <CAJSP0QWxN2UxaNqST64G=tyUVLn8zbwzotLxHNQ6d6xPTeocgg@mail.gmail.com>
+Message-ID: <871qple5j7.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9e6d5e0ab54c82c8b42a3b318249320fb20e3a44.1669047366.git.huangy81@chinatelecom.cn>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,223 +100,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 21, 2022 at 11:26:36AM -0500, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> Introduce "x-vcpu-dirty-limit-period" migration experimental
-> parameter, which is in the range of 1 to 1000ms and used to
-> make dirtyrate calculation period configurable.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> ---
->  migration/migration.c | 26 ++++++++++++++++++++++++++
->  monitor/hmp-cmds.c    |  8 ++++++++
->  qapi/migration.json   | 34 +++++++++++++++++++++++++++-------
->  3 files changed, 61 insertions(+), 7 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 739bb68..701267c 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -116,6 +116,8 @@
->  #define DEFAULT_MIGRATE_ANNOUNCE_ROUNDS    5
->  #define DEFAULT_MIGRATE_ANNOUNCE_STEP    100
->  
-> +#define DEFAULT_MIGRATE_VCPU_DIRTY_LIMIT_PERIOD     500     /* ms */
-> +
->  static NotifierList migration_state_notifiers =
->      NOTIFIER_LIST_INITIALIZER(migration_state_notifiers);
->  
-> @@ -963,6 +965,9 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
->                         s->parameters.block_bitmap_mapping);
->      }
->  
-> +    params->has_x_vcpu_dirty_limit_period = true;
-> +    params->x_vcpu_dirty_limit_period = s->parameters.x_vcpu_dirty_limit_period;
-> +
->      return params;
->  }
->  
-> @@ -1564,6 +1569,15 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
->      }
->  #endif
->  
-> +    if (params->has_x_vcpu_dirty_limit_period &&
-> +        (params->x_vcpu_dirty_limit_period < 1 ||
-> +         params->x_vcpu_dirty_limit_period > 1000)) {
-> +        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-> +                   "x_vcpu_dirty_limit_period",
-> +                   "is invalid, it must be in the range of 1 to 1000 ms");
-> +        return false;
-> +    }
-> +
->      return true;
->  }
->  
-> @@ -1663,6 +1677,10 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
->          dest->has_block_bitmap_mapping = true;
->          dest->block_bitmap_mapping = params->block_bitmap_mapping;
->      }
-> +
-> +    if (params->has_x_vcpu_dirty_limit_period) {
-> +        dest->x_vcpu_dirty_limit_period = params->x_vcpu_dirty_limit_period;
-> +    }
->  }
->  
->  static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
-> @@ -1785,6 +1803,10 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
->              QAPI_CLONE(BitmapMigrationNodeAliasList,
->                         params->block_bitmap_mapping);
->      }
-> +    if (params->has_x_vcpu_dirty_limit_period) {
-> +        s->parameters.x_vcpu_dirty_limit_period =
-> +            params->x_vcpu_dirty_limit_period;
-> +    }
->  }
->  
->  void qmp_migrate_set_parameters(MigrateSetParameters *params, Error **errp)
-> @@ -4386,6 +4408,9 @@ static Property migration_properties[] = {
->      DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
->      DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
->      DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
-> +    DEFINE_PROP_UINT64("x-vcpu-dirty-limit-period", MigrationState,
-> +                       parameters.x_vcpu_dirty_limit_period,
-> +                       DEFAULT_MIGRATE_VCPU_DIRTY_LIMIT_PERIOD),
->  
->      /* Migration capabilities */
->      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-> @@ -4477,6 +4502,7 @@ static void migration_instance_init(Object *obj)
->      params->has_tls_creds = true;
->      params->has_tls_hostname = true;
->      params->has_tls_authz = true;
-> +    params->has_x_vcpu_dirty_limit_period = true;
->  
->      qemu_sem_init(&ms->postcopy_pause_sem, 0);
->      qemu_sem_init(&ms->postcopy_pause_rp_sem, 0);
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 01b789a..a3170ca 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -513,6 +513,10 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
->                  }
->              }
->          }
-> +
-> +        monitor_printf(mon, "%s: %" PRIu64 " ms\n",
-> +        MigrationParameter_str(MIGRATION_PARAMETER_X_VCPU_DIRTY_LIMIT_PERIOD),
-> +        params->x_vcpu_dirty_limit_period);
->      }
->  
->      qapi_free_MigrationParameters(params);
-> @@ -1332,6 +1336,10 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
->          error_setg(&err, "The block-bitmap-mapping parameter can only be set "
->                     "through QMP");
->          break;
-> +    case MIGRATION_PARAMETER_X_VCPU_DIRTY_LIMIT_PERIOD:
-> +        p->has_x_vcpu_dirty_limit_period = true;
-> +        visit_type_size(v, param, &p->x_vcpu_dirty_limit_period, &err);
-> +        break;
->      default:
->          assert(0);
->      }
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 88ecf86..5175779 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -776,8 +776,13 @@
->  #                        block device name if there is one, and to their node name
->  #                        otherwise. (Since 5.2)
->  #
-> +# @x-vcpu-dirty-limit-period: Periodic time (ms) of dirty limit during live migration.
-> +#                             Should be in the range 1 to 1000ms, defaults to 500ms.
-> +#                             (Since 7.1)
 
-Not 7.1 anymore but 7.3.  Yeah a bit sad.
+Stefan Hajnoczi <stefanha@gmail.com> writes:
 
-> +#
->  # Features:
-> -# @unstable: Member @x-checkpoint-delay is experimental.
-> +# @unstable: Member @x-checkpoint-delay and @x-vcpu-dirty-limit-period
-> +#            are experimental.
->  #
->  # Since: 2.4
->  ##
-> @@ -795,8 +800,9 @@
->             'multifd-channels',
->             'xbzrle-cache-size', 'max-postcopy-bandwidth',
->             'max-cpu-throttle', 'multifd-compression',
-> -           'multifd-zlib-level' ,'multifd-zstd-level',
-> -           'block-bitmap-mapping' ] }
-> +           'multifd-zlib-level', 'multifd-zstd-level',
-> +           'block-bitmap-mapping',
-> +           { 'name': 'x-vcpu-dirty-limit-period', 'features': ['unstable'] } ] }
->  
->  ##
->  # @MigrateSetParameters:
-> @@ -941,8 +947,13 @@
->  #                        block device name if there is one, and to their node name
->  #                        otherwise. (Since 5.2)
->  #
-> +# @x-vcpu-dirty-limit-period: Periodic time (ms) of dirty limit during live migration.
-> +#                             Should be in the range 1 to 1000ms, defaults to 500ms.
-> +#                             (Since 7.1)
+> Hi Alex,
+> I'm waiting for a v4 or a confirmation that you've retested and I can
+> just drop this patch.
 
-Same here.
+I've re-ordered and I'll post the up to date series with the dropped
+patch tomorrow. I was hoping for r-b's for the other patches.
 
-> +#
->  # Features:
-> -# @unstable: Member @x-checkpoint-delay is experimental.
-> +# @unstable: Member @x-checkpoint-delay and @x-vcpu-dirty-limit-period
-> +#            are experimental.
->  #
->  # Since: 2.4
->  ##
-> @@ -976,7 +987,9 @@
->              '*multifd-compression': 'MultiFDCompression',
->              '*multifd-zlib-level': 'uint8',
->              '*multifd-zstd-level': 'uint8',
-> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
-> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
-> +            '*x-vcpu-dirty-limit-period': { 'type': 'uint64',
-> +                                            'features': [ 'unstable' ] } } }
->  
->  ##
->  # @migrate-set-parameters:
-> @@ -1141,8 +1154,13 @@
->  #                        block device name if there is one, and to their node name
->  #                        otherwise. (Since 5.2)
->  #
-> +# @x-vcpu-dirty-limit-period: Periodic time (ms) of dirty limit during live migration.
-> +#                             Should be in the range 1 to 1000ms, defaults to 500ms.
-> +#                             (Since 7.1)
+>
+> Thanks!
+>
+> Stefan
 
-Same here.
 
-> +#
->  # Features:
-> -# @unstable: Member @x-checkpoint-delay is experimental.
-> +# @unstable: Member @x-checkpoint-delay and @x-vcpu-dirty-limit-period
-> +#            are experimental.
->  #
->  # Since: 2.4
->  ##
-> @@ -1174,7 +1192,9 @@
->              '*multifd-compression': 'MultiFDCompression',
->              '*multifd-zlib-level': 'uint8',
->              '*multifd-zstd-level': 'uint8',
-> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
-> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
-> +            '*x-vcpu-dirty-limit-period': { 'type': 'uint64',
-> +                                            'features': [ 'unstable' ] } } }
->  
->  ##
->  # @query-migrate-parameters:
-> -- 
-> 1.8.3.1
-> 
-> 
-
--- 
-Peter Xu
-
+--=20
+Alex Benn=C3=A9e
 
