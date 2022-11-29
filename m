@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5A763BC10
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4258F63BC17
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:51:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozwIl-0008Cd-Gu; Tue, 29 Nov 2022 03:49:15 -0500
+	id 1ozwKO-0000Qc-5v; Tue, 29 Nov 2022 03:50:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozwIa-0008AR-Oy
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:49:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ozwIZ-0004YV-6B
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:49:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669711730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1KCLPVxcFpEDhkJS0EmXJtSdQLSHbpz59QNiXG5AsFM=;
- b=X/Y9vwf1Y6fc+BkbHY877SwZk/R30RUsva7irjbXeA7IThVtgQpLc7eq5OxA4LCI4qwVVq
- Odu16eCAWZnJJCjxZspMOazJIL8046cs9nE1oU5vgHWz3a+p3xvaaAZrR8L4qT+HVs1iMR
- ICS6E2xCTBkBF3i/7lluzJpCSotdbdQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-361-dPytMHKDNOS2EcIr5G7-yg-1; Tue, 29 Nov 2022 03:48:44 -0500
-X-MC-Unique: dPytMHKDNOS2EcIr5G7-yg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BDC41C008A1;
- Tue, 29 Nov 2022 08:48:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFBC740E42E4;
- Tue, 29 Nov 2022 08:48:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D299D21E6921; Tue, 29 Nov 2022 09:48:40 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,  Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  Daniel P .
- =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Igor Mammedov <imammedo@redhat.com>,  John Snow
- <jsnow@redhat.com>,  Maydell Peter <peter.maydell@linaro.org>,  Paolo
- Bonzini <pbonzini@redhat.com>,  Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org,  qemu-trivial@nongnu.org
-Subject: Re: [PATCH v2] acpi/tests/avocado/bits: add SPDX license
- identifiers for bios bits tests
-References: <20221125044138.962137-1-ani@anisinha.ca>
- <CAARzgwy=m4tN69cSn1msrZg1thkzL2ZfQ8_yOLw6Y77AzfFP-g@mail.gmail.com>
- <20221129000647-mutt-send-email-mst@kernel.org>
- <CAARzgwzS0tvV-Vz7PByrWfxrs9Gc6vyuvDVKriDMQMoJ1HWtPg@mail.gmail.com>
-Date: Tue, 29 Nov 2022 09:48:40 +0100
-In-Reply-To: <CAARzgwzS0tvV-Vz7PByrWfxrs9Gc6vyuvDVKriDMQMoJ1HWtPg@mail.gmail.com>
- (Ani Sinha's message of "Tue, 29 Nov 2022 11:16:51 +0530")
-Message-ID: <874juirvrr.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1ozwKJ-0000ND-Qv
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:50:51 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1ozwKG-00053C-IT
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:50:51 -0500
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8BxlfDdx4Vj1f8BAA--.4553S3;
+ Tue, 29 Nov 2022 16:50:37 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxNlfdx4Vj0iQeAA--.58124S2; 
+ Tue, 29 Nov 2022 16:50:37 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ philmd@linaro.org
+Subject: [PATCH v3] hw/loongarch: Add cfi01 pflash device
+Date: Tue, 29 Nov 2022 16:50:37 +0800
+Message-Id: <20221129085037.3589467-1-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxNlfdx4Vj0iQeAA--.58124S2
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Ww43WF4kKr4rCw43AFy5Jwb_yoWxJw1xpF
+ yxAFsYkr18XFnrWrZxX3sxWF15Arn7Ca47X3W29r40ka47Wry8WrWIk3yUtF1UA3s5XF1q
+ gF95Xa40ga17X3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,48 +73,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ani Sinha <ani@anisinha.ca> writes:
+Add cfi01 pflash device for LoongArch virt machine
 
-> On Tue, Nov 29, 2022 at 10:37 AM Michael S. Tsirkin <mst@redhat.com> wrot=
-e:
->>
->> On Tue, Nov 29, 2022 at 08:02:15AM +0530, Ani Sinha wrote:
->> >
->> >
->> > On Fri, Nov 25, 2022 at 10:11 AM Ani Sinha <ani@anisinha.ca> wrote:
->> >
->> >     Added the SPDX license identifiers for biosbits tests.
->> >     Also added a comment on each of the test scripts to indicate that =
-they run
->> >     from within the biosbits environment and hence are not subjected t=
-o the
->> >     regular
->> >     maintenance activities for QEMU and is excluded from the dependency
->> >     management
->> >     challenges in the host testing environment.
->> >
->> >     Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> >     Cc: Paolo Bonzini <pbonzini@redhat.com>
->> >     Cc: Maydell Peter <peter.maydell@linaro.org>
->> >     Cc: John Snow <jsnow@redhat.com>
->> >     Cc: Thomas Huth <thuth@redhat.com>
->> >     Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> >     Cc: Igor Mammedov <imammedo@redhat.com>
->> >     Cc: Michael Tsirkin <mst@redhat.com>
->> >     Cc: Thomas Huth <thuth@redhat.com>
->> >     Cc: qemu-trivial@nongnu.org
->> >     Signed-off-by: Ani Sinha <ani@anisinha.ca>
->> >
->> >
->> > Is anyone going to queue this for 7.2 given it's quite trivial?
->>
->> Don't see why we should bother.
->
-> Completeness?
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+---
+ hw/loongarch/Kconfig        |  1 +
+ hw/loongarch/acpi-build.c   | 18 +++++++++++
+ hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++
+ include/hw/loongarch/virt.h |  5 +++
+ 4 files changed, 86 insertions(+)
 
-We're about to tag -rc3.  It's too late for trivial stuff.  Anything but
-release-critical fixes would be madness at this stage.
-
-I recommend to route this via qemu-trivial into the next release.
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index 17d15b6c90..eb112af990 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -20,3 +20,4 @@ config LOONGARCH_VIRT
+     select ACPI_HW_REDUCED
+     select FW_CFG_DMA
+     select DIMM
++    select PFLASH_CFI01
+diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
+index 7d5f5a757d..c2b237736d 100644
+--- a/hw/loongarch/acpi-build.c
++++ b/hw/loongarch/acpi-build.c
+@@ -279,6 +279,23 @@ static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
+     acpi_dsdt_add_gpex(scope, &cfg);
+ }
+ 
++static void build_flash_aml(Aml *scope, LoongArchMachineState *lams)
++{
++    Aml *dev, *crs;
++
++    hwaddr flash_base = VIRT_FLASH_BASE;
++    hwaddr flash_size = VIRT_FLASH_SIZE;
++
++    dev = aml_device("FLS0");
++    aml_append(dev, aml_name_decl("_HID", aml_string("LNRO0015")));
++    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
++
++    crs = aml_resource_template();
++    aml_append(crs, aml_memory32_fixed(flash_base, flash_size, AML_READ_WRITE));
++    aml_append(dev, aml_name_decl("_CRS", crs));
++    aml_append(scope, dev);
++}
++
+ #ifdef CONFIG_TPM
+ static void acpi_dsdt_add_tpm(Aml *scope, LoongArchMachineState *vms)
+ {
+@@ -328,6 +345,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+     build_uart_device_aml(dsdt);
+     build_pci_device_aml(dsdt, lams);
+     build_la_ged_aml(dsdt, machine);
++    build_flash_aml(dsdt, lams);
+ #ifdef CONFIG_TPM
+     acpi_dsdt_add_tpm(dsdt, lams);
+ #endif
+diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+index 958be74fa1..c09ce63d1d 100644
+--- a/hw/loongarch/virt.c
++++ b/hw/loongarch/virt.c
+@@ -42,6 +42,63 @@
+ #include "hw/display/ramfb.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "sysemu/tpm.h"
++#include "sysemu/block-backend.h"
++#include "hw/block/flash.h"
++
++static void virt_flash_create(LoongArchMachineState *lams)
++{
++    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
++
++    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
++    qdev_prop_set_uint8(dev, "width", 4);
++    qdev_prop_set_uint8(dev, "device-width", 2);
++    qdev_prop_set_bit(dev, "big-endian", false);
++    qdev_prop_set_uint16(dev, "id0", 0x89);
++    qdev_prop_set_uint16(dev, "id1", 0x18);
++    qdev_prop_set_uint16(dev, "id2", 0x00);
++    qdev_prop_set_uint16(dev, "id3", 0x00);
++    qdev_prop_set_string(dev, "name", "virt.flash0");
++    object_property_add_child(OBJECT(lams), "virt.flash0", OBJECT(dev));
++    object_property_add_alias(OBJECT(lams), "pflash0",
++                              OBJECT(dev), "drive");
++
++    lams->flash = PFLASH_CFI01(dev);
++}
++
++static void virt_flash_map(LoongArchMachineState *lams,
++                           MemoryRegion *sysmem)
++{
++    PFlashCFI01 *flash = lams->flash;
++    DeviceState *dev = DEVICE(flash);
++    hwaddr base = VIRT_FLASH_BASE;
++    hwaddr size = VIRT_FLASH_SIZE;
++
++    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
++    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
++
++    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    memory_region_add_subregion(sysmem, base,
++                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
++
++}
++
++static void fdt_add_flash_node(LoongArchMachineState *lams)
++{
++    MachineState *ms = MACHINE(lams);
++    char *nodename;
++
++    hwaddr flash_base = VIRT_FLASH_BASE;
++    hwaddr flash_size = VIRT_FLASH_SIZE;
++
++    nodename = g_strdup_printf("/flash@%" PRIx64, flash_base);
++    qemu_fdt_add_subnode(ms->fdt, nodename);
++    qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "cfi-flash");
++    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
++                                 2, flash_base, 2, flash_size);
++    qemu_fdt_setprop_cell(ms->fdt, nodename, "bank-width", 4);
++    g_free(nodename);
++}
+ 
+ static void fdt_add_rtc_node(LoongArchMachineState *lams)
+ {
+@@ -596,6 +653,9 @@ static void loongarch_firmware_init(LoongArchMachineState *lams)
+     int bios_size;
+ 
+     lams->bios_loaded = false;
++
++    virt_flash_map(lams, get_system_memory());
++
+     if (filename) {
+         bios_name = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
+         if (!bios_name) {
+@@ -779,6 +839,7 @@ static void loongarch_init(MachineState *machine)
+             loongarch_direct_kernel_boot(lams);
+         }
+     }
++    fdt_add_flash_node(lams);
+     /* register reset function */
+     for (i = 0; i < machine->smp.cpus; i++) {
+         lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
+@@ -838,6 +899,7 @@ static void loongarch_machine_initfn(Object *obj)
+     lams->acpi = ON_OFF_AUTO_AUTO;
+     lams->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+     lams->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
++    virt_flash_create(lams);
+ }
+ 
+ static bool memhp_type_supported(DeviceState *dev)
+diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+index 45c383f5a7..f5f818894e 100644
+--- a/include/hw/loongarch/virt.h
++++ b/include/hw/loongarch/virt.h
+@@ -12,6 +12,7 @@
+ #include "hw/boards.h"
+ #include "qemu/queue.h"
+ #include "hw/intc/loongarch_ipi.h"
++#include "hw/block/flash.h"
+ 
+ #define LOONGARCH_MAX_VCPUS     4
+ 
+@@ -20,6 +21,9 @@
+ #define VIRT_FWCFG_BASE         0x1e020000UL
+ #define VIRT_BIOS_BASE          0x1c000000UL
+ #define VIRT_BIOS_SIZE          (4 * MiB)
++#define VIRT_FLASH_SECTOR_SIZE  (128 * KiB)
++#define VIRT_FLASH_BASE         0x1d000000UL
++#define VIRT_FLASH_SIZE         (16 * MiB)
+ 
+ #define VIRT_LOWMEM_BASE        0
+ #define VIRT_LOWMEM_SIZE        0x10000000
+@@ -48,6 +52,7 @@ struct LoongArchMachineState {
+     int          fdt_size;
+     DeviceState *platform_bus_dev;
+     PCIBus       *pci_bus;
++    PFlashCFI01  *flash;
+ };
+ 
+ #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
+-- 
+2.31.1
 
 
