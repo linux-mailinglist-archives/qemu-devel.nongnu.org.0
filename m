@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542F963C9F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 22:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F29B63C9FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 22:02:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p07hV-00077Z-FT; Tue, 29 Nov 2022 15:59:33 -0500
+	id 1p07jd-00089o-VV; Tue, 29 Nov 2022 16:01:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p07hT-00077H-Bg
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:59:31 -0500
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ id 1p07jX-00088i-SA
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 16:01:39 -0500
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p07hR-0002yX-Lv
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 15:59:30 -0500
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-3bfd998fa53so98654277b3.5
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 12:59:29 -0800 (PST)
+ id 1p07jW-0003QJ-7Z
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 16:01:39 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id e141so19097794ybh.3
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 13:01:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UYyUfulGoq5FHxq85Agbxdr02/H0+T6oZ3yMNNL5wSE=;
- b=OyQFwT2apLzc+I2YftRsW8FUSf5qSeHgoSZ1/PXZEpeowMusamguAG7pl6wT7ekGSj
- h8bUhC+gU1C/8nukObchFr2ZmsBznuokqGD1ukwzKml2Aqh6Nj2ZmM3fva12CyR3jTBh
- Qf57KrRmlTEXya43EYYGkop/nCMHpYndppfKDy318G6Uop4p7XMVc4mFlY1lYcmwolnx
- jAyaF13F6PblJ/m2wMIfJNtQIxQs29pdzpcvi1TvY4XgjnUIbPm6PFNXH47nMlezzXim
- QM6NULU/ECAJLJEuW36Qg0BuQEUljlcuB0Gq6gIFv7pVHXa03pS6plW2jLkDdIemcnCg
- 4nRQ==
+ bh=1NiVJEZDT3YKx4m8vey37dk812IOxMabxZymhyZ4DjI=;
+ b=XozlwRI/M+SeWudzkoh2WUXjXt8ySzBz3tvXQI+lrsYwJQ5x9QRuxoLPJ3Ti6lfQbf
+ gsA69krwZkcn5Hmw4BBxyWJay2AMoHss+O23DJOJtvOEHfkRS6kkuZpyuD2aBeZyyidi
+ 1xDvmk5LXWfHGt1zDIdneVkrvQz+565oyD3ngU0W/10vUWQ9IkZZuOKvaxggDEs+QqTr
+ 9W4GqwaSBoqh5Ot23+tsfd4TiHg7NkJgQPj9cpcz9IQmo92ZIB+qWHVlcFmGuIK5mueG
+ BSwSq1ymvcY1ANB+v+bjNfcjRCN0js37Q504mQKzDBD5tK9V8HFD00468WjXY22owEEt
+ n40w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UYyUfulGoq5FHxq85Agbxdr02/H0+T6oZ3yMNNL5wSE=;
- b=uU03GQeTayrOdP2LryepR3yxbRWbLV1sZUiot8S7gTvT28dE3kVGjGD1LGpPq5afgK
- TDG4r7EBED0k9VDSDZ6NLL0VxN8//b69wKmLmKxEkeQD0BCbWb1Vfn20Deg8KERvB9ej
- WzQC1NyxC+7YFWpq5SPkLcBJtFv1tMXspGaLFoNnHVoS6LbHtvcrPcsNwEIbakLj9TpQ
- neJiTVMrvpjrKh7nrPv1LjwmcVPLHio5lKN6xoG2JQR+ylmE+WuZwpj489KRqaAe6zXV
- jxFNrYCqAQKUjyt4CVtOf4gnQlSpijtQGlgXXZrJzHENJEftd9ZAf/f7aKg0dKMBhl7h
- 3Mew==
-X-Gm-Message-State: ANoB5pkxi7idvVsPVBxRjkIjOXiShXeS/I84vK5aPgBtv3qq/ZZpaBsy
- ATw1mU7aeIc6Ucr56pGFPAFD7mI0oP8dOluzvmw=
-X-Google-Smtp-Source: AA0mqf4CgbRPy6MV4IXnA9D5jawvq9spRHAio0wB5IjrrjcNaGyOSoAAgwTsiWLPRcqJ8Me7xF+LX/DbmtwOH/KFoXA=
-X-Received: by 2002:a81:5309:0:b0:38f:80d5:f22d with SMTP id
- h9-20020a815309000000b0038f80d5f22dmr38046669ywb.296.1669755568529; Tue, 29
- Nov 2022 12:59:28 -0800 (PST)
+ bh=1NiVJEZDT3YKx4m8vey37dk812IOxMabxZymhyZ4DjI=;
+ b=fXgq+qCD0k928lzSnM+wJ9nQu2kKOw3Gxpu3O/5diNGdmyZqNmKvXhQqI8V3ln2Bxr
+ DclFDGokdhL2gnVioM4oKXWHapnPB/5wGwdiUcBPWjn69hzjfWiI+XhpPVOQDSw768j0
+ lqimUA2to4DVnm7BzVhS6Y52Vtl+fGTVC9XQ6+36Pf85hk3arzIdogslLP4+S9CMnqgy
+ nQlJuVUEkHRdF5xdAh17jxd+qd+7s2FK65NsM29rtDIx4Tcf8XJC5BWk1OBuri6xbB2D
+ IcZhPWEor9//OU8t6FjjqjT6QPxK5bR63nbWNDiToXfmgEtV6cO3Ogax/60jhgs9P5rs
+ ao3A==
+X-Gm-Message-State: ANoB5pnfdkDu29pDfTb/IUFRnQmC/rVpflfqASi5RzwaqLmnN3TeKjPq
+ 7UvR4bUEDt5IoLwDGcRbagzvTxjAq2T9O6jpr+k=
+X-Google-Smtp-Source: AA0mqf43n8uta7V/FmzzPakKmsWbTmHlZJHWORRlw5TMogqoCFHA3R9irrffhfeEGauhOuAwUU2cPjyhRIjs5cDs+OM=
+X-Received: by 2002:a25:4181:0:b0:6f9:8f1:4d02 with SMTP id
+ o123-20020a254181000000b006f908f14d02mr4543448yba.118.1669755696971; Tue, 29
+ Nov 2022 13:01:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20221129204146.550394-1-richard.henderson@linaro.org>
-In-Reply-To: <20221129204146.550394-1-richard.henderson@linaro.org>
+References: <20221128164105.1191058-1-alex.bennee@linaro.org>
+ <20221128164105.1191058-5-alex.bennee@linaro.org>
+ <CAJSP0QX1R4Z+AC3591MpwzBAG1Tz3rDTe4+o2rbe0v-q6sSKMw@mail.gmail.com>
+ <8735a2yigb.fsf@linaro.org>
+In-Reply-To: <8735a2yigb.fsf@linaro.org>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 29 Nov 2022 15:59:17 -0500
-Message-ID: <CAJSP0QUB7TBbgxg=oJ6Js-AZb+yLzGb=tcso5K3dsyOGbSVkmw@mail.gmail.com>
-Subject: Re: [PATCH for-7.2] target/arm: Set TCGCPUOps.restore_state_to_opc
- for v7m
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
+Date: Tue, 29 Nov 2022 16:01:25 -0500
+Message-ID: <CAJSP0QWxN2UxaNqST64G=tyUVLn8zbwzotLxHNQ6d6xPTeocgg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/7] hw/virtio: ensure a valid host_feature set for
+ virtio-user-gpio
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com, 
+ marcandre.lureau@redhat.com, stefanha@redhat.com, mathieu.poirier@linaro.org, 
+ viresh.kumar@linaro.org, sgarzare@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1135.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,8 +88,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Waiting for Evgeny's Signed-off-by. It seems a -rc4 tag will be
-required anyway for vhost fixes so I'll wait.
+Hi Alex,
+I'm waiting for a v4 or a confirmation that you've retested and I can
+just drop this patch.
+
+Thanks!
 
 Stefan
 
