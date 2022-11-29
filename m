@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEBA63BB44
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:12:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9B663BB4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:13:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozvhw-000774-Qb; Tue, 29 Nov 2022 03:11:12 -0500
+	id 1ozvjt-0000BD-Nw; Tue, 29 Nov 2022 03:13:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ozvhq-00073M-BK
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:11:08 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ozvjq-00007n-8r
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:13:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ozvho-0006na-Lz
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:11:06 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ozvjb-00075q-Vr
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:13:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669709463;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1669709575;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZUfxQqg8TFMX4egp9trm2YuRl4bblDSTOMx4I99SrE0=;
- b=QbnvkgywZjrwXp9rjvCHhMsVfvpWxQz0PnkNE8ww0bIytSZfCdsrCWpzQoeh1lCAtoX+/B
- hNuS9AY65kkULZWC285c3R+u6Wk+ZEu57xLStmvlVh5XYYi/pBgPqtAOdOI/oEmwPUi13b
- H5p1IqcD+6LCPno008gZi98p8VdDEJg=
+ bh=Vq9/URMvsDo6ESXdQZGaIqIZELyyY+1xqtKxlotdSdQ=;
+ b=U0kelB+9g7vjkHkS68Vphwh49lmOXbZ9VwF+pYbOguSIpJHOB+OMUxM58Qxn/U7jGeqaW+
+ nUKMNAlU3fFjFa2lmLdkrDH7LqiAnfpWJ8OZ4GhWhR7yyt4G1TCxqmCi06XiUyKvpsovtX
+ P3elB3hi/QxsF36siESqkrRo143FLnI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-pAzT2quMOHWchU4TaUy1CQ-1; Tue, 29 Nov 2022 03:11:01 -0500
-X-MC-Unique: pAzT2quMOHWchU4TaUy1CQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-501-vBpg7L8pNfOQzctf_QUlYw-1; Tue, 29 Nov 2022 03:12:51 -0500
+X-MC-Unique: vBpg7L8pNfOQzctf_QUlYw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03FE5811E7A;
- Tue, 29 Nov 2022 08:11:01 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-181.pek2.redhat.com
- [10.72.13.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30223C15BBD;
- Tue, 29 Nov 2022 08:10:57 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: mst@redhat.com,
-	peterx@redhat.com
-Cc: qemu-devel@nongnu.org, eric.auger@redhat.com, viktor@daynix.com,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
-Date: Tue, 29 Nov 2022 16:10:37 +0800
-Message-Id: <20221129081037.12099-4-jasowang@redhat.com>
-In-Reply-To: <20221129081037.12099-1-jasowang@redhat.com>
-References: <20221129081037.12099-1-jasowang@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C44FE1019C89;
+ Tue, 29 Nov 2022 08:12:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BD744EA47;
+ Tue, 29 Nov 2022 08:12:49 +0000 (UTC)
+Date: Tue, 29 Nov 2022 08:12:44 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 for-8.0 0/5] scripts/make-release: Decrease size of
+ the release tarballs
+Message-ID: <Y4W+/OZWjVZz75pU@redhat.com>
+References: <20221128092555.37102-1-thuth@redhat.com>
+ <Y4TqEDYs+T4z6PX/@redhat.com>
+ <CABgObfbTBN3t-OttM9gm75yPv8-5GDrp0v_Zeob0u-mp4hSQBA@mail.gmail.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+In-Reply-To: <CABgObfbTBN3t-OttM9gm75yPv8-5GDrp0v_Zeob0u-mp4hSQBA@mail.gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,100 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The IOVA tree is only built during page walk this breaks the device
-that tries to use UNMAP notifier only. One example is vhost-net, it
-tries to use UNMAP notifier when vIOMMU doesn't support DEVIOTLB_UNMAP
-notifier (e.g when dt mode is not enabled). The interesting part is
-that it doesn't use MAP since it can query the IOMMU translation by
-itself upon a IOTLB miss.
+On Mon, Nov 28, 2022 at 08:25:24PM +0100, Paolo Bonzini wrote:
+> Il lun 28 nov 2022, 18:04 Daniel P. Berrangé <berrange@redhat.com> ha
+> scritto:
+> 
+> > With my distro maintainer hat I would rather QEMU ship neither the
+> > ROM source, nor the ROM binaries.
+> >
+> 
+> Annd since QEMU can finally cross compile its embedded firmware modules,
+> too, it is now easier for distros not to use any prebuilt binary.
+> 
+> However some firmware sources are only available from QEMU's submodules. So
+> either we distribute those submodules as separate tarballs, or distros
+> would need to use the bundled tarball as well.
 
-This doesn't work since Qemu doesn't build IOVA tree in IOMMU
-translation which means the UNMAP notifier won't be triggered during
-the page walk since Qemu think it is never mapped. This could be
-noticed when vIOMMU is used with vhost_net but dt is disabled.
+If the firmware doesn't exist as a standalone project, IMHO, it is
+fine to bundle their sources with QEMU. If they move off into a
+separate project some time in arbitrary future, they can be unbundled
+at that point.
 
-Fixing this by build the iova tree during IOMMU translation, this
-makes sure the UNMAP notifier event could be identified during page
-walk. And we need to walk page table not only for UNMAP notifier but
-for MAP notifier during PSI.
+> Separately, I am not even sure what compiler is needed for the old
+> Macintosh ROMs...
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/i386/intel_iommu.c | 43 ++++++++++++++++++-------------------------
- 1 file changed, 18 insertions(+), 25 deletions(-)
+That we're not sure how to build some ROMS is exactly why
+distros have their build everything from source policy !
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index d025ef2873..edeb62f4b2 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1834,6 +1834,8 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
-     uint8_t access_flags;
-     bool rid2pasid = (pasid == PCI_NO_PASID) && s->root_scalable;
-     VTDIOTLBEntry *iotlb_entry;
-+    const DMAMap *mapped;
-+    DMAMap target;
- 
-     /*
-      * We have standalone memory region for interrupt addresses, we
-@@ -1954,6 +1956,21 @@ out:
-     entry->translated_addr = vtd_get_slpte_addr(slpte, s->aw_bits) & page_mask;
-     entry->addr_mask = ~page_mask;
-     entry->perm = access_flags;
-+
-+    target.iova = entry->iova;
-+    target.size = entry->addr_mask;
-+    target.translated_addr = entry->translated_addr;
-+    target.perm = entry->perm;
-+
-+    mapped = iova_tree_find(vtd_as->iova_tree, &target);
-+    if (!mapped) {
-+        /* To make UNMAP notifier work, we need build iova tree here
-+         * in order to have the UNMAP iommu notifier to be triggered
-+         * during the page walk.
-+         */
-+        iova_tree_insert(vtd_as->iova_tree, &target);
-+    }
-+
-     return true;
- 
- error:
-@@ -2161,31 +2178,7 @@ static void vtd_iotlb_page_invalidate_notify(IntelIOMMUState *s,
-         ret = vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
-                                        vtd_as->devfn, &ce);
-         if (!ret && domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid)) {
--            if (vtd_as_has_map_notifier(vtd_as)) {
--                /*
--                 * As long as we have MAP notifications registered in
--                 * any of our IOMMU notifiers, we need to sync the
--                 * shadow page table.
--                 */
--                vtd_sync_shadow_page_table_range(vtd_as, &ce, addr, size);
--            } else {
--                /*
--                 * For UNMAP-only notifiers, we don't need to walk the
--                 * page tables.  We just deliver the PSI down to
--                 * invalidate caches.
--                 */
--                IOMMUTLBEvent event = {
--                    .type = IOMMU_NOTIFIER_UNMAP,
--                    .entry = {
--                        .target_as = &address_space_memory,
--                        .iova = addr,
--                        .translated_addr = 0,
--                        .addr_mask = size - 1,
--                        .perm = IOMMU_NONE,
--                    },
--                };
--                memory_region_notify_iommu(&vtd_as->iommu, 0, event);
--            }
-+            vtd_sync_shadow_page_table_range(vtd_as, &ce, addr, size);
-         }
-     }
- }
+With regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
