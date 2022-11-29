@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4CB63B7FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 03:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CF763B82D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 03:48:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozqQX-0007fd-7j; Mon, 28 Nov 2022 21:32:55 -0500
+	id 1ozqbN-0002H6-0p; Mon, 28 Nov 2022 21:44:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ozqQB-0007dC-4l
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 21:32:31 -0500
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ozqQ8-0003Vv-NT
- for qemu-devel@nongnu.org; Mon, 28 Nov 2022 21:32:30 -0500
-Received: by mail-io1-xd29.google.com with SMTP id b2so9092145iof.12
- for <qemu-devel@nongnu.org>; Mon, 28 Nov 2022 18:32:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GHtl8wwDWGAs6itQXdqyUts/DaJi5tGHPe70JHGChw0=;
- b=C5K8HHH0eEgLkNORw33cA6Ea3rF6DRLWs5x9e42ULIhkxEPwgWGCTCjqxeayN1sHXq
- gXfQKJB8tIIJuuFZRTqK23rX4/il6HkwEJp9mLlBewIdmBhmRNwmHzLHgMQ059FYGeKD
- mi+fbY4HyBunTgGk2UpHYqiJVmBnhqnLZSt+rGkJywFrHMpRIFkc1w73ZIZ5+jNoLRpp
- Kx7QIQRQYk4FM1dzsIva89uvw7JbTggl9rn5qiXFfxF0Vfjg1ZRyKXXv5lIVaxS1Dhov
- UPUWb+N1j3FPjF5ITgM+ZadRj9ZWkI53zVMCrVPXu6T8+fs+uYT94E19vU21BFsicjnP
- eWOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GHtl8wwDWGAs6itQXdqyUts/DaJi5tGHPe70JHGChw0=;
- b=arBqTsarILnEj5uTWZyCWsqbqx6OKrelcEr2Cz321JT5ibk52kGlaUBTX2IcduzYtn
- BXZ63c4gm0Xakowy1+wjk7KtPTahfKLzMI9kkEYqwymhGIus9dOV4YFzy7zDHofpbGlJ
- 9s4ilgQphW/1p2/3D/OijS5qMTkfaMcfWIuBQ2mEqm3PjPmN+3x6uGvmLT/20YSRPePu
- MdO4TSkl6NhO2z0FLG6ZPLbPwvN12fgKSasmRLpBxQ56meKXaW9viAN0HwP7n/H6ZY00
- JaGMxKA9C+Gwf5PgeL7yvtdRrvA3M2wpRH9+6LbllKAhCcU7axuSf8uNs52/nJwMJDb8
- abyA==
-X-Gm-Message-State: ANoB5pkYw0oRaBHbmw3BDsxIHqY1mkkJxHe4CzNG/Ui5lPhnYp15Iky9
- fLcVrtGAeVUYXjQuyW0tu/DF9lhdk/fCE9qgx3Sh8w==
-X-Google-Smtp-Source: AA0mqf7VZoX6Nnl+OivsQQReIKAB4JroVf10LsHmK1uv/r5QMlzLNREDg/R3IPCXwNgWTJgAXXobDTYr7Z6ykBZNCjQ=
-X-Received: by 2002:a02:ad12:0:b0:389:787a:ead5 with SMTP id
- s18-20020a02ad12000000b00389787aead5mr10549270jan.83.1669689146496; Mon, 28
- Nov 2022 18:32:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ozqbK-0002Ex-Mi; Mon, 28 Nov 2022 21:44:02 -0500
+Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ozqbE-0005QN-8z; Mon, 28 Nov 2022 21:43:59 -0500
+Received: from localhost.localdomain (unknown [180.175.30.174])
+ by APP-05 (Coremail) with SMTP id zQCowABHT_ficYVjZgs3Aw--.22376S2;
+ Tue, 29 Nov 2022 10:43:46 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v7 0/9] support subsets of code size reduction extension
+Date: Tue, 29 Nov 2022 10:43:34 +0800
+Message-Id: <20221129024343.20384-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221125044138.962137-1-ani@anisinha.ca>
-In-Reply-To: <20221125044138.962137-1-ani@anisinha.ca>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 29 Nov 2022 08:02:15 +0530
-Message-ID: <CAARzgwy=m4tN69cSn1msrZg1thkzL2ZfQ8_yOLw6Y77AzfFP-g@mail.gmail.com>
-Subject: Re: [PATCH v2] acpi/tests/avocado/bits: add SPDX license identifiers
- for bios bits tests
-To: Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>, 
- Maydell Peter <peter.maydell@linaro.org>, Michael Tsirkin <mst@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000076732c05ee92cc0b"
-Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd29.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowABHT_ficYVjZgs3Aw--.22376S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryDKFW5KryrWw4xZry7KFg_yoW5JF43pr
+ WrC3yakrZ8tFWxJw4ft3WUJw15AF4rWr45Awn7Jw1kJa13ArW5Jrn7K3W3K3WxJF18WrnF
+ 93WUCw13u3yUJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0E
+ wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+ 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
+ I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+ k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+ xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-Originating-IP: [180.175.30.174]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,262 +71,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000076732c05ee92cc0b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions.
 
-On Fri, Nov 25, 2022 at 10:11 AM Ani Sinha <ani@anisinha.ca> wrote:
+Specification:
+https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
 
-> Added the SPDX license identifiers for biosbits tests.
-> Also added a comment on each of the test scripts to indicate that they ru=
-n
-> from within the biosbits environment and hence are not subjected to the
-> regular
-> maintenance activities for QEMU and is excluded from the dependency
-> management
-> challenges in the host testing environment.
->
-> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Maydell Peter <peter.maydell@linaro.org>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Michael Tsirkin <mst@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: qemu-trivial@nongnu.org
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v7
+
+To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extensions support.
 
 
-Is anyone going to queue this for 7.2 given it's quite trivial?
+This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
 
+v7:
+* Fix description for Zca
 
-> ---
->  tests/avocado/acpi-bits/bits-tests/smbios.py2    | 4 ++++
->  tests/avocado/acpi-bits/bits-tests/testacpi.py2  | 4 ++++
->  tests/avocado/acpi-bits/bits-tests/testcpuid.py2 | 4 ++++
->  3 files changed, 12 insertions(+)
->
-> changelog:
-> changes from v1: fixed typo as suggested by Phil.
->
-> diff --git a/tests/avocado/acpi-bits/bits-tests/smbios.py2
-> b/tests/avocado/acpi-bits/bits-tests/smbios.py2
-> index 9667d0542c..fc623de072 100644
-> --- a/tests/avocado/acpi-bits/bits-tests/smbios.py2
-> +++ b/tests/avocado/acpi-bits/bits-tests/smbios.py2
-> @@ -1,6 +1,8 @@
->  # Copyright (c) 2015, Intel Corporation
->  # All rights reserved.
->  #
-> +# SPDX-License-Identifier: BSD-3-Clause
-> +#
->  # Redistribution and use in source and binary forms, with or without
->  # modification, are permitted provided that the following conditions are
-> met:
->  #
-> @@ -24,6 +26,8 @@
->  # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-> OF THIS
->  # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
->
-> +# This script runs only from the biosbits VM.
-> +
->  """SMBIOS/DMI module."""
->
->  import bits
-> diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> index dbc150076e..f818a9cce6 100644
-> --- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> +++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> @@ -1,6 +1,8 @@
->  # Copyright (c) 2015, Intel Corporation
->  # All rights reserved.
->  #
-> +# SPDX-License-Identifier: BSD-3-Clause
-> +#
->  # Redistribution and use in source and binary forms, with or without
->  # modification, are permitted provided that the following conditions are
-> met:
->  #
-> @@ -24,6 +26,8 @@
->  # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-> OF THIS
->  # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
->
-> +# This script runs only from the biosbits VM.
-> +
->  """Tests for ACPI"""
->
->  import acpi
-> diff --git a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-> b/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-> index ac55d912e1..7adefbe355 100644
-> --- a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-> +++ b/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-> @@ -1,6 +1,8 @@
->  # Copyright (c) 2012, Intel Corporation
->  # All rights reserved.
->  #
-> +# SPDX-License-Identifier: BSD-3-Clause
-> +#
->  # Redistribution and use in source and binary forms, with or without
->  # modification, are permitted provided that the following conditions are
-> met:
->  #
-> @@ -24,6 +26,8 @@
->  # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-> OF THIS
->  # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
->
-> +# This script runs only from the biosbits VM.
-> +
->  """Tests and helpers for CPUID."""
->
->  import bits
-> --
-> 2.34.1
->
->
+v6：
+* fix base address for jump table in Patch 7
+* rebase on riscv-to-apply.next
 
---00000000000076732c05ee92cc0b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v5:
+* fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Nov 25, 2022 at 10:11 AM Ani Sinha &lt;<a href=3D"m=
-ailto:ani@anisinha.ca">ani@anisinha.ca</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">Added the SPDX license identifiers for biosbits tests.<b=
-r>
-Also added a comment on each of the test scripts to indicate that they run<=
-br>
-from within the biosbits environment and hence are not subjected to the reg=
-ular<br>
-maintenance activities for QEMU and is excluded from the dependency managem=
-ent<br>
-challenges in the host testing environment.<br>
-<br>
-Cc: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com" targ=
-et=3D"_blank">berrange@redhat.com</a>&gt;<br>
-Cc: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_bla=
-nk">pbonzini@redhat.com</a>&gt;<br>
-Cc: Maydell Peter &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D=
-"_blank">peter.maydell@linaro.org</a>&gt;<br>
-Cc: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsn=
-ow@redhat.com</a>&gt;<br>
-Cc: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">t=
-huth@redhat.com</a>&gt;<br>
-Cc: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" target=
-=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-Cc: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" target=3D"_bla=
-nk">imammedo@redhat.com</a>&gt;<br>
-Cc: Michael Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" target=3D"_blank"=
->mst@redhat.com</a>&gt;<br>
-Cc: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">t=
-huth@redhat.com</a>&gt;<br>
-Cc: <a href=3D"mailto:qemu-trivial@nongnu.org" target=3D"_blank">qemu-trivi=
-al@nongnu.org</a><br>
-Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_=
-blank">ani@anisinha.ca</a>&gt;</blockquote><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Is anyone going to queue this for 7.2 given it&#39;s quite tr=
-ivial?</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=
-=3D"auto"><br>
----<br>
-=C2=A0tests/avocado/acpi-bits/bits-tests/smbios.py2=C2=A0 =C2=A0 | 4 ++++<b=
-r>
-=C2=A0tests/avocado/acpi-bits/bits-tests/testacpi.py2=C2=A0 | 4 ++++<br>
-=C2=A0tests/avocado/acpi-bits/bits-tests/testcpuid.py2 | 4 ++++<br>
-=C2=A03 files changed, 12 insertions(+)<br>
-<br>
-changelog:<br>
-changes from v1: fixed typo as suggested by Phil.<br>
-<br>
-diff --git a/tests/avocado/acpi-bits/bits-tests/smbios.py2 b/tests/avocado/=
-acpi-bits/bits-tests/smbios.py2<br>
-index 9667d0542c..fc623de072 100644<br>
---- a/tests/avocado/acpi-bits/bits-tests/smbios.py2<br>
-+++ b/tests/avocado/acpi-bits/bits-tests/smbios.py2<br>
-@@ -1,6 +1,8 @@<br>
-=C2=A0# Copyright (c) 2015, Intel Corporation<br>
-=C2=A0# All rights reserved.<br>
-=C2=A0#<br>
-+# SPDX-License-Identifier: BSD-3-Clause<br>
-+#<br>
-=C2=A0# Redistribution and use in source and binary forms, with or without<=
-br>
-=C2=A0# modification, are permitted provided that the following conditions =
-are met:<br>
-=C2=A0#<br>
-@@ -24,6 +26,8 @@<br>
-=C2=A0# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U=
-SE OF THIS<br>
-=C2=A0# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
-<br>
-+# This script runs only from the biosbits VM.<br>
-+<br>
-=C2=A0&quot;&quot;&quot;SMBIOS/DMI module.&quot;&quot;&quot;<br>
-<br>
-=C2=A0import bits<br>
-diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2 b/tests/avocad=
-o/acpi-bits/bits-tests/testacpi.py2<br>
-index dbc150076e..f818a9cce6 100644<br>
---- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2<br>
-+++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2<br>
-@@ -1,6 +1,8 @@<br>
-=C2=A0# Copyright (c) 2015, Intel Corporation<br>
-=C2=A0# All rights reserved.<br>
-=C2=A0#<br>
-+# SPDX-License-Identifier: BSD-3-Clause<br>
-+#<br>
-=C2=A0# Redistribution and use in source and binary forms, with or without<=
-br>
-=C2=A0# modification, are permitted provided that the following conditions =
-are met:<br>
-=C2=A0#<br>
-@@ -24,6 +26,8 @@<br>
-=C2=A0# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U=
-SE OF THIS<br>
-=C2=A0# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
-<br>
-+# This script runs only from the biosbits VM.<br>
-+<br>
-=C2=A0&quot;&quot;&quot;Tests for ACPI&quot;&quot;&quot;<br>
-<br>
-=C2=A0import acpi<br>
-diff --git a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2 b/tests/avoca=
-do/acpi-bits/bits-tests/testcpuid.py2<br>
-index ac55d912e1..7adefbe355 100644<br>
---- a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2<br>
-+++ b/tests/avocado/acpi-bits/bits-tests/testcpuid.py2<br>
-@@ -1,6 +1,8 @@<br>
-=C2=A0# Copyright (c) 2012, Intel Corporation<br>
-=C2=A0# All rights reserved.<br>
-=C2=A0#<br>
-+# SPDX-License-Identifier: BSD-3-Clause<br>
-+#<br>
-=C2=A0# Redistribution and use in source and binary forms, with or without<=
-br>
-=C2=A0# modification, are permitted provided that the following conditions =
-are met:<br>
-=C2=A0#<br>
-@@ -24,6 +26,8 @@<br>
-=C2=A0# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U=
-SE OF THIS<br>
-=C2=A0# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
-<br>
-+# This script runs only from the biosbits VM.<br>
-+<br>
-=C2=A0&quot;&quot;&quot;Tests and helpers for CPUID.&quot;&quot;&quot;<br>
-<br>
-=C2=A0import bits<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div></div>
+v4:
+* improve Zcmp suggested by Richard
+* fix stateen related check for Zcmt
 
---00000000000076732c05ee92cc0b--
+v3:
+* update the solution for Zcf to the way of Zcd
+* update Zcb to reuse gen_load/store
+* use trans function instead of helper for push/pop
+
+v2:
+* add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
+* separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
+
+Weiwei Li (9):
+  target/riscv: add cfg properties for Zc* extension
+  target/riscv: add support for Zca extension
+  target/riscv: add support for Zcf extension
+  target/riscv: add support for Zcd extension
+  target/riscv: add support for Zcb extension
+  target/riscv: add support for Zcmp extension
+  target/riscv: add support for Zcmt extension
+  target/riscv: expose properties for Zc* extension
+  disas/riscv.c: add disasm support for Zc*
+
+ disas/riscv.c                             | 287 +++++++++++++++++++-
+ target/riscv/cpu.c                        |  56 ++++
+ target/riscv/cpu.h                        |  10 +
+ target/riscv/cpu_bits.h                   |   7 +
+ target/riscv/csr.c                        |  38 ++-
+ target/riscv/helper.h                     |   3 +
+ target/riscv/insn16.decode                |  63 ++++-
+ target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+ target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
+ target/riscv/machine.c                    |  19 ++
+ target/riscv/meson.build                  |   3 +-
+ target/riscv/translate.c                  |  15 +-
+ target/riscv/zce_helper.c                 |  55 ++++
+ 15 files changed, 893 insertions(+), 16 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+ create mode 100644 target/riscv/zce_helper.c
+
+-- 
+2.25.1
+
 
