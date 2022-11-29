@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE5E63BC50
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 09:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B64863BCF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 10:29:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozwRF-0003eY-Og; Tue, 29 Nov 2022 03:58:01 -0500
+	id 1ozwuU-0003Dc-A4; Tue, 29 Nov 2022 04:28:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozwRD-0003e9-UZ
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:57:59 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1ozwuM-0003Cc-U0
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 04:28:06 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ozwRB-0006Xo-Vc
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 03:57:59 -0500
-Received: by mail-wr1-x433.google.com with SMTP id y16so1188582wrm.2
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 00:57:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=u2aV5Om4XNwf1xNcBjBc47KCU9CK5roblFbz8XZf9BM=;
- b=iAOYoV6c4nR3A0g8O1hbq0Vajwyth5gFg41yBFbxwT+5Pp1pX3AgmcgzwEvpx4V1H6
- RT0Y7QXrAlwVSqPhoXUw8rpWkdMHXp7tGg34d7bu2wCKTX/dMr9tMsHFaGfnbucRf8LU
- +zXqE8O/QY2Cg94WJX/TN0QA6gNgGYYRTQllB19n9A6QdXn/v+lDsleTTkqkG4G4Mwzt
- unCBEvkXMy7pn0de/Ib0fAy8d7zbF/rOciEpj70I6ngEOuUPBTq1MZnvlFx69byVjEOV
- Wk0NZMchxw33Jp/9EJlttvTN2WfuLHvupW5vwx1amLnOge8gCnQ27wh+wOE9dgsaTmEC
- 4Ssg==
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1ozwuJ-0003Pq-FM
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 04:28:05 -0500
+Received: by mail-pl1-x636.google.com with SMTP id k7so12816861pll.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 01:28:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P6YxKCWjmBcRyuqFUiN78zpumF5ARys9MWW1Q6cRd58=;
+ b=TlVhtHj7TdtsvU9BDlXQuOr8RxElehNZXHHW5Aa/Q5cmIpK8BmFTK2rHdOxRmj+Mow
+ EsTUmU6PqiAS78ow7bJnwRetwLq55c1+CtJFlt+qeap1dA8defRjTzP3NIA7sRtz5Pei
+ x6wq1yGPEKJsB4T3bntfM4pz05l6oHX0RB3DIWkYNDmiyeBehnvjbwwl1G4w7gzjVda+
+ R8cc3Xy2j/+2J8WKLohIOaPyC9RCBehNjUsnl/noUUqzFn7a0qRh4q0QsWsBoYwDHq4a
+ smZU1vu59giv6CHa8jIQ/R/fgMw+GjhJ1NemVk17rry4D63eI5CBZjsfd1ef38ujgOCp
+ EgeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u2aV5Om4XNwf1xNcBjBc47KCU9CK5roblFbz8XZf9BM=;
- b=he7m+9o/c8ETmds2evvlhsTLwpWC9jfszUptAQ1TUEdPylyf75/cpNPsFeO6Rgtzde
- OT7co3OTJObC+M24fSPaYd5jpHCOrOdoJrQUF7Ycd7T9pDc1NEFdXtOe5LSfgZQmO/Jg
- OHhKCFslQqYuC34CkJY0TARuRS/s+KkkPFawxNXer1sMxf3UUMyx87/+UOv1z4/S8CLM
- RsCPApI2EcZEqFesHFJW9R/i37PvOcsfBkiU1bid0PSYzPhuK2CpyY/embIAVyMAwL3m
- 73vg2ups8GRJV9FKyVvDhM6I+KtbqvJNfUl0rL4CjIUgQ/iokM9bIfueWR2Sda+AgxlS
- zSNQ==
-X-Gm-Message-State: ANoB5pk2Ya93PQ2hhV+grmD4CkvK3SBjBPhx2wGa5xBEmrtQJJywqF6J
- zJFSuOOyAsDC/2mDIo4Uqf+wijVdWVNaWz2r
-X-Google-Smtp-Source: AA0mqf5zObQtDou05HWnH+S3BtLPOgHk//bfiKgbrf5BVATHd0WX7HRQtabRMmqvZuyrsmmDdubVGA==
-X-Received: by 2002:a5d:6dc8:0:b0:236:53d3:5a48 with SMTP id
- d8-20020a5d6dc8000000b0023653d35a48mr33883498wrz.66.1669712276545; 
- Tue, 29 Nov 2022 00:57:56 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- s30-20020adfa29e000000b00242246c2f7csm820728wra.101.2022.11.29.00.57.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 00:57:55 -0800 (PST)
-Message-ID: <0198dfed-4f34-660c-706d-eab69beff81e@linaro.org>
-Date: Tue, 29 Nov 2022 09:57:54 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=P6YxKCWjmBcRyuqFUiN78zpumF5ARys9MWW1Q6cRd58=;
+ b=A3oFR267jclMj44/zyUtCpAcFPYxWjfzc6Di7lfQR7IEYz//6EkGfaiAOYoae8UV/X
+ z0NM5adevpHnSsBdz/mcx4/aZW9VkxzqoqoapCeZoNmnGzHJDWh3xv/8vgGHpMblJZqR
+ TB55/JMM3WTdO+UUqK4LR+01p/glO+eo7enflOGP0nwdGg2pckf2hHe3WPix+qrXiSq9
+ hnFCl6twdQZY1B8uzmHUe/0MGSZsYZnY+QI3ixQpmfNOotIjaAl850PVHBfpUXiPAXsc
+ H+aQCpwULFAkNixEk9/E2sUS3euOm9XL8PLrRahaDQ5eF8SDGyEas6oDELshTaMqAzso
+ SLzw==
+X-Gm-Message-State: ANoB5pmdKjke+LrcjC2K31UF8nZXH/PDKikMRszCLGu1gHumLiGjKASa
+ F2YtzXxibLMQxXPHzYsSKWXQjmNyZdw5BYtqWEq03A==
+X-Google-Smtp-Source: AA0mqf6FZb1lXjlNkFXwOXj3BaCWeNjad5vEVoBSJ6usVK94VNDrSTpy7pNQhDMmdTdQk/qNAXpl9sXlqGQgHd+zfaQ=
+X-Received: by 2002:a17:902:ef47:b0:186:a394:aef7 with SMTP id
+ e7-20020a170902ef4700b00186a394aef7mr50284312plx.79.1669714081514; Tue, 29
+ Nov 2022 01:28:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v3] hw/loongarch: Add cfi01 pflash device
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
-References: <20221129085037.3589467-1-yangxiaojuan@loongson.cn>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221129085037.3589467-1-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220824221701.41932-1-atishp@rivosinc.com>
+ <20220824221701.41932-5-atishp@rivosinc.com>
+ <Y39urpX82uO85AAb@wendy>
+ <CAHBxVyFhrkdhWpc4xB-_a4c5GnDu=d01-bk2zM2nCraeq_Xr_A@mail.gmail.com>
+ <a3c7174d-6d33-5a34-0cd5-8ac340c052c3@microchip.com>
+ <CAHBxVyGVigqBLLS9vqas+uq=Joyr2F6ir0zqtg+0y2GaTCyX-A@mail.gmail.com>
+ <b42e75c6-8c52-025e-35ef-326537ccc90b@microchip.com>
+ <20221129070820.7varmruxjkhdwoc6@kamzik>
+ <cd386574-b115-328e-c5db-6f85b6cf6c9e@microchip.com>
+In-Reply-To: <cd386574-b115-328e-c5db-6f85b6cf6c9e@microchip.com>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Tue, 29 Nov 2022 01:27:49 -0800
+Message-ID: <CAHBxVyEthq3q-C_dy0ZQ1rOGwTWUF8_rXG1_7AHRFKxk9q0D1w@mail.gmail.com>
+Subject: Re: [PATCH v14 4/5] hw/riscv: virt: Add PMU DT node to the device tree
+To: Conor.Dooley@microchip.com
+Cc: ajones@ventanamicro.com, qemu-devel@nongnu.org, alistair.francis@wdc.com, 
+ bin.meng@windriver.com, palmer@dabbelt.com, qemu-riscv@nongnu.org, 
+ samuel@sholland.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=atishp@rivosinc.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,42 +94,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/11/22 09:50, Xiaojuan Yang wrote:
-> Add cfi01 pflash device for LoongArch virt machine
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> ---
->   hw/loongarch/Kconfig        |  1 +
->   hw/loongarch/acpi-build.c   | 18 +++++++++++
->   hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++
->   include/hw/loongarch/virt.h |  5 +++
->   4 files changed, 86 insertions(+)
+On Mon, Nov 28, 2022 at 11:32 PM <Conor.Dooley@microchip.com> wrote:
+>
+> On 29/11/2022 07:08, Andrew Jones wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
+the content is safe
+> >
+> > On Mon, Nov 28, 2022 at 09:10:03PM +0000, Conor.Dooley@microchip.com wr=
+ote:
+> >> On 28/11/2022 20:41, Atish Kumar Patra wrote:
+> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you kno=
+w the content is safe
+> >>>
+> >>> On Mon, Nov 28, 2022 at 12:38 PM <Conor.Dooley@microchip.com> wrote:
+> >>>>
+> >>>> On 28/11/2022 20:16, Atish Kumar Patra wrote:
+> >>>>> On Thu, Nov 24, 2022 at 5:17 AM Conor Dooley <conor.dooley@microchi=
+p.com> wrote:
+> >>>>>>
+> >>>>>> On Wed, Aug 24, 2022 at 03:17:00PM -0700, Atish Patra wrote:
+> >>>>>>> Qemu virt machine can support few cache events and cycle/instret =
+counters.
+> >>>>>>> It also supports counter overflow for these events.
+> >>>>>>>
+> >>>>>>> Add a DT node so that OpenSBI/Linux kernel is aware of the virt m=
+achine
+> >>>>>>> capabilities. There are some dummy nodes added for testing as wel=
+l.
+> >>>>>>
+> >>>>>> Hey Atish!
+> >>>>>>
+> >>>>>> I was fiddling with dumping the virt machine dtb again today to ch=
+eck
+> >>>>>> some dt-binding changes I was making for the isa string would play
+> >>>>>> nicely with the virt machine & I noticed that this patch has intro=
+duced
+> >>>>>> a new validation failure:
+> >>>>>>
+> >>>>>> ./build/qemu-system-riscv64 -nographic -machine virt,dumpdtb=3Dqem=
+u.dtb
+> >>>>>>
+> >>>>>> dt-validate -p ../linux/Documentation/devicetree/bindings/processe=
+d-schema.json qemu.dtb
+> >>>>>> /home/conor/stuff/qemu/qemu.dtb: soc: pmu: {'riscv,event-to-mhpmco=
+unters': [[1, 1, 524281, 2, 2, 524284, 65561, 65561, 524280, 65563, 65563, =
+524280, 65569, 65569, 524280, 0, 0, 0, 0, 0]], 'compatible': ['riscv,pmu']}=
+ should not be valid under {'type': 'object'}
+> >>>>>>          From schema: /home/conor/.local/lib/python3.10/site-packa=
+ges/dtschema/schemas/simple-bus.yaml
+> >>>>>>
+> >>>>>> I assume this is the aforementioned "dummy" node & you have no int=
+ention
+> >>>>>> of creating a binding for this?
+> >>>>>>
+> >>>>>
+> >>>>> It is a dummy node from Linux kernel perspective. OpenSbi use this
+> >>>>> node to figure out the hpmcounter mappings.
+> >>>>
+> >>>> Aye, but should it not have a binding anyway, since they're not
+> >>>> meant to be linux specific?
+> >>>>
+> >>> It is documented in OpenSBI.
+> >>> https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_su=
+pport.md
+> >>>
+> >>> Are you suggesting that any non-Linux specific DT nodes should be par=
+t
+> >>> of Linux DT binding as well ?
+> >>
+> >> I thought the point was that they were *not* meant to be linux specifi=
+c,
+> >> just happening to be housed there.
+> >>
+> >
+> > I'm not sure if there's an official policy on where DT nodes should be
+> > specified, but it looks like Samuel's opinion is that they should live
+> > in the Linux kernel, whether they're used there or not [1].
+> >
+> > [1] http://lists.infradead.org/pipermail/opensbi/2022-October/003522.ht=
+ml
+>
+> Yah, that was also my understanding. See also U-Boot moving to unify
+> their custom bindings into the linux repo:
+> https://lore.kernel.org/linux-devicetree/20220930001410.2802843-1-sjg@chr=
+omium.org/
+>
 
-> +static void virt_flash_create(LoongArchMachineState *lams)
-> +{
-> +    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
-> +
-> +    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
-> +    qdev_prop_set_uint8(dev, "width", 4);
-> +    qdev_prop_set_uint8(dev, "device-width", 2);
-> +    qdev_prop_set_bit(dev, "big-endian", false);
-> +    qdev_prop_set_uint16(dev, "id0", 0x89);
-> +    qdev_prop_set_uint16(dev, "id1", 0x18);
-> +    qdev_prop_set_uint16(dev, "id2", 0x00);
-> +    qdev_prop_set_uint16(dev, "id3", 0x00);
-> +    qdev_prop_set_string(dev, "name", "virt.flash0");
-> +    object_property_add_child(OBJECT(lams), "virt.flash0", OBJECT(dev));
-> +    object_property_add_alias(OBJECT(lams), "pflash0",
+This adds the U-Boot specific DT properties to the dts schema itself,
+not Linux kernel DT bindings.
 
-s/flash0/flash/?
+I am not opposed to adding PMU DT bindings to Linux but there should
+be a clear policy on this.
+What about OpenSBI domain DT bindings ?
+If every other DT based open source project starts adding their DT
+binding to the Linux kernel, that may go downhill pretty soon.
 
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-Thanks for the updates!
-
-> +                              OBJECT(dev), "drive");
-> +
-> +    lams->flash = PFLASH_CFI01(dev);
-> +}
+>
+>
+>
 
