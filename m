@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED81563BDB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 11:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3919863BDC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Nov 2022 11:15:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ozxaE-0000La-Et; Tue, 29 Nov 2022 05:11:22 -0500
+	id 1ozxch-0001FK-EW; Tue, 29 Nov 2022 05:13:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ozxaC-0000LI-RA
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:11:20 -0500
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ozxaA-0004HL-Vv
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:11:20 -0500
-Received: by mail-io1-xd29.google.com with SMTP id i85so9677205ioa.5
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 02:11:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1Qp00nHmGTOm2YzDm4WmmUSjwj64zwq5yxDV4msgDVU=;
- b=jFcWfWdssf5X0VOiQA/UImhIz0SYxSD1EOyGc3gC/zdleEuOlVroxVByQJyVSb8vle
- YQq5O/kcTNUwQdC+EwmXkqY64mA2tgHU/C7bn5RGFmKpBaADDS3OiKIMeuMRtCphRTQh
- uy2VUQT2zR9eS+ssKFRROytAUpg03YIKiJb1tbEmRD7crG+sxqTFuSf1x3ZwmV8p8eIW
- epkS2Ni/2NZEy7VPFsTxRAwKqoXei1DX11JlwIeu0DVWB0C/HrSY8H7oyAlIU4rYsOiT
- jNU7dLSbi9CYwKqCQAPkLM9oVYNkGjpqA5kZx4yNOdOfFd1B1Gypb4fUY75lbpHd0W4t
- X8pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1Qp00nHmGTOm2YzDm4WmmUSjwj64zwq5yxDV4msgDVU=;
- b=B4Em34F6pcEy6BE4A2DpO0Byl7EWPHNT+VyyokinBEXKszDEXA18jZWdlV0+gKychZ
- lthjVh7AsjLWWBB4K6/mY1dVlL/Y+EOKvekc5X8RBnH+mxnxO0cXnbq/6JnfHKQ675qQ
- TR/GnfMSSMdyPmcJe+e2pdBwhTRl84JGICcJNAkfUfauZrqCEOVtjiTClKBU9a0cQ+qt
- YUD1X6nWK/Cn8AeqYoh26WlzVbA5bFy11Zb37qRS0ZDxq/IiAckP1cySUfZ3oenkGzc9
- 7w2kUciKrc4qZ8NFIIFPSREiMT4WhxOVvch8ukixZ7IHeyY89Umd+hxHlo/yrvrunIMJ
- Sv1Q==
-X-Gm-Message-State: ANoB5pmet8Cr7twm4d2YL250XaQlEiD4nWyRGo437VLroS+B+zVH5fu7
- 5UW32IQsqLZh9xiLX6PxrQIIp8O8DnELxRXncvrkSQ==
-X-Google-Smtp-Source: AA0mqf4wulxU5G/TyaC1jzOCdcmLzntTq7rW8fl77/Bp2xclIYTTP646GZAE0sfCUltyx0wN2/XH1F+zvsvF6XWMVMM=
-X-Received: by 2002:a5d:9446:0:b0:6d3:5145:937c with SMTP id
- x6-20020a5d9446000000b006d35145937cmr25611746ior.67.1669716677318; Tue, 29
- Nov 2022 02:11:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ozxcf-0001EX-LB
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:13:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ozxcc-0005Cj-F4
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 05:13:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669716829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xvqTpUUd+dZE8eYmiRpmXKcdFZ4ZiDeOfRPhMIIDrT4=;
+ b=CPkvmMA+XFYMahWTWyiuP2oedDo3fAk4qjk0L/fMz6OWrcBI3QEwddx8ELosZQrjWG9CYL
+ Hb4TgY1N+l+NdsHqD5X7YjfmQMPWp48t8XYZGe3umbxmlOC4lok6duJNBWsB7yj3s4lIZT
+ nd1bXrStQj0xmmiVAYzVu3hSZqgPI9g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-169-OOmnYG6wOeCxpoKzn6xBDg-1; Tue, 29 Nov 2022 05:13:45 -0500
+X-MC-Unique: OOmnYG6wOeCxpoKzn6xBDg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E977D38012C4;
+ Tue, 29 Nov 2022 10:13:44 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq2.redhat.com
+ (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D00782028CE4;
+ Tue, 29 Nov 2022 10:13:42 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, ani@anisinha.ca, pbonzini@redhat.com,
+ richard.henderson@linaro.org, mark.cave-ayland@ilande.co.uk,
+ peter.maydell@linaro.org, andrew.smirnov@gmail.com, paulburton@kernel.org,
+ aleksandar.rikalo@syrmia.com, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au, groug@kaod.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org
+Subject: [PATCH v2 for-8.0 0/2] pci: drop redundant PCIDeviceClass::is_bridge
+ field
+Date: Tue, 29 Nov 2022 11:13:39 +0100
+Message-Id: <20221129101341.185621-1-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <20221125044138.962137-1-ani@anisinha.ca>
- <CAARzgwy=m4tN69cSn1msrZg1thkzL2ZfQ8_yOLw6Y77AzfFP-g@mail.gmail.com>
- <20221129000647-mutt-send-email-mst@kernel.org>
- <CAARzgwzS0tvV-Vz7PByrWfxrs9Gc6vyuvDVKriDMQMoJ1HWtPg@mail.gmail.com>
- <874juirvrr.fsf@pond.sub.org>
-In-Reply-To: <874juirvrr.fsf@pond.sub.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 29 Nov 2022 15:41:06 +0530
-Message-ID: <CAARzgwzgtP93NKdiC-p_k5LLzgY_eEruFgeGC8wOcH9AvSrwtA@mail.gmail.com>
-Subject: Re: [PATCH v2] acpi/tests/avocado/bits: add SPDX license identifiers
- for bios bits tests
-To: Markus Armbruster <armbru@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>, 
- Maydell Peter <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,54 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 29, 2022 at 2:18 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Ani Sinha <ani@anisinha.ca> writes:
->
-> > On Tue, Nov 29, 2022 at 10:37 AM Michael S. Tsirkin <mst@redhat.com> wr=
-ote:
-> >>
-> >> On Tue, Nov 29, 2022 at 08:02:15AM +0530, Ani Sinha wrote:
-> >> >
-> >> >
-> >> > On Fri, Nov 25, 2022 at 10:11 AM Ani Sinha <ani@anisinha.ca> wrote:
-> >> >
-> >> >     Added the SPDX license identifiers for biosbits tests.
-> >> >     Also added a comment on each of the test scripts to indicate tha=
-t they run
-> >> >     from within the biosbits environment and hence are not subjected=
- to the
-> >> >     regular
-> >> >     maintenance activities for QEMU and is excluded from the depende=
-ncy
-> >> >     management
-> >> >     challenges in the host testing environment.
-> >> >
-> >> >     Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> >> >     Cc: Paolo Bonzini <pbonzini@redhat.com>
-> >> >     Cc: Maydell Peter <peter.maydell@linaro.org>
-> >> >     Cc: John Snow <jsnow@redhat.com>
-> >> >     Cc: Thomas Huth <thuth@redhat.com>
-> >> >     Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> >> >     Cc: Igor Mammedov <imammedo@redhat.com>
-> >> >     Cc: Michael Tsirkin <mst@redhat.com>
-> >> >     Cc: Thomas Huth <thuth@redhat.com>
-> >> >     Cc: qemu-trivial@nongnu.org
-> >> >     Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> >> >
-> >> >
-> >> > Is anyone going to queue this for 7.2 given it's quite trivial?
-> >>
-> >> Don't see why we should bother.
-> >
-> > Completeness?
->
-> We're about to tag -rc3.  It's too late for trivial stuff.  Anything but
-> release-critical fixes would be madness at this stage.
->
-> I recommend to route this via qemu-trivial into the next release.
 
-Sounds good. I'll make sure I remind people again after the release
-and before I go underground for xmas.
+Changelog:
+   - keep comment reminding that there was a bridge, so it would be easy to find
+     removed code if someone wishes to bring it back
+   - s/IS_PCI_BRIDGE/is_bridge/ in one instance where local is_bridge already exists
+
+Igor Mammedov (2):
+  remove DEC 21154 PCI bridge
+  pci: drop redundant PCIDeviceClass::is_bridge field
+
+ hw/pci-bridge/dec.h                |   9 --
+ include/hw/pci/pci.h               |  11 +-
+ include/hw/pci/pci_bridge.h        |   1 +
+ include/hw/pci/pci_ids.h           |   1 -
+ hw/acpi/pcihp.c                    |   3 +-
+ hw/i386/acpi-build.c               |   5 +-
+ hw/pci-bridge/cxl_downstream.c     |   1 -
+ hw/pci-bridge/cxl_upstream.c       |   1 -
+ hw/pci-bridge/dec.c                | 164 -----------------------------
+ hw/pci-bridge/i82801b11.c          |   1 -
+ hw/pci-bridge/meson.build          |   2 -
+ hw/pci-bridge/pci_bridge_dev.c     |   1 -
+ hw/pci-bridge/pcie_pci_bridge.c    |   1 -
+ hw/pci-bridge/pcie_root_port.c     |   1 -
+ hw/pci-bridge/simba.c              |   1 -
+ hw/pci-bridge/xio3130_downstream.c |   1 -
+ hw/pci-bridge/xio3130_upstream.c   |   1 -
+ hw/pci-host/designware.c           |   1 -
+ hw/pci-host/uninorth.c             |   9 +-
+ hw/pci-host/xilinx-pcie.c          |   1 -
+ hw/pci/pci.c                       |  20 ++--
+ hw/ppc/spapr_pci.c                 |  15 +--
+ 22 files changed, 23 insertions(+), 228 deletions(-)
+ delete mode 100644 hw/pci-bridge/dec.h
+ delete mode 100644 hw/pci-bridge/dec.c
+
+-- 
+2.31.1
+
 
