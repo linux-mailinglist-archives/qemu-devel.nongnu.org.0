@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DCC63D309
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:18:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E00563D334
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:22:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0KAN-0001Sb-7i; Wed, 30 Nov 2022 05:18:11 -0500
+	id 1p0KDv-0002gF-5O; Wed, 30 Nov 2022 05:21:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KAL-0001Rr-62
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:18:09 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KDs-0002fZ-U9
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:21:48 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KAJ-0000cm-Kw
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:18:08 -0500
-Received: by mail-wr1-x434.google.com with SMTP id h11so19015747wrw.13
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:18:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KDo-0001IY-An
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:21:48 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so1032558wma.1
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:21:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=9RPHJyhrQiUPw3sB2sEFiXlKkpzxOBC+npY5LGOkozk=;
- b=nGSBvJEYqRV6ZNI8XPpMMlQUoiExTtBmyRw0HMDVGAxGw2jN5KJtraTypDujadq9+l
- AXBnZq9yR9/2iLsN7eiJKNueuEkCOYy+tkFRvaNP3XcTo146AuMmH7rW9caMWIGWSf2V
- qsZyEY9IEkwcJiXDwitY82oSxgOYwFzYJdZMm9TeDtIj8giB2SYeycuoxsp4q594r7U0
- Y4xmruhTxLqBzxDCKXwz7scItqZAFB1OoJXP6NS8mZcpCvx/mBRwsH9KlBo56OD4mx0G
- 83lLev9r75OL78/4s7vKDO/nyuvpEKoFxekdKoHPYCwl+L0jyMgwfoqKhpS0pJMj2ZR3
- goTg==
+ bh=Y9HkffyHoTFcChBig7t2s1R9YtKjRE9M8KuCGcTgWRY=;
+ b=kZa1dkS+Zzy+qebjOr2kk99JHv0omYKxa5isQXgWE3AvDqBTf00dHqOJCHKcQaOgak
+ 6IgpYVtTWY209/DuVLmo1lJdtiqaEQmeouUC/Wbt1djBrWI96xsE/lEptWtXHPUk0wpH
+ N/bDjGxK0U14iOhYxp/hUurrcLeOQ8KCbEwFaQeBHmjGusUhhe7QAohI6wzkOVfBcIgA
+ bKmWnDvLZ9j4CBwwi2yxZGYj3isIhBo3+zH6dKyhIf60OOrJXmHP42e+vF0C8CKtJ9nk
+ QMbb37a4xN2vHLVJ3c0WrBggB9H8L7B3p1GOtR9cMQbQU4GUnv8sni+7AvfxFWZS53dS
+ JhxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9RPHJyhrQiUPw3sB2sEFiXlKkpzxOBC+npY5LGOkozk=;
- b=tI7kV/J0Ewg3nV+7SVw8oTTO8lN3GrFZ0I83B59hUAKczoJI11v9HS0RBVpSXegAML
- SftA9RcR2V0i7WODPdR9LANiFCBG1LYr5vuv9qDa82m5lhLYeK7OtuGwkw/8ZkV2l9x6
- CjdNqvv2LWcKO9amV64johpbLIsv6eUH6h3acIZ2GkEU92plPC2ElE+6K/H+ESGMwss2
- n6G5z4sL0uL0cGwobO0JsDahzGWT+Nd43p04v4In/CttvAF7Xo442ASp0Tku1aQHh6WM
- epYaix4HCsHmdWbYnMWMQhhb5aD3IFjXucQlzjp6kE6D8BXesy16VJ1Mo0t7dhQuOqHx
- 8pHw==
-X-Gm-Message-State: ANoB5pngNBoF6UZL13jlxR9XbdyQosX5gXfjhDsG32Lgnf2j451SYkjg
- vFiXAWKkh91bPuBSuN1XbCe5Xg==
-X-Google-Smtp-Source: AA0mqf71gs0XXJOdgcGgywPIVywx5fdUfTMNCCKNMyTIDqBNahVpI1N50ZHUwpcRhBwbcv9EXQmpoQ==
-X-Received: by 2002:adf:ffd2:0:b0:236:59ab:cf33 with SMTP id
- x18-20020adfffd2000000b0023659abcf33mr36860741wrs.568.1669803486283; 
- Wed, 30 Nov 2022 02:18:06 -0800 (PST)
+ bh=Y9HkffyHoTFcChBig7t2s1R9YtKjRE9M8KuCGcTgWRY=;
+ b=6JtxtPUjbuCzfResDgb2oXomdsDcAriRB+wCNhQ9E+m/iX1Hu92FvlUFg7Rj3Y50bg
+ K3HvNUgxPLYOVLWCRF8JxP7M+S0sfCIj8F8W0aDvPKwG+fBcUJRPQMFv6SGfUPNxzxHb
+ mjrdwzzOS/OfCfoAnUa+Q2yLjWSRU2pkPlhIvP1LoKf7i/8C4aoMYDhT1rhvLHYIzEDc
+ nsuO75HCb1M4oRjFi5Iqes27sCjU4iL1o+pEjt3RX5zGF1hiWANPpK21wLkGBy2R51CF
+ mm2UCkojFzPvaFBNgmjSqkGHy3Ox2B96B2cfcmExi8jTTOg36f/sP48unKiNXc1xUedZ
+ 63WA==
+X-Gm-Message-State: ANoB5pl1LemC5VjSAOWDuE9qg7lNICylgptxZHHhrOuyz2ak0BpGqpdv
+ XuRuLodyrWactOaOrdwkauj+Og==
+X-Google-Smtp-Source: AA0mqf7SLlV4jCj6+EZC7BZLStKBQEqWNceX1izMZ8cxZDtUsgAVFQxJNXz4W7rGcKFoJ1JCvEqHlQ==
+X-Received: by 2002:a7b:ce05:0:b0:3cf:7c1b:3c29 with SMTP id
+ m5-20020a7bce05000000b003cf7c1b3c29mr34833105wmc.23.1669803702757; 
+ Wed, 30 Nov 2022 02:21:42 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- c124-20020a1c3582000000b003cf894dbc4fsm1449727wma.25.2022.11.30.02.18.05
+ b4-20020a5d45c4000000b00242209dd1ffsm1178348wrs.41.2022.11.30.02.21.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:18:05 -0800 (PST)
-Message-ID: <cab0d750-3d85-ae6d-29d6-d811a59063da@linaro.org>
-Date: Wed, 30 Nov 2022 11:18:04 +0100
+ Wed, 30 Nov 2022 02:21:42 -0800 (PST)
+Message-ID: <d5479846-19e7-4b1d-44da-82f15ad1b6b7@linaro.org>
+Date: Wed, 30 Nov 2022 11:21:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 3/7] pci: Convert TYPE_PCIE_ROOT_PORT to 3-phase
- reset
+Subject: Re: [PATCH for-8.0 5/7] hw/intc/xics: Reset TYPE_ICS objects with
+ device_cold_reset()
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+To: Greg Kurz <groug@kaod.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Greg Kurz
- <groug@kaod.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-ppc@nongnu.org
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-ppc@nongnu.org
 References: <20221125115240.3005559-1-peter.maydell@linaro.org>
- <20221125115240.3005559-4-peter.maydell@linaro.org>
+ <20221125115240.3005559-6-peter.maydell@linaro.org>
+ <61ea8b5c-a8ae-1fc9-a54a-6a95c8b914fc@kaod.org>
+ <20221125144539.4106a542@bahia>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221125115240.3005559-4-peter.maydell@linaro.org>
+In-Reply-To: <20221125144539.4106a542@bahia>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,15 +98,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/11/22 12:52, Peter Maydell wrote:
-> Convert the TYPE_PCIE_ROOT_PORT device to 3-phase reset; this is a
-> necessary precursor to converting any of its child classes.
+On 25/11/22 14:45, Greg Kurz wrote:
+> On Fri, 25 Nov 2022 13:24:00 +0100
+> Cédric Le Goater <clg@kaod.org> wrote:
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/pci-bridge/pcie_root_port.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>> On 11/25/22 12:52, Peter Maydell wrote:
+>>> The realize method for the TYPE_ICS class uses qemu_register_reset()
+>>> to register a reset handler, as a workaround for the fact that
+>>> currently objects which directly inherit from TYPE_DEVICE don't get
+>>> automatically reset.  However, the reset function directly calls
+>>> ics_reset(), which is the function that implements the legacy reset
+>>> method.  This means that only the parent class's data gets reset, and
+>>> a subclass which also needs to handle reset, like TYPE_PHB3_MSI, has
+>>> to register its own reset function.
+>>>
+>>> Make the TYPE_ICS reset function call device_cold_reset() instead:
+>>> this will handle reset for both the parent class and the subclass,
+>>> and will work whether the classes are using legacy reset or 3-phase
+>>> reset. This allows us to remove the reset function that the subclass
+>>> currently has to set up.
+>>
+>> Nice !
+>>
+> 
+> Seconded.
+> 
+
+Thirded :)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> 
+>>>
+>>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>>
+>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
 
 
