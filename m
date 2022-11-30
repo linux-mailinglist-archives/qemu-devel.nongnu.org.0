@@ -2,88 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BC863D2F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F3F63D300
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:16:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0K7F-0007PS-Ch; Wed, 30 Nov 2022 05:14:57 -0500
+	id 1p0K8D-00082n-6F; Wed, 30 Nov 2022 05:16:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K7D-0007PC-U4
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:14:55 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K7C-0008CD-6v
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:14:55 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id 5so12825470wmo.1
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:14:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ONs8zKFhD7zdhrL8x11ZNusE9Q3mVzImqZ2ouVxp5/g=;
- b=sBbDKFv6D/162rXbOeWmUTJqQJdOsXsOt3HeVLuszmIJ2KRnQ1rbn3WGkitkLF8D4Q
- 15E+eaaxnN/VT7zkKg/o4ctPIstQJx1ZmB2fZM6Z6wmKhXR4Ngur1OpM+PeEmY69OVRg
- 6Dy2um1f6oyXxGlnJV/03uh6+We8+hqjw49SvIQwsgCgbDyd2Hhj4bb6gZFKgZ8meGkb
- 4gX3dYAsea6Xq3SBZb5ET2e1w4kfp1Q/+n7fpALrAiXB1sEr1SB+6x1RQrMYhorGKBFe
- pDzzT6CrLigtX5Omg+3sOtFMBgOqMHLbRIVN7EzurSF8jxD5snlSD5megu32d05j06AK
- wUsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ONs8zKFhD7zdhrL8x11ZNusE9Q3mVzImqZ2ouVxp5/g=;
- b=Nw9pAvEktfb6Jmo37hRI0BKjiEQRmMqcVEYVJA6a1ZLbf8RM0GU2kE/S9nLl3Dt8VF
- hfTi1JtuVAXqufC7uHzg8YiTUUghRq8yRgY/JR9wSg5sNijol1M5ScwC7gbNaY4iItwB
- M0UIcDX2/mxnrsR6ZCifRL1HKP5Akms2/eGt0lnTPHk4HzOXN0j5tgXSjRmwV8Xljtob
- wghSGeWH6o6GbsGou7eWOi+lQxRHnUrBXI1RLhR7kb+Dwtl9GHjrFOnUSGdY9AFYIbgD
- o0pkoR9fCTbDMiVoGx4xLSmHsxAAqkgkxAiV1UEzrv+Qk2dqilG43yb7FEa2l9ALEago
- nCsA==
-X-Gm-Message-State: ANoB5pkbzOO86idbLhTO/5p+xs2agPWp4+1LabIvHinSwAFZ6TiHjHkO
- lh/eud0rzYZYoW5qzBhw+bNjzw==
-X-Google-Smtp-Source: AA0mqf6go20mIJA94yob+d7ckdxGhxBuiNq7d+QwXm52nF5mJ1sXoVrzTA6aAsO+NYJuJ58WUTcbfw==
-X-Received: by 2002:a05:600c:524c:b0:3d0:1a32:e2a6 with SMTP id
- fc12-20020a05600c524c00b003d01a32e2a6mr30541094wmb.132.1669803292613; 
- Wed, 30 Nov 2022 02:14:52 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- fn9-20020a05600c688900b003cf75213bb9sm4960191wmb.8.2022.11.30.02.14.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:14:52 -0800 (PST)
-Message-ID: <c3ae5f86-8be6-b25a-d0d9-188d3d2c1687@linaro.org>
-Date: Wed, 30 Nov 2022 11:14:50 +0100
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p0K87-0007vU-7y; Wed, 30 Nov 2022 05:15:52 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p0K85-0000Ld-Gc; Wed, 30 Nov 2022 05:15:51 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AU9VifB027606; Wed, 30 Nov 2022 10:15:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=sncYirRyl6EKGxAEM031NgGXtKEpr34HfRWbqkEmLWg=;
+ b=qBXlZMTVLbAkU3DemYvU4hzOdBUq+vC0NhSWgw9zNk7t2X12VxZEaKavx3VQHYeNDS5h
+ EAMy47VGddvRwriomF2X0m9QcnaArIV3SZut4wxV8g/zUs5nwry+N3m0+39Hu2fsd+PS
+ kdr8Qb37U687nPrm4Q5BMBkwVW4SsNSgc5Cvea5cdytGAxF9lOA0jsQpXHBAdCgATLfM
+ ImBkwMM3zYxk4oNtf4pMRMX7o+LOvVKExWr4miu7aN/WNrnpxKuc+6DZ008meYve7TDV
+ Q1lJvlYrYRZySZKhnDSrBYoOxl2cS8oMBnuEuAhdnV6Vy7MbzUc4VzGbixfn33YNse81 Zg== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m6280cr9s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 10:15:42 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AUA7h9H021068;
+ Wed, 30 Nov 2022 10:15:40 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3m3ae9djym-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 10:15:39 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AUAFb0D57540930
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 30 Nov 2022 10:15:37 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0254AE04D;
+ Wed, 30 Nov 2022 10:15:37 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 69966AE045;
+ Wed, 30 Nov 2022 10:15:37 +0000 (GMT)
+Received: from heavy (unknown [9.171.36.196])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 30 Nov 2022 10:15:37 +0000 (GMT)
+Date: Wed, 30 Nov 2022 11:15:35 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 17/26] target/s390x: Introduce help_goto_indirect
+Message-ID: <20221130101535.7474sypzl4qtfzh3@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-18-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 7/9] Replace use of qdev_reset_all() with
- device_cold_reset()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20221104161513.2455862-1-peter.maydell@linaro.org>
- <20221104161513.2455862-8-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221104161513.2455862-8-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221006034421.1179141-18-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ZMlUWaaGiyHHTXviLdpLTOHXRRhH14zS
+X-Proofpoint-GUID: ZMlUWaaGiyHHTXviLdpLTOHXRRhH14zS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-30_04,2022-11-29_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=644 mlxscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 phishscore=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211300073
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,33 +103,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/11/22 17:15, Peter Maydell wrote:
-> The legacy function qdev_reset_all() performs a recursive reset,
-> starting from a qdev.  However, it does not permit any of the devices
-> in the tree to use three-phase reset, because device reset goes
-> through the device_legacy_reset() function that only calls the single
-> DeviceClass::reset method.
+On Wed, Oct 05, 2022 at 08:44:12PM -0700, Richard Henderson wrote:
+> Add a small helper to handle unconditional indirect jumps.
 > 
-> Switch to using the device_cold_reset() function instead.  This also
-> performs a recursive reset, where first the children are reset and
-> then finally the parent, but it uses the new (...in 2020...)
-> Resettable mechanism, which supports both the old style single-reset
-> method and also the new 3-phase reset handling.
-> 
-> This commit changes the five remaining uses of this function.
-> 
-> Commit created with:
->   sed -i -e 's/qdev_reset_all/device_cold_reset/g' hw/i386/xen/xen_platform.c hw/input/adb.c hw/remote/vfio-user-obj.c hw/s390x/s390-virtio-ccw.c hw/usb/dev-uas.c
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/i386/xen/xen_platform.c | 2 +-
->   hw/input/adb.c             | 2 +-
->   hw/remote/vfio-user-obj.c  | 2 +-
->   hw/s390x/s390-virtio-ccw.c | 2 +-
->   hw/usb/dev-uas.c           | 2 +-
->   5 files changed, 5 insertions(+), 5 deletions(-)
+>  target/s390x/tcg/translate.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
