@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB0B63D54F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:15:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1837A63D550
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:15:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0LzP-0004ab-5r; Wed, 30 Nov 2022 07:14:59 -0500
+	id 1p0Lzm-0004et-UB; Wed, 30 Nov 2022 07:15:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1p0LzM-0004a1-KW; Wed, 30 Nov 2022 07:14:56 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0Lze-0004dD-VK
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:15:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1p0LzL-00083E-00; Wed, 30 Nov 2022 07:14:56 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AUAg3p5003007; Wed, 30 Nov 2022 12:14:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=d58ojXKOHB8r+KiATB3v8O9pQ2LQJYQs27fOdH+UQqU=;
- b=NehWsJ+2vTX9tQCaNSTwqTubsdJputXYeSstcqUfqE/vqxCbCUa1oLlevR8neHMSq0ZG
- bE3qP2rvgomt83J7DyDK5f6Yzj72XBcoOFLqo6V2ALplOKyTkJ4RglG62eaa4nDArz1r
- pdzcnitUu3dno4xDfJ7EwfZPoI8jbgDw59OYO/GEkHl/bqVp0yBRItJyzki3V557kQyk
- GpsbfZ5Hzo/3IoervbpxUzyMGhmKH1bmKoZfPvv+nqzZpLq6ekupqlnlSbmQr7z/gnl1
- E5X56mR7vKSiuzpDfhFUyXiNwHm8BXNgc09sq8MAVvrB/Zl8hDE1BWXI7r+KXBonZvUc eg== 
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m65nbj7qt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Nov 2022 12:14:51 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AUC5x0B019984;
- Wed, 30 Nov 2022 12:14:49 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma02fra.de.ibm.com with ESMTP id 3m3ae945fg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Nov 2022 12:14:49 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2AUC8Hsv10289824
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Nov 2022 12:08:17 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 378FD4C046;
- Wed, 30 Nov 2022 12:14:47 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 00E194C04A;
- Wed, 30 Nov 2022 12:14:47 +0000 (GMT)
-Received: from heavy (unknown [9.171.36.196])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 30 Nov 2022 12:14:46 +0000 (GMT)
-Date: Wed, 30 Nov 2022 13:14:45 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
-Subject: Re: [PATCH 20/26] target/s390x: Split per_breaking_event from
- per_branch_*
-Message-ID: <20221130121445.z2c3vsfjsubfa7jg@heavy>
-References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-21-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0Lzd-0008HC-3u
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:15:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669810511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=taLuJgfMIJbVMS5XWpSdzvvHb7JLRlL7Y3QPjE3zeCc=;
+ b=aOwNurwQl8Fh2zb0kqkKZ88QnvUjvf2CmgNfivJpT4siiIM7aos5WwxttafDgh+9HpoYJb
+ Owpr7kjndBNMN1TLv1P+km4OhZsGu1OKykJhS9cpM0Ik4uqKsuxSQJnnrpALUEhH6eTg3x
+ 8EjE2RCun1/hSt0isxNE5t+RSbeJ4kY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-655-OFjpdhqAPKqLCwumWJZs3A-1; Wed, 30 Nov 2022 07:15:10 -0500
+X-MC-Unique: OFjpdhqAPKqLCwumWJZs3A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v14-20020adf8b4e000000b0024174021277so3525637wra.13
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 04:15:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=taLuJgfMIJbVMS5XWpSdzvvHb7JLRlL7Y3QPjE3zeCc=;
+ b=UMOjXXpDlam8eRg524CLC+Em7vAa7xZ70uRf8JlZbAmcg8IlJ/wnUA8sw5YaiEK14G
+ RalTXCrKH2GPMn1Au+62rDTe+mxy9ULtJSnNu7WcleMP3CXhNCUyvKBxIZkM6kN8QvOd
+ pmENFZcZkNyFBVuME0aMUYDZehxxoAa9g5G7u9sR3Xcok/PJT+0xMk5pXwDV5nXwOm+V
+ b7IHHdiyakKRIAvHXagsiBzZcYLS+oreOzbXwrwphh3ZHEgVE1OFM9Pu/QJmeQbH37wu
+ 3SkeIemuHMVOsShZ0czxFdT4KyeiYVdO7eEP4rCmb/6IURX68VC3dY/MReaxPm1LeKci
+ QEig==
+X-Gm-Message-State: ANoB5pkFrPCxRGNZhVj4e8AZxOatfs+Rc+WfUKSy5Ci8rgkyb0/bDHgR
+ MLWfbtj0gDPSkYzNhCIaH7TiKB8eczM90NxZX5Dxh6SgzV0+C7JX+RzqQ5QB3nZgSFqDGL7UH48
+ D2X7orWzB6yAPMtA=
+X-Received: by 2002:a05:6000:110e:b0:22e:41e:29fe with SMTP id
+ z14-20020a056000110e00b0022e041e29femr16208637wrw.83.1669810509008; 
+ Wed, 30 Nov 2022 04:15:09 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7Da3uDC2og7tkKvvUPm0kVSBQmoCoJpmv9+p34SOEYmHGSgtcz+D9hTePbrtt9KAZUjT2hPQ==
+X-Received: by 2002:a05:6000:110e:b0:22e:41e:29fe with SMTP id
+ z14-20020a056000110e00b0022e041e29femr16208607wrw.83.1669810508734; 
+ Wed, 30 Nov 2022 04:15:08 -0800 (PST)
+Received: from [192.168.8.102] (tmo-073-221.customers.d1-online.com.
+ [80.187.73.221]) by smtp.gmail.com with ESMTPSA id
+ z2-20020a05600c220200b003cfd10a33afsm5152784wml.11.2022.11.30.04.15.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Nov 2022 04:15:08 -0800 (PST)
+Message-ID: <8b1853f5-8f93-0cac-4753-94e1f49066a7@redhat.com>
+Date: Wed, 30 Nov 2022 13:15:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221006034421.1179141-21-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Kz_PkJrBGZqc4KHc_qXFoiVyLvpPUYYK
-X-Proofpoint-ORIG-GUID: Kz_PkJrBGZqc4KHc_qXFoiVyLvpPUYYK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-30_04,2022-11-30_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- bulkscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
- adultscore=0 priorityscore=1501 spamscore=0 clxscore=1015 mlxlogscore=746
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211300085
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 1/5] tests/qtests: override "force-legacy" for gpio
+ virtio-mmio tests
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ sgarzare@redhat.com, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221130112439.2527228-1-alex.bennee@linaro.org>
+ <20221130112439.2527228-2-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221130112439.2527228-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,14 +105,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 05, 2022 at 08:44:15PM -0700, Richard Henderson wrote:
-> This allows us to update gbea before other updates to psw_addr,
-> which will be important for TARGET_TB_PCREL.
+On 30/11/2022 12.24, Alex Bennée wrote:
+> The GPIO device is a VIRTIO_F_VERSION_1 devices but running with a
+> legacy MMIO interface we miss out that feature bit causing confusion.
+> For the GPIO test force the mmio bus to support non-legacy so we can
+> properly test it.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1333
 > ---
->  target/s390x/tcg/translate.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>   tests/qtest/libqos/virtio-gpio.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/virtio-gpio.c
+> index 762aa6695b..f22d7b5eb5 100644
+> --- a/tests/qtest/libqos/virtio-gpio.c
+> +++ b/tests/qtest/libqos/virtio-gpio.c
+> @@ -154,7 +154,8 @@ static void virtio_gpio_register_nodes(void)
+>       QOSGraphEdgeOptions edge_opts = { };
+>   
+>       /* vhost-user-gpio-device */
+> -    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test";
+> +    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test "
+> +        "-global virtio-mmio.force-legacy=false";
+>       qos_node_create_driver("vhost-user-gpio-device",
+>                               virtio_gpio_device_create);
+>       qos_node_consumes("vhost-user-gpio-device", "virtio-bus", &edge_opts);
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+
 
