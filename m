@@ -2,93 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A3163D24B
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 10:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C0763D251
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 10:45:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0JdU-0002fP-GG; Wed, 30 Nov 2022 04:44:12 -0500
+	id 1p0Je9-00037O-Sf; Wed, 30 Nov 2022 04:44:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p0JdR-0002f8-Pe
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 04:44:09 -0500
-Received: from mga07.intel.com ([134.134.136.100])
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1p0Je5-000345-8V; Wed, 30 Nov 2022 04:44:49 -0500
+Received: from mail-dm6nam12on20610.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::610]
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p0JdO-0002lX-JT
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 04:44:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669801446; x=1701337446;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=S7IFmJUYj2DIJw7QNc2jhnguuUzMp+pGaR87dR42Bvg=;
- b=IsqtfCBVyRTaotpEAHpEXnzD2zumsBn4zXbVilksWCiLYwyxRRP47cZE
- W/0fp4dsJyyxdib9yo8A1kgor4oWvnmOGk5BITWgHLe8FSRr0R+RfjeAM
- JPydg8cdDM7F7BNgdou7C/UDCjcdbbCIInLx31j/HdG0aPoGG+1eYo8Hr
- F4PmEV0Ats/FmpajUWr47vs/Mz5EdYv+KQIFoIRcZogZzmk0TiMkrlq8C
- Lzhr55AQxYhIJ0RE5HSUFEZTxO8csLfNcDXGDQTWh7MTAdpI6UdZIXp0j
- vS/4PJ/mFJjr7x5IOSwV28AH/4KWVKQ1JBgWlGIXMcbycvfmPHi3SZXag Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="379633053"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="379633053"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2022 01:44:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="637934502"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="637934502"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 30 Nov 2022 01:43:53 -0800
-Date: Wed, 30 Nov 2022 17:39:31 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Michael Roth <michael.roth@amd.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
- wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221130093931.GA945726@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221129003725.l34qhx6n44mq2gtl@amd.com>
- <20221129140615.GC902164@chaop.bj.intel.com>
- <20221129190658.jefuep7nglp25ugt@amd.com>
- <20221129191815.atuv6arhodjbnvb2@amd.com>
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1p0Je0-0002mT-8O; Wed, 30 Nov 2022 04:44:48 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UlgYlWssumUNftDZOS7F+dMVpZAI11+fbLqB9WxvxbXGjJGBjRJiE1hdR2VhnzPidlthCrUKfYXn52/pt9Ep6o9FzPfuInO2kk6BWbR/OA6MSSSByDuA0vX6MTEZFqyS0iCFdk4xZ+Z7hladjRcf/wqPNeBUz8f5AN/0SFhvPOaQmg99/xwoPeQ0H8/CwimBIhu4m5lIt3Qm8hUn6HoMdr0obiUb+cIRueIZWL/49E/fbk98cfaQqj8OcxCyjBMMqDugVVDb27S6c/NsmmBRTEWKlIRf0pveelYqf4BmQ1QnWWYiO8/soE/P6myHcSKqzVZGvbrT2xHpn6lHduF8Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YeQKgtk9DgPcmP5FKc0KaO8i8E6a1AZ6xD9AtjgSkh0=;
+ b=kgZ2vHwRh4Q2pKnQD5J4q/jmAf59QDzHr6knxl1evZ4bAGmLQTsqXJPjY9oGM9SEO/7jClNxLxiIDGuNoBQV5bf8ep4gfXDV1WLEmeuAdMzFyPKPP8C1uio5Bqv5C1kQJ7st2mkV1mIaLqkyO6IToNn9sNT/XFM26B/HnjJDWsy/t+74EchJ0AZdmFdHfKjqnhUnGNGY/O5TAGlZ/Vp4eygLlgrUyHF7IxA5PSyCqKFMscqwtjckdA9x6YEhpeYA0HXQg6+QdMvqrbgauDUQg3ChvsMGcBdrFo7QEfWxsRKtSM+ZI+BDfXtVqOaHl1T9nIuSoP7LqWKQPtwx4UWWFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YeQKgtk9DgPcmP5FKc0KaO8i8E6a1AZ6xD9AtjgSkh0=;
+ b=bsU3qK6sJUVhuGch8YuwqQRgBnXLTorfLV/F173OFQAkVFclgoffapclZ8xg7I/pemgdsAr3GrUbAjYlS4AaxKS2dfH6XmUZPDVtDW+wS5FVCnLjqlg49PPftUiMhUV3B8zE25BGqR2l7eQ3EUB1pKELvpcg2p5TvqlIWL4blSSfKRxKdwv/C477bh9z0VdH74h24AKHsUgDVMIOPtCIT+wFzFHGIy2xQDA2VU3pLbTklMUOH95+wGi8wZhxNi2n82c2vid+P45CxRcoSkN9WlkFoK2rwGELyeM9d/3H7Pn+ALG1izl7A6PIXYuVdy+NhGMyNHqYD9fImgcM7YJt4w==
+Received: from MW4PR04CA0265.namprd04.prod.outlook.com (2603:10b6:303:88::30)
+ by PH8PR12MB7447.namprd12.prod.outlook.com (2603:10b6:510:215::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Wed, 30 Nov
+ 2022 09:44:37 +0000
+Received: from CO1NAM11FT076.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:88:cafe::f6) by MW4PR04CA0265.outlook.office365.com
+ (2603:10b6:303:88::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23 via Frontend
+ Transport; Wed, 30 Nov 2022 09:44:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1NAM11FT076.mail.protection.outlook.com (10.13.174.152) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5834.8 via Frontend Transport; Wed, 30 Nov 2022 09:44:36 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 30 Nov
+ 2022 01:44:22 -0800
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 30 Nov
+ 2022 01:44:21 -0800
+Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.7)
+ with Microsoft SMTP Server id 15.2.986.36 via Frontend Transport; Wed, 30 Nov
+ 2022 01:44:15 -0800
+From: Avihai Horon <avihaih@nvidia.com>
+To: <qemu-devel@nongnu.org>
+CC: Alex Williamson <alex.williamson@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, "Ilya
+ Leoshkevich" <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, "Juan
+ Quintela" <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck
+ <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
+ <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>, Avihai Horon
+ <avihaih@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v4 00/14] vfio/migration: Implement VFIO migration protocol v2
+Date: Wed, 30 Nov 2022 11:44:00 +0200
+Message-ID: <20221130094414.27247-1-avihaih@nvidia.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221129191815.atuv6arhodjbnvb2@amd.com>
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT076:EE_|PH8PR12MB7447:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3f2bd6e-1d75-4837-55b3-08dad2b77e6b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j6JGfyPeepw4c9D5d+NMHohh4PpUqxqNy1zFpfpkl1Ft25N8MRhHjxZPK3IVyLGRjEeUa2a+aU9ySlx+MkBFnUK4SrCFuhq3620qc8IPhGFKDm2uqLZBmYKhRGFD7zOOT/Gm4JPM1hHi8LrrB3wVH/NDFa5hnp8liMk3/ZGYK0yI/E5nHbyMe84MwspOuxTyC5L3MoYXw0Yd6ijvg7q/NmVHbTxjIrMNVvzbOpK4f6xbCRoHczxnWO6S+oW+g3bfinWgb92vLY8Z6HXY6odmFm+MO7RiXz424dP6lypLoEaB4gyKJNFICUhbYDqOzIpItTjADivop6+KTBmlfhWg5vPy6VGujfkBDeE17gcFBJPPPON7SWiraMGd6Mgw2ozuLcdGsP518ij/KE6g26mnFc80iRINCND2gyjGQBsNslUzvvwxyuRYF+Ni6pXDPqo3W8kaMeO5qF7dZ332oq9wlyPlXDyTb0wLURksA0EjQlSqADpKpvTxOYrFIitwHz+dingwXJA2NIvqRfhKldchpjWkZRFhCUEpszFWse8l8401E94k5mt/1dczo7Ve1RCCNxDQWqlvvftNT0WSd3kiZAaod0gyOZRD/PVUHUewXXmSrvA0+vMvueDZciC+fZS1fVP6D19K7H9IpHvDX5eJ7MDb+9HKNfxyr5g9+lb/xs19ELIuq4e33esu4oRS5e+QC/MoN64qVGttU/tNMhP5NbLHgzD3J/Bp6FDLa/RWpOEahzsBzZe9LB5nhhqywxkIoKlKvw4QMnhtyOQAhntAB+mQBQ4YLp8MtVwO/uG9lZlw2ozwbXQ9ps/Ee70IgeS4hxmxnKDUEqaCtQhXtBuziQ==
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199015)(40470700004)(36840700001)(46966006)(2906002)(41300700001)(54906003)(70206006)(186003)(8676002)(36860700001)(40460700003)(316002)(8936002)(70586007)(5660300002)(26005)(426003)(86362001)(6666004)(7416002)(966005)(82310400005)(1076003)(7636003)(2616005)(6916009)(336012)(36756003)(4326008)(356005)(40480700001)(478600001)(83380400001)(82740400003)(47076005)(7696005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2022 09:44:36.6595 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3f2bd6e-1d75-4837-55b3-08dad2b77e6b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT076.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7447
+Received-SPF: softfail client-ip=2a01:111:f400:fe59::610;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,158 +134,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 29, 2022 at 01:18:15PM -0600, Michael Roth wrote:
-> On Tue, Nov 29, 2022 at 01:06:58PM -0600, Michael Roth wrote:
-> > On Tue, Nov 29, 2022 at 10:06:15PM +0800, Chao Peng wrote:
-> > > On Mon, Nov 28, 2022 at 06:37:25PM -0600, Michael Roth wrote:
-> > > > On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
-> > > ...
-> > > > > +static long restrictedmem_fallocate(struct file *file, int mode,
-> > > > > +				    loff_t offset, loff_t len)
-> > > > > +{
-> > > > > +	struct restrictedmem_data *data = file->f_mapping->private_data;
-> > > > > +	struct file *memfd = data->memfd;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	if (mode & FALLOC_FL_PUNCH_HOLE) {
-> > > > > +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> > > > > +			return -EINVAL;
-> > > > > +	}
-> > > > > +
-> > > > > +	restrictedmem_notifier_invalidate(data, offset, offset + len, true);
-> > > > 
-> > > > The KVM restrictedmem ops seem to expect pgoff_t, but here we pass
-> > > > loff_t. For SNP we've made this strange as part of the following patch
-> > > > and it seems to produce the expected behavior:
-> > > 
-> > > That's correct. Thanks.
-> > > 
-> > > > 
-> > > >   https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fmdroth%2Flinux%2Fcommit%2Fd669c7d3003ff7a7a47e73e8c3b4eeadbd2c4eb6&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C0c26815eb6af4f1a243508dad23cf713%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638053456609134623%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=kAL42bmyBB0alVwh%2FN%2BT3D%2BiVTdxxMsJ7V4TNuCTjM4%3D&amp;reserved=0
-> > > > 
-> > > > > +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-> > > > > +	restrictedmem_notifier_invalidate(data, offset, offset + len, false);
-> > > > > +	return ret;
-> > > > > +}
-> > > > > +
-> > > > 
-> > > > <snip>
-> > > > 
-> > > > > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> > > > > +			   struct page **pagep, int *order)
-> > > > > +{
-> > > > > +	struct restrictedmem_data *data = file->f_mapping->private_data;
-> > > > > +	struct file *memfd = data->memfd;
-> > > > > +	struct page *page;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> > > > 
-> > > > This will result in KVM allocating pages that userspace hasn't necessary
-> > > > fallocate()'d. In the case of SNP we need to get the PFN so we can clean
-> > > > up the RMP entries when restrictedmem invalidations are issued for a GFN
-> > > > range.
-> > > 
-> > > Yes fallocate() is unnecessary unless someone wants to reserve some
-> > > space (e.g. for determination or performance purpose), this matches its
-> > > semantics perfectly at:
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.man7.org%2Flinux%2Fman-pages%2Fman2%2Ffallocate.2.html&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C0c26815eb6af4f1a243508dad23cf713%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638053456609134623%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=acBSquFG%2FHtpbcZfHDZrP2O63bu06rI0pjiPJFSJSj8%3D&amp;reserved=0
-> > > 
-> > > > 
-> > > > If the guest supports lazy-acceptance however, these pages may not have
-> > > > been faulted in yet, and if the VMM defers actually fallocate()'ing space
-> > > > until the guest actually tries to issue a shared->private for that GFN
-> > > > (to support lazy-pinning), then there may never be a need to allocate
-> > > > pages for these backends.
-> > > > 
-> > > > However, the restrictedmem invalidations are for GFN ranges so there's
-> > > > no way to know inadvance whether it's been allocated yet or not. The
-> > > > xarray is one option but currently it defaults to 'private' so that
-> > > > doesn't help us here. It might if we introduced a 'uninitialized' state
-> > > > or something along that line instead of just the binary
-> > > > 'shared'/'private' though...
-> > > 
-> > > How about if we change the default to 'shared' as we discussed at
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FY35gI0L8GMt9%2BOkK%40google.com%2F&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C0c26815eb6af4f1a243508dad23cf713%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638053456609134623%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=Q1vZWQiZ7mx12Qn5aKl4s8Ea9hNbwCJBb%2BjiA1du3Os%3D&amp;reserved=0?
-> > 
-> > Need to look at this a bit more, but I think that could work as well.
-> > 
-> > > > 
-> > > > But for now we added a restrictedmem_get_page_noalloc() that uses
-> > > > SGP_NONE instead of SGP_WRITE to avoid accidentally allocating a bunch
-> > > > of memory as part of guest shutdown, and a
-> > > > kvm_restrictedmem_get_pfn_noalloc() variant to go along with that. But
-> > > > maybe a boolean param is better? Or maybe SGP_NOALLOC is the better
-> > > > default, and we just propagate an error to userspace if they didn't
-> > > > fallocate() in advance?
-> > > 
-> > > This (making fallocate() a hard requirement) not only complicates the
-> > > userspace but also forces the lazy-faulting going through a long path of
-> > > exiting to userspace. Unless we don't have other options I would not go
-> > > this way.
-> > 
-> > Unless I'm missing something, it's already the case that userspace is
-> > responsible for handling all the shared->private transitions in response
-> > to KVM_EXIT_MEMORY_FAULT or (in our case) KVM_EXIT_VMGEXIT. So it only
-> > places the additional requirements on the VMM that if they *don't*
-> > preallocate, then they'll need to issue the fallocate() prior to issuing
-> > the KVM_MEM_ENCRYPT_REG_REGION ioctl in response to these events.
+Hello,
 
-Preallocating and memory conversion between shared<->private are two
-different things. No double fallocate() and conversion can be called
-together in response to KVM_EXIT_MEMORY_FAULT, but they don't have to be
-paired. And the fallocate() does not have to operate on the same memory
-range as memory conversion does.
+A long time has passed since v2 of this series was posted. During this
+time we had several KVM calls discussing the problems that were needed
+to be solved in order to move forward.
 
-> > 
-> > QEMU for example already has a separate 'prealloc' option for cases
-> > where they want to prefault all the guest memory, so it makes sense to
-> > continue making that an optional thing with regard to UPM.
+This version of the series includes quite some changes, and I believe
+that it addresses all the major problems we have discussed.
 
-Making 'prealloc' work for UPM in QEMU does sound reasonable. Anyway,
-it's just an option so not change the assumption here.
+Following VFIO migration protocol v2 acceptance in kernel, this series
+implements VFIO migration according to the new v2 protocol and replaces
+the now deprecated v1 implementation.
 
-> 
-> Although I guess what you're suggesting doesn't stop userspace from
-> deciding whether they want to prefault or not. I know the Google folks
-> had some concerns over unexpected allocations causing 2x memory usage
-> though so giving userspace full control of what is/isn't allocated in
-> the restrictedmem backend seems to make it easier to guard against this,
-> but I think checking the xarray and defaulting to 'shared' would work
-> for us if that's the direction we end up going.
+The main differences between v1 and v2 migration protocols are:
+1. VFIO device state is represented as a finite state machine instead of
+   a bitmap.
 
-Yeah, that looks very likely the direction satisfying all people here.
+2. The migration interface with kernel is done using VFIO_DEVICE_FEATURE
+   ioctl and normal read() and write() instead of the migration region
+   used in v1.
 
-Chao
-> 
-> -Mike
-> 
-> > 
-> > -Mike
-> > 
-> > > 
-> > > Chao
-> > > > 
-> > > > -Mike
-> > > > 
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	*pagep = page;
-> > > > > +	if (order)
-> > > > > +		*order = thp_order(compound_head(page));
-> > > > > +
-> > > > > +	SetPageUptodate(page);
-> > > > > +	unlock_page(page);
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-> > > > > -- 
-> > > > > 2.25.1
-> > > > > 
+3. Migration protocol v2 currently doesn't support the pre-copy phase of
+   migration.
+
+Full description of the v2 protocol and the differences from v1 can be
+found here [1].
+
+
+
+Patch list:
+
+Patches 1-2 are patches taken from Juan's RFC [2].
+As discussed in the KVM call, since we are going to add a new ioctl to
+get device data size while it's RUNNING, we don't need the stop and
+resume VM functionality from the RFC.
+
+Patches 3-8 are prep patches fixing bugs, adding QEMUFile function
+that will be used later and refactoring v1 protocol code to make it
+easier to add v2 protocol.
+
+Patches 9-12 implement v2 protocol and remove v1 protocol.
+
+Patches 13-14 are preview patches (which are not for merging yet) that
+demonstrate how the new ioctl to get device state size will work once
+added.
+
+Thanks.
+
+
+
+Changes from v3 [3]:
+- Rebased on latest master branch.
+
+- Dropped patch #1 "migration: Remove res_compatible parameter" as
+  it's not mandatory to this series and needs some further discussion.
+
+- Dropped patch #3 "migration: Block migration comment or code is
+  wrong" as it has been merged already.
+
+- Addressed overlooked corner case reported by Vladimir in patch #4
+  "migration: Simplify migration_iteration_run()".
+
+- Dropped patch #5 "vfio/migration: Fix wrong enum usage" as it has
+  been merged already.
+
+- In patch #12 "vfio/migration: Implement VFIO migration protocol v2":
+  1. Changed vfio_save_pending() to update res_precopy_only instead of
+     res_postcopy_only (as VFIO migration doesn’t support postcopy).
+  2. Moved VFIOMigration->data_buffer allocation to vfio_save_setup()
+     and its de-allocation to vfio_save_cleanup(), so now it's
+     allocated when actually used (during migration and only on source
+     side).
+
+- Addressed Alex's comments:
+  1. Eliminated code duplication in patch #7 "vfio/migration: Allow
+     migration without VFIO IOMMU dirty tracking support".
+  2. Removed redundant initialization of vfio_region_info in patch #10
+     "vfio/migration: Move migration v1 logic to vfio_migration_init()".
+  3. Added comment about VFIO_MIG_DATA_BUFFER_SIZE heuristic (and
+     renamed to VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE).
+  4. Cast migration structs to their actual types instead of void *.
+  5. Return -errno and -EBADF instead of -1 in vfio_migration_set_state().
+  6. Set migration->device_state to new_state even in case of data_fd
+     out of sync. Although migration will be aborted, setting device
+     state succeeded so we should reflect that.
+  7. Renamed VFIO_MIG_PENDING_SIZE to VFIO_MIG_STOP_COPY_SIZE, set it
+     to 100G and added a comment about the size choice.
+  8. Changed vfio_save_block() to return -errno on error.
+  9. Squashed Patch #14 to patch #12.
+  10. Adjusted migration data buffer size according to MIG_DATA_SIZE
+      ioctl.
+
+- In preview patch #17 "vfio/migration: Query device data size in
+  vfio_save_pending()" - changed vfio_save_pending() to report
+  VFIO_MIG_STOP_COPY_SIZE on any error.
+   
+- Added another preview patch "vfio/migration: Optimize
+  vfio_save_pending()".
+
+- Added ret value on some traces as suggested by David.
+
+- Added Reviewed-By tags.
+
+
+
+Changes from v2 [4]:
+- Rebased on top of latest master branch.
+
+- Added relevant patches from Juan's RFC [2] with minor changes:
+  1. Added Reviewed-by tag to patch #3 in the RFC.
+  2. Adjusted patch #6 to work without patch #4 in the RFC.
+
+- Added a new patch "vfio/migration: Fix wrong enum usage" that fixes a
+  small bug in v1 code. This patch has been sent a few weeks ago [5] but
+  wasn't taken yet.
+
+- Patch #2 (vfio/migration: Skip pre-copy if dirty page tracking is not
+  supported):
+  1. Dropped this patch and replaced it with
+     "vfio/migration: Allow migration without VFIO IOMMU dirty tracking
+     support".
+     The new patch uses a different approach – instead of skipping
+     pre-copy phase completely, QEMU VFIO code will mark RAM dirty
+     (instead of kernel). This ensures that current migration behavior
+     is not changed and SLA is taken into account.
+
+- Patch #4 (vfio/common: Change vfio_devices_all_running_and_saving()
+  logic to equivalent one):
+  1. Improved commit message to better explain the change.
+
+- Patch #7 (vfio/migration: Implement VFIO migration protocol v2):
+  1. Enhanced vfio_migration_set_state() error reporting.
+  2. In vfio_save_complete_precopy() of v2 protocol - when changing
+     device state to STOP, set recover state to ERROR instead of STOP as
+     suggested by Joao.
+  3. Constify SaveVMHandlers of v2 protocol.
+  4. Modified trace_vfio_vmstate_change and
+     trace_vfio_migration_set_state
+     to print device state string instead of enum.
+  5. Replaced qemu_put_buffer_async() with qemu_put_buffer() in
+     vfio_save_block(), as requested by Juan.
+  6. Implemented v2 protocol version of vfio_save_pending() as requested
+     by Juan. Until ioctl to get device state size is added, we just
+     report some big hard coded value, as agreed in KVM call.
+
+- Patch #9 (vfio/migration: Reset device if setting recover state
+  fails):
+  1. Enhanced error reporting.
+  2. Set VFIOMigration->device_state to RUNNING after device reset.
+
+- Patch #11 (docs/devel: Align vfio-migration docs to VFIO migration
+  v2):
+  1. Adjusted vfio migration documentation to the added
+     vfio_save_pending()
+
+- Added the last patch (which is not for merging yet) that demonstrates
+  how the new ioctl to get device state size will work once added.
+
+
+
+Changes from v1 [6]:
+- Split the big patch that replaced v1 with v2 into several patches as
+  suggested by Joao, to make review easier.
+- Change warn_report to warn_report_once when container doesn't support
+  dirty tracking.
+- Add Reviewed-by tag.
+
+[1]
+https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
+
+[2]
+https://lore.kernel.org/qemu-devel/20221003031600.20084-1-quintela@redhat.com/T/
+
+[3]
+https://lore.kernel.org/qemu-devel/20221103161620.13120-1-avihaih@nvidia.com/
+
+[4]
+https://lore.kernel.org/all/20220530170739.19072-1-avihaih@nvidia.com/
+
+[5]
+https://lore.kernel.org/all/20221016085752.32740-1-avihaih@nvidia.com/
+
+[6]
+https://lore.kernel.org/all/20220512154320.19697-1-avihaih@nvidia.com/
+
+Avihai Horon (12):
+  vfio/migration: Fix NULL pointer dereference bug
+  vfio/migration: Allow migration without VFIO IOMMU dirty tracking
+    support
+  migration/qemu-file: Add qemu_file_get_to_fd()
+  vfio/common: Change vfio_devices_all_running_and_saving() logic to
+    equivalent one
+  vfio/migration: Move migration v1 logic to vfio_migration_init()
+  vfio/migration: Rename functions/structs related to v1 protocol
+  vfio/migration: Implement VFIO migration protocol v2
+  vfio/migration: Remove VFIO migration protocol v1
+  vfio: Alphabetize migration section of VFIO trace-events file
+  docs/devel: Align vfio-migration docs to VFIO migration v2
+  vfio/migration: Use VFIO_DEVICE_FEATURE_MIG_DATA_SIZE ioctl
+  vfio/migration: Optimize vfio_save_pending()
+
+Juan Quintela (2):
+  migration: No save_live_pending() method uses the QEMUFile parameter
+  migration: Simplify migration_iteration_run()
+
+ docs/devel/vfio-migration.rst  |  68 ++-
+ hw/s390x/s390-stattrib.c       |   2 +-
+ hw/vfio/common.c               | 119 +++---
+ hw/vfio/migration.c            | 727 +++++++++++----------------------
+ hw/vfio/trace-events           |  29 +-
+ include/hw/vfio/vfio-common.h  |  10 +-
+ include/migration/register.h   |   3 +-
+ linux-headers/linux/vfio.h     |  13 +
+ migration/block-dirty-bitmap.c |   3 +-
+ migration/block.c              |   2 +-
+ migration/migration.c          |  29 +-
+ migration/qemu-file.c          |  34 ++
+ migration/qemu-file.h          |   1 +
+ migration/ram.c                |   2 +-
+ migration/savevm.c             |   7 +-
+ migration/savevm.h             |   3 +-
+ 16 files changed, 430 insertions(+), 622 deletions(-)
+
+-- 
+2.26.3
+
 
