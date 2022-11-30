@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F2063DA62
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 17:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C78763DACD
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 17:36:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0Pkx-0007nA-9M; Wed, 30 Nov 2022 11:16:19 -0500
+	id 1p0Q2w-0003jk-ND; Wed, 30 Nov 2022 11:34:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Pkw-0007mu-8u
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 11:16:18 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Q2r-0003ga-8D
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 11:34:52 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Pku-0005Ja-9A
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 11:16:18 -0500
-Received: by mail-wm1-x331.google.com with SMTP id m19so4396476wms.5
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 08:16:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Q2l-0008RR-57
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 11:34:48 -0500
+Received: by mail-wr1-x433.google.com with SMTP id z4so28024793wrr.3
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 08:34:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sNo0ShQxhqozGsf73C9v/KlK1CcWE6AwitbfunvjKko=;
- b=HIKtR1+WAvDOBAVyq8tphvxtDTIT5p4ZyPYNO6CPHN0USkrO2WJM/YD3mpQy2v5sr3
- foGxPKr9vss+ZNbpg90sFsGK+RjofVnRumhItGHPej+oiJFcyIFEXmavYEc+iQrvOWR5
- rIuqNMgepTFI2Cclw8jqKA1dLcypdlnoiaEqr/8cIMD2dSrs5MKuf4yX1b+LP9qDo2va
- i0WZ+7EEF0INoh5xFZPgctfn9uWpgIh6s5vPl71XD2tJrYQc8YsF+0DOy+3mzU0OUa3t
- cu4hlNFdMS3L9IxYvVre1NlZsONFhh+xnxOsdkOnrBi15HrfChVOpCPosttI2RGfMWOH
- z78Q==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=drtb5gGliDsZedmGK5zPJtU/IK4CqfoDuBl+wux4fJU=;
+ b=KR9f57aX1p74fNTnASVX2UmunmVx7+Hnz97B8uk2kGRXmLD3IOpDxJ+9caJc1GFQQD
+ X/inahr/QfMZyVJ55DwgNjHb6hcPwvV67S0UJaHA6zKlSOzGXNlRfxPt5g9knlxkx5c1
+ ns/MDgqxO3IvemQVBPyEkPdGM95r+JyAYSy00ClDCnWe18eusi4vrqT6kfys0skQ2p//
+ IgEdLw0yoYH5L/5pJ40AIwG2kO8DNYTWzJy4npHc1U5sIYB+XcDNGiQ4OYkFoyc/T8qC
+ lms1LKKx8akJDppXXvld6JDvnF2AnPVNDITnonmmYcZO36DbqKs/c3q0BAa0t3hkOKZq
+ chwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sNo0ShQxhqozGsf73C9v/KlK1CcWE6AwitbfunvjKko=;
- b=WUgiZtW8pxS5xBk9IbeGtc81GSDSTqFjh5FCqLfYTqzWXNhroOSKdnrhVEJbk2DDT8
- l4DSETVlcjtGKVgpeV1O45Ak9MIJNf70/y23UHFLnGYG71P6pFqpFXee1Xl5oYBrvbEO
- TABocDI1X3usZqhemhxpDK5d6IRH4/ndqhn4kJtisW7dotqc/W7ylCwu8ueKFyPzlbXD
- ekQH1bmHEqe1FCSe+60mntVhRUoeeObBT7xULRQvPjpB6JRd+jifdAvrv4+6TXdQUS28
- skNjKyj9rf8suCh37cNfH/6bFzWNSIABTbxEBd5M8OQaKwT66NlJKyiqhugzKddOlGyl
- V3+w==
-X-Gm-Message-State: ANoB5pkG2eaduegNjJ6wJIlZ4BHN6zstbbKgICKfTsQnRjaINvaF6MpO
- EZawBVn+WYVH2xhicxqDHAc4Tw==
-X-Google-Smtp-Source: AA0mqf4ypOS4H5Ah126wNWlmnWon+US/2B7GKj+aUzdOLIiCw6VVLYsQQvqPkhMvQwtjtS9/nb3MoA==
-X-Received: by 2002:a05:600c:1d93:b0:3cf:d0ba:e5ff with SMTP id
- p19-20020a05600c1d9300b003cfd0bae5ffmr44867036wms.36.1669824973911; 
- Wed, 30 Nov 2022 08:16:13 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h4-20020a5d5044000000b00241bc4880fesm1950975wrt.111.2022.11.30.08.16.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 08:16:13 -0800 (PST)
-Message-ID: <6c7189cd-b6dc-e954-f39e-b90ccb6e0361@linaro.org>
-Date: Wed, 30 Nov 2022 17:16:10 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=drtb5gGliDsZedmGK5zPJtU/IK4CqfoDuBl+wux4fJU=;
+ b=lS3+26ifTT13TBtCM4L0OQVNnMYMrWDm1U3ZLbqkOiWjgMCaCGnKG9gaz5ko9xjVjC
+ QE76nuHVXA4eNS8GGKIqodVgbbgArm0vcWUKEk4d8HBhu9xpKtQSE+6Z6oFKgYSWrbP3
+ 10nqEk6WY3KJL1SBLD+BoZ63RJnMS0k7kx2caTW7XtKDD8AJRKmj79RSlMwcMsOCVmxE
+ 4J6RTsM9xCMC9NPxO2LP0dK2NOYeZ37S34AxUk+nUbyo0ExH1t2ENQ7psgMz0uXCpmkb
+ RGX4MAZGiBQVp9ZMlzx0hRRLgY+k+LwW5EceU0DeRtZbnhRkftiJ5M2+6i6Ppq85FVh+
+ lc5g==
+X-Gm-Message-State: ANoB5plI0k2ftgZc2P3jnuc6LhOdjyfESQn5ssEWhK7MgSEWpAg3Hj77
+ xUnPAhLVQTKzt8LoruhM6U1GNMG6mL63GzOo
+X-Google-Smtp-Source: AA0mqf7lFAGlvMnUrbuqHnPjjMtsNwn+W/AvFKo2vY/fut2CFVnMMjggC/K7YZm1+BAC5f+2h9N1/w==
+X-Received: by 2002:a05:6000:83:b0:242:4a6:5baa with SMTP id
+ m3-20020a056000008300b0024204a65baamr16932845wrx.102.1669826079013; 
+ Wed, 30 Nov 2022 08:34:39 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ h40-20020a05600c49a800b003b3365b38f9sm2361096wmp.10.2022.11.30.08.34.37
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 30 Nov 2022 08:34:38 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Alessandro Di Federico <ale@rev.ng>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Anton Johansson <anjo@rev.ng>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH-for-8.0 0/2] target/tcg: Use TCGv_i64 with tcg_temp_new_i64()
+Date: Wed, 30 Nov 2022 17:34:34 +0100
+Message-Id: <20221130163436.87687-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v15 1/6] qmp: add QMP command x-query-virtio
-Content-Language: en-US
-To: Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org,
- lvivier@redhat.com, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, kraxel@redhat.com,
- si-wei.liu@oracle.com, joao.m.martins@oracle.com, eblake@redhat.com,
- qemu-block@nongnu.org, david@redhat.com, arei.gonglei@huawei.com,
- marcandre.lureau@redhat.com, thuth@redhat.com, michael.roth@amd.com,
- groug@kaod.org, dgilbert@redhat.com, eric.auger@redhat.com,
- stefanha@redhat.com, boris.ostrovsky@oracle.com, kwolf@redhat.com,
- mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com, pbonzini@redhat.com
-References: <1660220684-24909-1-git-send-email-jonah.palmer@oracle.com>
- <1660220684-24909-2-git-send-email-jonah.palmer@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <1660220684-24909-2-git-send-email-jonah.palmer@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,138 +91,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+Although on 64-bit targets TCGv is defined as TCGv_i64,
+clarify using the correct type for tcg_temp_new_i64().
 
-On 11/8/22 14:24, Jonah Palmer wrote:
-> From: Laurent Vivier <lvivier@redhat.com>
-> 
-> This new command lists all the instances of VirtIODevices with
-> their canonical QOM path and name.
-> 
-> [Jonah: @virtio_list duplicates information that already exists in
->   the QOM composition tree. However, extracting necessary information
->   from this tree seems to be a bit convoluted.
-> 
->   Instead, we still create our own list of realized virtio devices
->   but use @qmp_qom_get with the device's canonical QOM path to confirm
->   that the device exists and is realized. If the device exists but
->   is actually not realized, then we remove it from our list (for
->   synchronicity to the QOM composition tree).
-> 
->   Also, the QMP command @x-query-virtio is redundant as @qom-list
->   and @qom-get are sufficient to search '/machine/' for realized
->   virtio devices. However, @x-query-virtio is much more convenient
->   in listing realized virtio devices.]
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
-> ---
->   hw/virtio/meson.build      |  2 ++
->   hw/virtio/virtio-stub.c    | 14 ++++++++
->   hw/virtio/virtio.c         | 44 ++++++++++++++++++++++++
->   include/hw/virtio/virtio.h |  1 +
->   qapi/meson.build           |  1 +
->   qapi/qapi-schema.json      |  1 +
->   qapi/virtio.json           | 68 ++++++++++++++++++++++++++++++++++++++
->   tests/qtest/qmp-cmd-test.c |  1 +
->   8 files changed, 132 insertions(+)
->   create mode 100644 hw/virtio/virtio-stub.c
->   create mode 100644 qapi/virtio.json
+Philippe Mathieu-Daudé (2):
+  target/s390x: Replace TCGv by TCGv_i64 in op_mov2e()
+  target/sparc64: Replace TCGv by TCGv_i64 in gen_op_multiply()
 
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 5d607aeaa0..bdfa82e9c0 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -13,12 +13,18 @@
->   
->   #include "qemu/osdep.h"
->   #include "qapi/error.h"
-> +#include "qapi/qmp/qdict.h"
-> +#include "qapi/qapi-commands-virtio.h"
-> +#include "qapi/qapi-commands-qom.h"
-> +#include "qapi/qapi-visit-virtio.h"
-> +#include "qapi/qmp/qjson.h"
->   #include "cpu.h"
->   #include "trace.h"
->   #include "qemu/error-report.h"
->   #include "qemu/log.h"
->   #include "qemu/main-loop.h"
->   #include "qemu/module.h"
-> +#include "qom/object_interfaces.h"
->   #include "hw/virtio/virtio.h"
->   #include "migration/qemu-file-types.h"
->   #include "qemu/atomic.h"
-> @@ -29,6 +35,9 @@
->   #include "sysemu/runstate.h"
->   #include "standard-headers/linux/virtio_ids.h"
->   
-> +/* QAPI list of realized VirtIODevices */
-> +static QTAILQ_HEAD(, VirtIODevice) virtio_list;
-> +
->   /*
->    * The alignment to use between consumer and producer parts of vring.
->    * x86 pagesize again. This is the default, used by transports like PCI
-> @@ -3698,6 +3707,7 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
->       vdev->listener.commit = virtio_memory_listener_commit;
->       vdev->listener.name = "virtio";
->       memory_listener_register(&vdev->listener, vdev->dma_as);
-> +    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
->   }
->   
->   static void virtio_device_unrealize(DeviceState *dev)
-> @@ -3712,6 +3722,7 @@ static void virtio_device_unrealize(DeviceState *dev)
->           vdc->unrealize(dev);
->       }
->   
-> +    QTAILQ_REMOVE(&virtio_list, vdev, next);
->       g_free(vdev->bus_name);
->       vdev->bus_name = NULL;
->   }
-> @@ -3885,6 +3896,8 @@ static void virtio_device_class_init(ObjectClass *klass, void *data)
->       vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
->   
->       vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
-> +
-> +    QTAILQ_INIT(&virtio_list);
->   }
->   
->   bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
-> @@ -3895,6 +3908,37 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
->       return virtio_bus_ioeventfd_enabled(vbus);
->   }
->   
-> +VirtioInfoList *qmp_x_query_virtio(Error **errp)
-> +{
-> +    VirtioInfoList *list = NULL;
-> +    VirtioInfoList *node;
-> +    VirtIODevice *vdev;
-> +
-> +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
-> +        DeviceState *dev = DEVICE(vdev);
-> +        Error *err = NULL;
-> +        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
-> +
-> +        if (err == NULL) {
-> +            GString *is_realized = qobject_to_json_pretty(obj, true);
-> +            /* virtio device is NOT realized, remove it from list */
+ target/s390x/tcg/translate.c | 2 +-
+ target/sparc/translate.c     | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Why not check dev->realized instead of calling qmp_qom_get() & 
-qobject_to_json_pretty()?
+-- 
+2.38.1
 
-> +            if (!strncmp(is_realized->str, "false", 4)) {
-> +                QTAILQ_REMOVE(&virtio_list, vdev, next);
-> +            } else {
-> +                node = g_new0(VirtioInfoList, 1);
-> +                node->value = g_new(VirtioInfo, 1);
-> +                node->value->path = g_strdup(dev->canonical_path);
-> +                node->value->name = g_strdup(vdev->name);
-> +                QAPI_LIST_PREPEND(list, node->value);
-> +            }
-> +           g_string_free(is_realized, true);
-> +        }
-> +        qobject_unref(obj);
-> +    }
-> +
-> +    return list;
-> +}
 
