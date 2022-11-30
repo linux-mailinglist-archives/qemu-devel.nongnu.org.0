@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017CF63CF10
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 07:01:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A7F63CF12
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 07:03:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0G88-000699-Sr; Wed, 30 Nov 2022 00:59:36 -0500
+	id 1p0GBA-0007Ew-4Z; Wed, 30 Nov 2022 01:02:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leixiang@kylinos.cn>)
- id 1p0G82-00068w-EP
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 00:59:31 -0500
+ id 1p0GB8-0007En-1F
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 01:02:42 -0500
 Received: from [124.126.103.232] (helo=mailgw.kylinos.cn)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leixiang@kylinos.cn>)
- id 1p0G7y-00017m-Vb
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 00:59:29 -0500
-X-UUID: 4b67dd9531db4257890c8bfaf0803694-20221130
-X-CPASD-INFO: 1131c7cd861e4f3bb6d27664d017a6c2@eoFtUZBpkZRkVnOxg6l-nIJnlGJnYla
- DpmpRZ49mj1KVhH5xTV5nX1V9gnNXZF5dXFV3dnBQYmBhXVJ3i3-XblBgXoZgUZB3gHNtUZNlkw==
-X-CLOUD-ID: 1131c7cd861e4f3bb6d27664d017a6c2
-X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
+ id 1p0GB4-0001iW-N7
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 01:02:41 -0500
+X-UUID: a2b87592d3ba4e708409a8f71ba8ee80-20221130
+X-CPASD-INFO: 480c9930cf9646638917193e5fb08562@fYhqg2ZrYWCPhnuCg3mBbVhqYWdhZVO
+ 0d6CCYWZlYlKVhH5xTV5nX1V9gnNXZF5dXFV3dnBQYmBhXVJ3i3-XblBhXoZgUZB3g3pqg2pnYw==
+X-CLOUD-ID: 480c9930cf9646638917193e5fb08562
+X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:1.0, URL:-5,
  TVAL:180.
  0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:74.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
  PHC:-5.
- 0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:1, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
+ 0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:1.0, CFOB:1.0, SPC:0,
  SIG:-5
- , AUF:1, DUF:9498, ACD:157, DCD:157, SL:0, EISP:0, AG:0, CFC:0.428, CFSR:0.058,
+ , AUF:2, DUF:9500, ACD:157, DCD:157, SL:0, EISP:0, AG:0, CFC:0.428, CFSR:0.058,
  UAT:0, R
  AF:0, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
  ATTNUM:0, EAF:0,CID:-5.0,VERSION:2.3.17
-X-CPASD-ID: 4b67dd9531db4257890c8bfaf0803694-20221130
+X-CPASD-ID: a2b87592d3ba4e708409a8f71ba8ee80-20221130
 X-CPASD-BLOCK: 1000
 X-CPASD-STAGE: 1
-X-UUID: 4b67dd9531db4257890c8bfaf0803694-20221130
+X-UUID: a2b87592d3ba4e708409a8f71ba8ee80-20221130
 X-User: leixiang@kylinos.cn
 Received: from localhost.localdomain [(116.128.244.169)] by mailgw
  (envelope-from <leixiang@kylinos.cn>) (Generic MTA)
- with ESMTP id 702307408; Wed, 30 Nov 2022 13:54:02 +0800
+ with ESMTP id 1899459991; Wed, 30 Nov 2022 13:57:28 +0800
 From: leixiang <leixiang@kylinos.cn>
-To: leixiang@kylinos.cn
-Cc: mst@redhat.com, qemu-devel@nongnu.org, xieming@kylinos.cn,
- zengchi@kylinos.cn
+To: mst@redhat.com
+Cc: qemu-devel@nongnu.org, xieming@kylinos.cn, zengchi@kylinos.cn,
+ leixiang <leixiang@kylinos.cn>
 Subject: [RESEND PATCH] virtio-pci: fix vector_irqfd leak in
  virtio_pci_set_guest_notifiers
-Date: Wed, 30 Nov 2022 13:52:40 +0800
-Message-Id: <20221130055240.1036842-1-leixiang@kylinos.cn>
+Date: Wed, 30 Nov 2022 13:56:11 +0800
+Message-Id: <20221130055611.1037023-1-leixiang@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220826030646.1003059-1-leixiang@kylinos.cn>
 References: <20220826030646.1003059-1-leixiang@kylinos.cn>
