@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B9163E3B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:52:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D56C63E55B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 00:21:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0VuP-0001He-MV; Wed, 30 Nov 2022 17:50:29 -0500
+	id 1p0WMU-00072y-9S; Wed, 30 Nov 2022 18:19:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nlachtar@umich.edu>)
- id 1p0VuN-0001HW-UB
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:50:27 -0500
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p0WMH-00072R-Nn
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 18:19:18 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nlachtar@umich.edu>)
- id 1p0VuM-0004Fx-4L
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:50:27 -0500
-Received: by mail-il1-x132.google.com with SMTP id h17so24972ila.6
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 14:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=umich.edu; s=google-2016-06-03;
- h=to:date:message-id:subject:mime-version:content-transfer-encoding
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=fbrlc1g78sfNVy4j5xkmzOi6RYnzjuM51oORpGujRvc=;
- b=PnLLp3KAnA7hH5rk/0uCBqZ3UjDN/nTKTGhWybwiLNWiLlmLqIQ+hbmzb4izK+OXIU
- jaiwIJS5C35PNnU/7jcF1yxiaBHhp6z+sdSWVD5NuNVg0g6BRFN/PXCYBjAs5PqUvj01
- TBMxyl6mtUgOSL3vFvrTcudMar7k0oXHGG1fJfSi4SBeYZLxmVzydr5mHE2KI1JQt3aj
- aXWiQRaDGW6kgvevURgStWYGciKl0z3UA0+fBrHk+RSx6WZY/fUtctVQYbfj69Q9lCYM
- 1zUw0/0c1W4Vht/tV4Mv5feu1uL5tTyC6SFnzJS5aO1eEz5RWqFNSJkP0KvVeLypWk80
- vBig==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p0WMF-0004z6-Fd
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 18:19:16 -0500
+Received: by mail-pl1-x632.google.com with SMTP id p24so14479908plw.1
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 15:19:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xB1tq0KXaSSHM++8jaalmq45cX6yvG7VOtjtR7ORi/Q=;
+ b=rnTqUpDE5vvSHcgW4ueFgCBmYSfaoZ5u+8NPsz9g/40xNDzgSHcM94TPlZGzqkR9a7
+ W2ZOa5qG5rxHUVuT/uJfIwpPHypa5KxMIxxONb++FGe8MEfr2vBOJfPYqVP+BxlR/fXl
+ e6D2K8+33JC8cbUBNO741ogjF9MffHgeqog8vznlrVNG20Ji6fYFuYkUh4tjb7wD4T3v
+ rqKBNCYp4umJ1ZhHNWM3miBw0P5jUiPlrk0BdStROzEAKT0Hu9Wx4M+oHKMRZPMMJq5Q
+ l9gVAlP/TQyy2+jbC+TI3LT9HcWlRG0kk5wdilw2ylnrCCrM/TppT8CSI9DBXoe8170N
+ K63Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:date:message-id:subject:mime-version:content-transfer-encoding
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fbrlc1g78sfNVy4j5xkmzOi6RYnzjuM51oORpGujRvc=;
- b=lSSaIGlosFAPmDSjSPjNzNUMoj533UUoRKy4doP7itT1tueEPXtgoZx9F2VGT04uFy
- jL0NL5u9PlmXxzDGh6tjzyQbTpQWUVZeV1UUMiKjbQsQ1JPjUOSFZIf3M5MU7hdXoQ8F
- wISE0uq64Nr5aZjPlkWTpZVe5chjHGLDUVDGfxlBRcGXo+mzTskBt9PEAQqcNLKyTeFb
- RWV54HP1J+0EoKuQP88TGe/tu7o6V92SgKSTfPuWnh4h75FhD6T0meAhYNEPXdbNgQ51
- u8X+4DW+ur3QfqXjDG7mFJk/Tb3jBHNlUdBCnXdtY8qZ3KkQ3hTHp1bSiVtFqxlPQPvm
- SwGA==
-X-Gm-Message-State: ANoB5pl/l2ogbiFAICW4HmNrFGqvR45flZQHPcfUOeQ6e4PdBegtmicG
- YAVWV6Sh+mxQuGWgxlS6I02TUqDx3f8+e7KA/TScDovlrVIv4+FVla9MYbFzeCbNbHLu+iZUgl8
- 1357xuf0Ti4Uw/R6hMMyxWpmABgFVK44MlWjKm/742cwFuzk7UkaWTW3hYUtOmd7Ucf7a
-X-Google-Smtp-Source: AA0mqf6OZnR2QnL7KjeF4HGFKsnnCd4L4rDV0qllhuxfzalL2c8xndJNwOrUCTGmJhMfdmwvE+NVKA==
-X-Received: by 2002:a92:c74a:0:b0:303:22f0:412a with SMTP id
- y10-20020a92c74a000000b0030322f0412amr4382741ilp.18.1669848617976; 
- Wed, 30 Nov 2022 14:50:17 -0800 (PST)
-Received: from smtpclient.apple ([141.215.208.9])
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xB1tq0KXaSSHM++8jaalmq45cX6yvG7VOtjtR7ORi/Q=;
+ b=OSsjkd+ZUkY1Jy7deZ+ENEJp47IfSERycsQTv/XxPcF6F6Eh7v0kfVmvHP0edcohxF
+ R5e6wzCLcMwUibXPUMxz+5jRUqRaT1VyEl3idcvyUCYw6KVFYxUzdI91Q8IPjrdg0tTI
+ Or7dyJkzRpPePOiRANy7WSdMjI9MQ3htOnsbxN4bnnmOo5Ccrj1zfTKpa+jUlMdVyU5Z
+ RPz9cYZg3TVCNLE7w+L+DTFRO4zjWlvCK4UoPY3vIoUmk2WiW8P7Ki1CjDQL3xeE53jZ
+ OWmhIsfkaeUYA9NpTnDx1FgJbxORXYFbdWuxWgFtsqlUrgYivJlOhMxrNlCdcX//wBYM
+ OECQ==
+X-Gm-Message-State: ANoB5pmJyo1QquOvT4jawhVJSvj9md7QErO5bCuKHLCuk3J0+N9TWts+
+ n83Eq830fAjwujA8CgbdbQThdQ==
+X-Google-Smtp-Source: AA0mqf4rtk2uM/DwpVZMybKN+x41ZB8B4AnPpiVorPLX9XmxoaSvV0XiTpUDAXnenq2VwbthuAxloA==
+X-Received: by 2002:a17:902:e983:b0:189:651c:efb4 with SMTP id
+ f3-20020a170902e98300b00189651cefb4mr29881559plb.89.1669850353725; 
+ Wed, 30 Nov 2022 15:19:13 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:7dfe:6c55:976b:754?
+ ([2602:47:d48a:1201:7dfe:6c55:976b:754])
  by smtp.gmail.com with ESMTPSA id
- v12-20020a056638008c00b0036374fc6523sm1039914jao.24.2022.11.30.14.50.17
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 30 Nov 2022 14:50:17 -0800 (PST)
-From: Nada Lachtar <nlachtar@umich.edu>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_51080775-4EF5-4756-8666-99B71A0FD22F";
- protocol="application/pkcs7-signature"; micalg=sha-256
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Question about CPUTLBEntry
-Message-Id: <73A7E42B-E0AD-4321-8D46-754B363178C7@umich.edu>
-Date: Wed, 30 Nov 2022 17:50:06 -0500
-To: qemu-devel@nongnu.org
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=nlachtar@umich.edu; helo=mail-il1-x132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ u10-20020a170902714a00b0018963b8e131sm2012030plm.290.2022.11.30.15.19.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Nov 2022 15:19:13 -0800 (PST)
+Message-ID: <8c714f63-39e3-51c4-64d3-ff926953a78b@linaro.org>
+Date: Wed, 30 Nov 2022 15:19:10 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: Question about CPUTLBEntry
+Content-Language: en-US
+To: Nada Lachtar <nlachtar@umich.edu>, qemu-devel@nongnu.org
+References: <73A7E42B-E0AD-4321-8D46-754B363178C7@umich.edu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <73A7E42B-E0AD-4321-8D46-754B363178C7@umich.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,62 +92,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/30/22 14:50, Nada Lachtar wrote:
+> Hello,
+> 
+> 
+> I’m trying to understand the structure of TLB in QEMU/tcg, in order to extract the physical address from the CPUTLBEntry. Would this be possible without having the virtual address and use tlb_lookup? For example, I would like to read all the physical addresses that are recorded in the TLB table without the need for a virtual address to translate the entry.
+> 
+> I would appreciate your help in directing me to what functions/structures to use to achieve this.
 
---Apple-Mail=_51080775-4EF5-4756-8666-99B71A0FD22F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+The virtual address of the CPUTLBEntry is recorded as the page-address bits in each of the 
+three comparators: addr_read, addr_write, addr_code.  This is documented in the comment 
+right there with CPUTLBEntry (TARGET_LONG_BITS to TARGET_PAGE_BITS).
 
-Hello,
+Bits below TARGET_PAGE_BITS are TLB flags, e.g. TLB_MMIO.
 
+If TLB_INVALID_MASK is set in addr_{read,write,code}, the entry is not 
+readable/writable/executable.  If TLB_INVALID_MASK is set in all three, the entry is unused.
 
-I=E2=80=99m trying to understand the structure of TLB in QEMU/tcg, in =
-order to extract the physical address from the CPUTLBEntry. Would this =
-be possible without having the virtual address and use tlb_lookup? For =
-example, I would like to read all the physical addresses that are =
-recorded in the TLB table without the need for a virtual address to =
-translate the entry.
-
-I would appreciate your help in directing me to what =
-functions/structures to use to achieve this.
-
-Thank you,
-
-
-Nada
+If CPUTLBEntry is valid, there is also a CPUTLBEntryFull structure in parallel, which 
+contains (among other things), CPUTLBEntryFull.phys_addr, containing the cpu-side physical 
+address for the address space given by CPUTLBEntryFull.attrs.
 
 
---Apple-Mail=_51080775-4EF5-4756-8666-99B71A0FD22F
-Content-Disposition: attachment;
-	filename=smime.p7s
-Content-Type: application/pkcs7-signature;
-	name=smime.p7s
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCAzYw
-ggMyMIICGqADAgECAgr4Fib7StCNw5mAMA0GCSqGSIb3DQEBCwUAMEcxFTATBgNVBAMTDE5hZGEg
-TGFjaHRhcjEhMB8GCSqGSIb3DQEJARYSbmxhY2h0YXJAdW1pY2guZWR1MQswCQYDVQQGEwJVUzAe
-Fw0yMjA1MDgxNDU3MDFaFw0yNzA1MDgxNDU3MDFaMEcxFTATBgNVBAMTDE5hZGEgTGFjaHRhcjEh
-MB8GCSqGSIb3DQEJARYSbmxhY2h0YXJAdW1pY2guZWR1MQswCQYDVQQGEwJVUzCCASIwDQYJKoZI
-hvcNAQEBBQADggEPADCCAQoCggEBAOAAW4/9skOX1gHcaAUVi8US7jOkQgbkO4Sl/AHyv9XLHWtH
-FxbUWkxnyMMycfulabjr4k0qvEwKJwFGik2UIS8AZc3qNYd5fASzmir+RQ+pxPZdgM1ezlDQdIyu
-bb/vlmEtedSefX5Cgddrv/h0j9NVWW0S8njcKsX5V9ph1o298+EKZy6EWIgaJJv8lTfb75JI64ik
-VVjxnSRCNbxXBYNvhFmrkHUdTul5+k7Qp7JN5vM72BGDK2MZX3tUaajFndl88Tah9SbY3ktTsiSW
-Ieo51rB21A0xH0Q7f8l5kpJIn6QkWAMtxC1gyI3vFMu7jVzT1TtlIivR+vaQBQVIOJcCAwEAAaMg
-MB4wDwYJKoZIhvcvAQEKBAIFADALBgNVHQ8EBAMCB4AwDQYJKoZIhvcNAQELBQADggEBAA61IZGc
-ivUG+h0HJuxWivLVEe/sV8bHqS/XjPb9YHEpPRS1giLj8uwdvu39EG6YpIgRfc4/K091z6Y58lBU
-vVhmoZ4anqZIEy8NE/TqMZn6KlUBNcBcmicSpdGUqPqkRVwiyB+EtinlCWMHmYcq7KAxs8EKPbgU
-0fQ9UuT+WhH95QknNCz1FofQCv6LnjNZMTjFiXy00Dv9Ygk2sW4DXzldzDGqB84C/eNP8AogWSwO
-nj8duv1LUY0b36vADY0uFQqo/Qwf5Bf3AgpAGLNJZO21QV6b763KTZRwQbJ5p88/nKhJdNTJ8tYu
-g7jzT2vKO61/DOvILmP1oRD88yAfbC4xggHrMIIB5wIBATBVMEcxFTATBgNVBAMTDE5hZGEgTGFj
-aHRhcjEhMB8GCSqGSIb3DQEJARYSbmxhY2h0YXJAdW1pY2guZWR1MQswCQYDVQQGEwJVUwIK+BYm
-+0rQjcOZgDANBglghkgBZQMEAgEFAKBpMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-hvcNAQkFMQ8XDTIyMTEzMDIyNTAwNlowLwYJKoZIhvcNAQkEMSIEIHHmpPMXywA0ZkSTYhbaYyNn
-S6QgDXq58tvloXEzZciRMA0GCSqGSIb3DQEBCwUABIIBAMVVCWyTQ23gTlkdQu+fmi5p9fgKZ9Ki
-+dYe9+RqoyScu538AB4naPt5cIATsyxB7a9Xcqz/XgQV5Bqtd/BOGrYi5xnVKJ8rFIHs+7O7goVH
-L9Sjcstm4X/nAni51sKuZjPb/wro/GfY4fNzgB1dR7RSJrT4bYCsOPvq3X2gUXWKP5ulbjZY/IDr
-cxgvkt8DPVmw1R8shCr9aigxyprh//kQ5mQZWflexFJs3KyhE120yDmzNO6pKfIKdGfzy2j4Dnv0
-umd82Wn/cs5roNEglW7WVuXqL1N/5xHAZZIcVGOvGk8y52ML7Ac962W1/zrJorxfvIaU/L9K3DqD
-ebIDVksAAAAAAAA=
---Apple-Mail=_51080775-4EF5-4756-8666-99B71A0FD22F--
+r~
 
