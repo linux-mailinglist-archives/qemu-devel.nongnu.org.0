@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC0D63D33C
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:23:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB58C63D340
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:24:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0KFH-0003h7-DV; Wed, 30 Nov 2022 05:23:15 -0500
+	id 1p0KGN-0005Ak-1o; Wed, 30 Nov 2022 05:24:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KFD-0003fm-W1
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:23:12 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KGM-0005Ac-1D
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:24:22 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KFB-0001PL-7o
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:23:11 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- o7-20020a05600c510700b003cffc0b3374so1046010wms.0
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:23:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KGK-0001U6-9M
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:24:21 -0500
+Received: by mail-wr1-x432.google.com with SMTP id f18so4251599wrj.5
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:24:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=JnJrOB+c2NQ0YB3wNFefCa8R3R+dx7TEY263HJKcXCE=;
- b=YAieyMeElgIJYA0LndIUDVfWgGJAJ1xaLCdOmSnepj3enCu/ZZOoxzJFNA6XFMXEw9
- 4j+iOYmhvrcvjcBFqFzwFu8vuBf0xuJNFiQQQfukQJsX3AvEsHQ75k4+U1ld4Wpr1Q69
- bySaZbSbz0Q4qYYyyxUfwdF4NGxZJ+If91x03lzUhdP7XzsShzFiIRiOXCUODo384x3Z
- RNyOZiIccFsZbDwAPaGoWT9MawSQr4lGbUl1MRc36TalVsqmLhYROJ7k49yvVOCB9sNo
- weXhSR5nk1WrvDO7vLtEQkQGLLdv3DkAeUFq9o9u1DmZzsFCi1dSACSBm593mewrHkrA
- WKkA==
+ bh=+ItxggoMrDrIqklyE82NEBNwge31CSjMxmwg8Xl1+Gs=;
+ b=hmoKN2/RbzH0s5t8LrJch8SVBIYt9YdAuc1mCiz4Zh4RcO1T/2Ry9GTIvp18LSRWhJ
+ 3tGDEjkj3lQiw2P7ZPtE/RZOnGJzkkjB5o+Cym+3OFF3Yx7o0zbxRXg1LliU8po00cGg
+ t/9iLCgiexptk/A2WWYYJKQrfHMsk3I+ZSPVTLJKZJFydWjovZTOmT3G6SXVhumj7llI
+ DFdQp7ssYuNy7kHJowjlZjJIV40v1+uvaIlL9Oe5W7mQBHlplgg+8DQjtPWPKINMCLUR
+ 9a5Bp+HWCydV7MbcDvpmvf19pzxSsrWazPMGMUiknquPwKVvRBbcuyPGJxjeqcjAysBR
+ FAkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JnJrOB+c2NQ0YB3wNFefCa8R3R+dx7TEY263HJKcXCE=;
- b=ubZXr+uHEKApTHHvAAmDtO5COeaNgRgXZBz//leFoO+nlBohvXjy8Y83svuP+N1/u0
- g8PQcupJhn+jj+mG5U7CPGkoqq0ropPW8pA2Hkn3uKiDYZEIqdgIF1rLoaY7rtGkK1kB
- GNyTmZHPYCIj0NjMcd/Fp2DWse2y7KVZwh/FJfwWZbsQxg1ltu3GtzWZ+LOJDKPxerGt
- t2eOh4TJVeWGTpYxwXNatB9NwtEM5zYY2VdZlY+ZVivo8ApuC+CseFcwucZfGmoyLIDu
- JGfRYWL1ioOI1AvU70NlpQ7F/T27TV8ZiwjtZhxO9YSquAndGECAwyptwZRIIHuqGz9a
- DiHw==
-X-Gm-Message-State: ANoB5pklSUAENpviqDFdqlij+/i3g0qYvfwrgiRwjMEyoq6HwV9VJOPn
- D8koGlfO1UMARzmKQfSHmnM5IA==
-X-Google-Smtp-Source: AA0mqf5/D6JUsK3NJugCbdG9PcdPqHU4VFo9NMpJ2XSHdAD//TFIbFH2sBwYVCZPGiJaEQqzOkqXhA==
-X-Received: by 2002:a05:600c:3587:b0:3cf:a9c2:2b04 with SMTP id
- p7-20020a05600c358700b003cfa9c22b04mr44055867wmq.152.1669803786611; 
- Wed, 30 Nov 2022 02:23:06 -0800 (PST)
+ bh=+ItxggoMrDrIqklyE82NEBNwge31CSjMxmwg8Xl1+Gs=;
+ b=Y2haOAqR03atgF+/bzoSSSketA9P0h/xiHmgSbIHrBDuiYzKHy8ob/LALnHXhieKaN
+ lN4JvbZ4WB6hi3LPkcoNvSD9cSg16qF/JAM8PhaeffbXH9V0qrHRz0dvWstrOV7FIfBg
+ /aXWi0cnt78RowIhxmdbPRW6TdHvP+ZLWhobuQeVSHl+wEVQLaYqzxMzN7Fcn3PwP54v
+ gSojmxcbTfTlhzJ3Oc7ogaxc79Q0KwFQyXxQsmUO5Eb1EcWAMQ77faRSYMwIK3wWCTHa
+ JR8ARp0eBJlSqbp3MVidxJcup1oOcrzKlyVkQK0fFt0rSvj9ME8sqMrDminsz7uJR7m+
+ oxGQ==
+X-Gm-Message-State: ANoB5plemmRWTfDsvy2aTe6SCU3KQ4j9VR2apL9ZYCy5VItPhq+/540J
+ 3MI0gER1foqn12T6kP7Ptqm6Kg==
+X-Google-Smtp-Source: AA0mqf6wfZmgy3BmJ1mqis4VyVk5hcA8pOv+Lkyn5xgxpShU/zbLCtjLGV58EVhynT1xTLKz4Azhgw==
+X-Received: by 2002:adf:e303:0:b0:22e:3c66:bda1 with SMTP id
+ b3-20020adfe303000000b0022e3c66bda1mr28806086wrj.139.1669803858714; 
+ Wed, 30 Nov 2022 02:24:18 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- f6-20020a0560001b0600b002415dd45320sm1094791wrz.112.2022.11.30.02.23.05
+ 16-20020a05600c22d000b003b497138093sm1348401wmg.47.2022.11.30.02.24.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:23:06 -0800 (PST)
-Message-ID: <3afda88a-bc5c-fb6f-941a-f4bf724ac0a1@linaro.org>
-Date: Wed, 30 Nov 2022 11:23:05 +0100
+ Wed, 30 Nov 2022 02:24:18 -0800 (PST)
+Message-ID: <82d8200d-0c53-eddd-3d99-03bb68969ec2@linaro.org>
+Date: Wed, 30 Nov 2022 11:24:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 7/7] hw/pci-host/pnv_phb3_msi: Convert
- TYPE_PHB3_MSI to 3-phase reset
+Subject: Re: [PATCH] docs/devel/reset.rst: Correct function names
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Greg Kurz
- <groug@kaod.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-ppc@nongnu.org
-References: <20221125115240.3005559-1-peter.maydell@linaro.org>
- <20221125115240.3005559-8-peter.maydell@linaro.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20221125140645.56490-1-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221125115240.3005559-8-peter.maydell@linaro.org>
+In-Reply-To: <20221125140645.56490-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -96,15 +91,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/11/22 12:52, Peter Maydell wrote:
-> Convert the TYPE_PHB3_MSI class to 3-phase reset, so we can
-> avoid using the device_class_set_parent_reset() function.
+On 25/11/22 15:06, Akihiko Odaki wrote:
+> resettable_class_set_parent_phases() was mistakenly called
+> resettable_class_set_parent_reset_phases() in some places.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   include/hw/ppc/xics.h      |  2 +-
->   hw/pci-host/pnv_phb3_msi.c | 15 +++++++++------
->   2 files changed, 10 insertions(+), 7 deletions(-)
+>   docs/devel/reset.rst | 17 ++++++++---------
+>   1 file changed, 8 insertions(+), 9 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
