@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE6A63D46A
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 12:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961EB63D475
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 12:29:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0LCq-0004LN-2l; Wed, 30 Nov 2022 06:24:48 -0500
+	id 1p0LGr-0000Ap-6J; Wed, 30 Nov 2022 06:28:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0LCn-0004KR-Ow
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:24:45 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ id 1p0LGo-0000AU-Ar
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:28:54 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0LCl-0004f3-W0
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:24:45 -0500
-Received: by mail-wr1-x433.google.com with SMTP id bs21so26568663wrb.4
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 03:24:43 -0800 (PST)
+ id 1p0LGm-0007Kn-Lw
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:28:54 -0500
+Received: by mail-wr1-x434.google.com with SMTP id bs21so26584944wrb.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 03:28:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=d70kMeIFAreRNq1P8Q9A13pWa2SZk/EgMzBIG4xKn9g=;
- b=gR7WQbt8TvLhqxViA1+f7PpR/2/B54W8gdmhQPwVgE59IHkZbCR1Go8fcyRtAnGsad
- Ot8d5XEZev1uPKEbST9LpG9tU/xpf98ieshFZuMwbtqK9H64JvSB2zFJBOi7uObhtoAA
- MDYDROfJVaaKpouFoY5+3D3M2tj1mnyN+RpOYb4JGAMHGPQRxUKINUAqsayVK4hvDNpO
- 8nTNys3ENYGyhutrWJ7iX6EWlQ6VVzAIpfUevSXPy/U5k13G9aPuN1NiZh8bFGv7TEle
- LH3Y24Fwjcc5uKEYow2VYJEHHaX11jf97sJoxnwDFXAhACsU2rx9rYX9+Ls1o+x53z52
- 8cEQ==
+ bh=TbnjGNviPSK9NHCQBEm1Nt++imUJcAe0chb4Eikv4u8=;
+ b=sucTL4zlSebZ8lFHQYb9WxdxiREZ1vld1beNTE6sNeCOC60exolYm+wtTOmhevN1Yl
+ r+yXIeUP/kYvTwmKGwWqDU1Pu4Oqz+E/k4mHhzipBjeaNKAByZ13TVxcUdhFdm+fzb6x
+ 8jMH/bI4bLRy2vrMy73zL8R9IxfeQHhoNTzXLxEDfLud/mHGLbzOCsxMBFBrcK1gaODR
+ o2DMnZO9Hb3FYUjEUjPidUUp2Lal5mcbOOXBUMKiOyJ2x7eK+Mx6eENuKs1D5wt6c0Fd
+ qV1Fq9CbD7QWzMNCSfmrkaiNVeCcD8c7dxWP2CtPRpKoN/hm+CFe/UxeR4lRyocViEnq
+ e4/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=d70kMeIFAreRNq1P8Q9A13pWa2SZk/EgMzBIG4xKn9g=;
- b=4Yympocwnugwl3ltm+lTV743BLB5mwmQMKCGceaJCrLTCio6LmjGAuDqEkwqZbAdXl
- pwjHuSfj6qCwJYRUybff1zzQVDMzCFvWiWOxxaiJPdhvofGDgxq5gcWyBJw9rG86ebCb
- H+AE4q2pYNZtaX7V7YtLyoVLcyw15ymrALSgkAawT86wv62jEbwIPTNVc+C9nosAy+iO
- Awe9CTbl1HV6L5imj1dzaWBmuhU9yBB+U7DZ6drrBchD2PrCxI+ngwiNeEwRBlgpT9EK
- pJQ6sp3gHInbtBLjyEo/hH86T8Hjb1rhaFX+0hvRyTsadEvMe8qt00R1zj/4kkXgYtks
- Op/Q==
-X-Gm-Message-State: ANoB5pkTFkP4/YV/esScpyktwMDiDipqv5tCg/DzvE9IUD9PGGUEWhSV
- qjbuV/fuzPXhDZmTaB0IgLAjGg==
-X-Google-Smtp-Source: AA0mqf5qlgFCpDj2pwO3Bi2qeforkx9yW/1v2JDl+fnryjZcbJY42x1Ao6OpCAI2R6MTqQ+EXnw4bg==
-X-Received: by 2002:a05:6000:60c:b0:242:10ac:6ab2 with SMTP id
- bn12-20020a056000060c00b0024210ac6ab2mr11265079wrb.552.1669807482586; 
- Wed, 30 Nov 2022 03:24:42 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=TbnjGNviPSK9NHCQBEm1Nt++imUJcAe0chb4Eikv4u8=;
+ b=m3GsG0aQvXErbpiEHCb5olqHfvSSqSY1ZNkV4buwlu89q4NfOCK++xpey8MxaHPPdI
+ JQmSXRl0ulqxhEhw/Yaf36jF0QEcld5rEOWNjiA2q2IAxWdXG3jy5cgtyOHiL1Wiles7
+ KMTlr0uxp2FOzJKa18d4kgKGUtSetydY9VttK3RWnzppMBK9FHT0vq22EgIn2sTFWms/
+ ScI1c+gF5pLFyhHw3N1TcY4pvK5q5LKC9LEguSR8y45xV+pksSwnumtJCYhz37yyipPQ
+ Uq5LAXdVtaZkwZWyScPiiRWGUqwVLIEC7b4m70R6lvhCIt4Aiqno0ViSu+hQisXIQPfq
+ b/cA==
+X-Gm-Message-State: ANoB5pmns2zlGTlV7t4sI5QXsyYu3j1n74Jx/mAUGFZYsEqEZLQMOzJk
+ MUWApZuyHFJAEFnp9jfCaxnEVw==
+X-Google-Smtp-Source: AA0mqf7qLG4o/Pw0dFc+q8mMOVvbUDI7lTeHpVwD3QG8tfMRVKTCPUwlIDE57BrNL9QdsF7b9p1PFA==
+X-Received: by 2002:adf:f146:0:b0:242:624:8cc5 with SMTP id
+ y6-20020adff146000000b0024206248cc5mr16113359wro.59.1669807730733; 
+ Wed, 30 Nov 2022 03:28:50 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- v128-20020a1cac86000000b003cfa80443a0sm1577944wme.35.2022.11.30.03.24.40
+ v14-20020a05600c444e00b003a1980d55c4sm5633616wmn.47.2022.11.30.03.28.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 03:24:41 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 055511FFBD;
- Wed, 30 Nov 2022 11:24:40 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- sgarzare@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-Subject: [PATCH v4 5/5] include/hw: VM state takes precedence in
- virtio_device_should_start
-Date: Wed, 30 Nov 2022 11:24:39 +0000
-Message-Id: <20221130112439.2527228-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221130112439.2527228-1-alex.bennee@linaro.org>
-References: <20221130112439.2527228-1-alex.bennee@linaro.org>
+ Wed, 30 Nov 2022 03:28:50 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E33B31FFB7;
+ Wed, 30 Nov 2022 11:28:49 +0000 (GMT)
+References: <20221128164105.1191058-1-alex.bennee@linaro.org>
+ <20221128164105.1191058-8-alex.bennee@linaro.org>
+ <4B9A0F71-8134-476F-ADFB-22FCFC142462@nutanix.com>
+ <20221129002939-mutt-send-email-mst@kernel.org>
+ <0D6478DF-5A53-43DA-9521-9EFD08CA1A59@nutanix.com>
+ <87wn7cd9f3.fsf@linaro.org>
+ <20221130052824-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.9.3; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "slp@redhat.com" <slp@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, Mathieu Poirier
+ <mathieu.poirier@linaro.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "open list:Block layer core"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH  v3 7/7] hw/virtio: generalise CHR_EVENT_CLOSED handling
+Date: Wed, 30 Nov 2022 11:28:36 +0000
+In-reply-to: <20221130052824-mutt-send-email-mst@kernel.org>
+Message-ID: <87sfi0d6ku.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,81 +106,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The VM status should always preempt the device status for these
-checks. This ensures the device is in the correct state when we
-suspend the VM prior to migrations. This restores the checks to the
-order they where in before the refactoring moved things around.
 
-While we are at it lets improve our documentation of the various
-fields involved and document the two functions.
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-Fixes: 259d69c00b (hw/virtio: introduce virtio_device_should_start)
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> On Wed, Nov 30, 2022 at 10:25:58AM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> Raphael Norwitz <raphael.norwitz@nutanix.com> writes:
+>>=20
+>> >> On Nov 29, 2022, at 12:30 AM, Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+>> >>=20
+>> >> On Tue, Nov 29, 2022 at 05:18:58AM +0000, Raphael Norwitz wrote:
+>> >>>> On Nov 28, 2022, at 11:41 AM, Alex Benn=C3=A9e <alex.bennee@linaro.=
+org> wrote:
+>> >>>>=20
+>> >>>> ..and use for both virtio-user-blk and virtio-user-gpio. This avoids
+>> >>>> the circular close by deferring shutdown due to disconnection until=
+ a
+>> >>>> later point. virtio-user-blk already had this mechanism in place so
+>> >>>=20
+>> >>> The mechanism was originally copied from virtio-net so we should
+>> >>> probably fix it there too. AFAICT calling vhost_user_async_close()
+>> >>> should work in net_vhost_user_event().
+>> >>>=20
+>> >>> Otherwise the code looks good modulo a few nits. Happy to see
+>> >>> the duplicated logic is being generalized.
+>> >>=20
+>> >> If you do, separate patch pls and does not have to block this series.
+>> >
+>> > If the series is urgent my comments can be addressed later.
+>>=20
+>> On the surface it looks similar but the vhost-net code doesn't deal in
+>> DeviceState opaques and also has invented a s->watch variable for
+>> manually removing gio sources. I'm not sure I'm confident I can
+>> re-factor this code and not break something so close to release.
+>
+> OK, that's fair.
 
----
-v3
-  - rm extra line
-  - fix fn name in comment for virtio_device_started()
----
- include/hw/virtio/virtio.h | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+See 20221130112439.2527228-1-alex.bennee@linaro.org for the v4 series.
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index a973811cbf..acfd4df125 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -116,6 +116,13 @@ struct VirtIODevice
-     bool broken; /* device in invalid state, needs reset */
-     bool use_disabled_flag; /* allow use of 'disable' flag when needed */
-     bool disabled; /* device in temporarily disabled state */
-+    /**
-+     * @use_started: true if the @started flag should be used to check the
-+     * current state of the VirtIO device. Otherwise status bits
-+     * should be checked for a current status of the device.
-+     * @use_started is only set via QMP and defaults to true for all
-+     * modern machines (since 4.1).
-+     */
-     bool use_started;
-     bool started;
-     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
-@@ -391,6 +398,16 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
-     return false;
- }
- 
-+/**
-+ * virtio_device_started() - check if device started
-+ * @vdev - the VirtIO device
-+ * @status - the devices status bits
-+ *
-+ * Check if the device is started. For most modern machines this is
-+ * tracked via the @vdev->started field (to support migration),
-+ * otherwise we check for the final negotiated status bit that
-+ * indicates everything is ready.
-+ */
- static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
- {
-     if (vdev->use_started) {
-@@ -411,15 +428,11 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
-  */
- static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
- {
--    if (vdev->use_started) {
--        return vdev->started;
--    }
--
-     if (!vdev->vm_running) {
-         return false;
-     }
- 
--    return status & VIRTIO_CONFIG_S_DRIVER_OK;
-+    return virtio_device_started(vdev, status);
- }
- 
- static inline void virtio_set_started(VirtIODevice *vdev, bool started)
--- 
-2.34.1
-
+--=20
+Alex Benn=C3=A9e
 
