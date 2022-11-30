@@ -2,78 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF7463CD29
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 03:08:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352E563CD20
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 03:08:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0CUz-0002Ax-8F; Tue, 29 Nov 2022 21:06:57 -0500
+	id 1p0CV0-0002BF-03; Tue, 29 Nov 2022 21:06:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1p0AZi-00083I-Fr
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 19:03:42 -0500
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1p0AZa-0004tx-Ll
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 19:03:41 -0500
-Received: by mail-lf1-x133.google.com with SMTP id d6so24496024lfs.10
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 16:03:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9LnWPuKtqHKtpKk06xgRc3yHBStzUkLPUQ6Q4gHALNk=;
- b=2g4/zJ7cxTfDlE/n4DOedlCyWUB8EONd1+VCLNH4oABl0NKGcAj6oTvkWpLUkj/WoI
- /sN+e42tIV4jCtbDN+vPv52Zl6f4JTQWbdnJVT2x4zzQB49h0yiwn6QlF8p92gW42rHi
- sMoxw02JgH0sF2M1mFipjKBjHSPjpwxxb0d+tH6Gbl2mfSN41Yk/1Gk/d9e6KJrbZlk7
- TWBxxXiS0hRbZbcTLbBu1GJnykHbMTlorDWq6KtRNbvY8HooMsMBgtqFXu2K7yYOWuKk
- oQt41+Z277fYqlVkESTHEK9QBRZM9hA58HYclW68ydP9UW6GrgauObxOfhydmRUiIZeG
- 1Hug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9LnWPuKtqHKtpKk06xgRc3yHBStzUkLPUQ6Q4gHALNk=;
- b=CuMeWI7SSZXtWczSyWeLX10NGJe8XoL1lHQg/sHd1nCQoJTgs/m5GzjAainFG5Yy3k
- 3zoCqMSo5J0l54D5g7hSyQcZjp7G2BuI8EYBeIwcrr8A3wv5cupvIgogj16OPq2HHQhi
- H8uo+DX4FgBmGoRetQNbiBffh57pAyb2K3n3G1mjGEKMwMw7dBU6NvjjFIa6zdhHkAjT
- OLEZ4IWWw+uS4smdddvBTYXacMfiJyKEHTd6punD1q/s96PdUurAsDi+kUJHJbfiCBDC
- YcGLGfstteYNZytTuxi5my0sNYfn6rYfPPmequ/4A45X/dFmqQPLsMVBJlXGREf56uuo
- 3xMQ==
-X-Gm-Message-State: ANoB5plUuMcmah7FBjSENwByywC5M1cBq0NxDh0arWrKl7RORCBB/z0D
- AyhgMx/2b4KqOB9mnMngJCwJFgMb8/ZZvXUE
-X-Google-Smtp-Source: AA0mqf6Dy/epY2hZvm2SkRrCBQo5LAUBqXdRnx4CIaOZAxMUsq2/JefnzbqKXK8fE7ZFb5dHAjDiGA==
-X-Received: by 2002:a05:6512:118b:b0:4a4:77a8:45a4 with SMTP id
- g11-20020a056512118b00b004a477a845a4mr19108742lfr.654.1669766612479; 
- Tue, 29 Nov 2022 16:03:32 -0800 (PST)
-Received: from vp-pc.. (46-138-224-213.dynamic.spd-mgts.ru. [46.138.224.213])
- by smtp.gmail.com with ESMTPSA id
- x17-20020a056512079100b004b4f4360407sm2399377lfr.105.2022.11.29.16.03.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 16:03:32 -0800 (PST)
-From: Viktor Prutyanov <viktor@daynix.com>
-To: pbonzini@redhat.com
-Cc: viktor.prutyanov@phystech.edu, yuri.benditovich@daynix.com, yan@daynix.com,
- qemu-devel@nongnu.org, viktor@daynix.com
-Subject: [PATCH v1 3/3] contrib/elf2dmp: add PE name check and Windows Server
- 2022 support
-Date: Wed, 30 Nov 2022 03:03:20 +0300
-Message-Id: <20221130000320.287976-4-viktor@daynix.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221130000320.287976-1-viktor@daynix.com>
-References: <20221130000320.287976-1-viktor@daynix.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::133;
- envelope-from=viktor@daynix.com; helo=mail-lf1-x133.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <zhangdongdong@eswincomputing.com>)
+ id 1p0CJB-0003OG-M0
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 20:54:45 -0500
+Received: from azure-sdnproxy.icoremail.net ([52.237.72.81])
+ by eggs.gnu.org with smtp (Exim 4.90_1)
+ (envelope-from <zhangdongdong@eswincomputing.com>)
+ id 1p0CJ9-0005PN-RH
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 20:54:45 -0500
+Received: from localhost.localdomain (unknown [10.12.130.38])
+ by app2 (Coremail) with SMTP id EggMCgCXaC3at4ZjYTEUAA--.25977S4;
+ Wed, 30 Nov 2022 09:54:34 +0800 (CST)
+From: Dongdong Zhang <zhangdongdong@eswincomputing.com>
+To: qemu-devel@nongnu.org
+Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com,
+ Dongdong Zhang <zhangdongdong@eswincomputing.com>
+Subject: [PATCH 0/1]  Fix some typos
+Date: Wed, 30 Nov 2022 09:53:57 +0800
+Message-Id: <20221130015358.6998-1-zhangdongdong@eswincomputing.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: EggMCgCXaC3at4ZjYTEUAA--.25977S4
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY87AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+ 6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+ kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8I
+ cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
+ Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
+ 6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72
+ CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
+ MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
+ Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+ 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
+ XdbUUUUUU==
+X-CM-SenderInfo: x2kd0wpgrqwvxrqjqvxvzl0uprps33xlqjhudrp/1tbiAQEGCmOGTnAIkQAAsO
+Received-SPF: pass client-ip=52.237.72.81;
+ envelope-from=zhangdongdong@eswincomputing.com;
+ helo=azure-sdnproxy.icoremail.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Tue, 29 Nov 2022 21:06:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,119 +70,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since its inception elf2dmp has checked MZ signatures within an
-address space above IDT[0] interrupt vector and took first PE image
-found as Windows Kernel.
-But in Windows Server 2022 memory dump this address space range is
-full of invalid PE fragments and the tool must check that PE image
-is 'ntoskrnl.exe' actually.
-So, introduce additional validation by checking image name from
-Export Directory against 'ntoskrnl.exe'.
+This patch mainly fixes some typos in the 'python' directory.
 
-Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
-Tested-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- contrib/elf2dmp/main.c | 28 ++++++++++++++++++++++++++--
- contrib/elf2dmp/pe.h   | 15 +++++++++++++++
- 2 files changed, 41 insertions(+), 2 deletions(-)
+Dongdong Zhang (1):
+  Fix some typos
 
-diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-index f3052b3c64..f7de82a03e 100644
---- a/contrib/elf2dmp/main.c
-+++ b/contrib/elf2dmp/main.c
-@@ -17,6 +17,7 @@
- 
- #define SYM_URL_BASE    "https://msdl.microsoft.com/download/symbols/"
- #define PDB_NAME    "ntkrnlmp.pdb"
-+#define PE_NAME     "ntoskrnl.exe"
- 
- #define INITIAL_MXCSR   0x1f80
- 
-@@ -400,6 +401,25 @@ static int write_dump(struct pa_space *ps,
-     return fclose(dmp_file);
- }
- 
-+static bool pe_check_export_name(uint64_t base, void *start_addr,
-+        struct va_space *vs)
-+{
-+    IMAGE_EXPORT_DIRECTORY export_dir;
-+    const char *pe_name;
-+
-+    if (pe_get_data_dir_entry(base, start_addr, IMAGE_FILE_EXPORT_DIRECTORY,
-+                &export_dir, sizeof(export_dir), vs)) {
-+        return false;
-+    }
-+
-+    pe_name = va_space_resolve(vs, base + export_dir.Name);
-+    if (!pe_name) {
-+        return false;
-+    }
-+
-+    return !strcmp(pe_name, PE_NAME);
-+}
-+
- static int pe_get_pdb_symstore_hash(uint64_t base, void *start_addr,
-         char *hash, struct va_space *vs)
- {
-@@ -484,6 +504,7 @@ int main(int argc, char *argv[])
-     uint64_t KdDebuggerDataBlock;
-     KDDEBUGGER_DATA64 *kdbg;
-     uint64_t KdVersionBlock;
-+    bool kernel_found = false;
- 
-     if (argc != 3) {
-         eprintf("usage:\n\t%s elf_file dmp_file\n", argv[0]);
-@@ -531,11 +552,14 @@ int main(int argc, char *argv[])
-         }
- 
-         if (*(uint16_t *)nt_start_addr == 0x5a4d) { /* MZ */
--            break;
-+            if (pe_check_export_name(KernBase, nt_start_addr, &vs)) {
-+                kernel_found = true;
-+                break;
-+            }
-         }
-     }
- 
--    if (!nt_start_addr) {
-+    if (!kernel_found) {
-         eprintf("Failed to find NT kernel image\n");
-         err = 1;
-         goto out_ps;
-diff --git a/contrib/elf2dmp/pe.h b/contrib/elf2dmp/pe.h
-index 807d006364..71126af1ac 100644
---- a/contrib/elf2dmp/pe.h
-+++ b/contrib/elf2dmp/pe.h
-@@ -88,6 +88,20 @@ typedef struct IMAGE_NT_HEADERS64 {
-     IMAGE_OPTIONAL_HEADER64 OptionalHeader;
- } __attribute__ ((packed)) IMAGE_NT_HEADERS64;
- 
-+typedef struct IMAGE_EXPORT_DIRECTORY {
-+    uint32_t    Characteristics;
-+    uint32_t    TimeDateStamp;
-+    uint16_t    MajorVersion;
-+    uint16_t    MinorVersion;
-+    uint32_t    Name;
-+    uint32_t    Base;
-+    uint32_t    NumberOfFunctions;
-+    uint32_t    NumberOfNames;
-+    uint32_t    AddressOfFunctions;
-+    uint32_t    AddressOfNames;
-+    uint32_t    AddressOfNameOrdinals;
-+} __attribute__ ((packed)) IMAGE_EXPORT_DIRECTORY;
-+
- typedef struct IMAGE_DEBUG_DIRECTORY {
-     uint32_t Characteristics;
-     uint32_t TimeDateStamp;
-@@ -102,6 +116,7 @@ typedef struct IMAGE_DEBUG_DIRECTORY {
- #define IMAGE_DEBUG_TYPE_CODEVIEW   2
- #endif
- 
-+#define IMAGE_FILE_EXPORT_DIRECTORY 0
- #define IMAGE_FILE_DEBUG_DIRECTORY  6
- 
- typedef struct guid_t {
+ python/qemu/machine/console_socket.py | 2 +-
+ python/qemu/machine/qtest.py          | 2 +-
+ python/qemu/qmp/protocol.py           | 2 +-
+ python/qemu/qmp/qmp_tui.py            | 6 +++---
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
 -- 
-2.35.1
+2.17.1
 
 
