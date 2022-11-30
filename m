@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBD963D469
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 12:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0961263D46B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 12:26:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0LCn-0004KP-R2; Wed, 30 Nov 2022 06:24:46 -0500
+	id 1p0LCo-0004KS-Gi; Wed, 30 Nov 2022 06:24:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0LCm-0004K2-Ha
+ id 1p0LCm-0004K3-AQ
  for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:24:44 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0LCj-0004ea-Tq
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:24:43 -0500
-Received: by mail-wr1-x429.google.com with SMTP id z4so26604740wrr.3
+ id 1p0LCj-0004ec-UC
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:24:44 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id w15so13375019wrl.9
  for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 03:24:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=CM4+dDDdgR4VfEundVQTjvmUg0RjtbFKuCf3XpeWvV8=;
- b=B7bwY+NxMcJ6aNrXZYlsXt8nuReqMR4lhV48IiYYtJR627L0pQZ97LCMG+zJsLdDnQ
- x52cDaGpQum0/+nB0r6JCA2AwZO9s3Myc+rJ/KnuxHVf6ZNpHkeJKM3W28uxtx4VaV1D
- +QkoXN0nSBwL2Ev8uJwZ0AGZFvNRp0wgVXMRWGqcxvWanD9IgDEgmluW5tzjm8fMQc5o
- lKUhBo85qsvC9VZXmX8nt0/ZBLnm9pT0x+5XD90FwuBesSS9HBP4WcR7iF5sdOWlbX71
- JReHFlfCT8Rv7vm8HMVhy2cqS0yEU4+eLXENBg+rciIzTM0y927Ix/UZ+3AUgU2uyzOd
- LOaA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iLViAVmTXWmym6+HoOtpECN9I84KF70sSJE6RSB6swQ=;
+ b=TMssN8SOZZbbPyCWKTbTjINvOms8RBYIV1DULI2ALB/bF/HK8t112Xwwa0SIVwgqvW
+ NdCO+buymEhNIg11pDoqKwj2F8bFKAPxwaUTLB/dYQv+avWLmGjMeKp3kIIYRPlkgTbu
+ oE4jEzkL6VlMaErhwfqrKSitwsmAgNKzVQlkQwjSFd8IbFhRPNClGcPipNVDx7Pw5bhs
+ BLA8un72GZaeewmzZvih6lh5USLs1rYFcEJf2ri6gepbSUWWEtUNhDmLDdeJGg2zAlQY
+ fsfkfWC/zTf31ASkL9ij90Zkpo8FbAX4bOCojylInu88mQYjo21rLZaSVTcRBAhjKf6l
+ Yu+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CM4+dDDdgR4VfEundVQTjvmUg0RjtbFKuCf3XpeWvV8=;
- b=NJj24lsr0Yku0b5HQHN/ir3nPqqDj31ouY2qJK3Ysk5p7/FZvFX6E/UvnsCIeYpPIf
- 3c2J8qKEjjkrr0cHIkeGv2rAeArSa7dei5faoPoAPPKuKIZrGSf0Bv8yr2Q+ogA4QVaP
- 53C5x8MPyhCfwiQ4rcfpzNNmm57m00iSDbiGiVzRYwGi9NJXyIq6nmj1PjmBtb40UxVM
- 7JWpz/gclspEBbXYLBqXjgvO/pGV8rIL1SA7vFGMPpByWryWI2XSjgB+Vw6rWc8RFtKN
- 5satYZlX1hTx/IRoXERyqaX6nVPfwWv0XG5JEa4hIsLJJi+IGx0BTqnhj/7neMe8ewn0
- K6/g==
-X-Gm-Message-State: ANoB5plrQXducUDhrmtWl4ztboulEP2T9MJLmkbtEPOXQ98i/Rb8Tf2Y
- NGIkrcJ43y72dSkWcArac9PhiA==
-X-Google-Smtp-Source: AA0mqf64LxAhzbG/NE7uhT6eR9qVv05cdJIuv6jyRf/aXcIWsW52xGzJ3foNhpWCMt6FFjxrUBvv6w==
-X-Received: by 2002:adf:ea4d:0:b0:22e:38b9:5d6d with SMTP id
- j13-20020adfea4d000000b0022e38b95d6dmr27508156wrn.276.1669807480116; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iLViAVmTXWmym6+HoOtpECN9I84KF70sSJE6RSB6swQ=;
+ b=LgFdFE7SfMwmxtdj6fURDN2biV8O0od+BN5ariUpbPPCDeODnc+8JKMA7+y7xsMgEn
+ ZHlyfYG1Wm7xFrX3zVl/Ubz6sPlaIA/rS4K/7wc+ymRHfOH4sgt/i7DcW7HWlQ02vGJR
+ tBz1ApYAJrr4FzmjyDf2KwRAkzQSDozib3x1kl6G4JGG7u0qHomYKerZDGdzid4A+lpL
+ CEiHgRC+CCdf6r805oQ3qN0ku4ITl9Se3WRFbrHWM5G4mTfXszdx0wjwCNybfSdLZ2s+
+ WdFKuhQzicHvyJJuOP45qpGmqHbPqF6l1lJydn0I/tG4rH31suTp658GXd2IYE+FiQ4E
+ NY1w==
+X-Gm-Message-State: ANoB5pkpSIUpb0Du/yiL0pMA3rXTwv+BuLtO+5+rk+Z8lrQpdM3VqjVw
+ HElDon6wLNY+B/zhTwnA8OnOjg==
+X-Google-Smtp-Source: AA0mqf6fQNVEmCIKtTMpxPbP0CVA80fihSNDSezY7ZMnFE5Mi8quykLO8boo5kGeYzw76A30K9qTHQ==
+X-Received: by 2002:adf:ecc6:0:b0:236:791e:cedb with SMTP id
+ s6-20020adfecc6000000b00236791ecedbmr37162591wro.64.1669807480490; 
  Wed, 30 Nov 2022 03:24:40 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c0a0a00b003c70191f267sm6104510wmp.39.2022.11.30.03.24.39
+ t1-20020a5d49c1000000b00241e4bff85asm1198989wrs.100.2022.11.30.03.24.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 03:24:39 -0800 (PST)
+ Wed, 30 Nov 2022 03:24:40 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57D211FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 6DB681FFB8;
  Wed, 30 Nov 2022 11:24:39 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
  sgarzare@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH for 7.2 v4 0/5] final vhost-user fixes
-Date: Wed, 30 Nov 2022 11:24:34 +0000
-Message-Id: <20221130112439.2527228-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 1/5] tests/qtests: override "force-legacy" for gpio
+ virtio-mmio tests
+Date: Wed, 30 Nov 2022 11:24:35 +0000
+Message-Id: <20221130112439.2527228-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221130112439.2527228-1-alex.bennee@linaro.org>
+References: <20221130112439.2527228-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,48 +99,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Michael,
+The GPIO device is a VIRTIO_F_VERSION_1 devices but running with a
+legacy MMIO interface we miss out that feature bit causing confusion.
+For the GPIO test force the mmio bus to support non-legacy so we can
+properly test it.
 
-Following feedback from the previous posting I've dropped the setting
-of host_features (probably and overfix while chasing other issues).
-I've re-ordered the series so the "VM state takes precedence" patch is
-the last one. I'm going to demur on fixing up vhost-net which on the
-surface looks like it should benefit from the CHR_EVENT_CLOSED
-re-factoring but is going to require more invasive tweaks to ensure we
-properly pass DeviceState to the helpers.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1333
+---
+ tests/qtest/libqos/virtio-gpio.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Please apply
-
-
-Alex Bennée (4):
-  tests/qtests: override "force-legacy" for gpio virtio-mmio tests
-  hw/virtio: add started_vu status field to vhost-user-gpio
-  hw/virtio: generalise CHR_EVENT_CLOSED handling
-  include/hw: VM state takes precedence in virtio_device_should_start
-
-Stefano Garzarella (1):
-  vhost: enable vrings in vhost_dev_start() for vhost-user devices
-
- include/hw/virtio/vhost-user-gpio.h | 10 ++++
- include/hw/virtio/vhost-user.h      | 18 ++++++++
- include/hw/virtio/vhost.h           |  6 ++-
- include/hw/virtio/virtio.h          | 23 ++++++++--
- backends/cryptodev-vhost.c          |  4 +-
- backends/vhost-user.c               |  4 +-
- hw/block/vhost-user-blk.c           | 45 +++---------------
- hw/net/vhost_net.c                  |  8 ++--
- hw/scsi/vhost-scsi-common.c         |  4 +-
- hw/virtio/vhost-user-fs.c           |  4 +-
- hw/virtio/vhost-user-gpio.c         | 26 +++++++----
- hw/virtio/vhost-user-i2c.c          |  4 +-
- hw/virtio/vhost-user-rng.c          |  4 +-
- hw/virtio/vhost-user.c              | 71 +++++++++++++++++++++++++++++
- hw/virtio/vhost-vsock-common.c      |  4 +-
- hw/virtio/vhost.c                   | 44 ++++++++++++++++--
- tests/qtest/libqos/virtio-gpio.c    |  3 +-
- hw/virtio/trace-events              |  4 +-
- 18 files changed, 205 insertions(+), 81 deletions(-)
-
+diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/virtio-gpio.c
+index 762aa6695b..f22d7b5eb5 100644
+--- a/tests/qtest/libqos/virtio-gpio.c
++++ b/tests/qtest/libqos/virtio-gpio.c
+@@ -154,7 +154,8 @@ static void virtio_gpio_register_nodes(void)
+     QOSGraphEdgeOptions edge_opts = { };
+ 
+     /* vhost-user-gpio-device */
+-    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test";
++    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test "
++        "-global virtio-mmio.force-legacy=false";
+     qos_node_create_driver("vhost-user-gpio-device",
+                             virtio_gpio_device_create);
+     qos_node_consumes("vhost-user-gpio-device", "virtio-bus", &edge_opts);
 -- 
 2.34.1
 
