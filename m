@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAE063D347
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:27:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A639F63D34A
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:28:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0KIX-00060z-6O; Wed, 30 Nov 2022 05:26:37 -0500
+	id 1p0KKT-0007yD-No; Wed, 30 Nov 2022 05:28:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KIV-00060e-AF
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:26:35 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KKS-0007xu-9m
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:28:36 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KIT-0001yu-Rz
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:26:35 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- m7-20020a05600c090700b003cf8a105d9eso1027312wmp.5
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:26:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KKQ-0002MX-OK
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:28:35 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i81-20020a1c3b54000000b003d070274a61so592262wma.3
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:28:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Oer1BpPdI9L/q5r3Sl0XSLMyghhmNUZg3zC6EqZdta4=;
- b=hcwTmnKLdXu6mdCPaxvaTubOzxG1gIieC3dRLi/UwHVAfFPEepVLie/2p/WAxMLqIp
- IBQJDQZqFi6GhkzwzMNIhvt1eOk/m8JGExXZ4sc2VlDNZkFEnH8WrJAa74b76Ek+PbJu
- 5zHse9qylLF/tiK2Y7gd145aNm6XB1LU0cLsQL18ZSc3JedXdBH9Er7JC4DS+OuvgWIh
- fD2yGaiS6fMXSTDen7fJHiUmUlLaAgnhNIMrjzVVJBijk1sUzGSYClkuXEnZ8EvecMoa
- 96sFUaSk3tV1B66vLw7p9jrDRO8Yb95zVSfoTC+660r9633YQlC+q3+cd6ItbJaAWW1f
- maEw==
+ bh=Tjn06gbRE4bodmjVg/GqCX0F7nG4EmA0qrgfMk8fzGs=;
+ b=BEelCUCSUEo18MhrRPHm0a2XfGIuhHU5ZdfJwojdQRu0/KZ8j3B6XOgOpz8EURRuIU
+ ZXMr7JVd8ifecJNuVhmjrf7tHU7YEU1oNgRVKY2hWpVTdU/j2aXz1w2N3XTp2+rwXVaR
+ psdxHdeVUJFzYQvGhmqbfYCWwO++WxiI9XEfrcoSsjWkuiLhsePgmTzb+dpVJgcJaEdd
+ KGhugcob7EII03vfhG2PjtDbGC06xUPQOIz4Gjt5XOm+b1mnGOLCtDgKSabUCCwQpJ3H
+ kIhMTzB50ZE1NSGN3LuCXzYp5vcSstyreblvnftw8tvPco6mF4Eg/FDNjNswbrZfUP0+
+ /FCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Oer1BpPdI9L/q5r3Sl0XSLMyghhmNUZg3zC6EqZdta4=;
- b=cNvdQwtdlv9HUa6NAhIl4zP0vhzYcxHV1c9aRko7XPXkGU893p7UtYEafS9h8NYDXp
- Bx5fx/8CJpeAHfN1jdr5mFD55LWyABeKusn25XYdXFL/qyrHAt/nL2B0NDAObbBniYJw
- oU8txPBlONW3sWTBeMgzF2jxhGzGtpTZKZ3LytIUWHboSeSWeQDkB+XUhuPW55Io2Vvw
- xOPkzoN9JuriS9oOOod3+iJQfW2Vq9y32yGQ9t9neSCZCTCOaG9DHEs5IIsl3+V3CdrU
- s2twQCClrk5VBUY7wCVUkkFOZnNeSwt9LTHzGwVvei7HcsY5Q6qsCu2lNXUKzav4/EtQ
- yZ+g==
-X-Gm-Message-State: ANoB5pkdnmmrgFHXZGzTQ3Nt8XLdCrl3WJF4WRpPBGgcDbBTxbuBTJl6
- JVvBWQNUcd8DFtWL7WAE5kKzUw==
-X-Google-Smtp-Source: AA0mqf4tzPaYNOOzfjtsCKpTiPuRJcz19jelFFauGoRn9Ii5SmLik2dy/Nmib4fnhOqiE2BC5dDnxQ==
-X-Received: by 2002:a05:600c:3d94:b0:3d0:552e:8d86 with SMTP id
- bi20-20020a05600c3d9400b003d0552e8d86mr12026221wmb.112.1669803992611; 
- Wed, 30 Nov 2022 02:26:32 -0800 (PST)
+ bh=Tjn06gbRE4bodmjVg/GqCX0F7nG4EmA0qrgfMk8fzGs=;
+ b=mbecgWw5PC5jSUY3y7f0Sd1kZfGyH3IofiQnhILvzUfWWdqqF34C+fiSDQtnEc9v0A
+ /cXA5MJCtHMV1sqyla3ofV/HGIe4Dw7qE6iPkOh1g+8KdQNlEQ+t6W93w7js03fwbEBD
+ Z2mkROKYyrz1P9fvK/hlIhX9l1GxLuezF7svmiOXz0ATxnZoOBGFcxotM5Y4zKrHrKOL
+ JqKG3E/8qNHK8dwPF9z/tXYL9Kz5DOxLTcp2mHl7xud0qxA/BOe2dhOcEMAWFeB6Mwxz
+ e5XDbK3FctyqWP6UEezXc/h7k9DSyC3otvsAfz7h8vwUGXuM3IhH+qAtHRnDRCdqzWvd
+ dRkQ==
+X-Gm-Message-State: ANoB5plFF8b50x987NpRpJMrt1AcidMdov2bh7SZp8vq5rEP9kOW8WN1
+ 0vHO/BrfRSUbWyr2uEWq8Q1Q5A==
+X-Google-Smtp-Source: AA0mqf79WzHnLVHSbDqPHo4tCzeM7UVeMpWcQRJbQCyt8551+FZ1fE9NM3+BJYKSGGzv2p3bXBtkyw==
+X-Received: by 2002:a7b:ce09:0:b0:3d0:6b76:4e67 with SMTP id
+ m9-20020a7bce09000000b003d06b764e67mr4008514wmc.147.1669804113116; 
+ Wed, 30 Nov 2022 02:28:33 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bg9-20020a05600c3c8900b003cf483ee8e0sm5513109wmb.24.2022.11.30.02.26.31
+ bk4-20020a0560001d8400b00241da0e018dsm1145890wrb.29.2022.11.30.02.28.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:26:32 -0800 (PST)
-Message-ID: <6fefaf2e-dc34-623d-6236-1abe55b694d2@linaro.org>
-Date: Wed, 30 Nov 2022 11:26:31 +0100
+ Wed, 30 Nov 2022 02:28:32 -0800 (PST)
+Message-ID: <3b67faaf-bab1-31f1-4dd5-5b9d87feddb5@linaro.org>
+Date: Wed, 30 Nov 2022 11:28:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v2] e1000: Configure ResettableClass
+Subject: Re: [PATCH for-8.0 2/9] hw/arm: Convert TYPE_ARM_SMMUV3 to 3-phase
+ reset
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20221125143233.60372-1-akihiko.odaki@daynix.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20221109161444.3397405-1-peter.maydell@linaro.org>
+ <20221109161444.3397405-3-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221125143233.60372-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20221109161444.3397405-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -92,19 +92,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/11/22 15:32, Akihiko Odaki wrote:
-> This is part of recent efforts of refactoring e1000 and e1000e.
+On 9/11/22 17:14, Peter Maydell wrote:
+> Convert the TYPE_ARM_SMMUV3 device to 3-phase reset.  The legacy
+> reset method doesn't do anything that's invalid in the hold phase, so
+> the conversion only requires changing it to a hold phase method, and
+> using the 3-phase versions of the "save the parent reset method and
+> chain to it" code.
 > 
-> DeviceClass's reset member is deprecated so migrate to ResettableClass.
-> Thre is no behavioral difference.
-
-Typo "There" (also in your e1000e v2 patch).
-
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/net/e1000.c | 13 ++++---------
->   1 file changed, 4 insertions(+), 9 deletions(-)
+>   include/hw/arm/smmuv3.h |  2 +-
+>   hw/arm/smmuv3.c         | 12 ++++++++----
+>   2 files changed, 9 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
