@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1FE63CDB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 04:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1FE63CE46
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 05:15:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0DWN-0000AH-LD; Tue, 29 Nov 2022 22:12:27 -0500
+	id 1p0ETn-00030O-B2; Tue, 29 Nov 2022 23:13:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1p0DWK-00009r-BW
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 22:12:24 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1p0DWH-0000lN-R6
- for qemu-devel@nongnu.org; Tue, 29 Nov 2022 22:12:24 -0500
-HMM_SOURCE_IP: 172.18.0.48:43214.1395830115
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id B5E3D2800DB;
- Wed, 30 Nov 2022 11:11:53 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([36.111.64.85])
- by app0024 with ESMTP id b7f623ed9f634691aa1554cba50bb438 for
- peterx@redhat.com; Wed, 30 Nov 2022 11:12:12 CST
-X-Transaction-ID: b7f623ed9f634691aa1554cba50bb438
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 36.111.64.85
-X-MEDUSA-Status: 0
-Message-ID: <7b0d655d-1f34-7a1b-3ba4-78cda6046d9e@chinatelecom.cn>
-Date: Wed, 30 Nov 2022 11:11:53 +0800
+ (Exim 4.90_1) (envelope-from <evgeny.v.ermakov@gmail.com>)
+ id 1p0ETl-000302-9O
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 23:13:49 -0500
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <evgeny.v.ermakov@gmail.com>)
+ id 1p0ETj-00024a-F3
+ for qemu-devel@nongnu.org; Tue, 29 Nov 2022 23:13:48 -0500
+Received: by mail-lj1-x22b.google.com with SMTP id x11so492023ljh.7
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 20:13:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7tRN4m8CZ5v+lV0I/k/knUEOFSHuCQturGSdXFO8MQQ=;
+ b=MSCvyYQ6D3wGiJSsfKJ7Z2cnb75uR7q81IZeM+vkbnyHf+AxtXHxmfiH7dN6XddRF2
+ QD1lReg7tN/t6Jy0mfVdWOA6DgxT+WidjdUPjO9XQgPqFGmaPorQcE3/bvJg+1zZhIOn
+ Pvb5jFGPqL/xV6zLyC1ro/rq0NrLf7cLzmNakZ+fyQlmcRWqC+g8tD9imcGDMf2L+sh6
+ OACwDayShjd6tfYHilYGr6DuwvMLnP2gIMDoFSHDr9khr7Qxp7wSj2OtU3w4GKYqs758
+ +1rMjy3DeE9Q78kHN79sfhKOssmr4s570CP2psYtq5Zw9qhSqIbBs445E6RnhXnPPX+U
+ nYJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7tRN4m8CZ5v+lV0I/k/knUEOFSHuCQturGSdXFO8MQQ=;
+ b=EpaZdHjauhDgdKSTSLWDl1V4PA1sd28Ro3rnhsqRk4ti0S7aHQn9ElztXQeVcVU/2+
+ XtNmv/nZvAh8SEFdBei3F9uIAL+IfkAY6YsQU4CNDKgoxCRf2K3+UfWMaUf0Kk6dte9B
+ hpv9Zk5qhSIYamp1jvL59M9Q047LWnPHkExiLJC6Gm8wFrRfmtBiI2JD2/cM+kmziV97
+ 31Zik5gy+taTjhZXqKGrb1aRZT8N5ivnBAZGmciFA1wbBZcjJN94sE7iVKvcoFohYewK
+ zF4ibPTIOiUygdLybLUI4rGsyQAMmDkSfrPC4ZWAwIs/W4/+Idzuuot+ET9IuLSUoig7
+ zVPg==
+X-Gm-Message-State: ANoB5pnQdJHypvghAHhJ+1RaWvy2wvKJZMjeVrSl7PEMiV1lLKrtYcOz
+ UFmvsoEEPuKvB1/nZ8sWw6D1WXZTwEw=
+X-Google-Smtp-Source: AA0mqf4SAsn7VAyFb+c7QbRN7MTs492ND1hUq6K5riXMsitCQ3gOMMkATAViCPAME/Q9weqIZIqkoA==
+X-Received: by 2002:a05:651c:1952:b0:26f:dfb2:9b9c with SMTP id
+ bs18-20020a05651c195200b0026fdfb29b9cmr17948562ljb.461.1669781625190; 
+ Tue, 29 Nov 2022 20:13:45 -0800 (PST)
+Received: from front.loc ([80.83.238.100])
+ by smtp.googlemail.com with ESMTPSA id
+ f27-20020a19381b000000b004a25468d86asm81737lfa.68.2022.11.29.20.13.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Nov 2022 20:13:44 -0800 (PST)
+From: Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
+To: qemu-devel@nongnu.org,
+	Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
+Subject: [PATCH 0/2] Implement something
+Date: Wed, 30 Nov 2022 15:12:57 +1100
+Message-Id: <20221130041259.12032-1-evgeny.v.ermakov@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 03/11] kvm-all: Do not allow reap vcpu dirty ring
- buffer if not ready
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster
- <armbru@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <cover.1669047366.git.huangy81@chinatelecom.cn>
- <cef36a9ceae0a67d746cfb459939d5886ab07bd9.1669047366.git.huangy81@chinatelecom.cn>
- <Y4aK3phFjJ1l9wnv@x1n>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <Y4aK3phFjJ1l9wnv@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.258,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=evgeny.v.ermakov@gmail.com; helo=mail-lj1-x22b.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,100 +85,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hello!
 
+Evgeny Ermakov (2):
+  hw/char: Add STM32F7 peripheral: USART
+  hw/input: Add FT5336 touch controller
 
-在 2022/11/30 6:42, Peter Xu 写道:
-> Hi, Yong,
-> 
-> On Mon, Nov 21, 2022 at 11:26:35AM -0500, huangy81@chinatelecom.cn wrote:
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> When tested large vcpu size vm with dirtylimit feature, Qemu crashed
->> due to the assertion in kvm_dirty_ring_reap_one, which assert that
->> vcpu's kvm_dirty_gfns has been allocated and not NULL.
->>
->> Because dirty ring reaper thread races with Qemu main thread, reaper
->> may reap vcpu's dirty ring buffer when main thread doesn't complete
->> vcpu instantiation. So add the waiting logic in reaper thread and
->> start to reap until vcpu instantiation is completed.
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> ---
->>   accel/kvm/kvm-all.c | 36 ++++++++++++++++++++++++++++++++++++
->>   1 file changed, 36 insertions(+)
->>
->> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->> index f99b0be..9457715 100644
->> --- a/accel/kvm/kvm-all.c
->> +++ b/accel/kvm/kvm-all.c
->> @@ -1401,6 +1401,35 @@ out:
->>       kvm_slots_unlock();
->>   }
->>   
->> +/*
->> + * test if dirty ring has been initialized by checking if vcpu
->> + * has been initialized and gfns was allocated correspondlingly.
->> + * return true if dirty ring has been initialized, false otherwise.
->> + */
->> +static bool kvm_vcpu_dirty_ring_initialized(void)
->> +{
->> +    CPUState *cpu;
->> +    MachineState *ms = MACHINE(qdev_get_machine());
->> +    int ncpus = ms->smp.cpus;
->> +
->> +    /*
->> +     * assume vcpu has not been initilaized if generation
->> +     * id less than number of vcpu
->> +     */
->> +    if (ncpus > cpu_list_generation_id_get()) {
->> +        return false;
->> +    }
->> +
->> +    CPU_FOREACH(cpu) {
->> +        if (!cpu->kvm_dirty_gfns) {
->> +            return false;
->> +        }
->> +    }
->> +
->> +    return true;
->> +}
->> +
->> +
->>   static void *kvm_dirty_ring_reaper_thread(void *data)
->>   {
->>       KVMState *s = data;
->> @@ -1410,6 +1439,13 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
->>   
->>       trace_kvm_dirty_ring_reaper("init");
->>   
->> +retry:
->> +    /* don't allow reaping dirty ring if ring buffer hasn't been mapped */
->> +    if (!kvm_vcpu_dirty_ring_initialized()) {
->> +        sleep(1);
-> 
-> The sleep here is probably not necessary.  Could you instead have a look at
-> the other much simpler patch?  
-Of course yes, this patch is much more graceful, i'll cherry pick it 
-next version.
-
-Here:
-> 
-> https://lore.kernel.org/qemu-devel/20220927154653.77296-1-peterx@redhat.com/
-> 
->> +        goto retry;
->> +    }
->> +
->>       while (true) {
->>           r->reaper_state = KVM_DIRTY_RING_REAPER_WAIT;
->>           trace_kvm_dirty_ring_reaper("wait");
->> -- 
->> 1.8.3.1
->>
->>
-> 
+ include/hw/char/stm32f7xx_usart.h |  30 +++
+ include/hw/input/ft5336.h         |  14 ++
+ hw/char/stm32f7xx_usart.c         | 361 ++++++++++++++++++++++++++++++
+ hw/input/ft5336.c                 | 357 +++++++++++++++++++++++++++++
+ hw/arm/Kconfig                    |   1 +
+ hw/char/Kconfig                   |   3 +
+ hw/char/meson.build               |   1 +
+ hw/char/trace-events              |   4 +
+ hw/input/Kconfig                  |   4 +
+ hw/input/meson.build              |   2 +
+ 10 files changed, 777 insertions(+)
+ create mode 100644 include/hw/char/stm32f7xx_usart.h
+ create mode 100644 include/hw/input/ft5336.h
+ create mode 100644 hw/char/stm32f7xx_usart.c
+ create mode 100644 hw/input/ft5336.c
 
 -- 
-Best regard
+2.38.1
 
-Hyman Huang(黄勇)
 
