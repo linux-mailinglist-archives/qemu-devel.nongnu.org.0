@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F221163D2F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BC863D2F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:15:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0K5R-0005wk-Iq; Wed, 30 Nov 2022 05:13:05 -0500
+	id 1p0K7F-0007PS-Ch; Wed, 30 Nov 2022 05:14:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K5O-0005wF-5j
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:13:02 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K7D-0007PC-U4
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:14:55 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K5M-0007xy-CL
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:13:01 -0500
-Received: by mail-wr1-x433.google.com with SMTP id y16so6521373wrm.2
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:12:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K7C-0008CD-6v
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:14:55 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id 5so12825470wmo.1
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YCfIQkgYPZXvXtZzEnXPBT7xyLqS1ZQYEYkmhjK1CUw=;
- b=xLpGoUaFbua2t4/0FgC1oH/ABb8nfVlZCejIb5/g7jcsg8tHNSKoS9MwwIne4ne9ov
- F9QTTa3/Vz+ajTjW1l298KHY9ga9E6ieDDH2lKvt0Teq2HRfzLnYh2PIAlZvvDfaWl8/
- JRl/I3DR8whODcdUEJiWfTosuF99ca96I2ZsU+o+e1DB/66fMGQP7qQWGlQCT/AZ7WJ8
- FxXtxNWdu3emYR+h7U5JczqrgjyJU+ielDPzvGjfIczQpVtkV5h/6K9Ijf0zWkVboGYC
- 6jL9xBCuu/kMg91GJ268ta74sNc7ACQr8NASxJH5INn6Dpf6NbdjvUsWnf1MXZVqjS0g
- GhhQ==
+ bh=ONs8zKFhD7zdhrL8x11ZNusE9Q3mVzImqZ2ouVxp5/g=;
+ b=sBbDKFv6D/162rXbOeWmUTJqQJdOsXsOt3HeVLuszmIJ2KRnQ1rbn3WGkitkLF8D4Q
+ 15E+eaaxnN/VT7zkKg/o4ctPIstQJx1ZmB2fZM6Z6wmKhXR4Ngur1OpM+PeEmY69OVRg
+ 6Dy2um1f6oyXxGlnJV/03uh6+We8+hqjw49SvIQwsgCgbDyd2Hhj4bb6gZFKgZ8meGkb
+ 4gX3dYAsea6Xq3SBZb5ET2e1w4kfp1Q/+n7fpALrAiXB1sEr1SB+6x1RQrMYhorGKBFe
+ pDzzT6CrLigtX5Omg+3sOtFMBgOqMHLbRIVN7EzurSF8jxD5snlSD5megu32d05j06AK
+ wUsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YCfIQkgYPZXvXtZzEnXPBT7xyLqS1ZQYEYkmhjK1CUw=;
- b=YOPeglGf9ZAFF++Fz9J97c9B8guB8YGOhtVVa2WJcqdCODH9syWkJhcqMua1VTI5Bu
- 6is5ArH1xV1l1Jpf0Pq/BEZDxxj3WZebJh+RLShq6wbmv56F0Yk5RDRPbLilZXqzjnpB
- 2g5AWQvBd3oCaba+jLekiN1rFdYDqkYV0zDdxAF2ThVVqlgfCl18t0QTerW/lWc29Jsq
- UQIC1KpM3cB6liaEKNYzARpJQy7+5mO+ckoBb9aCsmx/kWiJbylz3J253294+SzWw1Os
- t+8K7YBQm6wpVJroZ+7zXa7xfRhmfhU/QfrHY0wDijMGrBguwIU0atgqOWm+6RGfXyFV
- aqug==
-X-Gm-Message-State: ANoB5pn+3lFoT80KyERPXcWU+gMF64iNSH+Oug0hppUnNBgT+XlwKuYK
- om7otXRgiWSeNtWLgUUvpP9u/w==
-X-Google-Smtp-Source: AA0mqf53e9WEuCs548tksimNqApYERWZa5SC34P6Pt2Q3bs93AgjJui20TYR5ksv+qnxDZWkVWYBfQ==
-X-Received: by 2002:a5d:410c:0:b0:242:1c3c:63e5 with SMTP id
- l12-20020a5d410c000000b002421c3c63e5mr7456359wrp.272.1669803178815; 
- Wed, 30 Nov 2022 02:12:58 -0800 (PST)
+ bh=ONs8zKFhD7zdhrL8x11ZNusE9Q3mVzImqZ2ouVxp5/g=;
+ b=Nw9pAvEktfb6Jmo37hRI0BKjiEQRmMqcVEYVJA6a1ZLbf8RM0GU2kE/S9nLl3Dt8VF
+ hfTi1JtuVAXqufC7uHzg8YiTUUghRq8yRgY/JR9wSg5sNijol1M5ScwC7gbNaY4iItwB
+ M0UIcDX2/mxnrsR6ZCifRL1HKP5Akms2/eGt0lnTPHk4HzOXN0j5tgXSjRmwV8Xljtob
+ wghSGeWH6o6GbsGou7eWOi+lQxRHnUrBXI1RLhR7kb+Dwtl9GHjrFOnUSGdY9AFYIbgD
+ o0pkoR9fCTbDMiVoGx4xLSmHsxAAqkgkxAiV1UEzrv+Qk2dqilG43yb7FEa2l9ALEago
+ nCsA==
+X-Gm-Message-State: ANoB5pkbzOO86idbLhTO/5p+xs2agPWp4+1LabIvHinSwAFZ6TiHjHkO
+ lh/eud0rzYZYoW5qzBhw+bNjzw==
+X-Google-Smtp-Source: AA0mqf6go20mIJA94yob+d7ckdxGhxBuiNq7d+QwXm52nF5mJ1sXoVrzTA6aAsO+NYJuJ58WUTcbfw==
+X-Received: by 2002:a05:600c:524c:b0:3d0:1a32:e2a6 with SMTP id
+ fc12-20020a05600c524c00b003d01a32e2a6mr30541094wmb.132.1669803292613; 
+ Wed, 30 Nov 2022 02:14:52 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m28-20020a056000025c00b00242257f2672sm1076715wrz.77.2022.11.30.02.12.57
+ fn9-20020a05600c688900b003cf75213bb9sm4960191wmb.8.2022.11.30.02.14.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:12:58 -0800 (PST)
-Message-ID: <b1cc584d-be9c-f2bf-ccf4-6712652936f8@linaro.org>
-Date: Wed, 30 Nov 2022 11:12:56 +0100
+ Wed, 30 Nov 2022 02:14:52 -0800 (PST)
+Message-ID: <c3ae5f86-8be6-b25a-d0d9-188d3d2c1687@linaro.org>
+Date: Wed, 30 Nov 2022 11:14:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 6/9] hw/hyperv/vmbus: Use device_cold_reset() and
- bus_cold_reset()
+Subject: Re: [PATCH for-8.0 7/9] Replace use of qdev_reset_all() with
+ device_cold_reset()
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
@@ -70,13 +70,13 @@ Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
  qemu-ppc@nongnu.org
 References: <20221104161513.2455862-1-peter.maydell@linaro.org>
- <20221104161513.2455862-7-peter.maydell@linaro.org>
+ <20221104161513.2455862-8-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221104161513.2455862-7-peter.maydell@linaro.org>
+In-Reply-To: <20221104161513.2455862-8-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -100,29 +100,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/11/22 17:15, Peter Maydell wrote:
-> In the vmbus code we currently use the legacy functions
-> qdev_reset_all() and qbus_reset_all().  These perform a recursive
-> reset, starting from either a qbus or a qdev.  However they do not
-> permit any of the devices in the tree to use three-phase reset,
-> because device reset goes through the device_legacy_reset() function
-> that only calls the single DeviceClass::reset method.
+> The legacy function qdev_reset_all() performs a recursive reset,
+> starting from a qdev.  However, it does not permit any of the devices
+> in the tree to use three-phase reset, because device reset goes
+> through the device_legacy_reset() function that only calls the single
+> DeviceClass::reset method.
 > 
-> Switch to using the device_cold_reset() and bus_cold_reset()
-> functions.  These also perform a recursive reset, where first the
-> children are reset and then finally the parent, but they use the new
-> (...in 2020...) Resettable mechanism, which supports both the old
-> style single-reset method and also the new 3-phase reset handling.
+> Switch to using the device_cold_reset() function instead.  This also
+> performs a recursive reset, where first the children are reset and
+> then finally the parent, but it uses the new (...in 2020...)
+> Resettable mechanism, which supports both the old style single-reset
+> method and also the new 3-phase reset handling.
 > 
-> This should be a no-behaviour-change commit which just reduces the
-> use of a deprecated API.
+> This commit changes the five remaining uses of this function.
 > 
 > Commit created with:
->    sed -i -e 's/qdev_reset_all/device_cold_reset/g;s/qbus_reset_all/bus_cold_reset/g' hw/hyperv/*.c
+>   sed -i -e 's/qdev_reset_all/device_cold_reset/g' hw/i386/xen/xen_platform.c hw/input/adb.c hw/remote/vfio-user-obj.c hw/s390x/s390-virtio-ccw.c hw/usb/dev-uas.c
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/hyperv/vmbus.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   hw/i386/xen/xen_platform.c | 2 +-
+>   hw/input/adb.c             | 2 +-
+>   hw/remote/vfio-user-obj.c  | 2 +-
+>   hw/s390x/s390-virtio-ccw.c | 2 +-
+>   hw/usb/dev-uas.c           | 2 +-
+>   5 files changed, 5 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
