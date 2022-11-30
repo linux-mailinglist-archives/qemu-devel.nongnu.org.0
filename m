@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE61863D1C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 10:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7987A63D237
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 10:41:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0JKW-0005x3-7V; Wed, 30 Nov 2022 04:24:36 -0500
+	id 1p0JYq-0001SB-9H; Wed, 30 Nov 2022 04:39:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p0JKU-0005wj-Nl; Wed, 30 Nov 2022 04:24:34 -0500
+ id 1p0JYl-0001Rh-Ai
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 04:39:22 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p0JKT-0007qZ-8h; Wed, 30 Nov 2022 04:24:34 -0500
+ id 1p0JYi-00023V-MF
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 04:39:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=TtWM3lRAz2yFbpgRlGAbmEV3MNcA7vpFGDcPrEC8R2o=; b=fXWOCbnaOqm18S0/kkDSivkA9Q
- FvoXoJlV0YQXR4afJr0migNroQS7WWWvh0Q8MSUIf+Aw2svYkYGtF77sISbRYX6oS+70QU4QCEAgI
- ORxrc29GFsNlyEVUQv7MVTvUp21QIDausAl7zq8O/5tGTAoylRH80+Jwlkw2LxzD7j6PxB6nUbjh+
- Yzr056gmED3m62mqRcrii5r55rIOf2barki4cRoZF2Rr4j4msz7hhi6BDVUrOcjQ9kaIm0nVs4lW/
- jtmLC5mnQ9XIvhxFdLzptX6hfIfU4YFAGCfZAPJ0clCD2Lz5mEENS6txnjKet9ko/Iw6/4/IEY6KH
- grLZMKNZy+TgpYKARqWS5yd4XElDt4n913E2WTgQC+ayVJooeLb/lp3JJ6elZ3Hz1wXj/r252IYfO
- WQWXAgWJ21cdRuLBO9GDyb6Stkp58VCVdhIxM4hbj03GPCiJb2gWdd8eg/r1TdaFmVcPi22Ksjyp2
- Q0P8lwmzisCQDD/vxguWPbSDwB/5hqZGmDD4c66AkIVeQZnAsUQ8OJiEPUSXMyNkwizvFqzYZ0skB
- 6ly4ngEDZPbIbp4RPbn2LyLGJscmuYczxYP705B4KB7kP3eTRlKIjwcNMAj/BpSCJeSZkplEENowc
- lah4Y/gl7UYmfdECGxKwK86RyXkxT609ZNGu/XBII=;
+ bh=i5+ib9EMjHBYLYirNdX8OBxBzvlhdMXsFLVysEfDj1U=; b=n63KLbkN9ukhbXTMXVT7az6HPD
+ 3KhWvsNqckhpSuf3ZMTP0iFkXwddFZrRQg9wKilJJ4gOOTcbK7x+4YveoeXybyOwDlpDZpUWLYIuT
+ DM0G6laFrSivwiHnvKqYH60lykdAivEe0hg+vGLT4MgyAVTVEVNBUzcOxNM/83bs07k7gJf3BMVCR
+ q5RffpmZ6NJ9RHYsIriaRH3V4NsYsdo9IzmczEm2XU07eCGAN51Fk5fE82Aw1DA6D0161w2eGDd0h
+ 18++SZcxSJ6ur562NGz0amABImDlxUTGSYvtccGP4bF1lmwuvDeUwJasjl5lS9IuLvgOfQsf3EMDz
+ waZ7aJEkjawLWLvVzROhl4XM6HsPlvaqdWZKs6Xm9XwW5yiz0MMUCoJibkiteXlS8kWIyGiilzFMz
+ 2F6Hqf5pnjRzdLxg8JAu0FLlfdbzfgfKMRNw4IgE2Vx1IPKekewiypk7sa0TqDkA8HXoF4F76HChA
+ OFfZ64y6+G5u9R4fEjCuRry7vqjMCsIe7vbe9CD94oNedu9PmxZ7prvYNQ8j5mJTDx+O4F6RAmrsM
+ 2RaEBaN8Yp5TjCkNv9x7jJ74gjL+CXHuxTNXxrCBjrmEyoExidzkzG1FC8/YBBnFstxm2NmNx55t2
+ esBYFG8fiRiZJUaIrCmUzT0KB/XWKUN2A9H8seEkw=;
 Received: from host86-149-46-27.range86-149.btcentralplus.com ([86.149.46.27]
  helo=[10.8.0.6])
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p0JJd-000AmR-D8; Wed, 30 Nov 2022 09:23:45 +0000
-Message-ID: <dbe2c845-077a-ab0c-6427-2ce2c56c9765@ilande.co.uk>
-Date: Wed, 30 Nov 2022 09:23:47 +0000
+ id 1p0JYT-000AsD-CS; Wed, 30 Nov 2022 09:39:05 +0000
+Message-ID: <4cbea399-41e4-fbc1-804e-73454e68f6e6@ilande.co.uk>
+Date: Wed, 30 Nov 2022 09:39:09 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Michael Rolnik <mrolnik@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>, Song Gao <gaosong@loongson.cn>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Laurent Vivier
- <laurent@vivier.eu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
- Stafford Horne <shorne@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20221124115023.2437291-1-peter.maydell@linaro.org>
- <20221124115023.2437291-18-peter.maydell@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20221128092555.37102-1-thuth@redhat.com>
+ <Y4TqEDYs+T4z6PX/@redhat.com>
+ <CABgObfbTBN3t-OttM9gm75yPv8-5GDrp0v_Zeob0u-mp4hSQBA@mail.gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20221124115023.2437291-18-peter.maydell@linaro.org>
+In-Reply-To: <CABgObfbTBN3t-OttM9gm75yPv8-5GDrp0v_Zeob0u-mp4hSQBA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.149.46.27
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH for-8.0 17/19] target/sparc: Convert to 3-phase reset
+Subject: Re: [PATCH v2 for-8.0 0/5] scripts/make-release: Decrease size of the
+ release tarballs
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -99,81 +87,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/11/2022 11:50, Peter Maydell wrote:
+On 28/11/2022 19:25, Paolo Bonzini wrote:
 
-> Convert the sparc CPU class to use 3-phase reset, so it doesn't
-> need to use device_class_set_parent_reset() any more.
+> Il lun 28 nov 2022, 18:04 Daniel P. Berrangé <berrange@redhat.com 
+> <mailto:berrange@redhat.com>> ha scritto:
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   target/sparc/cpu-qom.h |  4 ++--
->   target/sparc/cpu.c     | 12 ++++++++----
->   2 files changed, 10 insertions(+), 6 deletions(-)
+>     With my distro maintainer hat I would rather QEMU ship neither the
+>     ROM source, nor the ROM binaries.
 > 
-> diff --git a/target/sparc/cpu-qom.h b/target/sparc/cpu-qom.h
-> index 86ed37d9333..78bf00b9a23 100644
-> --- a/target/sparc/cpu-qom.h
-> +++ b/target/sparc/cpu-qom.h
-> @@ -35,7 +35,7 @@ typedef struct sparc_def_t sparc_def_t;
->   /**
->    * SPARCCPUClass:
->    * @parent_realize: The parent class' realize handler.
-> - * @parent_reset: The parent class' reset handler.
-> + * @parent_phases: The parent class' reset phase handlers.
->    *
->    * A SPARC CPU model.
->    */
-> @@ -45,7 +45,7 @@ struct SPARCCPUClass {
->       /*< public >*/
->   
->       DeviceRealize parent_realize;
-> -    DeviceReset parent_reset;
-> +    ResettablePhases parent_phases;
->       sparc_def_t *cpu_def;
->   };
->   
-> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-> index 4c3d08a8751..1734ef8dc6b 100644
-> --- a/target/sparc/cpu.c
-> +++ b/target/sparc/cpu.c
-> @@ -28,14 +28,16 @@
->   
->   //#define DEBUG_FEATURES
->   
-> -static void sparc_cpu_reset(DeviceState *dev)
-> +static void sparc_cpu_reset_hold(Object *obj)
->   {
-> -    CPUState *s = CPU(dev);
-> +    CPUState *s = CPU(obj);
->       SPARCCPU *cpu = SPARC_CPU(s);
->       SPARCCPUClass *scc = SPARC_CPU_GET_CLASS(cpu);
->       CPUSPARCState *env = &cpu->env;
->   
-> -    scc->parent_reset(dev);
-> +    if (scc->parent_phases.hold) {
-> +        scc->parent_phases.hold(obj);
-> +    }
->   
->       memset(env, 0, offsetof(CPUSPARCState, end_reset_fields));
->       env->cwp = 0;
-> @@ -889,12 +891,14 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
->       SPARCCPUClass *scc = SPARC_CPU_CLASS(oc);
->       CPUClass *cc = CPU_CLASS(oc);
->       DeviceClass *dc = DEVICE_CLASS(oc);
-> +    ResettableClass *rc = RESETTABLE_CLASS(oc);
->   
->       device_class_set_parent_realize(dc, sparc_cpu_realizefn,
->                                       &scc->parent_realize);
->       device_class_set_props(dc, sparc_cpu_properties);
->   
-> -    device_class_set_parent_reset(dc, sparc_cpu_reset, &scc->parent_reset);
-> +    resettable_class_set_parent_phases(rc, NULL, sparc_cpu_reset_hold, NULL,
-> +                                       &scc->parent_phases);
->   
->       cc->class_by_name = sparc_cpu_class_by_name;
->       cc->parse_features = sparc_cpu_parse_features;
+> 
+> Annd since QEMU can finally cross compile its embedded firmware modules, too, it is 
+> now easier for distros not to use any prebuilt binary.
+> 
+> However some firmware sources are only available from QEMU's submodules. So either we 
+> distribute those submodules as separate tarballs, or distros would need to use the 
+> bundled tarball as well.
+> 
+> Separately, I am not even sure what compiler is needed for the old Macintosh ROMs...
+> 
+> Paolo
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+I can quickly summarise what is needed for the ROMs that I'm involved with:
+
+- OpenBIOS is currently built using the builder docker image hosted at 
+https://github.com/openbios/openbios/pkgs/container/openbios-builder which is based 
+upon the kernel crosstool archives.
+
+I initially tried using the QEMU docker cross-compilers, however whilst the builds 
+work the binaries generated would crash early for PPC/SPARC64. I suspect it's likely 
+because of specific patches applied by Debian or the options used for the build but 
+didn't really dig into it further.
+
+- qemu_vga.ndrv is a tricky one: it's actually built by Metrowerks CodeWarrior 
+running in an OS 9 VM in QEMU!
+
+There is a project called Retro68 (https://github.com/autc04/Retro68) which is a port 
+of gcc for 68k/ppc Macs which could potentially be used, however it would need 
+conversion of the driver from Metrowerks to gcc, and also likely require the use of 
+Apple's MPW headers which were free to distribute but whose copyright status is 
+currently undetermined.
 
 
 ATB,
