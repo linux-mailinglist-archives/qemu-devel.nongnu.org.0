@@ -2,73 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7C863E2A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 22:22:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7616A63E301
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:00:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0UWu-0008Rk-0n; Wed, 30 Nov 2022 16:22:08 -0500
+	id 1p0V5x-0007nr-RL; Wed, 30 Nov 2022 16:58:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p0UWg-0008P8-CQ
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 16:21:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1p0V5v-0007nh-Nx
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 16:58:19 -0500
+Received: from mail-co1nam11on20605.outbound.protection.outlook.com
+ ([2a01:111:f400:7eab::605]
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p0UWd-0001Yd-NN
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 16:21:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669843310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xu6XuanUm3d7n8rzzjoQ1QlEaPiHTMaSMI2Zf+dYuXc=;
- b=GXG8hDZBvWc+eD+FJeT5vJ26/1axrTHv2KPzYvi9fehVLXn/Tb2hdBT6S0mJudxllYeVn+
- G6PBd4QyeJbV5qryKW7LEXFeEopaqd6jV482dECOdPTAhWvAkGFcF/GkcyLm6/OJUpYm+K
- bUuIXzue42IEATdHhfeBAo3PmChgxCo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-K6yA1xkTOaS6H8X_bTfiog-1; Wed, 30 Nov 2022 16:21:49 -0500
-X-MC-Unique: K6yA1xkTOaS6H8X_bTfiog-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0AEAE3C3C16E;
- Wed, 30 Nov 2022 21:21:47 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 632262024CBE;
- Wed, 30 Nov 2022 21:21:46 +0000 (UTC)
-Date: Wed, 30 Nov 2022 16:21:42 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, mathieu.poirier@linaro.org,
- viresh.kumar@linaro.org, sgarzare@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>
-Subject: Re: [PATCH  v4 4/5] hw/virtio: generalise CHR_EVENT_CLOSED handling
-Message-ID: <Y4fJZhRgpAH4NVVP@fedora>
-References: <20221130112439.2527228-1-alex.bennee@linaro.org>
- <20221130112439.2527228-5-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1p0V5s-00088H-G7
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 16:58:19 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dZRBrIdCbcCIcVLf1vBZf5e8xjSYvoY7dKAQGShiK9kEUFyP1FxXlLWRb0imJDHUjxWsL5IKSrvkBSvwrl5gr6oWt/NA2cUlbVukfFKxkpzcwUub9OdKVAEmFVP/zMF6Ru09X3Y1p+CgXstpPOKjUTCpK0hFdZaNN2CjJcata8C3PYxMC1m0+6/evpLFdmyC0aRsQ0WLk7qdd5O2bS4YpJP0TGT3WxjzStlEiV0LM4VpNIdFR57GT+iLMzZEzYBDSvU4uK2nRt60Ti+1+0SDXi5C72yJnDHMjtvT39ZqXFmlzeBVXoGHH1u7jpy37GyYpNSrdfiAFDAXKTokzXc74Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qZsIwIx312uVkBOntI/Au29XyU8Mevof4l4Doer0DEI=;
+ b=dvrwkI9/kUDYX3uh03+KKrio1+1Nt/zZqVv1x+5fvTDl1XarGW4kDN4HhHcLiuOVD6n2M37B6YW7+6XwYRPzxlpZHKI6CLghxLwncLD9f+zcDXOHXjs4kndLKJ7blUqcUGzpks1K2yI7OLF2A5c+PIUBmLNobKHKrIp9AS0yrQwmlQzZ5qDh0H0WMWw9H7Ubtuisvs0UlMBqiGXM69ItHnK645hgbzZbHphpink4CTVfVHBrfWY9lnO8wdxw4DYc3kJy3SzfqTKgdv7EKyU8lrxubUtqyODLKd3OVB2fqj24F7Id6dOhMot4xNj3DUAMiLFcmXEyP5CKUi0CcbPDKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qZsIwIx312uVkBOntI/Au29XyU8Mevof4l4Doer0DEI=;
+ b=XdnQUUjACUo8YiXWI9MQbxFQ/1KpZn/0LLwYptsQrn8EAiWVq5X3TCoLgFUP0wlu6fh/GFAKCstD7+doDiPiP1cV8GZD1Di+fgUbPsh3JYF/pKsfIULoyFWvZLAsxZk6M1H/H6iMwUQkHm/9wH189vl3upkDYvLKq5z1s/A5Pj4=
+Received: from MW4P220CA0017.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::22)
+ by MN2PR12MB4453.namprd12.prod.outlook.com (2603:10b6:208:260::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Wed, 30 Nov
+ 2022 21:58:08 +0000
+Received: from CO1NAM11FT040.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:115:cafe::25) by MW4P220CA0017.outlook.office365.com
+ (2603:10b6:303:115::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23 via Frontend
+ Transport; Wed, 30 Nov 2022 21:58:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT040.mail.protection.outlook.com (10.13.174.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5857.17 via Frontend Transport; Wed, 30 Nov 2022 21:58:07 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 30 Nov
+ 2022 15:58:06 -0600
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YzYalxjZWhzIZj+w"
-Content-Disposition: inline
-In-Reply-To: <20221130112439.2527228-5-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Subject: [ANNOUNCE] QEMU 7.2.0-rc3 is now available
+From: Michael Roth <michael.roth@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <stefanha@gmail.com>
+Date: Wed, 30 Nov 2022 15:57:49 -0600
+Message-ID: <166984546967.2732.2402932198415114885@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT040:EE_|MN2PR12MB4453:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1f52481-ff36-415e-c203-08dad31df70d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: chdedJo2FhiYV5t+pXhlpxi2RCCBXJjgQFN37ZtlxIGltqEcFNHCKalMGGSvzosdEbUarw6Wp+VbWlQuuyNpMPPc64zCIIyM31y8SrYhCHHwehkRM84295h9IBoLFQQ+WcVMxvl9B5PUsc5j0+w/l2TyBMcifLmtdE0a1aMaAh1Aso7m6QbgY9abaMiaI+AMPpFrP7IX6BJ4pHUD80oy8CjeBNlLRF78YEv424XgR8TphfpnDDX4426SyLUzvOFkR3PsadjQ+fVHnIj/O6cTRQsdsPEWVJWMBM+DwyirnD1JJOvpZoLmUDsSStP1reKtTyzMZ9WURFE6hBTjI82DsdjHRDQa2pmB1pz6brZLGvJhejZSVbNgI+USd+c352WD/AGWSvMfFSvrU8zF2rbyU1VHLv6NOSpFIPTWLEYb2ktX8cdIBLvc8lgcf5T5sxbpaoCi0M6oZ7GgS93kOhBONqvlKh6c3wCVoRjCsqns0PaHXz/uJ9m+3eijS9trI1UxsSCrW68ankYkrp6wMsF5zzBdf53lXq0ml9rXsCP0Mt4S7YuLG1jwmw0dKheMPMm/TuakAIoHzRfWRuE0wL/dG8habgZFYvvBC5Bu38LePycaFXhNv2os62VOlJwPoRDM0oBYX0g1M8mFrc/0aI/W7pn4ayHYixfnypKfUrnJQUqRmqk0ePMZJcmibODeIOo7KMsRIB/JAiwbdJJY/8oyVR9SAIANcySXmeOiA/mCKVEek58UIPgvxBiVs4V+mOGvP9dwOs7yZiGl0yRhn+WjWCHkOnWYnvIdHx7LlM6aQaJW8UNv0qBe07xzM9xZgtzL
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(39860400002)(136003)(396003)(346002)(451199015)(46966006)(36840700001)(40470700004)(41300700001)(5660300002)(36756003)(86362001)(70206006)(8936002)(336012)(26005)(186003)(16526019)(2616005)(316002)(40460700003)(4326008)(6916009)(6666004)(40480700001)(70586007)(426003)(36860700001)(82740400003)(2906002)(44832011)(47076005)(66574015)(8676002)(82310400005)(83380400001)(356005)(478600001)(966005)(81166007)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2022 21:58:07.7170 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1f52481-ff36-415e-c203-08dad31df70d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT040.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4453
+Received-SPF: softfail client-ip=2a01:111:f400:7eab::605;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,300 +118,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hello,
 
---YzYalxjZWhzIZj+w
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On behalf of the QEMU Team, I'd like to announce the availability of the
+fourth release candidate for the QEMU 7.2 release. This release is meant
+for testing purposes and should not be used in a production environment.
 
-On Wed, Nov 30, 2022 at 11:24:38AM +0000, Alex Benn=E9e wrote:
-> ..and use for both virtio-user-blk and virtio-user-gpio. This avoids
-> the circular close by deferring shutdown due to disconnection until a
-> later point.
+  http://download.qemu-project.org/qemu-7.2.0-rc3.tar.xz
+  http://download.qemu-project.org/qemu-7.2.0-rc3.tar.xz.sig
 
-I thought re-entrancy was already avoided by Patch 3?
+A note from the maintainer:
 
-> virtio-user-blk already had this mechanism in place so
-> generalise it as a vhost-user helper function and use for both blk and
-> gpio devices.
->=20
-> While we are at it we also fix up vhost-user-gpio to re-establish the
-> event handler after close down so we can reconnect later.
+  Another release candidate will be published next week to include
+  vhost-user fixes that are currently being finalized.
 
-I don't understand how the BH is supposed to help. Normally BHs are used
-to defer processing while we're in a call stack of some depth. The
-callers still require the resource we want to free, so we scheduled a
-BH.
+You can help improve the quality of the QEMU 7.2 release by testing this
+release and reporting bugs using our GitLab issue tracker:
 
-That's not the case here. The CHR_EVENT_CLOSED callback is just another
-top-level event handler, not something that is called deep in a call
-stack.
+  https://gitlab.com/qemu-project/qemu/-/milestones/7#tab-issues
 
-This BH approach isn't safe against nested event loops (something that
-calls aio_poll() to wait), because now the BH can be invoked deep in a
-call stack.
+The release plan, as well a documented known issues for release
+candidates, are available at:
 
-That said, if Patch 3 isn't enough and this patch fixes a problem, then
-let's keep it for 7.2. It feels like a possibly incomplete solution and
-maybe something that should be solved differently in 8.0.
+  http://wiki.qemu.org/Planning/7.2
 
->=20
-> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> ---
->  include/hw/virtio/vhost-user.h | 18 +++++++++
->  hw/block/vhost-user-blk.c      | 41 +++-----------------
->  hw/virtio/vhost-user-gpio.c    | 11 +++++-
->  hw/virtio/vhost-user.c         | 71 ++++++++++++++++++++++++++++++++++
->  4 files changed, 104 insertions(+), 37 deletions(-)
->=20
-> diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-use=
-r.h
-> index c6e693cd3f..191216a74f 100644
-> --- a/include/hw/virtio/vhost-user.h
-> +++ b/include/hw/virtio/vhost-user.h
-> @@ -68,4 +68,22 @@ bool vhost_user_init(VhostUserState *user, CharBackend=
- *chr, Error **errp);
->   */
->  void vhost_user_cleanup(VhostUserState *user);
-> =20
-> +/**
-> + * vhost_user_async_close() - cleanup vhost-user post connection drop
-> + * @d: DeviceState for the associated device (passed to callback)
-> + * @chardev: the CharBackend associated with the connection
-> + * @vhost: the common vhost device
-> + * @cb: the user callback function to complete the clean-up
-> + *
-> + * This function is used to handle the shutdown of a vhost-user
-> + * connection to a backend. We handle this centrally to make sure we
-> + * do all the steps and handle potential races due to VM shutdowns.
-> + * Once the connection is disabled we call a backhalf to ensure
-> + */
-> +typedef void (*vu_async_close_fn)(DeviceState *cb);
-> +
-> +void vhost_user_async_close(DeviceState *d,
-> +                            CharBackend *chardev, struct vhost_dev *vhos=
-t,
-> +                            vu_async_close_fn cb);
-> +
->  #endif
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 1177064631..aff4d2b8cb 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -369,17 +369,10 @@ static void vhost_user_blk_disconnect(DeviceState *=
-dev)
->      vhost_user_blk_stop(vdev);
-> =20
->      vhost_dev_cleanup(&s->dev);
-> -}
-> =20
-> -static void vhost_user_blk_chr_closed_bh(void *opaque)
-> -{
-> -    DeviceState *dev =3D opaque;
-> -    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-> -    VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
-> -
-> -    vhost_user_blk_disconnect(dev);
-> +    /* Re-instate the event handler for new connections */
->      qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_eve=
-nt,
-> -                             NULL, opaque, NULL, true);
-> +                             NULL, dev, NULL, true);
->  }
-> =20
->  static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-> @@ -398,33 +391,9 @@ static void vhost_user_blk_event(void *opaque, QEMUC=
-hrEvent event)
->          }
->          break;
->      case CHR_EVENT_CLOSED:
-> -        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
-> -            /*
-> -             * A close event may happen during a read/write, but vhost
-> -             * code assumes the vhost_dev remains setup, so delay the
-> -             * stop & clear.
-> -             */
-> -            AioContext *ctx =3D qemu_get_current_aio_context();
-> -
-> -            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
-> -                    NULL, NULL, false);
-> -            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, o=
-paque);
-> -
-> -            /*
-> -             * Move vhost device to the stopped state. The vhost-user de=
-vice
-> -             * will be clean up and disconnected in BH. This can be usef=
-ul in
-> -             * the vhost migration code. If disconnect was caught there =
-is an
-> -             * option for the general vhost code to get the dev state wi=
-thout
-> -             * knowing its type (in this case vhost-user).
-> -             *
-> -             * FIXME: this is sketchy to be reaching into vhost_dev
-> -             * now because we are forcing something that implies we
-> -             * have executed vhost_dev_stop() but that won't happen
-> -             * until vhost_user_blk_stop() gets called from the bh.
-> -             * Really this state check should be tracked locally.
-> -             */
-> -            s->dev.started =3D false;
-> -        }
-> +        /* defer close until later to avoid circular close */
-> +        vhost_user_async_close(dev, &s->chardev, &s->dev,
-> +                               vhost_user_blk_disconnect);
->          break;
->      case CHR_EVENT_BREAK:
->      case CHR_EVENT_MUX_IN:
-> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-> index be9be08b4c..b7b82a1099 100644
-> --- a/hw/virtio/vhost-user-gpio.c
-> +++ b/hw/virtio/vhost-user-gpio.c
-> @@ -233,6 +233,8 @@ static int vu_gpio_connect(DeviceState *dev, Error **=
-errp)
->      return 0;
->  }
-> =20
-> +static void vu_gpio_event(void *opaque, QEMUChrEvent event);
-> +
->  static void vu_gpio_disconnect(DeviceState *dev)
->  {
->      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-> @@ -245,6 +247,11 @@ static void vu_gpio_disconnect(DeviceState *dev)
-> =20
->      vu_gpio_stop(vdev);
->      vhost_dev_cleanup(&gpio->vhost_dev);
-> +
-> +    /* Re-instate the event handler for new connections */
-> +    qemu_chr_fe_set_handlers(&gpio->chardev,
-> +                             NULL, NULL, vu_gpio_event,
-> +                             NULL, dev, NULL, true);
->  }
-> =20
->  static void vu_gpio_event(void *opaque, QEMUChrEvent event)
-> @@ -262,7 +269,9 @@ static void vu_gpio_event(void *opaque, QEMUChrEvent =
-event)
->          }
->          break;
->      case CHR_EVENT_CLOSED:
-> -        vu_gpio_disconnect(dev);
-> +        /* defer close until later to avoid circular close */
-> +        vhost_user_async_close(dev, &gpio->chardev, &gpio->vhost_dev,
-> +                               vu_gpio_disconnect);
->          break;
->      case CHR_EVENT_BREAK:
->      case CHR_EVENT_MUX_IN:
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index abe23d4ebe..8f635844af 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -21,6 +21,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
->  #include "qemu/sockets.h"
-> +#include "sysemu/runstate.h"
->  #include "sysemu/cryptodev.h"
->  #include "migration/migration.h"
->  #include "migration/postcopy-ram.h"
-> @@ -2670,6 +2671,76 @@ void vhost_user_cleanup(VhostUserState *user)
->      user->chr =3D NULL;
->  }
-> =20
-> +
-> +typedef struct {
-> +    vu_async_close_fn cb;
-> +    DeviceState *dev;
-> +    CharBackend *cd;
-> +    struct vhost_dev *vhost;
-> +} VhostAsyncCallback;
-> +
-> +static void vhost_user_async_close_bh(void *opaque)
-> +{
-> +    VhostAsyncCallback *data =3D opaque;
-> +    struct vhost_dev *vhost =3D data->vhost;
-> +
-> +    /*
-> +     * If the vhost_dev has been cleared in the meantime there is
-> +     * nothing left to do as some other path has completed the
-> +     * cleanup.
-> +     */
-> +    if (vhost->vdev) {
-> +        data->cb(data->dev);
-> +    }
-> +
-> +    g_free(data);
-> +}
-> +
-> +/*
-> + * We only schedule the work if the machine is running. If suspended
-> + * we want to keep all the in-flight data as is for migration
-> + * purposes.
-> + */
-> +void vhost_user_async_close(DeviceState *d,
-> +                            CharBackend *chardev, struct vhost_dev *vhos=
-t,
-> +                            vu_async_close_fn cb)
-> +{
-> +    if (!runstate_check(RUN_STATE_SHUTDOWN)) {
-> +        /*
-> +         * A close event may happen during a read/write, but vhost
-> +         * code assumes the vhost_dev remains setup, so delay the
-> +         * stop & clear.
-> +         */
-> +        AioContext *ctx =3D qemu_get_current_aio_context();
-> +        VhostAsyncCallback *data =3D g_new0(VhostAsyncCallback, 1);
-> +
-> +        /* Save data for the callback */
-> +        data->cb =3D cb;
-> +        data->dev =3D d;
-> +        data->cd =3D chardev;
-> +        data->vhost =3D vhost;
-> +
-> +        /* Disable any further notifications on the chardev */
-> +        qemu_chr_fe_set_handlers(chardev,
-> +                                 NULL, NULL, NULL, NULL, NULL, NULL,
-> +                                 false);
-> +
-> +        aio_bh_schedule_oneshot(ctx, vhost_user_async_close_bh, data);
-> +
-> +        /*
-> +         * Move vhost device to the stopped state. The vhost-user device
-> +         * will be clean up and disconnected in BH. This can be useful in
-> +         * the vhost migration code. If disconnect was caught there is an
-> +         * option for the general vhost code to get the dev state without
-> +         * knowing its type (in this case vhost-user).
-> +         *
-> +         * Note if the vhost device is fully cleared by the time we
-> +         * execute the bottom half we won't continue with the cleanup.
-> +         */
-> +        vhost->started =3D false;
-> +    }
-> +}
-> +
->  static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
->  {
->      if (!virtio_has_feature(dev->protocol_features,
-> --=20
-> 2.34.1
->=20
+Please add entries to the ChangeLog for the 7.2 release below:
 
---YzYalxjZWhzIZj+w
-Content-Type: application/pgp-signature; name="signature.asc"
+  http://wiki.qemu.org/ChangeLog/7.2
 
------BEGIN PGP SIGNATURE-----
+Thank you to everyone involved!
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmOHyWYACgkQnKSrs4Gr
-c8hs2wgAtCVCzHystVuSgjYm6PmYTdRmjmVIGczKP2Z/dVsP6/xriPYG9xUsAQHq
-CqejiYo9LM/WzM9h+UEk44ISxHcTtjrYoTvEpS8GjjV3Gr9YrQvs98HeoxyFIgmn
-XjOsotP9GaL/FVR96m5kgKVM7tL23m9BIoh34UM5lUfL1HMkuCKOPKFeww4np5GX
-b4VJO1nLke8BbiiUtEJmhFAsnfU8jV5XeEapGMYkNRVHgaFJvWO1XHEBPTWXp9bS
-2EqbJm7t5+1Pre1qJA3CrIcPcOBDwEneK+kihWyhiuPKK3SntQ129MIiuV06ED3V
-uto6uNi7lYof1lEqjJE/zLvU/MZqwA==
-=MQGz
------END PGP SIGNATURE-----
+Changes since rc2:
 
---YzYalxjZWhzIZj+w--
-
+c4ffd91aba: Update VERSION for v7.2.0-rc3 (Stefan Hajnoczi)
+475e56b630: target/arm: Set TCGCPUOps.restore_state_to_opc for v7m (Evgeny =
+Ermakov)
+7103895123: block-backend: avoid bdrv_unregister_buf() NULL pointer deref (=
+Stefan Hajnoczi)
+86fdb0582c: hw/display/qxl: Assert memory slot fits in preallocated MemoryR=
+egion (Philippe Mathieu-Daud=C3=A9)
+6dbbf05514: hw/display/qxl: Avoid buffer overrun in qxl_phys2virt (CVE-2022=
+-4144) (Philippe Mathieu-Daud=C3=A9)
+8efec0ef8b: hw/display/qxl: Pass requested buffer size to qxl_phys2virt() (=
+Philippe Mathieu-Daud=C3=A9)
+b1901de83a: hw/display/qxl: Document qxl_phys2virt() (Philippe Mathieu-Daud=
+=C3=A9)
+61c34fc194: hw/display/qxl: Have qxl_log_command Return early if no log_cmd=
+ handler (Philippe Mathieu-Daud=C3=A9)
+fb72e779eb: replay: Fix declaration of replay_read_next_clock (Richard Hend=
+erson)
+a704cb59fd: update seabios binaries to 1.16.1 (Gerd Hoffmann)
+ab1b2ba9c9: update seabios source from 1.16.0 to 1.16.1 (Gerd Hoffmann)
+ac14949821: Add G_GNUC_PRINTF to function qemu_set_info_str and fix related=
+ issues (Stefan Weil via)
+ec09f22d01: MAINTAINERS: Add subprojects/libvhost-user to section "vhost" (=
+Stefan Weil via)
+52a57d8d1f: libvhost-user: Add format attribute to local function vu_panic =
+(Stefan Weil via)
+7d4774e681: libvhost-user: Fix two more format strings (Stefan Weil via)
+8541bf452d: libvhost-user: Fix format strings (Stefan Weil via)
+266aaedc37: libvhost-user: Fix wrong type of argument to formatting functio=
+n (reported by LGTM) (Stefan Weil via)
+c23a956366: virtiofsd: Add `sigreturn` to the seccomp whitelist (Marc Hartm=
+ayer)
+7d3cf19548: hw/audio/intel-hda: Drop unnecessary prototype (Peter Maydell)
+3e95ef49e6: hw/audio/intel-hda: don't reset codecs twice (Peter Maydell)
+1dfb7a175f: hw/usb/hcd-xhci: Reset the XHCIState with device_cold_reset() (=
+Peter Maydell)
+64f1359bd0: ui/gtk: prevent ui lock up when dpy_gl_update called again befo=
+re current draw event occurs (Dongwon Kim)
+d68640f515: hw/usb/hcd-xhci.c: spelling: tranfer (Michael Tokarev)
+29e0bfffab: gtk: disable GTK Clipboard with a new meson option (Claudio Fon=
+tana)
+fb977a8174: Revert "usbredir: avoid queuing hello packet on snapshot restor=
+e" (Joelle van Dyne)
+4189af72dd: tests/avocado: use new rootfs for orangepi test (Alex Benn=C3=
+=A9e)
+9f083d6181: tests/qtest: Decrease the amount of output from the qom-test (T=
+homas Huth)
+72cf57b074: tests/avocado: Update the URLs of the advent calendar images (T=
+homas Huth)
 
