@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B765B63D3B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B7B63D3BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:47:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0Kbo-0001cb-P9; Wed, 30 Nov 2022 05:46:32 -0500
+	id 1p0Kch-0002MS-Lh; Wed, 30 Nov 2022 05:47:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Kbm-0001Ys-58
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:46:30 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KcX-0002K6-IL
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:47:20 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Kbk-0006BO-LN
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:46:29 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- i81-20020a1c3b54000000b003d070274a61so629108wma.3
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:46:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0KcV-0006IE-SA
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:47:17 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id g12so26386404wrs.10
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:47:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vsIHot7p+gI0Af7RvqMEDCnEIsJsHecZ8nVCVFEL558=;
- b=JetyPDNZzBJnqMxApjkVdhz+bvHagFiCMFkGig6WziKxsj+BeK5bpt4fqBsELwH9E3
- 0WkbUWRbv594YYz3MM5NmG9tSycRbOEeW1gd5OhqNQGslpUbaQgbx1zaKO25gG5vpvK5
- F8fusFacTQk5/lDXE8Jy8d8VknFbYCEGvJJPG6cLHV9KyU7AftqVf6J9+2h9nBoMcgkD
- 33GnC6nUekkNrNWpYe/+wdniHLHr0y12MWNhzgw0dJ8KQXcug0PU8hYvJCYEOIRS8D0f
- HO5KIVXMLvGJWZ82M6j9RrEO9JYgt68xam6mS7l9vjLes++nErvP4oHeODuvkhkSvdzZ
- 1/Hg==
+ bh=s9hB4hoILLf8G+7Qb/GWw6Q4Uu7/9Ww/CZmK2f22fJ4=;
+ b=ZDmPCc0zNSBzKvKGFnOrgu73d1QvYnYmszQ36KzFvkR+UxFCFvUJRJEza25hdhIMX0
+ f0HNyvIAwVsClTd1+233eaE+h0P6OeNRDn+USD7JZtQ4+k8l0pFLtuhrYXK95hSqq8Wp
+ 58rL1xLE9v35BI8Seo8u2f5RLdE6FdJ+1sozurDHas0wrl/nUinUywc/eGmVKH/syG3V
+ f5QIopy++OHi06excYq/Qq1nUrnshsddxt0NovNVZVJV47ibIwLw1MY7T4az1cbK8Yyc
+ 7mHeAYEAc17Qv8+ZCMNzaOEKgEjfCCDYeybSUPnNaFyGfcTi86cCX70F/XoR53dvu6cC
+ pJRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vsIHot7p+gI0Af7RvqMEDCnEIsJsHecZ8nVCVFEL558=;
- b=Bp2oc6WaTlH72Baz0NXZI4yp5Qn8H4RK2Rgpjz1Us4tT7fcbzVITRGnnT7FDhBc2Xh
- 3BKv7HTBf1ppx+wY+0G5GLOmR2L1RKj3CYE/ghJaHI922mqbiceSOh4ay/1Gen78ZTyB
- l/eYRIB1e63pHSkrsAyCXpdZhPoiJlIjMRzoJpbf6x546JQxznQP5qdurQYOlbKtJm/g
- beERsafCyufUoQ0zbZBGHhZUEn/g1wx8zGiNiU3gbQcevPX7keHECMHUA0UjvA5WKh5P
- 3o7HQ8UktyGnmFO5hUisF+2jEXXS/lvAp9qPbXhB7A3YitbhtoiYzHLLPH63FaXVs8n2
- 0R2g==
-X-Gm-Message-State: ANoB5pkoUEDzdPE4Mw6bq8fm2cNTTC0X3sHoFpx/BBkdpwQBeZhD+3eP
- 9L0xhlsZw8DYwKPEK+zEyRc0Dw==
-X-Google-Smtp-Source: AA0mqf4Cb0GCuuQXh9i44+xFCi5U3qMubokMjeC8qgc9imAfKf1jFZ7v42lERJ3BOX9G3TKC1szUmQ==
-X-Received: by 2002:a05:600c:4f82:b0:3cf:aa11:9394 with SMTP id
- n2-20020a05600c4f8200b003cfaa119394mr32241565wmq.183.1669805185919; 
- Wed, 30 Nov 2022 02:46:25 -0800 (PST)
+ bh=s9hB4hoILLf8G+7Qb/GWw6Q4Uu7/9Ww/CZmK2f22fJ4=;
+ b=VnRRyZPPd1LMaTnDimd93agcaxB25n6e/RWdQEHvyEIktjpcOcSgHT7CVDcCTBOiB8
+ 9xH2e2rajea49K7tiS5eHT1XVybireOTjc8VzSH1LxpYTK55ilLZ57ZVLiyQLcEz6LOI
+ xw0f4TWcAPppyQDeO0jPK8ZTD/wlhR7hBDCmqTBWdfsKvrYj0ERJDtXRR3IKoXWuWJG3
+ t8m16ThWut8LLlRC5/42mfxAZ102B4FqJNzSuW42Vz4QIB27APIbi6T7F5LsnRi6wKE7
+ BPtJSI6ZpmXLxxBc8j0U+e8bwNv9Psh+GREkOLr8UhYC1KCCYdFdRRARpRs7MgeQ3epQ
+ kgCQ==
+X-Gm-Message-State: ANoB5pmj7xBXM5fXEHXokzTpCwlLjpvpYhpkCXE8ovBe41ql13kOadAL
+ YpjrCnYW9oABopypDzNumt5fcdBjDr/FScCC
+X-Google-Smtp-Source: AA0mqf49slD8da7g6ZyVHQCVB9Kt02+ZBmR1+iNqdG6q8ZvoKHLQcEQLyIMtbxdh4DUa2EBLSYK2ZQ==
+X-Received: by 2002:adf:e581:0:b0:241:e715:394e with SMTP id
+ l1-20020adfe581000000b00241e715394emr24161654wrm.160.1669805231510; 
+ Wed, 30 Nov 2022 02:47:11 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h20-20020a05600c351400b003b47ff307e1sm1569605wmq.31.2022.11.30.02.46.24
+ j8-20020adfff88000000b0023677fd2657sm1187129wrr.52.2022.11.30.02.47.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:46:25 -0800 (PST)
-Message-ID: <4aa658f8-4c2f-c3a6-bc39-0d0aafdc0cb2@linaro.org>
-Date: Wed, 30 Nov 2022 11:46:24 +0100
+ Wed, 30 Nov 2022 02:47:11 -0800 (PST)
+Message-ID: <5da96cac-27ab-9c58-5029-1a41157d85c0@linaro.org>
+Date: Wed, 30 Nov 2022 11:47:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 2/7] hw/display/virtio-vga: Convert
- TYPE_VIRTIO_VGA_BASE to 3-phase reset
+Subject: Re: [PATCH v4] hw/loongarch/virt: Add cfi01 pflash device
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Greg Kurz
- <groug@kaod.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-ppc@nongnu.org
-References: <20221125115240.3005559-1-peter.maydell@linaro.org>
- <20221125115240.3005559-3-peter.maydell@linaro.org>
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
+References: <20221130100647.398565-1-yangxiaojuan@loongson.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221125115240.3005559-3-peter.maydell@linaro.org>
+In-Reply-To: <20221130100647.398565-1-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -96,18 +89,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/11/22 12:52, Peter Maydell wrote:
-> Convert the TYPE_VIRTIO_VGA_BASE class to 3-phase reset, so we
-> don't need to use device_class_set_parent_reset() any more.
+On 30/11/22 11:06, Xiaojuan Yang wrote:
+> Add cfi01 pflash device for LoongArch virt machine
 > 
-> Note that this is an abstract class itself; none of the subclasses
-> override its reset method.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->   hw/display/virtio-vga.h |  2 +-
->   hw/display/virtio-vga.c | 15 +++++++++------
->   2 files changed, 10 insertions(+), 7 deletions(-)
+>   hw/loongarch/Kconfig        |  1 +
+>   hw/loongarch/acpi-build.c   | 18 +++++++++++
+>   hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++
+>   include/hw/loongarch/virt.h |  5 +++
+>   4 files changed, 86 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
