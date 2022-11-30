@@ -2,92 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB5C63D49B
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 12:30:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA9263D52F
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:05:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0LHZ-0000rg-Ne; Wed, 30 Nov 2022 06:29:41 -0500
+	id 1p0Lo9-00077y-JU; Wed, 30 Nov 2022 07:03:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0LHX-0000r7-KG
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:29:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lkundrak@v3.sk>)
+ id 1p0Lo5-00076z-RC; Wed, 30 Nov 2022 07:03:18 -0500
+Received: from mail.v3.sk ([167.172.186.51] helo=shell.v3.sk)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0LHV-0007Zu-Sl
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 06:29:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669807777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xhTHkRrkfBn+9UPW8X87H40SuNwF7BSKvFvXipWIx1U=;
- b=MMI+hZNLVvPDSe2bKCCmh5852YbqQ09ZHlZ5kEgveXnmSgIXsiD2EMfGA7bwUwAHioxdKp
- fhT1lznqhWHtoUdNWx62NndokQPUw13L6ojbSeapwbQ2KNIPEsIULhYMyX/9N0W7C8vn91
- mvfPgi/IW1abnQCgefJU0Ux4KYmxd1g=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-245-fAqz5WbEPzie6ZUB36X4mQ-1; Wed, 30 Nov 2022 06:29:35 -0500
-X-MC-Unique: fAqz5WbEPzie6ZUB36X4mQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay19-20020a05600c1e1300b003cf758f1617so862678wmb.5
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 03:29:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xhTHkRrkfBn+9UPW8X87H40SuNwF7BSKvFvXipWIx1U=;
- b=qegd/1/MinfRYufV36XH2h3ibGat3Pc+FOB9qO5ZOD3+l9And8Cuuo3yXxJI6Lboxc
- EQl2lWuIEIE5qfCEFnuxNcid1+cBlgM43K5fQE0mHAJmYLGuhLJQH/Zu5UqNfQjXbGkJ
- mdGrShgnGLNjHqoN70KvRIo9id9O5ex2NC3QCHwuqJlQNl0/OYw0jtaHye+rVCjclELm
- XK4Ie5llQopSnqwJVGAaH/ooBuN/8lf/QMp0YDUsevEWDm28nW4OhvAHTLWBGpdWcrPk
- J3uySmFSaXHGlKcb4FzeUf66c7XlyxUP8J13ds3c8TaPnDuB/HYQikWrlTAt5i/Qy89K
- dLZg==
-X-Gm-Message-State: ANoB5pnuWE6ufvWhJD5UvwyLH/NVLxkxSCdvNl7KDdty2JagMp71eHab
- nyA64t65khHbA0k8VJQSRYnooufS583w7mk7v5Dts2q5XDl85YzbWPrxE0AdinPqjUVjhbVlWqV
- KVDS6KM2bXsItoD4=
-X-Received: by 2002:a5d:526b:0:b0:242:380:c10e with SMTP id
- l11-20020a5d526b000000b002420380c10emr17064509wrc.132.1669807774231; 
- Wed, 30 Nov 2022 03:29:34 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6MkKkAtgyrEF1+czab7JRDchDhM7KcWGyVYBZ4uReWeybxnjmWotNYW3WjTqEgaG3V4lqpZg==
-X-Received: by 2002:a5d:526b:0:b0:242:380:c10e with SMTP id
- l11-20020a5d526b000000b002420380c10emr17064498wrc.132.1669807773984; 
- Wed, 30 Nov 2022 03:29:33 -0800 (PST)
-Received: from [192.168.8.102] (tmo-073-221.customers.d1-online.com.
- [80.187.73.221]) by smtp.gmail.com with ESMTPSA id
- p21-20020a1c5455000000b003b4cba4ef71sm4968237wmi.41.2022.11.30.03.29.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 03:29:33 -0800 (PST)
-Message-ID: <db28b205-4797-4bc0-09c9-53d54c0ce268@redhat.com>
-Date: Wed, 30 Nov 2022 12:29:31 +0100
+ (Exim 4.90_1) (envelope-from <lkundrak@v3.sk>)
+ id 1p0Lo0-0005Jh-Cp; Wed, 30 Nov 2022 07:03:14 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id BE8A6DCFDC;
+ Wed, 30 Nov 2022 11:50:30 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id lwRdfU_COp87; Wed, 30 Nov 2022 11:50:29 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id CCE8ADD024;
+ Wed, 30 Nov 2022 11:50:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id C8GA1nTjk-x8; Wed, 30 Nov 2022 11:50:29 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+ by zimbra.v3.sk (Postfix) with ESMTPSA id 7B23DDCFDC;
+ Wed, 30 Nov 2022 11:50:29 +0000 (UTC)
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Lubomir Rintel <lkundrak@v3.sk>
+Subject: [RESEND PATCH] ide: Add 8-bit data mode
+Date: Wed, 30 Nov 2022 13:02:38 +0100
+Message-Id: <20221130120238.706717-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Tommy Wu <tommy.wu@sifive.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- jim.shu@sifive.com, frank.chang@sifive.com
-References: <20221130015444.1459842-1-tommy.wu@sifive.com>
- <20221130015444.1459842-4-tommy.wu@sifive.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 3/3] tests/qtest: sifive-e-aon-watchdog-test.c : Add
- QTest of watchdog of sifive_e
-In-Reply-To: <20221130015444.1459842-4-tommy.wu@sifive.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.258, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=167.172.186.51; envelope-from=lkundrak@v3.sk;
+ helo=shell.v3.sk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,79 +64,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/11/2022 02.54, Tommy Wu wrote:
-> Add some simple tests of the watchdog timer in the always-on domain device
-> of HiFive 1 rev b.
-> 
-> Signed-off-by: Tommy Wu <tommy.wu@sifive.com>
-> ---
-...
-> diff --git a/tests/qtest/sifive-e-aon-watchdog-test.c b/tests/qtest/sifive-e-aon-watchdog-test.c
-> new file mode 100644
-> index 0000000000..1f454c266a
-> --- /dev/null
-> +++ b/tests/qtest/sifive-e-aon-watchdog-test.c
-> @@ -0,0 +1,650 @@
+CompactFlash uses features 0x01 and 0x81 to enable/disable 8-bit data
+path. Implement them.
 
-I'd suggest to add at least add a SPDX identifier so that people know which 
-license this file has. A short comment on what is being tested here would 
-also be nice (though it is already quite obvious from the file name).
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+---
+ hw/ide/core.c             | 43 ++++++++++++++++++++++++++++++---------
+ include/hw/ide/internal.h |  1 +
+ 2 files changed, 34 insertions(+), 10 deletions(-)
 
-> +#include "qemu/osdep.h"
-> +#include "qemu/timer.h"
-> +#include "qemu/bitops.h"
-> +#include "libqtest-single.h"
-
-Note that libqtest-single.h restricts your code to testing with one QEMU 
-binary. If you want to write code that is a little bit more future-proof 
-(e.g. if some of the functions should be used with migration testing later 
-etc.), I'd suggest to get along without libqtest-single.h and pass the 
-QTestState around as a parameter of the functions.
-
-[...]
-> +static void test_wdogcfg(void)
-> +{
-> +    uint32_t tmp_cfg;
-> +
-> +    test_init();
-> +
-> +    tmp_cfg = readl(WDOG_BASE + WDOGCFG);
-> +    writel(WDOG_BASE + WDOGCFG, 0xFFFFFFFF);
-> +    g_assert(readl(WDOG_BASE + WDOGCFG) == tmp_cfg);
-> +
-> +    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-> +    writel(WDOG_BASE + WDOGCFG, 0xFFFFFFFF);
-> +    g_assert(0xFFFFFFFF == readl(WDOG_BASE + WDOGCFG));
-> +
-> +    tmp_cfg = readl(WDOG_BASE + WDOGCFG);
-> +    g_assert(15 ==
-> +             FIELD_EX32(tmp_cfg,
-> +                        AON_WDT_WDOGCFG,
-> +                        SCALE));
-> +    g_assert(1 ==
-> +             FIELD_EX32(tmp_cfg,
-> +                        AON_WDT_WDOGCFG,
-> +                         RSTEN));
-> +    g_assert(1 ==
-> +             FIELD_EX32(tmp_cfg,
-> +                        AON_WDT_WDOGCFG,
-> +                        ZEROCMP));
-> +    g_assert(1 ==
-> +             FIELD_EX32(tmp_cfg,
-> +                        AON_WDT_WDOGCFG,
-> +                        EN_ALWAYS));
-> +    g_assert(1 ==
-> +             FIELD_EX32(tmp_cfg,
-> +                        AON_WDT_WDOGCFG,
-> +                        EN_CORE_AWAKE));
-> +    g_assert(1 ==
-> +             FIELD_EX32(tmp_cfg,
-> +                        AON_WDT_WDOGCFG,
-> +                        IP0));
-
-Just a matter of taste, but at least I would prefer the statements on one 
-line as long as they still fit into 80 columns.
-
-  Thomas
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 39afdc0006..5d1039378f 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -1648,6 +1648,13 @@ static bool cmd_set_features(IDEState *s, uint8_t =
+cmd)
+=20
+     /* XXX: valid for CDROM ? */
+     switch (s->feature) {
++    case 0x01: /* 8-bit I/O enable (CompactFlash) */
++    case 0x81: /* 8-bit I/O disable (CompactFlash) */
++        if (s->drive_kind !=3D IDE_CFATA) {
++            goto abort_cmd;
++        }
++        s->io8 =3D !(s->feature & 0x80);
++        return true;
+     case 0x02: /* write cache enable */
+         blk_set_enable_write_cache(s->blk, true);
+         identify_data =3D (uint16_t *)s->identify_data;
+@@ -2374,12 +2381,20 @@ void ide_data_writew(void *opaque, uint32_t addr,=
+ uint32_t val)
+     }
+=20
+     p =3D s->data_ptr;
+-    if (p + 2 > s->data_end) {
+-        return;
+-    }
++    if (s->io8) {
++        if (p + 1 > s->data_end) {
++            return;
++        }
++
++        *p++ =3D val;
++    } else {
++        if (p + 2 > s->data_end) {
++            return;
++        }
+=20
+-    *(uint16_t *)p =3D le16_to_cpu(val);
+-    p +=3D 2;
++        *(uint16_t *)p =3D le16_to_cpu(val);
++        p +=3D 2;
++    }
+     s->data_ptr =3D p;
+     if (p >=3D s->data_end) {
+         s->status &=3D ~DRQ_STAT;
+@@ -2401,12 +2416,20 @@ uint32_t ide_data_readw(void *opaque, uint32_t ad=
+dr)
+     }
+=20
+     p =3D s->data_ptr;
+-    if (p + 2 > s->data_end) {
+-        return 0;
+-    }
++    if (s->io8) {
++        if (p + 1 > s->data_end) {
++            return 0;
++        }
+=20
+-    ret =3D cpu_to_le16(*(uint16_t *)p);
+-    p +=3D 2;
++        ret =3D *p++;
++    } else {
++        if (p + 2 > s->data_end) {
++            return 0;
++        }
++
++        ret =3D cpu_to_le16(*(uint16_t *)p);
++        p +=3D 2;
++    }
+     s->data_ptr =3D p;
+     if (p >=3D s->data_end) {
+         s->status &=3D ~DRQ_STAT;
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index b17f36df95..fc0aa81a88 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -402,6 +402,7 @@ struct IDEState {
+     uint8_t select;
+     uint8_t status;
+=20
++    bool io8;
+     bool reset_reverts;
+=20
+     /* set for lba48 access */
+--=20
+2.37.3
 
 
