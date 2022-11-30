@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6553363E088
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 20:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C707C63E0B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 20:26:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0SVq-0006Mo-GR; Wed, 30 Nov 2022 14:12:54 -0500
+	id 1p0Sgz-00087c-Hi; Wed, 30 Nov 2022 14:24:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0SVo-0006ML-5Y
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 14:12:52 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0SVl-0003wC-Fn
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 14:12:51 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id g12so28670477wrs.10
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 11:12:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cL+sRGZoTKHb0lwPFPXUuo+Os+NnC5WeFz385BhT+s8=;
- b=spNNc+xtM9EzDnRZyT2d4FeTHHr2zjevFmoTYW9DXwDjGmmEtfos+NltQeS9AGyVpN
- 3yohIeDxM6c/GUx25wcCu1yAq8L5WChzy12jopZbi+UFerqqNGtWNL1W1JsE4qDXvF8n
- u5QLHO1byHXOd+FfZWhc+Or22ERGhcMaeZIfsFNqbZ/2ljJ8qQwQvooVIqLmA+fHj2+0
- E7gkZvnH9wtN4LGpmEvAO9YHHQ1lnnoijxLkytw1FT+z+whzNQMBTrOGLbpwK32FRh3A
- Dbb9hPqkXRQdaWWU96O5RcA+1iIVyXM/nvEWBkwcv2BB8R8sVv3IWpQeK/7/bssiLPur
- Hggg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=cL+sRGZoTKHb0lwPFPXUuo+Os+NnC5WeFz385BhT+s8=;
- b=I1oDrVsIuvfK3UPWsOwVZKS78FTJwv4FznEX/lvaBe8hiRgRTp6VKG7kZlRlMIG6jN
- 6d/gbfKYUC+WwHZQnU4ZwTWJiS9YBtVGNiGufrLusRQTJQAlSUG78KrCfeHMEuLs92LV
- emJt3H89irHTTQE+KUN5zSZzOKWOrhNEncmFa3WI4DevOx8cmuftaAe3IWm6xY4yY0XP
- +zAknVaRf62T1WqfYSCMGsJH4LGyIGl2XDH21d5HlkUfy7XGql4oUo/8S1BNqxMtbpTg
- ZHoM4e4wIbuS8dx/f9kLcOfzCY2bZ5Mwo75rQzTfLld2VzjGOk4j8c4nX0H4t1A6Arr9
- a0ZA==
-X-Gm-Message-State: ANoB5pkI2TtejKobildpX4Eedxzqrn8kuVtQMdSRoZZRwCPdmRTq+neK
- UphWiAPOtqcKhA/awUc3IY7aOg==
-X-Google-Smtp-Source: AA0mqf5qaS6ryeTUichC9Ih12EsOGCsAXXyjvCm5sc7p1kR0oxyysGZml0pV0qRHtaLtH/Gulo+G6w==
-X-Received: by 2002:adf:dc85:0:b0:242:2ae7:c0cc with SMTP id
- r5-20020adfdc85000000b002422ae7c0ccmr3094845wrj.577.1669835567478; 
- Wed, 30 Nov 2022 11:12:47 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- g13-20020a05600c310d00b003a2f2bb72d5sm8149292wmo.45.2022.11.30.11.12.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 11:12:47 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C4C21FFB7;
- Wed, 30 Nov 2022 19:12:46 +0000 (GMT)
-References: <166982763526.10484.9925072056712598801-0@git.sr.ht>
-User-agent: mu4e 1.9.3; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: ~axelheider <axelheider@gmx.de>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
- daniel.thompson@linaro.org, ~axelheider <axelheider@git.sr.ht>,
- qemu-arm@nongnu.org
-Subject: Re: [PATCH qemu.git 0/1] hw/arm/virt: make second UART available
-Date: Wed, 30 Nov 2022 19:11:21 +0000
-In-reply-to: <166982763526.10484.9925072056712598801-0@git.sr.ht>
-Message-ID: <87o7socl3l.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <axelheider@gmx.de>)
+ id 1p0Sgx-000879-OQ; Wed, 30 Nov 2022 14:24:23 -0500
+Received: from mout.gmx.net ([212.227.17.22])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <axelheider@gmx.de>)
+ id 1p0Sgw-0005fH-0G; Wed, 30 Nov 2022 14:24:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1669836256; bh=uHqvc3aUN+Qb0anqE6jGw8PKnjUPlQ90+KzllaGdJHw=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=QppsumtWAvzneJHheDEaxeCoypUWbsbux6icFltmSXzaQzBATflpJQPbsUtRDk4/w
+ JnqqHV27Yyt4HQrz97RPB7kihaA/qOgmQ23Xhwb9fzbvTnTJHHzkKxyNLBOyhQ/1+s
+ U6TJAGi4Q6v2NTub8dJeW0EsPjsatIV8JPlePdfna6qLX7H116qqxDfwpxETQ5J8Jc
+ Aq6JDdL09EZMfr0/dIkWpzNknh3JguMSzatJG+32gjDvXob5eiXmqpCoCgkqrTVXVu
+ t1TnHxbuI/hkIBgVbCNknjED/yfUOQdtnM6qc5Wo+j9AkOzqTcGlYR3ly7MeccoKMy
+ 8TpFrb/tDScZw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost ([77.2.55.175]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MrhUK-1odCgm2IhI-00ngbV; Wed, 30
+ Nov 2022 20:24:16 +0100
+Message-ID: <6d0d9eee-b1b2-df62-1989-f29d53263af7@gmx.de>
+Date: Wed, 30 Nov 2022 20:24:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH qemu.git 0/1] hw/arm/virt: make second UART available
+Content-Language: de-DE
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, daniel.thompson@linaro.org,
+ ~axelheider <axelheider@git.sr.ht>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <166982763526.10484.9925072056712598801-0@git.sr.ht>
+ <87o7socl3l.fsf@linaro.org>
+From: Axel Heider <axelheider@gmx.de>
+In-Reply-To: <87o7socl3l.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:wKiHLlFK1wDPyNmU3S/b912b0bJsIFG7OfaXv+L2VEIwS3FsBtW
+ OpIdo7mkp/y125Yh0yzg//GKJE9F1qIlmZmc5nbUQJvjYO2XSps4oXQN5zqSPlUs09rBtGX
+ pqiSooKrK01MS1PqGpeSbZYwntrkUef1ig30BTcMG779iqEl0QF8+V1sL/N1LzcFL/AXWby
+ 8ZMC2BN7+sptFmYUef3vg==
+UI-OutboundReport: notjunk:1;M01:P0:V3eRq+soj74=;q51QfpzqOF6PWft9pBtmnKFOFwk
+ COs62EFYn9V/+kdmJPYOetwzMz16v9623m2+/3bPYXYEg3lJYKKTxz57T9+XQUSlRYqDPvdHD
+ EQcbnX/VUVwFHqn4kp6zUC9VmQ6B91zjdmI8nqnsZsH+/m1Fefg3IoKulkgsiu5R7QuZsS1VZ
+ 3YmvyMCy8C96qBSEJV3uU8lKIf1S9lUmRg2uyBi3KB8Ll4yVxKRcuMFdQk3EpM+JYbt0HTeg/
+ Dcgz+ey6HmG6nKZggmZmcXz70qlFmbvUJijhQsakXf8eTUkji6q2bj6DYMd59vr+U8zVa0FLG
+ yk/Iig0mqS19ASE8l3kaqa37SPsHdH8le/EhNIt/1rfvUAQfhGK6bDEutD5mmOVDBo6Z8Mxjm
+ rpdqSIB2crKl7bPemCkNq8/oE3Ib66g2nzAYKrqdVC2pVmCGf2QkOVpYAh3r4mEy9dzS1QQGZ
+ XqZCHSfLtqY6cWdPACCfUV9scZt6t3tuVz7WzbvuIZA3Mlwkuac30Vcdn6HTwb3kxHXw6+UMd
+ dtBXxQfQCkvDAqYKfwT6k8JpauU0/On+xhl9cYshViKX7wd4BHNgJ/K6kirYd2nnnYJN5huIs
+ y9YqWSyGlkRWNYF38c6BALDgNWE6ZIB/phleb1cGc/HUhaDhUSJgAreySIt5XGCgf+Oheja9Q
+ wc/kn+CcoVK3urvCTsWRnR2TAOqTtLRKOkyv/XQ6Is3wof9PAmGzbyDoD1swKVu3lcbtS54Fk
+ oLMfUpXFNVNUS0vfCvEcnv4+g56Sklh6zfTHorFqbJSq22jNAItIMkeqZodREk4gBuZgF63FF
+ Q4/CLtP186xV9JR8Br+7LcMJPuH2/D7eniiqNxR1LG/oOv++Gl0XBiEJwMRl+VVSLLhm71iHV
+ D5wHYt1NxwJfI+cppn24atc6S2czIIrQyFc4FQmAq82BDlett2WBPK9rhf+h2xApIA63X/0A4
+ ozind1YUlPsNUhpzTcGFh9aO1AA=
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=axelheider@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,35 +90,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-~axelheider <axelheider@git.sr.ht> writes:
+Alex,
 
-> This is a follow-up on older attempts to make a second UART
-> available for the arm-virt machine in normal world. The use case
-> is, that this give a simple I/O channel in addition to stdout, as this
-> simplifies various test scenarios. Especially for non-Linux operating
-> system,s (e.g. seL4) where arm-virt is handy as a generic machine
-> for testing purposes.
->
-> There are existing discussions about this topic at:
-> - https://lists.gnu.org/archive/html/qemu-arm/2017-12/msg00063.html
-> - https://lists.nongnu.org/archive/html/qemu-
-> discuss/2018-11/msg00001.html
-> - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg01613.html
->
-> This patch tries to address the concerns raised there and also
-> avoid breaking compatibility with existing setups.
->
-> Axel Heider (1):
->   hw/arm/virt: make second UART available
->
->  hw/arm/virt-acpi-build.c | 12 ++++-----
->  hw/arm/virt.c            | 55 ++++++++++++++++++++++++++++++----------
->  include/hw/arm/virt.h    |  4 +--
->  3 files changed, 49 insertions(+), 22 deletions(-)
+> It would also be worth updating ./docs/system/arm/virt.rst to document
+> this feature.
 
-It would also be worth updating ./docs/system/arm/virt.rst to document
-this feature.=20
+Good point. I will add this in the next iteration of the patch.
+Until then, the proposed doc changes can be found here:
+https://gitlab.com/axel-h/qemu/-/merge_requests/1/diffs
 
---=20
-Alex Benn=C3=A9e
+Axel
+
 
