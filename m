@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325C963E350
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A5863E351
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:21:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0VRR-0006zX-SW; Wed, 30 Nov 2022 17:20:33 -0500
+	id 1p0VRX-0007AU-1L; Wed, 30 Nov 2022 17:20:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0VQM-0006rT-1Z
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:19:30 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1p0VRC-00073e-HD
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:20:33 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0VQK-00042d-5m
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:19:25 -0500
-Received: by mail-pl1-x635.google.com with SMTP id g10so18090335plo.11
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 14:19:23 -0800 (PST)
+ id 1p0VR7-0004JQ-G1
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:20:15 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id k5so95002pjo.5
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 14:20:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=u5kHiW0kseUUckgxEKkjvk3R7nKlRPkS3wkYK9jqgXw=;
- b=q9j53niZRYDDP80dixMO/GK7fjpEtyeEC70TuNGfbWEmGYxi0wBGPCvOclcMmdZFrx
- g/W8MCEDZ2u/BDT33kHiTWVgH80NqJHAZOf3wFXPW+Gq/2owxHZbs+/PKkMZz2xvhfO9
- P7GEcWyja1ZjS5xC9WTBKnMUBU2cqruL7QpFmde0aZoXwWM77w3dVy3/P/W7qptZuQ2O
- qzqbZ2mXqua+DYsDrPCgLOujf+hDN5KpoFSrEpUyD3LHfTTSGtiEv0H77UtoCBTwh8Ok
- YgbdvLnqqUH8c3HxbOZ1R7Wi/Bneus/tzEJI83cE/rCjoYHi6lwDbx/1COVzUIGwtt3S
- ge4w==
+ bh=xi2JyIcc0MEikhXCLrphlkqFjAGO+ZhaaSCztTtYFZ8=;
+ b=RNDCdxH7Vf/djJBcCocllQ0hftt7nocKoApZPNZyK0CT4RJaZERqkvCY0gUbZTGmcz
+ D2K7EJg4wDZrNv18OLdJaY2+zMOuIc+m1tITl2qCi2crgnmCmfuovkToSBJU7pFWB+Q6
+ Vdq+MMlWN3XQ3kE4ZUMG1cPDOQjL4IZSaxMFbDbZ51gKF8Qu3Se4y44y7EMAUmjbL2Me
+ okhrfApKissZBxzoQvBeE0NOeQQa213kVvRgEjaPE0/ks7q0OmJRiquuzmEXe+Uvw7WW
+ +F6GjfvB9pZXrDXaleNMx5/7ub2tp8Le3cIDAlGzjUe7+728uHhmfbShKCD7LNykKioO
+ h8+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u5kHiW0kseUUckgxEKkjvk3R7nKlRPkS3wkYK9jqgXw=;
- b=Ie59roBwH30e2AZFJtUTg1NiD1DEyP2jI3diJ2vKWR0b7XoqpQI8DTMGvUYkEfK0Q2
- 3A+0NEcauxGbpSy1LDIt0fXlp+4JroTO73G6l/NiHmU2Ik9DggcFLFB+PUKnCdBb+zI0
- 6vmuKVA16mmG6HJbJdFGuMO0iZ8QxNrwO2CyQEG06KbLPwovFbl/hxCdrwkURJleohta
- Mk8V+80Xk39KpKB2+faax8uTCAnXkt5amKs14BjwHp6nsXJBb5BEI7+WqMHbg4dawmXO
- tMm/PjiOa5ML0HuRR3FT6z68nfQuSSEVLzNRqVZEww8gFSREXFPcfmqwi+mDzQMbUC0k
- cziQ==
-X-Gm-Message-State: ANoB5pmqv9NTerjrQ2odM9+WpUncenpwxZvEQXJtHbhnqcqewiAWB4DN
- YkeAqeWMX5gEsh45y5jlKoZfjQ==
-X-Google-Smtp-Source: AA0mqf4v/Ex6DTL1h1lzytn39g+0mnWDN5DgcP54Um6U0LZHA8/8XLoI3338E0LlT7WPc/WSnkCvoQ==
-X-Received: by 2002:a17:90b:207:b0:219:720c:86aa with SMTP id
- fy7-20020a17090b020700b00219720c86aamr1572729pjb.172.1669846762656; 
- Wed, 30 Nov 2022 14:19:22 -0800 (PST)
+ bh=xi2JyIcc0MEikhXCLrphlkqFjAGO+ZhaaSCztTtYFZ8=;
+ b=v3UD4w3KC1IqSoJub/IvTijAL0BnI+kMymq74bwIlZbzgg5GilNlujb27Ol9nXM2fP
+ 5/VpxE8FfiCe5iege9q7kpmGx+4bjurOAE0VPosuPE319BezQ+rwf/7kkN9Do5nAa0TI
+ 5+ATX+/8S2wftsFyJPfcpDWFE1G5isG/Ju4DG1SSGGW+pow/pv9ttSqO3NbHN+JR9rXE
+ UKmLy/H6sShnNoQnI6dwuPxiItXzr0AZ7KRmB7gQH0H6D+OZFKosJZ9cCL4eCv1F+Sow
+ J19V01IfFergMn0LNSTzO+Ckc6GdgiruXWbrHI36lyJf4Sw/iN4Hck9EWBdWySvWSEkw
+ Z19Q==
+X-Gm-Message-State: ANoB5plHVcJSfko28zOc4D4pVNgltD+u2mIY1x9hVUY7BAflTSw1f5ND
+ NGkQyiX7BAlHZrnTXw1z3wlQJw==
+X-Google-Smtp-Source: AA0mqf6NpkHi5zPC5I6TGGYiSKtfdHfPNRsVEym9BbM7wHNRGxeaJrWuJrxXRU2pg71AF2f6+2KEvA==
+X-Received: by 2002:a17:902:c186:b0:189:7644:c46d with SMTP id
+ d6-20020a170902c18600b001897644c46dmr23269594pld.155.1669846812038; 
+ Wed, 30 Nov 2022 14:20:12 -0800 (PST)
 Received: from ?IPV6:2602:47:d48a:1201:7dfe:6c55:976b:754?
  ([2602:47:d48a:1201:7dfe:6c55:976b:754])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b0018999a3dd7esm2019356plh.28.2022.11.30.14.19.21
+ b207-20020a621bd8000000b00562677968aesm1860549pfb.72.2022.11.30.14.20.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 14:19:22 -0800 (PST)
-Message-ID: <37ae8ef3-65b6-e8e5-ea7f-7d49a6b310ef@linaro.org>
-Date: Wed, 30 Nov 2022 14:19:20 -0800
+ Wed, 30 Nov 2022 14:20:11 -0800 (PST)
+Message-ID: <85dd7855-da03-fec7-cafe-e233fec135d9@linaro.org>
+Date: Wed, 30 Nov 2022 14:20:09 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH-for-8.0 3/5] cpu: Move breakpoint helpers to common code
+Subject: Re: [PATCH-for-8.0 4/5] cpu: Move cpu_abort() to common code
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -70,13 +70,13 @@ Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
  <berrange@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Thomas Huth <thuth@redhat.com>
 References: <20221130135241.85060-1-philmd@linaro.org>
- <20221130135241.85060-4-philmd@linaro.org>
+ <20221130135241.85060-5-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221130135241.85060-4-philmd@linaro.org>
+In-Reply-To: <20221130135241.85060-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -102,13 +102,119 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 11/30/22 05:52, Philippe Mathieu-Daudé wrote:
 > This code is not target-specific.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   cpu.c         | 71 --------------------------------------------------
->   cpus-common.c | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 72 insertions(+), 71 deletions(-)
+>   cpu.c         | 38 --------------------------------------
+>   cpus-common.c | 38 ++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 38 insertions(+), 38 deletions(-)
+> 
+> diff --git a/cpu.c b/cpu.c
+> index 385e72e140..d6936a536b 100644
+> --- a/cpu.c
+> +++ b/cpu.c
+> @@ -31,11 +31,9 @@
+>   #endif
+>   #include "sysemu/tcg.h"
+>   #include "sysemu/kvm.h"
+> -#include "sysemu/replay.h"
+>   #include "exec/cpu-common.h"
+>   #include "exec/exec-all.h"
+>   #include "exec/translate-all.h"
+> -#include "exec/log.h"
+>   #include "hw/core/accel-cpu.h"
+>   #include "trace/trace-root.h"
+>   #include "qemu/accel.h"
+> @@ -270,42 +268,6 @@ void cpu_single_step(CPUState *cpu, int enabled)
+>       }
+>   }
+>   
+> -void cpu_abort(CPUState *cpu, const char *fmt, ...)
+> -{
+> -    va_list ap;
+> -    va_list ap2;
+> -
+> -    va_start(ap, fmt);
+> -    va_copy(ap2, ap);
+> -    fprintf(stderr, "qemu: fatal: ");
+> -    vfprintf(stderr, fmt, ap);
+> -    fprintf(stderr, "\n");
+> -    cpu_dump_state(cpu, stderr, CPU_DUMP_FPU | CPU_DUMP_CCOP);
+> -    if (qemu_log_separate()) {
+> -        FILE *logfile = qemu_log_trylock();
+> -        if (logfile) {
+> -            fprintf(logfile, "qemu: fatal: ");
+> -            vfprintf(logfile, fmt, ap2);
+> -            fprintf(logfile, "\n");
+> -            cpu_dump_state(cpu, logfile, CPU_DUMP_FPU | CPU_DUMP_CCOP);
+> -            qemu_log_unlock(logfile);
+> -        }
+> -    }
+> -    va_end(ap2);
+> -    va_end(ap);
+> -    replay_finish();
+> -#if defined(CONFIG_USER_ONLY)
+> -    {
+> -        struct sigaction act;
+> -        sigfillset(&act.sa_mask);
+> -        act.sa_handler = SIG_DFL;
+> -        act.sa_flags = 0;
+> -        sigaction(SIGABRT, &act, NULL);
+> -    }
+> -#endif
+> -    abort();
+> -}
+> -
+>   /* physical memory access (slow version, mainly for debug) */
+>   #if defined(CONFIG_USER_ONLY)
+>   int cpu_memory_rw_debug(CPUState *cpu, vaddr addr,
+> diff --git a/cpus-common.c b/cpus-common.c
+> index 8fdb34740e..38af2ab840 100644
+> --- a/cpus-common.c
+> +++ b/cpus-common.c
+> @@ -21,9 +21,11 @@
+>   #include "qemu/main-loop.h"
+>   #include "exec/cpu-common.h"
+>   #include "exec/memory.h"
+> +#include "exec/log.h"
+>   #include "hw/qdev-properties.h"
+>   #include "hw/core/cpu.h"
+>   #include "sysemu/cpus.h"
+> +#include "sysemu/replay.h"
+>   #include "qemu/lockable.h"
+>   #include "trace/trace-root.h"
+>   
+> @@ -485,3 +487,39 @@ void cpu_breakpoint_remove_all(CPUState *cpu, int mask)
+>           }
+>       }
+>   }
+> +
+> +void cpu_abort(CPUState *cpu, const char *fmt, ...)
+> +{
+> +    va_list ap;
+> +    va_list ap2;
+> +
+> +    va_start(ap, fmt);
+> +    va_copy(ap2, ap);
+> +    fprintf(stderr, "qemu: fatal: ");
+> +    vfprintf(stderr, fmt, ap);
+> +    fprintf(stderr, "\n");
+> +    cpu_dump_state(cpu, stderr, CPU_DUMP_FPU | CPU_DUMP_CCOP);
+> +    if (qemu_log_separate()) {
+> +        FILE *logfile = qemu_log_trylock();
+> +        if (logfile) {
+> +            fprintf(logfile, "qemu: fatal: ");
+> +            vfprintf(logfile, fmt, ap2);
+> +            fprintf(logfile, "\n");
+> +            cpu_dump_state(cpu, logfile, CPU_DUMP_FPU | CPU_DUMP_CCOP);
+> +            qemu_log_unlock(logfile);
+> +        }
+> +    }
+> +    va_end(ap2);
+> +    va_end(ap);
+> +    replay_finish();
+> +#if defined(CONFIG_USER_ONLY)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+CONFIG_USER_ONLY is build specific.
 
 r~
 
