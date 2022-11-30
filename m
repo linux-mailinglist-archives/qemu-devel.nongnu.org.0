@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2688863CF67
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 07:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A955763CF69
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 07:58:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0H0z-000259-9c; Wed, 30 Nov 2022 01:56:17 -0500
+	id 1p0H2w-0003Ds-RB; Wed, 30 Nov 2022 01:58:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p0H0v-000245-29
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 01:56:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0H2r-0003DL-PB
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 01:58:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p0H0k-0001FC-KP
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 01:56:06 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0H2q-0001OH-Bi
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 01:58:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669791356;
+ s=mimecast20190719; t=1669791491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jV2G5c3dayoFYmfmNilh8JWjqoFaMV7qpLNd+niHvqo=;
- b=Xes5lLEikcgMUpa7FWMCqUPUqAzcclX1yr+kRTJZJb/6eZYMZElBlV2D1CK8QsbOGQoVoI
- Fl0QCf1zKtGVH2eqj5VMCBGLM1rFRXb/P03JxkNxraJ2lv6H0m3M879nU/djNu7vzpvV/x
- MOhmbVOIe3cBo78APlv0S9UDDLjmrtM=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LNvSTArGOwiYNk8+S4s1ZqSUZfQMuhgOn5VwQrGrwxs=;
+ b=VHWxCxZLhn9MbOdgDrsdOxsHEIoHQuyWzP/y9Z6gQCmpOireU0wjzKbwOf/M80QNAs5qAd
+ ERIr/uWO/WDaT5M8M9tqCAREMyL6in6/1HVEQwq7pr1G3/WGpEvaxBv40xzIsta/xBY107
+ yFIvIVH3cI+HOyh+tdmDSk4ZSFUtX40=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648-NSW6N95hP-Cg86eBwY7Y0g-1; Wed, 30 Nov 2022 01:55:55 -0500
-X-MC-Unique: NSW6N95hP-Cg86eBwY7Y0g-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-142f8ce995fso9458759fac.8
- for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 22:55:55 -0800 (PST)
+ us-mta-599-FkqUprtdPdWLG8f2BCLYaA-1; Wed, 30 Nov 2022 01:58:03 -0500
+X-MC-Unique: FkqUprtdPdWLG8f2BCLYaA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v188-20020a1cacc5000000b003cf76c4ae66so574902wme.7
+ for <qemu-devel@nongnu.org>; Tue, 29 Nov 2022 22:58:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jV2G5c3dayoFYmfmNilh8JWjqoFaMV7qpLNd+niHvqo=;
- b=t9Pc98N7QZF+4hpY361s7+mflYYAHeo24mrv9tyfxJ8Qss2o2I2vXCyqESEuK37LsA
- 2cNxK5S/HfzrjEJvuFO6laL6B9Uuf+NQHjOTn0Bm+Hl8PFumK/igBLDcTmFBULDjtLkx
- q2rkd8Be7NM/ZzWQPAx4Wr6j6PSp6d45krkVJbN2TivUwtCAp5/ea/5Kv2BtDDP0TDDa
- 1OOCIJ5Mi9qxg54JmxXkr3HLP11eCCyAHSE2ci4jOf0wiyamBiqVlKrA5Bx+ijKKod2F
- aMrDc6Ea4PspT4Ij/cG350RDqT0bBzI22DDqWyP8g0ML0UoU0LTzQLYIF4T/sO370SVL
- E9uw==
-X-Gm-Message-State: ANoB5pk7ENgto1/PDd1/MFbt/0pVPNMDpSDSC2aboSPG9/yoR4W/H2j6
- 4OlJG1eNAVrgob2BA2R4m31IcEV4v+dsrQZZXnuvyu6PpIx/Skrbszg9s4qccNv8IkP1VdZiSVu
- ZFCIh/MAQIYXBE4b68hpva4E9fYcCyKE=
-X-Received: by 2002:aca:2103:0:b0:35b:9abf:5031 with SMTP id
- 3-20020aca2103000000b0035b9abf5031mr10613582oiz.280.1669791354268; 
- Tue, 29 Nov 2022 22:55:54 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6c2aRP3IJXocU8KZWBx2v/G0p/6BeJIqX3MyDsfwvgQ8VhPrAjuomnhRCOqMypkqeYPO1PnK7yRmGh0Kypcak=
-X-Received: by 2002:aca:2103:0:b0:35b:9abf:5031 with SMTP id
- 3-20020aca2103000000b0035b9abf5031mr10613569oiz.280.1669791354067; Tue, 29
- Nov 2022 22:55:54 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LNvSTArGOwiYNk8+S4s1ZqSUZfQMuhgOn5VwQrGrwxs=;
+ b=5Mh5ea3RrEFEkoEmsZUFgitm4qe+y2zWeJrcD43JdXt7iaph8EcVqkmNrDV1xOkVvm
+ IfoALlakJRF9bQZsjbRF/TfX+b1VRC443RLJ3/pRwHjY7zNN7yVtxSdPKE+80Va+Bk5p
+ WaU0zfVgAZmDko5QVicHn9xMXdvHzvAWS1LKSo9BjeYUCV+n1jv7Cw24sPaphUURJDmw
+ D+BjTeG7u28zB3oZ82H8GrcWR35yxt4YViUKkC6ByAKS6x5eiQ1Ax0Q0Ce0lht0XKJCE
+ frnME/ubHb1AFH1vv8K/6NhSd/WalDviN19YHkRmNLuOgHxICDe6/QImZzpdQ99ik0hw
+ 6aYg==
+X-Gm-Message-State: ANoB5pmAPov+PpZKLsKIuMHHeGzQ8UM2RMAiOwz3rqX5luOQCrvNOkSy
+ FH7RXdoXLl/1Z0qwr4KbbdHl/u9tB61li2qj5EjR6Dc1e1SabDLpowC+Nj+w4nEG951lyXZlt/z
+ tahYAomCxdbOt8YI=
+X-Received: by 2002:a05:6000:12d0:b0:242:14f5:7aa5 with SMTP id
+ l16-20020a05600012d000b0024214f57aa5mr9061290wrx.465.1669791482555; 
+ Tue, 29 Nov 2022 22:58:02 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7PRZZHqVyLL3G2cm9awD/iZM056lJlT8razCcbwHWam+OwYIw15X0t312OHp/2umVoKu+1ag==
+X-Received: by 2002:a05:6000:12d0:b0:242:14f5:7aa5 with SMTP id
+ l16-20020a05600012d000b0024214f57aa5mr9061282wrx.465.1669791482296; 
+ Tue, 29 Nov 2022 22:58:02 -0800 (PST)
+Received: from redhat.com ([2.52.19.245]) by smtp.gmail.com with ESMTPSA id
+ n10-20020adffe0a000000b00241bd7a7165sm561907wrr.82.2022.11.29.22.58.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Nov 2022 22:58:01 -0800 (PST)
+Date: Wed, 30 Nov 2022 01:57:58 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org,
+ viresh.kumar@linaro.org, sgarzare@redhat.com
+Subject: Re: [PATCH for 7.2-rc3 v3 0/7] fix vhost-user issues with CI
+Message-ID: <20221130015526-mutt-send-email-mst@kernel.org>
+References: <20221128164105.1191058-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20221124173314.2123015-1-eperezma@redhat.com>
- <20221124173314.2123015-2-eperezma@redhat.com>
-In-Reply-To: <20221124173314.2123015-2-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 30 Nov 2022 14:55:43 +0800
-Message-ID: <CACGkMEsTG+h8=_DQdStcUANhuggw9vjs1AAVtr=64ZMh8kNy9g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] virtio_net: Modify virtio_net_get_config to early
- return
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Eli Cohen <eli@mellanox.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>, 
- Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
- Lei Yang <leiyang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Cindy Lu <lulu@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221128164105.1191058-1-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,76 +96,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 25, 2022 at 1:33 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
->
-> Next patches introduce more code on vhost-vdpa branch, with already have
-> too much indentation.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Patch 1 is good but inappropriate for 7.2
+Patch 2 should be last in series.
+Patch 4 we are dropping.
+I thought hard about it, I think we should patch vhost user net too
+because of the risk introduced by patch 2 (which affects everyone).
+Can be a patch on top though.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+Besides this, for series:
 
-Thanks
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-> ---
->  hw/net/virtio-net.c | 28 +++++++++++++++-------------
->  1 file changed, 15 insertions(+), 13 deletions(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index aba12759d5..eed629766f 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -168,20 +168,22 @@ static void virtio_net_get_config(VirtIODevice *vde=
-v, uint8_t *config)
->      if (nc->peer && nc->peer->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_=
-VDPA) {
->          ret =3D vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *=
-)&netcfg,
->                                     n->config_size);
-> -        if (ret !=3D -1) {
-> -            /*
-> -             * Some NIC/kernel combinations present 0 as the mac address=
-.  As
-> -             * that is not a legal address, try to proceed with the
-> -             * address from the QEMU command line in the hope that the
-> -             * address has been configured correctly elsewhere - just no=
-t
-> -             * reported by the device.
-> -             */
-> -            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) =3D=3D 0) {
-> -                info_report("Zero hardware mac address detected. Ignorin=
-g.");
-> -                memcpy(netcfg.mac, n->mac, ETH_ALEN);
-> -            }
-> -            memcpy(config, &netcfg, n->config_size);
-> +        if (ret =3D=3D -1) {
-> +            return;
->          }
-> +
-> +        /*
-> +         * Some NIC/kernel combinations present 0 as the mac address.  A=
-s that
-> +         * is not a legal address, try to proceed with the address from =
-the
-> +         * QEMU command line in the hope that the address has been confi=
-gured
-> +         * correctly elsewhere - just not reported by the device.
-> +         */
-> +        if (memcmp(&netcfg.mac, &zero, sizeof(zero)) =3D=3D 0) {
-> +            info_report("Zero hardware mac address detected. Ignoring.")=
-;
-> +            memcpy(netcfg.mac, n->mac, ETH_ALEN);
-> +        }
-> +
-> +        memcpy(config, &netcfg, n->config_size);
->      }
->  }
->
-> --
-> 2.31.1
->
+-- 
+MST
 
 
