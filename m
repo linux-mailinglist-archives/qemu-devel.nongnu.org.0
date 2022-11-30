@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6478F63E335
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E39A63E34A
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:19:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0VJg-0003YP-Jr; Wed, 30 Nov 2022 17:12:32 -0500
+	id 1p0VP6-0006Us-2I; Wed, 30 Nov 2022 17:18:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0VJe-0003X9-85
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:12:30 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1p0VP4-0006Ug-8q
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:18:06 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0VJa-0002s6-R3
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:12:28 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id 4so18110434pli.0
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 14:12:25 -0800 (PST)
+ id 1p0VP2-0003st-Et
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:18:05 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id 82so37270pgc.0
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 14:18:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=S61QVYP4REnCDheK1q1VVtowoIMaPbz6+wu6CUhIAQU=;
- b=uiFVSL35+exnpe4aaSkQ+MIYMczzNjI4rNBCqt0REa1GUDkRVBkP+y9ANcEwSvdDPa
- ukuqDMn2asIMtxMTA22hrMzI6ph6BNDt6QF5uOBp7hHDgj2WI332Ho5269HFbojXUp8b
- LXsoYklN7dxYegoYuDu69ag1jpwbuiwQOCKv6lwCJTzGyv6hXQZquEChbTDAo2paWfXs
- Dvkdq4H4MuQJZSXPuvlwJer5FFMnF1Wpp7nOkrb6bIztfMB1Qj+KzJevSHHmKCU3Xxw2
- VEz/T3tfWljVAV+rjy3TO/lGkpxaWDFD7CAfJMQTwpcqqPx+YwUFZSjD1AoWhbKbDKUw
- X8yg==
+ bh=9xgTq0rxBcf8kKglQixYN6drx5JNLynuD9ZUWAK5vXI=;
+ b=GawUQpTLngomICY2yrej7wdE/ho6EJgHHdrgozv6qELcxqGrIX88GVOgO9WdGbhr9u
+ 5Nn4e2T1X7V33AwaC4ckPNzfGpb/APxyuQZ2ymHZPyxQCGDiJ8bPUvqKpK3fQZh94nK0
+ T0F48S729IyyNCwvnlYZmUMibkG8ul+ww02fTQsa8AHtv+2VkwV5wypAMeluXAJaUqPp
+ d3G/mrZNxMU/PSRh9MiOfLqDZyP5ozNd2ptjqecrZId7CntbkUbWmqI4cv8RQDm86jNE
+ W8aC0KKIMrlyPzL2o+JjDTPrpMwa5kaRe4zZAcCstD9o5QY7dADfzjOJyrKwAX4QG6DS
+ LMDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S61QVYP4REnCDheK1q1VVtowoIMaPbz6+wu6CUhIAQU=;
- b=RchZzV7yIHkX+hOA6GI7TBxSUQfEr05UglXBJ+iV0Gpcom48Mr8z/j3K/09mKK895l
- B0+et1QCJPNKcktp2V4OX3od7DAODS20cO9ZUyW10lH/s2du7W3MGW2NQE9LoyEXbios
- mxP1sfkwd4ujUUehewk66NLsWYvrR3tp/h/dMtRaoB4OJz26vvGWdtWsYWTEVUbQ5PPn
- 9dnLnH5wJbaavZua3i77+VYwUcFp7o1C/x/P3Vum3aILGkYjSoGrA6VYdDW6NnCLiFH6
- ixwBr0443sRPyy9CpGOs7PFjHrNgo9GNfO3sqhrwsPIjLtX3YoIxaDcpatqrlCWKK6Lu
- jrCQ==
-X-Gm-Message-State: ANoB5pl3qddIEyi9b+2eTtJXmIMkArG2iMUS/PeUVysCV4Mp6aktUs29
- 19g9v0PNbk8yFjsX0woj7H3olQ==
-X-Google-Smtp-Source: AA0mqf7gpVH/FrIlMW88hAeLzRVdbkPbMu6WRlQOvTrtFhBUklNHgtXqvcB5sCpbzcwC2nAkq3UcuA==
-X-Received: by 2002:a17:902:b712:b0:189:98b0:8845 with SMTP id
- d18-20020a170902b71200b0018998b08845mr12062454pls.101.1669846344187; 
- Wed, 30 Nov 2022 14:12:24 -0800 (PST)
+ bh=9xgTq0rxBcf8kKglQixYN6drx5JNLynuD9ZUWAK5vXI=;
+ b=Fyf2YFqtfGVYRf50TTnItUuVFAkNih4tUroJAsdD094q2eZdvDO3BbEPAHWsxhWzU+
+ yrMKi1TZzAydmPhA8Acln3JzOAh8BgP0tDg5jurgBPVmOVTSyMvl9mTKTRI0KKGqD75l
+ MTN4oX03EyPflKwc6y0KRw3y7RAwccalf/rq+f/oMyNX3IQkTHL51sV3GfnolL8AHnE+
+ 7u/5jzeKKNeeZQ9vFa8vihcgpCOCZSZ0yPHLniiE7qS9QPA0UKUpiFyfmr7lkB9/xHl6
+ EOhtqr43qBxpNaubdxFjSjoY6Zwk/grpMzh1G3VPrHgVvmQsJUfbRNrg3Qh0sul+7McM
+ 6FWQ==
+X-Gm-Message-State: ANoB5pn3Np1fQr6BNrJeDQxA+em6eJ3iDB8XTjjAq8h3/HauonVP5FPI
+ oufIa3yLgkQkJrUqK/Lb+qdagg==
+X-Google-Smtp-Source: AA0mqf5aT5XdXjK50Q7NH3spW4vhbKUCV7c/8kzqR6zFyXIU3veOQXf6csHJLRhu+toT7sMyCi4FFg==
+X-Received: by 2002:a05:6a00:414e:b0:575:7968:f546 with SMTP id
+ bv14-20020a056a00414e00b005757968f546mr9575029pfb.30.1669846682325; 
+ Wed, 30 Nov 2022 14:18:02 -0800 (PST)
 Received: from ?IPV6:2602:47:d48a:1201:7dfe:6c55:976b:754?
  ([2602:47:d48a:1201:7dfe:6c55:976b:754])
  by smtp.gmail.com with ESMTPSA id
- d65-20020a623644000000b005750d6b4761sm1830870pfa.168.2022.11.30.14.12.22
+ i190-20020a6287c7000000b0056c704abca7sm1816198pfe.220.2022.11.30.14.18.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 14:12:23 -0800 (PST)
-Message-ID: <452cfbbd-d1a3-270b-b9d2-ae23fd8d35ec@linaro.org>
-Date: Wed, 30 Nov 2022 14:12:21 -0800
+ Wed, 30 Nov 2022 14:18:01 -0800 (PST)
+Message-ID: <dbdd478d-c492-62ae-0fe4-c01eaa5f23eb@linaro.org>
+Date: Wed, 30 Nov 2022 14:17:59 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/1] tcg: convert tcg/README to rst
+Subject: Re: [PATCH-for-8.0 2/5] cpu: Move cpu_class_init_props() to common
+ code
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
-References: <20221130100434.64207-1-mark.cave-ayland@ilande.co.uk>
- <20221130100434.64207-2-mark.cave-ayland@ilande.co.uk>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20221130135241.85060-1-philmd@linaro.org>
+ <20221130135241.85060-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221130100434.64207-2-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20221130135241.85060-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -94,14 +100,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/30/22 02:04, Mark Cave-Ayland wrote:
-> +   * - eqv_i32/i64 *t0*, *t1*, *t2*
-> +
-> +     - | *t0* = ~(*t1* ^ *t2*), or equivalently, *t0* = *t1* & ~\ *t2*
+On 11/30/22 05:52, Philippe Mathieu-Daudé wrote:
+> This code is not target-specific.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   cpu.c         | 53 ---------------------------------------------------
+>   cpus-common.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 53 insertions(+), 53 deletions(-)
+> 
+> diff --git a/cpu.c b/cpu.c
+> index 4a7d865427..d4b24ea39a 100644
+> --- a/cpu.c
+> +++ b/cpu.c
+> @@ -21,8 +21,6 @@
+>   #include "qapi/error.h"
+>   
+>   #include "exec/target_page.h"
+> -#include "hw/qdev-core.h"
+> -#include "hw/qdev-properties.h"
+>   #include "qemu/error-report.h"
+>   #include "migration/vmstate.h"
+>   #ifdef CONFIG_USER_ONLY
+> @@ -183,57 +181,6 @@ void cpu_exec_unrealizefn(CPUState *cpu)
+>       cpu_list_remove(cpu);
+>   }
+>   
+> -/*
+> - * This can't go in hw/core/cpu.c because that file is compiled only
+> - * once for both user-mode and system builds.
+> - */
+> -static Property cpu_common_props[] = {
+> -#ifdef CONFIG_USER_ONLY
 
-  t1 ^ ~t2
-
-The only typo I saw, fixed while queuing.
+It is "target" specific in the general sense, in that CONFIG_USER_ONLY is either set or unset.
 
 
 r~
