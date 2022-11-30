@@ -2,86 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445DC63D2C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A0E63D2DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:11:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0Jzv-0002aM-31; Wed, 30 Nov 2022 05:07:23 -0500
+	id 1p0K3Y-00043m-4d; Wed, 30 Nov 2022 05:11:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Jzt-0002Xj-Io
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:07:21 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Jzp-0006mV-U7
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:07:21 -0500
-Received: by mail-wr1-x432.google.com with SMTP id o5so17244480wrm.1
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:07:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=p9/6qQXNfMWMjtjvU3+F6G6cIepQnXNAxIsphAk3ga8=;
- b=leb6ZstsW/Kcs2sHRApiB/JEDfViW6VKM62FH9kgesTzx56d+/qjboH8h75rx3Jm4k
- EOs7xQTVJ2rru8C7QJG6lRF9ELNF8jcd+KNM8YysiR1DzAaOUAzqnJMwz2O+452n4log
- DmUsD7b3kDfoXCvqmIGxUPsTg0gkvPse0HoW7wlc2Ouc2PXWb4nTbuJyMNwtsFBoDqM0
- SyVbGNZTvoGs89OcOnAT/wJQEa8MoOtBVTC5sLOMXWeUYwUdDAWqcOgdzFYfdXSae3wi
- HxdAxd7dRSzOX9MuJ8rL3jsNesxo4uFETeU+YOiWqmpvsQUIaSHV5dTB7g7baT7yTd+b
- Lgmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p9/6qQXNfMWMjtjvU3+F6G6cIepQnXNAxIsphAk3ga8=;
- b=Tds9TjyCP7NCJCaqeGRzMj2MwydWxBETmIrMkgsbSGcox/hFPNHWcgNonKTJiI6Quu
- LFJXO7wze37UA1zzsbz0npC78bF/0k9+oRlelx0LWtXOIS9QKL7MxWKbUTiHUcdnVMSa
- lgoZPnX9MYai3QODUYoimC68mQh6bWoyDke72AL2v3yEqpKqEC2oCnGgBktqulZzjCXk
- sxXSUbzGtZyhZlaBjoto5ECsUoKeUaDFdSU6/Emu0ItKC4u3O4IzH3VTRmTuD/bqYZmV
- UdtuRMWjyYqVPdTLIPj4exYANZj3hmws2n94yYCx4xl/vi9bvrt/arlfyaaigD/bEHjZ
- mdNA==
-X-Gm-Message-State: ANoB5pkAdegrSRHIEbWckA+OJEFbFWAS1flze7gFmq6if3mNDrsEsila
- DteaT2Z/zipTRf10UvIEDcsgmA==
-X-Google-Smtp-Source: AA0mqf6a89LsD9P8eZd+2wMWE+ls54/MvdWGmTEJHi/mOSGnql8u5dePNQL8CM7v7ZmD1cMTFHj70w==
-X-Received: by 2002:a05:6000:1e12:b0:242:1522:249b with SMTP id
- bj18-20020a0560001e1200b002421522249bmr9773163wrb.326.1669802835251; 
- Wed, 30 Nov 2022 02:07:15 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e4-20020adff344000000b00236488f62d6sm1088966wrp.79.2022.11.30.02.07.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:07:14 -0800 (PST)
-Message-ID: <6481c37f-6ed2-eedb-e8b9-9d36681bcab2@linaro.org>
-Date: Wed, 30 Nov 2022 11:07:13 +0100
+ (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
+ id 1p0K3Q-000410-UD
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:11:01 -0500
+Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
+ id 1p0K3N-0007OE-Qc
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:11:00 -0500
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1p0K3G-0001Ct-Kj; Wed, 30 Nov 2022 11:10:50 +0100
+Message-ID: <b4b81dfd-d30c-e8f4-3ea3-1af9140a82bb@leemhuis.info>
+Date: Wed, 30 Nov 2022 11:10:49 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 1/9] hw/s390x/s390-pci-inst.c: Use
- device_cold_reset() to reset PCI devices
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20221104161513.2455862-1-peter.maydell@linaro.org>
- <20221104161513.2455862-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221104161513.2455862-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: regression: insmod module failed in VM with nvdimm on #forregzbot
+Content-Language: en-US, de-DE
+To: "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Cc: linux-arm-kernel@lists.infradead.org,
+ chenxiang via <qemu-devel@nongnu.org>,
+ "linuxarm@huawei.com" <linuxarm@huawei.com>
+References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1669803057;
+ 417ed371; 
+X-HE-SMSGID: 1p0K3G-0001Ct-Kj
+Received-SPF: pass client-ip=80.237.130.52;
+ envelope-from=regressions@leemhuis.info; helo=wp530.webpack.hosteurope.de
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.258,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,24 +64,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/11/22 17:15, Peter Maydell wrote:
-> The semantic difference between the deprecated device_legacy_reset()
-> function and the newer device_cold_reset() function is that the new
-> function resets both the device itself and any qbuses it owns,
-> whereas the legacy function resets just the device itself and nothing
-> else.
+[Note: this mail is primarily send for documentation purposes and/or for
+regzbot, my Linux kernel regression tracking bot. That's why I removed
+most or all folks from the list of recipients, but left any that looked
+like a mailing lists. These mails usually contain '#forregzbot' in the
+subject, to make them easy to spot and filter out.]
+
+[TLDR: I'm adding this regression report to the list of tracked
+regressions; all text from me you find below is based on a few templates
+paragraphs you might have encountered already already in similar form.]
+
+Hi, this is your Linux kernel regression tracker.
+
+On 30.11.22 03:52, chenxiang (M) wrote:
+>
+> We boot the VM using following commands (with nvdimm on)  (qemu version
+> 6.1.50, kernel 6.0-r4):
 > 
-> In s390-pci-inst.c we use device_legacy_reset() to reset an
-> S390PCIBusDevice.  This device doesn't have any child qbuses, so the
-> functions do the same thing and we can stop using the deprecated one.
-> 
-> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/s390x/s390-pci-inst.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> qemu-system-aarch64 -machine
+> virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
+> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
+> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
+> 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
+> ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
+> -object memory-backend-ram,id=ram1,size=10G -device
+> nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
+> -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
+> [...]
+> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
+> defer initialization to initcall where permitted").
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thanks for the report. To be sure below issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, my Linux kernel regression
+tracking bot:
 
+#regzbot ^introduced fc5a89f75d2a
+#regzbot title arm64: kaslr: vmalloc error when boothing a VM with nvdimm
+#regzbot ignore-activity
 
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply -- ideally with also
+telling regzbot about it, as explained here:
+https://linux-regtracking.leemhuis.info/tracked-regression/
+
+Reminder for developers: When fixing the issue, add 'Link:' tags
+pointing to the report (the mail this one replies to), as explained for
+in the Linux kernel's documentation; above webpage explains why this is
+important for tracked regressions.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
 
