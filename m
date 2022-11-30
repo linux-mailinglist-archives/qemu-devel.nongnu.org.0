@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA6963D044
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 09:19:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5323863D0AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 09:31:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0IIl-0006sJ-Qu; Wed, 30 Nov 2022 03:18:43 -0500
+	id 1p0ITY-0008F7-HC; Wed, 30 Nov 2022 03:29:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0IIV-0006pw-2a
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 03:18:34 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0IIS-0005lH-Lm
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 03:18:26 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C2281B81A66
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 08:18:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78125C433C1
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 08:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669796300;
- bh=foPDkm3vy3CbVI9fiJHvy0jPfEJymGunau1Uos13ImU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=fXUKpazvyWW/+03eRejucSwgZ78hXJbvolj4QHnYFZJsixCP+U2dlNaIYQPac5fCX
- 4deS0/Ynjs2lBrh1TvrrqtXEAYcg/GdYpkEwmj7FdqtyrJ8dDdaqOJo45pfhF4Zr6a
- tcSjwh7jPsf0E0+osoA5EutsyCNMO4eX84/0PMp9MJ3RhQUFvpmDm6dmmmiBrvw32g
- zrTnyCeNfSvryVlGGgCKcXS4s7eU+OhWVZQxkElAwgvbiAD5UFY1B66+dNDDouacVU
- KKGVd1ZVsZ5NGeWe3tXVu8d/Qw39pDHxsI6oWg+WWPztzYIvP8zARcnBIu3qHEMCIm
- enmZxUi8ts7iQ==
-Received: by mail-lf1-f44.google.com with SMTP id p8so25748316lfu.11
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 00:18:20 -0800 (PST)
-X-Gm-Message-State: ANoB5pnsH457nv+VDakCKNEn16BM9xbj4ZeW5J6vuNEugmPwk3tp804t
- A3kHwWsOxthg3jSVJitvSvaU2aG7sLeCFiAT2Cc=
-X-Google-Smtp-Source: AA0mqf6mf71YjcrkD0T515UEITJKrwHf0OcE5kkd9NOKk5UuXvJwZuJ0D4Ms3QFHam+6ACC7SR1lCVXjpuJeX5HIk3s=
-X-Received: by 2002:a05:6512:3c89:b0:4a2:bfd2:b218 with SMTP id
- h9-20020a0565123c8900b004a2bfd2b218mr20172400lfv.228.1669796298433; Wed, 30
- Nov 2022 00:18:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0ITW-0008Ee-AI
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 03:29:50 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0ITU-0007Pp-MX
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 03:29:50 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id y16so6109595wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 00:29:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LUT9uKhMc/IqMViUfhmFh6zxJdqph/7Ol1Mqq9U/75o=;
+ b=fXlCFAKlR4lw1Pz0CsQUEQTKbfvrrR/7YQkOW+mQAHFhGnp+E+4c3dk9Zhg2V+XANy
+ wv2VH6rSPnKbVkqNYFL18C8k7jarUVEysVZQGCLCpLkrxU8egBJAGgNU5cLNV28TGh1H
+ wmhAi8p29JxN8CjVm9DFG6uAyVvwzdURQZhw5JteOfzJQYKBZWnPgMgrCfwYXcx+1Dlx
+ U/vex4nPVLmmrfyM0o61/WHJZZq8C5dYJuZ/WGNOeSQcr67weD0PB9UYtG9LqM5lOKCv
+ CTDQcQakg1kpcbljSfkM5EbIbv0TU1FHokAe7Z8K/EczeMq8peEbjuPAKGaYWiLVe4FT
+ N+Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LUT9uKhMc/IqMViUfhmFh6zxJdqph/7Ol1Mqq9U/75o=;
+ b=UuzeMaFXQxzkmF2/+9JMA1Di5/vrpk1bZWcflawpjKMEmK3Jv2FIwwrQ+qoDd96U3X
+ EUnTQTeMsalbqNHMIcBlGjVmLPtS5OatJK/XDTKI9rw58XF1OqQZ56RV8BdQj0+dk1YQ
+ 18IyYTr+/vU+AuAn4j8LQSzpxA7AAKIE4MgtrykwpT9HyCvidPpnbeLTLadMJOUSlLPS
+ 00gG4Xrm1qGBx/5L0Fbto85G41e6b6DlL6HSmRiGncnr/DEeHQNjKn8V3T1Yl0oD+k3B
+ 7rlVy2WWAqi6GL/7H/xLUkJbOO1cmR3xKs3c6KhdPaP/7WlW8Yk3Xcx0IIh5esPwluVF
+ a2Cw==
+X-Gm-Message-State: ANoB5pkbZ0CxCRLHBorAre/NfkcgmbJycokhD2vHFhzFx/Q3P0vYkPSu
+ zTNIX5mdWbMUToKWAS65PFsLSw==
+X-Google-Smtp-Source: AA0mqf5rqE7UmQObc/JQXIYaoae376eB/3d2Hz17yvoVBzLC8DKLuT43KoKOCANsHBCG827o0AVkJw==
+X-Received: by 2002:a5d:614b:0:b0:242:18a0:d03 with SMTP id
+ y11-20020a5d614b000000b0024218a00d03mr8017777wrt.542.1669796985910; 
+ Wed, 30 Nov 2022 00:29:45 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ v5-20020adfebc5000000b00241c6729c2bsm840723wrn.26.2022.11.30.00.29.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Nov 2022 00:29:45 -0800 (PST)
+Message-ID: <d6fc6751-1fe2-78de-49f5-2a34554767af@linaro.org>
+Date: Wed, 30 Nov 2022 09:29:44 +0100
 MIME-Version: 1.0
-References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
- <87r0xkubcp.wl-maz@kernel.org>
-In-Reply-To: <87r0xkubcp.wl-maz@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 30 Nov 2022 09:18:06 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
-Message-ID: <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
-Subject: Re: regression: insmod module failed in VM with nvdimm on
-To: Marc Zyngier <maz@kernel.org>
-Cc: "chenxiang (M)" <chenxiang66@hisilicon.com>, will@kernel.org,
- mark.rutland@arm.com, 
- linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>, 
- "linuxarm@huawei.com" <linuxarm@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=ardb@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH 1/1] Fix some typos
+Content-Language: en-US
+To: Dongdong Zhang <zhangdongdong@eswincomputing.com>, qemu-devel@nongnu.org
+Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20221130015358.6998-1-zhangdongdong@eswincomputing.com>
+ <20221130015358.6998-2-zhangdongdong@eswincomputing.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221130015358.6998-2-zhangdongdong@eswincomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,72 +91,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
->
-> On Wed, 30 Nov 2022 02:52:35 +0000,
-> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
-> >
-> > Hi,
-> >
-> > We boot the VM using following commands (with nvdimm on)  (qemu
-> > version 6.1.50, kernel 6.0-r4):
->
-> How relevant is the presence of the nvdimm? Do you observe the failure
-> without this?
->
-> >
-> > qemu-system-aarch64 -machine
-> > virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
-> > /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
-> > /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
-> > 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
-> > ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
-> > -object memory-backend-ram,id=ram1,size=10G -device
-> > nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
-> > -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
-> >
-> > Then in VM we insmod a module, vmalloc error occurs as follows (kernel
-> > 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
-> >
-> > estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
-> > [    8.186563] vmap allocation for size 20480 failed: use
-> > vmalloc=<size> to increase size
->
-> Have you tried increasing the vmalloc size to check that this is
-> indeed the problem?
->
-> [...]
->
-> > We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
-> > defer initialization to initcall where permitted").
->
-> I guess you mean commit fc5a89f75d2a instead, right?
->
-> > Do you have any idea about the issue?
->
-> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
-> portion of the vmalloc space, but you give very little information
-> that could help here...
->
+On 30/11/22 02:53, Dongdong Zhang wrote:
+> Fix some typos in 'python' directory.
+> 
+> Signed-off-by: Dongdong Zhang <zhangdongdong@eswincomputing.com>
 
-Ouch. I suspect what's going on here: that patch defers the
-randomization of the module region, so that we can decouple it from
-the very early init code.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Obviously, it is happening too late now, and the randomized module
-region is overlapping with a vmalloc region that is in use by the time
-the randomization occurs.
+> ---
+>   python/qemu/machine/console_socket.py | 2 +-
+>   python/qemu/machine/qtest.py          | 2 +-
+>   python/qemu/qmp/protocol.py           | 2 +-
+>   python/qemu/qmp/qmp_tui.py            | 6 +++---
+>   4 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/python/qemu/machine/console_socket.py b/python/qemu/machine/console_socket.py
+> index 8c4ff598ad..4e28ba9bb2 100644
+> --- a/python/qemu/machine/console_socket.py
+> +++ b/python/qemu/machine/console_socket.py
+> @@ -68,7 +68,7 @@ def _thread_start(self) -> threading.Thread:
+>           """Kick off a thread to drain the socket."""
+>           # Configure socket to not block and timeout.
+>           # This allows our drain thread to not block
+> -        # on recieve and exit smoothly.
+> +        # on receive and exit smoothly.
+>           socket.socket.setblocking(self, False)
+>           socket.socket.settimeout(self, 1)
+>           drain_thread = threading.Thread(target=self._drain_fn)
+> diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
+> index 1a1fc6c9b0..906bd13298 100644
+> --- a/python/qemu/machine/qtest.py
+> +++ b/python/qemu/machine/qtest.py
+> @@ -42,7 +42,7 @@ class QEMUQtestProtocol:
+>       :raise socket.error: on socket connection errors
+>   
+>       .. note::
+> -       No conection is estabalished by __init__(), this is done
+> +       No connection is estabalished by __init__(), this is done
+>          by the connect() or accept() methods.
+>       """
+>       def __init__(self, address: SocketAddrT,
+> diff --git a/python/qemu/qmp/protocol.py b/python/qemu/qmp/protocol.py
+> index 6ea86650ad..15909b7dba 100644
+> --- a/python/qemu/qmp/protocol.py
+> +++ b/python/qemu/qmp/protocol.py
+> @@ -812,7 +812,7 @@ def _done(task: Optional['asyncio.Future[Any]']) -> bool:
+>   
+>       @bottom_half
+>       async def _bh_close_stream(self, error_pathway: bool = False) -> None:
+> -        # NB: Closing the writer also implcitly closes the reader.
+> +        # NB: Closing the writer also implicitly closes the reader.
+>           if not self._writer:
+>               return
+>   
+> diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
+> index ce239d8979..8369144723 100644
+> --- a/python/qemu/qmp/qmp_tui.py
+> +++ b/python/qemu/qmp/qmp_tui.py
+> @@ -71,7 +71,7 @@ def format_json(msg: str) -> str:
+>       due to an decoding error then a simple string manipulation is done to
+>       achieve a single line JSON string.
+>   
+> -    Converting into single line is more asthetically pleasing when looking
+> +    Converting into single line is more aesthetically pleasing when looking
+>       along with error messages.
+>   
+>       Eg:
+> @@ -91,7 +91,7 @@ def format_json(msg: str) -> str:
+>   
+>           [1, true, 3]: QMP message is not a JSON object.
+>   
+> -    The single line mode is more asthetically pleasing.
+> +    The single line mode is more aesthetically pleasing.
+>   
+>       :param msg:
+>           The message to formatted into single line.
+> @@ -498,7 +498,7 @@ def __init__(self, parent: App) -> None:
+>   class HistoryBox(urwid.ListBox):
+>       """
+>       This widget is modelled using the ListBox widget, contains the list of
+> -    all messages both QMP messages and log messsages to be shown in the TUI.
+> +    all messages both QMP messages and log messages to be shown in the TUI.
+>   
+>       The messages are urwid.Text widgets. On every append of a message, the
+>       focus is shifted to the last appended message.
 
-Does the below fix the issue?
-
-diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
-index 37a9deed2aec..71fb18b2f304 100644
---- a/arch/arm64/kernel/kaslr.c
-+++ b/arch/arm64/kernel/kaslr.c
-@@ -90,4 +90,4 @@ static int __init kaslr_init(void)
-
-        return 0;
- }
--subsys_initcall(kaslr_init)
-+arch_initcall(kaslr_init)
 
