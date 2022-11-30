@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AE363E353
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADE563E35C
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 23:23:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0VSM-0007gi-E9; Wed, 30 Nov 2022 17:21:30 -0500
+	id 1p0VTp-0000NP-9O; Wed, 30 Nov 2022 17:23:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0VSJ-0007ey-3q
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:21:27 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1p0VTe-0000Ju-L3
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:22:56 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0VSH-0004YY-GN
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:21:26 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- k2-20020a17090a4c8200b002187cce2f92so3373429pjh.2
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 14:21:25 -0800 (PST)
+ id 1p0VTY-0004oW-Eq
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 17:22:47 -0500
+Received: by mail-pl1-x633.google.com with SMTP id s7so2359642plk.5
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 14:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YpbyKZHhQ+9GyRDwLBJbbvlydq6rJO+OfPJ1I1x7DhI=;
- b=eubBTdlaS5BWEX7YANUBgahUWHOUiYoOfFIFPujvn+Z0Dkr6+GMgyQKKEJFtDpOAed
- bH53nnJ+6Fw1Idv6Ca2r8QdfzgyMq9Qgpdiy6AZwGPhmhzL2cF6HF4xV1YXnhTeQ+aCg
- tbGesxFQx8SDXuZU2c390qgbQ+iPJFgMGge0RwLrG4UYglw1Ux5zQ+78FK0a2lvPr2rF
- XgHdDeWT9tVTU9QiBe+kuWb48olTuFTnhXwRzRCZpb03XqM2Z36mGy7RlZQp0wwWxZmN
- oNmPk/UtsMnUXtwAPYnQL2+6etV/KEakDMpaEg3GevHkc7b99HfpzKmFpdUT7tR8NW5S
- M6kQ==
+ bh=hndhixjIt4laxhxe4XTLeyNWZeFQxiD+jrcwK5VmjXw=;
+ b=KSZi4H1LMb7U3jgemc6A6YUipD4ikJmyd8e53geWjVDW5b7xeLHH0+wzuLZ54Fm0IO
+ 3Z0y5R/hbp68sr3HYX7IFuWHCEyJBCJ8F7NBBWSFbyvWcWKT1mRYXPYmxSd73trB05Lz
+ agXq17flBw9sxdf6HxZyrRjRXhJwB3HxRblfMnN6sV6R4wdj37OuJwgnumzyJRFUFH4j
+ N7io69VDhq546CHDgKaSpRT4imRt0c9mixou1q2w+rAQhPheFmWzI3LgYw1YTWuSoYkf
+ wm01BO+uvVMzFfrFLi0gtpfkTrEc8gHGCqsq6z16SfpXgBsBoSQ61jjHPhcWa+gJQTX+
+ Suew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YpbyKZHhQ+9GyRDwLBJbbvlydq6rJO+OfPJ1I1x7DhI=;
- b=WqxlTSEHG/hNrp7zX997m+rnKY6yUZURt6fKTX/ByXdluVo6+OlFq8TvrubbfcAq7+
- /Idve+9qIqtj4yncj8yooArNTX+FQw8DeVfDUII501eVE/1Xx+xZjZNmuZ9bOPzlcbIe
- LJKhzoOUHKQtPny6Yq/3OmAx/3+WXYAfPGCz3+uhlJ4BL5jX+SUVgO4eqaaexD4CmmE5
- ++XECE2HYDqjxIhOhIsN4MYO8nvMhucPEtFTKB7ShpBPB1xJP0WK8tfUQU1nZS+IrIGz
- bNCdx5kPxlOV2EeKvHAUb7YLGuA04nyfWE8ky9RBwbN/E6Z5uG8vAyDJvgPj9KfGMR1I
- gEFw==
-X-Gm-Message-State: ANoB5pkwtd2PYoaVHuBIvmwW8GN/np21xwKMcE/8lV1r6OOQfqn12DU2
- 7OwIl2ZSGQLWy7XBr/zu4gjwAjVtqXaxiw==
-X-Google-Smtp-Source: AA0mqf62+WXnwqJ7CHhUR4CbBcCJ2iU3GNiCYGwDDLI8zelel0EoXjZ13+QfrTFJbxwcEHGZCaVl5A==
-X-Received: by 2002:a17:902:ecd2:b0:189:5f79:6ac2 with SMTP id
- a18-20020a170902ecd200b001895f796ac2mr31969194plh.132.1669846884097; 
- Wed, 30 Nov 2022 14:21:24 -0800 (PST)
+ bh=hndhixjIt4laxhxe4XTLeyNWZeFQxiD+jrcwK5VmjXw=;
+ b=iq8TzkcJ1Qo83SbO5CRq95IGa5CvS08e5NkssAgosFKN5kuc+9SPW4XAg7WyI/CiZg
+ pOIYHZZVpOdTjVfa8AcgFahm7UIUFwreo3CclxtMqePxGNrv3oOWQ0FcKsCOamPjUTVl
+ iGoW3vf9/GeJo7/zBoq2DJQSRcuN36jfAQPOctgvYtcuifrk21Ynji4smeHdwyNMhNez
+ 59sCjP1VuWEhlb2NyxYa7QXW7wBsXKrPyPKoVVb1LxzACTCki9e04NSCdKAZge9tcpWw
+ B4NE9+tDhrBifYEj5gx73y5bKcpHi8379yZiHyLVgbfN2toA6GX+GLH6BYK34dqs54mJ
+ Se+g==
+X-Gm-Message-State: ANoB5pmZZQCDwJU5B45YMgkljMGSLjdzVx2dAJjEKrIvaKBG/TUkqPis
+ HENwFlOHqPx0jhlmLZX9nbYbnw==
+X-Google-Smtp-Source: AA0mqf5+3QPIKc0Vz8JqVxPcbwi9UOAJU/6HQ8NYjLbEB63VdfUWkS3QwrCIJuuss7sH4dXssfqdUQ==
+X-Received: by 2002:a17:90a:e2c1:b0:219:5bdb:2b45 with SMTP id
+ fr1-20020a17090ae2c100b002195bdb2b45mr7650711pjb.71.1669846952905; 
+ Wed, 30 Nov 2022 14:22:32 -0800 (PST)
 Received: from ?IPV6:2602:47:d48a:1201:7dfe:6c55:976b:754?
  ([2602:47:d48a:1201:7dfe:6c55:976b:754])
  by smtp.gmail.com with ESMTPSA id
- iw1-20020a170903044100b0017f5ad327casm1980408plb.103.2022.11.30.14.21.23
+ a3-20020aa795a3000000b0053e38ac0ff4sm1855659pfk.115.2022.11.30.14.22.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 14:21:23 -0800 (PST)
-Message-ID: <419a37dc-46b5-57fa-7f02-6b8f11d90b46@linaro.org>
-Date: Wed, 30 Nov 2022 14:21:21 -0800
+ Wed, 30 Nov 2022 14:22:32 -0800 (PST)
+Message-ID: <26e52320-2ec1-85b9-6475-6b6f73fdc118@linaro.org>
+Date: Wed, 30 Nov 2022 14:22:30 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH-for-8.0 0/5] cpu: Move target-independent code to common
- code
+Subject: Re: [PATCH-for-8.0 1/2] typedefs: Forward-declare AccelState
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Yanan Wang <wangyanan55@huawei.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Thomas Huth <thuth@redhat.com>
-References: <20221130153519.46190-1-pbonzini@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20221130135641.85328-1-philmd@linaro.org>
+ <20221130135641.85328-2-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221130153519.46190-1-pbonzini@redhat.com>
+In-Reply-To: <20221130135641.85328-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -100,12 +97,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/30/22 07:35, Paolo Bonzini wrote:
-> Queued, thanks.
+On 11/30/22 05:56, Philippe Mathieu-Daudé wrote:
+> Forward-declare AccelState in "qemu/typedefs.h" so structures
+> using a reference of it (like MachineState in "hw/boards.h")
+> don't have to include "qemu/accel.h".
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> ---
+>   include/qemu/accel.h    | 4 ++--
+>   include/qemu/typedefs.h | 1 +
+>   2 files changed, 3 insertions(+), 2 deletions(-)
 
-I think at least two patches are broken.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
