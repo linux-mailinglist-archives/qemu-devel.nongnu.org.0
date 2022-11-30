@@ -2,53 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C61B63D530
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8789463D534
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:06:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0LoW-0007BS-6Y; Wed, 30 Nov 2022 07:03:44 -0500
+	id 1p0Lr4-0001Ix-2I; Wed, 30 Nov 2022 07:06:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkundrak@v3.sk>)
- id 1p0LoS-00079T-LF; Wed, 30 Nov 2022 07:03:41 -0500
-Received: from mail.v3.sk ([167.172.186.51] helo=shell.v3.sk)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p0Lr0-0001HA-5s; Wed, 30 Nov 2022 07:06:18 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkundrak@v3.sk>)
- id 1p0LoP-0005RL-46; Wed, 30 Nov 2022 07:03:38 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id F3999DD144;
- Wed, 30 Nov 2022 11:51:03 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id Thdc7ZOhp-wc; Wed, 30 Nov 2022 11:51:03 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 277E8DD130;
- Wed, 30 Nov 2022 11:51:03 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id qdfmXqGDQfNj; Wed, 30 Nov 2022 11:51:03 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id F09AFDD0FC;
- Wed, 30 Nov 2022 11:51:02 +0000 (UTC)
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Lubomir Rintel <lkundrak@v3.sk>
-Subject: [RESEND PATCH] ide: Add "ide-cf" driver, a CompactFlash card
-Date: Wed, 30 Nov 2022 13:03:19 +0100
-Message-Id: <20221130120319.706885-1-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p0Lqx-0006Vn-IK; Wed, 30 Nov 2022 07:06:17 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AUBCvaA014123; Wed, 30 Nov 2022 12:06:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=NQV/opp7zCz0iZRLm80rzvaWByy9e7DwIEAVgxjWjnE=;
+ b=A7g9+2F4jJSBPw7mLWTRuvUFsacKNtgB7P3g7VXe3ioEkY0s3MTq41YLO3S74PEoPYS/
+ IjAgKgiG8yT05iauZ70NUvRGzq22sZEe0WoRk/yolCzSMLab5NzF9SpucrI1JwGmxLQl
+ 0CvYBKw6r9j/pCUW/ItE7zrEpGQoCr9Lec7hL+M3pchB3LvGmX0gHvr3XbALDLseQPjW
+ 9g/T0vluz4R5DBbBxDTKl4EakZQEyKn7mMgot2/0s28+sPnYvAwDWqefQZi5quW20oyX
+ 8JoYJMBtIeackrEAe2tC1KYKDcOt1nwHqd+fFmOA+awrJgw+YjMCoKE5dRfZaXyN2MTb kw== 
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m663q19t6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 12:06:11 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AUC4row014469;
+ Wed, 30 Nov 2022 12:06:09 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma01fra.de.ibm.com with ESMTP id 3m3ae945km-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 12:06:08 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AUC66R55308982
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 30 Nov 2022 12:06:06 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7A21211C058;
+ Wed, 30 Nov 2022 12:06:06 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 23DEE11C04A;
+ Wed, 30 Nov 2022 12:06:06 +0000 (GMT)
+Received: from heavy (unknown [9.171.36.196])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 30 Nov 2022 12:06:06 +0000 (GMT)
+Date: Wed, 30 Nov 2022 13:06:04 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 19/26] target/s390x: Simplify help_branch
+Message-ID: <20221130120604.a3iblzvlue6b2xmt@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-20-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=167.172.186.51; envelope-from=lkundrak@v3.sk;
- helo=shell.v3.sk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221006034421.1179141-20-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: lSifDKyeZQwvC1wOSvsRUT2gSr09Ypm-
+X-Proofpoint-GUID: lSifDKyeZQwvC1wOSvsRUT2gSr09Ypm-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-30_04,2022-11-30_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 adultscore=0 mlxscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 clxscore=1015 phishscore=0
+ mlxlogscore=708 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211300085
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,79 +103,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This allows attaching IDE_CFATA device to an IDE bus. Behaves like a
-CompactFlash card in True IDE mode.
+On Wed, Oct 05, 2022 at 08:44:14PM -0700, Richard Henderson wrote:
+> Always use a tcg branch, instead of movcond.  The movcond
+> was not a bad idea before PER was added, but since then
+> we have either 2 or 3 actions to perform on each leg of
+> the branch, and multiple movcond is inefficient.
+> 
+> Reorder the taken branch to be fallthrough of the tcg branch.
+> This will be helpful later with TARGET_TB_PCREL.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 154 ++++++++++-------------------------
+>  1 file changed, 44 insertions(+), 110 deletions(-)
 
-Tested with:
-
-  qemu-system-i386 \
-    -device driver=3Dide-cf,drive=3Dcf,bus=3Dide.0 \
-    -drive id=3Dcf,index=3D0,format=3Draw,if=3Dnone,file=3Dcf.img
-
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- hw/ide/qdev.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 618045b85a..6f6c7462f3 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -283,6 +283,11 @@ static void ide_cd_realize(IDEDevice *dev, Error **e=
-rrp)
-     ide_dev_initfn(dev, IDE_CD, errp);
- }
-=20
-+static void ide_cf_realize(IDEDevice *dev, Error **errp)
-+{
-+    ide_dev_initfn(dev, IDE_CFATA, errp);
-+}
-+
- #define DEFINE_IDE_DEV_PROPERTIES()                     \
-     DEFINE_BLOCK_PROPERTIES(IDEDrive, dev.conf),        \
-     DEFINE_BLOCK_ERROR_PROPERTIES(IDEDrive, dev.conf),  \
-@@ -341,6 +346,32 @@ static const TypeInfo ide_cd_info =3D {
-     .class_init    =3D ide_cd_class_init,
- };
-=20
-+static Property ide_cf_properties[] =3D {
-+    DEFINE_IDE_DEV_PROPERTIES(),
-+    DEFINE_BLOCK_CHS_PROPERTIES(IDEDrive, dev.conf),
-+    DEFINE_PROP_BIOS_CHS_TRANS("bios-chs-trans",
-+                IDEDrive, dev.chs_trans, BIOS_ATA_TRANSLATION_AUTO),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void ide_cf_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    IDEDeviceClass *k =3D IDE_DEVICE_CLASS(klass);
-+
-+    k->realize  =3D ide_cf_realize;
-+    dc->fw_name =3D "drive";
-+    dc->desc    =3D "virtual CompactFlash card";
-+    device_class_set_props(dc, ide_cf_properties);
-+}
-+
-+static const TypeInfo ide_cf_info =3D {
-+    .name          =3D "ide-cf",
-+    .parent        =3D TYPE_IDE_DEVICE,
-+    .instance_size =3D sizeof(IDEDrive),
-+    .class_init    =3D ide_cf_class_init,
-+};
-+
- static void ide_device_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *k =3D DEVICE_CLASS(klass);
-@@ -365,6 +396,7 @@ static void ide_register_types(void)
-     type_register_static(&ide_bus_info);
-     type_register_static(&ide_hd_info);
-     type_register_static(&ide_cd_info);
-+    type_register_static(&ide_cf_info);
-     type_register_static(&ide_device_type_info);
- }
-=20
---=20
-2.37.3
-
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
