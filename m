@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C78763DACD
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 17:36:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA51263DACC
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 17:36:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0Q2w-0003jk-ND; Wed, 30 Nov 2022 11:34:54 -0500
+	id 1p0Q2w-0003jl-RV; Wed, 30 Nov 2022 11:34:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Q2r-0003ga-8D
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Q2s-0003ge-3j
  for qemu-devel@nongnu.org; Wed, 30 Nov 2022 11:34:52 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Q2l-0008RR-57
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 11:34:48 -0500
-Received: by mail-wr1-x433.google.com with SMTP id z4so28024793wrr.3
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 08:34:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0Q2p-0008Rt-MS
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 11:34:49 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i81-20020a1c3b54000000b003d070274a61so1409963wma.3
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 08:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=drtb5gGliDsZedmGK5zPJtU/IK4CqfoDuBl+wux4fJU=;
- b=KR9f57aX1p74fNTnASVX2UmunmVx7+Hnz97B8uk2kGRXmLD3IOpDxJ+9caJc1GFQQD
- X/inahr/QfMZyVJ55DwgNjHb6hcPwvV67S0UJaHA6zKlSOzGXNlRfxPt5g9knlxkx5c1
- ns/MDgqxO3IvemQVBPyEkPdGM95r+JyAYSy00ClDCnWe18eusi4vrqT6kfys0skQ2p//
- IgEdLw0yoYH5L/5pJ40AIwG2kO8DNYTWzJy4npHc1U5sIYB+XcDNGiQ4OYkFoyc/T8qC
- lms1LKKx8akJDppXXvld6JDvnF2AnPVNDITnonmmYcZO36DbqKs/c3q0BAa0t3hkOKZq
- chwg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rm47tdE3SdYBH3zdkN0e4TzDiQRPGs47DqgC4yVHqoQ=;
+ b=T/M1VhuZSwy7hWbdL0Hbltsh2/FkJ1TOcvES63I7XKVglI6zXoUJDDWCkjpzESvEfk
+ EAV5tIMSQN3q9Gkuf7FDVwuHVqYzuH5xAWRpJNa7ZYJeHPEMSLxWm41DJBNuPujbqu62
+ dz1zwA4OoNQH/dk3cfwgtCOA3xiBCo6lNsYOxEXbbG5DW05keVXgjHzjV2Iyzq8MuM5B
+ KqfbzXfku/U6JOf92VR0QLYH1fdOoWuNz8H2FaHWrnmPeusN8I+Mlp+D2kqpj7qfgz/i
+ +0VViBlRx6HEYIiJHhtiw911oZcY9pWAztPNhw7T+JapY5OBeqRvoMxhusGxChEJKtsA
+ mxKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=drtb5gGliDsZedmGK5zPJtU/IK4CqfoDuBl+wux4fJU=;
- b=lS3+26ifTT13TBtCM4L0OQVNnMYMrWDm1U3ZLbqkOiWjgMCaCGnKG9gaz5ko9xjVjC
- QE76nuHVXA4eNS8GGKIqodVgbbgArm0vcWUKEk4d8HBhu9xpKtQSE+6Z6oFKgYSWrbP3
- 10nqEk6WY3KJL1SBLD+BoZ63RJnMS0k7kx2caTW7XtKDD8AJRKmj79RSlMwcMsOCVmxE
- 4J6RTsM9xCMC9NPxO2LP0dK2NOYeZ37S34AxUk+nUbyo0ExH1t2ENQ7psgMz0uXCpmkb
- RGX4MAZGiBQVp9ZMlzx0hRRLgY+k+LwW5EceU0DeRtZbnhRkftiJ5M2+6i6Ppq85FVh+
- lc5g==
-X-Gm-Message-State: ANoB5plI0k2ftgZc2P3jnuc6LhOdjyfESQn5ssEWhK7MgSEWpAg3Hj77
- xUnPAhLVQTKzt8LoruhM6U1GNMG6mL63GzOo
-X-Google-Smtp-Source: AA0mqf7lFAGlvMnUrbuqHnPjjMtsNwn+W/AvFKo2vY/fut2CFVnMMjggC/K7YZm1+BAC5f+2h9N1/w==
-X-Received: by 2002:a05:6000:83:b0:242:4a6:5baa with SMTP id
- m3-20020a056000008300b0024204a65baamr16932845wrx.102.1669826079013; 
- Wed, 30 Nov 2022 08:34:39 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rm47tdE3SdYBH3zdkN0e4TzDiQRPGs47DqgC4yVHqoQ=;
+ b=HwA515+1CFA1aVepE/TI5r7IXP8Vzt7DZ7fzsn22ctpXfkrrAll4D/Ly4uh9677CNf
+ edcYF8ooJI7BgKXcXDGuUMWWyVvjhUnxJ0bslj7mFItmxWV1h4WPnSIwL+pr3nM8uy1p
+ vCk9d15xkfdZV0ScUwAuK3+4gJi5xS9oDz2RIemMv3XCEv/ptgZP47kRetp0KvPY3WyM
+ HcrvpFA0gPnNYRNAYvgPm26oXjy5Eo8Yprng9BG/DXiwRkBV6wanbiNRXqUuQNxDaIpG
+ arCEG9XGzV08qYO5X/97M6URsJJcI7TbNuBhbZBx7VrmL/A55aAzUc1hCNyJaM2yBM3k
+ nQJA==
+X-Gm-Message-State: ANoB5pnj0DjqXg+M6flfxLMOTd1wWOA8/x1uJQAjot/aTMOuezCFe2eX
+ CeQbIqeNGBw/s8N07esOEqrNWJDqb8V5GBJz
+X-Google-Smtp-Source: AA0mqf7Yio9oBnMvGTjB4gZVWBoQIbg3UHLZpxGFktowIpm2pYrj1f5yUwJVewxcD4kS+fvJz/IrKw==
+X-Received: by 2002:a05:600c:20b:b0:3cf:f2aa:4f24 with SMTP id
+ 11-20020a05600c020b00b003cff2aa4f24mr44332082wmi.48.1669826084817; 
+ Wed, 30 Nov 2022 08:34:44 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- h40-20020a05600c49a800b003b3365b38f9sm2361096wmp.10.2022.11.30.08.34.37
+ t2-20020a5d42c2000000b002365b759b65sm1985477wrr.86.2022.11.30.08.34.43
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 30 Nov 2022 08:34:38 -0800 (PST)
+ Wed, 30 Nov 2022 08:34:44 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Alessandro Di Federico <ale@rev.ng>, Ilya Leoshkevich <iii@linux.ibm.com>,
@@ -60,15 +62,18 @@ Cc: Alessandro Di Federico <ale@rev.ng>, Ilya Leoshkevich <iii@linux.ibm.com>,
  Thomas Huth <thuth@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
  Anton Johansson <anjo@rev.ng>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH-for-8.0 0/2] target/tcg: Use TCGv_i64 with tcg_temp_new_i64()
-Date: Wed, 30 Nov 2022 17:34:34 +0100
-Message-Id: <20221130163436.87687-1-philmd@linaro.org>
+Subject: [PATCH-for-8.0 1/2] target/s390x: Replace TCGv by TCGv_i64 in
+ op_mov2e()
+Date: Wed, 30 Nov 2022 17:34:35 +0100
+Message-Id: <20221130163436.87687-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221130163436.87687-1-philmd@linaro.org>
+References: <20221130163436.87687-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,17 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Although on 64-bit targets TCGv is defined as TCGv_i64,
-clarify using the correct type for tcg_temp_new_i64().
+Although TCGv is defined as TCGv_i64 on s390x,
+make it clear tcg_temp_new_i64() returns a TCGv_i64.
 
-Philippe Mathieu-Daudé (2):
-  target/s390x: Replace TCGv by TCGv_i64 in op_mov2e()
-  target/sparc64: Replace TCGv by TCGv_i64 in gen_op_multiply()
-
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
  target/s390x/tcg/translate.c | 2 +-
- target/sparc/translate.c     | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 1e599ac259..a77039b863 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -3335,7 +3335,7 @@ static DisasJumpType op_mov2(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_mov2e(DisasContext *s, DisasOps *o)
+ {
+     int b2 = get_field(s, b2);
+-    TCGv ar1 = tcg_temp_new_i64();
++    TCGv_i64 ar1 = tcg_temp_new_i64();
+ 
+     o->out = o->in2;
+     o->g_out = o->g_in2;
 -- 
 2.38.1
 
