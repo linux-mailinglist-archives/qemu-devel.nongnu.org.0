@@ -2,96 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00F263DCB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 19:08:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B813763DCCA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 19:13:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0RVQ-0001dH-GH; Wed, 30 Nov 2022 13:08:24 -0500
+	id 1p0RZk-0003Z6-AW; Wed, 30 Nov 2022 13:12:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1p0RVC-0001Vt-OK; Wed, 30 Nov 2022 13:08:16 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1p0RZi-0003Ym-8L
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 13:12:50 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1p0RVA-0008Dw-51; Wed, 30 Nov 2022 13:08:09 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AUHJ1KZ020668; Wed, 30 Nov 2022 18:08:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=pp1;
- bh=SUDvFemG4aGvHzNFrKMRyY13+NXHG9DgpebsggN+o5s=;
- b=iyV5COKOn+A2igcT9rtOQaXVlYc8oFuefCzsXFT08sBunJvPZ1C0lpjtdqbdHcBE0Of8
- GAQLHq6aQWBxhh5CdsSCelnN6d4SgSMz3LTYzLzVDodlAoQvePyQrHULAew1twyyzfN2
- PtX1BwLMM8N8LIN+91N7o3PnFDf2pm2GCGCJOag8ru/L6q9An084qSFi1FgE/j21jOcr
- vfSLaJqwFCkCslWfTWPZO/LrbRE2luEave+qOhCpfWvcCpfDE4WoHu0rQaN7gUEuxU64
- ZQCiAEW0j/sj7Sasalzpn24WgF0bWZXxQF3CaWdaCovE5UFPS4GeQXdFfrE8bop0QalD Zg== 
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m6bfg9edm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Nov 2022 18:07:59 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AUI5KEt028567;
- Wed, 30 Nov 2022 18:07:58 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma01fra.de.ibm.com with ESMTP id 3m3ae94gpt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Nov 2022 18:07:57 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AUI7t8Y59965830
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Nov 2022 18:07:55 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 62683A405F;
- Wed, 30 Nov 2022 18:07:55 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 233F0A405B;
- Wed, 30 Nov 2022 18:07:55 +0000 (GMT)
-Received: from heavy (unknown [9.171.36.196])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 30 Nov 2022 18:07:55 +0000 (GMT)
-Date: Wed, 30 Nov 2022 19:07:53 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 25/26] tcg: Introduce tcg_temp_is_normal_*
-Message-ID: <20221130180753.zybk3wsbbigkdr6s@heavy>
-References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-26-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1p0RZg-0000eR-81
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 13:12:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=GpklemIYm2ouWHn3RiNUMkxz683OqxKH2jd1JfwIX0U=; b=GYU0Gum/uSawjpgLLBxwzhU8IU
+ ywOawEcJFv+LtpWORUGn3Hc9rfynab8o2h11eyNxVCbkw8bATbkKQ0LxVYC5LlpuovplOKHjOKR6i
+ hxhflRoV1VR+720uLOU1a+ekadlCtDS1+h8XcqwwSCjSzB8HPiefhShF6HQVF9DOKlOKmhEoqyIcs
+ Mu9lVzyFozgmt0nOzTOpxkv/pEuOMe91/Wtk02cLUBBPYO4XYdBpY1TvSlID0UsE9C370fEjam9kT
+ 8HO/V1kuOIBpKZOpw1zg7M7CDy6k2pJmSetimjpQerUXSTgh3kXVrVqlJWDlxbmW7EFhADkR2uAF5
+ rq3z3FshNIxJYaDbJhQ6bN5FexKZA/1dw9Kl7C1b/no+o8erFBbdShrLc0Y6rRtcgVLhyoGOz6EQT
+ O/0dfbr0uTSUZ22yiYDTaW2lJbYz0AceJs9Hl4Ck4UaUOxvVB/C0TaOuNN2wGBV8+hp4hhBhnaCRK
+ 8j+j0BBd36ms/YV9A4DL4Z78zsg7nKonmQMbWhO0MlhsWKUXtJxpDPmKN/rxfwnEZOzqExBbKzzRN
+ 7KtKavZwvAi0FsGOSX8hQLtn6VcaSqB2qxtChcNhcIMnrEEcSDsQ/96/mrUwSsjeYyyzG7URZneln
+ kuNsN8i+62IXPl5x3ERzADxzxBD9iSyzkIsSI9IWQ=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: Re: [PATCH] MAINTAINERS: Add 9p test client to section "virtio-9p"
+Date: Wed, 30 Nov 2022 19:12:42 +0100
+Message-ID: <4272112.8SkojGVNeE@silver>
+In-Reply-To: <E1ozhlV-0007BU-0g@lizzy.crudebyte.com>
+References: <E1ozhlV-0007BU-0g@lizzy.crudebyte.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221006034421.1179141-26-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ev3-I6pNw_vDNUH6bcr-sv7Ld6Q11f4F
-X-Proofpoint-GUID: ev3-I6pNw_vDNUH6bcr-sv7Ld6Q11f4F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-30_04,2022-11-30_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 malwarescore=0 phishscore=0 mlxlogscore=722 mlxscore=0
- spamscore=0 adultscore=0 impostorscore=0 bulkscore=0 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211300126
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,15 +69,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 05, 2022 at 08:44:20PM -0700, Richard Henderson wrote:
-> Allow targets to determine if a given temp will die across a branch.
+On Monday, November 28, 2022 6:12:04 PM CET Christian Schoenebeck wrote:
+> The 9p test cases use a dedicated, lite-weight 9p client implementation
+> (using virtio transport) under tests/qtest/libqos/ to communicate with
+> QEMU's 9p server.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> It's already there for a long time. Let's officially assign it to 9p
+> maintainers.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  include/tcg/tcg-op.h |  2 ++
->  include/tcg/tcg.h    | 15 +++++++++++++++
->  2 files changed, 17 insertions(+)
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
+
+Thanks!
+
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cf24910249..4f156a99f1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2036,6 +2036,7 @@ X: hw/9pfs/xen-9p*
+>  F: fsdev/
+>  F: docs/tools/virtfs-proxy-helper.rst
+>  F: tests/qtest/virtio-9p-test.c
+> +F: tests/qtest/libqos/virtio-9p*
+>  T: git https://gitlab.com/gkurz/qemu.git 9p-next
+>  T: git https://github.com/cschoenebeck/qemu.git 9p.next
+>  
+> 
+
+
+
 
