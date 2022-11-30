@@ -2,41 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289DA63E057
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 19:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6553363E088
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 20:14:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0SFs-0000mv-Ko; Wed, 30 Nov 2022 13:56:25 -0500
+	id 1p0SVq-0006Mo-GR; Wed, 30 Nov 2022 14:12:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0SFn-0000lf-Aw; Wed, 30 Nov 2022 13:56:19 -0500
-Received: from mail-b.sr.ht ([173.195.146.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0SFl-0001LP-Jx; Wed, 30 Nov 2022 13:56:18 -0500
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 9702A11F1E5;
- Wed, 30 Nov 2022 18:56:16 +0000 (UTC)
-From: ~axelheider <axelheider@git.sr.ht>
-Date: Wed, 30 Nov 2022 18:56:16 +0000
-Subject: [PATCH qemu.git 0/1] hw/arm/virt: add 2x sp804 timer
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p0SVo-0006ML-5Y
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 14:12:52 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p0SVl-0003wC-Fn
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 14:12:51 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id g12so28670477wrs.10
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 11:12:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cL+sRGZoTKHb0lwPFPXUuo+Os+NnC5WeFz385BhT+s8=;
+ b=spNNc+xtM9EzDnRZyT2d4FeTHHr2zjevFmoTYW9DXwDjGmmEtfos+NltQeS9AGyVpN
+ 3yohIeDxM6c/GUx25wcCu1yAq8L5WChzy12jopZbi+UFerqqNGtWNL1W1JsE4qDXvF8n
+ u5QLHO1byHXOd+FfZWhc+Or22ERGhcMaeZIfsFNqbZ/2ljJ8qQwQvooVIqLmA+fHj2+0
+ E7gkZvnH9wtN4LGpmEvAO9YHHQ1lnnoijxLkytw1FT+z+whzNQMBTrOGLbpwK32FRh3A
+ Dbb9hPqkXRQdaWWU96O5RcA+1iIVyXM/nvEWBkwcv2BB8R8sVv3IWpQeK/7/bssiLPur
+ Hggg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=cL+sRGZoTKHb0lwPFPXUuo+Os+NnC5WeFz385BhT+s8=;
+ b=I1oDrVsIuvfK3UPWsOwVZKS78FTJwv4FznEX/lvaBe8hiRgRTp6VKG7kZlRlMIG6jN
+ 6d/gbfKYUC+WwHZQnU4ZwTWJiS9YBtVGNiGufrLusRQTJQAlSUG78KrCfeHMEuLs92LV
+ emJt3H89irHTTQE+KUN5zSZzOKWOrhNEncmFa3WI4DevOx8cmuftaAe3IWm6xY4yY0XP
+ +zAknVaRf62T1WqfYSCMGsJH4LGyIGl2XDH21d5HlkUfy7XGql4oUo/8S1BNqxMtbpTg
+ ZHoM4e4wIbuS8dx/f9kLcOfzCY2bZ5Mwo75rQzTfLld2VzjGOk4j8c4nX0H4t1A6Arr9
+ a0ZA==
+X-Gm-Message-State: ANoB5pkI2TtejKobildpX4Eedxzqrn8kuVtQMdSRoZZRwCPdmRTq+neK
+ UphWiAPOtqcKhA/awUc3IY7aOg==
+X-Google-Smtp-Source: AA0mqf5qaS6ryeTUichC9Ih12EsOGCsAXXyjvCm5sc7p1kR0oxyysGZml0pV0qRHtaLtH/Gulo+G6w==
+X-Received: by 2002:adf:dc85:0:b0:242:2ae7:c0cc with SMTP id
+ r5-20020adfdc85000000b002422ae7c0ccmr3094845wrj.577.1669835567478; 
+ Wed, 30 Nov 2022 11:12:47 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ g13-20020a05600c310d00b003a2f2bb72d5sm8149292wmo.45.2022.11.30.11.12.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Nov 2022 11:12:47 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6C4C21FFB7;
+ Wed, 30 Nov 2022 19:12:46 +0000 (GMT)
+References: <166982763526.10484.9925072056712598801-0@git.sr.ht>
+User-agent: mu4e 1.9.3; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: ~axelheider <axelheider@gmx.de>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ daniel.thompson@linaro.org, ~axelheider <axelheider@git.sr.ht>,
+ qemu-arm@nongnu.org
+Subject: Re: [PATCH qemu.git 0/1] hw/arm/virt: make second UART available
+Date: Wed, 30 Nov 2022 19:11:21 +0000
+In-reply-to: <166982763526.10484.9925072056712598801-0@git.sr.ht>
+Message-ID: <87o7socl3l.fsf@linaro.org>
 MIME-Version: 1.0
-Message-ID: <166983457648.13115.4940680286975412418-0@git.sr.ht>
-X-Mailer: git.sr.ht
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -49,28 +92,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~axelheider <axelheider@gmx.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch adds timer peripherals to the arm-virt machine. The
-use case is, that this machine is quite useful for testing purposes
-when it comes to non-Linux operating system (seL4 in our case).
-However, is currently lacks a dedicates timer peripheral, so some
-scenarios cannot be tested easily with QEMU. The RTC cannot be
-used, because he resolution is too low. Since the sp804 supposed
-already exists in QEMU, adding these peripherals seems easy and
-it does not appear to break any existing use cases.
 
-Axel Heider (1):
-  hw/arm/virt: add 2x sp804 timer
+~axelheider <axelheider@git.sr.ht> writes:
 
- docs/system/arm/virt.rst |  1 +
- hw/arm/Kconfig           |  1 +
- hw/arm/virt.c            | 47 ++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/virt.h    |  2 ++
- 4 files changed, 51 insertions(+)
+> This is a follow-up on older attempts to make a second UART
+> available for the arm-virt machine in normal world. The use case
+> is, that this give a simple I/O channel in addition to stdout, as this
+> simplifies various test scenarios. Especially for non-Linux operating
+> system,s (e.g. seL4) where arm-virt is handy as a generic machine
+> for testing purposes.
+>
+> There are existing discussions about this topic at:
+> - https://lists.gnu.org/archive/html/qemu-arm/2017-12/msg00063.html
+> - https://lists.nongnu.org/archive/html/qemu-
+> discuss/2018-11/msg00001.html
+> - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg01613.html
+>
+> This patch tries to address the concerns raised there and also
+> avoid breaking compatibility with existing setups.
+>
+> Axel Heider (1):
+>   hw/arm/virt: make second UART available
+>
+>  hw/arm/virt-acpi-build.c | 12 ++++-----
+>  hw/arm/virt.c            | 55 ++++++++++++++++++++++++++++++----------
+>  include/hw/arm/virt.h    |  4 +--
+>  3 files changed, 49 insertions(+), 22 deletions(-)
 
--- 
-2.34.5
+It would also be worth updating ./docs/system/arm/virt.rst to document
+this feature.=20
+
+--=20
+Alex Benn=C3=A9e
 
