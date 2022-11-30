@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F3F63D300
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CEA63D302
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 11:16:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0K8D-00082n-6F; Wed, 30 Nov 2022 05:16:01 -0500
+	id 1p0K8V-0008NM-8f; Wed, 30 Nov 2022 05:16:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1p0K87-0007vU-7y; Wed, 30 Nov 2022 05:15:52 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1p0K85-0000Ld-Gc; Wed, 30 Nov 2022 05:15:51 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AU9VifB027606; Wed, 30 Nov 2022 10:15:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=sncYirRyl6EKGxAEM031NgGXtKEpr34HfRWbqkEmLWg=;
- b=qBXlZMTVLbAkU3DemYvU4hzOdBUq+vC0NhSWgw9zNk7t2X12VxZEaKavx3VQHYeNDS5h
- EAMy47VGddvRwriomF2X0m9QcnaArIV3SZut4wxV8g/zUs5nwry+N3m0+39Hu2fsd+PS
- kdr8Qb37U687nPrm4Q5BMBkwVW4SsNSgc5Cvea5cdytGAxF9lOA0jsQpXHBAdCgATLfM
- ImBkwMM3zYxk4oNtf4pMRMX7o+LOvVKExWr4miu7aN/WNrnpxKuc+6DZ008meYve7TDV
- Q1lJvlYrYRZySZKhnDSrBYoOxl2cS8oMBnuEuAhdnV6Vy7MbzUc4VzGbixfn33YNse81 Zg== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m6280cr9s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Nov 2022 10:15:42 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AUA7h9H021068;
- Wed, 30 Nov 2022 10:15:40 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04ams.nl.ibm.com with ESMTP id 3m3ae9djym-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Nov 2022 10:15:39 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AUAFb0D57540930
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Nov 2022 10:15:37 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0254AE04D;
- Wed, 30 Nov 2022 10:15:37 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 69966AE045;
- Wed, 30 Nov 2022 10:15:37 +0000 (GMT)
-Received: from heavy (unknown [9.171.36.196])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 30 Nov 2022 10:15:37 +0000 (GMT)
-Date: Wed, 30 Nov 2022 11:15:35 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
-Subject: Re: [PATCH 17/26] target/s390x: Introduce help_goto_indirect
-Message-ID: <20221130101535.7474sypzl4qtfzh3@heavy>
-References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-18-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K8T-0008LH-PA
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:16:13 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0K8R-0000Th-Tt
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 05:16:13 -0500
+Received: by mail-wr1-x434.google.com with SMTP id o5so17282009wrm.1
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 02:16:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=h/8wnEbqdCtS69VTQTVatwt2S9qqAJXPkkg2X/43sdw=;
+ b=TuVPDwfBuOWe7J4cHHxuOHLaeAWrpe6T+YZ4jH4UabisEn+QR7Ib7Dl0pUzkvyuMSb
+ OYTfXJw4xpX9idgZ0tEbTJ/gxVre1cuBPr65Lu5AJXEgqgPeqgwsg4FE5iTtGUp7jxTS
+ vkPZMaZVLJw6VleFLJT3p5Ja5SaeyPkNw0R/h32gD485oZwtiop6vIxP94Hbqg9aGUc9
+ tqjggTga9+nwWrSSgOsOPWY6zwkid/2+YDgMg4Vc5UA/jnPy6vF62HukwlBaGW2XhvHn
+ KZmlu9xYFOhjs1IxU3wimHIpJSHkAVFJ/NazqUh7WEOBh3V8Ld6aWe54iZfiSx3NsjOA
+ G+vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h/8wnEbqdCtS69VTQTVatwt2S9qqAJXPkkg2X/43sdw=;
+ b=Pa8ZIQrBS6od6YQJfGvdqYHseSGLKlNZc4WI1o2/RKJGEaFq6ssUko3hAvEBUX4M2e
+ j6hcA28Bl2++Zr0Ddj6Z+zsqsZyb6uCWApzzHPwwTJTy0aRSatsdvAYqgC5mIu7HYJCn
+ 8qc3Sojgq+MKgUuDuI/9BvmbooNTiA//UqhDbzb+CBkVvSbGL6GLe3Y6Tdff7DSj/4Nc
+ X/k5F3xlNch0fPrxHvqAhFTVC9c4LOJbtJl4fauOge9rwnWQwWQBnL6psxidK+YFlCbP
+ ZzZzNS5YJMVA8MtkRgo86jC2SjRCmc+oOpn9euB7X5KfLj+OTxUCycokrXcf/wgdr0YL
+ E3wg==
+X-Gm-Message-State: ANoB5pkVfczkrpHJVv5Z2PDI+3kAPoNKNH3D4VY2u18cxKj+XlsJJfQP
+ yUUp0+w23YyCT866p6GaB8dVng==
+X-Google-Smtp-Source: AA0mqf7SEIusgK/aLtsjKyv+Tc0VxjhFC2prloqmDHaBXg4dunMVZ/209TkcH7x+IN9LhFwKGBTA1Q==
+X-Received: by 2002:a05:6000:78d:b0:22e:3d63:80bc with SMTP id
+ bu13-20020a056000078d00b0022e3d6380bcmr38985446wrb.30.1669803370553; 
+ Wed, 30 Nov 2022 02:16:10 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ f11-20020a05600c154b00b003c6f3e5ba42sm5711623wmg.46.2022.11.30.02.16.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Nov 2022 02:16:10 -0800 (PST)
+Message-ID: <1924e59f-045e-6015-f3cb-41417f0964b5@linaro.org>
+Date: Wed, 30 Nov 2022 11:16:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221006034421.1179141-18-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ZMlUWaaGiyHHTXviLdpLTOHXRRhH14zS
-X-Proofpoint-GUID: ZMlUWaaGiyHHTXviLdpLTOHXRRhH14zS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-30_04,2022-11-29_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=644 mlxscore=0
- priorityscore=1501 impostorscore=0 clxscore=1015 phishscore=0
- malwarescore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211300073
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH for-8.0 2/2] hw/misc: Convert TYPE_MOS6522 subclasses to
+ 3-phase reset
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20221110143459.3833425-1-peter.maydell@linaro.org>
+ <20221110143459.3833425-3-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221110143459.3833425-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,13 +92,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 05, 2022 at 08:44:12PM -0700, Richard Henderson wrote:
-> Add a small helper to handle unconditional indirect jumps.
+On 10/11/22 15:34, Peter Maydell wrote:
+> Convert the various subclasses of TYPE_MOS6522 to 3-phase reset.
+> This removes some uses of device_class_set_parent_reset(), which we
+> would eventually like to be able to get rid of.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/s390x/tcg/translate.c | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
+>   include/hw/misc/mos6522.h |  2 +-
+>   hw/misc/mac_via.c         | 26 ++++++++++++++++----------
+>   hw/misc/macio/cuda.c      | 14 ++++++++------
+>   hw/misc/macio/pmu.c       | 14 ++++++++------
+>   4 files changed, 33 insertions(+), 23 deletions(-)
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
