@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F93F63DCE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 19:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5BB63DEEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 19:42:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0RcT-0004fK-S0; Wed, 30 Nov 2022 13:15:41 -0500
+	id 1p0S0k-0004Wt-Uh; Wed, 30 Nov 2022 13:40:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0RcL-0004dB-6r
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 13:15:34 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0RcI-0001DD-SG
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 13:15:32 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- p13-20020a05600c468d00b003cf8859ed1bso2048559wmo.1
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 10:15:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=n+w9xat4dBHGB5/WI1ZFcdaTMZn738XokPqqirFMpYU=;
- b=bs65Mu4MXqh2HCmt5kiqFEjRpzyBleG7T/CaphkYIhAMZzCzTmaQibtBGdkbV25ZFa
- 3Ar8mxYFWZ9FMlCkSnDx0xnqyXqaD5cVaxueUL+fn7UXVbJZSxCQ9RE8xP88kWNz9ryW
- j+sQb6DNy6IafkjBlS3qRKNR/9FsTByRqM6Gmt9l4wSPObiE8KUWhOhTyctScbyL+/h0
- Ne4AKAmGz9n3WT8NNu9FcmfSrpI4pPZJVGfC2T4T4amt1tugdtiTDDMM9Wi1aSDbSlhx
- UdqsfL40BTzO3d+qdjZti4fMcmlmWZmr3shKU5gURmRmK9W2uWIzdrDGEdKLxv81LnsN
- ytbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=n+w9xat4dBHGB5/WI1ZFcdaTMZn738XokPqqirFMpYU=;
- b=53woBT+OiuBqWl7X7gB2qzCGM/iDFvBFKZ6yS+8MALR1mAoBAWef4pNvYIt3aInJj8
- JLDHroNoSSOHHrEleQH1+Xg9k00H2q2xEPkSphyshgufhGLko5FNuzA0h9eMc+DM3g6q
- ckQ9IgUWIReYes1ZYk3VLKwhfjLGd5Gs2lPvXxP9LpJmlAoplorrrjhwA7oZWbccHrXD
- /syUR62LrbE527d2pxtQNkItVqAFZhvZFsRlsaz8P4abjREG3OQxEmjoQwM5jLgHre1u
- YyxuOF9QJ5g6wPN8ohuvlFxbj5GODq2jGWub96nL0AT2lymhXYOoQT0hk13G3N1WlEA1
- KnNA==
-X-Gm-Message-State: ANoB5pkMGd7sJosr0YVDpd8Ug/tycsomuzD7e8pS4NOj1AOKK8XF0TLS
- DIxwwIGkyEonEDQnTYs/npIjTg==
-X-Google-Smtp-Source: AA0mqf5YPu+KBq6/xZs/iSU9ZIb2dzufSzJZpWEV0IcBgEDgqg70rpF1XSLXm+9RQcKL2bU6PVSaEw==
-X-Received: by 2002:a05:600c:3ac9:b0:3cf:cfc8:9450 with SMTP id
- d9-20020a05600c3ac900b003cfcfc89450mr32482220wms.99.1669832128912; 
- Wed, 30 Nov 2022 10:15:28 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- e25-20020a05600c4b9900b003cf4ec90938sm2510292wmp.21.2022.11.30.10.15.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 10:15:28 -0800 (PST)
-Message-ID: <5af1cbc2-5897-5e69-a727-6f423c5c08a5@linaro.org>
-Date: Wed, 30 Nov 2022 19:15:26 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0S0i-0004WN-MZ
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 13:40:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0S0g-0006l6-TE
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 13:40:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669833641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ef+1v6pzT+9PrRb5Kgl5pukQe27qI1hlrJnXYSSQHEM=;
+ b=X8myH/QqQdshkNIG8uQwWBuR1dhaGEnemym3jS1sXRhKs/h05gKrPkIWAFMYYSeKuWf5q5
+ p0zetrfIxYr5GXzA/VC4PsPO62+YU2mfhTPWndAZF1JSGTIIvXmfAphQM2aRBNYHzqq9+I
+ MJY5SuEfkCiImbJPWX5TvrzNaizZRww=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-159-WlPue1-qO5Kk9A7wO7EjYA-1; Wed, 30 Nov 2022 13:40:38 -0500
+X-MC-Unique: WlPue1-qO5Kk9A7wO7EjYA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4135580600A;
+ Wed, 30 Nov 2022 18:40:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 019FE477F55;
+ Wed, 30 Nov 2022 18:40:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C3A2A21E6921; Wed, 30 Nov 2022 19:40:33 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org,  mst@redhat.com,  marcel.apfelbaum@gmail.com
+Subject: Re: [PATCH 08/12] pci: Fix silent truncation of
+ pcie_aer_inject_error argument
+References: <20221128080202.2570543-1-armbru@redhat.com>
+ <20221128080202.2570543-9-armbru@redhat.com>
+ <Y4X3vt1M+boYDm7Q@work-vm>
+Date: Wed, 30 Nov 2022 19:40:33 +0100
+In-Reply-To: <Y4X3vt1M+boYDm7Q@work-vm> (David Alan Gilbert's message of "Tue, 
+ 29 Nov 2022 12:14:54 +0000")
+Message-ID: <87cz94476m.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH qemu.git 1/1] hw/arm/virt: make second UART available
-Content-Language: en-US
-To: ~axelheider <axelheider@gmx.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org, daniel.thompson@linaro.org
-References: <166982763526.10484.9925072056712598801-1@git.sr.ht>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <166982763526.10484.9925072056712598801-1@git.sr.ht>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,96 +81,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Axel,
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
-On 14/11/22 13:06, ~axelheider wrote:
-> From: Axel Heider <axel.heider@hensoldt.net>
-> 
-> The first UART always always exists. If the security extensions are
-> enabled, the second UART also always exists. Otherwise, it only exists
-> if a backend is configured explicitly via '-serial <backend>', where
-> 'null' creates a dummy backend. This allows enabling the second UART
-> explicitly on demand and does not interfere with any existing setup
-> that just expect one (or two if security extensions are enabled)
-> UARTs.
-> 
-> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
-> ---
->   hw/arm/virt-acpi-build.c | 12 ++++-----
->   hw/arm/virt.c            | 55 ++++++++++++++++++++++++++++++----------
->   include/hw/arm/virt.h    |  4 +--
->   3 files changed, 49 insertions(+), 22 deletions(-)
+> * Markus Armbruster (armbru@redhat.com) wrote:
+>> PCI AER error status is 32 bit.  When the HMP command's second
+>> argument parses as a number, values greater than ULONG_MAX get
+>> rejected, but values between UINT32_MAX+1 and ULONG_MAX get silently
+>> truncated.  Fix to reject them, too.
+>> 
+>> While there, use qemu_strtoul() instead of strtoul() so checkpatch.pl
+>> won't complain.
+>
+> WOuldn't qemu_strtoui do the num > UINT32_MAX for you?
 
+Yes, that's better.
 
-> @@ -843,6 +843,27 @@ static void create_uart(const VirtMachineState *vms, int uart,
->                           MemoryRegion *mem, Chardev *chr)
->   {
->       char *nodename;
-> +    /*
-> +     * The first UART always always exists. If the security extensions are
-> +     * enabled, the second UART also always exists. Otherwise, it only exists
-> +     * if a backend is configured explicitly via '-serial <backend>', where
-> +     * 'null' creates a dummy backend. This allows enabling the second UART
-> +     * explicitly on demand and does not interfere with any existing setup that
-> +     * just expect one (or two if security extensions are enabled) UARTs.
-> +     */
-> +    switch(uart) {
-> +    case VIRT_UART0:
-> +        break;
-> +    case VIRT_UART1:
+> Dave
+>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  hw/pci/pcie_aer.c | 10 ++++++----
+>>  1 file changed, 6 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+>> index eff62f3945..ccca5a81cc 100644
+>> --- a/hw/pci/pcie_aer.c
+>> +++ b/hw/pci/pcie_aer.c
+>> @@ -30,6 +30,7 @@
+>>  #include "hw/pci/pci_bus.h"
+>>  #include "hw/pci/pcie_regs.h"
+>>  #include "qapi/error.h"
+>> +#include "qemu/cutils.h"
+>>  
+>>  //#define DEBUG_PCIE
+>>  #ifdef DEBUG_PCIE
+>> @@ -963,6 +964,7 @@ static int do_pcie_aer_inject_error(Monitor *mon,
+>>      const char *id = qdict_get_str(qdict, "id");
+>>      const char *error_name;
+>>      uint32_t error_status;
+>> +    unsigned long num;
+>>      bool correctable;
+>>      PCIDevice *dev;
+>>      PCIEAERErr err;
+>> @@ -983,14 +985,14 @@ static int do_pcie_aer_inject_error(Monitor *mon,
+>>  
+>>      error_name = qdict_get_str(qdict, "error_status");
+>>      if (pcie_aer_parse_error_string(error_name, &error_status, &correctable)) {
+>> -        char *e = NULL;
+>> -        error_status = strtoul(error_name, &e, 0);
+>> -        correctable = qdict_get_try_bool(qdict, "correctable", false);
+>> -        if (!e || *e != '\0') {
+>> +        if (qemu_strtoul(error_name, NULL, 0, &num) < 0
+>> +            || num > UINT32_MAX) {
+>>              monitor_printf(mon, "invalid error status value. \"%s\"",
+>>                             error_name);
+>>              return -EINVAL;
+>>          }
+>> +        error_status = num;
+>> +        correctable = qdict_get_try_bool(qdict, "correctable", false);
+>>      }
+>>      err.status = error_status;
+>>      err.source_id = pci_requester_id(dev);
+>> -- 
+>> 2.37.3
+>> 
 
-Maybe pass a 'is_secure' boolean?
-
-> +        if (!vms->secure && !chr) {
-> +            return;
-> +        }
-> +        break;
-> +    default:
-> +        error_report("unsupported UART ID %d", uart);
-> +        exit(1);
-> +    }
-
-
-> @@ -2222,11 +2248,12 @@ static void machvirt_init(MachineState *machine)
->   
->       fdt_add_pmu_nodes(vms);
->   
-> -    create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
-> +    create_uart(vms, VIRT_UART0, sysmem, serial_hd(0));
-> +    create_uart(vms, VIRT_UART1, vms->secure ? secure_sysmem : sysmem,
-> +                serial_hd(1));
->   
->       if (vms->secure) {
->           create_secure_ram(vms, secure_sysmem, secure_tag_sysmem);
-> -        create_uart(vms, VIRT_SECURE_UART, secure_sysmem, serial_hd(1));
-
-Correct.
-
->       }
->   
->       if (tag_sysmem) {
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index 6ec479ca2b..90563c132b 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -69,7 +69,7 @@ enum {
->       VIRT_GIC_ITS,
->       VIRT_GIC_REDIST,
->       VIRT_SMMU,
-> -    VIRT_UART,
-> +    VIRT_UART0,
->       VIRT_MMIO,
->       VIRT_RTC,
->       VIRT_FW_CFG,
-> @@ -79,7 +79,7 @@ enum {
->       VIRT_PCIE_ECAM,
->       VIRT_PLATFORM_BUS,
->       VIRT_GPIO,
-> -    VIRT_SECURE_UART,
-> +    VIRT_UART1, /* secure UART if vms->secure */
-(I'm not sure changing the name is worth the churn).
-
-Regards,
-
-Phil.
 
