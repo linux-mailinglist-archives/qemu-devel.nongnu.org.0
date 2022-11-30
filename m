@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FF863D594
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C7B63D5A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:32:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0MBg-0001zZ-M7; Wed, 30 Nov 2022 07:27:40 -0500
+	id 1p0MEs-0002sN-9b; Wed, 30 Nov 2022 07:30:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p0MBe-0001yp-5t
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:27:38 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p0MBc-000390-IL
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:27:37 -0500
-Received: by mail-pg1-x535.google.com with SMTP id 62so15861550pgb.13
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 04:27:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=W1I1E2iT1+JKOXqcl57Z9EGt3zZ+m8Rf45KNpkzA5VM=;
- b=ik9NVAaX2DGfGRqnErPK0VWejFTsgwpXr38kGtaNmIN8NQR99Mol72nLAYDLeS/ENs
- SKOOCSbl/myBAJPLEFemK5pmGsJP1ZPeO9/qAd/hGaKTbsnI0qHhGoCVOVpEv6YUpAUi
- QhFJh6BzPatx2JhF8zRbCSovpFLwQeI03TTo7EUAGazj3yB3DdwPJL+z3XmA5Jx7QNI7
- f2SgF+mtgvzMrJed3a21K4iCc6A9DhHx7kJALLHgqenbkjemuSPzxk3jz6qH6VN0jmEn
- tH50TLvxacyzVQC8Dj59FWMwSDGBKpFaKu80ZhrEcjZmjj3GqmKHH0bKXovsDdfhFTu8
- BNDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=W1I1E2iT1+JKOXqcl57Z9EGt3zZ+m8Rf45KNpkzA5VM=;
- b=T0Yl7m3zEGSYfzU3ZyiyEA50zSgDWlCs7DKyVF69myHS4qROo/p8eKR7Jd7E7i/ooD
- wsYPFSCO3g++T5qnWcFgF1qxdzeM69wJITkreQt2obd2jNWEijdrB1is5gR9BoVDehrV
- B3TaJZ8/S7Hi4vZp6vL0S3XNr100BoTDMRpRmeqYFhRVgOHmuwcadfWRQKNwKnWaLn7G
- GWS14i25f0LZSZYqvtlwqzaaSbnPr4Uh53fDG/OE4IopMjFgPE/qqzwL9cYYZGtiF1L7
- +LdmoW2X81boyVY5ccbLy1F6sshwDxuG6nDaNMaP9JW4UmBG37aFDMegyIgZxYIAi4km
- UZHQ==
-X-Gm-Message-State: ANoB5pmHpTwTSFrl78plBxtnpoJAy8aPDKrMWWwpeWxMWpXXM3IsQCHs
- wumYkGLr1DjCWqFI1J1cKsnt1fFpdxXjXzylb+9GMg==
-X-Google-Smtp-Source: AA0mqf4M3m6A5CDPuZNK3Xb8CULIwBFTGeK914TgOAJzLGSnngHKxSQmUq7gAzIhHAS8+VkFUmDA3x1I2Qzl2vlw0AI=
-X-Received: by 2002:a65:45c5:0:b0:46b:2753:2a60 with SMTP id
- m5-20020a6545c5000000b0046b27532a60mr38483621pgr.192.1669811254948; Wed, 30
- Nov 2022 04:27:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0MEp-0002s7-I4
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:30:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0MEn-0003eG-MZ
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:30:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669811450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nu0Zf8eZHTaZ7Lhb3ZW25vK906HRIAdRZZqIx+3HwOo=;
+ b=fA1smiT1fRcxCS6G0v8qJGI6s39LeSEBN0ZgrxYilcHuncTndeHQ9vqJDy+yrtC2oVfBVZ
+ vEckRO+BIQjlzkFf96EdkQ0J+E2sLjjDgJHjma7ylRzk7P1auM+xKRZKJH/E+q/StIQzc6
+ dq3uQ7Vx/fKkYxP1AuissBZI/X+7daU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-578-r3JoLh_UM9qhRtEVzVgkLQ-1; Wed, 30 Nov 2022 07:30:47 -0500
+X-MC-Unique: r3JoLh_UM9qhRtEVzVgkLQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96D5285A59D
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 12:30:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54BEC492B04;
+ Wed, 30 Nov 2022 12:30:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8770421E6921; Wed, 30 Nov 2022 13:30:43 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  Peter Krempa <pkrempa@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?=
+ Lureau <marcandre.lureau@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: Who / what uses QMP command add_client?
+References: <878rjtretb.fsf@pond.sub.org> <Y4YgP+ojc+B+dkhO@redhat.com>
+Date: Wed, 30 Nov 2022 13:30:43 +0100
+In-Reply-To: <Y4YgP+ojc+B+dkhO@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 29 Nov 2022 15:07:43 +0000")
+Message-ID: <878rjsmxos.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220927100347.176606-1-jean-philippe@linaro.org>
- <20220927100347.176606-6-jean-philippe@linaro.org>
- <CAFEAcA9EqYi0LdXtz84_-8r1L3DUNWdnNL4LTHrm0n4cub4ejQ@mail.gmail.com>
- <CAL_JsqK+NngZMheR7zR2oTVmgNFKKUhZtOAys=NmPQK_FdSq_A@mail.gmail.com>
-In-Reply-To: <CAL_JsqK+NngZMheR7zR2oTVmgNFKKUhZtOAys=NmPQK_FdSq_A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 30 Nov 2022 12:27:23 +0000
-Message-ID: <CAFEAcA_t2hRPLcG-dyg4U5EzBX16FWWRzqMGy=ovnQpC1iB6Vg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] hw/arm/virt: Fix devicetree warnings about the
- GPIO node
-To: Rob Herring <robh@kernel.org>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x535.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,47 +83,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 29 Nov 2022 at 20:56, Rob Herring <robh@kernel.org> wrote:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> On Tue, Nov 29, 2022 at 03:54:56PM +0100, Markus Armbruster wrote:
+>> QMP command add_client's schema:
+>>=20
+>>     ##
+>>     # @add_client:
+>>     #
+>>     # Allow client connections for VNC, Spice and socket based
+>>     # character devices to be passed in to QEMU via SCM_RIGHTS.
+>>     #
+>>     # @protocol: protocol name. Valid names are "vnc", "spice", "@dbus-d=
+isplay" or
+>>     #            the name of a character device (eg. from -chardev id=3D=
+XXXX)
+>>     #
+>>     # @fdname: file descriptor name previously passed via 'getfd' command
+>>     #
+>>     # @skipauth: whether to skip authentication. Only applies
+>>     #            to "vnc" and "spice" protocols
+>>     #
+>>     # @tls: whether to perform TLS. Only applies to the "spice"
+>>     #       protocol
+>>     #
+>>     # Returns: nothing on success.
+>>     #
+>>     # Since: 0.14
+>>     #
+>>     # Example:
+>>     #
+>>     # -> { "execute": "add_client", "arguments": { "protocol": "vnc",
+>>     #                                              "fdname": "myclient" =
+} }
+>>     # <- { "return": {} }
+>>     #
+>>     ##
+>>     { 'command': 'add_client',
+>>       'data': { 'protocol': 'str', 'fdname': 'str', '*skipauth': 'bool',
+>>                 '*tls': 'bool' } }
+>>=20
+>> Spot the design flaw!
+>>=20
+>> It's overloaded @protocol.  Two issues.
 >
-> On Tue, Sep 27, 2022 at 6:25 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
-> > <jean-philippe@linaro.org> wrote:
-> > >
-> > > Since the pl061 device can be used as interrupt controller, its node
-> > > should contain "interrupt-controller" and "#interrupt-cells" properties.
-> >
-> > It *can* be, but this PL061 is *not* an interrupt controller.
-> > I don't see any reason why we should claim so in the DT.
+> My bad. Can't imagine why I called its impl add_graphics_client
+> but then made it work for graphics clients and chardevs all
+> the way back in day 1.
+
+We had a lot less experience with QMP interface design back then.
+
+The obvious fix (if we want to) is to add protocol "chardev" with
+additional member for the chardev's ID, and deprecate use of chardev IDs
+as protocol.
+
+Compatibility break: a chardev with ID "chardev" no longer works.
+
+Could also use "socket" instead of "chardev"if we're confident no other
+chardev type will ever be needed here.
+
+>> One, character device IDs "vnc", "spice", "@dbus-display" don't work
+>> here.  If we ever add another protocol, we make another device ID not
+>> work.  Perhaps this is why Marc-Andr=C3=A9 chose "@dbus-display", which
+>> otherwise looks like a typo :)
+>>=20
+>> Two, introspection can't tell us what protocols are supported.
+>>=20
+>> As far as I can tell, libvirt does not use this with character devices.
+>> It does use the other three protocols.
+>>=20
+>> Are there any known uses with character devices?
+
+See [*] below.
+
+>> If not, any ideas why one would want to use the command with character
+>> devices?
 >
-> Taking another look, it is an interrupt controller. The GPIOs are
-> connected to the 'gpio-keys' node which is interrupt based (there's a
-> polled version too). That binding happens to be pretty lax and allows
-> the GPIO to be specified either with 'gpios' or 'interrupts' property.
-> The Linux PL061 driver happens to work only because it always
-> registers an interrupt controller regardless of having
-> "interrupt-controller" and "#interrupt-cells" properties or not.
+> Ordinarily a client will directly connect() to QEMU to setup the
+> socket connection. Depending on the protocol this may involve both
+> TLS negotiation and authentication. This is a good thing when exposed
+> over a public IP address. It is tedious when connecting from a local
+> client though.
+>
+> The idea behind the 'add_client' method was to enable short circuiting
+> of encryption and authentication, for local only clients. For example,
+> virt-viewer/virt-manager can do socketpair() and pass one of the FDs
+> across to QEMU, and bypass any VNC authentication. This is still secure,
+> as FD passing is mediated by libvirt which the app has already
+> authenticated against.
+>
+> This is conceptually useful for any backend exposed as a network
+> socket, accepting ad-hoc client connections. So it is in scope for
+> chardevs, nbd, vnc, spice.
 
-No, it really isn't an interrupt controller. The interrupt controller
-in this system is the GIC. The PL061 is a GPIO controller. It *has*
-an interrupt line, which it connects to the GIC, but that doesn't make
-it an interrupt controller any more than it makes a UART an interrupt
-controller. It just means you can use the GPIOs in either a polled
-or an interrupt-driven mode, same as you can use a PL011 UART in
-either polled or interrupt-driven mode. And the guest knows it
-can do that because we've told it "this is a PL061" and that's part
-of the PL061's functionality.
+Does libvirt implement this with socket character devices?
 
-The gpio-keys stuff is just "here is a wire which is tracking
-the state of an emulated power button". This isn't an interrupt,
-it's just a wire that has some status the guest probably
-cares about.
+[*] If yes, we have a known use.  Else we don't, I presume.
 
-The second PL061 which this bit of dtb-generation code also
-applies to happens to currently be being used purely for
-output GPIOs, so calling that one an interrupt controller
-makes even less sense.
+> I notice another flaw for chardevs though - we're ignoring thue
+> 'skipauth' parameter, so we're failing to skip TLS on chardevs
+> should anyone try to use this.
+>
+> With regards,
+> Daniel
 
-thanks
--- PMM
 
