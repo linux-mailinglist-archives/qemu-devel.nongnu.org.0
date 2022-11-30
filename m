@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FB663D1C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 10:24:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE61863D1C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 10:24:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0JJM-0005JI-Oq; Wed, 30 Nov 2022 04:23:24 -0500
+	id 1p0JKW-0005x3-7V; Wed, 30 Nov 2022 04:24:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p0JJH-0005Iq-MK
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 04:23:21 -0500
+ id 1p0JKU-0005wj-Nl; Wed, 30 Nov 2022 04:24:34 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p0JJG-0007l5-2f
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 04:23:19 -0500
+ id 1p0JKT-0007qZ-8h; Wed, 30 Nov 2022 04:24:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WjJrG7Jf7sFJlIh55CwIXqXTgwIZ+hFcp4YpZpOWR/E=; b=yInGjV60XoJH2DIPqKD+Uwhrv2
- o7BBBQpdoQtk2SGkgNJJ9Sz/0pYymk+6UPIGFl1Un/KE4VnGetg1KQdN6ps+GvwJjAWq0qgsd6qlY
- kdd8HoY0lwEw3o9DNNfnNYDJWdR/J8fP2dFnc72lm+UfcFQK9RY/NEuwuxJWYfg7N2kmrFKuctKPt
- 6E3PEpIuOifQCM49z6olvDVkOgFXBo1lcF76tGeKZUBw7cH8U1q2WXcuvcNWMdP4J3u5kfvK8TNY5
- C1KmeyFDCBvqABMSXZPY2yJjK4YDWEGsWq3B8teL+enodGZFOj3pNHhfJPLmqi6gUd9kE5r70LUw7
- k4v4qnDliXqDLxBahyQowrD6a7CCfc44P0ST3+3OuT5CSoduzGI9ggekVQtGOcrohsIpdezzOYSk4
- vMVnHJscE04lyt2oua3fgEUc9qCWfQYDjn9QnSNeRDUEevXjhJjoQi5lqlaGu/+2iB+xeDgRwCprv
- 3Y9tj6BDjqCW6WPVD+i+DZWIzn+EPMv5Qu7dBgggfDkO6Tum5uyUwND6BrJR+GlelAW4fYCaOVVeB
- Sqz9LTT4HzhY2UTaS/bwVdtj85xVePYc8P/k4uD0eVZ3tMXXU5XTiJoY5907Bnjgj1Tw8k8DKCyyh
- eACotjofTURoboEOX6M6USkdkjQeVnLNTshjhNioc=;
+ bh=TtWM3lRAz2yFbpgRlGAbmEV3MNcA7vpFGDcPrEC8R2o=; b=fXWOCbnaOqm18S0/kkDSivkA9Q
+ FvoXoJlV0YQXR4afJr0migNroQS7WWWvh0Q8MSUIf+Aw2svYkYGtF77sISbRYX6oS+70QU4QCEAgI
+ ORxrc29GFsNlyEVUQv7MVTvUp21QIDausAl7zq8O/5tGTAoylRH80+Jwlkw2LxzD7j6PxB6nUbjh+
+ Yzr056gmED3m62mqRcrii5r55rIOf2barki4cRoZF2Rr4j4msz7hhi6BDVUrOcjQ9kaIm0nVs4lW/
+ jtmLC5mnQ9XIvhxFdLzptX6hfIfU4YFAGCfZAPJ0clCD2Lz5mEENS6txnjKet9ko/Iw6/4/IEY6KH
+ grLZMKNZy+TgpYKARqWS5yd4XElDt4n913E2WTgQC+ayVJooeLb/lp3JJ6elZ3Hz1wXj/r252IYfO
+ WQWXAgWJ21cdRuLBO9GDyb6Stkp58VCVdhIxM4hbj03GPCiJb2gWdd8eg/r1TdaFmVcPi22Ksjyp2
+ Q0P8lwmzisCQDD/vxguWPbSDwB/5hqZGmDD4c66AkIVeQZnAsUQ8OJiEPUSXMyNkwizvFqzYZ0skB
+ 6ly4ngEDZPbIbp4RPbn2LyLGJscmuYczxYP705B4KB7kP3eTRlKIjwcNMAj/BpSCJeSZkplEENowc
+ lah4Y/gl7UYmfdECGxKwK86RyXkxT609ZNGu/XBII=;
 Received: from host86-149-46-27.range86-149.btcentralplus.com ([86.149.46.27]
  helo=[10.8.0.6])
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p0JIy-000AmE-9M; Wed, 30 Nov 2022 09:23:04 +0000
-Message-ID: <9bb475e0-e048-3dac-c86f-ed2a3423ce8a@ilande.co.uk>
-Date: Wed, 30 Nov 2022 09:23:04 +0000
+ id 1p0JJd-000AmR-D8; Wed, 30 Nov 2022 09:23:45 +0000
+Message-ID: <dbe2c845-077a-ab0c-6427-2ce2c56c9765@ilande.co.uk>
+Date: Wed, 30 Nov 2022 09:23:47 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: alex.bennee@linaro.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
-References: <20221123095445.31970-1-mark.cave-ayland@ilande.co.uk>
- <20221123095445.31970-2-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA-3sfsCDA7O8y_fa=amKSCBO0CW6y4=ci_rrqkm=D8xaw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Michael Rolnik <mrolnik@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, Song Gao <gaosong@loongson.cn>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Laurent Vivier
+ <laurent@vivier.eu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ Stafford Horne <shorne@gmail.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20221124115023.2437291-1-peter.maydell@linaro.org>
+ <20221124115023.2437291-18-peter.maydell@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAFEAcA-3sfsCDA7O8y_fa=amKSCBO0CW6y4=ci_rrqkm=D8xaw@mail.gmail.com>
+In-Reply-To: <20221124115023.2437291-18-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.149.46.27
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/1] tcg: convert tcg/README to rst
+Subject: Re: [PATCH for-8.0 17/19] target/sparc: Convert to 3-phase reset
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -82,114 +99,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/11/2022 13:21, Peter Maydell wrote:
+On 24/11/2022 11:50, Peter Maydell wrote:
 
-> On Wed, 23 Nov 2022 at 09:54, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> Convert tcg/README to rst and move it to docs/devel as a new "TCG Intermediate
->> Representation" page. There are a few minor changes to improve the aesthetic
->> of the final output which are as follows:
->>
->>    - Rename the title from "Tiny Code Generator - Fabrice Bellard" to "TCG
->>      Intermediate Representation"
->>
->>    - Remove the section numbering
->>
->>    - Add the missing parameters to the ssadd_vec operations in the "Host
->>      vector operations" section
->>
->>    - Change the path to the Atomic Operations document to use a proper
->>      reference
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Convert the sparc CPU class to use 3-phase reset, so it doesn't
+> need to use device_class_set_parent_reset() any more.
 > 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   target/sparc/cpu-qom.h |  4 ++--
+>   target/sparc/cpu.c     | 12 ++++++++----
+>   2 files changed, 10 insertions(+), 6 deletions(-)
 > 
-> 
->> +   * - ctpop_i32/i64 *t0*, *t1*
->> +
->> +     - .. line-block::
->> +          *t0* = number of bits set in *t1*
->> +
->> +          With *ctpop* short for "count population", matching
->> +          the function name used in ``include/qemu/host-utils.h``.
-> 
-> Because we're using line-block, any newline is a literal newline.
-> This causes some odd looking linebreaks because you get a linebreak
-> both where it is in the input (after "matching") and again when
-> the browser auto-wraps long lines. I think it would be better
-> to not use line-block at all. Instead, we can just put in a blank
-> line when we want a line break, like this:
-> 
-> diff --git a/docs/devel/tcg-ops.rst b/docs/devel/tcg-ops.rst
-> index 0d90f3f7a00..e8a51ed1459 100644
-> --- a/docs/devel/tcg-ops.rst
-> +++ b/docs/devel/tcg-ops.rst
-> @@ -252,8 +252,9 @@ Arithmetic
-> 
->      * - rem_i32/i64 *t0*, *t1*, *t2*
-> 
-> -     - .. line-block::
-> +     -
->             *t0* = *t1* % *t2* (signed)
-> +
->             Undefined behavior if division by zero or overflow.
-> 
->      * - remu_i32/i64 *t0*, *t1*, *t2*
-> @@ -339,8 +340,9 @@ Shifts/Rotates
-> 
->      * - shl_i32/i64 *t0*, *t1*, *t2*
-> 
-> -     - .. line-block::
-> +     -
->             *t0* = *t1* << *t2*
-> +
->             Unspecified behavior if *t2* < 0 or *t2* >= 32 (resp 64)
-> 
->      * - shr_i32/i64 *t0*, *t1*, *t2*
-> 
-> This will result in slightly more whitespace between lines
-> in a few places, but I think it's nicer than the mis-wrapped
-> paragraphs.
+> diff --git a/target/sparc/cpu-qom.h b/target/sparc/cpu-qom.h
+> index 86ed37d9333..78bf00b9a23 100644
+> --- a/target/sparc/cpu-qom.h
+> +++ b/target/sparc/cpu-qom.h
+> @@ -35,7 +35,7 @@ typedef struct sparc_def_t sparc_def_t;
+>   /**
+>    * SPARCCPUClass:
+>    * @parent_realize: The parent class' realize handler.
+> - * @parent_reset: The parent class' reset handler.
+> + * @parent_phases: The parent class' reset phase handlers.
+>    *
+>    * A SPARC CPU model.
+>    */
+> @@ -45,7 +45,7 @@ struct SPARCCPUClass {
+>       /*< public >*/
+>   
+>       DeviceRealize parent_realize;
+> -    DeviceReset parent_reset;
+> +    ResettablePhases parent_phases;
+>       sparc_def_t *cpu_def;
+>   };
+>   
+> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+> index 4c3d08a8751..1734ef8dc6b 100644
+> --- a/target/sparc/cpu.c
+> +++ b/target/sparc/cpu.c
+> @@ -28,14 +28,16 @@
+>   
+>   //#define DEBUG_FEATURES
+>   
+> -static void sparc_cpu_reset(DeviceState *dev)
+> +static void sparc_cpu_reset_hold(Object *obj)
+>   {
+> -    CPUState *s = CPU(dev);
+> +    CPUState *s = CPU(obj);
+>       SPARCCPU *cpu = SPARC_CPU(s);
+>       SPARCCPUClass *scc = SPARC_CPU_GET_CLASS(cpu);
+>       CPUSPARCState *env = &cpu->env;
+>   
+> -    scc->parent_reset(dev);
+> +    if (scc->parent_phases.hold) {
+> +        scc->parent_phases.hold(obj);
+> +    }
+>   
+>       memset(env, 0, offsetof(CPUSPARCState, end_reset_fields));
+>       env->cwp = 0;
+> @@ -889,12 +891,14 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+>       SPARCCPUClass *scc = SPARC_CPU_CLASS(oc);
+>       CPUClass *cc = CPU_CLASS(oc);
+>       DeviceClass *dc = DEVICE_CLASS(oc);
+> +    ResettableClass *rc = RESETTABLE_CLASS(oc);
+>   
+>       device_class_set_parent_realize(dc, sparc_cpu_realizefn,
+>                                       &scc->parent_realize);
+>       device_class_set_props(dc, sparc_cpu_properties);
+>   
+> -    device_class_set_parent_reset(dc, sparc_cpu_reset, &scc->parent_reset);
+> +    resettable_class_set_parent_phases(rc, NULL, sparc_cpu_reset_hold, NULL,
+> +                                       &scc->parent_phases);
+>   
+>       cc->class_by_name = sparc_cpu_class_by_name;
+>       cc->parse_features = sparc_cpu_parse_features;
 
-I tried this locally, however without the explicit line-block:: everything was still 
-placed in a single line even with multiple blank lines. I think I read somewhere that 
-all table content is forced into a single document by default, which explains why it 
-was necessary for me to add the line-block:: to get multi-line table content.
-
-> If you really want to keep the line-block formatting, I think
-> you need to use the vertical-bar version, which lets you
-> specify which lines of the source are really new lines
-> (they have a '|' at the start), and which are just continuations
-> of the same line (they start with a ' ' instead), like this:
-> 
-> @@ -325,11 +325,11 @@ Logical
-> 
->      * - ctpop_i32/i64 *t0*, *t1*
-> 
-> -     - .. line-block::
-> -          *t0* = number of bits set in *t1*
-> -
-> -          With *ctpop* short for "count population", matching
-> -          the function name used in ``include/qemu/host-utils.h``.
-> +     -
-> +       |   *t0* = number of bits set in *t1*
-> +       |
-> +       |   With *ctpop* short for "count population", matching
-> +           the function name used in ``include/qemu/host-utils.h``.
-> 
-> 
-> But I'm not sure it's really worth the effort.
-
-This approach seems to work well for me, certainly it feels easier to maintain 
-compared to switching everything over to use grid tables. I've got a v2 update which 
-I shall post shortly.
-
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> thanks
-> -- PMM
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
