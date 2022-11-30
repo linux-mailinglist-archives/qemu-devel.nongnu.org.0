@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BCF63D547
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB0B63D54F
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 13:15:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0LuE-0003PN-Nn; Wed, 30 Nov 2022 07:09:38 -0500
+	id 1p0LzP-0004ab-5r; Wed, 30 Nov 2022 07:14:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0LuC-0003P0-Pg
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:09:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p0LzM-0004a1-KW; Wed, 30 Nov 2022 07:14:56 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0LuA-0007Gv-Dq
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 07:09:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669810170;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wHLNIINzKNCws+IL5aghqirVzT0LoVkcpno+PHTjkCY=;
- b=QtYhvEm3Kq2PzAAMKRoF14ic5JFIoku5KRA0KOqOtMM2octriOkk/AEOuZJxARk7ZOmCQ9
- 9h7qrsH9zNm9YneQoadNRXq+oZPmMeUdXuHpNHj8kLSicrefrdY0mug6+PHcaOMXRBIz5z
- Wg071GEeTebA0X3E6fu/PvAugZHpjvw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-mV34FEWAP-Wv8Nh0f1FlIg-1; Wed, 30 Nov 2022 07:09:27 -0500
-X-MC-Unique: mV34FEWAP-Wv8Nh0f1FlIg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 967A5380450E;
- Wed, 30 Nov 2022 12:09:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10B872166B26;
- Wed, 30 Nov 2022 12:09:24 +0000 (UTC)
-Date: Wed, 30 Nov 2022 12:09:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 for-8.0 0/5] scripts/make-release: Decrease size of
- the release tarballs
-Message-ID: <Y4dH71Z+Zg29Erl3@redhat.com>
-References: <20221128092555.37102-1-thuth@redhat.com>
- <Y4TqEDYs+T4z6PX/@redhat.com>
- <4bf10f82-03a4-42e6-a66b-e78e182a83a8@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p0LzL-00083E-00; Wed, 30 Nov 2022 07:14:56 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AUAg3p5003007; Wed, 30 Nov 2022 12:14:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=d58ojXKOHB8r+KiATB3v8O9pQ2LQJYQs27fOdH+UQqU=;
+ b=NehWsJ+2vTX9tQCaNSTwqTubsdJputXYeSstcqUfqE/vqxCbCUa1oLlevR8neHMSq0ZG
+ bE3qP2rvgomt83J7DyDK5f6Yzj72XBcoOFLqo6V2ALplOKyTkJ4RglG62eaa4nDArz1r
+ pdzcnitUu3dno4xDfJ7EwfZPoI8jbgDw59OYO/GEkHl/bqVp0yBRItJyzki3V557kQyk
+ GpsbfZ5Hzo/3IoervbpxUzyMGhmKH1bmKoZfPvv+nqzZpLq6ekupqlnlSbmQr7z/gnl1
+ E5X56mR7vKSiuzpDfhFUyXiNwHm8BXNgc09sq8MAVvrB/Zl8hDE1BWXI7r+KXBonZvUc eg== 
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m65nbj7qt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 12:14:51 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AUC5x0B019984;
+ Wed, 30 Nov 2022 12:14:49 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma02fra.de.ibm.com with ESMTP id 3m3ae945fg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 12:14:49 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2AUC8Hsv10289824
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 30 Nov 2022 12:08:17 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 378FD4C046;
+ Wed, 30 Nov 2022 12:14:47 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 00E194C04A;
+ Wed, 30 Nov 2022 12:14:47 +0000 (GMT)
+Received: from heavy (unknown [9.171.36.196])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 30 Nov 2022 12:14:46 +0000 (GMT)
+Date: Wed, 30 Nov 2022 13:14:45 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 20/26] target/s390x: Split per_breaking_event from
+ per_branch_*
+Message-ID: <20221130121445.z2c3vsfjsubfa7jg@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-21-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4bf10f82-03a4-42e6-a66b-e78e182a83a8@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20221006034421.1179141-21-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Kz_PkJrBGZqc4KHc_qXFoiVyLvpPUYYK
+X-Proofpoint-ORIG-GUID: Kz_PkJrBGZqc4KHc_qXFoiVyLvpPUYYK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-30_04,2022-11-30_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 mlxscore=0
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
+ adultscore=0 priorityscore=1501 spamscore=0 clxscore=1015 mlxlogscore=746
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211300085
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,114 +101,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 30, 2022 at 11:49:50AM +0100, Thomas Huth wrote:
-> On 28/11/2022 18.04, Daniel P. Berrangé wrote:
-> > On Mon, Nov 28, 2022 at 10:25:50AM +0100, Thomas Huth wrote:
-> > > Our release tarballs are huge - qemu-7.2.0-rc2.tar.xz has a size of 116
-> > > MiB. If you look at the contents, approx. 80% of the size is used for the
-> > > firmware sources that we ship along to provide the sources for the ROM
-> > > binaries. This feels very wrong, why do we urge users to download such
-> > > huge tarballs while 99.9% of them never will rebuilt the firmware sources?
-> > > We were also struggeling a bit in the past already with server load and
-> > > costs, so we should really try to decrease the size of our release tarballs
-> > > to a saner level.
-> > 
-> > The main reason for shipping the source in the tarball was to
-> > guarantee license compliance for anyone who is distributing
-> > qemu release tarballs, including ourselves.
-> > 
-> > Splitting off the firmware source, but not the firmware binaries,
-> > means people are now at risk of not complying with the license
-> > but failing to provide complete and corresponding source.
-> > 
-> > Technically the license requirement is only critical for GPL
-> > licenses ROMs, but as good practice we do it for all our ROMs.
-> > 
-> > > So let's split the firmware sources into a separate tarball to decrease
-> > > the size of the main QEMU sources tarball a lot (which should help us
-> > > to safe a lot of traffic on the server).
-> > 
-> > With my distro maintainer hat I would rather QEMU ship neither the
-> > ROM source, nor the ROM binaries.
-> > 
-> > Still the binaries are convenient for people doing their own QEMU
-> > builds from source.
-> > 
-> > How about shipping two distinct options:
-> > 
-> >    qemu-x.y.z.tar.xz          (QEMU source only)
-> >    qemu-bundled-x.y.z.tar.xz  (QEMU source + bundled ROM binaries + ROM sources)
-> > 
-> > though I'm not sure how much of an impact that will have on the download
-> > traffic - depends what is causing the traffic.
-> > 
-> > Another option is
-> > 
-> >    qemu-x.y.z.tar.xz        (QEMU source only)
-> >    qemu-roms-x.y.z.tar.xz   (bundled ROM binaries + ROM sources)
-> > 
-> > though this is slightly more inconvenient for users, and there's the
-> > risk they'll use new QEMU with old ROMs.
+On Wed, Oct 05, 2022 at 08:44:15PM -0700, Richard Henderson wrote:
+> This allows us to update gbea before other updates to psw_addr,
+> which will be important for TARGET_TB_PCREL.
 > 
-> Maybe that would work for distros, but I don't think that these are good
-> options for the average users who just want to download and recompile the
-> latest version of QEMU on their own.
-> I assume that most users don't have an environment with cross-compilers or
-> for running things in a container, so I think they still want to use the
-> pre-built binaries. Thus, if you bundle the binaries along with their
-> sources, people will still continue to download the big tarball and we
-> haven't gained anything.
-> 
-> So do you really really think shipping the binaries in the main tarball is a
-> problem? Honestly, it's not a problem for us as long as we publish both
-> tarballs together - and if someone wants to mirror the main tarball to their
-> webserver and fails to mirror the rom-sources tarball, too, it's their
-> fault, not ours.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-I think we would be contributing to mistakes by providing a tarball
-that contains a mixture of sources and binaries, but not all the
-sources for all the binaries. 
-
-> Anyway, what about splitting the binaries into a separate tarball, so we
-> would have three tarballs:
-> 
->     qemu-x.y.z.tar.xz               (QEMU source only)
->     qemu-roms-x.y.z.tar.xz          (ROM binaries)
->     qemu-roms-sources-x.y.z.tar.xz  (ROM sources)
-> 
-> That should make it hopefully obvious that the two qemu-roms* tarballs
-> belong together. Would that be OK for you?
-
-Yes, I think that's better, as it is cleanly separating the
-binaries and sources.
-
-Even bikeshedding a bit more I woud have probably suggested
-'qemu-roms-prebuilt-x.y.z.tar.xz' for ROM binaries and
-'qemu-roms-x.y.z.tar.xz for the ROM sources, since sources
-is the normal tarball content.
-
-The downside is that there's the risk of ROMS not matching
-the QEMU version, if people updates to latest qemu tarball
-but forgot the corresponding ROMs tarball. Most of the time
-a mismatch would not matter, but we should think about if
-there is a way to make it easier to diagnose such a
-mismatch if only for easier bug triage.
-
-Perhaps the ROMs should install into a versioned subdir
-of /usr/share/qemu, instead of the root of it, and the
-QEMU binary preferentially look at the versioned subdir
-Maybe that's overthinking things though, and we would
-suffic to have a /usr/share/qemu/ROM-VERSION.txt file
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
