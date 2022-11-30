@@ -2,73 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E0763D693
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 14:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C49863D69B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 14:23:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0N10-00087k-A5; Wed, 30 Nov 2022 08:20:43 -0500
+	id 1p0N3P-0000ki-VA; Wed, 30 Nov 2022 08:23:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0N0m-00085s-V9
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:20:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0N0h-0004OD-FD
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:20:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669814421;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hlYBIbZ8bPrm1fSbt67PAPFS/mJn7XUum0mfxbQKGoQ=;
- b=OUdCq5yxqDvItu020ZEZzUgcVS8QYxEiHyclQX636vxPrH0xhjsVsE27jDG8HI1fk/cThg
- XVzWpR8JS+rEnQ1VN8bkOjUT3riCD0R9Li9dPi84rHR3ilIylkZdIgaOsTxmLx3qappi+a
- NXe4366uBnvASW+Cl/t4WzQ+6A5yeJc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-319-jqDfdY3ZPNGtdOmnfvDMzA-1; Wed, 30 Nov 2022 08:20:20 -0500
-X-MC-Unique: jqDfdY3ZPNGtdOmnfvDMzA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCAD6801585
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 13:20:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FB522028CE4;
- Wed, 30 Nov 2022 13:20:18 +0000 (UTC)
-Date: Wed, 30 Nov 2022 13:20:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Krempa <pkrempa@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: Who / what uses QMP command add_client?
-Message-ID: <Y4dYjjy5m0Nyre1y@redhat.com>
-References: <878rjtretb.fsf@pond.sub.org> <Y4YgP+ojc+B+dkhO@redhat.com>
- <878rjsmxos.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0N3O-0000j2-4d
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:23:10 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0N39-00053n-Ev
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:23:09 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ r133-20020a1c448b000000b003d076ee89d6so358073wma.0
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 05:22:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YyBsJlXPKgbwdXOi8hpcQmECv0wE69HEoUaeiwtJ5NY=;
+ b=lAhJiehstAOGlwj8dqO33Q0ZSEcnDudbvdqvNEPbBL89VCash7u/pDwvMyZHdmKkEk
+ 9DtFBDjio2WjiZkcPK1cBq2E4DROWBDAyNMqniaolggRDjwaDTaYBWLRRI8wdK1x/7S3
+ xJ+xQ/TL/BmuzuDbSbV68btmjrMTuSbDMqCWTevZow9gSn0e6MyuOU9nkNweHwutmKEy
+ nx4jM/10l86fQTWEJa34qd+EVc8jxYSlee3Oc4Ohx6LGs9trgozI3b6E8oZav9TI8R7Z
+ VPjkHf53CfaRyN+sngICcXNZkcnfUcJ+Ydh5s4aOhtu/mxJYZIGG3LI8bI7bQe2i03bq
+ g+gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YyBsJlXPKgbwdXOi8hpcQmECv0wE69HEoUaeiwtJ5NY=;
+ b=xoWDmu5hemRnjUggW2zE56glkGBAc2rsBlZPftk7xPXo7SEksGYE2QXT9GFbP4b3G1
+ RiPJXWl0cZbilH/DVpY5gYBDOacEIddOPkgXO3Vgb9ohZ3Xa8jNN5dEL+RejYbzjHrkT
+ SSouJFMRFBsNJQaJiForX+F+nSF4Xagl4e1MtSFZRt7TYcFq6mCqsXJuZTI6hxK3YGOW
+ um52H47ef385u5jYoWIg6xBsr7CWYJIEI2+kLbua4L/QQQmz0qeQ8QHdOr/jrWNCLRzJ
+ 52kjSgdY9qZLtQO2H2jY9RZory70I0pT/LK+4c2ajVxM1yD+V2dh8PW6hJUdkdosjO08
+ 1tug==
+X-Gm-Message-State: ANoB5pmb9P0Er2WRUocfPR3jbw5JaUXFkEMZDbP583OlxLomb3fexm/O
+ kfKpDBIIRjtb3Hd/htZBmSCo9w==
+X-Google-Smtp-Source: AA0mqf5A7wcYhX/xqHDphu37idm0XDne5tSvSJxnQCYXn8LeSD45Iz0hSJd11monMhq+7e4fg/2/5Q==
+X-Received: by 2002:a05:600c:4e50:b0:3d0:bda:f2c with SMTP id
+ e16-20020a05600c4e5000b003d00bda0f2cmr32092450wmq.117.1669814573017; 
+ Wed, 30 Nov 2022 05:22:53 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ y2-20020adfdf02000000b0023657e1b980sm1547187wrl.53.2022.11.30.05.22.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Nov 2022 05:22:52 -0800 (PST)
+Message-ID: <1778e96c-a3fb-2b1f-fe37-bec3e3913f29@linaro.org>
+Date: Wed, 30 Nov 2022 14:22:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH for-8.0 00/19] Convert most CPU classes to 3-phase reset
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, Song Gao <gaosong@loongson.cn>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Laurent Vivier
+ <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ Stafford Horne <shorne@gmail.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20221124115023.2437291-1-peter.maydell@linaro.org>
+ <51024464-6fd6-4181-633d-1e261c19917a@linaro.org>
+ <0f9b0728-d6b5-a37b-2dcb-7b7fbee876a3@linaro.org>
+ <CAFEAcA98mDNWMhT+-2rsevpXAaAUzF-PF74LJ4871yxJcAKFNA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA98mDNWMhT+-2rsevpXAaAUzF-PF74LJ4871yxJcAKFNA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <878rjsmxos.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,112 +109,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 30, 2022 at 01:30:43PM +0100, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
+On 30/11/22 13:38, Peter Maydell wrote:
+> On Wed, 30 Nov 2022 at 10:51, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>
+>> On 24/11/22 14:46, Philippe Mathieu-Daudé wrote:
+>>> On 24/11/22 12:50, Peter Maydell wrote:
+>>>> This patchset converts the TYPE_CPU base class and most subclasses
+>>>> to use 3-phase reset. (The exception is s390, which is doing
+>>>> something a bit odd with its reset, so the conversion there isn't
+>>>> going to be simple like these others. So I'll do that one
+>>>> separately.)
+>> Note, we can then remove scripts/coccinelle/cpu-reset.cocci.
 > 
-> > On Tue, Nov 29, 2022 at 03:54:56PM +0100, Markus Armbruster wrote:
-> >> QMP command add_client's schema:
-> >> 
-> >>     ##
-> >>     # @add_client:
-> >>     #
-> >>     # Allow client connections for VNC, Spice and socket based
-> >>     # character devices to be passed in to QEMU via SCM_RIGHTS.
-> >>     #
-> >>     # @protocol: protocol name. Valid names are "vnc", "spice", "@dbus-display" or
-> >>     #            the name of a character device (eg. from -chardev id=XXXX)
-> >>     #
-> >>     # @fdname: file descriptor name previously passed via 'getfd' command
-> >>     #
-> >>     # @skipauth: whether to skip authentication. Only applies
-> >>     #            to "vnc" and "spice" protocols
-> >>     #
-> >>     # @tls: whether to perform TLS. Only applies to the "spice"
-> >>     #       protocol
-> >>     #
-> >>     # Returns: nothing on success.
-> >>     #
-> >>     # Since: 0.14
-> >>     #
-> >>     # Example:
-> >>     #
-> >>     # -> { "execute": "add_client", "arguments": { "protocol": "vnc",
-> >>     #                                              "fdname": "myclient" } }
-> >>     # <- { "return": {} }
-> >>     #
-> >>     ##
-> >>     { 'command': 'add_client',
-> >>       'data': { 'protocol': 'str', 'fdname': 'str', '*skipauth': 'bool',
-> >>                 '*tls': 'bool' } }
-> >> 
-> >> Spot the design flaw!
-> >> 
-> >> It's overloaded @protocol.  Two issues.
-> >
-> > My bad. Can't imagine why I called its impl add_graphics_client
-> > but then made it work for graphics clients and chardevs all
-> > the way back in day 1.
-> 
-> We had a lot less experience with QMP interface design back then.
-> 
-> The obvious fix (if we want to) is to add protocol "chardev" with
-> additional member for the chardev's ID, and deprecate use of chardev IDs
-> as protocol.
-> 
-> Compatibility break: a chardev with ID "chardev" no longer works.
-> 
-> Could also use "socket" instead of "chardev"if we're confident no other
-> chardev type will ever be needed here.
+> What's our usual practice for out-of-date conversion coccinelle
+> scripts? That particular script was "we'll never need this again"
+> pretty much from the moment it was checked in, because we did
+> the conversion of all the targets in one go. But it's still
+> useful in some sense as a "this is an example of how to do
+> this kind of change with a coccinelle script"...
 
-Or introduce a new 'id' field that are refer to a qdev ID, since
-we can assign IDs to VNC/SPICE server instances too, when there
-are multiple instances, and they'll be non-overlapping with
-chardev IDs ?
+The pattern I observed last years is:
 
-IOW we make 'protocol' and 'id' both optional in QAPI schema, and
-declare them mutually exclusive. Deprecate 'protocol' in favour
-of 'id'. Then eventually delete 'protocol' and make 'id'
-mandatory.
+  (a) If one-shot transformation, log the script in the commit
+      description,
 
+  (b) If the script can be used again in the future, commit it
+      in scripts/coccinelle/,
 
-> >> Are there any known uses with character devices?
-> 
-> See [*] below.
-> 
-> >> If not, any ideas why one would want to use the command with character
-> >> devices?
-> >
-> > Ordinarily a client will directly connect() to QEMU to setup the
-> > socket connection. Depending on the protocol this may involve both
-> > TLS negotiation and authentication. This is a good thing when exposed
-> > over a public IP address. It is tedious when connecting from a local
-> > client though.
-> >
-> > The idea behind the 'add_client' method was to enable short circuiting
-> > of encryption and authentication, for local only clients. For example,
-> > virt-viewer/virt-manager can do socketpair() and pass one of the FDs
-> > across to QEMU, and bypass any VNC authentication. This is still secure,
-> > as FD passing is mediated by libvirt which the app has already
-> > authenticated against.
-> >
-> > This is conceptually useful for any backend exposed as a network
-> > socket, accepting ad-hoc client connections. So it is in scope for
-> > chardevs, nbd, vnc, spice.
-> 
-> Does libvirt implement this with socket character devices?
+  (c) Complex scripts are committed in scripts/coccinelle/ as
+      example/reference.
 
-Opps, I meant to say that libvirt only uses add_client for
-graphics devices. We've never used it for chardevs AFAICT.
+I am fine keeping scripts/coccinelle/cpu-reset.cocci as an
+example (c).
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Regards,
 
+Phil.
 
