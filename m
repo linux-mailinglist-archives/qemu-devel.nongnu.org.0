@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D0063D6A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 14:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C6563D6B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Nov 2022 14:29:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0N7D-0003FF-QC; Wed, 30 Nov 2022 08:27:07 -0500
+	id 1p0N7I-0003PD-TE; Wed, 30 Nov 2022 08:27:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0N7C-0003Da-EN
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:27:06 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0N7F-0003Jt-Ng
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:27:09 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0N74-0006GH-2r
- for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:27:06 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- m7-20020a05600c090700b003cf8a105d9eso1386090wmp.5
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 05:26:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0N79-0006L0-QE
+ for qemu-devel@nongnu.org; Wed, 30 Nov 2022 08:27:09 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ o7-20020a05600c510700b003cffc0b3374so1410641wms.0
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 05:27:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=63COJef6IAkH8xxnEAdJ5D3CnIx0YX0J2CyRLRnlx98=;
- b=t6cZ2ECp2YUMZba07nMyDNNaxEN0W33CoQ+VnlBxtdYwzBSBrvE1ACui8org9sMK70
- gwYq9hA1l8z0jDEN14x6nZcGErpa6MIBMbVPaoMwgvSlmwLkQ185bv9ataTXdxOSgafb
- limLlF1Q0NponTweN9EKAJXP5UeN37Ex+VagiAWe6Oh/h0ZKtaJrPAz1RmWNqbxw7Y05
- QJt6lkAK7I6tLRhGBfyAE0DAgVfbAoMGiPPfYEgg7SmyjIhTblCeLOyuczn9uj2wHR3U
- F16l3YFaNpCTiDknNix9HkJ2IsrKg9POOjYm4GKqa9AUIf3XX7JByaSVjHjh0kKkGYmb
- lpgw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Q0hlyySKVnySixpBBftSUOW0ckS2cMlLLOX+y+Pz+0E=;
+ b=wUQ5/JV2Gfwkdh1f8GFbe3QP0HCQpR8Ul+V2CXYDP1W69q2HbZMBg+DFywPnHKowsW
+ JYLwbtxxk/OaRU/KntXUlCmvti/XVsb+8ABJkox24MyBI2m862dCLGTksjvCYI5vRKEP
+ 7FmROlj7DXp0a24v2J5kDuGSDtfbgUgODD9KJvlWu6Xb7zSkAwN8VFF50TEg0j31IPX8
+ cITZ+42P2xHpvFr3ZOQsu0q/OxybY6OqgKSum1HbNNspgtNeTmbmtCExKzee4faczGrT
+ ckv7m9HR1CvxNRj7bUgYiZchvI4Cp/U9f574soQMKAzwL3Z8SykEcOVBEN5IX0vrpsHz
+ HoLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=63COJef6IAkH8xxnEAdJ5D3CnIx0YX0J2CyRLRnlx98=;
- b=1+N5Xjegzt0Bf6oqHQyJVK01aUft0w/F4SNyKooSHWd0HChs2vTTCilOZ+Y83Vh9z3
- 0kqL8sKFhdD2+8Nu+scS7mwg5DA84ASv4M/IMWhejZ1gr0gcwlG0v73b9YcbpQELgoGK
- 1mvbVLQSvd092i9PGveLdKioFTq/+nKWv/1q4PgvvH+jRNccmcIdC27RGUYTZZzUln8F
- zR6WH42wjsg6JdKkmpHAPXQYnrfHpysxA/qxZq5BAw0xYuLmQDWMymSHwUCYBN5JVSG8
- XVBCH9BxDjMn2lbccTRFZwh94tBBtSU5eIjcMOsG3SueHViEHdRH5S/kUlpdeNVCDpqZ
- /xUg==
-X-Gm-Message-State: ANoB5pnWnD7TLciC2ePKDEnEqc0vSwzRkubzVwsi2MqD8DCKDeC8GCmQ
- Zb6l3xuATiYE3rhgdo4bMFK8Aba2B689T1Ec
-X-Google-Smtp-Source: AA0mqf7mHOQqv3d9aO5P0p+3/Bo/TzNuwqqqSGys6itBX9SJ+xLbmu5dP3Eec1L9Kch8vUhX+RYHWQ==
-X-Received: by 2002:a05:600c:3503:b0:3cf:f0a8:d04e with SMTP id
- h3-20020a05600c350300b003cff0a8d04emr36400684wmq.45.1669814816469; 
- Wed, 30 Nov 2022 05:26:56 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Q0hlyySKVnySixpBBftSUOW0ckS2cMlLLOX+y+Pz+0E=;
+ b=sbw+/1oHOyLeLpW00X/BoztSswuebRv9fVCsF8CBdtupNcdf1eOoVKEazorGjUDhQf
+ XN5zeMIW+BlJlyHQXxmiGFgcTozR0QyJz2Xeia7pnQSj/cqRiq+8jn8n6e4s1Lps4QpL
+ bCVAAMATaZ2e2kqU3q3T7hah2+Ue3lqT7SYslX7VZNT4fuP4Mg8bbnTLPyujvs83Tclh
+ fhkyZBDHfQFGSRBgy/tl7DhZ9o8o9pt64myd0P6S/t5EP06bz/y+Gb92NKowVDcy67be
+ Kp1liDSsmsYqvBYiHt56+/1EBlfYSO3s1tUytbym4qnBgRgSyBH2aaiaDIOgYLFN2o/W
+ qUkg==
+X-Gm-Message-State: ANoB5pkTcjiknymw9nQu/U5iH+sJGpn4DTTsCqZSU9RP+PUzBDwDuHAH
+ pLKlMuvuAZUMIt5RfqbDELujZj/VzSzQWomv
+X-Google-Smtp-Source: AA0mqf6C83BuvK6Og+VIVt4N6qpS0yowzYJDgbh5uDAOcnhXuXEUr14ljaqz/I4Loi+KLrAtL1jqiQ==
+X-Received: by 2002:a7b:c3d5:0:b0:3d0:306c:f7a3 with SMTP id
+ t21-20020a7bc3d5000000b003d0306cf7a3mr28008677wmj.128.1669814821888; 
+ Wed, 30 Nov 2022 05:27:01 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- g13-20020a05600c310d00b003a2f2bb72d5sm6994144wmo.45.2022.11.30.05.26.55
+ k12-20020adfe8cc000000b00241b5af8697sm1610416wrn.85.2022.11.30.05.27.00
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 30 Nov 2022 05:26:56 -0800 (PST)
+ Wed, 30 Nov 2022 05:27:01 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -63,15 +64,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, WANG Xuerui <git@xen0n.name>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-s390x@nongnu.org,
  Alistair Francis <Alistair.Francis@wdc.com>, qemu-arm@nongnu.org
-Subject: [PATCH-for-8.0 0/3] tcg: Replace tcg_target_[u]long -> [u]intptr_t
-Date: Wed, 30 Nov 2022 14:26:51 +0100
-Message-Id: <20221130132654.76369-1-philmd@linaro.org>
+Subject: [PATCH-for-8.0 1/3] tcg/s390x: Fix coding style
+Date: Wed, 30 Nov 2022 14:26:52 +0100
+Message-Id: <20221130132654.76369-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221130132654.76369-1-philmd@linaro.org>
+References: <20221130132654.76369-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,38 +97,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Trivial cleanup (99% mechanical) suggested by rth:
-the tcg_target_[u]long type is redundant with [u]intptr_t.
+We are going to modify this code, so fix its style first to avoid:
 
-Philippe Mathieu-Daudé (3):
-  tcg/s390x: Fix coding style
-  tcg: Replace tcg_target_long -> intptr_t
-  tcg: Replace tcg_target_ulong -> uintptr_t
+  ERROR: spaces required around that '*' (ctx:VxV)
+  #281: FILE: tcg/s390x/tcg-target.c.inc:1224:
+  +        uintptr_t mask = ~(0xffffull << i*16);
+                                            ^
 
- accel/tcg/cputlb.c                    | 44 +++++++++----------
- accel/tcg/translate-all.c             | 12 +++---
- docs/devel/control-flow-integrity.rst |  2 +-
- include/tcg/tcg-ldst.h                | 40 ++++++++---------
- include/tcg/tcg-op.h                  | 62 +++++++++++++--------------
- include/tcg/tcg.h                     | 18 ++------
- tcg/aarch64/tcg-target.c.inc          | 16 +++----
- tcg/arm/tcg-target.c.inc              |  4 +-
- tcg/i386/tcg-target.c.inc             | 16 +++----
- tcg/loongarch64/tcg-target.c.inc      | 30 ++++++-------
- tcg/mips/tcg-target.c.inc             |  4 +-
- tcg/optimize.c                        |  8 ++--
- tcg/ppc/tcg-target.c.inc              | 16 +++----
- tcg/riscv/tcg-target.c.inc            | 18 ++++----
- tcg/s390x/tcg-target.c.inc            | 42 +++++++++---------
- tcg/sparc64/tcg-target.c.inc          | 14 +++---
- tcg/tcg-op-vec.c                      |  2 +-
- tcg/tcg-op.c                          | 16 +++----
- tcg/tcg-pool.c.inc                    | 32 +++++++-------
- tcg/tcg.c                             | 24 +++++------
- tcg/tci.c                             | 18 ++++----
- tcg/tci/tcg-target.c.inc              |  2 +-
- 22 files changed, 214 insertions(+), 226 deletions(-)
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ tcg/s390x/tcg-target.c.inc | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
+diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+index 33becd7694..f1d3907cd8 100644
+--- a/tcg/s390x/tcg-target.c.inc
++++ b/tcg/s390x/tcg-target.c.inc
+@@ -802,9 +802,9 @@ static bool maybe_out_small_movi(TCGContext *s, TCGType type,
+     }
+ 
+     for (i = 0; i < 4; i++) {
+-        tcg_target_long mask = 0xffffull << i*16;
++        tcg_target_long mask = 0xffffull << i * 16;
+         if ((uval & mask) == uval) {
+-            tcg_out_insn_RI(s, lli_insns[i], ret, uval >> i*16);
++            tcg_out_insn_RI(s, lli_insns[i], ret, uval >> i * 16);
+             return true;
+         }
+     }
+@@ -1221,9 +1221,9 @@ static void tgen_andi(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+ 
+     /* Try all 32-bit insns that can perform it in one go.  */
+     for (i = 0; i < 4; i++) {
+-        tcg_target_ulong mask = ~(0xffffull << i*16);
++        tcg_target_ulong mask = ~(0xffffull << i * 16);
+         if (((val | ~valid) & mask) == mask) {
+-            tcg_out_insn_RI(s, ni_insns[i], dest, val >> i*16);
++            tcg_out_insn_RI(s, ni_insns[i], dest, val >> i * 16);
+             return;
+         }
+     }
+@@ -1231,9 +1231,9 @@ static void tgen_andi(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+     /* Try all 48-bit insns that can perform it in one go.  */
+     if (HAVE_FACILITY(EXT_IMM)) {
+         for (i = 0; i < 2; i++) {
+-            tcg_target_ulong mask = ~(0xffffffffull << i*32);
++            tcg_target_ulong mask = ~(0xffffffffull << i * 32);
+             if (((val | ~valid) & mask) == mask) {
+-                tcg_out_insn_RIL(s, nif_insns[i], dest, val >> i*32);
++                tcg_out_insn_RIL(s, nif_insns[i], dest, val >> i * 32);
+                 return;
+             }
+         }
+@@ -1279,9 +1279,9 @@ static void tgen_ori(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+ 
+     /* Try all 32-bit insns that can perform it in one go.  */
+     for (i = 0; i < 4; i++) {
+-        tcg_target_ulong mask = (0xffffull << i*16);
++        tcg_target_ulong mask = (0xffffull << i * 16);
+         if ((val & mask) != 0 && (val & ~mask) == 0) {
+-            tcg_out_insn_RI(s, oi_insns[i], dest, val >> i*16);
++            tcg_out_insn_RI(s, oi_insns[i], dest, val >> i * 16);
+             return;
+         }
+     }
+@@ -1289,9 +1289,9 @@ static void tgen_ori(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+     /* Try all 48-bit insns that can perform it in one go.  */
+     if (HAVE_FACILITY(EXT_IMM)) {
+         for (i = 0; i < 2; i++) {
+-            tcg_target_ulong mask = (0xffffffffull << i*32);
++            tcg_target_ulong mask = (0xffffffffull << i * 32);
+             if ((val & mask) != 0 && (val & ~mask) == 0) {
+-                tcg_out_insn_RIL(s, oif_insns[i], dest, val >> i*32);
++                tcg_out_insn_RIL(s, oif_insns[i], dest, val >> i * 32);
+                 return;
+             }
+         }
 -- 
 2.38.1
 
