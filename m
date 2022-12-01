@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5175C63EB80
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 09:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E7C63EB83
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 09:47:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0fDg-0005VW-JB; Thu, 01 Dec 2022 03:47:00 -0500
+	id 1p0fES-0006GO-Vc; Thu, 01 Dec 2022 03:47:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p0fDN-0005Sw-UW
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:46:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p0fEQ-0006FA-FH
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:47:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p0fDM-0007Qg-7k
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:46:41 -0500
+ id 1p0fEO-0007f3-Kg
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:47:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669884398;
+ s=mimecast20190719; t=1669884463;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=crcIKfKw8ePgGXkUJYfSzTxdml4tbdaqLgG7XUEYdv0=;
- b=G4VGbTiEEtk2jTvSiMowdpEjIkrs1wq+ofag685ss4kOzN76ow/1ZeJatrYlPKx8QDmuOo
- 6U9T3HowMal4JokCEChQMYxLABBLs9aMIAdQE/LTBsstceYaVQ5rM5uV9fUydu5bawYQTd
- wVE2cEjwCHRy+hSpWIUkYBHYQw4hVlw=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QqAz6xmlUHyOuM9ymI75bcAa3zlnJbxi2h1FoHgqxjo=;
+ b=NqnUTQgddsb7ae3eiwZ2J4MEQkboMxUFEH33hmc9/nxp7wx9RImYYxrKIGzGj4zZcf/J3d
+ Bjnht+rwxiiKNlPkCNxj02XnL1meHSgqEMiZq+IEyztEd61IMECD4VIdRgPwv9sVmMjYnp
+ T2NezEEl0PhRCD9UoKyhA+F628fntpw=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-139-98cUszJoP1KjSIP4rMtVkg-1; Thu, 01 Dec 2022 03:46:37 -0500
-X-MC-Unique: 98cUszJoP1KjSIP4rMtVkg-1
-Received: by mail-oi1-f200.google.com with SMTP id
- bi42-20020a05680818aa00b0035b92218ef3so778941oib.16
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 00:46:37 -0800 (PST)
+ us-mta-384-OJt6kthWMaeud5H0iSpdmA-1; Thu, 01 Dec 2022 03:47:42 -0500
+X-MC-Unique: OJt6kthWMaeud5H0iSpdmA-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ bf10-20020a056808190a00b0035a0a5ab8b6so793236oib.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 00:47:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=crcIKfKw8ePgGXkUJYfSzTxdml4tbdaqLgG7XUEYdv0=;
- b=kMhP8GxAVmGYrRcl6cgVGWNYiTGpH+CBblgRrY7PBZPxaKVcqKuzmKXLQlM88tbL0c
- vweJHpgOb29hr5W3mcHvnwQKudZNubfB/sgIhm5IOdVQJSXvVMyg3PXicZcdluXLWsBW
- 9RijU7/bOSLYXty9VLZf5tCxfdL+0cScSJ/AJVRYF5EUpKYVLhiGhRa12mfnZMqzdSVm
- ToMD6jKhXydTTE4NTvcmN01XkvsmgQ6CeYcyWbtvr/RvwDLN0EbGbwRHJrw053D3tiiL
- QE6wCEp/E2Cv951o0E/nztVXIExV0Z3RJJH7m8iXUaAp76mgabyp4pOBv6m81usQ0jEN
- C9gQ==
-X-Gm-Message-State: ANoB5pmXAn5wdszVbTAxPXUaWBVl6naG6oaxPpklX6aMCdNkAgKwwmL5
- pKONB01sF1SeC/7KWombU/eJOZU29nVbrQkd9g3u1xih5pNoraybxcsnvofZAhQYUpnIbJwG4k7
- EMRosTgSx9r5FMG89lqAdgqeAd4al5gc=
-X-Received: by 2002:a05:6870:75c3:b0:142:f59e:e509 with SMTP id
- de3-20020a05687075c300b00142f59ee509mr26896969oab.280.1669884395874; 
- Thu, 01 Dec 2022 00:46:35 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4LFWcJ8JHzgYSw5+F7c8GEFYIlsBPUuw+FTDdJN3jktz2x3Bo1T3BIYfVLqPqRauBDAah6Mffu9YA4vTX8buA=
-X-Received: by 2002:a05:6870:75c3:b0:142:f59e:e509 with SMTP id
- de3-20020a05687075c300b00142f59ee509mr26896961oab.280.1669884395698; Thu, 01
- Dec 2022 00:46:35 -0800 (PST)
+ bh=QqAz6xmlUHyOuM9ymI75bcAa3zlnJbxi2h1FoHgqxjo=;
+ b=rtCbxF/8xRc0hxedAhRSk0r8Icg5XCoNJ/XWx5kuw0S0tBPT3vdF8uidnT8rMnLtFj
+ yT/eKM8mQSW5qpfaknIlD8Pzl0jSpCZbvqpPzlMXG4bhaBX+UBeQ9/WQoYAcl2/tf6Tg
+ mPWpgEZkPA3zIAoBUkTuhc9qbMTtA6+LXq26FG7fh6Ed0aqecCV+TbPkjnZA/4gz6mFD
+ fYkOl3r5eRvMW/hjVAJg3dA8W22FoWy5kBfshB/VeOIjckuIzaG3nS/4ydGP5SI3u0rR
+ tO9eHkTMP+D5qKyDAcOQZ5WxWBUVMIDWDrU71+OKk5pmCGZyceoUV0ENqs6zOKS8AT8r
+ lPcg==
+X-Gm-Message-State: ANoB5pkGvZAxR1Y1j4G1j9Re5Y97iCaVp9d2FQ/K9/c2qpu4o4jREPdN
+ P7WRbDs7uqbr3pH+919fTQRs0TmLSHhNIWAKfRj16xN9eEGzYHQaY/UTCMpQS9rODy3+w3bDpSL
+ NwmFpc9CRUfwRaFFmTNM83btJ872hSKg=
+X-Received: by 2002:a05:6808:2093:b0:35b:ded0:4164 with SMTP id
+ s19-20020a056808209300b0035bded04164mr1326370oiw.280.1669884461614; 
+ Thu, 01 Dec 2022 00:47:41 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6iDpS+RWWOgbM2GRt+0bBMU2/jue7La358WIglGG0qF/VFHS89WUIN9y+cG2OLmXIqe+9XyHRd8K+1Pj+yriY=
+X-Received: by 2002:a05:6808:2093:b0:35b:ded0:4164 with SMTP id
+ s19-20020a056808209300b0035bded04164mr1326357oiw.280.1669884461335; Thu, 01
+ Dec 2022 00:47:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20221129081037.12099-1-jasowang@redhat.com>
- <20221129081037.12099-2-jasowang@redhat.com> <Y4YmvYzVGwciJUbk@x1n>
- <CACGkMEsYCUO+C6ocXryxX9J9E5PrQhS-c3v=ydY601U7Lzp_Jg@mail.gmail.com>
- <Y4dxerC2E2jYxlEe@x1n>
-In-Reply-To: <Y4dxerC2E2jYxlEe@x1n>
+References: <20221129040232.10116-1-jasowang@redhat.com>
+ <ea906777-1be5-70d7-5eb1-3f50169ac7a5@redhat.com>
+ <20221129104311-mutt-send-email-mst@kernel.org>
+ <3b971908-e3dc-b684-6374-4f440676e0c4@redhat.com>
+In-Reply-To: <3b971908-e3dc-b684-6374-4f440676e0c4@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 1 Dec 2022 16:46:24 +0800
-Message-ID: <CACGkMEsJcgeRmbG-6Jm6Mm+6r5xT=z37g_rmHu153X5GMOYceA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] intel-iommu: fail MAP notifier without caching mode
-To: Peter Xu <peterx@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com, 
- viktor@daynix.com
+Date: Thu, 1 Dec 2022 16:47:30 +0800
+Message-ID: <CACGkMEuHUujWDsRhUfGXGxn5qdvti8WPDkMQD1Y-TzmTBhNGeA@mail.gmail.com>
+Subject: Re: [PATCH for 7.2? V2] vhost: fix vq dirty bitmap syncing when
+ vIOMMU is enabled
+To: eric.auger@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, 
+ Lei Yang <leiyang@redhat.com>, Yalan Zhang <yalzhang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,75 +97,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 30, 2022 at 11:06 PM Peter Xu <peterx@redhat.com> wrote:
+On Wed, Nov 30, 2022 at 12:08 AM Eric Auger <eric.auger@redhat.com> wrote:
 >
-> On Wed, Nov 30, 2022 at 02:23:06PM +0800, Jason Wang wrote:
-> > On Tue, Nov 29, 2022 at 11:35 PM Peter Xu <peterx@redhat.com> wrote:
-> > >
-> > > On Tue, Nov 29, 2022 at 04:10:35PM +0800, Jason Wang wrote:
-> > > > Without caching mode, MAP notifier won't work correctly since guest
-> > > > won't send IOTLB update event when it establishes new mappings in the
-> > > > I/O page tables. Let's fail the IOMMU notifiers early instead of
-> > > > misbehaving silently.
-> > > >
-> > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > > ---
-> > > >  hw/i386/intel_iommu.c | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > >
-> > > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > > > index a08ee85edf..9143376677 100644
-> > > > --- a/hw/i386/intel_iommu.c
-> > > > +++ b/hw/i386/intel_iommu.c
-> > > > @@ -3186,6 +3186,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-> > > >                           "Snoop Control with vhost or VFIO is not supported");
-> > > >          return -ENOTSUP;
-> > > >      }
-> > > > +    if (!s->caching_mode && (new & IOMMU_NOTIFIER_MAP)) {
-> > > > +        error_setg_errno(errp, ENOTSUP,
-> > > > +                         "device %02x.%02x.%x requires caching mode",
-> > > > +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
-> > > > +                         PCI_FUNC(vtd_as->devfn));
-> > > > +        return -ENOTSUP;
-> > > > +    }
-> > >
-> > > We used to have that but got reverted because it's too late to fail, so we
-> > > moved it over even though not as clean..
-> > >
-> > > https://lore.kernel.org/all/20190916080718.3299-5-peterx@redhat.com/
-> >
-> > One of the difference is that the patch doesn't do exit() here. I
-> > think it's better to fail instead of misbehving silently, this is what
-> > other vIOMMU did:
-> >
-> > E.g in smmu we had:
-> >
-> >     if (new & IOMMU_NOTIFIER_MAP) {
-> >         error_setg(errp,
-> >                    "device %02x.%02x.%x requires iommu MAP notifier which is "
-> >                    "not currently supported", pci_bus_num(sdev->bus),
-> >                    PCI_SLOT(sdev->devfn), PCI_FUNC(sdev->devfn));
-> >         return -EINVAL;
-> >     }
-> >
-> > So did for amd iommu.
+> Hi Michael,
 >
-> Yeah that's fine.  Would you mind add the explanation (and also above link,
-> which might be helpful to pick up the history..) to the commit message?
+> On 11/29/22 16:44, Michael S. Tsirkin wrote:
+> > On Tue, Nov 29, 2022 at 10:52:29AM +0100, Eric Auger wrote:
+> >> Hi Jason,
+> >>
+> >> On 11/29/22 05:02, Jason Wang wrote:
+> >>> When vIOMMU is enabled, the vq->used_phys is actually the IOVA not
+> >>> GPA. So we need to translate it to GPA before the syncing otherwise we
+> >>> may hit the following crash since IOVA could be out of the scope of
+> >>> the GPA log size. This could be noted when using virtio-IOMMU with
+> >>> vhost using 1G memory.
+> >>>
+> >>> Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
+> >>> Cc: qemu-stable@nongnu.org
+> >>> Tested-by: Lei Yang <leiyang@redhat.com>
+> >>> Reported-by: Yalan Zhang <yalzhang@redhat.com>
+> >>> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> >>> ---
+> >>> Changes since V1:
+> >>> - Fix the address calculation when used ring is not page aligned
+> >>> - Fix the length for each round of dirty bitmap syncing
+> >>> - Use LOG_GUEST_ERROR to log wrong used adddress
+> >>> - Various other tweaks
+> >>> ---
+> >>>  hw/virtio/vhost.c | 76 ++++++++++++++++++++++++++++++++++-------------
+> >>>  1 file changed, 56 insertions(+), 20 deletions(-)
+> >>>
+> >>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> >>> index d1c4c20b8c..0cd5f25fcb 100644
+> >>> --- a/hw/virtio/vhost.c
+> >>> +++ b/hw/virtio/vhost.c
+> >>> @@ -20,6 +20,7 @@
+> >>>  #include "qemu/range.h"
+> >>>  #include "qemu/error-report.h"
+> >>>  #include "qemu/memfd.h"
+> >>> +#include "qemu/log.h"
+> >>>  #include "standard-headers/linux/vhost_types.h"
+> >>>  #include "hw/virtio/virtio-bus.h"
+> >>>  #include "hw/virtio/virtio-access.h"
+> >>> @@ -106,6 +107,24 @@ static void vhost_dev_sync_region(struct vhost_dev *dev,
+> >>>      }
+> >>>  }
+> >>>
+> >>> +static bool vhost_dev_has_iommu(struct vhost_dev *dev)
+> >>> +{
+> >>> +    VirtIODevice *vdev = dev->vdev;
+> >>> +
+> >>> +    /*
+> >>> +     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
+> >>> +     * incremental memory mapping API via IOTLB API. For platform that
+> >>> +     * does not have IOMMU, there's no need to enable this feature
+> >>> +     * which may cause unnecessary IOTLB miss/update transactions.
+> >>> +     */
+> >>> +    if (vdev) {
+> >>> +        return virtio_bus_device_iommu_enabled(vdev) &&
+> >>> +            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> >>> +    } else {
+> >>> +        return false;
+> >>> +    }
+> >>> +}
+> >>> +
+> >>>  static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
+> >>>                                     MemoryRegionSection *section,
+> >>>                                     hwaddr first,
+> >>> @@ -137,8 +156,43 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
+> >>>              continue;
+> >>>          }
+> >>>
+> >>> -        vhost_dev_sync_region(dev, section, start_addr, end_addr, vq->used_phys,
+> >>> -                              range_get_last(vq->used_phys, vq->used_size));
+> >>> +        if (vhost_dev_has_iommu(dev)) {
+> >>> +            IOMMUTLBEntry iotlb;
+> >>> +            hwaddr used_phys = vq->used_phys, used_size = vq->used_size;
+> >>> +            hwaddr phys, s;
+> >>> +
+> >>> +            while (used_size) {
+> >>> +                rcu_read_lock();
+> >>> +                iotlb = address_space_get_iotlb_entry(dev->vdev->dma_as,
+> >>> +                                                      used_phys,
+> >>> +                                                      true, MEMTXATTRS_UNSPECIFIED);
+> >>> +                rcu_read_unlock();
+> >>> +
+> >>> +                if (!iotlb.target_as) {
+> >>> +                    qemu_log_mask(LOG_GUEST_ERROR, "translation "
+> >>> +                                  "failure for used_phys %"PRIx64"\n", used_phys);
+> >> looks weird to see translation of "used_phys" whereas it is an iova. At
+> >> least I would reword the msg
 
-Will do.
+Let me tweak this in the next version.
 
-> With that:
->
-> Reviewed-by: Peter Xu <peterx@redhat.com>
->
-> Thanks,
+> >>> +                    return -EINVAL;
+> >>> +                }
+> >>> +
+> >>> +                phys = iotlb.translated_addr + (used_phys & iotlb.addr_mask);
+> >> you may use a local variable storing this offset =
+> >>
+> >> used_phys & iotlb.addr_mask
+
+Ok.
+
+> >>
+> >>> +
+> >>> +                /* Distance from start of used ring until last byte of
+> >>> +                   IOMMU page */
+> >> you can avoid checkpatch warnings here
+> >>> +                s = iotlb.addr_mask - (used_phys & iotlb.addr_mask);
+> >>> +                /* Size of used ring, or of the part of it until end
+> >>> +                   of IOMMU page */
+> >> and here
+
+Will fix.
+
+> >>
+> >> I would suggest to rewrite this into
+> >> s =iotlb.addr_mask - (used_phys & iotlb.addr_mask) + 1
+> >> s = MIN(s, used_size);
+> > This does not work - if iotlb.addr_mask - (used_phys & iotlb.addr_mask)
+> > is all-ones then + 1 gives you 0 and MIN gives you 0.
+> > Theoretical but worth being safe here IMHO.
+> Ah OK, I should have read your previous discussion more thoroughly ...
+> Maybe just add a short comment then to justify the gym below and avoid
+> tempting sbdy else to rewrite it in a more common but wrong way.
+
+That's fine.
 
 Thanks
 
 >
-> --
-> Peter Xu
+> Thanks
+>
+> Eric
+> >
+> >
+> >>> +                s = MIN(s, used_size - 1) + 1;
+> >>> +
+> >>> +                vhost_dev_sync_region(dev, section, start_addr, end_addr, phys,
+> >>> +                                      range_get_last(phys, s));
+> >>> +                used_size -= s;
+> >>> +                used_phys += s;
+> >>> +            }
+> >>> +        } else {
+> >>> +            vhost_dev_sync_region(dev, section, start_addr,
+> >>> +                                  end_addr, vq->used_phys,
+> >>> +                                  range_get_last(vq->used_phys, vq->used_size));
+> >>> +        }
+> >>>      }
+> >>>      return 0;
+> >>>  }
+> >>> @@ -306,24 +360,6 @@ static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64_t size)
+> >>>      dev->log_size = size;
+> >>>  }
+> >>>
+> >>> -static bool vhost_dev_has_iommu(struct vhost_dev *dev)
+> >>> -{
+> >>> -    VirtIODevice *vdev = dev->vdev;
+> >>> -
+> >>> -    /*
+> >>> -     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
+> >>> -     * incremental memory mapping API via IOTLB API. For platform that
+> >>> -     * does not have IOMMU, there's no need to enable this feature
+> >>> -     * which may cause unnecessary IOTLB miss/update transactions.
+> >>> -     */
+> >>> -    if (vdev) {
+> >>> -        return virtio_bus_device_iommu_enabled(vdev) &&
+> >>> -            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> >>> -    } else {
+> >>> -        return false;
+> >>> -    }
+> >>> -}
+> >>> -
+> >>>  static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+> >>>                                hwaddr *plen, bool is_write)
+> >>>  {
+> >> Besides,
+> >>
+> >> Tested-by: Eric Auger <eric.auger@redhat.com>
+> >>
+> >> Eric
 >
 
 
