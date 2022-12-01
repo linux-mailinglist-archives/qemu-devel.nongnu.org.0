@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E5563F265
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B2963F264
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:12:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0kF7-0008AA-Ap; Thu, 01 Dec 2022 09:08:49 -0500
+	id 1p0kF6-00089s-W9; Thu, 01 Dec 2022 09:08:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p0kF5-00088x-6L; Thu, 01 Dec 2022 09:08:47 -0500
-Received: from bg4.exmail.qq.com ([43.155.65.254])
+ id 1p0kF4-00087u-Aq; Thu, 01 Dec 2022 09:08:46 -0500
+Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p0kEz-0008Bw-Vn; Thu, 01 Dec 2022 09:08:46 -0500
-X-QQ-mid: bizesmtp72t1669903705tcqq5qud
+ id 1p0kEy-0008C5-Q1; Thu, 01 Dec 2022 09:08:46 -0500
+X-QQ-mid: bizesmtp72t1669903708t8z7dn8p
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 01 Dec 2022 22:08:25 +0800 (CST)
+ id ; Thu, 01 Dec 2022 22:08:27 +0800 (CST)
 X-QQ-SSF: 01200000002000B0B000B00A0000000
-X-QQ-FEAT: 9fp+MOMfZT2RWOZTgnMJnAtziaS9fXVsXnxRGI0Hp5lZ7QTjqn4nTC2wDyrX1
- 0vKvX8d/mhGXjkMmnLMRMpGgea79VelBerLMyjhWBMe2yYKv5//IUzfQ9+V1SeuMJsCgd+2
- FqUETgqPVjie5cH+aeXU6Z8IaPdOc6N493ELnp0TXeLL54atOr560q1v8Xmw4l+FMom0sni
- F0sJUa7GCp6oY6jak88OIfVe707yi6y4kGmGsYDFDPNCbGaw9q4S6ekDZQf1pzvZzsGD3A3
- DpeIAepu83MbaaF3BkZf8/+R6vQpSbchKHNH4kpnPNRT1/pzghlBlkJnSZ7bqCDDdvFF1sW
- BuQVtyky2pK3FhRH9/Gx4NxGiBTAk9gQnvc9foZ
+X-QQ-FEAT: ILHsT53NKPiwx2gKaK3oHeAJLqs2Aya5ESKfUXoP3PU6MeV8ILxP6x5TvpbIb
+ xyX2MtIL85LEaYTPTZn5qLB+0nXfD/tbxbsy1T5+qH4dcLOz4la55Mg9F0oKvlrCJlkuw0X
+ J0eVcVz9c/AVPvf89B4c5NHxB7JaWbUcidMWmt3oViHoZc+FWXsgePiS2uvy0h6uXYrd1XX
+ P6KxZkPzA0iQjH1tpXKJIT7nRfELOinFK9Ocid03GgYmFktyp9FE4QHveMvNX6vUJBQ7XFI
+ tJ+F7QaMJIRSIIjT1K7QhCjH/tOw0L9+PXup/LqhglY74fOSRv0k7CiIj8BENJ4yNldd//x
+ AL0gcfmipFdfvPVRNISCr3GftaHBTofJYL68e47chNcKJ7hT+0=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 06/15] hw/intc: sifive_plic: Drop PLICMode_H
-Date: Thu,  1 Dec 2022 22:08:02 +0800
-Message-Id: <20221201140811.142123-6-bmeng@tinylab.org>
+Subject: [PATCH 07/15] hw/intc: sifive_plic: Improve robustness of the PLIC
+ config parser
+Date: Thu,  1 Dec 2022 22:08:03 +0800
+Message-Id: <20221201140811.142123-7-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221201140811.142123-1-bmeng@tinylab.org>
 References: <20221201140811.142123-1-bmeng@tinylab.org>
@@ -42,7 +43,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,39 +65,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-H-mode has been removed since priv spec 1.10. Drop it.
+At present the PLIC config parser can only handle legal config string
+like "MS,MS". However if a config string like ",MS,MS,,MS,MS,," is
+given the parser won't get the correct configuration.
+
+This commit improves the config parser to make it more robust.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- include/hw/intc/sifive_plic.h | 1 -
- hw/intc/sifive_plic.c         | 1 -
- 2 files changed, 2 deletions(-)
+ hw/intc/sifive_plic.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.h
-index 134cf39a96..d3f45ec248 100644
---- a/include/hw/intc/sifive_plic.h
-+++ b/include/hw/intc/sifive_plic.h
-@@ -33,7 +33,6 @@ DECLARE_INSTANCE_CHECKER(SiFivePLICState, SIFIVE_PLIC,
- typedef enum PLICMode {
-     PLICMode_U,
-     PLICMode_S,
--    PLICMode_H,
-     PLICMode_M
- } PLICMode;
- 
 diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 1cf156cf85..3f6ffb1d70 100644
+index 3f6ffb1d70..5fd9a53569 100644
 --- a/hw/intc/sifive_plic.c
 +++ b/hw/intc/sifive_plic.c
-@@ -42,7 +42,6 @@ static PLICMode char_to_mode(char c)
-     switch (c) {
-     case 'U': return PLICMode_U;
-     case 'S': return PLICMode_S;
--    case 'H': return PLICMode_H;
-     case 'M': return PLICMode_M;
-     default:
-         error_report("plic: invalid mode '%c'", c);
+@@ -290,7 +290,7 @@ static void sifive_plic_reset(DeviceState *dev)
+  */
+ static void parse_hart_config(SiFivePLICState *plic)
+ {
+-    int addrid, hartid, modes;
++    int addrid, hartid, modes, m;
+     const char *p;
+     char c;
+ 
+@@ -299,11 +299,13 @@ static void parse_hart_config(SiFivePLICState *plic)
+     p = plic->hart_config;
+     while ((c = *p++)) {
+         if (c == ',') {
+-            addrid += ctpop8(modes);
+-            modes = 0;
+-            hartid++;
++            if (modes) {
++                addrid += ctpop8(modes);
++                hartid++;
++                modes = 0;
++            }
+         } else {
+-            int m = 1 << char_to_mode(c);
++            m = 1 << char_to_mode(c);
+             if (modes == (modes | m)) {
+                 error_report("plic: duplicate mode '%c' in config: %s",
+                              c, plic->hart_config);
+@@ -314,8 +316,9 @@ static void parse_hart_config(SiFivePLICState *plic)
+     }
+     if (modes) {
+         addrid += ctpop8(modes);
++        hartid++;
++        modes = 0;
+     }
+-    hartid++;
+ 
+     plic->num_addrs = addrid;
+     plic->num_harts = hartid;
+@@ -326,11 +329,16 @@ static void parse_hart_config(SiFivePLICState *plic)
+     p = plic->hart_config;
+     while ((c = *p++)) {
+         if (c == ',') {
+-            hartid++;
++            if (modes) {
++                hartid++;
++                modes = 0;
++            }
+         } else {
++            m = char_to_mode(c);
+             plic->addr_config[addrid].addrid = addrid;
+             plic->addr_config[addrid].hartid = hartid;
+-            plic->addr_config[addrid].mode = char_to_mode(c);
++            plic->addr_config[addrid].mode = m;
++            modes |= (1 << m);
+             addrid++;
+         }
+     }
 -- 
 2.34.1
 
