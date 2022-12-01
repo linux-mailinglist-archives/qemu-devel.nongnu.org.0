@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AABD563EA6A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 08:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A0663EA6D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 08:41:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0e9j-0007hn-7Y; Thu, 01 Dec 2022 02:38:51 -0500
+	id 1p0e9i-0007gw-Qv; Thu, 01 Dec 2022 02:38:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9R-0007f1-RS
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9M-0007eD-3X
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9G-0007pA-8h
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:33 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9K-0007pr-6w
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669880300;
+ s=mimecast20190719; t=1669880303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VnRECOMNXc2EaNkRprFM4t7alhtILlwF0mf/C3kI0lo=;
- b=geO+NFKrZ0pjj+gECDW4j+vteoRoUEfcUO178fk7vSfY7iieU/akUfH6cZPhymB8UbTLHB
- H3j1Q2DtQLArqFL3LqP3nFwvkkYWF9xibpkKPubJ6lG7aRoTGnjX3IKDq1fn7yMLt1beKe
- P+PJdW6x7fk7iqDJY3VGor79Iicc2o4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vDKsvFO1e1bP8comV8KZ+aqVZb/5jzxai6mQsMShLUI=;
+ b=IKQWRtASCUuNIEVCUtaMIAtgj1sg2YUhfs3zZiG8iSlOUTuloJ3gA2ey6VMBD71wjbYu3i
+ H0CXNUjlaIAhWFc67aoByYuJjU4+z3DMcNm9DyhzgOM8XEwDgOFns52zegEFqyNP/4AnVV
+ FOwtPoNpWnzUQ6KwYfBHk9tH2eko394=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-306-8IN1ry3UMFqj1fC1355clw-1; Thu, 01 Dec 2022 02:38:19 -0500
-X-MC-Unique: 8IN1ry3UMFqj1fC1355clw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l42-20020a05600c1d2a00b003cf8e70c1ecso2158706wms.4
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 23:38:19 -0800 (PST)
+ us-mta-619-ATzeHzVHPaWu42GwEcHCow-1; Thu, 01 Dec 2022 02:38:22 -0500
+X-MC-Unique: ATzeHzVHPaWu42GwEcHCow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l42-20020a05600c1d2a00b003cf8e70c1ecso2158735wms.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 23:38:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VnRECOMNXc2EaNkRprFM4t7alhtILlwF0mf/C3kI0lo=;
- b=gZMVEJRp6aeg43BdyPmcIunLhQciqh0cY8I3ZeQKsNNocP6Yb/sqKOCXeoKNAN4knt
- F9zYsItAdKekji9kF9cGozo5sYDKFl9dErc0dPtVoEQt/YlgKtMNOx3vZYiuqDT6kCr/
- AgwOW6sxQuQBEWdw6zzH/qGDzDUCf3JFV+eRQkokBI8ISvFY94roPmegmEqs+DubH7TX
- 3e25NaoTFQCl+abZX5dfBQy78y8EbrTcCGxvB1/ZR4F6ob4IHKM1/sa1//KDGtB1v7dx
- 5QZLZL+ECnSpO4BrfhaOnvn09dUFGyhj7mizKHOPMkXUP1Ih+xjOD8VU5ehxOvQH7T5W
- tHeA==
-X-Gm-Message-State: ANoB5pnrNKOREC/aTzg4DKXnoienLkbhQ67zZiLlsgDWTW2KuhAYKhVt
- f5+sxe1bw5geFvpxP5wsbg9RtcgQcDaHQK7mJw9/hH//IAGuZp9aS2PimcrBWI7fcBUFtt1OjpG
- 6/IGubTzp9HWM/Oacn2AF4PJt5H/q/YDS2M6U7RqEsO7hUmrPHbEXheW+TKR0
-X-Received: by 2002:a7b:cd85:0:b0:3cf:931c:3cfa with SMTP id
- y5-20020a7bcd85000000b003cf931c3cfamr38644262wmj.203.1669880297228; 
- Wed, 30 Nov 2022 23:38:17 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4/AuBNmxlmgm00Bh28lEkt+kezylJVO13MctngbM6Av2JUMDxUTrQ4oorDkKcIwUO2Aw8HNA==
-X-Received: by 2002:a7b:cd85:0:b0:3cf:931c:3cfa with SMTP id
- y5-20020a7bcd85000000b003cf931c3cfamr38644241wmj.203.1669880296887; 
- Wed, 30 Nov 2022 23:38:16 -0800 (PST)
+ bh=vDKsvFO1e1bP8comV8KZ+aqVZb/5jzxai6mQsMShLUI=;
+ b=3eOgZMsFmXLDDztadZN7pPy1WS5k6WAFwNd8bMH7eCkInzvfwT+uq7mxCSSrRTd5ou
+ vifLyx7DH0GvpNTGBSqLBDccuW3pe2hNO9aidfo8R4N/6FYLA6Xk6Eq6nHEyYoCpn016
+ xHVMkD90lw80o3sFjezMLrKnMpjoDM2La+qWvKpNzy+VCaYYg1qtiBFIBdlWRKqueIZI
+ m/xHxCTVTdoUFqCnUSYDgjeuUrr0VO73EjPwPC0QD7wLDIPv3LAKSq1iIH+pprFwZpUB
+ 4z/gm0POM/KoOu0I8Ljb+PfJV4dq7495gUlTlRb3ChbdKTSkWXDbB8WHiiNDmn0+7DMm
+ iExw==
+X-Gm-Message-State: ANoB5pn3tIkSBmX/ylCOu31hPTtpHeHDwa+EXxw7IXKo+pmnOtr1zjFv
+ SBsRuiHBXTMCKK/zIEkhJwdzOX4W0/LflrNnihvGEhqPw0Ep2rv1yrXkI8gmwX9t1pqtjuI1p1+
+ TfVWIuZ0+8GMj8OtC2tPi3dyu1ok02FXLbgnYbQb9X0B2/LGNh6fQ7e2LkD3G
+X-Received: by 2002:a05:600c:1c1f:b0:3cf:aa11:93a9 with SMTP id
+ j31-20020a05600c1c1f00b003cfaa1193a9mr40192969wms.138.1669880301126; 
+ Wed, 30 Nov 2022 23:38:21 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7LhsXhoeLzzSo23QBvqNmiaYVyC/xOmELvmp8Lln8lhT3QG92VODkZfhOsKCM1KtH39ReR9Q==
+X-Received: by 2002:a05:600c:1c1f:b0:3cf:aa11:93a9 with SMTP id
+ j31-20020a05600c1c1f00b003cfaa1193a9mr40192949wms.138.1669880300784; 
+ Wed, 30 Nov 2022 23:38:20 -0800 (PST)
 Received: from redhat.com ([2.52.19.245]) by smtp.gmail.com with ESMTPSA id
- h16-20020a05600c2cb000b003c6bbe910fdsm9645388wmc.9.2022.11.30.23.38.14
+ o3-20020a5d4743000000b00228cbac7a25sm3622178wrs.64.2022.11.30.23.38.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 23:38:15 -0800 (PST)
-Date: Thu, 1 Dec 2022 02:38:13 -0500
+ Wed, 30 Nov 2022 23:38:20 -0800 (PST)
+Date: Thu, 1 Dec 2022 02:38:17 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>, qemu-block@nongnu.org
-Subject: [PULL 4/5] hw/virtio: generalise CHR_EVENT_CLOSED handling
-Message-ID: <20221201073725.44585-5-mst@redhat.com>
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: [PULL 5/5] include/hw: VM state takes precedence in
+ virtio_device_should_start
+Message-ID: <20221201073725.44585-6-mst@redhat.com>
 References: <20221201073725.44585-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -78,15 +77,15 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221201073725.44585-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,240 +103,77 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-..and use for both virtio-user-blk and virtio-user-gpio. This avoids
-the circular close by deferring shutdown due to disconnection until a
-later point. virtio-user-blk already had this mechanism in place so
-generalise it as a vhost-user helper function and use for both blk and
-gpio devices.
+The VM status should always preempt the device status for these
+checks. This ensures the device is in the correct state when we
+suspend the VM prior to migrations. This restores the checks to the
+order they where in before the refactoring moved things around.
 
-While we are at it we also fix up vhost-user-gpio to re-establish the
-event handler after close down so we can reconnect later.
+While we are at it lets improve our documentation of the various
+fields involved and document the two functions.
 
+Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+Fixes: 259d69c00b (hw/virtio: introduce virtio_device_should_start)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <20221130112439.2527228-5-alex.bennee@linaro.org>
+Message-Id: <20221130112439.2527228-6-alex.bennee@linaro.org>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-user.h | 18 +++++++++
- hw/block/vhost-user-blk.c      | 41 +++-----------------
- hw/virtio/vhost-user-gpio.c    | 11 +++++-
- hw/virtio/vhost-user.c         | 71 ++++++++++++++++++++++++++++++++++
- 4 files changed, 104 insertions(+), 37 deletions(-)
+ include/hw/virtio/virtio.h | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-index c6e693cd3f..191216a74f 100644
---- a/include/hw/virtio/vhost-user.h
-+++ b/include/hw/virtio/vhost-user.h
-@@ -68,4 +68,22 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp);
-  */
- void vhost_user_cleanup(VhostUserState *user);
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index a973811cbf..acfd4df125 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -116,6 +116,13 @@ struct VirtIODevice
+     bool broken; /* device in invalid state, needs reset */
+     bool use_disabled_flag; /* allow use of 'disable' flag when needed */
+     bool disabled; /* device in temporarily disabled state */
++    /**
++     * @use_started: true if the @started flag should be used to check the
++     * current state of the VirtIO device. Otherwise status bits
++     * should be checked for a current status of the device.
++     * @use_started is only set via QMP and defaults to true for all
++     * modern machines (since 4.1).
++     */
+     bool use_started;
+     bool started;
+     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
+@@ -391,6 +398,16 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
+     return false;
+ }
  
 +/**
-+ * vhost_user_async_close() - cleanup vhost-user post connection drop
-+ * @d: DeviceState for the associated device (passed to callback)
-+ * @chardev: the CharBackend associated with the connection
-+ * @vhost: the common vhost device
-+ * @cb: the user callback function to complete the clean-up
++ * virtio_device_started() - check if device started
++ * @vdev - the VirtIO device
++ * @status - the devices status bits
 + *
-+ * This function is used to handle the shutdown of a vhost-user
-+ * connection to a backend. We handle this centrally to make sure we
-+ * do all the steps and handle potential races due to VM shutdowns.
-+ * Once the connection is disabled we call a backhalf to ensure
++ * Check if the device is started. For most modern machines this is
++ * tracked via the @vdev->started field (to support migration),
++ * otherwise we check for the final negotiated status bit that
++ * indicates everything is ready.
 + */
-+typedef void (*vu_async_close_fn)(DeviceState *cb);
-+
-+void vhost_user_async_close(DeviceState *d,
-+                            CharBackend *chardev, struct vhost_dev *vhost,
-+                            vu_async_close_fn cb);
-+
- #endif
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 1177064631..aff4d2b8cb 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -369,17 +369,10 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
-     vhost_user_blk_stop(vdev);
- 
-     vhost_dev_cleanup(&s->dev);
--}
- 
--static void vhost_user_blk_chr_closed_bh(void *opaque)
--{
--    DeviceState *dev = opaque;
--    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
--    VHostUserBlk *s = VHOST_USER_BLK(vdev);
--
--    vhost_user_blk_disconnect(dev);
-+    /* Re-instate the event handler for new connections */
-     qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
--                             NULL, opaque, NULL, true);
-+                             NULL, dev, NULL, true);
- }
- 
- static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-@@ -398,33 +391,9 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-         }
-         break;
-     case CHR_EVENT_CLOSED:
--        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
--            /*
--             * A close event may happen during a read/write, but vhost
--             * code assumes the vhost_dev remains setup, so delay the
--             * stop & clear.
--             */
--            AioContext *ctx = qemu_get_current_aio_context();
--
--            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
--                    NULL, NULL, false);
--            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
--
--            /*
--             * Move vhost device to the stopped state. The vhost-user device
--             * will be clean up and disconnected in BH. This can be useful in
--             * the vhost migration code. If disconnect was caught there is an
--             * option for the general vhost code to get the dev state without
--             * knowing its type (in this case vhost-user).
--             *
--             * FIXME: this is sketchy to be reaching into vhost_dev
--             * now because we are forcing something that implies we
--             * have executed vhost_dev_stop() but that won't happen
--             * until vhost_user_blk_stop() gets called from the bh.
--             * Really this state check should be tracked locally.
--             */
--            s->dev.started = false;
--        }
-+        /* defer close until later to avoid circular close */
-+        vhost_user_async_close(dev, &s->chardev, &s->dev,
-+                               vhost_user_blk_disconnect);
-         break;
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-index be9be08b4c..b7b82a1099 100644
---- a/hw/virtio/vhost-user-gpio.c
-+++ b/hw/virtio/vhost-user-gpio.c
-@@ -233,6 +233,8 @@ static int vu_gpio_connect(DeviceState *dev, Error **errp)
-     return 0;
- }
- 
-+static void vu_gpio_event(void *opaque, QEMUChrEvent event);
-+
- static void vu_gpio_disconnect(DeviceState *dev)
+ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
  {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -245,6 +247,11 @@ static void vu_gpio_disconnect(DeviceState *dev)
- 
-     vu_gpio_stop(vdev);
-     vhost_dev_cleanup(&gpio->vhost_dev);
-+
-+    /* Re-instate the event handler for new connections */
-+    qemu_chr_fe_set_handlers(&gpio->chardev,
-+                             NULL, NULL, vu_gpio_event,
-+                             NULL, dev, NULL, true);
- }
- 
- static void vu_gpio_event(void *opaque, QEMUChrEvent event)
-@@ -262,7 +269,9 @@ static void vu_gpio_event(void *opaque, QEMUChrEvent event)
-         }
-         break;
-     case CHR_EVENT_CLOSED:
--        vu_gpio_disconnect(dev);
-+        /* defer close until later to avoid circular close */
-+        vhost_user_async_close(dev, &gpio->chardev, &gpio->vhost_dev,
-+                               vu_gpio_disconnect);
-         break;
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index abe23d4ebe..8f635844af 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -21,6 +21,7 @@
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/sockets.h"
-+#include "sysemu/runstate.h"
- #include "sysemu/cryptodev.h"
- #include "migration/migration.h"
- #include "migration/postcopy-ram.h"
-@@ -2670,6 +2671,76 @@ void vhost_user_cleanup(VhostUserState *user)
-     user->chr = NULL;
- }
- 
-+
-+typedef struct {
-+    vu_async_close_fn cb;
-+    DeviceState *dev;
-+    CharBackend *cd;
-+    struct vhost_dev *vhost;
-+} VhostAsyncCallback;
-+
-+static void vhost_user_async_close_bh(void *opaque)
-+{
-+    VhostAsyncCallback *data = opaque;
-+    struct vhost_dev *vhost = data->vhost;
-+
-+    /*
-+     * If the vhost_dev has been cleared in the meantime there is
-+     * nothing left to do as some other path has completed the
-+     * cleanup.
-+     */
-+    if (vhost->vdev) {
-+        data->cb(data->dev);
-+    }
-+
-+    g_free(data);
-+}
-+
-+/*
-+ * We only schedule the work if the machine is running. If suspended
-+ * we want to keep all the in-flight data as is for migration
-+ * purposes.
-+ */
-+void vhost_user_async_close(DeviceState *d,
-+                            CharBackend *chardev, struct vhost_dev *vhost,
-+                            vu_async_close_fn cb)
-+{
-+    if (!runstate_check(RUN_STATE_SHUTDOWN)) {
-+        /*
-+         * A close event may happen during a read/write, but vhost
-+         * code assumes the vhost_dev remains setup, so delay the
-+         * stop & clear.
-+         */
-+        AioContext *ctx = qemu_get_current_aio_context();
-+        VhostAsyncCallback *data = g_new0(VhostAsyncCallback, 1);
-+
-+        /* Save data for the callback */
-+        data->cb = cb;
-+        data->dev = d;
-+        data->cd = chardev;
-+        data->vhost = vhost;
-+
-+        /* Disable any further notifications on the chardev */
-+        qemu_chr_fe_set_handlers(chardev,
-+                                 NULL, NULL, NULL, NULL, NULL, NULL,
-+                                 false);
-+
-+        aio_bh_schedule_oneshot(ctx, vhost_user_async_close_bh, data);
-+
-+        /*
-+         * Move vhost device to the stopped state. The vhost-user device
-+         * will be clean up and disconnected in BH. This can be useful in
-+         * the vhost migration code. If disconnect was caught there is an
-+         * option for the general vhost code to get the dev state without
-+         * knowing its type (in this case vhost-user).
-+         *
-+         * Note if the vhost device is fully cleared by the time we
-+         * execute the bottom half we won't continue with the cleanup.
-+         */
-+        vhost->started = false;
-+    }
-+}
-+
- static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
+     if (vdev->use_started) {
+@@ -411,15 +428,11 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+  */
+ static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
  {
-     if (!virtio_has_feature(dev->protocol_features,
+-    if (vdev->use_started) {
+-        return vdev->started;
+-    }
+-
+     if (!vdev->vm_running) {
+         return false;
+     }
+ 
+-    return status & VIRTIO_CONFIG_S_DRIVER_OK;
++    return virtio_device_started(vdev, status);
+ }
+ 
+ static inline void virtio_set_started(VirtIODevice *vdev, bool started)
 -- 
 MST
 
