@@ -2,81 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EAB63EC9B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 10:37:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32B863ECA4
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 10:39:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0fze-0003ND-Ay; Thu, 01 Dec 2022 04:36:34 -0500
+	id 1p0g1e-000441-IM; Thu, 01 Dec 2022 04:38:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1p0fzZ-0003Jf-NQ
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 04:36:31 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1p0fzX-0003eH-6c
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 04:36:29 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- h4-20020a1c2104000000b003d0760654d3so2016602wmh.4
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 01:36:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=c9+Ila8yDcQTvcaaypg7yfAItyT8PFPQ5xC6lpX5gxw=;
- b=1yl8p8ZQc15Z1cQM1Ai+OXPv8ad1ZYxurqzvdy7C+n2adEz7xznxhFk5kIerqwtxc7
- ImSLbCWywOByLQpFFqWtFczvIrBaGUTlfm8DknoPb5OrGV+6or1B/NtUOntjlzXpaNcE
- jAA9XzHfe8OPQiJhJYlMXvAEggLPjkC+chNgjqXfkTgtC6ZRB6xquleoj7iZAKVycZ9n
- fvWhNdSWazBaALWIfsN2tHYtUMqxVxEN9pIPDE+dmic8fItRDm1vKYtzMonwdShMfoTM
- mWHJ9VmUhJbTsCbhsiXsSh1wcKEzIB5woPI/xaj5ix4NmOzgXpAZueUbFcrAOUE0plRl
- Q85A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=c9+Ila8yDcQTvcaaypg7yfAItyT8PFPQ5xC6lpX5gxw=;
- b=UOj8yUyoaIqri0QHnNW7sGxqv7ArLSEaYBt8/VXbKYHNKjCbTcR6BnY4XLXBIO9OQz
- LkHYV/NE/s1s8GDbyYKYsJnggKXnEy+gfaFmcq7rOSt+tF9fc3vjWRIS4QNj3nhCrxA0
- Pojhs04H5KxEPRwfhNBpdtcQej7zb4dz+WyqnQDhudlGkFmPFBx3ne5BH7NawgcMNmWa
- zGEs6nZfEjW+5ZPnT1KV324+IKUShiulJ8BgypByifWlFlJiEEDAKBUhJJSt87zbCZXP
- qysUKxG42gtaqPG876TKWHsp+ZfndC2aiXE97kssFbpbaDSOB7GNYB74g+bODzY5kOc0
- CLRw==
-X-Gm-Message-State: ANoB5pkyZFsczKxsDqlqM26i+dVe/A9vTgXBwFQoO8o/3YKm8WvMdKg4
- HGhUQCUEdJdthawDVQKlt7fcjQ==
-X-Google-Smtp-Source: AA0mqf4ZRzUfFg9CTo+p8O1S/FhqSHRY+1EahX+NFqFbfaZpA3OqQcdDiVsYjLhNORttuLm2CuBSBw==
-X-Received: by 2002:a05:600c:c8:b0:3cf:b287:7722 with SMTP id
- u8-20020a05600c00c800b003cfb2877722mr47918726wmm.51.1669887384786; 
- Thu, 01 Dec 2022 01:36:24 -0800 (PST)
-Received: from alex-rivos.ba.rivosinc.com
- (lfbn-gre-1-201-46.w90-112.abo.wanadoo.fr. [90.112.163.46])
- by smtp.gmail.com with ESMTPSA id
- ay2-20020a05600c1e0200b003cfd0bd8c0asm4829517wmb.30.2022.12.01.01.36.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 01:36:24 -0800 (PST)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
- Ludovic Henry <ludovic@rivosinc.com>
-Subject: [PATCH v3] riscv: Allow user to set the satp mode
-Date: Thu,  1 Dec 2022 10:36:23 +0100
-Message-Id: <20221201093623.1394747-1-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p0g1K-0003wy-7V; Thu, 01 Dec 2022 04:38:27 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p0g1G-0003mT-4C; Thu, 01 Dec 2022 04:38:17 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B19Lfj3008985; Thu, 1 Dec 2022 09:37:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=0yDREg9MGdqCNxR8IO/Nk02yMrY0YjXusOFfPzon5lY=;
+ b=S4nqwpvO8LM7WIlyN3s276BS9OIbFLjLzb1JSHix+nWHThicEEMNo0jaFOBp50K2ZNIG
+ HFgF+U9JJMVRY2NT7MYFsh2skbxWbbFLahhUsHmq/b7YgMuuXMXIj8Mpc1/mEN8kA0rf
+ zyoZ1jfXq2HLYqbhd2YCb0wGWmhRbuq2B0m+vHygZ/e/fj33qYIqy6zyXG9WYA1F7DiS
+ R7d7EMZZiOZnqj941RYSLDVuqi2dR4OJPG4OYbgahZX9DtMiFL6hHANJgH7fdeuUPcNY
+ lX1+G7u90rUDOmeyl7TIznKBTJ8XVVQgZC93SuIz2oJx5g0sPQM/nVl41Ft+1orJYdr6 zA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m6sjrrej0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Dec 2022 09:37:59 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B19LnB3009209;
+ Thu, 1 Dec 2022 09:37:58 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m6sjrregq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Dec 2022 09:37:58 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B19ZXK7025384;
+ Thu, 1 Dec 2022 09:37:56 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 3m3ae9f48b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Dec 2022 09:37:55 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B19bqZs3670752
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 1 Dec 2022 09:37:52 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CB8B211C050;
+ Thu,  1 Dec 2022 09:37:52 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC11111C052;
+ Thu,  1 Dec 2022 09:37:51 +0000 (GMT)
+Received: from [9.171.21.111] (unknown [9.171.21.111])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  1 Dec 2022 09:37:51 +0000 (GMT)
+Message-ID: <e026cd45-afae-3c60-e967-17147709c1e9@linux.ibm.com>
+Date: Thu, 1 Dec 2022 10:37:51 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v12 1/7] s390x/cpu topology: Creating CPU topology device
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20221129174206.84882-1-pmorel@linux.ibm.com>
+ <20221129174206.84882-2-pmorel@linux.ibm.com>
+ <b61c8e4d-cae9-b267-a00b-007401b95bfb@redhat.com>
+Content-Language: en-US
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <b61c8e4d-cae9-b267-a00b-007401b95bfb@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7Xf_tiJBINCpB66aCJParLKtXnABuZQQ
+X-Proofpoint-ORIG-GUID: HmzZAcR8iGC_sYqD10ioNffqKnOjAV4f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-01_04,2022-11-30_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
+ clxscore=1015 adultscore=0 malwarescore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212010066
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,343 +122,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RISC-V specifies multiple sizes for addressable memory and Linux probes for
-the machine's support at startup via the satp CSR register (done in
-csr.c:validate_vm).
 
-As per the specification, sv64 must support sv57, which in turn must
-support sv48...etc. So we can restrict machine support by simply setting the
-"highest" supported mode and the bare mode is always supported.
 
-You can set the satp mode using the new properties "mbare", "sv32",
-"sv39", "sv48", "sv57" and "sv64" as follows:
--cpu rv64,sv57=on # Linux will boot using sv57 scheme
--cpu rv64,sv39=on # Linux will boot using sv39 scheme
+On 12/1/22 10:08, Thomas Huth wrote:
+> On 29/11/2022 18.42, Pierre Morel wrote:
+>> We will need a Topology device to transfer the topology
+>> during migration and to implement machine reset.
+>>
+>> The device creation is fenced by s390_has_topology().
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+> ...
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index 2e64ffab45..973bbdd36e 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -44,6 +44,7 @@
+>>   #include "hw/s390x/pv.h"
+>>   #include "migration/blocker.h"
+>>   #include "qapi/visitor.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>>   static Error *pv_mig_blocker;
+>> @@ -102,6 +103,24 @@ static void s390_init_cpus(MachineState *machine)
+>>       }
+>>   }
+>> +static DeviceState *s390_init_topology(MachineState *machine, Error 
+>> **errp)
+>> +{
+>> +    DeviceState *dev;
+>> +
+>> +    dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
+>> +
+>> +    object_property_add_child(&machine->parent_obj,
+>> +                              TYPE_S390_CPU_TOPOLOGY, OBJECT(dev));
+>> +    object_property_set_int(OBJECT(dev), "num-cores",
+>> +                            machine->smp.cores * 
+>> machine->smp.threads, errp);
+> 
+> I wonder what will happen if we ever support multithreading on s390x 
+> later? ... won't this cause some oddities when migrating older machines 
+> types with smp.threads > 1 later? Maybe we should prohibit to enable the 
+> CPU topology instead if a user tried to use threads > 1 with an older 
+> machine type?
 
-We take the highest level set by the user:
--cpu rv64,sv48=on,sv57=on # Linux will boot using sv57 scheme
+Yes, right, I forgot to change this back.
+Anyway it has no sens for new machine which prohibit smp.threads > 1 
+neither.
 
-We make sure that invalid configurations are rejected:
--cpu rv64,sv32=on # Can't enable 32-bit satp mode in 64-bit
--cpu rv64,sv39=off,sv48=on # sv39 must be supported if higher modes are
-			   # enabled
+I change this by returning an error in case we have smp.threads > 1
 
-We accept "redundant" configurations:
--cpu rv64,sv48=on,sv57=off # sv39 must be supported if higher modes are
+Thanks.
 
-In addition, we now correctly set the device-tree entry 'mmu-type' using
-those new properties.
+Pierre
 
-Co-Developed-by: Ludovic Henry <ludovic@rivosinc.com>
-Signed-off-by: Ludovic Henry <ludovic@rivosinc.com>
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
-v3:
-- Free sv_name as pointed by Bin
-- Replace satp-mode with boolean properties as suggested by Andrew
-- Removed RB from Atish as the patch considerably changed
+> 
+>   Thomas
+> 
+> 
+>> +    object_property_set_int(OBJECT(dev), "num-sockets",
+>> +                            machine->smp.sockets, errp);
+>> +
+>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), errp);
+>> +
+>> +    return dev;
+>> +}
+> 
 
-v2:
-- Use error_setg + return as suggested by Alistair
-- Add RB from Atish
-- Fixed checkpatch issues missed in v1
-- Replaced Ludovic email address with the rivos one
-
- hw/riscv/virt.c         |  16 ++--
- target/riscv/cpu.c      | 164 ++++++++++++++++++++++++++++++++++++++++
- target/riscv/cpu.h      |   8 ++
- target/riscv/cpu_bits.h |   1 +
- target/riscv/csr.c      |   8 +-
- 5 files changed, 186 insertions(+), 11 deletions(-)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index a5bc7353b4..bb7c739a74 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -228,7 +228,7 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-     int cpu;
-     uint32_t cpu_phandle;
-     MachineState *mc = MACHINE(s);
--    char *name, *cpu_name, *core_name, *intc_name;
-+    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
- 
-     for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
-         cpu_phandle = (*phandle)++;
-@@ -236,14 +236,12 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-         cpu_name = g_strdup_printf("/cpus/cpu@%d",
-             s->soc[socket].hartid_base + cpu);
-         qemu_fdt_add_subnode(mc->fdt, cpu_name);
--        if (riscv_feature(&s->soc[socket].harts[cpu].env,
--                          RISCV_FEATURE_MMU)) {
--            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
--                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
--        } else {
--            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
--                                    "riscv,none");
--        }
-+
-+        sv_name = g_strdup_printf("riscv,%s",
-+                                  s->soc[socket].harts[cpu].cfg.satp_mode_str);
-+        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-+        g_free(sv_name);
-+
-         name = riscv_isa_string(&s->soc[socket].harts[cpu]);
-         qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
-         g_free(name);
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d14e95c9dc..51c06ed057 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -907,6 +907,66 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-      }
- #endif
- 
-+    /*
-+     * Either a cpu sets its supported satp_mode in XXX_cpu_init
-+     * or the user sets this value using satp_mode property.
-+     */
-+    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-+
-+    cpu->cfg.satp_mode = VM_1_10_UNDEF;
-+
-+    if (rv32) {
-+        if (cpu->cfg.sv32 == ON_OFF_AUTO_ON) {
-+            cpu->cfg.satp_mode_str = g_strdup("sv32");
-+            cpu->cfg.satp_mode = VM_1_10_SV32;
-+        } else if (cpu->cfg.mbare == ON_OFF_AUTO_ON) {
-+            cpu->cfg.satp_mode_str = g_strdup("none");
-+            cpu->cfg.satp_mode = VM_1_10_MBARE;
-+        }
-+    } else {
-+        if (cpu->cfg.sv64 == ON_OFF_AUTO_ON) {
-+            cpu->cfg.satp_mode_str = g_strdup("sv64");
-+            cpu->cfg.satp_mode = VM_1_10_SV64;
-+        } else if (cpu->cfg.sv57 == ON_OFF_AUTO_ON) {
-+            cpu->cfg.satp_mode_str = g_strdup("sv57");
-+            cpu->cfg.satp_mode = VM_1_10_SV57;
-+        } else if (cpu->cfg.sv48 == ON_OFF_AUTO_ON) {
-+            cpu->cfg.satp_mode_str = g_strdup("sv48");
-+            cpu->cfg.satp_mode = VM_1_10_SV48;
-+        } else if (cpu->cfg.sv39 == ON_OFF_AUTO_ON) {
-+            cpu->cfg.satp_mode_str = g_strdup("sv39");
-+            cpu->cfg.satp_mode = VM_1_10_SV39;
-+        } else if (cpu->cfg.mbare == ON_OFF_AUTO_ON) {
-+            cpu->cfg.satp_mode_str = g_strdup("none");
-+            cpu->cfg.satp_mode = VM_1_10_MBARE;
-+        }
-+    }
-+
-+    /*
-+     * If unset by both the user and the cpu, we fallback to sv32 for 32-bit
-+     * or sv57 for 64-bit when a MMU is present, and bare otherwise.
-+     */
-+    if (cpu->cfg.satp_mode == VM_1_10_UNDEF) {
-+        if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-+            if (rv32) {
-+                cpu->cfg.satp_mode_str = g_strdup("sv32");
-+                cpu->cfg.satp_mode = VM_1_10_SV32;
-+            } else {
-+                cpu->cfg.satp_mode_str = g_strdup("sv57");
-+                cpu->cfg.satp_mode = VM_1_10_SV57;
-+            }
-+        } else {
-+            cpu->cfg.satp_mode_str = g_strdup("none");
-+            cpu->cfg.satp_mode = VM_1_10_MBARE;
-+        }
-+    }
-+
-+    riscv_cpu_finalize_features(cpu, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-     riscv_cpu_register_gdb_regs_for_features(cs);
- 
-     qemu_init_vcpu(cs);
-@@ -915,6 +975,102 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     mcc->parent_realize(dev, errp);
- }
- 
-+void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-+{
-+    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-+
-+    /* First, get rid of 32-bit/64-bit incompatibilities */
-+    if (rv32) {
-+        if (cpu->cfg.sv39 == ON_OFF_AUTO_ON
-+                || cpu->cfg.sv48 == ON_OFF_AUTO_ON
-+                || cpu->cfg.sv57 == ON_OFF_AUTO_ON
-+                || cpu->cfg.sv64 == ON_OFF_AUTO_ON) {
-+            error_setg(errp, "cannot enable 64-bit satp modes "
-+                       "(sv39/sv48/sv57/sv64)");
-+            error_append_hint(errp, "cpu is in 32-bit mode, 64-bit satp modes "
-+                              "can't be enabled\n");
-+            return;
-+        }
-+    } else {
-+        if (cpu->cfg.sv32 == ON_OFF_AUTO_ON) {
-+            error_setg(errp, "cannot enable 32-bit satp mode (sv32)");
-+            error_append_hint(errp, "cpu is in 64-bit mode, 32-bit satp mode "
-+                              "can't be enabled\n");
-+            return;
-+        }
-+    }
-+
-+    /*
-+     * Then make sure the user did not ask for an invalid configuration as per
-+     * the specification.
-+     */
-+    switch (cpu->cfg.satp_mode) {
-+    case VM_1_10_SV32:
-+        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF) {
-+            error_setg(errp, "cannot disable mbare satp mode");
-+            error_append_hint(errp, "mbare satp mode must be enabled if sv32 "
-+                              "is enabled\n");
-+            return;
-+        }
-+
-+        break;
-+    case VM_1_10_SV39:
-+        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF) {
-+            error_setg(errp, "cannot disable mbare satp mode");
-+            error_append_hint(errp, "mbare satp mode must be enabled if sv39 "
-+                              "is enabled\n");
-+            return;
-+        }
-+
-+        break;
-+    case VM_1_10_SV48:
-+        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF
-+                || cpu->cfg.sv39 == ON_OFF_AUTO_OFF) {
-+            error_setg(errp, "cannot disable mbare/sv39 satp modes");
-+            error_append_hint(errp, "mbare/sv39 satp modes must be enabled if "
-+                              "sv48 is enabled\n");
-+            return;
-+        }
-+
-+        break;
-+    case VM_1_10_SV57:
-+        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF
-+                || cpu->cfg.sv39 == ON_OFF_AUTO_OFF
-+                || cpu->cfg.sv48 == ON_OFF_AUTO_OFF) {
-+            error_setg(errp, "cannot disable mbare/sv39/sv48 satp modes");
-+            error_append_hint(errp, "mbare/sv39/sv48 satp modes must be "
-+                              "enabled if sv57 is enabled\n");
-+            return;
-+        }
-+
-+        break;
-+    case VM_1_10_SV64:
-+        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF
-+                || cpu->cfg.sv39 == ON_OFF_AUTO_OFF
-+                || cpu->cfg.sv48 == ON_OFF_AUTO_OFF
-+                || cpu->cfg.sv57 == ON_OFF_AUTO_OFF) {
-+            error_setg(errp, "cannot disable mbare/sv39/sv48/sv57 satp "
-+                       "modes");
-+            error_append_hint(errp, "mbare/sv39/sv48/sv57 satp modes must be "
-+                              "enabled if sv57 is enabled\n");
-+            return;
-+        }
-+
-+        break;
-+    }
-+}
-+
-+void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
-+{
-+    Error *local_err = NULL;
-+
-+    riscv_cpu_satp_mode_finalize(cpu, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+}
-+
- #ifndef CONFIG_USER_ONLY
- static void riscv_cpu_set_irq(void *opaque, int irq, int level)
- {
-@@ -1094,6 +1250,14 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-     DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-+
-+    DEFINE_PROP_ON_OFF_AUTO("mbare", RISCVCPU, cfg.mbare, ON_OFF_AUTO_AUTO),
-+    DEFINE_PROP_ON_OFF_AUTO("sv32", RISCVCPU, cfg.sv32, ON_OFF_AUTO_AUTO),
-+    DEFINE_PROP_ON_OFF_AUTO("sv39", RISCVCPU, cfg.sv39, ON_OFF_AUTO_AUTO),
-+    DEFINE_PROP_ON_OFF_AUTO("sv48", RISCVCPU, cfg.sv48, ON_OFF_AUTO_AUTO),
-+    DEFINE_PROP_ON_OFF_AUTO("sv57", RISCVCPU, cfg.sv57, ON_OFF_AUTO_AUTO),
-+    DEFINE_PROP_ON_OFF_AUTO("sv64", RISCVCPU, cfg.sv64, ON_OFF_AUTO_AUTO),
-+
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 3a9e25053f..dcdde1e0b7 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -27,6 +27,7 @@
- #include "qom/object.h"
- #include "qemu/int128.h"
- #include "cpu_bits.h"
-+#include "qapi/qapi-types-common.h"
- 
- #define TCG_GUEST_DEFAULT_MO 0
- 
-@@ -480,6 +481,10 @@ struct RISCVCPUConfig {
-     bool debug;
- 
-     bool short_isa_string;
-+
-+    OnOffAuto mbare, sv32, sv39, sv48, sv57, sv64;
-+    uint8_t satp_mode;
-+    char *satp_mode_str;
- };
- 
- typedef struct RISCVCPUConfig RISCVCPUConfig;
-@@ -789,4 +794,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
- 
- void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
- 
-+void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp);
-+void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp);
-+
- #endif /* RISCV_CPU_H */
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index d8f5f0abed..3e67a815d5 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -590,6 +590,7 @@ typedef enum {
- #define VM_1_10_SV48        9
- #define VM_1_10_SV57        10
- #define VM_1_10_SV64        11
-+#define VM_1_10_UNDEF       16
- 
- /* Page table entry (PTE) fields */
- #define PTE_V               0x001 /* Valid */
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 5c9a7ee287..d2aab1627e 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1109,10 +1109,14 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
- 
- static int validate_vm(CPURISCVState *env, target_ulong vm)
- {
-+    vm &= 0xf;
-+
-     if (riscv_cpu_mxl(env) == MXL_RV32) {
--        return valid_vm_1_10_32[vm & 0xf];
-+        return valid_vm_1_10_32[vm] &&
-+            (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
-     } else {
--        return valid_vm_1_10_64[vm & 0xf];
-+        return valid_vm_1_10_64[vm] &&
-+            (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
-     }
- }
- 
 -- 
-2.37.2
-
+Pierre Morel
+IBM Lab Boeblingen
 
