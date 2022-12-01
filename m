@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A35463F0EB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6A163F0EE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:53:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0j38-0006f5-SQ; Thu, 01 Dec 2022 07:52:22 -0500
+	id 1p0j4F-00079b-Lh; Thu, 01 Dec 2022 07:53:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0j35-0006e9-5p
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:52:21 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0j33-000484-GV
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:52:18 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- p13-20020a05600c468d00b003cf8859ed1bso1457938wmo.1
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 04:52:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1OqQrByk5fw4/4erhJNjgDetFW4ia3XpnZ5dULtBhzc=;
- b=wwtmpasdkwmvL98d4d4XEF91AkSUVMDJ9xlNDNiC5V7jaNFFs/K3CAIhvxhNAuuvfx
- oDBjErWp9M/6gHgahDc4NojBEHfR9KywMFzf+5sYTQjdLGK7NUXhPkAzopi3lLBTzuXQ
- iy7rDu6yWlCHyDI32Jue5KlvenETe0GDCEIJprlHAmhEdT25rIwXLSqjQhcXjPYptttv
- EisswAuGv0lVoY2zQjy8InB4YNiwndWPNwLvuI/XjAoV7dzn9jEAf6TD92b02JlklmyF
- bLcf1Ims8ZVSfW0s65qZc/LTVg1SEt34A8eGJeWWfsPeezWWgMqTThvqQEcgUs3rhKdK
- mPEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1OqQrByk5fw4/4erhJNjgDetFW4ia3XpnZ5dULtBhzc=;
- b=vNugjmrA4U/3XtvCL/rxY5NGG6WBw8sNvldXlj6ZjtvjFL1HD3PEoKcVEtdR3Gt4/y
- tR2XhqrHQtLA6c5YS2FI2Qdk+8wdA/HgR3oz3bz9NNnW1PoGFMnDcV+G7xWI5yZIKv54
- W046R/qOrY27hilJ95Hc5dLbSP1uyAZHI8kqMq+e7xxIQ/81BzxG9ocDTCwbkAcRYkF4
- sD9LeSDy/UkA4X+Ilb6ZEudaFkj7ud6Plp3mdgZnhK7uJwub89oueEh8M/YxcB9wpfvf
- ZFs763sijPef3Yu1Na7NTg7TvaE8bpTXoyhURySa2owYEUex8FMEq12uMALh3PeSjQUz
- py2A==
-X-Gm-Message-State: ANoB5pnVmI0XgtZy9CSuXeKcA6q6MtT39v4fzRM6Kitr6qoMsUjjqqQa
- XCC+988XPyI8G3K3oD1eFVLwgA==
-X-Google-Smtp-Source: AA0mqf45y+3pdRJL10GOS8vUuVgjvSwgD9hF7d8hqIJDy3Hpx7DzVzz5c+nNECJO6AAR3R91HsHHIQ==
-X-Received: by 2002:a05:600c:1d9c:b0:3c6:bf1e:ebb9 with SMTP id
- p28-20020a05600c1d9c00b003c6bf1eebb9mr50906403wms.173.1669899135513; 
- Thu, 01 Dec 2022 04:52:15 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- r11-20020a05600c35cb00b003a84375d0d1sm9836223wmq.44.2022.12.01.04.52.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 04:52:15 -0800 (PST)
-Message-ID: <1f4285b6-0712-9c7a-e0a6-3903ba60e78a@linaro.org>
-Date: Thu, 1 Dec 2022 13:52:13 +0100
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0j4D-00077m-EP
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:53:29 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0j48-0004If-0p
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:53:25 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AD5D061FD6
+ for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 12:53:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C5CEC433C1
+ for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 12:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669899202;
+ bh=uy94m3osw99AczHjRyQ60IU1790EdqtPyWUmQvPfT2Q=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Iou8BaXwGFreJiX5FMA701yymN1R4qsr7DTsF4a4t5Z+rsPfg7lOxCG0mS7tPVr4K
+ QGkNCEji/aSsw6lzS+HQMy52Bfj0B+0cn6ZfE8NxGd/3/OXGniopQD02+vN4ZgfdvW
+ pbJgIUVjXRfsr/9Rpm/4QgWllVsyGDLIglWiRRluRMo2/85iqsBleqmv4oKpX0ZOzd
+ I7G8N0AgNp3Q1pwzQBoYt2mDIfI1rua1/EJPmv/Y2J88F9WqeH3GpkArFgn/aRXRhv
+ 8YqK7HBbIw2ajrf4UlvmD8QGKX8N+aCJ35iF6NqUILEXPwwdzsk8lg+kL6XYaU2dKE
+ QBtlkBBp3P9lA==
+Received: by mail-lf1-f44.google.com with SMTP id b3so2366179lfv.2
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 04:53:22 -0800 (PST)
+X-Gm-Message-State: ANoB5pmgKlcCzNe/lriih7XM69TFlX2pzCpSw+4V/ptOBZT4YlivfyOR
+ UGec6kes2RJQAc19fi9BcY2gYIjh3XAe/HhhsUQ=
+X-Google-Smtp-Source: AA0mqf5qVPI4Su8PHMCNU4DIx9DM1O/XF1MazCJke9+Vo/OG9nXd+9crRWzzYRtwBP5bv3fYp0x85HEftXK7vLL30Ro=
+X-Received: by 2002:a19:6b19:0:b0:4a2:740b:5b02 with SMTP id
+ d25-20020a196b19000000b004a2740b5b02mr20999762lfa.122.1669899200127; Thu, 01
+ Dec 2022 04:53:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH] MAINTAINERS: Inherit from nanoMIPS
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- Milica Lazarevic <Milica.Lazarevic@Syrmia.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
-References: <20221030225006.43203-1-philmd@linaro.org>
- <PAVPR03MB96784D39EC71F71C86ABAE81F8069@PAVPR03MB9678.eurprd03.prod.outlook.com>
- <PAVPR03MB967895ED1573A16CE6E5A34FF8149@PAVPR03MB9678.eurprd03.prod.outlook.com>
- <87ilivzajc.fsf@pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87ilivzajc.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+ <87r0xkubcp.wl-maz@kernel.org>
+ <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
+ <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
+ <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
+ <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+ <3d2acb1b-b1f1-023c-6e93-b0eeaee334f2@hisilicon.com>
+In-Reply-To: <3d2acb1b-b1f1-023c-6e93-b0eeaee334f2@hisilicon.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 1 Dec 2022 13:53:08 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGoGKVgiQR9kkjZyy1UhSMosf8ov-2=1nzo9HasdSzMXA@mail.gmail.com>
+Message-ID: <CAMj1kXGoGKVgiQR9kkjZyy1UhSMosf8ov-2=1nzo9HasdSzMXA@mail.gmail.com>
+Subject: Re: regression: insmod module failed in VM with nvdimm on
+To: "chenxiang (M)" <chenxiang66@hisilicon.com>
+Cc: Marc Zyngier <maz@kernel.org>, will@kernel.org, mark.rutland@arm.com, 
+ linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>, 
+ "linuxarm@huawei.com" <linuxarm@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=ardb@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,20 +85,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/12/22 11:24, Markus Armbruster wrote:
-> Milica Lazarevic <Milica.Lazarevic@Syrmia.com> writes:
-> 
->> Hi,
->>
->> Stefan is no longer working with us, but I will be more than happy to take maintaining the nanoMIPS ISA on me!
->>
->> Regards,
->> Milica
->> Any comments on this?
-> 
-> Suggest you post a patch to update MAINTAINERS, with a suitable cc:.
+On Thu, 1 Dec 2022 at 13:07, chenxiang (M) <chenxiang66@hisilicon.com> wrot=
+e:
+>
+>
+>
+> =E5=9C=A8 2022/12/1 19:07, Ard Biesheuvel =E5=86=99=E9=81=93:
+> > On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
+> >> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com>=
+ wrote:
+> >>> Hi Ard,
+> >>>
+> >>>
+> >>> =E5=9C=A8 2022/11/30 16:18, Ard Biesheuvel =E5=86=99=E9=81=93:
+> >>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
+> >>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
+> >>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+> >>>>>> Hi,
+> >>>>>>
+> >>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
+> >>>>>> version 6.1.50, kernel 6.0-r4):
+> >>>>> How relevant is the presence of the nvdimm? Do you observe the fail=
+ure
+> >>>>> without this?
+> >>>>>
+> >>>>>> qemu-system-aarch64 -machine
+> >>>>>> virt,kernel_irqchip=3Don,gic-version=3D3,nvdimm=3Don  -kernel
+> >>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
+> >>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
+> >>>>>> 2G,maxmem=3D64G,slots=3D3 -smp 4 -append 'rdinit=3Dinit console=3D=
+ttyAMA0
+> >>>>>> ealycon=3Dpl0ll,0x90000000 pcie_ports=3Dnative pciehp.pciehp_debug=
+=3D1'
+> >>>>>> -object memory-backend-ram,id=3Dram1,size=3D10G -device
+> >>>>>> nvdimm,id=3Ddimm1,memdev=3Dram1  -device ioh3420,id=3Droot_port1,c=
+hassis=3D1
+> >>>>>> -device vfio-pci,host=3D7d:01.0,id=3Dnet0,bus=3Droot_port1
+> >>>>>>
+> >>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (ke=
+rnel
+> >>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
+> >>>>>>
+> >>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
+> >>>>>> [    8.186563] vmap allocation for size 20480 failed: use
+> >>>>>> vmalloc=3D<size> to increase size
+> >>>>> Have you tried increasing the vmalloc size to check that this is
+> >>>>> indeed the problem?
+> >>>>>
+> >>>>> [...]
+> >>>>>
+> >>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: ka=
+slr:
+> >>>>>> defer initialization to initcall where permitted").
+> >>>>> I guess you mean commit fc5a89f75d2a instead, right?
+> >>>>>
+> >>>>>> Do you have any idea about the issue?
+> >>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
+> >>>>> portion of the vmalloc space, but you give very little information
+> >>>>> that could help here...
+> >>>>>
+> >>>> Ouch. I suspect what's going on here: that patch defers the
+> >>>> randomization of the module region, so that we can decouple it from
+> >>>> the very early init code.
+> >>>>
+> >>>> Obviously, it is happening too late now, and the randomized module
+> >>>> region is overlapping with a vmalloc region that is in use by the ti=
+me
+> >>>> the randomization occurs.
+> >>>>
+> >>>> Does the below fix the issue?
+> >>> The issue still occurs, but it seems decrease the probability, before=
+ it
+> >>> occured almost every time, after the change, i tried 2-3 times, and i=
+t
+> >>> occurs.
+> >>> But i change back "subsys_initcall" to "core_initcall", and i test mo=
+re
+> >>> than 20 times, and it is still ok.
+> >>>
+> >> Thank you for confirming. I will send out a patch today.
+> >>
+> > ...but before I do that, could you please check whether the change
+> > below fixes your issue as well?
+>
+> Yes, but i can only reply to you tomorrow as other guy is testing on the
+> only environment today.
+>
 
-nanoMIPS depends on the generic MIPS infra, reviewing overall MIPS 
-patches also helps.
-
+That is fine, thanks.
 
