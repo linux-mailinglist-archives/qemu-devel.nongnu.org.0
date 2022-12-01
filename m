@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE46A63F0A4
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:34:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F8A63F067
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:25:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0iQ9-0004Qo-4A; Thu, 01 Dec 2022 07:12:05 -0500
+	id 1p0iPp-0004EM-JV; Thu, 01 Dec 2022 07:11:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPx-0004IQ-5C
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPn-0004Dy-7F
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPm-0008DB-3G
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPl-0008D0-08
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669896701;
+ s=mimecast20190719; t=1669896698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TUh34wM+uM+wFsENXX8xs6SFf+Ste+VdB492vGd0gM8=;
- b=NLOVi15yF1AmO1ylrKw76UTNhdY8XvJMt3JKolccU0hSNjrXzMdrcflUjlD3EaImJGx2Qs
- 5jP53Cp0533Eex+2ITNYnaDx+mj0/McZw0ni3fIKuX7PvAYWz9w67zsovwoRvWc0QaG6n7
- j87d4jHs3xExvXr6QIFslasrazglYTs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YixPRplXpwk1IUhyR7iCRWD6GAOzLbqkxOvf6Rkgyt4=;
+ b=jH4IAiCPW6vywgw12WgK4DXNU9l9H3stpVUk6LnNxXXcmKBRsLHvNcoxoX29jN2KkUdiH5
+ EMrXbH2P0OyujMZn2X3a5TXMV9GHYDIiE3P2BpUK1xDQIr5Dkj1AhLc8x4rW4/bwkUtL0w
+ iJO85r/sOTcmpm6I++J0GR5gRKrcWKI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-1aqDnGTvPt-cYpAFkr9jIw-1; Thu, 01 Dec 2022 07:11:37 -0500
-X-MC-Unique: 1aqDnGTvPt-cYpAFkr9jIw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-227-HzsFXjvMN9yzz5zXlqDEZA-1; Thu, 01 Dec 2022 07:11:37 -0500
+X-MC-Unique: HzsFXjvMN9yzz5zXlqDEZA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C7F1101A54E;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D39C29AB402;
  Thu,  1 Dec 2022 12:11:37 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EABF4EA4B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EDEA2166B49;
  Thu,  1 Dec 2022 12:11:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E2D3F21E66CD; Thu,  1 Dec 2022 13:11:33 +0100 (CET)
+ id E561C21E6681; Thu,  1 Dec 2022 13:11:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, dgilbert@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v2 03/13] pci: Move HMP commands from monitor/ to new
- hw/pci/pci-hmp-cmds.c
-Date: Thu,  1 Dec 2022 13:11:23 +0100
-Message-Id: <20221201121133.3813857-4-armbru@redhat.com>
+Subject: [PATCH v2 04/13] pci: Make query-pci stub consistent with the real one
+Date: Thu,  1 Dec 2022 13:11:24 +0100
+Message-Id: <20221201121133.3813857-5-armbru@redhat.com>
 In-Reply-To: <20221201121133.3813857-1-armbru@redhat.com>
 References: <20221201121133.3813857-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,293 +79,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This moves these commands from MAINTAINERS section "Human
-Monitor (HMP)" to "PCI".
+QMP query-pci and HMP info pci can behave differently when there are
+no PCI devices.  They can report nothing, like this:
+
+    qemu-system-aarch64 -S -M spitz -display none -monitor stdio
+    QEMU 7.1.91 monitor - type 'help' for more information
+    (qemu) info pci
+
+Or they can fail, like this:
+
+    qemu-system-microblaze -M petalogix-s3adsp1800 -display none -monitor stdio
+    QEMU 7.1.91 monitor - type 'help' for more information
+    (qemu) info pci
+    PCI devices not supported
+
+They fail when none of the target's machines supports PCI, i.e. when
+we're using qmp_query_pci() from hw/pci/pci-stub.c.
+
+The error is not useful, and reporting nothing makes sense, so do that
+in pci-stub.c, too.
+
+Now qmp_query_pci() can't fail anymore.  Drop the dead error handling
+from hmp_info_pci().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/pci/pci-hmp-cmds.c | 126 ++++++++++++++++++++++++++++++++++++++++++
- monitor/hmp-cmds.c    | 107 -----------------------------------
- hw/pci/meson.build    |   1 +
- 3 files changed, 127 insertions(+), 107 deletions(-)
- create mode 100644 hw/pci/pci-hmp-cmds.c
+ hw/pci/pci-hmp-cmds.c | 8 +-------
+ hw/pci/pci-stub.c     | 3 ---
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
-new file mode 100644
-index 0000000000..5adfe4f57f
---- /dev/null
+index 5adfe4f57f..e915fb9fe7 100644
+--- a/hw/pci/pci-hmp-cmds.c
 +++ b/hw/pci/pci-hmp-cmds.c
-@@ -0,0 +1,126 @@
-+/*
-+ * HMP commands related to PCI
-+ *
-+ * Copyright IBM, Corp. 2011
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ *
-+ * Contributions after 2012-01-13 are licensed under the terms of the
-+ * GNU GPL, version 2 or (at your option) any later version.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-pci.h"
-+
-+static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
-+{
-+    PciMemoryRegionList *region;
-+
-+    monitor_printf(mon, "  Bus %2" PRId64 ", ", dev->bus);
-+    monitor_printf(mon, "device %3" PRId64 ", function %" PRId64 ":\n",
-+                   dev->slot, dev->function);
-+    monitor_printf(mon, "    ");
-+
-+    if (dev->class_info->has_desc) {
-+        monitor_puts(mon, dev->class_info->desc);
-+    } else {
-+        monitor_printf(mon, "Class %04" PRId64, dev->class_info->q_class);
-+    }
-+
-+    monitor_printf(mon, ": PCI device %04" PRIx64 ":%04" PRIx64 "\n",
-+                   dev->id->vendor, dev->id->device);
-+    if (dev->id->has_subsystem_vendor && dev->id->has_subsystem) {
-+        monitor_printf(mon, "      PCI subsystem %04" PRIx64 ":%04" PRIx64 "\n",
-+                       dev->id->subsystem_vendor, dev->id->subsystem);
-+    }
-+
-+    if (dev->has_irq) {
-+        monitor_printf(mon, "      IRQ %" PRId64 ", pin %c\n",
-+                       dev->irq, (char)('A' + dev->irq_pin - 1));
-+    }
-+
-+    if (dev->has_pci_bridge) {
-+        monitor_printf(mon, "      BUS %" PRId64 ".\n",
-+                       dev->pci_bridge->bus->number);
-+        monitor_printf(mon, "      secondary bus %" PRId64 ".\n",
-+                       dev->pci_bridge->bus->secondary);
-+        monitor_printf(mon, "      subordinate bus %" PRId64 ".\n",
-+                       dev->pci_bridge->bus->subordinate);
-+
-+        monitor_printf(mon, "      IO range [0x%04"PRIx64", 0x%04"PRIx64"]\n",
-+                       dev->pci_bridge->bus->io_range->base,
-+                       dev->pci_bridge->bus->io_range->limit);
-+
-+        monitor_printf(mon,
-+                       "      memory range [0x%08"PRIx64", 0x%08"PRIx64"]\n",
-+                       dev->pci_bridge->bus->memory_range->base,
-+                       dev->pci_bridge->bus->memory_range->limit);
-+
-+        monitor_printf(mon, "      prefetchable memory range "
-+                       "[0x%08"PRIx64", 0x%08"PRIx64"]\n",
-+                       dev->pci_bridge->bus->prefetchable_range->base,
-+                       dev->pci_bridge->bus->prefetchable_range->limit);
-+    }
-+
-+    for (region = dev->regions; region; region = region->next) {
-+        uint64_t addr, size;
-+
-+        addr = region->value->address;
-+        size = region->value->size;
-+
-+        monitor_printf(mon, "      BAR%" PRId64 ": ", region->value->bar);
-+
-+        if (!strcmp(region->value->type, "io")) {
-+            monitor_printf(mon, "I/O at 0x%04" PRIx64
-+                                " [0x%04" PRIx64 "].\n",
-+                           addr, addr + size - 1);
-+        } else {
-+            monitor_printf(mon, "%d bit%s memory at 0x%08" PRIx64
-+                               " [0x%08" PRIx64 "].\n",
-+                           region->value->mem_type_64 ? 64 : 32,
-+                           region->value->prefetch ? " prefetchable" : "",
-+                           addr, addr + size - 1);
-+        }
-+    }
-+
-+    monitor_printf(mon, "      id \"%s\"\n", dev->qdev_id);
-+
-+    if (dev->has_pci_bridge) {
-+        if (dev->pci_bridge->has_devices) {
-+            PciDeviceInfoList *cdev;
-+            for (cdev = dev->pci_bridge->devices; cdev; cdev = cdev->next) {
-+                hmp_info_pci_device(mon, cdev->value);
-+            }
-+        }
-+    }
-+}
-+
-+void hmp_info_pci(Monitor *mon, const QDict *qdict)
-+{
-+    PciInfoList *info_list, *info;
-+    Error *err = NULL;
-+
-+    info_list = qmp_query_pci(&err);
-+    if (err) {
-+        monitor_printf(mon, "PCI devices not supported\n");
-+        error_free(err);
-+        return;
-+    }
-+
-+    for (info = info_list; info; info = info->next) {
-+        PciDeviceInfoList *dev;
-+
-+        for (dev = info->value->devices; dev; dev = dev->next) {
-+            hmp_info_pci_device(mon, dev->value);
-+        }
-+    }
-+
-+    qapi_free_PciInfoList(info_list);
-+}
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 01b789a79e..03eae10663 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -37,7 +37,6 @@
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
--#include "qapi/qapi-commands-pci.h"
- #include "qapi/qapi-commands-rocker.h"
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-stats.h"
-@@ -701,89 +700,6 @@ void hmp_info_balloon(Monitor *mon, const QDict *qdict)
-     qapi_free_BalloonInfo(info);
- }
- 
--static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
--{
--    PciMemoryRegionList *region;
--
--    monitor_printf(mon, "  Bus %2" PRId64 ", ", dev->bus);
--    monitor_printf(mon, "device %3" PRId64 ", function %" PRId64 ":\n",
--                   dev->slot, dev->function);
--    monitor_printf(mon, "    ");
--
--    if (dev->class_info->has_desc) {
--        monitor_puts(mon, dev->class_info->desc);
--    } else {
--        monitor_printf(mon, "Class %04" PRId64, dev->class_info->q_class);
--    }
--
--    monitor_printf(mon, ": PCI device %04" PRIx64 ":%04" PRIx64 "\n",
--                   dev->id->vendor, dev->id->device);
--    if (dev->id->has_subsystem_vendor && dev->id->has_subsystem) {
--        monitor_printf(mon, "      PCI subsystem %04" PRIx64 ":%04" PRIx64 "\n",
--                       dev->id->subsystem_vendor, dev->id->subsystem);
--    }
--
--    if (dev->has_irq) {
--        monitor_printf(mon, "      IRQ %" PRId64 ", pin %c\n",
--                       dev->irq, (char)('A' + dev->irq_pin - 1));
--    }
--
--    if (dev->has_pci_bridge) {
--        monitor_printf(mon, "      BUS %" PRId64 ".\n",
--                       dev->pci_bridge->bus->number);
--        monitor_printf(mon, "      secondary bus %" PRId64 ".\n",
--                       dev->pci_bridge->bus->secondary);
--        monitor_printf(mon, "      subordinate bus %" PRId64 ".\n",
--                       dev->pci_bridge->bus->subordinate);
--
--        monitor_printf(mon, "      IO range [0x%04"PRIx64", 0x%04"PRIx64"]\n",
--                       dev->pci_bridge->bus->io_range->base,
--                       dev->pci_bridge->bus->io_range->limit);
--
--        monitor_printf(mon,
--                       "      memory range [0x%08"PRIx64", 0x%08"PRIx64"]\n",
--                       dev->pci_bridge->bus->memory_range->base,
--                       dev->pci_bridge->bus->memory_range->limit);
--
--        monitor_printf(mon, "      prefetchable memory range "
--                       "[0x%08"PRIx64", 0x%08"PRIx64"]\n",
--                       dev->pci_bridge->bus->prefetchable_range->base,
--                       dev->pci_bridge->bus->prefetchable_range->limit);
--    }
--
--    for (region = dev->regions; region; region = region->next) {
--        uint64_t addr, size;
--
--        addr = region->value->address;
--        size = region->value->size;
--
--        monitor_printf(mon, "      BAR%" PRId64 ": ", region->value->bar);
--
--        if (!strcmp(region->value->type, "io")) {
--            monitor_printf(mon, "I/O at 0x%04" PRIx64
--                                " [0x%04" PRIx64 "].\n",
--                           addr, addr + size - 1);
--        } else {
--            monitor_printf(mon, "%d bit%s memory at 0x%08" PRIx64
--                               " [0x%08" PRIx64 "].\n",
--                           region->value->mem_type_64 ? 64 : 32,
--                           region->value->prefetch ? " prefetchable" : "",
--                           addr, addr + size - 1);
--        }
--    }
--
--    monitor_printf(mon, "      id \"%s\"\n", dev->qdev_id);
--
--    if (dev->has_pci_bridge) {
--        if (dev->pci_bridge->has_devices) {
--            PciDeviceInfoList *cdev;
--            for (cdev = dev->pci_bridge->devices; cdev; cdev = cdev->next) {
--                hmp_info_pci_device(mon, cdev->value);
--            }
--        }
--    }
--}
--
- static int hmp_info_pic_foreach(Object *obj, void *opaque)
+@@ -105,14 +105,8 @@ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
+ void hmp_info_pci(Monitor *mon, const QDict *qdict)
  {
-     InterruptStatsProvider *intc;
-@@ -810,29 +726,6 @@ void hmp_info_pic(Monitor *mon, const QDict *qdict)
-                                    hmp_info_pic_foreach, mon);
- }
- 
--void hmp_info_pci(Monitor *mon, const QDict *qdict)
--{
--    PciInfoList *info_list, *info;
+     PciInfoList *info_list, *info;
 -    Error *err = NULL;
--
+ 
 -    info_list = qmp_query_pci(&err);
 -    if (err) {
 -        monitor_printf(mon, "PCI devices not supported\n");
 -        error_free(err);
 -        return;
 -    }
--
--    for (info = info_list; info; info = info->next) {
--        PciDeviceInfoList *dev;
--
--        for (dev = info->value->devices; dev; dev = dev->next) {
--            hmp_info_pci_device(mon, dev->value);
--        }
--    }
--
--    qapi_free_PciInfoList(info_list);
--}
--
- void hmp_info_tpm(Monitor *mon, const QDict *qdict)
- {
- #ifdef CONFIG_TPM
-diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-index 40721f1514..e42a133f3a 100644
---- a/hw/pci/meson.build
-+++ b/hw/pci/meson.build
-@@ -20,3 +20,4 @@ softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
++    info_list = qmp_query_pci(&error_abort);
  
- softmmu_ss.add(when: 'CONFIG_PCI', if_false: files('pci-stub.c'))
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('pci-stub.c'))
-+softmmu_ss.add(files('pci-hmp-cmds.c'))
+     for (info = info_list; info; info = info->next) {
+         PciDeviceInfoList *dev;
+diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
+index 3a027c42e4..f29ecc999e 100644
+--- a/hw/pci/pci-stub.c
++++ b/hw/pci/pci-stub.c
+@@ -21,9 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "sysemu/sysemu.h"
+ #include "monitor/monitor.h"
+-#include "qapi/error.h"
+ #include "qapi/qapi-commands-pci.h"
+-#include "qapi/qmp/qerror.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+@@ -33,7 +31,6 @@ bool pci_available;
+ 
+ PciInfoList *qmp_query_pci(Error **errp)
+ {
+-    error_setg(errp, QERR_UNSUPPORTED);
+     return NULL;
+ }
+ 
 -- 
 2.37.3
 
