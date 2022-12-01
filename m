@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FC563F4BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 17:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B18C63F4DF
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 17:11:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0m2C-0001RG-F7; Thu, 01 Dec 2022 11:03:36 -0500
+	id 1p0m8B-0004nU-2c; Thu, 01 Dec 2022 11:09:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0m2A-0001NL-BQ
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:03:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0m28-0006TI-At
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:03:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669910610;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7UM0HkPPTTX7kIX9xjSwYnrCPhq0I1jN4v2m1oBPnOc=;
- b=DnazeEzK6aj0y9aov7WG9559rtr2YqwoVQsSrMhm2c1A3yGU9hb6CKlW/4Qn+hSwqK0Ez6
- cwT/iEZ73u2gYRjP3VTHb35TBHqCqpLz2Vo82jE2m4NZ124pUexO+iQ+BPi0katiSmecVq
- dDztneP/Zl96SE0NuX9oXnY+5OS49c4=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-142-pW5dTgQ5MfeeAw-PujNfhw-1; Thu, 01 Dec 2022 11:03:22 -0500
-X-MC-Unique: pW5dTgQ5MfeeAw-PujNfhw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bj4-20020a05620a190400b006fc7c5d454cso7427419qkb.14
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 08:03:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p0m86-0004kD-Qg
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:09:44 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p0m85-0000hl-5s
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:09:42 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id o12so2268738pjo.4
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 08:09:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bwTILKOyhCn85/23lQZBXe5Y1YfHjOoehqFHkiEsNnQ=;
+ b=GmzqK7/vmWRyXP+EzWvRQH6l46eoZBBmKGi5316zTSgZwcN9NOw8Q5VjtXD9zFiDtZ
+ i510zynHeHWfQEFhuyXiXKsRvTv6pKhHnqOAqD+DLkY232LasLNjy54mO0yx8D4F4ysx
+ X5slLETy2007Dy3R+gTbw1g9W4xEG0ZLf/7PLUIysx/GuQQexKIAysH8DqoSVyWPu+ha
+ gWaqju8AEH6p+FcNh0gvRHoLZETV8TCeO7qoh8akPaErNDwJWB0DGo1RVygr4cyaQuDA
+ xI0jCrtwQH3WuFfzRgMY2FPo7YTYW3u1kXkLrSCcMNnxlRfoNuq3iXLVf0gUY7ypEOOw
+ YyVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7UM0HkPPTTX7kIX9xjSwYnrCPhq0I1jN4v2m1oBPnOc=;
- b=uz/UKezWrI7H5eFrj8+4yfG6Q0m5dun6AxE/Js7USeyaYPUZNfLkd9972BVeWiGVHA
- G6xJlROsepSSaRGbyShny9GXR5v4q2qOhVMwsEblaXqFKMLB5nLJrOOw7NJAdGF4Jwc4
- AKwoyg/xJU7PlBigNYjwshD32xQy2wcKVzFIovJMOnVegy2XMMAoMC0KcAdpcyvUH5R0
- ahpfUdTNt5LTcteQRSwV4nnXoGiC7irz1SxDE651NclO6wyWId/mZ57XjE5OGdeX8hOT
- fEed5bS9pUow+XuH1FNX53mxtLfx/R6MWX82whEupqot2KuUCZ8SmM/SmOkr8ueXuCuq
- 0hTQ==
-X-Gm-Message-State: ANoB5plIsk9OjyD8P4ghNv6+owrvoBKOSGDyGREp+dU80xf3CirS9nkt
- G0unDN6EPkaGpkNM/jEd8ETVcz0jW6NbTQv6WbR8e/+SM37rgMn3iR9lUYhlUeija1uhRrQvpzz
- e49tzUtSq+TttkPo=
-X-Received: by 2002:ac8:47c5:0:b0:3a5:6a0e:db3c with SMTP id
- d5-20020ac847c5000000b003a56a0edb3cmr62846079qtr.398.1669910600445; 
- Thu, 01 Dec 2022 08:03:20 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4BNQjTBBk3QUHTs8WQEQsXhjtu44z4IWu+OyJVksLEhnNrBiqDJrcekeMK3/18jIGXizHpBw==
-X-Received: by 2002:ac8:47c5:0:b0:3a5:6a0e:db3c with SMTP id
- d5-20020ac847c5000000b003a56a0edb3cmr62846052qtr.398.1669910600184; 
- Thu, 01 Dec 2022 08:03:20 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- bi6-20020a05620a318600b006fa16fe93bbsm3579107qkb.15.2022.12.01.08.03.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 08:03:19 -0800 (PST)
-Date: Thu, 1 Dec 2022 11:03:18 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- viktor@daynix.com
-Subject: Re: [PATCH 2/3] intel-iommu: fail DEVIOTLB_UNMAP without dt mode
-Message-ID: <Y4jQRu9KB05EYDVm@x1n>
-References: <20221129081037.12099-1-jasowang@redhat.com>
- <20221129081037.12099-3-jasowang@redhat.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bwTILKOyhCn85/23lQZBXe5Y1YfHjOoehqFHkiEsNnQ=;
+ b=t0AH/xnWOCQmrPbCtPpyMGwa9KtMUILMkD+y0dkcpPfJ1yGmFg8oVBsBTbB5ZO4JRK
+ UygvweIBykjecvDDO0Nx/lDqIHxRyPBSnRRXS/4Z22Pltt6UUO+652LVdNaOoJi/0d8u
+ 3gTYEo1iHBgurAgCGqnaOiUw52Lw7fUJNieODKTBfxEYMXzQLIa9MTRPW4Bmht+nfR42
+ 3GsJlZWLPFHPLqQ0Gl+ZAHkM+uhvk08JGnDu4YqNrv8iI1uE+0CjxiV830Mt8+5iRCVH
+ oARMhckhgG59YoDBAcxEjYfaa7EQlTxdMn53749K8GZBjXhN6JGh5C/gO/8iPJfCLsxW
+ Gaag==
+X-Gm-Message-State: ANoB5pnzvRCL2g0qtOQn/mQ5AjHs/KpET4eCZ6n81L5txW9Vgvn6kB+j
+ X/BxcXoCdcECjqP7G2/4sFlIAQ==
+X-Google-Smtp-Source: AA0mqf57G6+VC/lH7INycHgxfSVIxw8Use1I1aoXjGI9ulG5dd8fBxUk8VWLZdX8ZIEPpwNajKcLiw==
+X-Received: by 2002:a17:90a:4894:b0:218:a96f:9eec with SMTP id
+ b20-20020a17090a489400b00218a96f9eecmr58359050pjh.159.1669910978311; 
+ Thu, 01 Dec 2022 08:09:38 -0800 (PST)
+Received: from ?IPV6:2602:47:d48a:1201:14f5:5e3d:e302:4fb4?
+ ([2602:47:d48a:1201:14f5:5e3d:e302:4fb4])
+ by smtp.gmail.com with ESMTPSA id
+ c14-20020a62f84e000000b0056bc30e618dsm3415655pfm.38.2022.12.01.08.09.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 08:09:37 -0800 (PST)
+Message-ID: <fc6d4cf6-7ab8-8176-e216-6d4dd5bea361@linaro.org>
+Date: Thu, 1 Dec 2022 08:09:35 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221129081037.12099-3-jasowang@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] .gitlab/issue_templates: Move suggestions into comments
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>
+References: <20221201133756.77216-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221201133756.77216-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,51 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 29, 2022 at 04:10:36PM +0800, Jason Wang wrote:
-> Without dt mode, device IOTLB notifier won't work since guest won't
-> send device IOTLB invalidation descriptor in this case. Let's fail
-> early instead of misbehaving silently.
+On 12/1/22 05:37, Thomas Huth wrote:
+> Many users forget to remove the suggestions from the bug template
+> when creating a new issue. So when searching for strings like "s390x"
+> or "Windows", you get a lot of unrelated issues in the results.
+> Thus let's move the suggestions into HTML comments - so they will
+> still show up in the markdown when editing the bug, while being
+> hidden/ignored in the final text or in the search queries.
 > 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> Signed-off-by: Thomas Huth<thuth@redhat.com>
 > ---
->  hw/i386/intel_iommu.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 9143376677..d025ef2873 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3179,6 +3179,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
->  {
->      VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
->      IntelIOMMUState *s = vtd_as->iommu_state;
-> +    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
->  
->      /* TODO: add support for VFIO and vhost users */
->      if (s->snoop_control) {
-> @@ -3193,6 +3194,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
->                           PCI_FUNC(vtd_as->devfn));
->          return -ENOTSUP;
->      }
-> +    if (!x86_iommu->dt_supported && (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP)) {
-> +        error_setg_errno(errp, ENOTSUP,
-> +                         "device %02x.%02x.%x requires device IOTLB mode",
-> +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
-> +                         PCI_FUNC(vtd_as->devfn));
-> +        return -ENOTSUP;
-> +    }
+>   .gitlab/issue_templates/bug.md | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
 
-While my r-b holds.. let's also do this for amd-iommu in the same patch?
-dt never supported there, so we can fail as long as DEVIOTLB registered.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
->  
->      /* Update per-address-space notifier flags */
->      vtd_as->notifier_flags = new;
-> -- 
-> 2.25.1
-> 
-
--- 
-Peter Xu
-
+r~
 
