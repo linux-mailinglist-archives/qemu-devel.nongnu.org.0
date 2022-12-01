@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E193D63EEAA
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFF063EFC2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:43:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0hIw-0003KZ-Dk; Thu, 01 Dec 2022 06:00:34 -0500
+	id 1p0hxX-00044S-FX; Thu, 01 Dec 2022 06:42:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1p0hIs-0003KB-RN
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:00:31 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p0hxV-000445-Vh
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:42:30 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1p0hIo-0006cY-GF
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:00:30 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- e7-20020a17090a77c700b00216928a3917so4849123pjs.4
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:00:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3m5F5SZmhCySHaq4Kl+nNPgZPVM9ttm1TTYlw+maT9E=;
- b=BkcdZqbFeePP7PhgiNGQZiQ1/IrHQjmPITDEJdkxgFaPv7QkOL49k7MbmbtcMWit7j
- ziUuIw/Rq95yF8hjpc7DirP8lrB/AP9iPYKQkePxfGawn12jQr3gWEIbxCYZEfH52HIn
- ivtzqFiNBO4d/qxGtGCrRZBhgU6k+lNqPc/SElKFM9K8iiTGd6d4edx1e2x8f7itVwDl
- 3j/MC4rYxBD/wUGjtqVjwe/yGhpMFnlIM+lmbBwTDlQmEul39ZXTaGnm5thuriQ9H+0a
- LlqleLvdN7CJOMBYdAZ915Jyph3Bul8ErQmRxhlJaL/ixydmMQs2qbEMi6h/iioNmh9b
- wCfg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p0hxU-0001MS-AP
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:42:29 -0500
+Received: by mail-wr1-x434.google.com with SMTP id bx10so2319412wrb.0
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:42:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9mngMxsSsRFRfGaooU7Y4Qj9mE08tLgwyHxHSVy5JVU=;
+ b=m3oB/irYhXGUoZDVIaRQRw6Z6jG74KkLqK6h7joE4RmYjgS0LtrocUrUaxHwOQgnbT
+ QBa68080+bUeM6W+BNgd2o6ZVEQCnXPKT7wjyPRBr2DyYGmhqVQBvxRQnmj8OW/6bK0S
+ z1EkoPWULEtc8liWPv1Fb/kNP/S8NQR4o57x3QKo87F7J3wF/lGQIbjeSaRybKFcvz6k
+ ph1dKoFgcZhddmIgEMLriHVo41beESkr+uZoPHEjyOlMNzy5mAclDsc1WtXZwgOXMwMr
+ brthTXT98L/AgkjoG8KeFHIQyj33QClImI9M41duLROcCuQVawPDDcz5rqRs7badYGFm
+ magA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3m5F5SZmhCySHaq4Kl+nNPgZPVM9ttm1TTYlw+maT9E=;
- b=uBPDTZmqxsZ6ehBniBZMbIIRiUseOck/yCjsVn0pTNvN4LfTLyqmHZf8AhqvdAymLR
- ZpIwRPOec7S7MsibEe/ROb/+bNbVajDU2Lmqb9cKNEaFisgswTX71N8q5w/w3MyRAvbS
- scV0HVdqIp7Nd0Su2C5MODmSqJFD/70gTBnpsZrM5f0vMyTbTLReYHVov/c5Ed8+zzJl
- DyADqM5tUmVkm2kk2TQ1hkRIdP56Ehk/rvQt7hrtzafShqiByxw4vi2nCPerFVrZrw+i
- d8ryw4hLto4Tza0tQfYrcnP5dinm09RntOnHjhpvSfPwpRebXjjPEGic0ykrBOVG5t0H
- Tf2g==
-X-Gm-Message-State: ANoB5plBri3eUyoFfQAQIEjFvC+8kf5tpw+QN45QsD2QCxmW1SJsUkVk
- +d1D2IysR0glSZ2XbD3HZewc/g==
-X-Google-Smtp-Source: AA0mqf5tmeQONwE26vLCpkyddTpVvkN7A/tfrv/HQaUC8nVZjAqUywmWqMwYQ8ENrzKcMCsDq8fIGA==
-X-Received: by 2002:a17:90a:fa46:b0:200:1df3:a7a9 with SMTP id
- dt6-20020a17090afa4600b002001df3a7a9mr74111196pjb.202.1669892424814; 
- Thu, 01 Dec 2022 03:00:24 -0800 (PST)
-Received: from ?IPV6:2400:4050:c360:8200:7b99:f7c3:d084:f1e2?
- ([2400:4050:c360:8200:7b99:f7c3:d084:f1e2])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=9mngMxsSsRFRfGaooU7Y4Qj9mE08tLgwyHxHSVy5JVU=;
+ b=3SCP2FCxvMayKnoQR+FMkriXbFxcikE7pvsf8cW8thhZG1V1C/h0pfn4skOhnnU+vs
+ veNn5Vqp5v/lLoXL4Lfnh/qA2Ef/QkL/eO7Up8DY6uO65tgv1lWXZuLeWZQfOb1pndY5
+ QGTr7n3j/pf2JGMxbwR2E6huCEv8K6mB9bFeh4OevnPnh4EzoCp4G/0Ut+BCrqKavnxC
+ b8vhNBvfg4hNXSBN7Xam04aAbGnEUdsRiWfej/I6K3aoadp+vXe1QFYzyIoBXaiyBNSD
+ KjPg/7VlK8bZJ4ObzCeD/Gj8SbwJ5EmlTEcGa03FTPG8L1iEO8wFLI9i9ANeF951Vic+
+ /5ZA==
+X-Gm-Message-State: ANoB5pkBKoXKaZkzhlTOlOx9O8hnjrL/knunpt1qghZOmPeNZe7eSbni
+ b9FBpZQZWdNaz8cc1QlimLAQXw==
+X-Google-Smtp-Source: AA0mqf6/2SK2igoEfuq292KCoFPuAd0C9U1TAWwGZSJNRTUKMfrgSf+mfZZ9nQBY4DGycELtfnjnHQ==
+X-Received: by 2002:a5d:4c48:0:b0:241:bd2c:bef with SMTP id
+ n8-20020a5d4c48000000b00241bd2c0befmr34538401wrt.304.1669894946839; 
+ Thu, 01 Dec 2022 03:42:26 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- x8-20020a170902ec8800b001895d87225csm3324805plg.182.2022.12.01.03.00.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 03:00:24 -0800 (PST)
-Message-ID: <a3cc1116-272d-a8e5-a131-7becf98115e0@daynix.com>
-Date: Thu, 1 Dec 2022 20:00:22 +0900
+ a23-20020a05600c225700b003cfe1376f68sm4947956wmm.9.2022.12.01.03.42.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 03:42:26 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9018D1FFB7;
+ Thu,  1 Dec 2022 11:42:25 +0000 (GMT)
+References: <20221004120047.857591-1-berrange@redhat.com>
+ <Y4hP5HS8L4O6KsVO@cota-l14>
+User-agent: mu4e 1.9.3; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Emilio Cota <cota@braap.org>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, ncopa@alpinelinux.org, Kyle Evans
+ <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
+Date: Thu, 01 Dec 2022 10:49:27 +0000
+In-reply-to: <Y4hP5HS8L4O6KsVO@cota-l14>
+Message-ID: <87cz93cpum.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] accel/kvm/kvm-all: Handle register access errors
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221201102728.69751-1-akihiko.odaki@daynix.com>
- <CAFEAcA_ORM9CpDCvPMs1XcZVhh_4fKE2wnaS_tp1s4DzZCHsXQ@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <CAFEAcA_ORM9CpDCvPMs1XcZVhh_4fKE2wnaS_tp1s4DzZCHsXQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,51 +98,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022/12/01 19:40, Peter Maydell wrote:
-> On Thu, 1 Dec 2022 at 10:27, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>
->> A register access error typically means something seriously wrong
->> happened so that anything bad can happen after that and recovery is
->> impossible.
->> Even failing one register access is catastorophic as
->> architecture-specific code are not written so that it torelates such
->> failures.
->>
->> Make sure the VM stop and nothing worse happens if such an error occurs.
->>
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> 
-> In a similar vein there was also
-> https://lore.kernel.org/all/20220617144857.34189-1-peterx@redhat.com/
-> back in June, which on the one hand was less comprehensive but on
-> the other does the plumbing to pass the error upwards rather than
-> reporting it immediately at point of failure.
-> 
-> I'm in principle in favour but suspect we'll run into some corner
-> cases where we were happily ignoring not-very-important failures
-> (eg if you're running Linux as the host OS on a Mac M1 and your
-> host kernel doesn't have this fix:
-> https://lore.kernel.org/all/YnHz6Cw5ONR2e+KA@google.com/T/
-> then QEMU will go from "works by sheer luck" to "consistently
-> hits this error check"). So we should aim to land this extra
-> error checking early in the release cycle so we have plenty of
-> time to deal with any bug reports we get about it.
-> 
-> thanks
-> -- PMM
 
-Actually I found this problem when I tried to run QEMU with KVM on M2 
-MacBook Air and encountered a failure described and fixed at:
-https://lore.kernel.org/all/20221201104914.28944-2-akihiko.odaki@daynix.com/
+Emilio Cota <cota@braap.org> writes:
 
-Although the affected register was not really important, QEMU couldn't 
-run the guest well enough because kvm_arch_put_registers for ARM64 is 
-written in a way that it fails early. I guess the situation is not so 
-different for other architectures as well.
+> On Tue, Oct 04, 2022 at 13:00:47 +0100, Daniel P. Berrang=C3=A9 wrote:
+> (snip)
+>> Can't say I especially like this but I'm out of other ideas for how
+>> to guarantee a solution. Users can't set env vars prior to launching
+>> QEMU user emulators when using binfmt.
+>
+> An alternative is to not use GSlice between fork/exec. I'm
+> not sure if within that region there are other users besides
+> GTree (GArray perhaps?), but if there aren't, then just using
+> a different binary tree implementation should do.
 
-I still agree that this should be postponed until a new release cycle 
-starts as register saving/restoring is too important to fail.
+Hmm my distros version of GArray certainly does and that is used quite
+heavily across gdbstub and plugins.
 
-Regards,
-Akihiko Odaki
+>
+> Untested patches using ccan's AVL tree:=20
+>   https://github.com/cota/qemu/commits/avl
+>
+> Would that be more palatable?
+
+I think generally we wouldn't want to have multiple implementations
+unless there was a definite benefit (c.f. QHT). That said I think
+Richard's latest optimisation work:
+
+  Subject: [PATCH v2 0/7] accel/tcg: Rewrite user-only vma tracking
+  Date: Thu, 27 Oct 2022 22:12:51 +1100
+  Message-Id: <20221027111258.348196-1-richard.henderson@linaro.org>
+
+brings in the kernel's interval tree (with unit tests). I wonder if the
+page_collection use of GTree could be converted to that?
+
+I don't know how you would defend against re-introducing it into
+linux-user though aside from commentary.
+
+>
+> Thanks,
+> 		Emilio
+
+
+--=20
+Alex Benn=C3=A9e
 
