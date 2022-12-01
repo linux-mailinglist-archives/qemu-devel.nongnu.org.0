@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701B863EFFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C0863F0D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:49:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0iAA-0007fP-Rj; Thu, 01 Dec 2022 06:55:34 -0500
+	id 1p0iLR-00027Y-4G; Thu, 01 Dec 2022 07:07:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p0iA8-0007eU-44
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:55:32 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p0iA3-0006MF-1a
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:55:31 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id b21so1411797plc.9
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:55:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LKrUTnLnwJSult3Ncd1PzInTpGmNei4vgWYYKW6U+Nk=;
- b=Kxk0j80bsBfNsjQ0+qtkw4MwctlTRI+ahTwZbMp7dXWT5RRkaEcCmZacjqajNGAhz7
- fB/vfYxDUZQ7LyD+x3K7TrNS7rAFxAE38GygTd1bHQk1plYLKnoQ3IjkR8tHtJ55ID7V
- Xa1nc8em4+060kBsTdBWBtIRYWbTkVCa6Tz21IjKwcdmvYnsWspfGTewQmJeka8GE5Du
- 4NkXKhAb8U/fkjv+TO2O4A9z0d7pYCf76t4XynAxVv+VnvJfMH2516uQbjXynKFaiz8o
- eb4oKfVvCxBbU6BguFsNpdrpKTX/cv9xBAAgXnlHlMUPLGRfbosfGrPZQUYGNFtgXyn8
- KNew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LKrUTnLnwJSult3Ncd1PzInTpGmNei4vgWYYKW6U+Nk=;
- b=sy0wtZ5btN2xPZJVP1Nqey9Ck0pkPvwkOIpPI5+w//P3TsHHn1L7VyXjliXmXhio9L
- fh9KPhLWn6RekK0EftOIXoXzPelEfAa5ye30vS5n/WiO4/TBR7ZrVj+1bZE/qG8FsG9q
- erP2bParOlZuz1AzwTRDkHhEk5JOswu17JQmHfjECUcPMjtSoJSk4FUdh2UoGWL8/vKx
- Z6y8Khir/rOz/3as3EQ4XyVHTyuFL0+4XI3m2bfr85mBJRoXJF67HkmD5XBL9ct/ZoKL
- SyPPsOi2qlxxt5g4zurE4WhWHpyFUaeHrk9cGc/0jhKhXv+l9bVzcUtWa5uC1LAVZf+Q
- lOlA==
-X-Gm-Message-State: ANoB5pnhEzVgSi4Wjb81rHvhlvy89Y/LW+eTr47Hq5aavEe3AhgUjRXW
- kUtR5qjXt8eoJFGbn0X78e8ewTt/HafgiorAEpWHAw==
-X-Google-Smtp-Source: AA0mqf6Y3U4IbYvJ5DQ2ycW5CHifAxpl8oQMrKP6GDajWAk1nGFelwiTUCKx74WgvHj5iYGShdcyyvmmJ7oE1jQ95gk=
-X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
- l5-20020a17090270c500b00189b0a3cf4amr4269541plt.60.1669895725617; Thu, 01 Dec
- 2022 03:55:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1p0iLN-000273-OI
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:07:09 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1p0iLD-0006Li-CT
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:07:08 -0500
+Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NNF7p64wYzqSrj;
+ Thu,  1 Dec 2022 20:02:46 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 1 Dec 2022 20:06:19 +0800
+Subject: Re: regression: insmod module failed in VM with nvdimm on
+To: Ard Biesheuvel <ardb@kernel.org>
+References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+ <87r0xkubcp.wl-maz@kernel.org>
+ <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
+ <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
+ <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
+ <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+CC: Marc Zyngier <maz@kernel.org>, <will@kernel.org>, <mark.rutland@arm.com>, 
+ <linux-arm-kernel@lists.infradead.org>, chenxiang via
+ <qemu-devel@nongnu.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>
+Message-ID: <3d2acb1b-b1f1-023c-6e93-b0eeaee334f2@hisilicon.com>
+Date: Thu, 1 Dec 2022 20:06:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-References: <20221130111559.52150-1-thuth@redhat.com>
-In-Reply-To: <20221130111559.52150-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 1 Dec 2022 11:55:14 +0000
-Message-ID: <CAFEAcA-hneP0SLUTW=_maTztra9gYnKgPeXevDcVu3jZZnDObA@mail.gmail.com>
-Subject: Re: [PATCH for-8.0] hw/misc: Move some arm-related files from
- specific_ss into softmmu_ss
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair@alistair23.me>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+In-Reply-To: <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemi500016.china.huawei.com (7.221.188.220)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,75 +68,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
+From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 30 Nov 2022 at 11:16, Thomas Huth <thuth@redhat.com> wrote:
->
-> By removing #include "kvm-consts.h" from arm-powerctl.h (seems not to
-> be required there) and adjusting the header includes in some files, we
-> can move them from specific_ss into softmmu_ss, so that they only need
-> to be compiled once and not for qemu-system-arm and qemu-system-aarch64
-> individually.
 
-> --- a/target/arm/arm-powerctl.h
-> +++ b/target/arm/arm-powerctl.h
-> @@ -11,8 +11,6 @@
->  #ifndef QEMU_ARM_POWERCTL_H
->  #define QEMU_ARM_POWERCTL_H
+
+在 2022/12/1 19:07, Ard Biesheuvel 写道:
+> On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
+>> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com> wrote:
+>>> Hi Ard,
+>>>
+>>>
+>>> 在 2022/11/30 16:18, Ard Biesheuvel 写道:
+>>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
+>>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
+>>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
+>>>>>> version 6.1.50, kernel 6.0-r4):
+>>>>> How relevant is the presence of the nvdimm? Do you observe the failure
+>>>>> without this?
+>>>>>
+>>>>>> qemu-system-aarch64 -machine
+>>>>>> virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
+>>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
+>>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
+>>>>>> 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
+>>>>>> ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
+>>>>>> -object memory-backend-ram,id=ram1,size=10G -device
+>>>>>> nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
+>>>>>> -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
+>>>>>>
+>>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (kernel
+>>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
+>>>>>>
+>>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
+>>>>>> [    8.186563] vmap allocation for size 20480 failed: use
+>>>>>> vmalloc=<size> to increase size
+>>>>> Have you tried increasing the vmalloc size to check that this is
+>>>>> indeed the problem?
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
+>>>>>> defer initialization to initcall where permitted").
+>>>>> I guess you mean commit fc5a89f75d2a instead, right?
+>>>>>
+>>>>>> Do you have any idea about the issue?
+>>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
+>>>>> portion of the vmalloc space, but you give very little information
+>>>>> that could help here...
+>>>>>
+>>>> Ouch. I suspect what's going on here: that patch defers the
+>>>> randomization of the module region, so that we can decouple it from
+>>>> the very early init code.
+>>>>
+>>>> Obviously, it is happening too late now, and the randomized module
+>>>> region is overlapping with a vmalloc region that is in use by the time
+>>>> the randomization occurs.
+>>>>
+>>>> Does the below fix the issue?
+>>> The issue still occurs, but it seems decrease the probability, before it
+>>> occured almost every time, after the change, i tried 2-3 times, and it
+>>> occurs.
+>>> But i change back "subsys_initcall" to "core_initcall", and i test more
+>>> than 20 times, and it is still ok.
+>>>
+>> Thank you for confirming. I will send out a patch today.
+>>
+> ...but before I do that, could you please check whether the change
+> below fixes your issue as well?
+
+Yes, but i can only reply to you tomorrow as other guy is testing on the 
+only environment today.
+
 >
-> -#include "kvm-consts.h"
+> diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
+> index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
+> --- a/arch/arm64/kernel/kaslr.c
+> +++ b/arch/arm64/kernel/kaslr.c
+> @@ -20,7 +20,11 @@
+>   #include <asm/sections.h>
+>   #include <asm/setup.h>
+>
+> -u64 __ro_after_init module_alloc_base;
+> +/*
+> + * Set a reasonable default for module_alloc_base in case
+> + * we end up running with module randomization disabled.
+> + */
+> +u64 __ro_after_init module_alloc_base = (u64)_etext - MODULES_VSIZE;
+>   u16 __initdata memstart_offset_seed;
+>
+>   struct arm64_ftr_override kaslr_feature_override __initdata;
+> @@ -30,12 +34,6 @@ static int __init kaslr_init(void)
+>          u64 module_range;
+>          u32 seed;
+>
+> -       /*
+> -        * Set a reasonable default for module_alloc_base in case
+> -        * we end up running with module randomization disabled.
+> -        */
+> -       module_alloc_base = (u64)_etext - MODULES_VSIZE;
 > -
->  #define QEMU_ARM_POWERCTL_RET_SUCCESS QEMU_PSCI_RET_SUCCESS
->  #define QEMU_ARM_POWERCTL_INVALID_PARAM QEMU_PSCI_RET_INVALID_PARAMS
->  #define QEMU_ARM_POWERCTL_ALREADY_ON QEMU_PSCI_RET_ALREADY_ON
-
-kvm-consts.h is where QEMU_PSCI_RET_SUCCESS etc are defined.
-So while the #include isn't strictly needed for compilation to work
-because arm-powerctl.h only creates the #define and doesn't use it,
-it does mean that any source file that uses the QEMU_ARM_POWERCTL_*
-now needs to include kvm-consts.h somehow itself. (Usually this is
-going to happen implicitly via target/arm/cpu.h, I think.)
-
-I guess this is worth living with for the benefit of not
-compiling things twice. It could probably be untangled a little
-by e.g. moving the PSCI constants into their own header rather
-than defining them in kvm-consts.h, but I'm not sure if it's
-worth the effort right now.
-
-> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> index 95268eddc0..9ca6bf1d17 100644
-> --- a/hw/misc/meson.build
-> +++ b/hw/misc/meson.build
-> @@ -84,8 +84,8 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
->  ))
->  softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
->  softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c'))
-> -specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
-> -specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
-> +softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
-> +softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
->  specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-crl.c'))
->  softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files(
->    'xlnx-versal-xramc.c',
-> @@ -126,8 +126,8 @@ softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
+>          if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf) {
+>                  pr_info("KASLR disabled on command line\n");
+>                  return 0;
+> .
 >
->  specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
->
-> -specific_ss.add(when: 'CONFIG_IMX', if_true: files('imx6_src.c'))
-> -specific_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
-> +softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx6_src.c'))
 
-This file could now be listed in the
-"softmmu_ss.add(when: 'CONFIG_IMX', if_true: files(...)" list earlier in
-the file.
-
-> +softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
-
-This line could be moved up to next to the other CONFIG_IOTKIT_* lines.
-
->  specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
-
-thanks
--- PMM
 
