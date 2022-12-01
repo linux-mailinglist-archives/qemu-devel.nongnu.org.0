@@ -2,41 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642AC63F2E5
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69CE63F2F9
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:35:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0ka0-0004ai-Gt; Thu, 01 Dec 2022 09:30:24 -0500
+	id 1p0kew-0007Sc-VS; Thu, 01 Dec 2022 09:35:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0kZx-0004ZL-5l; Thu, 01 Dec 2022 09:30:21 -0500
-Received: from mail-b.sr.ht ([173.195.146.151])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p0kef-0007ML-1q
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:35:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0kZt-0001My-9X; Thu, 01 Dec 2022 09:30:19 -0500
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 18D1511EFD8;
- Thu,  1 Dec 2022 14:30:13 +0000 (UTC)
-From: ~axelheider <axelheider@git.sr.ht>
-Date: Thu, 01 Dec 2022 14:30:12 +0000
-Subject: [PATCH qemu.git v2 0/1] hw/arm/virt: make second UART available
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p0keY-00029D-KA
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:35:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669905304;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3hFLlxD4LVSiVRu7I0Fp/M5MyKx61ccrjB/j7CakRLk=;
+ b=Yv5ZMvLs/GIG75zs07RY7KxgeP1Umaz/YU2i6L5LjsgX2A4EgjGedEcWh9W8QFD68bGO7e
+ E0iyNEtemL9HijKQscXwmSQFlHBr5X6yQzeG5r/Gg2LFIqyVgYahg/6rIgRLelMZrUJkEZ
+ Y2uEOzIbwrJGJP8WVUoNh3bQp8IwMCo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-561-H8Sq8-j5MNyYjFzubrOkCw-1; Thu, 01 Dec 2022 09:35:02 -0500
+X-MC-Unique: H8Sq8-j5MNyYjFzubrOkCw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54540101A56C
+ for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 14:35:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D80340C945A;
+ Thu,  1 Dec 2022 14:35:01 +0000 (UTC)
+Date: Thu, 1 Dec 2022 14:34:57 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, dgilbert@redhat.com
+Subject: Re: [PATCH 3/9] ui: Drop disabled code for SPICE_CHANNEL_WEBDAV
+Message-ID: <Y4i7kZCetDvFYnCp@redhat.com>
+References: <20221201061311.3619052-1-armbru@redhat.com>
+ <20221201061311.3619052-4-armbru@redhat.com>
+ <Y4hqiiNzcMVS0t0k@redhat.com> <87pmd3fgcu.fsf@pond.sub.org>
 MIME-Version: 1.0
-Message-ID: <166990501232.22022.16582561244534011083-0@git.sr.ht>
-X-Mailer: git.sr.ht
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87pmd3fgcu.fsf@pond.sub.org>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -49,36 +80,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~axelheider <axelheider@gmx.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a follow-up on older attempts to make a second UART
-available for the arm-virt machine in normal world. The use case
-is, that this give a simple I/O channel in addition to stdout, as this
-simplifies various test scenarios. Especially for non-Linux operating
-systems (e.g. seL4) where arm-virt is handy as a generic machine
-for testing purposes.
+On Thu, Dec 01, 2022 at 01:39:13PM +0100, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > On Thu, Dec 01, 2022 at 07:13:05AM +0100, Markus Armbruster wrote:
+> >> HMP "info spice" has a bit of code to show channel type
+> >> SPICE_CHANNEL_WEBDAV as "webdav", disabled since commit 7c6044a94e
+> >> "hmp: info spice: take out webdav" (v2.3.0), because it compiles only
+> >> with Spice versions 0.12.7 and later.  Our minimum version is 0.12.5.
+> >
+> > Last version bump was 4 years ago
+> >
+> > commit 1b63665c2c0e0d52735e0dd5217f109fe0dd2322
+> > Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > Date:   Wed Nov 28 19:59:32 2018 +0400
+> >
+> >     configure: bump spice-server required version to 0.12.5
+> >
+> >     ...snip....
+> >
+> >     According to repology, all the distros that are build target platforms
+> >     for QEMU include it:
+> >     
+> >           RHEL-7: 0.14.0
+> >           Debian (Stretch): 0.12.8
+> >           Debian (Jessie): 0.12.5
+> >           FreeBSD (ports): 0.14.0
+> >           OpenSUSE Leap 15: 0.14.0
+> >           Ubuntu (Xenial): 0.12.6
+> >
+> > We moved on from Debian and RHEL since then
+> >
+> >    Debian 11: 0.14.3
+> >    RHEL-8: 0.14.2
+> >    FreeBSD (ports): 0.14.4
+> >    Fedora 35: 0.14.0
+> >    Ubuntu 20.04: 0.14.0
+> >    OpenSUSE Leap 15.3: 0.14.3
+> >
+> > IOW, we can bump to 0.14.0, and then revert the
+> > webdav conditional commit.
+> 
+> We need to bump spice-protocol, actually.
 
-There are existing discussions about this topic at:
-- https://lists.gnu.org/archive/html/qemu-arm/2017-12/msg00063.html
-- https://lists.gnu.org/archive/html/qemu-discuss/2018-11/msg00001.html
-- https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg01613.html
+Opps, I'm getting mixed up. The commit I mentioned was spice-server,
+but the new versions I've listed just were indeed spice-protocol
 
-This patch tries to address the concerns raised there and also
-avoid breaking compatibility with existing setups.
+> Would you like me to bump spice-server as well?  To which version?
 
-v2 also updates the documentation in docs/system/arm/virt.rst
+Yes, might as well, the spice-server versions are slightly different:
 
-Axel Heider (1):
-  hw/arm/virt: make second UART available
+     Debian 11: 0.14.3
+     RHEL-8: 0.14.3
+     FreeBSD (ports): 0.15.0
+     Fedora 35: 0.15.0
+     Ubuntu 20.04: 0.14.2
+     OpenSUSE Leap 15.3: 0.14.3
+ 
+I think we might as well pick  0.14.0 for both protocol and server.
 
- docs/system/arm/virt.rst |  5 ++--
- hw/arm/virt-acpi-build.c | 12 ++++-----
- hw/arm/virt.c            | 57 ++++++++++++++++++++++++++++++----------
- include/hw/arm/virt.h    |  4 +--
- 4 files changed, 54 insertions(+), 24 deletions(-)
-
+With regards,
+Daniel
 -- 
-2.34.5
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
