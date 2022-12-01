@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4009863EDA4
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 11:25:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A7163EDA8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 11:26:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0gkL-0007Dg-MD; Thu, 01 Dec 2022 05:24:49 -0500
+	id 1p0glP-0007yN-1i; Thu, 01 Dec 2022 05:25:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0gkJ-0007DE-T6
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:24:47 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0glF-0007v1-Pt
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:25:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0gkI-0007bk-Cq
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:24:47 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0glC-0007vW-NB
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:25:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669890285;
+ s=mimecast20190719; t=1669890342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tE/T7j2HX0aTsTmYNDJqvYllYIiOJxhnd29kyIGxOWw=;
- b=iEUer82nYtazoUL/RCYQ+XWVxYiQU4HOOUBkRUixH1Cg2Cf/yFYZ6+BDiU+XDn9PBQHHWV
- YovoEPiQiXwOiho5LIeRnUfJX24Q9dfCyHcvBVpV9s0kHepH3S/fh99C08LzZoeRpxrthJ
- VRSS3E7GMVxRc4zul6fwyCVdnS95WXE=
+ bh=X0fQcqq8Np2VJPCM+89Xs6XWUzb/m+KJdYiLSmCL+mo=;
+ b=h9A3dIP6APqHycBrLN4lc2KDvz5oYTfkT0ewzDWXVUl7e25h+bfGt6ASkgsGeQPqJY8wi4
+ LvkCqMkjillFIDlONEsggk+JTl4vyGKeg73sLWqijWvPhngf5B08+aNS/mPXC1zG3cgatu
+ qtgandZGMDLx+EHIoIr1R7fuPVLFsPY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-119-epzd5otdP0Ow02uX9i0HpQ-1; Thu, 01 Dec 2022 05:24:43 -0500
-X-MC-Unique: epzd5otdP0Ow02uX9i0HpQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-357-HiQZIZb9M8y_yWh4mefI4Q-1; Thu, 01 Dec 2022 05:25:40 -0500
+X-MC-Unique: HiQZIZb9M8y_yWh4mefI4Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64EA58065DE;
- Thu,  1 Dec 2022 10:24:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3321486F12A
+ for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 10:25:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02433492B04;
- Thu,  1 Dec 2022 10:24:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C0F1A140EBF5;
+ Thu,  1 Dec 2022 10:25:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BA88A21E6921; Thu,  1 Dec 2022 11:24:39 +0100 (CET)
+ id 91E7621E6921; Thu,  1 Dec 2022 11:25:36 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Milica Lazarevic <Milica.Lazarevic@Syrmia.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,  Richard Henderson
- <richard.henderson@linaro.org>,  Thomas Huth <thuth@redhat.com>,  Jiaxun
- Yang <jiaxun.yang@flygoat.com>,  Vince Del Vecchio
- <Vince.DelVecchio@mediatek.com>
-Subject: Re: [PATCH] MAINTAINERS: Inherit from nanoMIPS
-References: <20221030225006.43203-1-philmd@linaro.org>
- <PAVPR03MB96784D39EC71F71C86ABAE81F8069@PAVPR03MB9678.eurprd03.prod.outlook.com>
- <PAVPR03MB967895ED1573A16CE6E5A34FF8149@PAVPR03MB9678.eurprd03.prod.outlook.com>
-Date: Thu, 01 Dec 2022 11:24:39 +0100
-In-Reply-To: <PAVPR03MB967895ED1573A16CE6E5A34FF8149@PAVPR03MB9678.eurprd03.prod.outlook.com>
- (Milica Lazarevic's message of "Thu, 1 Dec 2022 09:26:34 +0000")
-Message-ID: <87ilivzajc.fsf@pond.sub.org>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  kraxel@redhat.com,  dgilbert@redhat.com
+Subject: Re: [PATCH 3/9] ui: Drop disabled code for SPICE_CHANNEL_WEBDAV
+References: <20221201061311.3619052-1-armbru@redhat.com>
+ <20221201061311.3619052-4-armbru@redhat.com>
+ <Y4hqiiNzcMVS0t0k@redhat.com>
+Date: Thu, 01 Dec 2022 11:25:36 +0100
+In-Reply-To: <Y4hqiiNzcMVS0t0k@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 1 Dec 2022 08:49:14 +0000")
+Message-ID: <87edtjzahr.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -84,16 +83,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Milica Lazarevic <Milica.Lazarevic@Syrmia.com> writes:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> Hi,
+> On Thu, Dec 01, 2022 at 07:13:05AM +0100, Markus Armbruster wrote:
+>> HMP "info spice" has a bit of code to show channel type
+>> SPICE_CHANNEL_WEBDAV as "webdav", disabled since commit 7c6044a94e
+>> "hmp: info spice: take out webdav" (v2.3.0), because it compiles only
+>> with Spice versions 0.12.7 and later.  Our minimum version is 0.12.5.
 >
-> Stefan is no longer working with us, but I will be more than happy to take maintaining the nanoMIPS ISA on me!
+> Last version bump was 4 years ago
 >
-> Regards,
-> Milica
-> Any comments on this?
+> commit 1b63665c2c0e0d52735e0dd5217f109fe0dd2322
+> Author: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Date:   Wed Nov 28 19:59:32 2018 +0400
+>
+>     configure: bump spice-server required version to 0.12.5
+>
+>     ...snip....
+>
+>     According to repology, all the distros that are build target platforms
+>     for QEMU include it:
+>=20=20=20=20=20
+>           RHEL-7: 0.14.0
+>           Debian (Stretch): 0.12.8
+>           Debian (Jessie): 0.12.5
+>           FreeBSD (ports): 0.14.0
+>           OpenSUSE Leap 15: 0.14.0
+>           Ubuntu (Xenial): 0.12.6
+>
+> We moved on from Debian and RHEL since then
+>
+>    Debian 11: 0.14.3
+>    RHEL-8: 0.14.2
+>    FreeBSD (ports): 0.14.4
+>    Fedora 35: 0.14.0
+>    Ubuntu 20.04: 0.14.0
+>    OpenSUSE Leap 15.3: 0.14.3
+>
+> IOW, we can bump to 0.14.0, and then revert the
+> webdav conditional commit.
 
-Suggest you post a patch to update MAINTAINERS, with a suitable cc:.
+Will do in v2.  Thanks!
 
 
