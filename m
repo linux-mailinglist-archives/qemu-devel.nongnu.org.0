@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79DB63F7FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 20:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D9F63F7FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 20:16:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0p1O-0005T0-1J; Thu, 01 Dec 2022 14:14:58 -0500
+	id 1p0p1l-0005X4-S3; Thu, 01 Dec 2022 14:15:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0p1L-0005Sr-30
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 14:14:55 -0500
+ id 1p0p1c-0005VS-Gq
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 14:15:13 -0500
 Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0p1J-0006Zj-EH
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 14:14:54 -0500
-Received: by mail-wr1-x433.google.com with SMTP id y16so4405875wrm.2
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 11:14:52 -0800 (PST)
+ id 1p0p1Z-0006Zj-Mb
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 14:15:12 -0500
+Received: by mail-wr1-x433.google.com with SMTP id y16so4407010wrm.2
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 11:15:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bd1414GlcXzOt9swK31bwuFzE+U11IfPYY8gQgUgioE=;
- b=XDapDdK0ZpsjF6Uo9Gy8Otzyb6IsP3MMx1wAgUHahyJ9k/VhY4z2nm4UgpTAaC6Uyk
- i2h797IKoQBNEjdAsgUsd6SgWyImsgenZI/jAg4Ratd1CyAZg75PquJ9LYqi9w11xIrh
- 278lMzlBFJ11RTPNk4DWEhQo6XcSsTJ3G2RJGxkr2bKffw+SNrPCKSh7V+Fnih+6LT5B
- 8DOBc/fRsjShhYOeEcvpmvkXnBsPoUVUIONbzxmdxaaawVxP2fabWdzD/4wSmtRKeI7m
- OmtKHO4mEYtELo7kE43BhWUafUlfnvWjkhXG2LmYM+uMgQGbCxcD5It8wu6xu5fdZoAc
- DHvQ==
+ bh=61X92j13gAX5hmqwyxw9Jc9UlH6gIPlYPHmNzI2UF0E=;
+ b=XfMpG1hNRStUT8ECCdIBbztN6ODTX2NwRBcGceO2CtdqmbVsTZFF6OkScEXhT45U5d
+ xYB1n+v21wZZ1hXQyMNEazITUK8ZXHtPYNGtJg8aWKXvXwGwzn38qjGrPtF6EnxJrEkv
+ s1714p9+9phfO/i1K9S7kg1Y6B5HJ16gdo3FMaUCqstmeG3bxAgGYsS2FlO7i+AEZmqn
+ BkPo42PvKDah3Uj97TVpl+2MeUfnIKzTElLWSDjqRFwMnSc7tWoEpqlkPhCQgoscTmym
+ gumLUfpi5YWbazwaQE5dVSoVVITC/zLjHvBUis0+h+Kh6V8JYUmtLe8AevuAaOokWhDb
+ foZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=bd1414GlcXzOt9swK31bwuFzE+U11IfPYY8gQgUgioE=;
- b=MgVAfdFB2p88SSTGicaGGNkHJhpRdTzOeamJRr846SNdoxoPfIISxbvQui9fdeu4aW
- b4WK66LHR/v09C+1pwDKmEioGugnkFiU70/OsB1HXNlcfnf488VKom0dlzqwe3dJPYX8
- AiNgs353heVm6PAURYphozAfYxwRbMV/9wHWdZbrK444UTuSXoxjRQhN2Gq1+/IWxSbk
- +BkSovv4MW8bOsJHRhSOa20f3j0e8sp3dg1NFS4F5RVi9ObHu2dcGzQlPgnQTHJfKvXH
- w/APfSFm70r209MEylihnIxAa1/7vVBxc+vi07Md7HeCWjTta+o9o+gYuPlX4jEmf00h
- x0Og==
-X-Gm-Message-State: ANoB5pmC9fYy98qxR/iM2q4R3e3ce+nmg4kUggs9vo+Zd8nGoyDQsz3P
- K6o9fvHuojAjmer3hml3FBfdPw==
-X-Google-Smtp-Source: AA0mqf7UNlpfgx8x9p/P1XeDy6yylhWvnp3o6Y/TYrvtIeTkOChjyyiStorzFOyIrDHn7AcvyLPq2A==
-X-Received: by 2002:a5d:6081:0:b0:242:16ad:fb39 with SMTP id
- w1-20020a5d6081000000b0024216adfb39mr14237376wrt.359.1669922091475; 
- Thu, 01 Dec 2022 11:14:51 -0800 (PST)
+ bh=61X92j13gAX5hmqwyxw9Jc9UlH6gIPlYPHmNzI2UF0E=;
+ b=nSEHa3mb1Zv/4furiu1o2Pfqm6lijhPMfZKj0sS0R+NY03Vi9UYBsY6ho9wx9FLN0L
+ E6XKwhAuB76dIVr72cMHUDI5tFpAaHDv5CnWQVuNdgSrwxPv/SqGSy+qXNwHFO5Wum+F
+ BxdxS0S3zie8iUAi1c9B4FYAsmF5WmTYXsHnOA5UK18Dakgj+NCx+nzpseSDEX8vUCg0
+ hhB4x3/D6KgNswzB77QYX45oJGyuaLThyceYF3hlDMuBN0vRfPYx4cke83abv4Y5koZE
+ 3N2OImclPT0MfoXsVDDl1s3q21GMYWgypqvkfByquCNCbCmsu3koZHgfSzlfQt3oIQpp
+ V4xQ==
+X-Gm-Message-State: ANoB5pnMy0L0DCdabi0ntszaV4+lG7rcVwwvG4W9ftA/JD5h450fHRhu
+ EW9qKMgaYmP2VSubx6bMNaRl4w==
+X-Google-Smtp-Source: AA0mqf5yI/IrM/gvaNBDY3Rgfl3ImbUKWh5iMMNjGYpX5bVr8v53bE11d6AG0bcqDnWB5/Yz93iw0Q==
+X-Received: by 2002:a5d:4886:0:b0:236:6e67:84a4 with SMTP id
+ g6-20020a5d4886000000b002366e6784a4mr41834757wrq.181.1669922105958; 
+ Thu, 01 Dec 2022 11:15:05 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- f6-20020a0560001b0600b002415dd45320sm5163104wrz.112.2022.12.01.11.14.50
+ g11-20020a056000118b00b00225307f43fbsm5320416wrx.44.2022.12.01.11.15.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 11:14:50 -0800 (PST)
+ Thu, 01 Dec 2022 11:15:05 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 65FE71FFB7;
- Thu,  1 Dec 2022 19:14:50 +0000 (GMT)
-References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-25-richard.henderson@linaro.org>
- <20221130180703.dprt7lzmppgfihtp@heavy>
- <5f8d64c4-3ad0-2340-6fe0-86707b41980b@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 1A15F1FFB7;
+ Thu,  1 Dec 2022 19:15:05 +0000 (GMT)
+References: <20221201133756.77216-1-thuth@redhat.com>
 User-agent: mu4e 1.9.3; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 24/26] tcg: Introduce tcg_temp_ebb_new_*
-Date: Thu, 01 Dec 2022 19:13:56 +0000
-In-reply-to: <5f8d64c4-3ad0-2340-6fe0-86707b41980b@linaro.org>
-Message-ID: <87mt87aqc5.fsf@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, John
+ Snow <jsnow@redhat.com>
+Subject: Re: [PATCH] .gitlab/issue_templates: Move suggestions into comments
+Date: Thu, 01 Dec 2022 19:15:01 +0000
+In-reply-to: <20221201133756.77216-1-thuth@redhat.com>
+Message-ID: <87ilivaqbq.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -98,31 +95,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-> On 11/30/22 10:07, Ilya Leoshkevich wrote:
->> Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
->> While not directly related to this patch, it would be good to update
->> tcg/README with all the new kinds of temporaries. E.g. the EBB ones are
->> not mentioned there:
->>      TCG instructions operate on variables which are temporaries,
->> local
->>      temporaries or globals.
+> Many users forget to remove the suggestions from the bug template
+> when creating a new issue. So when searching for strings like "s390x"
+> or "Windows", you get a lot of unrelated issues in the results.
+> Thus let's move the suggestions into HTML comments - so they will
+> still show up in the markdown when editing the bug, while being
+> hidden/ignored in the final text or in the search queries.
 >
-> Thanks for the review on this.
->
-> I'm not sure I want to take this anymore.  It's confusing to use.  I
-> really think what I should do instead is improve the TCG register
-> allocator.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Whats the ultimate aim for the rewrite? Hold values in target registers
-over the extended block? What about avoid spills between potential fault
-points?
-
->
->
-> r~
-
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
