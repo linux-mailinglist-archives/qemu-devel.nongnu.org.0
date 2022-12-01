@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4361E63EAE4
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 09:15:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA4163EB20
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 09:31:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0eiO-0004TT-1R; Thu, 01 Dec 2022 03:14:40 -0500
+	id 1p0exM-0008Qw-Gm; Thu, 01 Dec 2022 03:30:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0eiB-0004PZ-PJ
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:14:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p0exI-0008Qc-MN
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:30:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0ei9-0000Sx-S6
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:14:27 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p0exG-0007vK-Ow
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:30:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669882464;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1669883400;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gucR6As56/+oGI4K314dDtQkQ/rKcTloL0wGPIuWejE=;
- b=iIMte3nC4hWZyYg0aVFs/lwPeVyHFQ92SCsb4r6txuB88cVe7ZV5uMp/09bLLxEAQmjR+/
- xB9Us5Lm3klBOJuXMFwdysFMpmPup+UL4ghdC0sBVED92Vs9fpD5gEUQgbzIb/NSolsMDI
- FDjIXORkMWHDBCWK1UJ+taK3VCYE+NQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-531-2Ec28ketMGOv312KmYVh5A-1; Thu, 01 Dec 2022 03:14:23 -0500
-X-MC-Unique: 2Ec28ketMGOv312KmYVh5A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CBA52999B24
- for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 08:14:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 422EA40C83EE;
- Thu,  1 Dec 2022 08:14:22 +0000 (UTC)
-Date: Thu, 1 Dec 2022 08:14:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com, dgilbert@redhat.com
-Subject: Re: [PATCH 2/9] ui: Fix silent truncation of numeric keys in HMP
- sendkey
-Message-ID: <Y4hiWcYyWpZN01st@redhat.com>
-References: <20221201061311.3619052-1-armbru@redhat.com>
- <20221201061311.3619052-3-armbru@redhat.com>
+ bh=FGzl8XMz4a9+PYXeu51Zej4fOYp1LT7SpnlCKdjRzuo=;
+ b=anb447aBlfoEFk0Iwy6E6dWccmGr6nc/sZynjOdt+ieQAs7xHOyt10TlC1AbeCEJB9VbUB
+ FkT8PGjeUsTo8PLKCWL7WzxjzrtIKC7gbnZ9MAN/OsaBMD3K/+JRr5hjMPDmGU1PVx+JxG
+ EjuOLpKZczIWsFKp7REtL7eBFnQjoN0=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-414-w7LPIXK8PI-6Q_uY-nqtIQ-1; Thu, 01 Dec 2022 03:29:58 -0500
+X-MC-Unique: w7LPIXK8PI-6Q_uY-nqtIQ-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ k26-20020a54469a000000b0035ac1417866so763562oic.18
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 00:29:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FGzl8XMz4a9+PYXeu51Zej4fOYp1LT7SpnlCKdjRzuo=;
+ b=ILweT8y/I8GTC7sc33GpWlP4la7zV9rAcEbkc8HDYEy90YW2EiknMlaiVFTwaAh9Ms
+ gx+33kkDZMkvQSg1J9ZD3o9dMfbr2fqLmMxjGSM2El4p5O6j2u0wFnwUTG3T26BxGeTJ
+ un5hncwY0OCE4lCMQ/viCzpu2aXYIF/iDFGI2F18PEKi2v4r2dAzY4sJh7zvniW35yKv
+ YzpjkjrnWPMGDwoHjd6dXkGgX4XnCxN0oFGuZ3BibgG2Fp5Wx3mZtwrzIDdR/xIwjfjX
+ EgIE6R/cr6a419XjVxnwcsnZpQ1EfWRdmu2YzO5zcUYhryKDLJVIubDNdhsn0PQw1cHs
+ 3W0Q==
+X-Gm-Message-State: ANoB5pnOw2PEERm4Y2Fhfb6djrMSjjTe0y5BdGvqa+Hw4at/Yh8yucJh
+ gqJ2VhGhACIkFOLpQt1QVqoE6dYArfgb/hjapFDSGW7Y0ZrWf2j5XxnjEYTsr7rf3ki8Mm3oEth
+ 8MT+UCjdj8yBOj0+v3NAQw+BK16TFuWo=
+X-Received: by 2002:a05:6830:6505:b0:66c:fb5b:4904 with SMTP id
+ cm5-20020a056830650500b0066cfb5b4904mr32659297otb.237.1669883398210; 
+ Thu, 01 Dec 2022 00:29:58 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf57D67EWxip/ALpkko5pLh6eu92NbQE4izj6IYEJwrQpclShCVJZ8KTJGbLAzPkUaLSjHWuSL2/FmmZr2TaV4E=
+X-Received: by 2002:a05:6830:6505:b0:66c:fb5b:4904 with SMTP id
+ cm5-20020a056830650500b0066cfb5b4904mr32659284otb.237.1669883398013; Thu, 01
+ Dec 2022 00:29:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221201061311.3619052-3-armbru@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221130113740-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221130113740-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 1 Dec 2022 16:29:47 +0800
+Message-ID: <CACGkMEuz2Sjb84nUxWTtrSEd_vyUZ4J8Y+r8Pbn+MOQ+=+ufFg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Fix UNMAP notifier for intel-iommu
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peterx@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com, 
+ viktor@daynix.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,30 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 01, 2022 at 07:13:04AM +0100, Markus Armbruster wrote:
-> Keys are int.  HMP sendkey assigns them from the value strtoul(),
-> silently truncating values greater than INT_MAX.  Fix to reject them.
-> 
-> While there, use qemu_strtoul() instead of strtoul() so checkpatch.pl
-> won't complain.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  monitor/hmp-cmds.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+On Thu, Dec 1, 2022 at 12:38 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Tue, Nov 29, 2022 at 04:10:34PM +0800, Jason Wang wrote:
+> > Hi All:
+> >
+> > According to ATS, device should work if ATS is disabled. This is not
+> > correctly implemented in the current intel-iommu since it doesn't
+> > handle the UNMAP notifier correctly. This breaks the vhost-net +
+> > vIOMMU without dt.
+> >
+> > The root casue is that the when there's a device IOTLB miss (note that
+> > it's not specific to PCI so it can work without ATS), Qemu doesn't
+> > build the IOVA tree, so when guest start an IOTLB invalidation, Qemu
+> > won't trigger the UNMAP notifier.
+> >
+> > Fixing by build IOVA tree during IOMMU translsation.
+> >
+> > Thanks
+>
+> Any changes of Fixes tags? this is 8.0 yes?
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Yes, it's for 8.0.
 
+Thanks
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>
+> > Jason Wang (3):
+> >   intel-iommu: fail MAP notifier without caching mode
+> >   intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+> >   intel-iommu: build iova tree during IOMMU translation
+> >
+> >  hw/i386/intel_iommu.c | 58 ++++++++++++++++++++++++-------------------
+> >  1 file changed, 33 insertions(+), 25 deletions(-)
+> >
+> > --
+> > 2.25.1
+>
 
 
