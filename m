@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C401363EEBB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5338663EF03
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:09:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0hMO-0004UZ-52; Thu, 01 Dec 2022 06:04:08 -0500
+	id 1p0hQQ-0005YK-S7; Thu, 01 Dec 2022 06:08:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0hML-0004UB-F6
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:04:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0hQO-0005YB-NX
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:08:16 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0hMJ-0008MS-JL
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:04:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669892642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HEql+jLAZI1PBxCQjVqKsZL+NW2TOHnoTc4qZo3n1f0=;
- b=epANjPlNQg5hPWRl+WL+4bIpm/HZo5vCWopF1SEWEJAufSILcrvo0RcI/k6q9Fp0tOyxIm
- L11fmXJkoJ1qrC/pKz0itaoBVcXeFhd+uTqYNU1Bt+82t81W+BJMTGTqTzIvedHV7ypwHD
- odZ/7cNfXmx2LPDuMvcorX6q912oY80=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-396-5yN2NMSRP8GyWWA03a9xTw-1; Thu, 01 Dec 2022 06:04:01 -0500
-X-MC-Unique: 5yN2NMSRP8GyWWA03a9xTw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c26-20020a05600c0ada00b003d07fd2473bso308656wmr.9
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:04:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HEql+jLAZI1PBxCQjVqKsZL+NW2TOHnoTc4qZo3n1f0=;
- b=jEwyArujBXWW/0QyJ+O7/dRRebbXw6FeoRJJFhYnS9eABSe/IOqwXkMvsdM7dRaNmO
- 68xdIWI0WjZYC9z7E6h5H73ZlZEWqoPQAYaRZwd9cpuk9tO8qombNqM6SlvDL0je30qP
- N3oXMkqzSE35k+gqxEKRD2+DziMC+lmxKJAos0sqz5I9XZqElyobOD5ug1s/8yyXDUQ2
- DXc4lqDeKpJlW+h2KCfLzfFk5MPUtBldRLwGaWGIdI1aSecWIYi0s9te7zxrP3+UFVNA
- GTLSWjy2UGFVRDubUxH08iE/jMzt33s7g5lwKL4m22rH6xwjKaRz0N8LuOk7CV0yVJ4Q
- 5JbA==
-X-Gm-Message-State: ANoB5pnYhxmy70P/sUfwJfaq99cC+enybynP77Vbvo6m+loAW9FjQ+uS
- i+o2mGcHV495cTAF6RYVbgke1N2dI35MsgJXOy8ovKLR75fGg5O5CbY4RfG8sDpUeDvRP7nAHoN
- JsmY7A2nnG6FBJZk=
-X-Received: by 2002:a05:6000:1e1b:b0:242:29d7:1004 with SMTP id
- bj27-20020a0560001e1b00b0024229d71004mr5139517wrb.208.1669892640329; 
- Thu, 01 Dec 2022 03:04:00 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6RP0tV7Ub79CXRO2hFb1l81Upf34HBROraxaxqisi8MWqu7Ja9E9MrI7HfXhbpO5Afm7dTcw==
-X-Received: by 2002:a05:6000:1e1b:b0:242:29d7:1004 with SMTP id
- bj27-20020a0560001e1b00b0024229d71004mr5139500wrb.208.1669892640076; 
- Thu, 01 Dec 2022 03:04:00 -0800 (PST)
-Received: from [192.168.8.102] (tmo-073-221.customers.d1-online.com.
- [80.187.73.221]) by smtp.gmail.com with ESMTPSA id
- e18-20020a5d4e92000000b0024206ed539fsm4009749wru.66.2022.12.01.03.03.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 03:03:59 -0800 (PST)
-Message-ID: <2ff3f1f2-ac25-294c-c994-78474fa5eab4@redhat.com>
-Date: Thu, 1 Dec 2022 12:03:57 +0100
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0hQJ-0002GE-F0
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:08:16 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D4BDA61F96
+ for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 11:08:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45B1CC4347C
+ for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 11:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669892889;
+ bh=3uBhTHdruUUJ92otAu+G7ke4c/ZOBzn4dElrB5hMFjc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WCnTpLdRVg6ETR4EzwSRT+YlXka0KeUkcPPkzo+SX3huyE08qIKEQQT8KE3pTTOfC
+ nljF/HP+/nM6jYc7VF5PSczgYgPP6OyHGNDltbqggSiwN2uyZpXEs0BCW7TVuAeeqc
+ DRn03DMSrG3pEXtb0SOH2y17CoVz6jw/a1bhbOzHGKGV4xszBYcikk0zVNVXz07k1C
+ xxaQLic42w8hcHqZsFmKWc9cNF6Z7f6TSvVdGIaHgO3bstcei9V7fKlLzIV4h6eAIB
+ bdIsya3HusK9AKtlfU1EzNxYuFeunwotbzduGMc5tDONBdUs0xYSMwsohYR8faFtzV
+ iRUIOI4GkICug==
+Received: by mail-lj1-f173.google.com with SMTP id z4so1473178ljq.6
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:08:09 -0800 (PST)
+X-Gm-Message-State: ANoB5pneVzeShTjT4ZP2SIigfheDfDTr0Dsr3ONMYKo2rQp96ZEXXeQs
+ GoNxUrYWur6rgdffbJBDRuy1OyL51WVciqI2D0M=
+X-Google-Smtp-Source: AA0mqf5C7SqVtxh7CBDVkTnDGzg0/iwQ57hwqA0UDY0ULV/whroB66HTmQy2MwkolyDvP4nYUKR4fQCWKZzk76wV2ys=
+X-Received: by 2002:a05:651c:1603:b0:26d:d603:8df2 with SMTP id
+ f3-20020a05651c160300b0026dd6038df2mr19406194ljq.189.1669892887292; Thu, 01
+ Dec 2022 03:08:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/qtest/vhost-user-blk-test: don't abort all qtests
- on missing envar
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-Cc: Coiby Xu <coiby.xu@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <E1oybRD-0005D5-5r@lizzy.crudebyte.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <E1oybRD-0005D5-5r@lizzy.crudebyte.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+ <87r0xkubcp.wl-maz@kernel.org>
+ <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
+ <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
+ <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
+In-Reply-To: <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 1 Dec 2022 12:07:56 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+Message-ID: <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+Subject: Re: regression: insmod module failed in VM with nvdimm on
+To: "chenxiang (M)" <chenxiang66@hisilicon.com>
+Cc: Marc Zyngier <maz@kernel.org>, will@kernel.org, mark.rutland@arm.com, 
+ linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>, 
+ "linuxarm@huawei.com" <linuxarm@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=ardb@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,45 +83,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/11/2022 16.58, Christian Schoenebeck wrote:
-> This test requires environment variable QTEST_QEMU_STORAGE_DAEMON_BINARY
-> to be defined for running. If not, it would immediately abort all qtests
-> and prevent other, unrelated tests from running.
-> 
-> To fix that, just skip vhost-user-blk-test instead and log a message
-> about missing environment variable.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
-> 
->   I also tried g_test_skip(errmsg) from the setup handlers instead, but it
->   always caused the tests to abort with an error:
->   
->   ../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process
->   but encountered exit status 1 (expected 0)
->   
->   I haven't further investigated.
-> 
->   tests/qtest/vhost-user-blk-test.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-> index 07a4c2d500..dc37f5af4d 100644
-> --- a/tests/qtest/vhost-user-blk-test.c
-> +++ b/tests/qtest/vhost-user-blk-test.c
-> @@ -983,6 +983,12 @@ static void register_vhost_user_blk_test(void)
->           .before = vhost_user_blk_test_setup,
->       };
->   
-> +    if (!getenv("QTEST_QEMU_STORAGE_DAEMON_BINARY")) {
-> +        g_test_message("QTEST_QEMU_STORAGE_DAEMON_BINARY not defined, "
-> +                       "skipping vhost-user-blk-test");
-> +        return;
-> +    }
+On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com> wr=
+ote:
+> >
+> > Hi Ard,
+> >
+> >
+> > =E5=9C=A8 2022/11/30 16:18, Ard Biesheuvel =E5=86=99=E9=81=93:
+> > > On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
+> > >> On Wed, 30 Nov 2022 02:52:35 +0000,
+> > >> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+> > >>> Hi,
+> > >>>
+> > >>> We boot the VM using following commands (with nvdimm on)  (qemu
+> > >>> version 6.1.50, kernel 6.0-r4):
+> > >> How relevant is the presence of the nvdimm? Do you observe the failu=
+re
+> > >> without this?
+> > >>
+> > >>> qemu-system-aarch64 -machine
+> > >>> virt,kernel_irqchip=3Don,gic-version=3D3,nvdimm=3Don  -kernel
+> > >>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
+> > >>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
+> > >>> 2G,maxmem=3D64G,slots=3D3 -smp 4 -append 'rdinit=3Dinit console=3Dt=
+tyAMA0
+> > >>> ealycon=3Dpl0ll,0x90000000 pcie_ports=3Dnative pciehp.pciehp_debug=
+=3D1'
+> > >>> -object memory-backend-ram,id=3Dram1,size=3D10G -device
+> > >>> nvdimm,id=3Ddimm1,memdev=3Dram1  -device ioh3420,id=3Droot_port1,ch=
+assis=3D1
+> > >>> -device vfio-pci,host=3D7d:01.0,id=3Dnet0,bus=3Droot_port1
+> > >>>
+> > >>> Then in VM we insmod a module, vmalloc error occurs as follows (ker=
+nel
+> > >>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
+> > >>>
+> > >>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
+> > >>> [    8.186563] vmap allocation for size 20480 failed: use
+> > >>> vmalloc=3D<size> to increase size
+> > >> Have you tried increasing the vmalloc size to check that this is
+> > >> indeed the problem?
+> > >>
+> > >> [...]
+> > >>
+> > >>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kas=
+lr:
+> > >>> defer initialization to initcall where permitted").
+> > >> I guess you mean commit fc5a89f75d2a instead, right?
+> > >>
+> > >>> Do you have any idea about the issue?
+> > >> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
+> > >> portion of the vmalloc space, but you give very little information
+> > >> that could help here...
+> > >>
+> > > Ouch. I suspect what's going on here: that patch defers the
+> > > randomization of the module region, so that we can decouple it from
+> > > the very early init code.
+> > >
+> > > Obviously, it is happening too late now, and the randomized module
+> > > region is overlapping with a vmalloc region that is in use by the tim=
+e
+> > > the randomization occurs.
+> > >
+> > > Does the below fix the issue?
+> >
+> > The issue still occurs, but it seems decrease the probability, before i=
+t
+> > occured almost every time, after the change, i tried 2-3 times, and it
+> > occurs.
+> > But i change back "subsys_initcall" to "core_initcall", and i test more
+> > than 20 times, and it is still ok.
+> >
+>
+> Thank you for confirming. I will send out a patch today.
+>
 
-Could we use g_test_skip() here?
+...but before I do that, could you please check whether the change
+below fixes your issue as well?
 
-  Thomas
+diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
+index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
+--- a/arch/arm64/kernel/kaslr.c
++++ b/arch/arm64/kernel/kaslr.c
+@@ -20,7 +20,11 @@
+ #include <asm/sections.h>
+ #include <asm/setup.h>
 
+-u64 __ro_after_init module_alloc_base;
++/*
++ * Set a reasonable default for module_alloc_base in case
++ * we end up running with module randomization disabled.
++ */
++u64 __ro_after_init module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
+ u16 __initdata memstart_offset_seed;
 
+ struct arm64_ftr_override kaslr_feature_override __initdata;
+@@ -30,12 +34,6 @@ static int __init kaslr_init(void)
+        u64 module_range;
+        u32 seed;
+
+-       /*
+-        * Set a reasonable default for module_alloc_base in case
+-        * we end up running with module randomization disabled.
+-        */
+-       module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
+-
+        if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf)=
+ {
+                pr_info("KASLR disabled on command line\n");
+                return 0;
 
