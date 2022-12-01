@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B2963F264
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9662963F252
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:10:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0kF6-00089s-W9; Thu, 01 Dec 2022 09:08:49 -0500
+	id 1p0kF9-0008Bt-4V; Thu, 01 Dec 2022 09:08:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p0kF4-00087u-Aq; Thu, 01 Dec 2022 09:08:46 -0500
+ id 1p0kF5-00089X-Ji; Thu, 01 Dec 2022 09:08:47 -0500
 Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p0kEy-0008C5-Q1; Thu, 01 Dec 2022 09:08:46 -0500
-X-QQ-mid: bizesmtp72t1669903708t8z7dn8p
+ id 1p0kF1-0008Ci-D3; Thu, 01 Dec 2022 09:08:47 -0500
+X-QQ-mid: bizesmtp72t1669903710te4hljvq
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 01 Dec 2022 22:08:27 +0800 (CST)
+ id ; Thu, 01 Dec 2022 22:08:29 +0800 (CST)
 X-QQ-SSF: 01200000002000B0B000B00A0000000
-X-QQ-FEAT: ILHsT53NKPiwx2gKaK3oHeAJLqs2Aya5ESKfUXoP3PU6MeV8ILxP6x5TvpbIb
- xyX2MtIL85LEaYTPTZn5qLB+0nXfD/tbxbsy1T5+qH4dcLOz4la55Mg9F0oKvlrCJlkuw0X
- J0eVcVz9c/AVPvf89B4c5NHxB7JaWbUcidMWmt3oViHoZc+FWXsgePiS2uvy0h6uXYrd1XX
- P6KxZkPzA0iQjH1tpXKJIT7nRfELOinFK9Ocid03GgYmFktyp9FE4QHveMvNX6vUJBQ7XFI
- tJ+F7QaMJIRSIIjT1K7QhCjH/tOw0L9+PXup/LqhglY74fOSRv0k7CiIj8BENJ4yNldd//x
- AL0gcfmipFdfvPVRNISCr3GftaHBTofJYL68e47chNcKJ7hT+0=
+X-QQ-FEAT: mRz6/7wsmIgzXs1O082s/ZRXdi4VbChXlyVAHitWl8rMdGGBmmKV3/jbEerSU
+ R459CwEsaGe8K0KWfbMCpzhBl1Fw6NawNjGZlTB4h1tHoX4f2TZym5gj0g4zHGE0PC/khQH
+ 60h+yVlgwBNd5LlZjUCbb6WfZYvBFZtYRl2Th6ubVsvfrr3m0QDJyQhDua1bsow+OU6kKLi
+ b3KPThCp/eY4wz5D8IZCfjvkAn7O4yvW4Be8fQxdRswVi3Np7W5u6zPc26IW+lSsfXrlXSj
+ GYtWGC18OTpPNZBBkN2xJDaLhBDL+M0ai8Ny7gDzOVom7nvXcBTbEM/V4yUFaG/Jrq84gPE
+ DUaDaXyJVIZp4iMIl+g1NZPCwfCAsvLWz3oHuGz93/llwtIVdU=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 07/15] hw/intc: sifive_plic: Improve robustness of the PLIC
- config parser
-Date: Thu,  1 Dec 2022 22:08:03 +0800
-Message-Id: <20221201140811.142123-7-bmeng@tinylab.org>
+Subject: [PATCH 08/15] hw/intc: sifive_plic: Update "num-sources" property
+ default value
+Date: Thu,  1 Dec 2022 22:08:04 +0800
+Message-Id: <20221201140811.142123-8-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221201140811.142123-1-bmeng@tinylab.org>
 References: <20221201140811.142123-1-bmeng@tinylab.org>
@@ -65,79 +65,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present the PLIC config parser can only handle legal config string
-like "MS,MS". However if a config string like ",MS,MS,,MS,MS,," is
-given the parser won't get the correct configuration.
+At present the default value of "num-sources" property is zero,
+which does not make a lot of sense, as in sifive_plic_realize()
+we see s->bitfield_words is calculated by:
 
-This commit improves the config parser to make it more robust.
+  s->bitfield_words = (s->num_sources + 31) >> 5;
+
+if the we don't configure "num-sources" property its default value
+zero makes s->bitfield_words zero too, which isn't true because
+interrupt source 0 still occupies one word.
+
+Let's change the default value to 1 meaning that only interrupt
+source 0 is supported by default and a sanity check in realize().
+
+While we are here, add a comment to describe the exact meaning of
+this property that the number should include interrupt source 0.
+A wrong multi-line comment format is corrected too.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- hw/intc/sifive_plic.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ hw/intc/sifive_plic.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 3f6ffb1d70..5fd9a53569 100644
+index 5fd9a53569..2bd292410d 100644
 --- a/hw/intc/sifive_plic.c
 +++ b/hw/intc/sifive_plic.c
-@@ -290,7 +290,7 @@ static void sifive_plic_reset(DeviceState *dev)
-  */
- static void parse_hart_config(SiFivePLICState *plic)
- {
--    int addrid, hartid, modes;
-+    int addrid, hartid, modes, m;
-     const char *p;
-     char c;
+@@ -363,6 +363,11 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
  
-@@ -299,11 +299,13 @@ static void parse_hart_config(SiFivePLICState *plic)
-     p = plic->hart_config;
-     while ((c = *p++)) {
-         if (c == ',') {
--            addrid += ctpop8(modes);
--            modes = 0;
--            hartid++;
-+            if (modes) {
-+                addrid += ctpop8(modes);
-+                hartid++;
-+                modes = 0;
-+            }
-         } else {
--            int m = 1 << char_to_mode(c);
-+            m = 1 << char_to_mode(c);
-             if (modes == (modes | m)) {
-                 error_report("plic: duplicate mode '%c' in config: %s",
-                              c, plic->hart_config);
-@@ -314,8 +316,9 @@ static void parse_hart_config(SiFivePLICState *plic)
-     }
-     if (modes) {
-         addrid += ctpop8(modes);
-+        hartid++;
-+        modes = 0;
-     }
--    hartid++;
+     parse_hart_config(s);
  
-     plic->num_addrs = addrid;
-     plic->num_harts = hartid;
-@@ -326,11 +329,16 @@ static void parse_hart_config(SiFivePLICState *plic)
-     p = plic->hart_config;
-     while ((c = *p++)) {
-         if (c == ',') {
--            hartid++;
-+            if (modes) {
-+                hartid++;
-+                modes = 0;
-+            }
-         } else {
-+            m = char_to_mode(c);
-             plic->addr_config[addrid].addrid = addrid;
-             plic->addr_config[addrid].hartid = hartid;
--            plic->addr_config[addrid].mode = char_to_mode(c);
-+            plic->addr_config[addrid].mode = m;
-+            modes |= (1 << m);
-             addrid++;
-         }
-     }
++    if (!s->num_sources) {
++        error_report("plic: invalid number of interrupt sources");
++        exit(1);
++    }
++
+     s->bitfield_words = (s->num_sources + 31) >> 5;
+     s->num_enables = s->bitfield_words * s->num_addrs;
+     s->source_priority = g_new0(uint32_t, s->num_sources);
+@@ -379,7 +384,8 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
+     s->m_external_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
+     qdev_init_gpio_out(dev, s->m_external_irqs, s->num_harts);
+ 
+-    /* We can't allow the supervisor to control SEIP as this would allow the
++    /*
++     * We can't allow the supervisor to control SEIP as this would allow the
+      * supervisor to clear a pending external interrupt which will result in
+      * lost a interrupt in the case a PLIC is attached. The SEIP bit must be
+      * hardware controlled when a PLIC is attached.
+@@ -419,7 +425,8 @@ static const VMStateDescription vmstate_sifive_plic = {
+ static Property sifive_plic_properties[] = {
+     DEFINE_PROP_STRING("hart-config", SiFivePLICState, hart_config),
+     DEFINE_PROP_UINT32("hartid-base", SiFivePLICState, hartid_base, 0),
+-    DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 0),
++    /* number of interrupt sources including interrupt source 0 */
++    DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 1),
+     DEFINE_PROP_UINT32("num-priorities", SiFivePLICState, num_priorities, 0),
+     DEFINE_PROP_UINT32("priority-base", SiFivePLICState, priority_base, 0),
+     DEFINE_PROP_UINT32("pending-base", SiFivePLICState, pending_base, 0),
 -- 
 2.34.1
 
