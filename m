@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858E163EA69
+	by mail.lfdr.de (Postfix) with ESMTPS id AABD563EA6A
 	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 08:40:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0e9k-0007iN-29; Thu, 01 Dec 2022 02:38:52 -0500
+	id 1p0e9j-0007hn-7Y; Thu, 01 Dec 2022 02:38:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9B-0007bl-Ef
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9R-0007f1-RS
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e98-0007mm-Vb
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:17 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9G-0007pA-8h
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669880294;
+ s=mimecast20190719; t=1669880300;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tb9KGSUYRfX8CCqoogWF4MltmFMZNrMZT5bPAMhdkHY=;
- b=QKDHakgs7raTxn+uvA2FhhKW9kw3y+b2vCnIAZ7ahllH5PqbhpHdIpOdu727AmtCIuRESa
- 30bhxuVXKJaTSkkkK7WoG9A7GMYdD5frFjXdsGMdXGe1ekJJUtyr+PXLfSoHi2DvVjaVMT
- 7kG2N7Fbv+sQ7JSj9H28+3dwTArINng=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VnRECOMNXc2EaNkRprFM4t7alhtILlwF0mf/C3kI0lo=;
+ b=geO+NFKrZ0pjj+gECDW4j+vteoRoUEfcUO178fk7vSfY7iieU/akUfH6cZPhymB8UbTLHB
+ H3j1Q2DtQLArqFL3LqP3nFwvkkYWF9xibpkKPubJ6lG7aRoTGnjX3IKDq1fn7yMLt1beKe
+ P+PJdW6x7fk7iqDJY3VGor79Iicc2o4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-575-wnEcNrZTPxqGF9yOoNeVwg-1; Thu, 01 Dec 2022 02:38:12 -0500
-X-MC-Unique: wnEcNrZTPxqGF9yOoNeVwg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h9-20020a1c2109000000b003cfd37aec58so480091wmh.1
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 23:38:12 -0800 (PST)
+ us-mta-306-8IN1ry3UMFqj1fC1355clw-1; Thu, 01 Dec 2022 02:38:19 -0500
+X-MC-Unique: 8IN1ry3UMFqj1fC1355clw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l42-20020a05600c1d2a00b003cf8e70c1ecso2158706wms.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 23:38:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tb9KGSUYRfX8CCqoogWF4MltmFMZNrMZT5bPAMhdkHY=;
- b=I8anIAmtuAgGGA4nAIbzwL97k1zm4G32zT9dBC5Ht/KHzvHfQza3vNFSPkq2KtHME5
- GfSHEuYDJ3rd6/4nVkdmZQTKmaHfJxNYAPA7pZkIIyFS2vQ7s/MDzopnMzhhRtOdpE9i
- oHGZ7ELw2dT7v/tm8Ud625ebwoWEDzlD7Zzk95j3IHnEB58smmiAmZUkkGlP2QO5LdQ2
- PHKJb48KoeXD550jJLgBeRmewMQG+PppGmCng+upsy3YZjod4wKS4W9/RKsZvsaabch3
- KvVWnp3QobRtg+5pqGisuA2U5HU4zOMn6NfyCAskviYle8AjCGG0oZ1hatdHUKFOsS2X
- 3F8Q==
-X-Gm-Message-State: ANoB5pnMWKnDUeQUJy/X4QZd/sJJnadM7+2KBy92f0dJvbckqk2uPqiU
- C9JmURr36ORmOfV8ddhheK+9YDU0YvbiKccSnMRhPWTLU78Bn2TEUX147KRRlHxuFV0YmQCCFfi
- 5+sb1xGyAxoCz3LyCrBNvBBqbFLbZ0kAoRV+PSF0bSssc1LbHFFrSvOQ3UWdT
-X-Received: by 2002:adf:ebcf:0:b0:22e:3275:983e with SMTP id
- v15-20020adfebcf000000b0022e3275983emr40920282wrn.71.1669880291009; 
- Wed, 30 Nov 2022 23:38:11 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4KblABr8pQtncU6UjBa287RWNKemnvw0aKgZYFRK8RbpOxOqEKRvmbcZbfdFxl1/IQQUkeNw==
-X-Received: by 2002:adf:ebcf:0:b0:22e:3275:983e with SMTP id
- v15-20020adfebcf000000b0022e3275983emr40920242wrn.71.1669880290545; 
- Wed, 30 Nov 2022 23:38:10 -0800 (PST)
+ bh=VnRECOMNXc2EaNkRprFM4t7alhtILlwF0mf/C3kI0lo=;
+ b=gZMVEJRp6aeg43BdyPmcIunLhQciqh0cY8I3ZeQKsNNocP6Yb/sqKOCXeoKNAN4knt
+ F9zYsItAdKekji9kF9cGozo5sYDKFl9dErc0dPtVoEQt/YlgKtMNOx3vZYiuqDT6kCr/
+ AgwOW6sxQuQBEWdw6zzH/qGDzDUCf3JFV+eRQkokBI8ISvFY94roPmegmEqs+DubH7TX
+ 3e25NaoTFQCl+abZX5dfBQy78y8EbrTcCGxvB1/ZR4F6ob4IHKM1/sa1//KDGtB1v7dx
+ 5QZLZL+ECnSpO4BrfhaOnvn09dUFGyhj7mizKHOPMkXUP1Ih+xjOD8VU5ehxOvQH7T5W
+ tHeA==
+X-Gm-Message-State: ANoB5pnrNKOREC/aTzg4DKXnoienLkbhQ67zZiLlsgDWTW2KuhAYKhVt
+ f5+sxe1bw5geFvpxP5wsbg9RtcgQcDaHQK7mJw9/hH//IAGuZp9aS2PimcrBWI7fcBUFtt1OjpG
+ 6/IGubTzp9HWM/Oacn2AF4PJt5H/q/YDS2M6U7RqEsO7hUmrPHbEXheW+TKR0
+X-Received: by 2002:a7b:cd85:0:b0:3cf:931c:3cfa with SMTP id
+ y5-20020a7bcd85000000b003cf931c3cfamr38644262wmj.203.1669880297228; 
+ Wed, 30 Nov 2022 23:38:17 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4/AuBNmxlmgm00Bh28lEkt+kezylJVO13MctngbM6Av2JUMDxUTrQ4oorDkKcIwUO2Aw8HNA==
+X-Received: by 2002:a7b:cd85:0:b0:3cf:931c:3cfa with SMTP id
+ y5-20020a7bcd85000000b003cf931c3cfamr38644241wmj.203.1669880296887; 
+ Wed, 30 Nov 2022 23:38:16 -0800 (PST)
 Received: from redhat.com ([2.52.19.245]) by smtp.gmail.com with ESMTPSA id
- t17-20020a05600c199100b003c7087f6c9asm8428896wmq.32.2022.11.30.23.38.08
+ h16-20020a05600c2cb000b003c6bbe910fdsm9645388wmc.9.2022.11.30.23.38.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 23:38:09 -0800 (PST)
-Date: Thu, 1 Dec 2022 02:38:06 -0500
+ Wed, 30 Nov 2022 23:38:15 -0800 (PST)
+Date: Thu, 1 Dec 2022 02:38:13 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>,
- German Maglione <gmaglione@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, qemu-block@nongnu.org,
- virtio-fs@redhat.com
-Subject: [PULL 2/5] vhost: enable vrings in vhost_dev_start() for vhost-user
- devices
-Message-ID: <20221201073725.44585-3-mst@redhat.com>
+ Viresh Kumar <viresh.kumar@linaro.org>, qemu-block@nongnu.org
+Subject: [PULL 4/5] hw/virtio: generalise CHR_EVENT_CLOSED handling
+Message-ID: <20221201073725.44585-5-mst@redhat.com>
 References: <20221201073725.44585-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -88,15 +78,15 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221201073725.44585-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,447 +102,242 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Commit 02b61f38d3 ("hw/virtio: incorporate backend features in features")
-properly negotiates VHOST_USER_F_PROTOCOL_FEATURES with the vhost-user
-backend, but we forgot to enable vrings as specified in
-docs/interop/vhost-user.rst:
+..and use for both virtio-user-blk and virtio-user-gpio. This avoids
+the circular close by deferring shutdown due to disconnection until a
+later point. virtio-user-blk already had this mechanism in place so
+generalise it as a vhost-user helper function and use for both blk and
+gpio devices.
 
-    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
-    ring starts directly in the enabled state.
+While we are at it we also fix up vhost-user-gpio to re-establish the
+event handler after close down so we can reconnect later.
 
-    If ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, the ring is
-    initialized in a disabled state and is enabled by
-    ``VHOST_USER_SET_VRING_ENABLE`` with parameter 1.
-
-Some vhost-user front-ends already did this by calling
-vhost_ops.vhost_set_vring_enable() directly:
-- backends/cryptodev-vhost.c
-- hw/net/virtio-net.c
-- hw/virtio/vhost-user-gpio.c
-
-But most didn't do that, so we would leave the vrings disabled and some
-backends would not work. We observed this issue with the rust version of
-virtiofsd [1], which uses the event loop [2] provided by the
-vhost-user-backend crate where requests are not processed if vring is
-not enabled.
-
-Let's fix this issue by enabling the vrings in vhost_dev_start() for
-vhost-user front-ends that don't already do this directly. Same thing
-also in vhost_dev_stop() where we disable vrings.
-
-[1] https://gitlab.com/virtio-fs/virtiofsd
-[2] https://github.com/rust-vmm/vhost/blob/240fc2966/crates/vhost-user-backend/src/event_loop.rs#L217
-
-Fixes: 02b61f38d3 ("hw/virtio: incorporate backend features in features")
-Reported-by: German Maglione <gmaglione@redhat.com>
-Tested-by: German Maglione <gmaglione@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <20221123131630.52020-1-sgarzare@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221130112439.2527228-3-alex.bennee@linaro.org>
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <20221130112439.2527228-5-alex.bennee@linaro.org>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost.h      |  6 +++--
- backends/cryptodev-vhost.c     |  4 ++--
- backends/vhost-user.c          |  4 ++--
- hw/block/vhost-user-blk.c      |  4 ++--
- hw/net/vhost_net.c             |  8 +++----
- hw/scsi/vhost-scsi-common.c    |  4 ++--
- hw/virtio/vhost-user-fs.c      |  4 ++--
- hw/virtio/vhost-user-gpio.c    |  4 ++--
- hw/virtio/vhost-user-i2c.c     |  4 ++--
- hw/virtio/vhost-user-rng.c     |  4 ++--
- hw/virtio/vhost-vsock-common.c |  4 ++--
- hw/virtio/vhost.c              | 44 ++++++++++++++++++++++++++++++----
- hw/virtio/trace-events         |  4 ++--
- 13 files changed, 67 insertions(+), 31 deletions(-)
+ include/hw/virtio/vhost-user.h | 18 +++++++++
+ hw/block/vhost-user-blk.c      | 41 +++-----------------
+ hw/virtio/vhost-user-gpio.c    | 11 +++++-
+ hw/virtio/vhost-user.c         | 71 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 104 insertions(+), 37 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 353252ac3e..67a6807fac 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -184,24 +184,26 @@ static inline bool vhost_dev_is_started(struct vhost_dev *hdev)
-  * vhost_dev_start() - start the vhost device
-  * @hdev: common vhost_dev structure
-  * @vdev: the VirtIODevice structure
-+ * @vrings: true to have vrings enabled in this call
-  *
-  * Starts the vhost device. From this point VirtIO feature negotiation
-  * can start and the device can start processing VirtIO transactions.
-  *
-  * Return: 0 on success, < 0 on error.
+diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
+index c6e693cd3f..191216a74f 100644
+--- a/include/hw/virtio/vhost-user.h
++++ b/include/hw/virtio/vhost-user.h
+@@ -68,4 +68,22 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp);
   */
--int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
-+int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
+ void vhost_user_cleanup(VhostUserState *user);
  
- /**
-  * vhost_dev_stop() - stop the vhost device
-  * @hdev: common vhost_dev structure
-  * @vdev: the VirtIODevice structure
-+ * @vrings: true to have vrings disabled in this call
-  *
-  * Stop the vhost device. After the device is stopped the notifiers
-  * can be disabled (@vhost_dev_disable_notifiers) and the device can
-  * be torn down (@vhost_dev_cleanup).
-  */
--void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-+void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings);
- 
- /**
-  * DOC: vhost device configuration handling
-diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
-index bc13e466b4..572f87b3be 100644
---- a/backends/cryptodev-vhost.c
-+++ b/backends/cryptodev-vhost.c
-@@ -94,7 +94,7 @@ cryptodev_vhost_start_one(CryptoDevBackendVhost *crypto,
-         goto fail_notifiers;
-     }
- 
--    r = vhost_dev_start(&crypto->dev, dev);
-+    r = vhost_dev_start(&crypto->dev, dev, false);
-     if (r < 0) {
-         goto fail_start;
-     }
-@@ -111,7 +111,7 @@ static void
- cryptodev_vhost_stop_one(CryptoDevBackendVhost *crypto,
-                                  VirtIODevice *dev)
- {
--    vhost_dev_stop(&crypto->dev, dev);
-+    vhost_dev_stop(&crypto->dev, dev, false);
-     vhost_dev_disable_notifiers(&crypto->dev, dev);
- }
- 
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index 5dedb2d987..7bfcaef976 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -85,7 +85,7 @@ vhost_user_backend_start(VhostUserBackend *b)
-     }
- 
-     b->dev.acked_features = b->vdev->guest_features;
--    ret = vhost_dev_start(&b->dev, b->vdev);
-+    ret = vhost_dev_start(&b->dev, b->vdev, true);
-     if (ret < 0) {
-         error_report("Error start vhost dev");
-         goto err_guest_notifiers;
-@@ -120,7 +120,7 @@ vhost_user_backend_stop(VhostUserBackend *b)
-         return;
-     }
- 
--    vhost_dev_stop(&b->dev, b->vdev);
-+    vhost_dev_stop(&b->dev, b->vdev, true);
- 
-     if (k->set_guest_notifiers) {
-         ret = k->set_guest_notifiers(qbus->parent,
++/**
++ * vhost_user_async_close() - cleanup vhost-user post connection drop
++ * @d: DeviceState for the associated device (passed to callback)
++ * @chardev: the CharBackend associated with the connection
++ * @vhost: the common vhost device
++ * @cb: the user callback function to complete the clean-up
++ *
++ * This function is used to handle the shutdown of a vhost-user
++ * connection to a backend. We handle this centrally to make sure we
++ * do all the steps and handle potential races due to VM shutdowns.
++ * Once the connection is disabled we call a backhalf to ensure
++ */
++typedef void (*vu_async_close_fn)(DeviceState *cb);
++
++void vhost_user_async_close(DeviceState *d,
++                            CharBackend *chardev, struct vhost_dev *vhost,
++                            vu_async_close_fn cb);
++
+ #endif
 diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 0d5190accf..1177064631 100644
+index 1177064631..aff4d2b8cb 100644
 --- a/hw/block/vhost-user-blk.c
 +++ b/hw/block/vhost-user-blk.c
-@@ -178,7 +178,7 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
-     }
+@@ -369,17 +369,10 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
+     vhost_user_blk_stop(vdev);
  
-     s->dev.vq_index_end = s->dev.nvqs;
--    ret = vhost_dev_start(&s->dev, vdev);
-+    ret = vhost_dev_start(&s->dev, vdev, true);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Error starting vhost");
-         goto err_guest_notifiers;
-@@ -213,7 +213,7 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
-         return;
-     }
+     vhost_dev_cleanup(&s->dev);
+-}
  
--    vhost_dev_stop(&s->dev, vdev);
-+    vhost_dev_stop(&s->dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 26e4930676..043058ff43 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -259,7 +259,7 @@ static int vhost_net_start_one(struct vhost_net *net,
-         goto fail_notifiers;
-     }
- 
--    r = vhost_dev_start(&net->dev, dev);
-+    r = vhost_dev_start(&net->dev, dev, false);
-     if (r < 0) {
-         goto fail_start;
-     }
-@@ -308,7 +308,7 @@ fail:
-     if (net->nc->info->poll) {
-         net->nc->info->poll(net->nc, true);
-     }
--    vhost_dev_stop(&net->dev, dev);
-+    vhost_dev_stop(&net->dev, dev, false);
- fail_start:
-     vhost_dev_disable_notifiers(&net->dev, dev);
- fail_notifiers:
-@@ -329,7 +329,7 @@ static void vhost_net_stop_one(struct vhost_net *net,
-     if (net->nc->info->poll) {
-         net->nc->info->poll(net->nc, true);
-     }
--    vhost_dev_stop(&net->dev, dev);
-+    vhost_dev_stop(&net->dev, dev, false);
-     if (net->nc->info->stop) {
-         net->nc->info->stop(net->nc);
-     }
-@@ -606,7 +606,7 @@ err_start:
-         assert(r >= 0);
-     }
- 
--    vhost_dev_stop(&net->dev, vdev);
-+    vhost_dev_stop(&net->dev, vdev, false);
- 
-     return r;
+-static void vhost_user_blk_chr_closed_bh(void *opaque)
+-{
+-    DeviceState *dev = opaque;
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserBlk *s = VHOST_USER_BLK(vdev);
+-
+-    vhost_user_blk_disconnect(dev);
++    /* Re-instate the event handler for new connections */
+     qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
+-                             NULL, opaque, NULL, true);
++                             NULL, dev, NULL, true);
  }
-diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
-index 767f827e55..18ea5dcfa1 100644
---- a/hw/scsi/vhost-scsi-common.c
-+++ b/hw/scsi/vhost-scsi-common.c
-@@ -68,7 +68,7 @@ int vhost_scsi_common_start(VHostSCSICommon *vsc)
-         goto err_guest_notifiers;
-     }
  
--    ret = vhost_dev_start(&vsc->dev, vdev);
-+    ret = vhost_dev_start(&vsc->dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error start vhost dev");
-         goto err_guest_notifiers;
-@@ -101,7 +101,7 @@ void vhost_scsi_common_stop(VHostSCSICommon *vsc)
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-     int ret = 0;
- 
--    vhost_dev_stop(&vsc->dev, vdev);
-+    vhost_dev_stop(&vsc->dev, vdev, true);
- 
-     if (k->set_guest_notifiers) {
-         ret = k->set_guest_notifiers(qbus->parent, vsc->dev.nvqs, false);
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index dc4014cdef..d97b179e6f 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -76,7 +76,7 @@ static void vuf_start(VirtIODevice *vdev)
-     }
- 
-     fs->vhost_dev.acked_features = vdev->guest_features;
--    ret = vhost_dev_start(&fs->vhost_dev, vdev);
-+    ret = vhost_dev_start(&fs->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost: %d", -ret);
-         goto err_guest_notifiers;
-@@ -110,7 +110,7 @@ static void vuf_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&fs->vhost_dev, vdev);
-+    vhost_dev_stop(&fs->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, fs->vhost_dev.nvqs, false);
-     if (ret < 0) {
+ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+@@ -398,33 +391,9 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+         }
+         break;
+     case CHR_EVENT_CLOSED:
+-        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
+-            /*
+-             * A close event may happen during a read/write, but vhost
+-             * code assumes the vhost_dev remains setup, so delay the
+-             * stop & clear.
+-             */
+-            AioContext *ctx = qemu_get_current_aio_context();
+-
+-            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
+-                    NULL, NULL, false);
+-            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
+-
+-            /*
+-             * Move vhost device to the stopped state. The vhost-user device
+-             * will be clean up and disconnected in BH. This can be useful in
+-             * the vhost migration code. If disconnect was caught there is an
+-             * option for the general vhost code to get the dev state without
+-             * knowing its type (in this case vhost-user).
+-             *
+-             * FIXME: this is sketchy to be reaching into vhost_dev
+-             * now because we are forcing something that implies we
+-             * have executed vhost_dev_stop() but that won't happen
+-             * until vhost_user_blk_stop() gets called from the bh.
+-             * Really this state check should be tracked locally.
+-             */
+-            s->dev.started = false;
+-        }
++        /* defer close until later to avoid circular close */
++        vhost_user_async_close(dev, &s->chardev, &s->dev,
++                               vhost_user_blk_disconnect);
+         break;
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
 diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-index 5851cb3bc9..0b40ebd15a 100644
+index be9be08b4c..b7b82a1099 100644
 --- a/hw/virtio/vhost-user-gpio.c
 +++ b/hw/virtio/vhost-user-gpio.c
-@@ -81,7 +81,7 @@ static int vu_gpio_start(VirtIODevice *vdev)
-      */
-     vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->guest_features);
- 
--    ret = vhost_dev_start(&gpio->vhost_dev, vdev);
-+    ret = vhost_dev_start(&gpio->vhost_dev, vdev, false);
-     if (ret < 0) {
-         error_report("Error starting vhost-user-gpio: %d", ret);
-         goto err_guest_notifiers;
-@@ -139,7 +139,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(vhost_dev, vdev);
-+    vhost_dev_stop(vhost_dev, vdev, false);
- 
-     ret = k->set_guest_notifiers(qbus->parent, vhost_dev->nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 1c9f3d20dc..dc5c828ba6 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -46,7 +46,7 @@ static void vu_i2c_start(VirtIODevice *vdev)
- 
-     i2c->vhost_dev.acked_features = vdev->guest_features;
- 
--    ret = vhost_dev_start(&i2c->vhost_dev, vdev);
-+    ret = vhost_dev_start(&i2c->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost-user-i2c: %d", -ret);
-         goto err_guest_notifiers;
-@@ -80,7 +80,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&i2c->vhost_dev, vdev);
-+    vhost_dev_stop(&i2c->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-index f9084cde58..201a39e220 100644
---- a/hw/virtio/vhost-user-rng.c
-+++ b/hw/virtio/vhost-user-rng.c
-@@ -47,7 +47,7 @@ static void vu_rng_start(VirtIODevice *vdev)
-     }
- 
-     rng->vhost_dev.acked_features = vdev->guest_features;
--    ret = vhost_dev_start(&rng->vhost_dev, vdev);
-+    ret = vhost_dev_start(&rng->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost-user-rng: %d", -ret);
-         goto err_guest_notifiers;
-@@ -81,7 +81,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&rng->vhost_dev, vdev);
-+    vhost_dev_stop(&rng->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index a67a275de2..d21c72b401 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -70,7 +70,7 @@ int vhost_vsock_common_start(VirtIODevice *vdev)
-     }
- 
-     vvc->vhost_dev.acked_features = vdev->guest_features;
--    ret = vhost_dev_start(&vvc->vhost_dev, vdev);
-+    ret = vhost_dev_start(&vvc->vhost_dev, vdev, true);
-     if (ret < 0) {
-         error_report("Error starting vhost: %d", -ret);
-         goto err_guest_notifiers;
-@@ -105,7 +105,7 @@ void vhost_vsock_common_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&vvc->vhost_dev, vdev);
-+    vhost_dev_stop(&vvc->vhost_dev, vdev, true);
- 
-     ret = k->set_guest_notifiers(qbus->parent, vvc->vhost_dev.nvqs, false);
-     if (ret < 0) {
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index d1c4c20b8c..7fb008bc9e 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1777,15 +1777,36 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+@@ -233,6 +233,8 @@ static int vu_gpio_connect(DeviceState *dev, Error **errp)
      return 0;
  }
  
-+static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
++static void vu_gpio_event(void *opaque, QEMUChrEvent event);
++
+ static void vu_gpio_disconnect(DeviceState *dev)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+@@ -245,6 +247,11 @@ static void vu_gpio_disconnect(DeviceState *dev)
+ 
+     vu_gpio_stop(vdev);
+     vhost_dev_cleanup(&gpio->vhost_dev);
++
++    /* Re-instate the event handler for new connections */
++    qemu_chr_fe_set_handlers(&gpio->chardev,
++                             NULL, NULL, vu_gpio_event,
++                             NULL, dev, NULL, true);
+ }
+ 
+ static void vu_gpio_event(void *opaque, QEMUChrEvent event)
+@@ -262,7 +269,9 @@ static void vu_gpio_event(void *opaque, QEMUChrEvent event)
+         }
+         break;
+     case CHR_EVENT_CLOSED:
+-        vu_gpio_disconnect(dev);
++        /* defer close until later to avoid circular close */
++        vhost_user_async_close(dev, &gpio->chardev, &gpio->vhost_dev,
++                               vu_gpio_disconnect);
+         break;
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index abe23d4ebe..8f635844af 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -21,6 +21,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/sockets.h"
++#include "sysemu/runstate.h"
+ #include "sysemu/cryptodev.h"
+ #include "migration/migration.h"
+ #include "migration/postcopy-ram.h"
+@@ -2670,6 +2671,76 @@ void vhost_user_cleanup(VhostUserState *user)
+     user->chr = NULL;
+ }
+ 
++
++typedef struct {
++    vu_async_close_fn cb;
++    DeviceState *dev;
++    CharBackend *cd;
++    struct vhost_dev *vhost;
++} VhostAsyncCallback;
++
++static void vhost_user_async_close_bh(void *opaque)
 +{
-+    if (!hdev->vhost_ops->vhost_set_vring_enable) {
-+        return 0;
-+    }
++    VhostAsyncCallback *data = opaque;
++    struct vhost_dev *vhost = data->vhost;
 +
 +    /*
-+     * For vhost-user devices, if VHOST_USER_F_PROTOCOL_FEATURES has not
-+     * been negotiated, the rings start directly in the enabled state, and
-+     * .vhost_set_vring_enable callback will fail since
-+     * VHOST_USER_SET_VRING_ENABLE is not supported.
++     * If the vhost_dev has been cleared in the meantime there is
++     * nothing left to do as some other path has completed the
++     * cleanup.
 +     */
-+    if (hdev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER &&
-+        !virtio_has_feature(hdev->backend_features,
-+                            VHOST_USER_F_PROTOCOL_FEATURES)) {
-+        return 0;
++    if (vhost->vdev) {
++        data->cb(data->dev);
 +    }
 +
-+    return hdev->vhost_ops->vhost_set_vring_enable(hdev, enable);
++    g_free(data);
 +}
 +
- /* Host notifiers must be enabled at this point. */
--int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-+int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
++/*
++ * We only schedule the work if the machine is running. If suspended
++ * we want to keep all the in-flight data as is for migration
++ * purposes.
++ */
++void vhost_user_async_close(DeviceState *d,
++                            CharBackend *chardev, struct vhost_dev *vhost,
++                            vu_async_close_fn cb)
++{
++    if (!runstate_check(RUN_STATE_SHUTDOWN)) {
++        /*
++         * A close event may happen during a read/write, but vhost
++         * code assumes the vhost_dev remains setup, so delay the
++         * stop & clear.
++         */
++        AioContext *ctx = qemu_get_current_aio_context();
++        VhostAsyncCallback *data = g_new0(VhostAsyncCallback, 1);
++
++        /* Save data for the callback */
++        data->cb = cb;
++        data->dev = d;
++        data->cd = chardev;
++        data->vhost = vhost;
++
++        /* Disable any further notifications on the chardev */
++        qemu_chr_fe_set_handlers(chardev,
++                                 NULL, NULL, NULL, NULL, NULL, NULL,
++                                 false);
++
++        aio_bh_schedule_oneshot(ctx, vhost_user_async_close_bh, data);
++
++        /*
++         * Move vhost device to the stopped state. The vhost-user device
++         * will be clean up and disconnected in BH. This can be useful in
++         * the vhost migration code. If disconnect was caught there is an
++         * option for the general vhost code to get the dev state without
++         * knowing its type (in this case vhost-user).
++         *
++         * Note if the vhost device is fully cleared by the time we
++         * execute the bottom half we won't continue with the cleanup.
++         */
++        vhost->started = false;
++    }
++}
++
+ static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
  {
-     int i, r;
- 
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
--    trace_vhost_dev_start(hdev, vdev->name);
-+    trace_vhost_dev_start(hdev, vdev->name, vrings);
- 
-     vdev->vhost_started = true;
-     hdev->started = true;
-@@ -1830,10 +1851,16 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-             goto fail_log;
-         }
-     }
-+    if (vrings) {
-+        r = vhost_dev_set_vring_enable(hdev, true);
-+        if (r) {
-+            goto fail_log;
-+        }
-+    }
-     if (hdev->vhost_ops->vhost_dev_start) {
-         r = hdev->vhost_ops->vhost_dev_start(hdev, true);
-         if (r) {
--            goto fail_log;
-+            goto fail_start;
-         }
-     }
-     if (vhost_dev_has_iommu(hdev) &&
-@@ -1848,6 +1875,10 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-         }
-     }
-     return 0;
-+fail_start:
-+    if (vrings) {
-+        vhost_dev_set_vring_enable(hdev, false);
-+    }
- fail_log:
-     vhost_log_put(hdev, false);
- fail_vq:
-@@ -1866,18 +1897,21 @@ fail_features:
- }
- 
- /* Host notifiers must be enabled at this point. */
--void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-+void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
- {
-     int i;
- 
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
--    trace_vhost_dev_stop(hdev, vdev->name);
-+    trace_vhost_dev_stop(hdev, vdev->name, vrings);
- 
-     if (hdev->vhost_ops->vhost_dev_start) {
-         hdev->vhost_ops->vhost_dev_start(hdev, false);
-     }
-+    if (vrings) {
-+        vhost_dev_set_vring_enable(hdev, false);
-+    }
-     for (i = 0; i < hdev->nvqs; ++i) {
-         vhost_virtqueue_stop(hdev,
-                              vdev,
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 820dadc26c..14fc5b9bb2 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -9,8 +9,8 @@ vhost_section(const char *name) "%s"
- vhost_reject_section(const char *name, int d) "%s:%d"
- vhost_iotlb_miss(void *dev, int step) "%p step %d"
- vhost_dev_cleanup(void *dev) "%p"
--vhost_dev_start(void *dev, const char *name) "%p:%s"
--vhost_dev_stop(void *dev, const char *name) "%p:%s"
-+vhost_dev_start(void *dev, const char *name, bool vrings) "%p:%s vrings:%d"
-+vhost_dev_stop(void *dev, const char *name, bool vrings) "%p:%s vrings:%d"
- 
- 
- # vhost-user.c
+     if (!virtio_has_feature(dev->protocol_features,
 -- 
 MST
 
