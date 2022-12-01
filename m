@@ -2,74 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1552263EF54
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9164B63EFF5
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:54:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0hba-00087S-T2; Thu, 01 Dec 2022 06:19:50 -0500
+	id 1p0i7V-0006bs-Ny; Thu, 01 Dec 2022 06:52:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p0hbY-00086t-UQ
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:19:48 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p0hbW-0007Dv-N5
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:19:48 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- b13-20020a17090a5a0d00b0021906102d05so1685656pjd.5
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:19:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZCwPsFz1IkWwGG4R6t3UgktQUADEE2ekOmTBUSLj5QQ=;
- b=cIxLUszB2z5bDm5O0CmRTHxEYzyWtweVN5He5qGbjii8sSu3MqEsmM2PaHrtS53AEv
- HsJCakHaaMDd/oHj6+XqnYo+VZ3sc8SBDGDuSTPNs1oYP6Pjl+Vmb2MQ4U/56pakkxqc
- QkdVAf2BbA7hY/nqKF1jyJ9y6RT4+V8cOxF+05Ic39r/mrvBfFoKwh/KkrL8eMqVYoMq
- Z9bwAD/R7Tf86qqGpxqmZQ2ww7ZPxVS4pxNpSWn09ByMQkPYdJL0phA5qbBei79akHkE
- hq6XS0sZN8Kls7DA+PoR+49kUZy0OcWyGVUO9pyx9d5CCRKAftcUvAJU//gxgeJlDQjN
- 91fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZCwPsFz1IkWwGG4R6t3UgktQUADEE2ekOmTBUSLj5QQ=;
- b=rzGmLRWL49OB3Snb4Qf2mJzjsloqu0NTH93wNZCE1poq0PfQn7513SV6CIikh0X6lL
- un1IAk/diaeI/+8g8IuhylpIv8XKQCFiWHoGqglKkSxu+/BhAxqRsfnTqRFZcPzxAC1k
- S3Qe7V2DLSR0dyMxBTkuqoFbepz/Vu4e80e667hDmX8NLYYRIfyi8JE3As/BCkNUHLk/
- g68iLhSXnd0piOlUKYtHAGBpxhi79cf5kE4ip4xK1DDMjHUZkT+vzE7liVm2jlY+9h93
- lkMRkeJ8JitaPqXnAABCs20AFSSjnNFRRNc1yhASISa/mY/l2zbJZWnbbOWDwmSl5PY4
- AegA==
-X-Gm-Message-State: ANoB5plEHaw5JKSw1m0bEbmO1EquHGn10zJ0Iq4XSaePMv+mXus+F+BP
- 2MAbuCAPS+UQz+Rhem6M5hjQNErjKmGHdYdaY3AhkQ==
-X-Google-Smtp-Source: AA0mqf7UMy6ysGlQ3+/XD7dS8P2MxrsQY9kPgeIfvGB5PlatZrFd4JuP5EubBXDXR1GXCt0u4WNeR+tJxXUh4lA1gDM=
-X-Received: by 2002:a17:90a:460f:b0:218:c47f:ed9a with SMTP id
- w15-20020a17090a460f00b00218c47fed9amr50445242pjg.19.1669893584580; Thu, 01
- Dec 2022 03:19:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p0i7U-0006bf-4u; Thu, 01 Dec 2022 06:52:48 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p0i7S-0004QD-6p; Thu, 01 Dec 2022 06:52:47 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B1BjOp1020802; Thu, 1 Dec 2022 11:52:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=xqS6QbBW8ODJFNE4gcGi9rrzUH9f7YDDtJkyIcWZ5rQ=;
+ b=N2/gZBUwkHYGGfz2M/cEY5c8esk5Wkg8zK7aaHLkl+FOCBJPzvQcEE2MhUbAIPZEHr7W
+ t5xoSa7oClvg9KOKGdiMTEwtjh8vcVkBVT7/AdPTbCtTp0gYNGZkFfeb1lqlAT8AAJSs
+ YvurJGkAK4wGvwdXq9NmwM2ui7niVuxfz5SxGog4XPgsNQWfbpOYzLCTVMiAwbSayuQf
+ 2B7LK1GTtAJ8WVm8THIaimPgMAWHYWJC7HZDgFQjH2VD+HmZ5MstGW3IOsZHoD4sGGjN
+ n0psC5N30Gu7cQuenDlGgpVS0azff0Yz1eyDHxJ+npLD6Xel987vfKM/B6dSyemNGQna GA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m6unv0493-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Dec 2022 11:52:34 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B1BlLur028650;
+ Thu, 1 Dec 2022 11:52:34 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m6unv048c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Dec 2022 11:52:34 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B1Bq0sr004326;
+ Thu, 1 Dec 2022 11:52:31 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma05fra.de.ibm.com with ESMTP id 3m3ae9d9ew-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Dec 2022 11:52:31 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B1BqS0i8061450
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 1 Dec 2022 11:52:28 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F2C3C11C04A;
+ Thu,  1 Dec 2022 11:52:27 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE97D11C04C;
+ Thu,  1 Dec 2022 11:52:26 +0000 (GMT)
+Received: from [9.171.21.111] (unknown [9.171.21.111])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  1 Dec 2022 11:52:26 +0000 (GMT)
+Message-ID: <ea965d1c-ab6a-5aa3-8ce3-65b8177f6320@linux.ibm.com>
+Date: Thu, 1 Dec 2022 12:52:26 +0100
 MIME-Version: 1.0
-References: <20221201102728.69751-1-akihiko.odaki@daynix.com>
- <CAFEAcA_ORM9CpDCvPMs1XcZVhh_4fKE2wnaS_tp1s4DzZCHsXQ@mail.gmail.com>
- <a3cc1116-272d-a8e5-a131-7becf98115e0@daynix.com>
-In-Reply-To: <a3cc1116-272d-a8e5-a131-7becf98115e0@daynix.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 1 Dec 2022 11:19:32 +0000
-Message-ID: <CAFEAcA_ECpCV+6Z+jom-sP0PNQpoU0fFG_3L_70PrQEWrarH_g@mail.gmail.com>
-Subject: Re: [PATCH] accel/kvm/kvm-all: Handle register access errors
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v12 6/7] s390x/cpu_topology: activating CPU topology
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20221129174206.84882-1-pmorel@linux.ibm.com>
+ <20221129174206.84882-7-pmorel@linux.ibm.com>
+ <fcedb98d-4333-9100-5366-8848727528f3@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <fcedb98d-4333-9100-5366-8848727528f3@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: hw5nlMbfqsyN_fVcQdkhbpDyG2meUXbn
+X-Proofpoint-ORIG-GUID: -ohskUUqf2S37VIPWiEAwvjH6hPLS4n8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-01_04,2022-12-01_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=999 phishscore=0 spamscore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212010083
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,59 +122,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 1 Dec 2022 at 11:00, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->
-> On 2022/12/01 19:40, Peter Maydell wrote:
-> > On Thu, 1 Dec 2022 at 10:27, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> >>
-> >> A register access error typically means something seriously wrong
-> >> happened so that anything bad can happen after that and recovery is
-> >> impossible.
-> >> Even failing one register access is catastorophic as
-> >> architecture-specific code are not written so that it torelates such
-> >> failures.
-> >>
-> >> Make sure the VM stop and nothing worse happens if such an error occurs.
-> >>
-> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> >
-> > In a similar vein there was also
-> > https://lore.kernel.org/all/20220617144857.34189-1-peterx@redhat.com/
-> > back in June, which on the one hand was less comprehensive but on
-> > the other does the plumbing to pass the error upwards rather than
-> > reporting it immediately at point of failure.
-> >
-> > I'm in principle in favour but suspect we'll run into some corner
-> > cases where we were happily ignoring not-very-important failures
-> > (eg if you're running Linux as the host OS on a Mac M1 and your
-> > host kernel doesn't have this fix:
-> > https://lore.kernel.org/all/YnHz6Cw5ONR2e+KA@google.com/T/
-> > then QEMU will go from "works by sheer luck" to "consistently
-> > hits this error check"). So we should aim to land this extra
-> > error checking early in the release cycle so we have plenty of
-> > time to deal with any bug reports we get about it.
 
-> Actually I found this problem when I tried to run QEMU with KVM on M2
-> MacBook Air and encountered a failure described and fixed at:
-> https://lore.kernel.org/all/20221201104914.28944-2-akihiko.odaki@daynix.com/
 
-Ah, yeah, you're trying to run QEMU+KVM on a heterogenous cluster.
-You need to force all the vCPUs to run on only a single host
-CPU type. It's a shame the error-reporting for this situation
-is not very good, but there's not really any way to tell in
-advance, the best you get is an error at the point where a vCPU
-happens to migrate over to a different host CPU.
+On 12/1/22 11:15, Thomas Huth wrote:
+> On 29/11/2022 18.42, Pierre Morel wrote:
+>> The KVM capability, KVM_CAP_S390_CPU_TOPOLOGY is used to
+>> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
+>> the topology facility for the guest in the case the topology
+>> is available in QEMU and in KVM.
+>>
+>> The feature is fenced for SE (secure execution).
+> 
+> Out of curiosity: Why does it not work yet?
+> 
+>> To allow smooth migration with old QEMU the feature is disabled by
+>> default using the CPU flag -disable-topology.
+> 
+> I stared at this code for a while now, but I have to admit that I don't 
+> quite get it. Why do we need a new "disable" feature flag here? I think 
+> it is pretty much impossible to set "ctop=on" with an older version of 
+> QEMU, since it would require the QEMU to enable 
+> KVM_CAP_S390_CPU_TOPOLOGY in the kernel for this feature bit - and older 
+> versions of QEMU don't set this capability yet.
+> 
+> Which scenario would fail without this disable-topology feature bit? 
+> What do I miss?
 
-> Although the affected register was not really important, QEMU couldn't
-> run the guest well enough because kvm_arch_put_registers for ARM64 is
-> written in a way that it fails early. I guess the situation is not so
-> different for other architectures as well.
+The only scenario it provides is that ctop is then disabled by default 
+on newer QEMU allowing migration between old and new QEMU for older 
+machine without changing the CPU flags.
 
-I think Arm is the only one that does this kind of "leave the
-handling of the system registers up to the host kernel and treat
-them as mostly black-box values to be passed around on migration"
-approach. Most other architectures have QEMU know about specific system
-registers in the vCPU and only ask the kernel about those, I think.
+Otherwise, we would need -ctop=off on newer QEMU to disable the topology.
 
--- PMM
+
+> 
+>> Making the S390_FEAT_CONFIGURATION_TOPOLOGY belonging to the
+>> default features makes the -ctop CPU flag is no more necessary,
+> 
+> too many verbs in this sentence ;-)
+
+definitively :)
+
+> 
+>> turning the topology feature on is done with -disable-topology
+>> only.
+> ...
+> 
+>   Thomas
+> 
+> 
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
