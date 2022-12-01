@@ -2,54 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8BF63F259
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C957263F2C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:25:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0kFP-0008KD-RT; Thu, 01 Dec 2022 09:09:07 -0500
+	id 1p0kTV-0002sl-Oy; Thu, 01 Dec 2022 09:23:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p0kFJ-0008I0-HQ; Thu, 01 Dec 2022 09:09:01 -0500
-Received: from bg4.exmail.qq.com ([43.155.65.254])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p0kFH-0008Gl-91; Thu, 01 Dec 2022 09:09:00 -0500
-X-QQ-mid: bizesmtp72t1669903727tpb30y9k
-Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 01 Dec 2022 22:08:46 +0800 (CST)
-X-QQ-SSF: 01200000002000B0B000B00A0000000
-X-QQ-FEAT: mRz6/7wsmIjz7iBzXQ6T7TDKpVMVHAzVJ8SJBrdUUc55FHvDTKpt5XWyU7RDw
- RWw00QoPbOIrww5rYzbhiW1FB3pysh2NdPtVojVxEvECrNFG10717i7P8lhrY1rpLhw/FkF
- HWCJtJPQMTZ0PGDvB+LuhQlpaTF5HnWJKWBc11DpRT5K3AxYuEvTByq4w+xoj2J8+NMwYlb
- ZIeSGJgWwUB6C49N0YzRBiCKqYukfKl65GVyxshpuiUOgYQ9apsSvux72StgHJ1PbgtfHaE
- wI7bC5+efqoqXECH99QRiQUuvLMR9beQfcAIbbMS1hjCKRpRqYtSrxBTFTAEKd9B87AVD+T
- 3fI9ruHGeBu6oKGIceNs1kw18cZXD5taoPD6nhEK458biS7YeY=
-X-QQ-GoodBg: 0
-From: Bin Meng <bmeng@tinylab.org>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
-	qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Subject: [PATCH 15/15] hw/intc: sifive_plic: Fix the pending register range
- check
-Date: Thu,  1 Dec 2022 22:08:11 +0800
-Message-Id: <20221201140811.142123-15-bmeng@tinylab.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221201140811.142123-1-bmeng@tinylab.org>
-References: <20221201140811.142123-1-bmeng@tinylab.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p0kTU-0002sb-HR
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:23:40 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p0kTS-0005jk-T1
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:23:40 -0500
+Received: by mail-wr1-x432.google.com with SMTP id u12so1981977wrr.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 06:23:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=au/BF2GPnbOYeLAeYUPDwmmbwAm1qlDdKCnJYpN9vi4=;
+ b=Thk4kPbfjNZmwjMV8E2iF/zWQlHDXZ3Jq0tyq/ZClfZCf23Q3qA0dN3Z2D6X6PkVAv
+ jnFoYUhzkka+tLJvJNonXQSiWWQdBYKwqMIcOd/hT17pKooEPm77T9zAISP7cFCrWF0W
+ WCmzS4cguYeAR/MBhoMS3/8ivEqTlWNOEraPV0iX8ICMM6I9pWm+x+QmQrF+/MCe+5I7
+ z2NQ4d1Ny57T7z88aZtOYK2IQojck+Fcud5XVadThnce6cWDrBCJWHvRjOiMGI0IE5WR
+ 0+F0PiWrn8mI71aaxW3WvkD+MRXqzMoWsa24nAt3ZgV9RCRSjkSpm88dhDaOFQf/wzYf
+ xbkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=au/BF2GPnbOYeLAeYUPDwmmbwAm1qlDdKCnJYpN9vi4=;
+ b=KXqKPiKx+qHXNthc0c77wy5AoYS1ymuwjel/eABeZ/NRHQumfYmxwXhMk+cyOZlgSv
+ /4YqQ8qWSS8bVRLWkIZYbmkPXRiJt9Rx1tPVht2dIZNXIwz5a6CUWorJvA33FuSqNWIq
+ NxOEobMpN3AtNxgmofUonNll3WVv/0v/IPRbg5g3HPRlSj+KQbJF+e4s6rTpQNc2GeNI
+ wRaGlFnqX9F7rb4rKICg41+jgct052lxtZFO25X+LTpBoULoFsLiCikeveH4Aq/7aooL
+ zCEWdGWRy8vTfvHg8hB7WiABm+Aj3Xb4JhiObdqfjfMYL2jlldzfKTWh6DomIGLfrSwU
+ WToA==
+X-Gm-Message-State: ANoB5plZ5/fde6CaNnCuuqYvRWHW8eUUwei/nODLERndg7tTiJCTl/1A
+ HAHTYTxFRsySCoxBM1TFCSJ6OA==
+X-Google-Smtp-Source: AA0mqf6Bkx7SeUeOm051Jg6a2FfEm0rxVw4479xa21WNsTiacxyUQ2Hmcw6eW+4NvTfT8xgv6zweTw==
+X-Received: by 2002:adf:ebc6:0:b0:241:c6d8:be83 with SMTP id
+ v6-20020adfebc6000000b00241c6d8be83mr33598158wrn.454.1669904617240; 
+ Thu, 01 Dec 2022 06:23:37 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ v7-20020adfe287000000b00241fea203b6sm4605806wri.87.2022.12.01.06.23.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 06:23:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1203E1FFB7;
+ Thu,  1 Dec 2022 14:23:36 +0000 (GMT)
+References: <20221027111258.348196-1-richard.henderson@linaro.org>
+ <20221027111258.348196-8-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.3; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
+Subject: Re: [PATCH v2 7/7] accel/tcg: Move remainder of page locking to
+ tb-maint.c
+Date: Thu, 01 Dec 2022 14:22:56 +0000
+In-reply-to: <20221027111258.348196-8-richard.henderson@linaro.org>
+Message-ID: <87zgc7b3tk.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
- helo=bg4.exmail.qq.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,43 +95,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The pending register upper limit is currently set to
-plic->num_sources >> 3, which is wrong, e.g.: considering
-plic->num_sources is 7, the upper limit becomes 0 which fails
-the range check if reading the pending register at pending_base.
 
-Fixes: 1e24429e40df ("SiFive RISC-V PLIC Block")
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
 
----
+> The only thing that still touches PageDesc in translate-all.c
+> are some locking routines related to tb-maint.c which have not
+> yet been moved.  Do so now.
+>
+> Move some code up in tb-maint.c as well, to untangle the maze
+> of ifdefs, and allow a sensible final ordering.
+>
+> Move some declarations from exec/translate-all.h to internal.h,
+> as they are only used within accel/tcg/.
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+<snip>
+>  #ifdef CONFIG_USER_ONLY
+> +
+> +/*
+> + * In user-mode page locks aren't used; mmap_lock is enough.
+> + */
+> +#define assert_page_locked(pd) tcg_debug_assert(have_mmap_lock())
+> +
+> +static inline void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys=
+1,
+> +                                  PageDesc **ret_p2, tb_page_addr_t phys=
+2,
+> +                                  bool alloc)
+> +{
+> +    *ret_p1 =3D NULL;
+> +    *ret_p2 =3D NULL;
+> +}
+> +
+> +static inline void page_lock(PageDesc *pd) { }
+> +static inline void page_unlock(PageDesc *pd) { }
+> +static inline void page_lock_tb(const TranslationBlock *tb) { }
+> +static inline void page_unlock_tb(const TranslationBlock *tb) { }
+> +
+<snip>
 
- hw/intc/sifive_plic.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+clang picks up that page_lock is unused in this branch of the code.
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 7a6a358c57..a3fc8222c7 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -143,7 +143,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
-         uint32_t irq = (addr - plic->priority_base) >> 2;
- 
-         return plic->source_priority[irq];
--    } else if (addr_between(addr, plic->pending_base, plic->num_sources >> 3)) {
-+    } else if (addr_between(addr, plic->pending_base,
-+                            (plic->num_sources + 31) >> 3)) {
-         uint32_t word = (addr - plic->pending_base) >> 2;
- 
-         return plic->pending[word];
-@@ -202,7 +203,7 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
-             sifive_plic_update(plic);
-         }
-     } else if (addr_between(addr, plic->pending_base,
--                            plic->num_sources >> 3)) {
-+                            (plic->num_sources + 31) >> 3)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid pending write: 0x%" HWADDR_PRIx "",
-                       __func__, addr);
--- 
-2.34.1
-
+--=20
+Alex Benn=C3=A9e
 
