@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EF963EDB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 11:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2621563EDC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 11:28:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0gnG-0001RD-L6; Thu, 01 Dec 2022 05:27:50 -0500
+	id 1p0gnt-0002Zp-Tw; Thu, 01 Dec 2022 05:28:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0gnF-0001R4-E1
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:27:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0gnD-0001pf-UG
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:27:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669890466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i2iyW3Xt6qYknGYWZHoikEvmP7H1jutjjdQg85zm80s=;
- b=DCAXNqY7ssT3430z+hOxanYoCXC5iTtXvL+JrkErU9wGrZfT8DPhu2DX8qHn0xpsLzl07h
- qL2I09EKEHvmOcdWHJaVVABjYdciDAmUoNKPF4Npl/aFOAJ5oJitPnEfzZPA9CeGhF9UsF
- lZOMH77Tbs0ZExwi+y0ADFLJaSA1d8s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-jSGRxDgyMJ6LtnknmiLu7A-1; Thu, 01 Dec 2022 05:27:43 -0500
-X-MC-Unique: jSGRxDgyMJ6LtnknmiLu7A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3DB5D811E67
- for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 10:27:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13E3640C6EC4;
- Thu,  1 Dec 2022 10:27:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 04AE121E6921; Thu,  1 Dec 2022 11:27:40 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,  kraxel@redhat.com,  dgilbert@redhat.com
-Subject: Re: [PATCH 7/9] ui: Improve "change vnc" error reporting
-References: <20221201061311.3619052-1-armbru@redhat.com>
- <20221201061311.3619052-8-armbru@redhat.com>
- <Y4hsPRdGwofzNeST@redhat.com>
-Date: Thu, 01 Dec 2022 11:27:39 +0100
-In-Reply-To: <Y4hsPRdGwofzNeST@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 1 Dec 2022 08:56:29 +0000")
-Message-ID: <875yevzaec.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p0gnr-0002VB-EA
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:28:27 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p0gno-00037y-SH
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 05:28:27 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id 62so1266028pgb.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 02:28:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1hazWKSL745ZvpNZN8kS/JIbdGHSa80I7/5Pc5IP8CI=;
+ b=CfJjgRVsNdZLrPeUlQoOg3WUqjGjD5B1gYnEMGE9XuuQpHgf1iW3Og2MFPP3R1fYKZ
+ pY7rs4AlNRNJWkvp3xomsi5Gw1Z7l37MXaiu/p2v2SdxKfmouMNspZ7eDPSKx3jrbnRw
+ sr8EatU2szvDa+gcLGmCXN1kyU5AC0HCn7P0YbKd8f+xlzBVY6t0iSqQRBrluw+OH0SN
+ 3rymySVpXp3PRR9wT76Sq+38sKVMqCFGjs6HKuUO1HDruLxxW9LZEjC4Bc61MV3xDs4/
+ rnns6UDamGQts0JiI1PgQwDENifQjzD8vb4XttSq5oTlPwkyJwXpi3Twl84nZRAcQpsN
+ eFLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1hazWKSL745ZvpNZN8kS/JIbdGHSa80I7/5Pc5IP8CI=;
+ b=1oiUsHj+fsSjCjSQEyf8g7l+LTbLoLwMdhQiHmibN27bQIUgdDra8V3NASCjx1NpZb
+ QW5uwh1za4MkZ3fmg1gqGR2wmeIfu1s2unRktK7i+MtR8Tyk2OW0c+wDkhlVVUMLD/k1
+ IUP28sTPUQaWKaG5fjXjnU6oTqpT62tI3knKuiB39wLb4dM7sFgYQtnPg9m6ajYLoTW9
+ QbWDQVYHEnLhfSffSteyh2Tn6PMmFL1ANhEQO5uYGlSNnUDMq+6OU2QPv/7GrZYb+7Ql
+ iDiGmGsLZeQo/KmLTCSh2q5rFwXsXbqgWs/JTXuVtPMqiIzaDVOKZdqcRFiqulJK1gup
+ ZWyA==
+X-Gm-Message-State: ANoB5pn3wsWquCMaRlOYVaEvQh0REXdIl06dwaeEIa2/T5ldLweRcw7N
+ zTBDp5BSgBe1iFgKpnjzGxUfyvbRRKBQD1zlr2tUgI/DtPs=
+X-Google-Smtp-Source: AA0mqf6LUAEh8IwvoEIBUcdtIuEDqxUD44eiOZpw8qjSVrRmujoC+uS+KP+PaTQdh3ijA5NHeu9b1fxfWINPEfDIEvU=
+X-Received: by 2002:a62:5f81:0:b0:56b:bb06:7dd5 with SMTP id
+ t123-20020a625f81000000b0056bbb067dd5mr47374249pfb.3.1669890503042; Thu, 01
+ Dec 2022 02:28:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <166983457648.13115.4940680286975412418-0@git.sr.ht>
+In-Reply-To: <166983457648.13115.4940680286975412418-0@git.sr.ht>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 1 Dec 2022 10:28:12 +0000
+Message-ID: <CAFEAcA8csAbbdvLoq+202CAQ0PLWdHaBTfADtqx33c=DNU-wSQ@mail.gmail.com>
+Subject: Re: [PATCH qemu.git 0/1] hw/arm/virt: add 2x sp804 timer
+To: "~axelheider" <axelheider@gmx.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,101 +82,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On Wed, 30 Nov 2022 at 18:56, ~axelheider <axelheider@git.sr.ht> wrote:
+>
+> This patch adds timer peripherals to the arm-virt machine. The
+> use case is, that this machine is quite useful for testing purposes
+> when it comes to non-Linux operating system (seL4 in our case).
+> However, is currently lacks a dedicates timer peripheral, so some
+> scenarios cannot be tested easily with QEMU. The RTC cannot be
+> used, because he resolution is too low. Since the sp804 supposed
+> already exists in QEMU, adding these peripherals seems easy and
+> it does not appear to break any existing use cases.
 
-> On Thu, Dec 01, 2022 at 07:13:09AM +0100, Markus Armbruster wrote:
->> Switch from monitor_printf() to error_setg() and hmp_handle_error().
->> This makes "this is an error" more obvious both in the source and in
->> the monitor, where hmp_handle_error() prefixes the message with
->> "Error: ".
->>=20
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  monitor/hmp-cmds.c |  8 ++++----
->>  ui/ui-hmp-cmds.c   | 22 ++++++++++++++++++++++
->>  2 files changed, 26 insertions(+), 4 deletions(-)
->>=20
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index f0f7b74fb3..8542eee3d4 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -1209,9 +1209,8 @@ void hmp_change(Monitor *mon, const QDict *qdict)
->>  #ifdef CONFIG_VNC
->>      if (strcmp(device, "vnc") =3D=3D 0) {
->>          if (read_only) {
->> -            monitor_printf(mon,
->> -                           "Parameter 'read-only-mode' is invalid for V=
-NC\n");
->> -            return;
->> +            error_setg(&err, "Parameter 'read-only-mode' is invalid for=
- VNC");
->> +            goto end;
->>          }
->>          if (strcmp(target, "passwd") =3D=3D 0 ||
->>              strcmp(target, "password") =3D=3D 0) {
->> @@ -1223,7 +1222,8 @@ void hmp_change(Monitor *mon, const QDict *qdict)
->>                  qmp_change_vnc_password(arg, &err);
->>              }
->>          } else {
->> -            monitor_printf(mon, "Expected 'password' after 'vnc'\n");
->> +            error_setg(&err, "Expected 'password' after 'vnc'");
->> +            goto end;
->>          }
->>      } else
->>  #endif
->
-> Upto this point
->
->   Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->
->
->> diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
->> index af290da9e1..90a4f86f25 100644
->> --- a/ui/ui-hmp-cmds.c
->> +++ b/ui/ui-hmp-cmds.c
->> @@ -270,6 +270,28 @@ out:
->>      hmp_handle_error(mon, err);
->>  }
->>=20=20
->> +void hmp_change_vnc(Monitor *mon, const char *device, const char *targe=
-t,
->> +                    const char *arg, const char *read_only, bool force,
->> +                    Error **errp)
->> +{
->> +    if (read_only) {
->> +        error_setg(mon, "Parameter 'read-only-mode' is invalid for VNC"=
-);
->> +        return;
->> +    }
->> +    if (strcmp(target, "passwd") =3D=3D 0 ||
->> +        strcmp(target, "password") =3D=3D 0) {
->> +        if (!arg) {
->> +            MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, commo=
-n);
->> +            monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
->> +            return;
->> +        } else {
->> +            qmp_change_vnc_password(arg, &err);
->> +        }
->> +    } else {
->> +        monitor_printf(mon, "Expected 'password' after 'vnc'\n");
->> +    }
->> +}
->> +
->
-> This chunk ought to be in the next patch IIUC
+Is there a reason you can't use the CPU's built-in generic timer
+device ? That is what typical guest code does on this system.
+I'm a bit reluctant to add more devices to the virt board
+because over time it gradually gets increasingly complicated,
+and every new device model we expose to the guest is another
+thing that's part of the security attack surface for guest
+code trying to escape from a KVM VM.
 
-Oops!  Thank you!
-
->>  void hmp_sendkey(Monitor *mon, const QDict *qdict)
->>  {
->>      const char *keys =3D qdict_get_str(qdict, "keys");
->> --=20
->> 2.37.3
->>=20
->>=20
->
-> With regards,
-> Daniel
-
+thanks
+-- PMM
 
