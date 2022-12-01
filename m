@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D1763F31A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 15:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C427663F345
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:00:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0kqb-0002lE-2K; Thu, 01 Dec 2022 09:47:33 -0500
+	id 1p0l1q-0006eP-E9; Thu, 01 Dec 2022 09:59:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1p0kqY-0002kZ-Jf
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:47:30 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1p0kqU-0005Vh-HP
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:47:30 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id fy37so4704492ejc.11
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 06:47:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yxooa9xcpOrEbl1qS4V88aIq/s/qQxpHgqsbE4lqu9s=;
- b=jrUMBEfWH2wGuAMrzZ6T8EteySSIEOJ2B18bOebquTvGRMThXJJdufoKAZYdtEgw39
- 5PXycFWJ1unEQ/8LEWM9tuEqmhzPGXg//eta1n3pEnqIuvrV+rR7HPihIAA4NV3izbzs
- ouep3ed5S4/KyGIEkQHtF+wCWQJ3wDMUT01rAgW+vJ0a0N7Gc8qhg8rmRvczYzTWob0c
- bHrFC8wl27MgOg8CWXnGHhzen1sfHmrziDKoqDktaYv8dLWQJq8LU4jF3q3MgmE1Ct39
- qXCd5uzWgc4NpCXk967FZmRFRAkHmDG5M//fA8N9Bd76OT/LplVNK0x+gpoO6uGjMj6s
- vlbw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0l1o-0006aq-20
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:59:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0l1k-0003fF-Ar
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 09:59:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669906742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qqj8qtvQ0QLHWVCtr8iS/WHEzQFm0vpmk+oWFeTi0Aw=;
+ b=E3faEkFqW/byhzcYu0/1+R/JqGdwc7Gb4GBuWbg1TwVi+c9fHPuyJPSnItQF0B9MIs7wKt
+ DxMPFEq6LMudxMAEIReIGVfF/9hczMncL1j4WQHr7qSQ+WLETkZHf/+DdXd3Irqrvg53FG
+ 2Bmnkk9o0r7t9l5oLXJJticeLNzr+ig=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-179-94H5WLzmOjmIksYQcjgkRg-1; Thu, 01 Dec 2022 09:59:00 -0500
+X-MC-Unique: 94H5WLzmOjmIksYQcjgkRg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ ng1-20020a0562143bc100b004bb706b3a27so5399994qvb.20
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 06:59:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yxooa9xcpOrEbl1qS4V88aIq/s/qQxpHgqsbE4lqu9s=;
- b=53fMMMxrqteAj/GsWDp3Kr4t9rZ3fatKPp3PtkM6bGfOlcMWgdoYPlkak/SCqpF1bo
- YwExVymo5HDIl1UB4MWNfrTDaWofzIP1K4W054HXFV6Z6lJCzJpPYtliDhUrJdkmQMrx
- 0VGE+xdaFi1+VQpnpPZdmgC5c7NWmBy5jVLzEJp9YD2JTWCY2UoxknD4VaKLi6vAcPyA
- 36sxmm2cvYrMUFlJJ/zxjtIhAWIbn44q/b6IlwyaXK6ohtKgUmte4BwmqV+HcKEAltJs
- 5LTDYw4GPaRlh0zFPEqC4ElqLaG3aGGJDZ5HHOTJkh4zA86g7jU5kV+W2MKpNY5Fti1t
- MhCQ==
-X-Gm-Message-State: ANoB5pnJXTluJRADrPML22DKT7MLdF8cTSBNYlkCLHJYHFlUjwVXiMZb
- tcQFyiIr023B9CxtlZiXguf0bQ==
-X-Google-Smtp-Source: AA0mqf6k6ptIsY2EcD15LqP125dn7yDzk57V1yE8HIXvJzseL2v26GYT/7wrE3Y1SpoRjWDeEpYqzg==
-X-Received: by 2002:a17:907:c208:b0:7ad:79c0:547a with SMTP id
- ti8-20020a170907c20800b007ad79c0547amr2754297ejc.41.1669906044145; 
- Thu, 01 Dec 2022 06:47:24 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
- by smtp.gmail.com with ESMTPSA id
- 9-20020a170906200900b007c0688a68cbsm1825085ejo.176.2022.12.01.06.47.23
+ bh=Qqj8qtvQ0QLHWVCtr8iS/WHEzQFm0vpmk+oWFeTi0Aw=;
+ b=3OlYcrI3KWzUb65IztYtKFhRKvf01gtxPKCpLq1dWSeKIOu+RRmnngpDUcgaWCdDwQ
+ jD+gFwvXN3MT9S9joCquPHKU1insb6Yi02KfgzDjpkvr4hs89n+g8GIWay9Y6EXsYhmV
+ zw7pmy4x1zWoofqMH8+tt6FVwGoUpvEfgo6SsXvrtR86ZpEnsvKdLUp+wCki9isnGdkr
+ Ael0xBbT2KbGJbSv6YW9nNlC8UcQanCPASC3m2oNua/GZ3pJdhGrxJmhcUhfDpy1Jjpa
+ lC0dyOsabcWfbWj+NpUOROtJlI+Ih2s2bdus5LKMDsYi336QsTe2Zxlzv7SXfXKSgxnm
+ IgdQ==
+X-Gm-Message-State: ANoB5pn4KPDf+PsmxYRKFZlJynePTPAvEo5tJ+qBBiVqVQElpwsQaMQo
+ HSLaQ0yC4ke70JSnCABJTfYT7aGyoFb2c3sSYRXru4ktEbRFMwAIsEF6ZiTSwOV5VDlqPMfHBKi
+ VptBmPimxOEH18Xs=
+X-Received: by 2002:a05:622a:5808:b0:3a5:9170:458e with SMTP id
+ fg8-20020a05622a580800b003a59170458emr62527730qtb.509.1669906740414; 
+ Thu, 01 Dec 2022 06:59:00 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4Uij5w5k7YbzwSPDYSvdHBUUfnx5V0S2g9snzjjek2a9X62sw+iSw1KhfY1/Ac1AoEdV6GFA==
+X-Received: by 2002:a05:622a:5808:b0:3a5:9170:458e with SMTP id
+ fg8-20020a05622a580800b003a59170458emr62527711qtb.509.1669906740061; 
+ Thu, 01 Dec 2022 06:59:00 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ y26-20020a37f61a000000b006fc62eabcc9sm3285366qkj.134.2022.12.01.06.58.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 06:47:23 -0800 (PST)
-Date: Thu, 1 Dec 2022 15:47:22 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
-Subject: Re: [PATCH v3] riscv: Allow user to set the satp mode
-Message-ID: <20221201144722.aq4pfmdehrghaoy2@kamzik>
-References: <20221201093623.1394747-1-alexghiti@rivosinc.com>
+ Thu, 01 Dec 2022 06:58:59 -0800 (PST)
+Date: Thu, 1 Dec 2022 09:58:58 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com
+Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
+Message-ID: <Y4jBMkNEFqUA7edN@x1n>
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-4-jasowang@redhat.com> <Y4Yr5WvfioOJWOEX@x1n>
+ <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
+ <Y4d0HokcV/tg0wlk@x1n>
+ <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221201093623.1394747-1-alexghiti@rivosinc.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62c.google.com
+In-Reply-To: <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,383 +100,226 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 01, 2022 at 10:36:23AM +0100, Alexandre Ghiti wrote:
-> RISC-V specifies multiple sizes for addressable memory and Linux probes for
-> the machine's support at startup via the satp CSR register (done in
-> csr.c:validate_vm).
+On Thu, Dec 01, 2022 at 04:35:48PM +0800, Jason Wang wrote:
+> On Wed, Nov 30, 2022 at 11:17 PM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Wed, Nov 30, 2022 at 02:33:51PM +0800, Jason Wang wrote:
+> > > On Tue, Nov 29, 2022 at 11:57 PM Peter Xu <peterx@redhat.com> wrote:
+> > > >
+> > > > On Tue, Nov 29, 2022 at 04:10:37PM +0800, Jason Wang wrote:
+> > > > > The IOVA tree is only built during page walk this breaks the device
+> > > > > that tries to use UNMAP notifier only. One example is vhost-net, it
+> > > > > tries to use UNMAP notifier when vIOMMU doesn't support DEVIOTLB_UNMAP
+> > > > > notifier (e.g when dt mode is not enabled). The interesting part is
+> > > > > that it doesn't use MAP since it can query the IOMMU translation by
+> > > > > itself upon a IOTLB miss.
+> > > > >
+> > > > > This doesn't work since Qemu doesn't build IOVA tree in IOMMU
+> > > > > translation which means the UNMAP notifier won't be triggered during
+> > > > > the page walk since Qemu think it is never mapped. This could be
+> > > > > noticed when vIOMMU is used with vhost_net but dt is disabled.
+> > > > >
+> > > > > Fixing this by build the iova tree during IOMMU translation, this
+> > > > > makes sure the UNMAP notifier event could be identified during page
+> > > > > walk. And we need to walk page table not only for UNMAP notifier but
+> > > > > for MAP notifier during PSI.
+> > > > >
+> > > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > > > ---
+> > > > >  hw/i386/intel_iommu.c | 43 ++++++++++++++++++-------------------------
+> > > > >  1 file changed, 18 insertions(+), 25 deletions(-)
+> > > > >
+> > > > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > > > index d025ef2873..edeb62f4b2 100644
+> > > > > --- a/hw/i386/intel_iommu.c
+> > > > > +++ b/hw/i386/intel_iommu.c
+> > > > > @@ -1834,6 +1834,8 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+> > > > >      uint8_t access_flags;
+> > > > >      bool rid2pasid = (pasid == PCI_NO_PASID) && s->root_scalable;
+> > > > >      VTDIOTLBEntry *iotlb_entry;
+> > > > > +    const DMAMap *mapped;
+> > > > > +    DMAMap target;
+> > > > >
+> > > > >      /*
+> > > > >       * We have standalone memory region for interrupt addresses, we
+> > > > > @@ -1954,6 +1956,21 @@ out:
+> > > > >      entry->translated_addr = vtd_get_slpte_addr(slpte, s->aw_bits) & page_mask;
+> > > > >      entry->addr_mask = ~page_mask;
+> > > > >      entry->perm = access_flags;
+> > > > > +
+> > > > > +    target.iova = entry->iova;
+> > > > > +    target.size = entry->addr_mask;
+> > > > > +    target.translated_addr = entry->translated_addr;
+> > > > > +    target.perm = entry->perm;
+> > > > > +
+> > > > > +    mapped = iova_tree_find(vtd_as->iova_tree, &target);
+> > > > > +    if (!mapped) {
+> > > > > +        /* To make UNMAP notifier work, we need build iova tree here
+> > > > > +         * in order to have the UNMAP iommu notifier to be triggered
+> > > > > +         * during the page walk.
+> > > > > +         */
+> > > > > +        iova_tree_insert(vtd_as->iova_tree, &target);
+> > > > > +    }
+> > > > > +
+> > > > >      return true;
+> > > > >
+> > > > >  error:
+> > > > > @@ -2161,31 +2178,7 @@ static void vtd_iotlb_page_invalidate_notify(IntelIOMMUState *s,
+> > > > >          ret = vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
+> > > > >                                         vtd_as->devfn, &ce);
+> > > > >          if (!ret && domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid)) {
+> > > > > -            if (vtd_as_has_map_notifier(vtd_as)) {
+> > > > > -                /*
+> > > > > -                 * As long as we have MAP notifications registered in
+> > > > > -                 * any of our IOMMU notifiers, we need to sync the
+> > > > > -                 * shadow page table.
+> > > > > -                 */
+> > > > > -                vtd_sync_shadow_page_table_range(vtd_as, &ce, addr, size);
+> > > > > -            } else {
+> > > > > -                /*
+> > > > > -                 * For UNMAP-only notifiers, we don't need to walk the
+> > > > > -                 * page tables.  We just deliver the PSI down to
+> > > > > -                 * invalidate caches.
+> > > > > -                 */
+> > > > > -                IOMMUTLBEvent event = {
+> > > > > -                    .type = IOMMU_NOTIFIER_UNMAP,
+> > > > > -                    .entry = {
+> > > > > -                        .target_as = &address_space_memory,
+> > > > > -                        .iova = addr,
+> > > > > -                        .translated_addr = 0,
+> > > > > -                        .addr_mask = size - 1,
+> > > > > -                        .perm = IOMMU_NONE,
+> > > > > -                    },
+> > > > > -                };
+> > > > > -                memory_region_notify_iommu(&vtd_as->iommu, 0, event);
+
+[1]
+
+> > > >
+> > > > Isn't this path the one that will be responsible for pass-through the UNMAP
+> > > > events from guest to vhost when there's no MAP notifier requested?
+> > >
+> > > Yes, but it doesn't do the iova tree removing. More below.
+> > >
+> > > >
+> > > > At least that's what I expected when introducing the iova tree, because for
+> > > > unmap-only device hierachy I thought we didn't need the tree at all.
+> > >
+> > > Then the problem is the UNMAP notifier won't be trigger at all during
+> > > DSI page walk in vtd_page_walk_one() because there's no DMAMap stored
+> > > in the iova tree.:
+> > >
+> > >         if (!mapped) {
+> > >             /* Skip since we didn't map this range at all */
+> > >             trace_vtd_page_walk_one_skip_unmap(entry->iova, entry->addr_mask);
+> > >             return 0;
+> > >         }
+> > >
+> > > So I choose to build the iova tree in translate then we won't go
+> > > within the above condition.
+> >
+> > That's also why it's weird because IIUC we should never walk a page table
+> > at all if there's no MAP notifier regiestered.
 > 
-> As per the specification, sv64 must support sv57, which in turn must
-> support sv48...etc. So we can restrict machine support by simply setting the
-> "highest" supported mode and the bare mode is always supported.
+> If this is true, we probably need to document this somewhere.
+
+Agree.  I'll post a patch.
+
 > 
-> You can set the satp mode using the new properties "mbare", "sv32",
-> "sv39", "sv48", "sv57" and "sv64" as follows:
-> -cpu rv64,sv57=on # Linux will boot using sv57 scheme
-> -cpu rv64,sv39=on # Linux will boot using sv39 scheme
+> >
+> > When I'm looking at the walk callers I found that indeed there's one path
+> > missing where can cause it to actually walk the pgtables without !MAP, then
+> > I also noticed commit f7701e2c7983b6, and I'm wondering what we really want
+> > is something like this:
+> >
+> > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > index a08ee85edf..c46f3db992 100644
+> > --- a/hw/i386/intel_iommu.c
+> > +++ b/hw/i386/intel_iommu.c
+> > @@ -1536,7 +1536,7 @@ static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
+> >      VTDContextEntry ce;
+> >      IOMMUNotifier *n;
+> >
+> > -    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
+> > +    if (!vtd_as_has_map_notifier(vtd_as)) {
+> >          return 0;
+> >      }
+> >
+> > So I'm not sure whether this patch is the problem resolver; so far I feel
+> > like it's patch 2 who does the real fix.  Then we can have the above
+> > oneliner so we stop any walks when there's no map notifiers.
+> >
+> > Thanks,
 > 
-> We take the highest level set by the user:
-> -cpu rv64,sv48=on,sv57=on # Linux will boot using sv57 scheme
+> I may miss something but as state above, the problem is a missing
+> UNMAP notification during DSI when there's only UNMAP notifier.
+
+I got confused too on why we didn't notify UNMAP for DSI already, that's so
+weird because I thought it should be there or it should be broken for a
+long time.. as we discussed multiple times around this one:
+
+		/*
+		 * Fallback to domain selective flush if no PSI support or
+		 * the size is too big.
+		 */
+		if (!cap_pgsel_inv(iommu->cap) ||
+		    mask > cap_max_amask_val(iommu->cap))
+			iommu->flush.flush_iotlb(iommu, did, 0, 0,
+							DMA_TLB_DSI_FLUSH);
+		else
+			iommu->flush.flush_iotlb(iommu, did, addr | ih, mask,
+							DMA_TLB_PSI_FLUSH);
+
+I guess we were just always lucky?..
+
 > 
-> We make sure that invalid configurations are rejected:
-> -cpu rv64,sv32=on # Can't enable 32-bit satp mode in 64-bit
-> -cpu rv64,sv39=off,sv48=on # sv39 must be supported if higher modes are
-> 			   # enabled
+> To solve it we might have two ways:
 > 
-> We accept "redundant" configurations:
-> -cpu rv64,sv48=on,sv57=off # sv39 must be supported if higher modes are
+> 1) build the iova tree during iommu translation then we can correctly
+> trigger UNMAP during page walk caused by DSI
+> 2) don't do the iova tree walk for !MAP notifier, need new logic to
+> trigger UNMAP notifier in PSI/DSI
 > 
-> In addition, we now correctly set the device-tree entry 'mmu-type' using
-> those new properties.
-> 
-> Co-Developed-by: Ludovic Henry <ludovic@rivosinc.com>
-> Signed-off-by: Ludovic Henry <ludovic@rivosinc.com>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
-> v3:
-> - Free sv_name as pointed by Bin
-> - Replace satp-mode with boolean properties as suggested by Andrew
-> - Removed RB from Atish as the patch considerably changed
-> 
-> v2:
-> - Use error_setg + return as suggested by Alistair
-> - Add RB from Atish
-> - Fixed checkpatch issues missed in v1
-> - Replaced Ludovic email address with the rivos one
-> 
->  hw/riscv/virt.c         |  16 ++--
->  target/riscv/cpu.c      | 164 ++++++++++++++++++++++++++++++++++++++++
->  target/riscv/cpu.h      |   8 ++
->  target/riscv/cpu_bits.h |   1 +
->  target/riscv/csr.c      |   8 +-
->  5 files changed, 186 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index a5bc7353b4..bb7c739a74 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -228,7 +228,7 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->      int cpu;
->      uint32_t cpu_phandle;
->      MachineState *mc = MACHINE(s);
-> -    char *name, *cpu_name, *core_name, *intc_name;
-> +    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
->  
->      for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
->          cpu_phandle = (*phandle)++;
-> @@ -236,14 +236,12 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->          cpu_name = g_strdup_printf("/cpus/cpu@%d",
->              s->soc[socket].hartid_base + cpu);
->          qemu_fdt_add_subnode(mc->fdt, cpu_name);
-> -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> -                          RISCV_FEATURE_MMU)) {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
-> -        } else {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    "riscv,none");
-> -        }
-> +
-> +        sv_name = g_strdup_printf("riscv,%s",
-> +                                  s->soc[socket].harts[cpu].cfg.satp_mode_str);
-> +        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-> +        g_free(sv_name);
-> +
->          name = riscv_isa_string(&s->soc[socket].harts[cpu]);
->          qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
->          g_free(name);
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index d14e95c9dc..51c06ed057 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -907,6 +907,66 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       }
->  #endif
->  
-> +    /*
-> +     * Either a cpu sets its supported satp_mode in XXX_cpu_init
-> +     * or the user sets this value using satp_mode property.
+> This patch choose to go 1) (which seems easier at least for -stable).
+> Do you mean you prefer to go with 2)?
 
-using the sv* and mbare properties.
+Yes.
 
-> +     */
-> +    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> +
-> +    cpu->cfg.satp_mode = VM_1_10_UNDEF;
+IOVA tree is unnecessary overhead IMHO because UNMAP (both IOTLB or
+DEVIOTLB unmap) shouldn't need that complexity at all.  Using the iova tree
+can be accurate on which page got unmapped when the kernel driver used DSI
+for a large PSI as shown above, however IMHO it needs more justification
+that the pgtable walk is worth the effort.  Not to mention if a device in
+QEMU that wants to use the iova tree for some reason, one can just register
+with MAP and ignore all MAP events, while by default we keep UNMAP simple.
 
-Could probably just use -1 here instead of introducing VM_1_10_UNDEF.
+So we could do:
 
-> +
-> +    if (rv32) {
-> +        if (cpu->cfg.sv32 == ON_OFF_AUTO_ON) {
-> +            cpu->cfg.satp_mode_str = g_strdup("sv32");
+  (1) Rename vtd_sync_shadow_page_table() to vtd_sync_domain()
+  (2) instead of optimizing dev-iotlb only there:
+  
+      if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
+          return 0;
+      }
 
-No need to allocate memory, satp_mode_str = "sv32".
+      we should firstly check if UNMAP or DEVUNMAP registered, we directly
+      send a notification to the whole domain.  We need to choose the event
+      that the register happens with but not both.
 
-Also I'm not sure we need to keep mode_str in CPUConfig. Providing a
-function with a switch on VM_1_10_SV* cases to get it should be enough
-for its one usecase.
+This also reminded me that whether we should sanity check on iommu
+notifiers on some invalid cases.  E.g. it seems to me when registered with
+DEVIOTLB_UNMAP it should not register with either MAP or UNMAP anymore or
+it doesn't make sense.
 
-> +            cpu->cfg.satp_mode = VM_1_10_SV32;
-> +        } else if (cpu->cfg.mbare == ON_OFF_AUTO_ON) {
-> +            cpu->cfg.satp_mode_str = g_strdup("none");
-> +            cpu->cfg.satp_mode = VM_1_10_MBARE;
-> +        }
-> +    } else {
-> +        if (cpu->cfg.sv64 == ON_OFF_AUTO_ON) {
-> +            cpu->cfg.satp_mode_str = g_strdup("sv64");
-> +            cpu->cfg.satp_mode = VM_1_10_SV64;
-> +        } else if (cpu->cfg.sv57 == ON_OFF_AUTO_ON) {
-> +            cpu->cfg.satp_mode_str = g_strdup("sv57");
-> +            cpu->cfg.satp_mode = VM_1_10_SV57;
-> +        } else if (cpu->cfg.sv48 == ON_OFF_AUTO_ON) {
-> +            cpu->cfg.satp_mode_str = g_strdup("sv48");
-> +            cpu->cfg.satp_mode = VM_1_10_SV48;
-> +        } else if (cpu->cfg.sv39 == ON_OFF_AUTO_ON) {
-> +            cpu->cfg.satp_mode_str = g_strdup("sv39");
-> +            cpu->cfg.satp_mode = VM_1_10_SV39;
-> +        } else if (cpu->cfg.mbare == ON_OFF_AUTO_ON) {
-> +            cpu->cfg.satp_mode_str = g_strdup("none");
-> +            cpu->cfg.satp_mode = VM_1_10_MBARE;
-> +        }
-> +    }
-> +
-> +    /*
-> +     * If unset by both the user and the cpu, we fallback to sv32 for 32-bit
-> +     * or sv57 for 64-bit when a MMU is present, and bare otherwise.
-> +     */
-> +    if (cpu->cfg.satp_mode == VM_1_10_UNDEF) {
-> +        if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-> +            if (rv32) {
-> +                cpu->cfg.satp_mode_str = g_strdup("sv32");
-> +                cpu->cfg.satp_mode = VM_1_10_SV32;
-> +            } else {
-> +                cpu->cfg.satp_mode_str = g_strdup("sv57");
-> +                cpu->cfg.satp_mode = VM_1_10_SV57;
-> +            }
-> +        } else {
-> +            cpu->cfg.satp_mode_str = g_strdup("none");
-> +            cpu->cfg.satp_mode = VM_1_10_MBARE;
-> +        }
-> +    }
-> +
-> +    riscv_cpu_finalize_features(cpu, &local_err);
-> +    if (local_err != NULL) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +
->      riscv_cpu_register_gdb_regs_for_features(cs);
->  
->      qemu_init_vcpu(cs);
-> @@ -915,6 +975,102 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->      mcc->parent_realize(dev, errp);
->  }
->  
-> +void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-> +{
-> +    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> +
-> +    /* First, get rid of 32-bit/64-bit incompatibilities */
-> +    if (rv32) {
-> +        if (cpu->cfg.sv39 == ON_OFF_AUTO_ON
-> +                || cpu->cfg.sv48 == ON_OFF_AUTO_ON
-> +                || cpu->cfg.sv57 == ON_OFF_AUTO_ON
-> +                || cpu->cfg.sv64 == ON_OFF_AUTO_ON) {
-> +            error_setg(errp, "cannot enable 64-bit satp modes "
-> +                       "(sv39/sv48/sv57/sv64)");
-> +            error_append_hint(errp, "cpu is in 32-bit mode, 64-bit satp modes "
-> +                              "can't be enabled\n");
-> +            return;
-> +        }
-> +    } else {
-> +        if (cpu->cfg.sv32 == ON_OFF_AUTO_ON) {
-> +            error_setg(errp, "cannot enable 32-bit satp mode (sv32)");
-> +            error_append_hint(errp, "cpu is in 64-bit mode, 32-bit satp mode "
-> +                              "can't be enabled\n");
-> +            return;
-> +        }
-> +    }
-> +
-> +    /*
-> +     * Then make sure the user did not ask for an invalid configuration as per
-> +     * the specification.
-> +     */
-> +    switch (cpu->cfg.satp_mode) {
-> +    case VM_1_10_SV32:
-> +        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF) {
-> +            error_setg(errp, "cannot disable mbare satp mode");
-> +            error_append_hint(errp, "mbare satp mode must be enabled if sv32 "
-> +                              "is enabled\n");
-> +            return;
-> +        }
-> +
-> +        break;
-> +    case VM_1_10_SV39:
-> +        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF) {
-> +            error_setg(errp, "cannot disable mbare satp mode");
-> +            error_append_hint(errp, "mbare satp mode must be enabled if sv39 "
-> +                              "is enabled\n");
-> +            return;
-> +        }
-> +
-> +        break;
-> +    case VM_1_10_SV48:
-> +        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF
-> +                || cpu->cfg.sv39 == ON_OFF_AUTO_OFF) {
-> +            error_setg(errp, "cannot disable mbare/sv39 satp modes");
-> +            error_append_hint(errp, "mbare/sv39 satp modes must be enabled if "
-> +                              "sv48 is enabled\n");
-
-Combined errors like this make the user look to see which one it is. I
-think we can we reorganize this switch to fall through from largest to
-smallest allowing the checks for smaller widths and mbare to be shared.
-If a user has more than one problem then they'll only see an error for the
-larger first, but then they'll try again and see the next one. In each
-case they'll see exactly what needs to be fixed, though.
-
-> +            return;
-> +        }
-> +
-> +        break;
-> +    case VM_1_10_SV57:
-> +        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF
-> +                || cpu->cfg.sv39 == ON_OFF_AUTO_OFF
-> +                || cpu->cfg.sv48 == ON_OFF_AUTO_OFF) {
-> +            error_setg(errp, "cannot disable mbare/sv39/sv48 satp modes");
-> +            error_append_hint(errp, "mbare/sv39/sv48 satp modes must be "
-> +                              "enabled if sv57 is enabled\n");
-> +            return;
-> +        }
-> +
-> +        break;
-> +    case VM_1_10_SV64:
-> +        if (cpu->cfg.mbare == ON_OFF_AUTO_OFF
-> +                || cpu->cfg.sv39 == ON_OFF_AUTO_OFF
-> +                || cpu->cfg.sv48 == ON_OFF_AUTO_OFF
-> +                || cpu->cfg.sv57 == ON_OFF_AUTO_OFF) {
-> +            error_setg(errp, "cannot disable mbare/sv39/sv48/sv57 satp "
-> +                       "modes");
-> +            error_append_hint(errp, "mbare/sv39/sv48/sv57 satp modes must be "
-> +                              "enabled if sv57 is enabled\n");
-> +            return;
-> +        }
-> +
-> +        break;
-> +    }
-> +}
-> +
-> +void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
-> +{
-> +    Error *local_err = NULL;
-> +
-> +    riscv_cpu_satp_mode_finalize(cpu, &local_err);
-> +    if (local_err != NULL) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +}
-> +
->  #ifndef CONFIG_USER_ONLY
->  static void riscv_cpu_set_irq(void *opaque, int irq, int level)
->  {
-> @@ -1094,6 +1250,14 @@ static Property riscv_cpu_properties[] = {
->  
->      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
->      DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-> +
-> +    DEFINE_PROP_ON_OFF_AUTO("mbare", RISCVCPU, cfg.mbare, ON_OFF_AUTO_AUTO),
-> +    DEFINE_PROP_ON_OFF_AUTO("sv32", RISCVCPU, cfg.sv32, ON_OFF_AUTO_AUTO),
-> +    DEFINE_PROP_ON_OFF_AUTO("sv39", RISCVCPU, cfg.sv39, ON_OFF_AUTO_AUTO),
-> +    DEFINE_PROP_ON_OFF_AUTO("sv48", RISCVCPU, cfg.sv48, ON_OFF_AUTO_AUTO),
-> +    DEFINE_PROP_ON_OFF_AUTO("sv57", RISCVCPU, cfg.sv57, ON_OFF_AUTO_AUTO),
-> +    DEFINE_PROP_ON_OFF_AUTO("sv64", RISCVCPU, cfg.sv64, ON_OFF_AUTO_AUTO),
-
-I'm not sure what types of issues may arise mixing booleans and OnOffAutos
-in a future cpu-model-expansion. I also think we can simplify things by
-using arm's sve* boolean properties as a pattern. For that, each property
-is a boolean which shares the same get and set accessors. The set accessor
-not only sets the property to true/false, but also tracks that the user
-did the setting, allowing for sanity checks at finalize time.
-
-Using a pair of bitmaps for the sv properties, where VM_1_10_SV* are used
-for the bit numbers, should work well. Validating input will likely reduce
-to some bitmap comparing operations. It would also drop all the extra cfg
-state. In fact, one of the temporary bitmaps could use the satp_mode
-member, before the final result gets written to it. So, only a single
-extra uint8_t for the other bitmap is needed.
-
-> +
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 3a9e25053f..dcdde1e0b7 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -27,6 +27,7 @@
->  #include "qom/object.h"
->  #include "qemu/int128.h"
->  #include "cpu_bits.h"
-> +#include "qapi/qapi-types-common.h"
->  
->  #define TCG_GUEST_DEFAULT_MO 0
->  
-> @@ -480,6 +481,10 @@ struct RISCVCPUConfig {
->      bool debug;
->  
->      bool short_isa_string;
-> +
-> +    OnOffAuto mbare, sv32, sv39, sv48, sv57, sv64;
-> +    uint8_t satp_mode;
-> +    char *satp_mode_str;
->  };
->  
->  typedef struct RISCVCPUConfig RISCVCPUConfig;
-> @@ -789,4 +794,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
->  
->  void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
->  
-> +void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp);
-> +void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp);
-> +
->  #endif /* RISCV_CPU_H */
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index d8f5f0abed..3e67a815d5 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -590,6 +590,7 @@ typedef enum {
->  #define VM_1_10_SV48        9
->  #define VM_1_10_SV57        10
->  #define VM_1_10_SV64        11
-> +#define VM_1_10_UNDEF       16
->  
->  /* Page table entry (PTE) fields */
->  #define PTE_V               0x001 /* Valid */
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 5c9a7ee287..d2aab1627e 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1109,10 +1109,14 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
->  
->  static int validate_vm(CPURISCVState *env, target_ulong vm)
->  {
-> +    vm &= 0xf;
-> +
->      if (riscv_cpu_mxl(env) == MXL_RV32) {
-> -        return valid_vm_1_10_32[vm & 0xf];
-> +        return valid_vm_1_10_32[vm] &&
-> +            (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
->      } else {
-> -        return valid_vm_1_10_64[vm & 0xf];
-> +        return valid_vm_1_10_64[vm] &&
-> +            (vm <= RISCV_CPU(env_cpu(env))->cfg.satp_mode);
->      }
->  }
->  
-> -- 
-> 2.37.2
->
+One step further, I'm wondering whether the DEV_IOTLB event should exist at
+all.  Maybe we want to have DEV_IOTLB typed iommu notifier only, but then
+when we got dev-iotlb PSI/DSI we notify with type=UNMAP just like normal
+UNMAP events, then in above (2) we can send UNMAP constantly as long as
+!MAP.  But even if so that'll just be another optional change on top.
 
 Thanks,
-drew
+
+-- 
+Peter Xu
+
 
