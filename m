@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9026D63F0AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A35463F0EB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:53:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0iqg-0002yz-54; Thu, 01 Dec 2022 07:39:30 -0500
+	id 1p0j38-0006f5-SQ; Thu, 01 Dec 2022 07:52:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iqY-0002yj-V4
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:39:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iqW-0007fE-JU
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:39:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669898358;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=peDEgNxKLfmcsTZMtbaghXMrXy2kZzsmEopysp+4Ab4=;
- b=Dl74iExnZJVxIgzd6Ly+Qd5bKfw/X5opUV2sLLbjD3BrjORbCXZc5Mrj+FHl4YIhbcxfuM
- rrqvV3+tMU70UuTTh9KoLias+fu/3WzBSpmxiB850TtbbwxTPlNGasOLIOYPO4debj/gTk
- k3ThrfD0Nzej8JRjr+IZ4w4HtmOTzC4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-yIJxcjY3OfCTwS2B0o1gtQ-1; Thu, 01 Dec 2022 07:39:17 -0500
-X-MC-Unique: yIJxcjY3OfCTwS2B0o1gtQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B412800B23
- for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 12:39:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 319EDC15BA5;
- Thu,  1 Dec 2022 12:39:17 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E4BAF21E6921; Thu,  1 Dec 2022 13:39:13 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,  kraxel@redhat.com,  dgilbert@redhat.com
-Subject: Re: [PATCH 3/9] ui: Drop disabled code for SPICE_CHANNEL_WEBDAV
-References: <20221201061311.3619052-1-armbru@redhat.com>
- <20221201061311.3619052-4-armbru@redhat.com>
- <Y4hqiiNzcMVS0t0k@redhat.com>
-Date: Thu, 01 Dec 2022 13:39:13 +0100
-In-Reply-To: <Y4hqiiNzcMVS0t0k@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 1 Dec 2022 08:49:14 +0000")
-Message-ID: <87pmd3fgcu.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0j35-0006e9-5p
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:52:21 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p0j33-000484-GV
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:52:18 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ p13-20020a05600c468d00b003cf8859ed1bso1457938wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 04:52:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1OqQrByk5fw4/4erhJNjgDetFW4ia3XpnZ5dULtBhzc=;
+ b=wwtmpasdkwmvL98d4d4XEF91AkSUVMDJ9xlNDNiC5V7jaNFFs/K3CAIhvxhNAuuvfx
+ oDBjErWp9M/6gHgahDc4NojBEHfR9KywMFzf+5sYTQjdLGK7NUXhPkAzopi3lLBTzuXQ
+ iy7rDu6yWlCHyDI32Jue5KlvenETe0GDCEIJprlHAmhEdT25rIwXLSqjQhcXjPYptttv
+ EisswAuGv0lVoY2zQjy8InB4YNiwndWPNwLvuI/XjAoV7dzn9jEAf6TD92b02JlklmyF
+ bLcf1Ims8ZVSfW0s65qZc/LTVg1SEt34A8eGJeWWfsPeezWWgMqTThvqQEcgUs3rhKdK
+ mPEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1OqQrByk5fw4/4erhJNjgDetFW4ia3XpnZ5dULtBhzc=;
+ b=vNugjmrA4U/3XtvCL/rxY5NGG6WBw8sNvldXlj6ZjtvjFL1HD3PEoKcVEtdR3Gt4/y
+ tR2XhqrHQtLA6c5YS2FI2Qdk+8wdA/HgR3oz3bz9NNnW1PoGFMnDcV+G7xWI5yZIKv54
+ W046R/qOrY27hilJ95Hc5dLbSP1uyAZHI8kqMq+e7xxIQ/81BzxG9ocDTCwbkAcRYkF4
+ sD9LeSDy/UkA4X+Ilb6ZEudaFkj7ud6Plp3mdgZnhK7uJwub89oueEh8M/YxcB9wpfvf
+ ZFs763sijPef3Yu1Na7NTg7TvaE8bpTXoyhURySa2owYEUex8FMEq12uMALh3PeSjQUz
+ py2A==
+X-Gm-Message-State: ANoB5pnVmI0XgtZy9CSuXeKcA6q6MtT39v4fzRM6Kitr6qoMsUjjqqQa
+ XCC+988XPyI8G3K3oD1eFVLwgA==
+X-Google-Smtp-Source: AA0mqf45y+3pdRJL10GOS8vUuVgjvSwgD9hF7d8hqIJDy3Hpx7DzVzz5c+nNECJO6AAR3R91HsHHIQ==
+X-Received: by 2002:a05:600c:1d9c:b0:3c6:bf1e:ebb9 with SMTP id
+ p28-20020a05600c1d9c00b003c6bf1eebb9mr50906403wms.173.1669899135513; 
+ Thu, 01 Dec 2022 04:52:15 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ r11-20020a05600c35cb00b003a84375d0d1sm9836223wmq.44.2022.12.01.04.52.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 04:52:15 -0800 (PST)
+Message-ID: <1f4285b6-0712-9c7a-e0a6-3903ba60e78a@linaro.org>
+Date: Thu, 1 Dec 2022 13:52:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH] MAINTAINERS: Inherit from nanoMIPS
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ Milica Lazarevic <Milica.Lazarevic@Syrmia.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+References: <20221030225006.43203-1-philmd@linaro.org>
+ <PAVPR03MB96784D39EC71F71C86ABAE81F8069@PAVPR03MB9678.eurprd03.prod.outlook.com>
+ <PAVPR03MB967895ED1573A16CE6E5A34FF8149@PAVPR03MB9678.eurprd03.prod.outlook.com>
+ <87ilivzajc.fsf@pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87ilivzajc.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,50 +97,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On 1/12/22 11:24, Markus Armbruster wrote:
+> Milica Lazarevic <Milica.Lazarevic@Syrmia.com> writes:
+> 
+>> Hi,
+>>
+>> Stefan is no longer working with us, but I will be more than happy to take maintaining the nanoMIPS ISA on me!
+>>
+>> Regards,
+>> Milica
+>> Any comments on this?
+> 
+> Suggest you post a patch to update MAINTAINERS, with a suitable cc:.
 
-> On Thu, Dec 01, 2022 at 07:13:05AM +0100, Markus Armbruster wrote:
->> HMP "info spice" has a bit of code to show channel type
->> SPICE_CHANNEL_WEBDAV as "webdav", disabled since commit 7c6044a94e
->> "hmp: info spice: take out webdav" (v2.3.0), because it compiles only
->> with Spice versions 0.12.7 and later.  Our minimum version is 0.12.5.
->
-> Last version bump was 4 years ago
->
-> commit 1b63665c2c0e0d52735e0dd5217f109fe0dd2322
-> Author: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Date:   Wed Nov 28 19:59:32 2018 +0400
->
->     configure: bump spice-server required version to 0.12.5
->
->     ...snip....
->
->     According to repology, all the distros that are build target platforms
->     for QEMU include it:
->=20=20=20=20=20
->           RHEL-7: 0.14.0
->           Debian (Stretch): 0.12.8
->           Debian (Jessie): 0.12.5
->           FreeBSD (ports): 0.14.0
->           OpenSUSE Leap 15: 0.14.0
->           Ubuntu (Xenial): 0.12.6
->
-> We moved on from Debian and RHEL since then
->
->    Debian 11: 0.14.3
->    RHEL-8: 0.14.2
->    FreeBSD (ports): 0.14.4
->    Fedora 35: 0.14.0
->    Ubuntu 20.04: 0.14.0
->    OpenSUSE Leap 15.3: 0.14.3
->
-> IOW, we can bump to 0.14.0, and then revert the
-> webdav conditional commit.
-
-We need to bump spice-protocol, actually.
-
-Would you like me to bump spice-server as well?  To which version?
-
-[...]
+nanoMIPS depends on the generic MIPS infra, reviewing overall MIPS 
+patches also helps.
 
 
