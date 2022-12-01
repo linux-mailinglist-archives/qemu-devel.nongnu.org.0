@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C0863F0D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B4463F06F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:26:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0iLR-00027Y-4G; Thu, 01 Dec 2022 07:07:13 -0500
+	id 1p0iPp-0004Ef-VE; Thu, 01 Dec 2022 07:11:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1p0iLN-000273-OI
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:07:09 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPo-0004EK-G6
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1p0iLD-0006Li-CT
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:07:08 -0500
-Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NNF7p64wYzqSrj;
- Thu,  1 Dec 2022 20:02:46 +0800 (CST)
-Received: from [10.40.193.166] (10.40.193.166) by
- kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 1 Dec 2022 20:06:19 +0800
-Subject: Re: regression: insmod module failed in VM with nvdimm on
-To: Ard Biesheuvel <ardb@kernel.org>
-References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
- <87r0xkubcp.wl-maz@kernel.org>
- <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
- <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
- <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
- <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
-CC: Marc Zyngier <maz@kernel.org>, <will@kernel.org>, <mark.rutland@arm.com>, 
- <linux-arm-kernel@lists.infradead.org>, chenxiang via
- <qemu-devel@nongnu.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>
-Message-ID: <3d2acb1b-b1f1-023c-6e93-b0eeaee334f2@hisilicon.com>
-Date: Thu, 1 Dec 2022 20:06:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPl-0008D9-SE
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669896700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s+r0099d/pO2fi5L5YyMTfZYnO/7OZnaAuqlxjLj/zs=;
+ b=T3n/jDVzhMrnKB2a9kp90yK6dpnQAO27hlLeX064XnpksH5L0rYlw4icZKo++VupvwjSZA
+ LryySddOUvWZ7fQrBdGiFwtL/jaePO8ToQh666gqOl59D1z2Vl0PVNCD8Lxw6iGNafIuBS
+ 1JY9g2rf7fKtZT78dAC6VCyRJHnxXSE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-113-B_-JBPyyNfWEIfBGEIbefg-1; Thu, 01 Dec 2022 07:11:37 -0500
+X-MC-Unique: B_-JBPyyNfWEIfBGEIbefg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F32B833AEF;
+ Thu,  1 Dec 2022 12:11:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 317A61121314;
+ Thu,  1 Dec 2022 12:11:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DB21E21E6921; Thu,  1 Dec 2022 13:11:33 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, dgilbert@redhat.com,
+ philmd@linaro.org
+Subject: [PATCH v2 00/13] pci: Move and clean up monitor command code
+Date: Thu,  1 Dec 2022 13:11:20 +0100
+Message-Id: <20221201121133.3813857-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.40.193.166]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemi500016.china.huawei.com (7.221.188.220)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=chenxiang66@hisilicon.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,115 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
-From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This is mainly about splitting off monitor-related code.  There's also
+a few UI fixes to HMP command pcie_aer_inject_error.
 
+v2:
+* PATCH 08: Use qemu_strtoui() [David], commit message corrected
+* PATCH 13: New
 
-在 2022/12/1 19:07, Ard Biesheuvel 写道:
-> On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
->> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com> wrote:
->>> Hi Ard,
->>>
->>>
->>> 在 2022/11/30 16:18, Ard Biesheuvel 写道:
->>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
->>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
->>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
->>>>>> Hi,
->>>>>>
->>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
->>>>>> version 6.1.50, kernel 6.0-r4):
->>>>> How relevant is the presence of the nvdimm? Do you observe the failure
->>>>> without this?
->>>>>
->>>>>> qemu-system-aarch64 -machine
->>>>>> virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
->>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
->>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
->>>>>> 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
->>>>>> ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
->>>>>> -object memory-backend-ram,id=ram1,size=10G -device
->>>>>> nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
->>>>>> -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
->>>>>>
->>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (kernel
->>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
->>>>>>
->>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
->>>>>> [    8.186563] vmap allocation for size 20480 failed: use
->>>>>> vmalloc=<size> to increase size
->>>>> Have you tried increasing the vmalloc size to check that this is
->>>>> indeed the problem?
->>>>>
->>>>> [...]
->>>>>
->>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
->>>>>> defer initialization to initcall where permitted").
->>>>> I guess you mean commit fc5a89f75d2a instead, right?
->>>>>
->>>>>> Do you have any idea about the issue?
->>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
->>>>> portion of the vmalloc space, but you give very little information
->>>>> that could help here...
->>>>>
->>>> Ouch. I suspect what's going on here: that patch defers the
->>>> randomization of the module region, so that we can decouple it from
->>>> the very early init code.
->>>>
->>>> Obviously, it is happening too late now, and the randomized module
->>>> region is overlapping with a vmalloc region that is in use by the time
->>>> the randomization occurs.
->>>>
->>>> Does the below fix the issue?
->>> The issue still occurs, but it seems decrease the probability, before it
->>> occured almost every time, after the change, i tried 2-3 times, and it
->>> occurs.
->>> But i change back "subsys_initcall" to "core_initcall", and i test more
->>> than 20 times, and it is still ok.
->>>
->> Thank you for confirming. I will send out a patch today.
->>
-> ...but before I do that, could you please check whether the change
-> below fixes your issue as well?
+Markus Armbruster (13):
+  pci: Clean up a few things checkpatch.pl would flag later on
+  pci: Move QMP commands to new hw/pci/pci-qmp-cmds.c
+  pci: Move HMP commands from monitor/ to new hw/pci/pci-hmp-cmds.c
+  pci: Make query-pci stub consistent with the real one
+  pci: Build hw/pci/pci-hmp-cmds.c only when CONFIG_PCI
+  pci: Deduplicate get_class_desc()
+  pci: Move pcibus_dev_print() to pci-hmp-cmds.c
+  pci: Fix silent truncation of pcie_aer_inject_error argument
+  pci: Move HMP command from hw/pci/pcie_aer.c to pci-hmp-cmds.c
+  pci: Inline do_pcie_aer_inject_error() into its only caller
+  pci: Rename hmp_pcie_aer_inject_error()'s local variable @err
+  pci: Improve do_pcie_aer_inject_error()'s error messages
+  pci: Reject pcie_aer_inject_error -c with symbolic error status
 
-Yes, but i can only reply to you tomorrow as other guy is testing on the 
-only environment today.
+ hw/pci/pci-internal.h   |  25 +++++
+ include/monitor/hmp.h   |   1 +
+ include/sysemu/sysemu.h |   3 -
+ hw/pci/pci-hmp-cmds.c   | 238 ++++++++++++++++++++++++++++++++++++++++
+ hw/pci/pci-qmp-cmds.c   | 201 +++++++++++++++++++++++++++++++++
+ hw/pci/pci-stub.c       |   9 +-
+ hw/pci/pci.c            | 226 +-------------------------------------
+ hw/pci/pcie_aer.c       | 113 +------------------
+ monitor/hmp-cmds.c      | 107 ------------------
+ hw/pci/meson.build      |   2 +
+ 10 files changed, 480 insertions(+), 445 deletions(-)
+ create mode 100644 hw/pci/pci-internal.h
+ create mode 100644 hw/pci/pci-hmp-cmds.c
+ create mode 100644 hw/pci/pci-qmp-cmds.c
 
->
-> diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
-> index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
-> --- a/arch/arm64/kernel/kaslr.c
-> +++ b/arch/arm64/kernel/kaslr.c
-> @@ -20,7 +20,11 @@
->   #include <asm/sections.h>
->   #include <asm/setup.h>
->
-> -u64 __ro_after_init module_alloc_base;
-> +/*
-> + * Set a reasonable default for module_alloc_base in case
-> + * we end up running with module randomization disabled.
-> + */
-> +u64 __ro_after_init module_alloc_base = (u64)_etext - MODULES_VSIZE;
->   u16 __initdata memstart_offset_seed;
->
->   struct arm64_ftr_override kaslr_feature_override __initdata;
-> @@ -30,12 +34,6 @@ static int __init kaslr_init(void)
->          u64 module_range;
->          u32 seed;
->
-> -       /*
-> -        * Set a reasonable default for module_alloc_base in case
-> -        * we end up running with module randomization disabled.
-> -        */
-> -       module_alloc_base = (u64)_etext - MODULES_VSIZE;
-> -
->          if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf) {
->                  pr_info("KASLR disabled on command line\n");
->                  return 0;
-> .
->
+-- 
+2.37.3
 
 
