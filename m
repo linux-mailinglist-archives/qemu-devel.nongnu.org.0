@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FFF063EFC2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:43:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C401363EEBB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:04:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0hxX-00044S-FX; Thu, 01 Dec 2022 06:42:31 -0500
+	id 1p0hMO-0004UZ-52; Thu, 01 Dec 2022 06:04:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0hxV-000445-Vh
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:42:30 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p0hxU-0001MS-AP
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:42:29 -0500
-Received: by mail-wr1-x434.google.com with SMTP id bx10so2319412wrb.0
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:42:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9mngMxsSsRFRfGaooU7Y4Qj9mE08tLgwyHxHSVy5JVU=;
- b=m3oB/irYhXGUoZDVIaRQRw6Z6jG74KkLqK6h7joE4RmYjgS0LtrocUrUaxHwOQgnbT
- QBa68080+bUeM6W+BNgd2o6ZVEQCnXPKT7wjyPRBr2DyYGmhqVQBvxRQnmj8OW/6bK0S
- z1EkoPWULEtc8liWPv1Fb/kNP/S8NQR4o57x3QKo87F7J3wF/lGQIbjeSaRybKFcvz6k
- ph1dKoFgcZhddmIgEMLriHVo41beESkr+uZoPHEjyOlMNzy5mAclDsc1WtXZwgOXMwMr
- brthTXT98L/AgkjoG8KeFHIQyj33QClImI9M41duLROcCuQVawPDDcz5rqRs7badYGFm
- magA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0hML-0004UB-F6
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:04:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0hMJ-0008MS-JL
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:04:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669892642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HEql+jLAZI1PBxCQjVqKsZL+NW2TOHnoTc4qZo3n1f0=;
+ b=epANjPlNQg5hPWRl+WL+4bIpm/HZo5vCWopF1SEWEJAufSILcrvo0RcI/k6q9Fp0tOyxIm
+ L11fmXJkoJ1qrC/pKz0itaoBVcXeFhd+uTqYNU1Bt+82t81W+BJMTGTqTzIvedHV7ypwHD
+ odZ/7cNfXmx2LPDuMvcorX6q912oY80=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-396-5yN2NMSRP8GyWWA03a9xTw-1; Thu, 01 Dec 2022 06:04:01 -0500
+X-MC-Unique: 5yN2NMSRP8GyWWA03a9xTw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c26-20020a05600c0ada00b003d07fd2473bso308656wmr.9
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:04:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9mngMxsSsRFRfGaooU7Y4Qj9mE08tLgwyHxHSVy5JVU=;
- b=3SCP2FCxvMayKnoQR+FMkriXbFxcikE7pvsf8cW8thhZG1V1C/h0pfn4skOhnnU+vs
- veNn5Vqp5v/lLoXL4Lfnh/qA2Ef/QkL/eO7Up8DY6uO65tgv1lWXZuLeWZQfOb1pndY5
- QGTr7n3j/pf2JGMxbwR2E6huCEv8K6mB9bFeh4OevnPnh4EzoCp4G/0Ut+BCrqKavnxC
- b8vhNBvfg4hNXSBN7Xam04aAbGnEUdsRiWfej/I6K3aoadp+vXe1QFYzyIoBXaiyBNSD
- KjPg/7VlK8bZJ4ObzCeD/Gj8SbwJ5EmlTEcGa03FTPG8L1iEO8wFLI9i9ANeF951Vic+
- /5ZA==
-X-Gm-Message-State: ANoB5pkBKoXKaZkzhlTOlOx9O8hnjrL/knunpt1qghZOmPeNZe7eSbni
- b9FBpZQZWdNaz8cc1QlimLAQXw==
-X-Google-Smtp-Source: AA0mqf6/2SK2igoEfuq292KCoFPuAd0C9U1TAWwGZSJNRTUKMfrgSf+mfZZ9nQBY4DGycELtfnjnHQ==
-X-Received: by 2002:a5d:4c48:0:b0:241:bd2c:bef with SMTP id
- n8-20020a5d4c48000000b00241bd2c0befmr34538401wrt.304.1669894946839; 
- Thu, 01 Dec 2022 03:42:26 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- a23-20020a05600c225700b003cfe1376f68sm4947956wmm.9.2022.12.01.03.42.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 03:42:26 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9018D1FFB7;
- Thu,  1 Dec 2022 11:42:25 +0000 (GMT)
-References: <20221004120047.857591-1-berrange@redhat.com>
- <Y4hP5HS8L4O6KsVO@cota-l14>
-User-agent: mu4e 1.9.3; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Emilio Cota <cota@braap.org>
-Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, ncopa@alpinelinux.org, Kyle Evans
- <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>, Peter Maydell
- <peter.maydell@linaro.org>
-Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
-Date: Thu, 01 Dec 2022 10:49:27 +0000
-In-reply-to: <Y4hP5HS8L4O6KsVO@cota-l14>
-Message-ID: <87cz93cpum.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HEql+jLAZI1PBxCQjVqKsZL+NW2TOHnoTc4qZo3n1f0=;
+ b=jEwyArujBXWW/0QyJ+O7/dRRebbXw6FeoRJJFhYnS9eABSe/IOqwXkMvsdM7dRaNmO
+ 68xdIWI0WjZYC9z7E6h5H73ZlZEWqoPQAYaRZwd9cpuk9tO8qombNqM6SlvDL0je30qP
+ N3oXMkqzSE35k+gqxEKRD2+DziMC+lmxKJAos0sqz5I9XZqElyobOD5ug1s/8yyXDUQ2
+ DXc4lqDeKpJlW+h2KCfLzfFk5MPUtBldRLwGaWGIdI1aSecWIYi0s9te7zxrP3+UFVNA
+ GTLSWjy2UGFVRDubUxH08iE/jMzt33s7g5lwKL4m22rH6xwjKaRz0N8LuOk7CV0yVJ4Q
+ 5JbA==
+X-Gm-Message-State: ANoB5pnYhxmy70P/sUfwJfaq99cC+enybynP77Vbvo6m+loAW9FjQ+uS
+ i+o2mGcHV495cTAF6RYVbgke1N2dI35MsgJXOy8ovKLR75fGg5O5CbY4RfG8sDpUeDvRP7nAHoN
+ JsmY7A2nnG6FBJZk=
+X-Received: by 2002:a05:6000:1e1b:b0:242:29d7:1004 with SMTP id
+ bj27-20020a0560001e1b00b0024229d71004mr5139517wrb.208.1669892640329; 
+ Thu, 01 Dec 2022 03:04:00 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6RP0tV7Ub79CXRO2hFb1l81Upf34HBROraxaxqisi8MWqu7Ja9E9MrI7HfXhbpO5Afm7dTcw==
+X-Received: by 2002:a05:6000:1e1b:b0:242:29d7:1004 with SMTP id
+ bj27-20020a0560001e1b00b0024229d71004mr5139500wrb.208.1669892640076; 
+ Thu, 01 Dec 2022 03:04:00 -0800 (PST)
+Received: from [192.168.8.102] (tmo-073-221.customers.d1-online.com.
+ [80.187.73.221]) by smtp.gmail.com with ESMTPSA id
+ e18-20020a5d4e92000000b0024206ed539fsm4009749wru.66.2022.12.01.03.03.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 03:03:59 -0800 (PST)
+Message-ID: <2ff3f1f2-ac25-294c-c994-78474fa5eab4@redhat.com>
+Date: Thu, 1 Dec 2022 12:03:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/qtest/vhost-user-blk-test: don't abort all qtests
+ on missing envar
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Coiby Xu <coiby.xu@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <E1oybRD-0005D5-5r@lizzy.crudebyte.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <E1oybRD-0005D5-5r@lizzy.crudebyte.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,48 +100,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 25/11/2022 16.58, Christian Schoenebeck wrote:
+> This test requires environment variable QTEST_QEMU_STORAGE_DAEMON_BINARY
+> to be defined for running. If not, it would immediately abort all qtests
+> and prevent other, unrelated tests from running.
+> 
+> To fix that, just skip vhost-user-blk-test instead and log a message
+> about missing environment variable.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+> 
+>   I also tried g_test_skip(errmsg) from the setup handlers instead, but it
+>   always caused the tests to abort with an error:
+>   
+>   ../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process
+>   but encountered exit status 1 (expected 0)
+>   
+>   I haven't further investigated.
+> 
+>   tests/qtest/vhost-user-blk-test.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
+> index 07a4c2d500..dc37f5af4d 100644
+> --- a/tests/qtest/vhost-user-blk-test.c
+> +++ b/tests/qtest/vhost-user-blk-test.c
+> @@ -983,6 +983,12 @@ static void register_vhost_user_blk_test(void)
+>           .before = vhost_user_blk_test_setup,
+>       };
+>   
+> +    if (!getenv("QTEST_QEMU_STORAGE_DAEMON_BINARY")) {
+> +        g_test_message("QTEST_QEMU_STORAGE_DAEMON_BINARY not defined, "
+> +                       "skipping vhost-user-blk-test");
+> +        return;
+> +    }
 
-Emilio Cota <cota@braap.org> writes:
+Could we use g_test_skip() here?
 
-> On Tue, Oct 04, 2022 at 13:00:47 +0100, Daniel P. Berrang=C3=A9 wrote:
-> (snip)
->> Can't say I especially like this but I'm out of other ideas for how
->> to guarantee a solution. Users can't set env vars prior to launching
->> QEMU user emulators when using binfmt.
->
-> An alternative is to not use GSlice between fork/exec. I'm
-> not sure if within that region there are other users besides
-> GTree (GArray perhaps?), but if there aren't, then just using
-> a different binary tree implementation should do.
-
-Hmm my distros version of GArray certainly does and that is used quite
-heavily across gdbstub and plugins.
-
->
-> Untested patches using ccan's AVL tree:=20
->   https://github.com/cota/qemu/commits/avl
->
-> Would that be more palatable?
-
-I think generally we wouldn't want to have multiple implementations
-unless there was a definite benefit (c.f. QHT). That said I think
-Richard's latest optimisation work:
-
-  Subject: [PATCH v2 0/7] accel/tcg: Rewrite user-only vma tracking
-  Date: Thu, 27 Oct 2022 22:12:51 +1100
-  Message-Id: <20221027111258.348196-1-richard.henderson@linaro.org>
-
-brings in the kernel's interval tree (with unit tests). I wonder if the
-page_collection use of GTree could be converted to that?
-
-I don't know how you would defend against re-introducing it into
-linux-user though aside from commentary.
-
->
-> Thanks,
-> 		Emilio
+  Thomas
 
 
---=20
-Alex Benn=C3=A9e
 
