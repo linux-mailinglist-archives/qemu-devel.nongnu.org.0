@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4FF63F5B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 17:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F9363F5B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 17:51:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0mlm-00008L-0b; Thu, 01 Dec 2022 11:50:43 -0500
+	id 1p0mlt-0000Ge-SA; Thu, 01 Dec 2022 11:50:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p0mle-000050-Eb; Thu, 01 Dec 2022 11:50:34 -0500
+ id 1p0mlr-0000Fk-Ia; Thu, 01 Dec 2022 11:50:47 -0500
 Received: from out3-smtp.messagingengine.com ([66.111.4.27])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p0mlc-00010r-C1; Thu, 01 Dec 2022 11:50:34 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 67B8D5C0196;
- Thu,  1 Dec 2022 11:50:31 -0500 (EST)
+ id 1p0mle-000115-0T; Thu, 01 Dec 2022 11:50:36 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 169E05C019E;
+ Thu,  1 Dec 2022 11:50:33 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 01 Dec 2022 11:50:31 -0500
+ by compute2.internal (MEProxy); Thu, 01 Dec 2022 11:50:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1669913431; x=
- 1669999831; bh=7CgD1ROYjnt50Y1SYrZ71snDk8kbGY2eFrwxVc383X4=; b=j
- zEibpbxCK8ETlLf2BdfdsMniAnQKladxwg1hZVvvhO8WdQldTlhuGw36Ui1Kb9Io
- 2Y47UInpQYz+iYroAm0UFJO5diiJsQtqaHdF29CzUoNbHPLhOfzRF5CTjzNVx0vM
- d6ky3uXC36pZiWeyCqIs5DtKNeLmQ1WCXZMRU256VU51gESFQCmneFsgk1Eesfbm
- OJz9HGsRMtJltoz5T1bfg+HUPjTNbd8N+cskAjD4Drlk6m6B/m8DWd2KMPWxZgFN
- xxCOa9JMWD+N2GAXK+i10TkaXvTfuiqA5g5pAneM/yRZS6oqtPhq1Wf1vCAmM66Y
- iNztcpnPFEHDnzSvH/CHg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1669913433; x=
+ 1669999833; bh=TqrX8aYaYyYeBNnOyObLeoI2PBPSkqeBYdmIchkhRz8=; b=m
+ fpWeiKfjkNWyFeRlEQLIGBAStoxiUUraTlxg3hnGdcoIYNO7cyDtHFu0vu0no9Vs
+ 4yFnyuONegm23wGLoCUlRmOMbXIQjEVWrK8cVetlsO/FAMr88VwiyUIAtS5w6PWx
+ /KcvWbdx4MaclOA5ZJDyK9VUBCxIIGqje71EZWEukNAuXWfIoz68Q98GFT6RaDJp
+ tJ1c3TheqYv54EnMJp4Tqymj1QpPAYpJ60fo5fzBTz6sPg8SS1wVhtMUl0R9gaR7
+ VzdR7trN3HHtC/q2FdUNYU4Iu3SGDaswfEHtbpPSx0Gxj1qPZR1RYakiCEFc4tNz
+ GBo9PfNeBzsq2rZ8XngUQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1669913431; x=1669999831; bh=7CgD1ROYjnt50
- Y1SYrZ71snDk8kbGY2eFrwxVc383X4=; b=O/6eP9skoG0yvo6ZkaW+vFJiMzFEs
- BaO48Uakl2P5d2tWJGku/xvWO2GO09BN1P71UaP3hm9rsXFziBr7F8MgNGVCJnSI
- oAETvl8ZB9bJYsOoC+oTm7KX7wu58NtksBiiHmAGVx+Sn9ROgXsgGpdpBstNNUmo
- J83esfjuPeXrgrc/AJRiYxJrohFK5jGswby7wZ6TEyVHqI1BRAdHwzbi1SkMIhwl
- qV8lUT8ggpiED33oMYVz5Jsf13WQw3Whlf0I0b6p8qPqAhZl5C48ZI66qz28QMcz
- Jw2gfEkczaU86LH8VoqK76XntGn+AUOqM2TmWLMyIQ5Yl0TI1XRUCX9hQ==
-X-ME-Sender: <xms:V9uIY5L-P0VPYSOE9YD-0ls8kKbBxrhk0mayIQaV3BAQjiig_lR4XQ>
- <xme:V9uIY1KshI2gqXJIFoOZtaFm8rpDdA3luyDs8s5RJqthiI2zdaiSvreUZsd93lBTX
- pIqGRob3ooL5Ur1F1g>
-X-ME-Received: <xmr:V9uIYxtjR2OgSqWVm8XPZQ-Z9owTfv0Z-DtqZdzsZ-TbcgqwH3hwDoBKGv5PEfCDcGBGsXNRdQQbeVvvdmPT1tcO9Go4jNYZ0vPBFg>
+ :x-sasl-enc; s=fm1; t=1669913433; x=1669999833; bh=TqrX8aYaYyYeB
+ NnOyObLeoI2PBPSkqeBYdmIchkhRz8=; b=OkW+eb2yIJf7pQNgaf7yHaWEorp2f
+ KCXaC/YIzAHgS8nDHUBIGE6wThIjAHtxjU+uOWcF8LLTjK6/pgcTErsiuIcOWVfy
+ Jv7mJcMZI0KVqWy49WYn2EM64mZZUrf3KBUATR+6MKczAwPPgYe9TqwKUxKzGG4M
+ /Ft8RqTt5SpB8qW+1APhTrGhdBJvvBM6Cj8+qKITYltisd0S+PcACYrIFa7GbCI2
+ /69e9F9rGwn180uQBB0j2p1Vb2cmWjQNZhilCoDi25nugKVdC9T8rUb1IR5QTjKt
+ 6YdCdJYRJJLAs4saROWxU68LByvnNcq9E/4/J7F5070AGfz2r+rrHWPZQ==
+X-ME-Sender: <xms:WNuIY_D3ZEa5H_3JJfHqqG3sgdwd7t0wMO2sWKTWCQ1yuXv0XpLLbw>
+ <xme:WNuIY1hN9agGkfY4zJQdfLmiiWxvYtmld0Rp2qC3i0gXAFFidxpSNhxVZ4sszXsno
+ uUkIoST56OaLIxTHig>
+X-ME-Received: <xmr:WNuIY6lWb-geWuBP-1pt-3cTR17JNdBRj8LHEc933OgouiDGQYsrH97_oTnEj-UdyPEPACTyfMQMBVmVn633jFVqU30Rj5lbFlNGBw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdelgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -56,34 +56,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdelgecutefuodetggdote
  gvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedujedu
  geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:V9uIY6bgNnSBlbXv_WUInb6X_3YIftmkm0CdCTmUH1S0ccaI6-Ukuw>
- <xmx:V9uIYwaPfhKNkD-JnCG21sYenHhVBiQ3DLY4sO0KeCb_sU7yQVqw7A>
- <xmx:V9uIY-Dl0CLTEesqts_sRwDWsR3sFCh-Dt-m4cHjR08V0Oq2bKFW6w>
- <xmx:V9uIY3VXGm_FyEAHvvArhAW2LvJVsVI95xIHkVVq3UvyA50GEyd3LA>
+X-ME-Proxy: <xmx:WNuIYxwo87UzG-fbliCDc_eCULxRBgHfd_lirIsPO2J0XIURMCpFgQ>
+ <xmx:WNuIY0QApWyI5l_z12_Tamy0ecMJQRDP96pTK2nvRjdIcpLakUfFqg>
+ <xmx:WNuIY0bRFDgk_825N3nEd-woTIfOnjeIn7p-Et6JG2Tg6oL9vEtDOA>
+ <xmx:WduIY6fZb8df9rfkiwI3HGoVokTbkHrRjm3I_bM1Cdr5KfmI5geS6Q>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Dec 2022 11:50:29 -0500 (EST)
+ 1 Dec 2022 11:50:31 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>,
- Jonathan Derrick <jonathan.derrick@linux.dev>
-Subject: [PULL for-7.2 1/5] hw/nvme: fix aio cancel in format
-Date: Thu,  1 Dec 2022 17:50:20 +0100
-Message-Id: <20221201165024.51018-2-its@irrelevant.dk>
+ Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL for-7.2 2/5] hw/nvme: fix aio cancel in flush
+Date: Thu,  1 Dec 2022 17:50:21 +0100
+Message-Id: <20221201165024.51018-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221201165024.51018-1-its@irrelevant.dk>
 References: <20221201165024.51018-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3896; i=k.jensen@samsung.com;
- h=from:subject; bh=xDv6JgPX2pJUd/Z1/825ymV6rZNZamjT491djcIWwOo=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOI21DKWp8TT/yntJaHHyUdAlqCDQ4ShEstFyt+
- 7yfPwJpWIYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjiNtQAAoJEE3hrzFtTw3pxM
- kIAKrA2l6zvFdE+l5FaeAcKNYYYreMUTTH9I77jtK4io0FMZb5smC/DSiJg9i5+yPRLC6Tg+ZKN+UL
- b6TH4S0C6KRMUQsKnAzT43ChZQCnBGRkXBwBYbZM565z4TphU83eiL/+r5aWNyjiyYGcWIA2hkrAPh
- +jw2GOPDw3uKpZTuiEw46xtHUrkDPvqW+D7rB31ZURtgiO7UKUd5HPJEldFaCNJvrRsohfQJFnIngY
- yK0ath/7dj8BxzgFsSM1aJPl5EXpFdk0FjJrAeRzpcwvFkcC5bqKRf1NtUOhKgyb47AR165ZSjgx2d
- JGvbDQt4Ju6juizlh6qqHcKmRK5GxztM3qHab7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2596; i=k.jensen@samsung.com;
+ h=from:subject; bh=avzERG+brYvQDBEX92TIH/6WWgSMh4xCDUsNn3ctL5s=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOI21DNKVJak2gKX0NBx96V7ndXQRqgIBP6hYi5
+ Z5uwXRLC9IkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjiNtQAAoJEE3hrzFtTw3ptT
+ QIAILh/B+hQHNLimn3xKSWANIh6peKgUWui8sWXB+sovWdHBBRNCaoiBapwpnVhEJSxGDHXujBYn3r
+ WGCAVDA5jBAmF6+dQROwoXTurC8oQMoKieoHYN4I5xXyYmpEOoPYAUy/FcY8mrjxKK/dijEHLPVYmb
+ pg6F/aIr/f/1LeuiSzMMe64uQdZAlUbFdquZguC2bxQvrbmXPOGsYikLM6ppwza5PK3w+O8NP18MlG
+ pM+ilJ98HfDonKilYBDu+KPuigtQFtUa1ZqEBleYupYAqGIYbOsG6hkZuc8dOPs7XWoGpFQyGOiL+1
+ AQ2qCKnqOYjXUgbLMIWPBVtwWCeAxM2lGnbqkg
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -113,99 +112,64 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-There are several bugs in the async cancel code for the Format command.
+Make sure that iocb->aiocb is NULL'ed when cancelling.
 
-Firstly, cancelling a format operation neglects to set iocb->ret as well
-as clearing the iocb->aiocb after cancelling the underlying aiocb which
-causes the aio callback to ignore the cancellation. Trivial fix.
+Fix a potential use-after-free by removing the bottom half and enqueuing
+the completion directly.
 
-Secondly, and worse, because the request is queued up for posting to the
-CQ in a bottom half, if the cancellation is due to the submission queue
-being deleted (which calls blk_aio_cancel), the req structure is
-deallocated in nvme_del_sq prior to the bottom half being schedulued.
-
-Fix this by simply removing the bottom half, there is no reason to defer
-it anyway.
-
-Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow cancellation")
-Reported-by: Jonathan Derrick <jonathan.derrick@linux.dev>
+Fixes: 38f4ac65ac88 ("hw/nvme: reimplement flush to allow cancellation")
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ hw/nvme/ctrl.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index ac3885ce5079..9bc56075f66f 100644
+index 9bc56075f66f..fede5af6afd0 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -5741,7 +5741,6 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
- typedef struct NvmeFormatAIOCB {
+@@ -3160,7 +3160,6 @@ typedef struct NvmeFlushAIOCB {
      BlockAIOCB common;
      BlockAIOCB *aiocb;
--    QEMUBH *bh;
      NvmeRequest *req;
+-    QEMUBH *bh;
      int ret;
  
-@@ -5756,14 +5755,15 @@ typedef struct NvmeFormatAIOCB {
-     uint8_t pil;
- } NvmeFormatAIOCB;
+     NvmeNamespace *ns;
+@@ -3176,6 +3175,7 @@ static void nvme_flush_cancel(BlockAIOCB *acb)
  
--static void nvme_format_bh(void *opaque);
--
- static void nvme_format_cancel(BlockAIOCB *aiocb)
- {
-     NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
- 
-+    iocb->ret = -ECANCELED;
-+
      if (iocb->aiocb) {
          blk_aio_cancel_async(iocb->aiocb);
 +        iocb->aiocb = NULL;
      }
  }
  
-@@ -5787,13 +5787,17 @@ static void nvme_format_set(NvmeNamespace *ns, uint8_t lbaf, uint8_t mset,
-     nvme_ns_init_format(ns);
- }
+@@ -3185,6 +3185,8 @@ static const AIOCBInfo nvme_flush_aiocb_info = {
+     .get_aio_context = nvme_get_aio_context,
+ };
  
-+static void nvme_do_format(NvmeFormatAIOCB *iocb);
++static void nvme_do_flush(NvmeFlushAIOCB *iocb);
 +
- static void nvme_format_ns_cb(void *opaque, int ret)
+ static void nvme_flush_ns_cb(void *opaque, int ret)
  {
-     NvmeFormatAIOCB *iocb = opaque;
-     NvmeNamespace *ns = iocb->ns;
-     int bytes;
- 
--    if (ret < 0) {
-+    if (iocb->ret < 0) {
-+        goto done;
-+    } else if (ret < 0) {
-         iocb->ret = ret;
-         goto done;
+     NvmeFlushAIOCB *iocb = opaque;
+@@ -3206,13 +3208,11 @@ static void nvme_flush_ns_cb(void *opaque, int ret)
      }
-@@ -5817,8 +5821,7 @@ static void nvme_format_ns_cb(void *opaque, int ret)
-     iocb->offset = 0;
  
- done:
+ out:
 -    iocb->aiocb = NULL;
 -    qemu_bh_schedule(iocb->bh);
-+    nvme_do_format(iocb);
++    nvme_do_flush(iocb);
  }
  
- static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
-@@ -5842,9 +5845,8 @@ static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
-     return NVME_SUCCESS;
- }
- 
--static void nvme_format_bh(void *opaque)
-+static void nvme_do_format(NvmeFormatAIOCB *iocb)
+-static void nvme_flush_bh(void *opaque)
++static void nvme_do_flush(NvmeFlushAIOCB *iocb)
  {
--    NvmeFormatAIOCB *iocb = opaque;
+-    NvmeFlushAIOCB *iocb = opaque;
      NvmeRequest *req = iocb->req;
      NvmeCtrl *n = nvme_ctrl(req);
-     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
-@@ -5882,11 +5884,7 @@ static void nvme_format_bh(void *opaque)
+     int i;
+@@ -3239,14 +3239,8 @@ static void nvme_flush_bh(void *opaque)
      return;
  
  done:
@@ -215,22 +179,25 @@ index ac3885ce5079..9bc56075f66f 100644
      iocb->common.cb(iocb->common.opaque, iocb->ret);
 -
      qemu_aio_unref(iocb);
+-
+-    return;
  }
  
-@@ -5905,7 +5903,6 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
-     iocb = qemu_aio_get(&nvme_format_aiocb_info, NULL, nvme_misc_cb, req);
+ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+@@ -3258,7 +3252,6 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+     iocb = qemu_aio_get(&nvme_flush_aiocb_info, NULL, nvme_misc_cb, req);
  
      iocb->req = req;
--    iocb->bh = qemu_bh_new(nvme_format_bh, iocb);
+-    iocb->bh = qemu_bh_new(nvme_flush_bh, iocb);
      iocb->ret = 0;
      iocb->ns = NULL;
      iocb->nsid = 0;
-@@ -5934,14 +5931,13 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
+@@ -3280,13 +3273,11 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
      }
  
      req->aiocb = &iocb->common;
 -    qemu_bh_schedule(iocb->bh);
-+    nvme_do_format(iocb);
++    nvme_do_flush(iocb);
  
      return NVME_NO_COMPLETE;
  
@@ -238,10 +205,8 @@ index ac3885ce5079..9bc56075f66f 100644
 -    qemu_bh_delete(iocb->bh);
 -    iocb->bh = NULL;
      qemu_aio_unref(iocb);
-+
-     return status;
- }
  
+     return status;
 -- 
 2.38.1
 
