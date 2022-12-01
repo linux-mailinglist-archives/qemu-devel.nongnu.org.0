@@ -2,62 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F7463F779
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 19:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6250063F781
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 19:33:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0oHr-0001OP-63; Thu, 01 Dec 2022 13:27:55 -0500
+	id 1p0oM6-0002P9-7A; Thu, 01 Dec 2022 13:32:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0oHo-0001MQ-VM
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 13:27:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0oLl-0002N7-MD
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 13:32:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0oHm-0008Bu-Vc
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 13:27:52 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p0oLZ-0000T6-QJ
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 13:31:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669919270;
+ s=mimecast20190719; t=1669919501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=zFk/Jbf8XdeLcNWjgv4+fGwT3viXgDP0K1T4YtWoNUE=;
- b=IDt3DSLElBAZhcN989JPyfJoCvCU/gEeWnoPerKnsO6klEKBjWX5Zr1sdyCN0rhvg8lWUV
- Uwjv8PK2gRB0x9nDudIMH+nwhAR6z5o0Vvp94O6U+FZquFS3szwoZz5y7v7wMWX77jJsjM
- IZPf9kUKLE3IpbGgPW/WYkax7iH5nSw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-F-yMaGNyOPCSOq53zdi7qA-1; Thu, 01 Dec 2022 13:27:47 -0500
-X-MC-Unique: F-yMaGNyOPCSOq53zdi7qA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8D8C894E85;
- Thu,  1 Dec 2022 18:27:46 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44ABD492B28;
- Thu,  1 Dec 2022 18:27:35 +0000 (UTC)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/F+VmLboyv0AIuZDsGKjjGahwvyjS3VgvMkXfGO2uCg=;
+ b=P2p4TkttTS6i4UmJSvM1Kz26wy0S9Jznhd4B3TWybXfA8ciJFBg0w8bhzwbpiGEzkTkAm7
+ a2X4LBCMIJPVnsScRwx/vk7oQmMZQZ6YSaIOMfmRlybvS4h/1d11kV9JzGwJJ1GKKnyNPQ
+ yNYdlfaheMWJvyGobkUQeYWohWF5Cu4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-323-z449E-mYM3ewgC6YOoFAHA-1; Thu, 01 Dec 2022 13:31:40 -0500
+X-MC-Unique: z449E-mYM3ewgC6YOoFAHA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v188-20020a1cacc5000000b003cf76c4ae66so2900460wme.7
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 10:31:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/F+VmLboyv0AIuZDsGKjjGahwvyjS3VgvMkXfGO2uCg=;
+ b=yGFowkf1Bjh1JHiUx6YoNwjqc3UYgattEMxwqXuBCEWCYctxyu3aE7Ub8QXXd0B3Rs
+ 8b00u/xY/D8gKDiAOjRufyTo5mxm+sPx1VLLxfm6alcUwRqJbB2t429ERyHfNfp8Cx+V
+ ZYhrRXqDk1N3jTrgPpw1PJvEgy6/7GxOsgrYCbRGvEHKG/HgTEarwZfBXiSwQ0IGPgyA
+ wU4RFXKPJOyW8D0My7juBE+q0Ny5E5dlYvpO89sL1qBSZtApCWj2xoTG0JKo9dt2Eo8R
+ pW4WO15pNYoIDFW2MB1OWFWGH4WElhPJosq1hAZ+gG6RJuR4TPAupHfI2V+bOazOWmG4
+ I+pA==
+X-Gm-Message-State: ANoB5pkGl8W+cedtfJFauvhvGSX3AQDceC+p/EdtJZVZ8sZKEftDFWe3
+ UOGyrDGcjUPFZUJNY7Zb4mc/zSio/ohFrhW5Q5RphrUvc4GhzKaizfJxY0BfCxzRMM/Uo6HmOfK
+ Kiwxhwt9MXzvV6u+oUpGTxaHzgvlRsIWp3lWNfXH/uuDviX7oVnQG1uDOeKHTeF0=
+X-Received: by 2002:a05:600c:6549:b0:3d0:5aa:b315 with SMTP id
+ dn9-20020a05600c654900b003d005aab315mr47076703wmb.101.1669919499301; 
+ Thu, 01 Dec 2022 10:31:39 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4MK0vqJ2cl/OSl/1PKb/znwjZ8FuMKQhwljEbR310NVVpeyDSYR0n+4Qzzhsswj75bjGfqzQ==
+X-Received: by 2002:a05:600c:6549:b0:3d0:5aa:b315 with SMTP id
+ dn9-20020a05600c654900b003d005aab315mr47076682wmb.101.1669919498973; 
+ Thu, 01 Dec 2022 10:31:38 -0800 (PST)
+Received: from [192.168.8.102] (tmo-073-221.customers.d1-online.com.
+ [80.187.73.221]) by smtp.gmail.com with ESMTPSA id
+ bg2-20020a05600c3c8200b003a3170a7af9sm7479612wmb.4.2022.12.01.10.31.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 10:31:38 -0800 (PST)
+Message-ID: <119d3f62-d8db-3568-7b38-3e055bc54faf@redhat.com>
+Date: Thu, 1 Dec 2022 19:31:36 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH for-8.0] target/s390x/tcg: Fix and improve the SACF
+ instruction
+Content-Language: en-US
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
 Cc: qemu-s390x@nongnu.org
-Subject: [PATCH for-8.0] target/s390x/tcg: Fix and improve the SACF instruction
-Date: Thu,  1 Dec 2022 19:27:29 +0100
-Message-Id: <20221201182729.133002-1-thuth@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <20221201182729.133002-1-thuth@redhat.com>
+In-Reply-To: <20221201182729.133002-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,98 +101,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The SET ADDRESS SPACE CONTROL FAST code has a couple of issues:
+On 01/12/2022 19.27, Thomas Huth wrote:
+> The SET ADDRESS SPACE CONTROL FAST code has a couple of issues:
+> 
+> 1) The instruction is not privileged, it can be used from problem space,
+> too. Just the switching to the home address space is privileged and
+> should still generate a privilege exception. This bug is e.g. causing
+> programs like Java that use the "getcpu" vdso kernel function to crash
+> (see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=990417)
+> 
+> 2) If DAT is not enabled, the instruction is supposed to generate
+> a special operation exception.
+> 
+> 3) The switch-case statement in the code hid a weird oddity: It did not
+> support the secondary address space though that should be working without
+> problems. But there is a "case 0x100" which means access register mode -
+> and that is not implemented in QEMU yet. The code used the secondary mode
+> for the access register mode instead - which seems to sufficient to make
+> the Linux kernel happy that still temporarily tries to switch to the access
+> register mode here and there. Anyway, let's get rid of the cumbersome
+> switch-case statement and add a proper comment for the access register
+> oddity to make it more clear what is going on here.
 
-1) The instruction is not privileged, it can be used from problem space,
-too. Just the switching to the home address space is privileged and
-should still generate a privilege exception. This bug is e.g. causing
-programs like Java that use the "getcpu" vdso kernel function to crash
-(see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=990417)
+Oooops, never mind, I just missed the part in the Principles of Operations 
+where this is explained: The bit ordering is different here compared to the 
+bits in the PSW. Ugly. I'll rework my patch...
 
-2) If DAT is not enabled, the instruction is supposed to generate
-a special operation exception.
-
-3) The switch-case statement in the code hid a weird oddity: It did not
-support the secondary address space though that should be working without
-problems. But there is a "case 0x100" which means access register mode -
-and that is not implemented in QEMU yet. The code used the secondary mode
-for the access register mode instead - which seems to sufficient to make
-the Linux kernel happy that still temporarily tries to switch to the access
-register mode here and there. Anyway, let's get rid of the cumbersome
-switch-case statement and add a proper comment for the access register
-oddity to make it more clear what is going on here.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/655
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- target/s390x/tcg/insn-data.h.inc |  2 +-
- target/s390x/tcg/cc_helper.c     | 36 +++++++++++++++++++-------------
- 2 files changed, 23 insertions(+), 15 deletions(-)
-
-diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
-index 7e952bdfc8..54d4250c9f 100644
---- a/target/s390x/tcg/insn-data.h.inc
-+++ b/target/s390x/tcg/insn-data.h.inc
-@@ -1365,7 +1365,7 @@
- /* SERVICE CALL LOGICAL PROCESSOR (PV hypercall) */
-     F(0xb220, SERVC,   RRE,   Z,   r1_o, r2_o, 0, 0, servc, 0, IF_PRIV | IF_IO)
- /* SET ADDRESS SPACE CONTROL FAST */
--    F(0xb279, SACF,    S,     Z,   0, a2, 0, 0, sacf, 0, IF_PRIV)
-+    C(0xb279, SACF,    S,     Z,   0, a2, 0, 0, sacf, 0)
- /* SET CLOCK */
-     F(0xb204, SCK,     S,     Z,   0, m2_64a, 0, 0, sck, 0, IF_PRIV | IF_IO)
- /* SET CLOCK COMPARATOR */
-diff --git a/target/s390x/tcg/cc_helper.c b/target/s390x/tcg/cc_helper.c
-index b2e8d3d9f5..6f1350c4e2 100644
---- a/target/s390x/tcg/cc_helper.c
-+++ b/target/s390x/tcg/cc_helper.c
-@@ -486,23 +486,31 @@ void HELPER(load_psw)(CPUS390XState *env, uint64_t mask, uint64_t addr)
- void HELPER(sacf)(CPUS390XState *env, uint64_t a1)
- {
-     HELPER_LOG("%s: %16" PRIx64 "\n", __func__, a1);
-+    uint64_t as = (a1 & 0xf00) >> 8;
- 
--    switch (a1 & 0xf00) {
--    case 0x000:
--        env->psw.mask &= ~PSW_MASK_ASC;
--        env->psw.mask |= PSW_ASC_PRIMARY;
--        break;
--    case 0x100:
--        env->psw.mask &= ~PSW_MASK_ASC;
--        env->psw.mask |= PSW_ASC_SECONDARY;
--        break;
--    case 0x300:
--        env->psw.mask &= ~PSW_MASK_ASC;
--        env->psw.mask |= PSW_ASC_HOME;
--        break;
--    default:
-+    if (!(env->psw.mask & PSW_MASK_DAT)) {
-+        tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
-+    }
-+
-+    if (as == AS_HOME && (env->psw.mask & PSW_MASK_PSTATE)) {
-+        tcg_s390_program_interrupt(env, PGM_PRIVILEGED, GETPC());
-+    }
-+
-+    if ((as & 0xc) != 0) {
-         HELPER_LOG("unknown sacf mode: %" PRIx64 "\n", a1);
-         tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
-+
-+    if (as == AS_ACCREG) {
-+        /*
-+         * FIXME: Access register mode is not implemented yet, but Linux
-+         * still seems to try to temporarily use this. Fortunately, it
-+         * seems to be happy if we use the secondary mode instead.
-+         */
-+        as = AS_SECONDARY;
-+    }
-+
-+    env->psw.mask &= ~PSW_MASK_ASC;
-+    env->psw.mask |= as << PSW_SHIFT_ASC;
- }
- #endif
--- 
-2.31.1
+  Thomas
 
 
