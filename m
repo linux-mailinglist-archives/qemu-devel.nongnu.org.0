@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6783C63F47C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:50:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FC563F4BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 17:05:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0lof-0003tP-7f; Thu, 01 Dec 2022 10:49:37 -0500
+	id 1p0m2C-0001RG-F7; Thu, 01 Dec 2022 11:03:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0lob-0003ou-5S
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 10:49:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0m2A-0001NL-BQ
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:03:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0loZ-0007f3-Kd
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 10:49:32 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0m28-0006TI-At
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:03:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669909770;
+ s=mimecast20190719; t=1669910610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JVf3oQWzNGFoNdLKVWepvAOdVo+HxTyXAA0ySFdHvIU=;
- b=VjNe+adjVazBwWZ7K+Nq/Roevanlln6Wz/fhR8090vE4X30x9U6ERl2YdTUNUoQd/oarFu
- I0o3GIBHsgOUYMZQxQgbIlJxY6dDeHqpGv6n9y0FHLz8qWeLnng+D5+caTwv4mgwsxR3m1
- klQYDsBiSHxfqwrnyAdVgIrnNM2GpHs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-FLTygyQGPGuSgYk3mK8anw-1; Thu, 01 Dec 2022 10:49:29 -0500
-X-MC-Unique: FLTygyQGPGuSgYk3mK8anw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35EF4811E84
- for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 15:49:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EDEF839D7C;
- Thu,  1 Dec 2022 15:49:28 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D423121E6921; Thu,  1 Dec 2022 16:49:25 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
- kraxel@redhat.com,  dgilbert@redhat.com,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 3/9] ui: Drop disabled code for SPICE_CHANNEL_WEBDAV
-References: <20221201061311.3619052-1-armbru@redhat.com>
- <20221201061311.3619052-4-armbru@redhat.com>
- <Y4hqiiNzcMVS0t0k@redhat.com> <87pmd3fgcu.fsf@pond.sub.org>
- <Y4i7kZCetDvFYnCp@redhat.com>
-Date: Thu, 01 Dec 2022 16:49:25 +0100
-In-Reply-To: <Y4i7kZCetDvFYnCp@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 1 Dec 2022 14:34:57 +0000")
-Message-ID: <87wn7bdsze.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=7UM0HkPPTTX7kIX9xjSwYnrCPhq0I1jN4v2m1oBPnOc=;
+ b=DnazeEzK6aj0y9aov7WG9559rtr2YqwoVQsSrMhm2c1A3yGU9hb6CKlW/4Qn+hSwqK0Ez6
+ cwT/iEZ73u2gYRjP3VTHb35TBHqCqpLz2Vo82jE2m4NZ124pUexO+iQ+BPi0katiSmecVq
+ dDztneP/Zl96SE0NuX9oXnY+5OS49c4=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-142-pW5dTgQ5MfeeAw-PujNfhw-1; Thu, 01 Dec 2022 11:03:22 -0500
+X-MC-Unique: pW5dTgQ5MfeeAw-PujNfhw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bj4-20020a05620a190400b006fc7c5d454cso7427419qkb.14
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 08:03:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7UM0HkPPTTX7kIX9xjSwYnrCPhq0I1jN4v2m1oBPnOc=;
+ b=uz/UKezWrI7H5eFrj8+4yfG6Q0m5dun6AxE/Js7USeyaYPUZNfLkd9972BVeWiGVHA
+ G6xJlROsepSSaRGbyShny9GXR5v4q2qOhVMwsEblaXqFKMLB5nLJrOOw7NJAdGF4Jwc4
+ AKwoyg/xJU7PlBigNYjwshD32xQy2wcKVzFIovJMOnVegy2XMMAoMC0KcAdpcyvUH5R0
+ ahpfUdTNt5LTcteQRSwV4nnXoGiC7irz1SxDE651NclO6wyWId/mZ57XjE5OGdeX8hOT
+ fEed5bS9pUow+XuH1FNX53mxtLfx/R6MWX82whEupqot2KuUCZ8SmM/SmOkr8ueXuCuq
+ 0hTQ==
+X-Gm-Message-State: ANoB5plIsk9OjyD8P4ghNv6+owrvoBKOSGDyGREp+dU80xf3CirS9nkt
+ G0unDN6EPkaGpkNM/jEd8ETVcz0jW6NbTQv6WbR8e/+SM37rgMn3iR9lUYhlUeija1uhRrQvpzz
+ e49tzUtSq+TttkPo=
+X-Received: by 2002:ac8:47c5:0:b0:3a5:6a0e:db3c with SMTP id
+ d5-20020ac847c5000000b003a56a0edb3cmr62846079qtr.398.1669910600445; 
+ Thu, 01 Dec 2022 08:03:20 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4BNQjTBBk3QUHTs8WQEQsXhjtu44z4IWu+OyJVksLEhnNrBiqDJrcekeMK3/18jIGXizHpBw==
+X-Received: by 2002:ac8:47c5:0:b0:3a5:6a0e:db3c with SMTP id
+ d5-20020ac847c5000000b003a56a0edb3cmr62846052qtr.398.1669910600184; 
+ Thu, 01 Dec 2022 08:03:20 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ bi6-20020a05620a318600b006fa16fe93bbsm3579107qkb.15.2022.12.01.08.03.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 08:03:19 -0800 (PST)
+Date: Thu, 1 Dec 2022 11:03:18 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com
+Subject: Re: [PATCH 2/3] intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+Message-ID: <Y4jQRu9KB05EYDVm@x1n>
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-3-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+In-Reply-To: <20221129081037.12099-3-jasowang@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,76 +97,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On Tue, Nov 29, 2022 at 04:10:36PM +0800, Jason Wang wrote:
+> Without dt mode, device IOTLB notifier won't work since guest won't
+> send device IOTLB invalidation descriptor in this case. Let's fail
+> early instead of misbehaving silently.
+> 
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/i386/intel_iommu.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 9143376677..d025ef2873 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3179,6 +3179,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>  {
+>      VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+>      IntelIOMMUState *s = vtd_as->iommu_state;
+> +    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
+>  
+>      /* TODO: add support for VFIO and vhost users */
+>      if (s->snoop_control) {
+> @@ -3193,6 +3194,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>                           PCI_FUNC(vtd_as->devfn));
+>          return -ENOTSUP;
+>      }
+> +    if (!x86_iommu->dt_supported && (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP)) {
+> +        error_setg_errno(errp, ENOTSUP,
+> +                         "device %02x.%02x.%x requires device IOTLB mode",
+> +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
+> +                         PCI_FUNC(vtd_as->devfn));
+> +        return -ENOTSUP;
+> +    }
 
-> On Thu, Dec 01, 2022 at 01:39:13PM +0100, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > On Thu, Dec 01, 2022 at 07:13:05AM +0100, Markus Armbruster wrote:
->> >> HMP "info spice" has a bit of code to show channel type
->> >> SPICE_CHANNEL_WEBDAV as "webdav", disabled since commit 7c6044a94e
->> >> "hmp: info spice: take out webdav" (v2.3.0), because it compiles only
->> >> with Spice versions 0.12.7 and later.  Our minimum version is 0.12.5.
->> >
->> > Last version bump was 4 years ago
->> >
->> > commit 1b63665c2c0e0d52735e0dd5217f109fe0dd2322
->> > Author: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> > Date:   Wed Nov 28 19:59:32 2018 +0400
->> >
->> >     configure: bump spice-server required version to 0.12.5
->> >
->> >     ...snip....
->> >
->> >     According to repology, all the distros that are build target platf=
-orms
->> >     for QEMU include it:
->> >=20=20=20=20=20
->> >           RHEL-7: 0.14.0
->> >           Debian (Stretch): 0.12.8
->> >           Debian (Jessie): 0.12.5
->> >           FreeBSD (ports): 0.14.0
->> >           OpenSUSE Leap 15: 0.14.0
->> >           Ubuntu (Xenial): 0.12.6
->> >
->> > We moved on from Debian and RHEL since then
->> >
->> >    Debian 11: 0.14.3
->> >    RHEL-8: 0.14.2
->> >    FreeBSD (ports): 0.14.4
->> >    Fedora 35: 0.14.0
->> >    Ubuntu 20.04: 0.14.0
->> >    OpenSUSE Leap 15.3: 0.14.3
->> >
->> > IOW, we can bump to 0.14.0, and then revert the
->> > webdav conditional commit.
->>=20
->> We need to bump spice-protocol, actually.
->
-> Opps, I'm getting mixed up. The commit I mentioned was spice-server,
-> but the new versions I've listed just were indeed spice-protocol
->
->> Would you like me to bump spice-server as well?  To which version?
->
-> Yes, might as well, the spice-server versions are slightly different:
->
->      Debian 11: 0.14.3
->      RHEL-8: 0.14.3
->      FreeBSD (ports): 0.15.0
->      Fedora 35: 0.15.0
->      Ubuntu 20.04: 0.14.2
->      OpenSUSE Leap 15.3: 0.14.3
->=20=20
-> I think we might as well pick  0.14.0 for both protocol and server.
+While my r-b holds.. let's also do this for amd-iommu in the same patch?
+dt never supported there, so we can fail as long as DEVIOTLB registered.
 
-Makes sense, but it leads to another question.
+>  
+>      /* Update per-address-space notifier flags */
+>      vtd_as->notifier_flags = new;
+> -- 
+> 2.25.1
+> 
 
-I found obvious version checks for spice-protocol, and dropped the
-outmoded ones, namely
-
-    #if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
-
-For spice-server, I see a bunch of SPICE_INTERFACE_FOO_{MAJOR,MINOR} we
-check, and which ones become outmoded is not obvious to me.  Help?
+-- 
+Peter Xu
 
 
