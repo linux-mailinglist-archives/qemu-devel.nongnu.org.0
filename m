@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A0663EA6D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 08:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C4E63EA6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 08:40:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0e9i-0007gw-Qv; Thu, 01 Dec 2022 02:38:50 -0500
+	id 1p0e9k-0007iW-Qq; Thu, 01 Dec 2022 02:38:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9M-0007eD-3X
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9f-0007gp-O6
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9K-0007pr-6w
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:27 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p0e9e-0007tV-3R
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 02:38:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669880303;
+ s=mimecast20190719; t=1669880324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vDKsvFO1e1bP8comV8KZ+aqVZb/5jzxai6mQsMShLUI=;
- b=IKQWRtASCUuNIEVCUtaMIAtgj1sg2YUhfs3zZiG8iSlOUTuloJ3gA2ey6VMBD71wjbYu3i
- H0CXNUjlaIAhWFc67aoByYuJjU4+z3DMcNm9DyhzgOM8XEwDgOFns52zegEFqyNP/4AnVV
- FOwtPoNpWnzUQ6KwYfBHk9tH2eko394=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Y5/7MrH+QtrO6VCSQCLTGZeCpdV+HusT1OZ+wFAoJKk=;
+ b=V/5DBSSt9MhybZnPip1aFESUn+Tnj6ayQBpJZuDzypLuHbKBYQJ+UJ4pYaPfdcX+vUn/0j
+ EPfgxKd8TyxYBvA8u7e1QCUd+f2yXSWaKNmttsg8D0er1gGHoCS7oVd6vkT+sBkBZbLS+z
+ 8T+eZNgn5nNRXIG89PE+YFDuNheg/QM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-619-ATzeHzVHPaWu42GwEcHCow-1; Thu, 01 Dec 2022 02:38:22 -0500
-X-MC-Unique: ATzeHzVHPaWu42GwEcHCow-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l42-20020a05600c1d2a00b003cf8e70c1ecso2158735wms.4
- for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 23:38:22 -0800 (PST)
+ us-mta-602-YA28AxJqNkqJ4CbiuPJ6Dg-1; Thu, 01 Dec 2022 02:38:43 -0500
+X-MC-Unique: YA28AxJqNkqJ4CbiuPJ6Dg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c126-20020a1c3584000000b003cfffcf7c1aso2180285wma.0
+ for <qemu-devel@nongnu.org>; Wed, 30 Nov 2022 23:38:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vDKsvFO1e1bP8comV8KZ+aqVZb/5jzxai6mQsMShLUI=;
- b=3eOgZMsFmXLDDztadZN7pPy1WS5k6WAFwNd8bMH7eCkInzvfwT+uq7mxCSSrRTd5ou
- vifLyx7DH0GvpNTGBSqLBDccuW3pe2hNO9aidfo8R4N/6FYLA6Xk6Eq6nHEyYoCpn016
- xHVMkD90lw80o3sFjezMLrKnMpjoDM2La+qWvKpNzy+VCaYYg1qtiBFIBdlWRKqueIZI
- m/xHxCTVTdoUFqCnUSYDgjeuUrr0VO73EjPwPC0QD7wLDIPv3LAKSq1iIH+pprFwZpUB
- 4z/gm0POM/KoOu0I8Ljb+PfJV4dq7495gUlTlRb3ChbdKTSkWXDbB8WHiiNDmn0+7DMm
- iExw==
-X-Gm-Message-State: ANoB5pn3tIkSBmX/ylCOu31hPTtpHeHDwa+EXxw7IXKo+pmnOtr1zjFv
- SBsRuiHBXTMCKK/zIEkhJwdzOX4W0/LflrNnihvGEhqPw0Ep2rv1yrXkI8gmwX9t1pqtjuI1p1+
- TfVWIuZ0+8GMj8OtC2tPi3dyu1ok02FXLbgnYbQb9X0B2/LGNh6fQ7e2LkD3G
-X-Received: by 2002:a05:600c:1c1f:b0:3cf:aa11:93a9 with SMTP id
- j31-20020a05600c1c1f00b003cfaa1193a9mr40192969wms.138.1669880301126; 
- Wed, 30 Nov 2022 23:38:21 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7LhsXhoeLzzSo23QBvqNmiaYVyC/xOmELvmp8Lln8lhT3QG92VODkZfhOsKCM1KtH39ReR9Q==
-X-Received: by 2002:a05:600c:1c1f:b0:3cf:aa11:93a9 with SMTP id
- j31-20020a05600c1c1f00b003cfaa1193a9mr40192949wms.138.1669880300784; 
- Wed, 30 Nov 2022 23:38:20 -0800 (PST)
+ bh=Y5/7MrH+QtrO6VCSQCLTGZeCpdV+HusT1OZ+wFAoJKk=;
+ b=UPmaooHc7+xwdihBOS/sIAxe03ZDXLi9E+6VCqnv+2ICN8xs6kiobHc8dzhiLZJIX2
+ +rP8MVWY5haeCFJgvD8JlQcal3spzBKrQAYS8v2rdlIEW+ErBVeO81Skuv4YVKLFch/n
+ 21Yj2ukJ8ULUjRf0QQ5CXuPwevRKy4s/2gXGT1z3U+QuMlHTblPyAi81fRDJYk9/TOSw
+ v06/uPAK7wpXpbdXaTU5TZeGtgT/nygJokVPJD9V8TvSwkkx+Om3qwS2AYO6MVcxvOoQ
+ 7ji2Gmax49rrVYp0O8UvpOFQzy7mCmnCH+2t6Ndc7sNgvsZfXhd0QDvbaj7Lu8T9EhiO
+ ipow==
+X-Gm-Message-State: ANoB5pltSMCfWpGc97yfaLO20np/DrBu0EwfaVZg0dM7S/oWsmpoLKYN
+ szQsQaqRLGaG3myo96OPqQQmQCN2oYxMI8T71qRrjrNdhKT/wcK22qRHlIL95+efqtILogIdey4
+ OjrHuxHGZ3AlMlYS9DdfBnjT9Rf2Sc04nNrvcTFvVSTiyxspuwMtzV/fgfh7O
+X-Received: by 2002:a05:600c:5127:b0:3cf:a4c4:777e with SMTP id
+ o39-20020a05600c512700b003cfa4c4777emr41190359wms.72.1669880321908; 
+ Wed, 30 Nov 2022 23:38:41 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7G6wlgY2AMJFXxqpFt2wu8GN0DsCoXLNHLMY7vjAOmuYGsrE9W0hp50xccdfpSFdw3OPTPzA==
+X-Received: by 2002:a05:600c:5127:b0:3cf:a4c4:777e with SMTP id
+ o39-20020a05600c512700b003cfa4c4777emr41190334wms.72.1669880321597; 
+ Wed, 30 Nov 2022 23:38:41 -0800 (PST)
 Received: from redhat.com ([2.52.19.245]) by smtp.gmail.com with ESMTPSA id
- o3-20020a5d4743000000b00228cbac7a25sm3622178wrs.64.2022.11.30.23.38.18
+ q128-20020a1c4386000000b003c71358a42dsm11088186wma.18.2022.11.30.23.38.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 23:38:20 -0800 (PST)
-Date: Thu, 1 Dec 2022 02:38:17 -0500
+ Wed, 30 Nov 2022 23:38:41 -0800 (PST)
+Date: Thu, 1 Dec 2022 02:38:39 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-Subject: [PULL 5/5] include/hw: VM state takes precedence in
- virtio_device_should_start
-Message-ID: <20221201073725.44585-6-mst@redhat.com>
+ Viresh Kumar <viresh.kumar@linaro.org>
+Subject: [PULL 3/5] hw/virtio: add started_vu status field to vhost-user-gpio
+Message-ID: <20221201073725.44585-4-mst@redhat.com>
 References: <20221201073725.44585-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -77,7 +76,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221201073725.44585-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,77 +102,73 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-The VM status should always preempt the device status for these
-checks. This ensures the device is in the correct state when we
-suspend the VM prior to migrations. This restores the checks to the
-order they where in before the refactoring moved things around.
+As per the fix to vhost-user-blk in f5b22d06fb (vhost: recheck dev
+state in the vhost_migration_log routine) we really should track the
+connection and starting separately.
 
-While we are at it lets improve our documentation of the various
-fields involved and document the two functions.
-
-Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-Fixes: 259d69c00b (hw/virtio: introduce virtio_device_should_start)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221130112439.2527228-6-alex.bennee@linaro.org>
+Message-Id: <20221130112439.2527228-4-alex.bennee@linaro.org>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio.h | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ include/hw/virtio/vhost-user-gpio.h | 10 ++++++++++
+ hw/virtio/vhost-user-gpio.c         | 11 ++++-------
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index a973811cbf..acfd4df125 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -116,6 +116,13 @@ struct VirtIODevice
-     bool broken; /* device in invalid state, needs reset */
-     bool use_disabled_flag; /* allow use of 'disable' flag when needed */
-     bool disabled; /* device in temporarily disabled state */
+diff --git a/include/hw/virtio/vhost-user-gpio.h b/include/hw/virtio/vhost-user-gpio.h
+index 4fe9aeecc0..a9305c5e6c 100644
+--- a/include/hw/virtio/vhost-user-gpio.h
++++ b/include/hw/virtio/vhost-user-gpio.h
+@@ -28,7 +28,17 @@ struct VHostUserGPIO {
+     VhostUserState vhost_user;
+     VirtQueue *command_vq;
+     VirtQueue *interrupt_vq;
 +    /**
-+     * @use_started: true if the @started flag should be used to check the
-+     * current state of the VirtIO device. Otherwise status bits
-+     * should be checked for a current status of the device.
-+     * @use_started is only set via QMP and defaults to true for all
-+     * modern machines (since 4.1).
++     * There are at least two steps of initialization of the
++     * vhost-user device. The first is a "connect" step and
++     * second is a "start" step. Make a separation between
++     * those initialization phases by using two fields.
++     *
++     * @connected: see vu_gpio_connect()/vu_gpio_disconnect()
++     * @started_vu: see vu_gpio_start()/vu_gpio_stop()
 +     */
-     bool use_started;
-     bool started;
-     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
-@@ -391,6 +398,16 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
-     return false;
- }
+     bool connected;
++    bool started_vu;
+     /*< public >*/
+ };
  
-+/**
-+ * virtio_device_started() - check if device started
-+ * @vdev - the VirtIO device
-+ * @status - the devices status bits
-+ *
-+ * Check if the device is started. For most modern machines this is
-+ * tracked via the @vdev->started field (to support migration),
-+ * otherwise we check for the final negotiated status bit that
-+ * indicates everything is ready.
-+ */
- static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
- {
-     if (vdev->use_started) {
-@@ -411,15 +428,11 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
-  */
- static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
- {
--    if (vdev->use_started) {
--        return vdev->started;
--    }
--
-     if (!vdev->vm_running) {
-         return false;
+diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+index 0b40ebd15a..be9be08b4c 100644
+--- a/hw/virtio/vhost-user-gpio.c
++++ b/hw/virtio/vhost-user-gpio.c
+@@ -86,6 +86,7 @@ static int vu_gpio_start(VirtIODevice *vdev)
+         error_report("Error starting vhost-user-gpio: %d", ret);
+         goto err_guest_notifiers;
+     }
++    gpio->started_vu = true;
+ 
+     /*
+      * guest_notifier_mask/pending not used yet, so just unmask
+@@ -126,16 +127,12 @@ static void vu_gpio_stop(VirtIODevice *vdev)
+     struct vhost_dev *vhost_dev = &gpio->vhost_dev;
+     int ret;
+ 
+-    if (!k->set_guest_notifiers) {
++    if (!gpio->started_vu) {
+         return;
+     }
++    gpio->started_vu = false;
+ 
+-    /*
+-     * We can call vu_gpio_stop multiple times, for example from
+-     * vm_state_notify and the final object finalisation. Check we
+-     * aren't already stopped before doing so.
+-     */
+-    if (!vhost_dev_is_started(vhost_dev)) {
++    if (!k->set_guest_notifiers) {
+         return;
      }
  
--    return status & VIRTIO_CONFIG_S_DRIVER_OK;
-+    return virtio_device_started(vdev, status);
- }
- 
- static inline void virtio_set_started(VirtIODevice *vdev, bool started)
 -- 
 MST
 
