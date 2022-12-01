@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C3563E9BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 07:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA72863E9AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 07:14:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0cpA-0005kK-VO; Thu, 01 Dec 2022 01:13:32 -0500
+	id 1p0cp9-0005je-G1; Thu, 01 Dec 2022 01:13:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0cp6-0005jj-AI
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:29 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0cp3-0005iG-VB
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:25 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0cp4-0005ml-7V
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:27 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0cp0-0005mZ-G5
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1669875200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RyfrnBGbFz4gu436RxEUKUfyWtRrBHWQKVJEI1cObxw=;
- b=DVcm2JunQ+pZapqZKpuaSshbU8TjVyTGBM/U9yrhbvWYd3cWvtTpllydC0qRKkzyvVglEd
- /WOuVLK+v2NmkQYDrUYVfWmb26j2fBXTiwRe1h/2rkBSm0NlZ+kRrybtGFZZ9rMcCaKpoy
- q8l8Gt0qdy6TKBDiCSqjqZEIoL4CwME=
+ bh=+chbUGXcg1zhKLysWRz6t1/rxyszaLR1UqSqOtSB1qs=;
+ b=U1E/6L5N1DnWDID/T+F0NL36t19sPQ299lcUagy8Rw+d2GJ0ebVe92L3KFSGzz33z9uJU0
+ ttbZILqdawIZQ3hTg+RpuYvtCnH/G95IH0eYPsQEf2KyOJaFz2m39gSpCY1gVsk1fy0m9L
+ BzY0neFXIko+WUf6giWC+72o8gsJTpg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-302-k5mu79EGM3agVqDciuhn2g-1; Thu, 01 Dec 2022 01:13:19 -0500
-X-MC-Unique: k5mu79EGM3agVqDciuhn2g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-468-PbiLaFO_MqKFWTYCBnwuAA-1; Thu, 01 Dec 2022 01:13:19 -0500
+X-MC-Unique: PbiLaFO_MqKFWTYCBnwuAA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F00D285A5A6
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF31D800186
  for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 06:13:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 85BEBC15BA5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8634C40C83C5;
  Thu,  1 Dec 2022 06:13:18 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E9B0121E65C5; Thu,  1 Dec 2022 07:13:11 +0100 (CET)
+ id EC68421E65C6; Thu,  1 Dec 2022 07:13:11 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com,
 	dgilbert@redhat.com
-Subject: [PATCH 5/9] ui: Move QMP commands from monitor to new ui/ui-qmp-cmds.c
-Date: Thu,  1 Dec 2022 07:13:07 +0100
-Message-Id: <20221201061311.3619052-6-armbru@redhat.com>
+Subject: [PATCH 6/9] ui: Move HMP commands from monitor to new ui/ui-hmp-cmds.c
+Date: Thu,  1 Dec 2022 07:13:08 +0100
+Message-Id: <20221201061311.3619052-7-armbru@redhat.com>
 In-Reply-To: <20221201061311.3619052-1-armbru@redhat.com>
 References: <20221201061311.3619052-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -82,239 +82,410 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 This moves these commands from MAINTAINERS section "Human
 Monitor (HMP)" to "Graphics".
 
-Command add-client applies to socket character devices in addition to
-display devices.  Move it anyway.  Aside: the way @protocol character
-device IDs and display types is bad design.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- monitor/qmp-cmds.c | 177 -----------------------------------------
- ui/ui-qmp-cmds.c   | 194 +++++++++++++++++++++++++++++++++++++++++++++
+ monitor/hmp-cmds.c | 342 ------------------------------------------
+ ui/ui-hmp-cmds.c   | 360 +++++++++++++++++++++++++++++++++++++++++++++
  ui/meson.build     |   1 +
- 3 files changed, 195 insertions(+), 177 deletions(-)
- create mode 100644 ui/ui-qmp-cmds.c
+ 3 files changed, 361 insertions(+), 342 deletions(-)
+ create mode 100644 ui/ui-hmp-cmds.c
 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index a7c95e8e39..85b2089873 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -16,14 +16,9 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
- #include "qemu/option.h"
--#include "monitor/monitor.h"
- #include "sysemu/sysemu.h"
- #include "qemu/config-file.h"
- #include "qemu/uuid.h"
--#include "chardev/char.h"
--#include "ui/qemu-spice.h"
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 29fcc730cb..f0f7b74fb3 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -52,7 +52,6 @@
+ #include "qapi/string-input-visitor.h"
+ #include "qapi/string-output-visitor.h"
+ #include "qom/object_interfaces.h"
 -#include "ui/console.h"
--#include "ui/dbus-display.h"
- #include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
- #include "sysemu/runstate-action.h"
-@@ -36,9 +31,7 @@
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-stats.h"
--#include "qapi/qapi-commands-ui.h"
- #include "qapi/type-helpers.h"
--#include "qapi/qmp/qerror.h"
- #include "exec/ramlist.h"
- #include "hw/mem/memory-device.h"
- #include "hw/acpi/acpi_dev_interface.h"
-@@ -172,144 +165,6 @@ void qmp_system_wakeup(Error **errp)
-     qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
- }
+ #include "qemu/cutils.h"
+ #include "qemu/error-report.h"
+ #include "hw/core/cpu.h"
+@@ -60,10 +59,6 @@
+ #include "migration/snapshot.h"
+ #include "migration/misc.h"
  
--void qmp_set_password(SetPasswordOptions *opts, Error **errp)
--{
--    int rc;
--
--    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
--        if (!qemu_using_spice(errp)) {
--            return;
--        }
--        rc = qemu_spice.set_passwd(opts->password,
--                opts->connected == SET_PASSWORD_ACTION_FAIL,
--                opts->connected == SET_PASSWORD_ACTION_DISCONNECT);
--    } else {
--        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
--        if (opts->connected != SET_PASSWORD_ACTION_KEEP) {
--            /* vnc supports "connected=keep" only */
--            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
--            return;
--        }
--        /*
--         * Note that setting an empty password will not disable login
--         * through this interface.
--         */
--        rc = vnc_display_password(opts->u.vnc.display, opts->password);
--    }
--
--    if (rc != 0) {
--        error_setg(errp, "Could not set password");
--    }
--}
--
--void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
--{
--    time_t when;
--    int rc;
--    const char *whenstr = opts->time;
--    const char *numstr = NULL;
--    uint64_t num;
--
--    if (strcmp(whenstr, "now") == 0) {
--        when = 0;
--    } else if (strcmp(whenstr, "never") == 0) {
--        when = TIME_MAX;
--    } else if (whenstr[0] == '+') {
--        when = time(NULL);
--        numstr = whenstr + 1;
--    } else {
--        when = 0;
--        numstr = whenstr;
--    }
--
--    if (numstr) {
--        if (qemu_strtou64(numstr, NULL, 10, &num) < 0) {
--            error_setg(errp, "Parameter 'time' doesn't take value '%s'",
--                       whenstr);
--            return;
--        }
--        when += num;
--    }
--
--    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
--        if (!qemu_using_spice(errp)) {
--            return;
--        }
--        rc = qemu_spice.set_pw_expire(when);
--    } else {
--        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
--        rc = vnc_display_pw_expire(opts->u.vnc.display, when);
--    }
--
--    if (rc != 0) {
--        error_setg(errp, "Could not set password expire time");
--    }
--}
--
--#ifdef CONFIG_VNC
--void qmp_change_vnc_password(const char *password, Error **errp)
--{
--    if (vnc_display_password(NULL, password) < 0) {
--        error_setg(errp, "Could not set password");
--    }
--}
+-#ifdef CONFIG_SPICE
+-#include <spice/enums.h>
 -#endif
 -
--void qmp_add_client(const char *protocol, const char *fdname,
--                    bool has_skipauth, bool skipauth, bool has_tls, bool tls,
--                    Error **errp)
+ bool hmp_handle_error(Monitor *mon, Error *err)
+ {
+     if (err) {
+@@ -179,26 +174,6 @@ void hmp_info_chardev(Monitor *mon, const QDict *qdict)
+     qapi_free_ChardevInfoList(char_info);
+ }
+ 
+-void hmp_info_mice(Monitor *mon, const QDict *qdict)
 -{
--    Chardev *s;
--    int fd;
+-    MouseInfoList *mice_list, *mouse;
 -
--    fd = monitor_get_fd(monitor_cur(), fdname, errp);
--    if (fd < 0) {
+-    mice_list = qmp_query_mice(NULL);
+-    if (!mice_list) {
+-        monitor_printf(mon, "No mouse devices connected\n");
 -        return;
 -    }
 -
--    if (strcmp(protocol, "spice") == 0) {
--        if (!qemu_using_spice(errp)) {
--            close(fd);
--            return;
--        }
--        skipauth = has_skipauth ? skipauth : false;
--        tls = has_tls ? tls : false;
--        if (qemu_spice.display_add_client(fd, skipauth, tls) < 0) {
--            error_setg(errp, "spice failed to add client");
--            close(fd);
--        }
--#ifdef CONFIG_VNC
--    } else if (strcmp(protocol, "vnc") == 0) {
--        skipauth = has_skipauth ? skipauth : false;
--        vnc_display_add_client(NULL, fd, skipauth);
--#endif
--#ifdef CONFIG_DBUS_DISPLAY
--    } else if (strcmp(protocol, "@dbus-display") == 0) {
--        if (!qemu_using_dbus_display(errp)) {
--            close(fd);
--            return;
--        }
--        if (!qemu_dbus_display.add_client(fd, errp)) {
--            close(fd);
--            return;
--        }
--#endif
--    } else {
--        s = qemu_chr_find(protocol);
--        if (!s) {
--            error_setg(errp, "protocol '%s' is invalid", protocol);
--            close(fd);
--            return;
--        }
--        if (qemu_chr_add_client(s, fd) < 0) {
--            error_setg(errp, "failed to add client");
--            close(fd);
--            return;
--        }
+-    for (mouse = mice_list; mouse; mouse = mouse->next) {
+-        monitor_printf(mon, "%c Mouse #%" PRId64 ": %s%s\n",
+-                       mouse->value->current ? '*' : ' ',
+-                       mouse->value->index, mouse->value->name,
+-                       mouse->value->absolute ? " (absolute)" : "");
 -    }
+-
+-    qapi_free_MouseInfoList(mice_list);
 -}
 -
--
- MemoryDeviceInfoList *qmp_query_memory_devices(Error **errp)
+ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
  {
-     return qmp_memory_device_list();
-@@ -348,38 +203,6 @@ MemoryInfo *qmp_query_memory_size_summary(Error **errp)
-     return mem_info;
+     MigrationInfo *info;
+@@ -518,169 +493,6 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
+     qapi_free_MigrationParameters(params);
  }
  
--void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
--{
--    switch (arg->type) {
--    case DISPLAY_RELOAD_TYPE_VNC:
+-
 -#ifdef CONFIG_VNC
--        if (arg->u.vnc.has_tls_certs && arg->u.vnc.tls_certs) {
--            vnc_display_reload_certs(NULL, errp);
+-/* Helper for hmp_info_vnc_clients, _servers */
+-static void hmp_info_VncBasicInfo(Monitor *mon, VncBasicInfo *info,
+-                                  const char *name)
+-{
+-    monitor_printf(mon, "  %s: %s:%s (%s%s)\n",
+-                   name,
+-                   info->host,
+-                   info->service,
+-                   NetworkAddressFamily_str(info->family),
+-                   info->websocket ? " (Websocket)" : "");
+-}
+-
+-/* Helper displaying and auth and crypt info */
+-static void hmp_info_vnc_authcrypt(Monitor *mon, const char *indent,
+-                                   VncPrimaryAuth auth,
+-                                   VncVencryptSubAuth *vencrypt)
+-{
+-    monitor_printf(mon, "%sAuth: %s (Sub: %s)\n", indent,
+-                   VncPrimaryAuth_str(auth),
+-                   vencrypt ? VncVencryptSubAuth_str(*vencrypt) : "none");
+-}
+-
+-static void hmp_info_vnc_clients(Monitor *mon, VncClientInfoList *client)
+-{
+-    while (client) {
+-        VncClientInfo *cinfo = client->value;
+-
+-        hmp_info_VncBasicInfo(mon, qapi_VncClientInfo_base(cinfo), "Client");
+-        monitor_printf(mon, "    x509_dname: %s\n",
+-                       cinfo->has_x509_dname ?
+-                       cinfo->x509_dname : "none");
+-        monitor_printf(mon, "    sasl_username: %s\n",
+-                       cinfo->has_sasl_username ?
+-                       cinfo->sasl_username : "none");
+-
+-        client = client->next;
+-    }
+-}
+-
+-static void hmp_info_vnc_servers(Monitor *mon, VncServerInfo2List *server)
+-{
+-    while (server) {
+-        VncServerInfo2 *sinfo = server->value;
+-        hmp_info_VncBasicInfo(mon, qapi_VncServerInfo2_base(sinfo), "Server");
+-        hmp_info_vnc_authcrypt(mon, "    ", sinfo->auth,
+-                               sinfo->has_vencrypt ? &sinfo->vencrypt : NULL);
+-        server = server->next;
+-    }
+-}
+-
+-void hmp_info_vnc(Monitor *mon, const QDict *qdict)
+-{
+-    VncInfo2List *info2l, *info2l_head;
+-    Error *err = NULL;
+-
+-    info2l = qmp_query_vnc_servers(&err);
+-    info2l_head = info2l;
+-    if (hmp_handle_error(mon, err)) {
+-        return;
+-    }
+-    if (!info2l) {
+-        monitor_printf(mon, "None\n");
+-        return;
+-    }
+-
+-    while (info2l) {
+-        VncInfo2 *info = info2l->value;
+-        monitor_printf(mon, "%s:\n", info->id);
+-        hmp_info_vnc_servers(mon, info->server);
+-        hmp_info_vnc_clients(mon, info->clients);
+-        if (!info->server) {
+-            /*
+-             * The server entry displays its auth, we only need to
+-             * display in the case of 'reverse' connections where
+-             * there's no server.
+-             */
+-            hmp_info_vnc_authcrypt(mon, "  ", info->auth,
+-                               info->has_vencrypt ? &info->vencrypt : NULL);
 -        }
--#else
--        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
--#endif
--        break;
--    default:
--        abort();
+-        if (info->has_display) {
+-            monitor_printf(mon, "  Display: %s\n", info->display);
+-        }
+-        info2l = info2l->next;
 -    }
--}
 -
--void qmp_display_update(DisplayUpdateOptions *arg, Error **errp)
+-    qapi_free_VncInfo2List(info2l_head);
+-
+-}
+-#endif
+-
+-#ifdef CONFIG_SPICE
+-void hmp_info_spice(Monitor *mon, const QDict *qdict)
 -{
--    switch (arg->type) {
--    case DISPLAY_UPDATE_TYPE_VNC:
--#ifdef CONFIG_VNC
--        vnc_display_update(&arg->u.vnc, errp);
--#else
--        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
--#endif
--        break;
--    default:
--        abort();
+-    SpiceChannelList *chan;
+-    SpiceInfo *info;
+-    const char *channel_name;
+-    const char * const channel_names[] = {
+-        [SPICE_CHANNEL_MAIN] = "main",
+-        [SPICE_CHANNEL_DISPLAY] = "display",
+-        [SPICE_CHANNEL_INPUTS] = "inputs",
+-        [SPICE_CHANNEL_CURSOR] = "cursor",
+-        [SPICE_CHANNEL_PLAYBACK] = "playback",
+-        [SPICE_CHANNEL_RECORD] = "record",
+-        [SPICE_CHANNEL_TUNNEL] = "tunnel",
+-        [SPICE_CHANNEL_SMARTCARD] = "smartcard",
+-        [SPICE_CHANNEL_USBREDIR] = "usbredir",
+-        [SPICE_CHANNEL_PORT] = "port",
+-    };
+-
+-    info = qmp_query_spice(NULL);
+-
+-    if (!info->enabled) {
+-        monitor_printf(mon, "Server: disabled\n");
+-        goto out;
 -    }
+-
+-    monitor_printf(mon, "Server:\n");
+-    if (info->has_port) {
+-        monitor_printf(mon, "     address: %s:%" PRId64 "\n",
+-                       info->host, info->port);
+-    }
+-    if (info->has_tls_port) {
+-        monitor_printf(mon, "     address: %s:%" PRId64 " [tls]\n",
+-                       info->host, info->tls_port);
+-    }
+-    monitor_printf(mon, "    migrated: %s\n",
+-                   info->migrated ? "true" : "false");
+-    monitor_printf(mon, "        auth: %s\n", info->auth);
+-    monitor_printf(mon, "    compiled: %s\n", info->compiled_version);
+-    monitor_printf(mon, "  mouse-mode: %s\n",
+-                   SpiceQueryMouseMode_str(info->mouse_mode));
+-
+-    if (!info->has_channels || info->channels == NULL) {
+-        monitor_printf(mon, "Channels: none\n");
+-    } else {
+-        for (chan = info->channels; chan; chan = chan->next) {
+-            monitor_printf(mon, "Channel:\n");
+-            monitor_printf(mon, "     address: %s:%s%s\n",
+-                           chan->value->host, chan->value->port,
+-                           chan->value->tls ? " [tls]" : "");
+-            monitor_printf(mon, "     session: %" PRId64 "\n",
+-                           chan->value->connection_id);
+-            monitor_printf(mon, "     channel: %" PRId64 ":%" PRId64 "\n",
+-                           chan->value->channel_type, chan->value->channel_id);
+-
+-            channel_name = "unknown";
+-            if (chan->value->channel_type > 0 &&
+-                chan->value->channel_type < ARRAY_SIZE(channel_names) &&
+-                channel_names[chan->value->channel_type]) {
+-                channel_name = channel_names[chan->value->channel_type];
+-            }
+-
+-            monitor_printf(mon, "     channel name: %s\n", channel_name);
+-        }
+-    }
+-
+-out:
+-    qapi_free_SpiceInfo(info);
+-}
+-#endif
+-
+ void hmp_info_balloon(Monitor *mon, const QDict *qdict)
+ {
+     BalloonInfo *info;
+@@ -1375,71 +1187,6 @@ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
+ }
+ 
+-void hmp_set_password(Monitor *mon, const QDict *qdict)
+-{
+-    const char *protocol  = qdict_get_str(qdict, "protocol");
+-    const char *password  = qdict_get_str(qdict, "password");
+-    const char *display = qdict_get_try_str(qdict, "display");
+-    const char *connected = qdict_get_try_str(qdict, "connected");
+-    Error *err = NULL;
+-
+-    SetPasswordOptions opts = {
+-        .password = (char *)password,
+-        .has_connected = !!connected,
+-    };
+-
+-    opts.connected = qapi_enum_parse(&SetPasswordAction_lookup, connected,
+-                                     SET_PASSWORD_ACTION_KEEP, &err);
+-    if (err) {
+-        goto out;
+-    }
+-
+-    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
+-                                    DISPLAY_PROTOCOL_VNC, &err);
+-    if (err) {
+-        goto out;
+-    }
+-
+-    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
+-        opts.u.vnc.has_display = !!display;
+-        opts.u.vnc.display = (char *)display;
+-    }
+-
+-    qmp_set_password(&opts, &err);
+-
+-out:
+-    hmp_handle_error(mon, err);
 -}
 -
- static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
+-void hmp_expire_password(Monitor *mon, const QDict *qdict)
+-{
+-    const char *protocol  = qdict_get_str(qdict, "protocol");
+-    const char *whenstr = qdict_get_str(qdict, "time");
+-    const char *display = qdict_get_try_str(qdict, "display");
+-    Error *err = NULL;
+-
+-    ExpirePasswordOptions opts = {
+-        .time = (char *)whenstr,
+-    };
+-
+-    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
+-                                    DISPLAY_PROTOCOL_VNC, &err);
+-    if (err) {
+-        goto out;
+-    }
+-
+-    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
+-        opts.u.vnc.has_display = !!display;
+-        opts.u.vnc.display = (char *)display;
+-    }
+-
+-    qmp_expire_password(&opts, &err);
+-
+-out:
+-    hmp_handle_error(mon, err);
+-}
+-
+-
+ #ifdef CONFIG_VNC
+ static void hmp_change_read_arg(void *opaque, const char *password,
+                                 void *readline_opaque)
+@@ -1637,95 +1384,6 @@ void hmp_closefd(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
+ }
+ 
+-void hmp_sendkey(Monitor *mon, const QDict *qdict)
+-{
+-    const char *keys = qdict_get_str(qdict, "keys");
+-    KeyValue *v = NULL;
+-    KeyValueList *head = NULL, **tail = &head;
+-    int has_hold_time = qdict_haskey(qdict, "hold-time");
+-    int hold_time = qdict_get_try_int(qdict, "hold-time", -1);
+-    Error *err = NULL;
+-    const char *separator;
+-    int keyname_len;
+-
+-    while (1) {
+-        separator = qemu_strchrnul(keys, '-');
+-        keyname_len = separator - keys;
+-
+-        /* Be compatible with old interface, convert user inputted "<" */
+-        if (keys[0] == '<' && keyname_len == 1) {
+-            keys = "less";
+-            keyname_len = 4;
+-        }
+-
+-        v = g_malloc0(sizeof(*v));
+-
+-        if (strstart(keys, "0x", NULL)) {
+-            const char *endp;
+-            unsigned long value;
+-
+-            if (qemu_strtoul(keys, &endp, 0, &value) < 0
+-                || value >= INT_MAX) {
+-                goto err_out;
+-            }
+-            assert(endp <= keys + keyname_len);
+-            if (endp != keys + keyname_len) {
+-                goto err_out;
+-            }
+-            v->type = KEY_VALUE_KIND_NUMBER;
+-            v->u.number.data = value;
+-        } else {
+-            int idx = index_from_key(keys, keyname_len);
+-            if (idx == Q_KEY_CODE__MAX) {
+-                goto err_out;
+-            }
+-            v->type = KEY_VALUE_KIND_QCODE;
+-            v->u.qcode.data = idx;
+-        }
+-        QAPI_LIST_APPEND(tail, v);
+-        v = NULL;
+-
+-        if (!*separator) {
+-            break;
+-        }
+-        keys = separator + 1;
+-    }
+-
+-    qmp_send_key(head, has_hold_time, hold_time, &err);
+-    hmp_handle_error(mon, err);
+-
+-out:
+-    qapi_free_KeyValue(v);
+-    qapi_free_KeyValueList(head);
+-    return;
+-
+-err_out:
+-    monitor_printf(mon, "invalid parameter: %.*s\n", keyname_len, keys);
+-    goto out;
+-}
+-
+-void coroutine_fn
+-hmp_screendump(Monitor *mon, const QDict *qdict)
+-{
+-    const char *filename = qdict_get_str(qdict, "filename");
+-    const char *id = qdict_get_try_str(qdict, "device");
+-    int64_t head = qdict_get_try_int(qdict, "head", 0);
+-    const char *input_format  = qdict_get_try_str(qdict, "format");
+-    Error *err = NULL;
+-    ImageFormat format;
+-
+-    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
+-                              IMAGE_FORMAT_PPM, &err);
+-    if (err) {
+-        goto end;
+-    }
+-
+-    qmp_screendump(filename, id != NULL, id, id != NULL, head,
+-                   input_format != NULL, format, &err);
+-end:
+-    hmp_handle_error(mon, err);
+-}
+-
+ void hmp_chardev_add(Monitor *mon, const QDict *qdict)
  {
-     RdmaProvider *rdma;
-diff --git a/ui/ui-qmp-cmds.c b/ui/ui-qmp-cmds.c
+     const char *args = qdict_get_str(qdict, "args");
+diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
 new file mode 100644
-index 0000000000..5d145c26f7
+index 0000000000..af290da9e1
 --- /dev/null
-+++ b/ui/ui-qmp-cmds.c
-@@ -0,0 +1,194 @@
++++ b/ui/ui-hmp-cmds.c
+@@ -0,0 +1,360 @@
 +/*
-+ * QMP commands related to UI
++ * Human Monitor Interface commands
 + *
 + * Copyright IBM, Corp. 2011
 + *
@@ -329,196 +500,362 @@ index 0000000000..5d145c26f7
 + */
 +
 +#include "qemu/osdep.h"
-+#include "chardev/char.h"
++#ifdef CONFIG_SPICE
++#include <spice/enums.h>
++#endif
++#include "monitor/hmp.h"
 +#include "monitor/monitor.h"
-+#include "qapi/qapi-commands-misc.h"
 +#include "qapi/qapi-commands-ui.h"
-+#include "qapi/qmp/qerror.h"
++#include "qapi/qmp/qdict.h"
 +#include "qemu/cutils.h"
 +#include "ui/console.h"
-+#include "ui/dbus-display.h"
-+#include "ui/qemu-spice.h"
 +
-+void qmp_set_password(SetPasswordOptions *opts, Error **errp)
++void hmp_info_mice(Monitor *mon, const QDict *qdict)
 +{
-+    int rc;
++    MouseInfoList *mice_list, *mouse;
 +
-+    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
-+        if (!qemu_using_spice(errp)) {
-+            return;
-+        }
-+        rc = qemu_spice.set_passwd(opts->password,
-+                opts->connected == SET_PASSWORD_ACTION_FAIL,
-+                opts->connected == SET_PASSWORD_ACTION_DISCONNECT);
-+    } else {
-+        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-+        if (opts->connected != SET_PASSWORD_ACTION_KEEP) {
-+            /* vnc supports "connected=keep" only */
-+            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
-+            return;
-+        }
-+        /*
-+         * Note that setting an empty password will not disable login
-+         * through this interface.
-+         */
-+        rc = vnc_display_password(opts->u.vnc.display, opts->password);
-+    }
-+
-+    if (rc != 0) {
-+        error_setg(errp, "Could not set password");
-+    }
-+}
-+
-+void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
-+{
-+    time_t when;
-+    int rc;
-+    const char *whenstr = opts->time;
-+    const char *numstr = NULL;
-+    uint64_t num;
-+
-+    if (strcmp(whenstr, "now") == 0) {
-+        when = 0;
-+    } else if (strcmp(whenstr, "never") == 0) {
-+        when = TIME_MAX;
-+    } else if (whenstr[0] == '+') {
-+        when = time(NULL);
-+        numstr = whenstr + 1;
-+    } else {
-+        when = 0;
-+        numstr = whenstr;
-+    }
-+
-+    if (numstr) {
-+        if (qemu_strtou64(numstr, NULL, 10, &num) < 0) {
-+            error_setg(errp, "Parameter 'time' doesn't take value '%s'",
-+                       whenstr);
-+            return;
-+        }
-+        when += num;
-+    }
-+
-+    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
-+        if (!qemu_using_spice(errp)) {
-+            return;
-+        }
-+        rc = qemu_spice.set_pw_expire(when);
-+    } else {
-+        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-+        rc = vnc_display_pw_expire(opts->u.vnc.display, when);
-+    }
-+
-+    if (rc != 0) {
-+        error_setg(errp, "Could not set password expire time");
-+    }
-+}
-+
-+#ifdef CONFIG_VNC
-+void qmp_change_vnc_password(const char *password, Error **errp)
-+{
-+    if (vnc_display_password(NULL, password) < 0) {
-+        error_setg(errp, "Could not set password");
-+    }
-+}
-+#endif
-+
-+void qmp_add_client(const char *protocol, const char *fdname,
-+                    bool has_skipauth, bool skipauth, bool has_tls, bool tls,
-+                    Error **errp)
-+{
-+    Chardev *s;
-+    int fd;
-+
-+    fd = monitor_get_fd(monitor_cur(), fdname, errp);
-+    if (fd < 0) {
++    mice_list = qmp_query_mice(NULL);
++    if (!mice_list) {
++        monitor_printf(mon, "No mouse devices connected\n");
 +        return;
 +    }
 +
-+    if (strcmp(protocol, "spice") == 0) {
-+        if (!qemu_using_spice(errp)) {
-+            close(fd);
-+            return;
-+        }
-+        skipauth = has_skipauth ? skipauth : false;
-+        tls = has_tls ? tls : false;
-+        if (qemu_spice.display_add_client(fd, skipauth, tls) < 0) {
-+            error_setg(errp, "spice failed to add client");
-+            close(fd);
-+        }
++    for (mouse = mice_list; mouse; mouse = mouse->next) {
++        monitor_printf(mon, "%c Mouse #%" PRId64 ": %s%s\n",
++                       mouse->value->current ? '*' : ' ',
++                       mouse->value->index, mouse->value->name,
++                       mouse->value->absolute ? " (absolute)" : "");
++    }
++
++    qapi_free_MouseInfoList(mice_list);
++}
++
 +#ifdef CONFIG_VNC
-+    } else if (strcmp(protocol, "vnc") == 0) {
-+        skipauth = has_skipauth ? skipauth : false;
-+        vnc_display_add_client(NULL, fd, skipauth);
-+#endif
-+#ifdef CONFIG_DBUS_DISPLAY
-+    } else if (strcmp(protocol, "@dbus-display") == 0) {
-+        if (!qemu_using_dbus_display(errp)) {
-+            close(fd);
-+            return;
++/* Helper for hmp_info_vnc_clients, _servers */
++static void hmp_info_VncBasicInfo(Monitor *mon, VncBasicInfo *info,
++                                  const char *name)
++{
++    monitor_printf(mon, "  %s: %s:%s (%s%s)\n",
++                   name,
++                   info->host,
++                   info->service,
++                   NetworkAddressFamily_str(info->family),
++                   info->websocket ? " (Websocket)" : "");
++}
++
++/* Helper displaying and auth and crypt info */
++static void hmp_info_vnc_authcrypt(Monitor *mon, const char *indent,
++                                   VncPrimaryAuth auth,
++                                   VncVencryptSubAuth *vencrypt)
++{
++    monitor_printf(mon, "%sAuth: %s (Sub: %s)\n", indent,
++                   VncPrimaryAuth_str(auth),
++                   vencrypt ? VncVencryptSubAuth_str(*vencrypt) : "none");
++}
++
++static void hmp_info_vnc_clients(Monitor *mon, VncClientInfoList *client)
++{
++    while (client) {
++        VncClientInfo *cinfo = client->value;
++
++        hmp_info_VncBasicInfo(mon, qapi_VncClientInfo_base(cinfo), "Client");
++        monitor_printf(mon, "    x509_dname: %s\n",
++                       cinfo->has_x509_dname ?
++                       cinfo->x509_dname : "none");
++        monitor_printf(mon, "    sasl_username: %s\n",
++                       cinfo->has_sasl_username ?
++                       cinfo->sasl_username : "none");
++
++        client = client->next;
++    }
++}
++
++static void hmp_info_vnc_servers(Monitor *mon, VncServerInfo2List *server)
++{
++    while (server) {
++        VncServerInfo2 *sinfo = server->value;
++        hmp_info_VncBasicInfo(mon, qapi_VncServerInfo2_base(sinfo), "Server");
++        hmp_info_vnc_authcrypt(mon, "    ", sinfo->auth,
++                               sinfo->has_vencrypt ? &sinfo->vencrypt : NULL);
++        server = server->next;
++    }
++}
++
++void hmp_info_vnc(Monitor *mon, const QDict *qdict)
++{
++    VncInfo2List *info2l, *info2l_head;
++    Error *err = NULL;
++
++    info2l = qmp_query_vnc_servers(&err);
++    info2l_head = info2l;
++    if (hmp_handle_error(mon, err)) {
++        return;
++    }
++    if (!info2l) {
++        monitor_printf(mon, "None\n");
++        return;
++    }
++
++    while (info2l) {
++        VncInfo2 *info = info2l->value;
++        monitor_printf(mon, "%s:\n", info->id);
++        hmp_info_vnc_servers(mon, info->server);
++        hmp_info_vnc_clients(mon, info->clients);
++        if (!info->server) {
++            /*
++             * The server entry displays its auth, we only need to
++             * display in the case of 'reverse' connections where
++             * there's no server.
++             */
++            hmp_info_vnc_authcrypt(mon, "  ", info->auth,
++                               info->has_vencrypt ? &info->vencrypt : NULL);
 +        }
-+        if (!qemu_dbus_display.add_client(fd, errp)) {
-+            close(fd);
-+            return;
++        if (info->has_display) {
++            monitor_printf(mon, "  Display: %s\n", info->display);
 +        }
++        info2l = info2l->next;
++    }
++
++    qapi_free_VncInfo2List(info2l_head);
++
++}
 +#endif
++
++#ifdef CONFIG_SPICE
++void hmp_info_spice(Monitor *mon, const QDict *qdict)
++{
++    SpiceChannelList *chan;
++    SpiceInfo *info;
++    const char *channel_name;
++    const char * const channel_names[] = {
++        [SPICE_CHANNEL_MAIN] = "main",
++        [SPICE_CHANNEL_DISPLAY] = "display",
++        [SPICE_CHANNEL_INPUTS] = "inputs",
++        [SPICE_CHANNEL_CURSOR] = "cursor",
++        [SPICE_CHANNEL_PLAYBACK] = "playback",
++        [SPICE_CHANNEL_RECORD] = "record",
++        [SPICE_CHANNEL_TUNNEL] = "tunnel",
++        [SPICE_CHANNEL_SMARTCARD] = "smartcard",
++        [SPICE_CHANNEL_USBREDIR] = "usbredir",
++        [SPICE_CHANNEL_PORT] = "port",
++    };
++
++    info = qmp_query_spice(NULL);
++
++    if (!info->enabled) {
++        monitor_printf(mon, "Server: disabled\n");
++        goto out;
++    }
++
++    monitor_printf(mon, "Server:\n");
++    if (info->has_port) {
++        monitor_printf(mon, "     address: %s:%" PRId64 "\n",
++                       info->host, info->port);
++    }
++    if (info->has_tls_port) {
++        monitor_printf(mon, "     address: %s:%" PRId64 " [tls]\n",
++                       info->host, info->tls_port);
++    }
++    monitor_printf(mon, "    migrated: %s\n",
++                   info->migrated ? "true" : "false");
++    monitor_printf(mon, "        auth: %s\n", info->auth);
++    monitor_printf(mon, "    compiled: %s\n", info->compiled_version);
++    monitor_printf(mon, "  mouse-mode: %s\n",
++                   SpiceQueryMouseMode_str(info->mouse_mode));
++
++    if (!info->has_channels || info->channels == NULL) {
++        monitor_printf(mon, "Channels: none\n");
 +    } else {
-+        s = qemu_chr_find(protocol);
-+        if (!s) {
-+            error_setg(errp, "protocol '%s' is invalid", protocol);
-+            close(fd);
-+            return;
-+        }
-+        if (qemu_chr_add_client(s, fd) < 0) {
-+            error_setg(errp, "failed to add client");
-+            close(fd);
-+            return;
++        for (chan = info->channels; chan; chan = chan->next) {
++            monitor_printf(mon, "Channel:\n");
++            monitor_printf(mon, "     address: %s:%s%s\n",
++                           chan->value->host, chan->value->port,
++                           chan->value->tls ? " [tls]" : "");
++            monitor_printf(mon, "     session: %" PRId64 "\n",
++                           chan->value->connection_id);
++            monitor_printf(mon, "     channel: %" PRId64 ":%" PRId64 "\n",
++                           chan->value->channel_type, chan->value->channel_id);
++
++            channel_name = "unknown";
++            if (chan->value->channel_type > 0 &&
++                chan->value->channel_type < ARRAY_SIZE(channel_names) &&
++                channel_names[chan->value->channel_type]) {
++                channel_name = channel_names[chan->value->channel_type];
++            }
++
++            monitor_printf(mon, "     channel name: %s\n", channel_name);
 +        }
 +    }
++
++out:
++    qapi_free_SpiceInfo(info);
++}
++#endif
++
++void hmp_set_password(Monitor *mon, const QDict *qdict)
++{
++    const char *protocol  = qdict_get_str(qdict, "protocol");
++    const char *password  = qdict_get_str(qdict, "password");
++    const char *display = qdict_get_try_str(qdict, "display");
++    const char *connected = qdict_get_try_str(qdict, "connected");
++    Error *err = NULL;
++
++    SetPasswordOptions opts = {
++        .password = (char *)password,
++        .has_connected = !!connected,
++    };
++
++    opts.connected = qapi_enum_parse(&SetPasswordAction_lookup, connected,
++                                     SET_PASSWORD_ACTION_KEEP, &err);
++    if (err) {
++        goto out;
++    }
++
++    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
++                                    DISPLAY_PROTOCOL_VNC, &err);
++    if (err) {
++        goto out;
++    }
++
++    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
++        opts.u.vnc.has_display = !!display;
++        opts.u.vnc.display = (char *)display;
++    }
++
++    qmp_set_password(&opts, &err);
++
++out:
++    hmp_handle_error(mon, err);
 +}
 +
-+void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
++void hmp_expire_password(Monitor *mon, const QDict *qdict)
 +{
-+    switch (arg->type) {
-+    case DISPLAY_RELOAD_TYPE_VNC:
-+#ifdef CONFIG_VNC
-+        if (arg->u.vnc.has_tls_certs && arg->u.vnc.tls_certs) {
-+            vnc_display_reload_certs(NULL, errp);
-+        }
-+#else
-+        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
-+#endif
-+        break;
-+    default:
-+        abort();
++    const char *protocol  = qdict_get_str(qdict, "protocol");
++    const char *whenstr = qdict_get_str(qdict, "time");
++    const char *display = qdict_get_try_str(qdict, "display");
++    Error *err = NULL;
++
++    ExpirePasswordOptions opts = {
++        .time = (char *)whenstr,
++    };
++
++    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
++                                    DISPLAY_PROTOCOL_VNC, &err);
++    if (err) {
++        goto out;
 +    }
++
++    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
++        opts.u.vnc.has_display = !!display;
++        opts.u.vnc.display = (char *)display;
++    }
++
++    qmp_expire_password(&opts, &err);
++
++out:
++    hmp_handle_error(mon, err);
 +}
 +
-+void qmp_display_update(DisplayUpdateOptions *arg, Error **errp)
++void hmp_sendkey(Monitor *mon, const QDict *qdict)
 +{
-+    switch (arg->type) {
-+    case DISPLAY_UPDATE_TYPE_VNC:
-+#ifdef CONFIG_VNC
-+        vnc_display_update(&arg->u.vnc, errp);
-+#else
-+        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
-+#endif
-+        break;
-+    default:
-+        abort();
++    const char *keys = qdict_get_str(qdict, "keys");
++    KeyValue *v = NULL;
++    KeyValueList *head = NULL, **tail = &head;
++    int has_hold_time = qdict_haskey(qdict, "hold-time");
++    int hold_time = qdict_get_try_int(qdict, "hold-time", -1);
++    Error *err = NULL;
++    const char *separator;
++    int keyname_len;
++
++    while (1) {
++        separator = qemu_strchrnul(keys, '-');
++        keyname_len = separator - keys;
++
++        /* Be compatible with old interface, convert user inputted "<" */
++        if (keys[0] == '<' && keyname_len == 1) {
++            keys = "less";
++            keyname_len = 4;
++        }
++
++        v = g_malloc0(sizeof(*v));
++
++        if (strstart(keys, "0x", NULL)) {
++            const char *endp;
++            unsigned long value;
++
++            if (qemu_strtoul(keys, &endp, 0, &value) < 0
++                || value >= INT_MAX) {
++                goto err_out;
++            }
++            assert(endp <= keys + keyname_len);
++            if (endp != keys + keyname_len) {
++                goto err_out;
++            }
++            v->type = KEY_VALUE_KIND_NUMBER;
++            v->u.number.data = value;
++        } else {
++            int idx = index_from_key(keys, keyname_len);
++            if (idx == Q_KEY_CODE__MAX) {
++                goto err_out;
++            }
++            v->type = KEY_VALUE_KIND_QCODE;
++            v->u.qcode.data = idx;
++        }
++        QAPI_LIST_APPEND(tail, v);
++        v = NULL;
++
++        if (!*separator) {
++            break;
++        }
++        keys = separator + 1;
 +    }
++
++    qmp_send_key(head, has_hold_time, hold_time, &err);
++    hmp_handle_error(mon, err);
++
++out:
++    qapi_free_KeyValue(v);
++    qapi_free_KeyValueList(head);
++    return;
++
++err_out:
++    monitor_printf(mon, "invalid parameter: %.*s\n", keyname_len, keys);
++    goto out;
++}
++
++void coroutine_fn
++hmp_screendump(Monitor *mon, const QDict *qdict)
++{
++    const char *filename = qdict_get_str(qdict, "filename");
++    const char *id = qdict_get_try_str(qdict, "device");
++    int64_t head = qdict_get_try_int(qdict, "head", 0);
++    const char *input_format  = qdict_get_try_str(qdict, "format");
++    Error *err = NULL;
++    ImageFormat format;
++
++    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
++                              IMAGE_FORMAT_PPM, &err);
++    if (err) {
++        goto end;
++    }
++
++    qmp_screendump(filename, id != NULL, id, id != NULL, head,
++                   input_format != NULL, format, &err);
++end:
++    hmp_handle_error(mon, err);
 +}
 diff --git a/ui/meson.build b/ui/meson.build
-index c1b137bf33..9194ea335b 100644
+index 9194ea335b..612ea2325b 100644
 --- a/ui/meson.build
 +++ b/ui/meson.build
 @@ -14,6 +14,7 @@ softmmu_ss.add(files(
    'kbd-state.c',
    'keymaps.c',
    'qemu-pixman.c',
-+  'ui-qmp-cmds.c',
++  'ui-hmp-cmds.c',
+   'ui-qmp-cmds.c',
    'util.c',
  ))
- if dbus_display
 -- 
 2.37.3
 
