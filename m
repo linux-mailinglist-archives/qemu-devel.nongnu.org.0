@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B18C63F4DF
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 17:11:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBB463F53F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 17:26:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0m8B-0004nU-2c; Thu, 01 Dec 2022 11:09:47 -0500
+	id 1p0mN9-0000jL-Tf; Thu, 01 Dec 2022 11:25:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0m86-0004kD-Qg
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:09:44 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0m85-0000hl-5s
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:09:42 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id o12so2268738pjo.4
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 08:09:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bwTILKOyhCn85/23lQZBXe5Y1YfHjOoehqFHkiEsNnQ=;
- b=GmzqK7/vmWRyXP+EzWvRQH6l46eoZBBmKGi5316zTSgZwcN9NOw8Q5VjtXD9zFiDtZ
- i510zynHeHWfQEFhuyXiXKsRvTv6pKhHnqOAqD+DLkY232LasLNjy54mO0yx8D4F4ysx
- X5slLETy2007Dy3R+gTbw1g9W4xEG0ZLf/7PLUIysx/GuQQexKIAysH8DqoSVyWPu+ha
- gWaqju8AEH6p+FcNh0gvRHoLZETV8TCeO7qoh8akPaErNDwJWB0DGo1RVygr4cyaQuDA
- xI0jCrtwQH3WuFfzRgMY2FPo7YTYW3u1kXkLrSCcMNnxlRfoNuq3iXLVf0gUY7ypEOOw
- YyVg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0mN7-0000j9-Oy
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:25:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p0mN3-0005eL-VN
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 11:25:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669911906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VvYQ6YCMEIaHw+PjdWjLbM1f+iFkdB02qf3mT8RigOw=;
+ b=deLHDk2VLYLMx4htSlpkOopNEjlUIKzwe9VBnX3ndNSFO3IUXUAN+3Plu3S/xvelnK3Zcv
+ uKVV5OLIkIahCS2NXnGmirreaJKGTwNSygRS7dJNrjMUbfOXq4t9sB9XZHemf7xk3CvfUy
+ vh5VZfBKTSvoW0OXk3iQPmJa5hfMTWo=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-538-0KTpFpNeNja04FMB77dLCw-1; Thu, 01 Dec 2022 11:25:04 -0500
+X-MC-Unique: 0KTpFpNeNja04FMB77dLCw-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ i4-20020ac813c4000000b003a5044a818cso5597156qtj.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 08:25:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bwTILKOyhCn85/23lQZBXe5Y1YfHjOoehqFHkiEsNnQ=;
- b=t0AH/xnWOCQmrPbCtPpyMGwa9KtMUILMkD+y0dkcpPfJ1yGmFg8oVBsBTbB5ZO4JRK
- UygvweIBykjecvDDO0Nx/lDqIHxRyPBSnRRXS/4Z22Pltt6UUO+652LVdNaOoJi/0d8u
- 3gTYEo1iHBgurAgCGqnaOiUw52Lw7fUJNieODKTBfxEYMXzQLIa9MTRPW4Bmht+nfR42
- 3GsJlZWLPFHPLqQ0Gl+ZAHkM+uhvk08JGnDu4YqNrv8iI1uE+0CjxiV830Mt8+5iRCVH
- oARMhckhgG59YoDBAcxEjYfaa7EQlTxdMn53749K8GZBjXhN6JGh5C/gO/8iPJfCLsxW
- Gaag==
-X-Gm-Message-State: ANoB5pnzvRCL2g0qtOQn/mQ5AjHs/KpET4eCZ6n81L5txW9Vgvn6kB+j
- X/BxcXoCdcECjqP7G2/4sFlIAQ==
-X-Google-Smtp-Source: AA0mqf57G6+VC/lH7INycHgxfSVIxw8Use1I1aoXjGI9ulG5dd8fBxUk8VWLZdX8ZIEPpwNajKcLiw==
-X-Received: by 2002:a17:90a:4894:b0:218:a96f:9eec with SMTP id
- b20-20020a17090a489400b00218a96f9eecmr58359050pjh.159.1669910978311; 
- Thu, 01 Dec 2022 08:09:38 -0800 (PST)
-Received: from ?IPV6:2602:47:d48a:1201:14f5:5e3d:e302:4fb4?
- ([2602:47:d48a:1201:14f5:5e3d:e302:4fb4])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VvYQ6YCMEIaHw+PjdWjLbM1f+iFkdB02qf3mT8RigOw=;
+ b=fZlNca2ImUlTwH8g4cEhkXtDyQ+Ql7v4+XhLrOpmnFSqezrFm6EUwj2jeyo8Dfkc9i
+ L42nfRk6JgqvC6nkZrbQHQJp1r4s/KX9wrAKD6eaGEfqV/qT3VnZFZ3vmhP5ewC2RQ+q
+ xxpMHEV28HxwZAoW/1umBDAM/XuxPfIXgLMsgPSe3qqLHk1q37xKF6MwkXuL6u5VsuLV
+ Sds9ooRsKiE/eKwol2rEi7FW1xYRtR4mB5dZaC4iOAnPONK3Z+/iI0JGePjGXQR9ZkFv
+ 4DGo5jX13InPE2WT5QRmrti6x7RDB3LuSaL0PzR3yMilBrr8ZgZkRBjKnWVcjmjDCSUi
+ NgnQ==
+X-Gm-Message-State: ANoB5pm3+z1nNz9tyAiASHminHPI+EqBM8DdtboMGdFUdUtiM/mWmrYk
+ KG7yIFQqZ87+vHQmhx12kjGCXPaxXA32rHo3qYckbcttN8A1RXLnSkoXxWiDcOqvO8nPcEvRCsM
+ SluG+pogY0j0DppHS62CxyPcicPgf1dOFoSxE8LTTSAH7tWHYakQEsl+pFMa7RSYi
+X-Received: by 2002:a37:91c6:0:b0:6fa:28c5:e2b with SMTP id
+ t189-20020a3791c6000000b006fa28c50e2bmr42430753qkd.403.1669911903701; 
+ Thu, 01 Dec 2022 08:25:03 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4vz3cCzKt1oHPjT6q/qpCvuQRf7xPYMAJqRpNc0tcw32op/o0cD3JtgwQdhdqPX/YYrHnUig==
+X-Received: by 2002:a37:91c6:0:b0:6fa:28c5:e2b with SMTP id
+ t189-20020a3791c6000000b006fa28c50e2bmr42430717qkd.403.1669911903364; 
+ Thu, 01 Dec 2022 08:25:03 -0800 (PST)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
  by smtp.gmail.com with ESMTPSA id
- c14-20020a62f84e000000b0056bc30e618dsm3415655pfm.38.2022.12.01.08.09.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 08:09:37 -0800 (PST)
-Message-ID: <fc6d4cf6-7ab8-8176-e216-6d4dd5bea361@linaro.org>
-Date: Thu, 1 Dec 2022 08:09:35 -0800
+ i11-20020a05620a248b00b006ee949b8051sm3788041qkn.51.2022.12.01.08.25.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 08:25:02 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ peterx@redhat.com, Yi Liu <yi.l.liu@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>
+Subject: [PATCH] intel-iommu: Document iova_tree
+Date: Thu,  1 Dec 2022 11:25:01 -0500
+Message-Id: <20221201162501.3864692-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] .gitlab/issue_templates: Move suggestions into comments
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: John Snow <jsnow@redhat.com>
-References: <20221201133756.77216-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221201133756.77216-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,20 +98,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/1/22 05:37, Thomas Huth wrote:
-> Many users forget to remove the suggestions from the bug template
-> when creating a new issue. So when searching for strings like "s390x"
-> or "Windows", you get a lot of unrelated issues in the results.
-> Thus let's move the suggestions into HTML comments - so they will
-> still show up in the markdown when editing the bug, while being
-> hidden/ignored in the final text or in the search queries.
-> 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
-> ---
->   .gitlab/issue_templates/bug.md | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+It seems not super clear on when iova_tree is used, and why.  Add a rich
+comment above iova_tree to track why we needed the iova_tree, and when we
+need it.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ include/hw/i386/intel_iommu.h | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-r~
+diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+index 46d973e629..8d130ab2e3 100644
+--- a/include/hw/i386/intel_iommu.h
++++ b/include/hw/i386/intel_iommu.h
+@@ -109,7 +109,35 @@ struct VTDAddressSpace {
+     QLIST_ENTRY(VTDAddressSpace) next;
+     /* Superset of notifier flags that this address space has */
+     IOMMUNotifierFlag notifier_flags;
+-    IOVATree *iova_tree;          /* Traces mapped IOVA ranges */
++    /*
++     * @iova_tree traces mapped IOVA ranges.
++     *
++     * The tree is not needed if no MAP notifiers is registered with
++     * current VTD address space, because all UNMAP (including iotlb or
++     * dev-iotlb) events can be transparently delivered to !MAP iommu
++     * notifiers.
++     *
++     * The tree OTOH is required for MAP typed iommu notifiers for a few
++     * reasons.
++     *
++     * Firstly, there's no way to identify whether an PSI event is MAP or
++     * UNMAP within the PSI message itself.  Without having prior knowledge
++     * of existing state vIOMMU doesn't know whether it should notify MAP
++     * or UNMAP for a PSI message it received.
++     *
++     * Secondly, PSI received from guest driver (or even a large PSI can
++     * grow into a DSI at least with Linux intel-iommu driver) can be
++     * larger in range than the newly mapped ranges for either MAP or UNMAP
++     * events. If it directly pass-throughs any such event it may confuse
++     * the registered drivers (e.g. vfio-pci) on either: (1) trying to map
++     * the same region more than once (for VFIO_IOMMU_MAP_DMA, -EEXIST will
++     * trigger), or (2) trying to UNMAP a range that is still partially
++     * mapped.  That accuracy is not required for UNMAP-only notifiers, but
++     * it is a must-to-have for MAP-inclusive notifiers, because the vIOMMU
++     * needs to make sure the shadow page table is always in sync with the
++     * guest IOMMU pgtables for a device.
++     */
++    IOVATree *iova_tree;
+ };
+ 
+ struct VTDIOTLBEntry {
+-- 
+2.37.3
+
 
