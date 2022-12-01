@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5ABA63EB99
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 09:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CE863EBA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 09:53:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0fH5-0000GW-KK; Thu, 01 Dec 2022 03:50:31 -0500
+	id 1p0fIB-000196-Mi; Thu, 01 Dec 2022 03:51:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0fGr-00008s-BO
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:50:18 -0500
+ id 1p0fI9-000167-5E
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:51:37 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p0fGo-00089O-37
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:50:15 -0500
+ id 1p0fI7-0000kY-0e
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 03:51:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669884613;
+ s=mimecast20190719; t=1669884694;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OOAkYsbyZ4TxZtb14hvM/gM7Z4NTdVXTowudig4yHIU=;
- b=QcgMFjkvtkwTLcGZBxHBjXL4cBK/NYYAoj4Uik2YHmODOf/aGd7gBa1B1HWXRY5qWBnUBv
- jw/rEZALfGvkexexyaSjxQEJ3GfC0eF+bkaSddGuEFgQUKXPHNyDY5Qc+44zSjW8cYNpJn
- bH6cPiBQ+OkzPz00Dj2EI6GVZtq6Vvg=
+ bh=0Yy+n1RbDK4gAUWHRr5tgkARKtd69cUeIUkvjSjDGxk=;
+ b=a1yFDBPUCt2dQwmRjNlyFrIPeF8URL6VbgTJQtx28iKCb5SyUD7NZs5Z9oLgqpLhdqCcmX
+ Jf0iv0pkxnJsexmTpPjJwEo6zUAXS+UZiLFv8WygjMwgMDFyoJRsb93h9cFV0Ij4cT3VvH
+ l9lScMrq9wClmdpxZxSgHxbqYmrW0cs=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-gWYoIB80OY2etkOlpu7vSg-1; Thu, 01 Dec 2022 03:50:11 -0500
-X-MC-Unique: gWYoIB80OY2etkOlpu7vSg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-471-JNV0DoSAMhiO0W1QxWQQmQ-1; Thu, 01 Dec 2022 03:51:31 -0500
+X-MC-Unique: JNV0DoSAMhiO0W1QxWQQmQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 937E51C07588
- for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 08:50:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D3903810D3B
+ for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 08:51:31 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA5094035734;
- Thu,  1 Dec 2022 08:50:09 +0000 (UTC)
-Date: Thu, 1 Dec 2022 08:50:03 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 195FD2024CBE;
+ Thu,  1 Dec 2022 08:51:26 +0000 (UTC)
+Date: Thu, 1 Dec 2022 08:51:16 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, kraxel@redhat.com, dgilbert@redhat.com
-Subject: Re: [PATCH 4/9] ui: Clean up a few things checkpatch.pl would flag
- later on
-Message-ID: <Y4hqu5SfKNae3lgF@redhat.com>
+Subject: Re: [PATCH 5/9] ui: Move QMP commands from monitor to new
+ ui/ui-qmp-cmds.c
+Message-ID: <Y4hrBISHuKlXH5EE@redhat.com>
 References: <20221201061311.3619052-1-armbru@redhat.com>
- <20221201061311.3619052-5-armbru@redhat.com>
+ <20221201061311.3619052-6-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221201061311.3619052-5-armbru@redhat.com>
+In-Reply-To: <20221201061311.3619052-6-armbru@redhat.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -84,15 +84,21 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 01, 2022 at 07:13:06AM +0100, Markus Armbruster wrote:
-> Fix a few style violations so that checkpatch.pl won't complain when I
-> move this code.
+On Thu, Dec 01, 2022 at 07:13:07AM +0100, Markus Armbruster wrote:
+> This moves these commands from MAINTAINERS section "Human
+> Monitor (HMP)" to "Graphics".
+> 
+> Command add-client applies to socket character devices in addition to
+> display devices.  Move it anyway.  Aside: the way @protocol character
+> device IDs and display types is bad design.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  monitor/hmp-cmds.c |  7 ++++---
->  monitor/qmp-cmds.c | 21 +++++++++++----------
->  2 files changed, 15 insertions(+), 13 deletions(-)
+>  monitor/qmp-cmds.c | 177 -----------------------------------------
+>  ui/ui-qmp-cmds.c   | 194 +++++++++++++++++++++++++++++++++++++++++++++
+>  ui/meson.build     |   1 +
+>  3 files changed, 195 insertions(+), 177 deletions(-)
+>  create mode 100644 ui/ui-qmp-cmds.c
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
