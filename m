@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B352F63E9A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 07:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE05763E9AF
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 07:14:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0cp3-0005gI-8b; Thu, 01 Dec 2022 01:13:25 -0500
+	id 1p0coz-0005f1-Vj; Thu, 01 Dec 2022 01:13:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0coy-0005eH-Gl
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0cox-0005e7-3g
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0cow-0005lw-TG
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:20 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0cov-0005lW-Mh
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 01:13:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669875198;
+ s=mimecast20190719; t=1669875196;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CEncH5jWuMoGUOCPEM0Co8w+5YqVTzL+43gIV+1rwA8=;
- b=V2QHJNNNaIj/qYI7c2YL1bsWdE2WArlH1NBsqwYSFwQYJ30LcMrCjCHwXyjhpXIBJzRrjJ
- a76Xfu4ojAb00gPvs3nImdhVekNr3JNFXWSSORxOUdHEDwpPkauN/hqRkxghsAYBZd4W83
- Q9MzbMV1MUUuUJDoJMucmiZUFXcgrSM=
+ bh=yU9CQzTNwyegt6aMM4ArVHYH5uDT6h6ZXWrpMhPsUy8=;
+ b=eDA36HglGXDZ4UtO5VQIW0gUCSKjXXwTXVMO26l2ND6HJA8dGbgkRj+CgiafA57CzKeV4o
+ P2Kdy3oammvxrv1cfRO8kIkhRxOEROf5fpbukMetZSa5nDoPmCci6Gcx32JTbCZiXje1UT
+ V13LDB9vvOTp4EK8AhMyYUc64IC83OU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-oC-RKTEPOdWtBwfpdfHLCQ-1; Thu, 01 Dec 2022 01:13:15 -0500
-X-MC-Unique: oC-RKTEPOdWtBwfpdfHLCQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-77-WnLoALm-OLy7H5sWj6HJEw-1; Thu, 01 Dec 2022 01:13:15 -0500
+X-MC-Unique: WnLoALm-OLy7H5sWj6HJEw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A3B585A588
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BC0D185A7A3
  for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 06:13:15 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21111140EBF5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2145E40C2064;
  Thu,  1 Dec 2022 06:13:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E27C321E6681; Thu,  1 Dec 2022 07:13:11 +0100 (CET)
+ id E4DDA21E6936; Thu,  1 Dec 2022 07:13:11 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com,
 	dgilbert@redhat.com
-Subject: [PATCH 2/9] ui: Fix silent truncation of numeric keys in HMP sendkey
-Date: Thu,  1 Dec 2022 07:13:04 +0100
-Message-Id: <20221201061311.3619052-3-armbru@redhat.com>
+Subject: [PATCH 3/9] ui: Drop disabled code for SPICE_CHANNEL_WEBDAV
+Date: Thu,  1 Dec 2022 07:13:05 +0100
+Message-Id: <20221201061311.3619052-4-armbru@redhat.com>
 In-Reply-To: <20221201061311.3619052-1-armbru@redhat.com>
 References: <20221201061311.3619052-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,37 +79,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Keys are int.  HMP sendkey assigns them from the value strtoul(),
-silently truncating values greater than INT_MAX.  Fix to reject them.
+HMP "info spice" has a bit of code to show channel type
+SPICE_CHANNEL_WEBDAV as "webdav", disabled since commit 7c6044a94e
+"hmp: info spice: take out webdav" (v2.3.0), because it compiles only
+with Spice versions 0.12.7 and later.  Our minimum version is 0.12.5.
 
-While there, use qemu_strtoul() instead of strtoul() so checkpatch.pl
-won't complain.
+Looks like nobody minded in more than seven years.  Drop it, so that
+checkpatch.pl won't complain when I move the code.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- monitor/hmp-cmds.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ monitor/hmp-cmds.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 01b789a79e..a7c9ae2520 100644
+index a7c9ae2520..86dd961462 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1666,8 +1666,13 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
-         v = g_malloc0(sizeof(*v));
+@@ -626,12 +626,6 @@ void hmp_info_spice(Monitor *mon, const QDict *qdict)
+         [SPICE_CHANNEL_SMARTCARD] = "smartcard",
+         [SPICE_CHANNEL_USBREDIR] = "usbredir",
+         [SPICE_CHANNEL_PORT] = "port",
+-#if 0
+-        /* minimum spice-protocol is 0.12.3, webdav was added in 0.12.7,
+-         * no easy way to #ifdef (SPICE_CHANNEL_* is a enum).  Disable
+-         * as quick fix for build failures with older versions. */
+-        [SPICE_CHANNEL_WEBDAV] = "webdav",
+-#endif
+     };
  
-         if (strstart(keys, "0x", NULL)) {
--            char *endp;
--            int value = strtoul(keys, &endp, 0);
-+            const char *endp;
-+            unsigned long value;
-+
-+            if (qemu_strtoul(keys, &endp, 0, &value) < 0
-+                || value >= INT_MAX) {
-+                goto err_out;
-+            }
-             assert(endp <= keys + keyname_len);
-             if (endp != keys + keyname_len) {
-                 goto err_out;
+     info = qmp_query_spice(NULL);
 -- 
 2.37.3
 
