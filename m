@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5338663EF03
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1552263EF54
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 12:21:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0hQQ-0005YK-S7; Thu, 01 Dec 2022 06:08:18 -0500
+	id 1p0hba-00087S-T2; Thu, 01 Dec 2022 06:19:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0hQO-0005YB-NX
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:08:16 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p0hQJ-0002GE-F0
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:08:16 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D4BDA61F96
- for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 11:08:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45B1CC4347C
- for <qemu-devel@nongnu.org>; Thu,  1 Dec 2022 11:08:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669892889;
- bh=3uBhTHdruUUJ92otAu+G7ke4c/ZOBzn4dElrB5hMFjc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=WCnTpLdRVg6ETR4EzwSRT+YlXka0KeUkcPPkzo+SX3huyE08qIKEQQT8KE3pTTOfC
- nljF/HP+/nM6jYc7VF5PSczgYgPP6OyHGNDltbqggSiwN2uyZpXEs0BCW7TVuAeeqc
- DRn03DMSrG3pEXtb0SOH2y17CoVz6jw/a1bhbOzHGKGV4xszBYcikk0zVNVXz07k1C
- xxaQLic42w8hcHqZsFmKWc9cNF6Z7f6TSvVdGIaHgO3bstcei9V7fKlLzIV4h6eAIB
- bdIsya3HusK9AKtlfU1EzNxYuFeunwotbzduGMc5tDONBdUs0xYSMwsohYR8faFtzV
- iRUIOI4GkICug==
-Received: by mail-lj1-f173.google.com with SMTP id z4so1473178ljq.6
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:08:09 -0800 (PST)
-X-Gm-Message-State: ANoB5pneVzeShTjT4ZP2SIigfheDfDTr0Dsr3ONMYKo2rQp96ZEXXeQs
- GoNxUrYWur6rgdffbJBDRuy1OyL51WVciqI2D0M=
-X-Google-Smtp-Source: AA0mqf5C7SqVtxh7CBDVkTnDGzg0/iwQ57hwqA0UDY0ULV/whroB66HTmQy2MwkolyDvP4nYUKR4fQCWKZzk76wV2ys=
-X-Received: by 2002:a05:651c:1603:b0:26d:d603:8df2 with SMTP id
- f3-20020a05651c160300b0026dd6038df2mr19406194ljq.189.1669892887292; Thu, 01
- Dec 2022 03:08:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p0hbY-00086t-UQ
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:19:48 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p0hbW-0007Dv-N5
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 06:19:48 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ b13-20020a17090a5a0d00b0021906102d05so1685656pjd.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 03:19:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZCwPsFz1IkWwGG4R6t3UgktQUADEE2ekOmTBUSLj5QQ=;
+ b=cIxLUszB2z5bDm5O0CmRTHxEYzyWtweVN5He5qGbjii8sSu3MqEsmM2PaHrtS53AEv
+ HsJCakHaaMDd/oHj6+XqnYo+VZ3sc8SBDGDuSTPNs1oYP6Pjl+Vmb2MQ4U/56pakkxqc
+ QkdVAf2BbA7hY/nqKF1jyJ9y6RT4+V8cOxF+05Ic39r/mrvBfFoKwh/KkrL8eMqVYoMq
+ Z9bwAD/R7Tf86qqGpxqmZQ2ww7ZPxVS4pxNpSWn09ByMQkPYdJL0phA5qbBei79akHkE
+ hq6XS0sZN8Kls7DA+PoR+49kUZy0OcWyGVUO9pyx9d5CCRKAftcUvAJU//gxgeJlDQjN
+ 91fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZCwPsFz1IkWwGG4R6t3UgktQUADEE2ekOmTBUSLj5QQ=;
+ b=rzGmLRWL49OB3Snb4Qf2mJzjsloqu0NTH93wNZCE1poq0PfQn7513SV6CIikh0X6lL
+ un1IAk/diaeI/+8g8IuhylpIv8XKQCFiWHoGqglKkSxu+/BhAxqRsfnTqRFZcPzxAC1k
+ S3Qe7V2DLSR0dyMxBTkuqoFbepz/Vu4e80e667hDmX8NLYYRIfyi8JE3As/BCkNUHLk/
+ g68iLhSXnd0piOlUKYtHAGBpxhi79cf5kE4ip4xK1DDMjHUZkT+vzE7liVm2jlY+9h93
+ lkMRkeJ8JitaPqXnAABCs20AFSSjnNFRRNc1yhASISa/mY/l2zbJZWnbbOWDwmSl5PY4
+ AegA==
+X-Gm-Message-State: ANoB5plEHaw5JKSw1m0bEbmO1EquHGn10zJ0Iq4XSaePMv+mXus+F+BP
+ 2MAbuCAPS+UQz+Rhem6M5hjQNErjKmGHdYdaY3AhkQ==
+X-Google-Smtp-Source: AA0mqf7UMy6ysGlQ3+/XD7dS8P2MxrsQY9kPgeIfvGB5PlatZrFd4JuP5EubBXDXR1GXCt0u4WNeR+tJxXUh4lA1gDM=
+X-Received: by 2002:a17:90a:460f:b0:218:c47f:ed9a with SMTP id
+ w15-20020a17090a460f00b00218c47fed9amr50445242pjg.19.1669893584580; Thu, 01
+ Dec 2022 03:19:44 -0800 (PST)
 MIME-Version: 1.0
-References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
- <87r0xkubcp.wl-maz@kernel.org>
- <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
- <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
- <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
-In-Reply-To: <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 1 Dec 2022 12:07:56 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
-Message-ID: <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
-Subject: Re: regression: insmod module failed in VM with nvdimm on
-To: "chenxiang (M)" <chenxiang66@hisilicon.com>
-Cc: Marc Zyngier <maz@kernel.org>, will@kernel.org, mark.rutland@arm.com, 
- linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>, 
- "linuxarm@huawei.com" <linuxarm@huawei.com>
+References: <20221201102728.69751-1-akihiko.odaki@daynix.com>
+ <CAFEAcA_ORM9CpDCvPMs1XcZVhh_4fKE2wnaS_tp1s4DzZCHsXQ@mail.gmail.com>
+ <a3cc1116-272d-a8e5-a131-7becf98115e0@daynix.com>
+In-Reply-To: <a3cc1116-272d-a8e5-a131-7becf98115e0@daynix.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 1 Dec 2022 11:19:32 +0000
+Message-ID: <CAFEAcA_ECpCV+6Z+jom-sP0PNQpoU0fFG_3L_70PrQEWrarH_g@mail.gmail.com>
+Subject: Re: [PATCH] accel/kvm/kvm-all: Handle register access errors
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org, 
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=ardb@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,115 +86,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
+On Thu, 1 Dec 2022 at 11:00, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
 >
-> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com> wr=
-ote:
+> On 2022/12/01 19:40, Peter Maydell wrote:
+> > On Thu, 1 Dec 2022 at 10:27, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> >>
+> >> A register access error typically means something seriously wrong
+> >> happened so that anything bad can happen after that and recovery is
+> >> impossible.
+> >> Even failing one register access is catastorophic as
+> >> architecture-specific code are not written so that it torelates such
+> >> failures.
+> >>
+> >> Make sure the VM stop and nothing worse happens if such an error occurs.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > >
-> > Hi Ard,
+> > In a similar vein there was also
+> > https://lore.kernel.org/all/20220617144857.34189-1-peterx@redhat.com/
+> > back in June, which on the one hand was less comprehensive but on
+> > the other does the plumbing to pass the error upwards rather than
+> > reporting it immediately at point of failure.
 > >
-> >
-> > =E5=9C=A8 2022/11/30 16:18, Ard Biesheuvel =E5=86=99=E9=81=93:
-> > > On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
-> > >> On Wed, 30 Nov 2022 02:52:35 +0000,
-> > >> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
-> > >>> Hi,
-> > >>>
-> > >>> We boot the VM using following commands (with nvdimm on)  (qemu
-> > >>> version 6.1.50, kernel 6.0-r4):
-> > >> How relevant is the presence of the nvdimm? Do you observe the failu=
-re
-> > >> without this?
-> > >>
-> > >>> qemu-system-aarch64 -machine
-> > >>> virt,kernel_irqchip=3Don,gic-version=3D3,nvdimm=3Don  -kernel
-> > >>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
-> > >>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
-> > >>> 2G,maxmem=3D64G,slots=3D3 -smp 4 -append 'rdinit=3Dinit console=3Dt=
-tyAMA0
-> > >>> ealycon=3Dpl0ll,0x90000000 pcie_ports=3Dnative pciehp.pciehp_debug=
-=3D1'
-> > >>> -object memory-backend-ram,id=3Dram1,size=3D10G -device
-> > >>> nvdimm,id=3Ddimm1,memdev=3Dram1  -device ioh3420,id=3Droot_port1,ch=
-assis=3D1
-> > >>> -device vfio-pci,host=3D7d:01.0,id=3Dnet0,bus=3Droot_port1
-> > >>>
-> > >>> Then in VM we insmod a module, vmalloc error occurs as follows (ker=
-nel
-> > >>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
-> > >>>
-> > >>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
-> > >>> [    8.186563] vmap allocation for size 20480 failed: use
-> > >>> vmalloc=3D<size> to increase size
-> > >> Have you tried increasing the vmalloc size to check that this is
-> > >> indeed the problem?
-> > >>
-> > >> [...]
-> > >>
-> > >>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kas=
-lr:
-> > >>> defer initialization to initcall where permitted").
-> > >> I guess you mean commit fc5a89f75d2a instead, right?
-> > >>
-> > >>> Do you have any idea about the issue?
-> > >> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
-> > >> portion of the vmalloc space, but you give very little information
-> > >> that could help here...
-> > >>
-> > > Ouch. I suspect what's going on here: that patch defers the
-> > > randomization of the module region, so that we can decouple it from
-> > > the very early init code.
-> > >
-> > > Obviously, it is happening too late now, and the randomized module
-> > > region is overlapping with a vmalloc region that is in use by the tim=
-e
-> > > the randomization occurs.
-> > >
-> > > Does the below fix the issue?
-> >
-> > The issue still occurs, but it seems decrease the probability, before i=
-t
-> > occured almost every time, after the change, i tried 2-3 times, and it
-> > occurs.
-> > But i change back "subsys_initcall" to "core_initcall", and i test more
-> > than 20 times, and it is still ok.
-> >
->
-> Thank you for confirming. I will send out a patch today.
->
+> > I'm in principle in favour but suspect we'll run into some corner
+> > cases where we were happily ignoring not-very-important failures
+> > (eg if you're running Linux as the host OS on a Mac M1 and your
+> > host kernel doesn't have this fix:
+> > https://lore.kernel.org/all/YnHz6Cw5ONR2e+KA@google.com/T/
+> > then QEMU will go from "works by sheer luck" to "consistently
+> > hits this error check"). So we should aim to land this extra
+> > error checking early in the release cycle so we have plenty of
+> > time to deal with any bug reports we get about it.
 
-...but before I do that, could you please check whether the change
-below fixes your issue as well?
+> Actually I found this problem when I tried to run QEMU with KVM on M2
+> MacBook Air and encountered a failure described and fixed at:
+> https://lore.kernel.org/all/20221201104914.28944-2-akihiko.odaki@daynix.com/
 
-diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
-index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
---- a/arch/arm64/kernel/kaslr.c
-+++ b/arch/arm64/kernel/kaslr.c
-@@ -20,7 +20,11 @@
- #include <asm/sections.h>
- #include <asm/setup.h>
+Ah, yeah, you're trying to run QEMU+KVM on a heterogenous cluster.
+You need to force all the vCPUs to run on only a single host
+CPU type. It's a shame the error-reporting for this situation
+is not very good, but there's not really any way to tell in
+advance, the best you get is an error at the point where a vCPU
+happens to migrate over to a different host CPU.
 
--u64 __ro_after_init module_alloc_base;
-+/*
-+ * Set a reasonable default for module_alloc_base in case
-+ * we end up running with module randomization disabled.
-+ */
-+u64 __ro_after_init module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
- u16 __initdata memstart_offset_seed;
+> Although the affected register was not really important, QEMU couldn't
+> run the guest well enough because kvm_arch_put_registers for ARM64 is
+> written in a way that it fails early. I guess the situation is not so
+> different for other architectures as well.
 
- struct arm64_ftr_override kaslr_feature_override __initdata;
-@@ -30,12 +34,6 @@ static int __init kaslr_init(void)
-        u64 module_range;
-        u32 seed;
+I think Arm is the only one that does this kind of "leave the
+handling of the system registers up to the host kernel and treat
+them as mostly black-box values to be passed around on migration"
+approach. Most other architectures have QEMU know about specific system
+registers in the vCPU and only ask the kernel about those, I think.
 
--       /*
--        * Set a reasonable default for module_alloc_base in case
--        * we end up running with module randomization disabled.
--        */
--       module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
--
-        if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf)=
- {
-                pr_info("KASLR disabled on command line\n");
-                return 0;
+-- PMM
 
