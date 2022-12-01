@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B4063F0B7
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502E463F0C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 13:45:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0iPx-0004I4-LX; Thu, 01 Dec 2022 07:11:53 -0500
+	id 1p0iQ8-0004Ox-Ts; Thu, 01 Dec 2022 07:12:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPr-0004Fg-Mj
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:47 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPv-0004I8-8u
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPp-0008FA-0N
- for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:47 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0iPr-0008Gq-2G
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 07:11:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669896704;
+ s=mimecast20190719; t=1669896706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sErs+hFif7dUYgG6dZCxbdYwYQR+mQT5Cu7U+0bbapg=;
- b=hcHm6F8Ev6Y6bptJ4fhzfl1laYS6YWkEMU0cXAPjK7MN/3qVQaLUUYZY+iR41SQYOWjYvm
- GoODt8alhPWdDU/KUSBFVNqyYvbtMLQQTBaq/cJtu4xJVSACluPvMx/qOuPBVgbACxXLbK
- xO56Q+tjQE7sxoUIC7Zn+Bug3jhCBNQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=m/dojx9mJjT6SjfFaw/m9Wj8qEDEB9lSvDGDQNyndEs=;
+ b=JXXGBnZHQWZeBGpdiVbjDthND4lWNKjPWQrbLCsXAER57cW9BdXFta2960ajKxu1BVQPGS
+ dGkigIKHKEZUfwK7YKGGv33h2nWsMJ4HDkkS/8HPhC5UhDRGwrUhr8exlPScET0KRlf7rC
+ lyOk8woE0M/RjSFfk9dhL71zMNJwnIY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-42-_shhHcUBNM2RQqk-JihxBQ-1; Thu, 01 Dec 2022 07:11:41 -0500
-X-MC-Unique: _shhHcUBNM2RQqk-JihxBQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-614-av1gvR5vNv2i4GoaK5cZIQ-1; Thu, 01 Dec 2022 07:11:41 -0500
+X-MC-Unique: av1gvR5vNv2i4GoaK5cZIQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C65931C05EBD;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4CC5894E8B;
  Thu,  1 Dec 2022 12:11:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C02740C6EC4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C040111F3BB;
  Thu,  1 Dec 2022 12:11:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EF7C321E65C8; Thu,  1 Dec 2022 13:11:33 +0100 (CET)
+ id F21DE21E65C9; Thu,  1 Dec 2022 13:11:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, dgilbert@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v2 08/13] pci: Fix silent truncation of pcie_aer_inject_error
- argument
-Date: Thu,  1 Dec 2022 13:11:28 +0100
-Message-Id: <20221201121133.3813857-9-armbru@redhat.com>
+Subject: [PATCH v2 09/13] pci: Move HMP command from hw/pci/pcie_aer.c to
+ pci-hmp-cmds.c
+Date: Thu,  1 Dec 2022 13:11:29 +0100
+Message-Id: <20221201121133.3813857-10-armbru@redhat.com>
 In-Reply-To: <20221201121133.3813857-1-armbru@redhat.com>
 References: <20221201121133.3813857-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,62 +80,345 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PCI AER error status is 32 bit.  The HMP command supports both
-symbolic and numeric error status: anything that isn't a known
-symbolic value is parsed as number with strtol().  Issues:
-
-* Empty argument yields value zero.
-
-* Range errors from strtol() are ignored, value is UINT32_MAX.
-
-* Values not representable in uint32_t are silently truncated.
-
-Fix to reject such input by switching to strtoui().
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/pci/pcie_aer.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/pci/pci-internal.h   |   4 ++
+ include/monitor/hmp.h   |   1 +
+ include/sysemu/sysemu.h |   3 --
+ hw/pci/pci-hmp-cmds.c   | 104 ++++++++++++++++++++++++++++++++++++
+ hw/pci/pci-stub.c       |   1 -
+ hw/pci/pcie_aer.c       | 114 ++--------------------------------------
+ 6 files changed, 113 insertions(+), 114 deletions(-)
 
+diff --git a/hw/pci/pci-internal.h b/hw/pci/pci-internal.h
+index 3199615e50..2ea356bdf5 100644
+--- a/hw/pci/pci-internal.h
++++ b/hw/pci/pci-internal.h
+@@ -18,4 +18,8 @@ const pci_class_desc *get_class_desc(int class);
+ PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
+ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent);
+ 
++int pcie_aer_parse_error_string(const char *error_name,
++                                uint32_t *status, bool *correctable);
++int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
++
+ #endif
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index dfbc0c9a2f..27f86399f7 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -143,5 +143,6 @@ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ void hmp_info_stats(Monitor *mon, const QDict *qdict);
++void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+ 
+ #endif
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 6a7a31e64d..25be2a692e 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -61,9 +61,6 @@ extern int nb_option_roms;
+ extern const char *prom_envs[MAX_PROM_ENVS];
+ extern unsigned int nb_prom_envs;
+ 
+-/* pcie aer error injection */
+-void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+-
+ /* serial ports */
+ 
+ /* Return the Chardev for serial port i, or NULL if none */
+diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
+index 417f1ca607..ae75b920aa 100644
+--- a/hw/pci/pci-hmp-cmds.c
++++ b/hw/pci/pci-hmp-cmds.c
+@@ -19,7 +19,9 @@
+ #include "monitor/monitor.h"
+ #include "pci-internal.h"
+ #include "qapi/error.h"
++#include "qapi/qmp/qdict.h"
+ #include "qapi/qapi-commands-pci.h"
++#include "qemu/cutils.h"
+ 
+ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
+ {
+@@ -156,3 +158,105 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+                        r->addr, r->addr + r->size - 1);
+     }
+ }
++
++typedef struct PCIEErrorDetails {
++    const char *id;
++    const char *root_bus;
++    int bus;
++    int devfn;
++} PCIEErrorDetails;
++
++/*
++ * Inject an error described by @qdict.
++ * On success, set @details to show where error was sent.
++ * Return negative errno if injection failed and a message was emitted.
++ */
++static int do_pcie_aer_inject_error(Monitor *mon,
++                                    const QDict *qdict,
++                                    PCIEErrorDetails *details)
++{
++    const char *id = qdict_get_str(qdict, "id");
++    const char *error_name;
++    uint32_t error_status;
++    unsigned int num;
++    bool correctable;
++    PCIDevice *dev;
++    PCIEAERErr err;
++    int ret;
++
++    ret = pci_qdev_find_device(id, &dev);
++    if (ret < 0) {
++        monitor_printf(mon,
++                       "id or pci device path is invalid or device not "
++                       "found. %s\n", id);
++        return ret;
++    }
++    if (!pci_is_express(dev)) {
++        monitor_printf(mon, "the device doesn't support pci express. %s\n",
++                       id);
++        return -ENOSYS;
++    }
++
++    error_name = qdict_get_str(qdict, "error_status");
++    if (pcie_aer_parse_error_string(error_name, &error_status, &correctable)) {
++        if (qemu_strtoui(error_name, NULL, 0, &num) < 0) {
++            monitor_printf(mon, "invalid error status value. \"%s\"",
++                           error_name);
++            return -EINVAL;
++        }
++        error_status = num;
++        correctable = qdict_get_try_bool(qdict, "correctable", false);
++    }
++    err.status = error_status;
++    err.source_id = pci_requester_id(dev);
++
++    err.flags = 0;
++    if (correctable) {
++        err.flags |= PCIE_AER_ERR_IS_CORRECTABLE;
++    }
++    if (qdict_get_try_bool(qdict, "advisory_non_fatal", false)) {
++        err.flags |= PCIE_AER_ERR_MAYBE_ADVISORY;
++    }
++    if (qdict_haskey(qdict, "header0")) {
++        err.flags |= PCIE_AER_ERR_HEADER_VALID;
++    }
++    if (qdict_haskey(qdict, "prefix0")) {
++        err.flags |= PCIE_AER_ERR_TLP_PREFIX_PRESENT;
++    }
++
++    err.header[0] = qdict_get_try_int(qdict, "header0", 0);
++    err.header[1] = qdict_get_try_int(qdict, "header1", 0);
++    err.header[2] = qdict_get_try_int(qdict, "header2", 0);
++    err.header[3] = qdict_get_try_int(qdict, "header3", 0);
++
++    err.prefix[0] = qdict_get_try_int(qdict, "prefix0", 0);
++    err.prefix[1] = qdict_get_try_int(qdict, "prefix1", 0);
++    err.prefix[2] = qdict_get_try_int(qdict, "prefix2", 0);
++    err.prefix[3] = qdict_get_try_int(qdict, "prefix3", 0);
++
++    ret = pcie_aer_inject_error(dev, &err);
++    if (ret < 0) {
++        monitor_printf(mon, "failed to inject error: %s\n",
++                       strerror(-ret));
++        return ret;
++    }
++    details->id = id;
++    details->root_bus = pci_root_bus_path(dev);
++    details->bus = pci_dev_bus_num(dev);
++    details->devfn = dev->devfn;
++
++    return 0;
++}
++
++void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
++{
++    PCIEErrorDetails data;
++
++    if (do_pcie_aer_inject_error(mon, qdict, &data) < 0) {
++        return;
++    }
++
++    monitor_printf(mon, "OK id: %s root bus: %s, bus: %x devfn: %x.%x\n",
++                   data.id, data.root_bus, data.bus,
++                   PCI_SLOT(data.devfn), PCI_FUNC(data.devfn));
++}
+diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
+index 01d20a2f67..f0508682d2 100644
+--- a/hw/pci/pci-stub.c
++++ b/hw/pci/pci-stub.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "sysemu/sysemu.h"
+ #include "monitor/monitor.h"
+ #include "monitor/hmp.h"
+ #include "qapi/qapi-commands-pci.h"
 diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-index eff62f3945..58d20816d6 100644
+index 58d20816d6..9a19be44ae 100644
 --- a/hw/pci/pcie_aer.c
 +++ b/hw/pci/pcie_aer.c
-@@ -30,6 +30,7 @@
+@@ -19,18 +19,14 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "sysemu/sysemu.h"
+-#include "qapi/qmp/qdict.h"
+ #include "migration/vmstate.h"
+-#include "monitor/monitor.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pcie.h"
+ #include "hw/pci/msix.h"
+ #include "hw/pci/msi.h"
  #include "hw/pci/pci_bus.h"
  #include "hw/pci/pcie_regs.h"
- #include "qapi/error.h"
-+#include "qemu/cutils.h"
+-#include "qapi/error.h"
+-#include "qemu/cutils.h"
++#include "pci-internal.h"
  
  //#define DEBUG_PCIE
  #ifdef DEBUG_PCIE
-@@ -963,6 +964,7 @@ static int do_pcie_aer_inject_error(Monitor *mon,
-     const char *id = qdict_get_str(qdict, "id");
-     const char *error_name;
-     uint32_t error_status;
-+    unsigned int num;
-     bool correctable;
-     PCIDevice *dev;
-     PCIEAERErr err;
-@@ -983,14 +985,13 @@ static int do_pcie_aer_inject_error(Monitor *mon,
+@@ -45,13 +41,6 @@
+ #define PCI_ERR_SRC_COR_OFFS    0
+ #define PCI_ERR_SRC_UNCOR_OFFS  2
  
-     error_name = qdict_get_str(qdict, "error_status");
-     if (pcie_aer_parse_error_string(error_name, &error_status, &correctable)) {
--        char *e = NULL;
--        error_status = strtoul(error_name, &e, 0);
--        correctable = qdict_get_try_bool(qdict, "correctable", false);
--        if (!e || *e != '\0') {
-+        if (qemu_strtoui(error_name, NULL, 0, &num) < 0) {
-             monitor_printf(mon, "invalid error status value. \"%s\"",
-                            error_name);
-             return -EINVAL;
-         }
-+        error_status = num;
-+        correctable = qdict_get_try_bool(qdict, "correctable", false);
+-typedef struct PCIEErrorDetails {
+-    const char *id;
+-    const char *root_bus;
+-    int bus;
+-    int devfn;
+-} PCIEErrorDetails;
+-
+ /* From 6.2.7 Error Listing and Rules. Table 6-2, 6-3 and 6-4 */
+ static uint32_t pcie_aer_uncor_default_severity(uint32_t status)
+ {
+@@ -632,7 +621,7 @@ static bool pcie_aer_inject_uncor_error(PCIEAERInject *inj, bool is_fatal)
+  * Figure 6-2: Flowchart Showing Sequence of Device Error Signaling and Logging
+  *             Operations
+  */
+-static int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err)
++int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err)
+ {
+     uint8_t *aer_cap = NULL;
+     uint16_t devctl = 0;
+@@ -934,8 +923,8 @@ static const struct PCIEAERErrorName pcie_aer_error_list[] = {
+     },
+ };
+ 
+-static int pcie_aer_parse_error_string(const char *error_name,
+-                                       uint32_t *status, bool *correctable)
++int pcie_aer_parse_error_string(const char *error_name,
++                                uint32_t *status, bool *correctable)
+ {
+     int i;
+ 
+@@ -951,98 +940,3 @@ static int pcie_aer_parse_error_string(const char *error_name,
      }
-     err.status = error_status;
-     err.source_id = pci_requester_id(dev);
+     return -EINVAL;
+ }
+-
+-/*
+- * Inject an error described by @qdict.
+- * On success, set @details to show where error was sent.
+- * Return negative errno if injection failed and a message was emitted.
+- */
+-static int do_pcie_aer_inject_error(Monitor *mon,
+-                                    const QDict *qdict,
+-                                    PCIEErrorDetails *details)
+-{
+-    const char *id = qdict_get_str(qdict, "id");
+-    const char *error_name;
+-    uint32_t error_status;
+-    unsigned int num;
+-    bool correctable;
+-    PCIDevice *dev;
+-    PCIEAERErr err;
+-    int ret;
+-
+-    ret = pci_qdev_find_device(id, &dev);
+-    if (ret < 0) {
+-        monitor_printf(mon,
+-                       "id or pci device path is invalid or device not "
+-                       "found. %s\n", id);
+-        return ret;
+-    }
+-    if (!pci_is_express(dev)) {
+-        monitor_printf(mon, "the device doesn't support pci express. %s\n",
+-                       id);
+-        return -ENOSYS;
+-    }
+-
+-    error_name = qdict_get_str(qdict, "error_status");
+-    if (pcie_aer_parse_error_string(error_name, &error_status, &correctable)) {
+-        if (qemu_strtoui(error_name, NULL, 0, &num) < 0) {
+-            monitor_printf(mon, "invalid error status value. \"%s\"",
+-                           error_name);
+-            return -EINVAL;
+-        }
+-        error_status = num;
+-        correctable = qdict_get_try_bool(qdict, "correctable", false);
+-    }
+-    err.status = error_status;
+-    err.source_id = pci_requester_id(dev);
+-
+-    err.flags = 0;
+-    if (correctable) {
+-        err.flags |= PCIE_AER_ERR_IS_CORRECTABLE;
+-    }
+-    if (qdict_get_try_bool(qdict, "advisory_non_fatal", false)) {
+-        err.flags |= PCIE_AER_ERR_MAYBE_ADVISORY;
+-    }
+-    if (qdict_haskey(qdict, "header0")) {
+-        err.flags |= PCIE_AER_ERR_HEADER_VALID;
+-    }
+-    if (qdict_haskey(qdict, "prefix0")) {
+-        err.flags |= PCIE_AER_ERR_TLP_PREFIX_PRESENT;
+-    }
+-
+-    err.header[0] = qdict_get_try_int(qdict, "header0", 0);
+-    err.header[1] = qdict_get_try_int(qdict, "header1", 0);
+-    err.header[2] = qdict_get_try_int(qdict, "header2", 0);
+-    err.header[3] = qdict_get_try_int(qdict, "header3", 0);
+-
+-    err.prefix[0] = qdict_get_try_int(qdict, "prefix0", 0);
+-    err.prefix[1] = qdict_get_try_int(qdict, "prefix1", 0);
+-    err.prefix[2] = qdict_get_try_int(qdict, "prefix2", 0);
+-    err.prefix[3] = qdict_get_try_int(qdict, "prefix3", 0);
+-
+-    ret = pcie_aer_inject_error(dev, &err);
+-    if (ret < 0) {
+-        monitor_printf(mon, "failed to inject error: %s\n",
+-                       strerror(-ret));
+-        return ret;
+-    }
+-    details->id = id;
+-    details->root_bus = pci_root_bus_path(dev);
+-    details->bus = pci_dev_bus_num(dev);
+-    details->devfn = dev->devfn;
+-
+-    return 0;
+-}
+-
+-void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
+-{
+-    PCIEErrorDetails data;
+-
+-    if (do_pcie_aer_inject_error(mon, qdict, &data) < 0) {
+-        return;
+-    }
+-
+-    monitor_printf(mon, "OK id: %s root bus: %s, bus: %x devfn: %x.%x\n",
+-                   data.id, data.root_bus, data.bus,
+-                   PCI_SLOT(data.devfn), PCI_FUNC(data.devfn));
+-}
 -- 
 2.37.3
 
