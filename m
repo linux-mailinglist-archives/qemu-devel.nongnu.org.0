@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685126403D6
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 10:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15612640413
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 11:07:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p12k6-0000uz-RO; Fri, 02 Dec 2022 04:54:02 -0500
+	id 1p12vB-0003WN-KK; Fri, 02 Dec 2022 05:05:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <julien@xen.org>)
- id 1p12k3-0000sB-A0; Fri, 02 Dec 2022 04:54:00 -0500
-Received: from mail.xenproject.org ([104.130.215.37])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p12v5-0003UJ-5d
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:05:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <julien@xen.org>)
- id 1p12jv-0004jg-Ai; Fri, 02 Dec 2022 04:53:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
- s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID;
- bh=1N+kd9SOJWC8ZGNBOYwaGBvTv+xiwpis+8gpeicTk+4=; b=uVS8/8gD6r3mZ0stGA9b5DZnD/
- z7U4mIbPp3MFjsrLDVYJDRTSCbjqpUNIvPafEgMfGMsOcKXB4oCJR8DuHz6DOeeIPdz1sPFM5s2Xv
- pJZWmOTefC7EnlQbisWRMtnFITiv1aStN43TSdt6FYXdNsjxk2+3OSMPIoJWAzWFbX78=;
-Received: from xenbits.xenproject.org ([104.239.192.120])
- by mail.xenproject.org with esmtp (Exim 4.92)
- (envelope-from <julien@xen.org>)
- id 1p12jo-0006W1-3G; Fri, 02 Dec 2022 09:53:44 +0000
-Received: from gw1.octic.net ([88.97.20.152] helo=[10.0.1.240])
- by xenbits.xenproject.org with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <julien@xen.org>)
- id 1p12jn-0001QU-T0; Fri, 02 Dec 2022 09:53:44 +0000
-Message-ID: <a534bc75-7877-cf02-6493-777dc064e42b@xen.org>
-Date: Fri, 2 Dec 2022 09:53:41 +0000
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p12v1-0002F7-7x
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:05:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669975518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=z7D+c+wAiaffevN51B9+mmyZaohu/d/DzM90L9HCU5s=;
+ b=d+uZZykwinInTVEGE/dnQPYiswbzEyNAro8o68K666Iu7+kA+/VOOMo6TlX5Eb2iGt2xVL
+ F1fh/vatPNebOeVv2smFcjeDnSL4iple+FeYnK0Py0ckPy63T2TKHIVXtNmH/qIcq5jeg8
+ MSC+Ez6M/LnnDgywmnqNEr5NYLTlKvY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-KFFVYi4jPu-ZQrce-8vFmg-1; Fri, 02 Dec 2022 05:05:16 -0500
+X-MC-Unique: KFFVYi4jPu-ZQrce-8vFmg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C67538041C5;
+ Fri,  2 Dec 2022 10:05:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A855414A809;
+ Fri,  2 Dec 2022 10:05:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E203721E6921; Fri,  2 Dec 2022 11:05:12 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
+ philmd@linaro.org
+Subject: [PATCH v2 00/14] ui: Move and clean up monitor command code
+Date: Fri,  2 Dec 2022 11:04:58 +0100
+Message-Id: <20221202100512.4161901-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
-Content-Language: en-US
-To: "Garhwal, Vikram" <vikram.garhwal@amd.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "Stabellini, Stefano" <stefano.stabellini@amd.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-11-vikram.garhwal@amd.com>
- <3e504b1b-197d-b77b-16e1-86530eb3d64c@xen.org>
- <MW3PR12MB44096CC3AD5CD01D6043B0E79F159@MW3PR12MB4409.namprd12.prod.outlook.com>
-From: Julien Grall <julien@xen.org>
-In-Reply-To: <MW3PR12MB44096CC3AD5CD01D6043B0E79F159@MW3PR12MB4409.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=104.130.215.37; envelope-from=julien@xen.org;
- helo=mail.xenproject.org
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,89 +76,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This is mainly about splitting off monitor-related code.  There's also
+a minimum Spice version bump, and a few UI improvements to HMP
+commands sendkey, change vnc, and info spice.
 
+v2:
+* PATCH 03,05-06: New [Daniel]
+* PATCH 04: Enable instead of drop channel type "webdav" [Daniel]
+* PATCH 07: New [Philippe]
+* PATCH 09: Don't move add_client() to ui/
+* PATCH 10: New, move ui parts of add_client() to ui/
+* PATCH 12+13: Fix incorrect patch split [Daniel]
 
-On 02/12/2022 03:24, Garhwal, Vikram wrote:
-> Hi Julien,
+Markus Armbruster (14):
+  ui: Check numeric part of expire_password argument @time properly
+  ui: Fix silent truncation of numeric keys in HMP sendkey
+  ui/spice: Require spice-protocol >= 0.14.0
+  Revert "hmp: info spice: take out webdav"
+  ui/spice: Require spice-server >= 0.14.0
+  ui/spice: QXLInterface method set_mm_time() is now dead, drop
+  ui/spice: Give hmp_info_spice()'s channel_names[] static linkage
+  ui: Clean up a few things checkpatch.pl would flag later on
+  ui: Move QMP commands from monitor to new ui/ui-qmp-cmds.c
+  ui: Factor out qmp_add_client() parts and move to ui/ui-qmp-cmds.c
+  ui: Move HMP commands from monitor to new ui/ui-hmp-cmds.c
+  ui: Improve "change vnc" error reporting
+  ui: Factor out hmp_change_vnc(), and move to ui/ui-hmp-cmds.c
+  ui: Reduce nesting in hmp_change_vnc() slightly
 
-Hi Vikram,
-
-I am having trouble to differentiate your answers from my remark. For 
-instance...
-
-
-> From: Julien Grall <julien@xen.org>
-> Date: Sunday, October 16, 2022 at 10:48 AM
-> To: Garhwal, Vikram <vikram.garhwal@amd.com>, qemu-devel@nongnu.org <qemu-devel@nongnu.org>
-> Cc: Stabellini, Stefano <stefano.stabellini@amd.com>, Peter Maydell <peter.maydell@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>, Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, open list:ARM TCG CPUs <qemu-arm@nongnu.org>, open list:X86 Xen CPUs <xen-devel@lists.xenproject.org>
-> Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
-> Hi,
-> 
-> There seem to be some missing patches on xen-devel (including the cover
-> letter). Is that expected?
-> Not sure what went wrong there. I can see all of these on QEMU-devel. Perhaps xen-devel is not in maintainer’s list for all the xen files?
-> 
-> 
-> On 15/10/2022 06:07, Vikram Garhwal wrote:
->> Add a new machine xenpv which creates a IOREQ server to register/connect with
->> Xen Hypervisor.
-> 
-> I don't like the name 'xenpv' because it doesn't convey the fact that
-> some of the HW may be emulated rather than para-virtualized. In fact one
-> may only want to use for emulating devices.
-> 
-> Potential name would be 'xen-arm' or re-using 'virt' but with
-> 'accel=xen' to select a Xen layout.
-> 
->>
->> Xen IOREQ connection expect the TARGET_PAGE_SIZE to 4096, and the xenpv machine
->> on ARM will have no CPU definitions. We need to define TARGET_PAGE_SIZE
->> appropriately ourselves.
->>
->> Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device, adds a
->> TPM emulator and connects to swtpm running on host machine via chardev socket
->> and support TPM functionalities for a guest domain.
->>
->> Extra command line for aarch64 xenpv QEMU to connect to swtpm:
->>       -chardev socket,id=chrtpm,path=/tmp/myvtpm2/swtpm-sock \
->>       -tpmdev emulator,id=tpm0,chardev=chrtpm \
->>
->> swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on libtpms and
->> provides access to TPM functionality over socket, chardev and CUSE interface.
->> Github repo: https://github.com/stefanberger/swtpm
->> Example for starting swtpm on host machine:
->>       mkdir /tmp/vtpm2
->>       swtpm socket --tpmstate dir=/tmp/vtpm2 \
->>       --ctrl type=unixio,path=/tmp/vtpm2/swtpm-sock &
-> 
-> I see patches for QEMU but not Xen. How can this be tested with existing
-> Xen? Will libxl ever create QEMU?
-> Will send the patch for libxl Xen separately.
-
-... the first two lines are my remarks and the 3rd is your answer. Can 
-you configure your e-mail client to do proper quoting?
-
-[...]
-
->> +    dev = qdev_new(TYPE_TPM_TIS_SYSBUS);
->> +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp);
->> +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
->> +    busdev = SYS_BUS_DEVICE(dev);
->> +    sysbus_realize_and_unref(busdev, &error_fatal);
->> +    sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
-> 
-> I can't find where GUEST_TPM_BASE is defined. But then the guest memory
-> layout is not expected to be stable. With your current approach, it
-> means QEMU would need to be rebuilt for every Xen version. Is it what we
-> want?
-> I cannot think of better way to do this. Either we add the the def here or rebuild it if GUEST_TPM_BASE changes for each xen version.
-
-The alternative would be to specify the address on the QEMU command 
-line. The advantage is you could build a system where each guests have 
-different layout.
-
-Cheers,
+ meson.build                   |   4 +-
+ hw/display/qxl.h              |   2 -
+ include/monitor/hmp.h         |   5 +
+ include/monitor/qmp-helpers.h |  26 +++
+ include/ui/qemu-spice.h       |   8 +-
+ include/ui/spice-display.h    |   2 -
+ chardev/spice.c               |   2 -
+ hw/display/qxl.c              |  26 +--
+ monitor/hmp-cmds.c            | 370 +-------------------------------
+ monitor/qmp-cmds.c            | 176 +++------------
+ ui/spice-display.c            |  10 -
+ ui/ui-hmp-cmds.c              | 391 ++++++++++++++++++++++++++++++++++
+ ui/ui-qmp-cmds.c              | 177 +++++++++++++++
+ ui/vdagent.c                  |   4 -
+ hw/display/trace-events       |   1 -
+ ui/meson.build                |   2 +
+ 16 files changed, 638 insertions(+), 568 deletions(-)
+ create mode 100644 include/monitor/qmp-helpers.h
+ create mode 100644 ui/ui-hmp-cmds.c
+ create mode 100644 ui/ui-qmp-cmds.c
 
 -- 
-Julien Grall
+2.37.3
+
 
