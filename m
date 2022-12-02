@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149D963FFE4
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 06:41:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D6763FFE2
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 06:41:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0ymN-0002W4-Sc; Fri, 02 Dec 2022 00:40:07 -0500
+	id 1p0ymP-0002X4-Hs; Fri, 02 Dec 2022 00:40:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0ymM-0002Vj-EJ
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:06 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ id 1p0ymN-0002W5-EZ
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:07 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0ymK-0003Bu-In
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:06 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id 21so3964460pfw.4
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 21:40:04 -0800 (PST)
+ id 1p0ymL-0003JP-GS
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:07 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id 4so3751529pli.0
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 21:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l2AYVfOigGNcWueyGcFEAyNre3J/WgPqkB4M4xEOEGc=;
- b=bZtQRadi8r12yA7REVcLobpqUjKAVi+r48VSR/QMv/GDxXb/GOIaLeB9jHhovRQiYE
- GJh3bOW62+37pyzZZVqYFcWDtlkFm4qmPr/Oun3FWRtElCyC3Df/+AIE7hhxggP+1HqV
- QyNlowzu0oQYMoJUPflm23LSKtv9ml0F4ijqEXs9qFZbK2BamfcFiepsiWiOx6moB2Kw
- 6dfsKZgfbpfGwbM7uAdpNkXYwU9X1HeQQlkahfREPepg8T6vkAZz9IvbQ7Jv2oBs+mZz
- LjcA7RXSwKtYe/HRyduI4LyEL0YNJ34LXlUgFBC4cA1rdlMUCl5z3zarEOiyNbTIWJLP
- bqnA==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=B2h4aVGmGk/ozxNqj9+5WShlfIEAislLVF416QCuZP0=;
+ b=BO6y59Cap+4glI1OvAIEPzmsUrlU0cFwtM1JihplQ4Fyo1MnxTG9V/S/tPwC715xpg
+ 1RxD21niRY5TNLq+COm1iUOO7zxed8XEV4Gml3AhYsHfDZ6aW+JKdow9tyJU1mqxKqXo
+ 1mpHNi1R7NBHlRRkdDfeCD9oMjMPhyzineajf9Bqsnt2lHN5PQR8bfRLKJUv4gjKf/SA
+ PNG2MYsTc7ZH0HZxU7JMpAtZsNTO+bH1FOCUCrJMZrUM5HXnQGRFf+SO0aPKaSEvnKm7
+ CNIT8WrGP9S5xgN3d4HpGQMrcMOWYZFFDKufVG6k6Q2t1jR8CCI27+24tDpcMufgL+sz
+ saMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=l2AYVfOigGNcWueyGcFEAyNre3J/WgPqkB4M4xEOEGc=;
- b=aYLjUQsCmGtjLFTtstIfQfrPQtt2YR7zF/bCSEiZiKP4YPBYFBav7g+PCxdjq40W7U
- F9lWefl5jD/YjYdKWKmeziAIWtZSxNUbA6az+M1x57nm2NqZuC9OFmdzXSETW2naH5g/
- HQG2YzswxvTzavzxbE6I1YmcF/OJtXr4xBRPnTxZZ+GsB9/wMBon6FpfoBQOSIVKJpJs
- +wjY89XiglXpEewqPBSQaTeuY2QQxYqF6KYIvhAbqU/k4pSWo7cfiFTnH4Zt/LfmgUVO
- pTMQXOc4JlznEw15bZSoOthvy3yHzG2wdqeQb+YAP9b9y6kwgVm/lt2WTGaq2xQQBaCB
- fLRA==
-X-Gm-Message-State: ANoB5pkHnOs+aFJSPdTU210dQtyXxAA+tH3Mq6y0UKgU5fISSIilXTSV
- JBDk2vaYbd2kvQodYwAyf+H7F54RomTbhg9N
-X-Google-Smtp-Source: AA0mqf641ZiOY4GX5De/EL8/Op0M/6CPWA3xVlojevLssXluICCRxeRveDTDA7A09QbecRWDoCw6Jw==
-X-Received: by 2002:a63:dd43:0:b0:45c:5a74:9a92 with SMTP id
- g3-20020a63dd43000000b0045c5a749a92mr44635679pgj.473.1669959603052; 
- Thu, 01 Dec 2022 21:40:03 -0800 (PST)
+ bh=B2h4aVGmGk/ozxNqj9+5WShlfIEAislLVF416QCuZP0=;
+ b=yNR5hoWeRmQy+KjBmIO0GeECg6o4yEahpPYp2kEUuQdMqBSqvEvt6rBFohksN6mDDD
+ Lg169fkeQ1HSIHcR1/Y/b6JSMBVH/8NYWymUx1mheI41I+OmFJ3exDm1KPmGy9O3PUqy
+ bjAdkmbjWnX3eWUzcKZVYvrjct3qSvpbX9301dTBHtM5bPHk9UNuy/6Y6kg3VQc2enlS
+ fQ8DoM034MMOtXM0kFqtwRuhUnyUXpfj38CBinH9/zp61eN/qagoam42ps0BlrfcRtCl
+ pxblAZs06x10KwTSx5A/xZslURiIXVi1YS1j/d6yFQ6Rnju8L3inUGrGP/3cUpOqTugJ
+ /kfw==
+X-Gm-Message-State: ANoB5pktqwOZJ8EOPt1M+LdxqIrk0dvvnuXq+LSNGro3BFsvcR1TQ7wh
+ vNe4aVaKFNEL7M1MDxbQhaL9VquTo1bHLO+S
+X-Google-Smtp-Source: AA0mqf593dRBm50XedRT3GCkCrqLThFvSRoJ2/4e+XJbLQoJaDMRo2eE5zZME96654cvj5J+Eixlvg==
+X-Received: by 2002:a17:90a:7804:b0:211:2d90:321 with SMTP id
+ w4-20020a17090a780400b002112d900321mr80043406pjk.84.1669959604059; 
+ Thu, 01 Dec 2022 21:40:04 -0800 (PST)
 Received: from stoup.. ([2602:47:d48a:1201:e3cc:2e37:17d4:f1d5])
  by smtp.gmail.com with ESMTPSA id
- d12-20020a170903230c00b00186f0f59c85sm4637075plh.235.2022.12.01.21.40.02
+ d12-20020a170903230c00b00186f0f59c85sm4637075plh.235.2022.12.01.21.40.03
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 21:40:02 -0800 (PST)
+ Thu, 01 Dec 2022 21:40:03 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH v3 03/34] tcg/s390x: Fix coding style
-Date: Thu,  1 Dec 2022 21:39:27 -0800
-Message-Id: <20221202053958.223890-4-richard.henderson@linaro.org>
+Subject: [PATCH v3 04/34] tcg: Cleanup trailing whitespace
+Date: Thu,  1 Dec 2022 21:39:28 -0800
+Message-Id: <20221202053958.223890-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221202053958.223890-1-richard.henderson@linaro.org>
 References: <20221202053958.223890-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,87 +88,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+Remove whitespace at end of line, plus one place this also
+highlights some missing braces.
 
-We are going to modify this code, so fix its style first to avoid:
-
-  ERROR: spaces required around that '*' (ctx:VxV)
-  #281: FILE: tcg/s390x/tcg-target.c.inc:1224:
-  +        uintptr_t mask = ~(0xffffull << i*16);
-                                            ^
-
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221130132654.76369-2-philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.c.inc | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ tcg/tcg.c                | 33 +++++++++++++++++----------------
+ tcg/ppc/tcg-target.c.inc |  2 +-
+ 2 files changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 33becd7694..f1d3907cd8 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -802,9 +802,9 @@ static bool maybe_out_small_movi(TCGContext *s, TCGType type,
-     }
- 
-     for (i = 0; i < 4; i++) {
--        tcg_target_long mask = 0xffffull << i*16;
-+        tcg_target_long mask = 0xffffull << i * 16;
-         if ((uval & mask) == uval) {
--            tcg_out_insn_RI(s, lli_insns[i], ret, uval >> i*16);
-+            tcg_out_insn_RI(s, lli_insns[i], ret, uval >> i * 16);
-             return true;
-         }
-     }
-@@ -1221,9 +1221,9 @@ static void tgen_andi(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
- 
-     /* Try all 32-bit insns that can perform it in one go.  */
-     for (i = 0; i < 4; i++) {
--        tcg_target_ulong mask = ~(0xffffull << i*16);
-+        tcg_target_ulong mask = ~(0xffffull << i * 16);
-         if (((val | ~valid) & mask) == mask) {
--            tcg_out_insn_RI(s, ni_insns[i], dest, val >> i*16);
-+            tcg_out_insn_RI(s, ni_insns[i], dest, val >> i * 16);
-             return;
-         }
-     }
-@@ -1231,9 +1231,9 @@ static void tgen_andi(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
-     /* Try all 48-bit insns that can perform it in one go.  */
-     if (HAVE_FACILITY(EXT_IMM)) {
-         for (i = 0; i < 2; i++) {
--            tcg_target_ulong mask = ~(0xffffffffull << i*32);
-+            tcg_target_ulong mask = ~(0xffffffffull << i * 32);
-             if (((val | ~valid) & mask) == mask) {
--                tcg_out_insn_RIL(s, nif_insns[i], dest, val >> i*32);
-+                tcg_out_insn_RIL(s, nif_insns[i], dest, val >> i * 32);
-                 return;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 436fcf6ebd..db64799e03 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -496,7 +496,7 @@ void *tcg_malloc_internal(TCGContext *s, int size)
+ {
+     TCGPool *p;
+     int pool_size;
+-    
++
+     if (size > TCG_POOL_CHUNK_SIZE) {
+         /* big malloc: insert a new pool (XXX: could optimize) */
+         p = g_malloc(sizeof(TCGPool) + size);
+@@ -517,10 +517,11 @@ void *tcg_malloc_internal(TCGContext *s, int size)
+                 p = g_malloc(sizeof(TCGPool) + pool_size);
+                 p->size = pool_size;
+                 p->next = NULL;
+-                if (s->pool_current) 
++                if (s->pool_current) {
+                     s->pool_current->next = p;
+-                else
++                } else {
+                     s->pool_first = p;
++                }
+             } else {
+                 p = p->next;
              }
-         }
-@@ -1279,9 +1279,9 @@ static void tgen_ori(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+@@ -2949,8 +2950,8 @@ static void dump_regs(TCGContext *s)
  
-     /* Try all 32-bit insns that can perform it in one go.  */
-     for (i = 0; i < 4; i++) {
--        tcg_target_ulong mask = (0xffffull << i*16);
-+        tcg_target_ulong mask = (0xffffull << i * 16);
-         if ((val & mask) != 0 && (val & ~mask) == 0) {
--            tcg_out_insn_RI(s, oi_insns[i], dest, val >> i*16);
-+            tcg_out_insn_RI(s, oi_insns[i], dest, val >> i * 16);
-             return;
+     for(i = 0; i < TCG_TARGET_NB_REGS; i++) {
+         if (s->reg_to_temp[i] != NULL) {
+-            printf("%s: %s\n", 
+-                   tcg_target_reg_names[i], 
++            printf("%s: %s\n",
++                   tcg_target_reg_names[i],
+                    tcg_get_arg_str_ptr(s, buf, sizeof(buf), s->reg_to_temp[i]));
          }
      }
-@@ -1289,9 +1289,9 @@ static void tgen_ori(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
-     /* Try all 48-bit insns that can perform it in one go.  */
-     if (HAVE_FACILITY(EXT_IMM)) {
-         for (i = 0; i < 2; i++) {
--            tcg_target_ulong mask = (0xffffffffull << i*32);
-+            tcg_target_ulong mask = (0xffffffffull << i * 32);
-             if ((val & mask) != 0 && (val & ~mask) == 0) {
--                tcg_out_insn_RIL(s, oif_insns[i], dest, val >> i*32);
-+                tcg_out_insn_RIL(s, oif_insns[i], dest, val >> i * 32);
-                 return;
+@@ -2967,7 +2968,7 @@ static void check_regs(TCGContext *s)
+         ts = s->reg_to_temp[reg];
+         if (ts != NULL) {
+             if (ts->val_type != TEMP_VAL_REG || ts->reg != reg) {
+-                printf("Inconsistency for register %s:\n", 
++                printf("Inconsistency for register %s:\n",
+                        tcg_target_reg_names[reg]);
+                 goto fail;
              }
+@@ -3597,14 +3598,14 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+     nb_iargs = def->nb_iargs;
+ 
+     /* copy constants */
+-    memcpy(new_args + nb_oargs + nb_iargs, 
++    memcpy(new_args + nb_oargs + nb_iargs,
+            op->args + nb_oargs + nb_iargs,
+            sizeof(TCGArg) * def->nb_cargs);
+ 
+     i_allocated_regs = s->reserved_regs;
+     o_allocated_regs = s->reserved_regs;
+ 
+-    /* satisfy input constraints */ 
++    /* satisfy input constraints */
+     for (k = 0; k < nb_iargs; k++) {
+         TCGRegSet i_preferred_regs, o_preferred_regs;
+ 
+@@ -3678,7 +3679,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         const_args[i] = 0;
+         tcg_regset_set_reg(i_allocated_regs, reg);
+     }
+-    
++
+     /* mark dead temporaries and free the associated registers */
+     for (i = nb_oargs; i < nb_oargs + nb_iargs; i++) {
+         if (IS_DEAD_ARG(i)) {
+@@ -3692,7 +3693,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         tcg_reg_alloc_bb_end(s, i_allocated_regs);
+     } else {
+         if (def->flags & TCG_OPF_CALL_CLOBBER) {
+-            /* XXX: permit generic clobber register list ? */ 
++            /* XXX: permit generic clobber register list ? */
+             for (i = 0; i < TCG_TARGET_NB_REGS; i++) {
+                 if (tcg_regset_test_reg(tcg_target_call_clobber_regs, i)) {
+                     tcg_reg_free(s, i, i_allocated_regs);
+@@ -3704,7 +3705,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+                an exception. */
+             sync_globals(s, i_allocated_regs);
          }
+-        
++
+         /* satisfy the output constraints */
+         for(k = 0; k < nb_oargs; k++) {
+             i = def->args_ct[k].sort_index;
+@@ -3889,7 +3890,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+ 
+     /* assign stack slots first */
+     call_stack_size = (nb_iargs - nb_regs) * sizeof(tcg_target_long);
+-    call_stack_size = (call_stack_size + TCG_TARGET_STACK_ALIGN - 1) & 
++    call_stack_size = (call_stack_size + TCG_TARGET_STACK_ALIGN - 1) &
+         ~(TCG_TARGET_STACK_ALIGN - 1);
+     allocate_args = (call_stack_size > TCG_STATIC_CALL_ARGS_SIZE);
+     if (allocate_args) {
+@@ -3914,7 +3915,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+         stack_offset += sizeof(tcg_target_long);
+ #endif
+     }
+-    
++
+     /* assign input registers */
+     allocated_regs = s->reserved_regs;
+     for (i = 0; i < nb_regs; i++) {
+@@ -3947,14 +3948,14 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+             tcg_regset_set_reg(allocated_regs, reg);
+         }
+     }
+-    
++
+     /* mark dead temporaries and free the associated registers */
+     for (i = nb_oargs; i < nb_iargs + nb_oargs; i++) {
+         if (IS_DEAD_ARG(i)) {
+             temp_dead(s, arg_temp(op->args[i]));
+         }
+     }
+-    
++
+     /* clobber call registers */
+     for (i = 0; i < TCG_TARGET_NB_REGS; i++) {
+         if (tcg_regset_test_reg(tcg_target_call_clobber_regs, i)) {
+@@ -4395,7 +4396,7 @@ void tcg_dump_info(GString *buf)
+                            (double)s->code_out_len / tb_div_count);
+     g_string_append_printf(buf, "avg search data/TB  %0.1f\n",
+                            (double)s->search_out_len / tb_div_count);
+-    
++
+     g_string_append_printf(buf, "cycles/op           %0.1f\n",
+                            s->op_count ? (double)tot / s->op_count : 0);
+     g_string_append_printf(buf, "cycles/in byte      %0.1f\n",
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index e3dba47697..9e34df94ba 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -42,7 +42,7 @@
+ # else
+ #  error "Unknown ABI"
+ # endif
+-#endif 
++#endif
+ 
+ #ifdef _CALL_SYSV
+ # define TCG_TARGET_CALL_ALIGN_ARGS   1
 -- 
 2.34.1
 
