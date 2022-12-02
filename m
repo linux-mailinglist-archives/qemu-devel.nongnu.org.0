@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987766407E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 14:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C496407E5
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 14:46:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p16LP-000356-6U; Fri, 02 Dec 2022 08:44:47 -0500
+	id 1p16M7-0003Nh-H5; Fri, 02 Dec 2022 08:45:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
- id 1p16LM-00034V-CX
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:44:44 -0500
-Received: from mga09.intel.com ([134.134.136.24])
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p16Lm-00038z-Ok
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:45:11 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
- id 1p16LK-0008RX-Mo
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:44:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669988682; x=1701524682;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=skS3MR2BvQKKKmac1ZclTHHuTXnPM7lSX4PdHSON5iM=;
- b=C7PUexjy9MYPjYzVqb1buwz0KA07O1qAkb7An0AIldlMpmFwYzWVBp9L
- 2W3Yhu2GpnnhDWCFaPaZGEJ5rs+bTc3zN07exUe6n5pJlRQDGrLbAurBx
- kEATaLp53TmWiDqxwY+KwwwUgfWXBIDJLu7cFtMqldnB26b80ntnEHeeu
- 66dAdO17Tet1S0YdqZ1OkmFHRWdkzEXGdQYyVJmfyYXGKYw5J4kQxVHgw
- gWbahbc7s11W2HqbDyRjL3iRTVo2U0eoaOgF5uSVEDw3CjFBzaiMH7q7A
- XLDVkap4SPl520uxemtW5aytbujBA28x/Ug8sNpTyTPWVzfInagYtWl90 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="317102457"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="317102457"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2022 05:44:35 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="622704069"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="622704069"
-Received: from valeriya-mobl2.ger.corp.intel.com (HELO box.shutemov.name)
- ([10.251.211.234])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2022 05:44:23 -0800
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id EC5D610975F; Fri,  2 Dec 2022 16:44:19 +0300 (+03)
-Date: Fri, 2 Dec 2022 16:44:19 +0300
-From: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- tabba@google.com, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
- wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221202134419.vjhqzuz5alv3v2ak@box.shutemov.name>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
- <20221202064909.GA1070297@chaop.bj.intel.com>
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p16Lj-0008T4-UW
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:45:09 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 744BB622CB
+ for <qemu-devel@nongnu.org>; Fri,  2 Dec 2022 13:45:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA436C433D7
+ for <qemu-devel@nongnu.org>; Fri,  2 Dec 2022 13:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669988699;
+ bh=zaqhIfnF3DLSzbHCqd4kakP9gQooAojSeb0ji+wB9QY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PbB+ieE3KTcl7yGjmnOaQ6O2ZIdAtKOIvZtVNvRvkIfzphMiJpYTOMSjl1QUxbXIe
+ QQJIFL5z8QyGO3eKmYKK316Sb/c6JKmIK4d5ehFnbGsTgb6MCoc13S4y9j5RXKKyRF
+ DVhmkd3Pn3UUoO1SieEkqPoST0XWSuwergUMs6K8oB0awtyTXP90RbDZiAQtdl8nKv
+ POtBa8d50Urdivdt3FoiZqwM1Mtw/mTnGRTlhH/ge6pyGmGehgl0TN7zXguMijnFx5
+ NqqOWplayfBJ4s7Gv8YCz4g8sJzmZG4myN80bHQyD4YNpC30o2+kvpSne0eLORUF+5
+ 1TLA5r0ZBxkbw==
+Received: by mail-lf1-f50.google.com with SMTP id p8so7434833lfu.11
+ for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 05:44:59 -0800 (PST)
+X-Gm-Message-State: ANoB5plAb34mDuvmDnFz1dPKVux4xtM4ybYznP+RJijBSvUSU8Kutf/5
+ oLcBGxqq5ztVKYNSFIfAjEOCEhi2DLX7niFXiP8=
+X-Google-Smtp-Source: AA0mqf5rAmRls729EhIMnjqUwBojxIyevZqEP3+PYAHi4A8LJj6nD2iJx8hnqJOimZhWkqU+n8g08uODMSfeheoAjMY=
+X-Received: by 2002:a19:6b19:0:b0:4a2:740b:5b02 with SMTP id
+ d25-20020a196b19000000b004a2740b5b02mr22572788lfa.122.1669988697862; Fri, 02
+ Dec 2022 05:44:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202064909.GA1070297@chaop.bj.intel.com>
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=kirill.shutemov@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+ <87r0xkubcp.wl-maz@kernel.org>
+ <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
+ <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
+ <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
+ <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+ <21cf7de2-27e8-8d1f-9efc-aa68cefbad50@hisilicon.com>
+In-Reply-To: <21cf7de2-27e8-8d1f-9efc-aa68cefbad50@hisilicon.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 2 Dec 2022 14:44:46 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
+Message-ID: <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
+Subject: Re: regression: insmod module failed in VM with nvdimm on
+To: "chenxiang (M)" <chenxiang66@hisilicon.com>
+Cc: Marc Zyngier <maz@kernel.org>, will@kernel.org, mark.rutland@arm.com, 
+ linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>, 
+ "linuxarm@huawei.com" <linuxarm@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=ardb@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,34 +85,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 02, 2022 at 02:49:09PM +0800, Chao Peng wrote:
-> On Thu, Dec 01, 2022 at 06:16:46PM -0800, Vishal Annapurve wrote:
-> > On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > >
-> ...
-> > > +}
-> > > +
-> > > +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > > +{
-> > 
-> > Looking at the underlying shmem implementation, there seems to be no
-> > way to enable transparent huge pages specifically for restricted memfd
-> > files.
-> > 
-> > Michael discussed earlier about tweaking
-> > /sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
-> > hugepages to be used while backing restricted memfd. Such a change
-> > will affect the rest of the shmem usecases as well. Even setting the
-> > shmem_enabled policy to "advise" wouldn't help unless file based
-> > advise for hugepage allocation is implemented.
-> 
-> Had a look at fadvise() and looks it does not support HUGEPAGE for any
-> filesystem yet.
+On Fri, 2 Dec 2022 at 03:48, chenxiang (M) <chenxiang66@hisilicon.com> wrot=
+e:
+>
+> Hi Ard,
+>
+>
+> =E5=9C=A8 2022/12/1 19:07, Ard Biesheuvel =E5=86=99=E9=81=93:
+> > On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
+> >> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com>=
+ wrote:
+> >>> Hi Ard,
+> >>>
+> >>>
+> >>> =E5=9C=A8 2022/11/30 16:18, Ard Biesheuvel =E5=86=99=E9=81=93:
+> >>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
+> >>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
+> >>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+> >>>>>> Hi,
+> >>>>>>
+> >>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
+> >>>>>> version 6.1.50, kernel 6.0-r4):
+> >>>>> How relevant is the presence of the nvdimm? Do you observe the fail=
+ure
+> >>>>> without this?
+> >>>>>
+> >>>>>> qemu-system-aarch64 -machine
+> >>>>>> virt,kernel_irqchip=3Don,gic-version=3D3,nvdimm=3Don  -kernel
+> >>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
+> >>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
+> >>>>>> 2G,maxmem=3D64G,slots=3D3 -smp 4 -append 'rdinit=3Dinit console=3D=
+ttyAMA0
+> >>>>>> ealycon=3Dpl0ll,0x90000000 pcie_ports=3Dnative pciehp.pciehp_debug=
+=3D1'
+> >>>>>> -object memory-backend-ram,id=3Dram1,size=3D10G -device
+> >>>>>> nvdimm,id=3Ddimm1,memdev=3Dram1  -device ioh3420,id=3Droot_port1,c=
+hassis=3D1
+> >>>>>> -device vfio-pci,host=3D7d:01.0,id=3Dnet0,bus=3Droot_port1
+> >>>>>>
+> >>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (ke=
+rnel
+> >>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
+> >>>>>>
+> >>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
+> >>>>>> [    8.186563] vmap allocation for size 20480 failed: use
+> >>>>>> vmalloc=3D<size> to increase size
+> >>>>> Have you tried increasing the vmalloc size to check that this is
+> >>>>> indeed the problem?
+> >>>>>
+> >>>>> [...]
+> >>>>>
+> >>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: ka=
+slr:
+> >>>>>> defer initialization to initcall where permitted").
+> >>>>> I guess you mean commit fc5a89f75d2a instead, right?
+> >>>>>
+> >>>>>> Do you have any idea about the issue?
+> >>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
+> >>>>> portion of the vmalloc space, but you give very little information
+> >>>>> that could help here...
+> >>>>>
+> >>>> Ouch. I suspect what's going on here: that patch defers the
+> >>>> randomization of the module region, so that we can decouple it from
+> >>>> the very early init code.
+> >>>>
+> >>>> Obviously, it is happening too late now, and the randomized module
+> >>>> region is overlapping with a vmalloc region that is in use by the ti=
+me
+> >>>> the randomization occurs.
+> >>>>
+> >>>> Does the below fix the issue?
+> >>> The issue still occurs, but it seems decrease the probability, before=
+ it
+> >>> occured almost every time, after the change, i tried 2-3 times, and i=
+t
+> >>> occurs.
+> >>> But i change back "subsys_initcall" to "core_initcall", and i test mo=
+re
+> >>> than 20 times, and it is still ok.
+> >>>
+> >> Thank you for confirming. I will send out a patch today.
+> >>
+> > ...but before I do that, could you please check whether the change
+> > below fixes your issue as well?
+> >
+> > diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
+> > index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
+> > --- a/arch/arm64/kernel/kaslr.c
+> > +++ b/arch/arm64/kernel/kaslr.c
+> > @@ -20,7 +20,11 @@
+> >   #include <asm/sections.h>
+> >   #include <asm/setup.h>
+> >
+> > -u64 __ro_after_init module_alloc_base;
+> > +/*
+> > + * Set a reasonable default for module_alloc_base in case
+> > + * we end up running with module randomization disabled.
+> > + */
+> > +u64 __ro_after_init module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
+> >   u16 __initdata memstart_offset_seed;
+> >
+> >   struct arm64_ftr_override kaslr_feature_override __initdata;
+> > @@ -30,12 +34,6 @@ static int __init kaslr_init(void)
+> >          u64 module_range;
+> >          u32 seed;
+> >
+> > -       /*
+> > -        * Set a reasonable default for module_alloc_base in case
+> > -        * we end up running with module randomization disabled.
+> > -        */
+> > -       module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
+> > -
+> >          if (kaslr_feature_override.val & kaslr_feature_override.mask &=
+ 0xf) {
+> >                  pr_info("KASLR disabled on command line\n");
+> >                  return 0;
+> > .
+>
+> We have tested this change, the issue is still and it doesn't fix the iss=
+ue.
+>
 
-Yes, I think fadvise() is the right direction here. The problem is similar
-to NUMA policy where existing APIs are focused around virtual memory
-addresses. We need to extend ABI to take fd+offset as input instead.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thanks for the report.
 
