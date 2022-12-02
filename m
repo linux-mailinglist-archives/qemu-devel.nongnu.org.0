@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08F86400FD
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 08:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BA4640106
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 08:28:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p10Ke-0000Wn-2G; Fri, 02 Dec 2022 02:19:36 -0500
+	id 1p10Sj-0002ol-8A; Fri, 02 Dec 2022 02:27:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p10Kb-0000Vm-Cz
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 02:19:33 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p10Sa-0002oL-47
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 02:27:48 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p10KZ-0005pm-I4
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 02:19:33 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id z4so6497738wrr.3
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 23:19:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p10SX-0004ek-Dt
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 02:27:47 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m7-20020a05600c090700b003cf8a105d9eso3566066wmp.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 23:27:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6AGdXosVaRM6yNToejqFo9FecdDcMcuPJiWoM+bR+O4=;
- b=WDh9kTq233gGos50mkI7FCbn19rh+z4Hb1wMacXNCkzSoM/ZTuk/5sDXM8ZWSLXIGA
- t0OKnduohK7Z8OEnmMF2QVHH4ZHFdyvTFp0xH4fQSxmWfDdNddIudtIqoGIs+WLu3hoS
- EtCKzbLMOWSwElu4WCvHzkomLd6W8bJ9jLcVGDzZcY5orZDyxAcwHz/8Ku+1B7RMxkzB
- M/iDlMAzfXMZxY/kCTNPAfVcPuGHWqJfS/VRg4XLHAD5o5kMGtEm//6ct622En/sEkM2
- fx04wLYqzzFyaPR3gXQUqDRYmigvOJ9o3Ij8HaEpzj/CZ27LzoIxv4D4jfXE+wBdhpHx
- icaw==
+ bh=p3aB0mnOQ+ZWhak1nLkfu9FqkmgJit9mNfH8A6i2La4=;
+ b=yG712CVpxij29FVeedIFV5f4Sda6349it4wloq9uXkPmF+kxUEjMmriknqlV6jZLZp
+ jgctrIRqBlaJpxDb1MdhYBr9EPam+GUxXWeewGe/PHrGm/9YP2SmY2aUGsjYEg+86+sT
+ OpO9auSJocldxlADDXZzuqiis9SgZs+WTthpMSqDIsvSemQT9lu1l0Qxyh1o6NsQInu6
+ eVe1dlOynNiIPJKN1XOIyRp7ZD5f4LJdDPPPRXV0iE5oy2t8EQQdcf2YOuTr0tr9iPb8
+ qOa3la7e2mWgHQbKUan2ZY+BaNLMm7Tqt4vfDyXIhVqC7yB7LA8XBlh18DcBFRMD+8F/
+ Ku8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6AGdXosVaRM6yNToejqFo9FecdDcMcuPJiWoM+bR+O4=;
- b=CZGNVorj9Sst1cWyp9ISXjd1NYW5uvX+GhK/aEf/kZRQfaAthQ+lOECfCcEmOnUow0
- hu98SR35hDVXZbru/7emTe9qWpoKeYR8d4qglNnojzQRM58ZXu+gL/IxBIVoVC4TGbSd
- u2nGOX5676Mv2qcLzG6cGi9vH8FO4gxUpKPgEkG/Hk+99RagjPsaCTOIa6PYh70Rgr2l
- qdbbuZHaD4nJouKz8kmO98SosD0Xej5wgHA8cF5t9waX1VTFZe2l1KikrRfvQ0MvOn8U
- YOrTWH8IoYS4JjEqMjnYt6GuNMPxnQV13sRShH2ooYFeErgHlX8YxelOWlqQdH+uuO4L
- F8Tg==
-X-Gm-Message-State: ANoB5pnNPnGoSKDPIu/q/MOCp3rfHdz0JjAj+jynz4JcsxZtrSCVWyk9
- pK7f5jnFMpsStCTXDq4i1mgSKg==
-X-Google-Smtp-Source: AA0mqf7xc/dh8mx/yihRRVdBAa5aHsDHPj/31uoIlgXptsUgi+yG+zMMeqbPjdX0gao+chxJFxvZLg==
-X-Received: by 2002:a05:6000:1e1b:b0:242:29d7:1004 with SMTP id
- bj27-20020a0560001e1b00b0024229d71004mr7617583wrb.208.1669965569566; 
- Thu, 01 Dec 2022 23:19:29 -0800 (PST)
+ bh=p3aB0mnOQ+ZWhak1nLkfu9FqkmgJit9mNfH8A6i2La4=;
+ b=u0EZ/TRtQiOzCgEcMThlD8naBmQcEqlFRVzM75Q34pezaycg1Z2uL6HOJAxHy5OC8b
+ jWY7gkDikohLduMPSNteYQJAPOdOts2lqyzHHZ4zDkjghI3zjFWHQtFa8fwGdNK6zSUR
+ 6372qAbLq7tF4Kwy/ckpnvphXviPflDQLUlMez24MbiupIbcv6xmz2/BXN4cKVnoyqu1
+ 4COQoFeKNimu8A9EqWe85o40m5+2no1TXI/Mp4bm72zcKepx2aLdbdK3WraeQIRRwIDf
+ x9CDN8RRIr6+YJt5HgqS3NmWJeQy8m3MQHulN2G8QNKqqFFNBquXX0/P9o6KbY67bnx8
+ yCBQ==
+X-Gm-Message-State: ANoB5pnb/xTyP2Hl+QWYZY/r4J472xfIpAiDT/nUcY5FH9uNTrfwjTc4
+ 1lQZyq+eIG039NjaXRHO9XP1+A==
+X-Google-Smtp-Source: AA0mqf4Pv2F57J6qsiF3Ay5oqePGdDmBDyK04oa/2DfZ1Ogn7g2NjAIFUFxPtvHmjc5ytZPSBTTeiQ==
+X-Received: by 2002:a7b:c2aa:0:b0:3cf:5d41:bea1 with SMTP id
+ c10-20020a7bc2aa000000b003cf5d41bea1mr39428515wmk.118.1669966061821; 
+ Thu, 01 Dec 2022 23:27:41 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n28-20020a05600c3b9c00b003d0891678f2sm453972wms.10.2022.12.01.23.19.28
+ h20-20020a05600c351400b003c6cd82596esm13400449wmq.43.2022.12.01.23.27.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 23:19:29 -0800 (PST)
-Message-ID: <a45c902a-043d-5256-7961-40c8aabd89b4@linaro.org>
-Date: Fri, 2 Dec 2022 08:19:26 +0100
+ Thu, 01 Dec 2022 23:27:41 -0800 (PST)
+Message-ID: <e7922267-9a87-8936-942e-e73a789672f9@linaro.org>
+Date: Fri, 2 Dec 2022 08:27:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [QEMU][PATCH v2 05/11] include/hw/xen/xen_common: return error
- from xen_create_ioreq_server
+Subject: Re: [QEMU][PATCH v2 07/11] hw/xen/xen-hvm-common: Use g_new and
+ error_setg_errno
 Content-Language: en-US
 To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-dev@xilinx.com
 Cc: stefano.stabellini@amd.com, alex.bennee@linaro.org,
  xen-devel@lists.xenproject.org, Stefano Stabellini <sstabellini@kernel.org>,
  Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
  "open list:All patches CC here" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+ Markus Armbruster <armbru@redhat.com>
 References: <20221202030003.11441-1-vikram.garhwal@amd.com>
- <20221202030003.11441-6-vikram.garhwal@amd.com>
+ <20221202030003.11441-8-vikram.garhwal@amd.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221202030003.11441-6-vikram.garhwal@amd.com>
+In-Reply-To: <20221202030003.11441-8-vikram.garhwal@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -96,47 +96,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefano and Vikram,
-
 On 2/12/22 03:59, Vikram Garhwal wrote:
-> From: Stefano Stabellini <stefano.stabellini@amd.com>
+> Replace g_malloc with g_new and perror with error_setg_errno.
 > 
-> This is done to prepare for enabling xenpv support for ARM architecture.
-> On ARM it is possible to have a functioning xenpv machine with only the
-> PV backends and no IOREQ server. If the IOREQ server creation fails,
-> continue to the PV backends initialization.
-> 
-> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
 > Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 > ---
->   include/hw/xen/xen_common.h | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/hw/xen/xen_common.h b/include/hw/xen/xen_common.h
-> index 77ce17d8a4..6510ac15e0 100644
-> --- a/include/hw/xen/xen_common.h
-> +++ b/include/hw/xen/xen_common.h
-> @@ -467,9 +467,10 @@ static inline void xen_unmap_pcidev(domid_t dom,
->   {
->   }
+>   hw/xen/xen-hvm-common.c | 15 ++++++++-------
+>   1 file changed, 8 insertions(+), 7 deletions(-)
+
+
+> @@ -717,7 +717,7 @@ void destroy_hvm_domain(bool reboot)
+>       xc_interface *xc_handle;
+>       int sts;
+>       int rc;
+> -
+> +    Error *errp = NULL;
+>       unsigned int reason = reboot ? SHUTDOWN_reboot : SHUTDOWN_poweroff;
 >   
-> -static inline void xen_create_ioreq_server(domid_t dom,
-> -                                           ioservid_t *ioservid)
+>       if (xen_dmod) {
+> @@ -726,7 +726,7 @@ void destroy_hvm_domain(bool reboot)
+>               return;
+>           }
+>           if (errno != ENOTTY /* old Xen */) {
+> -            perror("xendevicemodel_shutdown failed");
+> +            error_setg_errno(&errp, errno, "xendevicemodel_shutdown failed");
 
-How long are we supposed to maintain this code? Per [*]:
+See "qapi/error.h":
 
-   In general XenProject.org supports stable branches for 18 months full
-   support plus 18 months security fixes. When a new X.Y.0 release is
-   made there is usually one more release on the to-be-retired stable
-   branch to mop up any loose patches sitting in the repository at which
-   point the branch is retired.
+  * = Passing errors around =
+  *
+  * Errors get passed to the caller through the conventional @errp
+  * parameter.
 
-4.17 was just released. 4.5 was 7 years ago. IIUC EOL'ed 4 years ago.
+Here you are not passing the error to the caller.
 
-[*] 
-https://wiki.xenproject.org/wiki/Xen_Project_Maintenance_Releases#Stable_Maintenance_Branches
+Maybe you are looking for the "qemu/error-report.h" API?
 
-Regards,
+>           }
+>           /* well, try the old thing then */
+>       }
 
-Phil.
+
+> @@ -857,16 +857,17 @@ void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
+>                           MemoryListener xen_memory_listener)
+>   {
+>       int rc;
+> +    Error *errp = NULL;
+>   
+>       state->xce_handle = xenevtchn_open(NULL, 0);
+>       if (state->xce_handle == NULL) {
+> -        perror("xen: event channel open");
+> +        error_setg_errno(&errp, errno, "xen: event channel open");
+>           goto err;
+>       }
+>   
+>       state->xenstore = xs_daemon_open();
+>       if (state->xenstore == NULL) {
+> -        perror("xen: xenstore open");
+> +        error_setg_errno(&errp, errno, "xen: xenstore open");
+>           goto err;
+>       }
+>   
+
+Ditto.
 
