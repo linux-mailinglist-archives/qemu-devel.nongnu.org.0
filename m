@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BE96400B8
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 07:55:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE826400C0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 07:57:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0zv2-0007le-R6; Fri, 02 Dec 2022 01:53:10 -0500
+	id 1p0zws-0002lh-DV; Fri, 02 Dec 2022 01:55:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0zuk-0007km-A7
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1p0zwo-0002h1-8D
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:54:58 -0500
+Received: from mga01.intel.com ([192.55.52.88])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0zuf-0003mT-GL
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669963953;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zctlqjf47uB0DaCl7aNgvqVGJY88i3NXBlGm89LSROM=;
- b=GANtz9dIA3J1E9sostHXvDAgCXTu7/NFV2KXB11pk7Sv4cZkn8QD/uucj/owoFB7SMnOAz
- OU1zBEQNsMGqomPdDIDknZwdAMvvKCId1UxqE7Y5K8rplAmz9rrbj+puh+ACiPFvKqKA8p
- 0LmP5vuudUM5PCGTs3vlY2rDBi45O6g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-PAAeTauWO3eUKRBaOGDqfQ-1; Fri, 02 Dec 2022 01:52:32 -0500
-X-MC-Unique: PAAeTauWO3eUKRBaOGDqfQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 193391C068F5
- for <qemu-devel@nongnu.org>; Fri,  2 Dec 2022 06:52:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CFEEDC1908B;
- Fri,  2 Dec 2022 06:52:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 961C921E6921; Fri,  2 Dec 2022 07:52:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
- kraxel@redhat.com,  dgilbert@redhat.com,  =?utf-8?Q?Marc-Andr=C3=A9?=
- Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 3/9] ui: Drop disabled code for SPICE_CHANNEL_WEBDAV
-References: <20221201061311.3619052-1-armbru@redhat.com>
- <20221201061311.3619052-4-armbru@redhat.com>
- <Y4hqiiNzcMVS0t0k@redhat.com> <87pmd3fgcu.fsf@pond.sub.org>
- <Y4i7kZCetDvFYnCp@redhat.com> <87wn7bdsze.fsf@pond.sub.org>
- <Y4jznyf1rk4KfYbA@redhat.com>
-Date: Fri, 02 Dec 2022 07:52:28 +0100
-In-Reply-To: <Y4jznyf1rk4KfYbA@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 1 Dec 2022 18:34:07 +0000")
-Message-ID: <87v8muthzn.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1p0zwm-0003xo-Eq
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:54:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669964096; x=1701500096;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=YikgxWHkjXBdW36x0bhe9MX4hxGxON7eQ2q2fKy1Od4=;
+ b=dMllgx2pTJOqSAp/cKNAgYboL6nMJhh+olQp5SDmG1nDZMFw/FRZpu4e
+ B9SZ5/63Jps1qTXEhaYtIoKDobd3m9TsyF/ZDaAgndXBSWVC+RfqJiXhb
+ /1AHkfakZuVVW+ZrHMlTKkNxcnYsbH5A9Q+mYSYrQ6Ll78eKaDohRuGcm
+ 4KjIdeRgRrbH5biQY1vrZjxqAa9L0vP2W+9kzEpGbYlLW6NZHmsPE9Jq+
+ /Hu0+PTyiQVRKqQCDhmcxfHpz3sR6eYQCdzyy5eTLeA58YvCYw0kB6wL7
+ AlRMueGgNN1vvmAAOHPaRnZ5NKUePuPPMOarvZ5pVmmkZnwuZrCUMsWAB A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="342820204"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="342820204"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 22:54:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="733710089"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="733710089"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by FMSMGA003.fm.intel.com with ESMTP; 01 Dec 2022 22:54:29 -0800
+Message-ID: <c7971c8ad3b4683e2b3036dd7524af1cb42e50e1.camel@linux.intel.com>
+Subject: Re: [PATCH v3 2/3] KVM: keep track of running ioctls
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,  Yanan Wang
+ <wangyanan55@huawei.com>, kvm@vger.kernel.org, David Hildenbrand
+ <david@redhat.com>
+Date: Fri, 02 Dec 2022 14:54:28 +0800
+In-Reply-To: <20221111154758.1372674-3-eesposit@redhat.com>
+References: <20221111154758.1372674-1-eesposit@redhat.com>
+ <20221111154758.1372674-3-eesposit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=robert.hu@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,66 +83,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On Fri, 2022-11-11 at 10:47 -0500, Emanuele Giuseppe Esposito wrote:
+> Using the new accel-blocker API, mark where ioctls are being called
+> in KVM. Next, we will implement the critical section that will take
+> care of performing memslots modifications atomically, therefore
+> preventing any new ioctl from running and allowing the running ones
+> to finish.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index f99b0becd8..ff660fd469 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2310,6 +2310,7 @@ static int kvm_init(MachineState *ms)
+>      assert(TARGET_PAGE_SIZE <= qemu_real_host_page_size());
+>  
+>      s->sigmask_len = 8;
+> +    accel_blocker_init();
+>  
+>  #ifdef KVM_CAP_SET_GUEST_DEBUG
+>      QTAILQ_INIT(&s->kvm_sw_breakpoints);
+> @@ -3014,7 +3015,9 @@ int kvm_vm_ioctl(KVMState *s, int type, ...)
+>      va_end(ap);
+>  
+>      trace_kvm_vm_ioctl(type, arg);
+> +    accel_ioctl_begin();
+>      ret = ioctl(s->vmfd, type, arg);
+> +    accel_ioctl_end();
+>      if (ret == -1) {
+>          ret = -errno;
+>      }
+> @@ -3032,7 +3035,9 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type,
+> ...)
+>      va_end(ap);
+>  
+>      trace_kvm_vcpu_ioctl(cpu->cpu_index, type, arg);
+> +    accel_cpu_ioctl_begin(cpu);
 
-> On Thu, Dec 01, 2022 at 04:49:25PM +0100, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > On Thu, Dec 01, 2022 at 01:39:13PM +0100, Markus Armbruster wrote:
+Does this mean that kvm_region_commit() can inhibit any other vcpus
+doing any ioctls?
 
-[...]
-
->> >> Would you like me to bump spice-server as well?  To which version?
->> >
->> > Yes, might as well, the spice-server versions are slightly different:
->> >
->> >      Debian 11: 0.14.3
->> >      RHEL-8: 0.14.3
->> >      FreeBSD (ports): 0.15.0
->> >      Fedora 35: 0.15.0
->> >      Ubuntu 20.04: 0.14.2
->> >      OpenSUSE Leap 15.3: 0.14.3
->> >=20=20
->> > I think we might as well pick  0.14.0 for both protocol and server.
->>=20
->> Makes sense, but it leads to another question.
->>=20
->> I found obvious version checks for spice-protocol, and dropped the
->> outmoded ones, namely
->>=20
->>     #if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
->>=20
->> For spice-server, I see a bunch of SPICE_INTERFACE_FOO_{MAJOR,MINOR} we
->> check, and which ones become outmoded is not obvious to me.  Help?
->
-> Ignore all the interface ones. For the server, the check to look
-> for is against SPICE_SERVER_VERSION
->
-> chardev/spice.c:#if SPICE_SERVER_VERSION >=3D 0x000c06
-> chardev/spice.c:#if SPICE_SERVER_VERSION < 0x000e02
-> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000c06 && SPICE_SERVER_V=
-ERSION < 0x000e02
-> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000c06 /* release 0.12.6=
- */
-> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000e02 /* release 0.14.2=
- */
-> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000c06 /* release 0.12.6=
- */
-> hw/display/qxl.h:#if SPICE_SERVER_VERSION >=3D 0x000c06 /* release 0.12.6=
- */
-> include/ui/qemu-spice.h:#if !defined(SPICE_SERVER_VERSION) || (SPICE_SERV=
-ER_VERSION < 0xc06)
-> include/ui/qemu-spice.h:#if defined(SPICE_SERVER_VERSION) && (SPICE_SERVE=
-R_VERSION >=3D 0x000f00)
-> include/ui/spice-display.h:# if SPICE_SERVER_VERSION >=3D 0x000d01 /* rel=
-ease 0.13.1 */
-> ui/spice-display.c:#if SPICE_SERVER_VERSION >=3D 0x000e04 /* release 0.14=
-.4 */
-> ui/spice-display.c:#if SPICE_SERVER_VERSION >=3D 0x000e02 /* release 0.14=
-.2 */
->
-> A fair few of those will be obsolete
-
-Got it, thanks!
+>      ret = ioctl(cpu->kvm_fd, type, arg);
+> +    accel_cpu_ioctl_end(cpu);
+>      if (ret == -1) {
+>          ret = -errno;
+>      }
+> @@ -3050,7 +3055,9 @@ int kvm_device_ioctl(int fd, int type, ...)
+>      va_end(ap);
+>  
+>      trace_kvm_device_ioctl(fd, type, arg);
+> +    accel_ioctl_begin();
+>      ret = ioctl(fd, type, arg);
+> +    accel_ioctl_end();
+>      if (ret == -1) {
+>          ret = -errno;
+>      }
 
 
