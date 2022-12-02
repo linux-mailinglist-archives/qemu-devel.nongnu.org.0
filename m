@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861B56407A5
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 14:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F000D6407AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 14:28:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p160C-0004Vc-IB; Fri, 02 Dec 2022 08:22:52 -0500
+	id 1p164W-0005ni-Mc; Fri, 02 Dec 2022 08:27:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p160A-0004VS-Eg
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:22:50 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p1608-00033w-SD
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:22:50 -0500
-Received: by mail-wr1-x435.google.com with SMTP id d1so7742001wrs.12
- for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 05:22:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5mEXrbLKa/Oco5EuGxFy9+y0gN+AKp0q6NZiAQwDSNU=;
- b=wzgsIJZbc0kYtZa1fYTMK8x5jzjC1Q5y+tBBgOrrHoCNEpCfJ5omtAXQijrw4sIED5
- toCbmSzelcqO+Yw5ilF7q6fX5yscaEsMYtvYL1KuD6VGI+QKMIuAxVBE87dPKltBkgk+
- jepeeJ4B5FHMcQscBtQ4FaY1nB3fCzUQF+bd3i/PGdbHHU9ohrHUHLls/AW6Bslg9CCi
- 1WD1GLqj3z9AKF09cbo9gwXaaT5nUgsKhMVS2ubycLmFBNghewJNLA1auRD8skbM0erd
- /kCN/pRaFMo7JV7+M6rlsaOCc9rt54K2xdg+LVJdMhWLfHMRGsmzCoaiRDWEuA/q+Ep3
- K8JA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p164M-0005nO-FA
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:27:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p164K-0004Gh-Ck
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:27:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669987627;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QIImfJgqwIHG66Q0poMzRPI983sxe8T+J7ZFfwU1Ns8=;
+ b=FeyDoUCuBb5ka2VfC7wrQW1atnF31hVDAPgcREmkiIjitCyPW5rMvm1+0KAgWUIWjT4vJ4
+ h73zG4OP55IB6BHIwcRzkfxEjzig5cMl0Hw/+O7n0nyH3ccQcGHuAIX58IvE12p1JwsxKe
+ tuRMWM7RCxXgdnJoTNmh+FiBmg5ncF4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-423-R5i-sq9pNfSug1goT4Rbbg-1; Fri, 02 Dec 2022 08:27:06 -0500
+X-MC-Unique: R5i-sq9pNfSug1goT4Rbbg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d6-20020adfa346000000b0024211c0f988so1065752wrb.9
+ for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 05:27:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5mEXrbLKa/Oco5EuGxFy9+y0gN+AKp0q6NZiAQwDSNU=;
- b=4AG3WOiGSGAurpwmudWrmwEhFljc2yGHF6CqHae50+F+h60yfbcxA7GRuEfc+f/4sw
- AR6WUBvEP6HmcTaf3LOBgex8Vxbao+8XA6/4If3giZtNtW8qdsehdXKSGBzOh+VkvobC
- unAMQlLaSlpAktouOWkQUtdu03W4qeL2Xz1Pv82MIeDDHo+JDx2s2CgT9eMjgoH95aG/
- 7sE0yAAvCLkPMOEqcr/ZAupwHZ5l1fYzUYYoFXucCHqrmNE3bDhNN9wofaCAYJkqQYVw
- ucfidBg+M8jTSAV2ZendQpkb33t9MPIXjXbruIefxfLszZCGwtP18/PZD5ErBQxJO+Er
- tfSA==
-X-Gm-Message-State: ANoB5pkmnFN3rYE0R2mICMDXERGApSt47JXy+dSJSxHonf+ewpaegskG
- xqNXLSYWxntvUa6k8VbAJhLaiA==
-X-Google-Smtp-Source: AA0mqf47saa6UqcKgYmFKJGaXmibLMjUhACPbM3Qb3On6Fkl5AhqXVqnmhVMwwdNe3K7TmdrGc24WQ==
-X-Received: by 2002:adf:a292:0:b0:242:2fb2:39c6 with SMTP id
- s18-20020adfa292000000b002422fb239c6mr7129936wra.229.1669987366430; 
- Fri, 02 Dec 2022 05:22:46 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ bh=QIImfJgqwIHG66Q0poMzRPI983sxe8T+J7ZFfwU1Ns8=;
+ b=Vy8gDBCHYlKENXjSz8wb4V5p9gi/IffGhOvN7nJU0F7l/5GJ3ejvtS3PBZrlDmeZj2
+ c7SLiabYfLptACfOGpe1VIPNvvgkiio68o7CYvB1DzZ5BH62rfHGWhhFq91a/4C7idkR
+ Cl4phR600EHSLvfsyAu2iaACiDbxIukVSqPS5XGxXicB8tnPcgDJE0I8Sca26QjB634Z
+ SFI/gvaMfZAvAhYvQAhemlBUPRWSUKfEVEd8pP66ZSY5yEk0ARkKuZbc+cG45Iwq19Pd
+ gxtlhJcz7EO3UJB6bKFZdK9tTd1wBqA3H0pn1I/W26CalSJI+zptSu5+lhTHPqgczAdu
+ FJzw==
+X-Gm-Message-State: ANoB5pn5JS6RcFpSsQtmSNEbMCsM3fqipgFd5303yLotnQErL2J4X6Ew
+ cMw1RbZ3lax/d2PqJnO6R32okmeQ9EucCq+39nEslkmCCz0WdEPof1JUBJ00SakM+gawt8KV5HP
+ JqPztQgvRazjATonWqwKwHqQd9ThQ7Jv5vj1DgOuqZOh+RjvnhT3xKUGOec9w1wbVa7U=
+X-Received: by 2002:a7b:cb83:0:b0:3cf:96da:3846 with SMTP id
+ m3-20020a7bcb83000000b003cf96da3846mr53876284wmi.10.1669987624640; 
+ Fri, 02 Dec 2022 05:27:04 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5wcPIG2TnXpnIF62zWaEKsQBclBGokDeVzm6wkEzCym1/Va9rcnBmvdQDKhRzQZBuzZM0etg==
+X-Received: by 2002:a7b:cb83:0:b0:3cf:96da:3846 with SMTP id
+ m3-20020a7bcb83000000b003cf96da3846mr53876266wmi.10.1669987624296; 
+ Fri, 02 Dec 2022 05:27:04 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- h16-20020a05600c2cb000b003c6bbe910fdsm15069820wmc.9.2022.12.02.05.22.45
+ e18-20020a5d4e92000000b0024206ed539fsm6871484wru.66.2022.12.02.05.27.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Dec 2022 05:22:45 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EB4D61FFB7;
- Fri,  2 Dec 2022 13:22:44 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Fri, 02 Dec 2022 05:27:03 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- sgarzare@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC PATCH for 8.0] backends/vhost-user: relax the ioeventfd check
-Date: Fri,  2 Dec 2022 13:22:31 +0000
-Message-Id: <20221202132231.1048669-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Cc: qemu-block@nongnu.org,
+	kwolf@redhat.com,
+	eesposit@redhat.com
+Subject: [RFC PATCH] test-bdrv-drain: keep graph manipulations out of
+ coroutines
+Date: Fri,  2 Dec 2022 14:27:01 +0100
+Message-Id: <20221202132701.531048-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,63 +99,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While you certainly need ioeventfds to work for KVM guests it
-shouldn't be limited to that. We can run vhost-user backends for TCG
-guests and either use ioeventfds or in band signalling.
+Changes to the BlockDriverState graph will have to take the
+corresponding lock for writing, and therefore cannot be done
+inside a coroutine.  Move them outside the test body.
 
-Maybe we should apply the same fix as b0aa77d36d (vhost-user: fix
-ioeventfd_enabled)?
-
-With this change I can run:
-
-  $QEMU $OPTS \
-    -display gtk,gl=on \
-    -device vhost-user-gpu-pci,chardev=vhgpu \
-    -chardev socket,id=vhgpu,path=vhgpu.sock
-
-with:
-
-  ./contrib/vhost-user-gpu/vhost-user-gpu \
-    -s vhgpu.sock \
-    -v
-
-and at least see things start-up (although the display gets rotated by
-180 degrees).
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- backends/vhost-user.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ tests/unit/test-bdrv-drain.c | 63 ++++++++++++++++++++++++++----------
+ 1 file changed, 46 insertions(+), 17 deletions(-)
 
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index 5dedb2d987..87d43fb03a 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -21,12 +21,6 @@
- #include "io/channel-command.h"
- #include "hw/virtio/virtio-bus.h"
- 
--static bool
--ioeventfd_enabled(void)
--{
--    return kvm_enabled() && kvm_eventfds_enabled();
--}
--
- int
- vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
-                             unsigned nvqs, Error **errp)
-@@ -35,8 +29,8 @@ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
- 
-     assert(!b->vdev && vdev);
- 
--    if (!ioeventfd_enabled()) {
--        error_setg(errp, "vhost initialization failed: requires kvm");
-+    if (kvm_enabled() && !kvm_eventfds_enabled()) {
-+        error_setg(errp, "vhost initialization failed: kvm required ioeventfds");
-         return -1;
+diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+index 6ae44116fe79..d85083dd4f9e 100644
+--- a/tests/unit/test-bdrv-drain.c
++++ b/tests/unit/test-bdrv-drain.c
+@@ -199,25 +199,40 @@ static void do_drain_end_unlocked(enum drain_type drain_type, BlockDriverState *
      }
+ }
  
++static BlockBackend *blk;
++static BlockDriverState *bs, *backing;
++
++static void test_drv_cb_init(void)
++{
++    blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
++    bs = bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
++                              &error_abort);
++    blk_insert_bs(blk, bs, &error_abort);
++
++    backing = bdrv_new_open_driver(&bdrv_test, "backing", 0, &error_abort);
++    bdrv_set_backing_hd(bs, backing, &error_abort);
++}
++
++static void test_drv_cb_fini(void)
++{
++    bdrv_unref(backing);
++    bdrv_unref(bs);
++    blk_unref(blk);
++    backing = NULL;
++    bs = NULL;
++    blk = NULL;
++}
++
+ static void test_drv_cb_common(enum drain_type drain_type, bool recursive)
+ {
+-    BlockBackend *blk;
+-    BlockDriverState *bs, *backing;
+     BDRVTestState *s, *backing_s;
+     BlockAIOCB *acb;
+     int aio_ret;
+ 
+     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, 0);
+ 
+-    blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
+-    bs = bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
+-                              &error_abort);
+     s = bs->opaque;
+-    blk_insert_bs(blk, bs, &error_abort);
+-
+-    backing = bdrv_new_open_driver(&bdrv_test, "backing", 0, &error_abort);
+     backing_s = backing->opaque;
+-    bdrv_set_backing_hd(bs, backing, &error_abort);
+ 
+     /* Simple bdrv_drain_all_begin/end pair, check that CBs are called */
+     g_assert_cmpint(s->drain_count, ==, 0);
+@@ -252,30 +267,44 @@ static void test_drv_cb_common(enum drain_type drain_type, bool recursive)
+ 
+     g_assert_cmpint(s->drain_count, ==, 0);
+     g_assert_cmpint(backing_s->drain_count, ==, 0);
+-
+-    bdrv_unref(backing);
+-    bdrv_unref(bs);
+-    blk_unref(blk);
+ }
+ 
+-static void test_drv_cb_drain_all(void)
++static void test_drv_cb_do_drain_all(void)
+ {
+     test_drv_cb_common(BDRV_DRAIN_ALL, true);
+ }
+ 
+-static void test_drv_cb_drain(void)
++static void test_drv_cb_do_drain(void)
+ {
+     test_drv_cb_common(BDRV_DRAIN, false);
+ }
+ 
++static void test_drv_cb_drain_all(void)
++{
++    test_drv_cb_init();
++    test_drv_cb_do_drain_all();
++    test_drv_cb_fini();
++}
++
++static void test_drv_cb_drain(void)
++{
++    test_drv_cb_init();
++    test_drv_cb_do_drain();
++    test_drv_cb_fini();
++}
++
+ static void test_drv_cb_co_drain_all(void)
+ {
+-    call_in_coroutine(test_drv_cb_drain_all);
++    test_drv_cb_init();
++    call_in_coroutine(test_drv_cb_do_drain_all);
++    test_drv_cb_fini();
+ }
+ 
+ static void test_drv_cb_co_drain(void)
+ {
+-    call_in_coroutine(test_drv_cb_drain);
++    test_drv_cb_init();
++    call_in_coroutine(test_drv_cb_do_drain);
++    test_drv_cb_fini();
+ }
+ 
+ static void test_quiesce_common(enum drain_type drain_type, bool recursive)
 -- 
-2.34.1
+2.38.1
 
 
