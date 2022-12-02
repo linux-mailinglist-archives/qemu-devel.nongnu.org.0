@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B7F63FFF4
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 06:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179BA64000F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 06:55:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0yms-0002lC-0E; Fri, 02 Dec 2022 00:40:39 -0500
+	id 1p0ymr-0002lT-Rn; Fri, 02 Dec 2022 00:40:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0ymo-0002kQ-Pt
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:34 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1p0ymp-0002km-Nk
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:35 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0ymn-0003Qo-5g
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:34 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- x13-20020a17090a46cd00b00218f611b6e9so4207076pjg.1
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 21:40:32 -0800 (PST)
+ id 1p0ymo-0003R9-94
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 00:40:35 -0500
+Received: by mail-pf1-x433.google.com with SMTP id c7so575054pfc.12
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 21:40:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ejdHuoy1Jq/BbeHpGWM1PuHE72TqekmQLGqKh44eCOc=;
- b=qhI9wcHLRy5JpljdxBlN3wmzQ1PPS9QTfjoJvtxIkSCugoBT7g25w9E/XVA+5RuWy7
- sLKT3lhvcPHrN0q0B6QY2JNPbsDKR1wsaAIPDStFDBQM5gelmI1b21n5a31iPYW6oFEB
- bljpNeBgfLdU5sqHdAA9VZen+/J/5ZCFfUpxM+gnPE/cyWp65A+bXj8xd+LwrfMTYAj3
- icHqztKT6jmlkylMo/OeMpv0+w74KXE2fppdFlWNUSi0JGPfVnBUPhO4EY+SN1oeM1m8
- Pbl1SBzsIalsGHARU9D9Adx0Pp2bjqHKCki1RROTyOGOQuwpjG8shwmjVKSX5jySL32S
- q9UQ==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=tSbRzCjHlrSQSoghRByzLuEHEpXHbvdfoP5b3KIKF+c=;
+ b=AZgc4YPLwKTBY6oJV8Jyyxn4E4qhKGa2KXk1eBOvbb9/Y3DYho8wonQFsT/BMc2Gzi
+ euv9ZG6ETAQAmvaOecbC1HtkF34dm2YW11QQCjHRJa43WV33N+djK29Q0UEck7JrLdih
+ JcCt5ZqhJN64ZKSUr0ffXxTOoS/wqMSJF8NIAR6T4+FeXEYWK2swjOFclG4VkntgIFSR
+ XZ9ntOi/An05EOQZ4501khhKLn3HOMzogG+2ICBTzmWCjcpxqqSCBAZbHX4b0DudNEti
+ I/vOpLubkGIzoktR4xDGLLZvhFTTG5yxJF3+LLCa+muc/29ikWa+xrRjnJIdAlxXPbV+
+ OO0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ejdHuoy1Jq/BbeHpGWM1PuHE72TqekmQLGqKh44eCOc=;
- b=503YJ8UX4Pq/m03iF4pT983wDUe7oJXbJIeiuy+8QHO+TFxI26E/wbRYXzqgRlA0xU
- H7RaWF4K/7KskNZStMTw8MyJKJo+p8wtob8hxG98X5MvlDt8tRU2lvZ0ovQ5/d3LhEg5
- ZZ7pT1g7fUbyqZDtcXmmD4AxMGX3AXXURiiSPvGOIPde7LqkGXWDE6y+ZAkceyiswam+
- ZnadAwVQHgnI8hxM3D/QVxljZ65uQaRZwHqtrmh7NhiqMEVacn+7mvALnhwVsFKtlq9f
- jTJaEZNXKlBv2cd7Q8292iPATvoJ/+XqQnDMJpD0jGUEUj2SqpRWkRM9D4vrQ8hl1YPQ
- O9Cw==
-X-Gm-Message-State: ANoB5plNAQMWSiQLjG/O4Wezda9KQXuVK9A6qI2x2t/TSu7EnGe688bh
- i6FBwsWajVj+QjW9/gqLnBcrJu4YJ8LI7Xy9
-X-Google-Smtp-Source: AA0mqf4q5U0mXGUQkrYBQbabYrvcxfsaPhyoBSPtz7FNl8VL3aaiM0DY7AQJb3pJuBCDE5GME5WSBA==
-X-Received: by 2002:a17:902:b707:b0:189:5f3c:fb25 with SMTP id
- d7-20020a170902b70700b001895f3cfb25mr39437695pls.123.1669959631925; 
- Thu, 01 Dec 2022 21:40:31 -0800 (PST)
+ bh=tSbRzCjHlrSQSoghRByzLuEHEpXHbvdfoP5b3KIKF+c=;
+ b=I+RgR28lSJGtsydUi0vz17KVhIQz5SfrWSX0lZlMLuHllWib1ATQeAT3YspxV+Vi2+
+ cCa+xIJ5rdVVKKgWV5sck+k+Z1U2gzATOQTCg5/cQkE8UXU/aHXeMvNZuRC52MiI7DHa
+ toGFkPsy37mR5tGG6OlxgQXeMbYc18Ng4AV/oQPIpUuf1ZY/QNwG3wA0y4vnYY2BzXDS
+ Hha6ScCfhL91LnysP1E4fgjSoveoJB2C4TEoKx0/26djoLn1FNXRKTJrfCvDIjf+to1D
+ I9BpmxN7fjRiqSgEKsZZphXD4HPUksvk5VfAisNHcyBHExYLFQhzMPX4+dal29njMy64
+ nd9g==
+X-Gm-Message-State: ANoB5pmr3mtYhKZ6GlQ8DJZrmMiGY87PLAsjw2noMZlobghy2vsFR4XA
+ mLwhAo3YEhOLE0kvvQTOXRT5VQ8UPbCEaqJN
+X-Google-Smtp-Source: AA0mqf5ks35VYJixns9foLKpwqlFLSJMxk5wBZHeWsX9K/8w2S9aoXJGFMKiQDmVCLQmUkaDwp594A==
+X-Received: by 2002:a63:1055:0:b0:46e:f011:9548 with SMTP id
+ 21-20020a631055000000b0046ef0119548mr43433547pgq.553.1669959632944; 
+ Thu, 01 Dec 2022 21:40:32 -0800 (PST)
 Received: from stoup.. ([2602:47:d48a:1201:e3cc:2e37:17d4:f1d5])
  by smtp.gmail.com with ESMTPSA id
- d12-20020a170903230c00b00186f0f59c85sm4637075plh.235.2022.12.01.21.40.30
+ d12-20020a170903230c00b00186f0f59c85sm4637075plh.235.2022.12.01.21.40.32
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 21:40:31 -0800 (PST)
+ Thu, 01 Dec 2022 21:40:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 32/34] tcg: Move ffi_cif pointer into TCGHelperInfo
-Date: Thu,  1 Dec 2022 21:39:56 -0800
-Message-Id: <20221202053958.223890-33-richard.henderson@linaro.org>
+Subject: [PATCH v3 33/34] tcg/aarch64: Merge tcg_out_callr into tcg_out_call
+Date: Thu,  1 Dec 2022 21:39:57 -0800
+Message-Id: <20221202053958.223890-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221202053958.223890-1-richard.henderson@linaro.org>
 References: <20221202053958.223890-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,123 +88,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Instead of requiring a separate hash table lookup,
-put a pointer to the CIF into TCGHelperInfo.
+There is only one use, and BLR is perhaps even more
+self-documentary than CALLR.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221111074101.2069454-27-richard.henderson@linaro.org>
-[PMD: Split from bigger patch]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221122180804.938-4-philmd@linaro.org>
 ---
- tcg/tcg-internal.h |  7 +++++++
- tcg/tcg.c          | 30 ++++++++++++++----------------
- 2 files changed, 21 insertions(+), 16 deletions(-)
+ tcg/aarch64/tcg-target.c.inc | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index c7e87e193d..6e50aeba3a 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -25,6 +25,10 @@
- #ifndef TCG_INTERNAL_H
- #define TCG_INTERNAL_H
- 
-+#ifdef CONFIG_TCG_INTERPRETER
-+#include <ffi.h>
-+#endif
-+
- #define TCG_HIGHWATER 1024
- 
- /*
-@@ -57,6 +61,9 @@ typedef struct TCGCallArgumentLoc {
- typedef struct TCGHelperInfo {
-     void *func;
-     const char *name;
-+#ifdef CONFIG_TCG_INTERPRETER
-+    ffi_cif *cif;
-+#endif
-     unsigned typemask           : 32;
-     unsigned flags              : 8;
-     unsigned nr_in              : 8;
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 3c3bb2d422..9092473cf0 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -62,10 +62,6 @@
- #include "tcg/tcg-ldst.h"
- #include "tcg-internal.h"
- 
--#ifdef CONFIG_TCG_INTERPRETER
--#include <ffi.h>
--#endif
--
- /* Forward declarations for functions declared in tcg-target.c.inc and
-    used here. */
- static void tcg_target_init(TCGContext *s);
-@@ -553,8 +549,6 @@ static TCGHelperInfo all_helpers[] = {
- static GHashTable *helper_table;
- 
- #ifdef CONFIG_TCG_INTERPRETER
--static GHashTable *ffi_table;
--
- static ffi_type *typecode_to_ffi(int argmask)
- {
-     switch (argmask) {
-@@ -577,9 +571,11 @@ static ffi_type *typecode_to_ffi(int argmask)
- static void init_ffi_layouts(void)
- {
-     /* g_direct_hash/equal for direct comparisons on uint32_t.  */
--    ffi_table = g_hash_table_new(NULL, NULL);
-+    GHashTable *ffi_table = g_hash_table_new(NULL, NULL);
-+
-     for (int i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
--        uint32_t typemask = all_helpers[i].typemask;
-+        TCGHelperInfo *info = &all_helpers[i];
-+        unsigned typemask = info->typemask;
-         gpointer hash = (gpointer)(uintptr_t)typemask;
-         struct {
-             ffi_cif cif;
-@@ -587,8 +583,11 @@ static void init_ffi_layouts(void)
-         } *ca;
-         ffi_status status;
-         int nargs;
-+        ffi_cif *cif;
- 
--        if (g_hash_table_lookup(ffi_table, hash)) {
-+        cif = g_hash_table_lookup(ffi_table, hash);
-+        if (cif) {
-+            info->cif = cif;
-             continue;
-         }
- 
-@@ -612,8 +611,12 @@ static void init_ffi_layouts(void)
-                               ca->cif.rtype, ca->cif.arg_types);
-         assert(status == FFI_OK);
- 
--        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
-+        cif = &ca->cif;
-+        info->cif = cif;
-+        g_hash_table_insert(ffi_table, hash, (gpointer)cif);
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 344b63e20f..1af879e6f5 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1336,11 +1336,6 @@ static void tcg_out_goto_long(TCGContext *s, const tcg_insn_unit *target)
      }
-+
-+    g_hash_table_destroy(ffi_table);
  }
- #endif /* CONFIG_TCG_INTERPRETER */
  
-@@ -4385,12 +4388,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+-static inline void tcg_out_callr(TCGContext *s, TCGReg reg)
+-{
+-    tcg_out_insn(s, 3207, BLR, reg);
+-}
+-
+ static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target)
+ {
+     ptrdiff_t offset = tcg_pcrel_diff(s, target) >> 2;
+@@ -1348,7 +1343,7 @@ static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target)
+         tcg_out_insn(s, 3206, BL, offset);
+     } else {
+         tcg_out_movi(s, TCG_TYPE_I64, TCG_REG_TMP, (intptr_t)target);
+-        tcg_out_callr(s, TCG_REG_TMP);
++        tcg_out_insn(s, 3207, BLR, TCG_REG_TMP);
      }
+ }
  
- #ifdef CONFIG_TCG_INTERPRETER
--    {
--        gpointer hash = (gpointer)(uintptr_t)info->typemask;
--        ffi_cif *cif = g_hash_table_lookup(ffi_table, hash);
--        assert(cif != NULL);
--        tcg_out_call(s, tcg_call_func(op), cif);
--    }
-+    tcg_out_call(s, tcg_call_func(op), info->cif);
- #else
-     tcg_out_call(s, tcg_call_func(op));
- #endif
 -- 
 2.34.1
 
