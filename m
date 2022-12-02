@@ -2,111 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36645640830
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 15:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CA7640840
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 15:19:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p16iM-0008FJ-Rf; Fri, 02 Dec 2022 09:08:30 -0500
+	id 1p16r1-0002cj-Tm; Fri, 02 Dec 2022 09:17:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p16iG-0008Eh-7g; Fri, 02 Dec 2022 09:08:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p16iD-0002tT-H4; Fri, 02 Dec 2022 09:08:23 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B2DgAxg021482; Fri, 2 Dec 2022 14:08:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=oULq9ebBKI9JjP7FuumqR8cwsDgwubKsG6F3/MJ/a84=;
- b=ENfZsR0vKP7f0be9G9jxvlX5MWOR0WkjueQFommQSyYnNx/ZJj2jnIErrOza5f2pk4YU
- z4Mwkds1T0PONXADm1u88nB0v/+33G50zfJLT+E7pK1AEcCicuoT961ToSb8Qyod54ju
- a+hwa2FT8jucl0AB24B11uSctfWElRz6lwPABKHa9gihFkRD6BkcM2R2SGlTEi8nNMK2
- vhmWf94lN9Aq0+MtSD9IPasqdRMyU0vVR5TDH4nhAeN2Tc4Ja0Vu72RnX5UNLHFZHVLj
- ZsipFIM2EquoLmg/2aX7rSIOarSeTGtmaYs7SB99QTwfnuGfsAAq9ivC845T3aLTdAon zQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7jfp8n5y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Dec 2022 14:08:15 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B2DuJIJ029855;
- Fri, 2 Dec 2022 14:08:14 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7jfp8n4x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Dec 2022 14:08:14 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B2E5umO023097;
- Fri, 2 Dec 2022 14:08:11 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 3m3ae96qsu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Dec 2022 14:08:11 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B2E88g26947546
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 2 Dec 2022 14:08:08 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A6F204C040;
- Fri,  2 Dec 2022 14:08:08 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AACC14C046;
- Fri,  2 Dec 2022 14:08:07 +0000 (GMT)
-Received: from [9.171.75.172] (unknown [9.171.75.172])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  2 Dec 2022 14:08:07 +0000 (GMT)
-Message-ID: <59669e8e-6242-9c01-4c2e-5d70b9c31b2b@linux.ibm.com>
-Date: Fri, 2 Dec 2022 15:08:07 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p16qz-0002cI-4u
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 09:17:25 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p16qw-0006d4-Q5
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 09:17:24 -0500
+Received: by mail-wr1-x429.google.com with SMTP id d1so7966070wrs.12
+ for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 06:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4dExi3M4RoDQjYVwQDAaf81jweSqQSbtv6oYlWoAW20=;
+ b=dMxRbq9Bzeq7wXBQvh7LUFWFglLIygA5lCy23JTjzE0CeMqfPSTGkkVtBUm1J7K93s
+ mltK7aDkTs+F9NSpYBD+swngnB0xHypyqlXAKbUAWXAwWDO9f6HXE1lqDLVSMwuR8CmZ
+ KlcfWyyZwo/g3Mi8BvQZY/JR740fyAMchc+wz1lg6dg8JchNgrOtSPuBNyAKV4daKA9b
+ jOoPFw7HIdW1dPiGaKrJXOcYBEuUB47DLaMBwQaqqdKJqd9MCV6Awrmzw1XmQnRKBaKq
+ m1Z9fQk61E2bIExKIbeliAYIJLt+81Kg8Mj3APjIMhaqirLm19mumnaFaJEWLLnRlmou
+ hf1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4dExi3M4RoDQjYVwQDAaf81jweSqQSbtv6oYlWoAW20=;
+ b=qHY544KoVLq5RX06dDEsK8yYShbRvU3lPksifLLU9oP4BtxKU1BUxH/kTdSNzyWpXh
+ Un3IwhAvPS/5e0apE2Tn8MJhHMJszX2uuZXHbqIrXHlHrA03jB9gOmoXuNK0XNu6nVmi
+ XEwpq2fICq18R+UEb/pHpNZhvybIttvfGFfabZwJhHLvuB4ZEHzYN4rGTTqnWYx+8cgO
+ fAIBZxA14WLc4fLkOa9o4FdiJwKO6fsPh/kkux+2SFWxW3SGRIUnzNmXtuMIst3Prz44
+ 9LLbzgc7miBambA9xxbKtDzGHYUnj4RQwEJMygOMKb5ypv4U6301q/vRjcO81B+ufd0W
+ vxRw==
+X-Gm-Message-State: ANoB5plFFBzbSMYeL/H4cUm4UxYgptosCHc8eitQT/siW86Kj8XYQRhm
+ u6wzEj+kzWid/2WI1lBB7aMNzw==
+X-Google-Smtp-Source: AA0mqf6iNlqya1KaKj4b21frZau9hCu9Z/DdLUcX+5QfOPIrA8d8LAZl1X5TXqJxGOiNspLbFg5ASQ==
+X-Received: by 2002:a5d:4d4e:0:b0:242:c59:b979 with SMTP id
+ a14-20020a5d4d4e000000b002420c59b979mr19428139wru.707.1669990640618; 
+ Fri, 02 Dec 2022 06:17:20 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ i12-20020adffc0c000000b00241d21d4652sm7082194wrr.21.2022.12.02.06.17.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Dec 2022 06:17:19 -0800 (PST)
+Message-ID: <6c917ccc-c458-3545-de73-6f9aee132b45@linaro.org>
+Date: Fri, 2 Dec 2022 15:17:17 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v12 6/7] s390x/cpu_topology: activating CPU topology
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH v15 1/6] qmp: add QMP command x-query-virtio
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, david@redhat.com
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221129174206.84882-1-pmorel@linux.ibm.com>
- <20221129174206.84882-7-pmorel@linux.ibm.com>
- <fcedb98d-4333-9100-5366-8848727528f3@redhat.com>
- <ea965d1c-ab6a-5aa3-8ce3-65b8177f6320@linux.ibm.com>
- <37a20bee-a3fb-c421-b89d-c1760e77cb11@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <37a20bee-a3fb-c421-b89d-c1760e77cb11@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org,
+ lvivier@redhat.com, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, kraxel@redhat.com,
+ si-wei.liu@oracle.com, joao.m.martins@oracle.com, eblake@redhat.com,
+ qemu-block@nongnu.org, david@redhat.com, arei.gonglei@huawei.com,
+ marcandre.lureau@redhat.com, thuth@redhat.com, michael.roth@amd.com,
+ groug@kaod.org, dgilbert@redhat.com, eric.auger@redhat.com,
+ stefanha@redhat.com, boris.ostrovsky@oracle.com, kwolf@redhat.com,
+ mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com, pbonzini@redhat.com
+References: <1660220684-24909-1-git-send-email-jonah.palmer@oracle.com>
+ <1660220684-24909-2-git-send-email-jonah.palmer@oracle.com>
+ <6c7189cd-b6dc-e954-f39e-b90ccb6e0361@linaro.org>
+ <31d76035-3b8c-c9a1-4fd3-d3cc6af5f69c@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <31d76035-3b8c-c9a1-4fd3-d3cc6af5f69c@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 7MzlxV-ajWJOEtbqxHtXpVGChPL_juug
-X-Proofpoint-GUID: R7A-AgtHI0ZCrUYPKVSg1gM2DrCKybf7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-02_06,2022-12-01_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0
- bulkscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 mlxlogscore=999 mlxscore=0 phishscore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212020111
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,95 +100,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 12/2/22 10:05, Thomas Huth wrote:
-> On 01/12/2022 12.52, Pierre Morel wrote:
+On 2/12/22 13:23, Jonah Palmer wrote:
+> 
+> On 11/30/22 11:16, Philippe Mathieu-Daudé wrote:
+>> Hi,
 >>
+>> On 11/8/22 14:24, Jonah Palmer wrote:
+>>> From: Laurent Vivier <lvivier@redhat.com>
+>>>
+>>> This new command lists all the instances of VirtIODevices with
+>>> their canonical QOM path and name.
+>>>
+>>> [Jonah: @virtio_list duplicates information that already exists in
+>>>   the QOM composition tree. However, extracting necessary information
+>>>   from this tree seems to be a bit convoluted.
+>>>
+>>>   Instead, we still create our own list of realized virtio devices
+>>>   but use @qmp_qom_get with the device's canonical QOM path to confirm
+>>>   that the device exists and is realized. If the device exists but
+>>>   is actually not realized, then we remove it from our list (for
+>>>   synchronicity to the QOM composition tree).
+>>>
+>>>   Also, the QMP command @x-query-virtio is redundant as @qom-list
+>>>   and @qom-get are sufficient to search '/machine/' for realized
+>>>   virtio devices. However, @x-query-virtio is much more convenient
+>>>   in listing realized virtio devices.]
+>>>
+>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+>>> ---
+>>>   hw/virtio/meson.build      |  2 ++
+>>>   hw/virtio/virtio-stub.c    | 14 ++++++++
+>>>   hw/virtio/virtio.c         | 44 ++++++++++++++++++++++++
+>>>   include/hw/virtio/virtio.h |  1 +
+>>>   qapi/meson.build           |  1 +
+>>>   qapi/qapi-schema.json      |  1 +
+>>>   qapi/virtio.json           | 68 ++++++++++++++++++++++++++++++++++++++
+>>>   tests/qtest/qmp-cmd-test.c |  1 +
+>>>   8 files changed, 132 insertions(+)
+>>>   create mode 100644 hw/virtio/virtio-stub.c
+>>>   create mode 100644 qapi/virtio.json
 >>
->> On 12/1/22 11:15, Thomas Huth wrote:
->>> On 29/11/2022 18.42, Pierre Morel wrote:
->>>> The KVM capability, KVM_CAP_S390_CPU_TOPOLOGY is used to
->>>> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
->>>> the topology facility for the guest in the case the topology
->>>> is available in QEMU and in KVM.
->>>>
->>>> The feature is fenced for SE (secure execution).
->>>
->>> Out of curiosity: Why does it not work yet?
->>>
->>>> To allow smooth migration with old QEMU the feature is disabled by
->>>> default using the CPU flag -disable-topology.
->>>
->>> I stared at this code for a while now, but I have to admit that I 
->>> don't quite get it. Why do we need a new "disable" feature flag here? 
->>> I think it is pretty much impossible to set "ctop=on" with an older 
->>> version of QEMU, since it would require the QEMU to enable 
->>> KVM_CAP_S390_CPU_TOPOLOGY in the kernel for this feature bit - and 
->>> older versions of QEMU don't set this capability yet.
->>>
->>> Which scenario would fail without this disable-topology feature bit? 
->>> What do I miss?
+>>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>>> index 5d607aeaa0..bdfa82e9c0 100644
+>>> --- a/hw/virtio/virtio.c
+>>> +++ b/hw/virtio/virtio.c
+>>> @@ -13,12 +13,18 @@
+>>>     #include "qemu/osdep.h"
+>>>   #include "qapi/error.h"
+>>> +#include "qapi/qmp/qdict.h"
+>>> +#include "qapi/qapi-commands-virtio.h"
+>>> +#include "qapi/qapi-commands-qom.h"
+>>> +#include "qapi/qapi-visit-virtio.h"
+>>> +#include "qapi/qmp/qjson.h"
+>>>   #include "cpu.h"
+>>>   #include "trace.h"
+>>>   #include "qemu/error-report.h"
+>>>   #include "qemu/log.h"
+>>>   #include "qemu/main-loop.h"
+>>>   #include "qemu/module.h"
+>>> +#include "qom/object_interfaces.h"
+>>>   #include "hw/virtio/virtio.h"
+>>>   #include "migration/qemu-file-types.h"
+>>>   #include "qemu/atomic.h"
+>>> @@ -29,6 +35,9 @@
+>>>   #include "sysemu/runstate.h"
+>>>   #include "standard-headers/linux/virtio_ids.h"
+>>>   +/* QAPI list of realized VirtIODevices */
+>>> +static QTAILQ_HEAD(, VirtIODevice) virtio_list;
+>>> +
+>>>   /*
+>>>    * The alignment to use between consumer and producer parts of vring.
+>>>    * x86 pagesize again. This is the default, used by transports like 
+>>> PCI
+>>> @@ -3698,6 +3707,7 @@ static void virtio_device_realize(DeviceState 
+>>> *dev, Error **errp)
+>>>       vdev->listener.commit = virtio_memory_listener_commit;
+>>>       vdev->listener.name = "virtio";
+>>>       memory_listener_register(&vdev->listener, vdev->dma_as);
+>>> +    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
+>>>   }
+>>>     static void virtio_device_unrealize(DeviceState *dev)
+>>> @@ -3712,6 +3722,7 @@ static void virtio_device_unrealize(DeviceState 
+>>> *dev)
+>>>           vdc->unrealize(dev);
+>>>       }
+>>>   +    QTAILQ_REMOVE(&virtio_list, vdev, next);
+>>>       g_free(vdev->bus_name);
+>>>       vdev->bus_name = NULL;
+>>>   }
+>>> @@ -3885,6 +3896,8 @@ static void 
+>>> virtio_device_class_init(ObjectClass *klass, void *data)
+>>>       vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
+>>>         vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
+>>> +
+>>> +    QTAILQ_INIT(&virtio_list);
+>>>   }
+>>>     bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+>>> @@ -3895,6 +3908,37 @@ bool 
+>>> virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+>>>       return virtio_bus_ioeventfd_enabled(vbus);
+>>>   }
+>>>   +VirtioInfoList *qmp_x_query_virtio(Error **errp)
+>>> +{
+>>> +    VirtioInfoList *list = NULL;
+>>> +    VirtioInfoList *node;
+>>> +    VirtIODevice *vdev;
+>>> +
+>>> +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
+>>> +        DeviceState *dev = DEVICE(vdev);
+>>> +        Error *err = NULL;
+>>> +        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", 
+>>> &err);
+>>> +
+>>> +        if (err == NULL) {
+>>> +            GString *is_realized = qobject_to_json_pretty(obj, true);
+>>> +            /* virtio device is NOT realized, remove it from list */
 >>
->> The only scenario it provides is that ctop is then disabled by default 
->> on newer QEMU allowing migration between old and new QEMU for older 
->> machine without changing the CPU flags.
+>> Why not check dev->realized instead of calling qmp_qom_get() & 
+>> qobject_to_json_pretty()?
+> 
+> This check queries the QOM composition tree to check that the device actually exists and is
+> realized. In other words, we just want to confirm with the QOM composition tree for the device.
+> 
+> This was done to have some kind of synchronicity between @virtio_list and the QOM composition
+> tree, since the list duplicates information that already exists in the tree.
+> 
+> This check was recommended in v10 and added in v11 of this patch series.
+
+Thanks, I found Markus comments:
+
+v10:
+https://lore.kernel.org/qemu-devel/87ee6ogbiw.fsf@dusky.pond.sub.org/
+v11:
+https://lore.kernel.org/qemu-devel/87ee4abtdu.fsf@pond.sub.org/
+
+Having the justification from v11 in the code rather than the commit
+description could help.
+
 >>
->> Otherwise, we would need -ctop=off on newer QEMU to disable the topology.
-> 
-> Ah, it's because you added S390_FEAT_CONFIGURATION_TOPOLOGY to the 
-> default feature set here:
-> 
->   static uint16_t default_GEN10_GA1[] = {
->       S390_FEAT_EDAT,
->       S390_FEAT_GROUP_MSA_EXT_2,
-> +    S390_FEAT_DISABLE_CPU_TOPOLOGY,
-> +    S390_FEAT_CONFIGURATION_TOPOLOGY,
->   };
-> 
-> ?
-> 
-> But what sense does it make to enable it by default, just to disable it 
-> by default again with the S390_FEAT_DISABLE_CPU_TOPOLOGY feature? ... 
-> sorry, I still don't quite get it, but maybe it's because my sinuses are 
-> quite clogged due to a bad cold ... so if you could elaborate again, 
-> that would be very appreciated!
-> 
-> However, looking at this from a distance, I would not rather not add 
-> this to any default older CPU model at all (since it also depends on the 
-> kernel to have this feature enabled)? Enabling it in the host model is 
-> still ok, since the host model is not migration safe anyway.
-> 
->   Thomas
-> 
+>>> +            if (!strncmp(is_realized->str, "false", 4)) {
+>>> +                QTAILQ_REMOVE(&virtio_list, vdev, next);
+>>> +            } else {
+>>> +                node = g_new0(VirtioInfoList, 1);
+>>> +                node->value = g_new(VirtioInfo, 1);
+>>> +                node->value->path = g_strdup(dev->canonical_path);
+>>> +                node->value->name = g_strdup(vdev->name);
+>>> +                QAPI_LIST_PREPEND(list, node->value);
+>>> +            }
+>>> +           g_string_free(is_realized, true);
+>>> +        }
+>>> +        qobject_unref(obj);
+>>> +    }
+>>> +
+>>> +    return list;
+>>> +}
 
-I think I did not understand what is exactly the request that was made 
-about having a CPU flag to disable the topology when we decide to not 
-have a new machine with new machine property.
-
-Let see what we have if the only change to mainline is to activate 
-S390_FEAT_CONFIGURATION_TOPOLOGY with the KVM capability:
-
-In mainline, ctop is enabled in the full GEN10 only.
-
-Consequently we have this feature activated by default for the host 
-model only and deactivated by default if we specify the CPU.
-It can be activated if we specify the CPU with the flag ctop=on.
-
-This is what was in the patch series before the beginning of the 
-discussion about having a new machine property for new machines.
-
-If this what we want: activating the topology by the CPU flag ctop=on it 
-is perfect for me and I can take the original patch.
-We may later make it a default for new machines.
-
-Otherwise or if I misunderstood something, which is greatly possible, I 
-need more advises.
-
-Regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
