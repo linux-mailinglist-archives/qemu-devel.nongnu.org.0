@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F1363FE19
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 03:28:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C35863FE4B
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 03:49:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0vlE-00080z-2a; Thu, 01 Dec 2022 21:26:44 -0500
+	id 1p0w68-0002o6-Pp; Thu, 01 Dec 2022 21:48:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
- id 1p0vlB-0007zK-3N; Thu, 01 Dec 2022 21:26:41 -0500
-Received: from [106.39.185.58] (helo=smtp.cecloud.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luzhipeng@cestc.cn>)
- id 1p0vl7-00018d-DC; Thu, 01 Dec 2022 21:26:40 -0500
-Received: from localhost (localhost [127.0.0.1])
- by smtp.cecloud.com (Postfix) with ESMTP id EB0D117E0209;
- Fri,  2 Dec 2022 10:26:28 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from [172.19.22.216] (unknown [110.185.170.176])
- by smtp.cecloud.com (postfix) whith ESMTP id
- P2473745T281457585287536S1669947987952106_; 
- Fri, 02 Dec 2022 10:26:28 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <623a5cf5741c6c2fe2b9978d668660c9>
-X-RL-SENDER: luzhipeng@cestc.cn
-X-SENDER: luzhipeng@cestc.cn
-X-LOGIN-NAME: luzhipeng@cestc.cn
-X-FST-TO: armbru@redhat.com
-X-RCPT-COUNT: 9
-X-SENDER-IP: 110.185.170.176
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-Message-ID: <1d355249-9ab0-f824-e00d-3135cb2646b5@cestc.cn>
-Date: Fri, 2 Dec 2022 10:26:29 +0800
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1p0w66-0002ny-S5
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 21:48:18 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1p0w63-0001S6-LN
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 21:48:18 -0500
+Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NNcmY2pzVz15N3G;
+ Fri,  2 Dec 2022 10:47:25 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 2 Dec 2022 10:48:07 +0800
+Subject: Re: regression: insmod module failed in VM with nvdimm on
+To: Ard Biesheuvel <ardb@kernel.org>
+References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+ <87r0xkubcp.wl-maz@kernel.org>
+ <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
+ <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
+ <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
+ <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+CC: Marc Zyngier <maz@kernel.org>, <will@kernel.org>, <mark.rutland@arm.com>, 
+ <linux-arm-kernel@lists.infradead.org>, chenxiang via
+ <qemu-devel@nongnu.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>
+Message-ID: <21cf7de2-27e8-8d1f-9efc-aa68cefbad50@hisilicon.com>
+Date: Fri, 2 Dec 2022 10:48:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] blockdev: add 'media=cdrom' argument to support usb cdrom
- emulated as cdrom
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?=
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Fam Zheng <fam@euphon.net>
-References: <20221201134227.1983-1-luzhipeng@cestc.cn>
- <871qpjf86a.fsf@pond.sub.org>
-From: Zhipeng Lu <luzhipeng@cestc.cn>
-In-Reply-To: <871qpjf86a.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.58 (failed)
-Received-SPF: pass client-ip=106.39.185.58; envelope-from=luzhipeng@cestc.cn;
- helo=smtp.cecloud.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500016.china.huawei.com (7.221.188.220)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,61 +68,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
+From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-libvirt issue： https://gitlab.com/libvirt/libvirt/-/issues/261
-
-1、start vm with usb cdrom
-<disk type="file" device="cdrom">
-   <driver name="qemu" type="raw" discard="unmap"/>
-   <source file="/tmp/cdrom"/>
-   <target dev="sda" bus="usb"/>
-   <readonly/>
-   <address type="usb" bus="0" port="1"/>
-</disk>
-
-2、 get qemu cmdline
+Hi Ard,
 
 
-qemu     ... -blockdev 
-{"driver":"file","filename":"/tmp/cdrom","node-name":"libvirt-1-storage","auto-read-only":true,"discard":"unmap"} 
--blockdev 
-{"node-name":"libvirt-1-format","read-only":true,"discard":"unmap","driver":"raw","file":"libvirt-1-storage"} 
--device 
-{"driver":"usb-storage","bus":"usb.0","port":"1","drive":"libvirt-1-format","id":"usb-disk0","removable":false}
-3、 in vm
-
-NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-sda             8:0    0  100M  1 disk
-vda           252:0    0   10G  0 disk
-├─vda1        252:1    0    1G  0 part /boot
-└─vda2        252:2    0    9G  0 part
-   ├─rhel-root 253:0    0    8G  0 lvm  /
-   └─rhel-swap 253:1    0    1G  0 lvm  [SWAP]
-lshw -short|grep cdrom -i
-No cdrom.
-
-My patch is to solve this problem, usb cdrom emulated as cdrom.
-
-
-
-在 2022/12/1 23:35, Markus Armbruster 写道:
-> luzhipeng <luzhipeng@cestc.cn> writes:
-> 
->> From: zhipeng Lu <luzhipeng@cestc.cn>
+在 2022/12/1 19:07, Ard Biesheuvel 写道:
+> On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
+>> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com> wrote:
+>>> Hi Ard,
+>>>
+>>>
+>>> 在 2022/11/30 16:18, Ard Biesheuvel 写道:
+>>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
+>>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
+>>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
+>>>>>> version 6.1.50, kernel 6.0-r4):
+>>>>> How relevant is the presence of the nvdimm? Do you observe the failure
+>>>>> without this?
+>>>>>
+>>>>>> qemu-system-aarch64 -machine
+>>>>>> virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
+>>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
+>>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
+>>>>>> 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
+>>>>>> ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
+>>>>>> -object memory-backend-ram,id=ram1,size=10G -device
+>>>>>> nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
+>>>>>> -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
+>>>>>>
+>>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (kernel
+>>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
+>>>>>>
+>>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
+>>>>>> [    8.186563] vmap allocation for size 20480 failed: use
+>>>>>> vmalloc=<size> to increase size
+>>>>> Have you tried increasing the vmalloc size to check that this is
+>>>>> indeed the problem?
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
+>>>>>> defer initialization to initcall where permitted").
+>>>>> I guess you mean commit fc5a89f75d2a instead, right?
+>>>>>
+>>>>>> Do you have any idea about the issue?
+>>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
+>>>>> portion of the vmalloc space, but you give very little information
+>>>>> that could help here...
+>>>>>
+>>>> Ouch. I suspect what's going on here: that patch defers the
+>>>> randomization of the module region, so that we can decouple it from
+>>>> the very early init code.
+>>>>
+>>>> Obviously, it is happening too late now, and the randomized module
+>>>> region is overlapping with a vmalloc region that is in use by the time
+>>>> the randomization occurs.
+>>>>
+>>>> Does the below fix the issue?
+>>> The issue still occurs, but it seems decrease the probability, before it
+>>> occured almost every time, after the change, i tried 2-3 times, and it
+>>> occurs.
+>>> But i change back "subsys_initcall" to "core_initcall", and i test more
+>>> than 20 times, and it is still ok.
+>>>
+>> Thank you for confirming. I will send out a patch today.
 >>
->> The drive interface supports media=cdrom so that the usb cdrom
->> can be emulated as cdrom in qemu, but libvirt deprived the drive
->> interface, so media=cdrom is added to the blockdev interface to
->> support usb cdrom emulated as cdrom
->>
->> Signed-off-by: zhipeng Lu <luzhipeng@cestc.cn>
-> 
-> What problem are you trying to solve?
-> 
-> 
-> 
+> ...but before I do that, could you please check whether the change
+> below fixes your issue as well?
+>
+> diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
+> index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
+> --- a/arch/arm64/kernel/kaslr.c
+> +++ b/arch/arm64/kernel/kaslr.c
+> @@ -20,7 +20,11 @@
+>   #include <asm/sections.h>
+>   #include <asm/setup.h>
+>
+> -u64 __ro_after_init module_alloc_base;
+> +/*
+> + * Set a reasonable default for module_alloc_base in case
+> + * we end up running with module randomization disabled.
+> + */
+> +u64 __ro_after_init module_alloc_base = (u64)_etext - MODULES_VSIZE;
+>   u16 __initdata memstart_offset_seed;
+>
+>   struct arm64_ftr_override kaslr_feature_override __initdata;
+> @@ -30,12 +34,6 @@ static int __init kaslr_init(void)
+>          u64 module_range;
+>          u32 seed;
+>
+> -       /*
+> -        * Set a reasonable default for module_alloc_base in case
+> -        * we end up running with module randomization disabled.
+> -        */
+> -       module_alloc_base = (u64)_etext - MODULES_VSIZE;
+> -
+>          if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf) {
+>                  pr_info("KASLR disabled on command line\n");
+>                  return 0;
+> .
 
+We have tested this change, the issue is still and it doesn't fix the issue.
 
 
