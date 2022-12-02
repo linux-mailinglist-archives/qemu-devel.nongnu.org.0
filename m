@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90297640943
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 16:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F1B640982
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 16:42:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p17rw-00055F-GN; Fri, 02 Dec 2022 10:22:28 -0500
+	id 1p189X-0001Sy-Ov; Fri, 02 Dec 2022 10:40:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p17rm-00053t-Sh
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 10:22:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p189V-0001RM-07
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 10:40:37 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p17ra-0003sM-Sn
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 10:22:08 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p189R-000139-Rt
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 10:40:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669994522;
+ s=mimecast20190719; t=1669995632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YOepTM+4Z0XSUm3dxyi2jd1sDmaMOGFt2lnag7aOpDA=;
- b=FZO2DEJSjg3YTxmchmgJjmC7+dOEJPfUfixEMUNXdnZJJpfonwx97M9KY2AGOd4m5tKxI5
- BiZvmg5wmaqIZU3XVVRT6Ul901TAMH2zfAzhoZW8mBHFXDHJeYJjYnxoNrMzsnRgoa1p+A
- ImylapInCa/I07uufTOd26uZJJygZQA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=k31gxd363+rUh2suHaYSb16ogW0CYQz/oUuU7ri+gT4=;
+ b=JrKl8j1FV7dmdg9JmTdLXsmOtQW5/3LuMvO8LOz6Pj/pBztJZfmp1YUBYLwYd/UKLgH+xr
+ kD15mWFGhNcQtUZs6BWRt753UuK34csnoL+llhUbrezMPYZMST8IBlIRO/9LDBm5aDVhzB
+ PpjPEaWAT1O+oUZO6blQwCfLIGvsV1I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-pL17kPv7MYqNec1nMpRq3w-1; Fri, 02 Dec 2022 10:21:58 -0500
-X-MC-Unique: pL17kPv7MYqNec1nMpRq3w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-257-ABQYHRjCPFK9TJH82YeZ_A-1; Fri, 02 Dec 2022 10:40:30 -0500
+X-MC-Unique: ABQYHRjCPFK9TJH82YeZ_A-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C15329AB40D;
- Fri,  2 Dec 2022 15:21:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B182111E3FF;
- Fri,  2 Dec 2022 15:21:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E578021E6921; Fri,  2 Dec 2022 16:21:53 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Jonah Palmer <jonah.palmer@oracle.com>,  qemu-devel@nongnu.org,
- lvivier@redhat.com,  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- mst@redhat.com,  qemu_oss@crudebyte.com,  kraxel@redhat.com,
- si-wei.liu@oracle.com,  joao.m.martins@oracle.com,  eblake@redhat.com,
- qemu-block@nongnu.org,  david@redhat.com,  arei.gonglei@huawei.com,
- marcandre.lureau@redhat.com,  thuth@redhat.com,  michael.roth@amd.com,
- groug@kaod.org,  dgilbert@redhat.com,  eric.auger@redhat.com,
- stefanha@redhat.com,  boris.ostrovsky@oracle.com,  kwolf@redhat.com,
- mathieu.poirier@linaro.org,  raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
-Subject: Re: [PATCH v15 1/6] qmp: add QMP command x-query-virtio
-References: <1660220684-24909-1-git-send-email-jonah.palmer@oracle.com>
- <1660220684-24909-2-git-send-email-jonah.palmer@oracle.com>
- <6c7189cd-b6dc-e954-f39e-b90ccb6e0361@linaro.org>
- <31d76035-3b8c-c9a1-4fd3-d3cc6af5f69c@oracle.com>
- <6c917ccc-c458-3545-de73-6f9aee132b45@linaro.org>
-Date: Fri, 02 Dec 2022 16:21:53 +0100
-In-Reply-To: <6c917ccc-c458-3545-de73-6f9aee132b45@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 2 Dec 2022 15:17:17
- +0100")
-Message-ID: <87bkolrfu6.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AFFD9185A79C;
+ Fri,  2 Dec 2022 15:40:29 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C30B0403165;
+ Fri,  2 Dec 2022 15:40:27 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-arm@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 for-8.0] hw/misc: Move some arm-related files from
+ specific_ss into softmmu_ss
+Date: Fri,  2 Dec 2022 16:40:23 +0100
+Message-Id: <20221202154023.293614-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,184 +77,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+The header arget/arm/kvm-consts.h checks CONFIG_KVM which is marked as
+poisoned in common code, so the files that include this header have to
+be added to specific_ss and recompiled for each, qemu-system-arm and
+qemu-system-aarch64. However, since the kvm headers are only optionally
+used in kvm-constants.h for some sanity checks, we can additionally
+check the NEED_CPU_H macro first to avoid the poisoned CONFIG_KVM macro,
+so kvm-constants.h can also be used from "common" files (without the
+sanity checks - which should be OK since they are still done from other
+target-specific files instead). This way, and by adjusting some other
+include statements in the related files here and there, we can move some
+files from specific_ss into softmmu_ss, so that they only need to be
+compiled once during the build process.
 
-> On 2/12/22 13:23, Jonah Palmer wrote:
->> On 11/30/22 11:16, Philippe Mathieu-Daud=C3=A9 wrote:
->>> Hi,
->>>
->>> On 11/8/22 14:24, Jonah Palmer wrote:
->>>> From: Laurent Vivier <lvivier@redhat.com>
->>>>
->>>> This new command lists all the instances of VirtIODevices with
->>>> their canonical QOM path and name.
->>>>
->>>> [Jonah: @virtio_list duplicates information that already exists in
->>>> =C2=A0 the QOM composition tree. However, extracting necessary informa=
-tion
->>>> =C2=A0 from this tree seems to be a bit convoluted.
->>>>
->>>> =C2=A0 Instead, we still create our own list of realized virtio devices
->>>> =C2=A0 but use @qmp_qom_get with the device's canonical QOM path to co=
-nfirm
->>>> =C2=A0 that the device exists and is realized. If the device exists but
->>>> =C2=A0 is actually not realized, then we remove it from our list (for
->>>> =C2=A0 synchronicity to the QOM composition tree).
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2: Use NEED_CPU_H wrapper in kvm-consts.h instead of avoiding to include it
 
-How could this happen?
+ include/hw/misc/xlnx-zynqmp-apu-ctrl.h |  2 +-
+ target/arm/kvm-consts.h                |  8 ++++----
+ hw/misc/imx6_src.c                     |  2 +-
+ hw/misc/iotkit-sysctl.c                |  1 -
+ hw/misc/meson.build                    | 11 +++++------
+ 5 files changed, 11 insertions(+), 13 deletions(-)
 
->>>>
->>>> =C2=A0 Also, the QMP command @x-query-virtio is redundant as @qom-list
->>>> =C2=A0 and @qom-get are sufficient to search '/machine/' for realized
->>>> =C2=A0 virtio devices. However, @x-query-virtio is much more convenient
->>>> =C2=A0 in listing realized virtio devices.]
->>>>
->>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
->>>> ---
->>>> =C2=A0 hw/virtio/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
->>>> =C2=A0 hw/virtio/virtio-stub.c=C2=A0=C2=A0=C2=A0 | 14 ++++++++
->>>> =C2=A0 hw/virtio/virtio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 44 ++++++++++++++++++++++++
->>>> =C2=A0 include/hw/virtio/virtio.h |=C2=A0 1 +
->>>> =C2=A0 qapi/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 1 +
->>>> =C2=A0 qapi/qapi-schema.json=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
->>>> =C2=A0 qapi/virtio.json=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 68 ++++++++++++++++++++++++++++++++++++++
->>>> =C2=A0 tests/qtest/qmp-cmd-test.c |=C2=A0 1 +
->>>> =C2=A0 8 files changed, 132 insertions(+)
->>>> =C2=A0 create mode 100644 hw/virtio/virtio-stub.c
->>>> =C2=A0 create mode 100644 qapi/virtio.json
->>>
->>>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->>>> index 5d607aeaa0..bdfa82e9c0 100644
->>>> --- a/hw/virtio/virtio.c
->>>> +++ b/hw/virtio/virtio.c
->>>> @@ -13,12 +13,18 @@
->>>> =C2=A0 =C2=A0 #include "qemu/osdep.h"
->>>> =C2=A0 #include "qapi/error.h"
->>>> +#include "qapi/qmp/qdict.h"
->>>> +#include "qapi/qapi-commands-virtio.h"
->>>> +#include "qapi/qapi-commands-qom.h"
->>>> +#include "qapi/qapi-visit-virtio.h"
->>>> +#include "qapi/qmp/qjson.h"
->>>> =C2=A0 #include "cpu.h"
->>>> =C2=A0 #include "trace.h"
->>>> =C2=A0 #include "qemu/error-report.h"
->>>> =C2=A0 #include "qemu/log.h"
->>>> =C2=A0 #include "qemu/main-loop.h"
->>>> =C2=A0 #include "qemu/module.h"
->>>> +#include "qom/object_interfaces.h"
->>>> =C2=A0 #include "hw/virtio/virtio.h"
->>>> =C2=A0 #include "migration/qemu-file-types.h"
->>>> =C2=A0 #include "qemu/atomic.h"
->>>> @@ -29,6 +35,9 @@
->>>> =C2=A0 #include "sysemu/runstate.h"
->>>> =C2=A0 #include "standard-headers/linux/virtio_ids.h"
->>>> =C2=A0 +/* QAPI list of realized VirtIODevices */
->>>> +static QTAILQ_HEAD(, VirtIODevice) virtio_list;
->>>> +
->>>> =C2=A0 /*
->>>> =C2=A0=C2=A0 * The alignment to use between consumer and producer part=
-s of vring.
->>>> =C2=A0=C2=A0 * x86 pagesize again. This is the default, used by transp=
-orts like PCI
->>>> @@ -3698,6 +3707,7 @@ static void virtio_device_realize(DeviceState *d=
-ev, Error **errp)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdev->listener.commit =3D virtio_memory=
-_listener_commit;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdev->listener.name =3D "virtio";
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memory_listener_register(&vdev->listene=
-r, vdev->dma_as);
->>>> +=C2=A0=C2=A0=C2=A0 QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
->>>> =C2=A0 }
->>>> =C2=A0 =C2=A0 static void virtio_device_unrealize(DeviceState *dev)
->>>> @@ -3712,6 +3722,7 @@ static void virtio_device_unrealize(DeviceState =
-*dev)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdc->unrealize(=
-dev);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> =C2=A0 +=C2=A0=C2=A0=C2=A0 QTAILQ_REMOVE(&virtio_list, vdev, next);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 g_free(vdev->bus_name);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdev->bus_name =3D NULL;
->>>> =C2=A0 }
->>>> @@ -3885,6 +3896,8 @@ static void virtio_device_class_init(ObjectClass=
- *klass, void *data)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdc->stop_ioeventfd =3D virtio_device_s=
-top_ioeventfd_impl;
->>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdc->legacy_features |=3D VIRTIO=
-_LEGACY_FEATURES;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 QTAILQ_INIT(&virtio_list);
->>>> =C2=A0 }
->>>> =C2=A0 =C2=A0 bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
->>>> @@ -3895,6 +3908,37 @@ bool virtio_device_ioeventfd_enabled(VirtIODevi=
-ce *vdev)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return virtio_bus_ioeventfd_enabled(vbu=
-s);
->>>> =C2=A0 }
->>>> =C2=A0 +VirtioInfoList *qmp_x_query_virtio(Error **errp)
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0 VirtioInfoList *list =3D NULL;
->>>> +=C2=A0=C2=A0=C2=A0 VirtioInfoList *node;
->>>> +=C2=A0=C2=A0=C2=A0 VirtIODevice *vdev;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 QTAILQ_FOREACH(vdev, &virtio_list, next) {
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D DEVIC=
-E(vdev);
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error *err =3D NULL;
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 QObject *obj =3D qmp_qom_g=
-et(dev->canonical_path, "realized", &err);
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (err =3D=3D NULL) {
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GS=
-tring *is_realized =3D qobject_to_json_pretty(obj, true);
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*=
- virtio device is NOT realized, remove it from list */
->>>
->>> Why not check dev->realized instead of calling qmp_qom_get() & qobject_=
-to_json_pretty()?
->>
->> This check queries the QOM composition tree to check that the device act=
-ually exists and is
->> realized. In other words, we just want to confirm with the QOM compositi=
-on tree for the device.
-
-Again, how could this happen?
-
-If @virtio_list isn't reliable, why have it in the first place?
-
->> This was done to have some kind of synchronicity between @virtio_list an=
-d the QOM composition
->> tree, since the list duplicates information that already exists in the t=
-ree.
->> This check was recommended in v10 and added in v11 of this patch series.
->
-> Thanks, I found Markus comments:
->
-> v10:
-> https://lore.kernel.org/qemu-devel/87ee6ogbiw.fsf@dusky.pond.sub.org/
-
-My recommendation there was to *delete* virtio_list and search the QOM
-composition tree instead:
-
-    @virtio_list duplicates information that exists in the QOM composition
-    tree.  It needs to stay in sync.  You could search the composition tree
-    instead.=20
-
-The QOM composition tree is the source of truth.
-
-This above is about the command's implementation, and ...
-
-> v11:
-> https://lore.kernel.org/qemu-devel/87ee4abtdu.fsf@pond.sub.org/
->
-> Having the justification from v11 in the code rather than the commit
-> description could help.
-
-... this part is about why the command could be useful.
-
-[...]
+diff --git a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
+index b8ca9434af..c3bf3c1583 100644
+--- a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
++++ b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
+@@ -13,7 +13,7 @@
+ 
+ #include "hw/sysbus.h"
+ #include "hw/register.h"
+-#include "target/arm/cpu.h"
++#include "target/arm/cpu-qom.h"
+ 
+ #define TYPE_XLNX_ZYNQMP_APU_CTRL "xlnx.apu-ctrl"
+ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPAPUCtrl, XLNX_ZYNQMP_APU_CTRL)
+diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
+index faacf96fdc..09967ec5e6 100644
+--- a/target/arm/kvm-consts.h
++++ b/target/arm/kvm-consts.h
+@@ -14,16 +14,16 @@
+ #ifndef ARM_KVM_CONSTS_H
+ #define ARM_KVM_CONSTS_H
+ 
++#ifdef NEED_CPU_H
+ #ifdef CONFIG_KVM
+ #include <linux/kvm.h>
+ #include <linux/psci.h>
+-
+ #define MISMATCH_CHECK(X, Y) QEMU_BUILD_BUG_ON(X != Y)
++#endif
++#endif
+ 
+-#else
+-
++#ifndef MISMATCH_CHECK
+ #define MISMATCH_CHECK(X, Y) QEMU_BUILD_BUG_ON(0)
+-
+ #endif
+ 
+ #define CP_REG_SIZE_SHIFT 52
+diff --git a/hw/misc/imx6_src.c b/hw/misc/imx6_src.c
+index 7b0e968804..a9c64d06eb 100644
+--- a/hw/misc/imx6_src.c
++++ b/hw/misc/imx6_src.c
+@@ -15,7 +15,7 @@
+ #include "qemu/log.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+-#include "arm-powerctl.h"
++#include "target/arm/arm-powerctl.h"
+ #include "hw/core/cpu.h"
+ 
+ #ifndef DEBUG_IMX6_SRC
+diff --git a/hw/misc/iotkit-sysctl.c b/hw/misc/iotkit-sysctl.c
+index 7147e2f84e..e664215ee6 100644
+--- a/hw/misc/iotkit-sysctl.c
++++ b/hw/misc/iotkit-sysctl.c
+@@ -30,7 +30,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/arm/armsse-version.h"
+ #include "target/arm/arm-powerctl.h"
+-#include "target/arm/cpu.h"
+ 
+ REG32(SECDBGSTAT, 0x0)
+ REG32(SECDBGSET, 0x4)
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 95268eddc0..ed0598dc9e 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -51,6 +51,7 @@ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files(
+   'imx25_ccm.c',
+   'imx31_ccm.c',
+   'imx6_ccm.c',
++  'imx6_src.c',
+   'imx6ul_ccm.c',
+   'imx7_ccm.c',
+   'imx7_gpr.c',
+@@ -84,8 +85,8 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
+ ))
+ softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
+ softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c'))
+-specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
+-specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
+ specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-crl.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files(
+   'xlnx-versal-xramc.c',
+@@ -101,6 +102,7 @@ softmmu_ss.add(when: 'CONFIG_TZ_MPC', if_true: files('tz-mpc.c'))
+ softmmu_ss.add(when: 'CONFIG_TZ_MSC', if_true: files('tz-msc.c'))
+ softmmu_ss.add(when: 'CONFIG_TZ_PPC', if_true: files('tz-ppc.c'))
+ softmmu_ss.add(when: 'CONFIG_IOTKIT_SECCTL', if_true: files('iotkit-secctl.c'))
++softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
+ softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true: files('iotkit-sysinfo.c'))
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPU_PWRCTRL', if_true: files('armsse-cpu-pwrctrl.c'))
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
+@@ -126,15 +128,12 @@ softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
+ 
+ specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
+ 
+-specific_ss.add(when: 'CONFIG_IMX', if_true: files('imx6_src.c'))
+-specific_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
+-
+ specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
+ 
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cpc.c'))
+ specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
+ 
+-specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
++softmmu_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
+ 
+ # HPPA devices
+ softmmu_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))
+-- 
+2.31.1
 
 
