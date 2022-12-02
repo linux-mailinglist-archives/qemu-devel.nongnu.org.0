@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B473464044E
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 11:15:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2B7640450
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 11:16:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p134R-0005SB-2p; Fri, 02 Dec 2022 05:15:03 -0500
+	id 1p135b-00062k-JC; Fri, 02 Dec 2022 05:16:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p134H-0005Ro-0o
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:14:53 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p135Y-00061Z-KF
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:16:12 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p134F-0004xf-A9
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:14:52 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id m19so3185906wms.5
- for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 02:14:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p135U-0008OZ-PV
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:16:11 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ f13-20020a1cc90d000000b003d08c4cf679so43954wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 02:16:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Yy7/ro0Bp6LjhnRp/TgmhMDyulD0b3Fd+KhNVUrja9c=;
- b=IEPk4j4w+2jc8h9kP8NcTvRx9jCEExlxvbpbQoo9+ni53n33VuY8eylRnglgDbWX8G
- F97NKfURv06p0Mjl3cUrHHGdjJoNiAZ5FsxZH5omj19oxtp9JPRzQNkr1eU4yCW/UbEl
- dmcNgBmaMlLQufqZWQwLEmZ2VGs+ldlJXgxlRmOGBN6kyjdzeCreQ8UqyOpM/iO+KXdk
- ct47i7Cl1aKxeEeXB0/zkKLk9Z3mQYrmSiQjZrBo6l04eo5wx2ttqZHjBKDONdXWBuzN
- 8U62GGDXF80jHezFa2+ePe2T9lYGu0On0/wR52idckMdO7kWsk7eshLx8/HYe0G/uhkt
- Bogw==
+ bh=0+52GnqNOawWol0oZigZLebXP5D8xkpft1tnlHMQ+ZE=;
+ b=qocTwF5pRr6NLu91IRgFgOiXN7Xrelj9PYh7w6nP7Y7O8zYxtbI1zgmDFnB/sLRxxq
+ 9GtgqbNrJgRK22N+N35GjMW4+tZfwyus8IU/C1zR60D1mhUdCtzfg/PZ6o8+QaIGr1jH
+ kaOAoiN62qkHXA4bp7sIBGw/HRfw2z3UVPm05n36HXeJVHjCUocLsFjaFRJYCks4Hphq
+ +rnJTpy8X5vgvTGPdv64rQgEOMZdG+bHR0c0YykA/pHemo//KtCOJ+8/6X2S4LYpfUVH
+ DiJauJuAciYnjlW0Vvk0AjRL/W/1ZbQXNGr5UhbWJjPRgPVl1qG+sG0joZ0G3+/D7qAF
+ OFHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yy7/ro0Bp6LjhnRp/TgmhMDyulD0b3Fd+KhNVUrja9c=;
- b=4M0jeySYHTtYQStNfE6s3/0e0b7TBFgWgydQaWIq7IFf74d5Z3zv5A/U3jKmkDp2Zd
- mrQ1PEOA8MZyWfnvHTC6WhPBJNBZBW0icXkDCFIHCe684ZkLf62gfnkVE7SNAeZNR/T7
- /55Z0WoPZPzfArGJGw5Ga81k1iMPuNgcv4/vEsmF14Dt4WyaKCTNyUaSGIcU2FC9iFKq
- oQUKQkQ0aq0PsmNU48Y2m6JKY7s2m0tLWZZF6Ozv7Uxc2zMto4Pfota4eKxmfNUVIje7
- Hih1KaOsy2WD40ESMmIfE7+R9ZPN094323FOn3/3gomKuzyhWQdXcNOb3WDM57Lx/v6G
- jpMQ==
-X-Gm-Message-State: ANoB5pm+bmp7TnkDsLgAPjC1iohYiTpow80rOCplvdQ5/Cep85IeD4DN
- lpdsdoP/8m8D5RC41I0D5u62LA==
-X-Google-Smtp-Source: AA0mqf4b/0Z1eRzOR/jr6Am8uE4asZVLfie74v4Y/fzrA2/AeXF8JNyNpVzJRAB6A6W9NNA7kDu9XQ==
-X-Received: by 2002:a05:600c:1c9d:b0:3cf:69ec:9628 with SMTP id
- k29-20020a05600c1c9d00b003cf69ec9628mr51802346wms.79.1669976089425; 
- Fri, 02 Dec 2022 02:14:49 -0800 (PST)
+ bh=0+52GnqNOawWol0oZigZLebXP5D8xkpft1tnlHMQ+ZE=;
+ b=fZIrdi2GZOG7yAOg+kJaMAx4rVcEqPlySZ3p1aLH1hNtITAO2HwDK9kASAG4yjB/Pz
+ tdGMF7N8fiQ1m2DYFiP8nED3hoFSxC+Hx5+9m695F7gIFjUtHMeK55FgDD4Ctmuou6Ez
+ pAPtpNISHKjCq6FZxAGk/qsx+K6AJuKLXlJwYxZE2mhV9P4cGsJ5BpXatgRT6pbW/he3
+ HYlwwHSNWgdtTX0BrquxmeE/bAH3CeLdxGKDqCMStqfpiKKyhnOGe5SI9e/02UVLTZiB
+ lc/kcL5kIQ3rNJ7y9G5XVwjkLLzckTTvh5aeh6yE85awhMW0PkWiuDI9BZ+G3N/CZa9r
+ dYYA==
+X-Gm-Message-State: ANoB5plo7mLLD5t9obgB7fPfQ6fpsbBU9l6h1b8AUE6nBoZ9rVCOyYH6
+ uEvLgrplMLSosx302MaxoCU/ZA==
+X-Google-Smtp-Source: AA0mqf4auMOOgb5nq/X/We0IpHFoEpeks4zSH6FlWUVoH1bZIaKLyKtGkmcZjTQryClcNulbm2sBCw==
+X-Received: by 2002:a05:600c:3c87:b0:3d0:58bb:9fa3 with SMTP id
+ bg7-20020a05600c3c8700b003d058bb9fa3mr18268856wmb.39.1669976167341; 
+ Fri, 02 Dec 2022 02:16:07 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d8-20020a05600c34c800b003cf4eac8e80sm10011746wmq.23.2022.12.02.02.14.48
+ f21-20020a1c6a15000000b003cf4d99fd2asm7833170wmc.6.2022.12.02.02.16.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Dec 2022 02:14:48 -0800 (PST)
-Message-ID: <a720b214-54fe-12d1-a894-0709330716a0@linaro.org>
-Date: Fri, 2 Dec 2022 11:14:47 +0100
+ Fri, 02 Dec 2022 02:16:06 -0800 (PST)
+Message-ID: <a580f83d-eed3-4719-e875-63b787b9a307@linaro.org>
+Date: Fri, 2 Dec 2022 11:16:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v2 03/14] ui/spice: Require spice-protocol >= 0.14.0
+Subject: Re: [PATCH v2 05/14] ui/spice: Require spice-server >= 0.14.0
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com
 References: <20221202100512.4161901-1-armbru@redhat.com>
- <20221202100512.4161901-4-armbru@redhat.com>
+ <20221202100512.4161901-6-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221202100512.4161901-4-armbru@redhat.com>
+In-Reply-To: <20221202100512.4161901-6-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -94,21 +95,25 @@ On 2/12/22 11:05, Markus Armbruster wrote:
 > Version 0.14.0 is now old enough to have made it into the major
 > distributions:
 > 
->     Debian 11: 0.14.3
->     RHEL-8: 0.14.2
->     FreeBSD (ports): 0.14.4
->     Fedora 35: 0.14.0
->     Ubuntu 20.04: 0.14.0
->     OpenSUSE Leap 15.3: 0.14.3
+>       Debian 11: 0.14.3
+>       RHEL-8: 0.14.3
+>       FreeBSD (ports): 0.15.0
+>       Fedora 35: 0.15.0
+>       Ubuntu 20.04: 0.14.2
+>       OpenSUSE Leap 15.3: 0.14.3
 > 
-> Requiring it lets us drop two version checks in ui/vdagent.c.  It also
-> enables the next commit.
+> Requiring it lets us drop a number of version checks.  The next commit
+> will clean up some more.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   meson.build  | 2 +-
->   ui/vdagent.c | 4 ----
->   2 files changed, 1 insertion(+), 5 deletions(-)
+>   meson.build                | 2 +-
+>   hw/display/qxl.h           | 2 --
+>   include/ui/qemu-spice.h    | 6 +-----
+>   include/ui/spice-display.h | 2 --
+>   chardev/spice.c            | 2 --
+>   hw/display/qxl.c           | 7 +------
+>   6 files changed, 3 insertions(+), 18 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
