@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C12F640465
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 11:19:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A2064049D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 11:27:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1382-0007XT-I0; Fri, 02 Dec 2022 05:18:46 -0500
+	id 1p13FP-0000th-KO; Fri, 02 Dec 2022 05:26:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p1380-0007U7-BN
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:18:44 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p137y-000105-K2
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:18:43 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id u12so6124054wrr.11
- for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 02:18:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GcEhZ333Mh8juvji80lvYZQ4fx402XwIBjM2upvHdS4=;
- b=npSl0N8I2lyFBsEUqxJZ6ZOpWnSYiJtiy1xypmYxNdc+AI/Ul4dnnubIICqUYdC+ZW
- ly8n65CSjXN4la09ltm/fVNNe5ws+OyRMo7yV4OaDMvXSzyI36cCZEI8/BaWiVU7L1Xt
- WoYkLBxbOoh56ugRnbAyNQW3Pd0q7nc7bLCs/+k5Y+vZQ9gpYDmfP0tP+Al70W0LLWWk
- GpdrHuMjoxWdpx56+frEqo6Q2W3vMTKxLCH2K1XL1oL5+DU2+gOHNpKBnpYUZsXU1Kdu
- R3lKF1PEkhUPDmFYq6oLaZhMbSb9oVq0q78IbcETsT0I5Wxyyf1qMuA1v2otC70WEZZb
- hCUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GcEhZ333Mh8juvji80lvYZQ4fx402XwIBjM2upvHdS4=;
- b=B13mBlQLJs6g26biXxB/nCQa58KKTpYLotFFDBm51Lwo6LhnehX+xSwyznPD1JrO3j
- Od1TRseVPBx+wH31syk9I5XuzqxNupp8srMZC65QLKmgivAYnlEXAeYFqkD7y8IMs5ET
- txjzQbAgBQSNxaPb5UYqm5nd2mO/1lnhqNA/yWSmeeqjndYkGy3Gi6VnGzrsYVS+mCZZ
- Sg6KyGqRl8KWQXrU0B7zCsg6kAaMzrsm9+jBQWzYtsMhLDDmKYz3DkXdJWbJm9wCutYx
- dyEB88hl0sgaCdN9SrxjKa2w4kD5fYZEJnO8m9TdAelZ+lPw7/O2fkSHt9kZBy+tvjWZ
- BWVQ==
-X-Gm-Message-State: ANoB5pkX4GTyp26nQsMOgQZaZ+8swQP7iov80cMlQHQlFwTkShXkEikV
- ccI0zGuKMQWyjeLwK72FELF5gw==
-X-Google-Smtp-Source: AA0mqf4FF5ZeoYEF/msNjJk8HLoZu/Gugc7hrFUloBYiYNhtBXiGsduypFDT1NX+nYMLAomFsYLrzA==
-X-Received: by 2002:adf:f408:0:b0:242:39bc:4cf with SMTP id
- g8-20020adff408000000b0024239bc04cfmr4235647wro.187.1669976320715; 
- Fri, 02 Dec 2022 02:18:40 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o35-20020a05600c512300b003a3442f1229sm12985724wms.29.2022.12.02.02.18.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Dec 2022 02:18:39 -0800 (PST)
-Message-ID: <7599426d-8415-d8f1-2e56-88636427d25e@linaro.org>
-Date: Fri, 2 Dec 2022 11:18:38 +0100
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1p13FA-0000t1-4O
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:26:09 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1p13F5-0007ur-JA
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:26:07 -0500
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8Bxnuuv0olj4sQCAA--.6714S3;
+ Fri, 02 Dec 2022 18:25:51 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxqFeu0oljeVUkAA--.6609S2; 
+ Fri, 02 Dec 2022 18:25:50 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	stefanha@gmail.com
+Subject: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
+Date: Fri,  2 Dec 2022 18:25:49 +0800
+Message-Id: <20221202102550.4107344-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v2 09/14] ui: Move QMP commands from monitor to new
- ui/ui-qmp-cmds.c
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com
-References: <20221202100512.4161901-1-armbru@redhat.com>
- <20221202100512.4161901-10-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221202100512.4161901-10-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: AQAAf8CxqFeu0oljeVUkAA--.6609S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrZF1rJF4rtw1UCr4DuF4DArb_yoWfCrc_XF
+ yxJa4UJr48J3WUJFyjqw15JryUJa18JFn8AF1jqr4xXr17Jw15Jr48Jr4UZr1qqr1UJrs8
+ Jr4UJr1rAr1UJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
+ 37CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+ 0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,23 +74,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/12/22 11:05, Markus Armbruster wrote:
-> This moves these commands from MAINTAINERS section "Human
-> Monitor (HMP)" to "Graphics".
-> 
-> Command add-client applies to socket character devices in addition to
-> display devices.  Move it anyway.  Aside: the way @protocol character
-> device IDs and display types is bad design.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   monitor/qmp-cmds.c | 118 ---------------------------------------
->   ui/ui-qmp-cmds.c   | 136 +++++++++++++++++++++++++++++++++++++++++++++
->   ui/meson.build     |   1 +
->   3 files changed, 137 insertions(+), 118 deletions(-)
->   create mode 100644 ui/ui-qmp-cmds.c
+The following changes since commit c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+  Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
+
+are available in the Git repository at:
+
+  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
+
+for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0fd:
+
+  hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05 +0800)
+
+----------------------------------------------------------------
+pull for 7.2-rc4
+
+We need this patch.
+
+----------------------------------------------------------------
+Xiaojuan Yang (1):
+      hw/loongarch/virt: Add cfi01 pflash device
+
+ hw/loongarch/Kconfig        |  1 +
+ hw/loongarch/acpi-build.c   | 18 +++++++++++++
+ hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++++++++++
+ include/hw/loongarch/virt.h |  5 ++++
+ 4 files changed, 86 insertions(+)
 
 
