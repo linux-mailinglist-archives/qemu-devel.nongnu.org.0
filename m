@@ -2,112 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F69E640EBA
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 20:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AAB640F84
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 21:55:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1C0k-0002bB-Fs; Fri, 02 Dec 2022 14:47:50 -0500
+	id 1p1D32-0001i2-A1; Fri, 02 Dec 2022 15:54:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1p1C0i-0002ao-3K
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 14:47:48 -0500
-Received: from mail-bn1nam02on20631.outbound.protection.outlook.com
- ([2a01:111:f400:7eb2::631]
- helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1p1D2y-0001hu-Hx
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 15:54:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1p1C0f-0004fo-R4
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 14:47:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VWtsMTL+kRctq0cmY134vYtk38dT8Qg0RJz23v2Tm47+TYKcTXesbPNOvRy3GmLwRA94puU/4iXCfkT0YKfQFRMHi7cOiS+z3YR84HmhX449QEgSNhR/RyE4CNR34qpgIRxm2reYvad5j+ucC2PAZ92T3L6XneNwIow0TKy4LZNhTBN4t1cxORMekNmRNXpK83t/fhNIMb8ACJn7K3WuI7p8/Xercw4UJZZxe2ERIN8JoTkYSWaMNVFrMLpOPPFvVVHPTvGHF6d8B9QKo87G2sbMeeEhDyKB2Z9qASph2hG+6RMJhdhhlTEi/G+LOu2nxECgiXdKg3MEoO249RNAww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qMazTAYRqbSTnaRIEEhec7Xbfh7ocx1Pe/rEqwsYOd8=;
- b=UajD9LroYw0absX6TxTSmw2aJkxl/AZKXfDbKu0rL12Mnqhrb42LzyWxJVv1VrXJdND0Dx+BK38mReomRAJGcNot4JcpQrlb/P67FZObTN3HzjVVHzFnV1RBMsQhQA5femYfAiBolUA8BBYPifkHP+q1z+SQNjRLR6pZxLjZFEsW9u8cFwGZU6AkkYewhgCtnr8w21m1jucOWQoY3EcW2pHfRTXzjVsm/SKBKz0mAl/s4kMhJD4w2FJOdcdYkQc1wfzyuc3GOOwx4t1hevNi0RWNWohQscLPoWsYfc9BU7JMrQ+l/8rToqVnTiluE5Tq3WwfdnuDnjFPCuiyapAKlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qMazTAYRqbSTnaRIEEhec7Xbfh7ocx1Pe/rEqwsYOd8=;
- b=P3UZ8sNuyUfBYwAJweprd2gMVELporC/b3XI4gWS6s2iuDMzhU5odNAIAiVPuMRWkry2BaX513iROCsyGZmpNUY6LDMuEFpn3Dwzt3kwhk+bvOr5k1zuG+/FoAcQoBGaJbHaR9c/6uX7RHirLp9nupzjnF0sH0nc/JvloW5Km1g=
-Received: from DS7PR07CA0010.namprd07.prod.outlook.com (2603:10b6:5:3af::29)
- by IA1PR12MB7494.namprd12.prod.outlook.com (2603:10b6:208:41a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Fri, 2 Dec
- 2022 19:47:39 +0000
-Received: from CY4PEPF0000B8EC.namprd05.prod.outlook.com
- (2603:10b6:5:3af:cafe::46) by DS7PR07CA0010.outlook.office365.com
- (2603:10b6:5:3af::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10 via Frontend
- Transport; Fri, 2 Dec 2022 19:47:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000B8EC.mail.protection.outlook.com (10.167.241.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5813.11 via Frontend Transport; Fri, 2 Dec 2022 19:47:39 +0000
-Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 2 Dec
- 2022 13:47:37 -0600
-Subject: [PATCH 5/5] target/i386: Add missing feature bits in EPYC-Milan model
-From: Babu Moger <babu.moger@amd.com>
-To: <pbonzini@redhat.com>
-CC: <mtosatti@redhat.com>, <kvm@vger.kernel.org>, <mst@redhat.com>,
- <marcel.apfelbaum@gmail.com>, <imammedo@redhat.com>,
- <richard.henderson@linaro.org>, <yang.zhong@intel.com>,
- <jing2.liu@intel.com>, <vkuznets@redhat.com>, <qemu-devel@nongnu.org>,
- <michael.roth@amd.com>
-Date: Fri, 2 Dec 2022 13:47:37 -0600
-Message-ID: <167001045745.62456.2099841557167523615.stgit@bmoger-ubuntu>
-In-Reply-To: <167001034454.62456.7111414518087569436.stgit@bmoger-ubuntu>
-References: <167001034454.62456.7111414518087569436.stgit@bmoger-ubuntu>
-User-Agent: StGit/1.1.dev103+g5369f4c
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1p1D2v-000335-W5
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 15:54:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670014447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iLfJR5a0YZnWo6sXYM4u050t72RXEskKqixcB0/c2m8=;
+ b=Wvq4Z8u6rcat3uW6SEcaC7za9JmIIjnX3EhRUCH8mvPQ1eCTYMWFrLE9YkNG15SgV8fwpQ
+ +2+ArHdonycS0RyaJvNdUFDam/PdYuUIGJvY/kvtcrIWQo0fzQYfLFXPabjjxsDkWrIRlx
+ k8ZXrz6Itr6lEfhFioHENZb99OuGdz4=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-435-6qPDgngIM16Sb6L7zKDYeA-1; Fri, 02 Dec 2022 15:54:06 -0500
+X-MC-Unique: 6qPDgngIM16Sb6L7zKDYeA-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ m10-20020a2e97ca000000b00279c3a7847fso1262985ljj.17
+ for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 12:54:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iLfJR5a0YZnWo6sXYM4u050t72RXEskKqixcB0/c2m8=;
+ b=rzDV4SAalOZvO4vyuPcbyjQCjdgRmjg3WhDEqS9FjUHNLp7uaK5fC2wZIywDFMcpIO
+ TBFGLR7cI/q9g1ShTt7GRaYCWpWIP3hivvJR8vpiqJcMh05u3zVSzZ9Th/9AWatggvH3
+ Op6ewotvXBECoL5e8ZON+SevdoqhcXziS6ehdOxuV6NvVwfqcdMD7LATjRm9LPDHC//X
+ YEV9QYDtc29tV3c+i7AcE1YNSH5yrVU14CtFCGsbGRF3aDhpn1Eae2WK3FoM28sga/a4
+ b2oHBswp4F16FedfN8SdYnVq++KC6ABJk3u5Gmw5K+OPTH7MUtdUd7gQ9c+cCF/UeJeR
+ NoAQ==
+X-Gm-Message-State: ANoB5pmaf8bO+JIsfrplmEaWHYvIhZ/6nTAPBuxu0WniJx2xCMqVkA9+
+ K6St3a1AVHfgiij0rqql7ET78Q6wmgRLPaQbdgw7ld4lAXTSX2nO9xLf/ts8gbipItE1UaIbTnz
+ UoUJc2qKJfZA65zOHfUzMKApwJtpPxrM=
+X-Received: by 2002:a2e:80d6:0:b0:279:c7b0:e05a with SMTP id
+ r22-20020a2e80d6000000b00279c7b0e05amr3924505ljg.148.1670014445266; 
+ Fri, 02 Dec 2022 12:54:05 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7D3quI8rncHDZd8GOqiMKQsCveR3tL4PC+CCtjXnraPuHyjvl1XCsNgZa/MdYJHAhev/rqkSriEQRMOJZROMk=
+X-Received: by 2002:a2e:80d6:0:b0:279:c7b0:e05a with SMTP id
+ r22-20020a2e80d6000000b00279c7b0e05amr3924500ljg.148.1670014445023; Fri, 02
+ Dec 2022 12:54:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000B8EC:EE_|IA1PR12MB7494:EE_
-X-MS-Office365-Filtering-Correlation-Id: 207d70a1-902f-4f7a-5cfe-08dad49e11ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jxmSUBKx5i8x2BeA5ES0ygkqPyQ1Vek0NK3azru3KqusjijTC6hvrdp39obIuGOIEjhvGEUDFebXFk+567zO4FmLzba6NYF6lvSAH7NIZfHXOvt84Xa2ZbfK6S6UJ+WlSt+K6sd5uWzOZ9Q5XTwy6fRYxa9WR89FwEIaSSWk2orZTJ0/LbAQ7krUTss0yde0N2K6IkndNqvCEo41MSF+u3gvEYAwnWulfFcQrzGnV7J92MK88TTBB/adectB9FuJJv5jS9ZPlKss6tR+f7T1Rhy/nWaUpVtQ/e7bW1aAjAQUv9GuadeMqIa0xu3oX8+aeMBlB2zKJpp3VvLCZTZ1oijONPxCAYqC+QKrXGk0xe4YQoyarx0tKCnXGTrJIT6GSPjPSNAgZmvZV48QjxIpFqvHFx980xdTHhiF1kQxe4uC849YH6c7ei8k5uTZCvZFPrwRfjq/1nNxwq/zUsHDjDzFNCYXL8t6Ny2AY5Yy5tDPFmKajGB92UHQ486SqZYFdy/i9fs3MulH3s7OMZO8pxDCj+WyW+93KaZfj9Qks5OTicRLfN3e8HDVcmqH3AUaxVfBvOEfSSkjcApKzhB+kIQQqc57uqlPSeea0pYbOK3/sR6NCJ3I+1JMGJr6Bwpa3GMrIW/5aRA8YpC+LazCejh/OEAUATsAJ7DZFyzBQ5uctBSLJrkZY+K+0jJ4MAka0o62D7xs6UL5sbyUX2M/aHsK0xrwsNL3o/w+0l1pCXqxK7Bn4EDi+VXng56Ynzcw9oBo0wAwPkQBICbJNWtKCzY1NGBScYYQf9FuJHiMchcHWhNddMnCFVE5EO6xqfZKzoOhlHg/9+4fjbaD68RmJw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(7916004)(39860400002)(136003)(346002)(376002)(396003)(451199015)(36840700001)(40470700004)(46966006)(40480700001)(40460700003)(186003)(2906002)(86362001)(356005)(7416002)(16526019)(478600001)(966005)(81166007)(36860700001)(8936002)(44832011)(26005)(316002)(70586007)(5660300002)(33716001)(41300700001)(6916009)(4326008)(70206006)(16576012)(54906003)(8676002)(82740400003)(9686003)(336012)(103116003)(82310400005)(83380400001)(47076005)(426003)(71626007)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2022 19:47:39.3648 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 207d70a1-902f-4f7a-5cfe-08dad49e11ca
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000B8EC.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7494
-Received-SPF: softfail client-ip=2a01:111:f400:7eb2::631;
- envelope-from=Babu.Moger@amd.com;
- helo=NAM02-BN1-obe.outbound.protection.outlook.com
+References: <20221201133756.77216-1-thuth@redhat.com>
+In-Reply-To: <20221201133756.77216-1-thuth@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 2 Dec 2022 15:53:52 -0500
+Message-ID: <CAFn=p-aHB8A4MqVo9ncHvFOcS8=UVVLz2sT22HqxJBeha=ixyA@mail.gmail.com>
+Subject: Re: [PATCH] .gitlab/issue_templates: Move suggestions into comments
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,137 +91,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-And the following feature bits for EPYC-Milan model and bump the version.=
-=0A=
-vaes            : Vector VAES(ENC|DEC), VAES(ENC|DEC)LAST instruction suppo=
-rt=0A=
-vpclmulqdq	: Vector VPCLMULQDQ instruction support=0A=
-stibp-always-on : Single Thread Indirect Branch Prediction Mode has enhance=
-d=0A=
-                  performance and may be left Always on=0A=
-amd-psfd	: Predictive Store Forward Disable=0A=
-no-nested-data-bp         : Processor ignores nested data breakpoints=0A=
-lfence-always-serializing : LFENCE instruction is always serializing=0A=
-null-select-clears-base   : Null Selector Clears Base. When this bit is=0A=
-                            set, a null segment load clears the segment bas=
-e=0A=
-=0A=
-These new features will be added in EPYC-Milan-v2. The -cpu help output=0A=
-after the change.=0A=
-=0A=
-    x86 EPYC-Milan             (alias configured by machine type)=0A=
-    x86 EPYC-Milan-v1          AMD EPYC-Milan Processor=0A=
-    x86 EPYC-Milan-v2          AMD EPYC-Milan Processor=0A=
-=0A=
-The documentation for the features are available in the links below.=0A=
-a. Processor Programming Reference (PPR) for AMD Family 19h Model 01h,=0A=
-   Revision B1 Processors=0A=
-b. SECURITY ANALYSIS OF AMD PREDICTIVE STORE FORWARDING=0A=
-c. AMD64 Architecture Programmer=E2=80=99s Manual Volumes 1=E2=80=935 Publi=
-cation No. Revision=0A=
-    40332 4.05 Date October 2022=0A=
-=0A=
-Link: https://www.amd.com/system/files/TechDocs/55898_B1_pub_0.50.zip=0A=
-Link: https://www.amd.com/system/files/documents/security-analysis-predicti=
-ve-store-forwarding.pdf=0A=
-Link: https://www.amd.com/system/files/TechDocs/40332_4.05.pdf=0A=
-Signed-off-by: Babu Moger <Babu.Moger@amd.com>=0A=
----=0A=
- target/i386/cpu.c |   70 +++++++++++++++++++++++++++++++++++++++++++++++++=
-++++=0A=
- 1 file changed, 70 insertions(+)=0A=
-=0A=
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c=0A=
-index e9175da92f..54549a5127 100644=0A=
---- a/target/i386/cpu.c=0A=
-+++ b/target/i386/cpu.c=0A=
-@@ -1921,6 +1921,56 @@ static const CPUCaches epyc_milan_cache_info =3D {=
-=0A=
-     },=0A=
- };=0A=
- =0A=
-+static const CPUCaches epyc_milan_v2_cache_info =3D {=0A=
-+    .l1d_cache =3D &(CPUCacheInfo) {=0A=
-+        .type =3D DATA_CACHE,=0A=
-+        .level =3D 1,=0A=
-+        .size =3D 32 * KiB,=0A=
-+        .line_size =3D 64,=0A=
-+        .associativity =3D 8,=0A=
-+        .partitions =3D 1,=0A=
-+        .sets =3D 64,=0A=
-+        .lines_per_tag =3D 1,=0A=
-+        .self_init =3D 1,=0A=
-+        .no_invd_sharing =3D true,=0A=
-+    },=0A=
-+    .l1i_cache =3D &(CPUCacheInfo) {=0A=
-+        .type =3D INSTRUCTION_CACHE,=0A=
-+        .level =3D 1,=0A=
-+        .size =3D 32 * KiB,=0A=
-+        .line_size =3D 64,=0A=
-+        .associativity =3D 8,=0A=
-+        .partitions =3D 1,=0A=
-+        .sets =3D 64,=0A=
-+        .lines_per_tag =3D 1,=0A=
-+        .self_init =3D 1,=0A=
-+        .no_invd_sharing =3D true,=0A=
-+    },=0A=
-+    .l2_cache =3D &(CPUCacheInfo) {=0A=
-+        .type =3D UNIFIED_CACHE,=0A=
-+        .level =3D 2,=0A=
-+        .size =3D 512 * KiB,=0A=
-+        .line_size =3D 64,=0A=
-+        .associativity =3D 8,=0A=
-+        .partitions =3D 1,=0A=
-+        .sets =3D 1024,=0A=
-+        .lines_per_tag =3D 1,=0A=
-+    },=0A=
-+    .l3_cache =3D &(CPUCacheInfo) {=0A=
-+        .type =3D UNIFIED_CACHE,=0A=
-+        .level =3D 3,=0A=
-+        .size =3D 32 * MiB,=0A=
-+        .line_size =3D 64,=0A=
-+        .associativity =3D 16,=0A=
-+        .partitions =3D 1,=0A=
-+        .sets =3D 32768,=0A=
-+        .lines_per_tag =3D 1,=0A=
-+        .self_init =3D true,=0A=
-+        .inclusive =3D true,=0A=
-+        .complex_indexing =3D false,=0A=
-+    },=0A=
-+};=0A=
-+=0A=
- /* The following VMX features are not supported by KVM and are left out in=
- the=0A=
-  * CPU definitions:=0A=
-  *=0A=
-@@ -4270,6 +4320,26 @@ static const X86CPUDefinition builtin_x86_defs[] =3D=
- {=0A=
-         .xlevel =3D 0x8000001E,=0A=
-         .model_id =3D "AMD EPYC-Milan Processor",=0A=
-         .cache_info =3D &epyc_milan_cache_info,=0A=
-+        .versions =3D (X86CPUVersionDefinition[]) {=0A=
-+            { .version =3D 1 },=0A=
-+            {=0A=
-+                .version =3D 2,=0A=
-+                .props =3D (PropValue[]) {=0A=
-+                    { "model-id",=0A=
-+                      "AMD EPYC-Milan-v2 Processor" },=0A=
-+                    { "vaes", "on" },=0A=
-+                    { "vpclmulqdq", "on" },=0A=
-+                    { "stibp-always-on", "on" },=0A=
-+                    { "amd-psfd", "on" },=0A=
-+                    { "no-nested-data-bp", "on" },=0A=
-+                    { "lfence-always-serializing", "on" },=0A=
-+                    { "null-select-clears-base", "on" },=0A=
-+                    { /* end of list */ }=0A=
-+                },=0A=
-+                .cache_info =3D &epyc_milan_v2_cache_info=0A=
-+            },=0A=
-+            { /* end of list */ }=0A=
-+        }=0A=
-     },=0A=
- };=0A=
- =0A=
-=0A=
+On Thu, Dec 1, 2022 at 8:38 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+> Many users forget to remove the suggestions from the bug template
+> when creating a new issue. So when searching for strings like "s390x"
+> or "Windows", you get a lot of unrelated issues in the results.
+> Thus let's move the suggestions into HTML comments - so they will
+> still show up in the markdown when editing the bug, while being
+> hidden/ignored in the final text or in the search queries.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab/issue_templates/bug.md | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
+> index e910f7b1c2..53a79f5828 100644
+> --- a/.gitlab/issue_templates/bug.md
+> +++ b/.gitlab/issue_templates/bug.md
+> @@ -18,11 +18,11 @@ https://www.qemu.org/contribute/security-process/
+>  -->
+>
+>  ## Host environment
+> - - Operating system: (Windows 10 21H1, Fedora 34, etc.)
+> - - OS/kernel version: (For POSIX hosts, use `uname -a`)
+> - - Architecture: (x86, ARM, s390x, etc.)
+> - - QEMU flavor: (qemu-system-x86_64, qemu-aarch64, qemu-img, etc.)
+> - - QEMU version: (e.g. `qemu-system-x86_64 --version`)
+> + - Operating system:            <!-- Windows 10 21H1, Fedora 37, etc. -->
+> + - OS/kernel version:           <!-- For POSIX hosts, use `uname -a` -->
+> + - Architecture:                <!-- x86, ARM, s390x, etc. -->
+> + - QEMU flavor:                 <!-- qemu-system-x86_64, qemu-aarch64, qemu-img, etc. -->
+> + - QEMU version:                <!-- e.g. `qemu-system-x86_64 --version` -->
+>   - QEMU command line:
+>     <!--
+>     Give the smallest, complete command line that exhibits the problem.
+> @@ -35,9 +35,9 @@ https://www.qemu.org/contribute/security-process/
+>     ```
+>
+>  ## Emulated/Virtualized environment
+> - - Operating system: (Windows 10 21H1, Fedora 34, etc.)
+> - - OS/kernel version: (For POSIX guests, use `uname -a`.)
+> - - Architecture: (x86, ARM, s390x, etc.)
+> + - Operating system:            <!-- Windows 10 21H1, Fedora 37, etc. -->
+> + - OS/kernel version:           <!-- For POSIX guests, use `uname -a`. -->
+> + - Architecture:                <!-- x86, ARM, s390x, etc. -->
+>
+>
+>  ## Description of problem
+> --
+> 2.31.1
+>
+
+LGTM. I believe the only reason we didn't do this initially was
+because the libvirt folks warned that some users might try to fill in
+the comments and won't delete them. Fair enough, but I guess we can
+fix that if it happens. Using the comments will do less harm overall
+for poor submissions.
+
+Don't forget to change the template from the gitlab dashboard, too:
+the default bug template is not controlled by the entries in the git
+repository, and you'll need to copy this over manually, IIRC.
+
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 
