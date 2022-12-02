@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B5A64040D
+	by mail.lfdr.de (Postfix) with ESMTPS id 7461A64040B
 	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 11:06:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p12v7-0003Uk-40; Fri, 02 Dec 2022 05:05:25 -0500
+	id 1p12v8-0003VL-Po; Fri, 02 Dec 2022 05:05:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p12v3-0003U1-5h
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:05:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p12v5-0003UI-5U
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:05:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p12v1-0002F5-A1
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:05:20 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p12v2-0002Fn-N5
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 05:05:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669975517;
+ s=mimecast20190719; t=1669975520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=llYHbZmmPYkf4oDEZDWTt47ksm3fHqvncNaaqJM+ynY=;
- b=Clg5tIzBrgG4K9gXM48nT1ZG05iCsC1W34g5N2laJZrr0IYvhDWSkQswfVaxuRqkBLLJ3q
- qwNwZUqV2E1ozbZHDcvLnTt/2kBDleYCuuDQnhGPwO8POFhog+4Ia4kdPgDEKCrNrI2bXp
- EaTA9ZiKHnuZqO4c4cw+BL7bEY5NdpE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Cr/IYj3mjE/aHUSid9+YdaoMQzgu194VeyuDMg7Ubr8=;
+ b=RXMo33+O7nWYEzJ50BbkqGpNnbyB2hrRt2A02UZ+n4MA2JZNI/23caBJmBODOpTsmFuBgW
+ lsK5RH4W5M6iAPxkDHT7cXY/xuSJWbdvO3+vgjQqOP00T+aoSSYHZ2q+L66B5WEBJwIboN
+ wkTTACrLIiYk02gr+XErDWT/MfeMVV8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-2mU0y81-N66o7HxZ2lwKUw-1; Fri, 02 Dec 2022 05:05:16 -0500
-X-MC-Unique: 2mU0y81-N66o7HxZ2lwKUw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-554-jABJsE_nMvOjtcwLisBSow-1; Fri, 02 Dec 2022 05:05:16 -0500
+X-MC-Unique: jABJsE_nMvOjtcwLisBSow-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C929811E84;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D92A3C025BC;
  Fri,  2 Dec 2022 10:05:16 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A892414A815;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AC1BC1908B;
  Fri,  2 Dec 2022 10:05:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E84B021E688F; Fri,  2 Dec 2022 11:05:12 +0100 (CET)
+ id EAC1D21E6681; Fri,  2 Dec 2022 11:05:12 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v2 03/14] ui/spice: Require spice-protocol >= 0.14.0
-Date: Fri,  2 Dec 2022 11:05:01 +0100
-Message-Id: <20221202100512.4161901-4-armbru@redhat.com>
+Subject: [PATCH v2 04/14] Revert "hmp: info spice: take out webdav"
+Date: Fri,  2 Dec 2022 11:05:02 +0100
+Message-Id: <20221202100512.4161901-5-armbru@redhat.com>
 In-Reply-To: <20221202100512.4161901-1-armbru@redhat.com>
 References: <20221202100512.4161901-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,62 +79,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Version 0.14.0 is now old enough to have made it into the major
-distributions:
+This reverts commit 7c6044a94e52db8aef9a71d616c7a0914adb71ab.
 
-   Debian 11: 0.14.3
-   RHEL-8: 0.14.2
-   FreeBSD (ports): 0.14.4
-   Fedora 35: 0.14.0
-   Ubuntu 20.04: 0.14.0
-   OpenSUSE Leap 15.3: 0.14.3
-
-Requiring it lets us drop two version checks in ui/vdagent.c.  It also
-enables the next commit.
+We had to take it out because SPICE_CHANNEL_WEBDAV requires
+spice-protocol 0.12.7, but we had only 0.12.3.  We have 0.14.0 now, so
+put it back in.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- meson.build  | 2 +-
- ui/vdagent.c | 4 ----
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ monitor/hmp-cmds.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 5c6b5a1c75..9f27c5cea3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -740,7 +740,7 @@ endif
- 
- spice_protocol = not_found
- if not get_option('spice_protocol').auto() or have_system
--  spice_protocol = dependency('spice-protocol', version: '>=0.12.3',
-+  spice_protocol = dependency('spice-protocol', version: '>=0.14.0',
-                               required: get_option('spice_protocol'),
-                               method: 'pkg-config', kwargs: static_kwargs)
- endif
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 4bf50f0c4d..1f51a78da1 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -87,9 +87,7 @@ static const char *cap_name[] = {
-     [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]       = "monitors-config-position",
-     [VD_AGENT_CAP_FILE_XFER_DISABLED]             = "file-xfer-disabled",
-     [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]      = "file-xfer-detailed-errors",
--#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
-     [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]           = "graphics-device-info",
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index a7c9ae2520..7360ed71a6 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -626,12 +626,7 @@ void hmp_info_spice(Monitor *mon, const QDict *qdict)
+         [SPICE_CHANNEL_SMARTCARD] = "smartcard",
+         [SPICE_CHANNEL_USBREDIR] = "usbredir",
+         [SPICE_CHANNEL_PORT] = "port",
+-#if 0
+-        /* minimum spice-protocol is 0.12.3, webdav was added in 0.12.7,
+-         * no easy way to #ifdef (SPICE_CHANNEL_* is a enum).  Disable
+-         * as quick fix for build failures with older versions. */
+         [SPICE_CHANNEL_WEBDAV] = "webdav",
 -#endif
- #if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
-     [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] = "clipboard-no-release-on-regrab",
-     [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]          = "clipboard-grab-serial",
-@@ -112,9 +110,7 @@ static const char *msg_name[] = {
-     [VD_AGENT_CLIENT_DISCONNECTED]   = "client-disconnected",
-     [VD_AGENT_MAX_CLIPBOARD]         = "max-clipboard",
-     [VD_AGENT_AUDIO_VOLUME_SYNC]     = "audio-volume-sync",
--#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
-     [VD_AGENT_GRAPHICS_DEVICE_INFO]  = "graphics-device-info",
--#endif
- };
+     };
  
- static const char *sel_name[] = {
+     info = qmp_query_spice(NULL);
 -- 
 2.37.3
 
