@@ -2,73 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C496407E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 14:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36645640830
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 15:10:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p16M7-0003Nh-H5; Fri, 02 Dec 2022 08:45:31 -0500
+	id 1p16iM-0008FJ-Rf; Fri, 02 Dec 2022 09:08:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p16Lm-00038z-Ok
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:45:11 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p16iG-0008Eh-7g; Fri, 02 Dec 2022 09:08:24 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1p16Lj-0008T4-UW
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 08:45:09 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 744BB622CB
- for <qemu-devel@nongnu.org>; Fri,  2 Dec 2022 13:45:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA436C433D7
- for <qemu-devel@nongnu.org>; Fri,  2 Dec 2022 13:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669988699;
- bh=zaqhIfnF3DLSzbHCqd4kakP9gQooAojSeb0ji+wB9QY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=PbB+ieE3KTcl7yGjmnOaQ6O2ZIdAtKOIvZtVNvRvkIfzphMiJpYTOMSjl1QUxbXIe
- QQJIFL5z8QyGO3eKmYKK316Sb/c6JKmIK4d5ehFnbGsTgb6MCoc13S4y9j5RXKKyRF
- DVhmkd3Pn3UUoO1SieEkqPoST0XWSuwergUMs6K8oB0awtyTXP90RbDZiAQtdl8nKv
- POtBa8d50Urdivdt3FoiZqwM1Mtw/mTnGRTlhH/ge6pyGmGehgl0TN7zXguMijnFx5
- NqqOWplayfBJ4s7Gv8YCz4g8sJzmZG4myN80bHQyD4YNpC30o2+kvpSne0eLORUF+5
- 1TLA5r0ZBxkbw==
-Received: by mail-lf1-f50.google.com with SMTP id p8so7434833lfu.11
- for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 05:44:59 -0800 (PST)
-X-Gm-Message-State: ANoB5plAb34mDuvmDnFz1dPKVux4xtM4ybYznP+RJijBSvUSU8Kutf/5
- oLcBGxqq5ztVKYNSFIfAjEOCEhi2DLX7niFXiP8=
-X-Google-Smtp-Source: AA0mqf5rAmRls729EhIMnjqUwBojxIyevZqEP3+PYAHi4A8LJj6nD2iJx8hnqJOimZhWkqU+n8g08uODMSfeheoAjMY=
-X-Received: by 2002:a19:6b19:0:b0:4a2:740b:5b02 with SMTP id
- d25-20020a196b19000000b004a2740b5b02mr22572788lfa.122.1669988697862; Fri, 02
- Dec 2022 05:44:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p16iD-0002tT-H4; Fri, 02 Dec 2022 09:08:23 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B2DgAxg021482; Fri, 2 Dec 2022 14:08:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=oULq9ebBKI9JjP7FuumqR8cwsDgwubKsG6F3/MJ/a84=;
+ b=ENfZsR0vKP7f0be9G9jxvlX5MWOR0WkjueQFommQSyYnNx/ZJj2jnIErrOza5f2pk4YU
+ z4Mwkds1T0PONXADm1u88nB0v/+33G50zfJLT+E7pK1AEcCicuoT961ToSb8Qyod54ju
+ a+hwa2FT8jucl0AB24B11uSctfWElRz6lwPABKHa9gihFkRD6BkcM2R2SGlTEi8nNMK2
+ vhmWf94lN9Aq0+MtSD9IPasqdRMyU0vVR5TDH4nhAeN2Tc4Ja0Vu72RnX5UNLHFZHVLj
+ ZsipFIM2EquoLmg/2aX7rSIOarSeTGtmaYs7SB99QTwfnuGfsAAq9ivC845T3aLTdAon zQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7jfp8n5y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Dec 2022 14:08:15 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B2DuJIJ029855;
+ Fri, 2 Dec 2022 14:08:14 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7jfp8n4x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Dec 2022 14:08:14 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B2E5umO023097;
+ Fri, 2 Dec 2022 14:08:11 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma02fra.de.ibm.com with ESMTP id 3m3ae96qsu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Dec 2022 14:08:11 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B2E88g26947546
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 2 Dec 2022 14:08:08 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A6F204C040;
+ Fri,  2 Dec 2022 14:08:08 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AACC14C046;
+ Fri,  2 Dec 2022 14:08:07 +0000 (GMT)
+Received: from [9.171.75.172] (unknown [9.171.75.172])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  2 Dec 2022 14:08:07 +0000 (GMT)
+Message-ID: <59669e8e-6242-9c01-4c2e-5d70b9c31b2b@linux.ibm.com>
+Date: Fri, 2 Dec 2022 15:08:07 +0100
 MIME-Version: 1.0
-References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
- <87r0xkubcp.wl-maz@kernel.org>
- <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
- <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
- <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
- <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
- <21cf7de2-27e8-8d1f-9efc-aa68cefbad50@hisilicon.com>
-In-Reply-To: <21cf7de2-27e8-8d1f-9efc-aa68cefbad50@hisilicon.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 2 Dec 2022 14:44:46 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
-Message-ID: <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
-Subject: Re: regression: insmod module failed in VM with nvdimm on
-To: "chenxiang (M)" <chenxiang66@hisilicon.com>
-Cc: Marc Zyngier <maz@kernel.org>, will@kernel.org, mark.rutland@arm.com, 
- linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>, 
- "linuxarm@huawei.com" <linuxarm@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=ardb@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v12 6/7] s390x/cpu_topology: activating CPU topology
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, david@redhat.com
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, cohuck@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
+ seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221129174206.84882-1-pmorel@linux.ibm.com>
+ <20221129174206.84882-7-pmorel@linux.ibm.com>
+ <fcedb98d-4333-9100-5366-8848727528f3@redhat.com>
+ <ea965d1c-ab6a-5aa3-8ce3-65b8177f6320@linux.ibm.com>
+ <37a20bee-a3fb-c421-b89d-c1760e77cb11@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <37a20bee-a3fb-c421-b89d-c1760e77cb11@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 7MzlxV-ajWJOEtbqxHtXpVGChPL_juug
+X-Proofpoint-GUID: R7A-AgtHI0ZCrUYPKVSg1gM2DrCKybf7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-02_06,2022-12-01_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0
+ bulkscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
+ priorityscore=1501 mlxlogscore=999 mlxscore=0 phishscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212020111
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,126 +123,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 2 Dec 2022 at 03:48, chenxiang (M) <chenxiang66@hisilicon.com> wrot=
-e:
->
-> Hi Ard,
->
->
-> =E5=9C=A8 2022/12/1 19:07, Ard Biesheuvel =E5=86=99=E9=81=93:
-> > On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com>=
- wrote:
-> >>> Hi Ard,
-> >>>
-> >>>
-> >>> =E5=9C=A8 2022/11/30 16:18, Ard Biesheuvel =E5=86=99=E9=81=93:
-> >>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
-> >>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
-> >>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
-> >>>>>> Hi,
-> >>>>>>
-> >>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
-> >>>>>> version 6.1.50, kernel 6.0-r4):
-> >>>>> How relevant is the presence of the nvdimm? Do you observe the fail=
-ure
-> >>>>> without this?
-> >>>>>
-> >>>>>> qemu-system-aarch64 -machine
-> >>>>>> virt,kernel_irqchip=3Don,gic-version=3D3,nvdimm=3Don  -kernel
-> >>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
-> >>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
-> >>>>>> 2G,maxmem=3D64G,slots=3D3 -smp 4 -append 'rdinit=3Dinit console=3D=
-ttyAMA0
-> >>>>>> ealycon=3Dpl0ll,0x90000000 pcie_ports=3Dnative pciehp.pciehp_debug=
-=3D1'
-> >>>>>> -object memory-backend-ram,id=3Dram1,size=3D10G -device
-> >>>>>> nvdimm,id=3Ddimm1,memdev=3Dram1  -device ioh3420,id=3Droot_port1,c=
-hassis=3D1
-> >>>>>> -device vfio-pci,host=3D7d:01.0,id=3Dnet0,bus=3Droot_port1
-> >>>>>>
-> >>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (ke=
-rnel
-> >>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
-> >>>>>>
-> >>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
-> >>>>>> [    8.186563] vmap allocation for size 20480 failed: use
-> >>>>>> vmalloc=3D<size> to increase size
-> >>>>> Have you tried increasing the vmalloc size to check that this is
-> >>>>> indeed the problem?
-> >>>>>
-> >>>>> [...]
-> >>>>>
-> >>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: ka=
-slr:
-> >>>>>> defer initialization to initcall where permitted").
-> >>>>> I guess you mean commit fc5a89f75d2a instead, right?
-> >>>>>
-> >>>>>> Do you have any idea about the issue?
-> >>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
-> >>>>> portion of the vmalloc space, but you give very little information
-> >>>>> that could help here...
-> >>>>>
-> >>>> Ouch. I suspect what's going on here: that patch defers the
-> >>>> randomization of the module region, so that we can decouple it from
-> >>>> the very early init code.
-> >>>>
-> >>>> Obviously, it is happening too late now, and the randomized module
-> >>>> region is overlapping with a vmalloc region that is in use by the ti=
-me
-> >>>> the randomization occurs.
-> >>>>
-> >>>> Does the below fix the issue?
-> >>> The issue still occurs, but it seems decrease the probability, before=
- it
-> >>> occured almost every time, after the change, i tried 2-3 times, and i=
-t
-> >>> occurs.
-> >>> But i change back "subsys_initcall" to "core_initcall", and i test mo=
-re
-> >>> than 20 times, and it is still ok.
-> >>>
-> >> Thank you for confirming. I will send out a patch today.
-> >>
-> > ...but before I do that, could you please check whether the change
-> > below fixes your issue as well?
-> >
-> > diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
-> > index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
-> > --- a/arch/arm64/kernel/kaslr.c
-> > +++ b/arch/arm64/kernel/kaslr.c
-> > @@ -20,7 +20,11 @@
-> >   #include <asm/sections.h>
-> >   #include <asm/setup.h>
-> >
-> > -u64 __ro_after_init module_alloc_base;
-> > +/*
-> > + * Set a reasonable default for module_alloc_base in case
-> > + * we end up running with module randomization disabled.
-> > + */
-> > +u64 __ro_after_init module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
-> >   u16 __initdata memstart_offset_seed;
-> >
-> >   struct arm64_ftr_override kaslr_feature_override __initdata;
-> > @@ -30,12 +34,6 @@ static int __init kaslr_init(void)
-> >          u64 module_range;
-> >          u32 seed;
-> >
-> > -       /*
-> > -        * Set a reasonable default for module_alloc_base in case
-> > -        * we end up running with module randomization disabled.
-> > -        */
-> > -       module_alloc_base =3D (u64)_etext - MODULES_VSIZE;
-> > -
-> >          if (kaslr_feature_override.val & kaslr_feature_override.mask &=
- 0xf) {
-> >                  pr_info("KASLR disabled on command line\n");
-> >                  return 0;
-> > .
->
-> We have tested this change, the issue is still and it doesn't fix the iss=
-ue.
->
 
-Thanks for the report.
+
+On 12/2/22 10:05, Thomas Huth wrote:
+> On 01/12/2022 12.52, Pierre Morel wrote:
+>>
+>>
+>> On 12/1/22 11:15, Thomas Huth wrote:
+>>> On 29/11/2022 18.42, Pierre Morel wrote:
+>>>> The KVM capability, KVM_CAP_S390_CPU_TOPOLOGY is used to
+>>>> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
+>>>> the topology facility for the guest in the case the topology
+>>>> is available in QEMU and in KVM.
+>>>>
+>>>> The feature is fenced for SE (secure execution).
+>>>
+>>> Out of curiosity: Why does it not work yet?
+>>>
+>>>> To allow smooth migration with old QEMU the feature is disabled by
+>>>> default using the CPU flag -disable-topology.
+>>>
+>>> I stared at this code for a while now, but I have to admit that I 
+>>> don't quite get it. Why do we need a new "disable" feature flag here? 
+>>> I think it is pretty much impossible to set "ctop=on" with an older 
+>>> version of QEMU, since it would require the QEMU to enable 
+>>> KVM_CAP_S390_CPU_TOPOLOGY in the kernel for this feature bit - and 
+>>> older versions of QEMU don't set this capability yet.
+>>>
+>>> Which scenario would fail without this disable-topology feature bit? 
+>>> What do I miss?
+>>
+>> The only scenario it provides is that ctop is then disabled by default 
+>> on newer QEMU allowing migration between old and new QEMU for older 
+>> machine without changing the CPU flags.
+>>
+>> Otherwise, we would need -ctop=off on newer QEMU to disable the topology.
+> 
+> Ah, it's because you added S390_FEAT_CONFIGURATION_TOPOLOGY to the 
+> default feature set here:
+> 
+>   static uint16_t default_GEN10_GA1[] = {
+>       S390_FEAT_EDAT,
+>       S390_FEAT_GROUP_MSA_EXT_2,
+> +    S390_FEAT_DISABLE_CPU_TOPOLOGY,
+> +    S390_FEAT_CONFIGURATION_TOPOLOGY,
+>   };
+> 
+> ?
+> 
+> But what sense does it make to enable it by default, just to disable it 
+> by default again with the S390_FEAT_DISABLE_CPU_TOPOLOGY feature? ... 
+> sorry, I still don't quite get it, but maybe it's because my sinuses are 
+> quite clogged due to a bad cold ... so if you could elaborate again, 
+> that would be very appreciated!
+> 
+> However, looking at this from a distance, I would not rather not add 
+> this to any default older CPU model at all (since it also depends on the 
+> kernel to have this feature enabled)? Enabling it in the host model is 
+> still ok, since the host model is not migration safe anyway.
+> 
+>   Thomas
+> 
+
+I think I did not understand what is exactly the request that was made 
+about having a CPU flag to disable the topology when we decide to not 
+have a new machine with new machine property.
+
+Let see what we have if the only change to mainline is to activate 
+S390_FEAT_CONFIGURATION_TOPOLOGY with the KVM capability:
+
+In mainline, ctop is enabled in the full GEN10 only.
+
+Consequently we have this feature activated by default for the host 
+model only and deactivated by default if we specify the CPU.
+It can be activated if we specify the CPU with the flag ctop=on.
+
+This is what was in the patch series before the beginning of the 
+discussion about having a new machine property for new machines.
+
+If this what we want: activating the topology by the CPU flag ctop=on it 
+is perfect for me and I can take the original patch.
+We may later make it a default for new machines.
+
+Otherwise or if I misunderstood something, which is greatly possible, I 
+need more advises.
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
