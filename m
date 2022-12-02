@@ -2,89 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65ED6400BB
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 07:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB546400B7
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 07:55:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0zvh-0000Mm-PY; Fri, 02 Dec 2022 01:53:49 -0500
+	id 1p0zu5-0007YP-0o; Fri, 02 Dec 2022 01:52:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p0zve-0000JJ-Nq
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:53:46 -0500
-Received: from mga18.intel.com ([134.134.136.126])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p0zvc-0003qt-8Z
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:53:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669964024; x=1701500024;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=hsL57ikcNVoLHdsSPb/2quBPJAcrsHQWRoxcjDJhwfk=;
- b=Yh2zj4Yt0S3K/y1KROfwbNQZGuavdVA0OJpPNonj28kXz0+QB6bXSxV+
- +oXcHZ5OB7CN94GhUDHLw2ulTdzOdr9eVU/eMUZaJhc7tEQGNGcB1UEBX
- 28bjF97gn8g/XfztcLlPdB7jWOc0b6QG7ieXEN2i6mNTasW5WAUFUdPUM
- Si5zUv80Nk8qq5UytNNdIAIcRb5zKfUj+EfVhMpuq710sYFUJ/X2/46zC
- Nhb7VVno2IDngSKd35KG2Kbj4J2ISHSwqVOl1ZVBOKXeRuswE6q61S66H
- re1uQ5Lv0c15/09jDv+owrVRHT4tWAYbF5qzPr9+Tu9Lw1/Q/iGF41rAR g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="299253377"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="299253377"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2022 22:53:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="708374082"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="708374082"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga008.fm.intel.com with ESMTP; 01 Dec 2022 22:53:30 -0800
-Date: Fri, 2 Dec 2022 14:49:09 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Vishal Annapurve <vannapurve@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221202064909.GA1070297@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p0zu2-0007Xt-I8
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:06 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p0zu0-0003d6-S4
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:06 -0500
+Received: by mail-pf1-x432.google.com with SMTP id w129so4088644pfb.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 22:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y1yM5mXsbiOAwVrMBteKZuN2nW1fuu61MzMy6WDuAvY=;
+ b=VY8uXVBzZs93qlP3xgZH9PuaPnqMC6lZOHiO0VqsXZKRQI9a01nctNO5CWoXrAxDgu
+ ATSuqLw0BiUceH3l/X2FSH8HKBMlWXqrcKMHjHXWGyGxND/wG8AB5ncmY4kuEIIcOm3p
+ JLSqfkDyYoVWTO9vNfZubX/ekSs6zBXbL/MgBEori7G+l/qT7g7f5j0edPS3yQ+jIVaA
+ ghkbSQqtIJEXO9IBBrjW8CQxRZx1TAcCmvUY+znIhZ6/VjnupkowUYjqNfIPenx9Mhgh
+ QTzR8BGVdC7wkXTlnYkp6FYc8JeAeuxg0UR8ovwbPr3FuH3J6Giy/H1G+i7niL8B2c0A
+ pHqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y1yM5mXsbiOAwVrMBteKZuN2nW1fuu61MzMy6WDuAvY=;
+ b=wQj73lSDE0CAfgRjK+WnzQIzNO9FzA4x+waDOBcUfHTpP3aLIyIPm5WbmwaGlM/Kv+
+ wcih+gHKMBMfO/FkpN+2TsavNxuyC9xKzMSMkF8P5UmkiNVkgSSBk2ASaQV1Fd1J3FoE
+ Yio6mwnLnoQ+KRKZzGMm5o2uJSXm6dGJ28LHSMynqGxmJliaUF3v+t0lRVOjfyA+KvLR
+ q0obKFL3D/T9jprTYFQxybf3wmT1gfH7ruxgw2ytqKh4ChCbX+3noQZvI5BN45KX1Ifj
+ aZy75Jkw8u0d61Xd+6q2PocDUpcc6vG5RA3mLoQRk29EWOTBYe61FtKaFiHEg6Rp7yjG
+ qVhg==
+X-Gm-Message-State: ANoB5pnFEUttdyZViq98PvRMFLmtN5Ktc/Yv2ItiuGWhAOx75fEtXif5
+ J4lw5SWPzPq1E0zJszZ7Z7gpLTTyr7rMFSiz
+X-Google-Smtp-Source: AA0mqf6q4ezECaI1iP/uM0POfOYUr+K54tjw9o814ApQnccOiG/vEZJD3BV/6c5kwfI+dMEBCIPvmQ==
+X-Received: by 2002:a63:565e:0:b0:46e:bcc1:a28f with SMTP id
+ g30-20020a63565e000000b0046ebcc1a28fmr44199565pgm.408.1669963921623; 
+ Thu, 01 Dec 2022 22:52:01 -0800 (PST)
+Received: from stoup.. ([2602:47:d48a:1201:e3cc:2e37:17d4:f1d5])
+ by smtp.gmail.com with ESMTPSA id
+ q61-20020a17090a17c300b00218d894fac3sm6056649pja.3.2022.12.01.22.52.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 22:52:01 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com,
+	iii@linux.ibm.com
+Subject: [PATCH v3 00/13] tcg/s390x: misc patches
+Date: Thu,  1 Dec 2022 22:51:47 -0800
+Message-Id: <20221202065200.224537-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,119 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 01, 2022 at 06:16:46PM -0800, Vishal Annapurve wrote:
-> On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-...
-> > +}
-> > +
-> > +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > +{
-> 
-> Looking at the underlying shmem implementation, there seems to be no
-> way to enable transparent huge pages specifically for restricted memfd
-> files.
-> 
-> Michael discussed earlier about tweaking
-> /sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
-> hugepages to be used while backing restricted memfd. Such a change
-> will affect the rest of the shmem usecases as well. Even setting the
-> shmem_enabled policy to "advise" wouldn't help unless file based
-> advise for hugepage allocation is implemented.
+Based-on: 20221202053958.223890-1-richard.henderson@linaro.org
+("[PATCH for-8.0 v3 00/34] tcg misc patches")
 
-Had a look at fadvise() and looks it does not support HUGEPAGE for any
-filesystem yet.
+This contains two patches that exercise the register pair patches
+within the "tcg misc patches" patch set.  Then a couple of misc
+cleanups, then support for the MIE2, MIE3, and POPCOUNT features.
 
-> 
-> Does it make sense to provide a flag here to allow creating restricted
-> memfds backed possibly by huge pages to give a more granular control?
+One thing to play with: the middle-end can expand ctz based on
+either clz or ctpop, and for z16 we now have both.  I've got an
+idea that for s390x the most general case of the expansion would
+be better with clz.  Which leads me to wonder if there's a better
+way to manage such expansions, but I haven't thought about it
+too much yet.
 
-We do have a unused 'flags' can be extended for such usage, but I would
-let Kirill have further look, perhaps need more discussions.
 
-Chao
-> 
-> > +       struct file *file, *restricted_file;
-> > +       int fd, err;
-> > +
-> > +       if (flags)
-> > +               return -EINVAL;
-> > +
-> > +       fd = get_unused_fd_flags(0);
-> > +       if (fd < 0)
-> > +               return fd;
-> > +
-> > +       file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> > +       if (IS_ERR(file)) {
-> > +               err = PTR_ERR(file);
-> > +               goto err_fd;
-> > +       }
-> > +       file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
-> > +       file->f_flags |= O_LARGEFILE;
-> > +
-> > +       restricted_file = restrictedmem_file_create(file);
-> > +       if (IS_ERR(restricted_file)) {
-> > +               err = PTR_ERR(restricted_file);
-> > +               fput(file);
-> > +               goto err_fd;
-> > +       }
-> > +
-> > +       fd_install(fd, restricted_file);
-> > +       return fd;
-> > +err_fd:
-> > +       put_unused_fd(fd);
-> > +       return err;
-> > +}
-> > +
-> > +void restrictedmem_register_notifier(struct file *file,
-> > +                                    struct restrictedmem_notifier *notifier)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +
-> > +       mutex_lock(&data->lock);
-> > +       list_add(&notifier->list, &data->notifiers);
-> > +       mutex_unlock(&data->lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_register_notifier);
-> > +
-> > +void restrictedmem_unregister_notifier(struct file *file,
-> > +                                      struct restrictedmem_notifier *notifier)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +
-> > +       mutex_lock(&data->lock);
-> > +       list_del(&notifier->list);
-> > +       mutex_unlock(&data->lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_unregister_notifier);
-> > +
-> > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> > +                          struct page **pagep, int *order)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +       struct file *memfd = data->memfd;
-> > +       struct page *page;
-> > +       int ret;
-> > +
-> > +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       *pagep = page;
-> > +       if (order)
-> > +               *order = thp_order(compound_head(page));
-> > +
-> > +       SetPageUptodate(page);
-> > +       unlock_page(page);
-> > +
-> > +       return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-> > --
-> > 2.25.1
-> >
+r~
+
+
+Richard Henderson (13):
+  tcg/s390x: Use register pair allocation for div and mulu2
+  tcg/s390x: Remove TCG_REG_TB
+  tcg/s390x: Use LARL+AGHI for odd addresses
+  tcg/s390x: Distinguish RRF-a and RRF-c formats
+  tcg/s390x: Distinguish RIE formats
+  tcg/s390x: Support MIE2 multiply single instructions
+  tcg/s390x: Support MIE2 MGRK instruction
+  tcg/s390x: Support MIE3 logical operations
+  tcg/s390x: Create tgen_cmp2 to simplify movcond
+  tcg/s390x: Generalize movcond implementation
+  tcg/s390x: Support SELGR instruction in movcond
+  tcg/s390x: Use tgen_movcond_int in tgen_clz
+  tcg/s390x: Implement ctpop operation
+
+ tcg/s390x/tcg-target-con-set.h |  11 +-
+ tcg/s390x/tcg-target-con-str.h |   8 +-
+ tcg/s390x/tcg-target.h         |  35 +-
+ tcg/s390x/tcg-target.c.inc     | 663 ++++++++++++++++++++-------------
+ 4 files changed, 430 insertions(+), 287 deletions(-)
+
+-- 
+2.34.1
+
 
