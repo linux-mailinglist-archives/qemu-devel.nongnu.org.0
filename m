@@ -2,67 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7326F6410C4
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 23:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98F1641196
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 00:41:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1Edv-00057B-IF; Fri, 02 Dec 2022 17:36:27 -0500
+	id 1p1Fcu-0004P0-SW; Fri, 02 Dec 2022 18:39:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1p1Eds-000569-SA; Fri, 02 Dec 2022 17:36:24 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p1Fcr-0004OD-Ha; Fri, 02 Dec 2022 18:39:25 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1p1Edq-0007PK-PA; Fri, 02 Dec 2022 17:36:24 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 391C7B822E6;
- Fri,  2 Dec 2022 22:36:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FB24C433D6;
- Fri,  2 Dec 2022 22:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1670020577;
- bh=rLAQ/BjJBRgsdL1GIzGnLqJTVHQ6RbDZm8KJS7NvvNs=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=Bcoi54MxZCEKk4JJqW5lO4sRMCnjJFYEj/TlP1nb/iJOiwPy6iO2ddrQwiOHutgxW
- OUO494syNCE0WwJeftOPWtdave85sYbuZ7Km9NotaHODZ7IgZPAr1vrWPG/WdxhkFA
- NwsTnEVUX+71meaxEFd9Q1tRJM1gizeOfJZHvL6vw3qIEvt7fi74Bcef/kdqKk6WG7
- YgNp7qqUwaX4k3auJOxLKnzn6MVUo8llU5SEl+cw2wrsc0BeM7/cuIQWrr+Agc9R1J
- 2RdSgk/5xdft/An4x/gH30yQYOJPRfIYxOtgnCaiEKd8gfXdGx3HDSLoJORG+uV0Hi
- Wok8Jn7JCUINQ==
-Date: Fri, 2 Dec 2022 14:36:14 -0800 (PST)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Vikram Garhwal <vikram.garhwal@amd.com>
-cc: =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-dev@xilinx.com,
- stefano.stabellini@amd.com, xen-devel@lists.xenproject.org, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, 
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: Re: [QEMU][PATCH v2 10/11] hw/arm: introduce xenpv machine
-In-Reply-To: <ade61d47-f8c0-09cc-1a44-faaaff87d76a@amd.com>
-Message-ID: <alpine.DEB.2.22.394.2212021429220.4039@ubuntu-linux-20-04-desktop>
-References: <20221202030003.11441-1-vikram.garhwal@amd.com>
- <20221202030003.11441-11-vikram.garhwal@amd.com> <871qphc0p3.fsf@linaro.org>
- <ade61d47-f8c0-09cc-1a44-faaaff87d76a@amd.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1p1Fcg-0007iY-FR; Fri, 02 Dec 2022 18:39:24 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B2N2Xhf021938; Fri, 2 Dec 2022 23:39:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=yBrldHdI9w149TUDGcF/abjkvGxtX9kLzpwqGrgElbs=;
+ b=h0r5W/AjXbjFmJyV80g+cJiYn+H5xiI9rqKjRzH12Zg1H+60QFfwuCxEA+VGYt5KYW6P
+ SvNTVWs/SKe4MaUPj7fsN4/3/3lu7LoFP88JazH7CCd453WC5kB2zBzqEo2yA2/YUesV
+ d1EVjhvU1LearlV/HKOvDthbzO4PZRBMV9cN4rUCYE5uOm0sZAk40pqOxdYt3NlXHsSF
+ CcZ6AvtBhl30T9Pb9YvrlgHKpi5TkbBP7u9TW1dFDoOYpFmcjDwKl3GN3B3qjl2KW9TP
+ q5+gB/GYi0JlOo8eoL7XkI9P7zshDeHY46c1WKZrU6WhIoOxNo1724kRTEn+1cuk+VAM qw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7tpe8mut-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Dec 2022 23:39:09 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B2Nd9tl014942;
+ Fri, 2 Dec 2022 23:39:09 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7tpe8muc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Dec 2022 23:39:09 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B2NZvEG022835;
+ Fri, 2 Dec 2022 23:39:07 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3m7pjyg9mc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Dec 2022 23:39:06 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B2Nd4QW1508042
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 2 Dec 2022 23:39:04 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B2A1D4203F;
+ Fri,  2 Dec 2022 23:39:04 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6A08842041;
+ Fri,  2 Dec 2022 23:39:04 +0000 (GMT)
+Received: from [9.171.71.92] (unknown [9.171.71.92])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  2 Dec 2022 23:39:04 +0000 (GMT)
+Message-ID: <9800841399b75a1676584f714d42e3fe2d2fbf5d.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 for-8.0] target/s390x/tcg: Fix and improve the SACF
+ instruction
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org
+Date: Sat, 03 Dec 2022 00:39:04 +0100
+In-Reply-To: <20221201184443.136355-1-thuth@redhat.com>
+References: <20221201184443.136355-1-thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.1 (3.46.1-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: CihrT3xuE3ElvC0SGACGX7dt4KB8W82t
+X-Proofpoint-GUID: Sms_oSpBy6T9KkvQjGUE6_ojKC6ZoiIP
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-971077313-1670020442=:4039"
-Content-ID: <alpine.DEB.2.22.394.2212021434070.4039@ubuntu-linux-20-04-desktop>
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=sstabellini@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-02_12,2022-12-01_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1015 mlxscore=0 malwarescore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 mlxlogscore=633 phishscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212020190
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,125 +114,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu, 2022-12-01 at 19:44 +0100, Thomas Huth wrote:
+> The SET ADDRESS SPACE CONTROL FAST instruction is not privileged, it
+> can be
+> used from problem space, too. Just the switching to the home address
+> space
+> is privileged and should still generate a privilege exception. This
+> bug is
+> e.g. causing programs like Java that use the "getcpu" vdso kernel
+> function
+> to crash (see
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D990417#26=C2=A0).
+>=20
+> While we're at it, also check if DAT is not enabled. In that case the
+> instruction is supposed to generate a special operation exception.
+>=20
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/655
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+> =C2=A0target/s390x/tcg/insn-data.h.inc | 2 +-
+> =C2=A0target/s390x/tcg/cc_helper.c=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +++++++
+> =C2=A02 files changed, 8 insertions(+), 1 deletion(-)
 
---8323329-971077313-1670020442=:4039
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.DEB.2.22.394.2212021434071.4039@ubuntu-linux-20-04-desktop>
-
-On Fri, 2 Dec 2022, Vikram Garhwal wrote:
-> On 12/2/22 6:52 AM, Alex Bennée wrote:
-> > Vikram Garhwal <vikram.garhwal@amd.com> writes:
-> > 
-> > > Add a new machine xenpv which creates a IOREQ server to register/connect
-> > > with
-> > > Xen Hypervisor.
-> > > 
-> > > Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device,
-> > > adds a
-> > > TPM emulator and connects to swtpm running on host machine via chardev
-> > > socket
-> > > and support TPM functionalities for a guest domain.
-> > > 
-> > > Extra command line for aarch64 xenpv QEMU to connect to swtpm:
-> > >      -chardev socket,id=chrtpm,path=/tmp/myvtpm2/swtpm-sock \
-> > >      -tpmdev emulator,id=tpm0,chardev=chrtpm \
-> > > 
-> > > swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on libtpms
-> > > and
-> > > provides access to TPM functionality over socket, chardev and CUSE
-> > > interface.
-> > > Github repo: https://github.com/stefanberger/swtpm
-> > > Example for starting swtpm on host machine:
-> > >      mkdir /tmp/vtpm2
-> > >      swtpm socket --tpmstate dir=/tmp/vtpm2 \
-> > >      --ctrl type=unixio,path=/tmp/vtpm2/swtpm-sock &
-> > <snip>
-> > > +
-> > > +static void xen_enable_tpm(void)
-> > > +{
-> > > +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled. */
-> > > +#ifdef CONFIG_TPM
-> > > +    Error *errp = NULL;
-> > > +    DeviceState *dev;
-> > > +    SysBusDevice *busdev;
-> > > +
-> > > +    TPMBackend *be = qemu_find_tpm_be("tpm0");
-> > > +    if (be == NULL) {
-> > > +        DPRINTF("Couldn't fine the backend for tpm0\n");
-> > > +        return;
-> > > +    }
-> > > +    dev = qdev_new(TYPE_TPM_TIS_SYSBUS);
-> > > +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp);
-> > > +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
-> > > +    busdev = SYS_BUS_DEVICE(dev);
-> > > +    sysbus_realize_and_unref(busdev, &error_fatal);
-> > > +    sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
-> > Still fails on my aarch64 Debian machine:
-> > 
-> >    FAILED: libqemu-aarch64-softmmu.fa.p/hw_arm_xen_arm.c.o
-> >    cc -Ilibqemu-aarch64-softmmu.fa.p -I. -I../.. -Itarget/arm
-> > -I../../target/arm -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/pixman-1
-> > -I/usr/local/include -I/usr/include/capstone -I/usr/include/spice-server
-> > -I/usr/include/spice-1 -I/usr/include/glib-2.0
-> > -I/usr/lib/aarch64-linux-gnu/glib-2.0/include -fdiagnostics-color=auto -Wall
-> > -Winvalid-pch -Werror -std=gnu11 -O2 -g -isystem
-> > /home/alex/lsrc/qemu.git/linux-headers -isystem linux-headers -iquote .
-> > -iquote /home/alex/lsrc/qemu.git -iquote /home/alex/lsrc/qemu.git/include
-> > -iquote /home/alex/lsrc/qemu.git/tcg/aarch64 -pthread -U_FORTIFY_SOURCE
-> > -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
-> > -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings
-> > -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
-> > -Wold-style-declaration -Wold-style-definition -Wtype-limits
-> > -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body
-> > -Wnested-externs -Wendif-labels -Wexpansion-to-defined
-> > -Wimplicit-fallthrough=2 -Wno-missing-include-dirs -Wno-shift-negative-value
-> > -Wno-psabi -fstack-protector-strong -fPIE -isystem../../linux-headers
-> > -isystemlinux-headers -DNEED_CPU_H
-> > '-DCONFIG_TARGET="aarch64-softmmu-config-target.h"'
-> > '-DCONFIG_DEVICES="aarch64-softmmu-config-devices.h"' -MD -MQ
-> > libqemu-aarch64-softmmu.fa.p/hw_arm_xen_arm.c.o -MF
-> > libqemu-aarch64-softmmu.fa.p/hw_arm_xen_arm.c.o.d -o
-> > libqemu-aarch64-softmmu.fa.p/hw_arm_xen_arm.c.o -c ../../hw/arm/xen_arm.c
-> >    ../../hw/arm/xen_arm.c: In function ‘xen_enable_tpm’:
-> >    ../../hw/arm/xen_arm.c:126:32: error: ‘GUEST_TPM_BASE’ undeclared (first
-> > use in this function); did you mean ‘GUEST_RAM_BASE’?
-> >      126 |     sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
-> >          |                                ^~~~~~~~~~~~~~
-> >          |                                GUEST_RAM_BASE
-> >    ../../hw/arm/xen_arm.c:126:32: note: each undeclared identifier is
-> > reported only once for each function it appears in
-> >    [2082/3246] Compiling C object
-> > libqemu-aarch64-softmmu.fa.p/hw_xen_xen-mapcache.c.o
-> >    [2083/3246] Compiling C object
-> > libqemu-aarch64-softmmu.fa.p/hw_xen_xen-hvm-common.c.o
-> >    ninja: build stopped: subcommand failed.
-> >    make: *** [Makefile:165: run-ninja] Error 1
-> > 
-> Do you know what Xen version your build env has?
-
-I think Alex is just building against upstream Xen. GUEST_TPM_BASE is
-not defined there yet. I think we would need to introduce in
-xen_common.h something like:
-
-#ifndef GUEST_TPM_BASE
-#define GUEST_TPM_BASE 0x0c000000
-#endif
-
-We already have similar code in xen_common.h for other things.  Also, it
-would be best to get GUEST_TPM_BASE defined upstream in Xen first.
-
-
-> Another way to fix this(as Julien suggested) is by setting this GUEST_TPM_BASE
-> value via a property or something and user can set it via command line.
-> 
-> @sstabellini@kernel.org, do you think of any other fix?
-
-Setting the TPM address from the command line is nice and preferable to
-hardcoding the value in xen_common.h. It comes with the challenge that
-it is not very scalable (imagine we have a dozen emulated devices) but
-for now it is fine and a good way to start if you can arrange it.
---8323329-971077313-1670020442=:4039--
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
