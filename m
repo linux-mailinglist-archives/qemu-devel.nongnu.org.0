@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33BB6400B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 07:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BE96400B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 07:55:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0zuF-0007dH-IX; Fri, 02 Dec 2022 01:52:19 -0500
+	id 1p0zv2-0007le-R6; Fri, 02 Dec 2022 01:53:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0zuD-0007cf-Nn
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:17 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p0zuB-0003je-K3
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:17 -0500
-Received: by mail-pl1-x630.google.com with SMTP id k7so3828048pll.6
- for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 22:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x4OQMsd27euNjrg+Wz7g0qoeJXgmOpScKCYJD/Ut1GE=;
- b=WXaUhzOV+hSOl1IfDON4/iWoIVrz8ptl15RAMHwEV+xOELrjkKLkeckmgL23jZ9++K
- rdQV8TE67JsoY+6clVgMf2hfsawt9EbqbFZFHVZI0/lQAr4W7egjj1BA/Cya3XltQPkS
- jU8gHggy+TNv2grLHrGWKfx678xfOjZht8FNXy0ibPViLUL+GLAkDz7h/onOQLIsRr7u
- DyuuXF7oJtD04cfkiC8VzdwAiWWh0a+JhoynhKyCNYy+mAsXW/d7YjzkLxh/Citl36TC
- upaI/1Tfq+paXJcYXBVkfTwvZ5VOkfNmm/Ezeq81S3yHC9V3TImFahVU5kd7rTFuvoOh
- cCsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=x4OQMsd27euNjrg+Wz7g0qoeJXgmOpScKCYJD/Ut1GE=;
- b=P7CZGUPMUdTN4EAUfyq7R90IdNeFlnmit8T9HBEk9RZdIqabNZrGe/TP8TTiax2e0E
- 7I3q7up5ztQd387PWUSQVOxt9wmTOGek0RvDKazNQyr6e/+6C0Y4JZV4+o9YRRVNRRzM
- BHS/TUZVs3HPL47k9nf2LM3j7lIYgSmiEBOXPYQHOWf/NupCzW6gvKMWPZZM5uObRyp5
- ir7luMt0G8KHTteSfAtfUPVAFXXpcLN0LMn8axHhm/HTtboesj0F1RCZUevTeqcC0sZA
- jt7kTmTjffpOO7dEc+X39/4VzrvEpMDi1fgl8o4pD5LJWNnUKF3tG44x+9FR3g/UMyhG
- P34A==
-X-Gm-Message-State: ANoB5pk7mVXxzFZrN4e5reXowcQpHqffq/zVG+udJ7ZDndVhE4FTjA2W
- 3S3neKQPlVWizYW6IuN+FXl1W7uYiqZ4Cyye
-X-Google-Smtp-Source: AA0mqf5usPgOyzyWGLMvyicnhvpfPL5XbjEA6AG1XrxrQzL7yXif6Ff6H47wqbfxIAamHRwGMfhsEQ==
-X-Received: by 2002:a17:902:fe81:b0:189:b732:7671 with SMTP id
- x1-20020a170902fe8100b00189b7327671mr4437853plm.26.1669963934211; 
- Thu, 01 Dec 2022 22:52:14 -0800 (PST)
-Received: from stoup.. ([2602:47:d48a:1201:e3cc:2e37:17d4:f1d5])
- by smtp.gmail.com with ESMTPSA id
- q61-20020a17090a17c300b00218d894fac3sm6056649pja.3.2022.12.01.22.52.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 22:52:13 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com,
-	iii@linux.ibm.com
-Subject: [PATCH v3 13/13] tcg/s390x: Implement ctpop operation
-Date: Thu,  1 Dec 2022 22:52:00 -0800
-Message-Id: <20221202065200.224537-14-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221202065200.224537-1-richard.henderson@linaro.org>
-References: <20221202065200.224537-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0zuk-0007km-A7
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p0zuf-0003mT-GL
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 01:52:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669963953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zctlqjf47uB0DaCl7aNgvqVGJY88i3NXBlGm89LSROM=;
+ b=GANtz9dIA3J1E9sostHXvDAgCXTu7/NFV2KXB11pk7Sv4cZkn8QD/uucj/owoFB7SMnOAz
+ OU1zBEQNsMGqomPdDIDknZwdAMvvKCId1UxqE7Y5K8rplAmz9rrbj+puh+ACiPFvKqKA8p
+ 0LmP5vuudUM5PCGTs3vlY2rDBi45O6g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-434-PAAeTauWO3eUKRBaOGDqfQ-1; Fri, 02 Dec 2022 01:52:32 -0500
+X-MC-Unique: PAAeTauWO3eUKRBaOGDqfQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 193391C068F5
+ for <qemu-devel@nongnu.org>; Fri,  2 Dec 2022 06:52:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFEEDC1908B;
+ Fri,  2 Dec 2022 06:52:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 961C921E6921; Fri,  2 Dec 2022 07:52:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
+ kraxel@redhat.com,  dgilbert@redhat.com,  =?utf-8?Q?Marc-Andr=C3=A9?=
+ Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 3/9] ui: Drop disabled code for SPICE_CHANNEL_WEBDAV
+References: <20221201061311.3619052-1-armbru@redhat.com>
+ <20221201061311.3619052-4-armbru@redhat.com>
+ <Y4hqiiNzcMVS0t0k@redhat.com> <87pmd3fgcu.fsf@pond.sub.org>
+ <Y4i7kZCetDvFYnCp@redhat.com> <87wn7bdsze.fsf@pond.sub.org>
+ <Y4jznyf1rk4KfYbA@redhat.com>
+Date: Fri, 02 Dec 2022 07:52:28 +0100
+In-Reply-To: <Y4jznyf1rk4KfYbA@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 1 Dec 2022 18:34:07 +0000")
+Message-ID: <87v8muthzn.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,144 +87,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There is an older form that produces per-byte results,
-and a newer form that produces per-register results,
-and a vector form that produces per-element results.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/s390x/tcg-target.h     |  5 ++--
- tcg/s390x/tcg-target.c.inc | 51 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+), 2 deletions(-)
+> On Thu, Dec 01, 2022 at 04:49:25PM +0100, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > On Thu, Dec 01, 2022 at 01:39:13PM +0100, Markus Armbruster wrote:
 
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index 191c6a073e..5d184d8e14 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -62,6 +62,7 @@ typedef enum TCGReg {
- #define FACILITY_LOAD_ON_COND         45
- #define FACILITY_FAST_BCR_SER         FACILITY_LOAD_ON_COND
- #define FACILITY_DISTINCT_OPS         FACILITY_LOAD_ON_COND
-+#define FACILITY_POPCOUNT             FACILITY_LOAD_ON_COND
- #define FACILITY_LOAD_ON_COND2        53
- #define FACILITY_MISC_INSN_EXT2       58
- #define FACILITY_MISC_INSN_EXT3       61
-@@ -91,7 +92,7 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_HAS_nor_i32        HAVE_FACILITY(MISC_INSN_EXT3)
- #define TCG_TARGET_HAS_clz_i32        0
- #define TCG_TARGET_HAS_ctz_i32        0
--#define TCG_TARGET_HAS_ctpop_i32      0
-+#define TCG_TARGET_HAS_ctpop_i32      HAVE_FACILITY(POPCOUNT)
- #define TCG_TARGET_HAS_deposit_i32    HAVE_FACILITY(GEN_INST_EXT)
- #define TCG_TARGET_HAS_extract_i32    HAVE_FACILITY(GEN_INST_EXT)
- #define TCG_TARGET_HAS_sextract_i32   0
-@@ -128,7 +129,7 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_HAS_nor_i64        HAVE_FACILITY(MISC_INSN_EXT3)
- #define TCG_TARGET_HAS_clz_i64        HAVE_FACILITY(EXT_IMM)
- #define TCG_TARGET_HAS_ctz_i64        0
--#define TCG_TARGET_HAS_ctpop_i64      0
-+#define TCG_TARGET_HAS_ctpop_i64      HAVE_FACILITY(POPCOUNT)
- #define TCG_TARGET_HAS_deposit_i64    HAVE_FACILITY(GEN_INST_EXT)
- #define TCG_TARGET_HAS_extract_i64    HAVE_FACILITY(GEN_INST_EXT)
- #define TCG_TARGET_HAS_sextract_i64   0
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 23cbb10168..7744c6ad54 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -208,6 +208,7 @@ typedef enum S390Opcode {
- 
-     RRFc_LOCR   = 0xb9f2,
-     RRFc_LOCGR  = 0xb9e2,
-+    RRFc_POPCNT = 0xb9e1,
- 
-     RR_AR       = 0x1a,
-     RR_ALR      = 0x1e,
-@@ -259,6 +260,7 @@ typedef enum S390Opcode {
-     RXY_LRVG    = 0xe30f,
-     RXY_LRVH    = 0xe31f,
-     RXY_LY      = 0xe358,
-+    RXY_MSG     = 0xe30c,
-     RXY_NG      = 0xe380,
-     RXY_OG      = 0xe381,
-     RXY_STCY    = 0xe372,
-@@ -276,6 +278,7 @@ typedef enum S390Opcode {
-     RX_L        = 0x58,
-     RX_LA       = 0x41,
-     RX_LH       = 0x48,
-+    RX_MS       = 0x71,
-     RX_ST       = 0x50,
-     RX_STC      = 0x42,
-     RX_STH      = 0x40,
-@@ -1568,6 +1571,45 @@ static void tgen_clz(TCGContext *s, TCGReg dest, TCGReg a1,
-     tgen_movcond_int(s, TCG_TYPE_I64, dest, a2, a2const, TCG_REG_R0, 8, 2);
- }
- 
-+static void tgen_ctpop(TCGContext *s, TCGType type, TCGReg dest, TCGReg src)
-+{
-+    /* With MIE3, and bit 0 of m4 set, we get the complete result. */
-+    if (HAVE_FACILITY(MISC_INSN_EXT3)) {
-+        if (type == TCG_TYPE_I32) {
-+            tgen_ext32u(s, dest, src);
-+            src = dest;
-+        }
-+        tcg_out_insn(s, RRFc, POPCNT, dest, src, 8);
-+        return;
-+    }
-+
-+    /* Without MIE3, each byte gets the count of bits for the byte. */
-+    tcg_out_insn(s, RRFc, POPCNT, dest, src, 0);
-+
-+    /* Multiply to sum each byte at the top of the word. */
-+    if (type == TCG_TYPE_I32 && HAVE_FACILITY(GEN_INST_EXT)) {
-+        tcg_out_insn(s, RIL, MSFI, dest, 0x01010101);
-+    } else {
-+        /* No space to save: share the constant between TCG_TYPE_I32/I64. */
-+        tcg_out_insn(s, RIL, LARL, TCG_TMP0, 0);
-+        new_pool_label(s, 0x0101010101010101ull,
-+                       R_390_PC32DBL, s->code_ptr - 2, 2);
-+
-+        if (type == TCG_TYPE_I32) {
-+            tcg_out_insn(s, RX, MS, dest, TCG_TMP0, TCG_REG_NONE, 0);
-+        } else {
-+            tcg_out_insn(s, RXY, MSG, dest, TCG_TMP0, TCG_REG_NONE, 0);
-+        }
-+    }
-+
-+    /* Shift result down from the top byte. */
-+    if (type == TCG_TYPE_I32) {
-+        tcg_out_sh32(s, RS_SRL, dest, TCG_REG_NONE, 24);
-+    } else {
-+        tcg_out_sh64(s, RSY_SRLG, dest, dest, TCG_REG_NONE, 56);
-+    }
-+}
-+
- static void tgen_deposit(TCGContext *s, TCGReg dest, TCGReg src,
-                          int ofs, int len, int z)
- {
-@@ -2733,6 +2775,13 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tgen_clz(s, args[0], args[1], args[2], const_args[2]);
-         break;
- 
-+    case INDEX_op_ctpop_i32:
-+        tgen_ctpop(s, TCG_TYPE_I32, args[0], args[1]);
-+        break;
-+    case INDEX_op_ctpop_i64:
-+        tgen_ctpop(s, TCG_TYPE_I64, args[0], args[1]);
-+        break;
-+
-     case INDEX_op_mb:
-         /* The host memory model is quite strong, we simply need to
-            serialize the instruction stream.  */
-@@ -3302,6 +3351,8 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_extu_i32_i64:
-     case INDEX_op_extract_i32:
-     case INDEX_op_extract_i64:
-+    case INDEX_op_ctpop_i32:
-+    case INDEX_op_ctpop_i64:
-         return C_O1_I1(r, r);
- 
-     case INDEX_op_qemu_ld_i32:
--- 
-2.34.1
+[...]
+
+>> >> Would you like me to bump spice-server as well?  To which version?
+>> >
+>> > Yes, might as well, the spice-server versions are slightly different:
+>> >
+>> >      Debian 11: 0.14.3
+>> >      RHEL-8: 0.14.3
+>> >      FreeBSD (ports): 0.15.0
+>> >      Fedora 35: 0.15.0
+>> >      Ubuntu 20.04: 0.14.2
+>> >      OpenSUSE Leap 15.3: 0.14.3
+>> >=20=20
+>> > I think we might as well pick  0.14.0 for both protocol and server.
+>>=20
+>> Makes sense, but it leads to another question.
+>>=20
+>> I found obvious version checks for spice-protocol, and dropped the
+>> outmoded ones, namely
+>>=20
+>>     #if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
+>>=20
+>> For spice-server, I see a bunch of SPICE_INTERFACE_FOO_{MAJOR,MINOR} we
+>> check, and which ones become outmoded is not obvious to me.  Help?
+>
+> Ignore all the interface ones. For the server, the check to look
+> for is against SPICE_SERVER_VERSION
+>
+> chardev/spice.c:#if SPICE_SERVER_VERSION >=3D 0x000c06
+> chardev/spice.c:#if SPICE_SERVER_VERSION < 0x000e02
+> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000c06 && SPICE_SERVER_V=
+ERSION < 0x000e02
+> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000c06 /* release 0.12.6=
+ */
+> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000e02 /* release 0.14.2=
+ */
+> hw/display/qxl.c:#if SPICE_SERVER_VERSION >=3D 0x000c06 /* release 0.12.6=
+ */
+> hw/display/qxl.h:#if SPICE_SERVER_VERSION >=3D 0x000c06 /* release 0.12.6=
+ */
+> include/ui/qemu-spice.h:#if !defined(SPICE_SERVER_VERSION) || (SPICE_SERV=
+ER_VERSION < 0xc06)
+> include/ui/qemu-spice.h:#if defined(SPICE_SERVER_VERSION) && (SPICE_SERVE=
+R_VERSION >=3D 0x000f00)
+> include/ui/spice-display.h:# if SPICE_SERVER_VERSION >=3D 0x000d01 /* rel=
+ease 0.13.1 */
+> ui/spice-display.c:#if SPICE_SERVER_VERSION >=3D 0x000e04 /* release 0.14=
+.4 */
+> ui/spice-display.c:#if SPICE_SERVER_VERSION >=3D 0x000e02 /* release 0.14=
+.2 */
+>
+> A fair few of those will be obsolete
+
+Got it, thanks!
 
 
