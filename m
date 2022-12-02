@@ -2,158 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80B863FD0D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 01:29:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C6F63FE11
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 03:18:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0tuU-0001eh-S9; Thu, 01 Dec 2022 19:28:10 -0500
+	id 1p0vbw-0005ve-3a; Thu, 01 Dec 2022 21:17:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=3286bccba=wilfred.mallawa@wdc.com>)
- id 1p0tuL-0001dD-FO; Thu, 01 Dec 2022 19:28:01 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=3286bccba=wilfred.mallawa@wdc.com>)
- id 1p0tuH-00055T-V7; Thu, 01 Dec 2022 19:28:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1669940877; x=1701476877;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=4cCQDKFde6UchrwmP0x0h+0S4BgTy02nYRNp+Lt6BxA=;
- b=q1DFPmpSK6bzTYzqdRpgGsSvuqwSIbfJ2rDYL7SOkUQglVrsIkOM2jgK
- 4YiC7hMJwpph/N22WXhc4s9FJhqECxsqaFfgEVtUMQnoYviPryCJDUHYc
- yYrodn80E7VvOsaBjHwfyHbDuaKve1o5xZuUgu6Dvlijqxk6iTG8frF4P
- zfoVKyz6WUhJYGcnFOd92+lXDcYMFN+OOvVC6sPTFNmsgrWnD36IDqJkh
- S+2kVU6tbuCFwFgQvFO7nT2TLG5LwyJIgJLUgiRkVwBOLO2qVrWKt+e0F
- Ez+OQm7IRsZzLHzRQZsFH/ptXTfPG4Yy362FzRWAB+RtOA5DM+gvg499a w==;
-X-IronPort-AV: E=Sophos;i="5.96,210,1665417600"; d="scan'208";a="217708465"
-Received: from mail-mw2nam10lp2105.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.105])
- by ob1.hgst.iphmx.com with ESMTP; 02 Dec 2022 08:27:54 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HlUeV6Tx/GO1z027xcyTPIwtEzVulgKPCtz0H4k2qeKdqNdYVBuZuwcfjaneUOsE/yEXm7/E7AjplksSmHf6RJTTuTuieQBVQ3o3CCuqAd1fr8dhPn/rErjrnuMy9eEHKB261aaseNbU4FqrDnbr7tpq7sB2vgJw3MBltt/7odHIDED3RXlERdDZW90d/r6DyYEsOu4WBB8d1xAXo1crjpS2QXt45AscD/O+Y/bTrLA77X/pEeMCY7eiCuMnYU0sdr6wjxxwKcet5SNrS0xf4LfJ0O1Sq+ba3oqcK2tEDOf9toU5/izIpl2cpudInDCmoOp+Z4s4FLi6wd5plrh0aQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4cCQDKFde6UchrwmP0x0h+0S4BgTy02nYRNp+Lt6BxA=;
- b=AYbXMHhV5tRWB132+ccl2HqtM7D+ed/CKG7rxWUjdKMOUjQDX8lLPdPKw5DGBvoH8TQiY+nd9m0GQqPObVN2sKUmxBXxMPHwjlqgikIdqXAyNIRDj6QKJAD7QgRdf3KFUC6AKxCCSi6ka5yAtg1p61D26Yq0gTEVrJDSYODNzSsG44YhqTohgaNsVkWLWM2pQv7EJM0g1kqH+Z2LO06kB+HQBfUkQgnGbc1DlkVOjpVM5ChjE28fubC03g3Vo7wntVWtG8Lng8rwGP30WK2qubl13ZUufoFQem348s6F2bZ9YkoLLs+AFqNUJX5wa4E3e/B5pyMSiIhENqsg403LrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4cCQDKFde6UchrwmP0x0h+0S4BgTy02nYRNp+Lt6BxA=;
- b=JA3x8XnsS5w04bL6cpLSk4mKzy8TWz6X6QmFyhfNdYH0AAskMGKc474FScVawlrHhfSXVUfd4OmUi177eFOy7+1ESk21nsvV3edoLWIKtawShDI+RIHGuFOpV2+74nbCLna8RHthITr5pV/WdWnr94e42I4UoOc4ED+HQWo3v3Q=
-Received: from CY4PR04MB0359.namprd04.prod.outlook.com (2603:10b6:903:b3::19)
- by CH2PR04MB7061.namprd04.prod.outlook.com (2603:10b6:610:96::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Fri, 2 Dec
- 2022 00:27:52 +0000
-Received: from CY4PR04MB0359.namprd04.prod.outlook.com
- ([fe80::6068:b90:7b94:c255]) by CY4PR04MB0359.namprd04.prod.outlook.com
- ([fe80::6068:b90:7b94:c255%5]) with mapi id 15.20.5857.023; Fri, 2 Dec 2022
- 00:27:52 +0000
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-To: "bmeng@tinylab.org" <bmeng@tinylab.org>, Alistair Francis
- <Alistair.Francis@wdc.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "bin.meng@windriver.com" <bin.meng@windriver.com>, "palmer@dabbelt.com"
- <palmer@dabbelt.com>, "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH 15/15] hw/intc: sifive_plic: Fix the pending register
- range check
-Thread-Topic: [PATCH 15/15] hw/intc: sifive_plic: Fix the pending register
- range check
-Thread-Index: AQHZBY7R/BnRbAxZ+0K9D0143fcrxa5ZvrEA
-Date: Fri, 2 Dec 2022 00:27:52 +0000
-Message-ID: <4d2fa372f88dda106d80bd26806bc32c2a92d784.camel@wdc.com>
-References: <20221201140811.142123-1-bmeng@tinylab.org>
- <20221201140811.142123-15-bmeng@tinylab.org>
-In-Reply-To: <20221201140811.142123-15-bmeng@tinylab.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY4PR04MB0359:EE_|CH2PR04MB7061:EE_
-x-ms-office365-filtering-correlation-id: b993dc21-b4bc-4b43-a235-08dad3fc0c8f
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vdIyvU8EZyra8U8h+Yd2YuuDGdyEhkZE4VEoVrQ053K/0IVJGIqNPgRhXPzdZKjInEYDg5jT44E3p3+E/YiGS7wgeKfk3PjdFZvc3ON9frHWLvFjC5mGU6TYIz3rzJtEbU6khXcJWGCpE6BIt1et19waK1GvXR3mtyHbA9SOtisoZ/MDF+cbzwKdUWaswF4Ts54No2d5kf/3uzfdW6pOd+Bimyv8j0cPvhU9MDvN+KMgTUQanGbGDGj3TjWsrfTXvEwekFHXRnhtGNnfHTPN9/K70CAkrIs+8wUqeclEYOevIvuyKE8yXg9A3yvjN0JAKz5o6DAgI0UOlJD0el63Qp4wdpZfFOlhtjSDm/bSH45JhCTSq9oME8cC6OVM3v/8+wwjPn9ZxA9WIabEXOCIZ+zX7RXZvGcxNWYPFswGSMfTlK1S0ypHrhXkWhO/rB7St++eTthVEHZI5YAdXgPlP/npPK5NZUhCig1AibYkTxuBZYE0t5AN18eqq2f4BAMprm2yEMCZ4aJjZY0U5ijn8o9FNg0O2BLmIjazHmYtBUfHbWs9LIWme+X2/8yfj2io2DGpoKMYy3HyEKIdZpGZgNI1jOma3ORRouSE+FlRj0LBNc2/ol5CdThwYLykBA1BDD4IihOJjpGvRY0xEX7yYM6pto5aK57Ju3GIExRjmfXBKTW8BAx44uRKcoTriRm00DyEgM4d1VHxF3Z7MDXLww==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR04MB0359.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(451199015)(6506007)(478600001)(83380400001)(86362001)(6486002)(71200400001)(8936002)(54906003)(5660300002)(41300700001)(76116006)(316002)(6512007)(2616005)(2906002)(26005)(44832011)(186003)(4326008)(110136005)(82960400001)(66556008)(66476007)(38100700002)(66446008)(66946007)(91956017)(38070700005)(64756008)(8676002)(122000001)(36756003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cC9xQldnUXM3aWpVKzdWWWYyM21QdUlnaUx1aGRIUWJyMHIrMHVMVVJtMjlI?=
- =?utf-8?B?RU9LMERiNlI3b3FFSGxmMkJvR1IyV2FVUDRSSC9Ha0t2dHdRcStQNUF1Z2ta?=
- =?utf-8?B?MU5JRTd1eUFCeTdiYSs0VVlmdDJ1TTQzYjREUll0MkNBQ2VHOHFIRGlMOHN0?=
- =?utf-8?B?Q3FzSlJaSFNpdHpIWmljaU9HUXR3N2s3SXlSbUtZTXhFb0Y5RStmb1ROOFRm?=
- =?utf-8?B?UkF2K0NEc0s1MWpjUmh1NlBTVU9BRXZYZ3lpWDBnY2hlQzlRRkdvMXJVai90?=
- =?utf-8?B?ZnJUVTdad3Bsc2pyY1ErcTFGUlpwaEJ4b1Q0ODJBNkhaemhJblI4c1lmVkNm?=
- =?utf-8?B?QjlXQnFhVjZscXdneTRNVHplYkEyNGJUWXhDQlVOK2N0RHlOZUExTldSaEps?=
- =?utf-8?B?V1lpMDc5TlZwQ2pYU1BVRW1CZFh3UHVILzNDaFdROTY4aHQ1SDlxUDY5bWlt?=
- =?utf-8?B?N29lanNYakk3WjhIVC8rQm5OOVdQSjkyWm5lenZ3TFBycm9oOUpCK1kvdDJr?=
- =?utf-8?B?NnIrQ295TjNsdmVJK0hBRmZRekFEK01ydG9TaE5IanlVVzIvVHZrWmxLNGI0?=
- =?utf-8?B?ZjNqSi80Wk51S0hMY3JvQ2k3UnJkL1hlTVRDNWo0alNHZVhocGg4K2RXREZW?=
- =?utf-8?B?UVRoL0w4UHljVng2MnpTc2E4M1FQNVUwR1FIM3JLRytKQjZwTjF6M21EOUtQ?=
- =?utf-8?B?L2NEZDZGMjNBMy9mcUdvV0ExTFQ3elM2dTh0K3kzVG5NK1l4Y3NHNmlNWWZq?=
- =?utf-8?B?NGlnc1paMkNKdVlRSHFSSWMzTkFDQm4xR3hIUkk2aUl2dXJUc21zWG05bGV6?=
- =?utf-8?B?aFdqbjZRcGtoYTl5alhJUGZJWi9raXh2a2IyVXUzUFNFUTd0RVZub0d0ZUVN?=
- =?utf-8?B?RlpIZnk4YzFPOUcrVmh2eFZrS1pUaDFHa2dwT25CRndtS2RUQkpGa2IvMzI5?=
- =?utf-8?B?U2wxNXJpTFlRZUlGOHpoa0dtcENuSmczcDNWc0xIZHcxYzVDNlR2eFdwZFlG?=
- =?utf-8?B?eVE3b1kvWjZJZTVSU1lzN3FSdS9BRHlicXkxejA5aEU5NVQ2TElqU0E5aDBU?=
- =?utf-8?B?RXF2R28zTVVHRmpnVGcwSTNGSGE0eTZPMkhwTmt1a2pGeTJzTEQ0OUdLRVZj?=
- =?utf-8?B?YnVFbXh0d0hJOXdoREluRnB0ZU9PRU5JYXg5RXdaOUNnL01rYkFIRUFEYi9j?=
- =?utf-8?B?bW5yZ1NERURNM0o5U0FZTDRHdDJHNnZRZE13Z0ZNZGpXSForMHEra0VOcldO?=
- =?utf-8?B?WXk0bERtUnQ2eGJYK1VtNVF0ZkNSalpyRkdnZFRYZWNrT1VESkZyU3FqL3hV?=
- =?utf-8?B?YStDNlM3OG1PKzFVeXBMaC9uWEVQUCt0VVVnQ3hoOVU4RWdyUkFGaVAxMUxv?=
- =?utf-8?B?ZmI5K2UrUjZ0djJyVlRqamhTWHZnTTU1N0VnNHE1VDlqcXk4TjRiQUkyNGNi?=
- =?utf-8?B?OEZpUFNJU2EwZVFyczVwTHNTOGdyT04vN05sVTY4bFhBQ2R4YXJJOGVuSkhE?=
- =?utf-8?B?WjI1c2ZyU3BKL0xzZUcxRkxnT1lKNXhJNFozSUlhdklkdXUvcTdXZnp5b1V2?=
- =?utf-8?B?YnhIVEc4d1FCOFMvcG9jSURwU3dVZ041RmJ2aXNlMzhHYVJka21xRGlJRWxW?=
- =?utf-8?B?UEpjTmlBV04zKyt2U081T2dWOGJKYVNIekdJUzFscVlsRnFEc05NcVg1ZHZS?=
- =?utf-8?B?aXFDZTdIM2FDOVJseHlORVZDWHg4aFJRMHQ3N3ZjSDQzYUZ5SnYyeVlVcS8x?=
- =?utf-8?B?R1lTckxNbzdOQlI3bXdsRzd0SXQ5TVhBQ3AyUE1FcmNvTEkwSzlpSFhnM0xJ?=
- =?utf-8?B?R08wWlJKUW5OZmxYSCtxR1dhR0cwWFE2WDhsRmJic3BnYTFybVVoN3dPajRj?=
- =?utf-8?B?VUhRdm4rdXJFRkh0Mzl4VS8wWTg2UkZQaGs4RVpxOWhHN2h2Q3BWRVBXbTMy?=
- =?utf-8?B?YitCRnRIamlXV0N4OS8vRWRlREtmL1hJQkhlVEhRVUJBUCtwVmtjbk1GNEIr?=
- =?utf-8?B?enVTZ3FpeDVZa3dZeGJ6am9QR2ZzSWZUa3hIUDVkQzNyUzBZL2hORzR6NFkw?=
- =?utf-8?B?ZjlYVW14UFRNVHhOelpLWGI4UUgwdXlYdlloS21pam5yVDJrb3RzbVhjZVdH?=
- =?utf-8?B?S1NuU21CVEtFQ0FKRktBa21EdUhYTS83ZXF4TTdPRUlGNldSZkxaemtyanZp?=
- =?utf-8?B?Unc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BAAB1FF685C0A842A77AE227A1E42D11@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1p0vbt-0005vG-Rb
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 21:17:05 -0500
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1p0vbq-0006jQ-Jb
+ for qemu-devel@nongnu.org; Thu, 01 Dec 2022 21:17:05 -0500
+Received: by mail-lj1-x22f.google.com with SMTP id x6so3923918lji.10
+ for <qemu-devel@nongnu.org>; Thu, 01 Dec 2022 18:17:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=m0PEBtpI152UJSUaqPGb4F1hCybgPnH2XQBDBfAbpYc=;
+ b=maNgONLLi+DwBOJJStiwINDNLgwWn+3fEEzYRiPIQTHhBmzkdy3Gz55bSBGPtVmjvb
+ QulCU0dluyxLeuze+uTidHTMPKS1tcZviizdEY1Dh3es88Gts/oFqcht+AuPGXuqBvfO
+ tN4pcjKiocgNLGhn7vzlQzqw6WCiqsfBaWBULoNgM6SJo9+qZFJglrBAaN/QS5TFstZZ
+ f/N/KieUQfz/zBkzH205i6CJlN1lk/A4wSWhIdYv/tR/iYvpxhTsq+BOZLgmKDr6hHsv
+ x3TlivhvAmCgJEndmNmtiP6HJxCA45qahk1aU3U1t8NIHPjb3xxZSfwc0Kv5ykru/OmN
+ CHbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m0PEBtpI152UJSUaqPGb4F1hCybgPnH2XQBDBfAbpYc=;
+ b=tkrp3ewKZImTfJvsf5kXzomJh/1fLgfs0alIs3rYPU++f0if3Kc9iKXLBHlDOlXfhz
+ v8TANv2P32AAcAVQex2SviMu6FCP6kOef2X+REJoAc4fy4cOKIHZ8v//i5rmDTLPN+nh
+ 9XBXiadBSerICYkRpenm4UkYgh0moZFd1ATT8DfwCSevo6zLcBqxeDM5s2BBwA1Sc/pM
+ +hHo4PfPA9oOAQRuiW6ZEC/RZ8rkEvXZp6owuPZbk/FZ28Tx8k5B6P/ogqfrKUn9Ei2p
+ 2RBZchK4zHvSfwfnyzdLMFWo0TwwffOV4TaGwebUCzlsP9nzBZDBuXpATDnKar6mrO2C
+ LoPg==
+X-Gm-Message-State: ANoB5plyuDbkXSpumzG8nIPTdfypgdr2WxWHbR8Fq2cJlpHB4Y6Wq1WV
+ jfQHEiTCo7qiCzXkFLmZlWX7sNL923VO4WbKuZ+r4Q==
+X-Google-Smtp-Source: AA0mqf5Iw6VP0HThCNopMjJs8P3q49gE2UJmC2YK/T724aB/ost/088EJiI21TYVtx19Be/P354OtGAmyYeKrAH070g=
+X-Received: by 2002:a2e:920c:0:b0:26f:bf09:2f57 with SMTP id
+ k12-20020a2e920c000000b0026fbf092f57mr20738781ljg.180.1669947418255; Thu, 01
+ Dec 2022 18:16:58 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: UvKdCztC+lNpqNEd/iIhZ2N6M9yLKt/75cGD6BMJlzmiatmbge7PSyfR3VZ49ScNClJ/qEPsqIEsCjJYcuz6s0bXQLyc8mTpQMtvO48qYSIOMC+WxfSJZBXM65Lk3NXg5pUJ1HOL50AceLNMYYm1lv7LOtSuC3x+LVUjSPqbf3BoS07mzL7mjsuzzf8ijdY4sieeBsbz1wnFjsA/RCS4V8fIQS5zlT384kNMWwMp9hOQuT7tvuNPBLxgptk3Rl2Q82r7YubkW+KMNeoyDE1l5/cftSwUwrLP5/eaNer7ZvNv4iuDt87GuqiI9UwbBO1lAP4gPQXHDLRoTGVMXBAaPXS0MTCL0szflG8CJPIXtmnKh4C/1o4pFQwKgu0k4AAxrVUoSJ1q/2POO3Zq0SDY5IQ01GzndFcNiGrUmU2U3CNHourlx/0Q5rZTXLqTxpZnKtgibjbmsEmpSu7l6O2ySBVvg7zO6o0YM4mP82awJLd6er1ehx9AjEruSXpTSXzNkTovOYYMCTTqoXm+7H0MlUumgqhXNYTbi2O4QJXojmDnILZddftM7xIHOQydMSHXyitznZP3dJC5AqASWYFAKUJNGEEWB8MR+/HJe0mzKj4BLdi74OMbgDN6wlXj8k43Ox/gSqD66H9wCntDbAL4GQw+YB/Hg+UEyyIBWv8VQaGHxIpFUJd+Yx9M1BzGukzIV7pvOm+UNe+IIEZ/diVHVYa9/KygL7UXtNCcOeYHjT0uzoGbi3QgZ1o5Ky88W3UdMSU7pKRqYAYimpMIbUqU7fbvWpDEqThrflTAu6AWRmxirW8IZIrP8jSPHSM51h/4wh6lSxVH0kWlWxkajITaigw7zLqv2Mtdu+ysasPCESw5DLJ9u7lZb/eoGL/19OYih43+FUPFWfoFvDO1sC25GA==
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB0359.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b993dc21-b4bc-4b43-a235-08dad3fc0c8f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2022 00:27:52.1680 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /yMswVDd7sVnyfalO2Fc4ufMKwCFQeOMY1elphoir9YG/f5QDcok3l0q3jH2k8V8DE7R7vS2VKZWwxvsdlpHcA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB7061
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=3286bccba=wilfred.mallawa@wdc.com; helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Thu, 1 Dec 2022 18:16:46 -0800
+Message-ID: <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, 
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=vannapurve@google.com; helo=mail-lj1-x22f.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -169,38 +108,515 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gVGh1LCAyMDIyLTEyLTAxIGF0IDIyOjA4ICswODAwLCBCaW4gTWVuZyB3cm90ZToKPiBUaGUg
-cGVuZGluZyByZWdpc3RlciB1cHBlciBsaW1pdCBpcyBjdXJyZW50bHkgc2V0IHRvCj4gcGxpYy0+
-bnVtX3NvdXJjZXMgPj4gMywgd2hpY2ggaXMgd3JvbmcsIGUuZy46IGNvbnNpZGVyaW5nCj4gcGxp
-Yy0+bnVtX3NvdXJjZXMgaXMgNywgdGhlIHVwcGVyIGxpbWl0IGJlY29tZXMgMCB3aGljaCBmYWls
-cwo+IHRoZSByYW5nZSBjaGVjayBpZiByZWFkaW5nIHRoZSBwZW5kaW5nIHJlZ2lzdGVyIGF0IHBl
-bmRpbmdfYmFzZS4KPiAKPiBGaXhlczogMWUyNDQyOWU0MGRmICgiU2lGaXZlIFJJU0MtViBQTElD
-IEJsb2NrIikKPiBTaWduZWQtb2ZmLWJ5OiBCaW4gTWVuZyA8Ym1lbmdAdGlueWxhYi5vcmc+Cj4g
-Cj4gLS0tCj4gCj4gwqBody9pbnRjL3NpZml2ZV9wbGljLmMgfCA1ICsrKy0tCj4gwqAxIGZpbGUg
-Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQg
-YS9ody9pbnRjL3NpZml2ZV9wbGljLmMgYi9ody9pbnRjL3NpZml2ZV9wbGljLmMKPiBpbmRleCA3
-YTZhMzU4YzU3Li5hM2ZjODIyMmM3IDEwMDY0NAo+IC0tLSBhL2h3L2ludGMvc2lmaXZlX3BsaWMu
-Ywo+ICsrKyBiL2h3L2ludGMvc2lmaXZlX3BsaWMuYwo+IEBAIC0xNDMsNyArMTQzLDggQEAgc3Rh
-dGljIHVpbnQ2NF90IHNpZml2ZV9wbGljX3JlYWQodm9pZCAqb3BhcXVlLAo+IGh3YWRkciBhZGRy
-LCB1bnNpZ25lZCBzaXplKQo+IMKgwqDCoMKgwqDCoMKgwqAgdWludDMyX3QgaXJxID0gKGFkZHIg
-LSBwbGljLT5wcmlvcml0eV9iYXNlKSA+PiAyOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoCByZXR1
-cm4gcGxpYy0+c291cmNlX3ByaW9yaXR5W2lycV07Cj4gLcKgwqDCoCB9IGVsc2UgaWYgKGFkZHJf
-YmV0d2VlbihhZGRyLCBwbGljLT5wZW5kaW5nX2Jhc2UsIHBsaWMtCj4gPm51bV9zb3VyY2VzID4+
-IDMpKSB7Cj4gK8KgwqDCoCB9IGVsc2UgaWYgKGFkZHJfYmV0d2VlbihhZGRyLCBwbGljLT5wZW5k
-aW5nX2Jhc2UsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAocGxpYy0+bnVtX3NvdXJjZXMgKyAzMSkgPj4gMykpIHsKd2h5IGRvZXMgYWRk
-aW5nIHNwZWNpZmljYWxseSAzMSB3b3JrIGhlcmU/CgpXaWxmcmVkLAo+IMKgwqDCoMKgwqDCoMKg
-wqAgdWludDMyX3Qgd29yZCA9IChhZGRyIC0gcGxpYy0+cGVuZGluZ19iYXNlKSA+PiAyOwo+IMKg
-Cj4gwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcGxpYy0+cGVuZGluZ1t3b3JkXTsKPiBAQCAtMjAy
-LDcgKzIwMyw3IEBAIHN0YXRpYyB2b2lkIHNpZml2ZV9wbGljX3dyaXRlKHZvaWQgKm9wYXF1ZSwK
-PiBod2FkZHIgYWRkciwgdWludDY0X3QgdmFsdWUsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHNpZml2ZV9wbGljX3VwZGF0ZShwbGljKTsKPiDCoMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKgwqDC
-oCB9IGVsc2UgaWYgKGFkZHJfYmV0d2VlbihhZGRyLCBwbGljLT5wZW5kaW5nX2Jhc2UsCj4gLcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwbGlj
-LT5udW1fc291cmNlcyA+PiAzKSkgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKHBsaWMtPm51bV9zb3VyY2VzICsgMzEpID4+IDMpKSB7
-Cj4gwqDCoMKgwqDCoMKgwqDCoCBxZW11X2xvZ19tYXNrKExPR19HVUVTVF9FUlJPUiwKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiJXM6IGludmFsaWQgcGVu
-ZGluZyB3cml0ZTogMHglIiBIV0FERFJfUFJJeAo+ICIiLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZnVuY19fLCBhZGRyKTsKCg==
+On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>
+> Introduce 'memfd_restricted' system call with the ability to create
+> memory areas that are restricted from userspace access through ordinary
+> MMU operations (e.g. read/write/mmap). The memory content is expected to
+> be used through a new in-kernel interface by a third kernel module.
+>
+> memfd_restricted() is useful for scenarios where a file descriptor(fd)
+> can be used as an interface into mm but want to restrict userspace's
+> ability on the fd. Initially it is designed to provide protections for
+> KVM encrypted guest memory.
+>
+> Normally KVM uses memfd memory via mmapping the memfd into KVM userspace
+> (e.g. QEMU) and then using the mmaped virtual address to setup the
+> mapping in the KVM secondary page table (e.g. EPT). With confidential
+> computing technologies like Intel TDX, the memfd memory may be encrypted
+> with special key for special software domain (e.g. KVM guest) and is not
+> expected to be directly accessed by userspace. Precisely, userspace
+> access to such encrypted memory may lead to host crash so should be
+> prevented.
+>
+> memfd_restricted() provides semantics required for KVM guest encrypted
+> memory support that a fd created with memfd_restricted() is going to be
+> used as the source of guest memory in confidential computing environment
+> and KVM can directly interact with core-mm without the need to expose
+> the memoy content into KVM userspace.
+>
+> KVM userspace is still in charge of the lifecycle of the fd. It should
+> pass the created fd to KVM. KVM uses the new restrictedmem_get_page() to
+> obtain the physical memory page and then uses it to populate the KVM
+> secondary page table entries.
+>
+> The userspace restricted memfd can be fallocate-ed or hole-punched
+> from userspace. When these operations happen, KVM can get notified
+> through restrictedmem_notifier, it then gets chance to remove any
+> mapped entries of the range in the secondary page tables.
+>
+> memfd_restricted() itself is implemented as a shim layer on top of real
+> memory file systems (currently tmpfs). Pages in restrictedmem are marked
+> as unmovable and unevictable, this is required for current confidential
+> usage. But in future this might be changed.
+>
+> By default memfd_restricted() prevents userspace read, write and mmap.
+> By defining new bit in the 'flags', it can be extended to support other
+> restricted semantics in the future.
+>
+> The system call is currently wired up for x86 arch.
+>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+>  include/linux/restrictedmem.h          |  62 ++++++
+>  include/linux/syscalls.h               |   1 +
+>  include/uapi/asm-generic/unistd.h      |   5 +-
+>  include/uapi/linux/magic.h             |   1 +
+>  kernel/sys_ni.c                        |   3 +
+>  mm/Kconfig                             |   4 +
+>  mm/Makefile                            |   1 +
+>  mm/restrictedmem.c                     | 250 +++++++++++++++++++++++++
+>  10 files changed, 328 insertions(+), 1 deletion(-)
+>  create mode 100644 include/linux/restrictedmem.h
+>  create mode 100644 mm/restrictedmem.c
+>
+> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+> index 320480a8db4f..dc70ba90247e 100644
+> --- a/arch/x86/entry/syscalls/syscall_32.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
+> @@ -455,3 +455,4 @@
+>  448    i386    process_mrelease        sys_process_mrelease
+>  449    i386    futex_waitv             sys_futex_waitv
+>  450    i386    set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    i386    memfd_restricted        sys_memfd_restricted
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> index c84d12608cd2..06516abc8318 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -372,6 +372,7 @@
+>  448    common  process_mrelease        sys_process_mrelease
+>  449    common  futex_waitv             sys_futex_waitv
+>  450    common  set_mempolicy_home_node sys_set_mempolicy_home_node
+> +451    common  memfd_restricted        sys_memfd_restricted
+>
+>  #
+>  # Due to a historical design error, certain syscalls are numbered differently
+> diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..9c37c3ea3180
+> --- /dev/null
+> +++ b/include/linux/restrictedmem.h
+> @@ -0,0 +1,62 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _LINUX_RESTRICTEDMEM_H
+> +
+> +#include <linux/file.h>
+> +#include <linux/magic.h>
+> +#include <linux/pfn_t.h>
+> +
+> +struct restrictedmem_notifier;
+> +
+> +struct restrictedmem_notifier_ops {
+> +       void (*invalidate_start)(struct restrictedmem_notifier *notifier,
+> +                                pgoff_t start, pgoff_t end);
+> +       void (*invalidate_end)(struct restrictedmem_notifier *notifier,
+> +                              pgoff_t start, pgoff_t end);
+> +};
+> +
+> +struct restrictedmem_notifier {
+> +       struct list_head list;
+> +       const struct restrictedmem_notifier_ops *ops;
+> +};
+> +
+> +#ifdef CONFIG_RESTRICTEDMEM
+> +
+> +void restrictedmem_register_notifier(struct file *file,
+> +                                    struct restrictedmem_notifier *notifier);
+> +void restrictedmem_unregister_notifier(struct file *file,
+> +                                      struct restrictedmem_notifier *notifier);
+> +
+> +int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> +                          struct page **pagep, int *order);
+> +
+> +static inline bool file_is_restrictedmem(struct file *file)
+> +{
+> +       return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
+> +}
+> +
+> +#else
+> +
+> +static inline void restrictedmem_register_notifier(struct file *file,
+> +                                    struct restrictedmem_notifier *notifier)
+> +{
+> +}
+> +
+> +static inline void restrictedmem_unregister_notifier(struct file *file,
+> +                                      struct restrictedmem_notifier *notifier)
+> +{
+> +}
+> +
+> +static inline int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> +                                        struct page **pagep, int *order)
+> +{
+> +       return -1;
+> +}
+> +
+> +static inline bool file_is_restrictedmem(struct file *file)
+> +{
+> +       return false;
+> +}
+> +
+> +#endif /* CONFIG_RESTRICTEDMEM */
+> +
+> +#endif /* _LINUX_RESTRICTEDMEM_H */
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index a34b0f9a9972..f9e9e0c820c5 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,6 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>                                             unsigned long home_node,
+>                                             unsigned long flags);
+> +asmlinkage long sys_memfd_restricted(unsigned int flags);
+>
+>  /*
+>   * Architecture-specific system calls
+> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+> index 45fa180cc56a..e93cd35e46d0 100644
+> --- a/include/uapi/asm-generic/unistd.h
+> +++ b/include/uapi/asm-generic/unistd.h
+> @@ -886,8 +886,11 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+>  #define __NR_set_mempolicy_home_node 450
+>  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+>
+> +#define __NR_memfd_restricted 451
+> +__SYSCALL(__NR_memfd_restricted, sys_memfd_restricted)
+> +
+>  #undef __NR_syscalls
+> -#define __NR_syscalls 451
+> +#define __NR_syscalls 452
+>
+>  /*
+>   * 32 bit systems traditionally used different
+> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+> index 6325d1d0e90f..8aa38324b90a 100644
+> --- a/include/uapi/linux/magic.h
+> +++ b/include/uapi/linux/magic.h
+> @@ -101,5 +101,6 @@
+>  #define DMA_BUF_MAGIC          0x444d4142      /* "DMAB" */
+>  #define DEVMEM_MAGIC           0x454d444d      /* "DMEM" */
+>  #define SECRETMEM_MAGIC                0x5345434d      /* "SECM" */
+> +#define RESTRICTEDMEM_MAGIC    0x5245534d      /* "RESM" */
+>
+>  #endif /* __LINUX_MAGIC_H__ */
+> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> index 860b2dcf3ac4..7c4a32cbd2e7 100644
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -360,6 +360,9 @@ COND_SYSCALL(pkey_free);
+>  /* memfd_secret */
+>  COND_SYSCALL(memfd_secret);
+>
+> +/* memfd_restricted */
+> +COND_SYSCALL(memfd_restricted);
+> +
+>  /*
+>   * Architecture specific weak syscall entries.
+>   */
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index 0331f1461f81..0177d53676c7 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -1076,6 +1076,10 @@ config IO_MAPPING
+>  config SECRETMEM
+>         def_bool ARCH_HAS_SET_DIRECT_MAP && !EMBEDDED
+>
+> +config RESTRICTEDMEM
+> +       bool
+> +       depends on TMPFS
+> +
+>  config ANON_VMA_NAME
+>         bool "Anonymous VMA name support"
+>         depends on PROC_FS && ADVISE_SYSCALLS && MMU
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 9a564f836403..6cb6403ffd40 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -117,6 +117,7 @@ obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
+>  obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
+>  obj-$(CONFIG_CMA_DEBUGFS) += cma_debug.o
+>  obj-$(CONFIG_SECRETMEM) += secretmem.o
+> +obj-$(CONFIG_RESTRICTEDMEM) += restrictedmem.o
+>  obj-$(CONFIG_CMA_SYSFS) += cma_sysfs.o
+>  obj-$(CONFIG_USERFAULTFD) += userfaultfd.o
+>  obj-$(CONFIG_IDLE_PAGE_TRACKING) += page_idle.o
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> new file mode 100644
+> index 000000000000..e5bf8907e0f8
+> --- /dev/null
+> +++ b/mm/restrictedmem.c
+> @@ -0,0 +1,250 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include "linux/sbitmap.h"
+> +#include <linux/pagemap.h>
+> +#include <linux/pseudo_fs.h>
+> +#include <linux/shmem_fs.h>
+> +#include <linux/syscalls.h>
+> +#include <uapi/linux/falloc.h>
+> +#include <uapi/linux/magic.h>
+> +#include <linux/restrictedmem.h>
+> +
+> +struct restrictedmem_data {
+> +       struct mutex lock;
+> +       struct file *memfd;
+> +       struct list_head notifiers;
+> +};
+> +
+> +static void restrictedmem_notifier_invalidate(struct restrictedmem_data *data,
+> +                                pgoff_t start, pgoff_t end, bool notify_start)
+> +{
+> +       struct restrictedmem_notifier *notifier;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_for_each_entry(notifier, &data->notifiers, list) {
+> +               if (notify_start)
+> +                       notifier->ops->invalidate_start(notifier, start, end);
+> +               else
+> +                       notifier->ops->invalidate_end(notifier, start, end);
+> +       }
+> +       mutex_unlock(&data->lock);
+> +}
+> +
+> +static int restrictedmem_release(struct inode *inode, struct file *file)
+> +{
+> +       struct restrictedmem_data *data = inode->i_mapping->private_data;
+> +
+> +       fput(data->memfd);
+> +       kfree(data);
+> +       return 0;
+> +}
+> +
+> +static long restrictedmem_fallocate(struct file *file, int mode,
+> +                                   loff_t offset, loff_t len)
+> +{
+> +       struct restrictedmem_data *data = file->f_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       int ret;
+> +
+> +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> +                       return -EINVAL;
+> +       }
+> +
+> +       restrictedmem_notifier_invalidate(data, offset, offset + len, true);
+> +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> +       restrictedmem_notifier_invalidate(data, offset, offset + len, false);
+> +       return ret;
+> +}
+> +
+> +static const struct file_operations restrictedmem_fops = {
+> +       .release = restrictedmem_release,
+> +       .fallocate = restrictedmem_fallocate,
+> +};
+> +
+> +static int restrictedmem_getattr(struct user_namespace *mnt_userns,
+> +                                const struct path *path, struct kstat *stat,
+> +                                u32 request_mask, unsigned int query_flags)
+> +{
+> +       struct inode *inode = d_inode(path->dentry);
+> +       struct restrictedmem_data *data = inode->i_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +
+> +       return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
+> +                                            request_mask, query_flags);
+> +}
+> +
+> +static int restrictedmem_setattr(struct user_namespace *mnt_userns,
+> +                                struct dentry *dentry, struct iattr *attr)
+> +{
+> +       struct inode *inode = d_inode(dentry);
+> +       struct restrictedmem_data *data = inode->i_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       int ret;
+> +
+> +       if (attr->ia_valid & ATTR_SIZE) {
+> +               if (memfd->f_inode->i_size)
+> +                       return -EPERM;
+> +
+> +               if (!PAGE_ALIGNED(attr->ia_size))
+> +                       return -EINVAL;
+> +       }
+> +
+> +       ret = memfd->f_inode->i_op->setattr(mnt_userns,
+> +                                           file_dentry(memfd), attr);
+> +       return ret;
+> +}
+> +
+> +static const struct inode_operations restrictedmem_iops = {
+> +       .getattr = restrictedmem_getattr,
+> +       .setattr = restrictedmem_setattr,
+> +};
+> +
+> +static int restrictedmem_init_fs_context(struct fs_context *fc)
+> +{
+> +       if (!init_pseudo(fc, RESTRICTEDMEM_MAGIC))
+> +               return -ENOMEM;
+> +
+> +       fc->s_iflags |= SB_I_NOEXEC;
+> +       return 0;
+> +}
+> +
+> +static struct file_system_type restrictedmem_fs = {
+> +       .owner          = THIS_MODULE,
+> +       .name           = "memfd:restrictedmem",
+> +       .init_fs_context = restrictedmem_init_fs_context,
+> +       .kill_sb        = kill_anon_super,
+> +};
+> +
+> +static struct vfsmount *restrictedmem_mnt;
+> +
+> +static __init int restrictedmem_init(void)
+> +{
+> +       restrictedmem_mnt = kern_mount(&restrictedmem_fs);
+> +       if (IS_ERR(restrictedmem_mnt))
+> +               return PTR_ERR(restrictedmem_mnt);
+> +       return 0;
+> +}
+> +fs_initcall(restrictedmem_init);
+> +
+> +static struct file *restrictedmem_file_create(struct file *memfd)
+> +{
+> +       struct restrictedmem_data *data;
+> +       struct address_space *mapping;
+> +       struct inode *inode;
+> +       struct file *file;
+> +
+> +       data = kzalloc(sizeof(*data), GFP_KERNEL);
+> +       if (!data)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       data->memfd = memfd;
+> +       mutex_init(&data->lock);
+> +       INIT_LIST_HEAD(&data->notifiers);
+> +
+> +       inode = alloc_anon_inode(restrictedmem_mnt->mnt_sb);
+> +       if (IS_ERR(inode)) {
+> +               kfree(data);
+> +               return ERR_CAST(inode);
+> +       }
+> +
+> +       inode->i_mode |= S_IFREG;
+> +       inode->i_op = &restrictedmem_iops;
+> +       inode->i_mapping->private_data = data;
+> +
+> +       file = alloc_file_pseudo(inode, restrictedmem_mnt,
+> +                                "restrictedmem", O_RDWR,
+> +                                &restrictedmem_fops);
+> +       if (IS_ERR(file)) {
+> +               iput(inode);
+> +               kfree(data);
+> +               return ERR_CAST(file);
+> +       }
+> +
+> +       file->f_flags |= O_LARGEFILE;
+> +
+> +       mapping = memfd->f_mapping;
+> +       mapping_set_unevictable(mapping);
+> +       mapping_set_gfp_mask(mapping,
+> +                            mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
+> +
+> +       return file;
+> +}
+> +
+> +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> +{
+
+Looking at the underlying shmem implementation, there seems to be no
+way to enable transparent huge pages specifically for restricted memfd
+files.
+
+Michael discussed earlier about tweaking
+/sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
+hugepages to be used while backing restricted memfd. Such a change
+will affect the rest of the shmem usecases as well. Even setting the
+shmem_enabled policy to "advise" wouldn't help unless file based
+advise for hugepage allocation is implemented.
+
+Does it make sense to provide a flag here to allow creating restricted
+memfds backed possibly by huge pages to give a more granular control?
+
+> +       struct file *file, *restricted_file;
+> +       int fd, err;
+> +
+> +       if (flags)
+> +               return -EINVAL;
+> +
+> +       fd = get_unused_fd_flags(0);
+> +       if (fd < 0)
+> +               return fd;
+> +
+> +       file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +       if (IS_ERR(file)) {
+> +               err = PTR_ERR(file);
+> +               goto err_fd;
+> +       }
+> +       file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
+> +       file->f_flags |= O_LARGEFILE;
+> +
+> +       restricted_file = restrictedmem_file_create(file);
+> +       if (IS_ERR(restricted_file)) {
+> +               err = PTR_ERR(restricted_file);
+> +               fput(file);
+> +               goto err_fd;
+> +       }
+> +
+> +       fd_install(fd, restricted_file);
+> +       return fd;
+> +err_fd:
+> +       put_unused_fd(fd);
+> +       return err;
+> +}
+> +
+> +void restrictedmem_register_notifier(struct file *file,
+> +                                    struct restrictedmem_notifier *notifier)
+> +{
+> +       struct restrictedmem_data *data = file->f_mapping->private_data;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_add(&notifier->list, &data->notifiers);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(restrictedmem_register_notifier);
+> +
+> +void restrictedmem_unregister_notifier(struct file *file,
+> +                                      struct restrictedmem_notifier *notifier)
+> +{
+> +       struct restrictedmem_data *data = file->f_mapping->private_data;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_del(&notifier->list);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(restrictedmem_unregister_notifier);
+> +
+> +int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> +                          struct page **pagep, int *order)
+> +{
+> +       struct restrictedmem_data *data = file->f_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       struct page *page;
+> +       int ret;
+> +
+> +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> +       if (ret)
+> +               return ret;
+> +
+> +       *pagep = page;
+> +       if (order)
+> +               *order = thp_order(compound_head(page));
+> +
+> +       SetPageUptodate(page);
+> +       unlock_page(page);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
+> --
+> 2.25.1
+>
 
