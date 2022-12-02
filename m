@@ -2,81 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334DD640E2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 20:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566C2640EC8
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Dec 2022 20:52:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1BKi-0002EC-Rm; Fri, 02 Dec 2022 14:04:24 -0500
+	id 1p1C55-0005lM-Pb; Fri, 02 Dec 2022 14:52:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p1BKe-0002DZ-Fv
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 14:04:20 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p1BKc-0001gg-Rk
- for qemu-devel@nongnu.org; Fri, 02 Dec 2022 14:04:20 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- p13-20020a05600c468d00b003cf8859ed1bso5056821wmo.1
- for <qemu-devel@nongnu.org>; Fri, 02 Dec 2022 11:04:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gJbgAsWXjOUH3suU0A1KUekuXNGnKQ77xafGi2tELz0=;
- b=FG+w9xJSERLrI+CgO8TrXgjj4Qbi69FHEUFD/M3lySvl+2lNfKQm88IW6i80OadwJB
- sNkqvH875utufGXHjFQ0zqILH5DDt1kNudheqq2o06SY6mWG2tjizBMtx50b0DoTVJd4
- mzAYND9zI/v0c3N2xL+UnVkqje9WNlLTAaaN/x8kMmJ7Zdr6HbJGGytyjbGwqXOC9wxg
- MAzMUapAZ+kVvRtySZpXxkHs27ldKgnDhl2FTx3P+bont0pwEdg11V856+RW8sIMlt6y
- GQsXAOVuZVZqrfOJ7A4GGNjq2QwN0YLF+54VCWRidnQ66G9HrMw+EvNXy9C6VNtGUQDW
- UHFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gJbgAsWXjOUH3suU0A1KUekuXNGnKQ77xafGi2tELz0=;
- b=xJk+9cWJgk2AeCFLoKzJwgBGzF03qlbaasTcfx26WujWIeTL5aSs2kCORK/FEv83c3
- M9YriCtXzAZs7pbM/LIRl4sKqtava+DHF5BzuXRzGAu6ZVUyGGlUC6gCAu1pGaDnVu5B
- 7kaxXO7/vstlBDzI71oTH0Uqbx436BR1Ngq/sBx+i4QY8j/2egLHIGPTdWc7wOPRIXbQ
- JD5kFB6jZCEymt+UzM+lyYBgA1nR9y+a2p6KU2QVQ64p/v867GxS38tpdprhCTDPq+R+
- LiB5k1EHHnSRGgsmmN2KKON5uTP1OYy88xUckVp9C+dY/aTY3CTLRpA/OSKMqeK2F9px
- pntw==
-X-Gm-Message-State: ANoB5plqX2JW5ULfsJ9vc0VlFk+fSztZIq9ySHnbhf+VfvEqGXuwDCX4
- MjvA2umAJjInfz7qqD+JZy128A==
-X-Google-Smtp-Source: AA0mqf6+O0eBrlZER1Ig8AJktgjw3E/kIJ7s/ilR8drmtuR3y7yJfdprP+Z8W8b3OlXy+H7bUwmptA==
-X-Received: by 2002:a05:600c:3543:b0:3cf:74bb:feb1 with SMTP id
- i3-20020a05600c354300b003cf74bbfeb1mr51708682wmq.102.1670007856938; 
- Fri, 02 Dec 2022 11:04:16 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- w12-20020a05600c474c00b003b435c41103sm17000032wmo.0.2022.12.02.11.04.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Dec 2022 11:04:16 -0800 (PST)
-Message-ID: <e84934e8-5a17-8598-f158-6bf9729c34ea@linaro.org>
-Date: Fri, 2 Dec 2022 20:04:14 +0100
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1p1C54-0005l8-4N
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 14:52:18 -0500
+Received: from mail-dm6nam10on2040.outbound.protection.outlook.com
+ ([40.107.93.40] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1p1C52-0004z2-25
+ for qemu-devel@nongnu.org; Fri, 02 Dec 2022 14:52:17 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CwDC4yui1yyoJZAFjuh74yfdKpCK74/jpkl+SMWzP+YXx+F0+4JBPG7dyUr6kpbMLzkiyT+mCApFdl6vxoDFcWQ9otUcTi0s39fBR7ruqfDY+BM9DzgLAMgX1iHHnNjO3FnXSD74WPBql89sAxz0+M11Io9xxToPS49BJC9+VZeOW8oDrQTkU5A4iz87UfT/A9DXLvadk+CPHwrwh3L7dg3V+S0p9mcLl2YVnAFd0u71bKEf/bhJxIBU3w3iUJGycGXg3ozNxpoDbUcJ2ZmBYJn5gXZhmJsYbsWmTNkAUkVtO51AY38M8CzjtR7lSZ+bfp49IbU9sSiLBdnNNMf+7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1XKGPxkedei1K92bCddX4TaJvojd6muF22rx3qF0GdE=;
+ b=iOYfjyWNAxYp82P6LrujVH3xccQ45jj0hnBynFNHturVSiMNoJE3qYYJQBUt825d4GcwUgSt9+xYeCl4Pk6jEoFcMonhq5/qvn3Df5Hoq7Cn5xL+op2SVy8Q4TOCXE6mF8FSZCKm3wxySmP7pbNEYnellGGD+RM1uhES7Lbq4CjgugSx3wqQOsGW75NZcbCwnIFrzE405rhWkbBlM2qZs17sYoBrtF95kMUUWjoDt75bg9EFpynppNo3HfCfHgjavgd3BXFRaItd4gqFkhinmi+ZdacFHTeTjSleeJJgGPtj7OjwdEO6zvMIrlAIKTQsEaEuQlRqow24BwYokKPGEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1XKGPxkedei1K92bCddX4TaJvojd6muF22rx3qF0GdE=;
+ b=uEMBcTFd3fc1/i8ldnIKwrgwveVO8sYJ/g3yvq1yKTeRkm2y6/kyZmU40Rsm65L22ogsWkNd8ifCvSxNXS37w2jhNX3KJSWleYDhO5u1k6KcKZxAT8ttnL8M7gLJvqpocNJmfJ/6mpbSmay7M2Cogcn81kylgi0jm3sTQTj2bHk=
+Received: from DM6PR02CA0122.namprd02.prod.outlook.com (2603:10b6:5:1b4::24)
+ by IA0PR12MB8304.namprd12.prod.outlook.com (2603:10b6:208:3dc::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Fri, 2 Dec
+ 2022 19:47:08 +0000
+Received: from CY4PEPF0000B8EE.namprd05.prod.outlook.com
+ (2603:10b6:5:1b4:cafe::c1) by DM6PR02CA0122.outlook.office365.com
+ (2603:10b6:5:1b4::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10 via Frontend
+ Transport; Fri, 2 Dec 2022 19:47:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000B8EE.mail.protection.outlook.com (10.167.241.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5813.11 via Frontend Transport; Fri, 2 Dec 2022 19:47:07 +0000
+Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 2 Dec
+ 2022 13:47:06 -0600
+Subject: [PATCH 0/5] Update AMD EPYC CPU Models
+From: Babu Moger <babu.moger@amd.com>
+To: <pbonzini@redhat.com>
+CC: <mtosatti@redhat.com>, <kvm@vger.kernel.org>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <imammedo@redhat.com>,
+ <richard.henderson@linaro.org>, <yang.zhong@intel.com>,
+ <jing2.liu@intel.com>, <vkuznets@redhat.com>, <qemu-devel@nongnu.org>,
+ <michael.roth@amd.com>
+Date: Fri, 2 Dec 2022 13:47:05 -0600
+Message-ID: <167001034454.62456.7111414518087569436.stgit@bmoger-ubuntu>
+User-Agent: StGit/1.1.dev103+g5369f4c
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [RFC PATCH for 8.0] configure: repeat ourselves for the benefit
- of CI
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20221202174746.1218017-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221202174746.1218017-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000B8EE:EE_|IA0PR12MB8304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a9b36f0-799f-4ca1-488c-08dad49dfed4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QltA7UZ6WHdTiZcbiIfGGEMR2+no153V9e5sDbZ4bwVEkBvZ3eKJjUzRTwq208p6QpjQDSRcmoRVkRk0KQsl7BvQApVuMYw57yQE/jjJF+9KLJ36uWFKlecNepH5rRC0jnBbEY5Q1ezjsaW+lZQzsR/5AvUnStOMxaBBo+IUHBpXv6hL8CBhg6xf9NfaRuSL2mcAfxSPx2bkPCSQG842HrywxJUv8tQPSAL13oUg+ET21G07SUrCEUZU51Nz5AqFpOLSSK3vqWlz694Nee9S8pstE435Xf3bm1/5fAFf+KbyoX5QcXpIZd5ZdepCt+uUcAc/Oh0QoopbWE0LhaE8EsEOpfLaGFhqC8mNwLuqtooR/br9EyAE1tZR3t4SoAwWcYUUGMtcf0a8IcmAyNKSG5lrFloFRqgrih0e+ApGsQkCtn8zbi59m2iDQCqqRRHYavoP7IQ81UeZ5lKAUCTcRK2CiOjx2YWQyNPB7bZuzf2cBAa8b5cg7A4DprC2pLgVHY05QT7zSlWxzFU3hH9GGCJPb/JwZG3aMPDTUwmrIR+KS/KNe6mYDFeUbAbMcEKXOHRjmZgM0h5AZdiIyUUXqLZyUxp4z/jJ4x1M+SFZ2DD13dc/7FWyAsmx16aU2ni8vjrzyPXXaWLTj2WYIK5Q0oCXeVvcREnSbC5Xg03wTO/mAjjnfY8gSeNex5DnRkQSwo807qXJ3bvCgnHzg0iGm/N0L8dcrx4WE//tmfiC0K73IW8QwA3kTi89B/bBJJKy3z6CGHA1n+cwzELIZ703W44BX2FUsGSWFbNBFoof2Q0=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(7916004)(4636009)(136003)(396003)(376002)(346002)(39860400002)(451199015)(40470700004)(36840700001)(46966006)(9686003)(40460700003)(86362001)(40480700001)(356005)(81166007)(6916009)(54906003)(316002)(103116003)(16576012)(8676002)(33716001)(41300700001)(5660300002)(4744005)(15650500001)(70206006)(70586007)(8936002)(7416002)(36860700001)(4326008)(2906002)(82740400003)(26005)(478600001)(83380400001)(186003)(426003)(47076005)(82310400005)(44832011)(336012)(16526019)(170073001)(71626007)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2022 19:47:07.5531 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a9b36f0-799f-4ca1-488c-08dad49dfed4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000B8EE.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8304
+Received-SPF: softfail client-ip=40.107.93.40; envelope-from=Babu.Moger@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,36 +121,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/12/22 18:47, Alex Bennée wrote:
-> Our CI system echos the lines it executes but not the expansions. For
-> the sake of a line of extra verbosity during the configure phase lets
-> echo the invocation of script to stdout as well as the log.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   configure | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 26c7bc5154..849ac7aed9 100755
-> --- a/configure
-> +++ b/configure
-> @@ -83,9 +83,10 @@ rm -f config.log
->   # Print a helpful header at the top of config.log
->   echo "# QEMU configure log $(date)" >> config.log
->   printf "# Configured with:" >> config.log
-> -printf " '%s'" "$0" "$@" >> config.log
-> -echo >> config.log
-> -echo "#" >> config.log
-> +# repeat the invocation to log and stdout for CI
-> +invoke=$(printf " '%s'" "$0" "$@")
-> +echo "configuring with: $invoke"
-
-    test -n $GITLAB_CI && ... ?
-
-> +{ echo "$invoke"; echo; echo "#"; } >> config.log
->   
->   quote_sh() {
->       printf "%s" "$1" | sed "s,','\\\\'',g; s,.*,'&',"
+This series adds following changes.=0A=
+a. Allow versioned CPUs to specify new cache_info pointers.=0A=
+b. Add EPYC-v4, EPYC-Rome-v3 and EPYC-Milan-v2 fixing the=0A=
+   cache_info.complex_indexing.=0A=
+c. Introduce EPYC-Milan-v2 by adding few missing feature bits.=0A=
+---=0A=
+=0A=
+Babu Moger (3):=0A=
+      target/i386: Add a couple of feature bits in 8000_0008_EBX=0A=
+      target/i386: Add feature bits for CPUID_Fn80000021_EAX=0A=
+      target/i386: Add missing feature bits in EPYC-Milan model=0A=
+=0A=
+Michael Roth (2):=0A=
+      target/i386: allow versioned CPUs to specify new cache_info=0A=
+      target/i386: Add new EPYC CPU versions with updated cache_info=0A=
+=0A=
+=0A=
+ target/i386/cpu.c | 252 +++++++++++++++++++++++++++++++++++++++++++++-=0A=
+ target/i386/cpu.h |  12 +++=0A=
+ 2 files changed, 259 insertions(+), 5 deletions(-)=0A=
+=0A=
+--=0A=
 
 
