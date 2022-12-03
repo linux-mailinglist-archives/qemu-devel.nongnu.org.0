@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781D8641855
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 18:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D946419FD
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 00:20:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1Wls-0006xH-Jo; Sat, 03 Dec 2022 12:57:52 -0500
+	id 1p1bnS-0000A8-0N; Sat, 03 Dec 2022 18:19:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p1Wlr-0006vs-8v
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 12:57:51 -0500
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1p1bnQ-00009e-Ly; Sat, 03 Dec 2022 18:19:48 -0500
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p1Wlp-00061F-JX
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 12:57:51 -0500
-Received: by mail-oi1-x22a.google.com with SMTP id q186so8547569oia.9
- for <qemu-devel@nongnu.org>; Sat, 03 Dec 2022 09:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1p1bnC-0001ZP-Gq; Sat, 03 Dec 2022 18:19:48 -0500
+Received: by mail-lf1-x134.google.com with SMTP id b3so12939579lfv.2;
+ Sat, 03 Dec 2022 15:19:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=x2tUJtrZjzSMGF7cLFs50dFYmcY5SifN0BJUMx7VetE=;
- b=jHTOwUvnjr64nLT20n3eEGGapPJ7zG7CApgZkR5XndvB5jYvSjIL9PbRscTGK2lLP5
- t1PzvIgpgjem2uIunT0XMLsZqgMMbraTXUseX5hWNVg91PlJ4U4ndAymVPv2HTY1WGBu
- kcPIGrvHLFPq3bNJZCkyMgM60xqAzduqouwyfZDgVrgkua0bhhnIo1LAZ3ZPSoQpNCY7
- J9ZfSYene+gvt6zgCjoLiOVh8pd0seJ9uw95fKlt2IwLgaK1UpwHSP8afuwqOqj1+8BJ
- dbt7piHVeEJ60gGhJsMAKwP81e2i2JGl4iZva3KoQWe+OYU86zaJSrgVioBmgqR4epiJ
- 7WJg==
+ bh=Ua3HtEc/TdfM1Wt5fqcGOrhTM0H6ueiZCckFhuAwBNM=;
+ b=ejimAuMEcveu15JUDkXW25QmMu+ZddfAz2EoaV6cBR/lZhL67K3UaVLdeOn72Xpbdo
+ fVsw2lY0bCR3qzQWlDIvgZJBef148QCumc/8xlOuiOwgSPyVQzqwYYjJOPQP3OBz76ij
+ u4BewCX41M0CteSkzUHAlneETfaKYMdyCe4vr309TjRE00OvnFqqeBd5zKjQEgFcWWYk
+ 4xVeq1GKY4ldezKUbNAciAlKh9+9jSRVqXpF44Q8EGteGEHlLfhTMUp+s/NGQX70yDh9
+ lZz5p1je/O7y/hcLZAKD4itE2JppySNyCNrARpMD68A16Csa6Hq3edM6lvbWmni0fYs/
+ PZXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=x2tUJtrZjzSMGF7cLFs50dFYmcY5SifN0BJUMx7VetE=;
- b=c6GGExyNQkCYH7P0eQ6Us8gRj1vLbajS4qayjiEtpRVLyIKt7bUxM9pDm2+hI0XKKJ
- MUYtkielfWdxAnaDTgqZhzX+yCEPdFnEh1BvTyyr27wFKe5iUs601+b9LMYs2XXofAgq
- /Gol81xALuaP9SiE0Y3vj8IfzcE/sZ/iEmNlr70rC5ep+3B3eOg8HOVTCSrU+mY2/ULU
- CFFcMJA658qQvCnTMLFjsGMqLAMrWtGZwQdr/EYrnqQM/sydderBkYQjMhtEhxS9RaH7
- LD45C6SRuGk1ZyObKDINO1RPkps1n0/naN4RgEg/pYXUQtFGhLgEHX3vhvGsnNJJhoDP
- teOQ==
-X-Gm-Message-State: ANoB5pkvBXUkFvhFCKZkY0XkhRGlxKMQe9ltX0AVF9MNhk2/sDQUL6pM
- lnaKerxPzIiTqUy4FUHSeg9bl9VnpXTFjosgvXI=
-X-Google-Smtp-Source: AA0mqf70NPOs/dGA0ri3LotlU9lxoqVyyWJgjFK1IV8hIC2wI+907AaxiRcsLdrE/lxAUbfPizw8dg==
-X-Received: by 2002:a54:4606:0:b0:35a:220f:800e with SMTP id
- p6-20020a544606000000b0035a220f800emr39098653oip.257.1670090267956; 
- Sat, 03 Dec 2022 09:57:47 -0800 (PST)
-Received: from stoup.. ([2806:102e:18:70b5:7079:1798:87ad:611d])
- by smtp.gmail.com with ESMTPSA id
- t26-20020a05683014da00b0066cb9069e0bsm5091007otq.42.2022.12.03.09.57.46
+ bh=Ua3HtEc/TdfM1Wt5fqcGOrhTM0H6ueiZCckFhuAwBNM=;
+ b=kjmsSAxdNzyDv14xHneHSvIQNzC5nnNwvni4KBI6iylUWHgQLlXO5M1QvMfYS+WRnD
+ Meh/JF8LBhftpjn9q13m4YUgVfuMzlZ4tbWhXm/KsCxyKT34H/pD4DTpmmvqGjYHbhVM
+ vvEc5PYod/O8t4uCfcAs+6H9LQGn49xhWn5v60ZK1SaEi/s8KotNe0v2w6I/U4vKvrTT
+ lTNV1ry3cxCPI52QDMuwUyJxAEE8aiYbby8HoODTnG3wRT6B/lrjy+C/FXk7KR+XdJJk
+ N4/dgeIK6oXkmlXDwJpy5a2vIZMpWyxQhQXIntWG97l5tfNGq/BuTpXsinNl9FmMwT/2
+ RWeQ==
+X-Gm-Message-State: ANoB5pnRDg+PvhcnGuos3Pg3EVAigmbu351xgV1SmfpBom/WBIiubQyC
+ JSXmzC74VOk6cmxeqOoH8J4=
+X-Google-Smtp-Source: AA0mqf49MS34D64nJGz7ThGYjT+141Hc4oTDG7PwXnCp6uq3an+amsjKoOcsBLdCqSwF+bY8WI9Rvw==
+X-Received: by 2002:a05:6512:258b:b0:4b5:c8f:2b59 with SMTP id
+ bf11-20020a056512258b00b004b50c8f2b59mr12624007lfb.536.1670109571183; 
+ Sat, 03 Dec 2022 15:19:31 -0800 (PST)
+Received: from penguin.lxd (213-67-202-254-no43.tbcn.telia.com.
+ [213.67.202.254]) by smtp.googlemail.com with ESMTPSA id
+ b27-20020a05651c033b00b002770e6c620bsm22623ljp.106.2022.12.03.15.19.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Dec 2022 09:57:47 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-stable@nongnu.org
-Subject: [PATCH] target/riscv: Set pc_succ_insn for !rvc illegal insn
-Date: Sat,  3 Dec 2022 11:57:44 -0600
-Message-Id: <20221203175744.151365-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Sat, 03 Dec 2022 15:19:30 -0800 (PST)
+From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
+X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Beniamino Galvani <b.galvani@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+Subject: [PATCH 0/6] Enable Cubieboard A10 boot SPL from SD card 
+Date: Sun,  4 Dec 2022 00:18:58 +0100
+Message-Id: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-lf1-x134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,108 +86,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Failure to set pc_succ_insn may result in a TB covering zero bytes,
-which triggers an assert within the code generator.
+This patch series adds missing Allwinner A10 modules needed for
+successful SPL boot:
+- Clock controller module
+- DRAM controller
+- I2C0 controller (added also for Allwinner H3 since it is the same)
+- AXP-209 connected to I2C0 bus
 
-Cc: qemu-stable@nongnu.org
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1224
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/translate.c          | 12 ++++--------
- tests/tcg/Makefile.target         |  2 ++
- tests/tcg/riscv64/Makefile.target |  5 +++++
- tests/tcg/riscv64/test-noc.S      | 32 +++++++++++++++++++++++++++++++
- 4 files changed, 43 insertions(+), 8 deletions(-)
- create mode 100644 tests/tcg/riscv64/test-noc.S
+It also updates Allwinner A10 emulation so SPL is copied from attached
+SD card if `-kernel` parameter is not passed when starting QEMU
+(approach adapted from Allwinner H3 implementation).
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index db123da5ec..1ed4bb5ec3 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1064,14 +1064,10 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- 
-     /* Check for compressed insn */
-     if (insn_len(opcode) == 2) {
--        if (!has_ext(ctx, RVC)) {
--            gen_exception_illegal(ctx);
--        } else {
--            ctx->opcode = opcode;
--            ctx->pc_succ_insn = ctx->base.pc_next + 2;
--            if (decode_insn16(ctx, opcode)) {
--                return;
--            }
-+        ctx->opcode = opcode;
-+        ctx->pc_succ_insn = ctx->base.pc_next + 2;
-+        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
-+            return;
-         }
-     } else {
-         uint32_t opcode32 = opcode;
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 75257f2b29..14bc013181 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -117,6 +117,8 @@ endif
- 
- %: %.c
- 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+%: %.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
- else
- # For softmmu targets we include a different Makefile fragement as the
- # build options for bare programs are usually pretty different. They
-diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
-index b5b89dfb0e..9973ba3b5f 100644
---- a/tests/tcg/riscv64/Makefile.target
-+++ b/tests/tcg/riscv64/Makefile.target
-@@ -4,3 +4,8 @@
- VPATH += $(SRC_PATH)/tests/tcg/riscv64
- TESTS += test-div
- TESTS += noexec
-+
-+# Disable compressed instructions for test-noc
-+TESTS += test-noc
-+test-noc: LDFLAGS = -nostdlib -static
-+run-test-noc: QEMU_OPTS += -cpu rv64,c=false
-diff --git a/tests/tcg/riscv64/test-noc.S b/tests/tcg/riscv64/test-noc.S
-new file mode 100644
-index 0000000000..e29d60c8b3
---- /dev/null
-+++ b/tests/tcg/riscv64/test-noc.S
-@@ -0,0 +1,32 @@
-+#include <asm/unistd.h>
-+
-+	.text
-+	.globl _start
-+_start:
-+	.option	norvc
-+	li	a0, 4		/* SIGILL */
-+	la	a1, sa
-+	li	a2, 0
-+	li	a3, 8
-+	li	a7, __NR_rt_sigaction
-+	scall
-+
-+	.option	rvc
-+	li	a0, 1
-+	j	exit
-+	.option	norvc
-+
-+pass:
-+	li	a0, 0
-+exit:
-+	li	a7, __NR_exit
-+	scall
-+
-+	.data
-+	/* struct kernel_sigaction sa = { .sa_handler = pass }; */
-+	.type	sa, @object
-+	.size	sa, 32
-+sa:
-+	.dword	pass
-+	.zero	24
-+
+Boot from SD card has been tested with Cubieboard Armbian SD card image and custom
+Yocto image built for Cubieboard.
+Example usage for Armbian image:
+qemu-system-arm -M cubieboard -nographic -sd ~/Armbian_22.11.0-trunk_Cubieboard_kinetic_edge_6.0.7.img
+
+
+Strahinja Jankovic (6):
+  hw/misc: Allwinner-A10 Clock Controller Module Emulation
+  hw/misc: Allwinner A10 DRAM Controller Emulation
+  hw/i2c: Allwinner TWI/I2C Emulation
+  hw/misc: Allwinner AXP-209 Emulation
+  hw/arm: Add AXP-209 to Cubieboard
+  hw/arm: Allwinner A10 enable SPL load from MMC
+
+ hw/arm/Kconfig                        |   5 +
+ hw/arm/allwinner-a10.c                |  40 +++
+ hw/arm/allwinner-h3.c                 |  11 +-
+ hw/arm/cubieboard.c                   |  11 +
+ hw/i2c/Kconfig                        |   4 +
+ hw/i2c/allwinner-i2c.c                | 417 ++++++++++++++++++++++++++
+ hw/i2c/meson.build                    |   1 +
+ hw/misc/Kconfig                       |  10 +
+ hw/misc/allwinner-a10-ccm.c           | 224 ++++++++++++++
+ hw/misc/allwinner-a10-dramc.c         | 179 +++++++++++
+ hw/misc/allwinner-axp-209.c           | 263 ++++++++++++++++
+ hw/misc/meson.build                   |   3 +
+ include/hw/arm/allwinner-a10.h        |  27 ++
+ include/hw/arm/allwinner-h3.h         |   3 +
+ include/hw/i2c/allwinner-i2c.h        | 112 +++++++
+ include/hw/misc/allwinner-a10-ccm.h   |  67 +++++
+ include/hw/misc/allwinner-a10-dramc.h |  68 +++++
+ 17 files changed, 1444 insertions(+), 1 deletion(-)
+ create mode 100644 hw/i2c/allwinner-i2c.c
+ create mode 100644 hw/misc/allwinner-a10-ccm.c
+ create mode 100644 hw/misc/allwinner-a10-dramc.c
+ create mode 100644 hw/misc/allwinner-axp-209.c
+ create mode 100644 include/hw/i2c/allwinner-i2c.h
+ create mode 100644 include/hw/misc/allwinner-a10-ccm.h
+ create mode 100644 include/hw/misc/allwinner-a10-dramc.h
+
 -- 
-2.34.1
+2.30.2
 
 
