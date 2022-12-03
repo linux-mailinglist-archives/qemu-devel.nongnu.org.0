@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCA3641517
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 09:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5C8641522
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 10:02:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1OJo-0005iW-Hj; Sat, 03 Dec 2022 03:56:20 -0500
+	id 1p1OP9-0006gz-V1; Sat, 03 Dec 2022 04:01:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1OJk-0005iG-IP
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 03:56:16 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1OOz-0006gf-78
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:01:42 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1OJi-0004vi-Ht
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 03:56:16 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1OOx-00075f-IK
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:01:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670057773;
+ s=mimecast20190719; t=1670058098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wx165Nv6R1x4VKnoEs06XYG0xRVQTSKb4d8bDrCKqwQ=;
- b=TIfi09Xs3woQufICDnh4domHmvb7qh6EViUM/ntKNatdXX7C/VoD2N/CRfdXyVY3GjI3+k
- 9Z3e6VCeTgLWtV6TFEjQ48a2l7nKrhGuTRyc8zfzjbRoNNVPuAMQnvYMFuVFbZ8FILuW2I
- lGqjXq2E3vY4cJyydrS23gCS8Ku3FFM=
+ bh=8wN3FHjBo2Ln/zZhXvSKicDfPOZ0a6g1aM7rCxB+fRE=;
+ b=bDP+Zk9zcYdx0Z1phvrU07ypbfZAiGJ89tsm1jKC+zdaqJHdPJ5Z5MCD0nUospNpBfFRLZ
+ jS5I0gqDC1D6pCLyFdYNUvMTxI0qlz0/PoO37hm/n4HRnR9m5Zq2Og9KYQepljivkkLDFx
+ aSbPosr9HPBTuu7FekXszj0x4AQYDgc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-66-gM5EQfgRNf-2yug-Iaz55Q-1; Sat, 03 Dec 2022 03:56:10 -0500
-X-MC-Unique: gM5EQfgRNf-2yug-Iaz55Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-444-C03N_4r0N76pxVQrL_GuLw-1; Sat, 03 Dec 2022 04:01:32 -0500
+X-MC-Unique: C03N_4r0N76pxVQrL_GuLw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B12B2833B08;
- Sat,  3 Dec 2022 08:56:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B3291C0515C;
+ Sat,  3 Dec 2022 09:01:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A2FB1401C45;
- Sat,  3 Dec 2022 08:56:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C38C2166B2A;
+ Sat,  3 Dec 2022 09:01:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E975A21E6921; Sat,  3 Dec 2022 09:56:05 +0100 (CET)
+ id C7F1F21E6921; Sat,  3 Dec 2022 10:01:28 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Eric Blake
- <eblake@redhat.com>,  Juan Quintela <quintela@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,  Richard
- Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 01/11] dirtylimit: Fix overflow when computing MB
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
+ Vivier <laurent@vivier.eu>,  Eric Blake <eblake@redhat.com>,  Juan
+ Quintela <quintela@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 02/11] softmmu/dirtylimit: Add parameter check for
+ hmp "set_vcpu_dirty_limit"
 References: <cover.1669047366.git.huangy81@chinatelecom.cn>
  <cover.1669047366.git.huangy81@chinatelecom.cn>
- <73f83b1c55119851e5ac96ebe1d6b6c318e25771.1669047366.git.huangy81@chinatelecom.cn>
-Date: Sat, 03 Dec 2022 09:56:05 +0100
-In-Reply-To: <73f83b1c55119851e5ac96ebe1d6b6c318e25771.1669047366.git.huangy81@chinatelecom.cn>
- (huangy's message of "Mon, 21 Nov 2022 11:26:33 -0500")
-Message-ID: <87h6ycq316.fsf@pond.sub.org>
+ <56f207f3f962da7d90772cce1e724d50ba415d79.1669047366.git.huangy81@chinatelecom.cn>
+Date: Sat, 03 Dec 2022 10:01:28 +0100
+In-Reply-To: <56f207f3f962da7d90772cce1e724d50ba415d79.1669047366.git.huangy81@chinatelecom.cn>
+ (huangy's message of "Mon, 21 Nov 2022 11:26:34 -0500")
+Message-ID: <87bkokq2s7.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -91,19 +93,72 @@ huangy81@chinatelecom.cn writes:
 
 > From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
 >
-> overity points out a overflow problem when computing MB,
-
-Coverity
-
-> dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
-> multiplication will be done as a 32-bit operation, which
-> could overflow. Simplify the formula.
+> dirty_rate paraemter of hmp command "set_vcpu_dirty_limit" is invalid
+> if less than 0, so add parameter check for it.
 >
-> Meanwhile, fix spelling mistake of variable name.
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+> ---
+>  softmmu/dirtylimit.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+> index 940d238..c42eddd 100644
+> --- a/softmmu/dirtylimit.c
+> +++ b/softmmu/dirtylimit.c
+> @@ -515,6 +515,11 @@ void hmp_set_vcpu_dirty_limit(Monitor *mon, const QD=
+ict *qdict)
+   void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
+   {
+       int64_t dirty_rate =3D qdict_get_int(qdict, "dirty_rate");
+>      int64_t cpu_index =3D qdict_get_try_int(qdict, "cpu_index", -1);
+>      Error *err =3D NULL;
+>=20=20
+> +    if (dirty_rate < 0) {
+> +        monitor_printf(mon, "invalid dirty page limit %ld\n", dirty_rate=
+);
+
+Here, you use monitor_printf() to report an error, and ...
+
+> +        return;
+> +    }
+> +
+>      qmp_set_vcpu_dirty_limit(!!(cpu_index !=3D -1), cpu_index, dirty_rat=
+e, &err);
+>      if (err) {
+>          hmp_handle_error(mon, err);
+
+... here you use hmp_handle_error().  Suggest to use the latter
+consistently.
+
+           return;
+       }
+
+       monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
+                      "dirty limit for virtual CPU]\n");
+
+This prints unsolicited help how to read the setting every time you
+change it.  We don't that.  Please delete.
+
+   }
+
+Together, the function could look like this:
+
+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
+{
+    int64_t dirty_rate =3D qdict_get_int(qdict, "dirty_rate");
+    int64_t cpu_index =3D qdict_get_try_int(qdict, "cpu_index", -1);
+    Error *err =3D NULL;
+
+    if (dirty_rate < 0) {
+        error_setg(&err, "invalid dirty page limit %ld", dirty_rate);
+        goto out;
+    }
+
+    qmp_set_vcpu_dirty_limit(!!(cpu_index !=3D -1), cpu_index, dirty_rate, =
+&err);
+
+out:
+    hmp_handle_error(mon, err);
+}
 
 
