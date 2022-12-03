@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C25641802
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 18:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE2A641801
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 18:10:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1W1O-0000Nd-96; Sat, 03 Dec 2022 12:09:50 -0500
+	id 1p1W1Q-0000O6-RA; Sat, 03 Dec 2022 12:09:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1p1W1N-0000NV-1Y
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 12:09:49 -0500
+ id 1p1W1P-0000Ny-Hp
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 12:09:51 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1p1W1L-0006KP-Fm
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 12:09:48 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1p1W1N-0006Kj-PK
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 12:09:51 -0500
 HMM_SOURCE_IP: 172.18.0.218:60462.1823367042
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.43.82 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 4863D2800B5;
- Sun,  4 Dec 2022 01:09:43 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+ by chinatelecom.cn (HERMES) with SMTP id 8B5FB2800AF;
+ Sun,  4 Dec 2022 01:09:46 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
 Received: from  ([125.69.43.82])
- by app0025 with ESMTP id faabfa0c719e43519e0c2b9e3d093ece for
- qemu-devel@nongnu.org; Sun, 04 Dec 2022 01:09:46 CST
-X-Transaction-ID: faabfa0c719e43519e0c2b9e3d093ece
+ by app0025 with ESMTP id 930296473c4942679df9354fe692c7fb for
+ qemu-devel@nongnu.org; Sun, 04 Dec 2022 01:09:48 CST
+X-Transaction-ID: 930296473c4942679df9354fe692c7fb
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 125.69.43.82
 X-MEDUSA-Status: 0
@@ -38,20 +38,15 @@ Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
  Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH RESEND v3 02/10] softmmu/dirtylimit: Add parameter check for
- hmp "set_vcpu_dirty_limit"
-Date: Sun,  4 Dec 2022 01:09:05 +0800
-Message-Id: <266ed7f7d9f95089ab8e5582287fedadd10b1da1.1670087275.git.huangy81@chinatelecom.cn>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH RESEND v3 03/10] kvm: dirty-ring: Fix race with vcpu creation
+Date: Sun,  4 Dec 2022 01:09:06 +0800
+Message-Id: <1b3cb65e09304c3327121b89cb7387961a59c408.1670087275.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1670087275.git.huangy81@chinatelecom.cn>
 References: <cover.1670087275.git.huangy81@chinatelecom.cn>
 In-Reply-To: <cover.1670087275.git.huangy81@chinatelecom.cn>
 References: <cover.1670087275.git.huangy81@chinatelecom.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=42.123.76.219;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
@@ -74,47 +69,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+From: Peter Xu <peterx@redhat.com>
 
-dirty_rate paraemter of hmp command "set_vcpu_dirty_limit" is invalid
-if less than 0, so add parameter check for it.
+It's possible that we want to reap a dirty ring on a vcpu that is during
+creation, because the vcpu is put onto list (CPU_FOREACH visible) before
+initialization of the structures.  In this case:
 
-Note that this patch also delete the unsolicited help message and
-clean up the code.
+qemu_init_vcpu
+    x86_cpu_realizefn
+        cpu_exec_realizefn
+            cpu_list_add      <---- can be probed by CPU_FOREACH
+        qemu_init_vcpu
+            cpus_accel->create_vcpu_thread(cpu);
+                kvm_init_vcpu
+                    map kvm_dirty_gfns  <--- kvm_dirty_gfns valid
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Don't try to reap dirty ring on vcpus during creation or it'll crash.
+
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=2124756
+Reported-by: Xiaohui Li <xiaohli@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/dirtylimit.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ accel/kvm/kvm-all.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 940d238..53b66d5 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -515,14 +515,15 @@ void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-     int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-     Error *err = NULL;
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index f99b0be..ff26b07 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -683,6 +683,15 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
+     uint32_t ring_size = s->kvm_dirty_ring_size;
+     uint32_t count = 0, fetch = cpu->kvm_fetch_index;
  
--    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
--    if (err) {
--        hmp_handle_error(mon, err);
--        return;
-+    if (dirty_rate < 0) {
-+        error_setg(&err, "invalid dirty page limit %ld", dirty_rate);
-+        goto out;
-     }
- 
--    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
--                   "dirty limit for virtual CPU]\n");
-+    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
++    /*
++     * It's possible that we race with vcpu creation code where the vcpu is
++     * put onto the vcpus list but not yet initialized the dirty ring
++     * structures.  If so, skip it.
++     */
++    if (!cpu->created) {
++        return 0;
++    }
 +
-+out:
-+    hmp_handle_error(mon, err);
- }
+     assert(dirty_gfns && ring_size);
+     trace_kvm_dirty_ring_reap_vcpu(cpu->cpu_index);
  
- static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
 -- 
 1.8.3.1
 
