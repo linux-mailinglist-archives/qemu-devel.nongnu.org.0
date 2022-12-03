@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6AB6419FE
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 00:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E0C641A01
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 00:22:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1bnO-00008R-9L; Sat, 03 Dec 2022 18:19:46 -0500
+	id 1p1bnM-00006l-4r; Sat, 03 Dec 2022 18:19:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p1bnK-00005r-Go; Sat, 03 Dec 2022 18:19:42 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
+ id 1p1bnJ-000050-Li; Sat, 03 Dec 2022 18:19:41 -0500
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p1bnE-0001Zf-Cx; Sat, 03 Dec 2022 18:19:42 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id b3so12939651lfv.2;
- Sat, 03 Dec 2022 15:19:34 -0800 (PST)
+ id 1p1bnE-0001Zp-2w; Sat, 03 Dec 2022 18:19:41 -0500
+Received: by mail-lj1-x22e.google.com with SMTP id z24so9415794ljn.4;
+ Sat, 03 Dec 2022 15:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XnV+TZFkzPKalENrSUUllkmv+jvAdX/nYsq1z2cySqs=;
- b=gb1ySbSnyPUVspT5QyK9cJOYsGkXt4MaEazl2hMTJo+JUC3Ob7549M0tLP0M+ADc+U
- 6iiOmWFO0UEFPoNhHstzihzK+e7eIILJqQso1mBbcancTpOD+1wRw2O/VM01Rv2Kvcnq
- oMmMvlQnhYNJgSinOZxxBvJbyjB8E7TcxcfWNSRsjePnrDgtyBWRRU9J7xcn2hZKkynq
- p5KkfIUgqMzhI0525brmAks+UOOCDAp+CyyA196qRNUCrs6rKS5y1SZEtI2J8bT+8d0o
- Ukht31f/Qop6D+LNP25HkMjBNTWCCyJp5knIsYBJWn3EmHZkQPlSgMvuktn4NmWd1teP
- ZPSQ==
+ bh=OwV0IdsvFUwiwgonjdaaaLXb1o1stWZ7D+ZfqdOotso=;
+ b=DfNyQFZDAacO/eEk9RCnkYagW3UuKBOK7L+EIdeL1DxIjGPswjub5mXjmW0gDjEwvq
+ CQCqpFMXpVktK6I/TzzFRfkYorT5HRHfIjIlCx3P3FZu320fJ8Sy/TprnTfATTCDeY9w
+ t6EIx2fAMBd/BVVLJK4fUdtjL7VrbEq6of/IWk+bAZfVERFjIM2tlaYhKbg8X6zJVOco
+ O9/Umyd8zfRdUaj7AxMyHtnSZaod9p/NapkFVzhvqYrpdHLpiVFlGPscwW+cg2F7AV0d
+ QmKNXK61AShj+CD2nhvxkV5sL8rotYnsGDjm2PLVn4EMC+LaYlIuLTLQTNJ9mv59nS1e
+ mXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XnV+TZFkzPKalENrSUUllkmv+jvAdX/nYsq1z2cySqs=;
- b=RtfgjdtAWHal/4jzgiU6owVapGW5nI4Rh4YU6KObxUKbuSFsu8bHCEkYxIP+/xO3hh
- WgfHt20i5OjK1ecU0lvUh8d68ahbddeOjanIOuVRqj2NXeAxUu6n4Sx720Id6UjiPIGu
- lc1AnwwWgaHzDryxAJF1OsgQUmhMFESDIvZb7TvK+x76t1yybvRCsVoyNUiwjPxdduAR
- diPpHzIJSujxP18+tMpdL6kpuWI+FTdATpaeuiPgK4M5eyizH43D6zAeOx+SOn8U0bFt
- EZIrU+kAacGzxgPJEMD2xi6s+yM/Ig1w9eVciSSeAourzJkntTETalPUANBEqMM2Szes
- qncw==
-X-Gm-Message-State: ANoB5plNEc6vZxPEOceI3QMM4UcuADWK0vuOfHf0gtPabYed9WDyCDT3
- qaeS9UP1l/5GKxtJzbk95cmawEvOFyl2pyKR
-X-Google-Smtp-Source: AA0mqf7xKk0KBgRMhYaC5MQ6ocgYtYOqQO04Qg2Jo3mNyDz29fbwoQAIsPMTSB96yFS+OvFhsb8Slg==
-X-Received: by 2002:a05:6512:3982:b0:4b4:210d:7d2e with SMTP id
- j2-20020a056512398200b004b4210d7d2emr27228895lfu.450.1670109573230; 
- Sat, 03 Dec 2022 15:19:33 -0800 (PST)
+ bh=OwV0IdsvFUwiwgonjdaaaLXb1o1stWZ7D+ZfqdOotso=;
+ b=bb8lakH8V/1qF8D7RlJbA4vJfcOkOheoTCa7ZDx1CFir/W1JJLUH06yONTT2Fi/gwI
+ t56NLp7JVkvlusiwFkOhvmDjTl16CDgglIppyldnmT5JMxpDryzgCHRP/cJiqDM5KQ5H
+ u8wHnziHvcc8Aa+QTObMejsd4XcIwh5EXJ/UYaYpsgPvnfvftvkoSfVKxrcT8/T+4Kls
+ wWarcWatsZ5tAwLcwk2xz5Mi34CIVH7TI4+CD3x9+avJgpDhVYxJJPlL9D/nSl4l5bTR
+ bL80nb+DZ5JMIOMrkm3bLIotXfiV0Ef4W1d5WElIi7pVgZBmSiv5YkPI587DLH0F6wGM
+ ncHw==
+X-Gm-Message-State: ANoB5pk9d6MfosfzjvLQLXESKPG3gC+eUBAVb0FxHhhNFEi8HYi7uEfL
+ RbBZGzZSo710JCp2d7ZjbC8=
+X-Google-Smtp-Source: AA0mqf4GPTZCd7c/tbfjFbXvL6lcZUflF3jLynX1e/eVz0c50GCUpfZ9qYzBQIIsxVnly0rrsjAv+A==
+X-Received: by 2002:a2e:6812:0:b0:279:4159:ab79 with SMTP id
+ c18-20020a2e6812000000b002794159ab79mr19974345lja.144.1670109574001; 
+ Sat, 03 Dec 2022 15:19:34 -0800 (PST)
 Received: from penguin.lxd (213-67-202-254-no43.tbcn.telia.com.
  [213.67.202.254]) by smtp.googlemail.com with ESMTPSA id
- b27-20020a05651c033b00b002770e6c620bsm22623ljp.106.2022.12.03.15.19.32
+ b27-20020a05651c033b00b002770e6c620bsm22623ljp.106.2022.12.03.15.19.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Dec 2022 15:19:32 -0800 (PST)
+ Sat, 03 Dec 2022 15:19:33 -0800 (PST)
 From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
 X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: Beniamino Galvani <b.galvani@gmail.com>,
  Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: [PATCH 3/6] hw/i2c: Allwinner TWI/I2C Emulation
-Date: Sun,  4 Dec 2022 00:19:01 +0100
-Message-Id: <20221203231904.25155-4-strahinja.p.jankovic@gmail.com>
+Subject: [PATCH 4/6] hw/misc: Allwinner AXP-209 Emulation
+Date: Sun,  4 Dec 2022 00:19:02 +0100
+Message-Id: <20221203231904.25155-5-strahinja.p.jankovic@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
 References: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-lf1-x12a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-lj1-x22e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,749 +90,326 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch implements Allwinner TWI/I2C controller emulation. Only
-master-mode functionality is implemented.
-
-The SPL boot for Cubieboard expects AXP209 PMIC on TWI0/I2C0 bus, so this is
-first part enabling the TWI/I2C bus operation.
-
-Since both Allwinner A10 and H3 use the same module, it is added for
-both boards.
+This patch adds minimal support for AXP-209 PMU.
+Most important is chip ID since U-Boot SPL expects version 0x1. Besides
+the chip ID register, reset values for two more registers used by A10
+U-Boot SPL are covered.
 
 Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 ---
- hw/arm/Kconfig                 |   2 +
- hw/arm/allwinner-a10.c         |   8 +
- hw/arm/allwinner-h3.c          |  11 +-
- hw/i2c/Kconfig                 |   4 +
- hw/i2c/allwinner-i2c.c         | 417 +++++++++++++++++++++++++++++++++
- hw/i2c/meson.build             |   1 +
- include/hw/arm/allwinner-a10.h |   2 +
- include/hw/arm/allwinner-h3.h  |   3 +
- include/hw/i2c/allwinner-i2c.h | 112 +++++++++
- 9 files changed, 559 insertions(+), 1 deletion(-)
- create mode 100644 hw/i2c/allwinner-i2c.c
- create mode 100644 include/hw/i2c/allwinner-i2c.h
+ hw/arm/Kconfig              |   1 +
+ hw/misc/Kconfig             |   4 +
+ hw/misc/allwinner-axp-209.c | 263 ++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build         |   1 +
+ 4 files changed, 269 insertions(+)
+ create mode 100644 hw/misc/allwinner-axp-209.c
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 140f142ae5..eefe1fd134 100644
+index eefe1fd134..67c6e83fe6 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -322,6 +322,7 @@ config ALLWINNER_A10
-     select ALLWINNER_A10_CCM
+@@ -323,6 +323,7 @@ config ALLWINNER_A10
      select ALLWINNER_A10_DRAMC
      select ALLWINNER_EMAC
-+    select ALLWINNER_I2C
+     select ALLWINNER_I2C
++    select ALLWINNER_AXP_209
      select SERIAL
      select UNIMP
  
-@@ -329,6 +330,7 @@ config ALLWINNER_H3
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 052fb54310..3855d937fd 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -180,4 +180,8 @@ config ALLWINNER_A10_CCM
+ config ALLWINNER_A10_DRAMC
      bool
-     select ALLWINNER_A10_PIT
-     select ALLWINNER_SUN8I_EMAC
-+    select ALLWINNER_I2C
-     select SERIAL
-     select ARM_TIMER
-     select ARM_GIC
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index a5f7a36ac9..17e439777e 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -36,6 +36,7 @@
- #define AW_A10_OHCI_BASE        0x01c14400
- #define AW_A10_SATA_BASE        0x01c18000
- #define AW_A10_RTC_BASE         0x01c20d00
-+#define AW_A10_I2C0_BASE        0x01c2ac00
  
- static void aw_a10_init(Object *obj)
- {
-@@ -56,6 +57,8 @@ static void aw_a10_init(Object *obj)
- 
-     object_initialize_child(obj, "sata", &s->sata, TYPE_ALLWINNER_AHCI);
- 
-+    object_initialize_child(obj, "i2c0", &s->i2c0, TYPE_AW_I2C);
-+
-     if (machine_usb(current_machine)) {
-         int i;
- 
-@@ -176,6 +179,11 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-     /* RTC */
-     sysbus_realize(SYS_BUS_DEVICE(&s->rtc), &error_fatal);
-     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->rtc), 0, AW_A10_RTC_BASE, 10);
-+
-+    /* I2C */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->i2c0), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c0), 0, AW_A10_I2C0_BASE);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0, qdev_get_gpio_in(dev, 7));
- }
- 
- static void aw_a10_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-index 308ed15552..bfce3c8d92 100644
---- a/hw/arm/allwinner-h3.c
-+++ b/hw/arm/allwinner-h3.c
-@@ -53,6 +53,7 @@ const hwaddr allwinner_h3_memmap[] = {
-     [AW_H3_DEV_UART1]      = 0x01c28400,
-     [AW_H3_DEV_UART2]      = 0x01c28800,
-     [AW_H3_DEV_UART3]      = 0x01c28c00,
-+    [AW_H3_DEV_TWI0]       = 0x01c2ac00,
-     [AW_H3_DEV_EMAC]       = 0x01c30000,
-     [AW_H3_DEV_DRAMCOM]    = 0x01c62000,
-     [AW_H3_DEV_DRAMCTL]    = 0x01c63000,
-@@ -106,7 +107,6 @@ struct AwH3Unimplemented {
-     { "uart1",     0x01c28400, 1 * KiB },
-     { "uart2",     0x01c28800, 1 * KiB },
-     { "uart3",     0x01c28c00, 1 * KiB },
--    { "twi0",      0x01c2ac00, 1 * KiB },
-     { "twi1",      0x01c2b000, 1 * KiB },
-     { "twi2",      0x01c2b400, 1 * KiB },
-     { "scr",       0x01c2c400, 1 * KiB },
-@@ -150,6 +150,7 @@ enum {
-     AW_H3_GIC_SPI_UART1     =  1,
-     AW_H3_GIC_SPI_UART2     =  2,
-     AW_H3_GIC_SPI_UART3     =  3,
-+    AW_H3_GIC_SPI_TWI0      =  6,
-     AW_H3_GIC_SPI_TIMER0    = 18,
-     AW_H3_GIC_SPI_TIMER1    = 19,
-     AW_H3_GIC_SPI_MMC0      = 60,
-@@ -225,6 +226,8 @@ static void allwinner_h3_init(Object *obj)
-                               "ram-size");
- 
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_AW_RTC_SUN6I);
-+
-+    object_initialize_child(obj, "twi0", &s->i2c0, TYPE_AW_I2C);
- }
- 
- static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-@@ -423,6 +426,12 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->rtc), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->rtc), 0, s->memmap[AW_H3_DEV_RTC]);
- 
-+    /* I2C */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->i2c0), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c0), 0, s->memmap[AW_H3_DEV_TWI0]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0,
-+                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI0));
-+
-     /* Unimplemented devices */
-     for (i = 0; i < ARRAY_SIZE(unimplemented); i++) {
-         create_unimplemented_device(unimplemented[i].device_name,
-diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
-index 9bb8870517..f8ec461be3 100644
---- a/hw/i2c/Kconfig
-+++ b/hw/i2c/Kconfig
-@@ -34,6 +34,10 @@ config MPC_I2C
-     bool
-     select I2C
- 
-+config ALLWINNER_I2C
++config ALLWINNER_AXP_209
 +    bool
-+    select I2C
++    depends on I2C
 +
- config PCA954X
-     bool
-     select I2C
-diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
+ source macio/Kconfig
+diff --git a/hw/misc/allwinner-axp-209.c b/hw/misc/allwinner-axp-209.c
 new file mode 100644
-index 0000000000..4c9080a18b
+index 0000000000..229e3961b6
 --- /dev/null
-+++ b/hw/i2c/allwinner-i2c.c
-@@ -0,0 +1,417 @@
++++ b/hw/misc/allwinner-axp-209.c
+@@ -0,0 +1,263 @@
 +/*
-+ *  Allwinner I2C Bus Serial Interface Emulation
++ * AXP-209 Emulation
 + *
-+ *  Copyright (C) 2022 Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
++ * Written by Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 + *
-+ *  This file is derived from IMX I2C controller,
-+ *  by Jean-Christophe DUBOIS .
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
 + *
-+ *  This program is free software; you can redistribute it and/or modify it
-+ *  under the terms of the GNU General Public License as published by the
-+ *  Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
 + *
-+ *  This program is distributed in the hope that it will be useful, but WITHOUT
-+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ *  for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License along
-+ *  with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++ * DEALINGS IN THE SOFTWARE.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/i2c/allwinner-i2c.h"
-+#include "hw/irq.h"
-+#include "migration/vmstate.h"
-+#include "hw/i2c/i2c.h"
 +#include "qemu/log.h"
-+#include "qemu/module.h"
++#include "hw/i2c/i2c.h"
++#include "migration/vmstate.h"
 +
-+#ifndef DEBUG_AW_I2C
-+#define DEBUG_AW_I2C 0
++#ifndef AXP_209_ERR_DEBUG
++#define AXP_209_ERR_DEBUG 0
 +#endif
 +
-+#define DPRINTF(fmt, args...) \
-+    do { \
-+        if (DEBUG_AW_I2C) { \
-+            fprintf(stderr, "[%s]%s: " fmt , TYPE_AW_I2C, \
-+                                             __func__, ##args); \
-+        } \
-+    } while (0)
++#define TYPE_AXP_209 "allwinner.axp209"
 +
-+/* Status value in STAT register is shifted by 3 bits */
-+#define TWI_STAT_SHIFT      3
-+#define STAT_FROM_STA(x)    ((x) << TWI_STAT_SHIFT)
-+#define STAT_TO_STA(x)      ((x) >> TWI_STAT_SHIFT)
++#define AXP_209(obj) \
++    OBJECT_CHECK(AXP209I2CState, (obj), TYPE_AXP_209)
++
++#define DB_PRINT(fmt, args...) do { \
++    if (AXP_209_ERR_DEBUG) { \
++        fprintf(stderr, "%s: " fmt, __func__, ## args); \
++    } \
++} while (0)
++
++/* registers */
 +enum {
-+    STAT_BUS_ERROR = 0,
-+    /* Master mode */
-+    STAT_M_STA_TX,
-+    STAT_M_RSTA_TX,
-+    STAT_M_ADDR_WR_ACK,
-+    STAT_M_ADDR_WR_NACK,
-+    STAT_M_DATA_TX_ACK,
-+    STAT_M_DATA_TX_NACK,
-+    STAT_M_ARB_LOST,
-+    STAT_M_ADDR_RD_ACK,
-+    STAT_M_ADDR_RD_NACK,
-+    STAT_M_DATA_RX_ACK,
-+    STAT_M_DATA_RX_NACK,
-+    /* Slave mode */
-+    STAT_S_ADDR_WR_ACK,
-+    STAT_S_ARB_LOST_AW_ACK,
-+    STAT_S_GCA_ACK,
-+    STAT_S_ARB_LOST_GCA_ACK,
-+    STAT_S_DATA_RX_SA_ACK,
-+    STAT_S_DATA_RX_SA_NACK,
-+    STAT_S_DATA_RX_GCA_ACK,
-+    STAT_S_DATA_RX_GCA_NACK,
-+    STAT_S_STP_RSTA,
-+    STAT_S_ADDR_RD_ACK,
-+    STAT_S_ARB_LOST_AR_ACK,
-+    STAT_S_DATA_TX_ACK,
-+    STAT_S_DATA_TX_NACK,
-+    STAT_S_LB_TX_ACK,
-+    /* Master mode, 10-bit */
-+    STAT_M_2ND_ADDR_WR_ACK,
-+    STAT_M_2ND_ADDR_WR_NACK,
-+    /* Idle */
-+    STAT_IDLE = 0x1f
-+} TWI_STAT_STA;
-+
-+static const char *allwinner_i2c_get_regname(unsigned offset)
-+{
-+    switch (offset) {
-+    case TWI_ADDR_REG:
-+        return "ADDR";
-+    case TWI_XADDR_REG:
-+        return "XADDR";
-+    case TWI_DATA_REG:
-+        return "DATA";
-+    case TWI_CNTR_REG:
-+        return "CNTR";
-+    case TWI_STAT_REG:
-+        return "STAT";
-+    case TWI_CCR_REG:
-+        return "CCR";
-+    case TWI_SRST_REG:
-+        return "SRST";
-+    case TWI_EFR_REG:
-+        return "EFR";
-+    case TWI_LCR_REG:
-+        return "LCR";
-+    default:
-+        return "[?]";
-+    }
-+}
-+
-+static inline bool allwinner_i2c_is_reset(AWI2CState *s)
-+{
-+    return s->srst & TWI_SRST_MASK;
-+}
-+
-+static inline bool allwinner_i2c_bus_is_enabled(AWI2CState *s)
-+{
-+    return s->cntr & TWI_CNTR_BUS_EN;
-+}
-+
-+static inline bool allwinner_i2c_interrupt_is_enabled(AWI2CState *s)
-+{
-+    return s->cntr & TWI_CNTR_INT_EN;
-+}
-+
-+static void allwinner_i2c_reset_hold(Object *obj)
-+{
-+    AWI2CState *s = AW_I2C(obj);
-+
-+    if (STAT_TO_STA(s->stat) != STAT_IDLE) {
-+        i2c_end_transfer(s->bus);
-+    }
-+
-+    s->addr  = TWI_ADDR_RESET;
-+    s->xaddr = TWI_XADDR_RESET;
-+    s->data  = TWI_DATA_RESET;
-+    s->cntr  = TWI_CNTR_RESET;
-+    s->stat  = TWI_STAT_RESET;
-+    s->ccr   = TWI_CCR_RESET;
-+    s->srst  = TWI_SRST_RESET;
-+    s->efr   = TWI_EFR_RESET;
-+    s->lcr   = TWI_LCR_RESET;
-+}
-+
-+static inline void allwinner_i2c_raise_interrupt(AWI2CState *s)
-+{
-+    /*
-+     * Raise an interrupt if the device is not reset and it is configured
-+     * to generate some interrupts.
-+     */
-+    if (!allwinner_i2c_is_reset(s) && allwinner_i2c_bus_is_enabled(s)) {
-+        if (STAT_TO_STA(s->stat) != STAT_IDLE) {
-+            s->cntr |= TWI_CNTR_INT_FLAG;
-+            if (allwinner_i2c_interrupt_is_enabled(s)) {
-+                qemu_irq_raise(s->irq);
-+            }
-+        }
-+    }
-+}
-+
-+static uint64_t allwinner_i2c_read(void *opaque, hwaddr offset,
-+                                   unsigned size)
-+{
-+    uint16_t value;
-+    AWI2CState *s = AW_I2C(opaque);
-+
-+    switch (offset) {
-+    case TWI_ADDR_REG:
-+        value = s->addr;
-+        break;
-+    case TWI_XADDR_REG:
-+        value = s->xaddr;
-+        break;
-+    case TWI_DATA_REG:
-+        switch (STAT_TO_STA(s->stat)) {
-+        case STAT_M_ADDR_RD_ACK:
-+        case STAT_M_DATA_RX_ACK:
-+        case STAT_M_DATA_RX_NACK:
-+            /* get the next byte */
-+            s->data = i2c_recv(s->bus);
-+
-+            if (s->cntr & TWI_CNTR_A_ACK) {
-+                s->stat = STAT_FROM_STA(STAT_M_DATA_RX_ACK);
-+            } else {
-+                s->stat = STAT_FROM_STA(STAT_M_DATA_RX_NACK);
-+            }
-+            allwinner_i2c_raise_interrupt(s);
-+            break;
-+        default:
-+            break;
-+        }
-+        value = s->data;
-+        break;
-+    case TWI_CNTR_REG:
-+        value = s->cntr;
-+        break;
-+    case TWI_STAT_REG:
-+        value = s->stat;
-+        /*
-+         * If polling when reading then change state to indicate data
-+         * is available
-+         */
-+        if (STAT_TO_STA(s->stat) == STAT_M_ADDR_RD_ACK) {
-+            if (s->cntr & TWI_CNTR_A_ACK) {
-+                s->stat = STAT_FROM_STA(STAT_M_DATA_RX_ACK);
-+            } else {
-+                s->stat = STAT_FROM_STA(STAT_M_DATA_RX_NACK);
-+            }
-+            allwinner_i2c_raise_interrupt(s);
-+        }
-+        break;
-+    case TWI_CCR_REG:
-+        value = s->ccr;
-+        break;
-+    case TWI_SRST_REG:
-+        value = s->srst;
-+        break;
-+    case TWI_EFR_REG:
-+        value = s->efr;
-+        break;
-+    case TWI_LCR_REG:
-+        value = s->lcr;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Bad address at offset 0x%"
-+                      HWADDR_PRIx "\n", TYPE_AW_I2C, __func__, offset);
-+        value = 0;
-+        break;
-+    }
-+
-+    DPRINTF("read %s [0x%" HWADDR_PRIx "] -> 0x%02x\n",
-+            allwinner_i2c_get_regname(offset), offset, value);
-+
-+    return (uint64_t)value;
-+}
-+
-+static void allwinner_i2c_write(void *opaque, hwaddr offset,
-+                                uint64_t value, unsigned size)
-+{
-+    AWI2CState *s = AW_I2C(opaque);
-+
-+    DPRINTF("write %s [0x%" HWADDR_PRIx "] <- 0x%02x\n",
-+            allwinner_i2c_get_regname(offset), offset, (int)value);
-+
-+    value &= 0xff;
-+
-+    switch (offset) {
-+    case TWI_ADDR_REG:
-+        s->addr = (uint8_t)value;
-+        break;
-+    case TWI_XADDR_REG:
-+        s->xaddr = (uint8_t)value;
-+        break;
-+    case TWI_DATA_REG:
-+        /* If the device is in reset or not enabled, nothing to do */
-+        if (allwinner_i2c_is_reset(s) || (!allwinner_i2c_bus_is_enabled(s))) {
-+            break;
-+        }
-+
-+        s->data = value & TWI_DATA_MASK;
-+
-+        switch (STAT_TO_STA(s->stat)) {
-+        case STAT_M_STA_TX:
-+        case STAT_M_RSTA_TX:
-+            /* Send address */
-+            if (i2c_start_transfer(s->bus, extract32(s->data, 1, 7),
-+                                extract32(s->data, 0, 1))) {
-+                /* If non zero is returned, the address is not valid */
-+                s->stat = STAT_FROM_STA(STAT_M_ADDR_WR_NACK);
-+            } else {
-+                /* Determine if read of write */
-+                if (extract32(s->data, 0, 1)) {
-+                    s->stat = STAT_FROM_STA(STAT_M_ADDR_RD_ACK);
-+                } else {
-+                    s->stat = STAT_FROM_STA(STAT_M_ADDR_WR_ACK);
-+                }
-+                allwinner_i2c_raise_interrupt(s);
-+            }
-+            break;
-+        case STAT_M_ADDR_WR_ACK:
-+        case STAT_M_DATA_TX_ACK:
-+            if (i2c_send(s->bus, s->data)) {
-+                /* If the target return non zero then end the transfer */
-+                s->stat = STAT_FROM_STA(STAT_M_DATA_TX_NACK);
-+                i2c_end_transfer(s->bus);
-+            } else {
-+                s->stat = STAT_FROM_STA(STAT_M_DATA_TX_ACK);
-+                allwinner_i2c_raise_interrupt(s);
-+            }
-+            break;
-+        default:
-+            break;
-+        }
-+        break;
-+    case TWI_CNTR_REG:
-+        if (!allwinner_i2c_is_reset(s)) {
-+            /* Do something only if not in software reset */
-+            s->cntr = value & TWI_CNTR_MASK;
-+
-+            /* Check if start condition should be sent */
-+            if (s->cntr & TWI_CNTR_M_STA) {
-+                /* Update status */
-+                if (STAT_TO_STA(s->stat) == STAT_IDLE) {
-+                    /* Send start condition */
-+                    s->stat = STAT_FROM_STA(STAT_M_STA_TX);
-+                } else {
-+                    /* Send repeated start condition */
-+                    s->stat = STAT_FROM_STA(STAT_M_RSTA_TX);
-+                }
-+                /* Clear start condition */
-+                s->cntr &= ~TWI_CNTR_M_STA;
-+            }
-+            if (s->cntr & TWI_CNTR_M_STP) {
-+                /* Update status */
-+                i2c_end_transfer(s->bus);
-+                s->stat = STAT_FROM_STA(STAT_IDLE);
-+                s->cntr &= ~TWI_CNTR_M_STP;
-+            }
-+            if ((s->cntr & TWI_CNTR_INT_FLAG) == 0) {
-+                /* Interrupt flag cleared */
-+                qemu_irq_lower(s->irq);
-+            }
-+            if ((s->cntr & TWI_CNTR_A_ACK) == 0) {
-+                if (STAT_TO_STA(s->stat) == STAT_M_DATA_RX_ACK) {
-+                    s->stat = STAT_FROM_STA(STAT_M_DATA_RX_NACK);
-+                }
-+            } else {
-+                if (STAT_TO_STA(s->stat) == STAT_M_DATA_RX_NACK) {
-+                    s->stat = STAT_FROM_STA(STAT_M_DATA_RX_ACK);
-+                }
-+            }
-+            allwinner_i2c_raise_interrupt(s);
-+
-+        }
-+        break;
-+    case TWI_CCR_REG:
-+        s->ccr = value & TWI_CCR_MASK;
-+        break;
-+    case TWI_SRST_REG:
-+        if (((value & TWI_SRST_MASK) == 0) && (s->srst & TWI_SRST_MASK)) {
-+            /* Perform reset */
-+            allwinner_i2c_reset_hold(OBJECT(s));
-+        }
-+        s->srst = value & TWI_SRST_MASK;
-+        break;
-+    case TWI_EFR_REG:
-+        s->efr = value & TWI_EFR_MASK;
-+        break;
-+    case TWI_LCR_REG:
-+        s->lcr = value & TWI_LCR_MASK;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Bad address at offset 0x%"
-+                      HWADDR_PRIx "\n", TYPE_AW_I2C, __func__, offset);
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps allwinner_i2c_ops = {
-+    .read = allwinner_i2c_read,
-+    .write = allwinner_i2c_write,
-+    .valid.min_access_size = 1,
-+    .valid.max_access_size = 4,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
++    REG_POWER_STATUS = 0x0u,
++    REG_OPERATING_MODE,
++    REG_OTG_VBUS_STATUS,
++    REG_CHIP_VERSION,
++    REG_DATA_CACHE_0,
++    REG_DATA_CACHE_1,
++    REG_DATA_CACHE_2,
++    REG_DATA_CACHE_3,
++    REG_DATA_CACHE_4,
++    REG_DATA_CACHE_5,
++    REG_DATA_CACHE_6,
++    REG_DATA_CACHE_7,
++    REG_DATA_CACHE_8,
++    REG_DATA_CACHE_9,
++    REG_DATA_CACHE_A,
++    REG_DATA_CACHE_B,
++    REG_POWER_OUTPUT_CTRL = 0x12u,
++    REG_DC_DC2_OUT_V_CTRL = 0x23u,
++    REG_DC_DC2_DVS_CTRL = 0x25u,
++    REG_DC_DC3_OUT_V_CTRL = 0x27u,
++    REG_LDO2_4_OUT_V_CTRL,
++    REG_LDO3_OUT_V_CTRL,
++    REG_VBUS_CH_MGMT = 0x30u,
++    REG_SHUTDOWN_V_CTRL,
++    REG_SHUTDOWN_CTRL,
++    REG_CHARGE_CTRL_1,
++    REG_CHARGE_CTRL_2,
++    REG_SPARE_CHARGE_CTRL,
++    REG_PEK_KEY_CTRL,
++    REG_DC_DC_FREQ_SET,
++    REG_CHR_TEMP_TH_SET,
++    REG_CHR_HIGH_TEMP_TH_CTRL,
++    REG_IPSOUT_WARN_L1,
++    REG_IPSOUT_WARN_L2,
++    REG_DISCHR_TEMP_TH_SET,
++    REG_DISCHR_HIGH_TEMP_TH_CTRL,
++    REG_IRQ_BANK_1_CTRL = 0x40u,
++    REG_IRQ_BANK_2_CTRL,
++    REG_IRQ_BANK_3_CTRL,
++    REG_IRQ_BANK_4_CTRL,
++    REG_IRQ_BANK_5_CTRL,
++    REG_IRQ_BANK_1_STAT = 0x48u,
++    REG_IRQ_BANK_2_STAT,
++    REG_IRQ_BANK_3_STAT,
++    REG_IRQ_BANK_4_STAT,
++    REG_IRQ_BANK_5_STAT,
++    REG_ADC_ACIN_V_H = 0x56u,
++    REG_ADC_ACIN_V_L,
++    REG_ADC_ACIN_CURR_H,
++    REG_ADC_ACIN_CURR_L,
++    REG_ADC_VBUS_V_H,
++    REG_ADC_VBUS_V_L,
++    REG_ADC_VBUS_CURR_H,
++    REG_ADC_VBUS_CURR_L,
++    REG_ADC_INT_TEMP_H,
++    REG_ADC_INT_TEMP_L,
++    REG_ADC_TEMP_SENS_V_H = 0x62u,
++    REG_ADC_TEMP_SENS_V_L,
++    REG_ADC_BAT_V_H = 0x78u,
++    REG_ADC_BAT_V_L,
++    REG_ADC_BAT_DISCHR_CURR_H,
++    REG_ADC_BAT_DISCHR_CURR_L,
++    REG_ADC_BAT_CHR_CURR_H,
++    REG_ADC_BAT_CHR_CURR_L,
++    REG_ADC_IPSOUT_V_H,
++    REG_ADC_IPSOUT_V_L,
++    REG_DC_DC_MOD_SEL = 0x80u,
++    REG_ADC_EN_1,
++    REG_ADC_EN_2,
++    REG_ADC_SR_CTRL,
++    REG_ADC_IN_RANGE,
++    REG_GPIO1_ADC_IRQ_RISING_TH,
++    REG_GPIO1_ADC_IRQ_FALLING_TH,
++    REG_TIMER_CTRL = 0x8au,
++    REG_VBUS_CTRL_MON_SRP,
++    REG_OVER_TEMP_SHUTDOWN = 0x8fu,
++    REG_GPIO0_FEAT_SET,
++    REG_GPIO_OUT_HIGH_SET,
++    REG_GPIO1_FEAT_SET,
++    REG_GPIO2_FEAT_SET,
++    REG_GPIO_SIG_STATE_SET_MON,
++    REG_GPIO3_SET,
++    REG_COULOMB_CNTR_CTRL = 0xb8u,
++    REG_POWER_MEAS_RES,
++    NR_REGS
 +};
 +
-+static const VMStateDescription allwinner_i2c_vmstate = {
-+    .name = TYPE_AW_I2C,
++#define AXP_209_CHIP_VERSION_ID             (0x01)
++#define AXP_209_DC_DC2_OUT_V_CTRL_RESET     (0x16)
++#define AXP_209_IRQ_BANK_1_CTRL_RESET       (0xd8)
++
++/* A simple I2C slave which returns values of ID or CNT register. */
++typedef struct AXP209I2CState {
++    /*< private >*/
++    I2CSlave i2c;
++    /*< public >*/
++    uint8_t regs[NR_REGS];  /* peripheral registers */
++    uint8_t ptr;            /* current register index */
++    uint8_t count;          /* counter used for tx/rx */
++} AXP209I2CState;
++
++/* Reset all counters and load ID register */
++static void axp_209_reset_enter(Object *obj, ResetType type)
++{
++    AXP209I2CState *s = AXP_209(obj);
++
++    memset(s->regs, 0, NR_REGS);
++    s->ptr = 0;
++    s->count = 0;
++    s->regs[REG_CHIP_VERSION] = AXP_209_CHIP_VERSION_ID;
++    s->regs[REG_DC_DC2_OUT_V_CTRL] = AXP_209_DC_DC2_OUT_V_CTRL_RESET;
++    s->regs[REG_IRQ_BANK_1_CTRL] = AXP_209_IRQ_BANK_1_CTRL_RESET;
++}
++
++/* Handle events from master. */
++static int axp_209_event(I2CSlave *i2c, enum i2c_event event)
++{
++    AXP209I2CState *s = AXP_209(i2c);
++
++    s->count = 0;
++
++    return 0;
++}
++
++/* Called when master requests read */
++static uint8_t axp_209_rx(I2CSlave *i2c)
++{
++    AXP209I2CState *s = AXP_209(i2c);
++    uint8_t ret = 0xff;
++
++    if (s->ptr < NR_REGS) {
++        ret = s->regs[s->ptr++];
++    }
++
++    DB_PRINT("Reading from %d : %d\n", s->ptr - 1, ret);
++
++    return ret;
++}
++
++/*
++ * Called when master sends write.
++ * Update ptr with byte 0, then perform write with second byte.
++ */
++static int axp_209_tx(I2CSlave *i2c, uint8_t data)
++{
++    AXP209I2CState *s = AXP_209(i2c);
++
++    if (s->count == 0) {
++        /* Store register address */
++        s->ptr = data;
++        s->count++;
++        DB_PRINT("Register to access %d\n", data);
++    } else {
++        DB_PRINT("Writing to register %d : %d\n", s->ptr, data);
++        if (s->ptr == REG_DC_DC2_OUT_V_CTRL) {
++            s->regs[s->ptr++] = data;
++        }
++    }
++
++    return 0;
++}
++
++/* Initialization */
++static void axp_209_init(Object *obj)
++{
++    AXP209I2CState *s = AXP_209(obj);
++
++    s->count = 0;
++    s->ptr = 0;
++    memset(s->regs, 0, NR_REGS);
++    s->regs[REG_CHIP_VERSION] = AXP_209_CHIP_VERSION_ID;
++    s->regs[REG_DC_DC2_OUT_V_CTRL] = 0x16;
++    s->regs[REG_IRQ_BANK_1_CTRL] = 0xd8;
++
++    DB_PRINT("INIT AXP209\n");
++
++    return;
++}
++
++static const VMStateDescription vmstate_axp_209 = {
++    .name = TYPE_AXP_209,
 +    .version_id = 1,
-+    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(addr, AWI2CState),
-+        VMSTATE_UINT8(xaddr, AWI2CState),
-+        VMSTATE_UINT8(data, AWI2CState),
-+        VMSTATE_UINT8(cntr, AWI2CState),
-+        VMSTATE_UINT8(ccr, AWI2CState),
-+        VMSTATE_UINT8(srst, AWI2CState),
-+        VMSTATE_UINT8(efr, AWI2CState),
-+        VMSTATE_UINT8(lcr, AWI2CState),
++        VMSTATE_UINT8_ARRAY(regs, AXP209I2CState, NR_REGS),
++        VMSTATE_UINT8(count, AXP209I2CState),
++        VMSTATE_UINT8(ptr, AXP209I2CState),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void allwinner_i2c_realize(DeviceState *dev, Error **errp)
++static void axp_209_class_init(ObjectClass *oc, void *data)
 +{
-+    AWI2CState *s = AW_I2C(dev);
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    I2CSlaveClass *isc = I2C_SLAVE_CLASS(oc);
++    ResettableClass *rc = RESETTABLE_CLASS(oc);
 +
-+    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_i2c_ops, s,
-+                          TYPE_AW_I2C, AW_I2C_MEM_SIZE);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
-+    s->bus = i2c_init_bus(dev, "i2c");
++    rc->phases.enter = axp_209_reset_enter;
++    dc->vmsd = &vmstate_axp_209;
++    isc->event = axp_209_event;
++    isc->recv = axp_209_rx;
++    isc->send = axp_209_tx;
 +}
 +
-+static void allwinner_i2c_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-+
-+    rc->phases.hold = allwinner_i2c_reset_hold;
-+    dc->vmsd = &allwinner_i2c_vmstate;
-+    dc->realize = allwinner_i2c_realize;
-+    dc->desc = "Allwinner I2C Controller";
-+}
-+
-+static const TypeInfo allwinner_i2c_type_info = {
-+    .name = TYPE_AW_I2C,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AWI2CState),
-+    .class_init = allwinner_i2c_class_init,
++static const TypeInfo axp_209_info = {
++    .name = TYPE_AXP_209,
++    .parent = TYPE_I2C_SLAVE,
++    .instance_size = sizeof(AXP209I2CState),
++    .instance_init = axp_209_init,
++    .class_init = axp_209_class_init
 +};
 +
-+static void allwinner_i2c_register_types(void)
++static void axp_209_register_devices(void)
 +{
-+    type_register_static(&allwinner_i2c_type_info);
++    type_register_static(&axp_209_info);
 +}
 +
-+type_init(allwinner_i2c_register_types)
-diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
-index d3df273251..7de7f2f540 100644
---- a/hw/i2c/meson.build
-+++ b/hw/i2c/meson.build
-@@ -8,6 +8,7 @@ i2c_ss.add(when: 'CONFIG_BITBANG_I2C', if_true: files('bitbang_i2c.c'))
- i2c_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_i2c.c'))
- i2c_ss.add(when: 'CONFIG_IMX_I2C', if_true: files('imx_i2c.c'))
- i2c_ss.add(when: 'CONFIG_MPC_I2C', if_true: files('mpc_i2c.c'))
-+i2c_ss.add(when: 'CONFIG_ALLWINNER_I2C', if_true: files('allwinner-i2c.c'))
- i2c_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('microbit_i2c.c'))
- i2c_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_smbus.c'))
- i2c_ss.add(when: 'CONFIG_SMBUS_EEPROM', if_true: files('smbus_eeprom.c'))
-diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
-index abe4ff7066..763935fca9 100644
---- a/include/hw/arm/allwinner-a10.h
-+++ b/include/hw/arm/allwinner-a10.h
-@@ -14,6 +14,7 @@
- #include "hw/rtc/allwinner-rtc.h"
- #include "hw/misc/allwinner-a10-ccm.h"
- #include "hw/misc/allwinner-a10-dramc.h"
-+#include "hw/i2c/allwinner-i2c.h"
++type_init(axp_209_register_devices);
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index d7f49f0f81..c85a0127fe 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -40,6 +40,7 @@ softmmu_ss.add(when: 'CONFIG_IVSHMEM_DEVICE', if_true: files('ivshmem.c'))
  
- #include "target/arm/cpu.h"
- #include "qom/object.h"
-@@ -39,6 +40,7 @@ struct AwA10State {
-     AwEmacState emac;
-     AllwinnerAHCIState sata;
-     AwSdHostState mmc0;
-+    AWI2CState i2c0;
-     AwRtcState rtc;
-     MemoryRegion sram_a;
-     EHCISysBusState ehci[AW_A10_NUM_USB];
-diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
-index 63025fb27c..1d7ce20589 100644
---- a/include/hw/arm/allwinner-h3.h
-+++ b/include/hw/arm/allwinner-h3.h
-@@ -47,6 +47,7 @@
- #include "hw/sd/allwinner-sdhost.h"
- #include "hw/net/allwinner-sun8i-emac.h"
- #include "hw/rtc/allwinner-rtc.h"
-+#include "hw/i2c/allwinner-i2c.h"
- #include "target/arm/cpu.h"
- #include "sysemu/block-backend.h"
- 
-@@ -82,6 +83,7 @@ enum {
-     AW_H3_DEV_UART2,
-     AW_H3_DEV_UART3,
-     AW_H3_DEV_EMAC,
-+    AW_H3_DEV_TWI0,
-     AW_H3_DEV_DRAMCOM,
-     AW_H3_DEV_DRAMCTL,
-     AW_H3_DEV_DRAMPHY,
-@@ -130,6 +132,7 @@ struct AwH3State {
-     AwH3SysCtrlState sysctrl;
-     AwSidState sid;
-     AwSdHostState mmc0;
-+    AWI2CState i2c0;
-     AwSun8iEmacState emac;
-     AwRtcState rtc;
-     GICState gic;
-diff --git a/include/hw/i2c/allwinner-i2c.h b/include/hw/i2c/allwinner-i2c.h
-new file mode 100644
-index 0000000000..1e3169a5b9
---- /dev/null
-+++ b/include/hw/i2c/allwinner-i2c.h
-@@ -0,0 +1,112 @@
-+/*
-+ *  Allwinner I2C Bus Serial Interface registers definition
-+ *
-+ *  Copyright (C) 2022 Strahinja Jankovic. <strahinja.p.jankovic@gmail.com>
-+ *
-+ *  This file is derived from IMX I2C controller,
-+ *  by Jean-Christophe DUBOIS .
-+ *
-+ *  This program is free software; you can redistribute it and/or modify it
-+ *  under the terms of the GNU General Public License as published by the
-+ *  Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful, but WITHOUT
-+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ *  for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License along
-+ *  with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#ifndef ALLWINNER_I2C_H
-+#define ALLWINNER_I2C_H
-+
-+#include "hw/sysbus.h"
-+#include "qom/object.h"
-+
-+#define TYPE_AW_I2C "allwinner.i2c"
-+OBJECT_DECLARE_SIMPLE_TYPE(AWI2CState, AW_I2C)
-+
-+#define AW_I2C_MEM_SIZE         0x24
-+
-+/* Allwinner I2C memory map */
-+#define TWI_ADDR_REG            0x00  /* slave address register */
-+#define TWI_XADDR_REG           0x04  /* extended slave address register */
-+#define TWI_DATA_REG            0x08  /* data register */
-+#define TWI_CNTR_REG            0x0c  /* control register */
-+#define TWI_STAT_REG            0x10  /* status register */
-+#define TWI_CCR_REG             0x14  /* clock control register */
-+#define TWI_SRST_REG            0x18  /* software reset register */
-+#define TWI_EFR_REG             0x1c  /* enhance feature register */
-+#define TWI_LCR_REG             0x20  /* line control register */
-+
-+/* Used only in slave mode, do not set */
-+#define TWI_ADDR_RESET          0
-+#define TWI_XADDR_RESET         0
-+
-+/* Data register */
-+#define TWI_DATA_MASK           0xFF
-+#define TWI_DATA_RESET          0
-+
-+/* Control register */
-+#define TWI_CNTR_INT_EN         (1 << 7)
-+#define TWI_CNTR_BUS_EN         (1 << 6)
-+#define TWI_CNTR_M_STA          (1 << 5)
-+#define TWI_CNTR_M_STP          (1 << 4)
-+#define TWI_CNTR_INT_FLAG       (1 << 3)
-+#define TWI_CNTR_A_ACK          (1 << 2)
-+#define TWI_CNTR_MASK           0xFC
-+#define TWI_CNTR_RESET          0
-+
-+/* Status register */
-+#define TWI_STAT_MASK           0xF8
-+#define TWI_STAT_RESET          0xF8
-+
-+/* Clock register */
-+#define TWI_CCR_CLK_M_MASK      0x78
-+#define TWI_CCR_CLK_N_MASK      0x07
-+#define TWI_CCR_MASK            0x7F
-+#define TWI_CCR_RESET           0
-+
-+/* Soft reset */
-+#define TWI_SRST_MASK           0x01
-+#define TWI_SRST_RESET          0
-+
-+/* Enhance feature */
-+#define TWI_EFR_MASK            0x03
-+#define TWI_EFR_RESET           0
-+
-+/* Line control */
-+#define TWI_LCR_SCL_STATE       (1 << 5)
-+#define TWI_LCR_SDA_STATE       (1 << 4)
-+#define TWI_LCR_SCL_CTL         (1 << 3)
-+#define TWI_LCR_SCL_CTL_EN      (1 << 2)
-+#define TWI_LCR_SDA_CTL         (1 << 1)
-+#define TWI_LCR_SDA_CTL_EN      (1 << 0)
-+#define TWI_LCR_MASK            0x3F
-+#define TWI_LCR_RESET           0x3A
-+
-+struct AWI2CState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+
-+    /*< public >*/
-+    MemoryRegion iomem;
-+    I2CBus *bus;
-+    qemu_irq irq;
-+
-+    uint8_t addr;
-+    uint8_t xaddr;
-+    uint8_t data;
-+    uint8_t cntr;
-+    uint8_t stat;
-+    uint8_t ccr;
-+    uint8_t srst;
-+    uint8_t efr;
-+    uint8_t lcr;
-+};
-+
-+#endif /* ALLWINNER_I2C_H */
+ softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_CCM', if_true: files('allwinner-a10-ccm.c'))
+ softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_DRAMC', if_true: files('allwinner-a10-dramc.c'))
++softmmu_ss.add(when: 'CONFIG_ALLWINNER_AXP_209', if_true: files('allwinner-axp-209.c'))
+ softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-h3-ccu.c'))
+ specific_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-cpucfg.c'))
+ softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-h3-dramc.c'))
 -- 
 2.30.2
 
