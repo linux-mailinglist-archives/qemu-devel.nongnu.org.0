@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6C664152C
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 10:14:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7438564152D
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 10:14:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1Oax-0001fc-6u; Sat, 03 Dec 2022 04:14:03 -0500
+	id 1p1ObV-00028O-4L; Sat, 03 Dec 2022 04:14:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1Oau-0001fT-GW
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:14:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1Oas-0004k6-Du
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:13:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670058837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OvceZRkKvOPJfakrN4zUGvZw79x2SgjtCexydoFDtPA=;
- b=fV+e0+Y2n07s2jpF3RRCkewgpzVJq6n2gEtGoS6LcA6dHs6hPTzBVc7BiLjW2EnRPzYiX7
- lJyHvZqAL4g7jVUqUBOIR25K5xgLifOHn/88qjcmLQcUXolI3fZrC3cpPQOzSzIyatXzx0
- DJvM/bHXoRx+6zo08GMvqMkKLiLw7I0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-WUJ87E1dN1mONyKD-buHRg-1; Sat, 03 Dec 2022 04:13:53 -0500
-X-MC-Unique: WUJ87E1dN1mONyKD-buHRg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24F1B185A792;
- Sat,  3 Dec 2022 09:13:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA7E32166B2A;
- Sat,  3 Dec 2022 09:13:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D6F3321E6921; Sat,  3 Dec 2022 10:13:49 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Eric Blake
- <eblake@redhat.com>,  Juan Quintela <quintela@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,  Richard
- Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 05/11] qapi/migration: Introduce vcpu-dirty-limit
- parameters
-References: <cover.1669047366.git.huangy81@chinatelecom.cn>
- <cover.1669047366.git.huangy81@chinatelecom.cn>
- <3fe7b2324c350b65f2a6fe6e4c585e9de5402e0c.1669047366.git.huangy81@chinatelecom.cn>
-Date: Sat, 03 Dec 2022 10:13:49 +0100
-In-Reply-To: <3fe7b2324c350b65f2a6fe6e4c585e9de5402e0c.1669047366.git.huangy81@chinatelecom.cn>
- (huangy's message of "Mon, 21 Nov 2022 11:26:37 -0500")
-Message-ID: <87sfhwonn6.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1p1ObS-00024y-1l
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:14:34 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1p1ObP-0004mq-8h
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:14:33 -0500
+HMM_SOURCE_IP: 172.18.0.218:45228.1959027951
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.82 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id E293F2800B8;
+ Sat,  3 Dec 2022 17:14:09 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([125.69.43.82])
+ by app0025 with ESMTP id c35ac044745c41428bd4b7438b64e4e3 for
+ qemu-devel@nongnu.org; Sat, 03 Dec 2022 17:14:21 CST
+X-Transaction-ID: c35ac044745c41428bd4b7438b64e4e3
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 125.69.43.82
+X-MEDUSA-Status: 0
+Message-ID: <4578db86-2959-9bae-c28e-da7af162be71@chinatelecom.cn>
+Date: Sat, 3 Dec 2022 17:14:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 08/11] migration: Export dirty-limit time info
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <cover.1669047366.git.huangy81@chinatelecom.cn>
+ <513421b79099d7f73b3db227b5eb347fe9a3c241.1669047366.git.huangy81@chinatelecom.cn>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <513421b79099d7f73b3db227b5eb347fe9a3c241.1669047366.git.huangy81@chinatelecom.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.258,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,24 +72,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-huangy81@chinatelecom.cn writes:
 
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> Introduce "vcpu-dirty-limit" migration parameter used
-> to limit dirty page rate during live migration.
->
-> "vcpu-dirty-limit" and "x-vcpu-dirty-limit-period" are
-> two dirty-limit-related migration parameters, which can
-> be set before and during live migration by qmp
-> migrate-set-parameters.
->
-> This two parameters are used to help implement the dirty
-> page rate limit algo of migration.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
 
-Could you explain briefly why x-vcpu-dirty-limit-period is experimental,
-and vcpu-dirty-limit is not?
+在 2022/11/22 0:26, huangy81@chinatelecom.cn 写道:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> Export dirty limit throttle time and estimated ring full
+> time, through which we can observe the process of dirty
+> limit during live migration.
+> 
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> ---
+>   include/sysemu/dirtylimit.h |  2 ++
+>   migration/migration.c       | 10 ++++++++++
+>   monitor/hmp-cmds.c          | 10 ++++++++++
+>   qapi/migration.json         | 10 +++++++++-
+>   softmmu/dirtylimit.c        | 31 +++++++++++++++++++++++++++++++
+>   5 files changed, 62 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/sysemu/dirtylimit.h b/include/sysemu/dirtylimit.h
+> index 8d2c1f3..98cc4a6 100644
+> --- a/include/sysemu/dirtylimit.h
+> +++ b/include/sysemu/dirtylimit.h
+> @@ -34,4 +34,6 @@ void dirtylimit_set_vcpu(int cpu_index,
+>   void dirtylimit_set_all(uint64_t quota,
+>                           bool enable);
+>   void dirtylimit_vcpu_execute(CPUState *cpu);
+> +int64_t dirtylimit_throttle_us_per_full(void);
+> +int64_t dirtylimit_us_ring_full(void);
+>   #endif
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 096b61a..886c25d 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -62,6 +62,7 @@
+>   #include "yank_functions.h"
+>   #include "sysemu/qtest.h"
+>   #include "sysemu/kvm.h"
+> +#include "sysemu/dirtylimit.h"
+>   
+>   #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+>   
+> @@ -1112,6 +1113,15 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+>           info->ram->remaining = ram_bytes_remaining();
+>           info->ram->dirty_pages_rate = ram_counters.dirty_pages_rate;
+>       }
+> +
+> +    if (migrate_dirty_limit() && dirtylimit_in_service()) {
+> +        info->has_dirty_limit_throttle_us_per_full = true;
+> +        info->dirty_limit_throttle_us_per_full =
+> +                            dirtylimit_throttle_us_per_full();
+> +
+> +        info->has_dirty_limit_us_ring_full = true;
+> +        info->dirty_limit_us_ring_full = dirtylimit_us_ring_full();
+> +    }
+>   }
+>   
+>   static void populate_disk_info(MigrationInfo *info)
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 9ad6ee5..9d02baf 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -339,6 +339,16 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+>                          info->cpu_throttle_percentage);
+>       }
+>   
+> +    if (info->has_dirty_limit_throttle_us_per_full) {
+> +        monitor_printf(mon, "dirty-limit throttle time: %" PRIi64 " us\n",
+> +                       info->dirty_limit_throttle_us_per_full);
+> +    }
+> +
+> +    if (info->has_dirty_limit_us_ring_full) {
+> +        monitor_printf(mon, "dirty-limit ring full time: %" PRIi64 " us\n",
+> +                       info->dirty_limit_us_ring_full);
+> +    }
+> +
+>       if (info->has_postcopy_blocktime) {
+>           monitor_printf(mon, "postcopy blocktime: %u\n",
+>                          info->postcopy_blocktime);
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index af6b2da..62db5cb 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -242,6 +242,12 @@
+>   #                   Present and non-empty when migration is blocked.
+>   #                   (since 6.0)
+>   #
+> +# @dirty-limit-throttle-us-per-full: Throttle time (us) during the period of
+> +#                                    dirty ring full (since 7.1)
+> +# > +# @dirty-limit-us-ring-full: Estimated periodic time (us) of dirty 
+ring full.
+> +#                            (since 7.1)
+How about the following documents:
 
+# @dirty-limit-throttletime-each-round: Max throttle time (us) of all 
+virtual CPUs each dirty ring
+#                                       full round, used to observe if 
+dirty-limit take effect
+#                                       during live migration. (since 7.3)
+#
+# @dirty-limit-ring-full-time: Estimated average dirty ring full time 
+(us) each round, note that
+#                              the value equals dirty ring memory size 
+divided by average dirty
+#                              page rate of virtual CPU, which can be 
+used to observe the average
+#                              memory load of virtual CPU indirectly. 
+(since 7.3)
+
+Is it more easy-understanding ?
+> +#
+>   # Since: 0.14
+>   ##
+>   { 'struct': 'MigrationInfo',
+> @@ -259,7 +265,9 @@
+>              '*postcopy-blocktime' : 'uint32',
+>              '*postcopy-vcpu-blocktime': ['uint32'],
+>              '*compression': 'CompressionStats',
+> -           '*socket-address': ['SocketAddress'] } }
+> +           '*socket-address': ['SocketAddress'],
+> +           '*dirty-limit-throttle-us-per-full': 'int64',
+> +           '*dirty-limit-us-ring-full': 'int64'} }
+>  >   ##
+>   # @query-migrate:
+> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+> index 3f3c405..9d1df9b 100644
+> --- a/softmmu/dirtylimit.c
+> +++ b/softmmu/dirtylimit.c
+> @@ -573,6 +573,37 @@ static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
+>       return info;
+>   }
+>   
+> +/* Pick up first vcpu throttle time by default */
+> +int64_t dirtylimit_throttle_us_per_full(void)
+> +{
+> +    CPUState *cpu = first_cpu;
+> +    return cpu->throttle_us_per_full;
+> +}
+> +
+> +/*
+> + * Estimate dirty ring full time under current dirty page rate.
+> + * Return -1 if guest doesn't dirty memory.
+> + */
+> +int64_t dirtylimit_us_ring_full(void)
+> +{
+> +    CPUState *cpu;
+> +    uint64_t curr_rate = 0;
+> +    int nvcpus = 0;
+> +
+> +    CPU_FOREACH(cpu) {
+> +        if (cpu->running) {
+> +            nvcpus++;
+> +            curr_rate += vcpu_dirty_rate_get(cpu->cpu_index);
+> +        }
+> +    }
+> +
+> +    if (!curr_rate || !nvcpus) {
+> +        return -1;
+> +    }
+> +
+> +    return dirtylimit_dirty_ring_full_time(curr_rate / nvcpus);
+> +}
+> +
+>   static struct DirtyLimitInfoList *dirtylimit_query_all(void)
+>   {
+>       int i, index;
 
