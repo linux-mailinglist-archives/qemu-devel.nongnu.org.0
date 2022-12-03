@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2848F6416E1
+	by mail.lfdr.de (Postfix) with ESMTPS id 228C96416E0
 	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 14:25:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1SV9-0008D6-Ay; Sat, 03 Dec 2022 08:24:19 -0500
+	id 1p1SVP-0008E6-Iz; Sat, 03 Dec 2022 08:24:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1p1SV6-0008CI-Ni
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 08:24:16 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1p1SVB-0008DV-By
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 08:24:22 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1p1SUr-0003Ce-15
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 08:24:16 -0500
-Received: by mail-pf1-x435.google.com with SMTP id 21so7352154pfw.4
- for <qemu-devel@nongnu.org>; Sat, 03 Dec 2022 05:24:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1p1SV9-0003If-TE
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 08:24:21 -0500
+Received: by mail-pl1-x636.google.com with SMTP id w23so7012426ply.12
+ for <qemu-devel@nongnu.org>; Sat, 03 Dec 2022 05:24:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=eWuLz03qEswZ6o7BB0b7vQiY8TUfIuu199usv0agUCE=;
- b=WMokU7VfEiQme4pO16BqUEOcuNjOzfOu0I9PMDFn7157F5ZQloeaS+QKyPQ7vAFCvM
- BMihR3wvoZw3NpWymtIaThVWAna5MBPg8i0vxuVnC9CARDSA3kzHLZGC0EzpOQR5eCoe
- gKjKsL+UjElHSeDtY7E9pFyWEBXKKlCrXo+PpbZGgTX5340OjCxkL5KQrUFqCpVZC9VW
- MJqM7dXp55n9UKTQWOue7ofiEIrJci7Azj4XcJw8K8Yze1lCiFyW7TJf7voAX2O4XXRz
- estqraMG3qWJ3fOzFHGLOkR/L7moGWVJJi+TeVGXhG8VkH/gPtl/lkDGy3rM9c7ZUWwL
- kypg==
+ bh=G8aYMJ/jpaZj1xkITSSGZmPe4Gw9fVXpb5ZDRlFXQJg=;
+ b=Pamkz9D4Gea+aRX9yWmfS0JEtGPn50zRc3rUaTGhzLgQcTIlp7CWQ+j9AFo+nVVkd8
+ 7RQIYDOfCzupcM+uiL5oBT+y8Kb33sIplyTdAvknUYABdxJIzrJgPY7w3wWEhTCT3eDV
+ mZTHXtz1mdke2jZprKElyUnXQwjfQNXrQGbFR5ieFc083u3AzvPm4GNJCo+YIRMzZYyV
+ vGckQizpZUn4EKsVMehtytg0A7rLEleeG/c0W6wtvdkRXLDQcAMp9JFH4Dof4/qaWDFG
+ DFOWgVEJsYUPS2W3VPfKGkLzDlGsGgnCn/q8NAoUWk/TFVr3+inGrnPIabxvJ2M5PeRu
+ lhZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=eWuLz03qEswZ6o7BB0b7vQiY8TUfIuu199usv0agUCE=;
- b=UBT0Zr5Yib+mDYigzh/zb9YJqRB1XX53gn96BsbrvyR52NbG/APPW8Md6SCO0VjvPm
- 83EmxVKDQ2AH+O+uRNpMhSDhz7GGNqDP+MdyVpbUji5FKnxFmGqbx3duIBHX6wyFB9rA
- 0OZNxc5N7+QAm9p94pCPo357Q1kwzGcMA7+ejieDXkE1wyC0WJkk0u7uJ6Vhv9oIrQL/
- GEccfavYkdvkgJB9H7hnOn4tUtvZMIlDrwoXoblHlGSAitumfPZjqMJ/zjW8SiyyuIkS
- 6WzGbX1wq/TeZGX3qcy0JyCtHhyRpwi2dO4AH7m2jjbFBhOp93Lsspm+mXxay75Uud3U
- PvTw==
-X-Gm-Message-State: ANoB5pk1ABDwMAV7peQ362MbwJRK6BUQkszX0ZMbeAKDGPOfoKN4o1fK
- IqLjlKuY4m9pSrRyg3RaZvylsA==
-X-Google-Smtp-Source: AA0mqf7gtZ/zOTn5NgjMHoMu0BiAqbkU5A7sxLHld4TGH4dNUF0nVQSMPluRNZ2zuB4AhDEci3v+wA==
-X-Received: by 2002:a63:1626:0:b0:470:2c90:d89f with SMTP id
- w38-20020a631626000000b004702c90d89fmr52257075pgl.253.1670073838871; 
- Sat, 03 Dec 2022 05:23:58 -0800 (PST)
+ bh=G8aYMJ/jpaZj1xkITSSGZmPe4Gw9fVXpb5ZDRlFXQJg=;
+ b=M5V8Zv/M89ZGB6MDNRX0ETVWB5xq1QIHlNx7/R2UtRuvrHb0ceO1Yg6kyASFOa+IgS
+ QdiQhNl8Vxj5nRyWyzh5GymUw2cYyCS/fkHh3zSWrR8J3UdhH3yulitC0Lj8M7RR4cz4
+ kUue/Q8H7sp6JKssgasnK4G4jUcwbej8rxGZYR2nURBs+fiZT/NWdBu0hrFgOq+CDGDI
+ maqJ/nKABmb3D7o9bYf1nv79IH/nA39gGjD81PjRU8SpwrG98rsvQ9mVOcoYYbmfNqbW
+ kpB9VG9WX0zZ4RUkhOwnWN01yp7KpYVjuQDtfSuVRiVJS9VOF1OQtSkx+3OAF2APpnlj
+ bCZA==
+X-Gm-Message-State: ANoB5pmIpi/7EmCsf6zjztDACrLoGB3jmw999NhUdalgLFlPCNzyW+hq
+ zBnGq9Jc8OKs1O/9sIWg7DtL/Q==
+X-Google-Smtp-Source: AA0mqf6ri7cjt2fUbfgF+bGSjs8rQ2SvBvL7CH78P3bM1UjIdJ16nkEZQPmiuCCe4YVZHtJ4SaoK6Q==
+X-Received: by 2002:a17:902:b493:b0:189:1120:17ab with SMTP id
+ y19-20020a170902b49300b00189112017abmr55910749plr.52.1670073858500; 
+ Sat, 03 Dec 2022 05:24:18 -0800 (PST)
 Received: from localhost.localdomain ([203.212.244.39])
  by smtp.googlemail.com with ESMTPSA id
- pc16-20020a17090b3b9000b00212cf2fe8c3sm10500276pjb.1.2022.12.03.05.23.56
+ d75-20020a621d4e000000b005622f99579esm715142pfd.160.2022.12.03.05.24.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Dec 2022 05:23:58 -0800 (PST)
+ Sat, 03 Dec 2022 05:24:18 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
-To: Ani Sinha <ani@anisinha.ca>,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] docs/acpi/bits: document BITS_DEBUG environment variable
-Date: Sat,  3 Dec 2022 13:23:46 +0000
-Message-Id: <20221203132346.34479-1-ani@anisinha.ca>
+To: Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH] acpi/tests/avocado/bits: add mformat as one of the
+ dependencies
+Date: Sat,  3 Dec 2022 13:24:07 +0000
+Message-Id: <20221203132407.34539-1-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::435;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x435.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::636;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,29 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Debug specific actions can be enabled in bios bits acpi tests by passing
-BITS_DEBUG in the environment variable while running the test. Document that.
+mformat is needed by grub-mkrescue and hence, add this as one of the
+dependencies to run bits tests. This avoids errors such as the following:
 
-CC: qemu-trivial@nongnu.org
+/var/tmp/acpi-bits-wju6tqoa.tmp/grub-inst-x86_64-efi/bin/grub-mkrescue: 360: mformat: not found
+
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- docs/devel/acpi-bits.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/avocado/acpi-bits.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-index 4a94c7d83d..9eb4b9e666 100644
---- a/docs/devel/acpi-bits.rst
-+++ b/docs/devel/acpi-bits.rst
-@@ -52,6 +52,9 @@ Under ``tests/avocado/`` as the root we have:
-    for their tests. In order to enable debugging, you can set **V=1**
-    environment variable. This enables verbose mode for the test and also dumps
-    the entire log from bios bits and more information in case failure happens.
-+   You can also set **BITS_DEBUG=1** to turn on debug mode. It will enable
-+   verbose logs and also retain the temporary work directory the test used for
-+   you to inspect and run the specific commands manually.
+diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+index 898c837f26..14038fa3c4 100644
+--- a/tests/avocado/acpi-bits.py
++++ b/tests/avocado/acpi-bits.py
+@@ -50,7 +50,7 @@
+ from avocado import skipIf
+ from avocado_qemu import QemuBaseTest
  
-    In order to run this test, please perform the following steps from the QEMU
-    build directory:
+-deps = ["xorriso"] # dependent tools needed in the test setup/box.
++deps = ["xorriso", "mformat"] # dependent tools needed in the test setup/box.
+ supported_platforms = ['x86_64'] # supported test platforms.
+ 
+ 
 -- 
 2.25.1
 
