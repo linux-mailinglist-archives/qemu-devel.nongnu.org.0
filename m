@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBED6417D4
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 17:41:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E336417D5
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 17:41:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1VY1-0001wM-6x; Sat, 03 Dec 2022 11:39:29 -0500
+	id 1p1VY4-0001y3-Q0; Sat, 03 Dec 2022 11:39:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1p1VXt-0001tl-Ny
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 11:39:23 -0500
+ id 1p1VXv-0001u1-Q7
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 11:39:24 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1p1VXr-0004n3-Lk
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 11:39:21 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1p1VXt-0004mW-5r
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 11:39:22 -0500
 HMM_SOURCE_IP: 172.18.0.218:35940.967913464
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.43.82 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 70DD22800B7;
- Sun,  4 Dec 2022 00:39:16 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 743952800B8;
+ Sun,  4 Dec 2022 00:39:18 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([125.69.43.82])
- by app0025 with ESMTP id 88071a57e9c54c67b25357178437ef12 for
- qemu-devel@nongnu.org; Sun, 04 Dec 2022 00:39:18 CST
-X-Transaction-ID: 88071a57e9c54c67b25357178437ef12
+ by app0025 with ESMTP id cfe31c6793af4709aa048bb34dca61e6 for
+ qemu-devel@nongnu.org; Sun, 04 Dec 2022 00:39:20 CST
+X-Transaction-ID: cfe31c6793af4709aa048bb34dca61e6
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 125.69.43.82
 X-MEDUSA-Status: 0
@@ -40,9 +40,9 @@ Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v3 06/10] migration: Introduce dirty-limit capability
-Date: Sun,  4 Dec 2022 00:38:51 +0800
-Message-Id: <b0331062f76f39256ce793801a125f8cc3ce90d2.1670085207.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v3 07/10] migration: Refactor auto-converge capability logic
+Date: Sun,  4 Dec 2022 00:38:52 +0800
+Message-Id: <b856c56e59904aa947f7a13ebae5e8f527c15fc9.1670085207.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1670085207.git.huangy81@chinatelecom.cn>
 References: <cover.1670085207.git.huangy81@chinatelecom.cn>
@@ -75,157 +75,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Introduce migration dirty-limit capability, which can
-be turned on before live migration and limit dirty
-page rate durty live migration.
+Check if block migration is running before throttling
+guest down in auto-converge way.
 
-Introduce migrate_dirty_limit function to help check
-if dirty-limit capability enabled during live migration.
-
-Meanwhile, refactor vcpu_dirty_rate_stat_collect
-so that period can be configured instead of hardcoded.
-
-dirty-limit capability is kind of like auto-converge
-but using dirty limit instead of traditional cpu-throttle
-to throttle guest down. To enable this feature, turn on
-the dirty-limit capability before live migration using
-migrate-set-capabilities, and set the parameters
-"x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
-to speed up convergence.
+Note that this modification is kind of like code clean,
+because block migration does not depend on auto-converge
+capability, so the order of checks can be adjusted.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Acked-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 25 +++++++++++++++++++++++++
- migration/migration.h |  1 +
- qapi/migration.json   |  4 +++-
- softmmu/dirtylimit.c  | 11 ++++++++++-
- 4 files changed, 39 insertions(+), 2 deletions(-)
+ migration/ram.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index fd11c63..702e7f4 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -61,6 +61,7 @@
- #include "sysemu/cpus.h"
- #include "yank_functions.h"
- #include "sysemu/qtest.h"
-+#include "sysemu/kvm.h"
- 
- #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
- 
-@@ -1366,6 +1367,20 @@ static bool migrate_caps_check(bool *cap_list,
-         }
-     }
- 
-+    if (cap_list[MIGRATION_CAPABILITY_DIRTY_LIMIT]) {
-+        if (cap_list[MIGRATION_CAPABILITY_AUTO_CONVERGE]) {
-+            error_setg(errp, "dirty-limit conflicts with auto-converge"
-+                       " only one of them is available currently");
-+            return false;
-+        }
-+
-+        if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+            error_setg(errp, "dirty-limit requires KVM with accelerator"
-+                   " property 'dirty-ring-size' set");
-+            return false;
-+        }
+diff --git a/migration/ram.c b/migration/ram.c
+index 1338e47..5e66652 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1151,7 +1151,11 @@ static void migration_trigger_throttle(RAMState *rs)
+     /* During block migration the auto-converge logic incorrectly detects
+      * that ram migration makes no progress. Avoid this by disabling the
+      * throttling logic during the bulk phase of block migration. */
+-    if (migrate_auto_converge() && !blk_mig_bulk_active()) {
++    if (blk_mig_bulk_active()) {
++        return;
 +    }
 +
-     return true;
- }
- 
-@@ -2544,6 +2559,15 @@ bool migrate_auto_converge(void)
-     return s->enabled_capabilities[MIGRATION_CAPABILITY_AUTO_CONVERGE];
- }
- 
-+bool migrate_dirty_limit(void)
-+{
-+    MigrationState *s;
-+
-+    s = migrate_get_current();
-+
-+    return s->enabled_capabilities[MIGRATION_CAPABILITY_DIRTY_LIMIT];
-+}
-+
- bool migrate_zero_blocks(void)
- {
-     MigrationState *s;
-@@ -4473,6 +4497,7 @@ static Property migration_properties[] = {
-     DEFINE_PROP_MIG_CAP("x-zero-copy-send",
-             MIGRATION_CAPABILITY_ZERO_COPY_SEND),
- #endif
-+    DEFINE_PROP_MIG_CAP("x-dirty-limit", MIGRATION_CAPABILITY_DIRTY_LIMIT),
- 
-     DEFINE_PROP_END_OF_LIST(),
- };
-diff --git a/migration/migration.h b/migration/migration.h
-index cdad8ac..7fbb9f8 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -409,6 +409,7 @@ bool migrate_ignore_shared(void);
- bool migrate_validate_uuid(void);
- 
- bool migrate_auto_converge(void);
-+bool migrate_dirty_limit(void);
- bool migrate_use_multifd(void);
- bool migrate_pause_before_switchover(void);
- int migrate_multifd_channels(void);
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 7e868a1..6055fdc 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -477,6 +477,8 @@
- #                    will be handled faster.  This is a performance feature and
- #                    should not affect the correctness of postcopy migration.
- #                    (since 7.1)
-+# @dirty-limit: Use dirty-limit to throttle down guest if enabled.
-+#               (since 7.3)
- #
- # Features:
- # @unstable: Members @x-colo and @x-ignore-shared are experimental.
-@@ -492,7 +494,7 @@
-            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
-            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
-            'validate-uuid', 'background-snapshot',
--           'zero-copy-send', 'postcopy-preempt'] }
-+           'zero-copy-send', 'postcopy-preempt', 'dirty-limit'] }
- 
- ##
- # @MigrationCapabilityStatus:
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 53b66d5..2a07200 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -23,6 +23,8 @@
- #include "exec/memory.h"
- #include "hw/boards.h"
- #include "sysemu/kvm.h"
-+#include "migration/misc.h"
-+#include "migration/migration.h"
- #include "trace.h"
- 
- /*
-@@ -75,11 +77,18 @@ static bool dirtylimit_quit;
- 
- static void vcpu_dirty_rate_stat_collect(void)
- {
-+    MigrationState *s = migrate_get_current();
-     VcpuStat stat;
-     int i = 0;
-+    int64_t period = DIRTYLIMIT_CALC_TIME_MS;
-+
-+    if (migrate_dirty_limit() &&
-+        migration_is_active(s)) {
-+        period = s->parameters.x_vcpu_dirty_limit_period;
-+    }
- 
-     /* calculate vcpu dirtyrate */
--    vcpu_calculate_dirtyrate(DIRTYLIMIT_CALC_TIME_MS,
-+    vcpu_calculate_dirtyrate(period,
-                              &stat,
-                              GLOBAL_DIRTY_LIMIT,
-                              false);
++    if (migrate_auto_converge()) {
+         /* The following detection logic can be refined later. For now:
+            Check to see if the ratio between dirtied bytes and the approx.
+            amount of bytes that just got transferred since the last time
 -- 
 1.8.3.1
 
