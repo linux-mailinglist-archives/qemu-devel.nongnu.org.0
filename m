@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7D3641566
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 10:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BEC6416C3
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Dec 2022 13:53:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1P2g-0001SR-PA; Sat, 03 Dec 2022 04:42:42 -0500
+	id 1p1S02-0000Yg-0M; Sat, 03 Dec 2022 07:52:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1P2e-0001SA-0S
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:42:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p1P2c-0007zM-76
- for qemu-devel@nongnu.org; Sat, 03 Dec 2022 04:42:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670060557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dgYQdb+UW8PhUgzoqGEDSQ/vZqRH2AI7JMEJ0584cpI=;
- b=VLCaVMIyZbutJMEBICgkITNw0JEQC5Oc5OIxixaJcPOY0OHbbjKvd509vX/jreecDL5ktW
- 7QDtLcQNZinwXaFhBi66RhjE6irqKIDkLuV8wNI9MBsc7RGwCmSv8lbwE0CpgvHi8BtXWA
- 1jTRGppwk0M9RJxRoAUxCM/bQ8vhco8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-116-eT9tKEk5PeKFcIHTkjo8Sg-1; Sat, 03 Dec 2022 04:42:33 -0500
-X-MC-Unique: eT9tKEk5PeKFcIHTkjo8Sg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91BEB811E67;
- Sat,  3 Dec 2022 09:42:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 552512028E96;
- Sat,  3 Dec 2022 09:42:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3CDDD21E6921; Sat,  3 Dec 2022 10:42:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Hyman <huangy81@chinatelecom.cn>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Eric Blake
- <eblake@redhat.com>,  Juan Quintela <quintela@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,  Richard
- Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 08/11] migration: Export dirty-limit time info
-References: <cover.1669047366.git.huangy81@chinatelecom.cn>
- <513421b79099d7f73b3db227b5eb347fe9a3c241.1669047366.git.huangy81@chinatelecom.cn>
- <4578db86-2959-9bae-c28e-da7af162be71@chinatelecom.cn>
-Date: Sat, 03 Dec 2022 10:42:30 +0100
-In-Reply-To: <4578db86-2959-9bae-c28e-da7af162be71@chinatelecom.cn> (Hyman's
- message of "Sat, 3 Dec 2022 17:14:10 +0800")
-Message-ID: <87ilisn7qx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
+ id 1p1Rzy-0000Xy-7Q; Sat, 03 Dec 2022 07:52:06 -0500
+Received: from [106.39.185.58] (helo=smtp.cecloud.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luzhipeng@cestc.cn>)
+ id 1p1Rzv-0002nF-Oc; Sat, 03 Dec 2022 07:52:05 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.cecloud.com (Postfix) with ESMTP id 10C3817E0205;
+ Sat,  3 Dec 2022 20:51:49 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ANTISPAM-LEVEL: 2
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+Received: from [192.168.0.106] (unknown [171.223.93.105])
+ by smtp.cecloud.com (postfix) whith ESMTP id
+ P2473745T281457427476848S1670071905477935_; 
+ Sat, 03 Dec 2022 20:51:47 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <202ae31e0c660dc7dca55c29b8c62e6a>
+X-RL-SENDER: luzhipeng@cestc.cn
+X-SENDER: luzhipeng@cestc.cn
+X-LOGIN-NAME: luzhipeng@cestc.cn
+X-FST-TO: pbonzini@redhat.com
+X-RCPT-COUNT: 9
+X-SENDER-IP: 171.223.93.105
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+Message-ID: <718dbdad-4920-d2c8-b3a6-c0f83fd818f1@cestc.cn>
+Date: Sat, 3 Dec 2022 20:51:47 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] blockdev: add 'media=cdrom' argument to support usb cdrom
+ emulated as cdrom
+To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>
+References: <20221201134227.1983-1-luzhipeng@cestc.cn>
+ <871qpjf86a.fsf@pond.sub.org> <1d355249-9ab0-f824-e00d-3135cb2646b5@cestc.cn>
+ <4ce0329b-0868-f6b5-63f2-62ae212c76a7@redhat.com>
+From: Zhipeng Lu <luzhipeng@cestc.cn>
+In-Reply-To: <4ce0329b-0868-f6b5-63f2-62ae212c76a7@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.58 (failed)
+Received-SPF: pass client-ip=106.39.185.58; envelope-from=luzhipeng@cestc.cn;
+ helo=smtp.cecloud.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,85 +81,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hyman <huangy81@chinatelecom.cn> writes:
+Could you give the detail qemu cmdline about usb-bot?
 
-> =E5=9C=A8 2022/11/22 0:26, huangy81@chinatelecom.cn =E5=86=99=E9=81=93:
->> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->> Export dirty limit throttle time and estimated ring full
->> time, through which we can observe the process of dirty
->> limit during live migration.
->> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->> ---
->>   include/sysemu/dirtylimit.h |  2 ++
->>   migration/migration.c       | 10 ++++++++++
->>   monitor/hmp-cmds.c          | 10 ++++++++++
->>   qapi/migration.json         | 10 +++++++++-
->>   softmmu/dirtylimit.c        | 31 +++++++++++++++++++++++++++++++
->>   5 files changed, 62 insertions(+), 1 deletion(-)
+在 2022/12/2 17:40, Paolo Bonzini 写道:
+> On 12/2/22 03:26, Zhipeng Lu wrote:
+>> NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+>> sda             8:0    0  100M  1 disk
+>> vda           252:0    0   10G  0 disk
+>> ├─vda1        252:1    0    1G  0 part /boot
+>> └─vda2        252:2    0    9G  0 part
+>>    ├─rhel-root 253:0    0    8G  0 lvm  /
+>>    └─rhel-swap 253:1    0    1G  0 lvm  [SWAP]
+>> lshw -short|grep cdrom -i
+>> No cdrom.
+>>
+>> My patch is to solve this problem, usb cdrom emulated as cdrom.
+> 
+> This is a libvirt bug, it should use usb-bot instead of usb-storage 
+> together with -blockdev.  Then it can add a scsi-cd device below usb-bot.
+> 
+> Paolo
+> 
+>>
+>>
+>> 在 2022/12/1 23:35, Markus Armbruster 写道:
+>>> luzhipeng <luzhipeng@cestc.cn> writes:
+>>>
+>>>> From: zhipeng Lu <luzhipeng@cestc.cn>
+>>>>
+>>>> The drive interface supports media=cdrom so that the usb cdrom
+>>>> can be emulated as cdrom in qemu, but libvirt deprived the drive
+>>>> interface, so media=cdrom is added to the blockdev interface to
+>>>> support usb cdrom emulated as cdrom
+>>>>
+>>>> Signed-off-by: zhipeng Lu <luzhipeng@cestc.cn>
+>>>
+>>> What problem are you trying to solve?
+>>>
+>>>
+>>>
+>>
+>>
+>>
+> 
+> 
+> 
 
-[...]
-
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index af6b2da..62db5cb 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -242,6 +242,12 @@
->>  #                   Present and non-empty when migration is blocked.
->>  #                   (since 6.0)
->>  #
->> +# @dirty-limit-throttle-us-per-full: Throttle time (us) during the peri=
-od of
->> +#                                    dirty ring full (since 7.1)
->> +#
->> +# @dirty-limit-us-ring-full: Estimated periodic time (us) of dirty ring=
- full.
->> +#                            (since 7.1)
-> How about the following documents:
->
-> # @dirty-limit-throttletime-each-round: Max throttle time (us) of all vir=
-tual CPUs each dirty ring
-> #                                       full round, used to observe if di=
-rty-limit take effect
-> #                                       during live migration. (since 7.3)
-> #
-> # @dirty-limit-ring-full-time: Estimated average dirty ring full time (us=
-) each round, note that
-> #                              the value equals dirty ring memory size di=
-vided by average dirty
-> #                              page rate of virtual CPU, which can be use=
-d to observe the average
-> #                              memory load of virtual CPU indirectly. (si=
-nce 7.3)
->
-> Is it more easy-understanding ?
-
-dirty-limit-ring-full-time is better than dirty-limit-us-ring-full.
-
-dirty-limit-throttletime-each-round is rather long.
-
-We say "in microseconds" in doc comments.
-
-Avoid abbreviations like "max" in doc comments, spell them out like
-"maximum".
-
-I need to give the text a closer read.  Out of time for today.  If you
-don't see a reply from me early next week, feel free to remind me.
-
->> +#
->>  # Since: 0.14
->>  ##
->>  { 'struct': 'MigrationInfo',
->> @@ -259,7 +265,9 @@
->>             '*postcopy-blocktime' : 'uint32',
->>             '*postcopy-vcpu-blocktime': ['uint32'],
->>             '*compression': 'CompressionStats',
->> -           '*socket-address': ['SocketAddress'] } }
->> +           '*socket-address': ['SocketAddress'],
->> +           '*dirty-limit-throttle-us-per-full': 'int64',
->> +           '*dirty-limit-us-ring-full': 'int64'} }
->>  ##
->>  # @query-migrate:
-
-[...]
 
 
