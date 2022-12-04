@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59652641F1F
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 20:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F3D641F1D
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 20:10:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1uKr-0001mY-Oy; Sun, 04 Dec 2022 14:07:33 -0500
+	id 1p1uKu-0001nk-7k; Sun, 04 Dec 2022 14:07:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p1uKq-0001mD-Lz; Sun, 04 Dec 2022 14:07:32 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+ id 1p1uKs-0001n5-IV; Sun, 04 Dec 2022 14:07:34 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p1uKo-0001cG-JT; Sun, 04 Dec 2022 14:07:32 -0500
-Received: by mail-ej1-x632.google.com with SMTP id n20so23134038ejh.0;
- Sun, 04 Dec 2022 11:07:29 -0800 (PST)
+ id 1p1uKq-0001ch-Jw; Sun, 04 Dec 2022 14:07:34 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id f7so13056115edc.6;
+ Sun, 04 Dec 2022 11:07:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IJq1Ucn+VVeqqpkB9YPt71C5Kv2BL3f3dT/zXJbfztA=;
- b=jOrsPvNNs+N3jml49k5FhH6urggBqYyLn+vfXCo/3qzSSNT2krNuspCIIlEIZEfgKR
- l7kr4EVXj4vu0rhOjfZScjmFWcjc9AMt83ekC1pYdW1nAe+X4wljzjXHrsMA8JRGwLxJ
- wdTJrfHdF2N7kz/SEt3AMB4NzR2ZJ4fGH1FnMm+98nVm9b85p8UdpjCsyAWIuGqFJr76
- T2NGaAJNDhqDnQOEzzBeTkSWIh7Kn0+dSEGNgxm0jgZ19A5K/esedyOo4VNk/gzvkVcB
- 5oGvGwFzYDqymxTS9WP6gY0csHvODAZIeixICda6WyoikoPNJrQ65e3R/hknqswTW6WX
- 3nVw==
+ bh=tU4iV5+3mv7YEG/Owr1VeCDUbVIp+8xvdYog5RuPpXM=;
+ b=GxYzxhv+bD4kMo1rscMTrd72/L7FMqq+iRrmJ8/0XnMTqLjCMwsnrEvKcI2n3bL37t
+ H1AyssPIYMWnS/vanLfj0wQpgs8iq4eNH5bUwO1x8wjVcZDwsH98xBqfxUc7BIO/T5e5
+ BOmzma4TcKqUlay0LEtXc4kZGiclgtlBWhuu6X6JlQVTP43nXM+n4ebtE7tcnuS6slDl
+ qHNG8F5xscELsciA8bDdyzELF3e6siToWkZ0+9PAXgD4UWd1aJsLb7wdeedsL4/NH/Le
+ Hgea/oQSDvmEjUZktn1bJbSZf0er0/1bISvARdkfU7Yj7O/WamksDJyc+l7UXyk3bOY3
+ rL6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IJq1Ucn+VVeqqpkB9YPt71C5Kv2BL3f3dT/zXJbfztA=;
- b=RegCwsFPRLN7Ezf6HDaIEOBKcRZdYFa5uHb2Kzl5bAoj9x0zOMsx1LO1DxaDSdi5+m
- h7vPraJUYyS+iJt2E59c8hPR/X5geOAbr9BL3MRGgfOvtcHh/Uv9mnDt2kFJbjZ2L5XY
- NEwNYFaB186Bx2qrdr2IGxg4Jzw65ntPIAMYg+2mnbAMmlxkQrK8xULb6BLTH+S7dprn
- wgnT1/bub0ZCE4jTHs3qDHk+17kVxUMU6SDYz50VpYCMxolIDCfjB95PGsU+AMvBOyPW
- NiWPy8FR5GGc/UTFrpnJqQaoshE0U2bSWLh8X389Xa/FLJm3QMrySoRy+kxBX7ScS2P7
- 69Xw==
-X-Gm-Message-State: ANoB5pmIz/ImWl3RzzX8PG97+twrTzWQUtl9J29gebTReay6ZoYQp0VS
- dWQQvOK15PRO7NtoqxZ0QQjnrU6umsg=
-X-Google-Smtp-Source: AA0mqf4ECkIsmGaNXwEe3nxnrLjEh06euKbWBout3QHLgdOt8j0jTsxs42Jqkv9oqWgqQ0/kripjHg==
-X-Received: by 2002:a17:907:8749:b0:7c0:7c6c:d484 with SMTP id
- qo9-20020a170907874900b007c07c6cd484mr1300399ejc.752.1670180848703; 
- Sun, 04 Dec 2022 11:07:28 -0800 (PST)
+ bh=tU4iV5+3mv7YEG/Owr1VeCDUbVIp+8xvdYog5RuPpXM=;
+ b=GrsA3cQWZfdmbpBQySsPlfA1Pw0+RkSFDo84td2KSTvF+eM80MEzi0AWy6tN6johl6
+ nLs5gdSy5voWmNiHWyYMCu0t5HNNcXznRhpPoGAYWKm6EjEBylUXJ7pX3rHzqrLysN8T
+ NaZNcDiRGmBwq4fo6tKtWYkmn8CGCf1Q8ZDmLTREYAX+JA8jXFWlcEyO3hEhR5YjCbV5
+ 1UgD1neXwLF6UVjJkMmLnQThfSRF3z7QDtSZ61Zp2reuvTbNdU2JMMupfq6/Owmkk24/
+ xn5uejuD3CipqpervF08rrBYtn8mH3UF/2L0tpfm2TtTBrimXvtgT/NcgWBxMOmZBgRJ
+ kCXg==
+X-Gm-Message-State: ANoB5pnuQCn3PRkU12awXQGAVGYT/ldXd4YQMTXlNi0xC5VofrobSStD
+ 8PER3kqKT/0R2/+mBc2iQrZIA57vKmo=
+X-Google-Smtp-Source: AA0mqf5hntAjvC+JCN0dVjV8iZgbWCVc5tBpIDtak39AhkVK+xWQ81MQKZNncDi9wNgPWTIRbfWMaw==
+X-Received: by 2002:aa7:cc04:0:b0:463:1a0c:4dd1 with SMTP id
+ q4-20020aa7cc04000000b004631a0c4dd1mr63649006edt.137.1670180850274; 
+ Sun, 04 Dec 2022 11:07:30 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-089-012-182-051.89.12.pool.telefonica.de. [89.12.182.51])
  by smtp.gmail.com with ESMTPSA id
- j10-20020a17090623ea00b00782ee6b34f2sm5359835ejg.183.2022.12.04.11.07.27
+ j10-20020a17090623ea00b00782ee6b34f2sm5359835ejg.183.2022.12.04.11.07.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Dec 2022 11:07:28 -0800 (PST)
+ Sun, 04 Dec 2022 11:07:29 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -66,20 +66,17 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH 06/32] hw/usb/hcd-uhci: Introduce TYPE_ defines for device
- models
-Date: Sun,  4 Dec 2022 20:05:27 +0100
-Message-Id: <20221204190553.3274-7-shentey@gmail.com>
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 07/32] hw/i386/pc: Create RTC controllers in south bridges
+Date: Sun,  4 Dec 2022 20:05:28 +0100
+Message-Id: <20221204190553.3274-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204190553.3274-1-shentey@gmail.com>
 References: <20221204190553.3274-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,167 +99,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Message-Id: <20221022150508.26830-10-shentey@gmail.com>
----
- hw/i386/pc_piix.c |  3 ++-
- hw/i386/pc_q35.c  | 13 +++++++------
- hw/isa/piix4.c    |  2 +-
- hw/usb/hcd-uhci.c | 16 ++++++++--------
- hw/usb/hcd-uhci.h |  4 ++++
- 5 files changed, 22 insertions(+), 16 deletions(-)
+Just like in the real hardware (and in PIIX4), create the RTC
+controllers in the south bridges.
 
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Message-Id: <20221022150508.26830-11-shentey@gmail.com>
+---
+ hw/i386/pc.c                  | 12 +++++++++++-
+ hw/i386/pc_piix.c             |  8 ++++++++
+ hw/i386/pc_q35.c              |  1 +
+ hw/isa/Kconfig                |  2 ++
+ hw/isa/lpc_ich9.c             |  8 ++++++++
+ hw/isa/piix3.c                | 15 +++++++++++++++
+ include/hw/i386/ich9.h        |  2 ++
+ include/hw/southbridge/piix.h |  3 +++
+ 8 files changed, 50 insertions(+), 1 deletion(-)
+
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 546b703cb4..9379cf4374 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1299,7 +1299,17 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+         pit_alt_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
+         rtc_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
+     }
+-    *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq);
++
++    if (rtc_irq) {
++        qdev_connect_gpio_out(DEVICE(*rtc_state), 0, rtc_irq);
++    } else {
++        uint32_t irq = object_property_get_uint(OBJECT(*rtc_state),
++                                                "irq",
++                                                &error_fatal);
++        isa_connect_gpio_out(*rtc_state, 0, irq);
++    }
++    object_property_add_alias(OBJECT(pcms), "rtc-time", OBJECT(*rtc_state),
++                              "date");
+ 
+     qemu_register_boot_set(pc_boot_set, *rtc_state);
+ 
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index e26509a935..caa983d76e 100644
+index caa983d76e..7de2f1092b 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -50,6 +50,7 @@
- #include "exec/memory.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/piix4.h"
-+#include "hw/usb/hcd-uhci.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/xen.h"
-@@ -291,7 +292,7 @@ static void pc_init1(MachineState *machine,
- #endif
- 
-     if (pcmc->pci_enabled && machine_usb(machine)) {
--        pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-uhci");
-+        pci_create_simple(pci_bus, piix3_devfn + 2, TYPE_PIIX3_USB_UHCI);
+@@ -32,6 +32,7 @@
+ #include "hw/i386/pc.h"
+ #include "hw/i386/apic.h"
+ #include "hw/pci-host/i440fx.h"
++#include "hw/rtc/mc146818rtc.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/display/ramfb.h"
+ #include "hw/firmware/smbios.h"
+@@ -225,10 +226,17 @@ static void pc_init1(MachineState *machine,
+         piix3->pic = x86ms->gsi;
+         piix3_devfn = piix3->dev.devfn;
+         isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
++        rtc_state = ISA_DEVICE(object_resolve_path_component(OBJECT(pci_dev),
++                                                             "rtc"));
+     } else {
+         pci_bus = NULL;
+         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+                               &error_abort);
++
++        rtc_state = isa_new(TYPE_MC146818_RTC);
++        qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
++        isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
++
+         i8257_dma_init(isa_bus, 0);
+         pcms->hpet_enabled = false;
      }
- 
-     if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
 diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index a496bd6e74..1da6d34339 100644
+index 1da6d34339..b5cd876dc2 100644
 --- a/hw/i386/pc_q35.c
 +++ b/hw/i386/pc_q35.c
-@@ -48,6 +48,7 @@
- #include "hw/ide/pci.h"
- #include "hw/ide/ahci.h"
- #include "hw/usb.h"
-+#include "hw/usb/hcd-uhci.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/numa.h"
-@@ -65,15 +66,15 @@ struct ehci_companions {
- };
+@@ -239,6 +239,7 @@ static void pc_q35_init(MachineState *machine)
+     lpc = pci_create_simple_multifunction(host_bus, PCI_DEVFN(ICH9_LPC_DEV,
+                                           ICH9_LPC_FUNC), true,
+                                           TYPE_ICH9_LPC_DEVICE);
++    rtc_state = ISA_DEVICE(object_resolve_path_component(OBJECT(lpc), "rtc"));
  
- static const struct ehci_companions ich9_1d[] = {
--    { .name = "ich9-usb-uhci1", .func = 0, .port = 0 },
--    { .name = "ich9-usb-uhci2", .func = 1, .port = 2 },
--    { .name = "ich9-usb-uhci3", .func = 2, .port = 4 },
-+    { .name = TYPE_ICH9_USB_UHCI(1), .func = 0, .port = 0 },
-+    { .name = TYPE_ICH9_USB_UHCI(2), .func = 1, .port = 2 },
-+    { .name = TYPE_ICH9_USB_UHCI(3), .func = 2, .port = 4 },
- };
+     object_property_add_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+                              TYPE_HOTPLUG_HANDLER,
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 18b5c6bf3f..af5ec9cd61 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -35,6 +35,7 @@ config PIIX3
+     bool
+     select I8257
+     select ISA_BUS
++    select MC146818RTC
  
- static const struct ehci_companions ich9_1a[] = {
--    { .name = "ich9-usb-uhci4", .func = 0, .port = 0 },
--    { .name = "ich9-usb-uhci5", .func = 1, .port = 2 },
--    { .name = "ich9-usb-uhci6", .func = 2, .port = 4 },
-+    { .name = TYPE_ICH9_USB_UHCI(4), .func = 0, .port = 0 },
-+    { .name = TYPE_ICH9_USB_UHCI(5), .func = 1, .port = 2 },
-+    { .name = TYPE_ICH9_USB_UHCI(6), .func = 2, .port = 4 },
- };
+ config PIIX4
+     bool
+@@ -79,3 +80,4 @@ config LPC_ICH9
+     select ISA_BUS
+     select ACPI_SMBUS
+     select ACPI_X86_ICH
++    select MC146818RTC
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 6c44cc9767..eb230a1a23 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -660,6 +660,8 @@ static void ich9_lpc_initfn(Object *obj)
+     static const uint8_t acpi_enable_cmd = ICH9_APM_ACPI_ENABLE;
+     static const uint8_t acpi_disable_cmd = ICH9_APM_ACPI_DISABLE;
  
- static int ehci_create_ich9_with_companions(PCIBus *bus, int slot)
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 0d23e11a39..aceb21ee3e 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -280,7 +280,7 @@ static void piix4_init(Object *obj)
- 
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
--    object_initialize_child(obj, "uhci", &s->uhci, "piix4-usb-uhci");
-+    object_initialize_child(obj, "uhci", &s->uhci, TYPE_PIIX4_USB_UHCI);
- 
-     object_initialize_child(obj, "pm", &s->pm, TYPE_PIIX4_PM);
-     qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", 0x1100);
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index d1b5657d72..30ae0104bb 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -1292,56 +1292,56 @@ void uhci_data_class_init(ObjectClass *klass, void *data)
- 
- static UHCIInfo uhci_info[] = {
-     {
--        .name       = "piix3-usb-uhci",
-+        .name      = TYPE_PIIX3_USB_UHCI,
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82371SB_2,
-         .revision  = 0x01,
-         .irq_pin   = 3,
-         .unplug    = true,
-     },{
--        .name      = "piix4-usb-uhci",
-+        .name      = TYPE_PIIX4_USB_UHCI,
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82371AB_2,
-         .revision  = 0x01,
-         .irq_pin   = 3,
-         .unplug    = true,
-     },{
--        .name      = "ich9-usb-uhci1", /* 00:1d.0 */
-+        .name      = TYPE_ICH9_USB_UHCI(1), /* 00:1d.0 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI1,
-         .revision  = 0x03,
-         .irq_pin   = 0,
-         .unplug    = false,
-     },{
--        .name      = "ich9-usb-uhci2", /* 00:1d.1 */
-+        .name      = TYPE_ICH9_USB_UHCI(2), /* 00:1d.1 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI2,
-         .revision  = 0x03,
-         .irq_pin   = 1,
-         .unplug    = false,
-     },{
--        .name      = "ich9-usb-uhci3", /* 00:1d.2 */
-+        .name      = TYPE_ICH9_USB_UHCI(3), /* 00:1d.2 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI3,
-         .revision  = 0x03,
-         .irq_pin   = 2,
-         .unplug    = false,
-     },{
--        .name      = "ich9-usb-uhci4", /* 00:1a.0 */
-+        .name      = TYPE_ICH9_USB_UHCI(4), /* 00:1a.0 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI4,
-         .revision  = 0x03,
-         .irq_pin   = 0,
-         .unplug    = false,
-     },{
--        .name      = "ich9-usb-uhci5", /* 00:1a.1 */
-+        .name      = TYPE_ICH9_USB_UHCI(5), /* 00:1a.1 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI5,
-         .revision  = 0x03,
-         .irq_pin   = 1,
-         .unplug    = false,
-     },{
--        .name      = "ich9-usb-uhci6", /* 00:1a.2 */
-+        .name      = TYPE_ICH9_USB_UHCI(6), /* 00:1a.2 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI6,
-         .revision  = 0x03,
-diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-index c85ab7868e..83e6f548b1 100644
---- a/hw/usb/hcd-uhci.h
-+++ b/hw/usb/hcd-uhci.h
-@@ -91,4 +91,8 @@ typedef struct UHCIInfo {
- void uhci_data_class_init(ObjectClass *klass, void *data);
- void usb_uhci_common_realize(PCIDevice *dev, Error **errp);
- 
-+#define TYPE_PIIX3_USB_UHCI "piix3-usb-uhci"
-+#define TYPE_PIIX4_USB_UHCI "piix4-usb-uhci"
-+#define TYPE_ICH9_USB_UHCI(fn) "ich9-usb-uhci" #fn
++    object_initialize_child(obj, "rtc", &lpc->rtc, TYPE_MC146818_RTC);
 +
- #endif
+     object_property_add_uint8_ptr(obj, ACPI_PM_PROP_SCI_INT,
+                                   &lpc->sci_gsi, OBJ_PROP_FLAG_READ);
+     object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_ENABLE_CMD,
+@@ -725,6 +727,12 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, lpc->gsi);
+ 
+     i8257_dma_init(isa_bus, 0);
++
++    /* RTC */
++    qdev_prop_set_int32(DEVICE(&lpc->rtc), "base_year", 2000);
++    if (!qdev_realize(DEVICE(&lpc->rtc), BUS(isa_bus), errp)) {
++        return;
++    }
+ }
+ 
+ static bool ich9_rst_cnt_needed(void *opaque)
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index eabad7ba58..c68e51ddad 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -28,6 +28,7 @@
+ #include "hw/dma/i8257.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/irq.h"
++#include "hw/qdev-properties.h"
+ #include "hw/isa/isa.h"
+ #include "hw/xen/xen.h"
+ #include "sysemu/runstate.h"
+@@ -312,6 +313,12 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+                                         PIIX_RCR_IOPORT, &d->rcr_mem, 1);
+ 
+     i8257_dma_init(isa_bus, 0);
++
++    /* RTC */
++    qdev_prop_set_int32(DEVICE(&d->rtc), "base_year", 2000);
++    if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
++        return;
++    }
+ }
+ 
+ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+@@ -338,6 +345,13 @@ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+     }
+ }
+ 
++static void pci_piix3_init(Object *obj)
++{
++    PIIX3State *d = PIIX3_PCI_DEVICE(obj);
++
++    object_initialize_child(obj, "rtc", &d->rtc, TYPE_MC146818_RTC);
++}
++
+ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -364,6 +378,7 @@ static const TypeInfo piix3_pci_type_info = {
+     .name = TYPE_PIIX3_PCI_DEVICE,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PIIX3State),
++    .instance_init = pci_piix3_init,
+     .abstract = true,
+     .class_init = pci_piix3_class_init,
+     .interfaces = (InterfaceInfo[]) {
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 23ee8e371b..672efc6bce 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -11,6 +11,7 @@
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/ich9.h"
+ #include "hw/pci/pci_bus.h"
++#include "hw/rtc/mc146818rtc.h"
+ #include "qom/object.h"
+ 
+ void ich9_lpc_set_irq(void *opaque, int irq_num, int level);
+@@ -39,6 +40,7 @@ struct ICH9LPCState {
+     */
+     uint8_t irr[PCI_SLOT_MAX][PCI_NUM_PINS];
+ 
++    RTCState rtc;
+     APMState apm;
+     ICH9LPCPMRegs pm;
+     uint32_t sci_level; /* track sci level */
+diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+index 2693778b23..b1fa08dd2b 100644
+--- a/include/hw/southbridge/piix.h
++++ b/include/hw/southbridge/piix.h
+@@ -14,6 +14,7 @@
+ 
+ #include "hw/pci/pci.h"
+ #include "qom/object.h"
++#include "hw/rtc/mc146818rtc.h"
+ 
+ /* PIRQRC[A:D]: PIRQx Route Control Registers */
+ #define PIIX_PIRQCA 0x60
+@@ -52,6 +53,8 @@ struct PIIXState {
+     /* This member isn't used. Just for save/load compatibility */
+     int32_t pci_irq_levels_vmstate[PIIX_NUM_PIRQS];
+ 
++    RTCState rtc;
++
+     /* Reset Control Register contents */
+     uint8_t rcr;
+ 
 -- 
 2.38.1
 
