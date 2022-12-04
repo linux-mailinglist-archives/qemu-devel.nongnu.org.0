@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23715641B52
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 08:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835D4641B50
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 08:32:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1jSi-0000uQ-Lv; Sun, 04 Dec 2022 02:30:56 -0500
+	id 1p1jSj-0000ud-9d; Sun, 04 Dec 2022 02:30:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSg-0000u6-Iq
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSh-0000uF-HB
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSe-0001eO-LE
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:54 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSg-0001el-2x
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670139051;
+ s=mimecast20190719; t=1670139053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=V+FtkQWUUoPWTAuP7ndGiwl6bfqm5RIQIK7xy6dvtJg=;
- b=N0VEuUmvJ4UjV+qvgnAZN47A6KCLLRugJn64lf6qVhZrwHQ6zWwrrcuhw6VYdnQ/tG3iDI
- LATnbvajQuiFYdWzdMBjfExRmM/uMcUiL+W4HOm64J977gYVhaKBk0G5kolyiL9+gI8KXF
- MWidkEJ+gsBVN6sGVlJCi6eNIxExHu0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PL8VADsRRW4XJ0jU2eXVBKmVQwEmGPYyHQOFuE3X1Mk=;
+ b=HAVHig6hoJg+sjQ62TbNhdsB+Fj6rvaCnFKXTEyufuOZubeFbveRfxJss5AHVXTp0v+Kt4
+ Gf7dRoruSgl0ZY88Tw0Vnean7/eIkNkgdlPMHlVhT5gFflHKDLwGdj9ZhpYwTW5ZrZtM1Z
+ KteCYCyP7wrw+y8SiYaLtOt40Y57BPM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-nmXEvBlCOSWNyQ_WDLu-lw-1; Sun, 04 Dec 2022 02:30:50 -0500
-X-MC-Unique: nmXEvBlCOSWNyQ_WDLu-lw-1
+ us-mta-665-iOLFDP1JMp6rf6zMJnfa6g-1; Sun, 04 Dec 2022 02:30:51 -0500
+X-MC-Unique: iOLFDP1JMp6rf6zMJnfa6g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0D6E800B23
- for <qemu-devel@nongnu.org>; Sun,  4 Dec 2022 07:30:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B3EA3C0CD42
+ for <qemu-devel@nongnu.org>; Sun,  4 Dec 2022 07:30:51 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C986B2166B29;
- Sun,  4 Dec 2022 07:30:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DD322166B29;
+ Sun,  4 Dec 2022 07:30:50 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/3] Optional fixes for inclusion into QEMU 7.2.0-rc4
-Date: Sun,  4 Dec 2022 08:30:40 +0100
-Message-Id: <20221204073043.54402-1-thuth@redhat.com>
+Subject: [PULL 1/3] tests/qtest/migration-test: Fix unlink error and memory
+ leaks
+Date: Sun,  4 Dec 2022 08:30:41 +0100
+Message-Id: <20221204073043.54402-2-thuth@redhat.com>
+In-Reply-To: <20221204073043.54402-1-thuth@redhat.com>
+References: <20221204073043.54402-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,42 +77,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
- Hi Stefan!
+When running the migration test compiled with Clang from Fedora 37
+and sanitizers enabled, there is an error complaining about unlink():
 
-The following changes since commit c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
+ ../tests/qtest/migration-test.c:1072:12: runtime error: null pointer
+  passed as argument 1, which is declared to never be null
+ /usr/include/unistd.h:858:48: note: nonnull attribute specified here
+ SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior
+  ../tests/qtest/migration-test.c:1072:12 in
+ (test program exited with status code 1)
+ TAP parsing error: Too few tests run (expected 33, got 20)
 
-  Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
+The data->clientcert and data->clientkey pointers can indeed be unset
+in some tests, so we have to check them before calling unlink() with
+those.
 
-are available in the Git repository at:
+While we're at it, I also noticed that the code is only freeing
+some but not all of the allocated strings in this function, and
+indeed, valgrind is also complaining about memory leaks here.
+So let's call g_free() on all allocated strings to avoid leaking
+memory here.
 
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-12-04
+Message-Id: <20221125083054.117504-1-thuth@redhat.com>
+Tested-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/migration-test.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-for you to fetch changes up to c1966f515d9bb6d8ed7076f4bebdc45407700100:
-
-  hw/display/next-fb: Fix comment typo (2022-12-03 22:07:07 +0100)
-
-----------------------------------------------------------------
-In case we're doing a rc4 before the release, I'd like to see
-these three patches included. They contain:
-* Fix for a potential undefined behavior in cleanup of migration-test
-* Fix for a s390x instruction that causes Java to crash
-* Fix for a typo in a comment in next-fb.c
-All patches are rather small and self-contained and have been
-properly reviewed, so I think it should be OK to still include
-them at this point in time.
-
-----------------------------------------------------------------
-Evgeny Ermakov (1):
-      hw/display/next-fb: Fix comment typo
-
-Thomas Huth (2):
-      tests/qtest/migration-test: Fix unlink error and memory leaks
-      target/s390x/tcg: Fix and improve the SACF instruction
-
- target/s390x/tcg/insn-data.h.inc |  2 +-
- hw/display/next-fb.c             |  2 +-
- target/s390x/tcg/cc_helper.c     |  7 +++++++
- tests/qtest/migration-test.c     | 20 ++++++++++++++++----
- 4 files changed, 25 insertions(+), 6 deletions(-)
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 442998d9eb..dbde726adf 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1066,15 +1066,27 @@ test_migrate_tls_x509_finish(QTestState *from,
+     TestMigrateTLSX509Data *data = opaque;
+ 
+     test_tls_cleanup(data->keyfile);
++    g_free(data->keyfile);
++
+     unlink(data->cacert);
++    g_free(data->cacert);
+     unlink(data->servercert);
++    g_free(data->servercert);
+     unlink(data->serverkey);
+-    unlink(data->clientcert);
+-    unlink(data->clientkey);
+-    rmdir(data->workdir);
++    g_free(data->serverkey);
+ 
++    if (data->clientcert) {
++        unlink(data->clientcert);
++        g_free(data->clientcert);
++    }
++    if (data->clientkey) {
++        unlink(data->clientkey);
++        g_free(data->clientkey);
++    }
++
++    rmdir(data->workdir);
+     g_free(data->workdir);
+-    g_free(data->keyfile);
++
+     g_free(data);
+ }
+ #endif /* CONFIG_TASN1 */
+-- 
+2.31.1
 
 
