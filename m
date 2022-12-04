@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048EB642004
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 23:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CEF642007
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 23:24:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1xOo-0000g3-R4; Sun, 04 Dec 2022 17:23:50 -0500
+	id 1p1xPJ-0001D4-Qz; Sun, 04 Dec 2022 17:24:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p1xOn-0000fv-4N
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 17:23:49 -0500
-Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b])
+ id 1p1xPH-0001CP-Bk; Sun, 04 Dec 2022 17:24:19 -0500
+Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p1xOl-0004vg-Ol
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 17:23:48 -0500
-Received: by mail-vk1-xa2b.google.com with SMTP id z23so600122vkb.12
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 14:23:47 -0800 (PST)
+ id 1p1xPF-0004xh-SO; Sun, 04 Dec 2022 17:24:19 -0500
+Received: by mail-vs1-xe2a.google.com with SMTP id i2so9519288vsc.1;
+ Sun, 04 Dec 2022 14:24:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9qO7HDRcoF8IXhFdFVAxp+4adYiViBCjZX+8xgCxomQ=;
- b=CJp3AzH4Bflr1iwzPp9OZA5dSNrGsbKq2rOa/FXVqeR5sFyCkHzT/6IDkOi0RqOJ7Q
- JdqPOvp07Zq9DV7Tw/rdHJrtYseTuba2f477SOr/dFH9/wq+Cfi2N2TKNwKgg1lHuDNG
- +jGgeUJOgfQL9ME65BxyR7rPIrTGIG8mZ1rkoGoiJfmeROoG+YibS/GQhPZtg/dvzKpJ
- 2Bov0Ar+eY3/8e5i01Y9Dk3AxqD3MVgeLkNBMQ0OB84rtA/1PuZ5Bqeyvd0VTRyQ+64k
- EvrXSV9Zcwz1wzktY0l9F6HqYeORXZyRgLatcScGpdGge86WBbv5ouBFZIrBSATSe6wG
- /1eQ==
+ bh=qRUTgFOm5E91UqCJe9TWvCZ0AFgSxSHVeEmJAlQhl/g=;
+ b=NO5dprHstXEogFAMXqyovvMibTnkoeGX97rUEJ4SRKvKD/HA7xrz3iuTa6RgxutsbT
+ zbjpVxjvy8+i5pZx4QIh6C9NZutVSxcNA9xuSG0fAVbRMdtOMfb9Zh8yXAOv5bLq1sFU
+ oWL55mtX8B70DKb7jTvMxpIX1aCLNVDTICjOcMeMHfNqyKpLnZTWJ2EMEIg6F7/IYmtu
+ uZS8LtOUOu6JWkKNqJgD8Ahy4nN8ZHU4AAYdtagAdibg2+cIVxFeyaTn7amZwMMV+9OT
+ ghEuQ3q6iQgNBTUN0NBANGARhL55VuRD7rS20NgLb8Fb1tI27EoXoAzZgsVxm6/ZaOkn
+ sUGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=9qO7HDRcoF8IXhFdFVAxp+4adYiViBCjZX+8xgCxomQ=;
- b=jXDx9J08eYqWvDlPw49xxTFOdT9ALxJe63G5/8SO9P5SnfqeYpHe1dt3Xly5jXfiDD
- antA05bhSaIDcEYOv59hGwNivA8RzZgKOKpmJvaR+O64WSADDblg7X/WxNJzkB/H7FGw
- PcztVQIvBTx3aNYPdXsyWxZypeWNYGKeJ5u+Kib//oqlVQ5ntTMNd4V6r+ouIWhxUzQs
- jnl3DlJfniMPY5pJ//JFDvaSztejBEMOKmCu8/AmZXu3EWDnCD1hIngpugwzNgnJrWVH
- dmsbUwOZgCLcu8ZiJBRvD8V8UkRWQ2O4OPhCYWpAty2p0+aiMpymWdyq9U4K09Zk/x9p
- B8Dw==
-X-Gm-Message-State: ANoB5pmZ0bD2P6KMTtpK8kApyNvVMpexYxV8XGMNirBVaBQVJ5duZRVt
- aRZgq30czBpFggJC0wdqUiluAnvo7xEAM/jM9YY=
-X-Google-Smtp-Source: AA0mqf53MN8OcJNH2h4rl0PnunqL+OPbgsYvoxfNo48uAgZLN5IrehpVtpD2SFXgVngw1FmyMLsSOG8BVyEu4W8XGzE=
-X-Received: by 2002:a1f:e3c6:0:b0:3b8:ba98:bd43 with SMTP id
- a189-20020a1fe3c6000000b003b8ba98bd43mr37554024vkh.34.1670192626767; Sun, 04
- Dec 2022 14:23:46 -0800 (PST)
+ bh=qRUTgFOm5E91UqCJe9TWvCZ0AFgSxSHVeEmJAlQhl/g=;
+ b=VlRDVSNOKuI8K2ake3f6ugWferj/VhD+nBrATIkqjOukiLQmxCOndG0gxKlQJbgbD1
+ vYwewiYF2qTk40BAPJhGl+GFIDKQERRYVOE8C4x5DFt+/SxZel2ubQph88yTCYxjo2h0
+ 7EioX/wOo15JY3DVkJB0VOmVH3tUvFK+kApuSOykWNc3/7zeV5hpBf/5jTKWXRMee6E2
+ MWeehhj90s1uuuEwKNKP8CQxyNdgKGomFLTmu/oUtlWZtJZgxqCsYkVvcdcE1/FupWLE
+ 8wMyqWgKPPOIrlM0tYHi08h6YbhLsAzBhPd0SrIz1CV508nBIyhTAkmJMr2giOftvR5a
+ nT9A==
+X-Gm-Message-State: ANoB5pkJCwxCUe3QTMKty7XvtPbH2s1lfKQY44w4KkknD86ExvqWZILK
+ nGzRXTpCfavt5rmqnpt1etqlKX1WV3CZleDVS9KBD0+ybzk=
+X-Google-Smtp-Source: AA0mqf5IxK8okagxOZWR+Hei/IgQJzLsTi5tUdq1SCuim4EApzIs6XAk368tEXCbajXCpiN5DIGjyhIHH4KR2k8tkWo=
+X-Received: by 2002:a05:6102:302b:b0:3b0:f936:788b with SMTP id
+ v11-20020a056102302b00b003b0f936788bmr8513702vsa.54.1670192656593; Sun, 04
+ Dec 2022 14:24:16 -0800 (PST)
 MIME-Version: 1.0
 References: <20221201140811.142123-1-bmeng@tinylab.org>
- <20221201140811.142123-2-bmeng@tinylab.org>
-In-Reply-To: <20221201140811.142123-2-bmeng@tinylab.org>
+ <20221201140811.142123-3-bmeng@tinylab.org>
+In-Reply-To: <20221201140811.142123-3-bmeng@tinylab.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 5 Dec 2022 08:23:20 +1000
-Message-ID: <CAKmqyKPBfUaqNz6pFy9oS-dzNY0xJcr5G5VEH8OeZ3oc4tk-0w@mail.gmail.com>
-Subject: Re: [PATCH 02/15] hw/intc: Select MSI_NONBROKEN in RISC-V AIA
- interrupt controllers
+Date: Mon, 5 Dec 2022 08:23:50 +1000
+Message-ID: <CAKmqyKMuVSQaH+=x=SZbsJcCGnAeeYtFXbPjZFcQ0SssY_DMVg@mail.gmail.com>
+Subject: Re: [PATCH 03/15] hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
 To: Bin Meng <bmeng@tinylab.org>
 Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, 
- Anup Patel <anup.patel@wdc.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,12 +86,9 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Fri, Dec 2, 2022 at 12:12 AM Bin Meng <bmeng@tinylab.org> wrote:
 >
-> hw/pci/Kconfig says MSI_NONBROKEN should be selected by interrupt
-> controllers regardless of how MSI is implemented. msi_nonbroken is
-> initialized to true in both riscv_aplic_realize() and
-> riscv_imsic_realize().
->
-> Select MSI_NONBROKEN in RISCV_APLIC and RISCV_IMSIC.
+> Since commit ef6310064820 ("hw/riscv: opentitan: Update to the latest build")
+> the IBEX PLIC model was replaced with the SiFive PLIC model in the
+> 'opentitan' machine but we forgot the add the dependency there.
 >
 > Signed-off-by: Bin Meng <bmeng@tinylab.org>
 
@@ -105,25 +98,21 @@ Alistair
 
 > ---
 >
->  hw/intc/Kconfig | 2 ++
->  1 file changed, 2 insertions(+)
+>  hw/riscv/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-> index 1d4573e803..21441d0a0c 100644
-> --- a/hw/intc/Kconfig
-> +++ b/hw/intc/Kconfig
-> @@ -72,9 +72,11 @@ config RISCV_ACLINT
->
->  config RISCV_APLIC
+> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> index 167dc4cca6..1e4b58024f 100644
+> --- a/hw/riscv/Kconfig
+> +++ b/hw/riscv/Kconfig
+> @@ -19,6 +19,7 @@ config MICROCHIP_PFSOC
+>  config OPENTITAN
 >      bool
-> +    select MSI_NONBROKEN
+>      select IBEX
+> +    select SIFIVE_PLIC
+>      select UNIMP
 >
->  config RISCV_IMSIC
->      bool
-> +    select MSI_NONBROKEN
->
->  config SIFIVE_PLIC
->      bool
+>  config SHAKTI_C
 > --
 > 2.34.1
 >
