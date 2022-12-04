@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A30641A03
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 00:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F00F641A0D
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 01:05:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1bnM-00006m-4a; Sat, 03 Dec 2022 18:19:44 -0500
+	id 1p1cU1-00043V-Eq; Sat, 03 Dec 2022 19:03:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p1bnJ-0008WE-9J; Sat, 03 Dec 2022 18:19:41 -0500
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p1cTy-00043G-5Q
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 19:03:46 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p1bnF-0001Zy-4v; Sat, 03 Dec 2022 18:19:41 -0500
-Received: by mail-lf1-x130.google.com with SMTP id c1so12930525lfi.7;
- Sat, 03 Dec 2022 15:19:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=61qnkc3RjxGV9ijuLcoNsoslKp4YOIfKGjRa+fFUZQ4=;
- b=kWKuJGOnFe3SNyWIbY/jnrI2xVogtEBQllrtYrFFf1ZcYSjWohye9FGnpBFEJtHcZD
- v3oMr8voG07txSX35PfhSJax5g802SzdEFmOnubNI/jk9MWNSrEUiaRz8UAeXYO0HOcn
- D7PuYIB0seb3h1eYG6cA0etQF+w5YLJ51cSbXLcNIznlNf8xl5F6cCyHEQ/ctU4VIJNw
- lGIHGYExrK0M8hKichEMRl7rEP/FhHemFQI5f80GWxLUbRG7bQdtonxa9AgVJg3ggxNA
- O4Hz6+PuJUpck37YQeV3GCz392/zKiRQbUOX+Vn23KEuNujWuCD4j3NLt42z0WOMUbj6
- AXmA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p1cTw-0008R1-Iq
+ for qemu-devel@nongnu.org; Sat, 03 Dec 2022 19:03:45 -0500
+Received: by mail-oi1-x230.google.com with SMTP id n186so9119211oih.7
+ for <qemu-devel@nongnu.org>; Sat, 03 Dec 2022 16:03:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vNjsgcAi1s+qqB/0T1CtW2U318zYlBY2r650cvBjAws=;
+ b=YJyBY4hhthneoUA/sEbvqMBiPNbszGCYnqohPVR3+JHF4gDkm+4+OipAKqCQKTkHp2
+ jc8ZOEKpPhCzoesO2xHCxhNtH8StfWWc2gnQljwRb213wA7Iu5A0iNsYef8WOtQ4Yu8l
+ O7vcY2tY8uaKFwcQ4y1Jfs3PvJTkFfIWKKBtmHMytVZstLzMGuVbLZz5GIW78RnltG+b
+ wZjkgLhjzSce4DlyCE0TOszhbbt/GxaxcMvZp6tqLG2vZrUDn0/NjuPH0eUFtgaM0kMR
+ dA8vqoKECGBzN0t+enu8GMt8px/70xt2l3sud7Nvr+rhfQ2jmw1C3X32vmBR6hcEUY3A
+ a+XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=61qnkc3RjxGV9ijuLcoNsoslKp4YOIfKGjRa+fFUZQ4=;
- b=HDvJuE27t5DYhgbn9n7l0nM6ggc763uSVNoZnoL9QxsXI47nSIEQ3MrvBonesB8h4T
- sBSa3MzoiP8WyxxupeUWq8gCtTFc8yanFoQWxoaxWYn+2AvAik4bvkSAnlpRk1q/dI8s
- t2/EcelGb64Sfyl5lEskRTw89YdIvBwIh2QhUaNkKI1WAS1EdFEyjrrQq2xlyKO2fNEx
- NKm7LbDLceM2N3s3vwwjQiC2K9S984Oe8MHC8ZrI+GIGD5d6VvRvdBAO1MStOQpPTpUt
- woCzr6miAjQGqTtfDMif9+Yxlqqnlal6GpfD+FQZqOAbGR86sdhREVU2WXs8AyDTeGV8
- icEg==
-X-Gm-Message-State: ANoB5pmkusGo44Mg2NAI1vAMdw2ZzdKtH9c3kjq9DJ1RiqzQcI/A/qVf
- 2GcuYfBwvjYWOjI4wZb955s=
-X-Google-Smtp-Source: AA0mqf4suWEUbuyCe5w0yPE+DilctT30nn1oQkd3dodHswoopgHC9I6G4EzHCv6lFz9SD8V7Py/bTg==
-X-Received: by 2002:a05:6512:1285:b0:4a2:26ed:a129 with SMTP id
- u5-20020a056512128500b004a226eda129mr24084736lfs.616.1670109575289; 
- Sat, 03 Dec 2022 15:19:35 -0800 (PST)
-Received: from penguin.lxd (213-67-202-254-no43.tbcn.telia.com.
- [213.67.202.254]) by smtp.googlemail.com with ESMTPSA id
- b27-20020a05651c033b00b002770e6c620bsm22623ljp.106.2022.12.03.15.19.34
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vNjsgcAi1s+qqB/0T1CtW2U318zYlBY2r650cvBjAws=;
+ b=quD1iTNaAPfqxSBU1DNJuRvY8G2V/N4U+K/AvEa22Vn+9xXkNRmXXds1RdbBe6DbGV
+ IiRcHVYwMsjGLo7WJl+0Lom3KcbT+btcL12jXhZztdW8ttFzDFfXBjN5zap7SZFPP1l1
+ MJUxSe/ISPOT4ighANQls/SiQNeh74mq+VgzoDSan6bmB3JVGRHmaKEbnc2ID5exFIDt
+ o9unf0o9/htcXTdxuJ2GDQbKipyeaPyIiXzp46aRT253pmE1BUeN0KpkWWt3m8jkLE7V
+ ITHxyhSyvyr/Aegmh6gXgQfDRG7CQI4H3Jvgq0mmRJiXNUJ5xt55alPfknf58V0kz96N
+ 5XRQ==
+X-Gm-Message-State: ANoB5pnD3JLkgTXLqFuyHF8YZEjc3uYAasRCbTahVvMy+sKplzvulD7i
+ EaoLF4xNgCQHuFsPRBTF76dFnHz+4RoLarxy8cY=
+X-Google-Smtp-Source: AA0mqf6Z6+ajCYHCiHOZYuxtKgnoXkdd7Vu6dGcysTC0pZJIXGqCMaMMcKS1M+ZM7/rBSIL/O5f3Lg==
+X-Received: by 2002:a05:6808:193:b0:35b:c0ea:b59b with SMTP id
+ w19-20020a056808019300b0035bc0eab59bmr11984545oic.32.1670112222713; 
+ Sat, 03 Dec 2022 16:03:42 -0800 (PST)
+Received: from stoup.. ([2806:102e:18:70b5:750e:f543:b9a7:14ad])
+ by smtp.gmail.com with ESMTPSA id
+ bh8-20020a056830380800b006621427ecc7sm5277401otb.60.2022.12.03.16.03.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Dec 2022 15:19:35 -0800 (PST)
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: [PATCH 6/6] hw/arm: Allwinner A10 enable SPL load from MMC
-Date: Sun,  4 Dec 2022 00:19:04 +0100
-Message-Id: <20221203231904.25155-7-strahinja.p.jankovic@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
-References: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
+ Sat, 03 Dec 2022 16:03:42 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com
+Subject: [PATCH] configure: Add --enable-lto
+Date: Sat,  3 Dec 2022 18:03:40 -0600
+Message-Id: <20221204000340.282718-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-lf1-x130.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,111 +86,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch enables copying of SPL from MMC if `-kernel` parameter is not
-passed when starting QEMU. SPL is copied to SRAM_A.
+Separately control b_lto without --enable-cfi.
+Also add --disable-lto for completeness.
 
-The approach is reused from Allwinner H3 implementation.
-
-Tested with Armbian and custom Yocto image.
-
-Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/arm/allwinner-a10.c         | 18 ++++++++++++++++++
- hw/arm/cubieboard.c            |  5 +++++
- include/hw/arm/allwinner-a10.h | 21 +++++++++++++++++++++
- 3 files changed, 44 insertions(+)
+ configure | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 17e439777e..dc1966ff7a 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -24,7 +24,9 @@
- #include "sysemu/sysemu.h"
- #include "hw/boards.h"
- #include "hw/usb/hcd-ohci.h"
-+#include "hw/loader.h"
+diff --git a/configure b/configure
+index 26c7bc5154..d9c9babfc3 100755
+--- a/configure
++++ b/configure
+@@ -301,6 +301,7 @@ fdt="auto"
+ # 2. Automatically enable/disable other options
+ tcg="auto"
+ cfi="false"
++lto="true"
  
-+#define AW_A10_SRAM_A_BASE      0x00000000
- #define AW_A10_DRAMC_BASE       0x01c01000
- #define AW_A10_MMC0_BASE        0x01c0f000
- #define AW_A10_CCM_BASE         0x01c20000
-@@ -38,6 +40,22 @@
- #define AW_A10_RTC_BASE         0x01c20d00
- #define AW_A10_I2C0_BASE        0x01c2ac00
+ # parse CC options second
+ for opt do
+@@ -837,12 +838,14 @@ for opt do
+   ;;
+   --disable-safe-stack) safe_stack="no"
+   ;;
+-  --enable-cfi)
+-      cfi="true";
+-      meson_option_add -Db_lto=true
++  --enable-cfi) cfi="true" lto="true"
+   ;;
+   --disable-cfi) cfi="false"
+   ;;
++  --enable-lto) lto="true"
++  ;;
++  --disable-lto) lto="false"
++  ;;
+   --disable-fdt) fdt="disabled"
+   ;;
+   --enable-fdt) fdt="enabled"
+@@ -2591,6 +2594,7 @@ if test "$skip_meson" = no; then
+   test "$default_feature" = no && meson_option_add -Dauto_features=disabled
+   test "$pie" = no && meson_option_add -Db_pie=false
+   test "$werror" = yes && meson_option_add -Dwerror=true
++  test "$lto" = true && meson_option_add "-Db_lto=true"
  
-+void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk)
-+{
-+    const int64_t rom_size = 32 * KiB;
-+    g_autofree uint8_t *buffer = g_new0(uint8_t, rom_size);
-+
-+    if (blk_pread(blk, 8 * KiB, rom_size, buffer, 0) < 0) {
-+        error_setg(&error_fatal, "%s: failed to read BlockBackend data",
-+                   __func__);
-+        return;
-+    }
-+
-+    rom_add_blob("allwinner-a10.bootrom", buffer, rom_size,
-+                  rom_size, AW_A10_SRAM_A_BASE,
-+                  NULL, NULL, NULL, NULL, false);
-+}
-+
- static void aw_a10_init(Object *obj)
- {
-     AwA10State *s = AW_A10(obj);
-diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-index afc7980414..37659c35fd 100644
---- a/hw/arm/cubieboard.c
-+++ b/hw/arm/cubieboard.c
-@@ -99,6 +99,11 @@ static void cubieboard_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
-                                 machine->ram);
- 
-+    /* Load target kernel or start using BootROM */
-+    if (!machine->kernel_filename && blk && blk_is_available(blk)) {
-+        /* Use Boot ROM to copy data from SD card to SRAM */
-+        allwinner_a10_bootrom_setup(a10, blk);
-+    }
-     /* TODO create and connect IDE devices for ide_drive_get() */
- 
-     cubieboard_binfo.ram_size = machine->ram_size;
-diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
-index 763935fca9..b3c9ed24c7 100644
---- a/include/hw/arm/allwinner-a10.h
-+++ b/include/hw/arm/allwinner-a10.h
-@@ -15,6 +15,7 @@
- #include "hw/misc/allwinner-a10-ccm.h"
- #include "hw/misc/allwinner-a10-dramc.h"
- #include "hw/i2c/allwinner-i2c.h"
-+#include "sysemu/block-backend.h"
- 
- #include "target/arm/cpu.h"
- #include "qom/object.h"
-@@ -47,4 +48,24 @@ struct AwA10State {
-     OHCISysBusState ohci[AW_A10_NUM_USB];
- };
- 
-+/**
-+ * Emulate Boot ROM firmware setup functionality.
-+ *
-+ * A real Allwinner A10 SoC contains a Boot ROM
-+ * which is the first code that runs right after
-+ * the SoC is powered on. The Boot ROM is responsible
-+ * for loading user code (e.g. a bootloader) from any
-+ * of the supported external devices and writing the
-+ * downloaded code to internal SRAM. After loading the SoC
-+ * begins executing the code written to SRAM.
-+ *
-+ * This function emulates the Boot ROM by copying 32 KiB
-+ * of data from the given block device and writes it to
-+ * the start of the first internal SRAM memory.
-+ *
-+ * @s: Allwinner A10 state object pointer
-+ * @blk: Block backend device object pointer
-+ */
-+void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk);
-+
- #endif
+   # QEMU options
+   test "$cfi" != false && meson_option_add "-Dcfi=$cfi"
 -- 
-2.30.2
+2.34.1
 
 
