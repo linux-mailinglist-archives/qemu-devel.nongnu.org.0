@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA32F641B51
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 08:32:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32830641DC7
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 17:08:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1jSo-0000vq-Gf; Sun, 04 Dec 2022 02:31:02 -0500
+	id 1p1rVg-0006kN-L8; Sun, 04 Dec 2022 11:06:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSl-0000vF-Jh
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSk-0001fO-7Z
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670139057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iBXOTls0ls8EQxLSBoIe1IhGZWHU7ZY9DYJEMi6bQmU=;
- b=BsEC5dei9tJfF72PHgrCNhH3eebU4BWIRyzvO8qKhUzbS08a3jZg2yJxHNPh0FMtJAmSbw
- QS8OB1MQL2e/1LK9OLAX3lvrAJnUCLXH3OhbfT5NfcDz8/Mku5saGCXQM6EQR744x9bPOy
- hmHeyuUvFNkMJImCp/3FNtQ8Itbxokc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-674-JgIPkhnhMEi39c47VgvUFw-1; Sun, 04 Dec 2022 02:30:54 -0500
-X-MC-Unique: JgIPkhnhMEi39c47VgvUFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CF59185A78B
- for <qemu-devel@nongnu.org>; Sun,  4 Dec 2022 07:30:54 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0ABF82166B29;
- Sun,  4 Dec 2022 07:30:52 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PULL 3/3] hw/display/next-fb: Fix comment typo
-Date: Sun,  4 Dec 2022 08:30:43 +0100
-Message-Id: <20221204073043.54402-4-thuth@redhat.com>
-In-Reply-To: <20221204073043.54402-1-thuth@redhat.com>
-References: <20221204073043.54402-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p1rVd-0006jy-Nr; Sun, 04 Dec 2022 11:06:29 -0500
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p1rVb-0006nh-Tw; Sun, 04 Dec 2022 11:06:29 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id d131so8327800ybh.4;
+ Sun, 04 Dec 2022 08:06:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=e1m5dBcF2ZxqAED8tocJKmjyKzou36nu8LGa8y56nPQ=;
+ b=G/98IFRxgLpzoZv/jqQ9WfbmVJlOxhSgjnp5Oy5UiJ0/gP0UjsOCiyKzGx2J3LcVAi
+ tJk3uS4pkyRpP6DzQW4ZkxdSVThnjFdCWKinF4hRybuZqYECts+PJ7zS10WNb0LRSvKQ
+ AAPfXXPEht0YamCUXibFH4qHJ3i3TCYZOutzLdpYNDlzoxuEp6b6OKn33V1nCPKhNAyw
+ nMaxLLgW7BayWtRJkxu+51Lpq+yIvEP8ZvAxJhqGmGz9Y3zLRcHHzPj0NQ5M9p/IITqv
+ iF5mUkMAawm0gk47i/UxBuS0yb3pekUsUY1EP0aTl8vK1zxMkPijeHB/ncXla/RrhIpU
+ lf+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e1m5dBcF2ZxqAED8tocJKmjyKzou36nu8LGa8y56nPQ=;
+ b=F8YIM8lsXX8bT2O7oStrkSbiLyBpw6MSwwf2EBjhXe4kRk2vIgFybP3DAJjw75wE+W
+ MqVR5aexI1OJrkr41m8l1aWSTXpiOcnXC8GpirBRRp+m/WA2k++rP8FCG+UeNbOujB3B
+ pRdzZ8hJDOk2uXw+6PIBIho8zLEp6IYpeIqXlGvppkRWxoRcvT21Q36n5m0bLpxDlqUf
+ 5uoJxX45DsrwQ3tmxS4dDHEN0bjxMq5/yUbLJLF7upOhta1yyHeX6sbVWQrm8ZG+nRy1
+ HhSnAdusuvkUvXtpubueU8mGNoCozTJoJO3PxqL3qUFYpHKWfPwUY/NsIVC+vp3uw+Rt
+ RdQw==
+X-Gm-Message-State: ANoB5pmrEALrnO4owM4Uf/npZ+uPA/vZVXvkDi4e1YaLnhu7P5bpCOAn
+ buVNAh8QMXYrJl/lf6ClIRdzgMOBUDyFBFwhOxc=
+X-Google-Smtp-Source: AA0mqf4zHpPO2SiUsBkyi8cphCkiH+u7/FYfVSA7wNnLJY9ROD5uQiCdFXwLD6mQyy+DHh1A2+a5O5cze2foVYGg+1k=
+X-Received: by 2002:a25:af54:0:b0:6dc:e3ee:3e60 with SMTP id
+ c20-20020a25af54000000b006dce3ee3e60mr60752654ybj.58.1670169985683; Sun, 04
+ Dec 2022 08:06:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221201165024.51018-1-its@irrelevant.dk>
+In-Reply-To: <20221201165024.51018-1-its@irrelevant.dk>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sun, 4 Dec 2022 11:06:13 -0500
+Message-ID: <CAJSP0QUev9iCGpqiN35d87RBGiQxK4weXGR5hGJT7W00E31=oA@mail.gmail.com>
+Subject: Re: [PULL for-7.2 0/5] hw/nvme fixes
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,31 +81,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
+On Thu, 1 Dec 2022 at 11:50, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Hi,
+>
+> The following changes since commit c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
+>
+>   Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
+>
+> are available in the Git repository at:
+>
+>   git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
 
-Signed-off-by: Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
-Message-Id: <20221125160849.23711-1-evgeny.v.ermakov@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/display/next-fb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Klaus,
+Please send pull requests with an https:// URI in the future.
 
-diff --git a/hw/display/next-fb.c b/hw/display/next-fb.c
-index dd6a1aa8ae..8446ff3c00 100644
---- a/hw/display/next-fb.c
-+++ b/hw/display/next-fb.c
-@@ -126,7 +126,7 @@ static void nextfb_class_init(ObjectClass *oc, void *data)
-     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-     dc->realize = nextfb_realize;
- 
--    /* Note: This device does not any state that we have to reset or migrate */
-+    /* Note: This device does not have any state that we have to reset or migrate */
- }
- 
- static const TypeInfo nextfb_info = {
--- 
-2.31.1
+Stefan
 
+>
+> for you to fetch changes up to 83f56ac321ca2301f00e63b6acbde5c692916a1d:
+>
+>   hw/nvme: remove copy bh scheduling (2022-12-01 08:45:03 +0100)
+>
+> ----------------------------------------------------------------
+> hw/nvme fixes
+>
+>   * fixes for aio cancellation in commands that may issue several
+>     aios
+>
+> ----------------------------------------------------------------
+>
+> Klaus Jensen (5):
+>   hw/nvme: fix aio cancel in format
+>   hw/nvme: fix aio cancel in flush
+>   hw/nvme: fix aio cancel in zone reset
+>   hw/nvme: fix aio cancel in dsm
+>   hw/nvme: remove copy bh scheduling
+>
+>  hw/nvme/ctrl.c | 182 ++++++++++++++-----------------------------------
+>  1 file changed, 51 insertions(+), 131 deletions(-)
+>
+> --
+> 2.38.1
+>
+>
 
