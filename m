@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CCD641F3C
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF4A641F3D
 	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 20:20:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1uKn-0001kv-KV; Sun, 04 Dec 2022 14:07:29 -0500
+	id 1p1uKn-0001kz-UV; Sun, 04 Dec 2022 14:07:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p1uKl-0001jU-9x; Sun, 04 Dec 2022 14:07:27 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ id 1p1uKm-0001kI-M7; Sun, 04 Dec 2022 14:07:28 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p1uKj-0001aW-TB; Sun, 04 Dec 2022 14:07:27 -0500
-Received: by mail-ed1-x531.google.com with SMTP id m19so13032970edj.8;
- Sun, 04 Dec 2022 11:07:25 -0800 (PST)
+ id 1p1uKl-0001bf-72; Sun, 04 Dec 2022 14:07:28 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id ml11so23088232ejb.6;
+ Sun, 04 Dec 2022 11:07:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UICViTJnHcQeaPYE3gN3Gm3w5DqlM81wlE2s7yBTyiA=;
- b=LLJLigkdA/HS2uZKgchUv31zw7VCEVYbolRx2Pr9Wns9YcYRn3nnqGo2IRatvDfCPq
- mxrGhlxmT81/xrFM78nO2UhNUK6owZKrzm7WII659nh4/B+TsvJCom0ulTjz+/kLSGlU
- 82W+fLOSaWSOjQ4ZBnHcDyfbr09TYRph7TSir7MUvRl8n+a0QcXXO7Wo/oy6PlJM4bm8
- QwKGl0CiH3No7PZhfyigOm54lvSWZ0CLxDrUU+53A2q0fohpaxDu+DGbVAvNcimbo5Tn
- LJQ1i/5yhQ8QuDWXcbR9hOVrhG/YzWuCIj1A3oAyk2111O8X149N94Qh47GwC/O4nize
- PRag==
+ bh=CmkH8CbbCM2o782sBEukQ8ETWoFsxaO7vlWTDApTAUc=;
+ b=TRzYrq1B48Ga5KU02Eh97MTjX0uBN/OQx3eMXN+jlEoo/PN0CB6cX/vJ0hlObmXkUR
+ x1MqZnYLe1hBLAjOAmTUMagtffly0/CqfKCpDc0OVBwN7MO5AUX4SPdUkhlNiN9QqPqI
+ I0BiVPppG2HwhHy62gco7XJ6CG0IAeSONOxj6EMm55yrNr483DghGvUboOHhtpXGx0aw
+ Ns0anl/MrDzpHhHU/+HGzU9gIMgWOkXb4MLQZtpcIVqiapJ/BQEE4qUbpJGInSkFOdf0
+ MsDFN0BZOorspmFWueO2aTkBSYlVD/nW3gmio/5peg5LE4LLa6rFy/ODFYbqD4npV0Pu
+ glag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UICViTJnHcQeaPYE3gN3Gm3w5DqlM81wlE2s7yBTyiA=;
- b=xNa/6r6ol1ZMqPKaaO9sgw6w87IW8cf9hHgYegt3gwQu3jkmMyT6wMF+VStw445Kms
- csMark9n3jzQzHA1erWXMGKDaJQmcfOkjQ8C6+85U5wWRtc0tia2fQKF+ahXw6UdyQWq
- 6DNOznJoaOtIVp2sBUNDeuhFlan/ofVSJcBZVPhSbkian4EZs5GCXf9YUPdsY0x3wQ0n
- EppwIn3DEg/699THDa2HhDnjdBMuXbeWIh6FpD3jMAYMtDBynAkE0MfMvlK4BRtzD4HU
- CThOK5L2JJp3iUyp7h8YC/BlrbvIId6hgoxDNQiLL6URsyhaauqUjaNe8a9GF/pntBLv
- 3z7A==
-X-Gm-Message-State: ANoB5pn3QYPl4HxBHm9scSVL1QrPkOwbMTHyhhCZiJFmxfvNQFLZ4QK5
- alsk6OhHT+7a7J3qrugOGTbzEjFB4I8=
-X-Google-Smtp-Source: AA0mqf5lpmEafSc5J5puKhkpUJFggHIIAdjVWGGBwF54i3b8eaPxQsbqdAUaqGAo/0SRglPhTCrzvA==
-X-Received: by 2002:a05:6402:d6:b0:458:b42e:46e6 with SMTP id
- i22-20020a05640200d600b00458b42e46e6mr71724753edu.375.1670180843449; 
- Sun, 04 Dec 2022 11:07:23 -0800 (PST)
+ bh=CmkH8CbbCM2o782sBEukQ8ETWoFsxaO7vlWTDApTAUc=;
+ b=vP/Ifu5xjazBIxbcigXzMLnGgLgYygAvrgzMmw4LaEOKfW1PctJ5YvOcAK1CqoMjkW
+ eQ6XcgOBOmkHb+LwoO/mKHd/XXV8t6GN4PDEGsPDt7moohKAizl3x2fAwFiLVdO+umFu
+ qJUcYM8bBERK686O69ihhTqcGzwlwMifb2IdmhxBX6VY51hhpc1TIcP3hC8mLvSSkiYY
+ TtFeCCWy7189qGepAwzNW9Ai7AZwFLIcgDnKJnOg+TeM/K0afTRbaI5l/zakXJ2LEnHz
+ uAOV1cRG4TXb/iCGDsg5U4dVm01PY/HeYhh34akcQM7SnHqEwq9CGbfLUzGo4s5GQNfD
+ gqrA==
+X-Gm-Message-State: ANoB5pmyNNFXnIz9OXVtKDVHMMLLRx9G0mE45Hor4wvAQKM2u4gu4kgY
+ LXOBSajz5H/bd2jfFoVhFrkSX2C5ASs=
+X-Google-Smtp-Source: AA0mqf400dXTwpmfT69Qwkfdd7yNwz4vW8q6cRa5Ff5nTjNTAprJAzPGfq+fohf6pIBGn/a71nR/cA==
+X-Received: by 2002:a17:906:6703:b0:7ae:5dd6:e62d with SMTP id
+ a3-20020a170906670300b007ae5dd6e62dmr56697204ejp.518.1670180845029; 
+ Sun, 04 Dec 2022 11:07:25 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-089-012-182-051.89.12.pool.telefonica.de. [89.12.182.51])
  by smtp.gmail.com with ESMTPSA id
- j10-20020a17090623ea00b00782ee6b34f2sm5359835ejg.183.2022.12.04.11.07.21
+ j10-20020a17090623ea00b00782ee6b34f2sm5359835ejg.183.2022.12.04.11.07.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Dec 2022 11:07:23 -0800 (PST)
+ Sun, 04 Dec 2022 11:07:24 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -66,18 +66,18 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 03/32] hw/isa/piix4: Correct IRQRC[A:D] reset values
-Date: Sun,  4 Dec 2022 20:05:24 +0100
-Message-Id: <20221204190553.3274-4-shentey@gmail.com>
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 04/32] hw/mips/Kconfig: Track Malta's PIIX dependencies via
+ Kconfig
+Date: Sun,  4 Dec 2022 20:05:25 +0100
+Message-Id: <20221204190553.3274-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204190553.3274-1-shentey@gmail.com>
 References: <20221204190553.3274-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,39 +100,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tracking dependencies via Kconfig seems much cleaner.
 
-IRQRC[A:D] registers reset value is 0x80. We were forcing
-the MIPS Malta machine routing to be able to boot a Linux
-kernel without any bootloader.
-We now have these registers initialized in the Malta machine
-write_bootloader(), so we can use the correct reset values.
+Note that PIIX4 already depends on ACPI_PIIX4.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221027204720.33611-4-philmd@linaro.org>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix4.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ configs/devices/mips-softmmu/common.mak | 2 --
+ hw/mips/Kconfig                         | 1 +
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 8fc1db6dc9..0d23e11a39 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -116,10 +116,10 @@ static void piix4_isa_reset(DeviceState *dev)
-     pci_conf[0x4c] = 0x4d;
-     pci_conf[0x4e] = 0x03;
-     pci_conf[0x4f] = 0x00;
--    pci_conf[0x60] = 0x0a; // PCI A -> IRQ 10
--    pci_conf[0x61] = 0x0a; // PCI B -> IRQ 10
--    pci_conf[0x62] = 0x0b; // PCI C -> IRQ 11
--    pci_conf[0x63] = 0x0b; // PCI D -> IRQ 11
-+    pci_conf[0x60] = 0x80;
-+    pci_conf[0x61] = 0x80;
-+    pci_conf[0x62] = 0x80;
-+    pci_conf[0x63] = 0x80;
-     pci_conf[0x69] = 0x02;
-     pci_conf[0x70] = 0x80;
-     pci_conf[0x76] = 0x0c;
+diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
+index 416161f833..7813fd1b41 100644
+--- a/configs/devices/mips-softmmu/common.mak
++++ b/configs/devices/mips-softmmu/common.mak
+@@ -18,10 +18,8 @@ CONFIG_PCSPK=y
+ CONFIG_PCKBD=y
+ CONFIG_FDC=y
+ CONFIG_ACPI=y
+-CONFIG_ACPI_PIIX4=y
+ CONFIG_APM=y
+ CONFIG_I8257=y
+-CONFIG_PIIX4=y
+ CONFIG_IDE_ISA=y
+ CONFIG_PFLASH_CFI01=y
+ CONFIG_I8259=y
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 725525358d..4e7042f03d 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -1,6 +1,7 @@
+ config MALTA
+     bool
+     select ISA_SUPERIO
++    select PIIX4
+ 
+ config MIPSSIM
+     bool
 -- 
 2.38.1
 
