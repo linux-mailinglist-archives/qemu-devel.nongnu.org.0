@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9E5641F2D
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 20:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD285641F29
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 20:13:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1uLZ-0002IN-0m; Sun, 04 Dec 2022 14:08:17 -0500
+	id 1p1uLd-0002Kc-7W; Sun, 04 Dec 2022 14:08:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p1uLU-0002Gm-FE; Sun, 04 Dec 2022 14:08:12 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ id 1p1uLV-0002Hk-FN; Sun, 04 Dec 2022 14:08:13 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p1uLS-0001it-Ns; Sun, 04 Dec 2022 14:08:12 -0500
-Received: by mail-ej1-x630.google.com with SMTP id b2so23071363eja.7;
- Sun, 04 Dec 2022 11:08:09 -0800 (PST)
+ id 1p1uLT-0001gV-N9; Sun, 04 Dec 2022 14:08:13 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id vp12so23072386ejc.8;
+ Sun, 04 Dec 2022 11:08:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WfldgsgnZIXfF7T040WVVojKz+zBXQftfJeOFtrxOKg=;
- b=au2gG86lPML1mpIs3GGvlNXfIu8jtnAuTDtKUleEB+ZLTcKxP4imLVd5tq/Df+gtiB
- JQHJq2mhgs3ZSW6kUpVduogeJK0BXmj4rh4wy3B+HF9KhMsZjj4Ej/V3OxfiBwyyqz2y
- 00K8hZ6S/90Sojv3NG9iM6HOmQp2a6l7tcwQsM8D1Iz1fUXo9DmU/o7/rT50G0RlP801
- Rc9QbaHkhkWbqarhI2P/F8edTsGkw6Pic+y0kNVa6Rpa+QVTLUCGdjEj3ngUKZ2YEIzl
- +nP4ZjM/K+CrJXCPH1XBhTospQkrjjwKaKZrvVjvf/NMufeQAHIWpuWttgx5/exvFH2S
- iCTQ==
+ bh=7NivgS1KO7sUwU/2krq9nI7J+Chmc9A73/Pj8jwDcRA=;
+ b=ID4rOcPXjprMrPXvKqoxD280h70qeNdsRMbQEEqESs/plq2Sp6bJ5eYopjnubUwkMz
+ 6UH9T3JV4SKy2djpeUpUGGn9Lm0UYeAu1pnXwS74QsTvQZ8Od0id4Q9TSS8hXVp/IO0g
+ SsMqpGYWGDLkhC+hSqaqrLHPoXEKPLyBYGrEVkHIbdzD80iJSWbwZFakz585PC9riP2Y
+ 3eYct0U6Y8EE8KDll6R6FAMtOLbVM7Fk3qgdnCt7LA+RVGxTCdHTca0bqZyz1qenAi5s
+ A3AGmgF53ZZIxOkI8lEe/Cwe53rhe0jfT1Ocx4DSP/cvRADWmvLpLulMjYADAbcBpzpK
+ Eh+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WfldgsgnZIXfF7T040WVVojKz+zBXQftfJeOFtrxOKg=;
- b=AxzsAsXXKFc+8vvYrjC0kRAGGd1VXpaGkNuw/rpxv6fYYW5PB6HdsA0o9LJUPRwsJL
- wJOZElq7R23FDH8mx9eNNVM+AFcyZrKNlfmFxb+K/t1N3qZeK9SIe0CECe5yQg3O5r2m
- fhxZiUgA8V3lmxhWM/RuACx+z8pUZvm7ljeuN/+7mNe6R/xL4rTQ+5bxahf/ko6wlHrD
- 23amOcUrq+2IM7ITRC3daQcTEIKjMNs2KKDk/OlSW/54mOgXbMaj9K98VyRjVUxpOBkc
- XBzm10wZxDGzfGCrsriUS64wRCWeAPEBtkO15bRVY+fDDIBdcaYAOknPE0Ct1x1VSSfk
- wVdw==
-X-Gm-Message-State: ANoB5pkP4IXoHsx7aIH/z5GhJNH77Pj6Brmmt7YgGogAkMSFwQNi30yQ
- qChKDNFPKIQxXy4o0e2lghAZp74jlC4=
-X-Google-Smtp-Source: AA0mqf7/ZssFwg12j5TwFgIMBHKcps/Dl+y0ckAD/NX2zOQbsCrJZDCGbBEj6g37UdBi2OG9uwMURQ==
-X-Received: by 2002:a17:906:2851:b0:78d:88c7:c1bf with SMTP id
- s17-20020a170906285100b0078d88c7c1bfmr51454933ejc.299.1670180888861; 
- Sun, 04 Dec 2022 11:08:08 -0800 (PST)
+ bh=7NivgS1KO7sUwU/2krq9nI7J+Chmc9A73/Pj8jwDcRA=;
+ b=qqoPjcQMQwyPJIqBKk/mx1LBODFLe79idUmj7vXK8yvh2A8Ys6GLhe3zkPOCegPDTn
+ MML9lMeVDf9jQPexa+wLdw0oSe1YgN3uq9VsyOR19xOc0krXP2JZMH6nID8QUztKnlok
+ II1DHVEBgStgBB7xfULU54T53AEcV15ZTUBQRLxYXiQILJahJPSGRyZ5KbpR6945YGJ2
+ YBJtfl3Ty2ew+jG9CnkPDSfuSQ5Zo6bOR8XSE1fSTKcZStIEJr0Dnu554qxsG6uUa3kq
+ 3MgFYvWQX5eZHnr7/tk99Go6/0NeAaagZ3OU1Pu35OdknIdSmY65bRWNvWbzS3HnUTtS
+ d4fA==
+X-Gm-Message-State: ANoB5plgjdFdgmYNDWEWxG6nDTu3XJx91hNZKvnItqCPwoO5FZC6hBYE
+ BwqVZbOMprXE2BrQknUFj8tUeReoz60=
+X-Google-Smtp-Source: AA0mqf4Bd/EsweCjn0WQumsDedsai1sKW808pdJFBiCX/Vh4naTbSbc/jMYdm6lp1aJA7AQqF1K4zA==
+X-Received: by 2002:a17:907:8c83:b0:7bf:4ac7:56e4 with SMTP id
+ td3-20020a1709078c8300b007bf4ac756e4mr8636466ejc.39.1670180890382; 
+ Sun, 04 Dec 2022 11:08:10 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-089-012-182-051.89.12.pool.telefonica.de. [89.12.182.51])
  by smtp.gmail.com with ESMTPSA id
- j10-20020a17090623ea00b00782ee6b34f2sm5359835ejg.183.2022.12.04.11.08.07
+ j10-20020a17090623ea00b00782ee6b34f2sm5359835ejg.183.2022.12.04.11.08.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Dec 2022 11:08:08 -0800 (PST)
+ Sun, 04 Dec 2022 11:08:10 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -67,17 +67,16 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 29/32] hw/isa/piix: Rename functions to be shared for
- interrupt triggering
-Date: Sun,  4 Dec 2022 20:05:50 +0100
-Message-Id: <20221204190553.3274-30-shentey@gmail.com>
+Subject: [PATCH 30/32] hw/isa/piix: Consolidate IRQ triggering
+Date: Sun,  4 Dec 2022 20:05:51 +0100
+Message-Id: <20221204190553.3274-31-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204190553.3274-1-shentey@gmail.com>
 References: <20221204190553.3274-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,157 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PIIX4 will get the same optimizations which are already implemented for
-PIIX3.
+Speeds up PIIX4 which resolves an old TODO.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Message-Id: <20221022150508.26830-40-shentey@gmail.com>
+Message-Id: <20221022150508.26830-41-shentey@gmail.com>
 ---
- hw/isa/piix.c | 56 +++++++++++++++++++++++++--------------------------
- 1 file changed, 28 insertions(+), 28 deletions(-)
+ hw/isa/piix.c | 26 +++-----------------------
+ 1 file changed, 3 insertions(+), 23 deletions(-)
 
 diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index f37851c5f4..3d1659e5fd 100644
+index 3d1659e5fd..d05f1aa4ff 100644
 --- a/hw/isa/piix.c
 +++ b/hw/isa/piix.c
-@@ -40,47 +40,47 @@
- 
- #define XEN_PIIX_NUM_PIRQS      128ULL
- 
--static void piix3_set_irq_pic(PIIXState *piix3, int pic_irq)
-+static void piix_set_irq_pic(PIIXState *piix, int pic_irq)
- {
--    qemu_set_irq(piix3->pic.in_irqs[pic_irq],
--                 !!(piix3->pic_levels &
-+    qemu_set_irq(piix->pic.in_irqs[pic_irq],
-+                 !!(piix->pic_levels &
-                     (((1ULL << PIIX_NUM_PIRQS) - 1) <<
-                      (pic_irq * PIIX_NUM_PIRQS))));
+@@ -83,27 +83,6 @@ static void piix_set_irq(void *opaque, int pirq, int level)
+     piix_set_irq_level(piix, pirq, level);
  }
  
--static void piix3_set_irq_level_internal(PIIXState *piix3, int pirq, int level)
-+static void piix_set_irq_level_internal(PIIXState *piix, int pirq, int level)
- {
-     int pic_irq;
-     uint64_t mask;
- 
--    pic_irq = piix3->dev.config[PIIX_PIRQCA + pirq];
-+    pic_irq = piix->dev.config[PIIX_PIRQCA + pirq];
-     if (pic_irq >= ISA_NUM_IRQS) {
-         return;
+-static void piix4_set_irq(void *opaque, int irq_num, int level)
+-{
+-    int i, pic_irq, pic_level;
+-    PIIXState *s = opaque;
+-    PCIBus *bus = pci_get_bus(&s->dev);
+-
+-    /* now we change the pic irq level according to the piix irq mappings */
+-    /* XXX: optimize */
+-    pic_irq = s->dev.config[PIIX_PIRQCA + irq_num];
+-    if (pic_irq < ISA_NUM_IRQS) {
+-        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
+-        pic_level = 0;
+-        for (i = 0; i < PIIX_NUM_PIRQS; i++) {
+-            if (pic_irq == s->dev.config[PIIX_PIRQCA + i]) {
+-                pic_level |= pci_bus_get_irq_level(bus, i);
+-            }
+-        }
+-        qemu_set_irq(s->pic.in_irqs[pic_irq], pic_level);
+-    }
+-}
+-
+ /*
+  * Return the global irq number corresponding to a given device irq
+  * pin. We could also use the bus number to have a more precise mapping.
+@@ -275,7 +254,7 @@ static int piix4_post_load(void *opaque, int version_id)
+         s->rcr = 0;
      }
  
-     mask = 1ULL << ((pic_irq * PIIX_NUM_PIRQS) + pirq);
--    piix3->pic_levels &= ~mask;
--    piix3->pic_levels |= mask * !!level;
-+    piix->pic_levels &= ~mask;
-+    piix->pic_levels |= mask * !!level;
+-    return 0;
++    return piix3_post_load(opaque, version_id);
  }
  
--static void piix3_set_irq_level(PIIXState *piix3, int pirq, int level)
-+static void piix_set_irq_level(PIIXState *piix, int pirq, int level)
- {
-     int pic_irq;
+ static int piix3_pre_save(void *opaque)
+@@ -592,7 +571,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     /* RTC */
+     s->rtc.irq = qdev_get_gpio_in(DEVICE(&s->pic), s->rtc.isairq);
  
--    pic_irq = piix3->dev.config[PIIX_PIRQCA + pirq];
-+    pic_irq = piix->dev.config[PIIX_PIRQCA + pirq];
-     if (pic_irq >= ISA_NUM_IRQS) {
-         return;
-     }
- 
--    piix3_set_irq_level_internal(piix3, pirq, level);
-+    piix_set_irq_level_internal(piix, pirq, level);
- 
--    piix3_set_irq_pic(piix3, pic_irq);
-+    piix_set_irq_pic(piix, pic_irq);
+-    pci_bus_irqs(pci_bus, piix4_set_irq, piix4_pci_slot_get_pirq, s,
++    pci_bus_irqs(pci_bus, piix_set_irq, piix4_pci_slot_get_pirq, s,
+                  PIIX_NUM_PIRQS);
  }
  
--static void piix3_set_irq(void *opaque, int pirq, int level)
-+static void piix_set_irq(void *opaque, int pirq, int level)
- {
--    PIIXState *piix3 = opaque;
--    piix3_set_irq_level(piix3, pirq, level);
-+    PIIXState *piix = opaque;
-+    piix_set_irq_level(piix, pirq, level);
- }
- 
- static void piix4_set_irq(void *opaque, int irq_num, int level)
-@@ -157,29 +157,29 @@ static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
- }
- 
- /* irq routing is changed. so rebuild bitmap */
--static void piix3_update_irq_levels(PIIXState *piix3)
-+static void piix_update_irq_levels(PIIXState *piix)
- {
--    PCIBus *bus = pci_get_bus(&piix3->dev);
-+    PCIBus *bus = pci_get_bus(&piix->dev);
-     int pirq;
- 
--    piix3->pic_levels = 0;
-+    piix->pic_levels = 0;
-     for (pirq = 0; pirq < PIIX_NUM_PIRQS; pirq++) {
--        piix3_set_irq_level(piix3, pirq, pci_bus_get_irq_level(bus, pirq));
-+        piix_set_irq_level(piix, pirq, pci_bus_get_irq_level(bus, pirq));
-     }
- }
- 
--static void piix3_write_config(PCIDevice *dev,
--                               uint32_t address, uint32_t val, int len)
-+static void piix_write_config(PCIDevice *dev, uint32_t address, uint32_t val,
-+                              int len)
- {
-     pci_default_write_config(dev, address, val, len);
-     if (ranges_overlap(address, len, PIIX_PIRQCA, 4)) {
--        PIIXState *piix3 = PIIX_PCI_DEVICE(dev);
-+        PIIXState *piix = PIIX_PCI_DEVICE(dev);
-         int pic_irq;
- 
--        pci_bus_fire_intx_routing_notifier(pci_get_bus(&piix3->dev));
--        piix3_update_irq_levels(piix3);
-+        pci_bus_fire_intx_routing_notifier(pci_get_bus(&piix->dev));
-+        piix_update_irq_levels(piix);
-         for (pic_irq = 0; pic_irq < ISA_NUM_IRQS; pic_irq++) {
--            piix3_set_irq_pic(piix3, pic_irq);
-+            piix_set_irq_pic(piix, pic_irq);
-         }
-     }
- }
-@@ -201,7 +201,7 @@ static void piix3_write_config_xen(PCIDevice *dev,
-         }
-     }
- 
--    piix3_write_config(dev, address, val, len);
-+    piix_write_config(dev, address, val, len);
- }
- 
- static void piix_reset(DeviceState *dev)
-@@ -261,7 +261,7 @@ static int piix3_post_load(void *opaque, int version_id)
-      */
-     piix3->pic_levels = 0;
-     for (pirq = 0; pirq < PIIX_NUM_PIRQS; pirq++) {
--        piix3_set_irq_level_internal(piix3, pirq,
-+        piix_set_irq_level_internal(piix3, pirq,
-             pci_bus_get_irq_level(pci_get_bus(&piix3->dev), pirq));
-     }
-     return 0;
-@@ -518,7 +518,7 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
- 
--    pci_bus_irqs(pci_bus, piix3_set_irq, piix3_pci_slot_get_pirq,
-+    pci_bus_irqs(pci_bus, piix_set_irq, piix3_pci_slot_get_pirq,
-                  piix3, PIIX_NUM_PIRQS);
-     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
- }
-@@ -527,7 +527,7 @@ static void piix3_class_init(ObjectClass *klass, void *data)
- {
+@@ -610,6 +589,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
  
--    k->config_write = piix3_write_config;
 +    k->config_write = piix_write_config;
-     k->realize = piix3_realize;
- }
- 
+     k->realize = piix4_realize;
+     k->vendor_id = PCI_VENDOR_ID_INTEL;
+     k->device_id = PCI_DEVICE_ID_INTEL_82371AB_0;
 -- 
 2.38.1
 
