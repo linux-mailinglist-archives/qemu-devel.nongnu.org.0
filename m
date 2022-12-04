@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A5C641FEB
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 22:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9E8641FED
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 22:45:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1wiR-0006Un-9x; Sun, 04 Dec 2022 16:40:03 -0500
+	id 1p1wmw-0007fw-PC; Sun, 04 Dec 2022 16:44:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p1wiQ-0006Sr-2s
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 16:40:02 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p1wms-0007fS-Vj
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 16:44:39 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p1wiN-0007ri-TD
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 16:40:01 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- 125-20020a1c0283000000b003d076ee89d6so7823901wmc.0
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 13:39:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p1wmr-0000M6-Ai
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 16:44:38 -0500
+Received: by mail-wr1-x432.google.com with SMTP id f18so16004367wrj.5
+ for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 13:44:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ZiivK4Ue41Ik5hpxQLCRrMjLtGXHowbGQJxopnI6iAQ=;
- b=M99M1hy1wFhcmWz+Tklo13iYeSHIMU8Ml6o1/c6vqaG2QF5Bu78tEQYQemtawKzaZ2
- U5KoztvFzU/OyhgMcwedG7F+4WIMgGm/jEOIp6Tdu6Z0GYlQrLJO2OVA5tNYDNdgUEfT
- COxkh5w7wK4fyzwQeq17LnemKfSHBrjdPfjRz7h97HT5BXVVbZUYG3h/g5Nh6cfTLxYZ
- jopBLZI9W2gnOEhzWUXqotJ+GXrENQWk4wCTxLYCeW9tv/ABFE4pr8rlgQ1h4IcrFiFG
- Bqfr1pG7mmXdS8KdI8YdyTCvNDUU+eh9iMgXKO+1QqfskjUnwXXu8oB8tN4i2mkN2mdH
- YxZw==
+ bh=W4kMkGrGe0rwwzOGikB2OHLU7PJz5d4N6lDSsHUQOSI=;
+ b=zxduwTfuHe+L4FwR1Qe7YW+JNlJYB4oXAKyOOfhyc2695YE3mx/zqBh10q6eco79Mh
+ UaVCV8Obfyfmu/3zlkxNqeKmoxxldi8OecKuyYIU8wfyjsftU6wa/2/Hp+h7mv/RjMmY
+ OXbj3uZyGmSMsx2+q+7axRbMy/ZRRWvlKvdGisExfWIPHOv0aa7rapsw7A5aABVDJKfF
+ IqOVG3ker2FEuH3c8U6IU3gHjX6V1mcrm/AU0aFxThuVUKIaWJRq2mIEzeQVouXNNgv6
+ 6dPvO5LWEaCH5bcpAmPzGZNsKiPr3osxSLuiZuOFOJ8vqWImNNWIOEKlVNqMy64lfNpr
+ YlVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZiivK4Ue41Ik5hpxQLCRrMjLtGXHowbGQJxopnI6iAQ=;
- b=niDs2XxwI25Q2Kd0g75vBxnfYxT8Si3tRqyoAPQhJVkaCK23Fk3PERxOB9zsspEX2f
- mv4QbgU0DT2oI2m8qIdDj3DxN+LGosEzst+R6ZAZcVygHbol1Zk/fETknSfalbaAfk87
- I4P26XzPVjnGEsSrbja/MXWDE5YbZBYTMD9DgZHklpm2hhn8KhEPRP80/mXix4A55bYZ
- XpuVeWkWPqdxGEmEU7iLSR1g38O2duo041HRQRoUGhbdnG/yc6MD6ITgLieIihxJUlr+
- YXS+znXG5tF0O2XzgWIHtHeI+1mPq57M6WaQGACkCp5WhA8I01aBVuh8+HtKlCCVqyA2
- 6yqA==
-X-Gm-Message-State: ANoB5pnkwk8JV5VD1Iz/gUnaLIzIPb9GqeK/XrKAIVZgphR4xpz0A3yi
- 0PtCo24DeNXEd9rkPPI1sj8dPA==
-X-Google-Smtp-Source: AA0mqf5MBZLwVg/TPRR46zxypNq5nRrEJqYMFOUz0wumysPkXF0oX3eT6lPhSwFRv6dfyzidTibcaw==
-X-Received: by 2002:a05:600c:554b:b0:3d0:88b4:9cda with SMTP id
- iz11-20020a05600c554b00b003d088b49cdamr7735375wmb.114.1670189997677; 
- Sun, 04 Dec 2022 13:39:57 -0800 (PST)
+ bh=W4kMkGrGe0rwwzOGikB2OHLU7PJz5d4N6lDSsHUQOSI=;
+ b=MyFWKPjvwcSAgg6ueqRnvP6diUbVcDIZ3P54FQ7Ja84d52sBKZk3AQN6ulwbbJK82k
+ GfrsxboJGxlyo1f0uvSGjkfZolle9t2c0uis14z4EA+FV79Ucpr+XH05uoIUBTxZDRd+
+ Sw5ibEfac2CRjRrFEsksGJKzHVJ5OKqs/vO7IJB6Mp9QtZbDoMD3ncS9ByabC6ZGLeoo
+ ri/VhIY+03mw+NdI1YAZ+liMDK3qEK1m8mYulmYx9hrCdm6lk9HCfyx5wAsZgal5t0vC
+ snRzcRfT9KwnlgAxiI749QYr1nG7TPL/tGhduKNtRGqaGYCvYw8YErwbg/NimPAO2NLj
+ q6iw==
+X-Gm-Message-State: ANoB5pkd122SR6MVzFti11tG1uvXz+tuFNgZctmVdCnwl+ChXCdKX5on
+ JYk2rTySbbxmyoezOnfWPjXZXA==
+X-Google-Smtp-Source: AA0mqf6622yLF34cHHrxfMgCNemAO6ihVAtwx9odWYZwAEnIeyDLr3uNVF+KafzMwbMjW4y10Q58ww==
+X-Received: by 2002:adf:ded1:0:b0:242:673a:d9e0 with SMTP id
+ i17-20020adfded1000000b00242673ad9e0mr493996wrn.134.1670190275751; 
+ Sun, 04 Dec 2022 13:44:35 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f16-20020a056000129000b002421ce6a275sm12459530wrx.114.2022.12.04.13.39.56
+ bq8-20020a5d5a08000000b002302dc43d77sm2308752wrb.115.2022.12.04.13.44.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Dec 2022 13:39:57 -0800 (PST)
-Message-ID: <4af65cc1-965a-24e7-80f5-7b23d33f8e89@linaro.org>
-Date: Sun, 4 Dec 2022 22:39:54 +0100
+ Sun, 04 Dec 2022 13:44:35 -0800 (PST)
+Message-ID: <4cd1cdf5-5f8c-5d6f-7f73-09457d609ef3@linaro.org>
+Date: Sun, 4 Dec 2022 22:44:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 4/6] hw/misc: Allwinner AXP-209 Emulation
-To: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-References: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
- <20221203231904.25155-5-strahinja.p.jankovic@gmail.com>
+Subject: Re: [PATCH 04/32] hw/mips/Kconfig: Track Malta's PIIX dependencies
+ via Kconfig
 Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20221204190553.3274-1-shentey@gmail.com>
+ <20221204190553.3274-5-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221203231904.25155-5-strahinja.p.jankovic@gmail.com>
+In-Reply-To: <20221204190553.3274-5-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -95,140 +100,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Strahinja,
-
-On 4/12/22 00:19, Strahinja Jankovic wrote:
-> This patch adds minimal support for AXP-209 PMU.
-> Most important is chip ID since U-Boot SPL expects version 0x1. Besides
-> the chip ID register, reset values for two more registers used by A10
-> U-Boot SPL are covered.
+On 4/12/22 20:05, Bernhard Beschow wrote:
+> Tracking dependencies via Kconfig seems much cleaner.
 > 
-> Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+> Note that PIIX4 already depends on ACPI_PIIX4.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/arm/Kconfig              |   1 +
->   hw/misc/Kconfig             |   4 +
->   hw/misc/allwinner-axp-209.c | 263 ++++++++++++++++++++++++++++++++++++
->   hw/misc/meson.build         |   1 +
->   4 files changed, 269 insertions(+)
->   create mode 100644 hw/misc/allwinner-axp-209.c
+>   configs/devices/mips-softmmu/common.mak | 2 --
+>   hw/mips/Kconfig                         | 1 +
+>   2 files changed, 1 insertion(+), 2 deletions(-)
 
+Yeah, it is it that state due to the Super I/O stuff pulled by x86 :/
 
-> diff --git a/hw/misc/allwinner-axp-209.c b/hw/misc/allwinner-axp-209.c
-> new file mode 100644
-> index 0000000000..229e3961b6
-> --- /dev/null
-> +++ b/hw/misc/allwinner-axp-209.c
-> @@ -0,0 +1,263 @@
-> +/*
-> + * AXP-209 Emulation
-> + *
-> + * Written by Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> + *
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-You missed the "Copyright (c) <year> <copyright holders>" line.
-
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-> + * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-> + * DEALINGS IN THE SOFTWARE.
-
-If you mind, please also include:
-
-     * SPDX-License-Identifier: MIT
-
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "hw/i2c/i2c.h"
-> +#include "migration/vmstate.h"
-> +
-> +#ifndef AXP_209_ERR_DEBUG
-> +#define AXP_209_ERR_DEBUG 0
-> +#endif
-> +
-> +#define TYPE_AXP_209 "allwinner.axp209"
-> +
-> +#define AXP_209(obj) \
-> +    OBJECT_CHECK(AXP209I2CState, (obj), TYPE_AXP_209)
-> +
-> +#define DB_PRINT(fmt, args...) do { \
-> +    if (AXP_209_ERR_DEBUG) { \
-> +        fprintf(stderr, "%s: " fmt, __func__, ## args); \
-
-Please replace the DB_PRINT() calls by trace events which are more
-powerful: when a tracing backend is present, the events are built
-in and you can individually enable them at runtime.
-
-> +    } \
-> +} while (0)
-
-
-> +#define AXP_209_CHIP_VERSION_ID             (0x01)
-> +#define AXP_209_DC_DC2_OUT_V_CTRL_RESET     (0x16)
-> +#define AXP_209_IRQ_BANK_1_CTRL_RESET       (0xd8)
-
-
-> +/* Reset all counters and load ID register */
-> +static void axp_209_reset_enter(Object *obj, ResetType type)
-> +{
-> +    AXP209I2CState *s = AXP_209(obj);
-> +
-> +    memset(s->regs, 0, NR_REGS);
-> +    s->ptr = 0;
-> +    s->count = 0;
-> +    s->regs[REG_CHIP_VERSION] = AXP_209_CHIP_VERSION_ID;
-> +    s->regs[REG_DC_DC2_OUT_V_CTRL] = AXP_209_DC_DC2_OUT_V_CTRL_RESET;
-> +    s->regs[REG_IRQ_BANK_1_CTRL] = AXP_209_IRQ_BANK_1_CTRL_RESET;
-> +}
-
-
-> +/* Initialization */
-> +static void axp_209_init(Object *obj)
-> +{
-> +    AXP209I2CState *s = AXP_209(obj);
-> +
-> +    s->count = 0;
-> +    s->ptr = 0;
-> +    memset(s->regs, 0, NR_REGS);
-> +    s->regs[REG_CHIP_VERSION] = AXP_209_CHIP_VERSION_ID;
-> +    s->regs[REG_DC_DC2_OUT_V_CTRL] = 0x16;
-> +    s->regs[REG_IRQ_BANK_1_CTRL] = 0xd8;
-
-The device initialization flow is:
-
-  - init()
-  - realize()
-  - reset()
-
-So these values are already set in axp_209_reset_enter().
-
-Besides, you should use the definition you added instead of
-magic values (AXP_209_DC_DC2_OUT_V_CTRL_RESET and
-AXP_209_IRQ_BANK_1_CTRL_RESET).
-
-> +
-> +    DB_PRINT("INIT AXP209\n");
-> +
-> +    return;
-> +}
-
-Otherwise LGTM!
-
-Thanks,
-
-Phil.
 
