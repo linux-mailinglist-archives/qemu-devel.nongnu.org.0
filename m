@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9986864209C
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD8D64209D
 	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 00:51:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1ykT-0001tf-Gu; Sun, 04 Dec 2022 18:50:17 -0500
+	id 1p1ykR-0001tA-Mw; Sun, 04 Dec 2022 18:50:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p1ykM-0001sm-Tt
+ id 1p1ykM-0001sd-9f
  for qemu-devel@nongnu.org; Sun, 04 Dec 2022 18:50:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p1ykK-0001lK-Uk
+ id 1p1ykK-0001lE-ME
  for qemu-devel@nongnu.org; Sun, 04 Dec 2022 18:50:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1670197808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PjlngK3gmu3UgRQXfp/JcjuZtaAiobAMBhWPxRDkb/I=;
- b=dvYzs7kcCmOFNncG3wjudjI4mKCHmQ9JfBRuTKQvD5k2jhfBBXTaSI4rWVHfOOcBMnOhV7
- yV0cZJcSJ4cMSh7ZJEI1PpmzZf57ZgQ+Cbiudp+GDrp981jPegHFAGJcFvbM8ZLavLQpq9
- rfGZatZz619enC1D7/1I7VYB+RIHSD4=
+ bh=nW7nRpTwM4guzARhYyOe8OrRdPekeRFEp/kclLt8Zws=;
+ b=ixQVSMiSwZiBFcX391eVCC1Cnl2BP1OOXDG99TC65n8G7Mx57QwlCQa4g9doaf+Uokdmkb
+ vZrjzi+SV+/GYqytk+uxae9WrkyBIOl6NM0Aeaoo4io3fr1vmaOTfIlit3C4nltO7F4Fng
+ 7nuap0/qZ6Vq7xlkUfUVjXp4CevPUXc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-213-J8AYi1N3OGCXpc9ikZxhGw-1; Sun, 04 Dec 2022 18:50:03 -0500
-X-MC-Unique: J8AYi1N3OGCXpc9ikZxhGw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-67-ooMaCw31Nj6NcoOAV6fvyA-1; Sun, 04 Dec 2022 18:50:06 -0500
+X-MC-Unique: ooMaCw31Nj6NcoOAV6fvyA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 84CA685A588;
- Sun,  4 Dec 2022 23:50:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E65A185A79C
+ for <qemu-devel@nongnu.org>; Sun,  4 Dec 2022 23:50:06 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 16EFB140EBF3;
- Sun,  4 Dec 2022 23:50:02 +0000 (UTC)
-Date: Sun, 4 Dec 2022 18:47:00 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 979B6492B07;
+ Sun,  4 Dec 2022 23:50:05 +0000 (UTC)
+Date: Sun, 4 Dec 2022 18:47:12 -0500
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, stefanha@gmail.com
-Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
-Message-ID: <Y40xdEL14Tbw0B/2@fedora>
-References: <20221202102550.4107344-1-gaosong@loongson.cn>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PULL 0/3] Optional fixes for inclusion into QEMU 7.2.0-rc4
+Message-ID: <Y40xgN6c954hOc1s@fedora>
+References: <20221204073043.54402-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VdNXhegYDy5MV65g"
+ protocol="application/pgp-signature"; boundary="uiOwvA92NHNMWsjt"
 Content-Disposition: inline
-In-Reply-To: <20221202102550.4107344-1-gaosong@loongson.cn>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+In-Reply-To: <20221204073043.54402-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,7 +79,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---VdNXhegYDy5MV65g
+--uiOwvA92NHNMWsjt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -87,21 +87,21 @@ Applied, thanks.
 
 Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
 
---VdNXhegYDy5MV65g
+--uiOwvA92NHNMWsjt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmONMXQACgkQnKSrs4Gr
-c8jZnAf9Eld6IyHRPcVkCZC3/E8fkyjyGAY4LHNbGSwWW6bJA0TF9l+E3kATVu3v
-JBByaax0vNP1ALNOOL4L0yrh3Ek19jNqTUlAUmZKUPNZtpypUnDBIygTbtd63A6F
-aD4HRAFGjOAhlKWPoukPCP76Lp3+4JchDChrA/khXHNTT9uktafui3dt13+qIfnY
-gV+R88Ow7pIz0QMbETljQ8yLYFTFPWn7Skz6jguF1sXH07FQ9Acpeei5E6AhDFbQ
-X7fm6C7vOjertR08e5EUGCBWtBg3mhqIvxfbEJ2WNBUSVmfW0dxIygu8i8kSPtNb
-GTc8E3yQTLloaEpYxchjRUw0zvLQ5g==
-=1oth
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmONMYAACgkQnKSrs4Gr
+c8i73wf/a7NLpTICttb9ftG6eztg8nMrKijGmeeKswEaeUhvcLzSrKD3UevagxJD
+kZJbiU6ABGrtSm7jQOGBdaVWauugd/GGz8tdeWUUfNVxmJLzYtLFCdiKcmbiDCT7
+UWXoTIlLnWU8uJZSxyFw0oIqs/JsSdkq7uqnZVGHXmeGZUqeZlBbW1CeBrdetW5R
+LHJqv0q26dHOMxFEMTV/l7jBUxFDppc27tas7Yqi38TFjobeieNioXWHGMQRq2Lk
+gUFS0rAW6SU07JxcqNlR902pHcE50GRYkDSvurek5A2ZPNqm9wovDaVN8+j831FN
+5wfyhr5IhRkeKbmjDr2mv/uguPPPrw==
+=1Ruw
 -----END PGP SIGNATURE-----
 
---VdNXhegYDy5MV65g--
+--uiOwvA92NHNMWsjt--
 
 
