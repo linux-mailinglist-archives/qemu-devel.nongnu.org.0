@@ -2,94 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56803641B4D
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 08:25:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23715641B52
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Dec 2022 08:32:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p1jM9-0007Ga-0h; Sun, 04 Dec 2022 02:24:09 -0500
+	id 1p1jSi-0000uQ-Lv; Sun, 04 Dec 2022 02:30:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jM3-0007FR-Qh
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:24:04 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSg-0000u6-Iq
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jM2-0006ru-8g
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:24:03 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p1jSe-0001eO-LE
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 02:30:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670138640;
+ s=mimecast20190719; t=1670139051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TZHMrIdpbpXrrX3N0RKr0QqqNPx8NkuTyDK8In45LHA=;
- b=IwprYMnvks9F/UR8RYkWbKA+McLEXAglAqzkL4ZjVPv6d/rbZaWzw5HsHJmxAumBL3uC7U
- nBpk2pWZ+mk25c4hqIOARkxPPguFnFijL1e+za1BRKOvrqSn4+/um1vQDRK3c4T0B6gAqW
- AY7AtbGwmQivjkVIznOdvlGHJgXYl80=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-376-pLWeUTsINaasW24wfahj8w-1; Sun, 04 Dec 2022 02:23:59 -0500
-X-MC-Unique: pLWeUTsINaasW24wfahj8w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg25-20020a05600c3c9900b003cf3ed7e27bso5032804wmb.4
- for <qemu-devel@nongnu.org>; Sat, 03 Dec 2022 23:23:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TZHMrIdpbpXrrX3N0RKr0QqqNPx8NkuTyDK8In45LHA=;
- b=QnSffAyl3+IRBTAMOFkeGsKx5Se73wu98AQ5bz1gaLK4WX8dYpSQe0N3y7y6gIolRw
- dReNAs7UUDI5rPXxnLfKwyvrP0lxUcf5VJR5dac8ZnTvYBWCDRgBP/r8S+CceUMfCA6O
- y9fy+M1pXa2VBQrjNL/MDGsZJrGQJ62EnIpGFOeTbdF85e9A3IdHAwcTeGC2BjLhsQUg
- fpZhfDH7zOH5skCnxKgdOGaq2WvlU/6omVb7pIrSbOT/qv6M04xqcTW7R+Hmlr2UGT/E
- RAr7qKN1sOU07fe+LSUbKAJ5JsyO6pWlUZXzlWJU4Z1PAVGRSfq3gGEtDlEQwo/UYadw
- 90eQ==
-X-Gm-Message-State: ANoB5pnqiRY4Ko70sJUmOI4jTlFsDFGDTWkauE1Zq2xQp7bR1DE5K9xM
- tt/WZEQQm9Y3eKDHTHYsIVmv9OnYtkgjDghHi/vqHyrfPjNNQKRE11eVxth9VqOKlUlyCN4W8Th
- +Qngb3ghKFRYCyk0=
-X-Received: by 2002:adf:ee12:0:b0:242:4903:3caa with SMTP id
- y18-20020adfee12000000b0024249033caamr4874068wrn.347.1670138638009; 
- Sat, 03 Dec 2022 23:23:58 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6BBlTbaN4RuqIN8zI+HGXI6Awby0+YvE1TZn98LArCaM5jF3aIMtV0DnZlGKQvk+0zRAwOQA==
-X-Received: by 2002:adf:ee12:0:b0:242:4903:3caa with SMTP id
- y18-20020adfee12000000b0024249033caamr4874059wrn.347.1670138637738; 
- Sat, 03 Dec 2022 23:23:57 -0800 (PST)
-Received: from [192.168.8.102] (tmo-067-197.customers.d1-online.com.
- [80.187.67.197]) by smtp.gmail.com with ESMTPSA id
- j1-20020a05600c1c0100b003cfd4e6400csm15487364wms.19.2022.12.03.23.23.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Dec 2022 23:23:56 -0800 (PST)
-Message-ID: <06f4e22c-1c30-42a6-6f80-1f04e9d55c96@redhat.com>
-Date: Sun, 4 Dec 2022 08:23:55 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PULL 02/10] pci-bridge/cxl_downstream: Add a CXL switch
- downstream port
-Content-Language: en-US
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=V+FtkQWUUoPWTAuP7ndGiwl6bfqm5RIQIK7xy6dvtJg=;
+ b=N0VEuUmvJ4UjV+qvgnAZN47A6KCLLRugJn64lf6qVhZrwHQ6zWwrrcuhw6VYdnQ/tG3iDI
+ LATnbvajQuiFYdWzdMBjfExRmM/uMcUiL+W4HOm64J977gYVhaKBk0G5kolyiL9+gI8KXF
+ MWidkEJ+gsBVN6sGVlJCi6eNIxExHu0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-nmXEvBlCOSWNyQ_WDLu-lw-1; Sun, 04 Dec 2022 02:30:50 -0500
+X-MC-Unique: nmXEvBlCOSWNyQ_WDLu-lw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0D6E800B23
+ for <qemu-devel@nongnu.org>; Sun,  4 Dec 2022 07:30:49 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C986B2166B29;
+ Sun,  4 Dec 2022 07:30:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20220616165703.42226-1-mst@redhat.com>
- <20220616165703.42226-3-mst@redhat.com>
- <4274de61-292d-b3e0-8f86-d7000122a715@redhat.com>
-In-Reply-To: <4274de61-292d-b3e0-8f86-d7000122a715@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/3] Optional fixes for inclusion into QEMU 7.2.0-rc4
+Date: Sun,  4 Dec 2022 08:30:40 +0100
+Message-Id: <20221204073043.54402-1-thuth@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,47 +73,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/11/2022 07.47, Thomas Huth wrote:
-> On 16/06/2022 18.57, Michael S. Tsirkin wrote:
->> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->>
->> Emulation of a simple CXL Switch downstream port.
->> The Device ID has been allocated for this use.
->>
->> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> Message-Id: <20220616145126.8002-3-Jonathan.Cameron@huawei.com>
->> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->> ---
->>   hw/cxl/cxl-host.c              |  43 +++++-
->>   hw/pci-bridge/cxl_downstream.c | 249 +++++++++++++++++++++++++++++++++
->>   hw/pci-bridge/meson.build      |   2 +-
->>   3 files changed, 291 insertions(+), 3 deletions(-)
->>   create mode 100644 hw/pci-bridge/cxl_downstream.c
-> 
->   Hi!
-> 
-> There is a memory problem somewhere in this new device. I can make QEMU 
-> crash by running something like this:
-> 
-> $ MALLOC_PERTURB_=59 ./qemu-system-x86_64 -M x-remote \
->      -display none -monitor stdio
-> QEMU 7.1.50 monitor - type 'help' for more information
-> (qemu) device_add cxl-downstream
-> ./qemu/qom/object.c:1188:5: runtime error: member access within misaligned 
-> address 0x3b3b3b3b3b3b3b3b for type 'struct Object', which requires 8 byte 
-> alignment
-> 0x3b3b3b3b3b3b3b3b: note: pointer points here
-> <memory cannot be printed>
-> Bus error (core dumped)
-> 
-> Could you have a look if you've got some spare minutes?
+ Hi Stefan!
 
-Ping! Jonathan, Michael, any news on this bug?
+The following changes since commit c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
 
-(this breaks one of my local tests, that's why it's annoying for me)
+  Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
 
-  Thomas
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-12-04
+
+for you to fetch changes up to c1966f515d9bb6d8ed7076f4bebdc45407700100:
+
+  hw/display/next-fb: Fix comment typo (2022-12-03 22:07:07 +0100)
+
+----------------------------------------------------------------
+In case we're doing a rc4 before the release, I'd like to see
+these three patches included. They contain:
+* Fix for a potential undefined behavior in cleanup of migration-test
+* Fix for a s390x instruction that causes Java to crash
+* Fix for a typo in a comment in next-fb.c
+All patches are rather small and self-contained and have been
+properly reviewed, so I think it should be OK to still include
+them at this point in time.
+
+----------------------------------------------------------------
+Evgeny Ermakov (1):
+      hw/display/next-fb: Fix comment typo
+
+Thomas Huth (2):
+      tests/qtest/migration-test: Fix unlink error and memory leaks
+      target/s390x/tcg: Fix and improve the SACF instruction
+
+ target/s390x/tcg/insn-data.h.inc |  2 +-
+ hw/display/next-fb.c             |  2 +-
+ target/s390x/tcg/cc_helper.c     |  7 +++++++
+ tests/qtest/migration-test.c     | 20 ++++++++++++++++----
+ 4 files changed, 25 insertions(+), 6 deletions(-)
 
 
