@@ -2,93 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCBD6428BE
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 13:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1745C6428DF
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 14:00:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2At5-0003nT-Ab; Mon, 05 Dec 2022 07:47:59 -0500
+	id 1p2B4A-000736-Us; Mon, 05 Dec 2022 07:59:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p2AsP-0003eP-VE; Mon, 05 Dec 2022 07:47:18 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2B41-00070E-BN
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:59:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p2AsN-0006Z4-7R; Mon, 05 Dec 2022 07:47:17 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 2FB5932003F4;
- Mon,  5 Dec 2022 07:47:07 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 05 Dec 2022 07:47:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1670244426; x=1670330826; bh=mQ
- WwWARlilHlntCaW1dEjiQmhGd3LIFSRTPzl1Hrz4U=; b=Ln9WBUdpnvdgSY7t2Y
- l3IINBJ0ZNKDC7WMElpT5G/jECAs7mvvRrONZKLE6gvC7TnC/dYdN62NMUrLkm8Y
- Vhi7qhLVA4Q/86eyK9lWKCMrtN3MIJ+zCZqGCL9quNie1p7+uKaWFIHOcr0jcgQH
- 4rnF90mKuF6u4vJGKIPwc4tSFwIZFGQxA8ia9eeLLZdKF9JLxwnKzvWk4ni+MOvt
- 0+H/HgEKvDxEIzv2I6tmJzL8KwAqDbhNaYbknYVcxY/5pOnvvkXHfqetE+KP4Rbz
- qMiuffgaTFZHOeYct6z0MYENJZ1tW0W9jkfNLKBuTU+xRXXVnk7UB6YiofNEMHk/
- L6Nw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1670244426; x=1670330826; bh=mQWwWARlilHlntCaW1dEjiQmhGd3
- LIFSRTPzl1Hrz4U=; b=RFzVilwXYQmDNQSYDZH1zX3vC6ZfwMbFIzs09gUSzD5x
- ywMmQqgkVHFwdJncUG8rmLmnENk1tAAT2VZO31sISuvy5UUUw3EQWcWzGY19gpSE
- cBnRBdDvFgobPTCLg8/0MD/AzFR90On3qSVko76o5TAMp04jWBwIUeBPYuBz05qO
- SQSUTm9/9m1yXzqsMUxqjTl2/8JBAQDRyx009L+yVpUtdXsqk1eccZcj5xfXab/n
- d7HNlKNWXs08ADFvw33Sge1EAKBcnNfZPaYfcO5MAR1cNb95K+oOF6ADX3B8if2d
- T9qWdTjOuRlCZDgPYDs62xCd6gczBHDzTOZ49Dqsvw==
-X-ME-Sender: <xms:SeiNYxdI9kohn-0NGBjKJIW7gRBMteQ3wTNMjUVAbok92G4UNwvVDQ>
- <xme:SeiNY_N3y965u92iTyZnePKJQdZi-cMqWR8DDB0E6hkGEy_-Bl2n2v8NeMcFarBEN
- HsAva0ZDZOpHzi_gfU>
-X-ME-Received: <xmr:SeiNY6i8yu-0RM7_pL0Rbga62C4X4xNPqPHuYPZPCU3g_WZjBfQY7wrUywcshgRe4JI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeggdeggecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeffuddvhfehjedugfeijeeuieelgeevuddvlefhkefhgfettefftddvkeevieel
- feenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:SeiNY6-vlB5mmQ9TRY44yk-Zoj5wq6eyy2ltDIxoEvoMoMYw9bZSTw>
- <xmx:SeiNY9vLvY5Z8fQx9wz8gIn82snUOJ9UkPKvr_QH61ET8nVsh7c_JQ>
- <xmx:SeiNY5EqwaRtnyDJjOh4rqyk54E0USu7CEP4jllfwQ34vgap_SYW6Q>
- <xmx:SuiNYzIagUUpLidKqMaglxYEGKv2KJgRQt1KxvH-Xf7jYGSltWjRPg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 5 Dec 2022 07:47:03 -0500 (EST)
-Date: Mon, 5 Dec 2022 13:47:01 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Tihov <d.tihov@yadro.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, kbusch@kernel.org,
- linux@yadro.com, m.malygin@yadro.com, a.buev@yadro.com,
- ddtikhov@gmail.com, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [RFC 0/5] Protection information pass-through for block devices
-Message-ID: <Y43oRSSnr3ZCJkSX@cormorant.local>
-References: <20221124155821.1501969-1-d.tihov@yadro.com>
- <Y4ByUi5gOH6swqMS@cormorant.local>
- <20221205090129.enmhx6lq34g2owkw@archlinux>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2B3n-000119-95
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:59:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670245141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W2Evt7I3QDGtiBKO5yoTzDIgpoFdH6o8JSurijocmGw=;
+ b=CJvsll96Pt5ujcP1TiSwSgj4vTX72fdwylUrCyfbstPuzCq4ZFIaGyQT6U6yj62nqFEsh8
+ AV0HaM7NbMxFdXNImNfWzjabY/u+peLQo5xF2W3VTQBQwJqG0jtgkSJZzGGKMK/CA1CfDi
+ 3oNNmwYDxfgq54CMbuvn1mekk4ynpZw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-203-N3ATMN0tMM-nfbj2FqBwSQ-1; Mon, 05 Dec 2022 07:58:58 -0500
+X-MC-Unique: N3ATMN0tMM-nfbj2FqBwSQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F23CA3C025D0;
+ Mon,  5 Dec 2022 12:58:57 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD4822027062;
+ Mon,  5 Dec 2022 12:58:56 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org,
+	Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH for-8.0] target/s390x: The MVCP and MVCS instructions are not
+ privileged
+Date: Mon,  5 Dec 2022 13:58:52 +0100
+Message-Id: <20221205125852.81848-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="21D+foZX+2al8i8R"
-Content-Disposition: inline
-In-Reply-To: <20221205090129.enmhx6lq34g2owkw@archlinux>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,98 +74,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The "MOVE TO PRIMARY/SECONDARY" instructions can also be called
+from problem state. We just should properly check whether the
+secondary-space access key is valid here, too, and inject a
+privileged program exception if it is invalid.
 
---21D+foZX+2al8i8R
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Found only by code inspection - I'm not aware yet of any problem
+ in the wild due to this bug.
 
-On Dec  5 12:01, Dmitry Tihov wrote:
-> On Fri, Nov 25, 2022 at 08:44:18, Klaus Jensen wrote:
-> > +CC: block layer maintainers (Kevin, Hanna)
-> >=20
-> > On Nov 24 18:58, Dmitry Tihov wrote:
-> > > This patch set allows using End-to-End Data Protection in NVMe subsys=
-tem
-> > > with integrity capable host devices as the NVMe namespaces backend.
-> > > The patch series is based on io-uring kernel interface feature not me=
-rged
-> > > to kernel upstream yet:
-> > > https://lore.kernel.org/linux-block/20220920144618.1111138-1-a.buev@y=
-adro.com/
-> > >=20
-> > > The main advantage of this approach is that it allows using the
-> > > same protection information enabled disks in multiple VMs
-> > > concurrently. This may be useful in cluster setups.
-> > >=20
-> > > Please let me know what do you think, are this kind of changes approp=
-riate
-> > > for QEMU upstream, what should be changed, etc.
-> > >=20
-> > > Dmitry Tihov (5):
-> > >   docs/nvme: add new feature summary
-> > >   block: add transfer of protection information
-> > >   hw/nvme: add protection information pass parameter
-> > >   hw/nvme: implement pi pass read/write/wrz commands
-> > >   hw/nvme: extend pi pass capable commands
-> > >=20
-> > >  block/file-posix.c           | 130 ++++++++++++-
-> > >  block/io_uring.c             | 109 ++++++++++-
-> > >  docs/system/devices/nvme.rst |  15 ++
-> > >  hw/nvme/ctrl.c               | 361 ++++++++++++++++++++++++++++++++-=
---
-> > >  hw/nvme/dif.c                | 303 +++++++++++++++++++++++++++++
-> > >  hw/nvme/dif.h                |  18 ++
-> > >  hw/nvme/ns.c                 |  59 +++++-
-> > >  hw/nvme/nvme.h               |   2 +
-> > >  hw/nvme/trace-events         |   6 +
-> > >  include/block/block-common.h |   2 +
-> > >  include/block/raw-aio.h      |   3 +-
-> > >  include/qemu/iov.h           |   6 +
-> > >  util/iov.c                   |  24 +++
-> > >  13 files changed, 992 insertions(+), 46 deletions(-)
-> > >=20
-> > > --=20
-> > > 2.38.1
-> > >=20
-> >=20
-> > Hi Dmitry,
-> >=20
-> > Neat.
-> >=20
-> > But this is largely depending on how the API turns out in block/ and I
-> > am not the right one to comment on that. It's great that you have an
-> > example device to utilize the API, but this needs comments from the
-> > block layer maintainers before we consider it in hw/nvme.
->=20
-> You mean API in QEMU block layer right? Specifically the second patch
-> of this series. Should I send it in a distinct RFC for review by block
-> layer maintainers?
->=20
+ target/s390x/helper.h            |  4 ++--
+ target/s390x/tcg/insn-data.h.inc |  4 ++--
+ target/s390x/tcg/mem_helper.c    | 16 ++++++++++++----
+ target/s390x/tcg/translate.c     |  6 ++++--
+ 4 files changed, 20 insertions(+), 10 deletions(-)
 
-Yes, basically the block/ stuff.
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index bf33d86f74..93923ca153 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -353,8 +353,8 @@ DEF_HELPER_FLAGS_3(tprot, TCG_CALL_NO_WG, i32, env, i64, i64)
+ DEF_HELPER_2(iske, i64, env, i64)
+ DEF_HELPER_3(sske, void, env, i64, i64)
+ DEF_HELPER_2(rrbe, i32, env, i64)
+-DEF_HELPER_4(mvcs, i32, env, i64, i64, i64)
+-DEF_HELPER_4(mvcp, i32, env, i64, i64, i64)
++DEF_HELPER_5(mvcs, i32, env, i64, i64, i64, i64)
++DEF_HELPER_5(mvcp, i32, env, i64, i64, i64, i64)
+ DEF_HELPER_4(sigp, i32, env, i64, i32, i32)
+ DEF_HELPER_FLAGS_2(sacf, TCG_CALL_NO_WG, void, env, i64)
+ DEF_HELPER_FLAGS_4(idte, TCG_CALL_NO_RWG, void, env, i64, i64, i32)
+diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
+index 54d4250c9f..79c6ab509a 100644
+--- a/target/s390x/tcg/insn-data.h.inc
++++ b/target/s390x/tcg/insn-data.h.inc
+@@ -1355,9 +1355,9 @@
+     E(0xb24b, LURA,    RRE,   Z,   0, ra2, new, r1_32, lura, 0, MO_TEUL, IF_PRIV)
+     E(0xb905, LURAG,   RRE,   Z,   0, ra2, r1, 0, lura, 0, MO_TEUQ, IF_PRIV)
+ /* MOVE TO PRIMARY */
+-    F(0xda00, MVCP,    SS_d,  Z,   la1, a2, 0, 0, mvcp, 0, IF_PRIV)
++    C(0xda00, MVCP,    SS_d,  Z,   la1, a2, 0, 0, mvcp, 0)
+ /* MOVE TO SECONDARY */
+-    F(0xdb00, MVCS,    SS_d,  Z,   la1, a2, 0, 0, mvcs, 0, IF_PRIV)
++    C(0xdb00, MVCS,    SS_d,  Z,   la1, a2, 0, 0, mvcs, 0)
+ /* PURGE TLB */
+     F(0xb20d, PTLB,    S,     Z,   0, 0, 0, 0, ptlb, 0, IF_PRIV)
+ /* RESET REFERENCE BIT EXTENDED */
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index 3758b9e688..9542fad59b 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -2295,7 +2295,8 @@ uint32_t HELPER(rrbe)(CPUS390XState *env, uint64_t r2)
+     return re >> 1;
+ }
+ 
+-uint32_t HELPER(mvcs)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2)
++uint32_t HELPER(mvcs)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2,
++                      uint64_t key)
+ {
+     const uint8_t psw_as = (env->psw.mask & PSW_MASK_ASC) >> PSW_SHIFT_ASC;
+     S390Access srca, desta;
+@@ -2310,6 +2311,10 @@ uint32_t HELPER(mvcs)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2)
+         s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
+     }
+ 
++    if (!psw_key_valid(env, (key >> 4) & 0xf)) {
++        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
++    }
++
+     l = wrap_length32(env, l);
+     if (l > 256) {
+         /* max 256 */
+@@ -2319,14 +2324,14 @@ uint32_t HELPER(mvcs)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2)
+         return cc;
+     }
+ 
+-    /* TODO: Access key handling */
+     srca = access_prepare(env, a2, l, MMU_DATA_LOAD, MMU_PRIMARY_IDX, ra);
+     desta = access_prepare(env, a1, l, MMU_DATA_STORE, MMU_SECONDARY_IDX, ra);
+     access_memmove(env, &desta, &srca, ra);
+     return cc;
+ }
+ 
+-uint32_t HELPER(mvcp)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2)
++uint32_t HELPER(mvcp)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2,
++                      uint64_t key)
+ {
+     const uint8_t psw_as = (env->psw.mask & PSW_MASK_ASC) >> PSW_SHIFT_ASC;
+     S390Access srca, desta;
+@@ -2341,6 +2346,10 @@ uint32_t HELPER(mvcp)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2)
+         s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
+     }
+ 
++    if (!psw_key_valid(env, (key >> 4) & 0xf)) {
++        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
++    }
++
+     l = wrap_length32(env, l);
+     if (l > 256) {
+         /* max 256 */
+@@ -2350,7 +2359,6 @@ uint32_t HELPER(mvcp)(CPUS390XState *env, uint64_t l, uint64_t a1, uint64_t a2)
+         return cc;
+     }
+ 
+-    /* TODO: Access key handling */
+     srca = access_prepare(env, a2, l, MMU_DATA_LOAD, MMU_SECONDARY_IDX, ra);
+     desta = access_prepare(env, a1, l, MMU_DATA_STORE, MMU_PRIMARY_IDX, ra);
+     access_memmove(env, &desta, &srca, ra);
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 1e599ac259..a339b277e9 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -3476,7 +3476,8 @@ static DisasJumpType op_mvcos(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_mvcp(DisasContext *s, DisasOps *o)
+ {
+     int r1 = get_field(s, l1);
+-    gen_helper_mvcp(cc_op, cpu_env, regs[r1], o->addr1, o->in2);
++    int r3 = get_field(s, r3);
++    gen_helper_mvcp(cc_op, cpu_env, regs[r1], o->addr1, o->in2, regs[r3]);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -3484,7 +3485,8 @@ static DisasJumpType op_mvcp(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_mvcs(DisasContext *s, DisasOps *o)
+ {
+     int r1 = get_field(s, l1);
+-    gen_helper_mvcs(cc_op, cpu_env, regs[r1], o->addr1, o->in2);
++    int r3 = get_field(s, r3);
++    gen_helper_mvcs(cc_op, cpu_env, regs[r1], o->addr1, o->in2, regs[r3]);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+-- 
+2.31.1
 
-Given the RFC status of this series, I see no problem in keeping it
-as-is. Having it showing how it is potentially used in a device is good.
-
-I CC'ed the block maintainers to let them comment on it when they have
-time. We are right up on a release, so expect some feedback as we start
-the next development cycle post-release :)
-
---21D+foZX+2al8i8R
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmON6EQACgkQTeGvMW1P
-DelRPwgAtluHEE3bLLzAUKQNDZPHeCHeP3tw3zruDtsHIeVNeNox1chLkn2P/Zkm
-gojx+Lbd/y0W17yPQoSmzntQftD7lNi0kLDQt2mFghXgZB+J4vlryR6incXZbtJT
-MwkOOfrcXIhyhaVmnUT9baD5hRo573eAu/fRRYcadEv+2/UCzDpDmz4PE13NjEGq
-yuniUbM4Mxowbds5VcV4fuPLf6VC+23P8nibmXzmd0MM2xfb0yQDacjgNJM5YUpn
-aSa+vPqAxi7/55Ft9iw8+iINwf1hGGsaJ810HzBLbuvh2+gFgBXtj7imshUTAZXB
-JmQNw8l5LXDOJAVmqEPHUW5Ik86GHw==
-=lLhn
------END PGP SIGNATURE-----
-
---21D+foZX+2al8i8R--
 
