@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C18D642EDB
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1BF642EEB
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:34:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2FKi-00081E-4t; Mon, 05 Dec 2022 12:32:48 -0500
+	id 1p2FL6-0008Dq-U4; Mon, 05 Dec 2022 12:33:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+0f5700dbc1736e95d806+7043+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p2FKT-0007wO-Jo
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:33 -0500
+ id 1p2FKT-0007x6-W8
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:34 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+0f5700dbc1736e95d806+7043+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p2FK6-0007QQ-OI
+ id 1p2FK6-0007QR-OQ
  for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=/42VNSBTX0sViXPmL2agl49Ix2fu/fg2WgqnuSZs2JY=; b=l7W/7My+nXDIlVgUFUzS5dUlk+
- LFxe56z6E8vQKNh13JZNnp3VRBR3jrByqJzt6Z7eFf9ISopgQWuwK2UbS+8EVMDz1hpNuzyWLyTEx
- 4gzFPyBCGGO/BtluCkFBJOKCMbsuGiDaNU+EpJ0lENsBsT8I44/DFv40KAQSSG5nP3T6LUe2X+BaO
- IZmZNyjyk3VoUzaZbJ+7AezR2eNg+3k9/KpjokHgw1ewGjY1CIRBizYxhU/F4oNHL9yVaruOhxCVQ
- 0jfGWoJ0jFUAzB00day+b3SMy9PXY6mTcmGUu98Bp2inb5i4WTJ5qqdVj5nOSBtKM8NUoPgQPDqVW
- 7Ra9A3ZQ==;
+ bh=t064sWCmPUZXmo6ZkmmkCyQGKm+KF/mmsLLFsp5yinI=; b=YjeMJGGNtCMQYjjNloyLiLzgWT
+ DGjK3D4jb9qvytrZB7tpE5WRSGx/jTl4QYIjxxHaQHiiFFdrDLOB4chaa9HIJwxHZUg+Hpj9fYzb1
+ 9VyjMaY7vx93nf01iQ3QytvggSfbcwnZ0dbnNHTAPZe7NNA2eaHZyA1SuujF8nveIanC+1tLCZ3UV
+ 4XEESbV9SsdxJ5e47ixc/+bw+K/H+y9vmqBcOs2rI774YIMsI6keg5Ljfk3lnh0Dp6mkEvZpTd9rA
+ DGcWQuyNfq1TnZAUe3VQk1Jl912IETMA9iwTABiW92yxTS8ngGOfpEiBvHvLxIIrwGSsltrun5zbn
+ HPdR+Ocw==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2FJp-007fzT-4L; Mon, 05 Dec 2022 17:31:53 +0000
+ id 1p2FJp-007fzW-4j; Mon, 05 Dec 2022 17:31:53 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p2FJo-002YKv-RZ; Mon, 05 Dec 2022 17:31:52 +0000
+ Hat Linux)) id 1p2FJo-002YKz-SE; Mon, 05 Dec 2022 17:31:52 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Joao Martins <joao.m.martins@oracle.com>,
  Ankur Arora <ankur.a.arora@oracle.com>
-Subject: [RFC PATCH 20/21] i386/xen: implement HYPERVISOR_event_channel_op
-Date: Mon,  5 Dec 2022 17:31:36 +0000
-Message-Id: <20221205173137.607044-21-dwmw2@infradead.org>
+Subject: [RFC PATCH 21/21] i386/xen: implement HYPERVISOR_sched_op
+Date: Mon,  5 Dec 2022 17:31:37 +0000
+Message-Id: <20221205173137.607044-22-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221205173137.607044-1-dwmw2@infradead.org>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
@@ -77,91 +77,96 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Additionally set XEN_INTERFACE_VERSION to most recent in order to
-exercise both event_channel_op and event_channel_op_compat.
+It allows to shutdown itself via hypercall with any of the 3 reasons:
+  1) self-reboot
+  2) shutdown
+  3) crash
+
+Implementing SCHEDOP_shutdown sub op let us handle crashes gracefully rather
+than leading to triple faults if it remains unimplemented.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/xen.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ target/i386/xen.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/target/i386/xen.c b/target/i386/xen.c
-index 21146204e1..f3cc240bff 100644
+index f3cc240bff..9606f5978a 100644
 --- a/target/i386/xen.c
 +++ b/target/i386/xen.c
-@@ -16,11 +16,14 @@
+@@ -15,6 +15,7 @@
+ #include "xen.h"
  #include "trace.h"
  #include "sysemu/sysemu.h"
++#include "sysemu/runstate.h"
  
-+#define __XEN_INTERFACE_VERSION__ 0x00040400
-+
- #include "standard-headers/xen/version.h"
- #include "standard-headers/xen/memory.h"
+ #define __XEN_INTERFACE_VERSION__ 0x00040400
+ 
+@@ -23,6 +24,7 @@
  #include "standard-headers/xen/hvm/hvm_op.h"
  #include "standard-headers/xen/hvm/params.h"
  #include "standard-headers/xen/vcpu.h"
-+#include "standard-headers/xen/event_channel.h"
++#include "standard-headers/xen/sched.h"
+ #include "standard-headers/xen/event_channel.h"
  
  #define PAGE_OFFSET    0xffffffff80000000UL
- #define PAGE_SHIFT     12
-@@ -436,6 +439,43 @@ static int kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+@@ -476,6 +478,44 @@ static int kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
      return err ? HCALL_ERR : 0;
  }
  
-+static int kvm_xen_hcall_evtchn_op_compat(struct kvm_xen_exit *exit,
-+                                          X86CPU *cpu, uint64_t arg)
++static int schedop_shutdown(CPUState *cs, uint64_t arg)
 +{
-+    struct evtchn_op *op = gva_to_hva(CPU(cpu), arg);
-+    int err = -ENOSYS;
++    struct sched_shutdown *shutdown;
 +
-+    if (!op) {
-+        goto err;
++    shutdown = gva_to_hva(cs, arg);
++    if (!shutdown) {
++        return -EFAULT;
 +    }
 +
-+    switch (op->cmd) {
-+    default:
-+        exit->u.hcall.result = err;
-+        return 0;
++    if (shutdown->reason == SHUTDOWN_crash) {
++        cpu_dump_state(cs, stderr, CPU_DUMP_CODE);
++        qemu_system_guest_panicked(NULL);
++    } else if (shutdown->reason == SHUTDOWN_reboot) {
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++    } else if (shutdown->reason == SHUTDOWN_poweroff) {
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
 +    }
-+err:
-+    exit->u.hcall.result = err;
-+    return err ? HCALL_ERR : 0;
++
++    return 0;
 +}
 +
-+static int kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
-+                                   int cmd, uint64_t arg)
++static int kvm_xen_hcall_sched_op(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                  int cmd, uint64_t arg)
 +{
++    CPUState *cs = CPU(cpu);
 +    int err = -ENOSYS;
 +
 +    switch (cmd) {
-+    case EVTCHNOP_init_control:
-+        /* FIFO ABI */
-+    default:
-+        exit->u.hcall.result = err;
-+        return 0;
++    case SCHEDOP_shutdown: {
++          err = schedop_shutdown(cs, arg);
++          break;
++       }
 +    }
 +
 +    exit->u.hcall.result = err;
-+    return err ? HCALL_ERR : 0;
++    return err;
 +}
 +
  static int __kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
  {
      uint16_t code = exit->u.hcall.input;
-@@ -449,6 +489,12 @@ static int __kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+@@ -489,6 +529,10 @@ static int __kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
      case HVMOP_set_evtchn_upcall_vector:
          return kvm_xen_hcall_evtchn_upcall_vector(exit, cpu,
                                                    exit->u.hcall.params[0]);
-+    case __HYPERVISOR_event_channel_op_compat:
-+        return kvm_xen_hcall_evtchn_op_compat(exit, cpu,
-+                                              exit->u.hcall.params[0]);
-+    case __HYPERVISOR_event_channel_op:
-+        return kvm_xen_hcall_evtchn_op(exit, exit->u.hcall.params[0],
-+                                       exit->u.hcall.params[1]);
-     case __HYPERVISOR_vcpu_op:
-         return kvm_xen_hcall_vcpu_op(exit, cpu,
-                                      exit->u.hcall.params[0],
++    case __HYPERVISOR_sched_op_compat:
++    case __HYPERVISOR_sched_op:
++        return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
++                                      exit->u.hcall.params[1]);
+     case __HYPERVISOR_event_channel_op_compat:
+         return kvm_xen_hcall_evtchn_op_compat(exit, cpu,
+                                               exit->u.hcall.params[0]);
 -- 
 2.35.3
 
