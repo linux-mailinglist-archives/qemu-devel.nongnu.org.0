@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2892964269B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:21:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E739C64263C
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 10:59:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28Dv-0004sV-G9; Mon, 05 Dec 2022 04:57:21 -0500
+	id 1p28EB-0004uF-D2; Mon, 05 Dec 2022 04:57:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28Dk-0004l8-Qr
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:57:09 -0500
+ id 1p28Ds-0004sJ-52
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:57:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28Dj-0007rQ-Bo
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:57:08 -0500
+ id 1p28Dp-0007t0-65
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:57:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234225;
+ s=mimecast20190719; t=1670234232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y2FikQbfX3Vpm8/roYrQu/IEscu7tBjOtyBOMBEKAZ8=;
- b=JPdvq97EzA0bR4Uq18bBrAsuVOqmNoOFk8SJK3sPAw5Nl/JXbTI6P9J4GFktEXu2OsLVLK
- Zyf/3ws5cfQoVvu7wAvsvmfhTNeew1tZUhTa0JB28NT0zkW53Z4aBOlgSs25pEJ19mee5r
- Ne5PmkGfa7ngZpeZOiOePJYDA0LQ/HE=
+ bh=8T5xObxYus8mUaDCig1/nmq01TyjcG4leYqxs3OOcvM=;
+ b=QvO+cxUdfUfmLst5TxTEOaq252d6kZH+9vwSPMXFJ4MqrK+l4GRf/+/fZDnqkQmKOTPwNp
+ hzc9UzqN6ptqkCo7whkmDhgZx0UTxAc1WqUAEmut6kYVZgNYvg2pRCy2z1kTeR51KNYM/c
+ r08SqQXd8hzZaPe7mgyGurfLbAoxgxU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-QIcmUqs4PX-zrDUeLndWtw-1; Mon, 05 Dec 2022 04:57:00 -0500
-X-MC-Unique: QIcmUqs4PX-zrDUeLndWtw-1
+ us-mta-470-6RQIp25AOr-MD9trX-mdGQ-1; Mon, 05 Dec 2022 04:57:07 -0500
+X-MC-Unique: 6RQIp25AOr-MD9trX-mdGQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9478E3814946;
- Mon,  5 Dec 2022 09:56:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71DE43814946;
+ Mon,  5 Dec 2022 09:57:06 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 174662166B29;
- Mon,  5 Dec 2022 09:56:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E28662166B29;
+ Mon,  5 Dec 2022 09:56:58 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -72,9 +72,10 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
  qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>
-Subject: [PATCH v2 33/51] migration: Add postcopy_preempt_active()
-Date: Mon,  5 Dec 2022 10:52:10 +0100
-Message-Id: <20221205095228.1314-34-quintela@redhat.com>
+Subject: [PATCH v2 34/51] migration: Cleanup xbzrle zero page cache update
+ logic
+Date: Mon,  5 Dec 2022 10:52:11 +0100
+Message-Id: <20221205095228.1314-35-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -106,50 +107,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Xu <peterx@redhat.com>
 
-Add the helper to show that postcopy preempt enabled, meanwhile active.
+The major change is to replace "!save_page_use_compression()" with
+"xbzrle_enabled" to make it clear.
+
+Reasonings:
+
+(1) When compression enabled, "!save_page_use_compression()" is exactly the
+    same as checking "xbzrle_enabled".
+
+(2) When compression disabled, "!save_page_use_compression()" always return
+    true.  We used to try calling the xbzrle code, but after this change we
+    won't, and we shouldn't need to.
+
+Since at it, drop the xbzrle_enabled check in xbzrle_cache_zero_page()
+because with this change it's not needed anymore.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ migration/ram.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index cc72c24c18..00a2e30322 100644
+index 00a2e30322..7124ff531c 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -162,6 +162,11 @@ out:
-     return ret;
- }
- 
-+static bool postcopy_preempt_active(void)
-+{
-+    return migrate_postcopy_preempt() && migration_in_postcopy();
-+}
-+
- bool ramblock_is_ignored(RAMBlock *block)
+@@ -741,10 +741,6 @@ void mig_throttle_counter_reset(void)
+  */
+ static void xbzrle_cache_zero_page(RAMState *rs, ram_addr_t current_addr)
  {
-     return !qemu_ram_is_migratable(block) ||
-@@ -2433,7 +2438,7 @@ static void postcopy_preempt_choose_channel(RAMState *rs, PageSearchStatus *pss)
- /* We need to make sure rs->f always points to the default channel elsewhere */
- static void postcopy_preempt_reset_channel(RAMState *rs)
- {
--    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
-+    if (postcopy_preempt_active()) {
-         rs->postcopy_channel = RAM_CHANNEL_PRECOPY;
-         rs->f = migrate_get_current()->to_dst_file;
-         trace_postcopy_preempt_reset_channel();
-@@ -2471,7 +2476,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-         return 0;
-     }
- 
--    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
-+    if (postcopy_preempt_active()) {
-         postcopy_preempt_choose_channel(rs, pss);
-     }
- 
+-    if (!rs->xbzrle_enabled) {
+-        return;
+-    }
+-
+     /* We don't care if this fails to allocate a new cache page
+      * as long as it updated an old one */
+     cache_insert(XBZRLE.cache, current_addr, XBZRLE.zero_target_page,
+@@ -2301,7 +2297,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
+         /* Must let xbzrle know, otherwise a previous (now 0'd) cached
+          * page would be stale
+          */
+-        if (!save_page_use_compression(rs)) {
++        if (rs->xbzrle_enabled) {
+             XBZRLE_cache_lock();
+             xbzrle_cache_zero_page(rs, block->offset + offset);
+             XBZRLE_cache_unlock();
 -- 
 2.38.1
 
