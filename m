@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E798642E61
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EF0642EEC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:34:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2EyO-0005aZ-UA; Mon, 05 Dec 2022 12:09:44 -0500
+	id 1p2FKl-00081a-3Y; Mon, 05 Dec 2022 12:32:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2EyM-0005VL-RL
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:09:42 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2EyL-0003aK-30
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:09:42 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id k79so12004418pfd.7
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 09:09:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MwByMuLrmF8YMdq4KZXXjR0AyOvR3boTcNRCXu5Qxyk=;
- b=t7tvGwNfkj7s5LyQ4qUYdgmC3e6iEDzHOfYII7iMaZSdicvUjmgo5KndaV+3DWSgMO
- iSJUzb1lM6WlZXI2RtWfM7ry5FyGs+iAkgThBzwumeUSViCDCKzag6/Q3tobwlbLxZRm
- ROuVIJgIRQ4SSn0N/Qq9FVabPoSw2UG4RVeNDatTx90aJA4clccjMj5ShKCjH92ZKJMi
- DhaZjtd0t7KQDIzDqxQSMmAhoTEmSsKJb6leoq2FNVk3V8OLeG2KLTyqGcZj9ieePSH/
- dFZyfgea2PW3PcZz2JFpUNcGVMwm5KfzrTuFmiDWMuplS0nhyE7kFVHDHJVF7elxjybG
- cjpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MwByMuLrmF8YMdq4KZXXjR0AyOvR3boTcNRCXu5Qxyk=;
- b=OA0jkCAwgf4V4MKwcyNm5O/EsIdmiwkrg1+lEXQb4Ffi+3XLXk4KwtZPuKf9XwM4JZ
- izlAmNvzmiJg2ybBt7v2YKCAH4kMEMODIzaTSyHh3gORACxS0/5wT8hRhlJ4BXFcQsKs
- XNq2AwuDQz2bw5yzMkcKBRN2vjpFEh5Ic1P0Z+zvDgf1MkWNu5a7cuEOepk0XE6GGYj1
- G3G0RsZEd9sAtgvfToiYQlCbjN2tWsdgFtXmfpIN+KI+xlwI40MFtVC916VI1thyslIu
- YJH173zbE25HmMrVPR/BgMBwNZx8Ury7nMX/8JVeUEa4b8ogyU/BiJYa1s/CG3XCZ4Uy
- i0SA==
-X-Gm-Message-State: ANoB5pmOka81rn+hqtlicL/s9lUX0uJ3RQpC+Yf6//CIJtlR4AtinrQ7
- eZFimqddI8+FSEnACeLuFEAetr+6VLXA7aIUUAKfow==
-X-Google-Smtp-Source: AA0mqf5Cl0WMAqBfmzsecvBOwmoCZYr92vSvYRPveA64jmVHbgjbFasj1Mny4en72pcbL1+yTNxbqA5gaF9+r5hc4jY=
-X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
- r6-20020a635146000000b0047786c1640fmr58021632pgl.231.1670260178541; Mon, 05
- Dec 2022 09:09:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <BATV+0f5700dbc1736e95d806+7043+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p2FKR-0007uK-O2
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:31 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+0f5700dbc1736e95d806+7043+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p2FJx-0007PP-Lu
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=4s2Y6nV/nobcYJgXrNw8xGKRSb4jdpBfUg9CkT6k3mM=; b=HIt0ITbgF04Tt3pyndwco9Hlon
+ l2GUj30QLeEt3plHhc+kH2+eBYnan3aw99f72PRCmUx8vLemgSXceMOsCwVi0UpfUfF5dr9yIOEx7
+ SrjGpK0DtNSlQdFffyrHu/H9dEA490GTcgYXlHKtH20A3cjcNrYsXWzqYcvEqi1ZwZ4qdQm6Ey1KQ
+ 6h28GcZKmonVSoRpYDTFwTFIip/kQMjPrCc/oR9JphikP8czSAvIlPhHBokipD3NI6lW/5GB9zGSk
+ Ce0INCkUYt4EjozGJs/5hml6GyXi7b+DpbpSnpiwFIMlwVuqeWSVubBlAXqemvlUXfg4rx3sf+0Q0
+ TVZHmZQA==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1p2FJo-007fzF-Cm; Mon, 05 Dec 2022 17:31:52 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1p2FJo-002YJZ-3p; Mon, 05 Dec 2022 17:31:52 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>
+Subject: [RFC PATCH 00/21] Xen HVM support under KVM
+Date: Mon,  5 Dec 2022 17:31:16 +0000
+Message-Id: <20221205173137.607044-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20221202154023.293614-1-thuth@redhat.com>
- <7681b7e1-2c03-cf98-3d73-e2b9f3dd0a72@linaro.org>
-In-Reply-To: <7681b7e1-2c03-cf98-3d73-e2b9f3dd0a72@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Dec 2022 17:09:26 +0000
-Message-ID: <CAFEAcA8_Y2bgi-uSzt7z36LYOVjibb-57zGKiW8_2rhSJ70=aw@mail.gmail.com>
-Subject: Re: [PATCH v2 for-8.0] hw/misc: Move some arm-related files from
- specific_ss into softmmu_ss
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair@alistair23.me>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+0f5700dbc1736e95d806+7043+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,35 +74,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 2 Dec 2022 at 16:32, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> On 2/12/22 16:40, Thomas Huth wrote:
-> > The header arget/arm/kvm-consts.h checks CONFIG_KVM which is marked as
->
-> typo "target"
->
-> > poisoned in common code, so the files that include this header have to
-> > be added to specific_ss and recompiled for each, qemu-system-arm and
-> > qemu-system-aarch64. However, since the kvm headers are only optionally
-> > used in kvm-constants.h for some sanity checks, we can additionally
-> > check the NEED_CPU_H macro first to avoid the poisoned CONFIG_KVM macro=
-,
-> > so kvm-constants.h can also be used from "common" files (without the
-> > sanity checks - which should be OK since they are still done from other
-> > target-specific files instead). This way, and by adjusting some other
-> > include statements in the related files here and there, we can move som=
-e
-> > files from specific_ss into softmmu_ss, so that they only need to be
-> > compiled once during the build process.
->
-> Cool!
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+In 2019, Joao Martins posted a set of Linux KVM patches¹ which added
+support for hosting Xen HVM guests directly under KVM. Referenced from
+that post was a qemu git tree² which made use of it.
 
-Applied to target-arm-for-8.0 with the commit message
-typo fixed.
+Now that the core of the kernel support has been merged upstream, I'm
+looking at updating the qemu support and potentially getting it merged
+too. This is the first attempt at the first round of that, adding the
+basics of KVM support with '-machine xenfv' and then just enough of
+the hypercall support to register the shared_info and vcpu_info areas
+before the guest kernel will panic when it can't use event channels
+for IPIs.
 
-thanks
--- PMM
+Before I go much further, I think it needs all the runtime state (the
+shared info page address, etc.) to be correctly live migratable. Some
+pointers on how to do that would be welcomed. There's plenty more to
+heckle too...
+
+  qemu-system-x86_64 -serial mon:stdio -machine xenfv,xen-version=0x4000a \
+         -cpu host,-kvm,+xen,+xen-vapic  -display none \
+         -kernel /boot/vmlinuz-5.17.8-200.fc35.x86_64 \
+         -append "console=ttyS0,115200 earlyprintk=ttyS0,115200" \
+         --trace "kvm_xen*"
+
+¹ https://lore.kernel.org/kvm/20190220201609.28290-1-joao.m.martins@oracle.com/
+² https://github.com/jpemartins/qemu/commits/xen-shim-rfc
+
+Ankur Arora (2):
+      kvm/ioapic: mark gsi-2 used in ioapic routing init
+      i386/xen: handle event channel upcall related hypercalls
+
+David Woodhouse (1):
+      i386/xen: Add xen-version machine property and init KVM Xen support
+
+Joao Martins (18):
+      include: import xen public headers
+      i386/kvm: handle Xen HVM cpuid leaves
+      xen-platform-pci: allow its creation with XEN_EMULATE mode
+      hw/xen_backend: refactor xen_be_init()
+      pc_piix: handle XEN_EMULATE backend init
+      xen-platform-pci: register xen-mmio as RAM for XEN_EMULATE
+      xen_platform: exclude vfio-pci from the PCI platform unplug
+      pc_piix: allow xenfv machine with XEN_EMULATE
+      i386/xen: handle guest hypercalls
+      i386/xen: implement HYPERCALL_xen_version
+      i386/xen: set shared_info page
+      i386/xen: implement HYPERVISOR_hvm_op
+      i386/xen: implement HYPERVISOR_vcpu_op
+      i386/xen: handle register_vcpu_info
+      i386/xen: handle register_vcpu_time_memory_area
+      i386/xen: handle register_runstate_memory_area
+      i386/xen: implement HYPERVISOR_event_channel_op
+      i386/xen: implement HYPERVISOR_sched_op
+
+ accel/kvm/kvm-all.c                                |   11 +
+ backends/cryptodev-vhost.c                         |    4 +-
+ backends/vhost-user.c                              |    4 +-
+ hw/block/vhost-user-blk.c                          |   45 +-
+ hw/display/next-fb.c                               |    2 +-
+ hw/i386/kvm/ioapic.c                               |    1 +
+ hw/i386/pc.c                                       |   32 +
+ hw/i386/pc_piix.c                                  |   19 +-
+ hw/i386/xen/xen_platform.c                         |   37 +-
+ hw/loongarch/Kconfig                               |    1 -
+ hw/loongarch/acpi-build.c                          |   18 -
+ hw/loongarch/virt.c                                |   62 --
+ hw/net/vhost_net.c                                 |    8 +-
+ hw/nvme/ctrl.c                                     |  182 +++-
+ hw/scsi/vhost-scsi-common.c                        |    4 +-
+ hw/virtio/trace-events                             |    4 +-
+ hw/virtio/vhost-user-fs.c                          |    4 +-
+ hw/virtio/vhost-user-gpio.c                        |   26 +-
+ hw/virtio/vhost-user-i2c.c                         |    4 +-
+ hw/virtio/vhost-user-rng.c                         |    4 +-
+ hw/virtio/vhost-user.c                             |   71 --
+ hw/virtio/vhost-vsock-common.c                     |    4 +-
+ hw/virtio/vhost.c                                  |   44 +-
+ hw/xen/xen-legacy-backend.c                        |   62 +-
+ include/hw/core/cpu.h                              |    2 +
+ include/hw/i386/pc.h                               |    3 +
+ include/hw/loongarch/virt.h                        |    5 -
+ include/hw/virtio/vhost-user-gpio.h                |   10 -
+ include/hw/virtio/vhost-user.h                     |   18 -
+ include/hw/virtio/vhost.h                          |    6 +-
+ include/hw/virtio/virtio.h                         |   23 +-
+ include/hw/xen/xen-legacy-backend.h                |    5 +
+ include/standard-headers/xen/arch-x86/cpuid.h      |  118 +++
+ include/standard-headers/xen/arch-x86/xen-x86_32.h |  194 ++++
+ include/standard-headers/xen/arch-x86/xen-x86_64.h |  241 +++++
+ include/standard-headers/xen/arch-x86/xen.h        |  398 ++++++++
+ include/standard-headers/xen/event_channel.h       |  388 ++++++++
+ include/standard-headers/xen/features.h            |  143 +++
+ include/standard-headers/xen/grant_table.h         |  686 +++++++++++++
+ include/standard-headers/xen/hvm/hvm_op.h          |  395 ++++++++
+ include/standard-headers/xen/hvm/params.h          |  318 ++++++
+ include/standard-headers/xen/memory.h              |  754 ++++++++++++++
+ include/standard-headers/xen/physdev.h             |  383 +++++++
+ include/standard-headers/xen/sched.h               |  202 ++++
+ include/standard-headers/xen/trace.h               |  341 +++++++
+ include/standard-headers/xen/vcpu.h                |  248 +++++
+ include/standard-headers/xen/version.h             |  113 +++
+ include/standard-headers/xen/xen-compat.h          |   46 +
+ include/standard-headers/xen/xen.h                 | 1049 ++++++++++++++++++++
+ include/sysemu/kvm.h                               |    3 +
+ include/sysemu/kvm_int.h                           |    3 +
+ target/i386/cpu.c                                  |    2 +
+ target/i386/cpu.h                                  |   12 +
+ target/i386/kvm/kvm.c                              |   95 ++
+ target/i386/meson.build                            |    1 +
+ target/i386/tcg/decode-new.c.inc                   |    3 +-
+ target/i386/tcg/sysemu/excp_helper.c               |   34 +-
+ target/i386/trace-events                           |    6 +
+ target/i386/xen-proto.h                            |   23 +
+ target/i386/xen.c                                  |  578 +++++++++++
+ target/i386/xen.h                                  |   28 +
+ target/s390x/tcg/cc_helper.c                       |    7 -
+ target/s390x/tcg/insn-data.h.inc                   |    2 +-
+ tests/qtest/libqos/virtio-gpio.c                   |    3 +-
+ tests/qtest/migration-test.c                       |   20 +-
+ 65 files changed, 7141 insertions(+), 421 deletions(-)
+
+
+
+
+
+
+
 
