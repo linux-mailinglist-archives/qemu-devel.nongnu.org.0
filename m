@@ -2,99 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B167E6425D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 10:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8219642627
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 10:54:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p27nd-0004GA-Nz; Mon, 05 Dec 2022 04:30:09 -0500
+	id 1p289e-0000Rn-19; Mon, 05 Dec 2022 04:52:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1p27nb-0004Fv-Ku
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:30:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1p289Y-0000RG-KT
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:52:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1p27nW-00017H-Sp
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:30:07 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1p289W-0006LD-NA
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:52:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670232601;
+ s=mimecast20190719; t=1670233966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uiEu0PKdIg15NruQztkVXlJKWxzrJke+gdaEMKmnmxU=;
- b=M05gRxtXbjmq6chRt3o+S8PzWbkjK8Tm+uEBdQF0IzpKbMgHBwJafbWA394HqE9RNjIg6e
- c0LqX+QFhwuOsA7GsttKt83pdMyh7DR3DOeLlrc20XdklCwPUY7+pj5tdQw5r22wJuiN6e
- MIXpDSbb32cTH+EaK4TpOJnI6ZP9cQA=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613-7EgnyiiDNH6LQrbp4C222g-1; Mon, 05 Dec 2022 04:29:59 -0500
-X-MC-Unique: 7EgnyiiDNH6LQrbp4C222g-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bi42-20020a05620a31aa00b006faaa1664b9so15955015qkb.8
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 01:29:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uiEu0PKdIg15NruQztkVXlJKWxzrJke+gdaEMKmnmxU=;
- b=U7gutKjWKqBhgZQXFI8wdDRb/P5AZWGXZp3aeLoJKCth+ClAMxxkTDfDgoqGTfmq4h
- 8R5XdTHWHrYV3N6bYmyc+RUbieZxWUR10V34T0ydFNfyCmlTNMhOZG9S6R2x3G8+L7Nn
- x997yz1mM7pZeRJ9l6jGroIalh5soFodiS6SpvczEe3y37XXys1qnbhttuOdvJ9LUGQZ
- CPXOGgMmvWV/R77dAkBWHc7fEbBWa2VPenWhVrg0hk7Z/q47bSRtYCePbhc8BOrxi0pG
- jPfe6Pj3lbC53CXxATJkLOyJRZiMUYsiqqRlonODU3AY2Z83ZvSNy7Lb/7zOBzOlLTko
- dQDg==
-X-Gm-Message-State: ANoB5pmUllNMc64oYniM3sqGFkpn3f8NFnBhNR0f3BqnLvnA4XG2StvS
- qNmI+IztCbH57wu5MICHj7i8JO0O50L3t8Izzj0kU4Dh4c4mlfobB057VSxz+UUPZ7bio3UcUUl
- w7Q6i/xLXHywVNyM=
-X-Received: by 2002:ad4:5288:0:b0:4c7:5f27:7966 with SMTP id
- v8-20020ad45288000000b004c75f277966mr6484309qvr.44.1670232599358; 
- Mon, 05 Dec 2022 01:29:59 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7ZcjJrJdKCfBdlJUV2ROrAl6e5+JiyXNy4UyjEZy3NjoRF3W6v1yDeuyLXJH4HXX5eOJl8Ag==
-X-Received: by 2002:ad4:5288:0:b0:4c7:5f27:7966 with SMTP id
- v8-20020ad45288000000b004c75f277966mr6484294qvr.44.1670232599124; 
- Mon, 05 Dec 2022 01:29:59 -0800 (PST)
-Received: from sgarzare-redhat (host-87-11-6-51.retail.telecomitalia.it.
- [87.11.6.51]) by smtp.gmail.com with ESMTPSA id
- i6-20020a05620a404600b006fc9fe67e34sm11709658qko.81.2022.12.05.01.29.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 01:29:58 -0800 (PST)
-Date: Mon, 5 Dec 2022 10:29:49 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, virtio-fs@redhat.com,
+ content-transfer-encoding:content-transfer-encoding;
+ bh=okeonkb2O++Krxrb9t+hNwq8JIpCuDdo2NcbeqlenYE=;
+ b=Qjp4N27SVnYZW7Zxx17IkOG5ShPIw3a9lNKPPUf1JiekF18a2h+QoXSn5gQ0JeeL2CtQrX
+ yr7+VPgHC3f7MnFVYI+Ws9oKtk4SvmiKgBmSnlUwXXvYiIl2XvvaZueniIuX/7CM6tMzzw
+ ZBFhkxfH9fc+3AngUrkLLeUhDw37PAk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-546-eQ27QNs8O4SFskwS6XkxrQ-1; Mon, 05 Dec 2022 04:52:42 -0500
+X-MC-Unique: eQ27QNs8O4SFskwS6XkxrQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB43E8339C5;
+ Mon,  5 Dec 2022 09:52:40 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.194.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B4F42166B2A;
+ Mon,  5 Dec 2022 09:52:31 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
- Fam Zheng <fam@euphon.net>, Viresh Kumar <viresh.kumar@linaro.org>,
- German Maglione <gmaglione@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH for-7.2] vhost: enable vrings in vhost_dev_start() for
- vhost-user devices
-Message-ID: <20221205092949.goyo76dy76u2d4ie@sgarzare-redhat>
-References: <20221123131630.52020-1-sgarzare@redhat.com>
- <Y3+5rfnNmR7R/h6/@fedora>
- <20221125081243.a3q7ep32o6g4r2vd@sgarzare-redhat>
- <Y4fFICp5tBrEPud1@fedora>
- <20221201080250.s3cugnnkf5f4kqvo@sgarzare-redhat>
- <87k03bctrj.fsf@linaro.org>
- <20221201052647-mutt-send-email-mst@kernel.org>
- <874jufcnzi.fsf@linaro.org>
- <20221201164750-mutt-send-email-mst@kernel.org>
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ virtio-fs@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, qemu-block@nongnu.org,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Thomas Huth <thuth@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Song Gao <gaosong@loongson.cn>, qemu-s390x@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Klaus Jensen <its@irrelevant.dk>, John Snow <jsnow@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
+ qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>
+Subject: [PATCH v2 00/51] migration patches for VFIO
+Date: Mon,  5 Dec 2022 10:51:37 +0100
+Message-Id: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221201164750-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,55 +101,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 01, 2022 at 04:49:37PM -0500, Michael S. Tsirkin wrote:
->On Thu, Dec 01, 2022 at 12:21:21PM +0000, Alex BennÈe wrote:
->>
->> "Michael S. Tsirkin" <mst@redhat.com> writes:
->>
->> > On Thu, Dec 01, 2022 at 10:14:39AM +0000, Alex BennÈe wrote:
->> >> Do you think rust-vmm's vhost crates have enough of the state
->> >> management to manage vhost and vhost-user backends? Maybe it would be a
->> >> good experiment in replacing a (small well defined) piece of
->> >> functionality with rust?
+Hi
 
-I honestly don't know, but I think they are not 100% complete.
-I do agree that an experiment would be nice though, maybe a GSoC?
-Or maybe not, since it's not very clear whether we get to the end or not....
+On this v2:
 
->> >>
->> >> That said there is a lot of deep magic in the vhost-net stuff which I
->> >> think is down to the interaction with things like vdpk and other network
->> >> optimisations that might be missing. For the rest of the devices most of
->> >> the code is basically boiler plate which has grown variations due to
->> >> code motion and change. This is the sort of thing that generics solves
->> >> well.
->> >
->> > Not sure what you want to replace with what though, libvhost-user or
->> > vhost-user bits in qemu?
->>
->> The vhost-user bits in the main QEMU binary. We already don't use
->> libvhost-user for most of our backends anyway ;-)
->
->Mixing C and Rust like this is far from trivial. I'd start with
->something much less ambitious that virtio.
+- Remove the stop of the guest to calculate the size
+- Rebase on latest upstream.
 
-We recently merged libblkio [1] support in QEMU [2], where we did
-something similar.
-libblkio provides a C API, but the library is totally written in Rust.
-Writing the C interface was not too complicated.
+Please review.
 
-The advantage here is that the Rust code is already part of the rust-vmm
-crates.
-I think it needs adjustments, but it's not a bad idea in my opinion.
+[v1/RFC]
+VFIO migration has several requirements:
+- the size of the state is only known when the guest is stopped
+- they need to send possible lots of data.
 
-Anyway, I don't think it's an easy job, though, so maybe GSoC could just
-be about writing the C interface and adapting Rust crates. Touching QEMU
-might require too much knowledge of the current code.
+this series only address the 1st set of problems.
 
-Thanks,
-Stefano
+What they do:
+- res_compatible parameter was not used anywhere, just add that information to res_postcopy.
+- Remove QEMUFILE parameter from save_live_pending
+- Split save_live_pending into
+  * save_pending_estimate(): the pending state size without trying too hard
+  * save_pending_exact(): the real pending state size, it is called with the guest stopped.
+- Now save_pending_* don't need the threshold parameter
+- HACK a way to stop the guest before moving there.
 
-[1] https://libblkio.gitlab.io/libblkio/
-[2] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg02215.html
+ToDo:
+- autoconverge test is broken, no real clue why, but it is possible that the test is wrong.
+
+- Make an artifact to be able to send massive amount of data in the save state stage (probably more multifd channels).
+
+- Be able to not having to start the guest between cheking the state pending size and migration_completion().
+
+Please review.
+
+Thanks, Juan.
+
+Alex Benn√©e (4):
+  tests/qtests: override "force-legacy" for gpio virtio-mmio tests
+  hw/virtio: add started_vu status field to vhost-user-gpio
+  hw/virtio: generalise CHR_EVENT_CLOSED handling
+  include/hw: VM state takes precedence in virtio_device_should_start
+
+Evgeny Ermakov (2):
+  target/arm: Set TCGCPUOps.restore_state_to_opc for v7m
+  hw/display/next-fb: Fix comment typo
+
+Gerd Hoffmann (2):
+  update seabios source from 1.16.0 to 1.16.1
+  update seabios binaries to 1.16.1
+
+Juan Quintela (9):
+  multifd: Create page_size fields into both MultiFD{Recv,Send}Params
+  multifd: Create page_count fields into both MultiFD{Recv,Send}Params
+  migration: Export ram_transferred_ram()
+  migration: Export ram_release_page()
+  migration: Remove res_compatible parameter
+  migration: No save_live_pending() method uses the QEMUFile parameter
+  migration: Split save_live_pending() into state_pending_*
+  migration: Remove unused threshold_size parameter
+  migration: simplify migration_iteration_run()
+
+Klaus Jensen (5):
+  hw/nvme: fix aio cancel in format
+  hw/nvme: fix aio cancel in flush
+  hw/nvme: fix aio cancel in zone reset
+  hw/nvme: fix aio cancel in dsm
+  hw/nvme: remove copy bh scheduling
+
+Paolo Bonzini (1):
+  target/i386: allow MMX instructions with CR4.OSFXSR=0
+
+Peter Xu (15):
+  migration: Take bitmap mutex when completing ram migration
+  migration: Add postcopy_preempt_active()
+  migration: Cleanup xbzrle zero page cache update logic
+  migration: Trivial cleanup save_page_header() on same block check
+  migration: Remove RAMState.f references in compression code
+  migration: Yield bitmap_mutex properly when sending/sleeping
+  migration: Use atomic ops properly for page accountings
+  migration: Teach PSS about host page
+  migration: Introduce pss_channel
+  migration: Add pss_init()
+  migration: Make PageSearchStatus part of RAMState
+  migration: Move last_sent_block into PageSearchStatus
+  migration: Send requested page directly in rp-return thread
+  migration: Remove old preempt code around state maintainance
+  migration: Drop rs->f
+
+Philippe Mathieu-Daud√© (5):
+  hw/display/qxl: Have qxl_log_command Return early if no log_cmd
+    handler
+  hw/display/qxl: Document qxl_phys2virt()
+  hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
+  hw/display/qxl: Avoid buffer overrun in qxl_phys2virt (CVE-2022-4144)
+  hw/display/qxl: Assert memory slot fits in preallocated MemoryRegion
+
+Richard Henderson (2):
+  replay: Fix declaration of replay_read_next_clock
+  target/i386: Always completely initialize TranslateFault
+
+Stefan Hajnoczi (2):
+  block-backend: avoid bdrv_unregister_buf() NULL pointer deref
+  Update VERSION for v7.2.0-rc3
+
+Stefano Garzarella (1):
+  vhost: enable vrings in vhost_dev_start() for vhost-user devices
+
+Thomas Huth (2):
+  tests/qtest/migration-test: Fix unlink error and memory leaks
+  target/s390x/tcg: Fix and improve the SACF instruction
+
+Xiaojuan Yang (1):
+  hw/loongarch/virt: Add cfi01 pflash device
+
+-- 
+2.38.1
 
 
