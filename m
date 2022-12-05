@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84806426E1
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105F36426BB
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:35:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28GL-00075F-VA; Mon, 05 Dec 2022 04:59:49 -0500
+	id 1p28GM-00077H-EY; Mon, 05 Dec 2022 04:59:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28GC-0006zD-QJ
+ id 1p28GE-0006zN-3o
  for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:59:42 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28G3-0008GG-CX
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:59:36 -0500
+ id 1p28G6-0008Jk-EV
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:59:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234360;
+ s=mimecast20190719; t=1670234370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aVA2ExIvUYYnRwSS5NgfSR0yZwp2UOeIEJlbVzJFJzk=;
- b=dTp2bQGr8R0SNQuUQXW/SpHK8EfNWHierUf2D/njpTlAPEC3kWbcUfB6EazjkRYzkVpZVS
- keq3DiqZEOLz97g+ZnWOQRN73EfSDfoBwO2nV5ybhPRAvAEIv5ILan+MJM/Op8zem/BKo3
- anAxEbhGGliqs205BzWtEG3oaFp2NU8=
+ bh=JsXt0Mo+YraOe+nVpUCs7+EEHIwsfkziC7U7eKyeVHo=;
+ b=iNFeRrp5GxnrylrGo5sCJHe2BL5JMTAZpStE9b7fSH9KFm0OEZVXWbUrpNdQJzNRFxtv0E
+ Z378E/0HtsHu6hLDVd5bXdLO+VNOuIS5t0AYH+zNpFJEjS1mamRKk6DVRAABNdD+wTIvKY
+ bogZ5n7WOsCduGkjCfX9EogWxgsN5GU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-U0U7Wxn0PFiNrtkvAwFA_g-1; Mon, 05 Dec 2022 04:59:13 -0500
-X-MC-Unique: U0U7Wxn0PFiNrtkvAwFA_g-1
+ us-mta-563-GxyJAN8aPheGjp7hlT7Stg-1; Mon, 05 Dec 2022 04:59:22 -0500
+X-MC-Unique: GxyJAN8aPheGjp7hlT7Stg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAC7E800B23;
- Mon,  5 Dec 2022 09:59:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10C38185A794;
+ Mon,  5 Dec 2022 09:59:21 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3681B2166B29;
- Mon,  5 Dec 2022 09:59:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 15D182166B29;
+ Mon,  5 Dec 2022 09:59:11 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -71,9 +71,9 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
  qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH v2 50/51] migration: Remove unused threshold_size parameter
-Date: Mon,  5 Dec 2022 10:52:27 +0100
-Message-Id: <20221205095228.1314-51-quintela@redhat.com>
+Subject: [PATCH v2 51/51] migration: simplify migration_iteration_run()
+Date: Mon,  5 Dec 2022 10:52:28 +0100
+Message-Id: <20221205095228.1314-52-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -103,192 +103,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Until previous commit, save_live_pending() was used for ram.  Now with
-the split into state_pending_estimate() and state_pending_exact() it
-is not needed anymore, so remove them.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- include/migration/register.h   |  7 +++----
- migration/savevm.h             |  6 ++----
- hw/vfio/migration.c            |  6 +++---
- migration/block-dirty-bitmap.c |  3 +--
- migration/block.c              |  3 +--
- migration/migration.c          |  4 ++--
- migration/ram.c                |  6 ++----
- migration/savevm.c             | 12 ++++--------
- 8 files changed, 18 insertions(+), 29 deletions(-)
+ migration/migration.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/include/migration/register.h b/include/migration/register.h
-index 313b8e1c3b..5f08204fb2 100644
---- a/include/migration/register.h
-+++ b/include/migration/register.h
-@@ -58,11 +58,10 @@ typedef struct SaveVMHandlers {
-      * pending data.
-      */
-     /* This calculate the exact remaining data to transfer */
--    void (*state_pending_exact)(void *opaque,  uint64_t threshold_size,
--                                uint64_t *rest_precopy, uint64_t *rest_postcopy);
-+    void (*state_pending_exact)(void *opaque, uint64_t *rest_precopy,
-+                                uint64_t *rest_postcopy);
-     /* This estimates the remaining data to transfer */
--    void (*state_pending_estimate)(void *opaque,  uint64_t threshold_size,
--                                   uint64_t *rest_precopy,
-+    void (*state_pending_estimate)(void *opaque, uint64_t *rest_precopy,
-                                    uint64_t *rest_postcopy);
- 
-     LoadStateHandler *load_state;
-diff --git a/migration/savevm.h b/migration/savevm.h
-index 613f85e717..24f2d2a28b 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -40,11 +40,9 @@ void qemu_savevm_state_cleanup(void);
- void qemu_savevm_state_complete_postcopy(QEMUFile *f);
- int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
-                                        bool inactivate_disks);
--void qemu_savevm_state_pending_exact(uint64_t max_size,
--                                     uint64_t *res_precopy,
-+void qemu_savevm_state_pending_exact(uint64_t *res_precopy,
-                                      uint64_t *res_postcopy);
--void qemu_savevm_state_pending_estimate(uint64_t max_size,
--                                        uint64_t *res_precopy,
-+void qemu_savevm_state_pending_estimate(uint64_t *res_precopy,
-                                         uint64_t *res_postcopy);
- void qemu_savevm_send_ping(QEMUFile *f, uint32_t value);
- void qemu_savevm_send_open_return_path(QEMUFile *f);
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 1545498e11..8dbbfa2c56 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -456,8 +456,8 @@ static void vfio_save_cleanup(void *opaque)
-     trace_vfio_save_cleanup(vbasedev->name);
- }
- 
--static void vfio_state_pending(void *opaque,  uint64_t threshold_size,
--                               uint64_t *res_precopy, uint64_t *res_postcopy)
-+static void vfio_state_pending(void *opaque, uint64_t *res_precopy,
-+                               uint64_t *res_postcopy)
- {
-     VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
-@@ -511,7 +511,7 @@ static int vfio_save_iterate(QEMUFile *f, void *opaque)
-     }
- 
-     /*
--     * Reset pending_bytes as .save_live_pending is not called during savevm or
-+     * Reset pending_bytes as .state_pending_* is not called during savevm or
-      * snapshot case, in such case vfio_update_pending() at the start of this
-      * function updates pending_bytes.
-      */
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 5b24007650..8a11577252 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -761,8 +761,7 @@ static int dirty_bitmap_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void dirty_bitmap_state_pending(void *opaque, uint64_t max_size,
--                                       uint64_t *res_precopy,
-+static void dirty_bitmap_state_pending(void *opaque, uint64_t *res_precopy,
-                                        uint64_t *res_postcopy)
- {
-     DBMSaveState *s = &((DBMState *)opaque)->save;
-diff --git a/migration/block.c b/migration/block.c
-index 8e6ad1c468..4f1f7c0f8d 100644
---- a/migration/block.c
-+++ b/migration/block.c
-@@ -862,8 +862,7 @@ static int block_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void block_state_pending(void *opaque, uint64_t max_size,
--                                uint64_t *res_precopy,
-+static void block_state_pending(void *opaque, uint64_t *res_precopy,
-                                 uint64_t *res_postcopy)
- {
-     /* Estimate pending number of bytes to send */
 diff --git a/migration/migration.c b/migration/migration.c
-index 9e18c911db..b54e4657ce 100644
+index b54e4657ce..b2c974f166 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -3759,12 +3759,12 @@ static MigIterateState migration_iteration_run(MigrationState *s)
-     uint64_t pend_pre, pend_post;
-     bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
- 
--    qemu_savevm_state_pending_estimate(s->threshold_size, &pend_pre, &pend_post);
-+    qemu_savevm_state_pending_estimate(&pend_pre, &pend_post);
-     uint64_t pending_size = pend_pre + pend_post;
-     trace_migrate_pending_estimate(pending_size, s->threshold_size, pend_pre, pend_post);
- 
-     if (pend_pre <= s->threshold_size) {
--        qemu_savevm_state_pending_exact(s->threshold_size, &pend_pre, &pend_post);
-+        qemu_savevm_state_pending_exact(&pend_pre, &pend_post);
-         pending_size = pend_pre + pend_post;
+@@ -3769,23 +3769,23 @@ static MigIterateState migration_iteration_run(MigrationState *s)
          trace_migrate_pending_exact(pending_size, s->threshold_size, pend_pre, pend_post);
      }
-diff --git a/migration/ram.c b/migration/ram.c
-index ad5a2eeadd..48378ee57e 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3392,8 +3392,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
  
--static void ram_state_pending_estimate(void *opaque, uint64_t max_size,
--                                       uint64_t *res_precopy,
-+static void ram_state_pending_estimate(void *opaque, uint64_t *res_precopy,
-                                        uint64_t *res_postcopy)
- {
-     RAMState **temp = opaque;
-@@ -3409,8 +3408,7 @@ static void ram_state_pending_estimate(void *opaque, uint64_t max_size,
+-    if (pending_size && pending_size >= s->threshold_size) {
+-        /* Still a significant amount to transfer */
+-        if (!in_postcopy && pend_pre <= s->threshold_size &&
+-            qatomic_read(&s->start_postcopy)) {
+-            if (postcopy_start(s)) {
+-                error_report("%s: postcopy failed to start", __func__);
+-            }
+-            return MIG_ITERATE_SKIP;
+-        }
+-        /* Just another iteration step */
+-        qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
+-    } else {
++    if (pending_size < s->threshold_size) {
+         trace_migration_thread_low_pending(pending_size);
+         migration_completion(s);
+         return MIG_ITERATE_BREAK;
      }
- }
  
--static void ram_state_pending_exact(void *opaque, uint64_t max_size,
--                                    uint64_t *res_precopy,
-+static void ram_state_pending_exact(void *opaque, uint64_t *res_precopy,
-                                     uint64_t *res_postcopy)
- {
-     RAMState **temp = opaque;
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 89b9075ff1..5ad94f0be9 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1471,8 +1471,7 @@ flush:
-  * the result is split into the amount for units that can and
-  * for units that can't do postcopy.
-  */
--void qemu_savevm_state_pending_exact(uint64_t threshold_size,
--                                     uint64_t *res_precopy,
-+void qemu_savevm_state_pending_exact(uint64_t *res_precopy,
-                                      uint64_t *res_postcopy)
- {
-     SaveStateEntry *se;
-@@ -1489,13 +1488,11 @@ void qemu_savevm_state_pending_exact(uint64_t threshold_size,
-                 continue;
-             }
-         }
--        se->ops->state_pending_exact(se->opaque, threshold_size,
--                                     res_precopy, res_postcopy);
-+        se->ops->state_pending_exact(se->opaque, res_precopy, res_postcopy);
-     }
- }
- 
--void qemu_savevm_state_pending_estimate(uint64_t threshold_size,
--                                        uint64_t *res_precopy,
-+void qemu_savevm_state_pending_estimate(uint64_t *res_precopy,
-                                         uint64_t *res_postcopy)
- {
-     SaveStateEntry *se;
-@@ -1512,8 +1509,7 @@ void qemu_savevm_state_pending_estimate(uint64_t threshold_size,
-                 continue;
-             }
-         }
--        se->ops->state_pending_estimate(se->opaque, threshold_size,
--                                        res_precopy, res_postcopy);
-+        se->ops->state_pending_estimate(se->opaque, res_precopy, res_postcopy);
-     }
++    /* Still a significant amount to transfer */
++    if (!in_postcopy && pend_pre <= s->threshold_size &&
++        qatomic_read(&s->start_postcopy)) {
++        if (postcopy_start(s)) {
++            error_report("%s: postcopy failed to start", __func__);
++        }
++        return MIG_ITERATE_SKIP;
++    }
++
++    /* Just another iteration step */
++    qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
+     return MIG_ITERATE_RESUME;
  }
  
 -- 
