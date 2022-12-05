@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF07E6426FE
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6425464273F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 12:11:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p297O-0008IY-Cl; Mon, 05 Dec 2022 05:54:38 -0500
+	id 1p29MD-0002zU-Rm; Mon, 05 Dec 2022 06:09:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1p297E-0008IJ-9s
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:54:28 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p29MB-0002zG-Ac
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 06:09:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1p297B-0004z9-An
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:54:27 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NQgLt5yvkz686w8;
- Mon,  5 Dec 2022 18:50:46 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 5 Dec
- 2022 10:54:04 +0000
-Date: Mon, 5 Dec 2022 10:54:03 +0000
-To: Thomas Huth <thuth@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>, "Peter
- Maydell" <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PULL 02/10] pci-bridge/cxl_downstream: Add a CXL switch
- downstream port
-Message-ID: <20221205105403.00003d0f@huawei.com>
-In-Reply-To: <06f4e22c-1c30-42a6-6f80-1f04e9d55c96@redhat.com>
-References: <20220616165703.42226-1-mst@redhat.com>
- <20220616165703.42226-3-mst@redhat.com>
- <4274de61-292d-b3e0-8f86-d7000122a715@redhat.com>
- <06f4e22c-1c30-42a6-6f80-1f04e9d55c96@redhat.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p29M7-0008FY-Th
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 06:09:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670238589;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YkXvDk1Ruk9Vnqb9EH7bzoZKS0Ci7GppiHsnEWrYTMk=;
+ b=IUOHvQ1675XKkmZrGZqEqg3yb/7siBTstFiU/9FYB5k00uJU1ZURhZND+VDFkjJEarQ3AH
+ I/KfNebvZAB55xiNdByPkzVjBSCkUd0OoTMB92hHn0Qnd++RJa/P7TpwdRR0Txfn0X5B1A
+ ielc5teZ0eBs31vUVpCkKMN6lqs21hc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-186-5Kz9SuIKPgGoIxSMoZpndA-1; Mon, 05 Dec 2022 06:09:46 -0500
+X-MC-Unique: 5Kz9SuIKPgGoIxSMoZpndA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EC1038041E7;
+ Mon,  5 Dec 2022 11:09:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C7872166B29;
+ Mon,  5 Dec 2022 11:09:45 +0000 (UTC)
+Date: Mon, 5 Dec 2022 11:09:41 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, dgilbert@redhat.com,
+ philmd@linaro.org
+Subject: Re: [PATCH v2 03/14] ui/spice: Require spice-protocol >= 0.14.0
+Message-ID: <Y43RdVf11jpLUrhu@redhat.com>
+References: <20221202100512.4161901-1-armbru@redhat.com>
+ <20221202100512.4161901-4-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221202100512.4161901-4-armbru@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,74 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 4 Dec 2022 08:23:55 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+On Fri, Dec 02, 2022 at 11:05:01AM +0100, Markus Armbruster wrote:
+> Version 0.14.0 is now old enough to have made it into the major
+> distributions:
+> 
+>    Debian 11: 0.14.3
+>    RHEL-8: 0.14.2
+>    FreeBSD (ports): 0.14.4
+>    Fedora 35: 0.14.0
+>    Ubuntu 20.04: 0.14.0
+>    OpenSUSE Leap 15.3: 0.14.3
+> 
+> Requiring it lets us drop two version checks in ui/vdagent.c.  It also
+> enables the next commit.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  meson.build  | 2 +-
+>  ui/vdagent.c | 4 ----
+>  2 files changed, 1 insertion(+), 5 deletions(-)
 
-> On 04/11/2022 07.47, Thomas Huth wrote:
-> > On 16/06/2022 18.57, Michael S. Tsirkin wrote: =20
-> >> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> >>
-> >> Emulation of a simple CXL Switch downstream port.
-> >> The Device ID has been allocated for this use.
-> >>
-> >> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> >> Message-Id: <20220616145126.8002-3-Jonathan.Cameron@huawei.com>
-> >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >> ---
-> >> =A0 hw/cxl/cxl-host.c=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 43 +=
-++++-
-> >> =A0 hw/pci-bridge/cxl_downstream.c | 249 +++++++++++++++++++++++++++++=
-++++
-> >> =A0 hw/pci-bridge/meson.build=A0=A0=A0=A0=A0 |=A0=A0 2 +-
-> >> =A0 3 files changed, 291 insertions(+), 3 deletions(-)
-> >> =A0 create mode 100644 hw/pci-bridge/cxl_downstream.c =20
-> >=20
-> >  =A0Hi!
-> >=20
-> > There is a memory problem somewhere in this new device. I can make QEMU=
-=20
-> > crash by running something like this:
-> >=20
-> > $ MALLOC_PERTURB_=3D59 ./qemu-system-x86_64 -M x-remote \
-> >  =A0=A0=A0 -display none -monitor stdio
-> > QEMU 7.1.50 monitor - type 'help' for more information
-> > (qemu) device_add cxl-downstream
-> > ./qemu/qom/object.c:1188:5: runtime error: member access within misalig=
-ned=20
-> > address 0x3b3b3b3b3b3b3b3b for type 'struct Object', which requires 8 b=
-yte=20
-> > alignment
-> > 0x3b3b3b3b3b3b3b3b: note: pointer points here
-> > <memory cannot be printed>
-> > Bus error (core dumped)
-> >=20
-> > Could you have a look if you've got some spare minutes? =20
->=20
-> Ping! Jonathan, Michael, any news on this bug?
->=20
-> (this breaks one of my local tests, that's why it's annoying for me)
-Sorry, my email filters ate your earlier message.
-
-Looking into this now. I'll note that it also happens on
-device_add xio3130-downstream so not specific to this new device.
-
-So far all I've managed to do is track it to something rcu related
-as failing in a call to drain_call_rcu() in qmp_device_add()
-
-Will continue digging.
-
-Jonathan
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
->=20
->   Thomas
->=20
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
