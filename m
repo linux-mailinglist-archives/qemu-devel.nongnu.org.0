@@ -2,111 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563B3642685
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B0C6426D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:39:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28Db-0004Y9-63; Mon, 05 Dec 2022 04:56:59 -0500
+	id 1p28fk-0001UF-E7; Mon, 05 Dec 2022 05:26:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28DX-0004Tb-8o
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28DV-0007nj-7B
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234212;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zIIhGLkTAu6ClR7YeoqlcUrXmblUdO5TWS3HNnwwmnY=;
- b=LX9ttwFi62A1z0tQ0PuwdOH48JMgJlhEIxFPp5OUbCcIbRIjpZpoAP0C/7GFMGDchw66zO
- YGCCjgK/ua+K5pXvAVCOCqkhME6btSKYniEpxWQ8WbzXRuMSZUKYWI7RAWmF7VoBEXd2WC
- STJVzj2J5a6bo3X7iwRDHojz3ukF7E4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-6wFdJFgLOBiLLOJ2RuibxA-1; Mon, 05 Dec 2022 04:56:50 -0500
-X-MC-Unique: 6wFdJFgLOBiLLOJ2RuibxA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v188-20020a1cacc5000000b003cf76c4ae66so8196846wme.7
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 01:56:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1p28fY-0001KT-Tz
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:25:54 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1p28fX-0006cr-3M
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:25:52 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ b13-20020a17090a5a0d00b0021906102d05so10988022pjd.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 02:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JOiFQ+VDr28lfLOOmW8pLV87sBU1U/rvv/jp9D7wkWA=;
+ b=K8LjfkBLh2TksaRHdweAU3RYfRNLRgXnpixTjLHdSL2nHACKYM+Z3wepImTPVYfWbO
+ +7aZuvcG22FqWUu7OPwU6JSJuGVl+UGYEo2+pelCQYKiUSFyw1VEs4O+0JBXxKzpW7+v
+ PbFPse+5A4QqPW84sXrdqf6Z5wU5QdYIGnCDWvQ/4BfASaImMP4pGPXmh7qTlKESHrzd
+ pwA/7Vw2/6LCfizJv/Af65yaY/J/UjqpCysaOxb0Dl6X13etShS/MgN9OTwNGeIKQYHV
+ /fvqz/m9NiTCaEic4H5go4x2btrPViu5b+2EdJKMfcRkmM9aIIndkk6cYlx1xCr3nRn2
+ P1Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zIIhGLkTAu6ClR7YeoqlcUrXmblUdO5TWS3HNnwwmnY=;
- b=Q6z8uYFUk122eEJJm6J6rc3H5VbFHYQPB+eJCIvTxGzeYHZzDBusJpwWkEm8Byq4Dn
- 5Jtnpu5Zo7s3SCS0fUsdJzg2KGwBYoyhMN1mxfSl5y2w9gzGaJhQalokZ1AW3+1Q6fkx
- t5NKE+WZGF2cAJlKSV9Ft2OQ9qII/Z+VorsVKqPpmxDeMqn3MBcIzPJjAlg6H8jhOIuD
- CXko/w+EB2YcKNaN7mnL5RwZoiTO7G2EmHL/7ITHZkBpHrSVRQ7Nk4h0/UGOJTPo2qUe
- piRWwgrkhkNM6q2Rzb1sVQcTckj6aOJ2XK7tQa/saepRh3YwwR7KLd+GwtShRXFroswu
- yY7A==
-X-Gm-Message-State: ANoB5pmPmhZng2+zgc1Jl6iY00Jhtvy3jfxJt2wb1k107wm6m/i6Dg1P
- cobbPET44Ob2qyC+eanMIWl7Gss3sEf2xsFanF9X79POuFX15d8sae3qYrIvu3xaT4tFP7KlApV
- Lq7EiidQ0F9Dmui7b94oaRM4sEL8uxQJtIN7FR3xrmaytkDDUJj89wdG4Z+whERUSpsA=
-X-Received: by 2002:a05:600c:414d:b0:3d0:878e:6fed with SMTP id
- h13-20020a05600c414d00b003d0878e6fedmr9425549wmm.150.1670234209337; 
- Mon, 05 Dec 2022 01:56:49 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7+3pNv/VpuE0YopoQFy8yYK2Mb03ckWR7iQ21tCcJylhaWwg4euGskUQt1xFJQBICo+wpg5Q==
-X-Received: by 2002:a05:600c:414d:b0:3d0:878e:6fed with SMTP id
- h13-20020a05600c414d00b003d0878e6fedmr9425479wmm.150.1670234209006; 
- Mon, 05 Dec 2022 01:56:49 -0800 (PST)
-Received: from redhat.com ([137.101.155.210]) by smtp.gmail.com with ESMTPSA id
- bg28-20020a05600c3c9c00b003cfa3a12660sm26793090wmb.1.2022.12.05.01.56.48
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JOiFQ+VDr28lfLOOmW8pLV87sBU1U/rvv/jp9D7wkWA=;
+ b=TFh9I3Jbo4zXum0hDTymkh/dFAYojqpHRnooJdwrXLbBEFwNG4mnkHumxgz8wuQd/F
+ 3BNoEFwqKme2PPkJlbQPyZ9xlRhdovYH9eYjpb2U5PpdH/z89mtreAOmV4OeceY4vtML
+ q6IDhfiremo5jqwDqq5U2NZI4S5qIEOgOozXnyeptpLW5AGQKPz47MQtP+0xnrykcYo/
+ vPg/gHUZhSojyoknnQbzDlXUxjpMnMO8+k85trLsCss8oVP9O7aJgkSe7L2VY/Ma2IEZ
+ 8mPQNtchzrf4GSCBM/8yexc31XFyjLou6CexLtX5TeMsiIi/KMUsKFX3EafVI51VK9CG
+ 9AcA==
+X-Gm-Message-State: ANoB5pkpaaxH+ZH59YCI6fNbV7Lwk8hy4OrjIxPbp4ym960vPD5Sp4rb
+ zTCD7aXhpDb1aRzpissTqPb58DigCLza+g+CtHY=
+X-Google-Smtp-Source: AA0mqf6nabh0hUBjZPmoNc/QG7ovLqiW4Ly5Jb5sc7QvMjy597DPXlYy1SBfVzRBpYFRhb8WfIcXbg==
+X-Received: by 2002:a17:902:c1cd:b0:189:6b31:dc53 with SMTP id
+ c13-20020a170902c1cd00b001896b31dc53mr48176049plc.58.1670235946418; 
+ Mon, 05 Dec 2022 02:25:46 -0800 (PST)
+Received: from ThinkPad-T490.dc1.ventanamicro.com ([103.97.165.210])
+ by smtp.googlemail.com with ESMTPSA id
+ ca12-20020a17090af30c00b0020bfd6586c6sm8905807pjb.7.2022.12.05.02.25.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 01:56:48 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>,  Thomas Huth <huth@tuxfamily.org>,  Viresh
- Kumar <viresh.kumar@linaro.org>,  Kevin Wolf <kwolf@redhat.com>,  Mathieu
- Poirier <mathieu.poirier@linaro.org>,  Laurent Vivier <laurent@vivier.eu>,
- Eric Blake <eblake@redhat.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  Raphael Norwitz
- <raphael.norwitz@nutanix.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
- virtio-fs@redhat.com,  Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,  Christian
- Borntraeger <borntraeger@linux.ibm.com>,  "Gonglei (Arei)"
- <arei.gonglei@huawei.com>,  qemu-block@nongnu.org,  Xiaojuan Yang
- <yangxiaojuan@loongson.cn>,  Thomas Huth <thuth@redhat.com>,  Ilya
- Leoshkevich <iii@linux.ibm.com>,  Eduardo Habkost <eduardo@habkost.net>,
- Gerd Hoffmann <kraxel@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Alex Williamson <alex.williamson@redhat.com>,
- Eric Farman <farman@linux.ibm.com>,  Halil Pasic <pasic@linux.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  Jason Wang <jasowang@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  Song Gao <gaosong@loongson.cn>,
- qemu-s390x@nongnu.org,  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Klaus Jensen <its@irrelevant.dk>,  John Snow <jsnow@redhat.com>,  Michael
- Tokarev <mjt@tls.msk.ru>,  qemu-arm@nongnu.org,  Paolo Bonzini
- <pbonzini@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Keith
- Busch <kbusch@kernel.org>,  David Hildenbrand <david@redhat.com>,
- qemu-trivial@nongnu.org,  Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 00/51] migration patches for VFIO
-In-Reply-To: <20221205095228.1314-1-quintela@redhat.com> (Juan Quintela's
- message of "Mon, 5 Dec 2022 10:51:37 +0100")
-References: <20221205095228.1314-1-quintela@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 05 Dec 2022 10:56:47 +0100
-Message-ID: <87v8mqb2cg.fsf@secure.mitica>
+ Mon, 05 Dec 2022 02:25:46 -0800 (PST)
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v2 0/3] target/riscv: Apply KVM policy to ISA extensions
+Date: Mon,  5 Dec 2022 15:55:06 +0530
+Message-Id: <20221205102509.504520-1-mchitale@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,138 +87,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Juan Quintela <quintela@redhat.com> wrote:
-> Hi
+Currently the single and multi letter ISA extensions exposed to the guest vcpu
+don't confirm to the KVM policies. This patchset updates the kvm headers and
+applies policies set in KVM to the extensions exposed to the guest.
 
-Nack myself
+These patches can also be found on riscv_kvm_ext_v2 branch at:
+https://github.com/mdchitale/qemu.git
 
-This patch series should be sent against my next-8.0 branch, not master.
+Changes in v2:
+- Rebase to latest riscv-to-apply.next
+- Update linux headers to version 6.1-rc8
+- Add reviewed by tags
 
-Sorry for the noise.
+Mayuresh Chitale (3):
+  update-linux-headers: Version 6.1-rc8
+  target/riscv: Extend isa_ext_data for single letter extensions
+  target/riscv: kvm: Support selecting VCPU extensions
 
-Will resend.
+ include/standard-headers/drm/drm_fourcc.h     |  34 ++++-
+ include/standard-headers/linux/ethtool.h      |  63 +++++++-
+ include/standard-headers/linux/fuse.h         |   6 +-
+ .../linux/input-event-codes.h                 |   1 +
+ include/standard-headers/linux/virtio_blk.h   |  19 +++
+ linux-headers/asm-generic/hugetlb_encode.h    |  26 ++--
+ linux-headers/asm-generic/mman-common.h       |   2 +
+ linux-headers/asm-mips/mman.h                 |   2 +
+ linux-headers/asm-riscv/kvm.h                 |   4 +
+ linux-headers/linux/kvm.h                     |   1 +
+ linux-headers/linux/psci.h                    |  14 ++
+ linux-headers/linux/userfaultfd.h             |   4 +
+ linux-headers/linux/vfio.h                    | 142 ++++++++++++++++++
+ target/riscv/cpu.c                            |  52 ++++---
+ target/riscv/kvm.c                            |  88 +++++++++--
+ target/riscv/kvm_riscv.h                      |   2 +-
+ 16 files changed, 408 insertions(+), 52 deletions(-)
 
->
-> On this v2:
->
-> - Remove the stop of the guest to calculate the size
-> - Rebase on latest upstream.
->
-> Please review.
->
-> [v1/RFC]
-> VFIO migration has several requirements:
-> - the size of the state is only known when the guest is stopped
-> - they need to send possible lots of data.
->
-> this series only address the 1st set of problems.
->
-> What they do:
-> - res_compatible parameter was not used anywhere, just add that informati=
-on to res_postcopy.
-> - Remove QEMUFILE parameter from save_live_pending
-> - Split save_live_pending into
->   * save_pending_estimate(): the pending state size without trying too ha=
-rd
->   * save_pending_exact(): the real pending state size, it is called with =
-the guest stopped.
-> - Now save_pending_* don't need the threshold parameter
-> - HACK a way to stop the guest before moving there.
->
-> ToDo:
-> - autoconverge test is broken, no real clue why, but it is possible that =
-the test is wrong.
->
-> - Make an artifact to be able to send massive amount of data in the save =
-state stage (probably more multifd channels).
->
-> - Be able to not having to start the guest between cheking the state pend=
-ing size and migration_completion().
->
-> Please review.
->
-> Thanks, Juan.
->
-> Alex Benn=C3=A9e (4):
->   tests/qtests: override "force-legacy" for gpio virtio-mmio tests
->   hw/virtio: add started_vu status field to vhost-user-gpio
->   hw/virtio: generalise CHR_EVENT_CLOSED handling
->   include/hw: VM state takes precedence in virtio_device_should_start
->
-> Evgeny Ermakov (2):
->   target/arm: Set TCGCPUOps.restore_state_to_opc for v7m
->   hw/display/next-fb: Fix comment typo
->
-> Gerd Hoffmann (2):
->   update seabios source from 1.16.0 to 1.16.1
->   update seabios binaries to 1.16.1
->
-> Juan Quintela (9):
->   multifd: Create page_size fields into both MultiFD{Recv,Send}Params
->   multifd: Create page_count fields into both MultiFD{Recv,Send}Params
->   migration: Export ram_transferred_ram()
->   migration: Export ram_release_page()
->   migration: Remove res_compatible parameter
->   migration: No save_live_pending() method uses the QEMUFile parameter
->   migration: Split save_live_pending() into state_pending_*
->   migration: Remove unused threshold_size parameter
->   migration: simplify migration_iteration_run()
->
-> Klaus Jensen (5):
->   hw/nvme: fix aio cancel in format
->   hw/nvme: fix aio cancel in flush
->   hw/nvme: fix aio cancel in zone reset
->   hw/nvme: fix aio cancel in dsm
->   hw/nvme: remove copy bh scheduling
->
-> Paolo Bonzini (1):
->   target/i386: allow MMX instructions with CR4.OSFXSR=3D0
->
-> Peter Xu (15):
->   migration: Take bitmap mutex when completing ram migration
->   migration: Add postcopy_preempt_active()
->   migration: Cleanup xbzrle zero page cache update logic
->   migration: Trivial cleanup save_page_header() on same block check
->   migration: Remove RAMState.f references in compression code
->   migration: Yield bitmap_mutex properly when sending/sleeping
->   migration: Use atomic ops properly for page accountings
->   migration: Teach PSS about host page
->   migration: Introduce pss_channel
->   migration: Add pss_init()
->   migration: Make PageSearchStatus part of RAMState
->   migration: Move last_sent_block into PageSearchStatus
->   migration: Send requested page directly in rp-return thread
->   migration: Remove old preempt code around state maintainance
->   migration: Drop rs->f
->
-> Philippe Mathieu-Daud=C3=A9 (5):
->   hw/display/qxl: Have qxl_log_command Return early if no log_cmd
->     handler
->   hw/display/qxl: Document qxl_phys2virt()
->   hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
->   hw/display/qxl: Avoid buffer overrun in qxl_phys2virt (CVE-2022-4144)
->   hw/display/qxl: Assert memory slot fits in preallocated MemoryRegion
->
-> Richard Henderson (2):
->   replay: Fix declaration of replay_read_next_clock
->   target/i386: Always completely initialize TranslateFault
->
-> Stefan Hajnoczi (2):
->   block-backend: avoid bdrv_unregister_buf() NULL pointer deref
->   Update VERSION for v7.2.0-rc3
->
-> Stefano Garzarella (1):
->   vhost: enable vrings in vhost_dev_start() for vhost-user devices
->
-> Thomas Huth (2):
->   tests/qtest/migration-test: Fix unlink error and memory leaks
->   target/s390x/tcg: Fix and improve the SACF instruction
->
-> Xiaojuan Yang (1):
->   hw/loongarch/virt: Add cfi01 pflash device
+-- 
+2.34.1
 
 
