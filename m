@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2447A642A56
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 15:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B07F06428EA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 14:03:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2CN2-00017T-8N; Mon, 05 Dec 2022 09:23:00 -0500
+	id 1p2B6a-000845-4t; Mon, 05 Dec 2022 08:01:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <znscnchen@gmail.com>)
- id 1p2AGl-00087L-2S
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:08:23 -0500
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <znscnchen@gmail.com>)
- id 1p2AGj-00066G-4H
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:08:22 -0500
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-12c8312131fso13190539fac.4
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 04:08:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=d66GNScGrl0cFnfZBZX8FTbpKHK6SvXld89DEljGd6k=;
- b=aaLlxz/F+69PagT6hAHYcK80R5nXIp0ebjrwt9rTEXFV5gb+4B2dLmuZymMNhgr9gC
- u8H3TTpKNECFdxHwZEKtMBFENpNNuZuGJVsxdDV+Bc0F0ydvkX3O8/T8DqurTC4bvSMn
- urkJneYwIz1glE+kWUSAqUzc0zgEAUhsdALx4KsMJY8v28pQwsN7+d/wv5ZmneZiNADc
- ejHcFyAWYlpnLuWvPmSv8GX/MIvMs5XWbpL6lKnACv5LOws2op0Lj/vP6+F5P4WzfUnZ
- 20qqP4AkLXCjGn9V7CSyGGPaw34X9AHGdyExAKU0wDIg5Mij/MtXdDuHmI52qPNmSRor
- SyHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d66GNScGrl0cFnfZBZX8FTbpKHK6SvXld89DEljGd6k=;
- b=ysjluutdQAvvl2I5M19fc6/zAFY7LfKkulcMt5AG/Z7VTLHk0xfnuckYk1WHOGHgr5
- nUrY2VGakXR2Ay5ORJ8c770217AVOQWOrnT3HIBV9sVbusQ1bqgrZz9glseVyotswCUu
- UOHpAAhr5Bvnd7/TYEAhuNmCmc+BkAwBNsg/0+by0Djm+cuFcIQlgtY696ts85cnY2zU
- yqGw+SccUXSB/eZV3QhL7Dhf0b7hvW3GPurrVkAmjDpTqOkxq+2HtLSeRBvXK479JNn6
- fRZzGiCNcVP4obASwKYVbSwE+J9xGMJ/slwfh6u4XdyzbRNg37AUfJakeObKao7fQHGj
- /02Q==
-X-Gm-Message-State: ANoB5pkoI1TfgIuq7n9h2AdQULGLesLTWEcOIJ4nEatPz1x2QdWLJ+Rc
- exuXkIx+VWzM+lFN8yojwQ==
-X-Google-Smtp-Source: AA0mqf74H8PViZBiA+Ev5yVJlnptpV9IduHx6EM1vMecKzNFNPKBjQwfruwnBPq5yj/wIO7CrtQbxg==
-X-Received: by 2002:a05:6870:6586:b0:132:7d3c:745b with SMTP id
- fp6-20020a056870658600b001327d3c745bmr35899552oab.180.1670242099297; 
- Mon, 05 Dec 2022 04:08:19 -0800 (PST)
-Received: from ted-dallas.. ([2001:19f0:6401:18f2:5400:4ff:fe20:62f])
- by smtp.gmail.com with ESMTPSA id
- y21-20020a0568302a1500b0066c49ce8b77sm7618729otu.77.2022.12.05.04.08.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 04:08:18 -0800 (PST)
-From: Ted Chen <znscnchen@gmail.com>
-To: pbonzini@redhat.com, peterx@redhat.com, david@redhat.com, philmd@linaro.org
-Cc: qemu-devel@nongnu.org,
-	Ted Chen <znscnchen@gmail.com>
-Subject: [PATCH] memory: dump HPA and access type of ramblocks
-Date: Mon,  5 Dec 2022 20:07:12 +0800
-Message-Id: <20221205120712.269013-1-znscnchen@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2B6J-0007z6-6H
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 08:01:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2B6D-0001rm-Hp
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 08:01:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670245289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=b3pumB7NgUH/GZOgBuVGM786zH6MbSvmE3FxvyMKFPQ=;
+ b=gN4sSf4nayq0X4DjqxPoTXUO3cYMvHg6JgMAknkuqhqcz01Zn2/12+ml0ydaRnyHmPbryT
+ QSsDAfBiXuwmmO626XvIkx/vrrQn1sAM0PD4iYhVnY80zbOVsl9BTOPHdIq4UhoA7GVamS
+ 13/RrmRg8b+8RmhXiVuiW4sNxtOIyfE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-0b9wTE81OoCd7K2elEhUVQ-1; Mon, 05 Dec 2022 08:01:27 -0500
+X-MC-Unique: 0b9wTE81OoCd7K2elEhUVQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 991AB3C0F681;
+ Mon,  5 Dec 2022 13:01:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCA8D2166B29;
+ Mon,  5 Dec 2022 13:01:25 +0000 (UTC)
+Date: Mon, 5 Dec 2022 14:01:21 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+Subject: Re: [RFC PATCH] test-bdrv-drain: keep graph manipulations out of
+ coroutines
+Message-ID: <Y43roVjI2RrU1PXq@redhat.com>
+References: <20221202132701.531048-1-pbonzini@redhat.com>
+ <632abcb8-3a66-2b93-eb33-ef12953abd18@redhat.com>
+ <eee6b6e6-e62c-0d87-1f98-913b4b194a1a@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=znscnchen@gmail.com; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eee6b6e6-e62c-0d87-1f98-913b4b194a1a@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URI_DOTEDU=1.031 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 05 Dec 2022 09:22:55 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,53 +79,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It's convenient to dump HVA and RW/RO status of a ramblock in "info ramblock"
-for debug purpose.
+Am 02.12.2022 um 18:22 hat Paolo Bonzini geschrieben:
+> On 12/2/22 14:42, Emanuele Giuseppe Esposito wrote:
+> > 
+> > 
+> > Am 02/12/2022 um 14:27 schrieb Paolo Bonzini:
+> > > Changes to the BlockDriverState graph will have to take the
+> > > corresponding lock for writing, and therefore cannot be done
+> > > inside a coroutine.  Move them outside the test body.
+> > > 
+> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > ---
+> > >   tests/unit/test-bdrv-drain.c | 63 ++++++++++++++++++++++++++----------
+> > >   1 file changed, 46 insertions(+), 17 deletions(-)
+> > > 
+> > > diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+> > > index 6ae44116fe79..d85083dd4f9e 100644
+> > > --- a/tests/unit/test-bdrv-drain.c
+> > > +++ b/tests/unit/test-bdrv-drain.c
+> > > @@ -199,25 +199,40 @@ static void do_drain_end_unlocked(enum drain_type drain_type, BlockDriverState *
+> > >       }
+> > >   }
+> > > +static BlockBackend *blk;
+> > > +static BlockDriverState *bs, *backing;
+> > > +
+> > > +static void test_drv_cb_init(void)
+> > > +{
+> > > +    blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
+> > > +    bs = bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
+> > > +                              &error_abort);
+> > > +    blk_insert_bs(blk, bs, &error_abort);
+> > > +
+> > > +    backing = bdrv_new_open_driver(&bdrv_test, "backing", 0, &error_abort);
+> > > +    bdrv_set_backing_hd(bs, backing, &error_abort);
+> > > +}
+> > > +
+> > > +static void test_drv_cb_fini(void)
+> > 
+> > fini stands for "finito"? :)
+> 
+> No, for finish :)
+> http://ftp.math.utah.edu/u/ma/hohn/linux/misc/elf/node3.html
+> 
+> > Anyways, an alternative solution for this is also here (probably coming
+> > from you too):
+> > https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03517.html
+> 
+> Much better.  At least patches 7-8 from that series have to be salvaged,
+> possibly 10 as well.
 
-Before:
-            Offset               Used              Total
-0x0000000000000000 0x0000000400000000 0x0000000400000000
+I wonder if we need a more general solution for this because this test
+is not the only place that calls this kind of functions in a coroutine.
+The one I'm aware of in particular is all the .bdrv_co_create
+implementations, but I'm almost sure there are more.
 
-After:
-            Offset               Used              Total                HVA  RO
-0x0000000000000000 0x0000000400000000 0x0000000400000000 0x00007f12ebe00000  rw
+Can we use a yield_to_drain()-like mechanism for these functions? Maybe
+even something like the opposite of co_wrapper, a no_co_wrapper that
+generates a foo_co() variant that drops out of coroutine context before
+calling foo()?
 
-Signed-off-by: Ted Chen <znscnchen@gmail.com>
----
- softmmu/physmem.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 1b606a3002..fed4dfb72c 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1316,15 +1316,21 @@ GString *ram_block_format(void)
-     GString *buf = g_string_new("");
- 
-     RCU_READ_LOCK_GUARD();
--    g_string_append_printf(buf, "%24s %8s  %18s %18s %18s\n",
--                           "Block Name", "PSize", "Offset", "Used", "Total");
-+    g_string_append_printf(buf, "%24s %8s  %18s %18s %18s %18s %3s\n",
-+                           "Block Name", "PSize", "Offset", "Used", "Total",
-+                           "HVA", "RO");
-+
-     RAMBLOCK_FOREACH(block) {
-         psize = size_to_str(block->page_size);
-         g_string_append_printf(buf, "%24s %8s  0x%016" PRIx64 " 0x%016" PRIx64
--                               " 0x%016" PRIx64 "\n", block->idstr, psize,
-+                               " 0x%016" PRIx64 " 0x%016" PRIx64 " %3s\n",
-+                               block->idstr, psize,
-                                (uint64_t)block->offset,
-                                (uint64_t)block->used_length,
--                               (uint64_t)block->max_length);
-+                               (uint64_t)block->max_length,
-+                               (uint64_t)block->host,
-+                               block->mr->readonly ? "ro" : "rw");
-+
-         g_free(psize);
-     }
- 
--- 
-2.34.1
+Kevin
 
 
