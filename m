@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F74764223C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 05:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9008642241
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 05:28:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p231x-0002d8-9P; Sun, 04 Dec 2022 23:24:37 -0500
+	id 1p234p-0003t1-5Y; Sun, 04 Dec 2022 23:27:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p231v-0002a0-5y
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:24:35 -0500
+ id 1p234m-0003sj-U9
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:27:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p231t-0002tH-Js
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:24:34 -0500
+ id 1p234l-0003Wt-0X
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:27:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670214272;
+ s=mimecast20190719; t=1670214450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R8n5fxGwWYcu15nmomTbV4cNBstkBFYb9k2K8ul1sbM=;
- b=B2n3lHoY1nvAyhyK3X+riPX6XoVd3gQknYrI1hDT+slpkGEV78mwgdVqaou5TBeR8mSYZI
- tGyK7gaJnErDWngM+LQLw4FX3tKBFVjbCon4jIR1ocOszmVpBnDHryOtXeeoGN/BP4nXlS
- pcQtcjYPwDuOBXTojPeCsZ51GTJAClM=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PbcGVI/a8cCCk76/ozHynDG2frE7HgfCuP3yIGq2vb4=;
+ b=aFLwIHPEmvPgA8DUyfF82zfrCLZOw9PmortMtp4e1RMd2Tsm8IzuIA7AWzUJXsoHaJ1gHC
+ tqwJ+6prnj3yMnCA7W/WP5A1yBviMq0/kXKm5orbhOoENFOheH8XaospsOGmE4EMRP7Fw6
+ iJvHZa5vOmhCmwrjUZwNoXWRzYo3GIY=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-325-CeGQWxAmOAC-p4vRdDKbNg-1; Sun, 04 Dec 2022 23:24:25 -0500
-X-MC-Unique: CeGQWxAmOAC-p4vRdDKbNg-1
-Received: by mail-ot1-f71.google.com with SMTP id
- l5-20020a9d7a85000000b0066ec7926f9cso738605otn.18
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 20:24:25 -0800 (PST)
+ us-mta-395-Rhxrd8XMNgOjyKTXkA4tJg-1; Sun, 04 Dec 2022 23:27:29 -0500
+X-MC-Unique: Rhxrd8XMNgOjyKTXkA4tJg-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ 37-20020a9d0c28000000b0066eae0252e4so1576019otr.14
+ for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 20:27:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R8n5fxGwWYcu15nmomTbV4cNBstkBFYb9k2K8ul1sbM=;
- b=17C9x5c2lXyp0sY4RyLp/vfCUpbtJEFKwp8KjQDqVZG55PU/JT8Fef5i3P+sZS8DIs
- O8QYrw7+GU+K3ZJIkdN689IHNxXNO8qUoIqbIEZXVLvXR/z9b6GfkjNx4NPfVFS7FxP1
- isUvOeZqmHAsHJ0UKvTO8fbHfEfurWX9p55J2Wuij2oz0EAau51RSKILC7Gmq6RLGag4
- mzYQuuBfPweNMNxZ9Y11bcF7D5hB1Kw/tzb2+Owrk7MVr6oRsNbsjWY/HGEUh7QWz4CU
- 2R/sTe1jGTCVsJhnhCVryEvF0VYJ5vFa2XicrENHisXfbTlwPrnn780CTrgGxJoFQhNa
- glXQ==
-X-Gm-Message-State: ANoB5pnBXsR5/M7v9SIAKN+vwn6Vqw0AFLGIUKbBVoGKutvy4gE/OiQc
- B6H0Gra5aUSv2M69Cq1oYO1WK1cX1ivKkxFxIVk5j8huabuzOBbv8R+y/KDC6enpmJC1ksrhN2L
- 1LgDgyXlWS6kUoSECm46Xdg8d8P+QOHI=
-X-Received: by 2002:a9d:61ca:0:b0:66e:6d59:b2df with SMTP id
- h10-20020a9d61ca000000b0066e6d59b2dfmr10522449otk.201.1670214264939; 
- Sun, 04 Dec 2022 20:24:24 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4RmLbd7rUQksRMHkj9ik2O62qZVkkYm6Hly+Fv/Xv8q2NeYMX08gt01mq3ZbeT9soaY3c9pKmYRi9xo7xo4Uo=
-X-Received: by 2002:a9d:61ca:0:b0:66e:6d59:b2df with SMTP id
- h10-20020a9d61ca000000b0066e6d59b2dfmr10522436otk.201.1670214264729; Sun, 04
- Dec 2022 20:24:24 -0800 (PST)
+ bh=PbcGVI/a8cCCk76/ozHynDG2frE7HgfCuP3yIGq2vb4=;
+ b=NeACOmwpg5CAlQn3Quv0EhZt/ZLXve9UgVYW5x93/ep1CcEdmu9t3aTevRYCh8mUcE
+ Ly+zLcmhZToestydXD1D+sZ2yUFgOt1V4ISAqZIHgF9nfCtn71gKuaWMICa9/1FKcd+H
+ nsqPeIvyn2lL0e/BdX8W3HS5EvCX9TloeUbrgP2UIU5aQsAnT3c7tQAmj0n0FdfaR5Y7
+ LR79k0cXENOskNgDzyS/PRNL7P9eFgN24nr4OBuyOFXyrh84qHTPqPgK37nmMI2uXaGZ
+ DgwwOFioiChynPljQx3auy+vk8+aSQiwyroyVr6Y09tIm0dygUAHnAF49yPPnm13UlvV
+ gnmg==
+X-Gm-Message-State: ANoB5pkoHK+UD8G+/Z3ppI+nqZHsptGgbj5nWyYn753IsPtgyL6KnZBn
+ ecthRRtkYVD5GCHeh1TwacL+Ov8M5kl9c4F6m+sbWTpwy+aw+g9rXSBRrXrqJf9qML4qwQt0vxT
+ Adl52vBsxZfoayCUf2ZyQqiQJbvlcx3s=
+X-Received: by 2002:a05:6808:2093:b0:35b:ded0:4164 with SMTP id
+ s19-20020a056808209300b0035bded04164mr8786838oiw.280.1670214448325; 
+ Sun, 04 Dec 2022 20:27:28 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5wH99rP5HEpqy1lkl7BV3O9azdwpuS3E984JqfnRDsMT9JiO/ciZMUsBMo/p5LkOYPRf4UlWLVvo0EDEnASY8=
+X-Received: by 2002:a05:6808:2093:b0:35b:ded0:4164 with SMTP id
+ s19-20020a056808209300b0035bded04164mr8786832oiw.280.1670214448138; Sun, 04
+ Dec 2022 20:27:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20221124155158.2109884-1-eperezma@redhat.com>
- <20221124155158.2109884-7-eperezma@redhat.com>
- <CACGkMEubBA9NYR5ynT_2C=iMEk3fph2GEOBvcw73BOuqiFKzJg@mail.gmail.com>
- <CAJaqyWcR_3vdXLJ4=z+_uaoVN47gEXr7KHx3w6z8HtmqquK7zA@mail.gmail.com>
- <CACGkMEs3xfGsptV9H+P+O1yjVzo_vugGnS72EwpE8FLECkccpQ@mail.gmail.com>
- <CAJaqyWemta-dmaqaVphqn=riEiVrVsm5K5nSZYxBZVY6Zt8Eow@mail.gmail.com>
-In-Reply-To: <CAJaqyWemta-dmaqaVphqn=riEiVrVsm5K5nSZYxBZVY6Zt8Eow@mail.gmail.com>
+References: <20221124173314.2123015-1-eperezma@redhat.com>
+ <20221124173314.2123015-4-eperezma@redhat.com>
+ <CACGkMEsOJuOM8JW83Ly+b3ZvfAhnOj61CvVz2SeLeLEkpT446Q@mail.gmail.com>
+ <CAJaqyWfTp6QT1amL_724+UN_APgkG+dM28OEHE99v6aojSPU6A@mail.gmail.com>
+ <CACGkMEsVN4jHkLojKekB1OAEvoTzMJzv+m4HNR6T8qJUC9VjTQ@mail.gmail.com>
+ <CAJaqyWdX83jFpGy_qZ8d_07fvaVHJk3TqamoS7NVgkqJjX2X8g@mail.gmail.com>
+In-Reply-To: <CAJaqyWdX83jFpGy_qZ8d_07fvaVHJk3TqamoS7NVgkqJjX2X8g@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 5 Dec 2022 12:24:13 +0800
-Message-ID: <CACGkMEs=6fv-DG_bvbMpu2xwj9s_neBcm=CqKnOArVE4_z-yHA@mail.gmail.com>
-Subject: Re: [PATCH for 8.0 v8 06/12] vdpa: extract
- vhost_vdpa_svq_allocate_iova_tree
+Date: Mon, 5 Dec 2022 12:27:15 +0800
+Message-ID: <CACGkMEs79=D7CEcRV7SEjLBxArerPDaC2eTodCkrCPcq8oj_Tg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
+ vhost_vdpa_net_handle_ctrl_avail
 To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org, 
- Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, 
- Parav Pandit <parav@mellanox.com>, Laurent Vivier <lvivier@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org, Eli Cohen <eli@mellanox.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Lei Yang <leiyang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Cindy Lu <lulu@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -109,91 +105,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 1, 2022 at 5:50 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+On Thu, Dec 1, 2022 at 5:29 PM Eugenio Perez Martin <eperezma@redhat.com> w=
 rote:
 >
-> On Thu, Dec 1, 2022 at 9:45 AM Jason Wang <jasowang@redhat.com> wrote:
+> On Thu, Dec 1, 2022 at 9:39 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > On Wed, Nov 30, 2022 at 3:40 PM Eugenio Perez Martin
+> > On Wed, Nov 30, 2022 at 3:07 PM Eugenio Perez Martin
 > > <eperezma@redhat.com> wrote:
 > > >
-> > > On Wed, Nov 30, 2022 at 7:43 AM Jason Wang <jasowang@redhat.com> wrot=
+> > > On Wed, Nov 30, 2022 at 8:02 AM Jason Wang <jasowang@redhat.com> wrot=
 e:
 > > > >
-> > > > On Thu, Nov 24, 2022 at 11:52 PM Eugenio P=C3=A9rez <eperezma@redha=
-t.com> wrote:
+> > > > On Fri, Nov 25, 2022 at 1:33 AM Eugenio P=C3=A9rez <eperezma@redhat=
+.com> wrote:
 > > > > >
-> > > > > It can be allocated either if all virtqueues must be shadowed or =
-if
-> > > > > vdpa-net detects it can shadow only cvq.
-> > > > >
-> > > > > Extract in its own function so we can reuse it.
+> > > > > Since this capability is emulated by qemu shadowed CVQ cannot for=
+ward it
+> > > > > to the device. Process all that command within qemu.
 > > > > >
 > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > > > > > ---
-> > > > >  net/vhost-vdpa.c | 29 +++++++++++++++++------------
-> > > > >  1 file changed, 17 insertions(+), 12 deletions(-)
+> > > > >  net/vhost-vdpa.c | 15 ++++++++++++---
+> > > > >  1 file changed, 12 insertions(+), 3 deletions(-)
 > > > > >
 > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > index 88e0eec5fa..9ee3bc4cd3 100644
+> > > > > index 2b4b85d8f8..8172aa8449 100644
 > > > > > --- a/net/vhost-vdpa.c
 > > > > > +++ b/net/vhost-vdpa.c
-> > > > > @@ -240,6 +240,22 @@ static NetClientInfo net_vhost_vdpa_info =3D=
- {
-> > > > >          .check_peer_type =3D vhost_vdpa_check_peer_type,
-> > > > >  };
-> > > > >
-> > > > > +static int vhost_vdpa_get_iova_range(int fd,
-> > > > > +                                     struct vhost_vdpa_iova_rang=
-e *iova_range)
-> > > > > +{
-> > > > > +    int ret =3D ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range)=
-;
-> > > > > +
-> > > > > +    return ret < 0 ? -errno : 0;
-> > > > > +}
+> > > > > @@ -489,9 +489,18 @@ static int vhost_vdpa_net_handle_ctrl_avail(=
+VhostShadowVirtqueue *svq,
+> > > > >      out.iov_len =3D iov_to_buf(elem->out_sg, elem->out_num, 0,
+> > > > >                               s->cvq_cmd_out_buffer,
+> > > > >                               vhost_vdpa_net_cvq_cmd_len());
+> > > > > -    dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, sizeo=
+f(status));
+> > > > > -    if (unlikely(dev_written < 0)) {
+> > > > > -        goto out;
+> > > > > +    if (*(uint8_t *)s->cvq_cmd_out_buffer =3D=3D VIRTIO_NET_CTRL=
+_ANNOUNCE) {
+> > > > > +        /*
+> > > > > +         * Guest announce capability is emulated by qemu, so don=
+t forward to
 > > > >
-> > > > I don't get why this needs to be moved to net specific code.
+> > > > s/dont/don't/
 > > > >
 > > >
-> > > It was already in net, this code just extracted it in its own functio=
-n.
+> > > I'll correct it, thanks!
+> > >
+> > > > > +         * the device.
+> > > > > +         */
+> > > > > +        dev_written =3D sizeof(status);
+> > > > > +        *s->status =3D VIRTIO_NET_OK;
+> > > >
+> > > > I wonder if we should avoid negotiating ANNOUNCE with vDPA parents =
+if
+> > > > we do this?
+> > > >
+> > >
+> > > I can re-check, but the next patch should avoid it.
 > >
-> > Ok, there's similar function that in vhost-vdpa.c:
-> >
-> > static void vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
-> > {
-> >     int ret =3D vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE,
-> >                               &v->iova_range);
-> >     if (ret !=3D 0) {
-> >         v->iova_range.first =3D 0;
-> >         v->iova_range.last =3D UINT64_MAX;
-> >     }
-> >
-> >     trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
-> >                                     v->iova_range.last);
-> > }
-> >
-> > I think we can reuse that.
+> > Kind of, it makes sure guest can always see _F_ANNOUNCE. But does it
+> > prevent _F_ANNOUNCE from being negotiated?
 > >
 >
-> That's right, but I'd do the reverse: I would store iova_min, iova_max
-> in VhostVDPAState and would set it to vhost_vdpa at
-> net_vhost_vdpa_init. That way, we only have one ioctl call at the
-> beginning instead of having (#vq pairs + cvq) calls each time the
-> device starts. I can send it in a new change if you see it ok.
+> It should go like:
+> * vhost_net_ack_features calls vhost_ack_features with feature_bits =3D
+> vdpa_feature_bits and features =3D guest acked features.
+> vhost_ack_features stores in hdev->acked_features only the features
+> that met features & bit_mask, so it will not store _F_ANNOUNCE.
+> * vhost_vdpa_set_features is called from vhost_dev_set_features with
+> features =3D dev->acked_features. Both functions can add features by
+> themselves (VHOST_F_LOG_ALL, VIRTIO_F_IOMMU_PLATFORM), but no
+> _F_ANNOUNCE.
 >
-> There are a few functions like that we can reuse in net/. To get the
-> features and the backend features are two other examples. Even if we
-> don't cache them since device initialization mandates the read, we
-> could reduce code duplication that way.
->
-> However, they use vhost_dev or vhost_vdpa instead of directly the file
-> descriptor. Not a big deal but it's an extra step.
->
-> What do you think?
+> Still untested.
 
-I'm fine with this.
+Ok.
+
+>
+> > > Even if
+> > > negotiated, the parent should never set the announce status bit, sinc=
+e
+> > > we never tell the device is a destination device.
+> >
+> > That's the point, do we have such a guarantee? Or I wonder if there's
+> > any parent that supports _F_ANNOUNCE if yes, how it is supposed to
+> > work?
+> >
+>
+> At the moment it is impossible to work since there is no support for
+> config interrupt from the device. Even with config interrupt,
+> something external from qemu should make the device enable the status
+> bit, since the current migration protocol makes no difference between
+> to be a migration destination and to start the device from scratch.
+> Unless it enables the bit maliciously or by mistake.
+>
+> Just for completion, the current method works with no need of vdpa
+> device config interrupt support thanks to being 100% emulated in qemu,
+> which has the support of injecting config interrupts.
+
+Ok, rethink this feature, I think I can find one use case for
+_F_ANNOUNCE, that is, the migration is totally done through the vDPA
+device (DPU) itself.
+
+I think we can go forward and revisit this issue in the future.
 
 Thanks
 
