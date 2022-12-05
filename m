@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB46642385
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 08:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A6F64238B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 08:25:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p25mh-0006vN-1r; Mon, 05 Dec 2022 02:21:03 -0500
+	id 1p25q0-0007iD-L5; Mon, 05 Dec 2022 02:24:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p25mf-0006v0-Jw
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:21:01 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p25pv-0007hw-9Q
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:24:23 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p25md-0005LL-Tt
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:21:01 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id v7so8046695wmn.0
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 23:20:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p25ps-0005ii-Sc
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:24:22 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id f18so17199844wrj.5
+ for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 23:24:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=C2gXh6Q4hDSUw7USa2OxqYaRiBaVCQxTWG5sS+Ae9Kw=;
- b=I3XBmYkuqaBAo4Z4dLEsw5w4we5nZkEi24QQKsporvzdKT8WxHS6i8MGxZUFHIMbLl
- tPvb7zF0El0CbERgaqwGDwSuBTd94n6aqAqStkjKbVWcY9GdqTuJVOYW1r91W3y5wvIN
- ZlUJotCYCDJA9zGsPgdw6z6ctEuoL+QuxXkXrUyYeCj5kdQTSAVYaKynZP1jvq92tqcg
- lbY1n5o+ikFQIJrY1m9jt60ASu+k+vedcN3aPv1ESX9dwpvTq26NBAwePh0b906fZdxu
- 4v6FaUeXe3Us53R7F2ceQ+DAp3PNBR4pRILPDhx0weh4THUnYzIxqOZmUT2VyUbsDXqU
- EfyQ==
+ bh=a64FMmvYA9LA56rAJfmS8XtvM3POkRLaZ8OGGgjnFrs=;
+ b=vUoJMDQ6fMnrrfiRj6AFwZa7P62vf21Fr1tmnMn1Fl2o+NOkAElgZY41olCvuqiJvK
+ KtmTmRAEOAQPFtoTvV9/LDg1OoevNlu0K2s294zqcqKkGzb5DGLGACdpIorkF3DQ/c3O
+ bX2tzpbS0qrxdEXqqdCo0yJFP4GPNYNXAk+hunksd9FaL+XDSqjzPyIJ3nFzheYsaW8O
+ vfltJ/YtHiwPqv9zcTKiYzG0ta0gGtnxcMNdj6yp1NCLJAO3OyS50GK5S/BwqNxDKdk/
+ dxSrPmPc+MbQ85fK/Vsct945xT60If4l9LT0g3cP7dngfaBy5wB6MgnkItA7QekflPmW
+ Q/6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C2gXh6Q4hDSUw7USa2OxqYaRiBaVCQxTWG5sS+Ae9Kw=;
- b=ekSMsAvphEH//7ME2SmPS7cQe5qXXBLfLkqJZSCSBKpYE2b6rY9Ht7smq8Or17GXCX
- IZWkkmrtah5dU8pP9gDbKDUuV2XfSimtyRnIoytDlFmVvYTrMGmXhzeDUU/PGbkfqRWw
- rBZPyRxCuVaaieXyD51E63ztb6dK5FoSMEuhydF2q9JmrdSeb1EoOlt7Y6n9O5vudvCr
- dsoNeYVv7mFN8O4JkpZw/AtI9aRH4RLQh0kpFcnjkiMwe4gdhVl4XfbK99ZDEq10coju
- 0vrg5ozpGgDEIPWgR3g2n61rFQX1Ti3u7RCpJy0N4VZmeBG68pexS0aMGpKj5erbXWAd
- tjPA==
-X-Gm-Message-State: ANoB5pmeNAHoPv1B2aLEZGOyZKYyUYe3Ms+eqE80mcucMkRniZcPpDkv
- yj59ebul4rdQNh1jJzCbFMxCGA==
-X-Google-Smtp-Source: AA0mqf5ompFxk4QW3At8B6NKTD8BRE2/6aQ6tL5wBWcrO/xQH8YTjEAQZrqOAFYTk+nK992Ueia9Hw==
-X-Received: by 2002:a05:600c:601f:b0:3c6:f1fa:d677 with SMTP id
- az31-20020a05600c601f00b003c6f1fad677mr38356599wmb.59.1670224858231; 
- Sun, 04 Dec 2022 23:20:58 -0800 (PST)
+ bh=a64FMmvYA9LA56rAJfmS8XtvM3POkRLaZ8OGGgjnFrs=;
+ b=wIUhRtYkzYPDduQKtYsgQD2eGs0BNBJUxGnEaWXdwYV5HtbA8Q2m7mmSTvsUO4vH1R
+ GszEzPbJfX3a8mZYUD2tacNaxyylIMw3grqxsUuBjHNQlqpg5Dzmnq087YPg8y5QuM14
+ uJM/GCjI5C6gNttA1PBMMZVLoebGJym12fpFmHupsZlJ68Nd2x1aMOEuIfYT/PPVK8hh
+ 9f1aE2QwFbcMybgGJwX7nLjCOgiMd+gn3U0MIAFTbxJEnMEtHl94WGyW3dIeva/XYFTw
+ mkeXEnLbELl8bYpoTlXQTpo9QWBHrQF7KzolGYg1Vq/qRNf+JcjXMNyBQ84JdbsCEW94
+ 3NoQ==
+X-Gm-Message-State: ANoB5pk1PgeSuL3OKLWkePd5/4ORReS4xmX6EsxTieQmgobKW/3jbqFj
+ JGYimfunmYVQPXiIx/52YbUFsA==
+X-Google-Smtp-Source: AA0mqf5ojXjD5N2Yxzi7gKRX7f+VQn/y3EBCUx3+5St1Nh2XT2+cO4PruAerQKWAQ1YHPy230r15JA==
+X-Received: by 2002:adf:f288:0:b0:242:1ab:2cbe with SMTP id
+ k8-20020adff288000000b0024201ab2cbemr30504804wro.573.1670225059224; 
+ Sun, 04 Dec 2022 23:24:19 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i12-20020adffc0c000000b00241d21d4652sm13300918wrr.21.2022.12.04.23.20.56
+ a20-20020a05600c349400b003d069fc7372sm17229090wmq.1.2022.12.04.23.24.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Dec 2022 23:20:57 -0800 (PST)
-Message-ID: <995f9bba-d763-7f58-b0f9-d47f257e0c6c@linaro.org>
-Date: Mon, 5 Dec 2022 08:20:55 +0100
+ Sun, 04 Dec 2022 23:24:18 -0800 (PST)
+Message-ID: <6fe3e752-a39d-38f9-e573-437547d19179@linaro.org>
+Date: Mon, 5 Dec 2022 08:24:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] net: Fix qemu crash when hot-pluging a vhost-net failed.
+Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
 Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, Yangming <yangming73@huawei.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>
-References: <0357c2371db0438eac0de474db2b8ddc@huawei.com>
- <CACGkMEtm=P27rQLJOWZgVaf=N0VWU1Vo1NnCxnU9D6ZPhb7JVg@mail.gmail.com>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, stefanha@gmail.com,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221202102550.4107344-1-gaosong@loongson.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CACGkMEtm=P27rQLJOWZgVaf=N0VWU1Vo1NnCxnU9D6ZPhb7JVg@mail.gmail.com>
+In-Reply-To: <20221202102550.4107344-1-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -92,40 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/12/22 07:37, Jason Wang wrote:
-> On Mon, Dec 5, 2022 at 2:23 PM Yangming <yangming73@huawei.com> wrote:
->>
->> Dear all:
->>
->>
->>
->> I found a bug of qemu: hot-pluging a vhost-net may cause virtual machine crash in following steps:
->> 1. Starting a vm without any net device.
->> 2. Hot-pluging 70 memory devices.
->> 3. Hot-pluging a vhost-net device.
->>
->>
->>
->> After the 3rd step, the qemu crashed with following messages:
->>
->>
->>
->> vhost backend memory slots limit is less than current number of present memory slots
->>
->> warning: vhost-net requested but could not be initialized
->>
->> qemu-system-x86_64: ../net/net.c:1106: net_client_init1: Assertion `nc' failed.
->>
->> 2022-12-05 03:14:08.794+0000: shutting down, reason=crashed
->>
->>
->>
->> This commit is used to fix the mentioned problem. It is based on commit a33c25399f9bc3dcf83064adeba2a82e61bf4608 of master branch.
+On 2/12/22 11:25, Song Gao wrote:
+> The following changes since commit c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
 > 
-> Thanks for the patch, would you please send a formal patch (not as an
-> attachment), you can do it via git-send-email.
+>    Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
+> 
+> for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0fd:
+> 
+>    hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05 +0800)
+> 
+> ----------------------------------------------------------------
+> pull for 7.2-rc4
+> 
+> We need this patch.
 
-You can find some help on how to proceed here:
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html
+FTR this is not a security/regression fix, but a mere feature.
+
+Certainly not justified for a rc4 IMO.
+
+> ----------------------------------------------------------------
+> Xiaojuan Yang (1):
+>        hw/loongarch/virt: Add cfi01 pflash device
+> 
+>   hw/loongarch/Kconfig        |  1 +
+>   hw/loongarch/acpi-build.c   | 18 +++++++++++++
+>   hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++++++++++
+>   include/hw/loongarch/virt.h |  5 ++++
+>   4 files changed, 86 insertions(+)
+> 
+> 
 
 
