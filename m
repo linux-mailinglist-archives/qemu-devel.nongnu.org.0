@@ -2,108 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5944C642971
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 14:30:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1A36429DC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 14:51:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2BY1-0002dB-66; Mon, 05 Dec 2022 08:30:17 -0500
+	id 1p2BrP-000139-6q; Mon, 05 Dec 2022 08:50:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p2BXx-0002bx-UJ; Mon, 05 Dec 2022 08:30:14 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1p2Br4-000118-2Y; Mon, 05 Dec 2022 08:49:58 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p2BXt-0000zM-Q5; Mon, 05 Dec 2022 08:30:12 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B5D18Wo012140; Mon, 5 Dec 2022 13:29:59 GMT
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1p2Br1-0005rD-W9; Mon, 05 Dec 2022 08:49:57 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B5CDiaU024754; Mon, 5 Dec 2022 13:49:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
+ mime-version : subject : from : to : references : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=WUzCfESkyFFIuC9WiIk3qDdeCHZdqZniLdARtboXzQM=;
- b=XYrX2y/+mZbh9ZBt6ShuZPFlqfexA1vKRsdQGDRzGuYkO7UiXo9f7tYKIT+SoF8K1opW
- hpQFcg+T9bteLlxO33nkh4+QPTi2ZmcWka4Yjs+cSrQbOYX4PqFvkt06YrhvyGC9alx0
- 3qgkWB0nYjjXJRTfMz6euzwXBg5cTExUVo6lFYM0b4c/AQVnQOXKPyvRCmSoQOhe42/u
- vz2hNBsPHwi/L0UBlRRXsZlQRO7Y19AVAbox36yidjDUteSHjgEtn2nsQtJnjkqEgSjA
- JMO1t/iKzznkxX4tguufhZjC5coLl+EzrAuwgWZj8Tw0nDG0MgWA0Oa8XjhC8xRBmnG+ oA== 
+ bh=uTv6IDXqRbkJ5fPAu7UdREVcnYyZHFvDgOUftR0FeIg=;
+ b=B/i4MsaTRpDCAiK2G+Ps4iT+FRyOPossJtVPwCCUJNp6rlmC2iOzZ73XblovJTPmMqlP
+ PcliUSZ5cD2QsVka87kW1aeOqGFeCndwq1JBC0yfJ1Anh8tOsH9+lp/5m2vYb8NM+pX2
+ 0796fXAHfLfa+i6kDITf8iOQmiybVHCi1QxobG5ADDBzzO2Xky9GVPI6x9WfuG03o5IR
+ YO+DIw/5x9h+zkzZfSuSAsDFjhGLTy75/yQIfOEi8RXY8LoP6qprparUoqOa2DBKEnnR
+ +ZaZt5qBftdg+NzOLB9gHCzzsD1I4DhP1XkE/DxLzWT3LMe0YGPd3fVZ1DoprkXHahfL Lg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8gm3bwt9-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8gbkbgte-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Dec 2022 13:29:59 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B5DMlrf030122;
- Mon, 5 Dec 2022 13:29:58 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8gm3bwsc-1
+ Mon, 05 Dec 2022 13:49:51 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B5CxHrU009133;
+ Mon, 5 Dec 2022 13:49:51 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8gbkbgsj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Dec 2022 13:29:58 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B5DKSFI031944;
- Mon, 5 Dec 2022 13:29:56 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3m7x38t3t5-1
+ Mon, 05 Dec 2022 13:49:51 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B5DaJqc009096;
+ Mon, 5 Dec 2022 13:49:48 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04fra.de.ibm.com with ESMTP id 3m7x38t3re-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Dec 2022 13:29:56 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2B5DNDaD1573530
+ Mon, 05 Dec 2022 13:49:48 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B5Dnkds66912542
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Dec 2022 13:23:13 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3FA18AE04D;
- Mon,  5 Dec 2022 13:29:53 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 481B2AE045;
- Mon,  5 Dec 2022 13:29:52 +0000 (GMT)
-Received: from [9.179.21.36] (unknown [9.179.21.36])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  5 Dec 2022 13:29:52 +0000 (GMT)
-Message-ID: <61ecb690-73f5-6ff8-6ca7-c0d2a0eeafb2@linux.ibm.com>
-Date: Mon, 5 Dec 2022 14:29:52 +0100
+ Mon, 5 Dec 2022 13:49:46 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 43E9842041;
+ Mon,  5 Dec 2022 13:49:46 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E639C4203F;
+ Mon,  5 Dec 2022 13:49:45 +0000 (GMT)
+Received: from [9.171.50.85] (unknown [9.171.50.85])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  5 Dec 2022 13:49:45 +0000 (GMT)
+Message-ID: <028059df-eaf4-9e65-a195-4733b708a426@linux.ibm.com>
+Date: Mon, 5 Dec 2022 14:49:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v12 6/7] s390x/cpu_topology: activating CPU topology
+Subject: Re: qemu iotest 161 and make check
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, david@redhat.com
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221129174206.84882-1-pmorel@linux.ibm.com>
- <20221129174206.84882-7-pmorel@linux.ibm.com>
- <fcedb98d-4333-9100-5366-8848727528f3@redhat.com>
- <ea965d1c-ab6a-5aa3-8ce3-65b8177f6320@linux.ibm.com>
- <37a20bee-a3fb-c421-b89d-c1760e77cb11@redhat.com>
- <59669e8e-6242-9c01-4c2e-5d70b9c31b2b@linux.ibm.com>
- <2c65f234-688a-796b-b451-e1661b2c07a4@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <2c65f234-688a-796b-b451-e1661b2c07a4@redhat.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ qemu block <qemu-block@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
+ <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
+ <586f035a-91b7-4743-9285-09996aa32b4f@linux.ibm.com>
+ <a4955275-6cdd-f54d-81b1-8380aad0461f@redhat.com>
+ <6d73af8a-4620-f702-5367-6bed666b61a8@virtuozzo.com>
+ <54616427-1784-d12b-1a54-131796b56c07@linux.ibm.com>
+ <d6d24f79-24bd-46ac-6332-a066410e0217@linux.ibm.com>
+ <2592efbf-ec8f-d6ef-2708-37958b514a02@linux.ibm.com>
+ <a73fbe58-507e-fdae-a0ad-809de110ade6@linux.ibm.com>
+In-Reply-To: <a73fbe58-507e-fdae-a0ad-809de110ade6@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: yE2WmXbnJ1xs5eSXDQnyOjOzUoUN8Ype
-X-Proofpoint-GUID: t8S7KHiyFwNIorUgHFKAFBSeKLX8ZpWN
+X-Proofpoint-GUID: ZHxT_pVsv5qofoBI_YgmZxesL0sQ4CDz
+X-Proofpoint-ORIG-GUID: OfUPzMl7s2K39SRDQQDZ7smBYC18XiH4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-05_01,2022-12-05_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 spamscore=0 clxscore=1015 mlxscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212050105
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ clxscore=1011
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxlogscore=766
+ suspectscore=0 spamscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212050110
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -128,117 +126,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 12/2/22 15:26, Thomas Huth wrote:
-> On 02/12/2022 15.08, Pierre Morel wrote:
->>
->>
->> On 12/2/22 10:05, Thomas Huth wrote:
->>> On 01/12/2022 12.52, Pierre Morel wrote:
->>>>
->>>>
->>>> On 12/1/22 11:15, Thomas Huth wrote:
->>>>> On 29/11/2022 18.42, Pierre Morel wrote:
->>>>>> The KVM capability, KVM_CAP_S390_CPU_TOPOLOGY is used to
->>>>>> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
->>>>>> the topology facility for the guest in the case the topology
->>>>>> is available in QEMU and in KVM.
->>>>>>
->>>>>> The feature is fenced for SE (secure execution).
->>>>>
->>>>> Out of curiosity: Why does it not work yet?
->>>>>
->>>>>> To allow smooth migration with old QEMU the feature is disabled by
->>>>>> default using the CPU flag -disable-topology.
->>>>>
->>>>> I stared at this code for a while now, but I have to admit that I 
->>>>> don't quite get it. Why do we need a new "disable" feature flag 
->>>>> here? I think it is pretty much impossible to set "ctop=on" with an 
->>>>> older version of QEMU, since it would require the QEMU to enable 
->>>>> KVM_CAP_S390_CPU_TOPOLOGY in the kernel for this feature bit - and 
->>>>> older versions of QEMU don't set this capability yet.
->>>>>
->>>>> Which scenario would fail without this disable-topology feature 
->>>>> bit? What do I miss?
->>>>
->>>> The only scenario it provides is that ctop is then disabled by 
->>>> default on newer QEMU allowing migration between old and new QEMU 
->>>> for older machine without changing the CPU flags.
->>>>
->>>> Otherwise, we would need -ctop=off on newer QEMU to disable the 
->>>> topology.
->>>
->>> Ah, it's because you added S390_FEAT_CONFIGURATION_TOPOLOGY to the 
->>> default feature set here:
->>>
->>>   static uint16_t default_GEN10_GA1[] = {
->>>       S390_FEAT_EDAT,
->>>       S390_FEAT_GROUP_MSA_EXT_2,
->>> +    S390_FEAT_DISABLE_CPU_TOPOLOGY,
->>> +    S390_FEAT_CONFIGURATION_TOPOLOGY,
->>>   };
->>>
->>> ?
->>>
->>> But what sense does it make to enable it by default, just to disable 
->>> it by default again with the S390_FEAT_DISABLE_CPU_TOPOLOGY feature? 
->>> ... sorry, I still don't quite get it, but maybe it's because my 
->>> sinuses are quite clogged due to a bad cold ... so if you could 
->>> elaborate again, that would be very appreciated!
->>>
->>> However, looking at this from a distance, I would not rather not add 
->>> this to any default older CPU model at all (since it also depends on 
->>> the kernel to have this feature enabled)? Enabling it in the host 
->>> model is still ok, since the host model is not migration safe anyway.
->>>
->>>   Thomas
->>>
->>
->> I think I did not understand what is exactly the request that was made 
->> about having a CPU flag to disable the topology when we decide to not 
->> have a new machine with new machine property.
->>
->> Let see what we have if the only change to mainline is to activate 
->> S390_FEAT_CONFIGURATION_TOPOLOGY with the KVM capability:
->>
->> In mainline, ctop is enabled in the full GEN10 only.
->>
->> Consequently we have this feature activated by default for the host 
->> model only and deactivated by default if we specify the CPU.
->> It can be activated if we specify the CPU with the flag ctop=on.
->>
->> This is what was in the patch series before the beginning of the 
->> discussion about having a new machine property for new machines.
+Am 27.10.22 um 07:54 schrieb Christian Borntraeger:
+[...]
+> diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+> index 0f1fecc68e..01bdb05575 100644
+> --- a/tests/qemu-iotests/common.qemu
+> +++ b/tests/qemu-iotests/common.qemu
+> @@ -388,7 +388,7 @@ _cleanup_qemu()
+>                   kill -KILL ${QEMU_PID} 2>/dev/null
+>               fi
+>               if [ -n "${QEMU_PID}" ]; then
+> -                wait ${QEMU_PID} 2>/dev/null # silent kill
+> +                wait 2>/dev/null # silent kill
+>               fi
+>           fi
 > 
-> Sorry for all the mess ... I'm also not an expert when it comes to CPU 
-> model features paired with compatibility and migration, and I'm still in 
-> progress of learning ...
 > 
->> If this what we want: activating the topology by the CPU flag ctop=on 
->> it is perfect for me and I can take the original patch.
->> We may later make it a default for new machines.
-> 
-> Given my current understanding, I think it's the best thing to do right 
-> now. Not enable it by default, except for the host model where the 
-> enablement is fine since migration is not supported any.
-> 
-> As you said, we could still decide later to change the default for new 
-> machines. Though, I recently learnt that features should also not be 
-> enable by default at all if they depend on the environment, like a Linux 
-> kernel that needs to have support for the feature. So maybe we should 
-> keep it off by default forever - or just enable it on new CPU models 
-> (>=z17?) that would require a new host kernel anyway.
-> 
->   Thomas
-> 
+> And this also helps. Still trying to find out what clone/fork happens here.
 
-OK, thanks, so I let it with a default as off and we change that later 
-in a new CPU model or a new machine as we will see what is the best fit.
-
-Regards,
-Pierre
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+As a new information, the problem only exists on Ubuntu,
+I cannot reproduce it with Fedora or RHEL. I also changed
+the kernel, its not the reason. As soon as I add tracing
+the different timing also makes the problem go away.
 
