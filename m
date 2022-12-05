@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDB164265D
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5995F642639
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 10:58:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28Bg-0002IJ-VL; Mon, 05 Dec 2022 04:55:01 -0500
+	id 1p28Bl-0002Pv-HI; Mon, 05 Dec 2022 04:55:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28BX-000228-7L
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:54:52 -0500
+ id 1p28Bh-0002KM-Fc
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:55:01 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28BV-0006xs-MU
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:54:50 -0500
+ id 1p28Bf-000700-7v
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:55:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234089;
+ s=mimecast20190719; t=1670234098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=No1rFWDOGgcpCRxA+eKIpRsQyOQa34f3lMNtg8s8nvw=;
- b=KNalBSSEcivUUWmLJwjieYOoUjAVRSoK8iMh4IuW1zO+iHle/hZZDnWlKppuNxSjOQllxW
- KkrL4E7Jvui14J7IXCTWnGgIXKM2IbNaZnIDou8Muhbf3dHWp6kr9wniPNJuQMDC5iRT+W
- aOB33nZB+rdi6+ZdswJAqJe/KXTCgQw=
+ bh=YV1dL1MmO+zuZsRAQOi5egpSmb0nyqOB4Pp4gBeiMus=;
+ b=QAsFMAvWM3fusuRjtn/s6dR6ebPEyJDJIIwxFc2yPfptpFsfVzl08PrdqugTRqitYnuPjX
+ XAQ1ugzq20ROhxIx+oGRv3opEbWsvn1wvLE3XcrQGU/pawD1A5PLhrb4cepsl1RLVjbhyN
+ 9ZQsIhEoAUFRkZtzEn9Y+k2tp9yyZiI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-361-LvnWEbokMBiiSiQFcldH3Q-1; Mon, 05 Dec 2022 04:54:46 -0500
-X-MC-Unique: LvnWEbokMBiiSiQFcldH3Q-1
+ us-mta-193-6zXA80sVOp2p6re-Bfm4uA-1; Mon, 05 Dec 2022 04:54:54 -0500
+X-MC-Unique: 6zXA80sVOp2p6re-Bfm4uA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64306101A56C;
- Mon,  5 Dec 2022 09:54:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 343A986EB61;
+ Mon,  5 Dec 2022 09:54:53 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CCD52166B29;
- Mon,  5 Dec 2022 09:54:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1C4E2166B29;
+ Mon,  5 Dec 2022 09:54:45 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -70,15 +70,15 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Michael Tokarev <mjt@tls.msk.ru>, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
- qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH v2 16/51] include/hw: VM state takes precedence in
- virtio_device_should_start
-Date: Mon,  5 Dec 2022 10:51:53 +0100
-Message-Id: <20221205095228.1314-17-quintela@redhat.com>
+ qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Jonathan Derrick <jonathan.derrick@linux.dev>
+Subject: [PATCH v2 17/51] hw/nvme: fix aio cancel in format
+Date: Mon,  5 Dec 2022 10:51:54 +0100
+Message-Id: <20221205095228.1314-18-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -105,79 +105,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-The VM status should always preempt the device status for these
-checks. This ensures the device is in the correct state when we
-suspend the VM prior to migrations. This restores the checks to the
-order they where in before the refactoring moved things around.
+There are several bugs in the async cancel code for the Format command.
 
-While we are at it lets improve our documentation of the various
-fields involved and document the two functions.
+Firstly, cancelling a format operation neglects to set iocb->ret as well
+as clearing the iocb->aiocb after cancelling the underlying aiocb which
+causes the aio callback to ignore the cancellation. Trivial fix.
 
-Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-Fixes: 259d69c00b (hw/virtio: introduce virtio_device_should_start)
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221130112439.2527228-6-alex.bennee@linaro.org>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Secondly, and worse, because the request is queued up for posting to the
+CQ in a bottom half, if the cancellation is due to the submission queue
+being deleted (which calls blk_aio_cancel), the req structure is
+deallocated in nvme_del_sq prior to the bottom half being schedulued.
+
+Fix this by simply removing the bottom half, there is no reason to defer
+it anyway.
+
+Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow cancellation")
+Reported-by: Jonathan Derrick <jonathan.derrick@linux.dev>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- include/hw/virtio/virtio.h | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ hw/nvme/ctrl.c | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index a973811cbf..acfd4df125 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -116,6 +116,13 @@ struct VirtIODevice
-     bool broken; /* device in invalid state, needs reset */
-     bool use_disabled_flag; /* allow use of 'disable' flag when needed */
-     bool disabled; /* device in temporarily disabled state */
-+    /**
-+     * @use_started: true if the @started flag should be used to check the
-+     * current state of the VirtIO device. Otherwise status bits
-+     * should be checked for a current status of the device.
-+     * @use_started is only set via QMP and defaults to true for all
-+     * modern machines (since 4.1).
-+     */
-     bool use_started;
-     bool started;
-     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
-@@ -391,6 +398,16 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
-     return false;
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index ac3885ce50..9bc56075f6 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5741,7 +5741,6 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+ typedef struct NvmeFormatAIOCB {
+     BlockAIOCB common;
+     BlockAIOCB *aiocb;
+-    QEMUBH *bh;
+     NvmeRequest *req;
+     int ret;
+ 
+@@ -5756,14 +5755,15 @@ typedef struct NvmeFormatAIOCB {
+     uint8_t pil;
+ } NvmeFormatAIOCB;
+ 
+-static void nvme_format_bh(void *opaque);
+-
+ static void nvme_format_cancel(BlockAIOCB *aiocb)
+ {
+     NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
+ 
++    iocb->ret = -ECANCELED;
++
+     if (iocb->aiocb) {
+         blk_aio_cancel_async(iocb->aiocb);
++        iocb->aiocb = NULL;
+     }
  }
  
-+/**
-+ * virtio_device_started() - check if device started
-+ * @vdev - the VirtIO device
-+ * @status - the devices status bits
-+ *
-+ * Check if the device is started. For most modern machines this is
-+ * tracked via the @vdev->started field (to support migration),
-+ * otherwise we check for the final negotiated status bit that
-+ * indicates everything is ready.
-+ */
- static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+@@ -5787,13 +5787,17 @@ static void nvme_format_set(NvmeNamespace *ns, uint8_t lbaf, uint8_t mset,
+     nvme_ns_init_format(ns);
+ }
+ 
++static void nvme_do_format(NvmeFormatAIOCB *iocb);
++
+ static void nvme_format_ns_cb(void *opaque, int ret)
  {
-     if (vdev->use_started) {
-@@ -411,15 +428,11 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
-  */
- static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
+     NvmeFormatAIOCB *iocb = opaque;
+     NvmeNamespace *ns = iocb->ns;
+     int bytes;
+ 
+-    if (ret < 0) {
++    if (iocb->ret < 0) {
++        goto done;
++    } else if (ret < 0) {
+         iocb->ret = ret;
+         goto done;
+     }
+@@ -5817,8 +5821,7 @@ static void nvme_format_ns_cb(void *opaque, int ret)
+     iocb->offset = 0;
+ 
+ done:
+-    iocb->aiocb = NULL;
+-    qemu_bh_schedule(iocb->bh);
++    nvme_do_format(iocb);
+ }
+ 
+ static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
+@@ -5842,9 +5845,8 @@ static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
+     return NVME_SUCCESS;
+ }
+ 
+-static void nvme_format_bh(void *opaque)
++static void nvme_do_format(NvmeFormatAIOCB *iocb)
  {
--    if (vdev->use_started) {
--        return vdev->started;
--    }
+-    NvmeFormatAIOCB *iocb = opaque;
+     NvmeRequest *req = iocb->req;
+     NvmeCtrl *n = nvme_ctrl(req);
+     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
+@@ -5882,11 +5884,7 @@ static void nvme_format_bh(void *opaque)
+     return;
+ 
+ done:
+-    qemu_bh_delete(iocb->bh);
+-    iocb->bh = NULL;
 -
-     if (!vdev->vm_running) {
-         return false;
+     iocb->common.cb(iocb->common.opaque, iocb->ret);
+-
+     qemu_aio_unref(iocb);
+ }
+ 
+@@ -5905,7 +5903,6 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
+     iocb = qemu_aio_get(&nvme_format_aiocb_info, NULL, nvme_misc_cb, req);
+ 
+     iocb->req = req;
+-    iocb->bh = qemu_bh_new(nvme_format_bh, iocb);
+     iocb->ret = 0;
+     iocb->ns = NULL;
+     iocb->nsid = 0;
+@@ -5934,14 +5931,13 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
      }
  
--    return status & VIRTIO_CONFIG_S_DRIVER_OK;
-+    return virtio_device_started(vdev, status);
+     req->aiocb = &iocb->common;
+-    qemu_bh_schedule(iocb->bh);
++    nvme_do_format(iocb);
+ 
+     return NVME_NO_COMPLETE;
+ 
+ out:
+-    qemu_bh_delete(iocb->bh);
+-    iocb->bh = NULL;
+     qemu_aio_unref(iocb);
++
+     return status;
  }
  
- static inline void virtio_set_started(VirtIODevice *vdev, bool started)
 -- 
 2.38.1
 
