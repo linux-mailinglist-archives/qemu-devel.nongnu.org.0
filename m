@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797696426F1
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF07E6426FE
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:56:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p291z-00056S-9L; Mon, 05 Dec 2022 05:49:03 -0500
+	id 1p297O-0008IY-Cl; Mon, 05 Dec 2022 05:54:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p291w-00051u-Up
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:49:01 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p291v-0003Tf-3s
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:49:00 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- b13-20020a17090a5a0d00b0021906102d05so11039845pjd.5
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 02:48:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QWn3Rageux2GFolfj9dxS9GOExPw+EEyk9YGK7M08GI=;
- b=SqmrI0hlNEdsreMgMoDg3aWHv+iq/FLpgHeaTmo9aGLcwusvRZ14hNdmvrv9htmfYo
- lNIpoI3Dy9l/B2eVhBWeMkOw/0+YFlRVD4Yxzm/O/y38yMsUN+y/HxTyFfD5TxNlglFh
- s6EqkpNajBOYVRBNpQ8EOplnZmVnrDAdO0JxOxDR0UQl63N517+wFuJT7O0YmULAMWW8
- 1TxCh80/fxArktqDAGKmQqBoUJADdyT3vkdNcsLdiacKQ7S70c7fO9BW+5Sx/EAg5ZVY
- obIsELEVZjN9xMQ4sa9vwCb1h/C3T2kSOB+dXLw0/Wu8YhWSS084af3TjhH7GVhWnT8J
- l5/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QWn3Rageux2GFolfj9dxS9GOExPw+EEyk9YGK7M08GI=;
- b=0jlc51E/bdbTW7Iy3ZrE68pk4V8kJcCBg0HI4lCuUkfDg+cZ5zjRBX3fc0wRgoTgyb
- zLJZezfY8WxTf+PcRsQYA/wgOYUA8MnWGIBX5FysjPqCfRWT8SzUdmCOOxFZcDTT6uDh
- B2MpPWf3WcgIUBTU9AiT/8mdHikLw3Tnloq2hU5Xtgg2KL+LqEx9UjccZDootV1bn0/g
- 8EFmmpMpJuBzPJiMWszHLTdKoak9wKcJW/YETvB2aLPyvYH9RHMvHGVnWsabN/q96+LO
- k/IKlOYhZirc/wtb7tE2ooxjuum7ZPavXtP540XmeQZhr9inV+zUnSGXsnD1UIzwuqZL
- o5xw==
-X-Gm-Message-State: ANoB5pkdaWwtvjSCRBY1lpRepgtloQXGhukWEB+GCEZ5FrJoD74j42OV
- YlYtUnY2MrBTtDpT5w6mT6xsC1Pc6+l4MqPUnFrAnw==
-X-Google-Smtp-Source: AA0mqf7N6ur40au/NrumQi5WUHY/krr2G6DHWZDcQZpji378JncRkllALd50kP+ggTL4cuAvrAy6f+FehsmQLh8gSIQ=
-X-Received: by 2002:a17:90a:ac0b:b0:219:9874:c7d3 with SMTP id
- o11-20020a17090aac0b00b002199874c7d3mr13597900pjq.221.1670237337388; Mon, 05
- Dec 2022 02:48:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p297E-0008IJ-9s
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:54:28 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p297B-0004z9-An
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 05:54:27 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NQgLt5yvkz686w8;
+ Mon,  5 Dec 2022 18:50:46 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 5 Dec
+ 2022 10:54:04 +0000
+Date: Mon, 5 Dec 2022 10:54:03 +0000
+To: Thomas Huth <thuth@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PULL 02/10] pci-bridge/cxl_downstream: Add a CXL switch
+ downstream port
+Message-ID: <20221205105403.00003d0f@huawei.com>
+In-Reply-To: <06f4e22c-1c30-42a6-6f80-1f04e9d55c96@redhat.com>
+References: <20220616165703.42226-1-mst@redhat.com>
+ <20220616165703.42226-3-mst@redhat.com>
+ <4274de61-292d-b3e0-8f86-d7000122a715@redhat.com>
+ <06f4e22c-1c30-42a6-6f80-1f04e9d55c96@redhat.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20221202102550.4107344-1-gaosong@loongson.cn>
- <6fe3e752-a39d-38f9-e573-437547d19179@linaro.org>
- <72f22429-d51c-b2b8-49c6-59ba7df17ea7@loongson.cn>
-In-Reply-To: <72f22429-d51c-b2b8-49c6-59ba7df17ea7@loongson.cn>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Dec 2022 10:48:45 +0000
-Message-ID: <CAFEAcA8Tep6GrSwoTSUi8Jjs2ntAqU_15nfe4DD=fZB2P-mp0g@mail.gmail.com>
-Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
-To: "gaosong@loongson.cn" <gaosong@loongson.cn>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, richard.henderson@linaro.org, stefanha@gmail.com, 
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,58 +67,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 5 Dec 2022 at 09:20, gaosong@loongson.cn <gaosong@loongson.cn> wrot=
-e:
->
->
-> =E5=9C=A8 2022/12/5 15:24, Philippe Mathieu-Daud=C3=A9 =E5=86=99=E9=81=93=
-:
-> > On 2/12/22 11:25, Song Gao wrote:
-> >> The following changes since commit
-> >> c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
-> >>
-> >>    Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
-> >>
-> >> for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0f=
-d:
-> >>
-> >>    hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05
-> >> +0800)
-> >>
-> >> ----------------------------------------------------------------
-> >> pull for 7.2-rc4
-> >>
-> >> We need this patch.
-> >
-> > FTR this is not a security/regression fix, but a mere feature.
-> >
-> > Certainly not justified for a rc4 IMO.
-> >
-> We hope LoongArch 7.2 version support pflash,
-> otherwise the subsequent BIOS support pflash may qemu 7.2 does not suppor=
-t.
+On Sun, 4 Dec 2022 08:23:55 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-Regardless of how much it might be nice to have a new feature
-supported, new features cannot go in after softfreeze, only
-fixes for bugs. At rc4, changes should really be release
-critical bugs and regression fixes only. Further, any pull
-request  that should be going in for rc4 should have a clear
-statement of what the changes do and why they are release
-critical. "We need this patch" is much too vague.
+> On 04/11/2022 07.47, Thomas Huth wrote:
+> > On 16/06/2022 18.57, Michael S. Tsirkin wrote: =20
+> >> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> >>
+> >> Emulation of a simple CXL Switch downstream port.
+> >> The Device ID has been allocated for this use.
+> >>
+> >> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> >> Message-Id: <20220616145126.8002-3-Jonathan.Cameron@huawei.com>
+> >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >> ---
+> >> =A0 hw/cxl/cxl-host.c=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 43 +=
+++++-
+> >> =A0 hw/pci-bridge/cxl_downstream.c | 249 +++++++++++++++++++++++++++++=
+++++
+> >> =A0 hw/pci-bridge/meson.build=A0=A0=A0=A0=A0 |=A0=A0 2 +-
+> >> =A0 3 files changed, 291 insertions(+), 3 deletions(-)
+> >> =A0 create mode 100644 hw/pci-bridge/cxl_downstream.c =20
+> >=20
+> >  =A0Hi!
+> >=20
+> > There is a memory problem somewhere in this new device. I can make QEMU=
+=20
+> > crash by running something like this:
+> >=20
+> > $ MALLOC_PERTURB_=3D59 ./qemu-system-x86_64 -M x-remote \
+> >  =A0=A0=A0 -display none -monitor stdio
+> > QEMU 7.1.50 monitor - type 'help' for more information
+> > (qemu) device_add cxl-downstream
+> > ./qemu/qom/object.c:1188:5: runtime error: member access within misalig=
+ned=20
+> > address 0x3b3b3b3b3b3b3b3b for type 'struct Object', which requires 8 b=
+yte=20
+> > alignment
+> > 0x3b3b3b3b3b3b3b3b: note: pointer points here
+> > <memory cannot be printed>
+> > Bus error (core dumped)
+> >=20
+> > Could you have a look if you've got some spare minutes? =20
+>=20
+> Ping! Jonathan, Michael, any news on this bug?
+>=20
+> (this breaks one of my local tests, that's why it's annoying for me)
+Sorry, my email filters ate your earlier message.
 
-QEMU's release schedule is regular, so there will always be
-another release in 4 months time. There is generally no need
-to be in a huge hurry to get a feature in.
+Looking into this now. I'll note that it also happens on
+device_add xio3130-downstream so not specific to this new device.
 
-I would favour reverting this change.
+So far all I've managed to do is track it to something rcu related
+as failing in a call to drain_call_rcu() in qmp_device_add()
 
-thanks
--- PMM
+Will continue digging.
+
+Jonathan
+
+
+>=20
+>   Thomas
+>=20
+
 
