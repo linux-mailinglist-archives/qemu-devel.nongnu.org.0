@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB355642663
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4B464268F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:17:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28DP-0004Eh-3r; Mon, 05 Dec 2022 04:56:47 -0500
+	id 1p28DT-0004Mp-Mk; Mon, 05 Dec 2022 04:56:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28DM-0004BY-JM
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p28DR-0004Iz-HC
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28DK-0007l6-Rv
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:44 -0500
+ id 1p28DP-0007mT-Rn
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234202;
+ s=mimecast20190719; t=1670234207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wht3cZbEag0AF4cSKduIqGDfC02z0cnt1HmfpmfZWO0=;
- b=ByQJTkZ/QSQnl3M5w4Gs5W22CAf+jeUGNA74cBQ2Z7puqIA0rMQ9pMh4tNAIylF7cYIz4Y
- fH8dFsz0Z3HCBlyHCaj3Pa0ZpCDlhAlozLmT6ZAQom1cU+MhAcPHSn7+fQCcxg1bhJtGG2
- bUrwGR8d3oTaRab2DbF4IFjsfRSUfe4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=82n06ypGY49Plz4M2tcMx6flFk5mja5S3ptKNYMoHNk=;
+ b=cWldzDWuH+oDpUaAmYfE52/aDY+HC4c+AhCNexD84rFIQiZgEonOmXf9jUn6Gh40RTLAe9
+ 3esx4lJinJ7i2XxAbp0frUasXmnF51FnqOKib5d+4cBdaC6/srvT2Py0Em0VZ08qCpZfJC
+ 8uwwnsF1wlK89JQboLc65Ildiw/DxVE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-nHYc-QPBO9eadOh-sy8XhA-1; Mon, 05 Dec 2022 04:56:38 -0500
-X-MC-Unique: nHYc-QPBO9eadOh-sy8XhA-1
+ us-mta-618-DYXS60Q6PNi4_cp8T_BTcA-1; Mon, 05 Dec 2022 04:56:44 -0500
+X-MC-Unique: DYXS60Q6PNi4_cp8T_BTcA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43A3D1C07824;
- Mon,  5 Dec 2022 09:56:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0674085A59D;
+ Mon,  5 Dec 2022 09:56:43 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 910B22166B2A;
- Mon,  5 Dec 2022 09:56:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9201A2166B29;
+ Mon,  5 Dec 2022 09:56:35 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -71,17 +71,16 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
  qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- David Edmondson <david.edmondson@oracle.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH v2 30/51] migration: Export ram_transferred_ram()
-Date: Mon,  5 Dec 2022 10:52:07 +0100
-Message-Id: <20221205095228.1314-31-quintela@redhat.com>
+Subject: [PATCH v2 31/51] migration: Export ram_release_page()
+Date: Mon,  5 Dec 2022 10:52:08 +0100
+Message-Id: <20221205095228.1314-32-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,7 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,40 +105,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Leonardo Bras <leobras@redhat.com>
 ---
- migration/ram.h | 2 ++
+ migration/ram.h | 1 +
  migration/ram.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/migration/ram.h b/migration/ram.h
-index c7af65ac74..e844966f69 100644
+index e844966f69..038d52f49f 100644
 --- a/migration/ram.h
 +++ b/migration/ram.h
-@@ -65,6 +65,8 @@ int ram_load_postcopy(QEMUFile *f, int channel);
- 
+@@ -66,6 +66,7 @@ int ram_load_postcopy(QEMUFile *f, int channel);
  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
  
-+void ram_transferred_add(uint64_t bytes);
-+
+ void ram_transferred_add(uint64_t bytes);
++void ram_release_page(const char *rbname, uint64_t offset);
+ 
  int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
  bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
- void ramblock_recv_bitmap_set(RAMBlock *rb, void *host_addr);
 diff --git a/migration/ram.c b/migration/ram.c
-index 1338e47665..2cbe707bfc 100644
+index 2cbe707bfc..8aad17c429 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -422,7 +422,7 @@ uint64_t ram_bytes_remaining(void)
+@@ -1234,7 +1234,7 @@ static void migration_bitmap_sync_precopy(RAMState *rs)
+     }
+ }
  
- MigrationStats ram_counters;
- 
--static void ram_transferred_add(uint64_t bytes)
-+void ram_transferred_add(uint64_t bytes)
+-static void ram_release_page(const char *rbname, uint64_t offset)
++void ram_release_page(const char *rbname, uint64_t offset)
  {
-     if (runstate_is_running()) {
-         ram_counters.precopy_bytes += bytes;
+     if (!migrate_release_ram() || !migration_in_postcopy()) {
+         return;
 -- 
 2.38.1
 
