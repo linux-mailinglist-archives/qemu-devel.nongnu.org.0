@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF02E6426C6
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7773E6426D3
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:38:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28AL-0000gB-EA; Mon, 05 Dec 2022 04:53:37 -0500
+	id 1p28AN-0000lS-Ik; Mon, 05 Dec 2022 04:53:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28A2-0000b9-U5
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:19 -0500
+ id 1p28A5-0000c6-Du
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:23 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p289w-0006Pi-U5
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:18 -0500
+ id 1p28A2-0006Qm-AB
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670233991;
+ s=mimecast20190719; t=1670233997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gM1FzBim53KQXgBVytxLzbWYxEf9vN7NkiErlAjlFr4=;
- b=KzQkt/tc7jHKpS/ZW/kiObBg8cz+d0BNM3vy1o6kib/YzBTLRhhl7unUK8G7FCXbsrRKmD
- ZlKiP717BqVgQT9rUcawdMj8y+FA2bMeEN79Wf05pBEx/1lm2axYSjo7SS7/j6nJPQc/uh
- zYv/9e2Q8jv09D5Rh40e6lNoKSMmgYI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=i2+Mno2782955D37e2Tk3rpJLYwAGRf+TLqC5a0fYsE=;
+ b=Gt0X0oqclauMlmYCZexZ5PycCHQLKs41W3j3WE5aw9OwC328mx4vfwhnehtYpHeBCIEL79
+ Xlj3P81DpvM6uggj96Y78DQJgOOFmXn/iaQG4j3QMNXd8s3oMYXelvoIO7JMQGjG4XPViu
+ A6yr0ziTHE0ABQx5IaLF/LtURCXKH0U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-y6LLJ39VMn-SjpfmQaPpNg-1; Mon, 05 Dec 2022 04:53:06 -0500
-X-MC-Unique: y6LLJ39VMn-SjpfmQaPpNg-1
+ us-mta-416-CHUk4CsCOM6mJ6mmfIORaw-1; Mon, 05 Dec 2022 04:53:14 -0500
+X-MC-Unique: CHUk4CsCOM6mJ6mmfIORaw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F4AA1C09B82;
- Mon,  5 Dec 2022 09:53:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0FD6E894E81;
+ Mon,  5 Dec 2022 09:53:13 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BFA32166B29;
- Mon,  5 Dec 2022 09:52:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B08C2166B29;
+ Mon,  5 Dec 2022 09:53:05 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -72,11 +72,11 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
  qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Subject: [PATCH v2 03/51] replay: Fix declaration of replay_read_next_clock
-Date: Mon,  5 Dec 2022 10:51:40 +0100
-Message-Id: <20221205095228.1314-4-quintela@redhat.com>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v2 04/51] hw/display/qxl: Have qxl_log_command Return early if
+ no log_cmd handler
+Date: Mon,  5 Dec 2022 10:51:41 +0100
+Message-Id: <20221205095228.1314-5-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -107,45 +107,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Fixes the build with gcc 13:
+Only 3 command types are logged: no need to call qxl_phys2virt()
+for the other types. Using different cases will help to pass
+different structure sizes to qxl_phys2virt() in a pair of commits.
 
-replay/replay-time.c:34:6: error: conflicting types for  \
-  'replay_read_next_clock' due to enum/integer mismatch; \
-  have 'void(ReplayClockKind)' [-Werror=enum-int-mismatch]
-   34 | void replay_read_next_clock(ReplayClockKind kind)
-      |      ^~~~~~~~~~~~~~~~~~~~~~
-In file included from ../qemu/replay/replay-time.c:14:
-replay/replay-internal.h:139:6: note: previous declaration of \
-  'replay_read_next_clock' with type 'void(unsigned int)'
-  139 | void replay_read_next_clock(unsigned int kind);
-      |      ^~~~~~~~~~~~~~~~~~~~~~
-
-Fixes: 8eda206e090 ("replay: recording and replaying clock ticks")
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Reviewed-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20221129010547.284051-1-richard.henderson@linaro.org>
+Message-Id: <20221128202741.4945-2-philmd@linaro.org>
 ---
- replay/replay-internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/qxl-logger.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/replay/replay-internal.h b/replay/replay-internal.h
-index 89e377be90..b6836354ac 100644
---- a/replay/replay-internal.h
-+++ b/replay/replay-internal.h
-@@ -136,7 +136,7 @@ bool replay_next_event_is(int event);
- /*! Reads next clock value from the file.
-     If clock kind read from the file is different from the parameter,
-     the value is not used. */
--void replay_read_next_clock(unsigned int kind);
-+void replay_read_next_clock(ReplayClockKind kind);
+diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
+index 68bfa47568..1bcf803db6 100644
+--- a/hw/display/qxl-logger.c
++++ b/hw/display/qxl-logger.c
+@@ -247,6 +247,16 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
+             qxl_name(qxl_type, ext->cmd.type),
+             compat ? "(compat)" : "");
  
- /* Asynchronous events queue */
- 
++    switch (ext->cmd.type) {
++    case QXL_CMD_DRAW:
++        break;
++    case QXL_CMD_SURFACE:
++        break;
++    case QXL_CMD_CURSOR:
++        break;
++    default:
++        goto out;
++    }
+     data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+     if (!data) {
+         return 1;
+@@ -269,6 +279,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
+         qxl_log_cmd_cursor(qxl, data, ext->group_id);
+         break;
+     }
++out:
+     fprintf(stderr, "\n");
+     return 0;
+ }
 -- 
 2.38.1
 
