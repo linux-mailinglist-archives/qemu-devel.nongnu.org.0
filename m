@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3549642A9F
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE30642A9D
 	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 15:46:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Cj7-0005zl-F6; Mon, 05 Dec 2022 09:45:49 -0500
+	id 1p2CjB-0006CQ-8k; Mon, 05 Dec 2022 09:45:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2CiT-0005wj-FX
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:45:11 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1p2Cj4-000687-Qo
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:45:47 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2CiQ-0000yu-71
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:45:08 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- i131-20020a1c3b89000000b003d1cb516ce0so2484994wma.4
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 06:45:05 -0800 (PST)
+ id 1p2Cj1-00011h-U7
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:45:46 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ n16-20020a05600c3b9000b003d08febff59so5182949wms.3
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 06:45:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5KKWEJBqv86j6wLbXow1G1PMBdr+r7OSuVBbsOaaXmc=;
- b=ZpyL9XC/x7dJJK/p650TIRGp2C6kmdY1H1TsPgt9tOM8gtOaYTNXnQwGTDERmeFKFC
- VfqWrbHhEQUvB4ads3gIeRH1K9avD+L5Nrkuqnt03y7HYfVWX0wz1/fG7EhWJHhva/lb
- uvHAgcAD87Ec8WNgBfxAksTMAIaBySVkdM31hP+VBxmHGNgmOzcfcd7QMkqFA3B7NhdZ
- scNadCWaPbBHIipYzG3fnISZKDJk90nXNimHjFGq/GH8FUn0DAnEEKtT+0ixJUWGlQyS
- q5IlsUuEKOA3/8OuZCbSOom53/8Qt8ivI4pSo0L4bKpptGbQEtSxozEzGjAMKJvZJpvl
- eafw==
+ bh=FkuTM8uCfNVdil+5mS/n8c4IWcmYZtyKq5PL1JGpBBw=;
+ b=HG9EKxyr+m8nsyaruBSqNOaPkz8L5tcsEDtXT9213gSAa+xb4CZjm5CA9fyIMsb/Bw
+ oTr5Ykrd9cLsI5mlqAXhiUQzwZX1tUQALlEs8rnTuxTdV5/ChJPJF1tvC70RZjZvXAU6
+ wZJXMv6SUb89yWynEEgIOpLj1VEnRHtnLTKsvke8z/nZDzuMPRV/kMuxIgpBx5EiO547
+ xlKNO9xiFWfmWvbuhm9zMB07mI5YCW0zq6vIUr31NQdnxg+/dKnrazhE4qpN14EKJG6Y
+ ReTSk2TBZwLvnzhLMjblzc0bhrH+Ysc4D4DsR/B1NZJFTapYo0kofg+PxUAyQLzofUr8
+ KNKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5KKWEJBqv86j6wLbXow1G1PMBdr+r7OSuVBbsOaaXmc=;
- b=mEjslHLIKIPPCeQF22sW1A9XJWHnRSPpd48z4j9a6lApuN21eetZvKF0Nec/fQfS1Z
- wqVNeBeyjbkYWsJr9EnwHRMncaSJkkf9ICbve2kUWFanf+drSKaWOT80snXx77eImKpk
- 7cdEqy+jefjlXYJ2PFHP8+szvg+ibG69e733X85t8rk79N881i9P72HcOH/T3srW+4Jq
- o47XAjwQtotPXotUrPWUbNkcPyusEkx6baz0nDv4GygFVV0/G7CAHfsA58vPDuSwX10Q
- OpG8Dy1wn44MHwVMSW7h8JVatBmrtzwfe5Lml9CMtHtcQxeufjSj42/y2MdGNBzQUC0+
- f8Ig==
-X-Gm-Message-State: ANoB5pmCZcNIK3BGdwGawdlX1LGcBxnO/fT/ufdKJ39KndtbBC6hfq9g
- 0YX1jcRQ83KjZMJpjzE3vLk8sQediGUJTeFGu83gvA==
-X-Google-Smtp-Source: AA0mqf6wdvdqez7EoWFOhvPXi7Z+Kg2iT8WlI6DTn8oriVqM9uWsitMrUVKfV3B25m2cC+nALOpfaxs372tqB0Vc3Q0=
-X-Received: by 2002:a05:600c:213:b0:3d0:869a:4e59 with SMTP id
- 19-20020a05600c021300b003d0869a4e59mr10328700wmi.169.1670251504261; Mon, 05
- Dec 2022 06:45:04 -0800 (PST)
+ bh=FkuTM8uCfNVdil+5mS/n8c4IWcmYZtyKq5PL1JGpBBw=;
+ b=n1qg4JWmXtnSnPTSlaySVT+tJW8g41kMtTPqn8w5Byy82YnZicAe4uV10Kh6+FOvT9
+ s4BOwDVFvdCDLF4+MGfr2zlVI5IFJDR+q6Zt5eIN1Kq7ODSuGh/hiXdCPv8d7qNrL0RT
+ fP5gq80loz0j340hGPhFMvGe9U69Aqa9+I1s02GxoxnSy8sOA9/qvF4WivCMQWRzlFjD
+ K+SWwXXeYo5O7K4yMGqypYXgknepPV6yF3pRzNMdL7J4z0ubMz6T+VxoYhfGKDnsl3in
+ zvBdMjcaia1PspiEZ/8acznoVndgIDvA2Ss55mWa+6X683YJKA7ZuY7b9RQ2TYa7hhi2
+ UkZg==
+X-Gm-Message-State: ANoB5pkVAiYVchgjaXQ5T+k8GW1w6jvhC4+IqcNTlDAVrG9bLmV9GBfV
+ 5drNjj75S8XpS+7+xohq/QA6xSohdhg0OTNM/Phzmj0/r5jFgg==
+X-Google-Smtp-Source: AA0mqf4LGqd5nL2G/y8+WoVHwlmM/kwdnTKk03Yc1xC/SlYtvFtdYjI8cV4iils/nc3alZKWqQU33z6jnM8RnyA10sM=
+X-Received: by 2002:a05:600c:5388:b0:3cf:37b1:e581 with SMTP id
+ hg8-20020a05600c538800b003cf37b1e581mr58360853wmb.96.1670251520491; Mon, 05
+ Dec 2022 06:45:20 -0800 (PST)
 MIME-Version: 1.0
 References: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
- <20221127132112.300331-2-tobias.roehmel@rwth-aachen.de>
-In-Reply-To: <20221127132112.300331-2-tobias.roehmel@rwth-aachen.de>
+ <20221127132112.300331-3-tobias.roehmel@rwth-aachen.de>
+In-Reply-To: <20221127132112.300331-3-tobias.roehmel@rwth-aachen.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Dec 2022 14:44:51 +0000
-Message-ID: <CAFEAcA_BAnHXgNnW=UCY8rDuwFY0-qxvjb+i0dkEatv8E2hrMA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/7] target/arm: Don't add all MIDR aliases for cores
- that implement PMSA
+Date: Mon, 5 Dec 2022 14:45:07 +0000
+Message-ID: <CAFEAcA-uR3oE0KSxA9mEmZhhn6bissa0omH7raAfZQ5ch0z-hA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/7] target/arm: Make RVBAR available for all ARMv8 CPUs
 To: tobias.roehmel@rwth-aachen.de
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,10 +90,10 @@ On Sun, 27 Nov 2022 at 13:21, <tobias.roehmel@rwth-aachen.de> wrote:
 >
 > From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 >
-> Cores with PMSA have the MPUIR register which has the
-> same encoding as the MIDR alias with opc2=3D4. So we only
-> add that alias if we are not realizing a core that
-> implements PMSA.
+> RVBAR shadows RVBAR_ELx where x is the highest exception
+> level if the highest EL is not EL3. This patch also allows
+> ARMv8 CPUs to change the reset address with
+> the rvbar property.
 >
 > Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 
