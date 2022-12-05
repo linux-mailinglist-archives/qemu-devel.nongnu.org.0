@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5995F642639
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 10:58:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E665E642665
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:10:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28Bl-0002Pv-HI; Mon, 05 Dec 2022 04:55:05 -0500
+	id 1p28Bq-0002am-QR; Mon, 05 Dec 2022 04:55:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28Bh-0002KM-Fc
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:55:01 -0500
+ id 1p28Bn-0002Vz-Jv
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:55:07 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28Bf-000700-7v
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:55:01 -0500
+ id 1p28Bl-00075M-Sv
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:55:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234098;
+ s=mimecast20190719; t=1670234105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YV1dL1MmO+zuZsRAQOi5egpSmb0nyqOB4Pp4gBeiMus=;
- b=QAsFMAvWM3fusuRjtn/s6dR6ebPEyJDJIIwxFc2yPfptpFsfVzl08PrdqugTRqitYnuPjX
- XAQ1ugzq20ROhxIx+oGRv3opEbWsvn1wvLE3XcrQGU/pawD1A5PLhrb4cepsl1RLVjbhyN
- 9ZQsIhEoAUFRkZtzEn9Y+k2tp9yyZiI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JPkwFkSSfq3t5RKWyqYzwK48WCnzhdeFXKl8nUjSzoI=;
+ b=UdECobnge++f1hcFTaD2d03PHzViLpH6m7Q69ShfwC9flrjXE6PjTHhjZyAekGBo0SDjz/
+ pP+QOrSLO4xGW3aawYJ1fRu1zi/vOsQlgTHh9S/Od2O5+BlCHkHSYRPlSDWJ3CGVX0ZIwT
+ /fYUe96iuiNV6p1A9A1VZrLqNwIOQkw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-193-6zXA80sVOp2p6re-Bfm4uA-1; Mon, 05 Dec 2022 04:54:54 -0500
-X-MC-Unique: 6zXA80sVOp2p6re-Bfm4uA-1
+ us-mta-581-E6DdkZKJPsuP8izcGK-kCA-1; Mon, 05 Dec 2022 04:55:02 -0500
+X-MC-Unique: E6DdkZKJPsuP8izcGK-kCA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 343A986EB61;
- Mon,  5 Dec 2022 09:54:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E02493C0F663;
+ Mon,  5 Dec 2022 09:55:00 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1C4E2166B29;
- Mon,  5 Dec 2022 09:54:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 820FC2166B29;
+ Mon,  5 Dec 2022 09:54:53 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -71,11 +71,10 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
  qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>,
- Jonathan Derrick <jonathan.derrick@linux.dev>
-Subject: [PATCH v2 17/51] hw/nvme: fix aio cancel in format
-Date: Mon,  5 Dec 2022 10:51:54 +0100
-Message-Id: <20221205095228.1314-18-quintela@redhat.com>
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH v2 18/51] hw/nvme: fix aio cancel in flush
+Date: Mon,  5 Dec 2022 10:51:55 +0100
+Message-Id: <20221205095228.1314-19-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -89,7 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,99 +106,64 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-There are several bugs in the async cancel code for the Format command.
+Make sure that iocb->aiocb is NULL'ed when cancelling.
 
-Firstly, cancelling a format operation neglects to set iocb->ret as well
-as clearing the iocb->aiocb after cancelling the underlying aiocb which
-causes the aio callback to ignore the cancellation. Trivial fix.
+Fix a potential use-after-free by removing the bottom half and enqueuing
+the completion directly.
 
-Secondly, and worse, because the request is queued up for posting to the
-CQ in a bottom half, if the cancellation is due to the submission queue
-being deleted (which calls blk_aio_cancel), the req structure is
-deallocated in nvme_del_sq prior to the bottom half being schedulued.
-
-Fix this by simply removing the bottom half, there is no reason to defer
-it anyway.
-
-Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow cancellation")
-Reported-by: Jonathan Derrick <jonathan.derrick@linux.dev>
+Fixes: 38f4ac65ac88 ("hw/nvme: reimplement flush to allow cancellation")
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ hw/nvme/ctrl.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index ac3885ce50..9bc56075f6 100644
+index 9bc56075f6..fede5af6af 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -5741,7 +5741,6 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
- typedef struct NvmeFormatAIOCB {
+@@ -3160,7 +3160,6 @@ typedef struct NvmeFlushAIOCB {
      BlockAIOCB common;
      BlockAIOCB *aiocb;
--    QEMUBH *bh;
      NvmeRequest *req;
+-    QEMUBH *bh;
      int ret;
  
-@@ -5756,14 +5755,15 @@ typedef struct NvmeFormatAIOCB {
-     uint8_t pil;
- } NvmeFormatAIOCB;
+     NvmeNamespace *ns;
+@@ -3176,6 +3175,7 @@ static void nvme_flush_cancel(BlockAIOCB *acb)
  
--static void nvme_format_bh(void *opaque);
--
- static void nvme_format_cancel(BlockAIOCB *aiocb)
- {
-     NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
- 
-+    iocb->ret = -ECANCELED;
-+
      if (iocb->aiocb) {
          blk_aio_cancel_async(iocb->aiocb);
 +        iocb->aiocb = NULL;
      }
  }
  
-@@ -5787,13 +5787,17 @@ static void nvme_format_set(NvmeNamespace *ns, uint8_t lbaf, uint8_t mset,
-     nvme_ns_init_format(ns);
- }
+@@ -3185,6 +3185,8 @@ static const AIOCBInfo nvme_flush_aiocb_info = {
+     .get_aio_context = nvme_get_aio_context,
+ };
  
-+static void nvme_do_format(NvmeFormatAIOCB *iocb);
++static void nvme_do_flush(NvmeFlushAIOCB *iocb);
 +
- static void nvme_format_ns_cb(void *opaque, int ret)
+ static void nvme_flush_ns_cb(void *opaque, int ret)
  {
-     NvmeFormatAIOCB *iocb = opaque;
-     NvmeNamespace *ns = iocb->ns;
-     int bytes;
- 
--    if (ret < 0) {
-+    if (iocb->ret < 0) {
-+        goto done;
-+    } else if (ret < 0) {
-         iocb->ret = ret;
-         goto done;
+     NvmeFlushAIOCB *iocb = opaque;
+@@ -3206,13 +3208,11 @@ static void nvme_flush_ns_cb(void *opaque, int ret)
      }
-@@ -5817,8 +5821,7 @@ static void nvme_format_ns_cb(void *opaque, int ret)
-     iocb->offset = 0;
  
- done:
+ out:
 -    iocb->aiocb = NULL;
 -    qemu_bh_schedule(iocb->bh);
-+    nvme_do_format(iocb);
++    nvme_do_flush(iocb);
  }
  
- static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
-@@ -5842,9 +5845,8 @@ static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
-     return NVME_SUCCESS;
- }
- 
--static void nvme_format_bh(void *opaque)
-+static void nvme_do_format(NvmeFormatAIOCB *iocb)
+-static void nvme_flush_bh(void *opaque)
++static void nvme_do_flush(NvmeFlushAIOCB *iocb)
  {
--    NvmeFormatAIOCB *iocb = opaque;
+-    NvmeFlushAIOCB *iocb = opaque;
      NvmeRequest *req = iocb->req;
      NvmeCtrl *n = nvme_ctrl(req);
-     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
-@@ -5882,11 +5884,7 @@ static void nvme_format_bh(void *opaque)
+     int i;
+@@ -3239,14 +3239,8 @@ static void nvme_flush_bh(void *opaque)
      return;
  
  done:
@@ -209,22 +173,25 @@ index ac3885ce50..9bc56075f6 100644
      iocb->common.cb(iocb->common.opaque, iocb->ret);
 -
      qemu_aio_unref(iocb);
+-
+-    return;
  }
  
-@@ -5905,7 +5903,6 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
-     iocb = qemu_aio_get(&nvme_format_aiocb_info, NULL, nvme_misc_cb, req);
+ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+@@ -3258,7 +3252,6 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+     iocb = qemu_aio_get(&nvme_flush_aiocb_info, NULL, nvme_misc_cb, req);
  
      iocb->req = req;
--    iocb->bh = qemu_bh_new(nvme_format_bh, iocb);
+-    iocb->bh = qemu_bh_new(nvme_flush_bh, iocb);
      iocb->ret = 0;
      iocb->ns = NULL;
      iocb->nsid = 0;
-@@ -5934,14 +5931,13 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
+@@ -3280,13 +3273,11 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
      }
  
      req->aiocb = &iocb->common;
 -    qemu_bh_schedule(iocb->bh);
-+    nvme_do_format(iocb);
++    nvme_do_flush(iocb);
  
      return NVME_NO_COMPLETE;
  
@@ -232,10 +199,8 @@ index ac3885ce50..9bc56075f6 100644
 -    qemu_bh_delete(iocb->bh);
 -    iocb->bh = NULL;
      qemu_aio_unref(iocb);
-+
-     return status;
- }
  
+     return status;
 -- 
 2.38.1
 
