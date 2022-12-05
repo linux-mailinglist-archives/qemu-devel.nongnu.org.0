@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABA564268C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0396642695
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:20:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28Ck-0003YB-PC; Mon, 05 Dec 2022 04:56:06 -0500
+	id 1p28Cu-0003kn-A5; Mon, 05 Dec 2022 04:56:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28Ci-0003VJ-R8
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p28Cp-0003hu-2j
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28Cg-0007Yt-W9
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:04 -0500
+ id 1p28Cm-0007Zo-2h
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:56:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234162;
+ s=mimecast20190719; t=1670234167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9oxN9dTnRZHuYgKUJ7HxItN5TO/8EAdFWU0o+By2T4Y=;
- b=PIdQck6w+HMm0k7+VjELh+Qr4GsyYCRyCeYO0rw2cIDHkKhHaAXPTkZ3LSZuaLgMVpd0xj
- LVdXw77NZ6OVutjjtmHFxq/KbV61JvosCEopzY4famyJ+kRfQl8QwJ/j7j/hyAezOSbHu0
- J2YgNojKF+2uNp/MlVlKrf4qajSO5gE=
+ bh=Hw3P8H5TEBArqeghTjjseYw/s4nFSWWkJ9rmhoVRUno=;
+ b=ThItRtsGxSqrT4amTe7Ud1D9e+ZoH28P6RlxJvgQefspWgsK6LBSQUhZTSLzaq/ystgHS7
+ NlAtlPtGmwypmoJ2Z0AUy73EWtyBQfWZ/nrGrLUT8+AySCdrhGg+m5IX1JQ8AjH2wUgNyC
+ vBsWMQqqfUyqGIQulxowinXQ0SPx8jA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37-lXKRaxyeNXqve1TTpz4ZMw-1; Mon, 05 Dec 2022 04:55:57 -0500
-X-MC-Unique: lXKRaxyeNXqve1TTpz4ZMw-1
+ us-mta-86-kb_4S__COQ6ApFpRLzKmiA-1; Mon, 05 Dec 2022 04:56:04 -0500
+X-MC-Unique: kb_4S__COQ6ApFpRLzKmiA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D9D8185A7A9;
- Mon,  5 Dec 2022 09:55:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B3B9185A7A3;
+ Mon,  5 Dec 2022 09:56:03 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0C2B2166B2A;
- Mon,  5 Dec 2022 09:55:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DCE292166B2E;
+ Mon,  5 Dec 2022 09:55:55 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -70,20 +70,17 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Michael Tokarev <mjt@tls.msk.ru>, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
- qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Bin Meng <bmeng@tinylab.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 25/51] tests/qtest/migration-test: Fix unlink error and
- memory leaks
-Date: Mon,  5 Dec 2022 10:52:02 +0100
-Message-Id: <20221205095228.1314-26-quintela@redhat.com>
+ qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>
+Subject: [PATCH v2 26/51] target/s390x/tcg: Fix and improve the SACF
+ instruction
+Date: Mon,  5 Dec 2022 10:52:03 +0100
+Message-Id: <20221205095228.1314-27-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -109,72 +106,64 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Thomas Huth <thuth@redhat.com>
 
-When running the migration test compiled with Clang from Fedora 37
-and sanitizers enabled, there is an error complaining about unlink():
+The SET ADDRESS SPACE CONTROL FAST instruction is not privileged, it can be
+used from problem space, too. Just the switching to the home address space
+is privileged and should still generate a privilege exception. This bug is
+e.g. causing programs like Java that use the "getcpu" vdso kernel function
+to crash (see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=990417#26 ).
 
- ../tests/qtest/migration-test.c:1072:12: runtime error: null pointer
-  passed as argument 1, which is declared to never be null
- /usr/include/unistd.h:858:48: note: nonnull attribute specified here
- SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior
-  ../tests/qtest/migration-test.c:1072:12 in
- (test program exited with status code 1)
- TAP parsing error: Too few tests run (expected 33, got 20)
+While we're at it, also check if DAT is not enabled. In that case the
+instruction is supposed to generate a special operation exception.
 
-The data->clientcert and data->clientkey pointers can indeed be unset
-in some tests, so we have to check them before calling unlink() with
-those.
-
-While we're at it, I also noticed that the code is only freeing
-some but not all of the allocated strings in this function, and
-indeed, valgrind is also complaining about memory leaks here.
-So let's call g_free() on all allocated strings to avoid leaking
-memory here.
-
-Message-Id: <20221125083054.117504-1-thuth@redhat.com>
-Tested-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/655
+Message-Id: <20221201184443.136355-1-thuth@redhat.com>
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-test.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ target/s390x/tcg/insn-data.h.inc | 2 +-
+ target/s390x/tcg/cc_helper.c     | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 442998d9eb..dbde726adf 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -1066,15 +1066,27 @@ test_migrate_tls_x509_finish(QTestState *from,
-     TestMigrateTLSX509Data *data = opaque;
+diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
+index 7e952bdfc8..54d4250c9f 100644
+--- a/target/s390x/tcg/insn-data.h.inc
++++ b/target/s390x/tcg/insn-data.h.inc
+@@ -1365,7 +1365,7 @@
+ /* SERVICE CALL LOGICAL PROCESSOR (PV hypercall) */
+     F(0xb220, SERVC,   RRE,   Z,   r1_o, r2_o, 0, 0, servc, 0, IF_PRIV | IF_IO)
+ /* SET ADDRESS SPACE CONTROL FAST */
+-    F(0xb279, SACF,    S,     Z,   0, a2, 0, 0, sacf, 0, IF_PRIV)
++    C(0xb279, SACF,    S,     Z,   0, a2, 0, 0, sacf, 0)
+ /* SET CLOCK */
+     F(0xb204, SCK,     S,     Z,   0, m2_64a, 0, 0, sck, 0, IF_PRIV | IF_IO)
+ /* SET CLOCK COMPARATOR */
+diff --git a/target/s390x/tcg/cc_helper.c b/target/s390x/tcg/cc_helper.c
+index b2e8d3d9f5..b36f8cdc8b 100644
+--- a/target/s390x/tcg/cc_helper.c
++++ b/target/s390x/tcg/cc_helper.c
+@@ -487,6 +487,10 @@ void HELPER(sacf)(CPUS390XState *env, uint64_t a1)
+ {
+     HELPER_LOG("%s: %16" PRIx64 "\n", __func__, a1);
  
-     test_tls_cleanup(data->keyfile);
-+    g_free(data->keyfile);
-+
-     unlink(data->cacert);
-+    g_free(data->cacert);
-     unlink(data->servercert);
-+    g_free(data->servercert);
-     unlink(data->serverkey);
--    unlink(data->clientcert);
--    unlink(data->clientkey);
-+    g_free(data->serverkey);
-+
-+    if (data->clientcert) {
-+        unlink(data->clientcert);
-+        g_free(data->clientcert);
-+    }
-+    if (data->clientkey) {
-+        unlink(data->clientkey);
-+        g_free(data->clientkey);
++    if (!(env->psw.mask & PSW_MASK_DAT)) {
++        tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
 +    }
 +
-     rmdir(data->workdir);
--
-     g_free(data->workdir);
--    g_free(data->keyfile);
-+
-     g_free(data);
- }
- #endif /* CONFIG_TASN1 */
+     switch (a1 & 0xf00) {
+     case 0x000:
+         env->psw.mask &= ~PSW_MASK_ASC;
+@@ -497,6 +501,9 @@ void HELPER(sacf)(CPUS390XState *env, uint64_t a1)
+         env->psw.mask |= PSW_ASC_SECONDARY;
+         break;
+     case 0x300:
++        if ((env->psw.mask & PSW_MASK_PSTATE) != 0) {
++            tcg_s390_program_interrupt(env, PGM_PRIVILEGED, GETPC());
++        }
+         env->psw.mask &= ~PSW_MASK_ASC;
+         env->psw.mask |= PSW_ASC_HOME;
+         break;
 -- 
 2.38.1
 
