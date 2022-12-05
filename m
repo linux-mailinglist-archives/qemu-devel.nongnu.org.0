@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0166437A8
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 23:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E2E6437CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 23:12:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Jbr-0002vl-Tx; Mon, 05 Dec 2022 17:06:47 -0500
+	id 1p2JgP-0005VW-4z; Mon, 05 Dec 2022 17:11:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Jbp-0002tK-BK
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:06:45 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2JgL-0005V1-CS
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:11:25 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Jbn-0001aR-NN
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:06:45 -0500
-Received: by mail-wr1-x431.google.com with SMTP id d1so20898911wrs.12
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 14:06:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2JgJ-0002BX-7b
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:11:24 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ r10-20020a1c440a000000b003d1e906ca23so52186wma.3
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 14:11:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=f0sATFWE9oJ+QhP6jeikhOWfB1zquykrqRRAxolMq74=;
- b=onj3GN0w4RYBHY4AigcCidDVWZNKmu66tJcILRGbgaCa5XOiwIqGg5Sm7pIJwvPn0q
- UjgQdtEvSHptJxMj8sjwp9mIoqNmLwGUGyp0ChV0VjBOzk2KsRisxiC/OoKbVhTlTNJC
- R0JlS/AjgZUpcoYLQ6VVvqaw0VnOAOktYUkpljnKrhULiKtXMSC0sSfrTBla4tbA5+Rx
- YjIueWP1sUQLY+ds9LB1CM4CKNKFGjmqd4TXqhG9Mnbmvn6J+sulwayoH/jK/B0Fd1nQ
- RMW5ICFcuA5kxtSHumBUW7Dv9q5zhNMMzGEJhMy9+a624wXPyxUkkrydpMr4B2af3hkC
- p0LA==
+ bh=YSorX8QavFyVYABzytxzh5sXHYZ4hd2RmL8f8Y9Acrw=;
+ b=qX9MZrjVVvph44IqpVmRUdkRiqkCm5dDQz7QLOldMayxdo+ICInlw1EDLaXlP3vq3t
+ qmTcZ6JByNWGgkRy2uWrbpRiHQHa1zh+8spKfGDtP5Fiej6mKSYnWWmaguSUqek4cRFh
+ +/8u/vMSj9Juna1h9nIR5qcsuw2Vs8Nsx0YHi/h+QMvTBRehNM4+BOipSXbH3/vyprOR
+ ZsXvZGaMaMOCCALaiNC82f4Xy9ROgiTeG9hpYCAkiWG1mR8cOdTU7tnt8TWG8xdgL8gV
+ S0AW3Ya+7Z1eZWOJ/qDrpV3ci3wnM/91g80+sOO14UBTHVUbLSmXlPOak3HxZw2vrLHe
+ UECg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f0sATFWE9oJ+QhP6jeikhOWfB1zquykrqRRAxolMq74=;
- b=KLB8cOm80K9sN+8MZrzOPHuba+Rtv9fACOsbMMcOzpSrWIJJH7SaJpwxaUOs+6PyZA
- hc/yVFOanPg4BTXfEj6BMxznCSUaXO0qvJeP6yZ5PSvgTr/+kwXDXNVtkR8f3xQg93EE
- j0ynTJ/5zuD8FbLAjxx6CGDBCaTm9fJWoyNg/0b/9YSbknpY93YUDFl7id4anQLYTmCF
- HEih4XR980rYkhKEvKJVpStp880yeOt+n0pQdJB7vT8tF1tYyJs8DE3bMBJyQYY8BQ6g
- f0fCLhwcHYAvIShLNggfkZYWMDbEZkkaVGCKzfiaYtzpsh95II7lkP6IRhENuFu5W+nB
- /MTQ==
-X-Gm-Message-State: ANoB5pmvFsdPNYV92n3KB1EZAgT8zjs4QYZcXZj6e1q5eyYq4c0OONyC
- r0Q0EUxy3paGpHN5vMlJar3vqh0KIBP/olUc5sU=
-X-Google-Smtp-Source: AA0mqf7kQjEXQ6FE4gFyuYYiR0Zy85+yvn3mm6qw4Uqqo9SSHCs8YbZtU9agcRwI6642RdvfzAVEeA==
-X-Received: by 2002:a5d:6b8a:0:b0:242:248a:a7c9 with SMTP id
- n10-20020a5d6b8a000000b00242248aa7c9mr18709673wrx.57.1670278002285; 
- Mon, 05 Dec 2022 14:06:42 -0800 (PST)
+ bh=YSorX8QavFyVYABzytxzh5sXHYZ4hd2RmL8f8Y9Acrw=;
+ b=6wgAH1gJBFlDYoBWgPnxksVqfqYzCLgEYiD8Wm9GCKvmmCGutFkMnGnW/0e9pD1Kpt
+ yrJbm+AWYkdRVqvOq1MR7Llx01l0Ncr/CHOY5PVLKy8+SXa+z5Yxu6PQBGYh5RgCHxzF
+ p7w0Db2fjnHqhO8VMaSR6teDoa50fdeA0Tl2RxbrbCcXYnWaNjnbcqWSiILK6m3kB9X0
+ UqLqQeBY7AZbJRabPnynzKSrOZyuyKYkgNsriYGxqL5WKcdu0GFJBx2EE89WNuHiag++
+ cCS2Smid1EQSzYWEarNfZ+0ehuJrFjYJXYAdHHUGHYyhHXDz+fxCGZObQl6mCeQ3PqOl
+ XMhg==
+X-Gm-Message-State: ANoB5pn0vqqMypxNKPfOXEZ4Y0l86PHLSbDYTkAYWB2zqcn6GNtWnrqs
+ iE6gjDAijvAi2Bixf9/Z/alOeg==
+X-Google-Smtp-Source: AA0mqf6PF1PfJyziDj1YQnhkueSrKZuuDMcfFoQXHEneZWjPUbgL3KlaQ3d6IxoCvXXM9BACv7kLsA==
+X-Received: by 2002:a05:600c:2213:b0:3cf:a6eb:3290 with SMTP id
+ z19-20020a05600c221300b003cfa6eb3290mr55204414wml.116.1670278281335; 
+ Mon, 05 Dec 2022 14:11:21 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g16-20020a7bc4d0000000b003d1b4d957aasm6957760wmk.36.2022.12.05.14.06.41
+ j9-20020a5d5649000000b0022cdeba3f83sm14992213wrw.84.2022.12.05.14.11.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Dec 2022 14:06:41 -0800 (PST)
-Message-ID: <16a9ec30-4eb0-7a7a-7ca1-ffb04529cf48@linaro.org>
-Date: Mon, 5 Dec 2022 23:06:40 +0100
+ Mon, 05 Dec 2022 14:11:20 -0800 (PST)
+Message-ID: <efef965d-3c9b-abc0-ac5f-c252b10722bd@linaro.org>
+Date: Mon, 5 Dec 2022 23:11:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 09/21] pc_piix: allow xenfv machine with XEN_EMULATE
+Subject: Re: [RFC PATCH 10/21] i386/xen: handle guest hypercalls
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Joao Martins <joao.m.martins@oracle.com>,
  Ankur Arora <ankur.a.arora@oracle.com>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-10-dwmw2@infradead.org>
+ <20221205173137.607044-11-dwmw2@infradead.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221205173137.607044-10-dwmw2@infradead.org>
+In-Reply-To: <20221205173137.607044-11-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -96,39 +97,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 5/12/22 18:31, David Woodhouse wrote:
 > From: Joao Martins <joao.m.martins@oracle.com>
 > 
-> This allows -machine xenfv to work with Xen emulated guests.
+> This means handling the new exit reason for Xen but still
+> crashing on purpose. As we implement each of the hypercalls
+> we will then return the right return code.
 > 
 > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> [dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/i386/pc_piix.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   target/i386/kvm/kvm.c    |  5 +++++
+>   target/i386/trace-events |  3 +++
+>   target/i386/xen.c        | 45 ++++++++++++++++++++++++++++++++++++++++
+>   target/i386/xen.h        |  1 +
+>   4 files changed, 54 insertions(+)
 > 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 3dcac2f4b6..d1127adde0 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -404,8 +404,8 @@ static void pc_xen_hvm_init(MachineState *machine)
->   {
->       PCMachineState *pcms = PC_MACHINE(machine);
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 4b21d03250..6396d11f1e 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -5468,6 +5468,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>           assert(run->msr.reason == KVM_MSR_EXIT_REASON_FILTER);
+>           ret = kvm_handle_wrmsr(cpu, run);
+>           break;
+> +#ifdef CONFIG_XEN
+
+CONFIG_XEN is set when the _host_ has Xen development files available.
+
+IIUC here you want to check if Xen HVM guest support is enabled.
+
+You might want to use a different CONFIG_XEN_xxx key, which itself
+depends on CONFIG_XEN.
+
+> +    case KVM_EXIT_XEN:
+> +        ret = kvm_xen_handle_exit(cpu, &run->xen);
+> +        break;
+> +#endif
+>       default:
+>           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>           ret = -1;
+
+
+> diff --git a/target/i386/xen.h b/target/i386/xen.h
+> index d4903ecfa1..3537415d31 100644
+> --- a/target/i386/xen.h
+> +++ b/target/i386/xen.h
+> @@ -23,5 +23,6 @@
+>   #define XEN_VERSION(maj, min) ((maj) << 16 | (min))
 >   
-> -    if (!xen_enabled()) {
-> -        error_report("xenfv machine requires the xen accelerator");
-> +    if (!xen_enabled() && (xen_mode != XEN_EMULATE)) {
-> +        error_report("xenfv machine requires the xen or kvm accelerator");
->           exit(1);
->       }
+>   int kvm_xen_init(KVMState *s, uint32_t xen_version);
+> +int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit);
+>   
+>   #endif /* QEMU_I386_XEN_H */
 
-What about the XEN_EMULATE case? Shouldn't this be:
-
-   if (!xen_enabled()) {
-      if (xen_mode == XEN_EMULATE) {
-          error_report("xenfv machine requires the xen accelerator");
-      } else {
-          error_report("xenfv machine requires the xen or kvm accelerator");
-      }
-      exit(1);
-   }
-
-?
 
