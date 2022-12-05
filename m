@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF916437CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 23:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978E56437E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 23:18:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2JiL-0006IR-R6; Mon, 05 Dec 2022 17:13:29 -0500
+	id 1p2Jmi-0007aM-9J; Mon, 05 Dec 2022 17:18:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2JiJ-0006Hz-UI
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:13:27 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Jmg-0007ZV-Ca
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:17:58 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2JiI-0002N3-86
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:13:27 -0500
-Received: by mail-wr1-x434.google.com with SMTP id bs21so20969656wrb.4
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 14:13:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Jme-00033P-HS
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 17:17:58 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id bx10so21031289wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 14:17:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=KmAbRentipS0F8Itl52QpqbLq8qD6RgEQJADToUz7w4=;
- b=xaOru1fCcYLzYiuU2Aue1ICOeiihip9sorJsJIbZHnXujK50Yep/1bumpUY3tDx/n1
- 6zqkuMHkgkSHBJk5KcA0T/gQQ9rfM1gmYA2bJGGaN3IMXDvQbYfL/eori3O9xLlLxOwd
- Y2jl1ubbqpEV+F37HQB1hwXpe6yaX1fjgn0n5FW2ynLkIOoJwnjAipKksJhF4o1ekygN
- LUFi4UmUGp/590LbQvEQ5UlVGI96gZbNJWdDXSmC5W0P0uMx9BSch/KgLzfuRQQOT/vi
- kLdCf2TJ8/jGVad8fIc/H6MiX54RBJWWC21jWzeRVZ2/wnQ5MlRtBcNBwGD7Vtd7L/2S
- gsPQ==
+ bh=Ah3WxnIdiutjlIQwFzBbBczSYCKs7qmgqBQmDKrvhXE=;
+ b=znaTB1Gi9oFo4Z3664b82NSHeG2BB1DnDQfaKcWWE35et6lW3rF7iZefzX75xoS6Up
+ AMRMIHCQIihLQPjxBauZZzc5BtWWC9ZH8XfjYavQvNAG+2wixhPiYf/P4b9jn9Ov6+5D
+ L/z4EXmqm1lrbpNXolxqfK4yfJJKOmWdCtule0ho/3bcyxjxJ7aqouiAGZy9L7Brj0mY
+ mk1qrLGf/Dlc3umjYSfyyhZJNBZ0KH9XhaEcjyhZkcNv5FiWXyXX9JwYiWnCQwyp2v1D
+ FlLuAA5rioRjXZDOgPaYHwdtNdEFzCHaDWj7Tok0eyzCrm4CTGsJmEgp16REJ7pbfZDm
+ Kr+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KmAbRentipS0F8Itl52QpqbLq8qD6RgEQJADToUz7w4=;
- b=7VFqsFrUwta7sayydOcj7GfBx9MevkaUu1DmMQzLqmXZxBfLp75OCiLvq/r5wYA6w7
- 66sMxuhV2XfghCZJ81Uui5GFpG+1M3yNENaNhnkjxwWh+22nF7O2+m2koB0iguob8TVX
- gEK2NIAk3Sqk9rG18+p8azuZ1JAj+3JR+DBXTy9zQXHxkohbwrLmC/CB/9uljSKwkEm9
- H7/bQzkJ7JIVeUaR1qPPz0yHoG+Afta3QIzXhIb1GlqSc1BqcBWPchIKZw+vlIUOxjox
- Bj1VeDjlH9JWfBjL4kMDyjyspLL2tcLpDbocRUQ8/t1w4j5UAD2371MoXbDN96HQy9Rv
- jv4Q==
-X-Gm-Message-State: ANoB5pnspBRRS7CerkDaSpUhF343gIQPC11h0s/bA+cZcAXVRnMo4EZ5
- GYoLfRA73BpuqtKGDHfeGfQZ1w==
-X-Google-Smtp-Source: AA0mqf5RBqrCGdf5roiX+waranMkuCGVeqckxD1UqZBgpS1/CXE5FeJ6rQtDXhO9a6XzvmWlm2C+rg==
-X-Received: by 2002:adf:db81:0:b0:236:5144:f8ce with SMTP id
- u1-20020adfdb81000000b002365144f8cemr45461977wri.657.1670278404468; 
- Mon, 05 Dec 2022 14:13:24 -0800 (PST)
+ bh=Ah3WxnIdiutjlIQwFzBbBczSYCKs7qmgqBQmDKrvhXE=;
+ b=Eqr+BZx19EA1qAtRGbFU2RqfdevKmXyld04Jcwhg2wZYL2ijR8u9c/v/ZwtqxBexqU
+ jaHkhJ/DCXZXxZ6rc0Akm4qDfl01p9+2M2j8LckymeVBkQbvoP0GE9fKZVZSB/Dkt6bW
+ jKO1LKISC/84LrNrWGF1ehTEZPiAa7aPNJ5/4MO5e72BNLBsWEx+ZCjn3lMJpxEpIG54
+ IoZx6+sJA58XNVW6NlZax7HwsPwdFVjQU12kpq1tDyjcX9iXeg6RWIMHhOZtRwA3H5cM
+ ewfl3MMN8rILxHePanrUQQPWX+4yWUqp3Cd10+m+TxPi6UBUCkoSOweXC9UGSnpTp573
+ hImA==
+X-Gm-Message-State: ANoB5pm2ofux1UTHzx+qjjOHoXLJZRn6CuVBszmBxeiEb1O6dMp0wsiW
+ iLzICroAPCQUxNgqJzl8pCosgg==
+X-Google-Smtp-Source: AA0mqf5SMz2BbK9k67GzONhIskNiKh8Nu60EXYKjlTm+4FkWk6U2lmqKbH5GIIT1FQx6UMjvxzWdtw==
+X-Received: by 2002:a5d:5a8c:0:b0:242:5d58:3422 with SMTP id
+ bp12-20020a5d5a8c000000b002425d583422mr4888630wrb.22.1670278671433; 
+ Mon, 05 Dec 2022 14:17:51 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- az23-20020adfe197000000b002425504ae7dsm7031051wrb.80.2022.12.05.14.13.23
+ p15-20020a05600c358f00b003c6b874a0dfsm26407167wmq.14.2022.12.05.14.17.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Dec 2022 14:13:24 -0800 (PST)
-Message-ID: <4d6b112e-ab74-5ae3-7206-9b1aafb25034@linaro.org>
-Date: Mon, 5 Dec 2022 23:13:22 +0100
+ Mon, 05 Dec 2022 14:17:51 -0800 (PST)
+Message-ID: <cbb522e1-3d8d-5332-7ac8-c0e054be33e2@linaro.org>
+Date: Mon, 5 Dec 2022 23:17:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 13/21] i386/xen: implement HYPERVISOR_hvm_op
+Subject: Re: [RFC PATCH 12/21] i386/xen: set shared_info page
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Joao Martins <joao.m.martins@oracle.com>,
  Ankur Arora <ankur.a.arora@oracle.com>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-14-dwmw2@infradead.org>
+ <20221205173137.607044-13-dwmw2@infradead.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221205173137.607044-14-dwmw2@infradead.org>
+In-Reply-To: <20221205173137.607044-13-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -96,43 +96,93 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 5/12/22 18:31, David Woodhouse wrote:
 > From: Joao Martins <joao.m.martins@oracle.com>
 > 
-> This is when guest queries for support for HVMOP_pagetable_dying.
+> This is done by implementing HYPERVISOR_memory_op specifically
+> XENMEM_add_to_physmap with space XENMAPSPACE_shared_info. While
+> Xen removes the page with its own, we instead use the gfn passed
+> by the guest.
 > 
 > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   target/i386/xen.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
-> 
-> diff --git a/target/i386/xen.c b/target/i386/xen.c
-> index 5d2d8a7e00..38d4cae3d0 100644
-> --- a/target/i386/xen.c
-> +++ b/target/i386/xen.c
-> @@ -17,6 +17,7 @@
->   
->   #include "standard-headers/xen/version.h"
->   #include "standard-headers/xen/memory.h"
-> +#include "standard-headers/xen/hvm/hvm_op.h"
->   
->   #define PAGE_OFFSET    0xffffffff80000000UL
->   #define PAGE_SHIFT     12
-> @@ -181,6 +182,20 @@ static int kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit,
->       return err ? HCALL_ERR : 0;
->   }
->   
-> +static int kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit,
-> +                                int cmd, uint64_t arg)
-> +{
-> +    switch (cmd) {
-> +    case HVMOP_pagetable_dying: {
-> +            exit->u.hcall.result = -ENOSYS;
-> +            return 0;
-> +        }
-> +    }
+>   accel/kvm/kvm-all.c      |  6 ++++
+>   include/hw/core/cpu.h    |  2 ++
+>   include/sysemu/kvm.h     |  2 ++
+>   include/sysemu/kvm_int.h |  3 ++
+>   target/i386/cpu.h        |  8 ++++++
+>   target/i386/trace-events |  1 +
+>   target/i386/xen-proto.h  | 19 +++++++++++++
+>   target/i386/xen.c        | 61 ++++++++++++++++++++++++++++++++++++++++
+>   8 files changed, 102 insertions(+)
+>   create mode 100644 target/i386/xen-proto.h
 
-Could it be helpful to have a trace event here, or log a GUEST_ERROR?
 
-> +    exit->u.hcall.result = -ENOSYS;
-> +    return HCALL_ERR;
-> +}
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 8830546121..e57b693528 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -443,6 +443,8 @@ struct CPUState {
+>   
+>       /* track IOMMUs whose translations we've cached in the TCG TLB */
+>       GArray *iommu_notifiers;
+> +
+> +    struct XenState *xen_state;
+
+Since you define a type definition below, use it.
+
+>   };
+>   
+>   typedef QTAILQ_HEAD(CPUTailQ, CPUState) CPUTailQ;
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index e9a97eda8c..8e882fbe96 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -582,4 +582,6 @@ bool kvm_arch_cpu_check_are_resettable(void);
+>   bool kvm_dirty_ring_enabled(void);
+>   
+>   uint32_t kvm_dirty_ring_size(void);
+> +
+> +struct XenState *kvm_get_xen_state(KVMState *s);
+
+Ditto.
+
+>   #endif
+> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+> index 3b4adcdc10..0d89cfe273 100644
+> --- a/include/sysemu/kvm_int.h
+> +++ b/include/sysemu/kvm_int.h
+> @@ -110,6 +110,9 @@ struct KVMState
+>       struct KVMDirtyRingReaper reaper;
+>       NotifyVmexitOption notify_vmexit;
+>       uint32_t notify_window;
+> +
+> +    /* xen guest state */
+> +    struct XenState xen;
+
+Ditto.
+
+>   };
+>   
+>   void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 5ddd14467e..09c0281b8b 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -23,6 +23,14 @@
+>   #include "sysemu/tcg.h"
+>   #include "cpu-qom.h"
+>   #include "kvm/hyperv-proto.h"
+> +#include "xen-proto.h"
+> +
+> +#ifdef TARGET_X86_64
+> +#define TARGET_LONG_BITS 64
+> +#else
+> +#define TARGET_LONG_BITS 32
+> +#endif
+
+
+How come you don't have access to the definitions from "cpu-param.h" here?
+
+Regards,
+
+Phil.
 
