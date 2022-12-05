@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D58642239
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 05:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377D364223B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 05:24:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p22wY-0000sH-AK; Sun, 04 Dec 2022 23:19:02 -0500
+	id 1p231C-00023r-I1; Sun, 04 Dec 2022 23:23:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p22wU-0000s4-Ii
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:18:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1p2319-000234-UY
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:23:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p22wS-0001Wq-Nu
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:18:58 -0500
+ id 1p2315-0002q3-Ap
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:23:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670213935;
+ s=mimecast20190719; t=1670214222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0a5F4Dn2mWwKPgTL8tVgW8kEDqY6BvJKQwOGQxB3vrI=;
- b=BQ8Oa/rsMr/aG03NK+nbbvkoFP+P+V/z674cV/yqmJ8ScfUUuvBTSbkNTDR1m6k3Fu6D/T
- FdZemfuoJE66BcjcCYjI/UpKrDwnmTbCqfhM+i8c4fUJ8Jz46mQmV+Vqgvv03NqUJ9KWo6
- sRDqWBc/ClQK7vu9Lx3+jt0xYxZ4rRo=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=16FNkYMh+2XbM12YsiJDu5IX+R+EaCelhn86Et7G2GE=;
+ b=U1GoQOYL2IbNyeQWUwecU2O6ZGFwfew9YsYEXQHsjkMH7sQNPv9LTaNwur8rhtLT076Uz9
+ 1mniFuqXDbsPjcdB1wqON93ASMxwczUdtBOL9k/eYxu5ZFWLuRxoEXIkDqqCapWUX24Lt8
+ RwKBtO72ozT9/O/+SfnECU66tkorV3k=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-358-G6jQHe8HMAqFMDbpXAnuDA-1; Sun, 04 Dec 2022 23:18:53 -0500
-X-MC-Unique: G6jQHe8HMAqFMDbpXAnuDA-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-144870e8fe8so1097363fac.13
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 20:18:53 -0800 (PST)
+ us-mta-9-_J8ZPsOvNKGJLGqPk67Arw-1; Sun, 04 Dec 2022 23:23:32 -0500
+X-MC-Unique: _J8ZPsOvNKGJLGqPk67Arw-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-14459615659so1919570fac.1
+ for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 20:23:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0a5F4Dn2mWwKPgTL8tVgW8kEDqY6BvJKQwOGQxB3vrI=;
- b=ZmwPl1GnJi9N/MeOCSy0jBRFQdy5KJ6Gc4P86YZaUlttHr6a50RBYJf11D6KR7ODfL
- xZPoT19u7wwCqKptxwFyZv27rH2Bh8Ijr2MhlKXIE+E82YN+Ve2Ja1E5QzaRQXzsOMer
- y9k0nUf7oP7rp95xnJdhzPu3rv0Bi/99HEkkGRse1nFL+ONlR9AkZ1YxI+o+fE9tfocY
- lUAZTLvbndq001gp0LfLkQNF3Xi3mGutGWxnq3Lw6ccWRiM+2KxtTaPtgHo273Lbvhy1
- E61sWWp9pYArXahGKHKe5XXsQ/FJftaE3AseGTt8R8di74Oixfx5YYSqB8+pxvz3lXHD
- g+mQ==
-X-Gm-Message-State: ANoB5pnoOJ6RbaIdwDaLJ4zUe0gLAbpyJz5RL7uYyZWBpRlYaWUtcVuQ
- T1Z6AQa+SQq6QqFiseMks/K24JC/wlvPbv3OjRGOl7MNm1O4QhUSGe+jCESN7CaubUgsNovLnLn
- fG+SxkCBF9E7WCQWXJ21PWQS3SCmLePI=
-X-Received: by 2002:a05:6870:b9b:b0:144:b22a:38d3 with SMTP id
- lg27-20020a0568700b9b00b00144b22a38d3mr105499oab.280.1670213933142; 
- Sun, 04 Dec 2022 20:18:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5rBm3UpRT7Y2YAJ85sEgwxvrT2sF2nKVW+at2jApJ7SiJ5RVrvSakTh0VOgu0/5+RuwyyNFXiEzlNje721nAc=
-X-Received: by 2002:a05:6870:b9b:b0:144:b22a:38d3 with SMTP id
- lg27-20020a0568700b9b00b00144b22a38d3mr105492oab.280.1670213932909; Sun, 04
- Dec 2022 20:18:52 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=16FNkYMh+2XbM12YsiJDu5IX+R+EaCelhn86Et7G2GE=;
+ b=YH81RjZmTJnQnEK/G4+7oYPj0CGh225tN9teRlvr0s9m6bkoIg5i5r5645euaeMce/
+ sxkGyJpjK7SKQqy2PYKIWkt35zWFIotgTlUOkbPz6vqZ2wJmJ0XS45sXQnvTYdxMxtbv
+ dYAbAwe3AfklUwq+w0modffbWYvep9amkKRTx+SAQ3Aj6hCe+N0Rh7vyS+DMz1rSkAq8
+ Lx37JH0RU7jKUYWIB5PEoKDW6QT3GljpI0H+XoCJECm88L1InCIDboBxy4YrBs0ma84g
+ ZAOjeq85j6sqKDgmg25aWaIvzZrrdw33zEauzprAqLoTKDIaqtgV60mioUqIiPEbwHOw
+ H5Dw==
+X-Gm-Message-State: ANoB5pnohd4JYIDDAmIUuKf1SGpOWZ24iIKXSWO0FlQmHPYKwLXD4vgh
+ 8zibucJmWfssYl4TtGuQJWlFKdK0XpGcn7wJM6oqgTxldWpJ59F9OZHiU5vY3dtV+9eqKq3eyPc
+ e1Pv/6wOKHZslaiZZhmafBMN9qnva0Og=
+X-Received: by 2002:a4a:b145:0:b0:49f:449a:5f6c with SMTP id
+ e5-20020a4ab145000000b0049f449a5f6cmr25633741ooo.93.1670214211774; 
+ Sun, 04 Dec 2022 20:23:31 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5YjjUCvjT3Ns0icv1jDADvSjVsyTXETmJzsF08DW5hwgbuvx8CcdvuGvH52P0TeyUsQCItYTZ7TZENejyaQXA=
+X-Received: by 2002:a4a:b145:0:b0:49f:449a:5f6c with SMTP id
+ e5-20020a4ab145000000b0049f449a5f6cmr25633733ooo.93.1670214211513; Sun, 04
+ Dec 2022 20:23:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20221130081120.2620722-1-lulu@redhat.com>
- <CACGkMEtnvQwsVTqtGLhPu8eT=3=Q-=RfVQ596qCnJYRKzQa_GA@mail.gmail.com>
- <CACLfguV2TZWUE-MPeYbrCkAjsNy=VhyYYf0xX+o=xp0VVE1bgA@mail.gmail.com>
-In-Reply-To: <CACLfguV2TZWUE-MPeYbrCkAjsNy=VhyYYf0xX+o=xp0VVE1bgA@mail.gmail.com>
+References: <20221201162501.3864692-1-peterx@redhat.com>
+In-Reply-To: <20221201162501.3864692-1-peterx@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 5 Dec 2022 12:18:42 +0800
-Message-ID: <CACGkMEt8847E56onaRxjVm_SQ6LbAYru3gs=_n=QWF8=yOSgtw@mail.gmail.com>
-Subject: Re: [PATCH] vhost: Not return fail while the device does not support
- send_iotlb_msg
-To: Cindy Lu <lulu@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org
+Date: Mon, 5 Dec 2022 12:23:20 +0800
+Message-ID: <CACGkMEu2NrYULRLZAUNbp5SAUVPb8nMZb9=3=JWFHciC7FAHkg@mail.gmail.com>
+Subject: Re: [PATCH] intel-iommu: Document iova_tree
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Yi Liu <yi.l.liu@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -96,123 +93,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 3, 2022 at 3:38 PM Cindy Lu <lulu@redhat.com> wrote:
+On Fri, Dec 2, 2022 at 12:25 AM Peter Xu <peterx@redhat.com> wrote:
 >
-> On Thu, 1 Dec 2022 at 16:49, Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Wed, Nov 30, 2022 at 4:11 PM Cindy Lu <lulu@redhat.com> wrote:
-> > >
-> > > Some device does not support vhost_send_device_iotlb_msg()
-> > > such as vDPA device, which is as expected. So we should not
-> > > return fail here.
-
-I don't see why vDPA doesn't support this function?
-
-> >
-> > Please explain in which case you may hit the -ENODEV and what's the
-> > side effect of this.
-> >
-> > Thanks
-> >
-> this issue was found during the test of virtio-iommu
-> the step is
-> 1. while load the VM with qemu
->   -device virtio-iommu-pci \
->   -device virtio-net-pci,netdev=3Dvhost-vdpa0,disable-legacy=3Don,disable=
--modern=3Doff,iommu_platform=3Don\
->   -netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-0,id=3Dvhost-vdpa0=
-\
-> 2.  the guest vm's CMDLINE //proc/cmdline don't have  iommu=3Dpt
-> there will be a lot error message during loading VM/runing traffic
-> ysteqemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> mqemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> dqemu-system-x86_64: Fail to invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> -resolved.=E2=80=A6e - Network Name Resolution...qemu-system-x86_64: Fail=
- to
-> invalidate device iotlb
-> qemu-system-x86_64: Fail to invalidate device iotlb
-> .....
-> and the vdpa port in guest VM doesn't working  well
+> It seems not super clear on when iova_tree is used, and why.  Add a rich
+> comment above iova_tree to track why we needed the iova_tree, and when we
+> need it.
 >
-> With this fix the guest VM load without error message and the vdpa
-> port working correctly at the
-> same setting
-> [root@ubuntunew ~]# ping 111.1.1.2
-> PING 111.1.1.2 (111.1.1.2) 56(84) bytes of data.
-> 64 bytes from 111.1.1.2: icmp_seq=3D1 ttl=3D64 time=3D25.0 ms
-> 64 bytes from 111.1.1.2: icmp_seq=3D2 ttl=3D64 time=3D22.0 ms
-> 64 bytes from 111.1.1.2: icmp_seq=3D3 ttl=3D64 time=3D24.3 ms
+> Suggested-by: Jason Wang <jasowang@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  include/hw/i386/intel_iommu.h | 30 +++++++++++++++++++++++++++++-
+>  1 file changed, 29 insertions(+), 1 deletion(-)
 >
-> Thansk
-> Cindy
->
-> > >
-> > > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> > > ---
-> > >  hw/virtio/vhost-backend.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-> > > index 8e581575c9..9321ed9031 100644
-> > > --- a/hw/virtio/vhost-backend.c
-> > > +++ b/hw/virtio/vhost-backend.c
-> > > @@ -360,7 +360,7 @@ int vhost_backend_update_device_iotlb(struct vhos=
-t_dev *dev,
-> > >      if (dev->vhost_ops && dev->vhost_ops->vhost_send_device_iotlb_ms=
-g)
-> > >          return dev->vhost_ops->vhost_send_device_iotlb_msg(dev, &ims=
-g);
+> diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+> index 46d973e629..8d130ab2e3 100644
+> --- a/include/hw/i386/intel_iommu.h
+> +++ b/include/hw/i386/intel_iommu.h
+> @@ -109,7 +109,35 @@ struct VTDAddressSpace {
+>      QLIST_ENTRY(VTDAddressSpace) next;
+>      /* Superset of notifier flags that this address space has */
+>      IOMMUNotifierFlag notifier_flags;
+> -    IOVATree *iova_tree;          /* Traces mapped IOVA ranges */
+> +    /*
+> +     * @iova_tree traces mapped IOVA ranges.
+> +     *
+> +     * The tree is not needed if no MAP notifiers is registered with
+> +     * current VTD address space, because all UNMAP (including iotlb or
+> +     * dev-iotlb) events can be transparently delivered to !MAP iommu
+> +     * notifiers.
 
-We need to figure out why we can get vhost_iotlb_miss() here. And if
-it is needed, we need to implement the ops or document why it is not
-needed here.
+So this means the UNMAP notifier doesn't need to be as accurate as
+MAP. (Should we document it in the notifier headers)?
 
-It seems to be here:
+For MAP[a, b] MAP[b, c] we can do a UNMAP[a. c].
 
+> +     *
+> +     * The tree OTOH is required for MAP typed iommu notifiers for a few
+> +     * reasons.
+> +     *
+> +     * Firstly, there's no way to identify whether an PSI event is MAP or
+> +     * UNMAP within the PSI message itself.  Without having prior knowledge
+> +     * of existing state vIOMMU doesn't know whether it should notify MAP
+> +     * or UNMAP for a PSI message it received.
+> +     *
+> +     * Secondly, PSI received from guest driver (or even a large PSI can
+> +     * grow into a DSI at least with Linux intel-iommu driver) can be
+> +     * larger in range than the newly mapped ranges for either MAP or UNMAP
+> +     * events.
 
-        /* Update used ring information for IOTLB to work correctly,
-         * vhost-kernel code requires for this.*/
-        for (i =3D 0; i < hdev->nvqs; ++i) {
-            struct vhost_virtqueue *vq =3D hdev->vqs + i;
-=3D>          vhost_device_iotlb_miss(hdev, vq->used_phys, true);
-        }
-
-The code is only needed for the kernel backend (vhost_init_used()
-requires it), so let's try to skip it for other backeds here.
+Yes, so I think we need a document that the UNMAP handler should be
+prepared for this.
 
 Thanks
 
-> > >
-> > > -    return -ENODEV;
-> > > +    return 0;
-> > >  }
-> > >
-> > >  int vhost_backend_invalidate_device_iotlb(struct vhost_dev *dev,
-> > > @@ -375,7 +375,7 @@ int vhost_backend_invalidate_device_iotlb(struct =
-vhost_dev *dev,
-> > >      if (dev->vhost_ops && dev->vhost_ops->vhost_send_device_iotlb_ms=
-g)
-> > >          return dev->vhost_ops->vhost_send_device_iotlb_msg(dev, &ims=
-g);
-> > >
-> > > -    return -ENODEV;
-> > > +    return 0;
-> > >  }
-> > >
-> > >  int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
-> > > --
-> > > 2.34.3
-> > >
-> >
+> If it directly pass-throughs any such event it may confuse
+> +     * the registered drivers (e.g. vfio-pci) on either: (1) trying to map
+> +     * the same region more than once (for VFIO_IOMMU_MAP_DMA, -EEXIST will
+> +     * trigger), or (2) trying to UNMAP a range that is still partially
+> +     * mapped.  That accuracy is not required for UNMAP-only notifiers, but
+> +     * it is a must-to-have for MAP-inclusive notifiers, because the vIOMMU
+> +     * needs to make sure the shadow page table is always in sync with the
+> +     * guest IOMMU pgtables for a device.
+> +     */
+> +    IOVATree *iova_tree;
+>  };
+>
+>  struct VTDIOTLBEntry {
+> --
+> 2.37.3
 >
 
 
