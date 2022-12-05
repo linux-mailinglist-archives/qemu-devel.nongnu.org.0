@@ -2,79 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E11B642828
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 13:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6F2642832
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 13:16:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2AKx-0001AJ-VT; Mon, 05 Dec 2022 07:12:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92])
+	id 1p2ANi-0002kG-8A; Mon, 05 Dec 2022 07:15:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2AKu-00018h-Fs
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:12:41 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2AKn-0006yq-4s
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:12:34 -0500
-Received: by mail-wr1-x429.google.com with SMTP id bx10so18326170wrb.0
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 04:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=s9Nsc3rDMn3lmaN35UE/F0CqI1OwXxSJvqB6cku8uN0=;
- b=EK2zbKQzqrOtqfoCBlPcD2j5jWtg9tfw847FPoRGuMI5N5yRVeK5l9B2O2j+jtOZcr
- bfLpuvQR/FgakgCrx+2F7Gj/xTtZgo0xXpfF9KWSvNFMw0RxpFv9e5HCkIrXAcGI5e1D
- FoO/ZsnYBkig/PZM7KNLglL1hilcGtzfMsNSAmdJZJTJY1iE3FQze9eR0InUShyepIMT
- SgAALeLwgCw6d+huph6hA3nHmJCRxeTmvCv+sWCpBj7UvURwdLlA8LbBQlsZkt9jP6Wf
- 21CVnqv3rVf+VTTm+/UFPSJVdvYFw6Dz8Esc24JoIbXmrZmGEVpAP0Dl60cvucrYdshf
- ROcg==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p2ANZ-0002jq-GQ
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:15:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p2ANX-0007P6-Tf
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 07:15:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670242522;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8KXkeRe4USePCwTTnEYXD7RjNUXHcG+ZYumb4twr4sU=;
+ b=Uc8TrEzmLXJV/RIzQNeElEnH5fYBxogBToeZdXqEjx9It426EdrgevejVeXFjV7r6lVgS6
+ +cFDQwdlbQt4jSbKGJoHWR4TlSTUT2JZxFtLUYTlsu7Xetkr2c+wJO/0TGh9oqjrDF5unz
+ Li+ez9PQIgMUqlF/whsYyGTGJMcLZ2w=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-538-ov4gaawiNum-68Lavv9FCg-1; Mon, 05 Dec 2022 07:15:21 -0500
+X-MC-Unique: ov4gaawiNum-68Lavv9FCg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d4-20020adfa404000000b002421ca8cb07so2221985wra.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 04:15:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s9Nsc3rDMn3lmaN35UE/F0CqI1OwXxSJvqB6cku8uN0=;
- b=S0NM2tSXV90khvnP1qkC7HFLL70U6QlqQ30//QGnBJQz+tFK+XX7GwbhUHudSNi81Q
- HAa36QT0e/OcZoOPyH5v7+TYO+yzaCtaGIdZShLhrUmkysIS+zY63plrw2iiDMAKTbxH
- a1FmZRcCE0vh11yCOKu8mHwb509+avnyMqK25PTZOPfX+0mw0llPZeUM7tSSuhZ3hE00
- BlVLxEuRwIrITK+3xPyWL2q2IeZSWrYRsy/7j/PnT2iIQMv/b/A9YgJz0GbRxy4jbJY7
- zv3r69iBDA98akR2aP3IkbdBViyHH5H6vgVf/elL/14c8z3hb72DaFRRRyJp65yy1+aw
- NptA==
-X-Gm-Message-State: ANoB5pn29qyFHDZ3ACEwOIjAbpDhmzPkr+LiaOCVxzTmv6nsK+kIeOwo
- +k85pDu8L067x0PURr+3WZBtSA==
-X-Google-Smtp-Source: AA0mqf5BrIWfAQwWDinDfxVSiVTlHUlJGLU8Pkfp5HJZ1IIPbSQ5mwWiGZ3ZcI6ADgU483fUbi/b0A==
-X-Received: by 2002:a5d:4b87:0:b0:242:1d15:914f with SMTP id
- b7-20020a5d4b87000000b002421d15914fmr19700995wrt.426.1670242351212; 
- Mon, 05 Dec 2022 04:12:31 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o35-20020a05600c512300b003a3442f1229sm23093570wms.29.2022.12.05.04.12.30
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8KXkeRe4USePCwTTnEYXD7RjNUXHcG+ZYumb4twr4sU=;
+ b=HM9hm2tXh+FieQnPqUV39Tzm5CQ5Vgm1UFFisInPJwUtOkB0qj9h2RCI/+0YECIthj
+ EFnLfEvKApR2VjpMos4HZQeh+lBJ8NyyBb7Nr7LXULnsowf6D6+nFg25bKrqNNFhQXKJ
+ n7uZR3oz6asxw82HvQ03q8hrYakKasWQIPsAboLaJJMa6kzCZ9NbhWrCE7VvjG9IxwAK
+ 9B7n6xe0AzDLYaMzPKUbDBGD1haaw/t5CjK1uNVw/d82IzcXDquXYeL9OdKrwvMIZTrY
+ Ua/tGiPECgCVBeWjMmBXcw+VSCX1pxDBH3QyZKEzDTg1eXYn6nU2nMBCfQaR+prOGWP9
+ V6Ow==
+X-Gm-Message-State: ANoB5pmdAF4BKHTYrg1hhFx2GLGg0GtOK8sR/SBqSGFFLgeekGsu8OM7
+ ZgMhFrsD7Uf7epA/vmbDFO6zvqXqIYGFUegAnYiABvNR0kCS4tc/C1IqmQFTE4zmyw/xtFPggzG
+ jxq6xjtT3cblFJEY=
+X-Received: by 2002:a05:600c:a14:b0:3c7:a5:6113 with SMTP id
+ z20-20020a05600c0a1400b003c700a56113mr49768935wmp.129.1670242519849; 
+ Mon, 05 Dec 2022 04:15:19 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf77YXY0Ka2b4X+Fn67jVOkFNnMH2kWYgUnK5DHh4orusnOqLreeNcVpJo4TDyXWVDz28glIqQ==
+X-Received: by 2002:a05:600c:a14:b0:3c7:a5:6113 with SMTP id
+ z20-20020a05600c0a1400b003c700a56113mr49768916wmp.129.1670242519494; 
+ Mon, 05 Dec 2022 04:15:19 -0800 (PST)
+Received: from ?IPV6:2003:cb:c701:fe00:a7c9:b0d6:909d:124a?
+ (p200300cbc701fe00a7c9b0d6909d124a.dip0.t-ipconnect.de.
+ [2003:cb:c701:fe00:a7c9:b0d6:909d:124a])
+ by smtp.gmail.com with ESMTPSA id
+ b12-20020a5d634c000000b00241e8d00b79sm17462258wrw.54.2022.12.05.04.15.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Dec 2022 04:12:30 -0800 (PST)
-Message-ID: <ea126bde-a747-7372-3d23-06f20d4f896d@linaro.org>
-Date: Mon, 5 Dec 2022 13:12:29 +0100
+ Mon, 05 Dec 2022 04:15:19 -0800 (PST)
+Message-ID: <60e325da-3d6e-cf46-f73d-9777778ef081@redhat.com>
+Date: Mon, 5 Dec 2022 13:15:18 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
 Subject: Re: [PATCH] memory: dump HPA and access type of ramblocks
 Content-Language: en-US
 To: Ted Chen <znscnchen@gmail.com>, pbonzini@redhat.com, peterx@redhat.com,
- david@redhat.com
+ philmd@linaro.org
 Cc: qemu-devel@nongnu.org
 References: <20221205120712.269013-1-znscnchen@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
 In-Reply-To: <20221205120712.269013-1-znscnchen@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,7 +104,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/12/22 13:07, Ted Chen wrote:
+On 05.12.22 13:07, Ted Chen wrote:
 > It's convenient to dump HVA and RW/RO status of a ramblock in "info ramblock"
 > for debug purpose.
 > 
@@ -106,7 +120,43 @@ On 5/12/22 13:07, Ted Chen wrote:
 > ---
 >   softmmu/physmem.c | 14 ++++++++++----
 >   1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 1b606a3002..fed4dfb72c 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -1316,15 +1316,21 @@ GString *ram_block_format(void)
+>       GString *buf = g_string_new("");
+>   
+>       RCU_READ_LOCK_GUARD();
+> -    g_string_append_printf(buf, "%24s %8s  %18s %18s %18s\n",
+> -                           "Block Name", "PSize", "Offset", "Used", "Total");
+> +    g_string_append_printf(buf, "%24s %8s  %18s %18s %18s %18s %3s\n",
+> +                           "Block Name", "PSize", "Offset", "Used", "Total",
+> +                           "HVA", "RO");
+> +
+>       RAMBLOCK_FOREACH(block) {
+>           psize = size_to_str(block->page_size);
+>           g_string_append_printf(buf, "%24s %8s  0x%016" PRIx64 " 0x%016" PRIx64
+> -                               " 0x%016" PRIx64 "\n", block->idstr, psize,
+> +                               " 0x%016" PRIx64 " 0x%016" PRIx64 " %3s\n",
+> +                               block->idstr, psize,
+>                                  (uint64_t)block->offset,
+>                                  (uint64_t)block->used_length,
+> -                               (uint64_t)block->max_length);
+> +                               (uint64_t)block->max_length,
+> +                               (uint64_t)block->host,
+> +                               block->mr->readonly ? "ro" : "rw");
+> +
+>           g_free(psize);
+>       }
+>   
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
