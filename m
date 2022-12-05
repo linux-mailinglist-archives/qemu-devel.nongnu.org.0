@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF156420FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 02:12:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0388642234
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 05:13:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2005-000628-Bs; Sun, 04 Dec 2022 20:10:29 -0500
+	id 1p22qA-00072e-90; Sun, 04 Dec 2022 23:12:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2001-000620-Te
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 20:10:25 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2000-0004zl-5j
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 20:10:25 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id n205so11408508oib.1
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 17:10:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=k8d73uzvP/4e8u6Ac5c5NQILt5ROGzeMCAu9322ulwg=;
- b=uajv435Al94lR+WOd9PzlPEW+V4teqyD4/2iYtNgZ9oe/P6rLJz6ls47Ye4EY0+3ev
- u63ZN22LZabCuZhlBg6aHfsyqfxZLMgfCZ04evh6nMU2jenCXE5G+35lBWyu29VFHo3J
- 5V4l+Dwj6HQJQcbezjLS5Wm4YDQsECzHLTHeFIRZIvYrTDxVN5P5v9VtkMB/dYJ+FQ5/
- nSMVdeXN6jfk24Zm/xw+APO4KyAB5u8lht/ofX9Ytk/9x9qFNNnI1NvpxMwD0+iJn0Z1
- 8vNhQn0AfXeejCefrJ1gMFYSFWbUKuOx0N9gGNwIxt37bCDRTSwn4jtCZCDqqnjziQt+
- 48xQ==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p22q7-00072U-2h
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:12:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p22q3-0000Dj-M8
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:12:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670213538;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FquIk0gpRbAfM46HQrZ3c+t3y1a3l70Vy5WZGsBcvyc=;
+ b=Vq3rDvH6gO/muldmbS3ROTGcfhl6bJSmmKfs6tassge1WyF2dbGbnuTaNs2b994T0NM98A
+ HpHQlrbZd4C9iRCLxDzyokwK6p3f2eljKRl0VKOFqYhv9Nye3XZoXSyxfF6B/G/yYy1HEM
+ Oiup0EGuBhje/TgTA3YqkDcI/+8XqbE=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-288-8xzlvctwNLetx_1WKBI-8Q-1; Sun, 04 Dec 2022 23:12:17 -0500
+X-MC-Unique: 8xzlvctwNLetx_1WKBI-8Q-1
+Received: by mail-oo1-f72.google.com with SMTP id
+ h4-20020a4a6b44000000b004a0a74f306aso1922933oof.2
+ for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 20:12:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k8d73uzvP/4e8u6Ac5c5NQILt5ROGzeMCAu9322ulwg=;
- b=LIzWaWm1fZK41FgQ1Fa22Ace9ZQjbLAiEU4PbLVpaLTEcVCuYbtr7Vg8tac+P1HrMA
- C5dsiM8+il4cIA0T8ROwK8bDZJZv3UhgQ8zDRzKvm5GP8M70Kgc9iZbtWMQstvM9A8GT
- LB3dyuYMEGtExM1RUH8a1w8Y2+uvcfbdJ+vIwShGb0tLy2sX49No9onMbheRrOZGXl76
- 1bueA3ZqESG/H04Le739WbQ9DqwX4ubns35JZ9aXkzHIi7oXrGrMYxh92IuXlC+EjG9g
- G6QTx3wupFyAad52H7YFFND2F7e4waOsAmFeP/DKm5wWBFXez00n2swmg743O3VnHms7
- 4/7A==
-X-Gm-Message-State: ANoB5pl/k9QOOMYbD54rH6yruZYJzNnrzM25EyIsvcgtAZS4XidjDi92
- YdaAFdh8J0GnJZ7oYZnGCSnpaw==
-X-Google-Smtp-Source: AA0mqf6hzYx+9czRA9xnxikrK2AmbtgBXF/AQGjulmHH7EYszCTDn5Xd4vUjO2XwA+VyNoCxCYB9Sw==
-X-Received: by 2002:a54:478d:0:b0:35a:582b:e0f5 with SMTP id
- o13-20020a54478d000000b0035a582be0f5mr29111601oic.164.1670202621930; 
- Sun, 04 Dec 2022 17:10:21 -0800 (PST)
-Received: from ?IPV6:2806:102e:18:70b5:fe5d:39e0:b5ba:592?
- ([2806:102e:18:70b5:fe5d:39e0:b5ba:592])
- by smtp.gmail.com with ESMTPSA id
- k203-20020aca3dd4000000b0035763a9a36csm6212694oia.44.2022.12.04.17.10.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Dec 2022 17:10:21 -0800 (PST)
-Message-ID: <c925319c-c7ad-07de-544f-afff0d0884d7@linaro.org>
-Date: Sun, 4 Dec 2022 19:10:16 -0600
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FquIk0gpRbAfM46HQrZ3c+t3y1a3l70Vy5WZGsBcvyc=;
+ b=NsRp6rY+vrGHCEkuslegR7rGLOQaga3sjk9W9IHiJte8bVZSkcCL+M6NfnQt+4r12K
+ X+ybzMkThFekPRCjsCPpglTKWVm45O8WLCF1+zKryPTzqDehf7UKL16AR0HymDZ8U78J
+ qTAO9OAmcICL67UT3LYxJeVyMhgfyidvrY7S+ezOlyj/IGHK+IZj87p+EnK4M5eQf2pz
+ I4GBkYu41PjP3AJP1VxAKOlkYAuwkh0bkNmFU8B8nyyg5B7TNAYDjccjcLMyn2X6O7OG
+ HfKUR3UQ8/AfuQlQqMYfl1FxP3+zf3l0h/y4DC0X9Ash2FcPIp0oeKcavPBb0vKac9nT
+ UWaQ==
+X-Gm-Message-State: ANoB5pnZaFfG3DigGI0hJIUjPkYh78b7QEsYCqCiXoky5QpKjO3dLQ7u
+ q7ZEFSH9DPjSxhfRG5bXF2rIsJ0qKe5KJC+k3LiVIUn8AE0ZOZPp99ioTq72N6Go8Idx8F32vgh
+ 9TWsAbNVVDmkwjMf/Dp4xIUzL26FVFik=
+X-Received: by 2002:a05:6870:55a9:b0:144:a97b:1ae2 with SMTP id
+ n41-20020a05687055a900b00144a97b1ae2mr613223oao.35.1670213536245; 
+ Sun, 04 Dec 2022 20:12:16 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf50tsPvf2M4q56VH8FH5dJNrFO72JLr9lfPk/znM2mO1sOejEeLmnxnIueevPpCQFHnYXLMNMEPGPm7J4ZpJfc=
+X-Received: by 2002:a05:6870:55a9:b0:144:a97b:1ae2 with SMTP id
+ n41-20020a05687055a900b00144a97b1ae2mr613207oao.35.1670213535890; Sun, 04 Dec
+ 2022 20:12:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] configure: Add --enable-lto
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com
-References: <20221204000340.282718-1-richard.henderson@linaro.org>
- <CAFEAcA87iyOWfAH-xKX7qt_y61A8ET-QHdz6x20rkKc3MeZMEA@mail.gmail.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA87iyOWfAH-xKX7qt_y61A8ET-QHdz6x20rkKc3MeZMEA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-4-jasowang@redhat.com> <Y4Yr5WvfioOJWOEX@x1n>
+ <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
+ <Y4d0HokcV/tg0wlk@x1n>
+ <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
+ <Y4jBMkNEFqUA7edN@x1n>
+In-Reply-To: <Y4jBMkNEFqUA7edN@x1n>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 5 Dec 2022 12:12:04 +0800
+Message-ID: <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
+To: Peter Xu <peterx@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com, 
+ viktor@daynix.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,36 +97,249 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/4/22 11:40, Peter Maydell wrote:
-> On Sun, 4 Dec 2022 at 00:04, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Separately control b_lto without --enable-cfi.
->> Also add --disable-lto for completeness.
-> 
-> Before this patch, CFI defaults to false and therefore LTO
-> also defaults to false. After this patch, LTO defaults to
-> true even if CFI is false. Intentional change ?
-
-Nope.  Oops.
-
-> Do we have figures for whether LTO produces an interesting
-> performance improvement ?
-
-No idea.  I wrote this after finding a bug report in which someone tried to add -flto via 
---extra-cflags.
-
-> We should probably complain if the user tries '--enable-cfi --disable-lto'
-> rather than silently doing something that presumably doesn't work.
-
-We do, in meson.build:
-
-if get_option('cfi')
-   cfi_flags=[]
-   # Check for dependency on LTO
-   if not get_option('b_lto')
-     error('Selected Control-Flow Integrity but LTO is disabled')
+`
 
 
-r~
+On Thu, Dec 1, 2022 at 10:59 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Thu, Dec 01, 2022 at 04:35:48PM +0800, Jason Wang wrote:
+> > On Wed, Nov 30, 2022 at 11:17 PM Peter Xu <peterx@redhat.com> wrote:
+> > >
+> > > On Wed, Nov 30, 2022 at 02:33:51PM +0800, Jason Wang wrote:
+> > > > On Tue, Nov 29, 2022 at 11:57 PM Peter Xu <peterx@redhat.com> wrote:
+> > > > >
+> > > > > On Tue, Nov 29, 2022 at 04:10:37PM +0800, Jason Wang wrote:
+> > > > > > The IOVA tree is only built during page walk this breaks the device
+> > > > > > that tries to use UNMAP notifier only. One example is vhost-net, it
+> > > > > > tries to use UNMAP notifier when vIOMMU doesn't support DEVIOTLB_UNMAP
+> > > > > > notifier (e.g when dt mode is not enabled). The interesting part is
+> > > > > > that it doesn't use MAP since it can query the IOMMU translation by
+> > > > > > itself upon a IOTLB miss.
+> > > > > >
+> > > > > > This doesn't work since Qemu doesn't build IOVA tree in IOMMU
+> > > > > > translation which means the UNMAP notifier won't be triggered during
+> > > > > > the page walk since Qemu think it is never mapped. This could be
+> > > > > > noticed when vIOMMU is used with vhost_net but dt is disabled.
+> > > > > >
+> > > > > > Fixing this by build the iova tree during IOMMU translation, this
+> > > > > > makes sure the UNMAP notifier event could be identified during page
+> > > > > > walk. And we need to walk page table not only for UNMAP notifier but
+> > > > > > for MAP notifier during PSI.
+> > > > > >
+> > > > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > > > > ---
+> > > > > >  hw/i386/intel_iommu.c | 43 ++++++++++++++++++-------------------------
+> > > > > >  1 file changed, 18 insertions(+), 25 deletions(-)
+> > > > > >
+> > > > > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > > > > index d025ef2873..edeb62f4b2 100644
+> > > > > > --- a/hw/i386/intel_iommu.c
+> > > > > > +++ b/hw/i386/intel_iommu.c
+> > > > > > @@ -1834,6 +1834,8 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+> > > > > >      uint8_t access_flags;
+> > > > > >      bool rid2pasid = (pasid == PCI_NO_PASID) && s->root_scalable;
+> > > > > >      VTDIOTLBEntry *iotlb_entry;
+> > > > > > +    const DMAMap *mapped;
+> > > > > > +    DMAMap target;
+> > > > > >
+> > > > > >      /*
+> > > > > >       * We have standalone memory region for interrupt addresses, we
+> > > > > > @@ -1954,6 +1956,21 @@ out:
+> > > > > >      entry->translated_addr = vtd_get_slpte_addr(slpte, s->aw_bits) & page_mask;
+> > > > > >      entry->addr_mask = ~page_mask;
+> > > > > >      entry->perm = access_flags;
+> > > > > > +
+> > > > > > +    target.iova = entry->iova;
+> > > > > > +    target.size = entry->addr_mask;
+> > > > > > +    target.translated_addr = entry->translated_addr;
+> > > > > > +    target.perm = entry->perm;
+> > > > > > +
+> > > > > > +    mapped = iova_tree_find(vtd_as->iova_tree, &target);
+> > > > > > +    if (!mapped) {
+> > > > > > +        /* To make UNMAP notifier work, we need build iova tree here
+> > > > > > +         * in order to have the UNMAP iommu notifier to be triggered
+> > > > > > +         * during the page walk.
+> > > > > > +         */
+> > > > > > +        iova_tree_insert(vtd_as->iova_tree, &target);
+> > > > > > +    }
+> > > > > > +
+> > > > > >      return true;
+> > > > > >
+> > > > > >  error:
+> > > > > > @@ -2161,31 +2178,7 @@ static void vtd_iotlb_page_invalidate_notify(IntelIOMMUState *s,
+> > > > > >          ret = vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
+> > > > > >                                         vtd_as->devfn, &ce);
+> > > > > >          if (!ret && domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid)) {
+> > > > > > -            if (vtd_as_has_map_notifier(vtd_as)) {
+> > > > > > -                /*
+> > > > > > -                 * As long as we have MAP notifications registered in
+> > > > > > -                 * any of our IOMMU notifiers, we need to sync the
+> > > > > > -                 * shadow page table.
+> > > > > > -                 */
+> > > > > > -                vtd_sync_shadow_page_table_range(vtd_as, &ce, addr, size);
+> > > > > > -            } else {
+> > > > > > -                /*
+> > > > > > -                 * For UNMAP-only notifiers, we don't need to walk the
+> > > > > > -                 * page tables.  We just deliver the PSI down to
+> > > > > > -                 * invalidate caches.
+> > > > > > -                 */
+> > > > > > -                IOMMUTLBEvent event = {
+> > > > > > -                    .type = IOMMU_NOTIFIER_UNMAP,
+> > > > > > -                    .entry = {
+> > > > > > -                        .target_as = &address_space_memory,
+> > > > > > -                        .iova = addr,
+> > > > > > -                        .translated_addr = 0,
+> > > > > > -                        .addr_mask = size - 1,
+> > > > > > -                        .perm = IOMMU_NONE,
+> > > > > > -                    },
+> > > > > > -                };
+> > > > > > -                memory_region_notify_iommu(&vtd_as->iommu, 0, event);
+>
+> [1]
+>
+> > > > >
+> > > > > Isn't this path the one that will be responsible for pass-through the UNMAP
+> > > > > events from guest to vhost when there's no MAP notifier requested?
+> > > >
+> > > > Yes, but it doesn't do the iova tree removing. More below.
+> > > >
+> > > > >
+> > > > > At least that's what I expected when introducing the iova tree, because for
+> > > > > unmap-only device hierachy I thought we didn't need the tree at all.
+> > > >
+> > > > Then the problem is the UNMAP notifier won't be trigger at all during
+> > > > DSI page walk in vtd_page_walk_one() because there's no DMAMap stored
+> > > > in the iova tree.:
+> > > >
+> > > >         if (!mapped) {
+> > > >             /* Skip since we didn't map this range at all */
+> > > >             trace_vtd_page_walk_one_skip_unmap(entry->iova, entry->addr_mask);
+> > > >             return 0;
+> > > >         }
+> > > >
+> > > > So I choose to build the iova tree in translate then we won't go
+> > > > within the above condition.
+> > >
+> > > That's also why it's weird because IIUC we should never walk a page table
+> > > at all if there's no MAP notifier regiestered.
+> >
+> > If this is true, we probably need to document this somewhere.
+>
+> Agree.  I'll post a patch.
+>
+> >
+> > >
+> > > When I'm looking at the walk callers I found that indeed there's one path
+> > > missing where can cause it to actually walk the pgtables without !MAP, then
+> > > I also noticed commit f7701e2c7983b6, and I'm wondering what we really want
+> > > is something like this:
+> > >
+> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > index a08ee85edf..c46f3db992 100644
+> > > --- a/hw/i386/intel_iommu.c
+> > > +++ b/hw/i386/intel_iommu.c
+> > > @@ -1536,7 +1536,7 @@ static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
+> > >      VTDContextEntry ce;
+> > >      IOMMUNotifier *n;
+> > >
+> > > -    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
+> > > +    if (!vtd_as_has_map_notifier(vtd_as)) {
+> > >          return 0;
+> > >      }
+> > >
+> > > So I'm not sure whether this patch is the problem resolver; so far I feel
+> > > like it's patch 2 who does the real fix.  Then we can have the above
+> > > oneliner so we stop any walks when there's no map notifiers.
+> > >
+> > > Thanks,
+> >
+> > I may miss something but as state above, the problem is a missing
+> > UNMAP notification during DSI when there's only UNMAP notifier.
+>
+> I got confused too on why we didn't notify UNMAP for DSI already, that's so
+> weird because I thought it should be there or it should be broken for a
+> long time.. as we discussed multiple times around this one:
+>
+>                 /*
+>                  * Fallback to domain selective flush if no PSI support or
+>                  * the size is too big.
+>                  */
+>                 if (!cap_pgsel_inv(iommu->cap) ||
+>                     mask > cap_max_amask_val(iommu->cap))
+>                         iommu->flush.flush_iotlb(iommu, did, 0, 0,
+>                                                         DMA_TLB_DSI_FLUSH);
+>                 else
+>                         iommu->flush.flush_iotlb(iommu, did, addr | ih, mask,
+>                                                         DMA_TLB_PSI_FLUSH);
+>
+> I guess we were just always lucky?..
+
+Probably, or the reason is that we a notifier with UNMAP only is not
+commonly used before until patch 2.
+
+>
+> >
+> > To solve it we might have two ways:
+> >
+> > 1) build the iova tree during iommu translation then we can correctly
+> > trigger UNMAP during page walk caused by DSI
+> > 2) don't do the iova tree walk for !MAP notifier, need new logic to
+> > trigger UNMAP notifier in PSI/DSI
+> >
+> > This patch choose to go 1) (which seems easier at least for -stable).
+> > Do you mean you prefer to go with 2)?
+>
+> Yes.
+>
+> IOVA tree is unnecessary overhead IMHO because UNMAP (both IOTLB or
+> DEVIOTLB unmap) shouldn't need that complexity at all.  Using the iova tree
+> can be accurate on which page got unmapped when the kernel driver used DSI
+> for a large PSI as shown above, however IMHO it needs more justification
+> that the pgtable walk is worth the effort.  Not to mention if a device in
+> QEMU that wants to use the iova tree for some reason, one can just register
+> with MAP and ignore all MAP events, while by default we keep UNMAP simple.
+>
+> So we could do:
+>
+>   (1) Rename vtd_sync_shadow_page_table() to vtd_sync_domain()
+>   (2) instead of optimizing dev-iotlb only there:
+>
+>       if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
+>           return 0;
+>       }
+>
+>       we should firstly check if UNMAP or DEVUNMAP registered, we directly
+>       send a notification to the whole domain.  We need to choose the event
+>       that the register happens with but not both.
+>
+> This also reminded me that whether we should sanity check on iommu
+> notifiers on some invalid cases.  E.g. it seems to me when registered with
+> DEVIOTLB_UNMAP it should not register with either MAP or UNMAP anymore or
+> it doesn't make sense.
+
+It seems it doesn't' harm to allow both UNMAP and DEVIOTLB_UNMAP work.
+
+>
+> One step further, I'm wondering whether the DEV_IOTLB event should exist at
+> all.  Maybe we want to have DEV_IOTLB typed iommu notifier only,
+
+This seems cleaner ( I remember we had some discussion before ).
+
+> but then
+> when we got dev-iotlb PSI/DSI we notify with type=UNMAP just like normal
+> UNMAP events, then in above (2) we can send UNMAP constantly as long as
+> !MAP.  But even if so that'll just be another optional change on top.
+
+I'm fine to go without iova-tree. Would you mind to post patches for
+fix? I can test and include it in this series then.
+
+Thanks
+
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
+
 
