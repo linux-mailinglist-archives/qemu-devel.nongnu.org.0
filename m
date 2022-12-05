@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4501A642EED
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C7F642EF3
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:36:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2FKO-0007qM-Dx; Mon, 05 Dec 2022 12:32:29 -0500
+	id 1p2FKc-0007zN-Os; Mon, 05 Dec 2022 12:32:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+f9b04eb53d39f4899ead+7043+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2FKK-0007ph-En
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:24 -0500
+ id 1p2FKT-0007ve-7H
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:33 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+f9b04eb53d39f4899ead+7043+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2FJx-0007Q3-N2
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:24 -0500
+ id 1p2FJx-0007Pw-Nw
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=oWg3bACyN27qCqd7T3bd4nHSMuqE7sDFmlT8U9gsszA=; b=BTKRTeRmxdwwxkwcK1j8efmH8S
- iQP0B3ueDXYzcckWGhQMGS7AwrzEdNgaq35AZ7GT8lq5agVFat0TUiRHcNVc84vcIl0wjJAPADvG7
- 2ixQj+srdVVz9kFlHI/4WyPUCdlrqI+o8T3pWvgsE2n1GBhes5nPFsy+ylbGkfGvKFRDPD7F5FYzi
- SKM4tsm+suc86UHQO1WoYWWodC7tyT3Drucdizux+kxKfTNKbcy2UaDT01Zt4g9x6Fn01ILFMTwW6
- PIF68/aJqZyIoQF2dKWx1uQtd2mal2ZvYlOBr9bFD0jrQGVvF7lebVVMG94rarvg2zP6Fqq4i1hp5
- gFjUw4Mw==;
+ bh=RC1b0O/SQwuLy4rEZI/XQAlMOsJn5xuUS8NUYYpuR5Y=; b=wLnTPmxZTJ3TOtw3EEm6k2vltB
+ jtgm5zQzlb9m4e2V094yzugUh+PPkutawARrG9IDlaGrZSgpHuAL4rsFnVsw10SbTmnLXPeJyq4OX
+ jK6L3jhSwQZPrS64By+M5Bb7neyKvEYuF5ZlFC+BVgqd2EwjoaewmksBnx8DvDHBlgGnVle6Pf1LQ
+ z1agvbxMwUk8WbeU0y0I0smBVzAO2FzqugnuVD224qGnsN5LUQyFbVynujImtasorlHFeYA+HO+tQ
+ MfjX72/XpdT0TaQIpqI45IDquMGgN0zHg/AKYb7Mo+vbh8QsWEyNzBHo6CkpaUmlBzQmwvaXGDS7P
+ TjDAQikA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2FJw-003TwN-MR; Mon, 05 Dec 2022 17:32:00 +0000
+ id 1p2FJw-003TwS-Mh; Mon, 05 Dec 2022 17:32:00 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p2FJo-002YJw-HF; Mon, 05 Dec 2022 17:31:52 +0000
+ Hat Linux)) id 1p2FJo-002YK0-I0; Mon, 05 Dec 2022 17:31:52 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Joao Martins <joao.m.martins@oracle.com>,
  Ankur Arora <ankur.a.arora@oracle.com>
-Subject: [RFC PATCH 06/21] pc_piix: handle XEN_EMULATE backend init
-Date: Mon,  5 Dec 2022 17:31:22 +0000
-Message-Id: <20221205173137.607044-7-dwmw2@infradead.org>
+Subject: [RFC PATCH 07/21] xen-platform-pci: register xen-mmio as RAM for
+ XEN_EMULATE
+Date: Mon,  5 Dec 2022 17:31:23 +0000
+Message-Id: <20221205173137.607044-8-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221205173137.607044-1-dwmw2@infradead.org>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
@@ -77,97 +78,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-And use newly added xen_emulated_machine_init() to iniitalize
-the xenstore and the sysdev bus for future emulated devices.
+This is a workaround while we find the most elegant solution
+in grant table frames mapping.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Move it to xen-legacy-backend.c]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/pc_piix.c                   |  5 +++++
- hw/xen/xen-legacy-backend.c         | 22 ++++++++++++++++------
- include/hw/xen/xen-legacy-backend.h |  2 ++
- 3 files changed, 23 insertions(+), 6 deletions(-)
+ hw/i386/xen/xen_platform.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 13286d0739..3dcac2f4b6 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -47,6 +47,7 @@
- #include "hw/sysbus.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/xen/xen-x86.h"
-+#include "hw/xen/xen-legacy-backend.h"
- #include "exec/memory.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/piix4.h"
-@@ -155,6 +156,10 @@ static void pc_init1(MachineState *machine,
-             x86ms->above_4g_mem_size = 0;
-             x86ms->below_4g_mem_size = machine->ram_size;
-         }
-+
-+        if (pcms->xen_version && !xen_be_xenstore_open()) {
-+            xen_emulated_machine_init();
-+        }
-     }
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index 914619d140..710039851a 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -469,8 +469,12 @@ static const MemoryRegionOps platform_mmio_handler = {
  
-     pc_machine_init_sgx_epc(pcms);
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 694e7bbc54..60a7bc7ab6 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -31,6 +31,7 @@
- #include "qapi/error.h"
- #include "hw/xen/xen-legacy-backend.h"
- #include "hw/xen/xen_pvdev.h"
-+#include "hw/xen/xen-bus.h"
- #include "monitor/qdev.h"
- 
- DeviceState *xen_sysdev;
-@@ -294,13 +295,15 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
-     xendev->debug      = debug;
-     xendev->local_port = -1;
- 
--    xendev->evtchndev = xenevtchn_open(NULL, 0);
--    if (xendev->evtchndev == NULL) {
--        xen_pv_printf(NULL, 0, "can't open evtchn device\n");
--        qdev_unplug(DEVICE(xendev), NULL);
--        return NULL;
-+    if (xen_mode != XEN_EMULATE) {
-+        xendev->evtchndev = xenevtchn_open(NULL, 0);
-+        if (xendev->evtchndev == NULL) {
-+            xen_pv_printf(NULL, 0, "can't open evtchn device\n");
-+            qdev_unplug(DEVICE(xendev), NULL);
-+            return NULL;
-+        }
-+        qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
-     }
--    qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
- 
-     xen_pv_insert_xendev(xendev);
- 
-@@ -859,3 +862,10 @@ static void xenbe_register_types(void)
+ static void platform_mmio_setup(PCIXenPlatformState *d)
+ {
+-    memory_region_init_io(&d->mmio_bar, OBJECT(d), &platform_mmio_handler, d,
+-                          "xen-mmio", 0x1000000);
++    if (xen_mode == XEN_EMULATE)
++        memory_region_init_ram(&d->mmio_bar, OBJECT(d), "xen-mmio", 0x1000000,
++                               &error_fatal);
++    else
++        memory_region_init_io(&d->mmio_bar, OBJECT(d), &platform_mmio_handler, d,
++                              "xen-mmio", 0x1000000);
  }
  
- type_init(xenbe_register_types)
-+
-+void xen_emulated_machine_init(void)
-+{
-+    xen_bus_init();
-+    xen_be_sysdev_init();
-+    xen_be_register_common();
-+}
-diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-index 0aa171f6c2..aa09015662 100644
---- a/include/hw/xen/xen-legacy-backend.h
-+++ b/include/hw/xen/xen-legacy-backend.h
-@@ -105,4 +105,6 @@ int xen_config_dev_vfb(int vdev, const char *type);
- int xen_config_dev_vkbd(int vdev);
- int xen_config_dev_console(int vdev);
- 
-+void xen_emulated_machine_init(void);
-+
- #endif /* HW_XEN_LEGACY_BACKEND_H */
+ static int xen_platform_post_load(void *opaque, int version_id)
 -- 
 2.35.3
 
