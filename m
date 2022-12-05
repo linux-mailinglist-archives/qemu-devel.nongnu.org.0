@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A16642A8B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 15:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3549642A9F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 15:46:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2CeS-0002nE-1R; Mon, 05 Dec 2022 09:41:00 -0500
+	id 1p2Cj7-0005zl-F6; Mon, 05 Dec 2022 09:45:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2CeO-0002kl-IN
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:40:56 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ id 1p2CiT-0005wj-FX
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:45:11 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2CeM-0008VM-Tr
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:40:56 -0500
-Received: by mail-wr1-x436.google.com with SMTP id d1so18869476wrs.12
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 06:40:54 -0800 (PST)
+ id 1p2CiQ-0000yu-71
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 09:45:08 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ i131-20020a1c3b89000000b003d1cb516ce0so2484994wma.4
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 06:45:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1h80Rz1J0z2OeEGFTToD3kkyn7zPM0iLlo4GpuXHEZs=;
- b=vWnwjNOzmPsil1u5lF5imwgk5Bh/7ixK/DO23TiagCrpI22D8GRi2VY+ZprRJQJEmM
- fah/0gXeAcUWvbwoYWP1LKj1GTeaWKywDlrA21IrOfB9+bsJsTshRfxeX59Qo5e75dL5
- pHhBN16WSxsiqMIflPeW/NKe5TCd9FLToLgiwfwwGycvBF5ACKxd/nPoJ2m/GPi4NwHq
- XgYx/YAWa9iKzoQoJhOKaYi4X0LSts5i+97kyzrSULC14z2CjzOCC3081WVIn9WCxKC3
- +5+ZHzWgfFRJAWwENFkOCJYMz3CQ4WzxPrGiMzYAKgAO8dEkMovA0Kxi++kbOVg+36bu
- E1Ew==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5KKWEJBqv86j6wLbXow1G1PMBdr+r7OSuVBbsOaaXmc=;
+ b=ZpyL9XC/x7dJJK/p650TIRGp2C6kmdY1H1TsPgt9tOM8gtOaYTNXnQwGTDERmeFKFC
+ VfqWrbHhEQUvB4ads3gIeRH1K9avD+L5Nrkuqnt03y7HYfVWX0wz1/fG7EhWJHhva/lb
+ uvHAgcAD87Ec8WNgBfxAksTMAIaBySVkdM31hP+VBxmHGNgmOzcfcd7QMkqFA3B7NhdZ
+ scNadCWaPbBHIipYzG3fnISZKDJk90nXNimHjFGq/GH8FUn0DAnEEKtT+0ixJUWGlQyS
+ q5IlsUuEKOA3/8OuZCbSOom53/8Qt8ivI4pSo0L4bKpptGbQEtSxozEzGjAMKJvZJpvl
+ eafw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1h80Rz1J0z2OeEGFTToD3kkyn7zPM0iLlo4GpuXHEZs=;
- b=CNxo1rEeC9tLCdE7RDstGAJlYPMQJsoPVTinfGu28YvMGY5F+k5YkoReH9AcSYqxRI
- ml9SKKXofGmOxJ6NUWCsNJeOeXlQK1Lge6LVNxZtFcDwndgKybciNoUKYj93vEM5HRBo
- 3loYeM+bSyKTYwQDiiAXLAk1GEZ5uloaLEimwRrClB+FNRjeopmtdEL9wBjdiJtUV4jO
- GcvtMGuCra0tqROrOA1wgYI6ci5AbgmeVVxDhGEgo+JbCOt1xlFhQ0VClwa0qQBPo7RN
- 6uXUx+Iqplkh0T9flZwXaQlWMttN8GF4T+iEwz+T4PyQrQT4o6XMcUSX0e9xt98wZx65
- nVdQ==
-X-Gm-Message-State: ANoB5pmz7KzDGRFw1HTxGCOGbAcN2agyqOyu6m0tYwJsTL2iNRIZ2t4u
- ESBu5b8kuQ6oKQmzeetWZ50/U7S9GuLVIfx3c3xnkw==
-X-Google-Smtp-Source: AA0mqf5fkrfvtJ6Kthl0ZurEXF0X77ZRDLUzc+wgqblYgqG8JpGKFNCpMjcyjJvMJx0ZkC8a8v3oTw3x97l4if0le54=
-X-Received: by 2002:a5d:5a12:0:b0:22e:c2a6:d00d with SMTP id
- bq18-20020a5d5a12000000b0022ec2a6d00dmr44275352wrb.29.1670251253101; Mon, 05
- Dec 2022 06:40:53 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5KKWEJBqv86j6wLbXow1G1PMBdr+r7OSuVBbsOaaXmc=;
+ b=mEjslHLIKIPPCeQF22sW1A9XJWHnRSPpd48z4j9a6lApuN21eetZvKF0Nec/fQfS1Z
+ wqVNeBeyjbkYWsJr9EnwHRMncaSJkkf9ICbve2kUWFanf+drSKaWOT80snXx77eImKpk
+ 7cdEqy+jefjlXYJ2PFHP8+szvg+ibG69e733X85t8rk79N881i9P72HcOH/T3srW+4Jq
+ o47XAjwQtotPXotUrPWUbNkcPyusEkx6baz0nDv4GygFVV0/G7CAHfsA58vPDuSwX10Q
+ OpG8Dy1wn44MHwVMSW7h8JVatBmrtzwfe5Lml9CMtHtcQxeufjSj42/y2MdGNBzQUC0+
+ f8Ig==
+X-Gm-Message-State: ANoB5pmCZcNIK3BGdwGawdlX1LGcBxnO/fT/ufdKJ39KndtbBC6hfq9g
+ 0YX1jcRQ83KjZMJpjzE3vLk8sQediGUJTeFGu83gvA==
+X-Google-Smtp-Source: AA0mqf6wdvdqez7EoWFOhvPXi7Z+Kg2iT8WlI6DTn8oriVqM9uWsitMrUVKfV3B25m2cC+nALOpfaxs372tqB0Vc3Q0=
+X-Received: by 2002:a05:600c:213:b0:3d0:869a:4e59 with SMTP id
+ 19-20020a05600c021300b003d0869a4e59mr10328700wmi.169.1670251504261; Mon, 05
+ Dec 2022 06:45:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20221205080859.2216-1-yangming73@huawei.com>
-In-Reply-To: <20221205080859.2216-1-yangming73@huawei.com>
+References: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
+ <20221127132112.300331-2-tobias.roehmel@rwth-aachen.de>
+In-Reply-To: <20221127132112.300331-2-tobias.roehmel@rwth-aachen.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Dec 2022 14:40:36 +0000
-Message-ID: <CAFEAcA9uXAPo8X0o4D800ZWhi0p6AbN_eDOyAs7-++AS6D8d1Q@mail.gmail.com>
-Subject: Re: [PATCH] net/net.c: Fix qemu crash when hot-pluging a vhost-net
- failed.
-To: Ming Yang <yangming73@huawei.com>
-Cc: qemu-devel@nongnu.org, jasowang@redhat.com, wangzhigang17@huawei.com, 
- linyilu@huawei.com, zhangliang5@huawei.com
+Date: Mon, 5 Dec 2022 14:44:51 +0000
+Message-ID: <CAFEAcA_BAnHXgNnW=UCY8rDuwFY0-qxvjb+i0dkEatv8E2hrMA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/7] target/arm: Don't add all MIDR aliases for cores
+ that implement PMSA
+To: tobias.roehmel@rwth-aachen.de
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,58 +87,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 5 Dec 2022 at 14:24, Ming Yang via <qemu-devel@nongnu.org> wrote:
+On Sun, 27 Nov 2022 at 13:21, <tobias.roehmel@rwth-aachen.de> wrote:
 >
-> Hot-pluging a vhost-net may cause virtual machine crash in following steps:
-> 1. Starting a vm without net devices.
-> 2. Hot-pluging 70 memory devices.
-> 3. Hot-pluging a vhost-net device.
+> From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 >
-> The reason is : if hotplug a vhost-net failed, the nc cannot be found via function qemu_find_netdev, as
-> it has been cleaned up through function qemu_cleanup_net_client. Which leads to the result
-> that assert(nc) failed, then qemu crashed.
+> Cores with PMSA have the MPUIR register which has the
+> same encoding as the MIDR alias with opc2=3D4. So we only
+> add that alias if we are not realizing a core that
+> implements PMSA.
 >
-> While, the root reason is that, in commit 46d4d36d0bf2 if not both has_vhostforce and vhostforce flags
-> are true, the errp would not be set. Then net_init_tap would not return a negative value, fallowed by founding nc
-> and assert nc.
->
-> In this patch, asserting nc is replaced with setting an error message.
->
-> Fixes: 46d4d36d0bf2("tap: setting error appropriately when calling net_init_tap_one()")
-> Signed-off-by: Ming Yang <yangming73@huawei.com>
-> Signed-off-by: Liang Zhang <zhangliang5@huawei.com>
-> ---
->  net/net.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/net/net.c b/net/net.c
-> index 840ad9dca5..1d1d7e54c4 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1103,7 +1103,16 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
->
->      if (is_netdev) {
->          nc = qemu_find_netdev(netdev->id);
-> -        assert(nc);
-> +        /*
-> +         * If the tap of hotpluged net device do not has both has_vhostforce flag and vhostforce flags,
-> +         * when error occurs, the error messags will be report but not set to errp. Thus net_client_init_fun
-> +         * will not return a negatave value. Therefore the value of nc might be NULL. To make qemu robust,
-> +         * it is better to judge if nc is NULL.
-> +         */
-> +        if (!nc) {
-> +            error_setg(errp, "Device '%s' could not be initialized", netdev->id);
-> +            return -1;
-> +        }
->          nc->is_netdev = true;
->      }
+> Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 
-This doesn't look like the right fix to me. If the net_client_init_fun
-doesn't correctly initialize the netdev, it should report that error
-back to the caller. We should make the tap init function correctly
-return an error in this error situation, not work around it in
-the caller. The assert() is correct, because it is detecting a bug
-elsewhere in QEMU that we need to fix.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
