@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7216425AF
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 10:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86DC6425BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 10:25:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p27e6-0001PS-5s; Mon, 05 Dec 2022 04:20:18 -0500
+	id 1p27iI-0002Zg-EK; Mon, 05 Dec 2022 04:24:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p27dv-0001PC-0c
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:20:07 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p27ds-0007Ax-2W
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:20:06 -0500
-Received: from loongson.cn (unknown [123.123.223.32])
- by gateway (Coremail) with SMTP id _____8AxDOu2t41jgD0DAA--.7469S3;
- Mon, 05 Dec 2022 17:19:51 +0800 (CST)
-Received: from [192.168.199.220] (unknown [123.123.223.32])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx_1e0t41jPd0lAA--.27793S3; 
- Mon, 05 Dec 2022 17:19:48 +0800 (CST)
-Message-ID: <72f22429-d51c-b2b8-49c6-59ba7df17ea7@loongson.cn>
-Date: Mon, 5 Dec 2022 17:19:35 +0800
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p27iF-0002Yo-Mb
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:24:35 -0500
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p27i8-0008C0-LK
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:24:32 -0500
+Received: by mail-lf1-x12f.google.com with SMTP id p8so17538576lfu.11
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 01:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Owo0phbbJOrq6sWBiQ2bW5Gab2bMQcmAUmytHNbH9wo=;
+ b=CBfUM4ABoy4rHbnJbQWlgFZPr36WGkyWiutGX6w63I8DmF/IJiild6FcVSNN7OWJZ7
+ pXxUiVma9yq+PhDIrUun9M9Va0gKBpKxjzL4hSd+yyVkziX/hM+hdNnS2HrixHqWqr+w
+ 9uPS+gbUSproyB0am3JO8sKBKWWHQ/lzz53ju3Q567AM4L0/1VsnFw7a7e+xLX5dqtAL
+ ltPfrvJFTtJCH5f/cWONsgU7aRsJDDYFPsxECnuUV1Upx768mYuIz8CszK1XiyhlQVRZ
+ mn1NjlqoOAVwrxhEaj2jBzLXfvyd3qLezPV3GfuypCofEI10LU/+uMeT5vEdTm2OxrYD
+ evrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Owo0phbbJOrq6sWBiQ2bW5Gab2bMQcmAUmytHNbH9wo=;
+ b=FnMsvGHJTMtf2oWqmuDpe9tkUHLzs4sH5Mi8i5ASKTNiAuLs9mXruV6w+9bOtVweuv
+ C+w5cxcdh8eRHgfXWbi6BzO3f1JYMJU+FcJZ2JImx8Y7hmhkEf5Cr2ISgsw19CTM28kS
+ dXUd4jdSx8d4sZOnoOdHZFt8luBQUGfX2t0rOIRqQl931kDw8OjDJxCS3dSAoKoRlrfW
+ s3AxH0kp2KO8GW3pgrcm2IAolQEWnf96MJHmLBIIottRj/ZmHOQ0YY7SRHWx3SOaQMQa
+ 30h9AJd6kIQhaM7wIKREdfMpPRX1oFO/mv6q15OmlHtbjxuuMeJKmdbkvS6a1Q9WMN3L
+ Ui2w==
+X-Gm-Message-State: ANoB5pl5OT7rRB3f8/moX8tRXUNjlxqJ1vR+Agr/mSJ3Z5oJQtrkh9I2
+ wlsIWGO1nUxWc79JLh3+RBrg/2j8sk9eSeFHl0f37g==
+X-Google-Smtp-Source: AA0mqf7hmc7cmV5dRxw88/fxJnTLIThfoQtt0oTYjymTMQQZpTJzvpZeXdF6ZMUHCf5Dbxm0DrPC0sEiLurEnocH1bU=
+X-Received: by 2002:a05:6512:104e:b0:4b5:604a:5b24 with SMTP id
+ c14-20020a056512104e00b004b5604a5b24mr2898439lfb.550.1670232266434; Mon, 05
+ Dec 2022 01:24:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, stefanha@gmail.com,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221202102550.4107344-1-gaosong@loongson.cn>
- <6fe3e752-a39d-38f9-e573-437547d19179@linaro.org>
-From: "gaosong@loongson.cn" <gaosong@loongson.cn>
-In-Reply-To: <6fe3e752-a39d-38f9-e573-437547d19179@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dx_1e0t41jPd0lAA--.27793S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Ww4xAF1UCr17GryDArW5ZFb_yoW8GFyxpr
- 93CFy3Cr18Grn7Jr13J34DJrW5tr1xJw17XF17tFy8GF4UAr1jqr1rXr1vgryUt3y8Gr10
- qr1rKw1UWF45Jr7anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bfxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
- e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
- 0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280
- aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
- xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
- xVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
- C2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
- JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
- WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
- daVFxhVjvjDU0xZFpf9x07jjwZcUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.258,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-6-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221202061347.1070246-6-chao.p.peng@linux.intel.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Mon, 5 Dec 2022 09:23:49 +0000
+Message-ID: <CA+EHjTy5+Ke_7Uh72p--H9kGcE-PK4EVmp7ym6Q1-PO28u6CCQ@mail.gmail.com>
+Subject: Re: [PATCH v10 5/9] KVM: Use gfn instead of hva for mmu_notifier_retry
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+ Naoya Horiguchi <naoya.horiguchi@nec.com>, 
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=tabba@google.com; helo=mail-lf1-x12f.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,48 +107,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Chao,
 
-在 2022/12/5 15:24, Philippe Mathieu-Daudé 写道:
-> On 2/12/22 11:25, Song Gao wrote:
->> The following changes since commit 
->> c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
->>
->>    Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
->>
->> for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0fd:
->>
->>    hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05 
->> +0800)
->>
->> ----------------------------------------------------------------
->> pull for 7.2-rc4
->>
->> We need this patch.
+On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 >
-> FTR this is not a security/regression fix, but a mere feature.
+> Currently in mmu_notifier invalidate path, hva range is recorded and
+> then checked against by mmu_notifier_retry_hva() in the page fault
+> handling path. However, for the to be introduced private memory, a page
+> fault may not have a hva associated, checking gfn(gpa) makes more sense.
 >
-> Certainly not justified for a rc4 IMO.
+> For existing hva based shared memory, gfn is expected to also work. The
+> only downside is when aliasing multiple gfns to a single hva, the
+> current algorithm of checking multiple ranges could result in a much
+> larger range being rejected. Such aliasing should be uncommon, so the
+> impact is expected small.
 >
-We hope LoongArch 7.2 version support pflash,
-otherwise the subsequent BIOS support pflash may qemu 7.2 does not support.
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  arch/x86/kvm/mmu/mmu.c   |  8 +++++---
+>  include/linux/kvm_host.h | 33 +++++++++++++++++++++------------
+>  virt/kvm/kvm_main.c      | 32 +++++++++++++++++++++++---------
+>  3 files changed, 49 insertions(+), 24 deletions(-)
+>
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 4736d7849c60..e2c70b5afa3e 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -4259,7 +4259,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
+>                 return true;
+>
+>         return fault->slot &&
+> -              mmu_invalidate_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
+> +              mmu_invalidate_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
+>  }
+>
+>  static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+> @@ -6098,7 +6098,9 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>
+>         write_lock(&kvm->mmu_lock);
+>
+> -       kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
+> +       kvm_mmu_invalidate_begin(kvm);
+> +
+> +       kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
+>
+>         flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
+>
+> @@ -6112,7 +6114,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>                 kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
+>                                                    gfn_end - gfn_start);
+>
+> -       kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
+> +       kvm_mmu_invalidate_end(kvm);
+>
+>         write_unlock(&kvm->mmu_lock);
+>  }
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 02347e386ea2..3d69484d2704 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -787,8 +787,8 @@ struct kvm {
+>         struct mmu_notifier mmu_notifier;
+>         unsigned long mmu_invalidate_seq;
+>         long mmu_invalidate_in_progress;
+> -       unsigned long mmu_invalidate_range_start;
+> -       unsigned long mmu_invalidate_range_end;
+> +       gfn_t mmu_invalidate_range_start;
+> +       gfn_t mmu_invalidate_range_end;
+>  #endif
+>         struct list_head devices;
+>         u64 manual_dirty_log_protect;
+> @@ -1389,10 +1389,9 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
+>  void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
+>  #endif
+>
+> -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+> -                             unsigned long end);
+> -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
+> -                           unsigned long end);
+> +void kvm_mmu_invalidate_begin(struct kvm *kvm);
+> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end);
+> +void kvm_mmu_invalidate_end(struct kvm *kvm);
+>
+>  long kvm_arch_dev_ioctl(struct file *filp,
+>                         unsigned int ioctl, unsigned long arg);
+> @@ -1963,9 +1962,9 @@ static inline int mmu_invalidate_retry(struct kvm *kvm, unsigned long mmu_seq)
+>         return 0;
+>  }
+>
+> -static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
+> +static inline int mmu_invalidate_retry_gfn(struct kvm *kvm,
+>                                            unsigned long mmu_seq,
+> -                                          unsigned long hva)
+> +                                          gfn_t gfn)
+>  {
+>         lockdep_assert_held(&kvm->mmu_lock);
+>         /*
+> @@ -1974,10 +1973,20 @@ static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
+>          * that might be being invalidated. Note that it may include some false
 
-Thanks.
-Song Gao
->> ----------------------------------------------------------------
->> Xiaojuan Yang (1):
->>        hw/loongarch/virt: Add cfi01 pflash device
->>
->>   hw/loongarch/Kconfig        |  1 +
->>   hw/loongarch/acpi-build.c   | 18 +++++++++++++
->>   hw/loongarch/virt.c         | 62 
->> +++++++++++++++++++++++++++++++++++++++++++++
->>   include/hw/loongarch/virt.h |  5 ++++
->>   4 files changed, 86 insertions(+)
->>
->>
+nit: "might be" (or) "is being"
 
+>          * positives, due to shortcuts when handing concurrent invalidations.
+
+nit: handling
+
+>          */
+> -       if (unlikely(kvm->mmu_invalidate_in_progress) &&
+> -           hva >= kvm->mmu_invalidate_range_start &&
+> -           hva < kvm->mmu_invalidate_range_end)
+> -               return 1;
+> +       if (unlikely(kvm->mmu_invalidate_in_progress)) {
+> +               /*
+> +                * Dropping mmu_lock after bumping mmu_invalidate_in_progress
+> +                * but before updating the range is a KVM bug.
+> +                */
+> +               if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
+> +                                kvm->mmu_invalidate_range_end == INVALID_GPA))
+
+INVALID_GPA is an x86-specific define in
+arch/x86/include/asm/kvm_host.h, so this doesn't build on other
+architectures. The obvious fix is to move it to
+include/linux/kvm_host.h.
+
+Cheers,
+/fuad
+
+> +                       return 1;
+> +
+> +               if (gfn >= kvm->mmu_invalidate_range_start &&
+> +                   gfn < kvm->mmu_invalidate_range_end)
+> +                       return 1;
+> +       }
+> +
+>         if (kvm->mmu_invalidate_seq != mmu_seq)
+>                 return 1;
+>         return 0;
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index b882eb2c76a2..ad55dfbc75d7 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -540,9 +540,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
+>
+>  typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
+>
+> -typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+> -                            unsigned long end);
+> -
+> +typedef void (*on_lock_fn_t)(struct kvm *kvm);
+>  typedef void (*on_unlock_fn_t)(struct kvm *kvm);
+>
+>  struct kvm_hva_range {
+> @@ -628,7 +626,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+>                                 locked = true;
+>                                 KVM_MMU_LOCK(kvm);
+>                                 if (!IS_KVM_NULL_FN(range->on_lock))
+> -                                       range->on_lock(kvm, range->start, range->end);
+> +                                       range->on_lock(kvm);
+> +
+>                                 if (IS_KVM_NULL_FN(range->handler))
+>                                         break;
+>                         }
+> @@ -715,8 +714,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
+>         kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
+>  }
+>
+> -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+> -                             unsigned long end)
+> +void kvm_mmu_invalidate_begin(struct kvm *kvm)
+>  {
+>         /*
+>          * The count increase must become visible at unlock time as no
+> @@ -724,6 +722,17 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+>          * count is also read inside the mmu_lock critical section.
+>          */
+>         kvm->mmu_invalidate_in_progress++;
+> +
+> +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+> +               kvm->mmu_invalidate_range_start = INVALID_GPA;
+> +               kvm->mmu_invalidate_range_end = INVALID_GPA;
+> +       }
+> +}
+> +
+> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
+> +{
+> +       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
+> +
+>         if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+>                 kvm->mmu_invalidate_range_start = start;
+>                 kvm->mmu_invalidate_range_end = end;
+> @@ -744,6 +753,12 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+>         }
+>  }
+>
+> +static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+> +{
+> +       kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
+> +       return kvm_unmap_gfn_range(kvm, range);
+> +}
+> +
+>  static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>                                         const struct mmu_notifier_range *range)
+>  {
+> @@ -752,7 +767,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>                 .start          = range->start,
+>                 .end            = range->end,
+>                 .pte            = __pte(0),
+> -               .handler        = kvm_unmap_gfn_range,
+> +               .handler        = kvm_mmu_unmap_gfn_range,
+>                 .on_lock        = kvm_mmu_invalidate_begin,
+>                 .on_unlock      = kvm_arch_guest_memory_reclaimed,
+>                 .flush_on_ret   = true,
+> @@ -791,8 +806,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>         return 0;
+>  }
+>
+> -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
+> -                           unsigned long end)
+> +void kvm_mmu_invalidate_end(struct kvm *kvm)
+>  {
+>         /*
+>          * This sequence increase will notify the kvm page fault that
+> --
+> 2.25.1
+>
 
