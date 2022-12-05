@@ -2,157 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BBE643951
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 00:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB16D643960
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 00:20:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2KeI-0004lU-Lg; Mon, 05 Dec 2022 18:13:22 -0500
+	id 1p2Kjp-0006aE-Ev; Mon, 05 Dec 2022 18:19:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=331af8b0c=wilfred.mallawa@wdc.com>)
- id 1p2Ke9-0004kv-Js; Mon, 05 Dec 2022 18:13:14 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2Kjn-0006a4-Vm
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 18:19:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=331af8b0c=wilfred.mallawa@wdc.com>)
- id 1p2Ke4-0004QU-VD; Mon, 05 Dec 2022 18:13:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1670281988; x=1701817988;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=eEVTQ9V+RKWBe1amflNaGagrDC49UQPOQTYir+rG2lE=;
- b=J4Fu8Wxab/AQPuiygJV6AQZOj5rA8SsgavVHwhOCDUmw6sL9lXEt3cn6
- 7YNbBTjW++cDf+qqRJUX6qCBpkloc9H/MEOnKezo/LLXAEsEBJdLRYi8f
- BGu8M8doSZRxobLqzitgw1ikNpLxz0IAIJy38sEOWZdlgywm9oA6PoyvF
- +F8h31YnRoPJV9QzmsiqZ6xMNGqyLOkoR0ucWzrw9CKZZuc+QOOptqaXT
- qOtQLWFXb5i3c62P67FuwR9emq5VpHxZToq+Co8actfUUixkIQSFZwbvA
- rSyXn12S6QdyvA1OKPewCxBWimGoNTRG1l2tz275BV1QYsdedRMQ4ldwN Q==;
-X-IronPort-AV: E=Sophos;i="5.96,220,1665417600"; d="scan'208";a="330050337"
-Received: from mail-mw2nam10lp2103.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.103])
- by ob1.hgst.iphmx.com with ESMTP; 06 Dec 2022 07:13:04 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l8M5W/N3UZOLXRvnwAp1uXkIOqZQOZnjmKuORziP9McqeHSp3k49j4c4XhiY1IsbL9iGnfoWR5IF6htR/IV7GcaC825oEwLUGk5jVsyPJVOHZ/RPidbMNakttrs4u/E113W4RMvL8tYERZLrFL5MF8EiYlTD8YNjFEMgNWcSni/bQQxZXk9zZZzhNNASNkN1IBagTargs6vOzgprNERe5Xda2qzgJJAKeqQ7OXDCvTrFRCC4ancsddQBe2E3Cy5cCTzlzepNiF0EtmpXD06w3rMBp1hBwMzOI7A047AXNdMcnHC6oiqKvXgFJEZiMyp/16IWsbEspBVbTZ32raN0kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eEVTQ9V+RKWBe1amflNaGagrDC49UQPOQTYir+rG2lE=;
- b=htWCnWSJ/RfJYW3siqQ1vAmu283QNPd+uKiwqOQwK9x/VDS+H9g+pc8y3C8WzgB2RSmvrHr31XUgCZax5uJ1DMrv7ePXD9X96FZZBpyKgmx++F6/ppmlBOABdARns50Xp5ICTyxojP61q4PcnqGi5R5dNLqdhhQCO8HY9Pf+L6YEQR+064MlqYNd3NetAwtMYNQ4z3DATnTEpIySLMwZcF0HHG0ULARGmdB0nTNpuDkwG6JUu6Pl5rAhbsnstGUkf++HEM9UrBVGuL3dib+NSNGVFtjVl0fCSAkvB54PBfOEiJEuUiT8VnmSqMdbUAO0jbCSTr45fCHhSex9Hjavww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eEVTQ9V+RKWBe1amflNaGagrDC49UQPOQTYir+rG2lE=;
- b=Skn2sRz8pgXlecUTsiRqXe2hjtgYY1FKpD1ZdzB02AcwmjhyCBCAkPC8AonPm/Hb6TIH4PlcoeK8Dg5Hu91MD9Vfoyx5gqmSQ0IJva+dy2Shr6WB2Mz9QXD4TzbKajKAxITyre6ODH6vBdBLsP1lV12ZviJvyeKha20xiRLW8IM=
-Received: from CY4PR04MB0359.namprd04.prod.outlook.com (2603:10b6:903:b3::19)
- by BY5PR04MB6931.namprd04.prod.outlook.com (2603:10b6:a03:22d::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Mon, 5 Dec
- 2022 23:13:02 +0000
-Received: from CY4PR04MB0359.namprd04.prod.outlook.com
- ([fe80::6068:b90:7b94:c255]) by CY4PR04MB0359.namprd04.prod.outlook.com
- ([fe80::6068:b90:7b94:c255%6]) with mapi id 15.20.5880.014; Mon, 5 Dec 2022
- 23:13:02 +0000
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-To: "bmeng@tinylab.org" <bmeng@tinylab.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "bin.meng@windriver.com" <bin.meng@windriver.com>, "palmer@dabbelt.com"
- <palmer@dabbelt.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH] target/riscv: Fix mret exception cause when no pmp rule
- is configured
-Thread-Topic: [PATCH] target/riscv: Fix mret exception cause when no pmp rule
- is configured
-Thread-Index: AQHZCHZ9BpNSiyIBNEmqlCe2D+bFPa5f7U8A
-Date: Mon, 5 Dec 2022 23:13:02 +0000
-Message-ID: <b1fc81557dd150d478521665322edacc408a2f55.camel@wdc.com>
-References: <20221205065303.204095-1-bmeng@tinylab.org>
-In-Reply-To: <20221205065303.204095-1-bmeng@tinylab.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY4PR04MB0359:EE_|BY5PR04MB6931:EE_
-x-ms-office365-filtering-correlation-id: a9a54d05-8f48-414d-bec9-08dad7164225
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VDlBCI+hRY8b2ed7jbyKqGdNbe0Z/PoRGb4exoI7VjIia7+hqfsrUbTh77oHOXrgfVkcluVTvSw29vUPLnj6wCEFSGoY4M1t/Ki6M9MvSDRiyHge61rYAtkCe7nxVXRK1YkIWRXAwVB6IbrlBw3m6nuXB36KD0QhvRwk9DyYnRuoOo27NhDDckcc5vQ/y2ZC77f991ubMOl6HjbMl7ski3mkZNAqVPEt6icGQEMOfNx9WpxTziJvRSMRKJ7WHVSJs0+coGjlS1NgD5dUPXlD0AcyQDDC1oZ0vjx1F554a5GIsiyUpFud6m9T9UDPRYU3qqnXgUa/djsrhmgZY9fQjMN/syLdGjWW7JJ93UmMt6vDqHP5AJcgqLRagqVj8LzALMrCWECE01gwS+FYCkRmDl4IXRUCcc8t9G+UK2HuEi8gPs7O9dhY9cfXzJoilEWfyECmPClRK/UcrtwEKh7/PVahhaeRfR5sMgD+cpdfpQhlw3TLMwE7cpT1tZa+7ZJJlU0SmR8lMpR/8fe0QCQ7etMTMTzyVit/Xb89RDNtOQ9rStQhBIN2VTdjxsauIFpHC/ItDn4Z+AxvPRNdvEFPrxh7+EOVbrlFEdpXyXzIP8No6g2KtyI1dKxxi9+dBkUjlho0aUqrJI+sWG/aA7VuVDsy/+mzn+tAEKH8nh77f7SbtSCbMc8Oq/ki29RqvIfA09QqkvmrR1qsjYGVCZXenA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR04MB0359.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(346002)(136003)(39860400002)(396003)(451199015)(36756003)(38100700002)(82960400001)(86362001)(5660300002)(8936002)(41300700001)(4326008)(2906002)(38070700005)(44832011)(122000001)(83380400001)(66446008)(76116006)(91956017)(66556008)(66946007)(478600001)(6486002)(66476007)(316002)(54906003)(110136005)(2616005)(71200400001)(8676002)(64756008)(6506007)(186003)(6512007)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?THJXWUxCclFxRnZXRVp4N2dtbVpqb1JSZVZYR3dxUCtFZXRzZW1KNEZhTndw?=
- =?utf-8?B?TjdQdjhmaWtlRExuUjRLWmFsL0IvZjZ5OHFUNFZ6WDl4RDBiTjhkRWVMSDl4?=
- =?utf-8?B?TEYvQWJTODhla0RxTW9RcERjL002clZZbkRBQmtYRWdhQWxFZlJPWnYrZU1y?=
- =?utf-8?B?NWdjSHhscXdpVEJORk9IMG9qVHFyRnBZZTRsODdFbTBCM01aMFJESm5oNE4z?=
- =?utf-8?B?SExqRHJHRnd4dWo2VDlTOElwMEtCbGcvb29aTmd0djAvZm1Mb09Bc1YwdU5n?=
- =?utf-8?B?T3FTYTdVYk1VejFxZmE0S3dPQ3AwVXVXa3lpMXB5WVBzQXJaenUyaVFFR3Zu?=
- =?utf-8?B?d1ZoOE4zUHppZ0dDK2gvM210dDBTTDY1N0ZNTTA1dGs4bU5iL2VVZ0tWR1d4?=
- =?utf-8?B?bE5iNjFGZVYwZStRejJPekt4OTYxL1JmM1BqYTAxc0E5UXl1TkJITjdadHVq?=
- =?utf-8?B?ZVhJa2Y4am5QSFAwMitlV2FCNjB0N2RUclUrUWZoZ2dESndhTFZmaTJzMWlt?=
- =?utf-8?B?NHNuNk0rcStNK0ZCQlFJa0s4UVZIMjJSYTBCb3RFMjltSkJDNGcyT2RTNDd6?=
- =?utf-8?B?QW40SlhnV3VKS1o1YitNMmlLVGFWU1BBbUI3RXc2VWtpMUE1QkRVQjFjeElX?=
- =?utf-8?B?Z1U2UlFtL0hnZjMxazZsL2tRZUJtYVd0dFBDdmwvb05XWlhROFBOUHMzSXdu?=
- =?utf-8?B?V2hmektlR1RBeWdNc2krcThyby9LUzZDMTh1c2VPY0FVMlNOYWxNSlV3L3Vo?=
- =?utf-8?B?bW85Rnk2NUxFd0Z6UG85aGZGVG9vVjlyZWhwWmsxanNPV01VeUFpazZ2RFZG?=
- =?utf-8?B?M3pnYlZwK3BaVDRvOUZsc2x6eDRIZDRuTm9hdHQwMm0vSTZ3bU92RUpSVDZO?=
- =?utf-8?B?Qk10YTkvS1IvZndpalhKZ01GVDRKdFRLR2tIVjZyL0RFMzltcjZIbGdnTW5j?=
- =?utf-8?B?cUlPcVlZWk9uYnRoOW8xaXBzekQrQlB4TTJ6RjRPTzNFQnM0d1BER1cyU284?=
- =?utf-8?B?MXo5YWh1ZFlTWjNpbTZ5bW03S2t4THdMeG4wNVA1U1IzRFdHaFRDY0pzRldM?=
- =?utf-8?B?Y3JvL2M3Wmd0UWRyakNKYmIzNUJyditCNjRGQS81MFZuYWR3TnNxaTE4ZjFE?=
- =?utf-8?B?L1FLYmk0cFZJVHVSNlVSNFd2UmtvcFo5eGh3RGEzVVF4OVlaWUpKVUlZdzlj?=
- =?utf-8?B?VDZhUlM5UHdqM2ZjNlFIWGZiQm5NYkFjK0NmZWZtekJoc1ZVcEtJSFppZ205?=
- =?utf-8?B?K0NuNXZJdTZNbUh2S0VLakkwR3NPS2F2N1ZRRWZGYyszbGxJUFdWRzR6VGtS?=
- =?utf-8?B?UWNhRUJ2aUs5OU9reHA3dmpEaWs4NWpmaDQxelBuS3lVT2pmNW9GNDdaWUpW?=
- =?utf-8?B?YVUyWkRDSXpsVmgwMHMwb3JBWnJybWpXbUhuZ1NwanJOWkhUTC9FSDAwNEc4?=
- =?utf-8?B?WlhTQWhnaDNoYXFjL1VBa3pvd2dQYjUvWFpMNGxiYll3b0pQQmNPa1RWZ1JF?=
- =?utf-8?B?a0JEU2NXZ2kyUm53TjJzVEJaRTVFQjd0b3d0QUx4OXBRQ2FGSVFDNDEvUC9k?=
- =?utf-8?B?bnNUK01lL25FUENTd2UrN09OUDhBejJUdGdyWTZYSENMOFhrSUhyQzJVNnBR?=
- =?utf-8?B?cnhXODFrWUgyN25GbUpBenpmQ3Q1UnlaN3VlT0EzNysycmtFL0p0OUF5Y3NI?=
- =?utf-8?B?RXp4dUdGUEtIMkJCR3NGdzYydEdqTjN0aGpqcGFWM0tpZE83c2NkZkVOc2JJ?=
- =?utf-8?B?WmtQdzZiY0FidWNOcEcwalY4UC9BL3hKb1A2OVNlekF0azF3R1E3NUVlR3hr?=
- =?utf-8?B?YjdZajhOOFpEazhZRTliWEIyWVR0TkFITUcwQitnOUxlcEJsT3ZUbitGSVUx?=
- =?utf-8?B?ZU0yaEZ3Q0lKdTJYWEN2Ni92dm9sN1hsbGNZWnlkT0N5TlA4L2VQTG02OVdn?=
- =?utf-8?B?UTBxZkViQi9iZUVoVURyb3FNK3ZwTU1TejZqQUdYbUZjUUMzMmpHdWhkcTlR?=
- =?utf-8?B?ZzJySHJiZzBvWldsR1JvQkIyRkhOT3JlVDhPeGM4UkR5eDlubXBNSVJXeTM1?=
- =?utf-8?B?ajhhd0ViZFB6dThCZjIyTmZKdUc3MTc5ZHVWRjFHUXdnQ2RGM3JXeUl6bE40?=
- =?utf-8?B?dGdWbmNuVzN2MHIraEllZzNhVHNxd2dUQVJybndQVjFsb0hBZEVZcFYrYmZr?=
- =?utf-8?B?WVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A85754B02EAB554F8CC3E48C8DDB463E@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2Kjm-0005Xj-8C
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 18:19:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670282340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mjmrt1g8p//0T/83tfefWSQCfpFjRcBFW5WDz1NLQAE=;
+ b=S6uoj/9BMWHW4xuSX0l/QY4/mN8UIAsQ1yOVw6cZzOS34W358k3SDQbFqJ/ju4lmQR9Cwj
+ BggUQ8Bv6MVNS6Q59cAaPdadFdGZ85N6P/urJjsoY14YWYAX7hb9CjjPSba2IRmUSilLp5
+ 0RZio18VkUnx8yySeysuSZZP7JE6cIw=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-94-cgTiog5jP9-_urNSR1HC3w-1; Mon, 05 Dec 2022 18:18:59 -0500
+X-MC-Unique: cgTiog5jP9-_urNSR1HC3w-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ w14-20020a05620a424e00b006fc46116f7dso18700996qko.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 15:18:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mjmrt1g8p//0T/83tfefWSQCfpFjRcBFW5WDz1NLQAE=;
+ b=MVtCwtOWRsubmvD3o1Mw39xmNSAo/FqS8VVlqxpCo1G4MkjYK0AaqqnuVuHd+9kkGP
+ fRRS0E45QEA68kQw6UeIRXJLikMkYdn2q96z+OvmdLsE2LPWEHq2PUIQQKhwAdwcBLBW
+ kM1FYdt5pCXF7sEB2DXfq/xELyiF83/R5bawnto3sShvdMtr5OTQ4q0hETDnRe7Zy7Oi
+ WXetPoK/UUC1JLzTA/H5VJVLsujFZQxSgYPUcXmLjNb7gX4L8pj9QKKWpW7iKIVtuWrf
+ dkd7zP3aVw1HSdOyQmWiVKZAJ5wd7POB+hbR3ULiBrJKTBwl0SklRWmhS9uhqWw28DDi
+ jwjw==
+X-Gm-Message-State: ANoB5pmDWthfaAcp7AWH7jWZQsph7KPwNar4OD02NfJ3zN4IiwPuR7w4
+ nkknD/TMmVWEGyTBlEiLHxk11JrTnQ6jm6oKGv2VLPerP1cCjDjgoKeB/mwZARMHngn8XH+RJ2o
+ 7digHlI4ojqXN1mw=
+X-Received: by 2002:a05:6214:3502:b0:4c7:1fa7:2cc0 with SMTP id
+ nk2-20020a056214350200b004c71fa72cc0mr22932187qvb.1.1670282338686; 
+ Mon, 05 Dec 2022 15:18:58 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf58zA2JVa61QNAuEvzO5rciUWkgcNQZbEt/Iq5RW4JFseAoVUXhWw1txKJ/hjGAsZ0w37ZmFA==
+X-Received: by 2002:a05:6214:3502:b0:4c7:1fa7:2cc0 with SMTP id
+ nk2-20020a056214350200b004c71fa72cc0mr22932170qvb.1.1670282338457; 
+ Mon, 05 Dec 2022 15:18:58 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ u11-20020a05620a0c4b00b006fc8fc061f7sm13380050qki.129.2022.12.05.15.18.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Dec 2022 15:18:57 -0800 (PST)
+Date: Mon, 5 Dec 2022 18:18:56 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com
+Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
+Message-ID: <Y458YMavxao9XSwL@x1n>
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-4-jasowang@redhat.com> <Y4Yr5WvfioOJWOEX@x1n>
+ <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
+ <Y4d0HokcV/tg0wlk@x1n>
+ <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
+ <Y4jBMkNEFqUA7edN@x1n>
+ <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: NYP1/VHM9+uQ/XBafTODrAthRZdHmCSUAnVg1s8c1L3olIrX3I5JOmDXRSsLmBiQwxSvz9zQUUOkWIrkQ5QwH9vjeMaFkcmToCFBhchY2g9T1tRzHz15173msZ2tsB8G8BEMj8GH7ddIKDtbKaxcbl9fJod6BgScXS/6b7aHyfKjzEbZNd6mPDxbhOqEUs6yhShsjLlil8HUDwJ/YExBIKfS8B+9MRwpDfYcfvMGgUVFNoeFYTPKATzJO8ydo8ljlomwXZGbNm8kJRT9Cc9sseopjQUdpUK2smNPw07GreFWG0tZypJB1W2qlP56ZhgAcTpPuAkSbv7IL7HrOtd8Q2Qj/0LmiOKd1IWwuwEuDQ5Gt+sXVIZzdxLHgIdF19wurjtOUsP9sIgzH1IdoWJZcYlHoRErDPBZi24XYvJgds2+K4hACcjzAkQBgP066VdCbd/eVxHD7fgVLMmy5JkUqp3FV451gxmp3/EiGaFB/liBNeDD775yKMVZVSbTSb8nVtWvbZYy1CuqPqqtp5etGANBjzHbURhBKbn6GtlMns3IqqRC/0cEgz2jFrP/CacwhhxhCaw2UtSRkEWlJcpemnafKVWJnpm62BJlv2DCPF2SHjQKCwBxXZLSVWiytwfRBv5qeUI/PFZdF8f+R++bIvkynMv8SdIPgjC2O+wrGT7UlkMgYqQOXcs0wdXwAigbFiooJAE2QZS0zMP+Dk/uhQHhHSgKhVM59b5rLbjqbWq9UcJxP6tY9YlsA1FuK3ebYiGNDvnG6KeZHSg2AKv/gT50lHGSOv5LwhFXestxDLWFgNXUValGjFknwXIz24BxfBdeEzUxPZ9tyQJwVPs06HFCzswmMXVJXY2hh6F7zn7N1tGy8KIINbjbzMkslzZWlQbkkAuf4enKAxqjxTA7rA==
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB0359.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9a54d05-8f48-414d-bec9-08dad7164225
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2022 23:13:02.4743 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RUDQAU+67BgCRHQRepa/bS6Lwxqw1OsrnAHhOdSz1ezoz+D1Q/l7TiTlBO/JDWPYcvT+lEWPSI5mMROWsY+ApQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6931
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=331af8b0c=wilfred.mallawa@wdc.com; helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: multipart/mixed; boundary="jCPHgN2qD0x7grcr"
+Content-Disposition: inline
+In-Reply-To: <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -169,30 +102,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gTW9uLCAyMDIyLTEyLTA1IGF0IDE0OjUzICswODAwLCBCaW4gTWVuZyB3cm90ZToNCj4gVGhl
-IHByaXYgc3BlYyB2MS4xMiBzYXlzOg0KPiANCj4gwqAgSWYgbm8gUE1QIGVudHJ5IG1hdGNoZXMg
-YW4gTS1tb2RlIGFjY2VzcywgdGhlIGFjY2VzcyBzdWNjZWVkcy4gSWYNCj4gwqAgbm8gUE1QIGVu
-dHJ5IG1hdGNoZXMgYW4gUy1tb2RlIG9yIFUtbW9kZSBhY2Nlc3MsIGJ1dCBhdCBsZWFzdCBvbmUN
-Cj4gwqAgUE1QIGVudHJ5IGlzIGltcGxlbWVudGVkLCB0aGUgYWNjZXNzIGZhaWxzLiBGYWlsZWQg
-YWNjZXNzZXMNCj4gZ2VuZXJhdGUNCj4gwqAgYW4gaW5zdHJ1Y3Rpb24sIGxvYWQsIG9yIHN0b3Jl
-IGFjY2Vzcy1mYXVsdCBleGNlcHRpb24uDQo+IA0KPiBBdCBwcmVzZW50IHRoZSBleGNlcHRpb24g
-Y2F1c2UgaXMgc2V0IHRvICdpbGxlZ2FsIGluc3RydWN0aW9uJyBidXQNCj4gc2hvdWxkIGhhdmUg
-YmVlbiAnaW5zdHJ1Y3Rpb24gYWNjZXNzIGZhdWx0Jy4NCj4gDQo+IEZpeGVzOiBkMTAyZjE5YTIw
-ODUgKCJ0YXJnZXQvcmlzY3YvcG1wOiBSYWlzZSBleGNlcHRpb24gaWYgbm8gUE1QDQo+IGVudHJ5
-IGlzIGNvbmZpZ3VyZWQiKQ0KPiBTaWduZWQtb2ZmLWJ5OiBCaW4gTWVuZyA8Ym1lbmdAdGlueWxh
-Yi5vcmc+DQo+IC0tLQ0KPiANCj4gwqB0YXJnZXQvcmlzY3Yvb3BfaGVscGVyLmMgfCAyICstDQo+
-IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQpSZXZpZXdl
-ZC1ieTogV2lsZnJlZCBNYWxsYXdhIDx3aWxmcmVkLm1hbGxhd2FAd2RjLmNvbT4NCj4gDQo+IGRp
-ZmYgLS1naXQgYS90YXJnZXQvcmlzY3Yvb3BfaGVscGVyLmMgYi90YXJnZXQvcmlzY3Yvb3BfaGVs
-cGVyLmMNCj4gaW5kZXggMDlmMWY1MTg1ZC4uZDdhZjdmMDU2YiAxMDA2NDQNCj4gLS0tIGEvdGFy
-Z2V0L3Jpc2N2L29wX2hlbHBlci5jDQo+ICsrKyBiL3RhcmdldC9yaXNjdi9vcF9oZWxwZXIuYw0K
-PiBAQCAtMjAyLDcgKzIwMiw3IEBAIHRhcmdldF91bG9uZyBoZWxwZXJfbXJldChDUFVSSVNDVlN0
-YXRlICplbnYpDQo+IMKgDQo+IMKgwqDCoMKgIGlmIChyaXNjdl9mZWF0dXJlKGVudiwgUklTQ1Zf
-RkVBVFVSRV9QTVApICYmDQo+IMKgwqDCoMKgwqDCoMKgwqAgIXBtcF9nZXRfbnVtX3J1bGVzKGVu
-dikgJiYgKHByZXZfcHJpdiAhPSBQUlZfTSkpIHsNCj4gLcKgwqDCoMKgwqDCoMKgIHJpc2N2X3Jh
-aXNlX2V4Y2VwdGlvbihlbnYsIFJJU0NWX0VYQ1BfSUxMRUdBTF9JTlNULA0KPiBHRVRQQygpKTsN
-Cj4gK8KgwqDCoMKgwqDCoMKgIHJpc2N2X3JhaXNlX2V4Y2VwdGlvbihlbnYsIFJJU0NWX0VYQ1Bf
-SU5TVF9BQ0NFU1NfRkFVTFQsDQo+IEdFVFBDKCkpOw0KPiDCoMKgwqDCoCB9DQo+IMKgDQo+IMKg
-wqDCoMKgIHRhcmdldF91bG9uZyBwcmV2X3ZpcnQgPSBnZXRfZmllbGQoZW52LT5tc3RhdHVzLCBN
-U1RBVFVTX01QVik7DQoNCg==
+
+--jCPHgN2qD0x7grcr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Jason,
+
+On Mon, Dec 05, 2022 at 12:12:04PM +0800, Jason Wang wrote:
+> I'm fine to go without iova-tree. Would you mind to post patches for
+> fix? I can test and include it in this series then.
+
+One sample patch attached, only compile tested.
+
+I can also work on this but I'll be slow in making progress, so I'll add it
+into my todo.  If you can help to fix this issue it'll be more than great.
+No worry on the ownership or authorship of the patch if you agree on the
+change and moving forward with this when modifying - just take it over!
+
+Thanks!
+
+-- 
+Peter Xu
+
+--jCPHgN2qD0x7grcr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-memory-sanity-check-flatview-deref-on-mr-transaction.patch"
+
+From 57e5cab805c94d56f801a7e21098389a77584e34 Mon Sep 17 00:00:00 2001
+From: Peter Xu <peterx@redhat.com>
+Date: Mon, 5 Dec 2022 11:14:02 -0500
+Subject: [PATCH] memory: sanity check flatview deref on mr transactions
+Content-type: text/plain
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ include/exec/memory.h | 9 +++++++++
+ softmmu/memory.c      | 2 +-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 91f8a2395a..e136ab9558 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1069,8 +1069,17 @@ struct FlatView {
+     MemoryRegion *root;
+ };
+ 
++extern unsigned memory_region_transaction_depth;
++
+ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+ {
++    /*
++     * Before using any flatview, sanity check we're not during a memory
++     * region transaction or the map can be invalid.  Note that this can
++     * also be called during commit phase of memory transaction, but that
++     * should also only happen when the depth decreases to 0 first.
++     */
++    assert(memory_region_transaction_depth == 0);
+     return qatomic_rcu_read(&as->current_map);
+ }
+ 
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bc0be3f62c..7cfcf5dffe 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -37,7 +37,7 @@
+ 
+ //#define DEBUG_UNASSIGNED
+ 
+-static unsigned memory_region_transaction_depth;
++unsigned memory_region_transaction_depth;
+ static bool memory_region_update_pending;
+ static bool ioeventfd_update_pending;
+ unsigned int global_dirty_tracking;
+-- 
+2.37.3
+
+
+--jCPHgN2qD0x7grcr--
+
 
