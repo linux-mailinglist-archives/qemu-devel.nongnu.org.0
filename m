@@ -2,68 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07F06428EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 14:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861086428F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 14:09:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2B6a-000845-4t; Mon, 05 Dec 2022 08:01:56 -0500
+	id 1p2BBt-0001nz-K0; Mon, 05 Dec 2022 08:07:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2B6J-0007z6-6H
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 08:01:40 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p2BBi-0001ib-E2
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 08:07:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2B6D-0001rm-Hp
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 08:01:35 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p2BBg-0003Np-1P
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 08:07:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670245289;
+ s=mimecast20190719; t=1670245629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b3pumB7NgUH/GZOgBuVGM786zH6MbSvmE3FxvyMKFPQ=;
- b=gN4sSf4nayq0X4DjqxPoTXUO3cYMvHg6JgMAknkuqhqcz01Zn2/12+ml0ydaRnyHmPbryT
- QSsDAfBiXuwmmO626XvIkx/vrrQn1sAM0PD4iYhVnY80zbOVsl9BTOPHdIq4UhoA7GVamS
- 13/RrmRg8b+8RmhXiVuiW4sNxtOIyfE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-107-0b9wTE81OoCd7K2elEhUVQ-1; Mon, 05 Dec 2022 08:01:27 -0500
-X-MC-Unique: 0b9wTE81OoCd7K2elEhUVQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 991AB3C0F681;
- Mon,  5 Dec 2022 13:01:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCA8D2166B29;
- Mon,  5 Dec 2022 13:01:25 +0000 (UTC)
-Date: Mon, 5 Dec 2022 14:01:21 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Subject: Re: [RFC PATCH] test-bdrv-drain: keep graph manipulations out of
- coroutines
-Message-ID: <Y43roVjI2RrU1PXq@redhat.com>
-References: <20221202132701.531048-1-pbonzini@redhat.com>
- <632abcb8-3a66-2b93-eb33-ef12953abd18@redhat.com>
- <eee6b6e6-e62c-0d87-1f98-913b4b194a1a@redhat.com>
+ bh=ZzfLLhwrh7D6zprzYCgE7NaPjw9PTgyJsACGNGtvdD8=;
+ b=BkBx5uk+FlCT/lQgMC0XWWH66UPNu/Qrj6tcn+/oJg724BbfbpgIys2ZHo6G2kiNrjK+5P
+ j663/HK63KSFFDzgZx7h4MdhHHZhanA1KCJEkQQmvPVFVT2xSp6VncbtRnAhYRjfN/o7KS
+ lhA7CCpv+8loXzTM3izLoeXbTH70/ME=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-413-ozwBUA4oOJ6eoFm84VZ97A-1; Mon, 05 Dec 2022 08:07:07 -0500
+X-MC-Unique: ozwBUA4oOJ6eoFm84VZ97A-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ sh37-20020a1709076ea500b007c09b177cd1so7353749ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 05:07:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZzfLLhwrh7D6zprzYCgE7NaPjw9PTgyJsACGNGtvdD8=;
+ b=gLJRQddvxqk/qtXsEGEbSvYrWgBd+R5TdwNH0PsVuMh+kRYBgU/D7ph1O0Dt1JvNSq
+ 9ldnET27/T71hUxQBrBhnO9+LqfRj6Aug29uWTszDMSKnmYDd7yOws8Q0ktC2lKIwEGn
+ Q9j3vlzT13d3GoJE1nIMFU8Exyv9hTT4iDTuI/gk1Qk7+guuH97OwaeJECle1g1UZPqX
+ mgUvTu6que4j8PeVWixXaOlMm8sNDgNpEkrP0bCitlaYFkJeYVUt2H02dF/AvbRX5Hfm
+ F3GaWpALpHeHNcHjyUuFgw2MyFgMbvGxwdwDW2LTh7PoA1w7E6Tj0TQ4gCCNAoGySrUi
+ yxpQ==
+X-Gm-Message-State: ANoB5pke1nRR6dtGysXC8a29DELH7umspJOE1bwMyG2p+6/9fHwO7Zwa
+ AUATqOq8tOvG6D3gLpHRF4p0HkaLWEB9X8n46cNuRLZJnvPx9oH8ygfh28Faxz6Xalg1uzkNXsI
+ kXLYFDZ/brFkHWBQYivaYNvuk8Qh2H98=
+X-Received: by 2002:aa7:cd04:0:b0:46b:34c:5574 with SMTP id
+ b4-20020aa7cd04000000b0046b034c5574mr35782108edw.175.1670245626537; 
+ Mon, 05 Dec 2022 05:07:06 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4AYwusTT+OCRu5prcTbKMu8AikiYJ4MHD1b58yGB1hbato3h4hsULqd1e/gBD01YTkAMdkl9N3E4d7/JRcK7M=
+X-Received: by 2002:aa7:cd04:0:b0:46b:34c:5574 with SMTP id
+ b4-20020aa7cd04000000b0046b034c5574mr35782082edw.175.1670245626270; Mon, 05
+ Dec 2022 05:07:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eee6b6e6-e62c-0d87-1f98-913b4b194a1a@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+References: <20221124173314.2123015-1-eperezma@redhat.com>
+ <20221124173314.2123015-4-eperezma@redhat.com>
+ <CACGkMEsOJuOM8JW83Ly+b3ZvfAhnOj61CvVz2SeLeLEkpT446Q@mail.gmail.com>
+ <CAJaqyWfTp6QT1amL_724+UN_APgkG+dM28OEHE99v6aojSPU6A@mail.gmail.com>
+ <CACGkMEsVN4jHkLojKekB1OAEvoTzMJzv+m4HNR6T8qJUC9VjTQ@mail.gmail.com>
+ <CAJaqyWdX83jFpGy_qZ8d_07fvaVHJk3TqamoS7NVgkqJjX2X8g@mail.gmail.com>
+ <CACGkMEs79=D7CEcRV7SEjLBxArerPDaC2eTodCkrCPcq8oj_Tg@mail.gmail.com>
+In-Reply-To: <CACGkMEs79=D7CEcRV7SEjLBxArerPDaC2eTodCkrCPcq8oj_Tg@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 5 Dec 2022 14:06:29 +0100
+Message-ID: <CAJaqyWfuAJXChmPu57W9NDz6gCaYnbyBGf-2H7=dzaK2Xix_uA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
+ vhost_vdpa_net_handle_ctrl_avail
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Eli Cohen <eli@mellanox.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Lei Yang <leiyang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URI_DOTEDU=1.031 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,65 +106,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 02.12.2022 um 18:22 hat Paolo Bonzini geschrieben:
-> On 12/2/22 14:42, Emanuele Giuseppe Esposito wrote:
-> > 
-> > 
-> > Am 02/12/2022 um 14:27 schrieb Paolo Bonzini:
-> > > Changes to the BlockDriverState graph will have to take the
-> > > corresponding lock for writing, and therefore cannot be done
-> > > inside a coroutine.  Move them outside the test body.
-> > > 
-> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > ---
-> > >   tests/unit/test-bdrv-drain.c | 63 ++++++++++++++++++++++++++----------
-> > >   1 file changed, 46 insertions(+), 17 deletions(-)
-> > > 
-> > > diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-> > > index 6ae44116fe79..d85083dd4f9e 100644
-> > > --- a/tests/unit/test-bdrv-drain.c
-> > > +++ b/tests/unit/test-bdrv-drain.c
-> > > @@ -199,25 +199,40 @@ static void do_drain_end_unlocked(enum drain_type drain_type, BlockDriverState *
-> > >       }
-> > >   }
-> > > +static BlockBackend *blk;
-> > > +static BlockDriverState *bs, *backing;
-> > > +
-> > > +static void test_drv_cb_init(void)
-> > > +{
-> > > +    blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
-> > > +    bs = bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
-> > > +                              &error_abort);
-> > > +    blk_insert_bs(blk, bs, &error_abort);
-> > > +
-> > > +    backing = bdrv_new_open_driver(&bdrv_test, "backing", 0, &error_abort);
-> > > +    bdrv_set_backing_hd(bs, backing, &error_abort);
-> > > +}
-> > > +
-> > > +static void test_drv_cb_fini(void)
-> > 
-> > fini stands for "finito"? :)
-> 
-> No, for finish :)
-> http://ftp.math.utah.edu/u/ma/hohn/linux/misc/elf/node3.html
-> 
-> > Anyways, an alternative solution for this is also here (probably coming
-> > from you too):
-> > https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03517.html
-> 
-> Much better.  At least patches 7-8 from that series have to be salvaged,
-> possibly 10 as well.
+On Mon, Dec 5, 2022 at 5:27 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Thu, Dec 1, 2022 at 5:29 PM Eugenio Perez Martin <eperezma@redhat.com>=
+ wrote:
+> >
+> > On Thu, Dec 1, 2022 at 9:39 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Wed, Nov 30, 2022 at 3:07 PM Eugenio Perez Martin
+> > > <eperezma@redhat.com> wrote:
+> > > >
+> > > > On Wed, Nov 30, 2022 at 8:02 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > > > >
+> > > > > On Fri, Nov 25, 2022 at 1:33 AM Eugenio P=C3=A9rez <eperezma@redh=
+at.com> wrote:
+> > > > > >
+> > > > > > Since this capability is emulated by qemu shadowed CVQ cannot f=
+orward it
+> > > > > > to the device. Process all that command within qemu.
+> > > > > >
+> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > > > ---
+> > > > > >  net/vhost-vdpa.c | 15 ++++++++++++---
+> > > > > >  1 file changed, 12 insertions(+), 3 deletions(-)
+> > > > > >
+> > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > > > index 2b4b85d8f8..8172aa8449 100644
+> > > > > > --- a/net/vhost-vdpa.c
+> > > > > > +++ b/net/vhost-vdpa.c
+> > > > > > @@ -489,9 +489,18 @@ static int vhost_vdpa_net_handle_ctrl_avai=
+l(VhostShadowVirtqueue *svq,
+> > > > > >      out.iov_len =3D iov_to_buf(elem->out_sg, elem->out_num, 0,
+> > > > > >                               s->cvq_cmd_out_buffer,
+> > > > > >                               vhost_vdpa_net_cvq_cmd_len());
+> > > > > > -    dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, siz=
+eof(status));
+> > > > > > -    if (unlikely(dev_written < 0)) {
+> > > > > > -        goto out;
+> > > > > > +    if (*(uint8_t *)s->cvq_cmd_out_buffer =3D=3D VIRTIO_NET_CT=
+RL_ANNOUNCE) {
+> > > > > > +        /*
+> > > > > > +         * Guest announce capability is emulated by qemu, so d=
+ont forward to
+> > > > >
+> > > > > s/dont/don't/
+> > > > >
+> > > >
+> > > > I'll correct it, thanks!
+> > > >
+> > > > > > +         * the device.
+> > > > > > +         */
+> > > > > > +        dev_written =3D sizeof(status);
+> > > > > > +        *s->status =3D VIRTIO_NET_OK;
+> > > > >
+> > > > > I wonder if we should avoid negotiating ANNOUNCE with vDPA parent=
+s if
+> > > > > we do this?
+> > > > >
+> > > >
+> > > > I can re-check, but the next patch should avoid it.
+> > >
+> > > Kind of, it makes sure guest can always see _F_ANNOUNCE. But does it
+> > > prevent _F_ANNOUNCE from being negotiated?
+> > >
+> >
+> > It should go like:
+> > * vhost_net_ack_features calls vhost_ack_features with feature_bits =3D
+> > vdpa_feature_bits and features =3D guest acked features.
+> > vhost_ack_features stores in hdev->acked_features only the features
+> > that met features & bit_mask, so it will not store _F_ANNOUNCE.
+> > * vhost_vdpa_set_features is called from vhost_dev_set_features with
+> > features =3D dev->acked_features. Both functions can add features by
+> > themselves (VHOST_F_LOG_ALL, VIRTIO_F_IOMMU_PLATFORM), but no
+> > _F_ANNOUNCE.
+> >
+> > Still untested.
+>
+> Ok.
+>
+> >
+> > > > Even if
+> > > > negotiated, the parent should never set the announce status bit, si=
+nce
+> > > > we never tell the device is a destination device.
+> > >
+> > > That's the point, do we have such a guarantee? Or I wonder if there's
+> > > any parent that supports _F_ANNOUNCE if yes, how it is supposed to
+> > > work?
+> > >
+> >
+> > At the moment it is impossible to work since there is no support for
+> > config interrupt from the device. Even with config interrupt,
+> > something external from qemu should make the device enable the status
+> > bit, since the current migration protocol makes no difference between
+> > to be a migration destination and to start the device from scratch.
+> > Unless it enables the bit maliciously or by mistake.
+> >
+> > Just for completion, the current method works with no need of vdpa
+> > device config interrupt support thanks to being 100% emulated in qemu,
+> > which has the support of injecting config interrupts.
+>
+> Ok, rethink this feature, I think I can find one use case for
+> _F_ANNOUNCE, that is, the migration is totally done through the vDPA
+> device (DPU) itself.
+>
 
-I wonder if we need a more general solution for this because this test
-is not the only place that calls this kind of functions in a coroutine.
-The one I'm aware of in particular is all the .bdrv_co_create
-implementations, but I'm almost sure there are more.
+To make sure we are on the same page, this migration would save some
+things like transfer the status through qemu, but it is not possible
+at the moment. A few things need to be developed for that to make it
+possible.
 
-Can we use a yield_to_drain()-like mechanism for these functions? Maybe
-even something like the opposite of co_wrapper, a no_co_wrapper that
-generates a foo_co() variant that drops out of coroutine context before
-calling foo()?
+The default behavior is to emulate the announce feature / status bit
+at the moment, so no ack to the device is needed. If we want that
+passthrough, a new parameter or similar needs to be developed, so the
+feature is negotiated with the device and not emulated in get_config.
 
-Kevin
+Is that accurate?
+
+Thanks!
+
+> I think we can go forward and revisit this issue in the future.
+>
+> Thanks
+>
+> >
+> > Thanks!
+> >
+>
 
 
