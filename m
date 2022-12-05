@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECC5642E4F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:07:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3053A642E50
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:07:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Ev8-0001EC-Gy; Mon, 05 Dec 2022 12:06:24 -0500
+	id 1p2EvC-0001IM-Nr; Mon, 05 Dec 2022 12:06:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1p2Eu7-0000WI-HC
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:05:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p2EuF-0000XC-4O
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:05:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1p2Eu1-0002re-4j
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:05:15 -0500
+ id 1p2Eu4-0002rp-ER
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:05:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670259912;
+ s=mimecast20190719; t=1670259914;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rclFwMvR8Pi/gGmSSgN0poZY/0G9+ys0W3dxJlqlY9Y=;
- b=Q4JRh/Ylpkh7Q6dnQ/4ZOMBhrT23PqdDRTwxThSp4+42OzIR2+8WtjyM+fi7kdFupGa3GE
- KiOmiVagncBEuyQcGzOFXVfqAbWPISXv2/2qk4KejRdYs199QfqoiaQorHln5sCbFq068l
- YA8H6flkfjKImf5Ndj1f0M6wdS6syk8=
+ bh=w4JLQyJZReme83CRbMiFLssDIL5udQrhvg/dKOKdado=;
+ b=WYQn83DfFmGT+XRtcuYq3pOu2KTLowT4/MbZoIoARxrs3V82NvGmNfTHkx82JNtSl79s/A
+ ORHUEo9wKc1yD+p8T6RgsOFl+CCCgf66y7q7Amn6h7BstZnaw65td496JqaRPffswypzxt
+ bRu2keEAKh8UrA4T2/wlXJzUdE75qvY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-mosG0CbGOGuzNrj44amX1Q-1; Mon, 05 Dec 2022 12:05:08 -0500
-X-MC-Unique: mosG0CbGOGuzNrj44amX1Q-1
+ us-mta-292-LnN0iGOYOT-D26yHUFonsg-1; Mon, 05 Dec 2022 12:05:11 -0500
+X-MC-Unique: LnN0iGOYOT-D26yHUFonsg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C6E2185A794;
- Mon,  5 Dec 2022 17:05:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A964B894E80;
+ Mon,  5 Dec 2022 17:05:10 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7065C15BA8;
- Mon,  5 Dec 2022 17:05:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4126C15BA8;
+ Mon,  5 Dec 2022 17:05:07 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
@@ -53,16 +53,16 @@ Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
  Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Stefano Garzarella <sgarzare@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Parav Pandit <parav@mellanox.com>
-Subject: [RFC PATCH for 8.0 08/13] virtio: expose VirtQueueElementOld
-Date: Mon,  5 Dec 2022 18:04:31 +0100
-Message-Id: <20221205170436.2977336-9-eperezma@redhat.com>
+Subject: [RFC PATCH for 8.0 09/13] virtio: add vmstate_virtqueue_element_old
+Date: Mon,  5 Dec 2022 18:04:32 +0100
+Message-Id: <20221205170436.2977336-10-eperezma@redhat.com>
 In-Reply-To: <20221205170436.2977336-1-eperezma@redhat.com>
 References: <20221205170436.2977336-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,107 +86,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We will convert between VirtQueueElement and VirtQueueElementOld to
-migrate the inflight descriptors, so we need virtio-net to see these.
+VMStateDescription of an inflight descriptor represented in
+VirtQueueElementOld.
 
-This will not be exported in the final version, but working with
-VirtQueueElementOld is way more easier than with VirtQueueElement and
-VMState macros.
+TODO: Convert to VirtQueueElement.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/virtio.h | 31 +++++++++++++++++++++++++++++++
- hw/virtio/virtio.c         | 27 +++++----------------------
- 2 files changed, 36 insertions(+), 22 deletions(-)
+ include/hw/virtio/virtio.h  |  1 +
+ include/migration/vmstate.h | 11 +++++++++++
+ hw/virtio/virtio.c          | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 44 insertions(+)
 
 diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index acfd4df125..b4c5163fb0 100644
+index b4c5163fb0..f3485e5748 100644
 --- a/include/hw/virtio/virtio.h
 +++ b/include/hw/virtio/virtio.h
-@@ -75,6 +75,37 @@ typedef struct VirtQueueElement
-     struct iovec *out_sg;
- } VirtQueueElement;
+@@ -105,6 +105,7 @@ void *qemu_get_virtqueue_element_from_old(VirtIODevice *vdev,
+                                           size_t sz);
+ void qemu_put_virtqueue_element_old(const VirtQueueElement *elem,
+                                     VirtQueueElementOld *data);
++extern const VMStateDescription vmstate_virtqueue_element_old;
  
-+/*
-+ * Reading and writing a structure directly to QEMUFile is *awful*, but
-+ * it is what QEMU has always done by mistake.  We can change it sooner
-+ * or later by bumping the version number of the affected vm states.
-+ * In the meanwhile, since the in-memory layout of VirtQueueElement
-+ * has changed, we need to marshal to and from the layout that was
-+ * used before the change.
-+ */
-+typedef struct VirtQueueElementOld {
-+    uint32_t index;
-+    uint32_t out_num;
-+    uint32_t in_num;
-+    hwaddr in_addr[VIRTQUEUE_MAX_SIZE];
-+    hwaddr out_addr[VIRTQUEUE_MAX_SIZE];
-+    /* Unions help to serialize the descriptor using VMStateDescription */
-+    union {
-+        struct iovec in_sg[VIRTQUEUE_MAX_SIZE];
-+        uint64_t in_sg_64[VIRTQUEUE_MAX_SIZE * 2];
-+    };
-+    union {
-+        struct iovec out_sg[VIRTQUEUE_MAX_SIZE];
-+        uint64_t out_sg_64[VIRTQUEUE_MAX_SIZE * 2];
-+    };
-+} VirtQueueElementOld;
-+
-+void *qemu_get_virtqueue_element_from_old(VirtIODevice *vdev,
-+                                          const VirtQueueElementOld *data,
-+                                          size_t sz);
-+void qemu_put_virtqueue_element_old(const VirtQueueElement *elem,
-+                                    VirtQueueElementOld *data);
-+
  #define VIRTIO_QUEUE_MAX 1024
  
- #define VIRTIO_NO_VECTOR 0xffff
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index ad24aa1934..9726d2d09e 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -448,6 +448,17 @@ extern const VMStateInfo vmstate_info_qlist;
+     .offset     = vmstate_offset_varray(_state, _field, _type),      \
+ }
+ 
++#define VMSTATE_VARRAY_UINT32_UNSAFE(_field, _state, _field_num, _version, \
++                                     _info, _type) {\
++    .name       = (stringify(_field)),                               \
++    .version_id = (_version),                                        \
++    .num_offset = vmstate_offset_value(_state, _field_num, uint32_t),\
++    .info       = &(_info),                                          \
++    .size       = sizeof(_type),                                     \
++    .flags      = VMS_VARRAY_UINT32,                                 \
++    .offset     = vmstate_offset_varray(_state, _field, _type),      \
++}
++
+ #define VMSTATE_VSTRUCT_TEST(_field, _state, _test, _version, _vmsd, _type, _struct_version) { \
+     .name         = (stringify(_field)),                             \
+     .version_id   = (_version),                                      \
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index bc3b474065..5ddc49610c 100644
+index 5ddc49610c..7936fcfec2 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -2280,27 +2280,10 @@ unsigned int virtqueue_drop_all(VirtQueue *vq)
-     }
+@@ -3165,6 +3165,38 @@ static bool virtio_disabled_needed(void *opaque)
+     return vdev->disabled;
  }
  
--/* Reading and writing a structure directly to QEMUFile is *awful*, but
-- * it is what QEMU has always done by mistake.  We can change it sooner
-- * or later by bumping the version number of the affected vm states.
-- * In the meanwhile, since the in-memory layout of VirtQueueElement
-- * has changed, we need to marshal to and from the layout that was
-- * used before the change.
-- */
--typedef struct VirtQueueElementOld {
--    uint32_t index;
--    uint32_t out_num;
--    uint32_t in_num;
--    hwaddr in_addr[VIRTQUEUE_MAX_SIZE];
--    hwaddr out_addr[VIRTQUEUE_MAX_SIZE];
--    struct iovec in_sg[VIRTQUEUE_MAX_SIZE];
--    struct iovec out_sg[VIRTQUEUE_MAX_SIZE];
--} VirtQueueElementOld;
--
- /* Convert VirtQueueElementOld to VirtQueueElement */
--static void *qemu_get_virtqueue_element_from_old(VirtIODevice *vdev,
--                                               const VirtQueueElementOld *data,
--                                               size_t sz)
-+void *qemu_get_virtqueue_element_from_old(VirtIODevice *vdev,
-+                                          const VirtQueueElementOld *data,
-+                                          size_t sz)
- {
-     VirtQueueElement *elem = virtqueue_alloc_element(sz, data->out_num,
-                                                      data->in_num);
-@@ -2361,8 +2344,8 @@ void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz)
- }
- 
- /* Convert VirtQueueElement to VirtQueueElementOld */
--static void qemu_put_virtqueue_element_old(const VirtQueueElement *elem,
--                                           VirtQueueElementOld *data)
-+void qemu_put_virtqueue_element_old(const VirtQueueElement *elem,
-+                                    VirtQueueElementOld *data)
- {
-     memset(data, 0, sizeof(*data));
-     data->index = elem->index;
++const VMStateDescription vmstate_virtqueue_element_old = {
++    .name = "virtqueue_element",
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(index, VirtQueueElementOld),
++        VMSTATE_UINT32(in_num, VirtQueueElementOld),
++        VMSTATE_UINT32(out_num, VirtQueueElementOld),
++        /*
++         * TODO: Needed for packed
++         * VMSTATE_UINT16(ndescs, VirtQueueElement),
++         */
++
++        VMSTATE_VALIDATE("fit", vq_element_in_range),
++        VMSTATE_VARRAY_UINT32_UNSAFE(in_addr, VirtQueueElementOld, in_num, 0,
++                                     vmstate_info_uint64, hwaddr),
++        VMSTATE_VARRAY_UINT32_UNSAFE(out_addr, VirtQueueElementOld, out_num, 0,
++                                     vmstate_info_uint64, hwaddr),
++
++        /*
++         * Assume iovec[n] == uint64_t[n*2]
++         * TODO: Probably need to send each field individually because of
++         * endianess.
++         */
++        VMSTATE_VARRAY_MULTIPLY(in_sg_64, VirtQueueElementOld, in_num,
++                                sizeof(struct iovec) / sizeof(uint64_t),
++                                vmstate_info_uint64, uint64_t),
++        VMSTATE_VARRAY_MULTIPLY(out_sg_64, VirtQueueElementOld, out_num,
++                                sizeof(struct iovec) / sizeof(uint64_t),
++                                vmstate_info_uint64, uint64_t),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
+ static const VMStateDescription vmstate_virtqueue = {
+     .name = "virtqueue_state",
+     .version_id = 1,
 -- 
 2.31.1
 
