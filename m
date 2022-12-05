@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF9C64247A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 09:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3874C64247B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 09:24:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p26jk-0007jA-IH; Mon, 05 Dec 2022 03:22:04 -0500
+	id 1p26lU-0008FB-RY; Mon, 05 Dec 2022 03:23:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1p26ji-0007ii-2K; Mon, 05 Dec 2022 03:22:02 -0500
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p26lJ-0008CQ-UE
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 03:23:48 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1p26jg-0001zn-FC; Mon, 05 Dec 2022 03:22:01 -0500
-Received: by mail-lf1-x130.google.com with SMTP id p36so12990543lfa.12;
- Mon, 05 Dec 2022 00:21:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TA/nR2VNlZpy/ClWcXj3g/NAn/1SG9KkZcZZxSl6Lpc=;
- b=C9V6S/YpHcvaS+jhG4FTMhf7yxz055DS2hz2OkwiIK7efsYTll+QdqA4gCwsuLUItG
- UJxbdlR0qawy+GM2jDy9i0oDxiEKfz9HRfi9ZJECFRGSxZIkPR4hvs16CVQBAzf2Hnvq
- wzRQXSuwqVDEV0zjjrJ+le673QIB0P5CxY86+VIpTzf/i3GwsXAoEFpqpv+byfRE9KWs
- 8YmL8TpFu2uIRUMfKXJ5Lljhn3r588sX3QUoegzcOXMvLBmQernWM6et+dzdOwVhEtI8
- 5sxuEP00nBehfheEHm3eJVr2Z7CO9vr9K1eqEsBiRB8O7IDxPxjShDlOa1nHAGujEeu9
- PA/w==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p26lH-0002OE-50
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 03:23:41 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id f18so17383775wrj.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 00:23:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dYd9RNJ7dS9Pq4AOyck3yoH+nj3xigwdW4b0I8Qief0=;
+ b=ZcAyfWoAJ9I6BHTS6OpSbW2omQOkLKJozDWMtQr3tYYmKC4kfXEZrzrdcjtna0lqcq
+ foyYQuTxqA/mcqkm2huVt1guG+5IOob+MM/TTEaPTZ4Nyc8huBQS+InHzL2h0o7dsyGf
+ CC8/9Fg6GsBBsNS8JhWz9H3AI63z+znlmbdGvobMajofPvf6EwR2HJJGbXvCSAkuX2tF
+ 1aOMEfp9PKOBcjqtYI/QkxlYQiEi7ok2mP7at6wOOS/zijvBVI2WPmH0HEHw/3gup2pl
+ wtu8QbkxSFx2L/KCViCcVc7l+hJST+kWSw81MFoPWHwAm7Z5iiNnX2qBOwpuLpRRSUdO
+ rGcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TA/nR2VNlZpy/ClWcXj3g/NAn/1SG9KkZcZZxSl6Lpc=;
- b=avFPin0eRLiKltBPYGbgEkg8hl/qhs9PvTR5lUwMucAIU14co2mPPssG2HVMa5ittE
- w5H7klAPkFHuSei3ORBKKX7LKWfT1bpQR5Irccqrkiq9OdySATu6UdZS3ctDePOQdSHM
- PcMpn8lUuMzSfpbbbE46s8Pu/dVpcacVM9oxX99DUQRYFab6t6nV1NKhMKLEyvwUstq0
- /psCnN3yUXgmfAJvVsUM3KSkGsNL9ZpOQNu6slJB78oJPrsUoXukAn1ZybZMfBcpfbKo
- PaBmCOXaiFHQE5ZZtFhpGncJdWmiRU7cFEAG6f1RF74W6fiBTNGaaMuuq7KyeUF2pR0D
- L1qw==
-X-Gm-Message-State: ANoB5plGDhP70AA+LpmQJqEjql15vEdNZ4pJqDTLJsX62Yu3mXXhMiBM
- u7sPlAmdzQKOix9SjamB4joJHlMPeOsUE00/bh0=
-X-Google-Smtp-Source: AA0mqf4tLRg6YDNsnuC/ucGb1putMCQZ0Kg35uhaSaOFeLFoCrlpfWfm2tyRZGwy69F4VqBlc8s34dnxuNsRheo6pUk=
-X-Received: by 2002:a05:6512:3f96:b0:4b5:478d:821e with SMTP id
- x22-20020a0565123f9600b004b5478d821emr5002298lfa.250.1670228517739; Mon, 05
- Dec 2022 00:21:57 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dYd9RNJ7dS9Pq4AOyck3yoH+nj3xigwdW4b0I8Qief0=;
+ b=a5/WSay08TQBpBgFvx8T8eESeHa36VrwpkQX/luE6fCkfBBIL1ztFWOYZ9yiow8j7D
+ svHCQ+dbMWU9F9RgA8mmXFYuJ0nkmpk/fTFdyrPE1OYTtbYhn2R7ICcTZ/yfndaclkE7
+ kRpCnQt0BFBA+KUgBqhH+SvLETcC8vjtppClc8ylx+sDoRL1zF1WlzgkJPf7SqGrjn1m
+ Hw7t+c5fSqIce2WqwgvP8I5/FPplAY6byCtWymH4k38H1/WSiGeHU0n79ijAdDeKrPRl
+ 3og1uFB6D3dxfLUsInYLvN2nEUhhk1zbsJrpQB7vnusSU9keprIe3Q94NtpjXs5tLFm1
+ /zaA==
+X-Gm-Message-State: ANoB5pl7BJx9253bThIpL0hmNOr6RLQn2jdtdgP/R7VZgVAM55Y5TBYe
+ iEKaw4U5CxaBRABA4g3f0/XTVQ==
+X-Google-Smtp-Source: AA0mqf5rRpV1e7drf6w7DTiLE1YOUdO7E/qfjYPWX1QvtWnnYfidrR1tPthKqHOG7GhtzNnSRVfiug==
+X-Received: by 2002:a5d:60c2:0:b0:242:358a:50b9 with SMTP id
+ x2-20020a5d60c2000000b00242358a50b9mr11228498wrt.239.1670228617428; 
+ Mon, 05 Dec 2022 00:23:37 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ v6-20020adfe286000000b00241f467f888sm13561477wri.74.2022.12.05.00.23.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Dec 2022 00:23:37 -0800 (PST)
+Message-ID: <dec95b7b-ae39-d0fc-c631-fcf550c0c3cb@linaro.org>
+Date: Mon, 5 Dec 2022 09:23:35 +0100
 MIME-Version: 1.0
-References: <20221201140811.142123-1-bmeng@tinylab.org>
- <20221201140811.142123-15-bmeng@tinylab.org>
- <4d2fa372f88dda106d80bd26806bc32c2a92d784.camel@wdc.com>
-In-Reply-To: <4d2fa372f88dda106d80bd26806bc32c2a92d784.camel@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 5 Dec 2022 16:21:46 +0800
-Message-ID: <CAEUhbmVO-OL9Awds3Q19gGhGC-agdq7JqxR28i3W+0CS0K76uw@mail.gmail.com>
-Subject: Re: [PATCH 15/15] hw/intc: sifive_plic: Fix the pending register
- range check
-To: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Cc: "bmeng@tinylab.org" <bmeng@tinylab.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "bin.meng@windriver.com" <bin.meng@windriver.com>, 
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=bmeng.cn@gmail.com; helo=mail-lf1-x130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: REG: TTC Timer
+Content-Language: en-US
+To: Gowri Shankar <ggowri617@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+References: <CAJWWW5ikmoujzeYw97QEMG0uBCLyR2mypSe_Td4XJXjXHQFnyQ@mail.gmail.com>
+Cc: qemu-discuss@nongnu.org, Frederic Konrad <fkonrad@amd.com>,
+ Francisco Iglesias <francisco.iglesias@amd.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAJWWW5ikmoujzeYw97QEMG0uBCLyR2mypSe_Td4XJXjXHQFnyQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,41 +92,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 2, 2022 at 8:28 AM Wilfred Mallawa <wilfred.mallawa@wdc.com> wrote:
->
-> On Thu, 2022-12-01 at 22:08 +0800, Bin Meng wrote:
-> > The pending register upper limit is currently set to
-> > plic->num_sources >> 3, which is wrong, e.g.: considering
-> > plic->num_sources is 7, the upper limit becomes 0 which fails
-> > the range check if reading the pending register at pending_base.
-> >
-> > Fixes: 1e24429e40df ("SiFive RISC-V PLIC Block")
-> > Signed-off-by: Bin Meng <bmeng@tinylab.org>
-> >
-> > ---
-> >
-> >  hw/intc/sifive_plic.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> > index 7a6a358c57..a3fc8222c7 100644
-> > --- a/hw/intc/sifive_plic.c
-> > +++ b/hw/intc/sifive_plic.c
-> > @@ -143,7 +143,8 @@ static uint64_t sifive_plic_read(void *opaque,
-> > hwaddr addr, unsigned size)
-> >          uint32_t irq = (addr - plic->priority_base) >> 2;
-> >
-> >          return plic->source_priority[irq];
-> > -    } else if (addr_between(addr, plic->pending_base, plic-
-> > >num_sources >> 3)) {
-> > +    } else if (addr_between(addr, plic->pending_base,
-> > +                            (plic->num_sources + 31) >> 3)) {
-> why does adding specifically 31 work here?
->
+On 22/11/22 12:27, Gowri Shankar wrote:
+> Hi Team,
+> 
+> Advance Thanks for Your support.
+> 
+> Could you please clarify one point here?
+> I am using a Xilinx ZCU102 machine with QEMU7.1.0.
+> 
+> I have seen QEMU 7.1.0 release has TTC timers for the Xilinx-zynqmp SoC 
+> model.
+> url: https://wiki.qemu.org/ChangeLog/7.1 
+> <https://wiki.qemu.org/ChangeLog/7.1>
+> 
+> In this case, can the ZCU102 machine also use the TTC feature?
+> If yes and possible, Could you please share the example code snippet?
+> -- 
+> Thanks & Regards,
+> P. Gowrishankar.
+> +919944802490
 
-Each pending register is 32-bit for 32 interrupt sources. Adding 31 is
-to round up to next pending register offset.
+Cc'ing qemu-arm@ mailing list and Xilinx ZCU102 machine developers.
 
-Regards,
-Bin
 
