@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0A364265C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8137D6426D4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 11:38:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p28AT-0000uW-OA; Mon, 05 Dec 2022 04:53:45 -0500
+	id 1p28Ad-00016j-J2; Mon, 05 Dec 2022 04:53:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28AQ-0000qd-UI
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:42 -0500
+ id 1p28Ab-00015L-Kj
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p28AP-0006Vn-4r
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:42 -0500
+ id 1p28Aa-0006Y3-3R
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 04:53:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670234020;
+ s=mimecast20190719; t=1670234031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5SGCfToDbM9WhOy+q3kxZx78SijHUnLuNZHHeTrr+MM=;
- b=dJmSUhZ5zv6IJN8q3hsNbWHtS60OYAQ8jyPQA+rcfoqAI+BMh5dp5vu9prZP7heh12TS4T
- p5rQCBsXJIW3FUXs2rHaV7w2SmHAxerZlXy8c62ie0QwJYhrO5g9x2a+kifMT/jd4eAbeB
- bLml/iyDtkSKg9sghBXKBPVe+XaCdJU=
+ bh=sWawvSWadu0bL+au53S7AJrJqJZVUFdCmV8iHivocyk=;
+ b=C8yFVILyjXiZ8kqUpyh2yX8GLEPMRRIOjIGzEMcnfkvRVNGsMXW2qkX/5neNej0B30/nYo
+ ZgJ6Eb1BITUaGFfiPUavsvDOV/Lu+nFp/7AgssL+xuWvEWE6WcgDUwq/9kKS62CgtoWnVx
+ jIC0LIzwVgXLkKw9Rc3SRpnDh+g5uVs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-z77S-848PwCeZE2Tmiy1Ew-1; Mon, 05 Dec 2022 04:53:37 -0500
-X-MC-Unique: z77S-848PwCeZE2Tmiy1Ew-1
+ us-mta-392-aAy9LTFLPj6yCjW41-Z7hg-1; Mon, 05 Dec 2022 04:53:45 -0500
+X-MC-Unique: aAy9LTFLPj6yCjW41-Z7hg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A304862FEC;
- Mon,  5 Dec 2022 09:53:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C0F185A588;
+ Mon,  5 Dec 2022 09:53:44 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED0652166B29;
- Mon,  5 Dec 2022 09:53:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D73122166B29;
+ Mon,  5 Dec 2022 09:53:36 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
@@ -72,10 +72,10 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <huth@tuxfamily.org>,
  Keith Busch <kbusch@kernel.org>, David Hildenbrand <david@redhat.com>,
  qemu-trivial@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 07/51] hw/display/qxl: Avoid buffer overrun in
- qxl_phys2virt (CVE-2022-4144)
-Date: Mon,  5 Dec 2022 10:51:44 +0100
-Message-Id: <20221205095228.1314-8-quintela@redhat.com>
+Subject: [PATCH v2 08/51] hw/display/qxl: Assert memory slot fits in
+ preallocated MemoryRegion
+Date: Mon,  5 Dec 2022 10:51:45 +0100
+Message-Id: <20221205095228.1314-9-quintela@redhat.com>
 In-Reply-To: <20221205095228.1314-1-quintela@redhat.com>
 References: <20221205095228.1314-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -108,103 +108,25 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Have qxl_get_check_slot_offset() return false if the requested
-buffer size does not fit within the slot memory region.
-
-Similarly qxl_phys2virt() now returns NULL in such case, and
-qxl_dirty_one_surface() aborts.
-
-This avoids buffer overrun in the host pointer returned by
-memory_region_get_ram_ptr().
-
-Fixes: CVE-2022-4144 (out-of-bounds read)
-Reported-by: Wenxu Yin (@awxylitol)
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1336
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20221128202741.4945-5-philmd@linaro.org>
+Message-Id: <20221128202741.4945-6-philmd@linaro.org>
 ---
- hw/display/qxl.h |  2 +-
- hw/display/qxl.c | 27 +++++++++++++++++++++++----
- 2 files changed, 24 insertions(+), 5 deletions(-)
+ hw/display/qxl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-index bf03138ab4..7894bd5134 100644
---- a/hw/display/qxl.h
-+++ b/hw/display/qxl.h
-@@ -157,7 +157,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
-  *
-  * Returns a host pointer to a buffer placed at offset @phys within the
-  * active slot @group_id of the PCI VGA RAM memory region associated with
-- * the @qxl device. If the slot is inactive, or the offset is out
-+ * the @qxl device. If the slot is inactive, or the offset + size are out
-  * of the memory region, returns NULL.
-  *
-  * Use with care; by the time this function returns, the returned pointer is
 diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 231d733250..0b21626aad 100644
+index 0b21626aad..6772849dec 100644
 --- a/hw/display/qxl.c
 +++ b/hw/display/qxl.c
-@@ -1424,11 +1424,13 @@ static void qxl_reset_surfaces(PCIQXLDevice *d)
- 
- /* can be also called from spice server thread context */
- static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
--                                      uint32_t *s, uint64_t *o)
-+                                      uint32_t *s, uint64_t *o,
-+                                      size_t size_requested)
- {
-     uint64_t phys   = le64_to_cpu(pqxl);
-     uint32_t slot   = (phys >> (64 -  8)) & 0xff;
-     uint64_t offset = phys & 0xffffffffffff;
-+    uint64_t size_available;
- 
-     if (slot >= NUM_MEMSLOTS) {
-         qxl_set_guest_bug(qxl, "slot too large %d >= %d", slot,
-@@ -1452,6 +1454,23 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
-                           slot, offset, qxl->guest_slots[slot].size);
-         return false;
+@@ -1384,6 +1384,7 @@ static int qxl_add_memslot(PCIQXLDevice *d, uint32_t slot_id, uint64_t delta,
+         qxl_set_guest_bug(d, "%s: pci_region = %d", __func__, pci_region);
+         return 1;
      }
-+    size_available = memory_region_size(qxl->guest_slots[slot].mr);
-+    if (qxl->guest_slots[slot].offset + offset >= size_available) {
-+        qxl_set_guest_bug(qxl,
-+                          "slot %d offset %"PRIu64" > region size %"PRIu64"\n",
-+                          slot, qxl->guest_slots[slot].offset + offset,
-+                          size_available);
-+        return false;
-+    }
-+    size_available -= qxl->guest_slots[slot].offset + offset;
-+    if (size_requested > size_available) {
-+        qxl_set_guest_bug(qxl,
-+                          "slot %d offset %"PRIu64" size %zu: "
-+                          "overrun by %"PRIu64" bytes\n",
-+                          slot, offset, size_requested,
-+                          size_requested - size_available);
-+        return false;
-+    }
++    assert(guest_end - pci_start <= memory_region_size(mr));
  
-     *s = slot;
-     *o = offset;
-@@ -1471,7 +1490,7 @@ void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
-         offset = le64_to_cpu(pqxl) & 0xffffffffffff;
-         return (void *)(intptr_t)offset;
-     case MEMSLOT_GROUP_GUEST:
--        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset)) {
-+        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size)) {
-             return NULL;
-         }
-         ptr = memory_region_get_ram_ptr(qxl->guest_slots[slot].mr);
-@@ -1937,9 +1956,9 @@ static void qxl_dirty_one_surface(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
-     uint32_t slot;
-     bool rc;
- 
--    rc = qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset);
--    assert(rc == true);
-     size = (uint64_t)height * abs(stride);
-+    rc = qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size);
-+    assert(rc == true);
-     trace_qxl_surfaces_dirty(qxl->id, offset, size);
-     qxl_set_dirty(qxl->guest_slots[slot].mr,
-                   qxl->guest_slots[slot].offset + offset,
+     virt_start = (intptr_t)memory_region_get_ram_ptr(mr);
+     memslot.slot_id = slot_id;
 -- 
 2.38.1
 
