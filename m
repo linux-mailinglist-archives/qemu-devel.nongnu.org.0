@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63446427A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 12:39:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9210E6427A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 12:39:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p29nK-0007uO-RA; Mon, 05 Dec 2022 06:37:58 -0500
+	id 1p29oY-0008OO-54; Mon, 05 Dec 2022 06:39:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p29nI-0007st-7X
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 06:37:56 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p29n9-0006wW-WE
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 06:37:55 -0500
-Received: from loongson.cn (unknown [123.123.223.32])
- by gateway (Coremail) with SMTP id _____8DxuuoE2I1j6UUDAA--.7863S3;
- Mon, 05 Dec 2022 19:37:40 +0800 (CST)
-Received: from [192.168.199.220] (unknown [123.123.223.32])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxLeAD2I1jRfAlAA--.27888S3; 
- Mon, 05 Dec 2022 19:37:39 +0800 (CST)
-Message-ID: <e09f6366-1e29-2d13-c2f8-b9da3c2570e7@loongson.cn>
-Date: Mon, 5 Dec 2022 19:37:28 +0800
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p29o9-0008Hy-SL
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 06:38:51 -0500
+Received: from mout.gmx.net ([212.227.15.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p29o0-00072V-M3
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 06:38:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1670240314; bh=zQp4z/oP5oSCjNRaCmecIy2nFCeo26p5adFmYvc2itQ=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=Kf3zt6ZCq6VJs6NO7Bo1dRKCvAhImH8QzPWPlwTlyVIAtLb5SF7pQazCjnusZoICJ
+ KdEARpqaZLWbx5Ln9HVNlZ9a77w2mmgQYolnN2Y0gUNdrECeFYEAKrN9t3FTEbJR0c
+ uycHyYSKDziRip9GI6NJkapOQq0qEXSqXzbyTBmOonU2S/San/g11tadIg8brlgmYX
+ 4kvKzwTwVCizg4qym/gzwxlEMglYVjCEYluFRCcFskQAoQiHuiBz/FlEujKiudYqnu
+ Y5BCQ6OWot7MacqrI2Z8PfRzJYeE2blzcf3AcbaCCs1ePh+GKANuJk3itliJokHrTE
+ EIXi0FIbJCn/Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100.fritz.box ([92.116.161.205]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mr9Bk-1ofUku2YTu-00oHRW; Mon, 05
+ Dec 2022 12:38:34 +0100
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+	qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>
+Subject: [PATCH] linux-user: Fix access to /proc/self/exe
+Date: Mon,  5 Dec 2022 12:38:25 +0100
+Message-Id: <20221205113825.20615-1-deller@gmx.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, richard.henderson@linaro.org, stefanha@gmail.com,
- Stefan Hajnoczi <stefanha@redhat.com>, maobibo@loongson.cn,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20221202102550.4107344-1-gaosong@loongson.cn>
- <6fe3e752-a39d-38f9-e573-437547d19179@linaro.org>
- <72f22429-d51c-b2b8-49c6-59ba7df17ea7@loongson.cn>
- <CAFEAcA8Tep6GrSwoTSUi8Jjs2ntAqU_15nfe4DD=fZB2P-mp0g@mail.gmail.com>
-From: "gaosong@loongson.cn" <gaosong@loongson.cn>
-In-Reply-To: <CAFEAcA8Tep6GrSwoTSUi8Jjs2ntAqU_15nfe4DD=fZB2P-mp0g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxLeAD2I1jRfAlAA--.27888S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7WrW7Zr17GrW3GryxZr1DKFg_yoW8AFyUpa
- yfC3WIkr18Jr4UGrnFyw1DWr4Yyr1xtrWrXa4Fyw18WF1qvr1kJrs5GF1093srZ347Cr40
- qF18t3sxXFn8Za7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
- k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
- MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr4
- 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
- IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j0FALUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sXUdf+SaYk9CKbm6X4yp3teVvR5gHz6qi3VI2hkkj6Jhp0cKodp
+ VvCY+7H9nXAe6EXrc1kfiJs0CFrLn/f08Lu0lxKk915l3Zth87fqMh93df3gzVG+ueObD4l
+ 55SdBTFYG0R9iflqZpjf4z74klsEeRpqP8fCftSsMl364XLDY3G2YLjWODd0ypNEVc2+HVw
+ qmKfKtAkouH5uoUaF0rEg==
+UI-OutboundReport: notjunk:1;M01:P0:unpU4SWChqI=;NwcZ39ReWYka920UX1c1cW4WuzN
+ iYmUVgv2Cr3gmc6UK/GzmRryxwXI0vg2Nh0dgaNtc172EBWr77DdQCa1SyJloX4G4BYZ5iAiQ
+ IV7R8kGgd8olL2k1SfeOMsZuFSmS95TllQBFiajl3nD6f/WA3LYX0IUid3491Vd3WdHUkIXUU
+ 3Q/Oi9yzJbR9jUc/TRkBwALFZFsXkDJ4EsDlvIA0aqbId50fLKeyhIVSL3zjBwcnQAHOT57/Y
+ omG5+Yq3w6pZFlmTWeqKXw1luu8f86W6vuVohEH1wI7P/nDU7n+lzpnMAgUnZgh50KS8KM+Vo
+ vZbPHTjhB4vLEcf6I7oQhXKqbyoLv71mWfbdRwtpBxxnwK1XoAyzqUXBL20nQIULAidYR+q3I
+ 99guBa7b4Hen6oCwCFLCb9OSVX5QgKe/v3cciw8z/04liPJ1f148P/WSHEDAxOu6DYp/4Kw4R
+ AUq7yATgEzFHFG/Y7Qp+MYenEu/Pp+VthYoRK5jMT2aDWqrG3eApbWGO3JU/5DS8kGlOPC5WT
+ idUNgayYGfcf7aG0YnaC46RYd5W03tgB8qVKh+Eoky9XJNbDc8qfMTcUQi/E75oHpvVNC1xJi
+ QMZTcfTBsZ5e91LMlChonC6IrGf9B2KRZZxNbxHgfu6TdxF/kcsCScq1Kh2AgPGdxowIT6AbK
+ HTZfPXBJFuiPuIWlYviNe9hJjKyGup8d/B102P8YO1GMQkgfhR6+s6cwAlRSBnxlpzmNf7HGC
+ nUAMM4tgefxB52I5q5tSX9fR324BIIChzrqH4tLI0ZW60kgV91nlxGY2PzRGUOPiLTvRY1wsa
+ 1tEv8G++76UkmXRKGBUdwnGETLBR94thHqDb9q9KyXFmabxqg84tyKkozPMveA07mQEAMAyif
+ i8hk6WC4jF7Cjj0uoET0oq6a+1/a+xdUBWwZTl2uUJ9oHvzwjaLpTfvzErmGBpDFPh7OUOqBT
+ fjS7zA==
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.258,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,53 +82,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+When accsssing /proc/self/exe from a userspace program, linux-user tries
+to resolve the name via realpath(), which may fail if the process
+changed the working directory in the meantime.
 
-在 2022/12/5 18:48, Peter Maydell 写道:
-> On Mon, 5 Dec 2022 at 09:20, gaosong@loongson.cn <gaosong@loongson.cn> wrote:
->>
->> 在 2022/12/5 15:24, Philippe Mathieu-Daudé 写道:
->>> On 2/12/22 11:25, Song Gao wrote:
->>>> The following changes since commit
->>>> c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
->>>>
->>>>     Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
->>>>
->>>> are available in the Git repository at:
->>>>
->>>>     https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
->>>>
->>>> for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0fd:
->>>>
->>>>     hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05
->>>> +0800)
->>>>
->>>> ----------------------------------------------------------------
->>>> pull for 7.2-rc4
->>>>
->>>> We need this patch.
->>> FTR this is not a security/regression fix, but a mere feature.
->>>
->>> Certainly not justified for a rc4 IMO.
->>>
->> We hope LoongArch 7.2 version support pflash,
->> otherwise the subsequent BIOS support pflash may qemu 7.2 does not support.
-> Regardless of how much it might be nice to have a new feature
-> supported, new features cannot go in after softfreeze, only
-> fixes for bugs. At rc4, changes should really be release
-> critical bugs and regression fixes only. Further, any pull
-> request  that should be going in for rc4 should have a clear
-> statement of what the changes do and why they are release
-> critical. "We need this patch" is much too vague.
->
-> QEMU's release schedule is regular, so there will always be
-> another release in 4 months time. There is generally no need
-> to be in a huge hurry to get a feature in.
->
-> I would favour reverting this change.
-Got it .
-I had send a patch to revert this.
+An example:
+- a userspace program ist started with ./testprogram
+- the program runs chdir("/tmp")
+- then the program calls readlink("/proc/self/exe")
+- linux-user tries to run realpath("./testprogram") which fails
+  because ./testprogram isn't in /tmp
+- readlink() will return -ENOENT back to the program
 
-Thanks.
-Song Gao
+Avoid this issue by resolving the full path name of the started process
+at startup of linux-user and store it in real_exec_path[]. This then
+simplifies the emulation of readlink() and readlinkat() as well, because
+they can simply copy the path string to userspace.
+
+I noticed this bug because the testsuite of the debian package "pandoc"
+failed on linux-user while it succeeded on real hardware.  The full log
+is here:
+https://buildd.debian.org/status/fetch.php?pkg=3Dpandoc&arch=3Dhppa&ver=3D=
+2.17.1.1-1.1%2Bb1&stamp=3D1670153210&raw=3D0
+
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ linux-user/main.c    |  6 ++++++
+ linux-user/syscall.c | 34 ++++++++++------------------------
+ 2 files changed, 16 insertions(+), 24 deletions(-)
+
+diff --git a/linux-user/main.c b/linux-user/main.c
+index aedd707459..e7e53f7d5e 100644
+=2D-- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -64,6 +64,7 @@
+ #endif
+
+ char *exec_path;
++char real_exec_path[PATH_MAX];
+
+ int singlestep;
+ static const char *argv0;
+@@ -744,6 +745,11 @@ int main(int argc, char **argv, char **envp)
+         }
+     }
+
++    /* Resolve executable file name to full path name */
++    if (realpath(exec_path, real_exec_path)) {
++        exec_path =3D real_exec_path;
++    }
++
+     /*
+      * get binfmt_misc flags
+      * but only if not already done by parse_args() above
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 0468a1bad7..71ae867024 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -10011,18 +10011,11 @@ static abi_long do_syscall1(CPUArchState *cpu_en=
+v, int num, abi_long arg1,
+                 /* Short circuit this for the magic exe check. */
+                 ret =3D -TARGET_EINVAL;
+             } else if (is_proc_myself((const char *)p, "exe")) {
+-                char real[PATH_MAX], *temp;
+-                temp =3D realpath(exec_path, real);
+-                /* Return value is # of bytes that we wrote to the buffer=
+. */
+-                if (temp =3D=3D NULL) {
+-                    ret =3D get_errno(-1);
+-                } else {
+-                    /* Don't worry about sign mismatch as earlier mapping
+-                     * logic would have thrown a bad address error. */
+-                    ret =3D MIN(strlen(real), arg3);
+-                    /* We cannot NUL terminate the string. */
+-                    memcpy(p2, real, ret);
+-                }
++	        /* Don't worry about sign mismatch as earlier mapping
++	         * logic would have thrown a bad address error. */
++                ret =3D MIN(strlen(exec_path), arg3);
++                /* We cannot NUL terminate the string. */
++                memcpy(p2, exec_path, ret);
+             } else {
+                 ret =3D get_errno(readlink(path(p), p2, arg3));
+             }
+@@ -10043,18 +10036,11 @@ static abi_long do_syscall1(CPUArchState *cpu_en=
+v, int num, abi_long arg1,
+                 /* Short circuit this for the magic exe check. */
+                 ret =3D -TARGET_EINVAL;
+             } else if (is_proc_myself((const char *)p, "exe")) {
+-                char real[PATH_MAX], *temp;
+-                temp =3D realpath(exec_path, real);
+-                /* Return value is # of bytes that we wrote to the buffer=
+. */
+-                if (temp =3D=3D NULL) {
+-                    ret =3D get_errno(-1);
+-                } else {
+-                    /* Don't worry about sign mismatch as earlier mapping
+-                     * logic would have thrown a bad address error. */
+-                    ret =3D MIN(strlen(real), arg4);
+-                    /* We cannot NUL terminate the string. */
+-                    memcpy(p2, real, ret);
+-                }
++	        /* Don't worry about sign mismatch as earlier mapping
++	         * logic would have thrown a bad address error. */
++                ret =3D MIN(strlen(exec_path), arg4);
++                /* We cannot NUL terminate the string. */
++                memcpy(p2, exec_path, ret);
+             } else {
+                 ret =3D get_errno(readlinkat(arg1, path(p), p2, arg4));
+             }
+=2D-
+2.38.1
 
 
