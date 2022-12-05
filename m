@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA2B642EDC
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4501A642EED
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 18:35:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2FKh-000814-49; Mon, 05 Dec 2022 12:32:47 -0500
+	id 1p2FKO-0007qM-Dx; Mon, 05 Dec 2022 12:32:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+f9b04eb53d39f4899ead+7043+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2FKR-0007tk-0e
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:31 -0500
+ id 1p2FKK-0007ph-En
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:24 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+f9b04eb53d39f4899ead+7043+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2FJx-0007Px-Nx
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:30 -0500
+ id 1p2FJx-0007Q3-N2
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 12:32:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=Aupl4kuf/gI1/02kk+I2HSRBuWEl9wsI/NsKPpWNr5M=; b=muCgrd7qDMACWoI1JoNBU+tuBs
- qN4XEK01AlKnD9Q20mnXmS+u109xKQ6WiBOxk/OAlnJJZFi3h2/q3gwrRVjS/Ysw1+ru4xaIEDNWc
- uJs3Q1wfFFTrail3pbC8ZatYPfT0TZzy/ESil1pKVPbS7IIBzIqsmsczWUrwQz/7HMM2+BRWI+1Ua
- 7f0nFtMGj+7kgdV8s8N6pFoxoIEnIbiupDjYARBKJo1NHwCJIJXgyXWlBI+HLdVM3nLUn3wOuN2XA
- MjwoXDsUiUP1cOwb8yc3PDF6lnpPzM2Q21ijXNhiNiypsoA38Y0CCchXJp0a9ZEt5QwSwZtKePHSl
- vsdqEm5w==;
+ bh=oWg3bACyN27qCqd7T3bd4nHSMuqE7sDFmlT8U9gsszA=; b=BTKRTeRmxdwwxkwcK1j8efmH8S
+ iQP0B3ueDXYzcckWGhQMGS7AwrzEdNgaq35AZ7GT8lq5agVFat0TUiRHcNVc84vcIl0wjJAPADvG7
+ 2ixQj+srdVVz9kFlHI/4WyPUCdlrqI+o8T3pWvgsE2n1GBhes5nPFsy+ylbGkfGvKFRDPD7F5FYzi
+ SKM4tsm+suc86UHQO1WoYWWodC7tyT3Drucdizux+kxKfTNKbcy2UaDT01Zt4g9x6Fn01ILFMTwW6
+ PIF68/aJqZyIoQF2dKWx1uQtd2mal2ZvYlOBr9bFD0jrQGVvF7lebVVMG94rarvg2zP6Fqq4i1hp5
+ gFjUw4Mw==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2FJw-003TwC-Km; Mon, 05 Dec 2022 17:32:00 +0000
+ id 1p2FJw-003TwN-MR; Mon, 05 Dec 2022 17:32:00 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p2FJo-002YJs-GW; Mon, 05 Dec 2022 17:31:52 +0000
+ Hat Linux)) id 1p2FJo-002YJw-HF; Mon, 05 Dec 2022 17:31:52 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Joao Martins <joao.m.martins@oracle.com>,
  Ankur Arora <ankur.a.arora@oracle.com>
-Subject: [RFC PATCH 05/21] hw/xen_backend: refactor xen_be_init()
-Date: Mon,  5 Dec 2022 17:31:21 +0000
-Message-Id: <20221205173137.607044-6-dwmw2@infradead.org>
+Subject: [RFC PATCH 06/21] pc_piix: handle XEN_EMULATE backend init
+Date: Mon,  5 Dec 2022 17:31:22 +0000
+Message-Id: <20221205173137.607044-7-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221205173137.607044-1-dwmw2@infradead.org>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
@@ -77,96 +77,97 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
+And use newly added xen_emulated_machine_init() to iniitalize
+the xenstore and the sysdev bus for future emulated devices.
+
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+[dwmw2: Move it to xen-legacy-backend.c]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/xen/xen-legacy-backend.c         | 40 +++++++++++++++++++++--------
- include/hw/xen/xen-legacy-backend.h |  3 +++
- 2 files changed, 32 insertions(+), 11 deletions(-)
+ hw/i386/pc_piix.c                   |  5 +++++
+ hw/xen/xen-legacy-backend.c         | 22 ++++++++++++++++------
+ include/hw/xen/xen-legacy-backend.h |  2 ++
+ 3 files changed, 23 insertions(+), 6 deletions(-)
 
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 13286d0739..3dcac2f4b6 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -47,6 +47,7 @@
+ #include "hw/sysbus.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/xen/xen-x86.h"
++#include "hw/xen/xen-legacy-backend.h"
+ #include "exec/memory.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/piix4.h"
+@@ -155,6 +156,10 @@ static void pc_init1(MachineState *machine,
+             x86ms->above_4g_mem_size = 0;
+             x86ms->below_4g_mem_size = machine->ram_size;
+         }
++
++        if (pcms->xen_version && !xen_be_xenstore_open()) {
++            xen_emulated_machine_init();
++        }
+     }
+ 
+     pc_machine_init_sgx_epc(pcms);
 diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 085fd31ef7..694e7bbc54 100644
+index 694e7bbc54..60a7bc7ab6 100644
 --- a/hw/xen/xen-legacy-backend.c
 +++ b/hw/xen/xen-legacy-backend.c
-@@ -676,17 +676,40 @@ void xenstore_update_fe(char *watch, struct XenLegacyDevice *xendev)
+@@ -31,6 +31,7 @@
+ #include "qapi/error.h"
+ #include "hw/xen/xen-legacy-backend.h"
+ #include "hw/xen/xen_pvdev.h"
++#include "hw/xen/xen-bus.h"
+ #include "monitor/qdev.h"
+ 
+ DeviceState *xen_sysdev;
+@@ -294,13 +295,15 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
+     xendev->debug      = debug;
+     xendev->local_port = -1;
+ 
+-    xendev->evtchndev = xenevtchn_open(NULL, 0);
+-    if (xendev->evtchndev == NULL) {
+-        xen_pv_printf(NULL, 0, "can't open evtchn device\n");
+-        qdev_unplug(DEVICE(xendev), NULL);
+-        return NULL;
++    if (xen_mode != XEN_EMULATE) {
++        xendev->evtchndev = xenevtchn_open(NULL, 0);
++        if (xendev->evtchndev == NULL) {
++            xen_pv_printf(NULL, 0, "can't open evtchn device\n");
++            qdev_unplug(DEVICE(xendev), NULL);
++            return NULL;
++        }
++        qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
+     }
+-    qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
+ 
+     xen_pv_insert_xendev(xendev);
+ 
+@@ -859,3 +862,10 @@ static void xenbe_register_types(void)
  }
- /* -------------------------------------------------------------------- */
  
--int xen_be_init(void)
-+int xen_be_xenstore_open(void)
- {
--    xengnttab_handle *gnttabdev;
--
-     xenstore = xs_daemon_open();
-     if (!xenstore) {
--        xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
-         return -1;
-     }
- 
-     qemu_set_fd_handler(xs_fileno(xenstore), xenstore_update, NULL, NULL);
-+    return 0;
-+}
+ type_init(xenbe_register_types)
 +
-+void xen_be_xenstore_close(void)
++void xen_emulated_machine_init(void)
 +{
-+    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
-+    xs_daemon_close(xenstore);
-+    xenstore = NULL;
-+}
-+
-+void xen_be_sysdev_init(void)
-+{
-+    xen_sysdev = qdev_new(TYPE_XENSYSDEV);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
-+    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
-+    qbus_set_bus_hotplug_handler(xen_sysbus);
-+}
-+
-+int xen_be_init(void)
-+{
-+    xengnttab_handle *gnttabdev;
-+
-+    if (xen_be_xenstore_open()) {
-+        xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
-+        return -1;
-+    }
- 
-     if (xen_xc == NULL || xen_fmem == NULL) {
-         /* Check if xen_init() have been called */
-@@ -701,17 +724,12 @@ int xen_be_init(void)
-         xengnttab_close(gnttabdev);
-     }
- 
--    xen_sysdev = qdev_new(TYPE_XENSYSDEV);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
--    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
--    qbus_set_bus_hotplug_handler(xen_sysbus);
++    xen_bus_init();
 +    xen_be_sysdev_init();
- 
-     return 0;
- 
- err:
--    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
--    xs_daemon_close(xenstore);
--    xenstore = NULL;
-+    xen_be_xenstore_close();
- 
-     return -1;
- }
++    xen_be_register_common();
++}
 diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-index be281e1f38..0aa171f6c2 100644
+index 0aa171f6c2..aa09015662 100644
 --- a/include/hw/xen/xen-legacy-backend.h
 +++ b/include/hw/xen/xen-legacy-backend.h
-@@ -42,6 +42,9 @@ int xenstore_read_fe_uint64(struct XenLegacyDevice *xendev, const char *node,
- void xen_be_check_state(struct XenLegacyDevice *xendev);
+@@ -105,4 +105,6 @@ int xen_config_dev_vfb(int vdev, const char *type);
+ int xen_config_dev_vkbd(int vdev);
+ int xen_config_dev_console(int vdev);
  
- /* xen backend driver bits */
-+int xen_be_xenstore_open(void);
-+void xen_be_xenstore_close(void);
-+void xen_be_sysdev_init(void);
- int xen_be_init(void);
- void xen_be_register_common(void);
- int xen_be_register(const char *type, struct XenDevOps *ops);
++void xen_emulated_machine_init(void);
++
+ #endif /* HW_XEN_LEGACY_BACKEND_H */
 -- 
 2.35.3
 
