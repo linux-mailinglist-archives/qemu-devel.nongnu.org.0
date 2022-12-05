@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F5F642CCD
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 17:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A4F642DDA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 17:52:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2EKq-0003CW-Iq; Mon, 05 Dec 2022 11:28:52 -0500
+	id 1p2Efp-0000Ya-43; Mon, 05 Dec 2022 11:50:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2EKo-0003C0-Tj
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:28:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2EKn-0004Dx-Cz
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:28:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670257728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1H2u5IQW77IX4rsv+0lir34838s3eV6vMnaX5cymjJ4=;
- b=IZ7X8mfFWHGOXBBPKNq7piHJPhkaYHdlSwYqqFSfrm3g0WH1865GFE7fDrzopq7eu3kSMR
- OsuymrQrd4rl68eex0nNUP/rT3S1PLQdKOnBssG/cyfoRQNO2RblQlpeDPTckc7Fgq3g7y
- AXsui5AytHfFPHXLutWSShekgGhS9ec=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-597-2qvBSoyUPCO5TNUNK_h3Cw-1; Mon, 05 Dec 2022 11:28:39 -0500
-X-MC-Unique: 2qvBSoyUPCO5TNUNK_h3Cw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- u15-20020a0cec8f000000b004c704e015f7so30035206qvo.1
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 08:28:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p2Efn-0000Xp-Ju
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:50:31 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p2Efl-0000Mu-Q1
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:50:31 -0500
+Received: by mail-pf1-x431.google.com with SMTP id h28so11927345pfq.9
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 08:50:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6C6MAUioop+DtdSfdnLhzwpeD9w+vPUAVhC0ElJtXo=;
+ b=uhRLgoP77qUV+Y0hOxwUTnI9CUdA9o4uL0X+pi8RnLe49s7JJOIhcu+h7OUfMuHtAJ
+ oXVp5BtvAT4Vj+mgU44zT34uGEXtpAPQsLA8QhxTKxvOCVj/fCGYhdXPl9aezWleeuQW
+ bCRIxtMWJrV58UtL1e7gbE9mBMi8gud/CmYDbQghLcMZwIso/g0JrIKS0p4aAcLJrfpN
+ gkUFRfWjqUhvRrTuu74MKD3XV8J0IRR9sRvZuMyWccBYs3+ErE+YPBsdW+81gYZqjZmY
+ wAr98MlLeHxL9fNssCeGx0jYbPow+N27lgeH8pGiwqK+HGQ2kd5QQM7QgFWZa0kOYC+/
+ RLpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1H2u5IQW77IX4rsv+0lir34838s3eV6vMnaX5cymjJ4=;
- b=2D6G/6zu16WwAFQWKh+91e+o+1N+smH/Uz8+xzX1A7lAROropkgp1FMD7HIaF4GfbB
- Am199+OSFRqguvj+ZIBdhODzLa/pvy2G0wu4XvsOPJPog7cESLmPbVqKaUkxH8cIPsKM
- oCAzg5Sv4V1IIGQU7KjkgkCrFchxagbt0AhDw0faxYg/DUiVOSFkRBGI91oYGGz0OwK7
- r9o2MHpu87yCJNLS0mbtgA0A6t2K9Y2t0r0rAR5u6SPxztFe8OYbgzCUAz2hWQwayA+J
- U3QfY54incGnTSKolD5RuMa1phuZ9SG8Ow+BrHKVTZEmXKyAHKrNX+b+/0Iu1B37EJ1C
- iOgQ==
-X-Gm-Message-State: ANoB5plQKRUYw2QHVvJEGTg0VJVsaGv/FCZ1Uq/cN1OtL8FbidvHP7yx
- OvqSLkFtlHUG8dYfvJpHBAc5cdY7qNLncXeMxGsb+hB5dX6kX76C3xXs00hrAg9yR1i2GjgtgV1
- hr9La+S1a3wPtFu8=
-X-Received: by 2002:ad4:5347:0:b0:4b9:e098:e334 with SMTP id
- v7-20020ad45347000000b004b9e098e334mr63699824qvs.38.1670257719392; 
- Mon, 05 Dec 2022 08:28:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7O84e1Ee57tTLoQOw/JuoT0rFAxHEb807g9YVz6s4LM3DvXVFd7h1qDgfILh/gBAVOcTKVyw==
-X-Received: by 2002:ad4:5347:0:b0:4b9:e098:e334 with SMTP id
- v7-20020ad45347000000b004b9e098e334mr63699800qvs.38.1670257719102; 
- Mon, 05 Dec 2022 08:28:39 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- r16-20020ae9d610000000b006e42a8e9f9bsm4688121qkk.121.2022.12.05.08.28.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 08:28:38 -0800 (PST)
-Date: Mon, 5 Dec 2022 11:28:37 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
- zhouyibo@bytedance.com, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH] migration: reduce time of loading non-iterable vmstate
-Message-ID: <Y44cNenFueVE4RFW@x1n>
-References: <20221118083648.2399615-1-xuchuangxclwt@bytedance.com>
- <Y3+egjXTvLEHDjuT@x1n>
- <7e5c5d6c-8f23-c0c5-5f5c-5daad854c2e7@bytedance.com>
- <Y4Ty07M/HN9UnsGb@x1n>
- <1adf426d-a9c8-9015-383b-3e82eb6b7c54@bytedance.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y6C6MAUioop+DtdSfdnLhzwpeD9w+vPUAVhC0ElJtXo=;
+ b=mq9MojEPo5EOp5+ZGAgUv6D0xOWnusiePvmdds+wDZdzYq3ds0IdZraB2iDscLVVEw
+ ArOWR793LCPeG+4UdjAoJyry4+j8+f2ukUeSuaCzwmfxt3+NuvwPFscyNiDkDTMIS4SF
+ 55szBE9BfgXKvX3GTFW8xYy8HLE597KUByiv0sjJGn+KVpoyyls2uzd0SCjPhjQCS+Xm
+ 5V0uLz4HjXcNmso+KMCYtb8N99G2hFLzP6a9ESLxnWJ9TYHE2MUE7nAbOhUmkwyJBWiC
+ c8bCWhEFdZj/ElQRLvImUKee4hofWRgO5SdbGgZ49qDmJ4GePjIfgkrndN8ZFThCinxk
+ LCjA==
+X-Gm-Message-State: ANoB5pl1mzPnbt1bFG/4nQGzf/yhbzqZSSVjTgbc+3pSD64UJ6D/aNbD
+ 13uEm0dqbAyDDsjXXOsExDRv458hxVd0JGde9HbD3w==
+X-Google-Smtp-Source: AA0mqf6jvqG5tyCNoI9IO5WkSyqGigeS8PPSjxNMZN3d/hxZKSzP4iboXTaGsreC/VMSURdOfPqJdQuNHkrvaz+b7OQ=
+X-Received: by 2002:aa7:8502:0:b0:576:9786:94c2 with SMTP id
+ v2-20020aa78502000000b00576978694c2mr11807252pfn.26.1670259028234; Mon, 05
+ Dec 2022 08:50:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1adf426d-a9c8-9015-383b-3e82eb6b7c54@bytedance.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221024051851.3074715-1-richard.henderson@linaro.org>
+ <20221024051851.3074715-15-richard.henderson@linaro.org>
+In-Reply-To: <20221024051851.3074715-15-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Dec 2022 16:50:16 +0000
+Message-ID: <CAFEAcA_5P+HgDjNJE6XZ7hN0TcOPOJfxzMANN9HQ8+b7R+34bw@mail.gmail.com>
+Subject: Re: [PATCH v6 14/14] target/arm: Use the max page size in a 2-stage
+ ptw
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,69 +84,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Chuang,
+On Mon, 24 Oct 2022 at 06:19, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We had only been reporting the stage2 page size.  This causes
+> problems if stage1 is using a larger page size (16k, 2M, etc),
+> but stage2 is using a smaller page size, because cputlb does
+> not set large_page_{addr,mask} properly.
+>
+> Fix by using the max of the two page sizes.
+>
+> Reported-by: Marc Zyngier <maz@kernel.org>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-No worry on the delay; you're faster than when I read yours. :)
+So when I was reviewing the v8R patchset I re-found this
+change in the code, and had some questions about it that
+I wasn't thinking about the first time...
 
-On Mon, Dec 05, 2022 at 02:56:15PM +0800, Chuang Xu wrote:
-> > As a start, maybe you can try with poison address_space_to_flatview() (by
-> > e.g. checking the start_pack_mr_change flag and assert it is not set)
-> > during this process to see whether any call stack can even try to
-> > dereference a flatview.
-> > 
-> > It's just that I didn't figure a good way to "prove" its validity, even if
-> > I think this is an interesting idea worth thinking to shrink the downtime.
-> 
-> Thanks for your sugguestions!
-> I used a thread local variable to identify whether the current thread is a
-> migration thread(main thread of target qemu) and I modified the code of
-> qemu_coroutine_switch to make sure the thread local variable true only in
-> process_incoming_migration_co call stack. If the target qemu detects that
-> start_pack_mr_change is set and address_space_to_flatview() is called in
-> non-migrating threads or non-migrating coroutine, it will crash.
+> @@ -2639,6 +2640,14 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
+>          return ret;
+>      }
+>
+> +    /*
+> +     * Use the maximum of the S1 & S2 page size, so that invalidation
+> +     * of pages > TARGET_PAGE_SIZE works correctly.
+> +     */
+> +    if (result->f.lg_page_size < s1_lgpgsz) {
+> +        result->f.lg_page_size = s1_lgpgsz;
+> +    }
+> +
+>      /* Combine the S1 and S2 cache attributes. */
+>      hcr = arm_hcr_el2_eff_secstate(env, is_secure);
+>      if (hcr & HCR_DC) {
 
-Are you using the thread var just to avoid the assert triggering in the
-migration thread when commiting memory changes?
+Firstly, what if the lg_page_size is < TARGET_PAGE_SIZE ?
+I think this can't happen for VMSA, but for PMSA it will
+when the region (in either S1 or S2) is less than the page size
+(in which case lg_page_size is 0). Presumably in this case we
+want to set the result's lg_page_size to also be 0 to
+preserve the "don't put this in the TLB" effect.
 
-I think _maybe_ another cleaner way to sanity check this is directly upon
-the depth:
+Secondly, how does this work for VMSA? Suppose that stage 1
+is using 4K pages and stage 2 is using 64K pages. We will then
+claim here that the result lg_page_size is 64K, but the
+attributes and mapping in the result are only valid for
+the 4K page that we looked up in stage 1 -- the surrounding
+4K pages could have entirely different permissions/mapping.
 
-static inline FlatView *address_space_to_flatview(AddressSpace *as)
-{
-    /*
-     * Before using any flatview, sanity check we're not during a memory
-     * region transaction or the map can be invalid.  Note that this can
-     * also be called during commit phase of memory transaction, but that
-     * should also only happen when the depth decreases to 0 first.
-     */
-    assert(memory_region_transaction_depth == 0);
-    return qatomic_rcu_read(&as->current_map);
-}
-
-That should also cover the safe cases of memory transaction commits during
-migration.
-
-> I tested migration for lots of times, there was no crash. Does this prove
-> the validity to some extent?
-
-Yes I think so, it's just that if we cannot 100% prove it's safe (e.g. you
-cannot cover all the code paths in qemu that migration can trigger) then we
-may need some sanity check like above along with the solution to make sure
-even if something wrong it won't go wrong as weird.
-
-And if we want to try this out, it'll better be at the start of a dev cycle
-and we fix things or revert before the next rc0 releases.
-
-I'm not sure whether that assert might be too strong, we can use an error
-instead, but so far I don't see how that can happen and if that happens I
-feel like it's bad enough, so maybe not so much.  Then AFAICT we can
-completely drop start_pack_mr_change with that stronger check.
-
-If you agree with above, feel free to have two patches in the new version,
-making the depth assert a separate patch.  At the meantime, let's see
-whether you can get some other comments from others.
-
--- 
-Peter Xu
-
+thanks
+-- PMM
 
