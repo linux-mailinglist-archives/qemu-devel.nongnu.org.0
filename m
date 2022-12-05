@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A4F642DDA
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 17:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B33642DFD
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 17:54:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Efp-0000Ya-43; Mon, 05 Dec 2022 11:50:33 -0500
+	id 1p2Eik-00028Y-Sj; Mon, 05 Dec 2022 11:53:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2Efn-0000Xp-Ju
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:50:31 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ id 1p2Eie-00028L-0S
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:53:28 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2Efl-0000Mu-Q1
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:50:31 -0500
-Received: by mail-pf1-x431.google.com with SMTP id h28so11927345pfq.9
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 08:50:29 -0800 (PST)
+ id 1p2Eic-0000jS-3i
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 11:53:27 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id q15so10755139pja.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 08:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Y6C6MAUioop+DtdSfdnLhzwpeD9w+vPUAVhC0ElJtXo=;
- b=uhRLgoP77qUV+Y0hOxwUTnI9CUdA9o4uL0X+pi8RnLe49s7JJOIhcu+h7OUfMuHtAJ
- oXVp5BtvAT4Vj+mgU44zT34uGEXtpAPQsLA8QhxTKxvOCVj/fCGYhdXPl9aezWleeuQW
- bCRIxtMWJrV58UtL1e7gbE9mBMi8gud/CmYDbQghLcMZwIso/g0JrIKS0p4aAcLJrfpN
- gkUFRfWjqUhvRrTuu74MKD3XV8J0IRR9sRvZuMyWccBYs3+ErE+YPBsdW+81gYZqjZmY
- wAr98MlLeHxL9fNssCeGx0jYbPow+N27lgeH8pGiwqK+HGQ2kd5QQM7QgFWZa0kOYC+/
- RLpQ==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=c3nhnS0uOfxB5Sl+YA+hc5QY0nqSrnGy+LXSk7P0RfA=;
+ b=vWyKbuCYWo/UKJE015xdKqTPIXrcYQCqBaxXRSufMTg/Ob7TwBClntHKnwrzskpjzE
+ d4+2PrLtgIvoQxXvC1cpkIePjLD9Bm0m73UCY+zho4rRwBTOm3x1tm83QnJoDGuTfOyk
+ 8e8UHYnv4i97c1BAWy3BqEbow+g69KjKY2Ahba/7vrwGs+Xcl5VS6cW3DQ2VeTmoOFIu
+ CjyLS0Dhb1zEHRC8rjGbodPRdtpTs1vqsglUE6w43RmsATCTuStEFTufktQp9iQDLvnV
+ S5Eu+VDW9asAznBjGwKOm/WU53cP4PjFJV3sQQrOZQv7YaXGeUgSvHUzUm4q1PqBfTh1
+ XHjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y6C6MAUioop+DtdSfdnLhzwpeD9w+vPUAVhC0ElJtXo=;
- b=mq9MojEPo5EOp5+ZGAgUv6D0xOWnusiePvmdds+wDZdzYq3ds0IdZraB2iDscLVVEw
- ArOWR793LCPeG+4UdjAoJyry4+j8+f2ukUeSuaCzwmfxt3+NuvwPFscyNiDkDTMIS4SF
- 55szBE9BfgXKvX3GTFW8xYy8HLE597KUByiv0sjJGn+KVpoyyls2uzd0SCjPhjQCS+Xm
- 5V0uLz4HjXcNmso+KMCYtb8N99G2hFLzP6a9ESLxnWJ9TYHE2MUE7nAbOhUmkwyJBWiC
- c8bCWhEFdZj/ElQRLvImUKee4hofWRgO5SdbGgZ49qDmJ4GePjIfgkrndN8ZFThCinxk
- LCjA==
-X-Gm-Message-State: ANoB5pl1mzPnbt1bFG/4nQGzf/yhbzqZSSVjTgbc+3pSD64UJ6D/aNbD
- 13uEm0dqbAyDDsjXXOsExDRv458hxVd0JGde9HbD3w==
-X-Google-Smtp-Source: AA0mqf6jvqG5tyCNoI9IO5WkSyqGigeS8PPSjxNMZN3d/hxZKSzP4iboXTaGsreC/VMSURdOfPqJdQuNHkrvaz+b7OQ=
-X-Received: by 2002:aa7:8502:0:b0:576:9786:94c2 with SMTP id
- v2-20020aa78502000000b00576978694c2mr11807252pfn.26.1670259028234; Mon, 05
- Dec 2022 08:50:28 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=c3nhnS0uOfxB5Sl+YA+hc5QY0nqSrnGy+LXSk7P0RfA=;
+ b=BbuF4bgL/fjrhiiG0TYwgWhNH3D+XU94YOzV6lka2cymb3tH+8Il2yqmuuG7cXNV05
+ 5KNwohAerhPrAPcZRjKHSvV8XVweg050T9PSndJoBItvBlH47rBVIo7gUd7tQaX0Q3HA
+ x2joPL9kdu2GfaZqWMw1H/QpY1R0aqDsbmcrf67sBAmAy6FNXZaa9a/+wBfnwK0O2LCA
+ Z0Qvc94SJOm++/QKjuIDQUxBU6ps+6ac+GKwBR5GCvWCumwN0CTOoX81krWToNsKVp7e
+ sepsd8kRp3Gq5V0ZbFskm/hNLTV0of4oeAoCXZM2rCScdXjQoyxk9WMZCs57k6lpMBn9
+ ze7w==
+X-Gm-Message-State: ANoB5pn/lBHf1GcrwK9n++3vco7PHkda0Zmpwc5XlFqIscxAC6nFDmVc
+ mlQImDl5pG7n9FeokrfQ6m5aIeUQLlzBu/MJHW6ih0USkN9nZw==
+X-Google-Smtp-Source: AA0mqf45URxa/QAVsMeTB3s6GjiwXYINb1vjQugn/j4RelTPrMmif9klet1cRht/q02Y/JIJcrfbgeKn2P/rKsL58sU=
+X-Received: by 2002:a17:90a:ac0b:b0:219:9874:c7d3 with SMTP id
+ o11-20020a17090aac0b00b002199874c7d3mr15082465pjq.221.1670259204545; Mon, 05
+ Dec 2022 08:53:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20221024051851.3074715-1-richard.henderson@linaro.org>
- <20221024051851.3074715-15-richard.henderson@linaro.org>
-In-Reply-To: <20221024051851.3074715-15-richard.henderson@linaro.org>
+References: <20221127132112.300331-1-tobias.roehmel@rwth-aachen.de>
+ <20221127132112.300331-7-tobias.roehmel@rwth-aachen.de>
+In-Reply-To: <20221127132112.300331-7-tobias.roehmel@rwth-aachen.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Dec 2022 16:50:16 +0000
-Message-ID: <CAFEAcA_5P+HgDjNJE6XZ7hN0TcOPOJfxzMANN9HQ8+b7R+34bw@mail.gmail.com>
-Subject: Re: [PATCH v6 14/14] target/arm: Use the max page size in a 2-stage
- ptw
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Marc Zyngier <maz@kernel.org>
+Date: Mon, 5 Dec 2022 16:53:13 +0000
+Message-ID: <CAFEAcA-terJNAg4owNJQKBGR=Vojz=uy1iQ9z5jWN7rjnew1ZA@mail.gmail.com>
+Subject: Re: [PATCH v5 6/7] target/arm: Add PMSAv8r functionality
+To: tobias.roehmel@rwth-aachen.de
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,53 +85,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 24 Oct 2022 at 06:19, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sun, 27 Nov 2022 at 13:21, <tobias.roehmel@rwth-aachen.de> wrote:
 >
-> We had only been reporting the stage2 page size.  This causes
-> problems if stage1 is using a larger page size (16k, 2M, etc),
-> but stage2 is using a smaller page size, because cputlb does
-> not set large_page_{addr,mask} properly.
+> From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 >
-> Fix by using the max of the two page sizes.
+> Add PMSAv8r translation.
 >
-> Reported-by: Marc Zyngier <maz@kernel.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
+> ---
+>  target/arm/ptw.c | 127 +++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 105 insertions(+), 22 deletions(-)
+>
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 7d19829702..0514a83c1b 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -1758,9 +1758,14 @@ static bool pmsav7_use_background_region(ARMCPU *c=
+pu, ARMMMUIdx mmu_idx,
+>
+>      if (arm_feature(env, ARM_FEATURE_M)) {
+>          return env->v7m.mpu_ctrl[is_secure] & R_V7M_MPU_CTRL_PRIVDEFENA_=
+MASK;
+> -    } else {
+> -        return regime_sctlr(env, mmu_idx) & SCTLR_BR;
+>      }
+> +
+> +    if (arm_feature(env, ARM_FEATURE_V8) &&
+> +        ((mmu_idx =3D=3D ARMMMUIdx_Stage2) || (mmu_idx =3D=3D ARMMMUIdx_=
+Stage1_E0))) {
+> +        return false;
+> +    }
 
-So when I was reviewing the v8R patchset I re-found this
-change in the code, and had some questions about it that
-I wasn't thinking about the first time...
+You don't need to check mmu_idx =3D=3D ARMMMUIdx_Stage1_E0 here,
+because we've already returned false if is_user earlier.
+You don't need to check for ARM_FEATURE_V8, because we won't
+ever get here with ARMMMUIdx_Stage2 unless we have v8. So
+this simplifies to
 
-> @@ -2639,6 +2640,14 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
->          return ret;
+if (mmu_idx =3D=3D ARMMMUIdx_Stage2) {
+    return false;
+}
+
+> +
+> +    return regime_sctlr(env, mmu_idx) & SCTLR_BR;
+>  }
+
+> @@ -2074,21 +2126,46 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t=
+ address,
+>              xn =3D 1;
+>          }
+>
+> -        result->f.prot =3D simple_ap_to_rw_prot(env, mmu_idx, ap);
+> +        if (regime_el(env, mmu_idx) =3D=3D 2) {
+> +            result->f.prot =3D simple_ap_to_rw_prot_is_user(ap,
+> +                                            mmu_idx !=3D ARMMMUIdx_E2);
+> +        } else {
+> +            result->f.prot =3D simple_ap_to_rw_prot(env, mmu_idx, ap);
+> +        }
+> +
+> +        if (!arm_feature(env, ARM_FEATURE_M)) {
+> +
+> +            if (regime_sctlr(env, mmu_idx) & SCTLR_WXN &&
+> +                result->f.prot & PAGE_WRITE && mmu_idx !=3D ARMMMUIdx_St=
+age2) {
+> +                xn =3D 0x1;
+> +            }
+> +
+> +            if ((regime_el(env, mmu_idx) =3D=3D 1) &&
+> +                regime_sctlr(env, mmu_idx) & SCTLR_UWXN && ap =3D=3D 0x1=
+) {
+> +                pxn =3D 0x1;
+> +            }
+> +
+> +            uint8_t attrindx =3D extract32(matched_rlar, 1, 3);
+> +            uint64_t mair =3D env->cp15.mair_el[regime_el(env, mmu_idx)]=
+;
+> +            uint8_t sh =3D extract32(matched_rlar, 3, 2);
+
+Don't declare variables in the middle of a code block, please.
+
+> +            result->cacheattrs.is_s2_format =3D false;
+> +            result->cacheattrs.attrs =3D extract64(mair, attrindx * 8, 8=
+);
+> +            result->cacheattrs.shareability =3D sh;
+> +        }
+> +
+>          if (result->f.prot && !xn && !(pxn && !is_user)) {
+>              result->f.prot |=3D PAGE_EXEC;
+>          }
+> -        /*
+> -         * We don't need to look the attribute up in the MAIR0/MAIR1
+> -         * registers because that only tells us about cacheability.
+> -         */
+> +
+>          if (mregion) {
+>              *mregion =3D matchregion;
+>          }
 >      }
 >
-> +    /*
-> +     * Use the maximum of the S1 & S2 page size, so that invalidation
-> +     * of pages > TARGET_PAGE_SIZE works correctly.
-> +     */
-> +    if (result->f.lg_page_size < s1_lgpgsz) {
-> +        result->f.lg_page_size = s1_lgpgsz;
+>      fi->type =3D ARMFault_Permission;
+> -    fi->level =3D 1;
+> +    if (arm_feature(env, ARM_FEATURE_M)) {
+> +        fi->level =3D 1;
 > +    }
-> +
->      /* Combine the S1 and S2 cache attributes. */
->      hcr = arm_hcr_el2_eff_secstate(env, is_secure);
->      if (hcr & HCR_DC) {
+>      return !(result->f.prot & (1 << access_type));
+>  }
+>
+> @@ -2649,7 +2726,13 @@ static bool get_phys_addr_twostage(CPUARMState *en=
+v, S1Translate *ptw,
+>      cacheattrs1 =3D result->cacheattrs;
+>      memset(result, 0, sizeof(*result));
+>
+> -    ret =3D get_phys_addr_lpae(env, ptw, ipa, access_type, is_el0, resul=
+t, fi);
+> +    if (arm_feature(env, ARM_FEATURE_PMSA)) {
+> +        ret =3D get_phys_addr_pmsav8(env, ipa, access_type,
+> +                                   ptw->in_mmu_idx, is_secure, result, f=
+i);
+> +    } else {
+> +        ret =3D get_phys_addr_lpae(env, ptw, ipa, access_type,
+> +                                 is_el0, result, fi);
+> +    }
+>      fi->s2addr =3D ipa;
+>
+>      /* Combine the S1 and S2 perms.  */
 
-Firstly, what if the lg_page_size is < TARGET_PAGE_SIZE ?
-I think this can't happen for VMSA, but for PMSA it will
-when the region (in either S1 or S2) is less than the page size
-(in which case lg_page_size is 0). Presumably in this case we
-want to set the result's lg_page_size to also be 0 to
-preserve the "don't put this in the TLB" effect.
-
-Secondly, how does this work for VMSA? Suppose that stage 1
-is using 4K pages and stage 2 is using 64K pages. We will then
-claim here that the result lg_page_size is 64K, but the
-attributes and mapping in the result are only valid for
-the 4K page that we looked up in stage 1 -- the surrounding
-4K pages could have entirely different permissions/mapping.
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
