@@ -2,73 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377D364223B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 05:24:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F74764223C
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 05:24:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p231C-00023r-I1; Sun, 04 Dec 2022 23:23:50 -0500
+	id 1p231x-0002d8-9P; Sun, 04 Dec 2022 23:24:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p2319-000234-UY
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:23:47 -0500
+ id 1p231v-0002a0-5y
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:24:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p2315-0002q3-Ap
- for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:23:47 -0500
+ id 1p231t-0002tH-Js
+ for qemu-devel@nongnu.org; Sun, 04 Dec 2022 23:24:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670214222;
+ s=mimecast20190719; t=1670214272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=16FNkYMh+2XbM12YsiJDu5IX+R+EaCelhn86Et7G2GE=;
- b=U1GoQOYL2IbNyeQWUwecU2O6ZGFwfew9YsYEXQHsjkMH7sQNPv9LTaNwur8rhtLT076Uz9
- 1mniFuqXDbsPjcdB1wqON93ASMxwczUdtBOL9k/eYxu5ZFWLuRxoEXIkDqqCapWUX24Lt8
- RwKBtO72ozT9/O/+SfnECU66tkorV3k=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R8n5fxGwWYcu15nmomTbV4cNBstkBFYb9k2K8ul1sbM=;
+ b=B2n3lHoY1nvAyhyK3X+riPX6XoVd3gQknYrI1hDT+slpkGEV78mwgdVqaou5TBeR8mSYZI
+ tGyK7gaJnErDWngM+LQLw4FX3tKBFVjbCon4jIR1ocOszmVpBnDHryOtXeeoGN/BP4nXlS
+ pcQtcjYPwDuOBXTojPeCsZ51GTJAClM=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-9-_J8ZPsOvNKGJLGqPk67Arw-1; Sun, 04 Dec 2022 23:23:32 -0500
-X-MC-Unique: _J8ZPsOvNKGJLGqPk67Arw-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-14459615659so1919570fac.1
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 20:23:32 -0800 (PST)
+ us-mta-325-CeGQWxAmOAC-p4vRdDKbNg-1; Sun, 04 Dec 2022 23:24:25 -0500
+X-MC-Unique: CeGQWxAmOAC-p4vRdDKbNg-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ l5-20020a9d7a85000000b0066ec7926f9cso738605otn.18
+ for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 20:24:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=16FNkYMh+2XbM12YsiJDu5IX+R+EaCelhn86Et7G2GE=;
- b=YH81RjZmTJnQnEK/G4+7oYPj0CGh225tN9teRlvr0s9m6bkoIg5i5r5645euaeMce/
- sxkGyJpjK7SKQqy2PYKIWkt35zWFIotgTlUOkbPz6vqZ2wJmJ0XS45sXQnvTYdxMxtbv
- dYAbAwe3AfklUwq+w0modffbWYvep9amkKRTx+SAQ3Aj6hCe+N0Rh7vyS+DMz1rSkAq8
- Lx37JH0RU7jKUYWIB5PEoKDW6QT3GljpI0H+XoCJECm88L1InCIDboBxy4YrBs0ma84g
- ZAOjeq85j6sqKDgmg25aWaIvzZrrdw33zEauzprAqLoTKDIaqtgV60mioUqIiPEbwHOw
- H5Dw==
-X-Gm-Message-State: ANoB5pnohd4JYIDDAmIUuKf1SGpOWZ24iIKXSWO0FlQmHPYKwLXD4vgh
- 8zibucJmWfssYl4TtGuQJWlFKdK0XpGcn7wJM6oqgTxldWpJ59F9OZHiU5vY3dtV+9eqKq3eyPc
- e1Pv/6wOKHZslaiZZhmafBMN9qnva0Og=
-X-Received: by 2002:a4a:b145:0:b0:49f:449a:5f6c with SMTP id
- e5-20020a4ab145000000b0049f449a5f6cmr25633741ooo.93.1670214211774; 
- Sun, 04 Dec 2022 20:23:31 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5YjjUCvjT3Ns0icv1jDADvSjVsyTXETmJzsF08DW5hwgbuvx8CcdvuGvH52P0TeyUsQCItYTZ7TZENejyaQXA=
-X-Received: by 2002:a4a:b145:0:b0:49f:449a:5f6c with SMTP id
- e5-20020a4ab145000000b0049f449a5f6cmr25633733ooo.93.1670214211513; Sun, 04
- Dec 2022 20:23:31 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R8n5fxGwWYcu15nmomTbV4cNBstkBFYb9k2K8ul1sbM=;
+ b=17C9x5c2lXyp0sY4RyLp/vfCUpbtJEFKwp8KjQDqVZG55PU/JT8Fef5i3P+sZS8DIs
+ O8QYrw7+GU+K3ZJIkdN689IHNxXNO8qUoIqbIEZXVLvXR/z9b6GfkjNx4NPfVFS7FxP1
+ isUvOeZqmHAsHJ0UKvTO8fbHfEfurWX9p55J2Wuij2oz0EAau51RSKILC7Gmq6RLGag4
+ mzYQuuBfPweNMNxZ9Y11bcF7D5hB1Kw/tzb2+Owrk7MVr6oRsNbsjWY/HGEUh7QWz4CU
+ 2R/sTe1jGTCVsJhnhCVryEvF0VYJ5vFa2XicrENHisXfbTlwPrnn780CTrgGxJoFQhNa
+ glXQ==
+X-Gm-Message-State: ANoB5pnBXsR5/M7v9SIAKN+vwn6Vqw0AFLGIUKbBVoGKutvy4gE/OiQc
+ B6H0Gra5aUSv2M69Cq1oYO1WK1cX1ivKkxFxIVk5j8huabuzOBbv8R+y/KDC6enpmJC1ksrhN2L
+ 1LgDgyXlWS6kUoSECm46Xdg8d8P+QOHI=
+X-Received: by 2002:a9d:61ca:0:b0:66e:6d59:b2df with SMTP id
+ h10-20020a9d61ca000000b0066e6d59b2dfmr10522449otk.201.1670214264939; 
+ Sun, 04 Dec 2022 20:24:24 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4RmLbd7rUQksRMHkj9ik2O62qZVkkYm6Hly+Fv/Xv8q2NeYMX08gt01mq3ZbeT9soaY3c9pKmYRi9xo7xo4Uo=
+X-Received: by 2002:a9d:61ca:0:b0:66e:6d59:b2df with SMTP id
+ h10-20020a9d61ca000000b0066e6d59b2dfmr10522436otk.201.1670214264729; Sun, 04
+ Dec 2022 20:24:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20221201162501.3864692-1-peterx@redhat.com>
-In-Reply-To: <20221201162501.3864692-1-peterx@redhat.com>
+References: <20221124155158.2109884-1-eperezma@redhat.com>
+ <20221124155158.2109884-7-eperezma@redhat.com>
+ <CACGkMEubBA9NYR5ynT_2C=iMEk3fph2GEOBvcw73BOuqiFKzJg@mail.gmail.com>
+ <CAJaqyWcR_3vdXLJ4=z+_uaoVN47gEXr7KHx3w6z8HtmqquK7zA@mail.gmail.com>
+ <CACGkMEs3xfGsptV9H+P+O1yjVzo_vugGnS72EwpE8FLECkccpQ@mail.gmail.com>
+ <CAJaqyWemta-dmaqaVphqn=riEiVrVsm5K5nSZYxBZVY6Zt8Eow@mail.gmail.com>
+In-Reply-To: <CAJaqyWemta-dmaqaVphqn=riEiVrVsm5K5nSZYxBZVY6Zt8Eow@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 5 Dec 2022 12:23:20 +0800
-Message-ID: <CACGkMEu2NrYULRLZAUNbp5SAUVPb8nMZb9=3=JWFHciC7FAHkg@mail.gmail.com>
-Subject: Re: [PATCH] intel-iommu: Document iova_tree
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
- Yi Liu <yi.l.liu@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
- Eric Auger <eric.auger@redhat.com>
+Date: Mon, 5 Dec 2022 12:24:13 +0800
+Message-ID: <CACGkMEs=6fv-DG_bvbMpu2xwj9s_neBcm=CqKnOArVE4_z-yHA@mail.gmail.com>
+Subject: Re: [PATCH for 8.0 v8 06/12] vdpa: extract
+ vhost_vdpa_svq_allocate_iova_tree
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org, 
+ Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -93,74 +109,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 2, 2022 at 12:25 AM Peter Xu <peterx@redhat.com> wrote:
+On Thu, Dec 1, 2022 at 5:50 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
 >
-> It seems not super clear on when iova_tree is used, and why.  Add a rich
-> comment above iova_tree to track why we needed the iova_tree, and when we
-> need it.
+> On Thu, Dec 1, 2022 at 9:45 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Wed, Nov 30, 2022 at 3:40 PM Eugenio Perez Martin
+> > <eperezma@redhat.com> wrote:
+> > >
+> > > On Wed, Nov 30, 2022 at 7:43 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > > >
+> > > > On Thu, Nov 24, 2022 at 11:52 PM Eugenio P=C3=A9rez <eperezma@redha=
+t.com> wrote:
+> > > > >
+> > > > > It can be allocated either if all virtqueues must be shadowed or =
+if
+> > > > > vdpa-net detects it can shadow only cvq.
+> > > > >
+> > > > > Extract in its own function so we can reuse it.
+> > > > >
+> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > > ---
+> > > > >  net/vhost-vdpa.c | 29 +++++++++++++++++------------
+> > > > >  1 file changed, 17 insertions(+), 12 deletions(-)
+> > > > >
+> > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > > index 88e0eec5fa..9ee3bc4cd3 100644
+> > > > > --- a/net/vhost-vdpa.c
+> > > > > +++ b/net/vhost-vdpa.c
+> > > > > @@ -240,6 +240,22 @@ static NetClientInfo net_vhost_vdpa_info =3D=
+ {
+> > > > >          .check_peer_type =3D vhost_vdpa_check_peer_type,
+> > > > >  };
+> > > > >
+> > > > > +static int vhost_vdpa_get_iova_range(int fd,
+> > > > > +                                     struct vhost_vdpa_iova_rang=
+e *iova_range)
+> > > > > +{
+> > > > > +    int ret =3D ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range)=
+;
+> > > > > +
+> > > > > +    return ret < 0 ? -errno : 0;
+> > > > > +}
+> > > >
+> > > > I don't get why this needs to be moved to net specific code.
+> > > >
+> > >
+> > > It was already in net, this code just extracted it in its own functio=
+n.
+> >
+> > Ok, there's similar function that in vhost-vdpa.c:
+> >
+> > static void vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
+> > {
+> >     int ret =3D vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE,
+> >                               &v->iova_range);
+> >     if (ret !=3D 0) {
+> >         v->iova_range.first =3D 0;
+> >         v->iova_range.last =3D UINT64_MAX;
+> >     }
+> >
+> >     trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
+> >                                     v->iova_range.last);
+> > }
+> >
+> > I think we can reuse that.
+> >
 >
-> Suggested-by: Jason Wang <jasowang@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  include/hw/i386/intel_iommu.h | 30 +++++++++++++++++++++++++++++-
->  1 file changed, 29 insertions(+), 1 deletion(-)
+> That's right, but I'd do the reverse: I would store iova_min, iova_max
+> in VhostVDPAState and would set it to vhost_vdpa at
+> net_vhost_vdpa_init. That way, we only have one ioctl call at the
+> beginning instead of having (#vq pairs + cvq) calls each time the
+> device starts. I can send it in a new change if you see it ok.
 >
-> diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-> index 46d973e629..8d130ab2e3 100644
-> --- a/include/hw/i386/intel_iommu.h
-> +++ b/include/hw/i386/intel_iommu.h
-> @@ -109,7 +109,35 @@ struct VTDAddressSpace {
->      QLIST_ENTRY(VTDAddressSpace) next;
->      /* Superset of notifier flags that this address space has */
->      IOMMUNotifierFlag notifier_flags;
-> -    IOVATree *iova_tree;          /* Traces mapped IOVA ranges */
-> +    /*
-> +     * @iova_tree traces mapped IOVA ranges.
-> +     *
-> +     * The tree is not needed if no MAP notifiers is registered with
-> +     * current VTD address space, because all UNMAP (including iotlb or
-> +     * dev-iotlb) events can be transparently delivered to !MAP iommu
-> +     * notifiers.
+> There are a few functions like that we can reuse in net/. To get the
+> features and the backend features are two other examples. Even if we
+> don't cache them since device initialization mandates the read, we
+> could reduce code duplication that way.
+>
+> However, they use vhost_dev or vhost_vdpa instead of directly the file
+> descriptor. Not a big deal but it's an extra step.
+>
+> What do you think?
 
-So this means the UNMAP notifier doesn't need to be as accurate as
-MAP. (Should we document it in the notifier headers)?
-
-For MAP[a, b] MAP[b, c] we can do a UNMAP[a. c].
-
-> +     *
-> +     * The tree OTOH is required for MAP typed iommu notifiers for a few
-> +     * reasons.
-> +     *
-> +     * Firstly, there's no way to identify whether an PSI event is MAP or
-> +     * UNMAP within the PSI message itself.  Without having prior knowledge
-> +     * of existing state vIOMMU doesn't know whether it should notify MAP
-> +     * or UNMAP for a PSI message it received.
-> +     *
-> +     * Secondly, PSI received from guest driver (or even a large PSI can
-> +     * grow into a DSI at least with Linux intel-iommu driver) can be
-> +     * larger in range than the newly mapped ranges for either MAP or UNMAP
-> +     * events.
-
-Yes, so I think we need a document that the UNMAP handler should be
-prepared for this.
+I'm fine with this.
 
 Thanks
 
-> If it directly pass-throughs any such event it may confuse
-> +     * the registered drivers (e.g. vfio-pci) on either: (1) trying to map
-> +     * the same region more than once (for VFIO_IOMMU_MAP_DMA, -EEXIST will
-> +     * trigger), or (2) trying to UNMAP a range that is still partially
-> +     * mapped.  That accuracy is not required for UNMAP-only notifiers, but
-> +     * it is a must-to-have for MAP-inclusive notifiers, because the vIOMMU
-> +     * needs to make sure the shadow page table is always in sync with the
-> +     * guest IOMMU pgtables for a device.
-> +     */
-> +    IOVATree *iova_tree;
->  };
 >
->  struct VTDIOTLBEntry {
-> --
-> 2.37.3
+> Thanks!
 >
 
 
