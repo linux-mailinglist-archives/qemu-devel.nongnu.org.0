@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A6F64238B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 08:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC116423DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Dec 2022 08:53:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p25q0-0007iD-L5; Mon, 05 Dec 2022 02:24:28 -0500
+	id 1p26GZ-0002tS-2G; Mon, 05 Dec 2022 02:51:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p25pv-0007hw-9Q
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:24:23 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p26GR-0002tI-Df
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:51:47 -0500
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p25ps-0005ii-Sc
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:24:22 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id f18so17199844wrj.5
- for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 23:24:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=a64FMmvYA9LA56rAJfmS8XtvM3POkRLaZ8OGGgjnFrs=;
- b=vUoJMDQ6fMnrrfiRj6AFwZa7P62vf21Fr1tmnMn1Fl2o+NOkAElgZY41olCvuqiJvK
- KtmTmRAEOAQPFtoTvV9/LDg1OoevNlu0K2s294zqcqKkGzb5DGLGACdpIorkF3DQ/c3O
- bX2tzpbS0qrxdEXqqdCo0yJFP4GPNYNXAk+hunksd9FaL+XDSqjzPyIJ3nFzheYsaW8O
- vfltJ/YtHiwPqv9zcTKiYzG0ta0gGtnxcMNdj6yp1NCLJAO3OyS50GK5S/BwqNxDKdk/
- dxSrPmPc+MbQ85fK/Vsct945xT60If4l9LT0g3cP7dngfaBy5wB6MgnkItA7QekflPmW
- Q/6g==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p26GP-0003SD-Tz
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 02:51:47 -0500
+Received: by mail-lj1-x235.google.com with SMTP id q7so12554717ljp.9
+ for <qemu-devel@nongnu.org>; Sun, 04 Dec 2022 23:51:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X1ANmDXuRODXtDvrdrYJCwDpkyQniykORvkrRuyAL1w=;
+ b=ZbwipdxOX0vlD1OhtZ2wDlsDX1MylJITYI5mUK+WatYubqE8gz+OHHjSZ45n8Z7T+B
+ euNf3+lbEtF7WO7ppXs6bUFEbmTtAcLRq5fBcgIpJZk9tqJcfmmFJRJGfDbjuTkqPwei
+ t06jwBPs/k5ESpmpAWJoa9zELLav/TXtL1DN2qTfixc22CzmVD7smlvDpV7J/jhanNrG
+ 9vL0X6vcDKcygJMN90VuCBWmYOc7tNLXmxZuq4gWYGp05mYigDmsCpv4Wi/x3iT/fCU0
+ e6opG0jPRbMeoy+5bOB0MQlgjZcTFZ5siQn/D40qY2LZzpjDCgZSAC4nmcGF37bZqXxq
+ Oc7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a64FMmvYA9LA56rAJfmS8XtvM3POkRLaZ8OGGgjnFrs=;
- b=wIUhRtYkzYPDduQKtYsgQD2eGs0BNBJUxGnEaWXdwYV5HtbA8Q2m7mmSTvsUO4vH1R
- GszEzPbJfX3a8mZYUD2tacNaxyylIMw3grqxsUuBjHNQlqpg5Dzmnq087YPg8y5QuM14
- uJM/GCjI5C6gNttA1PBMMZVLoebGJym12fpFmHupsZlJ68Nd2x1aMOEuIfYT/PPVK8hh
- 9f1aE2QwFbcMybgGJwX7nLjCOgiMd+gn3U0MIAFTbxJEnMEtHl94WGyW3dIeva/XYFTw
- mkeXEnLbELl8bYpoTlXQTpo9QWBHrQF7KzolGYg1Vq/qRNf+JcjXMNyBQ84JdbsCEW94
- 3NoQ==
-X-Gm-Message-State: ANoB5pk1PgeSuL3OKLWkePd5/4ORReS4xmX6EsxTieQmgobKW/3jbqFj
- JGYimfunmYVQPXiIx/52YbUFsA==
-X-Google-Smtp-Source: AA0mqf5ojXjD5N2Yxzi7gKRX7f+VQn/y3EBCUx3+5St1Nh2XT2+cO4PruAerQKWAQ1YHPy230r15JA==
-X-Received: by 2002:adf:f288:0:b0:242:1ab:2cbe with SMTP id
- k8-20020adff288000000b0024201ab2cbemr30504804wro.573.1670225059224; 
- Sun, 04 Dec 2022 23:24:19 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- a20-20020a05600c349400b003d069fc7372sm17229090wmq.1.2022.12.04.23.24.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Dec 2022 23:24:18 -0800 (PST)
-Message-ID: <6fe3e752-a39d-38f9-e573-437547d19179@linaro.org>
-Date: Mon, 5 Dec 2022 08:24:17 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=X1ANmDXuRODXtDvrdrYJCwDpkyQniykORvkrRuyAL1w=;
+ b=zY3y7TV8R8DI99rzzk3njKgOg9YhnahuV+4NqW9MG38J2raEoUodaLLilvLOjdId7m
+ r0SfZn87/Q9hlS49iRaI8P3JI9o8iYYb+z+g1NI8BIvDDpQRrl9wIWc1/3DfIv4yD4QL
+ Hs7nSyvwlfNdtDhiWOJv+d/Q/v7sv6J8Sk/CEUrl9yGBdXBGiTy80Jfo8dUqa/0UxsnU
+ 75/drKCTtLIuytS+ML7JUYhFuL23z9OhF2bn2WuM7sV93zRCxaViduZfLCkSqySc2Nal
+ FOlAY01kld6SfrQlyjbA97puYVjvcr4I5ZK6KTEuNP78SZLBmHAgeCEBf9kXRn/Tbb9/
+ 9tIg==
+X-Gm-Message-State: ANoB5pnufdluaSA/LJfQx2+8vlnb68p5/Vcrbjcb8ETp1F9Vuos6dlLW
+ B0+P37mJ/KuBpC0tmFJjp2dm2o3WmAm7KDuXzxA=
+X-Google-Smtp-Source: AA0mqf6j5IPnHDoJ3wm6aspp4btJCMyuTTMcezad3/Utor7JkD0JE20+7SkCcEujGDW98ssIfJpZ2OhxzDGXJ/mtvzI=
+X-Received: by 2002:a2e:3506:0:b0:279:ee82:f32e with SMTP id
+ z6-20020a2e3506000000b00279ee82f32emr2305532ljz.452.1670226703414; Sun, 04
+ Dec 2022 23:51:43 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, stefanha@gmail.com,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221202102550.4107344-1-gaosong@loongson.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221202102550.4107344-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <9b81a6f2-7bf9-4ada-d7ba-c8a9dffcb2d3@linaro.org>
+In-Reply-To: <9b81a6f2-7bf9-4ada-d7ba-c8a9dffcb2d3@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 5 Dec 2022 11:51:31 +0400
+Message-ID: <CAJ+F1CLS3JxJ6yO6uTajdkia0t4gEWzSfhXnUQ+M6iywWWuUug@mail.gmail.com>
+Subject: Re: tests/qtest: Is vnc-display-test supposed to work on Darwin?
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.258,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,38 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/12/22 11:25, Song Gao wrote:
-> The following changes since commit c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
-> 
->    Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
-> 
-> for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0fd:
-> 
->    hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05 +0800)
-> 
-> ----------------------------------------------------------------
-> pull for 7.2-rc4
-> 
-> We need this patch.
+Hi
 
-FTR this is not a security/regression fix, but a mere feature.
+On Fri, Dec 2, 2022 at 1:51 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
+rg> wrote:
+>
+> Hi,
+>
+> The vnc-display-test is failing on Darwin:
+>
+> tests/qtest/vnc-display-test:45038): ERROR **: 10:42:35.488: vnc-error:
+> Unsupported auth type 17973672
 
-Certainly not justified for a rc4 IMO.
+It is supposed to pass. Can you share more details? It doesn't look
+like an endianness issue, at first sight..
 
-> ----------------------------------------------------------------
-> Xiaojuan Yang (1):
->        hw/loongarch/virt: Add cfi01 pflash device
-> 
->   hw/loongarch/Kconfig        |  1 +
->   hw/loongarch/acpi-build.c   | 18 +++++++++++++
->   hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++++++++++
->   include/hw/loongarch/virt.h |  5 ++++
->   4 files changed, 86 insertions(+)
-> 
-> 
+> Is it supposed to pass, or should we skip it similarly to Windows?
 
+(I hope it'll cover Windows soon)
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
