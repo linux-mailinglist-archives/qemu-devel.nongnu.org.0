@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF699643C27
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFA2643C31
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:22:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2POw-0003Uj-5e; Mon, 05 Dec 2022 23:17:50 -0500
+	id 1p2POx-0003Um-H1; Mon, 05 Dec 2022 23:17:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POt-0003Ti-CX
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:47 -0500
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
+ id 1p2POu-0003U3-J8
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:48 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POr-00074B-Um
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:47 -0500
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-12c8312131fso16095148fac.4
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:45 -0800 (PST)
+ id 1p2POs-0006yh-RJ
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:48 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id v70so7210770oie.3
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6Ctn4q8UCWShe0HV3h1VrXrerV51yET9dh87n+Fb5Oc=;
- b=O80g0rrP97tMmLTBVm6DClNTRDd/1So5g5u/0064U9iA/vNfqOZJ6wHsriZyeANpy3
- sReFB3KorNFCocmspxYuuUtlw1vnY0M9IAn/+mHiwgKTk5WLge8dDzPxKDmEM3XGI2OL
- 03khekSdlcuau/JDA18Ewf8XElZ8zWmx3MiMgAHcm7wKwqEfmmPDyVUH8nJxYD85Jfa/
- 3Lcs54zI8PFUmv/7MMFGBqpehdAOSnPKtIV4knfdNIrH5WCvUMKo/H/BQ37xvqpr2pYz
- 2qw/DUqB+rtoiRTc62bYLc+qDX59ZHu30oO8htbfmjHoUR6UsvXl1l8+wyM6GECs9OIU
- k6FQ==
+ bh=nViIHSFjfOIWq3NohhhvUXaF8+WP2rU2B4NkQ7rnjQQ=;
+ b=S63mfpzvHMuIvpm82NSHqmrTKuaNaCb0E3A667FYNoZFKcrIePQ1jAG6Z2xJ4zIMSZ
+ 57KPxVhQjcD0l5Ox/O4y3RWGk7w/uDvO/QGEXcYKGj9sF97yThdQHVyYj/92oiT3jNTB
+ VRdKu5f/tmo1qjYcS4Qgh/WBjmZwW2gNF2FV/khUg3fV1bn+JLJJgQ/3IqJgzA1h7vG8
+ M9IrTAdQt+m3FDL7i8nzGfRD6wbITE7S5beWXCSrjcmmCj6QySYubuTz2PKxETwaUaUC
+ 9Sxbrc43R0BfTK+XGFGqCN3HLUqN2/dm3GoIc9Iwjs/7XdnXTFBsu54/ULy+MgpwVrTs
+ HhyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6Ctn4q8UCWShe0HV3h1VrXrerV51yET9dh87n+Fb5Oc=;
- b=FSSG3gpQWrtDPVt8RgjTTT12apvpIoerSD7YiDXvALHFc3N9XOEyGfCAaPalBQg03S
- mGfl1n0YFefZv/ffjlcRQYWjR0b2iC1N2PNjvCqeLoPQfAY8xnC/zEiK6H8Qz0qLt0sO
- FCNVJ/Eyi/I1XHJqeZ8MzvrBsoNi9I984cWZHEDjQyhkycmKh5y3mi2uvz/HLz/QD//S
- OQVphCyEZFrA6ifBz7uuMmc/JQyQlrIVG8jubTD0AHetYLFppPFOug6HBaTYirL0VW4d
- Uydyv5M3yG2b90wOInu0szzmmYtD67Wrs0uIePyreouUSZRO4D+vrmmZiNxdaz1hHWBc
- uoeg==
-X-Gm-Message-State: ANoB5plS2fA/9KX4veqz4A4l21445pvUOFvhLJjC997lNiAr3XlXf11Y
- 4pDEpkOibeEC5fR6KYTkkfUDfP7oop6bIcedfZ4=
-X-Google-Smtp-Source: AA0mqf47mgHaJZNxd0ghROR5QwK+PcebL6c0hbwWMLLvJsBnagBfW8zmR6RjoUJxckktMYy2msAGew==
-X-Received: by 2002:a05:6870:24a5:b0:132:3de9:bdf with SMTP id
- s37-20020a05687024a500b001323de90bdfmr36220896oaq.188.1670300264958; 
- Mon, 05 Dec 2022 20:17:44 -0800 (PST)
+ bh=nViIHSFjfOIWq3NohhhvUXaF8+WP2rU2B4NkQ7rnjQQ=;
+ b=xhMJxzooTR1MJwc0l5UN3xZDH+nvS+j1II99i1MfvasdyaiwKoyDKA+//AUZX89Bci
+ bi0AZkqndvIg3whI7/iF9vsktma6DcahVCSRu5BqAhOM7qmeGikRt18V82iO9G0b+BoH
+ mNZrbrgwv8BGyaPLcoWT+WwEQXcp0XibMGFubgu0PrA4TFdqA8yJKaHkuCn2VVSGa82z
+ uPZRqk9j4gXKEiP3tcsxxs1E8EYt+VzGT+tsd5wWuQ36Az7A+ERhWnqBSlV3DN8MUdgG
+ eHZC/mKjkoL38X3NYCwj1zomDZayH4O7KDetcH0wu3onwBY7+BGRlTcIA+aBv8+YXEh9
+ kphg==
+X-Gm-Message-State: ANoB5plpWcvSZRXN54zQzVi2icFMXtQJ/9DbyqNSdO97C0yRqao5FLKK
+ +Ds9pCycO+5e0VqIRcQ355pnBQFPd0Av5XXHqKQ=
+X-Google-Smtp-Source: AA0mqf4Yjuvg7ltJAj/TaX7zUSQccNDhDthK6MtOl3RSOJIatakThl4F0d6xlfd6akJL1FIHIRJqXg==
+X-Received: by 2002:aca:1308:0:b0:354:94c3:2b33 with SMTP id
+ e8-20020aca1308000000b0035494c32b33mr45247396oii.247.1670300266100; 
+ Mon, 05 Dec 2022 20:17:46 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:70b5:d104:21c2:8c7e:77e6])
  by smtp.gmail.com with ESMTPSA id
- o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.43
+ o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 20:17:44 -0800 (PST)
+ Mon, 05 Dec 2022 20:17:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: r@hev.cc
-Subject: [PATCH 21/22] tcg/riscv: Introduce OPC_NOP
-Date: Mon,  5 Dec 2022 22:17:14 -0600
-Message-Id: <20221206041715.314209-22-richard.henderson@linaro.org>
+Subject: [PATCH 22/22] tcg/riscv: Implement direct branch for goto_tb
+Date: Mon,  5 Dec 2022 22:17:15 -0600
+Message-Id: <20221206041715.314209-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206041715.314209-1-richard.henderson@linaro.org>
 References: <20221206041715.314209-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,32 +89,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Now that tcg can handle direct and indirect goto_tb simultaneously,
+we can optimistically leave space for a direct branch and fall back
+to loading the pointer from the TB for an indirect branch.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/riscv/tcg-target.c.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tcg/riscv/tcg-target.h     |  5 +++++
+ tcg/riscv/tcg-target.c.inc | 19 +++++++++++++++++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 37baae9cda..de029d62b4 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -254,6 +254,7 @@ typedef enum {
+diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+index 56f7bc3346..a75c84f2a6 100644
+--- a/tcg/riscv/tcg-target.h
++++ b/tcg/riscv/tcg-target.h
+@@ -159,6 +159,11 @@ typedef enum {
+ #define TCG_TARGET_HAS_mulsh_i64        1
  #endif
  
-     OPC_FENCE = 0x0000000f,
-+    OPC_NOP   = OPC_ADDI,   /* nop = addi r0,r0,0 */
- } RISCVInsn;
++<<<<<<< HEAD
++=======
++void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
++
++>>>>>>> 89ab294271 (tcg/riscv: Implement TCG_TARGET_HAS_direct_jump)
+ #define TCG_TARGET_DEFAULT_MO (0)
  
- /*
-@@ -390,7 +391,7 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ #define TCG_TARGET_NEED_LDST_LABELS
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index de029d62b4..ee269ea157 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -1278,7 +1278,11 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
+ 
+ static void tcg_out_goto_tb(TCGContext *s, int which)
  {
-     int i;
-     for (i = 0; i < count; ++i) {
--        p[i] = encode_i(OPC_ADDI, TCG_REG_ZERO, TCG_REG_ZERO, 0);
-+        p[i] = OPC_NOP;
-     }
+-    /* indirect jump method */
++    /* Direct branch will be patched by tb_target_set_jmp_target. */
++    set_jmp_insn_offset(s, which);
++    tcg_out32(s, OPC_NOP);
++
++    /* When branch is out of range, fall through to indirect. */
+     tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
+                get_jmp_target_addr(s, which));
+     tcg_out_opc_imm(s, OPC_JALR, TCG_REG_ZERO, TCG_REG_TMP0, 0);
+@@ -1288,7 +1292,18 @@ static void tcg_out_goto_tb(TCGContext *s, int which)
+ void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
+                               uintptr_t jmp_rx, uintptr_t jmp_rw)
+ {
+-    /* Always indirect, nothing to do */
++    uintptr_t addr = tb->jmp_target_addr[n];
++    ptrdiff_t offset = addr - jmp_rx;
++    tcg_insn_unit insn;
++
++    /* Either directly branch, or fall through to indirect branch. */
++    if (offset == sextreg(offset, 0, 20)) {
++        insn = encode_uj(OPC_JAL, TCG_REG_ZERO, offset);
++    } else {
++        insn = OPC_NOP;
++    }
++    qatomic_set((uint32_t *)jmp_rw, insn);
++    flush_idcache_range(jmp_rx, jmp_rw, 4);
  }
  
+ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
 -- 
 2.34.1
 
