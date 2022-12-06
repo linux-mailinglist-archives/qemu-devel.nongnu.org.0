@@ -2,92 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDE76442F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 13:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EDD644334
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 13:32:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Wj7-0007gN-FZ; Tue, 06 Dec 2022 07:07:09 -0500
+	id 1p2X69-0007xL-Hk; Tue, 06 Dec 2022 07:30:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p2Wj3-0007fV-FP
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:07:05 -0500
-Received: from mga09.intel.com ([134.134.136.24])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1p2X62-0007x1-3N
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:30:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p2Wiz-0004Ow-B8
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:07:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670328421; x=1701864421;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=/9rw4XJZnVf887NtG425skKbwwHseWVQy8ohNx+mMzU=;
- b=eV4lwOBmd7i3lUK30QNlZu6+g7riShMldF/QjU6bcF80WI8Z+z4oN/4W
- cTQ05fbQ4/maib+IaRe2LYFRLhSZdAtP5Qg/2ltsfLMZfzl7DlwTYMF3i
- AGpZKu9WNl5Cv47wdnl5QUqZNJBZiRNHHGIxjMVZyr8qNHnnUq+l8OL3c
- jVxumxuJyxIGC6gyVmAFEvCOELLazTkJmiHLUziARr833mkjySxFqk/8X
- fKGllSzAy1isGp02xmKYkuFvofDPaDrwShPnjWs+VpsiqVTT+xJvJuZ4D
- 9/xfZzXeZ/X+eLZTbeTckDrWUoTIs1eCmRq9JqcXmES2fyfRA/LS2+zNv g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="317748815"
-X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; d="scan'208";a="317748815"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2022 04:06:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="639853305"
-X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; d="scan'208";a="639853305"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 06 Dec 2022 04:06:44 -0800
-Date: Tue, 6 Dec 2022 20:02:24 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 7/9] KVM: Update lpage info when private/shared
- memory are mixed
-Message-ID: <20221206120224.GC1216605@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-8-chao.p.peng@linux.intel.com>
- <20221205224959.GA3632095@ls.amr.corp.intel.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1p2X5z-0001xs-QQ
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:30:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670329845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QPY5g2XaQqqZ+v4ZWuraMT/oe4wAMmJML71NLu4+p84=;
+ b=h20riuICrGxL7w6Da3BwJHmOC3slV4nqvEAFGIzq26gk76VmlC19DdE5EL6EGh9Js4dzpC
+ BctbIeLTX402Tne46cqtShUakK5sNxe8/KccuRFOrg3TZumatjWk9ebntet8nBqt3p8g9i
+ AzxPfHImokEWFK2GnmMbmaby2/gj0Zw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-424-ZdkxT0qcOC2l78ADvOQNwg-1; Tue, 06 Dec 2022 07:30:44 -0500
+X-MC-Unique: ZdkxT0qcOC2l78ADvOQNwg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w11-20020adfbacb000000b002418a90da01so3146734wrg.16
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 04:30:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QPY5g2XaQqqZ+v4ZWuraMT/oe4wAMmJML71NLu4+p84=;
+ b=TehIWDHUYglz6TRPIcyrkniG6YltXEuQVb8Tp4tYbIdL3uIzNAmXwievDbe1pjCUVf
+ XhEYM7thBSoqGGgrYf8XVgea6CcOYonqkXx424hXZ07/sBfIWpuVzbmpARIk5rzgtmwl
+ 7/AVHdf77TEtqAkTwmsUpxc3RmYPxEVipenbVFMJXNziC+6zodOe/L2AJbdZEqvkV/mp
+ XHTnjqaXwUFuWjMQgG+d29Doxdb9IM5rPe0jAL63uIJm8L8u5DlRSQ67KZm24XQH4Gul
+ lOxU22ilcusLCIl+fJ4du5JKW5xxp9NEkAhHSLYikJtbSbRn5vDAVVX6GDTR6/7/iQWP
+ q/RA==
+X-Gm-Message-State: ANoB5plJqJAXuPVi+6UWX62U6S5fj4Ujjh3mbBfQpgDaQi5Kf+dmAQaI
+ 8AUCBZMsYM6cxsjjBgSSbNKA5DL/xtazpTkMebXENvcJKfdMMQutKvOZBJV6hdGU7+y/Syj22xV
+ SEQm5r/yVOTQ8VfY=
+X-Received: by 2002:a5d:474d:0:b0:242:209c:39c8 with SMTP id
+ o13-20020a5d474d000000b00242209c39c8mr20883430wrs.676.1670329843084; 
+ Tue, 06 Dec 2022 04:30:43 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4KINdu4jLmX3Pv0JSIx/3wMnw9ZJuN/5pPp5LcAlo3uXe4VZJu/YQ5O1TQIwx+BUdSRPD5kw==
+X-Received: by 2002:a5d:474d:0:b0:242:209c:39c8 with SMTP id
+ o13-20020a5d474d000000b00242209c39c8mr20883404wrs.676.1670329842785; 
+ Tue, 06 Dec 2022 04:30:42 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ s1-20020adfdb01000000b002420a2cdc96sm16466677wri.70.2022.12.06.04.30.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Dec 2022 04:30:42 -0800 (PST)
+Date: Tue, 6 Dec 2022 12:30:40 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Fabrice Bellard <fabrice@bellard.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Bin Meng <bmeng.cn@gmail.com>, Bernhard Beschow <shentey@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: Thoughts on removing the TARGET_I386 part of
+ hw/display/vga/vbe_portio_list[]
+Message-ID: <Y4818KfGO7Y9Tsn/@work-vm>
+References: <fb95bd97-8d5f-b0eb-008b-47a96808a74f@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221205224959.GA3632095@ls.amr.corp.intel.com>
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <fb95bd97-8d5f-b0eb-008b-47a96808a74f@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,330 +109,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 05, 2022 at 02:49:59PM -0800, Isaku Yamahata wrote:
-> On Fri, Dec 02, 2022 at 02:13:45PM +0800,
-> Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> 
-> > A large page with mixed private/shared subpages can't be mapped as large
-> > page since its sub private/shared pages are from different memory
-> > backends and may also treated by architecture differently. When
-> > private/shared memory are mixed in a large page, the current lpage_info
-> > is not sufficient to decide whether the page can be mapped as large page
-> > or not and additional private/shared mixed information is needed.
-> > 
-> > Tracking this 'mixed' information with the current 'count' like
-> > disallow_lpage is a bit challenge so reserve a bit in 'disallow_lpage'
-> > to indicate a large page has mixed private/share subpages and update
-> > this 'mixed' bit whenever the memory attribute is changed between
-> > private and shared.
-> > 
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  arch/x86/include/asm/kvm_host.h |   8 ++
-> >  arch/x86/kvm/mmu/mmu.c          | 134 +++++++++++++++++++++++++++++++-
-> >  arch/x86/kvm/x86.c              |   2 +
-> >  include/linux/kvm_host.h        |  19 +++++
-> >  virt/kvm/kvm_main.c             |   9 ++-
-> >  5 files changed, 169 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> > index 283cbb83d6ae..7772ab37ac89 100644
-> > --- a/arch/x86/include/asm/kvm_host.h
-> > +++ b/arch/x86/include/asm/kvm_host.h
-> > @@ -38,6 +38,7 @@
-> >  #include <asm/hyperv-tlfs.h>
-> >  
-> >  #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
-> > +#define __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES
-> >  
-> >  #define KVM_MAX_VCPUS 1024
-> >  
-> > @@ -1011,6 +1012,13 @@ struct kvm_vcpu_arch {
-> >  #endif
-> >  };
-> >  
-> > +/*
-> > + * Use a bit in disallow_lpage to indicate private/shared pages mixed at the
-> > + * level. The remaining bits are used as a reference count.
-> > + */
-> > +#define KVM_LPAGE_PRIVATE_SHARED_MIXED		(1U << 31)
-> > +#define KVM_LPAGE_COUNT_MAX			((1U << 31) - 1)
-> > +
-> >  struct kvm_lpage_info {
-> >  	int disallow_lpage;
-> >  };
-> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> > index e2c70b5afa3e..2190fd8c95c0 100644
-> > --- a/arch/x86/kvm/mmu/mmu.c
-> > +++ b/arch/x86/kvm/mmu/mmu.c
-> > @@ -763,11 +763,16 @@ static void update_gfn_disallow_lpage_count(const struct kvm_memory_slot *slot,
-> >  {
-> >  	struct kvm_lpage_info *linfo;
-> >  	int i;
-> > +	int disallow_count;
-> >  
-> >  	for (i = PG_LEVEL_2M; i <= KVM_MAX_HUGEPAGE_LEVEL; ++i) {
-> >  		linfo = lpage_info_slot(gfn, slot, i);
-> > +
-> > +		disallow_count = linfo->disallow_lpage & KVM_LPAGE_COUNT_MAX;
-> > +		WARN_ON(disallow_count + count < 0 ||
-> > +			disallow_count > KVM_LPAGE_COUNT_MAX - count);
-> > +
-> >  		linfo->disallow_lpage += count;
-> > -		WARN_ON(linfo->disallow_lpage < 0);
-> >  	}
-> >  }
-> >  
-> > @@ -6986,3 +6991,130 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
-> >  	if (kvm->arch.nx_huge_page_recovery_thread)
-> >  		kthread_stop(kvm->arch.nx_huge_page_recovery_thread);
-> >  }
-> > +
-> > +static bool linfo_is_mixed(struct kvm_lpage_info *linfo)
-> > +{
-> > +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> > +}
-> > +
-> > +static void linfo_set_mixed(gfn_t gfn, struct kvm_memory_slot *slot,
-> > +			    int level, bool mixed)
-> > +{
-> > +	struct kvm_lpage_info *linfo = lpage_info_slot(gfn, slot, level);
-> > +
-> > +	if (mixed)
-> > +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> > +	else
-> > +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> > +}
-> > +
-> > +static bool is_expected_attr_entry(void *entry, unsigned long expected_attrs)
-> > +{
-> > +	bool expect_private = expected_attrs & KVM_MEMORY_ATTRIBUTE_PRIVATE;
-> > +
-> > +	if (xa_to_value(entry) & KVM_MEMORY_ATTRIBUTE_PRIVATE) {
-> > +		if (!expect_private)
-> > +			return false;
-> > +	} else if (expect_private)
-> > +		return false;
-> > +
-> > +	return true;
-> > +}
-> > +
-> > +static bool mem_attrs_mixed_2m(struct kvm *kvm, unsigned long attrs,
-> > +			       gfn_t start, gfn_t end)
-> > +{
-> > +	XA_STATE(xas, &kvm->mem_attr_array, start);
-> > +	gfn_t gfn = start;
-> > +	void *entry;
-> > +	bool mixed = false;
-> > +
-> > +	rcu_read_lock();
-> > +	entry = xas_load(&xas);
-> > +	while (gfn < end) {
-> > +		if (xas_retry(&xas, entry))
-> > +			continue;
-> > +
-> > +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
-> > +
-> > +		if (!is_expected_attr_entry(entry, attrs)) {
-> > +			mixed = true;
-> > +			break;
-> > +		}
-> > +
-> > +		entry = xas_next(&xas);
-> > +		gfn++;
-> > +	}
-> > +
-> > +	rcu_read_unlock();
-> > +	return mixed;
-> > +}
-> > +
-> > +static bool mem_attrs_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
-> > +			    int level, unsigned long attrs,
-> > +			    gfn_t start, gfn_t end)
-> > +{
-> > +	unsigned long gfn;
-> > +
-> > +	if (level == PG_LEVEL_2M)
-> > +		return mem_attrs_mixed_2m(kvm, attrs, start, end);
-> > +
-> > +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1))
-> > +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)) ||
-> > +		    !is_expected_attr_entry(xa_load(&kvm->mem_attr_array, gfn),
-> > +					    attrs))
-> > +			return true;
-> > +	return false;
-> > +}
-> > +
-> > +static void kvm_update_lpage_private_shared_mixed(struct kvm *kvm,
-> > +						  struct kvm_memory_slot *slot,
-> > +						  unsigned long attrs,
-> > +						  gfn_t start, gfn_t end)
-> > +{
-> > +	unsigned long pages, mask;
-> > +	gfn_t gfn, gfn_end, first, last;
-> > +	int level;
-> > +	bool mixed;
-> > +
-> > +	/*
-> > +	 * The sequence matters here: we set the higher level basing on the
-> > +	 * lower level's scanning result.
-> > +	 */
-> > +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
-> > +		pages = KVM_PAGES_PER_HPAGE(level);
-> > +		mask = ~(pages - 1);
-> > +		first = start & mask;
-> > +		last = (end - 1) & mask;
-> > +
-> > +		/*
-> > +		 * We only need to scan the head and tail page, for middle pages
-> > +		 * we know they will not be mixed.
-> > +		 */
-> > +		gfn = max(first, slot->base_gfn);
-> > +		gfn_end = min(first + pages, slot->base_gfn + slot->npages);
-> > +		mixed = mem_attrs_mixed(kvm, slot, level, attrs, gfn, gfn_end);
-> > +		linfo_set_mixed(gfn, slot, level, mixed);
-> > +
-> > +		if (first == last)
-> > +			return;
-> 
-> 
-> continue.
+* Philippe Mathieu-Daud=E9 (philmd@linaro.org) wrote:
+> Hi,
+>=20
+> I'm trying to understand the x86 architecture-specific code in
+> hw/display/vga.c:
+>=20
+>     const MemoryRegionPortio vbe_portio_list[] =3D {
+>         { 0, 1, 2, .read =3D vbe_ioport_read_index,
+>                    .write =3D vbe_ioport_write_index },
+>     # ifdef TARGET_I386
+>         { 1, 1, 2, .read =3D vbe_ioport_read_data,
+>                    .write =3D vbe_ioport_write_data },
+>     # endif
+>         { 2, 1, 2, .read =3D vbe_ioport_read_data,
+>                    .write =3D vbe_ioport_write_data },
+>         PORTIO_END_OF_LIST(),
+>     };
+>=20
+> Having:
+>=20
+>     typedef struct MemoryRegionPortio {
+>         uint32_t offset;
+>         uint32_t len;
+>         unsigned size;
+>         uint32_t (*read)(...);
+>         void (*write)(...);
+>         ...
+>     } MemoryRegionPortio;
+>=20
+> So on x86 we can have 16-bit I/O accesses unaligned to 8-bit boundary?
 
-Ya!
+Yes, like most things in x86 the requirement for alignment is a 'should'
+followed by a description of what might happen if you don't:
 
-> 
-> > +
-> > +		for (gfn = first + pages; gfn < last; gfn += pages)
-> > +			linfo_set_mixed(gfn, slot, level, false);
-> > +
-> > +		gfn = last;
-> > +		gfn_end = min(last + pages, slot->base_gfn + slot->npages);
-> 
-> if (gfn == gfn_end) continue.
+=46rom intel arch manual 19.3:
+ '..16-bit ports should be aligned to even addresses (0, 2, 4, ...) so that=
+ all 16 bits can be transferred in a
+  single bus cycle. Likewise, 32-bit ports should be aligned to addresses t=
+hat are multiples of four (0, 4, 8, ...). The
+  processor supports data transfers to unaligned ports, but there is a perf=
+ormance penalty because one or more
+  extra bus cycle must be used.'
 
-Do you see a case where gfn can equal to gfn_end? Though it does not
-hurt to add a check.
+I think I've even seen it suggested that a 32bit access to ffff might be
+defined - although I'm not sure if that's legal.
 
-> 
-> 
-> > +		mixed = mem_attrs_mixed(kvm, slot, level, attrs, gfn, gfn_end);
-> > +		linfo_set_mixed(gfn, slot, level, mixed);
-> > +	}
-> > +}
-> > +
-> > +void kvm_arch_set_memory_attributes(struct kvm *kvm,
-> > +				    struct kvm_memory_slot *slot,
-> > +				    unsigned long attrs,
-> > +				    gfn_t start, gfn_t end)
-> > +{
-> > +	if (kvm_slot_can_be_private(slot))
-> > +		kvm_update_lpage_private_shared_mixed(kvm, slot, attrs,
-> > +						      start, end);
-> > +}
-> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> > index 9a07380f8d3c..5aefcff614d2 100644
-> > --- a/arch/x86/kvm/x86.c
-> > +++ b/arch/x86/kvm/x86.c
-> > @@ -12362,6 +12362,8 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
-> >  		if ((slot->base_gfn + npages) & (KVM_PAGES_PER_HPAGE(level) - 1))
-> >  			linfo[lpages - 1].disallow_lpage = 1;
-> >  		ugfn = slot->userspace_addr >> PAGE_SHIFT;
-> > +		if (kvm_slot_can_be_private(slot))
-> > +			ugfn |= slot->restricted_offset >> PAGE_SHIFT;
-> 
-> Is there any alignment restriction? If no, It should be +=.
-> In practice, alignment will hold though.
+I don't know that bit of qemu well enough to know whether the cpu part
+of qemu should be splitting the unaligned accesses or not.
 
-All we need here is checking whether both userspace_addr and
-restricted_offset are aligned to HPAGE_SIZE or not. '+=' actually can
-yield wrong value in cases when userspace_addr + restricted_offset is
-aligned to HPAGE_SIZE but individually they may not align to HPAGE_SIZE.
+Dave
 
-Thanks,
-Chao
-> 
+
+> Looking at git-blame we have:
+>=20
+> [1] 0a039dc700 ("vga: Convert to isa_register_portio_list")
+> [2] 09a79b4974 ("partial big endian fixes - change VESA VBE ports for non
+> i386 targets to avoid unaligned accesses")
+> [3] 4fa0f5d292 ("added bochs VBE support")
+>=20
+>=20
+> [3] added:
+>=20
+>   #ifdef CONFIG_BOCHS_VBE
+>      s->vbe_regs[VBE_DISPI_INDEX_ID] =3D VBE_DISPI_ID0;
+>      register_ioport_read(0x1ce, 1, vbe_ioport_read, 2);
+>      register_ioport_read(0x1cf, 1, vbe_ioport_read, 2);
+>=20
+>      register_ioport_write(0x1ce, 1, vbe_ioport_write, 2);
+>      register_ioport_write(0x1cf, 1, vbe_ioport_write, 2);
+>   #endif
+>=20
+> Back then, register_ioport_read() was:
+>=20
+>   /* size is the word size in byte */
+>   int register_ioport_read(int start, int length,
+>                            IOPortReadFunc *func, int size)
+>   {
+>     int i, bsize;
+>=20
+>     if (size =3D=3D 1)
+>         bsize =3D 0;
+>     else if (size =3D=3D 2)
+>         bsize =3D 1;
+>     else if (size =3D=3D 4)
+>         bsize =3D 2;
+>     else
+>         return -1;
+>     for(i =3D start; i < start + length; i +=3D size)
+>         ioport_read_table[bsize][i] =3D func;
+>     return 0;
+>   }
+>=20
+> Indeed registering a 16-bit handler at the 8-bit aligned 0x1cf I/O addres=
+s.
+>=20
+> I wonder if this wasn't a typo, and we wanted to register two 8-bit
+> VBE handlers at offsets +0 and +1. IOW the code would have been:
+>=20
+>   #ifdef CONFIG_BOCHS_VBE
+>      s->vbe_regs[VBE_DISPI_INDEX_ID] =3D VBE_DISPI_ID0;
+>      register_ioport_read(0x1ce, 1, vbe_ioport_read, 2);
+>      register_ioport_read(0x1ce, 2, vbe_ioport_read, 1);
+>=20
+>      register_ioport_write(0x1ce, 1, vbe_ioport_write, 2);
+>      register_ioport_write(0x1ce, 2, vbe_ioport_write, 1);
+>   #endif
+>=20
+> Because in that case, along with the code added in commit [2]:
+>=20
+>  static uint32_t vga_mem_readw(target_phys_addr_t addr)
+>  {
+>      uint32_t v;
+> +#ifdef TARGET_WORDS_BIGENDIAN
+> +    v =3D vga_mem_readb(addr) << 8;
+> +    v |=3D vga_mem_readb(addr + 1);
+> +#else
+>      v =3D vga_mem_readb(addr);
+>      v |=3D vga_mem_readb(addr + 1) << 8;
+> +#endif
+>      return v;
+>  }
+>=20
+> The 'ifdef TARGET_I386' (still from [2], converted in [1])
+> wouldn't have been necessary.
+>=20
+> So I _think_ today we should be good with removing the x86 line:
+>=20
+> -- >8 --
+>  static const MemoryRegionPortio vbe_portio_list[] =3D {
+>      { 0, 1, 2, .read =3D vbe_ioport_read_index, .write =3D
+> vbe_ioport_write_index },
+> -# ifdef TARGET_I386
+> -    { 1, 1, 2, .read =3D vbe_ioport_read_data, .write =3D vbe_ioport_wri=
+te_data
+> },
+> -# endif
+>      { 2, 1, 2, .read =3D vbe_ioport_read_data, .write =3D vbe_ioport_wri=
+te_data
+> },
+>      PORTIO_END_OF_LIST(),
+>  };
+> ---
+>=20
+> *Except* if there is some hidden magic logic on the ISA bus...
+> Not per the ISA spec, but manufacturer/hardware specific.
+>=20
+> I.e. the Jazz machines use a RC4030 which bridge ISA to the main
+> bus, and transparently handles misaligned CPU/DMA accesses to the
+> ISA address space.
+>=20
+> This ISA topic was already mentioned before, see:
+>=20
+> [a]
+> https://lore.kernel.org/qemu-devel/20200720185758.21280-1-f4bug@amsat.org/
+> [b]
+> https://lore.kernel.org/qemu-devel/20210305235414.2358144-1-f4bug@amsat.o=
+rg/
+>=20
+> Thoughts?
+>=20
 > Thanks,
-> 
-> >  		/*
-> >  		 * If the gfn and userspace address are not aligned wrt each
-> >  		 * other, disable large page support for this slot.
-> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > index 3331c0c92838..25099c94e770 100644
-> > --- a/include/linux/kvm_host.h
-> > +++ b/include/linux/kvm_host.h
-> > @@ -592,6 +592,11 @@ struct kvm_memory_slot {
-> >  	struct restrictedmem_notifier notifier;
-> >  };
-> >  
-> > +static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> > +{
-> > +	return slot && (slot->flags & KVM_MEM_PRIVATE);
-> > +}
-> > +
-> >  static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
-> >  {
-> >  	return slot->flags & KVM_MEM_LOG_DIRTY_PAGES;
-> > @@ -2316,4 +2321,18 @@ static inline void kvm_account_pgtable_pages(void *virt, int nr)
-> >  /* Max number of entries allowed for each kvm dirty ring */
-> >  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
-> >  
-> > +#ifdef __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES
-> > +void kvm_arch_set_memory_attributes(struct kvm *kvm,
-> > +				    struct kvm_memory_slot *slot,
-> > +				    unsigned long attrs,
-> > +				    gfn_t start, gfn_t end);
-> > +#else
-> > +static inline void kvm_arch_set_memory_attributes(struct kvm *kvm,
-> > +						  struct kvm_memory_slot *slot,
-> > +						  unsigned long attrs,
-> > +						  gfn_t start, gfn_t end)
-> > +{
-> > +}
-> > +#endif /* __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES */
-> > +
-> >  #endif
-> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > index 4e1e1e113bf0..e107afea32f0 100644
-> > --- a/virt/kvm/kvm_main.c
-> > +++ b/virt/kvm/kvm_main.c
-> > @@ -2354,7 +2354,8 @@ static u64 kvm_supported_mem_attributes(struct kvm *kvm)
-> >  	return 0;
-> >  }
-> >  
-> > -static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
-> > +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end,
-> > +				unsigned long attrs)
-> >  {
-> >  	struct kvm_gfn_range gfn_range;
-> >  	struct kvm_memory_slot *slot;
-> > @@ -2378,6 +2379,10 @@ static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
-> >  			gfn_range.slot = slot;
-> >  
-> >  			r |= kvm_unmap_gfn_range(kvm, &gfn_range);
-> > +
-> > +			kvm_arch_set_memory_attributes(kvm, slot, attrs,
-> > +						       gfn_range.start,
-> > +						       gfn_range.end);
-> >  		}
-> >  	}
-> >  
-> > @@ -2427,7 +2432,7 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> >  		idx = srcu_read_lock(&kvm->srcu);
-> >  		KVM_MMU_LOCK(kvm);
-> >  		if (i > start)
-> > -			kvm_unmap_mem_range(kvm, start, i);
-> > +			kvm_unmap_mem_range(kvm, start, i, attrs->attributes);
-> >  		kvm_mmu_invalidate_end(kvm);
-> >  		KVM_MMU_UNLOCK(kvm);
-> >  		srcu_read_unlock(&kvm->srcu, idx);
-> > -- 
-> > 2.25.1
-> > 
-> 
-> -- 
-> Isaku Yamahata <isaku.yamahata@gmail.com>
+>=20
+> Phil.
+>=20
+--=20
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
