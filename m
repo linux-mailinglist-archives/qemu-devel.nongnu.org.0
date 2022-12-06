@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96E9644568
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 15:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634466444AF
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 14:35:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Y5A-0000T3-Ey; Tue, 06 Dec 2022 08:34:00 -0500
+	id 1p2Y5y-0000yL-4S; Tue, 06 Dec 2022 08:34:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p2Y58-0000ST-CY
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:33:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p2Y56-00055P-Cm
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:33:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670333635;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1p2Y5p-0000li-OV
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:34:41 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1p2Y5n-0005DO-Dp
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:34:41 -0500
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 79BDE1FE58;
+ Tue,  6 Dec 2022 13:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1670333675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4dlWykFnWHJYYTbTLIS0LbCYa4QeUmsL+mLQqZl//v0=;
- b=UIjPkT6hg/Zx00FVtG8sUJMOuDiZmyVT7d9mQblopR6TPju6LeLIE2UxsXG+gY4G0Jbqcd
- eQgAOEiwSzp+xrNiSUTN2E9+8VQ7lBTsKr75W0T0+RJkPpXPhBEwvdfVQPwhlnn0CviMtJ
- Chk45UjgZ7UMz0ReDCZOwMO7BBQTAgo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-669-WyKbxBRoM7Gd-xvlxSMUGA-1; Tue, 06 Dec 2022 08:33:54 -0500
-X-MC-Unique: WyKbxBRoM7Gd-xvlxSMUGA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f1-20020a1cc901000000b003cf703a4f08so5664934wmb.2
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 05:33:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4dlWykFnWHJYYTbTLIS0LbCYa4QeUmsL+mLQqZl//v0=;
- b=Ejxj/K4SJWPm5yl+LRqaJMQr4gXkoE5vgDO3KmUHFancsBAIp7yohl+aI4XbE2pjqA
- o4xz0Q+LYc4rf9emQmLZnrXcoYRUHtXE0MErrCQXrVO6PBfd+qkDf2bHyTX4YWekEBS/
- GrbkkI7hgFDjtUrMTYgi45czSbdHTFX7dAzUl3sm55SeaI+hprjfP3cOqNTm3hI48mnX
- CDEeLqmUxD8zL+sPyN6OI/2tYVagnVEcVMkNuJlRCEKDh1yHBYGVG8Kmd27cbUSxiNZG
- F7cMqqX31PZtbjur2cJ1R6JcX8B1WDrBEbkQNajYKHmdrD55r+ftVnvSxTUpNhLLrFSo
- +KUw==
-X-Gm-Message-State: ANoB5pmGcDo6mITlim25C4dUbPkvgaXnTcm2Llhw0+/793+mDRuzb6qp
- pe/vnJpX6hYryZog7kP/PD22p7HyBiRSK98Tvu9xJN2VF5OLcm69rKALQV5fR4tgjm8f7d3mMCS
- RoTNv0nzEMQnMv88=
-X-Received: by 2002:adf:e3c3:0:b0:242:14b:7435 with SMTP id
- k3-20020adfe3c3000000b00242014b7435mr33723147wrm.627.1670333630984; 
- Tue, 06 Dec 2022 05:33:50 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6LaJ+Q2zPBqfwKB1Pn2aHE9EnG7BoZasg1aMAPlvq/G4ITyxhbfsngH8X5fN3tIJtKEEympQ==
-X-Received: by 2002:adf:e3c3:0:b0:242:14b:7435 with SMTP id
- k3-20020adfe3c3000000b00242014b7435mr33723134wrm.627.1670333630742; 
- Tue, 06 Dec 2022 05:33:50 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- w12-20020a05600c474c00b003b435c41103sm32166987wmo.0.2022.12.06.05.33.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 05:33:49 -0800 (PST)
-Message-ID: <7a7ea6ed-1c5f-77be-3343-c637abc9beed@redhat.com>
-Date: Tue, 6 Dec 2022 14:33:48 +0100
+ bh=dRjMqe9XUfWybRrbUF7GOm/XPQRxXJ5e2gntwceUOoI=;
+ b=rMUnPAsfEpWIJsbRvlnc4Kq8LUTLvMgy4L7RRJsI38/Pmp/I/IQPIER3EVlgM35dwn6gLF
+ 9ZOffk1YPWciOp0dX967xPXIahIWRQ/5YzUUD9f2frz4WDMV5fLhJNjg4n1USKz1p0k6RD
+ nGflIZSZE9DevBpSu3wVbSjTUepE5JY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1670333675;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dRjMqe9XUfWybRrbUF7GOm/XPQRxXJ5e2gntwceUOoI=;
+ b=bYBAhVZ4hM49gizquEVGwEMgfkUk376WJJmV6+Gbni2jnjdakO1jwryltaQqbVYP29g2vR
+ iDS88CFVOgK4GaAA==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 82E5D13326;
+ Tue,  6 Dec 2022 13:34:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id /kz2H+pEj2MYBwAAGKfGzw
+ (envelope-from <farosas@suse.de>); Tue, 06 Dec 2022 13:34:34 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov
+ <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim Mattson
+ <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi
+ <naoya.horiguchi@nec.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins
+ <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields"
+ <bfields@fieldses.org>, Andrew Morton <akpm@linux-foundation.org>, Shuah
+ Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>, Steven Price
+ <steven.price@arm.com>, "Maciej S . Szmigiero"
+ <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>, Vishal
+ Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ tabba@google.com, Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ wei.w.wang@intel.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+Date: Tue, 06 Dec 2022 10:34:32 -0300
+Message-ID: <877cz4ac5z.fsf@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 2/3] intel-iommu: fail DEVIOTLB_UNMAP without dt mode
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, mst@redhat.com, peterx@redhat.com
-Cc: qemu-devel@nongnu.org, viktor@daynix.com
-References: <20221129081037.12099-1-jasowang@redhat.com>
- <20221129081037.12099-3-jasowang@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20221129081037.12099-3-jasowang@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.27, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,60 +102,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi jason,
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-On 11/29/22 09:10, Jason Wang wrote:
-> Without dt mode, device IOTLB notifier won't work since guest won't
-> send device IOTLB invalidation descriptor in this case. Let's fail
-> early instead of misbehaving silently.
+> In confidential computing usages, whether a page is private or shared is
+> necessary information for KVM to perform operations like page fault
+> handling, page zapping etc. There are other potential use cases for
+> per-page memory attributes, e.g. to make memory read-only (or no-exec,
+> or exec-only, etc.) without having to modify memslots.
 >
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
+> userspace to operate on the per-page memory attributes.
+>   - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
+>     a guest memory range.
+>   - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
+>     memory attributes.
+>
+> KVM internally uses xarray to store the per-page memory attributes.
+>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
 > ---
->  hw/i386/intel_iommu.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
+>  arch/x86/kvm/Kconfig           |  1 +
+>  include/linux/kvm_host.h       |  3 ++
+>  include/uapi/linux/kvm.h       | 17 ++++++++
+>  virt/kvm/Kconfig               |  3 ++
+>  virt/kvm/kvm_main.c            | 76 ++++++++++++++++++++++++++++++++++
+>  6 files changed, 163 insertions(+)
 >
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 9143376677..d025ef2873 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3179,6 +3179,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 5617bc4f899f..bb2f709c0900 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -5952,6 +5952,59 @@ delivery must be provided via the "reg_aen" struct.
+>  The "pad" and "reserved" fields may be used for future extensions and should be
+>  set to 0s by userspace.
+>  
+> +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
+> +-----------------------------------------
+> +
+> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> +:Architectures: x86
+> +:Type: vm ioctl
+> +:Parameters: u64 memory attributes bitmask(out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Returns supported memory attributes bitmask. Supported memory attributes will
+> +have the corresponding bits set in u64 memory attributes bitmask.
+> +
+> +The following memory attributes are defined::
+> +
+> +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
+> +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
+> +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
+> +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+> +
+> +4.139 KVM_SET_MEMORY_ATTRIBUTES
+> +-----------------------------------------
+> +
+> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> +:Architectures: x86
+> +:Type: vm ioctl
+> +:Parameters: struct kvm_memory_attributes(in/out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Sets memory attributes for pages in a guest memory range. Parameters are
+> +specified via the following structure::
+> +
+> +  struct kvm_memory_attributes {
+> +	__u64 address;
+> +	__u64 size;
+> +	__u64 attributes;
+> +	__u64 flags;
+> +  };
+> +
+> +The user sets the per-page memory attributes to a guest memory range indicated
+> +by address/size, and in return KVM adjusts address and size to reflect the
+> +actual pages of the memory range have been successfully set to the attributes.
+
+This wording could cause some confusion, what about a simpler:
+
+"reflect the range of pages that had its attributes successfully set"
+
+> +If the call returns 0, "address" is updated to the last successful address + 1
+> +and "size" is updated to the remaining address size that has not been set
+> +successfully.
+
+"address + 1 page" or "subsequent page" perhaps.
+
+In fact, wouldn't this all become simpler if size were number of pages instead?
+
+> The user should check the return value as well as the size to
+> +decide if the operation succeeded for the whole range or not. The user may want
+> +to retry the operation with the returned address/size if the previous range was
+> +partially successful.
+> +
+> +Both address and size should be page aligned and the supported attributes can be
+> +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
+> +
+> +The "flags" field may be used for future extensions and should be set to 0s.
+> +
+
+...
+
+> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> +					   struct kvm_memory_attributes *attrs)
+> +{
+> +	gfn_t start, end;
+> +	unsigned long i;
+> +	void *entry;
+> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> +
+> +	/* flags is currently not used. */
+> +	if (attrs->flags)
+> +		return -EINVAL;
+> +	if (attrs->attributes & ~supported_attrs)
+> +		return -EINVAL;
+> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> +		return -EINVAL;
+> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> +		return -EINVAL;
+> +
+> +	start = attrs->address >> PAGE_SHIFT;
+> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+
+Here PAGE_SIZE and -1 cancel out.
+
+Consider using gpa_to_gfn as well.
+
+> +
+> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> +
+> +	mutex_lock(&kvm->lock);
+> +	for (i = start; i < end; i++)
+> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> +				    GFP_KERNEL_ACCOUNT)))
+> +			break;
+> +	mutex_unlock(&kvm->lock);
+> +
+> +	attrs->address = i << PAGE_SHIFT;
+> +	attrs->size = (end - i) << PAGE_SHIFT;
+> +
+> +	return 0;
+> +}
+> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> +
+>  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
 >  {
->      VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
->      IntelIOMMUState *s = vtd_as->iommu_state;
-> +    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
->  
->      /* TODO: add support for VFIO and vhost users */
->      if (s->snoop_control) {
-> @@ -3193,6 +3194,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
->                           PCI_FUNC(vtd_as->devfn));
->          return -ENOTSUP;
->      }
-> +    if (!x86_iommu->dt_supported && (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP)) {
-> +        error_setg_errno(errp, ENOTSUP,
-> +                         "device %02x.%02x.%x requires device IOTLB mode",
-maybe precise INTEL IOMMU device-IOTLB mode. otherwise this may be
-confused with device ATS capability?
-
-While thinking about those error handlings (including the SMMU ones)
-nothing should really prevent you from registering a notifier that is
-not signalled. Maybe we should add in the documentation that any attempt
-to register an IOMMU notifier to an IOMMU MR that is not able to signal
-it will return an error.
-
-Besides
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Eric
-> +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
-> +                         PCI_FUNC(vtd_as->devfn));
-> +        return -ENOTSUP;
-> +    }
->  
->      /* Update per-address-space notifier flags */
->      vtd_as->notifier_flags = new;
-
+>  	return __gfn_to_memslot(kvm_memslots(kvm), gfn);
+> @@ -4459,6 +4508,9 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+>  #ifdef CONFIG_HAVE_KVM_MSI
+>  	case KVM_CAP_SIGNAL_MSI:
+>  #endif
+> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> +	case KVM_CAP_MEMORY_ATTRIBUTES:
+> +#endif
+>  #ifdef CONFIG_HAVE_KVM_IRQFD
+>  	case KVM_CAP_IRQFD:
+>  	case KVM_CAP_IRQFD_RESAMPLE:
+> @@ -4804,6 +4856,30 @@ static long kvm_vm_ioctl(struct file *filp,
+>  		break;
+>  	}
+>  #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
+> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> +	case KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES: {
+> +		u64 attrs = kvm_supported_mem_attributes(kvm);
+> +
+> +		r = -EFAULT;
+> +		if (copy_to_user(argp, &attrs, sizeof(attrs)))
+> +			goto out;
+> +		r = 0;
+> +		break;
+> +	}
+> +	case KVM_SET_MEMORY_ATTRIBUTES: {
+> +		struct kvm_memory_attributes attrs;
+> +
+> +		r = -EFAULT;
+> +		if (copy_from_user(&attrs, argp, sizeof(attrs)))
+> +			goto out;
+> +
+> +		r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
+> +
+> +		if (!r && copy_to_user(argp, &attrs, sizeof(attrs)))
+> +			r = -EFAULT;
+> +		break;
+> +	}
+> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+>  	case KVM_CREATE_DEVICE: {
+>  		struct kvm_create_device cd;
 
