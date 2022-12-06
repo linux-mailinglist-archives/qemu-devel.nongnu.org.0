@@ -2,57 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7D2644A52
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 18:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE41644A53
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 18:32:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2bmN-0006Gw-JO; Tue, 06 Dec 2022 12:30:51 -0500
+	id 1p2bnA-0006fs-Px; Tue, 06 Dec 2022 12:31:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1p2blr-0006G6-LM
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:30:21 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220] helo=chinatelecom.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1p2bll-0002jq-Rb
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:30:17 -0500
-HMM_SOURCE_IP: 172.18.0.188:59456.608635250
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.104 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 9B740280090;
- Wed,  7 Dec 2022 01:29:54 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([171.223.98.104])
- by app0023 with ESMTP id 53a93ee9b3ea417198012882ee7d874e for
- peterx@redhat.com; Wed, 07 Dec 2022 01:30:02 CST
-X-Transaction-ID: 53a93ee9b3ea417198012882ee7d874e
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 171.223.98.104
-X-MEDUSA-Status: 0
-Message-ID: <8d245f68-e830-2566-2a33-b99f206c6773@chinatelecom.cn>
-Date: Wed, 7 Dec 2022 01:29:54 +0800
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p2bn5-0006eE-Fb
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:31:35 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p2bn3-00039X-Au
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:31:35 -0500
+Received: by mail-ej1-x634.google.com with SMTP id x22so7882775ejs.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 09:31:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=S/Y+6jA750OdkiUCkz7GPFVwYhD1W2MGlpMgDKjRgbY=;
+ b=ZKqW/HeE2R/R1XgW27jQB6sa0N2NJLJI++vzaoBazlLUlbiWuM423Wp3yZuesIsfBh
+ 0usnE5c1CzJY1/0lrAkexb12YaXmmw0CCsAo8cNkvKjhZ/43NDMt1g9oy2koShydVEwb
+ Sd0DHCBr0Wq14QuidTOpOePFMWVvcCKlLoXE8otdNwPWNIHScEBj4kS2ge8xu2wed1Jm
+ rKCfd6pp3vntPmgITipX2Qy4kwE99vAV2jDlsRLH8izGs8Ka7vRjUvItg24CMXNssS/o
+ NJEdkIe/vdz+zx5RXD+Y+9fcLuhDF5kHlBAp1l7PmVLA3nwwSWPi6yCXDKuuypGYrVxQ
+ resw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S/Y+6jA750OdkiUCkz7GPFVwYhD1W2MGlpMgDKjRgbY=;
+ b=n9zo52b9ARhruukIe32q3z2TT7ihwu2YS1hUtwrROTr+j92WjOe+vEMfY+Pj6ikXKm
+ R9GxiaPmNdR/OcH/uo55TjgqjQGonQtLdk5hdkVJEBH15OZnyK81SXTCfakIs3OAhDvf
+ qfksJH0xAGckFtnC6R+/XN2gJmcAoAQWoZpPWw60igH2Q/yW1gxshpxOaa9+SSBbLBzY
+ c70rcdzCGy7uOiwK2R6CsNFByTIvPe7YnW+5EmE1St8pWH6dzGweecFNpugHzEw3azcz
+ gMVmNsCAA9456EqMbx4dZZIveXexw2BHV/yZZPbr5AzFqy4qGXrwkYiWoccNSZ4oJBpn
+ qS9Q==
+X-Gm-Message-State: ANoB5pmfzSNb62cLNhiZjq09wqbuuntEUdUpt7uiiNLUUAYcgfGuWD4H
+ qIOPlwl8Tnigen2tRetn98V7CZyyqyDTTblDYrBa7w==
+X-Google-Smtp-Source: AA0mqf4ZUcnXDsHH0QMnxNEWkJ5bcYJhn4vb74qyBoIJ5JM+R78P/8PHsAozlE8xmzdpFBdVm/zphv7/beOOi3gESMM=
+X-Received: by 2002:a17:906:29c3:b0:7c0:e0db:f136 with SMTP id
+ y3-20020a17090629c300b007c0e0dbf136mr10836727eje.333.1670347890950; Tue, 06
+ Dec 2022 09:31:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [RFC PATCH 0/1] QEMU: Dirty quota-based throttling of vcpus
-To: Peter Xu <peterx@redhat.com>, Shivam Kumar <shivam.kumar1@nutanix.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, david@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com, kvm@vger.kernel.org
-References: <20221120225458.144802-1-shivam.kumar1@nutanix.com>
- <0cde1cb7-7fce-c443-760c-2bb244e813fe@nutanix.com> <Y49nAjrD0uxUp+Ll@x1n>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <Y49nAjrD0uxUp+Ll@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.27,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <fb95bd97-8d5f-b0eb-008b-47a96808a74f@linaro.org>
+ <Y4818KfGO7Y9Tsn/@work-vm>
+In-Reply-To: <Y4818KfGO7Y9Tsn/@work-vm>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 6 Dec 2022 10:31:19 -0700
+Message-ID: <CANCZdfom6nJT_EaZWy4MJL0CJ8B8xw_ddtUe=yqxOOvfNc8o0w@mail.gmail.com>
+Subject: Re: Thoughts on removing the TARGET_I386 part of
+ hw/display/vga/vbe_portio_list[]
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, 
+ Fabrice Bellard <fabrice@bellard.org>, Michael Tokarev <mjt@tls.msk.ru>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Bin Meng <bmeng.cn@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ BALATON Zoltan <balaton@eik.bme.hu>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000b1134b05ef2c2c01"
+Received-SPF: none client-ip=2a00:1450:4864:20::634;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,92 +91,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--000000000000b1134b05ef2c2c01
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, Dec 6, 2022 at 5:32 AM Dr. David Alan Gilbert <dgilbert@redhat.com>
+wrote:
 
-在 2022/12/7 0:00, Peter Xu 写道:
-> Hi, Shivam,
-> 
-> On Tue, Dec 06, 2022 at 11:18:52AM +0530, Shivam Kumar wrote:
-> 
-> [...]
-> 
->>> Note
->>> ----------
->>> ----------
->>>
->>> We understand that there is a good scope of improvement in the current
->>> implementation. Here is a list of things we are working on:
->>> 1) Adding dirty quota as a migration capability so that it can be toggled
->>> through QMP command.
->>> 2) Adding support for throttling guest DMAs.
->>> 3) Not enabling dirty quota for the first migration iteration.
-> 
-> Agreed.
-> 
->>> 4) Falling back to current auto-converge based throttling in cases where dirty
->>> quota throttling can overthrottle.
-> 
-> If overthrottle happens, would auto-converge always be better?
-> 
->>>
->>> Please stay tuned for the next patchset.
->>>
->>> Shivam Kumar (1):
->>>     Dirty quota-based throttling of vcpus
->>>
->>>    accel/kvm/kvm-all.c       | 91 +++++++++++++++++++++++++++++++++++++++
->>>    include/exec/memory.h     |  3 ++
->>>    include/hw/core/cpu.h     |  5 +++
->>>    include/sysemu/kvm_int.h  |  1 +
->>>    linux-headers/linux/kvm.h |  9 ++++
->>>    migration/migration.c     | 22 ++++++++++
->>>    migration/migration.h     | 31 +++++++++++++
->>>    softmmu/memory.c          | 64 +++++++++++++++++++++++++++
->>>    8 files changed, 226 insertions(+)
->>>
->>
->> It'd be great if I could get some more feedback before I send v2. Thanks.
-> 
-> Sorry to respond late.
-> 
-> What's the status of the kernel patchset?
-> 
->  From high level the approach looks good at least to me.  It's just that (as
-> I used to mention) we have two similar approaches now on throttling the
-> guest for precopy.  I'm not sure what's the best way to move forward if
-> without doing a comparison of the two.
-> 
-> https://lore.kernel.org/all/cover.1669047366.git.huangy81@chinatelecom.cn/
-> 
-> Sorry to say so, and no intention to create a contention, but merging the
-> two without any thought will definitely confuse everybody.  We need to
-> figure out a way.
-> 
->  From what I can tell..
-> 
-> One way is we choose one of them which will be superior to the other and
-> all of us stick with it (for either higher possibility of migrate, less
-> interference to the workloads, and so on).
-> 
-> The other way is we take both, when each of them may be suitable for
-> different scenarios.  However in this latter case, we'd better at least be
-> aware of the differences (which suites what), then that'll be part of
-> documentation we need for each of the features when the user wants to use
-> them.
-> 
-> Add Yong into the loop.
-> 
-> Any thoughts?
-> 
-This is quite different from "dirtylimit capability of migration". IMHO, 
-quota-based implementation seems a little complicated, because it 
-depends on correctness of dirty quota and the measured data, which 
-involves the patchset both in qemu and kernel. It seems that dirtylimit 
-and quota-based are not mutually exclusive, at least we can figure out
-which suites what firstly depending on the test results as Peter said.
+> From intel arch manual 19.3:
+>  '..16-bit ports should be aligned to even addresses (0, 2, 4, ...) so
+> that all 16 bits can be transferred in a
+>   single bus cycle. Likewise, 32-bit ports should be aligned to addresses
+> that are multiples of four (0, 4, 8, ...). The
+>   processor supports data transfers to unaligned ports, but there is a
+> performance penalty because one or more
+>   extra bus cycle must be used.'
+>
+> I think I've even seen it suggested that a 32bit access to ffff might be
+> defined - although I'm not sure if that's legal.
+>
 
--- 
-Best regard
+I don't know how well defined it is from an Official Intel Bus Definition
+perspective, but on at least one 486-era core and one Pentium-era core it
+would wrap. So an inl(0xffff) would result in an inb(0xffff), inw(0),
+inb(3) showing up on the bus. I hit this as a bug in debugging a custom
+driver way too many years ago. The cores weren't from intel, but were AMD
+and/or some other third party (I don't recall which ones). I'd rate my
+surity of this knowledge as medium, so if there's some other resource that
+contradicts this, I'd tend to believe that source for this edge-case
+behavior.
 
-Hyman Huang(黄勇)
+Warner
+
+--000000000000b1134b05ef2c2c01
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 6, 2022 at 5:32 AM Dr. Da=
+vid Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com">dgilbert@redhat=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">From intel arch manual 19.3:<br>
+=C2=A0&#39;..16-bit ports should be aligned to even addresses (0, 2, 4, ...=
+) so that all 16 bits can be transferred in a<br>
+=C2=A0 single bus cycle. Likewise, 32-bit ports should be aligned to addres=
+ses that are multiples of four (0, 4, 8, ...). The<br>
+=C2=A0 processor supports data transfers to unaligned ports, but there is a=
+ performance penalty because one or more<br>
+=C2=A0 extra bus cycle must be used.&#39;<br>
+<br>
+I think I&#39;ve even seen it suggested that a 32bit access to ffff might b=
+e<br>
+defined - although I&#39;m not sure if that&#39;s legal.<br></blockquote><d=
+iv><br></div><div>I don&#39;t know how well defined it is from an Official =
+Intel Bus Definition perspective, but on at least one 486-era core and one =
+Pentium-era core it would wrap. So an inl(0xffff) would result in an inb(0x=
+ffff), inw(0), inb(3) showing up on the bus. I hit this as a bug in debuggi=
+ng a custom driver way too many years ago. The cores weren&#39;t from intel=
+, but were AMD and/or some other third party (I don&#39;t recall which ones=
+). I&#39;d rate my surity of this knowledge as medium, so if there&#39;s so=
+me other resource that contradicts this, I&#39;d tend to believe that sourc=
+e for this edge-case behavior.</div><div><br></div><div>Warner</div></div><=
+/div>
+
+--000000000000b1134b05ef2c2c01--
 
