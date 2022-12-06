@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4431644139
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C9C64413A
 	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:27:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2V9X-0007PM-Sa; Tue, 06 Dec 2022 05:26:21 -0500
+	id 1p2V9H-0007ES-Ur; Tue, 06 Dec 2022 05:26:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V9A-0007FV-Lj
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:26:00 -0500
-Received: from mail-out-1a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:44])
+ id 1p2V91-0007Dg-38
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:47 -0500
+Received: from mail-out-2a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:45])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V97-00028y-Ol
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:55 -0500
-X-IPAS-Result: =?us-ascii?q?A2DqBACWF49j/5sagoZaHgEBCxIMQIZahE6RHAOfMw8BA?=
- =?us-ascii?q?QEBAQEBAQEIAUQEAQGFAQICAoUPJjgTAQIEAQEBAQMCAwEBAQEBAQMBAQYBA?=
- =?us-ascii?q?QEBAQEGBIEdhS9GhlYCAQMjBAsBQQUQIAUCJgICVwYOBYJ+gyOtSn8zgQGEc?=
- =?us-ascii?q?ZxNCQGBCiyJCIJOhUKCUIJRgTd1hBxFgzqCZwSKOoxbDm4cNwMJAwcFLB1AA?=
- =?us-ascii?q?wsYDRYyChMyNQsRTCscGweBDCooFQMEBAMCBhMDIAINKDEUBCkTDSsmbQkCA?=
- =?us-ascii?q?yFhBQMDBCgsAwlAByYmPAdWNwUDAg8gOAYDCQMCH1R0LxIUBQMLFSUIBUkEC?=
- =?us-ascii?q?DcFBlMSAgoREg8sRQ5IPjkWBidBATAODhMDXUsdgQEEYDmBFS8umiFyASwtN?=
- =?us-ascii?q?IJAE68mk3YHgh+iDkyDeZMEAjeRZpdAoyqEKAIEAgQFAhaBeYF+cYM2UhcCD?=
- =?us-ascii?q?5xxdDsCBwEKAQEDCYdHglgBAQ?=
-IronPort-Data: A9a23:Tm8BNKzQR/JqyWshrh96t+drxyrEfRIJ4+MujC+fZmUNrF6WrkVTx
- jZLCGCDaf6LYTPxctkiPYW/pksOsJXWmIRmQAVqr1hgHilAwSbn6XV1DW+tZX/Ifp2bJK5Dx
- 59DAjUVBJlsFhcwnj/0bv676yAUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dga++2k
- Y608pO31GONgWYuaDtOs/zb8nuDgdyr0N8mlg1mDRx0lAKG/5UlJMp3Db28KXL+Xr5VEoaSL
- woU5Ojklo9x105F5uKNyt4XQGVTKlLhFVTmZk5tZkSXqkMqShoaj/xnbqpMMS+7vB3S9zx54
- I0lWZVd0m7FNIWU8AgWe0Ew/y2TocSq9ZefSUVTv/B/wGXeQlnA+vk/In09PL8F48xGXl5sr
- cYHfWVlghCr34pawZqBddVMq/RmF5OuFsUFpW1giDjVS/orKXzBa/yRuZkBh2923J4IRKuDD
- yYaQWMHgBDofxpFO14MTog5keeti33XaSJEqBecrKE37m6VwAEZPL3Fa4KPKoTRH5g9ckCwr
- UDl+HXIXggjO4a1yD/GwFWg3tXBpHauMG4VPPjinhJwu3WKy2kOTREbS1a/if++jEG4RpRYM
- UN80jIjsaUoskmiX9XwWxmQpH+CtwQbHd1KHIUHBBql0LXI4wuJQ3NeCzQHcsM6tIo/SXom2
- zdlgu/UONCmi5XNIVr1y1tehWna1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:D4cI0K4KC1NSMO7ZHwPXwOTXdLJyesId70hD6qkRc3xom6mj/P
- xG885rtyMc5Ax8ZJhCo7G90cu7MBDhHPdOiOF6UItKNzOJhILHFu5fBdyI+UyEJwTOstd466
- dmN5dzE8fxC18St7ef3CCIV+sd7Z258Lu1n6PlxX9rSg1mApsQiDtENg==
+ id 1p2V8t-000292-SL
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:45 -0500
+X-IPAS-Result: =?us-ascii?q?A2ASBACWF49j/5sagoZaHQEBAQEJARIBBQUBQIFPhQuET?=
+ =?us-ascii?q?pEfnzMPAQEBAQEBAQEBCAFEBAEBhQECAgKFDyY4EwECBAEBAQEDAgMBAQEBA?=
+ =?us-ascii?q?QEDAQEGAQEBAQEBBgSBHYUvRoZWAgEDIwQLAUYQIAUCJgICVwYOBYJ+gyOtS?=
+ =?us-ascii?q?n8zgQGEcZxNCQGBCiyJCIJOhUKCUIJRgTd1hGEwgwqCZwSKOoxbDm4cNwMJA?=
+ =?us-ascii?q?wcFLB1AAwsYDRYyChMyNQsRTCscGweBDCooFQMEBAMCBhMDIAINKDEUBCkTD?=
+ =?us-ascii?q?SsmbQkCAyFhBQMDBCgsAwlAByYmPAdWNwUDAg8gOAYDCQMCH1R0LxIUBQMLF?=
+ =?us-ascii?q?SUIBUkECDcFBlMSAgoREg8sRQ5IPjkWBidBATAODhMDXUsdgQEEYDmBFS8um?=
+ =?us-ascii?q?xOBDoJAkw+OU6FNB4Ifog5Mln0Ckh2XQKMqhCgCBAIEBQIWgXmBfnGDNlIXA?=
+ =?us-ascii?q?g+OLBaOL3Q7AgcBCgEBAwmKHwEB?=
+IronPort-Data: A9a23:mVjGRK7QPSEnWdmihGhrLgxRtGTGchMFZxGqfqrLsTDasY5as4F+v
+ jEbWG6POP6LazGhfop2Yd6w8kIC7ZGGyIBmTwpv+XszZn8b8sCt6fZ1j6vTF37IcpeTHBoPA
+ +E2MISowBUcFyeEzvuVGuG96yM6jMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1rlV
+ eja/ouOZjdJ5xYuajhOsvjb9ks11BjPkGpwUmIWNKgjUGD2yiF94KI3fcmZM3b+S49IKe+2L
+ 86rIGaRpz6xE78FU7tJo56jGqE4aue60Tum1hK6b5Ofbi1q/UTe5I5mbqZGORcP49m+t4sZJ
+ N1l7fRcQOqyV0HGsLx1vxJwS0mSMUDakVPKCSDXjCCd86HJW1XJ7NtePG09Aa5C/+coJUpiq
+ /8pKy9YO3hvh8ruqF66YtNTuuQOHIzQZsY1/Gt/0TGcBPpgTZ2rr6fivIQEmm5r3oYUQ7CHO
+ pdxhTlHNXwsZzVTPV0WAYl4huClhnzydxVCt06V4KM+6Gjeykp93dABNfKOIobVFJgEwi50o
+ Er++TvzXBQIJODGyGTb7zGL2eGQnxn0Ddd6+LqQs6QCbEeo7nUeDQBTWValrP2RjEm4VNRCb
+ UsO9UIGtaUu+VbtS9DsUxC8pFaAvxgVQd0WFPc1gDxh0YLO/BqZC3hBVWQEYpo8q9M2ADUmk
+ FOE9z/0OQFSXHSuYSr13t+pQfmaYED58Udqifc4cDY4
+IronPort-HdrOrdr: A9a23:9ospdKuUkBJEMMvpcXcy94Ah7skDmdV00zEX/kB9WHVpW+SSi9
+ qj2M8WzBnulTYXVjUBtLm7VZWoaXjB75Iw2oUJO6y+Rk3avgKTXfhfBOzZskDd8kzFh5RgPM
+ JbGZSWZ+eeMbEXt6fHCWqDYq0dKbu8gcOVbI7lph8HcegAUcFdBmlCZDqzLnxKZCQuP/YE/O
+ Xw3LshmxOQPVwdct62QlkDUO6rnayvqHrsCSR2fyLPkDP+7w+A2frAHwGfxQp2aUIq/V9EmV
+ K19TDE2g==
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="30280325"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="30279594"
 Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-1a.itc.rwth-aachen.de with ESMTP; 06 Dec 2022 11:25:32 +0100
+ by mail-in-2a.itc.rwth-aachen.de with ESMTP; 06 Dec 2022 11:25:32 +0100
 Received: from localhost.localdomain (2a02:908:1088:5920:7fc5:a897:a756:e2fb)
  by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
  SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.20; Tue, 6 Dec 2022 11:25:31 +0100
+ 15.2.1118.20; Tue, 6 Dec 2022 11:25:32 +0100
 From: <tobias.roehmel@rwth-aachen.de>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
  <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v6 6/7] target/arm: Add PMSAv8r functionality
-Date: Tue, 6 Dec 2022 11:25:03 +0100
-Message-ID: <20221206102504.165775-7-tobias.roehmel@rwth-aachen.de>
+Subject: [PATCH v6 7/7] target/arm: Add ARM Cortex-R52 CPU
+Date: Tue, 6 Dec 2022 11:25:04 +0100
+Message-ID: <20221206102504.165775-8-tobias.roehmel@rwth-aachen.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
 References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
@@ -66,9 +68,9 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [2a02:908:1088:5920:7fc5:a897:a756:e2fb]
 X-ClientProxiedBy: rwthex-s2-a.rwth-ad.de (2a00:8a60:1:e500::26:154) To
  RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:44;
+Received-SPF: pass client-ip=2a00:8a60:1:e501::5:45;
  envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-1a.itc.rwth-aachen.de
+ helo=mail-out-2a.itc.rwth-aachen.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -91,231 +93,74 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-Add PMSAv8r translation.
+All constants are taken from the ARM Cortex-R52 Processor TRM Revision: r1p3
 
 Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/ptw.c | 126 ++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 104 insertions(+), 22 deletions(-)
+ target/arm/cpu_tcg.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 7d19829702..49e5e5627b 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -1758,9 +1758,13 @@ static bool pmsav7_use_background_region(ARMCPU *cpu, ARMMMUIdx mmu_idx,
- 
-     if (arm_feature(env, ARM_FEATURE_M)) {
-         return env->v7m.mpu_ctrl[is_secure] & R_V7M_MPU_CTRL_PRIVDEFENA_MASK;
--    } else {
--        return regime_sctlr(env, mmu_idx) & SCTLR_BR;
-     }
-+
-+    if (mmu_idx == ARMMMUIdx_Stage2) {
-+        return false;
-+    }
-+
-+    return regime_sctlr(env, mmu_idx) & SCTLR_BR;
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 9a2cef7d05..a9e407ccf3 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -853,6 +853,47 @@ static void cortex_r5_initfn(Object *obj)
+     define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
  }
  
- static bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
-@@ -1952,6 +1956,26 @@ static bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
-     return !(result->f.prot & (1 << access_type));
- }
- 
-+static uint32_t *regime_rbar(CPUARMState *env, ARMMMUIdx mmu_idx,
-+                             uint32_t secure)
++static void cortex_r52_initfn(Object *obj)
 +{
-+    if (regime_el(env, mmu_idx) == 2) {
-+        return env->pmsav8.hprbar;
-+    } else {
-+        return env->pmsav8.rbar[secure];
-+    }
++    ARMCPU *cpu = ARM_CPU(obj);
++
++    set_feature(&cpu->env, ARM_FEATURE_V8);
++    set_feature(&cpu->env, ARM_FEATURE_EL2);
++    set_feature(&cpu->env, ARM_FEATURE_PMSA);
++    set_feature(&cpu->env, ARM_FEATURE_NEON);
++    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
++    cpu->midr = 0x411fd133; /* r1p3 */
++    cpu->revidr = 0x00000000;
++    cpu->reset_fpsid = 0x41034023;
++    cpu->isar.mvfr0 = 0x10110222;
++    cpu->isar.mvfr1 = 0x12111111;
++    cpu->isar.mvfr2 = 0x00000043;
++    cpu->ctr = 0x8144c004;
++    cpu->reset_sctlr = 0x30c50838;
++    cpu->isar.id_pfr0 = 0x00000131;
++    cpu->isar.id_pfr1 = 0x10111001;
++    cpu->isar.id_dfr0 = 0x03010006;
++    cpu->id_afr0 = 0x00000000;
++    cpu->isar.id_mmfr0 = 0x00211040;
++    cpu->isar.id_mmfr1 = 0x40000000;
++    cpu->isar.id_mmfr2 = 0x01200000;
++    cpu->isar.id_mmfr3 = 0xf0102211;
++    cpu->isar.id_mmfr4 = 0x00000010;
++    cpu->isar.id_isar0 = 0x02101110;
++    cpu->isar.id_isar1 = 0x13112111;
++    cpu->isar.id_isar2 = 0x21232142;
++    cpu->isar.id_isar3 = 0x01112131;
++    cpu->isar.id_isar4 = 0x00010142;
++    cpu->isar.id_isar5 = 0x00010001;
++    cpu->isar.dbgdidr = 0x77168000;
++    cpu->clidr = (1 << 27) | (1 << 24) | 0x3;
++    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
++    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
++
++    cpu->pmsav7_dregion = 16;
++    cpu->pmsav8r_hdregion = 16;
 +}
 +
-+static uint32_t *regime_rlar(CPUARMState *env, ARMMMUIdx mmu_idx,
-+                             uint32_t secure)
-+{
-+    if (regime_el(env, mmu_idx) == 2) {
-+        return env->pmsav8.hprlar;
-+    } else {
-+        return env->pmsav8.rlar[secure];
-+    }
-+}
-+
- bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                        MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                        bool secure, GetPhysAddrResult *result,
-@@ -1974,6 +1998,13 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-     bool hit = false;
-     uint32_t addr_page_base = address & TARGET_PAGE_MASK;
-     uint32_t addr_page_limit = addr_page_base + (TARGET_PAGE_SIZE - 1);
-+    int region_counter;
-+
-+    if (regime_el(env, mmu_idx) == 2) {
-+        region_counter = cpu->pmsav8r_hdregion;
-+    } else {
-+        region_counter = cpu->pmsav7_dregion;
-+    }
- 
-     result->f.lg_page_size = TARGET_PAGE_BITS;
-     result->f.phys_addr = address;
-@@ -1982,6 +2013,10 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-         *mregion = -1;
-     }
- 
-+    if (mmu_idx == ARMMMUIdx_Stage2) {
-+        fi->stage2 = true;
-+    }
-+
-     /*
-      * Unlike the ARM ARM pseudocode, we don't need to check whether this
-      * was an exception vector read from the vector table (which is always
-@@ -1998,17 +2033,26 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-             hit = true;
-         }
- 
--        for (n = (int)cpu->pmsav7_dregion - 1; n >= 0; n--) {
-+        uint32_t bitmask;
-+        if (arm_feature(env, ARM_FEATURE_M)) {
-+            bitmask = 0x1f;
-+        } else {
-+            bitmask = 0x3f;
-+            fi->level = 0;
-+        }
-+
-+        for (n = region_counter - 1; n >= 0; n--) {
-             /* region search */
-             /*
--             * Note that the base address is bits [31:5] from the register
--             * with bits [4:0] all zeroes, but the limit address is bits
--             * [31:5] from the register with bits [4:0] all ones.
-+             * Note that the base address is bits [31:x] from the register
-+             * with bits [x-1:0] all zeroes, but the limit address is bits
-+             * [31:x] from the register with bits [x:0] all ones. Where x is
-+             * 5 for Cortex-M and 6 for Cortex-R
-              */
--            uint32_t base = env->pmsav8.rbar[secure][n] & ~0x1f;
--            uint32_t limit = env->pmsav8.rlar[secure][n] | 0x1f;
-+            uint32_t base = regime_rbar(env, mmu_idx, secure)[n] & ~bitmask;
-+            uint32_t limit = regime_rlar(env, mmu_idx, secure)[n] | bitmask;
- 
--            if (!(env->pmsav8.rlar[secure][n] & 0x1)) {
-+            if (!(regime_rlar(env, mmu_idx, secure)[n] & 0x1)) {
-                 /* Region disabled */
-                 continue;
-             }
-@@ -2042,7 +2086,9 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                  * PMSAv7 where highest-numbered-region wins)
-                  */
-                 fi->type = ARMFault_Permission;
--                fi->level = 1;
-+                if (arm_feature(env, ARM_FEATURE_M)) {
-+                    fi->level = 1;
-+                }
-                 return true;
-             }
- 
-@@ -2052,8 +2098,11 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-     }
- 
-     if (!hit) {
--        /* background fault */
--        fi->type = ARMFault_Background;
-+        if (arm_feature(env, ARM_FEATURE_M)) {
-+            fi->type = ARMFault_Background;
-+        } else {
-+            fi->type = ARMFault_Permission;
-+        }
-         return true;
-     }
- 
-@@ -2061,12 +2110,14 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-         /* hit using the background region */
-         get_phys_addr_pmsav7_default(env, mmu_idx, address, &result->f.prot);
-     } else {
--        uint32_t ap = extract32(env->pmsav8.rbar[secure][matchregion], 1, 2);
--        uint32_t xn = extract32(env->pmsav8.rbar[secure][matchregion], 0, 1);
-+        uint32_t matched_rbar = regime_rbar(env, mmu_idx, secure)[matchregion];
-+        uint32_t matched_rlar = regime_rlar(env, mmu_idx, secure)[matchregion];
-+        uint32_t ap = extract32(matched_rbar, 1, 2);
-+        uint32_t xn = extract32(matched_rbar, 0, 1);
-         bool pxn = false;
- 
-         if (arm_feature(env, ARM_FEATURE_V8_1M)) {
--            pxn = extract32(env->pmsav8.rlar[secure][matchregion], 4, 1);
-+            pxn = extract32(matched_rlar, 4, 1);
-         }
- 
-         if (m_is_system_region(env, address)) {
-@@ -2074,21 +2125,46 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-             xn = 1;
-         }
- 
--        result->f.prot = simple_ap_to_rw_prot(env, mmu_idx, ap);
-+        if (regime_el(env, mmu_idx) == 2) {
-+            result->f.prot = simple_ap_to_rw_prot_is_user(ap,
-+                                            mmu_idx != ARMMMUIdx_E2);
-+        } else {
-+            result->f.prot = simple_ap_to_rw_prot(env, mmu_idx, ap);
-+        }
-+
-+        if (!arm_feature(env, ARM_FEATURE_M)) {
-+            uint8_t attrindx = extract32(matched_rlar, 1, 3);
-+            uint64_t mair = env->cp15.mair_el[regime_el(env, mmu_idx)];
-+            uint8_t sh = extract32(matched_rlar, 3, 2);
-+
-+            if (regime_sctlr(env, mmu_idx) & SCTLR_WXN &&
-+                result->f.prot & PAGE_WRITE && mmu_idx != ARMMMUIdx_Stage2) {
-+                xn = 0x1;
-+            }
-+
-+            if ((regime_el(env, mmu_idx) == 1) &&
-+                regime_sctlr(env, mmu_idx) & SCTLR_UWXN && ap == 0x1) {
-+                pxn = 0x1;
-+            }
-+
-+            result->cacheattrs.is_s2_format = false;
-+            result->cacheattrs.attrs = extract64(mair, attrindx * 8, 8);
-+            result->cacheattrs.shareability = sh;
-+        }
-+
-         if (result->f.prot && !xn && !(pxn && !is_user)) {
-             result->f.prot |= PAGE_EXEC;
-         }
--        /*
--         * We don't need to look the attribute up in the MAIR0/MAIR1
--         * registers because that only tells us about cacheability.
--         */
-+
-         if (mregion) {
-             *mregion = matchregion;
-         }
-     }
- 
-     fi->type = ARMFault_Permission;
--    fi->level = 1;
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        fi->level = 1;
-+    }
-     return !(result->f.prot & (1 << access_type));
- }
- 
-@@ -2649,7 +2725,13 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
-     cacheattrs1 = result->cacheattrs;
-     memset(result, 0, sizeof(*result));
- 
--    ret = get_phys_addr_lpae(env, ptw, ipa, access_type, is_el0, result, fi);
-+    if (arm_feature(env, ARM_FEATURE_PMSA)) {
-+        ret = get_phys_addr_pmsav8(env, ipa, access_type,
-+                                   ptw->in_mmu_idx, is_secure, result, fi);
-+    } else {
-+        ret = get_phys_addr_lpae(env, ptw, ipa, access_type,
-+                                 is_el0, result, fi);
-+    }
-     fi->s2addr = ipa;
- 
-     /* Combine the S1 and S2 perms.  */
+ static void cortex_r5f_initfn(Object *obj)
+ {
+     ARMCPU *cpu = ARM_CPU(obj);
+@@ -1162,6 +1203,7 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+                              .class_init = arm_v7m_class_init },
+     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
+     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
++    { .name = "cortex-r52",  .initfn = cortex_r52_initfn },
+     { .name = "ti925t",      .initfn = ti925t_initfn },
+     { .name = "sa1100",      .initfn = sa1100_initfn },
+     { .name = "sa1110",      .initfn = sa1110_initfn },
 -- 
 2.34.1
 
