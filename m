@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5FE643C38
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87AF643C3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:24:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2POr-0003T7-R0; Mon, 05 Dec 2022 23:17:45 -0500
+	id 1p2POs-0003T8-ED; Mon, 05 Dec 2022 23:17:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POp-0003S9-49
+ id 1p2POp-0003SJ-Fz
  for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:43 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POn-00072b-3r
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:42 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id
- q18-20020a056830441200b006704633f258so2220324otv.0
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:40 -0800 (PST)
+ id 1p2POn-0006wa-Os
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:43 -0500
+Received: by mail-oi1-x234.google.com with SMTP id c129so15647967oia.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZmoxygvVTEq2d+IOQdC2EOT2LDl9LC/v0r7RV1PzJPs=;
- b=dH5WQuCUyab/nVKvhFh5Xf0N8oApBGkfYpGfC6liSrFOArBMpkQKjt2O3v0X6vytvA
- ZIWuK3nkFx1EJbrqZlfEkWVt3/pgxa9Zc3uem+A+mwdzmqq0NeXxVP3HnCzmDW02nwFe
- CcBcwqnB8AJKaQXjDAD0U5ctKqg5l6X8VcL71ysQTJXFvGntRHGzyxfwGzvF7IIRNdij
- LXqFNLqRmRppYtc0fR3L2X3HkXT6+mqYvmTUS9Sv6AAw4jkKdyMjNIfC/jfSAdo4KTuP
- Gjwt/78Q2EjZH/9EZV7Q1G8hg7Ga8wvpsa6FRH4QRzkNbNkSYRjQzBXdxvnmKyy3+Vjq
- Rz4g==
+ bh=eHbWZNc2e37AaQzsCP2Rz1slFzFOy+tMFTM0BqvuSPQ=;
+ b=gRu/lVnyATgEVBYnNYc02ey5JDwMPFgHnGt8TuaeAv6/RETNF1KSVoujWhjt9cafZ6
+ WsErLl/qWG4xPeCapSxI4UuimM1j9q4LYzs6UeIqnrOP4BRfPL5NWNqDJlhr6xGHM7bp
+ oSq9x+7aMKPutnO/IqT9vknRGCM2lOmtLTrHIQZqxwVyTWmjipvvEUyUnwVECLaa6JqS
+ TCjCKq+JH3zN/P/vBqmMKD3ONNOfzNGan74qU4puDFZMnrzmKDXr/5cJeRh63GsWXT6g
+ iRM37otQigdLFcR/ZVgiPB9mZpPTRBC8InwLJNwkpYWEMk8FmEeK/zDb8wtLxmVGY/Fl
+ U6JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZmoxygvVTEq2d+IOQdC2EOT2LDl9LC/v0r7RV1PzJPs=;
- b=EEgEIgHnS5kuXoFty+qgDaQ8O0Vvf7iMU01HWbjL/SXDCy4uQmR98ZZ1Zn0z/7rOor
- JjDKUt6VC2L7FGc18q0cjhgJXgsEBniZPVKSFz3hNLGwl2E2mNnZgQeIsaQxYaLhygFN
- awbb6HJQVcFZpqgmyHLRDq1d/w89KixDpnkyUowJMdG7J9uz1gZjOaMVHTs3HYrbUf6K
- Oot4COMP9hmIfDsxEuDo3wGafLOWXMUNuEsWqNRBOYSoG8NJR55Hx2xsUJEtBDwHOXIL
- czRsocknUkGFOWBaeLo7VzZ0xabo0tg/2aYf66vpwDiJYnCpNQfjE2167a9QD59esZDI
- 4J8Q==
-X-Gm-Message-State: ANoB5pkND8v949rVyE6krguT6OHFTwtFmj+LqmHxBjkAJnNAhyZImddp
- lY/EXQwbrzAzDMeAUl0FEN715zXptty0hoaAqso=
-X-Google-Smtp-Source: AA0mqf6jXhd4z1qRZQn/oB2I6fyAZYvUR6WGrD2sWAG+DfvyDH2NtqzEIDyzy0f9WAstSkSEQsBraw==
-X-Received: by 2002:a05:6830:1bec:b0:66e:7deb:b5b with SMTP id
- k12-20020a0568301bec00b0066e7deb0b5bmr9059669otb.295.1670300259868; 
- Mon, 05 Dec 2022 20:17:39 -0800 (PST)
+ bh=eHbWZNc2e37AaQzsCP2Rz1slFzFOy+tMFTM0BqvuSPQ=;
+ b=e+40tpcl02jSq35iDrQ5HJWxqPpXFxpglWBjBuRHkYBIp/GgES/ENKbwmkAn2L0wmH
+ vOSTp+3X0nHYIh/xK3+rn/HuGjhPt9Adlh9eWMfPYPdAuSz7aLriX8JITUdv+MKEcqyx
+ RKUjzfytGZI4ApSvLTqJ8KwyTVTO9bWU6KUL9bArJyCCRBDkUhY7wd+rwaCRqrIDXLPX
+ RgA/nt+dM3LXwuLcPo5uR//2VYYyxLdI2Hb8tF7n40GRWU8SaqG5v/oUKdOZ5xSPVPRi
+ +hvtbdt/bOPve7/x9cENvEeONhDybL/8Qk3VX8iNapa0nhp8Y5x52catdQs67fu+cUXF
+ VEOQ==
+X-Gm-Message-State: ANoB5plFjZLsi0/Ko8Adn1zie9FWdEC6HCzHGY67HPUBifp+8/qrqAjX
+ iFO9ndgWkbUSuVLwQXjTecjP4vRMxxB92KDw7IY=
+X-Google-Smtp-Source: AA0mqf7xp3Ij50GoWEI7tsbb+tfsR2tJwWH+Q6e/8nxcfY04Z1t/tb9rJsPIkDikZjv/kaY3R7NLQw==
+X-Received: by 2002:aca:b504:0:b0:35b:4b8c:9f87 with SMTP id
+ e4-20020acab504000000b0035b4b8c9f87mr31281939oif.188.1670300261017; 
+ Mon, 05 Dec 2022 20:17:41 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:70b5:d104:21c2:8c7e:77e6])
  by smtp.gmail.com with ESMTPSA id
- o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.38
+ o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 20:17:39 -0800 (PST)
+ Mon, 05 Dec 2022 20:17:40 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: r@hev.cc
-Subject: [PATCH 17/22] tcg/ppc: Reorg goto_tb implementation
-Date: Mon,  5 Dec 2022 22:17:10 -0600
-Message-Id: <20221206041715.314209-18-richard.henderson@linaro.org>
+Subject: [PATCH 18/22] tcg/sparc64: Remove USE_REG_TB
+Date: Mon,  5 Dec 2022 22:17:11 -0600
+Message-Id: <20221206041715.314209-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206041715.314209-1-richard.henderson@linaro.org>
 References: <20221206041715.314209-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,225 +89,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old ppc64 implementation replaces 2 or 4 insns, which leaves a race
-condition in which a thread could be stopped at a PC in the middle of
-the sequence, and when restarted does not see the complete address
-computation and branches to nowhere.
-
-The new implemetation replaces only one insn, swapping between
-
-	b       <dest>
-and
-	mtctr	r31
-
-falling through to a general-case indirect branch.
+This is always true for sparc64, so this is dead since 3a5f6805c7ca.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.h     |   3 +-
- tcg/ppc/tcg-target.c.inc | 158 +++++++++++----------------------------
- 2 files changed, 44 insertions(+), 117 deletions(-)
+ tcg/sparc64/tcg-target.c.inc | 57 ++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 35 deletions(-)
 
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index f253184915..af81c5a57f 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -27,11 +27,10 @@
- 
- #ifdef _ARCH_PPC64
- # define TCG_TARGET_REG_BITS  64
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #else
- # define TCG_TARGET_REG_BITS  32
--# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
+diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
+index 96d58f30b1..1ae9615ef0 100644
+--- a/tcg/sparc64/tcg-target.c.inc
++++ b/tcg/sparc64/tcg-target.c.inc
+@@ -92,7 +92,6 @@ static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
  #endif
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
  
- #define TCG_TARGET_NB_REGS 64
- #define TCG_TARGET_INSN_UNIT_SIZE 4
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 592b8d6498..755b954447 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -1847,104 +1847,6 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
-     tcg_out32(s, insn);
- }
+ #define TCG_REG_TB  TCG_REG_I1
+-#define USE_REG_TB  (sizeof(void *) > 4)
  
--static inline uint64_t make_pair(tcg_insn_unit i1, tcg_insn_unit i2)
--{
--    if (HOST_BIG_ENDIAN) {
--        return (uint64_t)i1 << 32 | i2;
+ static const int tcg_target_reg_alloc_order[] = {
+     TCG_REG_L0,
+@@ -439,7 +438,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+     }
+ 
+     /* A 13-bit constant relative to the TB.  */
+-    if (!in_prologue && USE_REG_TB) {
++    if (!in_prologue) {
+         test = tcg_tbrel_diff(s, (void *)arg);
+         if (check_fit_ptr(test, 13)) {
+             tcg_out_arithi(s, ret, TCG_REG_TB, test, ARITH_ADD);
+@@ -468,7 +467,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+     }
+ 
+     /* Use the constant pool, if possible. */
+-    if (!in_prologue && USE_REG_TB) {
++    if (!in_prologue) {
+         new_pool_label(s, arg, R_SPARC_13, s->code_ptr,
+                        tcg_tbrel_diff(s, NULL));
+         tcg_out32(s, LDX | INSN_RD(ret) | INSN_RS1(TCG_REG_TB));
+@@ -1014,10 +1013,8 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+ #endif
+ 
+     /* We choose TCG_REG_TB such that no move is required.  */
+-    if (USE_REG_TB) {
+-        QEMU_BUILD_BUG_ON(TCG_REG_TB != TCG_REG_I1);
+-        tcg_regset_set_reg(s->reserved_regs, TCG_REG_TB);
 -    }
--    return (uint64_t)i2 << 32 | i1;
--}
--
--static inline void ppc64_replace2(uintptr_t rx, uintptr_t rw,
--                                  tcg_insn_unit i0, tcg_insn_unit i1)
--{
--#if TCG_TARGET_REG_BITS == 64
--    qatomic_set((uint64_t *)rw, make_pair(i0, i1));
--    flush_idcache_range(rx, rw, 8);
--#else
--    qemu_build_not_reached();
--#endif
--}
--
--static inline void ppc64_replace4(uintptr_t rx, uintptr_t rw,
--                                  tcg_insn_unit i0, tcg_insn_unit i1,
--                                  tcg_insn_unit i2, tcg_insn_unit i3)
--{
--    uint64_t p[2];
--
--    p[!HOST_BIG_ENDIAN] = make_pair(i0, i1);
--    p[HOST_BIG_ENDIAN] = make_pair(i2, i3);
--
--    /*
--     * There's no convenient way to get the compiler to allocate a pair
--     * of registers at an even index, so copy into r6/r7 and clobber.
--     */
--    asm("mr  %%r6, %1\n\t"
--        "mr  %%r7, %2\n\t"
--        "stq %%r6, %0"
--        : "=Q"(*(__int128 *)rw) : "r"(p[0]), "r"(p[1]) : "r6", "r7");
--    flush_idcache_range(rx, rw, 16);
--}
--
--void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
--                              uintptr_t jmp_rx, uintptr_t jmp_rw)
--{
--    tcg_insn_unit i0, i1, i2, i3;
--    uintptr_t addr = tb->jmp_target_addr[n];
--    intptr_t tb_diff = addr - (uintptr_t)tb->tc.ptr;
--    intptr_t br_diff = addr - (jmp_rx + 4);
--    intptr_t lo, hi;
--
--    if (TCG_TARGET_REG_BITS == 32) {
--        intptr_t diff = addr - jmp_rx;
--        tcg_debug_assert(in_range_b(diff));
--        qatomic_set((uint32_t *)jmp_rw, B | (diff & 0x3fffffc));
--        flush_idcache_range(jmp_rx, jmp_rw, 4);
--        return;
--    }
--
--    /*
--     * For 16-bit displacements, we can use a single add + branch.
--     * This happens quite often.
--     */
--    if (tb_diff == (int16_t)tb_diff) {
--        i0 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, tb_diff);
--        i1 = B | (br_diff & 0x3fffffc);
--        ppc64_replace2(jmp_rx, jmp_rw, i0, i1);
--        return;
--    }
--
--    lo = (int16_t)tb_diff;
--    hi = (int32_t)(tb_diff - lo);
--    assert(tb_diff == hi + lo);
--    i0 = ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, hi >> 16);
--    i1 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, lo);
--
--    /*
--     * Without stq from 2.07, we can only update two insns,
--     * and those must be the ones that load the target address.
--     */
--    if (!have_isa_2_07) {
--        ppc64_replace2(jmp_rx, jmp_rw, i0, i1);
--        return;
--    }
--
--    /*
--     * For 26-bit displacements, we can use a direct branch.
--     * Otherwise we still need the indirect branch, which we
--     * must restore after a potential direct branch write.
--     */
--    br_diff -= 4;
--    if (in_range_b(br_diff)) {
--        i2 = B | (br_diff & 0x3fffffc);
--        i3 = NOP;
--    } else {
--        i2 = MTSPR | RS(TCG_REG_TB) | CTR;
--        i3 = BCCTR | BO_ALWAYS;
--    }
--    ppc64_replace4(jmp_rx, jmp_rw, i0, i1, i2, i3);
--}
--
- static void tcg_out_call_int(TCGContext *s, int lk,
-                              const tcg_insn_unit *target)
- {
-@@ -2625,30 +2527,56 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t arg)
++    QEMU_BUILD_BUG_ON(TCG_REG_TB != TCG_REG_I1);
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TB);
+ 
+     tcg_out_arithi(s, TCG_REG_G0, TCG_REG_I1, 0, JMPL);
+     /* delay slot */
+@@ -1422,7 +1419,7 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
+         tcg_out_arithi(s, TCG_REG_G0, TCG_REG_I7, 8, RETURN);
+         tcg_out_movi_imm13(s, TCG_REG_O0, a0);
+         return;
+-    } else if (USE_REG_TB) {
++    } else {
+         intptr_t tb_diff = tcg_tbrel_diff(s, (void *)a0);
+         if (check_fit_ptr(tb_diff, 13)) {
+             tcg_out_arithi(s, TCG_REG_G0, TCG_REG_I7, 8, RETURN);
+@@ -1438,36 +1435,30 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
  
  static void tcg_out_goto_tb(TCGContext *s, int which)
  {
--    /* Direct jump. */
--    if (TCG_TARGET_REG_BITS == 64) {
--        /* Ensure the next insns are 8 or 16-byte aligned. */
--        while ((uintptr_t)s->code_ptr & (have_isa_2_07 ? 15 : 7)) {
--            tcg_out32(s, NOP);
++    int c;
++
+     /* Direct jump. */
+-    if (USE_REG_TB) {
+-        /* make sure the patch is 8-byte aligned.  */
+-        if ((intptr_t)s->code_ptr & 4) {
+-            tcg_out_nop(s);
 -        }
-+    uintptr_t ptr = get_jmp_target_addr(s, which);
-+
-+    if (USE_REG_TB) {
-+        ptrdiff_t offset = tcg_tbrel_diff(s, (void *)ptr);
-+        tcg_out_mem_long(s, LD, LDX, TCG_REG_TB, TCG_REG_TB, offset);
-+    
-+        /* Direct branch will be patched by tb_target_set_jmp_target. */
-         set_jmp_insn_offset(s, which);
--        tcg_out32(s, ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, 0));
--        tcg_out32(s, ADDI | TAI(TCG_REG_TB, TCG_REG_TB, 0));
-         tcg_out32(s, MTSPR | RS(TCG_REG_TB) | CTR);
-+
-+        /* When branch is out of range, fall through to indirect. */
-+        tcg_out32(s, BCCTR | BO_ALWAYS);
-+
-+        /* For the unlinked case, need to reset TCG_REG_TB.  */
-+        set_jmp_reset_offset(s, which);
-+        tcg_out_mem_long(s, ADDI, ADD, TCG_REG_TB, TCG_REG_TB,
-+                         -tcg_current_code_size(s));
-+    } else {
-+        /* Direct branch will be patched by tb_target_set_jmp_target. */
-+        set_jmp_insn_offset(s, which);
-+        tcg_out32(s, NOP);
-+
-+        /* When branch is out of range, fall through to indirect. */
-+        tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_TMP1, ptr - (int16_t)ptr);
-+        tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, TCG_REG_TMP1, (int16_t)ptr);
-+        tcg_out32(s, MTSPR | RS(TCG_REG_TMP1) | CTR);
-         tcg_out32(s, BCCTR | BO_ALWAYS);
-         set_jmp_reset_offset(s, which);
--        if (USE_REG_TB) {
--            /* For the unlinked case, need to reset TCG_REG_TB.  */
--            tcg_out_mem_long(s, ADDI, ADD, TCG_REG_TB, TCG_REG_TB,
--                             -tcg_current_code_size(s));
--        }
+-        set_jmp_insn_offset(s, which);
+-        tcg_out_sethi(s, TCG_REG_T1, 0);
+-        tcg_out_arithi(s, TCG_REG_T1, TCG_REG_T1, 0, ARITH_OR);
+-        tcg_out_arith(s, TCG_REG_G0, TCG_REG_TB, TCG_REG_T1, JMPL);
+-        tcg_out_arith(s, TCG_REG_TB, TCG_REG_TB, TCG_REG_T1, ARITH_ADD);
 -    } else {
 -        set_jmp_insn_offset(s, which);
--        tcg_out32(s, B);
--        set_jmp_reset_offset(s, which);
+-        tcg_out32(s, CALL);
++    /* make sure the patch is 8-byte aligned.  */
++    if ((intptr_t)s->code_ptr & 4) {
+         tcg_out_nop(s);
+     }
++    set_jmp_insn_offset(s, which);
++    tcg_out_sethi(s, TCG_REG_T1, 0);
++    tcg_out_arithi(s, TCG_REG_T1, TCG_REG_T1, 0, ARITH_OR);
++    tcg_out_arith(s, TCG_REG_G0, TCG_REG_TB, TCG_REG_T1, JMPL);
++    tcg_out_arith(s, TCG_REG_TB, TCG_REG_TB, TCG_REG_T1, ARITH_ADD);
+     set_jmp_reset_offset(s, which);
+ 
+     /*
+      * For the unlinked path of goto_tb, we need to reset TCG_REG_TB
+      * to the beginning of this TB.
+      */
+-    if (USE_REG_TB) {
+-        int c = -tcg_current_code_size(s);
+-        if (check_fit_i32(c, 13)) {
+-            tcg_out_arithi(s, TCG_REG_TB, TCG_REG_TB, c, ARITH_ADD);
+-        } else {
+-            tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_T1, c);
+-            tcg_out_arith(s, TCG_REG_TB, TCG_REG_TB, TCG_REG_T1, ARITH_ADD);
+-        }
++    c = -tcg_current_code_size(s);
++    if (check_fit_i32(c, 13)) {
++        tcg_out_arithi(s, TCG_REG_TB, TCG_REG_TB, c, ARITH_ADD);
++    } else {
++        tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_T1, c);
++        tcg_out_arith(s, TCG_REG_TB, TCG_REG_TB, TCG_REG_T1, ARITH_ADD);
      }
  }
  
-+void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-+                              uintptr_t jmp_rx, uintptr_t jmp_rw)
-+{
-+    uintptr_t addr = tb->jmp_target_addr[n];
-+    intptr_t diff = addr - jmp_rx;
-+    tcg_insn_unit insn;
-+
-+    if (in_range_b(diff)) {
-+        insn = B | (diff & 0x3fffffc);
-+    } else if (USE_REG_TB) {
-+        insn = MTSPR | RS(TCG_REG_TB) | CTR;
-+    } else {
-+        insn = NOP;
-+    }
-+
-+    qatomic_set((uint32_t *)jmp_rw, insn);
-+    flush_idcache_range(jmp_rx, jmp_rw, 4);
-+}
-+
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg args[TCG_MAX_OP_ARGS],
-                        const int const_args[TCG_MAX_OP_ARGS])
+@@ -1487,11 +1478,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+     switch (opc) {
+     case INDEX_op_goto_ptr:
+         tcg_out_arithi(s, TCG_REG_G0, a0, 0, JMPL);
+-        if (USE_REG_TB) {
+-            tcg_out_mov_delay(s, TCG_REG_TB, a0);
+-        } else {
+-            tcg_out_nop(s);
+-        }
++        tcg_out_mov_delay(s, TCG_REG_TB, a0);
+         break;
+     case INDEX_op_br:
+         tcg_out_bpcc(s, COND_A, BPCC_PT, arg_label(a0));
+@@ -1897,7 +1884,7 @@ void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
+     tcg_debug_assert(tb_disp == (int32_t)tb_disp);
+     tcg_debug_assert(br_disp == (int32_t)br_disp);
+ 
+-    if (!USE_REG_TB) {
++    if (0) {
+         qatomic_set((uint32_t *)jmp_rw,
+ 		    deposit32(CALL, 0, 30, br_disp >> 2));
+         flush_idcache_range(jmp_rx, jmp_rw, 4);
 -- 
 2.34.1
 
