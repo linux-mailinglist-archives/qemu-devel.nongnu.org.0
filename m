@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F08B644168
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F06644181
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:46:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2VPq-0000QQ-Fc; Tue, 06 Dec 2022 05:43:10 -0500
+	id 1p2VSH-00018z-WF; Tue, 06 Dec 2022 05:45:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p2VPm-0000Q4-92
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:43:06 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2VSC-00018n-8G
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:45:36 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p2VPk-0005RI-FL
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:43:05 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so13962687wmb.2
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 02:43:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2VS7-00064i-AR
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:45:36 -0500
+Received: by mail-wr1-x431.google.com with SMTP id w15so22848340wrl.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 02:45:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rZbDkrN4/YnDkZpZpxYB7f4uNuYTsVbOXMjp1WMfiJ4=;
- b=qD3BNHDU6aGS2QNtbteQ8tVH5tkSEB5oNv9vJAsmGhco8xMAxBn0mA4UjLUio3qbGP
- VGHW2+M/OaxfcLBeaqPoe6bck40EAe2tkG7nZ/7nd4XfG+yUL8/0CEKOblWrDkEUo8Qg
- MtFLxP6dLm9gFW7r6Uiw/LIzq6BJVCrxtgDdjr2O/4K/0jXftOLHASZyhiw3HKVltHpb
- ojTmw/PDJtGb0WU0RCzv7//iyaUhb9QYtpHz6tc/tIIE+2ZlzuNsfYIDad3gpzhSu6yD
- oEZoYKA7E1ypxzwZ13NgyOg7zRL2iGah573NmJjkI7m0Lryg8HOd0rt0qwDx1b4h+vY4
- wkNg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FH4sQ4Xat1bWFrlkpM7SE6u725DsxNWh5VFfTlOcGaY=;
+ b=i2kW/Sm/Zfbd5zXJ25B9LKp8ixhF658obC8KsozsyTTdobRzOaAbJI8U3lhNkyb0mU
+ +5Dym4cRFhzq73i4iLW9BcKY2Ffg7t4oruPZhNT8cnm7IIm0sQ02ZEvSII2RxfdtinF5
+ yMbDsuigxL3pdBYLkPW03zo1b5IPkGS+VbKb26Q4wQ1yRd+Jb5sl6Nil5dTfTQvTIcbK
+ BCUEfJI65Cuz1mzmA4ms6Ewu+Jb7ZYoAhS+kfX5PPbQbCa4+djhzqhaJI+jVRDXnC/wM
+ l/a8STEur0m+yBNIHYDertLM8oEylDvXxD2OYGCUgXmzzGTWcbfvEAD3F8kUfOMtuy6E
+ oadg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=rZbDkrN4/YnDkZpZpxYB7f4uNuYTsVbOXMjp1WMfiJ4=;
- b=PEebbcOBztz7ynP1rWgg25ajVTmW1fWXsu8oJtGSWRErr50EjxlFKyBmbze4moPXaa
- giPX9Oly8h2AREE3qUFYXzjFD8niyqiJO5EBfZBJChxYlbgsqQIJ2VwxsdC/4/8jDZEU
- 8PO3xAG/jkfZpdpDb3sIf9GCrXIhUuyYeKdqpTcYfISPO6M9ZI7I3/Ihazdzn72xDGS/
- PBWeaJKJtzlXrsFv21KVeJaghWuWqy4N0DTRal8aGKB/6qbhCB/YCtHm6XQIPfzS8E0F
- eDElXlFo+LogUoxk5655DaeVwHgMLFPrJwwRMorW/DAO6P8aBYYN5u4O4+Jyw4SivS2F
- E+Fg==
-X-Gm-Message-State: ANoB5pnWkCW4sQ3kPhMIJfvWL3ml/jzmvLZg9Xltb3LegXa+i//le6r1
- FPsIay0osC+ZHNTXb4XDyMbOvQ==
-X-Google-Smtp-Source: AA0mqf7oZsJo8lSb1pxcjFt7JZPnqwxtVl8cQNGc48xw44ef6VdCqtzlkB/NWokcCo2fUg7fZimErQ==
-X-Received: by 2002:a05:600c:4a99:b0:3cf:91e5:3d69 with SMTP id
- b25-20020a05600c4a9900b003cf91e53d69mr67415290wmp.160.1670323382697; 
- Tue, 06 Dec 2022 02:43:02 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m14-20020a5d624e000000b00241dd5de644sm16146591wrv.97.2022.12.06.02.43.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Dec 2022 02:43:02 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9A64A1FFB7;
- Tue,  6 Dec 2022 10:43:01 +0000 (GMT)
-References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-11-dwmw2@infradead.org>
- <efef965d-3c9b-abc0-ac5f-c252b10722bd@linaro.org>
- <cb4cdc7944c74ee1918667ba455b9afd0fae351c.camel@infradead.org>
- <d203e13d-e2f9-5816-030d-c1449bde364d@linaro.org>
-User-agent: mu4e 1.9.3; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao Martins
- <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 10/21] i386/xen: handle guest hypercalls
-Date: Tue, 06 Dec 2022 10:41:40 +0000
-In-reply-to: <d203e13d-e2f9-5816-030d-c1449bde364d@linaro.org>
-Message-ID: <87tu28n77u.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FH4sQ4Xat1bWFrlkpM7SE6u725DsxNWh5VFfTlOcGaY=;
+ b=pCvWAnz7UFzZ8BD2KAJfG/Ttc3dNB77EagGFttkaN0I8pI0KNAKg9Z59QUFFEXRFe2
+ SavI9PY42j7JhPTrxPNA9w2uM9ZGZV9DysjkvGAG+//kEfP+LrlozqKYdhTXgHVENnQ0
+ 5HaclTFDqZOrj1BEs8Nd5y7rF2NT4uJXFugf++UbygKedLEQV1iJxmfwsS2BBWNMFf+A
+ LlouU6Bb6L6/UmkddpnRKuuvW0I/RHyJJwfUcErc+jSvhf24XLKdNzS64RkX3xFDPsLD
+ 6dpqhw86o+Z5xUniub97pjO1SqhjyaEhzB8DcRKSoCOdi2imrszmRzXWa8YV4O8xISPH
+ WI+A==
+X-Gm-Message-State: ANoB5pmv1rc8Awla0lHRUAmSgFi+op5dGNFXO/pEjOPX/7iakOT8M/XL
+ jYYylOJmWWZ3bODMi99Z+JT4DA==
+X-Google-Smtp-Source: AA0mqf4VoH/CCikfjwimNiPPlSBxJkQlHIsINrnn40gxYuUrYEggApUuY4+5u9TE05BdZwngaSZVXg==
+X-Received: by 2002:adf:e2c9:0:b0:241:db86:176d with SMTP id
+ d9-20020adfe2c9000000b00241db86176dmr42467092wrj.40.1670323527051; 
+ Tue, 06 Dec 2022 02:45:27 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u1-20020a05600c00c100b003d1e34bcbb2sm3775395wmm.13.2022.12.06.02.45.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Dec 2022 02:45:26 -0800 (PST)
+Message-ID: <f43a3c8e-e82d-4992-fe5b-9833688277cc@linaro.org>
+Date: Tue, 6 Dec 2022 11:45:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH v2 1/2] vhost: configure all host notifiers in a single MR
+ transaction
+Content-Language: en-US
+To: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>, stefanha@redhat.com, mst@redhat.com,
+ jasowang@redhat.com, sgarzare@redhat.com
+Cc: cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
+References: <20221206081841.2458-1-longpeng2@huawei.com>
+ <20221206081841.2458-2-longpeng2@huawei.com>
+ <ee85dd7e-7ec0-03f2-ba17-c8e2987f200c@linaro.org>
+ <1fc867d6-2c2b-36ca-1154-90ff6fc1b074@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <1fc867d6-2c2b-36ca-1154-90ff6fc1b074@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,83 +96,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
-
-> +Thomas
->
-> On 6/12/22 02:10, David Woodhouse wrote:
->> On Mon, 2022-12-05 at 23:11 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
->>> On 5/12/22 18:31, David Woodhouse wrote:
->>>> From: Joao Martins <joao.m.martins@oracle.com>
->>>>
->>>> This means handling the new exit reason for Xen but still
->>>> crashing on purpose. As we implement each of the hypercalls
->>>> we will then return the right return code.
->>>>
->>>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
->>>> [dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
->>>> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
->>>> ---
->>>>    target/i386/kvm/kvm.c    |  5 +++++
->>>>    target/i386/trace-events |  3 +++
->>>>    target/i386/xen.c        | 45 +++++++++++++++++++++++++++++++++++++=
-+++
->>>>    target/i386/xen.h        |  1 +
->>>>    4 files changed, 54 insertions(+)
->>>>
->>>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->>>> index 4b21d03250..6396d11f1e 100644
->>>> --- a/target/i386/kvm/kvm.c
->>>> +++ b/target/i386/kvm/kvm.c
->>>> @@ -5468,6 +5468,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct k=
-vm_run *run)
->>>>            assert(run->msr.reason =3D=3D KVM_MSR_EXIT_REASON_FILTER);
->>>>            ret =3D kvm_handle_wrmsr(cpu, run);
->>>>            break;
->>>> +#ifdef CONFIG_XEN
+On 6/12/22 11:28, Longpeng (Mike, Cloud Infrastructure Service Product 
+Dept.) wrote:
+> 
+> 
+> 在 2022/12/6 17:07, Philippe Mathieu-Daudé 写道:
+>> On 6/12/22 09:18, Longpeng(Mike) via wrote:
+>>> From: Longpeng <longpeng2@huawei.com>
 >>>
->>> CONFIG_XEN is set when the _host_ has Xen development files available.
+>>> This allows the vhost device to batch the setup of all its host 
+>>> notifiers.
+>>> This significantly reduces the device starting time, e.g. the time spend
+>>> on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
+>>> and 3 vhost-vDPA generic devices[1] (64vq per device)
 >>>
->>> IIUC here you want to check if Xen HVM guest support is enabled.
+>>> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg921541.html
 >>>
->>> You might want to use a different CONFIG_XEN_xxx key, which itself
->>> depends on CONFIG_XEN.
->> Yeah, I'd be interested in opinions on that one.
->> Strictly, the only one that *needs* to be a configure option is
->> CONFIG_XEN for the Xen libraries, which is support for actually running
->> on Xen.
->> Any time KVM is present, we *could* pull in the rest of the xenfv
->> machine support unconditionally, since that's no longer dependent on
->> true Xen.
->> But because there's a non-trivial amount of code in the event
->> channel
->> and grant table stuff, *perhaps* we want to make it optional? I don't
->> really want to call that CONFIG_KVM_XEN since as noted, it's
->> theoretically possible to do it with TCG or other accelerators too. So
->> we could call it CONFIG_XEN_EMULATION.
->
-> I concur CONFIG_KVM_XEN is confusing; CONFIG_XEN_EMULATION /
-> CONFIG_XEN_EMU sounds better.
->
-> Is it useful to have the CONFIG_XEN_EMU code under target/i386/ built
-> without having the xenfv machine built in?
->
-> I rather have hw/ and target/ features disentangled, so I'd use
-> CONFIG_XEN_EMU under target/ and CONFIG_XENFV_MACHINE under hw/,
-> eventually having CONFIG_XEN_EMU depending on CONFIG_XENFV_MACHINE
-> and -- for now -- CONFIG_KVM.
+>>> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>>> ---
+>>>   hw/virtio/vhost.c | 40 ++++++++++++++++++++++++++++++++++++++--
+>>>   1 file changed, 38 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>>> index 7fb008bc9e..16f8391d86 100644
+>>> --- a/hw/virtio/vhost.c
+>>> +++ b/hw/virtio/vhost.c
+>>> @@ -1507,7 +1507,7 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
+>>>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice 
+>>> *vdev)
+>>>   {
+>>>       BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>>> -    int i, r, e;
+>>> +    int i, n, r, e;
+>>>       /* We will pass the notifiers to the kernel, make sure that QEMU
+>>>        * doesn't interfere.
+>>> @@ -1518,6 +1518,12 @@ int vhost_dev_enable_notifiers(struct 
+>>> vhost_dev *hdev, VirtIODevice *vdev)
+>>>           goto fail;
+>>>       }
+>>> +    /*
+>>> +     * Batch all the host notifiers in a single transaction to avoid
+>>> +     * quadratic time complexity in address_space_update_ioeventfds().
+>>> +     */
+>>> +    memory_region_transaction_begin();
+>>> +
+>>>       for (i = 0; i < hdev->nvqs; ++i) {
+>>>           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
+>>> hdev->vq_index + i,
+>>>                                            true);
+>>> @@ -1527,8 +1533,12 @@ int vhost_dev_enable_notifiers(struct 
+>>> vhost_dev *hdev, VirtIODevice *vdev)
+>>>           }
+>>>       }
+>>> +    memory_region_transaction_commit();
+>>> +
+>>>       return 0;
+>>>   fail_vq:
+>>> +    /* save i for a second iteration after transaction is committed. */
+>>> +    n = i;
+>>>       while (--i >= 0) {
+>>>           e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
+>>> hdev->vq_index + i,
+>>>                                            false);
+>>> @@ -1536,8 +1546,18 @@ fail_vq:
+>>>               error_report("vhost VQ %d notifier cleanup error: %d", 
+>>> i, -r);
+>>>           }
+>>>           assert (e >= 0);
+>>> -        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
+>>> hdev->vq_index + i);
+>>>       }
+>>> +
+>>> +    /*
+>>> +     * The transaction expects the ioeventfds to be open when it
+>>> +     * commits. Do it now, before the cleanup loop.
+>>> +     */
+>>> +    memory_region_transaction_commit();
+>>> +
+>>> +    while (--n >= 0) {
+>>> +        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
+>>> hdev->vq_index + n);
+>>> +    }
+>>> +
+>>>       virtio_device_release_ioeventfd(vdev);
+>>>   fail:
+>>>       return r;
+>>
+>> Similarly to patch #2, removing both goto statement in this function 
+>> (as a preliminary patch) will 1/ simplify the code 2/ simplify 
+>> reviewing your changes, resulting in something like:
+>>
+>> int vhost_dev_enable_notifiers(struct vhost_dev *hdev,
+>>                                 VirtIODevice *vdev)
+>> {
+>>      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>>      int i, r, e;
+>>
+>>      /* We will pass the notifiers to the kernel, make sure that QEMU
+>>       * doesn't interfere.
+>>       */
+>>      r = virtio_device_grab_ioeventfd(vdev);
+>>      if (r < 0) {
+>>          error_report("binding does not support host notifiers");
+>>          return r;
+>>      }
+>>
+>>      memory_region_transaction_begin();
+>>
+>>      for (i = 0; i < hdev->nvqs; ++i) {
+>>          r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
+>>                                           hdev->vq_index + i,
+>>                                           true);
+>>          if (r < 0) {
+>>              error_report("vhost VQ %d notifier binding failed: %d",
+>>                           i, -r);
+>>              while (--i >= 0) {
+>>                  e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
+>>                                                   hdev->vq_index + i,
+>>                                                   false);
+>>                  if (e < 0) {
+>>                      error_report(
+>>                                 "vhost VQ %d notifier cleanup error: %d",
+>>                                   i, -r);
+>>                  }
+>>                  assert (e >= 0);
+>>                  virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus),
+>>                                                   hdev->vq_index + i);
+>>              }
+>>              virtio_device_release_ioeventfd(vdev);
+>>              break;
+>>          }
+>>      }
+>>
+>>      memory_region_transaction_commit();
+>>
+>>      return r;
+>> }
+>>
+>> What do you think?
+>>
+> Maybe we can use vhost_dev_disable_notifiers to further simplify the 
+> error path ?
 
-You should also probably be aware of:
+Good idea, but having the BusState resolved on each call seems a waste.
+Eventually factor it out and pass as argument ...
 
-  Subject: [QEMU][PATCH v2 00/11] Introduce xenpv machine for arm architect=
-ure=20
-  Date: Thu, 1 Dec 2022 18:59:52 -0800
-  Message-ID: <20221202030003.11441-1-vikram.garhwal@amd.com>
+> And we must commit before invoking virtio_bus_cleanup_host_notifier.
 
-which moves some of the previously i386 only Xen code into common
-backend code.
-
---=20
-Alex Benn=C3=A9e
+... but with that info on top, finally your original patch is simpler.
 
