@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90357644849
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 16:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A6B64484A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 16:48:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2a96-0007kL-VZ; Tue, 06 Dec 2022 10:46:12 -0500
+	id 1p2aB3-0008QM-Mj; Tue, 06 Dec 2022 10:48:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p2a91-0007k2-VV
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:46:10 -0500
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f])
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p2aAr-0008OT-IE
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:48:06 -0500
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p2a90-0004MT-0p
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:46:07 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id o127so19072050yba.5
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 07:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KzE6GlTkm9sO75wnFqHJR32glMFI83CzZvkJxYLbzFI=;
- b=NtORw2j81IEM6kK/bZU+A0uQ+XGvG4YGhs12oYTseZ14OfbglJlu2dC9Ny/n5+haFy
- rT1fpz5OC3HhwgVI2AmMAPi8kp7HTL8RZ3uo9myOxNam+lCj+QBAxdKqBiuIiUUpvczn
- c3J93YojaWlQEvGMVAVUOJpcQYQpr84X6ZBCk0ZYmqrWV3ngDI2ZTQCpu1DOq+Kt4TPO
- GYOrrQ6R/YIgn2GjyjgkeGD+8OIQ+M2qvtWmZKX+FqjfI/Oq4SqJIt+QOOiPqXblrosd
- NBDjkRzMSsOROoszGwWvDGOunE75X99deN0CIoYXkh8Dza22RqQABlpkGanJ9EUyWatz
- Ta9A==
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p2aAp-0004d2-Ex
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:48:01 -0500
+Received: by mail-lj1-x229.google.com with SMTP id s10so3669350ljg.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 07:47:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=m1kCqWlRYfobNKnwTTmG2lD4ZIH0ubVAosfgV6W3Dk4=;
+ b=km4nt3h3SHb/kEB2LuEUazieUkF9KftHb5F5G6SyTF0tkPyKfN2VeOikiWxEBRycBp
+ HsbvpDP5MQFX5lKttQgca1p57UvCAGjzgI85ey19QT3BdjKfqI9Cvl6Wv6b4IRjUUGio
+ SNCBKhia8UVi2JEXoKNgW6LJLeJ34+7z8/13c3LqbFAKDJMO8Gy/+VyTLMrA7AhhENd1
+ TNOqx+MF6+0Q7sMMqfp/4fXIA6AYYQUMyiQMrZUKrOwSlFwEERF41f5MgnrniS4C+Zx7
+ aT0+T5Mh7IQLLskdVC1oVbKnMT2sukhYGiYH6rQJUVqDRrBUtxo2Y0A4TZ8KfOE3PyHH
+ RKTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KzE6GlTkm9sO75wnFqHJR32glMFI83CzZvkJxYLbzFI=;
- b=TxcQz7GlP8qLT54nEk0FDVrd0vNJK4KpHIu7TRdMWfeyaWU8gdL29tU3RQvTkow2uH
- I9C8Bt3I/U1Ed61WT6Fuq185mouhRGDdP3QBCrM3ZOdGE+ORfSpL/IZKGj8uM8zqp1mm
- jvXMdEjY32XS4iXZWpoUu2cddIoxe7Mj+Sca1SRubzkvc0tu3rxzOj0ysXnvBeapDbJe
- JyI6ANVVBR7X1xLAbvmz+QCSHb2XovMHKDxa225skU9B5RIP15UtzQaGdXPbL/hZvCOC
- lBZkokl5cT1vuo6TYvIIakb4Hn3pXCCtImCk2hrNWS9/SDO1092j2Hzj4KpuKnmkfYfE
- AbNQ==
-X-Gm-Message-State: ANoB5plCfvPET2xpEquSrzQbhWX8DF/u2+ArM92031nupGxU1lJX+pzi
- jgtOekcmaEL65OYOzkP39i55HKFGC75Hw/SGQqo=
-X-Google-Smtp-Source: AA0mqf5ABPSchY8q0b4I/U1Go6Py+RSzGxpFQnjm/lzGBDK69KdNUIzXroYdlFIola+WlM5OaaldvrvrFYqDtvEI5Wk=
-X-Received: by 2002:a25:e746:0:b0:6f5:37ca:939a with SMTP id
- e67-20020a25e746000000b006f537ca939amr42663286ybh.207.1670341564506; Tue, 06
- Dec 2022 07:46:04 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m1kCqWlRYfobNKnwTTmG2lD4ZIH0ubVAosfgV6W3Dk4=;
+ b=KuLqqjzbFwaf8QZDjZD3jtLnfRin1T+ZUhaQGzMosnSknd7psIdIzeB6WZZ7bfK4gN
+ jeqJSBM1hU8YMtdhJSU2WvRWFznQwIFwRhnWHGdf7Dtfcz9+bNWIRIn+CikjL3OtSBk5
+ CSje4WznIWuG5Uo6GNdvcemUhiJNrRLf54ifSNtLmCTftzAsHQML1pdFchfOV3ExxjAu
+ 5TusiCOGIaFMh0aUHLnCXQhc+sVbch8NeLZYP5h2kUMEHLQVPa71TKuOB62ZDy+EfdIh
+ R/xg16dTFFaNFfwt+IxjZsdcpfrmrHMoqreq4xqw+G02tc+oIhdE+WiAhXfRdwLFM5p1
+ iynw==
+X-Gm-Message-State: ANoB5pk/kajJfJD3ivAAn7J9lHU7YkkUm9XBOGqRnJEq15G0z+Ra4mzK
+ W5KfE66jsYtnY5VcXR20k4NiTXgpIujNDCMthUJP9w==
+X-Google-Smtp-Source: AA0mqf670rgKAoKyVamK5fGEwo/r7qIQAwktaBqfm7a0tY0XJdGyAcQGRLzmDTdXbe+6R04s2ufEeuo3JFvMsirw8Vc=
+X-Received: by 2002:a2e:a80d:0:b0:277:1295:31ca with SMTP id
+ l13-20020a2ea80d000000b00277129531camr27009331ljq.280.1670341677228; Tue, 06
+ Dec 2022 07:47:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20220321153037.3622127-1-alex.bennee@linaro.org>
- <20220321153037.3622127-14-alex.bennee@linaro.org>
-In-Reply-To: <20220321153037.3622127-14-alex.bennee@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 6 Dec 2022 10:45:52 -0500
-Message-ID: <CAJSP0QV8yOyteyTPKihY5pPSXxpKxHj+4cYDFfZsC+UendPj=w@mail.gmail.com>
-Subject: Re: [PATCH v1 13/13] virtio/vhost-user: dynamically assign
- VhostUserHostNotifiers
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mathieu.poirier@linaro.org, 
- mst@redhat.com, viresh.kumar@linaro.org, stefanha@redhat.com, 
- marcandre.lureau@redhat.com
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-5-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221202061347.1070246-5-chao.p.peng@linux.intel.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Tue, 6 Dec 2022 15:47:20 +0000
+Message-ID: <CA+EHjTyzZ2n8kQxH_Qx72aRq1k+dETJXTsoOM3tggPZAZkYbCA@mail.gmail.com>
+Subject: Re: [PATCH v10 4/9] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+ Naoya Horiguchi <naoya.horiguchi@nec.com>, 
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, wei.w.wang@intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=tabba@google.com; helo=mail-lj1-x229.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,286 +107,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 21 Mar 2022 at 11:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+Hi,
+
+On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 >
-> At a couple of hundred bytes per notifier allocating one for every
-> potential queue is very wasteful as most devices only have a few
-> queues. Instead of having this handled statically dynamically assign
-> them and track in a GPtrArray.
+> This new KVM exit allows userspace to handle memory-related errors. It
+> indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> The flags includes additional information for userspace to handle the
+> error. Currently bit 0 is defined as 'private memory' where '1'
+> indicates error happens due to private memory access and '0' indicates
+> error happens due to shared memory access.
 >
-> [AJB: it's hard to trigger the vhost notifiers code, I assume as it
-> requires a KVM guest with appropriate backend]
-
-I think vhost works with TCG. There is ioeventfd emulation in QEMU's
-memory dispatch code, see memory_region_dispatch_write_eventfds().
-There is irqfd emulation code for VIRTIO devices in
-virtio_queue_set_guest_notifier_fd_handler().
-
-Why do you say it's hard to trigger?
-
-Stefan
-
+> When private memory is enabled, this new exit will be used for KVM to
+> exit to userspace for shared <-> private memory conversion in memory
+> encryption usage. In such usage, typically there are two kind of memory
+> conversions:
+>   - explicit conversion: happens when guest explicitly calls into KVM
+>     to map a range (as private or shared), KVM then exits to userspace
+>     to perform the map/unmap operations.
+>   - implicit conversion: happens in KVM page fault handler where KVM
+>     exits to userspace for an implicit conversion when the page is in a
+>     different state than requested (private or shared).
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> Reviewed-by: Fuad Tabba <tabba@google.com>
 > ---
->  include/hw/virtio/vhost-user.h | 42 ++++++++++++++++-
->  hw/virtio/vhost-user.c         | 83 +++++++++++++++++++++++++++-------
->  hw/virtio/trace-events         |  1 +
->  3 files changed, 108 insertions(+), 18 deletions(-)
+>  Documentation/virt/kvm/api.rst | 22 ++++++++++++++++++++++
+>  include/uapi/linux/kvm.h       |  8 ++++++++
+>  2 files changed, 30 insertions(+)
 >
-> diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-use=
-r.h
-> index 6e0e8a71a3..c6e693cd3f 100644
-> --- a/include/hw/virtio/vhost-user.h
-> +++ b/include/hw/virtio/vhost-user.h
-> @@ -11,21 +11,61 @@
->  #include "chardev/char-fe.h"
->  #include "hw/virtio/virtio.h"
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 99352170c130..d9edb14ce30b 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6634,6 +6634,28 @@ array field represents return values. The userspace should update the return
+>  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
+>  spec refer, https://github.com/riscv/riscv-sbi-doc.
 >
-> +/**
-> + * VhostUserHostNotifier - notifier information for one queue
-> + * @rcu: rcu_head for cleanup
-> + * @mr: memory region of notifier
-> + * @addr: current mapped address
-> + * @unmap_addr: address to be un-mapped
-> + * @idx: virtioqueue index
-> + *
-> + * The VhostUserHostNotifier entries are re-used. When an old mapping
-> + * is to be released it is moved to @unmap_addr and @addr is replaced.
-> + * Once the RCU process has completed the unmap @unmap_addr is
-> + * cleared.
-> + */
->  typedef struct VhostUserHostNotifier {
->      struct rcu_head rcu;
->      MemoryRegion mr;
->      void *addr;
->      void *unmap_addr;
-> +    int idx;
->  } VhostUserHostNotifier;
->
-> +/**
-> + * VhostUserState - shared state for all vhost-user devices
-> + * @chr: the character backend for the socket
-> + * @notifiers: GPtrArray of @VhostUserHostnotifier
-> + * @memory_slots:
-> + */
->  typedef struct VhostUserState {
->      CharBackend *chr;
-> -    VhostUserHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> +    GPtrArray *notifiers;
->      int memory_slots;
->      bool supports_config;
->  } VhostUserState;
->
-> +/**
-> + * vhost_user_init() - initialise shared vhost_user state
-> + * @user: allocated area for storing shared state
-> + * @chr: the chardev for the vhost socket
-> + * @errp: error handle
-> + *
-> + * User can either directly g_new() space for the state or embed
-> + * VhostUserState in their larger device structure and just point to
-> + * it.
-> + *
-> + * Return: true on success, false on error while setting errp.
-> + */
->  bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **err=
-p);
+> +::
 > +
-> +/**
-> + * vhost_user_cleanup() - cleanup state
-> + * @user: ptr to use state
-> + *
-> + * Cleans up shared state and notifiers, callee is responsible for
-> + * freeing the @VhostUserState memory itself.
-> + */
->  void vhost_user_cleanup(VhostUserState *user);
->
->  #endif
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 6ce082861b..4c0423de55 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1174,14 +1174,16 @@ static void vhost_user_host_notifier_free(VhostUs=
-erHostNotifier *n)
->      n->unmap_addr =3D NULL;
->  }
->
-> -static void vhost_user_host_notifier_remove(VhostUserState *user,
-> -                                            VirtIODevice *vdev, int queu=
-e_idx)
-> +/*
-> + * clean-up function for notifier, will finally free the structure
-> + * under rcu.
-> + */
-> +static void vhost_user_host_notifier_remove(VhostUserHostNotifier *n,
-> +                                            VirtIODevice *vdev)
->  {
-> -    VhostUserHostNotifier *n =3D &user->notifier[queue_idx];
-> -
->      if (n->addr) {
->          if (vdev) {
-> -            virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, f=
-alse);
-> +            virtio_queue_set_host_notifier_mr(vdev, n->idx, &n->mr, fals=
-e);
->          }
->          assert(!n->unmap_addr);
->          n->unmap_addr =3D n->addr;
-> @@ -1225,6 +1227,15 @@ static int vhost_user_set_vring_enable(struct vhos=
-t_dev *dev, int enable)
->      return 0;
->  }
->
-> +static VhostUserHostNotifier *fetch_notifier(VhostUserState *u,
-> +                                             int idx)
-> +{
-> +    if (idx >=3D u->notifiers->len) {
-> +        return NULL;
-> +    }
-> +    return g_ptr_array_index(u->notifiers, idx);
-> +}
+> +               /* KVM_EXIT_MEMORY_FAULT */
+> +               struct {
+> +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE (1ULL << 0)
+> +                       __u64 flags;
+
+I see you've removed the padding and increased the flag size.
+
+Reviewed-by: Fuad Tabba <tabba@google.com>
+Tested-by: Fuad Tabba <tabba@google.com>
+
+Cheers,
+/fuad
+
+
+
+
+> +                       __u64 gpa;
+> +                       __u64 size;
+> +               } memory;
 > +
->  static int vhost_user_get_vring_base(struct vhost_dev *dev,
->                                       struct vhost_vring_state *ring)
->  {
-> @@ -1237,7 +1248,10 @@ static int vhost_user_get_vring_base(struct vhost_=
-dev *dev,
->      };
->      struct vhost_user *u =3D dev->opaque;
->
-> -    vhost_user_host_notifier_remove(u->user, dev->vdev, ring->index);
-> +    VhostUserHostNotifier *n =3D fetch_notifier(u->user, ring->index);
-> +    if (n) {
-> +        vhost_user_host_notifier_remove(n, dev->vdev);
-> +    }
->
->      ret =3D vhost_user_write(dev, &msg, NULL, 0);
->      if (ret < 0) {
-> @@ -1502,6 +1516,29 @@ static int vhost_user_slave_handle_config_change(s=
-truct vhost_dev *dev)
->      return dev->config_ops->vhost_dev_config_notifier(dev);
->  }
->
-> +/*
-> + * Fetch or create the notifier for a given idx. Newly created
-> + * notifiers are added to the pointer array that tracks them.
-> + */
-> +static VhostUserHostNotifier *fetch_or_create_notifier(VhostUserState *u=
-,
-> +                                                       int idx)
-> +{
-> +    VhostUserHostNotifier *n =3D NULL;
-> +    if (idx >=3D u->notifiers->len) {
-> +        g_ptr_array_set_size(u->notifiers, idx);
-> +    }
+> +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
+> +encountered a memory error which is not handled by KVM kernel module and
+> +userspace may choose to handle it. The 'flags' field indicates the memory
+> +properties of the exit.
 > +
-> +    n =3D g_ptr_array_index(u->notifiers, idx);
-> +    if (!n) {
-> +        n =3D g_new0(VhostUserHostNotifier, 1);
-> +        n->idx =3D idx;
-> +        g_ptr_array_insert(u->notifiers, idx, n);
-> +        trace_vhost_user_create_notifier(idx, n);
-> +    }
+> + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
+> +   private memory access when the bit is set. Otherwise the memory error is
+> +   caused by shared memory access when the bit is clear.
 > +
-> +    return n;
-> +}
+> +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
+> +may handle the error and return to KVM to retry the previous memory access.
 > +
->  static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev =
-*dev,
->                                                         VhostUserVringAre=
-a *area,
->                                                         int fd)
-> @@ -1521,9 +1558,12 @@ static int vhost_user_slave_handle_vring_host_noti=
-fier(struct vhost_dev *dev,
->          return -EINVAL;
->      }
+>  ::
 >
-> -    n =3D &user->notifier[queue_idx];
-> -
-> -    vhost_user_host_notifier_remove(user, vdev, queue_idx);
-> +    /*
-> +     * Fetch notifier and invalidate any old data before setting up
-> +     * new mapped address.
-> +     */
-> +    n =3D fetch_or_create_notifier(user, queue_idx);
-> +    vhost_user_host_notifier_remove(n, vdev);
+>      /* KVM_EXIT_NOTIFY */
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 13bff963b8b0..c7e9d375a902 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -300,6 +300,7 @@ struct kvm_xen_exit {
+>  #define KVM_EXIT_RISCV_SBI        35
+>  #define KVM_EXIT_RISCV_CSR        36
+>  #define KVM_EXIT_NOTIFY           37
+> +#define KVM_EXIT_MEMORY_FAULT     38
 >
->      if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
->          return 0;
-> @@ -2526,6 +2566,20 @@ static int vhost_user_set_inflight_fd(struct vhost=
-_dev *dev,
->      return vhost_user_write(dev, &msg, &inflight->fd, 1);
->  }
->
-> +static void vhost_user_state_destroy(gpointer data)
-> +{
-> +    VhostUserHostNotifier *n =3D (VhostUserHostNotifier *) data;
-> +    if (n) {
-> +        vhost_user_host_notifier_remove(n, NULL);
-> +        object_unparent(OBJECT(&n->mr));
-> +        /*
-> +         * We can't free until vhost_user_host_notifier_remove has
-> +         * done it's thing so schedule the free with RCU.
-> +         */
-> +        g_free_rcu(n, rcu);
-> +    }
-> +}
-> +
->  bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **err=
-p)
->  {
->      if (user->chr) {
-> @@ -2534,23 +2588,18 @@ bool vhost_user_init(VhostUserState *user, CharBa=
-ckend *chr, Error **errp)
->      }
->      user->chr =3D chr;
->      user->memory_slots =3D 0;
-> +    user->notifiers =3D g_ptr_array_new_full(VIRTIO_QUEUE_MAX / 4,
-> +                                           &vhost_user_state_destroy);
->      return true;
->  }
->
->  void vhost_user_cleanup(VhostUserState *user)
->  {
-> -    int i;
-> -    VhostUserHostNotifier *n;
-> -
->      if (!user->chr) {
->          return;
->      }
->      memory_region_transaction_begin();
-> -    for (i =3D 0; i < VIRTIO_QUEUE_MAX; i++) {
-> -        n =3D &user->notifier[i];
-> -        vhost_user_host_notifier_remove(user, NULL, i);
-> -        object_unparent(OBJECT(&n->mr));
-> -    }
-> +    user->notifiers =3D (GPtrArray *) g_ptr_array_free(user->notifiers, =
-true);
->      memory_region_transaction_commit();
->      user->chr =3D NULL;
->  }
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index fd213e2a27..b40392a593 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -23,6 +23,7 @@ vhost_user_postcopy_waker_found(uint64_t client_addr) "=
-0x%"PRIx64
->  vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%=
-s + 0x%"PRIx64
->  vhost_user_read(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
->  vhost_user_write(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32"=
-"
-> +vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
->
->  # vhost-vdpa.c
->  vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova,=
- uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d=
- msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64"=
- perm: 0x%"PRIx8" type: %"PRIu8
+>  /* For KVM_EXIT_INTERNAL_ERROR */
+>  /* Emulate instruction failed. */
+> @@ -541,6 +542,13 @@ struct kvm_run {
+>  #define KVM_NOTIFY_CONTEXT_INVALID     (1 << 0)
+>                         __u32 flags;
+>                 } notify;
+> +               /* KVM_EXIT_MEMORY_FAULT */
+> +               struct {
+> +#define KVM_MEMORY_EXIT_FLAG_PRIVATE   (1ULL << 0)
+> +                       __u64 flags;
+> +                       __u64 gpa;
+> +                       __u64 size;
+> +               } memory;
+>                 /* Fix the size of the union. */
+>                 char padding[256];
+>         };
 > --
-> 2.30.2
->
+> 2.25.1
 >
 
