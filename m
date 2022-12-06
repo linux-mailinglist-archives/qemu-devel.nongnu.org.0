@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638E9644136
+	by mail.lfdr.de (Postfix) with ESMTPS id 476F8644135
 	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:27:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2V9S-0007NC-1s; Tue, 06 Dec 2022 05:26:14 -0500
+	id 1p2V9N-0007KU-92; Tue, 06 Dec 2022 05:26:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V95-0007Ed-UN
+ id 1p2V95-0007Ec-I5
  for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:53 -0500
-Received: from mail-out-3.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:48])
+Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V93-00028m-LG
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:51 -0500
-X-IPAS-Result: =?us-ascii?q?A2ATBADNF49j/5sagoZaHQEBAQEJARIBBQUBQIFPhQuET?=
- =?us-ascii?q?pEfgROeIA8BAQEBAQEBAQEIAUQEAQGFAQICAoUPJjgTAQIEAQEBAQMCAwEBA?=
- =?us-ascii?q?QEBAQMBAQYBAQEBAQEGBIEdhS9GhlYCAQMjBAsBRhAgBQImAgJXBg4Fgn6DI?=
- =?us-ascii?q?61KfzOBAaE+CQGBCiyJCIJOhUKCUIEVgnN1hGEwgwqCZwSXFQ5uHDcDCQMHB?=
- =?us-ascii?q?SwdQAMLGA0WMgoTMjULEUwrHBsHgQwqKBUDBAQDAgYTAyACDSgxFAQpEw0rJ?=
- =?us-ascii?q?m0JAgMhYQUDAwQoLAMJQAcmJjwHVjcFAwIPIDgGAwkDAh9UdC8SFAUDCxUlC?=
- =?us-ascii?q?AVJBAg3BQZTEgIKERIPLEUOSD45FgYnQQEwDg4TA11LHYEBBGA5gRUvLpsTg?=
- =?us-ascii?q?Q6CQKFioU0Hgh+iDkyWfQKSHZdAohKBGIQoAgQCBAUCFoF5gX5xgzZSFwIPj?=
- =?us-ascii?q?iwWFY4adDsCBwEKAQEDCYofAQE?=
-IronPort-Data: A9a23:b95DlKyEqpI0Ni43W9J6t+dKxyrEfRIJ4+MujC+fZmUNrF6WrkVUz
- WcfXGvSa/qCZzDyc9FwOork9kkPscXdxtY3HlZsqFhgHilAwSbn6XV1DW+tZX/Ifp2bJK5Dx
- 59DAjUVBJlsFhcwnj/0bv676yAUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dga++2k
- Y608pO31GONgWYuaDtOs/zb8nuDgdyr0N8mlg1mDRx0lAKG/5UlJMp3Db28KXL+Xr5VEoaSL
- woU5Ojklo9x105F5uKNyt4XQGVTKlLhFVTmZk5tZkSXqkMqShoaj/xnbqpMMS+7vB3S9zx54
- I0lWZVd0m7FNIWU8AgWe0Ew/y2TocSq9ZefSUVTv/B/wGXMNEPdkqxHBn0aHocZ/9l+UCZy/
- toHfWVlghCr34pawZqBddVMq/RmF5OuFsUFpW1giDjVS/orKXzBa/yRuZkBh2923J4IRKuDD
- yYaQWMHgBDofxpFO14MTog5keeti33XaSJEqBecrKE37m6VwAEZPL3FaYWEJYDVFJsM9qqej
- m/K+171CSs5DsXF5WKJ0COliubDsCyuDer+E5X9rJaGmma732EWFVgaWEW2pdG/jUixXc8ZL
- FYbkgI2oLQ/7gquR8jxUhm8iHqFuBcGXJxXCeJSwBuMward+QrfBmUCQjNbc9sgnMs3QzUw0
- RmOhdyBONB0mKeKVXKQ5vKP93a4fzIKMW9HbCNCQQZtD8TfnbzfRynnFr5LeJNZRPWucd0s6
- 1hmdBQDuog=
-IronPort-HdrOrdr: A9a23:GXtAE66iYUgvhoht2gPXwPLXdLJyesId70hD6qkRc3Bom6mj/P
- xG88516faZslgssRMb+exoSZPgfZq0z/cci+Qs1NGZLWvbUQCTXeJfBOXZslrdMhy72ulB1b
- pxN4hSYeeAa2SSVPyKhTVQxexQpOW6zA==
+ id 1p2V8t-00028p-SL
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:50 -0500
+X-IPAS-Result: =?us-ascii?q?A2AUBADNF49j/5sagoZaHQEBAQEJARIBBQUBQIFPhQuET?=
+ =?us-ascii?q?pEcA51JgWoPAQEBAQEBAQEBCAFEBAEBhQECAgKFDyY4EwECBAEBAQEDAgMBA?=
+ =?us-ascii?q?QEBAQEDAQEGAQEBAQEBBgSBHYUvRoZWAgEDIwQLAUYQIAUCJgICVwYOBYJ+g?=
+ =?us-ascii?q?yOtSn8zgQGEcZxNCQGBCiyJCIJOhUKCUIJRgTcHboQrNjCDCoJnBIEUiSaMW?=
+ =?us-ascii?q?w5uHDcDCQMHBSwdQAMLGA0WMgoTMjULEUwrHBsHgQwqKBUDBAQDAgYTAyACD?=
+ =?us-ascii?q?SgxFAQpEw0rJm0JAgMhYQUDAwQoLAMJBDwHJiY8B1Y3BQMCDyA4BgMJAwIfF?=
+ =?us-ascii?q?j50LxIUBQMLFSUIBUkECAwrBQZICxICChESDyxFBwdIPjkWBidBATAODhMDX?=
+ =?us-ascii?q?UsdgQEEYBYjgRUvLpohcQGBD4I/cqBwoU0Hgh+iDkyWfQKSHYINhFYBkFyiE?=
+ =?us-ascii?q?oEYhCgCBAIEBQIWgXmBfnGDNlIXAg+OLBaOL3Q7AgcBCgEBAwmKHwEB?=
+IronPort-Data: A9a23:7/yW2auCraOa3ZRddd1EobdvnufnVAlfMUV32f8akzHdYApBsoF/q
+ tZmKW3UOvrcMTOkKd1xOdm38UlS75KHzt9qGQBr+y5nRHkUgMeUXt7xwmUcns+xBpCZEBg3v
+ 512hv3odp1coqr0/0/1WlTZhSAgk/vOH9IQMcacUghpXwhoVSw9vhxqnu89k+ZAjMOwa++3k
+ YqaT/b3ZRn0hVaYDkpOs/jZ8Uk34qyo0N8llgVWic5j7Qe2e0Y9Ucp3yZGZdxPQXoRSF+imc
+ OfPpJnRErTxpkpF5nuNy94XQ2VSKlLgFVHmZkl+B8BOtiN/Shkaic7XAtJBMxsN22XR9zxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj66lkD2ZsZNU+xsRUKCJSr
+ M4jcwIdQSnW0opawJrjIgVtrv4cEOnGDMYk4DRKiyvGEfZjSJyFT6iiCd1whWxswJkVRbCEO
+ YxANGcHgBfoOnWjPn8LD5g/lfzunH7yczhVrHqPurY3pmHaxwx81v7hPbI5f/TTG5kIzhfG/
+ TyuE2LRKBgrON/c0xC/4GOztOzjnx7fAasDC+jtnhJtqBjJroAJMzUPWF6m5PW0lEO6c9RYL
+ UMS52wpt6da3FSmUtTnGRixsXKJuho0X9tWGvc9rgaXxcLpDx2xHHcYTjNRLcd88cVwXyM21
+ hqAk5XlCFSDrYGodJ5UzZ/MxRvaBMTfBTVqifMsJefd3+TenQ==
+IronPort-HdrOrdr: A9a23:cTpp2q2aVdA8o/So5DKhygqjBIMkLtp133Aq2lEZdPRUGvb1qy
+ nIpoV96faUskd0ZJhOo7690cW7K080sKQFgrX5Xo3SOTUO2lHIEGgK1+KLqAEIWReOlNK1vZ
+ 0QFZSWY+eeMbEVt6vHCF7SKadZ/DD+ysCVbLDlvg5QcT0=
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="179747961"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="164589636"
 Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-3.itc.rwth-aachen.de with ESMTP; 06 Dec 2022 11:25:30 +0100
+ by mail-in-4.itc.rwth-aachen.de with ESMTP; 06 Dec 2022 11:25:31 +0100
 Received: from localhost.localdomain (2a02:908:1088:5920:7fc5:a897:a756:e2fb)
  by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
  SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.20; Tue, 6 Dec 2022 11:25:30 +0100
+ 15.2.1118.20; Tue, 6 Dec 2022 11:25:31 +0100
 From: <tobias.roehmel@rwth-aachen.de>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
- <tobias.roehmel@rwth-aachen.de>, Richard Henderson
- <richard.henderson@linaro.org>
-Subject: [PATCH v6 1/7] target/arm: Don't add all MIDR aliases for cores that
- implement PMSA
-Date: Tue, 6 Dec 2022 11:24:58 +0100
-Message-ID: <20221206102504.165775-2-tobias.roehmel@rwth-aachen.de>
+ <tobias.roehmel@rwth-aachen.de>
+Subject: [PATCH v6 2/7] target/arm: Make RVBAR available for all ARMv8 CPUs
+Date: Tue, 6 Dec 2022 11:24:59 +0100
+Message-ID: <20221206102504.165775-3-tobias.roehmel@rwth-aachen.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
 References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
@@ -69,9 +66,9 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [2a02:908:1088:5920:7fc5:a897:a756:e2fb]
 X-ClientProxiedBy: rwthex-s2-a.rwth-ad.de (2a00:8a60:1:e500::26:154) To
  RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:48;
+Received-SPF: pass client-ip=2a00:8a60:1:e501::5:49;
  envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-3.itc.rwth-aachen.de
+ helo=mail-out-4.itc.rwth-aachen.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -94,56 +91,82 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-Cores with PMSA have the MPUIR register which has the
-same encoding as the MIDR alias with opc2=4. So we only
-add that alias if we are not realizing a core that
-implements PMSA.
+RVBAR shadows RVBAR_ELx where x is the highest exception
+level if the highest EL is not EL3. This patch also allows
+ARMv8 CPUs to change the reset address with
+the rvbar property.
 
 Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ target/arm/cpu.c    |  6 +++++-
+ target/arm/helper.c | 21 ++++++++++++++-------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 38d066c294..f9ab6af829 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -307,6 +307,10 @@ static void arm_cpu_reset(DeviceState *dev)
+         env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
+                                          CPACR, CP11, 3);
+ #endif
++        if (arm_feature(env, ARM_FEATURE_V8)) {
++            env->cp15.rvbar = cpu->rvbar_prop;
++            env->regs[15] = cpu->rvbar_prop;
++        }
+     }
+ 
+ #if defined(CONFIG_USER_ONLY)
+@@ -1342,7 +1346,7 @@ void arm_cpu_post_init(Object *obj)
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_property);
+     }
+ 
+-    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
++    if (arm_feature(&cpu->env, ARM_FEATURE_V8)) {
+         object_property_add_uint64_ptr(obj, "rvbar",
+                                        &cpu->rvbar_prop,
+                                        OBJ_PROP_FLAG_READWRITE);
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d8c8223ec3..d857d61fa9 100644
+index d857d61fa9..23a55dbe7d 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8112,10 +8112,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL1_R, .type = ARM_CP_NO_RAW, .resetvalue = cpu->midr,
-               .fieldoffset = offsetof(CPUARMState, cp15.c0_cpuid),
-               .readfn = midr_read },
--            /* crn = 0 op1 = 0 crm = 0 op2 = 4,7 : AArch32 aliases of MIDR */
--            { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
--              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
--              .access = PL1_R, .resetvalue = cpu->midr },
-+            /* crn = 0 op1 = 0 crm = 0 op2 = 7 : AArch32 aliases of MIDR */
-             { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
-               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 7,
-               .access = PL1_R, .resetvalue = cpu->midr },
-@@ -8125,6 +8122,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .accessfn = access_aa64_tid1,
-               .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
-         };
-+        ARMCPRegInfo id_v8_midr_alias_cp_reginfo = {
-+            .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
-+            .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
-+            .access = PL1_R, .resetvalue = cpu->midr
-+        };
-         ARMCPRegInfo id_cp_reginfo[] = {
-             /* These are common to v8 and pre-v8 */
-             { .name = "CTR",
-@@ -8190,6 +8192,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+@@ -7855,7 +7855,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         if (!arm_feature(env, ARM_FEATURE_EL3) &&
+             !arm_feature(env, ARM_FEATURE_EL2)) {
+             ARMCPRegInfo rvbar = {
+-                .name = "RVBAR_EL1", .state = ARM_CP_STATE_AA64,
++                .name = "RVBAR_EL1", .state = ARM_CP_STATE_BOTH,
+                 .opc0 = 3, .opc1 = 0, .crn = 12, .crm = 0, .opc2 = 1,
+                 .access = PL1_R,
+                 .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
+@@ -7946,13 +7946,20 @@ void register_cp_regs_for_features(ARMCPU *cpu)
          }
-         if (arm_feature(env, ARM_FEATURE_V8)) {
-             define_arm_cp_regs(cpu, id_v8_midr_cp_reginfo);
-+            if (!arm_feature(env, ARM_FEATURE_PMSA)) {
-+                define_one_arm_cp_reg(cpu, &id_v8_midr_alias_cp_reginfo);
-+            }
-         } else {
-             define_arm_cp_regs(cpu, id_pre_v8_midr_cp_reginfo);
+         /* RVBAR_EL2 is only implemented if EL2 is the highest EL */
+         if (!arm_feature(env, ARM_FEATURE_EL3)) {
+-            ARMCPRegInfo rvbar = {
+-                .name = "RVBAR_EL2", .state = ARM_CP_STATE_AA64,
+-                .opc0 = 3, .opc1 = 4, .crn = 12, .crm = 0, .opc2 = 1,
+-                .access = PL2_R,
+-                .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
++            ARMCPRegInfo rvbar[] = {
++                {
++                    .name = "RVBAR_EL2", .state = ARM_CP_STATE_AA64,
++                    .opc0 = 3, .opc1 = 4, .crn = 12, .crm = 0, .opc2 = 1,
++                    .access = PL2_R,
++                    .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
++                },
++                {   .name = "RVBAR", .type = ARM_CP_ALIAS,
++                    .cp = 15, .opc1 = 0, .crn = 12, .crm = 0, .opc2 = 1,
++                    .access = PL2_R,
++                    .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
++                },
+             };
+-            define_one_arm_cp_reg(cpu, &rvbar);
++            define_arm_cp_regs(cpu, rvbar);
          }
+     }
+ 
 -- 
 2.34.1
 
