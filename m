@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6026643C79
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2D3643C7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:42:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2PlT-0003DC-HF; Mon, 05 Dec 2022 23:41:07 -0500
+	id 1p2PlU-0003DX-KV; Mon, 05 Dec 2022 23:41:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2PlS-0003Ce-0V
+ id 1p2PlS-0003D2-Kh
  for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:41:06 -0500
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33])
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2PlQ-000365-J6
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:41:05 -0500
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1447c7aa004so7976874fac.11
+ id 1p2PlQ-000364-TO
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:41:06 -0500
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1443a16b71cso12612751fac.13
  for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:41:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6ULKeVCes+WuSNJ4/pJViKOQPocE7eOLpKgygf6uSqE=;
- b=pdShluGobBcpiKcHz1sJqXvuiPV24huQMteZeEVcHWxek0DgL2B6wIRXc683thhTqp
- wf9jbzWhybQq7k9NcUEcocZk9A6L1WTMDgZeFptjj3SlHX0VABfYc46WzO4z0L1WlOlf
- 2ZZLjIpwVtm7AZYjN4UhA40CTI1kqb63xUonxR+Qg8RrQyeCMt6KGHblufS82948fwAU
- akqmAjv9jBDRlc+nLW5rSkYSlHGrGlDFS+mxhshFXg7C9tMdwlZcJWdM8c2lkcTcnbhj
- SWpq2/8OKtv50Qf4rXYAP2OpqYV6It3hybvzxeaqlPp/A+wWCB6tKX+iPj4mvjH4tbxJ
- /VDQ==
+ :reply-to; bh=kxOLxuqUZ3jf6wR99AyYKJ2BxYFYEWPkzbJiWdwW3dE=;
+ b=Pjr2XtJ2UZ3RE8Enn9+GUBpINPDLpbQwWvgcF38RmaMxUtoG5xB2St6BYIY+2nDjZ8
+ GVYFkSo4R5a+lPszRz5hTWdiYK9uYCG50C7dskm4y4kXCvBpXBWcW4Zd04xxDCsaD0NT
+ CjOCrIWitDDUR1vx1DJEK27GfMdjT7GuML4ZtQVw1+BKUq0xdohGd1OxGcuzUQVS12ub
+ K54b4E4dgs5w5sBmFKv2wNnckhqIt+psJleVfjGOWgjq7lXgeqtii52MN7/oiDfQAosh
+ EZ5lfTl/7OENa/YyfDfLmheDmVndc7YRcwBMTyWoVtT/O7IgNj/V/Rmhx1GWwS/VoTcC
+ ZYMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6ULKeVCes+WuSNJ4/pJViKOQPocE7eOLpKgygf6uSqE=;
- b=4EZEh7E6JYR+rISDw68InRsuut2eG6Wpd/zcAXR1OMXOdg6XITjszzt8Gf94JlEikq
- P/KW/EnloxPaufOAhHPJrjbKbewojVP8a+glZ7vqFrfrXGA0oHjAuqJKoXSecAwq/zV9
- r0jttHkItM95smWowCXsOYisv3nl9L8O1ZtkfSSGWeJKnMtGevr8UmqeE5f2lozU/fWf
- BXLHZdGgnhCLwk6lZVZJPJO3HLVOlqqh1bt/LoKruR235Po9X4OQvuj4JcIoDl3z/UZx
- L9vPwvlSgQmStqpANm0pIMq+JINbeCEoXLG9zxkwcs7U0M3xw9zHdq1lyVTKtCupFWS7
- inWA==
-X-Gm-Message-State: ANoB5pl+e8bv/LOaBITJv/tMAyZc4saUs8mDXjlbwrVRRoMWwtWWDhhZ
- An/0ZFYwc+7093SFjec9tuQIgBSW6opy/tq61Sg=
-X-Google-Smtp-Source: AA0mqf4c9lL1aL2R4wEnj22s28yTK9fK/bdjp6dwEirXfuH/9CtwytfcCyd/aUsKtqR4tgymbDFKKw==
-X-Received: by 2002:a05:6870:ab17:b0:143:d6b3:558a with SMTP id
- gu23-20020a056870ab1700b00143d6b3558amr20008073oab.206.1670301662330; 
- Mon, 05 Dec 2022 20:41:02 -0800 (PST)
+ bh=kxOLxuqUZ3jf6wR99AyYKJ2BxYFYEWPkzbJiWdwW3dE=;
+ b=MtHuAOGlQQ7gEqTVD2Z0sUoHngQJe/khlEWqIKpS77eKIeELvY6/sNHowmDuJQzGS9
+ SsTuJFrBzCXAExpfm6YrkEBdVUWH1EFE1GjCpGnNnMp1ZD8nGal8Qblo5mlhfSBzsJmm
+ a/Ihx3gBVTpulXhru2FxZks82HwBqw8DLgAivBjuTE5N0HObN8hGM+5H4iZiOVcedetG
+ AW/4kFdNQru4nOOpuuTRHmNWRqLcBj/h29D8zcYLzNHhrbaFiRCZbF1NW21K01etw32A
+ lous0WGZKHrtV4f5wNBR5p+QahaLGlL8JlixaIAmlMzAU5rqEyUJbakg8ZH69/Yd1o1A
+ nomw==
+X-Gm-Message-State: ANoB5pl2AKhispIzxWdE1K6SJ065fxOBX9JNTSquYlTh9UR4QP7lW7Hd
+ pcGoqiiYT0lzBaIA+9DIOWT6NQirE2UEN/9nRRQ=
+X-Google-Smtp-Source: AA0mqf4+x5QPa/r3nPvMU4B49AE4jc3I4dO53xd+HStaaxWbYKx0vYzFK1hm6em/PUZMgH4KuokbGQ==
+X-Received: by 2002:a05:6870:7388:b0:144:7060:76b5 with SMTP id
+ z8-20020a056870738800b00144706076b5mr6569322oam.123.1670301663397; 
+ Mon, 05 Dec 2022 20:41:03 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:70b5:d104:21c2:8c7e:77e6])
  by smtp.gmail.com with ESMTPSA id
- z6-20020a05687041c600b001442fada152sm7561864oac.46.2022.12.05.20.41.01
+ z6-20020a05687041c600b001442fada152sm7561864oac.46.2022.12.05.20.41.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 20:41:01 -0800 (PST)
+ Mon, 05 Dec 2022 20:41:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/8] tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
-Date: Mon,  5 Dec 2022 22:40:50 -0600
-Message-Id: <20221206044051.322543-8-richard.henderson@linaro.org>
+Subject: [PATCH 8/8] tcg/loongarch64: Reorg goto_tb implementation
+Date: Mon,  5 Dec 2022 22:40:51 -0600
+Message-Id: <20221206044051.322543-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206044051.322543-1-richard.henderson@linaro.org>
 References: <20221206044051.322543-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x33.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,27 +89,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Take the w^x split into account when computing the
-pc-relative distance to an absolute pointer.
+The old implementation replaces two insns, swapping between
+
+        b       <dest>
+        nop
+and
+        pcaddu18i tmp, <dest>
+        jirl      zero, tmp, <dest> & 0xffff
+
+There is a race condition in which a thread could be stopped at
+the jirl, i.e. with the top of the address loaded, and when
+restarted we have re-linked to a different TB, so that the top
+half no longer matches the bottom half.
+
+Note that while we never directly re-link to a different TB, we
+can link, unlink, and link again all while the stopped thread
+remains stopped.
+
+The new implementation replaces only one insn, swapping between
+
+        b       <dest>
+and
+        nop
+
+falling through to a general-case indirect branch.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tcg/loongarch64/tcg-target.h     |  7 +---
+ tcg/loongarch64/tcg-target.c.inc | 67 ++++++++++++--------------------
+ 2 files changed, 26 insertions(+), 48 deletions(-)
 
+diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
+index 624fbe87ff..81548fbb09 100644
+--- a/tcg/loongarch64/tcg-target.h
++++ b/tcg/loongarch64/tcg-target.h
+@@ -42,11 +42,8 @@
+ 
+ #define TCG_TARGET_INSN_UNIT_SIZE 4
+ #define TCG_TARGET_NB_REGS 32
+-/*
+- * PCADDU18I + JIRL sequence can give 20 + 16 + 2 = 38 bits
+- * signed offset, which is +/- 128 GiB.
+- */
+-#define MAX_CODE_GEN_BUFFER_SIZE  (128 * GiB)
++
++#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
+ 
+ typedef enum {
+     TCG_REG_ZERO,
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 2044897e36..47465b8c20 100644
+index 47465b8c20..f8964699eb 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -701,7 +701,7 @@ static void tcg_out_ldst(TCGContext *s, LoongArchInsn opc, TCGReg data,
-     intptr_t imm12 = sextreg(offset, 0, 12);
+@@ -1150,37 +1150,6 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
+ #endif
+ }
  
-     if (offset != imm12) {
--        intptr_t diff = offset - (uintptr_t)s->code_ptr;
-+        intptr_t diff = tcg_pcrel_diff(s, (void *)offset);
+-/* LoongArch uses `andi zero, zero, 0` as NOP.  */
+-#define NOP OPC_ANDI
+-static void tcg_out_nop(TCGContext *s)
+-{
+-    tcg_out32(s, NOP);
+-}
+-
+-void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
+-                              uintptr_t jmp_rx, uintptr_t jmp_rw)
+-{
+-    tcg_insn_unit i1, i2;
+-    ptrdiff_t upper, lower;
+-    uintptr_t addr = tb->jmp_target_addr[n];
+-    ptrdiff_t offset = (ptrdiff_t)(addr - jmp_rx) >> 2;
+-
+-    if (offset == sextreg(offset, 0, 26)) {
+-        i1 = encode_sd10k16_insn(OPC_B, offset);
+-        i2 = NOP;
+-    } else {
+-        tcg_debug_assert(offset == sextreg(offset, 0, 36));
+-        lower = (int16_t)offset;
+-        upper = (offset - lower) >> 16;
+-
+-        i1 = encode_dsj20_insn(OPC_PCADDU18I, TCG_REG_TMP0, upper);
+-        i2 = encode_djsk16_insn(OPC_JIRL, TCG_REG_ZERO, TCG_REG_TMP0, lower);
+-    }
+-    uint64_t pair = ((uint64_t)i2 << 32) | i1;
+-    qatomic_set((uint64_t *)jmp_rw, pair);
+-    flush_idcache_range(jmp_rx, jmp_rw, 8);
+-}
+-
+ /*
+  * Entry-points
+  */
+@@ -1200,23 +1169,35 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
  
-         if (addr == TCG_REG_ZERO && diff == (int32_t)diff) {
-             imm12 = sextreg(diff, 0, 12);
+ static void tcg_out_goto_tb(TCGContext *s, int which)
+ {
+-    /*
+-     * Ensure that patch area is 8-byte aligned so that an
+-     * atomic write can be used to patch the target address.
+-     */
+-    if ((uintptr_t)s->code_ptr & 7) {
+-        tcg_out_nop(s);
+-    }
++    /* Direct branch will be patched by tb_target_set_jmp_target. */
+     set_jmp_insn_offset(s, which);
+-    /*
+-     * actual branch destination will be patched by
+-     * tb_target_set_jmp_target later
+-     */
+-    tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
++    tcg_out_opc_b(s, 0);
++
++    /* When branch is out of range, fall through to indirect. */
++    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
++               get_jmp_target_addr(s, which));
+     tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
+     set_jmp_reset_offset(s, which);
+ }
+ 
++void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
++                              uintptr_t jmp_rx, uintptr_t jmp_rw)
++{
++    uintptr_t addr = tb->jmp_target_addr[n];
++    ptrdiff_t offset = (ptrdiff_t)(addr - jmp_rx) >> 2;
++    tcg_insn_unit insn;
++
++    /* Either directly branch, or fall through to indirect branch. */
++    if (offset == sextreg(offset, 0, 26)) {
++        insn = encode_sd10k16_insn(OPC_B, offset);
++    } else {
++        /* LoongArch uses `andi zero, zero, 0` as NOP.  */
++        insn = OPC_ANDI;
++    }
++    qatomic_set((tcg_insn_unit *)jmp_rw, insn);
++    flush_idcache_range(jmp_rx, jmp_rw, 4);
++}
++
+ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+                        const TCGArg args[TCG_MAX_OP_ARGS],
+                        const int const_args[TCG_MAX_OP_ARGS])
 -- 
 2.34.1
 
