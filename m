@@ -2,92 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6211644531
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 15:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287CB6445BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 15:34:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2YSk-0007iF-8F; Tue, 06 Dec 2022 08:58:22 -0500
+	id 1p2Z0S-0007ED-8u; Tue, 06 Dec 2022 09:33:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2YSg-0007eY-PF
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:58:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2YSd-0001IW-TJ
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:58:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670335094;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X5Nod84dhdn3rrvzT2Fre85eVhriPKkmvhn69z7RKgE=;
- b=jIoYbgU/7GQ1qi9CltxCNi+YrQ3DPdVkvqW90X44ogL3J8J/zFTGukyY43+rZy1WNhD2C0
- UeuIu1OlMQ0LD9pqNnh5CfwTH1KQ1kXuvTLk4YCgeC0BhcUCjpRzI5c7BHDiG9K9VFH/KC
- AYqPFZUiZikvO+6KCiXMCBEoatafU+0=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-218-U4_0IhOYNfePrvmOtI1cmA-1; Tue, 06 Dec 2022 08:58:13 -0500
-X-MC-Unique: U4_0IhOYNfePrvmOtI1cmA-1
-Received: by mail-qk1-f200.google.com with SMTP id
- i21-20020a05620a405500b006fb25ba3e00so20589998qko.1
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 05:58:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Z03-00079L-9r
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 09:32:48 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Z01-00082P-QY
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 09:32:47 -0500
+Received: by mail-wm1-x329.google.com with SMTP id m19so11310718wms.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 06:32:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=am+T1z+6vasvJvEMV4iQTqsax3zDRFlg48mzlTZaHmM=;
+ b=IcC1ho+cX4Bi9OpED/rJ+uwaZQvLFr38rGjFhBhXZf3ZII3/530rSjbaaKmUxby4Zh
+ 3nF7nei6LhiMMCELE4ym/6XnC+wAIFeep1EPfx4LhNHo/SN6lDJ+poorkp3AXlPzOHR9
+ WK9IZBKk4HseppCe2vl+2kJHnJKJXFRy7nUjodPMpqrA8Se3M84Fp24Vplz7zFlzx9Fr
+ SbIBNebG0zm6KOCv6lifKIvZwIhQvWHSmvXHSAK4+Ct52pE8vNGNYQqbkHbAp0JomsiA
+ Lxy0bLE+B3NAk6dgoHQjMS3xwsrl1Xrkc4d25+qgyEsTPwvm4hajaw9nx2lAZViFNZ4q
+ FnHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X5Nod84dhdn3rrvzT2Fre85eVhriPKkmvhn69z7RKgE=;
- b=WWHn+NoaLRBMDfOtDgCyS9M0w9yZNZ2eN2SqMWTWbo4nF6de6p2VoC0os8DXS12Yvm
- OH9c9JnrlvU8717Wq1vLIezei+j1M6yFES4UNfl2YwGbEuBEMDpZLUPKXmb7rhPf1wsR
- eI+nBDGGt6IHCJ54oaz7iuWkLvJC7gjAngScYVzwllz69PswnOHh6cAOCtvo+jvv3ahK
- YUjW04uDnR2uMEcWLh0voQl3s3YuqiGxt/8OTIQMMWB2Lv5UYI7Qy9XtQWdtwBFD+XG5
- hqmB0RYko1WkQqDTyjb+lSSweEPe03RcByihiT0tVn41y4GguKrFjmjK1lcECp0VxwX6
- +n1g==
-X-Gm-Message-State: ANoB5pm5Whf4roy2XHS436FKDlUIl6uNnKsuSDWww28yEv4SZ0dKIE34
- Uar1HDCQRa1d20Qu9qBzuCKdzaz5/oScBiuihDSrR12uVzYb4JYKs3jLe7pJYNYN0dbadPjEpWI
- sH5DNhiAFwQUmLCk=
-X-Received: by 2002:ae9:f11a:0:b0:6fc:a3a1:5e63 with SMTP id
- k26-20020ae9f11a000000b006fca3a15e63mr21756527qkg.5.1670335092958; 
- Tue, 06 Dec 2022 05:58:12 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5BREAmlvtm27JAxsSdJQZcpVoZbln+POAiM79QJcQSC6wdW9okkpCBw84HT0kWvM7sL5XaRw==
-X-Received: by 2002:ae9:f11a:0:b0:6fc:a3a1:5e63 with SMTP id
- k26-20020ae9f11a000000b006fca3a15e63mr21756512qkg.5.1670335092656; 
- Tue, 06 Dec 2022 05:58:12 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- bi6-20020a05620a318600b006fa16fe93bbsm14681601qkb.15.2022.12.06.05.58.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Dec 2022 05:58:11 -0800 (PST)
-Date: Tue, 6 Dec 2022 08:58:10 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- viktor@daynix.com
-Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
-Message-ID: <Y49Kcr4ivGGZ2hhF@x1n>
-References: <20221129081037.12099-1-jasowang@redhat.com>
- <20221129081037.12099-4-jasowang@redhat.com> <Y4Yr5WvfioOJWOEX@x1n>
- <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
- <Y4d0HokcV/tg0wlk@x1n>
- <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
- <Y4jBMkNEFqUA7edN@x1n>
- <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
- <Y458YMavxao9XSwL@x1n>
- <CACGkMEut82E-c_w_0MUPOwYDLkcM+mt127dbs3bkhATDSr6JQg@mail.gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=am+T1z+6vasvJvEMV4iQTqsax3zDRFlg48mzlTZaHmM=;
+ b=JFeqJuNeOGHVUOMp1bK+HGnZtErb7VoLGsoMNwZ+h4z7Ar8KWNge26xsaqzCAoPMCa
+ zB3IrUpyI+KraOWSqbmHWpQnYUtxK8obQpDDGm6acZGDs9N21Syn3XJ8PjG1gPaL5j2L
+ YfdlnjeucOZq9bQXQi61WmpdhLCQ2CuqF+ijV6XiJNN1EeuuYyayRMeLjjgweurzyNcN
+ pX8ah3jUz1jLQ5xSA3jqOJjo51UrZ9Mxhp3p7l+rUJTYrPU3tgGlZCrJBXa5A2hLFN5s
+ F0UGzNt/psz1Kb4KbY2sxoIlaqDjN3SWYgwvH5khj7BufoozYoDEsIQv57IazXAIdume
+ gj4A==
+X-Gm-Message-State: ANoB5pmU9VuS83CMeoP389jNdoebSwU6hBkExFrEnDJV4QyOYNhZxtPA
+ spy+O+QqPnEYhRr2p15fNUe0fA==
+X-Google-Smtp-Source: AA0mqf76uvsOcRzU3r3vE4LQtiyyGXqVyY725yzRIjekiBqUV8z5A58GeV13OPf59IHxkGo28kMfEQ==
+X-Received: by 2002:a1c:4b05:0:b0:3d0:8819:a815 with SMTP id
+ y5-20020a1c4b05000000b003d08819a815mr12721979wma.90.1670337163321; 
+ Tue, 06 Dec 2022 06:32:43 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n29-20020a05600c3b9d00b003c21ba7d7d6sm24847772wms.44.2022.12.06.06.32.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Dec 2022 06:32:42 -0800 (PST)
+Message-ID: <abeef930-8fc8-7afc-80d7-b9807fceb728@linaro.org>
+Date: Tue, 6 Dec 2022 15:32:41 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="4NQ7/8qolUM9ofjF"
-Content-Disposition: inline
-In-Reply-To: <CACGkMEut82E-c_w_0MUPOwYDLkcM+mt127dbs3bkhATDSr6JQg@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 02/11] exec: Restrict hwaddr.h to sysemu/
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Claudio Fontana <cfontana@suse.de>, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210517111111.1068153-1-f4bug@amsat.org>
+ <20210517111111.1068153-3-f4bug@amsat.org>
+ <13fbfb3f-0d42-19a6-de11-4df9c5884b5b@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <13fbfb3f-0d42-19a6-de11-4df9c5884b5b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,155 +92,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---4NQ7/8qolUM9ofjF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-On Tue, Dec 06, 2022 at 11:18:03AM +0800, Jason Wang wrote:
-> On Tue, Dec 6, 2022 at 7:19 AM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > Jason,
-> >
-> > On Mon, Dec 05, 2022 at 12:12:04PM +0800, Jason Wang wrote:
-> > > I'm fine to go without iova-tree. Would you mind to post patches for
-> > > fix? I can test and include it in this series then.
-> >
-> > One sample patch attached, only compile tested.
+On 26/5/21 20:15, Richard Henderson wrote:
+> On 5/17/21 4:11 AM, Philippe Mathieu-Daudé wrote:
+>> --- a/include/exec/hwaddr.h
+>> +++ b/include/exec/sysemu/hwaddr.h
+>> @@ -1,8 +1,9 @@
+>>   /* Define hwaddr if it exists.  */
+>> -#ifndef HWADDR_H
+>> -#define HWADDR_H
+>> +#ifndef EXEC_SYSEMU_HWADDR_H
+>> +#define EXEC_SYSEMU_HWADDR_H
+>> +#ifndef CONFIG_USER_ONLY
+>>   #define HWADDR_BITS 64
+>>   /* hwaddr is the type of a physical address (its size can
+>> @@ -23,4 +24,6 @@ typedef struct MemMapEntry {
+>>       hwaddr size;
+>>   } MemMapEntry;
+>> +#endif /* !CONFIG_USER_ONLY */
+>> +
+>>   #endif
 > 
-> I don't see any direct connection between the attached patch and the
-> intel-iommu?
+> Why no #error on this one, unlike the next patch.
 
-Sorry!  Wrong tree dumped...  Trying again.
-
-> 
-> >
-> > I can also work on this but I'll be slow in making progress, so I'll add it
-> > into my todo.  If you can help to fix this issue it'll be more than great.
-> 
-> Ok, let me try but it might take some time :)
-
-Sure. :)
-
-I'll also add it into my todo (and I think the other similar one has been
-there for a while.. :( ).
-
--- 
-Peter Xu
-
---4NQ7/8qolUM9ofjF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment;
-	filename="0001-intel-iommu-Send-unmap-notifications-for-domain-or-g.patch"
-
-From 37c743761d20c16891856c5bef2e7b3fb89893b6 Mon Sep 17 00:00:00 2001
-From: Peter Xu <peterx@redhat.com>
-Date: Mon, 5 Dec 2022 18:11:36 -0500
-Subject: [PATCH] intel-iommu: Send unmap notifications for domain or global
- inv desc
-Content-type: text/plain
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- hw/i386/intel_iommu.c | 41 +++++++++++++++++++++++++----------------
- 1 file changed, 25 insertions(+), 16 deletions(-)
-
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index a08ee85edf..2c6ca68df0 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -206,6 +206,23 @@ static inline gboolean vtd_as_has_map_notifier(VTDAddressSpace *as)
-     return as->notifier_flags & IOMMU_NOTIFIER_MAP;
- }
- 
-+static void vtd_as_notify_unmap(VTDAddressSpace *as, hwaddr iova,
-+                                hwaddr addr_mask)
-+{
-+    IOMMUTLBEvent event = {
-+        .type = IOMMU_NOTIFIER_UNMAP,
-+        .entry = {
-+            .target_as = &address_space_memory,
-+            .iova = iova,
-+            .translated_addr = 0,
-+            .addr_mask = addr_mask,
-+            .perm = IOMMU_NONE,
-+        },
-+    };
-+
-+    memory_region_notify_iommu(&as->iommu, 0, event);
-+}
-+
- /* GHashTable functions */
- static gboolean vtd_iotlb_equal(gconstpointer v1, gconstpointer v2)
- {
-@@ -1530,13 +1547,15 @@ static int vtd_sync_shadow_page_table_range(VTDAddressSpace *vtd_as,
-     return vtd_page_walk(s, ce, addr, addr + size, &info, vtd_as->pasid);
- }
- 
--static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
-+static int vtd_address_space_sync(VTDAddressSpace *vtd_as)
- {
-     int ret;
-     VTDContextEntry ce;
-     IOMMUNotifier *n;
- 
--    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
-+    /* If no MAP notifier registered, we simply invalidate all the cache */
-+    if (!vtd_as_has_map_notifier(vtd_as)) {
-+        vtd_as_notify_unmap(vtd_as, 0, HWADDR_MAX);
-         return 0;
-     }
- 
-@@ -2000,7 +2019,7 @@ static void vtd_iommu_replay_all(IntelIOMMUState *s)
-     VTDAddressSpace *vtd_as;
- 
-     QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
--        vtd_sync_shadow_page_table(vtd_as);
-+        vtd_address_space_sync(vtd_as);
-     }
- }
- 
-@@ -2082,7 +2101,7 @@ static void vtd_context_device_invalidate(IntelIOMMUState *s,
-              * framework will skip MAP notifications if that
-              * happened.
-              */
--            vtd_sync_shadow_page_table(vtd_as);
-+            vtd_address_space_sync(vtd_as);
-         }
-     }
- }
-@@ -2140,7 +2159,7 @@ static void vtd_iotlb_domain_invalidate(IntelIOMMUState *s, uint16_t domain_id)
-         if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
-                                       vtd_as->devfn, &ce) &&
-             domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid)) {
--            vtd_sync_shadow_page_table(vtd_as);
-+            vtd_address_space_sync(vtd_as);
-         }
-     }
- }
-@@ -2174,17 +2193,7 @@ static void vtd_iotlb_page_invalidate_notify(IntelIOMMUState *s,
-                  * page tables.  We just deliver the PSI down to
-                  * invalidate caches.
-                  */
--                IOMMUTLBEvent event = {
--                    .type = IOMMU_NOTIFIER_UNMAP,
--                    .entry = {
--                        .target_as = &address_space_memory,
--                        .iova = addr,
--                        .translated_addr = 0,
--                        .addr_mask = size - 1,
--                        .perm = IOMMU_NONE,
--                    },
--                };
--                memory_region_notify_iommu(&vtd_as->iommu, 0, event);
-+                vtd_as_notify_unmap(vtd_as, addr, size - 1);
-             }
-         }
-     }
--- 
-2.37.3
-
-
---4NQ7/8qolUM9ofjF--
-
+Because many files in user emulation include "exec/hwaddr.h" :(
 
