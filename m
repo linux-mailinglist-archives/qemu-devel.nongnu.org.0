@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B4D6442D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 13:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDE76442F1
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 13:07:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Wd2-0004iU-2i; Tue, 06 Dec 2022 07:00:52 -0500
+	id 1p2Wj7-0007gN-FZ; Tue, 06 Dec 2022 07:07:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Wcy-0004gp-Eo
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:00:48 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Wcw-0002i6-NN
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:00:48 -0500
-Received: by mail-wr1-x430.google.com with SMTP id o5so23150723wrm.1
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 04:00:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ik0ht7odnIzibPDZH+4gXD6VXdvKBxYAd+6/G8QM2wI=;
- b=Y+dxaUBxeWzk5ERMlFpz9IPAFt7WLiuFRHJ2x6YC3xrrL24qZrSblVTCR+FqYLPKFp
- OGq3X/9DMZdkQkb8D3aqdw340aOl4XQNWeCTD3Ad95dYxqAfpcszg8CflYHLM9iNs4Aa
- FONb5ZxMI+yGYgMizKHfkPCahoEdMPuIptxHbdxYY0ZqMSDYjruPqizo/v1r7h52sX7C
- BWDdOg20WcthSNpdu8A4gWmVc6M97a/MpkyYv9sfra22bxKSFMVjVWYX8xfQ7rPeQBZo
- ddveuyMUOS8c82uf3btZbDUoLtegyRjC7SEXBbXWoXbe1KY3CyLSanySZSFhvKwebj1M
- NOkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ik0ht7odnIzibPDZH+4gXD6VXdvKBxYAd+6/G8QM2wI=;
- b=EOWJ+XBfkIraXU0cpNTKi1kptcfzToEht+LR81emnKF9V30ESx8ONJKz4+p3PXgYhA
- 8b2Ufz7nZ4YROCE4x6kBD9sZGsczJj97yqm6eRC0VZ9boj5TTdgGhoQWqUM3E/6ejJOS
- Hd6rjhbD1R/I7ksueAaPx9hND8hXg0CoaV1UUGmNI5OVU5E7WR1Za6eoSSz4N/KTwR+y
- SDllDKtjB5eXhvX7FxJyWv/IECL9SPm1Pwie5TEomhEUhVQounRgLDHCed9QShTCxurv
- a7FgUc4i6wlrzhi2fNupwX9yY6HYxLqMyWESYCoAKABbL1vngtPI7FPv7Ulvl+346im5
- Rrbg==
-X-Gm-Message-State: ANoB5pm8n22n7DDheirFdQ4ExMkw4afKIFyXfRjimCpxnsSL3tB30045
- v3Elb64+NUS9VRtZ79naDOp4Ng==
-X-Google-Smtp-Source: AA0mqf467E7YAHDlJwHudAKBfjsXXYeoi/xqqszpypAFJfkfAt/tvslYj5gIWO0XqK+7xxU4R5lk8w==
-X-Received: by 2002:adf:fd01:0:b0:235:83aa:a6ed with SMTP id
- e1-20020adffd01000000b0023583aaa6edmr50450731wrr.543.1670328038776; 
- Tue, 06 Dec 2022 04:00:38 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- a1-20020adffac1000000b0024194bba380sm16882032wrs.22.2022.12.06.04.00.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 04:00:38 -0800 (PST)
-Message-ID: <3132236c-93f6-70fa-a10b-b7bdf5afbc92@linaro.org>
-Date: Tue, 6 Dec 2022 13:00:37 +0100
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p2Wj3-0007fV-FP
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:07:05 -0500
+Received: from mga09.intel.com ([134.134.136.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p2Wiz-0004Ow-B8
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 07:07:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670328421; x=1701864421;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=/9rw4XJZnVf887NtG425skKbwwHseWVQy8ohNx+mMzU=;
+ b=eV4lwOBmd7i3lUK30QNlZu6+g7riShMldF/QjU6bcF80WI8Z+z4oN/4W
+ cTQ05fbQ4/maib+IaRe2LYFRLhSZdAtP5Qg/2ltsfLMZfzl7DlwTYMF3i
+ AGpZKu9WNl5Cv47wdnl5QUqZNJBZiRNHHGIxjMVZyr8qNHnnUq+l8OL3c
+ jVxumxuJyxIGC6gyVmAFEvCOELLazTkJmiHLUziARr833mkjySxFqk/8X
+ fKGllSzAy1isGp02xmKYkuFvofDPaDrwShPnjWs+VpsiqVTT+xJvJuZ4D
+ 9/xfZzXeZ/X+eLZTbeTckDrWUoTIs1eCmRq9JqcXmES2fyfRA/LS2+zNv g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="317748815"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; d="scan'208";a="317748815"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2022 04:06:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="639853305"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; d="scan'208";a="639853305"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 06 Dec 2022 04:06:44 -0800
+Date: Tue, 6 Dec 2022 20:02:24 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 7/9] KVM: Update lpage info when private/shared
+ memory are mixed
+Message-ID: <20221206120224.GC1216605@chaop.bj.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-8-chao.p.peng@linux.intel.com>
+ <20221205224959.GA3632095@ls.amr.corp.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v6 0/7] Add ARM Cortex-R52 CPU
-Content-Language: en-US
-To: Tobias Roehmel <tobias.roehmel@rwth-aachen.de>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
- <5f98f1c6-e6a9-cea6-427f-3fa2c4493e5d@linaro.org>
- <59771f97-e036-84de-4feb-aab7ef55e659@rwth-aachen.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <59771f97-e036-84de-4feb-aab7ef55e659@rwth-aachen.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221205224959.GA3632095@ls.amr.corp.intel.com>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,63 +100,330 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/12/22 12:43, Tobias Roehmel wrote:
+On Mon, Dec 05, 2022 at 02:49:59PM -0800, Isaku Yamahata wrote:
+> On Fri, Dec 02, 2022 at 02:13:45PM +0800,
+> Chao Peng <chao.p.peng@linux.intel.com> wrote:
 > 
-> On 06.12.22 11:39, Philippe Mathieu-Daudé wrote:
->> On 6/12/22 11:24, tobias.roehmel@rwth-aachen.de wrote:
->>> From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
->>
->>> v6:
->>> patch 5:
->>> - I'm freeing the PRBAR/... strings explicitly now since
->>>    I don't know how to use autofree in this setup correctly.
->>>    Maybe {} around the part were the string is created/used,
->>>    such that it is dropped at }?
->>
->> The pointer is declared outside of a for() statement. Then
->> inside this statement you alloc/free twice, using the same
->> pointer. This is correct.  If you really want to use
->> g_autofree in such case, you'd need to declare within the
->> same statement, one pointer for each string:
->>
->>   for (i = 0; i < MIN(cpu->pmsav7_dregion, 32); ++i) {
->>       uint8_t crm = 0b1000 | extract32(i, 1, 3);
->>       uint8_t opc1 = extract32(i, 4, 1);
->>       uint8_t opc2 = extract32(i, 0, 1) << 2;
->>       g_autofree char *prbarn_str = g_strdup_printf("PRBAR%u", i);
->>       g_autofree char *prlarn_str = g_strdup_printf("PRLAR%u", i);
->>
->>       const ARMCPRegInfo tmp_prbarn_reginfo = {
->>           .name = prbarn_str, .type = ARM_CP_ALIAS | ARM_CP_NO_RAW,
->>           .cp = 15, .opc1 = opc1, .crn = 6, .crm = crm, .opc2 = opc2,
->>           .access = PL1_RW, .resetvalue = 0,
->>           .accessfn = access_tvm_trvm,
->>           .writefn = pmsav8r_regn_write, .readfn = pmsav8r_regn_read
->>       };
->>       define_one_arm_cp_reg(cpu, &tmp_prbarn_reginfo);
->>
->>       opc2 = extract32(i, 0, 1) << 2 | 0x1;
->>       const ARMCPRegInfo tmp_prlarn_reginfo = {
->>           .name = prlarn_str, .type = ARM_CP_ALIAS | ARM_CP_NO_RAW,
->>           .cp = 15, .opc1 = opc1, .crn = 6, .crm = crm, .opc2 = opc2,
->>           .access = PL1_RW, .resetvalue = 0,
->>           .accessfn = access_tvm_trvm,
->>           .writefn = pmsav8r_regn_write, .readfn = pmsav8r_regn_read
->>       };
->>       define_one_arm_cp_reg(cpu, &tmp_prlarn_reginfo);
->>   }
->>
->> (Note ARMCPRegInfo can be qualified const).
->>
->> Regards,
->>
->> Phil.
+> > A large page with mixed private/shared subpages can't be mapped as large
+> > page since its sub private/shared pages are from different memory
+> > backends and may also treated by architecture differently. When
+> > private/shared memory are mixed in a large page, the current lpage_info
+> > is not sufficient to decide whether the page can be mapped as large page
+> > or not and additional private/shared mixed information is needed.
+> > 
+> > Tracking this 'mixed' information with the current 'count' like
+> > disallow_lpage is a bit challenge so reserve a bit in 'disallow_lpage'
+> > to indicate a large page has mixed private/share subpages and update
+> > this 'mixed' bit whenever the memory attribute is changed between
+> > private and shared.
+> > 
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  arch/x86/include/asm/kvm_host.h |   8 ++
+> >  arch/x86/kvm/mmu/mmu.c          | 134 +++++++++++++++++++++++++++++++-
+> >  arch/x86/kvm/x86.c              |   2 +
+> >  include/linux/kvm_host.h        |  19 +++++
+> >  virt/kvm/kvm_main.c             |   9 ++-
+> >  5 files changed, 169 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> > index 283cbb83d6ae..7772ab37ac89 100644
+> > --- a/arch/x86/include/asm/kvm_host.h
+> > +++ b/arch/x86/include/asm/kvm_host.h
+> > @@ -38,6 +38,7 @@
+> >  #include <asm/hyperv-tlfs.h>
+> >  
+> >  #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
+> > +#define __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES
+> >  
+> >  #define KVM_MAX_VCPUS 1024
+> >  
+> > @@ -1011,6 +1012,13 @@ struct kvm_vcpu_arch {
+> >  #endif
+> >  };
+> >  
+> > +/*
+> > + * Use a bit in disallow_lpage to indicate private/shared pages mixed at the
+> > + * level. The remaining bits are used as a reference count.
+> > + */
+> > +#define KVM_LPAGE_PRIVATE_SHARED_MIXED		(1U << 31)
+> > +#define KVM_LPAGE_COUNT_MAX			((1U << 31) - 1)
+> > +
+> >  struct kvm_lpage_info {
+> >  	int disallow_lpage;
+> >  };
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index e2c70b5afa3e..2190fd8c95c0 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -763,11 +763,16 @@ static void update_gfn_disallow_lpage_count(const struct kvm_memory_slot *slot,
+> >  {
+> >  	struct kvm_lpage_info *linfo;
+> >  	int i;
+> > +	int disallow_count;
+> >  
+> >  	for (i = PG_LEVEL_2M; i <= KVM_MAX_HUGEPAGE_LEVEL; ++i) {
+> >  		linfo = lpage_info_slot(gfn, slot, i);
+> > +
+> > +		disallow_count = linfo->disallow_lpage & KVM_LPAGE_COUNT_MAX;
+> > +		WARN_ON(disallow_count + count < 0 ||
+> > +			disallow_count > KVM_LPAGE_COUNT_MAX - count);
+> > +
+> >  		linfo->disallow_lpage += count;
+> > -		WARN_ON(linfo->disallow_lpage < 0);
+> >  	}
+> >  }
+> >  
+> > @@ -6986,3 +6991,130 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
+> >  	if (kvm->arch.nx_huge_page_recovery_thread)
+> >  		kthread_stop(kvm->arch.nx_huge_page_recovery_thread);
+> >  }
+> > +
+> > +static bool linfo_is_mixed(struct kvm_lpage_info *linfo)
+> > +{
+> > +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +}
+> > +
+> > +static void linfo_set_mixed(gfn_t gfn, struct kvm_memory_slot *slot,
+> > +			    int level, bool mixed)
+> > +{
+> > +	struct kvm_lpage_info *linfo = lpage_info_slot(gfn, slot, level);
+> > +
+> > +	if (mixed)
+> > +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +	else
+> > +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +}
+> > +
+> > +static bool is_expected_attr_entry(void *entry, unsigned long expected_attrs)
+> > +{
+> > +	bool expect_private = expected_attrs & KVM_MEMORY_ATTRIBUTE_PRIVATE;
+> > +
+> > +	if (xa_to_value(entry) & KVM_MEMORY_ATTRIBUTE_PRIVATE) {
+> > +		if (!expect_private)
+> > +			return false;
+> > +	} else if (expect_private)
+> > +		return false;
+> > +
+> > +	return true;
+> > +}
+> > +
+> > +static bool mem_attrs_mixed_2m(struct kvm *kvm, unsigned long attrs,
+> > +			       gfn_t start, gfn_t end)
+> > +{
+> > +	XA_STATE(xas, &kvm->mem_attr_array, start);
+> > +	gfn_t gfn = start;
+> > +	void *entry;
+> > +	bool mixed = false;
+> > +
+> > +	rcu_read_lock();
+> > +	entry = xas_load(&xas);
+> > +	while (gfn < end) {
+> > +		if (xas_retry(&xas, entry))
+> > +			continue;
+> > +
+> > +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
+> > +
+> > +		if (!is_expected_attr_entry(entry, attrs)) {
+> > +			mixed = true;
+> > +			break;
+> > +		}
+> > +
+> > +		entry = xas_next(&xas);
+> > +		gfn++;
+> > +	}
+> > +
+> > +	rcu_read_unlock();
+> > +	return mixed;
+> > +}
+> > +
+> > +static bool mem_attrs_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
+> > +			    int level, unsigned long attrs,
+> > +			    gfn_t start, gfn_t end)
+> > +{
+> > +	unsigned long gfn;
+> > +
+> > +	if (level == PG_LEVEL_2M)
+> > +		return mem_attrs_mixed_2m(kvm, attrs, start, end);
+> > +
+> > +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1))
+> > +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)) ||
+> > +		    !is_expected_attr_entry(xa_load(&kvm->mem_attr_array, gfn),
+> > +					    attrs))
+> > +			return true;
+> > +	return false;
+> > +}
+> > +
+> > +static void kvm_update_lpage_private_shared_mixed(struct kvm *kvm,
+> > +						  struct kvm_memory_slot *slot,
+> > +						  unsigned long attrs,
+> > +						  gfn_t start, gfn_t end)
+> > +{
+> > +	unsigned long pages, mask;
+> > +	gfn_t gfn, gfn_end, first, last;
+> > +	int level;
+> > +	bool mixed;
+> > +
+> > +	/*
+> > +	 * The sequence matters here: we set the higher level basing on the
+> > +	 * lower level's scanning result.
+> > +	 */
+> > +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
+> > +		pages = KVM_PAGES_PER_HPAGE(level);
+> > +		mask = ~(pages - 1);
+> > +		first = start & mask;
+> > +		last = (end - 1) & mask;
+> > +
+> > +		/*
+> > +		 * We only need to scan the head and tail page, for middle pages
+> > +		 * we know they will not be mixed.
+> > +		 */
+> > +		gfn = max(first, slot->base_gfn);
+> > +		gfn_end = min(first + pages, slot->base_gfn + slot->npages);
+> > +		mixed = mem_attrs_mixed(kvm, slot, level, attrs, gfn, gfn_end);
+> > +		linfo_set_mixed(gfn, slot, level, mixed);
+> > +
+> > +		if (first == last)
+> > +			return;
 > 
-> Thanks for the explanation! Would that be the preferred way?
+> 
+> continue.
 
-What you posted is good enough IMO :) AFAIK there is no formal style
-recommendation on using g_autofree.
+Ya!
+
+> 
+> > +
+> > +		for (gfn = first + pages; gfn < last; gfn += pages)
+> > +			linfo_set_mixed(gfn, slot, level, false);
+> > +
+> > +		gfn = last;
+> > +		gfn_end = min(last + pages, slot->base_gfn + slot->npages);
+> 
+> if (gfn == gfn_end) continue.
+
+Do you see a case where gfn can equal to gfn_end? Though it does not
+hurt to add a check.
+
+> 
+> 
+> > +		mixed = mem_attrs_mixed(kvm, slot, level, attrs, gfn, gfn_end);
+> > +		linfo_set_mixed(gfn, slot, level, mixed);
+> > +	}
+> > +}
+> > +
+> > +void kvm_arch_set_memory_attributes(struct kvm *kvm,
+> > +				    struct kvm_memory_slot *slot,
+> > +				    unsigned long attrs,
+> > +				    gfn_t start, gfn_t end)
+> > +{
+> > +	if (kvm_slot_can_be_private(slot))
+> > +		kvm_update_lpage_private_shared_mixed(kvm, slot, attrs,
+> > +						      start, end);
+> > +}
+> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > index 9a07380f8d3c..5aefcff614d2 100644
+> > --- a/arch/x86/kvm/x86.c
+> > +++ b/arch/x86/kvm/x86.c
+> > @@ -12362,6 +12362,8 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
+> >  		if ((slot->base_gfn + npages) & (KVM_PAGES_PER_HPAGE(level) - 1))
+> >  			linfo[lpages - 1].disallow_lpage = 1;
+> >  		ugfn = slot->userspace_addr >> PAGE_SHIFT;
+> > +		if (kvm_slot_can_be_private(slot))
+> > +			ugfn |= slot->restricted_offset >> PAGE_SHIFT;
+> 
+> Is there any alignment restriction? If no, It should be +=.
+> In practice, alignment will hold though.
+
+All we need here is checking whether both userspace_addr and
+restricted_offset are aligned to HPAGE_SIZE or not. '+=' actually can
+yield wrong value in cases when userspace_addr + restricted_offset is
+aligned to HPAGE_SIZE but individually they may not align to HPAGE_SIZE.
+
+Thanks,
+Chao
+> 
+> Thanks,
+> 
+> >  		/*
+> >  		 * If the gfn and userspace address are not aligned wrt each
+> >  		 * other, disable large page support for this slot.
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 3331c0c92838..25099c94e770 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -592,6 +592,11 @@ struct kvm_memory_slot {
+> >  	struct restrictedmem_notifier notifier;
+> >  };
+> >  
+> > +static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
+> > +{
+> > +	return slot && (slot->flags & KVM_MEM_PRIVATE);
+> > +}
+> > +
+> >  static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
+> >  {
+> >  	return slot->flags & KVM_MEM_LOG_DIRTY_PAGES;
+> > @@ -2316,4 +2321,18 @@ static inline void kvm_account_pgtable_pages(void *virt, int nr)
+> >  /* Max number of entries allowed for each kvm dirty ring */
+> >  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
+> >  
+> > +#ifdef __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES
+> > +void kvm_arch_set_memory_attributes(struct kvm *kvm,
+> > +				    struct kvm_memory_slot *slot,
+> > +				    unsigned long attrs,
+> > +				    gfn_t start, gfn_t end);
+> > +#else
+> > +static inline void kvm_arch_set_memory_attributes(struct kvm *kvm,
+> > +						  struct kvm_memory_slot *slot,
+> > +						  unsigned long attrs,
+> > +						  gfn_t start, gfn_t end)
+> > +{
+> > +}
+> > +#endif /* __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES */
+> > +
+> >  #endif
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index 4e1e1e113bf0..e107afea32f0 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -2354,7 +2354,8 @@ static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+> >  	return 0;
+> >  }
+> >  
+> > -static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
+> > +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end,
+> > +				unsigned long attrs)
+> >  {
+> >  	struct kvm_gfn_range gfn_range;
+> >  	struct kvm_memory_slot *slot;
+> > @@ -2378,6 +2379,10 @@ static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
+> >  			gfn_range.slot = slot;
+> >  
+> >  			r |= kvm_unmap_gfn_range(kvm, &gfn_range);
+> > +
+> > +			kvm_arch_set_memory_attributes(kvm, slot, attrs,
+> > +						       gfn_range.start,
+> > +						       gfn_range.end);
+> >  		}
+> >  	}
+> >  
+> > @@ -2427,7 +2432,7 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> >  		idx = srcu_read_lock(&kvm->srcu);
+> >  		KVM_MMU_LOCK(kvm);
+> >  		if (i > start)
+> > -			kvm_unmap_mem_range(kvm, start, i);
+> > +			kvm_unmap_mem_range(kvm, start, i, attrs->attributes);
+> >  		kvm_mmu_invalidate_end(kvm);
+> >  		KVM_MMU_UNLOCK(kvm);
+> >  		srcu_read_unlock(&kvm->srcu, idx);
+> > -- 
+> > 2.25.1
+> > 
+> 
+> -- 
+> Isaku Yamahata <isaku.yamahata@gmail.com>
 
