@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E314D643AB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 02:19:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B33643AB6
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 02:22:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Mbd-0000sT-7V; Mon, 05 Dec 2022 20:18:46 -0500
+	id 1p2Meq-0001iz-NW; Mon, 05 Dec 2022 20:22:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2MbK-0000s4-O9
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:18:33 -0500
+ id 1p2Mel-0001ib-Nz
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:21:59 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2MbH-0007Tf-T1
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:18:26 -0500
+ id 1p2Mej-00088P-TX
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:21:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=iIeZM6W5hFkQZTZjp4h6+W+EFh1jpkShHN0ucCUmad4=; b=KSSWWiPECmgQuyA9OA4mUCBE+d
- v3CG1vpBj3nwFlzyUIBj4iJi6IqTVcbXNMhnDW1DZLFLBH05oD5YPCQqqNsmqLUa+VSAccu+OfFjw
- zIcIULRFmhuG2T6kAFQPBA6e8MHZPMaNKoT6BLOOJmyQ2IoozFefbopYPcyAn7xLdBKK1fb3fjpfG
- 2Wy0PDXBUx1GcOMe2jOnyOxsHxkEOZGF7pdRAgAJs0UkexPd7ikIcp7+M0FGYkGkPjwsh9xPsocVE
- 4oukVZhU5KS11OxB5LwylBLwRqOH9yWguPXFEgfCPTLxj3JuQqKttm4L34zX4VEIY+GtTR/fmNiYK
- BZW30D+w==;
+ bh=ZeJ3k8v8QY3Ep/VhIJmzaxdensPLh+GxNbw2gIfHXU4=; b=E5LhlRdT0JxEMzh7GB5dOg/yR1
+ rCmDwZkKlJG5r6rsVLcHirT9SSTIULRzoMhiZ9Yg0ID/NpuMfwrdlTu/3EdxT0jIbQErquizGg01P
+ EVyYn1BdWTUxLCuByCgiPsesfBmOVpB9nXPVBFkkvENjjYGE1lKxK0CcNGAiabIBJHFQHknY7vjcr
+ FxZiCi6/m2u9KILn9kI5LvCITptrKcqoMymoKCdE1TOtFSnbOLX4ixAGAMeGkiVgYsJDx/4GiunRs
+ sOG/EZBS/hc1bGDjgx2GS/6C5Ck9JmPbXjnFt8dDyHwHCfrp8aWmfxXxnKl2+BaVCVH89+I2HGSDL
+ xbmmewYA==;
 Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2MbH-003tL3-H5; Tue, 06 Dec 2022 01:18:23 +0000
-Message-ID: <ddda9a672fb8beba420f988f513420ad66e1c717.camel@infradead.org>
-Subject: Re: [RFC PATCH 13/21] i386/xen: implement HYPERVISOR_hvm_op
+ id 1p2Mep-003tXb-I3; Tue, 06 Dec 2022 01:22:03 +0000
+Message-ID: <0e0724bf05914b093bcd6f9f8c0e67b4d0938f03.camel@infradead.org>
+Subject: Re: [RFC PATCH 18/21] kvm/ioapic: mark gsi-2 used in ioapic routing
+ init
 From: David Woodhouse <dwmw2@infradead.org>
 To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, 
  qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
  Martins <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>
-Date: Tue, 06 Dec 2022 01:18:14 +0000
-In-Reply-To: <4d6b112e-ab74-5ae3-7206-9b1aafb25034@linaro.org>
+Date: Tue, 06 Dec 2022 01:21:55 +0000
+In-Reply-To: <691190cd-7c0e-5f30-f5e6-ccf0a84cf3bb@linaro.org>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-14-dwmw2@infradead.org>
- <4d6b112e-ab74-5ae3-7206-9b1aafb25034@linaro.org>
+ <20221205173137.607044-19-dwmw2@infradead.org>
+ <691190cd-7c0e-5f30-f5e6-ccf0a84cf3bb@linaro.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-KOtKXyU23jDaq60+q4Eh"
+ boundary="=-8Lux+E0JGm7i947eUu2d"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -78,48 +79,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-KOtKXyU23jDaq60+q4Eh
+--=-8Lux+E0JGm7i947eUu2d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-12-05 at 23:13 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> > +static int kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit,
-> > +                                int cmd, uint64_t arg)
-> > +{
-> > +    switch (cmd) {
-> > +    case HVMOP_pagetable_dying: {
-> > +            exit->u.hcall.result =3D -ENOSYS;
-> > +            return 0;
-> > +        }
-> > +    }
+On Mon, 2022-12-05 at 23:25 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 5/12/22 18:31, David Woodhouse wrote:
+> > From: Ankur Arora <
+> > ankur.a.arora@oracle.com
+> > >
+> >=20
+> > GSI-2/IOAPIC pin-2 is treated specially while initing
+> > IRQ routing: PIC does not use it at all while the IOAPIC
+> > maps virq=3D0 to pin-2 and does not use GSI-2.
+> > (all other GSIs are identity mapped to pins.)
+> >=20
+> > This results in any later code which allocates a virq
+> > to be assigned GSI-2. This virq is in-turn used to
+> > remap interrupts to HYPERVISOR_CALLBACK_VECTOR (0xf3)
+> > to deliver to the guest.
+> >=20
+> > Ordinarily this would be okay, but if the event delivery is
+> > via direct injection via KVM_REQ_EVENT (without going
+> > through the LAPIC) we see vmentry failure.
+> >=20
+> > This works fine for any other values of GSI.
+> >=20
+> > As a workaround, mark GSI-2 used.
+> >=20
+> > Signed-off-by: Ankur Arora <ankur.a.arora@oracle.com>
+> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> > ---
+> >   accel/kvm/kvm-all.c  | 5 +++++
+> >   hw/i386/kvm/ioapic.c | 1 +
+> >   include/sysemu/kvm.h | 1 +
+> >   3 files changed, 7 insertions(+)
 >=20
-> Could it be helpful to have a trace event here, or log a GUEST_ERROR?
 >=20
-> > +    exit->u.hcall.result =3D -ENOSYS;
-> > +    return HCALL_ERR;
+> > diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+> > index ee7c8ef68b..5fab0d35c9 100644
+> > --- a/hw/i386/kvm/ioapic.c
+> > +++ b/hw/i386/kvm/ioapic.c
+> > @@ -43,6 +43,7 @@ void kvm_pc_setup_irq_routing(bool pci_enabled)
+> >               }
+> >           }
+> >       }
+>=20
+> Workarounds usually deserve some comment in the code.
 
-We already have a trace event for hypercalls. So the unimplemented ones
-look something like this (e.g. failing to set FIFO event channels, then
-failing to get the CONSOLE_EVTCHN HVM param)...
+Yes, good point. Although I actually think I can kill this off
+completely since we no longer attempt the deliver the vector directly
+with KVM_REQ_EVENT anyway; the kernel injects it *for* us when it sees
+that vcpu_info->evtchn_upcall_pending is set on entry to the guest
+vCPU.
 
-[    0.151084] NR_IRQS: 524544, nr_irqs: 256, preallocated irqs: 16
-kvm_xen_hypercall xen_hypercall: cpu 0 cpl 0 input 32 a0 0xb a1 0xffffffffb=
-da03da0 a2 0xffff93cc3ec2e9a0 ret 0xffffffffffffffda
-[    0.152018] xen:events: Using 2-level ABI
-kvm_xen_hypercall xen_hypercall: cpu 0 cpl 0 input 34 a0 0x0 a1 0xffffffffb=
-da03dd8 a2 0x7ff0 ret 0x0
-[    0.152731] xen:events: Xen HVM callback vector for event delivery is en=
-abled
-[    0.154158] rcu: srcu_init: Setting srcu_struct sizes based on contentio=
-n.
-[    0.170239] Console: colour VGA+ 80x25
-kvm_xen_hypercall xen_hypercall: cpu 0 cpl 0 input 34 a0 0x1 a1 0xffffffffb=
-da03e60 a2 0x7ff0 ret 0xffffffffffffffda
-[    0.170966] Cannot get hvm parameter CONSOLE_EVTCHN (18): -38!
+> > +    kvm_irqchip_set_gsi(s, 2);
+> >       kvm_irqchip_commit_routes(s);
+> >   }
 
-(I just fixed a PRIu64 to PRIx64 in the trace event definition)
 
---=-KOtKXyU23jDaq60+q4Eh
+--=-8Lux+E0JGm7i947eUu2d
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -211,26 +230,26 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDExODE0WjAvBgkqhkiG9w0BCQQxIgQgRV5wQyC8
-9YT9nPdZEG7yAjqeKRURKCPVoa8Qi8ac/IQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDEyMTU1WjAvBgkqhkiG9w0BCQQxIgQgGwVXubkZ
+WLoadyofdV4GnnNAh+M1LVt8wchxSsd1BsUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBsVKCjQpaIlZQtxdJYv7TrifNJE/2O8GIc
-feHL5CjlgCM2slSc8IFHWkyqVotoBooVuCLIKE4URrmqkrn4tYbrwpiIkvo9uVtqEgXNprXxVn6Y
-AaKMiR85U7qJBU+qIKD+mCd0o40bBR/zV4MUwQBw7P/aFrEpkPYpk0/7LEAehw9VwdMvs7CWeyBh
-iuMszzNndGdBESk4qx8GzjxmPWRM/9YbJIvSko0TvurPSRwTKI2KQT4hq83tZ4hhNNhGLEljXvmN
-2ySBZvpV4CRkVSAIBQmplMPMYwYFRZ3+txfFbZwacTdwTmvlsd43u6JfMfByamA/JffUfiembEk+
-p0lNgVtpO0tkImdoL08s6TfQDVCRQTHU4Sq4hinjgNjRUI3hNlcBe/kTfYLFHpuFH5s7CpMPBZcV
-bNkkPs1GZdVjKpCK8Za4IUODuo1ZIVa/8Sj0XnIYj5NQgUbljl7zYK76piX4HWZC5KFrHe2GgIGg
-3Vx9mWC83TLoGrLgeYQmqwE4LF23K5uLFoEjJCrpt/MN0eGUhrPKQ8NYUxhB2aqSyTMqI+N8Ganr
-2KaPNvozqNkki/KE4P1agV3JJ3B18/LssM4XampFPYgRZEF+OH0N9tjd459W7t+2CgJf+FJUgEep
-EKio+NqJa+e1g4Lafh6Q9C9PFxJiMDoz1AWsAzkoKQAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAMdGaMUiu+1fg7uTy9ylRJPaC+wOlq/dzT
+4VIhcFy+Xef6p0apOT+reZR54LTVgUUFzriOXdoqKDAb44z6kxF1fpHNeRms/LEdZZ2tyhSgRun0
+XGXGVHDYc0RCyw8c1t4aQ0NcUMFhsUshNgqtKRS6BSocPESCF6Gpygw0TzHescC/gSYwX7TAiDc4
+CsJREJ54hX1cuW3x2q/udjh+inTGdLIs8lZuZAfLK7aprsq7ux3sv65EPt0JU5HgL9AD+3zsURRf
+BTak0wMRiS6676R8vKKWxHgWU26oRwILYnQFXXe795YIQZhMI9rUDKnZuDN0ii8u4bjcwWu/gXTk
+j+/kx6pWteUZlOOYZl77SNaws8I9aO56Ro5GMnnts+KeheOpAmsURN+lUjs3/dq/+q68DWDNnSAv
+DDzQ+xw/t5iGU1cfT2BJkAAXAKJlzE29mSudMLk24PjNWzoSGNGHLPo/rrEsRRhx9VBuGuSXf1rm
+XTmrC5dx9wL/yuGxOuWRLK+9S0dnoZ9Zn1AmYH6TaVZE33znFVAsTJUeuvsNLDL03xjf3+KhpZjj
+LoaKaCwiucmBFc8swEUxufiXhiRRDzlwtnmbUZqDshCyaJR6gbJDS9XBQx9yJY8UjSC+idM9b7Ko
+2reXzciqWxdVNGwt5Kcj54dE0Pbf6ldBCCzByCAfIAAAAAAAAA==
 
 
---=-KOtKXyU23jDaq60+q4Eh--
+--=-8Lux+E0JGm7i947eUu2d--
 
 
