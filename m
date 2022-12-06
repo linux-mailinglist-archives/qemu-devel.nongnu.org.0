@@ -2,110 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8996445CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 15:35:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E636445E0
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 15:40:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Z2g-0000IL-7p; Tue, 06 Dec 2022 09:35:30 -0500
+	id 1p2Z6I-0002QN-GN; Tue, 06 Dec 2022 09:39:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p2Z2d-0000EH-Oo; Tue, 06 Dec 2022 09:35:27 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p2Z6G-0002PF-JO
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 09:39:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p2Z2X-0000BU-8k; Tue, 06 Dec 2022 09:35:27 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B6E1cLG004030; Tue, 6 Dec 2022 14:35:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pagec0KhFI8l5e5B+TcqfM5r2U3sybxRNuEZxZHHbL4=;
- b=P1aaQCevjUPGxVU9OIyPQiQYPz+neJlcR0s+zgB5sTg0uDLDD+btBf05gIFswMyKUFas
- sUZinvPoogAAdr6lq+m0piITA5+ykRjS2kRg4SCoM+6FAGr7aoGmnW65B5qnY5O3Exc/
- V88sCmzSz+ZxgomOEdyBwKF0zmeczDuNZdoWj/enQ/vme6Ln6ydD7QTVIJ1PDerYd5it
- 2RSMZnMsSPjdKXkCz4hIAeorDnBnXXZx9rNX0TQNokpUKWGFvjKIf7jydu0aICHBx6j4
- 8QZtAUI1iy/oYEK3Agd2PEhntJzwQsnrlvXebyMPDK1y7urDWCH5A0sLzREDIXZxvYVt xQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m9wybpg45-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 14:35:09 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B6Dcp3m020457;
- Tue, 6 Dec 2022 14:35:09 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m9wybpg3a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 14:35:09 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B696Tot008300;
- Tue, 6 Dec 2022 14:35:07 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3m9m5y1hsa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 14:35:06 +0000
-Received: from d06av22.portsmouth.uk.ibm.com ([9.149.105.58])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B6EZ34L16056634
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Dec 2022 14:35:03 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1905A4C044;
- Tue,  6 Dec 2022 14:35:03 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2735B4C040;
- Tue,  6 Dec 2022 14:35:02 +0000 (GMT)
-Received: from [9.171.52.4] (unknown [9.171.52.4])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  6 Dec 2022 14:35:02 +0000 (GMT)
-Message-ID: <ffb9b474-e29d-c790-611e-549846b939e4@linux.ibm.com>
-Date: Tue, 6 Dec 2022 15:35:01 +0100
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p2Z6E-0000uJ-OH
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 09:39:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670337549;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yHp2cQIejj9CZlSxHVspkUqr6Ysa9SNKUlqbO2PhaMo=;
+ b=i51uWIN+utIVQk45DU0updW0EFeNgyAshdCAHbWy5Nin/MOWJNP9JmOfHSmmngeR1e/hTE
+ Zq84GZfIj/fZe1zkaIzSVLWDKo2s3qY3kS01BXEFE0cPIlZdPVJxdrlrc4O3MpFNjRiTcd
+ 3jgQQFTTHqIz0oM7/YHsIxJnqoQ3bcU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-562-Q62LJPf0N9aL3601fXXFtA-1; Tue, 06 Dec 2022 09:39:05 -0500
+X-MC-Unique: Q62LJPf0N9aL3601fXXFtA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E39EE8339CE;
+ Tue,  6 Dec 2022 14:39:04 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C1F782024CBE;
+ Tue,  6 Dec 2022 14:39:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D18D71800080; Tue,  6 Dec 2022 15:38:58 +0100 (CET)
+Date: Tue, 6 Dec 2022 15:38:58 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Fabrice Bellard <fabrice@bellard.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Bin Meng <bmeng.cn@gmail.com>, Bernhard Beschow <shentey@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: Thoughts on removing the TARGET_I386 part of
+ hw/display/vga/vbe_portio_list[]
+Message-ID: <20221206143858.tmq3wmbyan7offho@sirius.home.kraxel.org>
+References: <fb95bd97-8d5f-b0eb-008b-47a96808a74f@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v12 1/7] s390x/cpu topology: Creating CPU topology device
-Content-Language: en-US
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221129174206.84882-1-pmorel@linux.ibm.com>
- <20221129174206.84882-2-pmorel@linux.ibm.com>
- <92e30cf1f091329b2076195e9c159be16c13f7f9.camel@linux.ibm.com>
- <cb4abea1-b585-2753-12e9-6b75999d7d2e@linux.ibm.com>
- <3f6f1ab828c9608fabf7ad855098cd6cae1874c4.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <3f6f1ab828c9608fabf7ad855098cd6cae1874c4.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -v69IescT0-oysd5BMCMPgSPNC7V_TK1
-X-Proofpoint-ORIG-GUID: 5K4K68cXQ1RLqKISNIpNeA2qyNRBvSAk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-06_09,2022-12-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 clxscore=1015 adultscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212060115
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fb95bd97-8d5f-b0eb-008b-47a96808a74f@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,129 +88,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+  Hi,
 
+> So on x86 we can have 16-bit I/O accesses unaligned to 8-bit boundary?
 
-On 12/6/22 14:35, Janis Schoetterl-Glausch wrote:
-> On Tue, 2022-12-06 at 11:32 +0100, Pierre Morel wrote:
->>
->> On 12/6/22 10:31, Janis Schoetterl-Glausch wrote:
->>> On Tue, 2022-11-29 at 18:42 +0100, Pierre Morel wrote:
->>>> We will need a Topology device to transfer the topology
->>>> during migration and to implement machine reset.
->>>>
->>>> The device creation is fenced by s390_has_topology().
->>>>
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>>    include/hw/s390x/cpu-topology.h    | 44 +++++++++++++++
->>>>    include/hw/s390x/s390-virtio-ccw.h |  1 +
->>>>    hw/s390x/cpu-topology.c            | 87 ++++++++++++++++++++++++++++++
->>>>    hw/s390x/s390-virtio-ccw.c         | 25 +++++++++
->>>>    hw/s390x/meson.build               |  1 +
->>>>    5 files changed, 158 insertions(+)
->>>>    create mode 100644 include/hw/s390x/cpu-topology.h
->>>>    create mode 100644 hw/s390x/cpu-topology.c
->>>>
->>> [...]
->>>
->>>> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
->>>> index 9bba21a916..47ce0aa6fa 100644
->>>> --- a/include/hw/s390x/s390-virtio-ccw.h
->>>> +++ b/include/hw/s390x/s390-virtio-ccw.h
->>>> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
->>>>        bool dea_key_wrap;
->>>>        bool pv;
->>>>        uint8_t loadparm[8];
->>>> +    DeviceState *topology;
->>>
->>> Why is this a DeviceState, not S390Topology?
->>> It *has* to be a S390Topology, right? Since you cast it to one in patch 2.
->>
->> Yes, currently it is the S390Topology.
->> The idea of Cedric was to have something more generic for future use.
+Yes.
+
+> So I _think_ today we should be good with removing the x86 line:
 > 
-> But it still needs to be a S390Topology otherwise you cannot cast it to one, can you?
+> -# ifdef TARGET_I386
+> -    { 1, 1, 2, .read = vbe_ioport_read_data, .write = vbe_ioport_write_data },
+> -# endif
 
-May be I did not understand correctly what Cedric wants.
-For my part I agree with you I do not see the point to have something 
-different than a S390Topology pointer.
+Nope.  Breaks vgabios.  Testcase:
 
-Also doing that is more secure as we do not need cast... which reveals a 
-bug I have in setup_stsi().... !!!!
+qemu-system-x86_64 -kernel /boot/vmlinuz-$(uname -r) -append vga=ask
 
-Let's do that and see what Cedric says.
+All graphics modes are gone.
 
->>
->>>
->>>>    };
->>>>    
->>>>    struct S390CcwMachineClass {
->>>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->>>> new file mode 100644
->>>> index 0000000000..bbf97cd66a
->>>> --- /dev/null
->>>> +++ b/hw/s390x/cpu-topology.c
->>>>
->>> [...]
->>>>    
->>>> +static DeviceState *s390_init_topology(MachineState *machine, Error **errp)
->>>> +{
->>>> +    DeviceState *dev;
->>>> +
->>>> +    dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
->>>> +
->>>> +    object_property_add_child(&machine->parent_obj,
->>>> +                              TYPE_S390_CPU_TOPOLOGY, OBJECT(dev));
->>>
->>> Why set this property, and why on the machine parent?
->>
->> For what I understood setting the num_cores and num_sockets as
->> properties of the CPU Topology object allows to have them better
->> integrated in the QEMU object framework.
-> 
-> That I understand.
->>
->> The topology is added to the S390CcwmachineState, it is the parent of
->> the machine.
-> 
-> But why? And is it added to the S390CcwMachineState, or its parent?
+take care,
+  Gerd
 
-it is added to the S390CcwMachineState.
-We receive the MachineState as the "machine" parameter here and it is 
-added to the "machine->parent_obj" which is the S390CcwMachineState.
-
-
-
->>
->>
->>>
->>>> +    object_property_set_int(OBJECT(dev), "num-cores",
->>>> +                            machine->smp.cores * machine->smp.threads, errp);
->>>> +    object_property_set_int(OBJECT(dev), "num-sockets",
->>>> +                            machine->smp.sockets, errp);
->>>> +
->>>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), errp);
->>>
->>> I must admit that I haven't fully grokked qemu's memory management yet.
->>> Is the topology devices now owned by the sysbus?
->>
->> Yes it is so we see it on the qtree with its properties.
->>
->>
->>> If so, is it fine to have a pointer to it S390CcwMachineState?
->>
->> Why not?
-> 
-> If it's owned by the sysbus and the object is not explicitly referenced
-> for the pointer, it might be deallocated and then you'd have a dangling pointer.
-
-Why would it be deallocated ?
-as long it is not unrealized it belongs to the sysbus doesn't it?
-
-Regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
