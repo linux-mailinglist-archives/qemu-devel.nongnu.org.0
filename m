@@ -2,83 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1870644E85
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 23:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E91644F6F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 00:15:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2gKy-0002tb-UC; Tue, 06 Dec 2022 17:22:53 -0500
+	id 1p2h8o-0004ok-48; Tue, 06 Dec 2022 18:14:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2gKt-0002tJ-J9
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 17:22:47 -0500
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2gKr-0005Qh-PT
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 17:22:47 -0500
-Received: by mail-oi1-x22e.google.com with SMTP id n205so18628873oib.1
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 14:22:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LUdfORanw5TFk+L/KrShnvjIsmaNrSl2TrweXBUkb1Q=;
- b=Jn40SOJj7/kxg7+lJD39ezqAtb9R6SSMvTAOlzRl7shEO+jrdUrO5FQ4YAWKx2FPnK
- WPsKz2FCt4QoQhO6NFu1XvqNPgf88ZWy4Zdd6G+7sIIMGn9iOwLMJW4aLdU9zNJFUGJ0
- JF3LPAD82YpHn1rSEq4LC1Vb6F+lwT3azYKeKm66WofXNELQY0EuQKHx87aQ0lg6/WI5
- QWTyojkLRDj4MAOmgciWKdRM8N2XGNFHKTjE4tIcoinYnFjGdw/q4vPcd0yp+5M+90w3
- ZDOn7w1gRLJyRoW55U60lGS0Varb49ZOl2FFMinPxP4oArNeGdguObjoNo2vUVcHA6Kl
- W56Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LUdfORanw5TFk+L/KrShnvjIsmaNrSl2TrweXBUkb1Q=;
- b=tAf3e4nIXDdE9Qo4wxJ55KeK4svbU0KaVMN0y3ZlS4fmZhDdSXaR392aNDC3RA7DpH
- EC2MMDDPy0QB2w/pSLqJfbq//yaJ5pkzV/KhMYMZubANDdESyumd4MJnMMHOsxsQ0Zvj
- /GrFAdB3Dot3DJPm613t2cqZ2UcEam+d7W9fvbaZH2Noj41ubgrPSUJs/Uz2cnyRb5Ri
- cKTabPTusznei0tCzCqYGYpwfsCQ7FB/iTokXxDH7fqcPuzVHhUnFQodb01E1DXwQujq
- X+PMexbVSXmSH2xlZCpHWbylf5Rzc3JabAip61yoGURJRbUgfEoE1IBNg0mw/a5cqb02
- imww==
-X-Gm-Message-State: ANoB5plDPYGCWMHbv8cyIOK4Bx+twyLFV+e8be4P6PngAbhlmNsq5mJ8
- t1BYZbL7/PySSY+CGaNJXx6Vaw==
-X-Google-Smtp-Source: AA0mqf44M8gioXoe1TBgmc8XcGJXc18ypFLq8oPGebQJazSOrT8CiJ4R1vEQ9xVG0UWoP6r0Z9do6w==
-X-Received: by 2002:aca:4545:0:b0:359:f445:e03e with SMTP id
- s66-20020aca4545000000b00359f445e03emr33757684oia.180.1670365363961; 
- Tue, 06 Dec 2022 14:22:43 -0800 (PST)
-Received: from ?IPV6:2806:102e:18:70b5:dea6:2a1e:8d56:439b?
- ([2806:102e:18:70b5:dea6:2a1e:8d56:439b])
- by smtp.gmail.com with ESMTPSA id
- bx19-20020a056830601300b00661b019accbsm7504487otb.3.2022.12.06.14.22.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 14:22:42 -0800 (PST)
-Message-ID: <8a3965f7-f830-6343-be15-4e16b20655fd@linaro.org>
-Date: Tue, 6 Dec 2022 16:22:39 -0600
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1p2h8l-0004oO-M4
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 18:14:19 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1p2h8i-0001CS-Nx
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 18:14:19 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id DE26774810A;
+ Wed,  7 Dec 2022 00:12:51 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 8A66B746335; Wed,  7 Dec 2022 00:12:51 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 88CDE74632B;
+ Wed,  7 Dec 2022 00:12:51 +0100 (CET)
+Date: Wed, 7 Dec 2022 00:12:51 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Thomas Huth <thuth@redhat.com>
+cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, 
+ Michael S Tsirkin <mst@redhat.com>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH for-8.0] hw/rtc/mc146818rtc: Make this rtc device target
+ independent
+In-Reply-To: <20221206200641.339116-1-thuth@redhat.com>
+Message-ID: <1ec2cb6a-b6de-7254-d37f-a48c993698eb@eik.bme.hu>
+References: <20221206200641.339116-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 02/13] tcg/s390x: Remove TCG_REG_TB
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: thuth@redhat.com
-References: <20221202065200.224537-1-richard.henderson@linaro.org>
- <20221202065200.224537-3-richard.henderson@linaro.org>
- <20221206192947.fi6c3ftrueuiqmch@heavy>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221206192947.fi6c3ftrueuiqmch@heavy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,135 +62,255 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/6/22 13:29, Ilya Leoshkevich wrote:
-> On Thu, Dec 01, 2022 at 10:51:49PM -0800, Richard Henderson wrote:
->> This reverts 829e1376d940 ("tcg/s390: Introduce TCG_REG_TB"), and
->> several follow-up patches.  The primary motivation is to reduce the
->> less-tested code paths, pre-z10.  Secondarily, this allows the
->> unconditional use of TCG_TARGET_HAS_direct_jump, which might be more
->> important for performance than any slight increase in code size.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   tcg/s390x/tcg-target.h     |   2 +-
->>   tcg/s390x/tcg-target.c.inc | 176 +++++--------------------------------
->>   2 files changed, 23 insertions(+), 155 deletions(-)
-> 
-> Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> 
-> I have a few questions/ideas for the future below.
->   
->> diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
->> index 22d70d431b..645f522058 100644
->> --- a/tcg/s390x/tcg-target.h
->> +++ b/tcg/s390x/tcg-target.h
->> @@ -103,7 +103,7 @@ extern uint64_t s390_facilities[3];
->>   #define TCG_TARGET_HAS_mulsh_i32      0
->>   #define TCG_TARGET_HAS_extrl_i64_i32  0
->>   #define TCG_TARGET_HAS_extrh_i64_i32  0
->> -#define TCG_TARGET_HAS_direct_jump    HAVE_FACILITY(GEN_INST_EXT)
->> +#define TCG_TARGET_HAS_direct_jump    1
-> 
-> This change doesn't seem to affect that, but what is the minimum
-> supported s390x qemu host? z900?
+On Tue, 6 Dec 2022, Thomas Huth wrote:
+> The only code that is really, really target dependent is the apic-related
+> code in rtc_policy_slew_deliver_irq(). By moving this code into the hw/i386/
+> folder (renamed to rtc_apic_policy_slew_deliver_irq()) and passing this
+> function as parameter to mc146818_rtc_init(), we can make the RTC completely
+> target-independent.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+> include/hw/rtc/mc146818rtc.h |  7 +++++--
+> hw/alpha/dp264.c             |  2 +-
+> hw/hppa/machine.c            |  2 +-
+> hw/i386/microvm.c            |  3 ++-
+> hw/i386/pc.c                 | 10 +++++++++-
+> hw/mips/jazz.c               |  2 +-
+> hw/ppc/pnv.c                 |  2 +-
+> hw/rtc/mc146818rtc.c         | 34 +++++++++++-----------------------
+> hw/rtc/meson.build           |  3 +--
+> 9 files changed, 32 insertions(+), 33 deletions(-)
+>
+> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+> index 1db0fcee92..c687953cc4 100644
+> --- a/include/hw/rtc/mc146818rtc.h
+> +++ b/include/hw/rtc/mc146818rtc.h
+> @@ -46,14 +46,17 @@ struct RTCState {
+>     Notifier clock_reset_notifier;
+>     LostTickPolicy lost_tick_policy;
+>     Notifier suspend_notifier;
+> +    bool (*policy_slew_deliver_irq)(RTCState *s);
+>     QLIST_ENTRY(RTCState) link;
+> };
+>
+> #define RTC_ISA_IRQ 8
+>
+> -ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+> -                             qemu_irq intercept_irq);
+> +ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq,
+> +                             bool (*policy_slew_deliver_irq)(RTCState *s));
+> void rtc_set_memory(ISADevice *dev, int addr, int val);
+> int rtc_get_memory(ISADevice *dev, int addr);
+> +bool rtc_apic_policy_slew_deliver_irq(RTCState *s);
+> +void qmp_rtc_reset_reinjection(Error **errp);
+>
+> #endif /* HW_RTC_MC146818RTC_H */
+> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+> index c502c8c62a..8723942b52 100644
+> --- a/hw/alpha/dp264.c
+> +++ b/hw/alpha/dp264.c
+> @@ -118,7 +118,7 @@ static void clipper_init(MachineState *machine)
+>     qdev_connect_gpio_out(i82378_dev, 0, isa_irq);
+>
+>     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
+> -    mc146818_rtc_init(isa_bus, 1900, rtc_irq);
+> +    mc146818_rtc_init(isa_bus, 1900, rtc_irq, NULL);
+>
+>     /* VGA setup.  Don't bother loading the bios.  */
+>     pci_vga_init(pci_bus);
+> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+> index de1cc7ab71..311031714a 100644
+> --- a/hw/hppa/machine.c
+> +++ b/hw/hppa/machine.c
+> @@ -232,7 +232,7 @@ static void machine_hppa_init(MachineState *machine)
+>     assert(isa_bus);
+>
+>     /* Realtime clock, used by firmware for PDC_TOD call. */
+> -    mc146818_rtc_init(isa_bus, 2000, NULL);
+> +    mc146818_rtc_init(isa_bus, 2000, NULL, NULL);
+>
+>     /* Serial ports: Lasi and Dino use a 7.272727 MHz clock. */
+>     serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 170a331e3f..d0ed4dca50 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -267,7 +267,8 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+>
+>     if (mms->rtc == ON_OFF_AUTO_ON ||
+>         (mms->rtc == ON_OFF_AUTO_AUTO && !kvm_enabled())) {
+> -        rtc_state = mc146818_rtc_init(isa_bus, 2000, NULL);
+> +        rtc_state = mc146818_rtc_init(isa_bus, 2000, NULL,
+> +                                      rtc_apic_policy_slew_deliver_irq);
+>         microvm_set_rtc(mms, rtc_state);
+>     }
+>
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 546b703cb4..650e7bc199 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1244,6 +1244,13 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
+>     g_free(a20_line);
+> }
+>
+> +bool rtc_apic_policy_slew_deliver_irq(RTCState *s)
+> +{
+> +    apic_reset_irq_delivered();
+> +    qemu_irq_raise(s->irq);
+> +    return apic_get_irq_delivered();
+> +}
+> +
+> void pc_basic_device_init(struct PCMachineState *pcms,
+>                           ISABus *isa_bus, qemu_irq *gsi,
+>                           ISADevice **rtc_state,
+> @@ -1299,7 +1306,8 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+>         pit_alt_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
+>         rtc_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
+>     }
+> -    *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq);
+> +    *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq,
+> +                                   rtc_apic_policy_slew_deliver_irq);
+>
+>     qemu_register_boot_set(pc_boot_set, *rtc_state);
+>
+> diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+> index 6aefe9a61b..50fbd57b23 100644
+> --- a/hw/mips/jazz.c
+> +++ b/hw/mips/jazz.c
+> @@ -356,7 +356,7 @@ static void mips_jazz_init(MachineState *machine,
+>     fdctrl_init_sysbus(qdev_get_gpio_in(rc4030, 1), 0x80003000, fds);
+>
+>     /* Real time clock */
+> -    mc146818_rtc_init(isa_bus, 1980, NULL);
+> +    mc146818_rtc_init(isa_bus, 1980, NULL, NULL);
+>     memory_region_init_io(rtc, NULL, &rtc_ops, NULL, "rtc", 0x1000);
+>     memory_region_add_subregion(address_space, 0x80004000, rtc);
+>
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 3d01e26f84..c5482554b7 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -992,7 +992,7 @@ static void pnv_init(MachineState *machine)
+>     serial_hds_isa_init(pnv->isa_bus, 0, MAX_ISA_SERIAL_PORTS);
+>
+>     /* Create an RTC ISA device too */
+> -    mc146818_rtc_init(pnv->isa_bus, 2000, NULL);
+> +    mc146818_rtc_init(pnv->isa_bus, 2000, NULL, NULL);
+>
+>     /*
+>      * Create the machine BMC simulator and the IPMI BT device for
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index 1ebb412479..9543ae0279 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -44,11 +44,6 @@
+> #include "qapi/visitor.h"
+> #include "hw/rtc/mc146818rtc_regs.h"
+>
+> -#ifdef TARGET_I386
+> -#include "qapi/qapi-commands-misc-target.h"
+> -#include "hw/i386/apic.h"
+> -#endif
+> -
+> //#define DEBUG_CMOS
+> //#define DEBUG_COALESCED
+>
+> @@ -112,7 +107,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
+> static QLIST_HEAD(, RTCState) rtc_devices =
+>     QLIST_HEAD_INITIALIZER(rtc_devices);
+>
+> -#ifdef TARGET_I386
+> void qmp_rtc_reset_reinjection(Error **errp)
+> {
+>     RTCState *s;
+> @@ -124,9 +118,8 @@ void qmp_rtc_reset_reinjection(Error **errp)
+>
+> static bool rtc_policy_slew_deliver_irq(RTCState *s)
+> {
+> -    apic_reset_irq_delivered();
+> -    qemu_irq_raise(s->irq);
+> -    return apic_get_irq_delivered();
+> +    assert(s->policy_slew_deliver_irq);
 
-Possibly z990, if I'm reading the gcc processor_flags_table[] correctly; 
-long-displacement-facility is definitely a minimum.
+Is this assert necessary here? Since it seems that creating the timer that 
+would call this is testing for s->policy_slew_deliver_irq being non-NULL 
+there should be no way to call this without policy_slew_deliver_irq set. 
+If you drop the assert then this function also become redundant and 
+s->policy_slew_deliver_irq() can be used directly instead simplifying this 
+a bit more. But I may miss something as I've only looked at this briefly 
+and don't really understand how it works.
 
-We probably should revisit what the minimum for TCG should be, assert those features at 
-startup, and drop the corresponding runtime tests.
+Regards,
+BALATON Zoltan
 
-> I did some benchmarking of various ways to load constants in context of
-> GCC in the past, and it turned out that LLIHF+OILF is more efficient
-> than literal pool [1].
-
-Interesting.  If we include extended-immediate-facility (base_GEN9_GA1, z9-109?) in the 
-bare minimum that would definitely simplify a few things.
-
->> -    /* Use the constant pool if USE_REG_TB, but not for small constants.  */
->> -    if (maybe_out_small_movi(s, type, TCG_TMP0, val)) {
->> -        if (type == TCG_TYPE_I32) {
->> -            tcg_out_insn(s, RR, XR, dest, TCG_TMP0);
->> -        } else {
->> -            tcg_out_insn(s, RRE, XGR, dest, TCG_TMP0);
->> -        }
->> -    } else if (USE_REG_TB) {
->> -        tcg_out_insn(s, RXY, XG, dest, TCG_REG_TB, TCG_REG_NONE, 0);
->> -        new_pool_label(s, val, R_390_20, s->code_ptr - 2,
->> -                       tcg_tbrel_diff(s, NULL));
->> +    tcg_out_movi(s, type, TCG_TMP0, val);
->> +    if (type == TCG_TYPE_I32) {
->> +        tcg_out_insn(s, RR, XR, dest, TCG_TMP0);
->>       } else {
->> -        /* Perform the xor by parts.  */
->> -        tcg_debug_assert(HAVE_FACILITY(EXT_IMM));
->> -        if (val & 0xffffffff) {
->> -            tcg_out_insn(s, RIL, XILF, dest, val);
->> -        }
->> -        if (val > 0xffffffff) {
->> -            tcg_out_insn(s, RIL, XIHF, dest, val >> 32);
->> -        }
->> +        tcg_out_insn(s, RRE, XGR, dest, TCG_TMP0);
->>       }
->>   }
-> 
-> Wouldn't it be worth keeping XILF/XIFH here?
-
-I don't know.  It's difficult for me to guess whether a dependency chain like
-
-     val -> xor -> xor
-
-(3 insns with serial dependencies) is better than
-
-     val   --> xor
-     load  -/
-
-(3 insns, but only one serial dependency) is better.  But there may also be instruction 
-fusion going on at the micro-architectural level, so that there's really only one xor.
-
-If you have suggestions, I'm all ears.
-
-> I don't have any numbers right now, but it looks more compact/efficient
-> than a load + XGR.
-
-If we assume general-instruction-extension-facility (z10?), LGRL + XGR is smaller than 
-XILF + XIFH, ignoring the constant pool entry which might be shared, and modulo the µarch 
-questions above.
-
-
-> Same for OGR above; I even wonder if both implementations could be
-> unified.
-
-Sadly not, because of OILL et al.  There are no 16-bit xor immediate insns.
-
->> +        /*
->> +         * branch displacement must be aligned for atomic patching;
->> +         * see if we need to add extra nop before branch
->> +         */
->> +        if (!QEMU_PTR_IS_ALIGNED(s->code_ptr + 1, 4)) {
->> +            tcg_out16(s, NOP);
->>           }
->> +        tcg_out16(s, RIL_BRCL | (S390_CC_ALWAYS << 4));
->> +        s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
->> +        tcg_out32(s, 0);
->>           set_jmp_reset_offset(s, a0);
-> 
-> This seems to work in practice, but I don't think patching branch
-> offsets is allowed by PoP (in a multi-threaded environment). For
-> example, I had to do [2] in order to work around this limitation in
-> ftrace.
-
-Really?  How does the processor distinguish between overwriting opcode/condition vs 
-overwriting immediate operand when invalidating cached instructions?
-
-If overwriting operand truly isn't correct, then I think we have to use indirect branch 
-always for goto_tb.
-
-> A third benefit seems to be that we now have one more register to
-> allocate.
-
-Yes.  It's call clobbered, so it isn't live so often, but sometimes.
-
-
-r~
+> +    return s->policy_slew_deliver_irq(s);
+> }
+>
+> static void rtc_coalesced_timer(void *opaque)
+> @@ -145,13 +138,6 @@ static void rtc_coalesced_timer(void *opaque)
+>
+>     rtc_coalesced_timer_update(s);
+> }
+> -#else
+> -static bool rtc_policy_slew_deliver_irq(RTCState *s)
+> -{
+> -    assert(0);
+> -    return false;
+> -}
+> -#endif
+>
+> static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+> {
+> @@ -922,14 +908,14 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>     rtc_set_date_from_host(isadev);
+>
+>     switch (s->lost_tick_policy) {
+> -#ifdef TARGET_I386
+> -    case LOST_TICK_POLICY_SLEW:
+> -        s->coalesced_timer =
+> -            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+> -        break;
+> -#endif
+>     case LOST_TICK_POLICY_DISCARD:
+>         break;
+> +    case LOST_TICK_POLICY_SLEW:
+> +        if (s->policy_slew_deliver_irq) {
+> +            s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+> +            break;
+> +        }
+> +        /* fallthrough */
+>     default:
+>         error_setg(errp, "Invalid lost tick policy.");
+>         return;
+> @@ -960,7 +946,8 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>     QLIST_INSERT_HEAD(&rtc_devices, s, link);
+> }
+>
+> -ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+> +ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq,
+> +                             bool (*policy_slew_deliver_irq)(RTCState *s))
+> {
+>     DeviceState *dev;
+>     ISADevice *isadev;
+> @@ -969,6 +956,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+>     isadev = isa_new(TYPE_MC146818_RTC);
+>     dev = DEVICE(isadev);
+>     s = MC146818_RTC(isadev);
+> +    s->policy_slew_deliver_irq = policy_slew_deliver_irq;
+>     qdev_prop_set_int32(dev, "base_year", base_year);
+>     isa_realize_and_unref(isadev, bus, &error_fatal);
+>     if (intercept_irq) {
+> diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
+> index dc33973384..34a4d316fa 100644
+> --- a/hw/rtc/meson.build
+> +++ b/hw/rtc/meson.build
+> @@ -13,5 +13,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
+> softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
+> softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
+> softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
+> -
+> -specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+> +softmmu_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+>
 
