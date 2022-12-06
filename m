@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39D264415D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F08B644168
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:43:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2VMW-0007Jv-FG; Tue, 06 Dec 2022 05:39:44 -0500
+	id 1p2VPq-0000QQ-Fc; Tue, 06 Dec 2022 05:43:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2VMU-0007JK-Ce
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:39:42 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p2VPm-0000Q4-92
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:43:06 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2VMS-0004ZZ-Pr
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:39:42 -0500
-Received: by mail-wr1-x433.google.com with SMTP id u12so21876502wrr.11
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 02:39:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p2VPk-0005RI-FL
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:43:05 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so13962687wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 02:43:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FKoUNbUOLP4SURZcvebDc6kX7f2P/quOXthh5nGVePs=;
- b=lwSefpV9pyT5+p30tj8S27A+WWIn8p7KZ7T3Lw4/Cbe1+Bh4jo377GT0AVzh1Up7/1
- xB9l76v6zvxaWl8ELJQsklgusIezfRbsf5KKDyZ55vD9ETpIXRyPMf3cAZQU59o9ge32
- HNPUmjt1yz9vjm91dy72J5IBxJi4y8xn3z/a2KK2dm6wTulIitVmpzvTAL0Nlrj1zb2L
- MshKEmh2eiftiYutD8/q+WRqJMXadC20gwylL5om/jx/ii/XVhUE6NcrvB1RDpFGiLOW
- Qjhsm3/z44TyUONDd5v5s/59uTWm6uBpuGAoJvsZQy8B7Jx2ExICkdeXDRnCGnC7IbGv
- R1eQ==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rZbDkrN4/YnDkZpZpxYB7f4uNuYTsVbOXMjp1WMfiJ4=;
+ b=qD3BNHDU6aGS2QNtbteQ8tVH5tkSEB5oNv9vJAsmGhco8xMAxBn0mA4UjLUio3qbGP
+ VGHW2+M/OaxfcLBeaqPoe6bck40EAe2tkG7nZ/7nd4XfG+yUL8/0CEKOblWrDkEUo8Qg
+ MtFLxP6dLm9gFW7r6Uiw/LIzq6BJVCrxtgDdjr2O/4K/0jXftOLHASZyhiw3HKVltHpb
+ ojTmw/PDJtGb0WU0RCzv7//iyaUhb9QYtpHz6tc/tIIE+2ZlzuNsfYIDad3gpzhSu6yD
+ oEZoYKA7E1ypxzwZ13NgyOg7zRL2iGah573NmJjkI7m0Lryg8HOd0rt0qwDx1b4h+vY4
+ wkNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FKoUNbUOLP4SURZcvebDc6kX7f2P/quOXthh5nGVePs=;
- b=LvxbpYz8X1RGcEjNKnAi1qbX4arHpH1LHw3OTPN9edxEdvfRSjX5AwDMVtpWZl7Kdq
- rByz4pXbASg5DxQJS56zdFx8kP3a8tEFPDbG0rHUIvC6JJTLQW/eBvRpB3DJrJ/AT9mo
- sg+rjjWobxC/7QaE57JyFu4Vvj76jxwp+GibsMqm9g4debY5ICsDMt3I8CYikDp6sDaB
- irYJecBJUbQP4q7Pb/DJr2OAxHK/mBNVFfxrYP8En5EGc3CdjR6SfEyO/LgQh208OtqB
- uYlP7H/bRW+2aWa9DdpPLfR4nl1l1+Uje8kUDqKKscrsNrd+LV1aJqtiHapGoQQm8mKU
- 14Sw==
-X-Gm-Message-State: ANoB5pnhMDRpWHUVmpWI90ZaxEHs5N97yNT54amzOXVWdCng+MM8lDnA
- UsKVhypLtwG5a/rR06vgRmOTXw==
-X-Google-Smtp-Source: AA0mqf62SyMaU5Jf9pU7IZB9usowbY870i4BZ0IapQSTQ64wnmaA//lNbPoLW+kNAIpBNqryoEykRQ==
-X-Received: by 2002:a05:6000:1815:b0:242:6006:50f2 with SMTP id
- m21-20020a056000181500b00242600650f2mr5622307wrh.64.1670323175475; 
- Tue, 06 Dec 2022 02:39:35 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- b4-20020a5d45c4000000b00242209dd1ffsm16369278wrs.41.2022.12.06.02.39.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 02:39:35 -0800 (PST)
-Message-ID: <5f98f1c6-e6a9-cea6-427f-3fa2c4493e5d@linaro.org>
-Date: Tue, 6 Dec 2022 11:39:33 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rZbDkrN4/YnDkZpZpxYB7f4uNuYTsVbOXMjp1WMfiJ4=;
+ b=PEebbcOBztz7ynP1rWgg25ajVTmW1fWXsu8oJtGSWRErr50EjxlFKyBmbze4moPXaa
+ giPX9Oly8h2AREE3qUFYXzjFD8niyqiJO5EBfZBJChxYlbgsqQIJ2VwxsdC/4/8jDZEU
+ 8PO3xAG/jkfZpdpDb3sIf9GCrXIhUuyYeKdqpTcYfISPO6M9ZI7I3/Ihazdzn72xDGS/
+ PBWeaJKJtzlXrsFv21KVeJaghWuWqy4N0DTRal8aGKB/6qbhCB/YCtHm6XQIPfzS8E0F
+ eDElXlFo+LogUoxk5655DaeVwHgMLFPrJwwRMorW/DAO6P8aBYYN5u4O4+Jyw4SivS2F
+ E+Fg==
+X-Gm-Message-State: ANoB5pnWkCW4sQ3kPhMIJfvWL3ml/jzmvLZg9Xltb3LegXa+i//le6r1
+ FPsIay0osC+ZHNTXb4XDyMbOvQ==
+X-Google-Smtp-Source: AA0mqf7oZsJo8lSb1pxcjFt7JZPnqwxtVl8cQNGc48xw44ef6VdCqtzlkB/NWokcCo2fUg7fZimErQ==
+X-Received: by 2002:a05:600c:4a99:b0:3cf:91e5:3d69 with SMTP id
+ b25-20020a05600c4a9900b003cf91e53d69mr67415290wmp.160.1670323382697; 
+ Tue, 06 Dec 2022 02:43:02 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m14-20020a5d624e000000b00241dd5de644sm16146591wrv.97.2022.12.06.02.43.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Dec 2022 02:43:02 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9A64A1FFB7;
+ Tue,  6 Dec 2022 10:43:01 +0000 (GMT)
+References: <20221205173137.607044-1-dwmw2@infradead.org>
+ <20221205173137.607044-11-dwmw2@infradead.org>
+ <efef965d-3c9b-abc0-ac5f-c252b10722bd@linaro.org>
+ <cb4cdc7944c74ee1918667ba455b9afd0fae351c.camel@infradead.org>
+ <d203e13d-e2f9-5816-030d-c1449bde364d@linaro.org>
+User-agent: mu4e 1.9.3; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 10/21] i386/xen: handle guest hypercalls
+Date: Tue, 06 Dec 2022 10:41:40 +0000
+In-reply-to: <d203e13d-e2f9-5816-030d-c1449bde364d@linaro.org>
+Message-ID: <87tu28n77u.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v6 0/7] Add ARM Cortex-R52 CPU
-Content-Language: en-US
-To: tobias.roehmel@rwth-aachen.de, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,52 +101,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/12/22 11:24, tobias.roehmel@rwth-aachen.de wrote:
-> From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-> v6:
-> patch 5:
-> - I'm freeing the PRBAR/... strings explicitly now since
->    I don't know how to use autofree in this setup correctly.
->    Maybe {} around the part were the string is created/used,
->    such that it is dropped at }?
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-The pointer is declared outside of a for() statement. Then
-inside this statement you alloc/free twice, using the same
-pointer. This is correct.  If you really want to use
-g_autofree in such case, you'd need to declare within the
-same statement, one pointer for each string:
+> +Thomas
+>
+> On 6/12/22 02:10, David Woodhouse wrote:
+>> On Mon, 2022-12-05 at 23:11 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> On 5/12/22 18:31, David Woodhouse wrote:
+>>>> From: Joao Martins <joao.m.martins@oracle.com>
+>>>>
+>>>> This means handling the new exit reason for Xen but still
+>>>> crashing on purpose. As we implement each of the hypercalls
+>>>> we will then return the right return code.
+>>>>
+>>>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+>>>> [dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
+>>>> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+>>>> ---
+>>>>    target/i386/kvm/kvm.c    |  5 +++++
+>>>>    target/i386/trace-events |  3 +++
+>>>>    target/i386/xen.c        | 45 +++++++++++++++++++++++++++++++++++++=
++++
+>>>>    target/i386/xen.h        |  1 +
+>>>>    4 files changed, 54 insertions(+)
+>>>>
+>>>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>>>> index 4b21d03250..6396d11f1e 100644
+>>>> --- a/target/i386/kvm/kvm.c
+>>>> +++ b/target/i386/kvm/kvm.c
+>>>> @@ -5468,6 +5468,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct k=
+vm_run *run)
+>>>>            assert(run->msr.reason =3D=3D KVM_MSR_EXIT_REASON_FILTER);
+>>>>            ret =3D kvm_handle_wrmsr(cpu, run);
+>>>>            break;
+>>>> +#ifdef CONFIG_XEN
+>>>
+>>> CONFIG_XEN is set when the _host_ has Xen development files available.
+>>>
+>>> IIUC here you want to check if Xen HVM guest support is enabled.
+>>>
+>>> You might want to use a different CONFIG_XEN_xxx key, which itself
+>>> depends on CONFIG_XEN.
+>> Yeah, I'd be interested in opinions on that one.
+>> Strictly, the only one that *needs* to be a configure option is
+>> CONFIG_XEN for the Xen libraries, which is support for actually running
+>> on Xen.
+>> Any time KVM is present, we *could* pull in the rest of the xenfv
+>> machine support unconditionally, since that's no longer dependent on
+>> true Xen.
+>> But because there's a non-trivial amount of code in the event
+>> channel
+>> and grant table stuff, *perhaps* we want to make it optional? I don't
+>> really want to call that CONFIG_KVM_XEN since as noted, it's
+>> theoretically possible to do it with TCG or other accelerators too. So
+>> we could call it CONFIG_XEN_EMULATION.
+>
+> I concur CONFIG_KVM_XEN is confusing; CONFIG_XEN_EMULATION /
+> CONFIG_XEN_EMU sounds better.
+>
+> Is it useful to have the CONFIG_XEN_EMU code under target/i386/ built
+> without having the xenfv machine built in?
+>
+> I rather have hw/ and target/ features disentangled, so I'd use
+> CONFIG_XEN_EMU under target/ and CONFIG_XENFV_MACHINE under hw/,
+> eventually having CONFIG_XEN_EMU depending on CONFIG_XENFV_MACHINE
+> and -- for now -- CONFIG_KVM.
 
-   for (i = 0; i < MIN(cpu->pmsav7_dregion, 32); ++i) {
-       uint8_t crm = 0b1000 | extract32(i, 1, 3);
-       uint8_t opc1 = extract32(i, 4, 1);
-       uint8_t opc2 = extract32(i, 0, 1) << 2;
-       g_autofree char *prbarn_str = g_strdup_printf("PRBAR%u", i);
-       g_autofree char *prlarn_str = g_strdup_printf("PRLAR%u", i);
+You should also probably be aware of:
 
-       const ARMCPRegInfo tmp_prbarn_reginfo = {
-           .name = prbarn_str, .type = ARM_CP_ALIAS | ARM_CP_NO_RAW,
-           .cp = 15, .opc1 = opc1, .crn = 6, .crm = crm, .opc2 = opc2,
-           .access = PL1_RW, .resetvalue = 0,
-           .accessfn = access_tvm_trvm,
-           .writefn = pmsav8r_regn_write, .readfn = pmsav8r_regn_read
-       };
-       define_one_arm_cp_reg(cpu, &tmp_prbarn_reginfo);
+  Subject: [QEMU][PATCH v2 00/11] Introduce xenpv machine for arm architect=
+ure=20
+  Date: Thu, 1 Dec 2022 18:59:52 -0800
+  Message-ID: <20221202030003.11441-1-vikram.garhwal@amd.com>
 
-       opc2 = extract32(i, 0, 1) << 2 | 0x1;
-       const ARMCPRegInfo tmp_prlarn_reginfo = {
-           .name = prlarn_str, .type = ARM_CP_ALIAS | ARM_CP_NO_RAW,
-           .cp = 15, .opc1 = opc1, .crn = 6, .crm = crm, .opc2 = opc2,
-           .access = PL1_RW, .resetvalue = 0,
-           .accessfn = access_tvm_trvm,
-           .writefn = pmsav8r_regn_write, .readfn = pmsav8r_regn_read
-       };
-       define_one_arm_cp_reg(cpu, &tmp_prlarn_reginfo);
-   }
+which moves some of the previously i386 only Xen code into common
+backend code.
 
-(Note ARMCPRegInfo can be qualified const).
-
-Regards,
-
-Phil.
+--=20
+Alex Benn=C3=A9e
 
