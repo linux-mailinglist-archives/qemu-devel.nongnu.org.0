@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152086448D9
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 17:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B51644928
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 17:26:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2aVZ-0001XZ-An; Tue, 06 Dec 2022 11:09:25 -0500
+	id 1p2ak3-00058k-MK; Tue, 06 Dec 2022 11:24:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2aVV-0001WL-Nb
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 11:09:22 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p2ajo-00057t-Jh
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 11:24:13 -0500
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2aVT-00015P-MG
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 11:09:21 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso14616354wme.5
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 08:09:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p2ajm-0004aV-4O
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 11:24:08 -0500
+Received: by mail-ot1-x335.google.com with SMTP id
+ p10-20020a9d76ca000000b0066d6c6bce58so9572612otl.7
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 08:24:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wVd3b3T1Cqd2OD8BjyXdwun33kX0/zvBRwDtraocXac=;
- b=ANloN+HiDw7eqlBtqsd3BYKbEAQRTPbpuFfGsoqlASszGRmkFeDR9NxwRTjNq6XCZk
- isKnmYKF0F+LRlAn/KpDjwArIR43R02ix6Eeuhw+VpfDKqBcklepiEp0YOi2vLpYmIDQ
- dJ4beC8QSJs6pb52+H/j4lFVXIyVyn4MLBXMmhCt6lsnv1kVpnRIpj7BNsj0Q9q5CGYv
- Np9MtciWn1nN8z0oyqDPSz/sazAGty1geYkflB7TETK0CdXqV8GM8m4XFxdERI0ebSZc
- ogfoWJx5wkqxYJgJyYRGIONCXnNJYRwfjoecXljKLvJzpzK6fOis7Y0vzPG2UXstwTfz
- IKOQ==
+ bh=Z+/cs+2CvQoo8G5uEaFH4NpwZ6yUNgQ7lp3hod4kfro=;
+ b=cc6PChzYq9019AF4geVzYkI5cVnTJGXJ1ATKOsp1LbrTyTmJbxyL8HOyWNhVwZNX+v
+ Z9/ybZE/ajLwW27Adus71B2gdt7NFWYUJ8w38+zw27igtcHCfAoDKiU32+wZ4uFtySQ7
+ hZt4OHv08xhKc9OfAJHWBOIUtfgcaTlRMEpCaL5+jq7JHLpmKFbN3Nm5KdGPYaiZr5tV
+ /IajKzbAqA6FlUi/ev083U86qtidN/LmHKlbDCLk+F402M3X0AlnoX5xt+bcjtGr6NQS
+ 2W6gCJ4N+XTzv/LaUL3BTy4/vxgdg6AVObXUjSJiUOp9kJxYY4EX5jvuMNMm5ASI4nab
+ 9FRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wVd3b3T1Cqd2OD8BjyXdwun33kX0/zvBRwDtraocXac=;
- b=aagLTYuw9ZRWMAuE2sdn+3vLW0WKxu2RRXQHjMDObLHcXlU4gRDRyO+ZUuejRGVywk
- wyb4ENUmd93f6YowoLfxsDSjmRXzZpfRz8ZEqqBzFB1vMn0d3+TdPYEYLjJyJWc/uCvo
- WFMOjIS9YteVUNpjMHZ9IQwRyBMOQHvmrMEJNfA7ur48C8zlAGA3dzBymZ/QUOGDmBnG
- YMzimshk3FA8YgePPeFs/o7tC2BgznBPty0iQtMzlZeZ68V1z8oa+tx0AreyLs3aI46p
- RzZq1LNA0gVPlK/SE58Kkv3B1jcQj8xooOCMOzT1bWhjYj9Kzwerj1I6sZNXMUhO/ve9
- 3vng==
-X-Gm-Message-State: ANoB5pk6EUxejB0dt3q0FzTbayF1QCBjQiuypV6vnxpso93HXdqZOHVG
- njphxt7ycM81LLw7iJCm/jmtkQ==
-X-Google-Smtp-Source: AA0mqf7i+2Xl7TA5+2FXY6V4xgHGqFAlP6DtbzqWWmnJWqcSl0WswuvvNTsxLYn9SwkzpxD7QyYSwg==
-X-Received: by 2002:a1c:4c08:0:b0:3d1:e2e9:573a with SMTP id
- z8-20020a1c4c08000000b003d1e2e9573amr4812782wmf.106.1670342957492; 
- Tue, 06 Dec 2022 08:09:17 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i21-20020a1c5415000000b003d1f2c3e571sm75270wmb.33.2022.12.06.08.09.15
+ bh=Z+/cs+2CvQoo8G5uEaFH4NpwZ6yUNgQ7lp3hod4kfro=;
+ b=BNujdYTkOErrqfQvn4agYtDxcwUaNgzP7Yk9+WZlrl9UzKwZAK0Syw1wteIjcemSTU
+ yMDBKz40epcjYmXziPnhdV04PDO3OTzP+QTBDvWZVhK6nwTcmJPgaoPKbd+tLrnc5oOq
+ mK4rWKguQ+twacMSCdfRBJEsyi/XQZed/XRwz9zqF9yYKRwugn6nYHGSyjXgVZUoFkHc
+ myK2q/x60pkVgPxgXKZ9xbyNGes+/n4wG8r0LLl0ZwdfyN2ZlJ/pSNJ6lRxtL1uuYGNr
+ HoG0DrJ50s6bkDBpEpRD7ctNSXONOqjQCsv0OXr4iW2CpLbpmnBLDw4AYPcejNogMZ61
+ j6Fg==
+X-Gm-Message-State: ANoB5pn7qj375KsRAye8jvzzKw3Szk7WGdcw5v97+knVUmadfbHuOAYG
+ 4+Bkonl0V8IwwSW7MNLooKWukw==
+X-Google-Smtp-Source: AA0mqf50iPyYk8UWLCFUGKMW4isZm4KVtPDcwzVeUd/kn5FuwjsZSwkrVaPwZdf+xUgvgith7DOulA==
+X-Received: by 2002:a9d:7ac5:0:b0:637:2a31:f188 with SMTP id
+ m5-20020a9d7ac5000000b006372a31f188mr34492618otn.61.1670343843642; 
+ Tue, 06 Dec 2022 08:24:03 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:70b5:e319:9475:a359:f17a?
+ ([2806:102e:18:70b5:e319:9475:a359:f17a])
+ by smtp.gmail.com with ESMTPSA id
+ 109-20020a9d0376000000b0066eb4e9242esm3724809otv.67.2022.12.06.08.24.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 08:09:17 -0800 (PST)
-Message-ID: <7af39209-c4ec-2107-3fff-e927e35b2808@linaro.org>
-Date: Tue, 6 Dec 2022 17:09:14 +0100
+ Tue, 06 Dec 2022 08:24:03 -0800 (PST)
+Message-ID: <14e3dd65-f0f3-8d5d-4c0f-4dc8b1495aeb@linaro.org>
+Date: Tue, 6 Dec 2022 10:23:59 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
 Subject: Re: Thoughts on removing the TARGET_I386 part of
  hw/display/vga/vbe_portio_list[]
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Fabrice Bellard <fabrice@bellard.org>, Michael Tokarev <mjt@tls.msk.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, Fabrice Bellard <fabrice@bellard.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Bin Meng <bmeng.cn@gmail.com>, Bernhard Beschow <shentey@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, QEMU Developers <qemu-devel@nongnu.org>
+ Gerd Hoffmann <kraxel@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
+ QEMU Developers <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>
 References: <fb95bd97-8d5f-b0eb-008b-47a96808a74f@linaro.org>
- <20221206143858.tmq3wmbyan7offho@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221206143858.tmq3wmbyan7offho@sirius.home.kraxel.org>
+ <Y4818KfGO7Y9Tsn/@work-vm> <3201e3f9-8b98-613d-5516-e0c6d89a9b9a@linaro.org>
+ <CAFEAcA-WeEaMnL3CB1tGGM8jdscGBG+i_si0k86358kHaqdrsA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-WeEaMnL3CB1tGGM8jdscGBG+i_si0k86358kHaqdrsA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x335.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -101,40 +108,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/12/22 15:38, Gerd Hoffmann wrote:
->    Hi,
-> 
->> So on x86 we can have 16-bit I/O accesses unaligned to 8-bit boundary?
-> 
-> Yes.
-> 
->> So I _think_ today we should be good with removing the x86 line:
+On 12/6/22 10:02, Peter Maydell wrote:
+> On Tue, 6 Dec 2022 at 15:56, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
 >>
->> -# ifdef TARGET_I386
->> -    { 1, 1, 2, .read = vbe_ioport_read_data, .write = vbe_ioport_write_data },
->> -# endif
+>> On 6/12/22 13:30, Dr. David Alan Gilbert wrote:
+>>> I don't know that bit of qemu well enough to know whether the cpu part
+>>> of qemu should be splitting the unaligned accesses or not.
+>> All I/O accesses are gated thru access_with_adjusted_size() in
+>> softmmu/memory.c.
+>>
+>> There is an old access_with_adjusted_size_unaligned() version [1] from
+>> Andrew and a more recent series [2] from Richard. Maybe the latter fixes
+>> some long-standing bug [3] we have here?
 > 
-> Nope.  Breaks vgabios.  Testcase:
-> 
-> qemu-system-x86_64 -kernel /boot/vmlinuz-$(uname -r) -append vga=ask
+> There definitely are some unaddressed bugs there -- maybe this
+> is the time to work through what semantics we want that
+> softmmu code to provide and fix the bugs...
 
-Adding
+Yes, indeed.  Let's not forget Mark C-A's m68k bug[1] which so far has no resolution.
 
-  -trace memory_region_ops_\*
 
-I get:
+r~
 
-memory_region_ops_write cpu 0 mr 0x13eefbf60 addr 0x1ce value 0x0 size 2 
-name 'vbe'
-memory_region_ops_write cpu 0 mr 0x13eefbf60 addr 0x1cf value 0xb0c0 
-size 2 name 'vbe'
-memory_region_ops_write cpu 0 mr 0x13eefbf60 addr 0x1ce value 0x0 size 2 
-name 'vbe'
-memory_region_ops_read cpu 0 mr 0x13eefbf60 addr 0x1cf value 0xffff size 
-2 name 'vbe'
-
-> All graphics modes are gone.
-
-Yeah I'll investigate, thanks for the easy test case.
-
+[1] https://gitlab.com/qemu-project/qemu/-/issues/360
 
