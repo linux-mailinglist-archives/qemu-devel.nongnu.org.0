@@ -2,104 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAEA644550
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 15:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6211644531
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 15:00:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Y7J-0002K7-AD; Tue, 06 Dec 2022 08:36:13 -0500
+	id 1p2YSk-0007iF-8F; Tue, 06 Dec 2022 08:58:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1p2Y7H-0002JY-N5; Tue, 06 Dec 2022 08:36:11 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2YSg-0007eY-PF
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:58:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1p2Y7F-00060Z-71; Tue, 06 Dec 2022 08:36:11 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B6BxfER026167; Tue, 6 Dec 2022 13:36:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Vs6aG2t3dHz0F0i1JAmmTMOaG9kc9ITMFfrriJqGHxQ=;
- b=V4CNDlzRUF/DOXCA7BAkk17ImYlIBHOx8iKX67D7yr5CLL7nf61npHv1c4wynln/2yNZ
- +b7q9KnNElOtAd9fkGnjb4tjRJuypBy5JmQx2swNeRfpB3F7B9z+kxTGQ8GzwZOgSpT+
- M7kY+YcZQV4clCPN8AvpwsbXToUS09e1tTxofbnRcPHW5pSZS+SSZOWTkb34qoxuDSJt
- pgejjKhu6UwMdmxX6zjQRrYRQzXn6Fb5FjrypaaDgbIkyChjuzMjQNkZmMFQOnzZkRCZ
- 2KF0ueZjKj5aTcEzS/TAcJEKqKHx0afG3x4nEShz8QX28t3ukD31C7QZEaCPlyV4YVE9 dA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8g4kmc1a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 13:36:00 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B6DGMkt017483;
- Tue, 6 Dec 2022 13:35:59 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8g4kmc0k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 13:35:59 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B69TMgO008321;
- Tue, 6 Dec 2022 13:35:57 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3m9m5y1f84-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 13:35:57 +0000
-Received: from d06av21.portsmouth.uk.ibm.com ([9.149.105.232])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B6DZrAN13238572
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Dec 2022 13:35:53 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 455815204F;
- Tue,  6 Dec 2022 13:35:53 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.46.71])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 6E24C5204E;
- Tue,  6 Dec 2022 13:35:52 +0000 (GMT)
-Message-ID: <3f6f1ab828c9608fabf7ad855098cd6cae1874c4.camel@linux.ibm.com>
-Subject: Re: [PATCH v12 1/7] s390x/cpu topology: Creating CPU topology device
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Tue, 06 Dec 2022 14:35:52 +0100
-In-Reply-To: <cb4abea1-b585-2753-12e9-6b75999d7d2e@linux.ibm.com>
-References: <20221129174206.84882-1-pmorel@linux.ibm.com>
- <20221129174206.84882-2-pmorel@linux.ibm.com>
- <92e30cf1f091329b2076195e9c159be16c13f7f9.camel@linux.ibm.com>
- <cb4abea1-b585-2753-12e9-6b75999d7d2e@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1 (3.46.1-1.fc37) 
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p2YSd-0001IW-TJ
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 08:58:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670335094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X5Nod84dhdn3rrvzT2Fre85eVhriPKkmvhn69z7RKgE=;
+ b=jIoYbgU/7GQ1qi9CltxCNi+YrQ3DPdVkvqW90X44ogL3J8J/zFTGukyY43+rZy1WNhD2C0
+ UeuIu1OlMQ0LD9pqNnh5CfwTH1KQ1kXuvTLk4YCgeC0BhcUCjpRzI5c7BHDiG9K9VFH/KC
+ AYqPFZUiZikvO+6KCiXMCBEoatafU+0=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-218-U4_0IhOYNfePrvmOtI1cmA-1; Tue, 06 Dec 2022 08:58:13 -0500
+X-MC-Unique: U4_0IhOYNfePrvmOtI1cmA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ i21-20020a05620a405500b006fb25ba3e00so20589998qko.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 05:58:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X5Nod84dhdn3rrvzT2Fre85eVhriPKkmvhn69z7RKgE=;
+ b=WWHn+NoaLRBMDfOtDgCyS9M0w9yZNZ2eN2SqMWTWbo4nF6de6p2VoC0os8DXS12Yvm
+ OH9c9JnrlvU8717Wq1vLIezei+j1M6yFES4UNfl2YwGbEuBEMDpZLUPKXmb7rhPf1wsR
+ eI+nBDGGt6IHCJ54oaz7iuWkLvJC7gjAngScYVzwllz69PswnOHh6cAOCtvo+jvv3ahK
+ YUjW04uDnR2uMEcWLh0voQl3s3YuqiGxt/8OTIQMMWB2Lv5UYI7Qy9XtQWdtwBFD+XG5
+ hqmB0RYko1WkQqDTyjb+lSSweEPe03RcByihiT0tVn41y4GguKrFjmjK1lcECp0VxwX6
+ +n1g==
+X-Gm-Message-State: ANoB5pm5Whf4roy2XHS436FKDlUIl6uNnKsuSDWww28yEv4SZ0dKIE34
+ Uar1HDCQRa1d20Qu9qBzuCKdzaz5/oScBiuihDSrR12uVzYb4JYKs3jLe7pJYNYN0dbadPjEpWI
+ sH5DNhiAFwQUmLCk=
+X-Received: by 2002:ae9:f11a:0:b0:6fc:a3a1:5e63 with SMTP id
+ k26-20020ae9f11a000000b006fca3a15e63mr21756527qkg.5.1670335092958; 
+ Tue, 06 Dec 2022 05:58:12 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5BREAmlvtm27JAxsSdJQZcpVoZbln+POAiM79QJcQSC6wdW9okkpCBw84HT0kWvM7sL5XaRw==
+X-Received: by 2002:ae9:f11a:0:b0:6fc:a3a1:5e63 with SMTP id
+ k26-20020ae9f11a000000b006fca3a15e63mr21756512qkg.5.1670335092656; 
+ Tue, 06 Dec 2022 05:58:12 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ bi6-20020a05620a318600b006fa16fe93bbsm14681601qkb.15.2022.12.06.05.58.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Dec 2022 05:58:11 -0800 (PST)
+Date: Tue, 6 Dec 2022 08:58:10 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com
+Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
+Message-ID: <Y49Kcr4ivGGZ2hhF@x1n>
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-4-jasowang@redhat.com> <Y4Yr5WvfioOJWOEX@x1n>
+ <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
+ <Y4d0HokcV/tg0wlk@x1n>
+ <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
+ <Y4jBMkNEFqUA7edN@x1n>
+ <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
+ <Y458YMavxao9XSwL@x1n>
+ <CACGkMEut82E-c_w_0MUPOwYDLkcM+mt127dbs3bkhATDSr6JQg@mail.gmail.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: m_7BTofUSoGef7PC6vn5nhbNFCoDNOOP
-X-Proofpoint-ORIG-GUID: 4wXaBQXyrC6rd_u0cLcSnIImu9i8ztct
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-06_08,2022-12-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212060110
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/mixed; boundary="4NQ7/8qolUM9ofjF"
+Content-Disposition: inline
+In-Reply-To: <CACGkMEut82E-c_w_0MUPOwYDLkcM+mt127dbs3bkhATDSr6JQg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,121 +104,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2022-12-06 at 11:32 +0100, Pierre Morel wrote:
->=20
-> On 12/6/22 10:31, Janis Schoetterl-Glausch wrote:
-> > On Tue, 2022-11-29 at 18:42 +0100, Pierre Morel wrote:
-> > > We will need a Topology device to transfer the topology
-> > > during migration and to implement machine reset.
-> > >=20
-> > > The device creation is fenced by s390_has_topology().
-> > >=20
-> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> > > ---
-> > >   include/hw/s390x/cpu-topology.h    | 44 +++++++++++++++
-> > >   include/hw/s390x/s390-virtio-ccw.h |  1 +
-> > >   hw/s390x/cpu-topology.c            | 87 +++++++++++++++++++++++++++=
-+++
-> > >   hw/s390x/s390-virtio-ccw.c         | 25 +++++++++
-> > >   hw/s390x/meson.build               |  1 +
-> > >   5 files changed, 158 insertions(+)
-> > >   create mode 100644 include/hw/s390x/cpu-topology.h
-> > >   create mode 100644 hw/s390x/cpu-topology.c
-> > >=20
-> > [...]
-> >=20
-> > > diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s3=
-90-virtio-ccw.h
-> > > index 9bba21a916..47ce0aa6fa 100644
-> > > --- a/include/hw/s390x/s390-virtio-ccw.h
-> > > +++ b/include/hw/s390x/s390-virtio-ccw.h
-> > > @@ -28,6 +28,7 @@ struct S390CcwMachineState {
-> > >       bool dea_key_wrap;
-> > >       bool pv;
-> > >       uint8_t loadparm[8];
-> > > +    DeviceState *topology;
-> >=20
-> > Why is this a DeviceState, not S390Topology?
-> > It *has* to be a S390Topology, right? Since you cast it to one in patch=
- 2.
->=20
-> Yes, currently it is the S390Topology.
-> The idea of Cedric was to have something more generic for future use.
 
-But it still needs to be a S390Topology otherwise you cannot cast it to one=
-, can you?
->=20
-> >=20
-> > >   };
-> > >  =20
-> > >   struct S390CcwMachineClass {
-> > > diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> > > new file mode 100644
-> > > index 0000000000..bbf97cd66a
-> > > --- /dev/null
-> > > +++ b/hw/s390x/cpu-topology.c
-> > >=20
-> > [...]
-> > >  =20
-> > > +static DeviceState *s390_init_topology(MachineState *machine, Error =
-**errp)
-> > > +{
-> > > +    DeviceState *dev;
-> > > +
-> > > +    dev =3D qdev_new(TYPE_S390_CPU_TOPOLOGY);
-> > > +
-> > > +    object_property_add_child(&machine->parent_obj,
-> > > +                              TYPE_S390_CPU_TOPOLOGY, OBJECT(dev));
-> >=20
-> > Why set this property, and why on the machine parent?
->=20
-> For what I understood setting the num_cores and num_sockets as=20
-> properties of the CPU Topology object allows to have them better=20
-> integrated in the QEMU object framework.
+--4NQ7/8qolUM9ofjF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-That I understand.
->=20
-> The topology is added to the S390CcwmachineState, it is the parent of=20
-> the machine.
+On Tue, Dec 06, 2022 at 11:18:03AM +0800, Jason Wang wrote:
+> On Tue, Dec 6, 2022 at 7:19 AM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > Jason,
+> >
+> > On Mon, Dec 05, 2022 at 12:12:04PM +0800, Jason Wang wrote:
+> > > I'm fine to go without iova-tree. Would you mind to post patches for
+> > > fix? I can test and include it in this series then.
+> >
+> > One sample patch attached, only compile tested.
+> 
+> I don't see any direct connection between the attached patch and the
+> intel-iommu?
 
-But why? And is it added to the S390CcwMachineState, or its parent?
->=20
->=20
-> >=20
-> > > +    object_property_set_int(OBJECT(dev), "num-cores",
-> > > +                            machine->smp.cores * machine->smp.thread=
-s, errp);
-> > > +    object_property_set_int(OBJECT(dev), "num-sockets",
-> > > +                            machine->smp.sockets, errp);
-> > > +
-> > > +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), errp);
-> >=20
-> > I must admit that I haven't fully grokked qemu's memory management yet.
-> > Is the topology devices now owned by the sysbus?
->=20
-> Yes it is so we see it on the qtree with its properties.
->=20
->=20
-> > If so, is it fine to have a pointer to it S390CcwMachineState?
->=20
-> Why not?
+Sorry!  Wrong tree dumped...  Trying again.
 
-If it's owned by the sysbus and the object is not explicitly referenced
-for the pointer, it might be deallocated and then you'd have a dangling poi=
-nter.
+> 
+> >
+> > I can also work on this but I'll be slow in making progress, so I'll add it
+> > into my todo.  If you can help to fix this issue it'll be more than great.
+> 
+> Ok, let me try but it might take some time :)
 
-> It seems logical to me that the sysbus belong to the virtual machine.
-> But sometime the way of QEMU are not very transparent for me :)
-> so I can be wrong.
->=20
-> Regards,
-> Pierre
->=20
-> > > +
-> > > +    return dev;
-> > > +}
-> > > +
-> > [...]
->=20
+Sure. :)
+
+I'll also add it into my todo (and I think the other similar one has been
+there for a while.. :( ).
+
+-- 
+Peter Xu
+
+--4NQ7/8qolUM9ofjF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-intel-iommu-Send-unmap-notifications-for-domain-or-g.patch"
+
+From 37c743761d20c16891856c5bef2e7b3fb89893b6 Mon Sep 17 00:00:00 2001
+From: Peter Xu <peterx@redhat.com>
+Date: Mon, 5 Dec 2022 18:11:36 -0500
+Subject: [PATCH] intel-iommu: Send unmap notifications for domain or global
+ inv desc
+Content-type: text/plain
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ hw/i386/intel_iommu.c | 41 +++++++++++++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 16 deletions(-)
+
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index a08ee85edf..2c6ca68df0 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -206,6 +206,23 @@ static inline gboolean vtd_as_has_map_notifier(VTDAddressSpace *as)
+     return as->notifier_flags & IOMMU_NOTIFIER_MAP;
+ }
+ 
++static void vtd_as_notify_unmap(VTDAddressSpace *as, hwaddr iova,
++                                hwaddr addr_mask)
++{
++    IOMMUTLBEvent event = {
++        .type = IOMMU_NOTIFIER_UNMAP,
++        .entry = {
++            .target_as = &address_space_memory,
++            .iova = iova,
++            .translated_addr = 0,
++            .addr_mask = addr_mask,
++            .perm = IOMMU_NONE,
++        },
++    };
++
++    memory_region_notify_iommu(&as->iommu, 0, event);
++}
++
+ /* GHashTable functions */
+ static gboolean vtd_iotlb_equal(gconstpointer v1, gconstpointer v2)
+ {
+@@ -1530,13 +1547,15 @@ static int vtd_sync_shadow_page_table_range(VTDAddressSpace *vtd_as,
+     return vtd_page_walk(s, ce, addr, addr + size, &info, vtd_as->pasid);
+ }
+ 
+-static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
++static int vtd_address_space_sync(VTDAddressSpace *vtd_as)
+ {
+     int ret;
+     VTDContextEntry ce;
+     IOMMUNotifier *n;
+ 
+-    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
++    /* If no MAP notifier registered, we simply invalidate all the cache */
++    if (!vtd_as_has_map_notifier(vtd_as)) {
++        vtd_as_notify_unmap(vtd_as, 0, HWADDR_MAX);
+         return 0;
+     }
+ 
+@@ -2000,7 +2019,7 @@ static void vtd_iommu_replay_all(IntelIOMMUState *s)
+     VTDAddressSpace *vtd_as;
+ 
+     QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
+-        vtd_sync_shadow_page_table(vtd_as);
++        vtd_address_space_sync(vtd_as);
+     }
+ }
+ 
+@@ -2082,7 +2101,7 @@ static void vtd_context_device_invalidate(IntelIOMMUState *s,
+              * framework will skip MAP notifications if that
+              * happened.
+              */
+-            vtd_sync_shadow_page_table(vtd_as);
++            vtd_address_space_sync(vtd_as);
+         }
+     }
+ }
+@@ -2140,7 +2159,7 @@ static void vtd_iotlb_domain_invalidate(IntelIOMMUState *s, uint16_t domain_id)
+         if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
+                                       vtd_as->devfn, &ce) &&
+             domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid)) {
+-            vtd_sync_shadow_page_table(vtd_as);
++            vtd_address_space_sync(vtd_as);
+         }
+     }
+ }
+@@ -2174,17 +2193,7 @@ static void vtd_iotlb_page_invalidate_notify(IntelIOMMUState *s,
+                  * page tables.  We just deliver the PSI down to
+                  * invalidate caches.
+                  */
+-                IOMMUTLBEvent event = {
+-                    .type = IOMMU_NOTIFIER_UNMAP,
+-                    .entry = {
+-                        .target_as = &address_space_memory,
+-                        .iova = addr,
+-                        .translated_addr = 0,
+-                        .addr_mask = size - 1,
+-                        .perm = IOMMU_NONE,
+-                    },
+-                };
+-                memory_region_notify_iommu(&vtd_as->iommu, 0, event);
++                vtd_as_notify_unmap(vtd_as, addr, size - 1);
+             }
+         }
+     }
+-- 
+2.37.3
+
+
+--4NQ7/8qolUM9ofjF--
 
 
