@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EE3643E18
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 09:09:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705B7643E57
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 09:18:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2T0i-0005aE-4d; Tue, 06 Dec 2022 03:09:04 -0500
+	id 1p2T8N-0006sQ-0Y; Tue, 06 Dec 2022 03:16:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2T0d-0005Zj-Rb
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 03:08:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2T0c-0003az-Af
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 03:08:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670314137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F1A1CFcFf3GqMuy5IEJ2+hVWZS9vmxhjGVY53C6/Tbc=;
- b=TyQUaq+SkWZv4vnPfoiHUZS+1OG+Vw7LYmyAfSPMgJtA3BM+NNonKppxh8T7QL0/rcaQYq
- FJ78QMKkJr/uoVwaC1Z0k2mBaSb/bB2GQIh3ohfVU8P6E1JvxDopcK8SDcaVfWeDFJOZPp
- RqUKjZDMObiMiZ98OaQ5Vzlmz5qTnV4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-225-0s4VrvmoOTWoOeuIgtNMSg-1; Tue, 06 Dec 2022 03:08:55 -0500
-X-MC-Unique: 0s4VrvmoOTWoOeuIgtNMSg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p14-20020a05600c204e00b003cf4cce4da5so5355069wmg.0
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 00:08:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2T8C-0006s0-21
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 03:16:55 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2T87-0004nm-5D
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 03:16:47 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ m4-20020a05600c3b0400b003d1cb516ce0so50628wms.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 00:16:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ibrRQI8PsuwrNlAm1CIStABRIR6/UMs4AZvUrHrjOr4=;
+ b=UycgPiklL99XKFn8EW2qC9UUacx5kptYySiMexzXcMKUTkvghCiAUYS8Fcy3Lmt3DF
+ 1DN6eDF6FfZeD8JvZuB7CENCqHbE5UvapVWcDk01KvvG8Fex52I3iR+srD6vwzP86LSN
+ iyN+siHbq/5R+Ki9kVGI/W1XqF4cQgiS5ItS91irXjTqZYAyq96pkFW3sj+/MHFMYCwC
+ TnOQFx14S7yv+yjBFsWhantRqNWyPYOQjbwsToIv7cbeaMOLoK0xeUzmU2bw3WfFICgM
+ 2GRopkqylpTvS8TTNbmIadxisxb7NYmr7rTzTBOeDtyXvoAJr6gXd3bnGR0PUrLP2MeE
+ Q3jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F1A1CFcFf3GqMuy5IEJ2+hVWZS9vmxhjGVY53C6/Tbc=;
- b=CL7ei/TZIOHA5VXYhmuSr8reBKcZk3gvql9M0mqT+J0YdfVa/mM5xAh3R6wlQ9DUCx
- rru+ek2TFa2jh6z4X5PBoLr+S9KpgYtMKQH7lMi125bNBx7jREZ6f1F6ohmU+pP/OPl7
- z+yiytrqmJo2Ep0v3mse+TKkjKbjg/C9OfYxUkF6yNhoSAEehsE4leD05D4f52aec3gJ
- 2NP+jTZGua2iQGh5VHIwzZVWE37CP/ae95chLLeQHFs5xFrcK7Bv6tJFZMKG1EwEGnnB
- g9QDdfR/v6Kh9MPXefeP29TpzEwjafkpsuCKRNZPt2rQ/yqVNfCGF0ky1psY8qe6WsPg
- 2ykg==
-X-Gm-Message-State: ANoB5pmfnl4M0J5XMU9DYW/9f5MO1M6vXFtC8OPTM5GbCRYM4TVh8y2m
- Ae0/tQAPBrMmeK+M0G2Yhya5kgIUeEhkiJdkbJvsEh8jNgteobRMuoLVbxk658nBIel7Z4sC+rM
- hrOvsM2YRVpbGZ18=
-X-Received: by 2002:a5d:53cd:0:b0:242:47b9:7ad6 with SMTP id
- a13-20020a5d53cd000000b0024247b97ad6mr9486358wrw.93.1670314134807; 
- Tue, 06 Dec 2022 00:08:54 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4rxUAcJC6zy8+tYysoaxAzgxOCA7nYej19DZzekT3Dgb7XhW7xOXvB8TS4PF1YsSVE0d3SLg==
-X-Received: by 2002:a5d:53cd:0:b0:242:47b9:7ad6 with SMTP id
- a13-20020a5d53cd000000b0024247b97ad6mr9486347wrw.93.1670314134584; 
- Tue, 06 Dec 2022 00:08:54 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-155.web.vodafone.de.
- [109.43.178.155]) by smtp.gmail.com with ESMTPSA id
- l22-20020a05600c4f1600b003cf54b77bfesm26632319wmq.28.2022.12.06.00.08.53
+ bh=ibrRQI8PsuwrNlAm1CIStABRIR6/UMs4AZvUrHrjOr4=;
+ b=yRiNf2AL4pQXjCf4Tbywjc568jqaJMYFQt5JBYTmLmswsbOgXWqqnMqPwY45gceYKg
+ BOvODlkEphAhnPwRc3Rih1h3T7wpPnDlPTmjMJvJ51oSm4HnjxaKPiSv8Ah+9bmyzDJA
+ Xw70rHm9dOIRh3slhwS7Zc9X93aDVmHg53ljX9vqInD2qteTxgpmU1S63ohpwfIDXNai
+ fPF/1mcWjXfrTCto0aIEXRu7B9Frrl3ug/HSKzr3Vv81vyWDcG3F98sgBfhoQqXQaYdX
+ aRjuSww+MzQaiPq6T9/qpXPIDP8lGzj/NwSQwpjaXBSNMnoPnHPMqVz6vGbBX6CQSMTe
+ w/cQ==
+X-Gm-Message-State: ANoB5pnsJlfoBQiQX18+Wb1uvlXu95TRrFNNhO5E3EvoxmwXlnA+ULkW
+ lJzTrYE88an1EEsQCb3WiOOPfw==
+X-Google-Smtp-Source: AA0mqf73e7JMd96f7n69hhi0xsPTSeFUWC3CVQryovhm4CjwG8xwNveNfI0skydtwoblxpYDO/DQ+A==
+X-Received: by 2002:a05:600c:4f05:b0:3d0:3d33:a629 with SMTP id
+ l5-20020a05600c4f0500b003d03d33a629mr38433619wmq.126.1670314600371; 
+ Tue, 06 Dec 2022 00:16:40 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ g13-20020a05600c310d00b003a2f2bb72d5sm30268912wmo.45.2022.12.06.00.16.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 00:08:53 -0800 (PST)
-Message-ID: <7636424d-6c57-af1d-42cf-d4052428c6e2@redhat.com>
-Date: Tue, 6 Dec 2022 09:08:51 +0100
+ Tue, 06 Dec 2022 00:16:40 -0800 (PST)
+Message-ID: <d203e13d-e2f9-5816-030d-c1449bde364d@linaro.org>
+Date: Tue, 6 Dec 2022 09:16:38 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [RFC PATCH 10/21] i386/xen: handle guest hypercalls
 Content-Language: en-US
-To: Eldon Stegall <eldon-qemu@eldondev.com>,
- Simon Sharwood <simon@jargonmaster.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
-References: <CAHW_L2i3WBULFk+Gh2cxqwB-mrvB1iE3NOgFdozaN9hDVuFK1Q@mail.gmail.com>
- <Y45BEF1B1Pbx9yZ2@invalid>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Sad to see the advent calendar go
-In-Reply-To: <Y45BEF1B1Pbx9yZ2@invalid>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>, Thomas Huth <thuth@redhat.com>
+References: <20221205173137.607044-1-dwmw2@infradead.org>
+ <20221205173137.607044-11-dwmw2@infradead.org>
+ <efef965d-3c9b-abc0-ac5f-c252b10722bd@linaro.org>
+ <cb4cdc7944c74ee1918667ba455b9afd0fae351c.camel@infradead.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <cb4cdc7944c74ee1918667ba455b9afd0fae351c.camel@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,46 +95,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  Hi Eldon!
++Thomas
 
-On 05/12/2022 20.07, Eldon Stegall wrote:
-> Hi Simon,
+On 6/12/22 02:10, David Woodhouse wrote:
+> On Mon, 2022-12-05 at 23:11 +0100, Philippe Mathieu-Daudé wrote:
+>> On 5/12/22 18:31, David Woodhouse wrote:
+>>> From: Joao Martins <joao.m.martins@oracle.com>
+>>>
+>>> This means handling the new exit reason for Xen but still
+>>> crashing on purpose. As we implement each of the hypercalls
+>>> we will then return the right return code.
+>>>
+>>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+>>> [dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
+>>> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+>>> ---
+>>>    target/i386/kvm/kvm.c    |  5 +++++
+>>>    target/i386/trace-events |  3 +++
+>>>    target/i386/xen.c        | 45 ++++++++++++++++++++++++++++++++++++++++
+>>>    target/i386/xen.h        |  1 +
+>>>    4 files changed, 54 insertions(+)
+>>>
+>>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>>> index 4b21d03250..6396d11f1e 100644
+>>> --- a/target/i386/kvm/kvm.c
+>>> +++ b/target/i386/kvm/kvm.c
+>>> @@ -5468,6 +5468,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>>>            assert(run->msr.reason == KVM_MSR_EXIT_REASON_FILTER);
+>>>            ret = kvm_handle_wrmsr(cpu, run);
+>>>            break;
+>>> +#ifdef CONFIG_XEN
+>>
+>> CONFIG_XEN is set when the _host_ has Xen development files available.
+>>
+>> IIUC here you want to check if Xen HVM guest support is enabled.
+>>
+>> You might want to use a different CONFIG_XEN_xxx key, which itself
+>> depends on CONFIG_XEN.
 > 
-> Thanks for your interest in the calendar! I am not a regular QEMU
-> contributor, but I am a longtime user, and ran the calendar in 2020. I
-> also put out a submission request for the calendar this past year, but
-> there wasn't much response.
-
-Drat, I completely missed your message in October, otherwise I would have 
-replied :-/
-I think I have ideas left for at least two images.
-
-> As far as future calendars go, the effort to construct a new calendar
-> with novel, thematic content is substantial. Some of the difficulty lies
-> in the technical element, but a lot of it lies in the synthesis and
-> ideation.
+> Yeah, I'd be interested in opinions on that one.
 > 
-> In 2020 I had a number of community submissions, and good pointers,
-> but I also put in substantial effort, which I was capable of as a result
-> of a holiday sabbatical. This year was a little different.
+> Strictly, the only one that *needs* to be a configure option is
+> CONFIG_XEN for the Xen libraries, which is support for actually running
+> on Xen.
 > 
-> I'm not sure if others in the community have the same perspective, but
-> that is my perspective, and I would be committed to the 2023 calendar if
-> folks were interested. I assembled some resources for the 2022 calendar,
-> but I think with a little more upfront planning, and some directed
-> request, I can coordinate a much better outcome for 2023.
+> Any time KVM is present, we *could* pull in the rest of the xenfv
+> machine support unconditionally, since that's no longer dependent on
+> true Xen.
+> 
+> But because there's a non-trivial amount of code in the event channel
+> and grant table stuff, *perhaps* we want to make it optional? I don't
+> really want to call that CONFIG_KVM_XEN since as noted, it's
+> theoretically possible to do it with TCG or other accelerators too. So
+> we could call it CONFIG_XEN_EMULATION.
 
-I agree - the main problem is to come up with a list of 24 good ideas and 
-with the preparation of the images - which takes a lot of time.
+I concur CONFIG_KVM_XEN is confusing; CONFIG_XEN_EMULATION / 
+CONFIG_XEN_EMU sounds better.
 
-Since I didn't see your message in October, I thought there would not be 
-interest in another edition. And given the fact that we don't get the server 
-traffic for free anymore and the server needs a major re-installation soon 
-anyway (its OS will be EOL in 2024), I thought it would be best to finally 
-decommission the advent calendar. But if you plan another edition for 2023 
-and want to take care of the server issues, please count me in for at least 
-two images next year :-)
+Is it useful to have the CONFIG_XEN_EMU code under target/i386/ built
+without having the xenfv machine built in?
 
-  Thomas
+I rather have hw/ and target/ features disentangled, so I'd use
+CONFIG_XEN_EMU under target/ and CONFIG_XENFV_MACHINE under hw/,
+eventually having CONFIG_XEN_EMU depending on CONFIG_XENFV_MACHINE
+and -- for now -- CONFIG_KVM.
+
+> I don't think we'd make that depend on CONFIG_XEN though, since none of
+> the actual Xen libraries would be needed once everything's implemented
+> and cleaned up.
+
+Agreed.
+
+> So things like the xenfv machine code would then depend on
+> (CONFIG_XEN || CONFIG_XEN_EMULATION)... or we could make a new
+> automatic config symbol CONFIG_XEN_MACHINE which has the same effect?
+
+So per what you just cleared, not CONFIG_XEN but CONFIG_KVM.
 
 
