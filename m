@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B99E643C29
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97C7643C23
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:18:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2POj-0003Ov-Ei; Mon, 05 Dec 2022 23:17:37 -0500
+	id 1p2POk-0003Pl-0M; Mon, 05 Dec 2022 23:17:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POg-0003NQ-JS
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:34 -0500
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229])
+ id 1p2POh-0003OD-Ku
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:35 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POe-0006vs-Rz
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:34 -0500
-Received: by mail-oi1-x229.google.com with SMTP id e205so15552993oif.11
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:32 -0800 (PST)
+ id 1p2POg-0006yh-1H
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:35 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id v70so7210210oie.3
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=E0wFR031lCo2wcrWO+fbqeHXYKNVaKCwEXleN4UiegU=;
- b=AuvA95lARaqKua7iS7YTh//xTIKeMJYzNEuQZ0Nw4tIByU7IA0TzhGmUTMTpK8iQB7
- 0EntsABga0/F/n+22r0+wkkhCm3sepwhjBl7XcCQ/bE8T/J7yfWGOKAtA5EN9nXCBfNT
- GDyb6+PRiw4iBgM0nnweUnb3jCSERZ0BYt8GucrrirRtwgT2XPvJ08XhPLqx07j26H+c
- xE+0ikjAA1dZdN+/1ENQCL64Q3xBCWa+Thr7ndzuxdUVUShB9M+byzd8GNz3LoBn6mTP
- mWeTPcZgjMq0Os8I+kdUWVkNtzx3OeykaVEW8laYrPqZRbBVdBNsVr6GmcURWaFMHRm2
- N7eA==
+ bh=MgfIKhOnV5J4W2WjGszVQvaIMC5JwI5x8TLYbia9Zpk=;
+ b=IH8r5UiU0zZnyW2nz5tm/3qHB99mNsXtSKKGga3rnDcnAsxOpNvXxyhlYc4VqD6S5m
+ Km6xLD609sAgZm8dD8aTsktFnN2Bu7oHUPb5L0rNbW3RggbpI2c7VGENGarW1jf8ToO2
+ DDHmZOYkYWwImepWG3/dgLd7zUWL2cRLxEzox1vCA+29rqjv9FWN0X2eDFYLbE/e7Fic
+ YynVgvwqz8jZvwSApW08liFg8ZgoHIHtSi0iQYMK2elJt0EDLkDz9WwWdKV9cmYwUZMq
+ 4ZJtZovrs3a/MYUHplpc5+HUYbvRihUoZZmilfIxq9O3yMF1U9NBHDdZbQ6nrVRgkrhC
+ FEcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=E0wFR031lCo2wcrWO+fbqeHXYKNVaKCwEXleN4UiegU=;
- b=NL7yGusofYVTu4J+/l7jEWB2t6nHeYv1pRkduOtYrtb4eblFYJK6o84zi4bxpGQqw1
- 9blpwtw5PPMskxaw2BOuudWEQNugslphvQYdGH4kuUvADeBJQM2DshHP7HliwyopsMRf
- YVEoB9l9JPZKmXPKIMJVsYmyb8lkljH0QmnOv1VV8ieDmIOsgpXpoWcXY5d0V7SJ8JPL
- 5KYV9FFIORqukoS51s+z55il5ts3voPIaPhX7wSNdaLsVBCIF+kwvHTD7QdZVnpW0ipp
- zkfyg5wYM7lIUZMQDPluWURjpT5svoIbIEx8cizu0z0Wr7SfDWmwn9XkP29LqU/jqQWj
- maQw==
-X-Gm-Message-State: ANoB5plB13MPHyWob7n5+sI+AbzbGp875cBKASSrsuGMPIlxE8WTTNvm
- dZNecxeYyetA//1UGGKTdIZEEyyZYpS4hmKJsFU=
-X-Google-Smtp-Source: AA0mqf7nr42AmiSDZIdaLQ5MsbkhOwCTDiTQzI0l1ThYyXceTnLvCiDEk4Zc2uk53GOs1bqMgxKpEw==
-X-Received: by 2002:aca:3c82:0:b0:35c:29f8:e83a with SMTP id
- j124-20020aca3c82000000b0035c29f8e83amr4215111oia.25.1670300251648; 
- Mon, 05 Dec 2022 20:17:31 -0800 (PST)
+ bh=MgfIKhOnV5J4W2WjGszVQvaIMC5JwI5x8TLYbia9Zpk=;
+ b=wAo19/3W0Tfi1CUAzBxOqb6GoM+KFtIorwpIStUUXcAKVm/0ONIYZC3uh0h59Jhgi5
+ fC50zbhC0h4BGcQzczv6NfPMNZqoP9NgFfbzyj7KruMC5knudXH4tBjQX9xHQ3PY3re1
+ OGxYnLQpgH9/XbnJaDQmqAYRekygJWNPMKnGkEaCIl6zL7K+urDGu77d8/m6oEYBUKnZ
+ XhPJlLvv3AlKlC/2Llzt+v+B3iU1lN4C/tn8r2cNObTk90y9MCqfzsBjz90CsYrhrY6C
+ t+26rw4LMFUNYzv1ddka1ZQoGMIEalpZdFaG63g/Mt9CGM6Bn5AAXH1UqUriDJhMv2ph
+ Fs4w==
+X-Gm-Message-State: ANoB5pmeqgLsxspExOc+9DfL4TH44mvF3bDk12QnT1ofyseRhCmjheAD
+ 2kWpKrbw+RGAs6KSK2stHrYSwVAqwxQ25bcWRQE=
+X-Google-Smtp-Source: AA0mqf5WLCpVjsjbn8Y1/6K0Gh8RDRlqINqAz5xw//8dF6p5pbH7ymFO0EMcQbbH1b+nSsY9e3RewQ==
+X-Received: by 2002:a05:6808:148c:b0:35b:da57:5d85 with SMTP id
+ e12-20020a056808148c00b0035bda575d85mr12577959oiw.168.1670300252865; 
+ Mon, 05 Dec 2022 20:17:32 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:70b5:d104:21c2:8c7e:77e6])
  by smtp.gmail.com with ESMTPSA id
- o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.30
+ o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 20:17:31 -0800 (PST)
+ Mon, 05 Dec 2022 20:17:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: r@hev.cc
-Subject: [PATCH 10/22] tcg: Add gen_tb to TCGContext
-Date: Mon,  5 Dec 2022 22:17:03 -0600
-Message-Id: <20221206041715.314209-11-richard.henderson@linaro.org>
+Subject: [PATCH 11/22] tcg: Add TranslationBlock.jmp_insn_offset
+Date: Mon,  5 Dec 2022 22:17:04 -0600
+Message-Id: <20221206041715.314209-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206041715.314209-1-richard.henderson@linaro.org>
 References: <20221206041715.314209-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x229.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,144 +89,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This can replace four other variables that are references
-into the TranslationBlock structure.
+Stop overloading jmp_target_arg for both offset and address,
+depending on TCG_TARGET_HAS_direct_jump.  Instead, add a new
+field to hold the jump insn offset and always set the target
+address in jmp_target_addr[].  This will allow a tcg backend
+to use either direct or indirect depending on displacement.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h         | 11 +++--------
- accel/tcg/translate-all.c |  2 +-
- tcg/tcg-op.c              | 14 +++++++-------
- tcg/tcg.c                 | 14 +++-----------
- 4 files changed, 14 insertions(+), 27 deletions(-)
+ include/exec/exec-all.h | 3 ++-
+ accel/tcg/cpu-exec.c    | 5 ++---
+ tcg/tcg.c               | 6 ++++--
+ 3 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index d84bae6e3f..993aafa1a2 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -544,20 +544,15 @@ struct TCGContext {
-     int nb_indirects;
-     int nb_ops;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 7566ad9e7f..bb01508b4b 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -577,7 +577,8 @@ struct TranslationBlock {
+      */
+ #define TB_JMP_OFFSET_INVALID 0xffff /* indicates no jump generated */
+     uint16_t jmp_reset_offset[2]; /* offset of original jump target */
+-    uintptr_t jmp_target_arg[2];  /* target address or offset */
++    uint16_t jmp_insn_offset[2];  /* offset of direct jump insn */
++    uintptr_t jmp_target_addr[2]; /* target address */
  
--    /* goto_tb support */
--    tcg_insn_unit *code_buf;
--    uint16_t *tb_jmp_reset_offset; /* tb->jmp_reset_offset */
--    uintptr_t *tb_jmp_insn_offset; /* tb->jmp_target_arg if direct_jump */
--    uintptr_t *tb_jmp_target_addr; /* tb->jmp_target_arg if !direct_jump */
--
-     TCGRegSet reserved_regs;
--    uint32_t tb_cflags; /* cflags of the current TB */
-     intptr_t current_frame_offset;
-     intptr_t frame_start;
-     intptr_t frame_end;
-     TCGTemp *frame_temp;
+     /*
+      * Each TB has a NULL-terminated list (jmp_list_head) of incoming jumps.
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 356fe348de..a87fbf74f4 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -572,14 +572,13 @@ void cpu_exec_step_atomic(CPUState *cpu)
  
--    tcg_insn_unit *code_ptr;
-+    TranslationBlock *gen_tb;     /* tb for which code is being generated */
-+    tcg_insn_unit *code_buf;      /* pointer for start of tb */
-+    tcg_insn_unit *code_ptr;      /* pointer for running end of tb */
- 
- #ifdef CONFIG_PROFILER
-     TCGProfile prof;
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 9cf88da6cb..94238a1926 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -827,7 +827,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     tb->trace_vcpu_dstate = *cpu->trace_dstate;
-     tb_set_page_addr0(tb, phys_pc);
-     tb_set_page_addr1(tb, -1);
--    tcg_ctx->tb_cflags = cflags;
-+    tcg_ctx->gen_tb = tb;
-  tb_overflow:
- 
- #ifdef CONFIG_PROFILER
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 019fab00cc..585f33ffaf 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -94,7 +94,7 @@ void tcg_gen_op6(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3,
- 
- void tcg_gen_mb(TCGBar mb_type)
+ void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr)
  {
--    if (tcg_ctx->tb_cflags & CF_PARALLEL) {
-+    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {
-         tcg_gen_op1(INDEX_op_mb, mb_type);
++    tb->jmp_target_addr[n] = addr;
+     if (TCG_TARGET_HAS_direct_jump) {
+-        uintptr_t offset = tb->jmp_target_arg[n];
++        uintptr_t offset = tb->jmp_insn_offset[n];
+         uintptr_t tc_ptr = (uintptr_t)tb->tc.ptr;
+         uintptr_t jmp_rx = tc_ptr + offset;
+         uintptr_t jmp_rw = jmp_rx - tcg_splitwx_diff;
+         tb_target_set_jmp_target(tc_ptr, jmp_rx, jmp_rw, addr);
+-    } else {
+-        tb->jmp_target_arg[n] = addr;
      }
  }
-@@ -2763,7 +2763,7 @@ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
- void tcg_gen_goto_tb(unsigned idx)
- {
-     /* We tested CF_NO_GOTO_TB in translator_use_goto_tb. */
--    tcg_debug_assert(!(tcg_ctx->tb_cflags & CF_NO_GOTO_TB));
-+    tcg_debug_assert(!(tcg_ctx->gen_tb->cflags & CF_NO_GOTO_TB));
-     /* We only support two chained exits.  */
-     tcg_debug_assert(idx <= TB_EXIT_IDXMAX);
- #ifdef CONFIG_DEBUG_TCG
-@@ -2779,7 +2779,7 @@ void tcg_gen_lookup_and_goto_ptr(void)
- {
-     TCGv_ptr ptr;
  
--    if (tcg_ctx->tb_cflags & CF_NO_GOTO_PTR) {
-+    if (tcg_ctx->gen_tb->cflags & CF_NO_GOTO_PTR) {
-         tcg_gen_exit_tb(NULL, 0);
-         return;
-     }
-@@ -3146,7 +3146,7 @@ void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
- {
-     memop = tcg_canonicalize_memop(memop, 0, 0);
- 
--    if (!(tcg_ctx->tb_cflags & CF_PARALLEL)) {
-+    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
-         TCGv_i32 t1 = tcg_temp_new_i32();
-         TCGv_i32 t2 = tcg_temp_new_i32();
- 
-@@ -3184,7 +3184,7 @@ void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
- {
-     memop = tcg_canonicalize_memop(memop, 1, 0);
- 
--    if (!(tcg_ctx->tb_cflags & CF_PARALLEL)) {
-+    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
-         TCGv_i64 t1 = tcg_temp_new_i64();
-         TCGv_i64 t2 = tcg_temp_new_i64();
- 
-@@ -3345,7 +3345,7 @@ static void * const table_##NAME[(MO_SIZE | MO_BSWAP) + 1] = {          \
- void tcg_gen_atomic_##NAME##_i32                                        \
-     (TCGv_i32 ret, TCGv addr, TCGv_i32 val, TCGArg idx, MemOp memop)    \
- {                                                                       \
--    if (tcg_ctx->tb_cflags & CF_PARALLEL) {                             \
-+    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
-         do_atomic_op_i32(ret, addr, val, idx, memop, table_##NAME);     \
-     } else {                                                            \
-         do_nonatomic_op_i32(ret, addr, val, idx, memop, NEW,            \
-@@ -3355,7 +3355,7 @@ void tcg_gen_atomic_##NAME##_i32                                        \
- void tcg_gen_atomic_##NAME##_i64                                        \
-     (TCGv_i64 ret, TCGv addr, TCGv_i64 val, TCGArg idx, MemOp memop)    \
- {                                                                       \
--    if (tcg_ctx->tb_cflags & CF_PARALLEL) {                             \
-+    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
-         do_atomic_op_i64(ret, addr, val, idx, memop, table_##NAME);     \
-     } else {                                                            \
-         do_nonatomic_op_i64(ret, addr, val, idx, memop, NEW,            \
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 37957208c7..c7ad46ff45 100644
+index c7ad46ff45..c103dd0037 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -318,7 +318,7 @@ static void set_jmp_reset_offset(TCGContext *s, int which)
-      * We will check for overflow at the end of the opcode loop in
-      * tcg_gen_code, where we bound tcg_current_code_size to UINT16_MAX.
-      */
--    s->tb_jmp_reset_offset[which] = tcg_current_code_size(s);
-+    s->gen_tb->jmp_reset_offset[which] = tcg_current_code_size(s);
- }
- 
- static void G_GNUC_UNUSED set_jmp_insn_offset(TCGContext *s, int which)
 @@ -328,7 +328,7 @@ static void G_GNUC_UNUSED set_jmp_insn_offset(TCGContext *s, int which)
       * tcg_gen_code, where we bound tcg_current_code_size to UINT16_MAX.
       */
      tcg_debug_assert(TCG_TARGET_HAS_direct_jump);
--    s->tb_jmp_insn_offset[which] = tcg_current_code_size(s);
-+    s->gen_tb->jmp_target_arg[which] = tcg_current_code_size(s);
+-    s->gen_tb->jmp_target_arg[which] = tcg_current_code_size(s);
++    s->gen_tb->jmp_insn_offset[which] = tcg_current_code_size(s);
  }
  
  static uintptr_t G_GNUC_UNUSED get_jmp_target_addr(TCGContext *s, int which)
@@ -234,23 +154,17 @@ index 37957208c7..c7ad46ff45 100644
       * Return the read-execute version of the pointer, for the benefit
       * of any pc-relative addressing mode.
       */
--    return (uintptr_t)tcg_splitwx_to_rx(s->tb_jmp_target_addr + which);
-+    return (uintptr_t)tcg_splitwx_to_rx(s->gen_tb->jmp_target_arg + which);
+-    return (uintptr_t)tcg_splitwx_to_rx(s->gen_tb->jmp_target_arg + which);
++    return (uintptr_t)tcg_splitwx_to_rx(&s->gen_tb->jmp_target_addr[which]);
  }
  
  /* Signal overflow, starting over with fewer guest insns. */
-@@ -4252,14 +4252,6 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
+@@ -4252,6 +4252,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
      /* Initialize goto_tb jump offsets. */
      tb->jmp_reset_offset[0] = TB_JMP_OFFSET_INVALID;
      tb->jmp_reset_offset[1] = TB_JMP_OFFSET_INVALID;
--    tcg_ctx->tb_jmp_reset_offset = tb->jmp_reset_offset;
--    if (TCG_TARGET_HAS_direct_jump) {
--        tcg_ctx->tb_jmp_insn_offset = tb->jmp_target_arg;
--        tcg_ctx->tb_jmp_target_addr = NULL;
--    } else {
--        tcg_ctx->tb_jmp_insn_offset = NULL;
--        tcg_ctx->tb_jmp_target_addr = tb->jmp_target_arg;
--    }
++    tb->jmp_insn_offset[0] = TB_JMP_OFFSET_INVALID;
++    tb->jmp_insn_offset[1] = TB_JMP_OFFSET_INVALID;
  
      tcg_reg_alloc_start(s);
  
