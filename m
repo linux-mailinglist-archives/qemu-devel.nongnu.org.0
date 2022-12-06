@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0D36449C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 17:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4358B6449F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 18:11:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2bBk-0003St-KS; Tue, 06 Dec 2022 11:53:00 -0500
+	id 1p2bRw-0001Oo-Dq; Tue, 06 Dec 2022 12:09:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p2bBh-0003Sa-2j
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 11:52:57 -0500
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p2bBe-0002Ef-Oz
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 11:52:56 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 687CA40A50
- for <qemu-devel@nongnu.org>; Tue,  6 Dec 2022 16:52:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1670345566;
- bh=G2CTa1TAc880Delz1j/8GBVq6gqvC/0RXfCTrRhMM14=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=fQGn1Y4GxM+wYfWOyMTLL7L83ke+qYy5r0MbJ5mDev1xGAwjJOfELvD81PzZ6Ur3j
- ipNpI+hygFR9OYrFzrOb7AUBZpZy/2N38Ge6exMm0Gv+WN/cUZCcVBucqYacI3ofcd
- 9ILu2cc/ZDBD7HeSbbAsdzVzprL0Lp7E50gqYnv6IWqtBVVCpSiTYaV0Q4ozku22Ks
- +76h1iRtnpauAoQ3cceBN0uBMekJ5MijWlZmfdED/5xsCxFn53VtXzJbV+7oszHfq0
- y4mXksT/VUtf5BcRxie6FxAsy/6alw85MtASXdB95myRG8/fWnl4S9Y5zq25QF+1YE
- Vf26sFhCBxdOw==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 84CF04074D
- for <qemu-devel@nongnu.org>; Tue,  6 Dec 2022 16:51:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2bRu-0001OX-Gw
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:09:42 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2bRs-0006xc-Uy
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:09:42 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id m19so11669589wms.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 09:09:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oO+Zeqz+k83QOPseG6xH7rEx8USj/QkvZCSDU7H+EWs=;
+ b=UMKIZfHl47j6fjZGaFAaPMlRcHChZdxSzdc7DDjKby/Kaa9M5eBBZ7oUa68CX1f8D9
+ 0wrnbgvBTaxHkno8QpbqmFfWruML8NAO36ldQ4UoSuoGF6l38vkIrQQ9/WrmeCJsmQcq
+ eTC2fvHF1uFWT9EkLZdZfIszoiy19DkibfzD394T4TRmVZ3FG0JWFW5NBuQc6xCsDfVK
+ euSLgpcvnuteY3tEE68h+1B4YsIvFhF6vlRrJvxSzCN6F5oigUCnuocHXjHOnlwAKNkP
+ t6qE6k72fLHCOLqPA1hKqbGepeAEaXEqcjEUyin/SBuIBV95V0P+V4YLiGcTXdz4l1XT
+ K4Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oO+Zeqz+k83QOPseG6xH7rEx8USj/QkvZCSDU7H+EWs=;
+ b=JSNPE/Dv5FA7dX/spaN2Px1deWEGSkB7rEJFWvJOSdfy9qZ1wAPZZY4EX+oo+e0bQX
+ EkC6Jf/rnDOEgZDhnya2vmeUre7fOkLu9ctNe9IUYVjKGVbaZSERcTj4VKb0LlSQbuDN
+ 6y70Wyfy7i5Vn2DUnFDyTgqb+JmecbIY5kXUy5mqvxdt7UAzpew1dVd+MCqQ9ueDcxYC
+ ANKVB9xlvl0yRvHzDDIbPKF9sblb/5OXU4HfQiPkt06T/gMkrG/qQZZrhw6DcGKrvaFg
+ Lk3bVCLxhzAIKO4L+ugNF944+LwvenMMu4U6pl1qYqv0fCPhXXQJiLovHCdK4OyGkihE
+ bOkg==
+X-Gm-Message-State: ANoB5pnxcTpN5BDL5zFlQNvB32c5JARXIj15SSzNaNurFvDK9l2md/EM
+ ddN+/g+JPJ4+QjEKOUjTeV5vSA==
+X-Google-Smtp-Source: AA0mqf4VMIBPviCUtZveDvjyf+Y8lLxZVKsABnkhXH8YK3KCZXDmgNX8k2WPsNWAjfKwxYr0f0RqMQ==
+X-Received: by 2002:a05:600c:a15:b0:3cf:7126:1fd0 with SMTP id
+ z21-20020a05600c0a1500b003cf71261fd0mr60730246wmp.14.1670346579309; 
+ Tue, 06 Dec 2022 09:09:39 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n29-20020a05600c3b9d00b003c21ba7d7d6sm25362646wms.44.2022.12.06.09.09.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Dec 2022 09:09:38 -0800 (PST)
+Message-ID: <3cee55bd-9ab6-ffaa-9abc-877f60f8f036@linaro.org>
+Date: Tue, 6 Dec 2022 18:09:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Dec 2022 16:33:29 -0000
-From: Yury Bushmelev <1903470@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jay7x magicaltux marcandre-lureau
-X-Launchpad-Bug-Reporter: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
-X-Launchpad-Bug-Modifier: Yury Bushmelev (jay7x)
-References: <160488704585.18602.6390058369473747228.malonedeb@soybean.canonical.com>
-Message-Id: <167034440930.17236.13091371875111086862.malone@gac.canonical.com>
-Subject: [Bug 1903470] Re: qemu 5.1.0: Add UNIX socket support for netdev
- socket
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="41e7553f8097ce3a683f90e835708cbe7bf0006c"; Instance="production"
-X-Launchpad-Hash: cf5f36acb8208f07f364aecff2f493ae483cbf94
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 02/11] exec: Restrict hwaddr.h to sysemu/
+Content-Language: en-US
+To: Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210517111111.1068153-1-f4bug@amsat.org>
+ <20210517111111.1068153-3-f4bug@amsat.org>
+ <5d1a9740-df5c-fa6e-8c67-1dcd7174df66@suse.de>
+ <34f8c636-6963-8974-39e7-497167c5119a@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <34f8c636-6963-8974-39e7-497167c5119a@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,45 +92,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1903470 <1903470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-JFYI I miss the ability to use Unix socket right now.. I'm trying to use
-vagrant + vagrant-qemu + socket_vmnet on Macbook m1. It'd be MUCH easier
-to connect QEMU to the socket_vmnet' Unix socket directly w/o any
-wrappers..
+On 6/12/22 16:38, Claudio Fontana wrote:
+> On 12/6/22 15:53, Claudio Fontana wrote:
+>> On 5/17/21 13:11, Philippe Mathieu-Daudé wrote:
+>>> Guard declarations within hwaddr.h against inclusion
+>>> from user-mode emulation.
+>>>
+>>> To make it clearer this header is sysemu specific,
+>>> move it to the sysemu/ directory.
+>>
+>> Hi Philippe,
+>>
+>> do we need include/exec/sysemu/... .h
+>>
+>> as opposed to just use the existing
+>>
+>> include/sysemu/
+>>
+>> ?
+> 
+> ...and I would if anything go include/sysemu/exec/ not include/exec/sysemu ,
+> 
+> to highlight first that it is part of the sysemu build, when trying to reason about what gets built for sysemu vs anything else.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1903470
-
-Title:
-  qemu 5.1.0: Add UNIX socket support for netdev socket
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  Note: this is a feature request.
-
-  qemu has a way to connect instances using a socket:
-
-  -netdev socket,id=3Dstr[,fd=3Dh][,listen=3D[host]:port][,connect=3Dhost:p=
-ort]
-
-  This can also be used to connect a qemu instance to something else
-  using a socket connection, however there is no authentication or
-  security to the connection, so rather than using a port which can be
-  accessed by any user on the machine, having the ability to use or
-  connect to UNIX sockets would be helpful, and adding this option
-  should be fairly trivial.
-
-  UNIX sockets can be found in various parts of qemu (monitor, etc) so I
-  believe having this on network would make sense.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1903470/+subscriptions
-
+While refreshing this series I moved these files directly in 
+include/sysemu/. Do you think the exec/ subdirectory {help|meaning}ful?
 
