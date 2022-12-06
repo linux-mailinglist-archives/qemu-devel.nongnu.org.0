@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883B2644137
+	by mail.lfdr.de (Postfix) with ESMTPS id 638E9644136
 	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:27:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2V9H-0007EV-Or; Tue, 06 Dec 2022 05:26:04 -0500
+	id 1p2V9S-0007NC-1s; Tue, 06 Dec 2022 05:26:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V93-0007Dt-CF
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:49 -0500
+ id 1p2V95-0007Ed-UN
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:53 -0500
 Received: from mail-out-3.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:48])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V8t-00028m-SK
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:45 -0500
-X-IPAS-Result: =?us-ascii?q?A2CWDgDNF49j/5sagoZaHgEBCxIMQIFRhQmETpIynCOBf?=
- =?us-ascii?q?Q8BAQEBAQEBAQEIAUQEAQGFAQIChREmOgQNAQIEAQEBAQMCAwEBAQEBAQMBA?=
- =?us-ascii?q?QYBAQEBAQEGBIEdhS9GhlgnDwFBBTAFAiYCXw4Fgn6DI61KgTKBAYRxnE0JA?=
- =?us-ascii?q?YEKLYkHgk6IEoEVgnOFVjCDCoJnBIEUlgEObhw3AwkDBwUsHUADCxgNFjIKE?=
- =?us-ascii?q?zI1HEwrHBsHgQwqKBUDBAQDAgYTAyACDSgxFAQpEw0rJm0JAgMhZgMDBCgsA?=
- =?us-ascii?q?wlAByYmPAdWNwUDAg8gOAYDCQMCH1R0LxIUBQMLFSUIBUkECDcFBlMSAgoRE?=
- =?us-ascii?q?g8sRQ5IPjkWBidBATAODhMDXUsdgQEEYDmBFS8umxOBD4EegSABwy8Hgh+iD?=
- =?us-ascii?q?kyWfQKSHZdAohKBGIQoAgQCBAUCFoF8CYFycYM2UhcCD5xxdDsCBwEKAQEDC?=
- =?us-ascii?q?YofAQE?=
-IronPort-Data: A9a23:mYsGtq6NO1CTCtqFzLorNwxRtGfGchMFZxGqfqrLsTDasY5as4F+v
- mpKWjrTPK3YY2v0c9hzYY+3pk8Cup+Ez9NmHFZo/nwzZn8b8sCt6fZ1j6vTF37IcpeTHBoPA
- +E2MISowBUcFyeEzvuVGuG96yM6jMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1rlV
- eja/ouOZjdJ5xYuajhOsvjb9ks11BjPkGpwUmIWNKgjUGD2yiF94KI3fcmZM3b+S49IKe+2L
- 86rIGaRpz6xE78FU7tJo56jGqE4aue60Tum1hK6b5Ofbi1q/UTe5I5mbqZGORcP49m+t4sZJ
- N1l7fRcQOqyV0HGsLx1vxJwS0mSMUDakVPKCSDXjCCd86HJW1DGxvJ/MRw3BKgBwLpGWyZk1
- flbGhlYO3hvh8ruqF66YtNTuuQOHIzQZsY1/Gt/0TGcBPpgTZ2rr6fivIQEmm5r3oYUQ7CHO
- pdxhTlHNXwsZzVTPV0WAYl4huClhnzydxVCt06V4KM+6Gjeykp93dABNfKMJY3VGZoEwxfwS
- mTu4nulHjYRMoKlwGS8onW1o9/EsiPxV9dHfFG/3rsw6LGJ/UQKBRgLEFe2v/S9oki5Xd1ZN
- goT4CVGhbA/6EGxCNz0ThG1pHqsuh8aUsBXVeog52mwJrH8+RmFBmUUCyUbLdZgrtAqRXkj2
- hmFkrsFGABSjVFcclrFnp/8kN94EXJ9wbMqDcPccTY43g==
-IronPort-HdrOrdr: A9a23:qJMHZaNWdrSG88BcTvujsMiBIKoaSvp037BL7SxMoHluGfBw+P
- rAoB1273HJYVQqOE3I6OrgBEDoexq1n/NICO8qTNWftWLdyQiVxe9ZnOzf6gylNyri9vNMkY
- dMGpIObuEY1GIK6PoSNjPId+od/A==
+ id 1p2V93-00028m-LG
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:51 -0500
+X-IPAS-Result: =?us-ascii?q?A2ATBADNF49j/5sagoZaHQEBAQEJARIBBQUBQIFPhQuET?=
+ =?us-ascii?q?pEfgROeIA8BAQEBAQEBAQEIAUQEAQGFAQICAoUPJjgTAQIEAQEBAQMCAwEBA?=
+ =?us-ascii?q?QEBAQMBAQYBAQEBAQEGBIEdhS9GhlYCAQMjBAsBRhAgBQImAgJXBg4Fgn6DI?=
+ =?us-ascii?q?61KfzOBAaE+CQGBCiyJCIJOhUKCUIEVgnN1hGEwgwqCZwSXFQ5uHDcDCQMHB?=
+ =?us-ascii?q?SwdQAMLGA0WMgoTMjULEUwrHBsHgQwqKBUDBAQDAgYTAyACDSgxFAQpEw0rJ?=
+ =?us-ascii?q?m0JAgMhYQUDAwQoLAMJQAcmJjwHVjcFAwIPIDgGAwkDAh9UdC8SFAUDCxUlC?=
+ =?us-ascii?q?AVJBAg3BQZTEgIKERIPLEUOSD45FgYnQQEwDg4TA11LHYEBBGA5gRUvLpsTg?=
+ =?us-ascii?q?Q6CQKFioU0Hgh+iDkyWfQKSHZdAohKBGIQoAgQCBAUCFoF5gX5xgzZSFwIPj?=
+ =?us-ascii?q?iwWFY4adDsCBwEKAQEDCYofAQE?=
+IronPort-Data: A9a23:b95DlKyEqpI0Ni43W9J6t+dKxyrEfRIJ4+MujC+fZmUNrF6WrkVUz
+ WcfXGvSa/qCZzDyc9FwOork9kkPscXdxtY3HlZsqFhgHilAwSbn6XV1DW+tZX/Ifp2bJK5Dx
+ 59DAjUVBJlsFhcwnj/0bv676yAUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dga++2k
+ Y608pO31GONgWYuaDtOs/zb8nuDgdyr0N8mlg1mDRx0lAKG/5UlJMp3Db28KXL+Xr5VEoaSL
+ woU5Ojklo9x105F5uKNyt4XQGVTKlLhFVTmZk5tZkSXqkMqShoaj/xnbqpMMS+7vB3S9zx54
+ I0lWZVd0m7FNIWU8AgWe0Ew/y2TocSq9ZefSUVTv/B/wGXMNEPdkqxHBn0aHocZ/9l+UCZy/
+ toHfWVlghCr34pawZqBddVMq/RmF5OuFsUFpW1giDjVS/orKXzBa/yRuZkBh2923J4IRKuDD
+ yYaQWMHgBDofxpFO14MTog5keeti33XaSJEqBecrKE37m6VwAEZPL3FaYWEJYDVFJsM9qqej
+ m/K+171CSs5DsXF5WKJ0COliubDsCyuDer+E5X9rJaGmma732EWFVgaWEW2pdG/jUixXc8ZL
+ FYbkgI2oLQ/7gquR8jxUhm8iHqFuBcGXJxXCeJSwBuMward+QrfBmUCQjNbc9sgnMs3QzUw0
+ RmOhdyBONB0mKeKVXKQ5vKP93a4fzIKMW9HbCNCQQZtD8TfnbzfRynnFr5LeJNZRPWucd0s6
+ 1hmdBQDuog=
+IronPort-HdrOrdr: A9a23:GXtAE66iYUgvhoht2gPXwPLXdLJyesId70hD6qkRc3Bom6mj/P
+ xG88516faZslgssRMb+exoSZPgfZq0z/cci+Qs1NGZLWvbUQCTXeJfBOXZslrdMhy72ulB1b
+ pxN4hSYeeAa2SSVPyKhTVQxexQpOW6zA==
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="179747959"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="179747961"
 Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
  by mail-in-3.itc.rwth-aachen.de with ESMTP; 06 Dec 2022 11:25:30 +0100
 Received: from localhost.localdomain (2a02:908:1088:5920:7fc5:a897:a756:e2fb)
@@ -53,11 +54,15 @@ Received: from localhost.localdomain (2a02:908:1088:5920:7fc5:a897:a756:e2fb)
 From: <tobias.roehmel@rwth-aachen.de>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
- <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v6 0/7] Add ARM Cortex-R52 CPU
-Date: Tue, 6 Dec 2022 11:24:57 +0100
-Message-ID: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
+ <tobias.roehmel@rwth-aachen.de>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: [PATCH v6 1/7] target/arm: Don't add all MIDR aliases for cores that
+ implement PMSA
+Date: Tue, 6 Dec 2022 11:24:58 +0100
+Message-ID: <20221206102504.165775-2-tobias.roehmel@rwth-aachen.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
+References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -89,41 +94,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-Sorry for the "Reviewed-by" messup. I missed that on the explanation
-page. Thanks again for the review :)
+Cores with PMSA have the MPUIR register which has the
+same encoding as the MIDR alias with opc2=4. So we only
+add that alias if we are not realizing a core that
+implements PMSA.
 
-v6:
-patch 5:
-- I also changed HPRENR from ARM_CP_ALIAS to ARM_CP_NO_RAW.
-  Its state is also present in the HPRLAR registers,
-  but it doesn't make sense to access it raw. (I think)
-- I'm freeing the PRBAR/... strings explicitly now since
-  I don't know how to use autofree in this setup correctly.
-  Maybe {} around the part were the string is created/used,
-  such that it is dropped at }?
+Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-
-
-Tobias Röhmel (7):
-  target/arm: Don't add all MIDR aliases for cores that implement PMSA
-  target/arm: Make RVBAR available for all ARMv8 CPUs
-  target/arm: Make stage_2_format for cache attributes optional
-  target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
-  target/arm: Add PMSAv8r registers
-  target/arm: Add PMSAv8r functionality
-  target/arm: Add ARM Cortex-R52 CPU
-
- target/arm/cpu.c          |  34 +++-
- target/arm/cpu.h          |   6 +
- target/arm/cpu_tcg.c      |  42 +++++
- target/arm/debug_helper.c |   3 +
- target/arm/helper.c       | 336 ++++++++++++++++++++++++++++++++++++--
- target/arm/internals.h    |   4 +
- target/arm/machine.c      |  28 ++++
- target/arm/ptw.c          | 136 ++++++++++++---
- target/arm/tlb_helper.c   |   4 +
- 9 files changed, 553 insertions(+), 40 deletions(-)
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d8c8223ec3..d857d61fa9 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8112,10 +8112,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_NO_RAW, .resetvalue = cpu->midr,
+               .fieldoffset = offsetof(CPUARMState, cp15.c0_cpuid),
+               .readfn = midr_read },
+-            /* crn = 0 op1 = 0 crm = 0 op2 = 4,7 : AArch32 aliases of MIDR */
+-            { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+-              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
+-              .access = PL1_R, .resetvalue = cpu->midr },
++            /* crn = 0 op1 = 0 crm = 0 op2 = 7 : AArch32 aliases of MIDR */
+             { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 7,
+               .access = PL1_R, .resetvalue = cpu->midr },
+@@ -8125,6 +8122,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .accessfn = access_aa64_tid1,
+               .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
+         };
++        ARMCPRegInfo id_v8_midr_alias_cp_reginfo = {
++            .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
++            .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
++            .access = PL1_R, .resetvalue = cpu->midr
++        };
+         ARMCPRegInfo id_cp_reginfo[] = {
+             /* These are common to v8 and pre-v8 */
+             { .name = "CTR",
+@@ -8190,6 +8192,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         }
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+             define_arm_cp_regs(cpu, id_v8_midr_cp_reginfo);
++            if (!arm_feature(env, ARM_FEATURE_PMSA)) {
++                define_one_arm_cp_reg(cpu, &id_v8_midr_alias_cp_reginfo);
++            }
+         } else {
+             define_arm_cp_regs(cpu, id_pre_v8_midr_cp_reginfo);
+         }
 -- 
 2.34.1
 
