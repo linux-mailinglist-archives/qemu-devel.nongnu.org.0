@@ -2,80 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C9C64413A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:27:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3CF644142
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:29:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2V9H-0007ES-Ur; Tue, 06 Dec 2022 05:26:04 -0500
+	id 1p2VCF-0003ZP-0w; Tue, 06 Dec 2022 05:29:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V91-0007Dg-38
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:47 -0500
-Received: from mail-out-2a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:45])
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1p2VC8-0003Wb-I8
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:29:00 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V8t-000292-SL
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:45 -0500
-X-IPAS-Result: =?us-ascii?q?A2ASBACWF49j/5sagoZaHQEBAQEJARIBBQUBQIFPhQuET?=
- =?us-ascii?q?pEfnzMPAQEBAQEBAQEBCAFEBAEBhQECAgKFDyY4EwECBAEBAQEDAgMBAQEBA?=
- =?us-ascii?q?QEDAQEGAQEBAQEBBgSBHYUvRoZWAgEDIwQLAUYQIAUCJgICVwYOBYJ+gyOtS?=
- =?us-ascii?q?n8zgQGEcZxNCQGBCiyJCIJOhUKCUIJRgTd1hGEwgwqCZwSKOoxbDm4cNwMJA?=
- =?us-ascii?q?wcFLB1AAwsYDRYyChMyNQsRTCscGweBDCooFQMEBAMCBhMDIAINKDEUBCkTD?=
- =?us-ascii?q?SsmbQkCAyFhBQMDBCgsAwlAByYmPAdWNwUDAg8gOAYDCQMCH1R0LxIUBQMLF?=
- =?us-ascii?q?SUIBUkECDcFBlMSAgoREg8sRQ5IPjkWBidBATAODhMDXUsdgQEEYDmBFS8um?=
- =?us-ascii?q?xOBDoJAkw+OU6FNB4Ifog5Mln0Ckh2XQKMqhCgCBAIEBQIWgXmBfnGDNlIXA?=
- =?us-ascii?q?g+OLBaOL3Q7AgcBCgEBAwmKHwEB?=
-IronPort-Data: A9a23:mVjGRK7QPSEnWdmihGhrLgxRtGTGchMFZxGqfqrLsTDasY5as4F+v
- jEbWG6POP6LazGhfop2Yd6w8kIC7ZGGyIBmTwpv+XszZn8b8sCt6fZ1j6vTF37IcpeTHBoPA
- +E2MISowBUcFyeEzvuVGuG96yM6jMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1rlV
- eja/ouOZjdJ5xYuajhOsvjb9ks11BjPkGpwUmIWNKgjUGD2yiF94KI3fcmZM3b+S49IKe+2L
- 86rIGaRpz6xE78FU7tJo56jGqE4aue60Tum1hK6b5Ofbi1q/UTe5I5mbqZGORcP49m+t4sZJ
- N1l7fRcQOqyV0HGsLx1vxJwS0mSMUDakVPKCSDXjCCd86HJW1XJ7NtePG09Aa5C/+coJUpiq
- /8pKy9YO3hvh8ruqF66YtNTuuQOHIzQZsY1/Gt/0TGcBPpgTZ2rr6fivIQEmm5r3oYUQ7CHO
- pdxhTlHNXwsZzVTPV0WAYl4huClhnzydxVCt06V4KM+6Gjeykp93dABNfKOIobVFJgEwi50o
- Er++TvzXBQIJODGyGTb7zGL2eGQnxn0Ddd6+LqQs6QCbEeo7nUeDQBTWValrP2RjEm4VNRCb
- UsO9UIGtaUu+VbtS9DsUxC8pFaAvxgVQd0WFPc1gDxh0YLO/BqZC3hBVWQEYpo8q9M2ADUmk
- FOE9z/0OQFSXHSuYSr13t+pQfmaYED58Udqifc4cDY4
-IronPort-HdrOrdr: A9a23:9ospdKuUkBJEMMvpcXcy94Ah7skDmdV00zEX/kB9WHVpW+SSi9
- qj2M8WzBnulTYXVjUBtLm7VZWoaXjB75Iw2oUJO6y+Rk3avgKTXfhfBOzZskDd8kzFh5RgPM
- JbGZSWZ+eeMbEXt6fHCWqDYq0dKbu8gcOVbI7lph8HcegAUcFdBmlCZDqzLnxKZCQuP/YE/O
- Xw3LshmxOQPVwdct62QlkDUO6rnayvqHrsCSR2fyLPkDP+7w+A2frAHwGfxQp2aUIq/V9EmV
- K19TDE2g==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="30279594"
-Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-2a.itc.rwth-aachen.de with ESMTP; 06 Dec 2022 11:25:32 +0100
-Received: from localhost.localdomain (2a02:908:1088:5920:7fc5:a897:a756:e2fb)
- by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
- SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.20; Tue, 6 Dec 2022 11:25:32 +0100
-From: <tobias.roehmel@rwth-aachen.de>
-To: <qemu-devel@nongnu.org>
-CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
- <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v6 7/7] target/arm: Add ARM Cortex-R52 CPU
-Date: Tue, 6 Dec 2022 11:25:04 +0100
-Message-ID: <20221206102504.165775-8-tobias.roehmel@rwth-aachen.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
-References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1p2VC5-0002hO-Bu
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:29:00 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NRGkB6PZ9zqSsV;
+ Tue,  6 Dec 2022 18:24:34 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 6 Dec 2022 18:28:42 +0800
+Message-ID: <1fc867d6-2c2b-36ca-1154-90ff6fc1b074@huawei.com>
+Date: Tue, 6 Dec 2022 18:28:41 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/2] vhost: configure all host notifiers in a single MR
+ transaction
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+ <sgarzare@redhat.com>
+CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
+References: <20221206081841.2458-1-longpeng2@huawei.com>
+ <20221206081841.2458-2-longpeng2@huawei.com>
+ <ee85dd7e-7ec0-03f2-ba17-c8e2987f200c@linaro.org>
+In-Reply-To: <ee85dd7e-7ec0-03f2-ba17-c8e2987f200c@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [2a02:908:1088:5920:7fc5:a897:a756:e2fb]
-X-ClientProxiedBy: rwthex-s2-a.rwth-ad.de (2a00:8a60:1:e500::26:154) To
- RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:45;
- envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-2a.itc.rwth-aachen.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,80 +67,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-All constants are taken from the ARM Cortex-R52 Processor TRM Revision: r1p3
 
-Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu_tcg.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+在 2022/12/6 17:07, Philippe Mathieu-Daudé 写道:
+> On 6/12/22 09:18, Longpeng(Mike) via wrote:
+>> From: Longpeng <longpeng2@huawei.com>
+>>
+>> This allows the vhost device to batch the setup of all its host 
+>> notifiers.
+>> This significantly reduces the device starting time, e.g. the time spend
+>> on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
+>> and 3 vhost-vDPA generic devices[1] (64vq per device)
+>>
+>> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg921541.html
+>>
+>> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>> ---
+>>   hw/virtio/vhost.c | 40 ++++++++++++++++++++++++++++++++++++++--
+>>   1 file changed, 38 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>> index 7fb008bc9e..16f8391d86 100644
+>> --- a/hw/virtio/vhost.c
+>> +++ b/hw/virtio/vhost.c
+>> @@ -1507,7 +1507,7 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
+>>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice 
+>> *vdev)
+>>   {
+>>       BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>> -    int i, r, e;
+>> +    int i, n, r, e;
+>>       /* We will pass the notifiers to the kernel, make sure that QEMU
+>>        * doesn't interfere.
+>> @@ -1518,6 +1518,12 @@ int vhost_dev_enable_notifiers(struct vhost_dev 
+>> *hdev, VirtIODevice *vdev)
+>>           goto fail;
+>>       }
+>> +    /*
+>> +     * Batch all the host notifiers in a single transaction to avoid
+>> +     * quadratic time complexity in address_space_update_ioeventfds().
+>> +     */
+>> +    memory_region_transaction_begin();
+>> +
+>>       for (i = 0; i < hdev->nvqs; ++i) {
+>>           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
+>> hdev->vq_index + i,
+>>                                            true);
+>> @@ -1527,8 +1533,12 @@ int vhost_dev_enable_notifiers(struct vhost_dev 
+>> *hdev, VirtIODevice *vdev)
+>>           }
+>>       }
+>> +    memory_region_transaction_commit();
+>> +
+>>       return 0;
+>>   fail_vq:
+>> +    /* save i for a second iteration after transaction is committed. */
+>> +    n = i;
+>>       while (--i >= 0) {
+>>           e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
+>> hdev->vq_index + i,
+>>                                            false);
+>> @@ -1536,8 +1546,18 @@ fail_vq:
+>>               error_report("vhost VQ %d notifier cleanup error: %d", 
+>> i, -r);
+>>           }
+>>           assert (e >= 0);
+>> -        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
+>> hdev->vq_index + i);
+>>       }
+>> +
+>> +    /*
+>> +     * The transaction expects the ioeventfds to be open when it
+>> +     * commits. Do it now, before the cleanup loop.
+>> +     */
+>> +    memory_region_transaction_commit();
+>> +
+>> +    while (--n >= 0) {
+>> +        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
+>> hdev->vq_index + n);
+>> +    }
+>> +
+>>       virtio_device_release_ioeventfd(vdev);
+>>   fail:
+>>       return r;
+> 
+> Similarly to patch #2, removing both goto statement in this function (as 
+> a preliminary patch) will 1/ simplify the code 2/ simplify reviewing 
+> your changes, resulting in something like:
+> 
+> int vhost_dev_enable_notifiers(struct vhost_dev *hdev,
+>                                 VirtIODevice *vdev)
+> {
+>      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>      int i, r, e;
+> 
+>      /* We will pass the notifiers to the kernel, make sure that QEMU
+>       * doesn't interfere.
+>       */
+>      r = virtio_device_grab_ioeventfd(vdev);
+>      if (r < 0) {
+>          error_report("binding does not support host notifiers");
+>          return r;
+>      }
+> 
+>      memory_region_transaction_begin();
+> 
+>      for (i = 0; i < hdev->nvqs; ++i) {
+>          r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
+>                                           hdev->vq_index + i,
+>                                           true);
+>          if (r < 0) {
+>              error_report("vhost VQ %d notifier binding failed: %d",
+>                           i, -r);
+>              while (--i >= 0) {
+>                  e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
+>                                                   hdev->vq_index + i,
+>                                                   false);
+>                  if (e < 0) {
+>                      error_report(
+>                                 "vhost VQ %d notifier cleanup error: %d",
+>                                   i, -r);
+>                  }
+>                  assert (e >= 0);
+>                  virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus),
+>                                                   hdev->vq_index + i);
+>              }
+>              virtio_device_release_ioeventfd(vdev);
+>              break;
+>          }
+>      }
+> 
+>      memory_region_transaction_commit();
+> 
+>      return r;
+> }
+> 
+> What do you think?
+> 
+Maybe we can use vhost_dev_disable_notifiers to further simplify the 
+error path ?
 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 9a2cef7d05..a9e407ccf3 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -853,6 +853,47 @@ static void cortex_r5_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
- }
- 
-+static void cortex_r52_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_PMSA);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    cpu->midr = 0x411fd133; /* r1p3 */
-+    cpu->revidr = 0x00000000;
-+    cpu->reset_fpsid = 0x41034023;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+    cpu->ctr = 0x8144c004;
-+    cpu->reset_sctlr = 0x30c50838;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x10111001;
-+    cpu->isar.id_dfr0 = 0x03010006;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x00211040;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01200000;
-+    cpu->isar.id_mmfr3 = 0xf0102211;
-+    cpu->isar.id_mmfr4 = 0x00000010;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232142;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x00010001;
-+    cpu->isar.dbgdidr = 0x77168000;
-+    cpu->clidr = (1 << 27) | (1 << 24) | 0x3;
-+    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
-+
-+    cpu->pmsav7_dregion = 16;
-+    cpu->pmsav8r_hdregion = 16;
-+}
-+
- static void cortex_r5f_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -1162,6 +1203,7 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
-     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
-+    { .name = "cortex-r52",  .initfn = cortex_r52_initfn },
-     { .name = "ti925t",      .initfn = ti925t_initfn },
-     { .name = "sa1100",      .initfn = sa1100_initfn },
-     { .name = "sa1110",      .initfn = sa1110_initfn },
--- 
-2.34.1
+And we must commit before invoking virtio_bus_cleanup_host_notifier.
 
+> Regards,
+> 
+> Phil.
+> .
 
