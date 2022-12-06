@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC076439DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 01:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9D6643A7D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 02:01:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Lfw-0007Di-GW; Mon, 05 Dec 2022 19:19:09 -0500
+	id 1p2MJa-000507-Er; Mon, 05 Dec 2022 20:00:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2Lfo-0007DL-Gp
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 19:19:01 -0500
+ id 1p2MJT-0004yk-EB
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 19:59:59 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2Lfb-000633-0v
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 19:19:00 -0500
+ id 1p2MJN-0004PY-J6
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 19:59:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Di0HIJbezzn5217RG05C76i1RlnensODBEfHLKckDwQ=; b=lu2lMlejeK5rTW3mgOIWaJ+eGf
- JML+lKqEEzq6mXVoBLZ8CQhgBhzP2pGzdNp+FSv0eSdGcGNyeSrrhJlSf/fufvc/F51XfZW3W22nr
- 6VoM2C7nfXEIKajRjRR2IhUXkUPq8lEy4tUieguESetBy+sRx7xlVeTySTN1WNyhnOrNB1kcRDws8
- jhnaBetPHuCJbiuG6cKaVJfzL64pFbT/+8DrwxHjGoSR2564oB8wqUILQvefDLe1rTti42+wUiYO2
- sJeS16eF+Jsm7MRoNOFJpNl2pHjCrOJhbnIuXRXm+qEvSEoTyqn1K9ZR7P50ZKAa5GuWUr6Js+IqN
- 77OqQ8Qg==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
+ bh=Uls2LqCtzCSLCQXii/jG3c23rYn6zkaRvWanR5hQtvA=; b=sxhptbRR9+0tPgi3t9yROkLkOi
+ Qp6BwncqgV3vunACCIpUODTMBaaGU625dQSyQiCGIyWjGw+2/EgAKpEvpmE8XY4VyTUsADgwo+dlS
+ +QHT4r/TrTYaSVPbZ9opjEFDbRyV0Wy9WJJRp3/1KHx81wsajTFnB+surLFHIuNROkB3Tgm4f1IE1
+ I3P9efKreB+rihOG+3XHP4zhgRVqFa7tW0gF2p72tTSPTkQUgvFUSPbp5+NVC22/p7EttgVGV448V
+ x6h5tdsVgP6FpOOcwm+RdlnLEkGN+4kcWMHv6yT6SGDSH4KMVxltidUlKNnGKOB4nHb/WIzicexov
+ fHcdIh9w==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2LfW-003oK5-Eu; Tue, 06 Dec 2022 00:18:42 +0000
-Message-ID: <ba4fcebc4f3032d4cbf09928a8a0c37389dd6e72.camel@infradead.org>
-Subject: Re: [RFC PATCH 03/21] i386/kvm: handle Xen HVM cpuid leaves
+ id 1p2MJM-003rSY-8q; Tue, 06 Dec 2022 00:59:52 +0000
+Message-ID: <f652e8c47425e30e581a98cbe785c3143d821d93.camel@infradead.org>
+Subject: Re: [RFC PATCH 09/21] pc_piix: allow xenfv machine with XEN_EMULATE
 From: David Woodhouse <dwmw2@infradead.org>
 To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, 
  qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
  Martins <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>
-Date: Tue, 06 Dec 2022 00:18:32 +0000
-In-Reply-To: <68be4619-50a1-83a9-290d-05618002b47d@linaro.org>
+Date: Tue, 06 Dec 2022 00:59:41 +0000
+In-Reply-To: <16a9ec30-4eb0-7a7a-7ca1-ffb04529cf48@linaro.org>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-4-dwmw2@infradead.org>
- <68be4619-50a1-83a9-290d-05618002b47d@linaro.org>
+ <20221205173137.607044-10-dwmw2@infradead.org>
+ <16a9ec30-4eb0-7a7a-7ca1-ffb04529cf48@linaro.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-gYGXhZH7eS4EnIQc2lw4"
+ boundary="=-nDobmGc6IIBclYxFBis/"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -55,12 +55,13 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
 Received-SPF: none client-ip=2001:8b0:10b:1236::1;
  envelope-from=BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org;
  helo=casper.infradead.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_NONE=0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,43 +78,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-gYGXhZH7eS4EnIQc2lw4
+--=-nDobmGc6IIBclYxFBis/
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-12-05 at 22:58 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+On Mon, 2022-12-05 at 23:06 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 5/12/22 18:31, David Woodhouse wrote:
+> > From: Joao Martins <joao.m.martins@oracle.com>
 > >=20
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 22b681ca37..45aa9e40a5 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -7069,6 +7069,8 @@ static Property x86_cpu_properties[] =3D {
-> >        * own cache information (see x86_cpu_load_def()).
-> >        */
-> >       DEFINE_PROP_BOOL("legacy-cache", X86CPU, legacy_cache, true),
-> > +    DEFINE_PROP_BOOL("xen", X86CPU, xen, false),
+> > This allows -machine xenfv to work with Xen emulated guests.
+> >=20
+> > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> > ---
+> >   hw/i386/pc_piix.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> > index 3dcac2f4b6..d1127adde0 100644
+> > --- a/hw/i386/pc_piix.c
+> > +++ b/hw/i386/pc_piix.c
+> > @@ -404,8 +404,8 @@ static void pc_xen_hvm_init(MachineState *machine)
+> >   {
+> >       PCMachineState *pcms =3D PC_MACHINE(machine);
+> >  =20
+> > -    if (!xen_enabled()) {
+> > -        error_report("xenfv machine requires the xen accelerator");
+> > +    if (!xen_enabled() && (xen_mode !=3D XEN_EMULATE)) {
+> > +        error_report("xenfv machine requires the xen or kvm accelerato=
+r");
+> >           exit(1);
+> >       }
 >=20
-> Maybe name it 'xen-hvm'?
-
-I think I'd prefer it to go away completely. If the *machine* has the
-Xen feature enabled (which I've made implicit in the 'xen-version'
-property), perhaps we should *always* disable 'expose_kvm' and enable
-the Xen CPUID leaves instead?=20
-
-> > +    DEFINE_PROP_BOOL("xen-vapic", X86CPU, xen_vapic, false),
+> What about the XEN_EMULATE case? Shouldn't this be:
 >=20
-> What happens if we use -cpu host,-kvm,+xen,-xen-vapic ?
+>    if (!xen_enabled()) {
+>       if (xen_mode =3D=3D XEN_EMULATE) {
+>           error_report("xenfv machine requires the xen accelerator");
+>       } else {
+>           error_report("xenfv machine requires the xen or kvm accelerator=
+");
+>       }
+>       exit(1);
+>    }
+>=20
+> ?
 
-That's sane; it does the Xen CPUID thing but doesn't advertise the
-vAPIC feature in the Xen CPUID leaves.
+Erm... that one I cherry-picked directly from the original and I
+confess I haven't yet done much thinking about it.
 
-> Is -cpu host,-kvm,-xen,+xen-vapic meaningful? Otherwise we need to error
-> out (eventually displaying some hint).
+There are two sane cases.
 
-Indeed it isn't meaningful, and should cause an error.
+If xen_mode =3D=3D XEN_ATTACH, then xen_enabled() should be true.
+
+If xen_mode =3D=3D XEN_EMULATED, then we'd better be using KVM with the Xen
+support (which could *theoretically* be added to TCG if anyone really
+wanted to).
+
+So this check is working because it's allowing *either* xen_enabled()
+*or* xen_mode=3D=3DXEN_ATTACH to satisfy it. But it's too lax. I think it
+should *require* KVM in the case of XEN_EMULATE.
+
+That ought to be sufficient since it's going to set the xen-version
+machine property, and that would cause KVM itself to bail out if the
+required support isn't present in the kernel.
+
+(I'm assuming the existing XEN_EMULATE mode is long dead along with
+Xenner? Even on true Xen we run PV guests in a shim these days, and
+that shim works without modification under KVM and will eventually be
+one of my test cases as I get this all working under qemu)
 
 
---=-gYGXhZH7eS4EnIQc2lw4
+
+
+--=-nDobmGc6IIBclYxFBis/
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -205,26 +243,26 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDAxODMyWjAvBgkqhkiG9w0BCQQxIgQg7Alb88Z/
-WpF0Y9EI8urkZHyQm3Es0JLT5bQMTA5t7Powgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDA1OTQyWjAvBgkqhkiG9w0BCQQxIgQgLZNgyhyE
+EIcsTNB8UaqaKqKVssuJxfvtWGerXK2G83Qwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgByKq2r3r1CsNGy5nZw6FbqNcBpjNjCef0k
-MPMZ0jGGBP4mB5veGzpUrOjYh8Kh20L2Q+FrUUhUmyYWGci2KkLdkt7+d9svC1AVGsVr4aSpne6B
-qBBJPK+qQJMA9W1lEP75U3fyVoygTcZA8zBv0/XrBcdAFofIu1k41N65BRNQRkz4f7nY43oYmnMt
-HwjDMtml6YE3S9zQVXkOVDyuht9kpnl9iL1PVgsuUBkhwtu9Q+NEqM5QrUptTc087IIxU6EvMzuZ
-PW/yVakMI6QsrnefbXfes+BaoqKoha14ua9BQKgCHbFHn0FbSHwaFqzwhOHuqsSh/paiLdWqal6Z
-F/Jql/fnmdRq5Mdi7SZHo7muoGgv5fSuydbJbBq/xvrMCOQf6+VKOh4GL3eY+yIraYK2WH5n3xVR
-upDz8Nuic+Zm65mYpJLNECwaLYJOEDzE2iJQaPw2zgwIDoZbCJ9h9iwfcpbz9goIx6usO4mgFTMx
-LarexXn/Tm9cCf2wYQ2oZbhWySuviEPM+KehAdBAM2oHnbP+xzPNh4tv73csbcycihwt/AuHWm2h
-EkyKTOrJ+Z3GkmhwA6unKplGZC17Zvk2JstzO4IKIPU9O+/JvI1OHGnkSBtMS5GWcc4JR7mPLmln
-5VpuFoCdf++3N+XDciNH3IHmGrIoTyXTdou2POo0MQAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAGSmtZNaWSq54RTx6TRbDjRRfb5/QVbfUF
+/9ClFPBpOfinEAbzWYwVguUjTxD+sh2QYX2rfuv2+BudxgMUVCeqvpx+ML7Smf9DNx7LnygP0Pyp
+zhWGsIMjTMopiN/TAIHOq2rwuVNDWaM3Ude1TeYJRtZlhUWqh6CgHAxuheNL3TYiBiGpOxjaEMZ/
+sNnrVWN5Yyusbrqa1ozZGrA33DrrAOX2ODccHvpkoT/jC+mDdlMwR2QYS6OYDyvdDCDhUINnFKtY
+KiGwq5nOMQAL4jMFw6mmhXx4RweMK9J6g8xoupDgeLltDzW6iL5KOSpY6j/0EGQpIOxchv54YWIg
+IYtNtURTXp7xJES52fQ/a4feWFnb295c6/yXEmrWwkXxmI8g/32TeiIbcbRwY54B8xDRqkLMOV2w
+ayvLzVeXmRaliXkdghv9kgRbZpGsTDVLN+Vj1NgYATandQ9CpFm2cbspuzYgbm/7b0QjTfF2LLwf
+91RYD/ivLYTJFiCkPenl26ftaHK7i3/t3TBcnz9cLuayb6xIzlULVRHOWdsZZbgkZWGEXVsHe8Qe
+INqeprdFytaO89AR2d5+viv/bRxo6iraUDuS2Nto6mKrdab7UlPEbp1Uveipom/rB8ta2nk7GqtH
+r9vVg44dSJdHowQPNnm7P5Ycm/rKUzZM5hBJo3weDAAAAAAAAA==
 
 
---=-gYGXhZH7eS4EnIQc2lw4--
+--=-nDobmGc6IIBclYxFBis/--
 
 
