@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476F8644135
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:27:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9BF64413C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:27:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2V9N-0007KU-92; Tue, 06 Dec 2022 05:26:10 -0500
+	id 1p2V9M-0007JC-RL; Tue, 06 Dec 2022 05:26:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V95-0007Ec-I5
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:53 -0500
+ id 1p2V98-0007FK-MD
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:26:00 -0500
 Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1p2V8t-00028p-SL
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:50 -0500
-X-IPAS-Result: =?us-ascii?q?A2AUBADNF49j/5sagoZaHQEBAQEJARIBBQUBQIFPhQuET?=
- =?us-ascii?q?pEcA51JgWoPAQEBAQEBAQEBCAFEBAEBhQECAgKFDyY4EwECBAEBAQEDAgMBA?=
- =?us-ascii?q?QEBAQEDAQEGAQEBAQEBBgSBHYUvRoZWAgEDIwQLAUYQIAUCJgICVwYOBYJ+g?=
- =?us-ascii?q?yOtSn8zgQGEcZxNCQGBCiyJCIJOhUKCUIJRgTcHboQrNjCDCoJnBIEUiSaMW?=
- =?us-ascii?q?w5uHDcDCQMHBSwdQAMLGA0WMgoTMjULEUwrHBsHgQwqKBUDBAQDAgYTAyACD?=
- =?us-ascii?q?SgxFAQpEw0rJm0JAgMhYQUDAwQoLAMJBDwHJiY8B1Y3BQMCDyA4BgMJAwIfF?=
- =?us-ascii?q?j50LxIUBQMLFSUIBUkECAwrBQZICxICChESDyxFBwdIPjkWBidBATAODhMDX?=
- =?us-ascii?q?UsdgQEEYBYjgRUvLpohcQGBD4I/cqBwoU0Hgh+iDkyWfQKSHYINhFYBkFyiE?=
- =?us-ascii?q?oEYhCgCBAIEBQIWgXmBfnGDNlIXAg+OLBaOL3Q7AgcBCgEBAwmKHwEB?=
-IronPort-Data: A9a23:7/yW2auCraOa3ZRddd1EobdvnufnVAlfMUV32f8akzHdYApBsoF/q
- tZmKW3UOvrcMTOkKd1xOdm38UlS75KHzt9qGQBr+y5nRHkUgMeUXt7xwmUcns+xBpCZEBg3v
- 512hv3odp1coqr0/0/1WlTZhSAgk/vOH9IQMcacUghpXwhoVSw9vhxqnu89k+ZAjMOwa++3k
- YqaT/b3ZRn0hVaYDkpOs/jZ8Uk34qyo0N8llgVWic5j7Qe2e0Y9Ucp3yZGZdxPQXoRSF+imc
- OfPpJnRErTxpkpF5nuNy94XQ2VSKlLgFVHmZkl+B8BOtiN/Shkaic7XAtJBMxsN22XR9zxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj66lkD2ZsZNU+xsRUKCJSr
- M4jcwIdQSnW0opawJrjIgVtrv4cEOnGDMYk4DRKiyvGEfZjSJyFT6iiCd1whWxswJkVRbCEO
- YxANGcHgBfoOnWjPn8LD5g/lfzunH7yczhVrHqPurY3pmHaxwx81v7hPbI5f/TTG5kIzhfG/
- TyuE2LRKBgrON/c0xC/4GOztOzjnx7fAasDC+jtnhJtqBjJroAJMzUPWF6m5PW0lEO6c9RYL
- UMS52wpt6da3FSmUtTnGRixsXKJuho0X9tWGvc9rgaXxcLpDx2xHHcYTjNRLcd88cVwXyM21
- hqAk5XlCFSDrYGodJ5UzZ/MxRvaBMTfBTVqifMsJefd3+TenQ==
-IronPort-HdrOrdr: A9a23:cTpp2q2aVdA8o/So5DKhygqjBIMkLtp133Aq2lEZdPRUGvb1qy
- nIpoV96faUskd0ZJhOo7690cW7K080sKQFgrX5Xo3SOTUO2lHIEGgK1+KLqAEIWReOlNK1vZ
- 0QFZSWY+eeMbEVt6vHCF7SKadZ/DD+ysCVbLDlvg5QcT0=
+ id 1p2V95-00028p-V3
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:25:54 -0500
+X-IPAS-Result: =?us-ascii?q?A2ATBADNF49j/5sagoZaHQEBAQEJARIBBQUBQIFPhQuET?=
+ =?us-ascii?q?pEfgROeIA8BAQEBAQEBAQEIAUQEAQGFAQICAoUPJjgTAQIEAQEBAQMCAwEBA?=
+ =?us-ascii?q?QEBAQMBAQYBAQEBAQEGBIEdhS9GhlYCAQMjDwFBBRAgBQImAgJXBg4Fgn6DI?=
+ =?us-ascii?q?61KgTKBAYRxnE0JAYEKLIkIgk6FQoJQgRWCc3WEYTCDCoJnBJcVDm4cNwMJA?=
+ =?us-ascii?q?wcFLB1AAwsYDRYyChMyNQsRTCscGweBDCooFQMEBAMCBhMDIAINKDEUBCkTD?=
+ =?us-ascii?q?SsmbQkCAyFhBQMDBCgsAwlAByYmPAdWNwUDAg8gOAYDCQMCH1R0LxIUBQMLF?=
+ =?us-ascii?q?SUIBUkECDcFBlMSAgoREg8sRQ5IPjkWBidBATAODhMDXUsdgQEEYDmBFS8um?=
+ =?us-ascii?q?wwHgQ6BeTYRwy8Hgh+iDkyWfQKSHS2XE6MqhCgCBAIEBQIWgXmBfnGDNlIXA?=
+ =?us-ascii?q?g+ccXQ7AgcBCgEBAwmKHwEB?=
+IronPort-Data: A9a23:0A6KeqJVTRtkRH+RFE+RjpQlxSXFcZb7ZxGr2PjKsXjdYENSgzUPz
+ WYcDTuFOayKYmTwKdEgPNm19hlQsMeDn9JnGgMd+CA2RRqmiyZk6fexcx2sZXPCdqUvaGo9s
+ q3yv/GZdJhcokf0/0vraP64xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2LBVOCvQ/
+ 4KsyyHjEAX9gWQtaDpKs/jrRC5H5ZwehhtJ5jTSWtgW5Dcyp1FNZLoDKKe4KWfPQ4U8NoZWk
+ M6akdlVVkuAl/scIovNfoTTKyXmcZaOVeS6sUe6boD56vR0jnFojvxrZKJ0hXB/0F1ll/gpo
+ DlEWAfZpQ0BZsUgk8xFO/VU/r0X0aBuoNf6zXaDXcO78x2bfyXd0/9VU1xmPJADx/lwWnFh6
+ qlNQNwNRkjra+Oe+o2HasRcw/95aeOtJpwDujRpwXfVAJ7KQ7iaGPmMvIQAmm1uwJkTQJ4yZ
+ OJAAdZrRAjHaRxGIREND58+meqsrmPgbz0doVuepacxpWTepOB0+OGzbIeFK4LRFa25mG7Fp
+ kb721jwMi0VNcSG7QKZznGil8rQyHaTtIU6UefQGuRRqESew3FWBBAIWF+Tp/6/hUijHdVFJ
+ CQ84icyoLJ08UW6QtT5WzW8oXiNpBlaXMBfe9DW8ymX1bbU7hbcHTJBRHhbd8Am8cY6AzAnv
+ rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:Yn2IdaP25YQvqsBcTvCjsMiBIKoaSvp037Eqv3ocdfUzSL3+qy
+ nOpoV+6faaslgssR0b8+xofZPwIk80lqQFhLX5X43CYOCOggLBR72Kr7GSoQEIcxeOkNK1vp
+ 0OT0ERMrDN5Q8Qt7eD3ODBKbYdKY68gdmVuds=
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="164589636"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665439200"; d="scan'208";a="164589638"
 Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
  by mail-in-4.itc.rwth-aachen.de with ESMTP; 06 Dec 2022 11:25:31 +0100
 Received: from localhost.localdomain (2a02:908:1088:5920:7fc5:a897:a756:e2fb)
@@ -54,9 +54,10 @@ From: <tobias.roehmel@rwth-aachen.de>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
  <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v6 2/7] target/arm: Make RVBAR available for all ARMv8 CPUs
-Date: Tue, 6 Dec 2022 11:24:59 +0100
-Message-ID: <20221206102504.165775-3-tobias.roehmel@rwth-aachen.de>
+Subject: [PATCH v6 3/7] target/arm: Make stage_2_format for cache attributes
+ optional
+Date: Tue, 6 Dec 2022 11:25:00 +0100
+Message-ID: <20221206102504.165775-4-tobias.roehmel@rwth-aachen.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
 References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
@@ -91,82 +92,59 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-RVBAR shadows RVBAR_ELx where x is the highest exception
-level if the highest EL is not EL3. This patch also allows
-ARMv8 CPUs to change the reset address with
-the rvbar property.
+The v8R PMSAv8 has a two-stage MPU translation process, but, unlike
+VMSAv8, the stage 2 attributes are in the same format as the stage 1
+attributes (8-bit MAIR format). Rather than converting the MAIR
+format to the format used for VMSA stage 2 (bits [5:2] of a VMSA
+stage 2 descriptor) and then converting back to do the attribute
+combination, allow combined_attrs_nofwb() to accept s2 attributes
+that are already in the MAIR format.
+
+We move the assert() to combined_attrs_fwb(), because that function
+really does require a VMSA stage 2 attribute format. (We will never
+get there for v8R, because PMSAv8 does not implement FEAT_S2FWB.)
 
 Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c    |  6 +++++-
- target/arm/helper.c | 21 ++++++++++++++-------
- 2 files changed, 19 insertions(+), 8 deletions(-)
+ target/arm/ptw.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 38d066c294..f9ab6af829 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -307,6 +307,10 @@ static void arm_cpu_reset(DeviceState *dev)
-         env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
-                                          CPACR, CP11, 3);
- #endif
-+        if (arm_feature(env, ARM_FEATURE_V8)) {
-+            env->cp15.rvbar = cpu->rvbar_prop;
-+            env->regs[15] = cpu->rvbar_prop;
-+        }
-     }
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index f812734bfb..7d19829702 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -2361,7 +2361,11 @@ static uint8_t combined_attrs_nofwb(uint64_t hcr,
+ {
+     uint8_t s1lo, s2lo, s1hi, s2hi, s2_mair_attrs, ret_attrs;
  
- #if defined(CONFIG_USER_ONLY)
-@@ -1342,7 +1346,7 @@ void arm_cpu_post_init(Object *obj)
-         qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_property);
-     }
+-    s2_mair_attrs = convert_stage2_attrs(hcr, s2.attrs);
++    if (s2.is_s2_format) {
++        s2_mair_attrs = convert_stage2_attrs(hcr, s2.attrs);
++    } else {
++        s2_mair_attrs = s2.attrs;
++    }
  
--    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-+    if (arm_feature(&cpu->env, ARM_FEATURE_V8)) {
-         object_property_add_uint64_ptr(obj, "rvbar",
-                                        &cpu->rvbar_prop,
-                                        OBJ_PROP_FLAG_READWRITE);
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d857d61fa9..23a55dbe7d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7855,7 +7855,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         if (!arm_feature(env, ARM_FEATURE_EL3) &&
-             !arm_feature(env, ARM_FEATURE_EL2)) {
-             ARMCPRegInfo rvbar = {
--                .name = "RVBAR_EL1", .state = ARM_CP_STATE_AA64,
-+                .name = "RVBAR_EL1", .state = ARM_CP_STATE_BOTH,
-                 .opc0 = 3, .opc1 = 0, .crn = 12, .crm = 0, .opc2 = 1,
-                 .access = PL1_R,
-                 .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
-@@ -7946,13 +7946,20 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         }
-         /* RVBAR_EL2 is only implemented if EL2 is the highest EL */
-         if (!arm_feature(env, ARM_FEATURE_EL3)) {
--            ARMCPRegInfo rvbar = {
--                .name = "RVBAR_EL2", .state = ARM_CP_STATE_AA64,
--                .opc0 = 3, .opc1 = 4, .crn = 12, .crm = 0, .opc2 = 1,
--                .access = PL2_R,
--                .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
-+            ARMCPRegInfo rvbar[] = {
-+                {
-+                    .name = "RVBAR_EL2", .state = ARM_CP_STATE_AA64,
-+                    .opc0 = 3, .opc1 = 4, .crn = 12, .crm = 0, .opc2 = 1,
-+                    .access = PL2_R,
-+                    .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
-+                },
-+                {   .name = "RVBAR", .type = ARM_CP_ALIAS,
-+                    .cp = 15, .opc1 = 0, .crn = 12, .crm = 0, .opc2 = 1,
-+                    .access = PL2_R,
-+                    .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
-+                },
-             };
--            define_one_arm_cp_reg(cpu, &rvbar);
-+            define_arm_cp_regs(cpu, rvbar);
-         }
-     }
+     s1lo = extract32(s1.attrs, 0, 4);
+     s2lo = extract32(s2_mair_attrs, 0, 4);
+@@ -2418,6 +2422,8 @@ static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
+  */
+ static uint8_t combined_attrs_fwb(ARMCacheAttrs s1, ARMCacheAttrs s2)
+ {
++    assert(s2.is_s2_format && !s1.is_s2_format);
++
+     switch (s2.attrs) {
+     case 7:
+         /* Use stage 1 attributes */
+@@ -2467,7 +2473,7 @@ static ARMCacheAttrs combine_cacheattrs(uint64_t hcr,
+     ARMCacheAttrs ret;
+     bool tagged = false;
  
+-    assert(s2.is_s2_format && !s1.is_s2_format);
++    assert(!s1.is_s2_format);
+     ret.is_s2_format = false;
+ 
+     if (s1.attrs == 0xf0) {
 -- 
 2.34.1
 
