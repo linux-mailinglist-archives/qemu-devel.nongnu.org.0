@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F68643DC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 08:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76184643DCE
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 08:49:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Sex-0007vt-38; Tue, 06 Dec 2022 02:46:35 -0500
+	id 1p2Sh7-0000AS-Fb; Tue, 06 Dec 2022 02:48:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Seq-0007uP-Ps
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:46:31 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Sh1-00006k-CR
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:48:46 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Seo-0007xG-Lo
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:46:28 -0500
-Received: by mail-wr1-x433.google.com with SMTP id h11so22176810wrw.13
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 23:46:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2Sgi-0008Jv-RV
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:48:39 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h12so22201631wrv.10
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 23:48:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Xy52E4C/J4BmWJlqk+jAj47dY/iy/fo5PUEuVNuRo9Y=;
- b=BePe11jOw/LwRbebzbqBhvOLOtxgJAx1v5FEqMcWdqKf5YlQGM/DaUkbn7dQKloVpn
- mxGPfmDMFVFrNrOjBV9rD1FDtWzw0LsTkHtxfcXPVVMwNAb/3HU9roN81W/LlKW2VO7v
- bvq9DAkc103dtu2as4bWNKb0xKIkIhnW0d+sRYPnGSFGd/siNkHzKOusTAdtgJqGwHoF
- 82Roca60DsRDxwGU02LsaX15H6r8BxuFpvVZJcEewfEvoW/EWO95uVyRC455M53+NGLf
- KQIVB8aIB5iMHLmtOJYua4xonfydmPtcd8MHDUCe4CJu4glHTXxTTZnPEWx75ICyQnuw
- 3RpQ==
+ bh=7RYh+K45p6qpJzfJQJR2NuCgucVCtv9dGrXsX8LHk/s=;
+ b=k8xGaoGMnLGatzyqdRc7WFNhVMj0wAFJK/Zq9HfHc2UHDkfOUd/F9+lOx8/RMGBmMz
+ iMcwt469fdapLiWN6K12hO3Q5kHJe8te4GI6iGbj7PblXAdFmxASRBr5t+rTzIZf4saD
+ tmaIL3Bsk/5MtpS05sj9i6JvixZ32Pj64bp2KdYjR9WBuMrbuKROtn1nnMBMlaV5macy
+ 3eTcrYoSiQxa5iCKPb9R10bBbh3lReygdDw5+1boVIRuHYqCimYZ4ztEyLgdH81hDdsA
+ h2Rzn7Wr8xKMJWDTJzdQPh0m4WU49qGS6k8sDp4RnuNJVsgOZcHIRchSwIUTH8xXHyB6
+ oteg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Xy52E4C/J4BmWJlqk+jAj47dY/iy/fo5PUEuVNuRo9Y=;
- b=vJg5jodrM3NDKT4V816yft1Jx+aojLiYZMIXq9fTq+Yo5zImDz3QVyt04hjFoieIFz
- v4M0qDOOI+/ryewtjWMbwyxNOg1dnKGVq4xVacf4XD1YcSbrhwHmco49fB/bWJnc5dWM
- Kz3f3m6Qp04qGHX2kjptKpflaIe/j9I+OfU4y9tP4FRc51LuW9w2p0W/Y9MBB/OzU55Q
- qK+L18kTiMja9PBqMX/+hOhKXhfOIJh0OVn2eeYC4WlM+7xAPr6Op5T2S6Gix14Nc+I4
- RTD/FlcPZx08vIqsbAMlLS/Um1j2MPp1Pw1uk4m8/eOQwTlBS8dfGyf/XnAp4uliaCfS
- mJvw==
-X-Gm-Message-State: ANoB5pnIDlZBwvYJ7V3XeVJRvEma+rADkyoqR3+aX+WVp68SkH5fCx4r
- WuumRNOU9aSXqIvoB0V24a5Bjw==
-X-Google-Smtp-Source: AA0mqf7uK/PbcJGf9FBN6w3NpBZuoqrgQExaFPcvtdC2vfte1n+qzILdbE4T9zAsGUXNvcpRfGe/NA==
-X-Received: by 2002:a5d:5187:0:b0:242:5ef:ce32 with SMTP id
- k7-20020a5d5187000000b0024205efce32mr30790571wrv.260.1670312784765; 
- Mon, 05 Dec 2022 23:46:24 -0800 (PST)
+ bh=7RYh+K45p6qpJzfJQJR2NuCgucVCtv9dGrXsX8LHk/s=;
+ b=HFv0ZoO2tHnNN9r28jyBgLW9QQi8tgwlQujc8YPgcruGUxPWcbR5NPiPzhitg8TgDU
+ Xg4ToSs9IKJIbL1bjEdSbcjZ/r0NaTi8kxxcl8aemoYN8r4UEo5wc+eVWw+UM3mi0X7U
+ 9rUpzFQ/WEH8Pa8ipzFGEZM1CmqYcjxywDQqYmI6PADje7X0xc6b4Je1pnOE+s/Jdtlx
+ gIJyi8rSFWJmBnXuLzfuLThOQaTREBJPrA3r7LBWYgkOOJamq+ZApr2ANcCcLmkaJE6z
+ G/Mk2FLrLFtzNAvThR0kUjVjLv1IBCZrb8d6y1K4KpGFojz9f8MnQHKLEKmuSUHA1FPK
+ pnaA==
+X-Gm-Message-State: ANoB5pmMvzCTyGoUsFjer2LkujenRPPUIQC6JDA4bi0abEGIRvXKqw+5
+ /EJg/sw6MOw5KBb2AiEetVlGfQQhpXkz9TZOpl0=
+X-Google-Smtp-Source: AA0mqf4jvRFE/yXhSaWEjdJxlX8yvaEEtbiAV7RVWWDhZov5TphoCMYBK+6lMUOwQF6v3JZo4uDxIA==
+X-Received: by 2002:a5d:560b:0:b0:242:1b1:ae8 with SMTP id
+ l11-20020a5d560b000000b0024201b10ae8mr33427105wrv.16.1670312903272; 
+ Mon, 05 Dec 2022 23:48:23 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- he9-20020a05600c540900b003b492753826sm19604728wmb.43.2022.12.05.23.46.24
+ c124-20020a1c3582000000b003cf894dbc4fsm19820324wma.25.2022.12.05.23.48.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Dec 2022 23:46:24 -0800 (PST)
-Message-ID: <735538c0-9064-c0a1-86c8-100fbe4f3b08@linaro.org>
-Date: Tue, 6 Dec 2022 08:46:22 +0100
+ Mon, 05 Dec 2022 23:48:22 -0800 (PST)
+Message-ID: <6740ec4f-a978-6467-ee6d-79eeef3c4059@linaro.org>
+Date: Tue, 6 Dec 2022 08:48:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 21/22] tcg/riscv: Introduce OPC_NOP
+Subject: Re: [PATCH 22/22] tcg/riscv: Implement direct branch for goto_tb
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: r@hev.cc
 References: <20221206041715.314209-1-richard.henderson@linaro.org>
- <20221206041715.314209-22-richard.henderson@linaro.org>
+ <20221206041715.314209-23-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221206041715.314209-22-richard.henderson@linaro.org>
+In-Reply-To: <20221206041715.314209-23-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.265, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,12 +90,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 6/12/22 05:17, Richard Henderson wrote:
+> Now that tcg can handle direct and indirect goto_tb simultaneously,
+> we can optimistically leave space for a direct branch and fall back
+> to loading the pointer from the TB for an indirect branch.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/riscv/tcg-target.c.inc | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   tcg/riscv/tcg-target.h     |  5 +++++
+>   tcg/riscv/tcg-target.c.inc | 19 +++++++++++++++++--
+>   2 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+> index 56f7bc3346..a75c84f2a6 100644
+> --- a/tcg/riscv/tcg-target.h
+> +++ b/tcg/riscv/tcg-target.h
+> @@ -159,6 +159,11 @@ typedef enum {
+>   #define TCG_TARGET_HAS_mulsh_i64        1
+>   #endif
+>   
+> +<<<<<<< HEAD
+> +=======
+> +void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+> +
+> +>>>>>>> 89ab294271 (tcg/riscv: Implement TCG_TARGET_HAS_direct_jump)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+HEAD is correct :)
 
 
