@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9D6643A7D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 02:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C4F643A8A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 02:12:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2MJa-000507-Er; Mon, 05 Dec 2022 20:00:06 -0500
+	id 1p2MTm-0007f5-Jp; Mon, 05 Dec 2022 20:10:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2MJT-0004yk-EB
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 19:59:59 -0500
+ id 1p2MTa-0007eh-Rr
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:10:26 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2MJN-0004PY-J6
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 19:59:58 -0500
+ id 1p2MTW-0006H3-Vu
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:10:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Uls2LqCtzCSLCQXii/jG3c23rYn6zkaRvWanR5hQtvA=; b=sxhptbRR9+0tPgi3t9yROkLkOi
- Qp6BwncqgV3vunACCIpUODTMBaaGU625dQSyQiCGIyWjGw+2/EgAKpEvpmE8XY4VyTUsADgwo+dlS
- +QHT4r/TrTYaSVPbZ9opjEFDbRyV0Wy9WJJRp3/1KHx81wsajTFnB+surLFHIuNROkB3Tgm4f1IE1
- I3P9efKreB+rihOG+3XHP4zhgRVqFa7tW0gF2p72tTSPTkQUgvFUSPbp5+NVC22/p7EttgVGV448V
- x6h5tdsVgP6FpOOcwm+RdlnLEkGN+4kcWMHv6yT6SGDSH4KMVxltidUlKNnGKOB4nHb/WIzicexov
- fHcdIh9w==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+ bh=wLswx5yOyVv8RWpUJXKukXEF12ETcgowDHsuUTxI3YQ=; b=UehXM39OGva1PljOf7vMXYuyG9
+ StkNqqnhBzywQwqlop8duCk48j2zy1QFhK6It/ndvF10eWuQUCwHYOO6gu12dQ9mhTJsmpuq6zysm
+ s/+62ZDkQajTKUfkghznZDfmSblbXVmes8uW8I/j2iPaA4UR+BDco6ZNY2DHYwVGLNZSzPP4AxLjy
+ Qs+eou4ikZShF+NYPxLAUXPNl+CO2st3pDJhFSKBIpkU/IFYPUuGZlOf1jNBca+1+fqMDI1I4VjWi
+ mrZXUsdylc7cZqxs97jkWC4Q1eU8bF/aHmLZTmP42wLCdSXS7WZhR1upm63EaV5uqbyN9eAqWEWdi
+ cA35nSrQ==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2MJM-003rSY-8q; Tue, 06 Dec 2022 00:59:52 +0000
-Message-ID: <f652e8c47425e30e581a98cbe785c3143d821d93.camel@infradead.org>
-Subject: Re: [RFC PATCH 09/21] pc_piix: allow xenfv machine with XEN_EMULATE
+ id 1p2MTX-003sVT-UJ; Tue, 06 Dec 2022 01:10:24 +0000
+Message-ID: <cb4cdc7944c74ee1918667ba455b9afd0fae351c.camel@infradead.org>
+Subject: Re: [RFC PATCH 10/21] i386/xen: handle guest hypercalls
 From: David Woodhouse <dwmw2@infradead.org>
 To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, 
  qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
  Martins <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>
-Date: Tue, 06 Dec 2022 00:59:41 +0000
-In-Reply-To: <16a9ec30-4eb0-7a7a-7ca1-ffb04529cf48@linaro.org>
+Date: Tue, 06 Dec 2022 01:10:15 +0000
+In-Reply-To: <efef965d-3c9b-abc0-ac5f-c252b10722bd@linaro.org>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-10-dwmw2@infradead.org>
- <16a9ec30-4eb0-7a7a-7ca1-ffb04529cf48@linaro.org>
+ <20221205173137.607044-11-dwmw2@infradead.org>
+ <efef965d-3c9b-abc0-ac5f-c252b10722bd@linaro.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-nDobmGc6IIBclYxFBis/"
+ boundary="=-kWo6Zx4ZPJI3vdTX9c2F"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -60,8 +60,8 @@ X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_NONE=0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,80 +78,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-nDobmGc6IIBclYxFBis/
+--=-kWo6Zx4ZPJI3vdTX9c2F
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-12-05 at 23:06 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+On Mon, 2022-12-05 at 23:11 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
 > On 5/12/22 18:31, David Woodhouse wrote:
 > > From: Joao Martins <joao.m.martins@oracle.com>
 > >=20
-> > This allows -machine xenfv to work with Xen emulated guests.
+> > This means handling the new exit reason for Xen but still
+> > crashing on purpose. As we implement each of the hypercalls
+> > we will then return the right return code.
 > >=20
 > > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> > [dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
 > > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > > ---
-> >   hw/i386/pc_piix.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >   target/i386/kvm/kvm.c    |  5 +++++
+> >   target/i386/trace-events |  3 +++
+> >   target/i386/xen.c        | 45 +++++++++++++++++++++++++++++++++++++++=
++
+> >   target/i386/xen.h        |  1 +
+> >   4 files changed, 54 insertions(+)
 > >=20
-> > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> > index 3dcac2f4b6..d1127adde0 100644
-> > --- a/hw/i386/pc_piix.c
-> > +++ b/hw/i386/pc_piix.c
-> > @@ -404,8 +404,8 @@ static void pc_xen_hvm_init(MachineState *machine)
-> >   {
-> >       PCMachineState *pcms =3D PC_MACHINE(machine);
-> >  =20
-> > -    if (!xen_enabled()) {
-> > -        error_report("xenfv machine requires the xen accelerator");
-> > +    if (!xen_enabled() && (xen_mode !=3D XEN_EMULATE)) {
-> > +        error_report("xenfv machine requires the xen or kvm accelerato=
-r");
-> >           exit(1);
-> >       }
+> > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> > index 4b21d03250..6396d11f1e 100644
+> > --- a/target/i386/kvm/kvm.c
+> > +++ b/target/i386/kvm/kvm.c
+> > @@ -5468,6 +5468,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kv=
+m_run *run)
+> >           assert(run->msr.reason =3D=3D KVM_MSR_EXIT_REASON_FILTER);
+> >           ret =3D kvm_handle_wrmsr(cpu, run);
+> >           break;
+> > +#ifdef CONFIG_XEN
 >=20
-> What about the XEN_EMULATE case? Shouldn't this be:
+> CONFIG_XEN is set when the _host_ has Xen development files available.
 >=20
->    if (!xen_enabled()) {
->       if (xen_mode =3D=3D XEN_EMULATE) {
->           error_report("xenfv machine requires the xen accelerator");
->       } else {
->           error_report("xenfv machine requires the xen or kvm accelerator=
-");
->       }
->       exit(1);
->    }
+> IIUC here you want to check if Xen HVM guest support is enabled.
 >=20
-> ?
+> You might want to use a different CONFIG_XEN_xxx key, which itself
+> depends on CONFIG_XEN.
 
-Erm... that one I cherry-picked directly from the original and I
-confess I haven't yet done much thinking about it.
+Yeah, I'd be interested in opinions on that one.
 
-There are two sane cases.
+Strictly, the only one that *needs* to be a configure option is
+CONFIG_XEN for the Xen libraries, which is support for actually running
+on Xen.
 
-If xen_mode =3D=3D XEN_ATTACH, then xen_enabled() should be true.
+Any time KVM is present, we *could* pull in the rest of the xenfv
+machine support unconditionally, since that's no longer dependent on
+true Xen.
 
-If xen_mode =3D=3D XEN_EMULATED, then we'd better be using KVM with the Xen
-support (which could *theoretically* be added to TCG if anyone really
-wanted to).
+But because there's a non-trivial amount of code in the event channel
+and grant table stuff, *perhaps* we want to make it optional? I don't
+really want to call that CONFIG_KVM_XEN since as noted, it's
+theoretically possible to do it with TCG or other accelerators too. So
+we could call it CONFIG_XEN_EMULATION.
 
-So this check is working because it's allowing *either* xen_enabled()
-*or* xen_mode=3D=3DXEN_ATTACH to satisfy it. But it's too lax. I think it
-should *require* KVM in the case of XEN_EMULATE.
+I don't think we'd make that depend on CONFIG_XEN though, since none of
+the actual Xen libraries would be needed once everything's implemented
+and cleaned up.
 
-That ought to be sufficient since it's going to set the xen-version
-machine property, and that would cause KVM itself to bail out if the
-required support isn't present in the kernel.
+So things like the xenfv machine code would then depend on
+(CONFIG_XEN || CONFIG_XEN_EMULATION)... or we could make a new
+automatic config symbol CONFIG_XEN_MACHINE which has the same effect?
 
-(I'm assuming the existing XEN_EMULATE mode is long dead along with
-Xenner? Even on true Xen we run PV guests in a shim these days, and
-that shim works without modification under KVM and will eventually be
-one of my test cases as I get this all working under qemu)
-
+Happy to do it however seems best.
 
 
-
---=-nDobmGc6IIBclYxFBis/
+--=-kWo6Zx4ZPJI3vdTX9c2F
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -243,26 +238,26 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDA1OTQyWjAvBgkqhkiG9w0BCQQxIgQgLZNgyhyE
-EIcsTNB8UaqaKqKVssuJxfvtWGerXK2G83Qwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDExMDE1WjAvBgkqhkiG9w0BCQQxIgQg1T3egNMm
+GTy7eE1KiOGoBwh4jUw8+qSXBbE0enyzYF4wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAGSmtZNaWSq54RTx6TRbDjRRfb5/QVbfUF
-/9ClFPBpOfinEAbzWYwVguUjTxD+sh2QYX2rfuv2+BudxgMUVCeqvpx+ML7Smf9DNx7LnygP0Pyp
-zhWGsIMjTMopiN/TAIHOq2rwuVNDWaM3Ude1TeYJRtZlhUWqh6CgHAxuheNL3TYiBiGpOxjaEMZ/
-sNnrVWN5Yyusbrqa1ozZGrA33DrrAOX2ODccHvpkoT/jC+mDdlMwR2QYS6OYDyvdDCDhUINnFKtY
-KiGwq5nOMQAL4jMFw6mmhXx4RweMK9J6g8xoupDgeLltDzW6iL5KOSpY6j/0EGQpIOxchv54YWIg
-IYtNtURTXp7xJES52fQ/a4feWFnb295c6/yXEmrWwkXxmI8g/32TeiIbcbRwY54B8xDRqkLMOV2w
-ayvLzVeXmRaliXkdghv9kgRbZpGsTDVLN+Vj1NgYATandQ9CpFm2cbspuzYgbm/7b0QjTfF2LLwf
-91RYD/ivLYTJFiCkPenl26ftaHK7i3/t3TBcnz9cLuayb6xIzlULVRHOWdsZZbgkZWGEXVsHe8Qe
-INqeprdFytaO89AR2d5+viv/bRxo6iraUDuS2Nto6mKrdab7UlPEbp1Uveipom/rB8ta2nk7GqtH
-r9vVg44dSJdHowQPNnm7P5Ycm/rKUzZM5hBJo3weDAAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBpbniyyj+6eDiJHwT1zj3nUCTbVl8jWKIV
+3h43jSWPQpuWcfWgQxSKw8l5mucZvVOrI/4tnfnw3cREp/R2khC1niJowe841H08V1twxPz39lov
+fSThjxrmwrMjRd09cyo964MFb98N2j8B9BU0+dN4wT211tRP058f/nFTl6Z7yNhzfG6fSn4TSUHs
+HBMO6Nn5H36Hkju+Ns5u3esVI1TvlMcHoR3j931edFQDq5Dr+ThfWpUQ+w524oNVP/DKtMHxX1ft
+vomkkSTzeOPUGwUbpt+sHGgJZNCj1rfXh84YXaG9s8fcpHjOWmEOivroFXt3g6q755h12tgIJE7k
+xiZFcyntAsRC1EdFX3TfdVr914Wp9HNzdFJD0EdyQskm96ocNqWL0K6sW/1o5fUIjDB87I4JF/Ml
+H4BKABAsxD6Z0OSAVtJIYbd2hY+k71wwJ8ToVd9sdqkSgBMptgnQTWI2G/Ea14Fp1Oc6YuhRd4b5
+Ox6LV24UfNpVYNXbSIFO6jHUkOUUXIcUaqvShkRc7woCnRGtbmcGZShnuhmzzGI4eIiKd00/4sVJ
+5TOOJR0rYykh/IPPgdE3cdJJKm2G1n8zoKtSCK1nBFjUZEYyhpIBkfYi2zRyuuFrlikxOe9OIWKY
+VDwcvqK41Ejrp1zMgZfvgx8cShnB9cmLG5LSsA5HOwAAAAAAAA==
 
 
---=-nDobmGc6IIBclYxFBis/--
+--=-kWo6Zx4ZPJI3vdTX9c2F--
 
 
