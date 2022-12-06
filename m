@@ -2,109 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1203464415C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:39:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39D264415D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:40:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2VLX-0006ex-NO; Tue, 06 Dec 2022 05:38:43 -0500
+	id 1p2VMW-0007Jv-FG; Tue, 06 Dec 2022 05:39:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p2VLT-0006ei-8Z; Tue, 06 Dec 2022 05:38:39 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p2VLP-0004Tn-Af; Tue, 06 Dec 2022 05:38:36 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B69ctoN003315; Tue, 6 Dec 2022 10:38:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=hH/FTXgZ2yOU/NoP/VcobPa1vmlSn3wBI5iT7xZtYfY=;
- b=j8VTF9Ib2qeCU3r5UlqiiVen2907lXGF+ChXxPVPcZGVYmX3BIPraOk67RXZJVzUij33
- CqWvogx+x6ok98ot1GL9LaYJpQ8KnAzc4kqJzF2a6iOquoBAvMVUDThsLaDphiTsuVvW
- 62hHxCnEcFna+5yHHc4f0oRC3rDHxAJC31pPY8Ea9pf4fpsUZKL1waiiWQwh0ROealkL
- 3vcw1nda6H970K3Su+ao4v9rt6o+F/p71toG0YezlAkLzNESood2TJuxuOKr80Q05bqg
- EQskMykm5x94xfvvhRWz89bPyYWF8S53chIDmozJrdYKGY2bbw5K+7h56WOL96HM/K4N vQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m9wybgk16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 10:38:31 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B6A727p015275;
- Tue, 6 Dec 2022 10:38:31 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m9wybgk0b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 10:38:31 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B69XW1s010875;
- Tue, 6 Dec 2022 10:38:29 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3m9kvb97fp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 10:38:28 +0000
-Received: from d06av22.portsmouth.uk.ibm.com ([9.149.105.58])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B6AcPjF36176216
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Dec 2022 10:38:25 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D24E4C044;
- Tue,  6 Dec 2022 10:38:25 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 53E434C040;
- Tue,  6 Dec 2022 10:38:24 +0000 (GMT)
-Received: from [9.171.52.4] (unknown [9.171.52.4])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  6 Dec 2022 10:38:24 +0000 (GMT)
-Message-ID: <d883f3be-0ded-72bb-a08a-29a43ffa3a09@linux.ibm.com>
-Date: Tue, 6 Dec 2022 11:38:24 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2VMU-0007JK-Ce
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:39:42 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2VMS-0004ZZ-Pr
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:39:42 -0500
+Received: by mail-wr1-x433.google.com with SMTP id u12so21876502wrr.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 02:39:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FKoUNbUOLP4SURZcvebDc6kX7f2P/quOXthh5nGVePs=;
+ b=lwSefpV9pyT5+p30tj8S27A+WWIn8p7KZ7T3Lw4/Cbe1+Bh4jo377GT0AVzh1Up7/1
+ xB9l76v6zvxaWl8ELJQsklgusIezfRbsf5KKDyZ55vD9ETpIXRyPMf3cAZQU59o9ge32
+ HNPUmjt1yz9vjm91dy72J5IBxJi4y8xn3z/a2KK2dm6wTulIitVmpzvTAL0Nlrj1zb2L
+ MshKEmh2eiftiYutD8/q+WRqJMXadC20gwylL5om/jx/ii/XVhUE6NcrvB1RDpFGiLOW
+ Qjhsm3/z44TyUONDd5v5s/59uTWm6uBpuGAoJvsZQy8B7Jx2ExICkdeXDRnCGnC7IbGv
+ R1eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FKoUNbUOLP4SURZcvebDc6kX7f2P/quOXthh5nGVePs=;
+ b=LvxbpYz8X1RGcEjNKnAi1qbX4arHpH1LHw3OTPN9edxEdvfRSjX5AwDMVtpWZl7Kdq
+ rByz4pXbASg5DxQJS56zdFx8kP3a8tEFPDbG0rHUIvC6JJTLQW/eBvRpB3DJrJ/AT9mo
+ sg+rjjWobxC/7QaE57JyFu4Vvj76jxwp+GibsMqm9g4debY5ICsDMt3I8CYikDp6sDaB
+ irYJecBJUbQP4q7Pb/DJr2OAxHK/mBNVFfxrYP8En5EGc3CdjR6SfEyO/LgQh208OtqB
+ uYlP7H/bRW+2aWa9DdpPLfR4nl1l1+Uje8kUDqKKscrsNrd+LV1aJqtiHapGoQQm8mKU
+ 14Sw==
+X-Gm-Message-State: ANoB5pnhMDRpWHUVmpWI90ZaxEHs5N97yNT54amzOXVWdCng+MM8lDnA
+ UsKVhypLtwG5a/rR06vgRmOTXw==
+X-Google-Smtp-Source: AA0mqf62SyMaU5Jf9pU7IZB9usowbY870i4BZ0IapQSTQ64wnmaA//lNbPoLW+kNAIpBNqryoEykRQ==
+X-Received: by 2002:a05:6000:1815:b0:242:6006:50f2 with SMTP id
+ m21-20020a056000181500b00242600650f2mr5622307wrh.64.1670323175475; 
+ Tue, 06 Dec 2022 02:39:35 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ b4-20020a5d45c4000000b00242209dd1ffsm16369278wrs.41.2022.12.06.02.39.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Dec 2022 02:39:35 -0800 (PST)
+Message-ID: <5f98f1c6-e6a9-cea6-427f-3fa2c4493e5d@linaro.org>
+Date: Tue, 6 Dec 2022 11:39:33 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v12 2/7] s390x/cpu topology: reporting the CPU topology to
- the guest
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH v6 0/7] Add ARM Cortex-R52 CPU
 Content-Language: en-US
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221129174206.84882-1-pmorel@linux.ibm.com>
- <20221129174206.84882-3-pmorel@linux.ibm.com>
- <be6e4c3a2a3b1b4a944ce0558d3e852f78bd9645.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <be6e4c3a2a3b1b4a944ce0558d3e852f78bd9645.camel@linux.ibm.com>
+To: tobias.roehmel@rwth-aachen.de, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: mIuWOCddOuwxnZNRsL3CX8gtROREdTvF
-X-Proofpoint-ORIG-GUID: Qct7h4vLui3bkWNwQ1HDfMSB7acpPaK2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-06_05,2022-12-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 clxscore=1015 adultscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212060088
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,129 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 6/12/22 11:24, tobias.roehmel@rwth-aachen.de wrote:
+> From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
+> v6:
+> patch 5:
+> - I'm freeing the PRBAR/... strings explicitly now since
+>    I don't know how to use autofree in this setup correctly.
+>    Maybe {} around the part were the string is created/used,
+>    such that it is dropped at }?
 
-On 12/6/22 10:48, Janis Schoetterl-Glausch wrote:
-> On Tue, 2022-11-29 at 18:42 +0100, Pierre Morel wrote:
->> The guest uses the STSI instruction to get information on the
->> CPU topology.
->>
->> Let us implement the STSI instruction for the basis CPU topology
->> level, level 2.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   target/s390x/cpu.h          |  77 +++++++++++++++
->>   hw/s390x/s390-virtio-ccw.c  |  12 +--
->>   target/s390x/cpu_topology.c | 186 ++++++++++++++++++++++++++++++++++++
->>   target/s390x/kvm/kvm.c      |   6 +-
->>   target/s390x/meson.build    |   1 +
->>   5 files changed, 274 insertions(+), 8 deletions(-)
->>   create mode 100644 target/s390x/cpu_topology.c
->>
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index 7d6d01325b..dd878ac916 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->>
-> [...]
-> 
->> +/* Configuration topology */
->> +typedef struct SysIB_151x {
->> +    uint8_t  reserved0[2];
->> +    uint16_t length;
->> +    uint8_t  mag[S390_TOPOLOGY_MAG];
->> +    uint8_t  reserved1;
->> +    uint8_t  mnest;
->> +    uint32_t reserved2;
->> +    char tle[0];
-> 
-> AFAIK [] is preferred over [0].
+The pointer is declared outside of a for() statement. Then
+inside this statement you alloc/free twice, using the same
+pointer. This is correct.  If you really want to use
+g_autofree in such case, you'd need to declare within the
+same statement, one pointer for each string:
 
-grr, yes, I think I have been already told so :)
+   for (i = 0; i < MIN(cpu->pmsav7_dregion, 32); ++i) {
+       uint8_t crm = 0b1000 | extract32(i, 1, 3);
+       uint8_t opc1 = extract32(i, 4, 1);
+       uint8_t opc2 = extract32(i, 0, 1) << 2;
+       g_autofree char *prbarn_str = g_strdup_printf("PRBAR%u", i);
+       g_autofree char *prlarn_str = g_strdup_printf("PRLAR%u", i);
 
+       const ARMCPRegInfo tmp_prbarn_reginfo = {
+           .name = prbarn_str, .type = ARM_CP_ALIAS | ARM_CP_NO_RAW,
+           .cp = 15, .opc1 = opc1, .crn = 6, .crm = crm, .opc2 = opc2,
+           .access = PL1_RW, .resetvalue = 0,
+           .accessfn = access_tvm_trvm,
+           .writefn = pmsav8r_regn_write, .readfn = pmsav8r_regn_read
+       };
+       define_one_arm_cp_reg(cpu, &tmp_prbarn_reginfo);
 
-> 
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
-> 
-> [...]
->>
->> +/*
->> + * s390_topology_add_cpu:
->> + * @topo: pointer to the topology
->> + * @cpu : pointer to the new CPU
->> + *
->> + * The topology pointed by S390CPU, gives us the CPU topology
->> + * established by the -smp QEMU aruments.
->> + * The core-id is used to calculate the position of the CPU inside
->> + * the topology:
->> + *  - the socket, container TLE, containing the CPU, we have one socket
->> + *    for every num_cores cores.
->> + *  - the CPU TLE inside the socket, we have potentionly up to 4 CPU TLE
->> + *    in a container TLE with the assumption that all CPU are identical
->> + *    with the same polarity and entitlement because we have maximum 256
->> + *    CPUs and each TLE can hold up to 64 identical CPUs.
->> + *  - the bit in the 64 bit CPU TLE core mask
->> + */
->> +static void s390_topology_add_cpu(S390Topology *topo, S390CPU *cpu)
->> +{
->> +    int core_id = cpu->env.core_id;
->> +    int bit, origin;
->> +    int socket_id;
->> +
->> +    cpu->machine_data = topo;
->> +    socket_id = core_id / topo->num_cores;
->> +    /*
->> +     * At the core level, each CPU is represented by a bit in a 64bit
->> +     * uint64_t which represent the presence of a CPU.
->> +     * The firmware assume that all CPU in a CPU TLE have the same
->> +     * type, polarization and are all dedicated or shared.
->> +     * In that case the origin variable represents the offset of the first
->> +     * CPU in the CPU container.
->> +     * More than 64 CPUs per socket are represented in several CPU containers
->> +     * inside the socket container.
->> +     * The only reason to have several S390TopologyCores inside a socket is
->> +     * to have more than 64 CPUs.
->> +     * In that case the origin variable represents the offset of the first CPU
->> +     * in the CPU container. More than 64 CPUs per socket are represented in
->> +     * several CPU containers inside the socket container.
->> +     */
-> 
-> This comment still contains redundant sentences.
-> Did you have a look at my suggestion in v10 patch 1?
+       opc2 = extract32(i, 0, 1) << 2 | 0x1;
+       const ARMCPRegInfo tmp_prlarn_reginfo = {
+           .name = prlarn_str, .type = ARM_CP_ALIAS | ARM_CP_NO_RAW,
+           .cp = 15, .opc1 = opc1, .crn = 6, .crm = crm, .opc2 = opc2,
+           .access = PL1_RW, .resetvalue = 0,
+           .accessfn = access_tvm_trvm,
+           .writefn = pmsav8r_regn_write, .readfn = pmsav8r_regn_read
+       };
+       define_one_arm_cp_reg(cpu, &tmp_prlarn_reginfo);
+   }
 
-Yes, I had, and sorry, I forgot to report here inside the patch 11.
-I will take it, thanks for it.
+(Note ARMCPRegInfo can be qualified const).
 
-> 
->> +    bit = core_id;
->> +    origin = bit / 64;
->> +    bit %= 64;
->> +    bit = 63 - bit;
->> +
->> +    topo->socket[socket_id].active_count++;
->> +    set_bit(bit, &topo->socket[socket_id].mask[origin]);
->> +}
->> +
->> +/*
->> + * s390_prepare_topology:
->> + * @s390ms : pointer to the S390CcwMachite State
->> + *
->> + * Calls s390_topology_add_cpu to organize the topology
->> + * inside the topology device before writing the SYSIB.
->> + *
->> + * The topology is currently fixed on boot and do not change
-> 
-> does not change
+Regards,
 
-yes, thanks
-
-
-regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Phil.
 
