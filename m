@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6CE6447A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 16:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B67644803
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 16:30:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2ZYY-0004Jw-FX; Tue, 06 Dec 2022 10:08:26 -0500
+	id 1p2Zs3-0000Xx-Bc; Tue, 06 Dec 2022 10:28:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p2ZYK-0004JD-KY
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:08:14 -0500
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p2ZYE-0006D9-Jj
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:08:09 -0500
-Received: by mail-lj1-x230.google.com with SMTP id z4so17553284ljq.6
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 07:08:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=N3JrFiF0rAtuchgjYbmIFuxDgx6mEH12hqcfPr0ZYRM=;
- b=FmaE5dMqzoau8LX9lh0HQhLHWUhd1cdHHPYwFYlaI8TyXEet1aRTl/mbuwkrSKQ3h7
- 19MOJqeEn53RrqqBVugS8WByrvp/McL/LgDO5c8IuX106UhFD/ZmZWH5yk8v3CL/75Mq
- 5oja2HybW1h+PL6fLIN8YEke3oR/PzfFdwBmmDT0dbMdr7CHx79urBhuSJwlo02c3wte
- 6N9xpdy+hyDRk868c6y6Di3ToJJV69jS0oW5yqOg1BYEw5BLVfm8j3wM4PC9kDDfLg9a
- UV0GCggY/ViEHBeH4Zkkb982icVkKhp6IQkfLeKiCHpoQEtoVmDLhJzAA1EGa6iWggSs
- fLBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=N3JrFiF0rAtuchgjYbmIFuxDgx6mEH12hqcfPr0ZYRM=;
- b=c5Q+q6+ln38u3yp+duVJFcBrzvJ4oVkfE8x8z0KUBRXTuSwvUuPwM8cEyzThEbJnTr
- eeB+Hvav6ODvTcp62xGTgXqZ4PtivhKL48JTux5vSZv2KesFdhg74IltQ6zl9j6IbHQc
- a9c8qKJqkuqASmGQ02zSnVhSJGbGPwFui7gpOlB+D4SfYa5ockMjuj8BCzJhUm4frFuh
- cCked8maBDnDriasemwcIX/yayUBmt2l17h7ra14CWquLJ9uafCTC/bnW5Be8rSJdcwm
- PxjghxWw96ueg8V4RuUKWJmgB8EmZ91iAP+/BXMPNM9gS6q5Ge38zMcqdTPQXKr4Mnkj
- I8oA==
-X-Gm-Message-State: ANoB5pkMOLSYs1Dw9oLJ5+2TSv2ThXThK6K2i/EG12aBd1Myojt9XwW1
- izcZrXH2I+EnkfkkG047NZIftgkcT9tk/p1Mbil7tQ==
-X-Google-Smtp-Source: AA0mqf5hY77RFuRDBbWFwLRnjhLNEp3Lvwr0fAYvK0ywFrz/dAlnsmzvepDe9P9eI8LmdXQa29pElCjo5wEagjpT+f8=
-X-Received: by 2002:a2e:a544:0:b0:278:f5b8:82c8 with SMTP id
- e4-20020a2ea544000000b00278f5b882c8mr23082400ljn.228.1670339284027; Tue, 06
- Dec 2022 07:08:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p2Zs0-0000XY-6o
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:28:32 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p2Zrx-00019Z-Rc
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:28:31 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B6E8VAe024985; Tue, 6 Dec 2022 15:28:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to :
+ subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=P7u6pHd0va0FZhaoZvUrQZYdGC6/64yaikEHjj1RXbs=;
+ b=Au4gZY9LtEe2kmJZSR1W0xLX8gwft0j4d1HNTREDmWgn2suX0FAsp9VRVOYGUNVhJIQ7
+ WYmk9uZ0TZHC6R4lY/Qvj5WyBbBb2z9PMI+A9xbRXEWfBg7+Z4XdAoNumKODH3NY2NyF
+ NEZxXVwEyuClwYJ1EkogxJAG3TpDWLmFo4GoDJpIqncVHLH3yWKl7daEWKdjgxmt7E29
+ iLjWmj5dJKnKKzFmnKONS8Vx+LYxNQk5KJl2jFeQcce9dAwMm/pj0gfx9kFoND6PYlDg
+ cuU/hfVtfq1F1dVGCvqEXqvmATGqOweJkNHhSSnJLEO/lwlhGXbH/7Clzm4/dRZuHQLV Yw== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ma2h228g1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 15:28:26 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2B6DAhSU010128;
+ Tue, 6 Dec 2022 15:28:24 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3m9m7r95ny-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 15:28:24 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B6FSL2v23986760
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Dec 2022 15:28:22 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D424B20043;
+ Tue,  6 Dec 2022 15:28:21 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E23920040;
+ Tue,  6 Dec 2022 15:28:21 +0000 (GMT)
+Received: from heavy (unknown [9.171.16.157])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue,  6 Dec 2022 15:28:21 +0000 (GMT)
+Date: Tue, 6 Dec 2022 16:28:15 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 29/34] tcg: Reorg function calls
+Message-ID: <20221206152815.okaikikteop3cduk@heavy>
+References: <20221202053958.223890-1-richard.henderson@linaro.org>
+ <20221202053958.223890-30-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Tue, 6 Dec 2022 15:07:27 +0000
-Message-ID: <CA+EHjTxXOdzcP25F57Mtmnb1NWyG5DcyqeDPqzjEOzRUrqH8FQ@mail.gmail.com>
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>, 
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
- envelope-from=tabba@google.com; helo=mail-lj1-x230.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221202053958.223890-30-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: wPfyTVvvD49dlmAmOUKxhaAjiDEuaghy
+X-Proofpoint-ORIG-GUID: wPfyTVvvD49dlmAmOUKxhaAjiDEuaghy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-06_10,2022-12-06_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ adultscore=0 impostorscore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2212060124
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,331 +103,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-On Fri, Dec 2, 2022 at 6:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> In confidential computing usages, whether a page is private or shared is
-> necessary information for KVM to perform operations like page fault
-> handling, page zapping etc. There are other potential use cases for
-> per-page memory attributes, e.g. to make memory read-only (or no-exec,
-> or exec-only, etc.) without having to modify memslots.
->
-> Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
-> userspace to operate on the per-page memory attributes.
->   - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
->     a guest memory range.
->   - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
->     memory attributes.
->
-> KVM internally uses xarray to store the per-page memory attributes.
->
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
+On Thu, Dec 01, 2022 at 09:39:53PM -0800, Richard Henderson wrote:
+> Pre-compute the function call layout for each helper at startup.
+> Drop TCG_CALL_DUMMY_ARG, as we no longer need to leave gaps
+> in the op->args[] array.  This allows several places to stop
+> checking for NULL TCGTemp, to which TCG_CALL_DUMMY_ARG mapped.
+> 
+> For tcg_gen_callN, loop over the arguments once.  Allocate the TCGOp
+> for the call early but delay emitting it, collecting arguments first.
+> This allows the argument processing loop to emit code for extensions
+> and have them sequenced before the call.
+> 
+> For tcg_reg_alloc_call, loop over the arguments in reverse order,
+> which allows stack slots to be filled first naturally.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
->  arch/x86/kvm/Kconfig           |  1 +
->  include/linux/kvm_host.h       |  3 ++
->  include/uapi/linux/kvm.h       | 17 ++++++++
->  virt/kvm/Kconfig               |  3 ++
->  virt/kvm/kvm_main.c            | 76 ++++++++++++++++++++++++++++++++++
->  6 files changed, 163 insertions(+)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 5617bc4f899f..bb2f709c0900 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -5952,6 +5952,59 @@ delivery must be provided via the "reg_aen" struct.
->  The "pad" and "reserved" fields may be used for future extensions and should be
->  set to 0s by userspace.
->
-> +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
-> +-----------------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: u64 memory attributes bitmask(out)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Returns supported memory attributes bitmask. Supported memory attributes will
-> +have the corresponding bits set in u64 memory attributes bitmask.
-> +
-> +The following memory attributes are defined::
-> +
-> +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
-> +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
-> +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
-> +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
-> +
-> +4.139 KVM_SET_MEMORY_ATTRIBUTES
-> +-----------------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: struct kvm_memory_attributes(in/out)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Sets memory attributes for pages in a guest memory range. Parameters are
-> +specified via the following structure::
-> +
-> +  struct kvm_memory_attributes {
-> +       __u64 address;
-> +       __u64 size;
-> +       __u64 attributes;
-> +       __u64 flags;
-> +  };
-> +
-> +The user sets the per-page memory attributes to a guest memory range indicated
-> +by address/size, and in return KVM adjusts address and size to reflect the
-> +actual pages of the memory range have been successfully set to the attributes.
-> +If the call returns 0, "address" is updated to the last successful address + 1
-> +and "size" is updated to the remaining address size that has not been set
-> +successfully. The user should check the return value as well as the size to
-> +decide if the operation succeeded for the whole range or not. The user may want
-> +to retry the operation with the returned address/size if the previous range was
-> +partially successful.
-> +
-> +Both address and size should be page aligned and the supported attributes can be
-> +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
-> +
-> +The "flags" field may be used for future extensions and should be set to 0s.
-> +
->  5. The kvm_run structure
->  ========================
->
-> @@ -8270,6 +8323,16 @@ structure.
->  When getting the Modified Change Topology Report value, the attr->addr
->  must point to a byte where the value will be stored or retrieved from.
->
-> +8.40 KVM_CAP_MEMORY_ATTRIBUTES
-> +------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm
-> +
-> +This capability indicates KVM supports per-page memory attributes and ioctls
-> +KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES/KVM_SET_MEMORY_ATTRIBUTES are available.
-> +
->  9. Known KVM API problems
->  =========================
->
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index fbeaa9ddef59..a8e379a3afee 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -49,6 +49,7 @@ config KVM
->         select SRCU
->         select INTERVAL_TREE
->         select HAVE_KVM_PM_NOTIFIER if PM
-> +       select HAVE_KVM_MEMORY_ATTRIBUTES
->         help
->           Support hosting fully virtualized guest machines using hardware
->           virtualization extensions.  You will need a fairly recent
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 8f874a964313..a784e2b06625 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -800,6 +800,9 @@ struct kvm {
->
->  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
->         struct notifier_block pm_notifier;
-> +#endif
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +       struct xarray mem_attr_array;
->  #endif
->         char stats_id[KVM_STATS_NAME_SIZE];
+>  include/exec/helper-head.h |   2 +
+>  include/tcg/tcg.h          |   5 +-
+>  tcg/tcg-internal.h         |  22 +-
+>  tcg/optimize.c             |   6 +-
+>  tcg/tcg.c                  | 609 ++++++++++++++++++++++---------------
+>  5 files changed, 394 insertions(+), 250 deletions(-)
+
+...
+
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index d08323db49..74f7491d73 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -547,7 +547,7 @@ void tcg_pool_reset(TCGContext *s)
+>  
+>  #include "exec/helper-proto.h"
+>  
+> -static const TCGHelperInfo all_helpers[] = {
+> +static TCGHelperInfo all_helpers[] = {
+>  #include "exec/helper-tcg.h"
 >  };
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 64dfe9c07c87..5d0941acb5bb 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1182,6 +1182,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_S390_CPU_TOPOLOGY 222
->  #define KVM_CAP_DIRTY_LOG_RING_ACQ_REL 223
->  #define KVM_CAP_S390_PROTECTED_ASYNC_DISABLE 224
-> +#define KVM_CAP_MEMORY_ATTRIBUTES 225
->
->  #ifdef KVM_CAP_IRQ_ROUTING
->
-> @@ -2238,4 +2239,20 @@ struct kvm_s390_zpci_op {
->  /* flags for kvm_s390_zpci_op->u.reg_aen.flags */
->  #define KVM_S390_ZPCIOP_REGAEN_HOST    (1 << 0)
->
-> +/* Available with KVM_CAP_MEMORY_ATTRIBUTES */
-> +#define KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES    _IOR(KVMIO,  0xd2, __u64)
-> +#define KVM_SET_MEMORY_ATTRIBUTES              _IOWR(KVMIO,  0xd3, struct kvm_memory_attributes)
-> +
-> +struct kvm_memory_attributes {
-> +       __u64 address;
-> +       __u64 size;
-> +       __u64 attributes;
-> +       __u64 flags;
-> +};
-> +
-> +#define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
-> +#define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
-> +#define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
-> +#define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
-
-nit: how about using the BIT() macro for these?
-
-> +
->  #endif /* __LINUX_KVM_H */
-> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> index 800f9470e36b..effdea5dd4f0 100644
-> --- a/virt/kvm/Kconfig
-> +++ b/virt/kvm/Kconfig
-> @@ -19,6 +19,9 @@ config HAVE_KVM_IRQ_ROUTING
->  config HAVE_KVM_DIRTY_RING
->         bool
->
-> +config HAVE_KVM_MEMORY_ATTRIBUTES
-> +       bool
-> +
->  # Only strongly ordered architectures can select this, as it doesn't
->  # put any explicit constraint on userspace ordering. They can also
->  # select the _ACQ_REL version.
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 1782c4555d94..7f0f5e9f2406 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -1150,6 +1150,9 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
->         spin_lock_init(&kvm->mn_invalidate_lock);
->         rcuwait_init(&kvm->mn_memslots_update_rcuwait);
->         xa_init(&kvm->vcpu_array);
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +       xa_init(&kvm->mem_attr_array);
-> +#endif
->
->         INIT_LIST_HEAD(&kvm->gpc_list);
->         spin_lock_init(&kvm->gpc_lock);
-> @@ -1323,6 +1326,9 @@ static void kvm_destroy_vm(struct kvm *kvm)
->                 kvm_free_memslots(kvm, &kvm->__memslots[i][0]);
->                 kvm_free_memslots(kvm, &kvm->__memslots[i][1]);
->         }
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +       xa_destroy(&kvm->mem_attr_array);
-> +#endif
->         cleanup_srcu_struct(&kvm->irq_srcu);
->         cleanup_srcu_struct(&kvm->srcu);
->         kvm_arch_free_vm(kvm);
-> @@ -2323,6 +2329,49 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
->  }
->  #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
->
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +static u64 kvm_supported_mem_attributes(struct kvm *kvm)
-> +{
-> +       return 0;
-> +}
-> +
-> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> +                                          struct kvm_memory_attributes *attrs)
-> +{
-> +       gfn_t start, end;
-> +       unsigned long i;
-> +       void *entry;
-> +       u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> +
-> +       /* flags is currently not used. */
-
-nit: "is reserved"? I think it makes it a bit clearer what its purpose is.
-
-> +       if (attrs->flags)
-> +               return -EINVAL;
-> +       if (attrs->attributes & ~supported_attrs)
-> +               return -EINVAL;
-> +       if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> +               return -EINVAL;
-> +       if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> +               return -EINVAL;
-> +
-> +       start = attrs->address >> PAGE_SHIFT;
-> +       end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-
-Would using existing helpers be better for getting the frame numbers?
-Also, the code checks that the address and size are page aligned, so
-the end rounding up seems redundant, and might even be wrong if the
-address+size-1 is close to the gfn_t limit (which this code tries to
-avoid in an earlier check).
-
-> +       entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> +
-> +       mutex_lock(&kvm->lock);
-> +       for (i = start; i < end; i++)
-> +               if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> +                                   GFP_KERNEL_ACCOUNT)))
-> +                       break;
-> +       mutex_unlock(&kvm->lock);
-> +
-> +       attrs->address = i << PAGE_SHIFT;
-> +       attrs->size = (end - i) << PAGE_SHIFT;
-
-nit: helpers for these too?
-
-With the end calculation fixed,
-
-Reviewed-by: Fuad Tabba <tabba@google.com>
-After adding the necessary configs for arm64 (on qemu/arm64):
-Tested-by: Fuad Tabba <tabba@google.com>
-
-Cheers,
-/fuad
-
-> +
-> +       return 0;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> +
->  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
->  {
->         return __gfn_to_memslot(kvm_memslots(kvm), gfn);
-> @@ -4459,6 +4508,9 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
->  #ifdef CONFIG_HAVE_KVM_MSI
->         case KVM_CAP_SIGNAL_MSI:
+>  static GHashTable *helper_table;
+> @@ -565,6 +565,154 @@ static ffi_type * const typecode_to_ffi[8] = {
+>  };
 >  #endif
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +       case KVM_CAP_MEMORY_ATTRIBUTES:
-> +#endif
->  #ifdef CONFIG_HAVE_KVM_IRQFD
->         case KVM_CAP_IRQFD:
->         case KVM_CAP_IRQFD_RESAMPLE:
-> @@ -4804,6 +4856,30 @@ static long kvm_vm_ioctl(struct file *filp,
->                 break;
->         }
->  #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +       case KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES: {
-> +               u64 attrs = kvm_supported_mem_attributes(kvm);
+>  
+> +typedef struct TCGCumulativeArgs {
+> +    int arg_idx;                /* tcg_gen_callN args[] */
+> +    int info_in_idx;            /* TCGHelperInfo in[] */
+> +    int arg_slot;               /* regs+stack slot */
+> +    int ref_slot;               /* stack slots for references */
+> +} TCGCumulativeArgs;
 > +
-> +               r = -EFAULT;
-> +               if (copy_to_user(argp, &attrs, sizeof(attrs)))
-> +                       goto out;
-> +               r = 0;
-> +               break;
-> +       }
-> +       case KVM_SET_MEMORY_ATTRIBUTES: {
-> +               struct kvm_memory_attributes attrs;
+> +static void layout_arg_even(TCGCumulativeArgs *cum)
+> +{
+> +    cum->arg_slot += cum->arg_slot & 1;
+> +}
 > +
-> +               r = -EFAULT;
-> +               if (copy_from_user(&attrs, argp, sizeof(attrs)))
-> +                       goto out;
+> +static void layout_arg_1(TCGCumulativeArgs *cum, TCGHelperInfo *info,
+> +                         TCGCallArgumentKind kind)
+> +{
+> +    TCGCallArgumentLoc *loc = &info->in[cum->info_in_idx];
 > +
-> +               r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
+> +    *loc = (TCGCallArgumentLoc){
+> +        .kind = kind,
+> +        .arg_idx = cum->arg_idx,
+> +        .arg_slot = cum->arg_slot,
+> +    };
+> +    cum->info_in_idx++;
+> +    cum->arg_slot++;
+> +}
 > +
-> +               if (!r && copy_to_user(argp, &attrs, sizeof(attrs)))
-> +                       r = -EFAULT;
-> +               break;
-> +       }
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
->         case KVM_CREATE_DEVICE: {
->                 struct kvm_create_device cd;
->
-> --
-> 2.25.1
->
+> +static void layout_arg_normal_n(TCGCumulativeArgs *cum,
+> +                                TCGHelperInfo *info, int n)
+> +{
+> +    TCGCallArgumentLoc *loc = &info->in[cum->info_in_idx];
+> +
+> +    for (int i = 0; i < n; ++i) {
+> +        /* Layout all using the same arg_idx, adjusting the subindex. */
+> +        loc[i] = (TCGCallArgumentLoc){
+> +            .kind = TCG_CALL_ARG_NORMAL,
+> +            .arg_idx = cum->arg_idx,
+> +            .tmp_subindex = i,
+> +            .arg_slot = cum->arg_slot + i,
+> +        };
+> +    }
+> +    cum->info_in_idx += n;
+> +    cum->arg_slot += n;
+> +}
+> +
+> +static void init_call_layout(TCGHelperInfo *info)
+> +{
+> +    int max_reg_slots = ARRAY_SIZE(tcg_target_call_iarg_regs);
+> +    int max_stk_slots = TCG_STATIC_CALL_ARGS_SIZE / sizeof(tcg_target_long);
+> +    unsigned typemask = info->typemask;
+> +    unsigned typecode;
+> +    TCGCumulativeArgs cum = { };
+> +
+> +    /*
+> +     * Parse and place any function return value.
+> +     */
+> +    typecode = typemask & 7;
+> +    switch (typecode) {
+> +    case dh_typecode_void:
+> +        info->nr_out = 0;
+> +        break;
+> +    case dh_typecode_i32:
+> +    case dh_typecode_s32:
+> +    case dh_typecode_ptr:
+> +        info->nr_out = 1;
+> +        info->out_kind = TCG_CALL_RET_NORMAL;
+> +        break;
+> +    case dh_typecode_i64:
+> +    case dh_typecode_s64:
+> +        info->nr_out = 64 / TCG_TARGET_REG_BITS;
+> +        info->out_kind = TCG_CALL_RET_NORMAL;
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +    assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
+> +
+> +    /*
+> +     * Parse and place function arguments.
+> +     */
+> +    for (typemask >>= 3; typemask; typemask >>= 3, cum.arg_idx++) {
+> +        TCGCallArgumentKind kind;
+> +        TCGType type;
+> +
+> +        typecode = typemask & 7;
+> +        switch (typecode) {
+> +        case dh_typecode_i32:
+> +        case dh_typecode_s32:
+> +            type = TCG_TYPE_I32;
+> +            break;
+> +        case dh_typecode_i64:
+> +        case dh_typecode_s64:
+> +            type = TCG_TYPE_I64;
+> +            break;
+> +        case dh_typecode_ptr:
+> +            type = TCG_TYPE_PTR;
+> +            break;
+> +        default:
+> +            g_assert_not_reached();
+> +        }
+> +
+> +        switch (type) {
+> +        case TCG_TYPE_I32:
+> +            switch (TCG_TARGET_CALL_ARG_I32) {
+> +            case TCG_CALL_ARG_EVEN:
+> +                layout_arg_even(&cum);
+> +                /* fall through */
+> +            case TCG_CALL_ARG_NORMAL:
+> +                layout_arg_1(&cum, info, TCG_CALL_ARG_NORMAL);
+> +                break;
+> +            case TCG_CALL_ARG_EXTEND:
+> +                kind = TCG_CALL_ARG_EXTEND_U + (typecode & 1);
+> +                layout_arg_1(&cum, info, kind);
+> +                break;
+> +            default:
+> +                qemu_build_not_reached();
+> +            }
+> +            break;
+> +
+> +        case TCG_TYPE_I64:
+> +            switch (TCG_TARGET_CALL_ARG_I64) {
+> +            case TCG_CALL_ARG_EVEN:
+
+On a s390x host with gcc-11.0.1-0.3.1.ibm.fc34.s390x I get:
+
+FAILED: libqemu-aarch64-softmmu.fa.p/tcg_tcg.c.o
+../tcg/tcg.c: In function ‘init_call_layout’:
+../tcg/tcg.c:739:13: error: case value ‘1’ not in enumerated type [-Werror=switch]
+  739 |             case TCG_CALL_ARG_EVEN:
+      |             ^~~~
+
+The following helps:
+
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -735,7 +735,7 @@ static void init_call_layout(TCGHelperInfo *info)
+             break;
+ 
+         case TCG_TYPE_I64:
+-            switch (TCG_TARGET_CALL_ARG_I64) {
++            switch ((TCGCallArgumentKind)TCG_TARGET_CALL_ARG_I64) {
+             case TCG_CALL_ARG_EVEN:
+                 layout_arg_even(&cum);
+                 /* fall through */
+
+This looks like a gcc bug to me.
+I still thought it would be worth mentioning here.
+
+...
+
+Best regards,
+Ilya
 
