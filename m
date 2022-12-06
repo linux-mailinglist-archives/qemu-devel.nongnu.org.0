@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E45643D6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 08:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D216E643D6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 08:08:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2S2C-0007A1-Bu; Tue, 06 Dec 2022 02:06:32 -0500
+	id 1p2S45-0008Jf-4W; Tue, 06 Dec 2022 02:08:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p2S1q-0006zR-6t; Tue, 06 Dec 2022 02:06:10 -0500
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p2S1o-0000SP-Bk; Tue, 06 Dec 2022 02:06:09 -0500
-Received: by mail-vs1-xe30.google.com with SMTP id q128so13324373vsa.13;
- Mon, 05 Dec 2022 23:06:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XcqP69H7M8h20Oke/Zb/63PVRm6MLB+zw6z4Mmx26F8=;
- b=BLyfwb6oAkyoQOUHfznTFgSEElm1Na3kMvqiokfuVUTETZ6D/E3rOCNvyAQHbL/+Z4
- OLnR69Xj/1sYG3rDKZFEs4W1f4xrR0o9ncOzRAHV3VpZo8nf6Vj8S3d5Ai+QLRLPp32E
- sv+6w+cbCg5GcylLUwX4/ur957K9qQgxucpRSaa3Kt8Sjasw0NdpcKl4USh0SwFCKeXO
- 0tQX82LQ32AGmk9kFEuGO5juykIwKs73nZ89dHj3eAcjWoSdAipUYl1YKMA1ihaaFevO
- gwqo/JiXOEEZs6N57wqoOcO7nUUQ1BWLYIHcqZJ189WITiLdCiNch+E0voFxPFPXMY4T
- iXOw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p2S3p-0008JW-Kf
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:08:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p2S3m-0000li-Ff
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:08:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670310489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uLwJfALFXHw/E/EZqWV3PMsye7xju4ss338dHSGFdDE=;
+ b=K0+LfBAtMk2WwCR2lVN46NzgedIzmfxi80sYk1wZLl28XWpKRmOaIpI69i6tWyXCYns7tC
+ yH544AaC09qNOC6HkMKOjTtN5QStQsY/8Y8i4EGtlNs8Tb1hcZyFMFm4JzwiDd8QW1NXxm
+ Dh8B0XrKdkChNJh9vKgFIiW+HARMlvg=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-515-Fq0TyrDjNGqDbfBF9nQeXw-1; Tue, 06 Dec 2022 02:08:06 -0500
+X-MC-Unique: Fq0TyrDjNGqDbfBF9nQeXw-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-1446f190493so3350060fac.9
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 23:08:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XcqP69H7M8h20Oke/Zb/63PVRm6MLB+zw6z4Mmx26F8=;
- b=z+HWuxOLKbAnv7NxJkKBY6reIFFuPyUlmGLOTO8o7Vt2CmVsbxXMPOFy4RJkAzRVGw
- 8VWXpRv02EAnjE1AToLSXaw/5MUDNMW6OpcHCaWO1fmdFxXuukNzJDJAE0PGJ6XvMOBh
- j2F8McsdaW3Jx5uk9eT0DvbQXx61uXJDaJFiypPg21+PkzeY10W+HQcJboMqdhpdtR9V
- TGilObcLyQaisRb1iTuxYGx2SLPEuQUiwQ8AygEblN2FQmxbFrhMk4GOlHu3+nWdJIta
- 2rsjx1juUUHzx7HITzw+HsrqyldpVzAtsTkGAzOkLQlkein3KPwx9Hg5UmlMy++g+btn
- FN9A==
-X-Gm-Message-State: ANoB5plqWsWqiuGiS3mHD84k70K7821YMjbVSo4vLZU8lOTa0YHl103p
- JMoCvjZZNmy1btgmR6hh+WKbb27j5uzL456Ejj8=
-X-Google-Smtp-Source: AA0mqf7St4C13viAAf2JXUvpURaCk7ywfVncZmfAknhYnyO82ozCh8fpsX8F50I15v2RZcUt4h+f1HfiFk+1k2KYqAw=
-X-Received: by 2002:a67:c519:0:b0:3b1:2b83:1861 with SMTP id
- e25-20020a67c519000000b003b12b831861mr5897148vsk.10.1670310363287; Mon, 05
- Dec 2022 23:06:03 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uLwJfALFXHw/E/EZqWV3PMsye7xju4ss338dHSGFdDE=;
+ b=8OG2tJiLT0pyVdtkrc1sMWjLOqSZyWCi59j5MVGW5c7b73PKz02HzhSNB0EZbPkERw
+ BLoiob/WFaPX7Ye0sk+vn9DKkhP/VNU6tscDGUcDenaBWVL8OPtKApqt8lrHGsUeVAVt
+ mOCiw1DYy8/+cq6QbFlcFuw5d4bTeYf6QbS+3/r4GceINfyGoo8wzF8mJ2UX2+r9Cfuc
+ xyui87lGQ1j2QbsAdVt8JoifYpY7wAncObHWsPRKpsdTQd0JeO3UK3yZrqKJ+miX6Cyx
+ B2/or+xg5YlIKSnF0W28l3kt8V3v3xOdYRU29JL8PXBJsN6GWYsPyO6qIGJlHP6IP8g4
+ 1vQA==
+X-Gm-Message-State: ANoB5pnAZ0GN78UVCTHb/BNcFM5Hxc3iYhgbtNKXbMLcSNLQ8ZgjYhzA
+ A6uA12BRIKrm9E25Yjrkeu+eIsMywlnBYXvFcWuWaxFIlvm8IjejqwRFAK5PSey4AxePwsWduPB
+ ECEYlpluSrEeA7Ef3bTytAOZuKRZykG4=
+X-Received: by 2002:a9d:832:0:b0:670:5283:dd3e with SMTP id
+ 47-20020a9d0832000000b006705283dd3emr2217308oty.201.1670310485715; 
+ Mon, 05 Dec 2022 23:08:05 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5zeaN/NGIvrBrWHfR90eraGJiYNmgTB7RJPAHUY52TEZWyjIwNMTuy3qnmwcRYAG7v9eOtbXJBo5xhIOeI+ck=
+X-Received: by 2002:a9d:832:0:b0:670:5283:dd3e with SMTP id
+ 47-20020a9d0832000000b006705283dd3emr2217304oty.201.1670310485507; Mon, 05
+ Dec 2022 23:08:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20221205065303.204095-1-bmeng@tinylab.org>
-In-Reply-To: <20221205065303.204095-1-bmeng@tinylab.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 6 Dec 2022 17:05:37 +1000
-Message-ID: <CAKmqyKM-F=ENKQ_onOmFBPnzuhiLZcXGQcujCEdusrpa1GwiBw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix mret exception cause when no pmp rule
- is configured
-To: Bin Meng <bmeng@tinylab.org>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
+References: <20221205170436.2977336-1-eperezma@redhat.com>
+In-Reply-To: <20221205170436.2977336-1-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 6 Dec 2022 15:07:54 +0800
+Message-ID: <CACGkMEvQov+eGr8D7FAG5FYOvj8VQ=gEvomrnU5_2R0d55gSLQ@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.0 00/13] vDPA-net inflight descriptors migration
+ with SVQ
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,45 +102,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 5, 2022 at 4:54 PM Bin Meng <bmeng@tinylab.org> wrote:
+On Tue, Dec 6, 2022 at 1:04 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
+te:
 >
-> The priv spec v1.12 says:
+> The state of the descriptors (avail or used) may not be recoverable just
+> looking at the guest memory.  Out of order used descriptor may override
+> previous avail ones in the descriptor table or avail vring.
 >
->   If no PMP entry matches an M-mode access, the access succeeds. If
->   no PMP entry matches an S-mode or U-mode access, but at least one
->   PMP entry is implemented, the access fails. Failed accesses generate
->   an instruction, load, or store access-fault exception.
->
-> At present the exception cause is set to 'illegal instruction' but
-> should have been 'instruction access fault'.
->
-> Fixes: d102f19a2085 ("target/riscv/pmp: Raise exception if no PMP entry is configured")
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> Currently we're not migrating this status in net devices because virtio-n=
+et,
+> vhost-kernel etc use the descriptors in order,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Note that this might not be the truth (when zerocopy is enabled).
 
-Alistair
+> so the information always
+> recoverable from guest's memory.  However, vDPA devices may use them out =
+of
+> order, and other kind of devices like block need this support.
+>
+> Shadow virtqueue is able to track these and resend them at the destinatio=
+n.
 
-> ---
+As discussed, there's a bootstrap issue here:
+
+When SVQ needs to be enabled on demand, do we still need another way
+to get inflight ones without the help of SVQ?
+
+Thanks
+
+> Add them to the virtio-net migration description so they are not lose in =
+the
+> process.
 >
->  target/riscv/op_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This is a very early RFC just to validate the first draft so expect lefto=
+vers.
+> To fetch and request the descriptors from a device without SVQ need to be
+> implemented on top. Some other notable pending items are:
+> * Do not send the descriptors actually recoverable from the guest memory.
+> * Properly version the migrate data.
+> * Properly abstract the descriptors access from virtio-net to SVQ.
+> * Do not use VirtQueueElementOld but migrate directly VirtQueueElement.
+> * Replace lots of assertions with runtime conditionals.
+> * Other TODOs in the patch message or code changes.
 >
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 09f1f5185d..d7af7f056b 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -202,7 +202,7 @@ target_ulong helper_mret(CPURISCVState *env)
+> Thanks.
 >
->      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
->          !pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-> -        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> +        riscv_raise_exception(env, RISCV_EXCP_INST_ACCESS_FAULT, GETPC());
->      }
+> Eugenio P=C3=A9rez (13):
+>   vhost: add available descriptor list in SVQ
+>   vhost: iterate only available descriptors at SVQ stop
+>   vhost: merge avail list and next avail descriptors detach
+>   vhost: add vhost_svq_save_inflight
+>   virtio: Specify uint32_t as VirtQueueElementOld members type
+>   virtio: refactor qemu_get_virtqueue_element
+>   virtio: refactor qemu_put_virtqueue_element
+>   virtio: expose VirtQueueElementOld
+>   virtio: add vmstate_virtqueue_element_old
+>   virtio-net: Migrate vhost inflight descriptors
+>   virtio-net: save inflight descriptors at vhost shutdown
+>   vhost: expose vhost_svq_add_element
+>   vdpa: Recover inflight descriptors
 >
->      target_ulong prev_virt = get_field(env->mstatus, MSTATUS_MPV);
+>  hw/virtio/vhost-shadow-virtqueue.h |   9 ++
+>  include/hw/virtio/virtio-net.h     |   2 +
+>  include/hw/virtio/virtio.h         |  32 ++++++
+>  include/migration/vmstate.h        |  22 ++++
+>  hw/net/vhost_net.c                 |  56 ++++++++++
+>  hw/net/virtio-net.c                | 129 +++++++++++++++++++++++
+>  hw/virtio/vhost-shadow-virtqueue.c |  52 +++++++--
+>  hw/virtio/vhost-vdpa.c             |  11 --
+>  hw/virtio/virtio.c                 | 162 ++++++++++++++++++-----------
+>  9 files changed, 392 insertions(+), 83 deletions(-)
+>
 > --
-> 2.34.1
+> 2.31.1
 >
 >
+
 
