@@ -2,69 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07855643FFE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 10:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86E5644029
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 10:49:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2URK-0006av-5J; Tue, 06 Dec 2022 04:40:38 -0500
+	id 1p2UYo-0000AS-NG; Tue, 06 Dec 2022 04:48:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2UR9-0006X5-78
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 04:40:27 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1p2UYm-0000AD-Bw; Tue, 06 Dec 2022 04:48:20 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2UR4-0002n4-EK
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 04:40:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=QvjmqWUv1TMDGcrtNgXrltNzIRHzgjXTlOXjsxMg13g=; b=lSeEsqzky6fMzBZ/1zcg45z1TM
- 3kv2R5h7cs4KhdC5YOcxBi0u9GU+IxS27m2dvuHhk2wvAfNOlFLPgjJN6y+/1SH16glCMBnYYJAm8
- lz/J96sj8KL6YQG29kVPcnD2MNK+9Jr8PSVY//erxTrRQtw5xGAyDg/vjAc91IorAmgUchU26Upez
- Jjdr+V93sqRPh23EOQV7xawTEyx8o4QG25FDiE0pFmKu7MYlA2BGOxCRDZaP0Imb0azcmVPuVTA+Y
- nKF5GkL/tMDgWdZ+2YFwRjbeUm0wHx7rR1GfXiFWq+drdCoVc14Efq8uewJb5kd04onk3fPk/Iuj9
- uQUaTxjA==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2UR3-004INM-1z; Tue, 06 Dec 2022 09:40:22 +0000
-Message-ID: <af9c1310fafaeee28f3ce33c6f2cc2c5f260cd9f.camel@infradead.org>
-Subject: Re: [RFC PATCH 10/21] i386/xen: handle guest hypercalls
-From: David Woodhouse <dwmw2@infradead.org>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
- Martins <joao.m.martins@oracle.com>, Ankur Arora
- <ankur.a.arora@oracle.com>, Thomas Huth <thuth@redhat.com>
-Date: Tue, 06 Dec 2022 09:40:12 +0000
-In-Reply-To: <d203e13d-e2f9-5816-030d-c1449bde364d@linaro.org>
-References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-11-dwmw2@infradead.org>
- <efef965d-3c9b-abc0-ac5f-c252b10722bd@linaro.org>
- <cb4cdc7944c74ee1918667ba455b9afd0fae351c.camel@infradead.org>
- <d203e13d-e2f9-5816-030d-c1449bde364d@linaro.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-TePUmT3vCjblgIFHln4q"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1p2UYk-0004HZ-F3; Tue, 06 Dec 2022 04:48:20 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B699ZYx003505; Tue, 6 Dec 2022 09:48:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=hsM5hb4bHQBZFZZb8SrjZvzWEJC1JLdhxWExqjxlppE=;
+ b=Z9CO6uLQnPHwY8djC49+NAzQz7ZxTDrCe0UZMFSwcC0JQJTsQVIRDlhqd+R9ODOiGAnM
+ MIpAKMnXemP4dzufFFde2pXK4av6j9gUZJ//zCjMhfvRUvHfpG2J5RD8eWr5xOU4HMow
+ n+fs1aQ5FC80WAscFeij7MUd+60T5GjgqcHvBB0VWtRhBcJ3ACUMrkbjI9kw4FsGCEE1
+ lXAJr1Ks+FvFcgk90pOPyUEqdyDmN7k8HhxCGvK3gNux5z6XCJlGcXeAbBr1Ex1EqILe
+ F+zuEuJ0jhUgEjkcPSvc1cLqtWfdiCNlobxe4ya5w1krbPV0qF2Fr6tKQEErLc4x3vdw jg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8gbkycrv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 09:48:12 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B69Y8eP022526;
+ Tue, 6 Dec 2022 09:48:12 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8gbkycr6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 09:48:12 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B69FxF9008325;
+ Tue, 6 Dec 2022 09:48:09 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3m9m5y14v6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 09:48:09 +0000
+Received: from d06av24.portsmouth.uk.ibm.com ([9.149.105.60])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B69m6OE14287494
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Dec 2022 09:48:06 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2B86F42045;
+ Tue,  6 Dec 2022 09:48:06 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4394E4204C;
+ Tue,  6 Dec 2022 09:48:05 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.52.73]) by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  6 Dec 2022 09:48:05 +0000 (GMT)
+Message-ID: <be6e4c3a2a3b1b4a944ce0558d3e852f78bd9645.camel@linux.ibm.com>
+Subject: Re: [PATCH v12 2/7] s390x/cpu topology: reporting the CPU topology
+ to the guest
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Tue, 06 Dec 2022 10:48:05 +0100
+In-Reply-To: <20221129174206.84882-3-pmorel@linux.ibm.com>
+References: <20221129174206.84882-1-pmorel@linux.ibm.com>
+ <20221129174206.84882-3-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1 (3.46.1-1.fc37) 
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: T-nde6C_EbN4WBMCYPQTzaW3jLbdXoW9
+X-Proofpoint-ORIG-GUID: eH5jY8DbPLIL42H6esfZRKz1AymnTfMU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-06_05,2022-12-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 spamscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212060078
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,294 +116,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---=-TePUmT3vCjblgIFHln4q
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 2022-12-06 at 09:16 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> +Thomas
+On Tue, 2022-11-29 at 18:42 +0100, Pierre Morel wrote:
+> The guest uses the STSI instruction to get information on the
+> CPU topology.
 >=20
-> On 6/12/22 02:10, David Woodhouse wrote:
-> > On Mon, 2022-12-05 at 23:11 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> > > On 5/12/22 18:31, David Woodhouse wrote:
-> > > > +#ifdef CONFIG_XEN
-> > >=20
-> > > CONFIG_XEN is set when the _host_ has Xen development files available=
-.
-> > >=20
-> > > IIUC here you want to check if Xen HVM guest support is enabled.
-> > >=20
-> > > You might want to use a different CONFIG_XEN_xxx key, which itself
-> > > depends on CONFIG_XEN.
-> >=20
-> > Yeah, I'd be interested in opinions on that one.
-> >=20
-> > Strictly, the only one that *needs* to be a configure option is
-> > CONFIG_XEN for the Xen libraries, which is support for actually running
-> > on Xen.
-> >=20
-> > Any time KVM is present, we *could* pull in the rest of the xenfv
-> > machine support unconditionally, since that's no longer dependent on
-> > true Xen.
-> >=20
-> > But because there's a non-trivial amount of code in the event channel
-> > and grant table stuff, *perhaps* we want to make it optional? I don't
-> > really want to call that CONFIG_KVM_XEN since as noted, it's
-> > theoretically possible to do it with TCG or other accelerators too. So
-> > we could call it CONFIG_XEN_EMULATION.
+> Let us implement the STSI instruction for the basis CPU topology
+> level, level 2.
 >=20
-> I concur CONFIG_KVM_XEN is confusing; CONFIG_XEN_EMULATION /=20
-> CONFIG_XEN_EMU sounds better.
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  target/s390x/cpu.h          |  77 +++++++++++++++
+>  hw/s390x/s390-virtio-ccw.c  |  12 +--
+>  target/s390x/cpu_topology.c | 186 ++++++++++++++++++++++++++++++++++++
+>  target/s390x/kvm/kvm.c      |   6 +-
+>  target/s390x/meson.build    |   1 +
+>  5 files changed, 274 insertions(+), 8 deletions(-)
+>  create mode 100644 target/s390x/cpu_topology.c
 >=20
-> Is it useful to have the CONFIG_XEN_EMU code under target/i386/ built
-> without having the xenfv machine built in?
-
-It isn't useful, no.
-
-> I rather have hw/ and target/ features disentangled, so I'd use
-> CONFIG_XEN_EMU under target/ and CONFIG_XENFV_MACHINE under hw/,
-> eventually having CONFIG_XEN_EMU depending on CONFIG_XENFV_MACHINE
-> and -- for now -- CONFIG_KVM.
-
-Hm, I was thinking of XENFV_MACHINE as the parts which are needed by
-*both* XEN_EMU and real Xen. I think there are arch-independent things
-which want to go into hw/ like event channels and grant table support;
-you can think of those as an IRQ chip and an IOMMU respectively. Since
-those are emulation-only, they want to be conditional on XEN_EMU, not
-XENFV_MACHINE.
-
-The core hypercall support lives in target/ and would call directly to
-gnttab_op/evtchn_op functions in hw/xen/ but I think that's OK. The
-vCPU-specific things like timers and runstate can also stay in target/.
-
-Nothing in hw/ should explicitly mention KVM; the code in
-target/i386/xen.c should wrap the KVM-specific implementations unless
-the pretence of future TCG support is really making it look awful.
-
-Does that sound reasonable? Probably close enough, and we can take an
-other look at it once we see how it works out.
-
-> > I don't think we'd make that depend on CONFIG_XEN though, since none of
-> > the actual Xen libraries would be needed once everything's implemented
-> > and cleaned up.
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 7d6d01325b..dd878ac916 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
 >=20
-> Agreed.
+[...]
+
+> +/* Configuration topology */
+> +typedef struct SysIB_151x {
+> +    uint8_t  reserved0[2];
+> +    uint16_t length;
+> +    uint8_t  mag[S390_TOPOLOGY_MAG];
+> +    uint8_t  reserved1;
+> +    uint8_t  mnest;
+> +    uint32_t reserved2;
+> +    char tle[0];
+
+AFAIK [] is preferred over [0].
+
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) !=3D 16);
+
+[...]
 >=20
-> > So things like the xenfv machine code would then depend on
-> > (CONFIG_XEN || CONFIG_XEN_EMULATION)... or we could make a new
-> > automatic config symbol CONFIG_XEN_MACHINE which has the same effect?
+> +/*
+> + * s390_topology_add_cpu:
+> + * @topo: pointer to the topology
+> + * @cpu : pointer to the new CPU
+> + *
+> + * The topology pointed by S390CPU, gives us the CPU topology
+> + * established by the -smp QEMU aruments.
+> + * The core-id is used to calculate the position of the CPU inside
+> + * the topology:
+> + *  - the socket, container TLE, containing the CPU, we have one socket
+> + *    for every num_cores cores.
+> + *  - the CPU TLE inside the socket, we have potentionly up to 4 CPU TLE
+> + *    in a container TLE with the assumption that all CPU are identical
+> + *    with the same polarity and entitlement because we have maximum 256
+> + *    CPUs and each TLE can hold up to 64 identical CPUs.
+> + *  - the bit in the 64 bit CPU TLE core mask
+> + */
+> +static void s390_topology_add_cpu(S390Topology *topo, S390CPU *cpu)
+> +{
+> +    int core_id =3D cpu->env.core_id;
+> +    int bit, origin;
+> +    int socket_id;
+> +
+> +    cpu->machine_data =3D topo;
+> +    socket_id =3D core_id / topo->num_cores;
+> +    /*
+> +     * At the core level, each CPU is represented by a bit in a 64bit
+> +     * uint64_t which represent the presence of a CPU.
+> +     * The firmware assume that all CPU in a CPU TLE have the same
+> +     * type, polarization and are all dedicated or shared.
+> +     * In that case the origin variable represents the offset of the fir=
+st
+> +     * CPU in the CPU container.
+> +     * More than 64 CPUs per socket are represented in several CPU conta=
+iners
+> +     * inside the socket container.
+> +     * The only reason to have several S390TopologyCores inside a socket=
+ is
+> +     * to have more than 64 CPUs.
+> +     * In that case the origin variable represents the offset of the fir=
+st CPU
+> +     * in the CPU container. More than 64 CPUs per socket are represente=
+d in
+> +     * several CPU containers inside the socket container.
+> +     */
+
+This comment still contains redundant sentences.
+Did you have a look at my suggestion in v10 patch 1?
+
+> +    bit =3D core_id;
+> +    origin =3D bit / 64;
+> +    bit %=3D 64;
+> +    bit =3D 63 - bit;
+> +
+> +    topo->socket[socket_id].active_count++;
+> +    set_bit(bit, &topo->socket[socket_id].mask[origin]);
+> +}
+> +
+> +/*
+> + * s390_prepare_topology:
+> + * @s390ms : pointer to the S390CcwMachite State
+> + *
+> + * Calls s390_topology_add_cpu to organize the topology
+> + * inside the topology device before writing the SYSIB.
+> + *
+> + * The topology is currently fixed on boot and do not change
+
+does not change
+
+> + * even on migration.
+> + */
+> +static void s390_prepare_topology(S390CcwMachineState *s390ms)
+> +{
+> +    const MachineState *ms =3D MACHINE(s390ms);
+> +    static bool done;
+> +    int i;
+> +
+> +    if (done) {
+> +        return;
+> +    }
+> +
+> +    for (i =3D 0; i < ms->possible_cpus->len; i++) {
+> +        if (ms->possible_cpus->cpus[i].cpu) {
+> +            s390_topology_add_cpu(S390_CPU_TOPOLOGY(s390ms->topology),
+> +                                  S390_CPU(ms->possible_cpus->cpus[i].cp=
+u));
+> +        }
+> +    }
+> +
+> +    done =3D true;
+> +}
+> +
 >=20
-> So per what you just cleared, not CONFIG_XEN but CONFIG_KVM.
-
-I think it looks something like this...=20
-
-=46rom 0a90999e37ec48b7fbd0467c243769b9bf726401 Mon Sep 17 00:00:00 2001
-From: David Woodhouse <dwmw@amazon.co.uk>
-Date: Tue, 6 Dec 2022 09:03:48 +0000
-Subject: [PATCH] Add CONFIG_XENFV_MACHINE and CONFIG_XEN_EMU options for Xe=
-n
- emulation
-
-The XEN_EMU option will cover core Xen support in target/, which exists
-only for x86 with KVM today but could theoretically also be implemented
-on Arm/Aarch64 and with TCG or other accelerators. It will also cover
-the support for architecture-independent grant table and event channel
-support which will be added in hw/xen/.
-
-The XENFV_MACHINE option is for the xenfv platform support, which will
-now be used both by XEN_EMU and by real Xen.
-
-The XEN option remains dependent on the Xen runtime libraries, and covers
-support for real Xen. Some code which currently resides under CONFIG_XEN
-will be moving to CONFIG_XENFV_MACHINE over time.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- accel/Kconfig  | 2 ++
- hw/Kconfig     | 1 +
- hw/xen/Kconfig | 2 ++
- meson.build    | 1 +
- target/Kconfig | 3 +++
- 5 files changed, 9 insertions(+)
- create mode 100644 hw/xen/Kconfig
-
-diff --git a/accel/Kconfig b/accel/Kconfig
-index 8bdedb7d15..87d2880cad 100644
---- a/accel/Kconfig
-+++ b/accel/Kconfig
-@@ -15,7 +15,9 @@ config TCG
-=20
- config KVM
-     bool
-+    select XEN_EMU if (I386 || X86_64)
-=20
- config XEN
-     bool
-     select FSDEV_9P if VIRTFS
-+    select XENFV_MACHINE
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 38233bbb0f..ba62ff6417 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -41,6 +41,7 @@ source tpm/Kconfig
- source usb/Kconfig
- source virtio/Kconfig
- source vfio/Kconfig
-+source xen/Kconfig
- source watchdog/Kconfig
-=20
- # arch Kconfig
-diff --git a/hw/xen/Kconfig b/hw/xen/Kconfig
-new file mode 100644
-index 0000000000..066d74e4ff
---- /dev/null
-+++ b/hw/xen/Kconfig
-@@ -0,0 +1,2 @@
-+config XENFV_MACHINE
-+    bool
-diff --git a/meson.build b/meson.build
-index 5c6b5a1c75..9348cf572c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3828,6 +3828,7 @@ if have_system
-   if xen.found()
-     summary_info +=3D {'xen ctrl version':  xen.version()}
-   endif
-+  summary_info +=3D {'Xen emulation':     config_all.has_key('CONFIG_XEN_E=
-MU')}
- endif
- summary_info +=3D {'TCG support':       config_all.has_key('CONFIG_TCG')}
- if config_all.has_key('CONFIG_TCG')
-diff --git a/target/Kconfig b/target/Kconfig
-index 83da0bd293..ceb6ddbf2a 100644
---- a/target/Kconfig
-+++ b/target/Kconfig
-@@ -18,3 +18,6 @@ source sh4/Kconfig
- source sparc/Kconfig
- source tricore/Kconfig
- source xtensa/Kconfig
-+
-+config XEN_EMU
-+    select XENFV_MACHINE
---=20
-2.25.1
-
-
-
-
---=-TePUmT3vCjblgIFHln4q
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDk0MDEyWjAvBgkqhkiG9w0BCQQxIgQgEuHc0Kfu
-DSHaT/55wMKbNv7+RJlvR5hjwLhPvolGElgwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBcAtv1t17wFiW0wnYe58SX1/SIJP/AQYXh
-/rfiroSZnDeLNtZbS3tLrKtx99llFDA+fHUGrUv25ik2Rx1MqhFde7AZVIXwJFAAyIgCgrwBuzSf
-tan9LjLZ4csfu2GwSpvjioiBSZ2Ep71aJCf/BwB53yQZzr9tlvpBCTfW9Y1+MyFML+6Rr7FpfPya
-Ny61t9ZunZd43C61at6bPKCz/uPtAPILQvU5FxZa0k/Bplb9LPWXlqowE7JkZBhXMHtKYNo5mOUH
-talvp5XaEuMzKdu20qO9EymHCAHAvc+ZB0FfW8ODMXfUwwS5ImA/IE3Pr5QRTtDSOCpm37r5EO/s
-7Af7oZJX1E3zL6juEpCjLODoSxkVWSrlKDtHH0JC2sNb1C+F0onPdVFHxjavxBtqT1iKp9ztJ3/N
-c68EUykX6GOqyWIsz2uQqM++DnG6YhRpMMRYG0VbYkfSMkc0A/pEnqX8hHFwRg1Oe0iOvmD7U+Q8
-+go23k+IXVHB23/wDt/o1RKokXXJ/yvSW7zwv5tewyRvOr5CU/t5MoIgbPe7JeAUKrie4nmDf5pD
-j6TV0SUqs1ijnzZDo8XXEGayLK3XIRwz4x5eOGybCaJgypWZgjFsDyAZIsc8ZtFQnGWmKkUAig3+
-On9f+l+L1fuqzcCniPrKQ4BwKqSw3Dc255ENb0BzPwAAAAAAAA==
-
-
---=-TePUmT3vCjblgIFHln4q--
+[...]
 
 
