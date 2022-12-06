@@ -2,77 +2,156 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2D3643C7A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:42:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC64643CC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 06:51:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2PlU-0003DX-KV; Mon, 05 Dec 2022 23:41:08 -0500
+	id 1p2QpO-0002fy-Ov; Tue, 06 Dec 2022 00:49:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2PlS-0003D2-Kh
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:41:06 -0500
-Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2PlQ-000364-TO
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:41:06 -0500
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1443a16b71cso12612751fac.13
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:41:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=kxOLxuqUZ3jf6wR99AyYKJ2BxYFYEWPkzbJiWdwW3dE=;
- b=Pjr2XtJ2UZ3RE8Enn9+GUBpINPDLpbQwWvgcF38RmaMxUtoG5xB2St6BYIY+2nDjZ8
- GVYFkSo4R5a+lPszRz5hTWdiYK9uYCG50C7dskm4y4kXCvBpXBWcW4Zd04xxDCsaD0NT
- CjOCrIWitDDUR1vx1DJEK27GfMdjT7GuML4ZtQVw1+BKUq0xdohGd1OxGcuzUQVS12ub
- K54b4E4dgs5w5sBmFKv2wNnckhqIt+psJleVfjGOWgjq7lXgeqtii52MN7/oiDfQAosh
- EZ5lfTl/7OENa/YyfDfLmheDmVndc7YRcwBMTyWoVtT/O7IgNj/V/Rmhx1GWwS/VoTcC
- ZYMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kxOLxuqUZ3jf6wR99AyYKJ2BxYFYEWPkzbJiWdwW3dE=;
- b=MtHuAOGlQQ7gEqTVD2Z0sUoHngQJe/khlEWqIKpS77eKIeELvY6/sNHowmDuJQzGS9
- SsTuJFrBzCXAExpfm6YrkEBdVUWH1EFE1GjCpGnNnMp1ZD8nGal8Qblo5mlhfSBzsJmm
- a/Ihx3gBVTpulXhru2FxZks82HwBqw8DLgAivBjuTE5N0HObN8hGM+5H4iZiOVcedetG
- AW/4kFdNQru4nOOpuuTRHmNWRqLcBj/h29D8zcYLzNHhrbaFiRCZbF1NW21K01etw32A
- lous0WGZKHrtV4f5wNBR5p+QahaLGlL8JlixaIAmlMzAU5rqEyUJbakg8ZH69/Yd1o1A
- nomw==
-X-Gm-Message-State: ANoB5pl2AKhispIzxWdE1K6SJ065fxOBX9JNTSquYlTh9UR4QP7lW7Hd
- pcGoqiiYT0lzBaIA+9DIOWT6NQirE2UEN/9nRRQ=
-X-Google-Smtp-Source: AA0mqf4+x5QPa/r3nPvMU4B49AE4jc3I4dO53xd+HStaaxWbYKx0vYzFK1hm6em/PUZMgH4KuokbGQ==
-X-Received: by 2002:a05:6870:7388:b0:144:7060:76b5 with SMTP id
- z8-20020a056870738800b00144706076b5mr6569322oam.123.1670301663397; 
- Mon, 05 Dec 2022 20:41:03 -0800 (PST)
-Received: from stoup.. ([2806:102e:18:70b5:d104:21c2:8c7e:77e6])
- by smtp.gmail.com with ESMTPSA id
- z6-20020a05687041c600b001442fada152sm7561864oac.46.2022.12.05.20.41.02
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 20:41:02 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <shivam.kumar1@nutanix.com>)
+ id 1p2QpM-0002fY-Hm
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 00:49:12 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shivam.kumar1@nutanix.com>)
+ id 1p2QpK-0008H4-Fp
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 00:49:12 -0500
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B5LWouW015295; Mon, 5 Dec 2022 21:49:05 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=AtOKNdLHpq0Y2KItm12AjHoBmxQI8Hquf5nuxk+KqlM=;
+ b=wAwwevoF0NBBsvFYa5HJh/L9bVnmGE7GJKUekxR6/tXqOfsWA+TvujBVLdMalosQ9yf0
+ /8Nvx/Cwxcv5qovw9IicN7Mu5n93HVJIRnt/REEgveio2kRU0I0PrqMxX40MzgZBwp4i
+ g57wkmSe00sVNWZhJ61ulfMIOTKYkKyf5V+qSYmRMOFVNyxd7NEo1eLZ6ZJxnZ7PuB7D
+ DcJJJ0y8dAoPagh5d2ScYkCF+x+Bc66SSApwN3OxIOo8NWsJUU2/fnjBWrtaiwB7078q
+ BgXB+aCa89G2qkZIWkM1gbwd6tk6oMhy+jKwt8Z3bn7BFGBAkqxzUsL5dVYYmoY0L8UW RA== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3m84ve5whr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Dec 2022 21:49:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kGekfEJ+/YpINL/svNuBvz1sW93N3BGosthlapjYOdJxVyjbM33qV3pEvjY420DbR9mUM2Uy0dfd7bIP35XTS68+b3ySiaBIYGLxMtuA9C/llxvwaql8pkwYDFu+gUsafPj5NCKOg6iEMrPSaTRCNSbkd7fbpyVPMuWuA23RyT0NIH7dPKXI0+cDrKwcHyBiLhoPsUuCH7ZkhmV132oC/G44clXadVfaKo5IdBltggXze55QZK2MdiDIPjFIiOvrsHLy/I/RwS387mjY3FwNi57u/V7wPPnT2Wi8MFhcwsKGthDO4CW0yLTos/+8XjYGtMGKjxzVlR6qU2jqDkQ0Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AtOKNdLHpq0Y2KItm12AjHoBmxQI8Hquf5nuxk+KqlM=;
+ b=jbnSyy+o+svZ8UjoiRklz5alr0uclRYF3Bp7beyYguUBiThJV5bjhs8HJb8hJVG0TOEi0wAOuoNeyjjANR4/nj9q6aHroxzhRBdn05Z7BYe8o2Uc5thSL6Ni9+UxmroPhJ8UfnzM5559ha57ygrKal2pPmwAWB0S/3F0np4iU5CmQd0+5Iw4xKEJ59myOp6EUnP98ZGxfcsTJvSF8GxV2WUYajTitJRikiczfpVc5YhFjzG+s4j4vaRcrT+OJ2jspezODhruVpxaukrv56a0xTVHvnbCbYQHLB4Be3UnPoWzWhyDUWWhXhMnhgzyAWiDod2eyZXYf93MJ+DA1JhW2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AtOKNdLHpq0Y2KItm12AjHoBmxQI8Hquf5nuxk+KqlM=;
+ b=sM12e3mAqMVV+BLrMtFSNkgBoGFZB3HHlyA1HHpPHFv3A/fs59j69dZik2WEY6RgL5W3/Z71jTkWwOaQ70EFYlhvZJWQGobpdYdYpGgDLwYUHzW/ZFHlpnrQcdjP4jnkE5/th2rkZL8DQxuYjfe11J+gvMK9ZRNBvOMXgNHclL/ZlQwiyMvHj9QIuAE5IzKRscHZdnG215n37XmOUd0Ccya0/+Os1vDMBXyqeB8C505UkdLZL7aqStdBEFLaC+Z72ZdjRXSspzC9IAzK3kUeRTMc+AVMusfkTdlEpjhAup8NdiVig3XetD+Oclx7604Qv+AjzAN9TDp12HOy4NoxUA==
+Received: from CO6PR02MB7555.namprd02.prod.outlook.com (2603:10b6:303:b3::20)
+ by SA2PR02MB7817.namprd02.prod.outlook.com (2603:10b6:806:134::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
+ 2022 05:49:02 +0000
+Received: from CO6PR02MB7555.namprd02.prod.outlook.com
+ ([fe80::8779:9a4f:69d6:a301]) by CO6PR02MB7555.namprd02.prod.outlook.com
+ ([fe80::8779:9a4f:69d6:a301%6]) with mapi id 15.20.5880.014; Tue, 6 Dec 2022
+ 05:49:02 +0000
+Message-ID: <0cde1cb7-7fce-c443-760c-2bb244e813fe@nutanix.com>
+Date: Tue, 6 Dec 2022 11:18:52 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [RFC PATCH 0/1] QEMU: Dirty quota-based throttling of vcpus
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/8] tcg/loongarch64: Reorg goto_tb implementation
-Date: Mon,  5 Dec 2022 22:40:51 -0600
-Message-Id: <20221206044051.322543-9-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221206044051.322543-1-richard.henderson@linaro.org>
-References: <20221206044051.322543-1-richard.henderson@linaro.org>
+Cc: pbonzini@redhat.com, peterx@redhat.com, david@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com, kvm@vger.kernel.org,
+ Juan Quintela <quintela@redhat.com>
+References: <20221120225458.144802-1-shivam.kumar1@nutanix.com>
+From: Shivam Kumar <shivam.kumar1@nutanix.com>
+In-Reply-To: <20221120225458.144802-1-shivam.kumar1@nutanix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0047.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:81::18) To CO6PR02MB7555.namprd02.prod.outlook.com
+ (2603:10b6:303:b3::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::35;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR02MB7555:EE_|SA2PR02MB7817:EE_
+X-MS-Office365-Filtering-Correlation-Id: c68af669-a95a-42f5-3041-08dad74d93a1
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3lx3SwjzBaIw6n4WITTgTLpKyqvjoI0DuhYffSwTtdfZoabenAzJ5XTe+JA1raC9so6+F2wh3lS7JzIG2VDWSKz6Q2m34A7ogpIp5GqBnEKSQ/2o++nTv8weRWAJDuBz13+LtTP88D0AEFbxw3fnGuzU0BaPmZifGbEZnPHeKS3it2vO5isEOhQu7fZQlapwqQCa7+PxkWlnOAn0dpN8yueIOlp6Za6PdhqwZw4uNMODy6SS6pT5ukOjwOqHanY9dEWapqRHbq/9g9ogVyoLxbO1g9MLumRuhJpyCIfVqVatLQpmfEoqJIAjGTd0Ok1p/NpU4TuDnYQTPsXWGsevF0bnygG+f1aTVP207WkmENLheGb+7n8lDY2hp5BcsIoyu4yV92739mnGCzDTFNIZItCsgiHQQ6NyRcR0NdgMThnFAH3YUqflw9ngpv6/TbaNPhob4XH7R5aQrRLn3fw9waT0T2KLVb56vwecRKxzzhAFtckXm6TXVgIyn5CEbiXhknfVJzdL5JG3mAeZTUn7jQaMJPDOWJpLQFyw1iWHi4hBOYOFdoeRvm6TZVm5ETknvSIyyZMN2i6zjHhbSXGltstNEAQLyI7JnTsGJyBhpWDblGvc9PpoxubUOAnTcxGv5FfVPTfWABXB7L6IhTfE2FsnZ6UtdshcI5tYNuepksDClIeqrVdT6yTuG1lxpMThYkN6u9PsVJTcwWTukxzzJh/0VU9k5t9Gzh29WkeL+40su/s9iqRPwrO2glWxh2mJrkxhWmbyw6YaxSZ7iA3syBJqQ8+pSvQgmW9VoOycXHglTEI9whgHOqnUsi64AFj6
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR02MB7555.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(136003)(396003)(376002)(346002)(366004)(451199015)(83380400001)(86362001)(31696002)(5660300002)(8936002)(15650500001)(2906002)(4326008)(41300700001)(478600001)(8676002)(26005)(6512007)(186003)(53546011)(6506007)(6666004)(316002)(6916009)(66946007)(2616005)(966005)(6486002)(66476007)(66556008)(38100700002)(31686004)(36756003)(14143004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VllFWjYvYVA3bzY3VWZRdEE1VE1mcktBbHAvQ2MzUklManh0ZHpBMG9BekJZ?=
+ =?utf-8?B?VmNYN0JYd284VXM0V0VpRW5hRWpKbmtPQkJwZXBLYndLbXlLZ2JsTWZUZWdU?=
+ =?utf-8?B?WGxaampsaVZUamo2Y0Q4WEhJWWFWY0huaHBWZXI3TTRzMkx2UDZnRzQwWjJq?=
+ =?utf-8?B?azc4RS9rR0tiSk5kby9DdHhPNWlkaXZkZDFIbXlhWXZZbS8zc0JVTEF0SUVX?=
+ =?utf-8?B?L3U1a044WmVGWGIrVDVGUHJNbzg1UVhpRDAwbnhmd1BDU2RwTE1hMlhnMXVv?=
+ =?utf-8?B?eVN1eW1kTjEzM0IvRmtpT0lNU0lURWhyRVAwSXE2TDRMWUJ3alV6WW40WXFB?=
+ =?utf-8?B?azcxS0hhMEs4eCtZL09tSFQ3QjUvajZSQWJZVmFmbUNVZU54T01oUCs3dUNq?=
+ =?utf-8?B?amg4NGUyMFJvRnVTc0R6cE1xMi9uSUhDaEFZaVhWL0FwWm5KY0JBcTZFcnVG?=
+ =?utf-8?B?eStJQ2ZuNFZSaDcvczJ6eExhanJBK3U5N1BLODRsUFVKM1NlZEtCR0ZaaVZU?=
+ =?utf-8?B?bjdWMFZqR05mRnBPTUxKaVJsZHF2M3BzMEJsWGVqTFMzZmpwbzdORnZMNXZZ?=
+ =?utf-8?B?VFJLZ291dXBrUlZValgxK2VxUktqUFZURmt5bS8rRWdiRlk4VDd6TWx3L3Ez?=
+ =?utf-8?B?WDgydFNvZTR3VGcvUWJzTWVvUEh4eWpUMUpjTWNKU3lWWER1UlRWbnFCVkQ0?=
+ =?utf-8?B?ZUE0aldYRnZOazhRazR4dENIblpSTFE0Rkg4RmIzQk44Mkw5a1B4Ykd2bXZs?=
+ =?utf-8?B?Q3pveENpcHIxeFd4b2FkUU05RnYrTlBBZW5XSURyV1B6K0hibk1yTGdHSXJ1?=
+ =?utf-8?B?SFU2eGZGeFNWbElKK0l2N3lzOHcrUHZ0N2I4UjVzakNYcEZkbjRqQnBPTFVS?=
+ =?utf-8?B?QWFlWDZaNHdEbldobE1HcENrY3hSMUgvVjk3R3ZxL1lWaGVMWjR5WXE5ZlJj?=
+ =?utf-8?B?NFpqcWJYOWRkM3Nua1k4OXJXU1E3cWx5dng2eGl6TWVQWXNKQzNoZlVsUTkw?=
+ =?utf-8?B?a0gzbm5BVXBrZmVXeVEya1JpU3pFNXpLV3hrMm5odU91cWU5dFducHF6WVIr?=
+ =?utf-8?B?R0tQTkN4MStvbkw1R1ZrR05xZC9RMWI3R1FJYlZhVHdxMWRaMGFJTS9uMG40?=
+ =?utf-8?B?RExPTTRERlFxTDRtN0pzZkIvVkFDMWs4OGNhQ3htanViWmZkYkx5dzlrKzls?=
+ =?utf-8?B?eFhjOGQrZVplMm5YRTZrYXErc1FXY3pEdEJaQVZ2UW91YzdZeHo0aXp4UFBa?=
+ =?utf-8?B?b2MyTTJqRnR0bGs0TWZoeHJpcjRRam5kaXd1VjRsQ1BCTkxaaUZwS2s4YmNa?=
+ =?utf-8?B?WmdHWDJJeWdkRFlpRUlWalV6c2Z6bWRWZUNWZnJsUnFrUm0rVjVmckpDVHov?=
+ =?utf-8?B?WTJ1eCtLeURhQmFTSjdEd0xkMjhpUU9tQmRmcmZ6aVNUdEdLRHVSQnViN2JJ?=
+ =?utf-8?B?b2xzangvQ2YzbDdONTV1aHhxVldTbnBiZkRLeDdGMzAwa3UwMENpNW5IZS95?=
+ =?utf-8?B?bzV1NmhJSGREZkRXY2wvcDQrTzUvNzE5MndXS0hqb0VPRk04MHQzVGpIOVhI?=
+ =?utf-8?B?N3JjUlNBT21IaGtMTjZySFpNaURkSHJabUJ1d2hsTmFTQUxLSXo0Q043V1Fl?=
+ =?utf-8?B?U0FaWlFLWWVtNVkydUp1ZTdCWU05amlSeWtJbHc1UEVoYm90ZXdPdlVyQmtI?=
+ =?utf-8?B?MmozL24vME5hYUlNTGJFd0JJdUMxZ25SYzRML2hoNzBiVzNSZHN0RFdCa0dW?=
+ =?utf-8?B?dnU2WDlidmdYZG5zTHFtdGgvbFhvV1NKM1MxQk51eHBycHJOdENYcXZxZTNo?=
+ =?utf-8?B?ZGVEeTNlTUwyZm5PZFRtTGVpU0QwSTRjemlmMFNwc29FcWkwZVR6TUtCVHFt?=
+ =?utf-8?B?RzA1RXQrZjIvem9FRXcrMGRrNW1GM2tZeWRUN3dUTmIzQW9ZUlROOUNEckY3?=
+ =?utf-8?B?Q0xKMEVySlhTQzRVZDRNUTUwaXJFRWMvWXU1bzV1UGNNOXV0YUdkVmhIbm5N?=
+ =?utf-8?B?eTlla2E1eHVRQ0Q0RW56V3RheENFKzRYbHB4ZjI2azhOVVc4aGg3QXhEVXQ4?=
+ =?utf-8?B?K1lkczJ2cXdzNCtGRXBQZDBoVXY0MlZRcmorL3RnVFlIdlRPK0xVRHhZdURO?=
+ =?utf-8?B?Wk1BVUplbkFzMlFNRnRWSCtVSWYwbTNSelU0bUhEWmlxWERnbjlCMXIvTDQ2?=
+ =?utf-8?B?bHc9PQ==?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c68af669-a95a-42f5-3041-08dad74d93a1
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR02MB7555.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 05:49:01.9988 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jIBhAISUN+Tc95hhshPZ9S3XXBQ/OmfxiYGSTt0+8BKXtlllqkcEMi1DPd9uOHJJaJjRh/T4G26IRkvexNQCG75vPje9ay4lAp+KbMJ+1Lo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7817
+X-Proofpoint-GUID: oY094uOLXnzdsGEuPpdxmiaanhTW2YBu
+X-Proofpoint-ORIG-GUID: oY094uOLXnzdsGEuPpdxmiaanhTW2YBu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-06_03,2022-12-05_01,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=shivam.kumar1@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,146 +168,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old implementation replaces two insns, swapping between
 
-        b       <dest>
-        nop
-and
-        pcaddu18i tmp, <dest>
-        jirl      zero, tmp, <dest> & 0xffff
 
-There is a race condition in which a thread could be stopped at
-the jirl, i.e. with the top of the address loaded, and when
-restarted we have re-linked to a different TB, so that the top
-half no longer matches the bottom half.
+On 21/11/22 4:24 am, Shivam Kumar wrote:
+> This patchset is the QEMU-side implementation of a (new) dirty "quota"
+> based throttling algorithm that selectively throttles vCPUs based on their
+> individual contribution to overall memory dirtying and also dynamically
+> adapts the throttle based on the available network bandwidth.
+> 
+> Overview
+> ----------
+> ----------
+> 
+> To throttle memory dirtying, we propose to set a limit on the number of
+> pages a vCPU can dirty in given fixed microscopic size time intervals. This
+> limit depends on the network throughput calculated over the last few
+> intervals so as to throttle the vCPUs based on available network bandwidth.
+> We are referring to this limit as the "dirty quota" of a vCPU and
+> the fixed size intervals as the "dirty quota intervals".
+> 
+> One possible approach to distributing the overall scope of dirtying for a
+> dirty quota interval is to equally distribute it among all the vCPUs. This
+> approach to the distribution doesn't make sense if the distribution of
+> workloads among vCPUs is skewed. So, to counter such skewed cases, we
+> propose that if any vCPU doesn't need its quota for any given dirty
+> quota interval, we add this quota to a common pool. This common pool (or
+> "common quota") can be consumed on a first come first serve basis
+> by all vCPUs in the upcoming dirty quota intervals.
+> 
+> 
+> Design
+> ----------
+> ----------
+> 
+> Userspace                                 KVM
+> 
+> [At the start of dirty logging]
+> Initialize dirty quota to some
+> non-zero value for each vcpu.    ----->   [When dirty logging starts]
+>                                            Start incrementing dirty count
+>                                            for every dirty by the vcpu.
+> 
+>                                            [Dirty count equals/exceeds
+>                                            dirty quota]
+> If the vcpu has already claimed  <-----   Exit to userspace.
+> its quota for the current dirty
+> quota interval:
+> 
+>          1) If common quota is
+>          available, give the vcpu
+>          its quota from common pool.
+> 
+>          2) Else sleep the vcpu until
+>          the next interval starts.
+> 
+> Give the vcpu its share for the
+> current(fresh) dirty quota       ----->  Continue dirtying with the newly
+> interval.                                received quota.
+> 
+> [At the end of dirty logging]
+> Set dirty quota back to zero
+> for every vcpu.                 ----->   Throttling disabled.
+> 
+> 
+> References
+> ----------
+> ----------
+> 
+> KVM Forum Talk: https://www.youtube.com/watch?v=ZBkkJf78zFA
+> Kernel Patchset:
+> https://lore.kernel.org/all/20221113170507.208810-1-shivam.kumar1@nutanix.com/
+> 
+> 
+> Note
+> ----------
+> ----------
+> 
+> We understand that there is a good scope of improvement in the current
+> implementation. Here is a list of things we are working on:
+> 1) Adding dirty quota as a migration capability so that it can be toggled
+> through QMP command.
+> 2) Adding support for throttling guest DMAs.
+> 3) Not enabling dirty quota for the first migration iteration.
+> 4) Falling back to current auto-converge based throttling in cases where dirty
+> quota throttling can overthrottle.
+> 
+> Please stay tuned for the next patchset.
+> 
+> Shivam Kumar (1):
+>    Dirty quota-based throttling of vcpus
+> 
+>   accel/kvm/kvm-all.c       | 91 +++++++++++++++++++++++++++++++++++++++
+>   include/exec/memory.h     |  3 ++
+>   include/hw/core/cpu.h     |  5 +++
+>   include/sysemu/kvm_int.h  |  1 +
+>   linux-headers/linux/kvm.h |  9 ++++
+>   migration/migration.c     | 22 ++++++++++
+>   migration/migration.h     | 31 +++++++++++++
+>   softmmu/memory.c          | 64 +++++++++++++++++++++++++++
+>   8 files changed, 226 insertions(+)
+> 
 
-Note that while we never directly re-link to a different TB, we
-can link, unlink, and link again all while the stopped thread
-remains stopped.
+It'd be great if I could get some more feedback before I send v2. Thanks.
 
-The new implementation replaces only one insn, swapping between
-
-        b       <dest>
-and
-        nop
-
-falling through to a general-case indirect branch.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/loongarch64/tcg-target.h     |  7 +---
- tcg/loongarch64/tcg-target.c.inc | 67 ++++++++++++--------------------
- 2 files changed, 26 insertions(+), 48 deletions(-)
-
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 624fbe87ff..81548fbb09 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -42,11 +42,8 @@
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 4
- #define TCG_TARGET_NB_REGS 32
--/*
-- * PCADDU18I + JIRL sequence can give 20 + 16 + 2 = 38 bits
-- * signed offset, which is +/- 128 GiB.
-- */
--#define MAX_CODE_GEN_BUFFER_SIZE  (128 * GiB)
-+
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- typedef enum {
-     TCG_REG_ZERO,
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 47465b8c20..f8964699eb 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -1150,37 +1150,6 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
- #endif
- }
- 
--/* LoongArch uses `andi zero, zero, 0` as NOP.  */
--#define NOP OPC_ANDI
--static void tcg_out_nop(TCGContext *s)
--{
--    tcg_out32(s, NOP);
--}
--
--void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
--                              uintptr_t jmp_rx, uintptr_t jmp_rw)
--{
--    tcg_insn_unit i1, i2;
--    ptrdiff_t upper, lower;
--    uintptr_t addr = tb->jmp_target_addr[n];
--    ptrdiff_t offset = (ptrdiff_t)(addr - jmp_rx) >> 2;
--
--    if (offset == sextreg(offset, 0, 26)) {
--        i1 = encode_sd10k16_insn(OPC_B, offset);
--        i2 = NOP;
--    } else {
--        tcg_debug_assert(offset == sextreg(offset, 0, 36));
--        lower = (int16_t)offset;
--        upper = (offset - lower) >> 16;
--
--        i1 = encode_dsj20_insn(OPC_PCADDU18I, TCG_REG_TMP0, upper);
--        i2 = encode_djsk16_insn(OPC_JIRL, TCG_REG_ZERO, TCG_REG_TMP0, lower);
--    }
--    uint64_t pair = ((uint64_t)i2 << 32) | i1;
--    qatomic_set((uint64_t *)jmp_rw, pair);
--    flush_idcache_range(jmp_rx, jmp_rw, 8);
--}
--
- /*
-  * Entry-points
-  */
-@@ -1200,23 +1169,35 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- 
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
--    /*
--     * Ensure that patch area is 8-byte aligned so that an
--     * atomic write can be used to patch the target address.
--     */
--    if ((uintptr_t)s->code_ptr & 7) {
--        tcg_out_nop(s);
--    }
-+    /* Direct branch will be patched by tb_target_set_jmp_target. */
-     set_jmp_insn_offset(s, which);
--    /*
--     * actual branch destination will be patched by
--     * tb_target_set_jmp_target later
--     */
--    tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
-+    tcg_out_opc_b(s, 0);
-+
-+    /* When branch is out of range, fall through to indirect. */
-+    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
-+               get_jmp_target_addr(s, which));
-     tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-     set_jmp_reset_offset(s, which);
- }
- 
-+void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-+                              uintptr_t jmp_rx, uintptr_t jmp_rw)
-+{
-+    uintptr_t addr = tb->jmp_target_addr[n];
-+    ptrdiff_t offset = (ptrdiff_t)(addr - jmp_rx) >> 2;
-+    tcg_insn_unit insn;
-+
-+    /* Either directly branch, or fall through to indirect branch. */
-+    if (offset == sextreg(offset, 0, 26)) {
-+        insn = encode_sd10k16_insn(OPC_B, offset);
-+    } else {
-+        /* LoongArch uses `andi zero, zero, 0` as NOP.  */
-+        insn = OPC_ANDI;
-+    }
-+    qatomic_set((tcg_insn_unit *)jmp_rw, insn);
-+    flush_idcache_range(jmp_rx, jmp_rw, 4);
-+}
-+
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg args[TCG_MAX_OP_ARGS],
-                        const int const_args[TCG_MAX_OP_ARGS])
--- 
-2.34.1
-
+CC: Peter Xu, Juan Quintela
 
