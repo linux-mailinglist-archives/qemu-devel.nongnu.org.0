@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3282B644832
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 16:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A46644834
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 16:42:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2a3m-0004vv-5j; Tue, 06 Dec 2022 10:40:42 -0500
+	id 1p2a4u-0005dX-Gi; Tue, 06 Dec 2022 10:41:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2a3c-0004tG-OF
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:40:33 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
+ id 1p2a4q-0005dI-Ot
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:41:48 -0500
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2a3b-0003WI-7v
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:40:32 -0500
-Received: by mail-ot1-x330.google.com with SMTP id
- l8-20020a056830054800b006705fd35eceso512553otb.12
- for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 07:40:30 -0800 (PST)
+ id 1p2a4p-0003in-Bo
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 10:41:48 -0500
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso17879742fac.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 07:41:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=9uaNnxLQxTy5+xq0wktSEKujJM6RlJKRtX063mR3500=;
- b=Y/7QB2cIYgkuDoZiv96EShYeujyImBMQ57yXjoxlwXb97Gszsl2TbnCLKWzSJs+0lc
- LnjYqzDPY+CkKl1DkXl8Ba7X32wIWGwEgQuL/3YpE7VvLToFS1YbCd/bVXtuCo0OGzCk
- 45rCx6JAdhxSlSu4IorhHYJLj/YcI3tTuKYxOqKzqsQ8NxCTay50kGwFcjzBYXBmzfXi
- 32W50+mkDqX0Uk6ex2nD3I/yZyEzc9RPkIMDOHm7egRA2XHPLFWO8M4FCuDXz4aJq30r
- eXou/RpVIwzww8cfqvODB8SzFtHbJ2rBmJf1giS8/iTCmJdaBLLxJKSPI3R/Sh3k8SUX
- FofA==
+ bh=eAfqq8nXl3RusSkFr0BFIwVpz/bgVmajOHgDEwgRq5w=;
+ b=Mfrr7e3685rdmlZK6hUV5UbzOPcl5e4sZhkMHERvkUnoMv0ofnoB/q0BXwdwsUMP8l
+ wghicuZ3IJuHcCQvSS3qWNlDRjoUCnHD3sAkp0mCfYkN8l/95CRNY/3ybq0g/ZxtHGt7
+ xwZhJj2PGoxr2NcOy4oTOXFvwpEdXYavMpPAf2MyoL8tfRcfp/uz+SyYEav/+0LnxFjz
+ i2ezgNC8e5la3fsDMo/A9Aq5iN/FhjKP2PG3tstMzcbsMiEe+lLa/Y3QcrgjsFIzC72A
+ Lenn0OIzHpHTodCpeHKGHvZbMaLdbdlPdvifImOexse/oF0VCYiPtwicujs8CEtNw4pT
+ ApZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9uaNnxLQxTy5+xq0wktSEKujJM6RlJKRtX063mR3500=;
- b=AuGxi85cvShW0/o1in/WNOaLBiv6rxvE8llHi5o4Jt+m0SxeVB7NUc/gjpSOwmAyyR
- tB2KgKXNruSIrY3l+YqQKoFhCieYblJS+JONq80l7tvVtLutqwGbgn+OxWnXfBPUfzTh
- WVCLdAicL7B2jkymzQKpARmzkI4nBMfczd5DSWR2/zH0imHSezetnGI6Yk6PdUrCW+bc
- hs5/Sq6pjodSC+XBSfeZaBiykilp9sDMWpsgC0xIGHvSGzs7G0OkUNb0R5V9XerHzR5V
- W9KHR9E1FP3sgvW+sRHOQV4TJ4oFXzoAy9bpdjoC/Ja5VLEoJ70s6627hCnVixwlilsL
- nYTw==
-X-Gm-Message-State: ANoB5pkBG6Ia+Lm0prM2MqwIhn9X1SdHbix98puxvLdlev47RoKfVl0z
- R5npC136TXqfxk8/Z8PJu66NMQ==
-X-Google-Smtp-Source: AA0mqf6wilEdP2Xp7OT5aX9OL1fOxEse7L2YA+v+/MdVor3q8eW+QJjsKD6Upm157UI1DCRp//RdoQ==
-X-Received: by 2002:a05:6830:1696:b0:66c:1:feef with SMTP id
- k22-20020a056830169600b0066c0001feefmr33128099otr.347.1670341228380; 
- Tue, 06 Dec 2022 07:40:28 -0800 (PST)
+ bh=eAfqq8nXl3RusSkFr0BFIwVpz/bgVmajOHgDEwgRq5w=;
+ b=SJd0sMbwXCLHOzSsT970P2Nb+I8fxzxVj4KsVC08kRwhasRHcJqfAwzHhF93PDyGeS
+ OybPWHaiK6dI8tYGQFgSctExDyIIcBGlPhWQg+GRhslfwceA+QdDe032YaFFhqMLvUEM
+ llbr1cPQ4cbRdH6MuSdZ+1eBeSM0vuKDfys53TdNTKxBgW0OZxqLpNx7ZCckGSBEB123
+ CKMCoxRac2l13t+VsJBIUIkdnw3DRpo4KUCTF9MauSdjsjH9E+4jPW3fhzL2umUJYu5u
+ fzLh7MW40fVT/DJW3ybi6mUS/F3SwilMF+wMgo9uqU5+/pPhR2zzrjAj7zIKpuojnj5h
+ jAcA==
+X-Gm-Message-State: ANoB5pm+7r6tHE9LNnSCivchG8xNI1sWfSAAYZssvpFhSiiXCWj3BjtO
+ /07DNzKzklddhCTXumt7P2UdOQ==
+X-Google-Smtp-Source: AA0mqf7CBGSEeH2eLtrnuQnz8yXBJlOeaF0maPs+/dEW3R2mOnxkgkzhPRkNRQhC2WOFNY2zXw8ubA==
+X-Received: by 2002:a05:6870:6c09:b0:144:b83d:560 with SMTP id
+ na9-20020a0568706c0900b00144b83d0560mr3476274oab.193.1670341305901; 
+ Tue, 06 Dec 2022 07:41:45 -0800 (PST)
 Received: from ?IPV6:2806:102e:18:70b5:e319:9475:a359:f17a?
  ([2806:102e:18:70b5:e319:9475:a359:f17a])
  by smtp.gmail.com with ESMTPSA id
- x22-20020a056830115600b0066ec67bbc7asm2994579otq.7.2022.12.06.07.40.27
+ bu13-20020a0568300d0d00b00666a5b5d20fsm9124153otb.32.2022.12.06.07.41.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 07:40:27 -0800 (PST)
-Message-ID: <4530a8c2-eb88-b825-d02b-f75725cd7735@linaro.org>
-Date: Tue, 6 Dec 2022 09:40:25 -0600
+ Tue, 06 Dec 2022 07:41:45 -0800 (PST)
+Message-ID: <df6be62a-ff4f-ef23-8ad5-8cf16ceee473@linaro.org>
+Date: Tue, 6 Dec 2022 09:41:42 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 18/22] tcg/sparc64: Remove USE_REG_TB
+Subject: Re: [PATCH 22/22] tcg/riscv: Implement direct branch for goto_tb
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: r@hev.cc
 References: <20221206041715.314209-1-richard.henderson@linaro.org>
- <20221206041715.314209-19-richard.henderson@linaro.org>
- <9909a5ae-02c4-19b6-d930-ad773a1b524c@linaro.org>
+ <20221206041715.314209-23-richard.henderson@linaro.org>
+ <6740ec4f-a978-6467-ee6d-79eeef3c4059@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <9909a5ae-02c4-19b6-d930-ad773a1b524c@linaro.org>
+In-Reply-To: <6740ec4f-a978-6467-ee6d-79eeef3c4059@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2e.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -97,34 +97,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/6/22 01:44, Philippe Mathieu-Daudé wrote:
+On 12/6/22 01:48, Philippe Mathieu-Daudé wrote:
 > On 6/12/22 05:17, Richard Henderson wrote:
->> This is always true for sparc64, so this is dead since 3a5f6805c7ca.
+>> Now that tcg can handle direct and indirect goto_tb simultaneously,
+>> we can optimistically leave space for a direct branch and fall back
+>> to loading the pointer from the TB for an indirect branch.
 >>
 >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 >> ---
->>   tcg/sparc64/tcg-target.c.inc | 57 ++++++++++++++----------------------
->>   1 file changed, 22 insertions(+), 35 deletions(-)
+>>   tcg/riscv/tcg-target.h     |  5 +++++
+>>   tcg/riscv/tcg-target.c.inc | 19 +++++++++++++++++--
+>>   2 files changed, 22 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+>> index 56f7bc3346..a75c84f2a6 100644
+>> --- a/tcg/riscv/tcg-target.h
+>> +++ b/tcg/riscv/tcg-target.h
+>> @@ -159,6 +159,11 @@ typedef enum {
+>>   #define TCG_TARGET_HAS_mulsh_i64        1
+>>   #endif
+>> +<<<<<<< HEAD
+>> +=======
+>> +void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+>> +
+>> +>>>>>>> 89ab294271 (tcg/riscv: Implement TCG_TARGET_HAS_direct_jump)
 > 
->> @@ -1897,7 +1884,7 @@ void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
->>       tcg_debug_assert(tb_disp == (int32_t)tb_disp);
->>       tcg_debug_assert(br_disp == (int32_t)br_disp);
->> -    if (!USE_REG_TB) {
->> +    if (0) {
->>           qatomic_set((uint32_t *)jmp_rw,
->>               deposit32(CALL, 0, 30, br_disp >> 2));
->>           flush_idcache_range(jmp_rx, jmp_rw, 4);
-> 
-> Why remove in the next patch and not here?
+> HEAD is correct :)
 
-Heh.  I did that so I could move this code in the next patch.
-I meant to go back and edit this patch to delete, after I'd done that.
+Ouch. Clearly didn't get the fixed branch pushed back.
+I wonder what else I missed...
 
 
 r~
-
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
 
 
