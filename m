@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E35643D68
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 08:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D8E643D6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 08:06:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2RzX-0005Ys-GC; Tue, 06 Dec 2022 02:03:47 -0500
+	id 1p2S1b-0006iz-TA; Tue, 06 Dec 2022 02:05:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p2RzN-0005Xy-OH; Tue, 06 Dec 2022 02:03:37 -0500
-Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p2RzL-0008Eu-QC; Tue, 06 Dec 2022 02:03:37 -0500
-Received: by mail-vs1-xe33.google.com with SMTP id q128so13319862vsa.13;
- Mon, 05 Dec 2022 23:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FiZih2iW4hNR1DeVI5ZOEVK0HsJdtfaKoHbTybS5xsg=;
- b=n4ziLsnNNr9xm6gKkJ5dJF1rqBsGyp4ZF2H22GHX4FmBaTqMpZ+FKE+K9OV59VFCIr
- e9eYWZoArTP0JyUhGSucG6/1gWP7uCNckrTYnloDqg0OqX/Tp+EiOTpVzp5e0xCsQsoL
- bOFWTBW6Qq+B4YSf4j5y8WYO6dhnhAcXuuh34pF9EoQdI0xARdykvsM1ks+aPwaWqq47
- RxjLpNyLk6iDuHrp9wfW3zfTLNq0I0r405xnIFYQACXGIP8u15L+2N3TNiIqK1Ksz5i+
- N+tPBs8Tx2tosEzlJH9JYY2dL+9P3ySC9S392NKlyJprmpxjav216DOk3Kiq/03BLJjr
- TBiw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p2S0x-0006he-1S
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:05:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p2S0v-0000E7-1D
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 02:05:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670310311;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aQbwe/2bA80JJCRUju+3F3gbF3tBv1HO/18WlF48uQQ=;
+ b=ZWiKxHTvfI8c0xqG61hFtdcTmXwDC6C64m0i5qj0GaycUgrrbFzzzxE4PFxLP8hSsKkovM
+ Qz+xV2KtcTa/1/yf5z4/KBRLKwD5K80XUXpjQCyoLjB7pw+UO0HqmxSjqEmuMXkiCtdA0J
+ T+AGyPgrkV1VsxE0SrgWnYrl2k9cefE=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-576-sYjwRlyTPQebRk5YeBb_pQ-1; Tue, 06 Dec 2022 02:05:09 -0500
+X-MC-Unique: sYjwRlyTPQebRk5YeBb_pQ-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ p133-20020acaf18b000000b0035b236c8554so6198544oih.15
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 23:05:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=FiZih2iW4hNR1DeVI5ZOEVK0HsJdtfaKoHbTybS5xsg=;
- b=TU5j+ELW0EhEaicbV9FGuUDmUTXRGigGg2GzcPHSNAAQaUvN9XrwwrGMcsKzeWY5zn
- AdgA9TxgMdJIG4UtxVc5whJK1hmk9M0+o0O8EOLGacfRkMjKq1vnAPTI2JbwFu3wWhCm
- +lTEjLg92VncCAW+4w/0CsOFlGPdaTBDeCRQjFrf5dJDZlwpcfx/8nPbFd1uune5g50N
- jRyOHn/u4sZtbJi7FvxrWiLqFLa457jlc6IH++UYUSmQpgYWGkfWjKTN4peaYGLhePxD
- iQh2xsu6umxc4AKO7Fe4qiqI46jVZBh5yIiIVE9r6EIZzZJlMHX+aLiby9klheLnu4x+
- EnCQ==
-X-Gm-Message-State: ANoB5pngtV1An1aKga3cmed7iR+oxph9+hvKFKyQseugZEfo0Ve/35yE
- etbGmnOcBKAlkkyjuExZpjPD9UzZ9bYDl3xlPCxgVihbo7A=
-X-Google-Smtp-Source: AA0mqf6GeTdvZqRNdDbYJbXdAk2NtRrtz4Z0ErNcxg9SRPSA1Od9gDYHKrUqr5UMjTvB2T2nh9KALs/kchmuyyxtkRY=
-X-Received: by 2002:a05:6102:f09:b0:3a6:eec3:b246 with SMTP id
- v9-20020a0561020f0900b003a6eec3b246mr45492626vss.64.1670310213047; Mon, 05
- Dec 2022 23:03:33 -0800 (PST)
+ bh=aQbwe/2bA80JJCRUju+3F3gbF3tBv1HO/18WlF48uQQ=;
+ b=UaSN4dbBZciDUSoNzTkam1vH5KWVAhBXZJDAox04JZln6o9ORGMaF3sGe5KIxQ1I+n
+ xzA04m0fSZdf8fB7X+g1rpVcSCEtXq0rnfhyXGjOZsSgdUeNaCuJDNZIXhrSIPPtPM4v
+ 1AilW6In+uGO1Nj53dxMbaLg4hTtWsJK3RBOLXQcdJJXfgWzQXeu2wui01wyu0/LhCWr
+ 3Htf0VDlo3MhU3eUWnmxDsWTPjwCG4Cb454gDZbosfQGLolrm15dmEfuz8AYPqMiKfBH
+ YgbMuQ1D5Xiin+ZYJQpReOddAkTcl25ZaO9dBnJxe9rZsiOYgdBKZxVvIrAg93r+nJ6D
+ mHkQ==
+X-Gm-Message-State: ANoB5pncar2K4GMn82YeVMnmYVWExNixdwwJsyM/6TSgw3hNb+bf1dxW
+ ry1xkg/zWYN3vXaM6JxufSyTTLJmPUmJFsP7VbdvfCjgZD2tpKo6P3ZhR24nzgd2qz51ed9nXC5
+ nL6om6rqgEIi7bWmd20Sk4q4pOq8KU+8=
+X-Received: by 2002:aca:1a12:0:b0:35c:303d:fe37 with SMTP id
+ a18-20020aca1a12000000b0035c303dfe37mr4125546oia.35.1670310308389; 
+ Mon, 05 Dec 2022 23:05:08 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7PtncGJ8ucIxhmP7OGSlLbdTTxrSBOkmSkDZzuJPj9AXRhSJhdO69P0fIT9Q4bjbY8DLoOO7T63aZfl9h7ZEM=
+X-Received: by 2002:aca:1a12:0:b0:35c:303d:fe37 with SMTP id
+ a18-20020aca1a12000000b0035c303dfe37mr4125535oia.35.1670310308154; Mon, 05
+ Dec 2022 23:05:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20221130015444.1459842-1-tommy.wu@sifive.com>
- <20221130015444.1459842-3-tommy.wu@sifive.com>
-In-Reply-To: <20221130015444.1459842-3-tommy.wu@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 6 Dec 2022 17:03:06 +1000
-Message-ID: <CAKmqyKMqA6NLVSG6vAi93usz5a8FyW=gdEBMQbcTRiRdyLdn4g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] hw/riscv: sifive_e: Support the watchdog timer of
- HiFive 1 rev b.
-To: Tommy Wu <tommy.wu@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- palmer@dabbelt.com, bin.meng@windriver.com, jim.shu@sifive.com, 
- frank.chang@sifive.com
+References: <20221201162501.3864692-1-peterx@redhat.com>
+ <CACGkMEu2NrYULRLZAUNbp5SAUVPb8nMZb9=3=JWFHciC7FAHkg@mail.gmail.com>
+ <Y45+pQJtMftyIHGQ@x1n>
+In-Reply-To: <Y45+pQJtMftyIHGQ@x1n>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 6 Dec 2022 15:04:57 +0800
+Message-ID: <CACGkMEuObOb5N5cuHR5Yqd9H0J6wLea0oMp-1AbecJPRustSOA@mail.gmail.com>
+Subject: Re: [PATCH] intel-iommu: Document iova_tree
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Yi Liu <yi.l.liu@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe33.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,102 +95,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 30, 2022 at 11:56 AM Tommy Wu <tommy.wu@sifive.com> wrote:
+On Tue, Dec 6, 2022 at 7:28 AM Peter Xu <peterx@redhat.com> wrote:
 >
-> Create the AON device when we realize the sifive_e machine.
-> This patch only implemented the functionality of the watchdog timer,
-> not all the functionality of the AON device.
+> On Mon, Dec 05, 2022 at 12:23:20PM +0800, Jason Wang wrote:
+> > On Fri, Dec 2, 2022 at 12:25 AM Peter Xu <peterx@redhat.com> wrote:
+> > >
+> > > It seems not super clear on when iova_tree is used, and why.  Add a rich
+> > > comment above iova_tree to track why we needed the iova_tree, and when we
+> > > need it.
+> > >
+> > > Suggested-by: Jason Wang <jasowang@redhat.com>
+> > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > ---
+> > >  include/hw/i386/intel_iommu.h | 30 +++++++++++++++++++++++++++++-
+> > >  1 file changed, 29 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+> > > index 46d973e629..8d130ab2e3 100644
+> > > --- a/include/hw/i386/intel_iommu.h
+> > > +++ b/include/hw/i386/intel_iommu.h
+> > > @@ -109,7 +109,35 @@ struct VTDAddressSpace {
+> > >      QLIST_ENTRY(VTDAddressSpace) next;
+> > >      /* Superset of notifier flags that this address space has */
+> > >      IOMMUNotifierFlag notifier_flags;
+> > > -    IOVATree *iova_tree;          /* Traces mapped IOVA ranges */
+> > > +    /*
+> > > +     * @iova_tree traces mapped IOVA ranges.
+> > > +     *
+> > > +     * The tree is not needed if no MAP notifiers is registered with
+> > > +     * current VTD address space, because all UNMAP (including iotlb or
+> > > +     * dev-iotlb) events can be transparently delivered to !MAP iommu
+> > > +     * notifiers.
+> >
+> > So this means the UNMAP notifier doesn't need to be as accurate as
+> > MAP. (Should we document it in the notifier headers)?
 >
-> Signed-off-by: Tommy Wu <tommy.wu@sifive.com>
+> Yes.
+>
+> >
+> > For MAP[a, b] MAP[b, c] we can do a UNMAP[a. c].
+>
+> IIUC a better way to say this is, for MAP[a, b] we can do an UNMAP[a-X,
+> b+Y] as long as the range covers [a, b]?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Right.
 
-Alistair
+>
+> >
+> > > +     *
+> > > +     * The tree OTOH is required for MAP typed iommu notifiers for a few
+> > > +     * reasons.
+> > > +     *
+> > > +     * Firstly, there's no way to identify whether an PSI event is MAP or
+> > > +     * UNMAP within the PSI message itself.  Without having prior knowledge
+> > > +     * of existing state vIOMMU doesn't know whether it should notify MAP
+> > > +     * or UNMAP for a PSI message it received.
+> > > +     *
+> > > +     * Secondly, PSI received from guest driver (or even a large PSI can
+> > > +     * grow into a DSI at least with Linux intel-iommu driver) can be
+> > > +     * larger in range than the newly mapped ranges for either MAP or UNMAP
+> > > +     * events.
+> >
+> > Yes, so I think we need a document that the UNMAP handler should be
+> > prepared for this.
+>
+> How about I squash below into this same patch?
 
-> ---
->  hw/riscv/Kconfig            |  1 +
->  hw/riscv/sifive_e.c         | 13 +++++++++++--
->  include/hw/riscv/sifive_e.h |  8 +++++---
->  3 files changed, 17 insertions(+), 5 deletions(-)
+Looks good to me.
+
+Thanks
+
 >
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index 79ff61c464..50890b1b75 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -59,6 +59,7 @@ config SIFIVE_E
->      select SIFIVE_PLIC
->      select SIFIVE_UART
->      select SIFIVE_E_PRCI
-> +    select SIFIVE_E_AON
->      select UNIMP
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 91f8a2395a..c83bd11a68 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -129,6 +129,24 @@ struct IOMMUTLBEntry {
+>  /*
+>   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
+>   * register with one or multiple IOMMU Notifier capability bit(s).
+> + *
+> + * Normally there're two use cases for the notifiers:
+> + *
+> + *   (1) When the device needs accurate synchronizations of the vIOMMU page
+> + *       tables, it needs to register with both MAP|UNMAP notifies (which
+> + *       is defined as IOMMU_NOTIFIER_IOTLB_EVENTS below).  As long as MAP
+> + *       events are registered, the notifications will be accurate but
+> + *       there's overhead on synchronizing the guest vIOMMU page tables.
+> + *
+> + *   (2) When the device doesn't need accurate synchronizations of the
+> + *       vIOMMU page tables (when the device can both cache translations
+> + *       and requesting to translate dynamically during DMA process), it
+> + *       needs to register only with UNMAP or DEVIOTLB_UNMAP notifies.
+> + *       Note that in such working mode shadow page table is not used for
+> + *       vIOMMU unit on this address space, so the UNMAP messages can be
+> + *       actually larger than the real invalidations (just like how the
+> + *       Linux IOMMU driver normally works, where an invalidation can be
+> + *       enlarged as long as it still covers the target range).
+>   */
+>  typedef enum {
+>      IOMMU_NOTIFIER_NONE = 0,
 >
->  config SIFIVE_U
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index d65d2fd869..c866ffe232 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -45,6 +45,7 @@
->  #include "hw/intc/riscv_aclint.h"
->  #include "hw/intc/sifive_plic.h"
->  #include "hw/misc/sifive_e_prci.h"
-> +#include "hw/misc/sifive_e_aon.h"
->  #include "chardev/char.h"
->  #include "sysemu/sysemu.h"
+> Thanks,
 >
-> @@ -222,8 +223,13 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
->          RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, ms->smp.cpus,
->          RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
->          RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, false);
-> -    create_unimplemented_device("riscv.sifive.e.aon",
-> -        memmap[SIFIVE_E_DEV_AON].base, memmap[SIFIVE_E_DEV_AON].size);
-> +
-> +    s->aon = qdev_new(TYPE_SIFIVE_E_AON);
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(s->aon), errp)) {
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(s->aon), 0, memmap[SIFIVE_E_DEV_AON].base);
-> +
->      sifive_e_prci_create(memmap[SIFIVE_E_DEV_PRCI].base);
->
->      /* GPIO */
-> @@ -244,6 +250,9 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
->                             qdev_get_gpio_in(DEVICE(s->plic),
->                                              SIFIVE_E_GPIO0_IRQ0 + i));
->      }
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->aon), 0,
-> +                       qdev_get_gpio_in(DEVICE(s->plic),
-> +                                        SIFIVE_E_AON_WDT_IRQ));
->
->      sifive_uart_create(sys_mem, memmap[SIFIVE_E_DEV_UART0].base,
->          serial_hd(0), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_UART0_IRQ));
-> diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-> index d738745925..e2de1564a7 100644
-> --- a/include/hw/riscv/sifive_e.h
-> +++ b/include/hw/riscv/sifive_e.h
-> @@ -35,6 +35,7 @@ typedef struct SiFiveESoCState {
->      /*< public >*/
->      RISCVHartArrayState cpus;
->      DeviceState *plic;
-> +    DeviceState *aon;
->      SIFIVEGPIOState gpio;
->      MemoryRegion xip_mem;
->      MemoryRegion mask_rom;
-> @@ -76,9 +77,10 @@ enum {
->  };
->
->  enum {
-> -    SIFIVE_E_UART0_IRQ  = 3,
-> -    SIFIVE_E_UART1_IRQ  = 4,
-> -    SIFIVE_E_GPIO0_IRQ0 = 8
-> +    SIFIVE_E_AON_WDT_IRQ  = 1,
-> +    SIFIVE_E_UART0_IRQ    = 3,
-> +    SIFIVE_E_UART1_IRQ    = 4,
-> +    SIFIVE_E_GPIO0_IRQ0   = 8
->  };
->
->  #define SIFIVE_E_PLIC_HART_CONFIG "M"
 > --
-> 2.27.0
+> Peter Xu
 >
->
+
 
