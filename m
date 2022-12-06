@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B33643AB6
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 02:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D69643B46
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 03:21:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2Meq-0001iz-NW; Mon, 05 Dec 2022 20:22:05 -0500
+	id 1p2NZL-0003eP-Qo; Mon, 05 Dec 2022 21:20:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2Mel-0001ib-Nz
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:21:59 -0500
+ id 1p2NZF-0003eB-Kr
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 21:20:21 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+eadd4843470e5bcc0eee+7044+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p2Mej-00088P-TX
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 20:21:59 -0500
+ id 1p2NZC-0001vK-Fl
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 21:20:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=ZeJ3k8v8QY3Ep/VhIJmzaxdensPLh+GxNbw2gIfHXU4=; b=E5LhlRdT0JxEMzh7GB5dOg/yR1
- rCmDwZkKlJG5r6rsVLcHirT9SSTIULRzoMhiZ9Yg0ID/NpuMfwrdlTu/3EdxT0jIbQErquizGg01P
- EVyYn1BdWTUxLCuByCgiPsesfBmOVpB9nXPVBFkkvENjjYGE1lKxK0CcNGAiabIBJHFQHknY7vjcr
- FxZiCi6/m2u9KILn9kI5LvCITptrKcqoMymoKCdE1TOtFSnbOLX4ixAGAMeGkiVgYsJDx/4GiunRs
- sOG/EZBS/hc1bGDjgx2GS/6C5Ck9JmPbXjnFt8dDyHwHCfrp8aWmfxXxnKl2+BaVCVH89+I2HGSDL
- xbmmewYA==;
+ bh=SDjTMVLPXvKXuJ+uZo2ZoaE1Lkgn9DdQcGgDPxPNHKg=; b=cgCNxvm4LEBVNQx2IIfETVnbKl
+ BqL5acn45Nn+/KLWaA6Uy7Y+9CGuTFbTDSoQInokqWwvqDloNhpAc1DtHmGpfXLjwSsFiqYprL5Jj
+ K12e+uSLZlmM+41gvmgcj3knWcXQYdRYyUbcImc14YNJXXr9ZfvtkDOm6AAlwp/M6inrsRWmSVhf9
+ KL/ooDeRLkrt8R4Rio71YY5oQFTq/40I1qzfxp0qdkgrQNxgIXECEuCCjOjq0YrVSdm3/phkDhzvz
+ WZJ7z40axaHQui+ZkfJIMJSTK3Ce4xrDh85u97UU8WX2ZdMm07ysZp1hVqEkt/80uvVxwnyXMa6Pt
+ eZ1gtvcw==;
 Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p2Mep-003tXb-I3; Tue, 06 Dec 2022 01:22:03 +0000
-Message-ID: <0e0724bf05914b093bcd6f9f8c0e67b4d0938f03.camel@infradead.org>
-Subject: Re: [RFC PATCH 18/21] kvm/ioapic: mark gsi-2 used in ioapic routing
- init
+ id 1p2NZB-003xAd-GZ; Tue, 06 Dec 2022 02:20:17 +0000
+Message-ID: <ffcf677c1669a8dc43f8eda498e0d7914028a3c1.camel@infradead.org>
+Subject: Re: [RFC PATCH 12/21] i386/xen: set shared_info page
 From: David Woodhouse <dwmw2@infradead.org>
 To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, 
  qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
  Martins <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>
-Date: Tue, 06 Dec 2022 01:21:55 +0000
-In-Reply-To: <691190cd-7c0e-5f30-f5e6-ccf0a84cf3bb@linaro.org>
+Date: Tue, 06 Dec 2022 02:20:08 +0000
+In-Reply-To: <cbb522e1-3d8d-5332-7ac8-c0e054be33e2@linaro.org>
 References: <20221205173137.607044-1-dwmw2@infradead.org>
- <20221205173137.607044-19-dwmw2@infradead.org>
- <691190cd-7c0e-5f30-f5e6-ccf0a84cf3bb@linaro.org>
+ <20221205173137.607044-13-dwmw2@infradead.org>
+ <cbb522e1-3d8d-5332-7ac8-c0e054be33e2@linaro.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-8Lux+E0JGm7i947eUu2d"
+ boundary="=-LqmoFaubh0qCoJ8Rwqbl"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -79,66 +78,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-8Lux+E0JGm7i947eUu2d
+--=-LqmoFaubh0qCoJ8Rwqbl
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-12-05 at 23:25 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+On Mon, 2022-12-05 at 23:17 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
 > On 5/12/22 18:31, David Woodhouse wrote:
-> > From: Ankur Arora <
-> > ankur.a.arora@oracle.com
-> > >
+> > From: Joao Martins <joao.m.martins@oracle.com>
 > >=20
-> > GSI-2/IOAPIC pin-2 is treated specially while initing
-> > IRQ routing: PIC does not use it at all while the IOAPIC
-> > maps virq=3D0 to pin-2 and does not use GSI-2.
-> > (all other GSIs are identity mapped to pins.)
+> > This is done by implementing HYPERVISOR_memory_op specifically
+> > XENMEM_add_to_physmap with space XENMAPSPACE_shared_info. While
+> > Xen removes the page with its own, we instead use the gfn passed
+> > by the guest.
 > >=20
-> > This results in any later code which allocates a virq
-> > to be assigned GSI-2. This virq is in-turn used to
-> > remap interrupts to HYPERVISOR_CALLBACK_VECTOR (0xf3)
-> > to deliver to the guest.
-> >=20
-> > Ordinarily this would be okay, but if the event delivery is
-> > via direct injection via KVM_REQ_EVENT (without going
-> > through the LAPIC) we see vmentry failure.
-> >=20
-> > This works fine for any other values of GSI.
-> >=20
-> > As a workaround, mark GSI-2 used.
-> >=20
-> > Signed-off-by: Ankur Arora <ankur.a.arora@oracle.com>
+> > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 > > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > > ---
-> >   accel/kvm/kvm-all.c  | 5 +++++
-> >   hw/i386/kvm/ioapic.c | 1 +
-> >   include/sysemu/kvm.h | 1 +
-> >   3 files changed, 7 insertions(+)
+> >   accel/kvm/kvm-all.c      |  6 ++++
+> >   include/hw/core/cpu.h    |  2 ++
+> >   include/sysemu/kvm.h     |  2 ++
+> >   include/sysemu/kvm_int.h |  3 ++
+> >   target/i386/cpu.h        |  8 ++++++
+> >   target/i386/trace-events |  1 +
+> >   target/i386/xen-proto.h  | 19 +++++++++++++
+> >   target/i386/xen.c        | 61 +++++++++++++++++++++++++++++++++++++++=
++
+> >   8 files changed, 102 insertions(+)
+> >   create mode 100644 target/i386/xen-proto.h
 >=20
 >=20
-> > diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
-> > index ee7c8ef68b..5fab0d35c9 100644
-> > --- a/hw/i386/kvm/ioapic.c
-> > +++ b/hw/i386/kvm/ioapic.c
-> > @@ -43,6 +43,7 @@ void kvm_pc_setup_irq_routing(bool pci_enabled)
-> >               }
-> >           }
-> >       }
+> > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> > index 8830546121..e57b693528 100644
+> > --- a/include/hw/core/cpu.h
+> > +++ b/include/hw/core/cpu.h
+> > @@ -443,6 +443,8 @@ struct CPUState {
+> >  =20
+> >       /* track IOMMUs whose translations we've cached in the TCG TLB */
+> >       GArray *iommu_notifiers;
+> > +
+> > +    struct XenState *xen_state;
 >=20
-> Workarounds usually deserve some comment in the code.
+> Since you define a type definition below, use it.
 
-Yes, good point. Although I actually think I can kill this off
-completely since we no longer attempt the deliver the vector directly
-with KVM_REQ_EVENT anyway; the kernel injects it *for* us when it sees
-that vcpu_info->evtchn_upcall_pending is set on entry to the guest
-vCPU.
+Ack.
 
-> > +    kvm_irqchip_set_gsi(s, 2);
-> >       kvm_irqchip_commit_routes(s);
-> >   }
+More importantly though, some of that state needs to be persisted
+across live migration / live update.=20
 
+There is per-vCPU state (the GPAs for vcpu_info etc., upcall vector,
+timer info). I think I see how I could add that to the vmstate_x86_cpu
+defined in target/i386/machine.c.
 
---=-8Lux+E0JGm7i947eUu2d
+For the machine-wide state, where do I add that? Should I just
+instantiate a dummy device (a bit like TYPE_KVM_CLOCK, AFAICT) to hang
+that state off?=20
+
+--=-LqmoFaubh0qCoJ8Rwqbl
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -230,26 +225,26 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDEyMTU1WjAvBgkqhkiG9w0BCQQxIgQgGwVXubkZ
-WLoadyofdV4GnnNAh+M1LVt8wchxSsd1BsUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjA2MDIyMDA4WjAvBgkqhkiG9w0BCQQxIgQghv1m0deZ
+U68iMAi+6JVX7zthJFD10klaOlZa0IPWZvYwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAMdGaMUiu+1fg7uTy9ylRJPaC+wOlq/dzT
-4VIhcFy+Xef6p0apOT+reZR54LTVgUUFzriOXdoqKDAb44z6kxF1fpHNeRms/LEdZZ2tyhSgRun0
-XGXGVHDYc0RCyw8c1t4aQ0NcUMFhsUshNgqtKRS6BSocPESCF6Gpygw0TzHescC/gSYwX7TAiDc4
-CsJREJ54hX1cuW3x2q/udjh+inTGdLIs8lZuZAfLK7aprsq7ux3sv65EPt0JU5HgL9AD+3zsURRf
-BTak0wMRiS6676R8vKKWxHgWU26oRwILYnQFXXe795YIQZhMI9rUDKnZuDN0ii8u4bjcwWu/gXTk
-j+/kx6pWteUZlOOYZl77SNaws8I9aO56Ro5GMnnts+KeheOpAmsURN+lUjs3/dq/+q68DWDNnSAv
-DDzQ+xw/t5iGU1cfT2BJkAAXAKJlzE29mSudMLk24PjNWzoSGNGHLPo/rrEsRRhx9VBuGuSXf1rm
-XTmrC5dx9wL/yuGxOuWRLK+9S0dnoZ9Zn1AmYH6TaVZE33znFVAsTJUeuvsNLDL03xjf3+KhpZjj
-LoaKaCwiucmBFc8swEUxufiXhiRRDzlwtnmbUZqDshCyaJR6gbJDS9XBQx9yJY8UjSC+idM9b7Ko
-2reXzciqWxdVNGwt5Kcj54dE0Pbf6ldBCCzByCAfIAAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAYyA7Q+VfoI5IYCWRkciEia67xwcudRThZ
+/LJ2yNZ7rFLt3lmMiP8u/36flEN2t4p/KsZfVoWzeEQk1Akx+NOBEuAMPhx3xKtyzAPbelUQ/cg3
+DJXWoWnidonOgvYqII2MuB+t4NVnUQYI7w5/BYgiO4wjPHD+IS3jX7Wt0OLObaJwlY7xeh+Y9f7p
+eKTJFYUqhfne9Bn3ryW4WERUkMBFwBW06IqkGPwgskwminpfOvrB24fxIOM9XV8eNqHJfeKxJ6hY
+2EtRinSthw74z4aQ4L3NoooT5n9XcGS4Qaytc1tvN6uS1agGy2zCbxj5aSFnOVSUV6a7fjNKzHis
+ZnwgiRjbXm+Sa8GaJoMOCDwR6TG7L0SzCXdMb5PgwY0FwzwohH6i76pv7CSJxgau9P56hMb0g1D7
+fdL4cxZFSINf5XU7syh7R8N+7E+YanZc11zwYxTRXjrXcN0ZrBLjTClf9hsW9vkdE/apKAQkUFaJ
+liLkSrN334J+L5txe81jrbr1eK4ZyzK3WcgLbDVuoQIbvGaXmrKPclSLTks2/ZX0/3wgDWcUpayQ
+kdOQtFZ6/fbFb+O6tPLqxCanlyYAFCsDi8zyyNjTlvIf5fEWAR0jHimRwIezPFa7lZg0Kl+BgX8p
+iC82VBOejbkRyxwvDeswix1i0iztYSXVhljI/bk0qgAAAAAAAA==
 
 
---=-8Lux+E0JGm7i947eUu2d--
+--=-LqmoFaubh0qCoJ8Rwqbl--
 
 
