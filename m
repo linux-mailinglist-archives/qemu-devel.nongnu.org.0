@@ -2,58 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3CF644142
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D27644155
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 11:34:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2VCF-0003ZP-0w; Tue, 06 Dec 2022 05:29:07 -0500
+	id 1p2VGN-0005C9-ML; Tue, 06 Dec 2022 05:33:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1p2VC8-0003Wb-I8
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:29:00 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p2VGE-00059l-Aw; Tue, 06 Dec 2022 05:33:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1p2VC5-0002hO-Bu
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 05:29:00 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NRGkB6PZ9zqSsV;
- Tue,  6 Dec 2022 18:24:34 +0800 (CST)
-Received: from [10.174.148.223] (10.174.148.223) by
- kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 6 Dec 2022 18:28:42 +0800
-Message-ID: <1fc867d6-2c2b-36ca-1154-90ff6fc1b074@huawei.com>
-Date: Tue, 6 Dec 2022 18:28:41 +0800
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p2VGA-0003RQ-EY; Tue, 06 Dec 2022 05:33:12 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B68rK89023151; Tue, 6 Dec 2022 10:33:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=sBUpfkt4je8E+ciXGtMEQZVkXZ6iroEOkZfNlo8PCAo=;
+ b=iSGrP2RoH8cQePhPcpXlNYdQP15zbGme4R4zJhSyYRcKBh/zm9fE/L8yIcZwI7qDDZOH
+ 91zCX0zAh/vkiX4iBmVFzUOCVIeAGp6KX4b2jkkFk1F/XBErOCBx6MnnzBoe5PZszjE8
+ yEJTfKe6nvlu9Cpqz/CtiIp0JNRS0e+A3RDwTfp/Zq1t3vWS4Nj7o0cKQOdNGCnDy8gB
+ zsxawBHI9kJ+e/uDKD+WMONV3VteX4G6j6oCYdJ5mtgvDXad35elfciIWsWpb2o8Lszj
+ jfdHuKHBF/dRJhzBRz3FBogWnJz6a2PhQ4kzjrEVBIbDoLfrsHi4v7KscE/SZEmEIQ8m uQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8g4kfvvy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 10:33:01 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B6AAHpj005662;
+ Tue, 6 Dec 2022 10:33:00 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m8g4kfvve-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 10:33:00 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2B5K5Iwj004900;
+ Tue, 6 Dec 2022 10:32:58 GMT
+Received: from smtprelay08.fra02v.mail.ibm.com ([9.218.2.231])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3m9pv9rqf2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 10:32:58 +0000
+Received: from d06av22.portsmouth.uk.ibm.com ([9.149.105.58])
+ by smtprelay08.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B6AWsgF26345734
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Dec 2022 10:32:54 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AF5664C040;
+ Tue,  6 Dec 2022 10:32:54 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C4AD34C044;
+ Tue,  6 Dec 2022 10:32:53 +0000 (GMT)
+Received: from [9.171.52.4] (unknown [9.171.52.4])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  6 Dec 2022 10:32:53 +0000 (GMT)
+Message-ID: <cb4abea1-b585-2753-12e9-6b75999d7d2e@linux.ibm.com>
+Date: Tue, 6 Dec 2022 11:32:53 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/2] vhost: configure all host notifiers in a single MR
- transaction
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
- <sgarzare@redhat.com>
-CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
- <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
-References: <20221206081841.2458-1-longpeng2@huawei.com>
- <20221206081841.2458-2-longpeng2@huawei.com>
- <ee85dd7e-7ec0-03f2-ba17-c8e2987f200c@linaro.org>
-In-Reply-To: <ee85dd7e-7ec0-03f2-ba17-c8e2987f200c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi100025.china.huawei.com (7.221.188.158)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v12 1/7] s390x/cpu topology: Creating CPU topology device
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221129174206.84882-1-pmorel@linux.ibm.com>
+ <20221129174206.84882-2-pmorel@linux.ibm.com>
+ <92e30cf1f091329b2076195e9c159be16c13f7f9.camel@linux.ibm.com>
+Content-Language: en-US
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <92e30cf1f091329b2076195e9c159be16c13f7f9.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: FXEe1R7N3ROrk9FmpS7jn_R5I7IU22zj
+X-Proofpoint-ORIG-GUID: qRJkqoddZLZvc_NUdIV1pYeWM2eic7Rn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-06_05,2022-12-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212060078
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,156 +116,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-在 2022/12/6 17:07, Philippe Mathieu-Daudé 写道:
-> On 6/12/22 09:18, Longpeng(Mike) via wrote:
->> From: Longpeng <longpeng2@huawei.com>
+On 12/6/22 10:31, Janis Schoetterl-Glausch wrote:
+> On Tue, 2022-11-29 at 18:42 +0100, Pierre Morel wrote:
+>> We will need a Topology device to transfer the topology
+>> during migration and to implement machine reset.
 >>
->> This allows the vhost device to batch the setup of all its host 
->> notifiers.
->> This significantly reduces the device starting time, e.g. the time spend
->> on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
->> and 3 vhost-vDPA generic devices[1] (64vq per device)
+>> The device creation is fenced by s390_has_topology().
 >>
->> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg921541.html
->>
->> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 >> ---
->>   hw/virtio/vhost.c | 40 ++++++++++++++++++++++++++++++++++++++--
->>   1 file changed, 38 insertions(+), 2 deletions(-)
+>>   include/hw/s390x/cpu-topology.h    | 44 +++++++++++++++
+>>   include/hw/s390x/s390-virtio-ccw.h |  1 +
+>>   hw/s390x/cpu-topology.c            | 87 ++++++++++++++++++++++++++++++
+>>   hw/s390x/s390-virtio-ccw.c         | 25 +++++++++
+>>   hw/s390x/meson.build               |  1 +
+>>   5 files changed, 158 insertions(+)
+>>   create mode 100644 include/hw/s390x/cpu-topology.h
+>>   create mode 100644 hw/s390x/cpu-topology.c
 >>
->> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->> index 7fb008bc9e..16f8391d86 100644
->> --- a/hw/virtio/vhost.c
->> +++ b/hw/virtio/vhost.c
->> @@ -1507,7 +1507,7 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
->>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice 
->> *vdev)
->>   {
->>       BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
->> -    int i, r, e;
->> +    int i, n, r, e;
->>       /* We will pass the notifiers to the kernel, make sure that QEMU
->>        * doesn't interfere.
->> @@ -1518,6 +1518,12 @@ int vhost_dev_enable_notifiers(struct vhost_dev 
->> *hdev, VirtIODevice *vdev)
->>           goto fail;
->>       }
->> +    /*
->> +     * Batch all the host notifiers in a single transaction to avoid
->> +     * quadratic time complexity in address_space_update_ioeventfds().
->> +     */
->> +    memory_region_transaction_begin();
->> +
->>       for (i = 0; i < hdev->nvqs; ++i) {
->>           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
->> hdev->vq_index + i,
->>                                            true);
->> @@ -1527,8 +1533,12 @@ int vhost_dev_enable_notifiers(struct vhost_dev 
->> *hdev, VirtIODevice *vdev)
->>           }
->>       }
->> +    memory_region_transaction_commit();
->> +
->>       return 0;
->>   fail_vq:
->> +    /* save i for a second iteration after transaction is committed. */
->> +    n = i;
->>       while (--i >= 0) {
->>           e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
->> hdev->vq_index + i,
->>                                            false);
->> @@ -1536,8 +1546,18 @@ fail_vq:
->>               error_report("vhost VQ %d notifier cleanup error: %d", 
->> i, -r);
->>           }
->>           assert (e >= 0);
->> -        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
->> hdev->vq_index + i);
->>       }
->> +
->> +    /*
->> +     * The transaction expects the ioeventfds to be open when it
->> +     * commits. Do it now, before the cleanup loop.
->> +     */
->> +    memory_region_transaction_commit();
->> +
->> +    while (--n >= 0) {
->> +        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
->> hdev->vq_index + n);
->> +    }
->> +
->>       virtio_device_release_ioeventfd(vdev);
->>   fail:
->>       return r;
+> [...]
 > 
-> Similarly to patch #2, removing both goto statement in this function (as 
-> a preliminary patch) will 1/ simplify the code 2/ simplify reviewing 
-> your changes, resulting in something like:
+>> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+>> index 9bba21a916..47ce0aa6fa 100644
+>> --- a/include/hw/s390x/s390-virtio-ccw.h
+>> +++ b/include/hw/s390x/s390-virtio-ccw.h
+>> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
+>>       bool dea_key_wrap;
+>>       bool pv;
+>>       uint8_t loadparm[8];
+>> +    DeviceState *topology;
 > 
-> int vhost_dev_enable_notifiers(struct vhost_dev *hdev,
->                                 VirtIODevice *vdev)
-> {
->      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
->      int i, r, e;
-> 
->      /* We will pass the notifiers to the kernel, make sure that QEMU
->       * doesn't interfere.
->       */
->      r = virtio_device_grab_ioeventfd(vdev);
->      if (r < 0) {
->          error_report("binding does not support host notifiers");
->          return r;
->      }
-> 
->      memory_region_transaction_begin();
-> 
->      for (i = 0; i < hdev->nvqs; ++i) {
->          r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
->                                           hdev->vq_index + i,
->                                           true);
->          if (r < 0) {
->              error_report("vhost VQ %d notifier binding failed: %d",
->                           i, -r);
->              while (--i >= 0) {
->                  e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
->                                                   hdev->vq_index + i,
->                                                   false);
->                  if (e < 0) {
->                      error_report(
->                                 "vhost VQ %d notifier cleanup error: %d",
->                                   i, -r);
->                  }
->                  assert (e >= 0);
->                  virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus),
->                                                   hdev->vq_index + i);
->              }
->              virtio_device_release_ioeventfd(vdev);
->              break;
->          }
->      }
-> 
->      memory_region_transaction_commit();
-> 
->      return r;
-> }
-> 
-> What do you think?
-> 
-Maybe we can use vhost_dev_disable_notifiers to further simplify the 
-error path ?
+> Why is this a DeviceState, not S390Topology?
+> It *has* to be a S390Topology, right? Since you cast it to one in patch 2.
 
-And we must commit before invoking virtio_bus_cleanup_host_notifier.
+Yes, currently it is the S390Topology.
+The idea of Cedric was to have something more generic for future use.
 
-> Regards,
 > 
-> Phil.
-> .
+>>   };
+>>   
+>>   struct S390CcwMachineClass {
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> new file mode 100644
+>> index 0000000000..bbf97cd66a
+>> --- /dev/null
+>> +++ b/hw/s390x/cpu-topology.c
+>>
+> [...]
+>>   
+>> +static DeviceState *s390_init_topology(MachineState *machine, Error **errp)
+>> +{
+>> +    DeviceState *dev;
+>> +
+>> +    dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
+>> +
+>> +    object_property_add_child(&machine->parent_obj,
+>> +                              TYPE_S390_CPU_TOPOLOGY, OBJECT(dev));
+> 
+> Why set this property, and why on the machine parent?
+
+For what I understood setting the num_cores and num_sockets as 
+properties of the CPU Topology object allows to have them better 
+integrated in the QEMU object framework.
+
+The topology is added to the S390CcwmachineState, it is the parent of 
+the machine.
+
+
+> 
+>> +    object_property_set_int(OBJECT(dev), "num-cores",
+>> +                            machine->smp.cores * machine->smp.threads, errp);
+>> +    object_property_set_int(OBJECT(dev), "num-sockets",
+>> +                            machine->smp.sockets, errp);
+>> +
+>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), errp);
+> 
+> I must admit that I haven't fully grokked qemu's memory management yet.
+> Is the topology devices now owned by the sysbus?
+
+Yes it is so we see it on the qtree with its properties.
+
+
+> If so, is it fine to have a pointer to it S390CcwMachineState?
+
+Why not?
+It seems logical to me that the sysbus belong to the virtual machine.
+But sometime the way of QEMU are not very transparent for me :)
+so I can be wrong.
+
+Regards,
+Pierre
+
+>> +
+>> +    return dev;
+>> +}
+>> +
+> [...]
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
