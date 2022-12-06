@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED32F644A75
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 18:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7D2644A52
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 18:32:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2buT-0000eA-JH; Tue, 06 Dec 2022 12:39:13 -0500
+	id 1p2bmN-0006Gw-JO; Tue, 06 Dec 2022 12:30:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p2buR-0000du-3M
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:39:11 -0500
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p2buN-000486-Az
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:39:10 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 2B94C3F8A7
- for <qemu-devel@nongnu.org>; Tue,  6 Dec 2022 17:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1670348338;
- bh=O3hCWywBtCXlYxsruxzkfkFjGmj6hEliW7eH5ekp0Oo=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=LEC5A1oHFEXNSj8AOte2ROkBZhbs9BW2uvSYx/ID27hk6GKalj6p+nsvK6fI6i+jo
- vSirsPLICEQ+U5aNcxGb4B7nvRijZ3vQ+0la2pXqRrdgdya6mhYh+RGvnoIk0TkA+H
- pasQm7tAorfSOEC+JC4L+4bubfl7jPQpMR6Qi9MeykX1gcWTo45vVnctvueo17uJkI
- 9/G16uJ6k7JjIDvrB3QWjuM8geGJdgD46ZkI8PLojlykaJplBEWsgTElwKQ4Vfc7X+
- +HhcP+Kn3h6AIkOY/000VE2RsfLr79hIl5VNc//RZTqeSklrUzeP1fBXrhDVhX6nSx
- f9xSHtf03I5kQ==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id B4E213EF23
- for <qemu-devel@nongnu.org>; Tue,  6 Dec 2022 17:38:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1p2blr-0006G6-LM
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:30:21 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1p2bll-0002jq-Rb
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 12:30:17 -0500
+HMM_SOURCE_IP: 172.18.0.188:59456.608635250
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.98.104 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 9B740280090;
+ Wed,  7 Dec 2022 01:29:54 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([171.223.98.104])
+ by app0023 with ESMTP id 53a93ee9b3ea417198012882ee7d874e for
+ peterx@redhat.com; Wed, 07 Dec 2022 01:30:02 CST
+X-Transaction-ID: 53a93ee9b3ea417198012882ee7d874e
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 171.223.98.104
+X-MEDUSA-Status: 0
+Message-ID: <8d245f68-e830-2566-2a33-b99f206c6773@chinatelecom.cn>
+Date: Wed, 7 Dec 2022 01:29:54 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Dec 2022 17:27:58 -0000
-From: Laurent Vivier <1903470@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jay7x laurent-vivier magicaltux
- marcandre-lureau
-X-Launchpad-Bug-Reporter: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <160488704585.18602.6390058369473747228.malonedeb@soybean.canonical.com>
-Message-Id: <167034767861.14511.10103026063590001497.malone@gac.canonical.com>
-Subject: [Bug 1903470] Re: qemu 5.1.0: Add UNIX socket support for netdev
- socket
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="41e7553f8097ce3a683f90e835708cbe7bf0006c"; Instance="production"
-X-Launchpad-Hash: 8f858ff10eae829016822b205ebc32e937adb6b6
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [RFC PATCH 0/1] QEMU: Dirty quota-based throttling of vcpus
+To: Peter Xu <peterx@redhat.com>, Shivam Kumar <shivam.kumar1@nutanix.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, david@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com, kvm@vger.kernel.org
+References: <20221120225458.144802-1-shivam.kumar1@nutanix.com>
+ <0cde1cb7-7fce-c443-760c-2bb244e813fe@nutanix.com> <Y49nAjrD0uxUp+Ll@x1n>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <Y49nAjrD0uxUp+Ll@x1n>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.27,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,47 +65,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1903470 <1903470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This will be available in the next QEMU release (7.2) under a sligthly
-different form:
 
-"-netdev stream" for TCP socket and "-netdev dgram" for UDP socket.
 
-Both support inet and unix sockets. See qemu(1).
+在 2022/12/7 0:00, Peter Xu 写道:
+> Hi, Shivam,
+> 
+> On Tue, Dec 06, 2022 at 11:18:52AM +0530, Shivam Kumar wrote:
+> 
+> [...]
+> 
+>>> Note
+>>> ----------
+>>> ----------
+>>>
+>>> We understand that there is a good scope of improvement in the current
+>>> implementation. Here is a list of things we are working on:
+>>> 1) Adding dirty quota as a migration capability so that it can be toggled
+>>> through QMP command.
+>>> 2) Adding support for throttling guest DMAs.
+>>> 3) Not enabling dirty quota for the first migration iteration.
+> 
+> Agreed.
+> 
+>>> 4) Falling back to current auto-converge based throttling in cases where dirty
+>>> quota throttling can overthrottle.
+> 
+> If overthrottle happens, would auto-converge always be better?
+> 
+>>>
+>>> Please stay tuned for the next patchset.
+>>>
+>>> Shivam Kumar (1):
+>>>     Dirty quota-based throttling of vcpus
+>>>
+>>>    accel/kvm/kvm-all.c       | 91 +++++++++++++++++++++++++++++++++++++++
+>>>    include/exec/memory.h     |  3 ++
+>>>    include/hw/core/cpu.h     |  5 +++
+>>>    include/sysemu/kvm_int.h  |  1 +
+>>>    linux-headers/linux/kvm.h |  9 ++++
+>>>    migration/migration.c     | 22 ++++++++++
+>>>    migration/migration.h     | 31 +++++++++++++
+>>>    softmmu/memory.c          | 64 +++++++++++++++++++++++++++
+>>>    8 files changed, 226 insertions(+)
+>>>
+>>
+>> It'd be great if I could get some more feedback before I send v2. Thanks.
+> 
+> Sorry to respond late.
+> 
+> What's the status of the kernel patchset?
+> 
+>  From high level the approach looks good at least to me.  It's just that (as
+> I used to mention) we have two similar approaches now on throttling the
+> guest for precopy.  I'm not sure what's the best way to move forward if
+> without doing a comparison of the two.
+> 
+> https://lore.kernel.org/all/cover.1669047366.git.huangy81@chinatelecom.cn/
+> 
+> Sorry to say so, and no intention to create a contention, but merging the
+> two without any thought will definitely confuse everybody.  We need to
+> figure out a way.
+> 
+>  From what I can tell..
+> 
+> One way is we choose one of them which will be superior to the other and
+> all of us stick with it (for either higher possibility of migrate, less
+> interference to the workloads, and so on).
+> 
+> The other way is we take both, when each of them may be suitable for
+> different scenarios.  However in this latter case, we'd better at least be
+> aware of the differences (which suites what), then that'll be part of
+> documentation we need for each of the features when the user wants to use
+> them.
+> 
+> Add Yong into the loop.
+> 
+> Any thoughts?
+> 
+This is quite different from "dirtylimit capability of migration". IMHO, 
+quota-based implementation seems a little complicated, because it 
+depends on correctness of dirty quota and the measured data, which 
+involves the patchset both in qemu and kernel. It seems that dirtylimit 
+and quota-based are not mutually exclusive, at least we can figure out
+which suites what firstly depending on the test results as Peter said.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1903470
+-- 
+Best regard
 
-Title:
-  qemu 5.1.0: Add UNIX socket support for netdev socket
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  Note: this is a feature request.
-
-  qemu has a way to connect instances using a socket:
-
-  -netdev socket,id=3Dstr[,fd=3Dh][,listen=3D[host]:port][,connect=3Dhost:p=
-ort]
-
-  This can also be used to connect a qemu instance to something else
-  using a socket connection, however there is no authentication or
-  security to the connection, so rather than using a port which can be
-  accessed by any user on the machine, having the ability to use or
-  connect to UNIX sockets would be helpful, and adding this option
-  should be fairly trivial.
-
-  UNIX sockets can be found in various parts of qemu (monitor, etc) so I
-  believe having this on network would make sense.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1903470/+subscriptions
-
+Hyman Huang(黄勇)
 
