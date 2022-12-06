@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06B0643C39
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF699643C27
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:18:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2POv-0003Uf-V7; Mon, 05 Dec 2022 23:17:49 -0500
+	id 1p2POw-0003Uj-5e; Mon, 05 Dec 2022 23:17:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POt-0003Tk-G7
+ id 1p2POt-0003Ti-CX
  for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:47 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POq-00073o-Vx
+ id 1p2POr-00074B-Um
  for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:47 -0500
-Received: by mail-oi1-x234.google.com with SMTP id m204so15582379oib.6
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:44 -0800 (PST)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso16095148fac.4
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tPgT65Py6HacN6BGNUnYknCGAA+AMkPn1v8W/SDINWU=;
- b=HyNK+whjGKnZE/zg/V0/vjv8sp+hX7dRguNM1rzL9WzqjdFrpnzEv2ZYBfEYJu++6W
- AWxyu2bEAqjgxXUyvL/ImcccaBMWXpxFm9ZOSdW0ziGFvotD0fxJ+kk/5A8FI0RDoka3
- aHb81EP0afqt9VqZDliqIgw1jzQl0ZRFOMYL681FH+JCu6rje1IHk7BtPLljwmGyRBoT
- 7024Gsaxevh9ycwtNNIczBKNvHIyvRY1zTKnCmPyUux8+7tR7YoOgodTYk7UmFVXZC59
- 1x3IDpqPzRbGzjAlYhieIFMlUUkto89Ifgcdp7jxSV6SoVmN+4AiZHUfGogqyjI3uTBq
- WvBA==
+ bh=6Ctn4q8UCWShe0HV3h1VrXrerV51yET9dh87n+Fb5Oc=;
+ b=O80g0rrP97tMmLTBVm6DClNTRDd/1So5g5u/0064U9iA/vNfqOZJ6wHsriZyeANpy3
+ sReFB3KorNFCocmspxYuuUtlw1vnY0M9IAn/+mHiwgKTk5WLge8dDzPxKDmEM3XGI2OL
+ 03khekSdlcuau/JDA18Ewf8XElZ8zWmx3MiMgAHcm7wKwqEfmmPDyVUH8nJxYD85Jfa/
+ 3Lcs54zI8PFUmv/7MMFGBqpehdAOSnPKtIV4knfdNIrH5WCvUMKo/H/BQ37xvqpr2pYz
+ 2qw/DUqB+rtoiRTc62bYLc+qDX59ZHu30oO8htbfmjHoUR6UsvXl1l8+wyM6GECs9OIU
+ k6FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tPgT65Py6HacN6BGNUnYknCGAA+AMkPn1v8W/SDINWU=;
- b=nmeiox+Ox03z8jEOQ2uqlq+5hDTaD/zB69e02j3FFfrbr/RK7ut3Y5EOjX6xlBtwGr
- scfs4JvaXGIF+uapzeQgKMYR0A3jOfyTvsnpENpvWC86ku+2mrVzUOYVlBdQHf7buX5m
- B+xj9LTFnoxABUFCAwOeY49V0Vof9/H7DoBMGdOUujZCSP9Hev6qJHCx/1+ohGnIKkV7
- GAxIZdyz0MIvBUaUNL0iq4Qdx14hfvOKN65JaO3fRa39lQY4SyP+BIrW8muQS2XzdXdu
- RIHqPUzwK2QmYy5TIbKX8VPQvftPfj2MMCXxRpjQtcvlMTux71ehwt78kL/04CiOqlMO
- Yx5w==
-X-Gm-Message-State: ANoB5pn/nDPZQhA7xxGEXg+OrNZ/ysroxZNWWfdkrPj7J4Qekfckp1qN
- xde+aCsPoR9QH3dC/avbPcjqXiup702C83DlO7A=
-X-Google-Smtp-Source: AA0mqf64hYrQ8jyNqEEXpzWYq5FBCUUBdtwxascsxQIEKaK1E+G6AEMOe8Ex36H6q/tSvzg7WhziEQ==
-X-Received: by 2002:a05:6808:1649:b0:34b:7532:2d0e with SMTP id
- az9-20020a056808164900b0034b75322d0emr41244968oib.109.1670300263725; 
- Mon, 05 Dec 2022 20:17:43 -0800 (PST)
+ bh=6Ctn4q8UCWShe0HV3h1VrXrerV51yET9dh87n+Fb5Oc=;
+ b=FSSG3gpQWrtDPVt8RgjTTT12apvpIoerSD7YiDXvALHFc3N9XOEyGfCAaPalBQg03S
+ mGfl1n0YFefZv/ffjlcRQYWjR0b2iC1N2PNjvCqeLoPQfAY8xnC/zEiK6H8Qz0qLt0sO
+ FCNVJ/Eyi/I1XHJqeZ8MzvrBsoNi9I984cWZHEDjQyhkycmKh5y3mi2uvz/HLz/QD//S
+ OQVphCyEZFrA6ifBz7uuMmc/JQyQlrIVG8jubTD0AHetYLFppPFOug6HBaTYirL0VW4d
+ Uydyv5M3yG2b90wOInu0szzmmYtD67Wrs0uIePyreouUSZRO4D+vrmmZiNxdaz1hHWBc
+ uoeg==
+X-Gm-Message-State: ANoB5plS2fA/9KX4veqz4A4l21445pvUOFvhLJjC997lNiAr3XlXf11Y
+ 4pDEpkOibeEC5fR6KYTkkfUDfP7oop6bIcedfZ4=
+X-Google-Smtp-Source: AA0mqf47mgHaJZNxd0ghROR5QwK+PcebL6c0hbwWMLLvJsBnagBfW8zmR6RjoUJxckktMYy2msAGew==
+X-Received: by 2002:a05:6870:24a5:b0:132:3de9:bdf with SMTP id
+ s37-20020a05687024a500b001323de90bdfmr36220896oaq.188.1670300264958; 
+ Mon, 05 Dec 2022 20:17:44 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:70b5:d104:21c2:8c7e:77e6])
  by smtp.gmail.com with ESMTPSA id
- o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.42
+ o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 20:17:43 -0800 (PST)
+ Mon, 05 Dec 2022 20:17:44 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: r@hev.cc
-Subject: [PATCH 20/22] tcg/arm: Implement direct branch for goto_tb
-Date: Mon,  5 Dec 2022 22:17:13 -0600
-Message-Id: <20221206041715.314209-21-richard.henderson@linaro.org>
+Subject: [PATCH 21/22] tcg/riscv: Introduce OPC_NOP
+Date: Mon,  5 Dec 2022 22:17:14 -0600
+Message-Id: <20221206041715.314209-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206041715.314209-1-richard.henderson@linaro.org>
 References: <20221206041715.314209-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,105 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that tcg can handle direct and indirect goto_tb
-simultaneously, we can optimistically leave space for
-a direct branch and fall back to loading the pointer
-from the TB for an indirect branch.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/arm/tcg-target.c.inc | 52 ++++++++++++++++++++++++++++------------
- 1 file changed, 37 insertions(+), 15 deletions(-)
+ tcg/riscv/tcg-target.c.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index a44d1d969f..fad2be700e 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -135,6 +135,8 @@ typedef enum {
-     ARITH_BIC = 0xe << 21,
-     ARITH_MVN = 0xf << 21,
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 37baae9cda..de029d62b4 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -254,6 +254,7 @@ typedef enum {
+ #endif
  
-+    INSN_B         = 0x0a000000,
-+
-     INSN_CLZ       = 0x016f0f10,
-     INSN_RBIT      = 0x06ff0f30,
+     OPC_FENCE = 0x0000000f,
++    OPC_NOP   = OPC_ADDI,   /* nop = addi r0,r0,0 */
+ } RISCVInsn;
  
-@@ -546,7 +548,7 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- 
- static void tcg_out_b_imm(TCGContext *s, ARMCond cond, int32_t offset)
+ /*
+@@ -390,7 +391,7 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
  {
--    tcg_out32(s, (cond << 28) | 0x0a000000 |
-+    tcg_out32(s, (cond << 28) | INSN_B |
-                     (((offset - 8) >> 2) & 0x00ffffff));
- }
- 
-@@ -1935,32 +1937,52 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t arg)
- 
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
--    /* Indirect jump method */
--    intptr_t ptr, dif, dil;
--    TCGReg base = TCG_REG_PC;
-+    uintptr_t i_addr;
-+    intptr_t i_disp;
- 
--    ptr = get_jmp_target_addr(s, which);
--    dif = tcg_pcrel_diff(s, (void *)ptr) - 8;
--    dil = sextract32(dif, 0, 12);
--    if (dif != dil) {
-+    /* Direct branch will be patched by tb_target_set_jmp_target. */
-+    set_jmp_insn_offset(s, which);
-+    tcg_out32(s, INSN_NOP);
-+
-+    /* When branch is out of range, fall through to indirect. */
-+    i_addr = get_jmp_target_addr(s, which);
-+    i_disp = tcg_pcrel_diff(s, (void *)i_addr) - 8;
-+    tcg_debug_assert(i_disp < 0);
-+    if (i_disp >= -0xfff) {
-+        tcg_out_ld32_12(s, COND_AL, TCG_REG_PC, TCG_REG_PC, i_disp);
-+    } else {
-         /*
-          * The TB is close, but outside the 12 bits addressable by
-          * the load.  We can extend this to 20 bits with a sub of a
--         * shifted immediate from pc.  In the vastly unlikely event
--         * the code requires more than 1MB, we'll use 2 insns and
--         * be no worse off.
-+         * shifted immediate from pc.
-          */
--        base = TCG_REG_R0;
--        tcg_out_movi32(s, COND_AL, base, ptr - dil);
-+        int h = -i_disp;
-+        int l = h & 0xfff;
-+
-+        h = encode_imm_nofail(h - l);
-+        tcg_out_dat_imm(s, COND_AL, ARITH_SUB, TCG_REG_R0, TCG_REG_PC, h);
-+        tcg_out_ld32_12(s, COND_AL, TCG_REG_PC, TCG_REG_R0, l);
+     int i;
+     for (i = 0; i < count; ++i) {
+-        p[i] = encode_i(OPC_ADDI, TCG_REG_ZERO, TCG_REG_ZERO, 0);
++        p[i] = OPC_NOP;
      }
--    tcg_out_ld32_12(s, COND_AL, TCG_REG_PC, base, dil);
-     set_jmp_reset_offset(s, which);
  }
  
- void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-                               uintptr_t jmp_rx, uintptr_t jmp_rw)
- {
--    /* Always indirect, nothing to do */
-+    uintptr_t addr = tb->jmp_target_addr[n];
-+    ptrdiff_t offset = addr - (jmp_rx + 8);
-+    tcg_insn_unit insn;
-+
-+    /* Either directly branch, or fall through to indirect branch. */
-+    if (offset == sextract64(offset, 0, 26)) {
-+        /* B <addr> */
-+        insn = (COND_AL << 28) | INSN_B | ((offset >> 2) & 0x00ffffff);
-+    } else {
-+        insn = INSN_NOP;
-+    }
-+
-+    qatomic_set((uint32_t *)jmp_rw, insn);
-+    flush_idcache_range(jmp_rx, jmp_rw, 4);
- }
- 
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
 -- 
 2.34.1
 
