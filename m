@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A35643C35
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68FC643C26
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Dec 2022 05:18:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2POp-0003SH-PB; Mon, 05 Dec 2022 23:17:43 -0500
+	id 1p2POq-0003SU-9L; Mon, 05 Dec 2022 23:17:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POn-0003RX-7j
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:41 -0500
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
+ id 1p2POo-0003Rh-9U
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:42 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p2POl-00071n-3J
- for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:41 -0500
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-1447c7aa004so7929005fac.11
- for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:38 -0800 (PST)
+ id 1p2POl-00072B-Ts
+ for qemu-devel@nongnu.org; Mon, 05 Dec 2022 23:17:42 -0500
+Received: by mail-ot1-x330.google.com with SMTP id
+ p24-20020a0568301d5800b0066e6dc09be5so8575461oth.8
+ for <qemu-devel@nongnu.org>; Mon, 05 Dec 2022 20:17:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WwJxbSoVGL5mD629YidrzGLXu4Bi0Swxh1yfXQO3WsY=;
- b=m0uMhHU7rOC09ZSPqCEH3Me8k5etZjogDlRoCSzHlaG3B9okHIxt4weSBTSNbd71Gq
- TPKqpsvxH9+UzpOdOn/qZ5NA0IvikFyFFpvlDi1pj+MqxE9eymumBxMNVBfyIctlV4VD
- 2SzKzTttWoTxKLVsl97NIlkHTfxmoXNHvhMubCpDsOU9NP6WO2sS4hZHTph3hefo2Hg/
- SVqOzLqwC7ldAgwjcw8u0kBegcaBnu+xru8b/BxcpEYmGc+PcXxflDQS4OH9WLN9QdK6
- QgyxaDR3RGwaoApNjvHH0yCp1eNC8NIOrisXZCwtDeoCWQMlilzgyGkz/77FnttazGmb
- FFEw==
+ bh=PQXI8Tic8Aq/NBUY33irNWjhT2v3z3OgYZUNuPxrg78=;
+ b=oD33QhDWZfze4VyiOZyxWx4g+0MWolL8M7AqOGX92HHc2IsAZXEs+v2cO+VLORzHvq
+ 6vfVUp18Umk474wfIj9F8aV31cYkACB9ttPhkuXWVpoPnqIfTSShDbjEO3lJ39dIFZ3m
+ VtNX+Q6SKJ3ljXVXzDjQEyrLM86Ent8o6oqbWYpuA33kbgBDzok7mOEm8fiAUOFmB5e4
+ GcSlBbMUQ5QQiuvb0AKb05QlxI3hT8AxQdh0LF3eZ8CFpP4qljsd1hekFQM9vHuDSgi7
+ jpRxhdXsvAc2USd9bKRFMRrcFUncb756XMq1DiHD9suvX8dGKK5KUx34Av6KAsBCiOfd
+ HofQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WwJxbSoVGL5mD629YidrzGLXu4Bi0Swxh1yfXQO3WsY=;
- b=JG9fiC6VaEF0iTU79I2o/ki65vD1aZQSCTvZy6nnyRtH9Ej2FBOloRnwfcCLQCMck3
- 4Ogw0JRorJW8QX+7QBMAQtoswLsEEzCZdcAy96Hqv5FyXXI0VlMNWZjCydB3ieySQVY9
- gyixEdZ1XGs2gA7vF+qZ/fBBeM2H1LjDobBZr4ohpdk1BMSZ02qksww15/iybY44go5O
- qSSX4Yg3TommWKwwoR7t/cuVJxIsk4MQA9dbbVmmdhEVIOlbAmhPOMqvBtuIyuPXCId0
- Bc85jFWnpQgkgeICxfhuU3W7Be2PQ51DqMYmVHQ5mnLKqRQWVwepzaxSfyNvvo3jlOVz
- 3AOg==
-X-Gm-Message-State: ANoB5pkg+oZyScZoTSk724j02r4vINpHwbC9DCAAcaEL3OyPiqCF5Fo9
- gu/qJ2XtFMViOZ1g6n3TnVttkmbdCQPsf3ei1h4=
-X-Google-Smtp-Source: AA0mqf6wYdfF+QtePU1MZah6+EStznjZ5UiE/kY/LEogTNYG4aNzp8M3N6nxFMivaccR7jjCFKyXJw==
-X-Received: by 2002:a05:6870:d3ca:b0:144:922e:337d with SMTP id
- l10-20020a056870d3ca00b00144922e337dmr4632985oag.25.1670300257464; 
- Mon, 05 Dec 2022 20:17:37 -0800 (PST)
+ bh=PQXI8Tic8Aq/NBUY33irNWjhT2v3z3OgYZUNuPxrg78=;
+ b=NWLyu+S1sb3YM77vXFf4oMwr8I6mqHUgtVbocllEwsJs1yWrdCJw6UNThFmDkVP71v
+ /LDYDWkAKTvF14YbWoZOpdUaQaAarvnt1OMuNqTZiuRUFGAsw+xQZKrzxYAufQ5ANxt3
+ GseByrYxb45nYD7Z93D4icnWauBDXI0lK9GlbwbP8d/kGYrs10/icYMzgyfQ623Peuw5
+ LSeCXzJZXA6F58aZkkC8r5Rbt5uaFiw3pZekxFqLInojrFE/VmwOJhYHD9IuJ7yxCBPa
+ pyAesyZXRhlHhauRnufuDjuZBFekJNvRT26v/CQ9c9yAquAiJYNb2c0VNsybQpqLmNr2
+ CH9w==
+X-Gm-Message-State: ANoB5pnYwAW3BtUP0AyEfqnnmsgmNshyrblQAXeDGSIcknrbHUYHOL8p
+ Pa7uyTf2f2GGS9GpxcCf0H8oEx5LO0Eq5Y5Z9VE=
+X-Google-Smtp-Source: AA0mqf5DVowDBShAeT+YnfGsEK8lZ8CKMZuc1ler0vRXLF4TQb7z2UGEGLrCbXNNvSqLxwWyHoXEPg==
+X-Received: by 2002:a9d:7dca:0:b0:66c:6cf1:7967 with SMTP id
+ k10-20020a9d7dca000000b0066c6cf17967mr42520737otn.139.1670300258525; 
+ Mon, 05 Dec 2022 20:17:38 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:70b5:d104:21c2:8c7e:77e6])
  by smtp.gmail.com with ESMTPSA id
- o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.36
+ o35-20020a056870912300b0014185b2b3d5sm10162018oae.18.2022.12.05.20.17.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 20:17:36 -0800 (PST)
+ Mon, 05 Dec 2022 20:17:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: r@hev.cc
-Subject: [PATCH 15/22] tcg: Remove TCG_TARGET_HAS_direct_jump
-Date: Mon,  5 Dec 2022 22:17:08 -0600
-Message-Id: <20221206041715.314209-16-richard.henderson@linaro.org>
+Subject: [PATCH 16/22] tcg/aarch64: Reorg goto_tb implementation
+Date: Mon,  5 Dec 2022 22:17:09 -0600
+Message-Id: <20221206041715.314209-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221206041715.314209-1-richard.henderson@linaro.org>
 References: <20221206041715.314209-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,259 +90,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We now have the option to generate direct or indirect
-goto_tb depending on the dynamic displacement, thus
-the define is no longer necessary or completely accurate.
+The old implementation replaces two insns, swapping between
 
+	b	<dest>
+	nop
+	br	x30
+and
+	adrp	x30, <dest>
+	addi	x30, x30, lo12:<dest>
+	br	x30
+
+There is a race condition in which a thread could be stopped at
+the PC of the second insn, and when restarted does not see the
+complete address computation and branches to nowhere.
+
+The new implemetation replaces only one insn, swapping between
+
+	b	<dest>
+	br	tmp
+and
+	ldr	tmp, <jmp_addr>
+	br	tmp
+
+Reported-by: hev <r@hev.cc>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h     |  1 -
- tcg/arm/tcg-target.h         |  1 -
- tcg/i386/tcg-target.h        |  1 -
- tcg/loongarch64/tcg-target.h |  1 -
- tcg/mips/tcg-target.h        |  1 -
- tcg/ppc/tcg-target.h         |  1 -
- tcg/riscv/tcg-target.h       |  1 -
- tcg/s390x/tcg-target.h       |  1 -
- tcg/sparc64/tcg-target.h     |  1 -
- tcg/tci/tcg-target.h         |  1 -
- accel/tcg/cpu-exec.c         | 13 ++++++-------
- tcg/tcg.c                    |  1 -
- tcg/arm/tcg-target.c.inc     |  1 -
- tcg/mips/tcg-target.c.inc    |  1 -
- tcg/riscv/tcg-target.c.inc   |  1 -
- tcg/s390x/tcg-target.c.inc   |  5 ++++-
- tcg/tci/tcg-target.c.inc     |  1 -
- 17 files changed, 10 insertions(+), 23 deletions(-)
+ tcg/aarch64/tcg-target.h     |  2 +-
+ tcg/aarch64/tcg-target.c.inc | 64 +++++++++++++++---------------------
+ 2 files changed, 27 insertions(+), 39 deletions(-)
 
 diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index dc16fd0da6..c8202e4bc5 100644
+index c8202e4bc5..9b8835eaa3 100644
 --- a/tcg/aarch64/tcg-target.h
 +++ b/tcg/aarch64/tcg-target.h
-@@ -123,7 +123,6 @@ typedef enum {
- #define TCG_TARGET_HAS_muls2_i64        0
- #define TCG_TARGET_HAS_muluh_i64        1
- #define TCG_TARGET_HAS_mulsh_i64        1
--#define TCG_TARGET_HAS_direct_jump      1
+@@ -15,7 +15,7 @@
  
- #define TCG_TARGET_HAS_v64              1
- #define TCG_TARGET_HAS_v128             1
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 13ad721438..879eecd93d 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -121,7 +121,6 @@ extern bool use_neon_instructions;
- #define TCG_TARGET_HAS_mulsh_i32        0
- #define TCG_TARGET_HAS_div_i32          use_idiv_instructions
- #define TCG_TARGET_HAS_rem_i32          0
--#define TCG_TARGET_HAS_direct_jump      0
- #define TCG_TARGET_HAS_qemu_st8_i32     0
+ #define TCG_TARGET_INSN_UNIT_SIZE  4
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 24
+-#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
++#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
+ #undef TCG_TARGET_STACK_GROWSUP
  
- #define TCG_TARGET_HAS_v64              use_neon_instructions
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index 4b4ceacfa5..b1ffd47493 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -139,7 +139,6 @@ extern bool have_movbe;
- #define TCG_TARGET_HAS_muls2_i32        1
- #define TCG_TARGET_HAS_muluh_i32        0
- #define TCG_TARGET_HAS_mulsh_i32        0
--#define TCG_TARGET_HAS_direct_jump      1
+ typedef enum {
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index af30f9db69..fe8e8636aa 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1352,33 +1352,6 @@ static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target)
+     }
+ }
  
- #if TCG_TARGET_REG_BITS == 64
- /* Keep target addresses zero-extended in a register.  */
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 87f40d935c..086c90bda3 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -127,7 +127,6 @@ typedef enum {
- #define TCG_TARGET_HAS_clz_i32          1
- #define TCG_TARGET_HAS_ctz_i32          1
- #define TCG_TARGET_HAS_ctpop_i32        0
--#define TCG_TARGET_HAS_direct_jump      1
- #define TCG_TARGET_HAS_brcond2          0
- #define TCG_TARGET_HAS_setcond2         0
- #define TCG_TARGET_HAS_qemu_st8_i32     0
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index 31236d8e81..cc0a6f301a 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -132,7 +132,6 @@ extern bool use_mips32r2_instructions;
- #define TCG_TARGET_HAS_muluh_i32        1
- #define TCG_TARGET_HAS_mulsh_i32        1
- #define TCG_TARGET_HAS_bswap32_i32      1
--#define TCG_TARGET_HAS_direct_jump      0
- 
- #if TCG_TARGET_REG_BITS == 64
- #define TCG_TARGET_HAS_add2_i32         0
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 5ffb41fb57..f253184915 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -108,7 +108,6 @@ extern bool have_vsx;
- #define TCG_TARGET_HAS_muls2_i32        0
- #define TCG_TARGET_HAS_muluh_i32        1
- #define TCG_TARGET_HAS_mulsh_i32        1
--#define TCG_TARGET_HAS_direct_jump      1
- #define TCG_TARGET_HAS_qemu_st8_i32     0
- 
- #if TCG_TARGET_REG_BITS == 64
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index ff2f861e82..56f7bc3346 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -116,7 +116,6 @@ typedef enum {
- #define TCG_TARGET_HAS_clz_i32          0
- #define TCG_TARGET_HAS_ctz_i32          0
- #define TCG_TARGET_HAS_ctpop_i32        0
--#define TCG_TARGET_HAS_direct_jump      0
- #define TCG_TARGET_HAS_brcond2          1
- #define TCG_TARGET_HAS_setcond2         1
- #define TCG_TARGET_HAS_qemu_st8_i32     0
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index 274cb3cc5d..2c7c14055b 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -103,7 +103,6 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_HAS_mulsh_i32      0
- #define TCG_TARGET_HAS_extrl_i64_i32  0
- #define TCG_TARGET_HAS_extrh_i64_i32  0
--#define TCG_TARGET_HAS_direct_jump    HAVE_FACILITY(GEN_INST_EXT)
- #define TCG_TARGET_HAS_qemu_st8_i32   0
- 
- #define TCG_TARGET_HAS_div2_i64       1
-diff --git a/tcg/sparc64/tcg-target.h b/tcg/sparc64/tcg-target.h
-index ca7e4da6d3..21d3c59bd7 100644
---- a/tcg/sparc64/tcg-target.h
-+++ b/tcg/sparc64/tcg-target.h
-@@ -110,7 +110,6 @@ extern bool use_vis3_instructions;
- #define TCG_TARGET_HAS_muls2_i32        1
- #define TCG_TARGET_HAS_muluh_i32        0
- #define TCG_TARGET_HAS_mulsh_i32        0
--#define TCG_TARGET_HAS_direct_jump      1
- #define TCG_TARGET_HAS_qemu_st8_i32     0
- 
- #define TCG_TARGET_HAS_extrl_i64_i32    1
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 4b4b26a89f..c9d2fe5b94 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -82,7 +82,6 @@
- #define TCG_TARGET_HAS_muls2_i32        1
- #define TCG_TARGET_HAS_muluh_i32        0
- #define TCG_TARGET_HAS_mulsh_i32        0
--#define TCG_TARGET_HAS_direct_jump      0
- #define TCG_TARGET_HAS_qemu_st8_i32     0
- 
- #if TCG_TARGET_REG_BITS == 64
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index ac5b581e52..0892c6534a 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -572,14 +572,13 @@ void cpu_exec_step_atomic(CPUState *cpu)
- 
- void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr)
- {
-+    const TranslationBlock *c_tb = tcg_splitwx_to_rx(tb);
-+    uintptr_t offset = tb->jmp_insn_offset[n];
-+    uintptr_t jmp_rx = (uintptr_t)tb->tc.ptr + offset;
-+    uintptr_t jmp_rw = jmp_rx - tcg_splitwx_diff;
-+
-     tb->jmp_target_addr[n] = addr;
--    if (TCG_TARGET_HAS_direct_jump) {
--        const TranslationBlock *c_tb = tcg_splitwx_to_rx(tb);
--        uintptr_t offset = tb->jmp_insn_offset[n];
--        uintptr_t jmp_rx = (uintptr_t)tb->tc.ptr + offset;
--        uintptr_t jmp_rw = jmp_rx - tcg_splitwx_diff;
--        tb_target_set_jmp_target(c_tb, n, jmp_rx, jmp_rw);
+-void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
+-                              uintptr_t jmp_rx, uintptr_t jmp_rw)
+-{
+-    uintptr_t addr = tb->jmp_target_addr[n];
+-    tcg_insn_unit i1, i2;
+-    TCGType rt = TCG_TYPE_I64;
+-    TCGReg  rd = TCG_REG_TMP;
+-    uint64_t pair;
+-
+-    ptrdiff_t offset = addr - jmp_rx;
+-
+-    if (offset == sextract64(offset, 0, 26)) {
+-        i1 = I3206_B | ((offset >> 2) & 0x3ffffff);
+-        i2 = NOP;
+-    } else {
+-        offset = (addr >> 12) - (jmp_rx >> 12);
+-
+-        /* patch ADRP */
+-        i1 = I3406_ADRP | (offset & 3) << 29 | (offset & 0x1ffffc) << (5 - 2) | rd;
+-        /* patch ADDI */
+-        i2 = I3401_ADDI | rt << 31 | (addr & 0xfff) << 10 | rd << 5 | rd;
 -    }
-+    tb_target_set_jmp_target(c_tb, n, jmp_rx, jmp_rw);
- }
- 
- static inline void tb_add_jump(TranslationBlock *tb, int n,
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index c103dd0037..b09500ffb1 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -327,7 +327,6 @@ static void G_GNUC_UNUSED set_jmp_insn_offset(TCGContext *s, int which)
-      * We will check for overflow at the end of the opcode loop in
-      * tcg_gen_code, where we bound tcg_current_code_size to UINT16_MAX.
+-    pair = (uint64_t)i2 << 32 | i1;
+-    qatomic_set((uint64_t *)jmp_rw, pair);
+-    flush_idcache_range(jmp_rx, jmp_rw, 8);
+-}
+-
+ static inline void tcg_out_goto_label(TCGContext *s, TCGLabel *l)
+ {
+     if (!l->has_value) {
+@@ -1901,23 +1874,38 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
+ static void tcg_out_goto_tb(TCGContext *s, int which)
+ {
+     /*
+-     * Ensure that ADRP+ADD are 8-byte aligned so that an atomic
+-     * write can be used to patch the target address.
++     * Direct branch, or indirect address load, will be patched
++     * by tb_target_set_jmp_target.  Assert indirect load offset
++     * in range early, regardless of direct branch distance.
       */
--    tcg_debug_assert(TCG_TARGET_HAS_direct_jump);
-     s->gen_tb->jmp_insn_offset[which] = tcg_current_code_size(s);
+-    if ((uintptr_t)s->code_ptr & 7) {
+-        tcg_out32(s, NOP);
+-    }
++    intptr_t i_off = tcg_pcrel_diff(s, (void *)get_jmp_target_addr(s, which));
++    tcg_debug_assert(i_off == sextract64(i_off, 0, 21));
++
+     set_jmp_insn_offset(s, which);
+-    /*
+-     * actual branch destination will be patched by
+-     * tb_target_set_jmp_target later
+-     */
+-    tcg_out_insn(s, 3406, ADRP, TCG_REG_TMP, 0);
+-    tcg_out_insn(s, 3401, ADDI, TCG_TYPE_I64, TCG_REG_TMP, TCG_REG_TMP, 0);
++    tcg_out32(s, I3206_B);
+     tcg_out_insn(s, 3207, BR, TCG_REG_TMP);
+     set_jmp_reset_offset(s, which);
  }
  
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index f5103dcc6d..a44d1d969f 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -1939,7 +1939,6 @@ static void tcg_out_goto_tb(TCGContext *s, int which)
-     intptr_t ptr, dif, dil;
-     TCGReg base = TCG_REG_PC;
- 
--    qemu_build_assert(!TCG_TARGET_HAS_direct_jump);
-     ptr = get_jmp_target_addr(s, which);
-     dif = tcg_pcrel_diff(s, (void *)ptr) - 8;
-     dil = sextract32(dif, 0, 12);
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index dfb31a17bb..d52b6a902b 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -1968,7 +1968,6 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
-     /* indirect jump method */
--    qemu_build_assert(!TCG_TARGET_HAS_direct_jump);
-     tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_REG_ZERO,
-                get_jmp_target_addr(s, which));
-     tcg_out_opc_reg(s, OPC_JR, 0, TCG_TMP0, 0);
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 06308c5243..37baae9cda 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -1277,7 +1277,6 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- 
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
--    qemu_build_assert(!TCG_TARGET_HAS_direct_jump);
-     /* indirect jump method */
-     tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
-                get_jmp_target_addr(s, which));
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 82435ecadb..cf96ccb053 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -2083,7 +2083,7 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- 
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
--    if (TCG_TARGET_HAS_direct_jump) {
-+    if (HAVE_FACILITY(GEN_INST_EXT)) {
-         /*
-          * Branch displacement must be aligned for atomic patching;
-          * see if we need to add extra nop before branch
-@@ -2119,6 +2119,9 @@ static void tcg_out_goto_tb(TCGContext *s, int which)
- void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-                               uintptr_t jmp_rx, uintptr_t jmp_rw)
- {
-+    if (!HAVE_FACILITY(GEN_INST_EXT)) {
-+        return;
++void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
++                              uintptr_t jmp_rx, uintptr_t jmp_rw)
++{
++    uintptr_t d_addr = tb->jmp_target_addr[n];
++    uintptr_t i_addr = (uintptr_t)&tb->jmp_target_addr[n];
++    ptrdiff_t d_offset = d_addr - jmp_rx;
++    ptrdiff_t i_offset = i_addr - jmp_rx;
++    tcg_insn_unit insn;
++
++    /* Either directly branch, or indirect branch load. */
++    if (d_offset == sextract64(d_offset, 0, 26)) {
++        insn = I3206_B | ((d_offset >> 2) & 0x3ffffff);
++    } else {
++        insn = I3305_LDR | TCG_REG_TMP | (((i_offset >> 2) & 0x7ffff) << 5);
 +    }
-     /* patch the branch destination */
-     uintptr_t addr = tb->jmp_target_addr[n];
-     intptr_t disp = addr - (jmp_rx - 2);
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 31094067b7..434fcc74dc 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -600,7 +600,6 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t arg)
- 
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
--    qemu_build_assert(!TCG_TARGET_HAS_direct_jump);
-     /* indirect jump method. */
-     tcg_out_op_p(s, INDEX_op_goto_tb, (void *)get_jmp_target_addr(s, which));
-     set_jmp_reset_offset(s, which);
++    qatomic_set((uint32_t *)jmp_rw, insn);
++    flush_idcache_range(jmp_rx, jmp_rw, 4);
++}
++
+ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+                        const TCGArg args[TCG_MAX_OP_ARGS],
+                        const int const_args[TCG_MAX_OP_ARGS])
 -- 
 2.34.1
 
