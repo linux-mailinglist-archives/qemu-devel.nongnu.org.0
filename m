@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300566460E4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 19:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737EB6460F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 19:19:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2yqa-0008PF-2L; Wed, 07 Dec 2022 13:08:44 -0500
+	id 1p2yzJ-0004Gc-QL; Wed, 07 Dec 2022 13:17:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1p2yqY-0008Oz-DY; Wed, 07 Dec 2022 13:08:42 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2yyw-0004CT-0K
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 13:17:44 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1p2yqW-0003C4-N5; Wed, 07 Dec 2022 13:08:42 -0500
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A97002212D;
- Wed,  7 Dec 2022 18:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1670436517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UcAQvB1M7lXKd8EkvI1ZAghJIEZ8WQmQ8J6GNk97W3c=;
- b=UaGW0SE3RqkPt0iH2GwxqtfcOfluDEtOGm4GTGr9zSl1zgEl2HciKwMd+E5f6A9DJgwCzq
- R1JiiXUNGQdC8laXbu2Qy9kkEtKfTzEpx1BfSFoc+/wzIcSw1XgBrtdmORg52eHQNexy1j
- GUjZT1C6Z8IgND3TTbsZEgjvp7Xeb0k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1670436517;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UcAQvB1M7lXKd8EkvI1ZAghJIEZ8WQmQ8J6GNk97W3c=;
- b=ZXthyWNO3/wygnXXI6DaSlDCXYnibQ1RQnhl25DWg2jhulS1Y9zdAUvbnSFO2/G2+hE1dX
- 45qNVdXT6FqOssCA==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 21ADB136B4;
- Wed,  7 Dec 2022 18:08:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id cgiuNaTWkGNEBAAAGKfGzw
- (envelope-from <farosas@suse.de>); Wed, 07 Dec 2022 18:08:36 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>, Stafford Horne
- <shorne@gmail.com>, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Yoshinori Sato
- <ysato@users.sourceforge.jp>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Marek Vasut <marex@denx.de>, Laurent Vivier <laurent@vivier.eu>,
- =?utf-8?Q?C=C3=A9dric?= Le
- Goater <clg@kaod.org>, Yanan Wang <wangyanan55@huawei.com>, Mark
- Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Fabiano Rosas
- <farosas@linux.ibm.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Max
- Filippov <jcmvbkbc@gmail.com>, Greg Kurz <groug@kaod.org>, Artyom
- Tarasenko <atar4qemu@gmail.com>, Anton Johansson <anjo@rev.ng>,
- qemu-ppc@nongnu.org, Chris Wulff <crwulff@gmail.com>, "Edgar E. Iglesias"
- <edgar.iglesias@gmail.com>, David Gibson <david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2yyt-0006p0-Uo
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 13:17:21 -0500
+Received: by mail-wr1-x431.google.com with SMTP id y16so29279770wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 10:17:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GmIdP/SsPmw3Nj/VAD2dleNCr8c7wbwqy6xLcamYD20=;
+ b=cyV1zpulQkWt8Ka8bJJ4V7yjjqySI1K+iNBB7G72fS+qMXeII2Wq0cfulWDDXLYLVi
+ 5e1uypPigz8nbZjhudte64P8qBAzyVcRB6dJpibqWYCOIOfGxzw6iwiO9+Bsqyajx7nH
+ lk+2TMqwI3J800vadh1pcu5Bryk77pmCDg89H4c/iff1O/RVXdxep3hC3EmscztGluMC
+ jjx6QnEiNaQw58pEEdUZVU5SQMVjAu6rvMzH7Nqz5DKOy10s2chcamZqy4KctCB8x7yQ
+ BpVvOb0jPBnvcBarBjhujp3hM0hBkNotyeohsH6FL/qRgVcP4pG3ygfUCzvrR7gHrovU
+ ey/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GmIdP/SsPmw3Nj/VAD2dleNCr8c7wbwqy6xLcamYD20=;
+ b=LKUZXjRP+8i8RQuW3DQK6MB//pS14LQGbggdT+Wy/3wU1HM0WXG03ReKKeCYkSKnGw
+ Xo6w8VMrZlCPbsOR1NNw0AVFF4w8mjGRm9FkSVERYinlhr4Wp8AbGEhbE4KkCoFFWL3f
+ j1LQjF+g8mMz6NEKkOkxcZBJKpCiK5lyTw7ErC8Qbu8DKcfBuwzIcmiZDV7VL7Eb+tuB
+ lhwgIKK06QE0tCOGM+tUmRIP7xuszQmmCGPkCZasnGSNUZAzoxszJE3NQIrMp3K7wUhV
+ 51frPeHxsbCNn16Zp/xwg3MPtBBX07FXdqBLUl5PijhtsI3342I344lmtUfDKkEl/jML
+ rA2g==
+X-Gm-Message-State: ANoB5pmzEhj+UP3UKQPXwjJmbjFw/++R74dvjdOV3axSdVq04Qy/9i9U
+ TAFxSdxTSzl8ryg+//Irellkew==
+X-Google-Smtp-Source: AA0mqf69CDlTgFaFxQpAyPXmUa9gzSQJYlZQZBhJkmyXsAyuSls9MXFOU4KbQP2hNikyXlWSVJ4hEA==
+X-Received: by 2002:adf:eb02:0:b0:236:5e6a:7ee with SMTP id
+ s2-20020adfeb02000000b002365e6a07eemr57303293wrn.618.1670437037473; 
+ Wed, 07 Dec 2022 10:17:17 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ e23-20020a05600c2dd700b003cfd42821dasm2514981wmh.3.2022.12.07.10.17.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 10:17:17 -0800 (PST)
+Message-ID: <7c08c5a5-14b0-553f-3d82-9164983cecb0@linaro.org>
+Date: Wed, 7 Dec 2022 19:17:15 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
 Subject: Re: [PATCH-for-8.0 2/4] gdbstub: Use vaddr type for generic
  insert/remove_breakpoint() API
-In-Reply-To: <20221207174129.77593-3-philmd@linaro.org>
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Stafford Horne <shorne@gmail.com>, 
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Marek Vasut <marex@denx.de>,
+ Laurent Vivier <laurent@vivier.eu>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Yanan Wang <wangyanan55@huawei.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabiano Rosas <farosas@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Anton Johansson <anjo@rev.ng>,
+ qemu-ppc@nongnu.org, Chris Wulff <crwulff@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 References: <20221207174129.77593-1-philmd@linaro.org>
- <20221207174129.77593-3-philmd@linaro.org>
-Date: Wed, 07 Dec 2022 15:08:34 -0300
-Message-ID: <87k03313z1.fsf@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ <20221207174129.77593-3-philmd@linaro.org> <87k03313z1.fsf@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87k03313z1.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.262,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,68 +106,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
-
-> Both insert/remove_breakpoint() handlers are used in system and
-> user emulation. We can not use the 'hwaddr' type on user emulation,
-> we have to use 'vaddr' which is defined as "wide enough to contain
-> any #target_ulong virtual address".
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  gdbstub/internals.h        | 6 ++++--
->  include/sysemu/accel-ops.h | 6 +++---
->  2 files changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-> index eabb0341d1..b23999f951 100644
-> --- a/gdbstub/internals.h
-> +++ b/gdbstub/internals.h
-> @@ -9,9 +9,11 @@
->  #ifndef _INTERNALS_H_
->  #define _INTERNALS_H_
->=20=20
-> +#include "exec/cpu-common.h"
-> +
->  bool gdb_supports_guest_debug(void);
-> -int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr le=
-n);
-> -int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr le=
-n);
-> +int gdb_breakpoint_insert(CPUState *cs, int type, vaddr addr, vaddr len);
-> +int gdb_breakpoint_remove(CPUState *cs, int type, vaddr addr, vaddr len);
-
-Now we should be able to remove the "exec/hwaddr.h" include from
-gdbstub.c
-
->  void gdb_breakpoint_remove_all(CPUState *cs);
->=20=20
->  #endif /* _INTERNALS_H_ */
-> diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-> index 8cc7996def..30690c71bd 100644
-> --- a/include/sysemu/accel-ops.h
-> +++ b/include/sysemu/accel-ops.h
-> @@ -10,7 +10,7 @@
->  #ifndef ACCEL_OPS_H
->  #define ACCEL_OPS_H
->=20=20
-> -#include "exec/hwaddr.h"
-> +#include "exec/cpu-common.h"
->  #include "qom/object.h"
->=20=20
->  #define ACCEL_OPS_SUFFIX "-ops"
-> @@ -48,8 +48,8 @@ struct AccelOpsClass {
->=20=20
->      /* gdbstub hooks */
->      bool (*supports_guest_debug)(void);
-> -    int (*insert_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwadd=
-r len);
-> -    int (*remove_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwadd=
-r len);
-> +    int (*insert_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr =
-len);
-> +    int (*remove_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr =
-len);
->      void (*remove_all_breakpoints)(CPUState *cpu);
->  };
+On 7/12/22 19:08, Fabiano Rosas wrote:
+> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+> 
+>> Both insert/remove_breakpoint() handlers are used in system and
+>> user emulation. We can not use the 'hwaddr' type on user emulation,
+>> we have to use 'vaddr' which is defined as "wide enough to contain
+>> any #target_ulong virtual address".
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   gdbstub/internals.h        | 6 ++++--
+>>   include/sysemu/accel-ops.h | 6 +++---
+>>   2 files changed, 7 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+>> index eabb0341d1..b23999f951 100644
+>> --- a/gdbstub/internals.h
+>> +++ b/gdbstub/internals.h
+>> @@ -9,9 +9,11 @@
+>>   #ifndef _INTERNALS_H_
+>>   #define _INTERNALS_H_
+>>   
+>> +#include "exec/cpu-common.h"
+>> +
+>>   bool gdb_supports_guest_debug(void);
+>> -int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
+>> -int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
+>> +int gdb_breakpoint_insert(CPUState *cs, int type, vaddr addr, vaddr len);
+>> +int gdb_breakpoint_remove(CPUState *cs, int type, vaddr addr, vaddr len);
+> 
+> Now we should be able to remove the "exec/hwaddr.h" include from
+> gdbstub.c
+Yes. And you made me notice I didn't commit the changes in 
+gdbstub/{system,user}.c...
 
