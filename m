@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E4864607D
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 18:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D6E64607C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 18:43:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2yQL-0004bk-LL; Wed, 07 Dec 2022 12:41:37 -0500
+	id 1p2yQS-0004dO-Ky; Wed, 07 Dec 2022 12:41:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2yQK-0004bW-Fe
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 12:41:36 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2yQQ-0004cu-6w
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 12:41:42 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2yQI-0001lG-Sf
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 12:41:36 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id d1so29094439wrs.12
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 09:41:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2yQO-0001o4-GW
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 12:41:41 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ n9-20020a05600c3b8900b003d0944dba41so1613102wms.4
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 09:41:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FreQweA8lWnxlMBYTOR6YrpxMa+butBNui3VmthXE/Q=;
- b=y7vvmou3PJyn2pCFR9t0wToMnv2JTkd2HLJJmQ2iE+iG/ggB1ESD0wS3loX63FeM6Y
- 0spbyX85VP6Vw6K/t6UxuyotZNAbf+P26ytFbD2i2fF4nfxyBQz+uyDNZw8vxjnEJk+E
- J1pysJuszsQV2tuf0xpBq+C0TR1tH8QDVpFLU3oInDbNyl8PA4j3T8jm62O2ehRkQAx5
- NoBflI02McNdQGQuI7jalVN6oc3mS8q7p1iTp4e4pbzLvtEHZdyrf8Rnr1S0MFMoXktP
- lko0KjYJXHHub3dbTBqqyYdUbxe1Cq7G33bfyjaPZpZIxtj4t7DngjqmGTRQxFBYQyuE
- b0yg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HprJgxpG2xWV0l1kcFBdaZiE2sB4TDOLYNMLAL73SA4=;
+ b=nCmn0kA4q53OJwwr/afzFMrpn4JqrHcOCXhhWEQz9tS60mFP08JAjhfQI0rUCYyq7Y
+ BAn56lddQ5m4PSHbyRiN1RMkl7blEcfRYeO6jkWa+E39tQ0QOHoP++P6IIjhNHNIQitK
+ rEbO8NgwUjWBvUBIorzjPFUuorswpULfJgj0/eqCJMIbElTar74bZiJZfsUulXph/YiR
+ LJIlgjDKXxv2QE10F9Fap1glaajxKAhe+lCJ4hMaQ9LaSXRDxd5no5JzPpMgdcz9Pm+H
+ XBEqleyu/6svC+dfh+C0cacXCCaJkNh+fYarDK1vh09VFAuwvbe24NDOWcNIxv1c3OB1
+ hd3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FreQweA8lWnxlMBYTOR6YrpxMa+butBNui3VmthXE/Q=;
- b=HW/W5mKgzE/VOIjHOZ2EE5JFy6D54d1LVPvAk47l5f47hOp583VkRIYtsJxRJdFEBL
- +PC+3GbjK9ZAUuJbtyZQYqc3OoyclehcdD6eBSaO5mMVODW2jynAIygAG9KQGrKcQM8h
- 2gl8ecOUT/0y0Lnqkse+IRzn71Y0oz4g2wJm+q5qpneYqLI9Q+LmQ+ehjAsJ+2GfWzgb
- 1NziERFnUV/8sZIgAyev76Gce+M7Me09eiYPalukEEvWRbSa5f56kQPgtwgKxsjsUsL3
- /+EU+Ktel9T8YDX6+10h9+IAmQystUgQj7pgrX/LcNSvV5mtTHWAfCfo+tDgCmnLRLbA
- +ryg==
-X-Gm-Message-State: ANoB5plHLtZ4m2tiltISMuIPhPeMT5jwM/pfCpFysyBOqG1bCWs/OK7s
- fZ4/7bwm4V7HpQxGlEooX81I6hPPXt7/BRRVAq4=
-X-Google-Smtp-Source: AA0mqf6zTSCADcHeVLuczU42BbKGU0C4dHGJ22VNN3NpzQY7UtHMw9ZsjXOpyhlm9EJxPCqxvpHQLw==
-X-Received: by 2002:adf:ee0f:0:b0:242:17c7:d98d with SMTP id
- y15-20020adfee0f000000b0024217c7d98dmr26474341wrn.87.1670434892760; 
- Wed, 07 Dec 2022 09:41:32 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HprJgxpG2xWV0l1kcFBdaZiE2sB4TDOLYNMLAL73SA4=;
+ b=XkBqYDTJvFCH9J47P5+Q4tCki6LYuM9gk8n12Y1rVfkpyeT8wsx4DmF0tT4zP6W69f
+ TYAKnQFvfnf538xrX9cKTOuReJFFAej7+2/BVZv7lx7M6dZH2fkCPx55mPS2/CEMzNVU
+ uDy1wZ9gUNZxiHG1CPjE6jAqcwmtJOR+hcWSx4zKCWRE45XNzIMTjw1ldfsJ2+G97pVc
+ JN/iByTNWL0Y4z//XpG/jC3Gd6VSOjm2A48wejtoZ04NgL25feXt4yQGuBAx+LE5vmxa
+ kjYWuCDUReKQnGgd3EMsQP8EhSPs0pNb69inRoaFlB+TxKIfFMyh9LHkpvJjKNUED/17
+ stuw==
+X-Gm-Message-State: ANoB5pk6kSyNHpM3NM8IdZbSRo8j7qHNIMB42RcPHBiVaqL456ddof7l
+ XeSF9Oe3miamf9xKFxDxBaj4IbWDTeGgHDgs0q8=
+X-Google-Smtp-Source: AA0mqf4kowpRLozhNa42OXs7AX4FjZCJgcAdfWv/dInE44Jmd1NHzMmiJ7Y2m+1wPMY4SNfLftfDoA==
+X-Received: by 2002:a05:600c:1907:b0:3cf:7981:9a7 with SMTP id
+ j7-20020a05600c190700b003cf798109a7mr66799556wmq.87.1670434898527; 
+ Wed, 07 Dec 2022 09:41:38 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- az40-20020a05600c602800b003d1e1f421bfsm2537738wmb.10.2022.12.07.09.41.30
+ z5-20020a05600c0a0500b003b4cba4ef71sm3063858wmp.41.2022.12.07.09.41.36
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 07 Dec 2022 09:41:32 -0800 (PST)
+ Wed, 07 Dec 2022 09:41:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, Stafford Horne <shorne@gmail.com>,
@@ -71,16 +73,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Stafford Horne <shorne@gmail.com>,
  qemu-ppc@nongnu.org, Chris Wulff <crwulff@gmail.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH-for-8.0 0/4] target/cpu: System/User cleanups around
- hwaddr/vaddr
-Date: Wed,  7 Dec 2022 18:41:25 +0100
-Message-Id: <20221207174129.77593-1-philmd@linaro.org>
+Subject: [PATCH-for-8.0 1/4] cputlb: Restrict SavedIOTLB to system emulation
+Date: Wed,  7 Dec 2022 18:41:26 +0100
+Message-Id: <20221207174129.77593-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221207174129.77593-1-philmd@linaro.org>
+References: <20221207174129.77593-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,36 +106,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are not supposed to use hwaddr on user emulation.
+Commit 2f3a57ee47 ("cputlb: ensure we save the IOTLB data in
+case of reset") added the SavedIOTLB structure -- which is
+system emulation specific -- in the generic CPUState structure.
 
-This series is a - trivial - preparatory cleanup before
-few refactors to isolate further System vs User code.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ accel/tcg/cputlb.c    | 4 ++--
+ include/hw/core/cpu.h | 6 ++++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-Philippe Mathieu-Daudé (4):
-  cputlb: Restrict SavedIOTLB to system emulation
-  gdbstub: Use vaddr type for generic insert/remove_breakpoint() API
-  target/cpu: Restrict cpu_get_phys_page_debug() handlers to sysemu
-  target/sparc: Cleanup around sparc_cpu_do_unaligned_access()
-
- accel/tcg/cputlb.c         | 4 ++--
- gdbstub/internals.h        | 6 ++++--
- include/hw/core/cpu.h      | 6 ++++--
- include/sysemu/accel-ops.h | 6 +++---
- target/alpha/cpu.h         | 2 +-
- target/cris/cpu.h          | 3 +--
- target/hppa/cpu.h          | 2 +-
- target/m68k/cpu.h          | 2 +-
- target/nios2/cpu.h         | 2 +-
- target/openrisc/cpu.h      | 3 ++-
- target/ppc/cpu.h           | 2 +-
- target/rx/cpu.h            | 2 +-
- target/rx/helper.c         | 4 ++--
- target/sh4/cpu.h           | 2 +-
- target/sparc/cpu.h         | 3 ++-
- target/sparc/mmu_helper.c  | 2 --
- target/xtensa/cpu.h        | 2 +-
- 17 files changed, 28 insertions(+), 25 deletions(-)
-
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 6f1c00682b..0ea96fbcdf 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1395,7 +1395,7 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
+ static void save_iotlb_data(CPUState *cs, MemoryRegionSection *section,
+                             hwaddr mr_offset)
+ {
+-#ifdef CONFIG_PLUGIN
++#if defined(CONFIG_PLUGIN) && !defined(CONFIG_USER_ONLY)
+     SavedIOTLB *saved = &cs->saved_iotlb;
+     saved->section = section;
+     saved->mr_offset = mr_offset;
+@@ -1699,7 +1699,7 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+     return qemu_ram_addr_from_host_nofail(p);
+ }
+ 
+-#ifdef CONFIG_PLUGIN
++#if defined(CONFIG_PLUGIN) && !defined(CONFIG_USER_ONLY)
+ /*
+  * Perform a TLB lookup and populate the qemu_plugin_hwaddr structure.
+  * This should be a hot path as we will have just looked this path up
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 8830546121..bc3229ae13 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -222,7 +222,7 @@ struct CPUWatchpoint {
+     QTAILQ_ENTRY(CPUWatchpoint) entry;
+ };
+ 
+-#ifdef CONFIG_PLUGIN
++#if defined(CONFIG_PLUGIN) && !defined(CONFIG_USER_ONLY)
+ /*
+  * For plugins we sometime need to save the resolved iotlb data before
+  * the memory regions get moved around  by io_writex.
+@@ -406,9 +406,11 @@ struct CPUState {
+ 
+ #ifdef CONFIG_PLUGIN
+     GArray *plugin_mem_cbs;
++#if !defined(CONFIG_USER_ONLY)
+     /* saved iotlb data from io_writex */
+     SavedIOTLB saved_iotlb;
+-#endif
++#endif /* !CONFIG_USER_ONLY */
++#endif /* CONFIG_PLUGIN */
+ 
+     /* TODO Move common fields from CPUArchState here. */
+     int cpu_index;
 -- 
 2.38.1
 
