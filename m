@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324126455FC
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD63645609
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:07:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2qKk-0007mW-7Y; Wed, 07 Dec 2022 04:03:18 -0500
+	id 1p2qOW-0001WG-PM; Wed, 07 Dec 2022 04:07:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2qKU-0007jF-Tq
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:03:03 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2qOI-0001Sr-QB
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:07:04 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2qKP-0007Ow-Tz
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:03:02 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- ay8-20020a05600c1e0800b003d0808d2826so2129032wmb.1
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 01:02:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2qOE-0000xp-Kq
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:06:56 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id f18so27106296wrj.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 01:06:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=h/oyaeRK1qJ0WgTWjIHtEjKpyPV1cMfqmIZfsoQWqIc=;
- b=JuUhF6MPfSamo/rErk9Dbz7J9mbkrbDRb63DoGxW2R+hbH0QIcCL8f9PM0gcMmLvz2
- yvi+VTHZLWYP0EKhzEou5FN+KGKMXAjD2tk0epou6Oq3kj3ld6c+KNc2P+QeVE5MRp1t
- DIdQ9OEHm6f1y762MHFgHHVIpx0EcsDbSEtyfRjyvjcfWX/FSi6jLz4DouCK8a+nucSG
- oPTkezgnYiOPhSlUZkf1uTha/wbAv61Z6nx4U6AR0PeGZzaTxVeriHkGKFnty7PT4TUZ
- IH7Os3Qulzg3euZuYmCvz93jPM26CI7NONDt8T155g2Wcpbbf+ue333Xn48Ao6kB8Q3T
- vA3A==
+ bh=h+3fSCiAP2V5BazDY7KX3tYn5iCzCVbykPTkAaEgqKI=;
+ b=jJh3c2JFbAtLtKn+rStdsypOwMEPMt6f111wKlXc2434xKiVDyCCYovjaawUNQR+Is
+ Onux4tjKTPdy0oeNlhdW1PIgpJXObkrLzfD2OSWMBNvY4/xXkNs3Z1zsIxviTFR7td/m
+ SwFAm2Zen6NR0gdC252RSsc/Vb0VJjD/Cl4LBoWAlNSmsJR+DxRgdSjGwRIi6GKhvtkO
+ YCz2AZsOfPMKRy44RKW8zHqlbW0KYGmJGG48drMV0VIPD8hBYl+9GUZ/Aof3LNZVGnb1
+ sCIN/g4tWIbUMKBKCO3SN684hDYSxfXsKMqEaNkCKBQ69MGUrqXU+XRG2NeInZHkn8Oz
+ 3T+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=h/oyaeRK1qJ0WgTWjIHtEjKpyPV1cMfqmIZfsoQWqIc=;
- b=lN5PPzjhg/DLnJqbweTe5XIFh/UPnYUkyERAxU5yJuYEFp0eqYBH3vObMGKEaOamjG
- pMWw8gmYjJ2aJ188NHsS2yuKUPMrIXXjZTh8ZT50rMYXvt+3Tyw38ZIBBzvsOCHX+UJc
- TYoxsPqi/z3H5CF2xiYjqZw7dC36S7uMUyJZvRYyoTMxblzC7hfup6MqSeQgFXclLiNc
- fgCTCLVsW9iYFRP2aUyx7Bg+yBsCE57Kijmhqx5ieSam/7c2pmHSyrX195pSioD38mcU
- cOhAq4JIRxigaenkHSYFerkydkFFAUFesMGSjzqsKnV5UedDCSn2/qNPG8RGI1qjQyho
- 8OKg==
-X-Gm-Message-State: ANoB5pmt/Y4IsjuACHY9wCzjk00C7m7OfpsUPaljDVZ4zLj7Z5+ELmsD
- KNSb8sDWJruD9NTgeXFoJIjeOg==
-X-Google-Smtp-Source: AA0mqf417gpqmwkEJUiCn26A1AoyEy/ClQdXHEbK0RuErToiewgcWAeeuXICvbTXGoEgylm8oP/O3g==
-X-Received: by 2002:a1c:2743:0:b0:3c6:e471:7400 with SMTP id
- n64-20020a1c2743000000b003c6e4717400mr52077358wmn.98.1670403775017; 
- Wed, 07 Dec 2022 01:02:55 -0800 (PST)
+ bh=h+3fSCiAP2V5BazDY7KX3tYn5iCzCVbykPTkAaEgqKI=;
+ b=dOd27X5ee1879eVEj4u1GW+tLMB3b/kTHIg4MFFFCD9W/KhJcgNuM6JLAeCDl+sOf4
+ OdqmXDQ8cil02Z13df10zMeFxSPFos9OZUr5vx+YxPLkjHLNu7RcDen9Kju812Lw9aH5
+ iv0alPGRFwoepOk7v0CugADqEorJaAn3dPz5VKUuQgJoihQoB4ubY1w5oIw1MaCFcZXm
+ fudOYuRvTH+oc0MaZlRqRZgRXbCticB6GjZzpWghQlKugQEk2KYqeL5XK+2PveNS8FZN
+ txAtR4jTfSLWyJEWimn6zT2zD+XcDcPTzLn5Vy39MA2aTW2yVV10SMwTc4TChr8LSaU8
+ ljGw==
+X-Gm-Message-State: ANoB5pne9yDRBR/7MG/KbLmaqtpiS1CjjmmKb7FwwqgeQrW/mimqjWK6
+ 6r+QJo8Nn7GnWfgTH9xPFx2hPw==
+X-Google-Smtp-Source: AA0mqf4xbNm75QTt6yrYr+d/JsJbZtFP4rGaHenaDh/kEiL+zuetgNWtKiJHI/qEZe6XlyI1I0cxjA==
+X-Received: by 2002:adf:fe0a:0:b0:242:30f5:a947 with SMTP id
+ n10-20020adffe0a000000b0024230f5a947mr18711259wrr.597.1670404011643; 
+ Wed, 07 Dec 2022 01:06:51 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bd10-20020a05600c1f0a00b003d070e45574sm1075864wmb.11.2022.12.07.01.02.54
+ u11-20020a5d6acb000000b00241c4bd6c09sm18673375wrw.33.2022.12.07.01.06.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Dec 2022 01:02:54 -0800 (PST)
-Message-ID: <1184b1ab-c38a-b38b-b08c-637bc6b23bb5@linaro.org>
-Date: Wed, 7 Dec 2022 10:02:53 +0100
+ Wed, 07 Dec 2022 01:06:51 -0800 (PST)
+Message-ID: <3abe6ca7-a0eb-f2cf-aef0-3f4b16478285@linaro.org>
+Date: Wed, 7 Dec 2022 10:06:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: How to best make include/hw/pci/pcie_sriov.h self-contained
+Subject: Re: [PATCH] configure: Fix check-tcg not executing any tests
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>
-References: <87bkofivbm.fsf@pond.sub.org>
+To: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>, qemu-devel@nongnu.org,
+ bcain@quicinc.com, quic_mathbern@quicinc.com
+References: <20221207082309.9966-1-quic_mthiyaga@quicinc.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87bkofivbm.fsf@pond.sub.org>
+In-Reply-To: <20221207082309.9966-1-quic_mthiyaga@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -90,55 +92,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/12/22 07:25, Markus Armbruster wrote:
-> pcie_sriov.h needs PCI_NUM_REGIONS from pci.h, but doesn't include it.
-> pci.h must be included before pcie_sriov.h or else compile fails.
-> 
-> Adding #include "pci/pci.h" to pcie_sriov would be wrong, because it
-> would close an inclusion loop: pci.h includes pcie.h (for
-> PCIExpressDevice) includes pcie_sriov.h (for PCIESriovPF) includes pci.h
-> (for PCI_NUM_REGIONS).
-> 
-> The obvious solution is to move PCI_NUM_REGIONS pci.h somewhere
-> pcie_sriov.h can include without creating a loop.
-> 
-> We already have a few headers that don't include anything: pci_ids.h,
-> pci_regs.h (includes include/standard-headers/linux/pci_regs.h, which
-> doesn't count), pcie_regs.h.  Moving PCI_NUM_REGIONS to one of these
-> would work, but it doesn't feel right.
-> 
-> We could create a new one, say pci_defs.h.  Just for PCI_NUM_REGIONS
-> feels silly.  So, what else should move there?
+Hi Mukilan,
 
-Sounds good to me. Eventually name it pci_standard_defs.h?
+On 7/12/22 09:23, Mukilan Thiyagarajan wrote:
+> After configuring with --target-list=hexagon-linux-user
+> running `make check-tcg` just prints the following:
+> 
+> ```
+> make: Nothing to be done for 'check-tcg'
+> ```
+> 
+> In the probe_target_compiler function, the 'break'
+> command is used incorrectly. There are no lexically
+> enclosing loops associated with that break command which
+> is an unspecfied behaviour in the POSIX standard.
+> 
+> The dash shell implementation aborts the currently executing
+> loop, in this case, causing the rest of the logic for the loop
+> in line 2490 to be skipped, which means no Makefiles are
+> generated for the tcg target tests.
+> 
+> Fixes: c3b570b5a9a24d25 (configure: don't enable
+> cross compilers unless in target_list)
 
-We can move the first 100 lines of pci.h there, PCI_ROM_SLOT, 
-PCI_NUM_REGIONS, PCI HEADER_TYPE, PCI_NUM_PINS, cap_present, and 
-eventually PCIINTxRoute & PCIReqIDType.
+When posting a patch fixing an issue introduced by another one,
+you'll get more feedback if Cc'ing the author/reviewers of such
+patch.
 
+Also Cc'ing the maintainers also help in having your patch picked
+up :) See:
+
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html#cc-the-relevant-maintainer
+
+I've Cc'ed the corresponding developers for you.
+
+Regards,
+
+Phil.
+
+> Signed-off-by: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
+> ---
+>   configure | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> Any other ideas?
-> 
-> In case you wonder why I bother you with this...
-> 
-> Back in 2016, we discussed[1] rules for headers, and these were
-> generally liked:
-> 
-> 1. Have a carefully curated header that's included everywhere first.  We
->     got that already thanks to Peter: osdep.h.
-> 
-> 2. Headers should normally include everything they need beyond osdep.h.
->     If exceptions are needed for some reason, they must be documented in
->     the header.  If all that's needed from a header is typedefs, put
->     those into qemu/typedefs.h instead of including the header.
-> 
-> 3. Cyclic inclusion is forbidden.
-> 
-> I'm working on patches to get include/ closer to obeying 2.
-> 
-> [1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
->      https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
-> 
-> 
+> diff --git a/configure b/configure
+> index 26c7bc5154..7a804fb657 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1881,9 +1881,7 @@ probe_target_compiler() {
+>     # We shall skip configuring the target compiler if the user didn't
+>     # bother enabling an appropriate guest. This avoids building
+>     # extraneous firmware images and tests.
+> -  if test "${target_list#*$1}" != "$1"; then
+> -      break;
+> -  else
+> +  if test "${target_list#*$1}" = "$1"; then
+>         return 1
+>     fi
+>   
 
 
