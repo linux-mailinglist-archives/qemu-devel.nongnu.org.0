@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852366464DA
+	by mail.lfdr.de (Postfix) with ESMTPS id 210C06464D8
 	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 00:14:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p33aw-0005mQ-CQ; Wed, 07 Dec 2022 18:12:54 -0500
+	id 1p33ay-0005n6-4F; Wed, 07 Dec 2022 18:12:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p33at-0005lH-SZ
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:12:51 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p33av-0005lm-Cm
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:12:53 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p33as-0003VE-3A
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:12:51 -0500
-Received: by mail-ed1-x536.google.com with SMTP id i15so18842585edf.2
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p33as-0003VZ-4W
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:12:52 -0500
+Received: by mail-ed1-x530.google.com with SMTP id a16so26995727edb.9
  for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 15:12:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xF24NYxJq1DgMM7z5X76nfJmSnQrTfSUFnB/Og4Rdk0=;
- b=m1pQLi3baY9jue5dINvWpyxESEw2ZBIsAdb1hwIKACYD114qKwhGh8gwpQu88ny71Y
- VuYuTAzFf5YnNVxCpFpjasWUzik53fHaypoosg6o5DUP35i7ODADdJhR3OKKCASlJXTt
- 3lrqu8aBDl5ve+KNsAouZ/hAUs+Rke6NzrkGU1fQBFoc9aqR3NPM3EaeTQVOav2x9dEf
- R2LASplan3IW6Z6Al5bIfFGisKXBQWNaxLYraaQE6Nygx1q1I95MO0Jwp/TQ9a/8x5ya
- fdgVip6ODcJP4uCH+P70C2YMhmPskfrsVg4ZHLDz9mCIfkBU0aiQDWGEDCxWrLrUKZIp
- Wn3w==
+ bh=F2lh7ePLWH9MC7IF9XYD3B06iz9fHKdzke7e7jCke8U=;
+ b=Jw2Ani+IqG6qlnlSN9BR/Xa4HrMAowg+445q6WLiqlWN23Ru0Ha4JQgdVm7ZnwLOWc
+ vgRpjRVLP19zWiQvby7sdRlKGRdRG3KBl2R6kCpCON1F55UnGGJuRrJbBYxIQfJzXsAd
+ Iclwsdn9w3FAWuqHS5ZcUV2LmqPUZzLA9EH2F/aFXwjLnGRxC7pdImuJ+bCF/+P5uXVh
+ pNyxCvAjJgxBt39jPUqiFNpoURKGLxK2KfPTAU4s6G+dpt/stAO6Co9Jd1lD6sCEhcVp
+ YOnyxtZfG4V8/PgvJeADdhlHfmap0P/Mm1MRUCTA8GwN4Z9dD3RkDg5GCzrup+Xj87WP
+ FZZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xF24NYxJq1DgMM7z5X76nfJmSnQrTfSUFnB/Og4Rdk0=;
- b=T6rsOikwifANwCWhi2xcvhGJEZiUGB0Y0Gz8oAC2ZHgm8X1eVmgZ00isdUfieXdDnv
- Vbm5sEiilhL5m8HlhoZrj8fGWKTvDa4C9pBXPC8/Yizj/sroa+oeN/d0Q5apJ1fEZsmv
- FDCCH9Dtb9mC+/mra3sfzG++LU7EvWU4uRrkaRdmlGQJkowUzJgt3XTE4PF+cyy4ODE7
- 5Da4v43hYnZGS0+6FhnO4gy6CxwGIHtzwUDM+xNH4l+LieaqzjjoqQJ4ulZk1chDZUPT
- 8ae75Yfkg6Lcix7+YsGtNnA5SraAgWuxbw5+rqFOprtsX9IOxzbJcy1j4jCW1vGSDycU
- FgrQ==
-X-Gm-Message-State: ANoB5pl+YuvXTWB1D/jefT6bmFrPzweHsZ87QDkHoR0jQ8YefPiqjZ9O
- AHn2YgXBS+y+MwIkCWVZMWmLFwiYU4Y=
-X-Google-Smtp-Source: AA0mqf6O/HYROeisvBcHDLJypuAnM7VojE3YcSAl5VJZWB5+VRHHpvkbcOJAGo7u4Szxxyf//WNn9A==
-X-Received: by 2002:a05:6402:159:b0:461:22bb:1ae4 with SMTP id
- s25-20020a056402015900b0046122bb1ae4mr1123963edu.17.1670454767339; 
- Wed, 07 Dec 2022 15:12:47 -0800 (PST)
+ bh=F2lh7ePLWH9MC7IF9XYD3B06iz9fHKdzke7e7jCke8U=;
+ b=MvmNEVFX6ek9K42sbuPSnjLNUG/aEJPA0fjicnKyZoG+8hINXFFeIhp6FcQfaSh+e3
+ VMiN5XOUsR8K80altPpLn5A2PmMo5bM8e5LMCIonlWMo4Kj2jGTc6BwmW3s1nJ31iOx1
+ +Us5rQfPeWw0PkOY91eQSWnj2TOvndAmLvcXMGCywmJaz6A8emPoqOwACeJ2b+5dwZVQ
+ x1wmxXix8ixndJrImLdV1Tilt4i03mgMWekzKW1tQ0UUCtfugyG0uBr3b6WXo5IcfvFS
+ IQP4GgqnAhfSnG7V+/+oLz2IIseQD0cB2xnR0UQLmmUYAxW9B9Z2/M46kFv3IPQiM0e4
+ kqRA==
+X-Gm-Message-State: ANoB5pk0P/ckolYOjcr4jSCuRIF1jH6YziIG6cGujAFfaWH22yAxHi1w
+ H9KkFasmwNQP5lFQ19QtfGDR0rpceLM=
+X-Google-Smtp-Source: AA0mqf4zlAU/bzOPaJ8hMBx/PGrpnlP8oHjXjMzE0CUvUgRMfFoMXVLwzLtEtfPzXoetaW/yBAfb2w==
+X-Received: by 2002:a05:6402:4518:b0:461:46c5:992f with SMTP id
+ ez24-20020a056402451800b0046146c5992fmr945335edb.4.1670454768342; 
+ Wed, 07 Dec 2022 15:12:48 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-011-181-051.77.11.pool.telefonica.de. [77.11.181.51])
  by smtp.gmail.com with ESMTPSA id
- r6-20020a508d86000000b004587f9d3ce8sm2732367edh.56.2022.12.07.15.12.46
+ r6-20020a508d86000000b004587f9d3ce8sm2732367edh.56.2022.12.07.15.12.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Dec 2022 15:12:46 -0800 (PST)
+ Wed, 07 Dec 2022 15:12:48 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
@@ -62,16 +62,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 4/5] hw/isa/Kconfig: Add missing dependency to VT82C686
-Date: Thu,  8 Dec 2022 00:12:04 +0100
-Message-Id: <20221207231205.1106381-5-shentey@gmail.com>
+Subject: [PATCH 5/5] hw/ppc/Kconfig: Remove unused dependencies from PEGASOS2
+Date: Thu,  8 Dec 2022 00:12:05 +0100
+Message-Id: <20221207231205.1106381-6-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221207231205.1106381-1-shentey@gmail.com>
 References: <20221207231205.1106381-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,25 +94,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Both ACPI_PIIX4 (directly) and ACPI_ICH9 (indirectly) require ACPI to be
-selected. Require it for VT82C686's ACPI controller too for consistency.
+Removes the following dependencies from ppc-softmmu:
+- CONFIG_ACPI_CPU_HOTPLUG
+- CONFIG_ACPI_CXL
+- CONFIG_ACPI_HMAT
+- CONFIG_ACPI_MEMORY_HOTPLUG
+- CONFIG_ACPI_NVDIMM
+- CONFIG_ACPI_PCIHP
+- CONFIG_ACPI_PIIX4
+- CONFIG_ACPI_X86
+- CONFIG_MEM_DEVICE
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-index 0a6a04947c..bc2e3ecf02 100644
---- a/hw/isa/Kconfig
-+++ b/hw/isa/Kconfig
-@@ -63,6 +63,7 @@ config VT82C686
-     select IDE_VIA
-     select MC146818RTC
-     select PARALLEL
-+    depends on ACPI
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index b8d2522f45..0ab77177a8 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -77,7 +77,7 @@ config PEGASOS2
+     select SMBUS_EEPROM
+     select VOF
+ # This should come with VT82C686
+-    select ACPI_X86
++    select ACPI
  
- config SMC37C669
+ config PREP
      bool
 -- 
 2.38.1
