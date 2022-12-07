@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA48645D78
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 16:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C46645D8B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 16:19:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2wAc-00023T-3B; Wed, 07 Dec 2022 10:17:14 -0500
+	id 1p2wCW-0003hP-Se; Wed, 07 Dec 2022 10:19:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p2w9t-0001tS-7K
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 10:16:47 -0500
+ id 1p2wCV-0003hG-9D
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 10:19:11 -0500
 Received: from mga01.intel.com ([192.55.52.88])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p2w9r-0007sL-5v
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 10:16:28 -0500
+ id 1p2wCT-0001do-N1
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 10:19:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670426187; x=1701962187;
+ t=1670426349; x=1701962349;
  h=date:from:to:cc:subject:message-id:reply-to:references:
  mime-version:in-reply-to;
- bh=zcEUcKUODXd/C5+5w7MS4mpwFmKmZd9eZ5keOKWclik=;
- b=k5S2YOeSbDoaMQBECQuvvPyO9xbf+IjzFfaB+KnqEmlwOBROHW2O9kAV
- c+agLGRvcrGbDc+cN6vAdAbAoejRTNntOnpG8LtF06m7nEbyiqUoB0pSY
- ciZOvbZSu+Csf7PUDSaqVQi30wuK0ZgVsJ3RwtD9VufFarXrDz3wNhWGh
- nLT0E0Mjen2DwEcGdTAOP8zscl0MtGged2OnLZSPE6uASNrqBVADIpj1e
- 2WUE4xd1zojKPH0MaIquHjgAkTszX9RNplORkK3930Qcf/4RNLJCcF56O
- FYqMbj1O95FlcXlJAuWHeWbvA6bgCSON5Br5E02TLPvDNg8sb/YsYT8Rh w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="343947714"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="343947714"
+ bh=jSuyaBC+CEdahrEMqj1EGdbe+9W/yLc3hrTCB1EDaSs=;
+ b=fZZyXLVY13VF4BLkLl1sHroDxQwU1arr8A4+bdGC1hBRcsuU5h5aEjD/
+ 1XHFgHuvFGbAxybidIRPxa/F9XkPV7xtSEyB5rA8gTMvYkQRBeoCMeoIt
+ 5EX62ZgjHOkAyy+Yqe1cxnCFx+TyFRPX/VKZ2rYBwfhHidKMPGr8wHInf
+ 9MUhWbJu8VA/AqukO2hRnyysG7941qJ/coVZPWXuIxb3WX7dKMPBFlBWl
+ z8KMPi8ZryzOARCqhvZQbuki1qxFXa3r2YbLgEu62N6NM9SPXOh7c9H8C
+ T/zvPgYg12OYjkBRW/8xoN3eLqI4/yHfxSNFTUb8aSQmJeFhNi/8/ifvw w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="343948399"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="343948399"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 07:16:23 -0800
+ 07 Dec 2022 07:19:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="710095974"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="710095974"
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="710096874"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="710096874"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga008.fm.intel.com with ESMTP; 07 Dec 2022 07:16:13 -0800
-Date: Wed, 7 Dec 2022 23:11:53 +0800
+ by fmsmga008.fm.intel.com with ESMTP; 07 Dec 2022 07:18:57 -0800
+Date: Wed, 7 Dec 2022 23:14:37 +0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+To: Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
  linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
  qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -69,15 +70,17 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  ddutile@redhat.com, dhildenb@redhat.com,
  Quentin Perret <qperret@google.com>,
  Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 4/9] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <20221207151153.GE1275553@chaop.bj.intel.com>
+Subject: Re: [PATCH v10 5/9] KVM: Use gfn instead of hva for mmu_notifier_retry
+Message-ID: <20221207151437.GF1275553@chaop.bj.intel.com>
 References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-5-chao.p.peng@linux.intel.com>
- <CA+EHjTyzZ2n8kQxH_Qx72aRq1k+dETJXTsoOM3tggPZAZkYbCA@mail.gmail.com>
+ <20221202061347.1070246-6-chao.p.peng@linux.intel.com>
+ <CA+EHjTy5+Ke_7Uh72p--H9kGcE-PK4EVmp7ym6Q1-PO28u6CCQ@mail.gmail.com>
+ <20221206115623.GB1216605@chaop.bj.intel.com>
+ <20221207063411.GB3632095@ls.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+EHjTyzZ2n8kQxH_Qx72aRq1k+dETJXTsoOM3tggPZAZkYbCA@mail.gmail.com>
+In-Reply-To: <20221207063411.GB3632095@ls.amr.corp.intel.com>
 Received-SPF: none client-ip=192.55.52.88;
  envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
 X-Spam_score_int: -69
@@ -103,115 +106,37 @@ Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 06, 2022 at 03:47:20PM +0000, Fuad Tabba wrote:
-> Hi,
+On Tue, Dec 06, 2022 at 10:34:11PM -0800, Isaku Yamahata wrote:
+> On Tue, Dec 06, 2022 at 07:56:23PM +0800,
+> Chao Peng <chao.p.peng@linux.intel.com> wrote:
 > 
-> On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-> > This new KVM exit allows userspace to handle memory-related errors. It
-> > indicates an error happens in KVM at guest memory range [gpa, gpa+size).
-> > The flags includes additional information for userspace to handle the
-> > error. Currently bit 0 is defined as 'private memory' where '1'
-> > indicates error happens due to private memory access and '0' indicates
-> > error happens due to shared memory access.
-> >
-> > When private memory is enabled, this new exit will be used for KVM to
-> > exit to userspace for shared <-> private memory conversion in memory
-> > encryption usage. In such usage, typically there are two kind of memory
-> > conversions:
-> >   - explicit conversion: happens when guest explicitly calls into KVM
-> >     to map a range (as private or shared), KVM then exits to userspace
-> >     to perform the map/unmap operations.
-> >   - implicit conversion: happens in KVM page fault handler where KVM
-> >     exits to userspace for an implicit conversion when the page is in a
-> >     different state than requested (private or shared).
-> >
-> > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > Reviewed-by: Fuad Tabba <tabba@google.com>
-> > ---
-> >  Documentation/virt/kvm/api.rst | 22 ++++++++++++++++++++++
-> >  include/uapi/linux/kvm.h       |  8 ++++++++
-> >  2 files changed, 30 insertions(+)
-> >
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > index 99352170c130..d9edb14ce30b 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -6634,6 +6634,28 @@ array field represents return values. The userspace should update the return
-> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
-> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> >
-> > +::
-> > +
-> > +               /* KVM_EXIT_MEMORY_FAULT */
-> > +               struct {
-> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE (1ULL << 0)
-> > +                       __u64 flags;
+> > > > -       if (unlikely(kvm->mmu_invalidate_in_progress) &&
+> > > > -           hva >= kvm->mmu_invalidate_range_start &&
+> > > > -           hva < kvm->mmu_invalidate_range_end)
+> > > > -               return 1;
+> > > > +       if (unlikely(kvm->mmu_invalidate_in_progress)) {
+> > > > +               /*
+> > > > +                * Dropping mmu_lock after bumping mmu_invalidate_in_progress
+> > > > +                * but before updating the range is a KVM bug.
+> > > > +                */
+> > > > +               if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
+> > > > +                                kvm->mmu_invalidate_range_end == INVALID_GPA))
+> > > 
+> > > INVALID_GPA is an x86-specific define in
+> > > arch/x86/include/asm/kvm_host.h, so this doesn't build on other
+> > > architectures. The obvious fix is to move it to
+> > > include/linux/kvm_host.h.
+> > 
+> > Hmm, INVALID_GPA is defined as ZERO for x86, not 100% confident this is
+> > correct choice for other architectures, but after search it has not been
+> > used for other architectures, so should be safe to make it common.
 > 
-> I see you've removed the padding and increased the flag size.
+> INVALID_GPA is defined as all bit 1.  Please notice "~" (tilde).
+> 
+> #define INVALID_GPA (~(gpa_t)0)
 
-Yes Sean suggested this and also looks good to me.
-
+Thanks for mention. Still looks right moving it to include/linux/kvm_host.h. 
 Chao
-> 
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Tested-by: Fuad Tabba <tabba@google.com>
-> 
-> Cheers,
-> /fuad
-> 
-> 
-> 
-> 
-> > +                       __u64 gpa;
-> > +                       __u64 size;
-> > +               } memory;
-> > +
-> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
-> > +encountered a memory error which is not handled by KVM kernel module and
-> > +userspace may choose to handle it. The 'flags' field indicates the memory
-> > +properties of the exit.
-> > +
-> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-> > +   private memory access when the bit is set. Otherwise the memory error is
-> > +   caused by shared memory access when the bit is clear.
-> > +
-> > +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
-> > +may handle the error and return to KVM to retry the previous memory access.
-> > +
-> >  ::
-> >
-> >      /* KVM_EXIT_NOTIFY */
-> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > index 13bff963b8b0..c7e9d375a902 100644
-> > --- a/include/uapi/linux/kvm.h
-> > +++ b/include/uapi/linux/kvm.h
-> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
-> >  #define KVM_EXIT_RISCV_SBI        35
-> >  #define KVM_EXIT_RISCV_CSR        36
-> >  #define KVM_EXIT_NOTIFY           37
-> > +#define KVM_EXIT_MEMORY_FAULT     38
-> >
-> >  /* For KVM_EXIT_INTERNAL_ERROR */
-> >  /* Emulate instruction failed. */
-> > @@ -541,6 +542,13 @@ struct kvm_run {
-> >  #define KVM_NOTIFY_CONTEXT_INVALID     (1 << 0)
-> >                         __u32 flags;
-> >                 } notify;
-> > +               /* KVM_EXIT_MEMORY_FAULT */
-> > +               struct {
-> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE   (1ULL << 0)
-> > +                       __u64 flags;
-> > +                       __u64 gpa;
-> > +                       __u64 size;
-> > +               } memory;
-> >                 /* Fix the size of the union. */
-> >                 char padding[256];
-> >         };
-> > --
-> > 2.25.1
-> >
+> -- 
+> Isaku Yamahata <isaku.yamahata@gmail.com>
 
