@@ -2,108 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307F6645C10
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 15:08:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1675645C1F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 15:10:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2v4x-0005l2-GV; Wed, 07 Dec 2022 09:07:19 -0500
+	id 1p2v7D-0007fS-6d; Wed, 07 Dec 2022 09:09:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1p2v4v-0005kO-5w; Wed, 07 Dec 2022 09:07:17 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1p2v4t-0002o5-9V; Wed, 07 Dec 2022 09:07:16 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B7DBurZ030553; Wed, 7 Dec 2022 14:07:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+lA56HIAZILyId+dpIpeaxeSlsNK5+o81dq7PNTW4OY=;
- b=atmcyHiW8J6Da1RcYWvuQv/XBo3pw+sjEmVdqtodbTagMVDyi31yBDq/+HVKUziX41k4
- kUToahEfHSpDPAdxuPp2sDKDd3gOJqVNMfVaiEV6FMglzqOl+QurGALiCPKJHN09VFsQ
- EoCm3ei94+ELBMVRkMH7b67vaLB01km7kaRhnhfzjLWoowMSnUw104x0ORlbQqZT0juv
- r5C8/ziPxS+uktAP2cpzzePdlPtaG7Ae6RP1PerEP+R3zh84fMLBNYezrADzf00MGcYx
- +AjX4t/tWVYgJADCpXt47mWDSgOPmfgfLYmys048EvNhHkf+KvlxJDsKflwu0qMwLT83 uA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3maugk1g2j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 14:07:11 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B7DoIFB010878;
- Wed, 7 Dec 2022 14:07:10 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3maugk1g05-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 14:07:10 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2B78fO9C016442;
- Wed, 7 Dec 2022 14:07:06 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3m9m6y27xf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 14:07:05 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B7E737d19661120
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Dec 2022 14:07:03 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 619392004D;
- Wed,  7 Dec 2022 14:07:03 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1FA920049;
- Wed,  7 Dec 2022 14:07:02 +0000 (GMT)
-Received: from [9.179.1.254] (unknown [9.179.1.254])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed,  7 Dec 2022 14:07:02 +0000 (GMT)
-Message-ID: <1e54a59d-caab-ad2c-fd3e-20348e650873@linux.ibm.com>
-Date: Wed, 7 Dec 2022 15:07:02 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p2v7A-0007ep-OV
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:09:36 -0500
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p2v79-00037F-4x
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:09:36 -0500
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-3704852322fso187122907b3.8
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 06:09:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=u/qbLOFfFAhTx7eCj5aNiAi67f9r4/jU5fD3kszg+ZA=;
+ b=Epzwg2eMTcHBRY4Xgmy8A2ZCTGVRGAe082kPPdS9OQjlAMx4jBJGh8ppSzH7QSYgQw
+ 9I9E1dcAmjtb7lBhi4PHSOe2Smd8FF7FTe0W+u7fh/86Ga7aJa0njVpb8mrfI2HrioR7
+ V/9eCDooRWkSavVFMyD6Nn1L8VaNaPN2NEFEVjiwGTtaXvQnGYPnVuXN/HVfzujOyYIS
+ /W0hNgEyhD0F4TaAx/NxrClGlxhsSlxZ3yOYgJ9reCBbkQIY7vh5OrgseLfD8YdCDeKO
+ AlxRLkro8Ny+z6UKGJG56hBK18IA/AU8MIQkrTxu7Y8SeQViIUu4GYyZInRnGRWAC0nJ
+ qsgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=u/qbLOFfFAhTx7eCj5aNiAi67f9r4/jU5fD3kszg+ZA=;
+ b=MZSIhZjiE9Ko7qFjgnhtrb4el7u9O6UCW8qcK/IZoylim7DOOmyk5Kz82bwIHfl3rn
+ UpSKP2biIjyJe+9c5REeu3YIqchgk3k70GTspKE5Gh/HtiGHh+3opj3/eX0iMCxhzr6H
+ 6e3521hoVxc8Y23A2TqRTjBE8oC5U/PKtmjiL4FvS0iNrsQKhtiKBX3gfd2loGkNdeJf
+ IZgd1RViHh65xFfccBACddB4Mp55nIBeuee3JAO7gWh/ldMf6Nt1CknvjOkhjwuxgMFp
+ iTYOx/hTvzKhoEzsTFDoNytGnEbYw036vV8aMP8JOJ234vfxQ//HnYSosM14ttEzBdLG
+ n9ew==
+X-Gm-Message-State: ANoB5pmIjZGchMms1IBn5fXO8clllpRMFyApKQAETjeiasHldr+X27nW
+ mFxfPr0i3zHA/aHCVjyvQtJrVEBolwxUorcfDCk=
+X-Google-Smtp-Source: AA0mqf4PuZ/t/piunp6jcaGks1S7rzcVSPG2oKa+y+NDh/6yVlekwuR0WbtDl4w6qnTVfUEH53SLIf7Ns93IGlWIPpg=
+X-Received: by 2002:a0d:d4c3:0:b0:3c1:a858:cf2f with SMTP id
+ w186-20020a0dd4c3000000b003c1a858cf2fmr46672080ywd.336.1670422173732; Wed, 07
+ Dec 2022 06:09:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 1/1] qemu-iotests/stream-under-throttle: do not shutdown
- QEMU
-To: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- hreitz@redhat.com
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>, kwolf@redhat.com,
- qemu-block@nongnu.org
-References: <20221207131452.8455-1-borntraeger@linux.ibm.com>
- <aeee1b23-e273-1baa-c1a5-2131736b9c5f@redhat.com>
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <aeee1b23-e273-1baa-c1a5-2131736b9c5f@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: koH7w90Ov0rJnguCzbeTotX_leeKUpq1
-X-Proofpoint-ORIG-GUID: nByTJxlCoo6YuK5wQnkf7BlmWbAkvlSj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_05,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- suspectscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
- mlxlogscore=851 malwarescore=0 mlxscore=0 impostorscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212070122
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20221207132439.635402-1-eric.auger@redhat.com>
+ <f8a36758-cff2-3df3-3e30-083175e47131@redhat.com>
+In-Reply-To: <f8a36758-cff2-3df3-3e30-083175e47131@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 7 Dec 2022 09:09:21 -0500
+Message-ID: <CAJSP0QXo0p5E_G9rqLO0wqC=NDQzMhoJOJDb0ShV+7OetFMMbg@mail.gmail.com>
+Subject: Re: [PATCH for 7.2?] target/i386: Remove compilation errors when
+ -Werror=maybe-uninitialized
+To: eric.auger@redhat.com
+Cc: eric.auger.pro@gmail.com, pbonzini@redhat.com, 
+ richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org, 
+ peter.maydell@linaro.org, Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.262,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,37 +89,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 7 Dec 2022 at 08:31, Eric Auger <eric.auger@redhat.com> wrote:
+> On 12/7/22 14:24, Eric Auger wrote:
+> > Initialize r0-3 to avoid compilation errors when
+> > -Werror=3Dmaybe-uninitialized is used
+> >
+> > ../target/i386/ops_sse.h: In function =E2=80=98helper_vpermdq_ymm=E2=80=
+=99:
+> > ../target/i386/ops_sse.h:2495:13: error: =E2=80=98r3=E2=80=99 may be us=
+ed uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+> >  2495 |     d->Q(3) =3D r3;
+> >       |     ~~~~~~~~^~~~
+> > ../target/i386/ops_sse.h:2494:13: error: =E2=80=98r2=E2=80=99 may be us=
+ed uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+> >  2494 |     d->Q(2) =3D r2;
+> >       |     ~~~~~~~~^~~~
+> > ../target/i386/ops_sse.h:2493:13: error: =E2=80=98r1=E2=80=99 may be us=
+ed uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+> >  2493 |     d->Q(1) =3D r1;
+> >       |     ~~~~~~~~^~~~
+> > ../target/i386/ops_sse.h:2492:13: error: =E2=80=98r0=E2=80=99 may be us=
+ed uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+> >  2492 |     d->Q(0) =3D r0;
+> >       |     ~~~~~~~~^~~~
+> >
+> > Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> > Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
+> >
+> > ---
+> >
+> > Am I the only one getting this? Or anything wrong in my setup.
+>
+> With Stefan's correct address. Forgive me for the noise.
 
+When is -Wmaybe-uninitialized used? QEMU's build system doesn't set
+it. Unless it's automatically set by meson this must be a manual
+--extra-cflags=3D option you set.
 
-Am 07.12.22 um 14:23 schrieb Thomas Huth:
-> On 07/12/2022 14.14, Christian Borntraeger wrote:
->> Without a kernel or boot disk a QEMU on s390 will exit (usually with a
->> disabled wait state). This breaks the stream-under-throttle test case.
->> Do not exit qemu if on s390.
->>
->> Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
->> ---
->>   tests/qemu-iotests/tests/stream-under-throttle | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/tests/qemu-iotests/tests/stream-under-throttle b/tests/qemu-iotests/tests/stream-under-throttle
->> index 8d2d9e16840d..c24dfbcaa2f2 100755
->> --- a/tests/qemu-iotests/tests/stream-under-throttle
->> +++ b/tests/qemu-iotests/tests/stream-under-throttle
->> @@ -88,6 +88,8 @@ class TestStreamWithThrottle(iotests.QMPTestCase):
->>                              'x-iops-total=10000,x-bps-total=104857600')
->>           self.vm.add_blockdev(self.vm.qmp_to_opts(blockdev))
->>           self.vm.add_device('virtio-blk,iothread=iothr0,drive=throttled-node')
->> +        if iotests.qemu_default_machine == 's390-ccw-virtio':
->> +            self.vm.add_args('-no-shutdown')
->>           self.vm.launch()
-> 
-> I guess you could even add that unconditionally for all architectures?
+If you added it manually then let's fix this in 8.0 since it's not
+tested/supported and very few people will see this issue.
 
-maybe. It might even fix other architecture with the same problem. But I dont know if thats the case.
-So we can start with this fix and then remove the if at a later point in time if necessary/useful.
-
-> Anyway:
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
+Stefan
 
