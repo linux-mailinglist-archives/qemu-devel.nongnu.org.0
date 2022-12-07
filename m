@@ -2,86 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A69A6457DD
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311D76457E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:32:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2rgS-0005pF-9z; Wed, 07 Dec 2022 05:29:48 -0500
+	id 1p2riK-0007LK-Rg; Wed, 07 Dec 2022 05:31:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p2rgO-0005oq-Sg
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 05:29:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1p2riG-0007He-Rx; Wed, 07 Dec 2022 05:31:40 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p2rgM-0001xb-LF
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 05:29:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670408981;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dGsbFEnZDm4pvQLlnvOX9os8dqV9Iwrqp0K6vsDurYg=;
- b=cMCF4oKPJCAZ79gR6ldsI+yw7DmWISkDhshtPa9yaHiMPuJtm8r56pMw1wUdLZmnFWuVxA
- PXMDU5IiJavSfkyWyPbfBEYmTLVgOIqgPuvkKAmYN+MfxOo0IMWdEAsTopLVrz4bmAk3c7
- VDSuXx1scB7wAQiRLJWoytJMijVLQnM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-595-YZZL3yqzMBeVIRez_mzn1g-1; Wed, 07 Dec 2022 05:29:40 -0500
-X-MC-Unique: YZZL3yqzMBeVIRez_mzn1g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay19-20020a05600c1e1300b003cf758f1617so595285wmb.5
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 02:29:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dGsbFEnZDm4pvQLlnvOX9os8dqV9Iwrqp0K6vsDurYg=;
- b=I++RZs/f8reCpaVc06al/yTsoprqFf4AuSeY6h3CAX9ZxuJh3NDhNgTQV/nQGuQOX+
- oaCWT83Pd56AoafxWtdqEfZu2jKz+hWl4UNH+A52yt9KhqW1qA10xam3gMLLwc62bavG
- JcapSTYgDEn7bt3orVyCAsAJ7bdZjjgDJsLoGRoDtt+eOjbJn0Vr28LfTYLL7oVuPhd6
- 839F1pA6yFDU3If3xaz6hSK+2Lpl6xWlFinJVGQePwhXiyjxI4eyuJoWmvZWeobA0ADL
- j01ZJwCa+0NJZuUFbqMXFADl9wBEaI2PlpoqmHMQbhYaUQYRkPLEyS0eE4c3/010pXL2
- 6Z5w==
-X-Gm-Message-State: ANoB5pnTF7N+NVN2tf3ybmLayfTIXedb1BeTBVQ9zgw8VD65eGv/MeIr
- TTxneG/g8z1BCTYVTvWngH9cEuQFZxe69xOqaoUyTzWDO/aeMnMpnaTXRj69rzTlcLbRXiKEiB6
- Wki3B3Y5YrQI1VBw=
-X-Received: by 2002:adf:fcc8:0:b0:242:453f:fd14 with SMTP id
- f8-20020adffcc8000000b00242453ffd14mr13256049wrs.468.1670408979045; 
- Wed, 07 Dec 2022 02:29:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4XfxRR9rasglAJzyNLcy+lELl11xTq1fj3BGhiOfS0Rtrx216tWDjEohi+/5VKwN4Mo1xUDA==
-X-Received: by 2002:adf:fcc8:0:b0:242:453f:fd14 with SMTP id
- f8-20020adffcc8000000b00242453ffd14mr13256035wrs.468.1670408978749; 
- Wed, 07 Dec 2022 02:29:38 -0800 (PST)
-Received: from redhat.com ([2.52.154.114]) by smtp.gmail.com with ESMTPSA id
- l42-20020a05600c1d2a00b003b4a699ce8esm1433923wms.6.2022.12.07.02.29.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Dec 2022 02:29:38 -0800 (PST)
-Date: Wed, 7 Dec 2022 05:29:35 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel@redhat.com>
-Subject: Re: How to best make include/hw/pci/pcie_sriov.h self-contained
-Message-ID: <20221207052308-mutt-send-email-mst@kernel.org>
-References: <87bkofivbm.fsf@pond.sub.org>
- <1184b1ab-c38a-b38b-b08c-637bc6b23bb5@linaro.org>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1p2riD-0004A9-4c; Wed, 07 Dec 2022 05:31:40 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B7AUcds019923; Wed, 7 Dec 2022 10:31:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Vb52U4D06TYM+NDjhxY6gt4ATFyvAtIKi9rgcTwJ8Ls=;
+ b=FzD6BnKNNhttKgxjxY3PsOLMSBYB7ED9s++wbWQHW1v/LB2yq3Uy6eygPiFQzYMurIBV
+ NFs7DxPJThEYDomYjGhA7i+lTrUKXkF3KL+mowXNX6k8/sM+5+n0dzsOovHW0cTo1AA9
+ D0i20st1ePbKAOrCtlrfcyUR034IS7ncNmnJsmASi93mhCpOQ9VOVMw4yMna6080BiEx
+ L1n21gDQbNMw8T3D+9dOTjNihqwlgETbEUZmWpdkJxh6q03WnWrOqdaq8kC5Qowb8CvZ
+ aQKb/puC/Ltm2BgOOI/YpdErlkopEq6/eUDrVx0TyiwkUZjnAZ7Il6nCD2gkYAkc2SbF ag== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mas5300dh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Dec 2022 10:31:30 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B7AVT7a021625;
+ Wed, 7 Dec 2022 10:31:29 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mas5300ck-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Dec 2022 10:31:29 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B6LRcq5010322;
+ Wed, 7 Dec 2022 10:31:27 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3m9ks42srn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Dec 2022 10:31:27 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B7AVOpr39125482
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 7 Dec 2022 10:31:24 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4CB9E2004B;
+ Wed,  7 Dec 2022 10:31:24 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EFA3020040;
+ Wed,  7 Dec 2022 10:31:23 +0000 (GMT)
+Received: from [9.179.1.254] (unknown [9.179.1.254])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  7 Dec 2022 10:31:23 +0000 (GMT)
+Message-ID: <a917bcb9-a430-3754-8752-d4df09bce710@linux.ibm.com>
+Date: Wed, 7 Dec 2022 11:31:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2] tests/stream-under-throttle: New test
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+References: <20221114095226.20917-1-hreitz@redhat.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20221114095226.20917-1-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IxkEqbpuKZnW-CQYBVLBBDWPV7SC37y6
+X-Proofpoint-ORIG-GUID: 4DWJWjamq-Q99nJ_MmOLNCOgQ6qnpEUK
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1184b1ab-c38a-b38b-b08c-637bc6b23bb5@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-07_04,2022-12-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 mlxlogscore=999 suspectscore=0 priorityscore=1501
+ malwarescore=0 bulkscore=0 adultscore=0 mlxscore=0 spamscore=0
+ phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2212070089
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,66 +114,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Dec 07, 2022 at 10:02:53AM +0100, Philippe Mathieu-Daudé wrote:
-> On 7/12/22 07:25, Markus Armbruster wrote:
-> > pcie_sriov.h needs PCI_NUM_REGIONS from pci.h, but doesn't include it.
-> > pci.h must be included before pcie_sriov.h or else compile fails.
-> > 
-> > Adding #include "pci/pci.h" to pcie_sriov would be wrong, because it
-> > would close an inclusion loop: pci.h includes pcie.h (for
-> > PCIExpressDevice) includes pcie_sriov.h (for PCIESriovPF) includes pci.h
-> > (for PCI_NUM_REGIONS).
-> > 
-> > The obvious solution is to move PCI_NUM_REGIONS pci.h somewhere
-> > pcie_sriov.h can include without creating a loop.
-> > 
-> > We already have a few headers that don't include anything: pci_ids.h,
-> > pci_regs.h (includes include/standard-headers/linux/pci_regs.h, which
-> > doesn't count), pcie_regs.h.  Moving PCI_NUM_REGIONS to one of these
-> > would work, but it doesn't feel right.
-> > 
-> > We could create a new one, say pci_defs.h.  Just for PCI_NUM_REGIONS
-> > feels silly.  So, what else should move there?
+Am 14.11.22 um 10:52 schrieb Hanna Reitz:
+> Test streaming a base image into the top image underneath two throttle
+> nodes.  This was reported to make qemu 7.1 hang
+> (https://gitlab.com/qemu-project/qemu/-/issues/1215), so this serves as
+> a regression test.
 > 
-> Sounds good to me. Eventually name it pci_standard_defs.h?
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+> Based-on: <20221107151321.211175-1-hreitz@redhat.com>
+> 
+> v1: https://lists.nongnu.org/archive/html/qemu-block/2022-11/msg00368.html
+> 
+> v2:
+> - Replace `asyncio.exceptions.TimeoutError` by `asyncio.TimeoutError`:
+>    Stefan reported that the CI does not recognize the former:
+>    https://lists.nongnu.org/archive/html/qemu-block/2022-11/msg00424.html
+> 
+>    As far as I understand, the latter was basically moved to become the
+>    former in Python 3.11, and an alias remains, so both are basically
+>    equivalent.  I only have 3.10, though, where the documentation says
+>    that both are different, even though using either seems to work fine
+>    (i.e. both catch the timeout there).  Not sure about previous
+>    versions, but the CI seems pretty certain about not knowing
+>    `asyncio.exceptions.TimeoutError`, so use `asyncio.TimeoutError`
+>    instead.  (Even though that is deprecated in 3.11, but this is not the
+>    first place in the tree to use it, so it should not be too bad.)
+> ---
+>   .../qemu-iotests/tests/stream-under-throttle  | 121 ++++++++++++++++++
+>   .../tests/stream-under-throttle.out           |   5 +
+>   2 files changed, 126 insertions(+)
+>   create mode 100755 tests/qemu-iotests/tests/stream-under-throttle
+>   create mode 100644 tests/qemu-iotests/tests/stream-under-throttle.out
 
-standard is not a good name for PCI_NUM_REGIONS. It falls out of
-how QEMU represents things not directly out of the standard.
-QEMU supports up to 6 BAR registers + 1 expansion ROM.
-That's where the number comes from.
-Same with PCI_ROM_SLOT - that's a QEMU convention.
+As a heads up, I do get the following on s390. I have not yet looked into that:
 
-
-
-> We can move the first 100 lines of pci.h there, PCI_ROM_SLOT,
-> PCI_NUM_REGIONS, PCI HEADER_TYPE, PCI_NUM_PINS, cap_present, and eventually
-> PCIINTxRoute & PCIReqIDType.
-
-It's a good point that PCI_ROM_SLOT should live with PCI_NUM_REGIONS.
-
-> > 
-> > Any other ideas?
-> > 
-> > In case you wonder why I bother you with this...
-> > 
-> > Back in 2016, we discussed[1] rules for headers, and these were
-> > generally liked:
-> > 
-> > 1. Have a carefully curated header that's included everywhere first.  We
-> >     got that already thanks to Peter: osdep.h.
-> > 
-> > 2. Headers should normally include everything they need beyond osdep.h.
-> >     If exceptions are needed for some reason, they must be documented in
-> >     the header.  If all that's needed from a header is typedefs, put
-> >     those into qemu/typedefs.h instead of including the header.
-> > 
-> > 3. Cyclic inclusion is forbidden.
-> > 
-> > I'm working on patches to get include/ closer to obeying 2.
-> > 
-> > [1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
-> >      https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
-> > 
-> > 
-
++EE
++======================================================================
++ERROR: test_stream (__main__.TestStreamWithThrottle)
++Do a simple stream beneath the two throttle nodes.  Should complete
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "qemu/tests/qemu-iotests/tests/stream-under-throttle", line 110, in test_stream
++    self.vm.run_job('stream')
++  File "qemu/tests/qemu-iotests/iotests.py", line 986, in run_job
++    result = self.qmp('query-jobs')
++  File "qemu/python/qemu/machine/machine.py", line 646, in qmp
++    ret = self._qmp.cmd(cmd, args=qmp_args)
++  File "qemu/python/qemu/qmp/legacy.py", line 204, in cmd
++    return self.cmd_obj(qmp_cmd)
++  File "qemu/python/qemu/qmp/legacy.py", line 184, in cmd_obj
++    self._qmp._raw(qmp_cmd, assign_id=False),
++  File "qemu/python/qemu/qmp/protocol.py", line 154, in _wrapper
++    raise StateError(emsg, proto.runstate, required_state)
++qemu.qmp.protocol.StateError: QMPClient is disconnecting. Call disconnect() to return to IDLE state.
++
++======================================================================
++ERROR: test_stream (__main__.TestStreamWithThrottle)
++Do a simple stream beneath the two throttle nodes.  Should complete
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "qemu/python/qemu/machine/machine.py", line 533, in _soft_shutdown
++    self.qmp('quit')
++  File "qemu/python/qemu/machine/machine.py", line 646, in qmp
++    ret = self._qmp.cmd(cmd, args=qmp_args)
++  File "qemu/python/qemu/qmp/legacy.py", line 204, in cmd
++    return self.cmd_obj(qmp_cmd)
++  File "qemu/python/qemu/qmp/legacy.py", line 184, in cmd_obj
++    self._qmp._raw(qmp_cmd, assign_id=False),
++  File "qemu/python/qemu/qmp/protocol.py", line 154, in _wrapper
++    raise StateError(emsg, proto.runstate, required_state)
++qemu.qmp.protocol.StateError: QMPClient is disconnecting. Call disconnect() to return to IDLE state.
++
++During handling of the above exception, another exception occurred:
++
++Traceback (most recent call last):
++  File "qemu/python/qemu/machine/machine.py", line 554, in _do_shutdown
++    self._soft_shutdown(timeout)
++  File "qemu/python/qemu/machine/machine.py", line 536, in _soft_shutdown
++    self._close_qmp_connection()
++  File "qemu/python/qemu/machine/machine.py", line 476, in _close_qmp_connection
++    self._qmp.close()
++  File "qemu/python/qemu/qmp/legacy.py", line 277, in close
++    self._sync(
++  File "qemu/python/qemu/qmp/legacy.py", line 94, in _sync
++    return self._aloop.run_until_complete(
++  File "/usr/lib64/python3.10/asyncio/base_events.py", line 649, in run_until_complete
++    return future.result()
++  File "/usr/lib64/python3.10/asyncio/tasks.py", line 408, in wait_for
++    return await fut
++  File "qemu/python/qemu/qmp/protocol.py", line 398, in disconnect
++    await self._wait_disconnect()
++  File "qemu/python/qemu/qmp/protocol.py", line 710, in _wait_disconnect
++    await all_defined_tasks  # Raise Exceptions from the bottom half.
++  File "qemu/python/qemu/qmp/protocol.py", line 861, in _bh_loop_forever
++    await async_fn()
++  File "qemu/python/qemu/qmp/protocol.py", line 899, in _bh_recv_message
++    msg = await self._recv()
++  File "qemu/python/qemu/qmp/protocol.py", line 1000, in _recv
++    message = await self._do_recv()
++  File "qemu/python/qemu/qmp/qmp_client.py", line 402, in _do_recv
++    msg_bytes = await self._readline()
++  File "qemu/python/qemu/qmp/protocol.py", line 968, in _readline
++    raise EOFError
++EOFError
++
++The above exception was the direct cause of the following exception:
++
++Traceback (most recent call last):
++  File "qemu/tests/qemu-iotests/tests/stream-under-throttle", line 94, in tearDown
++    self.vm.shutdown()
++  File "qemu/python/qemu/machine/machine.py", line 583, in shutdown
++    self._do_shutdown(timeout)
++  File "qemu/python/qemu/machine/machine.py", line 557, in _do_shutdown
++    raise AbnormalShutdown("Could not perform graceful shutdown") \
++qemu.machine.machine.AbnormalShutdown: Could not perform graceful shutdown
++
+  ----------------------------------------------------------------------
+  Ran 1 tests
 
