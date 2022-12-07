@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66067645564
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 09:25:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564CD64556E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 09:30:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2pii-0003cM-Ju; Wed, 07 Dec 2022 03:24:00 -0500
+	id 1p2po5-0004qx-Vz; Wed, 07 Dec 2022 03:29:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
- id 1p2piT-0003bo-Ge
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:23:50 -0500
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1p2po4-0004qg-3K; Wed, 07 Dec 2022 03:29:32 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
- id 1p2piR-0005GY-MD
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:23:45 -0500
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B788BTn008425
- for <qemu-devel@nongnu.org>; Wed, 7 Dec 2022 08:23:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=4SiHQwb8OXgABYBF3qVdkQOmf3Tkt97Bln2wFocbnZE=;
- b=F1kUUUhdEuv9Fnlv/WhX0EGzliujuOFqExR4QbPxSHpd6fpWDW3udZ7VcIszoJw1g40x
- HumSUEUzt09ER21dsEzXgVgkhaCwU5yXxu88XK8txIw7+ZKFVpGky0dTNFJ7t59JWBbh
- GTNS0XRcSNoF/vcaxnHQxrhcu0QR8t9Aueb/UvlwUxfaD1fdJylpCVKjBcZnSpftrAzC
- y5UJx6CdcLeYLaDu8ssz3gSZTp9/NMHjEfifbNTLoQ0dkRiJnCF97kKMnEem/93qSKrW
- nJAYUEjwc1/FU3wXtp5qfyjuna+ihqwMHVbpTeAhWAOsqosfBZp7vofDc2KJZj2Jcsm8 tQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3macsys6yf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 08:23:37 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B78NbG5020790
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 7 Dec 2022 08:23:37 GMT
-Received: from mthiyaga-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 7 Dec 2022 00:23:35 -0800
-From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-To: <qemu-devel@nongnu.org>, <bcain@quicinc.com>, <quic_mathbern@quicinc.com>
-CC: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-Subject: [PATCH] configure: Fix check-tcg not executing any tests
-Date: Wed, 7 Dec 2022 13:53:09 +0530
-Message-ID: <20221207082309.9966-1-quic_mthiyaga@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1p2po2-0007DK-6O; Wed, 07 Dec 2022 03:29:31 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D9FD1B8074C;
+ Wed,  7 Dec 2022 08:29:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304F9C433B5;
+ Wed,  7 Dec 2022 08:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1670401763;
+ bh=DMcKk6bIK0ql1DMkSVpiC2h+8c892tw+BLBgFJ74zFE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vn0CFnGQaHHxxTrNRZH5mkkzzgjgCUl3fUSGHSuulpoam0R5LYrioudVJrcxwQ1L2
+ 31lz/xtIN8YYNxbaOUTYPMusQbO36Pnu8zbJUuwRWLwTnRVQSkPspsmwg5IjhIqlcQ
+ jy8L/hTQC/hOXK0YyhZhGfnJIqkwlq/xYZ+nNhAkZu8zRrkf5b3L2juuRy3yEQbAHh
+ guufuLSG0wymH1uEbPRf+5AuzJASHPIrTXk+cPeb+xVaLGQbMIrXPrDlzekkDOJgeb
+ UEorApM4QpJct+n/e+ewiM/xuN3LBnOkmydnaMcWFbdpc4EviFDUfodJJQJUsFJ301
+ 1dnYVfHqUKsjA==
+Date: Wed, 7 Dec 2022 08:29:19 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Bin Meng <bmeng@tinylab.org>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 09/15] hw/riscv: microchip_pfsoc: Fix the number of
+ interrupt sources of PLIC
+Message-ID: <Y5BO39xT91oj+q8c@spud>
+References: <20221201140811.142123-1-bmeng@tinylab.org>
+ <20221201140811.142123-9-bmeng@tinylab.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: sXkksAAs1RRiM0arhU5g6z_fv8zAmpXh
-X-Proofpoint-ORIG-GUID: sXkksAAs1RRiM0arhU5g6z_fv8zAmpXh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_04,2022-12-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0 spamscore=0
- mlxlogscore=999 priorityscore=1501 phishscore=0 clxscore=1011 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212070069
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=quic_mthiyaga@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ghc8nsIDADhHRmx5"
+Content-Disposition: inline
+In-Reply-To: <20221201140811.142123-9-bmeng@tinylab.org>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=conor@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,47 +73,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-After configuring with --target-list=hexagon-linux-user
-running `make check-tcg` just prints the following:
 
-```
-make: Nothing to be done for 'check-tcg'
-```
+--Ghc8nsIDADhHRmx5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the probe_target_compiler function, the 'break'
-command is used incorrectly. There are no lexically
-enclosing loops associated with that break command which
-is an unspecfied behaviour in the POSIX standard.
+On Thu, Dec 01, 2022 at 10:08:05PM +0800, Bin Meng wrote:
+> Per chapter 6.5.2 in [1], the number of interupt sources including
+> interrupt source 0 should be 187.
+>=20
+> [1] PolarFire SoC MSS TRM:
+> https://ww1.microchip.com/downloads/aemDocuments/documents/FPGA/ProductDo=
+cuments/ReferenceManuals/PolarFire_SoC_FPGA_MSS_Technical_Reference_Manual_=
+VC.pdf
 
-The dash shell implementation aborts the currently executing
-loop, in this case, causing the rest of the logic for the loop
-in line 2490 to be skipped, which means no Makefiles are
-generated for the tcg target tests.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Thanks!
 
-Fixes: c3b570b5a9a24d25 (configure: don't enable
-cross compilers unless in target_list)
+>=20
+> Fixes: 56f6e31e7b7e ("hw/riscv: Initial support for Microchip PolarFire S=
+oC Icicle Kit board")
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> ---
+>=20
+>  include/hw/riscv/microchip_pfsoc.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microc=
+hip_pfsoc.h
+> index a757b240e0..9720bac2d5 100644
+> --- a/include/hw/riscv/microchip_pfsoc.h
+> +++ b/include/hw/riscv/microchip_pfsoc.h
+> @@ -150,7 +150,7 @@ enum {
+>  #define MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT    1
+>  #define MICROCHIP_PFSOC_COMPUTE_CPU_COUNT       4
+> =20
+> -#define MICROCHIP_PFSOC_PLIC_NUM_SOURCES        185
+> +#define MICROCHIP_PFSOC_PLIC_NUM_SOURCES        187
+>  #define MICROCHIP_PFSOC_PLIC_NUM_PRIORITIES     7
+>  #define MICROCHIP_PFSOC_PLIC_PRIORITY_BASE      0x04
+>  #define MICROCHIP_PFSOC_PLIC_PENDING_BASE       0x1000
+> --=20
+> 2.34.1
+>=20
+>=20
+>=20
 
-Signed-off-by: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
----
- configure | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+--Ghc8nsIDADhHRmx5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/configure b/configure
-index 26c7bc5154..7a804fb657 100755
---- a/configure
-+++ b/configure
-@@ -1881,9 +1881,7 @@ probe_target_compiler() {
-   # We shall skip configuring the target compiler if the user didn't
-   # bother enabling an appropriate guest. This avoids building
-   # extraneous firmware images and tests.
--  if test "${target_list#*$1}" != "$1"; then
--      break;
--  else
-+  if test "${target_list#*$1}" = "$1"; then
-       return 1
-   fi
- 
--- 
-2.17.1
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY5BO3wAKCRB4tDGHoIJi
+0lCWAP9JWmovmKE763uJvggq41lOoyfmAz1He32aRYALbRHVBAEAk1s2D3bL1guN
+/Otw/Coba0MJZ0QAJvI7UC/8A2nC1AU=
+=klRN
+-----END PGP SIGNATURE-----
+
+--Ghc8nsIDADhHRmx5--
 
