@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210C06464D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 00:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB1D646570
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 00:51:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p33ay-0005n6-4F; Wed, 07 Dec 2022 18:12:56 -0500
+	id 1p34Ao-0006d1-EK; Wed, 07 Dec 2022 18:49:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p33av-0005lm-Cm
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:12:53 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p33as-0003VZ-4W
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:12:52 -0500
-Received: by mail-ed1-x530.google.com with SMTP id a16so26995727edb.9
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 15:12:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=F2lh7ePLWH9MC7IF9XYD3B06iz9fHKdzke7e7jCke8U=;
- b=Jw2Ani+IqG6qlnlSN9BR/Xa4HrMAowg+445q6WLiqlWN23Ru0Ha4JQgdVm7ZnwLOWc
- vgRpjRVLP19zWiQvby7sdRlKGRdRG3KBl2R6kCpCON1F55UnGGJuRrJbBYxIQfJzXsAd
- Iclwsdn9w3FAWuqHS5ZcUV2LmqPUZzLA9EH2F/aFXwjLnGRxC7pdImuJ+bCF/+P5uXVh
- pNyxCvAjJgxBt39jPUqiFNpoURKGLxK2KfPTAU4s6G+dpt/stAO6Co9Jd1lD6sCEhcVp
- YOnyxtZfG4V8/PgvJeADdhlHfmap0P/Mm1MRUCTA8GwN4Z9dD3RkDg5GCzrup+Xj87WP
- FZZg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p34Al-0006cL-NU
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:49:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p34Ah-0006lZ-OJ
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 18:49:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670456990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bKc3D/bbj9By1d2/gb02fwFAOZysrGX1sWKaAOzWOSQ=;
+ b=Heueythl89iqATcVNZ70eyG3+Za7ErwPyvRqTbyMX+HDcs1tKyugPIqGIc5ExOT2J33Zo8
+ ELzhyKiDKG7mupPs6x/1Jak4/BUqZor2cK4Q9/X9H9zT5yAjVibd4ERHauchaF0y60AHb0
+ EIu2EA4vaAE98zw8llHRVACJi1NX5o8=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-86-d1OO1CBIOvS2MViliLRj3g-1; Wed, 07 Dec 2022 18:49:49 -0500
+X-MC-Unique: d1OO1CBIOvS2MViliLRj3g-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ bm39-20020a05620a19a700b006fca217dc54so26825037qkb.16
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 15:49:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F2lh7ePLWH9MC7IF9XYD3B06iz9fHKdzke7e7jCke8U=;
- b=MvmNEVFX6ek9K42sbuPSnjLNUG/aEJPA0fjicnKyZoG+8hINXFFeIhp6FcQfaSh+e3
- VMiN5XOUsR8K80altPpLn5A2PmMo5bM8e5LMCIonlWMo4Kj2jGTc6BwmW3s1nJ31iOx1
- +Us5rQfPeWw0PkOY91eQSWnj2TOvndAmLvcXMGCywmJaz6A8emPoqOwACeJ2b+5dwZVQ
- x1wmxXix8ixndJrImLdV1Tilt4i03mgMWekzKW1tQ0UUCtfugyG0uBr3b6WXo5IcfvFS
- IQP4GgqnAhfSnG7V+/+oLz2IIseQD0cB2xnR0UQLmmUYAxW9B9Z2/M46kFv3IPQiM0e4
- kqRA==
-X-Gm-Message-State: ANoB5pk0P/ckolYOjcr4jSCuRIF1jH6YziIG6cGujAFfaWH22yAxHi1w
- H9KkFasmwNQP5lFQ19QtfGDR0rpceLM=
-X-Google-Smtp-Source: AA0mqf4zlAU/bzOPaJ8hMBx/PGrpnlP8oHjXjMzE0CUvUgRMfFoMXVLwzLtEtfPzXoetaW/yBAfb2w==
-X-Received: by 2002:a05:6402:4518:b0:461:46c5:992f with SMTP id
- ez24-20020a056402451800b0046146c5992fmr945335edb.4.1670454768342; 
- Wed, 07 Dec 2022 15:12:48 -0800 (PST)
-Received: from localhost.localdomain
- (dynamic-077-011-181-051.77.11.pool.telefonica.de. [77.11.181.51])
- by smtp.gmail.com with ESMTPSA id
- r6-20020a508d86000000b004587f9d3ce8sm2732367edh.56.2022.12.07.15.12.47
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bKc3D/bbj9By1d2/gb02fwFAOZysrGX1sWKaAOzWOSQ=;
+ b=aklVvDrN5RXH5zQ/zYgecOEyOEZoUbhqIvyaj305tWmaHvh0AprLswsi2IaPYnB//g
+ fbC4PEMxDiTHvaZvjADMlIm7y6pvzzZu6Tc8bpxfnM5ousrnFvRFrddtOpfjH3rER58c
+ aGzwa40oiWMdRs5AOfFyRdyDk3TtuDCzlyeo0B/2ZCTc9a6UyjsYEO1tHlI6wa49eSHT
+ QpP7DAYoGevH5+83llCw91zFXjmY0p0IKbnQOPNgfKH0vOUuat+H3lYDxUivPwS62BUI
+ jfZhGXcscBf8i2HAA1T30TK0/EtmruR/f39JT2Ak3SBRjWP0lf2WT7gJxwLfvdCyrRTa
+ Ke6A==
+X-Gm-Message-State: ANoB5ple/2dXPmTuhq1jClVVJtf1G/9LH+dHZ1oE9aM2tjct59mUDxKR
+ fV8U3KetH0+AE0ResFRXDekndW5cc9s/QmWqq3aQBxN+vlxnqzBryaMtG1XWbeqsfQj6Eynxe/R
+ XxMVIw2+HSS+AT9g=
+X-Received: by 2002:a0c:efcf:0:b0:4c7:50b7:8d7f with SMTP id
+ a15-20020a0cefcf000000b004c750b78d7fmr1988826qvt.11.1670456988741; 
+ Wed, 07 Dec 2022 15:49:48 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf46OzDiGIJTC9Auni+3szOiRKqT1G3S5PMKg4g7gc5EnP7/HYMOe5Jtjd/XvE3EXQieA8vlvA==
+X-Received: by 2002:a0c:efcf:0:b0:4c7:50b7:8d7f with SMTP id
+ a15-20020a0cefcf000000b004c750b78d7fmr1988821qvt.11.1670456988502; 
+ Wed, 07 Dec 2022 15:49:48 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ az13-20020a05620a170d00b006feb0007217sm9365576qkb.65.2022.12.07.15.49.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Dec 2022 15:12:48 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 5/5] hw/ppc/Kconfig: Remove unused dependencies from PEGASOS2
-Date: Thu,  8 Dec 2022 00:12:05 +0100
-Message-Id: <20221207231205.1106381-6-shentey@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221207231205.1106381-1-shentey@gmail.com>
-References: <20221207231205.1106381-1-shentey@gmail.com>
+ Wed, 07 Dec 2022 15:49:48 -0800 (PST)
+Date: Wed, 7 Dec 2022 18:49:46 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: eric.auger.pro@gmail.com, mst@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, jean-philippe@linaro.org,
+ bharat.bhushan@nxp.com, alex.williamson@redhat.com
+Subject: Re: [PATCH for 8.0 0/2] virtio-iommu: Fix Replay
+Message-ID: <Y5EmmjKBBnjSlvd+@x1n>
+References: <20221207133646.635760-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221207133646.635760-1-eric.auger@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,36 +97,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Removes the following dependencies from ppc-softmmu:
-- CONFIG_ACPI_CPU_HOTPLUG
-- CONFIG_ACPI_CXL
-- CONFIG_ACPI_HMAT
-- CONFIG_ACPI_MEMORY_HOTPLUG
-- CONFIG_ACPI_NVDIMM
-- CONFIG_ACPI_PCIHP
-- CONFIG_ACPI_PIIX4
-- CONFIG_ACPI_X86
-- CONFIG_MEM_DEVICE
+Hi, Eric,
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/ppc/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Dec 07, 2022 at 02:36:44PM +0100, Eric Auger wrote:
+> When assigning VFIO devices protected by a virtio-iommu we need to replay
+> the mappings when adding a new IOMMU MR and when attaching a device to
+> a domain. While we do a "remap" we currently fail to first unmap the
+> existing IOVA mapping and just map the new one. With some device/group
+> topology this can lead to errors in VFIO when trying to DMA_MAP IOVA
+> ranges onto existing ones.
 
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index b8d2522f45..0ab77177a8 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -77,7 +77,7 @@ config PEGASOS2
-     select SMBUS_EEPROM
-     select VOF
- # This should come with VT82C686
--    select ACPI_X86
-+    select ACPI
- 
- config PREP
-     bool
+I'm not sure whether virtio-iommu+vfio will suffer from DMA races like when
+we were working on the vt-d replay for vfio.  The issue is whether DMA can
+happen right after UNMAP but before MAP of the same page if the page was
+always mapped.
+
+The vt-d resolved it by using iova_tree so in a replay vt-d knows the page
+didn't change, so it avoids unmap+map.  It only notifies newly unmapped or
+newly mapped.
+
+Thanks,
+
 -- 
-2.38.1
+Peter Xu
 
 
