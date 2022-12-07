@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AD064537A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 06:38:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF586453F9
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 07:27:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2n7R-0001Cr-7y; Wed, 07 Dec 2022 00:37:21 -0500
+	id 1p2nsd-0000Eo-FV; Wed, 07 Dec 2022 01:26:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p2n7L-0001CY-EB; Wed, 07 Dec 2022 00:37:15 -0500
-Received: from mail-vk1-xa36.google.com ([2607:f8b0:4864:20::a36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p2n7J-0000lG-Hh; Wed, 07 Dec 2022 00:37:15 -0500
-Received: by mail-vk1-xa36.google.com with SMTP id bi15so7788877vkb.11;
- Tue, 06 Dec 2022 21:37:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=f5hPAj7G9UJcFf7AumwPBH5BsSFgTA1asv5/4HiTtiU=;
- b=FEAgJtrYBrqhKDKFBRFGiH9NEU7rZdxouZc180bqQbIHu6Py0iviH+Zonhz6j6/Ifi
- tMbLKlle17CnHs34lvWOzrzJBXvRfSfYcWsPOCYbiS8tULFdDkuNqzEDrZEvvaRR0PeR
- XulXBJmCRaHlNiAmCPRIha1651wS3XITzVQ6cq6MnUA71V9IXUNXoS4dnszfVbeDruT0
- mNO7m9FprRYfafC8YZGw34uu+ucLcSziAjeMlr1kA4AC7hI0gYKAd1OP2uCJe32xS0a2
- Ty7m74/+Wqd3FMX6pfYD+WcrxmUFPv71CC3EzsBeeJroyDwZeaK5B/6srYehbP6Dt3EY
- giug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=f5hPAj7G9UJcFf7AumwPBH5BsSFgTA1asv5/4HiTtiU=;
- b=Tp7L/fr9FfzKQXwei6wv+ehM8sB3jHr9aJ9ucrNKr1zifq+C5dmqApJiNoDF2lEjrc
- ZaNuZmNyhsKjOH8RQVevcjLU1mZ9ub+ldKQ7xwXs4YdarKRkdIleYu1DqxQ5AjPrRfNj
- jgK3b2BwRO3yLDCs969gbuM4YcFHmZ2M/eu3TY8EhYD5Ua9UKzmUBftkAXPvoRZ6fUBD
- E+dc6fcsFLRZbjnURR3TdD0aB/GRyFUZJvVYY4Y1Yqgvm+rfWX++XSnQ9GOQG/czwcJb
- 3NM2oo+t5Ew+5KOzQLQKKAsFssQBUEbmHeTLgSIH5WIeyeJDh7tE3Q1pCNw9AaXz1i1A
- hLOw==
-X-Gm-Message-State: ANoB5pmE3av61cMGIu/NLFY/EMc/4d/KYTKMDU6FkfI9wvFLpUKyKzOT
- O4AkOOYic9Bu5PhCszVKVC4aiFNWBQtoN6KuUoA=
-X-Google-Smtp-Source: AA0mqf5QZmrw7dzCgGVfr5Z4oYesbyVk+7dKEMqvWQiDH6iJfacVrhOFrkd/oD/azcyd6eUrEPYqudVKB0EaL3t6Pc4=
-X-Received: by 2002:a1f:e3c6:0:b0:3b8:ba98:bd43 with SMTP id
- a189-20020a1fe3c6000000b003b8ba98bd43mr43113937vkh.34.1670391431704; Tue, 06
- Dec 2022 21:37:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p2nsZ-0000EO-Pp
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 01:26:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p2nsW-0007oU-Sc
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 01:26:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670394354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=Jj8Oc0Szx7ALqYTY8A992XdeKUZWjmeL+c28vmxqbSI=;
+ b=houo/a0rgSX7b03HtZRgu3WMsKHIMQu5AtriA0K4tw6HwpMTHosldMCDwHJrwiep3B6w2G
+ KZUjerLPC3rrGNc0+DbQgYxzejQ1redj79JYuMM0Nrcd08NzfABFhVle2DdQVXvoTkh7qF
+ 3+1RGA8Thkn6owB7gkd8UH06e6lgm/U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-668-MzQrzynTP4ewXlsMpdZrMw-1; Wed, 07 Dec 2022 01:25:53 -0500
+X-MC-Unique: MzQrzynTP4ewXlsMpdZrMw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2C54811E75
+ for <qemu-devel@nongnu.org>; Wed,  7 Dec 2022 06:25:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C4BCB1415102;
+ Wed,  7 Dec 2022 06:25:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B0CAD21E6921; Wed,  7 Dec 2022 07:25:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>
+Subject: How to best make include/hw/pci/pcie_sriov.h self-contained
+Date: Wed, 07 Dec 2022 07:25:49 +0100
+Message-ID: <87bkofivbm.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20221203175744.151365-1-richard.henderson@linaro.org>
-In-Reply-To: <20221203175744.151365-1-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 7 Dec 2022 15:36:45 +1000
-Message-ID: <CAKmqyKMBuNoGcxoU1jUZigM7kQqSfDCN4pY=1Ki45wy_qct20A@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Set pc_succ_insn for !rvc illegal insn
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com, bin.meng@windriver.com, 
- qemu-riscv@nongnu.org, qemu-stable@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a36;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,117 +74,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Dec 4, 2022 at 3:58 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Failure to set pc_succ_insn may result in a TB covering zero bytes,
-> which triggers an assert within the code generator.
->
-> Cc: qemu-stable@nongnu.org
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1224
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+pcie_sriov.h needs PCI_NUM_REGIONS from pci.h, but doesn't include it.
+pci.h must be included before pcie_sriov.h or else compile fails.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Adding #include "pci/pci.h" to pcie_sriov would be wrong, because it
+would close an inclusion loop: pci.h includes pcie.h (for
+PCIExpressDevice) includes pcie_sriov.h (for PCIESriovPF) includes pci.h
+(for PCI_NUM_REGIONS).
 
-Alistair
+The obvious solution is to move PCI_NUM_REGIONS pci.h somewhere
+pcie_sriov.h can include without creating a loop.
 
-> ---
->  target/riscv/translate.c          | 12 ++++--------
->  tests/tcg/Makefile.target         |  2 ++
->  tests/tcg/riscv64/Makefile.target |  5 +++++
->  tests/tcg/riscv64/test-noc.S      | 32 +++++++++++++++++++++++++++++++
->  4 files changed, 43 insertions(+), 8 deletions(-)
->  create mode 100644 tests/tcg/riscv64/test-noc.S
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index db123da5ec..1ed4bb5ec3 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1064,14 +1064,10 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->
->      /* Check for compressed insn */
->      if (insn_len(opcode) == 2) {
-> -        if (!has_ext(ctx, RVC)) {
-> -            gen_exception_illegal(ctx);
-> -        } else {
-> -            ctx->opcode = opcode;
-> -            ctx->pc_succ_insn = ctx->base.pc_next + 2;
-> -            if (decode_insn16(ctx, opcode)) {
-> -                return;
-> -            }
-> +        ctx->opcode = opcode;
-> +        ctx->pc_succ_insn = ctx->base.pc_next + 2;
-> +        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
-> +            return;
->          }
->      } else {
->          uint32_t opcode32 = opcode;
-> diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-> index 75257f2b29..14bc013181 100644
-> --- a/tests/tcg/Makefile.target
-> +++ b/tests/tcg/Makefile.target
-> @@ -117,6 +117,8 @@ endif
->
->  %: %.c
->         $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-> +%: %.S
-> +       $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
->  else
->  # For softmmu targets we include a different Makefile fragement as the
->  # build options for bare programs are usually pretty different. They
-> diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
-> index b5b89dfb0e..9973ba3b5f 100644
-> --- a/tests/tcg/riscv64/Makefile.target
-> +++ b/tests/tcg/riscv64/Makefile.target
-> @@ -4,3 +4,8 @@
->  VPATH += $(SRC_PATH)/tests/tcg/riscv64
->  TESTS += test-div
->  TESTS += noexec
-> +
-> +# Disable compressed instructions for test-noc
-> +TESTS += test-noc
-> +test-noc: LDFLAGS = -nostdlib -static
-> +run-test-noc: QEMU_OPTS += -cpu rv64,c=false
-> diff --git a/tests/tcg/riscv64/test-noc.S b/tests/tcg/riscv64/test-noc.S
-> new file mode 100644
-> index 0000000000..e29d60c8b3
-> --- /dev/null
-> +++ b/tests/tcg/riscv64/test-noc.S
-> @@ -0,0 +1,32 @@
-> +#include <asm/unistd.h>
-> +
-> +       .text
-> +       .globl _start
-> +_start:
-> +       .option norvc
-> +       li      a0, 4           /* SIGILL */
-> +       la      a1, sa
-> +       li      a2, 0
-> +       li      a3, 8
-> +       li      a7, __NR_rt_sigaction
-> +       scall
-> +
-> +       .option rvc
-> +       li      a0, 1
-> +       j       exit
-> +       .option norvc
-> +
-> +pass:
-> +       li      a0, 0
-> +exit:
-> +       li      a7, __NR_exit
-> +       scall
-> +
-> +       .data
-> +       /* struct kernel_sigaction sa = { .sa_handler = pass }; */
-> +       .type   sa, @object
-> +       .size   sa, 32
-> +sa:
-> +       .dword  pass
-> +       .zero   24
-> +
-> --
-> 2.34.1
->
->
+We already have a few headers that don't include anything: pci_ids.h,
+pci_regs.h (includes include/standard-headers/linux/pci_regs.h, which
+doesn't count), pcie_regs.h.  Moving PCI_NUM_REGIONS to one of these
+would work, but it doesn't feel right.
+
+We could create a new one, say pci_defs.h.  Just for PCI_NUM_REGIONS
+feels silly.  So, what else should move there?
+
+Any other ideas?
+
+In case you wonder why I bother you with this...
+
+Back in 2016, we discussed[1] rules for headers, and these were
+generally liked:
+
+1. Have a carefully curated header that's included everywhere first.  We
+   got that already thanks to Peter: osdep.h.
+
+2. Headers should normally include everything they need beyond osdep.h.
+   If exceptions are needed for some reason, they must be documented in
+   the header.  If all that's needed from a header is typedefs, put
+   those into qemu/typedefs.h instead of including the header.
+
+3. Cyclic inclusion is forbidden.
+
+I'm working on patches to get include/ closer to obeying 2.
+
+[1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
+    https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
+
 
