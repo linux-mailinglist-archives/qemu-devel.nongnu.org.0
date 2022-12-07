@@ -2,77 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA0C6456AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F59A6456DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:52:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2qs8-0004JA-SF; Wed, 07 Dec 2022 04:37:49 -0500
+	id 1p2r5T-0000CA-Js; Wed, 07 Dec 2022 04:51:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ggowri617@gmail.com>)
- id 1p2qs7-0004Hh-8K; Wed, 07 Dec 2022 04:37:47 -0500
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ggowri617@gmail.com>)
- id 1p2qs5-0000Lm-3r; Wed, 07 Dec 2022 04:37:46 -0500
-Received: by mail-lj1-x234.google.com with SMTP id a19so20291024ljk.0;
- Wed, 07 Dec 2022 01:37:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Jr4GEFhIJ+2OYLYk7YApAl6V6sgw8Ppff3/SXuP5r60=;
- b=i4sfWTeVRzcaa+nx61FF6y6D+vBpXqxNvwCreBac1i+MI+69UqW5xGHh0KlZprz2tT
- QwDU7EY0osBrvrKbDE+v2wS9KDEnnqnXVGICBu8IPWRroZQ5QDIwacA6k9/eXQ5k5BPh
- 8iYZ5kVYwlYuq26I2yFROyVLo2Krqt5jvmRUbQkrOYD3VyftKMrU/Ir4MF3OqWTpICGq
- noAhXAWKcVd7f747I6kS2uUlP2btLmRITMyFzHNSs84KbJyJqnY0N31z9XvIiCrsx4a8
- dJmcqCSUieIfBqYx0jQyuG3PPh10rDPsu6sKoDrl01diuJ9Qr2j75dx/xK8bE24iQp1N
- 4Okg==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p2r5S-0000BR-2e
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:51:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p2r5P-0006yg-Sl
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:51:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670406690;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fVMiy/C44XMCZKXTjWc2pJ9iGTttNrOky9ArPJNZmAM=;
+ b=PP4++9kg4+GGhvZNkvAK4Lb37vS22wKNEf2v2s7bVC4LnI7WyNd5fkT+xVrWartZr3vA2e
+ BQWOcA8e+JY7CoS+VxK7EBFELbAOsUvLt26TU2VOGdOvISHYPDjWqXI4rO5zMSgT/dcvj3
+ WEtsTiFmycpH9v6+KYuQbhMDmFkfuI8=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-154--HTV5lH0Poy3MM_iZzoNTQ-1; Wed, 07 Dec 2022 04:51:29 -0500
+X-MC-Unique: -HTV5lH0Poy3MM_iZzoNTQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ mr7-20020a056214348700b004c6806b646dso36803973qvb.14
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 01:51:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Jr4GEFhIJ+2OYLYk7YApAl6V6sgw8Ppff3/SXuP5r60=;
- b=vgJdy+TkPWWydRt/Cz0AYpR65mDE0WFjynJcUehTPNIzxr861Ya/1iyOfrLXMM87Fk
- J5usOjRix5ndaxdhCsiwrL8Ws5R/elnJ1cTb/coiKFf8CPzYlB6WWbu2ktgG+RHzzETZ
- 5QR02Mx4lwE75G65MZxlU/lMMUQnm4ZQ8l4zHo2QZ9ZB8PDgzRvgcwFO1Q3jHDcGhjHX
- Giw8gU9uN4tyFYpRNvIpAbYmvKdt4PJFNfs4LtZUSdX7QMHR6qwvDBaYFaJpasyKpDry
- FJ4OqaYeEkENBqKmsMzFalsa2F7WYXbfieC8m6DOmfoG8IYBgbIUKNUQCT656PtPD4jm
- w5Aw==
-X-Gm-Message-State: ANoB5pm4I9Zryd07js0caOQ37ohYbcdJOsSPKYra/SPeLGD6pbZ5UUWn
- s+qZwvdTj5uD5s/0bsE5IxQdGWQrZEr8S4d0WF4=
-X-Google-Smtp-Source: AA0mqf4vFwqvvdQ2piwz7Tbb2/mJxwMfPnOCV9OCUf7VJnQgjNB0LNmr9CXUY2Ssn8FDK8bXfft6ei+2hmyg5iajkaY=
-X-Received: by 2002:a2e:9c17:0:b0:279:14a2:73e7 with SMTP id
- s23-20020a2e9c17000000b0027914a273e7mr27112616lji.333.1670405861090; Wed, 07
- Dec 2022 01:37:41 -0800 (PST)
+ bh=fVMiy/C44XMCZKXTjWc2pJ9iGTttNrOky9ArPJNZmAM=;
+ b=Vd1BN12BQUsOL3g9vaM34ZXJjZcLLxXUcKEjy9whZCBl68Dv/hFsFIMKbboifu9+U8
+ BTmGcW/TsWK++605h9/iMlqYCcyahm+gQN6YPFtuEsot5XJHlgtCpJu1MyblYFx95ud3
+ RpvryQsEcC/GKbHpMAWFSRIBvUiuyW91VNBXaw6bqu+XXhm2Mfwsb6gsvc+gkHBeL7Q4
+ o3wKfwqHPe8gUyFAKjMkBzTuiirXfw47rWB5r1r/y++pjjXB/obmbdi0tQyQR+7C9lMZ
+ /UC2kClunzv6B3ZSds1gVazd5JlZFGYiKt4j0xl12C/YntlAiw6wfTIonRKkHR6yxAbK
+ 7D1w==
+X-Gm-Message-State: ANoB5pnxu6YPObTWtDOUEk1cu4Al3j8tsa55LAJB6PLwqCoKOGZfSCbp
+ xDdse6nK8l4ry++ucgB6A6nSFTAnOGYw5EIIPzcghzgPAwtsJXlxfSj+CGDDjm6/nlSoe66rpR2
+ ekVOIWFyQDUY4hPk=
+X-Received: by 2002:a05:6214:4a41:b0:4bb:68f5:74ee with SMTP id
+ ph1-20020a0562144a4100b004bb68f574eemr2653182qvb.85.1670406689148; 
+ Wed, 07 Dec 2022 01:51:29 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5CBQbhr1bt65RXneHQ91RAMonra1Wn9Bo+2SS9CfoMIu8Q8JxgN9eQKTJqx9etVHJ/Vtw9jA==
+X-Received: by 2002:a05:6214:4a41:b0:4bb:68f5:74ee with SMTP id
+ ph1-20020a0562144a4100b004bb68f574eemr2653175qvb.85.1670406688884; 
+ Wed, 07 Dec 2022 01:51:28 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ c4-20020a05620a268400b006ec62032d3dsm16840698qkp.30.2022.12.07.01.51.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 01:51:27 -0800 (PST)
+Message-ID: <366b0a12-b672-7e54-2bcd-c5917c66fe74@redhat.com>
+Date: Wed, 7 Dec 2022 10:51:24 +0100
 MIME-Version: 1.0
-References: <CAJWWW5ikmoujzeYw97QEMG0uBCLyR2mypSe_Td4XJXjXHQFnyQ@mail.gmail.com>
- <dec95b7b-ae39-d0fc-c631-fcf550c0c3cb@linaro.org>
- <BN7PR12MB2801E7666C7FD577A7FC22B1E6189@BN7PR12MB2801.namprd12.prod.outlook.com>
- <CAJWWW5hMxg0jcy_=HnGVEW2akeka+FxPva+fjkcYjPQbbwEYOQ@mail.gmail.com>
-In-Reply-To: <CAJWWW5hMxg0jcy_=HnGVEW2akeka+FxPva+fjkcYjPQbbwEYOQ@mail.gmail.com>
-From: Gowri Shankar <ggowri617@gmail.com>
-Date: Wed, 7 Dec 2022 15:07:29 +0530
-Message-ID: <CAJWWW5h8p8TUSRCH9mH9816wErUhbBFfCxTVjHFoQXF+YqLH1g@mail.gmail.com>
-Subject: Re: REG: TTC Timer
-To: "Konrad, Frederic" <Frederic.Konrad@amd.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>, 
- "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>, 
- "Iglesias, Francisco" <francisco.iglesias@amd.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Content-Type: multipart/alternative; boundary="000000000000fb2b5705ef39abdd"
-Received-SPF: pass client-ip=2a00:1450:4864:20::234;
- envelope-from=ggowri617@gmail.com; helo=mail-lj1-x234.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3] intel-iommu: Document iova_tree
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Yi Liu <yi.l.liu@intel.com>,
+ Jason Wang <jasowang@redhat.com>
+References: <20221206221348.396020-1-peterx@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20221206221348.396020-1-peterx@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.27, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,213 +103,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000fb2b5705ef39abdd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Peter,
 
-Hello Konrad,
-Could you please help me to solve it?
-Thanks & Regards,
-P.Gowrishankar
+On 12/6/22 23:13, Peter Xu wrote:
+> It seems not super clear on when iova_tree is used, and why.  Add a rich
+> comment above iova_tree to track why we needed the iova_tree, and when we
+> need it.
+>
+> Also comment for the map/unmap messages, on how they're used and
+> implications (e.g. unmap can be larger than the mapped ranges).
+>
+> Suggested-by: Jason Wang <jasowang@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-On Mon, Dec 5, 2022 at 4:26 PM Gowri Shankar <ggowri617@gmail.com> wrote:
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-> Hi Konrad,
->
-> Thanks for your quick response.
->
-> Now I want to increment the TTC counter value to enable the system tick.
-> How to configure the TTC register to increment it in QEMU.
->
-> I found the steps to enable the TTC counter which is below. But not able
-> to increment. If possible could you please share the example source code?
->
->   1. Select clock input source, set prescaler value (slcr.MIO_MUX_SEL
-> registers, TTC Clock Control register). Ensure TTC is disabled
-> (ttc.Counter_Control_x [DIS] =3D 1) before proceeding with this step.
-> 2. Set interval value (Interval register). This step is optional, for
-> interval mode only.
-> 3. Set match value (Match registers). This step is optional, if matching
-> is to be enabled.
-> 4. Enable interrupt (Interrupt Enable register). This step is optional, i=
-f
-> interrupt is to be enabled.
-> 5. Enable/disable waveform output, enable/disable matching, set counting
-> direction, set mode, enable counter (TTC Counter Control register). This
-> step starts the counter.
->
-> Thanks & Regards,
-> P.Gowrishankar
->
-> On Mon, Dec 5, 2022 at 4:07 PM Konrad, Frederic <Frederic.Konrad@amd.com>
-> wrote:
->
->> Hi Philippe,
->> Hi Gowri,
->>
->> The zcu102 has a zynqmp soc object (hw/arm/xlnx-zcu102.c:125):
->>
->> static void xlnx_zcu102_init(MachineState *machine)
->> {
->> ...
->>     object_initialize_child(OBJECT(machine), "soc", &s->soc,
->> TYPE_XLNX_ZYNQMP);
->>
->> So the TTCs should work in the ZCU102.
->>
->> Best Regards,
->> Fred
->>
->> -----Original Message-----
->> From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->> Sent: 05 December 2022 09:24
->> To: Gowri Shankar <ggowri617@gmail.com>; QEMU Developers <
->> qemu-devel@nongnu.org>; qemu-arm <qemu-arm@nongnu.org>
->> Cc: qemu-discuss@nongnu.org; Konrad, Frederic <Frederic.Konrad@amd.com>;
->> Iglesias, Francisco <francisco.iglesias@amd.com>; Alistair Francis <
->> alistair.francis@wdc.com>
->> Subject: Re: REG: TTC Timer
->>
->> On 22/11/22 12:27, Gowri Shankar wrote:
->> > Hi Team,
->> >
->> > Advance Thanks for Your support.
->> >
->> > Could you please clarify one point here?
->> > I am using a Xilinx ZCU102 machine with QEMU7.1.0.
->> >
->> > I have seen QEMU 7.1.0 release has TTC timers for the Xilinx-zynqmp
->> > SoC model.
->> > url: https://wiki.qemu.org/ChangeLog/7.1
->> > <https://wiki.qemu.org/ChangeLog/7.1>
->> >
->> > In this case, can the ZCU102 machine also use the TTC feature?
->> > If yes and possible, Could you please share the example code snippet?
->> > --
->> > Thanks & Regards,
->> > P. Gowrishankar.
->> > +919944802490
->>
->> Cc'ing qemu-arm@ mailing list and Xilinx ZCU102 machine developers.
->>
->>
->
-> --
-> Thanks & Regards,
-> P. Gowrishankar.
-> +919944802490
->
->
->
->
+Thanks
 
---=20
-Thanks & Regards,
-P. Gowrishankar.
-+919944802490
+Eric
+> ---
+> v3:
+> - Adjust according to Eric's comment
+> ---
+>  include/exec/memory.h         | 28 ++++++++++++++++++++++++++
+>  include/hw/i386/intel_iommu.h | 38 ++++++++++++++++++++++++++++++++++-
+>  2 files changed, 65 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 91f8a2395a..269ecb873b 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -129,6 +129,34 @@ struct IOMMUTLBEntry {
+>  /*
+>   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
+>   * register with one or multiple IOMMU Notifier capability bit(s).
+> + *
+> + * Normally there're two use cases for the notifiers:
+> + *
+> + *   (1) When the device needs accurate synchronizations of the vIOMMU page
+> + *       tables, it needs to register with both MAP|UNMAP notifies (which
+> + *       is defined as IOMMU_NOTIFIER_IOTLB_EVENTS below).
+> + *
+> + *       Regarding to accurate synchronization, it's when the notified
+> + *       device maintains a shadow page table and must be notified on each
+> + *       guest MAP (page table entry creation) and UNMAP (invalidation)
+> + *       events (e.g. VFIO). Both notifications must be accurate so that
+> + *       the shadow page table is fully in sync with the guest view.
+> + *
+> + *   (2) When the device doesn't need accurate synchronizations of the
+> + *       vIOMMU page tables, it needs to register only with UNMAP or
+> + *       DEVIOTLB_UNMAP notifies.
+> + *
+> + *       It's when the device maintains a cache of IOMMU translations
+> + *       (IOTLB) and is able to fill that cache by requesting translations
+> + *       from the vIOMMU through a protocol similar to ATS (Address
+> + *       Translation Service).
+> + *
+> + *       Note that in this mode the vIOMMU will not maintain a shadowed
+> + *       page table for the address space, and the UNMAP messages can be
+> + *       actually larger than the real invalidations (just like how the
+> + *       Linux IOMMU driver normally works, where an invalidation can be
+> + *       enlarged as long as it still covers the target range).  The IOMMU
+> + *       notifiee should be able to take care of over-sized invalidations.
+>   */
+>  typedef enum {
+>      IOMMU_NOTIFIER_NONE = 0,
+> diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+> index 46d973e629..89dcbc5e1e 100644
+> --- a/include/hw/i386/intel_iommu.h
+> +++ b/include/hw/i386/intel_iommu.h
+> @@ -109,7 +109,43 @@ struct VTDAddressSpace {
+>      QLIST_ENTRY(VTDAddressSpace) next;
+>      /* Superset of notifier flags that this address space has */
+>      IOMMUNotifierFlag notifier_flags;
+> -    IOVATree *iova_tree;          /* Traces mapped IOVA ranges */
+> +    /*
+> +     * @iova_tree traces mapped IOVA ranges.
+> +     *
+> +     * The tree is not needed if no MAP notifier is registered with current
+> +     * VTD address space, because all guest invalidate commands can be
+> +     * directly passed to the IOMMU UNMAP notifiers without any further
+> +     * reshuffling.
+> +     *
+> +     * The tree OTOH is required for MAP typed iommu notifiers for a few
+> +     * reasons.
+> +     *
+> +     * Firstly, there's no way to identify whether an PSI (Page Selective
+> +     * Invalidations) or DSI (Domain Selective Invalidations) event is an
+> +     * MAP or UNMAP event within the message itself.  Without having prior
+> +     * knowledge of existing state vIOMMU doesn't know whether it should
+> +     * notify MAP or UNMAP for a PSI message it received when caching mode
+> +     * is enabled (for MAP notifiers).
+> +     *
+> +     * Secondly, PSI messages received from guest driver can be enlarged in
+> +     * range, covers but not limited to what the guest driver wanted to
+> +     * invalidate.  When the range to invalidates gets bigger than the
+> +     * limit of a PSI message, it can even become a DSI which will
+> +     * invalidate the whole domain.  If the vIOMMU directly notifies the
+> +     * registered device with the unmodified range, it may confuse the
+> +     * registered drivers (e.g. vfio-pci) on either:
+> +     *
+> +     *   (1) Trying to map the same region more than once (for
+> +     *       VFIO_IOMMU_MAP_DMA, -EEXIST will trigger), or,
+> +     *
+> +     *   (2) Trying to UNMAP a range that is still partially mapped.
+> +     *
+> +     * That accuracy is not required for UNMAP-only notifiers, but it is a
+> +     * must-to-have for notifiers registered with MAP events, because the
+> +     * vIOMMU needs to make sure the shadow page table is always in sync
+> +     * with the guest IOMMU pgtables for a device.
+> +     */
+> +    IOVATree *iova_tree;
+>  };
+>  
+>  struct VTDIOTLBEntry {
 
---000000000000fb2b5705ef39abdd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello Konrad,<div>Could you please help me to solve it?<di=
-v>Thanks &amp; Regards,</div><div>P.Gowrishankar</div></div></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 5, =
-2022 at 4:26 PM Gowri Shankar &lt;<a href=3D"mailto:ggowri617@gmail.com">gg=
-owri617@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex"><div dir=3D"ltr">Hi Konrad,<div><br></div><div>Thanks for =
-your quick response.</div><div><br></div><div>Now I want to increment the T=
-TC counter value to=C2=A0enable=C2=A0the system tick. How to configure the =
-TTC register to increment it in QEMU.</div><div><br></div><div>I found the =
-steps to enable the TTC counter which is below. But not able to increment. =
-If possible could you please share the example source code?</div><div><br><=
-/div><div>=C2=A0 1. Select clock input source, set prescaler value (slcr.MI=
-O_MUX_SEL registers, TTC Clock Control
-register). Ensure TTC is disabled (ttc.Counter_Control_x [DIS] =3D 1) befor=
-e proceeding with this
-step.=C2=A0</div><div>2. Set interval value (Interval register). This step =
-is optional, for interval mode only.=C2=A0</div><div>3. Set match value (Ma=
-tch registers). This step is optional, if matching is to be enabled.=C2=A0<=
-/div><div>4. Enable interrupt (Interrupt Enable register). This step is opt=
-ional, if interrupt is to be enabled.</div><div>5. Enable/disable waveform =
-output, enable/disable matching, set counting direction, set mode,
-enable counter (TTC Counter Control register). This step starts the counter=
-.=C2=A0=C2=A0</div><div><br></div><div><div>Thanks &amp; Regards,<br></div>=
-<div>P.Gowrishankar</div></div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Mon, Dec 5, 2022 at 4:07 PM Konrad, Frede=
-ric &lt;<a href=3D"mailto:Frederic.Konrad@amd.com" target=3D"_blank">Freder=
-ic.Konrad@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">Hi Philippe,<br>
-Hi Gowri,<br>
-<br>
-The zcu102 has a zynqmp soc object (hw/arm/xlnx-zcu102.c:125):<br>
-<br>
-static void xlnx_zcu102_init(MachineState *machine)<br>
-{<br>
-...<br>
-=C2=A0 =C2=A0 object_initialize_child(OBJECT(machine), &quot;soc&quot;, &am=
-p;s-&gt;soc, TYPE_XLNX_ZYNQMP);<br>
-<br>
-So the TTCs should work in the ZCU102.<br>
-<br>
-Best Regards,<br>
-Fred<br>
-<br>
------Original Message-----<br>
-From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org" =
-target=3D"_blank">philmd@linaro.org</a>&gt; <br>
-Sent: 05 December 2022 09:24<br>
-To: Gowri Shankar &lt;<a href=3D"mailto:ggowri617@gmail.com" target=3D"_bla=
-nk">ggowri617@gmail.com</a>&gt;; QEMU Developers &lt;<a href=3D"mailto:qemu=
--devel@nongnu.org" target=3D"_blank">qemu-devel@nongnu.org</a>&gt;; qemu-ar=
-m &lt;<a href=3D"mailto:qemu-arm@nongnu.org" target=3D"_blank">qemu-arm@non=
-gnu.org</a>&gt;<br>
-Cc: <a href=3D"mailto:qemu-discuss@nongnu.org" target=3D"_blank">qemu-discu=
-ss@nongnu.org</a>; Konrad, Frederic &lt;<a href=3D"mailto:Frederic.Konrad@a=
-md.com" target=3D"_blank">Frederic.Konrad@amd.com</a>&gt;; Iglesias, Franci=
-sco &lt;<a href=3D"mailto:francisco.iglesias@amd.com" target=3D"_blank">fra=
-ncisco.iglesias@amd.com</a>&gt;; Alistair Francis &lt;<a href=3D"mailto:ali=
-stair.francis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<b=
-r>
-Subject: Re: REG: TTC Timer<br>
-<br>
-On 22/11/22 12:27, Gowri Shankar wrote:<br>
-&gt; Hi Team,<br>
-&gt; <br>
-&gt; Advance Thanks for Your support.<br>
-&gt; <br>
-&gt; Could you please clarify one point here?<br>
-&gt; I am using a Xilinx ZCU102 machine with QEMU7.1.0.<br>
-&gt; <br>
-&gt; I have seen QEMU 7.1.0 release has TTC timers for the Xilinx-zynqmp <b=
-r>
-&gt; SoC model.<br>
-&gt; url: <a href=3D"https://wiki.qemu.org/ChangeLog/7.1" rel=3D"noreferrer=
-" target=3D"_blank">https://wiki.qemu.org/ChangeLog/7.1</a><br>
-&gt; &lt;<a href=3D"https://wiki.qemu.org/ChangeLog/7.1" rel=3D"noreferrer"=
- target=3D"_blank">https://wiki.qemu.org/ChangeLog/7.1</a>&gt;<br>
-&gt; <br>
-&gt; In this case, can the ZCU102 machine also use the TTC feature?<br>
-&gt; If yes and possible, Could you please share the example code snippet?<=
-br>
-&gt; --<br>
-&gt; Thanks &amp; Regards,<br>
-&gt; P. Gowrishankar.<br>
-&gt; +919944802490<br>
-<br>
-Cc&#39;ing qemu-arm@ mailing list and Xilinx ZCU102 machine developers.<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr">Thanks &amp; Regards,<br>P. Gowrishankar.<br>+91994480249=
-0<br><br><br><br></div></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Thanks &amp; Regards,<br>P. Gow=
-rishankar.<br>+919944802490<br><br><br><br></div></div>
-
---000000000000fb2b5705ef39abdd--
 
