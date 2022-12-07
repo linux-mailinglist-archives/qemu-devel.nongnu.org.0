@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36466455EE
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6911D6455F4
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:01:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2qH7-0005tu-DQ; Wed, 07 Dec 2022 03:59:35 -0500
+	id 1p2qIK-0006Uu-Mf; Wed, 07 Dec 2022 04:00:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2qGk-0005sW-3l
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:59:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p2qI4-0006TA-8r
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:00:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2qGi-0005WT-94
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:59:09 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p2qI2-0006n3-Jh
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:00:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670403541;
+ s=mimecast20190719; t=1670403629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o84J6eGtB/V9WTocAXuKufY84EMTJjp2VtxLm4K4qKQ=;
- b=F/lAInLafSNbGhPS5xoZb5Ndr6shj8EvDepBpa0uhZItFNbfcBCf92OR31IrXkoJxL2Msx
- 6wiL8uXlj4XxRgaUXo4KWjxodCJnJ/MWg7EkqCabMJ4pVt83kXM0Tf5aY1ipYmWKpLAhm3
- Vpd9brVZztmfpug2OU9Jo3kfUGnmQbk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NzInKG+XjavVSFcFYW5xl85lIY5bHbsGI/9xDX8HeTU=;
+ b=EGM3Ks2Df139AoLpmxPKPR70jZLkkGXbiZxjfYldQxJwLG9R7BNKwQYUBGhM9vadRk6Dex
+ /fHwXL7D519VNeReFNu71OmWzbwYvhYnsKrWKJ0K9VikanEHaseEesm+yFRatAQb66/vIN
+ df5V+a+ZitenAqHm6hi3trJOlpcY8KQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-91-UG7AOLZiNPKOP9tMubxiKg-1; Wed, 07 Dec 2022 03:58:59 -0500
-X-MC-Unique: UG7AOLZiNPKOP9tMubxiKg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m34-20020a05600c3b2200b003cf549cb32bso510877wms.1
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 00:58:59 -0800 (PST)
+ us-mta-280-kdaD-q_rM8i8VCu9rVQqeg-1; Wed, 07 Dec 2022 04:00:27 -0500
+X-MC-Unique: kdaD-q_rM8i8VCu9rVQqeg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ qf25-20020a1709077f1900b0078c02a23da3so2991727ejc.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 01:00:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o84J6eGtB/V9WTocAXuKufY84EMTJjp2VtxLm4K4qKQ=;
- b=DQeSzKvhuRO29i/cpi0cfIesfWM679JnoRX01XdJfYnswPsZGgfE4diErLW3P4x6p4
- h+SR2JkH3mlsqv33oJ5KT6UKHWzLt9TgXbLlE12lJ+KzIPbgvKEFucOVHE/bHPl+HCgN
- 8SFF8mNxNBEBCTIJuN5SGhE3Co+D4HxzPFyjvRuFowYymZ5fqWQq4CODX3h0SmuDnnwK
- NXnnZcUmRdDxV5qON67kSOTxebE/JvLq8R0zRWqlZO3zP+lVfamGzItXRg0ds3qKdzrb
- PloaOvkDvGpiQQAkMt3fulCC0vv1OvEEooYl0Zt/FUBUWYplv2Mdav3JWCrQvcGR6UOd
- 5Sfw==
-X-Gm-Message-State: ANoB5pkiHTyOYBr4gY7HJlh5wy3AX5l94XkBnuvb1oJNaM1uiuYkTtGf
- o1xcZ3EEqZB8XxKnH+Bo8+7DV7tK4m5y0csFkRg1t8SR58VKIZonN0BDpPjyxpdJPSnaatdHadJ
- jiDppLKRkwpxuLJE=
-X-Received: by 2002:a05:600c:34c5:b0:3d0:7416:a84c with SMTP id
- d5-20020a05600c34c500b003d07416a84cmr21655116wmq.145.1670403538654; 
- Wed, 07 Dec 2022 00:58:58 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf62wkiCrXv7VfGjidqxxny2u2gsWHc9tOWcYR5wbPt71Mbl/nLzVBs430YMYBJaaxk0503S/w==
-X-Received: by 2002:a05:600c:34c5:b0:3d0:7416:a84c with SMTP id
- d5-20020a05600c34c500b003d07416a84cmr21655111wmq.145.1670403538451; 
- Wed, 07 Dec 2022 00:58:58 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-155.web.vodafone.de.
- [109.43.178.155]) by smtp.gmail.com with ESMTPSA id
- z10-20020adfec8a000000b00236576c8eddsm18884473wrn.12.2022.12.07.00.58.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Dec 2022 00:58:57 -0800 (PST)
-Message-ID: <c5744df8-b4c3-3878-15f2-98fe24ac8554@redhat.com>
-Date: Wed, 7 Dec 2022 09:58:56 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NzInKG+XjavVSFcFYW5xl85lIY5bHbsGI/9xDX8HeTU=;
+ b=sJGAH8adCz9Xs1uORySzqyjMIphTK0SIMJSUlnXy8L8jAqpg88d3N0Ac1cvOu87BZR
+ MzoDrtphWv0LXerYNT/9hIs6gjy0s9ZyETq6EIob3HGLAgbPMFd1/oyqHIRL6xc5wLqw
+ u1M4SIsSTxNPpMmQ38CSAQ18DD6YV5bqvdaZf1wu8h244nXR9KYYtblyb5zfSJeuc0Ex
+ /7Ye/LUciNNiruo4CMNz7MPyBdVQS2r6F+5HBRvaCF04fVzqgBdFkDjz9RemH2ROlYQb
+ YPC/Q5AHXrH3NL/lQs7qWMV+Ot+8gnXPprTUyiNNYRG3zSiHg1CEAD5yEE+4a9hz6sqH
+ 5Ccg==
+X-Gm-Message-State: ANoB5pkszl41Qv00pXd1bU4DUXVuslGmhTfCpQcCWQlL/CPF+sUbSjEo
+ 7Nkd4wxECBXEhboo/G4dxu0kZNhf/3Mel20xg/Cc5p/C1V7Q1GNuj0d5oo65FqiETbsrzeWdaJI
+ vwLOXL3RzOHHGxvB0uC1OTvgilR9sZ+8=
+X-Received: by 2002:a17:907:cf84:b0:78d:4795:ff1f with SMTP id
+ ux4-20020a170907cf8400b0078d4795ff1fmr30684071ejc.331.1670403625993; 
+ Wed, 07 Dec 2022 01:00:25 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4ThAAoJqVwEhTP7aWEEenDl0V2m3WCPwjbLYu0P1+6fx4YgMjjfu6BRwN7P127AgZgpDl+K/HSy+T6VFvdyQI=
+X-Received: by 2002:a17:907:cf84:b0:78d:4795:ff1f with SMTP id
+ ux4-20020a170907cf8400b0078d4795ff1fmr30684046ejc.331.1670403625779; Wed, 07
+ Dec 2022 01:00:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH for-8.0] hw/rtc/mc146818rtc: Make this rtc device target
- independent
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Michael S Tsirkin <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20221206200641.339116-1-thuth@redhat.com>
- <1ec2cb6a-b6de-7254-d37f-a48c993698eb@eik.bme.hu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <1ec2cb6a-b6de-7254-d37f-a48c993698eb@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+References: <20221205170436.2977336-1-eperezma@redhat.com>
+ <CACGkMEvQov+eGr8D7FAG5FYOvj8VQ=gEvomrnU5_2R0d55gSLQ@mail.gmail.com>
+In-Reply-To: <CACGkMEvQov+eGr8D7FAG5FYOvj8VQ=gEvomrnU5_2R0d55gSLQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 7 Dec 2022 09:59:48 +0100
+Message-ID: <CAJaqyWecmWWRUwfm8D2TTsOR=kybwQ5BpyZXjSDLouWwWutXVQ@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.0 00/13] vDPA-net inflight descriptors migration
+ with SVQ
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.27, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,60 +103,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/12/2022 00.12, BALATON Zoltan wrote:
-> On Tue, 6 Dec 2022, Thomas Huth wrote:
->> The only code that is really, really target dependent is the apic-related
->> code in rtc_policy_slew_deliver_irq(). By moving this code into the hw/i386/
->> folder (renamed to rtc_apic_policy_slew_deliver_irq()) and passing this
->> function as parameter to mc146818_rtc_init(), we can make the RTC completely
->> target-independent.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
-...
->> @@ -124,9 +118,8 @@ void qmp_rtc_reset_reinjection(Error **errp)
->>
->> static bool rtc_policy_slew_deliver_irq(RTCState *s)
->> {
->> -    apic_reset_irq_delivered();
->> -    qemu_irq_raise(s->irq);
->> -    return apic_get_irq_delivered();
->> +    assert(s->policy_slew_deliver_irq);
-> 
-> Is this assert necessary here? Since it seems that creating the timer that 
-> would call this is testing for s->policy_slew_deliver_irq being non-NULL 
-> there should be no way to call this without policy_slew_deliver_irq set.
+On Tue, Dec 6, 2022 at 8:08 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Tue, Dec 6, 2022 at 1:04 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
+> >
+> > The state of the descriptors (avail or used) may not be recoverable jus=
+t
+> > looking at the guest memory.  Out of order used descriptor may override
+> > previous avail ones in the descriptor table or avail vring.
+> >
+> > Currently we're not migrating this status in net devices because virtio=
+-net,
+> > vhost-kernel etc use the descriptors in order,
+>
+> Note that this might not be the truth (when zerocopy is enabled).
+>
 
-There was an assert(0) in the original code on non-x86 targets, too, see 
-below. I would like to keep that logic here.
+Good point. So will virtio-net wait for those to complete then? How
+does qemu handle if there are still inflight descriptors?
 
-> If 
-> you drop the assert then this function also become redundant and 
-> s->policy_slew_deliver_irq() can be used directly instead simplifying this a 
-> bit more.
+> > so the information always
+> > recoverable from guest's memory.  However, vDPA devices may use them ou=
+t of
+> > order, and other kind of devices like block need this support.
+> >
+> > Shadow virtqueue is able to track these and resend them at the destinat=
+ion.
+>
+> As discussed, there's a bootstrap issue here:
+>
+> When SVQ needs to be enabled on demand, do we still need another way
+> to get inflight ones without the help of SVQ?
+>
 
-I'd agree, but I really would like to keep the assert(). (additionally, the 
-patch stays smaller this way)
+To send and retrieve the descriptor without SVQ needs to be developed
+on top of this. I should have made that more clear here in the cover
+letter.
 
->> +    return s->policy_slew_deliver_irq(s);
->> }
->>
->> static void rtc_coalesced_timer(void *opaque)
->> @@ -145,13 +138,6 @@ static void rtc_coalesced_timer(void *opaque)
->>
->>     rtc_coalesced_timer_update(s);
->> }
->> -#else
->> -static bool rtc_policy_slew_deliver_irq(RTCState *s)
->> -{
->> -    assert(0);
+Thanks!
 
-This ----^ is the assert() I was talking about.
-
->> -    return false;
->> -}
->> -#endif
-
-  Thomas
+> Thanks
+>
+> > Add them to the virtio-net migration description so they are not lose i=
+n the
+> > process.
+> >
+> > This is a very early RFC just to validate the first draft so expect lef=
+tovers.
+> > To fetch and request the descriptors from a device without SVQ need to =
+be
+> > implemented on top. Some other notable pending items are:
+> > * Do not send the descriptors actually recoverable from the guest memor=
+y.
+> > * Properly version the migrate data.
+> > * Properly abstract the descriptors access from virtio-net to SVQ.
+> > * Do not use VirtQueueElementOld but migrate directly VirtQueueElement.
+> > * Replace lots of assertions with runtime conditionals.
+> > * Other TODOs in the patch message or code changes.
+> >
+> > Thanks.
+> >
+> > Eugenio P=C3=A9rez (13):
+> >   vhost: add available descriptor list in SVQ
+> >   vhost: iterate only available descriptors at SVQ stop
+> >   vhost: merge avail list and next avail descriptors detach
+> >   vhost: add vhost_svq_save_inflight
+> >   virtio: Specify uint32_t as VirtQueueElementOld members type
+> >   virtio: refactor qemu_get_virtqueue_element
+> >   virtio: refactor qemu_put_virtqueue_element
+> >   virtio: expose VirtQueueElementOld
+> >   virtio: add vmstate_virtqueue_element_old
+> >   virtio-net: Migrate vhost inflight descriptors
+> >   virtio-net: save inflight descriptors at vhost shutdown
+> >   vhost: expose vhost_svq_add_element
+> >   vdpa: Recover inflight descriptors
+> >
+> >  hw/virtio/vhost-shadow-virtqueue.h |   9 ++
+> >  include/hw/virtio/virtio-net.h     |   2 +
+> >  include/hw/virtio/virtio.h         |  32 ++++++
+> >  include/migration/vmstate.h        |  22 ++++
+> >  hw/net/vhost_net.c                 |  56 ++++++++++
+> >  hw/net/virtio-net.c                | 129 +++++++++++++++++++++++
+> >  hw/virtio/vhost-shadow-virtqueue.c |  52 +++++++--
+> >  hw/virtio/vhost-vdpa.c             |  11 --
+> >  hw/virtio/virtio.c                 | 162 ++++++++++++++++++-----------
+> >  9 files changed, 392 insertions(+), 83 deletions(-)
+> >
+> > --
+> > 2.31.1
+> >
+> >
+>
 
 
