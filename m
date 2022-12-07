@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDD4645726
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E17E64570C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2rHg-0004PS-Vk; Wed, 07 Dec 2022 05:04:13 -0500
+	id 1p2rHd-0004Lp-5Y; Wed, 07 Dec 2022 05:04:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p2rHX-0004DA-0q; Wed, 07 Dec 2022 05:04:03 -0500
-Received: from bg4.exmail.qq.com ([43.154.221.58])
+ id 1p2rHX-0004DF-17; Wed, 07 Dec 2022 05:04:03 -0500
+Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p2rHT-00054q-Qo; Wed, 07 Dec 2022 05:04:02 -0500
-X-QQ-mid: bizesmtp63t1670407423tj85ezu2
+ id 1p2rHT-0005Dy-Sh; Wed, 07 Dec 2022 05:04:02 -0500
+X-QQ-mid: bizesmtp63t1670407426tis0p0de
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 07 Dec 2022 18:03:42 +0800 (CST)
-X-QQ-SSF: 01200000000000B0C000000A0000000
-X-QQ-FEAT: 7jw2iSiCazppgmdPBDJvDCrTKnNXsO+M/tblZoUphj52pfso7dXzKD8qdiasG
- CkW0xezf9EIo4Hge6qVBrRMza/QWoUaGGZO8d0hAa1LnQAd4t/6Dbski2UKnpyKHej+L8Rz
- 5VtdlL1vIxjT7jynLMlWdNG8copuG7eE+fENS5XNbE8Vr+hcsDXGG5IgojmfyK8mSsXuPjV
- sKM32zGzMaa3bXI7XFBTpoR8w6DJ1SteVEvy0BgwTm0sbtONqRX6dxJT+FMmzbES0EVCU/7
- JkkFYFo0SJza+dPuihtQkTi1QYH58PxQbWC9f+Y0pXHWh7lgaXGC1v3ok50fqoaHHVY7rqS
- Rv/3+me9985jSsshxupogyhQEjTJUM1BRsM7NYEZfvYBjeZ4Ps=
+ id ; Wed, 07 Dec 2022 18:03:45 +0800 (CST)
+X-QQ-SSF: 01200000000000B0B000000A0000000
+X-QQ-FEAT: gTLdG/Pttc2gZn3DQQ1zn2Kac7Ugc5YJ5uVC4V2Lx7s9ODGpunB8F9UC9EYkW
+ 2HpkJr77nKvdcOQsOzXV+PQntbbxKQDuO40miXjmfodrd/j99dSYdU6FwlH8ZnfX25uQFEV
+ nuYruR69BsoqRK2k83LTyedOKR8xHVhbrmiIBFLbWRrY7TDS70SsXmxJDqdSZ8A1tX7aD0N
+ Y+5DXT4CQ8ygwo/OUvJVJM7oXx4wu1vxvWUl/qRa/41E7trr76pPoWXJMVCtuYg4IhYBoWY
+ wSlNgRKlgR2HUIKrdV1TPDsTOnZfI5L8AUjqs/m1v495ELDuShdwD4xhqX970bhvymfssKe
+ jDP9i8ZL5YBiPj5UjO4QDmvqwDR1ILWyTPgEthj
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
-Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v2 03/16] hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
-Date: Wed,  7 Dec 2022 18:03:22 +0800
-Message-Id: <20221207100335.290481-3-bmeng@tinylab.org>
+Subject: [PATCH v2 04/16] hw/riscv: Sort machines Kconfig options in
+ alphabetical order
+Date: Wed,  7 Dec 2022 18:03:23 +0800
+Message-Id: <20221207100335.290481-4-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221207100335.290481-1-bmeng@tinylab.org>
 References: <20221207100335.290481-1-bmeng@tinylab.org>
@@ -43,7 +43,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,34 +65,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since commit ef6310064820 ("hw/riscv: opentitan: Update to the latest build")
-the IBEX PLIC model was replaced with the SiFive PLIC model in the
-'opentitan' machine but we forgot the add the dependency there.
+SHAKTI_C machine Kconfig option was inserted in disorder. Fix it.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
 (no changes since v1)
 
- hw/riscv/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/riscv/Kconfig | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 167dc4cca6..1e4b58024f 100644
+index 1e4b58024f..4550b3b938 100644
 --- a/hw/riscv/Kconfig
 +++ b/hw/riscv/Kconfig
-@@ -19,6 +19,7 @@ config MICROCHIP_PFSOC
- config OPENTITAN
+@@ -4,6 +4,8 @@ config RISCV_NUMA
+ config IBEX
      bool
-     select IBEX
-+    select SIFIVE_PLIC
+ 
++# RISC-V machines in alphabetical order
++
+ config MICROCHIP_PFSOC
+     bool
+     select CADENCE_SDHCI
+@@ -22,13 +24,6 @@ config OPENTITAN
+     select SIFIVE_PLIC
      select UNIMP
  
- config SHAKTI_C
+-config SHAKTI_C
+-    bool
+-    select UNIMP
+-    select SHAKTI_UART
+-    select RISCV_ACLINT
+-    select SIFIVE_PLIC
+-
+ config RISCV_VIRT
+     bool
+     imply PCI_DEVICES
+@@ -50,6 +45,13 @@ config RISCV_VIRT
+     select FW_CFG_DMA
+     select PLATFORM_BUS
+ 
++config SHAKTI_C
++    bool
++    select RISCV_ACLINT
++    select SHAKTI_UART
++    select SIFIVE_PLIC
++    select UNIMP
++
+ config SIFIVE_E
+     bool
+     select RISCV_ACLINT
 -- 
 2.34.1
-
 
 
