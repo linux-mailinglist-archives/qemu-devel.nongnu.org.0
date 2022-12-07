@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211D064570B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDD4645726
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:08:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2rHf-0004M1-5d; Wed, 07 Dec 2022 05:04:11 -0500
+	id 1p2rHg-0004PS-Vk; Wed, 07 Dec 2022 05:04:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1p2rHX-0004DB-1t
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 05:04:03 -0500
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1p2rHX-0004DA-0q; Wed, 07 Dec 2022 05:04:03 -0500
 Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1p2rHS-0004vn-Df
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 05:04:02 -0500
-X-QQ-mid: bizesmtp63t1670407420tm26z279
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1p2rHT-00054q-Qo; Wed, 07 Dec 2022 05:04:02 -0500
+X-QQ-mid: bizesmtp63t1670407423tj85ezu2
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 07 Dec 2022 18:03:39 +0800 (CST)
+ id ; Wed, 07 Dec 2022 18:03:42 +0800 (CST)
 X-QQ-SSF: 01200000000000B0C000000A0000000
-X-QQ-FEAT: 7jw2iSiCazoEMnyN6KP7IZRKO515HocxQyF6s598kRJ6G2Z5BZ//fSfsfxWue
- kX11qbvYZw5urRspd+ro+LOGkjU/5Y9n4AvYhcVpHsAZJD4SKhwlDnDhlrRw7FHFbkQ82B0
- oeJLmua1z8+Tu2Eo+F+pQYHmZXqeOjb/XGe1HgKIHJFN8R39C0Q5K/UDz8b5jzLzCLFfszX
- +H95rvg1mkKfwKQePc8BUegF6xJfdkI1yhh8yMxDKhMPnbabML96/Q1AsJLk4VsBhzRKfgi
- j89afMObRMivuoxRdNrRcOAmJ/jx4T7qK2y+ptXfX/ypWa79+ftjlgngdYOZfsl6Pnz9EdQ
- O+xolAFFnybT4GVcKtqsylGmQdeWKrbW774BDRRw++NV1ZQS+U=
+X-QQ-FEAT: 7jw2iSiCazppgmdPBDJvDCrTKnNXsO+M/tblZoUphj52pfso7dXzKD8qdiasG
+ CkW0xezf9EIo4Hge6qVBrRMza/QWoUaGGZO8d0hAa1LnQAd4t/6Dbski2UKnpyKHej+L8Rz
+ 5VtdlL1vIxjT7jynLMlWdNG8copuG7eE+fENS5XNbE8Vr+hcsDXGG5IgojmfyK8mSsXuPjV
+ sKM32zGzMaa3bXI7XFBTpoR8w6DJ1SteVEvy0BgwTm0sbtONqRX6dxJT+FMmzbES0EVCU/7
+ JkkFYFo0SJza+dPuihtQkTi1QYH58PxQbWC9f+Y0pXHWh7lgaXGC1v3ok50fqoaHHVY7rqS
+ Rv/3+me9985jSsshxupogyhQEjTJUM1BRsM7NYEZfvYBjeZ4Ps=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Anup Patel <anup.patel@wdc.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH v2 02/16] hw/intc: Select MSI_NONBROKEN in RISC-V AIA
- interrupt controllers
-Date: Wed,  7 Dec 2022 18:03:21 +0800
-Message-Id: <20221207100335.290481-2-bmeng@tinylab.org>
+Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v2 03/16] hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
+Date: Wed,  7 Dec 2022 18:03:22 +0800
+Message-Id: <20221207100335.290481-3-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221207100335.290481-1-bmeng@tinylab.org>
 References: <20221207100335.290481-1-bmeng@tinylab.org>
@@ -66,39 +65,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-hw/pci/Kconfig says MSI_NONBROKEN should be selected by interrupt
-controllers regardless of how MSI is implemented. msi_nonbroken is
-initialized to true in both riscv_aplic_realize() and
-riscv_imsic_realize().
-
-Select MSI_NONBROKEN in RISCV_APLIC and RISCV_IMSIC.
+Since commit ef6310064820 ("hw/riscv: opentitan: Update to the latest build")
+the IBEX PLIC model was replaced with the SiFive PLIC model in the
+'opentitan' machine but we forgot the add the dependency there.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
 (no changes since v1)
 
- hw/intc/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 1d4573e803..21441d0a0c 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -72,9 +72,11 @@ config RISCV_ACLINT
- 
- config RISCV_APLIC
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 167dc4cca6..1e4b58024f 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -19,6 +19,7 @@ config MICROCHIP_PFSOC
+ config OPENTITAN
      bool
-+    select MSI_NONBROKEN
+     select IBEX
++    select SIFIVE_PLIC
+     select UNIMP
  
- config RISCV_IMSIC
-     bool
-+    select MSI_NONBROKEN
- 
- config SIFIVE_PLIC
-     bool
+ config SHAKTI_C
 -- 
 2.34.1
+
 
 
