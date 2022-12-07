@@ -2,66 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0127D645AF4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 14:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F817645AEA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 14:27:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2uQ1-0007L0-Fw; Wed, 07 Dec 2022 08:25:01 -0500
+	id 1p2uRe-0000Rt-3M; Wed, 07 Dec 2022 08:26:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p2uPz-0007HZ-9i
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:24:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2uRb-0000Ou-Qw
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:26:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p2uPx-0000yP-Qc
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:24:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2uRZ-0001SP-Nf
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:26:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670419496;
+ s=mimecast20190719; t=1670419597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8LoZpNo6AUtjPDRlMv/iTUhqN7M0ntxBz11qfxQEXDM=;
- b=Tt8LhYrV9b2F+wnTiICNVKa+ua5rK801Fq/8jqmWyhGPlYd0hA5tTQF5WkFr2yQZGhwYRo
- DBhb8VYfJ3YYF2/j1uX6zCWdp1xNQYtpNTygg0NAXB6pvqglBGK2UEsxh40OWM5w354j7r
- 64dACv2/iSJae+vS6ee/qRcyXoMuVec=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-OBELLo2FOou0Fet1fDSD1w-1; Wed, 07 Dec 2022 08:24:52 -0500
-X-MC-Unique: OBELLo2FOou0Fet1fDSD1w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52E378339C5;
- Wed,  7 Dec 2022 13:24:52 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.193.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7411F2166B26;
- Wed,  7 Dec 2022 13:24:50 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, pbonzini@redhat.com,
- richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org,
- stefanha@fmail.com, peter.maydell@linaro.org
-Subject: [PATCH for 7.2?] target/i386: Remove compilation errors when
- -Werror=maybe-uninitialized
-Date: Wed,  7 Dec 2022 14:24:39 +0100
-Message-Id: <20221207132439.635402-1-eric.auger@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0AHoRzVzp0JPJQmwMLEGcIt6GG3KLCHK9Sz8ikTbrsM=;
+ b=J4/VKaqO1W8wYb+ufsdY7BxRxW5MQ1tJGTILvtmV3zl/rKsDK9F2HaAkd+/UU+t122WecX
+ IWrVYcfb3v0DcX+q7bzkh9LgcJv2G2/EpZdFs3iFgxgXp5FrtxcD0Tc9uE7J3Om3K+Vlkd
+ qsxGLd2oO35xcCldE0iTxa8FzceFDEc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-6-Go-StGnQMN2QabRkPZUkQw-1; Wed, 07 Dec 2022 08:26:35 -0500
+X-MC-Unique: Go-StGnQMN2QabRkPZUkQw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bi19-20020a05600c3d9300b003cf9d6c4016so785498wmb.8
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 05:26:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0AHoRzVzp0JPJQmwMLEGcIt6GG3KLCHK9Sz8ikTbrsM=;
+ b=Hwb6gHE3UbXSKrhffBAIRigE+I7RcWxw4nwTGEnLB1Q7G39VuzfBEFsyAzq/e0GAPO
+ XFZWwh2oLVpM/uQt8aHBVUg41/bGJN7aC9rmp1ktZ9wTCyJGiTo1C+N+4/o6QgTGzh7j
+ +DbjpSTeH6Tk6XObMGGoumAgICcoh1U/6bw75q3uqx10NY16DvXy1s0WSCBZ4/RvytOI
+ cfE4o9nmQFKBYrwd60G8SNLmyQnomzi0IiylYXkQUL31CFWebmb5VFWZ1ri+fMqo2oaH
+ haH5pCqZ+WQGSaZOQu37nFvtbaR44wQpSwexbhj1GPjObq6+NXt9Se9qwXkr8aAA0nUv
+ UXhA==
+X-Gm-Message-State: ANoB5pn8YbznRZDqVB6sH9CylIq6WjWOpOzX0OwBElL1QBY0AGP9AVXR
+ P7aSSePBB/GYrcnKVxixR7lq+8cD3qE8VGYeQMumHC7DZS7bSk/k4Jjbg0V3RHp5eCmH3d/Eyrx
+ e8YAIHWd2bZ7mnbU=
+X-Received: by 2002:adf:dd89:0:b0:242:2875:1a55 with SMTP id
+ x9-20020adfdd89000000b0024228751a55mr20200527wrl.402.1670419594856; 
+ Wed, 07 Dec 2022 05:26:34 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5t7CprnOxMZ5stOlxU46bOOs6mz1j+LTi544VXpwGjFBNJZGQLqtEknKe0Rd8Un4loag8LAw==
+X-Received: by 2002:adf:dd89:0:b0:242:2875:1a55 with SMTP id
+ x9-20020adfdd89000000b0024228751a55mr20200510wrl.402.1670419594588; 
+ Wed, 07 Dec 2022 05:26:34 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-155.web.vodafone.de.
+ [109.43.178.155]) by smtp.gmail.com with ESMTPSA id
+ q128-20020a1c4386000000b003c71358a42dsm2363268wma.18.2022.12.07.05.26.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 05:26:34 -0800 (PST)
+Message-ID: <29cf9b02-be97-753a-797f-c72fb0099c56@redhat.com>
+Date: Wed, 7 Dec 2022 14:26:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL 02/10] pci-bridge/cxl_downstream: Add a CXL switch
+ downstream port
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220616165703.42226-1-mst@redhat.com>
+ <20220616165703.42226-3-mst@redhat.com>
+ <4274de61-292d-b3e0-8f86-d7000122a715@redhat.com>
+ <06f4e22c-1c30-42a6-6f80-1f04e9d55c96@redhat.com>
+ <20221205105403.00003d0f@huawei.com> <20221205124516.00006362@huawei.com>
+ <87y1rlnb28.fsf@linaro.org> <20221207132119.000036a8@huawei.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221207132119.000036a8@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.262, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,47 +110,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Initialize r0-3 to avoid compilation errors when
--Werror=maybe-uninitialized is used
+On 07/12/2022 14.21, Jonathan Cameron wrote:
+> On Mon, 05 Dec 2022 14:59:39 +0000
+> Alex Bennée <alex.bennee@linaro.org> wrote:
+> 
+>> Jonathan Cameron via <qemu-devel@nongnu.org> writes:
+>>
+>>> On Mon, 5 Dec 2022 10:54:03 +0000
+>>> Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+>>>   
+>>>> On Sun, 4 Dec 2022 08:23:55 +0100
+>>>> Thomas Huth <thuth@redhat.com> wrote:
+>>>>    
+>>>>> On 04/11/2022 07.47, Thomas Huth wrote:
+>>>>>> On 16/06/2022 18.57, Michael S. Tsirkin wrote:
+>>>>>>> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>>>>>>
+>>>>>>> Emulation of a simple CXL Switch downstream port.
+>>>>>>> The Device ID has been allocated for this use.
+>>>>>>>
+>>>>>>> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>>>>>> Message-Id: <20220616145126.8002-3-Jonathan.Cameron@huawei.com>
+>>>>>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>>>> ---
+>>>>>>>    hw/cxl/cxl-host.c              |  43 +++++-
+>>>>>>>    hw/pci-bridge/cxl_downstream.c | 249 +++++++++++++++++++++++++++++++++
+>>>>>>>    hw/pci-bridge/meson.build      |   2 +-
+>>>>>>>    3 files changed, 291 insertions(+), 3 deletions(-)
+>>>>>>>    create mode 100644 hw/pci-bridge/cxl_downstream.c
+>>>>>>
+>>>>>>    Hi!
+>>>>>>
+>>>>>> There is a memory problem somewhere in this new device. I can make QEMU
+>>>>>> crash by running something like this:
+>>>>>>
+>>>>>> $ MALLOC_PERTURB_=59 ./qemu-system-x86_64 -M x-remote \
+>>>>>>       -display none -monitor stdio
+>>>>>> QEMU 7.1.50 monitor - type 'help' for more information
+>>>>>> (qemu) device_add cxl-downstream
+>>>>>> ./qemu/qom/object.c:1188:5: runtime error: member access within misaligned
+>>>>>> address 0x3b3b3b3b3b3b3b3b for type 'struct Object', which requires 8 byte
+>>>>>> alignment
+>>>>>> 0x3b3b3b3b3b3b3b3b: note: pointer points here
+>>>>>> <memory cannot be printed>
+>>>>>> Bus error (core dumped)
+>>>>>>
+>>>>>> Could you have a look if you've got some spare minutes?
+>>>>>
+>>>>> Ping! Jonathan, Michael, any news on this bug?
+>>>>>
+>>>>> (this breaks one of my local tests, that's why it's annoying for me)
+>>>> Sorry, my email filters ate your earlier message.
+>>>>
+>>>> Looking into this now. I'll note that it also happens on
+>>>> device_add xio3130-downstream so not specific to this new device.
+>>>>
+>>>> So far all I've managed to do is track it to something rcu related
+>>>> as failing in a call to drain_call_rcu() in qmp_device_add()
+>>>>
+>>>> Will continue digging.
+>>>
+>>> Assuming I'm seeing the same thing...
+>>>
+>>> Problem is g_free() on the PCIBridge windows:
+>>> https://elixir.bootlin.com/qemu/latest/source/hw/pci/pci_bridge.c#L235
+>>>
+>>> Is called before we get an rcu_call() to flatview_destroy() as a
+>>> result of the final call of flatview_unref() in address_space_set_flatview()
+>>> so we get a use after free.
+>>>
+>>> As to what the fix is...  Suggestions welcome!
+>>
+>> It sounds like this is the wrong place to free the value then. I guess
+>> the PCI aliases into &w->alias_io() don't get dealt with until RCU
+>> clean-up time.
+>>
+>> I *think* using g_free_rcu() should be enough to ensure the free occurs
+>> after the rest of the RCU cleanups but maybe you should only be cleaning
+>> up the windows at device unrealize time? Is this a dynamic piece of
+>> memory which gets updated during the lifetime of the device?
+> 
+> There is unfortunately code that swaps it for an updated structure
+> in pci_bridge_update_mappings()
+> 
+>>
+>> If the memory is being cleared with RCU then the access to the base
+>> pointer should be done with the appropriate qatomic_rcu_[set|read]
+>> functions.
+>>
+> 
+> I'm annoyingly snowed under this week with other things, but hopefully
+> can get to in a few days.  Note we are looking at an old problem
+> here, just one that's happening for an additional device, not sure
+> if that really affects urgency of fix though.
 
-../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
-../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
- 2495 |     d->Q(3) = r3;
-      |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
- 2494 |     d->Q(2) = r2;
-      |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
- 2493 |     d->Q(1) = r1;
-      |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
- 2492 |     d->Q(0) = r0;
-      |     ~~~~~~~~^~~~
+It's too late now for QEMU 7.2 anyway, so there is no hurry, I think.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
-
----
-
-Am I the only one getting this? Or anything wrong in my setup.
----
- target/i386/ops_sse.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 3cbc36a59d..b77071b8da 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -2451,7 +2451,7 @@ void glue(helper_vpgatherqq, SUFFIX)(CPUX86State *env,
- #if SHIFT >= 2
- void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
- {
--    uint64_t r0, r1, r2, r3;
-+    uint64_t r0 = 0, r1 = 0, r2 = 0, r3 = 0;
- 
-     switch (order & 3) {
-     case 0:
--- 
-2.37.3
+  Thomas
 
 
