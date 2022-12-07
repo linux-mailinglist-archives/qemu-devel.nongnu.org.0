@@ -2,48 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5156455F8
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324126455FC
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:03:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2qJI-00073r-7R; Wed, 07 Dec 2022 04:01:48 -0500
+	id 1p2qKk-0007mW-7Y; Wed, 07 Dec 2022 04:03:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p2qJD-00072I-Cq; Wed, 07 Dec 2022 04:01:43 -0500
-Received: from smtpbgau2.qq.com ([54.206.34.216])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p2qJA-00074u-Vw; Wed, 07 Dec 2022 04:01:43 -0500
-X-QQ-mid: bizesmtp64t1670403640t9aau4ii
-Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 07 Dec 2022 17:00:39 +0800 (CST)
-X-QQ-SSF: 01200000000000B0C000000A0000000
-X-QQ-GoodBg: 0
-From: Bin Meng <bmeng@tinylab.org>
-To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Subject: [PATCH 2/2] target/riscv: Clear mstatus.MPRV when leaving M-mode for
- priv spec 1.12+
-Date: Wed,  7 Dec 2022 17:00:37 +0800
-Message-Id: <20221207090037.281452-2-bmeng@tinylab.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221207090037.281452-1-bmeng@tinylab.org>
-References: <20221207090037.281452-1-bmeng@tinylab.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2qKU-0007jF-Tq
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:03:03 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p2qKP-0007Ow-Tz
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:03:02 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ ay8-20020a05600c1e0800b003d0808d2826so2129032wmb.1
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 01:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=h/oyaeRK1qJ0WgTWjIHtEjKpyPV1cMfqmIZfsoQWqIc=;
+ b=JuUhF6MPfSamo/rErk9Dbz7J9mbkrbDRb63DoGxW2R+hbH0QIcCL8f9PM0gcMmLvz2
+ yvi+VTHZLWYP0EKhzEou5FN+KGKMXAjD2tk0epou6Oq3kj3ld6c+KNc2P+QeVE5MRp1t
+ DIdQ9OEHm6f1y762MHFgHHVIpx0EcsDbSEtyfRjyvjcfWX/FSi6jLz4DouCK8a+nucSG
+ oPTkezgnYiOPhSlUZkf1uTha/wbAv61Z6nx4U6AR0PeGZzaTxVeriHkGKFnty7PT4TUZ
+ IH7Os3Qulzg3euZuYmCvz93jPM26CI7NONDt8T155g2Wcpbbf+ue333Xn48Ao6kB8Q3T
+ vA3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h/oyaeRK1qJ0WgTWjIHtEjKpyPV1cMfqmIZfsoQWqIc=;
+ b=lN5PPzjhg/DLnJqbweTe5XIFh/UPnYUkyERAxU5yJuYEFp0eqYBH3vObMGKEaOamjG
+ pMWw8gmYjJ2aJ188NHsS2yuKUPMrIXXjZTh8ZT50rMYXvt+3Tyw38ZIBBzvsOCHX+UJc
+ TYoxsPqi/z3H5CF2xiYjqZw7dC36S7uMUyJZvRYyoTMxblzC7hfup6MqSeQgFXclLiNc
+ fgCTCLVsW9iYFRP2aUyx7Bg+yBsCE57Kijmhqx5ieSam/7c2pmHSyrX195pSioD38mcU
+ cOhAq4JIRxigaenkHSYFerkydkFFAUFesMGSjzqsKnV5UedDCSn2/qNPG8RGI1qjQyho
+ 8OKg==
+X-Gm-Message-State: ANoB5pmt/Y4IsjuACHY9wCzjk00C7m7OfpsUPaljDVZ4zLj7Z5+ELmsD
+ KNSb8sDWJruD9NTgeXFoJIjeOg==
+X-Google-Smtp-Source: AA0mqf417gpqmwkEJUiCn26A1AoyEy/ClQdXHEbK0RuErToiewgcWAeeuXICvbTXGoEgylm8oP/O3g==
+X-Received: by 2002:a1c:2743:0:b0:3c6:e471:7400 with SMTP id
+ n64-20020a1c2743000000b003c6e4717400mr52077358wmn.98.1670403775017; 
+ Wed, 07 Dec 2022 01:02:55 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ bd10-20020a05600c1f0a00b003d070e45574sm1075864wmb.11.2022.12.07.01.02.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 01:02:54 -0800 (PST)
+Message-ID: <1184b1ab-c38a-b38b-b08c-637bc6b23bb5@linaro.org>
+Date: Wed, 7 Dec 2022 10:02:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=54.206.34.216; envelope-from=bmeng@tinylab.org;
- helo=smtpbgau2.qq.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: How to best make include/hw/pci/pcie_sriov.h self-contained
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>
+References: <87bkofivbm.fsf@pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87bkofivbm.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,41 +90,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since priv spec v1.12, MRET and SRET now clear mstatus.MPRV when
-leaving M-mode.
+On 7/12/22 07:25, Markus Armbruster wrote:
+> pcie_sriov.h needs PCI_NUM_REGIONS from pci.h, but doesn't include it.
+> pci.h must be included before pcie_sriov.h or else compile fails.
+> 
+> Adding #include "pci/pci.h" to pcie_sriov would be wrong, because it
+> would close an inclusion loop: pci.h includes pcie.h (for
+> PCIExpressDevice) includes pcie_sriov.h (for PCIESriovPF) includes pci.h
+> (for PCI_NUM_REGIONS).
+> 
+> The obvious solution is to move PCI_NUM_REGIONS pci.h somewhere
+> pcie_sriov.h can include without creating a loop.
+> 
+> We already have a few headers that don't include anything: pci_ids.h,
+> pci_regs.h (includes include/standard-headers/linux/pci_regs.h, which
+> doesn't count), pcie_regs.h.  Moving PCI_NUM_REGIONS to one of these
+> would work, but it doesn't feel right.
+> 
+> We could create a new one, say pci_defs.h.  Just for PCI_NUM_REGIONS
+> feels silly.  So, what else should move there?
 
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Sounds good to me. Eventually name it pci_standard_defs.h?
 
----
+We can move the first 100 lines of pci.h there, PCI_ROM_SLOT, 
+PCI_NUM_REGIONS, PCI HEADER_TYPE, PCI_NUM_PINS, cap_present, and 
+eventually PCIINTxRoute & PCIReqIDType.
 
- target/riscv/op_helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index a047d38152..878bcb03b8 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -154,6 +154,9 @@ target_ulong helper_sret(CPURISCVState *env)
-                         get_field(mstatus, MSTATUS_SPIE));
-     mstatus = set_field(mstatus, MSTATUS_SPIE, 1);
-     mstatus = set_field(mstatus, MSTATUS_SPP, PRV_U);
-+    if (env->priv_ver >= PRIV_VERSION_1_12_0) {
-+        mstatus = set_field(mstatus, MSTATUS_MPRV, 0);
-+    }
-     env->mstatus = mstatus;
- 
-     if (riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
-@@ -203,6 +206,9 @@ target_ulong helper_mret(CPURISCVState *env)
-     mstatus = set_field(mstatus, MSTATUS_MPIE, 1);
-     mstatus = set_field(mstatus, MSTATUS_MPP, PRV_U);
-     mstatus = set_field(mstatus, MSTATUS_MPV, 0);
-+    if ((env->priv_ver >= PRIV_VERSION_1_12_0) && (prev_priv != PRV_M)) {
-+        mstatus = set_field(mstatus, MSTATUS_MPRV, 0);
-+    }
-     env->mstatus = mstatus;
-     riscv_cpu_set_mode(env, prev_priv);
- 
--- 
-2.34.1
+> 
+> Any other ideas?
+> 
+> In case you wonder why I bother you with this...
+> 
+> Back in 2016, we discussed[1] rules for headers, and these were
+> generally liked:
+> 
+> 1. Have a carefully curated header that's included everywhere first.  We
+>     got that already thanks to Peter: osdep.h.
+> 
+> 2. Headers should normally include everything they need beyond osdep.h.
+>     If exceptions are needed for some reason, they must be documented in
+>     the header.  If all that's needed from a header is typedefs, put
+>     those into qemu/typedefs.h instead of including the header.
+> 
+> 3. Cyclic inclusion is forbidden.
+> 
+> I'm working on patches to get include/ closer to obeying 2.
+> 
+> [1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
+>      https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
+> 
+> 
 
 
