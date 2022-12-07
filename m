@@ -2,104 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3ED664627F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 21:41:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDB5646288
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 21:42:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p31Cf-000148-8R; Wed, 07 Dec 2022 15:39:41 -0500
+	id 1p31EE-0001jo-H8; Wed, 07 Dec 2022 15:41:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p31Cd-00013q-3R
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 15:39:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p31EB-0001he-7z
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 15:41:15 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p31Cb-0001sF-Gq
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 15:39:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670445573;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=txfrm0C2BHEERyO9lm+mYiFUdZiISX3V+MkCwEGpavM=;
- b=eMnR8RYymPPiGfc/Ae+GuQWTGh04+wU+c+NwCDBEm1CtPDM++niB+2k6rxzNbVfoaACLZR
- +EL5N1bUMnOSoTFQNurCzLZGdVLW7pTw65wCxIkJphWhzvWyc0NC2mcJvUowCeYmuvC+8R
- cRJi4wk3do4gLqXY7bD2d/iGnhHuG+M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-626-w4ole94PNCGidBx9yJe4Nw-1; Wed, 07 Dec 2022 15:39:32 -0500
-X-MC-Unique: w4ole94PNCGidBx9yJe4Nw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r67-20020a1c4446000000b003d09b0fbf54so1293904wma.3
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 12:39:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=txfrm0C2BHEERyO9lm+mYiFUdZiISX3V+MkCwEGpavM=;
- b=VWyOtlPqNYxvsKNh8inCcXYN63RixM182SLvxVyIj9hh20LxN1um3/0XhyK0aAo2AU
- ggPch23EM6A9ZjS0dlKqm3i34yHL6ZNE8yTd396U5txnE2tIiMLzc2FUtHVUu3yfARiu
- SDXEEqEVqZ7YqPJ0+kfdDDZdMjEkH+HOEulUM9JqBFrJdsnAui2neu8ve6MtAT4idVEN
- NyO4CmbPaOyOyQtpFu8xLs4X0YF9cVdkb30s8Y3Z2ShBW4QYTYmB1Q2l14zKUmNzbqCe
- mMO4AZfPpyWsL6w/i3/2phEGvfJkUe86ugRUGT9WY07aRw4kd/Mwo2WBR9Qz+9C8BJ8q
- +JCw==
-X-Gm-Message-State: ANoB5pmLuMrrUnAEWZax8hpWt4OzXidVYp66jme7Lu+BboBHDnAqjvO/
- 3E/7h4peBqv+5caSYFY2257XuF4erR7x0zvt02kq++aGJJo6qefiZS13oHH0c9lXstSQGZqZyY5
- KNTcVhSEk3YctM/o=
-X-Received: by 2002:a05:600c:5118:b0:3d0:7026:49eb with SMTP id
- o24-20020a05600c511800b003d0702649ebmr25019618wms.53.1670445571299; 
- Wed, 07 Dec 2022 12:39:31 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7FbdNoj0sY9JG8x5EcmQNWJFgcTUgNnsgLaEqhIvx2cvSdooQaC4Fqmi6JzPDO7sxjoX8+gQ==
-X-Received: by 2002:a05:600c:5118:b0:3d0:7026:49eb with SMTP id
- o24-20020a05600c511800b003d0702649ebmr25019603wms.53.1670445571077; 
- Wed, 07 Dec 2022 12:39:31 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- q17-20020a05600000d100b0024207ed4ce0sm20449191wrx.58.2022.12.07.12.39.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Dec 2022 12:39:30 -0800 (PST)
-Message-ID: <c5435744-8926-b1f3-11f9-92829c7cf163@redhat.com>
-Date: Wed, 7 Dec 2022 21:39:29 +0100
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p31E4-0005MO-4I
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 15:41:11 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B7IHm7B014073; Wed, 7 Dec 2022 20:41:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=GcfHFoziaveJVp61ZWPu/nt5c2eBq46791JLkIhC7Lo=;
+ b=hfp45FUiexkRl3UTlC491hbbSlCCGcTmiPmrMc8wRIatr3Z81PB/K0kQ9kjrHkK51Ygy
+ F/PHQspe/3uNJI5dcCvQsQOSnRFpb5OuR/S1fiCcvIWbNDlbu+K5LyVCLYQZwP5ryOWm
+ 20CQTb3oxfqTD4VrL0Ug3QCtJEH9oWuBvzozGcd+8xTCsqqONs+dhGukUByD6bkcvkRW
+ fajqj1G+kmyWMJ2cRBNOSmRITpTGCu26OJnI0wjX0jmzhxrEK5UyQwTGdw0oGnoef1vV
+ JzBA7oVHzd+L9zNMaB0uKtOaAMsbdznjCo5KF9ZGwF1snx5GWkhRWsTB+c6s+Hzc14Y+ YA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mb0023bsw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Dec 2022 20:41:03 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B7KLdob017205;
+ Wed, 7 Dec 2022 20:41:03 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mb0023bs5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Dec 2022 20:41:03 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7HHtPu016511;
+ Wed, 7 Dec 2022 20:41:01 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3m9m5y3e2m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Dec 2022 20:41:00 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B7KewM742139932
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 7 Dec 2022 20:40:58 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 73CF120043;
+ Wed,  7 Dec 2022 20:40:58 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1E77820040;
+ Wed,  7 Dec 2022 20:40:58 +0000 (GMT)
+Received: from [9.171.70.83] (unknown [9.171.70.83])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  7 Dec 2022 20:40:58 +0000 (GMT)
+Message-ID: <1fdded318cbe47fb03b6b476b294afc75bf17d09.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 02/13] tcg/s390x: Remove TCG_REG_TB
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, qemu-devel@nongnu.org, Christian Borntraeger
+ <borntraeger@linux.ibm.com>
+Date: Wed, 07 Dec 2022 21:40:57 +0100
+In-Reply-To: <3ab2945a-c54b-d806-0316-efcf26c91814@linaro.org>
+References: <20221202065200.224537-1-richard.henderson@linaro.org>
+ <20221202065200.224537-3-richard.henderson@linaro.org>
+ <20221206192947.fi6c3ftrueuiqmch@heavy>
+ <8a3965f7-f830-6343-be15-4e16b20655fd@linaro.org>
+ <f035fe38-44ed-6045-b948-d5fcd0dfafd7@redhat.com>
+ <3ab2945a-c54b-d806-0316-efcf26c91814@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.1 (3.46.1-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: cG1ZCgThBdPwKX9excN2oM3m1IJTubus
+X-Proofpoint-GUID: N2iCSvnOVFSe9a32geXps-GScEkE9CBc
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH for 7.2?] target/i386: Remove compilation errors when
- -Werror=maybe-uninitialized
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, eric.auger.pro@gmail.com,
- pbonzini@redhat.com, paul@nowt.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221207132439.635402-1-eric.auger@redhat.com>
- <f8a36758-cff2-3df3-3e30-083175e47131@redhat.com>
- <CAJSP0QXo0p5E_G9rqLO0wqC=NDQzMhoJOJDb0ShV+7OetFMMbg@mail.gmail.com>
- <6a39520b-5445-bda4-951f-998675d6e045@redhat.com>
- <CAJSP0QXKf5X0FijR64_0JWUBcnpNm-Jk58bfCk=966dZmj7NOw@mail.gmail.com>
- <660c1fa1-3575-1849-01d0-8411ca4101d8@redhat.com>
- <64a40f5d-855e-7f70-ba1f-df464abcfddf@linaro.org>
- <d3ba280e-0955-a599-29ec-3fd24df9fd23@redhat.com>
- <CAFEAcA8SYqsdkHq==xggYH3dxpREq6rjhqDUyd_0ZrzrUzCCJw@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <CAFEAcA8SYqsdkHq==xggYH3dxpREq6rjhqDUyd_0ZrzrUzCCJw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-07_09,2022-12-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ mlxlogscore=978 malwarescore=0 bulkscore=0 adultscore=0 mlxscore=0
+ lowpriorityscore=0 clxscore=1015 phishscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212070172
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.262, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,63 +114,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Peter,
+On Wed, 2022-12-07 at 08:55 -0600, Richard Henderson wrote:
+> On 12/7/22 01:45, Thomas Huth wrote:
+> > On 06/12/2022 23.22, Richard Henderson wrote:
+> > > On 12/6/22 13:29, Ilya Leoshkevich wrote:
+> > > > This change doesn't seem to affect that, but what is the
+> > > > minimum
+> > > > supported s390x qemu host? z900?
+> > >=20
+> > > Possibly z990, if I'm reading the gcc processor_flags_table[]
+> > > correctly;=20
+> > > long-displacement-facility is definitely a minimum.
+> > >=20
+> > > We probably should revisit what the minimum for TCG should be,
+> > > assert those features at=20
+> > > startup, and drop the corresponding runtime tests.
+> >=20
+> > If we consider the official IBM support statement:
+> >=20
+> > https://www.ibm.com/support/pages/system/files/inline-files/IBM%20Mainf=
+rame%20Life%20Cycle%20History%20V2.10%20-%20Sept%2013%202022_1.pdf
+> >=20
+> > ... that would mean that the z10 and all older machines are not
+> > supported anymore.
+>=20
+> Thanks for the pointer.=C2=A0 It would appear that z114 exits support at
+> the end of this month,=20
+> which would leave z12 as minimum supported cpu.
+>=20
+> Even assuming z196 gets us extended-immediate, general-insn-
+> extension, load-on-condition,=20
+> and distinct-operands, which are all quite important to TCG, and
+> constitute almost all of=20
+> the current runtime checks.
+>=20
+> The other metric would be matching the set of supported cpus from the
+> set of supported os=20
+> distributions, but I would be ready to believe z196 is below the
+> minimum there too.
+>=20
+>=20
+> r~
 
-On 12/7/22 21:28, Peter Maydell wrote:
-> On Wed, 7 Dec 2022 at 18:44, Eric Auger <eric.auger@redhat.com> wrote:
->> On 12/7/22 19:23, Richard Henderson wrote:
->>> Adding -Wall is not standard, nor all the other -W that you are
->>> adding.  I think you should not be surprised that you run into problems.
->> OK that's a useful indication. I used to have this configure cmd line
->> for a while and have not paid much attention to it until now, I
->> acknowledge. This was useful to catch compilation errors at some point I
->> guess.
->>> While you can make a case for auditing the code base and adding these
->>> to the default set of warning flags, that's a job for the next
->>> development cycle.
->> Let me clarify, I am not insisting for that fix to land in 7.2 all the
->> more so it is pretty late. I just wanted to report the compilation issue
->> and since I use the std qemu pieces with a pretty standard tool chain I
->> thought somebody else would be likely to hit the same problem.
-> As Richard says, we don't expect people to randomly add extra
-> warning flags, and anybody who does should expect to see extra
-> warnings (and that they need to --disable-werror if they don't want
-> those extra warnings to turn into errors).
->
-> We specifically disable some warnings, there are some not-on-by-default
-> warnings that we know we have work to do if we want to eliminate them
-> (eg -Wvla) and there's probably a few where we conceptually disagree
-> with a warning flag or don't find it useful for QEMU (like
-> -Wgnu-statement-expression -- we deliberately use GNU statement
-> expressions so warning about them isn't useful to us).
->
-> Sorting through which of the currently non-enabled warning flags
-> are worth trying to fix existing warnings and enable by default
-> is a pretty big task (not dissimilar to sorting through Coverity
-> issue reports -- maybe some of the things you fix are real bugs
-> but there's a lot of false-positives to wade through to get there).
->
-> maybe-uninitialized warnings are particularly awkward because whether
-> you get them depends a lot on the version of the compiler and how
-> smart its data analysis is.
+I think it should be safe to raise the minimum required hardware for
+TCG to z196:
 
-OK. I don't exactly remember how I came to this configure cmd line.
-Maybe in the old times bots were complaining about such kind of warnings
-or some of the extra warning flags were used downstream. I simply
-thought we had a stricter policy with regards to those and I have been
-using this configure command for a long time, without trouble, until
-recently, hence that belief.
+* The oldest supported RHEL is v7, it requires z196:
 
-Thanks
+https://access.redhat.com/product-life-cycles/
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/ht=
+ml/installation_guide/chap-installation-planning-s390
 
-Eric
->
-> thanks
-> -- PMM
->
+* The oldest supported SLES is v12, it requires z196:
 
+https://www.suse.com/de-de/lifecycle/
+https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-zseries.html
+
+* The oldest supported Ubuntu is v16.04, it requires zEC12+:
+https://wiki.ubuntu.com/S390X
+
+Best regards,
+Ilya
 
