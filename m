@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA41645638
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:14:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA0C6456AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:39:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2qTp-0003eS-Uw; Wed, 07 Dec 2022 04:12:41 -0500
+	id 1p2qs8-0004JA-SF; Wed, 07 Dec 2022 04:37:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p2qTj-0003cl-RC
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:12:36 -0500
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p2qTe-0003sS-9O
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:12:35 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.3])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 66E2C2FF3B;
- Wed,  7 Dec 2022 09:12:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 7 Dec
- 2022 10:12:16 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S00171c8e3f1-1155-4d14-825e-f4609ca453e5,
- 61A31601304416A3AEEA4E3C31839A11CB8BFEB3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <697092bd-9920-a73e-7652-07b8ecc8daff@kaod.org>
-Date: Wed, 7 Dec 2022 10:12:09 +0100
+ (Exim 4.90_1) (envelope-from <ggowri617@gmail.com>)
+ id 1p2qs7-0004Hh-8K; Wed, 07 Dec 2022 04:37:47 -0500
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ggowri617@gmail.com>)
+ id 1p2qs5-0000Lm-3r; Wed, 07 Dec 2022 04:37:46 -0500
+Received: by mail-lj1-x234.google.com with SMTP id a19so20291024ljk.0;
+ Wed, 07 Dec 2022 01:37:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jr4GEFhIJ+2OYLYk7YApAl6V6sgw8Ppff3/SXuP5r60=;
+ b=i4sfWTeVRzcaa+nx61FF6y6D+vBpXqxNvwCreBac1i+MI+69UqW5xGHh0KlZprz2tT
+ QwDU7EY0osBrvrKbDE+v2wS9KDEnnqnXVGICBu8IPWRroZQ5QDIwacA6k9/eXQ5k5BPh
+ 8iYZ5kVYwlYuq26I2yFROyVLo2Krqt5jvmRUbQkrOYD3VyftKMrU/Ir4MF3OqWTpICGq
+ noAhXAWKcVd7f747I6kS2uUlP2btLmRITMyFzHNSs84KbJyJqnY0N31z9XvIiCrsx4a8
+ dJmcqCSUieIfBqYx0jQyuG3PPh10rDPsu6sKoDrl01diuJ9Qr2j75dx/xK8bE24iQp1N
+ 4Okg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Jr4GEFhIJ+2OYLYk7YApAl6V6sgw8Ppff3/SXuP5r60=;
+ b=vgJdy+TkPWWydRt/Cz0AYpR65mDE0WFjynJcUehTPNIzxr861Ya/1iyOfrLXMM87Fk
+ J5usOjRix5ndaxdhCsiwrL8Ws5R/elnJ1cTb/coiKFf8CPzYlB6WWbu2ktgG+RHzzETZ
+ 5QR02Mx4lwE75G65MZxlU/lMMUQnm4ZQ8l4zHo2QZ9ZB8PDgzRvgcwFO1Q3jHDcGhjHX
+ Giw8gU9uN4tyFYpRNvIpAbYmvKdt4PJFNfs4LtZUSdX7QMHR6qwvDBaYFaJpasyKpDry
+ FJ4OqaYeEkENBqKmsMzFalsa2F7WYXbfieC8m6DOmfoG8IYBgbIUKNUQCT656PtPD4jm
+ w5Aw==
+X-Gm-Message-State: ANoB5pm4I9Zryd07js0caOQ37ohYbcdJOsSPKYra/SPeLGD6pbZ5UUWn
+ s+qZwvdTj5uD5s/0bsE5IxQdGWQrZEr8S4d0WF4=
+X-Google-Smtp-Source: AA0mqf4vFwqvvdQ2piwz7Tbb2/mJxwMfPnOCV9OCUf7VJnQgjNB0LNmr9CXUY2Ssn8FDK8bXfft6ei+2hmyg5iajkaY=
+X-Received: by 2002:a2e:9c17:0:b0:279:14a2:73e7 with SMTP id
+ s23-20020a2e9c17000000b0027914a273e7mr27112616lji.333.1670405861090; Wed, 07
+ Dec 2022 01:37:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v12 2/7] s390x/cpu topology: reporting the CPU topology to
- the guest
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <scgl@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20221129174206.84882-1-pmorel@linux.ibm.com>
- <20221129174206.84882-3-pmorel@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221129174206.84882-3-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: f922e4c7-f09e-4bd1-a91e-aaa35bef4b1d
-X-Ovh-Tracer-Id: 6408903747072986067
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudejgddufedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhstghglheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkhhvmhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
- dpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.27,
+References: <CAJWWW5ikmoujzeYw97QEMG0uBCLyR2mypSe_Td4XJXjXHQFnyQ@mail.gmail.com>
+ <dec95b7b-ae39-d0fc-c631-fcf550c0c3cb@linaro.org>
+ <BN7PR12MB2801E7666C7FD577A7FC22B1E6189@BN7PR12MB2801.namprd12.prod.outlook.com>
+ <CAJWWW5hMxg0jcy_=HnGVEW2akeka+FxPva+fjkcYjPQbbwEYOQ@mail.gmail.com>
+In-Reply-To: <CAJWWW5hMxg0jcy_=HnGVEW2akeka+FxPva+fjkcYjPQbbwEYOQ@mail.gmail.com>
+From: Gowri Shankar <ggowri617@gmail.com>
+Date: Wed, 7 Dec 2022 15:07:29 +0530
+Message-ID: <CAJWWW5h8p8TUSRCH9mH9816wErUhbBFfCxTVjHFoQXF+YqLH1g@mail.gmail.com>
+Subject: Re: REG: TTC Timer
+To: "Konrad, Frederic" <Frederic.Konrad@amd.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>, 
+ "Iglesias, Francisco" <francisco.iglesias@amd.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: multipart/alternative; boundary="000000000000fb2b5705ef39abdd"
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=ggowri617@gmail.com; helo=mail-lj1-x234.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,414 +88,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/29/22 18:42, Pierre Morel wrote:
-> The guest uses the STSI instruction to get information on the
-> CPU topology.
-> 
-> Let us implement the STSI instruction for the basis CPU topology
-> level, level 2.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   target/s390x/cpu.h          |  77 +++++++++++++++
->   hw/s390x/s390-virtio-ccw.c  |  12 +--
->   target/s390x/cpu_topology.c | 186 ++++++++++++++++++++++++++++++++++++
->   target/s390x/kvm/kvm.c      |   6 +-
->   target/s390x/meson.build    |   1 +
->   5 files changed, 274 insertions(+), 8 deletions(-)
->   create mode 100644 target/s390x/cpu_topology.c
-> 
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 7d6d01325b..dd878ac916 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -175,6 +175,7 @@ struct ArchCPU {
->       /* needed for live migration */
->       void *irqstate;
->       uint32_t irqstate_saved_size;
-> +    void *machine_data;
->   };
->   
->   
-> @@ -565,6 +566,80 @@ typedef union SysIB {
->   } SysIB;
->   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
->   
-> +/*
-> + * CPU Topology List provided by STSI with fc=15 provides a list
-> + * of two different Topology List Entries (TLE) types to specify
-> + * the topology hierarchy.
-> + *
-> + * - Container Topology List Entry
-> + *   Defines a container to contain other Topology List Entries
-> + *   of any type, nested containers or CPU.
-> + * - CPU Topology List Entry
-> + *   Specifies the CPUs position, type, entitlement and polarization
-> + *   of the CPUs contained in the last Container TLE.
-> + *
-> + * There can be theoretically up to five levels of containers, QEMU
-> + * uses only one level, the socket level.
-> + *
-> + * A container of with a nesting level (NL) greater than 1 can only
-> + * contain another container of nesting level NL-1.
-> + *
-> + * A container of nesting level 1 (socket), contains as many CPU TLE
-> + * as needed to describe the position and qualities of all CPUs inside
-> + * the container.
-> + * The qualities of a CPU are polarization, entitlement and type.
-> + *
-> + * The CPU TLE defines the position of the CPUs of identical qualities
-> + * using a 64bits mask which first bit has its offset defined by
-> + * the CPU address orgin field of the CPU TLE like in:
-> + * CPU address = origin * 64 + bit position within the mask
-> + *
-> + */
-> +/* Container type Topology List Entry */
-> +typedef struct SysIBTl_container {
-> +        uint8_t nl;
-> +        uint8_t reserved[6];
-> +        uint8_t id;
-> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
-> +
-> +/* CPU type Topology List Entry */
-> +typedef struct SysIBTl_cpu {
-> +        uint8_t nl;
-> +        uint8_t reserved0[3];
-> +        uint8_t reserved1:5;
-> +        uint8_t dedicated:1;
-> +        uint8_t polarity:2;
-> +        uint8_t type;
-> +        uint16_t origin;
-> +        uint64_t mask;
-> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
-> +
-> +#define S390_TOPOLOGY_MAG  6
-> +#define S390_TOPOLOGY_MAG6 0
-> +#define S390_TOPOLOGY_MAG5 1
-> +#define S390_TOPOLOGY_MAG4 2
-> +#define S390_TOPOLOGY_MAG3 3
-> +#define S390_TOPOLOGY_MAG2 4
-> +#define S390_TOPOLOGY_MAG1 5
-> +/* Configuration topology */
-> +typedef struct SysIB_151x {
-> +    uint8_t  reserved0[2];
-> +    uint16_t length;
-> +    uint8_t  mag[S390_TOPOLOGY_MAG];
-> +    uint8_t  reserved1;
-> +    uint8_t  mnest;
-> +    uint32_t reserved2;
-> +    char tle[0];
-> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
-> +
-> +/* Max size of a SYSIB structure is when all CPU are alone in a container */
-> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
-> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
-> +                                                   sizeof(SysIBTl_cpu)))
-> +
->   /* MMU defines */
->   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
->   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
-> @@ -843,4 +918,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
->   
->   #include "exec/cpu-all.h"
->   
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
-> +
->   #endif
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 973bbdd36e..4be07959fd 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -64,11 +64,10 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
->       return S390_CPU(ms->possible_cpus->cpus[cpu_addr].cpu);
->   }
->   
-> -static S390CPU *s390x_new_cpu(const char *typename, uint32_t core_id,
-> -                              Error **errp)
-> +static void s390x_new_cpu(MachineState *ms, uint32_t core_id, Error **errp)
->   {
-> -    S390CPU *cpu = S390_CPU(object_new(typename));
-> -    S390CPU *ret = NULL;
-> +    S390CcwMachineState *s390ms = S390_CCW_MACHINE(ms);
-> +    S390CPU *cpu = S390_CPU(object_new(ms->cpu_type));
->   
->       if (!object_property_set_int(OBJECT(cpu), "core-id", core_id, errp)) {
->           goto out;
-> @@ -76,11 +75,10 @@ static S390CPU *s390x_new_cpu(const char *typename, uint32_t core_id,
->       if (!qdev_realize(DEVICE(cpu), NULL, errp)) {
->           goto out;
->       }
-> -    ret = cpu;
-> +    cpu->machine_data = s390ms;
->   
->   out:
->       object_unref(OBJECT(cpu));
-> -    return ret;
->   }
->   
->   static void s390_init_cpus(MachineState *machine)
-> @@ -99,7 +97,7 @@ static void s390_init_cpus(MachineState *machine)
->       mc->possible_cpu_arch_ids(machine);
->   
->       for (i = 0; i < machine->smp.cpus; i++) {
-> -        s390x_new_cpu(machine->cpu_type, i, &error_fatal);
-> +        s390x_new_cpu(machine, i, &error_fatal);
->       }
->   }
->   
-> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
-> new file mode 100644
-> index 0000000000..b81f016ba1
-> --- /dev/null
-> +++ b/target/s390x/cpu_topology.c
-> @@ -0,0 +1,186 @@
-> +/*
-> + * QEMU S390x CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "hw/s390x/pv.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/s390x/cpu-topology.h"
-> +#include "hw/s390x/sclp.h"
-> +
-> +/*
-> + * s390_topology_add_cpu:
-> + * @topo: pointer to the topology
-> + * @cpu : pointer to the new CPU
-> + *
-> + * The topology pointed by S390CPU, gives us the CPU topology
-> + * established by the -smp QEMU aruments.
-> + * The core-id is used to calculate the position of the CPU inside
-> + * the topology:
-> + *  - the socket, container TLE, containing the CPU, we have one socket
-> + *    for every num_cores cores.
-> + *  - the CPU TLE inside the socket, we have potentionly up to 4 CPU TLE
-> + *    in a container TLE with the assumption that all CPU are identical
-> + *    with the same polarity and entitlement because we have maximum 256
-> + *    CPUs and each TLE can hold up to 64 identical CPUs.
-> + *  - the bit in the 64 bit CPU TLE core mask
-> + */
-> +static void s390_topology_add_cpu(S390Topology *topo, S390CPU *cpu)
-> +{
-> +    int core_id = cpu->env.core_id;
-> +    int bit, origin;
-> +    int socket_id;
-> +
-> +    cpu->machine_data = topo;
-> +    socket_id = core_id / topo->num_cores;
-> +    /*
-> +     * At the core level, each CPU is represented by a bit in a 64bit
-> +     * uint64_t which represent the presence of a CPU.
-> +     * The firmware assume that all CPU in a CPU TLE have the same
-> +     * type, polarization and are all dedicated or shared.
-> +     * In that case the origin variable represents the offset of the first
-> +     * CPU in the CPU container.
-> +     * More than 64 CPUs per socket are represented in several CPU containers
-> +     * inside the socket container.
-> +     * The only reason to have several S390TopologyCores inside a socket is
-> +     * to have more than 64 CPUs.
-> +     * In that case the origin variable represents the offset of the first CPU
-> +     * in the CPU container. More than 64 CPUs per socket are represented in
-> +     * several CPU containers inside the socket container.
-> +     */
-> +    bit = core_id;
-> +    origin = bit / 64;
-> +    bit %= 64;
-> +    bit = 63 - bit;
-> +
-> +    topo->socket[socket_id].active_count++;
-> +    set_bit(bit, &topo->socket[socket_id].mask[origin]);
-> +}
-> +
-> +/*
-> + * s390_prepare_topology:
-> + * @s390ms : pointer to the S390CcwMachite State
-> + *
-> + * Calls s390_topology_add_cpu to organize the topology
-> + * inside the topology device before writing the SYSIB.
-> + *
-> + * The topology is currently fixed on boot and do not change
-> + * even on migration.
-> + */
-> +static void s390_prepare_topology(S390CcwMachineState *s390ms)
-> +{
-> +    const MachineState *ms = MACHINE(s390ms);
-> +    static bool done;
-> +    int i;
-> +
-> +    if (done) {
-> +        return;
-> +    }
-> +
-> +    for (i = 0; i < ms->possible_cpus->len; i++) {
-> +        if (ms->possible_cpus->cpus[i].cpu) {
-> +            s390_topology_add_cpu(S390_CPU_TOPOLOGY(s390ms->topology),
-> +                                  S390_CPU(ms->possible_cpus->cpus[i].cpu));
-> +        }
-> +    }
-> +
-> +    done = true;
-> +}
-> +
-> +static char *fill_container(char *p, int level, int id)
-> +{
-> +    SysIBTl_container *tle = (SysIBTl_container *)p;
-> +
-> +    tle->nl = level;
-> +    tle->id = id;
-> +    return p + sizeof(*tle);
-> +}
-> +
-> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
-> +{
-> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
-> +
-> +    tle->nl = 0;
-> +    tle->dedicated = 1;
-> +    tle->polarity = S390_TOPOLOGY_POLARITY_HORIZONTAL;
-> +    tle->type = S390_TOPOLOGY_CPU_IFL;
-> +    tle->origin = cpu_to_be64(origin * 64);
-> +    tle->mask = cpu_to_be64(mask);
-> +    return p + sizeof(*tle);
-> +}
-> +
-> +static char *s390_top_set_level2(S390Topology *topo, char *p)
-> +{
-> +    int i, origin;
-> +
-> +    for (i = 0; i < topo->num_sockets; i++) {
-> +        if (!topo->socket[i].active_count) {
-> +            continue;
-> +        }
-> +        p = fill_container(p, 1, i);
-> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
-> +            uint64_t mask = 0L;
-> +
-> +            mask = topo->socket[i].mask[origin];
-> +            if (mask) {
-> +                p = fill_tle_cpu(p, mask, origin);
-> +            }
-> +        }
-> +    }
-> +    return p;
-> +}
-> +
-> +static int setup_stsi(S390CPU *cpu, SysIB_151x *sysib, int level)
-> +{
-> +    S390Topology *topo = (S390Topology *)cpu->machine_data;
-> +    char *p = sysib->tle;
-> +
-> +    sysib->mnest = level;
-> +    switch (level) {
-> +    case 2:
-> +        sysib->mag[S390_TOPOLOGY_MAG2] = topo->num_sockets;
-> +        sysib->mag[S390_TOPOLOGY_MAG1] = topo->num_cores;
-> +        p = s390_top_set_level2(topo, p);
-> +        break;
-> +    }
-> +
-> +    return p - (char *)sysib;
-> +}
-> +
-> +#define S390_TOPOLOGY_MAX_MNEST 2
-> +
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
-> +{
-> +    union {
-> +        char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
-> +        SysIB_151x sysib;
-> +    } buffer QEMU_ALIGNED(8);
-> +    int len;
-> +
-> +    if (s390_is_pv() || !s390_has_topology() ||
-> +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
-> +        setcc(cpu, 3);
-> +        return;
-> +    }
+--000000000000fb2b5705ef39abdd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello Konrad,
+Could you please help me to solve it?
+Thanks & Regards,
+P.Gowrishankar
+
+On Mon, Dec 5, 2022 at 4:26 PM Gowri Shankar <ggowri617@gmail.com> wrote:
+
+> Hi Konrad,
 >
-> +    s390_prepare_topology(S390_CCW_MACHINE(cpu->machine_data));
-> +
-> +    len = setup_stsi(cpu, &buffer.sysib, sel2);
+> Thanks for your quick response.
+>
+> Now I want to increment the TTC counter value to enable the system tick.
+> How to configure the TTC register to increment it in QEMU.
+>
+> I found the steps to enable the TTC counter which is below. But not able
+> to increment. If possible could you please share the example source code?
+>
+>   1. Select clock input source, set prescaler value (slcr.MIO_MUX_SEL
+> registers, TTC Clock Control register). Ensure TTC is disabled
+> (ttc.Counter_Control_x [DIS] =3D 1) before proceeding with this step.
+> 2. Set interval value (Interval register). This step is optional, for
+> interval mode only.
+> 3. Set match value (Match registers). This step is optional, if matching
+> is to be enabled.
+> 4. Enable interrupt (Interrupt Enable register). This step is optional, i=
+f
+> interrupt is to be enabled.
+> 5. Enable/disable waveform output, enable/disable matching, set counting
+> direction, set mode, enable counter (TTC Counter Control register). This
+> step starts the counter.
+>
+> Thanks & Regards,
+> P.Gowrishankar
+>
+> On Mon, Dec 5, 2022 at 4:07 PM Konrad, Frederic <Frederic.Konrad@amd.com>
+> wrote:
+>
+>> Hi Philippe,
+>> Hi Gowri,
+>>
+>> The zcu102 has a zynqmp soc object (hw/arm/xlnx-zcu102.c:125):
+>>
+>> static void xlnx_zcu102_init(MachineState *machine)
+>> {
+>> ...
+>>     object_initialize_child(OBJECT(machine), "soc", &s->soc,
+>> TYPE_XLNX_ZYNQMP);
+>>
+>> So the TTCs should work in the ZCU102.
+>>
+>> Best Regards,
+>> Fred
+>>
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>> Sent: 05 December 2022 09:24
+>> To: Gowri Shankar <ggowri617@gmail.com>; QEMU Developers <
+>> qemu-devel@nongnu.org>; qemu-arm <qemu-arm@nongnu.org>
+>> Cc: qemu-discuss@nongnu.org; Konrad, Frederic <Frederic.Konrad@amd.com>;
+>> Iglesias, Francisco <francisco.iglesias@amd.com>; Alistair Francis <
+>> alistair.francis@wdc.com>
+>> Subject: Re: REG: TTC Timer
+>>
+>> On 22/11/22 12:27, Gowri Shankar wrote:
+>> > Hi Team,
+>> >
+>> > Advance Thanks for Your support.
+>> >
+>> > Could you please clarify one point here?
+>> > I am using a Xilinx ZCU102 machine with QEMU7.1.0.
+>> >
+>> > I have seen QEMU 7.1.0 release has TTC timers for the Xilinx-zynqmp
+>> > SoC model.
+>> > url: https://wiki.qemu.org/ChangeLog/7.1
+>> > <https://wiki.qemu.org/ChangeLog/7.1>
+>> >
+>> > In this case, can the ZCU102 machine also use the TTC feature?
+>> > If yes and possible, Could you please share the example code snippet?
+>> > --
+>> > Thanks & Regards,
+>> > P. Gowrishankar.
+>> > +919944802490
+>>
+>> Cc'ing qemu-arm@ mailing list and Xilinx ZCU102 machine developers.
+>>
+>>
+>
+> --
+> Thanks & Regards,
+> P. Gowrishankar.
+> +919944802490
+>
+>
+>
+>
 
+--=20
+Thanks & Regards,
+P. Gowrishankar.
++919944802490
 
-The S390_CPU_TOPOLOGY object is created by the machine at init time
-and the two above routines are the only users of this object.
+--000000000000fb2b5705ef39abdd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The first loops on all possible CPUs to populate the bitmask array
-'socket' under S390_CPU_TOPOLOGY and the second uses the result to
-populate the buffer returned to the guest OS.
+<div dir=3D"ltr">Hello Konrad,<div>Could you please help me to solve it?<di=
+v>Thanks &amp; Regards,</div><div>P.Gowrishankar</div></div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 5, =
+2022 at 4:26 PM Gowri Shankar &lt;<a href=3D"mailto:ggowri617@gmail.com">gg=
+owri617@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex"><div dir=3D"ltr">Hi Konrad,<div><br></div><div>Thanks for =
+your quick response.</div><div><br></div><div>Now I want to increment the T=
+TC counter value to=C2=A0enable=C2=A0the system tick. How to configure the =
+TTC register to increment it in QEMU.</div><div><br></div><div>I found the =
+steps to enable the TTC counter which is below. But not able to increment. =
+If possible could you please share the example source code?</div><div><br><=
+/div><div>=C2=A0 1. Select clock input source, set prescaler value (slcr.MI=
+O_MUX_SEL registers, TTC Clock Control
+register). Ensure TTC is disabled (ttc.Counter_Control_x [DIS] =3D 1) befor=
+e proceeding with this
+step.=C2=A0</div><div>2. Set interval value (Interval register). This step =
+is optional, for interval mode only.=C2=A0</div><div>3. Set match value (Ma=
+tch registers). This step is optional, if matching is to be enabled.=C2=A0<=
+/div><div>4. Enable interrupt (Interrupt Enable register). This step is opt=
+ional, if interrupt is to be enabled.</div><div>5. Enable/disable waveform =
+output, enable/disable matching, set counting direction, set mode,
+enable counter (TTC Counter Control register). This step starts the counter=
+.=C2=A0=C2=A0</div><div><br></div><div><div>Thanks &amp; Regards,<br></div>=
+<div>P.Gowrishankar</div></div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Mon, Dec 5, 2022 at 4:07 PM Konrad, Frede=
+ric &lt;<a href=3D"mailto:Frederic.Konrad@amd.com" target=3D"_blank">Freder=
+ic.Konrad@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">Hi Philippe,<br>
+Hi Gowri,<br>
+<br>
+The zcu102 has a zynqmp soc object (hw/arm/xlnx-zcu102.c:125):<br>
+<br>
+static void xlnx_zcu102_init(MachineState *machine)<br>
+{<br>
+...<br>
+=C2=A0 =C2=A0 object_initialize_child(OBJECT(machine), &quot;soc&quot;, &am=
+p;s-&gt;soc, TYPE_XLNX_ZYNQMP);<br>
+<br>
+So the TTCs should work in the ZCU102.<br>
+<br>
+Best Regards,<br>
+Fred<br>
+<br>
+-----Original Message-----<br>
+From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org" =
+target=3D"_blank">philmd@linaro.org</a>&gt; <br>
+Sent: 05 December 2022 09:24<br>
+To: Gowri Shankar &lt;<a href=3D"mailto:ggowri617@gmail.com" target=3D"_bla=
+nk">ggowri617@gmail.com</a>&gt;; QEMU Developers &lt;<a href=3D"mailto:qemu=
+-devel@nongnu.org" target=3D"_blank">qemu-devel@nongnu.org</a>&gt;; qemu-ar=
+m &lt;<a href=3D"mailto:qemu-arm@nongnu.org" target=3D"_blank">qemu-arm@non=
+gnu.org</a>&gt;<br>
+Cc: <a href=3D"mailto:qemu-discuss@nongnu.org" target=3D"_blank">qemu-discu=
+ss@nongnu.org</a>; Konrad, Frederic &lt;<a href=3D"mailto:Frederic.Konrad@a=
+md.com" target=3D"_blank">Frederic.Konrad@amd.com</a>&gt;; Iglesias, Franci=
+sco &lt;<a href=3D"mailto:francisco.iglesias@amd.com" target=3D"_blank">fra=
+ncisco.iglesias@amd.com</a>&gt;; Alistair Francis &lt;<a href=3D"mailto:ali=
+stair.francis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<b=
+r>
+Subject: Re: REG: TTC Timer<br>
+<br>
+On 22/11/22 12:27, Gowri Shankar wrote:<br>
+&gt; Hi Team,<br>
+&gt; <br>
+&gt; Advance Thanks for Your support.<br>
+&gt; <br>
+&gt; Could you please clarify one point here?<br>
+&gt; I am using a Xilinx ZCU102 machine with QEMU7.1.0.<br>
+&gt; <br>
+&gt; I have seen QEMU 7.1.0 release has TTC timers for the Xilinx-zynqmp <b=
+r>
+&gt; SoC model.<br>
+&gt; url: <a href=3D"https://wiki.qemu.org/ChangeLog/7.1" rel=3D"noreferrer=
+" target=3D"_blank">https://wiki.qemu.org/ChangeLog/7.1</a><br>
+&gt; &lt;<a href=3D"https://wiki.qemu.org/ChangeLog/7.1" rel=3D"noreferrer"=
+ target=3D"_blank">https://wiki.qemu.org/ChangeLog/7.1</a>&gt;<br>
+&gt; <br>
+&gt; In this case, can the ZCU102 machine also use the TTC feature?<br>
+&gt; If yes and possible, Could you please share the example code snippet?<=
+br>
+&gt; --<br>
+&gt; Thanks &amp; Regards,<br>
+&gt; P. Gowrishankar.<br>
+&gt; +919944802490<br>
+<br>
+Cc&#39;ing qemu-arm@ mailing list and Xilinx ZCU102 machine developers.<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr">Thanks &amp; Regards,<br>P. Gowrishankar.<br>+91994480249=
+0<br><br><br><br></div></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Thanks &amp; Regards,<br>P. Gow=
+rishankar.<br>+919944802490<br><br><br><br></div></div>
 
-I don't understand why the S390_CPU_TOPOLOGY object is needed at all.
-AFAICT, this is just adding extra complexity. Is the pachset preparing
-ground for some more features ? If so, it should be explained in the
-commit log.
-
-As for now, I see no good justification for S390_CPU_TOPOLOGY and we
-could add support with a simple routine called from insert_stsi_15_1_x().
-
-Thanks,
-
-C.
-
-> +
-> +    if (len > 4096) {
-> +        setcc(cpu, 3);
-> +        return;
-> +    }
-> +
-> +    buffer.sysib.length = cpu_to_be16(len);
-> +    s390_cpu_virt_mem_write(cpu, addr, ar, &buffer.sysib, len);
-> +    setcc(cpu, 0);
-> +}
-> +
-> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-> index 3ac7ec9acf..7dc96f3663 100644
-> --- a/target/s390x/kvm/kvm.c
-> +++ b/target/s390x/kvm/kvm.c
-> @@ -51,6 +51,7 @@
->   #include "hw/s390x/s390-virtio-ccw.h"
->   #include "hw/s390x/s390-virtio-hcall.h"
->   #include "hw/s390x/pv.h"
-> +#include "hw/s390x/cpu-topology.h"
->   
->   #ifndef DEBUG_KVM
->   #define DEBUG_KVM  0
-> @@ -1919,9 +1920,12 @@ static int handle_stsi(S390CPU *cpu)
->           if (run->s390_stsi.sel1 != 2 || run->s390_stsi.sel2 != 2) {
->               return 0;
->           }
-> -        /* Only sysib 3.2.2 needs post-handling for now. */
->           insert_stsi_3_2_2(cpu, run->s390_stsi.addr, run->s390_stsi.ar);
->           return 0;
-> +    case 15:
-> +        insert_stsi_15_1_x(cpu, run->s390_stsi.sel2, run->s390_stsi.addr,
-> +                           run->s390_stsi.ar);
-> +        return 0;
->       default:
->           return 0;
->       }
-> diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-> index 84c1402a6a..890ccfa789 100644
-> --- a/target/s390x/meson.build
-> +++ b/target/s390x/meson.build
-> @@ -29,6 +29,7 @@ s390x_softmmu_ss.add(files(
->     'sigp.c',
->     'cpu-sysemu.c',
->     'cpu_models_sysemu.c',
-> +  'cpu_topology.c',
->   ))
->   
->   s390x_user_ss = ss.source_set()
-
+--000000000000fb2b5705ef39abdd--
 
