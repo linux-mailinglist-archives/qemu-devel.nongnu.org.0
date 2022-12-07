@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D417645AE9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 14:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E73D645AEC
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 14:28:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2uKs-0007eD-5B; Wed, 07 Dec 2022 08:19:42 -0500
+	id 1p2uKu-0007eU-3G; Wed, 07 Dec 2022 08:19:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2uKm-0007c6-Qg
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:19:36 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2uKp-0007dm-Uo
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:19:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2uKk-0006Rn-Vr
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:19:36 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p2uKo-0006Sv-Jf
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:19:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670419174;
+ s=mimecast20190719; t=1670419178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ROn4tm5UsJM1HLy02tl9NzT/VVCVRay4DGkMW9/2OfM=;
- b=Vpapg8bnnmwQaqRjuq5twVCyCD2u8fPXs3e/GC5DaUUJMQRJ1hwqodZlcZYvUDsflCUoMI
- HFTQjE1wU3vEYQ9VBaHp/NrEtuDRYyRctprdS/Xuaeh7HVnaiHVD4YRxlLaUj0VG5A/VYs
- v68pGqC8BZ1xhTM8Bqkg1kIOXMANCx8=
+ bh=dEEyJzhUKAsww0k472ZWz2T+EYnMnuaKXW6ZRQdf7lQ=;
+ b=WvBL4HbgwAzvovj30RlCRLUzhWGaqZ6gjB2eWMz/ucFTDujue+nQxmbC5sK2w8XAndE5go
+ d/YICcqns8cAbKEzI64OQN8IKEwKeGgD9Wi/FZ/yFx0yqJ4WeBTDTKlgERX0+0+/SiVqqS
+ ZdicjSzj2r4BLPATgxsUY0Ri6hH9qkc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-tEzL7XszMl-KhyR4oWEz9A-1; Wed, 07 Dec 2022 08:19:29 -0500
-X-MC-Unique: tEzL7XszMl-KhyR4oWEz9A-1
+ us-mta-629-NGiMIDzHP5aAmCn_B2KO_w-1; Wed, 07 Dec 2022 08:19:30 -0500
+X-MC-Unique: NGiMIDzHP5aAmCn_B2KO_w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 017BA101A56D;
- Wed,  7 Dec 2022 13:19:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 599E0811E7A;
+ Wed,  7 Dec 2022 13:19:30 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA8F51121314;
- Wed,  7 Dec 2022 13:19:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DDEB1121319;
+ Wed,  7 Dec 2022 13:19:29 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, hreitz@redhat.com, eesposit@redhat.com,
  pbonzini@redhat.com, vsementsov@yandex-team.ru, qemu-devel@nongnu.org
-Subject: [PATCH 05/18] Import clang-tsa.h
-Date: Wed,  7 Dec 2022 14:18:25 +0100
-Message-Id: <20221207131838.239125-6-kwolf@redhat.com>
+Subject: [PATCH 06/18] clang-tsa: Add TSA_ASSERT() macro
+Date: Wed,  7 Dec 2022 14:18:26 +0100
+Message-Id: <20221207131838.239125-7-kwolf@redhat.com>
 In-Reply-To: <20221207131838.239125-1-kwolf@redhat.com>
 References: <20221207131838.239125-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,128 +76,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This defines macros that allow clang to perform Thread Safety Analysis
-based on function and variable annotations that specify the locking
-rules. On non-clang compilers, the annotations are ignored.
-
-Imported tsa.h from the original repository with the pthread_mutex_t
-wrapper removed:
-
-https://github.com/jhi/clang-thread-safety-analysis-for-c.git
-
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/qemu/clang-tsa.h | 101 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 101 insertions(+)
- create mode 100644 include/qemu/clang-tsa.h
+ include/qemu/clang-tsa.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/include/qemu/clang-tsa.h b/include/qemu/clang-tsa.h
-new file mode 100644
-index 0000000000..0a3361dfc8
---- /dev/null
+index 0a3361dfc8..211ee0ae73 100644
+--- a/include/qemu/clang-tsa.h
 +++ b/include/qemu/clang-tsa.h
-@@ -0,0 +1,101 @@
-+#ifndef CLANG_TSA_H
-+#define CLANG_TSA_H
-+
+@@ -98,4 +98,13 @@
+  */
+ #define TSA_NO_TSA TSA(no_thread_safety_analysis)
+ 
 +/*
-+ * Copyright 2018 Jarkko Hietaniemi <jhi@iki.fi>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining
-+ * a copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without
-+ * limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, sublicense, and/or sell copies of the Software, and to
-+ * permit persons to whom the Software is furnished to do so, subject to
-+ * the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be
-+ * included in all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-+ */
-+
-+/* http://clang.llvm.org/docs/ThreadSafetyAnalysis.html
-+ *
-+ * TSA is available since clang 3.6-ish.
-+ */
-+#ifdef __clang__
-+#  define TSA(x)   __attribute__((x))
-+#else
-+#  define TSA(x)   /* No TSA, make TSA attributes no-ops. */
-+#endif
-+
-+/* TSA_CAPABILITY() is used to annotate typedefs:
-+ *
-+ * typedef pthread_mutex_t TSA_CAPABILITY("mutex") tsa_mutex;
-+ */
-+#define TSA_CAPABILITY(x) TSA(capability(x))
-+
-+/* TSA_GUARDED_BY() is used to annotate global variables,
-+ * the data is guarded:
-+ *
-+ * Foo foo TSA_GUARDED_BY(mutex);
-+ */
-+#define TSA_GUARDED_BY(x) TSA(guarded_by(x))
-+
-+/* TSA_PT_GUARDED_BY() is used to annotate global pointers, the data
-+ * behind the pointer is guarded.
-+ *
-+ * Foo* ptr TSA_PT_GUARDED_BY(mutex);
-+ */
-+#define TSA_PT_GUARDED_BY(x) TSA(pt_guarded_by(x))
-+
-+/* The TSA_REQUIRES() is used to annotate functions: the caller of the
-+ * function MUST hold the resource, the function will NOT release it.
++ * TSA_ASSERT() is used to annotate functions: This function will assert that
++ * the lock is held. When it returns, the caller of the function is assumed to
++ * already hold the resource.
 + *
 + * More than one mutex may be specified, comma-separated.
-+ *
-+ * void Foo(void) TSA_REQUIRES(mutex);
 + */
-+#define TSA_REQUIRES(...) TSA(requires_capability(__VA_ARGS__))
++#define TSA_ASSERT(...) TSA(assert_capability(__VA_ARGS__))
 +
-+/* TSA_EXCLUDES() is used to annotate functions: the caller of the
-+ * function MUST NOT hold resource, the function first acquires the
-+ * resource, and then releases it.
-+ *
-+ * More than one mutex may be specified, comma-separated.
-+ *
-+ * void Foo(void) TSA_EXCLUDES(mutex);
-+ */
-+#define TSA_EXCLUDES(...) TSA(locks_excluded(__VA_ARGS__))
-+
-+/* TSA_ACQUIRE() is used to annotate functions: the caller of the
-+ * function MUST NOT hold the resource, the function will acquire the
-+ * resource, but NOT release it.
-+ *
-+ * More than one mutex may be specified, comma-separated.
-+ *
-+ * void Foo(void) TSA_ACQUIRE(mutex);
-+ */
-+#define TSA_ACQUIRE(...) TSA(acquire_capability(__VA_ARGS__))
-+
-+/* TSA_RELEASE() is used to annotate functions: the caller of the
-+ * function MUST hold the resource, but the function will then release it.
-+ *
-+ * More than one mutex may be specified, comma-separated.
-+ *
-+ * void Foo(void) TSA_RELEASE(mutex);
-+ */
-+#define TSA_RELEASE(...) TSA(release_capability(__VA_ARGS__))
-+
-+/* TSA_NO_TSA is used to annotate functions.  Use only when you need to.
-+ *
-+ * void Foo(void) TSA_NO_TSA;
-+ */
-+#define TSA_NO_TSA TSA(no_thread_safety_analysis)
-+
-+#endif /* #ifndef CLANG_TSA_H */
+ #endif /* #ifndef CLANG_TSA_H */
 -- 
 2.38.1
 
