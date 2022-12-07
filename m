@@ -2,79 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11645645CE6
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 15:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAA9645D06
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 15:57:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2viV-0000o0-Hy; Wed, 07 Dec 2022 09:48:11 -0500
+	id 1p2vqg-0002pu-8j; Wed, 07 Dec 2022 09:56:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p2viO-0000nj-11
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:48:04 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p2viB-0003pb-2z
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:48:03 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id qk9so14564018ejc.3
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 06:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RZAiJlJfTRTQOTUUtm6ckvcI6TnseWbG+OnttmPtQ3k=;
- b=CjQq26Ttzfd76OwCo1X8LX7X23F0XECtSOsZPm8Ff7g1r0OXYqmf5Z0xraQUT2NK6h
- zP0h5l+xJJWEATWXZevVrnhn+fcRhUHsOclUGYxhatlni/KoA5JvW9GAoDaFy4bJvbVN
- +/YnsIHa/8pNpalin61LnspWjVbF/FNU4X6cdGlvaDCOOKpynu4lUzBXmATpvkI2Gtxm
- /sKv/63jYWgZAieQxlshkCnQMSMAZJ7/B/Ozts7lUqsZdG6pJGljns/WABJKY3Pk/sf8
- vZVRg5+vwSckc0G856e7Zsj1b4mBF3mrWpizFYrkjtVCTUcIB/zGcMKdz7b/1MOZXuv+
- /8tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RZAiJlJfTRTQOTUUtm6ckvcI6TnseWbG+OnttmPtQ3k=;
- b=VLBqXpEG5h0++ux441jQcoxtXNYrrZ9wVXg1+/7o1gbyBD40ENXIUu1q7OUjeT2isd
- 39Onvbyl/8BDmWv5luzCdfG03+OWwM4ERRimseJwyrLZiqphzJgw/oh7TzEoWszidRRo
- a2/gFApaNu2yKHZYMJCWv/NL4Wn+93J8tSRH1tU1que/SffEag8RfhYbkth4M0JiTVVQ
- YNaPiMaNjufsFn1DR6GMuRRDXdkJzrjmYd6sZmpyAO5kDhDHgQ0cVHfYJgukCrrGHGCO
- RVTp4j8QNNTJZt6Wao81s7ktqlvpYTFNIYPKLvie3T1QD3r7M33aPX6ANxVcxZXLDP8m
- ka3Q==
-X-Gm-Message-State: ANoB5pm2sWtfpOEALhKuwfbM9EPnFm8itOSMGOXVmHMQ70jgP5GqJ/KO
- 4gYjxpoO1caSIxFN4yhAz8/0fBRyD34=
-X-Google-Smtp-Source: AA0mqf7c4E9TX/mhR7PGThCcDTv6MnI8jfIVpqlJKn/DectdAjAd75SwcmEiKz6axDJdVRGV61LoaA==
-X-Received: by 2002:a17:906:1641:b0:7ae:7d78:9fa1 with SMTP id
- n1-20020a170906164100b007ae7d789fa1mr75415848ejd.98.1670424468518; 
- Wed, 07 Dec 2022 06:47:48 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-011-181-051.77.11.pool.telefonica.de.
- [77.11.181.51]) by smtp.gmail.com with ESMTPSA id
- z3-20020a170906240300b007aef930360asm8671057eja.59.2022.12.07.06.47.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Dec 2022 06:47:48 -0800 (PST)
-Date: Wed, 07 Dec 2022 14:47:39 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-CC: Michael S Tsirkin <mst@redhat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_for-8=2E0=5D_hw/rtc/mc146818rtc=3A?=
- =?US-ASCII?Q?_Make_this_rtc_device_target_independent?=
-In-Reply-To: <20221206200641.339116-1-thuth@redhat.com>
-References: <20221206200641.339116-1-thuth@redhat.com>
-Message-ID: <FA330EEE-29A4-41CF-B4E8-13E5DED680B3@gmail.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p2vqd-0002o9-5f
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:56:35 -0500
+Received: from mga02.intel.com ([134.134.136.20])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p2vqa-000860-7B
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:56:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670424992; x=1701960992;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=kh3ipc/do0g5BsGTjbhwTw6LhaSLM7mY+zcxrKlObV8=;
+ b=KeLdw4SaeN7VDtXwvoEkzTQbCveCeu7Yxqo7lOJIOeqQgex0eA8EzwqN
+ DRQ8EZ9uHoR9/sPREwFyJLcp+MA2XfgZ4bYiubG8tfcV4ig2XznBTYKT0
+ xwAbCUJSk74lv9zlhEKzy4s5yR4uAhKDIb+3N3XZcjN5ksKyaXamCisLC
+ BezQA9z/fNEecDxWMuYOs1wpZ0K+q6UdxmXBPf20Gf1/4xAMyWQCQ++J6
+ bbdW7HKlfMMtN7sFrr6CSOLwwKb1CttTiruZ5A857uTdrymuBL3mnGTyA
+ v+od7RXmQi0s3DqljIe5keswDkC/cmC3DJLBRCkS91FWjnS00ejPRsTu5 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="304539234"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="304539234"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2022 06:56:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="640270757"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="640270757"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 07 Dec 2022 06:56:18 -0800
+Date: Wed, 7 Dec 2022 22:51:58 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Message-ID: <20221207145158.GC1275553@chaop.bj.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+ <CA+EHjTxXOdzcP25F57Mtmnb1NWyG5DcyqeDPqzjEOzRUrqH8FQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTxXOdzcP25F57Mtmnb1NWyG5DcyqeDPqzjEOzRUrqH8FQ@mail.gmail.com>
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,281 +99,355 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Dec 06, 2022 at 03:07:27PM +0000, Fuad Tabba wrote:
+> Hi,
+> 
+> On Fri, Dec 2, 2022 at 6:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> >
+> > In confidential computing usages, whether a page is private or shared is
+> > necessary information for KVM to perform operations like page fault
+> > handling, page zapping etc. There are other potential use cases for
+> > per-page memory attributes, e.g. to make memory read-only (or no-exec,
+> > or exec-only, etc.) without having to modify memslots.
+> >
+> > Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
+> > userspace to operate on the per-page memory attributes.
+> >   - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
+> >     a guest memory range.
+> >   - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
+> >     memory attributes.
+> >
+> > KVM internally uses xarray to store the per-page memory attributes.
+> >
+> > Suggested-by: Sean Christopherson <seanjc@google.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
+> > ---
+> >  Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
+> >  arch/x86/kvm/Kconfig           |  1 +
+> >  include/linux/kvm_host.h       |  3 ++
+> >  include/uapi/linux/kvm.h       | 17 ++++++++
+> >  virt/kvm/Kconfig               |  3 ++
+> >  virt/kvm/kvm_main.c            | 76 ++++++++++++++++++++++++++++++++++
+> >  6 files changed, 163 insertions(+)
+> >
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 5617bc4f899f..bb2f709c0900 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -5952,6 +5952,59 @@ delivery must be provided via the "reg_aen" struct.
+> >  The "pad" and "reserved" fields may be used for future extensions and should be
+> >  set to 0s by userspace.
+> >
+> > +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
+> > +-----------------------------------------
+> > +
+> > +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> > +:Architectures: x86
+> > +:Type: vm ioctl
+> > +:Parameters: u64 memory attributes bitmask(out)
+> > +:Returns: 0 on success, <0 on error
+> > +
+> > +Returns supported memory attributes bitmask. Supported memory attributes will
+> > +have the corresponding bits set in u64 memory attributes bitmask.
+> > +
+> > +The following memory attributes are defined::
+> > +
+> > +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
+> > +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
+> > +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
+> > +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+> > +
+> > +4.139 KVM_SET_MEMORY_ATTRIBUTES
+> > +-----------------------------------------
+> > +
+> > +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> > +:Architectures: x86
+> > +:Type: vm ioctl
+> > +:Parameters: struct kvm_memory_attributes(in/out)
+> > +:Returns: 0 on success, <0 on error
+> > +
+> > +Sets memory attributes for pages in a guest memory range. Parameters are
+> > +specified via the following structure::
+> > +
+> > +  struct kvm_memory_attributes {
+> > +       __u64 address;
+> > +       __u64 size;
+> > +       __u64 attributes;
+> > +       __u64 flags;
+> > +  };
+> > +
+> > +The user sets the per-page memory attributes to a guest memory range indicated
+> > +by address/size, and in return KVM adjusts address and size to reflect the
+> > +actual pages of the memory range have been successfully set to the attributes.
+> > +If the call returns 0, "address" is updated to the last successful address + 1
+> > +and "size" is updated to the remaining address size that has not been set
+> > +successfully. The user should check the return value as well as the size to
+> > +decide if the operation succeeded for the whole range or not. The user may want
+> > +to retry the operation with the returned address/size if the previous range was
+> > +partially successful.
+> > +
+> > +Both address and size should be page aligned and the supported attributes can be
+> > +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
+> > +
+> > +The "flags" field may be used for future extensions and should be set to 0s.
+> > +
+> >  5. The kvm_run structure
+> >  ========================
+> >
+> > @@ -8270,6 +8323,16 @@ structure.
+> >  When getting the Modified Change Topology Report value, the attr->addr
+> >  must point to a byte where the value will be stored or retrieved from.
+> >
+> > +8.40 KVM_CAP_MEMORY_ATTRIBUTES
+> > +------------------------------
+> > +
+> > +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> > +:Architectures: x86
+> > +:Type: vm
+> > +
+> > +This capability indicates KVM supports per-page memory attributes and ioctls
+> > +KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES/KVM_SET_MEMORY_ATTRIBUTES are available.
+> > +
+> >  9. Known KVM API problems
+> >  =========================
+> >
+> > diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> > index fbeaa9ddef59..a8e379a3afee 100644
+> > --- a/arch/x86/kvm/Kconfig
+> > +++ b/arch/x86/kvm/Kconfig
+> > @@ -49,6 +49,7 @@ config KVM
+> >         select SRCU
+> >         select INTERVAL_TREE
+> >         select HAVE_KVM_PM_NOTIFIER if PM
+> > +       select HAVE_KVM_MEMORY_ATTRIBUTES
+> >         help
+> >           Support hosting fully virtualized guest machines using hardware
+> >           virtualization extensions.  You will need a fairly recent
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 8f874a964313..a784e2b06625 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -800,6 +800,9 @@ struct kvm {
+> >
+> >  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
+> >         struct notifier_block pm_notifier;
+> > +#endif
+> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> > +       struct xarray mem_attr_array;
+> >  #endif
+> >         char stats_id[KVM_STATS_NAME_SIZE];
+> >  };
+> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > index 64dfe9c07c87..5d0941acb5bb 100644
+> > --- a/include/uapi/linux/kvm.h
+> > +++ b/include/uapi/linux/kvm.h
+> > @@ -1182,6 +1182,7 @@ struct kvm_ppc_resize_hpt {
+> >  #define KVM_CAP_S390_CPU_TOPOLOGY 222
+> >  #define KVM_CAP_DIRTY_LOG_RING_ACQ_REL 223
+> >  #define KVM_CAP_S390_PROTECTED_ASYNC_DISABLE 224
+> > +#define KVM_CAP_MEMORY_ATTRIBUTES 225
+> >
+> >  #ifdef KVM_CAP_IRQ_ROUTING
+> >
+> > @@ -2238,4 +2239,20 @@ struct kvm_s390_zpci_op {
+> >  /* flags for kvm_s390_zpci_op->u.reg_aen.flags */
+> >  #define KVM_S390_ZPCIOP_REGAEN_HOST    (1 << 0)
+> >
+> > +/* Available with KVM_CAP_MEMORY_ATTRIBUTES */
+> > +#define KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES    _IOR(KVMIO,  0xd2, __u64)
+> > +#define KVM_SET_MEMORY_ATTRIBUTES              _IOWR(KVMIO,  0xd3, struct kvm_memory_attributes)
+> > +
+> > +struct kvm_memory_attributes {
+> > +       __u64 address;
+> > +       __u64 size;
+> > +       __u64 attributes;
+> > +       __u64 flags;
+> > +};
+> > +
+> > +#define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
+> > +#define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
+> > +#define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
+> > +#define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+> 
+> nit: how about using the BIT() macro for these?
 
+Might be the _BITULL() in include/uapi/linux/const.h since it will be
+used by userspace also.
 
-Am 6=2E Dezember 2022 20:06:41 UTC schrieb Thomas Huth <thuth@redhat=2Ecom=
->:
->The only code that is really, really target dependent is the apic-related
->code in rtc_policy_slew_deliver_irq()=2E By moving this code into the hw/=
-i386/
->folder (renamed to rtc_apic_policy_slew_deliver_irq()) and passing this
->function as parameter to mc146818_rtc_init(), we can make the RTC complet=
-ely
->target-independent=2E
->
->Signed-off-by: Thomas Huth <thuth@redhat=2Ecom>
->---
-> include/hw/rtc/mc146818rtc=2Eh |  7 +++++--
-> hw/alpha/dp264=2Ec             |  2 +-
-> hw/hppa/machine=2Ec            |  2 +-
-> hw/i386/microvm=2Ec            |  3 ++-
-> hw/i386/pc=2Ec                 | 10 +++++++++-
-> hw/mips/jazz=2Ec               |  2 +-
-> hw/ppc/pnv=2Ec                 |  2 +-
-> hw/rtc/mc146818rtc=2Ec         | 34 +++++++++++-----------------------
-> hw/rtc/meson=2Ebuild           |  3 +--
-> 9 files changed, 32 insertions(+), 33 deletions(-)
->
->diff --git a/include/hw/rtc/mc146818rtc=2Eh b/include/hw/rtc/mc146818rtc=
-=2Eh
->index 1db0fcee92=2E=2Ec687953cc4 100644
->--- a/include/hw/rtc/mc146818rtc=2Eh
->+++ b/include/hw/rtc/mc146818rtc=2Eh
->@@ -46,14 +46,17 @@ struct RTCState {
->     Notifier clock_reset_notifier;
->     LostTickPolicy lost_tick_policy;
+> 
+> > +
+> >  #endif /* __LINUX_KVM_H */
+> > diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
+> > index 800f9470e36b..effdea5dd4f0 100644
+> > --- a/virt/kvm/Kconfig
+> > +++ b/virt/kvm/Kconfig
+> > @@ -19,6 +19,9 @@ config HAVE_KVM_IRQ_ROUTING
+> >  config HAVE_KVM_DIRTY_RING
+> >         bool
+> >
+> > +config HAVE_KVM_MEMORY_ATTRIBUTES
+> > +       bool
+> > +
+> >  # Only strongly ordered architectures can select this, as it doesn't
+> >  # put any explicit constraint on userspace ordering. They can also
+> >  # select the _ACQ_REL version.
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index 1782c4555d94..7f0f5e9f2406 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -1150,6 +1150,9 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
+> >         spin_lock_init(&kvm->mn_invalidate_lock);
+> >         rcuwait_init(&kvm->mn_memslots_update_rcuwait);
+> >         xa_init(&kvm->vcpu_array);
+> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> > +       xa_init(&kvm->mem_attr_array);
+> > +#endif
+> >
+> >         INIT_LIST_HEAD(&kvm->gpc_list);
+> >         spin_lock_init(&kvm->gpc_lock);
+> > @@ -1323,6 +1326,9 @@ static void kvm_destroy_vm(struct kvm *kvm)
+> >                 kvm_free_memslots(kvm, &kvm->__memslots[i][0]);
+> >                 kvm_free_memslots(kvm, &kvm->__memslots[i][1]);
+> >         }
+> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> > +       xa_destroy(&kvm->mem_attr_array);
+> > +#endif
+> >         cleanup_srcu_struct(&kvm->irq_srcu);
+> >         cleanup_srcu_struct(&kvm->srcu);
+> >         kvm_arch_free_vm(kvm);
+> > @@ -2323,6 +2329,49 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+> >  }
+> >  #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
+> >
+> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> > +static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+> > +{
+> > +       return 0;
+> > +}
+> > +
+> > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> > +                                          struct kvm_memory_attributes *attrs)
+> > +{
+> > +       gfn_t start, end;
+> > +       unsigned long i;
+> > +       void *entry;
+> > +       u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> > +
+> > +       /* flags is currently not used. */
+> 
+> nit: "is reserved"? I think it makes it a bit clearer what its purpose is.
+OK, then:
+  flags is reserved for future extention and currently is not used.
 
-This lost_tick_policy attribute along with its enum is now redundant and c=
-an be removed=2E Removing it avoids an error condition (see below)=2E
+> 
+> > +       if (attrs->flags)
+> > +               return -EINVAL;
+> > +       if (attrs->attributes & ~supported_attrs)
+> > +               return -EINVAL;
+> > +       if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> > +               return -EINVAL;
+> > +       if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> > +               return -EINVAL;
+> > +
+> > +       start = attrs->address >> PAGE_SHIFT;
+> > +       end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> 
+> Would using existing helpers be better for getting the frame numbers?
 
->     Notifier suspend_notifier;
->+    bool (*policy_slew_deliver_irq)(RTCState *s);
->     QLIST_ENTRY(RTCState) link;
-> };
->=20
-> #define RTC_ISA_IRQ 8
->=20
->-ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
->-                             qemu_irq intercept_irq);
->+ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq interc=
-ept_irq,
->+                             bool (*policy_slew_deliver_irq)(RTCState *s=
-));
-> void rtc_set_memory(ISADevice *dev, int addr, int val);
-> int rtc_get_memory(ISADevice *dev, int addr);
->+bool rtc_apic_policy_slew_deliver_irq(RTCState *s);
->+void qmp_rtc_reset_reinjection(Error **errp);
->=20
-> #endif /* HW_RTC_MC146818RTC_H */
->diff --git a/hw/alpha/dp264=2Ec b/hw/alpha/dp264=2Ec
->index c502c8c62a=2E=2E8723942b52 100644
->--- a/hw/alpha/dp264=2Ec
->+++ b/hw/alpha/dp264=2Ec
->@@ -118,7 +118,7 @@ static void clipper_init(MachineState *machine)
->     qdev_connect_gpio_out(i82378_dev, 0, isa_irq);
->=20
->     /* Since we have an SRM-compatible PALcode, use the SRM epoch=2E  */
->-    mc146818_rtc_init(isa_bus, 1900, rtc_irq);
->+    mc146818_rtc_init(isa_bus, 1900, rtc_irq, NULL);
->=20
->     /* VGA setup=2E  Don't bother loading the bios=2E  */
->     pci_vga_init(pci_bus);
->diff --git a/hw/hppa/machine=2Ec b/hw/hppa/machine=2Ec
->index de1cc7ab71=2E=2E311031714a 100644
->--- a/hw/hppa/machine=2Ec
->+++ b/hw/hppa/machine=2Ec
->@@ -232,7 +232,7 @@ static void machine_hppa_init(MachineState *machine)
->     assert(isa_bus);
->=20
->     /* Realtime clock, used by firmware for PDC_TOD call=2E */
->-    mc146818_rtc_init(isa_bus, 2000, NULL);
->+    mc146818_rtc_init(isa_bus, 2000, NULL, NULL);
->=20
->     /* Serial ports: Lasi and Dino use a 7=2E272727 MHz clock=2E */
->     serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
->diff --git a/hw/i386/microvm=2Ec b/hw/i386/microvm=2Ec
->index 170a331e3f=2E=2Ed0ed4dca50 100644
->--- a/hw/i386/microvm=2Ec
->+++ b/hw/i386/microvm=2Ec
->@@ -267,7 +267,8 @@ static void microvm_devices_init(MicrovmMachineState =
-*mms)
->=20
->     if (mms->rtc =3D=3D ON_OFF_AUTO_ON ||
->         (mms->rtc =3D=3D ON_OFF_AUTO_AUTO && !kvm_enabled())) {
->-        rtc_state =3D mc146818_rtc_init(isa_bus, 2000, NULL);
->+        rtc_state =3D mc146818_rtc_init(isa_bus, 2000, NULL,
->+                                      rtc_apic_policy_slew_deliver_irq);
->         microvm_set_rtc(mms, rtc_state);
->     }
->=20
->diff --git a/hw/i386/pc=2Ec b/hw/i386/pc=2Ec
->index 546b703cb4=2E=2E650e7bc199 100644
->--- a/hw/i386/pc=2Ec
->+++ b/hw/i386/pc=2Ec
->@@ -1244,6 +1244,13 @@ static void pc_superio_init(ISABus *isa_bus, bool =
-create_fdctrl,
->     g_free(a20_line);
-> }
->=20
->+bool rtc_apic_policy_slew_deliver_irq(RTCState *s)
->+{
->+    apic_reset_irq_delivered();
->+    qemu_irq_raise(s->irq);
->+    return apic_get_irq_delivered();
->+}
->+
-> void pc_basic_device_init(struct PCMachineState *pcms,
->                           ISABus *isa_bus, qemu_irq *gsi,
->                           ISADevice **rtc_state,
->@@ -1299,7 +1306,8 @@ void pc_basic_device_init(struct PCMachineState *pc=
-ms,
->         pit_alt_irq =3D qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
->         rtc_irq =3D qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
->     }
->-    *rtc_state =3D mc146818_rtc_init(isa_bus, 2000, rtc_irq);
->+    *rtc_state =3D mc146818_rtc_init(isa_bus, 2000, rtc_irq,
->+                                   rtc_apic_policy_slew_deliver_irq);
->=20
->     qemu_register_boot_set(pc_boot_set, *rtc_state);
->=20
->diff --git a/hw/mips/jazz=2Ec b/hw/mips/jazz=2Ec
->index 6aefe9a61b=2E=2E50fbd57b23 100644
->--- a/hw/mips/jazz=2Ec
->+++ b/hw/mips/jazz=2Ec
->@@ -356,7 +356,7 @@ static void mips_jazz_init(MachineState *machine,
->     fdctrl_init_sysbus(qdev_get_gpio_in(rc4030, 1), 0x80003000, fds);
->=20
->     /* Real time clock */
->-    mc146818_rtc_init(isa_bus, 1980, NULL);
->+    mc146818_rtc_init(isa_bus, 1980, NULL, NULL);
->     memory_region_init_io(rtc, NULL, &rtc_ops, NULL, "rtc", 0x1000);
->     memory_region_add_subregion(address_space, 0x80004000, rtc);
->=20
->diff --git a/hw/ppc/pnv=2Ec b/hw/ppc/pnv=2Ec
->index 3d01e26f84=2E=2Ec5482554b7 100644
->--- a/hw/ppc/pnv=2Ec
->+++ b/hw/ppc/pnv=2Ec
->@@ -992,7 +992,7 @@ static void pnv_init(MachineState *machine)
->     serial_hds_isa_init(pnv->isa_bus, 0, MAX_ISA_SERIAL_PORTS);
->=20
->     /* Create an RTC ISA device too */
->-    mc146818_rtc_init(pnv->isa_bus, 2000, NULL);
->+    mc146818_rtc_init(pnv->isa_bus, 2000, NULL, NULL);
->=20
->     /*
->      * Create the machine BMC simulator and the IPMI BT device for
->diff --git a/hw/rtc/mc146818rtc=2Ec b/hw/rtc/mc146818rtc=2Ec
->index 1ebb412479=2E=2E9543ae0279 100644
->--- a/hw/rtc/mc146818rtc=2Ec
->+++ b/hw/rtc/mc146818rtc=2Ec
->@@ -44,11 +44,6 @@
-> #include "qapi/visitor=2Eh"
-> #include "hw/rtc/mc146818rtc_regs=2Eh"
->=20
->-#ifdef TARGET_I386
->-#include "qapi/qapi-commands-misc-target=2Eh"
->-#include "hw/i386/apic=2Eh"
->-#endif
->-
-> //#define DEBUG_CMOS
-> //#define DEBUG_COALESCED
->=20
->@@ -112,7 +107,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
-> static QLIST_HEAD(, RTCState) rtc_devices =3D
->     QLIST_HEAD_INITIALIZER(rtc_devices);
->=20
->-#ifdef TARGET_I386
-> void qmp_rtc_reset_reinjection(Error **errp)
-> {
->     RTCState *s;
->@@ -124,9 +118,8 @@ void qmp_rtc_reset_reinjection(Error **errp)
->=20
-> static bool rtc_policy_slew_deliver_irq(RTCState *s)
-> {
->-    apic_reset_irq_delivered();
->-    qemu_irq_raise(s->irq);
->-    return apic_get_irq_delivered();
->+    assert(s->policy_slew_deliver_irq);
->+    return s->policy_slew_deliver_irq(s);
-> }
->=20
-> static void rtc_coalesced_timer(void *opaque)
->@@ -145,13 +138,6 @@ static void rtc_coalesced_timer(void *opaque)
->=20
->     rtc_coalesced_timer_update(s);
-> }
->-#else
->-static bool rtc_policy_slew_deliver_irq(RTCState *s)
->-{
->-    assert(0);
->-    return false;
->-}
->-#endif
->=20
-> static uint32_t rtc_periodic_clock_ticks(RTCState *s)
-> {
->@@ -922,14 +908,14 @@ static void rtc_realizefn(DeviceState *dev, Error *=
-*errp)
->     rtc_set_date_from_host(isadev);
->=20
->     switch (s->lost_tick_policy) {
->-#ifdef TARGET_I386
->-    case LOST_TICK_POLICY_SLEW:
->-        s->coalesced_timer =3D
->-            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
->-        break;
->-#endif
->     case LOST_TICK_POLICY_DISCARD:
->         break;
->+    case LOST_TICK_POLICY_SLEW:
->+        if (s->policy_slew_deliver_irq) {
->+            s->coalesced_timer =3D timer_new_ns(rtc_clock, rtc_coalesced=
-_timer, s);
->+            break;
->+        }
+Yes, gpa_to_gfn() can be used.
 
-With lost_tick_policy removed, the whole switch statement can be collapsed=
- into this if statement and it avoids below error case in the first place=
-=2E
+> Also, the code checks that the address and size are page aligned, so
+> the end rounding up seems redundant, and might even be wrong if the
+> address+size-1 is close to the gfn_t limit (which this code tries to
+> avoid in an earlier check).
 
-Best regards,
-Bernhard
+That's right.
 
->+        /* fallthrough */
->     default:
->         error_setg(errp, "Invalid lost tick policy=2E");
->         return;
->@@ -960,7 +946,8 @@ static void rtc_realizefn(DeviceState *dev, Error **e=
-rrp)
->     QLIST_INSERT_HEAD(&rtc_devices, s, link);
-> }
->=20
->-ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq interc=
-ept_irq)
->+ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq interc=
-ept_irq,
->+                             bool (*policy_slew_deliver_irq)(RTCState *s=
-))
-> {
->     DeviceState *dev;
->     ISADevice *isadev;
->@@ -969,6 +956,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_ye=
-ar, qemu_irq intercept_irq)
->     isadev =3D isa_new(TYPE_MC146818_RTC);
->     dev =3D DEVICE(isadev);
->     s =3D MC146818_RTC(isadev);
->+    s->policy_slew_deliver_irq =3D policy_slew_deliver_irq;
->     qdev_prop_set_int32(dev, "base_year", base_year);
->     isa_realize_and_unref(isadev, bus, &error_fatal);
->     if (intercept_irq) {
->diff --git a/hw/rtc/meson=2Ebuild b/hw/rtc/meson=2Ebuild
->index dc33973384=2E=2E34a4d316fa 100644
->--- a/hw/rtc/meson=2Ebuild
->+++ b/hw/rtc/meson=2Ebuild
->@@ -13,5 +13,4 @@ softmmu_ss=2Eadd(when: 'CONFIG_ASPEED_SOC', if_true: fi=
-les('aspeed_rtc=2Ec'))
-> softmmu_ss=2Eadd(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_r=
-tc=2Ec'))
-> softmmu_ss=2Eadd(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc=2Ec')=
-)
-> softmmu_ss=2Eadd(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-=
-rtc=2Ec'))
->-
->-specific_ss=2Eadd(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rt=
-c=2Ec'))
->+softmmu_ss=2Eadd(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc=
-=2Ec'))
+> 
+> > +       entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> > +
+> > +       mutex_lock(&kvm->lock);
+> > +       for (i = start; i < end; i++)
+> > +               if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> > +                                   GFP_KERNEL_ACCOUNT)))
+> > +                       break;
+> > +       mutex_unlock(&kvm->lock);
+> > +
+> > +       attrs->address = i << PAGE_SHIFT;
+> > +       attrs->size = (end - i) << PAGE_SHIFT;
+> 
+> nit: helpers for these too?
+
+Similarly, gfn_to_gpa() will be used.
+
+> 
+> With the end calculation fixed,
+> 
+> Reviewed-by: Fuad Tabba <tabba@google.com>
+> After adding the necessary configs for arm64 (on qemu/arm64):
+> Tested-by: Fuad Tabba <tabba@google.com>
+
+Thanks.
+Chao
+> 
+> Cheers,
+> /fuad
+> 
+> > +
+> > +       return 0;
+> > +}
+> > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> > +
+> >  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
+> >  {
+> >         return __gfn_to_memslot(kvm_memslots(kvm), gfn);
+> > @@ -4459,6 +4508,9 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+> >  #ifdef CONFIG_HAVE_KVM_MSI
+> >         case KVM_CAP_SIGNAL_MSI:
+> >  #endif
+> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> > +       case KVM_CAP_MEMORY_ATTRIBUTES:
+> > +#endif
+> >  #ifdef CONFIG_HAVE_KVM_IRQFD
+> >         case KVM_CAP_IRQFD:
+> >         case KVM_CAP_IRQFD_RESAMPLE:
+> > @@ -4804,6 +4856,30 @@ static long kvm_vm_ioctl(struct file *filp,
+> >                 break;
+> >         }
+> >  #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
+> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> > +       case KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES: {
+> > +               u64 attrs = kvm_supported_mem_attributes(kvm);
+> > +
+> > +               r = -EFAULT;
+> > +               if (copy_to_user(argp, &attrs, sizeof(attrs)))
+> > +                       goto out;
+> > +               r = 0;
+> > +               break;
+> > +       }
+> > +       case KVM_SET_MEMORY_ATTRIBUTES: {
+> > +               struct kvm_memory_attributes attrs;
+> > +
+> > +               r = -EFAULT;
+> > +               if (copy_from_user(&attrs, argp, sizeof(attrs)))
+> > +                       goto out;
+> > +
+> > +               r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
+> > +
+> > +               if (!r && copy_to_user(argp, &attrs, sizeof(attrs)))
+> > +                       r = -EFAULT;
+> > +               break;
+> > +       }
+> > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> >         case KVM_CREATE_DEVICE: {
+> >                 struct kvm_create_device cd;
+> >
+> > --
+> > 2.25.1
+> >
 
