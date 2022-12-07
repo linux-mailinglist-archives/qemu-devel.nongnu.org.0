@@ -2,41 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CEAC645AF1
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 14:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FA0645AF3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 14:31:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2uSz-00026Q-LS; Wed, 07 Dec 2022 08:28:05 -0500
+	id 1p2uVR-0004fL-Mm; Wed, 07 Dec 2022 08:30:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1p2uSv-0001wA-Bl; Wed, 07 Dec 2022 08:28:02 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p2uUm-0004X6-Nx
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:29:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1p2uSs-0001ed-E3; Wed, 07 Dec 2022 08:28:01 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 9D3B245183;
- Wed,  7 Dec 2022 14:27:44 +0100 (CET)
-From: Fiona Ebner <f.ebner@proxmox.com>
-To: qemu-devel@nongnu.org
-Cc: t.lamprecht@proxmox.com, jsnow@redhat.com, vsementsov@yandex-team.ru,
- kwolf@redhat.com, hreitz@redhat.com, eblake@redhat.com, armbru@redhat.com,
- qemu-block@nongnu.org
-Subject: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
-Date: Wed,  7 Dec 2022 14:27:19 +0100
-Message-Id: <20221207132719.131227-1-f.ebner@proxmox.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p2uUl-0002kb-6w
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 08:29:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670419794;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fJaQ9F/vtZVfiwzRokoFg7rcXZVrZBhg+UuI/ES615Y=;
+ b=M1lmTCXRo7Gr5OwC6hZ50esYHg3FQkhiQ7VH2dD4aylX3c0EODu5Kdg3b8C6kSAAbVuFHD
+ +kC8WTtwSRWNYyTdzzonCXXcVJtIFRwJIXcquX2X7h7GBXADQXY4uBqje9zWEhuWRO1JNu
+ QGNauWimEZU85Lbwn08JoigxbuwjaTM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-158-C6Zs3FA5MTyWRWu7iAPfgg-1; Wed, 07 Dec 2022 08:29:53 -0500
+X-MC-Unique: C6Zs3FA5MTyWRWu7iAPfgg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v125-20020a1cac83000000b003cfa148576dso9983759wme.3
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 05:29:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fJaQ9F/vtZVfiwzRokoFg7rcXZVrZBhg+UuI/ES615Y=;
+ b=xIDoxO9qJRN+kOfyd8q2FtsLmwUXKVb9NpTgEQwlr7hUf1ZRtLyNARvMJm/mdwe+rx
+ YvcgbJLKbpnxUMxNENbXh360nheBB3lo75V/dKq0KI+h3F9QVEBrjjFtPfkAYzqKqkmI
+ iCxD3x6GPrt1GxTtS8IwsMQKwtLjxRbe1G18MSLmZuDWRm3ZH1mBLtf72VDwfMq8YsUo
+ dMjC/tdutNtLcI1hxSlQlQOM1SLTKOi8qKqPeIA7Rp6ZJBmIKcqO6I9wwLkFiuX5Qlaz
+ Ahi2S4FRbiYMGRMUbXiCrilmwB76AnVjAAOxmL0l/Sq55JxalKEG52mC5C1n3LO7NfWa
+ EDXw==
+X-Gm-Message-State: ANoB5pmny69yWDlDfDc7LJCywm5zWZL67te7HDbR+EeijzlbfUhn5Pzb
+ RMaMCSZFcbjb1QSquOO2vHnCR4J3sGSS0MOMi9n/xVLqct2iut8Scpx8hSh3LYXTZmVrdhdGrdg
+ iNbVg+YzW0M1uLp4=
+X-Received: by 2002:a5d:4943:0:b0:242:3ca3:b7bd with SMTP id
+ r3-20020a5d4943000000b002423ca3b7bdmr16089385wrs.583.1670419791209; 
+ Wed, 07 Dec 2022 05:29:51 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5KzN1qNUfA11RbeGc58O0ToGpgqdG7evwcw+9DH/kEribm5HOiQFPtqD9aIsEzdtSTQ8bObw==
+X-Received: by 2002:a5d:4943:0:b0:242:3ca3:b7bd with SMTP id
+ r3-20020a5d4943000000b002423ca3b7bdmr16089375wrs.583.1670419790964; 
+ Wed, 07 Dec 2022 05:29:50 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ o12-20020a5d670c000000b002424b695f7esm12825765wru.46.2022.12.07.05.29.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 05:29:50 -0800 (PST)
+Message-ID: <f8a36758-cff2-3df3-3e30-083175e47131@redhat.com>
+Date: Wed, 7 Dec 2022 14:29:48 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH for 7.2?] target/i386: Remove compilation errors when
+ -Werror=maybe-uninitialized
+Content-Language: en-US
+To: eric.auger.pro@gmail.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221207132439.635402-1-eric.auger@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20221207132439.635402-1-eric.auger@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.262, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -49,142 +103,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The new copy mode starts out in 'background' mode and switches to
-'write-blocking' mode once the job transitions to ready.
 
-Before switching to active mode and indicating that the drives are
-actively synced, it is necessary to have seen and handled all guest
-I/O. This is done by checking the dirty bitmap inside a drained
-section. Transitioning to ready is also only done at the same time.
 
-The new mode is useful for management applications using drive-mirror
-in combination with migration. Currently, migration doesn't check on
-mirror jobs before inactivating the blockdrives, so it's necessary to
-either:
-1) use the 'pause-before-switchover' migration capability and complete
-   mirror jobs before actually switching over.
-2) use 'write-blocking' copy mode for the drive mirrors.
+On 12/7/22 14:24, Eric Auger wrote:
+> Initialize r0-3 to avoid compilation errors when
+> -Werror=maybe-uninitialized is used
+>
+> ../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
+> ../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>  2495 |     d->Q(3) = r3;
+>       |     ~~~~~~~~^~~~
+> ../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>  2494 |     d->Q(2) = r2;
+>       |     ~~~~~~~~^~~~
+> ../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>  2493 |     d->Q(1) = r1;
+>       |     ~~~~~~~~^~~~
+> ../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>  2492 |     d->Q(0) = r0;
+>       |     ~~~~~~~~^~~~
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
+>
+> ---
+>
+> Am I the only one getting this? Or anything wrong in my setup.
 
-The downside with 1) is longer downtime for the guest, while the
-downside with 2) is that guest write speed is limited by the
-synchronous writes to the mirror target. The newly introduced copy
-mode reduces the time that limit is in effect.
+With Stefan's correct address. Forgive me for the noise.
 
-Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
----
-
-See [0] for a bit more context. While the new copy mode doesn't
-fundamentally improve the downside of 2) (especially when multiple
-drives are mirrored), it would still improve things a little. And I
-guess when trying to keep downtime short, guest write speed needs to
-be limited at /some/ point (always in the context of migration with
-drive-mirror of course). Ideally, that could go hand-in-hand with
-migration convergence, but that would require some larger changes to
-implement and introduce more coupling.
-
-[0] https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg04886.html
-
- block/mirror.c       | 29 +++++++++++++++++++++++++++--
- qapi/block-core.json |  5 ++++-
- 2 files changed, 31 insertions(+), 3 deletions(-)
-
-diff --git a/block/mirror.c b/block/mirror.c
-index 251adc5ae0..e21b4e5e77 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -60,6 +60,7 @@ typedef struct MirrorBlockJob {
-     /* Set when the target is synced (dirty bitmap is clean, nothing
-      * in flight) and the job is running in active mode */
-     bool actively_synced;
-+    bool in_active_mode;
-     bool should_complete;
-     int64_t granularity;
-     size_t buf_size;
-@@ -1035,10 +1036,31 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-         if (s->in_flight == 0 && cnt == 0) {
-             trace_mirror_before_flush(s);
-             if (!job_is_ready(&s->common.job)) {
-+                if (s->copy_mode ==
-+                    MIRROR_COPY_MODE_WRITE_BLOCKING_AFTER_READY) {
-+                    /*
-+                     * Pause guest I/O to check if we can switch to active mode.
-+                     * To set actively_synced to true below, it is necessary to
-+                     * have seen and synced all guest I/O.
-+                     */
-+                    s->in_drain = true;
-+                    bdrv_drained_begin(bs);
-+                    if (bdrv_get_dirty_count(s->dirty_bitmap) > 0) {
-+                        bdrv_drained_end(bs);
-+                        s->in_drain = false;
-+                        continue;
-+                    }
-+                    s->in_active_mode = true;
-+                    bdrv_disable_dirty_bitmap(s->dirty_bitmap);
-+                    bdrv_drained_end(bs);
-+                    s->in_drain = false;
-+                }
-+
-                 if (mirror_flush(s) < 0) {
-                     /* Go check s->ret.  */
-                     continue;
-                 }
-+
-                 /* We're out of the streaming phase.  From now on, if the job
-                  * is cancelled we will actually complete all pending I/O and
-                  * report completion.  This way, block-job-cancel will leave
-@@ -1443,7 +1465,7 @@ static int coroutine_fn bdrv_mirror_top_do_write(BlockDriverState *bs,
-     if (s->job) {
-         copy_to_target = s->job->ret >= 0 &&
-                          !job_is_cancelled(&s->job->common.job) &&
--                         s->job->copy_mode == MIRROR_COPY_MODE_WRITE_BLOCKING;
-+                         s->job->in_active_mode;
-     }
- 
-     if (copy_to_target) {
-@@ -1494,7 +1516,7 @@ static int coroutine_fn bdrv_mirror_top_pwritev(BlockDriverState *bs,
-     if (s->job) {
-         copy_to_target = s->job->ret >= 0 &&
-                          !job_is_cancelled(&s->job->common.job) &&
--                         s->job->copy_mode == MIRROR_COPY_MODE_WRITE_BLOCKING;
-+                         s->job->in_active_mode;
-     }
- 
-     if (copy_to_target) {
-@@ -1792,7 +1814,10 @@ static BlockJob *mirror_start_job(
-         goto fail;
-     }
-     if (s->copy_mode == MIRROR_COPY_MODE_WRITE_BLOCKING) {
-+        s->in_active_mode = true;
-         bdrv_disable_dirty_bitmap(s->dirty_bitmap);
-+    } else {
-+        s->in_active_mode = false;
-     }
- 
-     ret = block_job_add_bdrv(&s->common, "source", bs, 0,
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 95ac4fa634..2a983ed78d 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1200,10 +1200,13 @@
- #                  addition, data is copied in background just like in
- #                  @background mode.
- #
-+# @write-blocking-after-ready: starts out in @background mode and switches to
-+#                              @write-blocking when transitioning to ready.
-+#
- # Since: 3.0
- ##
- { 'enum': 'MirrorCopyMode',
--  'data': ['background', 'write-blocking'] }
-+  'data': ['background', 'write-blocking', 'write-blocking-after-ready'] }
- 
- ##
- # @BlockJobInfo:
--- 
-2.30.2
-
+Eric
+> ---
+>  target/i386/ops_sse.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+> index 3cbc36a59d..b77071b8da 100644
+> --- a/target/i386/ops_sse.h
+> +++ b/target/i386/ops_sse.h
+> @@ -2451,7 +2451,7 @@ void glue(helper_vpgatherqq, SUFFIX)(CPUX86State *env,
+>  #if SHIFT >= 2
+>  void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
+>  {
+> -    uint64_t r0, r1, r2, r3;
+> +    uint64_t r0 = 0, r1 = 0, r2 = 0, r3 = 0;
+>  
+>      switch (order & 3) {
+>      case 0:
 
 
