@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A650B646420
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 23:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4856B646431
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 23:41:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p32wv-0006Qz-OR; Wed, 07 Dec 2022 17:31:33 -0500
+	id 1p334f-0000LO-8T; Wed, 07 Dec 2022 17:39:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1p32wq-0006Px-Dy; Wed, 07 Dec 2022 17:31:28 -0500
+ id 1p334c-0000Kx-Np; Wed, 07 Dec 2022 17:39:31 -0500
 Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1p32wm-0005BE-PV; Wed, 07 Dec 2022 17:31:28 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id bx10so30298281wrb.0;
- Wed, 07 Dec 2022 14:31:22 -0800 (PST)
+ id 1p334a-0003jj-Kz; Wed, 07 Dec 2022 17:39:30 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id u12so29298402wrr.11;
+ Wed, 07 Dec 2022 14:39:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XZUigi7b5KkucfM6AenEAOiCiBxSTxn2WiD9JRb74co=;
- b=FOwRMq3Qvl9vrCUVeHqARtXn4NdBwmxpUQj/cjk0RZyGjVQDswGbcQT1nAGY5txTYo
- xW5dtn315uGfBwJmVVIwJDbRJP/V6QnMsowvHI0AtOch5uVFABnQJQcGGWJ+iLUy1+ZR
- 90aA5W140GPEPgPIfBJfy6NKaT+0OKehQx3VoHtaJZIJGoGOveSWJ64akN0N/z8Hs95q
- aOsTKngt5+IKWweVLp4cojRC2Aj5zIpsuI+xO/ZpsQzesKz86aLlRwHibOWTHGIqMZKJ
- UZcqlyaZR3kKxgYYXItNcq3AWqBk2bksBYNNrj+RjfYSiGotLrUD11NygkkL2pR9Qode
- y3Vw==
+ bh=S0lktgq/GBydjp83+0uRokd3kX3/lB74XBdzTqh12+g=;
+ b=l3iGLDkXJ8E5HlLj58b9X8pVBdNExU1SOsI7aPQh2JhcVCg55JTetyOjjO+haTDqPN
+ kqVO8quBzPLxA6Y/aHIL2toAdG2XpES9AHWaFkuYMemPCNlKpRkBvWEmvLFu4Vn+tVJL
+ 4qOOsv6q+6yhlnG7qlHEPLT9cbaRJbJjBFtlSqmU4JIbMWbr3BAzOh7amn0TsM5XKcsp
+ vdmX4wPOfvr9a/hw70Cx+A/ssV7TGIw6vLTsqoqQnLKd83q/K1Trx2JhjmdhHvrKxkow
+ A1bQ5tAYTWbEml2uScjh7ra7HknJZfV4eOGvmfFr6/Um/y8PldowblIMbVFklHtIopSp
+ 0ucg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=XZUigi7b5KkucfM6AenEAOiCiBxSTxn2WiD9JRb74co=;
- b=csi1tdUaOmL/dbWcKJP34NZm2hOrX09FccpjUrd10o8G5frokAFtmRWPgF4A16cWLO
- hKn27g4LMbPlEly1PQ1dAzGS7CcPc2R91BbyoXMq7crcph9REcOmDfIAh2CrsAZoKH4i
- LwEwoQIGD12Dkm7/hTVEoUlCESxsXa6/gV21/Dwcq855eFt0rTXvbf3VW1OejHrqrJmH
- KchWEVO3jtne6ZHzZx/9a5RI5k/qF8dsOgbVym/9s17HinQ84fCZcq9UrBHfqDklsW8o
- sFYIvZRohr/X+NvnmWPGibLXtBAVnSJlDvVyS0LoJkluSNXRCHMoKfOB+fjQopSb87pt
- ISrQ==
-X-Gm-Message-State: ANoB5plaLKm9L+oEFpwDo7kIwCki+npgjOPy3svXMqZoqfIvB3Zkol0E
- tQSOlyc9AASfPlJ++r0OCJCUh3rUbBePUro3kWwPngVuH2A=
-X-Google-Smtp-Source: AA0mqf7SMd7sC0eWMpSdAzzkiakC3svgkgvgCkV6tHuif3kA7++C6jvTBt8dLArdg3+ukqtl+jpKKN1gxRnhsTUkNLs=
-X-Received: by 2002:adf:ea4e:0:b0:242:1d48:e043 with SMTP id
- j14-20020adfea4e000000b002421d48e043mr26550559wrn.498.1670452281537; Wed, 07
- Dec 2022 14:31:21 -0800 (PST)
+ bh=S0lktgq/GBydjp83+0uRokd3kX3/lB74XBdzTqh12+g=;
+ b=UkZA4yo+kQaakrPQ78jGpGWcJteIwpm9fDMeEfq2JVyTjwLjKS/RUrLI21lg6Z4KfN
+ M76tZDn2blRu224sr6tfhDf8+26SJY4seikVqmNoZDWWhAz2BbRAhkFVS9iSx1VmtRaI
+ yfIELZQmShP/jVjJQUGQFml9WlMh7oY2As5Y566U5tdVoslYJ2qILs+VThLaWrGLTerC
+ 0EB+8F2Zq/cvWeTa0tUa+85wW98w0kK0NfEDsrKKzSIlWseWNlUQHxxUztwgAySkvDiA
+ t2zMsrFQl2u3RtQ4Yc4uvy+woAX3jU6wqz5BXQaja0jKUKDKV3Iy1q5QZ862yku1Ss3O
+ aYow==
+X-Gm-Message-State: ANoB5pkLUB5zwsZDvBM9YYxJebiDswbbzaYMyN8h4KBTbzqV99IEcVUK
+ /u/NC1aLFpN2GX9aUy/gnQdz5tAN72cvag+BIWk=
+X-Google-Smtp-Source: AA0mqf70InLld4jkA0Y1Zr8XJeaVXfG6b1PK1BvQUJ2qLgr/FNBHt5U1KatAJfH06rDlkuP4acwh2ikkXdus0bBETn8=
+X-Received: by 2002:a5d:5a12:0:b0:22e:c2a6:d00d with SMTP id
+ bq18-20020a5d5a12000000b0022ec2a6d00dmr50240874wrb.29.1670452766331; Wed, 07
+ Dec 2022 14:39:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
- <20221203231904.25155-2-strahinja.p.jankovic@gmail.com>
-In-Reply-To: <20221203231904.25155-2-strahinja.p.jankovic@gmail.com>
+ <20221203231904.25155-7-strahinja.p.jankovic@gmail.com>
+In-Reply-To: <20221203231904.25155-7-strahinja.p.jankovic@gmail.com>
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Wed, 7 Dec 2022 23:31:10 +0100
-Message-ID: <CAPan3WpHOeRbDikZAwHH7XsUKMbqyMbwjLM-K6b5Wog7g2diQw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] hw/misc: Allwinner-A10 Clock Controller Module
- Emulation
+Date: Wed, 7 Dec 2022 23:39:14 +0100
+Message-ID: <CAPan3WpDbNczuHaOpOYQOD5MPZ-SyqyZ2172-U6JQFn7fvHaTg@mail.gmail.com>
+Subject: Re: [PATCH 6/6] hw/arm: Allwinner A10 enable SPL load from MMC
 To: Strahinja Jankovic <strahinjapjankovic@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org, 
  qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000dafa1305ef447a70"
+Content-Type: multipart/alternative; boundary="000000000000c05cd405ef4497ae"
 Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
  envelope-from=nieklinnenbank@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
@@ -84,446 +83,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000dafa1305ef447a70
+--000000000000c05cd405ef4497ae
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Strahinja,
 
+
 On Sun, Dec 4, 2022 at 12:19 AM Strahinja Jankovic <
 strahinjapjankovic@gmail.com> wrote:
 
-> During SPL boot several Clock Controller Module (CCM) registers are
-> read, most important are PLL and Tuning, as well as divisor registers.
+> This patch enables copying of SPL from MMC if `-kernel` parameter is not
+> passed when starting QEMU. SPL is copied to SRAM_A.
 >
-> This patch adds these registers and initializes reset values from user's
-> guide.
+> The approach is reused from Allwinner H3 implementation.
+>
+> Tested with Armbian and custom Yocto image.
 >
 > Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+> ---
+>  hw/arm/allwinner-a10.c         | 18 ++++++++++++++++++
+>  hw/arm/cubieboard.c            |  5 +++++
+>  include/hw/arm/allwinner-a10.h | 21 +++++++++++++++++++++
+>  3 files changed, 44 insertions(+)
+>
+> diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+> index 17e439777e..dc1966ff7a 100644
+> --- a/hw/arm/allwinner-a10.c
+> +++ b/hw/arm/allwinner-a10.c
+> @@ -24,7 +24,9 @@
+>  #include "sysemu/sysemu.h"
+>  #include "hw/boards.h"
+>  #include "hw/usb/hcd-ohci.h"
+> +#include "hw/loader.h"
+>
+> +#define AW_A10_SRAM_A_BASE      0x00000000
+>  #define AW_A10_DRAMC_BASE       0x01c01000
+>  #define AW_A10_MMC0_BASE        0x01c0f000
+>  #define AW_A10_CCM_BASE         0x01c20000
+> @@ -38,6 +40,22 @@
+>  #define AW_A10_RTC_BASE         0x01c20d00
+>  #define AW_A10_I2C0_BASE        0x01c2ac00
+>
+> +void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk)
+> +{
+> +    const int64_t rom_size = 32 * KiB;
+> +    g_autofree uint8_t *buffer = g_new0(uint8_t, rom_size);
+> +
+> +    if (blk_pread(blk, 8 * KiB, rom_size, buffer, 0) < 0) {
+> +        error_setg(&error_fatal, "%s: failed to read BlockBackend data",
+> +                   __func__);
+> +        return;
+> +    }
+> +
+> +    rom_add_blob("allwinner-a10.bootrom", buffer, rom_size,
+> +                  rom_size, AW_A10_SRAM_A_BASE,
+> +                  NULL, NULL, NULL, NULL, false);
+> +}
 >
 
-Looks fine to me:
+Its probably fine for now to do it in the same way here for the A10 indeed.
+Perhaps in the future, we can try
+to share some overlapping code between the A10 and H3.
 
+So the patch looks fine to me:
 Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 
 Regards,
 Niek
 
-> ---
->  hw/arm/Kconfig                      |   1 +
->  hw/arm/allwinner-a10.c              |   7 +
->  hw/misc/Kconfig                     |   3 +
->  hw/misc/allwinner-a10-ccm.c         | 224 ++++++++++++++++++++++++++++
->  hw/misc/meson.build                 |   1 +
->  include/hw/arm/allwinner-a10.h      |   2 +
->  include/hw/misc/allwinner-a10-ccm.h |  67 +++++++++
->  7 files changed, 305 insertions(+)
->  create mode 100644 hw/misc/allwinner-a10-ccm.c
->  create mode 100644 include/hw/misc/allwinner-a10-ccm.h
+
+> +
+>  static void aw_a10_init(Object *obj)
+>  {
+>      AwA10State *s = AW_A10(obj);
+> diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+> index afc7980414..37659c35fd 100644
+> --- a/hw/arm/cubieboard.c
+> +++ b/hw/arm/cubieboard.c
+> @@ -99,6 +99,11 @@ static void cubieboard_init(MachineState *machine)
+>      memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
+>                                  machine->ram);
 >
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 17fcde8e1c..14f52b41af 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -319,6 +319,7 @@ config ALLWINNER_A10
->      select AHCI
->      select ALLWINNER_A10_PIT
->      select ALLWINNER_A10_PIC
-> +    select ALLWINNER_A10_CCM
->      select ALLWINNER_EMAC
->      select SERIAL
->      select UNIMP
-> diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-> index 79082289ea..86baeeeca2 100644
-> --- a/hw/arm/allwinner-a10.c
-> +++ b/hw/arm/allwinner-a10.c
-> @@ -26,6 +26,7 @@
->  #include "hw/usb/hcd-ohci.h"
->
->  #define AW_A10_MMC0_BASE        0x01c0f000
-> +#define AW_A10_CCM_BASE         0x01c20000
->  #define AW_A10_PIC_REG_BASE     0x01c20400
->  #define AW_A10_PIT_REG_BASE     0x01c20c00
->  #define AW_A10_UART0_REG_BASE   0x01c28000
-> @@ -46,6 +47,8 @@ static void aw_a10_init(Object *obj)
->
->      object_initialize_child(obj, "timer", &s->timer, TYPE_AW_A10_PIT);
->
-> +    object_initialize_child(obj, "ccm", &s->ccm, TYPE_AW_A10_CCM);
-> +
->      object_initialize_child(obj, "emac", &s->emac, TYPE_AW_EMAC);
->
->      object_initialize_child(obj, "sata", &s->sata, TYPE_ALLWINNER_AHCI);
-> @@ -103,6 +106,10 @@ static void aw_a10_realize(DeviceState *dev, Error
-> **errp)
->      memory_region_add_subregion(get_system_memory(), 0x00000000,
-> &s->sram_a);
->      create_unimplemented_device("a10-sram-ctrl", 0x01c00000, 4 * KiB);
->
-> +    /* Clock Control Module */
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->ccm), &error_fatal);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ccm), 0, AW_A10_CCM_BASE);
-> +
->      /* FIXME use qdev NIC properties instead of nd_table[] */
->      if (nd_table[0].used) {
->          qemu_check_nic_model(&nd_table[0], TYPE_AW_EMAC);
-> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-> index cbabe9f78c..ed07bf4133 100644
-> --- a/hw/misc/Kconfig
-> +++ b/hw/misc/Kconfig
-> @@ -174,4 +174,7 @@ config VIRT_CTRL
->  config LASI
->      bool
->
-> +config ALLWINNER_A10_CCM
-> +    bool
-> +
->  source macio/Kconfig
-> diff --git a/hw/misc/allwinner-a10-ccm.c b/hw/misc/allwinner-a10-ccm.c
-> new file mode 100644
-> index 0000000000..68146ee340
-> --- /dev/null
-> +++ b/hw/misc/allwinner-a10-ccm.c
-> @@ -0,0 +1,224 @@
-> +/*
-> + * Allwinner A10 Clock Control Module emulation
-> + *
-> + * Copyright (C) 2022 Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> + *
-> + *  This file is derived from Allwinner H3 CCU,
-> + *  by Niek Linnenbank.
-> + *
-> + * This program is free software: you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation, either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/units.h"
-> +#include "hw/sysbus.h"
-> +#include "migration/vmstate.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +#include "hw/misc/allwinner-a10-ccm.h"
-> +
-> +/* CCM register offsets */
-> +enum {
-> +    REG_PLL1_CFG             = 0x0000, /* PLL1 Control */
-> +    REG_PLL1_TUN             = 0x0004, /* PLL1 Tuning */
-> +    REG_PLL2_CFG             = 0x0008, /* PLL2 Control */
-> +    REG_PLL2_TUN             = 0x000C, /* PLL2 Tuning */
-> +    REG_PLL3_CFG             = 0x0010, /* PLL3 Control */
-> +    REG_PLL4_CFG             = 0x0018, /* PLL4 Control */
-> +    REG_PLL5_CFG             = 0x0020, /* PLL5 Control */
-> +    REG_PLL5_TUN             = 0x0024, /* PLL5 Tuning */
-> +    REG_PLL6_CFG             = 0x0028, /* PLL6 Control */
-> +    REG_PLL6_TUN             = 0x002C, /* PLL6 Tuning */
-> +    REG_PLL7_CFG             = 0x0030, /* PLL7 Control */
-> +    REG_PLL1_TUN2            = 0x0038, /* PLL1 Tuning2 */
-> +    REG_PLL5_TUN2            = 0x003C, /* PLL5 Tuning2 */
-> +    REG_PLL8_CFG             = 0x0040, /* PLL8 Control */
-> +    REG_OSC24M_CFG           = 0x0050, /* OSC24M Control */
-> +    REG_CPU_AHB_APB0_CFG     = 0x0054, /* CPU, AHB and APB0 Divide Ratio
-> */
-> +};
-> +
-> +#define REG_INDEX(offset)    (offset / sizeof(uint32_t))
-> +
-> +/* CCM register reset values */
-> +enum {
-> +    REG_PLL1_CFG_RST         = 0x21005000,
-> +    REG_PLL1_TUN_RST         = 0x0A101000,
-> +    REG_PLL2_CFG_RST         = 0x08100010,
-> +    REG_PLL2_TUN_RST         = 0x00000000,
-> +    REG_PLL3_CFG_RST         = 0x0010D063,
-> +    REG_PLL4_CFG_RST         = 0x21009911,
-> +    REG_PLL5_CFG_RST         = 0x11049280,
-> +    REG_PLL5_TUN_RST         = 0x14888000,
-> +    REG_PLL6_CFG_RST         = 0x21009911,
-> +    REG_PLL6_TUN_RST         = 0x00000000,
-> +    REG_PLL7_CFG_RST         = 0x0010D063,
-> +    REG_PLL1_TUN2_RST        = 0x00000000,
-> +    REG_PLL5_TUN2_RST        = 0x00000000,
-> +    REG_PLL8_CFG_RST         = 0x21009911,
-> +    REG_OSC24M_CFG_RST       = 0x00138013,
-> +    REG_CPU_AHB_APB0_CFG_RST = 0x00010010,
-> +};
-> +
-> +static uint64_t allwinner_a10_ccm_read(void *opaque, hwaddr offset,
-> +                                       unsigned size)
-> +{
-> +    const AwA10ClockCtlState *s = AW_A10_CCM(opaque);
-> +    const uint32_t idx = REG_INDEX(offset);
-> +
-> +    switch (offset) {
-> +    case REG_PLL1_CFG:
-> +    case REG_PLL1_TUN:
-> +    case REG_PLL2_CFG:
-> +    case REG_PLL2_TUN:
-> +    case REG_PLL3_CFG:
-> +    case REG_PLL4_CFG:
-> +    case REG_PLL5_CFG:
-> +    case REG_PLL5_TUN:
-> +    case REG_PLL6_CFG:
-> +    case REG_PLL6_TUN:
-> +    case REG_PLL7_CFG:
-> +    case REG_PLL1_TUN2:
-> +    case REG_PLL5_TUN2:
-> +    case REG_PLL8_CFG:
-> +    case REG_OSC24M_CFG:
-> +    case REG_CPU_AHB_APB0_CFG:
-> +        break;
-> +    case 0x158 ... AW_A10_CCM_IOSIZE:
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset
-> 0x%04x\n",
-> +                      __func__, (uint32_t)offset);
-> +        return 0;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "%s: unimplemented read offset 0x%04x\n",
-> +                      __func__, (uint32_t)offset);
-> +        return 0;
+> +    /* Load target kernel or start using BootROM */
+> +    if (!machine->kernel_filename && blk && blk_is_available(blk)) {
+> +        /* Use Boot ROM to copy data from SD card to SRAM */
+> +        allwinner_a10_bootrom_setup(a10, blk);
 > +    }
-> +
-> +    return s->regs[idx];
-> +}
-> +
-> +static void allwinner_a10_ccm_write(void *opaque, hwaddr offset,
-> +                                   uint64_t val, unsigned size)
-> +{
-> +    AwA10ClockCtlState *s = AW_A10_CCM(opaque);
-> +    const uint32_t idx = REG_INDEX(offset);
-> +
-> +    switch (offset) {
-> +    case REG_PLL1_CFG:
-> +    case REG_PLL1_TUN:
-> +    case REG_PLL2_CFG:
-> +    case REG_PLL2_TUN:
-> +    case REG_PLL3_CFG:
-> +    case REG_PLL4_CFG:
-> +    case REG_PLL5_CFG:
-> +    case REG_PLL5_TUN:
-> +    case REG_PLL6_CFG:
-> +    case REG_PLL6_TUN:
-> +    case REG_PLL7_CFG:
-> +    case REG_PLL1_TUN2:
-> +    case REG_PLL5_TUN2:
-> +    case REG_PLL8_CFG:
-> +    case REG_OSC24M_CFG:
-> +    case REG_CPU_AHB_APB0_CFG:
-> +        break;
-> +    case 0x158 ... AW_A10_CCM_IOSIZE:
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset
-> 0x%04x\n",
-> +                      __func__, (uint32_t)offset);
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "%s: unimplemented write offset
-> 0x%04x\n",
-> +                      __func__, (uint32_t)offset);
-> +        break;
-> +    }
-> +
-> +    s->regs[idx] = (uint32_t) val;
-> +}
-> +
-> +static const MemoryRegionOps allwinner_a10_ccm_ops = {
-> +    .read = allwinner_a10_ccm_read,
-> +    .write = allwinner_a10_ccm_write,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +    .impl.min_access_size = 4,
-> +};
-> +
-> +static void allwinner_a10_ccm_reset_enter(Object *obj, ResetType type)
-> +{
-> +    AwA10ClockCtlState *s = AW_A10_CCM(obj);
-> +
-> +    /* Set default values for registers */
-> +    s->regs[REG_INDEX(REG_PLL1_CFG)] = REG_PLL1_CFG_RST;
-> +    s->regs[REG_INDEX(REG_PLL1_TUN)] = REG_PLL1_TUN_RST;
-> +    s->regs[REG_INDEX(REG_PLL2_CFG)] = REG_PLL2_CFG_RST;
-> +    s->regs[REG_INDEX(REG_PLL2_TUN)] = REG_PLL2_TUN_RST;
-> +    s->regs[REG_INDEX(REG_PLL3_CFG)] = REG_PLL3_CFG_RST;
-> +    s->regs[REG_INDEX(REG_PLL4_CFG)] = REG_PLL4_CFG_RST;
-> +    s->regs[REG_INDEX(REG_PLL5_CFG)] = REG_PLL5_CFG_RST;
-> +    s->regs[REG_INDEX(REG_PLL5_TUN)] = REG_PLL5_TUN_RST;
-> +    s->regs[REG_INDEX(REG_PLL6_CFG)] = REG_PLL6_CFG_RST;
-> +    s->regs[REG_INDEX(REG_PLL6_TUN)] = REG_PLL6_TUN_RST;
-> +    s->regs[REG_INDEX(REG_PLL7_CFG)] = REG_PLL7_CFG_RST;
-> +    s->regs[REG_INDEX(REG_PLL1_TUN2)] = REG_PLL1_TUN2_RST;
-> +    s->regs[REG_INDEX(REG_PLL5_TUN2)] = REG_PLL5_TUN2_RST;
-> +    s->regs[REG_INDEX(REG_PLL8_CFG)] = REG_PLL8_CFG_RST;
-> +    s->regs[REG_INDEX(REG_OSC24M_CFG)] = REG_OSC24M_CFG_RST;
-> +    s->regs[REG_INDEX(REG_CPU_AHB_APB0_CFG)] = REG_CPU_AHB_APB0_CFG_RST;
-> +}
-> +
-> +static void allwinner_a10_ccm_init(Object *obj)
-> +{
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-> +    AwA10ClockCtlState *s = AW_A10_CCM(obj);
-> +
-> +    /* Memory mapping */
-> +    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_a10_ccm_ops, s,
-> +                          TYPE_AW_A10_CCM, AW_A10_CCM_IOSIZE);
-> +    sysbus_init_mmio(sbd, &s->iomem);
-> +}
-> +
-> +static const VMStateDescription allwinner_a10_ccm_vmstate = {
-> +    .name = "allwinner-a10-ccm",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT32_ARRAY(regs, AwA10ClockCtlState,
-> AW_A10_CCM_REGS_NUM),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void allwinner_a10_ccm_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
-> +
-> +    rc->phases.enter = allwinner_a10_ccm_reset_enter;
-> +    dc->vmsd = &allwinner_a10_ccm_vmstate;
-> +}
-> +
-> +static const TypeInfo allwinner_a10_ccm_info = {
-> +    .name          = TYPE_AW_A10_CCM,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_init = allwinner_a10_ccm_init,
-> +    .instance_size = sizeof(AwA10ClockCtlState),
-> +    .class_init    = allwinner_a10_ccm_class_init,
-> +};
-> +
-> +static void allwinner_a10_ccm_register(void)
-> +{
-> +    type_register_static(&allwinner_a10_ccm_info);
-> +}
-> +
-> +type_init(allwinner_a10_ccm_register)
-> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> index 95268eddc0..ebf216edbc 100644
-> --- a/hw/misc/meson.build
-> +++ b/hw/misc/meson.build
-> @@ -38,6 +38,7 @@ subdir('macio')
+>      /* TODO create and connect IDE devices for ide_drive_get() */
 >
->  softmmu_ss.add(when: 'CONFIG_IVSHMEM_DEVICE', if_true: files('ivshmem.c'))
->
-> +softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_CCM', if_true:
-> files('allwinner-a10-ccm.c'))
->  softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true:
-> files('allwinner-h3-ccu.c'))
->  specific_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true:
-> files('allwinner-cpucfg.c'))
->  softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true:
-> files('allwinner-h3-dramc.c'))
+>      cubieboard_binfo.ram_size = machine->ram_size;
 > diff --git a/include/hw/arm/allwinner-a10.h
 > b/include/hw/arm/allwinner-a10.h
-> index a76dc7b84d..45d0fc2f7e 100644
+> index 763935fca9..b3c9ed24c7 100644
 > --- a/include/hw/arm/allwinner-a10.h
 > +++ b/include/hw/arm/allwinner-a10.h
-> @@ -12,6 +12,7 @@
->  #include "hw/usb/hcd-ohci.h"
->  #include "hw/usb/hcd-ehci.h"
->  #include "hw/rtc/allwinner-rtc.h"
-> +#include "hw/misc/allwinner-a10-ccm.h"
+> @@ -15,6 +15,7 @@
+>  #include "hw/misc/allwinner-a10-ccm.h"
+>  #include "hw/misc/allwinner-a10-dramc.h"
+>  #include "hw/i2c/allwinner-i2c.h"
+> +#include "sysemu/block-backend.h"
 >
 >  #include "target/arm/cpu.h"
 >  #include "qom/object.h"
-> @@ -30,6 +31,7 @@ struct AwA10State {
->      /*< public >*/
+> @@ -47,4 +48,24 @@ struct AwA10State {
+>      OHCISysBusState ohci[AW_A10_NUM_USB];
+>  };
 >
->      ARMCPU cpu;
-> +    AwA10ClockCtlState ccm;
->      AwA10PITState timer;
->      AwA10PICState intc;
->      AwEmacState emac;
-> diff --git a/include/hw/misc/allwinner-a10-ccm.h
-> b/include/hw/misc/allwinner-a10-ccm.h
-> new file mode 100644
-> index 0000000000..7f22532efa
-> --- /dev/null
-> +++ b/include/hw/misc/allwinner-a10-ccm.h
-> @@ -0,0 +1,67 @@
-> +/*
-> + * Allwinner A10 Clock Control Module emulation
-> + *
-> + * Copyright (C) 2022 Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> + *
-> + *  This file is derived from Allwinner H3 CCU,
-> + *  by Niek Linnenbank.
-> + *
-> + * This program is free software: you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation, either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef HW_MISC_ALLWINNER_A10_CCM_H
-> +#define HW_MISC_ALLWINNER_A10_CCM_H
-> +
-> +#include "qom/object.h"
-> +#include "hw/sysbus.h"
-> +
 > +/**
-> + * @name Constants
-> + * @{
+> + * Emulate Boot ROM firmware setup functionality.
+> + *
+> + * A real Allwinner A10 SoC contains a Boot ROM
+> + * which is the first code that runs right after
+> + * the SoC is powered on. The Boot ROM is responsible
+> + * for loading user code (e.g. a bootloader) from any
+> + * of the supported external devices and writing the
+> + * downloaded code to internal SRAM. After loading the SoC
+> + * begins executing the code written to SRAM.
+> + *
+> + * This function emulates the Boot ROM by copying 32 KiB
+> + * of data from the given block device and writes it to
+> + * the start of the first internal SRAM memory.
+> + *
+> + * @s: Allwinner A10 state object pointer
+> + * @blk: Block backend device object pointer
 > + */
+> +void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk);
 > +
-> +/** Size of register I/O address space used by CCM device */
-> +#define AW_A10_CCM_IOSIZE        (0x400)
-> +
-> +/** Total number of known registers */
-> +#define AW_A10_CCM_REGS_NUM      (AW_A10_CCM_IOSIZE / sizeof(uint32_t))
-> +
-> +/** @} */
-> +
-> +/**
-> + * @name Object model
-> + * @{
-> + */
-> +
-> +#define TYPE_AW_A10_CCM    "allwinner-a10-ccm"
-> +OBJECT_DECLARE_SIMPLE_TYPE(AwA10ClockCtlState, AW_A10_CCM)
-> +
-> +/** @} */
-> +
-> +/**
-> + * Allwinner A10 CCM object instance state.
-> + */
-> +struct AwA10ClockCtlState {
-> +    /*< private >*/
-> +    SysBusDevice parent_obj;
-> +    /*< public >*/
-> +
-> +    /** Maps I/O registers in physical memory */
-> +    MemoryRegion iomem;
-> +
-> +    /** Array of hardware registers */
-> +    uint32_t regs[AW_A10_CCM_REGS_NUM];
-> +};
-> +
-> +#endif /* HW_MISC_ALLWINNER_H3_CCU_H */
+>  #endif
 > --
 > 2.30.2
 >
@@ -532,536 +218,145 @@ Niek
 -- 
 Niek Linnenbank
 
---000000000000dafa1305ef447a70
+--000000000000c05cd405ef4497ae
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Strahinja,<br><div dir=3D"ltr"><br></div><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Dec 4, 2022 at 1=
-2:19 AM Strahinja Jankovic &lt;<a href=3D"mailto:strahinjapjankovic@gmail.c=
-om">strahinjapjankovic@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">During SPL boot several Clock Controller M=
-odule (CCM) registers are<br>
-read, most important are PLL and Tuning, as well as divisor registers.<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Strahinja,</div><div><br></div></=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Sun, Dec 4, 2022 at 12:19 AM Strahinja Jankovic &lt;<a href=3D"mailto:stra=
+hinjapjankovic@gmail.com">strahinjapjankovic@gmail.com</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">This patch enables co=
+pying of SPL from MMC if `-kernel` parameter is not<br>
+passed when starting QEMU. SPL is copied to SRAM_A.<br>
 <br>
-This patch adds these registers and initializes reset values from user&#39;=
-s<br>
-guide.<br>
+The approach is reused from Allwinner H3 implementation.<br>
+<br>
+Tested with Armbian and custom Yocto image.<br>
 <br>
 Signed-off-by: Strahinja Jankovic &lt;<a href=3D"mailto:strahinja.p.jankovi=
-c@gmail.com" target=3D"_blank">strahinja.p.jankovic@gmail.com</a>&gt;<br></=
-blockquote><div><br></div><div>Looks fine to me:</div><div><br></div><div>R=
-eviewed-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com"=
->nieklinnenbank@gmail.com</a>&gt;<br></div><div><br></div><div>Regards,</di=
-v><div>Niek <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+c@gmail.com" target=3D"_blank">strahinja.p.jankovic@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0hw/arm/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0hw/arm/allwinner-a10.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A07 +<br>
-=C2=A0hw/misc/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
-=C2=A0hw/misc/allwinner-a10-ccm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 224 ++=
-++++++++++++++++++++++++++<br>
-=C2=A0hw/misc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0include/hw/arm/allwinner-a10.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<=
-br>
-=C2=A0include/hw/misc/allwinner-a10-ccm.h |=C2=A0 67 +++++++++<br>
-=C2=A07 files changed, 305 insertions(+)<br>
-=C2=A0create mode 100644 hw/misc/allwinner-a10-ccm.c<br>
-=C2=A0create mode 100644 include/hw/misc/allwinner-a10-ccm.h<br>
+=C2=A0hw/arm/allwinner-a10.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 18 ++++++++=
+++++++++++<br>
+=C2=A0hw/arm/cubieboard.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+5 +++++<br>
+=C2=A0include/hw/arm/allwinner-a10.h | 21 +++++++++++++++++++++<br>
+=C2=A03 files changed, 44 insertions(+)<br>
 <br>
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig<br>
-index 17fcde8e1c..14f52b41af 100644<br>
---- a/hw/arm/Kconfig<br>
-+++ b/hw/arm/Kconfig<br>
-@@ -319,6 +319,7 @@ config ALLWINNER_A10<br>
-=C2=A0 =C2=A0 =C2=A0select AHCI<br>
-=C2=A0 =C2=A0 =C2=A0select ALLWINNER_A10_PIT<br>
-=C2=A0 =C2=A0 =C2=A0select ALLWINNER_A10_PIC<br>
-+=C2=A0 =C2=A0 select ALLWINNER_A10_CCM<br>
-=C2=A0 =C2=A0 =C2=A0select ALLWINNER_EMAC<br>
-=C2=A0 =C2=A0 =C2=A0select SERIAL<br>
-=C2=A0 =C2=A0 =C2=A0select UNIMP<br>
 diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c<br>
-index 79082289ea..86baeeeca2 100644<br>
+index 17e439777e..dc1966ff7a 100644<br>
 --- a/hw/arm/allwinner-a10.c<br>
 +++ b/hw/arm/allwinner-a10.c<br>
-@@ -26,6 +26,7 @@<br>
+@@ -24,7 +24,9 @@<br>
+=C2=A0#include &quot;sysemu/sysemu.h&quot;<br>
+=C2=A0#include &quot;hw/boards.h&quot;<br>
 =C2=A0#include &quot;hw/usb/hcd-ohci.h&quot;<br>
++#include &quot;hw/loader.h&quot;<br>
 <br>
++#define AW_A10_SRAM_A_BASE=C2=A0 =C2=A0 =C2=A0 0x00000000<br>
+=C2=A0#define AW_A10_DRAMC_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A00x01c01000<br>
 =C2=A0#define AW_A10_MMC0_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x01c0f000<br>
-+#define AW_A10_CCM_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x01c20000<br>
-=C2=A0#define AW_A10_PIC_REG_BASE=C2=A0 =C2=A0 =C2=A00x01c20400<br>
-=C2=A0#define AW_A10_PIT_REG_BASE=C2=A0 =C2=A0 =C2=A00x01c20c00<br>
-=C2=A0#define AW_A10_UART0_REG_BASE=C2=A0 =C2=A00x01c28000<br>
-@@ -46,6 +47,8 @@ static void aw_a10_init(Object *obj)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0object_initialize_child(obj, &quot;timer&quot;, &amp;s-=
-&gt;timer, TYPE_AW_A10_PIT);<br>
-<br>
-+=C2=A0 =C2=A0 object_initialize_child(obj, &quot;ccm&quot;, &amp;s-&gt;ccm=
-, TYPE_AW_A10_CCM);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0object_initialize_child(obj, &quot;emac&quot;, &amp;s-&=
-gt;emac, TYPE_AW_EMAC);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0object_initialize_child(obj, &quot;sata&quot;, &amp;s-&=
-gt;sata, TYPE_ALLWINNER_AHCI);<br>
-@@ -103,6 +106,10 @@ static void aw_a10_realize(DeviceState *dev, Error **e=
-rrp)<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(get_system_memory(), 0x0000=
-0000, &amp;s-&gt;sram_a);<br>
-=C2=A0 =C2=A0 =C2=A0create_unimplemented_device(&quot;a10-sram-ctrl&quot;, =
-0x01c00000, 4 * KiB);<br>
-<br>
-+=C2=A0 =C2=A0 /* Clock Control Module */<br>
-+=C2=A0 =C2=A0 sysbus_realize(SYS_BUS_DEVICE(&amp;s-&gt;ccm), &amp;error_fa=
-tal);<br>
-+=C2=A0 =C2=A0 sysbus_mmio_map(SYS_BUS_DEVICE(&amp;s-&gt;ccm), 0, AW_A10_CC=
-M_BASE);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* FIXME use qdev NIC properties instead of nd_table[] =
-*/<br>
-=C2=A0 =C2=A0 =C2=A0if (nd_table[0].used) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_check_nic_model(&amp;nd_table[0], TY=
-PE_AW_EMAC);<br>
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig<br>
-index cbabe9f78c..ed07bf4133 100644<br>
---- a/hw/misc/Kconfig<br>
-+++ b/hw/misc/Kconfig<br>
-@@ -174,4 +174,7 @@ config VIRT_CTRL<br>
-=C2=A0config LASI<br>
-=C2=A0 =C2=A0 =C2=A0bool<br>
-<br>
-+config ALLWINNER_A10_CCM<br>
-+=C2=A0 =C2=A0 bool<br>
-+<br>
-=C2=A0source macio/Kconfig<br>
-diff --git a/hw/misc/allwinner-a10-ccm.c b/hw/misc/allwinner-a10-ccm.c<br>
-new file mode 100644<br>
-index 0000000000..68146ee340<br>
---- /dev/null<br>
-+++ b/hw/misc/allwinner-a10-ccm.c<br>
-@@ -0,0 +1,224 @@<br>
-+/*<br>
-+ * Allwinner A10 Clock Control Module emulation<br>
-+ *<br>
-+ * Copyright (C) 2022 Strahinja Jankovic &lt;<a href=3D"mailto:strahinja.p=
-.jankovic@gmail.com" target=3D"_blank">strahinja.p.jankovic@gmail.com</a>&g=
-t;<br>
-+ *<br>
-+ *=C2=A0 This file is derived from Allwinner H3 CCU,<br>
-+ *=C2=A0 by Niek Linnenbank.<br>
-+ *<br>
-+ * This program is free software: you can redistribute it and/or modify<br=
->
-+ * it under the terms of the GNU General Public License as published by<br=
->
-+ * the Free Software Foundation, either version 2 of the License, or<br>
-+ * (at your option) any later version.<br>
-+ *<br>
-+ * This program is distributed in the hope that it will be useful,<br>
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the<br>
-+ * GNU General Public License for more details.<br>
-+ *<br>
-+ * You should have received a copy of the GNU General Public License<br>
-+ * along with this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gn=
-u.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/li=
-censes/</a>&gt;.<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu/units.h&quot;<br>
-+#include &quot;hw/sysbus.h&quot;<br>
-+#include &quot;migration/vmstate.h&quot;<br>
-+#include &quot;qemu/log.h&quot;<br>
-+#include &quot;qemu/module.h&quot;<br>
-+#include &quot;hw/misc/allwinner-a10-ccm.h&quot;<br>
-+<br>
-+/* CCM register offsets */<br>
-+enum {<br>
-+=C2=A0 =C2=A0 REG_PLL1_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0000, /* PLL1 Control */<br>
-+=C2=A0 =C2=A0 REG_PLL1_TUN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0004, /* PLL1 Tuning */<br>
-+=C2=A0 =C2=A0 REG_PLL2_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0008, /* PLL2 Control */<br>
-+=C2=A0 =C2=A0 REG_PLL2_TUN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x000C, /* PLL2 Tuning */<br>
-+=C2=A0 =C2=A0 REG_PLL3_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0010, /* PLL3 Control */<br>
-+=C2=A0 =C2=A0 REG_PLL4_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0018, /* PLL4 Control */<br>
-+=C2=A0 =C2=A0 REG_PLL5_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0020, /* PLL5 Control */<br>
-+=C2=A0 =C2=A0 REG_PLL5_TUN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0024, /* PLL5 Tuning */<br>
-+=C2=A0 =C2=A0 REG_PLL6_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0028, /* PLL6 Control */<br>
-+=C2=A0 =C2=A0 REG_PLL6_TUN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x002C, /* PLL6 Tuning */<br>
-+=C2=A0 =C2=A0 REG_PLL7_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0030, /* PLL7 Control */<br>
-+=C2=A0 =C2=A0 REG_PLL1_TUN2=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0=
-x0038, /* PLL1 Tuning2 */<br>
-+=C2=A0 =C2=A0 REG_PLL5_TUN2=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0=
-x003C, /* PLL5 Tuning2 */<br>
-+=C2=A0 =C2=A0 REG_PLL8_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0040, /* PLL8 Control */<br>
-+=C2=A0 =C2=A0 REG_OSC24M_CFG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0=
-x0050, /* OSC24M Control */<br>
-+=C2=A0 =C2=A0 REG_CPU_AHB_APB0_CFG=C2=A0 =C2=A0 =C2=A0=3D 0x0054, /* CPU, =
-AHB and APB0 Divide Ratio */<br>
-+};<br>
-+<br>
-+#define REG_INDEX(offset)=C2=A0 =C2=A0 (offset / sizeof(uint32_t))<br>
-+<br>
-+/* CCM register reset values */<br>
-+enum {<br>
-+=C2=A0 =C2=A0 REG_PLL1_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x2100=
-5000,<br>
-+=C2=A0 =C2=A0 REG_PLL1_TUN_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0A10=
-1000,<br>
-+=C2=A0 =C2=A0 REG_PLL2_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0810=
-0010,<br>
-+=C2=A0 =C2=A0 REG_PLL2_TUN_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0000=
-0000,<br>
-+=C2=A0 =C2=A0 REG_PLL3_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0010=
-D063,<br>
-+=C2=A0 =C2=A0 REG_PLL4_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x2100=
-9911,<br>
-+=C2=A0 =C2=A0 REG_PLL5_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x1104=
-9280,<br>
-+=C2=A0 =C2=A0 REG_PLL5_TUN_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x1488=
-8000,<br>
-+=C2=A0 =C2=A0 REG_PLL6_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x2100=
-9911,<br>
-+=C2=A0 =C2=A0 REG_PLL6_TUN_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0000=
-0000,<br>
-+=C2=A0 =C2=A0 REG_PLL7_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0010=
-D063,<br>
-+=C2=A0 =C2=A0 REG_PLL1_TUN2_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x00000000,=
-<br>
-+=C2=A0 =C2=A0 REG_PLL5_TUN2_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x00000000,=
-<br>
-+=C2=A0 =C2=A0 REG_PLL8_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x2100=
-9911,<br>
-+=C2=A0 =C2=A0 REG_OSC24M_CFG_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x00138013,=
-<br>
-+=C2=A0 =C2=A0 REG_CPU_AHB_APB0_CFG_RST =3D 0x00010010,<br>
-+};<br>
-+<br>
-+static uint64_t allwinner_a10_ccm_read(void *opaque, hwaddr offset,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned =
-size)<br>
-+{<br>
-+=C2=A0 =C2=A0 const AwA10ClockCtlState *s =3D AW_A10_CCM(opaque);<br>
-+=C2=A0 =C2=A0 const uint32_t idx =3D REG_INDEX(offset);<br>
-+<br>
-+=C2=A0 =C2=A0 switch (offset) {<br>
-+=C2=A0 =C2=A0 case REG_PLL1_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL1_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL2_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL2_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL3_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL4_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL5_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL5_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL6_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL6_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL7_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL1_TUN2:<br>
-+=C2=A0 =C2=A0 case REG_PLL5_TUN2:<br>
-+=C2=A0 =C2=A0 case REG_PLL8_CFG:<br>
-+=C2=A0 =C2=A0 case REG_OSC24M_CFG:<br>
-+=C2=A0 =C2=A0 case REG_CPU_AHB_APB0_CFG:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case 0x158 ... AW_A10_CCM_IOSIZE:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: out-o=
-f-bounds offset 0x%04x\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, (uint32_t)offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_UNIMP, &quot;%s: unimplement=
-ed read offset 0x%04x\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, (uint32_t)offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return s-&gt;regs[idx];<br>
-+}<br>
-+<br>
-+static void allwinner_a10_ccm_write(void *opaque, hwaddr offset,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t val, unsigned =
-size)<br>
-+{<br>
-+=C2=A0 =C2=A0 AwA10ClockCtlState *s =3D AW_A10_CCM(opaque);<br>
-+=C2=A0 =C2=A0 const uint32_t idx =3D REG_INDEX(offset);<br>
-+<br>
-+=C2=A0 =C2=A0 switch (offset) {<br>
-+=C2=A0 =C2=A0 case REG_PLL1_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL1_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL2_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL2_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL3_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL4_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL5_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL5_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL6_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL6_TUN:<br>
-+=C2=A0 =C2=A0 case REG_PLL7_CFG:<br>
-+=C2=A0 =C2=A0 case REG_PLL1_TUN2:<br>
-+=C2=A0 =C2=A0 case REG_PLL5_TUN2:<br>
-+=C2=A0 =C2=A0 case REG_PLL8_CFG:<br>
-+=C2=A0 =C2=A0 case REG_OSC24M_CFG:<br>
-+=C2=A0 =C2=A0 case REG_CPU_AHB_APB0_CFG:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case 0x158 ... AW_A10_CCM_IOSIZE:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: out-o=
-f-bounds offset 0x%04x\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, (uint32_t)offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_UNIMP, &quot;%s: unimplement=
-ed write offset 0x%04x\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, (uint32_t)offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 s-&gt;regs[idx] =3D (uint32_t) val;<br>
-+}<br>
-+<br>
-+static const MemoryRegionOps allwinner_a10_ccm_ops =3D {<br>
-+=C2=A0 =C2=A0 .read =3D allwinner_a10_ccm_read,<br>
-+=C2=A0 =C2=A0 .write =3D allwinner_a10_ccm_write,<br>
-+=C2=A0 =C2=A0 .endianness =3D DEVICE_NATIVE_ENDIAN,<br>
-+=C2=A0 =C2=A0 .valid =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .min_access_size =3D 4,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .max_access_size =3D 4,<br>
-+=C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 .impl.min_access_size =3D 4,<br>
-+};<br>
-+<br>
-+static void allwinner_a10_ccm_reset_enter(Object *obj, ResetType type)<br>
-+{<br>
-+=C2=A0 =C2=A0 AwA10ClockCtlState *s =3D AW_A10_CCM(obj);<br>
-+<br>
-+=C2=A0 =C2=A0 /* Set default values for registers */<br>
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL1_CFG)] =3D REG_PLL1_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL1_TUN)] =3D REG_PLL1_TUN_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL2_CFG)] =3D REG_PLL2_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL2_TUN)] =3D REG_PLL2_TUN_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL3_CFG)] =3D REG_PLL3_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL4_CFG)] =3D REG_PLL4_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL5_CFG)] =3D REG_PLL5_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL5_TUN)] =3D REG_PLL5_TUN_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL6_CFG)] =3D REG_PLL6_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL6_TUN)] =3D REG_PLL6_TUN_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL7_CFG)] =3D REG_PLL7_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL1_TUN2)] =3D REG_PLL1_TUN2_RST;<=
-br>
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL5_TUN2)] =3D REG_PLL5_TUN2_RST;<=
-br>
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_PLL8_CFG)] =3D REG_PLL8_CFG_RST;<br=
->
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_OSC24M_CFG)] =3D REG_OSC24M_CFG_RST=
-;<br>
-+=C2=A0 =C2=A0 s-&gt;regs[REG_INDEX(REG_CPU_AHB_APB0_CFG)] =3D REG_CPU_AHB_=
-APB0_CFG_RST;<br>
-+}<br>
-+<br>
-+static void allwinner_a10_ccm_init(Object *obj)<br>
-+{<br>
-+=C2=A0 =C2=A0 SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);<br>
-+=C2=A0 =C2=A0 AwA10ClockCtlState *s =3D AW_A10_CCM(obj);<br>
-+<br>
-+=C2=A0 =C2=A0 /* Memory mapping */<br>
-+=C2=A0 =C2=A0 memory_region_init_io(&amp;s-&gt;iomem, OBJECT(s), &amp;allw=
-inner_a10_ccm_ops, s,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 TYPE_AW_A10_CCM, AW_A10_CCM_IOSIZE);<br>
-+=C2=A0 =C2=A0 sysbus_init_mmio(sbd, &amp;s-&gt;iomem);<br>
-+}<br>
-+<br>
-+static const VMStateDescription allwinner_a10_ccm_vmstate =3D {<br>
-+=C2=A0 =C2=A0 .name =3D &quot;allwinner-a10-ccm&quot;,<br>
-+=C2=A0 =C2=A0 .version_id =3D 1,<br>
-+=C2=A0 =C2=A0 .minimum_version_id =3D 1,<br>
-+=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32_ARRAY(regs, AwA10ClockCtlState,=
- AW_A10_CCM_REGS_NUM),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
-+=C2=A0 =C2=A0 }<br>
-+};<br>
-+<br>
-+static void allwinner_a10_ccm_class_init(ObjectClass *klass, void *data)<b=
+=C2=A0#define AW_A10_CCM_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x01c20000<b=
 r>
-+{<br>
-+=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
-+=C2=A0 =C2=A0 ResettableClass *rc =3D RESETTABLE_CLASS(klass);<br>
-+<br>
-+=C2=A0 =C2=A0 rc-&gt;phases.enter =3D allwinner_a10_ccm_reset_enter;<br>
-+=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;allwinner_a10_ccm_vmstate;<br>
-+}<br>
-+<br>
-+static const TypeInfo allwinner_a10_ccm_info =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_AW_A10_CCM,=
-<br>
-+=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_SYS_BUS_DEVICE,<=
-br>
-+=C2=A0 =C2=A0 .instance_init =3D allwinner_a10_ccm_init,<br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(AwA10ClockCtlState),<br>
-+=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =3D allwinner_a10_ccm_class_init,<b=
+@@ -38,6 +40,22 @@<br>
+=C2=A0#define AW_A10_RTC_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x01c20d00<b=
 r>
-+};<br>
-+<br>
-+static void allwinner_a10_ccm_register(void)<br>
+=C2=A0#define AW_A10_I2C0_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x01c2ac00<br>
+<br>
++void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk)<br>
 +{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;allwinner_a10_ccm_info);<br>
-+}<br>
++=C2=A0 =C2=A0 const int64_t rom_size =3D 32 * KiB;<br>
++=C2=A0 =C2=A0 g_autofree uint8_t *buffer =3D g_new0(uint8_t, rom_size);<br=
+>
 +<br>
-+type_init(allwinner_a10_ccm_register)<br>
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build<br>
-index 95268eddc0..ebf216edbc 100644<br>
---- a/hw/misc/meson.build<br>
-+++ b/hw/misc/meson.build<br>
-@@ -38,6 +38,7 @@ subdir(&#39;macio&#39;)<br>
++=C2=A0 =C2=A0 if (blk_pread(blk, 8 * KiB, rom_size, buffer, 0) &lt; 0) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;error_fatal, &quot;%s: failed =
+to read BlockBackend data&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__fun=
+c__);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 rom_add_blob(&quot;allwinner-a10.bootrom&quot;, buffer, rom_=
+size,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rom_size, A=
+W_A10_SRAM_A_BASE,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL,=
+ NULL, NULL, false);<br>
++}<br></blockquote><div><br></div><div>Its probably fine for now to do it i=
+n the same way here for the A10 indeed. Perhaps in the future, we can try</=
+div><div>to share some overlapping code between the A10 and H3.</div><div><=
+br></div><div>So the patch looks fine to me:</div><div>Reviewed-by: Niek Li=
+nnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@gma=
+il.com</a>&gt;</div><div><br></div><div>Regards,</div><div>Niek<br></div><d=
+iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++<br>
+=C2=A0static void aw_a10_init(Object *obj)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0AwA10State *s =3D AW_A10(obj);<br>
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c<br>
+index afc7980414..37659c35fd 100644<br>
+--- a/hw/arm/cubieboard.c<br>
++++ b/hw/arm/cubieboard.c<br>
+@@ -99,6 +99,11 @@ static void cubieboard_init(MachineState *machine)<br>
+=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(get_system_memory(), AW_A10=
+_SDRAM_BASE,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0machine-&gt;ram);<br>
 <br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_IVSHMEM_DEVICE&#39;, if_true: files(=
-&#39;ivshmem.c&#39;))<br>
++=C2=A0 =C2=A0 /* Load target kernel or start using BootROM */<br>
++=C2=A0 =C2=A0 if (!machine-&gt;kernel_filename &amp;&amp; blk &amp;&amp; b=
+lk_is_available(blk)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Use Boot ROM to copy data from SD card to S=
+RAM */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 allwinner_a10_bootrom_setup(a10, blk);<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0/* TODO create and connect IDE devices for ide_drive_ge=
+t() */<br>
 <br>
-+softmmu_ss.add(when: &#39;CONFIG_ALLWINNER_A10_CCM&#39;, if_true: files(&#=
-39;allwinner-a10-ccm.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_ALLWINNER_H3&#39;, if_true: files(&#=
-39;allwinner-h3-ccu.c&#39;))<br>
-=C2=A0specific_ss.add(when: &#39;CONFIG_ALLWINNER_H3&#39;, if_true: files(&=
-#39;allwinner-cpucfg.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_ALLWINNER_H3&#39;, if_true: files(&#=
-39;allwinner-h3-dramc.c&#39;))<br>
+=C2=A0 =C2=A0 =C2=A0cubieboard_binfo.ram_size =3D machine-&gt;ram_size;<br>
 diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.=
 h<br>
-index a76dc7b84d..45d0fc2f7e 100644<br>
+index 763935fca9..b3c9ed24c7 100644<br>
 --- a/include/hw/arm/allwinner-a10.h<br>
 +++ b/include/hw/arm/allwinner-a10.h<br>
-@@ -12,6 +12,7 @@<br>
-=C2=A0#include &quot;hw/usb/hcd-ohci.h&quot;<br>
-=C2=A0#include &quot;hw/usb/hcd-ehci.h&quot;<br>
-=C2=A0#include &quot;hw/rtc/allwinner-rtc.h&quot;<br>
-+#include &quot;hw/misc/allwinner-a10-ccm.h&quot;<br>
+@@ -15,6 +15,7 @@<br>
+=C2=A0#include &quot;hw/misc/allwinner-a10-ccm.h&quot;<br>
+=C2=A0#include &quot;hw/misc/allwinner-a10-dramc.h&quot;<br>
+=C2=A0#include &quot;hw/i2c/allwinner-i2c.h&quot;<br>
++#include &quot;sysemu/block-backend.h&quot;<br>
 <br>
 =C2=A0#include &quot;target/arm/cpu.h&quot;<br>
 =C2=A0#include &quot;qom/object.h&quot;<br>
-@@ -30,6 +31,7 @@ struct AwA10State {<br>
-=C2=A0 =C2=A0 =C2=A0/*&lt; public &gt;*/<br>
+@@ -47,4 +48,24 @@ struct AwA10State {<br>
+=C2=A0 =C2=A0 =C2=A0OHCISysBusState ohci[AW_A10_NUM_USB];<br>
+=C2=A0};<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0ARMCPU cpu;<br>
-+=C2=A0 =C2=A0 AwA10ClockCtlState ccm;<br>
-=C2=A0 =C2=A0 =C2=A0AwA10PITState timer;<br>
-=C2=A0 =C2=A0 =C2=A0AwA10PICState intc;<br>
-=C2=A0 =C2=A0 =C2=A0AwEmacState emac;<br>
-diff --git a/include/hw/misc/allwinner-a10-ccm.h b/include/hw/misc/allwinne=
-r-a10-ccm.h<br>
-new file mode 100644<br>
-index 0000000000..7f22532efa<br>
---- /dev/null<br>
-+++ b/include/hw/misc/allwinner-a10-ccm.h<br>
-@@ -0,0 +1,67 @@<br>
-+/*<br>
-+ * Allwinner A10 Clock Control Module emulation<br>
-+ *<br>
-+ * Copyright (C) 2022 Strahinja Jankovic &lt;<a href=3D"mailto:strahinja.p=
-.jankovic@gmail.com" target=3D"_blank">strahinja.p.jankovic@gmail.com</a>&g=
-t;<br>
-+ *<br>
-+ *=C2=A0 This file is derived from Allwinner H3 CCU,<br>
-+ *=C2=A0 by Niek Linnenbank.<br>
-+ *<br>
-+ * This program is free software: you can redistribute it and/or modify<br=
->
-+ * it under the terms of the GNU General Public License as published by<br=
->
-+ * the Free Software Foundation, either version 2 of the License, or<br>
-+ * (at your option) any later version.<br>
-+ *<br>
-+ * This program is distributed in the hope that it will be useful,<br>
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the<br>
-+ * GNU General Public License for more details.<br>
-+ *<br>
-+ * You should have received a copy of the GNU General Public License<br>
-+ * along with this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gn=
-u.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/li=
-censes/</a>&gt;.<br>
-+ */<br>
-+<br>
-+#ifndef HW_MISC_ALLWINNER_A10_CCM_H<br>
-+#define HW_MISC_ALLWINNER_A10_CCM_H<br>
-+<br>
-+#include &quot;qom/object.h&quot;<br>
-+#include &quot;hw/sysbus.h&quot;<br>
-+<br>
 +/**<br>
-+ * @name Constants<br>
-+ * @{<br>
++ * Emulate Boot ROM firmware setup functionality.<br>
++ *<br>
++ * A real Allwinner A10 SoC contains a Boot ROM<br>
++ * which is the first code that runs right after<br>
++ * the SoC is powered on. The Boot ROM is responsible<br>
++ * for loading user code (e.g. a bootloader) from any<br>
++ * of the supported external devices and writing the<br>
++ * downloaded code to internal SRAM. After loading the SoC<br>
++ * begins executing the code written to SRAM.<br>
++ *<br>
++ * This function emulates the Boot ROM by copying 32 KiB<br>
++ * of data from the given block device and writes it to<br>
++ * the start of the first internal SRAM memory.<br>
++ *<br>
++ * @s: Allwinner A10 state object pointer<br>
++ * @blk: Block backend device object pointer<br>
 + */<br>
++void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk);<br>
 +<br>
-+/** Size of register I/O address space used by CCM device */<br>
-+#define AW_A10_CCM_IOSIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x400)<br>
-+<br>
-+/** Total number of known registers */<br>
-+#define AW_A10_CCM_REGS_NUM=C2=A0 =C2=A0 =C2=A0 (AW_A10_CCM_IOSIZE / sizeo=
-f(uint32_t))<br>
-+<br>
-+/** @} */<br>
-+<br>
-+/**<br>
-+ * @name Object model<br>
-+ * @{<br>
-+ */<br>
-+<br>
-+#define TYPE_AW_A10_CCM=C2=A0 =C2=A0 &quot;allwinner-a10-ccm&quot;<br>
-+OBJECT_DECLARE_SIMPLE_TYPE(AwA10ClockCtlState, AW_A10_CCM)<br>
-+<br>
-+/** @} */<br>
-+<br>
-+/**<br>
-+ * Allwinner A10 CCM object instance state.<br>
-+ */<br>
-+struct AwA10ClockCtlState {<br>
-+=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
-+=C2=A0 =C2=A0 SysBusDevice parent_obj;<br>
-+=C2=A0 =C2=A0 /*&lt; public &gt;*/<br>
-+<br>
-+=C2=A0 =C2=A0 /** Maps I/O registers in physical memory */<br>
-+=C2=A0 =C2=A0 MemoryRegion iomem;<br>
-+<br>
-+=C2=A0 =C2=A0 /** Array of hardware registers */<br>
-+=C2=A0 =C2=A0 uint32_t regs[AW_A10_CCM_REGS_NUM];<br>
-+};<br>
-+<br>
-+#endif /* HW_MISC_ALLWINNER_H3_CCU_H */<br>
+=C2=A0#endif<br>
 -- <br>
 2.30.2<br>
 <br>
@@ -1069,5 +364,5 @@ f(uint32_t))<br>
 mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
 div></div>
 
---000000000000dafa1305ef447a70--
+--000000000000c05cd405ef4497ae--
 
