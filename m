@@ -2,90 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EA4645CBA
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 15:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4D1645CB2
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 15:35:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2vWk-0006KZ-JI; Wed, 07 Dec 2022 09:36:02 -0500
+	id 1p2vUw-0005bJ-1Y; Wed, 07 Dec 2022 09:34:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p2vWT-0006JC-Uc
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:35:47 -0500
-Received: from mga12.intel.com ([192.55.52.136])
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p2vUu-0005b6-SB
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:34:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p2vWQ-0007dA-AM
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:35:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670423742; x=1701959742;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=7EG1tTmoObEDuvvLIPiEYSoj23URjti2eUKjBDyglO0=;
- b=lrDNCsQjPf/iDnwCA7YKbZAJCRk9J/64q6VBgE4sunk0FMV4ASN4hfZl
- C72EAtG5CmJmfwAzhTVt6P08KNXcyOahOLwhLuXK4HFxPbcWYivPZ8CeT
- GR161DPH47LbxCvoDKlknWFUCYfSbc97eFuALYNFZ35sltQ4f7PWKdB+7
- gxgumrpiQdWScN85OhMkKH944KmV2zFDg57lzC5sqTK4VM1FTbr3b7JCo
- 58TjpD8kXtCWgfQHRYxNScd9R2GJIBrhGqWS379qScAWcw+pdbfZ8ilkN
- qXJfTfD9utJmN8eFusVvSWtnKlHLhBmaqz9bmIyHykDBfzy6UIemBsXJS A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="296598361"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="296598361"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 06:35:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="640266025"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="640266025"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 07 Dec 2022 06:35:27 -0800
-Date: Wed, 7 Dec 2022 22:31:08 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20221207143108.GB1275553@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <877cz4ac5z.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p2vUt-00075M-0C
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 09:34:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670423645;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sZeFI9XJRpu5ci9mUCw1UTAkwO8WPzpjrkZxtSXd73Y=;
+ b=O1oHYM8ijxI78ZZ/9Nm7GyzF1J6Qd4M77Xd7TKRlPbtlcctxM2fnH2PxK974pduA8aby3w
+ cLBCLPArVoSYUJLwioRfSDCz4exAudTKyvW+1aUuR/DB2vpWDOc7wSYZ08Du+aVW+Tt3Yu
+ 47OtrT8RQeVSSU7f1GAZsmNWYgbbf/M=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-195-uPynhPtGPZ2QNaK9uOjl1w-1; Wed, 07 Dec 2022 09:34:03 -0500
+X-MC-Unique: uPynhPtGPZ2QNaK9uOjl1w-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ s7-20020a05620a0bc700b006fcb1a3bb9dso17475399qki.15
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 06:34:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sZeFI9XJRpu5ci9mUCw1UTAkwO8WPzpjrkZxtSXd73Y=;
+ b=fdvMX14JH/ZFaxx5R2XUkVD7Vt75GOMOURotusNi9oNCSywBCcdlCTArp2Yr/0wBPX
+ uMfP8UmE+3MokmsvsLGnao8EKtBLoCTGYQR2yLoKgtvHId0pJwlXda6DZTJTfmz3iqnX
+ nR2+NeNhOxLc7eTJl8BWUPTyB7gDUbXz+bEwcn0AnX0k0kN6kOUg163kUhNDAodxyZ84
+ m8HHzPQeoM0CxdCRNLl6r7OfG654Ese6uY2m1G73UjW5ICXD4dUwPHku5rPctnoUcVRZ
+ /feFVt6N9UEmjQ+BZPElvxrXbWOyr8h1xIlYjP8RTFxNFCAL/2BqKdAK0/2yhUjC7tYY
+ FLXg==
+X-Gm-Message-State: ANoB5pmxcNMlTlAiyf1/UYGKHXD1i1kbXOohDddo1ZyHNAZOctW+xatb
+ 6hjw1EvdbZsCL/f4X/tfQPy/I4zVRKgvZdOEO/EUcxK0HExdGLNV54P7bCipDhBqhstZBRIPbAb
+ Oia/dY4v1JMH4YUw=
+X-Received: by 2002:a05:622a:1143:b0:3a5:3020:bd76 with SMTP id
+ f3-20020a05622a114300b003a53020bd76mr66281222qty.547.1670423643070; 
+ Wed, 07 Dec 2022 06:34:03 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Cr2ir4xxQJzbb73FVgmHXYpJnitzT4+o22HOU4KMHOnn3hTSlmSXu/oaVOk+6RCyZ+2qvDA==
+X-Received: by 2002:a05:622a:1143:b0:3a5:3020:bd76 with SMTP id
+ f3-20020a05622a114300b003a53020bd76mr66281202qty.547.1670423642783; 
+ Wed, 07 Dec 2022 06:34:02 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ s190-20020ae9dec7000000b006f7ee901674sm16571376qkf.2.2022.12.07.06.34.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 06:34:01 -0800 (PST)
+Message-ID: <6a39520b-5445-bda4-951f-998675d6e045@redhat.com>
+Date: Wed, 7 Dec 2022 15:33:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877cz4ac5z.fsf@suse.de>
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH for 7.2?] target/i386: Remove compilation errors when
+ -Werror=maybe-uninitialized
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: eric.auger.pro@gmail.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221207132439.635402-1-eric.auger@redhat.com>
+ <f8a36758-cff2-3df3-3e30-083175e47131@redhat.com>
+ <CAJSP0QXo0p5E_G9rqLO0wqC=NDQzMhoJOJDb0ShV+7OetFMMbg@mail.gmail.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <CAJSP0QXo0p5E_G9rqLO0wqC=NDQzMhoJOJDb0ShV+7OetFMMbg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.262, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,214 +106,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 06, 2022 at 10:34:32AM -0300, Fabiano Rosas wrote:
-> Chao Peng <chao.p.peng@linux.intel.com> writes:
-> 
-> > In confidential computing usages, whether a page is private or shared is
-> > necessary information for KVM to perform operations like page fault
-> > handling, page zapping etc. There are other potential use cases for
-> > per-page memory attributes, e.g. to make memory read-only (or no-exec,
-> > or exec-only, etc.) without having to modify memslots.
-> >
-> > Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
-> > userspace to operate on the per-page memory attributes.
-> >   - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
-> >     a guest memory range.
-> >   - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
-> >     memory attributes.
-> >
-> > KVM internally uses xarray to store the per-page memory attributes.
-> >
-> > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
-> > ---
-> >  Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
-> >  arch/x86/kvm/Kconfig           |  1 +
-> >  include/linux/kvm_host.h       |  3 ++
-> >  include/uapi/linux/kvm.h       | 17 ++++++++
-> >  virt/kvm/Kconfig               |  3 ++
-> >  virt/kvm/kvm_main.c            | 76 ++++++++++++++++++++++++++++++++++
-> >  6 files changed, 163 insertions(+)
-> >
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > index 5617bc4f899f..bb2f709c0900 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -5952,6 +5952,59 @@ delivery must be provided via the "reg_aen" struct.
-> >  The "pad" and "reserved" fields may be used for future extensions and should be
-> >  set to 0s by userspace.
-> >  
-> > +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
-> > +-----------------------------------------
-> > +
-> > +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> > +:Architectures: x86
-> > +:Type: vm ioctl
-> > +:Parameters: u64 memory attributes bitmask(out)
-> > +:Returns: 0 on success, <0 on error
-> > +
-> > +Returns supported memory attributes bitmask. Supported memory attributes will
-> > +have the corresponding bits set in u64 memory attributes bitmask.
-> > +
-> > +The following memory attributes are defined::
-> > +
-> > +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
-> > +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
-> > +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
-> > +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
-> > +
-> > +4.139 KVM_SET_MEMORY_ATTRIBUTES
-> > +-----------------------------------------
-> > +
-> > +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> > +:Architectures: x86
-> > +:Type: vm ioctl
-> > +:Parameters: struct kvm_memory_attributes(in/out)
-> > +:Returns: 0 on success, <0 on error
-> > +
-> > +Sets memory attributes for pages in a guest memory range. Parameters are
-> > +specified via the following structure::
-> > +
-> > +  struct kvm_memory_attributes {
-> > +	__u64 address;
-> > +	__u64 size;
-> > +	__u64 attributes;
-> > +	__u64 flags;
-> > +  };
-> > +
-> > +The user sets the per-page memory attributes to a guest memory range indicated
-> > +by address/size, and in return KVM adjusts address and size to reflect the
-> > +actual pages of the memory range have been successfully set to the attributes.
-> 
-> This wording could cause some confusion, what about a simpler:
-> 
-> "reflect the range of pages that had its attributes successfully set"
+Hi Stefan,
 
-Thanks, this is much better.
+On 12/7/22 15:09, Stefan Hajnoczi wrote:
+> On Wed, 7 Dec 2022 at 08:31, Eric Auger <eric.auger@redhat.com> wrote:
+>> On 12/7/22 14:24, Eric Auger wrote:
+>>> Initialize r0-3 to avoid compilation errors when
+>>> -Werror=maybe-uninitialized is used
+>>>
+>>> ../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
+>>> ../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>  2495 |     d->Q(3) = r3;
+>>>       |     ~~~~~~~~^~~~
+>>> ../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>  2494 |     d->Q(2) = r2;
+>>>       |     ~~~~~~~~^~~~
+>>> ../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>  2493 |     d->Q(1) = r1;
+>>>       |     ~~~~~~~~^~~~
+>>> ../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>  2492 |     d->Q(0) = r0;
+>>>       |     ~~~~~~~~^~~~
+>>>
+>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>> Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
+>>>
+>>> ---
+>>>
+>>> Am I the only one getting this? Or anything wrong in my setup.
+>> With Stefan's correct address. Forgive me for the noise.
+> When is -Wmaybe-uninitialized used? QEMU's build system doesn't set
+> it. Unless it's automatically set by meson this must be a manual
+> --extra-cflags= option you set.
 
-> 
-> > +If the call returns 0, "address" is updated to the last successful address + 1
-> > +and "size" is updated to the remaining address size that has not been set
-> > +successfully.
-> 
-> "address + 1 page" or "subsequent page" perhaps.
-> 
-> In fact, wouldn't this all become simpler if size were number of pages instead?
+I am using this configure cmd line:
 
-It indeed becomes better if the size is number of pages and the address
-is gfn, but I think we don't want to imply that the page size is 4K to
-userspace.
+./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/qemu
+--target-list=x86_64-softmmu --docdir=/usr/share/doc/qemu --enable-kvm
+--extra-cflags=-O --enable-trace-backends=log --python=/usr/bin/python3
+--extra-cflags=-Wall --extra-cflags=-Wundef
+--extra-cflags=-Wwrite-strings --extra-cflags=-Wmissing-prototypes
+--extra-cflags=-fno-strict-aliasing --extra-cflags=-fno-common
+--extra-cflags=-Werror=type-limits
+>
+> If you added it manually then let's fix this in 8.0 since it's not
+> tested/supported and very few people will see this issue.
 
-> 
-> > The user should check the return value as well as the size to
-> > +decide if the operation succeeded for the whole range or not. The user may want
-> > +to retry the operation with the returned address/size if the previous range was
-> > +partially successful.
-> > +
-> > +Both address and size should be page aligned and the supported attributes can be
-> > +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
-> > +
-> > +The "flags" field may be used for future extensions and should be set to 0s.
-> > +
-> 
-> ...
-> 
-> > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> > +					   struct kvm_memory_attributes *attrs)
-> > +{
-> > +	gfn_t start, end;
-> > +	unsigned long i;
-> > +	void *entry;
-> > +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> > +
-> > +	/* flags is currently not used. */
-> > +	if (attrs->flags)
-> > +		return -EINVAL;
-> > +	if (attrs->attributes & ~supported_attrs)
-> > +		return -EINVAL;
-> > +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> > +		return -EINVAL;
-> > +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> > +		return -EINVAL;
-> > +
-> > +	start = attrs->address >> PAGE_SHIFT;
-> > +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> 
-> Here PAGE_SIZE and -1 cancel out.
+Thanks
 
-Correct!
+Eric
+>
+> Stefan
+>
 
-> 
-> Consider using gpa_to_gfn as well.
-
-Yes using gpa_to_gfn is appropriate.
-
-Thanks,
-Chao
-> 
-> > +
-> > +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> > +
-> > +	mutex_lock(&kvm->lock);
-> > +	for (i = start; i < end; i++)
-> > +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> > +				    GFP_KERNEL_ACCOUNT)))
-> > +			break;
-> > +	mutex_unlock(&kvm->lock);
-> > +
-> > +	attrs->address = i << PAGE_SHIFT;
-> > +	attrs->size = (end - i) << PAGE_SHIFT;
-> > +
-> > +	return 0;
-> > +}
-> > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> > +
-> >  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
-> >  {
-> >  	return __gfn_to_memslot(kvm_memslots(kvm), gfn);
-> > @@ -4459,6 +4508,9 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
-> >  #ifdef CONFIG_HAVE_KVM_MSI
-> >  	case KVM_CAP_SIGNAL_MSI:
-> >  #endif
-> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> > +	case KVM_CAP_MEMORY_ATTRIBUTES:
-> > +#endif
-> >  #ifdef CONFIG_HAVE_KVM_IRQFD
-> >  	case KVM_CAP_IRQFD:
-> >  	case KVM_CAP_IRQFD_RESAMPLE:
-> > @@ -4804,6 +4856,30 @@ static long kvm_vm_ioctl(struct file *filp,
-> >  		break;
-> >  	}
-> >  #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
-> > +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> > +	case KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES: {
-> > +		u64 attrs = kvm_supported_mem_attributes(kvm);
-> > +
-> > +		r = -EFAULT;
-> > +		if (copy_to_user(argp, &attrs, sizeof(attrs)))
-> > +			goto out;
-> > +		r = 0;
-> > +		break;
-> > +	}
-> > +	case KVM_SET_MEMORY_ATTRIBUTES: {
-> > +		struct kvm_memory_attributes attrs;
-> > +
-> > +		r = -EFAULT;
-> > +		if (copy_from_user(&attrs, argp, sizeof(attrs)))
-> > +			goto out;
-> > +
-> > +		r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
-> > +
-> > +		if (!r && copy_to_user(argp, &attrs, sizeof(attrs)))
-> > +			r = -EFAULT;
-> > +		break;
-> > +	}
-> > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> >  	case KVM_CREATE_DEVICE: {
-> >  		struct kvm_create_device cd;
 
