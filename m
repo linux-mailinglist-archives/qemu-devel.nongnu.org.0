@@ -2,60 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B1D64504B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 01:24:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723E5645088
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 01:44:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2iCr-0004uj-JM; Tue, 06 Dec 2022 19:22:37 -0500
+	id 1p2iWo-0000aF-Ur; Tue, 06 Dec 2022 19:43:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1p2iCo-0004uY-7J
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 19:22:34 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1p2iCk-00058K-Cj
- for qemu-devel@nongnu.org; Tue, 06 Dec 2022 19:22:33 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NRdHw34kQz15N6Z;
- Wed,  7 Dec 2022 08:21:32 +0800 (CST)
-Received: from [10.174.148.223] (10.174.148.223) by
- kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 7 Dec 2022 08:22:19 +0800
-Message-ID: <0fbf411f-8438-f15e-5870-2e9dc46cc76e@huawei.com>
-Date: Wed, 7 Dec 2022 08:22:18 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p2iWn-0000Zz-AD
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 19:43:13 -0500
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p2iWk-0002gg-4E
+ for qemu-devel@nongnu.org; Tue, 06 Dec 2022 19:43:12 -0500
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-14455716674so13376683fac.7
+ for <qemu-devel@nongnu.org>; Tue, 06 Dec 2022 16:43:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eZXlSgw+3YSfdihfFdzVVExyX9qX9sbumCT8zoMCqHc=;
+ b=jvBe+Wcz18oDAC1nFvddwFGChJhoKb8cPA0uRh0bN5p5SQ2XB89xka2UNuWl7yA1U+
+ zntpJRu0J6W5EhTWkRa9ClhfKwgoA3ffOBAiELxHrV+epOYS8sIQu0E6Us7li3BM3Wc6
+ IC7/z5i1vTX7oMxz//v+WvTaXoN9AKmTvNac2siU8MzXyF3GJLSPD1rbHu5joTKoAuFL
+ djjFXBNxm0YJBeHcKHHwuTkPX+3qWKLz98A1ipCv7JYFEbKQCj0R8TY51DVnSXGedUK/
+ 1ldQZCPowAqr3b4tPubT6IzgJnBgyWR/jdL7pS6KKjeifhOOZuWye2Qm6+yNhLnr5y6F
+ FPHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eZXlSgw+3YSfdihfFdzVVExyX9qX9sbumCT8zoMCqHc=;
+ b=oxeTrN7c/w7DRkOr7RqlGohqXwbbdyW5ZnHzOf+X2xT+tbzFDrDIULFXEHnDhpaMg1
+ 0rbNrmdVxbyRAOvqAEAjEjeRWTIZma/pYWZohz0vjE/CE0AynSlGJdJ2BGculxTNAoyN
+ Unj6IZ3rRJahRm5UWMna6A4JfHiciZuzVLg4LhsvPaP+RbJh9xoEV4GiQ+u9DKGa0drh
+ hec/iJs0DHyBpGo3bW/AcMDIu8G7aOKa+Hk9u9K0A3N2QzOBj05Q9QWAVrn7yYKJJNcG
+ L7wkrMcef2F3gcgMGYcmD1u4oovtcgPJjMxYxUs3cm2mJBxm32KboU55xY89rg2vtELo
+ VsaA==
+X-Gm-Message-State: ANoB5pkPsTi1UFsd9ep9IXEPqQhZebHwuNLxEGs2l+9BDiQSDcWlabYH
+ NYnJjDtmdFPH9VFxmnqMrk+l1Q==
+X-Google-Smtp-Source: AA0mqf6bw23Iocr+LFPyTm4ICVNDobgaXxC98rQMCgeercJ4Mi1vkmhEReopwtad0yV5bNP2CT3LLQ==
+X-Received: by 2002:a05:6870:a78a:b0:13b:c612:b5ae with SMTP id
+ x10-20020a056870a78a00b0013bc612b5aemr40609140oao.203.1670373783240; 
+ Tue, 06 Dec 2022 16:43:03 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:70b5:e6fc:c295:e710:da09?
+ ([2806:102e:18:70b5:e6fc:c295:e710:da09])
+ by smtp.gmail.com with ESMTPSA id
+ o31-20020a056871079f00b00143065d3e99sm11548272oap.5.2022.12.06.16.43.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Dec 2022 16:43:02 -0800 (PST)
+Message-ID: <60d11ef4-40f5-6743-202a-549f83899efb@linaro.org>
+Date: Tue, 6 Dec 2022 18:42:59 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/2] vhost: configure all host notifiers in a single MR
- transaction
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
- <sgarzare@redhat.com>
-CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
- <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
-References: <20221206081841.2458-1-longpeng2@huawei.com>
- <20221206081841.2458-2-longpeng2@huawei.com>
- <ee85dd7e-7ec0-03f2-ba17-c8e2987f200c@linaro.org>
- <1fc867d6-2c2b-36ca-1154-90ff6fc1b074@huawei.com>
- <f43a3c8e-e82d-4992-fe5b-9833688277cc@linaro.org>
-In-Reply-To: <f43a3c8e-e82d-4992-fe5b-9833688277cc@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 02/13] tcg/s390x: Remove TCG_REG_TB
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com
+References: <20221202065200.224537-1-richard.henderson@linaro.org>
+ <20221202065200.224537-3-richard.henderson@linaro.org>
+ <20221206192947.fi6c3ftrueuiqmch@heavy>
+ <8a3965f7-f830-6343-be15-4e16b20655fd@linaro.org>
+In-Reply-To: <8a3965f7-f830-6343-be15-4e16b20655fd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemi100025.china.huawei.com (7.221.188.158)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
- helo=szxga08-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.27,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x36.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,168 +94,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-在 2022/12/6 18:45, Philippe Mathieu-Daudé 写道:
-> On 6/12/22 11:28, Longpeng (Mike, Cloud Infrastructure Service Product 
-> Dept.) wrote:
->>
->>
->> 在 2022/12/6 17:07, Philippe Mathieu-Daudé 写道:
->>> On 6/12/22 09:18, Longpeng(Mike) via wrote:
->>>> From: Longpeng <longpeng2@huawei.com>
->>>>
->>>> This allows the vhost device to batch the setup of all its host 
->>>> notifiers.
->>>> This significantly reduces the device starting time, e.g. the time 
->>>> spend
->>>> on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
->>>> and 3 vhost-vDPA generic devices[1] (64vq per device)
->>>>
->>>> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg921541.html
->>>>
->>>> Signed-off-by: Longpeng <longpeng2@huawei.com>
->>>> ---
->>>>   hw/virtio/vhost.c | 40 ++++++++++++++++++++++++++++++++++++++--
->>>>   1 file changed, 38 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->>>> index 7fb008bc9e..16f8391d86 100644
->>>> --- a/hw/virtio/vhost.c
->>>> +++ b/hw/virtio/vhost.c
->>>> @@ -1507,7 +1507,7 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
->>>>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, 
->>>> VirtIODevice *vdev)
->>>>   {
->>>>       BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
->>>> -    int i, r, e;
->>>> +    int i, n, r, e;
->>>>       /* We will pass the notifiers to the kernel, make sure that QEMU
->>>>        * doesn't interfere.
->>>> @@ -1518,6 +1518,12 @@ int vhost_dev_enable_notifiers(struct 
->>>> vhost_dev *hdev, VirtIODevice *vdev)
->>>>           goto fail;
->>>>       }
->>>> +    /*
->>>> +     * Batch all the host notifiers in a single transaction to avoid
->>>> +     * quadratic time complexity in address_space_update_ioeventfds().
->>>> +     */
->>>> +    memory_region_transaction_begin();
->>>> +
->>>>       for (i = 0; i < hdev->nvqs; ++i) {
->>>>           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
->>>> hdev->vq_index + i,
->>>>                                            true);
->>>> @@ -1527,8 +1533,12 @@ int vhost_dev_enable_notifiers(struct 
->>>> vhost_dev *hdev, VirtIODevice *vdev)
->>>>           }
->>>>       }
->>>> +    memory_region_transaction_commit();
->>>> +
->>>>       return 0;
->>>>   fail_vq:
->>>> +    /* save i for a second iteration after transaction is 
->>>> committed. */
->>>> +    n = i;
->>>>       while (--i >= 0) {
->>>>           e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
->>>> hdev->vq_index + i,
->>>>                                            false);
->>>> @@ -1536,8 +1546,18 @@ fail_vq:
->>>>               error_report("vhost VQ %d notifier cleanup error: %d", 
->>>> i, -r);
->>>>           }
->>>>           assert (e >= 0);
->>>> -        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
->>>> hdev->vq_index + i);
->>>>       }
->>>> +
->>>> +    /*
->>>> +     * The transaction expects the ioeventfds to be open when it
->>>> +     * commits. Do it now, before the cleanup loop.
->>>> +     */
->>>> +    memory_region_transaction_commit();
->>>> +
->>>> +    while (--n >= 0) {
->>>> +        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), 
->>>> hdev->vq_index + n);
->>>> +    }
->>>> +
->>>>       virtio_device_release_ioeventfd(vdev);
->>>>   fail:
->>>>       return r;
->>>
->>> Similarly to patch #2, removing both goto statement in this function 
->>> (as a preliminary patch) will 1/ simplify the code 2/ simplify 
->>> reviewing your changes, resulting in something like:
->>>
->>> int vhost_dev_enable_notifiers(struct vhost_dev *hdev,
->>>                                 VirtIODevice *vdev)
->>> {
->>>      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
->>>      int i, r, e;
->>>
->>>      /* We will pass the notifiers to the kernel, make sure that QEMU
->>>       * doesn't interfere.
->>>       */
->>>      r = virtio_device_grab_ioeventfd(vdev);
->>>      if (r < 0) {
->>>          error_report("binding does not support host notifiers");
->>>          return r;
->>>      }
->>>
->>>      memory_region_transaction_begin();
->>>
->>>      for (i = 0; i < hdev->nvqs; ++i) {
->>>          r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
->>>                                           hdev->vq_index + i,
->>>                                           true);
->>>          if (r < 0) {
->>>              error_report("vhost VQ %d notifier binding failed: %d",
->>>                           i, -r);
->>>              while (--i >= 0) {
->>>                  e = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus),
->>>                                                   hdev->vq_index + i,
->>>                                                   false);
->>>                  if (e < 0) {
->>>                      error_report(
->>>                                 "vhost VQ %d notifier cleanup error: 
->>> %d",
->>>                                   i, -r);
->>>                  }
->>>                  assert (e >= 0);
->>>                  virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus),
->>>                                                   hdev->vq_index + i);
->>>              }
->>>              virtio_device_release_ioeventfd(vdev);
->>>              break;
->>>          }
->>>      }
->>>
->>>      memory_region_transaction_commit();
->>>
->>>      return r;
->>> }
->>>
->>> What do you think?
->>>
->> Maybe we can use vhost_dev_disable_notifiers to further simplify the 
->> error path ?
+On 12/6/22 16:22, Richard Henderson wrote:
+>> Wouldn't it be worth keeping XILF/XIFH here?
 > 
-> Good idea, but having the BusState resolved on each call seems a waste.
-> Eventually factor it out and pass as argument ...
+> I don't know.  It's difficult for me to guess whether a dependency chain like
 > 
->> And we must commit before invoking virtio_bus_cleanup_host_notifier.
+>      val -> xor -> xor
 > 
-> ... but with that info on top, finally your original patch is simpler.
+> (3 insns with serial dependencies) is better than
+> 
+>      val   --> xor
+>      load  -/
+> 
+> (3 insns, but only one serial dependency) is better.  But there may also be instruction 
+> fusion going on at the micro-architectural level, so that there's really only one xor.
+> 
+> If you have suggestions, I'm all ears.
 
-Yes, I'll try in next version, thanks.
+Related microarchitectural question:
 
-> .
+If a 32-bit insn and a 64-bit insn have a similar size encoding (and perhaps even if they 
+don't), is it better to produce a 64-bit output so that the hw doesn't have a false 
+dependency on the upper 32-bits of the register?
+
+Just wondering whether most of the distinction between 32-bit and 64-bit opcodes ought to 
+be discarded, simplifying code generation.  The only items that seem most likely to have 
+real execution time differences are multiply and divide.
+
+
+r~
 
