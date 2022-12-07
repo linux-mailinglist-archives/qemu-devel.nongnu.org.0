@@ -2,93 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D7D6460F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 19:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913D46460F6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 19:24:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2z52-0006b7-Dp; Wed, 07 Dec 2022 13:23:40 -0500
+	id 1p2z5V-0006if-E2; Wed, 07 Dec 2022 13:24:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2z50-0006ae-LG
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 13:23:38 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p2z5E-0006eX-EX
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 13:23:52 -0500
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p2z4y-0000SX-FV
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 13:23:38 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id g1so10161948pfk.2
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 10:23:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p2z5B-0000TK-JY
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 13:23:51 -0500
+Received: by mail-ot1-x331.google.com with SMTP id
+ z14-20020a9d65ce000000b0067059c25facso3681897oth.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 10:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W/7sR0KWABaIvyN1+eXWgaZ/CDtMv+88zrfwwy8vOjU=;
- b=aPgvoXb0UYoHbIZJ/mpyDneC2XnzhOPf8lAu+JP9VO4GPcAJVJ8aCeZcOmo82G+Z2u
- MtWEKcrNulpboTOPV9QRtHzBnVJnpkcXiIyB3pUFf6UC8iGkALHGPypq0ao4+eFMJVOZ
- loyFjGGIb97qsOPPpqYL2cNmMBd1SjFRSNgrjofvWhznn4a5chqLvioDlDBJ41mcdJdf
- 6GCMJdOStpfbBXXLlsEFscaajr85gkQMSxcar6N8XG25N9HD3JpDP3pK1q47J4LxPC39
- gPeSQXG2Cv0L1BaR5N6WwdaqhttjGhAeHnJwMhgJpanW129wVvDzcZvDxPGZzfomraBi
- JbxA==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Nxlk/F7v4Ci9OCBb3h+K9mAc5KWrDUyfKaY/zwiWRqk=;
+ b=jpUFjZjoEsjA16YhIL7Dt6MGs4fdezS7ZiqHgQ+I3u5GSOHNAVvLTAtNaNovj/oSlc
+ duGQ6R1aDbA+r6OrlOI7cEXKY10yLsT2hAtq00hoJiudyroRWvvgFZyYz6m95QJzY1c7
+ 4HOK/LJU4o0N+OicS+pJ3M0Fw6bD/MVSKMS+gHhKU3z5P/pV6nliCJE/RtNjYUS21z+u
+ RRVkWI0us7aomN2UNgUSfXOFOpB18/HjpiRy/KJ3Bdnvyzl8Z06FqRi0ON472LQrWc27
+ grazjo1qdLzEmZBwM8Z91fWMouILqO1jlSsXRYrhKpByssbghTBDv5IEXSD5wQJCPmyc
+ tPtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W/7sR0KWABaIvyN1+eXWgaZ/CDtMv+88zrfwwy8vOjU=;
- b=MrW1WXeeVRutD2bOZxs4ZDfqIoWaCNQ6llXLYRkWauWBpHCGwMq4Us45JEtcR67tat
- NrylaE/llPj4rlYMXYgzzQSo6XnEERcSE1JpytlUcKiAQFhZMq7zvhhEVMeJTzyiMHgT
- Rff6FZb6laswzl2i5XDJnbEpEzHJWD2lmiMhCxPfEvX8rb9GfS8OaYpJBOFadSTswyXy
- INe1m5tCMwS/PlMFOenwrojXha7baVPTKBpBSCGPW3BVTWfNW6t4mbwu+D3CnlyGt6Fg
- 0j510tPjEfYqiHrNQjk6PxrfbChODb0AKxDhtgqOkhexZIIxKEZQANtHu8OTPI4i/gpK
- 7GfA==
-X-Gm-Message-State: ANoB5pnG8JTMI2qB71ZakEXsp8rnb1dxK9M+Y55SgQTI3E4DQ+Wkt+4R
- viWjiSqUY2y8CsCIoY5VZInA+F9TvPt8qkBpaMAjsA==
-X-Google-Smtp-Source: AA0mqf7qmVSRevFMlnmyXcC66IxwCY7A0ybvFWuPHwLYpSEDqwzhsE3rbmuq+wzp8imcqpRo4n1tmrTRB8e5ZQTCOlg=
-X-Received: by 2002:a65:45c5:0:b0:46b:2753:2a60 with SMTP id
- m5-20020a6545c5000000b0046b27532a60mr67820677pgr.192.1670437414578; Wed, 07
- Dec 2022 10:23:34 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nxlk/F7v4Ci9OCBb3h+K9mAc5KWrDUyfKaY/zwiWRqk=;
+ b=Tc3D00+HMjA5lUCvUd0/hnfqK5dudVoyhsBP0Djf3Wejk/Rh2JMldtqSJJYTZk9nKO
+ NUbONKewe1CNvVT3j8sr1wErGfBD+aNC62KfTJ6b89gds3FOIImA5yhJuNi0oHzJoQDz
+ sgOnTLhJgtIFl23W9JKl60/ZFUxHKW3mF9PyuQqnjYhi13od1tz1ApJRrkSas0021mXs
+ Xb8Wt+PVV6RURpKAxUaQzrbdIn9TNBEGiFTtuIHzgB1VebqFgtHgQqxu9W6REkHCcgQY
+ CKnp3o6d+Ym5ZWhBvYXw5/DMRg2vo8MTTLXLuX2UxeLilWdrZz+iij2lyjOmSF9xLFBh
+ SYtw==
+X-Gm-Message-State: ANoB5pk07YQOu7QA8Q89MEbAwumNMB3mKdgr1Y47U7oK/BCivZCz6WmA
+ fCRx/WgMpaToxvAu4TN/y6AcoA==
+X-Google-Smtp-Source: AA0mqf4atzE57YUoXXObioPupPnevk8e+eh1dKDquu7rAvC9nk+c1B1pzqSSI/53zvA65iGhYV8o6A==
+X-Received: by 2002:a05:6830:349f:b0:66e:c096:126c with SMTP id
+ c31-20020a056830349f00b0066ec096126cmr316589otu.29.1670437428412; 
+ Wed, 07 Dec 2022 10:23:48 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:70b5:3c4d:6df:3392:485c?
+ ([2806:102e:18:70b5:3c4d:6df:3392:485c])
+ by smtp.gmail.com with ESMTPSA id
+ g4-20020a9d6c44000000b00661ac688285sm10495724otq.0.2022.12.07.10.23.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 10:23:47 -0800 (PST)
+Message-ID: <64a40f5d-855e-7f70-ba1f-df464abcfddf@linaro.org>
+Date: Wed, 7 Dec 2022 12:23:45 -0600
 MIME-Version: 1.0
-References: <20221207174129.77593-1-philmd@linaro.org>
- <20221207174129.77593-3-philmd@linaro.org>
-In-Reply-To: <20221207174129.77593-3-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 7 Dec 2022 18:23:22 +0000
-Message-ID: <CAFEAcA_DwMB7CZERo3EG2wRAQp6ugiikxhqtMxOaWS+dd8tn3g@mail.gmail.com>
-Subject: Re: [PATCH-for-8.0 2/4] gdbstub: Use vaddr type for generic
- insert/remove_breakpoint() API
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, 
- Stafford Horne <shorne@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, Marek Vasut <marex@denx.de>, 
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Yanan Wang <wangyanan55@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- Fabiano Rosas <farosas@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Max Filippov <jcmvbkbc@gmail.com>, 
- Greg Kurz <groug@kaod.org>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Anton Johansson <anjo@rev.ng>, 
- qemu-ppc@nongnu.org, Chris Wulff <crwulff@gmail.com>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH for 7.2?] target/i386: Remove compilation errors when
+ -Werror=maybe-uninitialized
+Content-Language: en-US
+To: eric.auger@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>
+Cc: eric.auger.pro@gmail.com, pbonzini@redhat.com, paul@nowt.org,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221207132439.635402-1-eric.auger@redhat.com>
+ <f8a36758-cff2-3df3-3e30-083175e47131@redhat.com>
+ <CAJSP0QXo0p5E_G9rqLO0wqC=NDQzMhoJOJDb0ShV+7OetFMMbg@mail.gmail.com>
+ <6a39520b-5445-bda4-951f-998675d6e045@redhat.com>
+ <CAJSP0QXKf5X0FijR64_0JWUBcnpNm-Jk58bfCk=966dZmj7NOw@mail.gmail.com>
+ <660c1fa1-3575-1849-01d0-8411ca4101d8@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <660c1fa1-3575-1849-01d0-8411ca4101d8@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.262,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,86 +102,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 7 Dec 2022 at 17:42, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> Both insert/remove_breakpoint() handlers are used in system and
-> user emulation. We can not use the 'hwaddr' type on user emulation,
-> we have to use 'vaddr' which is defined as "wide enough to contain
-> any #target_ulong virtual address".
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  gdbstub/internals.h        | 6 ++++--
->  include/sysemu/accel-ops.h | 6 +++---
->  2 files changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-> index eabb0341d1..b23999f951 100644
-> --- a/gdbstub/internals.h
-> +++ b/gdbstub/internals.h
-> @@ -9,9 +9,11 @@
->  #ifndef _INTERNALS_H_
->  #define _INTERNALS_H_
->
-> +#include "exec/cpu-common.h"
-> +
->  bool gdb_supports_guest_debug(void);
-> -int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr le=
-n);
-> -int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr le=
-n);
-> +int gdb_breakpoint_insert(CPUState *cs, int type, vaddr addr, vaddr len)=
-;
-> +int gdb_breakpoint_remove(CPUState *cs, int type, vaddr addr, vaddr len)=
-;
->  void gdb_breakpoint_remove_all(CPUState *cs);
->
->  #endif /* _INTERNALS_H_ */
-> diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-> index 8cc7996def..30690c71bd 100644
-> --- a/include/sysemu/accel-ops.h
-> +++ b/include/sysemu/accel-ops.h
-> @@ -10,7 +10,7 @@
->  #ifndef ACCEL_OPS_H
->  #define ACCEL_OPS_H
->
-> -#include "exec/hwaddr.h"
-> +#include "exec/cpu-common.h"
->  #include "qom/object.h"
->
->  #define ACCEL_OPS_SUFFIX "-ops"
-> @@ -48,8 +48,8 @@ struct AccelOpsClass {
->
->      /* gdbstub hooks */
->      bool (*supports_guest_debug)(void);
-> -    int (*insert_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwadd=
-r len);
-> -    int (*remove_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwadd=
-r len);
-> +    int (*insert_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr =
-len);
-> +    int (*remove_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr =
-len);
->      void (*remove_all_breakpoints)(CPUState *cpu);
->  };
+On 12/7/22 10:08, Eric Auger wrote:
+> On 12/7/22 16:55, Stefan Hajnoczi wrote:
+>>> I am using this configure cmd line:
+>>>
+>>> ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/qemu
+>>> --target-list=x86_64-softmmu --docdir=/usr/share/doc/qemu --enable-kvm
+>>> --extra-cflags=-O --enable-trace-backends=log --python=/usr/bin/python3
+>>> --extra-cflags=-Wall --extra-cflags=-Wundef
+>>> --extra-cflags=-Wwrite-strings --extra-cflags=-Wmissing-prototypes
+>>> --extra-cflags=-fno-strict-aliasing --extra-cflags=-fno-common
+>>> --extra-cflags=-Werror=type-limits
+>>>> If you added it manually then let's fix this in 8.0 since it's not
+>>>> tested/supported and very few people will see this issue.
+>> Did you create the ./configure command-line manually? Do you think
+>> other people will hit this?
+> no I did not. I just tried to install a fresh qemu repo and just ran the
+> above configure command.
 
-If you're changing the prototype of these methods on AccelOpsClass
-don't you also want to change the implementations, eg tcg_breakpoint_insert=
-()?
-Interestingly that function calls cpu_breakpoint_insert() which
-already takes a 'vaddr' rather than a 'hwaddr'.
+Stefan's question is where did you get this configure command?
 
-In looking at this I discovered some rather confusing gdbstub behaviour:
-if you use the qemu.PhyMemMode custom gdb flag to put the stub into
-"physical memory mode", data reads and writes are done on physical
-addresses, but breakpoints and watchpoints continue to take virtual
-addresses.
+If it came from an rpm script or suchlike, we might take more notice than if this is just 
+you adding --extra-cflags for your own testing.
 
-But at any rate given that currently breakpoints are always on virtual
-addresses, vaddr is definitely the right type here and probably all
-the way down through the callstack.
 
-thanks
--- PMM
+> I am actually surprised nobody hit that already.
+
+Adding -Wall is not standard, nor all the other -W that you are adding.  I think you 
+should not be surprised that you run into problems.
+
+While you can make a case for auditing the code base and adding these to the default set 
+of warning flags, that's a job for the next development cycle.
+
+
+r~
 
