@@ -2,103 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311D76457E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85F0645804
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 11:37:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2riK-0007LK-Rg; Wed, 07 Dec 2022 05:31:44 -0500
+	id 1p2rmv-00020R-75; Wed, 07 Dec 2022 05:36:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1p2riG-0007He-Rx; Wed, 07 Dec 2022 05:31:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p2rma-0001kl-Vt; Wed, 07 Dec 2022 05:36:12 -0500
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1p2riD-0004A9-4c; Wed, 07 Dec 2022 05:31:40 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B7AUcds019923; Wed, 7 Dec 2022 10:31:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Vb52U4D06TYM+NDjhxY6gt4ATFyvAtIKi9rgcTwJ8Ls=;
- b=FzD6BnKNNhttKgxjxY3PsOLMSBYB7ED9s++wbWQHW1v/LB2yq3Uy6eygPiFQzYMurIBV
- NFs7DxPJThEYDomYjGhA7i+lTrUKXkF3KL+mowXNX6k8/sM+5+n0dzsOovHW0cTo1AA9
- D0i20st1ePbKAOrCtlrfcyUR034IS7ncNmnJsmASi93mhCpOQ9VOVMw4yMna6080BiEx
- L1n21gDQbNMw8T3D+9dOTjNihqwlgETbEUZmWpdkJxh6q03WnWrOqdaq8kC5Qowb8CvZ
- aQKb/puC/Ltm2BgOOI/YpdErlkopEq6/eUDrVx0TyiwkUZjnAZ7Il6nCD2gkYAkc2SbF ag== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mas5300dh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 10:31:30 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B7AVT7a021625;
- Wed, 7 Dec 2022 10:31:29 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mas5300ck-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 10:31:29 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B6LRcq5010322;
- Wed, 7 Dec 2022 10:31:27 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3m9ks42srn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 10:31:27 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B7AVOpr39125482
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Dec 2022 10:31:24 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4CB9E2004B;
- Wed,  7 Dec 2022 10:31:24 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EFA3020040;
- Wed,  7 Dec 2022 10:31:23 +0000 (GMT)
-Received: from [9.179.1.254] (unknown [9.179.1.254])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed,  7 Dec 2022 10:31:23 +0000 (GMT)
-Message-ID: <a917bcb9-a430-3754-8752-d4df09bce710@linux.ibm.com>
-Date: Wed, 7 Dec 2022 11:31:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2] tests/stream-under-throttle: New test
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-References: <20221114095226.20917-1-hreitz@redhat.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20221114095226.20917-1-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IxkEqbpuKZnW-CQYBVLBBDWPV7SC37y6
-X-Proofpoint-ORIG-GUID: 4DWJWjamq-Q99nJ_MmOLNCOgQ6qnpEUK
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p2rmW-0005yi-71; Wed, 07 Dec 2022 05:36:08 -0500
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 4D5385E977;
+ Wed,  7 Dec 2022 13:35:50 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:7232::1:25] (unknown
+ [2a02:6b8:b081:7232::1:25])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ mZVlK20QGeA1-Zd8yFxGx; Wed, 07 Dec 2022 13:35:49 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1670409349; bh=S2B4wDUhI1TT1kVVQE8KrIMmOruVy430dAe58rwkqHc=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=wmOCRdTSG07h4bISJt1sLOHEWewpLjdxThjYz2A5k2SiSEW8pXD3ErAVPTHidNfr2
+ FBrI558e2lNnXPhXVlIAbtW+z5IX4TDEZGmBd7q//jipg4HoYzc7mslME4uxhOhTZV
+ Y9v6NvKLL+0L588ccNJD3jeFjKFpV0j9zApNnquA=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <0996af1e-4310-941e-86f1-d98e01ac4aee@yandex-team.ru>
+Date: Wed, 7 Dec 2022 13:35:48 +0300
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_04,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 suspectscore=0 priorityscore=1501
- malwarescore=0 bulkscore=0 adultscore=0 mlxscore=0 spamscore=0
- phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212070089
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH for-8.0] ui/vnc: fix bad address parsing
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20221206192334.65012-1-vsementsov@yandex-team.ru>
+ <6fb5f423-cb24-6214-e776-e8c27920240c@linaro.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <6fb5f423-cb24-6214-e776-e8c27920240c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.27,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,122 +76,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 14.11.22 um 10:52 schrieb Hanna Reitz:
-> Test streaming a base image into the top image underneath two throttle
-> nodes.  This was reported to make qemu 7.1 hang
-> (https://gitlab.com/qemu-project/qemu/-/issues/1215), so this serves as
-> a regression test.
+On 12/6/22 23:12, Philippe Mathieu-Daudé wrote:
+> On 6/12/22 20:23, Vladimir Sementsov-Ogievskiy wrote:
+>> IF addrstr == "[" and websocket is true, hostlen becomes 0 and we try
+>> to access addrstr[hostlen-1] which is bad idea.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> ---
+>>   ui/vnc.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/ui/vnc.c b/ui/vnc.c
+>> index 88f55cbf3c..8830bfe382 100644
+>> --- a/ui/vnc.c
+>> +++ b/ui/vnc.c
+>> @@ -3765,7 +3765,7 @@ static int vnc_display_get_address(const char *addrstr,
+>>           addr->type = SOCKET_ADDRESS_TYPE_INET;
+>>           inet = &addr->u.inet;
+>> -        if (addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
+>> +        if (hostlen >= 2 && addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
+>>               inet->host = g_strndup(addrstr + 1, hostlen - 2);
+>>           } else {
+>>               inet->host = g_strndup(addrstr, hostlen);
 > 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
-> Based-on: <20221107151321.211175-1-hreitz@redhat.com>
+> If addrstr is "[" then inet->host ends up being "[" too now, right?
 > 
-> v1: https://lists.nongnu.org/archive/html/qemu-block/2022-11/msg00368.html
-> 
-> v2:
-> - Replace `asyncio.exceptions.TimeoutError` by `asyncio.TimeoutError`:
->    Stefan reported that the CI does not recognize the former:
->    https://lists.nongnu.org/archive/html/qemu-block/2022-11/msg00424.html
-> 
->    As far as I understand, the latter was basically moved to become the
->    former in Python 3.11, and an alias remains, so both are basically
->    equivalent.  I only have 3.10, though, where the documentation says
->    that both are different, even though using either seems to work fine
->    (i.e. both catch the timeout there).  Not sure about previous
->    versions, but the CI seems pretty certain about not knowing
->    `asyncio.exceptions.TimeoutError`, so use `asyncio.TimeoutError`
->    instead.  (Even though that is deprecated in 3.11, but this is not the
->    first place in the tree to use it, so it should not be too bad.)
-> ---
->   .../qemu-iotests/tests/stream-under-throttle  | 121 ++++++++++++++++++
->   .../tests/stream-under-throttle.out           |   5 +
->   2 files changed, 126 insertions(+)
->   create mode 100755 tests/qemu-iotests/tests/stream-under-throttle
->   create mode 100644 tests/qemu-iotests/tests/stream-under-throttle.out
+> I was pretty sure we had a helper for that, but can't find any.
 
-As a heads up, I do get the following on s390. I have not yet looked into that:
+that's all a bit strange, let's add a bit of debugging:
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 88f55cbf3c..b1d463e67a 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -3770,6 +3770,7 @@ static int vnc_display_get_address(const char *addrstr,
+          } else {
+              inet->host = g_strndup(addrstr, hostlen);
+          }
++        printf("%s: websocket: %d, host: %s, port: %s\n", __func__, websocket, inet->host, port);
+          /* plain VNC port is just an offset, for websocket
+           * port is absolute */
+          if (websocket) {
 
-+EE
-+======================================================================
-+ERROR: test_stream (__main__.TestStreamWithThrottle)
-+Do a simple stream beneath the two throttle nodes.  Should complete
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "qemu/tests/qemu-iotests/tests/stream-under-throttle", line 110, in test_stream
-+    self.vm.run_job('stream')
-+  File "qemu/tests/qemu-iotests/iotests.py", line 986, in run_job
-+    result = self.qmp('query-jobs')
-+  File "qemu/python/qemu/machine/machine.py", line 646, in qmp
-+    ret = self._qmp.cmd(cmd, args=qmp_args)
-+  File "qemu/python/qemu/qmp/legacy.py", line 204, in cmd
-+    return self.cmd_obj(qmp_cmd)
-+  File "qemu/python/qemu/qmp/legacy.py", line 184, in cmd_obj
-+    self._qmp._raw(qmp_cmd, assign_id=False),
-+  File "qemu/python/qemu/qmp/protocol.py", line 154, in _wrapper
-+    raise StateError(emsg, proto.runstate, required_state)
-+qemu.qmp.protocol.StateError: QMPClient is disconnecting. Call disconnect() to return to IDLE state.
-+
-+======================================================================
-+ERROR: test_stream (__main__.TestStreamWithThrottle)
-+Do a simple stream beneath the two throttle nodes.  Should complete
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "qemu/python/qemu/machine/machine.py", line 533, in _soft_shutdown
-+    self.qmp('quit')
-+  File "qemu/python/qemu/machine/machine.py", line 646, in qmp
-+    ret = self._qmp.cmd(cmd, args=qmp_args)
-+  File "qemu/python/qemu/qmp/legacy.py", line 204, in cmd
-+    return self.cmd_obj(qmp_cmd)
-+  File "qemu/python/qemu/qmp/legacy.py", line 184, in cmd_obj
-+    self._qmp._raw(qmp_cmd, assign_id=False),
-+  File "qemu/python/qemu/qmp/protocol.py", line 154, in _wrapper
-+    raise StateError(emsg, proto.runstate, required_state)
-+qemu.qmp.protocol.StateError: QMPClient is disconnecting. Call disconnect() to return to IDLE state.
-+
-+During handling of the above exception, another exception occurred:
-+
-+Traceback (most recent call last):
-+  File "qemu/python/qemu/machine/machine.py", line 554, in _do_shutdown
-+    self._soft_shutdown(timeout)
-+  File "qemu/python/qemu/machine/machine.py", line 536, in _soft_shutdown
-+    self._close_qmp_connection()
-+  File "qemu/python/qemu/machine/machine.py", line 476, in _close_qmp_connection
-+    self._qmp.close()
-+  File "qemu/python/qemu/qmp/legacy.py", line 277, in close
-+    self._sync(
-+  File "qemu/python/qemu/qmp/legacy.py", line 94, in _sync
-+    return self._aloop.run_until_complete(
-+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 649, in run_until_complete
-+    return future.result()
-+  File "/usr/lib64/python3.10/asyncio/tasks.py", line 408, in wait_for
-+    return await fut
-+  File "qemu/python/qemu/qmp/protocol.py", line 398, in disconnect
-+    await self._wait_disconnect()
-+  File "qemu/python/qemu/qmp/protocol.py", line 710, in _wait_disconnect
-+    await all_defined_tasks  # Raise Exceptions from the bottom half.
-+  File "qemu/python/qemu/qmp/protocol.py", line 861, in _bh_loop_forever
-+    await async_fn()
-+  File "qemu/python/qemu/qmp/protocol.py", line 899, in _bh_recv_message
-+    msg = await self._recv()
-+  File "qemu/python/qemu/qmp/protocol.py", line 1000, in _recv
-+    message = await self._do_recv()
-+  File "qemu/python/qemu/qmp/qmp_client.py", line 402, in _do_recv
-+    msg_bytes = await self._readline()
-+  File "qemu/python/qemu/qmp/protocol.py", line 968, in _readline
-+    raise EOFError
-+EOFError
-+
-+The above exception was the direct cause of the following exception:
-+
-+Traceback (most recent call last):
-+  File "qemu/tests/qemu-iotests/tests/stream-under-throttle", line 94, in tearDown
-+    self.vm.shutdown()
-+  File "qemu/python/qemu/machine/machine.py", line 583, in shutdown
-+    self._do_shutdown(timeout)
-+  File "qemu/python/qemu/machine/machine.py", line 557, in _do_shutdown
-+    raise AbnormalShutdown("Could not perform graceful shutdown") \
-+qemu.machine.machine.AbnormalShutdown: Could not perform graceful shutdown
-+
-  ----------------------------------------------------------------------
-  Ran 1 tests
+
+then:
+
+
+
+./build/qemu-system-x86_64 -vnc [
+qemu-system-x86_64: -vnc [: no vnc port specified
+
+
+./build/qemu-system-x86_64 -vnc [,websocket
+qemu-system-x86_64: -vnc [,websocket: warning: short-form boolean option 'websocket' deprecated
+Please use websocket=on instead
+qemu-system-x86_64: -vnc [,websocket: no vnc port specified
+
+
+
+./build/qemu-system-x86_64 -vnc [:0,websocket
+qemu-system-x86_64: -vnc [:0,websocket: warning: short-form boolean option 'websocket' deprecated
+Please use websocket=on instead
+vnc_display_get_address: websocket: 0, host: [, port: 0
+vnc_display_get_address: websocket: 1, host: , port: on
+qemu-system-x86_64: -vnc [:0,websocket: address resolution failed for [:5900: Name or service not known
+
+./build/qemu-system-x86_64 -vnc [:0,websocket=on
+vnc_display_get_address: websocket: 0, host: [, port: 0
+vnc_display_get_address: websocket: 1, host: , port: on
+qemu-system-x86_64: -vnc [:0,websocket=on: address resolution failed for [:5900: Name or service not known
+
+
+so, "on" is treated as address string? (aha, that's OK, and it's parsed later in the code)
+
+./build/qemu-system-x86_64 -vnc :0,websocket=[
+vnc_display_get_address: websocket: 0, host: , port: 0
+we are going to do bad thing!
+vnc_display_get_address: websocket: 1, host: , port: [
+qemu-system-x86_64: -vnc :0,websocket=[: address resolution failed for :[: Servname not supported for ai_socktype
+
+
+-- 
+Best regards,
+Vladimir
+
 
