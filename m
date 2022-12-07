@@ -2,93 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B72645591
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 09:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B09B6455A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 09:45:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2pyy-0007o9-R5; Wed, 07 Dec 2022 03:40:49 -0500
+	id 1p2q2P-0000u9-6s; Wed, 07 Dec 2022 03:44:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1p2pyv-0007mU-A6
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:40:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2q2N-0000tm-7w
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:44:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1p2pyt-0004UR-7B
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:40:45 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p2q2L-0007Wd-Gi
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:44:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670402441;
+ s=mimecast20190719; t=1670402657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k0VnNyOMDr6Ervi6YY5NEu4PVjBCEf7VIDUlTROY75c=;
- b=GSHslEWFjJIyf5phiI8Vwm7HsUNNRiLZqjXBulkE+qOT1M1YUWhALoZArsWV15UKDXAIIt
- rLxsBplJg9cqmrHy0IPV5Fx4tbLsQKEcZ9uRLD+81908oqkzINqUaQRGxjWidjiXBA6wSC
- tafFqOUyXStp2ySx2ZCVM7qjob/SHmU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8iFXFP0oIWqNIWQmNbQsSxrs6lkAYzGQL2qd0S5gsrQ=;
+ b=Eq5aMhSRShyILJo3Ez9yzriN+lYVxjelwtEZ20USnm2hVoaJs7t0DPoI2ELZJ/EiuDLh3V
+ 14W6ci64rHWnEfWgjrhQTyHkwXD6uRV9smApC2CHiwybfhuJlDCKWPRoxAiFxD8vxJ8zyO
+ WmH3ZD/aTKOCiYq3HLrCFZbHEdhWIU8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-453-dD4uds51OGuzDLSuH5ppGg-1; Wed, 07 Dec 2022 03:40:40 -0500
-X-MC-Unique: dD4uds51OGuzDLSuH5ppGg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- sa20-20020a1709076d1400b007bbe8699c2eso2946632ejc.6
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 00:40:39 -0800 (PST)
+ us-mta-318-Ad0nhXvZPA-R88IKmkxe1A-1; Wed, 07 Dec 2022 03:43:35 -0500
+X-MC-Unique: Ad0nhXvZPA-R88IKmkxe1A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o8-20020adfba08000000b00241e80f08e0so3973382wrg.12
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 00:43:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=k0VnNyOMDr6Ervi6YY5NEu4PVjBCEf7VIDUlTROY75c=;
- b=L+K2XmaHgH4tWrPfWuSS6aWoBwPPiylMmGPk/UXIBXqWeGuB89k5LE4X8X1QhGszqL
- WH5lmC9zRZvc/eeuxoAmWmqYv0JShutLDGrojoJfKOp014nJqYPS9FIf9S03nYjWxQun
- q6OKbTVOT1qLBt5OLUsYHzRoh/8JGTOAPj02mWX6hwiA+lTqL5qS44mtMzbdDDseyUHD
- /yHuc3wbHnTBJ4V9EAeVn0G7AJzOxYS6j3uJh7hnsgl4fCvtWVYdEeDrwKbt1Qr6CQVd
- l0l9dv93RiQw3NdhlHfEZEctjSytK3f9Z5KUv5hNcXZKMPmWiI/T9OZfcYJs2Ly3x2fe
- tq5g==
-X-Gm-Message-State: ANoB5pmWkuiXd44VNYESA8hD63hGPC9zk6j+KAaig/R4aNJxRuLmrGIe
- Py3LNPag7F3CLmw9l3U0F3hLIdewxqSFrE7ljeU2TNGc2P2g2/96DPIgxtGA6xFkxZgezR2adBW
- h54ywxCDwuxqwTfED/npjQX05XExv4x8=
-X-Received: by 2002:a17:906:c249:b0:7ad:9f03:fd44 with SMTP id
- bl9-20020a170906c24900b007ad9f03fd44mr60927962ejb.73.1670402439022; 
- Wed, 07 Dec 2022 00:40:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4IZyrx8NiuBsXKdKO4n9GCAreiBMnlkrnfhMPTteWICSErqPWyvdMem+kExBIvPL2aqucDGP7/4DBRY8L0gkQ=
-X-Received: by 2002:a17:906:c249:b0:7ad:9f03:fd44 with SMTP id
- bl9-20020a170906c24900b007ad9f03fd44mr60927931ejb.73.1670402438736; Wed, 07
- Dec 2022 00:40:38 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8iFXFP0oIWqNIWQmNbQsSxrs6lkAYzGQL2qd0S5gsrQ=;
+ b=b5VoWP6yOoC6Tzwg2Bas3agtwIQiSzJSnNnnSMy3cY6tPUnbNdGgyd2JF0UwV5AshC
+ Z6Cp2E3BvoGF4uN2B/dINl1bsjxIIcrMMnqIicfBVMeFF6MPFAaP/04niXhONXRM1hWN
+ h7NhxW+JJ8tjSGOu7mCsxeSR+w9aJK+hbBQR/sZAP84bP9wjZ3ngVVRAJK69sHfMbq6M
+ VWYawOODcYdSh5UUYr68xAvm8nBYLpJboJAVNkYVdcCGFHCZLDwmKSdudOPqWQEFW0Zd
+ NZOa+vNm7m19N9j5wMw1b88w6YoRiwGgQT3OX9vFswQbALQSVOnYXNh7Csa/XM6UtYfv
+ YBdg==
+X-Gm-Message-State: ANoB5pm+vFzCLdqYwCU2XXN3YWuehBK+5h0DZBkmESEM+k0K8Z3SsZ2Q
+ ANc2JTbDMh2prOSPhIgp9VKSMz7F0UbgjKaovdIVlkiogRPKRMhltPkIoYh/xLbqbNl/SctzMOx
+ 0AaEJ4ykJ7b536TI=
+X-Received: by 2002:adf:f5c3:0:b0:242:3427:bb51 with SMTP id
+ k3-20020adff5c3000000b002423427bb51mr16630308wrp.635.1670402613926; 
+ Wed, 07 Dec 2022 00:43:33 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf65wCyTNpPgt7xZuj3uLPBEjKynqzpYneIZTVraOArU0meCgNUEn89GFaWFUG/1ix1HVIV08g==
+X-Received: by 2002:adf:f5c3:0:b0:242:3427:bb51 with SMTP id
+ k3-20020adff5c3000000b002423427bb51mr16630295wrp.635.1670402613687; 
+ Wed, 07 Dec 2022 00:43:33 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-155.web.vodafone.de.
+ [109.43.178.155]) by smtp.gmail.com with ESMTPSA id
+ p1-20020a5d68c1000000b002420fe50322sm18472730wrw.91.2022.12.07.00.43.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 00:43:33 -0800 (PST)
+Message-ID: <1e82a59e-6c02-68c4-946b-e710d8702d53@redhat.com>
+Date: Wed, 7 Dec 2022 09:43:31 +0100
 MIME-Version: 1.0
-References: <20221205170436.2977336-1-eperezma@redhat.com>
- <20221205170436.2977336-11-eperezma@redhat.com>
- <PH0PR12MB5481DA422812F1B111667791DC189@PH0PR12MB5481.namprd12.prod.outlook.com>
-In-Reply-To: <PH0PR12MB5481DA422812F1B111667791DC189@PH0PR12MB5481.namprd12.prod.outlook.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 7 Dec 2022 09:40:02 +0100
-Message-ID: <CAJaqyWejQCDRG6R8fWJKmKoXjDZ21hhn=qPoHSmF9=SougKxag@mail.gmail.com>
-Subject: Re: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
- descriptors
-To: Parav Pandit <parav@nvidia.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Liuxiangdong <liuxiangdong5@huawei.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <elic@nvidia.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: Michael S Tsirkin <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20221206200641.339116-1-thuth@redhat.com>
+ <5365BEF1-658C-412D-8A95-C5E1A9A5AB7E@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-8.0] hw/rtc/mc146818rtc: Make this rtc device target
+ independent
+In-Reply-To: <5365BEF1-658C-412D-8A95-C5E1A9A5AB7E@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.27, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,259 +103,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 5, 2022 at 9:52 PM Parav Pandit <parav@nvidia.com> wrote:
->
->
-> > From: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > Sent: Monday, December 5, 2022 12:05 PM
-> >
-> > There is currently no data to be migrated, since nothing populates or r=
-ead
-> > the fields on virtio-net.
-> >
-> > The migration of in-flight descriptors is modelled after the migration =
-of
-> > requests in virtio-blk. With some differences:
-> > * virtio-blk migrates queue number on each request. Here we only add a
-> >   vq if it has descriptors to migrate, and then we make all descriptors
-> >   in an array.
-> > * Use of QTAILQ since it works similar to signal the end of the infligh=
-t
-> >   descriptors: 1 for more data, 0 if end. But do it for each vq instead
-> >   of for each descriptor.
-> > * Usage of VMState macros.
-> >
-> > The fields of descriptors would be way more complicated if we use the
-> > VirtQueueElements directly, since there would be a few levels of
-> > indirections. Using VirtQueueElementOld for the moment, and migrate to
-> > VirtQueueElement for the final patch.
-> >
-> > TODO: Proper migration versioning
-> > TODO: Do not embed vhost-vdpa structs
-> > TODO: Migrate the VirtQueueElement, not VirtQueueElementOld.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  include/hw/virtio/virtio-net.h |   2 +
-> >  include/migration/vmstate.h    |  11 +++
-> >  hw/net/virtio-net.c            | 129 +++++++++++++++++++++++++++++++++
-> >  3 files changed, 142 insertions(+)
-> >
-> > diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-=
-net.h
-> > index ef234ffe7e..ae7c017ef0 100644
-> > --- a/include/hw/virtio/virtio-net.h
-> > +++ b/include/hw/virtio/virtio-net.h
-> > @@ -151,9 +151,11 @@ typedef struct VirtIONetQueue {
-> >      QEMUTimer *tx_timer;
-> >      QEMUBH *tx_bh;
-> >      uint32_t tx_waiting;
-> > +    uint32_t tx_inflight_num, rx_inflight_num;
-> >      struct {
-> >          VirtQueueElement *elem;
-> >      } async_tx;
-> > +    VirtQueueElement **tx_inflight, **rx_inflight;
-> >      struct VirtIONet *n;
-> >  } VirtIONetQueue;
-> >
-> > diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> > index 9726d2d09e..9e0dfef9ee 100644
-> > --- a/include/migration/vmstate.h
-> > +++ b/include/migration/vmstate.h
-> > @@ -626,6 +626,17 @@ extern const VMStateInfo vmstate_info_qlist;
-> >      .offset     =3D vmstate_offset_varray(_state, _field, _type),     =
- \
-> >  }
-> >
-> > +#define VMSTATE_STRUCT_VARRAY_ALLOC_UINT16(_field, _state,
-> > _field_num,        \
-> > +                                           _version, _vmsd, _type) {  =
-        \
-> > +    .name       =3D (stringify(_field)),                              =
-          \
-> > +    .version_id =3D (_version),                                       =
-          \
-> > +    .vmsd       =3D &(_vmsd),                                         =
-          \
-> > +    .num_offset =3D vmstate_offset_value(_state, _field_num, uint16_t)=
-,         \
-> > +    .size       =3D sizeof(_type),                                    =
-          \
-> > +    .flags      =3D VMS_STRUCT | VMS_VARRAY_UINT16 | VMS_ALLOC |
-> > VMS_POINTER,   \
-> > +    .offset     =3D vmstate_offset_pointer(_state, _field, _type),    =
-          \
-> > +}
-> > +
-> >  #define VMSTATE_STRUCT_VARRAY_ALLOC(_field, _state, _field_num,
-> > _version, _vmsd, _type) {\
-> >      .name       =3D (stringify(_field)),                              =
- \
-> >      .version_id =3D (_version),                                       =
- \
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c index
-> > aba12759d5..ffd7bf1fc7 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -3077,6 +3077,13 @@ static bool mac_table_doesnt_fit(void *opaque,
-> > int version_id)
-> >      return !mac_table_fits(opaque, version_id);  }
-> >
-> > +typedef struct VirtIONetInflightQueue {
-> > +    uint16_t idx;
-> > +    uint16_t num;
-> > +    QTAILQ_ENTRY(VirtIONetInflightQueue) entry;
-> > +    VirtQueueElementOld *elems;
-> > +} VirtIONetInflightQueue;
-> > +
-> >  /* This temporary type is shared by all the WITH_TMP methods
-> >   * although only some fields are used by each.
-> >   */
-> > @@ -3086,6 +3093,7 @@ struct VirtIONetMigTmp {
-> >      uint16_t        curr_queue_pairs_1;
-> >      uint8_t         has_ufo;
-> >      uint32_t        has_vnet_hdr;
-> > +    QTAILQ_HEAD(, VirtIONetInflightQueue) queues_inflight;
-> >  };
-> >
-> >  /* The 2nd and subsequent tx_waiting flags are loaded later than @@ -
-> > 3231,6 +3239,124 @@ static const VMStateDescription
-> > vmstate_virtio_net_rss =3D {
-> >      },
-> >  };
-> >
-> > +static const VMStateDescription vmstate_virtio_net_inflight_queue =3D =
-{
-> > +    .name      =3D "virtio-net-device/inflight/queue",
-> > +    .fields =3D (VMStateField[]) {
-> > +        VMSTATE_UINT16(idx, VirtIONetInflightQueue),
-> > +        VMSTATE_UINT16(num, VirtIONetInflightQueue),
-> > +
-> > +        VMSTATE_STRUCT_VARRAY_ALLOC_UINT16(elems,
-> > VirtIONetInflightQueue, num,
-> > +                                           0, vmstate_virtqueue_elemen=
-t_old,
-> > +                                           VirtQueueElementOld),
-> > +        VMSTATE_END_OF_LIST()
-> > +    },
-> > +};
-> > +
-> > +static int virtio_net_inflight_init(void *opaque) {
-> > +    struct VirtIONetMigTmp *tmp =3D opaque;
-> > +
-> > +    QTAILQ_INIT(&tmp->queues_inflight);
-> > +    return 0;
-> > +}
-> > +
-> > +static int virtio_net_inflight_pre_save(void *opaque) {
-> > +    struct VirtIONetMigTmp *tmp =3D opaque;
-> > +    VirtIONet *net =3D tmp->parent;
-> > +    uint16_t curr_queue_pairs =3D net->multiqueue ? net->curr_queue_pa=
-irs :
-> > 1;
-> > +    VirtIONetInflightQueue *qi =3D g_new0(VirtIONetInflightQueue,
-> > +                                        curr_queue_pairs * 2);
-> > +
-> > +    virtio_net_inflight_init(opaque);
-> > +    for (uint16_t i =3D 0; i < curr_queue_pairs * 2; ++i) {
-> > +        VirtIONetQueue *q =3D &net->vqs[vq2q(i)];
-> > +        size_t n =3D i % 2 ? q->tx_inflight_num : q->rx_inflight_num;
-> > +        VirtQueueElement **inflight =3D i % 2 ? q->tx_inflight :
-> > + q->rx_inflight;
-> > +
-> > +        if (n =3D=3D 0) {
-> > +            continue;
-> > +        }
-> > +
-> > +        qi[i].idx =3D i;
-> > +        qi[i].num =3D n;
-> > +        qi[i].elems =3D g_new0(VirtQueueElementOld, n);
-> > +        for (uint16_t j =3D 0; j < n; ++j) {
-> > +            qemu_put_virtqueue_element_old(inflight[j], &qi[i].elems[j=
-]);
-> > +        }
-> > +        QTAILQ_INSERT_TAIL(&tmp->queues_inflight, &qi[i], entry);
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +static int virtio_net_inflight_post_save(void *opaque) {
-> > +    struct VirtIONetMigTmp *tmp =3D opaque;
-> > +    VirtIONetInflightQueue *qi;
-> > +
-> > +    while ((qi =3D QTAILQ_FIRST(&tmp->queues_inflight))) {
-> > +        QTAILQ_REMOVE(&tmp->queues_inflight, qi, entry);
-> > +        g_free(qi->elems);
-> > +        g_free(qi);
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +static int virtio_net_inflight_post_load(void *opaque, int version_id)
-> > +{
-> > +    struct VirtIONetMigTmp *tmp =3D opaque;
-> > +    VirtIONet *net =3D tmp->parent;
-> > +    uint16_t curr_queue_pairs =3D net->multiqueue ? net->curr_queue_pa=
-irs :
-> > 1;
-> > +    VirtIONetInflightQueue *qi;
-> > +
-> > +    while ((qi =3D QTAILQ_FIRST(&tmp->queues_inflight))) {
-> > +        VirtIONetQueue *q =3D &net->vqs[vq2q(qi->idx)];
-> > +        uint32_t *n =3D qi->idx % 2 ? &q->tx_inflight_num : &q->rx_inf=
-light_num;
-> > +        VirtQueueElement ***inflight =3D qi->idx % 2 ?
-> > +                                       &q->tx_inflight : &q->rx_inflig=
-ht;
-> > +        if (unlikely(qi->num =3D=3D 0)) {
-> > +            /* TODO: error message */
-> > +            return -1;
-> > +        }
-> > +
-> > +        if (unlikely(qi->idx > curr_queue_pairs * 2)) {
-> > +            /* TODO: error message */
-> > +            return -1;
-> > +        }
-> > +
-> > +        *n =3D qi->num;
-> > +        *inflight =3D g_new(VirtQueueElement *, *n);
-> > +        for (uint16_t j =3D 0; j < *n; ++j) {
-> > +            (*inflight)[j] =3D qemu_get_virtqueue_element_from_old(
-> > +                &net->parent_obj, &qi->elems[j],
-> > +                sizeof(VirtQueueElement));
-> > +        }
-> > +
-> > +        QTAILQ_REMOVE(&tmp->queues_inflight, qi, entry);
-> > +        g_free(qi->elems);
-> > +        g_free(qi);
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +/* TODO: Allocate a temporal per queue / queue element, not all of
-> > +them! */ static const VMStateDescription vmstate_virtio_net_inflight =
-=3D {
-> > +    .name      =3D "virtio-net-device/inflight",
-> > +    .pre_save =3D virtio_net_inflight_pre_save,
-> > +    .post_save =3D virtio_net_inflight_post_save,
-> > +    .pre_load =3D virtio_net_inflight_init,
-> > +    .post_load =3D virtio_net_inflight_post_load,
-> > +    .fields =3D (VMStateField[]) {
-> > +        VMSTATE_QTAILQ_V(queues_inflight, struct VirtIONetMigTmp, 0,
-> > +                         vmstate_virtio_net_inflight_queue,
-> > +                         VirtIONetInflightQueue, entry),
-> > +        VMSTATE_END_OF_LIST()
-> > +    },
-> > +};
-> > +
-> How is the CVQ related mac, vlan, rss replay different than these infligh=
-t descriptors, due to which inflights to be done by these callbacks and CVQ=
- differently?
+On 07/12/2022 00.38, Bernhard Beschow wrote:
+> 
+> 
+> Am 6. Dezember 2022 20:06:41 UTC schrieb Thomas Huth <thuth@redhat.com>:
+>> The only code that is really, really target dependent is the apic-related
+>> code in rtc_policy_slew_deliver_irq(). By moving this code into the hw/i386/
+>> folder (renamed to rtc_apic_policy_slew_deliver_irq()) and passing this
+>> function as parameter to mc146818_rtc_init(), we can make the RTC completely
+>> target-independent.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>> include/hw/rtc/mc146818rtc.h |  7 +++++--
+>> hw/alpha/dp264.c             |  2 +-
+>> hw/hppa/machine.c            |  2 +-
+>> hw/i386/microvm.c            |  3 ++-
+>> hw/i386/pc.c                 | 10 +++++++++-
+>> hw/mips/jazz.c               |  2 +-
+>> hw/ppc/pnv.c                 |  2 +-
+>> hw/rtc/mc146818rtc.c         | 34 +++++++++++-----------------------
+>> hw/rtc/meson.build           |  3 +--
+>> 9 files changed, 32 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+>> index 1db0fcee92..c687953cc4 100644
+>> --- a/include/hw/rtc/mc146818rtc.h
+>> +++ b/include/hw/rtc/mc146818rtc.h
+>> @@ -46,14 +46,17 @@ struct RTCState {
+>>      Notifier clock_reset_notifier;
+>>      LostTickPolicy lost_tick_policy;
+>>      Notifier suspend_notifier;
+>> +    bool (*policy_slew_deliver_irq)(RTCState *s);
+>>      QLIST_ENTRY(RTCState) link;
+>> };
+>>
+>> #define RTC_ISA_IRQ 8
+>>
+>> -ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+>> -                             qemu_irq intercept_irq);
+>> +ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq,
+>> +                             bool (*policy_slew_deliver_irq)(RTCState *s));
+>> void rtc_set_memory(ISADevice *dev, int addr, int val);
+>> int rtc_get_memory(ISADevice *dev, int addr);
+>> +bool rtc_apic_policy_slew_deliver_irq(RTCState *s);
+>> +void qmp_rtc_reset_reinjection(Error **errp);
+>>
+>> #endif /* HW_RTC_MC146818RTC_H */
+>> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+>> index c502c8c62a..8723942b52 100644
+>> --- a/hw/alpha/dp264.c
+>> +++ b/hw/alpha/dp264.c
+>> @@ -118,7 +118,7 @@ static void clipper_init(MachineState *machine)
+>>      qdev_connect_gpio_out(i82378_dev, 0, isa_irq);
+>>
+>>      /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
+>> -    mc146818_rtc_init(isa_bus, 1900, rtc_irq);
+>> +    mc146818_rtc_init(isa_bus, 1900, rtc_irq, NULL);
+>>
+>>      /* VGA setup.  Don't bother loading the bios.  */
+>>      pci_vga_init(pci_bus);
+>> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+>> index de1cc7ab71..311031714a 100644
+>> --- a/hw/hppa/machine.c
+>> +++ b/hw/hppa/machine.c
+>> @@ -232,7 +232,7 @@ static void machine_hppa_init(MachineState *machine)
+>>      assert(isa_bus);
+>>
+>>      /* Realtime clock, used by firmware for PDC_TOD call. */
+>> -    mc146818_rtc_init(isa_bus, 2000, NULL);
+>> +    mc146818_rtc_init(isa_bus, 2000, NULL, NULL);
+>>
+>>      /* Serial ports: Lasi and Dino use a 7.272727 MHz clock. */
+>>      serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
+>> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+>> index 170a331e3f..d0ed4dca50 100644
+>> --- a/hw/i386/microvm.c
+>> +++ b/hw/i386/microvm.c
+>> @@ -267,7 +267,8 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+>>
+>>      if (mms->rtc == ON_OFF_AUTO_ON ||
+>>          (mms->rtc == ON_OFF_AUTO_AUTO && !kvm_enabled())) {
+>> -        rtc_state = mc146818_rtc_init(isa_bus, 2000, NULL);
+>> +        rtc_state = mc146818_rtc_init(isa_bus, 2000, NULL,
+>> +                                      rtc_apic_policy_slew_deliver_irq);
+>>          microvm_set_rtc(mms, rtc_state);
+>>      }
+>>
+>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>> index 546b703cb4..650e7bc199 100644
+>> --- a/hw/i386/pc.c
+>> +++ b/hw/i386/pc.c
+>> @@ -1244,6 +1244,13 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
+>>      g_free(a20_line);
+>> }
+>>
+>> +bool rtc_apic_policy_slew_deliver_irq(RTCState *s)
+>> +{
+>> +    apic_reset_irq_delivered();
+>> +    qemu_irq_raise(s->irq);
+>> +    return apic_get_irq_delivered();
+>> +}
+>> +
+>> void pc_basic_device_init(struct PCMachineState *pcms,
+>>                            ISABus *isa_bus, qemu_irq *gsi,
+>>                            ISADevice **rtc_state,
+>> @@ -1299,7 +1306,8 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+>>          pit_alt_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
+>>          rtc_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
+>>      }
+>> -    *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq);
+>> +    *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq,
+>> +                                   rtc_apic_policy_slew_deliver_irq);
+> 
+> In my PIIX consolidation series [1] I'm instantiating the RTC in the south bridges since embedding the struct in the host device is the preferred new way. In the end there is one initialization shared by both PIIX3 and -4. While PIIX3 (PC) will require rtc_apic_policy_slew_deliver_irq, PIIX4 (Malta) won't. Furthermore, my goal ist to reuse PIIX4 in the PC machine to eliminate today's Frankenstein PIIX4 ACPI controller. Any idea how to solve this?
 
-CVQ is processed by qemu directly, so it is guaranteed they will not
-be out of order. Guest memory is enough to recover in the destination.
+I assume that you could ignore this in the shared initialization code and 
+just add the pointer in the code that sets up the x86 boards. It's a little 
+bit ugly [*], but RTCState is public in
+include/hw/rtc/mc146818rtc.h, so it should be doable.
+
+  Thomas
+
+
+[*] Well, that whole driftfix=slew thing is ugly. I'm also not very familiar 
+with it and don't know whether this is still in wide use ... does anybody 
+know? Otherwise, we could could maybe also deprecate and finally remove that 
+driftfix=slew stuff?
 
 
