@@ -2,91 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6911D6455F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:01:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B609C6455F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 10:02:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2qIK-0006Uu-Mf; Wed, 07 Dec 2022 04:00:50 -0500
+	id 1p2qJG-00072T-Ih; Wed, 07 Dec 2022 04:01:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1p2qI4-0006TA-8r
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:00:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1p2qJ8-00071F-Mp; Wed, 07 Dec 2022 04:01:38 -0500
+Received: from smtpbgau2.qq.com ([54.206.34.216])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1p2qI2-0006n3-Jh
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 04:00:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670403629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NzInKG+XjavVSFcFYW5xl85lIY5bHbsGI/9xDX8HeTU=;
- b=EGM3Ks2Df139AoLpmxPKPR70jZLkkGXbiZxjfYldQxJwLG9R7BNKwQYUBGhM9vadRk6Dex
- /fHwXL7D519VNeReFNu71OmWzbwYvhYnsKrWKJ0K9VikanEHaseEesm+yFRatAQb66/vIN
- df5V+a+ZitenAqHm6hi3trJOlpcY8KQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-280-kdaD-q_rM8i8VCu9rVQqeg-1; Wed, 07 Dec 2022 04:00:27 -0500
-X-MC-Unique: kdaD-q_rM8i8VCu9rVQqeg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- qf25-20020a1709077f1900b0078c02a23da3so2991727ejc.0
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 01:00:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NzInKG+XjavVSFcFYW5xl85lIY5bHbsGI/9xDX8HeTU=;
- b=sJGAH8adCz9Xs1uORySzqyjMIphTK0SIMJSUlnXy8L8jAqpg88d3N0Ac1cvOu87BZR
- MzoDrtphWv0LXerYNT/9hIs6gjy0s9ZyETq6EIob3HGLAgbPMFd1/oyqHIRL6xc5wLqw
- u1M4SIsSTxNPpMmQ38CSAQ18DD6YV5bqvdaZf1wu8h244nXR9KYYtblyb5zfSJeuc0Ex
- /7Ye/LUciNNiruo4CMNz7MPyBdVQS2r6F+5HBRvaCF04fVzqgBdFkDjz9RemH2ROlYQb
- YPC/Q5AHXrH3NL/lQs7qWMV+Ot+8gnXPprTUyiNNYRG3zSiHg1CEAD5yEE+4a9hz6sqH
- 5Ccg==
-X-Gm-Message-State: ANoB5pkszl41Qv00pXd1bU4DUXVuslGmhTfCpQcCWQlL/CPF+sUbSjEo
- 7Nkd4wxECBXEhboo/G4dxu0kZNhf/3Mel20xg/Cc5p/C1V7Q1GNuj0d5oo65FqiETbsrzeWdaJI
- vwLOXL3RzOHHGxvB0uC1OTvgilR9sZ+8=
-X-Received: by 2002:a17:907:cf84:b0:78d:4795:ff1f with SMTP id
- ux4-20020a170907cf8400b0078d4795ff1fmr30684071ejc.331.1670403625993; 
- Wed, 07 Dec 2022 01:00:25 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4ThAAoJqVwEhTP7aWEEenDl0V2m3WCPwjbLYu0P1+6fx4YgMjjfu6BRwN7P127AgZgpDl+K/HSy+T6VFvdyQI=
-X-Received: by 2002:a17:907:cf84:b0:78d:4795:ff1f with SMTP id
- ux4-20020a170907cf8400b0078d4795ff1fmr30684046ejc.331.1670403625779; Wed, 07
- Dec 2022 01:00:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1p2qIz-0006x5-Vv; Wed, 07 Dec 2022 04:01:36 -0500
+X-QQ-mid: bizesmtp64t1670403638t9bhnkmi
+Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 07 Dec 2022 17:00:37 +0800 (CST)
+X-QQ-SSF: 01200000000000B0C000000A0000000
+X-QQ-GoodBg: 0
+From: Bin Meng <bmeng@tinylab.org>
+To: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 1/2] target/riscv: Simplify helper_sret() a little bit
+Date: Wed,  7 Dec 2022 17:00:36 +0800
+Message-Id: <20221207090037.281452-1-bmeng@tinylab.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221205170436.2977336-1-eperezma@redhat.com>
- <CACGkMEvQov+eGr8D7FAG5FYOvj8VQ=gEvomrnU5_2R0d55gSLQ@mail.gmail.com>
-In-Reply-To: <CACGkMEvQov+eGr8D7FAG5FYOvj8VQ=gEvomrnU5_2R0d55gSLQ@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 7 Dec 2022 09:59:48 +0100
-Message-ID: <CAJaqyWecmWWRUwfm8D2TTsOR=kybwQ5BpyZXjSDLouWwWutXVQ@mail.gmail.com>
-Subject: Re: [RFC PATCH for 8.0 00/13] vDPA-net inflight descriptors migration
- with SVQ
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Gautam Dawar <gdawar@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Cindy Lu <lulu@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>, 
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
+Received-SPF: pass client-ip=54.206.34.216; envelope-from=bmeng@tinylab.org;
+ helo=smtpbgau2.qq.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,97 +57,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 6, 2022 at 8:08 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Tue, Dec 6, 2022 at 1:04 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
-rote:
-> >
-> > The state of the descriptors (avail or used) may not be recoverable jus=
-t
-> > looking at the guest memory.  Out of order used descriptor may override
-> > previous avail ones in the descriptor table or avail vring.
-> >
-> > Currently we're not migrating this status in net devices because virtio=
--net,
-> > vhost-kernel etc use the descriptors in order,
->
-> Note that this might not be the truth (when zerocopy is enabled).
->
+There are 2 paths in helper_sret() and the same mstatus update codes
+are replicated. Extract the common parts to simplify it a little bit.
 
-Good point. So will virtio-net wait for those to complete then? How
-does qemu handle if there are still inflight descriptors?
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
+---
 
-> > so the information always
-> > recoverable from guest's memory.  However, vDPA devices may use them ou=
-t of
-> > order, and other kind of devices like block need this support.
-> >
-> > Shadow virtqueue is able to track these and resend them at the destinat=
-ion.
->
-> As discussed, there's a bootstrap issue here:
->
-> When SVQ needs to be enabled on demand, do we still need another way
-> to get inflight ones without the help of SVQ?
->
+ target/riscv/op_helper.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-To send and retrieve the descriptor without SVQ needs to be developed
-on top of this. I should have made that more clear here in the cover
-letter.
-
-Thanks!
-
-> Thanks
->
-> > Add them to the virtio-net migration description so they are not lose i=
-n the
-> > process.
-> >
-> > This is a very early RFC just to validate the first draft so expect lef=
-tovers.
-> > To fetch and request the descriptors from a device without SVQ need to =
-be
-> > implemented on top. Some other notable pending items are:
-> > * Do not send the descriptors actually recoverable from the guest memor=
-y.
-> > * Properly version the migrate data.
-> > * Properly abstract the descriptors access from virtio-net to SVQ.
-> > * Do not use VirtQueueElementOld but migrate directly VirtQueueElement.
-> > * Replace lots of assertions with runtime conditionals.
-> > * Other TODOs in the patch message or code changes.
-> >
-> > Thanks.
-> >
-> > Eugenio P=C3=A9rez (13):
-> >   vhost: add available descriptor list in SVQ
-> >   vhost: iterate only available descriptors at SVQ stop
-> >   vhost: merge avail list and next avail descriptors detach
-> >   vhost: add vhost_svq_save_inflight
-> >   virtio: Specify uint32_t as VirtQueueElementOld members type
-> >   virtio: refactor qemu_get_virtqueue_element
-> >   virtio: refactor qemu_put_virtqueue_element
-> >   virtio: expose VirtQueueElementOld
-> >   virtio: add vmstate_virtqueue_element_old
-> >   virtio-net: Migrate vhost inflight descriptors
-> >   virtio-net: save inflight descriptors at vhost shutdown
-> >   vhost: expose vhost_svq_add_element
-> >   vdpa: Recover inflight descriptors
-> >
-> >  hw/virtio/vhost-shadow-virtqueue.h |   9 ++
-> >  include/hw/virtio/virtio-net.h     |   2 +
-> >  include/hw/virtio/virtio.h         |  32 ++++++
-> >  include/migration/vmstate.h        |  22 ++++
-> >  hw/net/vhost_net.c                 |  56 ++++++++++
-> >  hw/net/virtio-net.c                | 129 +++++++++++++++++++++++
-> >  hw/virtio/vhost-shadow-virtqueue.c |  52 +++++++--
-> >  hw/virtio/vhost-vdpa.c             |  11 --
-> >  hw/virtio/virtio.c                 | 162 ++++++++++++++++++-----------
-> >  9 files changed, 392 insertions(+), 83 deletions(-)
-> >
-> > --
-> > 2.31.1
-> >
-> >
->
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index d7af7f056b..a047d38152 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -149,21 +149,21 @@ target_ulong helper_sret(CPURISCVState *env)
+     }
+ 
+     mstatus = env->mstatus;
++    prev_priv = get_field(mstatus, MSTATUS_SPP);
++    mstatus = set_field(mstatus, MSTATUS_SIE,
++                        get_field(mstatus, MSTATUS_SPIE));
++    mstatus = set_field(mstatus, MSTATUS_SPIE, 1);
++    mstatus = set_field(mstatus, MSTATUS_SPP, PRV_U);
++    env->mstatus = mstatus;
+ 
+     if (riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
+         /* We support Hypervisor extensions and virtulisation is disabled */
+         target_ulong hstatus = env->hstatus;
+ 
+-        prev_priv = get_field(mstatus, MSTATUS_SPP);
+         prev_virt = get_field(hstatus, HSTATUS_SPV);
+ 
+         hstatus = set_field(hstatus, HSTATUS_SPV, 0);
+-        mstatus = set_field(mstatus, MSTATUS_SPP, 0);
+-        mstatus = set_field(mstatus, SSTATUS_SIE,
+-                            get_field(mstatus, SSTATUS_SPIE));
+-        mstatus = set_field(mstatus, SSTATUS_SPIE, 1);
+ 
+-        env->mstatus = mstatus;
+         env->hstatus = hstatus;
+ 
+         if (prev_virt) {
+@@ -171,14 +171,6 @@ target_ulong helper_sret(CPURISCVState *env)
+         }
+ 
+         riscv_cpu_set_virt_enabled(env, prev_virt);
+-    } else {
+-        prev_priv = get_field(mstatus, MSTATUS_SPP);
+-
+-        mstatus = set_field(mstatus, MSTATUS_SIE,
+-                            get_field(mstatus, MSTATUS_SPIE));
+-        mstatus = set_field(mstatus, MSTATUS_SPIE, 1);
+-        mstatus = set_field(mstatus, MSTATUS_SPP, PRV_U);
+-        env->mstatus = mstatus;
+     }
+ 
+     riscv_cpu_set_mode(env, prev_priv);
+-- 
+2.34.1
 
 
