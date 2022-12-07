@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC040645592
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B72645591
 	for <lists+qemu-devel@lfdr.de>; Wed,  7 Dec 2022 09:41:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p2pyG-0007VA-Ur; Wed, 07 Dec 2022 03:40:04 -0500
+	id 1p2pyy-0007o9-R5; Wed, 07 Dec 2022 03:40:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p2pxv-0007TA-SF
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:39:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p2pyv-0007mU-A6
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:40:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p2pxs-0001ka-BE
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:39:42 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p2pyt-0004UR-7B
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 03:40:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670402378;
+ s=mimecast20190719; t=1670402441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oYJGQ1ooYxKg7+Ap3mFfWc0tAjj2Gwz62DUS5M9V2Yg=;
- b=CSnbU2dlIb4PjOTS0vkJupKOFMlMQXEeBH/RIziaPDrwc9sMx/L3GvqMfc2LunCc6bk23a
- HKCxonvZGZJ1rbsqcNxG+nyE0NluhDGCEOaFINnSk1nBq9CpxowGt+0U57oX6jA2Wzb0uK
- Obu4pxP0Y8WqVHwwwNgmMlkyd1FX8QI=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=k0VnNyOMDr6Ervi6YY5NEu4PVjBCEf7VIDUlTROY75c=;
+ b=GSHslEWFjJIyf5phiI8Vwm7HsUNNRiLZqjXBulkE+qOT1M1YUWhALoZArsWV15UKDXAIIt
+ rLxsBplJg9cqmrHy0IPV5Fx4tbLsQKEcZ9uRLD+81908oqkzINqUaQRGxjWidjiXBA6wSC
+ tafFqOUyXStp2ySx2ZCVM7qjob/SHmU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-652-rmjBnpQCNTK4psxPhVMB6Q-1; Wed, 07 Dec 2022 03:39:36 -0500
-X-MC-Unique: rmjBnpQCNTK4psxPhVMB6Q-1
-Received: by mail-ua1-f71.google.com with SMTP id
- n14-20020a9f314e000000b004114b0c125fso8415134uab.8
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 00:39:36 -0800 (PST)
+ us-mta-453-dD4uds51OGuzDLSuH5ppGg-1; Wed, 07 Dec 2022 03:40:40 -0500
+X-MC-Unique: dD4uds51OGuzDLSuH5ppGg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ sa20-20020a1709076d1400b007bbe8699c2eso2946632ejc.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 00:40:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oYJGQ1ooYxKg7+Ap3mFfWc0tAjj2Gwz62DUS5M9V2Yg=;
- b=hG2WK2skBZievw4OhAKULxkgBCXmWdI6Hiarpn5jZkgZcYl2VDQgjtqRIXT36QdD+Z
- YZ5sp/kd/lrwVVl9+zX3n199k1gxKSSTDG8s9Tjrh9CCHQcDKd1w91lYC2W0PcbwRwID
- +vMY4Y69Yb8sIKgR1tHiTIn86oT9LMwHbCFw+4hd40cdgCzxiaeeLQBuGDTWyc6gOr1p
- rYkeEvTFw0vfe6zw4fgc1v5iBDbPhzKxQvNZ/E+WKOWLWRq8QaldBfrKze8X8B8fMGYM
- Fg+HgVC9FAjZ+hG9H0xGf6xY295BO7DymOOljUw1JRaOf2HBGwHqg5tHxTsnoNqtCjyD
- L5aQ==
-X-Gm-Message-State: ANoB5pmKAPlUdDL3gwTGw3fbDFdsBgcau3iTbK/YiBCG0i6BZcN8yfIn
- Hk4h+7RRHIw3clXhOOicX9LOqCqKsxmWulwp2n3xuN6T1unINeqkEo+5Li9sX0LO+yQGb5XkpPs
- y46qvAOwEqYl6IL5YBZDjUGgnFVBxC84=
-X-Received: by 2002:ab0:7286:0:b0:418:455f:2e94 with SMTP id
- w6-20020ab07286000000b00418455f2e94mr40066577uao.75.1670402375856; 
- Wed, 07 Dec 2022 00:39:35 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7SjuOnLxjgrAtfQBz4OucvLakKd6dt6pdXbzVbOLyNLMnEH6Pzo7oNzWS5TMSPoF1grKJLiykm72t3t7uHgl0=
-X-Received: by 2002:ab0:7286:0:b0:418:455f:2e94 with SMTP id
- w6-20020ab07286000000b00418455f2e94mr40066571uao.75.1670402375658; Wed, 07
- Dec 2022 00:39:35 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=k0VnNyOMDr6Ervi6YY5NEu4PVjBCEf7VIDUlTROY75c=;
+ b=L+K2XmaHgH4tWrPfWuSS6aWoBwPPiylMmGPk/UXIBXqWeGuB89k5LE4X8X1QhGszqL
+ WH5lmC9zRZvc/eeuxoAmWmqYv0JShutLDGrojoJfKOp014nJqYPS9FIf9S03nYjWxQun
+ q6OKbTVOT1qLBt5OLUsYHzRoh/8JGTOAPj02mWX6hwiA+lTqL5qS44mtMzbdDDseyUHD
+ /yHuc3wbHnTBJ4V9EAeVn0G7AJzOxYS6j3uJh7hnsgl4fCvtWVYdEeDrwKbt1Qr6CQVd
+ l0l9dv93RiQw3NdhlHfEZEctjSytK3f9Z5KUv5hNcXZKMPmWiI/T9OZfcYJs2Ly3x2fe
+ tq5g==
+X-Gm-Message-State: ANoB5pmWkuiXd44VNYESA8hD63hGPC9zk6j+KAaig/R4aNJxRuLmrGIe
+ Py3LNPag7F3CLmw9l3U0F3hLIdewxqSFrE7ljeU2TNGc2P2g2/96DPIgxtGA6xFkxZgezR2adBW
+ h54ywxCDwuxqwTfED/npjQX05XExv4x8=
+X-Received: by 2002:a17:906:c249:b0:7ad:9f03:fd44 with SMTP id
+ bl9-20020a170906c24900b007ad9f03fd44mr60927962ejb.73.1670402439022; 
+ Wed, 07 Dec 2022 00:40:39 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4IZyrx8NiuBsXKdKO4n9GCAreiBMnlkrnfhMPTteWICSErqPWyvdMem+kExBIvPL2aqucDGP7/4DBRY8L0gkQ=
+X-Received: by 2002:a17:906:c249:b0:7ad:9f03:fd44 with SMTP id
+ bl9-20020a170906c24900b007ad9f03fd44mr60927931ejb.73.1670402438736; Wed, 07
+ Dec 2022 00:40:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20221201134227.1983-1-luzhipeng@cestc.cn>
- <871qpjf86a.fsf@pond.sub.org>
- <1d355249-9ab0-f824-e00d-3135cb2646b5@cestc.cn>
- <4ce0329b-0868-f6b5-63f2-62ae212c76a7@redhat.com>
- <718dbdad-4920-d2c8-b3a6-c0f83fd818f1@cestc.cn>
-In-Reply-To: <718dbdad-4920-d2c8-b3a6-c0f83fd818f1@cestc.cn>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 7 Dec 2022 09:39:24 +0100
-Message-ID: <CABgObfb9kL2WCHUNQ4KVRAQWZPGBWmKGyaodX5yMChS+9x9PmA@mail.gmail.com>
-Subject: Re: [PATCH] blockdev: add 'media=cdrom' argument to support usb cdrom
- emulated as cdrom
-To: Zhipeng Lu <luzhipeng@cestc.cn>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>, 
- qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?RGFuaWVsIFAuQmVycmFuZ8Op?= <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>
-Content-Type: multipart/alternative; boundary="0000000000003bc4a705ef38dc1d"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+References: <20221205170436.2977336-1-eperezma@redhat.com>
+ <20221205170436.2977336-11-eperezma@redhat.com>
+ <PH0PR12MB5481DA422812F1B111667791DC189@PH0PR12MB5481.namprd12.prod.outlook.com>
+In-Reply-To: <PH0PR12MB5481DA422812F1B111667791DC189@PH0PR12MB5481.namprd12.prod.outlook.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 7 Dec 2022 09:40:02 +0100
+Message-ID: <CAJaqyWejQCDRG6R8fWJKmKoXjDZ21hhn=qPoHSmF9=SougKxag@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
+ descriptors
+To: Parav Pandit <parav@nvidia.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <elic@nvidia.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,154 +104,259 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000003bc4a705ef38dc1d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-It should be like this:
-
--device usb-bot,id=3Dbot0
--device scsi-{cd,hd},bus=3Dbot0.0,drive=3Ddrive0
-
-Libvirt has the code to generate the options for SCSI controllers, but
-usb-bot only allows one disk attached to it so it's easier to make it a
-<drive> element.
-
-Paolo
-
-Il sab 3 dic 2022, 13:52 Zhipeng Lu <luzhipeng@cestc.cn> ha scritto:
-
-> Could you give the detail qemu cmdline about usb-bot?
->
-> =E5=9C=A8 2022/12/2 17:40, Paolo Bonzini =E5=86=99=E9=81=93:
-> > On 12/2/22 03:26, Zhipeng Lu wrote:
-> >> NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-> >> sda             8:0    0  100M  1 disk
-> >> vda           252:0    0   10G  0 disk
-> >> =E2=94=9C=E2=94=80vda1        252:1    0    1G  0 part /boot
-> >> =E2=94=94=E2=94=80vda2        252:2    0    9G  0 part
-> >>    =E2=94=9C=E2=94=80rhel-root 253:0    0    8G  0 lvm  /
-> >>    =E2=94=94=E2=94=80rhel-swap 253:1    0    1G  0 lvm  [SWAP]
-> >> lshw -short|grep cdrom -i
-> >> No cdrom.
-> >>
-> >> My patch is to solve this problem, usb cdrom emulated as cdrom.
-> >
-> > This is a libvirt bug, it should use usb-bot instead of usb-storage
-> > together with -blockdev.  Then it can add a scsi-cd device below usb-bo=
-t.
-> >
-> > Paolo
-> >
-> >>
-> >>
-> >> =E5=9C=A8 2022/12/1 23:35, Markus Armbruster =E5=86=99=E9=81=93:
-> >>> luzhipeng <luzhipeng@cestc.cn> writes:
-> >>>
-> >>>> From: zhipeng Lu <luzhipeng@cestc.cn>
-> >>>>
-> >>>> The drive interface supports media=3Dcdrom so that the usb cdrom
-> >>>> can be emulated as cdrom in qemu, but libvirt deprived the drive
-> >>>> interface, so media=3Dcdrom is added to the blockdev interface to
-> >>>> support usb cdrom emulated as cdrom
-> >>>>
-> >>>> Signed-off-by: zhipeng Lu <luzhipeng@cestc.cn>
-> >>>
-> >>> What problem are you trying to solve?
-> >>>
-> >>>
-> >>>
-> >>
-> >>
-> >>
-> >
-> >
-> >
+On Mon, Dec 5, 2022 at 9:52 PM Parav Pandit <parav@nvidia.com> wrote:
 >
 >
->
+> > From: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > Sent: Monday, December 5, 2022 12:05 PM
+> >
+> > There is currently no data to be migrated, since nothing populates or r=
+ead
+> > the fields on virtio-net.
+> >
+> > The migration of in-flight descriptors is modelled after the migration =
+of
+> > requests in virtio-blk. With some differences:
+> > * virtio-blk migrates queue number on each request. Here we only add a
+> >   vq if it has descriptors to migrate, and then we make all descriptors
+> >   in an array.
+> > * Use of QTAILQ since it works similar to signal the end of the infligh=
+t
+> >   descriptors: 1 for more data, 0 if end. But do it for each vq instead
+> >   of for each descriptor.
+> > * Usage of VMState macros.
+> >
+> > The fields of descriptors would be way more complicated if we use the
+> > VirtQueueElements directly, since there would be a few levels of
+> > indirections. Using VirtQueueElementOld for the moment, and migrate to
+> > VirtQueueElement for the final patch.
+> >
+> > TODO: Proper migration versioning
+> > TODO: Do not embed vhost-vdpa structs
+> > TODO: Migrate the VirtQueueElement, not VirtQueueElementOld.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  include/hw/virtio/virtio-net.h |   2 +
+> >  include/migration/vmstate.h    |  11 +++
+> >  hw/net/virtio-net.c            | 129 +++++++++++++++++++++++++++++++++
+> >  3 files changed, 142 insertions(+)
+> >
+> > diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-=
+net.h
+> > index ef234ffe7e..ae7c017ef0 100644
+> > --- a/include/hw/virtio/virtio-net.h
+> > +++ b/include/hw/virtio/virtio-net.h
+> > @@ -151,9 +151,11 @@ typedef struct VirtIONetQueue {
+> >      QEMUTimer *tx_timer;
+> >      QEMUBH *tx_bh;
+> >      uint32_t tx_waiting;
+> > +    uint32_t tx_inflight_num, rx_inflight_num;
+> >      struct {
+> >          VirtQueueElement *elem;
+> >      } async_tx;
+> > +    VirtQueueElement **tx_inflight, **rx_inflight;
+> >      struct VirtIONet *n;
+> >  } VirtIONetQueue;
+> >
+> > diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+> > index 9726d2d09e..9e0dfef9ee 100644
+> > --- a/include/migration/vmstate.h
+> > +++ b/include/migration/vmstate.h
+> > @@ -626,6 +626,17 @@ extern const VMStateInfo vmstate_info_qlist;
+> >      .offset     =3D vmstate_offset_varray(_state, _field, _type),     =
+ \
+> >  }
+> >
+> > +#define VMSTATE_STRUCT_VARRAY_ALLOC_UINT16(_field, _state,
+> > _field_num,        \
+> > +                                           _version, _vmsd, _type) {  =
+        \
+> > +    .name       =3D (stringify(_field)),                              =
+          \
+> > +    .version_id =3D (_version),                                       =
+          \
+> > +    .vmsd       =3D &(_vmsd),                                         =
+          \
+> > +    .num_offset =3D vmstate_offset_value(_state, _field_num, uint16_t)=
+,         \
+> > +    .size       =3D sizeof(_type),                                    =
+          \
+> > +    .flags      =3D VMS_STRUCT | VMS_VARRAY_UINT16 | VMS_ALLOC |
+> > VMS_POINTER,   \
+> > +    .offset     =3D vmstate_offset_pointer(_state, _field, _type),    =
+          \
+> > +}
+> > +
+> >  #define VMSTATE_STRUCT_VARRAY_ALLOC(_field, _state, _field_num,
+> > _version, _vmsd, _type) {\
+> >      .name       =3D (stringify(_field)),                              =
+ \
+> >      .version_id =3D (_version),                                       =
+ \
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c index
+> > aba12759d5..ffd7bf1fc7 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -3077,6 +3077,13 @@ static bool mac_table_doesnt_fit(void *opaque,
+> > int version_id)
+> >      return !mac_table_fits(opaque, version_id);  }
+> >
+> > +typedef struct VirtIONetInflightQueue {
+> > +    uint16_t idx;
+> > +    uint16_t num;
+> > +    QTAILQ_ENTRY(VirtIONetInflightQueue) entry;
+> > +    VirtQueueElementOld *elems;
+> > +} VirtIONetInflightQueue;
+> > +
+> >  /* This temporary type is shared by all the WITH_TMP methods
+> >   * although only some fields are used by each.
+> >   */
+> > @@ -3086,6 +3093,7 @@ struct VirtIONetMigTmp {
+> >      uint16_t        curr_queue_pairs_1;
+> >      uint8_t         has_ufo;
+> >      uint32_t        has_vnet_hdr;
+> > +    QTAILQ_HEAD(, VirtIONetInflightQueue) queues_inflight;
+> >  };
+> >
+> >  /* The 2nd and subsequent tx_waiting flags are loaded later than @@ -
+> > 3231,6 +3239,124 @@ static const VMStateDescription
+> > vmstate_virtio_net_rss =3D {
+> >      },
+> >  };
+> >
+> > +static const VMStateDescription vmstate_virtio_net_inflight_queue =3D =
+{
+> > +    .name      =3D "virtio-net-device/inflight/queue",
+> > +    .fields =3D (VMStateField[]) {
+> > +        VMSTATE_UINT16(idx, VirtIONetInflightQueue),
+> > +        VMSTATE_UINT16(num, VirtIONetInflightQueue),
+> > +
+> > +        VMSTATE_STRUCT_VARRAY_ALLOC_UINT16(elems,
+> > VirtIONetInflightQueue, num,
+> > +                                           0, vmstate_virtqueue_elemen=
+t_old,
+> > +                                           VirtQueueElementOld),
+> > +        VMSTATE_END_OF_LIST()
+> > +    },
+> > +};
+> > +
+> > +static int virtio_net_inflight_init(void *opaque) {
+> > +    struct VirtIONetMigTmp *tmp =3D opaque;
+> > +
+> > +    QTAILQ_INIT(&tmp->queues_inflight);
+> > +    return 0;
+> > +}
+> > +
+> > +static int virtio_net_inflight_pre_save(void *opaque) {
+> > +    struct VirtIONetMigTmp *tmp =3D opaque;
+> > +    VirtIONet *net =3D tmp->parent;
+> > +    uint16_t curr_queue_pairs =3D net->multiqueue ? net->curr_queue_pa=
+irs :
+> > 1;
+> > +    VirtIONetInflightQueue *qi =3D g_new0(VirtIONetInflightQueue,
+> > +                                        curr_queue_pairs * 2);
+> > +
+> > +    virtio_net_inflight_init(opaque);
+> > +    for (uint16_t i =3D 0; i < curr_queue_pairs * 2; ++i) {
+> > +        VirtIONetQueue *q =3D &net->vqs[vq2q(i)];
+> > +        size_t n =3D i % 2 ? q->tx_inflight_num : q->rx_inflight_num;
+> > +        VirtQueueElement **inflight =3D i % 2 ? q->tx_inflight :
+> > + q->rx_inflight;
+> > +
+> > +        if (n =3D=3D 0) {
+> > +            continue;
+> > +        }
+> > +
+> > +        qi[i].idx =3D i;
+> > +        qi[i].num =3D n;
+> > +        qi[i].elems =3D g_new0(VirtQueueElementOld, n);
+> > +        for (uint16_t j =3D 0; j < n; ++j) {
+> > +            qemu_put_virtqueue_element_old(inflight[j], &qi[i].elems[j=
+]);
+> > +        }
+> > +        QTAILQ_INSERT_TAIL(&tmp->queues_inflight, &qi[i], entry);
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static int virtio_net_inflight_post_save(void *opaque) {
+> > +    struct VirtIONetMigTmp *tmp =3D opaque;
+> > +    VirtIONetInflightQueue *qi;
+> > +
+> > +    while ((qi =3D QTAILQ_FIRST(&tmp->queues_inflight))) {
+> > +        QTAILQ_REMOVE(&tmp->queues_inflight, qi, entry);
+> > +        g_free(qi->elems);
+> > +        g_free(qi);
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static int virtio_net_inflight_post_load(void *opaque, int version_id)
+> > +{
+> > +    struct VirtIONetMigTmp *tmp =3D opaque;
+> > +    VirtIONet *net =3D tmp->parent;
+> > +    uint16_t curr_queue_pairs =3D net->multiqueue ? net->curr_queue_pa=
+irs :
+> > 1;
+> > +    VirtIONetInflightQueue *qi;
+> > +
+> > +    while ((qi =3D QTAILQ_FIRST(&tmp->queues_inflight))) {
+> > +        VirtIONetQueue *q =3D &net->vqs[vq2q(qi->idx)];
+> > +        uint32_t *n =3D qi->idx % 2 ? &q->tx_inflight_num : &q->rx_inf=
+light_num;
+> > +        VirtQueueElement ***inflight =3D qi->idx % 2 ?
+> > +                                       &q->tx_inflight : &q->rx_inflig=
+ht;
+> > +        if (unlikely(qi->num =3D=3D 0)) {
+> > +            /* TODO: error message */
+> > +            return -1;
+> > +        }
+> > +
+> > +        if (unlikely(qi->idx > curr_queue_pairs * 2)) {
+> > +            /* TODO: error message */
+> > +            return -1;
+> > +        }
+> > +
+> > +        *n =3D qi->num;
+> > +        *inflight =3D g_new(VirtQueueElement *, *n);
+> > +        for (uint16_t j =3D 0; j < *n; ++j) {
+> > +            (*inflight)[j] =3D qemu_get_virtqueue_element_from_old(
+> > +                &net->parent_obj, &qi->elems[j],
+> > +                sizeof(VirtQueueElement));
+> > +        }
+> > +
+> > +        QTAILQ_REMOVE(&tmp->queues_inflight, qi, entry);
+> > +        g_free(qi->elems);
+> > +        g_free(qi);
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +/* TODO: Allocate a temporal per queue / queue element, not all of
+> > +them! */ static const VMStateDescription vmstate_virtio_net_inflight =
+=3D {
+> > +    .name      =3D "virtio-net-device/inflight",
+> > +    .pre_save =3D virtio_net_inflight_pre_save,
+> > +    .post_save =3D virtio_net_inflight_post_save,
+> > +    .pre_load =3D virtio_net_inflight_init,
+> > +    .post_load =3D virtio_net_inflight_post_load,
+> > +    .fields =3D (VMStateField[]) {
+> > +        VMSTATE_QTAILQ_V(queues_inflight, struct VirtIONetMigTmp, 0,
+> > +                         vmstate_virtio_net_inflight_queue,
+> > +                         VirtIONetInflightQueue, entry),
+> > +        VMSTATE_END_OF_LIST()
+> > +    },
+> > +};
+> > +
+> How is the CVQ related mac, vlan, rss replay different than these infligh=
+t descriptors, due to which inflights to be done by these callbacks and CVQ=
+ differently?
 
---0000000000003bc4a705ef38dc1d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>It should be like this:<div dir=3D"auto"><br></div><=
-div dir=3D"auto">-device usb-bot,id=3Dbot0</div><div dir=3D"auto">-device s=
-csi-{cd,hd},bus=3Dbot0.0,drive=3Ddrive0</div><div dir=3D"auto"><br></div>Li=
-bvirt has the code to generate the options for SCSI controllers, but usb-bo=
-t only allows one disk attached to it so it&#39;s easier to make it a &lt;d=
-rive&gt; element.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo<=
-br><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gm=
-ail_attr">Il sab 3 dic 2022, 13:52 Zhipeng Lu &lt;<a href=3D"mailto:luzhipe=
-ng@cestc.cn">luzhipeng@cestc.cn</a>&gt; ha scritto:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">Could you give the detail qemu cmdline about usb-bot?<br>
-<br>
-=E5=9C=A8 2022/12/2 17:40, Paolo Bonzini =E5=86=99=E9=81=93:<br>
-&gt; On 12/2/22 03:26, Zhipeng Lu wrote:<br>
-&gt;&gt; NAME=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MAJ:MIN=
- RM=C2=A0 SIZE RO TYPE MOUNTPOINT<br>
-&gt;&gt; sda=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 8:0=C2=A0=C2=A0=C2=A0 0=C2=A0 100M=C2=A0 1 disk<br>
-&gt;&gt; vda=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 25=
-2:0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 10G=C2=A0 0 disk<br>
-&gt;&gt; =E2=94=9C=E2=94=80vda1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2=
-52:1=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 1G=C2=A0 0 part /boot<br>
-&gt;&gt; =E2=94=94=E2=94=80vda2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2=
-52:2=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 9G=C2=A0 0 part<br>
-&gt;&gt; =C2=A0=C2=A0 =E2=94=9C=E2=94=80rhel-root 253:0=C2=A0=C2=A0=C2=A0 0=
-=C2=A0=C2=A0=C2=A0 8G=C2=A0 0 lvm=C2=A0 /<br>
-&gt;&gt; =C2=A0=C2=A0 =E2=94=94=E2=94=80rhel-swap 253:1=C2=A0=C2=A0=C2=A0 0=
-=C2=A0=C2=A0=C2=A0 1G=C2=A0 0 lvm=C2=A0 [SWAP]<br>
-&gt;&gt; lshw -short|grep cdrom -i<br>
-&gt;&gt; No cdrom.<br>
-&gt;&gt;<br>
-&gt;&gt; My patch is to solve this problem, usb cdrom emulated as cdrom.<br=
->
-&gt; <br>
-&gt; This is a libvirt bug, it should use usb-bot instead of usb-storage <b=
-r>
-&gt; together with -blockdev.=C2=A0 Then it can add a scsi-cd device below =
-usb-bot.<br>
-&gt; <br>
-&gt; Paolo<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =E5=9C=A8 2022/12/1 23:35, Markus Armbruster =E5=86=99=E9=81=93:<b=
-r>
-&gt;&gt;&gt; luzhipeng &lt;<a href=3D"mailto:luzhipeng@cestc.cn" target=3D"=
-_blank" rel=3D"noreferrer">luzhipeng@cestc.cn</a>&gt; writes:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; From: zhipeng Lu &lt;<a href=3D"mailto:luzhipeng@cestc.cn"=
- target=3D"_blank" rel=3D"noreferrer">luzhipeng@cestc.cn</a>&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; The drive interface supports media=3Dcdrom so that the usb=
- cdrom<br>
-&gt;&gt;&gt;&gt; can be emulated as cdrom in qemu, but libvirt deprived the=
- drive<br>
-&gt;&gt;&gt;&gt; interface, so media=3Dcdrom is added to the blockdev inter=
-face to<br>
-&gt;&gt;&gt;&gt; support usb cdrom emulated as cdrom<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Signed-off-by: zhipeng Lu &lt;<a href=3D"mailto:luzhipeng@=
-cestc.cn" target=3D"_blank" rel=3D"noreferrer">luzhipeng@cestc.cn</a>&gt;<b=
-r>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; What problem are you trying to solve?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000003bc4a705ef38dc1d--
+CVQ is processed by qemu directly, so it is guaranteed they will not
+be out of order. Guest memory is enough to recover in the destination.
 
 
