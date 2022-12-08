@@ -2,96 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DFD646AC9
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 09:42:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6546D646ACB
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 09:42:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3CTG-0000Pj-F6; Thu, 08 Dec 2022 03:41:35 -0500
+	id 1p3CTV-0000Zi-Ra; Thu, 08 Dec 2022 03:41:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p3CSv-0000OI-Gq
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:41:14 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1p3CTU-0000Yy-BO
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:41:48 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p3CSp-0007MZ-MX
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:41:12 -0500
-Received: by mail-wm1-x336.google.com with SMTP id n7so523388wms.3
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 00:41:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mkhTd19TGd6DyVZdFbwsIXpQkeUT50DTDJW6NLgew20=;
- b=Cj/jxqqYO4q0bq4VvRUp7AAUtkW4p6aWcKp7EChw4j0ehRk60Nh50oJxVOlbAXYLiX
- mklKlW5VUonqLC9r5N7DvTUpwzQj+E5zjVuuBBy0l6Qw24elm3P/quzeYxs+GmIOQQS6
- J0UZaLQduB+FxaBVm3+xUEgtnk4rDH9+XPyRYS0j2BV0GLOIWybbz4WrDCnlNIxzGfnh
- 2PZCt2UHvaDYDKL3YNofVOl93P+UsJiET5bPZI7vXRZ9OJXBBhCPeeLjDRJ1e4fbxoWi
- /i8HFCIBxUGvPJpzQ73FSseorOJj4rTbo2F7dPRMwOLgtTg8kfzhWX0WNeue2gfHuHIj
- /TOg==
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1p3CTR-0007PH-1P
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:41:48 -0500
+Received: by mail-pg1-x532.google.com with SMTP id h33so649578pgm.9
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 00:41:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VuPEUQgQaW4Rj2N1z/kxif8EtCaljFE1MDNF1Zfnlqk=;
+ b=hNa/CsQP/0jxhcOEHgwF38cuW9S1yBQ2j2xRroUSrg5EIHJrBdMFuXKCIk4bOynWWG
+ YoZTeHxETOfn9K3Rcdndip4SE2sFvA69oifyfhbcG9nVg5/ZboFQAUTT29ji+8JSa0Xi
+ 0/faKiAB8ZghIjQ9LNp6dFokHppmPzVw8u7TiC1BblW4tdsxNDUI7TViicfytw0tHFyf
+ e2L6FVOI4VT9UFT/q1uK3ZSOb9udeRZmLc0vhtBTTbHycjJAqJg8GhrA2dQrtH9tPdbg
+ j9LoN+0+/Va/COJgWATOKJl82CMXQKpveUni0nt+ZE1dGnr6jLhRu3ot64CqzDug2rKG
+ t7HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=mkhTd19TGd6DyVZdFbwsIXpQkeUT50DTDJW6NLgew20=;
- b=B08UAoQiP3ivNYP3kF4MQ3TW30XO7NCYMNFy7x25XcBHh8+xGKLyPVKLWjBP+ChIBO
- GtJRrV69VcgbNiq9Whlz1jnUOfTvhVeYu95eQktwo9rCfwoZsgoFSqjIVfPcoIpkA1Cl
- 34nlIp2sgi20SlTiTXTME5MCQ6eHsxsZ5bEkk9aw7ty+N7jgoCz8ofBbAmualIxJ6nwa
- ai93l8i5TB22cKZdwSimYWIx+lUcJt8RIcsBaSKUO+e1xMtA++IjRkDNB5s8Nis1QiiT
- 3Er/SttGbzkEAcvcJL8pLIrF8d3mdQfBtWSKb0qYHrvTJ5IXKtkXP6XKf0MIfB0mL+vC
- ne8Q==
-X-Gm-Message-State: ANoB5plxce5CFgNUHz1SNMBjlemkjS0dxCxSzxg2apLrkv+oUJ+MhWdC
- 1DKFHwhbDM7o61rmIHQ2jVEIIg==
-X-Google-Smtp-Source: AA0mqf4z4TbxMFH52K4ZkeQN7xzFCMQFO+en/b+5MPg/1aQ6INtfl2ZRgV/4NeV5VKE8te8lAzOwqg==
-X-Received: by 2002:a7b:ce84:0:b0:3c6:e63e:24e with SMTP id
- q4-20020a7bce84000000b003c6e63e024emr1667405wmj.37.1670488864605; 
- Thu, 08 Dec 2022 00:41:04 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m2-20020a05600c4f4200b003cf87623c16sm2162720wmq.4.2022.12.08.00.41.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Dec 2022 00:41:04 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 85A281FFB7;
- Thu,  8 Dec 2022 08:41:03 +0000 (GMT)
-References: <20221207174129.77593-1-philmd@linaro.org>
- <20221207174129.77593-2-philmd@linaro.org>
-User-agent: mu4e 1.9.3; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, Stafford
- Horne <shorne@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Marek Vasut <marex@denx.de>, Laurent Vivier <laurent@vivier.eu>,
- =?utf-8?Q?C=C3=A9dric?= Le
- Goater <clg@kaod.org>, Yanan Wang <wangyanan55@huawei.com>, Mark
- Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Fabiano Rosas
- <farosas@linux.ibm.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Max
- Filippov <jcmvbkbc@gmail.com>, Greg Kurz <groug@kaod.org>, Artyom
- Tarasenko <atar4qemu@gmail.com>, Anton Johansson <anjo@rev.ng>,
- qemu-ppc@nongnu.org, Chris Wulff <crwulff@gmail.com>, "Edgar E. Iglesias"
- <edgar.iglesias@gmail.com>, David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH-for-8.0 1/4] cputlb: Restrict SavedIOTLB to system
- emulation
-Date: Thu, 08 Dec 2022 08:40:09 +0000
-In-reply-to: <20221207174129.77593-2-philmd@linaro.org>
-Message-ID: <87lenis2xs.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VuPEUQgQaW4Rj2N1z/kxif8EtCaljFE1MDNF1Zfnlqk=;
+ b=HrvWjVEjL7kEWpcwOX3RE/2pO355skxPdQp+ma6wevH+aqlfZ9jGZFjPrf9iezOcQz
+ 5rCcOlWpy4AVdHM18wqbtim2e/sMaDJeLqObpk/vzDt/v1lwwUt4B+oS6xE8AE7o9Zem
+ 8kmy5z1YD2gcUKMLKuDdzjlxRcYIxjJbvraEn1SwrE/0oVL71suACvS/ndoxJQMbhh84
+ 4w0ELbZJar2VCw4OmcfoUihXD3V1L/J//CmQBuMFPLHLMiwvtb/lLocAIeOuq8Xcjyxq
+ ka6R1+L4iWQmyL6PJIpIyq8U8465tEROEH5EHT4IXW8GJVxY3I/yS1qcNxzWFWo98yM2
+ ueGg==
+X-Gm-Message-State: ANoB5pm9+KxvQTos3AxQoDAXYwD4LHUCZS6LpmZuWUh7VwrLliiifQyb
+ PehG0exA/GRy9Q++K7kkhLrJ6WxkohZRfH4ot/5JsA==
+X-Google-Smtp-Source: AA0mqf6WCEO78PdD6eb7intsfnq1rCYP/6CXLnQA5b16jKDnZnXiSwbJIrAQwIQFEHWaojY2QoTbQ1AKxJERvh5ClNQ=
+X-Received: by 2002:a05:6a00:290f:b0:56b:e15a:7215 with SMTP id
+ cg15-20020a056a00290f00b0056be15a7215mr75995213pfb.27.1670488882065; Thu, 08
+ Dec 2022 00:41:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+References: <20221108125703.1463577-1-apatel@ventanamicro.com>
+ <20221108125703.1463577-3-apatel@ventanamicro.com>
+ <CAKmqyKP+hc4N6Z2AqkQpCmF=oyTE_rf-XfSsTHChwcUWRE5gsg@mail.gmail.com>
+In-Reply-To: <CAKmqyKP+hc4N6Z2AqkQpCmF=oyTE_rf-XfSsTHChwcUWRE5gsg@mail.gmail.com>
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Thu, 8 Dec 2022 14:11:10 +0530
+Message-ID: <CAK9=C2Uu1bCcZht+ydiazSmgnkD_hhLetXP4WcA92DypE4m9=A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] target/riscv: Update VS timer whenever htimedelta
+ changes
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,75 +92,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
-
-> Commit 2f3a57ee47 ("cputlb: ensure we save the IOTLB data in
-> case of reset") added the SavedIOTLB structure -- which is
-> system emulation specific -- in the generic CPUState structure.
+On Thu, Dec 8, 2022 at 9:00 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  accel/tcg/cputlb.c    | 4 ++--
->  include/hw/core/cpu.h | 6 ++++--
->  2 files changed, 6 insertions(+), 4 deletions(-)
+> On Tue, Nov 8, 2022 at 11:07 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> >
+> > The htimedelta[h] CSR has impact on the VS timer comparison so we
+> > should call riscv_timer_write_timecmp() whenever htimedelta changes.
+> >
+> > Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
+> > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 >
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index 6f1c00682b..0ea96fbcdf 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -1395,7 +1395,7 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBE=
-ntryFull *full,
->  static void save_iotlb_data(CPUState *cs, MemoryRegionSection *section,
->                              hwaddr mr_offset)
->  {
-> -#ifdef CONFIG_PLUGIN
-> +#if defined(CONFIG_PLUGIN) && !defined(CONFIG_USER_ONLY)
+> This patch breaks my Xvisor test. When running OpenSBI and Xvisor like this:
+>
+> qemu-system-riscv64 -machine virt \
+>     -m 1G -serial mon:stdio -serial null -nographic \
+>     -append 'vmm.console=uart@10000000 vmm.bootcmd="vfs mount initrd
+> /;vfs run /boot.xscript;vfs cat /system/banner.txt; guest kick guest0;
+> vserial bind guest0/uart0"' \
+>     -smp 4 -d guest_errors \
+>     -bios none \
+>     -device loader,file=./images/qemuriscv64/vmm.bin,addr=0x80200000 \
+>     -kernel ./images/qemuriscv64/fw_jump.elf \
+>     -initrd ./images/qemuriscv64/vmm-disk-linux.img -cpu rv64,h=true
+>
+> Running:
+>
+> Xvisor v0.3.0-129-gbc33f339 (Jan  1 1970 00:00:00)
+>
+> I see this failure:
+>
+> INIT: bootcmd:  guest kick guest0
+>
+> guest0: Kicked
+>
+> INIT: bootcmd:  vserial bind guest0/uart0
+>
+> [guest0/uart0] cpu_vcpu_stage2_map: guest_phys=0x000000003B9AC000
+> size=0x4096 map failed
+>
+> do_error: CPU3: VCPU=guest0/vcpu0 page fault failed (error -1)
+>
+>        zero=0x0000000000000000          ra=0x0000000080001B4E
+>
+>          sp=0x000000008001CF80          gp=0x0000000000000000
+>
+>          tp=0x0000000000000000          s0=0x000000008001CFB0
+>
+>          s1=0x0000000000000000          a0=0x0000000010001048
+>
+>          a1=0x0000000000000000          a2=0x0000000000989680
+>
+>          a3=0x000000003B9ACA00          a4=0x0000000000000048
+>
+>          a5=0x0000000000000000          a6=0x0000000000019000
+>
+>          a7=0x0000000000000000          s2=0x0000000000000000
+>
+>          s3=0x0000000000000000          s4=0x0000000000000000
+>
+>          s5=0x0000000000000000          s6=0x0000000000000000
+>
+>          s7=0x0000000000000000          s8=0x0000000000000000
+>
+>          s9=0x0000000000000000         s10=0x0000000000000000
+>
+>         s11=0x0000000000000000          t0=0x0000000000004000
+>
+>          t1=0x0000000000000100          t2=0x0000000000000000
+>
+>          t3=0x0000000000000000          t4=0x0000000000000000
+>
+>          t5=0x0000000000000000          t6=0x0000000000000000
+>
+>        sepc=0x0000000080001918     sstatus=0x0000000200004120
+>
+>     hstatus=0x00000002002001C0     sp_exec=0x0000000010A64000
+>
+>      scause=0x0000000000000017       stval=0x000000003B9ACAF8
+>
+>       htval=0x000000000EE6B2BE      htinst=0x0000000000D03021
+>
+> I have tried updating to a newer Xvisor release, but with that I don't
+> get any serial output.
+>
+> Can you help get the Xvisor tests back up and running?
 
-cputlb is softmmu only so I don't think we need to check CONFIG_USER_ONLY h=
-ere.
+I tried the latest Xvisor-next (https://github.com/avpatel/xvisor-next)
+with your QEMU riscv-to-apply.next branch and it works fine (both
+with and without Sstc).
 
->      SavedIOTLB *saved =3D &cs->saved_iotlb;
->      saved->section =3D section;
->      saved->mr_offset =3D mr_offset;
-> @@ -1699,7 +1699,7 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchStat=
-e *env, target_ulong addr,
->      return qemu_ram_addr_from_host_nofail(p);
->  }
->=20=20
-> -#ifdef CONFIG_PLUGIN
-> +#if defined(CONFIG_PLUGIN) && !defined(CONFIG_USER_ONLY)
->  /*
->   * Perform a TLB lookup and populate the qemu_plugin_hwaddr structure.
->   * This should be a hot path as we will have just looked this path up
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 8830546121..bc3229ae13 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -222,7 +222,7 @@ struct CPUWatchpoint {
->      QTAILQ_ENTRY(CPUWatchpoint) entry;
->  };
->=20=20
-> -#ifdef CONFIG_PLUGIN
-> +#if defined(CONFIG_PLUGIN) && !defined(CONFIG_USER_ONLY)
->  /*
->   * For plugins we sometime need to save the resolved iotlb data before
->   * the memory regions get moved around  by io_writex.
-> @@ -406,9 +406,11 @@ struct CPUState {
->=20=20
->  #ifdef CONFIG_PLUGIN
->      GArray *plugin_mem_cbs;
-> +#if !defined(CONFIG_USER_ONLY)
->      /* saved iotlb data from io_writex */
->      SavedIOTLB saved_iotlb;
-> -#endif
-> +#endif /* !CONFIG_USER_ONLY */
-> +#endif /* CONFIG_PLUGIN */
->=20=20
->      /* TODO Move common fields from CPUArchState here. */
->      int cpu_index;
+Here's the QEMU command which I use:
 
+qemu-system-riscv64 -M virt -m 512M -nographic \
+-bios opensbi/build/platform/generic/firmware/fw_jump.bin \
+-kernel ../xvisor-next/build/vmm.bin \
+-initrd rbd_v64.img \
+-append "vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs
+cat /system/banner.txt\"" \
+-smp 4
 
---=20
-Alex Benn=C3=A9e
+Also, I will be releasing Xvisor-0.3.2 by the end of Dec 2022 so I
+suggest using this upcoming release in your test.
+
+Regards,
+Anup
 
