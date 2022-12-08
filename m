@@ -2,90 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED674646F8F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 13:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F99646FA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 13:28:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Fwj-0007nr-Rt; Thu, 08 Dec 2022 07:24:13 -0500
+	id 1p3FzN-0008Q4-Nk; Thu, 08 Dec 2022 07:26:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1p3Fwh-0007n5-Da
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 07:24:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p3FzI-0008Nj-Ko; Thu, 08 Dec 2022 07:26:53 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1p3Fwf-0004T7-Eh
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 07:24:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670502247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KdXNmNdByBCjTaJVXABvuZJ/5cL1aLDfIzpDB8xh+OQ=;
- b=jItJe21jzXhThXeit9QrMSgylQYz9dGmZfl/FztppKkAoT2VbirSbhpyTCN4a6BqH28o+9
- bDP0uvnHF+7K5UNH/3fHIe6rUbqCuAemsqirxAawPys6wyjfzAK74OpyUbPZrMQiwVx26J
- FHOGFbNzNFfhoknuAt90rXB7kZ+Ta1g=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-592-BdvB_A97Ooy4NqPUPCgEyg-1; Thu, 08 Dec 2022 07:24:06 -0500
-X-MC-Unique: BdvB_A97Ooy4NqPUPCgEyg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- hr21-20020a1709073f9500b007b29ccd1228so967252ejc.16
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 04:24:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KdXNmNdByBCjTaJVXABvuZJ/5cL1aLDfIzpDB8xh+OQ=;
- b=Ix8qWXff4RXtsgDsymqvWs5RjMM1t2Iu9JA2YqtxDWkijBFO9kjg8CySoAw0DuktD8
- MP/Cqm823OG/xG8pEonitFRzpS6uQEsPTbMjc55S9kAP1u5if6cfHB6yr6goXEe+pkqK
- TLyW/kHQ8dtzuxJu7clydOZzY8bmxOI0ih/QfYHVcWDnlm1R4vS9zqSnL+Zu4RkUYcP8
- Q/fzujRm4OWDJz4xEgM63QWTfSZUejzW4vZ+RU2AO4sZl9342DfQYi5ENvYL3CyZcfD7
- DpkCFjp1FjFRPy0bh0DkCF5/qiK4nLRfHUi2bfmuFsGEAi1c9MVMO+P2+C0CYyQBAZmh
- p3kQ==
-X-Gm-Message-State: ANoB5pnzLQKy/5DmgJD9wU8KBEG2KI6SX+4d1qTs6juMH2gcOVVXPkFs
- oqeqY/KDKXQUsmheTUbC8CuTxVFkzee6n6lp03bEYy23TAZaMAfs9bJIbRWFc6Y7sGTA9o/Eozu
- yAp465Y8E4+1O5+E=
-X-Received: by 2002:a05:6402:c1b:b0:46c:b7a3:c978 with SMTP id
- co27-20020a0564020c1b00b0046cb7a3c978mr14271053edb.120.1670502244462; 
- Thu, 08 Dec 2022 04:24:04 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5Ev01ItcSTohiKtslBr1s+gPQp5gldq7th+rexsSYhwSnwuVEumiz7JL/8ITs9Pmwu0vFmMw==
-X-Received: by 2002:a05:6402:c1b:b0:46c:b7a3:c978 with SMTP id
- co27-20020a0564020c1b00b0046cb7a3c978mr14271033edb.120.1670502244012; 
- Thu, 08 Dec 2022 04:24:04 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- y21-20020a1709064b1500b007c10bb5b4b8sm3047372eju.224.2022.12.08.04.24.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 04:24:03 -0800 (PST)
-Message-ID: <7c2c9623-c865-91a3-01b7-0e7f90fde278@redhat.com>
-Date: Thu, 8 Dec 2022 13:24:01 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p3FzG-0005BN-8n; Thu, 08 Dec 2022 07:26:52 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 255EF5C0035;
+ Thu,  8 Dec 2022 07:26:47 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 08 Dec 2022 07:26:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1670502407; x=1670588807; bh=i8
+ vfM4/oizfqP85pJtrvbxGw1dK22UDfOV+TImIeF4Y=; b=GRMSKS672AJbkLchbP
+ RqTIJeiCt0GJ+g683CAOeWDKhr6UvZ/uL/Wnu7itsoentlVpG2MGTA8t5iAEAuFh
+ D+5qgo7zuKtihaSi1RyK+EoLlXIr1DvjQ6SstFiw4cBk/k7ztVgBfV4mieGldmFz
+ fXaYLYRioaOeORkD/tkkgDTfKCt2ZJewlN5cne1OBvtbf6v+dXmNQ68gOlen/lFJ
+ 6+fFBAQrU9MgmqMzoZwuxePUau2NjG23lg1DvC7BoN5ym24tdckJ1DOt0frg5cQ0
+ GnzUgr90+7yR2tLdcpEg18V7t3dcPpIHTPJBxiL0IAXJM5lICoVoXZP6p9ZLnnaN
+ NcoQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1670502407; x=1670588807; bh=i8vfM4/oizfqP
+ 85pJtrvbxGw1dK22UDfOV+TImIeF4Y=; b=TmfyTJyL8jJ5z1vsfw7G92U2KObHI
+ dMEsDM9v7iDKjBIIXbP0oEplM/Zi4nJnJC18iCuxFCTkAanx6sVcEIx9KOzi5mWv
+ uUEhX6d1kIUvtVpA+SIWrWfXtV7ir8cgj5vMw9eX0tykcMH1rV4TZApUCdH5ctXD
+ 5jXdiJyiX9pGMXaZg1fZ/plDQd05yb5UpdCrce0KTV2hLPams4ImTzLf9/vFg3bM
+ KpzJSlXSLMQIcsI4NHi5apHwwUd57pQ1mS2zr4r3wNGY8i4bNRLpOUxwDsqsENb1
+ OajpwZpuXGMpMNKJQQ9PMmJJs57yzJTFzDr5AkGpsx4vRb8WdFC/kv5YA==
+X-ME-Sender: <xms:BdiRY2vitoiHAsn2_tKUiqCDHrUzJLqydNYkA13khvAAktjAgivXrw>
+ <xme:BdiRY7el5FGEhJ8VSIls0fBc7kEIAZxqbpgD_fTyAfel_CNs5TjpQhaNEfIGHH4Oq
+ bXu4vB5yDhIrYiQJEs>
+X-ME-Received: <xmr:BdiRYxxRUbnEm44HEmcV9DnH9Qch_Rc-Q0zJwoz8QhPoxxbva7NfwLp6l0O2jK4slSFF1lmESgKRtMseCEj7jRqYFkZReuGQ28AVqw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtgdeflecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffotggggfesthekredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepieffueejgeetudeljedtfeevieeukeelffffledtvddvheevgedutedufedttdev
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:BdiRYxMdMkloLepM2_XEZ34LZFuhZtGH6R6AL9Dwn52Rt1UAh0uHXg>
+ <xmx:BdiRY283PbRr3MWfB3tB6oMf-deLTKjc1rCXNz6MzsQYgACl2_8Kng>
+ <xmx:BdiRY5XwGJtNUyIdSfeld61FCJDbpCMol2T-uzlsmB1arMW1kse_xw>
+ <xmx:B9iRY6a1mUCdHr4uCPhIfrC_Pegn2Ui7cjozMcowZtF93PzfeJWCAA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Dec 2022 07:26:44 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH v2 0/3] hw/nvme: shadow doorbells broken on riscv64
+Date: Thu,  8 Dec 2022 13:26:39 +0100
+Message-Id: <20221208122642.80574-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.38.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 00/12] qemu-img info: Show protocol-level information
-Content-Language: en-US
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20220620162704.80987-1-hreitz@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220620162704.80987-1-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Developer-Signature: v=1; a=openpgp-sha256; l=838; i=k.jensen@samsung.com;
+ h=from:subject; bh=oZ6UX4laIkm9ZD4yx7+XLyN6r/SjiX1aOQpAbGCOO7c=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOR2AKOmE6AY/qBXsa1pVBVNyKps0Li0PvgRRF5
+ mvS6pEW6Q4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjkdgCAAoJEE3hrzFtTw3p9e
+ sH/R8jNK5hRoye4ZyqNDKBVzhOAK40sUza5YR3b3FMej82JzKEo4tFvt5sgV9RRQ+P9xeVeYveNUnP
+ 1cLHY0i7goykBF6CVb7PL+nmL3VFC11ahcXEFtt59r73yqycs62gklW1d0y03c+1HI+YTzJx3SSt1/
+ +y77mtuE/Rd4GeHbLuLR7vB24n06Bozva0GCHQ0LiKjszhP9O6NKEbRFbtQrC8UUvjyg2gOK40XVl1
+ 8gicW9xcOXvNI/RQmfKgjdhY3krgEGFpWi0NmltsOJ+EMZHYntwRcxuJ+t8zvNFB74xTTSQ0DpSWZA
+ N3I0TgrDsBP/J8qxevJdleJCCGvtJ2CbgZWqz9
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.266, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,41 +110,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20.06.22 18:26, Hanna Reitz wrote:
-> Hi,
->
-> This series is a v2 to:
->
-> https://lists.nongnu.org/archive/html/qemu-block/2022-05/msg00042.html
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Ping, it looks like this still applies (to the master branch and kevin’s 
-block-next branch at least).
+Guenter reports[1] that hw/nvme is broken on riscv64.
 
-Hanna
+This is a regression since 7.1, so this does not warrent an rc5 for 7.2.
+I'm sure Guenter can carry this patch in his tree, and maybe we can get
+this out in a stable release.
 
-> So the final state is that despite the QAPI changes, hopefully only the
-> qemu-img info output changes, and it now prints every image node’s
-> subgraph.  This results in an output like the following (for a qcow2
-> image):
->
-> image: test.qcow2
-> file format: qcow2
-> virtual size: 64 MiB (67108864 bytes)
-> disk size: 196 KiB
-> cluster_size: 65536
-> Format specific information:
->      compat: 1.1
->      compression type: zlib
->      lazy refcounts: false
->      refcount bits: 16
->      corrupt: false
->      extended l2: false
-> Child node '/file':
->      filename: test.qcow2
->      protocol type: file
->      file length: 192 KiB (197120 bytes)
->      disk size: 196 KiB
->      Format specific information:
->          extent size hint: 1048576
+I really wonder why this issue only shows up on riscv64. We have not
+observed this on other platforms (yet).
+
+  [1]: https://lore.kernel.org/qemu-devel/20221207174918.GA1151796@roeck-us.net/
+
+v2:
+ - use QOM accessor (Philippe)
+ - added some cleanup patches in front
+
+Klaus Jensen (3):
+  hw/nvme: use QOM accessors
+  hw/nvme: rename shadow doorbell related trace events
+  hw/nvme: fix missing cq eventidx update
+
+ hw/nvme/ctrl.c       | 109 +++++++++++++++++++++++++------------------
+ hw/nvme/trace-events |   8 ++--
+ 2 files changed, 68 insertions(+), 49 deletions(-)
+
+-- 
+2.38.1
 
 
