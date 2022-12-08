@@ -2,81 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6546D646ACB
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 09:42:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0976646C32
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 10:46:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3CTV-0000Zi-Ra; Thu, 08 Dec 2022 03:41:49 -0500
+	id 1p3DTA-0002wo-5j; Thu, 08 Dec 2022 04:45:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1p3CTU-0000Yy-BO
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:41:48 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1p3CTR-0007PH-1P
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:41:48 -0500
-Received: by mail-pg1-x532.google.com with SMTP id h33so649578pgm.9
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 00:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VuPEUQgQaW4Rj2N1z/kxif8EtCaljFE1MDNF1Zfnlqk=;
- b=hNa/CsQP/0jxhcOEHgwF38cuW9S1yBQ2j2xRroUSrg5EIHJrBdMFuXKCIk4bOynWWG
- YoZTeHxETOfn9K3Rcdndip4SE2sFvA69oifyfhbcG9nVg5/ZboFQAUTT29ji+8JSa0Xi
- 0/faKiAB8ZghIjQ9LNp6dFokHppmPzVw8u7TiC1BblW4tdsxNDUI7TViicfytw0tHFyf
- e2L6FVOI4VT9UFT/q1uK3ZSOb9udeRZmLc0vhtBTTbHycjJAqJg8GhrA2dQrtH9tPdbg
- j9LoN+0+/Va/COJgWATOKJl82CMXQKpveUni0nt+ZE1dGnr6jLhRu3ot64CqzDug2rKG
- t7HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VuPEUQgQaW4Rj2N1z/kxif8EtCaljFE1MDNF1Zfnlqk=;
- b=HrvWjVEjL7kEWpcwOX3RE/2pO355skxPdQp+ma6wevH+aqlfZ9jGZFjPrf9iezOcQz
- 5rCcOlWpy4AVdHM18wqbtim2e/sMaDJeLqObpk/vzDt/v1lwwUt4B+oS6xE8AE7o9Zem
- 8kmy5z1YD2gcUKMLKuDdzjlxRcYIxjJbvraEn1SwrE/0oVL71suACvS/ndoxJQMbhh84
- 4w0ELbZJar2VCw4OmcfoUihXD3V1L/J//CmQBuMFPLHLMiwvtb/lLocAIeOuq8Xcjyxq
- ka6R1+L4iWQmyL6PJIpIyq8U8465tEROEH5EHT4IXW8GJVxY3I/yS1qcNxzWFWo98yM2
- ueGg==
-X-Gm-Message-State: ANoB5pm9+KxvQTos3AxQoDAXYwD4LHUCZS6LpmZuWUh7VwrLliiifQyb
- PehG0exA/GRy9Q++K7kkhLrJ6WxkohZRfH4ot/5JsA==
-X-Google-Smtp-Source: AA0mqf6WCEO78PdD6eb7intsfnq1rCYP/6CXLnQA5b16jKDnZnXiSwbJIrAQwIQFEHWaojY2QoTbQ1AKxJERvh5ClNQ=
-X-Received: by 2002:a05:6a00:290f:b0:56b:e15a:7215 with SMTP id
- cg15-20020a056a00290f00b0056be15a7215mr75995213pfb.27.1670488882065; Thu, 08
- Dec 2022 00:41:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p3DSZ-0002iC-1J; Thu, 08 Dec 2022 04:44:55 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p3DSW-00046R-Qj; Thu, 08 Dec 2022 04:44:54 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B89hfL9012423; Thu, 8 Dec 2022 09:44:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=uxlIQPsQP0RGjYFBzDgpKPqjVIxu9Ece2BY0Lae3DHQ=;
+ b=Bok1JCpCtVuSnifzQNSdTtR4/QqJFrHue3ruyEjf2Ta2H0wTcibWUkqD1gvESiiE/1p+
+ 0Oahi8pyWzhO+Z64X/jYIIijphTDPRdwLbZTPmSiAfsJEL2Q12Ym8ZCI2sRoq3gj6/ex
+ zmxTaOlPe6KogWTY4UTi8ZTrqflACzkHF7uFDVyH60pjsDOqQs8pTTGUvhDhpqg1PII7
+ kN6sSH1LDFzHgSPaeTSEugYO7hSO7dshUk0CkheKWjDpvTHa9Ddc5b7UY5DZrdXf8G31
+ HPpPCUV53uDK1H3peBDou9aNURljJ+aASNCr66O+hH71fC2OxVMsmmgxjvmv2t5LQrc4 xg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mbdhr80fp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Dec 2022 09:44:43 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B89ih6D014950;
+ Thu, 8 Dec 2022 09:44:43 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mbdhr80f5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Dec 2022 09:44:43 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B88wP3t027356;
+ Thu, 8 Dec 2022 09:44:40 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3m9ks4470v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Dec 2022 09:44:40 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B89iX9w44695820
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 8 Dec 2022 09:44:33 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6545820049;
+ Thu,  8 Dec 2022 09:44:33 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F059520040;
+ Thu,  8 Dec 2022 09:44:32 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
+ [9.152.222.245])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  8 Dec 2022 09:44:32 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com, clg@kaod.org
+Subject: [PATCH v13 0/7] s390x: CPU Topology
+Date: Thu,  8 Dec 2022 10:44:25 +0100
+Message-Id: <20221208094432.9732-1-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20221108125703.1463577-1-apatel@ventanamicro.com>
- <20221108125703.1463577-3-apatel@ventanamicro.com>
- <CAKmqyKP+hc4N6Z2AqkQpCmF=oyTE_rf-XfSsTHChwcUWRE5gsg@mail.gmail.com>
-In-Reply-To: <CAKmqyKP+hc4N6Z2AqkQpCmF=oyTE_rf-XfSsTHChwcUWRE5gsg@mail.gmail.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Thu, 8 Dec 2022 14:11:10 +0530
-Message-ID: <CAK9=C2Uu1bCcZht+ydiazSmgnkD_hhLetXP4WcA92DypE4m9=A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] target/riscv: Update VS timer whenever htimedelta
- changes
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=apatel@ventanamicro.com; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: SVHdD_9jTrhGcIMdWy096iXT5w5_Dtkb
+X-Proofpoint-GUID: SdJvzC27VF5-Fflk4pgYGzZwxVRokHQ-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-08_04,2022-12-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 mlxlogscore=999
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2212080077
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,109 +114,248 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 8, 2022 at 9:00 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Nov 8, 2022 at 11:07 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> >
-> > The htimedelta[h] CSR has impact on the VS timer comparison so we
-> > should call riscv_timer_write_timecmp() whenever htimedelta changes.
-> >
-> > Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
-> > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->
-> This patch breaks my Xvisor test. When running OpenSBI and Xvisor like this:
->
-> qemu-system-riscv64 -machine virt \
->     -m 1G -serial mon:stdio -serial null -nographic \
->     -append 'vmm.console=uart@10000000 vmm.bootcmd="vfs mount initrd
-> /;vfs run /boot.xscript;vfs cat /system/banner.txt; guest kick guest0;
-> vserial bind guest0/uart0"' \
->     -smp 4 -d guest_errors \
->     -bios none \
->     -device loader,file=./images/qemuriscv64/vmm.bin,addr=0x80200000 \
->     -kernel ./images/qemuriscv64/fw_jump.elf \
->     -initrd ./images/qemuriscv64/vmm-disk-linux.img -cpu rv64,h=true
->
-> Running:
->
-> Xvisor v0.3.0-129-gbc33f339 (Jan  1 1970 00:00:00)
->
-> I see this failure:
->
-> INIT: bootcmd:  guest kick guest0
->
-> guest0: Kicked
->
-> INIT: bootcmd:  vserial bind guest0/uart0
->
-> [guest0/uart0] cpu_vcpu_stage2_map: guest_phys=0x000000003B9AC000
-> size=0x4096 map failed
->
-> do_error: CPU3: VCPU=guest0/vcpu0 page fault failed (error -1)
->
->        zero=0x0000000000000000          ra=0x0000000080001B4E
->
->          sp=0x000000008001CF80          gp=0x0000000000000000
->
->          tp=0x0000000000000000          s0=0x000000008001CFB0
->
->          s1=0x0000000000000000          a0=0x0000000010001048
->
->          a1=0x0000000000000000          a2=0x0000000000989680
->
->          a3=0x000000003B9ACA00          a4=0x0000000000000048
->
->          a5=0x0000000000000000          a6=0x0000000000019000
->
->          a7=0x0000000000000000          s2=0x0000000000000000
->
->          s3=0x0000000000000000          s4=0x0000000000000000
->
->          s5=0x0000000000000000          s6=0x0000000000000000
->
->          s7=0x0000000000000000          s8=0x0000000000000000
->
->          s9=0x0000000000000000         s10=0x0000000000000000
->
->         s11=0x0000000000000000          t0=0x0000000000004000
->
->          t1=0x0000000000000100          t2=0x0000000000000000
->
->          t3=0x0000000000000000          t4=0x0000000000000000
->
->          t5=0x0000000000000000          t6=0x0000000000000000
->
->        sepc=0x0000000080001918     sstatus=0x0000000200004120
->
->     hstatus=0x00000002002001C0     sp_exec=0x0000000010A64000
->
->      scause=0x0000000000000017       stval=0x000000003B9ACAF8
->
->       htval=0x000000000EE6B2BE      htinst=0x0000000000D03021
->
-> I have tried updating to a newer Xvisor release, but with that I don't
-> get any serial output.
->
-> Can you help get the Xvisor tests back up and running?
+Hi,
 
-I tried the latest Xvisor-next (https://github.com/avpatel/xvisor-next)
-with your QEMU riscv-to-apply.next branch and it works fine (both
-with and without Sstc).
+Implementation discussions
+==========================
 
-Here's the QEMU command which I use:
+CPU models
+----------
 
-qemu-system-riscv64 -M virt -m 512M -nographic \
--bios opensbi/build/platform/generic/firmware/fw_jump.bin \
--kernel ../xvisor-next/build/vmm.bin \
--initrd rbd_v64.img \
--append "vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs
-cat /system/banner.txt\"" \
--smp 4
+Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
+for old QEMU we could not activate it as usual from KVM but needed
+a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+Checking and enabling this capability enables
+S390_FEAT_CONFIGURATION_TOPOLOGY.
 
-Also, I will be releasing Xvisor-0.3.2 by the end of Dec 2022 so I
-suggest using this upcoming release in your test.
+Migration
+---------
+
+Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
+host the STFL(11) is provided to the guest.
+Since the feature is already in the CPU model of older QEMU,
+a migration from a new QEMU enabling the topology to an old QEMU
+will keep STFL(11) enabled making the guest get an exception for
+illegal operation as soon as it uses the PTF instruction.
+
+A VMState keeping track of the S390_FEAT_CONFIGURATION_TOPOLOGY
+allows to forbid the migration in such a case.
+
+Note that the VMState will be used to hold information on the
+topology once we implement topology change for a running guest. 
+
+Topology
+--------
+
+Until we introduce bookss and drawers, polarization and dedication
+the topology is kept very simple and is specified uniquely by
+the core_id of the vCPU which is also the vCPU address.
+
+Testing
+=======
+
+To use the QEMU patches, you will need Linux V6-rc1 or newer,
+or use the following Linux mainline patches:
+
+f5ecfee94493 2022-07-20 KVM: s390: resetting the Topology-Change-Report    
+24fe0195bc19 2022-07-20 KVM: s390: guest support for topology function     
+0130337ec45b 2022-07-20 KVM: s390: Cleanup ipte lock access and SIIF fac.. 
+
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+Documentation
+=============
+
+To have a better understanding of the S390x CPU Topology and its
+implementation in QEMU you can have a look at the documentation in the
+last patch of this series.
+
+The admin will want to match the host and the guest topology, taking
+into account that the guest does not recognize multithreading.
+Consequently, two vCPU assigned to threads of the same real CPU should
+preferably be assigned to the same socket of the guest machine.
+
+Future developments
+===================
+
+Two series are actively prepared:
+- Adding drawers, book, polarization and dedication to the vCPU.
+- changing the topology with a running guest
 
 Regards,
-Anup
+Pierre
+
+Pierre Morel (7):
+  s390x/cpu topology: Creating CPU topology device
+  s390x/cpu topology: reporting the CPU topology to the guest
+  s390x/cpu_topology: resetting the Topology-Change-Report
+  s390x/cpu_topology: CPU topology migration
+  s390x/cpu_topology: interception of PTF instruction
+  s390x/cpu_topology: activating CPU topology
+  docs/s390x: document s390x cpu topology
+
+ docs/system/s390x/cpu-topology.rst |  87 ++++++++++
+ docs/system/target-s390x.rst       |   1 +
+ include/hw/s390x/cpu-topology.h    |  52 ++++++
+ include/hw/s390x/s390-virtio-ccw.h |   6 +
+ target/s390x/cpu.h                 |  78 +++++++++
+ target/s390x/kvm/kvm_s390x.h       |   1 +
+ hw/s390x/cpu-topology.c            | 261 +++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c         |   7 +
+ target/s390x/cpu-sysemu.c          |  21 +++
+ target/s390x/cpu_models.c          |   1 +
+ target/s390x/kvm/cpu_topology.c    | 186 ++++++++++++++++++++
+ target/s390x/kvm/kvm.c             |  46 ++++-
+ hw/s390x/meson.build               |   1 +
+ target/s390x/kvm/meson.build       |   3 +-
+ 14 files changed, 749 insertions(+), 2 deletions(-)
+ create mode 100644 docs/system/s390x/cpu-topology.rst
+ create mode 100644 include/hw/s390x/cpu-topology.h
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 target/s390x/kvm/cpu_topology.c
+
+-- 
+2.31.1
+
+- since v12
+
+- suppress new CPU flag "disable-topology" just use ctop
+
+- no use of special fields in CCW machine or in CPU
+
+- modifications in documentation
+
+- insert documentation in tree
+  (Cedric)
+
+- moved cpu-topology.c from target/s390 to target/s390/kvm
+  to compile smoothly (without topology) for TCG
+  (Cedric)
+
+- since v11
+
+- new CPU flag "disable-topology"
+  I would have take "topology" if I was able to have
+  it false on default.
+  (Christian, Thomas)
+
+- Build the topology during the interception of the
+  STSI instruction.
+  (Cedric)
+
+- return CC3 in case the calculated SYSIB length is
+  greater than 4096.
+  (Janis)
+
+- minor corections on documentation
+
+- since v10
+
+- change machine attribute "topology-disable" to "topology"
+  (Cedric)
+- Add preliminary patch for machine properties
+  (Cedric)
+- Use next machine as 7.2
+  (Cedric / Connie)
+- Remove unecessary mutex
+  (Thomas)
+- use ENOTSUP return value for kvm_s390_topology_set_mtcr()
+  (Cedric)
+- Add explanation on container and cpu TLEs
+  (Thomas)
+- use again cpu and socket count in topology structure
+  (Cedric)
+- Suppress the S390TopoTLE structure and integrate
+  the TLE masks to the socket structure.
+  (-)
+- the STSI instruction now finds the topology from the machine
+  (Cedric)
+
+- since v9
+
+- remove books and drawers
+
+- remove thread denying and replace with a merge
+  of cores * threads to specify the CPUs available
+  to the guest
+
+- add a class option to avoid topology on older
+  machines
+  (Cedric)
+
+- Allocate a SYSIB buffer of the maximal length to
+  avoid overflow.
+  (Nico, Janis)
+
+- suppress redundancy of smp parameters in topology
+  and use directly the machine smp structure
+
+- Early check for topology support
+  (Cedric)
+
+- since v8
+
+- Linux patches are now mainline
+
+- simplification of the implementation
+  (Janis)
+
+- Migration, new machine definition
+  (Thomas)
+
+- Documentation
+
+- since v7
+
+- Coherence with the Linux patch series changes for MTCR get
+  (Pierre)
+
+- check return values during new CPU creation
+  (Thomas)
+
+- Improving codding style and argument usages
+  (Thomas)
+
+- since v6
+
+- Changes on smp args in qemu-options
+  (Daniel)
+  
+- changed comments in machine.jason
+  (Daniel)
+ 
+- Added reset
+  (Janosch)
+
+- since v5
+
+- rebasing on newer QEMU version
+
+- reworked most lines above 80 characters.
+
+- since v4
+
+- Added drawer and books to topology
+
+- Added numa topology
+
+- Added documentation
+
+- since v3
+
+- Added migration
+  (Thomas)
+
+- Separated STSI instruction from KVM to prepare TCG
+  (Thomas)
+
+- Take care of endianess to prepare TCG
+  (Thomas)
+
+- Added comments on STSI CPU container and PFT instruction
+  (Thomas)
+
+- Moved enabling the instructions as the last patch
+  (Thomas)
 
