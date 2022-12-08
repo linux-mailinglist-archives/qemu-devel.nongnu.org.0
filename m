@@ -2,65 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554EF6469A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 08:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3591C6469C0
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 08:33:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3BBv-0001j9-BS; Thu, 08 Dec 2022 02:19:35 -0500
+	id 1p3BNx-0000e9-6c; Thu, 08 Dec 2022 02:32:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxi.chen@linux.intel.com>)
- id 1p3BBY-0001fK-Ig
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:19:12 -0500
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p3BNs-0000e0-Qx
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:31:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxi.chen@linux.intel.com>)
- id 1p3BBW-0006eU-Rg
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:19:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670483950; x=1702019950;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=i6gjum6i+PUtKPsYZRn2Ru/R9kboLfnqI4mk2gC+rQw=;
- b=Le4knmSB9/a7UPWRtb9mtA3rtvrQpupCgbeauyGbijEm330vpFmmeW0Z
- qMKUiT2fY27XbSLxbVRctoyDrp95ziez0l5cFOdKdpbIV/KgdralqCE2z
- 2PfgVuupGCS4EUffi/8nGXZPSGqn2h3rfU58QT7O4WO+4sy37xiI7zvEb
- fiVXPvAIUURgi95nUss7tpvmEkXYV0DwuaQ/Is0ZP9nQZWyM/aom3HIzU
- BtzoZ7Jxkr/9ueS5NZOJZ83ezHA70+fUZzTs1OlrZXpSRh9WmCrviE3HM
- BANPY4NaIyoEdZLRwtoD3D4FHklk0tla4RaBp6hkm8eJaDebLNbxMsWRY A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="379263853"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="379263853"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 23:19:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="771381013"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="771381013"
-Received: from jiaxichen-precision-3650-tower.sh.intel.com ([10.239.159.75])
- by orsmga004.jf.intel.com with ESMTP; 07 Dec 2022 23:19:07 -0800
-From: Jiaxi Chen <jiaxi.chen@linux.intel.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, yang.zhong@intel.com,
- jing2.liu@intel.com, vkuznets@redhat.com
-Subject: [PATCH 6/6] target/i386: Add support for PREFETCHIT0/1 in CPUID
- enumeration
-Date: Thu,  8 Dec 2022 15:19:17 +0800
-Message-Id: <20221208071917.1923093-7-jiaxi.chen@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221208071917.1923093-1-jiaxi.chen@linux.intel.com>
-References: <20221208071917.1923093-1-jiaxi.chen@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p3BNq-0006NS-Da
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:31:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670484712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pX8u87NuWjuYEqEMOm2+fjVMgozbg7SdhiqPIEZ5pb4=;
+ b=MlEHke2jkvRBWEqAW37bZdJJOndQGxisp77sze26UV6P08DhrgZHosQo/gn/t3xXRbDuVI
+ PpysJTemUkjjhqZR+ViiBO/7DsuAQmP8HBR4Ui4O6iBljGKLguH0skRvD2VzDHHNUDnuBi
+ 6mVhM0VvBTiAoqv9wJqOg2cxt2sanEs=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-362-FzsgFvvUPJKQwG4EcHYzGg-1; Thu, 08 Dec 2022 02:31:51 -0500
+X-MC-Unique: FzsgFvvUPJKQwG4EcHYzGg-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-144870e8fe8so384075fac.13
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 23:31:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pX8u87NuWjuYEqEMOm2+fjVMgozbg7SdhiqPIEZ5pb4=;
+ b=dVMhzeS7OM+1eE2Jl8DnLLRXJY8vgfd/5J2BjAm+hdRDBsJm+pLSLqCyXHG7dj/EFq
+ NZhPjEGyVluZx2xSKRiDGJI3Obf2ZsJ/ktmx9jjFU9CcH/XZRvcOUQldkvb4waZuUArL
+ yGdGvOVqpYwf5ClSkF1qwpDBpBZOYCKuVfS1u1SSAJHseaCpUqN89h6F3zGll6f9K0iq
+ +fVeFqP4cGhZfYTvx2uBtwGFxhSKMbu0Q6+VCYp2mpZYe7u1H40FAfk1OzQ3lJUUXqEK
+ ekyr8qKtBHSNts1rth5gV9Kv5GwjTzc5Z9kNXCVfwABEg5XjFUdn+RK7EZoYNl1rZYrP
+ uxRA==
+X-Gm-Message-State: ANoB5pkb7OETTTYp1zZy9jKq9zICx3MuQCVnQRs993VCekIkAuzhpDI3
+ tqmgzi4RFFbLB6GoDJGQubRGcgx22usadYcuE2KGBgtecgz0MyQT8DFG5y/owNqJCQ1uhJ2eYXB
+ t5OfhY+xkEAmIHKRfPjqMAa5GJkokM0I=
+X-Received: by 2002:a05:6870:b9b:b0:144:b22a:38d3 with SMTP id
+ lg27-20020a0568700b9b00b00144b22a38d3mr7086110oab.280.1670484710584; 
+ Wed, 07 Dec 2022 23:31:50 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf762ptFgleVQIGMXOUL6iQRiYL9/AB61imGlSY98c8QPFJAGjAnq6n3xAbD9+/wwmwx+bKLHY+WBT0hGi25hVc=
+X-Received: by 2002:a05:6870:b9b:b0:144:b22a:38d3 with SMTP id
+ lg27-20020a0568700b9b00b00144b22a38d3mr7086105oab.280.1670484710376; Wed, 07
+ Dec 2022 23:31:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=jiaxi.chen@linux.intel.com; helo=mga06.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221205170436.2977336-1-eperezma@redhat.com>
+ <CACGkMEvQov+eGr8D7FAG5FYOvj8VQ=gEvomrnU5_2R0d55gSLQ@mail.gmail.com>
+ <CAJaqyWecmWWRUwfm8D2TTsOR=kybwQ5BpyZXjSDLouWwWutXVQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWecmWWRUwfm8D2TTsOR=kybwQ5BpyZXjSDLouWwWutXVQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 8 Dec 2022 15:31:39 +0800
+Message-ID: <CACGkMEtRvjUafVLaDG=zzAEe+5-HZpijYQHoNY4uPfWwR-08yg@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.0 00/13] vDPA-net inflight descriptors migration
+ with SVQ
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,48 +104,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Latest Intel platform Granite Rapids has introduced a new instruction -
-PREFETCHIT0/1, which moves code to memory (cache) closer to the
-processor depending on specific hints.
+On Wed, Dec 7, 2022 at 5:00 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
+>
+> On Tue, Dec 6, 2022 at 8:08 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Tue, Dec 6, 2022 at 1:04 AM Eugenio P=C3=A9rez <eperezma@redhat.com>=
+ wrote:
+> > >
+> > > The state of the descriptors (avail or used) may not be recoverable j=
+ust
+> > > looking at the guest memory.  Out of order used descriptor may overri=
+de
+> > > previous avail ones in the descriptor table or avail vring.
+> > >
+> > > Currently we're not migrating this status in net devices because virt=
+io-net,
+> > > vhost-kernel etc use the descriptors in order,
+> >
+> > Note that this might not be the truth (when zerocopy is enabled).
+> >
+>
+> Good point. So will virtio-net wait for those to complete then?
 
-The bit definition:
-CPUID.(EAX=7,ECX=1):EDX[bit 14]
+Vhost-net will wait for all the inflight descriptors to be completed.
 
-Add CPUID definition for PREFETCHIT0/1.
+> How
+> does qemu handle if there are still inflight descriptors?
 
-Signed-off-by: Jiaxi Chen <jiaxi.chen@linux.intel.com>
----
- target/i386/cpu.c | 2 +-
- target/i386/cpu.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+It doesn't care right now. For networking devices, devices can choose
+to flush inflight before suspending. But this won't work for other
+type of device like block.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4aca5360cc..81d13800db 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -893,7 +893,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, NULL, NULL, NULL,
-             "avx-vnni-int8", "avx-ne-convert", NULL, NULL,
-             NULL, NULL, NULL, NULL,
--            NULL, NULL, NULL, NULL,
-+            NULL, NULL, "prefetchiti", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c4571d726c..7b55ef289d 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -912,6 +912,8 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
- #define CPUID_7_1_EDX_AVX_VNNI_INT8     (1U << 4)
- /* AVX NE CONVERT Instructions */
- #define CPUID_7_1_EDX_AVX_NE_CONVERT    (1U << 5)
-+/* PREFETCHIT0/1 Instructions */
-+#define CPUID_7_1_EDX_PREFETCHITI       (1U << 14)
- 
- /* XFD Extend Feature Disabled */
- #define CPUID_D_1_EAX_XFD               (1U << 4)
--- 
-2.27.0
+Thanks
+
+>
+> > > so the information always
+> > > recoverable from guest's memory.  However, vDPA devices may use them =
+out of
+> > > order, and other kind of devices like block need this support.
+> > >
+> > > Shadow virtqueue is able to track these and resend them at the destin=
+ation.
+> >
+> > As discussed, there's a bootstrap issue here:
+> >
+> > When SVQ needs to be enabled on demand, do we still need another way
+> > to get inflight ones without the help of SVQ?
+> >
+>
+> To send and retrieve the descriptor without SVQ needs to be developed
+> on top of this. I should have made that more clear here in the cover
+> letter.
+>
+> Thanks!
+>
+> > Thanks
+> >
+> > > Add them to the virtio-net migration description so they are not lose=
+ in the
+> > > process.
+> > >
+> > > This is a very early RFC just to validate the first draft so expect l=
+eftovers.
+> > > To fetch and request the descriptors from a device without SVQ need t=
+o be
+> > > implemented on top. Some other notable pending items are:
+> > > * Do not send the descriptors actually recoverable from the guest mem=
+ory.
+> > > * Properly version the migrate data.
+> > > * Properly abstract the descriptors access from virtio-net to SVQ.
+> > > * Do not use VirtQueueElementOld but migrate directly VirtQueueElemen=
+t.
+> > > * Replace lots of assertions with runtime conditionals.
+> > > * Other TODOs in the patch message or code changes.
+> > >
+> > > Thanks.
+> > >
+> > > Eugenio P=C3=A9rez (13):
+> > >   vhost: add available descriptor list in SVQ
+> > >   vhost: iterate only available descriptors at SVQ stop
+> > >   vhost: merge avail list and next avail descriptors detach
+> > >   vhost: add vhost_svq_save_inflight
+> > >   virtio: Specify uint32_t as VirtQueueElementOld members type
+> > >   virtio: refactor qemu_get_virtqueue_element
+> > >   virtio: refactor qemu_put_virtqueue_element
+> > >   virtio: expose VirtQueueElementOld
+> > >   virtio: add vmstate_virtqueue_element_old
+> > >   virtio-net: Migrate vhost inflight descriptors
+> > >   virtio-net: save inflight descriptors at vhost shutdown
+> > >   vhost: expose vhost_svq_add_element
+> > >   vdpa: Recover inflight descriptors
+> > >
+> > >  hw/virtio/vhost-shadow-virtqueue.h |   9 ++
+> > >  include/hw/virtio/virtio-net.h     |   2 +
+> > >  include/hw/virtio/virtio.h         |  32 ++++++
+> > >  include/migration/vmstate.h        |  22 ++++
+> > >  hw/net/vhost_net.c                 |  56 ++++++++++
+> > >  hw/net/virtio-net.c                | 129 +++++++++++++++++++++++
+> > >  hw/virtio/vhost-shadow-virtqueue.c |  52 +++++++--
+> > >  hw/virtio/vhost-vdpa.c             |  11 --
+> > >  hw/virtio/virtio.c                 | 162 ++++++++++++++++++---------=
+--
+> > >  9 files changed, 392 insertions(+), 83 deletions(-)
+> > >
+> > > --
+> > > 2.31.1
+> > >
+> > >
+> >
+>
 
 
