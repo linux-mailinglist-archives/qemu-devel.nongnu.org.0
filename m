@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173DC64727D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279E8647291
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:12:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3IW7-0003Wa-Go; Thu, 08 Dec 2022 10:08:55 -0500
+	id 1p3IZJ-0004nS-OG; Thu, 08 Dec 2022 10:12:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cwrogg@umich.edu>) id 1p3IVu-0003UP-Ne
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:08:42 -0500
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e])
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1p3IZF-0004mh-RT
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:12:09 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cwrogg@umich.edu>) id 1p3IVs-0008BY-Lt
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:08:42 -0500
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-3c21d6e2f3aso17185987b3.10
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 07:08:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=umich.edu; s=google-2016-06-03;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Kp+BdeFu3S0j9AQg8AQsideuzGk4wDEnkeAmW/+Hbbg=;
- b=omVqnK2CwBr1u9NIOKUDO6Kqw7GEfAgyrPfcs3UqyPCsTTrYpCU2KyjH+nnByQYZX9
- 2PcyNwIgvmdcu8Am+vIzbCZ9ItEOoLvvOqb8OIXEwT9YDg/O2ph1saCID4upt0KcsPky
- nImlMRv93FfqgQN/Dj5+NifMScFB7hFod/M2xOzsZ+cc2nDtWQM0EbYv9WQHQrnQQtX4
- +U85CMYbb/317YvF9e4+RA3IyTWlzrNUFpukFl1ep+sqfxhFh08lnL1SlNXqwaOHELXX
- n/i3bzCjqtdwssU2NvSI3aHOgACtebxzsXoCZ0Bsi5TALyFBdkRX3t0rbhAuyuc3fuXK
- GmnQ==
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1p3IZD-0001EQ-8H
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:12:09 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id vv4so4797593ejc.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 07:12:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jhODE3C2yMutSLswzZ/L2Ho/OnXfz5BDeJuYMiTKS+o=;
+ b=Rm6KemZ/MzGBBAHPG3eAup/Ix03v3ppiWFHtwaU75BhaNiOBfbyo9kK2jpF2gGORBi
+ cmjKkXBICyrF8GoYOB9HJzhOk8N4S1YtuKVbuw68K0QVIv+VFtuwwPYysndwfWuRMdP0
+ kEJB+5ivmvwkRJR1qTh1loly+ynLM/6aOAyaaId6wUvlWFLwRfQIDATSrrGSHTdw5vkA
+ rCqzPzNPNObxtrm2omZ3aIg9aMPjjVhxMEB1nBQPXBKIbpDDGDUs9UsmGFbIh6D08PFq
+ KFMoanYfc5znq1zbZo3oCUeWi+7UBWbZSFqP8jHM+D0h146jzL5zzzj9EyjyinSNMxsy
+ SNKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Kp+BdeFu3S0j9AQg8AQsideuzGk4wDEnkeAmW/+Hbbg=;
- b=JMK6zhyPG7vBDfsb37rkbGIpbVIFlWSDe2WF2CLNitd8FbDH4WKa2SD3Y1Q9/2tdiT
- i5sqUppiwCKkfeUNEh5rmKAouja5E/Z4qpj7Eu/IM8hmP2caDjhMamAZ9WvPa170yUMp
- mn0wIxCKYxG3rnAdzF7WVVmFsDXcp2jBAgDab5ZJtb6HLbI0HpaJAgdaBXO7dwoyZ3NO
- tRrT0RDE7gJF5eQ2PRri0MIr269jswfAdTpOD7Mvs1HafGyNSAjvdg/DJsjbgob58pHh
- F3EPxMf5kEpHMvAr4IlPgGLNj6PP1TRB2Y/3xSm+WQaYS+6jjfQTh8yBkkR+N2kDUnlC
- vKYw==
-X-Gm-Message-State: ANoB5pkfMdYiYdy0jus45GFOQYAR2+3881+/pYVeDtXHmvMPdAF5ZtMY
- tcLrxAT2LnC97ov33wcPRHnh1vkcNpp9XhvEM6B1XDhHKjxSuP85
-X-Google-Smtp-Source: AA0mqf6ONcaAeTzmKNZ6EsIgAL2FjhxjTIzfrAT+SOew/NhqaMD3NbrpvNb/r21YeHP2jUKNt3IQBV6iEIhKiJ2Ag34=
-X-Received: by 2002:a05:690c:c84:b0:3d4:f6cb:6dd4 with SMTP id
- cm4-20020a05690c0c8400b003d4f6cb6dd4mr35678609ywb.365.1670512106802; Thu, 08
- Dec 2022 07:08:26 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jhODE3C2yMutSLswzZ/L2Ho/OnXfz5BDeJuYMiTKS+o=;
+ b=XoGcveRGY3uR4cGp273dTSRTlzXni2rmthSE0GM0tWnNzpXlR7Hb3mQvWLhoO5Y4Wh
+ tkXoHW5EsxMdnjLjbZYXw5vTvMjNiHLGZ3NI868K+9tu/CmsauDc4K+u5svYwwYa/ljl
+ xopzPNCDQlKi9V8fmCePgbPx4lclxpcf3k7YuR67VbX7J5NzZUZUs4HXVCqXnMdvcMRs
+ CpVR2h3PHnwMtcDPLfX+qaf7yRrul0BoNkWbDfWwwMXxUisqNzlJlVbRBwwpQN4eWpxs
+ hdBM8bHPl2X+sViLsooT8lf4hphofL8uhVZv3vlRSEi0SRocANDPGrc3LSRg8EwS4LCQ
+ ZO/g==
+X-Gm-Message-State: ANoB5pkuvuHOBcFd98TWDK06miYQnQ5dbD6RwIoIw5EWmv8o0LdebrBn
+ 31yHZCVssl8AZ7y5Dr7DgjDcSQ==
+X-Google-Smtp-Source: AA0mqf7byLaZGdBnhVHpLmyv4YNxWr/5HSh0aJtSCrLZpbBqxPdPA8m7SvUfUqqGxvB5J1JYzB9r+A==
+X-Received: by 2002:a17:907:2c75:b0:7c0:bbab:a550 with SMTP id
+ ib21-20020a1709072c7500b007c0bbaba550mr21358064ejc.168.1670512325313; 
+ Thu, 08 Dec 2022 07:12:05 -0800 (PST)
+Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
+ [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
+ cx16-20020a05640222b000b0046b9c536fc5sm3458151edb.63.2022.12.08.07.12.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Dec 2022 07:12:04 -0800 (PST)
+From: Christoph Muellner <christoph.muellner@vrull.eu>
+To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
+Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>
+Subject: [RFC PATCH] RISC-V: Save mmu_idx using FIELD_DP32 not OR
+Date: Thu,  8 Dec 2022 16:11:59 +0100
+Message-Id: <20221208151159.1155471-1-christoph.muellner@vrull.eu>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-From: Christopher Wrogg <cwrogg@umich.edu>
-Date: Thu, 8 Dec 2022 10:08:16 -0500
-Message-ID: <CAG7Es24cbb24S1k7=XyA+N7uXCghQT6mt_QkJW4zcO7_usbmjw@mail.gmail.com>
-Subject: CVMSEG Emulation
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000b8255505ef5268ad"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=cwrogg@umich.edu; helo=mail-yw1-x112e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,34 +93,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000b8255505ef5268ad
-Content-Type: text/plain; charset="UTF-8"
+From: Christoph Müllner <christoph.muellner@vrull.eu>
 
-<https://matrix.to/#/!xtcopKjjucUQThGiEn:matrix.org/$16705104253940lCHrT:matrix.org?via=matrix.org&via=matrix.im&via=matrix.alindner.org>
-In userspace emulation how do I make a set of addresses always valid and
-initialized to 0 even though the process does not map it in? In particular
-I want to map the CVMSEG for Cavium qemu-mips64 and qemu-mipsn32. The
-addresses would be 0xFFFFFFFFFFFF8000 - 0xFFFFFFFFFFFFBFFF. I've looked at
-target_mmap but it can't handle addresses that large. The lack of an
-emulated mmu for 64 bit guests is going to be a problem.
+Setting flags using OR might work, but is not optimal
+for a couple of reasons:
+* No way grep for stores to the field MEM_IDX.
+* The return value of cpu_mmu_index() is not masked
+  (not a real problem as long as cpu_mmu_index() returns only valid values).
+* If the offset of MEM_IDX would get moved to non-0, then this code
+  would not work anymore.
 
---000000000000b8255505ef5268ad
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Let's use the FIELD_DP32() macro instead of the OR, which is already
+used for most other flags.
 
-<div dir=3D"ltr"><div class=3D"gmail-mx_EventTile_line"><a href=3D"https://=
-matrix.to/#/!xtcopKjjucUQThGiEn:matrix.org/$16705104253940lCHrT:matrix.org?=
-via=3Dmatrix.org&amp;via=3Dmatrix.im&amp;via=3Dmatrix.alindner.org" aria-la=
-bel=3D"09:40"></a></div><span class=3D"gmail-mx_EventTile_body" dir=3D"auto=
-">In userspace emulation how do I make a set of addresses always valid and =
-initialized to 0 even though the process does not map it in?
+Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
+---
+ target/riscv/cpu_helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-In particular I want to map the CVMSEG for Cavium qemu-mips64 and qemu-mips=
-n32. The addresses would be 0xFFFFFFFFFFFF8000 - 0xFFFFFFFFFFFFBFFF.
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 278d163803..d68b6b351d 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -80,7 +80,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+     flags |= TB_FLAGS_MSTATUS_FS;
+     flags |= TB_FLAGS_MSTATUS_VS;
+ #else
+-    flags |= cpu_mmu_index(env, 0);
++    flags = FIELD_DP32(flags, TB_FLAGS, MEM_IDX, cpu_mmu_index(env, 0));
++
+     if (riscv_cpu_fp_enabled(env)) {
+         flags |= env->mstatus & MSTATUS_FS;
+     }
+-- 
+2.38.1
 
-I&#39;ve looked at target_mmap but it can&#39;t handle addresses that large=
-. The lack of an emulated mmu for 64 bit guests is going to be a problem.<b=
-r></span></div>
-
---000000000000b8255505ef5268ad--
 
