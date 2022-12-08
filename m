@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA61646FD8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 13:37:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADCC6470D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 14:35:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3G9Q-0005IF-Eq; Thu, 08 Dec 2022 07:37:20 -0500
+	id 1p3H28-0003Ew-GM; Thu, 08 Dec 2022 08:33:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3G9O-0005Au-CY
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 07:37:18 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3G9L-0007bn-R8
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 07:37:18 -0500
-Received: by mail-wr1-x436.google.com with SMTP id o5so1479151wrm.1
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 04:37:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aoM60tOe8cDTRYUl3L3CmsXghRwIEihOYxg8AyEFcI4=;
- b=eJJusWVp5xj0Na1iVOeI3P+WJyw2pr38ioBKfIiHJufRA3XOGJBT3eH3pTdf7Js3+7
- LpmpC/PlF9QotCxpCHPPa9yCACetIv5+xZFRrKtIsmmsuteceGJUdctKfxWpOy5g8xNo
- hwKbTPVZE8H5M7o9VbVaAGvBNnycQj7dnKDEjXf3Rz5PldDp5faZkoonMGsYKCjR4yDN
- GyLVwv6ephv8a2LvU7W8P6mhHPqwAqYRitGqx+sOUE8wASR1aqPiehsJ//lmH9+gH5S7
- ns1n/nu4gmiiLS31pBiF+2IZCfYYeHTjGI1D50f7xRQUQ/L/hsKgsi4KnkWaB9YIiHpv
- TCQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aoM60tOe8cDTRYUl3L3CmsXghRwIEihOYxg8AyEFcI4=;
- b=mBVNzCn7sUa/gZRDkaUbR3BA1ECI3gsBN+PwbsKGd3qieBEK71XaXgoKiE8ProoXV4
- irC6hgdXFy6rIopVs94u78jzF1NG2d+/aX5h4LW7j6QXvfC3lW0II+aYh0uDa/Vn8wIJ
- sV/NCPiNvBUj/7RHHCI11aLv1C8xvh8C15mifeItge2K/PbXgMdWsCdQWnDGiGSbJ3Va
- 7nge0g81DhgGhCHM1wKJEh95jIfR2IwBdeME/XXc5mGkPyYTWFGxhsKnpYDlh6KMGUaW
- xuKkyEpfAk7IJHzcT4dVug6YlsfXDsGu1kb5TBOVNwa13Rby1XDPuN0xssAJt0KjuaJb
- rIAQ==
-X-Gm-Message-State: ANoB5pkiTxtafqLLcK7GdJvIm6SQ+qC+LtjONj1B+saS4udhyQBtdghy
- hmZDXVSMuALv+y9hqZGVDvuyZw==
-X-Google-Smtp-Source: AA0mqf4CW4ViwAWai48vrt9oAqCMWS+TZRmYQPRRSLtlU6PPQi8mdD10gQZoeQysWkO3DdxXNXS7lw==
-X-Received: by 2002:adf:fd45:0:b0:242:48df:b4e4 with SMTP id
- h5-20020adffd45000000b0024248dfb4e4mr13966488wrs.660.1670503034448; 
- Thu, 08 Dec 2022 04:37:14 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l10-20020a7bc44a000000b003c6b874a0dfsm5577219wmi.14.2022.12.08.04.37.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 04:37:14 -0800 (PST)
-Message-ID: <20c607db-cf10-1be6-116a-6105a0bdac9d@linaro.org>
-Date: Thu, 8 Dec 2022 13:37:12 +0100
+ (Exim 4.90_1) (envelope-from <xiaocheng.dong@intel.com>)
+ id 1p36y4-0001wk-2X
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 21:49:01 -0500
+Received: from mga12.intel.com ([192.55.52.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaocheng.dong@intel.com>)
+ id 1p36y0-0000D9-7B
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 21:48:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670467736; x=1702003736;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=GJNguiH2eElK3EFixhoecaOVAVDHn5dWWGUxDlkkVPA=;
+ b=a6cza6qUWQCFylyqxCp1w7mMCCblwH9CIHkYWEH2mtShNNzE63nTTVbM
+ wAL6FxNN8r35BHzH67QGHGeEVOLFw7KEBiALiAMMTrABoCnJRHsdYGVXT
+ 2zoozVXZ76a2xQ/fIVip8UduH8V//wYrE6pEI9+SBGezGOPL2STZ609IM
+ rsdG5mjMM734WNN4gOQSlTSfgcdZ4ba9r5tedB62TjQTd45YXN7c7+t/p
+ kkjcakE8IAGGQiLoRLDpnKD6MM49C+E7Ht1KPBiSBDPEtiGoKXD43IRgj
+ Fzl5ORywSA5Eyxz9sbt/5ensps/zoZ2p1AsX3IBbB9OZmHsTvISr8R/hi g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="296751503"
+X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; d="scan'208";a="296751503"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2022 18:48:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="597186201"
+X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; d="scan'208";a="597186201"
+Received: from cpio-sprac-prc4.sh.intel.com ([10.239.48.135])
+ by orsmga003.jf.intel.com with ESMTP; 07 Dec 2022 18:48:40 -0800
+From: Xiaocheng Dong <xiaocheng.dong@intel.com>
+To: xiaocheng.dong@intel.com, weijiang.yang@intel.com, yang.zhong@intel.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: Fix wrong XSAVE feature names
+Date: Wed,  7 Dec 2022 21:47:47 -0500
+Message-Id: <20221208024747.509579-1-xiaocheng.dong@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v2 2/3] hw/nvme: rename shadow doorbell related trace
- events
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-Cc: Keith Busch <kbusch@kernel.org>, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
-References: <20221208122642.80574-1-its@irrelevant.dk>
- <20221208122642.80574-3-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221208122642.80574-3-its@irrelevant.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=192.55.52.136;
+ envelope-from=xiaocheng.dong@intel.com; helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 08 Dec 2022 08:33:50 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,19 +74,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/12/22 13:26, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Rename the trace events related to writing the event index and reading
-> the doorbell value to make it more clear that the event is associated
-> with an actual update (write or read respectively).
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->   hw/nvme/ctrl.c       | 11 +++++++----
->   hw/nvme/trace-events |  8 ++++----
->   2 files changed, 11 insertions(+), 8 deletions(-)
+The previous patch changes the name from FEAT_XSAVE_COMP_{LO|HI}
+to FEAT_XSAVE_XCR0_{LO|HI}, the changes for CPUID.0x12.0x1 should be
+FEAT_XSAVE_XCR0_{LO|HI}, the SGX can't work in VM if these are not right
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: 301e90675c3f ("target/i386: Enable support for XSAVES based features")
+
+Signed-off-by: Xiaocheng Dong <xiaocheng.dong@intel.com>
+---
+ target/i386/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 22b681ca37..0f71ff9fea 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5584,8 +5584,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         } else {
+             *eax &= env->features[FEAT_SGX_12_1_EAX];
+             *ebx &= 0; /* ebx reserve */
+-            *ecx &= env->features[FEAT_XSAVE_XSS_LO];
+-            *edx &= env->features[FEAT_XSAVE_XSS_HI];
++            *ecx &= env->features[FEAT_XSAVE_XCR0_LO];
++            *edx &= env->features[FEAT_XSAVE_XCR0_HI];
+ 
+             /* FP and SSE are always allowed regardless of XSAVE/XCR0. */
+             *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
+-- 
+2.31.1
 
 
