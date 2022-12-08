@@ -2,100 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4523A646A92
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 09:32:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD750646AB2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 09:39:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3CIs-0004Nq-JB; Thu, 08 Dec 2022 03:30:50 -0500
+	id 1p3CPM-0007Qv-4e; Thu, 08 Dec 2022 03:37:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p3CID-0004Kd-JG; Thu, 08 Dec 2022 03:30:11 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1p3CPF-0007Q9-3n
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:37:26 -0500
+Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p3CI8-0003Ny-MF; Thu, 08 Dec 2022 03:30:09 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 69DA25C018A;
- Thu,  8 Dec 2022 03:30:02 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 08 Dec 2022 03:30:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1670488202; x=
- 1670574602; bh=yyBlsw3QjJoCjXvneksFSzbrwL8vgDCQkPldRiqetms=; b=U
- GyYt/byJMqq52JJ3jtlVwm0uafcA016IXGYU0xRy64B3TVVpzF4mSc+IAOBkQYEt
- e5wuY1dsS6F8tRWOOEY4jbVLYhG+gkcUUP1nvVf/1qJX38zopSqe3zdm4h28GTCf
- oZi4VINB5yVHkk3l0UvlqV9akzoX3T8UdtEb0rHdgVUto6IpsCmLeRdB8Gtw55px
- NvnKvuDshj0W78jn5ADh0EuYBcGXRNDPbBmreqwURdb0m9Vth4DckR83TwxL4Y4X
- sNjf8Q/2FYTe0yw+AsZySufgEQscR64EoMzg44V49Mna6V4kYI1p2gtnaDU4BK8t
- SfF/p91ejJUmkkYJHjuGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1670488202; x=1670574602; bh=yyBlsw3QjJoCj
- XvneksFSzbrwL8vgDCQkPldRiqetms=; b=e35ZOih/cWq2AlircLgrEzIbg/kdF
- lf+/vKA4BPWH1kMtODPUKIUanEMebgGhnPIEczzCwIPXuHZgyQ+xU5GZoH7+sID8
- UT24p5f2fOl2WuWj1CNJb0vDCWWox8FWJhfPnCrCJAXx3ynVKsDoXasv5FaR4SSf
- 7wQ0s1m+ho0l4THwMBZ8whgS86oV4EGcGbwehIR7BfzfTDX+Ge7szbBaZviVnvct
- ed5L+dEoDE5EuXv0ptnv77r5lzcDTNCVmXorFHfDLgRnr0yk3U3PY3r1NbbOOnXr
- aTQG/9VmAn4n6AsGervlu4MdaH9QJdl0GwiG9gwJgEJWEJqVNMILhCbZw==
-X-ME-Sender: <xms:iqCRYxyaRGfy_xH6aAe_VWufgCqBfn_ugU6_IDgfK_IEBCMclJ4qjg>
- <xme:iqCRYxTicDw5OpRqCMJczk7bVtLicFZJaQIoC6Ibqnio-lUaQCAqpFaoaEuzCdnzz
- 9ZLGgUVghi5DqEU990>
-X-ME-Received: <xmr:iqCRY7WS_uBAcDASTeHAB1Zr0vdS-zUcBNzFzX5IwzrPAAKns4LlEVqQoo121H9dPflnqRG54qxxCHdAg0MMncEZKcYvl6Be6ucBnQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgdduvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
- udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:iqCRYziB8v0_xkFb54vz8P5_GoONup5eG5w_mPZkujRORLFxK0u3zg>
- <xmx:iqCRYzAZPewFqp7Ai9HLdngg1dg2Hky6Bf1jZKTvCw-ft7ig9DCzGg>
- <xmx:iqCRY8J1y9OoICWPmLUYMgHxYAZLMq66Lcscke2uruzp5nAfZlDnrg>
- <xmx:iqCRY-6sPyIr6Q_bYL2E-YgUDYW0OF1vBb6ixVKDrChYI2bJpxNVVg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Dec 2022 03:30:00 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>, Klaus Jensen <its@irrelevant.dk>,
- Guenter Roeck <linux@roeck-us.net>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 1/1] hw/nvme: fix missing cq eventidx update
-Date: Thu,  8 Dec 2022 09:29:55 +0100
-Message-Id: <20221208082955.51732-2-its@irrelevant.dk>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221208082955.51732-1-its@irrelevant.dk>
-References: <20221208082955.51732-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1p3CPC-0005vy-G0
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 03:37:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670488642; x=1702024642;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=mp8wMDnH+XvlgDi27JmuMhnOonriOi5aQPBcwc8cBlo=;
+ b=ZClKVOY8jh/7LQzeTevh3VoS820TB5PmRrW572/TofPwsuwZk6WstEqf
+ vACoexI9yexK0HgqWfYF3ssM4AK/m+1UvK/oeLKgXw3ht52fkBR2V8ofC
+ G/BF2aQFtQkrUykuxDU4mTR6eGTpNNSj4SAhQUi0ylsopCZnUTGvvcizq
+ DzB2eej4vpEH9ja9znpV/nNhjPlNVAnsBZkUmqHbwYNkdUb+moZYXKdpJ
+ wh6XEkv3/+REU6emxq6JdaoJVU1RVmModvNb336eV2T5Hfo+TFcFyF9u5
+ Ft7wM8jdn5jww3jcdZsSGLlGzIcnuOHEA7r/VDQYq2S1qNXfwIY8uDkqJ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="296808130"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="296808130"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2022 00:37:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="710381311"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="710381311"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.174.177])
+ ([10.249.174.177])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2022 00:37:05 -0800
+Message-ID: <cd950a78-5c5b-16ef-d0a6-ad2878af067e@intel.com>
+Date: Thu, 8 Dec 2022 16:37:03 +0800
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1337; i=k.jensen@samsung.com;
- h=from:subject; bh=ICJlvNeOLywMzp2ti35M5ymPYHZk/BKrmQ1hNddaLWU=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGORoIN9IHLWHD9jN99YUNKM4dUzJeg6bCfosu4s
- oNKSajY0iYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjkaCDAAoJEE3hrzFtTw3pvM
- QH+gPKiCgNqllpnqUrxrZyrd0W+uHYcHSY/k5WDifGh2cnolSid9b3LEzVs75gIwx9J1LIHgcJ/rKY
- nR2Ll8CrUz/iNo33rzm8bYAajd6nkE6hp4i5sA2TSH84gJYOmnE2K6rVTjd+wuM6+O3gGit3HQK63I
- kfh6v+3J/6fY+KQQPAeeIRVBg8E2ISNJUppgiLG3uiZvEqI4z6hhrVYnSi1b3GooNFEBRIiRUl4mN/
- poIz6jLDC5fzEkzOomaptm4KMkuzoVh4h16mDtn7W5aS7YDAZ98TnQtgDyUjgzQuKJxBOcsIyQ2pNc
- 57rRxKnuuydkE94dscy7pVn8sKiCtR6LaMiqWQ
-X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
- fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.1
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+ Naoya Horiguchi <naoya.horiguchi@nec.com>, Miaohe Lin
+ <linmiaohe@huawei.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=xiaoyao.li@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.262,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,48 +104,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 12/2/2022 2:13 PM, Chao Peng wrote:
 
-Prior to reading the shadow doorbell cq head, we have to update the
-eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
-write. This happens on riscv64, as reported by Guenter.
+..
 
-Adding the missing update to the cq eventidx fixes the issue.
+> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
+> and right now it is selected on X86_64 only.
+> 
 
-Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index e54276dc1dc7..1192919b4869 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1331,6 +1331,13 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
-     }
- }
- 
-+static void nvme_update_cq_eventidx(const NvmeCQueue *cq)
-+{
-+    pci_dma_write(&cq->ctrl->parent_obj, cq->ei_addr, &cq->head,
-+                  sizeof(cq->head));
-+    trace_pci_nvme_eventidx_cq(cq->cqid, cq->head);
-+}
-+
- static void nvme_update_cq_head(NvmeCQueue *cq)
- {
-     pci_dma_read(&cq->ctrl->parent_obj, cq->db_addr, &cq->head,
-@@ -1351,6 +1358,7 @@ static void nvme_post_cqes(void *opaque)
-         hwaddr addr;
- 
-         if (n->dbbuf_enabled) {
-+            nvme_update_cq_eventidx(cq);
-             nvme_update_cq_head(cq);
-         }
- 
--- 
-2.38.1
+ From the patch implementation, I have no idea why 
+HAVE_KVM_RESTRICTED_MEM is needed.
 
 
