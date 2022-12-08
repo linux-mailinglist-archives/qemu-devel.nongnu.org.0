@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A4F647538
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 18:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521DA64755B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 19:08:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3L8X-0003Nu-5y; Thu, 08 Dec 2022 12:56:45 -0500
+	id 1p3LIG-0005mF-FW; Thu, 08 Dec 2022 13:06:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3L8U-0003KB-Kx
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 12:56:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3L8O-0004Iy-Je
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 12:56:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670522195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6gSgvrdxUnQj0ieNG2M9rESlDYoUpCQMvu+ZNwD2E0Q=;
- b=Qth0Zn1qTvdMtZ1R1Py9J3y62MXAUAIwHISDrTTb1EAiv5IfoX4PiWtjrXnDJCiaCVQIpR
- xtAWkBpw4ajctcV4KwWYkFSGgz2sXaD0fGSBKdcfdnxmpAJvT+8OUhVC8JkPiu4jjaSUSA
- ODtMa58odeoSPNppBgVjj4Go0OfthLg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-7onNC9OjMPCYyc0YCpbLlA-1; Thu, 08 Dec 2022 12:56:33 -0500
-X-MC-Unique: 7onNC9OjMPCYyc0YCpbLlA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A23FE85A5A6;
- Thu,  8 Dec 2022 17:56:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3178E492CA2;
- Thu,  8 Dec 2022 17:56:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 215FF21E6921; Thu,  8 Dec 2022 18:56:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org,  stefanha@redhat.com,  kwolf@redhat.com
-Subject: Re: [PATCH 1/4] coroutine: Clean up superfluous inclusion of
- qemu/coroutine.h
-References: <20221208142306.2642640-1-armbru@redhat.com>
- <20221208142306.2642640-2-armbru@redhat.com>
- <CAJSP0QXUCDU2kW7WwqQGWQbiv34vUL4F=7capUi8Uj54_YHKig@mail.gmail.com>
-Date: Thu, 08 Dec 2022 18:56:30 +0100
-In-Reply-To: <CAJSP0QXUCDU2kW7WwqQGWQbiv34vUL4F=7capUi8Uj54_YHKig@mail.gmail.com>
- (Stefan Hajnoczi's message of "Thu, 8 Dec 2022 09:59:45 -0500")
-Message-ID: <878rjhixtd.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3LIE-0005lz-GM
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:06:46 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3LIC-0007tU-RL
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:06:46 -0500
+Received: by mail-wr1-x430.google.com with SMTP id d1so2560491wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 10:06:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FkWCgw8KTDMYyTsT29MpQ8HXAmZnFjVvrLN4fandSsk=;
+ b=ymDgQgPsnLl1aYhs2nOIr7JRtkjwymVYYtKhiw91ODtGhpfMSIQ1v2MfbLaQUpGEe5
+ c5TEnQxju67PxLC4RET5qxrdxu5E1myQ5v5x6A5EwIb8BfQQ3UjWLwFzaGpcpmHtmiRY
+ PHo4tfQyGvY6986p3nwh/SFnrj/JSgKpNBX7KJLDJplkNNremJioaIb2H1ZenGO2L86c
+ EKpJd9s8BXaLwypTYyPTc06gSgsza72AUkGCfOsyjiCyYtIcHsgoSHbSHtvK//XdcwKq
+ 3+RGEh+v/7Y/40IRFWb6mHmnmYySfwSa0krEjKJN+J0HR987vAecqrsNi7a+hm7c2TDb
+ Rukw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FkWCgw8KTDMYyTsT29MpQ8HXAmZnFjVvrLN4fandSsk=;
+ b=vI5SiwjvtzSAsWCZBNqMT80nlUM/4PNumqQC9XMde8LIYbQoUaAUFVYJpTv5fshncL
+ J1A6VT3CiG+LGiONZI6K+NsWImvAA4Q0a1NWbjTjEOL5cK45xkbamkqY0bAYWAQEz6Oe
+ 6KEDy3H+6l/H5QhEmEeCLvCDCZTKdKukbeKfc7T9wT018jWHEhYhRIwnTxIgkopNjO3y
+ PEp8jgeaggC6FqU1EjD1SL0Enozmcsu/uOuUdSO/esRpTBqx80ya75HeYS8qKdOstRDZ
+ a+bJKRPdTwqyk/ojD8EqGI00nFvxfWKPBao+3T23QhjjlKlcVukKQbXrI/3+ISaJ76ej
+ V/UQ==
+X-Gm-Message-State: ANoB5pkNo1V2/4t+Ll32wDbAaHlUYJ9+F3WpMwJZfKhSbb2QyNOpcnpq
+ u7a2PstX/ieCQbEQSFBT6mfyAw==
+X-Google-Smtp-Source: AA0mqf67xNrXijtGgM7kcfbH+hKNohgR1Yj31hi7DbW/U/C8H4JY8+B7VIbYMdeRvTt2KvQQsI4fjg==
+X-Received: by 2002:a5d:4b0b:0:b0:241:fd7c:4ce4 with SMTP id
+ v11-20020a5d4b0b000000b00241fd7c4ce4mr2082582wrq.21.1670522803181; 
+ Thu, 08 Dec 2022 10:06:43 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ i2-20020adff302000000b002421a8f4fa6sm22582790wro.92.2022.12.08.10.06.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Dec 2022 10:06:42 -0800 (PST)
+Message-ID: <03745f02-d6e4-aba6-3ad9-e1443934a85f@linaro.org>
+Date: Thu, 8 Dec 2022 19:06:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH] scripts/archive-source: Use more portable argument with
+ tar command
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20221208162051.29509-1-philmd@linaro.org>
+ <Y5IbuSk3Pnf4cdHy@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y5IbuSk3Pnf4cdHy@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,16 +96,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
+On 8/12/22 18:15, Daniel P. Berrangé wrote:
+> On Thu, Dec 08, 2022 at 05:20:51PM +0100, Philippe Mathieu-Daudé wrote:
+>> When using the archive-source.sh script on Darwin we get:
+>>
+>>    tar: Option --concatenate is not supported
+>>    Usage:
+>>      List:    tar -tf <archive-filename>
+>>      Extract: tar -xf <archive-filename>
+>>      Create:  tar -cf <archive-filename> [filenames...]
+>>      Help:    tar --help
+>>
+>> Replace the long argument added by commit 8fc76176f6 ("scripts: use
+>> git-archive in archive-source") by their short form to keep this
+>> script functional.
+> 
+> Or install a better tar implementation from brew ?
+> 
+>    https://formulae.brew.sh/formula/gnu-tar
 
-> Probably because block layer, aio.h, and coroutine_int.h header files
-> already include "qemu/coroutine.h"?
+Good idea, this works for me:
 
-Mostly, but not always.  For instance, crypto/block-luks-priv.h compiles
-fine without it, and doesn't include it after this patch.
+-- >8 --
+diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
+index 23e042dacd..150bdf5536 100755
+--- a/scripts/archive-source.sh
++++ b/scripts/archive-source.sh
+@@ -20,2 +20,3 @@ fi
 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Thanks!
-
++tar=$(command -v gtar || command -v tar)
+  tar_file=$(realpath "$1")
+@@ -69,3 +70,3 @@ for sm in $submodules; do
+      test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
+-    tar --concatenate --file "$tar_file" "$sub_file"
++    $tar --concatenate --file "$tar_file" "$sub_file"
+      test $? -ne 0 && error "failed append submodule $sm to $tar_file"
+---
 
