@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521DA64755B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 19:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9706475AD
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 19:38:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3LIG-0005mF-FW; Thu, 08 Dec 2022 13:06:48 -0500
+	id 1p3Llk-0004g9-2D; Thu, 08 Dec 2022 13:37:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3LIE-0005lz-GM
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:06:46 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1p3Llh-0004fK-Qu; Thu, 08 Dec 2022 13:37:13 -0500
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3LIC-0007tU-RL
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:06:46 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d1so2560491wrs.12
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 10:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FkWCgw8KTDMYyTsT29MpQ8HXAmZnFjVvrLN4fandSsk=;
- b=ymDgQgPsnLl1aYhs2nOIr7JRtkjwymVYYtKhiw91ODtGhpfMSIQ1v2MfbLaQUpGEe5
- c5TEnQxju67PxLC4RET5qxrdxu5E1myQ5v5x6A5EwIb8BfQQ3UjWLwFzaGpcpmHtmiRY
- PHo4tfQyGvY6986p3nwh/SFnrj/JSgKpNBX7KJLDJplkNNremJioaIb2H1ZenGO2L86c
- EKpJd9s8BXaLwypTYyPTc06gSgsza72AUkGCfOsyjiCyYtIcHsgoSHbSHtvK//XdcwKq
- 3+RGEh+v/7Y/40IRFWb6mHmnmYySfwSa0krEjKJN+J0HR987vAecqrsNi7a+hm7c2TDb
- Rukw==
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1p3Llf-0006f3-PC; Thu, 08 Dec 2022 13:37:13 -0500
+Received: by mail-ot1-x336.google.com with SMTP id
+ q18-20020a056830441200b006704633f258so1408043otv.0; 
+ Thu, 08 Dec 2022 10:37:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=pXPc2UIuoJWpuaUymY1xOJ9YUoNJZyEpL9Ef5O1HE0c=;
+ b=Sw3rYciN4gEvpNy7IybAZ1bRChyVe8ehT3WkGKUsehvxAm8bMNMKpCrxqFaCN3vlmP
+ Px/k5kHOzW0culXps4nIgnyUjcwpRFotKl35bV11XZg+eok+c96175NmWQyJ9PcDdLsl
+ 4EHTy6ByCiQuGQKy1lCiYyuiyvlkp8VCK/Sok8fPiRGM1TrFT9R+KRA4fqwYNoQkrnRb
+ /sAGqeHoJI6CaSqi6jZnU8eb++kMFm+bffo05cHgy3V4bkBLb38bT0sZ23/B8VnxemF0
+ lcFhUHe7kZUr6zcP0HN/XXyStaBoC0+F0zv5w8FdazMri38CAnIWaKKQgkDSX/GlCFK7
+ qNqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FkWCgw8KTDMYyTsT29MpQ8HXAmZnFjVvrLN4fandSsk=;
- b=vI5SiwjvtzSAsWCZBNqMT80nlUM/4PNumqQC9XMde8LIYbQoUaAUFVYJpTv5fshncL
- J1A6VT3CiG+LGiONZI6K+NsWImvAA4Q0a1NWbjTjEOL5cK45xkbamkqY0bAYWAQEz6Oe
- 6KEDy3H+6l/H5QhEmEeCLvCDCZTKdKukbeKfc7T9wT018jWHEhYhRIwnTxIgkopNjO3y
- PEp8jgeaggC6FqU1EjD1SL0Enozmcsu/uOuUdSO/esRpTBqx80ya75HeYS8qKdOstRDZ
- a+bJKRPdTwqyk/ojD8EqGI00nFvxfWKPBao+3T23QhjjlKlcVukKQbXrI/3+ISaJ76ej
- V/UQ==
-X-Gm-Message-State: ANoB5pkNo1V2/4t+Ll32wDbAaHlUYJ9+F3WpMwJZfKhSbb2QyNOpcnpq
- u7a2PstX/ieCQbEQSFBT6mfyAw==
-X-Google-Smtp-Source: AA0mqf67xNrXijtGgM7kcfbH+hKNohgR1Yj31hi7DbW/U/C8H4JY8+B7VIbYMdeRvTt2KvQQsI4fjg==
-X-Received: by 2002:a5d:4b0b:0:b0:241:fd7c:4ce4 with SMTP id
- v11-20020a5d4b0b000000b00241fd7c4ce4mr2082582wrq.21.1670522803181; 
- Thu, 08 Dec 2022 10:06:43 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pXPc2UIuoJWpuaUymY1xOJ9YUoNJZyEpL9Ef5O1HE0c=;
+ b=Ttdh3JvZtrUknIBolHgTMbGyHHAqDB2FJZNSoYoGhYypNoAjtk1kOmWjxS3cmKRSTp
+ vmSzZNqrfkoHhrfOg3ZTbknZgXty6whm1zLwS+3eXKT8eqxxmBXfvBpaU2zyWWKRox7H
+ UvZzpgKFrmL8JRd3R7KjSJ8N0wMuOfcUaWIeBHdctyEZ2VW3QWudLilFP8ncCwNuwsLy
+ aVPMce5Y5oXCWnfZz2pV4/lIjQbh+N7LmTcaYVvA8OoMwdcCfu3tpgVXu9CNUlbUIcnl
+ fNOYfSyamLZ5Gl0fohke7WhdF5ZuMZ/tWgobV4wVZItJqJvfgI+CrveIk8i/PGz/F1R0
+ BEFw==
+X-Gm-Message-State: ANoB5pnt34dDGgQX+dqbL1jRTLo2C4yu2AsEak1zALDTx89kyc6X96fD
+ QpTX91cGPpgDvrojlTdzW8I=
+X-Google-Smtp-Source: AA0mqf7SbTGcDCq60JqAJ+7IvP87V0A/7wQ/Y7nWey/t7jpTKL9ceCjC4XK583tu091YfumLJFBZtg==
+X-Received: by 2002:a9d:75d8:0:b0:661:d4da:10d with SMTP id
+ c24-20020a9d75d8000000b00661d4da010dmr46058060otl.266.1670524629413; 
+ Thu, 08 Dec 2022 10:37:09 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- i2-20020adff302000000b002421a8f4fa6sm22582790wro.92.2022.12.08.10.06.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 10:06:42 -0800 (PST)
-Message-ID: <03745f02-d6e4-aba6-3ad9-e1443934a85f@linaro.org>
-Date: Thu, 8 Dec 2022 19:06:41 +0100
+ w42-20020a05687033aa00b00144705fdd02sm8777481oae.43.2022.12.08.10.37.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Dec 2022 10:37:08 -0800 (PST)
+Date: Thu, 8 Dec 2022 10:37:07 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-stable@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: Re: [PATCH v2 3/3] hw/nvme: fix missing cq eventidx update
+Message-ID: <20221208183707.GA3152153@roeck-us.net>
+References: <20221208122642.80574-1-its@irrelevant.dk>
+ <20221208122642.80574-4-its@irrelevant.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] scripts/archive-source: Use more portable argument with
- tar command
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20221208162051.29509-1-philmd@linaro.org>
- <Y5IbuSk3Pnf4cdHy@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y5IbuSk3Pnf4cdHy@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221208122642.80574-4-its@irrelevant.dk>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=groeck7@gmail.com; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.229, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,40 +92,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/12/22 18:15, Daniel P. Berrangé wrote:
-> On Thu, Dec 08, 2022 at 05:20:51PM +0100, Philippe Mathieu-Daudé wrote:
->> When using the archive-source.sh script on Darwin we get:
->>
->>    tar: Option --concatenate is not supported
->>    Usage:
->>      List:    tar -tf <archive-filename>
->>      Extract: tar -xf <archive-filename>
->>      Create:  tar -cf <archive-filename> [filenames...]
->>      Help:    tar --help
->>
->> Replace the long argument added by commit 8fc76176f6 ("scripts: use
->> git-archive in archive-source") by their short form to keep this
->> script functional.
+On Thu, Dec 08, 2022 at 01:26:42PM +0100, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Or install a better tar implementation from brew ?
+> Prior to reading the shadow doorbell cq head, we have to update the
+> eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
+> write. This happens on riscv64, as reported by Guenter.
 > 
->    https://formulae.brew.sh/formula/gnu-tar
+> Adding the missing update to the cq eventidx fixes the issue.
+> 
+> Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
+> Cc: qemu-stable@nongnu.org
+> Cc: qemu-riscv@nongnu.org
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
-Good idea, this works for me:
+Tested-by: Guenter Roeck <linux@roeck-us.net>
 
--- >8 --
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index 23e042dacd..150bdf5536 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -20,2 +20,3 @@ fi
-
-+tar=$(command -v gtar || command -v tar)
-  tar_file=$(realpath "$1")
-@@ -69,3 +70,3 @@ for sm in $submodules; do
-      test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
--    tar --concatenate --file "$tar_file" "$sub_file"
-+    $tar --concatenate --file "$tar_file" "$sub_file"
-      test $? -ne 0 && error "failed append submodule $sm to $tar_file"
----
+> ---
+>  hw/nvme/ctrl.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index cfab21b3436e..f6cc766aba4a 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -1334,6 +1334,14 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
+>      }
+>  }
+>  
+> +static void nvme_update_cq_eventidx(const NvmeCQueue *cq)
+> +{
+> +    trace_pci_nvme_update_cq_eventidx(cq->cqid, cq->head);
+> +
+> +    pci_dma_write(PCI_DEVICE(cq->ctrl), cq->ei_addr, &cq->head,
+> +                  sizeof(cq->head));
+> +}
+> +
+>  static void nvme_update_cq_head(NvmeCQueue *cq)
+>  {
+>      pci_dma_read(PCI_DEVICE(cq->ctrl), cq->db_addr, &cq->head,
+> @@ -1355,6 +1363,7 @@ static void nvme_post_cqes(void *opaque)
+>          hwaddr addr;
+>  
+>          if (n->dbbuf_enabled) {
+> +            nvme_update_cq_eventidx(cq);
+>              nvme_update_cq_head(cq);
+>          }
+>  
 
