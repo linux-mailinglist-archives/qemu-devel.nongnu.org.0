@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0736D6469A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 08:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1626469A3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 08:19:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3BBX-0001eN-TJ; Thu, 08 Dec 2022 02:19:11 -0500
+	id 1p3BBU-0001ca-LJ; Thu, 08 Dec 2022 02:19:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxi.chen@linux.intel.com>)
- id 1p3BBU-0001d8-Vx
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:19:09 -0500
+ id 1p3BBS-0001bf-QH
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:19:06 -0500
 Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxi.chen@linux.intel.com>)
- id 1p3BBO-0006cp-Jp
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:19:08 -0500
+ id 1p3BBP-0006cu-FJ
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:19:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670483942; x=1702019942;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=6H65SN3zBtlgO4HUH2SjIM3oTFxuM/7KP3ziGZ6/X+o=;
- b=RXmT74JI5IYgvn1icqn1/TqofGafsouGWz4T3Oj+EJL4umEmKVZA6tlL
- 7+kgiOl6nwyxRdpNL4+QEkBCXBv6nFfNoK/GEUmb/eRXqLm3Grm9pGLyp
- 7Dv5BajY5lMwO485/MkaJXUSc+Vfu0e84BOgYa5xheDbrtqFR3XAIUJhM
- wdz4EKE4Mc+NqX+xJYrWhCZRiJfQLeB4bGn6Gjk/4Alp+LnYWNe3FVj15
- T8sqr4pmsJfSmVuhDL2ENp+3Kxsfkk7fiqLXdNQJe5SxuGFbyvAlVMZ7i
- wpsz0NwFHlDhuFLHJOCV1hwdqg10zC4RyTD7n52xhe2AaTvGNsbnUJnbl A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="379263792"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="379263792"
+ t=1670483943; x=1702019943;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=5P4u8pc/P3y8YT4F9M/OpcvLjyeo01HCojexn+arJpM=;
+ b=LkOsqvh9d5YWVi3JW5E4wg+CVhVswWaLRRcP/ZfoOX6bRhVwQXWKTgr+
+ lhOYe19WlJ1WGY/RFWgsxzZmPAThWollYuo14iNvXCkIIsqRt79qmdOhh
+ HTzQwAlnPfQ4rXKQXCZQrEJU7dYs1nRcxp5+cwOccgtq63eW3B1LtxzTh
+ /MEskTPQQpjaNR1+eGkP7SCC5tJ6ZzDBk1OzjKPcpJafsfgGlm34CZJ9Y
+ j6bhj4c3V0GnurXfFheC6wpcmnqnilTCKFwEhLlm9LNeQOS/u282E94fu
+ BOdCKcdAlt1VISoGqkrn+rnsWB5SrNpPz1bNxUCSGehLSFuwlIyDuEm1H w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="379263797"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="379263797"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 23:18:58 -0800
+ 07 Dec 2022 23:19:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="771380961"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="771380961"
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="771380966"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="771380966"
 Received: from jiaxichen-precision-3650-tower.sh.intel.com ([10.239.159.75])
- by orsmga004.jf.intel.com with ESMTP; 07 Dec 2022 23:18:56 -0800
+ by orsmga004.jf.intel.com with ESMTP; 07 Dec 2022 23:18:58 -0800
 From: Jiaxi Chen <jiaxi.chen@linux.intel.com>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, richard.henderson@linaro.org, yang.zhong@intel.com,
  jing2.liu@intel.com, vkuznets@redhat.com
-Subject: [PATCH 0/6] target/i386: Support new Intel platform Instructions in
- CPUID enumeration
-Date: Thu,  8 Dec 2022 15:19:11 +0800
-Message-Id: <20221208071917.1923093-1-jiaxi.chen@linux.intel.com>
+Subject: [PATCH 1/6] target/i386: Add support for CMPCCXADD in CPUID
+ enumeration
+Date: Thu,  8 Dec 2022 15:19:12 +0800
+Message-Id: <20221208071917.1923093-2-jiaxi.chen@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221208071917.1923093-1-jiaxi.chen@linux.intel.com>
+References: <20221208071917.1923093-1-jiaxi.chen@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=134.134.136.31;
@@ -58,7 +60,7 @@ X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_NONE=0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,39 +76,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Latest Intel platform Granite Rapids/Sierra Forest has introduced below
-new instructions and CPUIDs:
+CMPccXADD is a new set of instructions in the latest Intel platform
+Sierra Forest. This new instruction set includes a semaphore operation
+that can compare and add the operands if condition is met, which can
+improve database performance.
 
- - CMPccXADD CPUID.(EAX=7,ECX=1):EAX[bit 7]
- - AMX-FP16 CPUID.(EAX=7,ECX=1):EAX[bit 21]
- - AVX-IFMA CPUID.(EAX=7,ECX=1):EAX[bit 23]
- - AVX-VNNI-INT8 CPUID.(EAX=7,ECX=1):EDX[bit 4]
- - AVX-NE-CONVERT CPUID.(EAX=7,ECX=1):EDX[bit 5]
- - PREFETCHITI CPUID.(EAX=7,ECX=1):EDX[bit 14]
+The bit definition:
+CPUID.(EAX=7,ECX=1):EAX[bit 7]
 
-Details can be found in recent Intel ISE (Instruction Set Extensions)[1].
+Add CPUID definition for CMPCCXADD.
 
-Linux 6.2 will support for advertising these features to userspace. KVM
-patches have been merged into kvm/next[2]. This patch series adds CPUID
-definitions of the corresponding features in QEMU. 
+Signed-off-by: Jiaxi Chen <jiaxi.chen@linux.intel.com>
+---
+ target/i386/cpu.c | 2 +-
+ target/i386/cpu.h | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-[1] Intel ISE: https://cdrdv2.intel.com/v1/dl/getContent/671368
-[2] kvm/next: https://git.kernel.org/pub/scm/virt/kvm/kvm.git
-
-Jiaxi Chen (6):
-  target/i386: Add support for CMPCCXADD in CPUID enumeration
-  target/i386: Add support for AMX-FP16 in CPUID enumeration
-  target/i386: Add support for AVX-IFMA in CPUID enumeration
-  target/i386: Add support for AVX-VNNI-INT8 in CPUID enumeration
-  target/i386: Add support for AVX-NE-CONVERT in CPUID enumeration
-  target/i386: Add support for PREFETCHIT0/1 in CPUID enumeration
-
- target/i386/cpu.c | 26 +++++++++++++++++++++++---
- target/i386/cpu.h | 15 +++++++++++++++
- 2 files changed, 38 insertions(+), 3 deletions(-)
-
-
-base-commit: ea3a008d2d9ced9c4f93871c823baee237047f93
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 22b681ca37..a61f936eef 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -871,7 +871,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+             NULL, NULL, NULL, NULL,
+-            "avx-vnni", "avx512-bf16", NULL, NULL,
++            "avx-vnni", "avx512-bf16", NULL, "cmpccxadd",
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d4bc19577a..3391b99456 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -900,6 +900,9 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+ #define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
+ /* AVX512 BFloat16 Instruction */
+ #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
++/* CMPCCXADD Instructions */
++#define CPUID_7_1_EAX_CMPCCXADD         (1U << 7)
++
+ /* XFD Extend Feature Disabled */
+ #define CPUID_D_1_EAX_XFD               (1U << 4)
+ 
 -- 
 2.27.0
 
