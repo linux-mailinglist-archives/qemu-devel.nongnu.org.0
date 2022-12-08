@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDAD6473A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4BCC6473B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:59:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3JFQ-0006UL-5U; Thu, 08 Dec 2022 10:55:44 -0500
+	id 1p3JIY-0007WU-P4; Thu, 08 Dec 2022 10:58:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3JFN-0006U3-Kq
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:55:41 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1p3JIM-0007Vg-FR; Thu, 08 Dec 2022 10:58:46 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3JFL-0006nh-Qu
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:55:41 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id h7so2122221wrs.6
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 07:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=7A3byq1utFqojjZtid/q3Srkf2m+eyCvlQeEL4Mq9ng=;
- b=rzQUl3ASQWU2AYBZMDRTxz0qu7ilDoTvuphNiUEX/0Pd/Pa5sNTG04nOVe3CcCv8MX
- Y8RvKKOGoIk8E77EjHDboBXQwTumg8/cddZskOjJ+a89gKNbVrDCdbZX5cjmkZq4ixbc
- C/zjXwTE4MMFqELTgeGQmkCPRSY+wjN7ig/40rl5H/G/7LWr0OeyY5DlwXHHDk11llZ3
- iKjPeKS5eVTwYfC7SI5wDzMqEgOsbAqHLPdfz9R8Yga7CxXpVEE/JVg0ubJbr3pjaMVw
- yk7F5K2/UIshFjVNjcZQBnAXTfqMFvzPqtqU5/Qd/Xg8gIuXiTNnNMSWIonZJfiGb7Ro
- Lbqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7A3byq1utFqojjZtid/q3Srkf2m+eyCvlQeEL4Mq9ng=;
- b=RY59cY4qfqY4f4SIFME1oT1VQbTHCzRlAPF000bJiDTbDxJSRbI/nLRIt7tcG7hiwb
- ZWTu78PLCo4U2n1P+nNj35XQNVfWK8LoCMrmiawlLuMaRPcHhGUOPnpj1zodR1T0L6hV
- uhjWkT4s8HYyhZj50wE2CUbx+2v6CUnzT+U2HMP/rql5COXj/fM2sUScknWsmGCgkcaa
- gWoDObYJejFNZapFMCgtM+X1GJyO2ztuXSykYzydpSbADBf8TLySkJHA0eZd/D40v8MM
- 1rgXVEsf2HKGzy97IuWanrqVXttnveDdJErx7YnA0FcICxpVLAUFjxNVuR0+69mewzPF
- Qyng==
-X-Gm-Message-State: ANoB5plHejHZJ9ycLhkldfGP/htpNBaZ169JsxPVjTe95kdcXIcxISDS
- bo7AZAedRnpFimM163BZadV3oJ1/76wHmyL0SLo=
-X-Google-Smtp-Source: AA0mqf64/7Mh8ta/hWro/rT3PMne0gMDVb4GThgUC8hdMHM0EF6PvLMu7VXHVCNxj58g28+/JqNCmA==
-X-Received: by 2002:adf:fe89:0:b0:242:2722:f08 with SMTP id
- l9-20020adffe89000000b0024227220f08mr1716190wrr.12.1670514937575; 
- Thu, 08 Dec 2022 07:55:37 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- l7-20020a5d4107000000b00242246c2f7csm22516687wrp.101.2022.12.08.07.55.36
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 08 Dec 2022 07:55:37 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Stefan Weil <sw@weilnetz.de>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] mailmap: Fix Stefan Weil author email
-Date: Thu,  8 Dec 2022 16:55:35 +0100
-Message-Id: <20221208155535.28363-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1p3JIK-0008FC-VT; Thu, 08 Dec 2022 10:58:46 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E6D7022BBE;
+ Thu,  8 Dec 2022 15:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1670515121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e9SOScxXH7FngR4nroCXALSqtojX7LBnIMJzGT02/F0=;
+ b=tRfIS1vA6tfY3J/gm/NyVmspa2C3OJk5fV7/dk7IYzv7WJPkQWdNyqpCS1SAopWR9U+vBw
+ h0dsBMhSbT5R6NFRbqFMvJapBMUqhnCSkpziTbCc8c+qJv815jyt/LKqmOG8LM9h2G6Ngd
+ TjQDWUtE1Hb14VYiII1B/5h8+nEoXL4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1670515121;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e9SOScxXH7FngR4nroCXALSqtojX7LBnIMJzGT02/F0=;
+ b=6kw5RQ3ql5hb0RguKvs1CLb497VKUn8lUEiC641b65WBz2fIpGfeT1CYPQ8IPSk5Mbnklu
+ 7x1Qy2QHLxgI2QBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 648D7138E0;
+ Thu,  8 Dec 2022 15:58:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EQa3CrEJkmNMGQAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 08 Dec 2022 15:58:41 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>, David
+ Gibson <david@gibson.dropbear.id.au>, kvm@vger.kernel.org, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>, Richard Henderson
+ <richard.henderson@linaro.org>, "Edgar E. Iglesias"
+ <edgar.iglesias@gmail.com>, Stafford Horne <shorne@gmail.com>, Anton
+ Johansson <anjo@rev.ng>, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ qemu-ppc@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, Chris Wulff
+ <crwulff@gmail.com>, Yanan Wang <wangyanan55@huawei.com>, Fabiano Rosas
+ <farosas@linux.ibm.com>, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>, Marek Vasut
+ <marex@denx.de>, Max Filippov <jcmvbkbc@gmail.com>, Yoshinori Sato
+ <ysato@users.sourceforge.jp>, Laurent Vivier <laurent@vivier.eu>, Daniel
+ Henrique Barboza <danielhb413@gmail.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Artyom Tarasenko <atar4qemu@gmail.com>
+Subject: Re: [PATCH-for-8.0 v2 2/4] gdbstub: Use vaddr type for generic
+ insert/remove_breakpoint() API
+In-Reply-To: <20221208153528.27238-3-philmd@linaro.org>
+References: <20221208153528.27238-1-philmd@linaro.org>
+ <20221208153528.27238-3-philmd@linaro.org>
+Date: Thu, 08 Dec 2022 12:58:38 -0300
+Message-ID: <87mt7xubtd.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,28 +101,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix authorship of commits 266aaedc37~..ac14949821. See commit
-3bd2608db7 ("maint: Add .mailmap entries for patches claiming
-list authorship") for rationale.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- .mailmap | 1 +
- 1 file changed, 1 insertion(+)
+> Both insert/remove_breakpoint() handlers are used in system and
+> user emulation. We can not use the 'hwaddr' type on user emulation,
+> we have to use 'vaddr' which is defined as "wide enough to contain
+> any #target_ulong virtual address".
+>
+> gdbstub.c doesn't require to include "exec/hwaddr.h" anymore.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-diff --git a/.mailmap b/.mailmap
-index 35dddbe27b..fad2aff5aa 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -45,6 +45,7 @@ Ed Swierk <eswierk@skyportsystems.com> Ed Swierk via Qemu-devel <qemu-devel@nong
- Ian McKellar <ianloic@google.com> Ian McKellar via Qemu-devel <qemu-devel@nongnu.org>
- Julia Suvorova <jusual@mail.ru> Julia Suvorova via Qemu-devel <qemu-devel@nongnu.org>
- Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu-devel@nongnu.org>
-+Stefan Weil <sw@weilnetz.de> Stefan Weil via <qemu-devel@nongnu.org>
- 
- # Next, replace old addresses by a more recent one.
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@mips.com>
--- 
-2.38.1
-
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
