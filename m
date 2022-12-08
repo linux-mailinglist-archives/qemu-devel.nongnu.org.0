@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C37647250
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 15:56:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC71964724C
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 15:56:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3IIu-0000fK-Sg; Thu, 08 Dec 2022 09:55:17 -0500
+	id 1p3IIC-0000WK-Hf; Thu, 08 Dec 2022 09:54:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1p3IId-0000bI-1W
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:55:01 -0500
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3IIA-0000Vq-IL
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:54:30 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1p3IIR-0006N1-6J
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:54:58 -0500
-Received: by mail-oo1-xc2e.google.com with SMTP id
- v62-20020a4a7c41000000b004a0a214dfbaso245620ooc.9
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 06:54:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U8vgUbFelgGls6PbHLNSofzwoctCRctuGTp/hKu617E=;
- b=YKeAVOfVP6Y1w2LUkIzaH1qZm0pGS8FwebxxWwZd/HogU9hvoipnLBLsxSzS4Ndqwj
- m/13HUdSIn5arU5ZT9kcJ4lCZriynS/zL+O7jPDqrhekMk7eacb1Mm8yf3hYK8cdgOfr
- BFfVoCu3Q5ksIkT4qiRlvFohZvm9lu+q11rq3Xfd5wYNrTe6YH/SKdxgmwn0VHjhtcsL
- FFN27iuQhWZODv0qnRKjiOkqHlGcpxCq4UpBs68JELCK/nFPtYD6/SsWrw6RwKjr0qQU
- KYCsL+8ACXQCgfaXSbV0nAD1noNVrPvoWFULflUn9ZJeoV2d06bajt7IO+1wLuXjBdfd
- qw0g==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3II9-0006JK-1X
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:54:30 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id f18so1905699wrj.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 06:54:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WZd9OxEs6RhQSdiXIfXEsw5mb3P4Gmp6GKFR7mLXnRo=;
+ b=j3/U+hjYc+AKnQx1+7RXtp890gXgaP85jnTxtyUp+DDrEcsvP+GN8UgbqdMuDERbHR
+ IO1v6DaUqK47ALjL+qTLqao3rVZl5plEMBjUQ9sv7NoR1isgjHcC7JJbkxY5If0EPAKz
+ WOA7CPECBxAfmn/uuIztgjqwCAiBIab5NCTnQNlhSID4grf14nY98bF6jI5EzxisysaU
+ RW9NBQuTUIEq+b0C4jjSJAraaW0GS0bAd7AqMP0KpbPSnHDMIEMxJFwM1rQPftZZ5rAd
+ pFXDvRrupvpHpY+LLDrGgXNah+s4HbINkXAKHdzViCLDBR8CnW4Wlthx7Ks6DzdmLkkE
+ S9BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=U8vgUbFelgGls6PbHLNSofzwoctCRctuGTp/hKu617E=;
- b=b/0vY1oA9dcqVyD1hGintDvci4qn0waxJVg0lYwFuyhdBcNLxkCDCYGe4J2ddfCsJs
- lBGY9T1PzRm2xhuS6B/48cbpi8JVlXIoru+l5dKJMFuOVHiy1IuSdd8w9YcvGMwMutIZ
- gKcODRw3RAZeR1iTkgm2DIjCb1yVpKoKdRau1OFa703KwgpBnCWY3lUnRmXDP2ZND8v4
- zgYnE5qMG3BHTAU5DonOkeQdIkYkw6aCpNgyTJbT54Zk9S9H8hmiyrPLA4LvYrIoNijw
- 07ZVM3a0zmXooqZC77MNSJud/sh7dEJpvjb3kfR0EnCtb5uMeOwiMus15kHotNtjpvbX
- 8igw==
-X-Gm-Message-State: ANoB5pmPCt3Ti9wmkKVqj7DJ9K3G1PVyDf94mgGZHCPf6W1W2IrZdHsv
- Nj9OikfH2bfE0Rv+7P3+UJshX969qkHWi7BeAuI=
-X-Google-Smtp-Source: AA0mqf79NLWhTUmanSKI7zEmHY25h0ymWVqtxZjNg94xlEG8zvj/gNQpLWRgRYzE+f+1JZ5l0MvLew==
-X-Received: by 2002:a4a:c188:0:b0:49f:8720:d5b2 with SMTP id
- w8-20020a4ac188000000b0049f8720d5b2mr1160037oop.8.1670511283868; 
- Thu, 08 Dec 2022 06:54:43 -0800 (PST)
-Received: from ThinkPad-T490.dc1.ventanamicro.com ([103.97.165.210])
- by smtp.googlemail.com with ESMTPSA id
- b14-20020a4ae20e000000b004968311a31asm10044225oot.39.2022.12.08.06.54.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Dec 2022 06:54:42 -0800 (PST)
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- Andrew Jones <ajones@ventanamicro.com>
-Subject: [PATCH v3 3/3] target/riscv: kvm: Support selecting VCPU extensions
-Date: Thu,  8 Dec 2022 20:24:11 +0530
-Message-Id: <20221208145411.122799-4-mchitale@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221208145411.122799-1-mchitale@ventanamicro.com>
-References: <20221208145411.122799-1-mchitale@ventanamicro.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WZd9OxEs6RhQSdiXIfXEsw5mb3P4Gmp6GKFR7mLXnRo=;
+ b=rTrITrBNcuhlRibt7FkM3DI8AYzndF2NI/lLskBAzS5Eur7g2A0S/aQSnWmDs0//dA
+ 4K8r0YYmwI6hE+gYY/z5hFMaXy46U7JSa4sztvClakxiyhBp69aRYsRsq7LaYXF1Ffuv
+ HkZHJ9SrYVlbglxhAnvEOcJOsZet+F1tfWSb0Rt+XOQWTYI84MrJD5nwcvooBkoZA6CP
+ Qfzxd8PMRqdeNlOi23M+aCtZbeDKjL/5UXdzvyBgDfsxPi4tatxeUShowaJaetUzevf7
+ 64/lrtZr0gASMYmlQfvGvkkPIR94hIFllz+CqPHJjlp1/sNFV97QMSmdcAyLD59pCEZv
+ 8Nyw==
+X-Gm-Message-State: ANoB5pkGyabEd4rRiENnI8dg6rUmWIr9erDdPKiBWTn5NyPvCoN3N76w
+ pY790gloco2ug4VQwrH8Zsobig==
+X-Google-Smtp-Source: AA0mqf7Gy/VV+kxIINB51xYWSSYpUK7E3jzgZiPnN9EK2MrYMp7OGMl8w/3ksu6bqEDvg7ZeIY0UBQ==
+X-Received: by 2002:a05:6000:83:b0:242:fd7:285f with SMTP id
+ m3-20020a056000008300b002420fd7285fmr1592129wrx.45.1670511266861; 
+ Thu, 08 Dec 2022 06:54:26 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ bk4-20020a0560001d8400b00241da0e018dsm22039772wrb.29.2022.12.08.06.54.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Dec 2022 06:54:26 -0800 (PST)
+Message-ID: <3c8ed258-665e-8191-0612-276d5ab448fd@linaro.org>
+Date: Thu, 8 Dec 2022 15:54:25 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 2/3] hw/sparc64/niagara: Use blk_name() instead of
+ open-coding it
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org
+References: <20221208143939.2775453-1-armbru@redhat.com>
+ <20221208143939.2775453-3-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221208143939.2775453-3-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=mchitale@ventanamicro.com; helo=mail-oo1-xc2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,168 +91,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Set the state of each ISA extension on the vcpu depending on what
-is set in the CPU property and what is allowed by KVM for that extension.
+On 8/12/22 15:39, Markus Armbruster wrote:
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   hw/sparc64/niagara.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
 
-Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c       | 11 ++++-
- target/riscv/kvm.c       | 88 ++++++++++++++++++++++++++++++++++------
- target/riscv/kvm_riscv.h |  2 +-
- 3 files changed, 87 insertions(+), 14 deletions(-)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 8c8f085a80..4b2c1dadf4 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -1205,10 +1205,19 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str)
- {
-     char *old = *isa_str;
-     char *new = *isa_str;
--    int i;
-+    int i, offset;
- 
-     for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-         if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-+            offset = isa_edata_arr[i].ext_enable_offset;
-+            if (kvm_enabled() && !kvm_riscv_ext_supported(offset)) {
-+#ifndef CONFIG_USER_ONLY
-+                info_report("disabling %s extension for hart %d as kvm does "
-+                            "not support it", isa_edata_arr[i].name,
-+                            (int)cpu->env.mhartid);
-+#endif
-+                continue;
-+            }
-             if (isa_edata_arr[i].multi_letter) {
-                 if (cpu->cfg.short_isa_string) {
-                     continue;
-diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index 30f21453d6..79029ad328 100644
---- a/target/riscv/kvm.c
-+++ b/target/riscv/kvm.c
-@@ -42,6 +42,29 @@
- #include "migration/migration.h"
- #include "sysemu/runstate.h"
- 
-+struct isa_ext_info {
-+    const char *name;
-+    target_ulong misa_bit;
-+    int ext_enable_offset;
-+};
-+
-+#define ISA_EXT_DATA_ENTRY(_name, _bit, _prop) \
-+    {#_name, _bit, offsetof(struct RISCVCPUConfig, _prop)}
-+
-+static const struct isa_ext_info isa_info_arr[] = {
-+    ISA_EXT_DATA_ENTRY(a, RVA, ext_a),
-+    ISA_EXT_DATA_ENTRY(c, RVC, ext_c),
-+    ISA_EXT_DATA_ENTRY(d, RVD, ext_d),
-+    ISA_EXT_DATA_ENTRY(f, RVF, ext_f),
-+    ISA_EXT_DATA_ENTRY(h, RVH, ext_h),
-+    ISA_EXT_DATA_ENTRY(i, RVI, ext_i),
-+    ISA_EXT_DATA_ENTRY(m, RVM, ext_m),
-+    ISA_EXT_DATA_ENTRY(svpbmt, 0, ext_svpbmt),
-+    ISA_EXT_DATA_ENTRY(sstc, 0, ext_sstc),
-+    ISA_EXT_DATA_ENTRY(svinval, 0, ext_svinval),
-+    ISA_EXT_DATA_ENTRY(zihintpause, 0, ext_zihintpause),
-+};
-+
- static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
-                                  uint64_t idx)
- {
-@@ -394,25 +417,66 @@ void kvm_arch_init_irq_routing(KVMState *s)
- {
- }
- 
-+bool kvm_riscv_ext_supported(int offset)
-+{
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(isa_info_arr); ++i) {
-+        if (isa_info_arr[i].ext_enable_offset == offset) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static void kvm_riscv_set_isa_ext(CPUState *cs, CPURISCVState *env)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+    unsigned long isa_ext_out;
-+    bool *ext_state;
-+    uint64_t id;
-+    int i, ret;
-+
-+    env->misa_ext = 0;
-+    for (i = 0; i < ARRAY_SIZE(isa_info_arr); i++) {
-+        ext_state = (void *)&cpu->cfg + isa_info_arr[i].ext_enable_offset;
-+        id = kvm_riscv_reg_id(env, KVM_REG_RISCV_ISA_EXT, i);
-+        ret = kvm_get_one_reg(cs, id, &isa_ext_out);
-+        if (ret) {
-+            warn_report("Disabling ext %s due to failure %d",
-+                        isa_info_arr[i].name, ret);
-+            *ext_state = false;
-+            continue;
-+        }
-+        if (isa_ext_out != (*ext_state)) {
-+            isa_ext_out = *ext_state;
-+            ret = kvm_set_one_reg(cs, id, &isa_ext_out);
-+            if (ret) {
-+                warn_report("Could not %s ext %s due to failure %d",
-+                            (isa_ext_out ? "enable" : "disable"),
-+                            isa_info_arr[i].name, ret);
-+                *ext_state = !isa_ext_out;
-+            }
-+        }
-+        /*
-+         * If the single letter extension is supported by KVM then set
-+         * the corresponding misa bit for the guest vcpu.
-+         */
-+        if (isa_info_arr[i].misa_bit && (*ext_state)) {
-+            env->misa_ext |= isa_info_arr[i].misa_bit;
-+        }
-+    }
-+}
-+
- int kvm_arch_init_vcpu(CPUState *cs)
- {
--    int ret = 0;
--    target_ulong isa;
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--    uint64_t id;
- 
-     qemu_add_vm_change_state_handler(kvm_riscv_vm_state_change, cs);
- 
--    id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG,
--                          KVM_REG_RISCV_CONFIG_REG(isa));
--    ret = kvm_get_one_reg(cs, id, &isa);
--    if (ret) {
--        return ret;
--    }
--    env->misa_ext = isa;
--
--    return ret;
-+    kvm_riscv_set_isa_ext(cs, env);
-+    return 0;
- }
- 
- int kvm_arch_msi_data_to_gsi(uint32_t data)
-diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
-index ed281bdce0..bdcccc0da4 100644
---- a/target/riscv/kvm_riscv.h
-+++ b/target/riscv/kvm_riscv.h
-@@ -21,5 +21,5 @@
- 
- void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
- void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
--
-+bool kvm_riscv_ext_supported(int offset);
- #endif
--- 
-2.34.1
 
 
