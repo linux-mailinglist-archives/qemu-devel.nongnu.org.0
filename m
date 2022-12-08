@@ -2,90 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A436466FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 03:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7D7646779
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 04:08:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p36fM-00074y-1v; Wed, 07 Dec 2022 21:29:40 -0500
+	id 1p37Fw-0004qx-UQ; Wed, 07 Dec 2022 22:07:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1p36fJ-00073E-Hf
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 21:29:37 -0500
-Received: from mga12.intel.com ([192.55.52.136])
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1p37Fu-0004qo-IN
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 22:07:26 -0500
+Received: from mail-bn8nam04on2052.outbound.protection.outlook.com
+ ([40.107.100.52] helo=NAM04-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1p36fG-0000Xy-0g
- for qemu-devel@nongnu.org; Wed, 07 Dec 2022 21:29:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670466573; x=1702002573;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=oA1V+zn77ki7yKpxFFLNMrb7UaBGMQQIUYHEvlMXmdk=;
- b=NZtTcEx8X1mh7b5PlyGI3T9rhcWHi7TiWWt7f7CNw2P6vmeAgDpG5AMc
- azy8uhOCFAL7KlOs3Ah2Effmsg8cNtPThzjDxIwbbX0Ti3fAFAh8j6e1v
- x75KD7ZfJziqTvCXs9Hnvnmg9bGvq7gsFVVzOzCx5nxJGrvRnJge8jznG
- 8Gw6G8fY+6FEmX0wnCYI1fn686yVkeceEuXcobEN6tB4oaBPYafC8r34W
- uz1z+nspeVZKnwJDd9GAixAt8yY8toYXX0ibSFEUxIFVD4HOyl4rK2Wbw
- OtMCdWDLB+Yt3U45ygH8r/QTyG5ybGmU7yoYWP1JPV1j8hhjQc6l71Y8Z g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="296748086"
-X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; d="scan'208";a="296748086"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 18:29:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="771318150"
-X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; d="scan'208";a="771318150"
-Received: from yy-desk-7060.sh.intel.com (HELO localhost) ([10.239.159.76])
- by orsmga004.jf.intel.com with ESMTP; 07 Dec 2022 18:29:19 -0800
-Date: Thu, 8 Dec 2022 10:29:18 +0800
-From: Yuan Yao <yuan.yao@linux.intel.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 8/9] KVM: Handle page fault for private memory
-Message-ID: <20221208022918.fbddl3bflsip4ivg@yy-desk-7060>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-9-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1p37Fr-00025M-Qg
+ for qemu-devel@nongnu.org; Wed, 07 Dec 2022 22:07:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XjS3xWJf3x7oS9nB34HtsW0xFFxDT5Fhl/VOIxx4LrgM5aiWVZgs+DFe5vfeQaTVpGyOCyXn8CDVlYeaNrvMvntvMs0LHsOncjzpCX9gt4fqFkhi++ICPU2gG7DEzDPxtDBKMJZoh4RusHqQoZSF6+EaUHZvvRhpE3r0V+qf6O1q2JUG4rHvOTo7rzHiBEeG/QpMnpP230bscMW6/TAMvH/VCd/w2L/3OfFs/MQ1D+aMaUAl2NRG3xdG+8Sx7c9+54AtB3M1X2xbfN8QUTPC4gGo5ap8LxPm4CkVIbu4G8kGVjd2ON7sazDxP9QjJBttVJoRTBxCwSzfIrKCNs2P7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GZE1CFN01MHYO4FQG4qbRQ8dF/T3Migg6liT5wg4xnM=;
+ b=LigSx1ZUb7DfDVulq+TxEXon1XE7lKme9uWquiBHc62BebAUSfvc/FcEth3vBJbr0Dq/EAOVkfCEVomybnc+lXdKWTXyo2kRJz1qczfxBx76y9XblUyv3zTj4bwK5P4WbQbM7CKHldBbp125GLCrZQfWf1lGVfihZGLwMenrm+dR/zwSJ8UpZQtXZKkm72ZTJQSaAdVYAJvBmVtCEPjeKL9S7q8te6ocThvihQmXQEyJZ/uvjnNKZ38VyHQYe1CFQIVylVrig55E3WNb/R/9g9H+W3atftpTsktGxcIKKQKUf2ZrTtibb3ZYZiE7ofGbQTulS/Ul81Lx+rBixHeR6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GZE1CFN01MHYO4FQG4qbRQ8dF/T3Migg6liT5wg4xnM=;
+ b=L/hbAlACTS51q3pRUjMR8rZpDPtVOpZKtvwYFWJxfo1Umf6XesBqPdU7p9MDdIQJ7QAUHpgIDsNPjvuJKcAK5TBaWTxc1dwR67jJ232w2dHq3KiFA8VLvddKJS9lfclvvvlWum7JT08BzzxEmXRo4ZKDvyKtcglMd1sHzclrLyM=
+Received: from BN0PR04CA0098.namprd04.prod.outlook.com (2603:10b6:408:ec::13)
+ by DM4PR12MB5391.namprd12.prod.outlook.com (2603:10b6:5:39a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Thu, 8 Dec
+ 2022 03:02:15 +0000
+Received: from BN8NAM11FT070.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ec:cafe::64) by BN0PR04CA0098.outlook.office365.com
+ (2603:10b6:408:ec::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14 via Frontend
+ Transport; Thu, 8 Dec 2022 03:02:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT070.mail.protection.outlook.com (10.13.177.50) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5901.16 via Frontend Transport; Thu, 8 Dec 2022 03:02:14 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 7 Dec
+ 2022 21:02:14 -0600
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-9-chao.p.peng@linux.intel.com>
-User-Agent: NeoMutt/20171215
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=yuan.yao@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Subject: [ANNOUNCE] QEMU 7.2.0-rc4 is now available
+From: Michael Roth <michael.roth@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <stefanha@gmail.com>
+Date: Wed, 7 Dec 2022 21:01:59 -0600
+Message-ID: <167046851977.45693.17767561239680772014@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT070:EE_|DM4PR12MB5391:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc694387-190d-4068-7147-08dad8c89c04
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J/PWBUGgwDup0Bk2hOCxvU3tbU/ZJvqy50cELeL4qJRxa4M1zrda+M5X0Vsi9E+8H9CFHH5CjfUciY1jnVErcPROor38olqwAlHzuQ/CbTCKrdQRGwmra4GqlJaqkO39zG/aRTfbn2+lWdqPffvpA9AcKuS7CnIdqjmV8ZryYvjAuaEMYIu5eKRZqQzA7FVKelJ1ldo0TwEtfCe/VKOPKLlUu3MB6OQzoi8R1PIGKcYn3Q+zL+mgKaBVvEKqEKcnpcyoyxXrNAc9kyAP2FJaq8rwT677hKI1v/ba1xLBdETvyjk9SSAcHZwcQenzkjPnjpp9rj9xfc+hSM+AG5AEG+bhlf0wavV2EPUKkYcAa3GDPP+0NZCVH5WYXwcrSf5SwhaxitfV2JgSOTvUW7VeNYyAzNuNqqTJA7BYyXEgMQYLYCTSOKXsEA2tFOpB67c0aYGhH5nuJYuAoWAkE0+6+0om880KR8gRydOdILUpZZvcc7JoHClxtNhqSDJogfotRwdSpHbyXx3axPNuebxUFf9ATIaa1vRXkb3e72ld1Hoed46lNo88y+bMoSiCNIveqLrArH+wSW7RQxFpicCWhT9l+yS2u/oTxMzDjG2NgwF6uFfHMRPBXqqag0teO9m1a4XyJjdIwPYz+fk+osYefE1f9KHTNFwwPXAdyIdATC60KvUJRRN01TmH7Y7tu3qFNPvk7Fh5G45YQjJF4G6cqVjUJGSijKXHBK3+8P+gqhePoUQazd0AjCcl9WMKir6rGu9p3aUKFFWs3ysO+5k/xFzilULwQS8H5ibrSj/5s9eYn4szXi9eYduYoqRnvmt9
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(39860400002)(346002)(396003)(136003)(451199015)(40470700004)(46966006)(36840700001)(82740400003)(40480700001)(356005)(81166007)(86362001)(36756003)(40460700003)(316002)(6666004)(478600001)(6916009)(966005)(83380400001)(44832011)(8936002)(41300700001)(4326008)(70206006)(5660300002)(8676002)(70586007)(36860700001)(2616005)(47076005)(426003)(66574015)(82310400005)(2906002)(26005)(336012)(16526019)(186003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2022 03:02:14.8629 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc694387-190d-4068-7147-08dad8c89c04
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT070.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5391
+Received-SPF: softfail client-ip=40.107.100.52;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM04-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,272 +118,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 02, 2022 at 02:13:46PM +0800, Chao Peng wrote:
-> A KVM_MEM_PRIVATE memslot can include both fd-based private memory and
-> hva-based shared memory. Architecture code (like TDX code) can tell
-> whether the on-going fault is private or not. This patch adds a
-> 'is_private' field to kvm_page_fault to indicate this and architecture
-> code is expected to set it.
->
-> To handle page fault for such memslot, the handling logic is different
-> depending on whether the fault is private or shared. KVM checks if
-> 'is_private' matches the host's view of the page (maintained in
-> mem_attr_array).
->   - For a successful match, private pfn is obtained with
->     restrictedmem_get_page() and shared pfn is obtained with existing
->     get_user_pages().
->   - For a failed match, KVM causes a KVM_EXIT_MEMORY_FAULT exit to
->     userspace. Userspace then can convert memory between private/shared
->     in host's view and retry the fault.
->
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  arch/x86/kvm/mmu/mmu.c          | 63 +++++++++++++++++++++++++++++++--
->  arch/x86/kvm/mmu/mmu_internal.h | 14 +++++++-
->  arch/x86/kvm/mmu/mmutrace.h     |  1 +
->  arch/x86/kvm/mmu/tdp_mmu.c      |  2 +-
->  include/linux/kvm_host.h        | 30 ++++++++++++++++
->  5 files changed, 105 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 2190fd8c95c0..b1953ebc012e 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -3058,7 +3058,7 @@ static int host_pfn_mapping_level(struct kvm *kvm, gfn_t gfn,
->
->  int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> -			      int max_level)
-> +			      int max_level, bool is_private)
->  {
->  	struct kvm_lpage_info *linfo;
->  	int host_level;
-> @@ -3070,6 +3070,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  			break;
->  	}
->
-> +	if (is_private)
-> +		return max_level;
+Hello,
 
-lpage mixed information already saved, so is that possible
-to query info->disallow_lpage without care 'is_private' ?
+On behalf of the QEMU Team, I'd like to announce the availability of the
+fifth and final planned release candidate for the QEMU 7.2 release. This
+release is meant for testing purposes and should not be used in a
+production environment.
 
-> +
->  	if (max_level == PG_LEVEL_4K)
->  		return PG_LEVEL_4K;
->
-> @@ -3098,7 +3101,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	 * level, which will be used to do precise, accurate accounting.
->  	 */
->  	fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
-> -						     fault->gfn, fault->max_level);
-> +						     fault->gfn, fault->max_level,
-> +						     fault->is_private);
->  	if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
->  		return;
->
-> @@ -4178,6 +4182,49 @@ void kvm_arch_async_page_ready(struct kvm_vcpu *vcpu, struct kvm_async_pf *work)
->  	kvm_mmu_do_page_fault(vcpu, work->cr2_or_gpa, 0, true);
->  }
->
-> +static inline u8 order_to_level(int order)
-> +{
-> +	BUILD_BUG_ON(KVM_MAX_HUGEPAGE_LEVEL > PG_LEVEL_1G);
-> +
-> +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_1G))
-> +		return PG_LEVEL_1G;
-> +
-> +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_2M))
-> +		return PG_LEVEL_2M;
-> +
-> +	return PG_LEVEL_4K;
-> +}
-> +
-> +static int kvm_do_memory_fault_exit(struct kvm_vcpu *vcpu,
-> +				    struct kvm_page_fault *fault)
-> +{
-> +	vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
-> +	if (fault->is_private)
-> +		vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
-> +	else
-> +		vcpu->run->memory.flags = 0;
-> +	vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
-> +	vcpu->run->memory.size = PAGE_SIZE;
-> +	return RET_PF_USER;
-> +}
-> +
-> +static int kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
-> +				   struct kvm_page_fault *fault)
-> +{
-> +	int order;
-> +	struct kvm_memory_slot *slot = fault->slot;
-> +
-> +	if (!kvm_slot_can_be_private(slot))
-> +		return kvm_do_memory_fault_exit(vcpu, fault);
-> +
-> +	if (kvm_restricted_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
-> +		return RET_PF_RETRY;
-> +
-> +	fault->max_level = min(order_to_level(order), fault->max_level);
-> +	fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
-> +	return RET_PF_CONTINUE;
-> +}
-> +
->  static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
->  {
->  	struct kvm_memory_slot *slot = fault->slot;
-> @@ -4210,6 +4257,12 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
->  			return RET_PF_EMULATE;
->  	}
->
-> +	if (fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn))
-> +		return kvm_do_memory_fault_exit(vcpu, fault);
-> +
-> +	if (fault->is_private)
-> +		return kvm_faultin_pfn_private(vcpu, fault);
-> +
->  	async = false;
->  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, false, &async,
->  					  fault->write, &fault->map_writable,
-> @@ -5599,6 +5652,9 @@ int noinline kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 err
->  			return -EIO;
->  	}
->
-> +	if (r == RET_PF_USER)
-> +		return 0;
-> +
->  	if (r < 0)
->  		return r;
->  	if (r != RET_PF_EMULATE)
-> @@ -6452,7 +6508,8 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
->  		 */
->  		if (sp->role.direct &&
->  		    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
-> -							       PG_LEVEL_NUM)) {
-> +							       PG_LEVEL_NUM,
-> +							       false)) {
->  			kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
->
->  			if (kvm_available_flush_tlb_with_range())
-> diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
-> index dbaf6755c5a7..5ccf08183b00 100644
-> --- a/arch/x86/kvm/mmu/mmu_internal.h
-> +++ b/arch/x86/kvm/mmu/mmu_internal.h
-> @@ -189,6 +189,7 @@ struct kvm_page_fault {
->
->  	/* Derived from mmu and global state.  */
->  	const bool is_tdp;
-> +	const bool is_private;
->  	const bool nx_huge_page_workaround_enabled;
->
->  	/*
-> @@ -237,6 +238,7 @@ int kvm_tdp_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
->   * RET_PF_RETRY: let CPU fault again on the address.
->   * RET_PF_EMULATE: mmio page fault, emulate the instruction directly.
->   * RET_PF_INVALID: the spte is invalid, let the real page fault path update it.
-> + * RET_PF_USER: need to exit to userspace to handle this fault.
->   * RET_PF_FIXED: The faulting entry has been fixed.
->   * RET_PF_SPURIOUS: The faulting entry was already fixed, e.g. by another vCPU.
->   *
-> @@ -253,6 +255,7 @@ enum {
->  	RET_PF_RETRY,
->  	RET_PF_EMULATE,
->  	RET_PF_INVALID,
-> +	RET_PF_USER,
->  	RET_PF_FIXED,
->  	RET_PF_SPURIOUS,
->  };
-> @@ -310,7 +313,7 @@ static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
->
->  int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> -			      int max_level);
-> +			      int max_level, bool is_private);
->  void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
->  void disallowed_hugepage_adjust(struct kvm_page_fault *fault, u64 spte, int cur_level);
->
-> @@ -319,4 +322,13 @@ void *mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
->  void track_possible_nx_huge_page(struct kvm *kvm, struct kvm_mmu_page *sp);
->  void untrack_possible_nx_huge_page(struct kvm *kvm, struct kvm_mmu_page *sp);
->
-> +#ifndef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
-> +					gfn_t gfn, kvm_pfn_t *pfn, int *order)
-> +{
-> +	WARN_ON_ONCE(1);
-> +	return -EOPNOTSUPP;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
->  #endif /* __KVM_X86_MMU_INTERNAL_H */
-> diff --git a/arch/x86/kvm/mmu/mmutrace.h b/arch/x86/kvm/mmu/mmutrace.h
-> index ae86820cef69..2d7555381955 100644
-> --- a/arch/x86/kvm/mmu/mmutrace.h
-> +++ b/arch/x86/kvm/mmu/mmutrace.h
-> @@ -58,6 +58,7 @@ TRACE_DEFINE_ENUM(RET_PF_CONTINUE);
->  TRACE_DEFINE_ENUM(RET_PF_RETRY);
->  TRACE_DEFINE_ENUM(RET_PF_EMULATE);
->  TRACE_DEFINE_ENUM(RET_PF_INVALID);
-> +TRACE_DEFINE_ENUM(RET_PF_USER);
->  TRACE_DEFINE_ENUM(RET_PF_FIXED);
->  TRACE_DEFINE_ENUM(RET_PF_SPURIOUS);
->
-> diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
-> index 771210ce5181..8ba1a4afc546 100644
-> --- a/arch/x86/kvm/mmu/tdp_mmu.c
-> +++ b/arch/x86/kvm/mmu/tdp_mmu.c
-> @@ -1768,7 +1768,7 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
->  			continue;
->
->  		max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
-> -							      iter.gfn, PG_LEVEL_NUM);
-> +						iter.gfn, PG_LEVEL_NUM, false);
->  		if (max_mapping_level < iter.level)
->  			continue;
->
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 25099c94e770..153842bb33df 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -2335,4 +2335,34 @@ static inline void kvm_arch_set_memory_attributes(struct kvm *kvm,
->  }
->  #endif /* __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES */
->
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
-> +{
-> +	return xa_to_value(xa_load(&kvm->mem_attr_array, gfn)) &
-> +	       KVM_MEMORY_ATTRIBUTE_PRIVATE;
-> +}
-> +#else
-> +static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
-> +{
-> +	return false;
-> +}
-> +
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> +
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
-> +					gfn_t gfn, kvm_pfn_t *pfn, int *order)
-> +{
-> +	int ret;
-> +	struct page *page;
-> +	pgoff_t index = gfn - slot->base_gfn +
-> +			(slot->restricted_offset >> PAGE_SHIFT);
-> +
-> +	ret = restrictedmem_get_page(slot->restricted_file, index,
-> +				     &page, order);
-> +	*pfn = page_to_pfn(page);
-> +	return ret;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
->  #endif
-> --
-> 2.25.1
->
->
+  http://download.qemu-project.org/qemu-7.2.0-rc4.tar.xz
+  http://download.qemu-project.org/qemu-7.2.0-rc4.tar.xz.sig
+
+You can help improve the quality of the QEMU 7.2 release by testing this
+release and reporting bugs using our GitLab issue tracker:
+
+  https://gitlab.com/qemu-project/qemu/-/milestones/7#tab-issues
+
+The release plan, as well a documented known issues for release
+candidates, are available at:
+
+  http://wiki.qemu.org/Planning/7.2
+
+Please add entries to the ChangeLog for the 7.2 release below:
+
+  http://wiki.qemu.org/ChangeLog/7.2
+
+Thank you to everyone involved!
+
+Changes since rc3:
+
+ea3a008d2d: Update VERSION for v7.2.0-rc4 (Stefan Hajnoczi)
+edc93f455f: Revert "hw/loongarch/virt: Add cfi01 pflash device" (Song Gao)
+c1966f515d: hw/display/next-fb: Fix comment typo (Evgeny Ermakov)
+21be74a9a5: target/s390x/tcg: Fix and improve the SACF instruction (Thomas =
+Huth)
+0f0a9e4e5c: tests/qtest/migration-test: Fix unlink error and memory leaks (=
+Thomas Huth)
+14dccc8ea6: hw/loongarch/virt: Add cfi01 pflash device (Xiaojuan Yang)
+8218c048be: target/i386: Always completely initialize TranslateFault (Richa=
+rd Henderson)
+38e65936a8: target/i386: allow MMX instructions with CR4.OSFXSR=3D0 (Paolo =
+Bonzini)
+83f56ac321: hw/nvme: remove copy bh scheduling (Klaus Jensen)
+818b9b8f5e: hw/nvme: fix aio cancel in dsm (Klaus Jensen)
+36a251c346: hw/nvme: fix aio cancel in zone reset (Klaus Jensen)
+3dbc1708ea: hw/nvme: fix aio cancel in flush (Klaus Jensen)
+433c71e494: hw/nvme: fix aio cancel in format (Klaus Jensen)
+4987e5bf2e: include/hw: VM state takes precedence in virtio_device_should_s=
+tart (Alex Benn=C3=A9e)
+71e076a07d: hw/virtio: generalise CHR_EVENT_CLOSED handling (Alex Benn=C3=
+=A9e)
+060f4a9440: hw/virtio: add started_vu status field to vhost-user-gpio (Alex=
+ Benn=C3=A9e)
+4daa5054c5: vhost: enable vrings in vhost_dev_start() for vhost-user device=
+s (Stefano Garzarella)
+523e40022f: tests/qtests: override "force-legacy" for gpio virtio-mmio test=
+s (Alex Benn=C3=A9e)
 
