@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1357647274
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:06:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FAA64727B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:08:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3IT6-0001iE-Pw; Thu, 08 Dec 2022 10:05:48 -0500
+	id 1p3IUy-0002hB-Ex; Thu, 08 Dec 2022 10:07:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p3IT4-0001he-Tz
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:05:46 -0500
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130])
+ id 1p3IUw-0002gV-7k
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:07:42 -0500
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p3IT3-0007fz-0w
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:05:46 -0500
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-3cbdd6c00adso17100477b3.11
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 07:05:44 -0800 (PST)
+ id 1p3IUu-00084h-H4
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:07:42 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id c140so1952619ybf.11
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 07:07:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
  bh=Lzj/yiNDFh4JW84RkK4BcDNLtWpH3d5QATkJFn3L+HM=;
- b=ojrLEvRb9EN+g/J3WNY+HnZj5P7F6x7jXaHDR5nnBH+nDqsCUjhjDUmnk+QsHQ7UBM
- g14xCkx6cbeCqCpOk9CaXD/bHZqXoxLOT24Ve2Edh5B5JxuwfTU0JeVIIIbtPvSEKANW
- fwZA72YIkz7OP6190/JbVNYiR+gF/xchR0ztyP3cLCLcyYF81kd9Hu7eexbISry6Y3qG
- GjbX5sRKyKv5sliPrmU0qHXkNEWFn+8dgBXy8RgToC0kiY8fwNYwnjRhnoi3SNvXqO+m
- MfLmR1IAzksyaSgzaPLykKZArMHTSP507nDxQzZm2kAGLJxWXW4nWAJf4v6m6N4AviG8
- j9Yg==
+ b=XNfTLhK7VyqX4KgDYLou1lSWOmFLYGQwWlliu8TAV9qaGuZW4J4ENNN93BJsqwugnp
+ 8V2smIT/VM+XOQrqOTiv0WExWOIbemyHounhnA79Z02fJa8tudKNWYoUdQlJkKkWL5AQ
+ mXrgnpidPcr/J0jsU4QoW+Yqz0erVriie0OZIP7SaKx/W/wCsxXzMrmGvB/u3aiH+c9O
+ bhydhELm3rfBReOfy3EVW+2TpOfZEZYE8/Ja0zEnkoqcJ5bUomGnt/uyWR9bS6x/ssM8
+ E5WVpfzXT2h1G07F9eUi2axEwgYrtfYYStx4uKUP8cIdLJTaew7gqSz11D75E1WWU9zC
+ Ke9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=Lzj/yiNDFh4JW84RkK4BcDNLtWpH3d5QATkJFn3L+HM=;
- b=GLyskM8pVETgmxeGKe2PQgQ661RbMdoSPaXtzwZu3M09d8C0uTOIQczlJx4Tot4Bo3
- MVWMrlqx3LOPd6KoakRiBG2a9SrgURwJcgtAHwyM0POutOOxJfc9yuP7JQRTrMTkdsFX
- 3NOMJ/iUEimEom/bRB2gTIwkE3kKQMduV4aYZ4U0JQGVxJCCwdO9oCYEJWX4dRsFEWc6
- cgTqqHJ+3v65eJ+6ok0A1AKfSBxEbFdbyuzgI7q61rMuxF0hR59rUVUzO/YcoNID8osU
- y3DJZhjrei1d0PtdS5Jnath7eJ0hxOQxts3PJVJ5RZIJCvb4oz5bDIABCJGowQwNmrjQ
- KZJg==
-X-Gm-Message-State: ANoB5pmAcu5M54JiUqIGZ6F//mMmaiOkKAdG6VkltIUjG8sTG2RIA1H3
- kUk07vUGFyg7Hzl99GbgbGBtq+YXc27rDC80oq4=
-X-Google-Smtp-Source: AA0mqf5ED3ESndQ/XpKPmOlYQmLuO66I8fByROOXeQ3VxA5yHziGoHoGLncWRJRdkknq1mPurCEqtd1OR9S68dwJjPE=
-X-Received: by 2002:a81:3c7:0:b0:3eb:447b:56cc with SMTP id
- 190-20020a8103c7000000b003eb447b56ccmr17841863ywd.296.1670511942772; Thu, 08
- Dec 2022 07:05:42 -0800 (PST)
+ b=x129f7z7NzumHn3PiLLR+T/lhXky2WSryxgSFR7gvs1rYHkCSkVUXI3/wdNi269Onm
+ tz/qJaEFIcnQN1E0hAgb5S/YCE06U6lHOum1PssSdfvwSAtsf99C+ZewswLrEjTM4St3
+ +VNbTBI8fAbDiSzgiC+LH73gBGjfFegaaILWWpVdS4pyJeM/II2e6O3rzr3LNZ1ik3yz
+ elnfLWhYuVFkoAkXon6cU+fhoqPP0xUeZdhkaO3YGTYR1wYy4YNZSV9DYino/r8gRdEK
+ OlgPX6RccPRxa7I2M4nmneMCj7rxsXN0ROE96q6F9El3p7MiN98Xb35yaw7A4D01n4pv
+ siCA==
+X-Gm-Message-State: ANoB5pkiZOA5ZqKMOBHWYKqUyGekfRYaAYqiqWv7F+xuvC/3Xymwpn2O
+ V+K4gxqpd64XdCSxQOCHRqNCtGDXnb5U2mfWX7M=
+X-Google-Smtp-Source: AA0mqf6pzgvj+/1Fv+e3GprfPnv340pQLcaLD509TsA2151q8KDr3blve6kfR4x3XXSHdaZLSle9LtLXWPbHDcjd4Kc=
+X-Received: by 2002:a25:4c85:0:b0:701:6660:4386 with SMTP id
+ z127-20020a254c85000000b0070166604386mr14030120yba.366.1670512046920; Thu, 08
+ Dec 2022 07:07:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20221208142306.2642640-1-armbru@redhat.com>
- <20221208142306.2642640-4-armbru@redhat.com>
-In-Reply-To: <20221208142306.2642640-4-armbru@redhat.com>
+ <20221208142306.2642640-5-armbru@redhat.com>
+In-Reply-To: <20221208142306.2642640-5-armbru@redhat.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 8 Dec 2022 10:05:30 -0500
-Message-ID: <CAJSP0QUgVMNEdKPGf0Xbj6M9xbk1NOSSjwzyCk3aBejg6ZVYtQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] coroutine: Clean up superfluous inclusion of
- qemu/lockable.h
+Date: Thu, 8 Dec 2022 10:07:14 -0500
+Message-ID: <CAJSP0QVgXA8GGbnws1tmk5f-Eox8P47gQ0YuSQzJ25FSywUvCg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] coroutine: Break inclusion loop
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, stefanha@redhat.com, kwolf@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1130.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
