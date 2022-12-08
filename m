@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC03646C8D
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0D0646C8C
 	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 11:16:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3DwA-0005PC-Ja; Thu, 08 Dec 2022 05:15:30 -0500
+	id 1p3DwV-0005co-Q6; Thu, 08 Dec 2022 05:15:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3Dvm-0005KS-4K
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 05:15:11 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3Dvf-0000uj-Ng
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 05:15:05 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- 125-20020a1c0283000000b003d1e906ca23so520277wmc.3
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 02:14:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=eVc4oitANzuJshTuFsoNBB7umKuiWorBB4aXCWmI9UU=;
- b=gIDeg4knTydtc27KRte6IFC/Z6mQ+DG9zc/qEzWWfbZXvaK6hwmOJySnuDQM+EXLBr
- SU9h0SgMndrQb41ZHqDEXKA0CmACW6zQ/x4/5XIaa1WV/Vuj8m8wRcrEoDnVBObTSPNS
- YjAjcHsHaDlemMkrvBoUnhzrJINzMv+jU9YecPAYnjAMZtcvfhBhZz3pf4m4uJE3B1oZ
- BfGr2yBT6jdiQbiarDPu9t3+lCUuQ4SNr8XXcamBi3VXJdGiUPufuTiRQFZSUjRnBeud
- ab9/PjRYSM7HMFljHIKX7P79LASpe4zpQMfcdxgGcNddfHgOIQBrAzITbwybC2xUX56A
- p5Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eVc4oitANzuJshTuFsoNBB7umKuiWorBB4aXCWmI9UU=;
- b=rj/+OAdPtVzPkrh17WJZNAmMb7v3kunArMVfxvsL4ay5LEn1EMJf+oohJgq5jexzu+
- tuXh+p5+BJZQxIuva6giKvlS9XqHTUif5kNX5WlJngsFvWzGvQ2QyEqG+ofm+pNZ2tT/
- fBN/XVNByTjSutEYpagBYoqW+Uzat64pAZ9S4ze8c4qwn46RBKYtJYt8C2X9+JfpzsXi
- IkU6dXKwTaeWLqRsjsC5G3TE3EAq/Y35CyDGqwiTfq7HEbGyLYBHo+WnrchUeOChL9R9
- N58Rh3CgEaL3VFrNqCgKJPYnVbYmKuOosOwJNjNYcO2kv0L8MZIykiQBeqK6Vvfxx2kX
- vgZA==
-X-Gm-Message-State: ANoB5pkBVraDuw8IcAERM0sPXZIftn3IastDOIu7tAY0MBhiKkRysswk
- i3+GTJ/IchjHXrZvNhitLOsx1A==
-X-Google-Smtp-Source: AA0mqf58ifvxNGiyb0ez3a9vloI9fq3IwY1L67nSf09G/+OxW0g3vlS60fcZc9oiGxPmJXEEFyWbPg==
-X-Received: by 2002:a05:600c:5012:b0:3cf:486f:2700 with SMTP id
- n18-20020a05600c501200b003cf486f2700mr60303415wmr.83.1670494497653; 
- Thu, 08 Dec 2022 02:14:57 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m28-20020a056000025c00b00242257f2672sm22131038wrz.77.2022.12.08.02.14.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 02:14:57 -0800 (PST)
-Message-ID: <10df1dba-f955-f3a7-7f53-135db63238b0@linaro.org>
-Date: Thu, 8 Dec 2022 11:14:56 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3DwT-0005aQ-8D
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 05:15:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3DwR-0001Dk-IK
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 05:15:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670494546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zf7t8JvuR5yofC48SQF+Hg89KfUlrdMSLRFnKSER8HI=;
+ b=YLdy/hKORI4sXwpnDPVMo8qTR+dDbGApWso6+Fg/+/9ithi7Wo4hgG1mUdUkjsYqQRxzGQ
+ QHCxVS1CaLXzGy221YujVJF8k0U841m/4r+vS4TZaOtZfj8as65g/bbf9OQCon6AKGrUGG
+ tqd+gMAA/+qSr121wqzDvMJ0EAYZp0c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-bOzGPYuRP76ltLw91BZVxQ-1; Thu, 08 Dec 2022 05:15:34 -0500
+X-MC-Unique: bOzGPYuRP76ltLw91BZVxQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22BBD1C08972;
+ Thu,  8 Dec 2022 10:15:34 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61F86C15BA5;
+ Thu,  8 Dec 2022 10:15:32 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-ppc@nongnu.org
+Subject: [PATCH] gitlab-ci: Check building ppc64 without TCG
+Date: Thu,  8 Dec 2022 11:15:27 +0100
+Message-Id: <20221208101527.36873-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 1/1] hw/nvme: fix missing cq eventidx update
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>, Guenter Roeck <linux@roeck-us.net>,
- Klaus Jensen <k.jensen@samsung.com>
-References: <20221208082955.51732-1-its@irrelevant.dk>
- <20221208082955.51732-2-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221208082955.51732-2-its@irrelevant.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.262,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,58 +75,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/12/22 09:29, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Prior to reading the shadow doorbell cq head, we have to update the
-> eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
-> write. This happens on riscv64, as reported by Guenter.
-> 
-> Adding the missing update to the cq eventidx fixes the issue.
-> 
-> Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->   hw/nvme/ctrl.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index e54276dc1dc7..1192919b4869 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -1331,6 +1331,13 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
->       }
->   }
->   
-> +static void nvme_update_cq_eventidx(const NvmeCQueue *cq)
-> +{
-> +    pci_dma_write(&cq->ctrl->parent_obj, cq->ei_addr, &cq->head,
+Building QEMU for ppc64 hosts with --disable-tcg used to break a couple
+of times in the past, see e.g. commit a01b64cee7 ("target/ppc: Put do_rfi
+under a TCG-only block") or commit 049b4ad669 ("target/ppc: Fix build
+warnings when building with 'disable-tcg'"), so we should test this in
+our CI to avoid such regressions.
 
-'parent_obj' is a private field. Better to use the QOM accessor:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Not sure whether we really should add new shared runner jobs ... but
+ I currently also don't see a better option for this: We don't have
+ any custom ppc64 runners in our CI, so the only other way to test this
+ is travis - but the Travis extension for gitlab recently broke, so
+ the results there are currently rather neglected, I think...
 
-        pci_dma_write(PCI_DEVICE(&cq->ctrl), cq->ei_addr, &cq->head,
+ .gitlab-ci.d/crossbuilds.yml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> +                  sizeof(cq->head));
-> +    trace_pci_nvme_eventidx_cq(cq->cqid, cq->head);
-
-Surprisingly the trace event format was already present in Jinhao respin...
-https://lore.kernel.org/all/YqsIh+OUcWnHU3zp@apples/T/
-
-Could we move the event before the call?
-
-> +}
-> +
->   static void nvme_update_cq_head(NvmeCQueue *cq)
->   {
->       pci_dma_read(&cq->ctrl->parent_obj, cq->db_addr, &cq->head,
-> @@ -1351,6 +1358,7 @@ static void nvme_post_cqes(void *opaque)
->           hwaddr addr;
->   
->           if (n->dbbuf_enabled) {
-> +            nvme_update_cq_eventidx(cq);
->               nvme_update_cq_head(cq);
->           }
->   
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index c4cd96433d..8dbbb8f881 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -112,6 +112,14 @@ cross-ppc64el-user:
+   variables:
+     IMAGE: debian-ppc64el-cross
+ 
++cross-ppc64el-kvm-only:
++  extends: .cross_accel_build_job
++  needs:
++    job: ppc64el-debian-cross-container
++  variables:
++    IMAGE: debian-ppc64el-cross
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --without-default-devices
++
+ # The riscv64 cross-builds currently use a 'sid' container to get
+ # compilers and libraries. Until something more stable is found we
+ # allow_failure so as not to block CI.
+-- 
+2.31.1
 
 
