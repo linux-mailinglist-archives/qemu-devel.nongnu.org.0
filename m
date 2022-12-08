@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9678664762B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 20:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FEE647716
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 21:15:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3MWM-0001sq-2M; Thu, 08 Dec 2022 14:25:30 -0500
+	id 1p3NHM-000666-NG; Thu, 08 Dec 2022 15:14:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p3MVt-0001ro-Fj; Thu, 08 Dec 2022 14:24:58 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p3NHK-00065g-3L
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 15:13:58 -0500
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p3MVr-0000Zd-1t; Thu, 08 Dec 2022 14:24:56 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id m18so6362809eji.5;
- Thu, 08 Dec 2022 11:24:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p3NHI-0006Vp-EM
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 15:13:57 -0500
+Received: by mail-oi1-x231.google.com with SMTP id e205so2505039oif.11
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 12:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=j7qS7tQtLyatYc46KzK/dPvzwPaD60+V1ALLeTswBEs=;
- b=n58yRU461UWucl89mnwHO4wXMmx6YJt8XRi5qEMKl7qmN5Ll0KFP8FNpts3Gu0PbNj
- eYrFdH6JnMeG4sqcjEGxraodNCmaoQF2caCP7nujdT5HEwR0aqYJ+rph0Pgc8tJnqdUx
- t4WNpckioXwf6AHWWmwAwOEl/UWFxJ5FsO2n+Sq3BGbhpK/Rxn9p8z1FfXHYtGDg99ZU
- 4z2AQpy/NF96nokXywJxlSrt3Xz7ebohmAj/B6RHpvOWYRzhUrhXLN8sUefHhneceNbW
- fVU6+N7EpupPdbZG8FDJbPVnJQWa9Kj1xPMLELpWcokgBNGaEvpROFSpmBL4g7ZRD6bg
- zTrg==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=nrqbANYxJrPD9V/WEnwzkgMTTrfXS4ZEZBQlRB9SQgw=;
+ b=dNAXtj9wjXCb0AZqCO6N8XwWlqPemsx6EbaPXAopFi5GT0e3cyit6lmorc0cRv96OK
+ 4K+BR7n7KVeO5rbI8t4yRWPFlw+24L5PmuXwNB8rJBIM2Qz0dMY7aAGPBe0AsYC60O/O
+ afrFOXeLrC4Jd+KBZ+1TeV0Jux01v38dhvIkGy6O8dWsC4E9MN+AUl4UV2BcgiIorD2h
+ XY6emb96hjHCKl3f3+obZLPYyhobflN0Ao4BsIqAgk4ivOb+xISCAuhw8M27PDoyxILm
+ vlQOe9MiVLRHS6W/aD967ZpjXYN9Czr2Bcv8UvrS318QKDW/aYq0iNFaBrWkbREhUk6t
+ 8ulA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=j7qS7tQtLyatYc46KzK/dPvzwPaD60+V1ALLeTswBEs=;
- b=eQbvx8wx/8ezV6Grpbhag7dGyyfnhVppEVC7ujWOKMoMV1z5bN8q+oiHleHd1ScGCp
- mfnN1i59LnYGJx86F8ghkvsBTPgNyKjjrQ9QdRyY/NF5vsjOIfcCz97Ti6TmOCuWglqr
- zA5LXQcRpd5dhbbOfSH+M4n5EEUXA5AktJ+6/isbN2nU93EHmSSv0qdFApH8+kTTwc5H
- nuONzB2varKxlKgRBv6zz7yc2g+NdTKvjrxTPNRsxLLNWlNnygnlvvgLLI3MoaIh5VeT
- K3GlRNDMbNhg2BjiinqYN9Yj/DwxDUMdHy148AQ0MoIYd8fog5mk9sHPp/uVhNgZP0XS
- hnUA==
-X-Gm-Message-State: ANoB5pliGuyDirTf7gh3wW2eQd6Ily7VFtwFPURt/6wAOwlUv38Je1Zi
- Td8/DMiki+wr4CxkWBBdxdRlPpXQzWCt0D0WRMYfwBWXutGkoRvI
-X-Google-Smtp-Source: AA0mqf7Mf5DNMXi1omIYQLIgEMjyM+cO5zE+4dhFlN6CUh2UZilDWNPWr+KRJotdVt7stJ2decl+aEMwOc0e5FVK8J8=
-X-Received: by 2002:a17:907:9c0a:b0:7ae:1e53:8dd4 with SMTP id
- ld10-20020a1709079c0a00b007ae1e538dd4mr36669771ejc.42.1670527491298; Thu, 08
- Dec 2022 11:24:51 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nrqbANYxJrPD9V/WEnwzkgMTTrfXS4ZEZBQlRB9SQgw=;
+ b=UH9YnsNuKcSSmY9qqQHx+CaEUCV+RhkhywDZwCzdMfXFfey/HXhDUXkM0lLQ8lU9ET
+ 5NOgwszxZS9XL2viMeB47XpKDWx5VQ810ipZkrRqu7XiPJM/aS2SdSAjVhKYKXmTqP4a
+ wWOcxqEVBFsum9kB81tS3yimX9i+dK4g3+u3z1F/uIQn63m4R/ufEPqkYYKegXXbrD+J
+ BaeI01uPChuz1EEArvTO8ttguoQZ9FMbhfhRiAlTh8OpgoaoQu9r3zXCEBpNKbcxP8xE
+ E7ZURzhUnjW8S2fQgqbtzzl7+m7ekPEiGxtvP8dh6/u0f8rCkm/FW79GtLDQYrhkJ0fQ
+ Dj9A==
+X-Gm-Message-State: ANoB5pmATFoqMvApBBOk4q1yScgZWVBgHKosDUAY3Vq5vDUFHdgxm2Qy
+ vIM37OikO03Lf2nR4uhS6sU=
+X-Google-Smtp-Source: AA0mqf6nVPezVhr54IXLB6JD2VKhZtLKwwQBBWciND1seOg5DtPJjnvpxWzNcP0veAELUqDRkWnXkw==
+X-Received: by 2002:aca:2302:0:b0:35a:5645:16e6 with SMTP id
+ e2-20020aca2302000000b0035a564516e6mr49126468oie.288.1670530435104; 
+ Thu, 08 Dec 2022 12:13:55 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ i5-20020a4aab05000000b004a0c24bc68csm5382734oon.18.2022.12.08.12.13.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Dec 2022 12:13:54 -0800 (PST)
+Date: Thu, 8 Dec 2022 12:13:53 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
+ kbusch@kernel.org
+Subject: Re: [PATCH v3 1/2] hw/nvme: Implement shadow doorbell buffer support
+Message-ID: <20221208201353.GA928427@roeck-us.net>
+References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+ <20220616123408.3306055-2-fanjinhao21s@ict.ac.cn>
+ <20221207174918.GA1151796@roeck-us.net>
+ <Y5GPRiO0g2mgA3FS@cormorant.local>
+ <Y5GbbF68N5ZiYNdv@cormorant.local>
+ <20221208184740.GA3380017@roeck-us.net>
 MIME-Version: 1.0
-References: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
- <CAPan3WoHZXTY4+EAkgwcHdYTice62OtRdLyjW7hdn8oQ-Swa-A@mail.gmail.com>
-In-Reply-To: <CAPan3WoHZXTY4+EAkgwcHdYTice62OtRdLyjW7hdn8oQ-Swa-A@mail.gmail.com>
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Thu, 8 Dec 2022 20:24:40 +0100
-Message-ID: <CABtshVTVG=YqWemmG56eOAR5UouDXnTHBtp42Tu6N_w4EgDpUA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Enable Cubieboard A10 boot SPL from SD card
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221208184740.GA3380017@roeck-us.net>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=groeck7@gmail.com; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.229, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,114 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Niek,
+On Thu, Dec 08, 2022 at 10:47:42AM -0800, Guenter Roeck wrote:
+> > 
+> > A cq head doorbell mmio is skipped... And it is not the fault of the
+> > kernel. The kernel is in it's good right to skip the mmio since the cq
+> > eventidx is not properly updated.
+> > 
+> > Adding that and it boots properly on riscv. But I'm perplexed as to why
+> > this didnt show up on our regularly tested platforms.
+> > 
+> > Gonna try to get this in for 7.2!
+> 
+> I see another problem with sparc64.
+> 
+> [    5.261508] could not locate request for tag 0x0
+> [    5.261711] nvme nvme0: invalid id 0 completed on queue 1
+> 
+> That is seen repeatedly until the request times out. I'll test with
+> your patch to see if it resolves this problem as well, and will bisect
+> otherwise.
+> 
+The second problem is unrelated to the doorbell problem.
+It is first seen in qemu v7.1. I'll try to bisect.
 
-On Wed, Dec 7, 2022 at 9:25 PM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
->
-> Hello Strahinja,
->
-> Thanks for contribution these patches, and also taking the H3 into account :-)
-
-Thank you for looking into these patches and all of the comments. I
-will try to submit V2 of this patch set in the following days.
-
->
-> I've ran the avocado based acceptance tests for both boards and got these results:
->
-> $ ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes ./build/tests/venv/bin/avocado --show=app,console run -t machine:orangepi-pc tests/avocado/boot_linux_console.py
-> ...
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 114.24 s
->
-> $ ./build/tests/venv/bin/avocado --show=app,console run -t machine:cubieboard tests/avocado/boot_linux_console.py
-> ...
-> RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 22.79 s
-
-I did not think initially about avocado, but maybe I could also add an
-SPL/SD boot test for the cubieboard, similarly to the way it is run
-for Orange Pi, for V2 of the patch set?
-
-Best regards,
-Strahinja
-
-
-
->
-> So that shows both machines are still running fine. During startup of the bionic 20.08 image for orangepi-pc it did show this message:
->   console: i2c i2c-0: mv64xxx: I2C bus locked, block: 1, time_left: 0
->   console: sy8106a: probe of 0-0065 failed with error -110
->
-> The SY8106a appears to be an peripheral attached to the I2C bus on the orangepi-pc, and we don't emulate the SY8106a yet, so that's an error to be expected:
->   https://linux-sunxi.org/SY8106A
->
-> So for the series:
-> Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
->
-> I'll try to reply to each patch as well.
->
-> Kind regards,
-> Niek
->
-> On Sun, Dec 4, 2022 at 12:19 AM Strahinja Jankovic <strahinjapjankovic@gmail.com> wrote:
->>
->> This patch series adds missing Allwinner A10 modules needed for
->> successful SPL boot:
->> - Clock controller module
->> - DRAM controller
->> - I2C0 controller (added also for Allwinner H3 since it is the same)
->> - AXP-209 connected to I2C0 bus
->>
->> It also updates Allwinner A10 emulation so SPL is copied from attached
->> SD card if `-kernel` parameter is not passed when starting QEMU
->> (approach adapted from Allwinner H3 implementation).
->>
->> Boot from SD card has been tested with Cubieboard Armbian SD card image and custom
->> Yocto image built for Cubieboard.
->> Example usage for Armbian image:
->> qemu-system-arm -M cubieboard -nographic -sd ~/Armbian_22.11.0-trunk_Cubieboard_kinetic_edge_6.0.7.img
->>
->>
->> Strahinja Jankovic (6):
->>   hw/misc: Allwinner-A10 Clock Controller Module Emulation
->>   hw/misc: Allwinner A10 DRAM Controller Emulation
->>   hw/i2c: Allwinner TWI/I2C Emulation
->>   hw/misc: Allwinner AXP-209 Emulation
->>   hw/arm: Add AXP-209 to Cubieboard
->>   hw/arm: Allwinner A10 enable SPL load from MMC
->>
->>  hw/arm/Kconfig                        |   5 +
->>  hw/arm/allwinner-a10.c                |  40 +++
->>  hw/arm/allwinner-h3.c                 |  11 +-
->>  hw/arm/cubieboard.c                   |  11 +
->>  hw/i2c/Kconfig                        |   4 +
->>  hw/i2c/allwinner-i2c.c                | 417 ++++++++++++++++++++++++++
->>  hw/i2c/meson.build                    |   1 +
->>  hw/misc/Kconfig                       |  10 +
->>  hw/misc/allwinner-a10-ccm.c           | 224 ++++++++++++++
->>  hw/misc/allwinner-a10-dramc.c         | 179 +++++++++++
->>  hw/misc/allwinner-axp-209.c           | 263 ++++++++++++++++
->>  hw/misc/meson.build                   |   3 +
->>  include/hw/arm/allwinner-a10.h        |  27 ++
->>  include/hw/arm/allwinner-h3.h         |   3 +
->>  include/hw/i2c/allwinner-i2c.h        | 112 +++++++
->>  include/hw/misc/allwinner-a10-ccm.h   |  67 +++++
->>  include/hw/misc/allwinner-a10-dramc.h |  68 +++++
->>  17 files changed, 1444 insertions(+), 1 deletion(-)
->>  create mode 100644 hw/i2c/allwinner-i2c.c
->>  create mode 100644 hw/misc/allwinner-a10-ccm.c
->>  create mode 100644 hw/misc/allwinner-a10-dramc.c
->>  create mode 100644 hw/misc/allwinner-axp-209.c
->>  create mode 100644 include/hw/i2c/allwinner-i2c.h
->>  create mode 100644 include/hw/misc/allwinner-a10-ccm.h
->>  create mode 100644 include/hw/misc/allwinner-a10-dramc.h
->>
->> --
->> 2.30.2
->>
->
->
-> --
-> Niek Linnenbank
->
+Guenter
 
