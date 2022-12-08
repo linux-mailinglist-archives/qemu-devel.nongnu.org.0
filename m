@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FD1646D3F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 11:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0937E646E48
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 12:19:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3EKT-000859-2i; Thu, 08 Dec 2022 05:40:37 -0500
+	id 1p3Ev0-0007uV-GO; Thu, 08 Dec 2022 06:18:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3EKR-000834-24
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 05:40:35 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3EKM-0008Mv-TP
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 05:40:34 -0500
-Received: by mail-wr1-x431.google.com with SMTP id m14so1099794wrh.7
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 02:40:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=buO6cdpVNYldtS+BpUsbSi0LMhvAA2lrJ/Ry0K5pkBQ=;
- b=agaK2Y7QXB9VUQEB9UuIoUBSRSFn9/QJfNGhAZ70Vp7ufOCTeU3hdKV3PfOwaHXMdH
- dm/Siae+aqEb0tNpe66YRsbDN8mTPKjPcp9EVyzLIF7fVl8jlxzAZCG1yLYpAGW2gMoX
- 5PFe6LDpgLWvdRSm253jjr6+uhvksZBj70t8dI6Xt/ujZijMDOfhk9Y9rYM/3kq4gug4
- j9Qc/IYMnaLABolefoUUNid8/Orzk9oKCn7Eq5u0cxZ0Vru7gcLypI7xRBgHggsCQ6vO
- /Hwhlr9suHqR5XsGEg6YVx5KTQz4GFBxOXoDLWB6t7lc+jIHHUU54HaA4OcEdzotZKzP
- zmuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=buO6cdpVNYldtS+BpUsbSi0LMhvAA2lrJ/Ry0K5pkBQ=;
- b=RgeVAGGKe2B94OVZ6GYbJj09E5jSEk3aQ3VnMY8zB7MCYTXx60Tf3vGo4juWyjUv35
- YsWklGFQ/F0HMLODHaknL9m4aaYPsqcq3PovdeZ9iWhf6VZ424vlWBKFI/VNm9/O2iLh
- gFzrPMjgrm0hcXdzL4a1EUym43HtzC6EmTisjuii9quvedBiFJcUc565onXwpt7cqytF
- GU2dyfnQBsAzlw8K+bdv/XoDjV69jgftoGZaVSHS1W9Eq722NGF8+7b67pynJSJo/byj
- onQn0nb3TmhLWBn8wqP20H0O29gD9OM7dz5JybsApiyjXAaqB25jJB7MLZdjJ8IXayg+
- l67g==
-X-Gm-Message-State: ANoB5pnT2aBEdL3q2SsnryO7DkATRVMScPQljGyHxiwAQBtj3XWz5X9a
- QfRFP6HK1UHXVN2zz4H8a/gkHYvjaCrJl70He0I=
-X-Google-Smtp-Source: AA0mqf44cBmXYC8vz7gVbfjldVJvDyD7w3rK2PaCUsXyvlLE59ONqNz0laSS96ftookB9cO7WmRyjg==
-X-Received: by 2002:adf:de86:0:b0:242:442c:8ea3 with SMTP id
- w6-20020adfde86000000b00242442c8ea3mr15675294wrl.380.1670496030205; 
- Thu, 08 Dec 2022 02:40:30 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h5-20020a05600c2ca500b003c6bbe910fdsm5626404wmc.9.2022.12.08.02.40.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 02:40:29 -0800 (PST)
-Message-ID: <ea5ce917-9d27-e22d-2ba8-22439c6b6147@linaro.org>
-Date: Thu, 8 Dec 2022 11:40:28 +0100
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p3Euv-0007qG-0k
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 06:18:17 -0500
+Received: from mga11.intel.com ([192.55.52.93])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p3Euq-0005dQ-Ie
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 06:18:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670498292; x=1702034292;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=9X/XdL7eFz48zkUBVXUnL2TxJxurQ0v9FK2EcyHu93s=;
+ b=Lx6+04lPZha1WvK2kDDp77daRVenWRfJUdWvbz/465i9T4KM2VPxJcw3
+ pO4lE8hvxTHGeawQJiJxcFMHNMkVXAANyvmPPXpg4rA3UNowRlZ5aApH4
+ 340VoWgdGx6ABV4HRKXyaB3vl+VRu2V4bNS0iStIbY1+IZG8fN+dECmPH
+ GHLWIoZphXM5Mx7zpLvKNIfV1hXMSFjFqJUBHfbB93eFSDK9UkndITj+Y
+ yyDWcIdvCsPUQG3qJzgnQZC86NsdYUs+HKzSZoTGorFwisKC549yiV57H
+ OxyZzVgAYuWD+eENWBtYiA2fEQfbAfEQB0PytdnoUPWwmjdZQ++niTtkp A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="314792998"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="314792998"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2022 03:18:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="677717537"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="677717537"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga008.jf.intel.com with ESMTP; 08 Dec 2022 03:17:55 -0800
+Date: Thu, 8 Dec 2022 19:13:36 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 6/9] KVM: Unmap existing mappings when change the
+ memory attributes
+Message-ID: <20221208111336.GA1304936@chaop.bj.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
+ <CA+EHjTxwxsAPGYGgBGqDnNvecKNztrBY4j9a9FHmSTJG3Senpg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v2 04/16] hw/riscv: Sort machines Kconfig options in
- alphabetical order
-Content-Language: en-US
-To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-References: <20221207100335.290481-1-bmeng@tinylab.org>
- <20221207100335.290481-4-bmeng@tinylab.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221207100335.290481-4-bmeng@tinylab.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.262,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTxwxsAPGYGgBGqDnNvecKNztrBY4j9a9FHmSTJG3Senpg@mail.gmail.com>
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,21 +99,332 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/12/22 11:03, Bin Meng wrote:
-> SHAKTI_C machine Kconfig option was inserted in disorder. Fix it.
+On Wed, Dec 07, 2022 at 05:16:34PM +0000, Fuad Tabba wrote:
+> Hi,
 > 
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
+> On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> >
+> > Unmap the existing guest mappings when memory attribute is changed
+> > between shared and private. This is needed because shared pages and
+> > private pages are from different backends, unmapping existing ones
+> > gives a chance for page fault handler to re-populate the mappings
+> > according to the new attribute.
+> >
+> > Only architecture has private memory support needs this and the
+> > supported architecture is expected to rewrite the weak
+> > kvm_arch_has_private_mem().
 > 
-> (no changes since v1)
+> This kind of ties into the discussion of being able to share memory in
+> place. For pKVM for example, shared and private memory would have the
+> same backend, and the unmapping wouldn't be needed.
 > 
->   hw/riscv/Kconfig | 16 +++++++++-------
->   1 file changed, 9 insertions(+), 7 deletions(-)
+> So I guess that, instead of kvm_arch_has_private_mem(), can the check
+> be done differently, e.g., with a different function, say
+> kvm_arch_private_notify_attribute_change() (but maybe with a more
+> friendly name than what I suggested :) )?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Besides controlling the unmapping here, kvm_arch_has_private_mem() is
+also used to gate the memslot KVM_MEM_PRIVATE flag in patch09. I know
+unmapping is confirmed unnecessary for pKVM, but how about
+KVM_MEM_PRIVATE? Will pKVM add its own flag or reuse KVM_MEM_PRIVATE?
+If the answer is the latter, then yes we should use a different check
+which only works for confidential usages here.
 
+Thanks,
+Chao
+> 
+> Thanks,
+> /fuad
+> 
+> >
+> > Also, during memory attribute changing and the unmapping time frame,
+> > page fault handler may happen in the same memory range and can cause
+> > incorrect page state, invoke kvm_mmu_invalidate_* helpers to let the
+> > page fault handler retry during this time frame.
+> >
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  include/linux/kvm_host.h |   7 +-
+> >  virt/kvm/kvm_main.c      | 168 ++++++++++++++++++++++++++-------------
+> >  2 files changed, 116 insertions(+), 59 deletions(-)
+> >
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 3d69484d2704..3331c0c92838 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -255,7 +255,6 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+> >  int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
+> >  #endif
+> >
+> > -#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
+> >  struct kvm_gfn_range {
+> >         struct kvm_memory_slot *slot;
+> >         gfn_t start;
+> > @@ -264,6 +263,8 @@ struct kvm_gfn_range {
+> >         bool may_block;
+> >  };
+> >  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
+> > +
+> > +#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
+> >  bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
+> >  bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
+> >  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
+> > @@ -785,11 +786,12 @@ struct kvm {
+> >
+> >  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
+> >         struct mmu_notifier mmu_notifier;
+> > +#endif
+> >         unsigned long mmu_invalidate_seq;
+> >         long mmu_invalidate_in_progress;
+> >         gfn_t mmu_invalidate_range_start;
+> >         gfn_t mmu_invalidate_range_end;
+> > -#endif
+> > +
+> >         struct list_head devices;
+> >         u64 manual_dirty_log_protect;
+> >         struct dentry *debugfs_dentry;
+> > @@ -1480,6 +1482,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
+> >  int kvm_arch_post_init_vm(struct kvm *kvm);
+> >  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
+> >  int kvm_arch_create_vm_debugfs(struct kvm *kvm);
+> > +bool kvm_arch_has_private_mem(struct kvm *kvm);
+> >
+> >  #ifndef __KVM_HAVE_ARCH_VM_ALLOC
+> >  /*
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index ad55dfbc75d7..4e1e1e113bf0 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -520,6 +520,62 @@ void kvm_destroy_vcpus(struct kvm *kvm)
+> >  }
+> >  EXPORT_SYMBOL_GPL(kvm_destroy_vcpus);
+> >
+> > +void kvm_mmu_invalidate_begin(struct kvm *kvm)
+> > +{
+> > +       /*
+> > +        * The count increase must become visible at unlock time as no
+> > +        * spte can be established without taking the mmu_lock and
+> > +        * count is also read inside the mmu_lock critical section.
+> > +        */
+> > +       kvm->mmu_invalidate_in_progress++;
+> > +
+> > +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+> > +               kvm->mmu_invalidate_range_start = INVALID_GPA;
+> > +               kvm->mmu_invalidate_range_end = INVALID_GPA;
+> > +       }
+> > +}
+> > +
+> > +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
+> > +{
+> > +       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
+> > +
+> > +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+> > +               kvm->mmu_invalidate_range_start = start;
+> > +               kvm->mmu_invalidate_range_end = end;
+> > +       } else {
+> > +               /*
+> > +                * Fully tracking multiple concurrent ranges has diminishing
+> > +                * returns. Keep things simple and just find the minimal range
+> > +                * which includes the current and new ranges. As there won't be
+> > +                * enough information to subtract a range after its invalidate
+> > +                * completes, any ranges invalidated concurrently will
+> > +                * accumulate and persist until all outstanding invalidates
+> > +                * complete.
+> > +                */
+> > +               kvm->mmu_invalidate_range_start =
+> > +                       min(kvm->mmu_invalidate_range_start, start);
+> > +               kvm->mmu_invalidate_range_end =
+> > +                       max(kvm->mmu_invalidate_range_end, end);
+> > +       }
+> > +}
+> > +
+> > +void kvm_mmu_invalidate_end(struct kvm *kvm)
+> > +{
+> > +       /*
+> > +        * This sequence increase will notify the kvm page fault that
+> > +        * the page that is going to be mapped in the spte could have
+> > +        * been freed.
+> > +        */
+> > +       kvm->mmu_invalidate_seq++;
+> > +       smp_wmb();
+> > +       /*
+> > +        * The above sequence increase must be visible before the
+> > +        * below count decrease, which is ensured by the smp_wmb above
+> > +        * in conjunction with the smp_rmb in mmu_invalidate_retry().
+> > +        */
+> > +       kvm->mmu_invalidate_in_progress--;
+> > +}
+> > +
+> >  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
+> >  static inline struct kvm *mmu_notifier_to_kvm(struct mmu_notifier *mn)
+> >  {
+> > @@ -714,45 +770,6 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
+> >         kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
+> >  }
+> >
+> > -void kvm_mmu_invalidate_begin(struct kvm *kvm)
+> > -{
+> > -       /*
+> > -        * The count increase must become visible at unlock time as no
+> > -        * spte can be established without taking the mmu_lock and
+> > -        * count is also read inside the mmu_lock critical section.
+> > -        */
+> > -       kvm->mmu_invalidate_in_progress++;
+> > -
+> > -       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+> > -               kvm->mmu_invalidate_range_start = INVALID_GPA;
+> > -               kvm->mmu_invalidate_range_end = INVALID_GPA;
+> > -       }
+> > -}
+> > -
+> > -void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
+> > -{
+> > -       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
+> > -
+> > -       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+> > -               kvm->mmu_invalidate_range_start = start;
+> > -               kvm->mmu_invalidate_range_end = end;
+> > -       } else {
+> > -               /*
+> > -                * Fully tracking multiple concurrent ranges has diminishing
+> > -                * returns. Keep things simple and just find the minimal range
+> > -                * which includes the current and new ranges. As there won't be
+> > -                * enough information to subtract a range after its invalidate
+> > -                * completes, any ranges invalidated concurrently will
+> > -                * accumulate and persist until all outstanding invalidates
+> > -                * complete.
+> > -                */
+> > -               kvm->mmu_invalidate_range_start =
+> > -                       min(kvm->mmu_invalidate_range_start, start);
+> > -               kvm->mmu_invalidate_range_end =
+> > -                       max(kvm->mmu_invalidate_range_end, end);
+> > -       }
+> > -}
+> > -
+> >  static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+> >  {
+> >         kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
+> > @@ -806,23 +823,6 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+> >         return 0;
+> >  }
+> >
+> > -void kvm_mmu_invalidate_end(struct kvm *kvm)
+> > -{
+> > -       /*
+> > -        * This sequence increase will notify the kvm page fault that
+> > -        * the page that is going to be mapped in the spte could have
+> > -        * been freed.
+> > -        */
+> > -       kvm->mmu_invalidate_seq++;
+> > -       smp_wmb();
+> > -       /*
+> > -        * The above sequence increase must be visible before the
+> > -        * below count decrease, which is ensured by the smp_wmb above
+> > -        * in conjunction with the smp_rmb in mmu_invalidate_retry().
+> > -        */
+> > -       kvm->mmu_invalidate_in_progress--;
+> > -}
+> > -
+> >  static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
+> >                                         const struct mmu_notifier_range *range)
+> >  {
+> > @@ -1140,6 +1140,11 @@ int __weak kvm_arch_create_vm_debugfs(struct kvm *kvm)
+> >         return 0;
+> >  }
+> >
+> > +bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
+> > +{
+> > +       return false;
+> > +}
+> > +
+> >  static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
+> >  {
+> >         struct kvm *kvm = kvm_arch_alloc_vm();
+> > @@ -2349,15 +2354,47 @@ static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+> >         return 0;
+> >  }
+> >
+> > +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
+> > +{
+> > +       struct kvm_gfn_range gfn_range;
+> > +       struct kvm_memory_slot *slot;
+> > +       struct kvm_memslots *slots;
+> > +       struct kvm_memslot_iter iter;
+> > +       int i;
+> > +       int r = 0;
+> > +
+> > +       gfn_range.pte = __pte(0);
+> > +       gfn_range.may_block = true;
+> > +
+> > +       for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
+> > +               slots = __kvm_memslots(kvm, i);
+> > +
+> > +               kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
+> > +                       slot = iter.slot;
+> > +                       gfn_range.start = max(start, slot->base_gfn);
+> > +                       gfn_range.end = min(end, slot->base_gfn + slot->npages);
+> > +                       if (gfn_range.start >= gfn_range.end)
+> > +                               continue;
+> > +                       gfn_range.slot = slot;
+> > +
+> > +                       r |= kvm_unmap_gfn_range(kvm, &gfn_range);
+> > +               }
+> > +       }
+> > +
+> > +       if (r)
+> > +               kvm_flush_remote_tlbs(kvm);
+> > +}
+> > +
+> >  static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> >                                            struct kvm_memory_attributes *attrs)
+> >  {
+> >         gfn_t start, end;
+> >         unsigned long i;
+> >         void *entry;
+> > +       int idx;
+> >         u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> >
+> > -       /* flags is currently not used. */
+> > +       /* 'flags' is currently not used. */
+> >         if (attrs->flags)
+> >                 return -EINVAL;
+> >         if (attrs->attributes & ~supported_attrs)
+> > @@ -2372,6 +2409,13 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> >
+> >         entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> >
+> > +       if (kvm_arch_has_private_mem(kvm)) {
+> > +               KVM_MMU_LOCK(kvm);
+> > +               kvm_mmu_invalidate_begin(kvm);
+> > +               kvm_mmu_invalidate_range_add(kvm, start, end);
+> > +               KVM_MMU_UNLOCK(kvm);
+> > +       }
+> > +
+> >         mutex_lock(&kvm->lock);
+> >         for (i = start; i < end; i++)
+> >                 if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> > @@ -2379,6 +2423,16 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> >                         break;
+> >         mutex_unlock(&kvm->lock);
+> >
+> > +       if (kvm_arch_has_private_mem(kvm)) {
+> > +               idx = srcu_read_lock(&kvm->srcu);
+> > +               KVM_MMU_LOCK(kvm);
+> > +               if (i > start)
+> > +                       kvm_unmap_mem_range(kvm, start, i);
+> > +               kvm_mmu_invalidate_end(kvm);
+> > +               KVM_MMU_UNLOCK(kvm);
+> > +               srcu_read_unlock(&kvm->srcu, idx);
+> > +       }
+> > +
+> >         attrs->address = i << PAGE_SHIFT;
+> >         attrs->size = (end - i) << PAGE_SHIFT;
+> >
+> > --
+> > 2.25.1
+> >
 
