@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A659264724B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 15:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923C8647256
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 15:59:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3IJ3-0000lg-HM; Thu, 08 Dec 2022 09:55:25 -0500
+	id 1p3IM3-0004t6-Db; Thu, 08 Dec 2022 09:58:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3IIs-0000gQ-Il
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:55:14 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3IIq-0006aI-TP
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:55:14 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id co23so1918394wrb.4
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 06:55:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DZd2RG4H1NGy/wuW+t18oNMTglyUCxcdD2ELNb+9q10=;
- b=vujz0/GALQutLSpryRbCVTgjeJqQw6Mj+xmUri1gGiI/sIKgin8Aj9/kREgxThVZxC
- oU/lG7R7jxTi9bxp+IUVuo3HQl/pBvWRRu14jtYQIQ58GTzhDi8q7Orq35voIVX4VqU8
- 2sdy7JUzsWyYIlRQkEQOa/HNCOxbAJyJiHMzTAz7bLVGoMXRL7Fb8M9fYV+/q0N2S4om
- XbP3i6c8waNbxQkDbkxmeYpNn+eqzUCR0gPRvVN7FrYVuhtBTe2inyB1HrOVrQnQA9Yn
- cCM1FJyUs5rVj1Rk46NUwPJ/16Frq4qxeDrxjzcn/pGFkawbC1oAvL5Ogc2q1ukT2MiO
- AFvA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p3IM1-0004pa-Di
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:58:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p3ILj-0001QQ-G6
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:58:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670511490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4RFPA6eEeHI4Jv4yjfcr8VKG9mhfAMp+FIXSx/wsDxM=;
+ b=VB0Wjf3J3qr9Nm1LF56FourOboKaHk5vgPSwtYYSFYeI/23YzTOrVCe7ilw5Ak+yx8Be8+
+ j8euw+wPApBM7PfX3vMI/HGeaeOITWEgIoWTfuy2vpkLOq7KcskS/8Crm5OiRQGe1Cfm8k
+ OP5t3UVqw1BfHh8POODf2ubp/NsI0QU=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-540-lLB0ceoIPaOYL1uPObT2mQ-1; Thu, 08 Dec 2022 09:58:09 -0500
+X-MC-Unique: lLB0ceoIPaOYL1uPObT2mQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ t21-20020ac86a15000000b003a6c4e80c4bso1590571qtr.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 06:58:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DZd2RG4H1NGy/wuW+t18oNMTglyUCxcdD2ELNb+9q10=;
- b=k5ivjsuAsh138YCD7kXcG63FRbGaBSC9hAmONB1aKXLCY5+6BZOXjOm3BIeM8r18Bm
- 4J4bfXE2qt2XR+k10reTrHVVH1dcBvF9IE452LWTi57DnJ6sE/Va7HKY5BJmCZOd00OQ
- lTL2rJEeirHgd1jBSb3/v+DtYBGEXzXGXsR/J/vqOQvN+aGLw5rpvXR8gpraRFxU56XY
- yHv7ZpmEpeOXaLVlNpAqR9PPmU3t801x0pn2725NTeUUgiyUamHmpPSbqU8yjlvkX6rz
- u5K4aSYBpD9AChw8Q8jpe4wz4PNjar+P1tVtJfqoNS3L3txdfbWkzGYh+bJlQhKwH9N+
- 7XRw==
-X-Gm-Message-State: ANoB5pkaGzh9gUfv1xSBdc4Xussq/zj25ZmaRRAj8IKpQZD6UCXo7neE
- xnEZt4rT7iXu8PTf6NcenGmW+w==
-X-Google-Smtp-Source: AA0mqf7jWs2MJyM6kGKNCSlBIgtZm66xhdcJOeBCkLrVpE03m7P/2MFAJbdaNS7p6cyntju6aeNoIQ==
-X-Received: by 2002:a5d:5592:0:b0:242:72bf:8c9f with SMTP id
- i18-20020a5d5592000000b0024272bf8c9fmr1452661wrv.23.1670511310019; 
- Thu, 08 Dec 2022 06:55:10 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k27-20020a5d525b000000b00242269c8b8esm22149430wrc.25.2022.12.08.06.55.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 06:55:09 -0800 (PST)
-Message-ID: <03d5046d-942c-2eb4-157d-5be3d2bd318b@linaro.org>
-Date: Thu, 8 Dec 2022 15:55:08 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4RFPA6eEeHI4Jv4yjfcr8VKG9mhfAMp+FIXSx/wsDxM=;
+ b=7wzZ07WqBHr6KzvA6gJMmjYgXvX2G+/J+SsMuP+xKg58jKEqbuJ7AlmJUW0EdxxOCQ
+ pixo5qzaXtIlXwIaP6sE50cVBJ23d1ItnJd/vqdq9T0F/AzId+LNWfaoyBSgZ1hDWhxJ
+ Cddnt+RaB7VWTy5jfgJRAkm5pTxzb7WbmPE8esrwrhEM9Cqnn4dyTZ++CrwqqhFP8113
+ yez0ptmKBfEsSZ3d/jiyoIu+rqTB9/o9PDOB3tygr8BW4+7H+pwgb0VHlJI1KTL/TAJB
+ 5emxMm11+L52HWvS2Q6yhs0/Q5oKqFJOIMKZjDfaWy1Zxe+yPj3aL1rneW716O575Y1N
+ ES6w==
+X-Gm-Message-State: ANoB5pnBNUwyU5sogooV1uz5Aq/izrtqB6BT8skHu7jl0h8MlipNROOp
+ c07qe2PxE9inTThMfPQbdJPtLYXXgRV5IyCa1J92mJjHnVb7VdQKTvjfPojctmPzwYsOHep9dp9
+ OE0YwsiMWhSKOImo=
+X-Received: by 2002:a05:622a:144:b0:3a5:361f:9819 with SMTP id
+ v4-20020a05622a014400b003a5361f9819mr4820793qtw.18.1670511488731; 
+ Thu, 08 Dec 2022 06:58:08 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5RTts6o6M28qATCkZQDY0hi9TKYUnT15PiJFa9C9TYmXOQxZ5Cr/F3YDHQbaC7zMB7ZSJpEw==
+X-Received: by 2002:a05:622a:144:b0:3a5:361f:9819 with SMTP id
+ v4-20020a05622a014400b003a5361f9819mr4820769qtw.18.1670511488474; 
+ Thu, 08 Dec 2022 06:58:08 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ s190-20020ae9dec7000000b006f7ee901674sm18683355qkf.2.2022.12.08.06.58.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Dec 2022 06:58:07 -0800 (PST)
+Date: Thu, 8 Dec 2022 09:58:06 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: eric.auger.pro@gmail.com, mst@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, jean-philippe@linaro.org,
+ bharat.bhushan@nxp.com, alex.williamson@redhat.com
+Subject: Re: [PATCH for 8.0 0/2] virtio-iommu: Fix Replay
+Message-ID: <Y5H7fu2ikdXU8b3i@x1n>
+References: <20221207133646.635760-1-eric.auger@redhat.com>
+ <Y5EmmjKBBnjSlvd+@x1n>
+ <a281b12b-d905-4c96-72ce-6e22e41d0cfb@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 3/3] include/hw/block: Include hw/block/block.h where
- needed
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org
-References: <20221208143939.2775453-1-armbru@redhat.com>
- <20221208143939.2775453-4-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221208143939.2775453-4-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a281b12b-d905-4c96-72ce-6e22e41d0cfb@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,15 +99,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/12/22 15:39, Markus Armbruster wrote:
-> hw/block/swim.h needs BlockConf.
+On Thu, Dec 08, 2022 at 08:48:09AM +0100, Eric Auger wrote:
+> Hi Peter,
+
+Hi, Eric,
+
 > 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   include/hw/block/swim.h | 1 +
->   1 file changed, 1 insertion(+)
+> On 12/8/22 00:49, Peter Xu wrote:
+> > Hi, Eric,
+> >
+> > On Wed, Dec 07, 2022 at 02:36:44PM +0100, Eric Auger wrote:
+> >> When assigning VFIO devices protected by a virtio-iommu we need to replay
+> >> the mappings when adding a new IOMMU MR and when attaching a device to
+> >> a domain. While we do a "remap" we currently fail to first unmap the
+> >> existing IOVA mapping and just map the new one. With some device/group
+> >> topology this can lead to errors in VFIO when trying to DMA_MAP IOVA
+> >> ranges onto existing ones.
+> > I'm not sure whether virtio-iommu+vfio will suffer from DMA races like when
+> > we were working on the vt-d replay for vfio.  The issue is whether DMA can
+> > happen right after UNMAP but before MAP of the same page if the page was
+> > always mapped.
+> 
+> I don't think it can race because a mutex is hold while doing the
+> virtio_iommu_replay(), and each time a virtio cmd is handled (attach,
+> map, unmap), see virtio_iommu_handle_command.
+> So I think it is safe.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+It's not the race in the code, it's the race between modifying host IOMMU
+pgtable with DMA happening in parallel.  The bug triggered with DMA_MAP
+returning -EEXIST means there's existing mapping.
 
+If during replay there's mapped ranges and the ranges are prone to DMA,
+then IIUC it can happen.
+
+I didn't really check specifically for virtio-iommu and I mostly forget the
+details, just to raise this up.  It's possible for some reason it just
+can't trigger.  VT-d definitely can, in which case we'll see DMA errors on
+the host from the assigned device when the DMA triggers during the "unmap
+and map" window.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
