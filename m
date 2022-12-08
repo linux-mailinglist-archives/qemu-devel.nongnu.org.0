@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3808A6470D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 14:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B61E64713D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 15:01:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3H1d-00034m-Ll; Thu, 08 Dec 2022 08:33:21 -0500
+	id 1p3HRb-0003Hj-CD; Thu, 08 Dec 2022 09:00:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3H1S-00032h-QB
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 08:33:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3HRQ-0003GT-Hq
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:00:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3H1Q-000287-Mj
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 08:33:10 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3HRO-00019F-HP
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 09:00:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670506387;
+ s=mimecast20190719; t=1670507996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=Kdav0u8k+R0AJI9xpaKG/N9SaJnJ5p0mplwdWgcBboE=;
- b=WtIM070HaxFE9Hk1e9wwJ0Tek9J7NYAKj6NgREQ72BJNMSmx3JugijdspTjvXv6LDOhZqZ
- M7n8fy31XinhhfkzoWwFUnS0QzE3D5BsdHnE8nl7QO2d0oWvR3XrW43/2sz2JgoGSCCDIL
- 84f6nxN7FEU+eK2ZohWWXZQ1EFgsWcE=
+ bh=ZCTjhAqMJcjmMui0A3xyG6+of+1sKydzPAH0hKsRjbY=;
+ b=U/MViuzTO/bw5+7zBEuiPZ9YlNKgLebpR/WtN2doUw8AxoBTbIWR6HJQpoYf5JvSYqByJM
+ yzpNhBppyBM6I3eg76fJ8NGQHUpHOV3cm3YC61Np2WmFwCsi7uWGduFulhj4rsSHXUaKHR
+ COd3FJa8XlMOKWIbQfdnrYlv+NxPXUk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-159-rN7Ny3DEOeeZQ2oUbcD_3w-1; Thu, 08 Dec 2022 08:33:03 -0500
-X-MC-Unique: rN7Ny3DEOeeZQ2oUbcD_3w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-124-Q9mBMs1sMuCQa97CrcuUsA-1; Thu, 08 Dec 2022 08:59:52 -0500
+X-MC-Unique: Q9mBMs1sMuCQa97CrcuUsA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C1A087A9E6;
- Thu,  8 Dec 2022 13:33:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2BB382A685;
+ Thu,  8 Dec 2022 13:59:51 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE9E540C6EC2;
- Thu,  8 Dec 2022 13:33:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7418D40C2065;
+ Thu,  8 Dec 2022 13:59:50 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
-	Stefan Weil <sw@weilnetz.de>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-trivial@nongnu.org
-Subject: [PATCH] util/oslib-win32: Remove obsolete reference to g_poll code
-Date: Thu,  8 Dec 2022 14:32:57 +0100
-Message-Id: <20221208133257.95673-1-thuth@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH] gitlab-ci: Disable docs and GUIs for the build-tci and
+ build-tcg-disabled jobs
+Date: Thu,  8 Dec 2022 14:59:45 +0100
+Message-Id: <20221208135945.99975-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,30 +76,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The comment about g_poll is not required here anymore since
-the corresponding code has been removed a while ago already.
+These jobs use their own "script:" section and thus do not profit from
+the global "--disable-docs" from the template. While we're at it, disable
+also some GUI front ends here since we do not gain any additional test
+coverage by compiling those here again.
 
-Fixes: b4c6036faa ("configure: bump min required glib version to 2.56")
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- util/oslib-win32.c | 4 ----
- 1 file changed, 4 deletions(-)
+ .gitlab-ci.d/buildtest.yml | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index a67cb3822e..07ade41800 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -24,10 +24,6 @@
-  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-- *
-- * The implementation of g_poll (functions poll_rest, g_poll) at the end of
-- * this file are based on code from GNOME glib-2 and use a different license,
-- * see the license comment there.
-  */
- 
- #include "qemu/osdep.h"
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index d21b4a1fd4..8d60c9c0a6 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -244,6 +244,7 @@ build-tcg-disabled:
+     - mkdir build
+     - cd build
+     - ../configure --disable-tcg --audio-drv-list="" --with-coroutine=ucontext
++                   --disable-docs --disable-sdl --disable-gtk --disable-vnc
+       || { cat config.log meson-logs/meson-log.txt && exit 1; }
+     - make -j"$JOBS"
+     - make check-unit
+@@ -534,8 +535,9 @@ build-tci:
+     - TARGETS="aarch64 alpha arm hppa m68k microblaze ppc64 s390x x86_64"
+     - mkdir build
+     - cd build
+-    - ../configure --enable-tcg-interpreter
+-        --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)" || { cat config.log meson-logs/meson-log.txt && exit 1; }
++    - ../configure --enable-tcg-interpreter --disable-docs --disable-gtk --disable-vnc
++        --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
++        || { cat config.log meson-logs/meson-log.txt && exit 1; }
+     - make -j"$JOBS"
+     - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
+     - for tg in $TARGETS ; do
 -- 
 2.31.1
 
