@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D8C64691F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 07:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD40646971
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 07:52:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3ALu-0000k3-PE; Thu, 08 Dec 2022 01:25:51 -0500
+	id 1p3AkJ-0001TQ-Qo; Thu, 08 Dec 2022 01:51:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1p3ALd-0000iI-Rk
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 01:25:37 -0500
-Received: from mga17.intel.com ([192.55.52.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1p3ALc-0005LP-97
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 01:25:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670480732; x=1702016732;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mwOPmVUdqlyMI1uNhdPsAC6RlBHQAAuU0mt1mEWLh28=;
- b=hPdfGnUqwoWjntPwgQ08k6DzYy32CvUQMgCc0ot9H4zuc3ghxgW+baeP
- jaMmcJuIfbCL79H74OFZCPI5I7zPNx+1slAvGjPpLS2RDkcABVRU76R3C
- uXQ5wehSrzFjW0R8SQILjGbHF8rPJnYS/jGHmM3RmresOKXyG1nLu9wtK
- 83v/P+RnmVwK5u7HKoEjlLWPeAx1IqAiF79B++zMYyAlanotnM2PGGNG7
- J6EG/oNg97OLUXUznmgokGNMlmgj0oSHEGEJ8xxUOiH9D3rxUmMDvxxkR
- 6Dd/gVUQwOYYbv0dbkf3K2IfuT6/iD7mHSGVNUEIveVpjr1YAhTY2ybx+ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="297444515"
-X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; d="scan'208";a="297444515"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 22:25:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="679413441"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="679413441"
-Received: from lxy-dell.sh.intel.com ([10.239.48.100])
- by orsmga001.jf.intel.com with ESMTP; 07 Dec 2022 22:25:28 -0800
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
-Cc: qemu-devel@nongnu.org,
-	kvm@vger.kernel.org,
-	xiaoyao.li@intel.com
-Subject: [PATCH v3 8/8] target/i386/intel-pt: Access MSR_IA32_RTIT_ADDRn based
- on guest CPUID configuration
-Date: Thu,  8 Dec 2022 14:25:13 +0800
-Message-Id: <20221208062513.2589476-9-xiaoyao.li@intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20221208062513.2589476-1-xiaoyao.li@intel.com>
-References: <20221208062513.2589476-1-xiaoyao.li@intel.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3AkH-0001Sm-K6
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 01:51:01 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3AkF-0004gG-Vv
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 01:51:01 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so2706087wma.1
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 22:50:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NJc2E/2WonAqrf/0llogHkwkzXbxgHJSUklysOs1+T4=;
+ b=OZYGASe7Tkx+UF3zCtBrpDQteXXjIlaX0hMzUCiCuDcOnsj5ZxGArKQSeQxv4JZBfM
+ 16cyazf+Wgawklc7pUwt28v8tev1wPUGPAyzZySPy56O6JZ8psgDSUJdMj4jSFcrYUJt
+ GZ9Jkh3R4nihRRH3U8ln45PYVEWI7eYI7m2LXt+QrPhuEyD5k5oTXquNPiWcBoZyTgg/
+ FwK8QWtvMaGfKpCH5Q1ZMgtbftT3VbXhYCK+4VbCK5+ukgzehLbZugBLsDuNLhTcJqpE
+ dFEohlOgQxQESl2Jq23KJqe+if6Tw/h0Yt4KKnKnYLNW/hDY9i1ohrQhkLunfMf+OTzi
+ vTpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NJc2E/2WonAqrf/0llogHkwkzXbxgHJSUklysOs1+T4=;
+ b=viZNT6m4NY7CsjfDqO8AH+LHHqThMVe2jMntidkb+cwZBT22nlOP4zxtjtWteU6X6Y
+ PraHQlTD6z6h5F6j/OBjm6NMyvepFRQBFhBd8Mxlt8gj2JNXWtwrD+jEVMzjC57ORnxT
+ rkJsLzEg0cHBCnj1F7qf102p1esTeUyXZZ4K725QUZ27tJJTGWnqMctPyUNm8qLF2KO1
+ ec9d5dXXADpid+XnGktbFWKhZf454vZBQDvWDyqrcWBt18JGhAg3A2uX15d45pRsDhtB
+ UODqh9X4XlEjd7kOvo2bXJy5OYQZT5ChYcecvkcF6UsSRnZx8jBU+SIZikli50bYm8SG
+ ughg==
+X-Gm-Message-State: ANoB5plwjOqzciqFgLMqYIxtgytbLKZprWnedWXe86nivTSmmhLklVO9
+ 4v/ZgRULbWAzjCj879gUJB1Xog==
+X-Google-Smtp-Source: AA0mqf49EJcPkWjIAQ7urCP3nnABpcpIOfyZvviqo48UP4V/GMDu/zmQKqi3+rlW2IlNIl9cps3hTw==
+X-Received: by 2002:a7b:cb8c:0:b0:3d1:c4fa:4a69 with SMTP id
+ m12-20020a7bcb8c000000b003d1c4fa4a69mr12050889wmi.9.1670482257100; 
+ Wed, 07 Dec 2022 22:50:57 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ bg14-20020a05600c3c8e00b003d1e34bcbb2sm3079540wmb.13.2022.12.07.22.50.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Dec 2022 22:50:56 -0800 (PST)
+Message-ID: <ec5e3166-c183-c73d-5b42-6bb024e65592@linaro.org>
+Date: Thu, 8 Dec 2022 07:50:55 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 2/5] hw/acpi/Kconfig: Rename ACPI_X86_ICH to ACPI_ICH9
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>
+References: <20221207231205.1106381-1-shentey@gmail.com>
+ <20221207231205.1106381-3-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221207231205.1106381-3-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=xiaoyao.li@intel.com;
- helo=mga17.intel.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.262,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,56 +95,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-KVM only allows userspace to access legal number of MSR_IA32_RTIT_ADDRn,
-which is enumrated by guest's CPUID(0x14,0x1):EAX[2:0], i.e.,
-env->features[FEAT_14_1_EAX] & INTEL_PT_ADDR_RANGES_NUM_MASK
+On 8/12/22 00:12, Bernhard Beschow wrote:
+> Although the ICH9 ACPI controller may currently be tied to x86 it
+> doesn't have to. Furthermore, the source files this configuration switch
+> manages contain a '9', so this name fits more.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/acpi/Kconfig     | 2 +-
+>   hw/acpi/meson.build | 2 +-
+>   hw/i2c/meson.build  | 2 +-
+>   hw/isa/Kconfig      | 2 +-
+>   4 files changed, 4 insertions(+), 4 deletions(-)
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
----
- target/i386/cpu.h     | 2 ++
- target/i386/kvm/kvm.c | 8 ++++----
- 2 files changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 91a3971c1c29..1156813ed0ad 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -941,6 +941,8 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
- /* Packets which contain IP payload have LIP values */
- #define CPUID_14_0_ECX_LIP                      (1U << 31)
- 
-+#define INTEL_PT_ADDR_RANGES_NUM_MASK       0x7
-+
- /* CLZERO instruction */
- #define CPUID_8000_0008_EBX_CLZERO      (1U << 0)
- /* Always save/restore FP error pointers */
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a21320937943..e06a25f5e3ee 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -3446,8 +3446,8 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-             }
-         }
-         if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) {
--            int addr_num = kvm_arch_get_supported_cpuid(kvm_state,
--                                                    0x14, 1, R_EAX) & 0x7;
-+            int addr_num = env->features[FEAT_14_1_EAX] &
-+                           INTEL_PT_ADDR_RANGES_NUM_MASK;
- 
-             kvm_msr_entry_add(cpu, MSR_IA32_RTIT_CTL,
-                             env->msr_rtit_ctrl);
-@@ -3889,8 +3889,8 @@ static int kvm_get_msrs(X86CPU *cpu)
-     }
- 
-     if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) {
--        int addr_num =
--            kvm_arch_get_supported_cpuid(kvm_state, 0x14, 1, R_EAX) & 0x7;
-+        int addr_num = env->features[FEAT_14_1_EAX] &
-+                       INTEL_PT_ADDR_RANGES_NUM_MASK;
- 
-         kvm_msr_entry_add(cpu, MSR_IA32_RTIT_CTL, 0);
-         kvm_msr_entry_add(cpu, MSR_IA32_RTIT_STATUS, 0);
--- 
-2.27.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
