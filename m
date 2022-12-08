@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBBA64739F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDAD6473A6
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 16:56:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3JDW-0005Z1-JP; Thu, 08 Dec 2022 10:53:46 -0500
+	id 1p3JFQ-0006UL-5U; Thu, 08 Dec 2022 10:55:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3JDV-0005Yr-6U
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:53:45 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3JFN-0006U3-Kq
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:55:41 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3JDT-0003UV-Gl
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:53:44 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id c129so1835630oia.0
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 07:53:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3JFL-0006nh-Qu
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 10:55:41 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h7so2122221wrs.6
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 07:55:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qYSmiiSSQE93pQGWiPvHz/XQUGB0aLttxAW6dw1m/9s=;
- b=Szjf3O3HcE410yzYrp+tRh9Bgv0R4xKWWW61xmax1CP1ejlA+cgI24rVY0n3S3iV5F
- M/SDIK3FvO0+8qhNpPldVwLPoukrs6KJOGvVYOIK9yYnoqPNi+Gu7rl7yeiRgpmYX+oE
- oVamMPV9XKWUVoNS5VAXfhl3v+kcTIKEmlzqQwANMG0ahijokfdhtHZ9hAnkEDANjTpx
- wNBmmO9BqEw+DuIT+OjCM/GgzGQMS9SUfuowJuhULS4ZO9jSqCgcPCoQ5f6sNR6TAjSN
- ruOEQVejHMnPF2gD40UY4EnORDI3zYfkokOjMc981gY/hLb6WcYlfrS/q0TzzgaSGXhg
- Ttpg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7A3byq1utFqojjZtid/q3Srkf2m+eyCvlQeEL4Mq9ng=;
+ b=rzQUl3ASQWU2AYBZMDRTxz0qu7ilDoTvuphNiUEX/0Pd/Pa5sNTG04nOVe3CcCv8MX
+ Y8RvKKOGoIk8E77EjHDboBXQwTumg8/cddZskOjJ+a89gKNbVrDCdbZX5cjmkZq4ixbc
+ C/zjXwTE4MMFqELTgeGQmkCPRSY+wjN7ig/40rl5H/G/7LWr0OeyY5DlwXHHDk11llZ3
+ iKjPeKS5eVTwYfC7SI5wDzMqEgOsbAqHLPdfz9R8Yga7CxXpVEE/JVg0ubJbr3pjaMVw
+ yk7F5K2/UIshFjVNjcZQBnAXTfqMFvzPqtqU5/Qd/Xg8gIuXiTNnNMSWIonZJfiGb7Ro
+ Lbqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qYSmiiSSQE93pQGWiPvHz/XQUGB0aLttxAW6dw1m/9s=;
- b=nABaGDKeHT+/+KnAi5JM6HzH2DdcSOciCs//Ab0eBVjBsCLpAB2gJlbqlyXsDIW8+R
- BYXNyAiTjeA2lT1hT5ayShA541kgFzQ+XeVlsZ3AO87x5nvJkK3xwL+ydVq4w7LLExG5
- /jcyTEvFXgsG0EU3Zqmf+ebg55FF1BIyHkn+AGtWVLVEAjIy98WULKnc9mBeTlPk5JWw
- 7obE3imZTvL1Qe8Ryp0XPlqODfBGY4eQ2+ef4Uh43gYkv6KcRFyo1ZaxdSbOSoMZYS3i
- nxc+8BrbczXOaSb257yaf/n31aRtN2DLUNB0O49fRFlRFWUqeKYV6qj3i+0t3QDzC2sZ
- +X/w==
-X-Gm-Message-State: ANoB5pnkCIu/Y3MYsW/CS9SWdsqhooPHY+dvNHD89KZsFm2WAorqf0EX
- ogc689z3TJNMwIhM6kwvOqudEQ==
-X-Google-Smtp-Source: AA0mqf7EvK7K8gbgqkt2pZ9bRf5qsE0dHfkpGUO5+aphF5UHOlM5F7nSdaIvIohjpDs6+DxYahkVKw==
-X-Received: by 2002:a05:6808:682:b0:35b:6fee:8c65 with SMTP id
- k2-20020a056808068200b0035b6fee8c65mr983822oig.32.1670514821454; 
- Thu, 08 Dec 2022 07:53:41 -0800 (PST)
-Received: from ?IPV6:2806:102e:18:2efc:30c7:8729:8e86:4d67?
- ([2806:102e:18:2efc:30c7:8729:8e86:4d67])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7A3byq1utFqojjZtid/q3Srkf2m+eyCvlQeEL4Mq9ng=;
+ b=RY59cY4qfqY4f4SIFME1oT1VQbTHCzRlAPF000bJiDTbDxJSRbI/nLRIt7tcG7hiwb
+ ZWTu78PLCo4U2n1P+nNj35XQNVfWK8LoCMrmiawlLuMaRPcHhGUOPnpj1zodR1T0L6hV
+ uhjWkT4s8HYyhZj50wE2CUbx+2v6CUnzT+U2HMP/rql5COXj/fM2sUScknWsmGCgkcaa
+ gWoDObYJejFNZapFMCgtM+X1GJyO2ztuXSykYzydpSbADBf8TLySkJHA0eZd/D40v8MM
+ 1rgXVEsf2HKGzy97IuWanrqVXttnveDdJErx7YnA0FcICxpVLAUFjxNVuR0+69mewzPF
+ Qyng==
+X-Gm-Message-State: ANoB5plHejHZJ9ycLhkldfGP/htpNBaZ169JsxPVjTe95kdcXIcxISDS
+ bo7AZAedRnpFimM163BZadV3oJ1/76wHmyL0SLo=
+X-Google-Smtp-Source: AA0mqf64/7Mh8ta/hWro/rT3PMne0gMDVb4GThgUC8hdMHM0EF6PvLMu7VXHVCNxj58g28+/JqNCmA==
+X-Received: by 2002:adf:fe89:0:b0:242:2722:f08 with SMTP id
+ l9-20020adffe89000000b0024227220f08mr1716190wrr.12.1670514937575; 
+ Thu, 08 Dec 2022 07:55:37 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a9d7f0e000000b0066bb73cce68sm11526027otq.69.2022.12.08.07.53.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 07:53:40 -0800 (PST)
-Message-ID: <2452f2b8-b0a6-f6db-5850-33c319eba004@linaro.org>
-Date: Thu, 8 Dec 2022 09:53:38 -0600
+ l7-20020a5d4107000000b00242246c2f7csm22516687wrp.101.2022.12.08.07.55.36
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 08 Dec 2022 07:55:37 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] mailmap: Fix Stefan Weil author email
+Date: Thu,  8 Dec 2022 16:55:35 +0100
+Message-Id: <20221208155535.28363-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH-for-8.0 v2 0/4] target/cpu: System/User cleanups around
- hwaddr/vaddr
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <20221208153528.27238-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221208153528.27238-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,15 +87,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/8/22 09:35, Philippe Mathieu-Daudé wrote:
-> Philippe Mathieu-Daudé (4):
->    cputlb: Restrict SavedIOTLB to system emulation
->    gdbstub: Use vaddr type for generic insert/remove_breakpoint() API
->    target/cpu: Restrict cpu_get_phys_page_debug() handlers to sysemu
->    target/sparc/sysemu: Remove pointless CONFIG_USER_ONLY guard
+Fix authorship of commits 266aaedc37~..ac14949821. See commit
+3bd2608db7 ("maint: Add .mailmap entries for patches claiming
+list authorship") for rationale.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/.mailmap b/.mailmap
+index 35dddbe27b..fad2aff5aa 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -45,6 +45,7 @@ Ed Swierk <eswierk@skyportsystems.com> Ed Swierk via Qemu-devel <qemu-devel@nong
+ Ian McKellar <ianloic@google.com> Ian McKellar via Qemu-devel <qemu-devel@nongnu.org>
+ Julia Suvorova <jusual@mail.ru> Julia Suvorova via Qemu-devel <qemu-devel@nongnu.org>
+ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu-devel@nongnu.org>
++Stefan Weil <sw@weilnetz.de> Stefan Weil via <qemu-devel@nongnu.org>
+ 
+ # Next, replace old addresses by a more recent one.
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@mips.com>
+-- 
+2.38.1
 
-r~
 
