@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E243647627
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 20:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9678664762B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 20:26:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3MUF-0000dB-Nq; Thu, 08 Dec 2022 14:23:15 -0500
+	id 1p3MWM-0001sq-2M; Thu, 08 Dec 2022 14:25:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p3MUD-0000cY-Q1; Thu, 08 Dec 2022 14:23:13 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ id 1p3MVt-0001ro-Fj; Thu, 08 Dec 2022 14:24:58 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p3MUB-0000M4-OI; Thu, 08 Dec 2022 14:23:13 -0500
-Received: by mail-ej1-x633.google.com with SMTP id x22so6323907ejs.11;
- Thu, 08 Dec 2022 11:23:10 -0800 (PST)
+ id 1p3MVr-0000Zd-1t; Thu, 08 Dec 2022 14:24:56 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id m18so6362809eji.5;
+ Thu, 08 Dec 2022 11:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OtWgLifnlGex+eW1XyrMDcnB5Lb5dXJ2/LoteYXvh18=;
- b=CtMFcUiGdYEb49XAzrb5zfmMYP6wE+GkOFEz5JAXQzbhy7Pf2CoJLXw+GjAbApAWUQ
- qLyf6rI53XPfqA4aK6PFxlfwwBjkfQNE2633vfTLGqtfhL7Ewgl9xbNyL2QA0c2c3uLA
- n+0ffkEFev9Ieu5zZm3DTg0gF+YE+hEg+nTOy9BssC1w5f5OEll+uE/J0FvVFRVqW0AK
- 7h3c5XEkTbTAsiLp9p58Pv4f2B/ummidIRUN5FE2uSkLvuTDW0kgtULeCGQD9WtOTrtw
- CqWPDDCLfhO4KK1lSCmYDMqzudmlevnyx/cbEQ63rTUNN3b4Z/9w7jOEjagph8Zq0S19
- zyow==
+ bh=j7qS7tQtLyatYc46KzK/dPvzwPaD60+V1ALLeTswBEs=;
+ b=n58yRU461UWucl89mnwHO4wXMmx6YJt8XRi5qEMKl7qmN5Ll0KFP8FNpts3Gu0PbNj
+ eYrFdH6JnMeG4sqcjEGxraodNCmaoQF2caCP7nujdT5HEwR0aqYJ+rph0Pgc8tJnqdUx
+ t4WNpckioXwf6AHWWmwAwOEl/UWFxJ5FsO2n+Sq3BGbhpK/Rxn9p8z1FfXHYtGDg99ZU
+ 4z2AQpy/NF96nokXywJxlSrt3Xz7ebohmAj/B6RHpvOWYRzhUrhXLN8sUefHhneceNbW
+ fVU6+N7EpupPdbZG8FDJbPVnJQWa9Kj1xPMLELpWcokgBNGaEvpROFSpmBL4g7ZRD6bg
+ zTrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OtWgLifnlGex+eW1XyrMDcnB5Lb5dXJ2/LoteYXvh18=;
- b=zh9z9rKUTeSXj5WVL9pXps3ls3H4mtDvb/c2D061NnhkIdYuA6/rlN5gUc0G2y7+/0
- m66fKJjWZExWfxJ/PE+/3HQakxqShxoYFdHL7iu5heLL7xTJaomj61VDErOH0tStyL8h
- 1SMduXqDD9B6m5qcG2ioiDe/0Cf32PyWHcsCfPoNqqleroscA8HcsDdKs0WyzgtpDMB6
- Tv2YaLuZ9y8C8WhxtKx4JNKtc2bzdXvm3Ndp6SAcFWnFWlAJyjs6d3tD1ZCm+W77Skxd
- e9EtzsVayAp3KW3NY2MhVWgz3+6cbTMhHAjyiBY9FamgERncbuXnG89SA7zHtZadbZrk
- Jy3A==
-X-Gm-Message-State: ANoB5pmhyOeAbhCwAfgCLcxm+Zt1WLYe+dbG8mlCl2uGQj/5WKGM6sUX
- 8+YATzCE88V63cf56DdWgDJLygETepTlifdsUHQ=
-X-Google-Smtp-Source: AA0mqf5HJdpBA0Pf2wDEQmO/RbfH/ghgDu/92/DqGXo60Cd6m6bqa+1ZBZ9WJSEQEVmAMHL4Bn1YjR3lURVv1l1jWKg=
-X-Received: by 2002:a17:906:60d0:b0:78d:3f87:1725 with SMTP id
- f16-20020a17090660d000b0078d3f871725mr28406696ejk.492.1670527390048; Thu, 08
- Dec 2022 11:23:10 -0800 (PST)
+ bh=j7qS7tQtLyatYc46KzK/dPvzwPaD60+V1ALLeTswBEs=;
+ b=eQbvx8wx/8ezV6Grpbhag7dGyyfnhVppEVC7ujWOKMoMV1z5bN8q+oiHleHd1ScGCp
+ mfnN1i59LnYGJx86F8ghkvsBTPgNyKjjrQ9QdRyY/NF5vsjOIfcCz97Ti6TmOCuWglqr
+ zA5LXQcRpd5dhbbOfSH+M4n5EEUXA5AktJ+6/isbN2nU93EHmSSv0qdFApH8+kTTwc5H
+ nuONzB2varKxlKgRBv6zz7yc2g+NdTKvjrxTPNRsxLLNWlNnygnlvvgLLI3MoaIh5VeT
+ K3GlRNDMbNhg2BjiinqYN9Yj/DwxDUMdHy148AQ0MoIYd8fog5mk9sHPp/uVhNgZP0XS
+ hnUA==
+X-Gm-Message-State: ANoB5pliGuyDirTf7gh3wW2eQd6Ily7VFtwFPURt/6wAOwlUv38Je1Zi
+ Td8/DMiki+wr4CxkWBBdxdRlPpXQzWCt0D0WRMYfwBWXutGkoRvI
+X-Google-Smtp-Source: AA0mqf7Mf5DNMXi1omIYQLIgEMjyM+cO5zE+4dhFlN6CUh2UZilDWNPWr+KRJotdVt7stJ2decl+aEMwOc0e5FVK8J8=
+X-Received: by 2002:a17:907:9c0a:b0:7ae:1e53:8dd4 with SMTP id
+ ld10-20020a1709079c0a00b007ae1e538dd4mr36669771ejc.42.1670527491298; Thu, 08
+ Dec 2022 11:24:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20221203231904.25155-1-strahinja.p.jankovic@gmail.com>
- <20221203231904.25155-7-strahinja.p.jankovic@gmail.com>
- <CAPan3WpDbNczuHaOpOYQOD5MPZ-SyqyZ2172-U6JQFn7fvHaTg@mail.gmail.com>
-In-Reply-To: <CAPan3WpDbNczuHaOpOYQOD5MPZ-SyqyZ2172-U6JQFn7fvHaTg@mail.gmail.com>
+ <CAPan3WoHZXTY4+EAkgwcHdYTice62OtRdLyjW7hdn8oQ-Swa-A@mail.gmail.com>
+In-Reply-To: <CAPan3WoHZXTY4+EAkgwcHdYTice62OtRdLyjW7hdn8oQ-Swa-A@mail.gmail.com>
 From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Thu, 8 Dec 2022 20:22:59 +0100
-Message-ID: <CABtshVTTsQsgsJsmo=SEbvUNXd7b-OwRPJOgHbG1u=02r2GP4A@mail.gmail.com>
-Subject: Re: [PATCH 6/6] hw/arm: Allwinner A10 enable SPL load from MMC
+Date: Thu, 8 Dec 2022 20:24:40 +0100
+Message-ID: <CABtshVTVG=YqWemmG56eOAR5UouDXnTHBtp42Tu6N_w4EgDpUA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Enable Cubieboard A10 boot SPL from SD card
 To: Niek Linnenbank <nieklinnenbank@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org, 
  qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,139 +83,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Dec 7, 2022 at 11:39 PM Niek Linnenbank
-<nieklinnenbank@gmail.com> wrote:
->
-> Hi Strahinja,
->
->
-> On Sun, Dec 4, 2022 at 12:19 AM Strahinja Jankovic <strahinjapjankovic@gmail.com> wrote:
->>
->> This patch enables copying of SPL from MMC if `-kernel` parameter is not
->> passed when starting QEMU. SPL is copied to SRAM_A.
->>
->> The approach is reused from Allwinner H3 implementation.
->>
->> Tested with Armbian and custom Yocto image.
->>
->> Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
->> ---
->>  hw/arm/allwinner-a10.c         | 18 ++++++++++++++++++
->>  hw/arm/cubieboard.c            |  5 +++++
->>  include/hw/arm/allwinner-a10.h | 21 +++++++++++++++++++++
->>  3 files changed, 44 insertions(+)
->>
->> diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
->> index 17e439777e..dc1966ff7a 100644
->> --- a/hw/arm/allwinner-a10.c
->> +++ b/hw/arm/allwinner-a10.c
->> @@ -24,7 +24,9 @@
->>  #include "sysemu/sysemu.h"
->>  #include "hw/boards.h"
->>  #include "hw/usb/hcd-ohci.h"
->> +#include "hw/loader.h"
->>
->> +#define AW_A10_SRAM_A_BASE      0x00000000
->>  #define AW_A10_DRAMC_BASE       0x01c01000
->>  #define AW_A10_MMC0_BASE        0x01c0f000
->>  #define AW_A10_CCM_BASE         0x01c20000
->> @@ -38,6 +40,22 @@
->>  #define AW_A10_RTC_BASE         0x01c20d00
->>  #define AW_A10_I2C0_BASE        0x01c2ac00
->>
->> +void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk)
->> +{
->> +    const int64_t rom_size = 32 * KiB;
->> +    g_autofree uint8_t *buffer = g_new0(uint8_t, rom_size);
->> +
->> +    if (blk_pread(blk, 8 * KiB, rom_size, buffer, 0) < 0) {
->> +        error_setg(&error_fatal, "%s: failed to read BlockBackend data",
->> +                   __func__);
->> +        return;
->> +    }
->> +
->> +    rom_add_blob("allwinner-a10.bootrom", buffer, rom_size,
->> +                  rom_size, AW_A10_SRAM_A_BASE,
->> +                  NULL, NULL, NULL, NULL, false);
->> +}
->
->
-> Its probably fine for now to do it in the same way here for the A10 indeed. Perhaps in the future, we can try
-> to share some overlapping code between the A10 and H3.
+Hi Niek,
 
-That definitely makes sense. I plan on submitting support for A20
-after this patch set, so maybe that would be a good opportunity to
-refactor the Allwinner support in QEMU.
+On Wed, Dec 7, 2022 at 9:25 PM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
+>
+> Hello Strahinja,
+>
+> Thanks for contribution these patches, and also taking the H3 into account :-)
+
+Thank you for looking into these patches and all of the comments. I
+will try to submit V2 of this patch set in the following days.
+
+>
+> I've ran the avocado based acceptance tests for both boards and got these results:
+>
+> $ ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes ./build/tests/venv/bin/avocado --show=app,console run -t machine:orangepi-pc tests/avocado/boot_linux_console.py
+> ...
+> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+> JOB TIME   : 114.24 s
+>
+> $ ./build/tests/venv/bin/avocado --show=app,console run -t machine:cubieboard tests/avocado/boot_linux_console.py
+> ...
+> RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+> JOB TIME   : 22.79 s
+
+I did not think initially about avocado, but maybe I could also add an
+SPL/SD boot test for the cubieboard, similarly to the way it is run
+for Orange Pi, for V2 of the patch set?
 
 Best regards,
 Strahinja
 
 
+
 >
-> So the patch looks fine to me:
-> Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> So that shows both machines are still running fine. During startup of the bionic 20.08 image for orangepi-pc it did show this message:
+>   console: i2c i2c-0: mv64xxx: I2C bus locked, block: 1, time_left: 0
+>   console: sy8106a: probe of 0-0065 failed with error -110
 >
-> Regards,
+> The SY8106a appears to be an peripheral attached to the I2C bus on the orangepi-pc, and we don't emulate the SY8106a yet, so that's an error to be expected:
+>   https://linux-sunxi.org/SY8106A
+>
+> So for the series:
+> Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+>
+> I'll try to reply to each patch as well.
+>
+> Kind regards,
 > Niek
 >
+> On Sun, Dec 4, 2022 at 12:19 AM Strahinja Jankovic <strahinjapjankovic@gmail.com> wrote:
 >>
->> +
->>  static void aw_a10_init(Object *obj)
->>  {
->>      AwA10State *s = AW_A10(obj);
->> diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
->> index afc7980414..37659c35fd 100644
->> --- a/hw/arm/cubieboard.c
->> +++ b/hw/arm/cubieboard.c
->> @@ -99,6 +99,11 @@ static void cubieboard_init(MachineState *machine)
->>      memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
->>                                  machine->ram);
+>> This patch series adds missing Allwinner A10 modules needed for
+>> successful SPL boot:
+>> - Clock controller module
+>> - DRAM controller
+>> - I2C0 controller (added also for Allwinner H3 since it is the same)
+>> - AXP-209 connected to I2C0 bus
 >>
->> +    /* Load target kernel or start using BootROM */
->> +    if (!machine->kernel_filename && blk && blk_is_available(blk)) {
->> +        /* Use Boot ROM to copy data from SD card to SRAM */
->> +        allwinner_a10_bootrom_setup(a10, blk);
->> +    }
->>      /* TODO create and connect IDE devices for ide_drive_get() */
+>> It also updates Allwinner A10 emulation so SPL is copied from attached
+>> SD card if `-kernel` parameter is not passed when starting QEMU
+>> (approach adapted from Allwinner H3 implementation).
 >>
->>      cubieboard_binfo.ram_size = machine->ram_size;
->> diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
->> index 763935fca9..b3c9ed24c7 100644
->> --- a/include/hw/arm/allwinner-a10.h
->> +++ b/include/hw/arm/allwinner-a10.h
->> @@ -15,6 +15,7 @@
->>  #include "hw/misc/allwinner-a10-ccm.h"
->>  #include "hw/misc/allwinner-a10-dramc.h"
->>  #include "hw/i2c/allwinner-i2c.h"
->> +#include "sysemu/block-backend.h"
+>> Boot from SD card has been tested with Cubieboard Armbian SD card image and custom
+>> Yocto image built for Cubieboard.
+>> Example usage for Armbian image:
+>> qemu-system-arm -M cubieboard -nographic -sd ~/Armbian_22.11.0-trunk_Cubieboard_kinetic_edge_6.0.7.img
 >>
->>  #include "target/arm/cpu.h"
->>  #include "qom/object.h"
->> @@ -47,4 +48,24 @@ struct AwA10State {
->>      OHCISysBusState ohci[AW_A10_NUM_USB];
->>  };
 >>
->> +/**
->> + * Emulate Boot ROM firmware setup functionality.
->> + *
->> + * A real Allwinner A10 SoC contains a Boot ROM
->> + * which is the first code that runs right after
->> + * the SoC is powered on. The Boot ROM is responsible
->> + * for loading user code (e.g. a bootloader) from any
->> + * of the supported external devices and writing the
->> + * downloaded code to internal SRAM. After loading the SoC
->> + * begins executing the code written to SRAM.
->> + *
->> + * This function emulates the Boot ROM by copying 32 KiB
->> + * of data from the given block device and writes it to
->> + * the start of the first internal SRAM memory.
->> + *
->> + * @s: Allwinner A10 state object pointer
->> + * @blk: Block backend device object pointer
->> + */
->> +void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk);
->> +
->>  #endif
+>> Strahinja Jankovic (6):
+>>   hw/misc: Allwinner-A10 Clock Controller Module Emulation
+>>   hw/misc: Allwinner A10 DRAM Controller Emulation
+>>   hw/i2c: Allwinner TWI/I2C Emulation
+>>   hw/misc: Allwinner AXP-209 Emulation
+>>   hw/arm: Add AXP-209 to Cubieboard
+>>   hw/arm: Allwinner A10 enable SPL load from MMC
+>>
+>>  hw/arm/Kconfig                        |   5 +
+>>  hw/arm/allwinner-a10.c                |  40 +++
+>>  hw/arm/allwinner-h3.c                 |  11 +-
+>>  hw/arm/cubieboard.c                   |  11 +
+>>  hw/i2c/Kconfig                        |   4 +
+>>  hw/i2c/allwinner-i2c.c                | 417 ++++++++++++++++++++++++++
+>>  hw/i2c/meson.build                    |   1 +
+>>  hw/misc/Kconfig                       |  10 +
+>>  hw/misc/allwinner-a10-ccm.c           | 224 ++++++++++++++
+>>  hw/misc/allwinner-a10-dramc.c         | 179 +++++++++++
+>>  hw/misc/allwinner-axp-209.c           | 263 ++++++++++++++++
+>>  hw/misc/meson.build                   |   3 +
+>>  include/hw/arm/allwinner-a10.h        |  27 ++
+>>  include/hw/arm/allwinner-h3.h         |   3 +
+>>  include/hw/i2c/allwinner-i2c.h        | 112 +++++++
+>>  include/hw/misc/allwinner-a10-ccm.h   |  67 +++++
+>>  include/hw/misc/allwinner-a10-dramc.h |  68 +++++
+>>  17 files changed, 1444 insertions(+), 1 deletion(-)
+>>  create mode 100644 hw/i2c/allwinner-i2c.c
+>>  create mode 100644 hw/misc/allwinner-a10-ccm.c
+>>  create mode 100644 hw/misc/allwinner-a10-dramc.c
+>>  create mode 100644 hw/misc/allwinner-axp-209.c
+>>  create mode 100644 include/hw/i2c/allwinner-i2c.h
+>>  create mode 100644 include/hw/misc/allwinner-a10-ccm.h
+>>  create mode 100644 include/hw/misc/allwinner-a10-dramc.h
+>>
 >> --
 >> 2.30.2
 >>
