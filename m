@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5996469DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 08:48:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4098C6469DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 08:50:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3BdD-0003pF-1O; Thu, 08 Dec 2022 02:47:47 -0500
+	id 1p3BeY-0004Ds-9D; Thu, 08 Dec 2022 02:49:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3BdB-0003p3-Bh
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:47:45 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3Bd9-0000XV-Lm
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:47:45 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d1so606942wrs.12
- for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 23:47:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=asU41KWFukc6qm9y2IancRRq9Rt3a25uzW7Wse5vBow=;
- b=lABDnJvlP1xvvN/nUMGbq/Ax2IyLNEerN64fh7oqZyroHD8Tpu1ZKEqbZKB9qxpLeg
- 0cqwDyChYpj1djj43kDii4eXuiGJ06YCCKhtypTV7zm/fmJgEcd35LqIHyPAyiOg1JN3
- j8jLLPftXIF5vZeXl/PNL7CnFhMwSFaJSVhz8SNjKlaR6UYfTTxvg0NBdWPPoiTUM5bQ
- UaBzyd3lpEM+lj8LN//kuAPLpO9HZLuVt0gb/DXHU4ryxdStTDjy6Vl0koWNFRPh0zcM
- jVe4nRl/N+N6GpLFT34kPH3+R9EmkGCQ+Qka0U8D1Mx1SmQ9cKtop5N+f0JSMlNbYtgd
- IdLg==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p3Bdi-0003xW-Nr
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:48:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p3Bdg-0000ar-Fy
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 02:48:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670485695;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w735L7rG/1OHFXxc8VQz9XUEVB9DpDTD+RfPH0Wrz7I=;
+ b=em5AvYLaac45cMXWTPgirb2jXFwE6oqd6B/elFtIsDNMObr4Uszy4GqlxWdnG2i5tvobe6
+ 4bqjRs5iJiWtwROXv3/xfn3NXb3rhE2sgwb8GGerq11ihoZlIqjI1lcAo5ecg7D3ZR1Uwf
+ xYfiq+MBkVuWcnQ7P+383o5ugeOFQTk=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-652-6xEad3IHPrafDkZXyyx3og-1; Thu, 08 Dec 2022 02:48:13 -0500
+X-MC-Unique: 6xEad3IHPrafDkZXyyx3og-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ fz10-20020a05622a5a8a00b003a4f466998cso731659qtb.16
+ for <qemu-devel@nongnu.org>; Wed, 07 Dec 2022 23:48:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=asU41KWFukc6qm9y2IancRRq9Rt3a25uzW7Wse5vBow=;
- b=4GOEQgqZMHSNgck04lqRleDxE0KaoeGWhQuNH0gyTfBT06a5uhypXglIkfyniH8Vqe
- qR7FsXUJT17vzrtwv3sSnadlbPs5bte0LGIoqHeGg7lPWWRKI0wGR0IgnmGri0y5o0Wf
- EgO2trmh5Gzf9OBl+URqLhoRAiVAv+UHP9uhvKW4MA/tFASz87yeu2DFyZWlPu3EMfwS
- WDo9qp5Jy4oxHqhSvq/9KjrrDg10wqrwhgYmItbb/xQoDMe/3S4MAIx55gC79rBHwjFm
- 7cEsujlCsOZHHlrSkAxEfvdbETyXlEusVgqnG/hUVUDg6yQvQPDIYOQH7y0SIQ/+IYfW
- 7lHA==
-X-Gm-Message-State: ANoB5pn/BSX5CRyk0NUO7ZputLoBlfJQNecZyFMltPtOPrqlhXTSgLF0
- 1gDfBnCbpr2uF2grG2SpDPIjBw==
-X-Google-Smtp-Source: AA0mqf7hIx32Nl+dJ+X7KPdRMtPWHlKu7pdvuj/F/B7hQ6Uu6TKK0rNJ3ZwdowGs1WX/N3bxCOBTuQ==
-X-Received: by 2002:a5d:5e8a:0:b0:241:f227:9c2b with SMTP id
- ck10-20020a5d5e8a000000b00241f2279c2bmr40738510wrb.106.1670485660983; 
- Wed, 07 Dec 2022 23:47:40 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m186-20020a1ca3c3000000b003cff309807esm3996061wme.23.2022.12.07.23.47.39
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w735L7rG/1OHFXxc8VQz9XUEVB9DpDTD+RfPH0Wrz7I=;
+ b=4BUuiMUc2Vvzk6xNwuWnlYyfszi6vEt/mBnixU6gyV2XVOn+UN9+eW3wwbKUO0UzV/
+ C/H1ZZYmS1RwV/Edhvb2ZF4dSi+Ua8slXzDUZpp/KRMpsK2sIF7rQR42xFUDfrewx6c6
+ rYm0G3JGiFtMPhiS1Vy02Z768GUMUJzBIcxN/7qdP5gWgVbYl/q7ZQF5Y+RdQqPsm3Vg
+ mWuOj2xmWf5rdpRIo9JdvyDk68kLGTWWyafdhl25Mu/JXNoDNHaBizIMiUQop4t3NSnj
+ stUOJUQ9ywypJ0SLaeoQI7J0cA9YwlmttZDneGF3XWTmdFEVd2djXqqsmc4xUamW3YHc
+ oFxA==
+X-Gm-Message-State: ANoB5pkUdK8GoQUB8o+y0ZlzOYDtPCbwcGr2SrSCeU6Az+/pF4JAxRXx
+ Zwn+piBnO+iZFNpnAs+IttExU6mD54bMbWNZGIxkuOibJidw4JZzMXZkPKx37T2hadKcOuk2zXG
+ tDFm/QsTdQqQQPxM=
+X-Received: by 2002:a37:a94a:0:b0:6fe:b1f7:38c9 with SMTP id
+ s71-20020a37a94a000000b006feb1f738c9mr13677178qke.250.1670485693197; 
+ Wed, 07 Dec 2022 23:48:13 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf77+ahFyXa922rdJTJdVdybnTBu6h4xymNszWgSi+QtAnmNOMGhNsgvRP4L7P8JF6LbLR2I9g==
+X-Received: by 2002:a37:a94a:0:b0:6fe:b1f7:38c9 with SMTP id
+ s71-20020a37a94a000000b006feb1f738c9mr13677169qke.250.1670485692975; 
+ Wed, 07 Dec 2022 23:48:12 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ ay9-20020a05620a178900b006faa88ba2b5sm18515674qkb.7.2022.12.07.23.48.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Dec 2022 23:47:40 -0800 (PST)
-Message-ID: <ddd4ff9b-7d9a-6f1d-c725-e6fe649188ab@linaro.org>
-Date: Thu, 8 Dec 2022 08:47:38 +0100
+ Wed, 07 Dec 2022 23:48:12 -0800 (PST)
+Message-ID: <a281b12b-d905-4c96-72ce-6e22e41d0cfb@redhat.com>
+Date: Thu, 8 Dec 2022 08:48:09 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] FreeBSD: Upgrade to 12.4 release
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH for 8.0 0/2] virtio-iommu: Fix Replay
 Content-Language: en-US
-To: Brad Smith <brad@comstyle.com>, Alex Benn_e <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Warner Losh <imp@bsdimp.com>,
- Kyle Evans <kevans@freebsd.org>, Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <Y5GJpW/1s+NEah98@humpty.home.comstyle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y5GJpW/1s+NEah98@humpty.home.comstyle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+To: Peter Xu <peterx@redhat.com>
+Cc: eric.auger.pro@gmail.com, mst@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, jean-philippe@linaro.org, bharat.bhushan@nxp.com,
+ alex.williamson@redhat.com
+References: <20221207133646.635760-1-eric.auger@redhat.com>
+ <Y5EmmjKBBnjSlvd+@x1n>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <Y5EmmjKBBnjSlvd+@x1n>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.262,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.262, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,50 +104,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/12/22 07:52, Brad Smith wrote:
-> FreeBSD: Upgrade to 12.4 release
-> 
-> Signed-off-by: Brad Smith <brad@comstyle.com>
-> ---
->   .gitlab-ci.d/cirrus.yml | 2 +-
->   tests/vm/freebsd        | 4 ++--
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-> index 634a73a742..785b163aa6 100644
-> --- a/.gitlab-ci.d/cirrus.yml
-> +++ b/.gitlab-ci.d/cirrus.yml
-> @@ -50,7 +50,7 @@ x64-freebsd-12-build:
->       NAME: freebsd-12
->       CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
->       CIRRUS_VM_IMAGE_SELECTOR: image_family
-> -    CIRRUS_VM_IMAGE_NAME: freebsd-12-3
-> +    CIRRUS_VM_IMAGE_NAME: freebsd-12-4
->       CIRRUS_VM_CPUS: 8
->       CIRRUS_VM_RAM: 8G
->       UPDATE_COMMAND: pkg update
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index d6ff4461ba..ba2ba23d24 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -28,8 +28,8 @@ class FreeBSDVM(basevm.BaseVM):
->       name = "freebsd"
->       arch = "x86_64"
->   
-> -    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.3/FreeBSD-12.3-RELEASE-amd64-disc1.iso.xz"
-> -    csum = "36dd0de50f1fe5f0a88e181e94657656de26fb64254412f74e80e128e8b938b4"
-> +    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.4/FreeBSD-12.4-RELEASE-amd64-disc1.iso.xz"
-> +    csum = "1dcf6446e31bf3f81b582e9aba3319a258c29a937a2af6138ee4b181ed719a87"
+Hi Peter,
 
-I don't remember and wonder why we don't use the pre-populated image:
-https://download.freebsd.org/ftp/releases/VM-IMAGES/12.4-RELEASE/amd64/Latest/FreeBSD-12.4-RELEASE-amd64.qcow2.xz
+On 12/8/22 00:49, Peter Xu wrote:
+> Hi, Eric,
+>
+> On Wed, Dec 07, 2022 at 02:36:44PM +0100, Eric Auger wrote:
+>> When assigning VFIO devices protected by a virtio-iommu we need to replay
+>> the mappings when adding a new IOMMU MR and when attaching a device to
+>> a domain. While we do a "remap" we currently fail to first unmap the
+>> existing IOVA mapping and just map the new one. With some device/group
+>> topology this can lead to errors in VFIO when trying to DMA_MAP IOVA
+>> ranges onto existing ones.
+> I'm not sure whether virtio-iommu+vfio will suffer from DMA races like when
+> we were working on the vt-d replay for vfio.  The issue is whether DMA can
+> happen right after UNMAP but before MAP of the same page if the page was
+> always mapped.
 
-Anyhow,
+I don't think it can race because a mutex is hold while doing the
+virtio_iommu_replay(), and each time a virtio cmd is handled (attach,
+map, unmap), see virtio_iommu_handle_command.
+So I think it is safe.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thanks
+
+Eric
+>
+> The vt-d resolved it by using iova_tree so in a replay vt-d knows the page
+> didn't change, so it avoids unmap+map.  It only notifies newly unmapped or
+> newly mapped.
+>
+> Thanks,
+>
 
 
