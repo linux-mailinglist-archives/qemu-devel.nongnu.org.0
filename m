@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960596475C4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 19:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEB36475C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 19:48:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Luk-00072r-OC; Thu, 08 Dec 2022 13:46:34 -0500
+	id 1p3LwC-0007Xk-6X; Thu, 08 Dec 2022 13:48:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p3Lug-00072h-NU
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:46:30 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p3Lvv-0007UO-03
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:47:53 -0500
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p3Lue-0007kw-Ba
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:46:30 -0500
-Received: by mail-ej1-x632.google.com with SMTP id gh17so6146986ejb.6
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 10:46:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RvoBVPtJHvX6x0nSP9fgjNfuhGgHJ5JOWsQB7PZ4hFw=;
- b=7gKVVHE6uFxL+s3HLI61N1Mt91C5C1q+75HeBpDmYYh5OTrtpwIpJ9FnDDEueVkFDk
- 9b/dEK7nM+/6qrIEvhfMGWcNkN9hgB2wJe6XKyvhqOQ2Gf2qwIpQyG6hKm7XtE1rV0pF
- ARG0O8IjE7eMEX/t0cqMQ5SpUCfgUh6ixOSih19bZWYNDVR3UZV8qpefjMnP7mK0cuTQ
- FoB5orCZjDb4TXiBPh6kBCTCnjc5qml8zWbKhCPKiH1+PkqdsTfBS5HunDDkhRcIMKTH
- AuvKkBEOu0H9d+ozBSS6PL5z/++43TzXWZNNi6l+cPCCv8bIAnJOZNMvHRWLieOS/0Kk
- JdmQ==
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p3Lvr-0007x9-Ma
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 13:47:46 -0500
+Received: by mail-oi1-x234.google.com with SMTP id e205so2269386oif.11
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 10:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=uggzRw2a27OEv1K9QEuygC5VIetppOVoqwsoP3OI6+g=;
+ b=NoCvYR82XacKpJAJlnoV5dC2D8eE9c3tG0tFaXxmgW30GgZiRGxxSUdd6V2lO1OrN+
+ /3kGmlaq5U6lECgWxvXn2jM5Q2CuC90wCoMd5E87dnGVdHZCLbl25eYxKzbd8Uptl5VV
+ aouIh/1bMxCM9k+CXjgu/IvKHe9JNJWAMxHDs6r6QRIn/lWJxCifnFR+8QJyEdF/4fA9
+ IV8aeMN5ufU/oveO5ZlSyRgNyJeQ9Ck1brS5q4DL3aUwcJr7bAFSukJQVdzdkeP6k8cp
+ SG25AhvA64WmT+P0EaccrsPUtzLwwfHTd+dOLUpL2lJ4aOjEXprXkQQruHzK0daxo5eX
+ 5U6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RvoBVPtJHvX6x0nSP9fgjNfuhGgHJ5JOWsQB7PZ4hFw=;
- b=HeHI8TQSq2gi5a7Zvl0g2lHApTt/NOWN8hCNOw8PVsnvs/gqfmD+MnAM8OTODOVYAI
- jmVnrIN80bb/nzAGSOfV/nxvftpws25DPjIEW8GD80OEGcaNgyE/cZmO2i3SuMYvK+FJ
- KUJpSOnVf0ATyXDbzJi+j02oty7FkEeEc+93AITpdEtIa3wCWU5Gprj3OHXQFW7zJZrW
- 08l/vHNZALZ4igfqRPExfMj15oJ450jdg7Zr8ffgTjl2DcyffZ/dtoZI+Z8hO2fyscRP
- YXzO17Hsc2D2B+QDZtiH7d7EJYgOD/twij6tLWSMV++HrmCk0kR+1BfRVYjQo4EzacCq
- bkcw==
-X-Gm-Message-State: ANoB5pk8aKL1FzSY7Q5l0pMEITLr0YWJ9vrJR1fQg7oXMJHj10Ss8lSD
- qSuAthR7K/xtS0ZLMgmdPHG0AalOEooBIbffDpK/Uw==
-X-Google-Smtp-Source: AA0mqf5rxpIKWcxhEXG9B3DB04CiS4/JHoLZm5XJWLGrGl+C0NJQA72gE81HvqdWbk+A7CXGeqxf8u8uBIbEEom5ixI=
-X-Received: by 2002:a17:906:c2d3:b0:7c1:535:f2fb with SMTP id
- ch19-20020a170906c2d300b007c10535f2fbmr10354729ejb.252.1670525184690; Thu, 08
- Dec 2022 10:46:24 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uggzRw2a27OEv1K9QEuygC5VIetppOVoqwsoP3OI6+g=;
+ b=RJRXf9Y7IllmdLRZQZuQk+Vc8bT5r/0tP72+uN3Q7/Z5cZy4EO1VusNL4R+aCSF/tO
+ nbe5pxffREQQD3CX9Uwq11XI1wjXWihI6YmksHN3KnPOlIi/xIBbTzQDi9wURjULSH1u
+ AqDcG1EPrZMnEfpfQkeiMevV1632Xugfbp6bpNVnBIQHH7h+ZI0YpO57XInz6z3GT3O4
+ ElcI9W/hwo6gV+SCSNK7/tNO+PfYSfypfXVT9gGflsY3DOa/q0AVleiCltbbNcs+/Zc0
+ 0/Y2GlMRG13m7J1RFfggJKfHhL/M/63bzHXaiW5RaiaKYWJCQI88MWZM9E3C7acYqawp
+ 40Gg==
+X-Gm-Message-State: ANoB5pm27N4lKgpdT/AEL5PXrPDxv3+JYdeIICPE6UsC0RKMr1GwFqIF
+ 1wh4TlrSSS9rLPlrdNosiWI=
+X-Google-Smtp-Source: AA0mqf7amEN41Tmf+rg8zcf+kWGqRoZ0x2Q8/U2iNc0pephJ9lydv0X8QskasGqj1NFhhoddT6/8sg==
+X-Received: by 2002:a05:6808:5cb:b0:35b:f272:63c with SMTP id
+ d11-20020a05680805cb00b0035bf272063cmr12178519oij.256.1670525262314; 
+ Thu, 08 Dec 2022 10:47:42 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ w18-20020a056871061200b00144bb1013e6sm5123036oan.4.2022.12.08.10.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Dec 2022 10:47:41 -0800 (PST)
+Date: Thu, 8 Dec 2022 10:47:40 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
+ kbusch@kernel.org
+Subject: Re: [PATCH v3 1/2] hw/nvme: Implement shadow doorbell buffer support
+Message-ID: <20221208184740.GA3380017@roeck-us.net>
+References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+ <20220616123408.3306055-2-fanjinhao21s@ict.ac.cn>
+ <20221207174918.GA1151796@roeck-us.net>
+ <Y5GPRiO0g2mgA3FS@cormorant.local>
+ <Y5GbbF68N5ZiYNdv@cormorant.local>
 MIME-Version: 1.0
-References: <Y5GJpW/1s+NEah98@humpty.home.comstyle.com>
- <ddd4ff9b-7d9a-6f1d-c725-e6fe649188ab@linaro.org>
-In-Reply-To: <ddd4ff9b-7d9a-6f1d-c725-e6fe649188ab@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 8 Dec 2022 11:46:13 -0700
-Message-ID: <CANCZdfquMwKWhhn+DOiWiVdhQDiG18eKnkcM_E0ECtzmBUJmhg@mail.gmail.com>
-Subject: Re: [PATCH] FreeBSD: Upgrade to 12.4 release
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Brad Smith <brad@comstyle.com>, Alex Benn_e <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Kyle Evans <kevans@freebsd.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000038dd3e05ef5574b7"
-Received-SPF: none client-ip=2a00:1450:4864:20::632;
- envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y5GbbF68N5ZiYNdv@cormorant.local>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=groeck7@gmail.com; helo=mail-oi1-x234.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.229, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,152 +92,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000038dd3e05ef5574b7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Dec 08, 2022 at 09:08:12AM +0100, Klaus Jensen wrote:
+> On Dec  8 08:16, Klaus Jensen wrote:
+> > On Dec  7 09:49, Guenter Roeck wrote:
+> > > Hi,
+> > > 
+> > > On Thu, Jun 16, 2022 at 08:34:07PM +0800, Jinhao Fan wrote:
+> > > > Implement Doorbel Buffer Config command (Section 5.7 in NVMe Spec 1.3)
+> > > > and Shadow Doorbel buffer & EventIdx buffer handling logic (Section 7.13
+> > > > in NVMe Spec 1.3). For queues created before the Doorbell Buffer Config
+> > > > command, the nvme_dbbuf_config function tries to associate each existing
+> > > > SQ and CQ with its Shadow Doorbel buffer and EventIdx buffer address.
+> > > > Queues created after the Doorbell Buffer Config command will have the
+> > > > doorbell buffers associated with them when they are initialized.
+> > > > 
+> > > > In nvme_process_sq and nvme_post_cqe, proactively check for Shadow
+> > > > Doorbell buffer changes instead of wait for doorbell register changes.
+> > > > This reduces the number of MMIOs.
+> > > > 
+> > > > In nvme_process_db(), update the shadow doorbell buffer value with
+> > > > the doorbell register value if it is the admin queue. This is a hack
+> > > > since hosts like Linux NVMe driver and SPDK do not use shadow
+> > > > doorbell buffer for the admin queue. Copying the doorbell register
+> > > > value to the shadow doorbell buffer allows us to support these hosts
+> > > > as well as spec-compliant hosts that use shadow doorbell buffer for
+> > > > the admin queue.
+> > > > 
+> > > > Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+> > > 
+> > > I noticed that I can no longer boot Linux kernels from nvme on riscv64
+> > > systems. The problem is seen with qemu v7.1 and qemu v7.2-rc4.
+> > > The log shows:
+> > > 
+> > > [   35.904128] nvme nvme0: I/O 642 (I/O Cmd) QID 1 timeout, aborting
+> > > [   35.905000] EXT4-fs (nvme0n1): mounting ext2 file system using the ext4 subsystem
+> > > [   66.623863] nvme nvme0: I/O 643 (I/O Cmd) QID 1 timeout, aborting
+> > > [   97.343989] nvme nvme0: Abort status: 0x0
+> > > [   97.344355] nvme nvme0: Abort status: 0x0
+> > > [   97.344647] nvme nvme0: I/O 7 QID 0 timeout, reset controller
+> > > [   97.350568] nvme nvme0: I/O 644 (I/O Cmd) QID 1 timeout, aborting
+> > > 
+> > > This is with the mainline Linux kernel (v6.1-rc8).
+> > > 
+> > > Bisect points to this patch. Reverting this patch and a number of associated
+> > > patches (to fix conflicts) fixes the problem.
+> > > 
+> > > 06143d8771 Revert "hw/nvme: Implement shadow doorbell buffer support"
+> > > acb4443e3a Revert "hw/nvme: Use ioeventfd to handle doorbell updates"
+> > > d5fd309feb Revert "hw/nvme: do not enable ioeventfd by default"
+> > > 1ca1e6c47c Revert "hw/nvme: unregister the event notifier handler on the main loop"
+> > > 2d26abd51e Revert "hw/nvme: skip queue processing if notifier is cleared"
+> > > 99d411b5a5 Revert "hw/nvme: reenable cqe batching"
+> > > 2293d3ca6c Revert "hw/nvme: Add trace events for shadow doorbell buffer"
+> > > 
+> > > Qemu command line:
+> > > 
+> > > qemu-system-riscv64 -M virt -m 512M \
+> > >      -kernel arch/riscv/boot/Image -snapshot \
+> > >      -device nvme,serial=foo,drive=d0 \
+> > >      -drive file=rootfs.ext2,if=none,format=raw,id=d0 \
+> > >      -bios default \
+> > >      -append "root=/dev/nvme0n1 console=ttyS0,115200 earlycon=uart8250,mmio,0x10000000,115200" \
+> > >      -nographic -monitor none
+> > > 
+> > > Guenter
+> > 
+> > Hi Guenter,
+> > 
+> > Thanks for the bisect.
+> > 
+> > The shadow doorbell is also an obvious candidate for this regression. I
+> > wonder if this could be a kernel bug, since we are not observing this on
+> > other architectures. The memory barriers required are super finicky, but
+> > in QEMU all the operations are associated with full memory barriers. The
+> > barriers are more fine grained in the kernel though.
+> > 
+> > I will dig into this together with Keith.
+> 
+> A cq head doorbell mmio is skipped... And it is not the fault of the
+> kernel. The kernel is in it's good right to skip the mmio since the cq
+> eventidx is not properly updated.
+> 
+> Adding that and it boots properly on riscv. But I'm perplexed as to why
+> this didnt show up on our regularly tested platforms.
+> 
+> Gonna try to get this in for 7.2!
 
-On Thu, Dec 8, 2022 at 12:47 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
-org>
-wrote:
+I see another problem with sparc64.
 
-> On 8/12/22 07:52, Brad Smith wrote:
-> > FreeBSD: Upgrade to 12.4 release
-> >
-> > Signed-off-by: Brad Smith <brad@comstyle.com>
-> > ---
-> >   .gitlab-ci.d/cirrus.yml | 2 +-
-> >   tests/vm/freebsd        | 4 ++--
-> >   2 files changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-> > index 634a73a742..785b163aa6 100644
-> > --- a/.gitlab-ci.d/cirrus.yml
-> > +++ b/.gitlab-ci.d/cirrus.yml
-> > @@ -50,7 +50,7 @@ x64-freebsd-12-build:
-> >       NAME: freebsd-12
-> >       CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
-> >       CIRRUS_VM_IMAGE_SELECTOR: image_family
-> > -    CIRRUS_VM_IMAGE_NAME: freebsd-12-3
-> > +    CIRRUS_VM_IMAGE_NAME: freebsd-12-4
-> >       CIRRUS_VM_CPUS: 8
-> >       CIRRUS_VM_RAM: 8G
-> >       UPDATE_COMMAND: pkg update
-> > diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> > index d6ff4461ba..ba2ba23d24 100755
-> > --- a/tests/vm/freebsd
-> > +++ b/tests/vm/freebsd
-> > @@ -28,8 +28,8 @@ class FreeBSDVM(basevm.BaseVM):
-> >       name =3D "freebsd"
-> >       arch =3D "x86_64"
-> >
-> > -    link =3D "
-> https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.3/FreeBSD-12.3-RE=
-LEASE-amd64-disc1.iso.xz
-> "
-> > -    csum =3D
-> "36dd0de50f1fe5f0a88e181e94657656de26fb64254412f74e80e128e8b938b4"
-> > +    link =3D "
-> https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.4/FreeBSD-12.4-RE=
-LEASE-amd64-disc1.iso.xz
-> "
-> > +    csum =3D
-> "1dcf6446e31bf3f81b582e9aba3319a258c29a937a2af6138ee4b181ed719a87"
->
-> I don't remember and wonder why we don't use the pre-populated image:
->
-> https://download.freebsd.org/ftp/releases/VM-IMAGES/12.4-RELEASE/amd64/La=
-test/FreeBSD-12.4-RELEASE-amd64.qcow2.xz
+[    5.261508] could not locate request for tag 0x0
+[    5.261711] nvme nvme0: invalid id 0 completed on queue 1
 
+That is seen repeatedly until the request times out. I'll test with
+your patch to see if it resolves this problem as well, and will bisect
+otherwise.
 
-QEMU's CI pre-dates the FreeBSD project producing those images. I don't
-think there's a big technical reason to not use them, though some of the
-scripting would need to change (mostly, I think, to delete things, and
-maybe to more-directly change config files to effect some of the settings
-done via the installer).
-
-
-> Anyhow,
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->
-
-Reviewed by: Warner Losh <imp@bsdimp.com>
-
---00000000000038dd3e05ef5574b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 8, 2022 at 12:47 AM Phili=
-ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On 8/12/22 07:52, Brad Smith wrote:<br>
-&gt; FreeBSD: Upgrade to 12.4 release<br>
-&gt; <br>
-&gt; Signed-off-by: Brad Smith &lt;<a href=3D"mailto:brad@comstyle.com" tar=
-get=3D"_blank">brad@comstyle.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0.gitlab-ci.d/cirrus.yml | 2 +-<br>
-&gt;=C2=A0 =C2=A0tests/vm/freebsd=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
-&gt;=C2=A0 =C2=A02 files changed, 3 insertions(+), 3 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml<br>
-&gt; index 634a73a742..785b163aa6 100644<br>
-&gt; --- a/.gitlab-ci.d/cirrus.yml<br>
-&gt; +++ b/.gitlab-ci.d/cirrus.yml<br>
-&gt; @@ -50,7 +50,7 @@ x64-freebsd-12-build:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0NAME: freebsd-12<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CIRRUS_VM_INSTANCE_TYPE: freebsd_instance<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CIRRUS_VM_IMAGE_SELECTOR: image_family<br>
-&gt; -=C2=A0 =C2=A0 CIRRUS_VM_IMAGE_NAME: freebsd-12-3<br>
-&gt; +=C2=A0 =C2=A0 CIRRUS_VM_IMAGE_NAME: freebsd-12-4<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CIRRUS_VM_CPUS: 8<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CIRRUS_VM_RAM: 8G<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0UPDATE_COMMAND: pkg update<br>
-&gt; diff --git a/tests/vm/freebsd b/tests/vm/freebsd<br>
-&gt; index d6ff4461ba..ba2ba23d24 100755<br>
-&gt; --- a/tests/vm/freebsd<br>
-&gt; +++ b/tests/vm/freebsd<br>
-&gt; @@ -28,8 +28,8 @@ class FreeBSDVM(basevm.BaseVM):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0name =3D &quot;freebsd&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0arch =3D &quot;x86_64&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 link =3D &quot;<a href=3D"https://download.freebsd.org/=
-ftp/releases/ISO-IMAGES/12.3/FreeBSD-12.3-RELEASE-amd64-disc1.iso.xz" rel=
-=3D"noreferrer" target=3D"_blank">https://download.freebsd.org/ftp/releases=
-/ISO-IMAGES/12.3/FreeBSD-12.3-RELEASE-amd64-disc1.iso.xz</a>&quot;<br>
-&gt; -=C2=A0 =C2=A0 csum =3D &quot;36dd0de50f1fe5f0a88e181e94657656de26fb64=
-254412f74e80e128e8b938b4&quot;<br>
-&gt; +=C2=A0 =C2=A0 link =3D &quot;<a href=3D"https://download.freebsd.org/=
-ftp/releases/ISO-IMAGES/12.4/FreeBSD-12.4-RELEASE-amd64-disc1.iso.xz" rel=
-=3D"noreferrer" target=3D"_blank">https://download.freebsd.org/ftp/releases=
-/ISO-IMAGES/12.4/FreeBSD-12.4-RELEASE-amd64-disc1.iso.xz</a>&quot;<br>
-&gt; +=C2=A0 =C2=A0 csum =3D &quot;1dcf6446e31bf3f81b582e9aba3319a258c29a93=
-7a2af6138ee4b181ed719a87&quot;<br>
-<br>
-I don&#39;t remember and wonder why we don&#39;t use the pre-populated imag=
-e:<br>
-<a href=3D"https://download.freebsd.org/ftp/releases/VM-IMAGES/12.4-RELEASE=
-/amd64/Latest/FreeBSD-12.4-RELEASE-amd64.qcow2.xz" rel=3D"noreferrer" targe=
-t=3D"_blank">https://download.freebsd.org/ftp/releases/VM-IMAGES/12.4-RELEA=
-SE/amd64/Latest/FreeBSD-12.4-RELEASE-amd64.qcow2.xz</a></blockquote><div><b=
-r></div><div>QEMU&#39;s CI pre-dates the FreeBSD project producing those im=
-ages. I don&#39;t think there&#39;s a big technical reason to not use them,=
- though some of the scripting would need to change (mostly, I think, to del=
-ete things, and maybe to more-directly change config files to effect some o=
-f the settings done via the installer).</div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">Anyhow,<br>
-<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linar=
-o.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
-Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.=
-org" target=3D"_blank">philmd@linaro.org</a>&gt;<br></blockquote><div><br><=
-/div><div>Reviewed by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">im=
-p@bsdimp.com</a>&gt;=C2=A0</div></div></div>
-
---00000000000038dd3e05ef5574b7--
+Guenter
 
