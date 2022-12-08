@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0698A646A93
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 09:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4523A646A92
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Dec 2022 09:32:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3CIk-0004LN-6Z; Thu, 08 Dec 2022 03:30:42 -0500
+	id 1p3CIs-0004Nq-JB; Thu, 08 Dec 2022 03:30:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p3CIC-0004KR-2W; Thu, 08 Dec 2022 03:30:08 -0500
+ id 1p3CID-0004Kd-JG; Thu, 08 Dec 2022 03:30:11 -0500
 Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p3CI8-0003Nf-GZ; Thu, 08 Dec 2022 03:30:07 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 7A4AD5C0159;
- Thu,  8 Dec 2022 03:30:00 -0500 (EST)
+ id 1p3CI8-0003Ny-MF; Thu, 08 Dec 2022 03:30:09 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 69DA25C018A;
+ Thu,  8 Dec 2022 03:30:02 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 08 Dec 2022 03:30:00 -0500
+ by compute2.internal (MEProxy); Thu, 08 Dec 2022 03:30:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1670488200; x=1670574600; bh=ss
- 0KJjmLOsP77UsFI/omxohBYWaaQf4wFiQL12hx338=; b=ZaDr+Nwp/1qLDmp4k5
- TtZIngy/9q9J9BZGF1uWre1QTqEhoCdqWFy64xq9s+1ZQQx7Ff+wBzcv1N1MU2OI
- Y16qoIcgk86uXzIpXAiizhTtNDXE0GuqLhw5w/TGgBDuitr90hgXv8lalY3DnYy3
- /c0OQcK7ep2SpZCwgeWnyslJR2x10DhsfpeRIOnIUk2CPLvl+0HKeygN05h8ngyX
- jQX4xtV0jthbel5y4V/MXpg8BA++X3raslSRKTXSfODfiH51NmOV0cYq53Yke6mU
- 0nDks5zLm2dgdcxKyyQLniIYIr2uBDsjS5TXi33rSYoId1RmcyQT6hWeEI9JGtGP
- JqHw==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1670488202; x=
+ 1670574602; bh=yyBlsw3QjJoCjXvneksFSzbrwL8vgDCQkPldRiqetms=; b=U
+ GyYt/byJMqq52JJ3jtlVwm0uafcA016IXGYU0xRy64B3TVVpzF4mSc+IAOBkQYEt
+ e5wuY1dsS6F8tRWOOEY4jbVLYhG+gkcUUP1nvVf/1qJX38zopSqe3zdm4h28GTCf
+ oZi4VINB5yVHkk3l0UvlqV9akzoX3T8UdtEb0rHdgVUto6IpsCmLeRdB8Gtw55px
+ NvnKvuDshj0W78jn5ADh0EuYBcGXRNDPbBmreqwURdb0m9Vth4DckR83TwxL4Y4X
+ sNjf8Q/2FYTe0yw+AsZySufgEQscR64EoMzg44V49Mna6V4kYI1p2gtnaDU4BK8t
+ SfF/p91ejJUmkkYJHjuGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1670488200; x=1670574600; bh=ss0KJjmLOsP77
- UsFI/omxohBYWaaQf4wFiQL12hx338=; b=XziVzpc224xPE5VuTgkqQveWU8agh
- a9/5TNDZ1S6rHgdYOEJ0uTkXmlY/FNU63nGeY/lXmAZ6054QDtOU31+bkagZOcMB
- LUQjZlc8zpQKb14mkn+kdyioqp55Zm6Gk4AOs/ukZ8v3yJPVw/W/TQhp89pe/xPn
- x25dSL6Tvpb3zST0vyZCY+DPOH+wb1BK3Qe84uqLOPNe+lOeGhVnubsXyna5BBXA
- k2RLf13x48vs/xRx17UaRsqBWpxnZg0wyjRK/6+exLnD0sPxvWGUaM9CZRTFPCVK
- 8mudwkdYxb9/a0ZDVlfgKjlk+XnIdfUrZGIfo4FV+AwQO7yMZlrDIJ1hA==
-X-ME-Sender: <xms:hqCRYz_mzUesU7g9qWYIf744RT4HOm-FW3j6JXYBEbgKdWMrRFjbQw>
- <xme:hqCRY_u-kbs1_FpDWIGf3REzgPsU1fCyltgAvkcSa-Iv5KVDpxuaZ9sbWeqWo3CtM
- gO-0V1dEpfIoHyALrM>
-X-ME-Received: <xmr:hqCRYxAraH_O3CAo1WXF11v43zj1lVI2pldZPcQK_B1tvbPOq-9dssgHv4i4SxOaVIHttaxBalDoNpmiyziPzFbogfQDS6kmLeTE2w>
+ :x-sasl-enc; s=fm2; t=1670488202; x=1670574602; bh=yyBlsw3QjJoCj
+ XvneksFSzbrwL8vgDCQkPldRiqetms=; b=e35ZOih/cWq2AlircLgrEzIbg/kdF
+ lf+/vKA4BPWH1kMtODPUKIUanEMebgGhnPIEczzCwIPXuHZgyQ+xU5GZoH7+sID8
+ UT24p5f2fOl2WuWj1CNJb0vDCWWox8FWJhfPnCrCJAXx3ynVKsDoXasv5FaR4SSf
+ 7wQ0s1m+ho0l4THwMBZ8whgS86oV4EGcGbwehIR7BfzfTDX+Ge7szbBaZviVnvct
+ ed5L+dEoDE5EuXv0ptnv77r5lzcDTNCVmXorFHfDLgRnr0yk3U3PY3r1NbbOOnXr
+ aTQG/9VmAn4n6AsGervlu4MdaH9QJdl0GwiG9gwJgEJWEJqVNMILhCbZw==
+X-ME-Sender: <xms:iqCRYxyaRGfy_xH6aAe_VWufgCqBfn_ugU6_IDgfK_IEBCMclJ4qjg>
+ <xme:iqCRYxTicDw5OpRqCMJczk7bVtLicFZJaQIoC6Ibqnio-lUaQCAqpFaoaEuzCdnzz
+ 9ZLGgUVghi5DqEU990>
+X-ME-Received: <xmr:iqCRY7WS_uBAcDASTeHAB1Zr0vdS-zUcBNzFzX5IwzrPAAKns4LlEVqQoo121H9dPflnqRG54qxxCHdAg0MMncEZKcYvl6Be6ucBnQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgdduvdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeiffeujeegteduleejtdefveeiueekleffffeltddvvdehveegudetudeftddt
- veenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:h6CRY_chrq1UnXq0RRvfp0OEaQYq07bfdx0uXOGJGy9DzM2ouizTww>
- <xmx:h6CRY4MkoCPwG9ynWSqyPR23BMZ_vFDK_2FikhtlmYK56bkPvTq_cw>
- <xmx:h6CRYxnap8__DD3Oi0QSVZt_rl0C9LA1q-9nZLP-mvQqROSyMt1L4Q>
- <xmx:iKCRY32hjCmX8FesyLOAqGMthqYQfVwXzdwVNeHdGSeBEo5XTyITfw>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
+ udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:iqCRYziB8v0_xkFb54vz8P5_GoONup5eG5w_mPZkujRORLFxK0u3zg>
+ <xmx:iqCRYzAZPewFqp7Ai9HLdngg1dg2Hky6Bf1jZKTvCw-ft7ig9DCzGg>
+ <xmx:iqCRY8J1y9OoICWPmLUYMgHxYAZLMq66Lcscke2uruzp5nAfZlDnrg>
+ <xmx:iqCRY-6sPyIr6Q_bYL2E-YgUDYW0OF1vBb6ixVKDrChYI2bJpxNVVg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Dec 2022 03:29:57 -0500 (EST)
+ 8 Dec 2022 03:30:00 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
  Jinhao Fan <fanjinhao21s@ict.ac.cn>, Klaus Jensen <its@irrelevant.dk>,
  Guenter Roeck <linux@roeck-us.net>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 0/1] hw/nvme: shadow doorbells broken on riscv64
-Date: Thu,  8 Dec 2022 09:29:54 +0100
-Message-Id: <20221208082955.51732-1-its@irrelevant.dk>
+Subject: [PATCH 1/1] hw/nvme: fix missing cq eventidx update
+Date: Thu,  8 Dec 2022 09:29:55 +0100
+Message-Id: <20221208082955.51732-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20221208082955.51732-1-its@irrelevant.dk>
+References: <20221208082955.51732-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=577; i=k.jensen@samsung.com;
- h=from:subject; bh=kkPhZqkdSLGvGGbExfdJRY5uD3U4WaJALU7KZMKidOk=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGORoIMXWAo8ouQgA+h5KNYXNBS8kpyfq4BWy5Ec
- 6yBTqVHeb4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjkaCDAAoJEE3hrzFtTw3pv6
- sIAKDcSHu+/upx8r8QBgwG62TDATjWOmgG6fXhWgfJPK9jboVPTaoFDvQm5Sg/n9vb6F0mA8JW+0we
- AW+Sd8sKnstnTazqvJR0wVCPs3Fg3a0dJcxlbQ9Yf7x6TUpRYKf+HanSctwQXsF2tJiJs5lxBLE8OP
- 6I6F2gccuZ2MZZIocsMwX8UBKXG4kq8ZQCjY0nMNdeW2IQtTXlT4qQNePpSDGnZPTEc4RMxP83cqyg
- LelV4IJQGTWsmgHGpconrZqBtcHcOjF84P3AH6n7o56+1FwyiFJ3JY3Uz0feqzQT6zcXHRVqqb7Egp
- c3LjNnnO8fNFACfNpvoN5m8HFDfjtsrUgXladg
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1337; i=k.jensen@samsung.com;
+ h=from:subject; bh=ICJlvNeOLywMzp2ti35M5ymPYHZk/BKrmQ1hNddaLWU=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGORoIN9IHLWHD9jN99YUNKM4dUzJeg6bCfosu4s
+ oNKSajY0iYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjkaCDAAoJEE3hrzFtTw3pvM
+ QH+gPKiCgNqllpnqUrxrZyrd0W+uHYcHSY/k5WDifGh2cnolSid9b3LEzVs75gIwx9J1LIHgcJ/rKY
+ nR2Ll8CrUz/iNo33rzm8bYAajd6nkE6hp4i5sA2TSH84gJYOmnE2K6rVTjd+wuM6+O3gGit3HQK63I
+ kfh6v+3J/6fY+KQQPAeeIRVBg8E2ISNJUppgiLG3uiZvEqI4z6hhrVYnSi1b3GooNFEBRIiRUl4mN/
+ poIz6jLDC5fzEkzOomaptm4KMkuzoVh4h16mDtn7W5aS7YDAZ98TnQtgDyUjgzQuKJxBOcsIyQ2pNc
+ 57rRxKnuuydkE94dscy7pVn8sKiCtR6LaMiqWQ
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -112,23 +113,45 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Guenter reports[1] that hw/nvme is broken on riscv64.
+Prior to reading the shadow doorbell cq head, we have to update the
+eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
+write. This happens on riscv64, as reported by Guenter.
 
-This is a regression since 7.1, so this does not warrent an rc5 for 7.2.
-I'm sure Guenter can carry this patch in his tree, and maybe we can get
-this out in a stable release.
+Adding the missing update to the cq eventidx fixes the issue.
 
-I really wonder why this issue only shows up on riscv64. We have not
-observed this on other platforms (yet).
-
-  [1]: https://lore.kernel.org/qemu-devel/20221207174918.GA1151796@roeck-us.net/
-
-Klaus Jensen (1):
-  hw/nvme: fix missing cq eventidx update
-
+Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
  hw/nvme/ctrl.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index e54276dc1dc7..1192919b4869 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1331,6 +1331,13 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
+     }
+ }
+ 
++static void nvme_update_cq_eventidx(const NvmeCQueue *cq)
++{
++    pci_dma_write(&cq->ctrl->parent_obj, cq->ei_addr, &cq->head,
++                  sizeof(cq->head));
++    trace_pci_nvme_eventidx_cq(cq->cqid, cq->head);
++}
++
+ static void nvme_update_cq_head(NvmeCQueue *cq)
+ {
+     pci_dma_read(&cq->ctrl->parent_obj, cq->db_addr, &cq->head,
+@@ -1351,6 +1358,7 @@ static void nvme_post_cqes(void *opaque)
+         hwaddr addr;
+ 
+         if (n->dbbuf_enabled) {
++            nvme_update_cq_eventidx(cq);
+             nvme_update_cq_head(cq);
+         }
+ 
 -- 
 2.38.1
 
