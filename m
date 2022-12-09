@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22792648904
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 20:36:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4637E648941
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 20:56:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3j8w-0007VF-K7; Fri, 09 Dec 2022 14:34:46 -0500
+	id 1p3jSA-0007W1-Iz; Fri, 09 Dec 2022 14:54:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p3j8a-0007Tv-1f
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 14:34:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p3j8W-0006K3-6r
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 14:34:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670614459;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ICAusMAU8pUwN5ZmnkpRgzbfXOfOt7P1NKK2B1riGDs=;
- b=CglCLKMj2WTA6RE7GzuhB8O3/gHIc/FQBTT7MB/AYvlXErAqkq8de5OXG5ulAhWhKgfsB8
- 5/YZBDfgXYk5f0V+L2Xs+5zFUKuMnCOOZAfiwP6R/jQM48MK0xxitFTzkcMWFhdhLac+ca
- cfvoIwkh2oXdMSlC8hSTGq21OjCRnss=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-5-KYotDXPf2_p3c4eGtyfg-1; Fri, 09 Dec 2022 14:34:16 -0500
-X-MC-Unique: 5-KYotDXPf2_p3c4eGtyfg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2A15101A528;
- Fri,  9 Dec 2022 19:34:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 325891121339;
- Fri,  9 Dec 2022 19:34:15 +0000 (UTC)
-Date: Fri, 9 Dec 2022 20:34:11 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Subject: Re: [RFC PATCH] test-bdrv-drain: keep graph manipulations out of
- coroutines
-Message-ID: <Y5ONs/ten9EnMedv@redhat.com>
-References: <20221202132701.531048-1-pbonzini@redhat.com>
- <632abcb8-3a66-2b93-eb33-ef12953abd18@redhat.com>
- <eee6b6e6-e62c-0d87-1f98-913b4b194a1a@redhat.com>
- <Y43roVjI2RrU1PXq@redhat.com>
- <51d4cb33-7ae9-8c5b-b2ae-b5c6b71b09a8@redhat.com>
- <e361e255-83ff-5628-eebf-50bf624742c4@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3jRv-0007Vp-DH
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 14:54:23 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3jRc-0007Dy-GU
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 14:54:20 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id k79so4437869pfd.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 11:53:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=usGF94ULSgfoLSbP96GonyQrHI5JnXyySywakP97meQ=;
+ b=JK/hsW0eupng9A7N7uywygZ1bR5OrqPUIE821V435IH0veDGt13/MeVvLDYGLhwocZ
+ VdiQDLiZNS5rtQ0iqOUQQlXitZRyRajbAAqyUYD+Nf3/Gyc1iBVVKSwDBtw+v2iW+P57
+ flIOVzpcz8McaexnKLFp92jKmT/I32uNrcg9TBbithA28UpfSbV8Mij5uDLRMU+hFMW4
+ 0jcYdF3L5uoxlLEkj8x7gZZuFcHTcakvACScrfVcnTjkBw6C/9cxV47DovhkjbmGaN9i
+ tmRVakKLc9EzfjN7QV/IQ0Gh2OzrFZV/p38AaC81I8MOm2d9IdjgW3P4sCP5Z12hQlk4
+ DiCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=usGF94ULSgfoLSbP96GonyQrHI5JnXyySywakP97meQ=;
+ b=PnXMJZDLISL1r4ujAawPAPHXNbNKVY9OZlFzu7RKuklA1fqekW6U+CZKxGAD87rzC3
+ UOamXv7Py7pBZKHE1Y+CusZT7wOlvR6WsWXOTiK2iWjmpYO+fBICgDCGSPdzhWdo4F9y
+ sm/4uUORZcOPkdBo5yAtBKyOuhZ/wk7Ciyi5u/0kx/S5xG/b+hfjrR+Doc3jgpVQ4h02
+ uQzpVslPDPj65N9G3OFhulq++q/1pGoLVo+22Y+lfGL96KoZZ/1TF7Bv2qD8ihljuP4g
+ L1uRD8Gd+1bB6BxVHxwIjTtYVghq3nqIRE99KKj4zv6UQ6r67wUiAyKXUuZ3b4FLDycD
+ k+gg==
+X-Gm-Message-State: ANoB5pmmO7yLlEYwIB9Mi4ZMStqnbIBCUpGxvDMOfPxSLJdXq2pSLju6
+ WycGAuaTCmEd3+nmKEHFe4yGRY0EQUQ1/Ox1lFTe4w==
+X-Google-Smtp-Source: AA0mqf6lut7XFZN4VOafyZ7Jc9WDuZG8wE8hlDqTBl+jh4qnR5yCoEI3KdWH8AMTSFmc88Q8Ww/YYMiF4B0TCE8+KkM=
+X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
+ r6-20020a635146000000b0047786c1640fmr69677731pgl.231.1670615635868; Fri, 09
+ Dec 2022 11:53:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e361e255-83ff-5628-eebf-50bf624742c4@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <87edt9gnyz.fsf@pond.sub.org>
+ <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
+ <87v8mlez92.fsf@pond.sub.org>
+ <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
+ <CAFEAcA8MrUwOt+gaSVF6tMpG_HO_wCN_O11Ezst97-_52PR9pQ@mail.gmail.com>
+ <a14c2624-36fa-b5c1-a358-95694e01a339@redhat.com>
+In-Reply-To: <a14c2624-36fa-b5c1-a358-95694e01a339@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Dec 2022 19:53:44 +0000
+Message-ID: <CAFEAcA8DttcCD7ofcjfifigssAZpnLAe23-J9=iadmM31+nV0Q@mail.gmail.com>
+Subject: Re: Target-dependent include path, why?
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,60 +90,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 09.12.2022 um 13:20 hat Emanuele Giuseppe Esposito geschrieben:
-> Am 09/12/2022 um 13:18 schrieb Emanuele Giuseppe Esposito:
-> > Am 05/12/2022 um 14:01 schrieb Kevin Wolf:
-> >> I wonder if we need a more general solution for this because this test
-> >> is not the only place that calls this kind of functions in a coroutine.
-> >> The one I'm aware of in particular is all the .bdrv_co_create
-> >> implementations, but I'm almost sure there are more.
-> >>
-> >> Can we use a yield_to_drain()-like mechanism for these functions? Maybe
-> >> even something like the opposite of co_wrapper, a no_co_wrapper that
-> >> generates a foo_co() variant that drops out of coroutine context before
-> >> calling foo()?
-> > 
-> > I implemented something like yield_to_drain as you suggested, but when
-> > thinking about it aren't we making a fix that will cost us even more
-> > work in the future? If we use a yield_to_drain-like function, we are
-> > doing something similar to g_c_w, and losing track of whether the caller
-> > is a coroutine or not.
+On Fri, 9 Dec 2022 at 17:42, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 12/9/22 17:52, Peter Maydell wrote:
+> >> Dependencies are usually added near the .c files that use them.  That's
+> >> a bit messy of course if you have an "#include <>" in a heavily-included
+> >> QEMU header.  You can consider it a way to discourage heavily-included
+> >> headers.
+> > This has always seemed to me to be a recipe for bugs that only
+> > show up in the uncommon case of "some dependent library's
+> > header files have been installed somewhere other than in
+> > a system include directory". Is it possible to get meson to do
+> > things the more standard way, where if a binary has a dependency
+> > declared then the CFLAGS for that dependency get used for all
+> > objects that go into it?
+>
+> This *is* what Meson does, it's QEMU that has always done non-standard
+> things in order to share the .o files for target-independent sources.
+> Back in the day is was -Wl,--whole-archive, then it became foo-obj-y.
+> Now it's foo_ss but it's the same thing as foo-obj-y in the end.
+>
+> Once the relation between objects and binaries becomes many-to-many, you
+> can't really apply "the CFLAGS for the binaries' dependencies" to all
+> the objects.  Pre-Meson, there were three ways to declare dependencies:
+>
+> - placing pkg-config output directly in $(QEMU_CFLAGS) and $(LIBS).
+> This caused binaries to have unnecessary dependencies at times.
 
-That's not what I had in mind. I really meant a no_co_wrapper, not a
-no_co_wrapper_mixed.
+Yeah, this is what I think of as "the standard thing".
 
-> > And the function could then be used potentially everywhere. Then we
-> > will realize "oh we need to get rid of this and split the functions
-> > differentiating the coroutine context" and eventually go through ALL
-> > the callers again to figure what is doing what, and implement the
-> > same fix of this patch or my series once again.
-> > 
-> > Instead, even though this is just a test, we have a clear separation
-> > and one less case to worry about in the future.
+> - mentioning dependencies in $(obj)/foo.o_{CFLAGS,LIBS} or something
+> like that, declaring dependencies in objects and applying them to
+> binaries.  The Makefile implementation was very buggy.
+>
+> - a mix of the two, with the include path added to QEMU_CFLAGS and a
+> target variable definition "foo$(EXESUF): LIBS += ..." that avoided the
+> unnecessary dependencies.
+>
+> The sourceset thing was added to Meson specifically for QEMU, inspired
+> by the second option.  Without the bugs[1], everything could become
+> fine-grained.  Only glib stayed in QEMU_CFLAGS (the third option);
+> anything else was unnecessary because everything includes glib.h through
+> osdep.h anyway.
+>
+> The closest thing to what you're suggesting is to keep LIBS fine-grained
+> while making CFLAGS coarse-grained, i.e. the third option above.  That
+> is what the patches I sent today do when moving the glib tests to Meson,
+> so it is not hard to expand it to other dependencies; but while it might
+> avoid the gnutls issues, it will probably cause other issues---think of
+> SDL messing with "#define main".  Overall, I'm not sure it's a win.
 
-I'm not suggesting not fixing the root cause (which is calling functions
-in coroutines that aren't supposed to be called in coroutines), but just
-wondering if generated functions to drop out of coroutine would be a
-nice tool to keep the fixes simple.
+The thing I find counterintuitive about what we have currently
+is that I can add a #include of a QEMU-internal header to a
+source file, and now the build can be broken on some host
+system configurations.
 
-We already have bdrv_co_drained_begin/end that use an open-coded version
-of this. We would want a bdrv_co_open() that can be used by the
-.bdrv_co_create implementations and a bdrv_co_new_open_driver() and
-blk_co_insert_bs() that could be used by this test case. All of these
-are functions that are normally forbidden to be called from a coroutine,
-but when you first drop out of the coroutine, they are fine.
+I'd be happier with either:
+ (1) it's always safe to #include QEMU's own headers in its
+     source files
+ (2) sometimes a new QEMU header #include requires you to add a
+     dependency to a meson.build file, but if you forget to do
+     this then the build reliably fails on *all* host systems
 
-The alternative solution is not just merging this test case patch, but
-we still need to fix all of the .bdrv_co_create implementations, even if
-we decide to write the code manually instead of generating it.
-
-> At least the above is valid if the change you are proposing is the
-> following (tested already, works)
-
-bdrv_replace_child_noperm() is the wrong place to do things like this,
-it's way too deep down the call chain. Callers really want things to be
-atomic there, and involving a BH would make that impossible.
-
-Kevin
-
+thanks
+-- PMM
 
