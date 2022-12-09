@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7D464877E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 18:15:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C9B6487AF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 18:23:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3gx7-0008En-Ke; Fri, 09 Dec 2022 12:14:25 -0500
+	id 1p3h4V-0001Gb-Do; Fri, 09 Dec 2022 12:22:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3gx5-0008EY-B6
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:14:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3h4U-0001GN-3m
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:22:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3gx3-0002hN-Ke
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:14:23 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3h4S-0004G0-Cw
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:22:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670606060;
+ s=mimecast20190719; t=1670606519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v9QGmmNcNt41ydqw72zNA9fV2hjBx+F4l0STuoyXRr8=;
- b=X5YOMu5gV+d4mP9GGgHIEvPPRbusOD8xKgssRtkqOWzPu9b6j6k695jE+T8FFllEPF+924
- e5HqkU4O3TMTtdy21n7tw2vsOBBdajtWWbPox6I6UWakXNMmDYhRe82asgqnRAfocFEguJ
- 8M/XXqpNo02/3YiTDnrzAfQ0r3tIrVE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=L1Ds7J7jLrQ7CACl1vRX0ByuHvgUraz1dnEDkplHlNk=;
+ b=aA4s7Gv2Rf1ofts79dZUX3qRnsbCh3fhL3aRLaD16JwiXSSk7QQPNvVA6c5QSPKn3IdLg4
+ kkkMke15B93UdNwm7t+P806PcdnzicSMGgiTdda7DMRl/9SwwmT40GEV5KinpOB4Qxdeoj
+ nQ3RpcVm6mMCCQ/tD8h9ox4KETNR03g=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-53-rI0usKBbMdaWi2sjxwFpVQ-1; Fri, 09 Dec 2022 12:14:18 -0500
-X-MC-Unique: rI0usKBbMdaWi2sjxwFpVQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- q13-20020a056402518d00b00462b0599644so1758831edd.20
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 09:14:18 -0800 (PST)
+ us-mta-116-9xcbGiYKOyuYD7EfQF7HwQ-1; Fri, 09 Dec 2022 12:21:57 -0500
+X-MC-Unique: 9xcbGiYKOyuYD7EfQF7HwQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ z4-20020a05640240c400b0046c51875c17so1761147edb.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 09:21:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v9QGmmNcNt41ydqw72zNA9fV2hjBx+F4l0STuoyXRr8=;
- b=uuO4kbl9Fd8bKrFJrMslkE26SeYxRNDa3+cXQN+5Q7zIxo9xGC1a1wK/fbWhP0apHG
- YXWphMWS/gSLVrsLgc9eZhfGwLIgpHHBO1R0J0JnP8niqzJppfYMPGOq+U9smzGJwo6V
- NKwa27feWNp5lgI22SsbQY9ErBZjHxdkJCWLCsKmfPk5joybodkJOmN+UF1qvFpSFx5R
- zRvU8H4f+P7Wv8xCZonk42FoyKrQ4j8Leov/Wm3f4timpCLFrFdpMQHMRcw62KJNudPh
- q8bFo9gbPs3oXDJKs/nGXmfBUyfH1XiRfk32qY6tYg6Xnvw3CkbluHV2DCiUgjVbZFkW
- BeVw==
-X-Gm-Message-State: ANoB5pliZ3VVCRLQizYZXcsUB9Ij3ZgjL5uhAxD0BreG0zjX0XMf5p2p
- kQ7f44ZFisoIRv/9SOavgNlUvhBO57zptyK+8hN+tFwKxy3YJ7lej5ob9G7+FB01+Un95RZKvwD
- qSNjRh752vB42BBY=
-X-Received: by 2002:a17:907:629c:b0:7c0:bf26:2cf with SMTP id
- nd28-20020a170907629c00b007c0bf2602cfmr8423822ejc.49.1670606057168; 
- Fri, 09 Dec 2022 09:14:17 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4nOJutlh9wRUlqqVCto6gKREalxp4i7h9DFXlddXkzd5kkpyAzLRZ4c5SgTSzJLzTmkA+ExA==
-X-Received: by 2002:a17:907:629c:b0:7c0:bf26:2cf with SMTP id
- nd28-20020a170907629c00b007c0bf2602cfmr8423806ejc.49.1670606056955; 
- Fri, 09 Dec 2022 09:14:16 -0800 (PST)
+ bh=L1Ds7J7jLrQ7CACl1vRX0ByuHvgUraz1dnEDkplHlNk=;
+ b=kN3BgppSBx+cvbmfgU1NEWaR/dxqKuC22tsr0ubogvvofVRySBydwh9QsCcHco7wvp
+ 5QDazZvMzaE06GbblmFCgrmbNunAClz5mSLD9YQnQlzgsZP5fjwL5oMoigPDXMGLEpt6
+ 7txWAfqVakgpxADSPUbuxG3B6K8omTMZuRQ2+/uBl7k1ndhDmNbIIhfrjFowPn2/v+c2
+ ldsF/P/wmmHpYiyCNlBgy8lx466hAGLAHRb8f1RQUT+hwhZf2d5hUIjUrVRkaQq/yxOD
+ e/WmkHSD2x7JZfs38FhWDzIZXXlz9PyIzOf2HPkuQ7A/jxdwal6BornSxgl0ZO2XPPfZ
+ pP+Q==
+X-Gm-Message-State: ANoB5pnJzjqRRM5Sz5RUKyO4gHkSdhiWiO7jvciH74bMb8g4vjfsEXCe
+ /dwkezcHJXm8VAN422J7Ii78LnS9+csDRqDp6tieShGEXOwonXYSN4UEfsaJuultUw+C3h2a6wQ
+ VrT6GSOL6Eh4+Mbk=
+X-Received: by 2002:aa7:c844:0:b0:461:9faf:6895 with SMTP id
+ g4-20020aa7c844000000b004619faf6895mr5487271edt.16.1670606516742; 
+ Fri, 09 Dec 2022 09:21:56 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7GiWcSigdvOw8c7i1L7qvMTqHCzXvEZhwHjWUkfDzPjgT57ahbwMnVEl+eA0UUb9NoitoYjw==
+X-Received: by 2002:aa7:c844:0:b0:461:9faf:6895 with SMTP id
+ g4-20020aa7c844000000b004619faf6895mr5487254edt.16.1670606516521; 
+ Fri, 09 Dec 2022 09:21:56 -0800 (PST)
 Received: from [192.168.8.102] (tmo-086-144.customers.d1-online.com.
  [80.187.86.144]) by smtp.gmail.com with ESMTPSA id
- e13-20020a1709062c0d00b007c0d0dad9c6sm131814ejh.108.2022.12.09.09.14.15
+ c25-20020a056402159900b0045ce419ecffsm866899edv.58.2022.12.09.09.21.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 09:14:16 -0800 (PST)
-Message-ID: <9ce14b12-b993-58bc-bc63-d189b83692f0@redhat.com>
-Date: Fri, 9 Dec 2022 18:14:14 +0100
+ Fri, 09 Dec 2022 09:21:55 -0800 (PST)
+Message-ID: <6548f60f-1b98-f35e-e568-af9b2537fc2c@redhat.com>
+Date: Fri, 9 Dec 2022 18:21:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH-for-8.0 3/3] hw/tpm: Move tpm_ppc.c out of target-specific
- source set
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
 References: <20221209170042.71169-1-philmd@linaro.org>
- <20221209170042.71169-4-philmd@linaro.org>
+ <20221209170042.71169-3-philmd@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221209170042.71169-4-philmd@linaro.org>
+Subject: Re: [PATCH-for-8.0 2/3] hw/intc: Move omap_lcdc.c out of
+ target-specific source set
+In-Reply-To: <20221209170042.71169-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -103,34 +103,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 09/12/2022 18.00, Philippe Mathieu-Daudé wrote:
-> The TPM Physical Presence Interface is not target specific.
-> Build this file once for all targets.
-> 
+> The Goldfish interrupt controller is not target specific.
+
+It's also only used by m68k which is only built once, so this does help 
+reducing the compile time ... but I agree, it will be more helpful in the 
+future the more code we move to softmmu_ss instead of specific_ss.
+
+> While the Exynos interrupt combiner is only used by the ARM
+> targets, we can build this device once for all.
+ >
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/tpm/meson.build | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   hw/intc/meson.build | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
-> index 1c68d81d6a..3eacbe8c5d 100644
-> --- a/hw/tpm/meson.build
-> +++ b/hw/tpm/meson.build
-> @@ -3,6 +3,6 @@ softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
->   
-> -specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
-> -specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
-> +softmmu_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
-> +softmmu_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
->   specific_ss.add(when: 'CONFIG_TPM_SPAPR', if_true: files('tpm_spapr.c'))
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index bcbf22ff51..2ad8648366 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -13,6 +13,8 @@ softmmu_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files(
+>     'arm_gicv3_redist.c',
+>   ))
+>   softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_pic.c'))
+> +softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_combiner.c'))
+> +softmmu_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+>   softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true: files('heathrow_pic.c'))
+>   softmmu_ss.add(when: 'CONFIG_I8259', if_true: files('i8259_common.c', 'i8259.c'))
+>   softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_avic.c', 'imx_gpcv2.c'))
+> @@ -33,7 +35,7 @@ specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
+>   specific_ss.add(when: ['CONFIG_ARM_GIC_KVM', 'TARGET_AARCH64'], if_true: files('arm_gicv3_kvm.c', 'arm_gicv3_its_kvm.c'))
+>   specific_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_nvic.c'))
+>   specific_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_vic.c'))
+> -specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_gic.c', 'exynos4210_combiner.c'))
+> +specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_gic.c'))
+>   specific_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_irqmp.c'))
+>   specific_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true: files('loongson_liointc.c'))
+> @@ -60,7 +62,6 @@ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('xics_spapr.c', 'spapr_xi
+>   specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
+>   specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+>   		if_true: files('spapr_xive_kvm.c'))
+> -specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+>   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+>   specific_ss.add(when: 'CONFIG_NIOS2_VIC', if_true: files('nios2_vic.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
 
-Typo in the subject: ppc ==> ppi
-
-Then, while you're at it: Why is it checking the CONFIG_SOFTMMU switch here, 
-too? I fail to see why this is necessary here, we never check this for other 
-files that we put into specific_ss or softmmu_ss.
-
-  Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
