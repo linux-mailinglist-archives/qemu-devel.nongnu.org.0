@@ -2,164 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD9E647E24
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 07:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B45647E45
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 08:06:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3XIf-0006C6-Ai; Fri, 09 Dec 2022 01:56:01 -0500
+	id 1p3XRm-0000rh-7A; Fri, 09 Dec 2022 02:05:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1p3XIS-0006Au-3B
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 01:55:49 -0500
-Received: from mga11.intel.com ([192.55.52.93])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1p3XIP-0002G7-P1
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 01:55:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670568945; x=1702104945;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=nVdIr+84cNwDDi70t3vMyR28LtGwmtyQW2kFKqr4etU=;
- b=ZV+MzE1YwiqCcVPTosWMJXsuHlPNV/N9bcYnD/05oMd5us9Y3RSO09zh
- SzP6zLm4hMRSg/r10whQ5BEza4mxAxkaKR/OrfaUWxKwSLTzqlaFTJS1B
- 50WKpc2SElM3swDn5T3p/Id4oQ18x9mDAL/wg+7B14SDgtIRpB7deX7n3
- x02jKHhxnMvbt40yMZ2gnxNU1uUeCrXutz6Qu+/TGDYnc4F1fiNuMt081
- pvg1HpVA4yA+3OcQ+zgbP62cY2n5xMDpxtP/T30Blh2ckygAVIhf+sKpS
- I02LQJQbh+pSYP3zlCNFFjE6MFhRSWLwNcpJc5MSYMhexvGgk8hhkQgvR w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="315032484"
-X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; d="scan'208";a="315032484"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2022 22:55:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="892557013"
-X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; d="scan'208";a="892557013"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2022 22:55:42 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 8 Dec 2022 22:55:41 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 8 Dec 2022 22:55:41 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 8 Dec 2022 22:55:41 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KvWAjDFirv8XOGpedP11R6yCowfG1BqA8PTJS2YB5kmhm47hoLKD7pcWukBejuw5uPQK6S/L1Q4lm3PyXlnXnJXnP0qZzqL4r/ge0sdeh/X1qkZQePuaDL3rHNeiRXHgjTm/XyB8GmMkKNJIgM7X+QIT641LMolTR2HuWjKwgC8pqPC2pwv8IQj0/dvmNb3k3SGulzJcZRauKw+DheFKbiKWk8CKq1oFObOQ29RR0mxqYJFOo87W4syLjhSq74wAnq23NDtdAXhlz8QOyxpLSUTtpahfMmFg09F5QJv3AlF5G/AycOQ73zMC/IlR6EIPx8Q+bxmxf53P96nS+3WMyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1E4iTUStrDgjPVtgdzzVlbjgY0EwNPKwougFRMClgVA=;
- b=WwVniBvqsK2sInamiIGqtuJPrt3Q90BL4veGYcykxL+Vaqx9l4A/45HIZWD4apGb5/8ciFzXS6rNAl7u18FJ5wJ1RIxVIAXw+8xGAD8EisuqAMRN7Apm+SWh8ZvJFoRq1ObccIt8kbHKqJFRLxZErOPvJutFqwfXzH7udBB2T/oNm94m7lT02ZesiK4b/xfCZ+KIbq9tPbTZjDRBuDrhwkQWdPsisfRarl9Zksqh5xXfnl0+3RnzQhlzTwRyzHR7yCIt8mMVuDca4s2cpDtZiA6q+yuPf8Rz4OwiUtC4huIiv8+FkxJSDDGl5S9/i8n3ccQ7Pcz6aiXJEI/jbajLyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA2PR11MB5052.namprd11.prod.outlook.com (2603:10b6:806:fa::15)
- by CY8PR11MB7393.namprd11.prod.outlook.com (2603:10b6:930:84::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Fri, 9 Dec
- 2022 06:55:34 +0000
-Received: from SA2PR11MB5052.namprd11.prod.outlook.com
- ([fe80::d95b:a6f1:ed4d:5327]) by SA2PR11MB5052.namprd11.prod.outlook.com
- ([fe80::d95b:a6f1:ed4d:5327%9]) with mapi id 15.20.5880.016; Fri, 9 Dec 2022
- 06:55:34 +0000
-Message-ID: <79e68a2b-ba65-98bb-a175-68605303d2e5@intel.com>
-Date: Fri, 9 Dec 2022 14:55:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.1
-Subject: Re: [PATCH v3 6/8] target/i386/intel-pt: Enable host pass through of
- Intel PT
-Content-Language: en-US
-To: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>
-CC: <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
-References: <20221208062513.2589476-1-xiaoyao.li@intel.com>
- <20221208062513.2589476-7-xiaoyao.li@intel.com>
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-In-Reply-To: <20221208062513.2589476-7-xiaoyao.li@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR06CA0236.apcprd06.prod.outlook.com
- (2603:1096:4:ac::20) To SA2PR11MB5052.namprd11.prod.outlook.com
- (2603:10b6:806:fa::15)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3XRk-0000rG-Ea
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:05:24 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3XRi-0005Mg-M8
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:05:23 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id y16so4274609wrm.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 23:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=66R6v7Y5YhL7LMkZi4OoRhr705SlVFVDiGICgzxYIUQ=;
+ b=OPtpy0kVk/aecPgL6O+KzOY6h8/jrHfw6QBhVIibPIEPwePB2fTdi0cbSEjXPngwjc
+ EuFshrhkf+mxZneynW8F6IWGHkGmB4yhCjh2vQQ4y5iam69/KBE3V2CINaScoxGpH6rS
+ 6BRa1QLKo5Uom5Iq+2QIMHT2mw/pU5OWgIxFGxPLiFvxlxK+1OUvmLXZBu+HX4qtZbY3
+ HveWWVfHljPYIGoPPCT7c9u0Vq5cC0902uLiV6lzFsnPAan0sg7weZu3/+qzPPIT96Jn
+ lh8Yh1GvX5bazjmFiICBLG7nqfb9ndd/9kVYyvhmnWDdJL5NFUq7PKqmYfC8wumSsA4h
+ DwvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=66R6v7Y5YhL7LMkZi4OoRhr705SlVFVDiGICgzxYIUQ=;
+ b=2LHTlPDXZ3GPU7ZyMSQfWvil16fQTGX/6s2FMEVhWfA36FUXO60ev8Wm18lOgIz4ow
+ MdEuN3bq/qjF5BjwJLDyX0TVmGrGQGsu4p1nzC3P6165beMX6sYgnHOPY8Icz5I42S6d
+ At9uwYP/mAaCP6aQAtm+hPsJnvuxXSW5FlPZO3UnNep8cCuRDC8P7QZaLKXitT6PHVjB
+ orjitbAfQc7coo6hikLbAFLP76Sl7t8ujxdS+5s6ZKHwOTxuuODHbn8vS00OvSe54H7+
+ uD5VRs7WxnFf2k8Hi4x6hpmQ30Zbh84oDAlqC7lzzkHc51/U2RzR3qmih0E3s2bzTEWm
+ Jgqw==
+X-Gm-Message-State: ANoB5pn0QztnKTQbjelfvyYgdlTJ34y3wTti+lgeIDYJ6ImisgtHkSv/
+ l2QeJ+iPuSCZGaroi2AlGIyrhA==
+X-Google-Smtp-Source: AA0mqf5upg3kzYPUBcvT8Eo/1QbMgAp7bEnNHl7dQ//UXjP9JnmSiy49M/b7dpMYTkgHUndX/elK/Q==
+X-Received: by 2002:adf:dd92:0:b0:242:4b69:5f8a with SMTP id
+ x18-20020adfdd92000000b002424b695f8amr2817614wrl.14.1670569520720; 
+ Thu, 08 Dec 2022 23:05:20 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q22-20020a056000137600b00241dd5de644sm570635wrz.97.2022.12.08.23.05.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Dec 2022 23:05:20 -0800 (PST)
+Message-ID: <f7d0caf2-4250-35c1-8996-7e63854bccc1@linaro.org>
+Date: Fri, 9 Dec 2022 08:05:18 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5052:EE_|CY8PR11MB7393:EE_
-X-MS-Office365-Filtering-Correlation-Id: 595fd350-7469-43cb-19fd-08dad9b25ea8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: krlc1caeP9xmoHxE+gVdi3mM67D8HxeOZEJ1FkR6Qia7Twra4LrYnP09NJJ2OXH8mCzX1Z4EREORRoydyXGMPomJYjBAvHiH38aftpeytbBR2vZDd6/sxVei9IQQKM8gnfU5x2FnR69thzpfinZbq/QEIOYBWnjKpSY31JNkrIv/YHFFa1Gcaqhdmvze6h1EfcwCgthRvyrbig1bM8h6SFo2bbZaJaUkp8f62hwO7Oztqq9WyMD8u9mAi+//PisusdI4nH//d5Yot6MOln7PG4z6q51juORmOThzjO3lGrI8Nc6hmPkFX8cKOTiDEQ7pKThtDHcEvqZI8BcD/W2J9NbfStkCBo59RQKaI6c7v/iirEyvo24/qB08mA3+NDho+Oilk1KtWKU7JCCDmjBhxvGP/YJqIKhARuYk+HsPp5FesNnJV5PseLqB17Jt7Bf8T3RnrpzSbS0LoXTc0KV6xybi/6P18bbTuxQxXUzXREG1tJtaH7RCF25gssiEp99gHpo/C7wq5TD1k+oWXRlI9XiEDAYOJCN4Ats76UNgY1EDzZdmqtzzf85B1JinJlpQ/F0YGxuztNgiYb8dzM1ftDR88PQOQEsca09yNNcD7tg+TZceRQjhwC8yauaY+D6bXp8uWAeAYhKWxL8nZOWNnBXJBdPjdxQPvGgbcwzffLSpruViO+qtMVfpkmH7xwOf++FytLao1+2iI/cetZ8C6CBt3f12K7FmptKThl6OhZI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA2PR11MB5052.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(39860400002)(136003)(366004)(346002)(376002)(451199015)(53546011)(2906002)(478600001)(6486002)(6506007)(36756003)(44832011)(6666004)(26005)(82960400001)(38100700002)(186003)(2616005)(83380400001)(8936002)(66476007)(86362001)(66946007)(8676002)(316002)(110136005)(66556008)(4326008)(6512007)(31686004)(31696002)(41300700001)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkFUeUJyWEZYNWcxQWQ3aFdLU1UrK0hIMGlKRWZuNmpYZnZROFJEMXVCamdo?=
- =?utf-8?B?THRZcWI4L2ExK0tDRm9pL1hqdHNYaUlOdTFIUWpyMFVDcFQ5aFNTeDh4SHlp?=
- =?utf-8?B?Y0liOERTODJXRFJEeXljdmJTRlRFWHJuSk5lOUMrczBZRXdtdXRSTWpsSldo?=
- =?utf-8?B?ZWRlNDhiRjRMd3dKbFNFRnUrdFh2S0JwSWIwQ2c4cjUwenh1VFllUGw1NWxZ?=
- =?utf-8?B?ekxDR2duNUFqcmtIVEtURzJBRUN2bFdVa1ZSNDdJR2NhVmI5dWNpd1k2YmF4?=
- =?utf-8?B?Mmg5SjdvZWtnNlBFV3ZyRms5SnVzQzRWWjNuMnpMUmo2Y2xwK3pNOUJocHJX?=
- =?utf-8?B?ZUYrK2VQQjRjUVg4TTBlZEExdDhUU2RYVWhsd3pYVjd0bklTV3NJTXJKTEtx?=
- =?utf-8?B?WTk4VFpzWWx5MG5FZy9sR3RPdFhkYkM5UTBMK2JzMnFsK1FkQzZUeFRTZk1K?=
- =?utf-8?B?UXNEU0I2czVSdzVBdHVlcDdTN1gzT2t0UHBpeGhmTkQ2dmJoLzBPRldxTDBa?=
- =?utf-8?B?cXNsdWV0dGR6alpXR3ltRmlNOXo5YVA1TlkrcUsxa1NKR0c5ZW41Tm5VaWZo?=
- =?utf-8?B?Q0ozZHcxQTk5ckNVdG9KT2hiOWxtWkViSWJhV1ljNUtJWXFwT1BCdWgwYzVu?=
- =?utf-8?B?L2dVU3h3ZXQ3UWdJUXZpRWRGQ2JzQXU2WGNmd1lrdjJhTndETjZqcDRId3do?=
- =?utf-8?B?TEloS0ZrMXFxRm83Z0I2dTd1Z3hWQ0hxMi8rUWFzNXFuNTRzdHduSDVwbGgr?=
- =?utf-8?B?MW4vdDVEc3VxcHFGdHV2QU0rMGNDOE4vVU9ydytpdWxWN0VPUExRdVFldG5P?=
- =?utf-8?B?cFo5SEVYOHdNMFM0TjJlOTN0M3p4RmJjQkNmL3FBekU2Si9uekVua1hPbDlD?=
- =?utf-8?B?TTJzY2R4dWVTeWNvOXZBTjRmdmxIc091N0JMRkFwaW1sb3N1bm5KeHh0M1RL?=
- =?utf-8?B?a2ZNK0Y2QkpteUdkYm42VmNSeFlWNHFMdldUQVBiR2J5aE9oZkFvUmpRWHhK?=
- =?utf-8?B?ZkVyeHNhSUVWWFQ3Zm95S0xhanV1QUtjRTJMV3BxUzh1dmtlcm9sQVZ6TGls?=
- =?utf-8?B?aUM5cDhQY1oyeWFJK0lvbFNwZnVrYlNHYWk3dWZ5aE9nd1IrcVovQ3AyRHg0?=
- =?utf-8?B?R0ZaOHVnY0lZUENvWW5EendEY2tDRVFTSG13VlA4ekZ4OWVKY2EvWTFFQ0FV?=
- =?utf-8?B?bmlQMGw1UCswdnhmZDhhQm5SL3pleStRQkRwZ0gySEVidFhlbkc4dm16dWhY?=
- =?utf-8?B?NXdVZUdpQjFMQVhXbVozTjhINkUwMHBrZElzejhObUZsakJGSURPSFNKNjhZ?=
- =?utf-8?B?Zk5heS9CVnBEZldpNFJTazRaV3htclBYM01TZUl6dUNwaHNZd29yRW5HYUtN?=
- =?utf-8?B?T1ljbFJ2S0FKZWZKZ3Z6NFAxSXJHMU9vRUpEKzhhNStSUEg5RXgxSEo0VEY3?=
- =?utf-8?B?Qmw3akp0eHBSR282WlRTNUhWZ3B5eXFqd3hBSVJUM1NSRFQxUjhkV1N5bGlH?=
- =?utf-8?B?dVhtaUZiRGJ5OXRkcVErL1drdXkxVFNJcHhCdXVmazE1ejVlUXBWWFlQS0F5?=
- =?utf-8?B?d0lXc3oveGNLRTVsbGlpTVVMM1g2aVIrTTI3eERLSnZrOFhiWkZIR1J6dlB6?=
- =?utf-8?B?ejNkdzZhYytlbUxnL3VFcCtjM2kySXVZZGVTV2xVZW5hOVhnTEsyRTVrenB3?=
- =?utf-8?B?bE9yQzhuOUJ1UXRBMTJNZmhiSEx2d0NiaWRwRy9DQU10VWRYM3hoenpSOUlk?=
- =?utf-8?B?UEpXWlFJM3V6eUxjaTc4bHZEUTE1SDg3MlR6UWY3SDJMbkZuWUhPOXdPcE42?=
- =?utf-8?B?NVNVZFdYSDV5Ymw4MWR6ejZCeGYvVVE0NWtjLytjTEJMKytlaHg2T0pwMzIz?=
- =?utf-8?B?WjZpUmpxVE1BSjdtZXZ6NzNPUXRDNTFQR3dUeXU2UjIzYWdBMkU2ckRZK3k3?=
- =?utf-8?B?RFBHRzZncVNhekNWOWJveXF0eWFGay94RjcyRTdWSEVWYlF2a3lDWDlzaFVL?=
- =?utf-8?B?VGx3eUJKQzgxLzZwY2U1SEFvT2U4UU1Ja0JRMCs1VFFqSU5teVJqQkxZbVdM?=
- =?utf-8?B?dUROeFRBc2QrdTc0UG5oRWw2SkNiYXBNN0FlV05NTTlaU3ExOWthMTdIN3Ro?=
- =?utf-8?B?Z1pPbHdzckJ5bG5QSU56MEphd0x0UXc1bWF6TUlaUm5pRGNGS0JWQjNYQU04?=
- =?utf-8?B?RlE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 595fd350-7469-43cb-19fd-08dad9b25ea8
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5052.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2022 06:55:34.6201 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y7wOFUzWkToHlBbaBWxjwN58UeK6FPzFnsjyJmYyMza2jHWDop+o8zgWnsyZHT5866L8LW949r7UE9kspotApw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7393
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=chenyi.qiang@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.266, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: Target-dependent include path, why?
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <87edt9gnyz.fsf@pond.sub.org>
+ <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -176,41 +93,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 12/8/2022 2:25 PM, Xiaoyao Li wrote:
-> commit e37a5c7fa459 ("i386: Add Intel Processor Trace feature support")
-> added the support of Intel PT by making CPUID[14] of PT as fixed feature
-> set (from ICX) for any CPU model on any host. This truly breaks the PT
-> exposure on Intel SPR platform because SPR has less supported bitmap of
-> CPUID(0x14,1):EBX[15:0] than ICX.
+On 9/12/22 06:24, Richard Henderson wrote:
+> On 12/8/22 23:12, Markus Armbruster wrote:
+>> I stumbled over this:
+>>
+>>      ../include/ui/qemu-pixman.h:12:10: fatal error: pixman.h: No such 
+>> file or directory
+>>         12 | #include <pixman.h>
+>>            |          ^~~~~~~~~~
+>>
+>> Works when included into target-dependent code.
+>>
+>> Running make -V=1 shows we're passing a number of -I only when compiling
+>> target-dependent code, i.e. together with -DNEED_CPU_H:
+>>
+>>      -I/usr/include/pixman-1 -I/usr/include/capstone 
+>> -I/usr/include/spice-server -I/usr/include/spice-1
+>>
+>>      -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nspr4 
+>> -I/usr/include/PCSC
+>>
+>>      -isystem../linux-headers -isystemlinux-headers
+>>
+>> Why?
 > 
-> To fix the problem, enable pass through of host's PT capabilities for
-> the cases "-cpu host/max" that it won't use default fixed PT feature set
-> of ICX but expand automatically based on get_supported_cpuid reported by
-> host. Meanwhile, it needs to ensure named CPU model still has the fixed
-> PT feature set to not break the live migration case of
-> "-cpu named_cpu_model,+intel-pt"
-> 
-> Introduces env->use_default_intel_pt flag.
->  - True means it's old CPU model that uses fixed PT feature set of ICX.
->  - False means the named CPU model has its own PT feature set.
-> 
-> Besides, to keep the same behavior for old CPU models that validate PT
-> feature set against default fixed PT feature set of ICX in addition to
-> validate from host's capabilities (via get_supported_cpuid) in
-> x86_cpu_filter_features().
-> 
-> In the future, new named CPU model, e.g., Sapphire Rapids, can define
-> its own PT feature set by setting @has_specific_intel_pt_feature_set to
+> Because of where [pixman] is added as a dependency in meson.build.
+> If you want to use it somewhere new, you've got to move the dependency.
 
+Code involving virtio becomes target-specific.
 
-It seems @has_specific_intel_pt_feature_set is not introduced in this
-series. Then don't need to mention the specific flag name here.
-
-> true and defines it's own FEAT_14_0_EBX, FEAT_14_0_ECX, FEAT_14_1_EAX
-> and FEAT_14_1_EBX.
-> 
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> ---
 
