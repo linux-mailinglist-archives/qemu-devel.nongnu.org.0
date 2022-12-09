@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F126864807E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C396480B0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 11:12:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3a7f-0002SK-2X; Fri, 09 Dec 2022 04:56:52 -0500
+	id 1p3a82-0002dc-VZ; Fri, 09 Dec 2022 04:57:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p3a7J-0002R0-7k
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:29 -0500
+ id 1p3a7L-0002SJ-5l
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:35 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p3a7G-0006pA-RD
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:28 -0500
+ id 1p3a7G-0006pJ-R9
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=9Ceo9xMwn+AY3rMjsp1TYaRGiSnnhky2MW7fakgRg+w=; b=vMTX0iFa4I4vbh1cA+PS9+NACF
- jJr/wad/0Rm2SbPLZBPpl+oOW8sEvAjqsIWrpKW+ujXihh6s0Il8jkiZTIO2xXF5eTkvcyfhRy9Uo
- fDWe90N9xEW2hGJoW4yc4C8hhnTzOntWNDpSFGJo0OK47Tns3dKGnfMA1DC8ZROyHtoXQYpQWEc4C
- g3Ma32D9AE93/VbPu5PjU64xO4s2zNFZD+cThotRyy6LuDcJNR4Guj7M/02t9TPfspms9Dbkri15n
- 5dJhMzEojNs4jG4fSBa1VgG+4p9Nw4yMlguiTIgPQ+vN25EiwWqkzlS8Zj/zDeK53uXlu+NwVIBZC
- FzOLICow==;
+ bh=UDI32PIpy4B3/91WnvtYh2v+CWJw/POLLcOr0rtzi5A=; b=rXK9aO2TNrsnHh1grLHaBoOjQU
+ E9Np+EKLfNU6RKiPZtGbenwJmITSBHLA4gVuhDteLMmSCWOQ26uGttJbVzvyAY0FtcsHluqEqDVnq
+ yOyyNIQ+ch53Jwl18fTEVTzAOGOEdJh3aUKYzE7zLCIS7YNq2RmQvOQpCHMqRkXCPfkzdqXNTglzU
+ TUJhpuI3MsNTEqXYfvAQpfWHlrLoJS8bX3qVnLUcnRQHyCeYzM9boxNO51BTj2Svv7VHwCOE8TuuM
+ SawzlYow/+YFgGoHcv/iKo61YT8TtAVe3VpYGmnzW91Ch2qcPghw4h2+dBCkNf5dHjskF6WEddZ0+
+ u/jrCPAA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p3a7G-007tiR-A8; Fri, 09 Dec 2022 09:56:26 +0000
+ id 1p3a7G-007tiS-BE; Fri, 09 Dec 2022 09:56:26 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p3a77-002tYg-UK; Fri, 09 Dec 2022 09:56:17 +0000
+ Hat Linux)) id 1p3a77-002tYk-V8; Fri, 09 Dec 2022 09:56:17 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,10 +46,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v2 08/22] xen_platform: exclude vfio-pci from the PCI
- platform unplug
-Date: Fri,  9 Dec 2022 09:55:58 +0000
-Message-Id: <20221209095612.689243-9-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 09/22] pc_piix: allow xenfv machine with XEN_EMULATE
+Date: Fri,  9 Dec 2022 09:55:59 +0000
+Message-Id: <20221209095612.689243-10-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221209095612.689243-1-dwmw2@infradead.org>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
@@ -84,56 +83,29 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Such that PCI passthrough devices work for Xen emulated guests.
+This allows -machine xenfv to work with Xen emulated guests.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/xen/xen_platform.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ hw/i386/pc_piix.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
-index 914619d140..15d5ae7c69 100644
---- a/hw/i386/xen/xen_platform.c
-+++ b/hw/i386/xen/xen_platform.c
-@@ -109,12 +109,25 @@ static void log_writeb(PCIXenPlatformState *s, char val)
- #define _UNPLUG_NVME_DISKS 3
- #define UNPLUG_NVME_DISKS (1u << _UNPLUG_NVME_DISKS)
- 
-+static bool pci_device_is_passthrough(PCIDevice *d)
-+{
-+    if (!strcmp(d->name, "xen-pci-passthrough")) {
-+        return true;
-+    }
-+
-+    if (xen_mode == XEN_EMULATE && !strcmp(d->name, "vfio-pci")) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- static void unplug_nic(PCIBus *b, PCIDevice *d, void *o)
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 3dcac2f4b6..d1127adde0 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -404,8 +404,8 @@ static void pc_xen_hvm_init(MachineState *machine)
  {
-     /* We have to ignore passthrough devices */
-     if (pci_get_word(d->config + PCI_CLASS_DEVICE) ==
-             PCI_CLASS_NETWORK_ETHERNET
--            && strcmp(d->name, "xen-pci-passthrough") != 0) {
-+            && !pci_device_is_passthrough(d)) {
-         object_unparent(OBJECT(d));
+     PCMachineState *pcms = PC_MACHINE(machine);
+ 
+-    if (!xen_enabled()) {
+-        error_report("xenfv machine requires the xen accelerator");
++    if (!xen_enabled() && (xen_mode != XEN_EMULATE)) {
++        error_report("xenfv machine requires the xen or kvm accelerator");
+         exit(1);
      }
- }
-@@ -187,9 +200,8 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
-         !(flags & UNPLUG_IDE_SCSI_DISKS);
  
-     /* We have to ignore passthrough devices */
--    if (!strcmp(d->name, "xen-pci-passthrough")) {
-+    if (pci_device_is_passthrough(d))
-         return;
--    }
- 
-     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
-     case PCI_CLASS_STORAGE_IDE:
 -- 
 2.35.3
 
