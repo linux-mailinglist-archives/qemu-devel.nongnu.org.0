@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090F36480AD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 11:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019E4648088
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:59:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3a8K-0002gY-V5; Fri, 09 Dec 2022 04:57:33 -0500
+	id 1p3a8L-0002ev-4h; Fri, 09 Dec 2022 04:57:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p3a7U-0002TB-Hk
+ id 1p3a7T-0002Su-0c
  for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:41 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p3a7Q-0006qg-K5
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:40 -0500
+ id 1p3a7Q-0006qi-Gv
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=oV/8182zcImY/7Qa/FeC8p0iV5FEIwdb+SCiT7V3HWk=; b=HNi0YFdmTaTIQJ8EiTX9es+uS7
- GYT6VlEl3WMjbG/m4GvtfrJXbVx/nxN1ueAPWioAtNBbuKQAngGo1UHUheommQgmBIeZgUOs31lHt
- z+S0e8PFBBmomYgp1WZeiIlyTmUF8RCd7LVhA+fPVwC75dHxv4LrLytmiRU8pV6fIxLPCAUCwp7E5
- HAbsxI/Bu3/O4F9QGZ70K0r3PAljzNji73f+ukfabQ2Pfa/9lEFZUwNJuvk9TATMSR2+V3zzURyId
- OyBBeHoaSuBixRfuUgdBqfKa9c3EqpdnadbSUhgnvAy8F700VRzoH3PYp9RKye9hZpIVuttCMT0xz
- JBCnUohQ==;
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=QiqlBZknOhwMHXYwTPwEWGoZ8AIAVya1/JkxUcYP908=; b=D9Es1RXg+6PA1LqkT0Yz8/9GRz
+ H5uLrEL9UMW3n2Ra/OSbQ/QKOROajq2zh5zIR0C7plbEAvvG+ac8eUL5iG7VUxpIgPDrisKkLUml8
+ o7wihHn1BXXOIzvbvRrbx55Qa3lw/lZPxMCWqejm/uvsTtgwVnM1ijjFrfCqTgWfeVPEXVWxht3Lb
+ LEg3gBil9jyHrMBXJ89sCqGvkAOUgHPXlbMqVel0V8KZuZZAYlvTxh0v+dQgSaooN0XHF9Mst3dkB
+ GN+Dp3RPACpNonb2wJteXjJG+gas0b9eKB6AO01u9EjG3F9wZIswRxMYs22NrbdzWqgs+7cFO/Tng
+ VLVBBO0g==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p3a7G-007tiL-5g; Fri, 09 Dec 2022 09:56:26 +0000
+ id 1p3a7G-007tiM-7L; Fri, 09 Dec 2022 09:56:26 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p3a77-002tYM-Pq; Fri, 09 Dec 2022 09:56:17 +0000
+ Hat Linux)) id 1p3a77-002tYQ-Qs; Fri, 09 Dec 2022 09:56:17 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,15 +46,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v2 03/22] i386/xen: Add xen-version machine property and
- init KVM Xen support
-Date: Fri,  9 Dec 2022 09:55:53 +0000
-Message-Id: <20221209095612.689243-4-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 04/22] i386/kvm: handle Xen HVM cpuid leaves
+Date: Fri,  9 Dec 2022 09:55:54 +0000
+Message-Id: <20221209095612.689243-5-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221209095612.689243-1-dwmw2@infradead.org>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -83,269 +81,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Joao Martins <joao.m.martins@oracle.com>
 
-This is a machine property for two main reasons. One is that it allows
-us to set it in default_machine_opts for the xenfv platform when not
-running on actual Xen. The other is that theoretically we *could* do
-this with TCG too; we'd just have to implement a bunch of the stuff that
-KVM already does for us.
+Introduce support for emulating CPUID for Xen HVM guests. It doesn't make
+sense to advertise the KVM leaves to a Xen guest, so do it unconditionally
+when the xen-version machine property is set.
 
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+[dwmw2: Obtain xen_version from machine property, make it automatic]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/pc.c            | 32 +++++++++++++++++++++++++++
- hw/i386/pc_piix.c       | 10 +++++++--
- include/hw/i386/pc.h    |  3 +++
- target/i386/kvm/kvm.c   | 26 ++++++++++++++++++++++
- target/i386/meson.build |  1 +
- target/i386/xen.c       | 49 +++++++++++++++++++++++++++++++++++++++++
- target/i386/xen.h       | 19 ++++++++++++++++
- 7 files changed, 138 insertions(+), 2 deletions(-)
- create mode 100644 target/i386/xen.c
- create mode 100644 target/i386/xen.h
+ target/i386/cpu.c     |  1 +
+ target/i386/cpu.h     |  2 ++
+ target/i386/kvm/kvm.c | 72 +++++++++++++++++++++++++++++++++++++++++--
+ target/i386/xen.h     |  8 +++++
+ 4 files changed, 80 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 546b703cb4..9bada1a8ff 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1811,6 +1811,32 @@ static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
-     pcms->max_fw_size = value;
- }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 22b681ca37..50aa95f134 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -7069,6 +7069,7 @@ static Property x86_cpu_properties[] = {
+      * own cache information (see x86_cpu_load_def()).
+      */
+     DEFINE_PROP_BOOL("legacy-cache", X86CPU, legacy_cache, true),
++    DEFINE_PROP_BOOL("xen-vapic", X86CPU, xen_vapic, false),
  
-+static void pc_machine_get_xen_version(Object *obj, Visitor *v,
-+                                       const char *name, void *opaque,
-+                                       Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+    uint32_t value = pcms->xen_version;
-+
-+    visit_type_uint32(v, name, &value, errp);
-+}
-+
-+static void pc_machine_set_xen_version(Object *obj, Visitor *v,
-+                                       const char *name, void *opaque,
-+                                       Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+    Error *error = NULL;
-+    uint32_t value;
-+
-+    visit_type_uint32(v, name, &value, &error);
-+    if (error) {
-+        error_propagate(errp, error);
-+        return;
-+    }
-+
-+    pcms->xen_version = value;
-+}
+     /*
+      * From "Requirements for Implementing the Microsoft
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d4bc19577a..c6c57baed5 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1964,6 +1964,8 @@ struct ArchCPU {
+     int32_t thread_id;
  
- static void pc_machine_initfn(Object *obj)
- {
-@@ -1978,6 +2004,12 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, PC_MACHINE_SMBIOS_EP,
-         "SMBIOS Entry Point type [32, 64]");
+     int32_t hv_max_vps;
 +
-+    object_class_property_add(oc, "xen-version", "uint32",
-+        pc_machine_get_xen_version, pc_machine_set_xen_version,
-+        NULL, NULL);
-+    object_class_property_set_description(oc, "xen-version",
-+        "Xen version to be emulated (in XENVER_version form e.g. 0x4000a for 4.10)");
- }
++    bool xen_vapic;
+ };
  
- static const TypeInfo pc_machine_info = {
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 0ad0ed1603..13286d0739 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -876,7 +876,10 @@ static void xenfv_4_2_machine_options(MachineClass *m)
-     pc_i440fx_4_2_machine_options(m);
-     m->desc = "Xen Fully-virtualized PC";
-     m->max_cpus = HVM_MAX_VCPUS;
--    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-+    if (xen_enabled())
-+            m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-+    else
-+            m->default_machine_opts = "accel=kvm,xen-version=0x40002";
- }
- 
- DEFINE_PC_MACHINE(xenfv_4_2, "xenfv-4.2", pc_xen_hvm_init,
-@@ -888,7 +891,10 @@ static void xenfv_3_1_machine_options(MachineClass *m)
-     m->desc = "Xen Fully-virtualized PC";
-     m->alias = "xenfv";
-     m->max_cpus = HVM_MAX_VCPUS;
--    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-+    if (xen_enabled())
-+            m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-+    else
-+            m->default_machine_opts = "accel=kvm,xen-version=0x30001";
- }
- 
- DEFINE_PC_MACHINE(xenfv, "xenfv-3.1", pc_xen_hvm_init,
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index c95333514e..9b14b18836 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -52,6 +52,9 @@ typedef struct PCMachineState {
-     bool default_bus_bypass_iommu;
-     uint64_t max_fw_size;
- 
-+    /* Xen HVM emulation */
-+    uint32_t xen_version;
-+
-     /* ACPI Memory hotplug IO base address */
-     hwaddr memhp_io_base;
  
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a213209379..0a2069b117 100644
+index 0a2069b117..0d3eddf9de 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -31,6 +31,7 @@
- #include "sysemu/runstate.h"
- #include "kvm_i386.h"
- #include "sev.h"
-+#include "xen.h"
- #include "hyperv.h"
- #include "hyperv-proto.h"
+@@ -22,6 +22,7 @@
  
-@@ -774,6 +775,17 @@ static inline bool freq_within_bounds(int freq, int target_freq)
-         return false;
- }
+ #include <linux/kvm.h>
+ #include "standard-headers/asm-x86/kvm_para.h"
++#include "standard-headers/xen/arch-x86/cpuid.h"
  
-+static uint32_t kvm_arch_xen_version(MachineState *ms)
-+{
-+    uint32_t v = object_property_get_int(OBJECT(ms), "xen-version", NULL);
-+
-+    /* If it was unset, return zero */
-+    if (v == (uint32_t) -1)
-+            return 0;
-+
-+    return v;
-+}
-+
- static int kvm_arch_set_tsc_khz(CPUState *cs)
- {
+ #include "cpu.h"
+ #include "host-cpu.h"
+@@ -1752,14 +1753,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
      X86CPU *cpu = X86_CPU(cs);
-@@ -2459,6 +2471,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
- {
-     uint64_t identity_base = 0xfffbc000;
-     uint64_t shadow_mem;
-+    uint32_t xen_version;
-     int ret;
-     struct utsname utsname;
+     CPUX86State *env = &cpu->env;
+     uint32_t limit, i, j, cpuid_i;
+-    uint32_t unused;
++    uint32_t unused, xen_version = 0;
+     struct kvm_cpuid_entry2 *c;
+     uint32_t signature[3];
+     int kvm_base = KVM_CPUID_SIGNATURE;
+     int max_nested_state_len;
+     int r;
      Error *local_err = NULL;
-@@ -2513,6 +2526,19 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         }
+-
+     memset(&cpuid_data, 0, sizeof(cpuid_data));
+ 
+     cpuid_i = 0;
+@@ -1811,7 +1811,73 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         has_msr_hv_hypercall = true;
      }
  
-+    xen_version = kvm_arch_xen_version(ms);
+-    if (cpu->expose_kvm) {
++    xen_version = kvm_arch_xen_version(MACHINE(qdev_get_machine()));
 +    if (xen_version) {
 +#ifdef CONFIG_XEN_EMU
-+            ret = kvm_xen_init(s, xen_version);
-+            if (ret < 0) {
-+                    return ret;
++        struct kvm_cpuid_entry2 *xen_max_leaf;
++
++        memcpy(signature, "XenVMMXenVMM", 12);
++
++        xen_max_leaf = c = &cpuid_data.entries[cpuid_i++];
++        c->function = kvm_base + XEN_CPUID_SIGNATURE;
++        c->eax = kvm_base + XEN_CPUID_TIME;
++        c->ebx = signature[0];
++        c->ecx = signature[1];
++        c->edx = signature[2];
++
++        c = &cpuid_data.entries[cpuid_i++];
++        c->function = kvm_base + XEN_CPUID_VENDOR;
++        c->eax = xen_version;
++        c->ebx = 0;
++        c->ecx = 0;
++        c->edx = 0;
++
++        c = &cpuid_data.entries[cpuid_i++];
++        c->function = kvm_base + XEN_CPUID_HVM_MSR;
++        /* Number of hypercall-transfer pages */
++        c->eax = 1;
++        /* Hypercall MSR base address */
++        c->ebx = XEN_HYPERCALL_MSR;
++        c->ecx = 0;
++        c->edx = 0;
++
++        c = &cpuid_data.entries[cpuid_i++];
++        c->function = kvm_base + XEN_CPUID_TIME;
++        c->eax = ((!!tsc_is_stable_and_known(env) << 1) |
++            (!!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_RDTSCP) << 2));
++        /* default=0 (emulate if necessary) */
++        c->ebx = 0;
++        /* guest tsc frequency */
++        c->ecx = env->user_tsc_khz;
++        /* guest tsc incarnation (migration count) */
++        c->edx = 0;
++
++        c = &cpuid_data.entries[cpuid_i++];
++        c->function = kvm_base + XEN_CPUID_HVM;
++        xen_max_leaf->eax = kvm_base + XEN_CPUID_HVM;
++        if (xen_version >= XEN_VERSION(4,5)) {
++            c->function = kvm_base + XEN_CPUID_HVM;
++
++            if (cpu->xen_vapic) {
++                c->eax |= XEN_HVM_CPUID_APIC_ACCESS_VIRT;
++                c->eax |= XEN_HVM_CPUID_X2APIC_VIRT;
 +            }
-+#else
-+            error_report("kvm: Xen support not enabled in qemu");
-+            return -ENOTSUP;
++
++            c->eax |= XEN_HVM_CPUID_IOMMU_MAPPINGS;
++
++            if (xen_version >= XEN_VERSION(4,6)) {
++                c->eax |= XEN_HVM_CPUID_VCPU_ID_PRESENT;
++                c->ebx = cs->cpu_index;
++            }
++        }
++
++        kvm_base += 0x100;
++#else /* CONFIG_XEN_EMU */
++        /* This should never happen as kvm_arch_init() would have died first. */
++        fprintf(stderr, "Cannot enable Xen CPUID without Xen support\n");
++        abort();
 +#endif
-+    }
-+
-     ret = kvm_get_supported_msrs(s);
-     if (ret < 0) {
-         return ret;
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-index ae38dc9563..9f3ef246b8 100644
---- a/target/i386/meson.build
-+++ b/target/i386/meson.build
-@@ -7,6 +7,7 @@ i386_ss.add(files(
-   'cpu-dump.c',
- ))
- i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c'))
-+i386_ss.add(when: 'CONFIG_XEN_EMU', if_true: files('xen.c'))
- 
- # x86 cpu type
- i386_ss.add(when: 'CONFIG_KVM', if_true: files('host-cpu.c'))
-diff --git a/target/i386/xen.c b/target/i386/xen.c
-new file mode 100644
-index 0000000000..bc183dce4e
---- /dev/null
-+++ b/target/i386/xen.c
-@@ -0,0 +1,49 @@
-+/*
-+ * Xen HVM emulation support in KVM
-+ *
-+ * Copyright © 2019 Oracle and/or its affiliates. All rights reserved.
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "kvm/kvm_i386.h"
-+#include "xen.h"
-+
-+int kvm_xen_init(KVMState *s, uint32_t xen_version)
-+{
-+    const int required_caps = KVM_XEN_HVM_CONFIG_HYPERCALL_MSR |
-+        KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL | KVM_XEN_HVM_CONFIG_SHARED_INFO;
-+    struct kvm_xen_hvm_config cfg = {
-+        .msr = XEN_HYPERCALL_MSR,
-+        .flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL,
-+    };
-+    int xen_caps, ret;
-+
-+    xen_caps = kvm_check_extension(s, KVM_CAP_XEN_HVM);
-+    if (required_caps & ~xen_caps) {
-+        error_report("kvm: Xen HVM guest support not present or insufficient");
-+        return -ENOSYS;
-+    }
-+
-+    if (xen_caps & KVM_XEN_HVM_CONFIG_EVTCHN_SEND) {
-+        struct kvm_xen_hvm_attr ha = {
-+            .type = KVM_XEN_ATTR_TYPE_XEN_VERSION,
-+            .u.xen_version = xen_version,
-+        };
-+        (void)kvm_vm_ioctl(s, KVM_XEN_HVM_SET_ATTR, &ha);
-+
-+        cfg.flags |= KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
-+    }
-+
-+    ret = kvm_vm_ioctl(s, KVM_XEN_HVM_CONFIG, &cfg);
-+    if (ret < 0) {
-+        error_report("kvm: Failed to enable Xen HVM support: %s", strerror(-ret));
-+        return ret;
-+    }
-+
-+    return 0;
-+}
++    } else if (cpu->expose_kvm) {
+         memcpy(signature, "KVMKVMKVM\0\0\0", 12);
+         c = &cpuid_data.entries[cpuid_i++];
+         c->function = KVM_CPUID_SIGNATURE | kvm_base;
 diff --git a/target/i386/xen.h b/target/i386/xen.h
-new file mode 100644
-index 0000000000..6c4f3b7822
---- /dev/null
+index 6c4f3b7822..ae880c47bc 100644
+--- a/target/i386/xen.h
 +++ b/target/i386/xen.h
-@@ -0,0 +1,19 @@
-+/*
-+ * Xen HVM emulation support in KVM
-+ *
-+ * Copyright © 2019 Oracle and/or its affiliates. All rights reserved.
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
+@@ -14,6 +14,14 @@
+ 
+ #define XEN_HYPERCALL_MSR 0x40000000
+ 
++#define XEN_CPUID_SIGNATURE        0
++#define XEN_CPUID_VENDOR           1
++#define XEN_CPUID_HVM_MSR          2
++#define XEN_CPUID_TIME             3
++#define XEN_CPUID_HVM              4
 +
-+#ifndef QEMU_I386_XEN_H
-+#define QEMU_I386_XEN_H
++#define XEN_VERSION(maj, min) ((maj) << 16 | (min))
 +
-+#define XEN_HYPERCALL_MSR 0x40000000
-+
-+int kvm_xen_init(KVMState *s, uint32_t xen_version);
-+
-+#endif /* QEMU_I386_XEN_H */
+ int kvm_xen_init(KVMState *s, uint32_t xen_version);
+ 
+ #endif /* QEMU_I386_XEN_H */
 -- 
 2.35.3
 
