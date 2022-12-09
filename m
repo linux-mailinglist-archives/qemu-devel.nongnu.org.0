@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4637E648941
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 20:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A167D648948
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 20:57:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3jSA-0007W1-Iz; Fri, 09 Dec 2022 14:54:44 -0500
+	id 1p3jUf-0000I2-QO; Fri, 09 Dec 2022 14:57:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3jRv-0007Vp-DH
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 14:54:23 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3jRc-0007Dy-GU
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 14:54:20 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id k79so4437869pfd.7
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 11:53:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=usGF94ULSgfoLSbP96GonyQrHI5JnXyySywakP97meQ=;
- b=JK/hsW0eupng9A7N7uywygZ1bR5OrqPUIE821V435IH0veDGt13/MeVvLDYGLhwocZ
- VdiQDLiZNS5rtQ0iqOUQQlXitZRyRajbAAqyUYD+Nf3/Gyc1iBVVKSwDBtw+v2iW+P57
- flIOVzpcz8McaexnKLFp92jKmT/I32uNrcg9TBbithA28UpfSbV8Mij5uDLRMU+hFMW4
- 0jcYdF3L5uoxlLEkj8x7gZZuFcHTcakvACScrfVcnTjkBw6C/9cxV47DovhkjbmGaN9i
- tmRVakKLc9EzfjN7QV/IQ0Gh2OzrFZV/p38AaC81I8MOm2d9IdjgW3P4sCP5Z12hQlk4
- DiCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=usGF94ULSgfoLSbP96GonyQrHI5JnXyySywakP97meQ=;
- b=PnXMJZDLISL1r4ujAawPAPHXNbNKVY9OZlFzu7RKuklA1fqekW6U+CZKxGAD87rzC3
- UOamXv7Py7pBZKHE1Y+CusZT7wOlvR6WsWXOTiK2iWjmpYO+fBICgDCGSPdzhWdo4F9y
- sm/4uUORZcOPkdBo5yAtBKyOuhZ/wk7Ciyi5u/0kx/S5xG/b+hfjrR+Doc3jgpVQ4h02
- uQzpVslPDPj65N9G3OFhulq++q/1pGoLVo+22Y+lfGL96KoZZ/1TF7Bv2qD8ihljuP4g
- L1uRD8Gd+1bB6BxVHxwIjTtYVghq3nqIRE99KKj4zv6UQ6r67wUiAyKXUuZ3b4FLDycD
- k+gg==
-X-Gm-Message-State: ANoB5pmmO7yLlEYwIB9Mi4ZMStqnbIBCUpGxvDMOfPxSLJdXq2pSLju6
- WycGAuaTCmEd3+nmKEHFe4yGRY0EQUQ1/Ox1lFTe4w==
-X-Google-Smtp-Source: AA0mqf6lut7XFZN4VOafyZ7Jc9WDuZG8wE8hlDqTBl+jh4qnR5yCoEI3KdWH8AMTSFmc88Q8Ww/YYMiF4B0TCE8+KkM=
-X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
- r6-20020a635146000000b0047786c1640fmr69677731pgl.231.1670615635868; Fri, 09
- Dec 2022 11:53:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1p3jUe-0000Ha-8r; Fri, 09 Dec 2022 14:57:12 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1p3jUb-0003Em-Qr; Fri, 09 Dec 2022 14:57:12 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B9IhHB1014979; Fri, 9 Dec 2022 19:57:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=ZPlC0CwzNqYkIhjmuuZBPdXp3sR0wa9Ejv/ZhemKrtE=;
+ b=H8VGPbbUCpW2IdDxe5ZXbWI4M505c61JGY/6hm0r6ESWPMjNL7Rn9q4Nexc08i4JZEl3
+ qwPy/bf8X28SkYs+KBBj8vi2S5SLjZ8t7mpb3o8ZKu/6Ze6wF38yUKC8E/wtUpJXiANG
+ kUgbpHiabaCnYghLP7LFI+lPEuGZwWIY89gsnpPaprY3lbRYquIJEAw31Zl2PhCiCDDP
+ l49EztX0NcsSIz0qf9iGmfi+CDvzYn9jIQS48sNZn9icfXCGHVrdprPK2KVdBWt0dYWi
+ 1igECFiSLe0sfPK1LfZD5TnD6sVtROAsLSSCnrbl9ayrWRloRd1AC35LkW/ZYpsVZEg/ 7A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mc10r09kr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Dec 2022 19:57:04 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B9JrXL0008848;
+ Fri, 9 Dec 2022 19:57:04 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mc10r09kk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Dec 2022 19:57:04 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2B9J5ke4032031;
+ Fri, 9 Dec 2022 19:57:03 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
+ by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3m9pdafvby-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Dec 2022 19:57:03 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B9Jv11T58786252
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 9 Dec 2022 19:57:01 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BCE7358056;
+ Fri,  9 Dec 2022 19:57:01 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A982A58052;
+ Fri,  9 Dec 2022 19:57:00 +0000 (GMT)
+Received: from li-2311da4c-2e09-11b2-a85c-c003041e9174.ibm.com.com (unknown
+ [9.160.69.73]) by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Fri,  9 Dec 2022 19:57:00 +0000 (GMT)
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: farman@linux.ibm.com, pmorel@linux.ibm.com, schnelle@linux.ibm.com,
+ thuth@redhat.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, iii@linux.ibm.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH] s390x/pci: reset ISM passthrough devices on shutdown and
+ system reset
+Date: Fri,  9 Dec 2022 14:57:00 -0500
+Message-Id: <20221209195700.263824-1-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <87edt9gnyz.fsf@pond.sub.org>
- <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
- <87v8mlez92.fsf@pond.sub.org>
- <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
- <CAFEAcA8MrUwOt+gaSVF6tMpG_HO_wCN_O11Ezst97-_52PR9pQ@mail.gmail.com>
- <a14c2624-36fa-b5c1-a358-95694e01a339@redhat.com>
-In-Reply-To: <a14c2624-36fa-b5c1-a358-95694e01a339@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Dec 2022 19:53:44 +0000
-Message-ID: <CAFEAcA8DttcCD7ofcjfifigssAZpnLAe23-J9=iadmM31+nV0Q@mail.gmail.com>
-Subject: Re: Target-dependent include path, why?
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: N84R-4WK-spHN1yutVFlPBUg5cf-QrVY
+X-Proofpoint-ORIG-GUID: bMwFXGEqfulMMand9t2MmhYj_B9tNUZ2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-09_11,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ clxscore=1011 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212090159
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,68 +110,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 9 Dec 2022 at 17:42, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 12/9/22 17:52, Peter Maydell wrote:
-> >> Dependencies are usually added near the .c files that use them.  That's
-> >> a bit messy of course if you have an "#include <>" in a heavily-included
-> >> QEMU header.  You can consider it a way to discourage heavily-included
-> >> headers.
-> > This has always seemed to me to be a recipe for bugs that only
-> > show up in the uncommon case of "some dependent library's
-> > header files have been installed somewhere other than in
-> > a system include directory". Is it possible to get meson to do
-> > things the more standard way, where if a binary has a dependency
-> > declared then the CFLAGS for that dependency get used for all
-> > objects that go into it?
->
-> This *is* what Meson does, it's QEMU that has always done non-standard
-> things in order to share the .o files for target-independent sources.
-> Back in the day is was -Wl,--whole-archive, then it became foo-obj-y.
-> Now it's foo_ss but it's the same thing as foo-obj-y in the end.
->
-> Once the relation between objects and binaries becomes many-to-many, you
-> can't really apply "the CFLAGS for the binaries' dependencies" to all
-> the objects.  Pre-Meson, there were three ways to declare dependencies:
->
-> - placing pkg-config output directly in $(QEMU_CFLAGS) and $(LIBS).
-> This caused binaries to have unnecessary dependencies at times.
+ISM device firmware stores unique state information that can
+can cause a wholesale unmap of the associated IOMMU (e.g. when
+we get a termination signal for QEMU) to trigger firmware errors
+because firmware believes we are attempting to invalidate entries
+that are still in-use by the guest OS (when in fact that guest is
+in the process of being terminated or rebooted).
+To alleviate this, register both a shutdown notifier (for unexpected
+termination cases e.g. virsh destroy) as well as a reset callback
+(for cases like guest OS reboot).  For each of these scenarios, trigger
+PCI device reset; this is enough to indicate to firmware that the IOMMU
+is no longer in-use by the guest OS, making it safe to invalidate any
+associated IOMMU entries.
 
-Yeah, this is what I think of as "the standard thing".
+Fixes: 15d0e7942d3b ("s390x/pci: don't fence interpreted devices without MSI-X")
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+---
+ hw/s390x/s390-pci-bus.c         | 28 ++++++++++++++++++++++++++++
+ hw/s390x/s390-pci-vfio.c        |  2 ++
+ include/hw/s390x/s390-pci-bus.h |  5 +++++
+ 3 files changed, 35 insertions(+)
 
-> - mentioning dependencies in $(obj)/foo.o_{CFLAGS,LIBS} or something
-> like that, declaring dependencies in objects and applying them to
-> binaries.  The Makefile implementation was very buggy.
->
-> - a mix of the two, with the include path added to QEMU_CFLAGS and a
-> target variable definition "foo$(EXESUF): LIBS += ..." that avoided the
-> unnecessary dependencies.
->
-> The sourceset thing was added to Meson specifically for QEMU, inspired
-> by the second option.  Without the bugs[1], everything could become
-> fine-grained.  Only glib stayed in QEMU_CFLAGS (the third option);
-> anything else was unnecessary because everything includes glib.h through
-> osdep.h anyway.
->
-> The closest thing to what you're suggesting is to keep LIBS fine-grained
-> while making CFLAGS coarse-grained, i.e. the third option above.  That
-> is what the patches I sent today do when moving the glib tests to Meson,
-> so it is not hard to expand it to other dependencies; but while it might
-> avoid the gnutls issues, it will probably cause other issues---think of
-> SDL messing with "#define main".  Overall, I'm not sure it's a win.
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index 977e7daa15..02751f3597 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -24,6 +24,8 @@
+ #include "hw/pci/msi.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
++#include "sysemu/reset.h"
++#include "sysemu/runstate.h"
+ 
+ #ifndef DEBUG_S390PCI_BUS
+ #define DEBUG_S390PCI_BUS  0
+@@ -150,10 +152,30 @@ out:
+     psccb->header.response_code = cpu_to_be16(rc);
+ }
+ 
++static void s390_pci_shutdown_notifier(Notifier *n, void *opaque)
++{
++    S390PCIBusDevice *pbdev = container_of(n, S390PCIBusDevice,
++                                           shutdown_notifier);
++
++    pci_device_reset(pbdev->pdev);
++}
++
++static void s390_pci_reset_cb(void *opaque)
++{
++    S390PCIBusDevice *pbdev = opaque;
++
++    pci_device_reset(pbdev->pdev);
++}
++
+ static void s390_pci_perform_unplug(S390PCIBusDevice *pbdev)
+ {
+     HotplugHandler *hotplug_ctrl;
+ 
++    if (pbdev->pft == ZPCI_PFT_ISM) {
++        notifier_remove(&pbdev->shutdown_notifier);
++        qemu_unregister_reset(s390_pci_reset_cb, pbdev);
++    }
++
+     /* Unplug the PCI device */
+     if (pbdev->pdev) {
+         DeviceState *pdev = DEVICE(pbdev->pdev);
+@@ -1111,6 +1133,12 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+                 pbdev->fh |= FH_SHM_VFIO;
+                 pbdev->forwarding_assist = false;
+             }
++            /* Register shutdown notifier and reset callback for ISM devices */
++            if (pbdev->pft == ZPCI_PFT_ISM) {
++                pbdev->shutdown_notifier.notify = s390_pci_shutdown_notifier;
++                qemu_register_shutdown_notifier(&pbdev->shutdown_notifier);
++                qemu_register_reset(s390_pci_reset_cb, pbdev);
++            }
+         } else {
+             pbdev->fh |= FH_SHM_EMUL;
+             /* Always intercept emulated devices */
+diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+index 5f0adb0b4a..419763f829 100644
+--- a/hw/s390x/s390-pci-vfio.c
++++ b/hw/s390x/s390-pci-vfio.c
+@@ -122,6 +122,8 @@ static void s390_pci_read_base(S390PCIBusDevice *pbdev,
+     /* The following values remain 0 until we support other FMB formats */
+     pbdev->zpci_fn.fmbl = 0;
+     pbdev->zpci_fn.pft = 0;
++    /* Store function type separately for type-specific behavior */
++    pbdev->pft = cap->pft;
+ }
+ 
+ static bool get_host_fh(S390PCIBusDevice *pbdev, struct vfio_device_info *info,
+diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
+index 0605fcea24..4c812c65db 100644
+--- a/include/hw/s390x/s390-pci-bus.h
++++ b/include/hw/s390x/s390-pci-bus.h
+@@ -39,6 +39,9 @@
+ #define UID_CHECKING_ENABLED 0x01
+ #define ZPCI_DTSM 0x40
+ 
++/* zPCI Function Types */
++#define ZPCI_PFT_ISM 5
++
+ OBJECT_DECLARE_SIMPLE_TYPE(S390pciState, S390_PCI_HOST_BRIDGE)
+ OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBus, S390_PCI_BUS)
+ OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBusDevice, S390_PCI_DEVICE)
+@@ -343,6 +346,7 @@ struct S390PCIBusDevice {
+     uint16_t noi;
+     uint16_t maxstbl;
+     uint8_t sum;
++    uint8_t pft;
+     S390PCIGroup *pci_group;
+     ClpRspQueryPci zpci_fn;
+     S390MsixInfo msix;
+@@ -351,6 +355,7 @@ struct S390PCIBusDevice {
+     MemoryRegion msix_notify_mr;
+     IndAddr *summary_ind;
+     IndAddr *indicator;
++    Notifier shutdown_notifier;
+     bool pci_unplug_request_processed;
+     bool unplug_requested;
+     bool interp;
+-- 
+2.38.1
 
-The thing I find counterintuitive about what we have currently
-is that I can add a #include of a QEMU-internal header to a
-source file, and now the build can be broken on some host
-system configurations.
-
-I'd be happier with either:
- (1) it's always safe to #include QEMU's own headers in its
-     source files
- (2) sometimes a new QEMU header #include requires you to add a
-     dependency to a meson.build file, but if you forget to do
-     this then the build reliably fails on *all* host systems
-
-thanks
--- PMM
 
