@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FF46481EB
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B586481F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:48:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bX5-0005k3-HI; Fri, 09 Dec 2022 06:27:11 -0500
+	id 1p3bX7-0005qm-99; Fri, 09 Dec 2022 06:27:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUs-0003ya-4Q
+ id 1p3bUs-0003yc-3S
  for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:25:14 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUl-0000zh-Cn
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:51 -0500
+ id 1p3bUn-0000zv-J5
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670585085;
+ s=mimecast20190719; t=1670585087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u1mbLHMn/wYtFExtFcVSyZm7+5Wcq6+nPQCFkIbbgYs=;
- b=E2jyXAzWUWSWEFVI/HqR/aNCMGmYpn9nw/f1oHYI1FE1ArQqqpkB1zBuGFqheFp6m5oQnF
- 0duLyNcS5Gn3PkcLZhNs8R7NHl5nGgm5ccF4YfSvShaDn2KPj0MUTDXeWlvLsETJWRedG+
- AQD8pjTqcaG2TpMfClTfSWDwrROM2co=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O7GByV2/tPXhbOnzsuk4iLNqmk3qgnJ2d7J1SI0Y0iM=;
+ b=LQEANeu5kgN20lqFRdDeS63Df0FuN2Hsx7+YB684vPA4X4AThhaZ5OVTxBM83Uz2tb+JzK
+ e+t8o8sMDt9z+xbUJK1USj+qrmkLy0mvd1cChXmXjuv1wRrkANqp2NPWklePYnBa9102wi
+ 40POZOq4QEGGZasE+urNFU8U0psojsE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-595-XMbVRo_XNo-mDLGyJfSGdw-1; Fri, 09 Dec 2022 06:24:43 -0500
-X-MC-Unique: XMbVRo_XNo-mDLGyJfSGdw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- oz34-20020a1709077da200b007adc8d68e90so2918968ejc.11
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:43 -0800 (PST)
+ us-mta-653-quXVSTrvNCOtoCU4DzFsKg-1; Fri, 09 Dec 2022 06:24:46 -0500
+X-MC-Unique: quXVSTrvNCOtoCU4DzFsKg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ js17-20020a17090797d100b007c0dd8018b6so2920511ejc.17
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=u1mbLHMn/wYtFExtFcVSyZm7+5Wcq6+nPQCFkIbbgYs=;
- b=XOCMyX1lS2IkbEzr1D+0BZZj/KBTt2/qVZ4e21MjydAXa0woD7qM2vfd+8yp8xRSqL
- r3cpmyZLjcHEV3kxPjjTXzYvjQ47o2m48SbCnsXgq/nh8twmKY0ZfGc7fJsL03M1LWZj
- ilC1E+TQ+bricQg1lbyMT1BKUNosNp1mMiAq/GEk46/BIbzpqS5Rc2HY1ozdked03BiK
- m3hrNxEEvC6WQsVOjiZ6Mw4Udv05Gz1tGzukF/mRWXvPFu7lHZfuTVM+3grtzgNOMwCP
- 2Gjp0FO2RR1+T3jqJWQknHxYETIRl2Ctfhjpg+4i5Cp+jodVuI69Rl9diq8KxQeSsCsI
- ISRg==
-X-Gm-Message-State: ANoB5plQVdI+MOuZkwc1kjM+NFJ2I874NHwnX/yZV5qY+Aez32nvXE/W
- 6aE1yfNYQBWMfG4dn4BwVRHmNQEf2LOQsKw0iXtSK4c7lVdyBkNyx4gC4ICMegEQ5aCFDhiTHCT
- LbjgZAoW8RNweKfG6FT+nDq++Hj0IEWttDIjOeActktRu39Sm8T7wkCnTs6uozLI4ZSA=
-X-Received: by 2002:a17:907:d687:b0:7b8:882d:43ff with SMTP id
- wf7-20020a170907d68700b007b8882d43ffmr5593281ejc.0.1670585082445; 
- Fri, 09 Dec 2022 03:24:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7bTlByQP6WD5WDtio1YGDDj1ig2BSOXNta8zhOGEcQEt1hXlGD1Hc5r5iRVIIum15vn9BngA==
-X-Received: by 2002:a17:907:d687:b0:7b8:882d:43ff with SMTP id
- wf7-20020a170907d68700b007b8882d43ffmr5593259ejc.0.1670585082129; 
- Fri, 09 Dec 2022 03:24:42 -0800 (PST)
+ bh=O7GByV2/tPXhbOnzsuk4iLNqmk3qgnJ2d7J1SI0Y0iM=;
+ b=K2l4p/PCfcA7Z0rsLVUF7ISy95T0PnxJ7Z6wgNWSOjXnJRc5Q/0V6venySM2fgG4WM
+ YD+8K8/TLnuE1h9x8ECbLH2H3yKmMnB66DdrH94NQWUA3jH/GUAtamspJE24vsKkMYf0
+ VF9ztTDlGLhzkk7r5O8pWvyJHCshSTyJnusFNXzeoOL78I4+LNdpWNQE0vQIgAHIefEe
+ eYzOWBl8YcQfzHvPR9qEoZoELxlnj/G1AbR3shdWT1iMUHT0WAKEb+jy0ydzQbOWLuh5
+ 0/0UcWLoynHegr7qZp8yw5jRq4r1AyZHP9P2r3aVM8zy/py15DK1jeEMzYb8Xe8tyGUL
+ 3LOQ==
+X-Gm-Message-State: ANoB5pkxOM3YEDeONPdQJxHQNIVVU1oFXSXXwj7a+zwv9iS8wtPKtBtD
+ rXzqUWTYMAFAwkuohqo3CjIWxtpIh1BWriNVCMbkB1Vsuq8v54BrMX04v/pQC8XkRVBWMwrFdnd
+ 9RC54VXf9GLdEOwIlphUz8PKaRBdGMDy5v6ayoCkMaJMkcn2DC+2IPTDfvlZGQur/Hhg=
+X-Received: by 2002:a17:907:a803:b0:78d:f457:1062 with SMTP id
+ vo3-20020a170907a80300b0078df4571062mr6021585ejc.31.1670585085232; 
+ Fri, 09 Dec 2022 03:24:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf79xKurqpd3pkShQl8nz4JgRCMVxyeClZIGTCjSLKja6A0QotmIxhOjB1nLwo7lRgv+yheAgQ==
+X-Received: by 2002:a17:907:a803:b0:78d:f457:1062 with SMTP id
+ vo3-20020a170907a80300b0078df4571062mr6021568ejc.31.1670585084896; 
+ Fri, 09 Dec 2022 03:24:44 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- ha26-20020a170906a89a00b007c1027ed6b5sm448892ejb.75.2022.12.09.03.24.41
- for <qemu-devel@nongnu.org>
+ lb17-20020a170907785100b007a9c3831409sm442583ejc.137.2022.12.09.03.24.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 03:24:41 -0800 (PST)
+ Fri, 09 Dec 2022 03:24:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/30] meson: cleanup dummy-cpus.c rules
-Date: Fri,  9 Dec 2022 12:23:50 +0100
-Message-Id: <20221209112409.184703-12-pbonzini@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 12/30] modinfo: lookup compile_commands.json by object
+Date: Fri,  9 Dec 2022 12:23:51 +0100
+Message-Id: <20221209112409.184703-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209112409.184703-1-pbonzini@redhat.com>
 References: <20221209112409.184703-1-pbonzini@redhat.com>
@@ -99,31 +99,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that qtest is available on all targets including Windows, dummy-cpus.c
-is included unconditionally in the build.
+With Meson 0.63 having fixed various issues with extract_objects, the
+compile_commands.json lookups can be simplified.  If the lookup uses
+the object file as key, there is no need to use the command line to
+distinguish among all entries for a given source.
 
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/meson.build | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ meson.build                | 14 ++++----------
+ scripts/modinfo-collect.py | 23 +++++++++++------------
+ 2 files changed, 15 insertions(+), 22 deletions(-)
 
-diff --git a/accel/meson.build b/accel/meson.build
-index 259c35c4c882..3a480cc2efef 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -11,10 +11,5 @@ if have_system
-   subdir('stubs')
- endif
+diff --git a/meson.build b/meson.build
+index 9ccbe0f6e4ee..8a9ed5628317 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3123,16 +3123,11 @@ foreach d, list : modules
+         softmmu_mods += sl
+       endif
+       if module_ss.sources() != []
+-        # FIXME: Should use sl.extract_all_objects(recursive: true) as
+-        # input. Sources can be used multiple times but objects are
+-        # unique when it comes to lookup in compile_commands.json.
+-        # Depnds on a mesion version with
+-        # https://github.com/mesonbuild/meson/pull/8900
+         modinfo_files += custom_target(d + '-' + m + '.modinfo',
+                                        output: d + '-' + m + '.modinfo',
+-                                       input: module_ss.sources() + genh,
++                                       input: sl.extract_all_objects(recursive: true),
+                                        capture: true,
+-                                       command: [modinfo_collect, module_ss.sources()])
++                                       command: [modinfo_collect, '@INPUT@'])
+       endif
+     else
+       if d == 'block'
+@@ -3165,12 +3160,11 @@ foreach d, list : target_modules
+                                 c_args: c_args,
+                                 pic: true)
+             softmmu_mods += sl
+-            # FIXME: Should use sl.extract_all_objects(recursive: true) too.
+             modinfo_files += custom_target(module_name + '.modinfo',
+                                            output: module_name + '.modinfo',
+-                                           input: target_module_ss.sources() + genh,
++                                           input: sl.extract_all_objects(recursive: true),
+                                            capture: true,
+-                                           command: [modinfo_collect, '--target', target, target_module_ss.sources()])
++                                           command: [modinfo_collect, '--target', target, '@INPUT@'])
+           endif
+         endif
+       endforeach
+diff --git a/scripts/modinfo-collect.py b/scripts/modinfo-collect.py
+index 4e7584df6676..48bd92bd6180 100755
+--- a/scripts/modinfo-collect.py
++++ b/scripts/modinfo-collect.py
+@@ -7,15 +7,6 @@
+ import shlex
+ import subprocess
  
--dummy_ss = ss.source_set()
--dummy_ss.add(files(
--  'dummy-cpus.c',
--))
+-def find_command(src, target, compile_commands):
+-    for command in compile_commands:
+-        if command['file'] != src:
+-            continue
+-        if target != '' and command['command'].find(target) == -1:
+-            continue
+-        return command['command']
+-    return 'false'
 -
--specific_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: dummy_ss)
--specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
-+# qtest
-+softmmu_ss.add(files('dummy-cpus.c'))
+ def process_command(src, command):
+     skip = False
+     out = []
+@@ -43,14 +34,22 @@ def main(args):
+         print("MODINFO_DEBUG target %s" % target)
+         arch = target[:-8] # cut '-softmmu'
+         print("MODINFO_START arch \"%s\" MODINFO_END" % arch)
++
+     with open('compile_commands.json') as f:
+-        compile_commands = json.load(f)
+-    for src in args:
++        compile_commands_json = json.load(f)
++    compile_commands = { x['output']: x for x in compile_commands_json }
++
++    for obj in args:
++        entry = compile_commands.get(obj, None)
++        if not entry:
++            sys.stderr.print('modinfo: Could not find object file', obj)
++            sys.exit(1)
++        src = entry['file']
+         if not src.endswith('.c'):
+             print("MODINFO_DEBUG skip %s" % src)
+             continue
++        command = entry['command']
+         print("MODINFO_DEBUG src %s" % src)
+-        command = find_command(src, target, compile_commands)
+         cmdline = process_command(src, command)
+         print("MODINFO_DEBUG cmd", cmdline)
+         result = subprocess.run(cmdline, stdout = subprocess.PIPE,
 -- 
 2.38.1
 
