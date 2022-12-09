@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A0F6484F7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A286484FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:25:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3fDp-0002P8-RV; Fri, 09 Dec 2022 10:23:34 -0500
+	id 1p3fEK-0002Z3-JR; Fri, 09 Dec 2022 10:24:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1p3fDj-0002MJ-Sa
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:23:31 -0500
+ id 1p3fDx-0002Tp-Nq
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:23:52 -0500
 Received: from ssh.movementarian.org ([139.162.205.133] helo=movementarian.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1p3fDi-0001sA-EM
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:23:27 -0500
+ id 1p3fDv-0001v9-6O
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:23:41 -0500
 Received: from movement by movementarian.org with local (Exim 4.95)
- (envelope-from <movement@movementarian.org>) id 1p3fDg-007MFU-F8;
- Fri, 09 Dec 2022 15:23:24 +0000
-Date: Fri, 9 Dec 2022 15:23:24 +0000
+ (envelope-from <movement@movementarian.org>) id 1p3fDt-007MFk-PP;
+ Fri, 09 Dec 2022 15:23:37 +0000
+Date: Fri, 9 Dec 2022 15:23:37 +0000
 From: John Levon <levon@movementarian.org>
 To: John Johnson <john.g.johnson@oracle.com>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 06/24] vfio-user: Define type vfio_user_pci_dev_info
-Message-ID: <Y5NS7I6vAL3d07Ge@movementarian.org>
+Subject: Re: [PATCH v1 07/24] vfio-user: connect vfio proxy to remote server
+Message-ID: <Y5NS+elfu3VyqfbB@movementarian.org>
 References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <957361f0e497e0b95f10a3caf617fe04d9c6fb72.1667542066.git.john.g.johnson@oracle.com>
+ <4160c1d364dc64f9e70445a905b2cc5ba3ba9c5b.1667542066.git.john.g.johnson@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <957361f0e497e0b95f10a3caf617fe04d9c6fb72.1667542066.git.john.g.johnson@oracle.com>
+In-Reply-To: <4160c1d364dc64f9e70445a905b2cc5ba3ba9c5b.1667542066.git.john.g.johnson@oracle.com>
 X-Url: http://www.movementarian.org/
 Received-SPF: pass client-ip=139.162.205.133;
  envelope-from=movement@movementarian.org; helo=movementarian.org
@@ -56,10 +56,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 08, 2022 at 03:13:28PM -0800, John Johnson wrote:
+On Tue, Nov 08, 2022 at 03:13:29PM -0800, John Johnson wrote:
 
-> New class for vfio-user with its class and instance
-> constructors and destructors, and its pci ops.
+> add user.c & user.h files for vfio-user code
+> add proxy struct to handle comms with remote server
 
 LGTM
 
