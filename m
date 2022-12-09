@@ -2,99 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A167D648948
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 20:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F9B6489D4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 22:03:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3jUf-0000I2-QO; Fri, 09 Dec 2022 14:57:13 -0500
+	id 1p3kVZ-00084P-AB; Fri, 09 Dec 2022 16:02:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1p3jUe-0000Ha-8r; Fri, 09 Dec 2022 14:57:12 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1p3kVX-00083a-8Y
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 16:02:11 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1p3jUb-0003Em-Qr; Fri, 09 Dec 2022 14:57:12 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B9IhHB1014979; Fri, 9 Dec 2022 19:57:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=ZPlC0CwzNqYkIhjmuuZBPdXp3sR0wa9Ejv/ZhemKrtE=;
- b=H8VGPbbUCpW2IdDxe5ZXbWI4M505c61JGY/6hm0r6ESWPMjNL7Rn9q4Nexc08i4JZEl3
- qwPy/bf8X28SkYs+KBBj8vi2S5SLjZ8t7mpb3o8ZKu/6Ze6wF38yUKC8E/wtUpJXiANG
- kUgbpHiabaCnYghLP7LFI+lPEuGZwWIY89gsnpPaprY3lbRYquIJEAw31Zl2PhCiCDDP
- l49EztX0NcsSIz0qf9iGmfi+CDvzYn9jIQS48sNZn9icfXCGHVrdprPK2KVdBWt0dYWi
- 1igECFiSLe0sfPK1LfZD5TnD6sVtROAsLSSCnrbl9ayrWRloRd1AC35LkW/ZYpsVZEg/ 7A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mc10r09kr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Dec 2022 19:57:04 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B9JrXL0008848;
- Fri, 9 Dec 2022 19:57:04 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mc10r09kk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Dec 2022 19:57:04 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2B9J5ke4032031;
- Fri, 9 Dec 2022 19:57:03 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3m9pdafvby-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Dec 2022 19:57:03 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
- [10.241.53.104])
- by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B9Jv11T58786252
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 9 Dec 2022 19:57:01 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BCE7358056;
- Fri,  9 Dec 2022 19:57:01 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A982A58052;
- Fri,  9 Dec 2022 19:57:00 +0000 (GMT)
-Received: from li-2311da4c-2e09-11b2-a85c-c003041e9174.ibm.com.com (unknown
- [9.160.69.73]) by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Fri,  9 Dec 2022 19:57:00 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: farman@linux.ibm.com, pmorel@linux.ibm.com, schnelle@linux.ibm.com,
- thuth@redhat.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, iii@linux.ibm.com,
- qemu-devel@nongnu.org
-Subject: [PATCH] s390x/pci: reset ISM passthrough devices on shutdown and
- system reset
-Date: Fri,  9 Dec 2022 14:57:00 -0500
-Message-Id: <20221209195700.263824-1-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: N84R-4WK-spHN1yutVFlPBUg5cf-QrVY
-X-Proofpoint-ORIG-GUID: bMwFXGEqfulMMand9t2MmhYj_B9tNUZ2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-09_11,2022-12-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 spamscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
- clxscore=1011 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212090159
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1p3kVV-00012U-14
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 16:02:11 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id 8BE3132003CE;
+ Fri,  9 Dec 2022 16:02:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 09 Dec 2022 16:02:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1670619726; x=
+ 1670706126; bh=A6q452ORHOvAkvvAQIUMroCKg9NE4LOq5H8fklddmGI=; b=I
+ V2N97SDougDf7OAD87kQmPNLgCdHSpdvVswSOwXNT9r8BowxUxlASCsPxjAjB1AY
+ 5dhOHnzvMwUQ0eF9WZ75J6NY4l5ssGZ84XCdm2ndtcPc6zq2OMTCtL6vwns/pIm9
+ Lq36Jf6jg1YqwrukrokfmgJQ6wpEIxejuYmyoWVsonMVNW6K5SelhGtopjeuDHeC
+ gHRougyVpKNfXp82CamxvA33oRngxgALIsl+zaOU5YgkP/XcTEs42+r5abykpWk7
+ LDtuSxUngH7itkfDPBNIL2iL2AqkOYyN+EV1EPSbC/kiV7P7Ku5nyjFIGxfInWdr
+ 4mnp9ezUyqCpk9INLdSQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670619726; x=
+ 1670706126; bh=A6q452ORHOvAkvvAQIUMroCKg9NE4LOq5H8fklddmGI=; b=F
+ I6vpb/RgfaBru1LkOxOBkiCY+ahZkUhovhUTA6pu2XE0h+8v1OjNck/64O84xm6H
+ ZPEizk5BKJcYeQrpdasLZjBzmS7pen0WID6/fxElP6z34mZCjsFzoTvbXYgQIQpw
+ stfJ3HnWc8TXOiSz9r1Itu+2+UvczuWMP6g6O2h02KfWhAxpFvONGrfNYHE3+nd1
+ RITYSMJxwg44ZlBOW3JpwQL1c0+owiAAVWYEwnIPlobKaPBBwja+CNCD3f4Y917L
+ hGABTlOZUdB/GKKlu0e/dtg037Aeehbxsru4m/DbIDJWrfIQ2EKaQMkFUXx8vl5d
+ f3MS4UA/YJs5rT6oB4xrw==
+X-ME-Sender: <xms:TaKTY-Ze6ibXvwCwT1710OSVgsfhsFkL3CB8HPKt7_nA569s8rJOkA>
+ <xme:TaKTYxYoC1voqqAjNnRF__zfVFmaU0g36louC8ppWBfQJL6GWGGzX7ujLVHVOZhKp
+ 89U2sXBHy6qXHa6qFQ>
+X-ME-Received: <xmr:TaKTY48tbMlr3HJNRB9xXHuDOsRMH41vOIJJxeZU8Tk_yppsfNIug3Im3FPsVG0Dk6OJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvgddugedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
+ gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
+ ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+ hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:TaKTYwpMtTqkwOqFY9MTCOtQ9gv5qxLhtJk9rDrcNmYCSvPxOa6PsA>
+ <xmx:TaKTY5og_uIV-tk59qjrM0jJ2XUyq-JeD5yPsf6RHJg4ORD8plJfEA>
+ <xmx:TaKTY-TZXBLMBcjr887xQUsO4BB9ugFQAzQj2BV800QZmGhJOqpzSQ>
+ <xmx:TqKTY6lXA4q9oP7fshuXL_7S9QKVA6w7j2SQB7_IuDnD1G_RjqFPCw>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Dec 2022 16:02:04 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: CVMSEG Emulation
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <CAG7Es25r-pY2y+V2GP6Hba4qPos5uN5oeBKQ81gaWctt-jd4Rg@mail.gmail.com>
+Date: Fri, 9 Dec 2022 21:01:53 +0000
+Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <47336F08-8917-43A6-981A-2D2019AD9E1A@flygoat.com>
+References: <CAG7Es24cbb24S1k7=XyA+N7uXCghQT6mt_QkJW4zcO7_usbmjw@mail.gmail.com>
+ <F0A77EF0-ED2D-43E0-91D7-B4D70B9E575F@flygoat.com>
+ <CAG7Es25r-pY2y+V2GP6Hba4qPos5uN5oeBKQ81gaWctt-jd4Rg@mail.gmail.com>
+To: Christopher Wrogg <cwrogg@umich.edu>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+Received-SPF: pass client-ip=64.147.123.19;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,128 +109,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ISM device firmware stores unique state information that can
-can cause a wholesale unmap of the associated IOMMU (e.g. when
-we get a termination signal for QEMU) to trigger firmware errors
-because firmware believes we are attempting to invalidate entries
-that are still in-use by the guest OS (when in fact that guest is
-in the process of being terminated or rebooted).
-To alleviate this, register both a shutdown notifier (for unexpected
-termination cases e.g. virsh destroy) as well as a reset callback
-(for cases like guest OS reboot).  For each of these scenarios, trigger
-PCI device reset; this is enough to indicate to firmware that the IOMMU
-is no longer in-use by the guest OS, making it safe to invalidate any
-associated IOMMU entries.
 
-Fixes: 15d0e7942d3b ("s390x/pci: don't fence interpreted devices without MSI-X")
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-bus.c         | 28 ++++++++++++++++++++++++++++
- hw/s390x/s390-pci-vfio.c        |  2 ++
- include/hw/s390x/s390-pci-bus.h |  5 +++++
- 3 files changed, 35 insertions(+)
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 977e7daa15..02751f3597 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -24,6 +24,8 @@
- #include "hw/pci/msi.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
-+#include "sysemu/reset.h"
-+#include "sysemu/runstate.h"
- 
- #ifndef DEBUG_S390PCI_BUS
- #define DEBUG_S390PCI_BUS  0
-@@ -150,10 +152,30 @@ out:
-     psccb->header.response_code = cpu_to_be16(rc);
- }
- 
-+static void s390_pci_shutdown_notifier(Notifier *n, void *opaque)
-+{
-+    S390PCIBusDevice *pbdev = container_of(n, S390PCIBusDevice,
-+                                           shutdown_notifier);
-+
-+    pci_device_reset(pbdev->pdev);
-+}
-+
-+static void s390_pci_reset_cb(void *opaque)
-+{
-+    S390PCIBusDevice *pbdev = opaque;
-+
-+    pci_device_reset(pbdev->pdev);
-+}
-+
- static void s390_pci_perform_unplug(S390PCIBusDevice *pbdev)
- {
-     HotplugHandler *hotplug_ctrl;
- 
-+    if (pbdev->pft == ZPCI_PFT_ISM) {
-+        notifier_remove(&pbdev->shutdown_notifier);
-+        qemu_unregister_reset(s390_pci_reset_cb, pbdev);
-+    }
-+
-     /* Unplug the PCI device */
-     if (pbdev->pdev) {
-         DeviceState *pdev = DEVICE(pbdev->pdev);
-@@ -1111,6 +1133,12 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-                 pbdev->fh |= FH_SHM_VFIO;
-                 pbdev->forwarding_assist = false;
-             }
-+            /* Register shutdown notifier and reset callback for ISM devices */
-+            if (pbdev->pft == ZPCI_PFT_ISM) {
-+                pbdev->shutdown_notifier.notify = s390_pci_shutdown_notifier;
-+                qemu_register_shutdown_notifier(&pbdev->shutdown_notifier);
-+                qemu_register_reset(s390_pci_reset_cb, pbdev);
-+            }
-         } else {
-             pbdev->fh |= FH_SHM_EMUL;
-             /* Always intercept emulated devices */
-diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-index 5f0adb0b4a..419763f829 100644
---- a/hw/s390x/s390-pci-vfio.c
-+++ b/hw/s390x/s390-pci-vfio.c
-@@ -122,6 +122,8 @@ static void s390_pci_read_base(S390PCIBusDevice *pbdev,
-     /* The following values remain 0 until we support other FMB formats */
-     pbdev->zpci_fn.fmbl = 0;
-     pbdev->zpci_fn.pft = 0;
-+    /* Store function type separately for type-specific behavior */
-+    pbdev->pft = cap->pft;
- }
- 
- static bool get_host_fh(S390PCIBusDevice *pbdev, struct vfio_device_info *info,
-diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-index 0605fcea24..4c812c65db 100644
---- a/include/hw/s390x/s390-pci-bus.h
-+++ b/include/hw/s390x/s390-pci-bus.h
-@@ -39,6 +39,9 @@
- #define UID_CHECKING_ENABLED 0x01
- #define ZPCI_DTSM 0x40
- 
-+/* zPCI Function Types */
-+#define ZPCI_PFT_ISM 5
-+
- OBJECT_DECLARE_SIMPLE_TYPE(S390pciState, S390_PCI_HOST_BRIDGE)
- OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBus, S390_PCI_BUS)
- OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBusDevice, S390_PCI_DEVICE)
-@@ -343,6 +346,7 @@ struct S390PCIBusDevice {
-     uint16_t noi;
-     uint16_t maxstbl;
-     uint8_t sum;
-+    uint8_t pft;
-     S390PCIGroup *pci_group;
-     ClpRspQueryPci zpci_fn;
-     S390MsixInfo msix;
-@@ -351,6 +355,7 @@ struct S390PCIBusDevice {
-     MemoryRegion msix_notify_mr;
-     IndAddr *summary_ind;
-     IndAddr *indicator;
-+    Notifier shutdown_notifier;
-     bool pci_unplug_request_processed;
-     bool unplug_requested;
-     bool interp;
--- 
-2.38.1
+> 2022=E5=B9=B412=E6=9C=889=E6=97=A5 17:44=EF=BC=8CChristopher Wrogg =
+<cwrogg@umich.edu> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> I tried both.
+>=20
+> Option 1=20
+>     What I did:
+>         #undef TARGET_VIRT_ADDR_SPACE_BITS and #define =
+TARGET_VIRT_ADDR_SPACE_BITS 64
+>     The Result:
+>         perror reports "Cannot allocate memory"
+> Option 2:=20
+>     What I did:
+>         TARGET_VIRT_ADDR_SPACE_BITS for me is 30 so I masked by =
+0x3FFFFFFF
+>     The Result:
+>         The segfault persists and gdb reports the memory as =
+inaccessible.
+
+Hmm this looks wired for me, by no chance TARGET_VIRT_ADDR_SPACE_BITS =
+for MIPS
+can be 30, on N64 ABI build it should be 48 and 32 for N32 or O32 build.
+
+It is defined in target/mips/cpu-param.h .
+
+Thanks.
+
+>=20
+> On Thu, Dec 8, 2022 at 4:55 PM Jiaxun Yang <jiaxun.yang@flygoat.com> =
+wrote:
+>=20
+> Hi,
+>=20
+> This address range is located in KSEG3=E2=80=A6 Doesn=E2=80=99t seems =
+to be a good location
+> for userspace program.
+>=20
+> I think you have two options to make target_mmap work, the first would =
+be rising
+> TARGET_VIRT_ADDR_SPACE_BITS to 64 bit. That may break some user space
+> applications storing pointer tags on higher bits.
+>=20
+> The second would be mask CVMSEG base with TARGET_VIRT_ADDR_SPACE_BITS
+> before mmap, As higher VM address bits will be dropped when addressing =
+guest VM,
+> that should provide a similar behaviour. Though you=E2=80=99ll have =
+multiple alias for CVMSEG in
+> memory and application will be able to access CVMSEG with bits higher =
+than
+> TARGET_VIRT_ADDR_SPACE_BITS set to any value. Don=E2=80=99t know if it =
+will break anything,
+> AFAIK normal applications won't use this range.
+>=20
+> Thanks
+> - Jiaxun=20
+>=20
+>=20
+> > 2022=E5=B9=B412=E6=9C=888=E6=97=A5 15:08=EF=BC=8CChristopher Wrogg =
+<cwrogg@umich.edu> =E5=86=99=E9=81=93=EF=BC=9A
+> >=20
+> > In userspace emulation how do I make a set of addresses always valid =
+and initialized to 0 even though the process does not map it in? In =
+particular I want to map the CVMSEG for Cavium qemu-mips64 and =
+qemu-mipsn32. The addresses would be 0xFFFFFFFFFFFF8000 - =
+0xFFFFFFFFFFFFBFFF. I've looked at target_mmap but it can't handle =
+addresses that large. The lack of an emulated mmu for 64 bit guests is =
+going to be a problem.
+>=20
 
 
