@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD0D647C17
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 03:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33B3647BF3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 03:07:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Slj-0005uH-DR; Thu, 08 Dec 2022 21:05:43 -0500
+	id 1p3Slk-0005uI-7Y; Thu, 08 Dec 2022 21:05:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3Slh-0005te-2c
+ id 1p3Slh-0005ts-Oe
  for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:41 -0500
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b])
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3Sle-0001uN-Vr
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:40 -0500
-Received: by mail-ot1-x32b.google.com with SMTP id
- t19-20020a9d7753000000b0066d77a3d474so1974054otl.10
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 18:05:38 -0800 (PST)
+ id 1p3Slg-0001uc-4P
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:41 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id
+ t19-20020a9d7753000000b0066d77a3d474so1974074otl.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 18:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=N4yQZvLrLzDnvwFEth2EWeDyowrOx4C5jmZrW9T8lUY=;
- b=gWbrq6DZrKrkLOawEIUIEv4Nct0ve73wXBdxn0/7M9oPwJbOLdXZZ0PW5yXis0cnKn
- NFDry45k8fG/8bu9MndBD0Pwat7uejJQR1W15w3+iyAG5dwyk2CMoPweTB0n/Jc9IeIB
- te7uhEA51zNwWLcnJLgLfiFK0vxcGtiMPbUv4L1RkQYDT93VvAXs4dJjPnbaV9qFSAGr
- NloflS5dduVtfv3T98wqq4hfTbcaSVy2ZwlltZS5t0YfEuVgOmZpWt1KAnWLh/y9Amg5
- yJys8/g+yshAd/N2HF6I0xcJIDDYBAMyRzbtBi4UKDjvQNvMgJQXf1D2hWQa98zo0go0
- Z5qg==
+ bh=26da5o9nlyxSfOnK98M7FqxwGpV7sc71vV3Cvt0qTgQ=;
+ b=IW4Ig2jNKq+qMOe2Mcv802CjGrPXR4SSoK5VSeRLKDIVVVRLU9wxg9L/oMuIXetvc/
+ w1lkfcjXWekx6uXwt+rKA+cjVc/CasZBCILe9WXw0VWxi9HXcF5gnYeAERXd411p+Rcr
+ IIZt3i//vmAimv9HcZgriIczBROycP5/DGFgcXuKkaad4D9S9e0/eNCXQAqXucS5WSlS
+ jqjPueCC1geyUIQ/hOITPonvXySQh5vaWi3O8gYyjcve9B7W7/u8hFaaXL9AnhFzPofm
+ cZ4yeGtx3WlGPygf+TA5kh2xJdiO9ZW2YJKplYheqwmUK15hPZ1r6d+1V9MCp9W3Jn47
+ /BBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=N4yQZvLrLzDnvwFEth2EWeDyowrOx4C5jmZrW9T8lUY=;
- b=ERC4PLE/W4AVJvyaLtKY1WeKYOcLSpjuFgaxGVbpRMu9aALseYWcXKLpq5yqkQMCgB
- qGQ2HBHqEQQm1uLhBx3Ca8VKnWs7DsbuvkBz560S49hByG02UJtTecbz4jt7mq7z0g+e
- iyCcYqBvYUn93VQgrwhItWyherhfEGKnSFdv8NWEBwJqJrPDunad8HaHg+fCdTtQvqgK
- 6mi6y6OTfCTlw0dxMuUE5TjG62Vdt0bkh6AA9EB6oPfPMEGBVL+OeyBS5sovu5JI7YLv
- wREG1mPvLgH4wWXtMBFf15yAxfLUxM1+jD3dvHNI4ZrYMXMmWEnlKb7VZmobwu9K5fZU
- LnuQ==
-X-Gm-Message-State: ANoB5pkDeGvFwH3pdjkoDR/h6psydS4RwzbeSMiveTbxWBdzDEpAh9cW
- RmVEAtRv3HO1LVRqPPxKkHEAwcd0AH5rk+Fs83Q=
-X-Google-Smtp-Source: AA0mqf7bySXefhWEnNqQ/WfHaXIJJRpvB4osE510bSeaBLjQ5zAqkpvoTz3oi0BtuN5QjK8wWUsO5g==
-X-Received: by 2002:a05:6830:1081:b0:670:6419:c3ee with SMTP id
- y1-20020a056830108100b006706419c3eemr1730385oto.16.1670551537868; 
- Thu, 08 Dec 2022 18:05:37 -0800 (PST)
+ bh=26da5o9nlyxSfOnK98M7FqxwGpV7sc71vV3Cvt0qTgQ=;
+ b=RucM4MA9YRICBLn1B5UWzOYAvfbJnF8eV1L4QwdY2KeliGDIVkNCAOQgDU1KrtLz8/
+ PkFTLcopTdVeee1jB7JAFD4sEyUCRS6/PJwepOYJipnJ2VnNI5jzFB6X6d32y44poE0z
+ Con2XpSXcdjzuiyH2JKtJQ2CEwr6kUZmGnsmV8AKYjaD8gqWtk+z6RxhcV9jfR4w9nDX
+ N+OQxDNnn33vTnWQVXsh3fdi/0ATz2NWa+ft4hermw3gDA1sObeULmR+goTeTAjneSpT
+ m+RwGHjqMaehF6q5EMtt93EZZneMx36ycgblhfpVdHODCW1SiE15mmuuPqEiUzTL1q6U
+ AkFQ==
+X-Gm-Message-State: ANoB5pne1P+7CJMCf3SWEj4O/cSmirQDnjVR1Gx3klHeYpvLNi1MU3Av
+ UXRwPIETx6jR4cDi8Jt2mPYfMfNm/cLvBlk6gEc=
+X-Google-Smtp-Source: AA0mqf4Qo/nW9RtbUEbXmP5V/hm0SX5r4H2+Pw0zypNPJvoo2jGBDfUtHFOeAg24Dvm463sP1YM+4g==
+X-Received: by 2002:a9d:74d1:0:b0:66d:c4f:761f with SMTP id
+ a17-20020a9d74d1000000b0066d0c4f761fmr1796301otl.15.1670551538980; 
+ Thu, 08 Dec 2022 18:05:38 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:d298:de6f:2ed:87a4])
  by smtp.gmail.com with ESMTPSA id
- s14-20020a05683004ce00b0066f7e1188f0sm53531otd.68.2022.12.08.18.05.36
+ s14-20020a05683004ce00b0066f7e1188f0sm53531otd.68.2022.12.08.18.05.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Dec 2022 18:05:37 -0800 (PST)
+ Thu, 08 Dec 2022 18:05:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: thuth@redhat.com,
 	iii@linux.ibm.com
-Subject: [PATCH v4 04/27] tcg/s390x: Remove USE_LONG_BRANCHES
-Date: Thu,  8 Dec 2022 20:05:07 -0600
-Message-Id: <20221209020530.396391-5-richard.henderson@linaro.org>
+Subject: [PATCH v4 05/27] tcg/s390x: Check for long-displacement facility at
+ startup
+Date: Thu,  8 Dec 2022 20:05:08 -0600
+Message-Id: <20221209020530.396391-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221209020530.396391-1-richard.henderson@linaro.org>
 References: <20221209020530.396391-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,41 +92,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The size of a compiled TB is limited by the uint16_t used by
-gen_insn_end_off[] -- there is no need for a 32-bit branch.
+We are already assuming the existance of long-displacement, but were
+not being explicit about it.  This has been present since z990.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.c.inc | 9 ---------
- 1 file changed, 9 deletions(-)
+ tcg/s390x/tcg-target.h     |  6 ++++--
+ tcg/s390x/tcg-target.c.inc | 15 +++++++++++++++
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
+diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
+index 645f522058..7f230ed243 100644
+--- a/tcg/s390x/tcg-target.h
++++ b/tcg/s390x/tcg-target.h
+@@ -52,11 +52,13 @@ typedef enum TCGReg {
+ 
+ #define TCG_TARGET_NB_REGS 64
+ 
+-/* A list of relevant facilities used by this translator.  Some of these
+-   are required for proper operation, and these are checked at startup.  */
++/* Facilities required for proper operation; checked at startup. */
+ 
+ #define FACILITY_ZARCH_ACTIVE         2
+ #define FACILITY_LONG_DISP            18
++
++/* Facilities that are checked at runtime. */
++
+ #define FACILITY_EXT_IMM              21
+ #define FACILITY_GEN_INST_EXT         34
+ #define FACILITY_LOAD_ON_COND         45
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 2cdd0d7a92..dea889ffa1 100644
+index dea889ffa1..1fcefba7ba 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -33,11 +33,6 @@
- #include "../tcg-pool.c.inc"
- #include "elf.h"
- 
--/* ??? The translation blocks produced by TCG are generally small enough to
--   be entirely reachable with a 16-bit displacement.  Leaving the option for
--   a 32-bit displacement here Just In Case.  */
--#define USE_LONG_BRANCHES 0
--
- #define TCG_CT_CONST_S16   0x100
- #define TCG_CT_CONST_S32   0x200
- #define TCG_CT_CONST_S33   0x400
-@@ -1525,10 +1520,6 @@ static void tgen_branch(TCGContext *s, int cc, TCGLabel *l)
+@@ -3211,6 +3211,7 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+ static void query_s390_facilities(void)
  {
-     if (l->has_value) {
-         tgen_gotoi(s, cc, l->u.value_ptr);
--    } else if (USE_LONG_BRANCHES) {
--        tcg_out16(s, RIL_BRCL | (cc << 4));
--        tcg_out_reloc(s, s->code_ptr, R_390_PC32DBL, l, 2);
--        s->code_ptr += 2;
-     } else {
-         tcg_out16(s, RI_BRC | (cc << 4));
-         tcg_out_reloc(s, s->code_ptr, R_390_PC16DBL, l, 2);
+     unsigned long hwcap = qemu_getauxval(AT_HWCAP);
++    const char *which;
+ 
+     /* Is STORE FACILITY LIST EXTENDED available?  Honestly, I believe this
+        is present on all 64-bit systems, but let's check for it anyway.  */
+@@ -3232,6 +3233,20 @@ static void query_s390_facilities(void)
+     if (!(hwcap & HWCAP_S390_VXRS)) {
+         s390_facilities[2] = 0;
+     }
++
++    /*
++     * Check for all required facilities.
++     * ZARCH_ACTIVE is done via preprocessor check for 64-bit.
++     */
++    if (!HAVE_FACILITY(LONG_DISP)) {
++        which = "long-displacement";
++        goto fail;
++    }
++    return;
++
++ fail:
++    error_report("%s: missing required facility %s", __func__, which);
++    exit(EXIT_FAILURE);
+ }
+ 
+ static void tcg_target_init(TCGContext *s)
 -- 
 2.34.1
 
