@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E876482A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 13:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490966482AF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 14:09:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3cwf-0001OZ-K3; Fri, 09 Dec 2022 07:57:41 -0500
+	id 1p3d7I-0004Un-KN; Fri, 09 Dec 2022 08:08:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3cwX-0001NL-MV
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 07:57:34 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3cwW-0002u0-2w
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 07:57:33 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso5699379wme.5
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 04:57:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hZqXnAGQvdY12EYunZsd33B+R0nXI3I3bZAyxod3eT8=;
- b=oGYxXVDM9i/d2UJicl/IthNQ+RUQyLo5qwFzie8TN9KUH3H26ZHp0kZyOnValJurkC
- 52x9f+1TF0KQdkHo3DCPwnRKtPiVL5B5QPVg6aslhhYMKRiH9HARySMULZ+G4RxQ3TzG
- KAC+CgN2VDnd1fgfGyOi4R0Bk2ic3syHVmPEZY19llBzC7yDzClMuhp1aqRGZ9/SXAtm
- 7xDLYK16TzcMt3lsuHaeU/mWNaHvLlhgIi61vLcQr29hUrPFZw+QyF52YYEOs/YPWRqB
- xJU8R8M/PkknrC/DStjRk8ybxPmoZXFqw2rkwX6Wl+a8oQ9/T46fACwUXe2i89QlqCEu
- thkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hZqXnAGQvdY12EYunZsd33B+R0nXI3I3bZAyxod3eT8=;
- b=SIRTWl460N557Y8NJ9bOMyCN3R0D87lUEhf+C7DF7FerUxwBPcLE19rkkmpcIH5zpR
- UUWtur2jGHiCuliFi7DRDhMlids98YoucWBlgRXvKbdgneQY0/Fz3oTOpfjpoNUHYLF9
- CGzTn8VNM/UpmnL+iVmtmsZ9Tn53E5/LXtJD9p040vSqH1vDWn1gWR0DtopZ0HDtTWO1
- NbtkKA0RMFGABXXwVAibp1J9rT9YbOm53qHLTkyZdFe1gKvYqRjEELfZjEQUmdg+/gV3
- bOhZUGAokh5/BgORWLogYHZLU5KT+pv1mPrE1D+ZP0McxodTiWyPIMvC3man/c8/22xq
- /dnQ==
-X-Gm-Message-State: ANoB5pkmvqOwrDjHJpyYcvelCjAVplulAJaAz69KGSUDqfiTjjjkC1wg
- 3Ti9E31bDF8rT/dfwJkprJOfxA==
-X-Google-Smtp-Source: AA0mqf6cmWAJFWmLXn9OtLJdKtkD0D/5ADgm6ZGzV0xXiro0dEL+d35PCVYJ33FrohF8dYwl3y+aDA==
-X-Received: by 2002:a05:600c:654e:b0:3d0:6a57:66a5 with SMTP id
- dn14-20020a05600c654e00b003d06a5766a5mr5031721wmb.0.1670590650151; 
- Fri, 09 Dec 2022 04:57:30 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- hu7-20020a05600ca28700b003cf878c4468sm7665338wmb.5.2022.12.09.04.57.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 04:57:29 -0800 (PST)
-Message-ID: <aef1cfc4-bfc3-e8d5-5ab8-59558bfbb405@linaro.org>
-Date: Fri, 9 Dec 2022 13:57:28 +0100
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p3d73-0004P3-DB
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:08:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p3d6y-0004aI-DV
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:08:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670591293;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s1+TZMFyVlanO61KJ9CVYvxQxQCH2CkIoAkGGjIAsV0=;
+ b=eAPrbJT8JZcdfoTrttDK0WunNN/xeqLxhbUIdryrQJQnATJcYl/ApYmbw4SzG6rrEU8Ceh
+ yWYQyWitjDcQeV9Gv98bcwhIm1msfZbqPTIAoUco1CfVgpimZdGGwyBy3mCdY12WBclZK9
+ Cf2noDOZTrxLJ973akdQ1CFO5QfEewo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-_7R64siiM2SHsM6um3lIog-1; Fri, 09 Dec 2022 08:08:12 -0500
+X-MC-Unique: _7R64siiM2SHsM6um3lIog-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 353DF802E5D
+ for <qemu-devel@nongnu.org>; Fri,  9 Dec 2022 13:08:12 +0000 (UTC)
+Received: from server.redhat.com (ovpn-12-16.pek2.redhat.com [10.72.12.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F6B72166B29;
+ Fri,  9 Dec 2022 13:08:09 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: lulu@redhat.com,
+	jasowang@redhat.com,
+	mst@redhat.com
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH v12 0/1] vhost-vdpa: add support for vIOMMU
+Date: Fri,  9 Dec 2022 21:08:04 +0800
+Message-Id: <20221209130805.3614970-1-lulu@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 22/30] build: move SafeStack tests to meson
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-23-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221209112409.184703-23-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.288,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,18 +74,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/12/22 12:24, Paolo Bonzini wrote:
-> This disables the old behavior of detecting SafeStack from environment
-> CFLAGS.  SafeStack is now enabled purely based on the configure arguments.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   configure                     | 73 -----------------------------------
->   meson.build                   | 26 +++++++++++++
->   meson_options.txt             |  2 +
->   scripts/meson-buildoptions.sh |  4 ++
->   4 files changed, 32 insertions(+), 73 deletions(-)
+These patches are to support vIOMMU in vdpa device
+Verified in vp_vdpa/vdpa_sim_net driverand intel_iommu
+virtio-iommu device
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+changes in V3
+1. Move function vfio_get_xlat_addr to memory.c
+2. Use the existing memory listener, while the MR is
+iommu MR then call the function iommu_region_add/
+iommu_region_del
+
+changes in V4
+1.make the comments in vfio_get_xlat_addr more general
+
+changes in V5
+1. Address the comments in the last version
+2. Add a new arg in the function vfio_get_xlat_addr, which shows whether
+the memory is backed by a discard manager. So the device can have its
+own warning.
+
+changes in V6
+move the error_report for the unpopulated discard back to
+memeory_get_xlat_addr
+
+changes in V7
+organize the error massage to avoid the duplicate information
+
+changes in V8
+Organize the code follow the comments in the last version
+
+changes in V9
+Organize the code follow the comments
+
+changes in V10
+Address the comments
+
+changes in V11
+Address the comments
+fix the crash found in test
+
+changes in V12
+Address the comments, squash patch 1 into the next patch
+improve the code style issue
+
+Cindy Lu (1):
+  vhost-vdpa: add support for vIOMMU
+
+ hw/virtio/vhost-vdpa.c         | 162 ++++++++++++++++++++++++++++++---
+ include/hw/virtio/vhost-vdpa.h |  10 ++
+ 2 files changed, 161 insertions(+), 11 deletions(-)
+
+-- 
+2.34.3
 
 
