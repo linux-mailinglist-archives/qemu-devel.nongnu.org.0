@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C28647FB3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 09:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83263647FBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:01:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3ZCq-00027z-OB; Fri, 09 Dec 2022 03:58:08 -0500
+	id 1p3ZFi-0003b5-GK; Fri, 09 Dec 2022 04:01:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3ZCk-00027c-Vo
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:58:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3ZFg-0003at-Gn
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:01:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3ZCh-0000JU-3S
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:58:01 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3ZFe-0000wv-Ta
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670576276;
+ s=mimecast20190719; t=1670576462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZTtbloTj2Tz6vpODNKnwZ1n4yf1Q8z7L3C72i1yI1vw=;
- b=Lc2i+KgO64s9ETMr5fD+NBM4b8xMeMcpS4SYdiVzb3IKUzXImtDZJyymOrmLVXZe5g1kh+
- ttVgX0fa6TF2OJiz/6GKnbH0EKLtQ2PB6M7S4Zbgfbr8GzsbN6k16zll2g5YriOT/ucHv4
- KfFlcdH0l0u8mlLRZWItIfR6Hnrgjtc=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OZWpqANGDDJLJeGy6UtoVUaA4KgbfQimFBGB2nfyjyk=;
+ b=Y8uKtFQqzsP04K6w089TP8tm9zLsvlGMRDx1izTQ40dZS6t+em+pmDCsQFXT6TWdgi7Nvy
+ 1B6iikPkTnhoMErDVNrWVra8wgyBvV+LpgYIhedqMHLvE9X8Mbmw/Oy5m14hh43JNBMDu/
+ +wYCW5sFGqIEJ99QxsiXRaqz/Drn5ho=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-528-Jg5Bi622PZuVOGASHR--zw-1; Fri, 09 Dec 2022 03:57:55 -0500
-X-MC-Unique: Jg5Bi622PZuVOGASHR--zw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- hd17-20020a170907969100b007c117851c81so2714635ejc.10
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 00:57:55 -0800 (PST)
+ us-mta-653-6HnqXOH1NM6imXIuRF5pgQ-1; Fri, 09 Dec 2022 04:01:00 -0500
+X-MC-Unique: 6HnqXOH1NM6imXIuRF5pgQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m38-20020a05600c3b2600b003d1fc5f1f80so3039538wms.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 01:01:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZTtbloTj2Tz6vpODNKnwZ1n4yf1Q8z7L3C72i1yI1vw=;
- b=IhRDYPUF9py1e+eb2Rlq1BgbBUg2BolUlMvkpMZ/1rYyh8l9YswvQNU+pXI8E1Yys6
- p/5f4qrPLexZfJeL5ma47O6X1IBsnVBT+eNUCuKZRuFPmxUBjMvzFBvJZ3a6BwfDFkcw
- YgUcEcAnAR45iyK5uD+/yFpcCCcaYba/YF9cCjKZRzUPSRYmu2cTI3cG7X8ybvNwMDso
- oQfw0X4+imLO1tG/rBTe5JTWlBBxb1CP8WcaPn/z5PEjdeSL7EYy6zf848Y6fOPT6Jdf
- T84RpYqsuSu0JnCu/9n7yR/U1iAboJS4cWykG7zekdacFx5knDIGx5REgJY60MKW/xbj
- BlGA==
-X-Gm-Message-State: ANoB5plZZXXFhmte3EniqHbXdT76bjU7mpOEKn0jPwkW5LxupLr77z7h
- rIcD9uQOFlmcPxEvOC/95pEhQvT7DumUMvN4zhCb8FZaXWK0O5/Ott6vJ66ymHCl6U8jXowBvda
- aC1gNfUF+WajrCwc=
-X-Received: by 2002:a17:906:a081:b0:78d:f455:b5fa with SMTP id
- q1-20020a170906a08100b0078df455b5famr4435183ejy.58.1670576274303; 
- Fri, 09 Dec 2022 00:57:54 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6N0gQo1fIEXLAn+yIibVNgmRCqObcV+jPukEK6CyJ7YuKqX5hOAYalT9Avhip/5WdGSDLK9Q==
-X-Received: by 2002:a17:906:a081:b0:78d:f455:b5fa with SMTP id
- q1-20020a170906a08100b0078df455b5famr4435156ejy.58.1670576273960; 
- Fri, 09 Dec 2022 00:57:53 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928?
- ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
- by smtp.googlemail.com with ESMTPSA id
- gx19-20020a1709068a5300b007c0abe46deasm319180ejc.81.2022.12.09.00.57.52
+ bh=OZWpqANGDDJLJeGy6UtoVUaA4KgbfQimFBGB2nfyjyk=;
+ b=IJgWJFyq6/tbGwsb3dh4JzxGVdTqDZHP8mHK9VuTmPr+ohXLvaRfle3Nwxj4oN924t
+ COpPN+nRFk8sSzA+pPpOX9E5b+JZGIB3x0z0DXnczwqMU+gd8pSSLVt5qUzi1ST0JGuC
+ ztAvBbzqTaihitMdSgc3cuOCeBbsUSl8sp4owcj3nVPWxawJ9VrGAaynnkqdBRPit8KB
+ x3aLNY8B5A4Kh0Jznwlvpd788g7zJvzBRo5W08RHZvfPAQZUbge/I8Si+lTel9fcwe8S
+ oAguzM447HgeN9j/rFAhGC3jAmDXyAi+8N486kMCU1UymjOYLA9x2GAW5yuualhY52EG
+ c1Vg==
+X-Gm-Message-State: ANoB5pkEsz8LsJzvnF87yQMRy2eD3nNinaEpkpZxl3MuMQ+hjAnzezaw
+ EZrefOWr61x1/Q0Inr8DF0VqIxk9uy601kjA1T2CGetlxdehg5HhwWJo6u1pa1I+Ayt26G5/YQ3
+ UIyD7d20h0nYOMzc=
+X-Received: by 2002:a1c:720f:0:b0:3c6:e63e:23e6 with SMTP id
+ n15-20020a1c720f000000b003c6e63e23e6mr4077630wmc.21.1670576459691; 
+ Fri, 09 Dec 2022 01:00:59 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7unNUzDlRS53iJtjzRd9Dp0Ylxv2hqprYsqriQID6wj+gfdPgaP9PuwlQsktpX5wxAZuK/pQ==
+X-Received: by 2002:a1c:720f:0:b0:3c6:e63e:23e6 with SMTP id
+ n15-20020a1c720f000000b003c6e63e23e6mr4077612wmc.21.1670576459436; 
+ Fri, 09 Dec 2022 01:00:59 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-177-15.web.vodafone.de.
+ [109.43.177.15]) by smtp.gmail.com with ESMTPSA id
+ p8-20020a05600c358800b003cf6e1df4a8sm1250556wmq.15.2022.12.09.01.00.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 00:57:53 -0800 (PST)
-Message-ID: <aa5c9f61-a5f2-98f0-68ed-a71f71a3b766@redhat.com>
-Date: Fri, 9 Dec 2022 09:57:51 +0100
+ Fri, 09 Dec 2022 01:00:58 -0800 (PST)
+Message-ID: <4e62e8a4-7ffe-bd6c-83dc-14edd370f9ac@redhat.com>
+Date: Fri, 9 Dec 2022 10:00:56 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] blockdev: add 'media=cdrom' argument to support usb cdrom
- emulated as cdrom
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH for-8.0] hw/rtc/mc146818rtc: Make this rtc device target
+ independent
 Content-Language: en-US
-To: Zhipeng Lu <luzhipeng@cestc.cn>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?=
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Fam Zheng <fam@euphon.net>
-References: <20221201134227.1983-1-luzhipeng@cestc.cn>
- <871qpjf86a.fsf@pond.sub.org> <1d355249-9ab0-f824-e00d-3135cb2646b5@cestc.cn>
- <4ce0329b-0868-f6b5-63f2-62ae212c76a7@redhat.com>
- <718dbdad-4920-d2c8-b3a6-c0f83fd818f1@cestc.cn>
- <CABgObfb9kL2WCHUNQ4KVRAQWZPGBWmKGyaodX5yMChS+9x9PmA@mail.gmail.com>
- <0e5293ac-1093-224a-4ce0-1b9f3d940749@cestc.cn>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <0e5293ac-1093-224a-4ce0-1b9f3d940749@cestc.cn>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: Michael S Tsirkin <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20221206200641.339116-1-thuth@redhat.com>
+ <FA330EEE-29A4-41CF-B4E8-13E5DED680B3@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <FA330EEE-29A4-41CF-B4E8-13E5DED680B3@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -113,22 +103,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/9/22 03:28, Zhipeng Lu wrote:
-> Thanks.
+On 07/12/2022 15.47, Bernhard Beschow wrote:
 > 
->   -device usb-bot,id=bot0
->   -device scsi-{cd,hd},bus=bot0.0,drive=drive0
 > 
-> Qemu implements virtio scsi to emulate scsi controller, but if the 
-> virtual machine(for example windows guest os) don't install the virtio 
-> scsi driver, it don't work
-> i need the function: emulate cdrom in guest, support hotplug and unplug, 
-> not  depend on virtio driver
+> Am 6. Dezember 2022 20:06:41 UTC schrieb Thomas Huth <thuth@redhat.com>:
+>> The only code that is really, really target dependent is the apic-related
+>> code in rtc_policy_slew_deliver_irq(). By moving this code into the hw/i386/
+>> folder (renamed to rtc_apic_policy_slew_deliver_irq()) and passing this
+>> function as parameter to mc146818_rtc_init(), we can make the RTC completely
+>> target-independent.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>> include/hw/rtc/mc146818rtc.h |  7 +++++--
+>> hw/alpha/dp264.c             |  2 +-
+>> hw/hppa/machine.c            |  2 +-
+>> hw/i386/microvm.c            |  3 ++-
+>> hw/i386/pc.c                 | 10 +++++++++-
+>> hw/mips/jazz.c               |  2 +-
+>> hw/ppc/pnv.c                 |  2 +-
+>> hw/rtc/mc146818rtc.c         | 34 +++++++++++-----------------------
+>> hw/rtc/meson.build           |  3 +--
+>> 9 files changed, 32 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+>> index 1db0fcee92..c687953cc4 100644
+>> --- a/include/hw/rtc/mc146818rtc.h
+>> +++ b/include/hw/rtc/mc146818rtc.h
+>> @@ -46,14 +46,17 @@ struct RTCState {
+>>      Notifier clock_reset_notifier;
+>>      LostTickPolicy lost_tick_policy;
+> 
+> This lost_tick_policy attribute along with its enum is now redundant and can be removed. Removing it avoids an error condition (see below).
 
-usb-bot *is* a SCSI controller and it does not require drivers in the 
-guest.  It is not very high-performance, but as you say it has hotplug 
-functionality via USB.
+lost_tick_policy is used for a property of the device which gets set from 
+softmmu/rtc.c, so I would not say that it is unused ... or do I miss something?
 
-Paolo
+  Thomas
 
 
