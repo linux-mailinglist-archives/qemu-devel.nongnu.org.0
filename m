@@ -2,98 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F9B6489D4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 22:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4C7648AAA
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 23:18:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3kVZ-00084P-AB; Fri, 09 Dec 2022 16:02:13 -0500
+	id 1p3lfK-0000de-Jm; Fri, 09 Dec 2022 17:16:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1p3kVX-00083a-8Y
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 16:02:11 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p3lfI-0000dM-EL
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 17:16:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1p3kVV-00012U-14
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 16:02:11 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 8BE3132003CE;
- Fri,  9 Dec 2022 16:02:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 09 Dec 2022 16:02:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1670619726; x=
- 1670706126; bh=A6q452ORHOvAkvvAQIUMroCKg9NE4LOq5H8fklddmGI=; b=I
- V2N97SDougDf7OAD87kQmPNLgCdHSpdvVswSOwXNT9r8BowxUxlASCsPxjAjB1AY
- 5dhOHnzvMwUQ0eF9WZ75J6NY4l5ssGZ84XCdm2ndtcPc6zq2OMTCtL6vwns/pIm9
- Lq36Jf6jg1YqwrukrokfmgJQ6wpEIxejuYmyoWVsonMVNW6K5SelhGtopjeuDHeC
- gHRougyVpKNfXp82CamxvA33oRngxgALIsl+zaOU5YgkP/XcTEs42+r5abykpWk7
- LDtuSxUngH7itkfDPBNIL2iL2AqkOYyN+EV1EPSbC/kiV7P7Ku5nyjFIGxfInWdr
- 4mnp9ezUyqCpk9INLdSQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670619726; x=
- 1670706126; bh=A6q452ORHOvAkvvAQIUMroCKg9NE4LOq5H8fklddmGI=; b=F
- I6vpb/RgfaBru1LkOxOBkiCY+ahZkUhovhUTA6pu2XE0h+8v1OjNck/64O84xm6H
- ZPEizk5BKJcYeQrpdasLZjBzmS7pen0WID6/fxElP6z34mZCjsFzoTvbXYgQIQpw
- stfJ3HnWc8TXOiSz9r1Itu+2+UvczuWMP6g6O2h02KfWhAxpFvONGrfNYHE3+nd1
- RITYSMJxwg44ZlBOW3JpwQL1c0+owiAAVWYEwnIPlobKaPBBwja+CNCD3f4Y917L
- hGABTlOZUdB/GKKlu0e/dtg037Aeehbxsru4m/DbIDJWrfIQ2EKaQMkFUXx8vl5d
- f3MS4UA/YJs5rT6oB4xrw==
-X-ME-Sender: <xms:TaKTY-Ze6ibXvwCwT1710OSVgsfhsFkL3CB8HPKt7_nA569s8rJOkA>
- <xme:TaKTYxYoC1voqqAjNnRF__zfVFmaU0g36louC8ppWBfQJL6GWGGzX7ujLVHVOZhKp
- 89U2sXBHy6qXHa6qFQ>
-X-ME-Received: <xmr:TaKTY48tbMlr3HJNRB9xXHuDOsRMH41vOIJJxeZU8Tk_yppsfNIug3Im3FPsVG0Dk6OJ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvgddugedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
- gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
- cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
- ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
- hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:TaKTYwpMtTqkwOqFY9MTCOtQ9gv5qxLhtJk9rDrcNmYCSvPxOa6PsA>
- <xmx:TaKTY5og_uIV-tk59qjrM0jJ2XUyq-JeD5yPsf6RHJg4ORD8plJfEA>
- <xmx:TaKTY-TZXBLMBcjr887xQUsO4BB9ugFQAzQj2BV800QZmGhJOqpzSQ>
- <xmx:TqKTY6lXA4q9oP7fshuXL_7S9QKVA6w7j2SQB7_IuDnD1G_RjqFPCw>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Dec 2022 16:02:04 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: CVMSEG Emulation
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <CAG7Es25r-pY2y+V2GP6Hba4qPos5uN5oeBKQ81gaWctt-jd4Rg@mail.gmail.com>
-Date: Fri, 9 Dec 2022 21:01:53 +0000
-Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <47336F08-8917-43A6-981A-2D2019AD9E1A@flygoat.com>
-References: <CAG7Es24cbb24S1k7=XyA+N7uXCghQT6mt_QkJW4zcO7_usbmjw@mail.gmail.com>
- <F0A77EF0-ED2D-43E0-91D7-B4D70B9E575F@flygoat.com>
- <CAG7Es25r-pY2y+V2GP6Hba4qPos5uN5oeBKQ81gaWctt-jd4Rg@mail.gmail.com>
-To: Christopher Wrogg <cwrogg@umich.edu>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-Received-SPF: pass client-ip=64.147.123.19;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p3lfF-0000Xa-B6
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 17:16:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670624175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yi1sL/pHTTDhaDGhMaywi95gcMus6uqKoEYyWkPkN0g=;
+ b=fzlOWGcKh60O44/bxWMRCkPjOq0Akxs8HHtze9RcpaUr4wCOI5GVio7jm9GWS873Oex0s+
+ mI8UwyBGueAw7qx3SN7cffzwrfBlN1zm2dxJYyclpMGSmEUtdL5oeIBJp/zovnWq5WdD41
+ HCoEXxIInYtdBwf//EcTpch4gOaSKE0=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-4GyM6HtWNmW2HlJtyuAQvQ-1; Fri, 09 Dec 2022 17:16:13 -0500
+X-MC-Unique: 4GyM6HtWNmW2HlJtyuAQvQ-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ l62-20020a677041000000b003aa06a96e75so1663492vsc.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 14:16:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yi1sL/pHTTDhaDGhMaywi95gcMus6uqKoEYyWkPkN0g=;
+ b=kDZqBIx1JObyeKZqmOwSnw89HlPdUbCfvIVUre1g/Wbn1cQftn7bforzFuGSZvSnse
+ y5CzyK49sdQfJhuv87oMVSbBR53Q4OPW9UsZwbxL6IRznHgXv7Clmx7RazPXL0CdqUbt
+ 2fxTPZR55Mbhbm5oKBqIYicHK8GTx/gU99ndAkbWtEGLLrZ74Cn78F7YgziPsVavF2lb
+ bKRtvv2KupmHFtau4ou0NPJ9eMM1smbU3chf718JKUN5ySgwQMOp+1awmpdAwOmXSNu+
+ 77zIQOfC/Ga49SJdSx7aPM7loUYL1ZNd3/oVZhwn5lHHAkKCFDbqKlHSojXGVVe+N1xv
+ ZIww==
+X-Gm-Message-State: ANoB5pla8x01E+Gq1xykfKWsCnE3ENTS5QigHJWRjugd5j7z/n2Oj+cC
+ ocr1f4a+1cJZx5jKQJLS/YDI9NARpTjZMdGrnOs2NAZ97Gbxq6KYhRcS858tfOKjMJjuhcMPPki
+ BT3wVsjxwOG5pGPxxwYoc5iBSY6SxWno=
+X-Received: by 2002:ab0:69cc:0:b0:410:2392:40f with SMTP id
+ u12-20020ab069cc000000b004102392040fmr53777646uaq.109.1670624173450; 
+ Fri, 09 Dec 2022 14:16:13 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5s4objdYrd+lU/J30VUCoyK3Fu9cYi295olqRBups7Waq9XtYhV1IrrKmZlL4/qzxVzKQ0N+XeswLYNi9v2Nk=
+X-Received: by 2002:ab0:69cc:0:b0:410:2392:40f with SMTP id
+ u12-20020ab069cc000000b004102392040fmr53777637uaq.109.1670624173150; Fri, 09
+ Dec 2022 14:16:13 -0800 (PST)
+MIME-Version: 1.0
+References: <87edt9gnyz.fsf@pond.sub.org>
+ <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
+ <87v8mlez92.fsf@pond.sub.org>
+ <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
+ <CAFEAcA8MrUwOt+gaSVF6tMpG_HO_wCN_O11Ezst97-_52PR9pQ@mail.gmail.com>
+ <a14c2624-36fa-b5c1-a358-95694e01a339@redhat.com>
+ <CAFEAcA8DttcCD7ofcjfifigssAZpnLAe23-J9=iadmM31+nV0Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA8DttcCD7ofcjfifigssAZpnLAe23-J9=iadmM31+nV0Q@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 9 Dec 2022 23:16:02 +0100
+Message-ID: <CABgObfazaGTAe4L-fyVyL3GUa+GHxe8YZPspLLUojVLSGefW0Q@mail.gmail.com>
+Subject: Re: Target-dependent include path, why?
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000064ec2005ef6c809b"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,75 +102,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--00000000000064ec2005ef6c809b
+Content-Type: text/plain; charset="UTF-8"
+
+Il ven 9 dic 2022, 20:54 Peter Maydell <peter.maydell@linaro.org> ha
+scritto:
+
+> > - placing pkg-config output directly in $(QEMU_CFLAGS) and $(LIBS).
+> > This caused binaries to have unnecessary dependencies at times.
+>
+> Yeah, this is what I think of as "the standard thing".
+>
+
+Got it, and it wasn't exactly what QEMU was doing. There was at least
+libs_softmmu, libs_qga. So in practice it would be more similar to the
+other one:
+
+> - a mix of the two, with the include path added to QEMU_CFLAGS and a
+> > target variable definition "foo$(EXESUF): LIBS += ..." that avoided the
+> > unnecessary dependencies.
+>
+
+which meson does support.
+
+However the issue you mention below is indeed the gnutls bug, and it can be
+fixed. If I recall correctly it was meant to be a temporary workaround for
+the actual bug.
+
+I need to check again but I recall I had two fixes in mind, one was a more
+risky change in Meson, the other was a new declare_dependency(..., objects:
+...) argument to be used instead of link_whole. link_whole was used before
+but it didn't work for some reason, maybe something to do with static
+linking.
+
+I was hoping to stop the Meson upgrades at 0.63, but I agree that it is
+messy and it would be a good reason for another bump in the future.
+
+Paolo
+
+The thing I find counterintuitive about what we have currently
+> is that I can add a #include of a QEMU-internal header to a
+> source file, and now the build can be broken on some host
+> system configurations.
+>
 
 
-> 2022=E5=B9=B412=E6=9C=889=E6=97=A5 17:44=EF=BC=8CChristopher Wrogg =
-<cwrogg@umich.edu> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> I tried both.
->=20
-> Option 1=20
->     What I did:
->         #undef TARGET_VIRT_ADDR_SPACE_BITS and #define =
-TARGET_VIRT_ADDR_SPACE_BITS 64
->     The Result:
->         perror reports "Cannot allocate memory"
-> Option 2:=20
->     What I did:
->         TARGET_VIRT_ADDR_SPACE_BITS for me is 30 so I masked by =
-0x3FFFFFFF
->     The Result:
->         The segfault persists and gdb reports the memory as =
-inaccessible.
 
-Hmm this looks wired for me, by no chance TARGET_VIRT_ADDR_SPACE_BITS =
-for MIPS
-can be 30, on N64 ABI build it should be 48 and 32 for N32 or O32 build.
+Paolo
 
-It is defined in target/mips/cpu-param.h .
 
-Thanks.
+> I'd be happier with either:
+>  (1) it's always safe to #include QEMU's own headers in its
+>      source files
+>  (2) sometimes a new QEMU header #include requires you to add a
+>      dependency to a meson.build file, but if you forget to do
+>      this then the build reliably fails on *all* host systems
+>
+> thanks
+> -- PMM
+>
+>
 
->=20
-> On Thu, Dec 8, 2022 at 4:55 PM Jiaxun Yang <jiaxun.yang@flygoat.com> =
-wrote:
->=20
-> Hi,
->=20
-> This address range is located in KSEG3=E2=80=A6 Doesn=E2=80=99t seems =
-to be a good location
-> for userspace program.
->=20
-> I think you have two options to make target_mmap work, the first would =
-be rising
-> TARGET_VIRT_ADDR_SPACE_BITS to 64 bit. That may break some user space
-> applications storing pointer tags on higher bits.
->=20
-> The second would be mask CVMSEG base with TARGET_VIRT_ADDR_SPACE_BITS
-> before mmap, As higher VM address bits will be dropped when addressing =
-guest VM,
-> that should provide a similar behaviour. Though you=E2=80=99ll have =
-multiple alias for CVMSEG in
-> memory and application will be able to access CVMSEG with bits higher =
-than
-> TARGET_VIRT_ADDR_SPACE_BITS set to any value. Don=E2=80=99t know if it =
-will break anything,
-> AFAIK normal applications won't use this range.
->=20
-> Thanks
-> - Jiaxun=20
->=20
->=20
-> > 2022=E5=B9=B412=E6=9C=888=E6=97=A5 15:08=EF=BC=8CChristopher Wrogg =
-<cwrogg@umich.edu> =E5=86=99=E9=81=93=EF=BC=9A
-> >=20
-> > In userspace emulation how do I make a set of addresses always valid =
-and initialized to 0 even though the process does not map it in? In =
-particular I want to map the CVMSEG for Cavium qemu-mips64 and =
-qemu-mipsn32. The addresses would be 0xFFFFFFFFFFFF8000 - =
-0xFFFFFFFFFFFFBFFF. I've looked at target_mmap but it can't handle =
-addresses that large. The lack of an emulated mmu for 64 bit guests is =
-going to be a problem.
->=20
+--00000000000064ec2005ef6c809b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il ven 9 dic 2022, 20:54 Peter Maydell &lt;<a href=3D"=
+mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scritt=
+o:</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">
+&gt; - placing pkg-config output directly in $(QEMU_CFLAGS) and $(LIBS).<br=
+>
+&gt; This caused binaries to have unnecessary dependencies at times.<br>
+<br>
+Yeah, this is what I think of as &quot;the standard thing&quot;.<br></block=
+quote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Got it, and=
+ it wasn&#39;t exactly what QEMU was doing. There was at least libs_softmmu=
+, libs_qga. So in practice it would be more similar to the other one:</div>=
+<div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex">
+&gt; - a mix of the two, with the include path added to QEMU_CFLAGS and a<b=
+r>
+&gt; target variable definition &quot;foo$(EXESUF): LIBS +=3D ...&quot; tha=
+t avoided the<br>
+&gt; unnecessary dependencies.<br></blockquote></div></div><div dir=3D"auto=
+"><br></div><div dir=3D"auto">which meson does support.</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">However the issue you mention below is inde=
+ed the gnutls bug, and it can be fixed. If I recall correctly it was meant =
+to be a temporary workaround for the actual bug.</div><div dir=3D"auto"><br=
+></div><div dir=3D"auto">I need to check again but I recall I had two fixes=
+ in mind, one was a more risky change in Meson, the other was a new declare=
+_dependency(..., objects: ...) argument to be used instead of link_whole. l=
+ink_whole was used before but it didn&#39;t work for some reason, maybe som=
+ething to do with static linking.</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">I was hoping to stop the Meson upgrades at 0.63, but I agree that=
+ it is messy and it would be a good reason for another bump in the future.<=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"a=
+uto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">The thing I find counterintuitive about what we have curren=
+tly<br>
+is that I can add a #include of a QEMU-internal header to a<br>
+source file, and now the build can be broken on some host<br>
+system configurations.<br></blockquote></div></div><div dir=3D"auto"><br></=
+div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">Paolo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"g=
+mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">
+<br>
+I&#39;d be happier with either:<br>
+=C2=A0(1) it&#39;s always safe to #include QEMU&#39;s own headers in its<br=
+>
+=C2=A0 =C2=A0 =C2=A0source files<br>
+=C2=A0(2) sometimes a new QEMU header #include requires you to add a<br>
+=C2=A0 =C2=A0 =C2=A0dependency to a meson.build file, but if you forget to =
+do<br>
+=C2=A0 =C2=A0 =C2=A0this then the build reliably fails on *all* host system=
+s<br>
+<br>
+thanks<br>
+-- PMM<br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000064ec2005ef6c809b--
 
 
