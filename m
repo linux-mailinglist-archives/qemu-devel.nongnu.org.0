@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BA46482C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 14:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386896482D0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 14:34:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3dNy-0001DB-Cq; Fri, 09 Dec 2022 08:25:54 -0500
+	id 1p3dUr-0002Vk-Sy; Fri, 09 Dec 2022 08:33:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3dNk-0001AV-2n
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:25:40 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3dUh-0002V3-Rn
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:32:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3dNi-0002oG-9L
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:25:39 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3dUf-0004FH-BE
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:32:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670592336;
+ s=mimecast20190719; t=1670592767;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cWBMW3x3BJGQn6ry2NvxqBfiI7QRdFQh8WbRTd69Tbo=;
- b=a1hgKUQ2DfimCvqHgKZKqsm03eVVu5fhZ6W6R2kNYr65j+5vt6PAugzJaPUp1NowKAg8WL
- U3DzspMBC+8Ksauf/fGUVApYZv5rQq2tcTkGRFH97Tu9rNkc/c7DxG00JKXK5STBHqKNCh
- /DPQd+1DZRrihluABC62yEWuawBKrYA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fN0W6rkQk+OsPoOfSXi6YU0PA5r8oMFk7Ig9SLybsGo=;
+ b=C/TW4FiIt39nKi9FZ5HyHphKRSlIX1pAOAuql4+K7lfNQMgLCq8Oih3dQQiZLsTaypxcLz
+ 2JGx2BbbFy+esB4QUq/FzHtF9RAW9xSzBnoW00UAv5P500j1ma6div3AACAgUJZxgeLcfJ
+ EwK0fmdM5fRmimnUAtquSCCTaVLUuTk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-417-3id01WpvMgCl668d600a-Q-1; Fri, 09 Dec 2022 08:25:35 -0500
-X-MC-Unique: 3id01WpvMgCl668d600a-Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m17-20020a05600c3b1100b003cf9cc47da5so2389039wms.9
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 05:25:35 -0800 (PST)
+ us-mta-643-JuNtX5mUNt290PBCCS-xwQ-1; Fri, 09 Dec 2022 08:32:46 -0500
+X-MC-Unique: JuNtX5mUNt290PBCCS-xwQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f1-20020a1cc901000000b003cf703a4f08so1790692wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 05:32:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cWBMW3x3BJGQn6ry2NvxqBfiI7QRdFQh8WbRTd69Tbo=;
- b=oO6kahFP5RjNalK5jRBCHH0Ht4dBqEdPGG7s2YDqJVNhk7yhZXP3upCQb6/JQFoCpj
- urouvJhHfuS6e4LE3NtR0OdPQwzdsZnZW8myX06WOEyeg3qp2YUouP7HaSgAHftr8C8D
- GsBiF5tztJHxn4GNRveBx9ChhDdv+ZVZKl2ODIMUhx7iFOhVDhXX2jFAR99CXreNcJ0n
- 2fqJlYGkM4DVdzeq3vAWd9Q+OGE8oaL5/v2CW6htHXVT+G1TgU7Hf8v86zhMRJoAq5pM
- K+co7H47Rja9+7MLevzExFoXypTKiYY80SLqTGGHUps5N0Iv1EBITaWpBUDqRKkmVALr
- W1Jw==
-X-Gm-Message-State: ANoB5pmSAHiG2IwuBkvvJ+zWGZ4zjrXbMgIZq/1sfVn4uzr4psL+ncep
- Y23vRPhdYDYzcNPxvJyfQeCUfKH4Y33GO7YQlSLzVJfXBbXzgSF9gtcqlGIsQW8doXmftDbJGpY
- TklDUCtRewrsmrqY=
-X-Received: by 2002:a5d:494c:0:b0:242:7a19:b53e with SMTP id
- r12-20020a5d494c000000b002427a19b53emr3630138wrs.27.1670592334664; 
- Fri, 09 Dec 2022 05:25:34 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6ifxEkPM3tLm8H5pfZZZ0xbIRh+xMTJ2kCY8gUaBerzE6YPhk9yOP4k3xn5DJutknrAwdqqQ==
-X-Received: by 2002:a5d:494c:0:b0:242:7a19:b53e with SMTP id
- r12-20020a5d494c000000b002427a19b53emr3630126wrs.27.1670592334451; 
- Fri, 09 Dec 2022 05:25:34 -0800 (PST)
+ bh=fN0W6rkQk+OsPoOfSXi6YU0PA5r8oMFk7Ig9SLybsGo=;
+ b=BwupdHx4cIRqR7vzhgsaxNcFThsLW08C6KAealpCwzBZ9QzJEF0W3i4FFWSFRhm4KW
+ UphJqhDJFj1iZAPgFaKcxdLf3UwKO5epcUDa/ljLNcKQIQTuyMBKQs5m8hzUzY6PyE/M
+ GhGX40TIkOvMvy6bI4wK5M8tx5leitTyR5nxRupK5p8A/ShEri2QU8no22aUuYAW44X3
+ 7CvK7FbvEJ8xpHw062AVXZVCEsL7Wb7Dllc0sD1GhiBupeseimkGjtWf7d53Gey7qsu3
+ gt1GUl6/qjq68hGWL8ytfac00+5Pqll3lxhUJw6PCCjUO4eERItrMN1RiJxU+7nf1Wcv
+ y7KA==
+X-Gm-Message-State: ANoB5plzrTZA1+rJb3QMZGh3ZYlNX2zK7l19iOXe0skh7azNZta16JES
+ 6khBCHrl1niS7hrRZ44B8vkEcb1obtRvXNVd5rS3Yh1ZaKhjWkuRijs/6p1gERCijhqsEi3uvbP
+ 2IjUUTaTwNUsOZEc=
+X-Received: by 2002:a05:600c:1c25:b0:3d0:a768:a702 with SMTP id
+ j37-20020a05600c1c2500b003d0a768a702mr4808224wms.19.1670592765552; 
+ Fri, 09 Dec 2022 05:32:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6MBoJ9GIUijgF53IGcMK4J8y9Qyu2MkufGppWNNfHqz6d/PEbSQPJQWVByvfpt5rFTA4kzaQ==
+X-Received: by 2002:a05:600c:1c25:b0:3d0:a768:a702 with SMTP id
+ j37-20020a05600c1c2500b003d0a768a702mr4808188wms.19.1670592765228; 
+ Fri, 09 Dec 2022 05:32:45 -0800 (PST)
 Received: from [192.168.0.5] (ip-109-43-177-15.web.vodafone.de.
  [109.43.177.15]) by smtp.gmail.com with ESMTPSA id
- j18-20020a5d5652000000b002427bfd17b6sm1664689wrw.63.2022.12.09.05.25.33
+ k7-20020a1ca107000000b003b95ed78275sm1743667wme.20.2022.12.09.05.32.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 05:25:33 -0800 (PST)
-Message-ID: <e63e54a8-e699-03bf-c9b6-37b207e0f8fc@redhat.com>
-Date: Fri, 9 Dec 2022 14:25:32 +0100
+ Fri, 09 Dec 2022 05:32:44 -0800 (PST)
+Message-ID: <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
+Date: Fri, 9 Dec 2022 14:32:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 08/30] meson: require 0.63.0
+Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-9-pbonzini@redhat.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221208094432.9732-1-pmorel@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221209112409.184703-9-pbonzini@redhat.com>
+In-Reply-To: <20221208094432.9732-1-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -99,20 +104,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 12.23, Paolo Bonzini wrote:
-> This allows cleanups cleanups in modinfo collection and supports the
-
-Scratch one "cleanups" ?
-
-> equivalent of QEMU's --static option to configure.
+On 08/12/2022 10.44, Pierre Morel wrote:
+> Hi,
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   configure   | 2 +-
->   meson       | 2 +-
->   meson.build | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
+> Implementation discussions
+> ==========================
+> 
+> CPU models
+> ----------
+> 
+> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
+> for old QEMU we could not activate it as usual from KVM but needed
+> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+> Checking and enabling this capability enables
+> S390_FEAT_CONFIGURATION_TOPOLOGY.
+> 
+> Migration
+> ---------
+> 
+> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
+> host the STFL(11) is provided to the guest.
+> Since the feature is already in the CPU model of older QEMU,
+> a migration from a new QEMU enabling the topology to an old QEMU
+> will keep STFL(11) enabled making the guest get an exception for
+> illegal operation as soon as it uses the PTF instruction.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I now thought that it is not possible to enable "ctop" on older QEMUs since 
+the don't enable the KVM capability? ... or is it still somehow possible? 
+What did I miss?
+
+  Thomas
+
+
+> A VMState keeping track of the S390_FEAT_CONFIGURATION_TOPOLOGY
+> allows to forbid the migration in such a case.
+> 
+> Note that the VMState will be used to hold information on the
+> topology once we implement topology change for a running guest.
 
 
