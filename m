@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A8D6481D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F736481DF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:39:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bgc-0004wJ-5d; Fri, 09 Dec 2022 06:37:03 -0500
+	id 1p3bie-0006s9-Rt; Fri, 09 Dec 2022 06:39:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3bgY-0004sl-Mu
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:36:58 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1p3biP-0006pP-Ad
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:38:53 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3bgX-0002nL-7g
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:36:58 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- fa4-20020a17090af0c400b002198d1328a0so8157028pjb.0
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:36:56 -0800 (PST)
+ id 1p3biN-00030N-T5
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:38:53 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id w23so4578628ply.12
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:38:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wp/PmCTAPMKFiOAHzbS0OmRXNjbHo+BwydWFu/Tiouo=;
- b=lbXU+glqCuxW4Oea42nwoe7LWOc63gn64CZTUgJkwaduzlGaCYypbKmHGaM6iRlB2f
- 7h5vnpqzR9rqfYxmbQ0fx0cpvAXJ5F+4zX/9vGpeVBZtF8N1S/HdJaUiOdXJ7OS8HYos
- vQdGLhcgD77cfSpkyctK9+JAgA01c8Ax7lKxBjX5+D/QRskv7971Nw+/UL1wyBDIwBFd
- rS4vWFED8RupYYUUuVR8yd8EDrTKSEW0yUeDQbbdADGXMs56yyw7yiWAaK3GLFfJGF1G
- ohOENhNrCsxxObusTZ1Y5FEseX/AyvYwIYA62R3L6QPWufrh+1WpEjfQEQvNBVS+nVDL
- frbA==
+ bh=i/4+w1pfQLSn3iAw8BoeN4zDhLQy7iTGMvjMFcuDlv8=;
+ b=iGZ7Sr5OxENzWO+4KTKh+Mck670a9gj3fzMDQXqtaWW3tOCs71S6s8X3KYd0Wjmjfl
+ QaXs/uIiUvv/n1hj3hZ8cLSzaa2t+qu1MbOqxYTwZbXw2/U5Or4edtLCQfB35aTdngFJ
+ 0dHsuwHXZIQd8BRRRcg9E1+TOAw/nVHqeCOo4B59wbPgRPbg8APTJwG0ka4WJGePsARg
+ BVMyCUwfIAsv+jaQWAMx+8Ka0HZ7nn+KgJNq85U57afuQB1Kj0194hK4GQPqc6b9r80p
+ 6Lm7dl7DksvhjvGwsI/JQvcMfaDhwpX3J6FvuZKYaK0nj09MGK4ISTPqCLuVfK8uMVkz
+ ZA/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wp/PmCTAPMKFiOAHzbS0OmRXNjbHo+BwydWFu/Tiouo=;
- b=OtxoQYllxWug/lSzOkjEMadDLcC9Wk+JymwjsnOfy/As+gTbv8eAkWUU3uEOb8lwx6
- HgdvXQgNOpNvoHTsYHfiYhhi1HRjivzt367G5LIKnr14++FsrU08Y9i//2XvD7bZEkY6
- KUYNqydoarEq/UIrDl+QtLe6DRIA5pPTvKCj3WYDlE69VFm2UBUwHYv0HVXCsn73E+Zu
- e16fGEIyVBsj0rihUq3YVkPg7/vTd3ou73dQzoen9Uo2sObby7+2gi4u7jvyK0v4gybD
- PvN9jYNiNfnJwiA2eP/DzbxjA+09aQYk9KKHG9hH7SsUEeTPKlCcZOi+uj+nlbXD95Qi
- Yu6Q==
-X-Gm-Message-State: ANoB5pndLEjs+wpHIrpJy0J0T9vZfxHNE4W/RlTTm7C0ABnPozKiH/SX
- 6VjGfNqRB+CXbB5mZHU0BWne3PErkAh7L08n+9zO56hUFDvcQA==
-X-Google-Smtp-Source: AA0mqf60kw0PwcKRP14zoaPby2n85t1T70M+g06vs0YPD/joTE4LY3BWiTGfEa+uUqnEZcbVsN+LOSMB1MP4oBvXz8o=
-X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
- l5-20020a17090270c500b00189b0a3cf4amr35469768plt.60.1670585815755; Fri, 09
- Dec 2022 03:36:55 -0800 (PST)
+ bh=i/4+w1pfQLSn3iAw8BoeN4zDhLQy7iTGMvjMFcuDlv8=;
+ b=uD41FEUoLONBntVqlun+kZFzAkphjW1wiuo4lP2qD1Mpx4LMRCMl9yHo3ZzdB+rKnL
+ UauHvTe9bz7d7JuuVaFM0XDCyMj+mzT2NJSUQCIMTYp7kDlm9HqcRts+5hYrcTFzza4V
+ ln2vt+xCFCoKjk8C+1WxllQQEltWNdi07lv3js6vwn6uJeK6v8pqCgnuD/fQDJ4XVcJ7
+ 5zX/CPgzGK5B+W/yMecoUsOnTYe5IXSZ/A9/jlrAvovhy9ZWbY7nxMiw0GO4gTDUBbyf
+ oIXIAsFrX+RjPy9IyNx1If1i2HN4mLeC8ZPuFZo/V7aj60s5nrSca+iZH/VNkvLLksqH
+ VRRA==
+X-Gm-Message-State: ANoB5pkWQTCxs/Vkjsp63YPXRlssrxC05jXqmg3HXytQB53zQvpbSXJv
+ yUN2LCeKYZb1ZGcCHmQXIm47My7fnOk+SC0HztENFJ3mtIY85g==
+X-Google-Smtp-Source: AA0mqf7ceOjJuaRHzJqqzhMgFtWA+1odkKgSdtfaoxpp6pKl5DQh1f6I02U/0NHGTPFexurj6l3x2uAI52iUMDsOvqo=
+X-Received: by 2002:a17:90b:3c0b:b0:219:e2f1:81ad with SMTP id
+ pb11-20020a17090b3c0b00b00219e2f181admr16741732pjb.19.1670585930267; Fri, 09
+ Dec 2022 03:38:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-3-pbonzini@redhat.com>
-In-Reply-To: <20221209112409.184703-3-pbonzini@redhat.com>
+ <20221209112409.184703-2-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-2-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Dec 2022 11:36:44 +0000
-Message-ID: <CAFEAcA89--CfbhG61mb0JGyT9V7Giko72QyEx_UNVh1nnUCyGQ@mail.gmail.com>
-Subject: Re: [PATCH 02/30] configure: remove dead function
+Date: Fri, 9 Dec 2022 11:38:38 +0000
+Message-ID: <CAFEAcA8NGm_sC3XVN4jk-rZ1hPA=+mK8GoTc30=nzZe0_XoOGw@mail.gmail.com>
+Subject: Re: [PATCH 01/30] configure: remove useless write_c_skeleton
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,29 +83,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 9 Dec 2022 at 11:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Fri, 9 Dec 2022 at 11:26, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> This is not needed ever since QEMU stopped detecting -liberty; this
+> happened with the Meson switch but it is quite likely that the
+> library was not really necessary years before.
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  configure | 4 ----
->  1 file changed, 4 deletions(-)
+>  configure | 1 -
+>  1 file changed, 1 deletion(-)
 >
 > diff --git a/configure b/configure
-> index e31d4522ea63..543fd5a48bf0 100755
+> index 26c7bc515468..e31d4522ea63 100755
 > --- a/configure
 > +++ b/configure
-> @@ -210,10 +210,6 @@ version_ge () {
->      done
->  }
->
-> -glob() {
-> -    eval test -z '"${1#'"$2"'}"'
-> -}
-> -
->  if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
->  then
->    error_exit "main directory cannot contain spaces nor colons"
+> @@ -638,7 +638,6 @@ if test "$mingw32" = "yes" ; then
+>    EXESUF=".exe"
+>    # MinGW needs -mthreads for TLS and macro _MT.
+>    CONFIGURE_CFLAGS="-mthreads $CONFIGURE_CFLAGS"
+> -  write_c_skeleton;
+>    prefix="/qemu"
+>    bindir=""
+>    qemu_suffix=""
 > --
+> 2.38.1
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
