@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B6E6481DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88736481E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:40:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bXl-0006WB-Mu; Fri, 09 Dec 2022 06:27:53 -0500
+	id 1p3bdu-0003NF-Hy; Fri, 09 Dec 2022 06:34:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3bWi-0005ZZ-KV
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:56 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3bdj-0003LS-S8
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:34:04 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3bWZ-0002h1-IX
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:46 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id h193so3322787pgc.10
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:26:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3bdS-0000IP-Ua
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:34:02 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ ay8-20020a05600c1e0800b003d0808d2826so5601364wmb.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:33:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ex9Fb3dDRS427vhyJTMOPmys/YYJu3WouGuTrBcTKCY=;
- b=Gpn11nAo0PgKYqTKlQy5QdQktCL6P+hhsKBUoLac4V/JIgn2Crj52/Qbu1QmV2crH0
- FueDIN3ey7GxkgqhjUB2Thkyn5rR5yYmgKZ3IGVnnQhJFObCPPfxaXxcpro3aZUz9wA2
- fpjpBULCBS+jNT5RHcJ008kh6/d1rM59rB2HYWtBtulRTQ4hpdsfF80Ke7E4fNDBiZC7
- KHx5iHWHmrJm0Yl36nSSEp4Oag9Gt7LjsnAWV2/UksWZP8+FU+JtXmfczkK50XePNIux
- aL6OdnajfFZoSdD/xzE68zPYqluQeh3Rn5fPLsuOM5hHRib1xM6TyKuTmTvBld2iGGPB
- MWcA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dLA8QEjrYdTNf33My29KKVDGQuaGLbZ2RRxkNnsl2uI=;
+ b=Uw4evc2tCg3N2e/Fnf2zQ4uznEWGggsANlDwOzhmJlXHJxTbLkZpy0VpFrwfynQEPK
+ Wkw4EQ0VTOu1Cp8AN+azO8tKfs4HAoUbBBvY1EuIoyioCIyyzthPyVLYEcrrV6cNad/e
+ tm6WHicVnLNMiPAEGmJdKhq6UhK8t6qAJrtsMzwGMn/CtGsVP9YFyvtHoSNkV/eIlYoo
+ 1t0fqdHBsWxg+nPFCl5Zz/uTLMzwPZS0z2MtZj1qbiCkJPK5MM5uG8ARdxdPegiLlKdv
+ 53jOO9SZB+ysyyLTG/fqAJCXTbv53mvWhgWQCk1HT6eFMm0DJUzvNKpDA/kftX6wnfC6
+ TILA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ex9Fb3dDRS427vhyJTMOPmys/YYJu3WouGuTrBcTKCY=;
- b=AxBZmCHxgHe3oVTai7HlBgOxRQWUwcWjGF2b6rN6fcEwuYhq3udPVYZvmyq8fLBoZE
- 6uCJPNA3Swp0CLtgGLE+G4dXcXDdqNv6WwvImXwQNeimHm1OQd8pgCuOxet4Ae04b9ct
- 7cQF/5d+EAwb2qD+YKj15eZSycALIdrbPoHGKN3NK8fRY4mYdPmvr+e5AkN2bLR2k/fj
- C26FlZm8vtztsmwBcpB9ORD53Mkfu1lEuJ5IDMlhqu5LWo6JZbwbclnozNn/9yWVK+Ba
- puJ4Sh8W6r0PLaKxP6g33Y+eu+hjOInrwiN1Nf6bAUOIi4OVmFi3hyIYpYqurv/t3wTc
- SO5Q==
-X-Gm-Message-State: ANoB5pm/xg6lLXca16kSaA6oqbk//S3QAk3ZqXvDUFYgT6GH1HgsAaGh
- H8H4azPa7KEoRTevYSUJloO0YJCnraIhmxNrIkFtyQ==
-X-Google-Smtp-Source: AA0mqf4rptVo8Cba0x04z+SqbL5cEnC1N+iM4lIP9T2erIhHyCSRJEJmI7OC30r0+jZOruXIorz+YJlf7FfAZrVitrU=
-X-Received: by 2002:a63:d20d:0:b0:479:18a:8359 with SMTP id
- a13-20020a63d20d000000b00479018a8359mr4234471pgg.105.1670585197540; Fri, 09
- Dec 2022 03:26:37 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dLA8QEjrYdTNf33My29KKVDGQuaGLbZ2RRxkNnsl2uI=;
+ b=OlAJIba3I30bKoHhBwBvV13FFI7WXnOSVJA1Y0PVph/99AKip+oTrQph4u+KmLSazU
+ /I1wA136HWLq4ZpzdvUpT4MMtP24M76xBRmhcFcP8ANgz6Uk3GxtkQFnij98VE49/itU
+ 6e4nKZ5owvhy2F1mQVcAUJq9WEWbRX8tJjc9O+xv7KK5jWw4oNvbkc6E8CZhKztmdltr
+ kMqMCvMlneC2n7Dmj+BkDg9SzwjI7KN85DNOYY5IzMQppUE+NZ2BwW68XjVLc+hSa7d7
+ 0+SqWbQUzzfuTKTHs9WsdcINh6ViWZNkj+tz5AkkxcUw/uxNxmyPATVuS2Xxen9hEMz+
+ q2RQ==
+X-Gm-Message-State: ANoB5pkcGtTzdV1cg9CKEkrjzxZM3MobcI4N2EOEk6jdnrcJUw/gMhUI
+ w8ltYysIf+Ia/1IFUMColfzPV9Xg78/JDYQnQwo=
+X-Google-Smtp-Source: AA0mqf5pZ8/0JzVg2RjX9zPCaZYkM3QE2Blevv5hbduTbNVBbtdIk/GKu66OgKj/i9GCQiIgHRKFlQ==
+X-Received: by 2002:a05:600c:538b:b0:3cf:8d51:fae1 with SMTP id
+ hg11-20020a05600c538b00b003cf8d51fae1mr4825907wmb.0.1670585625010; 
+ Fri, 09 Dec 2022 03:33:45 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ v24-20020a05600c215800b003cf6a55d8e8sm1575290wml.7.2022.12.09.03.33.43
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 09 Dec 2022 03:33:44 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v2] scripts/archive-source: Use GNU tar on Darwin
+Date: Fri,  9 Dec 2022 12:33:42 +0100
+Message-Id: <20221209113342.61053-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221209111736.59796-1-philmd@linaro.org>
-In-Reply-To: <20221209111736.59796-1-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Dec 2022 11:26:25 +0000
-Message-ID: <CAFEAcA-OJeuby_E=7FOn7E7CMc6u0uEX4BUunY6ucL1-qQPQiw@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-8.0] target/arm: Keep "internals.h" internal to
- target/arm/
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>,
- Fabiano Rosas <farosas@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,23 +91,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 9 Dec 2022 at 11:17, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> "target/arm/internals.h" is supposed to be *internal* to
-> target/arm/. hw/arm/virt.c includes it to get arm_pamax()
-> declaration. Move this declaration to "cpu.h" which can
-> be included out of target/arm/, and move the implementation
-> in machine.c which is always built with system emulation.
+When using the archive-source.sh script on Darwin we get:
 
-machine.c doesn't seem like the right place for this --
-that file is purely concerned with migration. I don't know
-why we use 'machine.c' as our name for the file where the
-target CPU migration code lives, but that's fairly consistently
-what we name it across all architectures and we don't put
-other stuff in that file. I suppose it would be less confusing
-to rename all those files to migration.c...
+  tar: Option --concatenate is not supported
+  Usage:
+    List:    tar -tf <archive-filename>
+    Extract: tar -xf <archive-filename>
+    Create:  tar -cf <archive-filename> [filenames...]
+    Help:    tar --help
 
-thanks
--- PMM
+'tar' default to the BSD implementation:
+
+  $ tar --version
+  bsdtar 3.5.3 - libarchive 3.5.3 zlib/1.2.11 liblzma/5.0.5 bz2lib/1.0.8
+
+Try to use the GNU implementation if it is available (from homebrew).
+
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+Supersedes: <20221208162051.29509-1-philmd@linaro.org>
+---
+ scripts/archive-source.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
+index 23e042dacd..e3d0c23fe5 100755
+--- a/scripts/archive-source.sh
++++ b/scripts/archive-source.sh
+@@ -18,6 +18,7 @@ if test $# -lt 1; then
+     error "Usage: $0 <output tarball>"
+ fi
+ 
++test $(uname -s) = "Darwin" && tar=gtar || tar=tar
+ tar_file=$(realpath "$1")
+ sub_tdir=$(mktemp -d "${tar_file%.tar}.sub.XXXXXXXX")
+ sub_file="${sub_tdir}/submodule.tar"
+@@ -67,7 +68,7 @@ for sm in $submodules; do
+     esac
+     (cd $sm; git archive --format tar --prefix "$sm/" $(tree_ish)) > "$sub_file"
+     test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
+-    tar --concatenate --file "$tar_file" "$sub_file"
++    $tar --concatenate --file "$tar_file" "$sub_file"
+     test $? -ne 0 && error "failed append submodule $sm to $tar_file"
+ done
+ exit 0
+-- 
+2.38.1
+
 
