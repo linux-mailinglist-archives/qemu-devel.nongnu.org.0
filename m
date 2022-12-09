@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56549647EA3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 08:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF26647EF2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 09:08:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3XsP-0006q1-HD; Fri, 09 Dec 2022 02:32:57 -0500
+	id 1p3YPf-0006aW-Gh; Fri, 09 Dec 2022 03:07:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p3Xru-0006lh-Vk
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:32:32 -0500
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p3Xrq-000737-Lk
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:32:26 -0500
-Received: by mail-qk1-x729.google.com with SMTP id x18so1918413qki.4
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 23:32:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:user-agent:mime-version
- :from:references:from:to:cc:subject:date:message-id:reply-to;
- bh=S+uOyNcC0bsh04EfKe0tz91C2+ktLaJY89G2Qdu1EUc=;
- b=2TmC8i61EOmUrY9q3oTVMC3nnC537D1YnecvNOkDwVo58u0RvKjtVBnysXTxQa41MK
- gVsm0ecPwZWLCqubHzND4zVsbx0msAhbUstnfmRrBVzW24cvyKJEGbOe7hIRvoKQKOPt
- AZD7EKV5pO3I/3RzMDy4Q+6WsOx/eqE0N96O0SgMtFQtvkL3CR4PZSIAIb+mY3vnbyB7
- jXROkPHbWC8PqR5CVrin+uw16x3fpX3fEog+F0fN36wlgAQ9XatGbDdRDUgvKJjcDwQt
- XXFe40AJK9kVqtT2/GAPZyUYQHe5k/kVAYx1TKyELXYKyr9b1PGqm+Vhiwf7Um17DHYG
- wfhg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3YPZ-0006Yz-HD
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:07:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3YPX-0003OD-Ds
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:07:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670573228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/P+F1mg8Gt4uSrCC0NGz/RJToIhkspQz1OFeT4BzGbw=;
+ b=OAKdbbP0LpxV+JSrGF9QNMZ8v/Cud0EuaaW4TY7qCckTEcmC+39g2auZr8sZURWFd15tky
+ jAMsGd4DsApP9UEzrlLTu4EhGizM31JmPyH3RUYQB5zfUVQ66lfWR5SLQPPGZyuyyWCVG6
+ TNTNRFD8qf4SrYmTQkA5WLGC9+hYmsI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-135-DynoqJaVOBGrnlM1jNDGOA-1; Fri, 09 Dec 2022 03:07:06 -0500
+X-MC-Unique: DynoqJaVOBGrnlM1jNDGOA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ a7-20020adfbc47000000b002421f817287so816328wrh.4
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 00:07:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:user-agent:mime-version
- :from:references:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=S+uOyNcC0bsh04EfKe0tz91C2+ktLaJY89G2Qdu1EUc=;
- b=j1icJ2zoifk72mnzdRQ/IZSDXXFFRsR8DonsD9HRydymMkLb5+QF+szmDnq4tewV8G
- 0rSrswPPfZeqTqwGZKeu9mqqn21/lMfXlchQcAEprpVZncLH8V8jAdFQ1Ylbscm/5zAs
- etTMyme5E4JIkfhsKCfUa4bEEjZAeAc32TN5yy2XG70bnBP1x4Cy/hxa05/ZH8tH6mSm
- ZzLoelwt+1XF1lf2WqGK2ucnc+Dwnv+J2djHsQADeziMIaeVlwjeqjCoe8Zt1+Ok/dRg
- maYLq44l+hxEr6oujEMawVvM8+Y1aFyOuravKXCQR4UjlWKmGP/fyCTRbih/wGuzaZjg
- w0/Q==
-X-Gm-Message-State: ANoB5plxYG1Mh+4s63+P3L6o8N8+UubQHF6WT9uubChNEpPiAt+zAMJQ
- IjQdrUJ2QOOgIks0/SjcOwKFAKY5W6Y4YayIzVvSww==
-X-Google-Smtp-Source: AA0mqf60jFEooKvUP+clNTwG3D2cvrp2Zk7PHhty/lq4FBMJ4VUrJFEv2zLfaObOzJUr1TV0BLBZlACnWplYGucEyPg=
-X-Received: by 2002:a05:620a:c04:b0:6fe:f6eb:b296 with SMTP id
- l4-20020a05620a0c0400b006fef6ebb296mr3731472qki.303.1670571140112; Thu, 08
- Dec 2022 23:32:20 -0800 (PST)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Thu, 8 Dec 2022 23:32:19 -0800
-References: <20221118083648.2399615-1-xuchuangxclwt@bytedance.com>
- <Y3+egjXTvLEHDjuT@x1n> <7e5c5d6c-8f23-c0c5-5f5c-5daad854c2e7@bytedance.com>
- <Y4Ty07M/HN9UnsGb@x1n> <1adf426d-a9c8-9015-383b-3e82eb6b7c54@bytedance.com>
- <Y44cNenFueVE4RFW@x1n> <faae03bb-7705-fb16-46a5-e4c2ea55a254@bytedance.com>
- <Y5EO8HqNVj/Rq7M5@x1n> <704c1986-e878-8837-a2bb-12f76eeb1ba4@bytedance.com>
- <Y5IKOIUYHWbpVABV@x1n>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-Mime-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-In-Reply-To: <Y5IKOIUYHWbpVABV@x1n>
-Date: Thu, 8 Dec 2022 23:32:19 -0800
-Message-ID: <CALophutzbp5Ps2hUp2-1K7AZiQe590fcvrkmerKk+yoUQNMAuw@mail.gmail.com>
-Subject: Re: [RFC PATCH] migration: reduce time of loading non-iterable vmstate
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
- zhouyibo@bytedance.com, Paolo Bonzini <pbonzini@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000061069805ef602788"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qk1-x729.google.com
-X-Spam_score_int: 26
-X-Spam_score: 2.6
-X-Spam_bar: ++
-X-Spam_report: (2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FORGED_MUA_MOZILLA=2.309, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=1,
- HK_RANDOM_FROM=0.999, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.266,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/P+F1mg8Gt4uSrCC0NGz/RJToIhkspQz1OFeT4BzGbw=;
+ b=JAApysaclf0bRvletYizidMG1j+Fiebkx5Zei+6qkgoJ1HzTv8cViqb7OHszN3MFho
+ 8HtOdpYcIlx2zhWya0RgPl/9EiY6qWdNLvbMwtioX4POmChl4YxggrEhfAf9VdC0ZnTW
+ WvAVChGblgvFJZHLWYEMhyCLkKaxZ0Ra7lO+Kl4R3X2m+OSLCOZPCHjzlxdIjcMxHo6q
+ 1dgvQ9unLyn0UsLS0/P0ON3Ba24xW1hZ3aRMFz69IiSoAcH0Z0beBECYQpP1eHBPf0i/
+ 5wriLbyePBLQ98FUgxfr/Lfr7D2Lm+pNYv0TyuIDdx8TPUSecvXkmB+Q8Oa+bYqI2Wqo
+ AuqQ==
+X-Gm-Message-State: ANoB5pnJLT1FukqwHePAwDBZBzbidcIe/gOGZokRFQcMMbhgOyWgmBgS
+ pB3k5ZA4ryEln1o8AtkU7Wj45t+ZrkONakOnX5uiSozvBjb9bniNKv2yUB556MjbVpqV3e3gynT
+ CAMpz8YVkdS/WoLE=
+X-Received: by 2002:adf:dbd2:0:b0:232:be5a:f593 with SMTP id
+ e18-20020adfdbd2000000b00232be5af593mr3880915wrj.29.1670573225448; 
+ Fri, 09 Dec 2022 00:07:05 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4r5XcE4rA9rx23+cAIBj4q+Kbtrdah9UBeVa1SXj7bMzyBdlYv53YgDlsO2AUto1s1iDGrdA==
+X-Received: by 2002:adf:dbd2:0:b0:232:be5a:f593 with SMTP id
+ e18-20020adfdbd2000000b00232be5af593mr3880893wrj.29.1670573225126; 
+ Fri, 09 Dec 2022 00:07:05 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-177-15.web.vodafone.de.
+ [109.43.177.15]) by smtp.gmail.com with ESMTPSA id
+ l11-20020a5d526b000000b002422202fa7fsm729741wrc.39.2022.12.09.00.07.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Dec 2022 00:07:04 -0800 (PST)
+Message-ID: <a8557e8d-72b9-f1d7-5e47-6d17de94b534@redhat.com>
+Date: Fri, 9 Dec 2022 09:07:02 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth
+ <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20221128092555.37102-1-thuth@redhat.com>
+ <Y4TqEDYs+T4z6PX/@redhat.com>
+ <4bf10f82-03a4-42e6-a66b-e78e182a83a8@redhat.com>
+ <Y4dH71Z+Zg29Erl3@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 for-8.0 0/5] scripts/make-release: Decrease size of the
+ release tarballs
+In-Reply-To: <Y4dH71Z+Zg29Erl3@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.266, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,622 +107,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000061069805ef602788
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 30/11/2022 13.09, Daniel P. Berrangé wrote:
+> On Wed, Nov 30, 2022 at 11:49:50AM +0100, Thomas Huth wrote:
+>> On 28/11/2022 18.04, Daniel P. Berrangé wrote:
+>>> On Mon, Nov 28, 2022 at 10:25:50AM +0100, Thomas Huth wrote:
+>>>> Our release tarballs are huge - qemu-7.2.0-rc2.tar.xz has a size of 116
+>>>> MiB. If you look at the contents, approx. 80% of the size is used for the
+>>>> firmware sources that we ship along to provide the sources for the ROM
+>>>> binaries. This feels very wrong, why do we urge users to download such
+>>>> huge tarballs while 99.9% of them never will rebuilt the firmware sources?
+>>>> We were also struggeling a bit in the past already with server load and
+>>>> costs, so we should really try to decrease the size of our release tarballs
+>>>> to a saner level.
+>>>
+>>> The main reason for shipping the source in the tarball was to
+>>> guarantee license compliance for anyone who is distributing
+>>> qemu release tarballs, including ourselves.
+>>>
+>>> Splitting off the firmware source, but not the firmware binaries,
+>>> means people are now at risk of not complying with the license
+>>> but failing to provide complete and corresponding source.
+>>>
+>>> Technically the license requirement is only critical for GPL
+>>> licenses ROMs, but as good practice we do it for all our ROMs.
+>>>
+>>>> So let's split the firmware sources into a separate tarball to decrease
+>>>> the size of the main QEMU sources tarball a lot (which should help us
+>>>> to safe a lot of traffic on the server).
+>>>
+>>> With my distro maintainer hat I would rather QEMU ship neither the
+>>> ROM source, nor the ROM binaries.
+>>>
+>>> Still the binaries are convenient for people doing their own QEMU
+>>> builds from source.
+>>>
+>>> How about shipping two distinct options:
+>>>
+>>>     qemu-x.y.z.tar.xz          (QEMU source only)
+>>>     qemu-bundled-x.y.z.tar.xz  (QEMU source + bundled ROM binaries + ROM sources)
+>>>
+>>> though I'm not sure how much of an impact that will have on the download
+>>> traffic - depends what is causing the traffic.
+>>>
+>>> Another option is
+>>>
+>>>     qemu-x.y.z.tar.xz        (QEMU source only)
+>>>     qemu-roms-x.y.z.tar.xz   (bundled ROM binaries + ROM sources)
+>>>
+>>> though this is slightly more inconvenient for users, and there's the
+>>> risk they'll use new QEMU with old ROMs.
+>>
+>> Maybe that would work for distros, but I don't think that these are good
+>> options for the average users who just want to download and recompile the
+>> latest version of QEMU on their own.
+>> I assume that most users don't have an environment with cross-compilers or
+>> for running things in a container, so I think they still want to use the
+>> pre-built binaries. Thus, if you bundle the binaries along with their
+>> sources, people will still continue to download the big tarball and we
+>> haven't gained anything.
+>>
+>> So do you really really think shipping the binaries in the main tarball is a
+>> problem? Honestly, it's not a problem for us as long as we publish both
+>> tarballs together - and if someone wants to mirror the main tarball to their
+>> webserver and fails to mirror the rom-sources tarball, too, it's their
+>> fault, not ours.
+> 
+> I think we would be contributing to mistakes by providing a tarball
+> that contains a mixture of sources and binaries, but not all the
+> sources for all the binaries.
+> 
+>> Anyway, what about splitting the binaries into a separate tarball, so we
+>> would have three tarballs:
+>>
+>>      qemu-x.y.z.tar.xz               (QEMU source only)
+>>      qemu-roms-x.y.z.tar.xz          (ROM binaries)
+>>      qemu-roms-sources-x.y.z.tar.xz  (ROM sources)
+>>
+>> That should make it hopefully obvious that the two qemu-roms* tarballs
+>> belong together. Would that be OK for you?
+> 
+> Yes, I think that's better, as it is cleanly separating the
+> binaries and sources.
+
+I pondered about this idea quite a while now, but I think that will 
+definitely be a decrease in the user's experience, e.g. "make install" won't 
+work by default anymore if the user did not download the binaries before. 
+Sure, we can instruct the users to download and uncompress the roms tarball 
+here or there ... but still, it's getting more cumbersome for the users this 
+way. Thus I think I'd rather would like to avoid packaging the binaries in 
+an extra tarball.
+
+> The downside is that there's the risk of ROMS not matching
+> the QEMU version, if people updates to latest qemu tarball
+> but forgot the corresponding ROMs tarball. Most of the time
+> a mismatch would not matter, but we should think about if
+> there is a way to make it easier to diagnose such a
+> mismatch if only for easier bug triage.
+
+Yes, that's another disadvantage which will lead to very subtle bug reports 
+if we don't prevent it from happening somehow.
+
+> Perhaps the ROMs should install into a versioned subdir
+> of /usr/share/qemu, instead of the root of it, and the
+> QEMU binary preferentially look at the versioned subdir
+> Maybe that's overthinking things though, and we would
+> suffic to have a /usr/share/qemu/ROM-VERSION.txt file
+
+I don't think that a text file will be sufficient to prevent people running 
+into the problem. Having versioned subdirs might help, but it has the 
+disadvantage that it might cause lots of old files lying around in the file 
+system if the users forget to delete the old versions after an upgrade.
+
+
+... Ok, let's start again from scratch. So what we are trying to solve is 
+that our tarballs are too huge and cause a non-neglectable traffic on the 
+server. A huge part of the tarball size is caused by the edk2 sources. And 
+we don't want to separate the GPL firmware sources from the binaries. ... so 
+what if we just move the edk2 sources (and maybe skiboot sources) into a 
+separate tarball? These sources are not licensed under a strong copyleft 
+license, so it should be OK if we don't ship the sources for these binaries 
+in the main tarball (similar to my v1 series, but I was rather completely 
+removing the sources there instead). We could call the tarball with the 
+separate source like qemu-extra-rom-sources.tar.xz or so?
+
+  Thomas
 
-On 2022/12/9 =E4=B8=8A=E5=8D=8812:00, Peter Xu wrote:
-
-On Thu, Dec 08, 2022 at 10:39:11PM +0800, Chuang Xu wrote:
-
-On 2022/12/8 =E4=B8=8A=E5=8D=886:08, Peter Xu wrote:
-
-On Thu, Dec 08, 2022 at 12:07:03AM +0800, Chuang Xu wrote:
-
-On 2022/12/6 =E4=B8=8A=E5=8D=8812:28, Peter Xu wrote:
-
-Chuang,
-
-No worry on the delay; you're faster than when I read yours. :)
-
-On Mon, Dec 05, 2022 at 02:56:15PM +0800, Chuang Xu wrote:
-
-As a start, maybe you can try with poison address_space_to_flatview() (by
-e.g. checking the start_pack_mr_change flag and assert it is not set)
-during this process to see whether any call stack can even try to
-dereference a flatview.
-
-It's just that I didn't figure a good way to "prove" its validity, even if
-I think this is an interesting idea worth thinking to shrink the downtime.
-
-Thanks for your sugguestions!
-I used a thread local variable to identify whether the current thread is a
-migration thread(main thread of target qemu) and I modified the code of
-qemu_coroutine_switch to make sure the thread local variable true only in
-process_incoming_migration_co call stack. If the target qemu detects that
-start_pack_mr_change is set and address_space_to_flatview() is called in
-non-migrating threads or non-migrating coroutine, it will crash.
-
-Are you using the thread var just to avoid the assert triggering in the
-migration thread when commiting memory changes?
-
-I think _maybe_ another cleaner way to sanity check this is directly upon
-the depth:
-
-static inline FlatView *address_space_to_flatview(AddressSpace *as)
-{
-      /*
-       * Before using any flatview, sanity check we're not during a memory
-       * region transaction or the map can be invalid.  Note that this can
-       * also be called during commit phase of memory transaction, but that
-       * should also only happen when the depth decreases to 0 first.
-       */
-      assert(memory_region_transaction_depth =3D=3D 0);
-      return qatomic_rcu_read(&as->current_map);
-}
-
-That should also cover the safe cases of memory transaction commits during
-migration.
-
-
-Peter, I tried this way and found that the target qemu will crash.
-
-Here is the gdb backtrace:
-
-#0  __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/unix/sysv/linux/raise.c:=
-51
-#1  0x00007ff2929d851a in __GI_abort () at abort.c:118
-#2  0x00007ff2929cfe67 in __assert_fail_base (fmt=3D<optimized out>,
-assertion=3Dassertion@entry=3D0x55a32578cdc0
-"memory_region_transaction_depth =3D=3D 0", file=3Dfile@entry=3D0x55a32575d=
-9b0
-"/data00/migration/qemu-5.2.0/include/exec/memory.h",
-     line=3Dline@entry=3D766, function=3Dfunction@entry=3D0x55a32578d6e0
-<__PRETTY_FUNCTION__.20463> "address_space_to_flatview") at
-assert.c:92
-#3  0x00007ff2929cff12 in __GI___assert_fail
-(assertion=3Dassertion@entry=3D0x55a32578cdc0
-"memory_region_transaction_depth =3D=3D 0", file=3Dfile@entry=3D0x55a32575d=
-9b0
-"/data00/migration/qemu-5.2.0/include/exec/memory.h",
-line=3Dline@entry=3D766,
-     function=3Dfunction@entry=3D0x55a32578d6e0
-<__PRETTY_FUNCTION__.20463> "address_space_to_flatview") at
-assert.c:101
-#4  0x000055a324b2ed5e in address_space_to_flatview (as=3D0x55a326132580
-<address_space_memory>) at
-/data00/migration/qemu-5.2.0/include/exec/memory.h:766
-#5  0x000055a324e79559 in address_space_to_flatview (as=3D0x55a326132580
-<address_space_memory>) at ../softmmu/memory.c:811
-#6  address_space_get_flatview (as=3D0x55a326132580
-<address_space_memory>) at ../softmmu/memory.c:805
-#7  0x000055a324e96474 in address_space_cache_init
-(cache=3Dcache@entry=3D0x55a32a4fb000, as=3D<optimized out>,
-addr=3Daddr@entry=3D68404985856, len=3Dlen@entry=3D4096, is_write=3Dfalse) =
-at
-../softmmu/physmem.c:3307
-#8  0x000055a324ea9cba in virtio_init_region_cache
-(vdev=3D0x55a32985d9a0, n=3D0) at ../hw/virtio/virtio.c:185
-#9  0x000055a324eaa615 in virtio_load (vdev=3D0x55a32985d9a0,
-f=3D<optimized out>, version_id=3D<optimized out>) at
-../hw/virtio/virtio.c:3203
-#10 0x000055a324c6ab96 in vmstate_load_state
-(f=3Df@entry=3D0x55a329dc0c00, vmsd=3D0x55a325fc1a60 <vmstate_virtio_scsi>,
-opaque=3D0x55a32985d9a0, version_id=3D1) at ../migration/vmstate.c:143
-#11 0x000055a324cda138 in vmstate_load (f=3D0x55a329dc0c00,
-se=3D0x55a329941c90) at ../migration/savevm.c:913
-#12 0x000055a324cdda34 in qemu_loadvm_section_start_full
-(mis=3D0x55a3284ef9e0, f=3D0x55a329dc0c00) at ../migration/savevm.c:2741
-#13 qemu_loadvm_state_main (f=3Df@entry=3D0x55a329dc0c00,
-mis=3Dmis@entry=3D0x55a3284ef9e0) at ../migration/savevm.c:2939
-#14 0x000055a324cdf66a in qemu_loadvm_state (f=3D0x55a329dc0c00) at
-../migration/savevm.c:3021
-#15 0x000055a324d14b4e in process_incoming_migration_co
-(opaque=3D<optimized out>) at ../migration/migration.c:574
-#16 0x000055a32501ae3b in coroutine_trampoline (i0=3D<optimized out>,
-i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
-#17 0x00007ff2929e8000 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
-#18 0x00007ffed80dc2a0 in ?? ()
-#19 0x0000000000000000 in ?? ()
-
-address_space_cache_init() is the only caller of address_space_to_flatview
-I can find in vmstate_load call stack so far. Although I think the mr used
-by address_space_cache_init() won't be affected by the delay of
-memory_region_transaction_commit(), we really need a mechanism to prevent
-the modified mr from being used.
-
-Maybe we can build a stale list:
-If a subregion is added, add its parent to the stale list(considering that
-new subregion's priority has uncertain effects on flatviews).
-If a subregion is deleted, add itself to the stale list.
-When memory_region_transaction_commit() regenerates flatviews, clear the
-stale list.
-when address_space_translate_internal() is called, check whether the mr
-looked up matches one of mrs=EF=BC=88or its child=EF=BC=89in the stale list=
-. If yes, a
-crash will be triggered.
-
-I'm not sure that'll work, though.  Consider this graph:
-
-                             A
-                            / \
-                           B   C
-                        (p=3D1) (p=3D0)
-
-A,B,C are MRs, B&C are subregions to A.  When B's priority is higher (p=3D1=
-),
-any access to A will go upon B, so far so good.
-
-Then, let's assume D comes under C with even higher priority:
-
-                             A
-                            / \
-                           B   C
-                        (p=3D1) (p=3D0)
-                               |
-                               D
-                              (p=3D2)
-
-
-Adding C into stale list won't work because when with the old flatview
-it'll point to B instead, while B is not in the stale list. The AS
-operation will carry out without noticing it's already wrong.
-
-Peter, I think our understanding of priority is different.
-
-In the qemu docs
-(https://qemu.readthedocs.io/en/stable-6.1/devel/memory.html#overlapping-re=
-gions-and-priority),
-it says 'Priority values are local to a container, because the priorities o=
-f
-two regions are only compared when they are both children of the same
-container.'
-And as I read in code, when doing render_memory_region() operation on A, qe=
-mu
-will firstly insert B's FlatRanges and its children's FlatRanges recursivel=
-y
-because B's priority is higher than C. After B's FlatRanges and its childre=
-n's
-FlatRanges are all inserted into flatviews, C's FlatRanges and its children=
-'s
-FlatRanges will be inserted into gaps left by B if B and C overlaps.
-
-So I think adding D as C's subregion has no effect on B in your second case=
-.
-The old FlatRange pointing to B is still effective. C and C'children with l=
-ower
-priority than D will be affected, but we have flagged them as stale.
-
-I hope I have no misunderstanding of the flatview's construction code. If I
-understand wrong, please forgive my ignorance..=F0=9F=98=AD
-
-No I think you're right.. thanks, I should read the code/doc first rather
-than trusting myself. :)
-
-But still, the whole point is that the parent may not even be visible to
-the flatview, so I still don't know how it could work.
-
-My 2nd attempt:
-
-                                  A
-                                  |
-                                  B
-                                (p=3D1)
-
-Adding C with p=3D2:
-
-                                  A
-                                 / \
-                                B   C
-                             (p=3D1) (p=3D2)
-
-IIUC the flatview to access the offset A resides should point to B, then
-after C plugged we'll still lookup and find B.  Even if A is in the stale
-list, B is not?
-
-Sorry I forgot to describe my latest ideas about this mechanism in detail.
-
-we can add A, B and B's children to the stale list=EF=BC=88If there is D, E=
- and
-other mrs have lower priority than C, we can also add them and their childr=
-en
-to the stale list recursively). Or we can add a stale flag to mr structure
-to avoid cost of searching mr in the stale list..
-
-The other thing I didn't mention is that I don't think the address space
-translation is the solo consumer of the flat view.  Some examples:
-
-common_semi_find_bases() walks the flatview without translations.
-
-memory_region_update_coalesced_range() (calls address_space_get_flatview()
-first) notifies kvm coalesced mmio regions without translations.
-
-So at least hooking up address_space_translate_internal() itself may not be
-enough too.
-
-This is really a problem. Maybe we should check whether the mr is stale on
-all critical paths, or find other more genneral ways..
-
-There may be many details to consider in this mechanism. Hope you can give
-some suggestions on its feasibility.
-
-For this specific case, I'm wildly thinking whether we can just postpone
-the init of the vring cache until migration completes.
-
-One thing to mention from what I read it: we'll need to update all the
-caches in virtio_memory_listener_commit() anyway, when the batched commit()
-happens when migration completes with your approach, so we'll rebuild the
-vring cache once and for all which looks also nice if possible.
-
-There's some details to consider. E.g. the commit() happens only when
-memory_region_update_pending=3D=3Dtrue.  We may want to make sure the cache=
- is
-initialized unconditionally, at least.  Not sure whether that's doable,
-though.
-
-Thanks,
-
-
-Good idea! We can try it in the new patches! And with the delay of
-virtio_init_region_cache(), we can still use assert in
-address_space_to_flatview().
-However, I think the stale list can be used as a retention scheme for furth=
-er
-discussion in the future, because the stale list may adapt to more
-complex scenarios.
-
-If the assert will work that'll be even better.  I'm actually worried this
-can trigger like what you mentioned in the virtio path, I didn't expect it
-comes that soon.  So if there's a minimum cases and we can fixup easily
-that'll be great.  Hopefully there aren't so much or we'll need to revisit
-the whole idea.
-
-Thanks,
-
-+1.. Hope this is the only case that will trigger crash.
-
-I'll upload the second version as soon as possible.
-
-Thanks.
-
---00000000000061069805ef602788
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
-">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-006526259afe7=
-50e0e0dcf820791f59f">On 2022/12/9 =E4=B8=8A=E5=8D=8812:00, Peter Xu wrote:<=
-br>
-    </div></div>
-    <blockquote type=3D"cite" cite=3D"mid:Y5IKOIUYHWbpVABV@x1n">
-      <pre class=3D"moz-quote-pre">On Thu, Dec 08, 2022 at 10:39:11PM +0800=
-, Chuang Xu wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">On 2022/12/8 =E4=B8=8A=E5=8D=886:08, P=
-eter Xu wrote:
-</pre>
-        <blockquote type=3D"cite">
-          <pre class=3D"moz-quote-pre">On Thu, Dec 08, 2022 at 12:07:03AM +=
-0800, Chuang Xu wrote:
-</pre>
-          <blockquote type=3D"cite">
-            <pre class=3D"moz-quote-pre">On 2022/12/6 =E4=B8=8A=E5=8D=8812:=
-28, Peter Xu wrote:
-</pre>
-            <blockquote type=3D"cite">
-              <pre class=3D"moz-quote-pre">Chuang,
-
-No worry on the delay; you&#39;re faster than when I read yours. :)
-
-On Mon, Dec 05, 2022 at 02:56:15PM +0800, Chuang Xu wrote:
-</pre>
-              <blockquote type=3D"cite">
-                <blockquote type=3D"cite">
-                  <pre class=3D"moz-quote-pre">As a start, maybe you can tr=
-y with poison address_space_to_flatview() (by
-e.g. checking the start_pack_mr_change flag and assert it is not set)
-during this process to see whether any call stack can even try to
-dereference a flatview.
-
-It&#39;s just that I didn&#39;t figure a good way to &quot;prove&quot; its =
-validity, even if
-I think this is an interesting idea worth thinking to shrink the downtime.
-</pre>
-                </blockquote>
-                <pre class=3D"moz-quote-pre">Thanks for your sugguestions!
-I used a thread local variable to identify whether the current thread is a
-migration thread(main thread of target qemu) and I modified the code of
-qemu_coroutine_switch to make sure the thread local variable true only in
-process_incoming_migration_co call stack. If the target qemu detects that
-start_pack_mr_change is set and address_space_to_flatview() is called in
-non-migrating threads or non-migrating coroutine, it will crash.
-</pre>
-              </blockquote>
-              <pre class=3D"moz-quote-pre">Are you using the thread var jus=
-t to avoid the assert triggering in the
-migration thread when commiting memory changes?
-
-I think _maybe_ another cleaner way to sanity check this is directly upon
-the depth:
-
-static inline FlatView *address_space_to_flatview(AddressSpace *as)
-{
-      /*
-       * Before using any flatview, sanity check we&#39;re not during a mem=
-ory
-       * region transaction or the map can be invalid.  Note that this can
-       * also be called during commit phase of memory transaction, but that
-       * should also only happen when the depth decreases to 0 first.
-       */
-      assert(memory_region_transaction_depth =3D=3D 0);
-      return qatomic_rcu_read(&amp;as-&gt;current_map);
-}
-
-That should also cover the safe cases of memory transaction commits during
-migration.
-
-</pre>
-            </blockquote>
-            <pre class=3D"moz-quote-pre"><span>Peter, I tried this way and =
-found that the target qemu will crash.
-
-Here is the gdb backtrace:
-
-#0  __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/unix/sysv/linux/raise.c:=
-51
-#1  0x00007ff2929d851a in __GI_abort () at abort.c:118
-#2  0x00007ff2929cfe67 in __assert_fail_base (fmt=3D&lt;optimized out&gt;, =
-assertion=3Dassertion@entry=3D0x55a32578cdc0 &quot;memory_region_transactio=
-n_depth =3D=3D 0&quot;, file=3Dfile@entry=3D0x55a32575d9b0 &quot;/data00/mi=
-gration/qemu-5.2.0/include/exec/memory.h&quot;,
-     line=3Dline@entry=3D766, function=3Dfunction@entry=3D0x55a32578d6e0 &l=
-t;__PRETTY_FUNCTION__.20463&gt; &quot;address_space_to_flatview&quot;) at a=
-ssert.c:92
-#3  0x00007ff2929cff12 in __GI___assert_fail (assertion=3Dassertion@entry=
-=3D0x55a32578cdc0 &quot;memory_region_transaction_depth =3D=3D 0&quot;, fil=
-e=3Dfile@entry=3D0x55a32575d9b0 &quot;/data00/migration/qemu-5.2.0/include/=
-exec/memory.h&quot;, line=3Dline@entry=3D766,
-     function=3Dfunction@entry=3D0x55a32578d6e0 &lt;__PRETTY_FUNCTION__.204=
-63&gt; &quot;address_space_to_flatview&quot;) at assert.c:101
-#4  0x000055a324b2ed5e in address_space_to_flatview (as=3D0x55a326132580 &l=
-t;address_space_memory&gt;) at /data00/migration/qemu-5.2.0/include/exec/me=
-mory.h:766
-#5  0x000055a324e79559 in address_space_to_flatview (as=3D0x55a326132580 &l=
-t;address_space_memory&gt;) at ../softmmu/memory.c:811
-#6  address_space_get_flatview (as=3D0x55a326132580 &lt;address_space_memor=
-y&gt;) at ../softmmu/memory.c:805
-#7  0x000055a324e96474 in address_space_cache_init (cache=3Dcache@entry=3D0=
-x55a32a4fb000, as=3D&lt;optimized out&gt;, addr=3Daddr@entry=3D68404985856,=
- len=3Dlen@entry=3D4096, is_write=3Dfalse) at ../softmmu/physmem.c:3307
-#8  0x000055a324ea9cba in virtio_init_region_cache (vdev=3D0x55a32985d9a0, =
-n=3D0) at ../hw/virtio/virtio.c:185
-#9  0x000055a324eaa615 in virtio_load (vdev=3D0x55a32985d9a0, f=3D&lt;optim=
-ized out&gt;, version_id=3D&lt;optimized out&gt;) at ../hw/virtio/virtio.c:=
-3203
-#10 0x000055a324c6ab96 in vmstate_load_state (f=3Df@entry=3D0x55a329dc0c00,=
- vmsd=3D0x55a325fc1a60 &lt;vmstate_virtio_scsi&gt;, opaque=3D0x55a32985d9a0=
-, version_id=3D1) at ../migration/vmstate.c:143
-#11 0x000055a324cda138 in vmstate_load (f=3D0x55a329dc0c00, se=3D0x55a32994=
-1c90) at ../migration/savevm.c:913
-#12 0x000055a324cdda34 in qemu_loadvm_section_start_full (mis=3D0x55a3284ef=
-9e0, f=3D0x55a329dc0c00) at ../migration/savevm.c:2741
-#13 qemu_loadvm_state_main (f=3Df@entry=3D0x55a329dc0c00, mis=3Dmis@entry=
-=3D0x55a3284ef9e0) at ../migration/savevm.c:2939
-#14 0x000055a324cdf66a in qemu_loadvm_state (f=3D0x55a329dc0c00) at ../migr=
-ation/savevm.c:3021
-#15 0x000055a324d14b4e in process_incoming_migration_co (opaque=3D&lt;optim=
-ized out&gt;) at ../migration/migration.c:574
-#16 0x000055a32501ae3b in coroutine_trampoline (i0=3D&lt;optimized out&gt;,=
- i1=3D&lt;optimized out&gt;) at ../util/coroutine-ucontext.c:173
-#17 0x00007ff2929e8000 in ?? () from /lib/x86_64-linux-gnu/<a href=3D"libc.=
-so.6" target=3D"_blank">libc.so.6</a>
-#18 0x00007ffed80dc2a0 in ?? ()
-#19 0x0000000000000000 in ?? ()
-
-address_space_cache_init() is the only caller of address_space_to_flatview
-I can find in vmstate_load call stack so far. Although I think the mr used
-by address_space_cache_init() won&#39;t be affected by the delay of
-memory_region_transaction_commit(), we really need a mechanism to prevent
-the modified mr from being used.
-
-Maybe we can build a stale list:
-If a subregion is added, add its parent to the stale list(considering that
-new subregion&#39;s priority has uncertain effects on flatviews).
-If a subregion is deleted, add itself to the stale list.
-When memory_region_transaction_commit() regenerates flatviews, clear the
-stale list.
-when address_space_translate_internal() is called, check whether the mr
-looked up matches one of mrs=EF=BC=88or its child=EF=BC=89in the stale list=
-. If yes, a
-crash will be triggered.
-</span></pre>
-          </blockquote>
-          <pre class=3D"moz-quote-pre">I&#39;m not sure that&#39;ll work, t=
-hough.  Consider this graph:
-
-                             A
-                            / \
-                           B   C
-                        (p=3D1) (p=3D0)
-
-A,B,C are MRs, B&amp;C are subregions to A.  When B&#39;s priority is highe=
-r (p=3D1),
-any access to A will go upon B, so far so good.
-
-Then, let&#39;s assume D comes under C with even higher priority:
-
-                             A
-                            / \
-                           B   C
-                        (p=3D1) (p=3D0)
-                               |
-                               D
-                              (p=3D2)
-
-
-Adding C into stale list won&#39;t work because when with the old flatview
-it&#39;ll point to B instead, while B is not in the stale list. The AS
-operation will carry out without noticing it&#39;s already wrong.
-</pre>
-        </blockquote>
-        <pre class=3D"moz-quote-pre">Peter, I think our understanding of pr=
-iority is different.
-
-In the qemu docs
-(<a class=3D"moz-txt-link-freetext" href=3D"https://qemu.readthedocs.io/en/=
-stable-6.1/devel/memory.html#overlapping-regions-and-priority">https://qemu=
-.readthedocs.io/en/stable-6.1/devel/memory.html#overlapping-regions-and-pri=
-ority</a>),
-it says &#39;Priority values are local to a container, because the prioriti=
-es of
-two regions are only compared when they are both children of the same conta=
-iner.&#39;
-And as I read in code, when doing render_memory_region() operation on A, qe=
-mu
-will firstly insert B&#39;s FlatRanges and its children&#39;s FlatRanges re=
-cursively
-because B&#39;s priority is higher than C. After B&#39;s FlatRanges and its=
- children&#39;s
-FlatRanges are all inserted into flatviews, C&#39;s FlatRanges and its chil=
-dren&#39;s
-FlatRanges will be inserted into gaps left by B if B and C overlaps.
-
-So I think adding D as C&#39;s subregion has no effect on B in your second =
-case.
-The old FlatRange pointing to B is still effective. C and C&#39;children wi=
-th lower
-priority than D will be affected, but we have flagged them as stale.
-
-I hope I have no misunderstanding of the flatview&#39;s construction code. =
-If I
-understand wrong, please forgive my ignorance..=F0=9F=98=AD
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre">No I think you&#39;re right.. thanks, I =
-should read the code/doc first rather
-than trusting myself. :)
-
-But still, the whole point is that the parent may not even be visible to
-the flatview, so I still don&#39;t know how it could work.
-
-My 2nd attempt:
-
-                                  A
-                                  |
-                                  B
-                                (p=3D1)
-
-Adding C with p=3D2:
-
-                                  A
-                                 / \
-                                B   C
-                             (p=3D1) (p=3D2)
-
-IIUC the flatview to access the offset A resides should point to B, then
-after C plugged we&#39;ll still lookup and find B.  Even if A is in the sta=
-le
-list, B is not?
-</pre>
-    </blockquote>
-    <pre>Sorry I forgot to describe my latest ideas about this mechanism in=
- detail.
-
-we can add A, B and B&#39;s children to the stale list=EF=BC=88If there is =
-D, E and=20
-other mrs have lower priority than C, we can also add them and their childr=
-en=20
-to the stale list recursively). Or we can add a stale flag to mr structure=
-=20
-to avoid cost of searching mr in the stale list..
-</pre>
-    <blockquote type=3D"cite" cite=3D"mid:Y5IKOIUYHWbpVABV@x1n">
-      <pre class=3D"moz-quote-pre">The other thing I didn&#39;t mention is =
-that I don&#39;t think the address space
-translation is the solo consumer of the flat view.  Some examples:
-
-common_semi_find_bases() walks the flatview without translations.
-
-memory_region_update_coalesced_range() (calls address_space_get_flatview()
-first) notifies kvm coalesced mmio regions without translations.
-
-So at least hooking up address_space_translate_internal() itself may not be
-enough too.
-</pre>
-    </blockquote>
-    <pre>This is really a problem. Maybe we should check whether the mr is =
-stale on=20
-all critical paths, or find other more genneral ways..=20
-</pre>
-    <blockquote type=3D"cite" cite=3D"mid:Y5IKOIUYHWbpVABV@x1n">
-      <pre class=3D"moz-quote-pre"></pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre"></pre>
-        <blockquote type=3D"cite">
-          <pre class=3D"moz-quote-pre"></pre>
-          <blockquote type=3D"cite">
-            <pre class=3D"moz-quote-pre">There may be many details to consi=
-der in this mechanism. Hope you can give
-some suggestions on its feasibility.
-</pre>
-          </blockquote>
-          <pre class=3D"moz-quote-pre">For this specific case, I&#39;m wild=
-ly thinking whether we can just postpone
-the init of the vring cache until migration completes.
-
-One thing to mention from what I read it: we&#39;ll need to update all the
-caches in virtio_memory_listener_commit() anyway, when the batched commit()
-happens when migration completes with your approach, so we&#39;ll rebuild t=
-he
-vring cache once and for all which looks also nice if possible.
-
-There&#39;s some details to consider. E.g. the commit() happens only when
-memory_region_update_pending=3D=3Dtrue.  We may want to make sure the cache=
- is
-initialized unconditionally, at least.  Not sure whether that&#39;s doable,
-though.
-
-Thanks,
-
-</pre>
-        </blockquote>
-        <pre class=3D"moz-quote-pre">Good idea! We can try it in the new pa=
-tches! And with the delay of
-virtio_init_region_cache(), we can still use assert in address_space_to_fla=
-tview().
-However, I think the stale list can be used as a retention scheme for furth=
-er
-discussion in the future, because the stale list may adapt to more complex =
-scenarios.
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre">If the assert will work that&#39;ll be e=
-ven better.  I&#39;m actually worried this
-can trigger like what you mentioned in the virtio path, I didn&#39;t expect=
- it
-comes that soon.  So if there&#39;s a minimum cases and we can fixup easily
-that&#39;ll be great.  Hopefully there aren&#39;t so much or we&#39;ll need=
- to revisit
-the whole idea.
-
-Thanks,
-</pre>
-    </blockquote>
-    <pre>+1.. Hope this is the only case that will trigger crash.
-
-I&#39;ll upload the second version as soon as possible.
-
-Thanks.
-</pre>
- =20
-</body></html>
-
---00000000000061069805ef602788--
 
