@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5BE64817A
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916CA648181
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:18:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bMY-0001MZ-CN; Fri, 09 Dec 2022 06:16:18 -0500
+	id 1p3bOS-0002G9-In; Fri, 09 Dec 2022 06:18:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3bMP-0001Lt-M5
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:16:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3bML-0005Cl-Bm
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:16:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670584563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=lYVzZ2wyr/Q89Z/+19+QWonnkA2baWNbz0EhqNReKVA=;
- b=d96Jgb5McPey/SiOYGp/E0C/1gkxNrNMKhf96nnKAOMNVqe0tjVVeXUY6TYHt4WwhOkJb2
- ureOupe+7oejZYSBmMxPCySM5ksw99BnRk8EOwk5CgEr0D8YFT1G673camyYEDoVWRjtb2
- lj0W1+93ArWTpMmbbBoNZQfmZxFItl0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-5j8LNd1MNIaC-A_EnhIlPA-1; Fri, 09 Dec 2022 06:16:02 -0500
-X-MC-Unique: 5j8LNd1MNIaC-A_EnhIlPA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7780185A78B;
- Fri,  9 Dec 2022 11:16:01 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DE414B3FC6;
- Fri,  9 Dec 2022 11:15:59 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Michael S Tsirkin <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 for-8.0] hw/rtc/mc146818rtc: Make this rtc device target
- independent
-Date: Fri,  9 Dec 2022 12:15:56 +0100
-Message-Id: <20221209111556.110757-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3bO3-0002Aq-6Q
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:17:57 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3bNx-0005i5-B4
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:17:49 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id f18so4865271wrj.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:17:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jfhc3x6jzrxNP376or3RNjR3F8wMtVqE4b+ijWwzKS4=;
+ b=Sbho48j1dVf6znqaQO+DdIE02CDpMVgwukhT9Uqq2jd5XrxKK6N9aWxIRCWKwRGXoX
+ K8rm7ippF3ejUb+qgMLDlFM4bMCxafW/2+Yl9jTmWR860FZFegE40o5y45FLGA+CVami
+ xKX0CVYbxYo4moFpvOuC2gEZGv3iC53balG55Hc3olfUDLBuQIm84gT70WnS5W4Ycv08
+ WEvSBVzKxXsgdcSsB7V0lxW4MD10vtiSSVsQoiQ7+ym3FC1WZT/De+AU/MqxOqEmLqmq
+ k2yzbDm1/PwsMqJCLZkpL9xzqchS8k/PA7qOyavLZsS94mzLsaWBuq7PtV40kON5V41n
+ jWnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jfhc3x6jzrxNP376or3RNjR3F8wMtVqE4b+ijWwzKS4=;
+ b=3ozdmTqALrmhlVGOWZKjWvUW1jOZcQvNdI8b4Jr+00yBIJqrMdOr+vzFhTjB+n0V+W
+ SlVAqOCxXg+qqLcMDkz1M7w+0etxQyVWAnRdyrM6bjYqcz4kS4c0NDtonbK3aSaxD7ax
+ pUXnf0chjXkVG/oz52IJHwFDLcNbrW7RxcMA+m6WoD57V4r5Ka2U1OY5WfPvg7mhuI3Q
+ sfmJZ+UTplRJkeiuCz62xk5TK66ylHNde2jVsz1ogwdlEBrNSKtmohfYh+Yo5xdODhDQ
+ Creb35x/UlmY2p0fGf29w1rOb8J+4Eu9vVcEvLyrmPw5GKpvcn+JUOry2OYaODGYimV9
+ 7FZw==
+X-Gm-Message-State: ANoB5plpfd0a5+tyP+JQYnQK5myMG/kuwlhaYDaHLM58QrkH5AOi6nSJ
+ UW/4nu7IiCp+Kb2D+jGolDHAhvX/vRqTO6sEkQM=
+X-Google-Smtp-Source: AA0mqf6gqzUO6+S9vDVYfafHpaesKk9saWKNqJVjxjai4UoJ0WaPyAhKUrAy8dut9vk6QXkTqQtk4w==
+X-Received: by 2002:a5d:488f:0:b0:236:74c5:7ec with SMTP id
+ g15-20020a5d488f000000b0023674c507ecmr3201769wrq.13.1670584658820; 
+ Fri, 09 Dec 2022 03:17:38 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ cc19-20020a5d5c13000000b0024165454262sm1169787wrb.11.2022.12.09.03.17.37
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 09 Dec 2022 03:17:38 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Fabiano Rosas <farosas@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [RFC PATCH-for-8.0] target/arm: Keep "internals.h" internal to
+ target/arm/
+Date: Fri,  9 Dec 2022 12:17:36 +0100
+Message-Id: <20221209111736.59796-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,259 +89,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The only reason for this code being target dependent is the apic-related
-code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
-simple, we can easily move them into a new, separate file (apic_irqcount.c)
-which will always be compiled and linked if either APIC or the mc146818 device
-are required. This way we can get rid of the #ifdef TARGET_I386 switches in
-mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
-that the code only gets compiled once for all targets.
+"target/arm/internals.h" is supposed to be *internal* to
+target/arm/. hw/arm/virt.c includes it to get arm_pamax()
+declaration. Move this declaration to "cpu.h" which can
+be included out of target/arm/, and move the implementation
+in machine.c which is always built with system emulation.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- v2: Move the apic functions into a separate file instead of using
-     an ugly function pointer
+RFC: Do we need a new pair of c/h for architectural helpers?
 
- include/hw/i386/apic.h          |  1 +
- include/hw/i386/apic_internal.h |  1 -
- include/hw/rtc/mc146818rtc.h    |  1 +
- hw/intc/apic_common.c           | 27 -----------------
- hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
- hw/rtc/mc146818rtc.c            | 25 +++++-----------
- hw/intc/meson.build             |  6 +++-
- hw/rtc/meson.build              |  3 +-
- 8 files changed, 68 insertions(+), 49 deletions(-)
- create mode 100644 hw/intc/apic_irqcount.c
+ptw.c should be restricted to TCG.
+---
+ hw/arm/virt.c          |  2 +-
+ target/arm/cpu.h       |  9 +++++++++
+ target/arm/internals.h |  9 ---------
+ target/arm/machine.c   | 39 +++++++++++++++++++++++++++++++++++++++
+ target/arm/ptw.c       | 39 ---------------------------------------
+ 5 files changed, 49 insertions(+), 49 deletions(-)
 
-diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
-index da1d2fe155..96b9939425 100644
---- a/include/hw/i386/apic.h
-+++ b/include/hw/i386/apic.h
-@@ -9,6 +9,7 @@ int apic_accept_pic_intr(DeviceState *s);
- void apic_deliver_pic_intr(DeviceState *s, int level);
- void apic_deliver_nmi(DeviceState *d);
- int apic_get_interrupt(DeviceState *s);
-+void apic_report_irq_delivered(int delivered);
- void apic_reset_irq_delivered(void);
- int apic_get_irq_delivered(void);
- void cpu_set_apic_base(DeviceState *s, uint64_t val);
-diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_internal.h
-index c175e7e718..e61ad04769 100644
---- a/include/hw/i386/apic_internal.h
-+++ b/include/hw/i386/apic_internal.h
-@@ -199,7 +199,6 @@ typedef struct VAPICState {
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index b871350856..4528ca8da2 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -70,7 +70,6 @@
+ #include "standard-headers/linux/input.h"
+ #include "hw/arm/smmuv3.h"
+ #include "hw/acpi/acpi.h"
+-#include "target/arm/internals.h"
+ #include "hw/mem/memory-device.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+@@ -79,6 +78,7 @@
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/char/pl011.h"
+ #include "qemu/guest-random.h"
++#include "target/arm/cpu.h"
  
- extern bool apic_report_tpr_access;
- 
--void apic_report_irq_delivered(int delivered);
- bool apic_next_timer(APICCommonState *s, int64_t current_time);
- void apic_enable_tpr_access_reporting(DeviceState *d, bool enable);
- void apic_enable_vapic(DeviceState *d, hwaddr paddr);
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 1db0fcee92..45bcd6f040 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -55,5 +55,6 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
- void rtc_set_memory(ISADevice *dev, int addr, int val);
- int rtc_get_memory(ISADevice *dev, int addr);
-+void qmp_rtc_reset_reinjection(Error **errp);
- 
- #endif /* HW_RTC_MC146818RTC_H */
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index 2a20982066..b0f85f9384 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -33,7 +33,6 @@
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- 
--static int apic_irq_delivered;
- bool apic_report_tpr_access;
- 
- void cpu_set_apic_base(DeviceState *dev, uint64_t val)
-@@ -122,32 +121,6 @@ void apic_handle_tpr_access_report(DeviceState *dev, target_ulong ip,
-     vapic_report_tpr_access(s->vapic, CPU(s->cpu), ip, access);
+ #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 9aeed3c848..8cdad4855f 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3444,6 +3444,15 @@ static inline target_ulong cpu_untagged_addr(CPUState *cs, target_ulong x)
  }
+ #endif
  
--void apic_report_irq_delivered(int delivered)
--{
--    apic_irq_delivered += delivered;
--
--    trace_apic_report_irq_delivered(apic_irq_delivered);
--}
--
--void apic_reset_irq_delivered(void)
--{
--    /* Copy this into a local variable to encourage gcc to emit a plain
--     * register for a sys/sdt.h marker.  For details on this workaround, see:
--     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
--     */
--    volatile int a_i_d = apic_irq_delivered;
--    trace_apic_reset_irq_delivered(a_i_d);
--
--    apic_irq_delivered = 0;
--}
--
--int apic_get_irq_delivered(void)
--{
--    trace_apic_get_irq_delivered(apic_irq_delivered);
--
--    return apic_irq_delivered;
--}
--
- void apic_deliver_nmi(DeviceState *dev)
- {
-     APICCommonState *s = APIC_COMMON(dev);
-diff --git a/hw/intc/apic_irqcount.c b/hw/intc/apic_irqcount.c
-new file mode 100644
-index 0000000000..0aadef1cb5
---- /dev/null
-+++ b/hw/intc/apic_irqcount.c
-@@ -0,0 +1,53 @@
 +/*
-+ * APIC support - functions for counting the delivered IRQs.
-+ * (this code is in a separate file since it is used from the
-+ * mc146818rtc code on targets without APIC, too)
++ * arm_pamax
++ * @cpu: ARMCPU
 + *
-+ *  Copyright (c) 2011      Jan Kiszka, Siemens AG
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
++ * Returns the implementation defined bit-width of physical addresses.
++ * The ARMv8 reference manuals refer to this as PAMax().
 + */
++unsigned int arm_pamax(ARMCPU *cpu);
 +
-+#include "qemu/osdep.h"
-+#include "hw/i386/apic.h"
-+#include "trace.h"
-+
-+static int apic_irq_delivered;
-+
-+void apic_report_irq_delivered(int delivered)
-+{
-+    apic_irq_delivered += delivered;
-+
-+    trace_apic_report_irq_delivered(apic_irq_delivered);
-+}
-+
-+void apic_reset_irq_delivered(void)
-+{
-+    /*
-+     * Copy this into a local variable to encourage gcc to emit a plain
-+     * register for a sys/sdt.h marker.  For details on this workaround, see:
-+     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
-+     */
-+    volatile int a_i_d = apic_irq_delivered;
-+    trace_apic_reset_irq_delivered(a_i_d);
-+
-+    apic_irq_delivered = 0;
-+}
-+
-+int apic_get_irq_delivered(void)
-+{
-+    trace_apic_get_irq_delivered(apic_irq_delivered);
-+
-+    return apic_irq_delivered;
-+}
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 1ebb412479..afb1f385a3 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -43,11 +43,7 @@
- #include "qapi/qapi-events-misc.h"
- #include "qapi/visitor.h"
- #include "hw/rtc/mc146818rtc_regs.h"
--
--#ifdef TARGET_I386
--#include "qapi/qapi-commands-misc-target.h"
- #include "hw/i386/apic.h"
--#endif
- 
- //#define DEBUG_CMOS
- //#define DEBUG_COALESCED
-@@ -112,7 +108,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
- static QLIST_HEAD(, RTCState) rtc_devices =
-     QLIST_HEAD_INITIALIZER(rtc_devices);
- 
--#ifdef TARGET_I386
- void qmp_rtc_reset_reinjection(Error **errp)
- {
-     RTCState *s;
-@@ -145,13 +140,6 @@ static void rtc_coalesced_timer(void *opaque)
- 
-     rtc_coalesced_timer_update(s);
+ /*
+  * Naming convention for isar_feature functions:
+  * Functions which test 32-bit ID registers should have _aa32_ in
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 161e42d50f..5e9546b6a3 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -241,15 +241,6 @@ static inline void update_spsel(CPUARMState *env, uint32_t imm)
+     aarch64_restore_sp(env, cur_el);
  }
--#else
--static bool rtc_policy_slew_deliver_irq(RTCState *s)
--{
--    assert(0);
--    return false;
--}
--#endif
  
- static uint32_t rtc_periodic_clock_ticks(RTCState *s)
- {
-@@ -922,14 +910,15 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     rtc_set_date_from_host(isadev);
- 
-     switch (s->lost_tick_policy) {
--#ifdef TARGET_I386
--    case LOST_TICK_POLICY_SLEW:
--        s->coalesced_timer =
--            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
--        break;
--#endif
-     case LOST_TICK_POLICY_DISCARD:
-         break;
-+    case LOST_TICK_POLICY_SLEW:
-+        /* Slew tick policy is only available if the machine has an APIC */
-+        if (object_resolve_path_type("", "apic-common", NULL) != NULL) {
-+            s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
-+            break;
-+        }
-+        /* fallthrough */
-     default:
-         error_setg(errp, "Invalid lost tick policy.");
-         return;
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index bcbf22ff51..036ad1936b 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -25,8 +25,12 @@ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_intc.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-ipi.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-pmu-iomod-intc.c'))
- 
--specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
-+if config_all_devices.has_key('CONFIG_APIC') or config_all_devices.has_key('CONFIG_MC146818RTC')
-+    softmmu_ss.add(files('apic_irqcount.c'))
-+endif
- specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
-+
-+specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
- specific_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files('arm_gicv3_cpuif.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
-diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-index dc33973384..34a4d316fa 100644
---- a/hw/rtc/meson.build
-+++ b/hw/rtc/meson.build
-@@ -13,5 +13,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
+-/*
+- * arm_pamax
+- * @cpu: ARMCPU
+- *
+- * Returns the implementation defined bit-width of physical addresses.
+- * The ARMv8 reference manuals refer to this as PAMax().
+- */
+-unsigned int arm_pamax(ARMCPU *cpu);
 -
--specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+ /* Return true if extended addresses are enabled.
+  * This is always the case if our translation regime is 64 bit,
+  * but depends on TTBCR.EAE for 32 bit.
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 54c5c62433..51f84f90f0 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -6,6 +6,45 @@
+ #include "internals.h"
+ #include "migration/cpu.h"
+ 
++/* This mapping is common between ID_AA64MMFR0.PARANGE and TCR_ELx.{I}PS. */
++static const uint8_t pamax_map[] = {
++    [0] = 32,
++    [1] = 36,
++    [2] = 40,
++    [3] = 42,
++    [4] = 44,
++    [5] = 48,
++    [6] = 52,
++};
++
++/* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
++unsigned int arm_pamax(ARMCPU *cpu)
++{
++    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
++        unsigned int parange =
++            FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
++
++        /*
++         * id_aa64mmfr0 is a read-only register so values outside of the
++         * supported mappings can be considered an implementation error.
++         */
++        assert(parange < ARRAY_SIZE(pamax_map));
++        return pamax_map[parange];
++    }
++
++    /*
++     * In machvirt_init, we call arm_pamax on a cpu that is not fully
++     * initialized, so we can't rely on the propagation done in realize.
++     */
++    if (arm_feature(&cpu->env, ARM_FEATURE_LPAE) ||
++        arm_feature(&cpu->env, ARM_FEATURE_V7VE)) {
++        /* v7 with LPAE */
++        return 40;
++    }
++    /* Anything else */
++    return 32;
++}
++
+ static bool vfp_needed(void *opaque)
+ {
+     ARMCPU *cpu = opaque;
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index f812734bfb..03703cb107 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -42,45 +42,6 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+                                       ARMMMUFaultInfo *fi)
+     __attribute__((nonnull));
+ 
+-/* This mapping is common between ID_AA64MMFR0.PARANGE and TCR_ELx.{I}PS. */
+-static const uint8_t pamax_map[] = {
+-    [0] = 32,
+-    [1] = 36,
+-    [2] = 40,
+-    [3] = 42,
+-    [4] = 44,
+-    [5] = 48,
+-    [6] = 52,
+-};
+-
+-/* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
+-unsigned int arm_pamax(ARMCPU *cpu)
+-{
+-    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+-        unsigned int parange =
+-            FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+-
+-        /*
+-         * id_aa64mmfr0 is a read-only register so values outside of the
+-         * supported mappings can be considered an implementation error.
+-         */
+-        assert(parange < ARRAY_SIZE(pamax_map));
+-        return pamax_map[parange];
+-    }
+-
+-    /*
+-     * In machvirt_init, we call arm_pamax on a cpu that is not fully
+-     * initialized, so we can't rely on the propagation done in realize.
+-     */
+-    if (arm_feature(&cpu->env, ARM_FEATURE_LPAE) ||
+-        arm_feature(&cpu->env, ARM_FEATURE_V7VE)) {
+-        /* v7 with LPAE */
+-        return 40;
+-    }
+-    /* Anything else */
+-    return 32;
+-}
+-
+ /*
+  * Convert a possible stage1+2 MMU index into the appropriate stage 1 MMU index
+  */
 -- 
-2.31.1
+2.38.1
 
 
