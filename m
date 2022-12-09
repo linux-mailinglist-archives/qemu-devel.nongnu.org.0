@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7269E6484D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8118B6484D0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:16:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3f6P-0004rg-Fz; Fri, 09 Dec 2022 10:15:53 -0500
+	id 1p3f6Q-0004sm-5K; Fri, 09 Dec 2022 10:15:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6H-0004o8-FE
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:45 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6M-0004rP-UR
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:51 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6E-00084R-FS
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:44 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id co23so5528576wrb.4
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 07:15:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6L-00086s-9W
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:50 -0500
+Received: by mail-wr1-x432.google.com with SMTP id h11so5485796wrw.13
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 07:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ykkaTaAV+4CtMofJZ4MlHHQhTvxgfANUb/q5AOZUgp4=;
- b=Y5dwiRjeeAxqJSrVCOPetbOZupdl7X39f6QfpnGhxipcTt9Gas5rQZmnsb8mrYPVjA
- ZBJz+hNUYsQR0RL0z/oZeQUckl2IMaJ/bm7CJQtir/irBBrW8WIftV1W62rhr3Nn8XF3
- ssKOFizW+7T80JFvKIcG6js6l49uSrBukbF/tuRz2ODOewYDvx6kuT2XZclhGFzRhG4f
- ZuM2ClYUCJ4NkK+TFaDr5CF+LF+I+w44X1z4cZpLJPDdWr7G4DJX5z6iEmpaRSqHQtik
- NyNJU34gz5++YHkqpigxcg9rdjtEuvIlEx2eIkDIljR6gqFEnItNF1nJkl2prbstrzPs
- jQbA==
+ bh=3ThW5+Wf0+J6ixaduZ5MXdZ1ToXWPPCl2Uxce3Xr1xo=;
+ b=rTBjjLsTgxgK8Gkv9CIloj/UEIBWRyw+Nujo4WKrR9zdOb9dgkPWzJ/aPvaCxlvegv
+ yPVKnSvp2RvtRuWoJSL9AeL329J4JGIXmqkWf9u8pLDzNZIF3Y/O5Fa/IWyoH+wzXK9X
+ JT84gUSoN2WCq26IWOuMxGd0Kwc7q7NlgMxMsgTuV7Ucqlkcsb9Z4cUeejCxzgcIxKgB
+ XSnq6PBO/oy3xr3J1KzvHk3/W3p38A7XxP8SqCAKmVPzRBTbB0LnxPvuwzlJ6ICqwuDq
+ SyLRuaMefUYV1VQUJ594W/AN/mfSUM7Zy9ZWtr5GKiM9z8jcIqHvgD524GLu4oo0WEho
+ xRQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ykkaTaAV+4CtMofJZ4MlHHQhTvxgfANUb/q5AOZUgp4=;
- b=ZJlKBbE+d/oZl5E6OyPWjVJbZ3KQMiPG9hB9ndEfufww4/Bxr2njU2WUaveKUaMH4n
- CMjm92XGf/C0EHxQtOqK1Rg6iRvf1WhH25JyoZtEmVD4YcCwdZTPdxdgYzP01kQ8RIbH
- boy4OhFSSHDZgXrtE1LyK4SZhhO4ZB5L//fZxrMMMVq3zPyD/3oqSIndpz6GDHIs9Lk1
- S4kCED+Q46bwVq/aWGnFvd4sQb4M68nr/g9cLQDn3PcNnI0zxEmzjqctOXCupywsh1CI
- G7AzcEqE1Q+G6mti76iNK7LxmQ2lgBsVsKvNotyAwVUZCxwkK3QDEmL5+dXAjyZTFgyA
- krpw==
-X-Gm-Message-State: ANoB5pmIVAZeS80612HasxbK2MAKVIOpmh6t8HkE6mdGavoyb+Vz0Mzp
- AdrZQjCUvFfQuBlVL/ZguEGDeGjcoXYw6th5eic=
-X-Google-Smtp-Source: AA0mqf65StovMVTOYuHuitVzl+cTyDIn6ac77+GBSCPW++fGXPjqqXQUdkduznbt53QE6uyUTqxGMQ==
-X-Received: by 2002:adf:ebc3:0:b0:237:45f1:7f12 with SMTP id
- v3-20020adfebc3000000b0023745f17f12mr5158085wrn.39.1670598940485; 
- Fri, 09 Dec 2022 07:15:40 -0800 (PST)
+ bh=3ThW5+Wf0+J6ixaduZ5MXdZ1ToXWPPCl2Uxce3Xr1xo=;
+ b=UDGAo3LUt9jQlTPH3jRLbJQMEqMPHUaml2WRXwABjN/uQGm4ev3d36RHyIMOOLgG7m
+ AnaZnApElz45VRIbpAuKV/+AJmcTp3K/FWWsMc0pXUhoVfRm/WOECOe4fXKRH1BhJ59i
+ nUMzpVtBj8Gko9FStVDhYGls3aXepCTgssQBrooqtj6kKarioYxyRuj0XLUFpYbUoWmx
+ MHtB+m5W+Pu2HuayITo8y96gTihwkD1mXDeG9kQiW298fiXbj1i2eVJ9w09bMI545DRf
+ cjoiUc8ZQ/9/zbPSknntvd3cOOGpX/6qZeQL/EXqJ18dm3YnjnJRehOBVU9mMc7VqUFS
+ Cdeg==
+X-Gm-Message-State: ANoB5pnE6PDmk72utvnpjYvJ1PduO0sH7rSMb6gOMKQYHBokaty4Hvz6
+ 9yA6SyN2zOWDWYJSehvhAMMhg5mlCbKd78iOM1I=
+X-Google-Smtp-Source: AA0mqf4xtbDEcvLRsZ2AFoPahDUBx3CshXYiz9zkist1CeJXUxdCdH/2RBEA74tkZuTPszXVxVmoGA==
+X-Received: by 2002:a05:6000:38b:b0:242:69f4:cb6a with SMTP id
+ u11-20020a056000038b00b0024269f4cb6amr4985097wrf.9.1670598945416; 
+ Fri, 09 Dec 2022 07:15:45 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- ba17-20020a0560001c1100b0024245e543absm1687214wrb.88.2022.12.09.07.15.39
+ z17-20020adfdf91000000b00241d544c9b1sm1927674wrl.90.2022.12.09.07.15.44
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 09 Dec 2022 07:15:40 -0800 (PST)
+ Fri, 09 Dec 2022 07:15:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
@@ -61,19 +61,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH-for-8.0 1/7] hw/mips/Kconfig: Introduce CONFIG_GT64120 to
- select gt64xxx_pci.c
-Date: Fri,  9 Dec 2022 16:15:27 +0100
-Message-Id: <20221209151533.69516-2-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH-for-8.0 2/7] hw/mips/gt64xxx_pci: Let the GT64120 manage the
+ lower 512MiB hole
+Date: Fri,  9 Dec 2022 16:15:28 +0100
+Message-Id: <20221209151533.69516-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209151533.69516-1-philmd@linaro.org>
 References: <20221209151533.69516-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,48 +96,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Per the comment in the Malta board, the [0x0000.0000-0x2000.0000]
+range is decoded by the GT64120, so move the "empty_slot" there.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/Kconfig     | 6 ++++++
- hw/mips/meson.build | 3 ++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ configs/devices/mips-softmmu/common.mak | 1 -
+ hw/mips/Kconfig                         | 1 +
+ hw/mips/gt64xxx_pci.c                   | 8 ++++++++
+ hw/mips/malta.c                         | 7 -------
+ 4 files changed, 9 insertions(+), 8 deletions(-)
 
+diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
+index 416161f833..c2b5f322fc 100644
+--- a/configs/devices/mips-softmmu/common.mak
++++ b/configs/devices/mips-softmmu/common.mak
+@@ -26,7 +26,6 @@ CONFIG_IDE_ISA=y
+ CONFIG_PFLASH_CFI01=y
+ CONFIG_I8259=y
+ CONFIG_MC146818RTC=y
+-CONFIG_EMPTY_SLOT=y
+ CONFIG_MIPS_CPS=y
+ CONFIG_MIPS_ITU=y
+ CONFIG_MALTA=y
 diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index 725525358d..d6bbbe7069 100644
+index d6bbbe7069..8f7bce38fb 100644
 --- a/hw/mips/Kconfig
 +++ b/hw/mips/Kconfig
-@@ -1,5 +1,6 @@
- config MALTA
+@@ -64,4 +64,5 @@ config FW_CFG_MIPS
+ config GT64120
      bool
-+    select GT64120
-     select ISA_SUPERIO
+     select PCI
++    select EMPTY_SLOT
+     select I8259
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index 19d0d9889f..1b9ac7f792 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -28,6 +28,7 @@
+ #include "qemu/log.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_host.h"
++#include "hw/misc/empty_slot.h"
+ #include "migration/vmstate.h"
+ #include "hw/intc/i8259.h"
+ #include "hw/irq.h"
+@@ -1162,6 +1163,13 @@ static void gt64120_realize(DeviceState *dev, Error **errp)
+                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
  
- config MIPSSIM
-@@ -59,3 +60,8 @@ config MIPS_BOSTON
- 
- config FW_CFG_MIPS
-     bool
+     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
 +
-+config GT64120
-+    bool
-+    select PCI
-+    select I8259
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index dd0101ad4d..6ccd385df0 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -2,7 +2,8 @@ mips_ss = ss.source_set()
- mips_ss.add(files('bootloader.c', 'mips_int.c'))
- mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
- mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
--mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
-+mips_ss.add(when: 'CONFIG_MALTA', if_true: files('malta.c'))
-+mips_ss.add(when: 'CONFIG_GT64120', if_true: files('gt64xxx_pci.c'))
- mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
++    /*
++     * The whole address space decoded by the GT-64120A doesn't generate
++     * exception when accessing invalid memory. Create an empty slot to
++     * emulate this feature.
++     */
++    empty_slot_init("GT64120", 0, 0x20000000);
+ }
  
- if 'CONFIG_TCG' in config_all
+ static void gt64120_pci_realize(PCIDevice *d, Error **errp)
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index c0a2e0ab04..ba92022f87 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -53,7 +53,6 @@
+ #include "sysemu/runstate.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+-#include "hw/misc/empty_slot.h"
+ #include "sysemu/kvm.h"
+ #include "semihosting/semihost.h"
+ #include "hw/mips/cps.h"
+@@ -1393,12 +1392,6 @@ void mips_malta_init(MachineState *machine)
+     /* Northbridge */
+     dev = sysbus_create_simple("gt64120", -1, NULL);
+     pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+-    /*
+-     * The whole address space decoded by the GT-64120A doesn't generate
+-     * exception when accessing invalid memory. Create an empty slot to
+-     * emulate this feature.
+-     */
+-    empty_slot_init("GT64120", 0, 0x20000000);
+ 
+     /* Southbridge */
+     piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
 -- 
 2.38.1
 
