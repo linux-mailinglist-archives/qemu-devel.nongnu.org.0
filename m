@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C156481E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:43:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD96481C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:31:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bX7-0005rJ-QW; Fri, 09 Dec 2022 06:27:14 -0500
+	id 1p3bXG-0005wm-JQ; Fri, 09 Dec 2022 06:27:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bW3-0004gl-Fh
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p3bW1-0004ca-G6
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bVp-0001Z6-RL
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:06 -0500
+ id 1p3bVq-0001ZN-0w
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670585141;
+ s=mimecast20190719; t=1670585144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KZ9ZXklDjX5+p2BH+atkHNrEIUqXaenKUpdY1uzmlM8=;
- b=fAZ8mWKQM04dNBSMzQNZ/lsBQQZF13aYHzUYLJAa0BCCmUcQ6z8NIQEvGnvnFxj43mHtEZ
- voEIiqJ83o9oys+QcKujSbGAnsU4qonWIWlGyj7037ckkX0wi04yrgtwmNOvK/nW+ulM22
- 7h6ljAcldZTJypudX1X02sILKhHnIDQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Hi9wAKVzCZ1hT1TsF3V5eUrMQ7ppn0EvxBQacimafSo=;
+ b=EYOCI+0oCmuuqGMqvNPCOsI7OM+2KGw0Ex7SrKqHnJov0+pIKItbuEw0Gon3jGoLECUYJg
+ oEZ4MynlqnulKoQ15OimB3Ck5DXkwwtxJR8VX47EKZpeqGyT3MHQUitrlro9ORjZAROYYz
+ AKzVjKZ+2tEyJbAuUF/it9gX6oC8UEc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-183--7Byw8FwMoSFnGmyFZm3cQ-1; Fri, 09 Dec 2022 06:25:40 -0500
-X-MC-Unique: -7Byw8FwMoSFnGmyFZm3cQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- hp16-20020a1709073e1000b007adf5a83df7so2910129ejc.1
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:25:40 -0800 (PST)
+ us-mta-358-kXKQrkhkMUiTKBIAY7sH5Q-1; Fri, 09 Dec 2022 06:25:42 -0500
+X-MC-Unique: kXKQrkhkMUiTKBIAY7sH5Q-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ ds15-20020a170907724f00b007c0abebc958so2892867ejc.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:25:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KZ9ZXklDjX5+p2BH+atkHNrEIUqXaenKUpdY1uzmlM8=;
- b=qOEzGrmeCRfwmJMZIArr7HByT0rpf4kNpWAWxXaDEZAPAT25oSMxxWQ+ekWe8G91zw
- SnOc+aPM9A/KkADOEq7pZ21m2V2T+HG8rgsCew9Cesh54scA90Fe/iWKweLGLebCrPDW
- Hd82k+XXdxFrQTBPGExR+x5xZAXytisqrFV7CtxJXK0lNNG2lzdwxck5eRkoy5AZ0mY0
- 28UQ9M+Zhpxh2FI0J2lo23xBmtOHeqoRqv9Q9FCdsyN2yJ5ikvEMZDE8+l4yxspkgBCO
- dxvcV/t9ayjMUL+v+QD0GS+ibWU+aBnI27U6n5pjs5sEVHYYsQqgdS9+uLWz7nhuSu/x
- CZPw==
-X-Gm-Message-State: ANoB5plfgQ9colSsb7ujw3e41PzSxmDl3ya3xTmzno30fyhH0uaNz7BO
- o9F3Iqw2RN2tWk94E9gCwSMxyNPI8iQV10a6NtnccczNx8URA7AqqVibXEnzG0eJ79DzUsCKo2p
- ozrssxYcyE0K2tBtgYkuLxSfsmplRbKPA5aT2PF2hWIGXlvxXivWOFjyzcqRjhO8KVTU=
-X-Received: by 2002:a17:906:4dc9:b0:7c1:6fc:6048 with SMTP id
- f9-20020a1709064dc900b007c106fc6048mr4310042ejw.24.1670585138607; 
- Fri, 09 Dec 2022 03:25:38 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6SqpPVXRnwKkP3GsvItdgQQzPQMs77kcmKrqLSzrTdMH9KsOiJP8pNajaDHm6o0hYQ1y8Zxg==
-X-Received: by 2002:a17:906:4dc9:b0:7c1:6fc:6048 with SMTP id
- f9-20020a1709064dc900b007c106fc6048mr4310022ejw.24.1670585138065; 
- Fri, 09 Dec 2022 03:25:38 -0800 (PST)
+ bh=Hi9wAKVzCZ1hT1TsF3V5eUrMQ7ppn0EvxBQacimafSo=;
+ b=nnbxcsP06hsuHKqj9yKrH5leTNj4mouD5MTyYWksqrmIUw/HAxN8CCp4MMUE5xolhr
+ pZBDMcNLnq5Z4h1/ZkI53Fv0AoVPerqvpEZHC9p3JxQJSNjm2M5g6ciFALraQKOCz4rh
+ deA0l3JJbIk9w6pHSq8YWNrPDURuwDy82FjNB1gW4jnIXYt+Jmk1RGRBxMLnAgGS9z7T
+ SMQvPf+br1iP9OVhqaOXZoGl12nExVNK84loOawuHgaEwhPzC0dH4HRCDh6+QQOaWPL4
+ kwchYoFYdb0891SEMDh9HYhPPTZ3+ppU1ha59j78eS9R5eySy88LosuMyLzku+V/+B+Y
+ 9LCg==
+X-Gm-Message-State: ANoB5pkfmajsA4yXqJS6uVuCI0dncu8vALpGvVTACsl/fOSTnUSkSqrS
+ ARTmlIztDQp3cxEY5Z1WuJ7gjgEacdM46CkqNP1gzWKh3kdhLCbDFTTR3KTktLz/qf98CfhcqW1
+ 9dWItv1jRzt2V+unVaDCANvX+0Bfr9pUQI4eGu6qlUi0lqJo94yjg/kSBuV/gtD3aZPA=
+X-Received: by 2002:a17:906:f856:b0:7c0:b0f9:e360 with SMTP id
+ ks22-20020a170906f85600b007c0b0f9e360mr4512634ejb.16.1670585141299; 
+ Fri, 09 Dec 2022 03:25:41 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4H+o29F1rU7fRcwelOoA8l+BetiuHfH9JhrPQcIDCtTKZ1v4ifg9lzPVjC9Jlmj75G3ry4ew==
+X-Received: by 2002:a17:906:f856:b0:7c0:b0f9:e360 with SMTP id
+ ks22-20020a170906f85600b007c0b0f9e360mr4512613ejb.16.1670585140755; 
+ Fri, 09 Dec 2022 03:25:40 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a170906960400b007be2687186fsm456348ejx.21.2022.12.09.03.25.37
+ v9-20020a170906292900b007c0aefd9339sm451176ejd.175.2022.12.09.03.25.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 03:25:37 -0800 (PST)
+ Fri, 09 Dec 2022 03:25:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/30] build: move warning flag selection to meson
-Date: Fri,  9 Dec 2022 12:24:04 +0100
-Message-Id: <20221209112409.184703-26-pbonzini@redhat.com>
+Subject: [PATCH 26/30] build: move remaining compiler flag tests to meson
+Date: Fri,  9 Dec 2022 12:24:05 +0100
+Message-Id: <20221209112409.184703-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209112409.184703-1-pbonzini@redhat.com>
 References: <20221209112409.184703-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,271 +99,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Meson already knows to test with the positive form of the flag, which
-simplifies the test.  Warnings are now tested explicitly for the C++
-compiler, instead of hardcoding those that are only available for
-the C language.
-
-At this point all compiler flags in QEMU_CFLAGS are global and only
-depend on the OS.  No feature tests are performed in configure.
+Remove the only remaining uses of QEMU_CFLAGS.  Now that no
+feature tests are done in configure, it is possible to remove
+CONFIGURE_CFLAGS and CONFIGURE_LDFLAGS as well.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                | 94 ----------------------------------------
- contrib/plugins/Makefile |  3 +-
- meson.build              | 72 ++++++++++++++++++++----------
- 3 files changed, 51 insertions(+), 118 deletions(-)
+ configure   | 79 ++++++++---------------------------------------------
+ meson.build | 49 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 59 insertions(+), 69 deletions(-)
 
 diff --git a/configure b/configure
-index 5d31294f316f..6df61f4337e4 100755
+index 6df61f4337e4..d5491fc3b986 100755
 --- a/configure
 +++ b/configure
-@@ -75,7 +75,6 @@ fi
- TMPB="qemu-conf"
- TMPC="${TMPDIR1}/${TMPB}.c"
- TMPO="${TMPDIR1}/${TMPB}.o"
--TMPM="${TMPDIR1}/${TMPB}.m"
- TMPE="${TMPDIR1}/${TMPB}.exe"
+@@ -158,14 +158,14 @@ do_cc() {
  
- rm -f config.log
-@@ -157,15 +156,6 @@ do_cc() {
-     do_compiler_werror "$cc" $CPU_CFLAGS "$@"
- }
- 
--do_objc() {
--    do_compiler_werror "$objcc" $CPU_CFLAGS "$@"
--}
--
--# Append $2 to the variable named $1, with space separation
--add_to() {
--    eval $1=\${$1:+\"\$$1 \"}\$2
--}
--
  compile_object() {
    local_cflags="$1"
-   do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
-@@ -1091,89 +1081,6 @@ if ! compile_prog "" "" ; then
-     error_exit "You need at least GCC v7.4 or Clang v6.0 (or XCode Clang v10.0)"
+-  do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
++  do_cc $CFLAGS $EXTRA_CFLAGS $local_cflags -c -o $TMPO $TMPC
+ }
+ 
+ compile_prog() {
+   local_cflags="$1"
+   local_ldflags="$2"
+-  do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC \
+-      $LDFLAGS $EXTRA_LDFLAGS $CONFIGURE_LDFLAGS $local_ldflags
++  do_cc $CFLAGS $EXTRA_CFLAGS $local_cflags -o $TMPE $TMPC \
++      $LDFLAGS $EXTRA_LDFLAGS $local_ldflags
+ }
+ 
+ # symbolically link $1 to $2.  Portable version of "ln -sf".
+@@ -351,19 +351,6 @@ windres="${WINDRES-${cross_prefix}windres}"
+ pkg_config="${PKG_CONFIG-${cross_prefix}pkg-config}"
+ sdl2_config="${SDL2_CONFIG-${cross_prefix}sdl2-config}"
+ 
+-# default flags for all hosts
+-# We use -fwrapv to tell the compiler that we require a C dialect where
+-# left shift of signed integers is well defined and has the expected
+-# 2s-complement style results. (Both clang and gcc agree that it
+-# provides these semantics.)
+-QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv"
+-QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+-
+-# Flags that are needed during configure but later taken care of by Meson
+-CONFIGURE_CFLAGS="-std=gnu11 -Wall"
+-CONFIGURE_LDFLAGS=
+-
+-
+ check_define() {
+ cat > $TMPC <<EOF
+ #if !defined($1)
+@@ -442,21 +429,13 @@ openbsd)
+ darwin)
+   bsd="yes"
+   darwin="yes"
+-  # Disable attempts to use ObjectiveC features in os/object.h since they
+-  # won't work when we're compiling with gcc as a C compiler.
+-  QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
+ ;;
+ sunos)
+   solaris="yes"
+   make="${MAKE-gmake}"
+-# needed for CMSG_ macros in sys/socket.h
+-  QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
+-# needed for TIOCWIN* defines in termios.h
+-  QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
+ ;;
+ haiku)
+   pie="no"
+-  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
+ ;;
+ linux)
+   linux="yes"
+@@ -589,8 +568,6 @@ fi
+ 
+ if test "$mingw32" = "yes" ; then
+   EXESUF=".exe"
+-  # MinGW needs -mthreads for TLS and macro _MT.
+-  CONFIGURE_CFLAGS="-mthreads $CONFIGURE_CFLAGS"
+   prefix="/qemu"
+   bindir=""
+   qemu_suffix=""
+@@ -1102,59 +1079,26 @@ static THREAD int tls_var;
+ int main(void) { return tls_var; }
+ EOF
+ 
+-# Meson currently only handles pie as a boolean for now so if we have
+-# explicitly disabled PIE we need to extend our cflags because it wont.
+ if test "$static" = "yes"; then
+   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
+-    CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+     pie="yes"
+   elif test "$pie" = "yes"; then
+     error_exit "-static-pie not available due to missing toolchain support"
+   else
+     pie="no"
+-    QEMU_CFLAGS="-fno-pie -no-pie $QEMU_CFLAGS"
+   fi
+-elif test "$pie" = "no"; then
+-  if compile_prog "-Werror -fno-pie" "-no-pie"; then
+-    CONFIGURE_CFLAGS="-fno-pie $CONFIGURE_CFLAGS"
+-    CONFIGURE_LDFLAGS="-no-pie $CONFIGURE_LDFLAGS"
+-    QEMU_CFLAGS="-fno-pie -no-pie $QEMU_CFLAGS"
++elif test "$pie" != "no"; then
++  if compile_prog "-Werror -fPIE -DPIE" "-pie"; then
++    pie="yes"
++  elif test "$pie" = "yes"; then
++    error_exit "PIE not available due to missing toolchain support"
++  else
++    echo "Disabling PIE due to missing toolchain support"
++    pie="no"
+   fi
+-elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+-  CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+-  CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
+-  pie="yes"
+-elif test "$pie" = "yes"; then
+-  error_exit "PIE not available due to missing toolchain support"
+-else
+-  echo "Disabling PIE due to missing toolchain support"
+-  pie="no"
  fi
  
--# Accumulate -Wfoo and -Wno-bar separately.
--# We will list all of the enable flags first, and the disable flags second.
--# Note that we do not add -Werror, because that would enable it for all
--# configure tests. If a configure test failed due to -Werror this would
--# just silently disable some features, so it's too error prone.
+ ##########################################
+-# __sync_fetch_and_and requires at least -march=i486. Many toolchains
+-# use i686 as default anyway, but for those that don't, an explicit
+-# specification is necessary
 -
--warn_flags=
--add_to warn_flags -Wundef
--add_to warn_flags -Wwrite-strings
--add_to warn_flags -Wmissing-prototypes
--add_to warn_flags -Wstrict-prototypes
--add_to warn_flags -Wredundant-decls
--add_to warn_flags -Wold-style-declaration
--add_to warn_flags -Wold-style-definition
--add_to warn_flags -Wtype-limits
--add_to warn_flags -Wformat-security
--add_to warn_flags -Wformat-y2k
--add_to warn_flags -Winit-self
--add_to warn_flags -Wignored-qualifiers
--add_to warn_flags -Wempty-body
--add_to warn_flags -Wnested-externs
--add_to warn_flags -Wendif-labels
--add_to warn_flags -Wexpansion-to-defined
--add_to warn_flags -Wimplicit-fallthrough=2
--
--nowarn_flags=
--add_to nowarn_flags -Wno-initializer-overrides
--add_to nowarn_flags -Wno-missing-include-dirs
--add_to nowarn_flags -Wno-shift-negative-value
--add_to nowarn_flags -Wno-string-plus-int
--add_to nowarn_flags -Wno-typedef-redefinition
--add_to nowarn_flags -Wno-tautological-type-limit-compare
--add_to nowarn_flags -Wno-psabi
--add_to nowarn_flags -Wno-gnu-variable-sized-type-not-at-end
--
--gcc_flags="$warn_flags $nowarn_flags"
--
--cc_has_warning_flag() {
--    write_c_skeleton;
--
--    # Use the positive sense of the flag when testing for -Wno-wombat
--    # support (gcc will happily accept the -Wno- form of unknown
--    # warning options).
--    optflag="$(echo $1 | sed -e 's/^-Wno-/-W/')"
--    compile_prog "-Werror $optflag" ""
+-if test "$cpu" = "i386"; then
+-  cat > $TMPC << EOF
+-static int sfaa(int *ptr)
+-{
+-  return __sync_fetch_and_and(ptr, 0);
 -}
 -
--objcc_has_warning_flag() {
--    cat > $TMPM <<EOF
--int main(void) { return 0; }
--EOF
--
--    # Use the positive sense of the flag when testing for -Wno-wombat
--    # support (gcc will happily accept the -Wno- form of unknown
--    # warning options).
--    optflag="$(echo $1 | sed -e 's/^-Wno-/-W/')"
--    do_objc -Werror $optflag \
--      $OBJCFLAGS $EXTRA_OBJCFLAGS $CONFIGURE_OBJCFLAGS $QEMU_OBJCFLAGS \
--      -o $TMPE $TMPM
+-int main(void)
+-{
+-  int val = 42;
+-  val = __sync_val_compare_and_swap(&val, 0, 1);
+-  sfaa(&val);
+-  return val;
 -}
--
--for flag in $gcc_flags; do
--    if cc_has_warning_flag $flag ; then
--        QEMU_CFLAGS="$QEMU_CFLAGS $flag"
--    fi
--    if objcc_has_warning_flag $flag ; then
--        QEMU_OBJCFLAGS="$QEMU_OBJCFLAGS $flag"
--    fi
--done
--
--# Disable -Wmissing-braces on older compilers that warn even for
--# the "universal" C zero initializer {0}.
--cat > $TMPC << EOF
--struct {
--  int a[2];
--} x = {0};
 -EOF
--if compile_object "-Werror" "" ; then
--  :
--else
--  QEMU_CFLAGS="$QEMU_CFLAGS -Wno-missing-braces"
+-  if ! compile_prog "" "" ; then
+-    QEMU_CFLAGS="-march=i486 $QEMU_CFLAGS"
+-  fi
 -fi
--
- # Resolve default for --enable-plugins
- if test "$static" = "yes" ; then
-   if test "$plugins" = "yes"; then
-@@ -1928,7 +1835,6 @@ echo "NINJA=$ninja" >> $config_host_mak
+ 
+ if test -z "${target_list+xxx}" ; then
+     default_targets=yes
+@@ -1834,7 +1778,6 @@ echo "MESON=$meson" >> $config_host_mak
+ echo "NINJA=$ninja" >> $config_host_mak
  echo "PKG_CONFIG=${pkg_config_exe}" >> $config_host_mak
  echo "CC=$cc" >> $config_host_mak
- echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
--echo "QEMU_OBJCFLAGS=$QEMU_OBJCFLAGS" >> $config_host_mak
+-echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
  echo "EXESUF=$EXESUF" >> $config_host_mak
  
  # use included Linux headers
-diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-index 8a316cd76f2f..b2b9db9f51af 100644
---- a/contrib/plugins/Makefile
-+++ b/contrib/plugins/Makefile
-@@ -27,8 +27,7 @@ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
- # The main QEMU uses Glib extensively so it's perfectly fine to use it
- # in plugins (which many example do).
- CFLAGS := $(shell $(PKG_CONFIG) --cflags glib-2.0)
--CFLAGS += -fPIC -Wall $(filter -W%, $(QEMU_CFLAGS))
--CFLAGS += $(if $(findstring no-psabi,$(QEMU_CFLAGS)),-Wpsabi)
-+CFLAGS += -fPIC -Wall
- CFLAGS += $(if $(CONFIG_DEBUG_TCG), -ggdb -O0)
- CFLAGS += -I$(SRC_PATH)/include/qemu
- 
 diff --git a/meson.build b/meson.build
-index c5a8dce9e1d6..4ec8104b73a3 100644
+index 4ec8104b73a3..01c6ac0045bc 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -190,16 +190,8 @@ endif
+@@ -190,10 +190,50 @@ endif
  # Compiler flags #
  ##################
  
--qemu_common_flags = []
-+qemu_common_flags = config_host['QEMU_CFLAGS'].split()
+-qemu_common_flags = config_host['QEMU_CFLAGS'].split()
++# default flags for all hosts
++# We use -fwrapv to tell the compiler that we require a C dialect where
++# left shift of signed integers is well defined and has the expected
++# 2s-complement style results. (Both clang and gcc agree that it
++# provides these semantics.)
++
++qemu_common_flags = [
++  '-D_GNU_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_LARGEFILE_SOURCE',
++  '-fno-strict-aliasing', '-fno-common', '-fwrapv' ]
  qemu_cflags = []
--foreach arg : config_host['QEMU_CFLAGS'].split()
--  if arg.startswith('-W')
--    qemu_cflags += arg
--  else
--    qemu_common_flags += arg
--  endif
--endforeach
--qemu_objcflags = config_host['QEMU_OBJCFLAGS'].split()
  qemu_ldflags = []
  
++if targetos == 'darwin'
++  # Disable attempts to use ObjectiveC features in os/object.h since they
++  # won't work when we're compiling with gcc as a C compiler.
++  qemu_common_flags += '-DOS_OBJECT_USE_OBJC=0'
++elif targetos == 'solaris'
++  # needed for CMSG_ macros in sys/socket.h
++  qemu_common_flags += '-D_XOPEN_SOURCE=600'
++  # needed for TIOCWIN* defines in termios.h
++  qemu_common_flags += '-D__EXTENSIONS__'
++elif targetos == 'haiku'
++  qemu_common_flags += ['-DB_USE_POSITIVE_POSIX_ERRORS', '-D_BSD_SOURCE', '-fPIC']
++endif
++
++# __sync_fetch_and_and requires at least -march=i486. Many toolchains
++# use i686 as default anyway, but for those that don't, an explicit
++# specification is necessary
++if host_arch == 'i386' and not cc.links('''
++  static int sfaa(int *ptr)
++  {
++    return __sync_fetch_and_and(ptr, 0);
++  }
++
++  int main(void)
++  {
++    int val = 42;
++    val = __sync_val_compare_and_swap(&val, 0, 1);
++    sfaa(&val);
++    return val;
++  }''')
++  qemu_common_flags = ['-march=i486'] + qemu_common_flags
++endif
++
  if get_option('gprof')
-@@ -380,20 +372,49 @@ endif
- add_global_arguments(qemu_common_flags, native: false, language: all_languages)
- add_global_link_arguments(qemu_ldflags, native: false, language: all_languages)
- 
-+# Collect warnings that we want to enable
-+
-+warn_flags = [
-+  '-Wundef',
-+  '-Wwrite-strings',
-+  '-Wmissing-prototypes',
-+  '-Wstrict-prototypes',
-+  '-Wredundant-decls',
-+  '-Wold-style-declaration',
-+  '-Wold-style-definition',
-+  '-Wtype-limits',
-+  '-Wformat-security',
-+  '-Wformat-y2k',
-+  '-Winit-self',
-+  '-Wignored-qualifiers',
-+  '-Wempty-body',
-+  '-Wnested-externs',
-+  '-Wendif-labels',
-+  '-Wexpansion-to-defined',
-+  '-Wimplicit-fallthrough=2',
-+  '-Wno-initializer-overrides',
-+  '-Wno-missing-include-dirs',
-+  '-Wno-shift-negative-value',
-+  '-Wno-string-plus-int',
-+  '-Wno-typedef-redefinition',
-+  '-Wno-tautological-type-limit-compare',
-+  '-Wno-psabi',
-+  '-Wno-gnu-variable-sized-type-not-at-end',
-+]
-+
-+if not cc.compiles('''
-+  struct {
-+    int a[2];
-+  } x = {0};''', args: ['-Werror'])
-+  warn_flags += ['-Wno-missing-braces']
-+endif
-+
- # Check that the C++ compiler exists and works with the C compiler.
- link_language = 'c'
- linker = cc
- qemu_cxxflags = []
- if 'cpp' in all_languages
--  add_global_arguments(['-D__STDC_LIMIT_MACROS', '-D__STDC_CONSTANT_MACROS', '-D__STDC_FORMAT_MACROS'],
--                       native: false, language: 'cpp')
--  foreach k: qemu_cflags
--    if k not in ['-Wstrict-prototypes', '-Wmissing-prototypes', '-Wnested-externs',
--                 '-Wold-style-declaration', '-Wold-style-definition', '-Wredundant-decls']
--      qemu_cxxflags += [k]
--    endif
--  endforeach
--
-+  qemu_cxxflags = ['-D__STDC_LIMIT_MACROS', '-D__STDC_CONSTANT_MACROS', '-D__STDC_FORMAT_MACROS'] + qemu_cflags
-   if cxx.links(files('scripts/main.c'), args: qemu_cflags)
-     link_language = 'cpp'
-     linker = cxx
-@@ -413,9 +434,16 @@ if get_option('optimization') != '0' and targetos == 'linux'
-   endif
+   qemu_common_flags += ['-p']
+   qemu_ldflags += ['-p']
+@@ -203,6 +243,13 @@ if get_option('prefer_static')
+   qemu_ldflags += get_option('b_pie') ? '-static-pie' : '-static'
  endif
  
--add_project_arguments(qemu_cflags, native: false, language: 'c')
--add_project_arguments(qemu_cxxflags, native: false, language: 'cpp')
--add_project_arguments(qemu_objcflags, native: false, language: 'objc')
-+add_project_arguments(qemu_cflags, native: false, language: 'objc')
-+add_project_arguments(cc.get_supported_arguments(warn_flags), native: false, language: 'c')
-+if 'cpp' in all_languages
-+  add_project_arguments(qemu_cxxflags, native: false, language: 'cpp')
-+  add_project_arguments(cxx.get_supported_arguments(warn_flags), native: false, language: 'cpp')
++# Meson currently only handles pie as a boolean for now, so if the user
++# has explicitly disabled PIE we need to extend our cflags.
++if not get_option('b_pie')
++  qemu_cflags += cc.get_supported_arguments('-fno-pie')
++  qemu_ldflags += cc.get_supported_link_arguments('-no-pie')
 +endif
-+if 'objc' in all_languages
-+  # Note sanitizer flags are not applied to Objective-C sources!
-+  add_project_arguments(objc.get_supported_arguments(warn_flags), native: false, language: 'objc')
-+endif
- if targetos == 'linux'
-   add_project_arguments('-isystem', meson.current_source_dir() / 'linux-headers',
-                         '-isystem', 'linux-headers',
-@@ -3927,7 +3955,7 @@ if 'cpp' in all_languages
-   summary_info += {'QEMU_CXXFLAGS':     ' '.join(qemu_common_flags + qemu_cxxflags)}
- endif
- if 'objc' in all_languages
--  summary_info += {'QEMU_OBJCFLAGS':    ' '.join(qemu_common_flags + qemu_objcflags)}
-+  summary_info += {'QEMU_OBJCFLAGS':    ' '.join(qemu_common_flags)}
- endif
- summary_info += {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
- summary_info += {'profiler':          get_option('profiler')}
++
+ if not get_option('stack_protector').disabled()
+   stack_protector_probe = '''
+     int main(int argc, char *argv[])
 -- 
 2.38.1
 
