@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B156F647BF8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 03:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E49647C03
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 03:10:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Sln-0005wX-8v; Thu, 08 Dec 2022 21:05:47 -0500
+	id 1p3Slm-0005w6-MV; Thu, 08 Dec 2022 21:05:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3Slk-0005ua-Cj
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:44 -0500
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
+ id 1p3Sll-0005vE-DK
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:45 -0500
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3Sli-0001vI-DW
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:44 -0500
-Received: by mail-ot1-x331.google.com with SMTP id
- cn2-20020a056830658200b0066c74617e3dso1997404otb.2
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 18:05:41 -0800 (PST)
+ id 1p3Slj-0001vW-LQ
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:45 -0500
+Received: by mail-ot1-x335.google.com with SMTP id
+ l8-20020a056830054800b006705fd35eceso1976110otb.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 18:05:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oaWPLzYHFjhFB1tuAfWhCD/kpjISuCEiRwLxQm7Lwyo=;
- b=t6QfxqlvvSfBCFUzkB6xQpCnJNSjSPFHBMFZs4dueikNRvNZI4Hoot8TisRNQqS7VE
- khtRS5EZ/Q+fw4l0eCUxODb7QnAEvMzzqrITegy3TqP2NmRazhVsqXfEZ9PViWOBtQqP
- KFTOy3EuiGOpoNB+o39GDntXjwvAlP4RUTgghkrurshRLcAs9h306w098Z3/nAO41wtO
- J39DGupOq9wNu3bhtUbChiQHScjhsnfcUnDFF+fCqpILEfQaJcmVJwKDRCJrkTmD1kGB
- XKLqTFExkWL5DVPG7XRFWAUpCxBPZq7iZWMs+qlI7Gus8g1gh0oHjW/OjQp48k6imqur
- F8Mw==
+ bh=h4n6658V8gzuBQVeX0F+T4ObLOLK7n60xjvBN2Tekig=;
+ b=ZaH47SsZ5p/Af+izYy/fULz6+LtGGrw8NgJVoKzVBkBxO2dRonww80HhSf/Z00SLSs
+ rT6cYFNodAGaMIkxTLLfO9CyOtHobz8qyh/dFjGfwKwy3XPHxCqJJvUaHtKOrM2xaKXL
+ 2yi1VhlaNi6B8ZzKZsQNYgs06s6EabT6+X3I5x9tV+XSdmj/Ccu/ARGbzveT/jFhpj1R
+ 5d0PthhEGQkU2W9lnQLIn4fV3kz6R1vLKaWBnLzow/JdK8PIoiXP4wA6civSUj4Wwi9S
+ TJn5R/k8r+Ilw29zibY1J+9tHG2NA9ZLcQZm9y2gW0lCjjmRWpFYYo4mBqPpE7IVMNwH
+ Gwsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oaWPLzYHFjhFB1tuAfWhCD/kpjISuCEiRwLxQm7Lwyo=;
- b=GUicdQTK+S99bN7v3kZT6r3KOQmr8Yq0zG3JxR+6PyRLnhdL753UJdzALtkzL4VMhD
- KmQyum6gKAuvQ/syP94D/Nc7EzVYwKDd2Dj6l1Zm1YtDZoBmNiudftBqoLrS4QpBusfz
- I/6Cb13kXoo7J/yRNLm8KuwaXKdjSMased7pk/xGC428HnZt3s1JBlShUYvR8EF+phSY
- 5TMSwJkvqe41IlC/LSK5eZmf7n4wHplIzkV/WDqKX/BysK6Jx4K/Gevg/1mI2vUsJhEJ
- xW3mskcGJnBOqXeZBca7OfZgHrTNXlMs7aY/e7LN77BeYMQY7G6PV65oMCO48e/iOM7F
- 3pKQ==
-X-Gm-Message-State: ANoB5pn23aCZ7kMncXiREo9PQ+m5SLNZ3U86Cr26eXH3eX5qAGhNP+1D
- ScubXLoqNzZ43sUGc1b9tsrgfadotdYZm85qO+k=
-X-Google-Smtp-Source: AA0mqf6w0thu/cl+rMLco+EknM0qJgjyJ4Xa60YONLxd4M4xmA+jqwdcPM4nprZcZkbSz6XgGcxZ3Q==
-X-Received: by 2002:a9d:6b82:0:b0:670:5e21:70f0 with SMTP id
- b2-20020a9d6b82000000b006705e2170f0mr1904060otq.22.1670551541233; 
- Thu, 08 Dec 2022 18:05:41 -0800 (PST)
+ bh=h4n6658V8gzuBQVeX0F+T4ObLOLK7n60xjvBN2Tekig=;
+ b=RzHvpCiH46v2QdNWwHZt6bqOR24X6gr2NdycfZRfgCjCrdoecrOfffFwFncIkMJyMR
+ EHtUy2vqYh0RCqTJRZteOYN7AGHj11zRi6a5qeySrwqZ7dhI6nrvQpnxTBc5cTVdSr7G
+ TzdrS8AKQF/bIbFnxz2npBmeXwvmhknVT2zYj8ed5pSUisSBoTx8+Y+vyHmXFn5j4m2P
+ 6BRHKE8Mn36vHkAoNKVpo5RnrvRjWpQ3paYDs8fem6RlFZx3CmRPccMEVXe3lPghV+q/
+ e/miYkla5GW5xMJi2I90mqDzwhMnx2HVNe/HCrVIxbc5tuySz/GXEiv6CellOtLDWlq/
+ eS/A==
+X-Gm-Message-State: ANoB5pnsA78aloOhpHaAsr4P13QeWVL53XPk0H85Gc6cdLUQXFst85PO
+ JxT7PX28BHta5whLw9gsTF/hkJlii9N/xMV5I14=
+X-Google-Smtp-Source: AA0mqf74uP3aWSTsUL7bnnMRtgmx6khK0dSY3XbUJs1vIMBfYLnRgA5MBqjRTl5BPrX5s7IxTh6KTw==
+X-Received: by 2002:a9d:30f:0:b0:670:5bc0:fd66 with SMTP id
+ 15-20020a9d030f000000b006705bc0fd66mr1753608otv.30.1670551542325; 
+ Thu, 08 Dec 2022 18:05:42 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:d298:de6f:2ed:87a4])
  by smtp.gmail.com with ESMTPSA id
- s14-20020a05683004ce00b0066f7e1188f0sm53531otd.68.2022.12.08.18.05.40
+ s14-20020a05683004ce00b0066f7e1188f0sm53531otd.68.2022.12.08.18.05.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Dec 2022 18:05:40 -0800 (PST)
+ Thu, 08 Dec 2022 18:05:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: thuth@redhat.com,
 	iii@linux.ibm.com
-Subject: [PATCH v4 07/27] tcg/s390x: Check for general-instruction-extension
- facility at startup
-Date: Thu,  8 Dec 2022 20:05:10 -0600
-Message-Id: <20221209020530.396391-8-richard.henderson@linaro.org>
+Subject: [PATCH v4 08/27] tcg/s390x: Check for load-on-condition facility at
+ startup
+Date: Thu,  8 Dec 2022 20:05:11 -0600
+Message-Id: <20221209020530.396391-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221209020530.396391-1-richard.henderson@linaro.org>
 References: <20221209020530.396391-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,202 +92,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The general-instruction-extension facility was introduced in z10,
-which itself was end-of-life in 2019.
+The general-instruction-extension facility was introduced in z196,
+which itself was end-of-life in 2021.  In addition, z196 is the
+minimum CPU supported by our set of supported operating systems:
+RHEL 7 (z196), SLES 12 (z196) and Ubuntu 16.04 (zEC12).
+
+Check for facility number 45, which will be the consilidated check
+for several facilities.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.h     |  10 ++--
- tcg/s390x/tcg-target.c.inc | 100 ++++++++++++++++---------------------
- 2 files changed, 49 insertions(+), 61 deletions(-)
+ tcg/s390x/tcg-target.h     |  6 ++--
+ tcg/s390x/tcg-target.c.inc | 72 +++++++++++++-------------------------
+ 2 files changed, 27 insertions(+), 51 deletions(-)
 
 diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index 126ba1048a..d47e8ba66a 100644
+index d47e8ba66a..31d5510d2d 100644
 --- a/tcg/s390x/tcg-target.h
 +++ b/tcg/s390x/tcg-target.h
-@@ -57,10 +57,10 @@ typedef enum TCGReg {
- #define FACILITY_ZARCH_ACTIVE         2
+@@ -58,12 +58,12 @@ typedef enum TCGReg {
  #define FACILITY_LONG_DISP            18
  #define FACILITY_EXT_IMM              21
-+#define FACILITY_GEN_INST_EXT         34
+ #define FACILITY_GEN_INST_EXT         34
++#define FACILITY_45                   45
  
  /* Facilities that are checked at runtime. */
  
--#define FACILITY_GEN_INST_EXT         34
- #define FACILITY_LOAD_ON_COND         45
- #define FACILITY_FAST_BCR_SER         FACILITY_LOAD_ON_COND
- #define FACILITY_DISTINCT_OPS         FACILITY_LOAD_ON_COND
-@@ -92,8 +92,8 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_HAS_clz_i32        0
- #define TCG_TARGET_HAS_ctz_i32        0
- #define TCG_TARGET_HAS_ctpop_i32      0
--#define TCG_TARGET_HAS_deposit_i32    HAVE_FACILITY(GEN_INST_EXT)
--#define TCG_TARGET_HAS_extract_i32    HAVE_FACILITY(GEN_INST_EXT)
-+#define TCG_TARGET_HAS_deposit_i32    1
-+#define TCG_TARGET_HAS_extract_i32    1
- #define TCG_TARGET_HAS_sextract_i32   0
- #define TCG_TARGET_HAS_extract2_i32   0
- #define TCG_TARGET_HAS_movcond_i32    1
-@@ -129,8 +129,8 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_HAS_clz_i64        1
- #define TCG_TARGET_HAS_ctz_i64        0
- #define TCG_TARGET_HAS_ctpop_i64      0
--#define TCG_TARGET_HAS_deposit_i64    HAVE_FACILITY(GEN_INST_EXT)
--#define TCG_TARGET_HAS_extract_i64    HAVE_FACILITY(GEN_INST_EXT)
-+#define TCG_TARGET_HAS_deposit_i64    1
-+#define TCG_TARGET_HAS_extract_i64    1
- #define TCG_TARGET_HAS_sextract_i64   0
- #define TCG_TARGET_HAS_extract2_i64   0
- #define TCG_TARGET_HAS_movcond_i64    1
+-#define FACILITY_LOAD_ON_COND         45
+-#define FACILITY_FAST_BCR_SER         FACILITY_LOAD_ON_COND
+-#define FACILITY_DISTINCT_OPS         FACILITY_LOAD_ON_COND
++#define FACILITY_FAST_BCR_SER         45
++#define FACILITY_DISTINCT_OPS         45
+ #define FACILITY_LOAD_ON_COND2        53
+ #define FACILITY_VECTOR               129
+ #define FACILITY_VECTOR_ENH1          135
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 42e161cc7e..f0b581293c 100644
+index f0b581293c..29a64ad0fe 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -843,15 +843,8 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
-     }
- 
-     /* Otherwise, stuff it in the constant pool.  */
--    if (HAVE_FACILITY(GEN_INST_EXT)) {
--        tcg_out_insn(s, RIL, LGRL, ret, 0);
--        new_pool_label(s, sval, R_390_PC32DBL, s->code_ptr - 2, 2);
--    } else {
--        TCGReg base = ret ? ret : TCG_TMP0;
--        tcg_out_insn(s, RIL, LARL, base, 0);
--        new_pool_label(s, sval, R_390_PC32DBL, s->code_ptr - 2, 2);
--        tcg_out_insn(s, RXY, LG, ret, base, TCG_REG_NONE, 0);
--    }
-+    tcg_out_insn(s, RIL, LGRL, ret, 0);
-+    new_pool_label(s, sval, R_390_PC32DBL, s->code_ptr - 2, 2);
- }
- 
- /* Emit a load/store type instruction.  Inputs are:
-@@ -1105,7 +1098,7 @@ static void tgen_andi(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
-             return;
-         }
-     }
--    if (HAVE_FACILITY(GEN_INST_EXT) && risbg_mask(val)) {
-+    if (risbg_mask(val)) {
-         tgen_andi_risbg(s, dest, dest, val);
-         return;
-     }
-@@ -1460,48 +1453,47 @@ static void tgen_brcond(TCGContext *s, TCGType type, TCGCond c,
-                         TCGReg r1, TCGArg c2, int c2const, TCGLabel *l)
+@@ -1252,7 +1252,6 @@ static void tgen_setcond(TCGContext *s, TCGType type, TCGCond cond,
+                          TCGReg dest, TCGReg c1, TCGArg c2, int c2const)
  {
      int cc;
-+    bool is_unsigned = is_unsigned_cond(c);
-+    bool in_range;
-+    S390Opcode opc;
+-    bool have_loc;
  
--    if (HAVE_FACILITY(GEN_INST_EXT)) {
--        bool is_unsigned = is_unsigned_cond(c);
--        bool in_range;
--        S390Opcode opc;
-+    cc = tcg_cond_to_s390_cond[c];
- 
--        cc = tcg_cond_to_s390_cond[c];
-+    if (!c2const) {
-+        opc = (type == TCG_TYPE_I32
-+               ? (is_unsigned ? RIE_CLRJ : RIE_CRJ)
-+               : (is_unsigned ? RIE_CLGRJ : RIE_CGRJ));
-+        tgen_compare_branch(s, opc, cc, r1, c2, l);
-+        return;
-+    }
- 
--        if (!c2const) {
--            opc = (type == TCG_TYPE_I32
--                   ? (is_unsigned ? RIE_CLRJ : RIE_CRJ)
--                   : (is_unsigned ? RIE_CLGRJ : RIE_CGRJ));
--            tgen_compare_branch(s, opc, cc, r1, c2, l);
--            return;
--        }
--
--        /* COMPARE IMMEDIATE AND BRANCH RELATIVE has an 8-bit immediate field.
--           If the immediate we've been given does not fit that range, we'll
--           fall back to separate compare and branch instructions using the
--           larger comparison range afforded by COMPARE IMMEDIATE.  */
--        if (type == TCG_TYPE_I32) {
--            if (is_unsigned) {
--                opc = RIE_CLIJ;
--                in_range = (uint32_t)c2 == (uint8_t)c2;
--            } else {
--                opc = RIE_CIJ;
--                in_range = (int32_t)c2 == (int8_t)c2;
--            }
-+    /*
-+     * COMPARE IMMEDIATE AND BRANCH RELATIVE has an 8-bit immediate field.
-+     * If the immediate we've been given does not fit that range, we'll
-+     * fall back to separate compare and branch instructions using the
-+     * larger comparison range afforded by COMPARE IMMEDIATE.
-+     */
-+    if (type == TCG_TYPE_I32) {
-+        if (is_unsigned) {
-+            opc = RIE_CLIJ;
-+            in_range = (uint32_t)c2 == (uint8_t)c2;
-         } else {
--            if (is_unsigned) {
--                opc = RIE_CLGIJ;
--                in_range = (uint64_t)c2 == (uint8_t)c2;
--            } else {
--                opc = RIE_CGIJ;
--                in_range = (int64_t)c2 == (int8_t)c2;
--            }
-+            opc = RIE_CIJ;
-+            in_range = (int32_t)c2 == (int8_t)c2;
-         }
--        if (in_range) {
--            tgen_compare_imm_branch(s, opc, cc, r1, c2, l);
--            return;
-+    } else {
-+        if (is_unsigned) {
-+            opc = RIE_CLGIJ;
-+            in_range = (uint64_t)c2 == (uint8_t)c2;
-+        } else {
-+            opc = RIE_CGIJ;
-+            in_range = (int64_t)c2 == (int8_t)c2;
-         }
+     /* With LOC2, we can always emit the minimum 3 insns.  */
+     if (HAVE_FACILITY(LOAD_ON_COND2)) {
+@@ -1263,9 +1262,6 @@ static void tgen_setcond(TCGContext *s, TCGType type, TCGCond cond,
+         return;
      }
-+    if (in_range) {
-+        tgen_compare_imm_branch(s, opc, cc, r1, c2, l);
-+        return;
-+    }
  
-     cc = tgen_cmp(s, type, c, r1, c2, c2const, false);
-     tgen_branch(s, cc, l);
-@@ -1659,7 +1651,7 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addr_reg, MemOp opc,
-        cross pages using the address of the last byte of the access.  */
-     a_off = (a_bits >= s_bits ? 0 : s_mask - a_mask);
-     tlb_mask = (uint64_t)TARGET_PAGE_MASK | a_mask;
--    if (HAVE_FACILITY(GEN_INST_EXT) && a_off == 0) {
-+    if (a_off == 0) {
-         tgen_andi_risbg(s, TCG_REG_R3, addr_reg, tlb_mask);
-     } else {
-         tcg_out_insn(s, RX, LA, TCG_REG_R3, addr_reg, TCG_REG_NONE, a_off);
-@@ -2972,17 +2964,9 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-                 : C_O1_I2(r, 0, ri));
- 
-     case INDEX_op_mul_i32:
--        /* If we have the general-instruction-extensions, then we have
--           MULTIPLY SINGLE IMMEDIATE with a signed 32-bit, otherwise we
--           have only MULTIPLY HALFWORD IMMEDIATE, with a signed 16-bit.  */
--        return (HAVE_FACILITY(GEN_INST_EXT)
--                ? C_O1_I2(r, 0, ri)
--                : C_O1_I2(r, 0, rI));
+-    have_loc = HAVE_FACILITY(LOAD_ON_COND);
 -
-+        return C_O1_I2(r, 0, ri);
-     case INDEX_op_mul_i64:
--        return (HAVE_FACILITY(GEN_INST_EXT)
--                ? C_O1_I2(r, 0, rJ)
--                : C_O1_I2(r, 0, rI));
-+        return C_O1_I2(r, 0, rJ);
+-    /* For HAVE_LOC, only the paths through GTU/GT/LEU/LE are smaller.  */
+  restart:
+     switch (cond) {
+     case TCG_COND_NE:
+@@ -1310,59 +1306,35 @@ static void tgen_setcond(TCGContext *s, TCGType type, TCGCond cond,
+     case TCG_COND_LT:
+     case TCG_COND_GE:
+         /* Swap operands so that we can use LEU/GTU/GT/LE.  */
+-        if (c2const) {
+-            if (have_loc) {
+-                break;
+-            }
+-            tcg_out_movi(s, type, TCG_TMP0, c2);
+-            c2 = c1;
+-            c2const = 0;
+-            c1 = TCG_TMP0;
+-        } else {
++        if (!c2const) {
+             TCGReg t = c1;
+             c1 = c2;
+             c2 = t;
++            cond = tcg_swap_cond(cond);
++            goto restart;
+         }
+-        cond = tcg_swap_cond(cond);
+-        goto restart;
++        break;
  
-     case INDEX_op_shl_i32:
-     case INDEX_op_shr_i32:
-@@ -3151,6 +3135,10 @@ static void query_s390_facilities(void)
-         which = "extended-immediate";
+     default:
+         g_assert_not_reached();
+     }
+ 
+     cc = tgen_cmp(s, type, cond, c1, c2, c2const, false);
+-    if (have_loc) {
+-        /* Emit: d = 0, t = 1, d = (cc ? t : d).  */
+-        tcg_out_movi(s, TCG_TYPE_I64, dest, 0);
+-        tcg_out_movi(s, TCG_TYPE_I64, TCG_TMP0, 1);
+-        tcg_out_insn(s, RRF, LOCGR, dest, TCG_TMP0, cc);
+-    } else {
+-        /* Emit: d = 1; if (cc) goto over; d = 0; over:  */
+-        tcg_out_movi(s, type, dest, 1);
+-        tcg_out_insn(s, RI, BRC, cc, (4 + 4) >> 1);
+-        tcg_out_movi(s, type, dest, 0);
+-    }
++    /* Emit: d = 0, t = 1, d = (cc ? t : d).  */
++    tcg_out_movi(s, TCG_TYPE_I64, dest, 0);
++    tcg_out_movi(s, TCG_TYPE_I64, TCG_TMP0, 1);
++    tcg_out_insn(s, RRF, LOCGR, dest, TCG_TMP0, cc);
+ }
+ 
+ static void tgen_movcond(TCGContext *s, TCGType type, TCGCond c, TCGReg dest,
+                          TCGReg c1, TCGArg c2, int c2const,
+                          TCGArg v3, int v3const)
+ {
+-    int cc;
+-    if (HAVE_FACILITY(LOAD_ON_COND)) {
+-        cc = tgen_cmp(s, type, c, c1, c2, c2const, false);
+-        if (v3const) {
+-            tcg_out_insn(s, RIE, LOCGHI, dest, v3, cc);
+-        } else {
+-            tcg_out_insn(s, RRF, LOCGR, dest, v3, cc);
+-        }
++    int cc = tgen_cmp(s, type, c, c1, c2, c2const, false);
++    if (v3const) {
++        tcg_out_insn(s, RIE, LOCGHI, dest, v3, cc);
+     } else {
+-        c = tcg_invert_cond(c);
+-        cc = tgen_cmp(s, type, c, c1, c2, c2const, false);
+-
+-        /* Emit: if (cc) goto over; dest = r3; over:  */
+-        tcg_out_insn(s, RI, BRC, cc, (4 + 4) >> 1);
+-        tcg_out_insn(s, RRE, LGR, dest, v3);
++        tcg_out_insn(s, RRF, LOCGR, dest, v3, cc);
+     }
+ }
+ 
+@@ -1382,14 +1354,8 @@ static void tgen_clz(TCGContext *s, TCGReg dest, TCGReg a1,
+         } else {
+             tcg_out_mov(s, TCG_TYPE_I64, dest, a2);
+         }
+-        if (HAVE_FACILITY(LOAD_ON_COND)) {
+-            /* Emit: if (one bit found) dest = r0.  */
+-            tcg_out_insn(s, RRF, LOCGR, dest, TCG_REG_R0, 2);
+-        } else {
+-            /* Emit: if (no one bit found) goto over; dest = r0; over:  */
+-            tcg_out_insn(s, RI, BRC, 8, (4 + 4) >> 1);
+-            tcg_out_insn(s, RRE, LGR, dest, TCG_REG_R0);
+-        }
++        /* Emit: if (one bit found) dest = r0.  */
++        tcg_out_insn(s, RRF, LOCGR, dest, TCG_REG_R0, 2);
+     }
+ }
+ 
+@@ -3124,6 +3090,7 @@ static void query_s390_facilities(void)
+     }
+ 
+     /*
++     * Minimum supported cpu revision is z196.
+      * Check for all required facilities.
+      * ZARCH_ACTIVE is done via preprocessor check for 64-bit.
+      */
+@@ -3139,6 +3106,15 @@ static void query_s390_facilities(void)
+         which = "general-instructions-extension";
          goto fail;
      }
-+    if (!HAVE_FACILITY(GEN_INST_EXT)) {
-+        which = "general-instructions-extension";
++    /*
++     * Facility 45 is a big bin that contains: distinct-operands,
++     * fast-BCR-serialization, high-word, population-count,
++     * interlocked-access-1, and load/store-on-condition-1
++     */
++    if (!HAVE_FACILITY(45)) {
++        which = "45";
 +        goto fail;
 +    }
      return;
