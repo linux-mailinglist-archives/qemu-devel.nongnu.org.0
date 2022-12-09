@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6226485FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5AE64860A
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:59:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3ffg-0000Iz-CZ; Fri, 09 Dec 2022 10:52:20 -0500
+	id 1p3flH-00026D-Me; Fri, 09 Dec 2022 10:58:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1p3ffe-0000IZ-8J
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:52:18 -0500
+ id 1p3flE-00025e-R0
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:58:04 -0500
 Received: from ssh.movementarian.org ([139.162.205.133] helo=movementarian.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1p3ffc-0004dm-Tw
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:52:17 -0500
+ id 1p3fl9-0001NM-VP
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:58:04 -0500
 Received: from movement by movementarian.org with local (Exim 4.95)
- (envelope-from <movement@movementarian.org>) id 1p3ffa-007MkK-U9;
- Fri, 09 Dec 2022 15:52:14 +0000
-Date: Fri, 9 Dec 2022 15:52:14 +0000
+ (envelope-from <movement@movementarian.org>) id 1p3fl7-007Mlv-VQ;
+ Fri, 09 Dec 2022 15:57:57 +0000
+Date: Fri, 9 Dec 2022 15:57:57 +0000
 From: John Levon <levon@movementarian.org>
 To: John Johnson <john.g.johnson@oracle.com>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 09/24] vfio-user: define socket send functions
-Message-ID: <Y5NZrmQVBFaQ37iD@movementarian.org>
+Subject: Re: [PATCH v1 10/24] vfio-user: get device info
+Message-ID: <Y5NbBeoTnXLV/dwL@movementarian.org>
 References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <366a157b3f3f9f94892eb90eee80a7dbf5d8ad12.1667542066.git.john.g.johnson@oracle.com>
+ <d0fcc3415ab22bf66bbd86c1d69d4dade8c023bb.1667542066.git.john.g.johnson@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <366a157b3f3f9f94892eb90eee80a7dbf5d8ad12.1667542066.git.john.g.johnson@oracle.com>
+In-Reply-To: <d0fcc3415ab22bf66bbd86c1d69d4dade8c023bb.1667542066.git.john.g.johnson@oracle.com>
 X-Url: http://www.movementarian.org/
 Received-SPF: pass client-ip=139.162.205.133;
  envelope-from=movement@movementarian.org; helo=movementarian.org
@@ -56,13 +56,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 08, 2022 at 03:13:31PM -0800, John Johnson wrote:
+On Tue, Nov 08, 2022 at 03:13:32PM -0800, John Johnson wrote:
 
-> Also negotiate protocol version with remote server
+> +/*
+> + * VFIO_USER_DEVICE_GET_INFO
+> + * imported from struct_device_info
+> + */
+> +typedef struct {
+> +    VFIOUserHdr hdr;
+> +    uint32_t argsz;
+> +    uint32_t flags;
+> +    uint32_t num_regions;
+> +    uint32_t num_irqs;
+> +    uint32_t cap_offset;
+> +} VFIOUserDeviceInfo;
 
-LGTM
+The server doesn't have or populate cap_offset - and this isn't in the protocol
+either.
 
-Reviewed-by: John Levon <john.levon@nutanix.com>
+Looks good otherwise
 
 regards
 john
