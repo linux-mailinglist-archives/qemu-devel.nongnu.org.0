@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9AE647F58
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 09:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3213E647F94
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 09:53:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Yqq-000418-Ku; Fri, 09 Dec 2022 03:35:24 -0500
+	id 1p3Z6V-0000Rp-Pa; Fri, 09 Dec 2022 03:51:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3Yqn-00040x-PE
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:35:21 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3Yqi-0000LB-7r
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:35:21 -0500
-Received: by mail-wr1-x436.google.com with SMTP id w15so4434701wrl.9
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 00:35:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/xeNrtktWXgkfyVDFYgj4gaqPrqNZfx5Pm6YrL6GrsM=;
- b=YRLAchFZ4J1oPBoVZYAadsS9GZO8uJyZFT1Jla4TcdNI342o3eXHYmMrXRtuSGa+8M
- vUCYC9ZIT0bEBjVO/IVnmyOwJobAGQnQ+lN61+fGpR+iJ1ALDhsGxPxo7c7b6S1CSfqr
- 5rNnI2fP8P2DO6rd6XYR/99wKI6NNZT4gkygus6AkGo1rrF7HWK7L3NHr9irzDqkysyc
- rVcoLf96rrHul6KEEBAdIrUhiO257A8YdQFl8JOH+K/Am9aSiyIyTE/80VeCtgJovSpm
- 0pQVqysfJOD53jYJ5r+flY73ayNVcXlvkCI2NWPgmIc+81xc7c6CD7O1jv/Tcd3CfP+5
- F8JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/xeNrtktWXgkfyVDFYgj4gaqPrqNZfx5Pm6YrL6GrsM=;
- b=tw1/0A4Pwb236K744wt90bMRX57Yg+mWVQl9K39YaBiKqihGHaVzU7w4iHRxCAIwIH
- 2PMk5ReJj3SMrzSeoiffGGN5Vb4WMK2NSZVfsC3p4VGzBV24y2HkKpLrFEYHLN9e3Xjk
- tS2w2xjz0/zBwF2bHlm5l97ywUDKKIFYRr6Vud9HUtJV/bMzIU78MzvLMBXHrXRPokN/
- pqTj2INi0R1suD12Cbxn2p43FQViIOUBOHQZJyODuSn+9wDLMvGoFyjJbbkhiCSl/iB8
- xzrul1unIGnbocyk0BjUklgQPt9xGrnW5h91JvdYjJNTHKEXMPRAQsTmtPSyvO6769/G
- o1lQ==
-X-Gm-Message-State: ANoB5pn8S+wvkeawp0MjGTFROov0QlpT3Y12Jp5wxvr930MtCWuxND1c
- LujhaqgMO7uVF7jwliMcNQYuNA==
-X-Google-Smtp-Source: AA0mqf5Jo6hqKeafjVeYvC8cZmVUqgCWvSwATxN+qxLdWFaFNKOQIsNb35EjYBJezUQCUrLlKPjKwg==
-X-Received: by 2002:adf:dbc8:0:b0:241:d7ce:4383 with SMTP id
- e8-20020adfdbc8000000b00241d7ce4383mr2799906wrj.20.1670574912331; 
- Fri, 09 Dec 2022 00:35:12 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j8-20020a5d4528000000b0024287d9d4a8sm783408wra.74.2022.12.09.00.35.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 00:35:11 -0800 (PST)
-Message-ID: <a636bdab-b092-522c-f374-de48074ee51a@linaro.org>
-Date: Fri, 9 Dec 2022 09:35:09 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3Z6S-0000Rc-Ex
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:51:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3Z6Q-0006V6-KB
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 03:51:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670575889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qAdDQZa/eE+RINGIRx7RCHSoVQqMguB8QyVweFfS02o=;
+ b=NpDWWyDkORb6b15jDGGqDX2hUuPmGkwZnhEgsBx1+UnqNrri4ARdkJHFbSv3tr2q75vW0c
+ 48FneLfldII+M/ip/JMIEHvNK24wV65ydqFtsxw0HoFjms/yINPzVw6ryIFwwJJx/s9JVX
+ UpAybvlNf/xZJyUA74I/w4ZZaJwm+0c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-157-sUvX1HjtP2-NbffI4cfthw-1; Fri, 09 Dec 2022 03:51:25 -0500
+X-MC-Unique: sUvX1HjtP2-NbffI4cfthw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F01938032FB;
+ Fri,  9 Dec 2022 08:51:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8F1DC15BA8;
+ Fri,  9 Dec 2022 08:51:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A8FF121E6921; Fri,  9 Dec 2022 09:51:21 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?=
+ Lureau <marcandre.lureau@redhat.com>,  "Daniel P. Berrange"
+ <berrange@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: Target-dependent include path, why?
+References: <87edt9gnyz.fsf@pond.sub.org>
+ <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
+Date: Fri, 09 Dec 2022 09:51:21 +0100
+In-Reply-To: <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org> (Richard
+ Henderson's message of "Thu, 8 Dec 2022 23:24:01 -0600")
+Message-ID: <87v8mlez92.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v3 1/8] util: Add interval-tree.c
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
-References: <20221209051914.398215-1-richard.henderson@linaro.org>
- <20221209051914.398215-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221209051914.398215-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.266,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,78 +83,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/12/22 06:19, Richard Henderson wrote:
-> Copy and simplify the Linux kernel's interval_tree_generic.h,
-> instantiating for uint64_t.
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/qemu/interval-tree.h    |  99 ++++
->   tests/unit/test-interval-tree.c | 209 ++++++++
->   util/interval-tree.c            | 882 ++++++++++++++++++++++++++++++++
->   tests/unit/meson.build          |   1 +
->   util/meson.build                |   1 +
->   5 files changed, 1192 insertions(+)
->   create mode 100644 include/qemu/interval-tree.h
->   create mode 100644 tests/unit/test-interval-tree.c
->   create mode 100644 util/interval-tree.c
-> 
-> diff --git a/include/qemu/interval-tree.h b/include/qemu/interval-tree.h
-> new file mode 100644
-> index 0000000000..25006debe8
-> --- /dev/null
-> +++ b/include/qemu/interval-tree.h
-> @@ -0,0 +1,99 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Interval trees.
-> + *
-> + * Derived from include/linux/interval_tree.h and its dependencies.
-> + */
-> +
-> +#ifndef QEMU_INTERVAL_TREE_H
-> +#define QEMU_INTERVAL_TREE_H
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> +
-> +#endif /* QEMU_INTERVAL_TREE_H */
-> diff --git a/tests/unit/test-interval-tree.c b/tests/unit/test-interval-tree.c
-> new file mode 100644
-> index 0000000000..119817a019
-> --- /dev/null
-> +++ b/tests/unit/test-interval-tree.c
+> On 12/8/22 23:12, Markus Armbruster wrote:
+>> I stumbled over this:
+>>      ../include/ui/qemu-pixman.h:12:10: fatal error: pixman.h: No such file or directory
+>>         12 | #include <pixman.h>
+>>            |          ^~~~~~~~~~
+>> Works when included into target-dependent code.
+>> Running make -V=1 shows we're passing a number of -I only when compiling
+>> target-dependent code, i.e. together with -DNEED_CPU_H:
+>>      -I/usr/include/pixman-1 -I/usr/include/capstone -I/usr/include/spice-server -I/usr/include/spice-1
+>>      -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC
+>>      -isystem../linux-headers -isystemlinux-headers
+>> Why?
+>
+> Because of where [pixman] is added as a dependency in meson.build.
 
+Is it added where it is for a reason, or is it accidental?
 
+> If you want to use it somewhere new, you've got to move the dependency.
 
-> +/* Occasionally useful for calling from within the debugger. */
-> +#if 0
-> +static void debug_interval_tree_int(IntervalTreeNode *node,
-> +                                    const char *dir, int level)
-> +{
-> +    printf("%4d %*s %s [%" PRIu64 ",%" PRIu64 "] subtree_last:%" PRIu64 "\n",
-> +           level, level + 1, dir, rb_is_red(&node->rb) ? "r" : "b",
-> +           node->start, node->last, node->subtree_last);
-> +
-> +    if (node->rb.rb_left) {
-> +        debug_interval_tree_int(rb_to_itree(node->rb.rb_left), "<", level + 1);
-> +    }
-> +    if (node->rb.rb_right) {
-> +        debug_interval_tree_int(rb_to_itree(node->rb.rb_right), ">", level + 1);
-> +    }
-> +}
-> +
-> +void debug_interval_tree(IntervalTreeNode *node);
-
-If you think this function is helpful, shouldn't we declare it in the
-header within CONFIG_DEBUG_TCG guards?
-
-> +void debug_interval_tree(IntervalTreeNode *node)
-> +{
-> +    if (node) {
-> +        debug_interval_tree_int(node, "*", 0);
-> +    } else {
-> +        printf("null\n");
-> +    }
-> +}
-> +#endif
 
