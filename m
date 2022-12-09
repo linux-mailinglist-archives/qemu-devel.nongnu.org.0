@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F312D648298
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 13:51:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949AB6482A2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 13:56:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3cqI-0006Y0-TA; Fri, 09 Dec 2022 07:51:07 -0500
+	id 1p3cuH-0008KZ-Bw; Fri, 09 Dec 2022 07:55:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3cq7-0006Vr-DG
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 07:50:55 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3cuB-0008Ju-NU
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 07:55:09 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3cq1-0008NG-Vm
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 07:50:54 -0500
-Received: by mail-wr1-x429.google.com with SMTP id o5so5117646wrm.1
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 04:50:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3cu9-0001sg-UU
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 07:55:07 -0500
+Received: by mail-wr1-x430.google.com with SMTP id h10so5114698wrx.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 04:55:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=n1aIy93sthrKJF2VnyoNqgNSAWEn0dbp8qkr7zXNGq0=;
- b=EtsySdXqT3BGqhZ/1guRo9RkFA/oDirTWNikrStHJvnZ3PiGHCwpQuKlCurRR6r5SS
- +t7OlPbadlCzq0oWb6oxRYCicKlkyCQw4yN+jhRWIloTzx3folRfVxyDTh5XPya/UcQJ
- X1ipbpKsSoeK7EsoCJjMV/XM3Lpxn/Ojhbe6QIPF0AjkrmtxpHnc1rYl505c19NWuuRR
- iMVmK+o8LGNY2RczS/80pA+oowjkX2hkxFk8r1VdEUZSoSYsptDd2h8cXxG2tL/5IAEd
- sggdLj7v8xicoHn74rjpTDB/3o7iYKHuwDhlmG5BWR3YuCV2ubhBAa861F9rYFpiaRxs
- mx3w==
+ bh=1mVdunZ5mvSnf8QozEsRRrEKl+zARnrZqEdP5lKiiGQ=;
+ b=wuv+SK6t3Tk6fLn2EGDCQxQs4sImyc1Vu7ERfc4vxhXpo17KVj9odH7ADjyDh5jk+b
+ jLkV3QYbSF+WUVq3B0x/Kfj6nUnZWH1qKan94h11kj7L0YE2q6Ls/KynLfcJ1SbWIlWz
+ i/2xDs+o/k4Q79mRb96IfQBhvlreTR3tKTytEyjNoQ4tlaXAWHM/hw50X4k4naAt4Iyc
+ RCrA/i0Vm4PETvIkreI5BTsQnfAsfsHS7GhvUI9nsui2RMq6g2xuryhIMaYixevVcxQp
+ EJqnF7RMkBkiNAAe6NI7SbkRY6wRBu3oOMuLIo+YCnqxPIkEfg8N++uNk4mgFlSTCchC
+ kHKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=n1aIy93sthrKJF2VnyoNqgNSAWEn0dbp8qkr7zXNGq0=;
- b=aNFpaTWX+PzU+Dijd1lvxc/kUs9FoZMl20UCu1kZlfkzSUPMmf8pPEQWiZC3LtbANg
- HautW3Cov+ax5CHQnQ8aJoIzjRDcjonj/5QDhKaSNwgQzoG+8MamPY1ekhSFIW1lKuSC
- r4ami/iK8BqiyXETCZK8VNAtkq5has0aHmVYJPkhXD9UBLfluZabzGc66vCzvnWLvUQ7
- pDSveoxlmCE2QMoAhLOOVGDmEe0mDi1StPAD50nnuBJ5M8pQk8dRg9metGwu3Nw7Qrqu
- oiDNm+NwdIDX5J+JEdnPfl5ElY4+A41wKMPBnhFRDA5HGnKZUKfxSWGzIBZdFnII5qJ3
- MJpA==
-X-Gm-Message-State: ANoB5pnA/zjiceTztyy6nSYldUtHJP1XPlfWdUA2aUhwPN5wThBXkSB5
- ifeYZAHjRVDOQDIXXS2/vB6bFg==
-X-Google-Smtp-Source: AA0mqf7qlQqKyxbcuyL7upNvX1jkzMEdndxwAVqBukIrP8aLrLBNb07lPGLOjHsmX4maVIwcNDqNow==
-X-Received: by 2002:a05:6000:5c8:b0:242:7493:3eca with SMTP id
- bh8-20020a05600005c800b0024274933ecamr4222389wrb.49.1670590246649; 
- Fri, 09 Dec 2022 04:50:46 -0800 (PST)
+ bh=1mVdunZ5mvSnf8QozEsRRrEKl+zARnrZqEdP5lKiiGQ=;
+ b=VWUpQnLayGUP3fL5Aj9bWA2N/I2rCC2qnUaam/0jyDmZJRJvR2D9M0F8zzSNXzFeoN
+ ENVhQbXwTui0l9sJs3Lw9esRUSpdpNB6hHU4PfAH9n8K+VhQf3MtvOxdiqVfha/WssOk
+ VA90u4LJgPg6mzlaHcDpGWCshSRx/TnwN6U8YTzC/MRRQyitP1DmMDfbrxF/bqARnmrO
+ KtBGFLQPeU/+u3CKbQlbilS80hZ3HuwONLe0X7niOectAImD6X+yPsPtTKBLvFpphR+n
+ CPVN6OcnNqo5zXEx3nzE7t+DV+GGILnmiYw8J1qJcM4ODKVBQQDiM0adJPypKFJZwyh+
+ RrRw==
+X-Gm-Message-State: ANoB5pkMKHpyy3v5VYd5oTJU6Kz8X9zAOTaw5ccsFWa6+h1kWAYwswYx
+ ccDSh+t+30ff0QatBejws/CTRYlrx16viz68ANI=
+X-Google-Smtp-Source: AA0mqf73+KBcqiU5CTjsrxcG3IX4+MH03xguDLHe2OdfW24nCiooA/0Mu9MtDgELcScZTBkLXHN/hw==
+X-Received: by 2002:a5d:53c5:0:b0:242:57bb:ee0f with SMTP id
+ a5-20020a5d53c5000000b0024257bbee0fmr3558485wrw.25.1670590504343; 
+ Fri, 09 Dec 2022 04:55:04 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h8-20020a056000000800b00242710c9910sm1345349wrx.8.2022.12.09.04.50.46
+ g14-20020adffc8e000000b002421ed1d8c8sm1274862wrr.103.2022.12.09.04.55.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 04:50:46 -0800 (PST)
-Message-ID: <ea313503-d8ff-58a9-9906-ca952e4356c2@linaro.org>
-Date: Fri, 9 Dec 2022 13:50:45 +0100
+ Fri, 09 Dec 2022 04:55:03 -0800 (PST)
+Message-ID: <bc114971-ee1f-b48b-cee7-ebcdae4d572c@linaro.org>
+Date: Fri, 9 Dec 2022 13:55:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 16/30] build: move glib detection and workarounds to meson
+Subject: Re: [PATCH 19/30] configure, meson: move --enable-debug-info to Meson
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-17-pbonzini@redhat.com>
+ <20221209112409.184703-20-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221209112409.184703-17-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-20-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.288,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,31 +90,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/12/22 12:23, Paolo Bonzini wrote:
-> QEMU adds the path to glib.h is added to all compilation commands.
-
-add/add/ not clear...
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-
-> This is simpler due to the pervasive use of static_library, and was
-> grandfathered in from the previous Make-based build system.  Until
-> Meson 0.63 the only way to do this was to detect glib in configure
-> and use add_project_arguments, but now it is possible to use
-> add_project_dependencies instead.
-> 
-> gmodule is detected in a separate variable and added via both
-> block_ss (for --enable-modules) and plugins/meson.build (for
-> --enable-plugins).
+> Older versions of Meson had an unclear description of the -Ddebug option,
+> but this is fixed in 0.63.0 that is required now.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   block/meson.build        |  1 +
->   configure                | 83 +---------------------------------------
->   contrib/plugins/Makefile |  4 +-
->   meson.build              | 81 +++++++++++++++++++++++++++++++++------
->   plugins/meson.build      |  2 +-
->   5 files changed, 74 insertions(+), 97 deletions(-)
+>   configure                     | 5 -----
+>   scripts/meson-buildoptions.py | 2 ++
+>   scripts/meson-buildoptions.sh | 3 +++
+>   3 files changed, 5 insertions(+), 5 deletions(-)
 
+
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+> index f91797741eef..cb277347bb18 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+
+# This file is generated by meson-buildoptions.py, do not edit!
+
+> @@ -10,6 +10,7 @@ meson_options_help() {
+>     printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
+>     printf "%s\n" '  --datadir=VALUE          Data file directory [share]'
+>     printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better performance)'
+> +  printf "%s\n" '  --disable-debug-info     Enable debug symbols and other information'
+
+We should get '--enable-debug-info' here, ...
+
+>     printf "%s\n" '  --disable-install-blobs  install provided firmware blobs'
+
+... and here. Do we have a bug in meson-buildoptions.py?
+
+>     printf "%s\n" '  --docdir=VALUE           Base directory for documentation installation'
+>     printf "%s\n" '                           (can be empty) [share/doc]'
 
