@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AE364807B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F126864807E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:58:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3a7f-0002Tx-VW; Fri, 09 Dec 2022 04:56:52 -0500
+	id 1p3a7f-0002SK-2X; Fri, 09 Dec 2022 04:56:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p3a7J-0002R1-80
+ id 1p3a7J-0002R0-7k
  for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:29 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p3a7G-0006pH-RB
+ id 1p3a7G-0006pA-RD
  for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=oWg3bACyN27qCqd7T3bd4nHSMuqE7sDFmlT8U9gsszA=; b=YQJC49KCwQVlgCkZpbHO5Sjfz4
- kz9eq2zCs3/etUUdV5vFivgfGJ59Ukl6poGR92CXU7SSj/cGXJyJJ7E9y44E6mToaa6ZGSo5WPupf
- jRN46RkU59XKsxf7zii5P8urOzK39ynPC5bGFOmnluicZSQV99EdkgOMpy8faKrdIxnwAY6r5ekI9
- OmGh/SoYcRQqhh0poCRw7FM3f2Yf/eadLkT8YbqhgFgsTZXzN5xltVxxKDohJ3mwnV1zXtY7EtlgR
- y/fGYrUm+5Mj2qJx1qSYMbWbdfa7Q2QccThxJ6GW8+u8otJDkaEsucgFzQ0/vCQeG5j+e3dtWGdop
- Vo6ti1Kw==;
+ bh=9Ceo9xMwn+AY3rMjsp1TYaRGiSnnhky2MW7fakgRg+w=; b=vMTX0iFa4I4vbh1cA+PS9+NACF
+ jJr/wad/0Rm2SbPLZBPpl+oOW8sEvAjqsIWrpKW+ujXihh6s0Il8jkiZTIO2xXF5eTkvcyfhRy9Uo
+ fDWe90N9xEW2hGJoW4yc4C8hhnTzOntWNDpSFGJo0OK47Tns3dKGnfMA1DC8ZROyHtoXQYpQWEc4C
+ g3Ma32D9AE93/VbPu5PjU64xO4s2zNFZD+cThotRyy6LuDcJNR4Guj7M/02t9TPfspms9Dbkri15n
+ 5dJhMzEojNs4jG4fSBa1VgG+4p9Nw4yMlguiTIgPQ+vN25EiwWqkzlS8Zj/zDeK53uXlu+NwVIBZC
+ FzOLICow==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p3a7G-007tiQ-9l; Fri, 09 Dec 2022 09:56:26 +0000
+ id 1p3a7G-007tiR-A8; Fri, 09 Dec 2022 09:56:26 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p3a77-002tYc-TT; Fri, 09 Dec 2022 09:56:17 +0000
+ Hat Linux)) id 1p3a77-002tYg-UK; Fri, 09 Dec 2022 09:56:17 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,9 +46,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v2 07/22] pc_piix: handle XEN_EMULATE backend init
-Date: Fri,  9 Dec 2022 09:55:57 +0000
-Message-Id: <20221209095612.689243-8-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 08/22] xen_platform: exclude vfio-pci from the PCI
+ platform unplug
+Date: Fri,  9 Dec 2022 09:55:58 +0000
+Message-Id: <20221209095612.689243-9-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221209095612.689243-1-dwmw2@infradead.org>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
@@ -83,97 +84,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-And use newly added xen_emulated_machine_init() to iniitalize
-the xenstore and the sysdev bus for future emulated devices.
+Such that PCI passthrough devices work for Xen emulated guests.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Move it to xen-legacy-backend.c]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/pc_piix.c                   |  5 +++++
- hw/xen/xen-legacy-backend.c         | 22 ++++++++++++++++------
- include/hw/xen/xen-legacy-backend.h |  2 ++
- 3 files changed, 23 insertions(+), 6 deletions(-)
+ hw/i386/xen/xen_platform.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 13286d0739..3dcac2f4b6 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -47,6 +47,7 @@
- #include "hw/sysbus.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/xen/xen-x86.h"
-+#include "hw/xen/xen-legacy-backend.h"
- #include "exec/memory.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/piix4.h"
-@@ -155,6 +156,10 @@ static void pc_init1(MachineState *machine,
-             x86ms->above_4g_mem_size = 0;
-             x86ms->below_4g_mem_size = machine->ram_size;
-         }
-+
-+        if (pcms->xen_version && !xen_be_xenstore_open()) {
-+            xen_emulated_machine_init();
-+        }
-     }
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index 914619d140..15d5ae7c69 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -109,12 +109,25 @@ static void log_writeb(PCIXenPlatformState *s, char val)
+ #define _UNPLUG_NVME_DISKS 3
+ #define UNPLUG_NVME_DISKS (1u << _UNPLUG_NVME_DISKS)
  
-     pc_machine_init_sgx_epc(pcms);
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 694e7bbc54..60a7bc7ab6 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -31,6 +31,7 @@
- #include "qapi/error.h"
- #include "hw/xen/xen-legacy-backend.h"
- #include "hw/xen/xen_pvdev.h"
-+#include "hw/xen/xen-bus.h"
- #include "monitor/qdev.h"
- 
- DeviceState *xen_sysdev;
-@@ -294,13 +295,15 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
-     xendev->debug      = debug;
-     xendev->local_port = -1;
- 
--    xendev->evtchndev = xenevtchn_open(NULL, 0);
--    if (xendev->evtchndev == NULL) {
--        xen_pv_printf(NULL, 0, "can't open evtchn device\n");
--        qdev_unplug(DEVICE(xendev), NULL);
--        return NULL;
-+    if (xen_mode != XEN_EMULATE) {
-+        xendev->evtchndev = xenevtchn_open(NULL, 0);
-+        if (xendev->evtchndev == NULL) {
-+            xen_pv_printf(NULL, 0, "can't open evtchn device\n");
-+            qdev_unplug(DEVICE(xendev), NULL);
-+            return NULL;
-+        }
-+        qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
-     }
--    qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
- 
-     xen_pv_insert_xendev(xendev);
- 
-@@ -859,3 +862,10 @@ static void xenbe_register_types(void)
- }
- 
- type_init(xenbe_register_types)
-+
-+void xen_emulated_machine_init(void)
++static bool pci_device_is_passthrough(PCIDevice *d)
 +{
-+    xen_bus_init();
-+    xen_be_sysdev_init();
-+    xen_be_register_common();
-+}
-diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-index 0aa171f6c2..aa09015662 100644
---- a/include/hw/xen/xen-legacy-backend.h
-+++ b/include/hw/xen/xen-legacy-backend.h
-@@ -105,4 +105,6 @@ int xen_config_dev_vfb(int vdev, const char *type);
- int xen_config_dev_vkbd(int vdev);
- int xen_config_dev_console(int vdev);
- 
-+void xen_emulated_machine_init(void);
++    if (!strcmp(d->name, "xen-pci-passthrough")) {
++        return true;
++    }
 +
- #endif /* HW_XEN_LEGACY_BACKEND_H */
++    if (xen_mode == XEN_EMULATE && !strcmp(d->name, "vfio-pci")) {
++        return true;
++    }
++
++    return false;
++}
++
+ static void unplug_nic(PCIBus *b, PCIDevice *d, void *o)
+ {
+     /* We have to ignore passthrough devices */
+     if (pci_get_word(d->config + PCI_CLASS_DEVICE) ==
+             PCI_CLASS_NETWORK_ETHERNET
+-            && strcmp(d->name, "xen-pci-passthrough") != 0) {
++            && !pci_device_is_passthrough(d)) {
+         object_unparent(OBJECT(d));
+     }
+ }
+@@ -187,9 +200,8 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
+         !(flags & UNPLUG_IDE_SCSI_DISKS);
+ 
+     /* We have to ignore passthrough devices */
+-    if (!strcmp(d->name, "xen-pci-passthrough")) {
++    if (pci_device_is_passthrough(d))
+         return;
+-    }
+ 
+     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
+     case PCI_CLASS_STORAGE_IDE:
 -- 
 2.35.3
 
