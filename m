@@ -2,98 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDA9647DA6
+	by mail.lfdr.de (Postfix) with ESMTPS id A2413647DA7
 	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 07:15:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3WeO-0006yh-Np; Fri, 09 Dec 2022 01:14:24 -0500
+	id 1p3WeO-0006yF-Cl; Fri, 09 Dec 2022 01:14:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nicholas@linux.ibm.com>)
- id 1p3WeI-0006xy-Af; Fri, 09 Dec 2022 01:14:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ id 1p3WeF-0006xo-6k; Fri, 09 Dec 2022 01:14:15 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nicholas@linux.ibm.com>)
- id 1p3WeC-0005E9-Mw; Fri, 09 Dec 2022 01:14:16 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B94teMl024827; Fri, 9 Dec 2022 06:13:46 GMT
+ id 1p3Wdx-0005DS-Ns; Fri, 09 Dec 2022 01:14:14 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B94qo2A016398; Fri, 9 Dec 2022 06:13:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=NFD0pSgCx8UWnsBBlQRbDE9Ifqn/Wb/H6nBH5oUH2uU=;
- b=TxvkBs3P78LoNliSeIlZOan/zYvVut9MV9mwXbaAoblACKi+C/3XYk/N7SkQwFfA5MCb
- 1hdsFOCWALiAcotlXolUy5grkjLrad9hf8PF7Pn8zgT/5duYATuoCuOhCbaqNl+pXHQW
- s2HiamNv+WCcjqe66r9K5gagGs+b+wxLNGXjP9mNFlBEpf/FZe2ZcIQzqvR2vlZNKWTU
- SOGOuurW9zsuFFGPaL1cgMKgrkSZzOfkaJDUb03lH1dqX7zPLbIet3CL599hNQ5KHXTk
- /7e4VpamZA6xghNxkpe0VFDy3oa+UzCGk4rJsUXoXpd5a7pTAHEcqggBzsU60b9tbXcI LQ== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=wQKudwQSz8fSLt8kANlE23lLhBpy4/TkJnlKbd2A9BA=;
+ b=iwmlc1NMKmds7cWOCKr1q6rLueB0NFvMK1HU91aAr+GxzC4qx9rqTqNOJxVilSQ4cK74
+ K0Qttzga9h1X3Cp2Loc9R/oWv2okFG29Hz+XPGeunwXRxiFUJqRjjdffkVtNescXCaId
+ EQqtRbsE+fcXZj2bEeDPjaEXRFZUTMdaDZTtnfgqDTxXAUjlHyVK2KUt/Hf2kaLpa4ke
+ aG7MHV3Ckv01eQm/d+bKp9xLRpoR7NgwkMpAr7kSRks1V0VI/v8Xaw2kA/Nq2PXhOvJQ
+ 3/xo5GjhHvezRjOk134yCPeiraauPGiFPUwx4uwkzNnIEUCTIK3x05vAZhNj6cPuhSET UQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mbxe2hg5r-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mbxcqhhm1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Dec 2022 06:13:45 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B95vJAW005483;
+ Fri, 09 Dec 2022 06:13:46 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B95xNsN028412;
  Fri, 9 Dec 2022 06:13:45 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mbxe2hg5d-1
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mbxcqhhkr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 09 Dec 2022 06:13:45 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2B8D4t5F018446;
- Fri, 9 Dec 2022 06:13:42 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3m9m7rc0w1-1
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2B8LGIxw027312;
+ Fri, 9 Dec 2022 06:13:43 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3m9ks45h79-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Dec 2022 06:13:42 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2B96DekV18743958
+ Fri, 09 Dec 2022 06:13:43 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2B96DfiW41288136
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 9 Dec 2022 06:13:40 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4919A20049;
+ Fri, 9 Dec 2022 06:13:41 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1E9EF20049;
+ Fri,  9 Dec 2022 06:13:41 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 263E82004B;
  Fri,  9 Dec 2022 06:13:40 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C09BD20040;
- Fri,  9 Dec 2022 06:13:39 +0000 (GMT)
 Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri,  9 Dec 2022 06:13:39 +0000 (GMT)
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri,  9 Dec 2022 06:13:40 +0000 (GMT)
 Received: from nicholasmvm.. (haven.au.ibm.com [9.192.254.114])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 493456010C;
- Fri,  9 Dec 2022 17:13:36 +1100 (AEDT)
+ by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 785E6603B7;
+ Fri,  9 Dec 2022 17:13:38 +1100 (AEDT)
 From: Nicholas Miehlbradt <nicholas@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, clg@kaod.org,
  david@gibson.dropbear.id.au, groug@kaod.org,
  victor.colombo@eldorado.org.br, mikey@neuling.org,
  Nicholas Miehlbradt <nicholas@linux.ibm.com>
-Subject: [PATCH v2 0/2] target/ppc: Implement Dynamic Execution Control
- Registers
-Date: Fri,  9 Dec 2022 06:13:06 +0000
-Message-Id: <20221209061308.1735802-1-nicholas@linux.ibm.com>
+Subject: [PATCH v2 1/2] target/ppc: Implement the DEXCR and HDEXCR
+Date: Fri,  9 Dec 2022 06:13:07 +0000
+Message-Id: <20221209061308.1735802-2-nicholas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: riunDSpao83WEqLqxftGLHBzlbnK8R8H
-X-Proofpoint-GUID: JLeOLb6Pk2ufrmJxm82o5o56WoRIcnI9
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20221209061308.1735802-1-nicholas@linux.ibm.com>
+References: <20221209061308.1735802-1-nicholas@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: GZIHZaKVxmKyZzCUC8yCp9kkiiamN3ge
+X-Proofpoint-GUID: yqHUm14IkYbledxzm-JyCvyGrfhSKL-X
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-09_02,2022-12-08_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=305 spamscore=0
- impostorscore=0 lowpriorityscore=0 clxscore=1011 suspectscore=0 mlxscore=0
- adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212090052
-Received-SPF: pass client-ip=148.163.156.1;
+ priorityscore=1501
+ mlxlogscore=999 spamscore=0 phishscore=0 bulkscore=0 clxscore=1015
+ impostorscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212090052
+Received-SPF: pass client-ip=148.163.158.5;
  envelope-from=nicholas@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -116,30 +118,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Implements the Dynamic Execution Control Register (DEXCR) and the
-Hypervisor Dynamic Execution Control Register (HDEXCR) in TCG as
-defined in Power ISA 3.1B. Only aspects 5 (Non-privileged hash instruction
-enable) and 6 (Privileged hash instruction enable) have architectural
-effects. Other aspects can be manipulated but have no effect on execution.
+Define the DEXCR and HDEXCR as special purpose registers.
 
-Adds checks to these registers in the hashst and hashchk instructions so
-that they are executed as nops when not enabled.
+Each register occupies two SPR indicies, one which can be read in an
+unprivileged state and one which can be modified in the appropriate
+priviliged state, however both indicies refer to the same underlying
+value.
 
-There is currently an RFC for the kernel interface for the DEXCR on the 
-Linux PPC mailing list:
-https://lore.kernel.org/linuxppc-dev/20221128024458.46121-1-bgray@linux.ibm.com/
+Note that the ISA uses the abbreviation UDEXCR in two different
+contexts: the userspace DEXCR, the SPR index which can be read from
+userspace (implemented in this patch), and the ultravisor DEXCR, the
+equivalent register for the ultravisor state (not implemented).
 
-Nicholas Miehlbradt (2):
-  target/ppc: Implement the DEXCR and HDEXCR
-  target/ppc: Check DEXCR on hash{st, chk} instructions
+Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
+---
+v2: Clearing of upper 32 bits of DEXCR is now performed on read from
+problem state rather than on write in privileged state.
+---
+ target/ppc/cpu.h        | 19 +++++++++++++++++++
+ target/ppc/cpu_init.c   | 25 +++++++++++++++++++++++++
+ target/ppc/spr_common.h |  1 +
+ target/ppc/translate.c  | 19 +++++++++++++++++++
+ 4 files changed, 64 insertions(+)
 
- target/ppc/cpu.h         | 19 +++++++++++++
- target/ppc/cpu_init.c    | 25 +++++++++++++++++
- target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
- target/ppc/spr_common.h  |  1 +
- target/ppc/translate.c   | 19 +++++++++++++
- 5 files changed, 107 insertions(+), 15 deletions(-)
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 81d4263a07..0ed9f2ae35 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1068,6 +1068,21 @@ struct ppc_radix_page_info {
+     uint32_t entries[PPC_PAGE_SIZES_MAX_SZ];
+ };
+ 
++/*****************************************************************************/
++/* Dynamic Execution Control Register */
++
++#define DEXCR_ASPECT(name, num)                    \
++FIELD(DEXCR, PNH_##name, PPC_BIT_NR(num), 1)       \
++FIELD(DEXCR, PRO_##name, PPC_BIT_NR(num + 32), 1)  \
++FIELD(HDEXCR, HNU_##name, PPC_BIT_NR(num), 1)      \
++FIELD(HDEXCR, ENF_##name, PPC_BIT_NR(num + 32), 1) \
++
++DEXCR_ASPECT(SBHE, 0)
++DEXCR_ASPECT(IDRTPB, 1)
++DEXCR_ASPECT(SRAPD, 4)
++DEXCR_ASPECT(NPHIE, 5)
++DEXCR_ASPECT(PHIE, 6)
++
+ /*****************************************************************************/
+ /* The whole PowerPC CPU context */
+ 
+@@ -1674,9 +1689,11 @@ void ppc_compat_add_property(Object *obj, const char *name,
+ #define SPR_BOOKE_GIVOR13     (0x1BC)
+ #define SPR_BOOKE_GIVOR14     (0x1BD)
+ #define SPR_TIR               (0x1BE)
++#define SPR_UHDEXCR           (0x1C7)
+ #define SPR_PTCR              (0x1D0)
+ #define SPR_HASHKEYR          (0x1D4)
+ #define SPR_HASHPKEYR         (0x1D5)
++#define SPR_HDEXCR            (0x1D7)
+ #define SPR_BOOKE_SPEFSCR     (0x200)
+ #define SPR_Exxx_BBEAR        (0x201)
+ #define SPR_Exxx_BBTAR        (0x202)
+@@ -1865,8 +1882,10 @@ void ppc_compat_add_property(Object *obj, const char *name,
+ #define SPR_RCPU_L2U_RA2      (0x32A)
+ #define SPR_MPC_MD_DBRAM1     (0x32A)
+ #define SPR_RCPU_L2U_RA3      (0x32B)
++#define SPR_UDEXCR            (0x32C)
+ #define SPR_TAR               (0x32F)
+ #define SPR_ASDR              (0x330)
++#define SPR_DEXCR             (0x33C)
+ #define SPR_IC                (0x350)
+ #define SPR_VTB               (0x351)
+ #define SPR_MMCRC             (0x353)
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index cbf0081374..6433f4fdfd 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5727,6 +5727,30 @@ static void register_power10_hash_sprs(CPUPPCState *env)
+             hashpkeyr_initial_value);
+ }
+ 
++static void register_power10_dexcr_sprs(CPUPPCState *env)
++{
++    spr_register(env, SPR_DEXCR, "DEXCR",
++            SPR_NOACCESS, SPR_NOACCESS,
++            &spr_read_generic, &spr_write_generic,
++            0);
++
++    spr_register(env, SPR_UDEXCR, "DEXCR",
++            &spr_read_dexcr_ureg, SPR_NOACCESS,
++            &spr_read_dexcr_ureg, SPR_NOACCESS,
++            0);
++
++    spr_register_hv(env, SPR_HDEXCR, "HDEXCR",
++            SPR_NOACCESS, SPR_NOACCESS,
++            SPR_NOACCESS, SPR_NOACCESS,
++            &spr_read_generic, &spr_write_generic,
++            0);
++
++    spr_register(env, SPR_UHDEXCR, "HDEXCR",
++            &spr_read_dexcr_ureg, SPR_NOACCESS,
++            &spr_read_dexcr_ureg, SPR_NOACCESS,
++            0);
++}
++
+ /*
+  * Initialize PMU counter overflow timers for Power8 and
+  * newer Power chips when using TCG.
+@@ -6402,6 +6426,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+     register_power8_rpr_sprs(env);
+     register_power9_mmu_sprs(env);
+     register_power10_hash_sprs(env);
++    register_power10_dexcr_sprs(env);
+ 
+     /* FIXME: Filter fields properly based on privilege level */
+     spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
+diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
+index b5a5bc6895..91a74cec0f 100644
+--- a/target/ppc/spr_common.h
++++ b/target/ppc/spr_common.h
+@@ -195,6 +195,7 @@ void spr_read_ebb_upper32(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn);
+ void spr_write_hmer(DisasContext *ctx, int sprn, int gprn);
+ void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
++void spr_read_dexcr_ureg(DisasContext *ctx, int sprn, int gprn);
+ #endif
+ 
+ void register_low_BATs(CPUPPCState *env);
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 19c1d17cb0..fcb1180712 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -1249,6 +1249,25 @@ void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn)
+     gen_fscr_facility_check(ctx, SPR_FSCR, FSCR_EBB, sprn, FSCR_IC_EBB);
+     spr_write_prev_upper32(ctx, sprn, gprn);
+ }
++
++void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn)
++{
++    TCGv t0 = tcg_temp_new();
++
++    /*
++     * Access to the (H)DEXCR in problem state is done using seperate
++     * SPR indexes which are 16 below the SPR indexes which have full
++     * access to the (H)DEXCR in privileged state. Problem state may
++     * only read bits 32:63, bits 0:31 return 0.
++     *
++     * See section 9.3.1-9.3.2 of PowerISA v3.1B
++     */
++
++    gen_load_spr(t0, sprn + 16);
++    tcg_gen_ext32u_tl(cpu_gpr[gprn], t0);
++
++    tcg_temp_free(t0);
++}
+ #endif
+ 
+ #define GEN_HANDLER(name, opc1, opc2, opc3, inval, type)                      \
 -- 
 2.34.1
 
