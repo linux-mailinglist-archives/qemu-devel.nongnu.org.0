@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218A964872C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 18:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39AB648734
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 18:04:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3gke-0000xN-2C; Fri, 09 Dec 2022 12:01:32 -0500
+	id 1p3gkl-00012b-SM; Fri, 09 Dec 2022 12:01:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3gk8-0000p9-Ho
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:01:00 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3gkA-0000qi-0v
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:01:09 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3gk4-000563-E9
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:00:59 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- ja4-20020a05600c556400b003cf6e77f89cso6262254wmb.0
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 09:00:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3gk8-00056t-Ak
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 12:01:01 -0500
+Received: by mail-wr1-x429.google.com with SMTP id o5so5834612wrm.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 09:00:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NyRVy4kGd1CBNGiegqnPBW94HKs6xXQbwkS3kH7rClY=;
- b=L6CQpOYjf4IojBrudVOtBJFR2qYBU7FUgQRGuX8cpCm42+sdqKUw/xfn+37PzWqs27
- Isp81l5LJ3ZVI3yYkDnO+Ajs5e0SnB6O226xsyZ1Rgu7UMPYmymDuURFonmuBv65fKkt
- oYUSqFcFfUEyHPjm09r8mquklg31dsOwaNE9OpppMEzQ3ubL9DTk+h8GZufZDdlLYVOh
- nv1p83shDrHTbgN++0IG57JtOOQm6oC/vKj8us374Zmmma52kY6X53FR57L39E7Ecx76
- /gn1W1WO9H9KTqw0h/H0by2ZRFKNKxvTLlilXIre4Oq2C9XQ6BZhVXroQ5AVVE9pj5ZY
- Q8Ig==
+ bh=JDrTynuhE3D242jgYLaA9iTdbHmcB3pb00lIlByxkno=;
+ b=sthz8JM1FZ0DLAS6HZZ3a+qE7aOfOZ0I3dxXnXEY32r13yprH387/eIAbYOVN4tEBQ
+ ACTaI0V1xpVvM3aMyIa/JX7sIjPukTbl+CpDq8T04bmCG1zeJMRBN1CaAR/Tn6MO18JB
+ 0aTVm/yM/gGtFu6vPSKCTgg1Sye9JfAHzSTu0cG9ifjsQTpfoJWEfSf1IgmjDZd1fjv8
+ K0Y9h4Wo/ijpKv49hBCeKunq4UVUscUe0xaeQcM2BdSHWD8r6qC++0tseibudfscftyR
+ Jr1092zPiUQhdxSVcysX2roddYXNsrrTR0mefwXaubZat8HV46sKa5x1qwiwZiuwGBX5
+ F5CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NyRVy4kGd1CBNGiegqnPBW94HKs6xXQbwkS3kH7rClY=;
- b=1m8EtSd/bgyjf+26SEvat2MA1YLwNRyCkzwNrPgHOkuyvqA0jzIG3XzsUBUxKY7HPf
- Xqp7WCnCADiP67vx0I8+XB4pPSg/3EppZ00cYH4p51JckTt4HrUf/EmgVPzMLMTis8Y2
- 1UTvowZDc+wFcZGBrIUqLF9Q07mwCwH5pFr4sSPWm23sbimHknxzVhrVwBvorOrMe7AK
- V7ccnl5f6IiCpHBPIpimRQh4YTpdklhWJg3BlP8bBAlDcVHW8cV4kQ1VnUILR2kiegKf
- RCo1/OKhpEbRNoSfZQtc4+4iI4wVVS1ljeo1GXU/joE9BlPIrv8B7slXZ+H8JSajcL1o
- iKfQ==
-X-Gm-Message-State: ANoB5pk0aiTRPDy+30Z0pexNhdTvmsVA+m1mYCSkd9oQ1VzQRTPAXzCn
- IBFfcbTdd4A+eQlEd5dbKf72GmfUi5uRYTZTdWs=
-X-Google-Smtp-Source: AA0mqf5IJ8oOfpjItwT/w9GAzpDxQZAJ0CCS6zslJEeuOcfhsNanJXqUJpNnRC3pPPzO88Wo3N+0yw==
-X-Received: by 2002:a05:600c:3d06:b0:3c6:e60f:3f55 with SMTP id
- bh6-20020a05600c3d0600b003c6e60f3f55mr5735345wmb.12.1670605254121; 
- Fri, 09 Dec 2022 09:00:54 -0800 (PST)
+ bh=JDrTynuhE3D242jgYLaA9iTdbHmcB3pb00lIlByxkno=;
+ b=w4gN4RhxTcbcW3r3LbALGXGI2qOdNVP5xnrTdjS1Y+RFgi14JkAWb+cM9+TeBjkXit
+ pMbFUCTFifx9u9dAusoV75UpNaFwzLzCESY99/gGIYmXkM12cwqtjvyn5iZDd5RdiLuQ
+ tLSfDzjud9s1AIIx5fTw/HxwSKisot48O6gyZsgbWzepKWZXZVIQ1h8A1lX6jMrocOAR
+ RV4LEhck4JwbQdQf55rvBWiTL3+Mx79GXkuZqb5isAomZpRfxN76DW2B1lAnLxY76P4z
+ aZRaAM7y3DPfqOznz6fIjldUNvP8PYMo2B/zD9hpcTgszJf/cOqkWc3DY1jlof1gVDhz
+ x+Dw==
+X-Gm-Message-State: ANoB5pm/QEZx0nDfzYPJSQkLPgyFG3gWq5zy1cE+JPJwKf882XdzrX6j
+ HQl0uvoe9P8iE600Zd4y/CU6B/bgjMFEGkL12zY=
+X-Google-Smtp-Source: AA0mqf4JOqP2iyEpnpapsZCrUByGS8WZL+c+7BirdkFrs3QPlX5tGB+lDDPfSYiPelMp24kMqZRhRw==
+X-Received: by 2002:adf:dcc7:0:b0:242:4c5c:a696 with SMTP id
+ x7-20020adfdcc7000000b002424c5ca696mr4547036wrm.33.1670605258737; 
+ Fri, 09 Dec 2022 09:00:58 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p25-20020a05600c205900b003a6125562e1sm238587wmg.46.2022.12.09.09.00.53
+ bv28-20020a0560001f1c00b002423620d356sm1868089wrb.35.2022.12.09.09.00.57
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 09 Dec 2022 09:00:53 -0800 (PST)
+ Fri, 09 Dec 2022 09:00:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH-for-8.0 2/3] hw/intc: Move omap_lcdc.c out of target-specific
+Subject: [PATCH-for-8.0 3/3] hw/tpm: Move tpm_ppc.c out of target-specific
  source set
-Date: Fri,  9 Dec 2022 18:00:41 +0100
-Message-Id: <20221209170042.71169-3-philmd@linaro.org>
+Date: Fri,  9 Dec 2022 18:00:42 +0100
+Message-Id: <20221209170042.71169-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209170042.71169-1-philmd@linaro.org>
 References: <20221209170042.71169-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,46 +90,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Goldfish interrupt controller is not target specific.
-
-While the Exynos interrupt combiner is only used by the ARM
-targets, we can build this device once for all.
+The TPM Physical Presence Interface is not target specific.
+Build this file once for all targets.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/intc/meson.build | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/tpm/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index bcbf22ff51..2ad8648366 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -13,6 +13,8 @@ softmmu_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files(
-   'arm_gicv3_redist.c',
- ))
- softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_pic.c'))
-+softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_combiner.c'))
-+softmmu_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
- softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true: files('heathrow_pic.c'))
- softmmu_ss.add(when: 'CONFIG_I8259', if_true: files('i8259_common.c', 'i8259.c'))
- softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_avic.c', 'imx_gpcv2.c'))
-@@ -33,7 +35,7 @@ specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
- specific_ss.add(when: ['CONFIG_ARM_GIC_KVM', 'TARGET_AARCH64'], if_true: files('arm_gicv3_kvm.c', 'arm_gicv3_its_kvm.c'))
- specific_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_nvic.c'))
- specific_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_vic.c'))
--specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_gic.c', 'exynos4210_combiner.c'))
-+specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_gic.c'))
- specific_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_irqmp.c'))
- specific_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
- specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true: files('loongson_liointc.c'))
-@@ -60,7 +62,6 @@ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('xics_spapr.c', 'spapr_xi
- specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
- specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
- 		if_true: files('spapr_xive_kvm.c'))
--specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
- specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
- specific_ss.add(when: 'CONFIG_NIOS2_VIC', if_true: files('nios2_vic.c'))
- specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
+index 1c68d81d6a..3eacbe8c5d 100644
+--- a/hw/tpm/meson.build
++++ b/hw/tpm/meson.build
+@@ -3,6 +3,6 @@ softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
+ softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
+ softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+ 
+-specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
+-specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
++softmmu_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
++softmmu_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
+ specific_ss.add(when: 'CONFIG_TPM_SPAPR', if_true: files('tpm_spapr.c'))
 -- 
 2.38.1
 
