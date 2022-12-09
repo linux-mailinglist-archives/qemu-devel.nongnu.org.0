@@ -2,97 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7296486FC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 17:49:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2315C64870E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 17:53:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3gYh-0003wu-99; Fri, 09 Dec 2022 11:49:11 -0500
+	id 1p3gcF-0005Ve-Ga; Fri, 09 Dec 2022 11:52:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3gYc-0003tB-VE
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:49:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3gYb-0007jp-6n
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:49:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670604544;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ekjR4d2ZQGpLPdATrj5isXl0tACN/HAJUB3OfCNcEAw=;
- b=WUwqB50EM4iexULPppxDcoZziN4hODzu6ptBYaaB16AIy74jDH8oAR0TIqEHASYJ0M6vO3
- bosBBcH/Fu6Z74oLt2Wmc+BHEJJdMrnp/ANCXdvoY/B2YWm+/gCl+Xs8U5fOchJeQE+9mx
- e5lG6JWi1YxX3Sd1hOXsJaQr4HPgTMg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-180-Etr0yHRsP9iMxEmhal6A7Q-1; Fri, 09 Dec 2022 11:49:02 -0500
-X-MC-Unique: Etr0yHRsP9iMxEmhal6A7Q-1
-Received: by mail-ej1-f72.google.com with SMTP id
- ga41-20020a1709070c2900b007aef14e8fd7so3439292ejc.21
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 08:49:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3gcD-0005VW-FW
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:52:49 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3gcB-0008VE-Lt
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:52:48 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id 65so4092517pfx.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 08:52:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=N/Uxxt4xCYsoBxaIikQ9rlv0GMNPnkPKUD6Ld9zvBYE=;
+ b=D831k/ADAZG0ULtuGVlaybvj8Oik/MAY7HoCVKlYRLxMI1Nzy5W7wgH7wS4GtJjuzT
+ KbzdUow7cAeiv2Dx2dNPdLaJvs0ZwP01VVHLUKavlL4JlI8KYSLiHV6d8fPAx9PDWJz0
+ odjkfkqw6HwLe9S8Ko/DuQj3yhiiAP4Q9ZWYiEMkwktu7OX1MxHtaPIAVGdQ73rDDmXG
+ HPyag8wl1+b5S7nMdKiYS5udkYkqNZ9ujji11qYYKmSFoZThwzI+b0iZZ/X/MUaNwmB5
+ vVOqPcSuOcytvNSPO5B4cjep/J61uBRoOFBnxkC4yh+wE1pQTiNdkDuSHgd76+NU9qtz
+ 6c3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ekjR4d2ZQGpLPdATrj5isXl0tACN/HAJUB3OfCNcEAw=;
- b=KNYT50v3kVM0HYbZfmjWYfqR+gvibGEJt5/YJ0iGYMMS6e/QWzBKuo/xDoI2DGJWGL
- SruIHlv7De0EAqd/COb8pEwb1WL43rclz+evKKinWvZ9PNy7oYaedIRPfFtaaVZLMslK
- 4wbpqJo3wiIPSdvPfBteIG2qP9xnGw0gamOE9hoTkjK5stvDB/F0tZPxdt5zaa7cL6pA
- hUpFbbJwM40UNzXeZrm/7DAVNtewXCtGsowionyhodkLWDl4dl+cIpFkAQHbLgunBMc+
- pRYrmj2cipnmcyN7ZKC0zlFGhiPAZLh6nBqJY0AX+Dw+QDZXPCk3RNr2nUk/QVgw8gNX
- wnuA==
-X-Gm-Message-State: ANoB5plvxh0wHnRKfCptG1IGlIuj/CZfrZBQ2sxFv1Fy9V+/59FdZ9BD
- LaxPOVqoE7gs1IotS5RscgOkDHzNurSBJdRiqnDD692lVTcTcRsGXMvmNQG9KpcNFKWszxUMINY
- BdazUrLZ+Y4adFEw=
-X-Received: by 2002:a05:6402:2949:b0:460:ce2e:30ba with SMTP id
- ed9-20020a056402294900b00460ce2e30bamr5378510edb.10.1670604541824; 
- Fri, 09 Dec 2022 08:49:01 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5rGRk7JuNjYEgEEe3JXhxkhGdkgc3/0Dj7PNH4eH5l8Qc28W0GjHK8lIFbCHMZ4pN1Lq8AEQ==
-X-Received: by 2002:a05:6402:2949:b0:460:ce2e:30ba with SMTP id
- ed9-20020a056402294900b00460ce2e30bamr5378498edb.10.1670604541653; 
- Fri, 09 Dec 2022 08:49:01 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- f5-20020aa7d845000000b00461a6997c5dsm820883eds.83.2022.12.09.08.49.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 08:49:01 -0800 (PST)
-Message-ID: <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
-Date: Fri, 9 Dec 2022 17:48:59 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N/Uxxt4xCYsoBxaIikQ9rlv0GMNPnkPKUD6Ld9zvBYE=;
+ b=1lsVYaNQwtfOci4gXjHEOE99KmHUkq8aA3c1QwxXXBbCHqv666kkPRiuRrojoEimzN
+ ve4JP0c0yp3/OexN6hsJuS7B67lsWl05/swg4x5RU4V+HtLI4+jhmVPOt/7VtXAyZEMs
+ 0Qz++n1EdB0PqIDkBJF2lWyGkjs+K35GtDNBR660uxg7KLUL37+gvgInQqZRDD9Wkj7F
+ Iuox3aEC1dqUUPIDDB+upLNfH6rgGXmxXsn6KXRNCKfLu+CHLgedMc2CKVJ+1NZ3w/1w
+ 9umBwoHhvJxfw8bF/WRADQwO/DrY57kLGjiI60T9aAG1va+rczQoUhRETOA/zhKJlXyh
+ QFJA==
+X-Gm-Message-State: ANoB5pn6kFqiFCuLFb9tCkW0BlbBEknM9fpvjLXYLLip/v6q9z3AaBzq
+ cS2GMkp9uC3/ZoR8nYEh32JmmRBUPiMo5PT/cc00hw==
+X-Google-Smtp-Source: AA0mqf4OcNmRyMteTh9GhFDEVfJWRLWBPKOTpwv/krelXnGF/UpJBwytLsYYAFsU+AebvJYDGIaWFeIE+/0Ee/ia/AU=
+X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
+ r6-20020a635146000000b0047786c1640fmr69634128pgl.231.1670604762516; Fri, 09
+ Dec 2022 08:52:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: Target-dependent include path, why?
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>
 References: <87edt9gnyz.fsf@pond.sub.org>
  <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
  <87v8mlez92.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87v8mlez92.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+ <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
+In-Reply-To: <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Dec 2022 16:52:31 +0000
+Message-ID: <CAFEAcA8MrUwOt+gaSVF6tMpG_HO_wCN_O11Ezst97-_52PR9pQ@mail.gmail.com>
+Subject: Re: Target-dependent include path, why?
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.288, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,25 +89,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/9/22 09:51, Markus Armbruster wrote:
->> Because of where [pixman] is added as a dependency in meson.build.
+On Fri, 9 Dec 2022 at 16:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Is it added where it is for a reason, or is it accidental?
+> On 12/9/22 09:51, Markus Armbruster wrote:
+> >> Because of where [pixman] is added as a dependency in meson.build.
+> >
+> > Is it added where it is for a reason, or is it accidental?
+>
+> Dependencies are usually added near the .c files that use them.  That's
+> a bit messy of course if you have an "#include <>" in a heavily-included
+> QEMU header.  You can consider it a way to discourage heavily-included
+> headers.
 
-Dependencies are usually added near the .c files that use them.  That's 
-a bit messy of course if you have an "#include <>" in a heavily-included 
-QEMU header.  You can consider it a way to discourage heavily-included 
-headers.
+This has always seemed to me to be a recipe for bugs that only
+show up in the uncommon case of "some dependent library's
+header files have been installed somewhere other than in
+a system include directory". Is it possible to get meson to do
+things the more standard way, where if a binary has a dependency
+declared then the CFLAGS for that dependency get used for all
+objects that go into it?
 
-If you have a dependency in multiple unrelated .c files, specifying them 
-in multiple foo_ss.add() invocations doesn't hurt.  In fact it is both 
-clearer and more compact, because it removes the need for "if"s.
-
-The only dependency that you don't need to specify is glib, partly for 
-historical pre-Meson reasons partly because it would be everywhere.  For 
-the others, if it makes sense to add them to multiple source sets you're 
-welcome to do so.
-
-Paolo
-
+thanks
+-- PMM
 
