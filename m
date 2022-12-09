@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A546483A3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 15:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75806483AF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 15:23:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3eE5-0000Y6-Rk; Fri, 09 Dec 2022 09:19:45 -0500
+	id 1p3eGJ-0001PJ-G1; Fri, 09 Dec 2022 09:22:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3eDz-0000WI-UE
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:19:43 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eGG-0001M1-Ar
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:22:00 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3eDx-0002JB-Qw
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:19:39 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id c13so3783763pfp.5
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 06:19:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eFx-0003xw-3U
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:21:54 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id m14so5339341wrh.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 06:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1VBpzBzMHVCOLGpV8AuWE3F+P/ZttBlPEcoL2wdCd88=;
- b=LbNlyhOEf3eO2b+GbvU/Df0BSLBzP9AaOqzOEhaxsQXUBw09B4Ndnwp6aBuH/G41iQ
- AVJK/XOL8R1GKUMr87yFNOJQFPphCGyLDD3rHgEVECNSx2hEB4m8f0f5t6yEY10Ei6mt
- oSBbE+RSF4uzU/gSiVhVLKdPQorfsFh8AyvOIn6bQq4qFpD6tKLFHSWKJvLnaigXv+Dw
- DgpRmY+fgMmwN/r1YK7aCAP2TeoCDhRKG7ms/WHoaw50WIFJqGuZA7iRkfrdkqkuWJd9
- foNZaja8B1kLSYZU+r2PvdHMkjtRUHoJRF7ZcrDugYUyhehiQhCvQ/NOPyC7EEN/ha8I
- Oe4Q==
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kbExQA0onQG9QAZ5T2ULEalFtg+MiSswrh7KmRsnoyI=;
+ b=Bj7CFAUskf5WrlAbJScqHFF+itDfnvt/yNGU5DbQc5xwIVkt4Wxdw5/SkOskVBK8PY
+ YEjCFO5XG/Dk8Smd68tFOumue8gQkkrKC1trO8KQG/rr9tNpFrYeXFUfS7DQwBnRcd2o
+ BVBbNBWBGYJE137RYgbGyfiYLfia4HfWkix/RqRUk7IgQHcvKStvxD7l5rsYAjomJeIk
+ dQj3yrtKru6aw7SFAcX4y53zaMUhGfS7V42qQtxnLbca35ySgAdJk4R3h6sPcWI6Oqj5
+ ZZDg7GpNKv7lqzVsvN0SUQdnVpbPllMyNynLP4Z/ZsjKhaq4u8Ac1SeIuP6b33J6ZhM5
+ f8Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1VBpzBzMHVCOLGpV8AuWE3F+P/ZttBlPEcoL2wdCd88=;
- b=kJwGBaCl2befVSMoZsXRWeUsiZPHGAYMNyCndTZ0stOY/e0dMtbUP0EXXEQU9eXcBR
- SpJPAKHPnkw+bJqP824vmw8OzmfxQib21hO5eUzAAxLGjV3bd0UJI5CvuBIhpHKtJqMg
- yXIwl9ouNgzyT+6VNHPoTmt2yTOTR2S/2qtyut0S/nL55lmFJWeqHCLpRAvaW63wNJMH
- /Wn/YB12GexTh5ZD0O/FB5zPQo6ylasUKUfxftekCKvreN5Bbuu4Mv7UrAw2bcT7c0ba
- p9FdmPZulTQKk3tGo752lBaKrtJ571CpUisaq6shCC6PVq7B3kI5y6ykDHCTeaKtWJN+
- MiSQ==
-X-Gm-Message-State: ANoB5pkzu6JoLG3qc3s97FHMk9fmzaZvDbPNR3hgxaVDMqyRVmMEhY4z
- 8P2j616z9Wpuo+bdAyLHabOz4byzk4Rj4ZKqKi4/aQ==
-X-Google-Smtp-Source: AA0mqf46u4r4IUUqFlkWT/dJUIIijRbFCs84xmA4A2SmDPrYDZfPakQD4gBi7q9om2I8OljwcvY8o1ODrwBBPOZuOEI=
-X-Received: by 2002:a62:5f81:0:b0:56b:bb06:7dd5 with SMTP id
- t123-20020a625f81000000b0056bbb067dd5mr78908608pfb.3.1670595576046; Fri, 09
- Dec 2022 06:19:36 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kbExQA0onQG9QAZ5T2ULEalFtg+MiSswrh7KmRsnoyI=;
+ b=2mIqOqXei1eGjeagv87uN33Wgi5uPEYtGl7oshJZ30T4gjjynrFg9NfBop60a3PPN7
+ PtaF6u3MysKebWegiGUZqBdqDsW+o4Owostmndo4MjLfQKX2RyKIr7sEnKoX4yrL4S0J
+ bNxCejQ3TBBpAjS4lkTToL9LlpUKvh3PAfsJZAGcRwG8IX7pXPv+puUH4gf5Vm6X+ySS
+ NK7lU40c+DbdXLO1aXAT7dGGBU+wggTtadO1ZSASzpxwrci+3ZB+q1DEDP+/huur0yVs
+ gdW+OZX84nHhYmOyz50qSoy7NzBQvBSk/iWz6aY3JwoLVjX7iTDptGx76+0bIaqw+4K3
+ t7EA==
+X-Gm-Message-State: ANoB5pkUpj6PY2EBIsFLGiwIN4t8ShcpROhQMxv++Th3vraf12JOB9PA
+ lTP2i65/KmgTt74klXhd0UEcJw==
+X-Google-Smtp-Source: AA0mqf7lzy6rnHB7hRpRrD89a8oN+rQEWRsCFTAibqUjlesa2wJP/CMaM5G5ZT4FoIeKkfwx50qkAg==
+X-Received: by 2002:a5d:58d2:0:b0:242:4697:d826 with SMTP id
+ o18-20020a5d58d2000000b002424697d826mr3897603wrf.29.1670595689885; 
+ Fri, 09 Dec 2022 06:21:29 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ d13-20020adfef8d000000b00241e5b917d0sm1879756wro.36.2022.12.09.06.21.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Dec 2022 06:21:29 -0800 (PST)
+Message-ID: <6275f9b9-a878-bec9-d5c6-54d1c4bf192a@linaro.org>
+Date: Fri, 9 Dec 2022 15:21:28 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 19/30] configure, meson: move --enable-debug-info to Meson
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-28-pbonzini@redhat.com>
- <CAFEAcA_9wJy47nUpfkuonB_Fcu74MoC-14dj8dwi8i9HggWQKg@mail.gmail.com>
- <af52a8d4-839e-cb0e-abb1-a15782fb071c@redhat.com>
-In-Reply-To: <af52a8d4-839e-cb0e-abb1-a15782fb071c@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Dec 2022 14:19:24 +0000
-Message-ID: <CAFEAcA-3koo6XksOObkxcUT+jjHbqqiUm31h62cho-GJv25C0A@mail.gmail.com>
-Subject: Re: [PATCH 27/30] build: move compiler version check to meson
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ <20221209112409.184703-20-pbonzini@redhat.com>
+ <bc114971-ee1f-b48b-cee7-ebcdae4d572c@linaro.org>
+ <be63447e-ba8e-6876-78a8-0cdb875b98c3@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <be63447e-ba8e-6876-78a8-0cdb875b98c3@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.288,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,48 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 9 Dec 2022 at 14:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 12/9/22 12:52, Peter Maydell wrote:
-> > The new code makes it much harder to move our compiler version
-> > requirements forward in future, because there's no longer a simple
-> > "check for normal clang X or apple clang Y" test where we can
-> > bump up X and Y based on what's provided in the various host
-> > platforms we have to support. Doesn't meson provide a way to do
-> > the version check on the version number the way we were doing
-> > previously?
->
-> Yes, I could just do the check with #error just like before.
->
-> For GCC I used the nicer "compiler.version().version_compare('>=x.y')"
-> check.  For clang we have to deal with both upstream and Apple version
-> numbers; it's also possible to check for __apple_build_version__ to
-> distinguish between the two and then do version_compare(), but at that
-> point it's easier to just use cc.compiles() and #error.
->
-> While it's possible to learn the upstream version corresponding to Apple
-> compilers with "c++ --verbose", it is not really machine-friendly so
-> Meson does not attempt to parse it and neither did QEMU's configure script.
->
-> So I went for the trick of using -Wpragma-pack, which was extracted from
-> https://github.com/simd-everywhere/simde/blob/master/simde/simde-detect-clang.h.
->   The advantage is that you only have one check, the disadvantage is of
-> course that it obscures what's going on.  I can add a clearer comment
-> around the check, or switch to #error and add a pointer to
-> https://trac.macports.org/wiki/XcodeVersionInfo where the mapping can be
-> found, or really anything else that is your preference.
+On 9/12/22 14:54, Paolo Bonzini wrote:
+> On 12/9/22 13:55, Philippe Mathieu-Daudé wrote:
+>>>
+>>> +  printf "%s\n" '  --disable-debug-info     Enable debug symbols and 
+>>> other information'
+>>
+>> We should get '--enable-debug-info' here, ...
+>>
+>>>     printf "%s\n" '  --disable-install-blobs  install provided 
+>>> firmware blobs'
+>>
+>> ... and here. Do we have a bug in meson-buildoptions.py?
+> 
+> No, for boolean options it only includes the non-default setting.  This 
+> behavior was copied from the prior handcrafted help output:
+> 
+>    --with-devices-ARCH=NAME override default configs/devices
+>    --enable-debug           enable common debug build options
+>    --enable-sanitizers      enable default sanitizers
+>    --enable-tsan            enable thread sanitizer
+>    --disable-strip          disable stripping binaries
+>    --disable-werror         disable compilation abort on warning
+>    --disable-stack-protector disable compiler-provided stack protection
 
-I think really I just don't want a check that is "we happen to
-know that this particular option switch is supported only
-from these versions onward", because as soon as we say
-"OK, we can move forward to a clang 7 baseline" we either
-need to search around for an equivalent clever trick, or
-else we need to get rid of all this code anyway and have
-the version number check. So I don't mind how we do this
-as long as there's a straightforward bit of code that
-currently has "6 "and "10" in it and where we can change it to
-"7" and "11 "in future and it does what we intend.
+These are correct... For debug-info I'd expect that (change on top of
+your patch):
 
-thanks
--- PMM
+-  printf "%s\n" '  --disable-debug-info     Enable debug symbols and 
+other information'
++  printf "%s\n" '  --disable-debug-info     Disable debug symbols and 
+other information'
+
+
 
