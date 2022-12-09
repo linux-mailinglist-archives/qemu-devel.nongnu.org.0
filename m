@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88736481E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42996481E4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:41:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bdu-0003NF-Hy; Fri, 09 Dec 2022 06:34:14 -0500
+	id 1p3beY-0003cP-Fn; Fri, 09 Dec 2022 06:34:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3bdj-0003LS-S8
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:34:04 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3beV-0003ak-Rd
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:34:51 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3bdS-0000IP-Ua
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:34:02 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- ay8-20020a05600c1e0800b003d0808d2826so5601364wmb.1
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:33:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3beT-0001Z0-RQ
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:34:51 -0500
+Received: by mail-pf1-x433.google.com with SMTP id g1so3490744pfk.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:34:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dLA8QEjrYdTNf33My29KKVDGQuaGLbZ2RRxkNnsl2uI=;
- b=Uw4evc2tCg3N2e/Fnf2zQ4uznEWGggsANlDwOzhmJlXHJxTbLkZpy0VpFrwfynQEPK
- Wkw4EQ0VTOu1Cp8AN+azO8tKfs4HAoUbBBvY1EuIoyioCIyyzthPyVLYEcrrV6cNad/e
- tm6WHicVnLNMiPAEGmJdKhq6UhK8t6qAJrtsMzwGMn/CtGsVP9YFyvtHoSNkV/eIlYoo
- 1t0fqdHBsWxg+nPFCl5Zz/uTLMzwPZS0z2MtZj1qbiCkJPK5MM5uG8ARdxdPegiLlKdv
- 53jOO9SZB+ysyyLTG/fqAJCXTbv53mvWhgWQCk1HT6eFMm0DJUzvNKpDA/kftX6wnfC6
- TILA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XV0XqeyQU6PLvsHuKc069f8ZdwRDaPwDyrc0TVa3h/0=;
+ b=b4vSI9qCTO7ZMUFA1YUFUOv0uQfIPFCta9Q0fYbIWcYlykrJ14zSz6SWBLHF666meP
+ YE/f1icVvl4zsB3DrOxvHJwUZxTQEO4lpbHRbA7y4kn1YK0HWfZ72Cu9osnU6TIp5hYx
+ zOpPgCwrtoVlqihxmNO82LJJ6qqbcG6/Ukx77vSdh7L1xOyxRZUlxM1sOoSgiQHjwJSn
+ AAdaYNm2LT8P4tPM6BUHR3mXJvzqdUlxJrcfaIeJZFgRnGRh7dHux4z4RwnLORSXQDt+
+ u54GC9j3HOVtt35+qlMK5ehlo3wrhUa8F8nZ6kHy3gkXrtUKtrTrE/xYFh4WEvL/AxSJ
+ 7H4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=dLA8QEjrYdTNf33My29KKVDGQuaGLbZ2RRxkNnsl2uI=;
- b=OlAJIba3I30bKoHhBwBvV13FFI7WXnOSVJA1Y0PVph/99AKip+oTrQph4u+KmLSazU
- /I1wA136HWLq4ZpzdvUpT4MMtP24M76xBRmhcFcP8ANgz6Uk3GxtkQFnij98VE49/itU
- 6e4nKZ5owvhy2F1mQVcAUJq9WEWbRX8tJjc9O+xv7KK5jWw4oNvbkc6E8CZhKztmdltr
- kMqMCvMlneC2n7Dmj+BkDg9SzwjI7KN85DNOYY5IzMQppUE+NZ2BwW68XjVLc+hSa7d7
- 0+SqWbQUzzfuTKTHs9WsdcINh6ViWZNkj+tz5AkkxcUw/uxNxmyPATVuS2Xxen9hEMz+
- q2RQ==
-X-Gm-Message-State: ANoB5pkcGtTzdV1cg9CKEkrjzxZM3MobcI4N2EOEk6jdnrcJUw/gMhUI
- w8ltYysIf+Ia/1IFUMColfzPV9Xg78/JDYQnQwo=
-X-Google-Smtp-Source: AA0mqf5pZ8/0JzVg2RjX9zPCaZYkM3QE2Blevv5hbduTbNVBbtdIk/GKu66OgKj/i9GCQiIgHRKFlQ==
-X-Received: by 2002:a05:600c:538b:b0:3cf:8d51:fae1 with SMTP id
- hg11-20020a05600c538b00b003cf8d51fae1mr4825907wmb.0.1670585625010; 
- Fri, 09 Dec 2022 03:33:45 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- v24-20020a05600c215800b003cf6a55d8e8sm1575290wml.7.2022.12.09.03.33.43
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 09 Dec 2022 03:33:44 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v2] scripts/archive-source: Use GNU tar on Darwin
-Date: Fri,  9 Dec 2022 12:33:42 +0100
-Message-Id: <20221209113342.61053-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ bh=XV0XqeyQU6PLvsHuKc069f8ZdwRDaPwDyrc0TVa3h/0=;
+ b=WqYwB3Kr3hSB1T/+mrSkmtNUwPJ4zwYCiUI/Jle4nZ9aHLlR3AYzJ7XYUdpG1Rb+aX
+ AP+lwAyXFfI3rDmjQpXVNBQAyxOV0Er62d5qOvpk/1HsqV1tZiRLOkCVOokMCqYEj199
+ dv71tcnmRQNSLuYLgyjNCQ/1FUFjRJjwh8Q8Z8LVkRLByP0mnIdueKLFgwYLiDkXn3S3
+ Qs8JvH61MmpFvq6JTivYYoEhaY3Z1wttyW0q/cHjtRPHhP/R4p9xuTPqZ3Nff1LAiN6z
+ 138so4kU1ACfHvfCljj904+GnKYSzAgksPljPf+To+M7zXu/wH6MF+5Ldwxgjg+RaKc/
+ dgsw==
+X-Gm-Message-State: ANoB5pkQsW7vaSase6tQSEfD3Ahk2+mM5pPeZ+fuStAmvi1G/YvG/CKq
+ aYjg4g6mXcW7SEygO0aLnTwR4bfgJGSeBQjWDcYL2w==
+X-Google-Smtp-Source: AA0mqf7qbTicLsHNcjupug9Vy7CLbiz08njNrl/znLDo0atf4yeC1/s6QtGwYca+B9GVj+WIfJfWXDLC4cOMy5aduuY=
+X-Received: by 2002:a62:b501:0:b0:573:1959:c356 with SMTP id
+ y1-20020a62b501000000b005731959c356mr78483372pfe.51.1670585688175; Fri, 09
+ Dec 2022 03:34:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-4-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-4-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Dec 2022 11:34:36 +0000
+Message-ID: <CAFEAcA9QbCxBW0ZmnzXr=ry3XyHX6YKH0ZxGDCfTmRmSbao+3Q@mail.gmail.com>
+Subject: Re: [PATCH 03/30] configure: remove useless test
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,52 +83,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When using the archive-source.sh script on Darwin we get:
+On Fri, 9 Dec 2022 at 11:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> $cpu is derived from preprocessor defines rather than uname these days,
+> so do not bother using isainfo on Solaris.  Likewise do not recognize
+> BeOS's uname -m output.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure | 12 +-----------
+>  1 file changed, 1 insertion(+), 11 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 543fd5a48bf0..db2b45740449 100755
+> --- a/configure
+> +++ b/configure
+> @@ -337,9 +337,6 @@ for opt do
+>    ;;
+>    esac
+>  done
+> -# OS specific
+> -# Using uname is really, really broken.  Once we have the right set of checks
+> -# we can eliminate its usage altogether.
 
-  tar: Option --concatenate is not supported
-  Usage:
-    List:    tar -tf <archive-filename>
-    Extract: tar -xf <archive-filename>
-    Create:  tar -cf <archive-filename> [filenames...]
-    Help:    tar --help
+I note that the fallback if we match no #defines is still "use uname".
+We can only get rid of that if we're willing to say "must be a
+known host architecture, even if using TCI", though. Or we could
+force the 1 person using that setup to specify --cpu manually, perhaps.
 
-'tar' default to the BSD implementation:
+>  # Preferred compiler:
+>  #  ${CC} (if set)
+> @@ -489,13 +486,6 @@ sunos)
+>    QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
+>  # needed for TIOCWIN* defines in termios.h
+>    QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
+> -  # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
+> -  # Note that this check is broken for cross-compilation: if you're
+> -  # cross-compiling to one of these OSes then you'll need to specify
+> -  # the correct CPU with the --cpu option.
+> -  if test -z "$cpu" && test "$(isainfo -k)" = "amd64"; then
+> -    cpu="x86_64"
+> -  fi
 
-  $ tar --version
-  bsdtar 3.5.3 - libarchive 3.5.3 zlib/1.2.11 liblzma/5.0.5 bz2lib/1.0.8
+I found a random stackoverflow answer that says the Solaris
+compiler does define the __x86_64__ macro that we check for, so
+this should be OK.
 
-Try to use the GNU implementation if it is available (from homebrew).
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
-Supersedes: <20221208162051.29509-1-philmd@linaro.org>
----
- scripts/archive-source.sh | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index 23e042dacd..e3d0c23fe5 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -18,6 +18,7 @@ if test $# -lt 1; then
-     error "Usage: $0 <output tarball>"
- fi
- 
-+test $(uname -s) = "Darwin" && tar=gtar || tar=tar
- tar_file=$(realpath "$1")
- sub_tdir=$(mktemp -d "${tar_file%.tar}.sub.XXXXXXXX")
- sub_file="${sub_tdir}/submodule.tar"
-@@ -67,7 +68,7 @@ for sm in $submodules; do
-     esac
-     (cd $sm; git archive --format tar --prefix "$sm/" $(tree_ish)) > "$sub_file"
-     test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
--    tar --concatenate --file "$tar_file" "$sub_file"
-+    $tar --concatenate --file "$tar_file" "$sub_file"
-     test $? -ne 0 && error "failed append submodule $sm to $tar_file"
- done
- exit 0
--- 
-2.38.1
-
+thanks
+-- PMM
 
