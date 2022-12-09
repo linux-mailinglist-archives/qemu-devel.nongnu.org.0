@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E056481C3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:31:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0208264819C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:26:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bW6-0004XA-WB; Fri, 09 Dec 2022 06:26:12 -0500
+	id 1p3bWJ-0004zJ-LT; Fri, 09 Dec 2022 06:26:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUp-0003yV-O0
+ id 1p3bUs-0003yd-40
  for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:25:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUl-0000yz-CN
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:50 -0500
+ id 1p3bUl-0000zB-Ca
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670585076;
+ s=mimecast20190719; t=1670585079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iUWdx2zhhTuGpVL2oq7NV4uBafczGyLM+OQnO3SSoHE=;
- b=Ypi/+zswbCxeGsdnVpR/pB6F4be1wo0sDLalrcm0Faoq0SO5/pyTIK5Bf1Fd8axXM+HX6A
- VUUGP9p2iEKdf97nnlt0D+52g73sF2t9R5sLI6bRMtUBRcBtzcua7K4HytmWIMf80Mc5lg
- 18yf5LM3/NoylEdLE3ClEp2twvimetI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=s4FMVLMLH7mQP0UGUkVZQ8bdJWPe09jUog+sQJ/g1V0=;
+ b=coQG7+pb4vJZfhTpSPHUVDC8bOUGxCVqthFnkKMnT1IvVcrRPhhRU/wt35XjN11WCjCJj2
+ 3NQE3mZI9BxhbXWpjVQxIHnjlcjfHfRQI/Ap/QPwFmus/C7fCe67aI8Xl+cuQTL70wb/Kk
+ Xv16nQpWXGP1mZRO7Ugn7S4mPhz8kQM=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-10-phSMVtOMNamM4kmKQL6vuw-1; Fri, 09 Dec 2022 06:24:35 -0500
-X-MC-Unique: phSMVtOMNamM4kmKQL6vuw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- xc12-20020a170907074c00b007416699ea14so2905521ejb.19
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:34 -0800 (PST)
+ us-mta-227-mkbZhCWoMmOpKCzFsiHOfA-1; Fri, 09 Dec 2022 06:24:37 -0500
+X-MC-Unique: mkbZhCWoMmOpKCzFsiHOfA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f17-20020a056402355100b00466481256f6so1185481edd.19
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iUWdx2zhhTuGpVL2oq7NV4uBafczGyLM+OQnO3SSoHE=;
- b=d78pX2PDupwDdcA+o2bvlTvkIy2nI5b8Prfq6Kpb5geKskEGC2YiYpQ2UlI/48CHs1
- d0ORZ7C7OMe0fYt0ZnoH+N7zdZtk0bfWpbP/TwxwcSKnfMsGZ9gyFFRtHNUFKh9kS5f7
- 6J9lGAs570SCQxiZtnb4wYV36N78FerT3nEZJ9BJBKpPS3H3hbhkRh/kfYNWGcJ4KtDl
- TEtXQA09WZF9Sd10uXCru0yiyJONwHb40nWZGpvFIAlbd9fvBJW14RCckyy31k60spgL
- 85vNDpHulaqICCQ76qphRhVuBvS0JPKjeYiASfUpuaiVq/8ZdtHKsiJGD1CwWshw8PpS
- jwxA==
-X-Gm-Message-State: ANoB5pm5iQvFR3nZHehPohe9NGgt719wBiI4/vc4m8+ohS/vHctXLy3L
- XwB/gvmECvEcCog5kTmDziqsfOfJ4/i34/KFCEeDdhUGCFBeB1gnm05e5tLS85YOWV5d4rHyBg7
- 92Ebg+nd1pU05KQqq1I8l3MQO++vpUqaaGxdEN0p+rI8l0L5GM4Jg0L1ly/SGSXzccH8=
-X-Received: by 2002:a05:6402:e09:b0:467:91bc:f523 with SMTP id
- h9-20020a0564020e0900b0046791bcf523mr5453505edh.36.1670585073618; 
- Fri, 09 Dec 2022 03:24:33 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5vYRZnEhNKs3YvUrFJV6b0Oa9Yh2I8//+BIsquP0kwyYj65aJKDcGRpilo1O5NLzxjKVo9lg==
-X-Received: by 2002:a05:6402:e09:b0:467:91bc:f523 with SMTP id
- h9-20020a0564020e0900b0046791bcf523mr5453484edh.36.1670585073237; 
- Fri, 09 Dec 2022 03:24:33 -0800 (PST)
+ bh=s4FMVLMLH7mQP0UGUkVZQ8bdJWPe09jUog+sQJ/g1V0=;
+ b=ZBmHv7WDgloj8nusFFcPzylfep272s/qhQbcNzZ+Erte/rlw+eIphwlJKKK9NKHcqS
+ AXsv790OOn6n9JLQ45aj3vdJowaoYQ1J2zCF5kpuf8G4DMRZ+rgvTMgXW2UdjIrzsGiq
+ fs182wH6GzOY7scQ6qakk7SYMWaMl19GJENEqsMcGeI6EWM/RHY7P+fG51joKwM6RAb2
+ URcdAlWeEHzTO1JQHJfsQCXaXRWxKUA382uWEM27h0c9gUhcgBMPX1s7RdJBf/R09ciJ
+ BlYYmBNtGL9siOw7i2dCOaDG41OxmH5qrlT2N+F86dsQyzQnhFmjjkOTvTTN5gWTExvA
+ DUUg==
+X-Gm-Message-State: ANoB5pn2OtNE9zIV+i00dwTMzyhXtlUsbLqXtKADLpP8HeJkTBeZaQx2
+ NqUQ6sukxli7zusjULYRl3eUk4OQXXeKAvXVw9vsnm0XZzpvB1RPgkVXR39jqCl8od1p3djIa6Q
+ 8issfJCwb5R19h+YpTZgPtIjqFnBc+0bYa314VfqPMxUagn6y6NWuKjvTTam+IeFC6i8=
+X-Received: by 2002:aa7:dd44:0:b0:461:ac11:2e1e with SMTP id
+ o4-20020aa7dd44000000b00461ac112e1emr4508721edw.22.1670585076465; 
+ Fri, 09 Dec 2022 03:24:36 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4S9IMTuQyaurtQbe5L0gRVavo3/D4rrFg4Sn9071m8UtO+LF1UKLggRTtWoxAx9Pf4uZcrew==
+X-Received: by 2002:aa7:dd44:0:b0:461:ac11:2e1e with SMTP id
+ o4-20020aa7dd44000000b00461ac112e1emr4508709edw.22.1670585076098; 
+ Fri, 09 Dec 2022 03:24:36 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- i9-20020a056402054900b00463c5c32c6esm515547edx.89.2022.12.09.03.24.32
+ d9-20020aa7d5c9000000b004611c230bd0sm522446eds.37.2022.12.09.03.24.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 03:24:32 -0800 (PST)
+ Fri, 09 Dec 2022 03:24:35 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/30] meson: require 0.63.0
-Date: Fri,  9 Dec 2022 12:23:47 +0100
-Message-Id: <20221209112409.184703-9-pbonzini@redhat.com>
+Subject: [PATCH 09/30] meson: use prefer_static option
+Date: Fri,  9 Dec 2022 12:23:48 +0100
+Message-Id: <20221209112409.184703-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209112409.184703-1-pbonzini@redhat.com>
 References: <20221209112409.184703-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,46 +99,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This allows cleanups cleanups in modinfo collection and supports the
-equivalent of QEMU's --static option to configure.
+The option is new in Meson 0.63 and removes the need to pass "static:
+true" to all dependency and find_library invocation.  Actually cleaning
+up the invocations is left for a separate patch.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 2 +-
- meson       | 2 +-
- meson.build | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ configure                   |  4 +---
+ docs/devel/build-system.rst |  3 +--
+ meson.build                 | 11 ++++-------
+ qga/meson.build             |  2 +-
+ 4 files changed, 7 insertions(+), 13 deletions(-)
 
 diff --git a/configure b/configure
-index adfff30a6204..411dfe977958 100755
+index 411dfe977958..6efc2055ce09 100755
 --- a/configure
 +++ b/configure
-@@ -1043,7 +1043,7 @@ fi
- python="$python -B"
+@@ -2315,9 +2315,6 @@ fi
+ if test "$solaris" = "yes" ; then
+   echo "CONFIG_SOLARIS=y" >> $config_host_mak
+ fi
+-if test "$static" = "yes" ; then
+-  echo "CONFIG_STATIC=y" >> $config_host_mak
+-fi
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+ echo "TARGET_DIRS=$target_list" >> $config_host_mak
+ if test "$modules" = "yes"; then
+@@ -2540,6 +2537,7 @@ if test "$skip_meson" = no; then
+   # Built-in options
+   test "$bindir" != "bin" && meson_option_add "-Dbindir=$bindir"
+   test "$default_feature" = no && meson_option_add -Dauto_features=disabled
++  test "$static" = yes && meson_option_add -Dprefer_static=true
+   test "$pie" = no && meson_option_add -Db_pie=false
+   test "$werror" = yes && meson_option_add -Dwerror=true
  
- if test -z "$meson"; then
--    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.61.5; then
-+    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.63.0; then
-         meson=meson
-     elif test "$git_submodules_action" != 'ignore' ; then
-         meson=git
-diff --git a/meson b/meson
-index 3a9b285a55b9..9c6dab2cfd31 160000
---- a/meson
-+++ b/meson
-@@ -1 +1 @@
--Subproject commit 3a9b285a55b91b53b2acda987192274352ecb5be
-+Subproject commit 9c6dab2cfd310ef2d840a2a7a479ce6b9e563b1d
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 189472174340..9db18aff159e 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -311,8 +311,7 @@ dependency will be used::
+   sdl_image = not_found
+   if not get_option('sdl_image').auto() or have_system
+     sdl_image = dependency('SDL2_image', required: get_option('sdl_image'),
+-                           method: 'pkg-config',
+-                           static: enable_static)
++                           method: 'pkg-config')
+   endif
+ 
+ This avoids warnings on static builds of user-mode emulators, for example.
 diff --git a/meson.build b/meson.build
-index dbd0b5563446..19b023985325 100644
+index 19b023985325..dced840bfbee 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1,4 +1,4 @@
--project('qemu', ['c'], meson_version: '>=0.61.3',
-+project('qemu', ['c'], meson_version: '>=0.63.0',
-         default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
-                           'b_staticpic=false', 'stdsplit=false', 'optimization=2', 'b_pie=true'],
-         version: files('VERSION'))
+@@ -18,10 +18,7 @@ sh = find_program('sh')
+ cc = meson.get_compiler('c')
+ config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
+ enable_modules = 'CONFIG_MODULES' in config_host
+-enable_static = 'CONFIG_STATIC' in config_host
+-
+-# Allow both shared and static libraries unless --enable-static
+-static_kwargs = enable_static ? {'static': true} : {}
++static_kwargs = {}
+ 
+ # Temporary directory used for files created while
+ # configure runs. Since it is in the build directory
+@@ -183,7 +180,7 @@ qemu_cflags = config_host['QEMU_CFLAGS'].split()
+ qemu_objcflags = config_host['QEMU_OBJCFLAGS'].split()
+ qemu_ldflags = config_host['QEMU_LDFLAGS'].split()
+ 
+-if enable_static
++if get_option('prefer_static')
+   qemu_ldflags += get_option('b_pie') ? '-static-pie' : '-static'
+ endif
+ 
+@@ -830,7 +827,7 @@ if targetos == 'linux' and have_tools and get_option('mpath').allowed()
+                                     kwargs: static_kwargs)
+   if libmpathpersist.found()
+     mpathlibs += libmpathpersist
+-    if enable_static
++    if get_option('prefer_static')
+       mpathlibs += cc.find_library('devmapper',
+                                      required: get_option('mpath'),
+                                      kwargs: static_kwargs)
+@@ -1214,7 +1211,7 @@ if not gnutls_crypto.found()
+     # Debian has removed -lgpg-error from libgcrypt-config
+     # as it "spreads unnecessary dependencies" which in
+     # turn breaks static builds...
+-    if gcrypt.found() and enable_static
++    if gcrypt.found() and get_option('prefer_static')
+       gcrypt = declare_dependency(dependencies: [
+         gcrypt,
+         cc.find_library('gpg-error', required: true, kwargs: static_kwargs)])
+diff --git a/qga/meson.build b/qga/meson.build
+index 3cfb9166e5d8..ec67326b25f3 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -22,7 +22,7 @@ have_qga_vss = get_option('qga_vss') \
+     Then run configure with: --extra-cxxflags="-isystem /path/to/vss/inc/win2003"''') \
+   .require(midl.found() or widl.found(),
+            error_message: 'VSS support requires midl or widl') \
+-  .require(not enable_static,
++  .require(not get_option('prefer_static'),
+            error_message: 'VSS support requires dynamic linking with GLib') \
+   .allowed()
+ 
 -- 
 2.38.1
 
