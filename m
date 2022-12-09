@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D4264819E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CCC6481D4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:37:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bWF-0004yL-Qk; Fri, 09 Dec 2022 06:26:19 -0500
+	id 1p3bWC-0004tk-Ge; Fri, 09 Dec 2022 06:26:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUZ-0003wo-6M
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1p3bUb-0003xS-Gl
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUV-0000xj-Vn
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:34 -0500
+ id 1p3bUY-0000yG-VR
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670585070;
+ s=mimecast20190719; t=1670585073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E6Kn+I8CfWpn/0AmDasqCnq+EboZ+mRrHgi6RT57zh0=;
- b=SP/trcK1D9CZ0j3OCglZFVMPtB+/PEWp6fLcNtlzvuVJs+OUECMxvPk1b6u5CJ3Y0QpuoF
- lkfN4GmkXjzep5rQfM19Ck032xGd4T3wqM0Q0RPaXiiSDOYpRzaFp8hlL+5Gx71AY3yOBZ
- gUTCAbmPZN0efoqQAi39p8FjxR1Sjto=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QAW6f5Ww8mIY4+U+CCrsUVvJqjkHLnfYiUIZfiFUURc=;
+ b=bRAEr44U+3gb7fNTE5bA/nUD7+uZqCh/9aHfTuxIpKXnV+0TLuEkqpuGl37+DBeNESc/Ot
+ iSy1SDPtbEv5iLDC85xlsiT77G2yrVbDsERzZoqLQpM6FzzGAuUGXaAIPSWuNZhsdrId4I
+ 6GGI+4a9dSg2rKq1/6jrRtiDFNH9Aes=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-418-zG4XgSFdOi27Yq8rI29ZNA-1; Fri, 09 Dec 2022 06:24:29 -0500
-X-MC-Unique: zG4XgSFdOi27Yq8rI29ZNA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- xh12-20020a170906da8c00b007413144e87fso2910510ejb.14
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:29 -0800 (PST)
+ us-mta-397-3tI8VNb-M8OYlRmLkMRx_Q-1; Fri, 09 Dec 2022 06:24:32 -0500
+X-MC-Unique: 3tI8VNb-M8OYlRmLkMRx_Q-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ v4-20020a056402348400b0046cbbc786bdso1201324edc.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=E6Kn+I8CfWpn/0AmDasqCnq+EboZ+mRrHgi6RT57zh0=;
- b=Uu/v94Dfq44fDyT/qfKk+aZB3s22M3sOyT+ULqlNNv0AtaR/QdIXaxeJqjXURaax/g
- MTZRMx/0ZmRvl3ZQdtENduzTtXPzuENM9eiP6xVIBhuHuxK1vNSoDPn7GkOFB0UH5rHG
- nVh9b7GhEDz/LVUxDwsO9hhuKWxhYHTKM6YgMnvidgPX1FadN0NMq7ZLsX/QNh+mexlk
- 9GNGzJCxN/Qs2DirA94xTPf2EdQ5jTxNcwE/dIChola4YETZ5bTYf1AVooXumF7IfdCw
- fTUwWgBiS7NHk8UIoZhmfK9ECruBgjeKFD1XjXp0XpgkwvKkxZrxRdoiabZm10eogJ7Y
- 1fAQ==
-X-Gm-Message-State: ANoB5pkI7ERB/Lp8MnNdRRDHUPxCly08VVPUrsiYkL+xlpS39SwgLHem
- BQ6YPvgBoEPHuDQJzcYAAmoRXb8QvG9BLe0wpKfCuZCT8llh/rnQXHD0NCpeAIo3Wdidvu8Psd3
- zoPmNnzGPbJMnnC2/VoS74f8mvLvAklrgSsq+ReaRz4xhnR25N3x6VDeXWqwPZnRSGwI=
-X-Received: by 2002:a17:907:9208:b0:7c0:d605:fe42 with SMTP id
- ka8-20020a170907920800b007c0d605fe42mr3677189ejb.18.1670585068137; 
- Fri, 09 Dec 2022 03:24:28 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6idrx+rOibinie7p68xtIqk14dxhcDXX9lHho41MOM4Qd8bBBjRXl0GS7ducEdqRE5GU7YeA==
-X-Received: by 2002:a17:907:9208:b0:7c0:d605:fe42 with SMTP id
- ka8-20020a170907920800b007c0d605fe42mr3677176ejb.18.1670585067824; 
- Fri, 09 Dec 2022 03:24:27 -0800 (PST)
+ bh=QAW6f5Ww8mIY4+U+CCrsUVvJqjkHLnfYiUIZfiFUURc=;
+ b=dWbfT75bKue5mNX6o9MlZPHLY7MZ3Iphnv7UpBONi9h7fw25Cx5Xu6A4qm9jwYIcrY
+ sc1eKlayQv210Ts9zPO3FfO2lnlVD4TbNblVhkcsRRTCKti83M2n6wRvwNP+li0SQRty
+ pwBWTfHSO1N9RAChIzARVK4YEVuACov8xqlG5DDXw2+eTiF6Bl+c85yp0jJ5JBSsRHIu
+ gB6ok85FOcBCMQBsK4BH1gw2ePjHjJZI+f/uaVDYQXHJkTYpAXF/dUF/ZpGfNI8DyqTF
+ FV490HUEMg8+ukrDVFT9L0YR2qgngM1hdQkL8TB9VWqgs++2MhpvF7fFZdHEQgKrTpDY
+ GaTQ==
+X-Gm-Message-State: ANoB5plwN1cKmals2U+a0jmGBzwiQBINNUfsPUy53tcIOB3MtwTvwGTv
+ q5PSwtU1liS0AaWznQ+ddb0NY/QxuLMHCXhAD6BgysdG1Kd3dX0S6yjQ/9wrx0Oq0BlE2E42tQW
+ yCNn3xH0vE7fw7XBVvfikOw0VYijo7sBthyJLXsrXjhizSTTUi2MHeubDwuAoIjhNrCs=
+X-Received: by 2002:a50:fb91:0:b0:46a:732e:fd29 with SMTP id
+ e17-20020a50fb91000000b0046a732efd29mr4761757edq.42.1670585070802; 
+ Fri, 09 Dec 2022 03:24:30 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7SRVwjtDgPYQVDvzbPw4CAQ1sGKfqjcaXyhRt6HnL6yrtq4eeV839Yk3OBEEePk21EmiMjWw==
+X-Received: by 2002:a50:fb91:0:b0:46a:732e:fd29 with SMTP id
+ e17-20020a50fb91000000b0046a732efd29mr4761739edq.42.1670585070467; 
+ Fri, 09 Dec 2022 03:24:30 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- v27-20020a170906489b00b007c094d31f35sm450537ejq.76.2022.12.09.03.24.27
+ s12-20020a056402164c00b0046bada4b121sm517027edx.54.2022.12.09.03.24.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 03:24:27 -0800 (PST)
+ Fri, 09 Dec 2022 03:24:30 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/30] meson: tweak hardening options for Windows
-Date: Fri,  9 Dec 2022 12:23:45 +0100
-Message-Id: <20221209112409.184703-7-pbonzini@redhat.com>
+Subject: [PATCH 07/30] meson: support meson 0.64 -Doptimization=plain
+Date: Fri,  9 Dec 2022 12:23:46 +0100
+Message-Id: <20221209112409.184703-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209112409.184703-1-pbonzini@redhat.com>
 References: <20221209112409.184703-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,35 +99,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
--Wl,--dynamicbase has been enabled for DLLs upstream for roughly 2
-years (https://sourceware.org/bugzilla/show_bug.cgi?id=19011), and
-also by some distros including Debian for 6 years even
-(https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=836365), so
-just enable it unconditionally.
-
-Also add -Wl,--high-entropy-va.
+In Meson 0.64, the optimization built-in option now accepts the "plain" value,
+which will not set any optimization flags.  While QEMU does not check the
+contents of the option and therefore does not suffer any ill effect
+from the new value, it uses get_option to print the optimization flags
+in the summary.  Clean the code up to remove duplication, and check for
+-Doptimization=plain at the same time.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meson.build | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 5c6b5a1c757f..d61c7a82f112 100644
+index d61c7a82f112..dbd0b5563446 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -193,10 +193,7 @@ qemu_ldflags += cc.get_supported_link_arguments('-Wl,-z,relro', '-Wl,-z,now')
- 
- if targetos == 'windows'
-   qemu_ldflags += cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl,--nxcompat')
--  # Disable ASLR for debug builds to allow debugging with gdb
--  if get_option('optimization') == '0'
--    qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase')
--  endif
-+  qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase', '-Wl,--high-entropy-va')
+@@ -3752,18 +3752,16 @@ endif
+ if targetos == 'darwin'
+   summary_info += {'Objective-C compiler': ' '.join(meson.get_compiler('objc').cmd_array())}
  endif
- 
- if get_option('gprof')
+-summary_info += {'CFLAGS':            ' '.join(get_option('c_args')
+-                                               + ['-O' + get_option('optimization')]
+-                                               + (get_option('debug') ? ['-g'] : []))}
++option_cflags = (get_option('debug') ? ['-g'] : [])
++if get_option('optimization') != 'plain'
++  option_cflags += ['-O' + get_option('optimization')]
++endif
++summary_info += {'CFLAGS':            ' '.join(get_option('c_args') + option_cflags)}
+ if link_language == 'cpp'
+-  summary_info += {'CXXFLAGS':        ' '.join(get_option('cpp_args')
+-                                               + ['-O' + get_option('optimization')]
+-                                               + (get_option('debug') ? ['-g'] : []))}
++  summary_info += {'CXXFLAGS':        ' '.join(get_option('cpp_args') + option_cflags)}
+ endif
+ if targetos == 'darwin'
+-  summary_info += {'OBJCFLAGS':       ' '.join(get_option('objc_args')
+-                                               + ['-O' + get_option('optimization')]
+-                                               + (get_option('debug') ? ['-g'] : []))}
++  summary_info += {'OBJCFLAGS':       ' '.join(get_option('objc_args') + option_cflags)}
+ endif
+ link_args = get_option(link_language + '_link_args')
+ if link_args.length() > 0
 -- 
 2.38.1
 
