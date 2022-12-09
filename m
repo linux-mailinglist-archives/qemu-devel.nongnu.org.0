@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81ED647BF2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 03:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DB0647C11
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 03:13:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Slg-0005tW-TL; Thu, 08 Dec 2022 21:05:40 -0500
+	id 1p3Sli-0005tu-9o; Thu, 08 Dec 2022 21:05:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3Sle-0005sv-7P
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:38 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+ id 1p3Slg-0005tM-0V
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:40 -0500
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p3Slc-0001sJ-EG
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:37 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id
- m6-20020a9d7e86000000b0066ec505ae93so1979785otp.9
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 18:05:35 -0800 (PST)
+ id 1p3Sld-0001tk-UO
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:39 -0500
+Received: by mail-ot1-x32e.google.com with SMTP id
+ z14-20020a9d65ce000000b0067059c25facso1982760oth.6
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 18:05:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tLBGpsh6MTEMtw6+WKTyIS5KlZ4TUnE33H/La06GVTk=;
- b=hdAAEQfc1XuN6rLOokMQgTRriEyyMhQE/SABt2hFLnm6XvBVKkF6nBGpPIL0g1IQ+N
- eQ9s3WB5V6IFhn8EMDflqqAWvkK2Wlttj7Mq2DCVLTVeyLr1pczw72xigV28iumbk6/0
- 8wPdmRFT5kSQraW58d7HEEixh+jCwBQ7NVYMulC/b2YX3U5qNOiBccdSUHZu2PE7P1c8
- gh2ZRyWMGj0FGOzZfC7lHZOQkM6xBtuwCS5YzLfmKuJvBI4lhE7BCTkLSDmBMIFWJxUo
- Tq/M8Eqavb8giXm/AYCz+c6TkQE5tUzE7LeXcD4dK8PFc+fZ7ydUFN90sR9N5X+yPbPa
- ncJg==
+ bh=Ozj5wc7NFmB3O/MgzepcpO4OOcL4F6DQsmKEPOxkO0Q=;
+ b=y/gHJby8tvHVNF1G2WZ2NqA7p73QZ9pgkqsLnUNGHo6lt3Fxd8nSecwCQf5tmhqnl/
+ jxkOyk1NZjALjN2swN3In96PdS6Q5rtgEa/wu3BBSHIPPPn0BuC4VYjbLUuqAjOfav6K
+ l+vQhAOsJJxGSwpa4zYH5CbAWQt7mTOPF+0yLvKQv1HYxZWfuOGsa3U0IfgO92sNKmMi
+ BurdAhZSfIMcLmp8xf0ZWdtb/3SofNUULS7OwDXo9sTs652S9+X30dQbLfWlfIWg2F+0
+ 9W8Ct+vB2YCK6m8ue1XIgZENbkS47XuoJPHOxwTD7A2cmr4x4Ue64tAr73y6RcRyHGZN
+ ex3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tLBGpsh6MTEMtw6+WKTyIS5KlZ4TUnE33H/La06GVTk=;
- b=xsYwDtUiJdY1TJNYrFbz8EtS0PYm9O6CrSgRwGom99DVS2Jk+fF7uAMZ4HZDQKmOVt
- jq0YjN+WYLyp3lw5r8bXUpY9eMTByfRNYP/HPmVb/S99VeXE5ZmVsIByTAlb2I0f48bS
- m6UTZzrPpz6RA+mYTTE00Tyom+AhhxLRTUXH1FHWHS1SzOkIlyU78CitKTQRTNa4nv0J
- m82HRJXnx0LVTM5tioqkF5vndHBxYbes7+tQj3a/D3GAYdHlfAVIQLoGqINyi6Z0vVa7
- mb28wPQKXQTaZbeg853w//kLcadJcLh/fYhDwmyPfc8fyHGNovEN9yWRu2JKdr/xermZ
- G80w==
-X-Gm-Message-State: ANoB5pklCJourwmxZCjm9/dyPvErWbWOpILi3Rd2R6TVpfe6IHjzQZ8F
- yjPExBGeYnx4hEtUpgiE21Xb1Mu6Kes1bvmMdzc=
-X-Google-Smtp-Source: AA0mqf5iKvn2cfjPRoMjwGn+ONKAO4j2dOgXGfNHq46f3oz1518RbFwFcynPooVhRzzz95y9MnsUxw==
-X-Received: by 2002:a05:6830:6113:b0:661:dfeb:a95f with SMTP id
- ca19-20020a056830611300b00661dfeba95fmr2827162otb.10.1670551534491; 
- Thu, 08 Dec 2022 18:05:34 -0800 (PST)
+ bh=Ozj5wc7NFmB3O/MgzepcpO4OOcL4F6DQsmKEPOxkO0Q=;
+ b=Sri6Fv+u2Z8kT4OtqhonxP8/+jSD+XC08YYQinomKFOnSA+b6Fjt/VbPET5rF7Om++
+ 96GGZLIjewkH1aePU4ToMMZ2r2/gZnXcYjNj156x+F9gkhK4Va5knvEtEQe1QW1FKWL+
+ JWNZgk2oZM4L0bHG14zu4VyljwZUkQy66Hy9g/KclKeUBr8TPQ0FPO20gAj2ENyKOEWT
+ LpY9IlSmjDc8Qle3lRFo6Y6RuYDnk1a45Cwi9GrDQY1X7F0wkkoIOn8PJliDnxIEMJ7u
+ 7Ug2LgRRPf+9GnbptVv8CT8KJHGr6E1ElR53ckoHqHmjKrUD7DrrAXA3hEAHUZBTZW1b
+ RaSQ==
+X-Gm-Message-State: ANoB5pnAEo/IaLmu016AUcE7D0OIUn8H6iyz9SqC1sORpMVt0FwyC8yD
+ Z+3kdYSJmKIMlg46txjN/vl+2HNOn6P6DQ4NU70=
+X-Google-Smtp-Source: AA0mqf6Lz2ykSKoFDKPTA9bWA/N0iZAaYa4ETyHJJMdU5Nty1yy6VGcqV2ABNv0N49fA1y+nK7mOUA==
+X-Received: by 2002:a9d:17e8:0:b0:66d:a04b:eeac with SMTP id
+ j95-20020a9d17e8000000b0066da04beeacmr1692862otj.30.1670551535584; 
+ Thu, 08 Dec 2022 18:05:35 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:d298:de6f:2ed:87a4])
  by smtp.gmail.com with ESMTPSA id
- s14-20020a05683004ce00b0066f7e1188f0sm53531otd.68.2022.12.08.18.05.33
+ s14-20020a05683004ce00b0066f7e1188f0sm53531otd.68.2022.12.08.18.05.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Dec 2022 18:05:34 -0800 (PST)
+ Thu, 08 Dec 2022 18:05:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: thuth@redhat.com,
 	iii@linux.ibm.com
-Subject: [PATCH v4 01/27] tcg/s390x: Use register pair allocation for div and
- mulu2
-Date: Thu,  8 Dec 2022 20:05:04 -0600
-Message-Id: <20221209020530.396391-2-richard.henderson@linaro.org>
+Subject: [PATCH v4 02/27] tcg/s390x: Remove TCG_REG_TB
+Date: Thu,  8 Dec 2022 20:05:05 -0600
+Message-Id: <20221209020530.396391-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221209020530.396391-1-richard.henderson@linaro.org>
 References: <20221209020530.396391-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,126 +91,242 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Previously we hard-coded R2 and R3.
+This reverts 829e1376d940 ("tcg/s390: Introduce TCG_REG_TB"), and
+several follow-up patches.  The primary motivation is to reduce the
+less-tested code paths, pre-z10.  Secondarily, this allows the
+unconditional use of TCG_TARGET_HAS_direct_jump, which might be more
+important for performance than any slight increase in code size.
 
 Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target-con-set.h |  4 ++--
- tcg/s390x/tcg-target-con-str.h |  8 +------
- tcg/s390x/tcg-target.c.inc     | 43 +++++++++++++++++++++++++---------
- 3 files changed, 35 insertions(+), 20 deletions(-)
+v4: Do not simplify tgen_ori, tgen_xori.
+---
+ tcg/s390x/tcg-target.c.inc | 97 +++-----------------------------------
+ 1 file changed, 6 insertions(+), 91 deletions(-)
 
-diff --git a/tcg/s390x/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
-index 426dd92e51..00ba727b70 100644
---- a/tcg/s390x/tcg-target-con-set.h
-+++ b/tcg/s390x/tcg-target-con-set.h
-@@ -29,8 +29,8 @@ C_O1_I2(v, v, v)
- C_O1_I3(v, v, v, v)
- C_O1_I4(r, r, ri, r, 0)
- C_O1_I4(r, r, ri, rI, 0)
--C_O2_I2(b, a, 0, r)
--C_O2_I3(b, a, 0, 1, r)
-+C_O2_I2(o, m, 0, r)
-+C_O2_I3(o, m, 0, 1, r)
- C_O2_I4(r, r, 0, 1, rA, r)
- C_O2_I4(r, r, 0, 1, ri, r)
- C_O2_I4(r, r, 0, 1, r, r)
-diff --git a/tcg/s390x/tcg-target-con-str.h b/tcg/s390x/tcg-target-con-str.h
-index 8bb0358ae5..76446aecae 100644
---- a/tcg/s390x/tcg-target-con-str.h
-+++ b/tcg/s390x/tcg-target-con-str.h
-@@ -11,13 +11,7 @@
- REGS('r', ALL_GENERAL_REGS)
- REGS('L', ALL_GENERAL_REGS & ~SOFTMMU_RESERVE_REGS)
- REGS('v', ALL_VECTOR_REGS)
--/*
-- * A (single) even/odd pair for division.
-- * TODO: Add something to the register allocator to allow
-- * this kind of regno+1 pairing to be done more generally.
-- */
--REGS('a', 1u << TCG_REG_R2)
--REGS('b', 1u << TCG_REG_R3)
-+REGS('o', 0xaaaa) /* odd numbered general regs */
- 
- /*
-  * Define constraint letters for constants:
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index b9ba7b605e..cb00bb6999 100644
+index cb00bb6999..ba4bb6a629 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -2264,10 +2264,18 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+@@ -65,12 +65,6 @@
+ /* A scratch register that may be be used throughout the backend.  */
+ #define TCG_TMP0        TCG_REG_R1
+ 
+-/* A scratch register that holds a pointer to the beginning of the TB.
+-   We don't need this when we have pc-relative loads with the general
+-   instructions extension facility.  */
+-#define TCG_REG_TB      TCG_REG_R12
+-#define USE_REG_TB      (!HAVE_FACILITY(GEN_INST_EXT))
+-
+ #ifndef CONFIG_SOFTMMU
+ #define TCG_GUEST_BASE_REG TCG_REG_R13
+ #endif
+@@ -813,8 +807,8 @@ static bool maybe_out_small_movi(TCGContext *s, TCGType type,
+ }
+ 
+ /* load a register with an immediate value */
+-static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+-                             tcg_target_long sval, bool in_prologue)
++static void tcg_out_movi(TCGContext *s, TCGType type,
++                         TCGReg ret, tcg_target_long sval)
+ {
+     tcg_target_ulong uval;
+ 
+@@ -853,14 +847,6 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+             tcg_out_insn(s, RIL, LARL, ret, off);
+             return;
+         }
+-    } else if (USE_REG_TB && !in_prologue) {
+-        ptrdiff_t off = tcg_tbrel_diff(s, (void *)sval);
+-        if (off == sextract64(off, 0, 20)) {
+-            /* This is certain to be an address within TB, and therefore
+-               OFF will be negative; don't try RX_LA.  */
+-            tcg_out_insn(s, RXY, LAY, ret, TCG_REG_TB, TCG_REG_NONE, off);
+-            return;
+-        }
+     }
+ 
+     /* A 32-bit unsigned value can be loaded in 2 insns.  And given
+@@ -876,10 +862,6 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+     if (HAVE_FACILITY(GEN_INST_EXT)) {
+         tcg_out_insn(s, RIL, LGRL, ret, 0);
+         new_pool_label(s, sval, R_390_PC32DBL, s->code_ptr - 2, 2);
+-    } else if (USE_REG_TB && !in_prologue) {
+-        tcg_out_insn(s, RXY, LG, ret, TCG_REG_TB, TCG_REG_NONE, 0);
+-        new_pool_label(s, sval, R_390_20, s->code_ptr - 2,
+-                       tcg_tbrel_diff(s, NULL));
+     } else {
+         TCGReg base = ret ? ret : TCG_TMP0;
+         tcg_out_insn(s, RIL, LARL, base, 0);
+@@ -888,12 +870,6 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+     }
+ }
+ 
+-static void tcg_out_movi(TCGContext *s, TCGType type,
+-                         TCGReg ret, tcg_target_long sval)
+-{
+-    tcg_out_movi_int(s, type, ret, sval, false);
+-}
+-
+ /* Emit a load/store type instruction.  Inputs are:
+    DATA:     The register to be loaded or stored.
+    BASE+OFS: The effective address.
+@@ -1037,13 +1013,6 @@ static void tcg_out_ld_abs(TCGContext *s, TCGType type,
+             return;
+         }
+     }
+-    if (USE_REG_TB) {
+-        ptrdiff_t disp = tcg_tbrel_diff(s, abs);
+-        if (disp == sextract64(disp, 0, 20)) {
+-            tcg_out_ld(s, type, dest, TCG_REG_TB, disp);
+-            return;
+-        }
+-    }
+ 
+     tcg_out_movi(s, TCG_TYPE_PTR, dest, addr & ~0xffff);
+     tcg_out_ld(s, type, dest, dest, addr & 0xffff);
+@@ -1243,17 +1212,7 @@ static void tgen_andi(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+         return;
+     }
+ 
+-    /* Use the constant pool if USE_REG_TB, but not for small constants.  */
+-    if (USE_REG_TB) {
+-        if (!maybe_out_small_movi(s, type, TCG_TMP0, val)) {
+-            tcg_out_insn(s, RXY, NG, dest, TCG_REG_TB, TCG_REG_NONE, 0);
+-            new_pool_label(s, val & valid, R_390_20, s->code_ptr - 2,
+-                           tcg_tbrel_diff(s, NULL));
+-            return;
+-        }
+-    } else {
+-        tcg_out_movi(s, type, TCG_TMP0, val);
+-    }
++    tcg_out_movi(s, type, TCG_TMP0, val);
+     if (type == TCG_TYPE_I32) {
+         tcg_out_insn(s, RR, NR, dest, TCG_TMP0);
+     } else {
+@@ -1297,17 +1256,12 @@ static void tgen_ori(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+         }
+     }
+ 
+-    /* Use the constant pool if USE_REG_TB, but not for small constants.  */
+     if (maybe_out_small_movi(s, type, TCG_TMP0, val)) {
+         if (type == TCG_TYPE_I32) {
+             tcg_out_insn(s, RR, OR, dest, TCG_TMP0);
+         } else {
+             tcg_out_insn(s, RRE, OGR, dest, TCG_TMP0);
+         }
+-    } else if (USE_REG_TB) {
+-        tcg_out_insn(s, RXY, OG, dest, TCG_REG_TB, TCG_REG_NONE, 0);
+-        new_pool_label(s, val, R_390_20, s->code_ptr - 2,
+-                       tcg_tbrel_diff(s, NULL));
+     } else {
+         /* Perform the OR via sequential modifications to the high and
+            low parts.  Do this via recursion to handle 16-bit vs 32-bit
+@@ -1332,17 +1286,12 @@ static void tgen_xori(TCGContext *s, TCGType type, TCGReg dest, uint64_t val)
+         }
+     }
+ 
+-    /* Use the constant pool if USE_REG_TB, but not for small constants.  */
+     if (maybe_out_small_movi(s, type, TCG_TMP0, val)) {
+         if (type == TCG_TYPE_I32) {
+             tcg_out_insn(s, RR, XR, dest, TCG_TMP0);
+         } else {
+             tcg_out_insn(s, RRE, XGR, dest, TCG_TMP0);
+         }
+-    } else if (USE_REG_TB) {
+-        tcg_out_insn(s, RXY, XG, dest, TCG_REG_TB, TCG_REG_NONE, 0);
+-        new_pool_label(s, val, R_390_20, s->code_ptr - 2,
+-                       tcg_tbrel_diff(s, NULL));
+     } else {
+         /* Perform the xor by parts.  */
+         tcg_debug_assert(HAVE_FACILITY(EXT_IMM));
+@@ -1395,19 +1344,6 @@ static int tgen_cmp(TCGContext *s, TCGType type, TCGCond c, TCGReg r1,
+         if (maybe_out_small_movi(s, type, TCG_TMP0, c2)) {
+             c2 = TCG_TMP0;
+             /* fall through to reg-reg */
+-        } else if (USE_REG_TB) {
+-            if (type == TCG_TYPE_I32) {
+-                op = (is_unsigned ? RXY_CLY : RXY_CY);
+-                tcg_out_insn_RXY(s, op, r1, TCG_REG_TB, TCG_REG_NONE, 0);
+-                new_pool_label(s, (uint32_t)c2, R_390_20, s->code_ptr - 2,
+-                               4 - tcg_tbrel_diff(s, NULL));
+-            } else {
+-                op = (is_unsigned ? RXY_CLG : RXY_CG);
+-                tcg_out_insn_RXY(s, op, r1, TCG_REG_TB, TCG_REG_NONE, 0);
+-                new_pool_label(s, c2, R_390_20, s->code_ptr - 2,
+-                               tcg_tbrel_diff(s, NULL));
+-            }
+-            goto exit;
+         } else {
+             if (type == TCG_TYPE_I32) {
+                 op = (is_unsigned ? RIL_CLRL : RIL_CRL);
+@@ -2109,35 +2045,21 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+             if (!QEMU_PTR_IS_ALIGNED(s->code_ptr + 1, 4)) {
+                 tcg_out16(s, NOP);
+             }
+-            tcg_debug_assert(!USE_REG_TB);
+             tcg_out16(s, RIL_BRCL | (S390_CC_ALWAYS << 4));
+             s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
+             s->code_ptr += 2;
+         } else {
+             /* load address stored at s->tb_jmp_target_addr + a0 */
+-            tcg_out_ld_abs(s, TCG_TYPE_PTR, TCG_REG_TB,
++            tcg_out_ld_abs(s, TCG_TYPE_PTR, TCG_TMP0,
+                            tcg_splitwx_to_rx(s->tb_jmp_target_addr + a0));
+             /* and go there */
+-            tcg_out_insn(s, RR, BCR, S390_CC_ALWAYS, TCG_REG_TB);
++            tcg_out_insn(s, RR, BCR, S390_CC_ALWAYS, TCG_TMP0);
+         }
+         set_jmp_reset_offset(s, a0);
+-
+-        /* For the unlinked path of goto_tb, we need to reset
+-           TCG_REG_TB to the beginning of this TB.  */
+-        if (USE_REG_TB) {
+-            int ofs = -tcg_current_code_size(s);
+-            /* All TB are restricted to 64KiB by unwind info. */
+-            tcg_debug_assert(ofs == sextract64(ofs, 0, 20));
+-            tcg_out_insn(s, RXY, LAY, TCG_REG_TB,
+-                         TCG_REG_TB, TCG_REG_NONE, ofs);
+-        }
          break;
  
-     case INDEX_op_div2_i32:
--        tcg_out_insn(s, RR, DR, TCG_REG_R2, args[4]);
-+        tcg_debug_assert(args[0] == args[2]);
-+        tcg_debug_assert(args[1] == args[3]);
-+        tcg_debug_assert((args[1] & 1) == 0);
-+        tcg_debug_assert(args[0] == args[1] + 1);
-+        tcg_out_insn(s, RR, DR, args[1], args[4]);
-         break;
-     case INDEX_op_divu2_i32:
--        tcg_out_insn(s, RRE, DLR, TCG_REG_R2, args[4]);
-+        tcg_debug_assert(args[0] == args[2]);
-+        tcg_debug_assert(args[1] == args[3]);
-+        tcg_debug_assert((args[1] & 1) == 0);
-+        tcg_debug_assert(args[0] == args[1] + 1);
-+        tcg_out_insn(s, RRE, DLR, args[1], args[4]);
+     case INDEX_op_goto_ptr:
+         a0 = args[0];
+-        if (USE_REG_TB) {
+-            tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_TB, a0);
+-        }
+         tcg_out_insn(s, RR, BCR, S390_CC_ALWAYS, a0);
          break;
  
-     case INDEX_op_shl_i32:
-@@ -2521,17 +2529,30 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         break;
+@@ -3405,9 +3327,6 @@ static void tcg_target_init(TCGContext *s)
+     /* XXX many insns can't be used with R0, so we better avoid it for now */
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_R0);
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_CALL_STACK);
+-    if (USE_REG_TB) {
+-        tcg_regset_set_reg(s->reserved_regs, TCG_REG_TB);
+-    }
+ }
  
-     case INDEX_op_div2_i64:
--        /* ??? We get an unnecessary sign-extension of the dividend
--           into R3 with this definition, but as we do in fact always
--           produce both quotient and remainder using INDEX_op_div_i64
--           instead requires jumping through even more hoops.  */
--        tcg_out_insn(s, RRE, DSGR, TCG_REG_R2, args[4]);
-+        /*
-+         * ??? We get an unnecessary sign-extension of the dividend
-+         * into op0 with this definition, but as we do in fact always
-+         * produce both quotient and remainder using INDEX_op_div_i64
-+         * instead requires jumping through even more hoops.
-+         */
-+        tcg_debug_assert(args[0] == args[2]);
-+        tcg_debug_assert(args[1] == args[3]);
-+        tcg_debug_assert((args[1] & 1) == 0);
-+        tcg_debug_assert(args[0] == args[1] + 1);
-+        tcg_out_insn(s, RRE, DSGR, args[1], args[4]);
-         break;
-     case INDEX_op_divu2_i64:
--        tcg_out_insn(s, RRE, DLGR, TCG_REG_R2, args[4]);
-+        tcg_debug_assert(args[0] == args[2]);
-+        tcg_debug_assert(args[1] == args[3]);
-+        tcg_debug_assert((args[1] & 1) == 0);
-+        tcg_debug_assert(args[0] == args[1] + 1);
-+        tcg_out_insn(s, RRE, DLGR, args[1], args[4]);
-         break;
-     case INDEX_op_mulu2_i64:
--        tcg_out_insn(s, RRE, MLGR, TCG_REG_R2, args[3]);
-+        tcg_debug_assert(args[0] == args[2]);
-+        tcg_debug_assert((args[1] & 1) == 0);
-+        tcg_debug_assert(args[0] == args[1] + 1);
-+        tcg_out_insn(s, RRE, MLGR, args[1], args[3]);
-         break;
+ #define FRAME_SIZE  ((int)(TCG_TARGET_CALL_STACK_OFFSET          \
+@@ -3428,16 +3347,12 @@ static void tcg_target_qemu_prologue(TCGContext *s)
  
-     case INDEX_op_shl_i64:
-@@ -3226,10 +3247,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_div2_i64:
-     case INDEX_op_divu2_i32:
-     case INDEX_op_divu2_i64:
--        return C_O2_I3(b, a, 0, 1, r);
-+        return C_O2_I3(o, m, 0, 1, r);
+ #ifndef CONFIG_SOFTMMU
+     if (guest_base >= 0x80000) {
+-        tcg_out_movi_int(s, TCG_TYPE_PTR, TCG_GUEST_BASE_REG, guest_base, true);
++        tcg_out_movi(s, TCG_TYPE_PTR, TCG_GUEST_BASE_REG, guest_base);
+         tcg_regset_set_reg(s->reserved_regs, TCG_GUEST_BASE_REG);
+     }
+ #endif
  
-     case INDEX_op_mulu2_i64:
--        return C_O2_I2(b, a, 0, r);
-+        return C_O2_I2(o, m, 0, r);
+     tcg_out_mov(s, TCG_TYPE_PTR, TCG_AREG0, tcg_target_call_iarg_regs[0]);
+-    if (USE_REG_TB) {
+-        tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_TB,
+-                    tcg_target_call_iarg_regs[1]);
+-    }
  
-     case INDEX_op_add2_i32:
-     case INDEX_op_sub2_i32:
+     /* br %r3 (go to TB) */
+     tcg_out_insn(s, RR, BCR, S390_CC_ALWAYS, tcg_target_call_iarg_regs[1]);
 -- 
 2.34.1
 
