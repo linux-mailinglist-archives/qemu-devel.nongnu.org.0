@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2CD648197
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:26:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C261648192
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:26:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bUd-0003xI-3y; Fri, 09 Dec 2022 06:24:41 -0500
+	id 1p3bUr-0003xQ-GL; Fri, 09 Dec 2022 06:25:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUX-0003wX-Ie
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:33 -0500
+ id 1p3bUY-0003wn-HH
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:34 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bUS-0000x2-Ay
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:33 -0500
+ id 1p3bUV-0000xA-Vv
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:24:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670585059;
+ s=mimecast20190719; t=1670585062;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WFtN8VunDV27fIl33PQfEOOcY8O2Ez7sdebsJhL3MAw=;
- b=IW0rFNCBMPQX8zKRaG+9cKuK7U8xiat1jmbwvPWl3cHVt2EDYE2I+Sw4Uwyk3hsVT7eqaI
- AfQNfqXzLnsUvvoTqpZ54xT4+fv6Nro4WayStYC2EqZ/yiP8dJ0UDuGg1bQRKcHS1TNfbV
- 4cALf/ESLkPjoEj7eV/kERJaDDb/AYs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nhvjNB4OA8hsIXov8nN5lZt2h9cUBGWr2ztc3bOaMEc=;
+ b=HkFasVVbJ+yZPv6X8Aj7S6MRHZdAfOCuyO7h8BceoIpOjathxDHr3IuopMRJrREp/Qh+FW
+ KD6oc2bDj4D3Bb08lRLtBN5HTWeiIpS9IObJUkdJOsNyrgXdUaKMBOFyVp0J/qw8oaOCMP
+ W11+sNznlZh0yU2PrZgNnMpFy1F/SRE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-443-nqOR4a6RMM69hf7b4gsWKw-1; Fri, 09 Dec 2022 06:24:18 -0500
-X-MC-Unique: nqOR4a6RMM69hf7b4gsWKw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- qf25-20020a1709077f1900b0078c02a23da3so2902605ejc.0
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:18 -0800 (PST)
+ us-mta-503--htBy_JsP9-xmxMbChUiuQ-1; Fri, 09 Dec 2022 06:24:21 -0500
+X-MC-Unique: -htBy_JsP9-xmxMbChUiuQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ w15-20020a05640234cf00b0046d32d7b153so1219303edc.0
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:24:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WFtN8VunDV27fIl33PQfEOOcY8O2Ez7sdebsJhL3MAw=;
- b=nrVdKDp6/Fuzt29JI1KyjaxhYtVw9vg99WLMKbyLgMsZTg9BVhB0JWS1wvkN2cdVlt
- WYTTjqbMwN28Pph5gY6EZfWbxEwFHcGBDBRdQMXaEMd0RFLzn5gFRO3iWQuOQwqK2QrZ
- smlP03LCkMNLSDzl+0q/v5Zko7KwwCm8AvOboB/0TUKQDaaKeaxLudXqjtM4AklqixlZ
- o6isEerC4Y/jBjFgzmbagxUyIEAqvEDx8dEDmHyyJXhmtOFdzLNQSDe8uKD4f8JXmNCd
- WIf6yjXv+OfBxUuxSLO1HeLIQtq2j1/WKBCwUfeQtBlV60q7fSCKq5KSam01y+g+P7Pv
- fmFw==
-X-Gm-Message-State: ANoB5pmKDnzCth4fLdSvAHXOaoMwFOBuiS6BHSpVWC2T2Q93InFog5Ov
- VQRyZGcg0En+T3Qu7kXvIo2vk66dTvAZop2L5N+Yl9aOyoCPZuVKrxixbyu7PNTkQ6qZJCWXWW2
- Yz9LH+jhFSmuOEQ0BEw5FvcBlKYOGnefuWn05AEbRFy8k1SNQAG6cw//hMWYCEXPekuc=
-X-Received: by 2002:a17:906:d18f:b0:7b2:75c6:6d3c with SMTP id
- c15-20020a170906d18f00b007b275c66d3cmr4738112ejz.74.1670585056912; 
- Fri, 09 Dec 2022 03:24:16 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6jbROFRlAzlDcWAd3ksGsDLTGs9j9u6gp6L3q+sJFvpnGjB/tYS2TScAl9YPB77y1ADyQyWQ==
-X-Received: by 2002:a17:906:d18f:b0:7b2:75c6:6d3c with SMTP id
- c15-20020a170906d18f00b007b275c66d3cmr4738095ejz.74.1670585056587; 
- Fri, 09 Dec 2022 03:24:16 -0800 (PST)
+ bh=nhvjNB4OA8hsIXov8nN5lZt2h9cUBGWr2ztc3bOaMEc=;
+ b=EsF7k8NwgkpZXv16hjqtFDxbxpkydX+krHcLkeUmPXV/5maKn8oTPFR30f0FA7k5hO
+ i1nkd/rKYyCsPA00oPVwKlMQxtUTEWmrpX4ihZkf9dJFXat3L+gMm/w7qZK6REGufs+i
+ 1tKxOcjnTmoxtzj1j+PaNwgM3yiqQSiOwr8usG6pFVsuoz+GfmeKureVclq/PBmRA3J3
+ SVsgBx+PjzCTmunbgNo08UoK58F/RCWysIB+s+D7QWz6zzB9BTBYgemK/Sh/ZEiG67h1
+ yV19jsbRgs05SFGeVPRIdxtnToTYo1jYCA3psMSj2BNdUDMiPenV438Wfgp2BNbpHlvv
+ OI/g==
+X-Gm-Message-State: ANoB5pkevAKZRwFp9tlU7faCoRkr68iPcm3g9qCNjCAj+WUVmY2mIR1r
+ Y5xzSAdSnjho4MRT2GSjaobrL2/LMeo/0CKu02JmtQOqwDPPZOdA9uIvfukoPkS6OQXVa9BwG4v
+ /c5HIgd8r/iDISYfcSICfI5hB1GyY9jjYxoz6EThBjU1TuxMQXny4pKL57iTLr6lEWac=
+X-Received: by 2002:a05:6402:3982:b0:461:9578:f904 with SMTP id
+ fk2-20020a056402398200b004619578f904mr5362996edb.23.1670585059732; 
+ Fri, 09 Dec 2022 03:24:19 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Pwf36K7bncHBZ02kn2ZTwXBH3KSI9ykTT+/NAUJoJNEqazTWh09QcxYyd+IyjGDl/cuy0ng==
+X-Received: by 2002:a05:6402:3982:b0:461:9578:f904 with SMTP id
+ fk2-20020a056402398200b004619578f904mr5362979edb.23.1670585059320; 
+ Fri, 09 Dec 2022 03:24:19 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- kv2-20020a17090778c200b007b2b98e1f2dsm438832ejc.122.2022.12.09.03.24.15
+ m15-20020a50930f000000b00463597d2c25sm523812eda.74.2022.12.09.03.24.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 03:24:16 -0800 (PST)
+ Fri, 09 Dec 2022 03:24:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/30] configure: remove dead function
-Date: Fri,  9 Dec 2022 12:23:41 +0100
-Message-Id: <20221209112409.184703-3-pbonzini@redhat.com>
+Subject: [PATCH 03/30] configure: remove useless test
+Date: Fri,  9 Dec 2022 12:23:42 +0100
+Message-Id: <20221209112409.184703-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209112409.184703-1-pbonzini@redhat.com>
 References: <20221209112409.184703-1-pbonzini@redhat.com>
@@ -99,26 +99,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+$cpu is derived from preprocessor defines rather than uname these days,
+so do not bother using isainfo on Solaris.  Likewise do not recognize
+BeOS's uname -m output.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 ----
- 1 file changed, 4 deletions(-)
+ configure | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index e31d4522ea63..543fd5a48bf0 100755
+index 543fd5a48bf0..db2b45740449 100755
 --- a/configure
 +++ b/configure
-@@ -210,10 +210,6 @@ version_ge () {
-     done
- }
+@@ -337,9 +337,6 @@ for opt do
+   ;;
+   esac
+ done
+-# OS specific
+-# Using uname is really, really broken.  Once we have the right set of checks
+-# we can eliminate its usage altogether.
  
--glob() {
--    eval test -z '"${1#'"$2"'}"'
--}
--
- if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
- then
-   error_exit "main directory cannot contain spaces nor colons"
+ # Preferred compiler:
+ #  ${CC} (if set)
+@@ -489,13 +486,6 @@ sunos)
+   QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
+ # needed for TIOCWIN* defines in termios.h
+   QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
+-  # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
+-  # Note that this check is broken for cross-compilation: if you're
+-  # cross-compiling to one of these OSes then you'll need to specify
+-  # the correct CPU with the --cpu option.
+-  if test -z "$cpu" && test "$(isainfo -k)" = "amd64"; then
+-    cpu="x86_64"
+-  fi
+ ;;
+ haiku)
+   pie="no"
+@@ -559,7 +549,7 @@ case "$cpu" in
+   armv*b|armv*l|arm)
+     cpu="arm" ;;
+ 
+-  i386|i486|i586|i686|i86pc|BePC)
++  i386|i486|i586|i686)
+     cpu="i386"
+     CPU_CFLAGS="-m32" ;;
+   x32)
 -- 
 2.38.1
 
