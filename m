@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8118B6484D0
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D309E6484D1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 16:16:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3f6Q-0004sm-5K; Fri, 09 Dec 2022 10:15:54 -0500
+	id 1p3f6U-0004xB-Eh; Fri, 09 Dec 2022 10:15:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6M-0004rP-UR
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:51 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6R-0004uF-Cs
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:56 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6L-00086s-9W
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:50 -0500
-Received: by mail-wr1-x432.google.com with SMTP id h11so5485796wrw.13
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 07:15:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3f6O-0008BK-04
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 10:15:54 -0500
+Received: by mail-wr1-x430.google.com with SMTP id u12so5499786wrr.11
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 07:15:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3ThW5+Wf0+J6ixaduZ5MXdZ1ToXWPPCl2Uxce3Xr1xo=;
- b=rTBjjLsTgxgK8Gkv9CIloj/UEIBWRyw+Nujo4WKrR9zdOb9dgkPWzJ/aPvaCxlvegv
- yPVKnSvp2RvtRuWoJSL9AeL329J4JGIXmqkWf9u8pLDzNZIF3Y/O5Fa/IWyoH+wzXK9X
- JT84gUSoN2WCq26IWOuMxGd0Kwc7q7NlgMxMsgTuV7Ucqlkcsb9Z4cUeejCxzgcIxKgB
- XSnq6PBO/oy3xr3J1KzvHk3/W3p38A7XxP8SqCAKmVPzRBTbB0LnxPvuwzlJ6ICqwuDq
- SyLRuaMefUYV1VQUJ594W/AN/mfSUM7Zy9ZWtr5GKiM9z8jcIqHvgD524GLu4oo0WEho
- xRQw==
+ bh=KLG0xoWyhhBW457w36XngZbKe3qdM+Ngb1nAJqophKg=;
+ b=We5OO8WGgk3OHfscabDzU4Z+6VSJRt9eWXkDMTBwSFMonWU6rdGG61v8AB/V/L8luk
+ zfRhilsHISj4NqNPOEoYUg7RFO/nV6xtT6mFc7NbcogabSm7V0pRC1HHb3T4A7jMVjWM
+ LCUOxaSk39EC7TkTAA2os1MpDjnobP4i0l5ON5B5l0wrBW6YRCq8PWqOFp8cggRSpVnT
+ 1jAdghcjF6TvRFF7xeyR7HQJp8FEEU9j344eRBm0lcv3V4/diye7eyfqwkSMdE6vXFwe
+ nKSobNB/50ylPr+1ni1J8+AHWft3+CSiFtlTSw/DnQ7XnEKzg8Wm10eBDmILJOolbikD
+ 1LgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3ThW5+Wf0+J6ixaduZ5MXdZ1ToXWPPCl2Uxce3Xr1xo=;
- b=UDGAo3LUt9jQlTPH3jRLbJQMEqMPHUaml2WRXwABjN/uQGm4ev3d36RHyIMOOLgG7m
- AnaZnApElz45VRIbpAuKV/+AJmcTp3K/FWWsMc0pXUhoVfRm/WOECOe4fXKRH1BhJ59i
- nUMzpVtBj8Gko9FStVDhYGls3aXepCTgssQBrooqtj6kKarioYxyRuj0XLUFpYbUoWmx
- MHtB+m5W+Pu2HuayITo8y96gTihwkD1mXDeG9kQiW298fiXbj1i2eVJ9w09bMI545DRf
- cjoiUc8ZQ/9/zbPSknntvd3cOOGpX/6qZeQL/EXqJ18dm3YnjnJRehOBVU9mMc7VqUFS
- Cdeg==
-X-Gm-Message-State: ANoB5pnE6PDmk72utvnpjYvJ1PduO0sH7rSMb6gOMKQYHBokaty4Hvz6
- 9yA6SyN2zOWDWYJSehvhAMMhg5mlCbKd78iOM1I=
-X-Google-Smtp-Source: AA0mqf4xtbDEcvLRsZ2AFoPahDUBx3CshXYiz9zkist1CeJXUxdCdH/2RBEA74tkZuTPszXVxVmoGA==
-X-Received: by 2002:a05:6000:38b:b0:242:69f4:cb6a with SMTP id
- u11-20020a056000038b00b0024269f4cb6amr4985097wrf.9.1670598945416; 
- Fri, 09 Dec 2022 07:15:45 -0800 (PST)
+ bh=KLG0xoWyhhBW457w36XngZbKe3qdM+Ngb1nAJqophKg=;
+ b=bagEzM6clceBVt2QLBwGfWGQHP/GQq6vGpBx9pz7WwQveDpiZ5JiMP2QVqPEHFJuiv
+ rrMmJM1GgQD4C0vZOKRSyuVbyo2dBLm+DRAPNd8XHCVnO3qIt2m3+8fOJ5hFQm7iAE9z
+ 36JOMk+WYAkJbPwgNehDl5BLCxGjZzlrl2jVSLHOrek+aQnhob3KvpO/4EnlGrlawozD
+ V1xDBQLGigmjF8s5oy+i6tbiZF9YrNkAeVYhMqSQIJJdMqYE5RUyCURASUCzQDu1VjXC
+ 5V1IByWKX940jI4OmYNn565miR1/LU5vljOvPbf//OHU+bef67IGJrRTx7qPSUKYQJdN
+ 33Hw==
+X-Gm-Message-State: ANoB5pn7KYbRwvy+2jiGHe+tFq6/kS0xs1LV8nPIzTq57guM1obgWy17
+ aiitsU5tLfwb+kikSSn2lmv28jPtorQCWEmxkA8=
+X-Google-Smtp-Source: AA0mqf7KTolED3NukMSBOYFAqg4LiphIzSkg8f9Qhul4FzwznqLhFphmkVzTL2udc62ILm1LeAWgZg==
+X-Received: by 2002:a5d:68cb:0:b0:242:6f93:d558 with SMTP id
+ p11-20020a5d68cb000000b002426f93d558mr4119540wrw.67.1670598950359; 
+ Fri, 09 Dec 2022 07:15:50 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- z17-20020adfdf91000000b00241d544c9b1sm1927674wrl.90.2022.12.09.07.15.44
+ d4-20020adfe2c4000000b00236488f62d6sm1611230wrj.79.2022.12.09.07.15.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 09 Dec 2022 07:15:45 -0800 (PST)
+ Fri, 09 Dec 2022 07:15:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
@@ -60,20 +60,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH-for-8.0 2/7] hw/mips/gt64xxx_pci: Let the GT64120 manage the
- lower 512MiB hole
-Date: Fri,  9 Dec 2022 16:15:28 +0100
-Message-Id: <20221209151533.69516-3-philmd@linaro.org>
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: [PATCH-for-8.0 3/7] hw/mips/gt64xxx_pci: Manage endian bits with the
+ RegisterField API
+Date: Fri,  9 Dec 2022 16:15:29 +0100
+Message-Id: <20221209151533.69516-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209151533.69516-1-philmd@linaro.org>
 References: <20221209151533.69516-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,92 +95,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Per the comment in the Malta board, the [0x0000.0000-0x2000.0000]
-range is decoded by the GT64120, so move the "empty_slot" there.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- configs/devices/mips-softmmu/common.mak | 1 -
- hw/mips/Kconfig                         | 1 +
- hw/mips/gt64xxx_pci.c                   | 8 ++++++++
- hw/mips/malta.c                         | 7 -------
- 4 files changed, 9 insertions(+), 8 deletions(-)
+ hw/mips/gt64xxx_pci.c | 37 +++++++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-index 416161f833..c2b5f322fc 100644
---- a/configs/devices/mips-softmmu/common.mak
-+++ b/configs/devices/mips-softmmu/common.mak
-@@ -26,7 +26,6 @@ CONFIG_IDE_ISA=y
- CONFIG_PFLASH_CFI01=y
- CONFIG_I8259=y
- CONFIG_MC146818RTC=y
--CONFIG_EMPTY_SLOT=y
- CONFIG_MIPS_CPS=y
- CONFIG_MIPS_ITU=y
- CONFIG_MALTA=y
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index d6bbbe7069..8f7bce38fb 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -64,4 +64,5 @@ config FW_CFG_MIPS
- config GT64120
-     bool
-     select PCI
-+    select EMPTY_SLOT
-     select I8259
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 19d0d9889f..1b9ac7f792 100644
+index 1b9ac7f792..8c9ec80f7c 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -28,6 +28,7 @@
+@@ -26,6 +26,7 @@
+ #include "qapi/error.h"
+ #include "qemu/units.h"
  #include "qemu/log.h"
++#include "hw/registerfields.h"
  #include "hw/pci/pci.h"
  #include "hw/pci/pci_host.h"
-+#include "hw/misc/empty_slot.h"
- #include "migration/vmstate.h"
- #include "hw/intc/i8259.h"
- #include "hw/irq.h"
-@@ -1162,6 +1163,13 @@ static void gt64120_realize(DeviceState *dev, Error **errp)
-                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
+ #include "hw/misc/empty_slot.h"
+@@ -41,6 +42,9 @@
+ #define GT_CPU                  (0x000 >> 2)
+ #define GT_MULTI                (0x120 >> 2)
  
-     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
++REG32(GT_CPU,                   0x000)
++FIELD(GT_CPU,                   Endianess,      12, 1)
 +
-+    /*
-+     * The whole address space decoded by the GT-64120A doesn't generate
-+     * exception when accessing invalid memory. Create an empty slot to
-+     * emulate this feature.
-+     */
-+    empty_slot_init("GT64120", 0, 0x20000000);
- }
+ /* CPU Address Decode */
+ #define GT_SCS10LD              (0x008 >> 2)
+ #define GT_SCS10HD              (0x010 >> 2)
+@@ -210,6 +214,13 @@
+ #define GT_PCI0_CFGADDR         (0xcf8 >> 2)
+ #define GT_PCI0_CFGDATA         (0xcfc >> 2)
  
- static void gt64120_pci_realize(PCIDevice *d, Error **errp)
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index c0a2e0ab04..ba92022f87 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -53,7 +53,6 @@
- #include "sysemu/runstate.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
--#include "hw/misc/empty_slot.h"
- #include "sysemu/kvm.h"
- #include "semihosting/semihost.h"
- #include "hw/mips/cps.h"
-@@ -1393,12 +1392,6 @@ void mips_malta_init(MachineState *machine)
-     /* Northbridge */
-     dev = sysbus_create_simple("gt64120", -1, NULL);
-     pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
--    /*
--     * The whole address space decoded by the GT-64120A doesn't generate
--     * exception when accessing invalid memory. Create an empty slot to
--     * emulate this feature.
--     */
--    empty_slot_init("GT64120", 0, 0x20000000);
++REG32(GT_PCI0_CMD,              0xc00)
++FIELD(GT_PCI0_CMD,              MByteSwap,      0,  1)
++FIELD(GT_PCI0_CMD,              SByteSwap,      16, 1)
++REG32(GT_PCI1_CMD,              0xc80)
++FIELD(GT_PCI1_CMD,              MByteSwap,      0,  1)
++FIELD(GT_PCI1_CMD,              SByteSwap,      16, 1)
++
+ /* Interrupts */
+ #define GT_INTRCAUSE            (0xc18 >> 2)
+ #define GT_INTRMASK             (0xc1c >> 2)
+@@ -983,15 +994,17 @@ static const MemoryRegionOps isd_mem_ops = {
+ static void gt64120_reset(DeviceState *dev)
+ {
+     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
++#if TARGET_BIG_ENDIAN
++    unsigned cpu_le = 0;
++#else
++    unsigned cpu_le = 1;
++#endif
  
-     /* Southbridge */
-     piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
+     /* FIXME: Malta specific hw assumptions ahead */
+ 
+     /* CPU Configuration */
+-#if TARGET_BIG_ENDIAN
+     s->regs[GT_CPU]           = 0x00000000;
+-#else
+-    s->regs[GT_CPU]           = 0x00001000;
+-#endif
++    s->regs[GT_CPU] = FIELD_DP32(s->regs[GT_CPU], GT_CPU, Endianess, cpu_le);
+     s->regs[GT_MULTI]         = 0x00000003;
+ 
+     /* CPU Address decode */
+@@ -1098,11 +1111,11 @@ static void gt64120_reset(DeviceState *dev)
+     s->regs[GT_TC_CONTROL]    = 0x00000000;
+ 
+     /* PCI Internal */
+-#if TARGET_BIG_ENDIAN
+     s->regs[GT_PCI0_CMD]      = 0x00000000;
+-#else
+-    s->regs[GT_PCI0_CMD]      = 0x00010001;
+-#endif
++    s->regs[GT_PCI0_CMD] = FIELD_DP32(s->regs[GT_PCI0_CMD],
++                                              GT_PCI0_CMD, MByteSwap, cpu_le);
++    s->regs[GT_PCI0_CMD] = FIELD_DP32(s->regs[GT_PCI0_CMD],
++                                              GT_PCI0_CMD, SByteSwap, cpu_le);
+     s->regs[GT_PCI0_TOR]      = 0x0000070f;
+     s->regs[GT_PCI0_BS_SCS10] = 0x00fff000;
+     s->regs[GT_PCI0_BS_SCS32] = 0x00fff000;
+@@ -1119,11 +1132,11 @@ static void gt64120_reset(DeviceState *dev)
+     s->regs[GT_PCI0_SSCS10_BAR] = 0x00000000;
+     s->regs[GT_PCI0_SSCS32_BAR] = 0x01000000;
+     s->regs[GT_PCI0_SCS3BT_BAR] = 0x1f000000;
+-#if TARGET_BIG_ENDIAN
+     s->regs[GT_PCI1_CMD]      = 0x00000000;
+-#else
+-    s->regs[GT_PCI1_CMD]      = 0x00010001;
+-#endif
++    s->regs[GT_PCI1_CMD] = FIELD_DP32(s->regs[GT_PCI1_CMD],
++                                              GT_PCI1_CMD, MByteSwap, cpu_le);
++    s->regs[GT_PCI1_CMD] = FIELD_DP32(s->regs[GT_PCI1_CMD],
++                                              GT_PCI1_CMD, SByteSwap, cpu_le);
+     s->regs[GT_PCI1_TOR]      = 0x0000070f;
+     s->regs[GT_PCI1_BS_SCS10] = 0x00fff000;
+     s->regs[GT_PCI1_BS_SCS32] = 0x00fff000;
 -- 
 2.38.1
 
