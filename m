@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D978647E5B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 08:14:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31381647E69
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 08:20:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Xa7-0005us-Ii; Fri, 09 Dec 2022 02:14:03 -0500
+	id 1p3Xea-0000RR-3Q; Fri, 09 Dec 2022 02:18:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3Xa1-0005se-Me
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:13:57 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3XeA-0000Ou-TD
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:18:16 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3XZz-0003c6-M3
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:13:57 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso5093445wme.5
- for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 23:13:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3Xe8-0007Rx-6s
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 02:18:14 -0500
+Received: by mail-wr1-x434.google.com with SMTP id w15so4273610wrl.9
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 23:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Mz8ndFYXElqfqWETuKwHgyAhHPnueSPCduxcSmLv964=;
- b=oEkU+LLIDqK0O4tYKweUopavvRnSQ6TMYy0eD306q3pUChllmbxALDAgA7iPMgfkXg
- OlpRCeJaa+TGMkjh9/uXZUb3ch+kmK51bMdpW4F+1TK+HTqYiHF11dEOkx4DO7dHoTmA
- ro+wcJHSfGcwdezsFTXvPTEOGeSnmsWuBkoCSUksVdHGHHkhQZc/wy81oRvhv59SL5Xl
- q4t5swoQ4qCJaCoYLlEIAoprUbGOHYWgakrYHDteEkO+kGry/CbUoCAF48NNUt3Ma8pp
- Wdq+0DN6gJTIVfUdiPQ8fXaBVzM6yduZnnJSKCchwk4L0fZB8aEE9S+X6gL/rWBqIOx2
- VD8w==
+ bh=N1woKxCDg7QpuRQ8O3T622rOvXPnCx6CGix4MBLFF9U=;
+ b=CTC/nxquOMtz8eUC10f4yF9NhXpcBvekEareyg+sIuiBpreMNufTD0yGOvdc97RKx9
+ dBsOZxYURCxbISYgWrW71fPylB8S8Am0g9TLkQjsFEM1oCNu/lnDISIzMEJQ97KLlBra
+ JVtROesKPMMNxZVRxRk+VZwrY53r9INcXLX3F8ji4HwlOkLn1qCaYTDJDjom1tX+p1i6
+ COkgHgQn2mxXd5fKDPLF8266TTAYTa1XeYk/AAriNCIIUt1VyRGAIkZ6ZxIsv9jxtd3m
+ bFazZwmk5VNNbQ5SZ9nw3WZJiTzV5yU+Clag9byYuGHHmvAuiecPriHUft5GjUCgOkCG
+ 0bjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Mz8ndFYXElqfqWETuKwHgyAhHPnueSPCduxcSmLv964=;
- b=aYFTZL3niZIjC4YXbQBmVQJKLya3Vvg8KGxNAsk3uX6cy4FeygXFm9pLUNE6RuSMVU
- dNSnPDSFRwgMMCQfDIs0sPYzVa4Wv3UcfeudHd+VphbDdf9Qi+AXFvlSaZoCcj9FvWUG
- 03ZoB6+5q75TGLiZd+tKi8l3Foj1Eiz7+SHIiIOqJz0V0ocQ8lOtzXw4XuRI3WgueZ+a
- wnG1eq6dClAF7La/eXqHHRi7QMC7MaNU9Nz/If7oUxkAuTHVgOK7OlXLd6gfE47ky1Vi
- Bq698kg9t/7r6a4yVghv81O+FQvALzp/rLL+th7z96YC9tiDWjJOk94S+aeK0/Z170aZ
- 8jwQ==
-X-Gm-Message-State: ANoB5pn8ydaAmws7vDU3ndyNmFjSm51li886xwbavN/WEGagCcRAIv4T
- csiJm6yzLm4HDew6vnsQHog7kA==
-X-Google-Smtp-Source: AA0mqf5+98eZP9w3WlOrdq/XExLVifvb63xm7JMuUgtoDTfso3Gksy3ZBiCxHWkbLaVEoRmyNov5Kw==
-X-Received: by 2002:a05:600c:3782:b0:3cf:894d:2cd1 with SMTP id
- o2-20020a05600c378200b003cf894d2cd1mr5022280wmr.24.1670570032329; 
- Thu, 08 Dec 2022 23:13:52 -0800 (PST)
+ bh=N1woKxCDg7QpuRQ8O3T622rOvXPnCx6CGix4MBLFF9U=;
+ b=sm3smxsYyzWWERo7ku1gztWMle40AlqkrjZERTNOrFVyTI9Ggiz5sCCHDw7WyjU+Od
+ d98sRB4YY9upHu5kTibVG+Hdv3o5eulNSJYrv5YjCqyyQGGT+bxYkMJ+k+2CLtLkXxlD
+ 7kZ2zmWxWQmDglfXaQjG5GYF9yQ36HlObjR/GZbAVFUsyFnS3q9rie76S1KWxH8mqf6k
+ TDiodxD6JU7L0Jh2oxgKw2lHg/TnoZPA9GkPFxp1Wm/T1cjbjBVvw3Qny27fcjnWCstw
+ yfhZt2zimcQuzMi+PKZj4pDVZxwna7oDWhWDVq06wJMCzh+gHSwjtB2GcGTMjVc54Pll
+ 1MTw==
+X-Gm-Message-State: ANoB5pn7hb7Nxk1WQxJ5LgRE0dVHFwaPaR/xya/UZQNE6jmQaEcRA503
+ 5kU9nYOknzEPxswD+k0SttnBtw==
+X-Google-Smtp-Source: AA0mqf4g0hIJuNWHqln8hAtKWwhAZFOCHWiGLIznfxpbrMd7Dw6R5tfRG6KPIlblWDaskF3jPbIpAw==
+X-Received: by 2002:a5d:514e:0:b0:242:2314:ccb7 with SMTP id
+ u14-20020a5d514e000000b002422314ccb7mr2919353wrt.50.1670570290409; 
+ Thu, 08 Dec 2022 23:18:10 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e17-20020a5d5951000000b0024278304ef6sm630417wri.13.2022.12.08.23.13.51
+ ay2-20020a5d6f02000000b002366e3f1497sm667960wrb.6.2022.12.08.23.18.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 23:13:51 -0800 (PST)
-Message-ID: <4f500afe-cd29-b949-fae9-228733e167a5@linaro.org>
-Date: Fri, 9 Dec 2022 08:13:50 +0100
+ Thu, 08 Dec 2022 23:18:09 -0800 (PST)
+Message-ID: <5bf64a38-0750-dbdc-f51e-f24289395f80@linaro.org>
+Date: Fri, 9 Dec 2022 08:18:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v3 5/8] accel/tcg: Move page_{get,set}_flags to user-exec.c
+Subject: Re: [PATCH v3 6/8] accel/tcg: Use interval tree for user-only page
+ tracking
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, laurent@vivier.eu
 References: <20221209051914.398215-1-richard.henderson@linaro.org>
- <20221209051914.398215-6-richard.henderson@linaro.org>
+ <20221209051914.398215-7-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221209051914.398215-6-richard.henderson@linaro.org>
+In-Reply-To: <20221209051914.398215-7-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -92,18 +92,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/12/22 06:19, Richard Henderson wrote:
-> This page tracking implementation is specific to user-only,
-> since the system softmmu version is in cputlb.c.  Move it
-> out of translate-all.c to user-exec.c.
+> Finish weaning user-only away from PageDesc.
 > 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Using an interval tree to track page permissions means that
+> we can represent very large regions efficiently.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/290
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/967
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1214
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   accel/tcg/internal.h      |  17 ++
->   accel/tcg/translate-all.c | 350 --------------------------------------
->   accel/tcg/user-exec.c     | 346 +++++++++++++++++++++++++++++++++++++
->   3 files changed, 363 insertions(+), 350 deletions(-)
+>   accel/tcg/internal.h           |   4 +-
+>   accel/tcg/tb-maint.c           |  20 +-
+>   accel/tcg/user-exec.c          | 615 ++++++++++++++++++++++-----------
+>   tests/tcg/multiarch/test-vma.c |  22 ++
+>   4 files changed, 451 insertions(+), 210 deletions(-)
+>   create mode 100644 tests/tcg/multiarch/test-vma.c
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+>   int page_check_range(target_ulong start, target_ulong len, int flags)
+>   {
+> -    PageDesc *p;
+> -    target_ulong end;
+> -    target_ulong addr;
+> -
+> -    /*
+> -     * This function should never be called with addresses outside the
+> -     * guest address space.  If this assert fires, it probably indicates
+> -     * a missing call to h2g_valid.
+> -     */
+> -    if (TARGET_ABI_BITS > L1_MAP_ADDR_SPACE_BITS) {
+> -        assert(start < ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS));
+> -    }
+
+This removes the use of L1_MAP_ADDR_SPACE_BITS in user-only, maybe
+remove the definition from "accel/tcg/internal.h"?
 
