@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6780647FF6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F4C648019
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:29:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3ZQL-0006g0-Qr; Fri, 09 Dec 2022 04:12:05 -0500
+	id 1p3ZfE-0001er-IJ; Fri, 09 Dec 2022 04:27:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p3ZQ4-0006fe-4h
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:11:49 -0500
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1p3ZQ1-0004Xh-Lz
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:11:47 -0500
-Received: by mail-lj1-x22b.google.com with SMTP id z4so4288704ljq.6
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 01:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vVAuT2VAl8HSgBtmMoMcytfxocfU7OG7x60P/5jbFLQ=;
- b=lX5M+N/6bU4HIzuFDOOcutTJ/4Q4wYmGYE0aQSCJkT10nXdgln59BJXRkFyQvVtBfg
- 5Tt+ADEuHwxHmYWoo9Avr1LCUAQ5cSF6A5zf8gI72s0fRtfnyf0vQUj3x8E1c2LjBzl0
- K60I9PxS15NPK0uquHBFD5VtNOw1H8O5dA3eHgkkIqlotUc7/39VG5f6pIvM2eG2i+CJ
- Lr4rd6idF3siurTwh8bixJsQbd3BYTtBz8sUkkIHej2slw5AjryLd9hFM3bIdZ78kB7W
- BwJe/q5Ph/mjCbzcRQAJJ2lfymeFTl0Bi7WPJQrQSAHK+WUOloI+x5ts/ZdjZovT9WRV
- q9vw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3ZfC-0001ej-Pv
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:27:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p3ZfA-00018w-MO
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:27:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670578043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B6lGpMNuuLhhdiMhm1oCJCziYvRl31HyVNtMQ1A/X80=;
+ b=eJkCcjNtgtkH08pdgGcxAxMHAebCJEVWrPQ5fp09jz88PzAjAL8JCRr38SX+ZP9saAl0t5
+ VTDu0dON2jAEX5dH6o1mEBn6ge0i//MJGOXSk8vYZp0nQhmPdjC8rg7tbr274I8urXvfhf
+ Dj1di4X9cUKPghUtYLbjARqBdRoP1WI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-331-sQxZCCQ4OLGI3wZUJSQ4nA-1; Fri, 09 Dec 2022 04:27:21 -0500
+X-MC-Unique: sQxZCCQ4OLGI3wZUJSQ4nA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h81-20020a1c2154000000b003d1c8e519fbso3695092wmh.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 01:27:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vVAuT2VAl8HSgBtmMoMcytfxocfU7OG7x60P/5jbFLQ=;
- b=GcFg9qBOGY/iodiPG5fL9uCZJWvV6V69vibPyp4woJAUfkWF2o05VylID3lhb6Wh3v
- tAtDgepw04RoIzNqFJ2h8F9tYZQilxx0gs2DCJSh4d4exFc8GLxZXYUmZB+8r65PSXkx
- N/cGLOluCtRpqmT2FH8bjne8lFbfPmG415pzJY1PGJEdhvnCcpHB+j2Glf/AooMKGODf
- rPPTo3Z0GzxVs5ZYaSJLNCLIbN7bkVMSZFU+buFYZqt/WVLtAEWKfdfWrfGiAiyoxZHy
- GheqNiMMOJXhBCD4/s/MnmtbQiDwJkqcKhhIYBR0Z/VSogStOHAMh7X0Y4Ht6z5BO2bo
- 9tjQ==
-X-Gm-Message-State: ANoB5pm/gIl4zo50WredOMti+YGmX3aL5NtAWAfezvG2oc1x4606FzSt
- FbGsKb0gRWpkowF2mB3HLXpqdxCiqLCLm463Mrrc+Q==
-X-Google-Smtp-Source: AA0mqf7/rRxOZLXii+aeI9/qslxKjks6CQQi1s3lmRhVVbbNRaVxNPLR7lYmarjHgoPvJiZijDv4+WHvZ/AMjr/iK5c=
-X-Received: by 2002:a2e:9256:0:b0:279:823d:77c7 with SMTP id
- v22-20020a2e9256000000b00279823d77c7mr18932642ljg.92.1670577100923; Fri, 09
- Dec 2022 01:11:40 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=B6lGpMNuuLhhdiMhm1oCJCziYvRl31HyVNtMQ1A/X80=;
+ b=4EFsKl41lUFnavP7vB3sgUsvflAtA2Vmr9CkNfjkRmFRkvzHlPyT0wzmYZmeKiJpx0
+ rmhftzugXnKGeK3WUaLS+XwwIbojPnPePXRzqUBvBu7qzOOSuTs7KtYUWukHP76gDsoQ
+ XR+v6I0b/bBQ7hHSbetwxQFEW5722tmJLWbQtsq4mrtK4lMSWxnSn/VBfeImnZgtAk5m
+ VSam1ZYBzYuuiJq+kWplbOS8ZgWXd2aIPPqZY2Bdnc9qf+cjan0zX86JARRgOJuFHvlA
+ 4xzfIUUxTikRjPYYt6pA9kFOUI3LXvD1kANgfey3pER2IN14XplUTCH6vWOiYPt0d0xR
+ hS+g==
+X-Gm-Message-State: ANoB5pksO/Vu5pZOK/k8I/3nKfJriTTYE2DYPTkM2jubRdUuf0spLRiR
+ 4O441hfBdbb+9UltH4XVQbxF4ZO2G6QTLD5uGW8/1iUAn5ZduxtNfWGWGs0HLoTgqQo5i0Xrcxx
+ sxQd2bFFIrilBJT8=
+X-Received: by 2002:adf:f643:0:b0:242:2ae6:7c27 with SMTP id
+ x3-20020adff643000000b002422ae67c27mr2999352wrp.19.1670578040677; 
+ Fri, 09 Dec 2022 01:27:20 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4sWufa4SVXa+EkI45uavR3Qj6ryCIxoQPHlW9ar12vUOAvEftEBSIU5e3G8FRFuQVs4RdB1Q==
+X-Received: by 2002:adf:f643:0:b0:242:2ae6:7c27 with SMTP id
+ x3-20020adff643000000b002422ae67c27mr2999346wrp.19.1670578040447; 
+ Fri, 09 Dec 2022 01:27:20 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-177-15.web.vodafone.de.
+ [109.43.177.15]) by smtp.gmail.com with ESMTPSA id
+ bj5-20020a0560001e0500b002362f6fcaf5sm915978wrb.48.2022.12.09.01.27.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Dec 2022 01:27:19 -0800 (PST)
+Message-ID: <255e2eab-fa65-ce5f-35fa-0787eb1760d3@redhat.com>
+Date: Fri, 9 Dec 2022 10:27:17 +0100
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Fri, 9 Dec 2022 09:11:04 +0000
-Message-ID: <CA+EHjTzN1QGSnmT=JJuHwvrgBsD+Nev8+Db4DPPQoU-8k_432g@mail.gmail.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>, 
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=tabba@google.com; helo=mail-lj1-x22b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Michael S Tsirkin <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20221206200641.339116-1-thuth@redhat.com>
+ <8f0b1154-5d40-f098-ef1d-cd2a50145529@ilande.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-8.0] hw/rtc/mc146818rtc: Make this rtc device target
+ independent
+In-Reply-To: <8f0b1154-5d40-f098-ef1d-cd2a50145529@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.266, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,380 +103,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On 07/12/2022 16.29, Mark Cave-Ayland wrote:
+> On 06/12/2022 20:06, Thomas Huth wrote:
+> 
+>> The only code that is really, really target dependent is the apic-related
+>> code in rtc_policy_slew_deliver_irq(). By moving this code into the hw/i386/
+>> folder (renamed to rtc_apic_policy_slew_deliver_irq()) and passing this
+>> function as parameter to mc146818_rtc_init(), we can make the RTC completely
+>> target-independent.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   include/hw/rtc/mc146818rtc.h |  7 +++++--
+>>   hw/alpha/dp264.c             |  2 +-
+>>   hw/hppa/machine.c            |  2 +-
+>>   hw/i386/microvm.c            |  3 ++-
+>>   hw/i386/pc.c                 | 10 +++++++++-
+>>   hw/mips/jazz.c               |  2 +-
+>>   hw/ppc/pnv.c                 |  2 +-
+>>   hw/rtc/mc146818rtc.c         | 34 +++++++++++-----------------------
+>>   hw/rtc/meson.build           |  3 +--
+>>   9 files changed, 32 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+>> index 1db0fcee92..c687953cc4 100644
+>> --- a/include/hw/rtc/mc146818rtc.h
+>> +++ b/include/hw/rtc/mc146818rtc.h
+>> @@ -46,14 +46,17 @@ struct RTCState {
+>>       Notifier clock_reset_notifier;
+>>       LostTickPolicy lost_tick_policy;
+>>       Notifier suspend_notifier;
+>> +    bool (*policy_slew_deliver_irq)(RTCState *s);
+>>       QLIST_ENTRY(RTCState) link;
+>>   };
+[...]
+> These days we really should try and avoid setting function pointers outside 
+> of _init() and class_init() where possible. If I were looking to model this 
+> today I'd probably try an approach like this:
+> 
+> - Move apic_irq_delivered into APICCommonState
+> 
+> - Define apic_reset_irq_delivered() and apic_get_irq_delivered() as function 
+> pointers in APICCommonState and assign them to the current implementations 
+> in apic_common_initfn() adding an APICCommonState parameter as required
+> 
+> - Grab a reference to APICCommonState in mc146818rtc.c's rtc_realizefn() 
+> using either an object property link or object_resolve_path_type("", 
+> TYPE_APIC_COMMON, NULL)
+> 
+> - Use "if (s->apic) { .. }" or similar in mc146818rtc.c to guard calling the 
+> apic_*() functions
 
-On Fri, Dec 2, 2022 at 6:20 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> Register/unregister private memslot to fd-based memory backing store
-> restrictedmem and implement the callbacks for restrictedmem_notifier:
->   - invalidate_start()/invalidate_end() to zap the existing memory
->     mappings in the KVM page table.
->   - error() to request KVM_REQ_MEMORY_MCE and later exit to userspace
->     with KVM_EXIT_SHUTDOWN.
->
-> Expose KVM_MEM_PRIVATE for memslot and KVM_MEMORY_ATTRIBUTE_PRIVATE for
-> KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to userspace but either are
-> controlled by kvm_arch_has_private_mem() which should be rewritten by
-> architecture code.
->
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
+That also doesn't really fly since the apic_* functions are only available 
+on x86 (and maybe arm), but not in the other targets, so this won't link 
+there. Ok, we could provide stubs for the other targets, but that's IMHO 
+almost as ugly as having a function pointer in RTCState ... ? I can give it 
+a try with using a stub, but not sure whether it will really look much better...
 
-With the code to port it to pKVM/arm64:
-Tested-by: Fuad Tabba <tabba@google.com>
-
-Cheers,
-/fuad
+  Thomas
 
 
-> ---
->  arch/x86/include/asm/kvm_host.h |   1 +
->  arch/x86/kvm/x86.c              |  13 +++
->  include/linux/kvm_host.h        |   3 +
->  virt/kvm/kvm_main.c             | 179 +++++++++++++++++++++++++++++++-
->  4 files changed, 191 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 7772ab37ac89..27ef31133352 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -114,6 +114,7 @@
->         KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
->  #define KVM_REQ_HV_TLB_FLUSH \
->         KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
-> +#define KVM_REQ_MEMORY_MCE             KVM_ARCH_REQ(33)
->
->  #define CR0_RESERVED_BITS                                               \
->         (~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 5aefcff614d2..c67e22f3e2ee 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -6587,6 +6587,13 @@ int kvm_arch_pm_notifier(struct kvm *kvm, unsigned long state)
->  }
->  #endif /* CONFIG_HAVE_KVM_PM_NOTIFIER */
->
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +void kvm_arch_memory_mce(struct kvm *kvm)
-> +{
-> +       kvm_make_all_cpus_request(kvm, KVM_REQ_MEMORY_MCE);
-> +}
-> +#endif
-> +
->  static int kvm_vm_ioctl_get_clock(struct kvm *kvm, void __user *argp)
->  {
->         struct kvm_clock_data data = { 0 };
-> @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
->
->                 if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
->                         static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
-> +
-> +               if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
-> +                       vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
-> +                       r = 0;
-> +                       goto out;
-> +               }
->         }
->
->         if (kvm_check_request(KVM_REQ_EVENT, vcpu) || req_int_win ||
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 153842bb33df..f032d878e034 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -590,6 +590,7 @@ struct kvm_memory_slot {
->         struct file *restricted_file;
->         loff_t restricted_offset;
->         struct restrictedmem_notifier notifier;
-> +       struct kvm *kvm;
->  };
->
->  static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> @@ -2363,6 +2364,8 @@ static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
->         *pfn = page_to_pfn(page);
->         return ret;
->  }
-> +
-> +void kvm_arch_memory_mce(struct kvm *kvm);
->  #endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
->
->  #endif
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index e107afea32f0..ac835fc77273 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -936,6 +936,121 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
->
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
->
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
-> +                                        pgoff_t start, pgoff_t end,
-> +                                        gfn_t *gfn_start, gfn_t *gfn_end)
-> +{
-> +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +
-> +       if (start > base_pgoff)
-> +               *gfn_start = slot->base_gfn + start - base_pgoff;
-> +       else
-> +               *gfn_start = slot->base_gfn;
-> +
-> +       if (end < base_pgoff + slot->npages)
-> +               *gfn_end = slot->base_gfn + end - base_pgoff;
-> +       else
-> +               *gfn_end = slot->base_gfn + slot->npages;
-> +
-> +       if (*gfn_start >= *gfn_end)
-> +               return false;
-> +
-> +       return true;
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_begin(struct restrictedmem_notifier *notifier,
-> +                                              pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       struct kvm *kvm = slot->kvm;
-> +       gfn_t gfn_start, gfn_end;
-> +       struct kvm_gfn_range gfn_range;
-> +       int idx;
-> +
-> +       if (!restrictedmem_range_is_valid(slot, start, end,
-> +                                         &gfn_start, &gfn_end))
-> +               return;
-> +
-> +       gfn_range.start = gfn_start;
-> +       gfn_range.end = gfn_end;
-> +       gfn_range.slot = slot;
-> +       gfn_range.pte = __pte(0);
-> +       gfn_range.may_block = true;
-> +
-> +       idx = srcu_read_lock(&kvm->srcu);
-> +       KVM_MMU_LOCK(kvm);
-> +
-> +       kvm_mmu_invalidate_begin(kvm);
-> +       kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
-> +       if (kvm_unmap_gfn_range(kvm, &gfn_range))
-> +               kvm_flush_remote_tlbs(kvm);
-> +
-> +       KVM_MMU_UNLOCK(kvm);
-> +       srcu_read_unlock(&kvm->srcu, idx);
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_end(struct restrictedmem_notifier *notifier,
-> +                                            pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       struct kvm *kvm = slot->kvm;
-> +       gfn_t gfn_start, gfn_end;
-> +
-> +       if (!restrictedmem_range_is_valid(slot, start, end,
-> +                                         &gfn_start, &gfn_end))
-> +               return;
-> +
-> +       KVM_MMU_LOCK(kvm);
-> +       kvm_mmu_invalidate_end(kvm);
-> +       KVM_MMU_UNLOCK(kvm);
-> +}
-> +
-> +static void kvm_restrictedmem_error(struct restrictedmem_notifier *notifier,
-> +                                   pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       kvm_arch_memory_mce(slot->kvm);
-> +}
-> +
-> +static struct restrictedmem_notifier_ops kvm_restrictedmem_notifier_ops = {
-> +       .invalidate_start = kvm_restrictedmem_invalidate_begin,
-> +       .invalidate_end = kvm_restrictedmem_invalidate_end,
-> +       .error = kvm_restrictedmem_error,
-> +};
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
-> +{
-> +       slot->notifier.ops = &kvm_restrictedmem_notifier_ops;
-> +       restrictedmem_register_notifier(slot->restricted_file, &slot->notifier);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
-> +{
-> +       restrictedmem_unregister_notifier(slot->restricted_file,
-> +                                         &slot->notifier);
-> +}
-> +
-> +#else /* !CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
-> +{
-> +       WARN_ON_ONCE(1);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
-> +{
-> +       WARN_ON_ONCE(1);
-> +}
-> +
-> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
->  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
->  static int kvm_pm_notifier_call(struct notifier_block *bl,
->                                 unsigned long state,
-> @@ -980,6 +1095,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
->  /* This does not remove the slot from struct kvm_memslots data structures */
->  static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
->  {
-> +       if (slot->flags & KVM_MEM_PRIVATE) {
-> +               kvm_restrictedmem_unregister(slot);
-> +               fput(slot->restricted_file);
-> +       }
-> +
->         kvm_destroy_dirty_bitmap(slot);
->
->         kvm_arch_free_memslot(kvm, slot);
-> @@ -1551,10 +1671,14 @@ static void kvm_replace_memslot(struct kvm *kvm,
->         }
->  }
->
-> -static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> +static int check_memory_region_flags(struct kvm *kvm,
-> +                                    const struct kvm_user_mem_region *mem)
->  {
->         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->
-> +       if (kvm_arch_has_private_mem(kvm))
-> +               valid_flags |= KVM_MEM_PRIVATE;
-> +
->  #ifdef __KVM_HAVE_READONLY_MEM
->         valid_flags |= KVM_MEM_READONLY;
->  #endif
-> @@ -1630,6 +1754,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
->  {
->         int r;
->
-> +       if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +               kvm_restrictedmem_register(new);
-> +
->         /*
->          * If dirty logging is disabled, nullify the bitmap; the old bitmap
->          * will be freed on "commit".  If logging is enabled in both old and
-> @@ -1658,6 +1785,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
->         if (r && new && new->dirty_bitmap && (!old || !old->dirty_bitmap))
->                 kvm_destroy_dirty_bitmap(new);
->
-> +       if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +               kvm_restrictedmem_unregister(new);
-> +
->         return r;
->  }
->
-> @@ -1963,7 +2093,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->         int as_id, id;
->         int r;
->
-> -       r = check_memory_region_flags(mem);
-> +       r = check_memory_region_flags(kvm, mem);
->         if (r)
->                 return r;
->
-> @@ -1982,6 +2112,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
->              !access_ok((void __user *)(unsigned long)mem->userspace_addr,
->                         mem->memory_size))
->                 return -EINVAL;
-> +       if (mem->flags & KVM_MEM_PRIVATE &&
-> +               (mem->restricted_offset & (PAGE_SIZE - 1) ||
-> +                mem->restricted_offset > U64_MAX - mem->memory_size))
-> +               return -EINVAL;
->         if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
->                 return -EINVAL;
->         if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
->                 if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
->                         return -EINVAL;
->         } else { /* Modify an existing slot. */
-> +               /* Private memslots are immutable, they can only be deleted. */
-> +               if (mem->flags & KVM_MEM_PRIVATE)
-> +                       return -EINVAL;
->                 if ((mem->userspace_addr != old->userspace_addr) ||
->                     (npages != old->npages) ||
->                     ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
->         new->npages = npages;
->         new->flags = mem->flags;
->         new->userspace_addr = mem->userspace_addr;
-> +       if (mem->flags & KVM_MEM_PRIVATE) {
-> +               new->restricted_file = fget(mem->restricted_fd);
-> +               if (!new->restricted_file ||
-> +                   !file_is_restrictedmem(new->restricted_file)) {
-> +                       r = -EINVAL;
-> +                       goto out;
-> +               }
-> +               new->restricted_offset = mem->restricted_offset;
-> +       }
-> +
-> +       new->kvm = kvm;
->
->         r = kvm_set_memslot(kvm, old, new, change);
->         if (r)
-> -               kfree(new);
-> +               goto out;
-> +
-> +       return 0;
-> +
-> +out:
-> +       if (new->restricted_file)
-> +               fput(new->restricted_file);
-> +       kfree(new);
->         return r;
->  }
->  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-> @@ -2351,6 +2506,8 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
->  #ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
->  static u64 kvm_supported_mem_attributes(struct kvm *kvm)
->  {
-> +       if (kvm_arch_has_private_mem(kvm))
-> +               return KVM_MEMORY_ATTRIBUTE_PRIVATE;
->         return 0;
->  }
->
-> @@ -4822,16 +4979,28 @@ static long kvm_vm_ioctl(struct file *filp,
->         }
->         case KVM_SET_USER_MEMORY_REGION: {
->                 struct kvm_user_mem_region mem;
-> -               unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +               unsigned int flags_offset = offsetof(typeof(mem), flags);
-> +               unsigned long size;
-> +               u32 flags;
->
->                 kvm_sanity_check_user_mem_region_alias();
->
-> +               memset(&mem, 0, sizeof(mem));
-> +
->                 r = -EFAULT;
-> +               if (get_user(flags, (u32 __user *)(argp + flags_offset)))
-> +                       goto out;
-> +
-> +               if (flags & KVM_MEM_PRIVATE)
-> +                       size = sizeof(struct kvm_userspace_memory_region_ext);
-> +               else
-> +                       size = sizeof(struct kvm_userspace_memory_region);
-> +
->                 if (copy_from_user(&mem, argp, size))
->                         goto out;
->
->                 r = -EINVAL;
-> -               if (mem.flags & KVM_MEM_PRIVATE)
-> +               if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
->                         goto out;
->
->                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> --
-> 2.25.1
->
 
