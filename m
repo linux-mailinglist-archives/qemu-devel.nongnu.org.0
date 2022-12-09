@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75806483AF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 15:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF04C6483BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 15:27:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3eGJ-0001PJ-G1; Fri, 09 Dec 2022 09:22:03 -0500
+	id 1p3eKX-00035r-Gs; Fri, 09 Dec 2022 09:26:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eGG-0001M1-Ar
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:22:00 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eKV-00035Q-E1
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:26:23 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eFx-0003xw-3U
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:21:54 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id m14so5339341wrh.7
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 06:21:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eKT-0006em-DV
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:26:22 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ n9-20020a05600c3b8900b003d0944dba41so3554019wms.4
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 06:26:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kbExQA0onQG9QAZ5T2ULEalFtg+MiSswrh7KmRsnoyI=;
- b=Bj7CFAUskf5WrlAbJScqHFF+itDfnvt/yNGU5DbQc5xwIVkt4Wxdw5/SkOskVBK8PY
- YEjCFO5XG/Dk8Smd68tFOumue8gQkkrKC1trO8KQG/rr9tNpFrYeXFUfS7DQwBnRcd2o
- BVBbNBWBGYJE137RYgbGyfiYLfia4HfWkix/RqRUk7IgQHcvKStvxD7l5rsYAjomJeIk
- dQj3yrtKru6aw7SFAcX4y53zaMUhGfS7V42qQtxnLbca35ySgAdJk4R3h6sPcWI6Oqj5
- ZZDg7GpNKv7lqzVsvN0SUQdnVpbPllMyNynLP4Z/ZsjKhaq4u8Ac1SeIuP6b33J6ZhM5
- f8Xg==
+ bh=r4eZoFWjDSaBgS/bsBVAGsAwbmlTsC9e8KhFB8lrLBs=;
+ b=kEYGVGq7fv3X0vMnHMV8JH/LkDtMXiO1H37W3Rf+bakTLPwoL3hj0FfnpIjPUnfGBT
+ 4yAUR566tkoBVYebTgo/dXYm/lP1yOBtbFGMYy6fHu44HC5qkJADPNlm4NFLgpWg8Bux
+ jeD0RwhIC4hIJy5+ulSlLqTgAKn8lUbfK/bclRaMr1Oh1otz0ZuAjdgUGaWy/kjBV6do
+ 6ZYsfuaoJ7fTVOean3RBxFWoiO+bMWqDtQNKsECzaD9Inmrcgohzx1FYOunV7klrL+nS
+ O3PVcoROo+NWbxhxSJF42u12KY6Dl7x+4cnYyl9K8UVEPFWzKbvPxeIttcsd0G6NAg+O
+ GDug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kbExQA0onQG9QAZ5T2ULEalFtg+MiSswrh7KmRsnoyI=;
- b=2mIqOqXei1eGjeagv87uN33Wgi5uPEYtGl7oshJZ30T4gjjynrFg9NfBop60a3PPN7
- PtaF6u3MysKebWegiGUZqBdqDsW+o4Owostmndo4MjLfQKX2RyKIr7sEnKoX4yrL4S0J
- bNxCejQ3TBBpAjS4lkTToL9LlpUKvh3PAfsJZAGcRwG8IX7pXPv+puUH4gf5Vm6X+ySS
- NK7lU40c+DbdXLO1aXAT7dGGBU+wggTtadO1ZSASzpxwrci+3ZB+q1DEDP+/huur0yVs
- gdW+OZX84nHhYmOyz50qSoy7NzBQvBSk/iWz6aY3JwoLVjX7iTDptGx76+0bIaqw+4K3
- t7EA==
-X-Gm-Message-State: ANoB5pkUpj6PY2EBIsFLGiwIN4t8ShcpROhQMxv++Th3vraf12JOB9PA
- lTP2i65/KmgTt74klXhd0UEcJw==
-X-Google-Smtp-Source: AA0mqf7lzy6rnHB7hRpRrD89a8oN+rQEWRsCFTAibqUjlesa2wJP/CMaM5G5ZT4FoIeKkfwx50qkAg==
-X-Received: by 2002:a5d:58d2:0:b0:242:4697:d826 with SMTP id
- o18-20020a5d58d2000000b002424697d826mr3897603wrf.29.1670595689885; 
- Fri, 09 Dec 2022 06:21:29 -0800 (PST)
+ bh=r4eZoFWjDSaBgS/bsBVAGsAwbmlTsC9e8KhFB8lrLBs=;
+ b=R/tS+UU4y6AkUjpCrcea8N448gt9aCOKRI0BMDn76pIF10tJVjk3kgM+27x0BkzWIh
+ IEUU1dE/N3HMXe5e7daJI9FYSC/aOwV/g39bciujQsXMnfDVrrRrNkww56SIYb24+qWi
+ SehpV0UCP6UcBMFEakQH8a36p+vjoLJqtRcxR9bnUZuKJOWMNop8d4lq8cUSCmHXFCbu
+ XiNmkYRtYWm35ZXps96Wc/rEa4bOlID7B3asc3Ax+3ISVZDb5mmk6Kh2woJVkxIOXNrn
+ uvLOmEIhS5oXrrO+i1MsKND75ue6cTd6hTGTTx9TaHc8brzRTH8Mi52qXNCTztU0FozA
+ UWow==
+X-Gm-Message-State: ANoB5pmvXiyKlRxAbnslCvtZWz8BEGnofZ7CnMkxqueRUW2Pg/5KTVF4
+ fxnMl5B2G2cqaa3kTribpDJSWw==
+X-Google-Smtp-Source: AA0mqf60zKxpmYpOgg2Cuq385tAnFlnBaozdVz5leZ66I0lp6xtQwrQU6ttz27lvNXo41+BilZD3sA==
+X-Received: by 2002:a05:600c:2101:b0:3cf:e850:4451 with SMTP id
+ u1-20020a05600c210100b003cfe8504451mr4946239wml.9.1670595978985; 
+ Fri, 09 Dec 2022 06:26:18 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d13-20020adfef8d000000b00241e5b917d0sm1879756wro.36.2022.12.09.06.21.29
+ k4-20020a5d66c4000000b002365254ea42sm1555299wrw.1.2022.12.09.06.26.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 06:21:29 -0800 (PST)
-Message-ID: <6275f9b9-a878-bec9-d5c6-54d1c4bf192a@linaro.org>
-Date: Fri, 9 Dec 2022 15:21:28 +0100
+ Fri, 09 Dec 2022 06:26:18 -0800 (PST)
+Message-ID: <5c7889c9-2bd4-0f82-cbc5-f9e172743e44@linaro.org>
+Date: Fri, 9 Dec 2022 15:26:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 19/30] configure, meson: move --enable-debug-info to Meson
+Subject: Re: [PATCH v2 for-8.0] hw/rtc/mc146818rtc: Make this rtc device
+ target independent
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-20-pbonzini@redhat.com>
- <bc114971-ee1f-b48b-cee7-ebcdae4d572c@linaro.org>
- <be63447e-ba8e-6876-78a8-0cdb875b98c3@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Michael S Tsirkin <mst@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
+References: <20221209111556.110757-1-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <be63447e-ba8e-6876-78a8-0cdb875b98c3@redhat.com>
+In-Reply-To: <20221209111556.110757-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -91,37 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/12/22 14:54, Paolo Bonzini wrote:
-> On 12/9/22 13:55, Philippe Mathieu-Daudé wrote:
->>>
->>> +  printf "%s\n" '  --disable-debug-info     Enable debug symbols and 
->>> other information'
->>
->> We should get '--enable-debug-info' here, ...
->>
->>>     printf "%s\n" '  --disable-install-blobs  install provided 
->>> firmware blobs'
->>
->> ... and here. Do we have a bug in meson-buildoptions.py?
+On 9/12/22 12:15, Thomas Huth wrote:
+> The only reason for this code being target dependent is the apic-related
+> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
+> simple, we can easily move them into a new, separate file (apic_irqcount.c)
+> which will always be compiled and linked if either APIC or the mc146818 device
+> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
+> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
+> that the code only gets compiled once for all targets.
 > 
-> No, for boolean options it only includes the non-default setting.  This 
-> behavior was copied from the prior handcrafted help output:
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   v2: Move the apic functions into a separate file instead of using
+>       an ugly function pointer
 > 
->    --with-devices-ARCH=NAME override default configs/devices
->    --enable-debug           enable common debug build options
->    --enable-sanitizers      enable default sanitizers
->    --enable-tsan            enable thread sanitizer
->    --disable-strip          disable stripping binaries
->    --disable-werror         disable compilation abort on warning
->    --disable-stack-protector disable compiler-provided stack protection
+>   include/hw/i386/apic.h          |  1 +
+>   include/hw/i386/apic_internal.h |  1 -
+>   include/hw/rtc/mc146818rtc.h    |  1 +
+>   hw/intc/apic_common.c           | 27 -----------------
+>   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
+>   hw/rtc/mc146818rtc.c            | 25 +++++-----------
+>   hw/intc/meson.build             |  6 +++-
+>   hw/rtc/meson.build              |  3 +-
+>   8 files changed, 68 insertions(+), 49 deletions(-)
+>   create mode 100644 hw/intc/apic_irqcount.c
 
-These are correct... For debug-info I'd expect that (change on top of
-your patch):
-
--  printf "%s\n" '  --disable-debug-info     Enable debug symbols and 
-other information'
-+  printf "%s\n" '  --disable-debug-info     Disable debug symbols and 
-other information'
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
