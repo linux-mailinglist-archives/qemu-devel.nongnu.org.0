@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E306482EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 14:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3957E6482F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 14:50:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3dkC-0006kK-16; Fri, 09 Dec 2022 08:48:52 -0500
+	id 1p3dkA-0006kL-7L; Fri, 09 Dec 2022 08:48:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3dk6-0006jJ-AG
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3dk6-0006jC-2w
  for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:48:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3dk1-0004JR-HE
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:48:46 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3dk2-0004EL-7l
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 08:48:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670593690;
+ s=mimecast20190719; t=1670593688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=D8vHGCoBFJMQ/yPMo3zxcuSXNKPw4p0XruZyTdPuF/8=;
- b=Lv/uiArUfpWi8GBr4+oiSPUAeFqdSCn5nTQB+fsmEXJjMcuvV2W1EKDIPt1+3eFw3vHnj0
- PMhVX6Ho7QODyOu/WP/wBSsio1bCujMOqC/Jj+MePQ/ZbjU4KHpDXwGyngp7btldOllmXd
- YnZwAs9zbjiciAKjpj53peAHjKaEw/4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i1sgAqV6nhIraV0RYvcOsNhIYfnXJAEk3Fjzn8T22yA=;
+ b=dYnUTnhuYokkcFeHuzyxY14NuGkqC0X/7S9DD30MLQmNFG/PWVIF4qCYLSO8kuOCssfAag
+ CDvpHsYbeS2R2XTWIYgetXalRtOhZyU33IaAwpwv+0cemO9paOEgI4dVlaHgW6bfwyCFXK
+ mGYI2N0eaFN4dDXRgH/tUgTpgr7Twjs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-jZ1Uk12mMNOkYVYpuHr_iQ-1; Fri, 09 Dec 2022 08:48:06 -0500
-X-MC-Unique: jZ1Uk12mMNOkYVYpuHr_iQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-348-q2KtZiN6NFqKxEodEY0K4w-1; Fri, 09 Dec 2022 08:48:06 -0500
+X-MC-Unique: q2KtZiN6NFqKxEodEY0K4w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C8E4803B38;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62BEE8032FB;
  Fri,  9 Dec 2022 13:48:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E7E5A492B04;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9DC240C2065;
  Fri,  9 Dec 2022 13:48:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D638421E6921; Fri,  9 Dec 2022 14:48:02 +0100 (CET)
+ id D7FD721E6930; Fri,  9 Dec 2022 14:48:02 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, ben.widawsky@intel.com,
  jonathan.cameron@huawei.com, philmd@linaro.org
-Subject: [PATCH 0/5] include/hw/pci include/hw/cxl: Clean up includes
-Date: Fri,  9 Dec 2022 14:47:57 +0100
-Message-Id: <20221209134802.3642942-1-armbru@redhat.com>
+Subject: [PATCH 1/5] include/hw/pci: Clean up superfluous inclusion of
+ pci*/*.h cxl/*.h
+Date: Fri,  9 Dec 2022 14:47:58 +0100
+Message-Id: <20221209134802.3642942-2-armbru@redhat.com>
+In-Reply-To: <20221209134802.3642942-1-armbru@redhat.com>
+References: <20221209134802.3642942-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -76,156 +80,367 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Back in 2016, we discussed[1] rules for headers, and these were
-generally liked:
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ hw/alpha/alpha_sys.h              | 1 -
+ hw/rdma/rdma_utils.h              | 1 -
+ hw/rdma/vmw/pvrdma.h              | 1 -
+ hw/usb/hcd-ehci.h                 | 1 -
+ hw/xen/xen_pt.h                   | 1 -
+ include/hw/cxl/cxl.h              | 1 -
+ include/hw/cxl/cxl_cdat.h         | 1 +
+ include/hw/cxl/cxl_device.h       | 1 +
+ include/hw/cxl/cxl_pci.h          | 2 --
+ include/hw/i386/ich9.h            | 4 ----
+ include/hw/i386/x86-iommu.h       | 1 -
+ include/hw/isa/vt82c686.h         | 1 -
+ include/hw/pci-host/designware.h  | 3 ---
+ include/hw/pci-host/i440fx.h      | 2 +-
+ include/hw/pci-host/ls7a.h        | 2 --
+ include/hw/pci-host/pnv_phb3.h    | 2 --
+ include/hw/pci-host/pnv_phb4.h    | 3 +--
+ include/hw/pci-host/xilinx-pcie.h | 1 -
+ include/hw/pci/pcie.h             | 1 -
+ include/hw/virtio/virtio-scsi.h   | 1 -
+ hw/alpha/pci.c                    | 1 +
+ hw/alpha/typhoon.c                | 2 +-
+ hw/i386/acpi-build.c              | 2 +-
+ hw/pci-bridge/i82801b11.c         | 2 +-
+ hw/rdma/rdma_utils.c              | 1 +
+ hw/scsi/virtio-scsi.c             | 1 +
+ 26 files changed, 10 insertions(+), 30 deletions(-)
 
-1. Have a carefully curated header that's included everywhere first.  We
-   got that already thanks to Peter: osdep.h.
-
-2. Headers should normally include everything they need beyond osdep.h.
-   If exceptions are needed for some reason, they must be documented in
-   the header.  If all that's needed from a header is typedefs, put
-   those into qemu/typedefs.h instead of including the header.
-
-3. Cyclic inclusion is forbidden.
-
-After this series, include/hw/pci and include/hw/cxl conform to these
-rules.
-
-It is based on
-
-    [PATCH 0/3] block: Clean up includes
-    [PATCH 0/4] coroutine: Clean up includes
-
-[1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
-    https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
-
-Based-on: <20221208143939.2775453-1-armbru@redhat.com>
-
-Markus Armbruster (5):
-  include/hw/pci: Clean up superfluous inclusion of pci*/*.h cxl/*.h
-  include/hw/cxl: Include hw/cxl/*.h where needed
-  include/hw/pci: Clean up a few things checkpatch.pl would flag
-  include/hw/pci: Split pci_device.h off pci.h
-  include/hw/pci: Include hw/pci/pci.h where needed
-
- hw/alpha/alpha_sys.h              |   1 -
- hw/display/ati_int.h              |   2 +-
- hw/display/qxl.h                  |   3 +-
- hw/ide/ahci_internal.h            |   2 +-
- hw/net/vmxnet3_defs.h             |   2 +-
- hw/nvme/nvme.h                    |   2 +-
- hw/rdma/rdma_utils.h              |   1 -
- hw/rdma/vmw/pvrdma.h              |   2 +-
- hw/scsi/mptsas.h                  |   2 +-
- hw/usb/hcd-ehci.h                 |   3 +-
- hw/usb/hcd-uhci.h                 |   2 +-
- hw/usb/hcd-xhci-pci.h             |   1 +
- hw/vfio/pci.h                     |   2 +-
- hw/xen/xen_pt.h                   |   1 -
- include/hw/acpi/piix4.h           |   2 +-
- include/hw/arm/allwinner-a10.h    |   1 +
- include/hw/cxl/cxl.h              |   1 -
- include/hw/cxl/cxl_cdat.h         |   1 +
- include/hw/cxl/cxl_component.h    |   1 +
- include/hw/cxl/cxl_device.h       |   2 +
- include/hw/cxl/cxl_pci.h          |   2 -
- include/hw/i386/ich9.h            |   4 -
- include/hw/i386/x86-iommu.h       |   1 -
- include/hw/ide/pci.h              |   2 +-
- include/hw/isa/vt82c686.h         |   1 -
- include/hw/misc/macio/macio.h     |   2 +-
- include/hw/pci-host/designware.h  |   3 -
- include/hw/pci-host/gpex.h        |   2 +-
- include/hw/pci-host/i440fx.h      |   2 +-
- include/hw/pci-host/ls7a.h        |   2 -
- include/hw/pci-host/pnv_phb3.h    |   2 -
- include/hw/pci-host/pnv_phb4.h    |   3 +-
- include/hw/pci-host/q35.h         |   2 +-
- include/hw/pci-host/sabre.h       |   2 +-
- include/hw/pci-host/xilinx-pcie.h |   1 -
- include/hw/pci/msi.h              |   2 +-
- include/hw/pci/pci.h              | 352 -----------------------------
- include/hw/pci/pci_bridge.h       |   2 +-
- include/hw/pci/pci_device.h       | 361 ++++++++++++++++++++++++++++++
- include/hw/pci/pcie.h             |   1 -
- include/hw/pci/pcie_port.h        |   1 +
- include/hw/pci/pcie_sriov.h       |   2 +
- include/hw/pci/shpc.h             |   2 +-
- include/hw/remote/iohub.h         |   2 +-
- include/hw/remote/proxy.h         |   2 +-
- include/hw/sd/sdhci.h             |   2 +-
- include/hw/southbridge/piix.h     |   3 +-
- include/hw/virtio/virtio-scsi.h   |   1 -
- include/hw/xen/xen_common.h       |   2 +-
- hw/acpi/erst.c                    |   2 +-
- hw/alpha/pci.c                    |   1 +
- hw/alpha/typhoon.c                |   2 +-
- hw/audio/ac97.c                   |   2 +-
- hw/audio/es1370.c                 |   2 +-
- hw/audio/via-ac97.c               |   2 +-
- hw/char/serial-pci-multi.c        |   2 +-
- hw/char/serial-pci.c              |   2 +-
- hw/core/qdev-properties-system.c  |   1 +
- hw/display/bochs-display.c        |   2 +-
- hw/display/cirrus_vga.c           |   2 +-
- hw/display/sm501.c                |   2 +-
- hw/display/vga-pci.c              |   2 +-
- hw/display/vmware_vga.c           |   2 +-
- hw/i386/acpi-build.c              |   2 +-
- hw/i386/xen/xen_pvdevice.c        |   2 +-
- hw/ipack/tpci200.c                |   2 +-
- hw/ipmi/pci_ipmi_bt.c             |   2 +-
- hw/ipmi/pci_ipmi_kcs.c            |   2 +-
- hw/isa/i82378.c                   |   2 +-
- hw/mips/gt64xxx_pci.c             |   2 +-
- hw/misc/pci-testdev.c             |   2 +-
- hw/misc/pvpanic-pci.c             |   2 +-
- hw/net/can/can_kvaser_pci.c       |   2 +-
- hw/net/can/can_mioe3680_pci.c     |   2 +-
- hw/net/can/can_pcm3680_pci.c      |   2 +-
- hw/net/can/ctucan_pci.c           |   2 +-
- hw/net/e1000.c                    |   2 +-
- hw/net/e1000x_common.c            |   2 +-
- hw/net/eepro100.c                 |   2 +-
- hw/net/ne2000-pci.c               |   2 +-
- hw/net/net_tx_pkt.c               |   2 +-
- hw/net/pcnet-pci.c                |   2 +-
- hw/net/rocker/rocker.c            |   2 +-
- hw/net/rocker/rocker_desc.c       |   2 +-
- hw/net/rtl8139.c                  |   2 +-
- hw/net/sungem.c                   |   2 +-
- hw/net/sunhme.c                   |   2 +-
- hw/net/tulip.c                    |   2 +-
- hw/net/virtio-net.c               |   2 +-
- hw/pci-bridge/i82801b11.c         |   2 +-
- hw/pci-host/bonito.c              |   2 +-
- hw/pci-host/dino.c                |   2 +-
- hw/pci-host/grackle.c             |   2 +-
- hw/pci-host/mv64361.c             |   2 +-
- hw/pci-host/ppce500.c             |   2 +-
- hw/pci-host/raven.c               |   2 +-
- hw/pci-host/sh_pci.c              |   2 +-
- hw/pci-host/uninorth.c            |   2 +-
- hw/pci-host/versatile.c           |   2 +-
- hw/pci/pcie_host.c                |   2 +-
- hw/pci/pcie_sriov.c               |   2 +-
- hw/pci/slotid_cap.c               |   2 +-
- hw/ppc/ppc440_pcix.c              |   2 +-
- hw/ppc/ppc4xx_pci.c               |   2 +-
- hw/ppc/spapr_pci_vfio.c           |   1 +
- hw/rdma/rdma_utils.c              |   1 +
- hw/s390x/s390-pci-inst.c          |   1 +
- hw/scsi/esp-pci.c                 |   2 +-
- hw/scsi/lsi53c895a.c              |   2 +-
- hw/scsi/virtio-scsi.c             |   1 +
- hw/smbios/smbios.c                |   1 +
- hw/usb/hcd-ohci-pci.c             |   2 +-
- hw/watchdog/wdt_i6300esb.c        |   2 +-
- ui/util.c                         |   2 +-
- 114 files changed, 461 insertions(+), 462 deletions(-)
- create mode 100644 include/hw/pci/pci_device.h
-
+diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
+index 2263e821da..a303c58438 100644
+--- a/hw/alpha/alpha_sys.h
++++ b/hw/alpha/alpha_sys.h
+@@ -5,7 +5,6 @@
+ 
+ #include "target/alpha/cpu-qom.h"
+ #include "hw/pci/pci.h"
+-#include "hw/pci/pci_host.h"
+ #include "hw/boards.h"
+ #include "hw/intc/i8259.h"
+ 
+diff --git a/hw/rdma/rdma_utils.h b/hw/rdma/rdma_utils.h
+index 0c6414e7e0..54e4f56edd 100644
+--- a/hw/rdma/rdma_utils.h
++++ b/hw/rdma/rdma_utils.h
+@@ -18,7 +18,6 @@
+ #define RDMA_UTILS_H
+ 
+ #include "qemu/error-report.h"
+-#include "hw/pci/pci.h"
+ #include "sysemu/dma.h"
+ 
+ #define rdma_error_report(fmt, ...) \
+diff --git a/hw/rdma/vmw/pvrdma.h b/hw/rdma/vmw/pvrdma.h
+index d08965d3e2..0caf95ede8 100644
+--- a/hw/rdma/vmw/pvrdma.h
++++ b/hw/rdma/vmw/pvrdma.h
+@@ -18,7 +18,6 @@
+ 
+ #include "qemu/units.h"
+ #include "qemu/notify.h"
+-#include "hw/pci/pci.h"
+ #include "hw/pci/msix.h"
+ #include "chardev/char-fe.h"
+ #include "hw/net/vmxnet3_defs.h"
+diff --git a/hw/usb/hcd-ehci.h b/hw/usb/hcd-ehci.h
+index a173707d9b..4d4b2830b7 100644
+--- a/hw/usb/hcd-ehci.h
++++ b/hw/usb/hcd-ehci.h
+@@ -23,7 +23,6 @@
+ #include "sysemu/dma.h"
+ #include "hw/pci/pci.h"
+ #include "hw/sysbus.h"
+-#include "qom/object.h"
+ 
+ #ifndef EHCI_DEBUG
+ #define EHCI_DEBUG   0
+diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+index e7c4316a7d..cf10fc7bbf 100644
+--- a/hw/xen/xen_pt.h
++++ b/hw/xen/xen_pt.h
+@@ -2,7 +2,6 @@
+ #define XEN_PT_H
+ 
+ #include "hw/xen/xen_common.h"
+-#include "hw/pci/pci.h"
+ #include "xen-host-pci-device.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 38e0e271d5..5129557bee 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -13,7 +13,6 @@
+ 
+ #include "qapi/qapi-types-machine.h"
+ #include "qapi/qapi-visit-machine.h"
+-#include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pci_host.h"
+ #include "cxl_pci.h"
+ #include "cxl_component.h"
+diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+index e9eda00142..7f67638685 100644
+--- a/include/hw/cxl/cxl_cdat.h
++++ b/include/hw/cxl/cxl_cdat.h
+@@ -11,6 +11,7 @@
+ #define CXL_CDAT_H
+ 
+ #include "hw/cxl/cxl_pci.h"
++#include "hw/pci/pcie_doe.h"
+ 
+ /*
+  * Reference:
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 449b0edfe9..fd475b947b 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -10,6 +10,7 @@
+ #ifndef CXL_DEVICE_H
+ #define CXL_DEVICE_H
+ 
++#include "hw/pci/pci.h"
+ #include "hw/register.h"
+ 
+ /*
+diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+index 3cb79eca1e..aca14845ab 100644
+--- a/include/hw/cxl/cxl_pci.h
++++ b/include/hw/cxl/cxl_pci.h
+@@ -11,8 +11,6 @@
+ #define CXL_PCI_H
+ 
+ #include "qemu/compiler.h"
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pcie.h"
+ #include "hw/cxl/cxl_cdat.h"
+ 
+ #define CXL_VENDOR_ID 0x1e98
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 23ee8e371b..222781e8b9 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -5,12 +5,8 @@
+ #include "hw/sysbus.h"
+ #include "hw/i386/pc.h"
+ #include "hw/isa/apm.h"
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pcie_host.h"
+-#include "hw/pci/pci_bridge.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/ich9.h"
+-#include "hw/pci/pci_bus.h"
+ #include "qom/object.h"
+ 
+ void ich9_lpc_set_irq(void *opaque, int irq_num, int level);
+diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
+index 7637edb430..8d8d53b18b 100644
+--- a/include/hw/i386/x86-iommu.h
++++ b/include/hw/i386/x86-iommu.h
+@@ -21,7 +21,6 @@
+ #define HW_I386_X86_IOMMU_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index eaa07881c5..e273cd38dc 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -1,7 +1,6 @@
+ #ifndef HW_VT82C686_H
+ #define HW_VT82C686_H
+ 
+-#include "hw/pci/pci.h"
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_USB_UHCI "vt82c686b-usb-uhci"
+diff --git a/include/hw/pci-host/designware.h b/include/hw/pci-host/designware.h
+index 6d9b51ae67..908f3d946b 100644
+--- a/include/hw/pci-host/designware.h
++++ b/include/hw/pci-host/designware.h
+@@ -22,9 +22,6 @@
+ #define DESIGNWARE_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pci_bus.h"
+-#include "hw/pci/pcie_host.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+index d02bf1ed6b..fc93e22732 100644
+--- a/include/hw/pci-host/i440fx.h
++++ b/include/hw/pci-host/i440fx.h
+@@ -11,7 +11,7 @@
+ #ifndef HW_PCI_I440FX_H
+ #define HW_PCI_I440FX_H
+ 
+-#include "hw/pci/pci_bus.h"
++#include "hw/pci/pci.h"
+ #include "hw/pci-host/pam.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+index df7fa55a30..b27db8e2ca 100644
+--- a/include/hw/pci-host/ls7a.h
++++ b/include/hw/pci-host/ls7a.h
+@@ -8,8 +8,6 @@
+ #ifndef HW_LS7A_H
+ #define HW_LS7A_H
+ 
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pcie_host.h"
+ #include "hw/pci-host/pam.h"
+ #include "qemu/units.h"
+ #include "qemu/range.h"
+diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
+index 4854f6d2f6..f791ebda9b 100644
+--- a/include/hw/pci-host/pnv_phb3.h
++++ b/include/hw/pci-host/pnv_phb3.h
+@@ -10,8 +10,6 @@
+ #ifndef PCI_HOST_PNV_PHB3_H
+ #define PCI_HOST_PNV_PHB3_H
+ 
+-#include "hw/pci/pcie_host.h"
+-#include "hw/pci/pcie_port.h"
+ #include "hw/ppc/xics.h"
+ #include "qom/object.h"
+ #include "hw/pci-host/pnv_phb.h"
+diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+index 50d4faa001..d9cea3f952 100644
+--- a/include/hw/pci-host/pnv_phb4.h
++++ b/include/hw/pci-host/pnv_phb4.h
+@@ -10,8 +10,7 @@
+ #ifndef PCI_HOST_PNV_PHB4_H
+ #define PCI_HOST_PNV_PHB4_H
+ 
+-#include "hw/pci/pcie_host.h"
+-#include "hw/pci/pcie_port.h"
++#include "hw/pci/pci_bus.h"
+ #include "hw/ppc/xive.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/pci-host/xilinx-pcie.h b/include/hw/pci-host/xilinx-pcie.h
+index 89be88d87f..e1b3c1c280 100644
+--- a/include/hw/pci-host/xilinx-pcie.h
++++ b/include/hw/pci-host/xilinx-pcie.h
+@@ -21,7 +21,6 @@
+ #define HW_XILINX_PCIE_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/pci/pci.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pcie_host.h"
+ #include "qom/object.h"
+diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+index 698d3de851..798a262a0a 100644
+--- a/include/hw/pci/pcie.h
++++ b/include/hw/pci/pcie.h
+@@ -26,7 +26,6 @@
+ #include "hw/pci/pcie_aer.h"
+ #include "hw/pci/pcie_sriov.h"
+ #include "hw/hotplug.h"
+-#include "hw/pci/pcie_doe.h"
+ 
+ typedef enum {
+     /* for attention and power indicator */
+diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
+index a36aad9c86..37b75e15e3 100644
+--- a/include/hw/virtio/virtio-scsi.h
++++ b/include/hw/virtio/virtio-scsi.h
+@@ -20,7 +20,6 @@
+ #define VIRTIO_SCSI_SENSE_SIZE 0
+ #include "standard-headers/linux/virtio_scsi.h"
+ #include "hw/virtio/virtio.h"
+-#include "hw/pci/pci.h"
+ #include "hw/scsi/scsi.h"
+ #include "chardev/char-fe.h"
+ #include "sysemu/iothread.h"
+diff --git a/hw/alpha/pci.c b/hw/alpha/pci.c
+index 72251fcdf0..7c18297177 100644
+--- a/hw/alpha/pci.c
++++ b/hw/alpha/pci.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "hw/pci/pci_host.h"
+ #include "alpha_sys.h"
+ #include "qemu/log.h"
+ #include "trace.h"
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index bd39c8ca86..49a80550c5 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -10,10 +10,10 @@
+ #include "qemu/module.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
++#include "hw/pci/pci_host.h"
+ #include "cpu.h"
+ #include "hw/irq.h"
+ #include "alpha_sys.h"
+-#include "qom/object.h"
+ 
+ 
+ #define TYPE_TYPHOON_PCI_HOST_BRIDGE "typhoon-pcihost"
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index d9eaa5fc4d..b75d1507f9 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -27,7 +27,7 @@
+ #include "acpi-common.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/error-report.h"
+-#include "hw/pci/pci.h"
++#include "hw/pci/pci_bridge.h"
+ #include "hw/cxl/cxl.h"
+ #include "hw/core/cpu.h"
+ #include "target/i386/cpu.h"
+diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
+index f28181e210..06f704a2e1 100644
+--- a/hw/pci-bridge/i82801b11.c
++++ b/hw/pci-bridge/i82801b11.c
+@@ -42,7 +42,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/pci/pci.h"
++#include "hw/pci/pci_bridge.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+ #include "hw/i386/ich9.h"
+diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
+index 5a7ef63ad2..77008552f4 100644
+--- a/hw/rdma/rdma_utils.c
++++ b/hw/rdma/rdma_utils.c
+@@ -14,6 +14,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "hw/pci/pci.h"
+ #include "trace.h"
+ #include "rdma_utils.h"
+ 
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 6f6e2e32ba..2b649ca976 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -22,6 +22,7 @@
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+ #include "sysemu/block-backend.h"
++#include "sysemu/dma.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/scsi/scsi.h"
+ #include "scsi/constants.h"
 -- 
 2.37.3
 
