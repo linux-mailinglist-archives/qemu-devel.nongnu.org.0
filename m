@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2315C64870E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 17:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FBC648711
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 17:54:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3gcF-0005Ve-Ga; Fri, 09 Dec 2022 11:52:51 -0500
+	id 1p3gdU-0006AW-Fl; Fri, 09 Dec 2022 11:54:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3gcD-0005VW-FW
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:52:49 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3gcB-0008VE-Lt
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:52:48 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id 65so4092517pfx.9
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 08:52:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=N/Uxxt4xCYsoBxaIikQ9rlv0GMNPnkPKUD6Ld9zvBYE=;
- b=D831k/ADAZG0ULtuGVlaybvj8Oik/MAY7HoCVKlYRLxMI1Nzy5W7wgH7wS4GtJjuzT
- KbzdUow7cAeiv2Dx2dNPdLaJvs0ZwP01VVHLUKavlL4JlI8KYSLiHV6d8fPAx9PDWJz0
- odjkfkqw6HwLe9S8Ko/DuQj3yhiiAP4Q9ZWYiEMkwktu7OX1MxHtaPIAVGdQ73rDDmXG
- HPyag8wl1+b5S7nMdKiYS5udkYkqNZ9ujji11qYYKmSFoZThwzI+b0iZZ/X/MUaNwmB5
- vVOqPcSuOcytvNSPO5B4cjep/J61uBRoOFBnxkC4yh+wE1pQTiNdkDuSHgd76+NU9qtz
- 6c3g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p3gdP-00069y-AS
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:54:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p3gd9-0000Dz-Tt
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 11:54:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670604827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dY4zyOLFUWkSXE2x19oA8YBP+SA7fDS6H2U/J4AxgPs=;
+ b=EkRbZg9pwbugyJDJLI8dJpleRZuiIsJlh9Bqe8ibnMqhc7HaPj/Qur9qmZzY6YZE2INY1a
+ h8aps+sEJ5siZR3BDdGDOMA9Rp/5SHZobtU2urmDZmOM80IWZolM0GZYHCSKv8ltjaDs7z
+ kJTFsxM1LsOWuoMrPSjlnxdcioN1WHE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-244-NMZwxcb6PY2RV5q74VQYnA-1; Fri, 09 Dec 2022 11:53:44 -0500
+X-MC-Unique: NMZwxcb6PY2RV5q74VQYnA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ z4-20020a05640240c400b0046c51875c17so1719527edb.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 08:53:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=N/Uxxt4xCYsoBxaIikQ9rlv0GMNPnkPKUD6Ld9zvBYE=;
- b=1lsVYaNQwtfOci4gXjHEOE99KmHUkq8aA3c1QwxXXBbCHqv666kkPRiuRrojoEimzN
- ve4JP0c0yp3/OexN6hsJuS7B67lsWl05/swg4x5RU4V+HtLI4+jhmVPOt/7VtXAyZEMs
- 0Qz++n1EdB0PqIDkBJF2lWyGkjs+K35GtDNBR660uxg7KLUL37+gvgInQqZRDD9Wkj7F
- Iuox3aEC1dqUUPIDDB+upLNfH6rgGXmxXsn6KXRNCKfLu+CHLgedMc2CKVJ+1NZ3w/1w
- 9umBwoHhvJxfw8bF/WRADQwO/DrY57kLGjiI60T9aAG1va+rczQoUhRETOA/zhKJlXyh
- QFJA==
-X-Gm-Message-State: ANoB5pn6kFqiFCuLFb9tCkW0BlbBEknM9fpvjLXYLLip/v6q9z3AaBzq
- cS2GMkp9uC3/ZoR8nYEh32JmmRBUPiMo5PT/cc00hw==
-X-Google-Smtp-Source: AA0mqf4OcNmRyMteTh9GhFDEVfJWRLWBPKOTpwv/krelXnGF/UpJBwytLsYYAFsU+AebvJYDGIaWFeIE+/0Ee/ia/AU=
-X-Received: by 2002:a63:5146:0:b0:477:86c1:640f with SMTP id
- r6-20020a635146000000b0047786c1640fmr69634128pgl.231.1670604762516; Fri, 09
- Dec 2022 08:52:42 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dY4zyOLFUWkSXE2x19oA8YBP+SA7fDS6H2U/J4AxgPs=;
+ b=Fs8/SPU87rjY/yV77SvuRPpWZL89KiHaOG5SEzKb82lM5KlmkeGAFYWIqIeUS2zknN
+ IJ7gRbwRXTWcnLUuC+Zgf/3FdPSBhhRSAjOOicTte+Rc2QkUyEN/wMZ82kPfWASjfM7A
+ v99erkxBLkBStgD1QYO8iD9VEMugw1DBARycpZrp/3Yh2G+7e61tdR+O/ADLqRYgw5bN
+ YmIY6ubjxlymOhqlGS3jjI/PrwOqfGVznQV8TZd+zBetd/7Q9/H6IDjkkziZrKLRktM8
+ L4JlxWVhSr6xWUoaZvJL76Acm0S/Y5JyQIlOeS0b2ydeVzPAHSpG/HfZiVdSwz0TRbHt
+ 6lUg==
+X-Gm-Message-State: ANoB5plRK9QK+zfWPiMTHsyFNBztzUWrgvMYqe8s807KcYAoKZrs3yuU
+ 4Ou8NaDJrEDFtXfWTvzgj75SxNmg7BR9zvhwIkzG/VKRLG4KdPQJbng6OedNFS6V2OnTPRSdbOK
+ +Xin7OuhU0MP2wIQ=
+X-Received: by 2002:a05:6402:1112:b0:46c:6ed1:83b0 with SMTP id
+ u18-20020a056402111200b0046c6ed183b0mr42437edv.9.1670604822777; 
+ Fri, 09 Dec 2022 08:53:42 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4q+p8D4ykha9VBlNiDwxFrTYEF/yrjCc4YhcHbq1onfYw+0a6j2ieb7jlGsiHf3U+8jcaFog==
+X-Received: by 2002:a05:6402:1112:b0:46c:6ed1:83b0 with SMTP id
+ u18-20020a056402111200b0046c6ed183b0mr42423edv.9.1670604822588; 
+ Fri, 09 Dec 2022 08:53:42 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ y15-20020a056402134f00b0046b531fcf9fsm842296edw.59.2022.12.09.08.53.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Dec 2022 08:53:42 -0800 (PST)
+Message-ID: <30eec378-779a-26ca-42f3-a7980a647ad7@redhat.com>
+Date: Fri, 9 Dec 2022 17:53:40 +0100
 MIME-Version: 1.0
-References: <87edt9gnyz.fsf@pond.sub.org>
- <e797bb33-6f27-d20a-6a35-9372366bd4f5@linaro.org>
- <87v8mlez92.fsf@pond.sub.org>
- <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
-In-Reply-To: <fc83b2bb-c115-af96-ceed-c83d610a2044@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Dec 2022 16:52:31 +0000
-Message-ID: <CAFEAcA8MrUwOt+gaSVF6tMpG_HO_wCN_O11Ezst97-_52PR9pQ@mail.gmail.com>
-Subject: Re: Target-dependent include path, why?
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 14/15] block: Don't poll in bdrv_replace_child_noperm()
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: eesposit@redhat.com, stefanha@redhat.com, hreitz@redhat.com,
+ vsementsov@yandex-team.ru, qemu-devel@nongnu.org
+References: <20221118174110.55183-1-kwolf@redhat.com>
+ <20221118174110.55183-15-kwolf@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20221118174110.55183-15-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.288, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,26 +103,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 9 Dec 2022 at 16:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 12/9/22 09:51, Markus Armbruster wrote:
-> >> Because of where [pixman] is added as a dependency in meson.build.
-> >
-> > Is it added where it is for a reason, or is it accidental?
->
-> Dependencies are usually added near the .c files that use them.  That's
-> a bit messy of course if you have an "#include <>" in a heavily-included
-> QEMU header.  You can consider it a way to discourage heavily-included
-> headers.
+On 11/18/22 18:41, Kevin Wolf wrote:
+> In order to make sure that bdrv_replace_child_noperm() doesn't have to
+> poll any more, get rid of the bdrv_parent_drained_begin_single() call.
+> 
+> This is possible now because we can require that the parent is already
+> drained through the child in question when the function is called and we
+> don't call the parent drain callbacks more than once.
+> 
+> The additional drain calls needed in callers cause the test case to run
+> its code in the drain handler too early (bdrv_attach_child() drains
+> now), so modify it to only enable the code after the test setup has
+> completed.
+> 
+> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
 
-This has always seemed to me to be a recipe for bugs that only
-show up in the uncommon case of "some dependent library's
-header files have been installed somewhere other than in
-a system include directory". Is it possible to get meson to do
-things the more standard way, where if a binary has a dependency
-declared then the CFLAGS for that dependency get used for all
-objects that go into it?
+I hate to bear bad news, but this breaks the Windows builds on github 
+(msys-32bit, msys-64bit) with an obscure but 100% reproducible
 
-thanks
--- PMM
+51/88 qemu:unit / test-bdrv-drain 
+ERROR           1.30s   (exit status 3221225477 or signal 3221225349 
+SIGinvalid)
+
+The exit status is 0xC0000005 aka a Windows SIGSEGV.  With some luck it 
+could be reproducible with Wine (but no gdb).
+
+Paolo
+
 
