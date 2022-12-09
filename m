@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8286481D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:37:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B6E6481DE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:39:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bWq-0005Gj-3f; Fri, 09 Dec 2022 06:27:02 -0500
+	id 1p3bXl-0006WB-Mu; Fri, 09 Dec 2022 06:27:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bW1-0004cX-Fv
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bVr-0001e7-80
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670585154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m2hMf9alh7YbvmJ7YWt4RfER0BN+85HoMYH6M0caVJk=;
- b=Mw0YUE32vcfnLpd4bYIFtx4QJiO0jGW+5gFAPv3ATbUULNXr8w33jZqJLgurOBIzc78S/O
- 4FdMGp3xtO0IB7iPZErHmJ6T+hO+gm4JvugMwzGFPT5bJaPIQhTC2eO3YyroGJT9N444St
- y4n8hngL2NmajQh7Xx/E1UL43ytL9i8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-241-jzTHEkGcMgme60bhDrhNaQ-1; Fri, 09 Dec 2022 06:25:53 -0500
-X-MC-Unique: jzTHEkGcMgme60bhDrhNaQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- dz11-20020a0564021d4b00b0046cc3f565e5so1201409edb.8
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:25:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3bWi-0005ZZ-KV
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:56 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3bWZ-0002h1-IX
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:46 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id h193so3322787pgc.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:26:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ex9Fb3dDRS427vhyJTMOPmys/YYJu3WouGuTrBcTKCY=;
+ b=Gpn11nAo0PgKYqTKlQy5QdQktCL6P+hhsKBUoLac4V/JIgn2Crj52/Qbu1QmV2crH0
+ FueDIN3ey7GxkgqhjUB2Thkyn5rR5yYmgKZ3IGVnnQhJFObCPPfxaXxcpro3aZUz9wA2
+ fpjpBULCBS+jNT5RHcJ008kh6/d1rM59rB2HYWtBtulRTQ4hpdsfF80Ke7E4fNDBiZC7
+ KHx5iHWHmrJm0Yl36nSSEp4Oag9Gt7LjsnAWV2/UksWZP8+FU+JtXmfczkK50XePNIux
+ aL6OdnajfFZoSdD/xzE68zPYqluQeh3Rn5fPLsuOM5hHRib1xM6TyKuTmTvBld2iGGPB
+ MWcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m2hMf9alh7YbvmJ7YWt4RfER0BN+85HoMYH6M0caVJk=;
- b=QpoNs80Y+xnKbXaQBsP0cGjqgqovKsIewIVoURcIY/RqgMqMPGQn2hgDGKhjDsumEG
- xv6R1iu+geAHdJzkU5Xp0HleQZ5WRA7OztEDKtQTH5u0rcBxdsYIt1QdR7g53wFPAwCk
- XaoHuHuQ/ygLdIG+x95klXdUxF7xzgEDhHmeiJH6oQkW9Q2yHD+D6toBC6tj2QVY5TJq
- ko+jskcsd0JDOWniPb7MzWuOuCzwwMzuq8kI9VertOSnhI2LB0t9mU0Gqx7ukeXhZRHO
- ANyJ7uC42I+/HCFPtYHV3oVA1cNWKPHH72f9o3ex1vyxt/JylS4XBS5t/cWUc2wrTz85
- 9PSg==
-X-Gm-Message-State: ANoB5pnFmGcWbjLwDCChV1cALn8/CU0vX6XC8Y9jdvVqKZ+ynBFDPLJD
- eZVthYcXtwhSjghIPi3ahW0qmMu90VJ2jR+A17hN6gc5FufYFKan+no5dF8LM5e2ynrbFDJW3/j
- MfIbPExMrIXa/htNgd9CupeGd3PTUuw5DBczOH8pwEnEkpoarlJgRczMILD84g8lspWM=
-X-Received: by 2002:a17:906:647:b0:7ad:d7f9:38b8 with SMTP id
- t7-20020a170906064700b007add7f938b8mr4741808ejb.57.1670585151634; 
- Fri, 09 Dec 2022 03:25:51 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6PIs9lyIFwXwZkjFd6tiYuTlmndaM+V3NSFul+Ot8kLVlypWPNy3EliWL6mL/m6LhbNaBZHg==
-X-Received: by 2002:a17:906:647:b0:7ad:d7f9:38b8 with SMTP id
- t7-20020a170906064700b007add7f938b8mr4741796ejb.57.1670585151397; 
- Fri, 09 Dec 2022 03:25:51 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- j9-20020a17090623e900b0077b523d309asm431517ejg.185.2022.12.09.03.25.50
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 03:25:50 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 30/30] meson: always log qemu-iotests verbosely
-Date: Fri,  9 Dec 2022 12:24:09 +0100
-Message-Id: <20221209112409.184703-31-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221209112409.184703-1-pbonzini@redhat.com>
-References: <20221209112409.184703-1-pbonzini@redhat.com>
+ bh=ex9Fb3dDRS427vhyJTMOPmys/YYJu3WouGuTrBcTKCY=;
+ b=AxBZmCHxgHe3oVTai7HlBgOxRQWUwcWjGF2b6rN6fcEwuYhq3udPVYZvmyq8fLBoZE
+ 6uCJPNA3Swp0CLtgGLE+G4dXcXDdqNv6WwvImXwQNeimHm1OQd8pgCuOxet4Ae04b9ct
+ 7cQF/5d+EAwb2qD+YKj15eZSycALIdrbPoHGKN3NK8fRY4mYdPmvr+e5AkN2bLR2k/fj
+ C26FlZm8vtztsmwBcpB9ORD53Mkfu1lEuJ5IDMlhqu5LWo6JZbwbclnozNn/9yWVK+Ba
+ puJ4Sh8W6r0PLaKxP6g33Y+eu+hjOInrwiN1Nf6bAUOIi4OVmFi3hyIYpYqurv/t3wTc
+ SO5Q==
+X-Gm-Message-State: ANoB5pm/xg6lLXca16kSaA6oqbk//S3QAk3ZqXvDUFYgT6GH1HgsAaGh
+ H8H4azPa7KEoRTevYSUJloO0YJCnraIhmxNrIkFtyQ==
+X-Google-Smtp-Source: AA0mqf4rptVo8Cba0x04z+SqbL5cEnC1N+iM4lIP9T2erIhHyCSRJEJmI7OC30r0+jZOruXIorz+YJlf7FfAZrVitrU=
+X-Received: by 2002:a63:d20d:0:b0:479:18a:8359 with SMTP id
+ a13-20020a63d20d000000b00479018a8359mr4234471pgg.105.1670585197540; Fri, 09
+ Dec 2022 03:26:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221209111736.59796-1-philmd@linaro.org>
+In-Reply-To: <20221209111736.59796-1-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Dec 2022 11:26:25 +0000
+Message-ID: <CAFEAcA-OJeuby_E=7FOn7E7CMc6u0uEX4BUunY6ucL1-qQPQiw@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-8.0] target/arm: Keep "internals.h" internal to
+ target/arm/
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Fabiano Rosas <farosas@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,22 +87,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
----
- tests/qemu-iotests/meson.build | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, 9 Dec 2022 at 11:17, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
+> wrote:
+>
+> "target/arm/internals.h" is supposed to be *internal* to
+> target/arm/. hw/arm/virt.c includes it to get arm_pamax()
+> declaration. Move this declaration to "cpu.h" which can
+> be included out of target/arm/, and move the implementation
+> in machine.c which is always built with system emulation.
 
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index 583468c5b9b3..3d8637c8f2b6 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -43,5 +43,6 @@ foreach format, speed: qemu_iotests_formats
-        protocol: 'tap',
-        suite: suites,
-        timeout: 0,
-+       verbose: true,
-        is_parallel: false)
- endforeach
--- 
-2.38.1
+machine.c doesn't seem like the right place for this --
+that file is purely concerned with migration. I don't know
+why we use 'machine.c' as our name for the file where the
+target CPU migration code lives, but that's fairly consistently
+what we name it across all architectures and we don't put
+other stuff in that file. I suppose it would be less confusing
+to rename all those files to migration.c...
 
+thanks
+-- PMM
 
