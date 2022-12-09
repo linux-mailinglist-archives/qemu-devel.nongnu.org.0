@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B996481F3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:48:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C1C6481F5
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:52:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bnc-0006NB-Vg; Fri, 09 Dec 2022 06:44:17 -0500
+	id 1p3buy-0003TM-UV; Fri, 09 Dec 2022 06:51:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3bnb-0006LU-D8
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:44:15 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p3bnZ-0002pR-Px
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:44:15 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id u5so4564277pjy.5
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:44:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MmbO6L2nrozePvsgih2HqlgWScp2P1rfqPD2ntkf9bs=;
- b=tlnYJ6dW/Vt2y8fdolLej8NOsKl7+Me4QFzGRFwpax3yADxCBLfQ+nquAGeE/ld4zN
- 858ue2K6uV3xCI8cf/E7GPNJbQuhvNq00RBBFhnYSFmIrJx40qacT4tYc0MAkWkq0DdH
- qxTDieFgsS130k6KNvwCVtHG+eOy9NyKg7nV7baUYO7xrJ2iM3AG5PCOWWQoCLT4950D
- iy4RLY3gWdWsC1/gnVwGOKAa1anMqVfZIfsE9fDKGPMYg11aXKln+Z5ZyRIl4/z+VaHN
- qXl8smqxCaN1BlGqejXC0riLjr3/dTfdq1ejWbc9q5Ra6NelWN0Rn++kjrSuZ1DDeUWO
- 9vIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MmbO6L2nrozePvsgih2HqlgWScp2P1rfqPD2ntkf9bs=;
- b=JjECEuFzAq1UydiptLa6Bma29VlM3CfnT2FeOoWiibATv/9YukEwEpiT0Y6cxV8LRy
- zpSz2jxrL/RGuhtzCI3rCLlw+Ncw4OOn1SrSZ/5BeT3poMfWUMNz0G/eR2EBYni7QA84
- 4w03xTNCjwNI6TRqwV4HTNiEJxaOqP2nyHpij+lGS3hIfNOwYpjKU9W+702xoa390btD
- 8DE09ZmwqCpvyGOFWy6t7CjeUbcZW6oj2LhZKwbMJzvhaL/+aQ+maluVeDIcKE06PEBw
- QqYCtnZ/t2uSYRvDn0aSkJwsdJq2DvdOpPPeA+KotpVBjoT6j1cYjRA19iriQa47qXKt
- U0xQ==
-X-Gm-Message-State: ANoB5pmgGd6A5PYS8+vjxiuw6Qz5Ew5SNxwviPxaV1m43Aff1X8GRoyB
- W13pjPpyO0xM2MH6Gz8cm0yhb7csWlsGRYsgPTiDMA==
-X-Google-Smtp-Source: AA0mqf6TQmO9XMCPMNxZSF4eu9QTAnYSCFOdDM6Ux4Aui3Av9uRuS9Onqu9i36YN5Di2PQfBsyNI0Ax+yuBI+BmiBxo=
-X-Received: by 2002:a17:902:f292:b0:189:91b8:bf92 with SMTP id
- k18-20020a170902f29200b0018991b8bf92mr47954994plc.19.1670586251180; Fri, 09
- Dec 2022 03:44:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p3buw-0003Qx-QN
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:51:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p3buv-0007Ue-AR
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:51:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670586708;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IZgqHYKvPVQJ6IFDWpBa1T/aNW7UsbfIEP5D6DVuVHM=;
+ b=DQVNRtCpQY+vrslWzTHuNFVVHHcFkb31KK78r0BKv6w2+6up/xJodqBXQgIkde7kxjxVFM
+ W11tWOzCRJE4a+CtspSqmGGmvwsGcQOUlhCd6vfPWT5MF1LKa2WURCcZI6OQJnv9dUdkO6
+ bszOUadH/m8JC6sjS/DEJcf1N7EzSxI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-602-SlNH-mjjMtuH4YI5gaOj9w-1; Fri, 09 Dec 2022 06:51:46 -0500
+X-MC-Unique: SlNH-mjjMtuH4YI5gaOj9w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 644C185A588;
+ Fri,  9 Dec 2022 11:51:46 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F3C31759E;
+ Fri,  9 Dec 2022 11:51:46 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D77C4180099D; Fri,  9 Dec 2022 12:51:42 +0100 (CET)
+Date: Fri, 9 Dec 2022 12:51:42 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin O'Connor <kevin@koconnor.net>, seabios@seabios.org,
+ qemu-devel@nongnu.org
+Subject: Re: [SeaBIOS] Re: [PATCH 4/4] be less conservative with the 64bit
+ pci io window
+Message-ID: <20221209115142.6rznxl6zb4c6qudg@sirius.home.kraxel.org>
+References: <20221121103213.1675568-1-kraxel@redhat.com>
+ <20221121103213.1675568-5-kraxel@redhat.com>
+ <Y30YREAQZY8twJA/@morn>
+ <20221123102508.zagkzmxlk3zdln5c@sirius.home.kraxel.org>
+ <20221208170139.634adabd@imammedo.users.ipa.redhat.com>
 MIME-Version: 1.0
-References: <20221209110631.59031-1-philmd@linaro.org>
- <20221209110631.59031-2-philmd@linaro.org>
-In-Reply-To: <20221209110631.59031-2-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Dec 2022 11:43:59 +0000
-Message-ID: <CAFEAcA-ScTH2=2ayQTKy6+_fgj-3kAmQ2Oqxr4bPieimLBKCXw@mail.gmail.com>
-Subject: Re: [PATCH-for-8.0 v3 1/2] physmem: Remove unused
- "exec/translate-all.h"
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221208170139.634adabd@imammedo.users.ipa.redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,32 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 9 Dec 2022 at 11:07, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  softmmu/physmem.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 1b606a3002..d562c0bb93 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -58,7 +58,6 @@
->
->  #include "qemu/rcu_queue.h"
->  #include "qemu/main-loop.h"
-> -#include "exec/translate-all.h"
->  #include "sysemu/replay.h"
->
->  #include "exec/memory-internal.h"
-> --
+  Hi,
 
-physmem.c has a call to tb_check_watchpoint(), which is declared
-in translate-all.h -- where does it get the prototype from if
-the header isn't included any more ?
+> > Well, the idea is to adapt to the world moving forward.  Running a
+> > 64-bit capable OS is standard these days, and the resources needed
+> > by devices (especially GPUs) are becoming larger and larger.
+> > 
+> > Yes, there is the risk that (old) guests are unhappy with their
+> > PCI bars suddenly being mapped above 4G.  Can happen only in case
+> > seabios handles pci initialization (i.e. when running on qemu,
+> > otherwise coreboot initializes the pci bars).  I hope the memory
+> > check handles the 'old guest' case: when the guest can't handle
+> > addresses above 4G it is unlikely that qemu is configured to have
+> > memory mapped above 4G ...
+> 
+> does it break 32-bit PAE enabled guests
+> (which can have more then 4Gb RAM configured)?
 
-thanks
--- PMM
+Well, depends on the guest OS I guess.  Modern linux copes just fine,
+either uses PAE paging to access the PCI bars (seen with debian, works
+even in case the PCI bars are above the 64G limit of 32bit processors),
+or or it remaps the bars to places below 4G (seen with alpine which
+compiles i386 kernels with PAE=n).
+
+take care,
+  Gerd
+
 
