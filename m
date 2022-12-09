@@ -2,139 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FFC647987
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 00:13:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBAC647BF4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 03:07:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3Q3R-0005Lm-DB; Thu, 08 Dec 2022 18:11:49 -0500
+	id 1p3Slf-0005t4-A8; Thu, 08 Dec 2022 21:05:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1p3Q3O-0005LF-HX
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 18:11:46 -0500
-Received: from mail-mw2nam10on20609.outbound.protection.outlook.com
- ([2a01:111:f400:7e89::609]
- helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1p3Q3M-0002Vz-5x
- for qemu-devel@nongnu.org; Thu, 08 Dec 2022 18:11:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ocjkiapfCL/Ig5pn56m1YZUh5VWhd/LEiwoTVW3uu5BzKwMMbfT7xZ/eZbSZ+asrJXBc1DOhQwZ71akGAks8oyrmII2Y9dFj7orQ0fPGQVJUxuCPL3Jr3v76grIsySsmqhVebGOMAn/na8QsHs3KpL7mKlEl/9mS54mkjaMb7nM9EWLqGVMxxGBoRWXXG32dRaeUF3M5fHDNdh0SiZ0a1BSCe7pmUTRgnGHqEQgcqEXglhx4nOlYxEEWXE53kUU/zF+6NEGqPkh0Kez961qcNWl8wF4dWK7x/ymDcSnuRW1bY4TobCZC8MS4HYh+INdiR9GHqHYhZ0f90x8PCsSEdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mBm2BqJFi6IgSi+hknI7CO2qPLWTWVEzqLmDVbfrpAk=;
- b=dG8JSzbSMgHLUchXsAL5+o6jf2qkFCq13sbmaj0mRuOAieOoJY6H6ZC90zspNvCMA0C4B4FbN3s8bUyR1q85Qw9jbFNLHrm1YuiEHdVwbtjk6HFgRBlKMt4IRfjSqmYKVA8BABXiP7hG8sz8/ewNq6alskn3cDzelyv5+oCz0D6HghQTx2tqA7NZiu1xO+Iz1T6n7WSZAtWRSpKfigVTDKQpYU5Gc8vMMfvUqwfL6UDdVV8dDG9JkE06X4fH9kJtIxk+YExbMSgvdf55fAedJLsVlb4gHBlUTp5SU87mqMi0J/x0W0X/GGtPQ8tfAGCOSWL7spSkT/tUZzM5q8d4yA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mBm2BqJFi6IgSi+hknI7CO2qPLWTWVEzqLmDVbfrpAk=;
- b=nP1S0nF33s5mKB7mtd+RDYgE6JcIvAIBigh8/vEoI+A5S7EW5xnM2J2IGeGSz5JnRiXjnPTuBDzZdzNySyRB1Pny8kW54bi6Fpxg9BndIgh40EV77rfueFU7X9cUL+Q58edfipVkqdXHSLbwKPiu940jiAnbS2V/A+zJoF96jJQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by IA1PR17MB6672.namprd17.prod.outlook.com (2603:10b6:208:3db::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.11; Thu, 8 Dec
- 2022 23:06:36 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::3299:1f35:894f:69df]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::3299:1f35:894f:69df%6]) with mapi id 15.20.5880.016; Thu, 8 Dec 2022
- 23:06:36 +0000
-Date: Thu, 8 Dec 2022 18:06:30 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Fan Ni <fan.ni@samsung.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "alison.schofield@intel.com" <alison.schofield@intel.com>,
- "dave@stgolabs.net" <dave@stgolabs.net>,
- Adam Manzanares <a.manzanares@samsung.com>,
- "bwidawsk@kernel.org" <bwidawsk@kernel.org>,
- "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
- "cbrowy@avery-design.com" <cbrowy@avery-design.com>,
- "ira.weiny@intel.com" <ira.weiny@intel.com>
-Subject: Re: [RFC v4 3/3] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
- and Persistent)
-Message-ID: <Y5Jt9iPs8GX9EMug@memverge.com>
-References: <20221128150157.97724-1-gregory.price@memverge.com>
- <20221128150157.97724-4-gregory.price@memverge.com>
- <CGME20221208225559uscas1p1e9e2c7c8f9a1654a5f41cef2c47859a8@uscas1p1.samsung.com>
- <20221208225515.GA2510517@bgt-140510-bm03>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221208225515.GA2510517@bgt-140510-bm03>
-X-ClientProxiedBy: SJ0PR03CA0040.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::15) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p3Slc-0005sl-IE
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:36 -0500
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p3Sla-0001sD-WF
+ for qemu-devel@nongnu.org; Thu, 08 Dec 2022 21:05:36 -0500
+Received: by mail-oi1-x231.google.com with SMTP id c129so3306216oia.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Dec 2022 18:05:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ylrzc2eGHY7FEMofzs3/exxzKMTwBLpMnTdAzZ6ILDA=;
+ b=d4CRRmUr1hjVcps+NU0E5cX5JmTBVHS9r1hVUlEPxjWsjlNc3MTVMohjpQQ15WBphE
+ mhOeRaBT3Avza01ZWxtJ89nAgc5Lc5IUFeF+7NCtDXkoK+5G/0CBj+Jsq1DbzvodwNl1
+ cbCyCxpcCvy1GJg6l9/L7DrMQIlSzt0EZ92UKgSEPQjR9Ye0eVnOBF98a6ggldSQWdcK
+ YT23NlByJs0rQ8JLB3rft37qd5smPt2KOCmVROVdtTYNBe1S8hqgEjFYaTET/rZZJs4u
+ 9dXhzApJ9+kphHBXfvcFwiVb3LDOkXbjp+xAqLalaUNN15p/5/FKmE23ADvo3bfKysrY
+ u/9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ylrzc2eGHY7FEMofzs3/exxzKMTwBLpMnTdAzZ6ILDA=;
+ b=SGllY9/MuSBJh/cDqjmDxqgyNlDmgSFJ3K2GAJKf+xkRhob2yUT3ZGfhTaVigWXgPr
+ HeEo9DUJiyBFHxAElQNTktknKluPTVCRJdAKKe6ODSMTg0KOX5qp11HPuP+FeRuMTjRk
+ b14NVUAvpPmeFTuuSi/kBX+4x7y3fS6k7wgc68W19rrNemgwznKX5CWo7+FJ2gs7V8au
+ 7Y/lM8GCno8viHxKihx7IoVNyOA7UU1Q7CTS+U5Iql7bC8cCBHb2HeD2aBihq2MkfRaG
+ kyN3jI332a/Jw+U8XxpmmX6JpzbxZJZVeBiX+kkgv/ATLObwHjRgpjFP4l5MDSAx22uN
+ gfWA==
+X-Gm-Message-State: ANoB5pnPcH77anWkEepwd2gyy2+v+5Zx8qjjmNq3iQLFOw4HU1Q+/JBu
+ xM6sO4MsVbur7Lmb4RO1loqurs4L2wIWVqouu9w=
+X-Google-Smtp-Source: AA0mqf7F7yH1+8a++dRfVx5jf76w7a3U4C2vFf6ApkglMC7scK2RawOE6ZV+9+f9aSIL75qK4e8Riw==
+X-Received: by 2002:a05:6808:118c:b0:355:1df0:9b84 with SMTP id
+ j12-20020a056808118c00b003551df09b84mr2126102oil.2.1670551533334; 
+ Thu, 08 Dec 2022 18:05:33 -0800 (PST)
+Received: from stoup.. ([2806:102e:18:2efc:d298:de6f:2ed:87a4])
+ by smtp.gmail.com with ESMTPSA id
+ s14-20020a05683004ce00b0066f7e1188f0sm53531otd.68.2022.12.08.18.05.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Dec 2022 18:05:32 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com,
+	iii@linux.ibm.com
+Subject: [PATCH v4 00/27] tcg/s390x: misc patches
+Date: Thu,  8 Dec 2022 20:05:03 -0600
+Message-Id: <20221209020530.396391-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|IA1PR17MB6672:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e9f8e4e-3cd4-44e9-4929-08dad970db1b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Yn8dIaQnPaJpn5jFLj4dpga6x7+JMz1p14W2lBHjzZ/r+oY1r/hvh6OMXb5ENilxIh184SbFpKHXlfWm8eZj32M2przJZBsfbijKuBlpmdoIGQSK28tXSHCJcK6kVTrOP0nhjtrYedAm1o4iWehKlHQLS/w6Nqycx0AwGSYXWPJ5nvL/jFYcacjoPXKqYwsV9u077IpMhDbP9f25JG+2Bl1sGA9fPDuSmUtN2uFsFX5CmsQ0ITZPVGXqOLnKAyig4C2a0TOyNqz9g6I3ePgnPkEPViVlkJIChVMBgcHNO22m5B4bdLEgXyA5dAOoc8nxVJ2F9Tc1OIOHPh8s66BmKpYz8Nx+7dyTBIqo+awMWRkDezmYQvYaYRcPiG/cWlyXFSQtycIx+UmPtj0ovcOElh1nVmqZSZptMSbhxQrVlBrXiiLHorJFpJeIWhMcYVlxE3rbd9xzS0cNhif36tBWaWwEoZsaKVdSuEvd+VpOrdX1zePtcoRCfizWTGOPlvFNSQJXOo+66YGim2WLIVUSYkNLouSg4yvLQehse5afR+JTQa8yQkcQ0We9HRcJF0W173o19nt2unq5wiJvSc7GFgnFKKLqCn9sMs5SRTMa+lz8XY8VbRhG1tkhnFSZmS7h8WzkYn9YgSl7xoGsQiNsHQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(376002)(346002)(136003)(39840400004)(366004)(451199015)(6506007)(2906002)(86362001)(6916009)(54906003)(186003)(26005)(6512007)(41300700001)(2616005)(7416002)(316002)(44832011)(8936002)(5660300002)(36756003)(66946007)(478600001)(66556008)(66476007)(8676002)(6486002)(4326008)(38100700002)(6666004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?6aWgm5bEBBBsYf4k9Jgbo+TbYxBrYd8qBsrzAWMOlEaiFwDnpiKPLhio40?=
- =?iso-8859-1?Q?kcui3/r/92aeSuYDAKQWLSby4Wd8+SXiLMCezes8kWARBeSSsESVX57SkQ?=
- =?iso-8859-1?Q?nAXGCt8QhMPBAUsP9OtVrWsEoTPkvwmTWJBiU1mNPpBj3jc5XuL7CuDdTl?=
- =?iso-8859-1?Q?Oz9BSW+E1YJks5rcEc0Ze35db0EeUUbckXLYmUIs/Wrs7T9SuUEGNKcgfU?=
- =?iso-8859-1?Q?eKn54O9Izi+r2sd47Fly3wjbJoJa07hmTL3en0lwnDJfgGFUbDKLZhQT0d?=
- =?iso-8859-1?Q?ThMbcBjVqDSEDalnkcF4vRTs43y8jan51Sd7Rss8euP78tO00yr2Km+j9I?=
- =?iso-8859-1?Q?gWhK5LFBKLe6YVxNIZlcTMBBCXttFNbv2K+tIaJtyjA+JBHYcjzrKPouoS?=
- =?iso-8859-1?Q?nvSVJnPBoSucFdEDXYnaZeWp3sK3hwT5M0iQ/Im/PIK++vNEkoxk6bNi+s?=
- =?iso-8859-1?Q?AWV6bWzalyDQ67Jq5eIxQ32aNo64w7hB5QTpGVIWDICndI7yS/9DpEGWjM?=
- =?iso-8859-1?Q?n+kNlJ1e8oysOZ6+QE4GtkEY8b4DUGUQKhj8+7++QEZ1mY1yXqpw8YLt1d?=
- =?iso-8859-1?Q?joTU6HOJDkCMIfkqC6iRRyq9Mk/7ipDIf8hVkxbMJ8CpcsfhDW5tHC5YTr?=
- =?iso-8859-1?Q?HtKiRY7BIq4wt8Y/k5b0FrGrNLkZzo9nuji7+jaQ3GGSJw27UJyWjTmFA3?=
- =?iso-8859-1?Q?EQw/pUIR6rh6tvHYrL6g2tna4A0TNyKIdzZgM+7HANQsl707w01TsHtSY/?=
- =?iso-8859-1?Q?XZCCkVuqsdLL66bwqXxrgXaVYUR7FM4ArE/riaHD86ibrWzBmWpuZF4aui?=
- =?iso-8859-1?Q?+j8BVM9nRWfmUdHJ4K9n/IqzwA00rR7jEgJVNAOB9taGZ+U7mYEvnucfL4?=
- =?iso-8859-1?Q?SM7Vk4ZxbC7xr+yUiXHYR08kHCqv0pASIl8lArL+e569b1NoXJhS4ny3xo?=
- =?iso-8859-1?Q?fDeyXs1Z2H8m+aQeuakP6sTkT6SbFrntXI3JNj8/WQsCQGd3W2YOpREF6x?=
- =?iso-8859-1?Q?TUYE5+LlwMg5By4busLr2u/PC9lrm7uy0aIZ0k0WTvp6WSGvu8aqDwPviQ?=
- =?iso-8859-1?Q?JwqstMMDiOn/ZWCISZiJVOM8aYd+ze6aw51pINMmFGLClcNLHFJzPqPi05?=
- =?iso-8859-1?Q?lOXIkhA+ywynoFMXNZ4In76xvmVm+LYOxQLihdWuQZHZrtiUyS5a13lB+k?=
- =?iso-8859-1?Q?iLGG54/Miaoy5SdGOvBUW3EUjwzGcUIRkDnoZY9EcMB/Jxo3tmjut1zMPl?=
- =?iso-8859-1?Q?FgZOXKcgMh9O6vSlO15D5zrdpgq2aCHwp6vbinqTX9YWZnq4yYV5KOjyq1?=
- =?iso-8859-1?Q?vIBihgatWhPCK186EN56MAnq+bChXWyXkf9ZNbhL7VMfwSPgLfaAokp+f4?=
- =?iso-8859-1?Q?47oeXYPgSNvT/wWgzr+R44zX/6vwgjDLpmVJdLhbbjjE/2rxQV176cdoAt?=
- =?iso-8859-1?Q?XE78kXGGr24FEgyt+W+5JI8pHmt1KvGUbixI2GNT79VK/8yi0nx5H7hZW5?=
- =?iso-8859-1?Q?SQfNfuyuDB59a/x6DkJjts2YCHobxGuBBlpWEwLF59sMJeIrGnESacBBRU?=
- =?iso-8859-1?Q?gD0sLsmhaoXP+ofCN5EPORoFwZrVDrtLkEybRjUsCdYHHTJg6+hSYToSXp?=
- =?iso-8859-1?Q?l+FHqd+y84engqDEpyq5F2ek4S3gWI7DjpDX8UmFh41Oe9fZgr/7v9sw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e9f8e4e-3cd4-44e9-4929-08dad970db1b
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2022 23:06:36.4253 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oR1z5nyDM+xaPPEwrEo8bKKsh+Bwgq/bsU2obelJllC2RSqeYVBqWNE6Kao2wmscDihu+fRMmxX7aGsC6x4W4Q6+Doh6INjN2PcaHvre/qc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR17MB6672
-Received-SPF: none client-ip=2a01:111:f400:7e89::609;
- envelope-from=gregory.price@memverge.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FORGED_SPF_HELO=1, KHOP_HELO_FCRDNS=0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,41 +87,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 08, 2022 at 10:55:58PM +0000, Fan Ni wrote:
-> On Mon, Nov 28, 2022 at 10:01:57AM -0500, Gregory Price wrote:
-> >  
-> > -    if (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER) {
-> > +    if ((cxl_dstate->vmem_size < CXL_CAPACITY_MULTIPLIER) ||
-> > +        (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER)) {
-> >          return CXL_MBOX_INTERNAL_ERROR;
-> >      }
-> For a cxl configuration with only pmem or vmem, vmem_size or pmem_size
-> can be 0 and fail the check? 
-> 
+Based-on: 20221202053958.223890-1-richard.henderson@linaro.org
+("[PATCH for-8.0 v3 00/34] tcg misc patches")
 
-While nonsensical, i believe it's technically supported.  The prior
-implementation likewise enabled pmem_size to be 0 in these checks.
+Changes from v3:
+  * Require z196 as minimum cpu -- 6 new patches removing checks.
+  * Tighten constraints on AND, OR, XOR, CMP, trying get the register
+    allocator to hoist things that can't be done in a single insn.
+  * Avoid the constant pool for movi.
 
-> >  
-> > +error_cleanup:
-> > +    int i;
-> > +    for (i = 0; i < cur_ent; i++) {
-> > +        g_free(table[i]);
-> > +    }
-> > +    return rc;
-> >  }
-> 
-> I hit an error when compiling with gcc version 9.4.0
-> (Ubuntu 9.4.0-1ubuntu1~20.04.1), maybe moving the declaration of `i` to
-> the following loop.
-> 
-> 
-> ../hw/mem/cxl_type3.c:211:5: error: a label can only be part of a statement
-> and a declaration is not a statement
->   211 |     int i;
->       |     ^~~
+I believe that I have addressed all of the discussion in v3,
+except perhaps for goto_tb concurrent modifications to jumps.
+I'm still not quite sure what to do about that.
 
-Moved the declaration to the top fo the function with the rest of the
-declarations. Good catch.
+
+r~
+
+
+Richard Henderson (27):
+  tcg/s390x: Use register pair allocation for div and mulu2
+  tcg/s390x: Remove TCG_REG_TB
+  tcg/s390x: Always set TCG_TARGET_HAS_direct_jump
+  tcg/s390x: Remove USE_LONG_BRANCHES
+  tcg/s390x: Check for long-displacement facility at startup
+  tcg/s390x: Check for extended-immediate facility at startup
+  tcg/s390x: Check for general-instruction-extension facility at startup
+  tcg/s390x: Check for load-on-condition facility at startup
+  tcg/s390x: Remove FAST_BCR_SER facility check
+  tcg/s390x: Remove DISTINCT_OPERANDS facility check
+  tcg/s390x: Use LARL+AGHI for odd addresses
+  tcg/s390x: Distinguish RRF-a and RRF-c formats
+  tcg/s390x: Distinguish RIE formats
+  tcg/s390x: Support MIE2 multiply single instructions
+  tcg/s390x: Support MIE2 MGRK instruction
+  tcg/s390x: Issue XILF directly for xor_i32
+  tcg/s390x: Tighten constraints for or_i64 and xor_i64
+  tcg/s390x: Tighten constraints for and_i64
+  tcg/s390x: Support MIE3 logical operations
+  tcg/s390x: Create tgen_cmp2 to simplify movcond
+  tcg/s390x: Generalize movcond implementation
+  tcg/s390x: Support SELGR instruction in movcond
+  tcg/s390x: Use tgen_movcond_int in tgen_clz
+  tcg/s390x: Implement ctpop operation
+  tcg/s390x: Tighten constraints for 64-bit compare
+  tcg/s390x: Cleanup tcg_out_movi
+  tcg/s390x: Avoid the constant pool in tcg_out_movi
+
+ tcg/s390x/tcg-target-con-set.h |   18 +-
+ tcg/s390x/tcg-target-con-str.h |   11 +-
+ tcg/s390x/tcg-target.h         |   54 +-
+ tcg/s390x/tcg-target.c.inc     | 1251 ++++++++++++++++----------------
+ 4 files changed, 668 insertions(+), 666 deletions(-)
+
+-- 
+2.34.1
 
 
