@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5CF648133
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 11:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C915A648137
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 11:59:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3b2q-0000xl-5d; Fri, 09 Dec 2022 05:55:56 -0500
+	id 1p3b5w-0002P1-U1; Fri, 09 Dec 2022 05:59:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p3b2l-0000wo-Kh
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 05:55:52 -0500
-Received: from mout.gmx.net ([212.227.17.21])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p3b2g-0002Ic-5A
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 05:55:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1670583342; bh=1C3/oOv5s+naGTsjEJ+azzuNMFC1+8qwjwSMF2w4nzw=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=Oby+seFeMujkbL9fAQdxiVgLYOo6SpIUGiWr/xSCSDL+fW+na4flpa1A8LfAG3aQ2
- hO7+sF7rlubKMUI4CAl+bd18vi4py4TmWvHjgRXGM0qIYjlVOjZ5keZsMmoR4pZRVO
- dCA5fbelbte4D0k4mkO/YvR7XePZscHslRneU2E7VZY+IafP8IgMIXaUJC4oGGJRNK
- OUaIj79N/bmgXt0PQ7caUaib7Q686I1NdyAMC2BNJJE7k84dbwQisvYcmlWoL+l82f
- fKdUx1Ac/LN/M7QiKXIdIN/N+kR47KA/FjekAObjUKx/yhnNzLQEoAJ1vpKbXHo8KA
- aWlTm8iTr79Aw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100.fritz.box ([92.116.149.187]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLzBp-1pKzT51JWz-00Hw4z; Fri, 09
- Dec 2022 11:55:42 +0100
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>,
-	qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>
-Subject: [PATCH] linux-user: Enhance strace output for various syscalls
-Date: Fri,  9 Dec 2022 11:55:31 +0100
-Message-Id: <20221209105531.40286-1-deller@gmx.de>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3b5u-0002OE-FJ
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 05:59:06 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3b5s-0003Iw-UL
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 05:59:06 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id 6so3292117pgm.6
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 02:59:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=eW5FWYNRAGHlbRGDImGhBI2CpPAoEk+OUrnDEdgEO9M=;
+ b=dVMB1zo2K7Ws9nSq4GXKv1qUxDKaN4+RnYcNX3WG04foWAjJh0K0fOIMCNcw8pq2Qa
+ 0EcqUAmD0gFCRkdC/xqfLWVyq9zoMcHxsLE7fR8SE+Yp2XX/AsFhLMplm9EnzwkL2sLL
+ HWSLNKQ5Sj6mo9abIwltdl/dd/PWi5VIjh+jU2nxiZJa0lrdq75beI3WiDSmIBUoAD0/
+ mQtk5z/jRJJgAIdwLmdsutdseRlkf4KEB+ldDTbBZITeIVnj8AezjnA8UerCQv7zXqkU
+ uOTXgCs0OS0u+EVVj+X+PlH8p6kal6XJCb+HRNl/lt2AB65Rf62y3HfQuHm+wWbvi67+
+ UCXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eW5FWYNRAGHlbRGDImGhBI2CpPAoEk+OUrnDEdgEO9M=;
+ b=XBHi63lICWSOyFQ+7Pa72TkVnmHJbuH8O2kmgVJV0E3LSOAW4otLQ2kbgynH6LVtiX
+ slayAUyxM6vAMUj6vnHR+4EMOOu8U9RcR28zy57AuTf28lPqQFXCw4TF/cbdqV7ksX/Z
+ 2Jtap2+jZ2PLsLv20zSGo3mlaN9tlwTZEKkVxUU/6O0Yoky05agthRUmT9HXlGeFdc6+
+ hRDsii243yj14VP1MA4hYK/LKnzr3diZmBBVTthYrFaEJERFCb8+BR7FoG5AxhFuTC2R
+ KFPnhzoEr14oOhefaWJz9MLTUX8oDYgMijimyF8IwfgQL7vIHahv7q5VlwUkS8X9/X0U
+ Lg7g==
+X-Gm-Message-State: ANoB5pnAcGL1ctn5TFHtClF2h0OwweU0dVxuYAVQBnV1PswHjoPFZ4Dn
+ YaO0JwGUuusRdOuHDpWdh9LI0V5EUhAmgj0vHvdyiw==
+X-Google-Smtp-Source: AA0mqf6LetaBuZoNRjF1vDvaiqawum4PLSWOukDDkeGMAG6hMXSrL9X0Ynns/DTXKJwxVwU5+GWb0VW0VB7ufFQqWAE=
+X-Received: by 2002:aa7:8502:0:b0:576:9786:94c2 with SMTP id
+ v2-20020aa78502000000b00576978694c2mr24365097pfn.26.1670583542989; Fri, 09
+ Dec 2022 02:59:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cvLQNVTFQkbrLvxFnKJIHMoyM/H/erOpiw2onOGoFye/0/7Hqa/
- qp77SZGPfhHot2ccsXYnYAxRJymgnDn3x7vqO/WW8Mcn2IRQZcQ8GdwJSeu6h80RA9h2cWJ
- ei9HxlOpFkBJchkfnKycZW7ihSu9X2gCMm6MWZ97cXUHZhNnjXpxUdUY1op9TX5/Dn/BVuR
- jEiMPtfqffuUPOWKtEe4w==
-UI-OutboundReport: notjunk:1;M01:P0:gKE4C+QzAas=;77Jc/eNrKGEtgASaHV9cZdF9HHc
- ak2O65p9R8XnIaPrrCjGUOQap5C82jk1xQY0ZUQqHEEnhzWSbyquHqfq3VJ9kkMsAn11mN6vu
- 21JeBquAXF+tG5F5iDhNQD4SUCj4cBA2dNf3wItepUZthF4HP0gILKFm73e4CJz1UwrOxga5v
- lDqpzXMn0EaW3Zq+zIPVtcRWCku3eUhEzSmNhR+N6Jqm0whmNI+mH1FxFn6sH9CemvUMpmxyJ
- eD8/RqGc93H6AoxZ5/d65EmInISppcGXHQyE9u15cgMV8TrqKGy170L+96rmTrTcniJqANamn
- bWiv+1cQXPJ/9ayrDtqAHMVGW+izGCFJ3K5QzoS0JqfXMwSVcJrK7GS4dUdDBHdglWa8hgZU9
- E/DNxcFA5eY8qdYiKBsEgnwgXYwVUUrDNjD7T8BCuLqi35P5v5DqgoShcvKDfm+VT8bfFDu75
- YrR86GtMC6zQ0Soiyy+0N7baRIXACO1cW+oNgtr0kWAA6MFR2yLPHckOdC1E0xJ1QI8tB1YgM
- jSXApI5Du4/jzBWCOo97hT5ctSdnZN+7BbiLx9jahSLqtiM+P+hFC0WIRgLPIwhISvozTD0ZL
- GhaIPZRDDKE2nsy/eCtVB/zuu4kutYFk4xzhmfKuVTrw90iIjSkUIrchChgMBhM78vo7AqRI4
- QfY4eEpzfbjSSgqzaiPWodK9UCxeVacdCWI4byAz9dOleD1Ej8x9at89qob9+5UDoUb9/RGW3
- lZqxB8p61OJI7RgoheNczK4hI3Yya+4dDlPfWbdcb37dMBvNSWm3yVwb1GLVqciTzevz39CyA
- T1B48AJV5FsPKpiAzGz/aobWQh7Ky43DHtnG9mD8O6oxzvRSOAZ673QO1Rav9XW2x0Ia79G5f
- SqwR8TT6QlMzYvkFHuA4hjlaooDF9Ot3KZlfvbkljUsfUSDJYXl5tZESbvjoG+SSAHBE4/m34
- /p2lpQ==
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <166983457648.13115.4940680286975412418-0@git.sr.ht>
+ <CAFEAcA8csAbbdvLoq+202CAQ0PLWdHaBTfADtqx33c=DNU-wSQ@mail.gmail.com>
+ <c31be243-e380-eabd-f387-0b0923d4f6c1@gmx.de>
+ <CAFEAcA88QfXmos_vCMGnDsmH7L22jtMz+-MRrMimObhDaFrwXA@mail.gmail.com>
+ <2cbdc0b8-ff8e-f6e3-379a-82d25ad43514@gmx.de>
+In-Reply-To: <2cbdc0b8-ff8e-f6e3-379a-82d25ad43514@gmx.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Dec 2022 10:58:51 +0000
+Message-ID: <CAFEAcA9h36KgFh9HHzF-YGmL3LLT3L9S74qhfv85d_8GdOOUUw@mail.gmail.com>
+Subject: Re: [PATCH qemu.git 0/1] hw/arm/virt: add 2x sp804 timer
+To: Axel Heider <axelheider@gmx.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,185 +86,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add appropriate strace printf formats for various Linux syscalls.
+On Thu, 8 Dec 2022 at 17:25, Axel Heider <axelheider@gmx.de> wrote:
+> >> For the seL4 specific case, this is currently not possible in
+> >> the standard configuration. It's only exposed for a special
+> >> debug and benchmarking configuration.
+> >>
+> > It's not clear to me what you mean here -- the generic
+> > timer in the CPU exists in all configurations, so there
+> > should be no obstacle to seL4 using it.
+>
+> Access is not exposed to userland in the standard configuration
+> and the standard kernel API has no no timeouts besides zero and
+> infinite. It's a design thing in the end. Nothing that could not
+> be hacked around or be changed in the design in the long run. But
+> my goal is not to hack around, but have a "proper" machine
+> simulation instead. Which basically falls down to having a generic
+> machine in mainline that has a few more customization options.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- linux-user/strace.list | 43 ++++++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 20 deletions(-)
+So, my take on this is that I'm open to adding things to
+the virt board where we don't provide a feature that's
+useful to guest code. The second UART falls in this category:
+it lets you do things that you otherwise could not do (like
+have one UART for firmware and one for a kernel). On the
+other hand, this case with the sp804 sounds more like QEMU
+is already providing functional timer facilities and the
+problem is on the guest software side. To me the "non-hacky"
+solution sounds like it is "sel4 should provide a better timer
+related API to userland". I don't really want to work around
+guest OS deficiencies in QEMU.
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 3a898e2532..4091a9e79d 100644
-=2D-- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -337,7 +337,7 @@
- { TARGET_NR_getpagesize, "getpagesize" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getpeername
--{ TARGET_NR_getpeername, "getpeername" , NULL, NULL, NULL },
-+{ TARGET_NR_getpeername, "getpeername" , "%s(%d,%p,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getpgid
- { TARGET_NR_getpgid, "getpgid" , "%s(%u)", NULL, NULL },
-@@ -361,19 +361,19 @@
- { TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%u)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getresgid
--{ TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
-+{ TARGET_NR_getresgid, "getresgid" , "%s(%p,%p,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getresgid32
- { TARGET_NR_getresgid32, "getresgid32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getresuid
--{ TARGET_NR_getresuid, "getresuid" , NULL, NULL, NULL },
-+{ TARGET_NR_getresuid, "getresuid" , "%s(%p,%p,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getresuid32
- { TARGET_NR_getresuid32, "getresuid32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getrlimit
--{ TARGET_NR_getrlimit, "getrlimit" , NULL, NULL, NULL },
-+{ TARGET_NR_getrlimit, "getrlimit" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_get_robust_list
- { TARGET_NR_get_robust_list, "get_robust_list" , NULL, NULL, NULL },
-@@ -385,10 +385,10 @@
- { TARGET_NR_getsid, "getsid" , "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getsockname
--{ TARGET_NR_getsockname, "getsockname" , NULL, NULL, NULL },
-+{ TARGET_NR_getsockname, "getsockname" , "%s(%d,%p,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getsockopt
--{ TARGET_NR_getsockopt, "getsockopt" , NULL, NULL, NULL },
-+{ TARGET_NR_getsockopt, "getsockopt" , "%s(%d,%d,%d,%p,%p)", NULL, NULL }=
-,
- #endif
- #ifdef TARGET_NR_get_thread_area
- #if defined(TARGET_I386) && defined(TARGET_ABI32)
-@@ -1052,10 +1052,10 @@
- { TARGET_NR_pivot_root, "pivot_root" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_poll
--{ TARGET_NR_poll, "poll" , NULL, NULL, NULL },
-+{ TARGET_NR_poll, "poll" , "%s(%p,%d,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_ppoll
--{ TARGET_NR_ppoll, "ppoll" , NULL, NULL, NULL },
-+{ TARGET_NR_ppoll, "ppoll" , "%s(%p,%d,%p,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_prctl
- { TARGET_NR_prctl, "prctl" , NULL, NULL, NULL },
-@@ -1124,7 +1124,7 @@
- { TARGET_NR_reboot, "reboot" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_recv
--{ TARGET_NR_recv, "recv" , NULL, NULL, NULL },
-+{ TARGET_NR_recv, "recv" , "%s(%d,%p,%d,%u)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_recvfrom
- { TARGET_NR_recvfrom, "recvfrom" , NULL, NULL, NULL },
-@@ -1184,7 +1184,7 @@
- { TARGET_NR_rt_sigqueueinfo, "rt_sigqueueinfo" , NULL, print_rt_sigqueuei=
-nfo, NULL },
- #endif
- #ifdef TARGET_NR_rt_sigreturn
--{ TARGET_NR_rt_sigreturn, "rt_sigreturn" , NULL, NULL, NULL },
-+{ TARGET_NR_rt_sigreturn, "rt_sigreturn" , "%s(%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_rt_sigsuspend
- { TARGET_NR_rt_sigsuspend, "rt_sigsuspend" , NULL, NULL, NULL },
-@@ -1196,16 +1196,19 @@
- { TARGET_NR_rt_tgsigqueueinfo, "rt_tgsigqueueinfo" , NULL, print_rt_tgsig=
-queueinfo, NULL },
- #endif
- #ifdef TARGET_NR_sched_getaffinity
--{ TARGET_NR_sched_getaffinity, "sched_getaffinity" , NULL, NULL, NULL },
-+{ TARGET_NR_sched_getaffinity, "sched_getaffinity" , "%s(%d,%u,%p)", NULL=
-, NULL },
- #endif
- #ifdef TARGET_NR_sched_get_affinity
- { TARGET_NR_sched_get_affinity, "sched_get_affinity" , NULL, NULL, NULL }=
-,
- #endif
- #ifdef TARGET_NR_sched_getattr
--{ TARGET_NR_sched_getattr, "sched_getattr" , NULL, NULL, NULL },
-+{ TARGET_NR_sched_getattr, "sched_getattr" , "%s(%d,%p,%u,%u)", NULL, NUL=
-L },
-+#endif
-+#ifdef TARGET_NR_sched_setattr
-+{ TARGET_NR_sched_setattr, "sched_setattr" , "%s(%p,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_sched_getparam
--{ TARGET_NR_sched_getparam, "sched_getparam" , NULL, NULL, NULL },
-+{ TARGET_NR_sched_getparam, "sched_getparam" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_sched_get_priority_max
- { TARGET_NR_sched_get_priority_max, "sched_get_priority_max" , NULL, NULL=
-, NULL },
-@@ -1220,7 +1223,7 @@
- { TARGET_NR_sched_rr_get_interval, "sched_rr_get_interval" , NULL, NULL, =
-NULL },
- #endif
- #ifdef TARGET_NR_sched_setaffinity
--{ TARGET_NR_sched_setaffinity, "sched_setaffinity" , NULL, NULL, NULL },
-+{ TARGET_NR_sched_setaffinity, "sched_setaffinity" , "%s(%d,%u,%p)", NULL=
-, NULL },
- #endif
- #ifdef TARGET_NR_sched_setatt
- { TARGET_NR_sched_setatt, "sched_setatt" , NULL, NULL, NULL },
-@@ -1353,23 +1356,23 @@
- { TARGET_NR_setreuid32, "setreuid32" , "%s(%u,%u)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_setrlimit
--{ TARGET_NR_setrlimit, "setrlimit" , NULL, NULL, NULL },
-+{ TARGET_NR_setrlimit, "setrlimit" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_set_robust_list
--{ TARGET_NR_set_robust_list, "set_robust_list" , NULL, NULL, NULL },
-+{ TARGET_NR_set_robust_list, "set_robust_list" , "%s(%p,%d)", NULL, NULL =
-},
- #endif
- #ifdef TARGET_NR_setsid
- { TARGET_NR_setsid, "setsid" , "%s()", NULL, NULL },
- #endif
- #ifdef TARGET_NR_setsockopt
--{ TARGET_NR_setsockopt, "setsockopt" , NULL, NULL, NULL },
-+{ TARGET_NR_setsockopt, "setsockopt" , "%s(%d,%d,%d,%p,%p)", NULL, NULL }=
-,
- #endif
- #ifdef TARGET_NR_set_thread_area
- { TARGET_NR_set_thread_area, "set_thread_area", "%s(0x"TARGET_ABI_FMT_lx"=
-)",
-   NULL, NULL },
- #endif
- #ifdef TARGET_NR_set_tid_address
--{ TARGET_NR_set_tid_address, "set_tid_address" , NULL, NULL, NULL },
-+{ TARGET_NR_set_tid_address, "set_tid_address" , "%s(%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_settimeofday
- { TARGET_NR_settimeofday, "settimeofday" , NULL, print_settimeofday, NULL=
- },
-@@ -1648,7 +1651,7 @@
- { TARGET_NR_vserver, "vserver" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_wait4
--{ TARGET_NR_wait4, "wait4" , NULL, NULL, NULL },
-+{ TARGET_NR_wait4, "wait4" , "%s(%d,%p,%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_waitid
- { TARGET_NR_waitid, "waitid" , "%s(%#x,%d,%p,%#x)", NULL, NULL },
-@@ -1672,7 +1675,7 @@
- { TARGET_NR_sync_file_range2, "sync_file_range2", NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_pipe2
--{ TARGET_NR_pipe2, "pipe2", NULL, NULL, NULL },
-+{ TARGET_NR_pipe2, "pipe2", "%s(%p,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_pidfd_open
- { TARGET_NR_pidfd_open, "pidfd_open", "%s(%d,%u)", NULL, NULL },
-=2D-
-2.38.1
-
+thanks
+-- PMM
 
